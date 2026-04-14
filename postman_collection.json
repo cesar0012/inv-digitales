@@ -1,0 +1,239 @@
+{
+  "info": {
+    "_postman_id": "5e3e038e-c42e-4589-95a3-f1951ed9157e",
+    "name": "Invitaciones Digitales",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "19785589"
+  },
+  "item": [
+    {
+      "name": "server",
+      "item": [
+        {
+          "name": "plans",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://mgo04coc00044soosok84ggc.217.216.43.10.sslip.io/api/plans",
+              "protocol": "http",
+              "host": [
+                "mgo04coc00044soosok84ggc",
+                "217",
+                "216",
+                "43",
+                "10",
+                "sslip",
+                "io"
+              ],
+              "path": [
+                "api",
+                "plans"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "issue",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "75|swoz8Q11AM1ZMavA8PW320MgQjStr3n0EM85DWbW92e81401",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://mgo04coc00044soosok84ggc.217.216.43.10.sslip.io/api/issue",
+              "protocol": "http",
+              "host": [
+                "mgo04coc00044soosok84ggc",
+                "217",
+                "216",
+                "43",
+                "10",
+                "sslip",
+                "io"
+              ],
+              "path": [
+                "api",
+                "issue"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "consume-token",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "IPEcqU9LxNT88J0jdIdoMtVS3oRVkiLvJMdMjwL84mY680OdfXpV81RuTuD96xMY",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"code\" : \"tXzToojsNtsQtGOWe1FRavlUcotaLSAHqMbI4TcwnpyqmvrVI0rJZMMgTbBj3VZN\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://mgo04coc00044soosok84ggc.217.216.43.10.sslip.io/api/consume-token",
+              "protocol": "http",
+              "host": [
+                "mgo04coc00044soosok84ggc",
+                "217",
+                "216",
+                "43",
+                "10",
+                "sslip",
+                "io"
+              ],
+              "path": [
+                "api",
+                "consume-token"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"arj1931126@gmail.com\",\r\n    \"password\": \"Jar123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://mgo04coc00044soosok84ggc.217.216.43.10.sslip.io/api/login",
+              "protocol": "http",
+              "host": [
+                "mgo04coc00044soosok84ggc",
+                "217",
+                "216",
+                "43",
+                "10",
+                "sslip",
+                "io"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getUser",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "135|SVgZHiTulMsJyBCjtBpnvlR7pvvDZ5h6aIr8Fb9w079b134e",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://mgo04coc00044soosok84ggc.217.216.43.10.sslip.io/api/user",
+              "protocol": "http",
+              "host": [
+                "mgo04coc00044soosok84ggc",
+                "217",
+                "216",
+                "43",
+                "10",
+                "sslip",
+                "io"
+              ],
+              "path": [
+                "api",
+                "user"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "logout",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "135|SVgZHiTulMsJyBCjtBpnvlR7pvvDZ5h6aIr8Fb9w079b134e",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://mgo04coc00044soosok84ggc.217.216.43.10.sslip.io/api/logout",
+              "protocol": "http",
+              "host": [
+                "mgo04coc00044soosok84ggc",
+                "217",
+                "216",
+                "43",
+                "10",
+                "sslip",
+                "io"
+              ],
+              "path": [
+                "api",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  
+  ]
+}

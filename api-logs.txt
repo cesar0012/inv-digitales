@@ -1,0 +1,100 @@
+<div class="h-full bg-white rounded-xl shadow-2xl shadow-pink-200/50 overflow-hidden border border-pink-200 transition-all duration-300 ease-in-out flex flex-col" style="width: 100%;"><iframe srcdoc="
+    &lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;es&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Mis XV Años - La Sirenita&lt;/title&gt;
+    &lt;script src=&quot;https://cdn.tailwindcss.com&quot;&gt;&lt;/script&gt;
+    &lt;link href=&quot;https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&amp;family=Great+Vibes&amp;family=Montserrat:wght@300;400;600&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+    &lt;script&gt;
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#f472b6',
+                        secondary: '#fb7185',
+                    },
+                    fontFamily: {
+                        title: ['Great Vibes', 'cursive'],
+                        serif: ['Cinzel', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                        'bubble': 'bubble 8s linear infinite',
+                        'sway': 'sway 4s ease-in-out infinite',
+    &lt;script&gt;
+      window.__GEMINI_SELECTION_MODE = false;
+
+      window.addEventListener('message', (event) =&gt; {
+        if (event.data &amp;&amp; event.data.type === 'TOGGLE_SELECTION_MODE') {
+          window.__GEMINI_SELECTION_MODE = event.data.payload;
+          document.body.style.cursor = event.data.payload ? 'crosshair' : 'default';
+        }
+      });
+
+      document.body.addEventListener('click', (e) =&gt; {
+        const target = e.target.closest('a') || e.target;
+        const isLink = target.tagName === 'A';
+        
+        // 1. Handle Selection Mode
+        if (window.__GEMINI_SELECTION_MODE) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          const element = e.target.closest('[data-gemini-id], a, img, h1, h2, h3, h4, p, span, div') || e.target;
+          
+          // Ensure element has a gemini-id for editing
+          if (!element.getAttribute('data-gemini-id')) {
+             element.setAttribute('data-gemini-id', 'edit-' + Math.random().toString(36).substr(2, 9));
+          }
+
+          const prevOutline = element.style.outline;
+          const prevOutlineOffset = element.style.outlineOffset;
+          element.style.outline = '2px dashed #f472b6'; // pink-400
+          element.style.outlineOffset = '2px';
+          setTimeout(() =&gt; { 
+            element.style.outline = prevOutline; 
+            element.style.outlineOffset = prevOutlineOffset;
+          }, 1500);
+
+          window.parent.postMessage({
+            type: 'GEMINI_ELEMENT_CLICK',
+            payload: {
+              tagName: element.tagName,
+              content: element.innerHTML,
+              id: element.id,
+              geminiId: element.getAttribute('data-gemini-id'),
+              outerHTML: element.outerHTML,
+              src: element.getAttribute('src'),
+              href: element.getAttribute('href')
+            }
+          }, '*');
+          return;
+        }
+
+        // 2. Handle Navigation Prevention &amp; Routing
+        if (isLink) {
+           const href = target.getAttribute('href');
+           if (href) {
+             // If it's an internal anchor or JS, allow it
+             if (href.startsWith('#') || href.startsWith('javascript:')) return;
+             
+             // Prevent default browser navigation
+             e.preventDefault();
+             
+             // Communicate to parent to check if this is a known page
+             window.parent.postMessage({
+                type: 'GEMINI_NAVIGATE',
+                payload: { href }
+             }, '*');
+           }
+        }
+      }, true);
+      
+      // Request initial state
+      window.parent.postMessage({ type: 'GEMINI_PREVIEW_LOADED' }, '*');
+    &lt;/script&gt;
+  " class="w-full flex-1 border-none bg-white" title="Preview" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe></div>
