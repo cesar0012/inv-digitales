@@ -22,7 +22,7 @@ const log = (msg) => {
 };
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const PUBLIC_URL = process.env.VITE_PUBLIC_URL || `http://localhost:${PORT}`;
 const API_BASE_URL = process.env.VITE_API_BASE_URL || 'https://api.invitacionesmodernas.com/api';
 
