@@ -1,7 +1,7 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
-const DASHBOARD_URL = import.meta.env.VITE_DASHBOARD_URL || 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || window.location.origin.replace(':3000', ':3001');
+const DASHBOARD_URL = import.meta.env.VITE_DASHBOARD_URL || window.location.origin;
 const DEV_MODE = import.meta.env.VITE_DEV_MODE === 'true';
-const LOCAL_API = 'http://localhost:3001/api/auth';
+const LOCAL_API = `${window.location.origin.replace(':3000', ':3001')}/api/auth`;
 
 export interface User {
   id: number;
@@ -100,7 +100,7 @@ export const logout = async (token: string): Promise<void> => {
 };
 
 export const setAuthToken = async (token: string): Promise<{ success: boolean }> => {
-  const response = await fetch('http://localhost:3001/api/auth/set-token', {
+  const response = await fetch(`${window.location.origin.replace(':3000', ':3001')}/api/auth/set-token`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
@@ -115,7 +115,7 @@ export const setAuthToken = async (token: string): Promise<{ success: boolean }>
 };
 
 export const clearAuthToken = async (): Promise<{ success: boolean }> => {
-  const response = await fetch('http://localhost:3001/api/auth/logout', {
+  const response = await fetch(`${window.location.origin.replace(':3000', ':3001')}/api/auth/logout`, {
     method: 'POST',
     credentials: 'include'
   });
@@ -124,7 +124,7 @@ export const clearAuthToken = async (): Promise<{ success: boolean }> => {
 };
 
 export const getCurrentUser = async (): Promise<{ user: User | null; authenticated: boolean }> => {
-  const response = await fetch('http://localhost:3001/api/auth/me', {
+  const response = await fetch(`${window.location.origin.replace(':3000', ':3001')}/api/auth/me`, {
     credentials: 'include'
   });
   

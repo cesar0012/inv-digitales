@@ -2,10 +2,10 @@ import { SYSTEM_INSTRUCTION } from '../constants';
 import { Attachment, ImageSource } from '../types';
 import { stabilizeImages } from './imageService';
 
-const API_BASE = `${import.meta.env.VITE_PUBLIC_URL || 'http://localhost:3001'}/api`;
+const API_BASE = `${import.meta.env.VITE_PUBLIC_URL || window.location.origin}/api`;
 
 const fetchConfig = async (): Promise<string> => {
-  const url = `${import.meta.env.VITE_PUBLIC_URL || 'http://localhost:3001'}/api/config/public`;
+  const url = `${import.meta.env.VITE_PUBLIC_URL || window.location.origin}/api/config/public`;
   console.log('Fetching config from:', url);
   const res = await fetch(url);
   const config = await res.json();

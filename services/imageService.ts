@@ -98,7 +98,7 @@ export const stabilizeImages = async (html: string, imageConfig?: ImageConfig): 
     try {
       const adminToken = localStorage.getItem('admin_token');
       if (adminToken) {
-        const configRes = await fetch('http://localhost:3001/api/admin/config', {
+        const configRes = await fetch(`${window.location.origin.replace(':3000', ':3001')}/api/admin/config`, {
           headers: {
             'Authorization': `Bearer ${adminToken}`,
             'Content-Type': 'application/json'

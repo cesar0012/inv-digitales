@@ -6,7 +6,7 @@ export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     return {
       server: {
-        port: 3002,
+        port: Number(env.VITE_DEV_PORT) || 3002,
         host: '0.0.0.0',
       },
       plugins: [react()],
@@ -18,6 +18,7 @@ export default defineConfig(({ mode }) => {
         alias: {
           '@': path.resolve(__dirname, '.'),
         }
-      }
+      },
+      base: env.VITE_PUBLIC_URL || '/'
     };
 });

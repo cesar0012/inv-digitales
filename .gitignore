@@ -26,3 +26,13 @@ dist-ssr
 # Server
 server/database.sqlite
 server/storage/
+
+# PHP
+PHP/
+
+# Batch files
+*.bat
+
+# Documentation (except README)
+*.md
+!README.md

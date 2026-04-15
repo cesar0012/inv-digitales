@@ -1,7 +1,7 @@
 import { useAuth } from '../contexts/AuthContext';
 
-const API_BASE = 'http://localhost:3001/api';
-const PUBLIC_BASE = 'http://localhost:3001';
+const API_BASE = `${import.meta.env.VITE_API_BASE_URL || window.location.origin}/api`;
+const PUBLIC_BASE = import.meta.env.VITE_PUBLIC_URL || window.location.origin;
 
 export interface UserData {
   user_id: string;
