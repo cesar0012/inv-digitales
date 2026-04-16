@@ -27,6 +27,13 @@ dist-ssr
 server/database.sqlite
 server/storage/
 
+# Backup files
+*.7z
+*.zip
+*.rar
+*.tar
+*.gz
+
 # PHP
 PHP/
 
