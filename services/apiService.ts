@@ -72,7 +72,7 @@ const handleResponse = async (response: Response) => {
 };
 
 export const getUser = async (userId: string): Promise<UserWithInvitations> => {
-  const response = await fetch(`${API_BASE}/user/${userId}`, {
+  const response = await fetch(`${API_BASE}/get-user/${userId}`, {
     credentials: 'include'
   });
   return handleResponse(response);

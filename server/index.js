@@ -718,8 +718,8 @@ app.get('/api/users', authMiddleware, (req, res) => {
   });
 });
 
-// GET /api/user/:id - Devuelve datos del usuario con invitaciones (protegido)
-app.get('/api/user/:id', authMiddleware, (req, res) => {
+// GET /api/get-user/:id - Devuelve datos del usuario con invitaciones (protegido)
+app.get('/api/get-user/:id', authMiddleware, (req, res) => {
   const { id } = req.params;
   
   const stmt = db.prepare('SELECT * FROM users WHERE user_id = ?');
