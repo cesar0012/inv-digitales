@@ -1,4 +1,9 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || window.location.origin.replace(':3000', ':3001');
+const getApiBaseUrl = () => {
+  const base = import.meta.env.VITE_API_BASE_URL || window.location.origin.replace(':3000', ':3001');
+  return base.replace(/\/api\/?$/, '');
+};
+
+const API_BASE_URL = getApiBaseUrl();
 const DASHBOARD_URL = import.meta.env.VITE_DASHBOARD_URL || window.location.origin;
 const DEV_MODE = import.meta.env.VITE_DEV_MODE === 'true';
 const LOCAL_API = `${window.location.origin.replace(':3000', ':3001')}/api/auth`;

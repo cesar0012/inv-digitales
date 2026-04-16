@@ -1,6 +1,11 @@
 import { useAuth } from '../contexts/AuthContext';
 
-const API_BASE = `${import.meta.env.VITE_API_BASE_URL || window.location.origin}/api`;
+const getApiBase = () => {
+  const base = import.meta.env.VITE_API_BASE_URL || window.location.origin;
+  return base.replace(/\/api\/?$/, '');
+};
+
+const API_BASE = `${getApiBase()}/api`;
 const PUBLIC_BASE = import.meta.env.VITE_PUBLIC_URL || window.location.origin;
 
 export interface UserData {
