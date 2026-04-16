@@ -33,6 +33,7 @@ server/storage/
 *.rar
 *.tar
 *.gz
+postman_collection.json
 
 # PHP
 PHP/
