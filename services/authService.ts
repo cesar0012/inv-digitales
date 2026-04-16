@@ -30,7 +30,6 @@ export interface IssueResponse {
   expires_in: number;
 }
 
-export const getApiBaseUrl = (): string => API_BASE_URL;
 export const getDashboardUrl = (): string => DASHBOARD_URL;
 export const isDevMode = (): boolean => DEV_MODE;
 
