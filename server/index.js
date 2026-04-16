@@ -27,7 +27,7 @@ const PUBLIC_URL = process.env.VITE_PUBLIC_URL || `http://localhost:${PORT}`;
 const API_BASE_URL = process.env.VITE_API_BASE_URL || 'https://api.invitacionesmodernas.com/api';
 
 app.use(cors({ 
-  origin: ['http://localhost:3002', 'http://localhost:3001'],
+  origin: ['https://generador.invitacionesmodernas.com', 'http://localhost:3002', 'http://localhost:3001'],
   credentials: true,
   exposedHeaders: ['Set-Cookie']
 }));
