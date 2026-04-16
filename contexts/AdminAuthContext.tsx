@@ -20,6 +20,7 @@ const AdminAuthContext = createContext<AdminAuthContextType | undefined>(undefin
 export const AdminAuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [admin, setAdmin] = useState<Admin | null>(null);
   const [loading, setLoading] = useState(true);
+  const API_BASE = window.location.origin;
 
   useEffect(() => {
     checkAdminAuth();
@@ -29,7 +30,7 @@ export const AdminAuthProvider: React.FC<{ children: ReactNode }> = ({ children 
     const token = localStorage.getItem('admin_token');
     if (token) {
       try {
-        const response = await fetch('http://localhost:3001/api/admin/me', {
+        const response = await fetch(`${API_BASE}/api/admin/me`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (response.ok) {
@@ -46,7 +47,7 @@ export const AdminAuthProvider: React.FC<{ children: ReactNode }> = ({ children 
   };
 
   const login = async (email: string, password: string) => {
-    const response = await fetch('http://localhost:3001/api/admin/login', {
+    const response = await fetch(`${API_BASE}/api/admin/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
