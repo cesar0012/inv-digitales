@@ -134,63 +134,6 @@ export const saveInvitation = async (
     credentials: 'include',
     body: JSON.stringify({ htmlContent, eventType, replaceFilename })
   });
-
-export const getInvitations = async (userId: string, token: string): Promise<{ invitations: InvitationFile[] }> => {
-  const response = await fetch(`${API_BASE}/invitations/${userId}`, {
-    credentials: 'include',
-    headers: getAuthHeaders(token)
-  });
-  return handleResponse(response);
-};
-
-export const getInvitationContent = async (filename: string, userId: string, token: string): Promise<string> => {
-  const response = await fetch(`${API_BASE}/invitations/${userId}/${filename}`, {
-    credentials: 'include',
-    headers: getAuthHeaders(token)
-  });
-  return handleResponse(response);
-};
-
-export const getAllUsers = async (): Promise<AllUsersResponse> => {
-  const response = await fetch(`${API_BASE}/users`, {
-    credentials: 'include',
-    headers: getAuthHeaders()
-  });
-  return handleResponse(response);
-};
-
-export const consumeCredit = async (userId: string): Promise<{ success: boolean; iteration_credits: number }> => {
-  const response = await fetch(`${API_BASE}/user/${userId}/consume-credit`, {
-    method: 'POST',
-    credentials: 'include',
-    headers: getAuthHeaders()
-  });
-  return handleResponse(response);
-};
-
-export const consumeGenerationCredit = async (userId: string): Promise<{ success: boolean; generation_credits: number }> => {
-  const response = await fetch(`${API_BASE}/user/${userId}/consume-generation-credit`, {
-    method: 'POST',
-    credentials: 'include',
-    headers: getAuthHeaders()
-  });
-  return handleResponse(response);
-};
-
-export const saveInvitation = async (
-  htmlContent: string, 
-  eventType?: string,
-  replaceFilename?: string
-): Promise<SaveInvitationResponse> => {
-  const response = await fetch(`${API_BASE}/invitations`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      ...getAuthHeaders()
-    },
-    credentials: 'include',
-    body: JSON.stringify({ htmlContent, eventType, replaceFilename })
-  });
   
   if (response.status === 409) {
     const data: LimitReachedError = await response.json();
@@ -205,18 +148,18 @@ export const saveInvitation = async (
   return handleResponse(response);
 };
 
-export const getInvitations = async (userId: string): Promise<{ invitations: InvitationFile[] }> => {
+export const getInvitations = async (userId: string, token: string): Promise<{ invitations: InvitationFile[] }> => {
   const response = await fetch(`${API_BASE}/invitations/${userId}`, {
     credentials: 'include',
-    headers: getAuthHeaders()
+    headers: getAuthHeaders(token)
   });
   return handleResponse(response);
 };
 
-export const getInvitationContent = async (filename: string, userId: string): Promise<string> => {
+export const getInvitationContent = async (filename: string, userId: string, token: string): Promise<string> => {
   const response = await fetch(`${API_BASE}/invitations/${userId}/${filename}`, {
     credentials: 'include',
-    headers: getAuthHeaders()
+    headers: getAuthHeaders(token)
   });
   
   if (response.status === 401) {
@@ -229,6 +172,32 @@ export const getInvitationContent = async (filename: string, userId: string): Pr
   }
   
   return response.text();
+};
+
+export const getAllUsers = async (token: string): Promise<AllUsersResponse> => {
+  const response = await fetch(`${API_BASE}/users`, {
+    credentials: 'include',
+    headers: getAuthHeaders(token)
+  });
+  return handleResponse(response);
+};
+
+export const consumeCredit = async (userId: string, token: string): Promise<{ success: boolean; iteration_credits: number }> => {
+  const response = await fetch(`${API_BASE}/user/${userId}/consume-credit`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: getAuthHeaders(token)
+  });
+  return handleResponse(response);
+};
+
+export const consumeGenerationCredit = async (userId: string, token: string): Promise<{ success: boolean; generation_credits: number }> => {
+  const response = await fetch(`${API_BASE}/user/${userId}/consume-generation-credit`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: getAuthHeaders(token)
+  });
+  return handleResponse(response);
 };
 
 export const getPublicUrl = (slug: string): string => {
