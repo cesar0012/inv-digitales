@@ -9,26 +9,17 @@ const API_BASE = `${getApiBase()}/api`;
 const PUBLIC_BASE = import.meta.env.VITE_PUBLIC_URL || window.location.origin;
 
 // Helper para obtener headers de autenticación
-// Obtiene el token del AuthContext cuando está disponible
-const getAuthHeaders = () => {
-  try {
-    // Accedemos al contexto de autenticación para obtener el token actual
-    const auth = useAuth();
-    const headers: Record<string, string> = {
-      'Accept': 'application/json'
-    };
-    
-    if (auth.token) {
-      headers['Authorization'] = `Bearer ${auth.token}`;
-    }
-    
-    return headers;
-  } catch (e) {
-    // Si estamos fuera del contexto de React, retornamos solo Accept header
-    return {
-      'Accept': 'application/json'
-    };
+// Recibe token opcional desde componentes React
+const getAuthHeaders = (token?: string) => {
+  const headers: Record<string, string> = {
+    'Accept': 'application/json'
+  };
+  
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
   }
+  
+  return headers;
 };
 
 export interface UserData {
@@ -94,10 +85,68 @@ const handleResponse = async (response: Response) => {
   return response.json();
 };
 
-export const getUser = async (userId: string): Promise<UserWithInvitations> => {
+export const getUser = async (userId: string, token: string): Promise<UserWithInvitations> => {
   const response = await fetch(`${API_BASE}/get-user/${userId}`, {
     credentials: 'include',
-    headers: getAuthHeaders()
+    headers: getAuthHeaders(token)
+  });
+  return handleResponse(response);
+};
+
+export const getAllUsers = async (token: string): Promise<AllUsersResponse> => {
+  const response = await fetch(`${API_BASE}/users`, {
+    credentials: 'include',
+    headers: getAuthHeaders(token)
+  });
+  return handleResponse(response);
+};
+
+export const consumeCredit = async (userId: string, token: string): Promise<{ success: boolean; iteration_credits: number }> => {
+  const response = await fetch(`${API_BASE}/user/${userId}/consume-credit`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: getAuthHeaders(token)
+  });
+  return handleResponse(response);
+};
+
+export const consumeGenerationCredit = async (userId: string, token: string): Promise<{ success: boolean; generation_credits: number }> => {
+  const response = await fetch(`${API_BASE}/user/${userId}/consume-generation-credit`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: getAuthHeaders(token)
+  });
+  return handleResponse(response);
+};
+
+export const saveInvitation = async (
+  htmlContent: string, 
+  eventType?: string,
+  replaceFilename?: string,
+  token: string
+): Promise<SaveInvitationResponse> => {
+  const response = await fetch(`${API_BASE}/invitations`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...getAuthHeaders(token)
+    },
+    credentials: 'include',
+    body: JSON.stringify({ htmlContent, eventType, replaceFilename })
+  });
+
+export const getInvitations = async (userId: string, token: string): Promise<{ invitations: InvitationFile[] }> => {
+  const response = await fetch(`${API_BASE}/invitations/${userId}`, {
+    credentials: 'include',
+    headers: getAuthHeaders(token)
+  });
+  return handleResponse(response);
+};
+
+export const getInvitationContent = async (filename: string, userId: string, token: string): Promise<string> => {
+  const response = await fetch(`${API_BASE}/invitations/${userId}/${filename}`, {
+    credentials: 'include',
+    headers: getAuthHeaders(token)
   });
   return handleResponse(response);
 };

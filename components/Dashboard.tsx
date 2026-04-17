@@ -11,7 +11,7 @@ import { ShareModal } from './ShareModal';
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
-  const { user: authUser, logout } = useAuth();
+  const { user: authUser, logout, token } = useAuth();
   const [userData, setUserData] = useState<UserWithInvitations | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -27,7 +27,7 @@ export const Dashboard: React.FC = () => {
       if (!authUser) return;
       
       try {
-        const data = await getUser(authUser.id.toString());
+        const data = await getUser(authUser.id.toString(), token);
         setUserData(data);
         setTimeout(() => setAnimateStats(true), 100);
       } catch (err: any) {

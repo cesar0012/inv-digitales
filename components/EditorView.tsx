@@ -15,7 +15,7 @@ import { ReplaceInvitationModal } from './ReplaceInvitationModal';
 export const EditorView: React.FC = () => {
   const { filename } = useParams<{ filename?: string }>();
   const navigate = useNavigate();
-  const { user: authUser } = useAuth();
+  const { user: authUser, token } = useAuth();
   const userId = authUser?.id.toString() || '';
   
   const [hasStarted, setHasStarted] = useState(false);
@@ -91,7 +91,7 @@ export const EditorView: React.FC = () => {
     setIsLoadingFile(true);
     try {
       const decodedFilename = decodeURIComponent(filename);
-      const htmlContent = await getInvitationContent(decodedFilename, userId);
+      const htmlContent = await getInvitationContent(decodedFilename, userId, token);
       
       const metadata = extractMetadata(htmlContent);
       if (metadata) {
@@ -189,7 +189,7 @@ export const EditorView: React.FC = () => {
     if (!activePage) return;
     
     try {
-      await consumeCredit(userId);
+      await consumeCredit(userId, token);
     } catch (error: any) {
       alert(`Sin créditos: ${error.message}`);
       return;
@@ -214,7 +214,7 @@ export const EditorView: React.FC = () => {
     if (!activePage) return;
     
     try {
-      await consumeCredit(userId);
+      await consumeCredit(userId, token);
     } catch (error: any) {
       alert(`Sin créditos: ${error.message}`);
       return;
@@ -346,7 +346,7 @@ export const EditorView: React.FC = () => {
       const metadata = buildMetadataFromHTML(code, existingMetadata, editorConfig);
       const htmlWithMetadata = injectMetadata(code, metadata);
       
-      const result = await saveInvitation(htmlWithMetadata, editorConfig.eventType, safeReplace);
+      const result = await saveInvitation(htmlWithMetadata, editorConfig.eventType, safeReplace, token);
       setReplaceModalData(null);
       console.log('Invitación guardada:', result.filename, '| URL:', result.publicUrl);
       navigate('/');
