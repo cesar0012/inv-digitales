@@ -174,32 +174,6 @@ export const getInvitationContent = async (filename: string, userId: string, tok
   return response.text();
 };
 
-export const getAllUsers = async (token: string): Promise<AllUsersResponse> => {
-  const response = await fetch(`${API_BASE}/users`, {
-    credentials: 'include',
-    headers: getAuthHeaders(token)
-  });
-  return handleResponse(response);
-};
-
-export const consumeCredit = async (userId: string, token: string): Promise<{ success: boolean; iteration_credits: number }> => {
-  const response = await fetch(`${API_BASE}/user/${userId}/consume-credit`, {
-    method: 'POST',
-    credentials: 'include',
-    headers: getAuthHeaders(token)
-  });
-  return handleResponse(response);
-};
-
-export const consumeGenerationCredit = async (userId: string, token: string): Promise<{ success: boolean; generation_credits: number }> => {
-  const response = await fetch(`${API_BASE}/user/${userId}/consume-generation-credit`, {
-    method: 'POST',
-    credentials: 'include',
-    headers: getAuthHeaders(token)
-  });
-  return handleResponse(response);
-};
-
 export const getPublicUrl = (slug: string): string => {
   return `${PUBLIC_BASE}/i/${slug}`;
 };
