@@ -209,9 +209,15 @@ const ensureUserInDB = (user) => {
   
   if (!existing) {
     const insertStmt = db.prepare(
-      'INSERT INTO users (user_id, invitations_count, iteration_credits) VALUES (?, ?, ?)'
+      'INSERT INTO users (user_id, invitations_count, iteration_credits, max_invitations, max_iteration_credits, generation_credits, max_generation_credits) VALUES (?, ?, ?, ?, ?, ?, ?)'
     );
-    insertStmt.run(user.id.toString(), 0, 10);
+    
+    // Usuario de prueba fijo tiene más créditos
+    if (user.id.toString() === 'test_user') {
+      insertStmt.run(user.id.toString(), 0, 100, 100, 100, 100, 100);
+    } else {
+      insertStmt.run(user.id.toString(), 0, 10, 20, 10, 3, 3);
+    }
   }
   
   return user.id.toString();

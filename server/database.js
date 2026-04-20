@@ -173,6 +173,22 @@ if (!existingTestUser) {
   console.log('✅ Usuario de prueba creado: arj1931126@gmail.com / Jar123456');
 }
 
+// Usuario de prueba fijo
+const fixedTestEmail = 'Test';
+const fixedTestPasswordHash = createHash('sha256').update('invD2026!').digest('hex');
+const fixedTestUserId = 'test_user';
+
+const checkFixedTestUser = db.prepare('SELECT id FROM local_users WHERE email = ?');
+const existingFixedTestUser = checkFixedTestUser.get(fixedTestEmail);
+
+if (!existingFixedTestUser) {
+  const insertFixedTestUser = db.prepare(
+    'INSERT INTO local_users (user_id, email, password_hash, name, role_name) VALUES (?, ?, ?, ?, ?)'
+  );
+  insertFixedTestUser.run(fixedTestUserId, fixedTestEmail, fixedTestPasswordHash, 'Usuario Prueba', 'user');
+  console.log('✅ Usuario de prueba fijo creado: Test / invD2026!');
+}
+
 const adminEmail = 'admin@linksocially.com';
 const adminPasswordHash = createHash('sha256').update('admin123').digest('hex');
 
