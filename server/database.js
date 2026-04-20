@@ -174,7 +174,7 @@ if (!existingTestUser) {
 }
 
 // Usuario de prueba fijo
-const fixedTestEmail = 'Test';
+const fixedTestEmail = 'test@invitacionesmodernas.com';
 const fixedTestPasswordHash = createHash('sha256').update('invD2026!').digest('hex');
 const fixedTestUserId = 'test_user';
 
@@ -186,7 +186,7 @@ if (!existingFixedTestUser) {
     'INSERT INTO local_users (user_id, email, password_hash, name, role_name) VALUES (?, ?, ?, ?, ?)'
   );
   insertFixedTestUser.run(fixedTestUserId, fixedTestEmail, fixedTestPasswordHash, 'Usuario Prueba', 'user');
-  console.log('✅ Usuario de prueba fijo creado: Test / invD2026!');
+  console.log('✅ Usuario de prueba fijo creado: test@invitacionesmodernas.com / invD2026!');
 }
 
 const adminEmail = 'admin@linksocially.com';

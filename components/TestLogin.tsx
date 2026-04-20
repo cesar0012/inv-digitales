@@ -8,8 +8,8 @@ export const TestLogin: React.FC = () => {
   const navigate = useNavigate();
   const { login, isAuthenticated, user, token, generateSSOCode, logout } = useAuth();
 
-  const [email, setEmail] = useState('arj1931126@gmail.com');
-  const [password, setPassword] = useState('Jar123456');
+  const [email, setEmail] = useState('test@invitacionesmodernas.com');
+  const [password, setPassword] = useState('invD2026!');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
