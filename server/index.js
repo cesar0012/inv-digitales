@@ -65,6 +65,15 @@ const generateSlug = (eventType, timestamp) => {
 };
 
 const validateToken = async (token) => {
+  // Extraer user_id del token
+  const tokenParts = token.split('|');
+  const userId = tokenParts[0];
+  
+  // Excepción para usuario de prueba - NO va a Laravel
+  if (userId === 'test_user') {
+    return validateLocalToken(token);
+  }
+  
   // Primero intentar con Laravel
   try {
     const response = await fetchNoSSL(`${API_BASE_URL}/user`, {
@@ -229,6 +238,11 @@ const ensureUserInDB = (user) => {
 app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
   
+  // Excepción para usuario de prueba - NO va a Laravel, directo a login local
+  if (email === 'test@invitacionesmodernas.com') {
+    return handleLocalLogin(req, res, email, password);
+  }
+  
   try {
     const response = await fetchNoSSL(`${API_BASE_URL}/login`, {
       method: 'POST',
@@ -305,6 +319,14 @@ app.post('/api/auth/issue', async (req, res) => {
   
   if (!token) {
     return res.status(401).json({ error: 'Token requerido' });
+  }
+  
+  // Excepción para usuario de prueba - NO va a Laravel
+  const tokenParts = token.split('|');
+  const userId = tokenParts[0];
+  
+  if (userId === 'test_user') {
+    return handleLocalIssue(req, res, token);
   }
   
   try {
@@ -457,6 +479,14 @@ app.get('/api/auth/user', async (req, res) => {
     return res.status(401).json({ error: 'Token requerido' });
   }
   
+  // Excepción para usuario de prueba - NO va a Laravel
+  const tokenParts = token.split('|');
+  const userId = tokenParts[0];
+  
+  if (userId === 'test_user') {
+    return handleLocalUser(req, res, token);
+  }
+  
   try {
     const response = await fetchNoSSL(`${API_BASE_URL}/user`, {
       headers: { 
@@ -493,6 +523,16 @@ function handleLocalUser(req, res, token) {
 // POST /api/auth/logout - Proxy para logout (con fallback local)
 app.post('/api/auth/logout', async (req, res) => {
   const token = req.headers.authorization?.replace('Bearer ', '');
+  
+  // Excepción para usuario de prueba - NO va a Laravel
+  if (token) {
+    const tokenParts = token.split('|');
+    const userId = tokenParts[0];
+    
+    if (userId === 'test_user') {
+      return handleLocalLogout(req, res);
+    }
+  }
   
   try {
     const response = await fetchNoSSL(`${API_BASE_URL}/logout`, {
