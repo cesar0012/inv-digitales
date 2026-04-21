@@ -150,6 +150,7 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id TEXT NOT NULL,
     user_name TEXT,
+    access_token TEXT,
     code_hash TEXT NOT NULL,
     purpose TEXT DEFAULT 'editor',
     expires_at TEXT NOT NULL,
@@ -161,6 +162,11 @@ db.exec(`
 try {
   db.exec(`ALTER TABLE local_sso_codes ADD COLUMN user_name TEXT`);
   console.log('✅ Columna user_name agregada a local_sso_codes');
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE local_sso_codes ADD COLUMN access_token TEXT`);
+  console.log('✅ Columna access_token agregada a local_sso_codes');
 } catch (e) {}
 
 // Crear usuario de prueba si no existe

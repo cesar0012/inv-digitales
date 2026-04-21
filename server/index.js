@@ -65,16 +65,23 @@ const generateSlug = (eventType, timestamp) => {
 };
 
 const validateToken = async (token) => {
-  console.log(`🔍 Validando token: ${token.substring(0, 25)}...`);
+  console.log('\n========================================');
+  console.log('🔍 INICIO VALIDACIÓN DE TOKEN');
+  console.log(`Token recibido: ${token.substring(0, 40)}...`);
+  console.log(`Longitud token: ${token.length}`);
+  console.log(`Formato token: ${token.includes('|') ? 'LOCAL' : 'LARAVEL'}`);
+  console.log('========================================');
   
   // Si es un token local (formato id|hash)
   if (token.includes('|')) {
-    console.log('ℹ️ Token local detectado');
+    console.log('ℹ️ Token LOCAL detectado');
     const tokenParts = token.split('|');
     const userId = tokenParts[0];
     
+    console.log(`ID usuario extraido: ${userId}`);
+    
     if (!userId || !tokenParts[1]) {
-      console.log('❌ Token local inválido');
+      console.log('❌ Token local inválido: formato incorrecto');
       return null;
     }
     
@@ -82,11 +89,11 @@ const validateToken = async (token) => {
     const user = stmt.get(userId);
     
     if (!user) {
-      console.log(`❌ Usuario local ${userId} no encontrado`);
+      console.log(`❌ Usuario local ${userId} NO ENCONTRADO en local_users`);
       return null;
     }
     
-    console.log(`✅ Token local válido para usuario ${userId}`);
+    console.log(`✅ Token local VÁLIDO: Usuario ${user.user_id} - ${user.name}`);
     return {
       id: user.user_id,
       name: user.name,
@@ -96,7 +103,8 @@ const validateToken = async (token) => {
   }
   
   // ✅ ES UN TOKEN DE LARAVEL. NUNCA MAS BUSCAR EN LOCAL_USERS.
-  console.log('🔐 Token de Laravel detectado, consultando API principal...');
+  console.log('🔐 Token de LARAVEL detectado, consultando API principal...');
+  console.log(`Consultando: ${API_BASE_URL}/user`);
   
   try {
     const response = await fetchNoSSL(`${API_BASE_URL}/user`, {
@@ -106,15 +114,19 @@ const validateToken = async (token) => {
       }
     });
 
-    console.log(`📡 Respuesta Laravel /user: ${response.status}`);
+    console.log(`📡 Respuesta Laravel /user: ${response.status} ${response.statusText}`);
 
     if (!response.ok) {
-      console.log('❌ Token de Laravel inválido');
+      const errorText = await response.text();
+      console.log(`❌ Token de Laravel INVALIDO: ${errorText}`);
       return null;
     }
 
     const user = await response.json();
-    console.log(`✅ Token de Laravel VÁLIDO: Usuario ${user.id} - ${user.name}`);
+    console.log(`✅ Token de Laravel VÁLIDO:`);
+    console.log(`   ID: ${user.id}`);
+    console.log(`   Nombre: ${user.name}`);
+    console.log(`   Email: ${user.email}`);
 
     // ✅ CREAR USUARIO AQUI MISMO, INMEDIATAMENTE, ANTES DE DEVOLVERLO
     console.log(`✅ Creando/actualizando usuario ${user.id} en tabla users...`);
@@ -124,7 +136,8 @@ const validateToken = async (token) => {
       name: user.name
     });
 
-    console.log(`✅ Usuario ${user.id} creado/actualizado exitosamente`);
+    console.log(`✅ Usuario ${user.id} CREADO/ACTUALIZADO EXITOSAMENTE`);
+    console.log('========================================\n');
     
     return {
       id: user.id,
@@ -134,7 +147,9 @@ const validateToken = async (token) => {
     };
 
   } catch (error) {
-    console.log(`❌ Error consultando Laravel: ${error.message}`);
+    console.log(`❌ ERROR consultando Laravel: ${error.message}`);
+    console.log(error.stack);
+    console.log('========================================\n');
     return null;
   }
 };
@@ -549,11 +564,11 @@ function handleLocalIssue(req, res, token) {
   const codeHash = createHash('sha256').update(code).digest('hex');
   const expiresAt = new Date(Date.now() + 60 * 1000).toISOString(); // 60 segundos
   
-  // Guardar código
+  // Guardar código con el TOKEN REAL DE LARAVEL
   const insertStmt = db.prepare(
-    'INSERT INTO local_sso_codes (user_id, user_name, code_hash, purpose, expires_at) VALUES (?, ?, ?, ?, ?)'
+    'INSERT INTO local_sso_codes (user_id, user_name, access_token, code_hash, purpose, expires_at) VALUES (?, ?, ?, ?, ?, ?)'
   );
-  insertStmt.run(userId, user.name, codeHash, 'editor', expiresAt);
+  insertStmt.run(userId, user.name, token, codeHash, 'editor', expiresAt);
   
   res.json({
     code,
@@ -616,7 +631,7 @@ app.post('/api/auth/set-token', (req, res) => {
 });
 
 // Función para consume-token local
-function handleLocalConsumeToken(req, res, code) {
+async function handleLocalConsumeToken(req, res, code) {
   const codeHash = createHash('sha256').update(code).digest('hex');
   const now = new Date().toISOString();
   
@@ -644,15 +659,70 @@ function handleLocalConsumeToken(req, res, code) {
   const userId = codeRecord.user_id;
   const userName = codeRecord.user_name || 'Usuario';
 
-  console.log(`✅ Creando/actualizando usuario ${userId} en tabla principal...`);
+  // ✅ AHORA MISMO: OBTENER LOS DATOS REALES DEL USUARIO DE LARAVEL
+  console.log(`🔍 Consultando datos de usuario ${codeRecord.user_id} a Laravel...`);
   
-  ensureUserInDB({
-    id: userId,
-    name: userName
-  });
+  try {
+    const response = await fetchNoSSL(`${API_BASE_URL}/user`, {
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${codeRecord.access_token}`
+      }
+    });
 
+    console.log(`📡 Respuesta Laravel /user: ${response.status}`);
+
+    if (response.ok) {
+      const laravelUser = await response.json();
+      console.log(`✅ Usuario obtenido de Laravel: ${laravelUser.id} - ${laravelUser.name}`);
+      
+      // ✅ CREAR USUARIO INMEDIATAMENTE
+      ensureUserInDB({
+        id: laravelUser.id.toString(),
+        name: laravelUser.name
+      });
+
+      console.log(`✅ Usuario ${laravelUser.id} creado en tabla users`);
+
+      // Generar nuevo token para el editor
+      const newToken = `${laravelUser.id}|${createHash('sha256').update(`${laravelUser.id}-${Date.now()}-editor`).digest('hex')}`;
+      
+      // Guardar token en cookie
+      res.cookie('auth_token', newToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 7 * 24 * 60 * 60 * 1000
+      });
+      
+      res.json({
+        token: newToken,
+        user: {
+          id: laravelUser.id,
+          name: laravelUser.name,
+          email: laravelUser.email,
+          role_name: laravelUser.role || 'user'
+        }
+      });
+
+      // Sincronizar planes en segundo plano
+      console.log(`🔄 Sincronizando planes para usuario ${laravelUser.id}`);
+      syncUserPlansFromBilling(laravelUser.id.toString(), codeRecord.access_token).catch(err => 
+        console.log('❌ Error sincronizando planes:', err.message)
+      );
+
+      return;
+    }
+
+  } catch (error) {
+    console.log(`❌ Error consultando a Laravel: ${error.message}`);
+  }
+
+  // Fallback solo si falla la consulta a Laravel
+  console.log(`⚠️ Usando fallback local para usuario ${codeRecord.user_id}`);
+  
   // Generar nuevo token para el editor
-  const newToken = `${userId}|${createHash('sha256').update(`${userId}-${Date.now()}-editor`).digest('hex')}`;
+  const newToken = `${codeRecord.user_id}|${createHash('sha256').update(`${codeRecord.user_id}-${Date.now()}-editor`).digest('hex')}`;
   
   // Guardar token en cookie
   res.cookie('auth_token', newToken, {
@@ -665,19 +735,11 @@ function handleLocalConsumeToken(req, res, code) {
   res.json({
     token: newToken,
     user: {
-      id: userId,
-      name: userName,
+      id: codeRecord.user_id,
+      name: codeRecord.user_name || 'Usuario',
       role_name: 'user'
     }
   });
-
-  // ✅ SINCRONIZAR PLANES INMEDIATAMENTE EN SEGUNDO PLANO
-  console.log(`🔄 Iniciando sincronización de planes para usuario ${userId} después de SSO`);
-  syncUserPlansFromBilling(userId, newToken).catch(err => 
-    console.log('❌ Error sincronizando planes SSO:', err.message)
-  );
-
-  console.log(`✅ Login SSO completado para usuario ${userId}`);
 }
 
 // POST /api/invitations - Guarda una nueva invitación (protegido)
