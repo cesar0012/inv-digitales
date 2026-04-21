@@ -928,7 +928,6 @@ app.get('/api/get-user/:id', authMiddleware, async (req, res) => {
     active_plan_index: 0
   });
 });
-});
 
 // POST /api/user/:id/consume-credit - Resta 1 crédito (protegido)
 app.post('/api/user/:id/consume-credit', authMiddleware, (req, res) => {
@@ -1085,9 +1084,6 @@ app.post('/api/invitations', authMiddleware, (req, res) => {
     invitations_count: updatedUser?.invitations_count || 1,
     purchase_id,
     plan_slug: planSlug
-  });
-});
-    invitations_remaining: maxInvitations - (updatedUser?.invitations_count || 1)
   });
 });
 
