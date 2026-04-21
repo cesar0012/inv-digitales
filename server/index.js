@@ -1392,28 +1392,98 @@ app.get('/api/debug/sso-codes', (req, res) => {
 });
 
 // DEBUG: Endpoint para probar token directamente
-app.get('/api/debug/validate-token', async (req, res) => {
-  const token = req.headers.authorization?.replace('Bearer ', '');
+// ✅ ✅ ✅ ENDPOINT PRINCIPAL DE SSO QUE LARAVEL LLAMA DIRECTAMENTE
+// ESTE ERA EL PROBLEMA QUE NADIE HABIA VISTO
+app.get('/sso/consume', async (req, res) => {
+  console.log('\n\n==================================================');
+  console.log('📨 USUARIO LLEGA DESDE LARAVEL A /sso/consume');
+  console.log(`   Código recibido: ${req.query.code?.substring(0, 30)}...`);
+  console.log('==================================================');
+
+  const code = req.query.code;
   
-  if (!token) {
-    return res.status(400).json({ error: 'Envía el token en header Authorization' });
+  if (!code) {
+    console.log('❌ NO HAY CÓDIGO EN LA URL');
+    return res.redirect('/?error=missing_code');
   }
-  
-  const user = await validateToken(token);
-  
-  if (user) {
-    res.json({
-      success: true,
-      message: 'Token válido, usuario creado',
-      user: user
+
+  try {
+    // ✅ PASO 1: CONSUMIR EL CÓDIGO CONTRA LARAVEL
+    console.log('🔍 Paso 1: Consumiendo código SSO con Laravel...');
+    
+    const response = await fetchNoSSL(`${API_BASE_URL}/consume-token`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ code })
     });
-  } else {
-    res.status(401).json({
-      success: false,
-      message: 'Token inválido'
-    });
+
+    console.log(`📡 Respuesta Laravel: ${response.status}`);
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log('✅ Paso 1 completado: Código válido, token obtenido');
+      console.log(`   Token: ${data.token?.substring(0, 40)}...`);
+
+      // ✅ PASO 2: GUARDAR EL TOKEN EN COOKIE
+      console.log('🔍 Paso 2: Guardando token en cookie...');
+      res.cookie('auth_token', data.token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 7 * 24 * 60 * 60 * 1000
+      });
+      console.log('✅ Paso 2 completado: Token guardado en cookie');
+
+      // ✅ PASO 3: OBTENER DATOS DEL USUARIO DE LARAVEL
+      console.log('🔍 Paso 3: Obteniendo datos del usuario...');
+      const userResponse = await fetchNoSSL(`${API_BASE_URL}/user`, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${data.token}`
+        }
+      });
+
+      if (userResponse.ok) {
+        const user = await userResponse.json();
+        console.log('✅ Paso 3 completado: Usuario obtenido');
+        console.log(`   ID: ${user.id}`);
+        console.log(`   Nombre: ${user.name}`);
+        console.log(`   Email: ${user.email}`);
+
+        // ✅ PASO 4: CREAR USUARIO EN NUESTRA BASE DE DATOS
+        console.log('🔍 Paso 4: Creando/actualizando usuario en DB local...');
+        ensureUserInDB({
+          id: user.id.toString(),
+          name: user.name
+        });
+        console.log('✅ Paso 4 completado: Usuario creado/actualizado');
+
+        // ✅ PASO 5: SINCRONIZAR PLANES DEL USUARIO
+        console.log('🔍 Paso 5: Sincronizando planes...');
+        await syncUserPlansFromBilling(user.id.toString(), data.token);
+        console.log('✅ Paso 5 completado: Planes sincronizados');
+      }
+
+      console.log('\n✅ TODO EL FLUJO COMPLETADO EXITOSAMENTE');
+      console.log('✅ REDIRIGIENDO AL DASHBOARD');
+      console.log('==================================================\n');
+      return res.redirect('/dashboard');
+    }
+
+    console.log('❌ Código inválido o expirado');
+    return res.redirect('/?error=invalid_code');
+
+  } catch (error) {
+    console.log(`❌ ERROR EN FLUJO SSO: ${error.message}`);
+    console.log(error.stack);
+    return res.redirect('/?error=server_error');
   }
 });
+
+// ✅ Fin del endpoint principal de SSO
 
 // 📋 SISTEMA DE LOGS EN MEMORIA PARA DEBUG
 const serverLogs = [];
