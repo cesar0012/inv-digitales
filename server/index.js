@@ -340,6 +340,8 @@ const ensureUserInDB = (user) => {
   const existing = stmt.get(user.id.toString());
   
   if (!existing) {
+    console.log(`✅ Creando NUEVO usuario: ${user.id} (${user.name})`);
+    
     const insertStmt = db.prepare(
       'INSERT INTO users (user_id, name, invitations_count, iteration_credits, max_invitations, max_iteration_credits, generation_credits, max_generation_credits) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
     );
@@ -351,6 +353,16 @@ const ensureUserInDB = (user) => {
       // 🔥 NUEVOS USUARIOS EMPIEZAN CON 0 CRÉDITOS POR DEFECTO
       // Solo obtienen créditos cuando tienen planes comprados
       insertStmt.run(user.id.toString(), user.name || 'Usuario', 0, 0, 0, 0, 0, 0);
+    }
+    
+    console.log(`✅ Usuario ${user.id} creado exitosamente en tabla users`);
+  } else {
+    console.log(`ℹ️ Usuario ${user.id} ya existe en tabla users`);
+    
+    // Actualizar nombre si es null
+    if (!existing.name && user.name) {
+      db.prepare('UPDATE users SET name = ? WHERE user_id = ?').run(user.name, user.id.toString());
+      console.log(`✅ Nombre de usuario ${user.id} actualizado: ${user.name}`);
     }
   }
   
@@ -575,6 +587,8 @@ function handleLocalConsumeToken(req, res, code) {
   const codeHash = createHash('sha256').update(code).digest('hex');
   const now = new Date().toISOString();
   
+  console.log(`🔐 Consumiendo código SSO: ${code.substring(0, 20)}...`);
+
   // Buscar código válido
   const stmt = db.prepare(
     'SELECT * FROM local_sso_codes WHERE code_hash = ? AND used_at IS NULL AND expires_at > ?'
@@ -582,30 +596,30 @@ function handleLocalConsumeToken(req, res, code) {
   const codeRecord = stmt.get(codeHash, now);
   
   if (!codeRecord) {
+    console.log('❌ Código SSO inválido o expirado');
     return res.status(401).json({ message: 'Código inválido o expirado' });
   }
   
+  console.log(`✅ Código SSO válido para usuario: ${codeRecord.user_id}`);
+
   // Marcar como usado (de manera atómica)
   const updateStmt = db.prepare('UPDATE local_sso_codes SET used_at = ? WHERE id = ?');
   updateStmt.run(now, codeRecord.id);
   
-  // Buscar usuario
-  const userStmt = db.prepare('SELECT * FROM local_users WHERE user_id = ?');
-  const user = userStmt.get(codeRecord.user_id);
+  // ✅ CREAR/ACTUALIZAR USUARIO EN LA TABLA PRINCIPAL INMEDIATAMENTE
+  // Este era el ERROR PRINCIPAL: NO BUSCAMOS EN local_users. El código SSO ya valida que es un usuario válido de Laravel.
+  const userId = codeRecord.user_id;
+  const userName = codeRecord.user_name || 'Usuario';
+
+  console.log(`✅ Creando/actualizando usuario ${userId} en tabla principal...`);
   
-  if (!user) {
-    return res.status(404).json({ message: 'Usuario no encontrado' });
-  }
-  
-  // ✅ CREAR USUARIO EN LA TABLA PRINCIPAL PARA QUE APAREZCA EN EL ADMIN
-  // Este era el ERROR PRINCIPAL que tenía OpenCode
   ensureUserInDB({
-    id: user.user_id,
-    name: user.name
+    id: userId,
+    name: userName
   });
-  
+
   // Generar nuevo token para el editor
-  const newToken = `${user.user_id}|${createHash('sha256').update(`${user.user_id}-${Date.now()}-editor`).digest('hex')}`;
+  const newToken = `${userId}|${createHash('sha256').update(`${userId}-${Date.now()}-editor`).digest('hex')}`;
   
   // Guardar token en cookie
   res.cookie('auth_token', newToken, {
@@ -618,18 +632,19 @@ function handleLocalConsumeToken(req, res, code) {
   res.json({
     token: newToken,
     user: {
-      id: user.user_id,
-      name: user.name,
-      email: user.email,
-      role_name: user.role_name
+      id: userId,
+      name: userName,
+      role_name: 'user'
     }
   });
 
-  // ✅ SINCRONIZAR PLANES DESPUES DE LOGIN SSO
-  console.log(`🔄 Iniciando sincronización de planes para usuario ${user.user_id} después de SSO`);
-  syncUserPlansFromBilling(user.user_id, newToken).catch(err => 
+  // ✅ SINCRONIZAR PLANES INMEDIATAMENTE EN SEGUNDO PLANO
+  console.log(`🔄 Iniciando sincronización de planes para usuario ${userId} después de SSO`);
+  syncUserPlansFromBilling(userId, newToken).catch(err => 
     console.log('❌ Error sincronizando planes SSO:', err.message)
   );
+
+  console.log(`✅ Login SSO completado para usuario ${userId}`);
 }
 
 // POST /api/invitations - Guarda una nueva invitación (protegido)

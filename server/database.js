@@ -149,6 +149,7 @@ db.exec(`
   CREATE TABLE IF NOT EXISTS local_sso_codes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id TEXT NOT NULL,
+    user_name TEXT,
     code_hash TEXT NOT NULL,
     purpose TEXT DEFAULT 'editor',
     expires_at TEXT NOT NULL,
@@ -157,55 +158,9 @@ db.exec(`
   )
 `);
 
-// 🆕 Tabla de configuración de planes (maestra)
-db.exec(`
-  CREATE TABLE IF NOT EXISTS plan_config (
-    plan_slug TEXT PRIMARY KEY,
-    plan_name TEXT NOT NULL,
-    invites_included INTEGER DEFAULT 10,
-    generation_credits INTEGER DEFAULT 10,
-    iteration_credits INTEGER DEFAULT 10,
-    created_at TEXT DEFAULT (datetime('now'))
-  )
-`);
-
-// Valores por defecto para planes comunes
 try {
-  const insertPlan = db.prepare(`INSERT OR IGNORE INTO plan_config (plan_slug, plan_name, invites_included, generation_credits, iteration_credits) VALUES (?, ?, ?, ?, ?)`);
-  insertPlan.run('premium', 'Plan Premium', 200, 100, 50);
-  insertPlan.run('basic', 'Plan Básico', 50, 25, 10);
-  insertPlan.run('standard', 'Plan Estándar', 100, 50, 25);
-  console.log('✅ Configuración de planes inicializada');
-} catch (e) { console.log('⚠️ Planes ya existen:', e.message); }
-
-// 🆕 Tabla de planes de usuario
-db.exec(`
-  CREATE TABLE IF NOT EXISTS user_plans (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id TEXT NOT NULL,
-    purchase_id INTEGER NOT NULL,
-    plan_slug TEXT NOT NULL,
-    plan_name TEXT NOT NULL,
-    invites_included INTEGER NOT NULL,
-    invites_used INTEGER DEFAULT 0,
-    generation_credits INTEGER NOT NULL,
-    generation_used INTEGER DEFAULT 0,
-    iteration_credits INTEGER NOT NULL,
-    iteration_used INTEGER DEFAULT 0,
-    last_synced_at TEXT DEFAULT (datetime('now')),
-    UNIQUE(user_id, purchase_id)
-  )
-`);
-
-// 🆕 Columnas nuevas en invitations
-try {
-  db.exec(`ALTER TABLE invitations ADD COLUMN purchase_id INTEGER`);
-  console.log('✅ Columna purchase_id agregada');
-} catch (e) {}
-
-try {
-  db.exec(`ALTER TABLE invitations ADD COLUMN plan_slug TEXT`);
-  console.log('✅ Columna plan_slug agregada');
+  db.exec(`ALTER TABLE local_sso_codes ADD COLUMN user_name TEXT`);
+  console.log('✅ Columna user_name agregada a local_sso_codes');
 } catch (e) {}
 
 // Crear usuario de prueba si no existe
