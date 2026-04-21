@@ -142,10 +142,18 @@ const authMiddleware = async (req, res, next) => {
     console.log(`✅ Usuario ${user.id} creado automáticamente en DB local`);
   }
   
+  // Si es un token de Laravel válido, CREAR USUARIO AUTOMATICAMENTE SI NO EXISTE
+  console.log(`🔐 Token validado, usuario: ${user.id}, nombre: ${user.name || 'Usuario'}`);
+  
+  // ✅ CREAR/ACTUALIZAR USUARIO AUTOMATICAMENTE EN CUALQUIER REQUEST AUTENTICADO
+  ensureUserInDB({
+    id: user.id.toString(),
+    name: user.name
+  });
+
   req.user = user;
-  req.token = token;
   next();
-};
+}
 
 const getUserInvitations = (userId) => {
   const userFolder = join(storagePath, userId);
@@ -518,9 +526,9 @@ function handleLocalIssue(req, res, token) {
   
   // Guardar código
   const insertStmt = db.prepare(
-    'INSERT INTO local_sso_codes (user_id, code_hash, purpose, expires_at) VALUES (?, ?, ?, ?)'
+    'INSERT INTO local_sso_codes (user_id, user_name, code_hash, purpose, expires_at) VALUES (?, ?, ?, ?, ?)'
   );
-  insertStmt.run(userId, codeHash, 'editor', expiresAt);
+  insertStmt.run(userId, user.name, codeHash, 'editor', expiresAt);
   
   res.json({
     code,
@@ -1372,6 +1380,12 @@ app.post('/api/admin/sync-users', adminMiddleware, async (req, res) => {
     console.error('Error sincronizando usuarios:', error);
     res.status(500).json({ error: 'Error al sincronizar usuarios' });
   }
+});
+
+// DEBUG: Ver códigos SSO generados - REMOVER EN PRODUCCIÓN
+app.get('/api/debug/sso-codes', (req, res) => {
+  const codes = db.prepare('SELECT * FROM local_sso_codes ORDER BY created_at DESC LIMIT 20').all();
+  res.json({ codes, total: codes.length });
 });
 
 // DEBUG: Endpoint temporal para ver usuarios (sin auth) - REMOVER EN PRODUCCIÓN
