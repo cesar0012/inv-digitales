@@ -511,10 +511,17 @@ app.post('/api/auth/set-token', (req, res) => {
 
 // Función para consume-token local
 async function handleLocalConsumeToken(req, res, code) {
+  console.log('\n\n========================================');
+  console.log('🔐 INICIO FLUJO CONSUME-TOKEN');
+  console.log(`📨 Código recibido: ${code.substring(0, 25)}...`);
+  console.log('========================================');
+
   const codeHash = createHash('sha256').update(code).digest('hex');
   const now = new Date().toISOString();
   
-  console.log(`🔐 Consumiendo código SSO: ${code.substring(0, 20)}...`);
+  console.log('🔍 Buscando código SSO en DB...');
+  console.log(`   Hash: ${codeHash.substring(0, 25)}...`);
+  console.log(`   Fecha actual: ${now}`);
 
   // Buscar código válido
   const stmt = db.prepare(
@@ -523,81 +530,76 @@ async function handleLocalConsumeToken(req, res, code) {
   const codeRecord = stmt.get(codeHash, now);
   
   if (!codeRecord) {
-    console.log('❌ Código SSO inválido o expirado');
+    console.log('❌ CÓDIGO NO ENCONTRADO O EXPIRADO');
+    console.log('========================================\n');
     return res.status(401).json({ message: 'Código inválido o expirado' });
   }
   
-  console.log(`✅ Código SSO válido para usuario: ${codeRecord.user_id}`);
+  console.log('✅ CÓDIGO ENCONTRADO');
+  console.log(`   ID: ${codeRecord.id}`);
+  console.log(`   User ID: ${codeRecord.user_id}`);
+  console.log(`   User Name: ${codeRecord.user_name}`);
+  console.log(`   Access Token: ${codeRecord.access_token ? '✅ EXISTE (' + codeRecord.access_token.substring(0, 30) + '...)' : '❌ NO EXISTE'}`);
+  console.log(`   Expira: ${codeRecord.expires_at}`);
 
   // Marcar como usado (de manera atómica)
+  console.log('✅ Marcando código como usado...');
   const updateStmt = db.prepare('UPDATE local_sso_codes SET used_at = ? WHERE id = ?');
   updateStmt.run(now, codeRecord.id);
   
-  // ✅ CREAR/ACTUALIZAR USUARIO EN LA TABLA PRINCIPAL INMEDIATAMENTE
-  // Este era el ERROR PRINCIPAL: NO BUSCAMOS EN local_users. El código SSO ya valida que es un usuario válido de Laravel.
-  const userId = codeRecord.user_id;
-  const userName = codeRecord.user_name || 'Usuario';
-
-  // ✅ AHORA MISMO: OBTENER LOS DATOS REALES DEL USUARIO DE LARAVEL
-  console.log(`🔍 Consultando datos de usuario ${codeRecord.user_id} a Laravel...`);
+  let userId = codeRecord.user_id;
+  let userName = codeRecord.user_name || 'Usuario';
   
-  try {
-    const response = await fetchNoSSL(`${API_BASE_URL}/user`, {
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${codeRecord.access_token}`
-      }
-    });
-
-    console.log(`📡 Respuesta Laravel /user: ${response.status}`);
-
-    if (response.ok) {
-      const laravelUser = await response.json();
-      console.log(`✅ Usuario obtenido de Laravel: ${laravelUser.id} - ${laravelUser.name}`);
+  // ✅ USAR EL TOKEN REAL DE LARAVEL PARA OBTENER DATOS DEL USUARIO
+  if (codeRecord.access_token) {
+    console.log('\n🔍 CONSULTANDO A LARAVEL PARA OBTENER DATOS DEL USUARIO...');
+    try {
+      console.log(`   Consultando: ${API_BASE_URL}/user`);
+      console.log(`   Token: ${codeRecord.access_token.substring(0, 40)}...`);
       
-      // ✅ CREAR USUARIO INMEDIATAMENTE
-      ensureUserInDB({
-        id: laravelUser.id.toString(),
-        name: laravelUser.name
-      });
-
-      console.log(`✅ Usuario ${laravelUser.id} creado en tabla users`);
-
-      // Generar nuevo token para el editor
-      const newToken = `${laravelUser.id}|${createHash('sha256').update(`${laravelUser.id}-${Date.now()}-editor`).digest('hex')}`;
-      
-      // Guardar token en cookie
-      res.cookie('auth_token', newToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: 7 * 24 * 60 * 60 * 1000
-      });
-      
-      res.json({
-        token: newToken,
-        user: {
-          id: laravelUser.id,
-          name: laravelUser.name,
-          email: laravelUser.email,
-          role_name: laravelUser.role || 'user'
+      const userResponse = await fetchNoSSL(`${API_BASE_URL}/user`, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${codeRecord.access_token}`
         }
       });
 
-      // Sincronizar planes en segundo plano
-      console.log(`🔄 Sincronizando planes para usuario ${laravelUser.id}`);
-      syncUserPlansFromBilling(laravelUser.id.toString(), codeRecord.access_token).catch(err => 
-        console.log('❌ Error sincronizando planes:', err.message)
-      );
+      console.log(`📡 Respuesta Laravel: ${userResponse.status} ${userResponse.statusText}`);
 
-      return;
+      if (userResponse.ok) {
+        const laravelUser = await userResponse.json();
+        console.log('✅ USUARIO OBTENIDO DE LARAVEL');
+        console.log(`   ID: ${laravelUser.id}`);
+        console.log(`   Nombre: ${laravelUser.name}`);
+        console.log(`   Email: ${laravelUser.email}`);
+        
+        userId = laravelUser.id.toString();
+        userName = laravelUser.name;
+        
+        // ✅ CREAR USUARIO EN NUESTRA BASE DE DATOS
+        console.log('\n✅ CREANDO/ACTUALIZANDO USUARIO EN TABLA USERS...');
+        ensureUserInDB({
+          id: userId,
+          name: userName
+        });
+
+        console.log('✅ USUARIO CREADO/ACTUALIZADO EXITOSAMENTE');
+
+        // ✅ SINCRONIZAR PLANES
+        console.log('\n🔄 SINCRONIZANDO PLANES DEL USUARIO...');
+        await syncUserPlansFromBilling(userId, codeRecord.access_token);
+        console.log('✅ PLANES SINCRONIZADOS');
+      } else {
+        const errorText = await userResponse.text();
+        console.log(`❌ LARAVEL DEVOLVIO ERROR: ${errorText}`);
+      }
+    } catch (error) {
+      console.log(`❌ ERROR CONSULTANDO LARAVEL: ${error.message}`);
+      console.log(error.stack);
     }
-
-  } catch (error) {
-    console.log(`❌ Error consultando a Laravel: ${error.message}`);
+  } else {
+    console.log('⚠️ NO HAY ACCESS_TOKEN, USANDO FALLBACK LOCAL');
   }
-
-  // Fallback solo si falla la consulta a Laravel
   console.log(`⚠️ Usando fallback local para usuario ${codeRecord.user_id}`);
   
   // Generar nuevo token para el editor
@@ -1376,6 +1378,73 @@ app.get('/api/debug/validate-token', async (req, res) => {
       message: 'Token inválido'
     });
   }
+});
+
+// 📋 SISTEMA DE LOGS EN MEMORIA PARA DEBUG
+const serverLogs = [];
+const MAX_LOGS = 200;
+
+// Guardar todos los console.log
+const originalConsoleLog = console.log;
+console.log = (...args) => {
+  const timestamp = new Date().toISOString();
+  serverLogs.unshift({
+    time: timestamp,
+    message: args.join(' ')
+  });
+  
+  if (serverLogs.length > MAX_LOGS) {
+    serverLogs.pop();
+  }
+  
+  originalConsoleLog.apply(console, args);
+};
+
+// Endpoint para ver logs en JSON
+app.get('/api/debug/logs', (req, res) => {
+  res.json({ logs: serverLogs, total: serverLogs.length });
+});
+
+// Endpoint para ver logs en HTML legible
+app.get('/api/debug/logs/html', (req, res) => {
+  let html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Logs del Servidor</title>
+      <meta charset="utf-8">
+      <style>
+        body { font-family: monospace; background: #1a1a1a; color: #fff; padding: 20px; }
+        .log { margin: 5px 0; padding: 5px; border-bottom: 1px solid #333; }
+        .time { color: #888; margin-right: 10px; }
+        .success { color: #4ade80; }
+        .error { color: #f87171; }
+        .info { color: #60a5fa; }
+      </style>
+    </head>
+    <body>
+      <h1>Logs del Servidor</h1>
+      <h3>Total: ${serverLogs.length} logs</h3>
+      <button onclick="location.reload()">Actualizar</button>
+      <hr>
+  `;
+
+  for (const log of serverLogs) {
+    let className = '';
+    if (log.message.includes('✅')) className = 'success';
+    if (log.message.includes('❌') || log.message.includes('ERROR')) className = 'error';
+    if (log.message.includes('🔍') || log.message.includes('📡')) className = 'info';
+    
+    html += `<div class="log ${className}"><span class="time">${log.time}</span> ${log.message}</div>`;
+  }
+
+  html += `
+    </body>
+    </html>
+  `;
+  
+  res.setHeader('Content-Type', 'text/html');
+  res.send(html);
 });
 
 // DEBUG: Endpoint temporal para ver usuarios (sin auth) - REMOVER EN PRODUCCIÓN
