@@ -1635,6 +1635,27 @@ app.post('/api/admin/sync-users', adminMiddleware, async (req, res) => {
   }
 });
 
+// DEBUG: Endpoint temporal para ver usuarios (sin auth) - REMOVER EN PRODUCCIÓN
+app.get('/api/debug/users', (req, res) => {
+  const stmt = db.prepare(`
+    SELECT 
+      user_id,
+      name,
+      invitations_count,
+      iteration_credits,
+      max_invitations,
+      max_iteration_credits,
+      generation_credits,
+      max_generation_credits,
+      created_at
+    FROM users
+    ORDER BY created_at DESC
+  `);
+  
+  const users = stmt.all();
+  res.json({ total: users.length, users });
+});
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '..', 'dist')));
   app.get('*', (req, res) => {
