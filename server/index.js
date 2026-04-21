@@ -552,6 +552,24 @@ app.post('/api/auth/consume-token', async (req, res) => {
   }
 });
 
+// ✅ POST /api/auth/set-token - Guarda token en cookie httpOnly
+app.post('/api/auth/set-token', (req, res) => {
+  const { token } = req.body;
+  
+  if (!token) {
+    return res.status(400).json({ error: 'Token requerido' });
+  }
+
+  res.cookie('auth_token', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 7 * 24 * 60 * 60 * 1000
+  });
+
+  res.json({ success: true });
+});
+
 // Función para consume-token local
 function handleLocalConsumeToken(req, res, code) {
   const codeHash = createHash('sha256').update(code).digest('hex');
