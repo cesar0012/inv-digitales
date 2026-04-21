@@ -586,11 +586,6 @@ function handleLocalConsumeToken(req, res, code) {
     name: user.name
   });
   
-  // ✅ SINCRONIZAR PLANES DESPUES DE LOGIN SSO
-  syncUserPlansFromBilling(user.user_id, null).catch(err => 
-    console.log('⚠️ Sincronización de planes:', err.message)
-  );
-  
   // Generar nuevo token para el editor
   const newToken = `${user.user_id}|${createHash('sha256').update(`${user.user_id}-${Date.now()}-editor`).digest('hex')}`;
   
