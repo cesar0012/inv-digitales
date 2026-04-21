@@ -544,6 +544,69 @@ app.post('/api/auth/set-token', (req, res) => {
   res.json({ success: true });
 });
 
+// ✅ Endpoint /api/auth/user que el frontend espera - Definido en README_AUTH_API.md
+app.get('/api/auth/user', async (req, res) => {
+  console.log('\n📨 /api/auth/user endpoint llamado');
+  
+  const token = req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
+  
+  if (!token) {
+    console.log('❌ No hay token');
+    return res.status(401).json({ message: 'No autenticado' });
+  }
+  
+  console.log(`🔍 Token: ${token.substring(0, 30)}...`);
+
+  // Si es un token interno (formato id|hash)
+  if (token.includes('|')) {
+    const tokenParts = token.split('|');
+    const userId = tokenParts[0];
+    
+    console.log(`✅ Token interno detectado, usuario: ${userId}`);
+    
+    const stmt = db.prepare('SELECT * FROM users WHERE user_id = ?');
+    const user = stmt.get(userId);
+    
+    if (user) {
+      console.log(`✅ Usuario encontrado: ${user.name}`);
+      return res.json({
+        id: user.user_id,
+        name: user.name,
+        role_name: 'user'
+      });
+    }
+    
+    console.log('❌ Usuario no encontrado');
+    return res.status(401).json({ message: 'No autenticado' });
+  }
+  
+  // Si es un token de Laravel
+  try {
+    console.log('🔍 Consultando a Laravel para validar token...');
+    const response = await fetchNoSSL(`${API_BASE_URL}/user`, {
+      headers: { 
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    console.log(`📡 Respuesta Laravel: ${response.status}`);
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log('✅ Token valido de Laravel');
+      return res.status(response.status).json(data);
+    }
+    
+    console.log('❌ Token de Laravel invalido');
+    return res.status(response.status).json({ message: 'No autenticado' });
+    
+  } catch (error) {
+    console.log(`❌ Error conectando a Laravel: ${error.message}`);
+    return res.status(500).json({ message: 'Error de conexión' });
+  }
+});
+
 // Función para consume-token local
 async function handleLocalConsumeToken(req, res, code) {
   console.log('\n\n========================================');
