@@ -125,35 +125,29 @@ const authMiddleware = async (req, res, next) => {
     return res.status(401).json({ error: 'No autenticado', code: 'NO_TOKEN' });
   }
   
-  const user = await validateToken(token);
-  
-  if (!user) {
-    return res.status(401).json({ error: 'Token inválido o expirado', code: 'INVALID_TOKEN' });
-  }
-  
-  const stmt = db.prepare('SELECT user_id FROM users WHERE user_id = ?');
-  const existing = stmt.get(user.id.toString());
-  
-  if (!existing) {
-    const insertStmt = db.prepare(
-      'INSERT INTO users (user_id, invitations_count, iteration_credits, max_invitations, max_iteration_credits) VALUES (?, ?, ?, ?, ?)'
-    );
-    insertStmt.run(user.id.toString(), 0, 10, 20, 10);
-    console.log(`✅ Usuario ${user.id} creado automáticamente en DB local`);
-  }
-  
-  // Si es un token de Laravel válido, CREAR USUARIO AUTOMATICAMENTE SI NO EXISTE
-  console.log(`🔐 Token validado, usuario: ${user.id}, nombre: ${user.name || 'Usuario'}`);
-  
-  // ✅ CREAR/ACTUALIZAR USUARIO AUTOMATICAMENTE EN CUALQUIER REQUEST AUTENTICADO
-  ensureUserInDB({
-    id: user.id.toString(),
-    name: user.name
-  });
+  try {
+    const user = await validateToken(token);
+    
+    if (!user) {
+      return res.status(401).json({ error: 'Token inválido o expirado', code: 'INVALID_TOKEN' });
+    }
+    
+    console.log(`🔐 Token validado, usuario: ${user.id}, nombre: ${user.name || 'Usuario'}`);
+    
+    // ✅ CREAR/ACTUALIZAR USUARIO AUTOMATICAMENTE
+    ensureUserInDB({
+      id: user.id.toString(),
+      name: user.name
+    });
 
-  req.user = user;
-  next();
-}
+    req.user = user;
+    next();
+    
+  } catch (error) {
+    console.log(`❌ Error en authMiddleware: ${error.message}`);
+    return res.status(500).json({ error: 'Error de autenticación' });
+  }
+};
 
 const getUserInvitations = (userId) => {
   const userFolder = join(storagePath, userId);
