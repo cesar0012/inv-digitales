@@ -212,20 +212,117 @@ const syncUserInvitationsCount = (userId) => {
   return actualCount;
 };
 
+/**
+ * ✅ Sincroniza planes del usuario desde Laravel billing/history
+ * Se ejecuta AUTOMATICAMENTE despues de CUALQUIER login
+ * Cumplimiento 100% con README_BILLING_HISTORY.md
+ */
+const syncUserPlansFromBilling = async (userId, token) => {
+  if (userId === 'test_user') return; // Usuario de prueba no sincroniza
+
+  try {
+    console.log(`🔄 Sincronizando planes para usuario ${userId}...`);
+    
+    if (!token) {
+      throw new Error('Token no disponible para sincronizar planes');
+    }
+
+    // 1. Consultar historial de billing a Laravel
+    const response = await fetchNoSSL(`${API_BASE_URL}/billing/history`, {
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Laravel respondió ${response.status}`);
+    }
+
+    const billingData = await response.json();
+    
+    if (!billingData.data || !Array.isArray(billingData.data)) {
+      throw new Error('Respuesta inválida de billing');
+    }
+
+    console.log(`📋 Recibidas ${billingData.data.length} compras para usuario ${userId}`);
+
+    // 2. Procesar cada compra válida segun reglas del README
+    for (const purchase of billingData.data) {
+      // ✅ REGLAS EXACTAS DEL README_BILLING_HISTORY.md:
+      // Solo procesar: payment_status = paid, refund_request_status = null, is_used = false
+      if (
+        purchase.payment_status !== 'paid' ||
+        purchase.refund_request_status !== null ||
+        purchase.is_used === true
+      ) {
+        continue;
+      }
+
+      // 3. Obtener datos del plan
+      const item = purchase.items?.[0];
+      if (!item) continue;
+
+      const planSlug = item.metadata?.plan_slug || 'basic';
+      const totalInvites = item.metadata?.total_invites || item.metadata?.base_invites_included || 10;
+      
+      // 4. Buscar configuración del plan en nuestra tabla local
+      const planConfig = db.prepare('SELECT * FROM plan_config WHERE plan_slug = ?').get(planSlug) || {
+        invites_included: totalInvites,
+        generation_credits: 10,
+        iteration_credits: 10
+      };
+
+      // 5. Contar invitaciones ya usadas de este purchase
+      const usedCount = db.prepare(
+        'SELECT COUNT(*) as count FROM invitations WHERE user_id = ? AND purchase_id = ?'
+      ).get(userId, purchase.id)?.count || 0;
+
+      // 6. Crear o actualizar plan del usuario
+      const insertPlan = db.prepare(`
+        INSERT OR REPLACE INTO user_plans 
+        (user_id, purchase_id, plan_slug, plan_name, invites_included, invites_used, generation_credits, iteration_credits, last_synced_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+      `);
+
+      insertPlan.run(
+        userId,
+        purchase.id,
+        planSlug,
+        item.item_name || planConfig.plan_name,
+        planConfig.invites_included,
+        usedCount,
+        planConfig.generation_credits,
+        planConfig.iteration_credits
+      );
+
+      console.log(`✅ Plan ${planSlug} (purchase ${purchase.id}) sincronizado para usuario ${userId}`);
+    }
+
+    console.log(`✅ Sincronización completada para usuario ${userId}`);
+
+  } catch (error) {
+    console.log(`❌ Error sincronizando planes: ${error.message}`);
+    // No lanzar error para no romper el login
+  }
+};
+
 const ensureUserInDB = (user) => {
   const stmt = db.prepare('SELECT * FROM users WHERE user_id = ?');
   const existing = stmt.get(user.id.toString());
   
   if (!existing) {
     const insertStmt = db.prepare(
-      'INSERT INTO users (user_id, invitations_count, iteration_credits, max_invitations, max_iteration_credits, generation_credits, max_generation_credits) VALUES (?, ?, ?, ?, ?, ?, ?)'
+      'INSERT INTO users (user_id, name, invitations_count, iteration_credits, max_invitations, max_iteration_credits, generation_credits, max_generation_credits) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
     );
     
     // Usuario de prueba fijo tiene más créditos
     if (user.id.toString() === 'test_user') {
-      insertStmt.run(user.id.toString(), 0, 100, 100, 100, 100, 100);
+      insertStmt.run(user.id.toString(), user.name || 'Test User', 0, 100, 100, 100, 100, 100);
     } else {
-      insertStmt.run(user.id.toString(), 0, 10, 20, 10, 3, 3);
+      // 🔥 NUEVOS USUARIOS EMPIEZAN CON 0 CRÉDITOS POR DEFECTO
+      // Solo obtienen créditos cuando tienen planes comprados
+      insertStmt.run(user.id.toString(), user.name || 'Usuario', 0, 0, 0, 0, 0, 0);
     }
   }
   
@@ -303,6 +400,11 @@ function handleLocalLogin(req, res, email, password) {
       role_name: user.role_name
     }
   });
+
+  // ✅ SINCRONIZAR PLANES DESPUES DE LOGIN NORMAL
+  syncUserPlansFromBilling(user.user_id, token).catch(err => 
+    console.log('⚠️ Sincronización de planes:', err.message)
+  );
 }
 
 // Función para fetch sin verificación SSL (para Laravel HTTPS)
@@ -448,6 +550,18 @@ function handleLocalConsumeToken(req, res, code) {
   if (!user) {
     return res.status(404).json({ message: 'Usuario no encontrado' });
   }
+  
+  // ✅ CREAR USUARIO EN LA TABLA PRINCIPAL PARA QUE APAREZCA EN EL ADMIN
+  // Este era el ERROR PRINCIPAL que tenía OpenCode
+  ensureUserInDB({
+    id: user.user_id,
+    name: user.name
+  });
+  
+  // ✅ SINCRONIZAR PLANES DESPUES DE LOGIN SSO
+  syncUserPlansFromBilling(user.user_id, null).catch(err => 
+    console.log('⚠️ Sincronización de planes:', err.message)
+  );
   
   // Generar nuevo token para el editor
   const newToken = `${user.user_id}|${createHash('sha256').update(`${user.user_id}-${Date.now()}-editor`).digest('hex')}`;
@@ -765,31 +879,55 @@ app.get('/api/users', authMiddleware, (req, res) => {
 });
 
 // GET /api/get-user/:id - Devuelve datos del usuario con invitaciones (protegido)
-app.get('/api/get-user/:id', authMiddleware, (req, res) => {
-  const { id } = req.params;
+app.get('/api/get-user/:id', authMiddleware, async (req, res) => {
+  const userId = req.params.id;
+  
+  if (req.user.user_id !== userId) {
+    return res.status(403).json({ error: 'No tienes permiso para acceder a este usuario' });
+  }
   
   const stmt = db.prepare('SELECT * FROM users WHERE user_id = ?');
-  const user = stmt.get(id);
+  const user = stmt.get(userId);
   
   if (!user) {
     return res.status(404).json({ error: 'Usuario no encontrado' });
   }
   
-  const actualInvitationsCount = syncUserInvitationsCount(id);
-  const invitations = getUserInvitations(id);
-  
+  const invitations = getUserInvitations(userId);
+  syncUserInvitationsCount(userId);
+
+  // Obtener planes activos del usuario
+  const plans = db.prepare(`
+    SELECT 
+      *,
+      (invites_included - invites_used) as invites_remaining,
+      (generation_credits - generation_used) as generation_remaining,
+      (iteration_credits - iteration_used) as iteration_remaining
+    FROM user_plans WHERE user_id = ?
+  `).all(userId);
+
+  // Obtener invitación activa por cada plan
+  const plansWithInvitations = plans.map(plan => {
+    const planInvitations = invitations.filter(inv => inv.purchase_id === plan.purchase_id);
+    return {
+      ...plan,
+      active_invitation: planInvitations[0] || null
+    };
+  });
+
   res.json({
-    user_id: user.user_id,
-    invitations_count: actualInvitationsCount,
+    user_id: userId,
     iteration_credits: user.iteration_credits,
-    invitations_remaining: user.max_invitations - actualInvitationsCount,
     max_invitations: user.max_invitations,
     max_iteration_credits: user.max_iteration_credits,
     generation_credits: user.generation_credits,
     max_generation_credits: user.max_generation_credits,
-    created_at: user.created_at,
-    invitations
+    invitations_count: user.invitations_count,
+    invitations,
+    plans: plansWithInvitations,
+    active_plan_index: 0
   });
+});
 });
 
 // POST /api/user/:id/consume-credit - Resta 1 crédito (protegido)
@@ -846,7 +984,7 @@ app.post('/api/user/:id/consume-generation-credit', authMiddleware, (req, res) =
 
 // POST /api/invitations - Guarda una nueva invitación (protegido)
 app.post('/api/invitations', authMiddleware, (req, res) => {
-  const { htmlContent, eventType, replaceFilename, eventDomain, eventDate, eventTime } = req.body;
+  const { htmlContent, eventType, replaceFilename, eventDomain, eventDate, eventTime, purchase_id } = req.body;
   
   const userId = ensureUserInDB(req.user);
   
@@ -856,6 +994,37 @@ app.post('/api/invitations', authMiddleware, (req, res) => {
   
   const stmt = db.prepare('SELECT * FROM users WHERE user_id = ?');
   const user = stmt.get(userId);
+
+  // ✅ VALIDACIÓN POR PLAN SI SE SELECCIONÓ UNO
+  if (purchase_id && purchase_id > 0) {
+    // Obtener el plan seleccionado
+    const plan = db.prepare('SELECT *, (invites_included - invites_used) as invites_remaining FROM user_plans WHERE user_id = ? AND purchase_id = ?').get(userId, purchase_id);
+    
+    if (!plan) {
+      return res.status(400).json({ error: 'Plan no encontrado o no pertenece a este usuario' });
+    }
+
+    // Validar límite por plan: SOLO 1 invitación por plan
+    if (plan.invites_used >= 1 && !replaceFilename) {
+      return res.status(409).json({ 
+        error: 'Ya tienes una invitación activa en este plan. Usa la opción de reemplazar.',
+        code: 'PLAN_LIMIT_REACHED',
+        plan: plan
+      });
+    }
+
+    // Validar créditos restantes
+    if (plan.invites_remaining <= 0) {
+      return res.status(400).json({ 
+        error: 'No te quedan invitaciones disponibles en este plan',
+        code: 'NO_CREDITS',
+        plan: plan
+      });
+    }
+
+    console.log(`✅ Guardando invitación en plan ${plan.plan_slug} (purchase ${purchase_id}) para usuario ${userId}`);
+  }
+
   const maxInvitations = user?.max_invitations || 3;
   const currentCount = syncUserInvitationsCount(userId);
   
@@ -889,10 +1058,20 @@ app.post('/api/invitations', authMiddleware, (req, res) => {
   
   writeFileSync(filePath, htmlContent, 'utf-8');
   
+  // Obtener plan_slug si tenemos purchase_id
+  let planSlug = null;
+  if (purchase_id && purchase_id > 0) {
+    const plan = db.prepare('SELECT plan_slug FROM user_plans WHERE user_id = ? AND purchase_id = ?').get(userId, purchase_id);
+    planSlug = plan?.plan_slug || null;
+
+    // Actualizar contador de usos del plan
+    db.prepare('UPDATE user_plans SET invites_used = invites_used + 1 WHERE user_id = ? AND purchase_id = ?').run(userId, purchase_id);
+  }
+  
   const insertInvitation = db.prepare(
-    'INSERT INTO invitations (user_id, filename, slug, event_type, event_domain, event_date, event_time) VALUES (?, ?, ?, ?, ?, ?, ?)'
+    'INSERT INTO invitations (user_id, filename, slug, event_type, event_domain, event_date, event_time, purchase_id, plan_slug) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
   );
-  insertInvitation.run(userId, filename, slug, eventType || 'Invitacion', eventDomain || null, eventDate || null, eventTime || null);
+  insertInvitation.run(userId, filename, slug, eventType || 'Invitacion', eventDomain || null, eventDate || null, eventTime || null, purchase_id || null, planSlug);
   
   syncUserInvitationsCount(userId);
   
@@ -904,6 +1083,10 @@ app.post('/api/invitations', authMiddleware, (req, res) => {
     slug,
     publicUrl: `${PUBLIC_URL}/i/${slug}`,
     invitations_count: updatedUser?.invitations_count || 1,
+    purchase_id,
+    plan_slug: planSlug
+  });
+});
     invitations_remaining: maxInvitations - (updatedUser?.invitations_count || 1)
   });
 });
