@@ -388,13 +388,22 @@ const fetchNoSSL = async (url, options = {}) => {
 
 // POST /api/auth/issue - SOLO LARAVEL
 app.post('/api/auth/issue', async (req, res) => {
+  console.log('\n\n==================================================');
+  console.log('📨 PETICIÓN RECIBIDA A /api/auth/issue');
+  console.log(`   Authorization: ${req.headers.authorization?.substring(0, 40)}...`);
+  console.log('==================================================');
+
   const token = req.headers.authorization?.replace('Bearer ', '');
   
   if (!token) {
+    console.log('❌ NO HAY TOKEN EN LA PETICIÓN');
     return res.status(401).json({ error: 'Token requerido' });
   }
   
+  console.log('✅ Token de Laravel detectado');
+  
   try {
+    console.log('🔍 Consultando Laravel issue...');
     const response = await fetchNoSSL(`${API_BASE_URL}/issue`, {
       method: 'POST',
       headers: { 
@@ -405,10 +414,14 @@ app.post('/api/auth/issue', async (req, res) => {
       body: JSON.stringify(req.body)
     });
     
+    console.log(`📡 Respuesta Laravel: ${response.status}`);
+
     if (response.ok) {
       const data = await response.json();
+      console.log('✅ Laravel respondió OK con código:', data.code?.substring(0, 20), '...');
       
       try {
+        console.log('\n🔍 Consultando datos del usuario a Laravel...');
         const userResponse = await fetchNoSSL(`${API_BASE_URL}/user`, {
           headers: {
             'Accept': 'application/json',
@@ -418,9 +431,16 @@ app.post('/api/auth/issue', async (req, res) => {
         
         if (userResponse.ok) {
           const user = await userResponse.json();
+          console.log('✅ USUARIO OBTENIDO DE LARAVEL');
+          console.log(`   ID: ${user.id}`);
+          console.log(`   Nombre: ${user.name}`);
+          console.log(`   Email: ${user.email}`);
+          
+          // Generar código igual al de Laravel
           const codeHash = createHash('sha256').update(data.code).digest('hex');
           const expiresAt = new Date(Date.now() + 60 * 1000).toISOString();
           
+          console.log('\n✅ Guardando código SSO en DB...');
           const insertStmt = db.prepare(`
             INSERT INTO local_sso_codes 
             (user_id, user_name, access_token, code_hash, purpose, expires_at) 
@@ -436,22 +456,37 @@ app.post('/api/auth/issue', async (req, res) => {
             expiresAt
           );
           
+          console.log('✅ Código SSO guardado exitosamente');
+          
+          // ✅ CREAR USUARIO AQUI MISMO, ANTES DE DEVOLVER NADA
+          console.log('\n✅ CREANDO/ACTUALIZANDO USUARIO EN TABLA USERS...');
           ensureUserInDB({
             id: user.id.toString(),
             name: user.name
           });
+          
+          console.log('✅ USUARIO CREADO/ACTUALIZADO EXITOSAMENTE');
+
+          // ✅ SINCRONIZAR PLANES AQUI MISMO
+          console.log('\n🔄 SINCRONIZANDO PLANES DEL USUARIO...');
+          await syncUserPlansFromBilling(user.id.toString(), token);
+          console.log('✅ PLANES SINCRONIZADOS EXITOSAMENTE');
         }
       } catch (userError) {
-        console.log('⚠️ Error guardando código SSO:', userError.message);
+        console.log('⚠️ Error procesando usuario:', userError.message);
       }
       
+      console.log('\n✅ Devolviendo código SSO al cliente');
+      console.log('==================================================\n');
       return res.status(response.status).json(data);
     }
     
-    return res.status(response.status).json(await response.json());
+    console.log('⚠️ Laravel respondió con error, usando fallback local');
+    return handleLocalIssue(req, res, token);
     
   } catch (error) {
-    return res.status(500).json({ error: 'Error de conexión' });
+    console.log(`❌ ERROR conectando a Laravel: ${error.message}`);
+    return handleLocalIssue(req, res, token);
   }
 });
 
