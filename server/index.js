@@ -533,12 +533,6 @@ app.post('/api/auth/issue', async (req, res) => {
     if (response.ok) {
       const data = await response.json();
       
-      // ✅ ✅ ✅ AQUI ESTABA EL PROBLEMA MÁS GRANDE
-      // Cuando Laravel responde con el código SSO, LO GUARDAMOS NOSOTROS MISMOS
-      // Con el token REAL de Laravel para luego poder consultar datos del usuario
-      console.log('✅ Código SSO recibido de Laravel, guardando en DB...');
-      
-      // Primero obtener datos del usuario
       try {
         const userResponse = await fetchNoSSL(`${API_BASE_URL}/user`, {
           headers: {
@@ -549,12 +543,9 @@ app.post('/api/auth/issue', async (req, res) => {
         
         if (userResponse.ok) {
           const user = await userResponse.json();
-          
-          // Generar código igual al de Laravel
           const codeHash = createHash('sha256').update(data.code).digest('hex');
           const expiresAt = new Date(Date.now() + 60 * 1000).toISOString();
           
-          // ✅ GUARDAR EL TOKEN REAL DE LARAVEL PARA DESPUES PODER USARLO
           const insertStmt = db.prepare(`
             INSERT INTO local_sso_codes 
             (user_id, user_name, access_token, code_hash, purpose, expires_at) 
@@ -570,40 +561,22 @@ app.post('/api/auth/issue', async (req, res) => {
             expiresAt
           );
           
-          console.log(`✅ Código SSO guardado para usuario ${user.id} - ${user.name}`);
-          
-          // ✅ CREAR USUARIO AQUI MISMO, ANTES DE DEVOLVER LA RESPUESTA
           ensureUserInDB({
             id: user.id.toString(),
             name: user.name
           });
-          
-          console.log(`✅ Usuario ${user.id} creado/actualizado`);
         }
       } catch (userError) {
-        console.log('⚠️ No se pudo guardar código SSO:', userError.message);
+        console.log('⚠️ Error guardando código SSO:', userError.message);
       }
       
       return res.status(response.status).json(data);
     }
     
-    // Fallback local
     return handleLocalIssue(req, res, token);
     
   } catch (error) {
     console.log('⚠️ Error conectando a Laravel issue:', error.message);
-    return handleLocalIssue(req, res, token);
-  }
-});
-    
-    if (response.ok) {
-      return res.json(await response.json());
-    }
-    
-    // Fallback local
-    return handleLocalIssue(req, res, token);
-    
-  } catch (error) {
     return handleLocalIssue(req, res, token);
   }
 });
