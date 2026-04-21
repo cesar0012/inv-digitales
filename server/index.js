@@ -218,16 +218,21 @@ const syncUserInvitationsCount = (userId) => {
  * Cumplimiento 100% con README_BILLING_HISTORY.md
  */
 const syncUserPlansFromBilling = async (userId, token) => {
-  if (userId === 'test_user') return; // Usuario de prueba no sincroniza
+  if (userId === 'test_user') {
+    console.log(`ℹ️ Usuario test_user no sincroniza planes`);
+    return;
+  }
 
   try {
     console.log(`🔄 Sincronizando planes para usuario ${userId}...`);
+    console.log(`🔑 Token: ${token?.substring(0, 20)}...`);
     
     if (!token) {
       throw new Error('Token no disponible para sincronizar planes');
     }
 
     // 1. Consultar historial de billing a Laravel
+    console.log(`📡 Consultando ${API_BASE_URL}/billing/history...`);
     const response = await fetchNoSSL(`${API_BASE_URL}/billing/history`, {
       headers: {
         'Accept': 'application/json',
@@ -235,11 +240,16 @@ const syncUserPlansFromBilling = async (userId, token) => {
       }
     });
 
+    console.log(`📡 Respuesta status: ${response.status}`);
+
     if (!response.ok) {
+      const errorText = await response.text();
+      console.log(`❌ Error Laravel: ${errorText}`);
       throw new Error(`Laravel respondió ${response.status}`);
     }
 
     const billingData = await response.json();
+    console.log(`📋 Billing data recibida:`, JSON.stringify(billingData, null, 2));
     
     if (!billingData.data || !Array.isArray(billingData.data)) {
       throw new Error('Respuesta inválida de billing');
@@ -249,6 +259,11 @@ const syncUserPlansFromBilling = async (userId, token) => {
 
     // 2. Procesar cada compra válida segun reglas del README
     for (const purchase of billingData.data) {
+      console.log(`🔍 Analizando purchase ${purchase.id}:`);
+      console.log(`   payment_status: ${purchase.payment_status}`);
+      console.log(`   refund_request_status: ${purchase.refund_request_status}`);
+      console.log(`   is_used: ${purchase.is_used}`);
+      
       // ✅ REGLAS EXACTAS DEL README_BILLING_HISTORY.md:
       // Solo procesar: payment_status = paid, refund_request_status = null, is_used = false
       if (
@@ -256,15 +271,23 @@ const syncUserPlansFromBilling = async (userId, token) => {
         purchase.refund_request_status !== null ||
         purchase.is_used === true
       ) {
+        console.log(`   ⚠️ Purchase ${purchase.id} inválida, saltando`);
         continue;
       }
 
+      console.log(`   ✅ Purchase ${purchase.id} válida`);
+
       // 3. Obtener datos del plan
       const item = purchase.items?.[0];
-      if (!item) continue;
+      if (!item) {
+        console.log(`   ❌ No hay items en purchase ${purchase.id}`);
+        continue;
+      }
 
       const planSlug = item.metadata?.plan_slug || 'basic';
       const totalInvites = item.metadata?.total_invites || item.metadata?.base_invites_included || 10;
+      
+      console.log(`   📦 Plan detectado: ${planSlug}, invitaciones: ${totalInvites}`);
       
       // 4. Buscar configuración del plan en nuestra tabla local
       const planConfig = db.prepare('SELECT * FROM plan_config WHERE plan_slug = ?').get(planSlug) || {
@@ -273,10 +296,14 @@ const syncUserPlansFromBilling = async (userId, token) => {
         iteration_credits: 10
       };
 
+      console.log(`   ⚙️ Configuración plan:`, planConfig);
+
       // 5. Contar invitaciones ya usadas de este purchase
       const usedCount = db.prepare(
         'SELECT COUNT(*) as count FROM invitations WHERE user_id = ? AND purchase_id = ?'
       ).get(userId, purchase.id)?.count || 0;
+
+      console.log(`   📊 Invitaciones usadas: ${usedCount}`);
 
       // 6. Crear o actualizar plan del usuario
       const insertPlan = db.prepare(`
@@ -303,6 +330,7 @@ const syncUserPlansFromBilling = async (userId, token) => {
 
   } catch (error) {
     console.log(`❌ Error sincronizando planes: ${error.message}`);
+    console.log(error.stack);
     // No lanzar error para no romper el login
   }
 };
@@ -583,511 +611,15 @@ function handleLocalConsumeToken(req, res, code) {
       role_name: user.role_name
     }
   });
+
+  // ✅ SINCRONIZAR PLANES DESPUES DE LOGIN SSO
+  console.log(`🔄 Iniciando sincronización de planes para usuario ${user.user_id} después de SSO`);
+  syncUserPlansFromBilling(user.user_id, newToken).catch(err => 
+    console.log('❌ Error sincronizando planes SSO:', err.message)
+  );
 }
-
-// GET /api/auth/user - Proxy para obtener usuario (con fallback local)
-app.get('/api/auth/user', async (req, res) => {
-  const token = req.headers.authorization?.replace('Bearer ', '');
-  
-  if (!token) {
-    return res.status(401).json({ error: 'Token requerido' });
-  }
-  
-  // Excepción para usuario de prueba - NO va a Laravel
-  const tokenParts = token.split('|');
-  const userId = tokenParts[0];
-  
-  if (userId === 'test_user') {
-    return handleLocalUser(req, res, token);
-  }
-  
-  try {
-    const response = await fetchNoSSL(`${API_BASE_URL}/user`, {
-      headers: { 
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    
-    if (response.ok) {
-      const data = await response.json();
-      return res.status(response.status).json(data);
-    }
-    
-    // Fallback local
-    console.log('⚠️ Laravel no disponible, usando user local...');
-    return handleLocalUser(req, res, token);
-    
-  } catch (error) {
-    console.log('⚠️ Error conectando a Laravel:', error.message);
-    return handleLocalUser(req, res, token);
-  }
-});
-
-function handleLocalUser(req, res, token) {
-  const user = validateLocalToken(token);
-  
-  if (!user) {
-    return res.status(401).json({ error: 'Token inválido' });
-  }
-  
-  res.json(user);
-}
-
-// POST /api/auth/logout - Proxy para logout (con fallback local)
-app.post('/api/auth/logout', async (req, res) => {
-  const token = req.headers.authorization?.replace('Bearer ', '');
-  
-  // Excepción para usuario de prueba - NO va a Laravel
-  if (token) {
-    const tokenParts = token.split('|');
-    const userId = tokenParts[0];
-    
-    if (userId === 'test_user') {
-      return handleLocalLogout(req, res);
-    }
-  }
-  
-  try {
-    const response = await fetchNoSSL(`${API_BASE_URL}/logout`, {
-      method: 'POST',
-      headers: { 
-        'Authorization': token ? `Bearer ${token}` : ''
-      }
-    });
-    
-    if (response.ok) {
-      const data = await response.json();
-      return res.status(response.status).json(data);
-    }
-    
-    // Fallback local
-    console.log('⚠️ Laravel no disponible, usando logout local...');
-    return handleLocalLogout(req, res);
-    
-  } catch (error) {
-    console.log('⚠️ Error conectando a Laravel:', error.message);
-    return handleLocalLogout(req, res);
-  }
-});
-
-function handleLocalLogout(req, res) {
-  res.clearCookie('auth_token');
-  res.json({ message: 'Sesión cerrada' });
-}
-
-// ==================== FIN PROXY ENDPOINTS ====================
-
-// ==================== LOCAL IMAGE ENDPOINTS ====================
-
-// GET /api/images/:folder/list - Lista imágenes de una carpeta
-app.get('/api/images/:folder/list', (req, res) => {
-  const { folder } = req.params;
-  const folderPath = join(imgPath, folder);
-  
-  if (!existsSync(folderPath)) {
-    return res.json({ images: [], error: 'Carpeta no encontrada' });
-  }
-  
-  try {
-    const files = readdirSync(folderPath)
-      .filter(f => /\.(jpg|jpeg|png|webp|gif)$/i.test(f));
-    
-    res.json({ images: files, total: files.length });
-  } catch (error) {
-    res.json({ images: [], error: 'Error al leer carpeta' });
-  }
-});
-
-// GET /api/images/:folder/random - Obtiene imagen aleatoria
-app.get('/api/images/:folder/random', (req, res) => {
-  const { folder } = req.params;
-  const folderPath = join(imgPath, folder);
-  
-  if (!existsSync(folderPath)) {
-    return res.status(404).json({ error: 'Carpeta no encontrada' });
-  }
-  
-  try {
-    const files = readdirSync(folderPath)
-      .filter(f => /\.(jpg|jpeg|png|webp|gif)$/i.test(f));
-    
-    if (files.length === 0) {
-      return res.status(404).json({ error: 'No hay imágenes en la carpeta' });
-    }
-    
-    const randomFile = files[Math.floor(Math.random() * files.length)];
-    res.redirect(`/img/${folder}/${randomFile}`);
-  } catch (error) {
-    res.status(500).json({ error: 'Error al obtener imagen' });
-  }
-});
-
-// GET /api/images/list-all - Lista todas las carpetas con imágenes
-app.get('/api/images/list-all', (req, res) => {
-  try {
-    if (!existsSync(imgPath)) {
-      return res.json({ folders: [] });
-    }
-    
-    const folders = readdirSync(imgPath, { withFileTypes: true })
-      .filter(d => d.isDirectory())
-      .map(d => {
-        const folderPath = join(imgPath, d.name);
-        const images = readdirSync(folderPath)
-          .filter(f => /\.(jpg|jpeg|png|webp|gif)$/i.test(f));
-        return {
-          name: d.name,
-          count: images.length
-        };
-      })
-      .filter(f => f.count > 0);
-    
-    res.json({ folders });
-  } catch (error) {
-    res.json({ folders: [], error: 'Error al listar carpetas' });
-  }
-});
-
-// ==================== FIN LOCAL IMAGE ENDPOINTS ====================
-
-// GET /i/:slug - Público - Sirve la invitación HTML
-app.get('/i/:slug', (req, res) => {
-  const { slug } = req.params;
-  
-  const stmt = db.prepare('SELECT * FROM invitations WHERE slug = ?');
-  const invitation = stmt.get(slug);
-  
-  if (!invitation) {
-    return res.status(404).send(`
-      <!DOCTYPE html>
-      <html>
-      <head><title>Invitación no encontrada</title></head>
-      <body style="display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:sans-serif;background:#fdf2f8;">
-        <div style="text-align:center;padding:2rem;">
-          <h1 style="color:#be185d;">Invitación no encontrada</h1>
-          <p style="color:#6b7280;">Esta invitación no existe o ha sido eliminada.</p>
-        </div>
-      </body>
-      </html>
-    `);
-  }
-  
-  const filePath = join(storagePath, invitation.user_id, invitation.filename);
-  
-  if (!existsSync(filePath)) {
-    return res.status(404).send('Archivo no encontrado');
-  }
-  
-  const content = readFileSync(filePath, 'utf-8');
-  res.setHeader('Content-Type', 'text/html; charset=utf-8');
-  res.send(content);
-});
-
-// POST /api/auth/set-token - Guarda token en cookie httpOnly
-app.post('/api/auth/set-token', (req, res) => {
-  const { token } = req.body;
-  
-  if (!token) {
-    return res.status(400).json({ error: 'Token requerido' });
-  }
-  
-  res.cookie('auth_token', token, {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'none',
-    maxAge: 7 * 24 * 60 * 60 * 1000
-  });
-  
-  res.json({ success: true });
-});
-
-// POST /api/auth/set-token - Guarda token en cookie httpOnly
-app.post('/api/auth/set-token', (req, res) => {
-  const { token } = req.body;
-  
-  if (!token) {
-    return res.status(400).json({ error: 'Token requerido' });
-  }
-  
-  console.log('=== SET TOKEN DEBUG ===');
-  console.log('Setting cookie for token:', token.substring(0, 20) + '...');
-  console.log('========================');
-  
-  res.cookie('auth_token', token, {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'none',
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-    domain: 'localhost'
-  });
-  
-  res.json({ success: true });
-});
-
-// POST /api/auth/logout - Elimina cookie de autenticación
-app.post('/api/auth/logout', (req, res) => {
-  res.clearCookie('auth_token');
-  res.json({ success: true });
-});
-
-// GET /api/auth/me - Obtiene usuario actual
-app.get('/api/auth/me', async (req, res) => {
-  const token = req.cookies?.auth_token;
-  
-  if (!token) {
-    return res.json({ user: null, authenticated: false });
-  }
-  
-  const user = await validateToken(token);
-  
-  if (!user) {
-    res.clearCookie('auth_token');
-    return res.json({ user: null, authenticated: false });
-  }
-  
-  res.json({ user, authenticated: true });
-});
-
-// GET /api/users - Devuelve todos los usuarios con sus invitaciones (protegido)
-app.get('/api/users', authMiddleware, (req, res) => {
-  const usersStmt = db.prepare('SELECT * FROM users');
-  const users = usersStmt.all();
-  
-  const usersWithInvitations = users.map(user => {
-    const actualInvitationsCount = syncUserInvitationsCount(user.user_id);
-    const invitations = getUserInvitations(user.user_id);
-    
-    return {
-      user_id: user.user_id,
-      invitations_count: actualInvitationsCount,
-      iteration_credits: user.iteration_credits,
-      invitations_remaining: user.max_invitations - actualInvitationsCount,
-      max_invitations: user.max_invitations,
-      max_iteration_credits: user.max_iteration_credits,
-      generation_credits: user.generation_credits,
-      max_generation_credits: user.max_generation_credits,
-      created_at: user.created_at,
-      invitations
-    };
-  });
-  
-  res.json({
-    users: usersWithInvitations,
-    total: usersWithInvitations.length
-  });
-});
-
-// GET /api/get-user/:id - Devuelve datos del usuario con invitaciones (protegido)
-app.get('/api/get-user/:id', authMiddleware, async (req, res) => {
-  const userId = req.params.id;
-  
-  if (req.user.user_id !== userId) {
-    return res.status(403).json({ error: 'No tienes permiso para acceder a este usuario' });
-  }
-  
-  const stmt = db.prepare('SELECT * FROM users WHERE user_id = ?');
-  const user = stmt.get(userId);
-  
-  if (!user) {
-    return res.status(404).json({ error: 'Usuario no encontrado' });
-  }
-  
-  const invitations = getUserInvitations(userId);
-  syncUserInvitationsCount(userId);
-
-  // Obtener planes activos del usuario
-  const plans = db.prepare(`
-    SELECT 
-      *,
-      (invites_included - invites_used) as invites_remaining,
-      (generation_credits - generation_used) as generation_remaining,
-      (iteration_credits - iteration_used) as iteration_remaining
-    FROM user_plans WHERE user_id = ?
-  `).all(userId);
-
-  // Obtener invitación activa por cada plan
-  const plansWithInvitations = plans.map(plan => {
-    const planInvitations = invitations.filter(inv => inv.purchase_id === plan.purchase_id);
-    return {
-      ...plan,
-      active_invitation: planInvitations[0] || null
-    };
-  });
-
-  res.json({
-    user_id: userId,
-    iteration_credits: user.iteration_credits,
-    max_invitations: user.max_invitations,
-    max_iteration_credits: user.max_iteration_credits,
-    generation_credits: user.generation_credits,
-    max_generation_credits: user.max_generation_credits,
-    invitations_count: user.invitations_count,
-    invitations,
-    plans: plansWithInvitations,
-    active_plan_index: 0
-  });
-});
-
-// POST /api/user/:id/consume-credit - Resta 1 crédito (protegido)
-app.post('/api/user/:id/consume-credit', authMiddleware, (req, res) => {
-  const { id } = req.params;
-  
-  const stmt = db.prepare('SELECT * FROM users WHERE user_id = ?');
-  const user = stmt.get(id);
-  
-  if (!user) {
-    return res.status(404).json({ error: 'Usuario no encontrado' });
-  }
-  
-  if (user.iteration_credits <= 0) {
-    return res.status(400).json({ error: 'No tienes créditos de iteración disponibles' });
-  }
-  
-  const updateStmt = db.prepare('UPDATE users SET iteration_credits = iteration_credits - 1 WHERE user_id = ?');
-  updateStmt.run(id);
-  
-  const updatedUser = db.prepare('SELECT * FROM users WHERE user_id = ?').get(id);
-  
-  res.json({
-    success: true,
-    iteration_credits: updatedUser.iteration_credits
-  });
-});
-
-// POST /api/user/:id/consume-generation-credit - Resta 1 crédito de generación (protegido)
-app.post('/api/user/:id/consume-generation-credit', authMiddleware, (req, res) => {
-  const { id } = req.params;
-  
-  const stmt = db.prepare('SELECT * FROM users WHERE user_id = ?');
-  const user = stmt.get(id);
-  
-  if (!user) {
-    return res.status(404).json({ error: 'Usuario no encontrado' });
-  }
-  
-  if (user.generation_credits <= 0) {
-    return res.status(400).json({ error: 'No tienes créditos de generación disponibles' });
-  }
-  
-  const updateStmt = db.prepare('UPDATE users SET generation_credits = generation_credits - 1 WHERE user_id = ?');
-  updateStmt.run(id);
-  
-  const updatedUser = db.prepare('SELECT * FROM users WHERE user_id = ?').get(id);
-  
-  res.json({
-    success: true,
-    generation_credits: updatedUser.generation_credits
-  });
-});
 
 // POST /api/invitations - Guarda una nueva invitación (protegido)
-app.post('/api/invitations', authMiddleware, (req, res) => {
-  const { htmlContent, eventType, replaceFilename, eventDomain, eventDate, eventTime, purchase_id } = req.body;
-  
-  const userId = ensureUserInDB(req.user);
-  
-  if (!htmlContent) {
-    return res.status(400).json({ error: 'htmlContent es requerido' });
-  }
-  
-  const stmt = db.prepare('SELECT * FROM users WHERE user_id = ?');
-  const user = stmt.get(userId);
-
-  // ✅ VALIDACIÓN POR PLAN SI SE SELECCIONÓ UNO
-  if (purchase_id && purchase_id > 0) {
-    // Obtener el plan seleccionado
-    const plan = db.prepare('SELECT *, (invites_included - invites_used) as invites_remaining FROM user_plans WHERE user_id = ? AND purchase_id = ?').get(userId, purchase_id);
-    
-    if (!plan) {
-      return res.status(400).json({ error: 'Plan no encontrado o no pertenece a este usuario' });
-    }
-
-    // Validar límite por plan: SOLO 1 invitación por plan
-    if (plan.invites_used >= 1 && !replaceFilename) {
-      return res.status(409).json({ 
-        error: 'Ya tienes una invitación activa en este plan. Usa la opción de reemplazar.',
-        code: 'PLAN_LIMIT_REACHED',
-        plan: plan
-      });
-    }
-
-    // Validar créditos restantes
-    if (plan.invites_remaining <= 0) {
-      return res.status(400).json({ 
-        error: 'No te quedan invitaciones disponibles en este plan',
-        code: 'NO_CREDITS',
-        plan: plan
-      });
-    }
-
-    console.log(`✅ Guardando invitación en plan ${plan.plan_slug} (purchase ${purchase_id}) para usuario ${userId}`);
-  }
-
-  const maxInvitations = user?.max_invitations || 3;
-  const currentCount = syncUserInvitationsCount(userId);
-  
-  if (currentCount >= maxInvitations && !replaceFilename) {
-    const invitations = getUserInvitations(userId);
-    return res.status(409).json({ 
-      error: 'Has alcanzado el límite de invitaciones almacenadas',
-      code: 'LIMIT_REACHED',
-      max_invitations: maxInvitations,
-      invitations
-    });
-  }
-
-  if (replaceFilename) {
-    const replaceFilePath = join(storagePath, userId, replaceFilename);
-    if (existsSync(replaceFilePath)) {
-      unlinkSync(replaceFilePath);
-      console.log('🗑️ Archivo reemplazado:', replaceFilename);
-    }
-    const deleteStmt = db.prepare('DELETE FROM invitations WHERE user_id = ? AND filename = ?');
-    deleteStmt.run(userId, replaceFilename);
-    console.log('🗑️ Registro DB eliminado:', replaceFilename);
-  }
-  
-  const userFolder = ensureUserFolder(userId);
-  const timestamp = Date.now();
-  const filename = `invitation_${timestamp}.html`;
-  const filePath = join(userFolder, filename);
-  
-  const slug = generateSlug(eventType || 'Invitacion', timestamp);
-  
-  writeFileSync(filePath, htmlContent, 'utf-8');
-  
-  // Obtener plan_slug si tenemos purchase_id
-  let planSlug = null;
-  if (purchase_id && purchase_id > 0) {
-    const plan = db.prepare('SELECT plan_slug FROM user_plans WHERE user_id = ? AND purchase_id = ?').get(userId, purchase_id);
-    planSlug = plan?.plan_slug || null;
-
-    // Actualizar contador de usos del plan
-    db.prepare('UPDATE user_plans SET invites_used = invites_used + 1 WHERE user_id = ? AND purchase_id = ?').run(userId, purchase_id);
-  }
-  
-  const insertInvitation = db.prepare(
-    'INSERT INTO invitations (user_id, filename, slug, event_type, event_domain, event_date, event_time, purchase_id, plan_slug) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
-  );
-  insertInvitation.run(userId, filename, slug, eventType || 'Invitacion', eventDomain || null, eventDate || null, eventTime || null, purchase_id || null, planSlug);
-  
-  syncUserInvitationsCount(userId);
-  
-  const updatedUser = db.prepare('SELECT * FROM users WHERE user_id = ?').get(userId);
-  
-  res.json({
-    success: true,
-    filename,
-    slug,
-    publicUrl: `${PUBLIC_URL}/i/${slug}`,
-    invitations_count: updatedUser?.invitations_count || 1,
-    purchase_id,
-    plan_slug: planSlug
-  });
-});
-
-// PUT /api/invitations/:userId/:filename - Actualiza datos del evento (protegido)
 app.put('/api/invitations/:userId/:filename', authMiddleware, (req, res) => {
   const { userId, filename } = req.params;
   const { eventType, eventDomain, eventDate, eventTime } = req.body;
