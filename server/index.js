@@ -65,16 +65,39 @@ const generateSlug = (eventType, timestamp) => {
 };
 
 const validateToken = async (token) => {
-  // Extraer user_id del token
-  const tokenParts = token.split('|');
-  const userId = tokenParts[0];
+  console.log(`🔍 Validando token: ${token.substring(0, 25)}...`);
   
-  // Excepción para usuario de prueba - NO va a Laravel
-  if (userId === 'test_user') {
-    return validateLocalToken(token);
+  // Si es un token local (formato id|hash)
+  if (token.includes('|')) {
+    console.log('ℹ️ Token local detectado');
+    const tokenParts = token.split('|');
+    const userId = tokenParts[0];
+    
+    if (!userId || !tokenParts[1]) {
+      console.log('❌ Token local inválido');
+      return null;
+    }
+    
+    const stmt = db.prepare('SELECT * FROM local_users WHERE user_id = ?');
+    const user = stmt.get(userId);
+    
+    if (!user) {
+      console.log(`❌ Usuario local ${userId} no encontrado`);
+      return null;
+    }
+    
+    console.log(`✅ Token local válido para usuario ${userId}`);
+    return {
+      id: user.user_id,
+      name: user.name,
+      email: user.email,
+      role_name: user.role_name
+    };
   }
   
-  // Primero intentar con Laravel
+  // ✅ ES UN TOKEN DE LARAVEL. NUNCA MAS BUSCAR EN LOCAL_USERS.
+  console.log('🔐 Token de Laravel detectado, consultando API principal...');
+  
   try {
     const response = await fetchNoSSL(`${API_BASE_URL}/user`, {
       headers: { 
@@ -82,16 +105,38 @@ const validateToken = async (token) => {
         'Authorization': `Bearer ${token}`
       }
     });
-    
-    if (response.ok) {
-      return await response.json();
+
+    console.log(`📡 Respuesta Laravel /user: ${response.status}`);
+
+    if (!response.ok) {
+      console.log('❌ Token de Laravel inválido');
+      return null;
     }
+
+    const user = await response.json();
+    console.log(`✅ Token de Laravel VÁLIDO: Usuario ${user.id} - ${user.name}`);
+
+    // ✅ CREAR USUARIO AQUI MISMO, INMEDIATAMENTE, ANTES DE DEVOLVERLO
+    console.log(`✅ Creando/actualizando usuario ${user.id} en tabla users...`);
+    
+    ensureUserInDB({
+      id: user.id.toString(),
+      name: user.name
+    });
+
+    console.log(`✅ Usuario ${user.id} creado/actualizado exitosamente`);
+    
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role_name: user.role || 'user'
+    };
+
   } catch (error) {
-    console.log('⚠️ Laravel no disponible para validateToken');
+    console.log(`❌ Error consultando Laravel: ${error.message}`);
+    return null;
   }
-  
-  // Fallback: validar token local
-  return validateLocalToken(token);
 };
 
 const validateLocalToken = (token) => {
@@ -125,28 +170,14 @@ const authMiddleware = async (req, res, next) => {
     return res.status(401).json({ error: 'No autenticado', code: 'NO_TOKEN' });
   }
   
-  try {
-    const user = await validateToken(token);
-    
-    if (!user) {
-      return res.status(401).json({ error: 'Token inválido o expirado', code: 'INVALID_TOKEN' });
-    }
-    
-    console.log(`🔐 Token validado, usuario: ${user.id}, nombre: ${user.name || 'Usuario'}`);
-    
-    // ✅ CREAR/ACTUALIZAR USUARIO AUTOMATICAMENTE
-    ensureUserInDB({
-      id: user.id.toString(),
-      name: user.name
-    });
-
-    req.user = user;
-    next();
-    
-  } catch (error) {
-    console.log(`❌ Error en authMiddleware: ${error.message}`);
-    return res.status(500).json({ error: 'Error de autenticación' });
+  const user = await validateToken(token);
+  
+  if (!user) {
+    return res.status(401).json({ error: 'Token inválido o expirado', code: 'INVALID_TOKEN' });
   }
+
+  req.user = user;
+  next();
 };
 
 const getUserInvitations = (userId) => {
@@ -1380,6 +1411,30 @@ app.post('/api/admin/sync-users', adminMiddleware, async (req, res) => {
 app.get('/api/debug/sso-codes', (req, res) => {
   const codes = db.prepare('SELECT * FROM local_sso_codes ORDER BY created_at DESC LIMIT 20').all();
   res.json({ codes, total: codes.length });
+});
+
+// DEBUG: Endpoint para probar token directamente
+app.get('/api/debug/validate-token', async (req, res) => {
+  const token = req.headers.authorization?.replace('Bearer ', '');
+  
+  if (!token) {
+    return res.status(400).json({ error: 'Envía el token en header Authorization' });
+  }
+  
+  const user = await validateToken(token);
+  
+  if (user) {
+    res.json({
+      success: true,
+      message: 'Token válido, usuario creado',
+      user: user
+    });
+  } else {
+    res.status(401).json({
+      success: false,
+      message: 'Token inválido'
+    });
+  }
 });
 
 // DEBUG: Endpoint temporal para ver usuarios (sin auth) - REMOVER EN PRODUCCIÓN
