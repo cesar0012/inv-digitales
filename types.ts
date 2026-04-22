@@ -96,6 +96,35 @@ export interface InvitationFile {
   event_type: string;
   created_at: string;
   size: number;
+  purchase_id?: string;
+  plan_slug?: string;
+}
+
+export interface PlanInvitation {
+  filename: string;
+  slug: string;
+  event_type: string;
+  event_domain?: string | null;
+  event_date?: string | null;
+  event_time?: string | null;
+}
+
+export interface UserPlan {
+  id: number;
+  purchase_id: string;
+  plan_slug: string;
+  plan_name: string;
+  invites_included: number;
+  invites_used: number;
+  generation_credits: number;
+  generation_used: number;
+  iteration_credits: number;
+  iteration_used: number;
+  generation_available: number;
+  iteration_available: number;
+  invites_available: number;
+  has_invitation: boolean;
+  invitation: PlanInvitation | null;
 }
 
 export interface SaveInvitationResponse {
@@ -103,20 +132,17 @@ export interface SaveInvitationResponse {
   filename: string;
   slug: string;
   publicUrl: string;
-  invitations_count: number;
-  invitations_remaining: number;
+  purchase_id: string;
+  plan_slug: string;
+  generation_available: number;
+  invites_available: number;
 }
 
 export interface UserWithInvitations {
   user_id: string;
-  invitations_count: number;
-  iteration_credits: number;
-  invitations_remaining: number;
-  max_invitations: number;
-  max_iteration_credits: number;
-  generation_credits: number;
-  max_generation_credits: number;
+  name: string;
   created_at: string;
+  plans: UserPlan[];
   invitations: InvitationFile[];
 }
 
@@ -163,6 +189,8 @@ export interface AdminInvitation {
   starred: boolean;
   title?: string;
   theme?: string;
+  purchase_id?: string;
+  plan_slug?: string;
 }
 
 export interface AIModel {

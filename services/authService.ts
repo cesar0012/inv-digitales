@@ -8,27 +8,39 @@ const DASHBOARD_URL = import.meta.env.VITE_DASHBOARD_URL || window.location.orig
 const DEV_MODE = import.meta.env.VITE_DEV_MODE === 'true';
 const LOCAL_API = `${window.location.origin.replace(':3000', ':3001')}/api/auth`;
 
+export interface PlanInvitation {
+  filename: string;
+  slug: string;
+  event_type: string;
+  event_domain?: string | null;
+  event_date?: string | null;
+  event_time?: string | null;
+}
+
+export interface UserPlan {
+  id: number;
+  purchase_id: string;
+  plan_slug: string;
+  plan_name: string;
+  invites_included: number;
+  invites_used: number;
+  generation_credits: number;
+  generation_used: number;
+  iteration_credits: number;
+  iteration_used: number;
+  generation_available: number;
+  iteration_available: number;
+  invites_available: number;
+  has_invitation: boolean;
+  invitation: PlanInvitation | null;
+}
+
 export interface User {
   id: number;
   name: string;
   email: string;
   role_name: string;
-  credits?: {
-    generation: number;
-    iteration: number;
-    invites: number;
-  };
-  plans?: Array<{
-    purchase_id: string;
-    plan_slug: string;
-    plan_name: string;
-    invites_included: number;
-    invites_used: number;
-    generation_credits: number;
-    generation_used: number;
-    iteration_credits: number;
-    iteration_used: number;
-  }>;
+  plans?: UserPlan[];
 }
 
 export interface LoginResponse {

@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { EditorSidebar } from './EditorSidebar';
 import { PreviewPane } from './PreviewPane';
 import { InitialView } from './InitialView';
 import { SelectedElement, Attachment, ProjectPage, InvitationMetadata, EditorConfig, LocalImageFile } from '../types';
 import { IMAGE_SOURCES } from '../constants';
 import { generateWebProject, addModuleToProject, modifyProjectDesign } from '../services/aiService';
-import { consumeCredit, saveInvitation, getInvitationContent, InvitationFile } from '../services/apiService';
+import { consumeCredit, consumeGenerationCredit, saveInvitation, replaceInvitation, getInvitationContent } from '../services/apiService';
 import { injectMetadata, extractMetadata, buildMetadataFromHTML } from '../services/metadataService';
 import { useAuth } from '../contexts/AuthContext';
 import { getLocalImages, hasLocalImages, buildLocalImageContext, getEventFolder } from '../services/localImageService';
 import { ReplaceInvitationModal } from './ReplaceInvitationModal';
+import { InvitationFile } from '../types';
 
 export const EditorView: React.FC = () => {
   const { filename } = useParams<{ filename?: string }>();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { user: authUser, token } = useAuth();
   const userId = authUser?.id.toString() || '';
+  const purchaseId = searchParams.get('purchaseId') || '';
   
   const [hasStarted, setHasStarted] = useState(false);
   const [pages, setPages] = useState<ProjectPage[]>([]);
@@ -189,7 +192,7 @@ export const EditorView: React.FC = () => {
     if (!activePage) return;
     
     try {
-      await consumeCredit(userId, token);
+      await consumeCredit(userId, token, purchaseId);
     } catch (error: any) {
       alert(`Sin créditos: ${error.message}`);
       return;
@@ -214,7 +217,7 @@ export const EditorView: React.FC = () => {
     if (!activePage) return;
     
     try {
-      await consumeCredit(userId, token);
+      await consumeCredit(userId, token, purchaseId);
     } catch (error: any) {
       alert(`Sin créditos: ${error.message}`);
       return;
@@ -338,6 +341,10 @@ export const EditorView: React.FC = () => {
 
   const handleSaveInvitation = async (replaceFilename?: string) => {
     if (code.length === 0) return;
+    if (!purchaseId) {
+      alert('Error: No se encontró el plan seleccionado. Vuelve al dashboard e intenta de nuevo.');
+      return;
+    }
     const safeReplace = (typeof replaceFilename === 'string') ? replaceFilename : undefined;
     setIsGenerating(true);
     setGeneratingMessage('Guardando Invitación...');
@@ -346,17 +353,19 @@ export const EditorView: React.FC = () => {
       const metadata = buildMetadataFromHTML(code, existingMetadata, editorConfig);
       const htmlWithMetadata = injectMetadata(code, metadata);
       
-      const result = await saveInvitation(htmlWithMetadata, editorConfig.eventType, safeReplace, token);
+      let result;
+      if (safeReplace) {
+        result = await replaceInvitation(userId, safeReplace, htmlWithMetadata, editorConfig.eventType, purchaseId, token);
+      } else {
+        result = await saveInvitation(htmlWithMetadata, editorConfig.eventType, purchaseId, undefined, token);
+      }
       setReplaceModalData(null);
       console.log('Invitación guardada:', result.filename, '| URL:', result.publicUrl);
       navigate('/');
     } catch (error: any) {
       console.error('Error al guardar invitación:', error?.message || error);
-      if (error?.isLimitReached) {
-        setReplaceModalData({
-          invitations: error.invitations,
-          maxInvitations: error.max_invitations
-        });
+      if (error?.isPlanHasInvitation) {
+        alert('Este plan ya tiene una invitación. Usa la opción de reemplazar desde el dashboard.');
         setIsGenerating(false);
         return;
       }

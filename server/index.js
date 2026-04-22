@@ -34,6 +34,37 @@ const generateInternalToken = (userId) => {
   return `${userId}|${issuedAt}|${signature}`;
 };
 
+const getPlanWithInvitation = (plan, userId) => {
+  const invitation = db.prepare(
+    'SELECT * FROM invitations WHERE user_id = ? AND purchase_id = ? LIMIT 1'
+  ).get(userId, plan.purchase_id);
+
+  return {
+    id: plan.id,
+    purchase_id: plan.purchase_id,
+    plan_slug: plan.plan_slug,
+    plan_name: plan.plan_name,
+    invites_included: plan.invites_included,
+    invites_used: plan.invites_used,
+    generation_credits: plan.generation_credits,
+    generation_used: plan.generation_used,
+    iteration_credits: plan.iteration_credits,
+    iteration_used: plan.iteration_used,
+    generation_available: Math.max(0, plan.generation_credits - plan.generation_used),
+    iteration_available: Math.max(0, plan.iteration_credits - plan.iteration_used),
+    invites_available: Math.max(0, plan.invites_included - plan.invites_used),
+    has_invitation: !!invitation,
+    invitation: invitation ? {
+      filename: invitation.filename,
+      slug: invitation.slug,
+      event_type: invitation.event_type,
+      event_domain: invitation.event_domain || null,
+      event_date: invitation.event_date || null,
+      event_time: invitation.event_time || null
+    } : null
+  };
+};
+
 const validateInternalToken = (token) => {
   const parts = token.split('|');
   if (parts.length !== 3) return null;
@@ -51,39 +82,15 @@ const validateInternalToken = (token) => {
   const user = db.prepare('SELECT * FROM users WHERE user_id = ?').get(userId);
   if (!user) return null;
 
-  const plans = db.prepare('SELECT * FROM user_plans WHERE user_id = ?').all(userId);
+  const rawPlans = db.prepare('SELECT * FROM user_plans WHERE user_id = ?').all(userId);
+  const plans = rawPlans.map(p => getPlanWithInvitation(p, userId));
 
-  let totalGenerationAvailable = 0;
-  let totalIterationAvailable = 0;
-  let totalInvitesAvailable = 0;
-
-  for (const plan of plans) {
-    totalGenerationAvailable += Math.max(0, plan.generation_credits - plan.generation_used);
-    totalIterationAvailable += Math.max(0, plan.iteration_credits - plan.iteration_used);
-    totalInvitesAvailable += Math.max(0, plan.invites_included - plan.invites_used);
-  }
-
-  return {
+return {
     id: parseInt(user.user_id) || user.user_id,
     name: user.name,
     email: user.email || null,
     role_name: user.role_name || 'user',
-    credits: {
-      generation: totalGenerationAvailable,
-      iteration: totalIterationAvailable,
-      invites: totalInvitesAvailable
-    },
-    plans: plans.map(p => ({
-      purchase_id: p.purchase_id,
-      plan_slug: p.plan_slug,
-      plan_name: p.plan_name,
-      invites_included: p.invites_included,
-      invites_used: p.invites_used,
-      generation_credits: p.generation_credits,
-      generation_used: p.generation_used,
-      iteration_credits: p.iteration_credits,
-      iteration_used: p.iteration_used
-    }))
+    plans
   };
 };
 
@@ -265,6 +272,8 @@ const getUserInvitations = (userId) => {
         event_domain: dbData?.event_domain || null,
         event_date: dbData?.event_date || null,
         event_time: dbData?.event_time || null,
+        purchase_id: dbData?.purchase_id || null,
+        plan_slug: dbData?.plan_slug || null,
         created_at: stats.birthtime.toISOString(),
         size: stats.size
       };
@@ -348,8 +357,8 @@ const syncUserPlansFromBilling = async (userId, token) => {
       
       // 4. Buscar configuración del plan en nuestra tabla local
       const planConfig = db.prepare('SELECT * FROM plan_config WHERE plan_slug = ?').get(planSlug) || {
-        invites_included: totalInvites,
-        generation_credits: 10,
+        invites_included: 1,
+        generation_credits: 5,
         iteration_credits: 10
       };
 
@@ -860,6 +869,208 @@ app.put('/api/invitations/:userId/:filename', authMiddleware, (req, res) => {
   res.json({ success: true });
 });
 
+// POST /api/invitations - Crea una nueva invitación vinculada a un plan
+app.post('/api/invitations', authMiddleware, (req, res) => {
+  const { htmlContent, eventType, purchaseId } = req.body;
+  const userId = req.user.id.toString();
+
+  if (!htmlContent) {
+    return res.status(400).json({ error: 'htmlContent es requerido' });
+  }
+
+  if (!purchaseId) {
+    return res.status(400).json({ error: 'purchaseId es requerido' });
+  }
+
+  const plan = db.prepare('SELECT * FROM user_plans WHERE user_id = ? AND purchase_id = ?').get(userId, purchaseId);
+  if (!plan) {
+    return res.status(404).json({ error: 'Plan no encontrado para este usuario' });
+  }
+
+  const generationAvailable = Math.max(0, plan.generation_credits - plan.generation_used);
+  const invitesAvailable = Math.max(0, plan.invites_included - plan.invites_used);
+
+  if (generationAvailable < 1) {
+    return res.status(400).json({ error: 'No tienes créditos de generación disponibles en este plan' });
+  }
+
+  if (invitesAvailable < 1) {
+    return res.status(400).json({ error: 'No tienes invitaciones disponibles en este plan' });
+  }
+
+  const existingInv = db.prepare('SELECT * FROM invitations WHERE user_id = ? AND purchase_id = ?').get(userId, purchaseId);
+  if (existingInv) {
+    return res.status(409).json({
+      error: 'Este plan ya tiene una invitación. Usa replace para reemplazarla.',
+      code: 'PLAN_HAS_INVITATION',
+      existing_filename: existingInv.filename
+    });
+  }
+
+  const userFolder = ensureUserFolder(userId);
+  const timestamp = Date.now();
+  const slug = generateSlug(eventType || 'invitacion', timestamp);
+  const filename = `invitation_${timestamp}.html`;
+
+  const filePath = join(userFolder, filename);
+  writeFileSync(filePath, htmlContent, 'utf-8');
+
+  db.prepare(
+    'INSERT INTO invitations (user_id, filename, slug, event_type, purchase_id, plan_slug) VALUES (?, ?, ?, ?, ?, ?)'
+  ).run(userId, filename, slug, eventType || 'Invitacion', purchaseId, plan.plan_slug);
+
+  db.prepare(
+    'UPDATE user_plans SET generation_used = generation_used + 1, invites_used = invites_used + 1 WHERE user_id = ? AND purchase_id = ?'
+  ).run(userId, purchaseId);
+
+  syncUserInvitationsCount(userId);
+
+  const publicUrl = `${PUBLIC_URL}/i/${slug}`;
+  const updatedPlan = db.prepare('SELECT * FROM user_plans WHERE user_id = ? AND purchase_id = ?').get(userId, purchaseId);
+
+  res.json({
+    success: true,
+    filename,
+    slug,
+    publicUrl,
+    purchase_id: purchaseId,
+    plan_slug: plan.plan_slug,
+    generation_available: Math.max(0, updatedPlan.generation_credits - updatedPlan.generation_used),
+    invites_available: Math.max(0, updatedPlan.invites_included - updatedPlan.invites_used)
+  });
+});
+
+// PUT /api/invitations/replace/:userId/:filename - Reemplaza la invitación de un plan
+app.put('/api/invitations/replace/:userId/:filename', authMiddleware, (req, res) => {
+  const { userId, filename } = req.params;
+  const { htmlContent, eventType, purchaseId } = req.body;
+
+  if (req.user.id.toString() !== userId) {
+    return res.status(403).json({ error: 'No autorizado' });
+  }
+
+  if (!htmlContent) {
+    return res.status(400).json({ error: 'htmlContent es requerido' });
+  }
+
+  if (!purchaseId) {
+    return res.status(400).json({ error: 'purchaseId es requerido' });
+  }
+
+  const plan = db.prepare('SELECT * FROM user_plans WHERE user_id = ? AND purchase_id = ?').get(userId, purchaseId);
+  if (!plan) {
+    return res.status(404).json({ error: 'Plan no encontrado' });
+  }
+
+  const generationAvailable = Math.max(0, plan.generation_credits - plan.generation_used);
+  if (generationAvailable < 1) {
+    return res.status(400).json({ error: 'No tienes créditos de generación disponibles para reemplazar' });
+  }
+
+  const existingInv = db.prepare('SELECT * FROM invitations WHERE user_id = ? AND purchase_id = ?').get(userId, purchaseId);
+  if (!existingInv) {
+    return res.status(404).json({ error: 'No existe invitación para este plan' });
+  }
+
+  const oldFilePath = join(storagePath, userId, existingInv.filename);
+  if (existsSync(oldFilePath)) {
+    unlinkSync(oldFilePath);
+  }
+
+  const userFolder = ensureUserFolder(userId);
+  const timestamp = Date.now();
+  const newFilename = `invitation_${timestamp}.html`;
+  const newFilePath = join(userFolder, newFilename);
+  writeFileSync(newFilePath, htmlContent, 'utf-8');
+
+  db.prepare(
+    'UPDATE invitations SET filename = ?, slug = ?, event_type = ?, purchase_id = ?, plan_slug = ? WHERE id = ?'
+  ).run(newFilename, generateSlug(eventType || existingInv.event_type, timestamp), eventType || existingInv.event_type, purchaseId, plan.plan_slug, existingInv.id);
+
+  db.prepare(
+    'UPDATE user_plans SET generation_used = generation_used + 1 WHERE user_id = ? AND purchase_id = ?'
+  ).run(userId, purchaseId);
+
+  syncUserInvitationsCount(userId);
+
+  const publicUrl = `${PUBLIC_URL}/i/${generateSlug(eventType || existingInv.event_type, timestamp)}`;
+  const updatedPlan = db.prepare('SELECT * FROM user_plans WHERE user_id = ? AND purchase_id = ?').get(userId, purchaseId);
+
+  res.json({
+    success: true,
+    filename: newFilename,
+    publicUrl,
+    purchase_id: purchaseId,
+    plan_slug: plan.plan_slug,
+    generation_available: Math.max(0, updatedPlan.generation_credits - updatedPlan.generation_used),
+    invites_available: Math.max(0, updatedPlan.invites_included - updatedPlan.invites_used)
+  });
+});
+
+app.post('/api/user/:id/consume-credit', authMiddleware, (req, res) => {
+  const { id } = req.params;
+  const { purchaseId } = req.body;
+
+  if (req.user.id.toString() !== id) {
+    return res.status(403).json({ error: 'No autorizado' });
+  }
+
+  if (!purchaseId) {
+    return res.status(400).json({ error: 'purchaseId es requerido' });
+  }
+
+  const plan = db.prepare('SELECT * FROM user_plans WHERE user_id = ? AND purchase_id = ?').get(id, purchaseId);
+  if (!plan) {
+    return res.status(404).json({ error: 'Plan no encontrado' });
+  }
+
+  const iterationAvailable = Math.max(0, plan.iteration_credits - plan.iteration_used);
+  if (iterationAvailable < 1) {
+    return res.status(400).json({ error: 'No tienes créditos de iteración disponibles en este plan' });
+  }
+
+  db.prepare('UPDATE user_plans SET iteration_used = iteration_used + 1 WHERE user_id = ? AND purchase_id = ?').run(id, purchaseId);
+
+  const updated = db.prepare('SELECT * FROM user_plans WHERE user_id = ? AND purchase_id = ?').get(id, purchaseId);
+  res.json({
+    success: true,
+    iteration_credits: Math.max(0, updated.iteration_credits - updated.iteration_used),
+    purchase_id: purchaseId
+  });
+});
+
+app.post('/api/user/:id/consume-generation-credit', authMiddleware, (req, res) => {
+  const { id } = req.params;
+  const { purchaseId } = req.body;
+
+  if (req.user.id.toString() !== id) {
+    return res.status(403).json({ error: 'No autorizado' });
+  }
+
+  if (!purchaseId) {
+    return res.status(400).json({ error: 'purchaseId es requerido' });
+  }
+
+  const plan = db.prepare('SELECT * FROM user_plans WHERE user_id = ? AND purchase_id = ?').get(id, purchaseId);
+  if (!plan) {
+    return res.status(404).json({ error: 'Plan no encontrado' });
+  }
+
+  const generationAvailable = Math.max(0, plan.generation_credits - plan.generation_used);
+  if (generationAvailable < 1) {
+    return res.status(400).json({ error: 'No tienes créditos de generación disponibles en este plan' });
+  }
+
+  db.prepare('UPDATE user_plans SET generation_used = generation_used + 1 WHERE user_id = ? AND purchase_id = ?').run(id, purchaseId);
+
+  const updated = db.prepare('SELECT * FROM user_plans WHERE user_id = ? AND purchase_id = ?').get(id, purchaseId);
+  res.json({
+    success: true,
+    generation_credits: Math.max(0, updated.generation_credits - updated.generation_used),
+    purchase_id: purchaseId
+  });
+});
+
 // GET /api/invitations/:userId - Lista archivos del usuario (protegido)
 app.get('/api/invitations/:userId', authMiddleware, (req, res) => {
   const { userId } = req.params;
@@ -908,32 +1119,16 @@ app.get('/api/get-user/:userId', authMiddleware, (req, res) => {
 
   syncUserInvitationsCount(userId);
 
-  const plans = db.prepare('SELECT * FROM user_plans WHERE user_id = ?').all(userId);
-
-  let totalGenerationAvailable = 0;
-  let totalIterationAvailable = 0;
-  let totalInvitesIncluded = 0;
-  let totalInvitesUsed = 0;
-
-  for (const plan of plans) {
-    totalGenerationAvailable += Math.max(0, plan.generation_credits - plan.generation_used);
-    totalIterationAvailable += Math.max(0, plan.iteration_credits - plan.iteration_used);
-    totalInvitesIncluded += plan.invites_included;
-    totalInvitesUsed += plan.invites_used;
-  }
+  const rawPlans = db.prepare('SELECT * FROM user_plans WHERE user_id = ?').all(userId);
+  const plans = rawPlans.map(p => getPlanWithInvitation(p, userId));
 
   const invitations = getUserInvitations(userId);
 
   res.json({
     user_id: user.user_id,
-    invitations_count: user.invitations_count,
-    iteration_credits: totalIterationAvailable,
-    invitations_remaining: Math.max(0, totalInvitesIncluded - totalInvitesUsed),
-    max_invitations: totalInvitesIncluded,
-    max_iteration_credits: totalIterationAvailable,
-    generation_credits: totalGenerationAvailable,
-    max_generation_credits: totalGenerationAvailable,
+    name: user.name,
     created_at: user.created_at,
+    plans,
     invitations
   });
 });
@@ -1775,69 +1970,6 @@ app.get('/api/debug/logs/html', (req, res) => {
   res.send(html);
 });
 
-// DEBUG: Endpoint temporal para ver usuarios (sin auth) - REMOVER EN PRODUCCIÓN
-app.get('/api/debug/users', (req, res) => {
-  const stmt = db.prepare(`
-    SELECT 
-      user_id,
-      name,
-      invitations_count,
-      iteration_credits,
-      max_invitations,
-      max_iteration_credits,
-      generation_credits,
-      max_generation_credits,
-      created_at
-    FROM users
-    ORDER BY created_at DESC
-  `);
-  
-  const users = stmt.all();
-  res.json({ total: users.length, users });
-});
-
-// DEBUG: Ver billing history de un usuario desde Laravel + planes locales
-app.get('/api/debug/billing/:userId', async (req, res) => {
-  const { userId } = req.params;
-  try {
-    const user = db.prepare('SELECT * FROM users WHERE user_id = ?').get(userId);
-    const localPlans = db.prepare('SELECT * FROM user_plans WHERE user_id = ?').all(userId);
-
-    let laravelBilling = null;
-    try {
-const cookieToken = req.cookies?.auth_token;
-  const headerToken = req.headers.authorization?.replace('Bearer ', '');
-  const token = cookieToken || (headerToken && headerToken !== 'null' && headerToken !== 'undefined' ? headerToken : null);
-      if (token) {
-        const laravelToken = token.includes('|') ? null : token;
-        if (laravelToken) {
-          const response = await fetchNoSSL(`${API_BASE_URL}/billing/history`, {
-            headers: {
-              'Accept': 'application/json',
-              'Authorization': `Bearer ${laravelToken}`
-            }
-          });
-          if (response.ok) {
-            laravelBilling = await response.json();
-          } else {
-            laravelBilling = { error: `Laravel responded ${response.status}` };
-          }
-        } else {
-          laravelBilling = { note: 'Internal token used - cannot query Laravel directly. Re-login needed to capture billing data.' };
-        }
-      } else {
-        laravelBilling = { error: 'No auth token provided' };
-      }
-    } catch (e) {
-      laravelBilling = { error: e.message };
-    }
-
-    res.json({ user, localPlans, laravelBilling });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '..', 'dist')));
   
@@ -1920,29 +2052,32 @@ const processGeminiImages = async (html, imageApiKey, imageModel) => {
 
 app.post('/api/generate-html', authMiddleware, async (req, res) => {
   try {
-    const { prompt, attachments, editorConfig, imageFiles, promptInstruction } = req.body;
+    const { prompt, attachments, editorConfig, imageFiles, promptInstruction, purchaseId } = req.body;
     const userId = ensureUserInDB(req.user);
-    
-    // 1. Verificar créditos de generación disponibles
-    const userStmt = db.prepare('SELECT generation_credits, max_generation_credits FROM users WHERE user_id = ?');
-    const user = userStmt.get(userId);
-    
-    if (!user || user.generation_credits < 1) {
-      return res.status(400).json({ error: 'No tienes créditos de generación disponibles. Necesitas al menos 1 crédito para generar.' });
+
+    if (!purchaseId) {
+      return res.status(400).json({ error: 'purchaseId es requerido' });
     }
-    
-    // 2. Descontar crédito de generación ANTES de generar
-    const updateStmt = db.prepare('UPDATE users SET generation_credits = generation_credits - 1 WHERE user_id = ?');
-    updateStmt.run(userId);
-    console.log('💳 Crédito de generación descontado. Credits restantes:', user.generation_credits - 1);
+
+    const plan = db.prepare('SELECT * FROM user_plans WHERE user_id = ? AND purchase_id = ?').get(userId, purchaseId);
+    if (!plan) {
+      return res.status(404).json({ error: 'Plan no encontrado para este usuario' });
+    }
+
+    const generationAvailable = Math.max(0, plan.generation_credits - plan.generation_used);
+    if (generationAvailable < 1) {
+      return res.status(400).json({ error: 'No tienes créditos de generación disponibles en este plan.' });
+    }
+
+    db.prepare('UPDATE user_plans SET generation_used = generation_used + 1 WHERE user_id = ? AND purchase_id = ?').run(userId, purchaseId);
+    console.log('💳 Crédito de generación descontado del plan. Restantes:', generationAvailable - 1);
     
     // Obtener configuración actual
     const configStmt = db.prepare('SELECT * FROM admin_config WHERE id = 1');
     const config = configStmt.get();
     
     if (!config) {
-      // Restaurar crédito de generación si no hay config
-      db.prepare('UPDATE users SET generation_credits = generation_credits + 1 WHERE user_id = ?').run(userId);
+      db.prepare('UPDATE user_plans SET generation_used = generation_used - 1 WHERE user_id = ? AND purchase_id = ?').run(userId, purchaseId);
       return res.status(500).json({ error: 'Configuración no encontrada' });
     }
     
@@ -1974,8 +2109,7 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
         geminiOptions
       );
     } else {
-      // Restaurar crédito de generación si no hay API key
-      db.prepare('UPDATE users SET generation_credits = generation_credits + 1 WHERE user_id = ?').run(userId);
+      db.prepare('UPDATE user_plans SET generation_used = generation_used - 1 WHERE user_id = ? AND purchase_id = ?').run(userId, purchaseId);
       res.status(500).json({ error: 'No hay API key de Google configurada. Configúrala en el panel de admin.' });
       return;
     }
@@ -2022,11 +2156,12 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
   } catch (error) {
     console.error('Error generando HTML:', error);
     
-    // 3. Restaurar crédito de generación si hay error
+    // Restaurar crédito de generación si hay error
     try {
       const userId = req.user?.id ? req.user.id.toString() : null;
-      if (userId) {
-        db.prepare('UPDATE users SET generation_credits = generation_credits + 1 WHERE user_id = ?').run(userId);
+      const pId = req.body?.purchaseId;
+      if (userId && pId) {
+        db.prepare('UPDATE user_plans SET generation_used = generation_used - 1 WHERE user_id = ? AND purchase_id = ?').run(userId, pId);
         console.log('💳 Crédito de generación restaurado por error');
       }
     } catch (restoreError) {

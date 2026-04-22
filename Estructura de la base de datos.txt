@@ -1,0 +1,27 @@
+📊 Estructura de la base de datos
+Tabla plan_config (Maestra)
+Configuración de créditos por tipo de plan. Se gestiona desde el admin.
+
+Campo	Tipo	Descripción
+plan_slug	TEXT (PK)	Identificador unico del plan (ej: premium, basic)
+plan_name	TEXT	Nombre visible del usuario
+invites_included	INTEGER	Invitaciones totales incluidas
+generation_credits	INTEGER	Créditos para generar diseños nuevos
+iteration_credits	INTEGER	Créditos para editar diseños existentes
+created_at	TEXT	Fecha de creación
+Tabla user_plans (Planes por usuario)
+Almacena cada plan que tiene el usuario y su consumo actual. Se actualiza automaticamente en cada login.
+
+Campo	Tipo	Descripción
+id	INTEGER (PK)	ID autoincremental
+user_id	TEXT	ID del usuario
+purchase_id	INTEGER	ID de la compra en Laravel (UNIQUE por usuario)
+plan_slug	TEXT	Slug del plan (FK a plan_config)
+plan_name	TEXT	Nombre del plan
+invites_included	INTEGER	Total de invitaciones incluidas en esta compra
+invites_used	INTEGER	Invitaciones ya usadas
+generation_credits	INTEGER	Total de créditos de generación
+generation_used	INTEGER	Créditos de generación usados
+iteration_credits	INTEGER	Total de créditos de iteración
+iteration_used	INTEGER	Créditos de iteración usados
+last_synced_at	TEXT	Ultima vez que se sincronizo con Laravel

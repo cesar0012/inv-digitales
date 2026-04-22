@@ -1,6 +1,6 @@
 import React from 'react';
 import { X, AlertTriangle, FileText, Calendar, RefreshCw } from 'lucide-react';
-import { InvitationFile } from '../services/apiService';
+import { InvitationFile } from '../types';
 
 interface ReplaceInvitationModalProps {
   invitations: InvitationFile[];
