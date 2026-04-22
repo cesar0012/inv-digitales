@@ -545,8 +545,8 @@ app.post('/api/auth/set-token', (req, res) => {
 });
 
 // ✅ Endpoint /api/auth/user que el frontend espera - Definido en README_AUTH_API.md
-app.get('/api/auth/user', async (req, res) => {
-  console.log('\n📨 /api/auth/user endpoint llamado');
+app.get('/api/auth/me', async (req, res) => {
+  console.log('\n📨 /api/auth/me endpoint llamado');
   
   const token = req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
   
@@ -605,6 +605,11 @@ app.get('/api/auth/user', async (req, res) => {
     console.log(`❌ Error conectando a Laravel: ${error.message}`);
     return res.status(500).json({ message: 'Error de conexión' });
   }
+});
+
+// Alias para compatibilidad
+app.get('/api/auth/user', async (req, res) => {
+  return res.redirect('/api/auth/me');
 });
 
 // Función para consume-token local
