@@ -13,6 +13,22 @@ export interface User {
   name: string;
   email: string;
   role_name: string;
+  credits?: {
+    generation: number;
+    iteration: number;
+    invites: number;
+  };
+  plans?: Array<{
+    purchase_id: string;
+    plan_slug: string;
+    plan_name: string;
+    invites_included: number;
+    invites_used: number;
+    generation_credits: number;
+    generation_used: number;
+    iteration_credits: number;
+    iteration_used: number;
+  }>;
 }
 
 export interface LoginResponse {

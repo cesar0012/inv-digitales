@@ -5,7 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { existsSync, mkdirSync, writeFileSync, readdirSync, statSync, readFileSync, unlinkSync, appendFileSync } from 'fs';
-import { createHash } from 'crypto';
+import { createHash, createHmac } from 'crypto';
 import https from 'https';
 import db from './database.js';
 
@@ -25,6 +25,67 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const PUBLIC_URL = process.env.VITE_PUBLIC_URL || `http://localhost:${PORT}`;
 const API_BASE_URL = process.env.VITE_API_BASE_URL || 'https://api.invitacionesmodernas.com/api';
+const HMAC_SECRET = process.env.EDITOR_HMAC_SECRET || 'invitaciones-digitales-hmac-secret-2026';
+const TOKEN_TTL_DAYS = parseInt(process.env.TOKEN_TTL_DAYS || '7', 10);
+
+const generateInternalToken = (userId) => {
+  const issuedAt = Math.floor(Date.now() / 1000).toString();
+  const signature = createHmac('sha256', HMAC_SECRET).update(`${userId}|${issuedAt}`).digest('hex');
+  return `${userId}|${issuedAt}|${signature}`;
+};
+
+const validateInternalToken = (token) => {
+  const parts = token.split('|');
+  if (parts.length !== 3) return null;
+
+  const [userId, issuedAt, signature] = parts;
+  if (!userId || !issuedAt || !signature) return null;
+
+  const expected = createHmac('sha256', HMAC_SECRET).update(`${userId}|${issuedAt}`).digest('hex');
+  if (signature !== expected) return null;
+
+  const issuedAtNum = parseInt(issuedAt, 10);
+  const expiresAt = issuedAtNum + TOKEN_TTL_DAYS * 24 * 60 * 60;
+  if (Math.floor(Date.now() / 1000) > expiresAt) return null;
+
+  const user = db.prepare('SELECT * FROM users WHERE user_id = ?').get(userId);
+  if (!user) return null;
+
+  const plans = db.prepare('SELECT * FROM user_plans WHERE user_id = ?').all(userId);
+
+  let totalGenerationAvailable = 0;
+  let totalIterationAvailable = 0;
+  let totalInvitesAvailable = 0;
+
+  for (const plan of plans) {
+    totalGenerationAvailable += Math.max(0, plan.generation_credits - plan.generation_used);
+    totalIterationAvailable += Math.max(0, plan.iteration_credits - plan.iteration_used);
+    totalInvitesAvailable += Math.max(0, plan.invites_included - plan.invites_used);
+  }
+
+  return {
+    id: parseInt(user.user_id) || user.user_id,
+    name: user.name,
+    email: user.email || null,
+    role_name: user.role_name || 'user',
+    credits: {
+      generation: totalGenerationAvailable,
+      iteration: totalIterationAvailable,
+      invites: totalInvitesAvailable
+    },
+    plans: plans.map(p => ({
+      purchase_id: p.purchase_id,
+      plan_slug: p.plan_slug,
+      plan_name: p.plan_name,
+      invites_included: p.invites_included,
+      invites_used: p.invites_used,
+      generation_credits: p.generation_credits,
+      generation_used: p.generation_used,
+      iteration_credits: p.iteration_credits,
+      iteration_used: p.iteration_used
+    }))
+  };
+};
 
 app.use(cors({ 
   origin: ['https://generador.invitacionesmodernas.com', 'http://localhost:3002', 'http://localhost:3001'],
@@ -147,7 +208,13 @@ const authMiddleware = async (req, res, next) => {
     return res.status(401).json({ error: 'No autenticado', code: 'NO_TOKEN' });
   }
   
-  const user = await validateToken(token);
+  let user = null;
+  
+  if (token.includes('|')) {
+    user = validateInternalToken(token);
+  } else {
+    user = await validateToken(token);
+  }
   
   if (!user) {
     return res.status(401).json({ error: 'Token inválido o expirado', code: 'INVALID_TOKEN' });
@@ -281,30 +348,39 @@ const syncUserPlansFromBilling = async (userId, token) => {
         iteration_credits: 10
       };
 
-      // 5. Contar invitaciones ya usadas de este purchase
-      const usedCount = db.prepare(
-        'SELECT COUNT(*) as count FROM invitations WHERE user_id = ? AND purchase_id = ?'
-      ).get(userId, purchase.id)?.count || 0;
+      // 5. Verificar si el plan ya existe para este purchase
+      const existingPlan = db.prepare(
+        'SELECT * FROM user_plans WHERE user_id = ? AND purchase_id = ?'
+      ).get(userId, purchase.id);
 
-      // 6. Crear o actualizar plan del usuario
-      const insertPlan = db.prepare(`
-        INSERT OR REPLACE INTO user_plans 
-        (user_id, purchase_id, plan_slug, plan_name, invites_included, invites_used, generation_credits, iteration_credits, last_synced_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
-      `);
+      if (existingPlan) {
+        // Plan ya existe: SOLO actualizar last_synced_at, NO tocar *_used
+        db.prepare(
+          'UPDATE user_plans SET last_synced_at = datetime(\'now\') WHERE user_id = ? AND purchase_id = ?'
+        ).run(userId, purchase.id);
+        console.log(`ℹ️ Plan ${planSlug} (purchase ${purchase.id}) ya existe, sync timestamp actualizado`);
+      } else {
+        // Plan nuevo: contar invitaciones ya usadas de este purchase
+        const usedCount = db.prepare(
+          'SELECT COUNT(*) as count FROM invitations WHERE user_id = ? AND purchase_id = ?'
+        ).get(userId, purchase.id)?.count || 0;
 
-      insertPlan.run(
-        userId,
-        purchase.id,
-        planSlug,
-        item.item_name || planConfig.plan_name,
-        planConfig.invites_included,
-        usedCount,
-        planConfig.generation_credits,
-        planConfig.iteration_credits
-      );
-
-      console.log(`✅ Plan ${planSlug} (purchase ${purchase.id}) sincronizado para usuario ${userId}`);
+        db.prepare(`
+          INSERT INTO user_plans 
+          (user_id, purchase_id, plan_slug, plan_name, invites_included, invites_used, generation_credits, iteration_credits, last_synced_at)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+        `).run(
+          userId,
+          purchase.id,
+          planSlug,
+          item.item_name || planConfig.plan_name,
+          planConfig.invites_included,
+          usedCount,
+          planConfig.generation_credits,
+          planConfig.iteration_credits
+        );
+        console.log(`✅ NUEVO plan ${planSlug} (purchase ${purchase.id}) creado para usuario ${userId}`);
+      }
     }
 
     console.log(`✅ Sincronización completada para usuario ${userId}`);
@@ -527,82 +603,101 @@ app.post('/api/auth/consume-token', async (req, res) => {
 });
 
 // ✅ POST /api/auth/set-token - Guarda token en cookie httpOnly
-app.post('/api/auth/set-token', (req, res) => {
+app.post('/api/auth/set-token', async (req, res) => {
   const { token } = req.body;
   
   if (!token) {
     return res.status(400).json({ error: 'Token requerido' });
   }
 
-  res.cookie('auth_token', token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    maxAge: 7 * 24 * 60 * 60 * 1000
-  });
-
-  res.json({ success: true });
-});
-
-// ✅ Endpoint /api/auth/user que el frontend espera - Definido en README_AUTH_API.md
-app.get('/api/auth/me', async (req, res) => {
-  console.log('\n📨 /api/auth/me endpoint llamado');
-  
-  const token = req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
-  
-  if (!token) {
-    console.log('❌ No hay token');
-    return res.status(401).json({ message: 'No autenticado' });
-  }
-  
-  console.log(`🔍 Token: ${token.substring(0, 30)}...`);
-
-  // Si es un token interno (formato id|hash)
   if (token.includes('|')) {
-    const tokenParts = token.split('|');
-    const userId = tokenParts[0];
-    
-    console.log(`✅ Token interno detectado, usuario: ${userId}`);
-    
-    const stmt = db.prepare('SELECT * FROM users WHERE user_id = ?');
-    const user = stmt.get(userId);
-    
-    if (user) {
-      console.log(`✅ Usuario encontrado: ${user.name}`);
-      return res.json({
-        id: user.user_id,
-        name: user.name,
-        role_name: 'user'
-      });
+    const userData = validateInternalToken(token);
+    if (!userData) {
+      return res.status(401).json({ error: 'Token interno inválido' });
     }
-    
-    console.log('❌ Usuario no encontrado');
-    return res.status(401).json({ message: 'No autenticado' });
+    res.cookie('auth_token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: TOKEN_TTL_DAYS * 24 * 60 * 60 * 1000
+    });
+    return res.json({ success: true });
   }
-  
-  // Si es un token de Laravel
+
   try {
-    console.log('🔍 Consultando a Laravel para validar token...');
     const response = await fetchNoSSL(`${API_BASE_URL}/user`, {
       headers: { 
         'Accept': 'application/json',
         'Authorization': `Bearer ${token}`
       }
     });
+
+    if (!response.ok) {
+      return res.status(401).json({ error: 'Token de Laravel inválido' });
+    }
+
+    const user = await response.json();
+    const userId = user.id.toString();
+
+    ensureUserInDB({ id: userId, name: user.name });
+    await syncUserPlansFromBilling(userId, token);
+
+    const internalToken = generateInternalToken(userId);
+    res.cookie('auth_token', internalToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: TOKEN_TTL_DAYS * 24 * 60 * 60 * 1000
+    });
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: 'Error de conexión' });
+  }
+});
+
+// ✅ Endpoint /api/auth/user que el frontend espera - Definido en README_AUTH_API.md
+app.get('/api/auth/me', async (req, res) => {
+  const token = req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
+  
+  if (!token) {
+    return res.status(401).json({ message: 'No autenticado' });
+  }
+
+  if (token.includes('|')) {
+    const userData = validateInternalToken(token);
     
-    console.log(`📡 Respuesta Laravel: ${response.status}`);
+    if (!userData) {
+      return res.status(401).json({ message: 'Token inválido o expirado' });
+    }
+    
+    return res.json({ user: userData, authenticated: true });
+  }
+  
+  try {
+    const response = await fetchNoSSL(`${API_BASE_URL}/user`, {
+      headers: { 
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
 
     if (response.ok) {
       const data = await response.json();
-      console.log('✅ Token valido de Laravel');
-      return res.status(response.status).json(data);
+      ensureUserInDB({ id: data.id.toString(), name: data.name });
+      const internalToken = generateInternalToken(data.id.toString());
+      res.cookie('auth_token', internalToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: TOKEN_TTL_DAYS * 24 * 60 * 60 * 1000
+      });
+      await syncUserPlansFromBilling(data.id.toString(), token);
+      const userData = validateInternalToken(internalToken);
+      return res.json({ user: userData, authenticated: true });
     }
     
-    console.log('❌ Token de Laravel invalido');
-    return res.status(response.status).json({ message: 'No autenticado' });
-    
+    return res.status(401).json({ message: 'No autenticado' });
   } catch (error) {
-    console.log(`❌ Error conectando a Laravel: ${error.message}`);
     return res.status(500).json({ message: 'Error de conexión' });
   }
 });
@@ -610,6 +705,15 @@ app.get('/api/auth/me', async (req, res) => {
 // Alias para compatibilidad
 app.get('/api/auth/user', async (req, res) => {
   return res.redirect('/api/auth/me');
+});
+
+app.post('/api/auth/logout', (req, res) => {
+  res.clearCookie('auth_token', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax'
+  });
+  res.json({ success: true });
 });
 
 // Función para consume-token local
@@ -705,15 +809,13 @@ async function handleLocalConsumeToken(req, res, code) {
   }
   console.log(`⚠️ Usando fallback local para usuario ${codeRecord.user_id}`);
   
-  // Generar nuevo token para el editor
-  const newToken = `${codeRecord.user_id}|${createHash('sha256').update(`${codeRecord.user_id}-${Date.now()}-editor`).digest('hex')}`;
+  const newToken = generateInternalToken(codeRecord.user_id);
   
-  // Guardar token en cookie
   res.cookie('auth_token', newToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
-    maxAge: 7 * 24 * 60 * 60 * 1000
+    maxAge: TOKEN_TTL_DAYS * 24 * 60 * 60 * 1000
   });
   
   res.json({
@@ -1495,18 +1597,8 @@ app.get('/sso/consume', async (req, res) => {
       console.log('✅ Paso 1 completado: Código válido, token obtenido');
       console.log(`   Token: ${data.token?.substring(0, 40)}...`);
 
-      // ✅ PASO 2: GUARDAR EL TOKEN EN COOKIE
-      console.log('🔍 Paso 2: Guardando token en cookie...');
-      res.cookie('auth_token', data.token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: 7 * 24 * 60 * 60 * 1000
-      });
-      console.log('✅ Paso 2 completado: Token guardado en cookie');
-
-      // ✅ PASO 3: OBTENER DATOS DEL USUARIO DE LARAVEL
-      console.log('🔍 Paso 3: Obteniendo datos del usuario...');
+      // ✅ PASO 2: OBTENER DATOS DEL USUARIO DE LARAVEL
+      console.log('🔍 Paso 2: Obteniendo datos del usuario...');
       const userResponse = await fetchNoSSL(`${API_BASE_URL}/user`, {
         headers: {
           'Accept': 'application/json',
@@ -1516,23 +1608,36 @@ app.get('/sso/consume', async (req, res) => {
 
       if (userResponse.ok) {
         const user = await userResponse.json();
-        console.log('✅ Paso 3 completado: Usuario obtenido');
+        console.log('✅ Paso 2 completado: Usuario obtenido');
         console.log(`   ID: ${user.id}`);
         console.log(`   Nombre: ${user.name}`);
         console.log(`   Email: ${user.email}`);
 
-        // ✅ PASO 4: CREAR USUARIO EN NUESTRA BASE DE DATOS
-        console.log('🔍 Paso 4: Creando/actualizando usuario en DB local...');
+        // ✅ PASO 3: CREAR USUARIO EN NUESTRA BASE DE DATOS
+        console.log('🔍 Paso 3: Creando/actualizando usuario en DB local...');
         ensureUserInDB({
           id: user.id.toString(),
           name: user.name
         });
-        console.log('✅ Paso 4 completado: Usuario creado/actualizado');
+        console.log('✅ Paso 3 completado: Usuario creado/actualizado');
 
-        // ✅ PASO 5: SINCRONIZAR PLANES DEL USUARIO
-        console.log('🔍 Paso 5: Sincronizando planes...');
+        // ✅ PASO 4: SINCRONIZAR PLANES DEL USUARIO
+        console.log('🔍 Paso 4: Sincronizando planes...');
         await syncUserPlansFromBilling(user.id.toString(), data.token);
-        console.log('✅ Paso 5 completado: Planes sincronizados');
+        console.log('✅ Paso 4 completado: Planes sincronizados');
+
+        // ✅ PASO 5: GENERAR TOKEN INTERNO Y GUARDAR EN COOKIE
+        console.log('🔍 Paso 5: Generando token interno y guardando en cookie...');
+        const internalToken = generateInternalToken(user.id.toString());
+        res.cookie('auth_token', internalToken, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax',
+          maxAge: TOKEN_TTL_DAYS * 24 * 60 * 60 * 1000
+        });
+        console.log('✅ Paso 5 completado: Token interno guardado en cookie');
+      } else {
+        console.log('❌ No se pudieron obtener datos del usuario de Laravel');
       }
 
       console.log('\n✅ TODO EL FLUJO COMPLETADO EXITOSAMENTE');
