@@ -1638,9 +1638,22 @@ app.get('/api/debug/users', (req, res) => {
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '..', 'dist')));
-  app.get('*', (req, res) => {
+  
+  // ✅ Catch-all para React Router
+  app.get('*', (req, res, next) => {
+    // Si es una ruta API, saltar
+    if (
+      req.path.startsWith('/api/') || 
+      req.path.startsWith('/i/') || 
+      req.path.startsWith('/sso/')
+    ) {
+      return next();
+    }
+    
+    console.log(`📨 Ruta frontend: ${req.path}, devolviendo index.html`);
     res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
   });
+  
   console.log('🎉 MODO PRODUCCIÓN: Sirviendo frontend desde /dist');
 }
 
