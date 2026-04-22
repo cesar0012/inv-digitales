@@ -15,7 +15,7 @@ const getAuthHeaders = (token?: string) => {
     'Accept': 'application/json'
   };
   
-  if (token) {
+  if (token && token !== 'null' && token !== 'undefined') {
     headers['Authorization'] = `Bearer ${token}`;
   }
   

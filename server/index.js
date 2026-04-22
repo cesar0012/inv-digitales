@@ -1803,7 +1803,9 @@ app.get('/api/debug/billing/:userId', async (req, res) => {
 
     let laravelBilling = null;
     try {
-      const token = req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
+const cookieToken = req.cookies?.auth_token;
+  const headerToken = req.headers.authorization?.replace('Bearer ', '');
+  const token = cookieToken || (headerToken && headerToken !== 'null' && headerToken !== 'undefined' ? headerToken : null);
       if (token) {
         const laravelToken = token.includes('|') ? null : token;
         if (laravelToken) {
