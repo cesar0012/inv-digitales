@@ -324,6 +324,8 @@ const syncUserPlansFromBilling = async (userId, token) => {
 
     // 2. Procesar cada compra válida segun reglas del README
     for (const purchase of billingData.data) {
+      console.log(`🔍 Compra ${purchase.id}: payment_status=${purchase.payment_status}, refund_request_status=${purchase.refund_request_status}, is_used=${purchase.is_used}`);
+
       // ✅ REGLAS EXACTAS DEL README_BILLING_HISTORY.md:
       // Solo procesar: payment_status = paid, refund_request_status = null, is_used = false
       if (
@@ -331,6 +333,7 @@ const syncUserPlansFromBilling = async (userId, token) => {
         purchase.refund_request_status !== null ||
         purchase.is_used === true
       ) {
+        console.log(`⏭️ Compra ${purchase.id} OMITIDA: payment_status=${purchase.payment_status}, refund_request_status=${purchase.refund_request_status}, is_used=${purchase.is_used}`);
         continue;
       }
 
@@ -656,7 +659,7 @@ app.post('/api/auth/set-token', async (req, res) => {
 });
 
 // ✅ Endpoint /api/auth/user que el frontend espera - Definido en README_AUTH_API.md
-app.get('/api/auth/me', async (req, res) => {
+const handleAuthMe = async (req, res) => {
   const token = req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
   
   if (!token) {
@@ -700,12 +703,12 @@ app.get('/api/auth/me', async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: 'Error de conexión' });
   }
-});
+};
+
+app.get('/api/auth/me', handleAuthMe);
 
 // Alias para compatibilidad
-app.get('/api/auth/user', async (req, res) => {
-  return res.redirect('/api/auth/me');
-});
+app.get('/api/auth/user', handleAuthMe);
 
 app.post('/api/auth/logout', (req, res) => {
   res.clearCookie('auth_token', {
@@ -886,6 +889,51 @@ app.get('/api/invitations/:userId/:filename', authMiddleware, (req, res) => {
   
   res.setHeader('Content-Type', 'text/html');
   res.send(content);
+});
+
+// GET /api/get-user/:userId - Datos completos del usuario con créditos e invitaciones (protegido)
+app.get('/api/get-user/:userId', authMiddleware, (req, res) => {
+  const { userId } = req.params;
+
+  if (req.user.id.toString() !== userId) {
+    return res.status(403).json({ error: 'No autorizado' });
+  }
+
+  const user = db.prepare('SELECT * FROM users WHERE user_id = ?').get(userId);
+  if (!user) {
+    return res.status(404).json({ error: 'Usuario no encontrado' });
+  }
+
+  syncUserInvitationsCount(userId);
+
+  const plans = db.prepare('SELECT * FROM user_plans WHERE user_id = ?').all(userId);
+
+  let totalGenerationAvailable = 0;
+  let totalIterationAvailable = 0;
+  let totalInvitesIncluded = 0;
+  let totalInvitesUsed = 0;
+
+  for (const plan of plans) {
+    totalGenerationAvailable += Math.max(0, plan.generation_credits - plan.generation_used);
+    totalIterationAvailable += Math.max(0, plan.iteration_credits - plan.iteration_used);
+    totalInvitesIncluded += plan.invites_included;
+    totalInvitesUsed += plan.invites_used;
+  }
+
+  const invitations = getUserInvitations(userId);
+
+  res.json({
+    user_id: user.user_id,
+    invitations_count: user.invitations_count,
+    iteration_credits: totalIterationAvailable,
+    invitations_remaining: Math.max(0, totalInvitesIncluded - totalInvitesUsed),
+    max_invitations: totalInvitesIncluded,
+    max_iteration_credits: totalIterationAvailable,
+    generation_credits: totalGenerationAvailable,
+    max_generation_credits: totalGenerationAvailable,
+    created_at: user.created_at,
+    invitations
+  });
 });
 
 function extractMetadataFromHTML(htmlContent) {
@@ -1643,7 +1691,7 @@ app.get('/sso/consume', async (req, res) => {
       console.log('\n✅ TODO EL FLUJO COMPLETADO EXITOSAMENTE');
       console.log('✅ REDIRIGIENDO AL DASHBOARD');
       console.log('==================================================\n');
-      return res.redirect('/dashboard');
+      return res.redirect('/');
     }
 
     console.log('❌ Código inválido o expirado');
@@ -1744,6 +1792,46 @@ app.get('/api/debug/users', (req, res) => {
   
   const users = stmt.all();
   res.json({ total: users.length, users });
+});
+
+// DEBUG: Ver billing history de un usuario desde Laravel + planes locales
+app.get('/api/debug/billing/:userId', async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const user = db.prepare('SELECT * FROM users WHERE user_id = ?').get(userId);
+    const localPlans = db.prepare('SELECT * FROM user_plans WHERE user_id = ?').all(userId);
+
+    let laravelBilling = null;
+    try {
+      const token = req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
+      if (token) {
+        const laravelToken = token.includes('|') ? null : token;
+        if (laravelToken) {
+          const response = await fetchNoSSL(`${API_BASE_URL}/billing/history`, {
+            headers: {
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${laravelToken}`
+            }
+          });
+          if (response.ok) {
+            laravelBilling = await response.json();
+          } else {
+            laravelBilling = { error: `Laravel responded ${response.status}` };
+          }
+        } else {
+          laravelBilling = { note: 'Internal token used - cannot query Laravel directly. Re-login needed to capture billing data.' };
+        }
+      } else {
+        laravelBilling = { error: 'No auth token provided' };
+      }
+    } catch (e) {
+      laravelBilling = { error: e.message };
+    }
+
+    res.json({ user, localPlans, laravelBilling });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 if (process.env.NODE_ENV === 'production') {
