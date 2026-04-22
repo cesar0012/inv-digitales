@@ -1,8 +1,7 @@
 import { useAuth } from '../contexts/AuthContext';
 
 const getApiBase = () => {
-  const base = import.meta.env.VITE_API_BASE_URL || window.location.origin;
-  return base.replace(/\/api\/?$/, '');
+  return window.location.origin;
 };
 
 const API_BASE = `${getApiBase()}/api`;

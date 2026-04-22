@@ -202,7 +202,9 @@ const validateLocalToken = (token) => {
 };
 
 const authMiddleware = async (req, res, next) => {
-  const token = req.cookies?.auth_token || req.headers.authorization?.replace('Bearer ', '');
+  const cookieToken = req.cookies?.auth_token;
+  const headerToken = req.headers.authorization?.replace('Bearer ', '');
+  const token = cookieToken || (headerToken && headerToken !== 'null' && headerToken !== 'undefined' ? headerToken : null);
   
   if (!token) {
     return res.status(401).json({ error: 'No autenticado', code: 'NO_TOKEN' });
