@@ -26,6 +26,10 @@ dist-ssr
 # Server
 server/database.sqlite
 server/storage/
+server/index.old.js
+server/*.old.js
+*.old.*
+*.tsbuildinfo
 
 # Backup files
 *.7z
