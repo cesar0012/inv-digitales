@@ -39,7 +39,8 @@ export const generateWebProject = async (
   imageSource: ImageSource,
   attachments: Attachment[] = [],
   editorConfig?: { eventType: string; theme: string; primaryColor: string; secondaryColor: string },
-  imageFiles?: { folder: string; filename: string }[]
+  imageFiles?: { folder: string; filename: string }[],
+  purchaseId?: string
 ): Promise<string> => {
   try {
     const currentDate = new Date().toISOString().replace('T', ' ').substring(0, 19);
@@ -61,7 +62,8 @@ export const generateWebProject = async (
         attachments: attachments,
         editorConfig: editorConfig,
         imageFiles: imageFiles,
-        promptInstruction: imageSource?.promptInstruction || ''
+        promptInstruction: imageSource?.promptInstruction || '',
+        purchaseId: purchaseId || ''
       })
     });
 
@@ -101,7 +103,8 @@ export const addModuleToProject = async (
   currentCode: string,
   insertAfterModule: string,
   moduleDescription: string,
-  imageSource: ImageSource
+  imageSource: ImageSource,
+  purchaseId?: string
 ): Promise<string> => {
   try {
     const prompt = `
@@ -137,7 +140,8 @@ Return the complete, updated HTML code. Raw HTML only, no markdown formatting.
       body: JSON.stringify({
         prompt: addModulePrompt,
         attachments: [],
-        promptInstruction: imageSource?.promptInstruction || ''
+        promptInstruction: imageSource?.promptInstruction || '',
+        purchaseId: purchaseId || ''
       })
     });
 
@@ -182,7 +186,8 @@ Return the complete, updated HTML code. Raw HTML only, no markdown formatting.
 export const modifyProjectDesign = async (
   currentCode: string,
   designDescription: string,
-  imageSource: ImageSource
+  imageSource: ImageSource,
+  purchaseId?: string
 ): Promise<string> => {
   try {
     const prompt = `
@@ -211,7 +216,8 @@ Return the complete, updated HTML code. Raw HTML only, no markdown formatting.
       body: JSON.stringify({
         prompt: designPrompt,
         attachments: [],
-        promptInstruction: imageSource?.promptInstruction || ''
+        promptInstruction: imageSource?.promptInstruction || '',
+        purchaseId: purchaseId || ''
       })
     });
 

@@ -168,7 +168,7 @@ export const EditorView: React.FC = () => {
       : undefined;
 
     try {
-      const generatedCode = await generateWebProject(enhancedPrompt, imageSource, attachments, editorConfigForApi, imageFilesForApi);
+      const generatedCode = await generateWebProject(enhancedPrompt, imageSource, attachments, editorConfigForApi, imageFilesForApi, purchaseId);
       const newPage: ProjectPage = {
         id: 'home-' + Date.now(),
         name: 'Inicio',
@@ -203,7 +203,7 @@ export const EditorView: React.FC = () => {
     const loremFlickrSource = IMAGE_SOURCES.find(s => s.id === 'loremflickr') || IMAGE_SOURCES[0];
 
     try {
-      const updatedCode = await addModuleToProject(activePage.code, insertAfterModule, moduleDescription, loremFlickrSource);
+      const updatedCode = await addModuleToProject(activePage.code, insertAfterModule, moduleDescription, loremFlickrSource, purchaseId);
       setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
     } catch (error: any) {
       console.error(error);
@@ -228,7 +228,7 @@ export const EditorView: React.FC = () => {
     const loremFlickrSource = IMAGE_SOURCES.find(s => s.id === 'loremflickr') || IMAGE_SOURCES[0];
 
     try {
-      const updatedCode = await modifyProjectDesign(activePage.code, designDescription, loremFlickrSource);
+      const updatedCode = await modifyProjectDesign(activePage.code, designDescription, loremFlickrSource, purchaseId);
       setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
     } catch (error: any) {
       console.error(error);

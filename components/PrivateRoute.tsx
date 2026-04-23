@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Loader2 } from 'lucide-react';
 
@@ -12,7 +11,6 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   const [loginUrl, setLoginUrl] = useState<string>('/admin-login');
 
   useEffect(() => {
-    // Fetch login URL from config
     const fetchLoginUrl = async () => {
       try {
         const baseUrl = import.meta.env.VITE_PUBLIC_URL || 'http://localhost:3001';
@@ -26,6 +24,14 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
     fetchLoginUrl();
   }, []);
 
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      if (loginUrl.startsWith('http://') || loginUrl.startsWith('https://')) {
+        window.location.href = loginUrl;
+      }
+    }
+  }, [loading, isAuthenticated, loginUrl]);
+
   if (loading) {
     return (
       <div className="min-h-screen w-full bg-gradient-to-br from-pink-50 via-white to-rose-50 flex items-center justify-center">
@@ -38,8 +44,11 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   }
 
   if (!isAuthenticated) {
-    // Redireccionar a URL configurable de login
-    return <Navigate to={loginUrl} replace />;
+    if (loginUrl.startsWith('http://') || loginUrl.startsWith('https://')) {
+      return null;
+    }
+    window.location.href = loginUrl;
+    return null;
   }
 
   return <>{children}</>;

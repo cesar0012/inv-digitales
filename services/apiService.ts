@@ -121,7 +121,7 @@ export const getInvitationContent = async (filename: string, userId: string, tok
   });
   
   if (response.status === 401) {
-    window.location.href = '/test';
+    redirectToLogin();
     throw new Error('No autenticado');
   }
   
@@ -136,11 +136,22 @@ export const getPublicUrl = (slug: string): string => {
   return `${PUBLIC_BASE}/i/${slug}`;
 };
 
+const redirectToLogin = async () => {
+  try {
+    const baseUrl = import.meta.env.VITE_PUBLIC_URL || window.location.origin;
+    const res = await fetch(`${baseUrl}/api/config/public`);
+    const config = await res.json();
+    window.location.href = config.login_page_url || '/admin-login';
+  } catch {
+    window.location.href = '/admin-login';
+  }
+};
+
 const handleResponse = async (response: Response) => {
   if (response.status === 401) {
     const error = await response.json();
     if (error.code === 'NO_TOKEN' || error.code === 'INVALID_TOKEN') {
-      window.location.href = '/test';
+      await redirectToLogin();
     }
     throw new Error('No autenticado');
   }

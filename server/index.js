@@ -337,14 +337,12 @@ const syncUserPlansFromBilling = async (userId, token) => {
     for (const purchase of billingData.data) {
       console.log(`🔍 Compra ${purchase.id}: payment_status=${purchase.payment_status}, refund_request_status=${purchase.refund_request_status}, is_used=${purchase.is_used}`);
 
-      // ✅ REGLAS EXACTAS DEL README_BILLING_HISTORY.md:
-      // Solo procesar: payment_status = paid, refund_request_status = null, is_used = false
+      // Solo procesar compras pagadas sin reembolso (is_used indica que fue asignada, no que deba excluirse)
       if (
         purchase.payment_status !== 'paid' ||
-        purchase.refund_request_status !== null ||
-        purchase.is_used === true
+        purchase.refund_request_status !== null
       ) {
-        console.log(`⏭️ Compra ${purchase.id} OMITIDA: payment_status=${purchase.payment_status}, refund_request_status=${purchase.refund_request_status}, is_used=${purchase.is_used}`);
+        console.log(`⏭️ Compra ${purchase.id} OMITIDA: payment_status=${purchase.payment_status}, refund_request_status=${purchase.refund_request_status}`);
         continue;
       }
 
