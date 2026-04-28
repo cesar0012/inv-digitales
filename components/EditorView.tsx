@@ -6,7 +6,7 @@ import { InitialView } from './InitialView';
 import { SelectedElement, Attachment, ProjectPage, InvitationMetadata, EditorConfig, LocalImageFile } from '../types';
 import { IMAGE_SOURCES } from '../constants';
 import { generateWebProject, addModuleToProject, modifyProjectDesign } from '../services/aiService';
-import { consumeCredit, consumeGenerationCredit, saveInvitation, replaceInvitation, getInvitationContent } from '../services/apiService';
+import { consumeCredit, saveInvitation, replaceInvitation, updateInvitationContent, getInvitationContent } from '../services/apiService';
 import { injectMetadata, extractMetadata, buildMetadataFromHTML } from '../services/metadataService';
 import { useAuth } from '../contexts/AuthContext';
 import { getLocalImages, hasLocalImages, buildLocalImageContext, getEventFolder } from '../services/localImageService';
@@ -44,6 +44,8 @@ export const EditorView: React.FC = () => {
   const [existingMetadata, setExistingMetadata] = useState<InvitationMetadata | null>(null);
   const [replaceModalData, setReplaceModalData] = useState<{ invitations: InvitationFile[]; maxInvitations: number } | null>(null);
   const [replaceFilename, setReplaceFilename] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [showReplaceConfirm, setShowReplaceConfirm] = useState(false);
 
   const activePage = pages.find(p => p.id === activePageId);
   const code = activePage?.code || '';
@@ -349,7 +351,14 @@ export const EditorView: React.FC = () => {
       alert('Error: No se encontró el plan seleccionado. Vuelve al dashboard e intenta de nuevo.');
       return;
     }
+
     const effectiveReplace = replaceFilenameArg || replaceFilename || undefined;
+
+    if (effectiveReplace && !replaceFilenameArg) {
+      setShowReplaceConfirm(true);
+      return;
+    }
+
     setIsGenerating(true);
     setGeneratingMessage('Guardando Invitación...');
     
@@ -357,22 +366,26 @@ export const EditorView: React.FC = () => {
       const metadata = buildMetadataFromHTML(code, existingMetadata, editorConfig);
       const htmlWithMetadata = injectMetadata(code, metadata);
       
-      let result;
-      if (effectiveReplace) {
-        result = await replaceInvitation(userId, effectiveReplace, htmlWithMetadata, editorConfig.eventType, purchaseId, token);
+      if (filename && !effectiveReplace) {
+        await updateInvitationContent(userId, filename, htmlWithMetadata, token);
+        setSuccessMessage('Invitación actualizada correctamente');
+        setTimeout(() => setSuccessMessage(null), 3000);
+      } else if (effectiveReplace) {
+        await replaceInvitation(userId, effectiveReplace, htmlWithMetadata, editorConfig.eventType, purchaseId, token);
+        setReplaceFilename(null);
+        setSuccessMessage('Invitación reemplazada correctamente');
+        setTimeout(() => setSuccessMessage(null), 3000);
+        navigate('/');
       } else {
-        result = await saveInvitation(htmlWithMetadata, editorConfig.eventType, purchaseId, undefined, token);
+        await saveInvitation(htmlWithMetadata, editorConfig.eventType, purchaseId, undefined, token);
+        navigate('/');
       }
       setReplaceModalData(null);
-      setReplaceFilename(null);
-      console.log('Invitación guardada:', result.filename, '| URL:', result.publicUrl);
-      navigate('/');
+      setShowReplaceConfirm(false);
     } catch (error: any) {
       console.error('Error al guardar invitación:', error?.message || error);
       if (error?.isPlanHasInvitation) {
         alert('Este plan ya tiene una invitación. Usa la opción de reemplazar desde el dashboard.');
-        setIsGenerating(false);
-        return;
       }
     } finally {
       setIsGenerating(false);
@@ -452,6 +465,59 @@ export const EditorView: React.FC = () => {
           onSelect={(filename) => handleSaveInvitation(filename)}
           onCancel={() => setReplaceModalData(null)}
         />
+      )}
+
+      {showReplaceConfirm && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="w-full max-w-md mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <div className="px-6 py-5 border-b border-gray-100 bg-gradient-to-r from-amber-50 to-orange-50">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center">
+                  <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold text-gray-800">Reemplazar invitación</h2>
+                  <p className="text-sm text-gray-500">Esta acción no se puede deshacer</p>
+                </div>
+              </div>
+            </div>
+            <div className="px-6 py-4">
+              <p className="text-sm text-gray-600">
+                ¿Estás seguro de que deseas <strong>reemplazar</strong> la invitación existente? La invitación anterior se eliminará permanentemente y la nueva ocupará su lugar.
+              </p>
+            </div>
+            <div className="px-6 py-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
+              <button
+                onClick={() => setShowReplaceConfirm(false)}
+                className="px-4 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-xl font-medium transition-colors text-sm"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={() => {
+                  setShowReplaceConfirm(false);
+                  handleSaveInvitation(replaceFilename || undefined);
+                }}
+                className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-medium transition-colors text-sm shadow-sm"
+              >
+                Sí, reemplazar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {successMessage && (
+        <div className="fixed top-4 right-4 z-[100]">
+          <div className="bg-green-500 text-white px-5 py-3 rounded-xl shadow-lg flex items-center gap-2 text-sm font-medium">
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            {successMessage}
+          </div>
+        </div>
       )}
     </div>
   );

@@ -106,6 +106,25 @@ export const replaceInvitation = async (
   return handleResponse(response);
 };
 
+export const updateInvitationContent = async (
+  userId: string,
+  filename: string,
+  htmlContent: string,
+  token?: string
+): Promise<{ success: boolean }> => {
+  const response = await fetch(`${API_BASE}/invitations/${userId}/${filename}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      ...getAuthHeaders(token)
+    },
+    credentials: 'include',
+    body: JSON.stringify({ htmlContent })
+  });
+  
+  return handleResponse(response);
+};
+
 export const getInvitations = async (userId: string, token: string): Promise<{ invitations: InvitationFile[] }> => {
   const response = await fetch(`${API_BASE}/invitations/${userId}`, {
     credentials: 'include',

@@ -843,7 +843,7 @@ async function handleLocalConsumeToken(req, res, code) {
 // POST /api/invitations - Guarda una nueva invitación (protegido)
 app.put('/api/invitations/:userId/:filename', authMiddleware, (req, res) => {
   const { userId, filename } = req.params;
-  const { eventType, eventDomain, eventDate, eventTime } = req.body;
+  const { eventType, eventDomain, eventDate, eventTime, htmlContent } = req.body;
   
   if (req.user.id.toString() !== userId) {
     return res.status(403).json({ error: 'No autorizado para modificar esta invitación' });
@@ -852,6 +852,10 @@ app.put('/api/invitations/:userId/:filename', authMiddleware, (req, res) => {
   const filePath = join(storagePath, userId, filename);
   if (!existsSync(filePath)) {
     return res.status(404).json({ error: 'Archivo no encontrado' });
+  }
+  
+  if (htmlContent) {
+    writeFileSync(filePath, htmlContent, 'utf-8');
   }
   
   const updateStmt = db.prepare(`
@@ -885,17 +889,6 @@ app.post('/api/invitations', authMiddleware, (req, res) => {
     return res.status(404).json({ error: 'Plan no encontrado para este usuario' });
   }
 
-  const generationAvailable = Math.max(0, plan.generation_credits - plan.generation_used);
-  const invitesAvailable = Math.max(0, plan.invites_included - plan.invites_used);
-
-  if (generationAvailable < 1) {
-    return res.status(400).json({ error: 'No tienes créditos de generación disponibles en este plan' });
-  }
-
-  if (invitesAvailable < 1) {
-    return res.status(400).json({ error: 'No tienes invitaciones disponibles en este plan' });
-  }
-
   const existingInv = db.prepare('SELECT * FROM invitations WHERE user_id = ? AND purchase_id = ?').get(userId, purchaseId);
   if (existingInv) {
     return res.status(409).json({
@@ -919,13 +912,13 @@ app.post('/api/invitations', authMiddleware, (req, res) => {
 
 syncUserInvitationsCount(userId);
 
-  const publicUrl = `${PUBLIC_URL}/i/${generateSlug(eventType || existingInv.event_type, timestamp)}`;
+const publicUrl = `${PUBLIC_URL}/i/${slug}`;
   const updatedPlan = db.prepare('SELECT * FROM user_plans WHERE user_id = ? AND purchase_id = ?').get(userId, purchaseId);
 
   res.json({
     success: true,
-    filename: newFilename,
-    slug: generateSlug(eventType || existingInv.event_type, timestamp),
+    filename,
+    slug,
     publicUrl,
     purchase_id: purchaseId,
     plan_slug: plan.plan_slug,
@@ -956,11 +949,6 @@ app.put('/api/invitations/replace/:userId/:filename', authMiddleware, (req, res)
     return res.status(404).json({ error: 'Plan no encontrado' });
   }
 
-  const generationAvailable = Math.max(0, plan.generation_credits - plan.generation_used);
-  if (generationAvailable < 1) {
-    return res.status(400).json({ error: 'No tienes créditos de generación disponibles para reemplazar' });
-  }
-
   const existingInv = db.prepare('SELECT * FROM invitations WHERE user_id = ? AND purchase_id = ?').get(userId, purchaseId);
   if (!existingInv) {
     return res.status(404).json({ error: 'No existe invitación para este plan' });
@@ -980,10 +968,6 @@ app.put('/api/invitations/replace/:userId/:filename', authMiddleware, (req, res)
   db.prepare(
     'UPDATE invitations SET filename = ?, slug = ?, event_type = ?, purchase_id = ?, plan_slug = ? WHERE id = ?'
   ).run(newFilename, generateSlug(eventType || existingInv.event_type, timestamp), eventType || existingInv.event_type, purchaseId, plan.plan_slug, existingInv.id);
-
-  db.prepare(
-    'UPDATE user_plans SET generation_used = generation_used + 1 WHERE user_id = ? AND purchase_id = ?'
-  ).run(userId, purchaseId);
 
   syncUserInvitationsCount(userId);
 
