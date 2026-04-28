@@ -917,19 +917,15 @@ app.post('/api/invitations', authMiddleware, (req, res) => {
     'INSERT INTO invitations (user_id, filename, slug, event_type, purchase_id, plan_slug) VALUES (?, ?, ?, ?, ?, ?)'
   ).run(userId, filename, slug, eventType || 'Invitacion', purchaseId, plan.plan_slug);
 
-  db.prepare(
-    'UPDATE user_plans SET generation_used = generation_used + 1, invites_used = invites_used + 1 WHERE user_id = ? AND purchase_id = ?'
-  ).run(userId, purchaseId);
+syncUserInvitationsCount(userId);
 
-  syncUserInvitationsCount(userId);
-
-  const publicUrl = `${PUBLIC_URL}/i/${slug}`;
+  const publicUrl = `${PUBLIC_URL}/i/${generateSlug(eventType || existingInv.event_type, timestamp)}`;
   const updatedPlan = db.prepare('SELECT * FROM user_plans WHERE user_id = ? AND purchase_id = ?').get(userId, purchaseId);
 
   res.json({
     success: true,
-    filename,
-    slug,
+    filename: newFilename,
+    slug: generateSlug(eventType || existingInv.event_type, timestamp),
     publicUrl,
     purchase_id: purchaseId,
     plan_slug: plan.plan_slug,
