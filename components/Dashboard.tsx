@@ -52,7 +52,7 @@ export const Dashboard: React.FC = () => {
 
   const handleReplaceInvitation = () => {
     if (!selectedPlan?.invitation) return;
-    navigate(`/editor/${encodeURIComponent(selectedPlan.invitation.filename)}?purchaseId=${selectedPlan.purchase_id}`);
+    navigate(`/editor?purchaseId=${selectedPlan.purchase_id}&replace=${encodeURIComponent(selectedPlan.invitation.filename)}`);
   };
 
   const handleOpenEditor = (inv: InvitationFile) => {

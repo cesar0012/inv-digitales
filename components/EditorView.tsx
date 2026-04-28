@@ -43,12 +43,16 @@ export const EditorView: React.FC = () => {
   
   const [existingMetadata, setExistingMetadata] = useState<InvitationMetadata | null>(null);
   const [replaceModalData, setReplaceModalData] = useState<{ invitations: InvitationFile[]; maxInvitations: number } | null>(null);
+  const [replaceFilename, setReplaceFilename] = useState<string | null>(null);
 
   const activePage = pages.find(p => p.id === activePageId);
   const code = activePage?.code || '';
 
   useEffect(() => {
-    if (filename) {
+    const replaceParam = searchParams.get('replace');
+    if (replaceParam) {
+      setReplaceFilename(decodeURIComponent(replaceParam));
+    } else if (filename) {
       loadExistingInvitation(filename);
     }
     
@@ -339,13 +343,13 @@ export const EditorView: React.FC = () => {
     setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
   };
 
-  const handleSaveInvitation = async (replaceFilename?: string) => {
+  const handleSaveInvitation = async (replaceFilenameArg?: string) => {
     if (code.length === 0) return;
     if (!purchaseId) {
       alert('Error: No se encontró el plan seleccionado. Vuelve al dashboard e intenta de nuevo.');
       return;
     }
-    const safeReplace = (typeof replaceFilename === 'string') ? replaceFilename : undefined;
+    const effectiveReplace = replaceFilenameArg || replaceFilename || undefined;
     setIsGenerating(true);
     setGeneratingMessage('Guardando Invitación...');
     
@@ -354,12 +358,13 @@ export const EditorView: React.FC = () => {
       const htmlWithMetadata = injectMetadata(code, metadata);
       
       let result;
-      if (safeReplace) {
-        result = await replaceInvitation(userId, safeReplace, htmlWithMetadata, editorConfig.eventType, purchaseId, token);
+      if (effectiveReplace) {
+        result = await replaceInvitation(userId, effectiveReplace, htmlWithMetadata, editorConfig.eventType, purchaseId, token);
       } else {
         result = await saveInvitation(htmlWithMetadata, editorConfig.eventType, purchaseId, undefined, token);
       }
       setReplaceModalData(null);
+      setReplaceFilename(null);
       console.log('Invitación guardada:', result.filename, '| URL:', result.publicUrl);
       navigate('/');
     } catch (error: any) {
@@ -391,6 +396,7 @@ export const EditorView: React.FC = () => {
         onGenerate={handleGenerate}
         onSaveInvitation={handleSaveInvitation}
         hasCode={code.length > 0}
+        isReplace={!!replaceFilename}
         initialEventType={editorConfig.eventType}
         initialTheme={editorConfig.theme}
         initialPrimaryColor={editorConfig.primaryColor}
@@ -424,6 +430,7 @@ export const EditorView: React.FC = () => {
           onToggleModuleVisibility={handleToggleModuleVisibility}
           onSaveInvitation={handleSaveInvitation}
           hasCode={code.length > 0}
+          isReplace={!!replaceFilename}
         />
       )}
 
