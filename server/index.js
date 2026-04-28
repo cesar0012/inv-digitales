@@ -1279,6 +1279,26 @@ function syncHistoricoWithDB() {
   }
 }
 
+app.get('/i/:slug', (req, res) => {
+  try {
+    const { slug } = req.params;
+    const inv = db.prepare('SELECT user_id, filename FROM invitations WHERE slug = ?').get(slug);
+    if (!inv) {
+      return res.status(404).send('Invitación no encontrada');
+    }
+    const filePath = join(storagePath, inv.user_id.toString(), inv.filename);
+    if (!existsSync(filePath)) {
+      return res.status(404).send('Archivo no encontrado');
+    }
+    const content = readFileSync(filePath, 'utf-8');
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.send(content);
+  } catch (error) {
+    console.error('Error sirviendo invitación pública:', error);
+    res.status(500).send('Error interno del servidor');
+  }
+});
+
 // GET /api/catalogo - Obtener todas las invitaciones del catálogo (público)
 app.get('/api/catalogo', (req, res) => {
   try {
