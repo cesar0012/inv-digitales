@@ -1,7 +1,7 @@
 import { EVENT_IMAGE_FOLDERS, IMAGE_KEYWORD_MAPPING, generateLocalImagePrompt } from '../constants';
 import { LocalImageFile } from '../types';
 
-const API_BASE = `${window.location.origin.replace(':3000', ':3001')}/api`;
+const API_BASE = `${import.meta.env.VITE_PUBLIC_URL || window.location.origin}/api`;
 
 export const getLocalImages = async (eventType: string): Promise<LocalImageFile[]> => {
   const folder = EVENT_IMAGE_FOLDERS[eventType];

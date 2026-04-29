@@ -106,6 +106,23 @@ app.use(cookieParser());
 const imgPath = join(__dirname, '..', 'img');
 app.use('/img', express.static(imgPath));
 
+app.get('/api/images/:folder/list', (req, res) => {
+  const folder = req.params.folder;
+  const folderPath = join(imgPath, folder);
+
+  if (!existsSync(folderPath)) {
+    return res.json({ images: [] });
+  }
+
+  try {
+    const files = readdirSync(folderPath)
+      .filter(f => /\.(jpg|jpeg|png|webp|gif)$/i.test(f));
+    res.json({ images: files });
+  } catch (err) {
+    res.json({ images: [] });
+  }
+});
+
 const storagePath = join(__dirname, 'storage', 'users');
 const historicoPath = join(__dirname, 'storage', 'historico');
 app.use('/storage', express.static(storagePath));
