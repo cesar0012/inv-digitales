@@ -2,37 +2,45 @@
 import { ImageSource, AIModel } from './types';
 
 export const SYSTEM_INSTRUCTION = `
-You generate ONE complete HTML file for a cinematic digital invitation. You MUST include Three.js particles, tsParticles, and GSAP ScrollTrigger. Output raw HTML only — no markdown.
+You generate ONE complete HTML file for a digital invitation. Output raw HTML only — no markdown.
 
-===== MANDATORY <head> CDN SCRIPTS =====
+===== CREATIVE FREEDOM =====
+EVERY invitation you generate MUST be VISUALLY UNIQUE. Never repeat the same layout, animation pattern, or design structure. Vary:
+- Layout: full-screen hero, split-screen, card-based, editorial, asymmetrical, overlapping sections, parallax layers, horizontal scroll segments, masonry grids, centered timeline, side-by-side, etc.
+- Typography: choose fonts that match the theme — script + serif, display + sans, handwritten + clean, blackletter + modern, etc. Use 2-3 Google Fonts per invitation.
+- Color application: gradients, monochrome with accent, duotone, warm palette, cool palette, pastel, jewel tones, earth tones, neon accents — NEVER default to the same color scheme.
+- Section transitions: hard cuts, fades, slides, reveals, parallax, zoom — mix and match freely.
+- Countdown styles: flip cards, circular progress, minimal numbers, ornate frames, watercolor circles, etc.
+- Hover effects: vary them — scale, glow, lift, color shift, underline animation, border reveal, etc.
+- Decorative elements: ornamental borders, watercolor splashes, geometric patterns, floral illustrations, foil textures, paper textures, marble, wood grain, etc.
+- Animation approach: use ANY combination of CSS animations, scroll-triggered effects, hover interactions, entrance animations, parallax, particle effects, etc.
+
+The user's theme/theme description is your PRIMARY design guide. Follow it closely. If no theme is specified, choose a distinctive style yourself — NEVER fall back to a generic "cinematic dark" default.
+
+===== AVAILABLE <head> CDN SCRIPTS (include ONLY what you use) =====
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tsparticles-engine@2/tsparticles.engine.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script> <!-- ONLY if using Three.js particles -->
+<script src="https://cdn.jsdelivr.net/npm/tsparticles-engine@2/tsparticles.engine.min.js"></script> <!-- ONLY if using tsParticles -->
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script> <!-- ONLY if using tsParticles -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script> <!-- ONLY if using GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script> <!-- ONLY if using ScrollTrigger -->
 <link href="https://fonts.googleapis.com/css2?family=..." rel="stylesheet">
 No other libraries.
 
-===== MANDATORY 3 EFFECTS (include ALL 3 or your output is REJECTED) =====
-
-1. THREE.JS HERO PARTICLES — Place this inside the hero <section> after opening tag, then add a <script> after </section>:
-<canvas id="hero-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;"></canvas>
-Then after </section>:
-<script>(function(){var c=document.getElementById('hero-canvas');if(!c)return;c.parentElement.style.position='relative';var s=new THREE.Scene();var cm=new THREE.PerspectiveCamera(75,c.clientWidth/c.clientHeight,0.1,1000);cm.position.z=50;var r=new THREE.WebGLRenderer({canvas:c,alpha:true,antialias:true});r.setSize(c.clientWidth,c.clientHeight);r.setPixelRatio(Math.min(window.devicePixelRatio,2));var n=100;var p=new Float32Array(n*3);var cl=new Float32Array(n*3);for(var i=0;i<n;i++){p[i*3]=(Math.random()-0.5)*100;p[i*3+1]=(Math.random()-0.5)*100;p[i*3+2]=(Math.random()-0.5)*100;cl[i*3]=0.4+Math.random()*0.6;cl[i*3+1]=0.6+Math.random()*0.4;cl[i*3+2]=0.8+Math.random()*0.2;}var g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(p,3));g.setAttribute('color',new THREE.BufferAttribute(cl,3));var m=new THREE.PointsMaterial({size:0.8,vertexColors:true,transparent:true,opacity:0.7,sizeAttenuation:true});var pt=new THREE.Points(g,m);s.add(pt);function a(){requestAnimationFrame(a);pt.rotation.y+=0.001;pt.rotation.x+=0.0005;var pa=g.attributes.position.array;for(var i=1;i<pa.length;i+=3){pa[i]+=Math.sin(Date.now()*0.001+i)*0.02;}g.attributes.position.needsUpdate=true;r.render(s,cm);}a();window.addEventListener('resize',function(){cm.aspect=c.clientWidth/c.clientHeight;cm.updateProjectionMatrix();r.setSize(c.clientWidth,c.clientHeight);});})();</script>
-
-2. TSPARTICLES — Add in at least 1 section (countdown, itinerary, etc):
-<div id="tsp-X" class="absolute inset-0" style="z-index:1;"></div>
-Then after that section's </section>:
-<script>(function(){if(typeof tsParticles==='undefined')return;tsParticles.load("tsp-X",{fullScreen:{enable:false},particles:{number:{value:50},color:{value:["PRIMARY_HEX","SECONDARY_HEX","#ffffff"]},shape:{type:"circle"},size:{value:{min:1,max:3}},move:{enable:true,speed:0.5,direction:"top",outModes:"out"},opacity:{value:{min:0.15,max:0.6}},links:{enable:false}},interactivity:{events:{onHover:{enable:false}}}});})();</script>
-(Replace "tsp-X" with unique id, PRIMARY_HEX/SECONDARY_HEX with actual colors)
-
-3. GSAP SCROLLTRIGGER — Place at end of <body>:
-<script>gsap.registerPlugin(ScrollTrigger);gsap.utils.toArray('section').forEach(function(s){gsap.from(s,{scrollTrigger:{trigger:s,start:'top 85%'},opacity:0,y:40,duration:0.8,ease:'power2.out'});gsap.utils.toArray(s.querySelectorAll('h1,h2,h3,p,img')).forEach(function(e,i){gsap.from(e,{scrollTrigger:{trigger:e,start:'top 90%'},opacity:0,y:25,duration:0.6,delay:i*0.08,ease:'power2.out'});});});</script>
+===== EFFECTS (OPTIONAL — use what fits the design) =====
+You MAY use Three.js particles, tsParticles, GSAP/ScrollTrigger, or purely CSS animations — choose based on what matches the theme. Examples:
+- Elegant/formal: subtle fade-ins, parallax, gold particle shimmer
+- Rustic/vintage: paper texture transitions, stamp-like reveals, handwritten feel
+- Modern/minimal: clean slide-ins, geometric animations, monochrome accents
+- Bohemian/floral: floating elements, watercolor effects, organic shapes
+- Tropical/beach: wave animations, sun glow, palm silhouettes
+- Art deco: geometric patterns, gold lines, symmetrical reveals
+You are NOT required to use all three libraries. Use NONE, ONE, TWO, or ALL THREE as the design demands.
+Keep particle counts <150 for mobile performance.
 
 ===== GEMINI_GENERATE BACKGROUNDS =====
 ✅ ONLY correct usage — inline style on a section/div:
-   style="background-image: url('GEMINI_GENERATE:cinematic description here'); background-size: cover; background-position: center;"
+   style="background-image: url('GEMINI_GENERATE:description here'); background-size: cover; background-position: center;"
    Then add overlay: <div class="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70"></div>
 
 ❌ FORBIDDEN — These will BREAK the page:
@@ -60,15 +68,13 @@ Format: data-gemini-id="MODULE-ELEMENT" (e.g., portada-titulo, padres-nombre, it
 Must be on ALL: h1-h6, p, span, a, img, iframe
 Modules: portada, padres, itinerario, ubicacion, countdown, padrinos, corte, vestimenta, regalos
 
-===== DESIGN RULES =====
-- CSS :root { --color-primary: #hex; --color-secondary: #hex; }
-- 2-3 Google Fonts (decorative headings + elegant body)
-- Alternate sections: cinematic bg + overlay → dark cinematic → light/gradient → glassmorphism
+===== STRUCTURE RULES =====
+- CSS :root { --color-primary: #hex; --color-secondary: #hex; } — define the user's chosen colors as variables and USE them throughout.
+- 2-3 Google Fonts that match the theme (decorative headings + elegant body, or any combination that fits).
 - ITINERARY: vertical timeline with flexbox ONLY. NEVER <table>. Left=time badge, center=dot+line, right=card.
-- CSS animations: gradientShift, float, pulseGlow as @keyframes
-- Countdown: styled cards with glow/pulse
-- Hover: scale 1.03 + shadow elevation
-- Keep particles <150 for mobile performance
+- MUST be responsive and mobile-first.
+- Each section should be visually distinct — vary backgrounds, spacing, typography scale, and decorative elements between sections.
+- Countdown timer MUST work (use real JavaScript countdown logic, not just static numbers).
 
 ===== METADATA (after </html>) =====
 <!-- INVITATION_DATA:
