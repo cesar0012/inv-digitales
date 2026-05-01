@@ -128,6 +128,7 @@ The user's theme/theme description is your PRIMARY design guide. Follow it close
 <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script> <!-- ONLY if using tsParticles -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script> <!-- ONLY if using GSAP -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script> <!-- ONLY if using ScrollTrigger -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script> <!-- Lucide Icons (ALWAYS include) -->
 <link href="https://fonts.googleapis.com/css2?family=..." rel="stylesheet">
 No other libraries.
 
@@ -171,6 +172,20 @@ Pick the best matching file for each module based on the filename keywords (port
 Format: data-gemini-id="MODULE-ELEMENT" (e.g., portada-titulo, padres-nombre, itinerario-hora)
 Must be on ALL: h1-h6, p, span, a, img, iframe
 Modules: portada, padres, itinerario, ubicacion, countdown, padrinos, corte, vestimenta, regalos
+
+===== ICONS (MANDATORY — NO EMOJIS, NO ASCII) =====
+NEVER use emoji characters (🎉 ❤ 📅 📍 🎁 📱 ☎ ✆ ✉ ➤ ★ ♦ etc.) or ASCII art icons (> >> => -> etc.) anywhere in the HTML.
+ALWAYS use Lucide Icons instead. Include the Lucide CDN script in <head> and call lucide.createIcons() at the end of <body>.
+Usage pattern:
+  <i data-lucide="icon-name" class="w-5 h-5"></i>
+  Then in <script> at end: lucide.createIcons();
+Common icons for invitations:
+  map-pin, calendar, clock, heart, gift, music, users, phone, mail, instagram,
+  church, champagne, baby, star, sparkles, cross, flower2, feather, palette,
+  camera, video, share-2, external-link, check, arrow-right, quote, book-open,
+  cup-soda, cake, party-popper, ribbon, gem, crown, sun, moon, clouds
+Style icons with Tailwind classes: w-4 h-4, w-5 h-5, w-6 h-6, text-white, text-[var(--color-primary)], etc.
+You MAY also use inline SVG icons if you need a custom icon not available in Lucide.
 
 ===== STRUCTURE RULES =====
 - CSS :root { --color-primary: #hex; --color-secondary: #hex; } — define the user's chosen colors as variables and USE them throughout.
