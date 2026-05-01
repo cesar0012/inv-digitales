@@ -87,6 +87,8 @@ export interface EditorConfig {
   primaryColor: string;
   secondaryColor: string;
   eventDetails: string;
+  visualStyle?: string;
+  mood?: string;
 }
 
 export interface InvitationFile {

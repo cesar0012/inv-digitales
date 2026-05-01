@@ -1,7 +1,6 @@
 import { createHash } from 'crypto';
 import https from 'https';
 
-// Función para fetch sin verificación SSL
 const fetchNoSSL = async (url, options = {}) => {
   return new Promise((resolve, reject) => {
     const agent = new https.Agent({ rejectUnauthorized: false });
@@ -9,7 +8,105 @@ const fetchNoSSL = async (url, options = {}) => {
   });
 };
 
+const LAYOUT_OPTIONS = [
+  'full-screen-hero', 'split-screen', 'card-based', 'editorial-magazine', 'asymmetrical',
+  'overlapping-sections', 'parallax-layers', 'horizontal-scroll-segments', 'masonry-grid',
+  'centered-timeline', 'side-by-side-columns', 'cinematic-panes', 'scrapbook', 'minimalist-center',
+  'diagonal-sections', 'layered-cards', 'wave-sections', 'storybook', 'poster-style', 'collage'
+];
+
+const TYPOGRAPHY_OPTIONS = [
+  'script-serif', 'display-sans', 'handwritten-clean', 'blackletter-modern', 'elegant-serif-pair',
+  'condensed-sans-expanded', 'mono-display', 'vintage-serif', 'modern-geometric', 'calligraphic-body',
+  'art-deco-display', 'boho-handwritten', 'retro-slab', 'luxury-thin', 'playful-rounded'
+];
+
+const ANIMATION_OPTIONS = [
+  'fade-in-stagger', 'slide-up-reveal', 'parallax-scroll', 'zoom-on-enter', 'flip-cards',
+  'typewriter-text', 'floating-elements', 'particle-shimmer', 'wave-motion', 'rotate-reveal',
+  'curtain-open', 'bounce-in', 'elastic-scale', 'glitch-entrance', 'watercolor-bleed',
+  'stamp-reveal', 'ripple-effect', 'morph-shapes', 'cinematic-wipe', 'soft-drift'
+];
+
+const COLOR_STRATEGIES = [
+  'gradient-flow', 'monochrome-accent', 'duotone', 'warm-palette', 'cool-palette',
+  'pastel-spectrum', 'jewel-tones', 'earth-tones', 'neon-accents', 'muted-elegant',
+  'high-contrast', 'tonal-layering', 'complementary-pop', 'analogous-harmony', 'triadic-vibrant'
+];
+
+const SECTION_FLOW_OPTIONS = [
+  'linear-classic', 'alternating-bg', 'overlay-sections', 'card-stack', 'accordion-reveal',
+  'timeline-horizontal', 'mosaic-grid', 'scroll-snap-sections', 'fullbleed-interleaved', 'wave-divider'
+];
+
+const EVENT_PREFERRED_LAYOUTS = {
+  'Boda Tradicional': ['full-screen-hero', 'editorial-magazine', 'layered-cards', 'cinematic-panes', 'centered-timeline', 'side-by-side-columns'],
+  'Boda Americana': ['cinematic-panes', 'split-screen', 'minimalist-center', 'parallax-layers', 'editorial-magazine', 'side-by-side-columns'],
+  'Boda Gay (Hombres)': ['modern-geometric', 'split-screen', 'diagonal-sections', 'full-screen-hero', 'layered-cards'],
+  'Boda Gay (Mujeres)': ['overlapping-sections', 'storybook', 'wave-sections', 'full-screen-hero', 'collage'],
+  'XV Años': ['full-screen-hero', 'storybook', 'scrapbook', 'card-based', 'layered-cards', 'wave-sections'],
+  'Bautizo': ['soft-drift', 'minimalist-center', 'centered-timeline', 'layered-cards', 'storybook'],
+  'Primera Comunión': ['centered-timeline', 'minimalist-center', 'soft-drift', 'storybook', 'layered-cards'],
+  'Confirmación': ['centered-timeline', 'minimalist-center', 'editorial-magazine', 'layered-cards'],
+  'Cumpleaños Niño': ['card-based', 'collage', 'masonry-grid', 'diagonal-sections', 'scrapbook', 'poster-style'],
+  'Cumpleaños Niña': ['scrapbook', 'wave-sections', 'collage', 'card-based', 'storybook', 'masonry-grid'],
+  'Baby Shower': ['card-based', 'scrapbook', 'wave-sections', 'overlapping-sections', 'storybook', 'masonry-grid'],
+  'Otro': ['full-screen-hero', 'card-based', 'editorial-magazine', 'split-screen', 'minimalist-center']
+};
+
+const EVENT_PREFERRED_ANIMATIONS = {
+  'Boda Tradicional': ['fade-in-stagger', 'parallax-scroll', 'particle-shimmer', 'soft-drift', 'slide-up-reveal'],
+  'Boda Americana': ['cinematic-wipe', 'parallax-scroll', 'zoom-on-enter', 'fade-in-stagger', 'slide-up-reveal'],
+  'Boda Gay (Hombres)': ['rotate-reveal', 'elastic-scale', 'parallax-scroll', 'morph-shapes', 'slide-up-reveal'],
+  'Boda Gay (Mujeres)': ['watercolor-bleed', 'floating-elements', 'soft-drift', 'ripple-effect', 'fade-in-stagger'],
+  'XV Años': ['bounce-in', 'flip-cards', 'particle-shimmer', 'curtain-open', 'slide-up-reveal', 'floating-elements'],
+  'Bautizo': ['soft-drift', 'fade-in-stagger', 'floating-elements', 'ripple-effect', 'slide-up-reveal'],
+  'Primera Comunión': ['fade-in-stagger', 'soft-drift', 'slide-up-reveal', 'particle-shimmer', 'floating-elements'],
+  'Confirmación': ['fade-in-stagger', 'parallax-scroll', 'slide-up-reveal', 'soft-drift'],
+  'Cumpleaños Niño': ['bounce-in', 'elastic-scale', 'glitch-entrance', 'morph-shapes', 'rotate-reveal', 'flip-cards'],
+  'Cumpleaños Niña': ['bounce-in', 'watercolor-bleed', 'floating-elements', 'elastic-scale', 'ripple-effect', 'curtain-open'],
+  'Baby Shower': ['floating-elements', 'soft-drift', 'bounce-in', 'watercolor-bleed', 'ripple-effect', 'fade-in-stagger'],
+  'Otro': ['fade-in-stagger', 'slide-up-reveal', 'parallax-scroll', 'zoom-on-enter', 'bounce-in']
+};
+
+const pickRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+const generateDesignFingerprint = (eventType = '', theme = '', visualStyle = '', mood = '') => {
+  const preferredLayouts = EVENT_PREFERRED_LAYOUTS[eventType] || EVENT_PREFERRED_LAYOUTS['Otro'];
+  const preferredAnimations = EVENT_PREFERRED_ANIMATIONS[eventType] || EVENT_PREFERRED_ANIMATIONS['Otro'];
+
+  const isLayoutOutlier = Math.random() < 0.25;
+  const isAnimationOutlier = Math.random() < 0.20;
+
+  const layout = isLayoutOutlier ? pickRandom(LAYOUT_OPTIONS) : pickRandom(preferredLayouts);
+  const typography = pickRandom(TYPOGRAPHY_OPTIONS);
+  const animation = isAnimationOutlier ? pickRandom(ANIMATION_OPTIONS) : pickRandom(preferredAnimations);
+  const colorStrategy = pickRandom(COLOR_STRATEGIES);
+  const sectionFlow = pickRandom(SECTION_FLOW_OPTIONS);
+
+  const fingerprint = [
+    `LAYOUT: ${layout}`,
+    `TYPOGRAPHY: ${typography}`,
+    `ANIMATION: ${animation}`,
+    `COLOR_STRATEGY: ${colorStrategy}`,
+    `SECTION_FLOW: ${sectionFlow}`,
+  ];
+  if (visualStyle) fingerprint.push(`VISUAL_STYLE_OVERRIDE: ${visualStyle}`);
+  if (mood) fingerprint.push(`MOOD_OVERRIDE: ${mood}`);
+
+  return fingerprint.join(' | ');
+};
+
 const SYSTEM_INSTRUCTION = `You generate ONE complete HTML file for a digital invitation. Output raw HTML only — no markdown.
+
+===== DESIGN FINGERPRINT (MANDATORY) =====
+A design fingerprint will be injected before your prompt. It contains MANDATORY creative direction:
+- LAYOUT: You MUST use this layout structure. Do not substitute a different layout.
+- TYPOGRAPHY: You MUST choose fonts from this pairing. Use Google Fonts that match.
+- ANIMATION: You MUST use this as your primary animation/transition style.
+- COLOR STRATEGY: You MUST apply colors using this strategy (gradient, duotone, monochrome+accent, etc.)
+- SECTION FLOW: You MUST organize sections using this flow pattern.
+The fingerprint is LAW, not a suggestion. If the fingerprint says "card-based layout", do NOT create a full-screen hero. If it says "typewriter animation", include typewriter effects. OBEY THE FINGERPRINT.
 
 ===== CREATIVE FREEDOM =====
 EVERY invitation you generate MUST be VISUALLY UNIQUE. Never repeat the same layout, animation pattern, or design structure. Vary:
@@ -22,7 +119,7 @@ EVERY invitation you generate MUST be VISUALLY UNIQUE. Never repeat the same lay
 - Decorative elements: ornamental borders, watercolor splashes, geometric patterns, floral illustrations, foil textures, paper textures, marble, wood grain, etc.
 - Animation approach: use ANY combination of CSS animations, scroll-triggered effects, hover interactions, entrance animations, parallax, particle effects, etc.
 
-The user's theme/theme description is your PRIMARY design guide. Follow it closely. If no theme is specified, choose a distinctive style yourself — NEVER fall back to a generic "cinematic dark" default.
+The user's theme/theme description is your PRIMARY design guide. Follow it closely. If no theme is specified, choose a distinctive style yourself — NEVER fall back to a generic "cinemonic dark" default.
 
 ===== AVAILABLE <head> CDN SCRIPTS (include ONLY what you use) =====
 <script src="https://cdn.tailwindcss.com"></script>
@@ -91,12 +188,19 @@ Modules: portada, padres, itinerario, ubicacion, countdown, padrinos, corte, ves
 Now generate the complete HTML invitation: `;
 
 export const generateWithGemini = async (prompt, apiKey, model = 'gemini-3.1-pro', options = {}) => {
-  const { eventType, theme, primaryColor, secondaryColor, imageFiles, promptInstruction } = options;
+  const { eventType, theme, primaryColor, secondaryColor, imageFiles, promptInstruction, visualStyle, mood } = options;
   const currentDate = new Date().toISOString().replace('T', ' ').substring(0, 19);
   const promptWithDate = prompt.replace(/SYSTEM_TIMESTAMP:\s*\S+/, `SYSTEM_TIMESTAMP: ${currentDate}`);
   
+  const fingerprint = generateDesignFingerprint(eventType, theme, visualStyle, mood);
+  console.log('=== DESIGN FINGERPRINT ===');
+  console.log('Event:', eventType, '| Theme:', theme, '| VisualStyle:', visualStyle, '| Mood:', mood);
+  console.log('Fingerprint:', fingerprint);
+  console.log('=========================');
+  
+  const fingerprintBlock = `\n\n===== DESIGN FINGERPRINT (FOLLOW EXACTLY) =====\n${fingerprint}\n===== END FINGERPRINT =====\n\n`;
   const promptImageContext = promptInstruction ? `\n\n${promptInstruction}` : '';
-  const fullPrompt = `${SYSTEM_INSTRUCTION}${promptImageContext}${promptWithDate}`;
+  const fullPrompt = `${SYSTEM_INSTRUCTION}${fingerprintBlock}${promptImageContext}${promptWithDate}`;
   
   // CORRECTO: usar v1beta sin API key en URL, mover al header
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;

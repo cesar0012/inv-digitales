@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Send, Image as ImageIcon, Settings, Heart, X, ImagePlus, Palette, Type, ChevronDown, Save, Home, AlertCircle, FileText } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Attachment, EditorConfig } from '../types';
-import { EVENT_TYPES } from '../constants';
+import { EVENT_TYPES, EVENT_DEFAULT_COLORS, VISUAL_STYLES, MOODS } from '../constants';
 
 interface InitialViewProps {
   onGenerate: (prompt: string, attachments: Attachment[], config: EditorConfig) => void;
@@ -33,10 +33,14 @@ export const InitialView: React.FC<InitialViewProps> = ({
   const [primaryColor, setPrimaryColor] = useState(initialPrimaryColor);
   const [secondaryColor, setSecondaryColor] = useState(initialSecondaryColor);
   const [eventDetails, setEventDetails] = useState(initialEventDetails);
+  const [visualStyle, setVisualStyle] = useState('');
+  const [mood, setMood] = useState('');
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const [error, setError] = useState<string | null>(null);
   
   const [showEventTypeSelector, setShowEventTypeSelector] = useState(false);
+  const [showVisualStyleSelector, setShowVisualStyleSelector] = useState(false);
+  const [showMoodSelector, setShowMoodSelector] = useState(false);
   const eventTypeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -52,6 +56,8 @@ export const InitialView: React.FC<InitialViewProps> = ({
       if (eventTypeRef.current && !eventTypeRef.current.contains(event.target as Node)) {
         setShowEventTypeSelector(false);
       }
+      setShowVisualStyleSelector(false);
+      setShowMoodSelector(false);
     };
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -77,7 +83,15 @@ export const InitialView: React.FC<InitialViewProps> = ({
       prompt += `\nEl tema o estilo visual principal debe ser: ${theme}.`;
     }
     
-    prompt += `\n\nDetalles específicos del evento:\n${eventDetails.trim()}`;
+    if (visualStyle) {
+      prompt += `\nEstilo visual preferido: ${visualStyle}.`;
+    }
+    
+    if (mood) {
+      prompt += `\nTono y ánimo: ${mood}.`;
+    }
+    
+    prompt += `\n\nDetalles específicos del evenimiento:\n${eventDetails.trim()}`;
     
     prompt += `\n\nLa paleta de colores debe ser:`;
     if (primaryColor) prompt += `\n- Color Principal/Base: ${primaryColor}`;
@@ -88,7 +102,9 @@ export const InitialView: React.FC<InitialViewProps> = ({
       theme: theme || '',
       primaryColor,
       secondaryColor,
-      eventDetails: eventDetails.trim()
+      eventDetails: eventDetails.trim(),
+      visualStyle: visualStyle || undefined,
+      mood: mood || undefined
     };
 
     onGenerate(prompt, attachments, config);
@@ -196,7 +212,16 @@ export const InitialView: React.FC<InitialViewProps> = ({
                 {EVENT_TYPES.map(type => (
                   <button
                     key={type}
-                    onClick={() => { setEventType(type); setShowEventTypeSelector(false); setError(null); }}
+                    onClick={() => {
+                      setEventType(type);
+                      setShowEventTypeSelector(false);
+                      setError(null);
+                      const defaults = EVENT_DEFAULT_COLORS[type];
+                      if (defaults) {
+                        setPrimaryColor(defaults.primary);
+                        setSecondaryColor(defaults.secondary);
+                      }
+                    }}
                     className={`w-full text-left px-4 py-3 rounded-xl transition-colors flex items-center ${eventType === type ? 'bg-pink-50 text-pink-600 font-medium' : 'hover:bg-gray-50 text-gray-700'}`}
                   >
                     {type}
@@ -218,6 +243,66 @@ export const InitialView: React.FC<InitialViewProps> = ({
               placeholder="Ej: Elegante, Floral, Rústico, Minimalista, Playa..."
               className="w-full bg-white border border-pink-200 hover:border-pink-400 px-4 py-3 rounded-xl text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all shadow-sm text-lg placeholder:text-gray-400"
             />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="flex flex-col gap-2 relative">
+              <label className="text-sm font-semibold text-gray-700 uppercase tracking-wider flex items-center gap-2">
+                <Palette className="w-4 h-4 text-pink-500" />
+                Estilo Visual
+              </label>
+              <button
+                onClick={() => { setShowVisualStyleSelector(!showVisualStyleSelector); setShowMoodSelector(false); }}
+                className="w-full flex items-center justify-between bg-white border border-pink-200 hover:border-pink-400 px-4 py-3 rounded-xl text-left text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all shadow-sm"
+              >
+                <span className={`text-base ${!visualStyle ? 'text-gray-400' : ''}`}>
+                  {visualStyle || 'Automático'}
+                </span>
+                <ChevronDown className="w-4 h-4 text-gray-400" />
+              </button>
+              {showVisualStyleSelector && (
+                <div className="absolute top-full left-0 mt-2 w-full max-h-56 overflow-y-auto bg-white border border-pink-200 rounded-2xl shadow-2xl z-[100] p-2 custom-scrollbar">
+                  {VISUAL_STYLES.map(style => (
+                    <button
+                      key={style || 'auto'}
+                      onClick={() => { setVisualStyle(style); setShowVisualStyleSelector(false); }}
+                      className={`w-full text-left px-4 py-2.5 rounded-xl transition-colors text-sm ${visualStyle === style ? 'bg-pink-50 text-pink-600 font-medium' : 'hover:bg-gray-50 text-gray-700'}`}
+                    >
+                      {style || 'Automático (recomendado)'}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-col gap-2 relative">
+              <label className="text-sm font-semibold text-gray-700 uppercase tracking-wider flex items-center gap-2">
+                <Heart className="w-4 h-4 text-pink-500" />
+                Tono / Ánimo
+              </label>
+              <button
+                onClick={() => { setShowMoodSelector(!showMoodSelector); setShowVisualStyleSelector(false); }}
+                className="w-full flex items-center justify-between bg-white border border-pink-200 hover:border-pink-400 px-4 py-3 rounded-xl text-left text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all shadow-sm"
+              >
+                <span className={`text-base ${!mood ? 'text-gray-400' : ''}`}>
+                  {mood || 'Automático'}
+                </span>
+                <ChevronDown className="w-4 h-4 text-gray-400" />
+              </button>
+              {showMoodSelector && (
+                <div className="absolute top-full left-0 mt-2 w-full max-h-56 overflow-y-auto bg-white border border-pink-200 rounded-2xl shadow-2xl z-[100] p-2 custom-scrollbar">
+                  {MOODS.map(m => (
+                    <button
+                      key={m || 'auto'}
+                      onClick={() => { setMood(m); setShowMoodSelector(false); }}
+                      className={`w-full text-left px-4 py-2.5 rounded-xl transition-colors text-sm ${mood === m ? 'bg-pink-50 text-pink-600 font-medium' : 'hover:bg-gray-50 text-gray-700'}`}
+                    >
+                      {m || 'Automático (recomendado)'}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="flex flex-col gap-2">

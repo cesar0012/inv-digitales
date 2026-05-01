@@ -165,7 +165,9 @@ export const EditorView: React.FC = () => {
       eventType: config.eventType,
       theme: config.theme,
       primaryColor: config.primaryColor,
-      secondaryColor: config.secondaryColor
+      secondaryColor: config.secondaryColor,
+      visualStyle: config.visualStyle,
+      mood: config.mood
     } : undefined;
 
     const folder = getEventFolder(eventType);

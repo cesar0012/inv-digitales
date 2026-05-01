@@ -38,7 +38,7 @@ export const generateWebProject = async (
   prompt: string,
   imageSource: ImageSource,
   attachments: Attachment[] = [],
-  editorConfig?: { eventType: string; theme: string; primaryColor: string; secondaryColor: string },
+  editorConfig?: { eventType: string; theme: string; primaryColor: string; secondaryColor: string; visualStyle?: string; mood?: string },
   imageFiles?: { folder: string; filename: string }[],
   purchaseId?: string
 ): Promise<string> => {

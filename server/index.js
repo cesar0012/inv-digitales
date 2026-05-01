@@ -2114,6 +2114,8 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
         theme: editorConfig?.theme,
         primaryColor: editorConfig?.primaryColor,
         secondaryColor: editorConfig?.secondaryColor,
+        visualStyle: editorConfig?.visualStyle,
+        mood: editorConfig?.mood,
         imageFiles: imageFiles || [],
         promptInstruction: promptInstruction || ''
       };

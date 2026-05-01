@@ -1,8 +1,104 @@
 
 import { ImageSource, AIModel } from './types';
 
+export const LAYOUT_OPTIONS = [
+  'full-screen-hero', 'split-screen', 'card-based', 'editorial-magazine', 'asymmetrical',
+  'overlapping-sections', 'parallax-layers', 'horizontal-scroll-segments', 'masonry-grid',
+  'centered-timeline', 'side-by-side-columns', 'cinematic-panes', 'scrapbook', 'minimalist-center',
+  'diagonal-sections', 'layered-cards', 'wave-sections', 'storybook', 'poster-style', 'collage'
+];
+
+export const TYPOGRAPHY_OPTIONS = [
+  'script-serif', 'display-sans', 'handwritten-clean', 'blackletter-modern', 'elegant-serif-pair',
+  'condensed-sans-expanded', 'mono-display', 'vintage-serif', 'modern-geometric', 'calligraphic-body',
+  'art-deco-display', 'boho-handwritten', 'retro-slab', 'luxury-thin', 'playful-rounded'
+];
+
+export const ANIMATION_OPTIONS = [
+  'fade-in-stagger', 'slide-up-reveal', 'parallax-scroll', 'zoom-on-enter', 'flip-cards',
+  'typewriter-text', 'floating-elements', 'particle-shimmer', 'wave-motion', 'rotate-reveal',
+  'curtain-open', 'bounce-in', 'elastic-scale', 'glitch-entrance', 'watercolor-bleed',
+  'stamp-reveal', 'ripple-effect', 'morph-shapes', 'cinematic-wipe', 'soft-drift'
+];
+
+export const COLOR_STRATEGIES = [
+  'gradient-flow', 'monochrome-accent', 'duotone', 'warm-palette', 'cool-palette',
+  'pastel-spectrum', 'jewel-tones', 'earth-tones', 'neon-accents', 'muted-elegant',
+  'high-contrast', 'tonal-layering', 'complementary-pop', 'analogous-harmony', 'triadic-vibrant'
+];
+
+export const SECTION_FLOW_OPTIONS = [
+  'linear-classic', 'alternating-bg', 'overlay-sections', 'card-stack', 'accordion-reveal',
+  'timeline-horizontal', 'mosaic-grid', 'scroll-snap-sections', 'fullbleed-interleaved', 'wave-divider'
+];
+
+export const EVENT_PREFERRED_LAYOUTS: Record<string, string[]> = {
+  'Boda Tradicional': ['full-screen-hero', 'editorial-magazine', 'layered-cards', 'cinematic-panes', 'centered-timeline', 'side-by-side-columns'],
+  'Boda Americana': ['cinematic-panes', 'split-screen', 'minimalist-center', 'parallax-layers', 'editorial-magazine', 'side-by-side-columns'],
+  'Boda Gay (Hombres)': ['modern-geometric', 'split-screen', 'diagonal-sections', 'full-screen-hero', 'layered-cards'],
+  'Boda Gay (Mujeres)': ['overlapping-sections', 'storybook', 'wave-sections', 'full-screen-hero', 'collage'],
+  'XV Años': ['full-screen-hero', 'storybook', 'scrapbook', 'card-based', 'layered-cards', 'wave-sections'],
+  'Bautizo': ['soft-drift', 'minimalist-center', 'centered-timeline', 'layered-cards', 'storybook'],
+  'Primera Comunión': ['centered-timeline', 'minimalist-center', 'soft-drift', 'storybook', 'layered-cards'],
+  'Confirmación': ['centered-timeline', 'minimalist-center', 'editorial-magazine', 'layered-cards'],
+  'Cumpleaños Niño': ['card-based', 'collage', 'masonry-grid', 'diagonal-sections', 'scrapbook', 'poster-style'],
+  'Cumpleaños Niña': ['scrapbook', 'wave-sections', 'collage', 'card-based', 'storybook', 'masonry-grid'],
+  'Baby Shower': ['card-based', 'scrapbook', 'wave-sections', 'overlapping-sections', 'storybook', 'masonry-grid'],
+  'Otro': ['full-screen-hero', 'card-based', 'editorial-magazine', 'split-screen', 'minimalist-center']
+};
+
+export const EVENT_PREFERRED_ANIMATIONS: Record<string, string[]> = {
+  'Boda Tradicional': ['fade-in-stagger', 'parallax-scroll', 'particle-shimmer', 'soft-drift', 'slide-up-reveal'],
+  'Boda Americana': ['cinematic-wipe', 'parallax-scroll', 'zoom-on-enter', 'fade-in-stagger', 'slide-up-reveal'],
+  'Boda Gay (Hombres)': ['rotate-reveal', 'elastic-scale', 'parallax-scroll', 'morph-shapes', 'slide-up-reveal'],
+  'Boda Gay (Mujeres)': ['watercolor-bleed', 'floating-elements', 'soft-drift', 'ripple-effect', 'fade-in-stagger'],
+  'XV Años': ['bounce-in', 'flip-cards', 'sparkle-shimmer', 'curtain-open', 'slide-up-reveal', 'floating-elements'],
+  'Bautizo': ['soft-drift', 'fade-in-stagger', 'floating-elements', 'ripple-effect', 'slide-up-reveal'],
+  'Primera Comunión': ['fade-in-stagger', 'soft-drift', 'slide-up-reveal', 'particle-shimmer', 'floating-elements'],
+  'Confirmación': ['fade-in-stagger', 'parallax-scroll', 'slide-up-reveal', 'soft-drift'],
+  'Cumpleaños Niño': ['bounce-in', 'elastic-scale', 'glitch-entrance', 'morph-shapes', 'rotate-reveal', 'flip-cards'],
+  'Cumpleaños Niña': ['bounce-in', 'watercolor-bleed', 'floating-elements', 'elastic-scale', 'ripple-effect', 'curtain-open'],
+  'Baby Shower': ['floating-elements', 'soft-drift', 'bounce-in', 'watercolor-bleed', 'ripple-effect', 'fade-in-stagger'],
+  'Otro': ['fade-in-stagger', 'slide-up-reveal', 'parallax-scroll', 'zoom-on-enter', 'bounce-in']
+};
+
+export const EVENT_DEFAULT_COLORS: Record<string, { primary: string; secondary: string }> = {
+  'Boda Tradicional': { primary: '#c9a84c', secondary: '#f5f0e1' },
+  'Boda Americana': { primary: '#1a1a2e', secondary: '#c9a84c' },
+  'Boda Gay (Hombres)': { primary: '#2d2d2d', secondary: '#7b68ee' },
+  'Boda Gay (Mujeres)': { primary: '#d4739a', secondary: '#f0c6d0' },
+  'XV Años': { primary: '#d4739a', secondary: '#c9a84c' },
+  'Bautizo': { primary: '#87ceeb', secondary: '#f0f8ff' },
+  'Primera Comunión': { primary: '#f5f5dc', secondary: '#c9a84c' },
+  'Confirmación': { primary: '#4a5568', secondary: '#c9a84c' },
+  'Cumpleaños Niño': { primary: '#3b82f6', secondary: '#10b981' },
+  'Cumpleaños Niña': { primary: '#ec4899', secondary: '#a855f7' },
+  'Baby Shower': { primary: '#f9a8d4', secondary: '#93c5fd' },
+  'Otro': { primary: '#6366f1', secondary: '#f472b6' }
+};
+
+export const VISUAL_STYLES = [
+  '', 'Elegante Clásico', 'Moderno Minimalista', 'Rústico Vintage', 'Bohemio Floral',
+  'Tropical Playa', 'Art Deco', 'Romántico Suave', 'Divertido Colorido', 'Glamuroso',
+  'Industrial Urbano', 'Campestre Natural', 'Nocturno Lujoso', 'Acuarela Artístico', 'Geométrico Contemporáneo'
+];
+
+export const MOODS = [
+  '', 'Romántico', 'Festivo', 'Solemne', 'Divertido', 'Íntimo',
+  'Grandioso', 'Tranquilo', 'Enérgico', 'Nostálgico', 'Místico'
+];
+
 export const SYSTEM_INSTRUCTION = `
 You generate ONE complete HTML file for a digital invitation. Output raw HTML only — no markdown.
+
+===== DESIGN FINGERPRINT (MANDATORY) =====
+A design fingerprint will be injected before your prompt. It contains MANDATORY creative direction:
+- LAYOUT: You MUST use this layout structure. Do not substitute a different layout.
+- TYPOGRAPHY: You MUST choose fonts from this pairing. Use Google Fonts that match.
+- ANIMATION: You MUST use this as your primary animation/transition style.
+- COLOR STRATEGY: You MUST apply colors using this strategy (gradient, duotone, monochrome+accent, etc.)
+- SECTION FLOW: You MUST organize sections using this flow pattern.
+The fingerprint is LAW, not a suggestion. If the fingerprint says "card-based layout", do NOT create a full-screen hero. If it says "typewriter animation", include typewriter effects. OBEY THE FINGERPRINT.
 
 ===== CREATIVE FREEDOM =====
 EVERY invitation you generate MUST be VISUALLY UNIQUE. Never repeat the same layout, animation pattern, or design structure. Vary:
