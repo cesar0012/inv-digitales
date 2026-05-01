@@ -221,6 +221,10 @@ export const InitialView: React.FC<InitialViewProps> = ({
                         setPrimaryColor(defaults.primary);
                         setSecondaryColor(defaults.secondary);
                       }
+                      const styles = VISUAL_STYLES.filter(s => s !== '');
+                      const moods = MOODS.filter(m => m !== '');
+                      setVisualStyle(styles[Math.floor(Math.random() * styles.length)]);
+                      setMood(moods[Math.floor(Math.random() * moods.length)]);
                     }}
                     className={`w-full text-left px-4 py-3 rounded-xl transition-colors flex items-center ${eventType === type ? 'bg-pink-50 text-pink-600 font-medium' : 'hover:bg-gray-50 text-gray-700'}`}
                   >
@@ -245,65 +249,8 @@ export const InitialView: React.FC<InitialViewProps> = ({
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex flex-col gap-2 relative">
-              <label className="text-sm font-semibold text-gray-700 uppercase tracking-wider flex items-center gap-2">
-                <Palette className="w-4 h-4 text-pink-500" />
-                Estilo Visual
-              </label>
-              <button
-                onClick={() => { setShowVisualStyleSelector(!showVisualStyleSelector); setShowMoodSelector(false); }}
-                className="w-full flex items-center justify-between bg-white border border-pink-200 hover:border-pink-400 px-4 py-3 rounded-xl text-left text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all shadow-sm"
-              >
-                <span className={`text-base ${!visualStyle ? 'text-gray-400' : ''}`}>
-                  {visualStyle || 'Automático'}
-                </span>
-                <ChevronDown className="w-4 h-4 text-gray-400" />
-              </button>
-              {showVisualStyleSelector && (
-                <div className="absolute top-full left-0 mt-2 w-full max-h-56 overflow-y-auto bg-white border border-pink-200 rounded-2xl shadow-2xl z-[100] p-2 custom-scrollbar">
-                  {VISUAL_STYLES.map(style => (
-                    <button
-                      key={style || 'auto'}
-                      onClick={() => { setVisualStyle(style); setShowVisualStyleSelector(false); }}
-                      className={`w-full text-left px-4 py-2.5 rounded-xl transition-colors text-sm ${visualStyle === style ? 'bg-pink-50 text-pink-600 font-medium' : 'hover:bg-gray-50 text-gray-700'}`}
-                    >
-                      {style || 'Automático (recomendado)'}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div className="flex flex-col gap-2 relative">
-              <label className="text-sm font-semibold text-gray-700 uppercase tracking-wider flex items-center gap-2">
-                <Heart className="w-4 h-4 text-pink-500" />
-                Tono / Ánimo
-              </label>
-              <button
-                onClick={() => { setShowMoodSelector(!showMoodSelector); setShowVisualStyleSelector(false); }}
-                className="w-full flex items-center justify-between bg-white border border-pink-200 hover:border-pink-400 px-4 py-3 rounded-xl text-left text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all shadow-sm"
-              >
-                <span className={`text-base ${!mood ? 'text-gray-400' : ''}`}>
-                  {mood || 'Automático'}
-                </span>
-                <ChevronDown className="w-4 h-4 text-gray-400" />
-              </button>
-              {showMoodSelector && (
-                <div className="absolute top-full left-0 mt-2 w-full max-h-56 overflow-y-auto bg-white border border-pink-200 rounded-2xl shadow-2xl z-[100] p-2 custom-scrollbar">
-                  {MOODS.map(m => (
-                    <button
-                      key={m || 'auto'}
-                      onClick={() => { setMood(m); setShowMoodSelector(false); }}
-                      className={`w-full text-left px-4 py-2.5 rounded-xl transition-colors text-sm ${mood === m ? 'bg-pink-50 text-pink-600 font-medium' : 'hover:bg-gray-50 text-gray-700'}`}
-                    >
-                      {m || 'Automático (recomendado)'}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
+          <input type="hidden" value={visualStyle} />
+          <input type="hidden" value={mood} />
 
           <div className="flex flex-col gap-2">
             <label className="text-sm font-semibold text-gray-700 uppercase tracking-wider flex items-center gap-2">
