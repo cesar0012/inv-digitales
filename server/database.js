@@ -245,6 +245,11 @@ try {
   console.log('✅ Columna plan_slug agregada');
 } catch (e) {}
 
+try {
+  db.exec(`ALTER TABLE admin_config ADD COLUMN use_agent_orchestrator INTEGER DEFAULT 0`);
+  console.log('✅ Columna use_agent_orchestrator agregada a admin_config');
+} catch (e) {}
+
 // Crear usuario de prueba si no existe
 const testUserEmail = 'arj1931126@gmail.com';
 const testUserPasswordHash = createHash('sha256').update('Jar123456').digest('hex');

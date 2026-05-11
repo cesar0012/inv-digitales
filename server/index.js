@@ -1428,6 +1428,7 @@ app.get('/api/admin/config', adminMiddleware, (req, res) => {
       image_model: 'gemini-3.1-flash-image-preview',
       image_api_key: '',
       login_page_url: '/admin-login',
+      use_agent_orchestrator: false,
       updated_at: null
     });
   }
@@ -1444,6 +1445,7 @@ app.get('/api/admin/config', adminMiddleware, (req, res) => {
     image_model: config.image_model || 'gemini-3.1-flash-image-preview',
     image_api_key: '', // No exponer
     login_page_url: config.login_page_url || '/admin-login',
+    use_agent_orchestrator: config.use_agent_orchestrator === 1,
     updated_at: config.updated_at
   });
 });
@@ -1471,7 +1473,7 @@ app.post('/api/admin/config', adminMiddleware, (req, res) => {
   
   // Solo actualizar campos que tienen valores NO VACÍOS en el request
   // Los campos que no vengan o vengan vacíos mantienen el valor actual
-  const updatedConfig = {
+const updatedConfig = {
     html_provider: body.html_provider && body.html_provider.trim() !== '' ? body.html_provider : currentConfig.html_provider,
     html_base_url: body.html_base_url && body.html_base_url.trim() !== '' ? body.html_base_url : currentConfig.html_base_url,
     html_api_key: body.html_api_key && body.html_api_key.trim() !== '' ? body.html_api_key : currentConfig.html_api_key,
@@ -1481,6 +1483,7 @@ app.post('/api/admin/config', adminMiddleware, (req, res) => {
     image_model: body.image_model && body.image_model.trim() !== '' ? body.image_model : currentConfig.image_model,
     image_api_key: body.image_api_key && body.image_api_key.trim() !== '' ? body.image_api_key : currentConfig.image_api_key,
     login_page_url: body.login_page_url !== undefined ? body.login_page_url : currentConfig.login_page_url,
+    use_agent_orchestrator: body.use_agent_orchestrator !== undefined ? (body.use_agent_orchestrator ? 1 : 0) : (currentConfig.use_agent_orchestrator || 0),
   };
   
   console.log('=== CONFIG A GUARDAR ===');
@@ -1499,6 +1502,7 @@ app.post('/api/admin/config', adminMiddleware, (req, res) => {
       image_model = ?,
       image_api_key = ?,
       login_page_url = ?,
+      use_agent_orchestrator = ?,
       updated_at = datetime('now')
     WHERE id = 1
   `);
@@ -1512,7 +1516,8 @@ app.post('/api/admin/config', adminMiddleware, (req, res) => {
     updatedConfig.html_google_model,
     updatedConfig.image_model,
     updatedConfig.image_api_key,
-    updatedConfig.login_page_url
+    updatedConfig.login_page_url,
+    updatedConfig.use_agent_orchestrator
   );
   
   // Verificar que se guardó
@@ -2104,11 +2109,10 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
     console.log('==========================');
     
     let htmlResult = '';
+    const useAgentOrchestrator = config.use_agent_orchestrator === 1;
+    console.log('🤖 Agent Orchestrator:', useAgentOrchestrator ? 'ACTIVADO' : 'DESACTIVADO');
     
-    // Siempre usar Gemini (forzado)
     if (config.html_google_api_key) {
-      // Usar Google Gemini para generar HTML
-      const { generateWithGemini } = await import('./geminiService.js');
       const geminiOptions = {
         eventType: editorConfig?.eventType,
         theme: editorConfig?.theme,
@@ -2119,12 +2123,35 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
         imageFiles: imageFiles || [],
         promptInstruction: promptInstruction || ''
       };
-      htmlResult = await generateWithGemini(
-        prompt,
-        config.html_google_api_key,
-        config.html_google_model || 'gemini-3.1-pro-preview',
-        geminiOptions
-      );
+
+      if (useAgentOrchestrator) {
+        try {
+          const { runOrchestration } = await import('./agentOrchestrator.js');
+          htmlResult = await runOrchestration(
+            prompt,
+            config.html_google_api_key,
+            config.html_google_model || 'gemini-3.1-pro-preview',
+            geminiOptions
+          );
+        } catch (orchestratorError) {
+          console.error('⚠️ Agent Orchestrator falló, usando fallback:', orchestratorError.message);
+          const { generateWithGemini } = await import('./geminiService.js');
+          htmlResult = await generateWithGemini(
+            prompt,
+            config.html_google_api_key,
+            config.html_google_model || 'gemini-3.1-pro-preview',
+            geminiOptions
+          );
+        }
+      } else {
+        const { generateWithGemini } = await import('./geminiService.js');
+        htmlResult = await generateWithGemini(
+          prompt,
+          config.html_google_api_key,
+          config.html_google_model || 'gemini-3.1-pro-preview',
+          geminiOptions
+        );
+      }
     } else {
       db.prepare('UPDATE user_plans SET generation_used = generation_used - 1 WHERE user_id = ? AND purchase_id = ?').run(userId, purchaseId);
       res.status(500).json({ error: 'No hay API key de Google configurada. Configúrala en el panel de admin.' });
