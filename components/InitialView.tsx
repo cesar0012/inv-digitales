@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Send, Image as ImageIcon, Settings, Heart, X, ImagePlus, Palette, Type, ChevronDown, Save, Home, AlertCircle, FileText } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Attachment, EditorConfig } from '../types';
-import { EVENT_TYPES, EVENT_DEFAULT_COLORS, VISUAL_STYLES, MOODS } from '../constants';
+import { EVENT_TYPES, EVENT_DEFAULT_COLORS, VISUAL_STYLES, MOODS, EVENT_STYLE_SUGGESTIONS } from '../constants';
 
 interface InitialViewProps {
   onGenerate: (prompt: string, attachments: Attachment[], config: EditorConfig) => void;
@@ -42,6 +42,8 @@ export const InitialView: React.FC<InitialViewProps> = ({
   const [showVisualStyleSelector, setShowVisualStyleSelector] = useState(false);
   const [showMoodSelector, setShowMoodSelector] = useState(false);
   const eventTypeRef = useRef<HTMLDivElement>(null);
+  const visualStyleRef = useRef<HTMLDivElement>(null);
+  const moodRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (initialEventType) setEventType(initialEventType);
@@ -56,8 +58,12 @@ export const InitialView: React.FC<InitialViewProps> = ({
       if (eventTypeRef.current && !eventTypeRef.current.contains(event.target as Node)) {
         setShowEventTypeSelector(false);
       }
-      setShowVisualStyleSelector(false);
-      setShowMoodSelector(false);
+      if (visualStyleRef.current && !visualStyleRef.current.contains(event.target as Node)) {
+        setShowVisualStyleSelector(false);
+      }
+      if (moodRef.current && !moodRef.current.contains(event.target as Node)) {
+        setShowMoodSelector(false);
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
@@ -221,10 +227,11 @@ export const InitialView: React.FC<InitialViewProps> = ({
                         setPrimaryColor(defaults.primary);
                         setSecondaryColor(defaults.secondary);
                       }
-                      const styles = VISUAL_STYLES.filter(s => s !== '');
-                      const moods = MOODS.filter(m => m !== '');
-                      setVisualStyle(styles[Math.floor(Math.random() * styles.length)]);
-                      setMood(moods[Math.floor(Math.random() * moods.length)]);
+                      const suggestions = EVENT_STYLE_SUGGESTIONS[type] || EVENT_STYLE_SUGGESTIONS['Otro'];
+                      const suggestedStyles = suggestions.styles;
+                      const suggestedMoods = suggestions.moods;
+                      setVisualStyle(suggestedStyles[Math.floor(Math.random() * suggestedStyles.length)]);
+                      setMood(suggestedMoods[Math.floor(Math.random() * suggestedMoods.length)]);
                     }}
                     className={`w-full text-left px-4 py-3 rounded-xl transition-colors flex items-center ${eventType === type ? 'bg-pink-50 text-pink-600 font-medium' : 'hover:bg-gray-50 text-gray-700'}`}
                   >
@@ -249,8 +256,79 @@ export const InitialView: React.FC<InitialViewProps> = ({
             />
           </div>
 
-          <input type="hidden" value={visualStyle} />
-          <input type="hidden" value={mood} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="flex flex-col gap-2 relative" ref={visualStyleRef}>
+              <label className="text-sm font-semibold text-gray-700 uppercase tracking-wider flex items-center gap-2">
+                <Palette className="w-4 h-4 text-pink-500" />
+                Estilo Visual
+              </label>
+              <button
+                type="button"
+                onClick={() => { setShowVisualStyleSelector(!showVisualStyleSelector); setShowMoodSelector(false); }}
+                className="w-full flex items-center justify-between bg-white border border-pink-200 hover:border-pink-400 px-4 py-3 rounded-xl text-left text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all shadow-sm"
+              >
+                <span className={`text-base ${!visualStyle ? 'text-gray-400' : ''}`}>
+                  {visualStyle || 'Aleatorio'}
+                </span>
+                <ChevronDown className="w-5 h-5 text-gray-400" />
+              </button>
+              {showVisualStyleSelector && (
+                <div className="absolute top-full left-0 mt-2 w-full max-h-56 overflow-y-auto bg-white border border-pink-200 rounded-2xl shadow-2xl z-[100] p-2 custom-scrollbar">
+                  <button
+                    onClick={() => { setVisualStyle(''); setShowVisualStyleSelector(false); }}
+                    className={`w-full text-left px-4 py-2.5 rounded-xl transition-colors text-sm ${!visualStyle ? 'bg-pink-50 text-pink-600 font-medium' : 'hover:bg-gray-50 text-gray-500'}`}
+                  >
+                    Aleatorio
+                  </button>
+                  {VISUAL_STYLES.filter(s => s !== '').map(style => (
+                    <button
+                      key={style}
+                      onClick={() => { setVisualStyle(style); setShowVisualStyleSelector(false); }}
+                      className={`w-full text-left px-4 py-2.5 rounded-xl transition-colors text-sm ${visualStyle === style ? 'bg-pink-50 text-pink-600 font-medium' : 'hover:bg-gray-50 text-gray-700'}`}
+                    >
+                      {style}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-col gap-2 relative" ref={moodRef}>
+              <label className="text-sm font-semibold text-gray-700 uppercase tracking-wider flex items-center gap-2">
+                <Heart className="w-4 h-4 text-pink-500" />
+                Tono / Ambiente
+              </label>
+              <button
+                type="button"
+                onClick={() => { setShowMoodSelector(!showMoodSelector); setShowVisualStyleSelector(false); }}
+                className="w-full flex items-center justify-between bg-white border border-pink-200 hover:border-pink-400 px-4 py-3 rounded-xl text-left text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all shadow-sm"
+              >
+                <span className={`text-base ${!mood ? 'text-gray-400' : ''}`}>
+                  {mood || 'Aleatorio'}
+                </span>
+                <ChevronDown className="w-5 h-5 text-gray-400" />
+              </button>
+              {showMoodSelector && (
+                <div className="absolute top-full left-0 mt-2 w-full max-h-56 overflow-y-auto bg-white border border-pink-200 rounded-2xl shadow-2xl z-[100] p-2 custom-scrollbar">
+                  <button
+                    onClick={() => { setMood(''); setShowMoodSelector(false); }}
+                    className={`w-full text-left px-4 py-2.5 rounded-xl transition-colors text-sm ${!mood ? 'bg-pink-50 text-pink-600 font-medium' : 'hover:bg-gray-50 text-gray-500'}`}
+                  >
+                    Aleatorio
+                  </button>
+                  {MOODS.filter(m => m !== '').map(m => (
+                    <button
+                      key={m}
+                      onClick={() => { setMood(m); setShowMoodSelector(false); }}
+                      className={`w-full text-left px-4 py-2.5 rounded-xl transition-colors text-sm ${mood === m ? 'bg-pink-50 text-pink-600 font-medium' : 'hover:bg-gray-50 text-gray-700'}`}
+                    >
+                      {m}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
 
           <div className="flex flex-col gap-2">
             <label className="text-sm font-semibold text-gray-700 uppercase tracking-wider flex items-center gap-2">

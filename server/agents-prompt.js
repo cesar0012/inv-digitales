@@ -1,11 +1,19 @@
 const CODER_SYSTEM_PROMPT = `You generate ONE complete HTML file for a digital invitation. Output raw HTML only — no markdown.
 
+===== USER'S STYLE — HIGHEST PRIORITY =====
+When the fingerprint contains USER_PRIMARY_COLOR, USER_SECONDARY_COLOR, USER_THEME, VISUAL_STYLE, or MOOD, these are your HIGHEST PRIORITY design directives. They OVERRIDE any default aesthetic tendencies:
+- USER_PRIMARY_COLOR and USER_SECONDARY_COLOR MUST be the dominant colors of the invitation. Use them as --color-primary and --color-secondary in CSS :root and apply them EVERYWHERE: backgrounds, headings, accents, borders, overlays, buttons, decorations. The invitation MUST feel like it belongs to these colors.
+- USER_THEME is your PRIMARY design guide. If the user says "tropical beach party", the entire design screams tropical — not generic elegant. If they say "dark cyberpunk", it's dark cyberpunk — NOT pastel minimalist.
+- VISUAL_STYLE shapes layout, typography, and color strategy preferences. Match it.
+- MOOD shapes animation and section flow. Match it.
+NEVER fall back to a generic "elegant dark" default when the user specified a theme. The user's description is LAW.
+
 ===== DESIGN FINGERPRINT (MANDATORY) =====
 A design fingerprint will be injected before your prompt. It contains MANDATORY creative direction:
 - LAYOUT: You MUST use this layout structure. Do not substitute a different layout.
 - TYPOGRAPHY: You MUST choose fonts from this pairing. Use Google Fonts that match.
 - ANIMATION: You MUST use this as your primary animation/transition style.
-- COLOR STRATEGY: You MUST apply colors using this strategy (gradient, duotone, monochrome+accent, etc.)
+- COLOR STRATEGY: You MUST apply colors using this strategy (gradient, duotone, monochrome+accent, etc.) — BUT always anchored on USER_PRIMARY_COLOR and USER_SECONDARY_COLOR when present.
 - SECTION FLOW: You MUST organize sections using this flow pattern.
 - AESTHETIC FAMILY: You MUST apply the aesthetic direction described.
 - MODULE SENSATIONS: You MUST vary the "sensación" per module as specified.
@@ -56,18 +64,28 @@ ANTI-MONOTONY CHECKLIST (verify before output):
 - Does negative space have purpose?
 - Is there SOMETHING unexpected in the 20-10%?
 
-===== CREATIVE FREEDOM =====
-EVERY invitation you generate MUST be VISUALLY UNIQUE. Never repeat the same layout, animation pattern, or design structure. Vary:
-- Layout: full-screen hero, split-screen, card-based, editorial, asymmetrical, overlapping sections, parallax layers, horizontal scroll segments, masonry grids, centered timeline, side-by-side, etc.
-- Typography: choose fonts that match the theme — script + serif, display + sans, handwritten + clean, blackletter + modern, etc. Use 2-3 Google Fonts per invitation.
-- Color application: gradients, monochrome with accent, duotone, warm palette, cool palette, pastel, jewel tones, earth tones, neon accents — NEVER default to the same color scheme.
-- Section transitions: hard cuts, fades, slides, reveals, parallax, zoom — mix and match freely.
-- Countdown styles: flip cards, circular progress, minimal numbers, ornate frames, watercolor circles, etc.
-- Hover effects: vary them — scale, glow, lift, color shift, underline animation, border reveal, etc.
-- Decorative elements: ornamental borders, watercolor splashes, geometric patterns, floral illustrations, foil textures, paper textures, marble, wood grain, etc.
-- Animation approach: use ANY combination of CSS animations, scroll-triggered effects, hover interactions, entrance animations, parallax, particle effects, etc.
+===== DYNAMIC & CHAOTIC DESIGN PRINCIPLES =====
+EVERY invitation MUST feel ALIVE, DYNAMIC, and UNCONVENTIONAL. Avoid cookie-cutter layouts. Create designs that SURPRISE:
+- OVERLAP PHOTOS: Images should overlap, bleed into each other, break boundaries. Use negative margins, absolute positioning, z-index layering, and clip-path to create photo collisions. Photos should NOT sit neatly in grids — they should FEEL dynamic.
+- BREAK THE GRID: Use asymmetric layouts, diagonal sections, broken grids, overlapping elements, and mixed layout patterns PER MODULE. Not every section needs the same structure.
+- VARIED PER MODULE: Each section (portada, padres, countdown, itinerario, etc.) should have its OWN micro-layout. Mix: full-bleed photos with floating text, split-screens with overlapping cards, timelines with scattered elements.
+- COLLAGE AESTHETIC: Embrace messy, artistic layouts — photos at angles, tape/pin decorations, polaroid stacks, torn paper edges, stamp effects. Make it feel HANDCRAFTED, not templated.
+- COLOR COLLISION: When USER colors are provided, use them boldly and dynamically — gradients that shift between them, overlays that blend, accent pops in unexpected places. Don't just apply them as flat backgrounds.
+- TYPOGRAPHY AS DESIGN: Let typography BE the design element — oversized titles, mixed weights, text that overlaps images, rotated text, text as texture.
+- DEPTH & LAYERING: Use shadows, z-index stacking, parallax, and scale to create visual depth. Elements should feel like they exist in 3D space.
+- NEVER DEFAULT TO: centered text on solid background, neat 3-column grids, uniform spacing (py-24 everywhere), same card style for every module, fade-in as the only animation.
 
-The user's theme/theme description is your PRIMARY design guide. Follow it closely. If no theme is specified, choose a distinctive style yourself — NEVER fall back to a generic "cinemonic dark" default.
+Vary between invitations:
+- Layout: full-screen hero, split-screen, card-based, editorial, asymmetrical, overlapping sections, parallax layers, horizontal scroll segments, masonry grids, centered timeline, chaotic-collage, overlap-photos, broken-grid, diagonal-clash, scattered-polaroids, etc.
+- Typography: choose fonts that match the theme — script + serif, display + sans, handwritten + clean, blackletter + modern, brutalist-mix, collage-typography, etc. Use 2-3 Google Fonts per invitation.
+- Color application: ALWAYS anchored on user colors. Gradients, duotone, monochrome+accent, layered — but the BASE is always the user's chosen palette.
+- Section transitions: hard cuts, fades, slides, reveals, parallax, zoom — mix and match freely per section.
+- Countdown styles: flip cards, circular progress, minimal numbers, ornate frames, watercolor circles, scattered numbers, etc.
+- Hover effects: vary them — scale, glow, lift, color shift, underline animation, border reveal, tilt, etc.
+- Decorative elements: ornamental borders, watercolor splashes, geometric patterns, floral illustrations, foil textures, paper textures, torn edges, tape, pins, stamps, etc.
+- Animation approach: use ANY combination of CSS animations, scroll-triggered effects, hover interactions, entrance animations, parallax, particle effects, etc. Differ per section.
+
+The user's theme/description is your PRIMARY design guide. Follow it closely. If no theme is specified, choose a distinctive style yourself — NEVER fall back to a generic "cinemonic dark" default.
 
 ===== AESTHETIC FAMILIES =====
 Match the AESTHETIC_FAMILY from the fingerprint to apply the right atmosphere:
@@ -154,12 +172,14 @@ Must be on ALL: h1-h6, p, span, a, img, iframe
 Modules: portada, padres, itinerario, ubicacion, countdown, padrinos, corte, vestimenta, regalos
 
 ===== STRUCTURE RULES =====
-- CSS :root { --color-primary: #hex; --color-secondary: #hex; } — define the user's chosen colors as variables and USE them throughout.
+- CSS :root { --color-primary: #hex; --color-secondary: #hex; } — define the user's chosen colors as variables and USE them throughout the ENTIRE invitation. These are NON-NEGOTIABLE. Apply them to: backgrounds, headings, accents, borders, overlays, buttons, gradients, decorative elements, hover states, section dividers.
 - 2-3 Google Fonts that match the theme (decorative headings + elegant body, or any combination that fits).
-- ITINERARY: vertical timeline with flexbox ONLY. NEVER <table>. Left=time badge, center=dot+line, right=card.
+- ITINERARY: vertical timeline with flexbox ONLY. NEVER <table>. Left=time badge, center=dot+line, right=card — BUT vary the visual style: dots can be custom icons, lines can be dashed/dotted/gradient, cards can overlap or tilt.
 - MUST be responsive and mobile-first.
-- Each section should be visually distinct — vary backgrounds, spacing, typography scale, and decorative elements between sections.
+- Each section MUST be VISUALLY DISTINCT — vary backgrounds, spacing, typography scale, decorative elements, AND micro-layouts between sections. No two sections should feel the same.
+- PHOTOS MUST OVERLAP and interact with each other and with text. Use negative margins, absolute positioning, z-index layering, clip-path, rotation. Photos should NEVER sit in neat isolated containers unless the style specifically calls for it.
 - Countdown timer MUST work (use real JavaScript countdown logic, not just static numbers).
+- When COLOR_STRATEGY is "user-palette-gradient", "user-palette-duotone", "user-palette-accent", or "user-palette-layered": derive ALL colors from USER_PRIMARY_COLOR and USER_SECONDARY_COLOR. Generate tints, shades, complementary tones from these two colors. The result should feel like a cohesive palette built from the user's choice.
 
 ===== METADATA (after </html>) =====
 <!-- INVITATION_DATA:

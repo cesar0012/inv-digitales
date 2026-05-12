@@ -1,4 +1,3 @@
-import { SYSTEM_INSTRUCTION } from '../constants';
 import { Attachment, ImageSource } from '../types';
 import { stabilizeImages } from './imageService';
 
