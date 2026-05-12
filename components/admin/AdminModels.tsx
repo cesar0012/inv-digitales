@@ -132,11 +132,13 @@ const loadConfig = async () => {
             />
           )}
 
-          {activeSection === 'html' && <HTMLGeneratorConfig 
+{activeSection === 'html' && <HTMLGeneratorConfig 
             googleApiKey={htmlGoogleApiKey}
             setGoogleApiKey={setHtmlGoogleApiKey}
             googleModel={htmlGoogleModel}
             setGoogleModel={setHtmlGoogleModel}
+            useAgentOrchestrator={useAgentOrchestrator}
+            setUseAgentOrchestrator={setUseAgentOrchestrator}
           />}
           {activeSection === 'images' && <ImageGeneratorConfig 
             selectedModel={imageModel}
@@ -156,11 +158,14 @@ interface HTMLGeneratorProps {
   setGoogleApiKey: (value: string) => void;
   googleModel: string;
   setGoogleModel: (value: string) => void;
+  useAgentOrchestrator: boolean;
+  setUseAgentOrchestrator: (value: boolean) => void;
 }
 
 const HTMLGeneratorConfig: React.FC<HTMLGeneratorProps> = ({ 
   googleApiKey, setGoogleApiKey,
-  googleModel, setGoogleModel
+  googleModel, setGoogleModel,
+  useAgentOrchestrator, setUseAgentOrchestrator
 }) => {
   const [saved, setSaved] = useState(false);
   const [saving, setSaving] = useState(false);
