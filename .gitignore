@@ -48,3 +48,97 @@ PHP/
 # Documentation (except README)
 *.md
 !README.md
+designs/CD-Luxury.html
+designs/Footer.html
+designs/H-Convideo.html
+designs/maps.html
+designs/mesaderegalos.html
+designs/redes-circular.html
+designs/RSVP.html
+designs/timelinecards.html
+designs/Miercoles 06 Mayo/Miercoles 06 Mayo/Footers/Footer-v2.html
+designs/Miercoles 06 Mayo/Miercoles 06 Mayo/Footers/Footer-v3.html
+designs/Miercoles 06 Mayo/Miercoles 06 Mayo/Footers/Footer-v4-añadirdropdown.html
+designs/Miercoles 06 Mayo/Miercoles 06 Mayo/Footers/Footer-v5-añadirboton.html
+designs/Miercoles 06 Mayo/Miercoles 06 Mayo/Gallery/GL-Carrusel.html
+designs/Miercoles 06 Mayo/Miercoles 06 Mayo/Gallery/GL-Grid.html
+designs/Miercoles 06 Mayo/Miercoles 06 Mayo/Gallery/GL-Lightbox.html
+designs/Miercoles 06 Mayo/Miercoles 06 Mayo/Gallery/GL-Masonry.html
+designs/Miercoles 06 Mayo/Miercoles 06 Mayo/Gallery/GL-Storystyle.html
+designs/Miercoles 06 Mayo/Miercoles 06 Mayo/Mapas/maps 1.html
+designs/Miercoles 06 Mayo/Miercoles 06 Mayo/Mapas/maps-v2.html
+designs/Miercoles 06 Mayo/Miercoles 06 Mayo/Mapas/maps-v3.html
+designs/Miercoles 06 Mayo/Miercoles 06 Mayo/Mesas de Regalo/MDR-Cards.html
+designs/Miercoles 06 Mayo/Miercoles 06 Mayo/Mesas de Regalo/MDR-Carrusel.html
+designs/Miercoles 06 Mayo/Miercoles 06 Mayo/RSVP/RSVPv2.html
+designs/Miercoles 06 Mayo/Miercoles 06 Mayo/RSVP/RSVPv3 - con foto copy.html
+designs/Miercoles 06 Mayo/Miercoles 06 Mayo/RSVP/RSVPv3 - con foto.html
+designs/Miercoles 06 Mayo/Miercoles 06 Mayo/Timeline/TL-animadoporscroll.html
+designs/Miercoles 06 Mayo/Miercoles 06 Mayo/Timeline/TL-Cards.html
+designs/Miercoles 06 Mayo/Miercoles 06 Mayo/Timeline/TL-Horizontal.html
+designs/Miercoles 06 Mayo/Miercoles 06 Mayo/Timeline/TL-Vertical.html
+designs/Modulos HTML IM/Cortejo/Cortejo-1.html
+designs/Modulos HTML IM/Cortejo/Cortejo-2.html
+designs/Modulos HTML IM/Countdown/CD-1.html
+designs/Modulos HTML IM/Countdown/CD-2.html
+designs/Modulos HTML IM/Countdown/CD-3.html
+designs/Modulos HTML IM/Countdown/CD-4.html
+designs/Modulos HTML IM/Countdown/CD-5.html
+designs/Modulos HTML IM/Countdown/CD-6.html
+designs/Modulos HTML IM/Footers/Footer-1.html
+designs/Modulos HTML IM/Footers/Footer-2.html
+designs/Modulos HTML IM/Footers/Footer-3.html
+designs/Modulos HTML IM/Footers/Footer-4.html
+designs/Modulos HTML IM/Gallery/Gallery-1.html
+designs/Modulos HTML IM/Gallery/Gallery-2.html
+designs/Modulos HTML IM/Gallery/Gallery-3.html
+designs/Modulos HTML IM/Gallery/Gallery-4.html
+designs/Modulos HTML IM/Gallery/Gallery-5.html
+designs/Modulos HTML IM/Hero/Hero-1.html
+designs/Modulos HTML IM/Hero/Hero-2.html
+designs/Modulos HTML IM/Hero/Hero-3.html
+designs/Modulos HTML IM/Hero/Hero-4.html
+designs/Modulos HTML IM/Hero/Hero-5.html
+designs/Modulos HTML IM/Hero/Hero-6.html
+designs/Modulos HTML IM/Hero/Hero-7.html
+designs/Modulos HTML IM/Mapas/maps-1.html
+designs/Modulos HTML IM/Mapas/maps-2.html
+designs/Modulos HTML IM/Mapas/maps-3.html
+designs/Modulos HTML IM/Mesas de Regalo/MDR-1.html
+designs/Modulos HTML IM/Mesas de Regalo/MDR-2.html
+designs/Modulos HTML IM/Padres/Padres-1.html
+designs/Modulos HTML IM/Padres/Padres-2.html
+designs/Modulos HTML IM/Padres/Padres-3.html
+designs/Modulos HTML IM/Padrinos/Padrinos-1.html
+designs/Modulos HTML IM/Padrinos/Padrinos-2.html
+designs/Modulos HTML IM/Padrinos/Padrinos-3.html
+designs/Modulos HTML IM/RSVP/RSVP-1.html
+designs/Modulos HTML IM/RSVP/RSVP-2.html
+designs/Modulos HTML IM/RSVP/RSVP-3.html
+designs/Modulos HTML IM/Timeline/TL-1.html
+designs/Modulos HTML IM/Timeline/TL-2.html
+designs/Modulos HTML IM/Timeline/TL-3.html
+designs/Modulos HTML IM/Timeline/TL-4.html
+designs/Modulos HTML IM/Vestimenta/Vestimenta-1.html
+designs/Modulos HTML IM/Vestimenta/Vestimenta-2.html
+designs/Modulos HTML IM/Vestimenta/Vestimenta-3.html
+invitaciones/Invitacion-1/RAG.txt
+invitaciones/Invitacion-1/WED-EditorialMinimalista.html
+invitaciones/Invitacion-2/RAG.txt
+invitaciones/Invitacion-2/XV-CyberpunkNeon.html
+invitaciones/Invitacion-3/BAU-BohemioOrganico.html
+invitaciones/Invitacion-3/RAG-BAU-BohemioOrganico.txt
+invitaciones/Invitacion-4/BAU-GraduacionAlejandra.html
+invitaciones/Invitacion-4/RAG-GRAD-ModernoPremium.txt
+invitaciones/Invitacion-5/index.html
+invitaciones/Invitacion-5/RAG-BS-CelestialNocturno.txt
+invitaciones/template-1/componentes.txt
+invitaciones/template-1/invitacion.html
+invitaciones/template-2/componentes.txt
+invitaciones/template-2/invitacion.html
+invitaciones/template-3/componentes.txt
+invitaciones/template-3/invitacion.html
+invitaciones/template-4/componentes.txt
+invitaciones/template-4/invitacion.html
+invitaciones/template-5/componentes.txt
+invitaciones/template-5/invitacion.html
