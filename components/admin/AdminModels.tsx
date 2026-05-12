@@ -24,8 +24,9 @@ export const AdminModels: React.FC = () => {
   const [imageModel, setImageModel] = useState<AIModel['id']>('gemini-3.1-flash-image-preview');
   const [imageApiKey, setImageApiKey] = useState('');
   
-  // General Config
+// General Config
   const [loginPageUrl, setLoginPageUrl] = useState('/admin-login');
+  const [useAgentOrchestrator, setUseAgentOrchestrator] = useState(false);
   
   // Save states
   const [saving, setSaving] = useState(false);
@@ -50,7 +51,7 @@ export const AdminModels: React.FC = () => {
     }
   };
 
-  const loadConfig = async () => {
+const loadConfig = async () => {
     try {
       const config = await getAdminConfig();
       setHtmlGoogleApiKey(config.html_google_api_key || '');
@@ -58,6 +59,7 @@ export const AdminModels: React.FC = () => {
       setImageModel(config.image_model);
       setImageApiKey(config.image_api_key);
       setLoginPageUrl(config.login_page_url || '/admin-login');
+      setUseAgentOrchestrator(config.use_agent_orchestrator || false);
     } catch (error) {
       console.error('Error loading config:', error);
     } finally {
@@ -165,7 +167,7 @@ const HTMLGeneratorConfig: React.FC<HTMLGeneratorProps> = ({
   const [customModel, setCustomModel] = useState('');
   const [showCustomInput, setShowCustomInput] = useState(false);
 
-  const handleSave = async () => {
+const handleSave = async () => {
     setSaving(true);
     try {
       let finalModel = googleModel;
@@ -180,11 +182,13 @@ const HTMLGeneratorConfig: React.FC<HTMLGeneratorProps> = ({
         html_model: 'gemini-3.1-pro-preview',
         html_google_api_key: googleApiKey,
         html_google_model: finalModel,
+        use_agent_orchestrator: useAgentOrchestrator,
       };
 
       console.log('=== GUARDANDO DESDE FRONTEND ===');
       console.log('googleApiKey input:', googleApiKey ? 'TIENE VALOR' : 'VACÍO');
       console.log('configData a enviar:', JSON.stringify(configData));
+      console.log('use_agent_orchestrator:', useAgentOrchestrator);
       console.log('=================================');
 
       await saveAdminConfig(configData);
@@ -206,6 +210,30 @@ const HTMLGeneratorConfig: React.FC<HTMLGeneratorProps> = ({
           <Bot className="w-4 h-4" />
           Proveedor activo: <strong>Google Gemini</strong>
         </p>
+      </div>
+
+      {/* Agent Orchestrator Toggle */}
+      <div className="bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200 rounded-xl p-4">
+        <label className="flex items-center justify-between cursor-pointer">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
+              <Bot className="w-5 h-5 text-indigo-600" />
+            </div>
+            <div>
+              <p className="font-medium text-gray-800">Sistema de Agentes IA</p>
+              <p className="text-xs text-gray-500">Usa el orquestador de agentes para generar invitaciones más diversas y personalizadas</p>
+            </div>
+          </div>
+          <div className="relative">
+            <input
+              type="checkbox"
+              checked={useAgentOrchestrator}
+              onChange={(e) => setUseAgentOrchestrator(e.target.checked)}
+              className="sr-only peer"
+            />
+            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+          </div>
+        </label>
       </div>
 
       <div className="space-y-4 bg-purple-50 border border-purple-200 rounded-xl p-4">
