@@ -1428,7 +1428,7 @@ app.get('/api/admin/config', adminMiddleware, (req, res) => {
       image_model: 'gemini-3.1-flash-image-preview',
       image_api_key: '',
       login_page_url: '/admin-login',
-      use_agent_orchestrator: false,
+use_agent_orchestrator: true,
       updated_at: null
     });
   }
@@ -2113,7 +2113,7 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
     console.log('🤖 Agent Orchestrator:', useAgentOrchestrator ? 'ACTIVADO' : 'DESACTIVADO');
     
     if (config.html_google_api_key) {
-      const geminiOptions = {
+const geminiOptions = {
         eventType: editorConfig?.eventType,
         theme: editorConfig?.theme,
         primaryColor: editorConfig?.primaryColor,
@@ -2121,7 +2121,9 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
         visualStyle: editorConfig?.visualStyle,
         mood: editorConfig?.mood,
         imageFiles: imageFiles || [],
-        promptInstruction: promptInstruction || ''
+        promptInstruction: promptInstruction || '',
+        imageApiKey: config.image_api_key || '',
+        imageModel: config.image_model || 'gemini-3.1-flash-image-preview'
       };
 
       if (useAgentOrchestrator) {
@@ -2158,13 +2160,10 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
       return;
     }
     
-    // Procesar imágenes GEMINI_GENERATE si hay API key de imagen configurada
-    if (config.image_api_key && config.image_api_key.trim() !== '') {
-      console.log('=== PROCESANDO IMÁGENES ===');
-      htmlResult = await processGeminiImages(htmlResult, config.image_api_key.trim(), config.image_model);
-    } else {
-      console.log('=== NO HAY API KEY DE IMAGEN CONFIGURADA - OMITIENDO IMÁGENES ===');
-    }
+// Compilar TODAS las imágenes a base64 (locales + AI generadas)
+    // Esto asegura que la invitación sea completamente autocontenida
+    const { compileAllImagesToBase64 } = await import('./imageToBase64.js');
+    htmlResult = await compileAllImagesToBase64(htmlResult, config.image_api_key, config.image_model);
     
     const historicoPath = join(__dirname, 'storage', 'historico');
     if (!existsSync(historicoPath)) {

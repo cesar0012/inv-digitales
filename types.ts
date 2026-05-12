@@ -164,6 +164,8 @@ export interface AdminConfig {
   image_model: string;
   image_api_key: string;
   updated_at: string | null;
+  use_agent_orchestrator?: boolean;
+  login_page_url?: string;
 }
 
 export interface AdminUser {

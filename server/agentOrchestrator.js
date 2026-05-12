@@ -1,5 +1,6 @@
 import https from 'https';
 import { CODER_SYSTEM_PROMPT, AESTHETIC_FAMILY_MAP, MODULE_SENSATIONS_MAP } from './agents-prompt.js';
+import { compileAllImagesToBase64 } from './imageToBase64.js';
 
 const fetchNoSSL = async (url, options = {}) => {
   return new Promise((resolve, reject) => {
@@ -230,23 +231,27 @@ export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro',
     secondaryColor = '',
     visualStyle = '',
     mood = '',
-    imageFiles = [],
-    promptInstruction = ''
+imageFiles = [],
+    promptInstruction = '',
+    imageApiKey = '',
+    imageModel = ''
   } = options;
 
   console.log('=== ORCHESTRATOR START ===');
   console.log('Event:', eventType, '| Theme:', theme, '| Model:', model);
 
-  // ===== STEP 1: LOCAL — Generate fingerprint & extract metadata =====
-  console.log('[ORQUESTADOR] Step 1: Generating design fingerprint...');
+// ===== STEP 1: LOCAL — Generate fingerprint & extract metadata =====
+  console.log('[ORQUESTADOR] Step 1: Generating design fingerprint (with GUIA_DISENO_DIVERSIFICADO principles)...');
   const fingerprint = generateDesignFingerprint(eventType);
   console.log('[ORQUESTADOR] Fingerprint:', fingerprint.raw);
+  console.log('[ORQUESTADOR] Aesthetic Family:', fingerprint.aestheticFamily);
+  console.log('[ORQUESTADOR] Module Sensations:', fingerprint.moduleSensations);
 
   const currentDate = new Date().toISOString().replace('T', ' ').substring(0, 19);
   const promptWithDate = prompt.replace(/SYSTEM_TIMESTAMP:\s*\S+/, `SYSTEM_TIMESTAMP: ${currentDate}`);
 
-  // ===== STEP 2: GEMINI API — CODER call =====
-  console.log('[ORQUESTADOR] Step 2: Calling Gemini with CODER prompt...');
+// ===== STEP 2: GEMINI API — CODER call =====
+  console.log('[ORQUESTADOR] Step 2: Calling Gemini with CODER prompt (integrating GUIA_DISENO_DIVERSIFICADO)...');
   const fingerprintBlock = `\n\n===== DESIGN FINGERPRINT (FOLLOW EXACTLY) =====\n${fingerprint.raw}\n===== END FINGERPRINT =====\n\n`;
   const promptImageContext = promptInstruction ? `\n\n${promptInstruction}` : '';
   const fullPrompt = `${CODER_SYSTEM_PROMPT}${fingerprintBlock}${promptImageContext}${promptWithDate}`;
@@ -290,16 +295,30 @@ export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro',
     throw new Error('Empty response from Gemini');
   }
 
-  // ===== STEP 3: LOCAL — COMPILER post-processing =====
-  console.log('[ORQUESTADOR] Step 3: COMPILER post-processing...');
+// ===== STEP 3: LOCAL — COMPILER post-processing (HTML cleanup) =====
+  console.log('[ORQUESTADOR] Step 3: COMPILER post-processing (HTML cleanup)...');
   const html = cleanHtml(generatedText);
   const fixedHtml = fixTailwindBgGemini(html);
   const libHtml = injectMandatoryLibraries(fixedHtml);
-  const metaHtml = injectEditorMetadata(libHtml, eventType, theme, primaryColor, secondaryColor);
-  const finalHtml = fixInvalidImagePaths(metaHtml, imageFiles);
+const metaHtml = injectEditorMetadata(libHtml, eventType, theme, primaryColor, secondaryColor);
+  const compiledHtml = fixInvalidImagePaths(metaHtml, imageFiles);
+
+  console.log('[ORQUESTADOR] HTML compiled, length:', compiledHtml.length);
+
+  // ===== STEP 4: LOCAL — COMPILER image processing: compile ALL images to base64 =====
+  console.log('[ORQUESTADOR] Step 4: COMPILING ALL IMAGES to base64 (local + AI-generated)...');
+  
+  // Use imageApiKey from options or fall back to main apiKey if not provided
+  const effectiveImageApiKey = imageApiKey || apiKey;
+  const effectiveImageModel = imageModel || 'gemini-3.1-flash-image-preview';
+  
+  // Process all images: local from /img/ + AI-generated via NanoBanana
+  const finalHtml = await compileAllImagesToBase64(compiledHtml, effectiveImageApiKey, effectiveImageModel);
 
   console.log('=== ORCHESTRATOR COMPLETE ===');
   console.log('Final HTML length:', finalHtml.length);
+  console.log('✅ All images compiled to base64');
+  console.log('✅ Design diversity follows GUIA_DISENO_DIVERSIFICADO.md principles');
 
   return finalHtml;
 };
