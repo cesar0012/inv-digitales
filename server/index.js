@@ -1529,28 +1529,61 @@ const updatedConfig = {
   res.json({ success: true, message: 'Configuración guardada' });
 });
 
-// GET /api/admin/users - Listar todos los usuarios
+// GET /api/admin/users - Listar todos los usuarios con planes
 app.get('/api/admin/users', adminMiddleware, (req, res) => {
-  const stmt = db.prepare(`
+  const usersStmt = db.prepare(`
     SELECT 
-      user_id,
-      invitations_count,
-      iteration_credits,
-      max_invitations,
-      max_iteration_credits,
-      generation_credits,
-      max_generation_credits,
-      created_at,
-      (SELECT COUNT(*) FROM invitations WHERE user_id = users.user_id) as db_invitations_count
-    FROM users
-    ORDER BY created_at DESC
+      u.user_id,
+      u.name,
+      u.created_at,
+      (SELECT COUNT(*) FROM invitations WHERE user_id = u.user_id) as invitations_count
+    FROM users u
+    ORDER BY u.created_at DESC
   `);
-  
-  const users = stmt.all().map(user => ({
-    ...user,
-    invitations_remaining: user.max_invitations - user.db_invitations_count
-  }));
-  
+
+  const plansStmt = db.prepare(`
+    SELECT 
+      up.purchase_id,
+      up.plan_slug,
+      up.plan_name,
+      up.invites_included,
+      up.invites_used,
+      up.generation_credits,
+      up.generation_used,
+      up.iteration_credits,
+      up.iteration_used,
+      (SELECT COUNT(*) FROM invitations WHERE user_id = up.user_id AND purchase_id = up.purchase_id) as deployed_count
+    FROM user_plans up
+    WHERE up.user_id = ?
+    ORDER BY up.id
+  `);
+
+  const users = usersStmt.all().map(user => {
+    const plans = plansStmt.all(user.user_id).map(p => ({
+      purchase_id: p.purchase_id,
+      plan_slug: p.plan_slug,
+      plan_name: p.plan_name,
+      invites_included: p.invites_included,
+      invites_used: p.invites_used,
+      generation_credits: p.generation_credits,
+      generation_used: p.generation_used,
+      iteration_credits: p.iteration_credits,
+      iteration_used: p.iteration_used,
+      invites_available: Math.max(0, p.invites_included - p.invites_used),
+      generation_available: Math.max(0, p.generation_credits - p.generation_used),
+      iteration_available: Math.max(0, p.iteration_credits - p.iteration_used),
+      deployed_count: p.deployed_count
+    }));
+
+    return {
+      user_id: user.user_id,
+      name: user.name,
+      invitations_count: user.invitations_count,
+      created_at: user.created_at,
+      plans
+    };
+  });
+
   res.json({ users, total: users.length });
 });
 

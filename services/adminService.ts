@@ -24,16 +24,28 @@ export interface AdminConfig {
   use_agent_orchestrator?: boolean;
 }
 
+export interface AdminUserPlan {
+  purchase_id: number;
+  plan_slug: string;
+  plan_name: string;
+  invites_included: number;
+  invites_used: number;
+  generation_credits: number;
+  generation_used: number;
+  iteration_credits: number;
+  iteration_used: number;
+  invites_available: number;
+  generation_available: number;
+  iteration_available: number;
+  deployed_count: number;
+}
+
 export interface AdminUser {
   user_id: string;
+  name: string | null;
   invitations_count: number;
-  iteration_credits: number;
-  invitations_remaining: number;
-  max_invitations: number;
-  max_iteration_credits: number;
-  generation_credits: number;
-  max_generation_credits: number;
   created_at: string;
+  plans: AdminUserPlan[];
 }
 
 export interface AdminInvitation {
