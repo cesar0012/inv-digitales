@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Users, ChevronDown, ChevronRight, CreditCard, Gift, RefreshCw, Loader2, Zap, Layers } from 'lucide-react';
+import { Users, ChevronDown, ChevronRight, CreditCard, Gift, RefreshCw, Loader2, Zap, Layers, Database } from 'lucide-react';
 import { AdminUser } from '../../types';
 import { getAdminUsers, syncUsers } from '../../services/adminService';
+import { AdminBackup } from './AdminBackup';
 
 const PlanBadge: React.FC<{ slug: string }> = ({ slug }) => {
   const colors: Record<string, string> = {
@@ -33,7 +34,10 @@ const UsageBar: React.FC<{ used: number; total: number; label: string }> = ({ us
   );
 };
 
+type SubTab = 'users' | 'backup';
+
 export const AdminUsers: React.FC = () => {
+  const [subTab, setSubTab] = useState<SubTab>('users');
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
@@ -82,6 +86,31 @@ export const AdminUsers: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      <div className="flex gap-1 bg-gray-100 p-1 rounded-xl w-fit">
+        <button
+          onClick={() => setSubTab('users')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            subTab === 'users' ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          <Users className="w-4 h-4" />
+          Usuarios
+        </button>
+        <button
+          onClick={() => setSubTab('backup')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            subTab === 'backup' ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          <Database className="w-4 h-4" />
+          Backup
+        </button>
+      </div>
+
+      {subTab === 'backup' ? (
+        <AdminBackup />
+      ) : (
+      <>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-pink-100 rounded-xl flex items-center justify-center">
@@ -236,6 +265,8 @@ export const AdminUsers: React.FC = () => {
             </tbody>
           </table>
         </div>
+      )}
+      </>
       )}
     </div>
   );

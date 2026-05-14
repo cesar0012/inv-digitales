@@ -1587,6 +1587,73 @@ app.get('/api/admin/users', adminMiddleware, (req, res) => {
   res.json({ users, total: users.length });
 });
 
+// GET /api/admin/backup - Descargar backup completo de la base de datos
+app.get('/api/admin/backup', adminMiddleware, (req, res) => {
+  try {
+    const tables = ['users', 'user_plans', 'invitations', 'plan_config', 'local_users'];
+    const backup = {
+      version: 1,
+      exported_at: new Date().toISOString(),
+      data: {}
+    };
+
+    for (const table of tables) {
+      try {
+        const rows = db.prepare(`SELECT * FROM ${table}`).all();
+        backup.data[table] = rows;
+      } catch (e) {
+        backup.data[table] = [];
+      }
+    }
+
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Disposition', `attachment; filename="backup-${new Date().toISOString().slice(0, 10)}.json"`);
+    res.json(backup);
+  } catch (error) {
+    console.error('Error creating backup:', error);
+    res.status(500).json({ error: 'Error al crear backup' });
+  }
+});
+
+// POST /api/admin/backup - Restaurar backup (reemplaza todos los datos)
+app.post('/api/admin/backup', adminMiddleware, (req, res) => {
+  try {
+    const backup = req.body;
+
+    if (!backup || !backup.version || !backup.data) {
+      return res.status(400).json({ error: 'Formato de backup inválido' });
+    }
+
+    const allowedTables = ['users', 'user_plans', 'invitations', 'plan_config', 'local_users'];
+    const restore = db.transaction(() => {
+      for (const table of allowedTables) {
+        const rows = backup.data[table];
+        if (!Array.isArray(rows)) continue;
+
+        db.exec(`DELETE FROM ${table}`);
+
+        if (rows.length === 0) continue;
+
+        const columns = Object.keys(rows[0]);
+        const placeholders = columns.map(() => '?').join(', ');
+        const insertStmt = db.prepare(`INSERT INTO ${table} (${columns.join(', ')}) VALUES (${placeholders})`);
+
+        for (const row of rows) {
+          const values = columns.map(c => row[c] !== undefined ? row[c] : null);
+          insertStmt.run(...values);
+        }
+      }
+    });
+
+    restore();
+
+    res.json({ success: true, message: 'Backup restaurado correctamente' });
+  } catch (error) {
+    console.error('Error restoring backup:', error);
+    res.status(500).json({ error: 'Error al restaurar backup: ' + error.message });
+  }
+});
+
 // PUT /api/admin/users/:id - Actualizar usuario
 app.put('/api/admin/users/:id', adminMiddleware, (req, res) => {
   const { id } = req.params;

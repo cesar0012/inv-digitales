@@ -232,3 +232,51 @@ export const syncUsers = async (): Promise<{ success: boolean; message: string; 
   
   return response.json();
 };
+
+export interface BackupData {
+  version: number;
+  exported_at: string;
+  data: {
+    users?: any[];
+    user_plans?: any[];
+    invitations?: any[];
+    plan_config?: any[];
+    local_users?: any[];
+  };
+}
+
+export const downloadBackup = async (): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/backup`, {
+    headers: getAdminHeaders()
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al descargar backup');
+  }
+
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `backup-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  window.URL.revokeObjectURL(url);
+};
+
+export const uploadBackup = async (data: BackupData): Promise<{ success: boolean; message: string }> => {
+  const response = await fetch(`${API_BASE}/admin/backup`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(data)
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al restaurar backup');
+  }
+
+  return response.json();
+};
