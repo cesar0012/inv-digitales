@@ -1624,15 +1624,21 @@ app.post('/api/admin/backup', adminMiddleware, (req, res) => {
       return res.status(400).json({ error: 'Formato de backup inválido' });
     }
 
-    const allowedTables = ['users', 'user_plans', 'invitations', 'plan_config', 'local_users'];
+    const deleteOrder = ['invitations', 'user_plans', 'local_users', 'users', 'plan_config'];
+    const insertOrder = ['plan_config', 'users', 'local_users', 'user_plans', 'invitations'];
+
+    db.pragma('foreign_keys = OFF');
+
     const restore = db.transaction(() => {
-      for (const table of allowedTables) {
+      for (const table of deleteOrder) {
         const rows = backup.data[table];
         if (!Array.isArray(rows)) continue;
-
         db.exec(`DELETE FROM ${table}`);
+      }
 
-        if (rows.length === 0) continue;
+      for (const table of insertOrder) {
+        const rows = backup.data[table];
+        if (!Array.isArray(rows) || rows.length === 0) continue;
 
         const columns = Object.keys(rows[0]);
         const placeholders = columns.map(() => '?').join(', ');
@@ -1645,7 +1651,11 @@ app.post('/api/admin/backup', adminMiddleware, (req, res) => {
       }
     });
 
-    restore();
+    try {
+      restore();
+    } finally {
+      db.pragma('foreign_keys = ON');
+    }
 
     res.json({ success: true, message: 'Backup restaurado correctamente' });
   } catch (error) {
