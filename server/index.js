@@ -1349,6 +1349,111 @@ app.get('/preview/:filename', (req, res) => {
   res.send(content);
 });
 
+// ==================== SERVICE API (consumido por Laravel) ====================
+
+const SERVICE_TOKEN = process.env.API_SERVICE_TOKEN;
+
+const serviceMiddleware = (req, res, next) => {
+  if (!SERVICE_TOKEN) {
+    return res.status(503).json({ error: 'API_SERVICE_TOKEN no configurado en el servidor' });
+  }
+
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).json({ error: 'Authorization header requerido' });
+  }
+
+  const token = authHeader.replace('Bearer ', '');
+  if (token !== SERVICE_TOKEN) {
+    return res.status(401).json({ error: 'Token de servicio inválido' });
+  }
+
+  next();
+};
+
+// GET /api/service/users - Lista todos los usuarios con sus planes y conteo de invitaciones
+app.get('/api/service/users', serviceMiddleware, (req, res) => {
+  try {
+    const users = db.prepare('SELECT * FROM users ORDER BY created_at DESC').all();
+
+    const result = users.map(user => {
+      syncUserInvitationsCount(user.user_id);
+
+      const rawPlans = db.prepare('SELECT * FROM user_plans WHERE user_id = ?').all(user.user_id);
+      const plans = rawPlans.map(p => ({
+        purchase_id: p.purchase_id,
+        plan_slug: p.plan_slug,
+        plan_name: p.plan_name,
+        invites_included: p.invites_included,
+        invites_used: p.invites_used,
+        invites_available: Math.max(0, p.invites_included - p.invites_used),
+        generation_credits: p.generation_credits,
+        generation_used: p.generation_used,
+        generation_available: Math.max(0, p.generation_credits - p.generation_used),
+        iteration_credits: p.iteration_credits,
+        iteration_used: p.iteration_used,
+        iteration_available: Math.max(0, p.iteration_credits - p.iteration_used)
+      }));
+
+      const invitationCount = db.prepare('SELECT COUNT(*) as count FROM invitations WHERE user_id = ?').get(user.user_id)?.count || 0;
+
+      return {
+        user_id: user.user_id,
+        name: user.name,
+        created_at: user.created_at,
+        invitation_count: invitationCount,
+        plans
+      };
+    });
+
+    res.json({ users: result, total: result.length });
+  } catch (error) {
+    console.error('Error en /api/service/users:', error);
+    res.status(500).json({ error: 'Error al obtener usuarios' });
+  }
+});
+
+// GET /api/service/users/:userId - Detalle completo de un usuario
+app.get('/api/service/users/:userId', serviceMiddleware, (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = db.prepare('SELECT * FROM users WHERE user_id = ?').get(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+
+    syncUserInvitationsCount(userId);
+
+    const rawPlans = db.prepare('SELECT * FROM user_plans WHERE user_id = ?').all(userId);
+    const plans = rawPlans.map(p => getPlanWithInvitation(p, userId));
+
+    const invitations = getUserInvitations(userId);
+
+    res.json({
+      user_id: user.user_id,
+      name: user.name,
+      created_at: user.created_at,
+      plans,
+      invitations: invitations.map(inv => ({
+        filename: inv.filename,
+        slug: inv.slug,
+        public_url: inv.publicUrl,
+        event_type: inv.event_type,
+        event_domain: inv.event_domain,
+        event_date: inv.event_date,
+        event_time: inv.event_time,
+        purchase_id: inv.purchase_id,
+        plan_slug: inv.plan_slug,
+        created_at: inv.created_at
+      }))
+    });
+  } catch (error) {
+    console.error('Error en /api/service/users/:userId:', error);
+    res.status(500).json({ error: 'Error al obtener usuario' });
+  }
+});
+
 // ==================== ADMIN ENDPOINTS ====================
 
 const adminMiddleware = (req, res, next) => {
