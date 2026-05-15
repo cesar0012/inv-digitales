@@ -1664,6 +1664,107 @@ app.post('/api/admin/backup', adminMiddleware, (req, res) => {
   }
 });
 
+// GET /api/admin/plans - Listar configuración de planes
+app.get('/api/admin/plans', adminMiddleware, (req, res) => {
+  try {
+    const plans = db.prepare('SELECT * FROM plan_config ORDER BY created_at ASC').all();
+    res.json({ plans });
+  } catch (error) {
+    console.error('Error fetching plans:', error);
+    res.status(500).json({ error: 'Error al obtener planes' });
+  }
+});
+
+// POST /api/admin/plans - Crear nuevo plan
+app.post('/api/admin/plans', adminMiddleware, (req, res) => {
+  try {
+    const { plan_slug, plan_name, invites_included, generation_credits, iteration_credits } = req.body;
+
+    if (!plan_slug || !plan_name) {
+      return res.status(400).json({ error: 'plan_slug y plan_name son requeridos' });
+    }
+
+    const existing = db.prepare('SELECT plan_slug FROM plan_config WHERE plan_slug = ?').get(plan_slug);
+    if (existing) {
+      return res.status(409).json({ error: 'Ya existe un plan con ese slug' });
+    }
+
+    db.prepare(`
+      INSERT INTO plan_config (plan_slug, plan_name, invites_included, generation_credits, iteration_credits)
+      VALUES (?, ?, ?, ?, ?)
+    `).run(
+      plan_slug,
+      plan_name,
+      invites_included ?? 1,
+      generation_credits ?? 5,
+      iteration_credits ?? 10
+    );
+
+    const plan = db.prepare('SELECT * FROM plan_config WHERE plan_slug = ?').get(plan_slug);
+    res.status(201).json({ plan });
+  } catch (error) {
+    console.error('Error creating plan:', error);
+    res.status(500).json({ error: 'Error al crear plan' });
+  }
+});
+
+// PUT /api/admin/plans/:slug - Actualizar plan
+app.put('/api/admin/plans/:slug', adminMiddleware, (req, res) => {
+  try {
+    const { slug } = req.params;
+    const { plan_name, invites_included, generation_credits, iteration_credits } = req.body;
+
+    const existing = db.prepare('SELECT plan_slug FROM plan_config WHERE plan_slug = ?').get(slug);
+    if (!existing) {
+      return res.status(404).json({ error: 'Plan no encontrado' });
+    }
+
+    const updates = [];
+    const values = [];
+
+    if (plan_name !== undefined) { updates.push('plan_name = ?'); values.push(plan_name); }
+    if (invites_included !== undefined) { updates.push('invites_included = ?'); values.push(invites_included); }
+    if (generation_credits !== undefined) { updates.push('generation_credits = ?'); values.push(generation_credits); }
+    if (iteration_credits !== undefined) { updates.push('iteration_credits = ?'); values.push(iteration_credits); }
+
+    if (updates.length === 0) {
+      return res.status(400).json({ error: 'No hay campos para actualizar' });
+    }
+
+    values.push(slug);
+    db.prepare(`UPDATE plan_config SET ${updates.join(', ')} WHERE plan_slug = ?`).run(...values);
+
+    const plan = db.prepare('SELECT * FROM plan_config WHERE plan_slug = ?').get(slug);
+    res.json({ plan });
+  } catch (error) {
+    console.error('Error updating plan:', error);
+    res.status(500).json({ error: 'Error al actualizar plan' });
+  }
+});
+
+// DELETE /api/admin/plans/:slug - Eliminar plan
+app.delete('/api/admin/plans/:slug', adminMiddleware, (req, res) => {
+  try {
+    const { slug } = req.params;
+
+    const existing = db.prepare('SELECT plan_slug FROM plan_config WHERE plan_slug = ?').get(slug);
+    if (!existing) {
+      return res.status(404).json({ error: 'Plan no encontrado' });
+    }
+
+    const activeUsers = db.prepare('SELECT COUNT(*) as count FROM user_plans WHERE plan_slug = ?').get(slug);
+    if (activeUsers.count > 0) {
+      return res.status(409).json({ error: `No se puede eliminar: ${activeUsers.count} usuario(s) tienen este plan activo` });
+    }
+
+    db.prepare('DELETE FROM plan_config WHERE plan_slug = ?').run(slug);
+    res.json({ success: true, message: 'Plan eliminado correctamente' });
+  } catch (error) {
+    console.error('Error deleting plan:', error);
+    res.status(500).json({ error: 'Error al eliminar plan' });
+  }
+});
+
 // PUT /api/admin/users/:id - Actualizar usuario
 app.put('/api/admin/users/:id', adminMiddleware, (req, res) => {
   const { id } = req.params;

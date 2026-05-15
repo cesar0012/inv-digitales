@@ -280,3 +280,67 @@ export const uploadBackup = async (data: BackupData): Promise<{ success: boolean
 
   return response.json();
 };
+
+export interface PlanConfig {
+  plan_slug: string;
+  plan_name: string;
+  invites_included: number;
+  generation_credits: number;
+  iteration_credits: number;
+  created_at: string;
+}
+
+export const getAdminPlans = async (): Promise<{ plans: PlanConfig[] }> => {
+  const response = await fetch(`${API_BASE}/admin/plans`, {
+    headers: getAdminHeaders()
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al obtener planes');
+  }
+
+  return response.json();
+};
+
+export const createPlan = async (data: Omit<PlanConfig, 'created_at'>): Promise<{ plan: PlanConfig }> => {
+  const response = await fetch(`${API_BASE}/admin/plans`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(data)
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al crear plan');
+  }
+
+  return response.json();
+};
+
+export const updatePlan = async (slug: string, data: Partial<Omit<PlanConfig, 'plan_slug' | 'created_at'>>): Promise<{ plan: PlanConfig }> => {
+  const response = await fetch(`${API_BASE}/admin/plans/${slug}`, {
+    method: 'PUT',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(data)
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al actualizar plan');
+  }
+
+  return response.json();
+};
+
+export const deletePlan = async (slug: string): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/plans/${slug}`, {
+    method: 'DELETE',
+    headers: getAdminHeaders()
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al eliminar plan');
+  }
+};

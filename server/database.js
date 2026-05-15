@@ -185,35 +185,17 @@ const PLAN_DEFAULTS = [
 ];
 
 try {
-  const upsertPlan = db.prepare(`
-    INSERT INTO plan_config (plan_slug, plan_name, invites_included, generation_credits, iteration_credits)
+  const insertPlan = db.prepare(`
+    INSERT OR IGNORE INTO plan_config (plan_slug, plan_name, invites_included, generation_credits, iteration_credits)
     VALUES (?, ?, ?, ?, ?)
-    ON CONFLICT(plan_slug) DO UPDATE SET
-      plan_name = excluded.plan_name,
-      invites_included = excluded.invites_included,
-      generation_credits = excluded.generation_credits,
-      iteration_credits = excluded.iteration_credits
   `);
   for (const p of PLAN_DEFAULTS) {
-    upsertPlan.run(p.slug, p.name, p.invites, p.gen, p.iter);
+    insertPlan.run(p.slug, p.name, p.invites, p.gen, p.iter);
   }
-  console.log('✅ Configuración de planes inicializada/actualizada');
+  console.log('✅ Configuración de planes inicializada');
 } catch (e) { console.log('⚠️ Error inicializando planes:', e.message); }
 
-// Migración: sincronizar user_plans existentes con los nuevos valores de plan_config
-try {
-  const syncUserPlans = db.prepare(`
-    UPDATE user_plans SET
-      invites_included = (SELECT pc.invites_included FROM plan_config pc WHERE pc.plan_slug = user_plans.plan_slug),
-      generation_credits = (SELECT pc.generation_credits FROM plan_config pc WHERE pc.plan_slug = user_plans.plan_slug),
-      iteration_credits = (SELECT pc.iteration_credits FROM plan_config pc WHERE pc.plan_slug = user_plans.plan_slug)
-    WHERE plan_slug IN (SELECT plan_slug FROM plan_config)
-  `);
-  const result = syncUserPlans.run();
-  if (result.changes > 0) {
-    console.log(`✅ Migración: ${result.changes} user_plans actualizados con nuevos valores de plan_config`);
-  }
-} catch (e) { console.log('⚠️ Error migrando user_plans:', e.message); }
+
 
 // 🆕 Tabla de planes de usuario
 db.exec(`

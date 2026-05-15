@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Home, Settings, Users, History, Star } from 'lucide-react';
+import { Home, Settings, Users, History, Star, CreditCard } from 'lucide-react';
 import { AdminModels } from './admin/AdminModels';
 import { AdminUsers } from './admin/AdminUsers';
 import { AdminHistory } from './admin/AdminHistory';
+import { AdminPlans } from './admin/AdminPlans';
 
-type AdminTab = 'models' | 'users' | 'history';
+type AdminTab = 'models' | 'users' | 'history' | 'plans';
 
 export const AdminView: React.FC = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ export const AdminView: React.FC = () => {
   const tabs = [
     { id: 'models' as const, label: 'Modelos AI', icon: Settings },
     { id: 'users' as const, label: 'Usuarios', icon: Users },
+    { id: 'plans' as const, label: 'Planes', icon: CreditCard },
     { id: 'history' as const, label: 'Historial', icon: History },
   ];
 
@@ -69,6 +71,7 @@ export const AdminView: React.FC = () => {
         <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-pink-100 shadow-lg shadow-pink-100/30 p-6">
           {activeTab === 'models' && <AdminModels />}
           {activeTab === 'users' && <AdminUsers />}
+          {activeTab === 'plans' && <AdminPlans />}
           {activeTab === 'history' && <AdminHistory />}
         </div>
       </div>
