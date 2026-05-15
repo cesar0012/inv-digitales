@@ -1351,23 +1351,27 @@ app.get('/preview/:filename', (req, res) => {
 
 // ==================== SERVICE API (consumido por Laravel) ====================
 
-const SERVICE_TOKEN = process.env.API_SERVICE_TOKEN;
-
 const serviceMiddleware = (req, res, next) => {
-  if (!SERVICE_TOKEN) {
+  const configuredToken = process.env.API_SERVICE_TOKEN;
+
+  if (!configuredToken) {
+    console.log('❌ SERVICE API: API_SERVICE_TOKEN no configurado en variables de entorno');
     return res.status(503).json({ error: 'API_SERVICE_TOKEN no configurado en el servidor' });
   }
 
   const authHeader = req.headers.authorization;
   if (!authHeader) {
+    console.log('❌ SERVICE API: No se recibio Authorization header');
     return res.status(401).json({ error: 'Authorization header requerido' });
   }
 
-  const token = authHeader.replace('Bearer ', '');
-  if (token !== SERVICE_TOKEN) {
-    return res.status(401).json({ error: 'Token de servicio inválido' });
+  const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : authHeader;
+  if (token !== configuredToken) {
+    console.log(`❌ SERVICE API: Token no coincide. Recibido: "${token.substring(0, 20)}..." Esperado: "${configuredToken.substring(0, 20)}..."`);
+    return res.status(401).json({ error: 'Token de servicio invalido' });
   }
 
+  console.log('✅ SERVICE API: Token validado correctamente');
   next();
 };
 
