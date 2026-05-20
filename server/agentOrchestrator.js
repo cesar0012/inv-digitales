@@ -45,6 +45,29 @@ const SECTION_FLOW_OPTIONS = [
   'chaotic-overlap', 'collage-flow', 'asymmetric-breaks'
 ];
 
+const MODULES = [
+  'portada', 'padres', 'countdown', 'itinerario', 'ubicacion',
+  'padrinos', 'corte', 'vestimenta', 'regalos', 'confirmacion'
+];
+
+const PHOTO_TREATMENTS = [
+  'none', 'grayscale', 'sepia', 'high-contrast', 'blur-edges', 'duotone',
+  'vignette', 'saturate-boost', 'fade-overlay', 'clip-diagonal', 'clip-circle',
+  'clip-polygon', 'rotate-slight', 'rotate-heavy', 'polaroid-frame', 'torn-edges',
+  'double-exposure', 'halftone', 'noise-texture', 'color-invert-accent'
+];
+
+const CHAOS_TOKENS = [
+  'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+  'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T'
+];
+
+const SPACING_PATTERNS = [
+  'py-32 gap-10', 'py-16 gap-6', 'py-40 gap-4', 'py-12 gap-12',
+  'py-48 gap-2', 'py-20 gap-8', 'py-8 gap-16', 'py-24 gap-3',
+  'py-28 gap-14', 'py-36 gap-6'
+];
+
 const EVENT_PREFERRED_LAYOUTS = {
   'Boda Tradicional': ['full-screen-hero', 'editorial-magazine', 'layered-cards', 'cinematic-panes', 'centered-timeline', 'side-by-side-columns', 'overlap-photos'],
   'Boda Americana': ['cinematic-panes', 'split-screen', 'minimalist-center', 'parallax-layers', 'editorial-magazine', 'side-by-side-columns', 'broken-grid'],
@@ -130,7 +153,7 @@ const generateDesignFingerprint = (eventType = '', theme = '', visualStyle = '',
   const animationPool = moodPrefs ? [...new Set([...moodPrefs.animations, ...preferredAnimations])] : preferredAnimations;
   const colorStrategyPool = stylePrefs ? stylePrefs.colorStrategies : COLOR_STRATEGIES;
   const sflowPool = stylePrefs
-    ? [...new Set([...stylePrefs.sflows, ...(moodPrefs ? moodPrefs.sflows : [])])]
+    ? [...new Set([.stylePrefs.sflows, ...(moodPrefs ? moodPrefs.sflows : [])])]
     : (moodPrefs ? moodPrefs.sflows : SECTION_FLOW_OPTIONS);
 
   const hasUserColors = primaryColor && secondaryColor;
@@ -155,6 +178,21 @@ const generateDesignFingerprint = (eventType = '', theme = '', visualStyle = '',
     ? pickDifferent(userPaletteStrategies, colorStrategy)
     : pickDifferent(colorStrategyPool, colorStrategy);
 
+  const layoutRotation = [primaryLayout, secondaryLayout, tertiaryLayout];
+  const typographyRotation = [primaryTypography, secondaryTypography, pickDifferent(typographyPool, primaryTypography)];
+  const animationRotation = [primaryAnimation, secondaryAnimation, pickDifferent(animationPool, primaryAnimation)];
+
+  const moduleAssignments = MODULES.map((mod, i) => {
+    const modLayout = layoutRotation[i % layoutRotation.length];
+    const modTypography = typographyRotation[i % typographyRotation.length];
+    const modAnimation = animationRotation[i % animationRotation.length];
+    const modPhoto = pickRandom(PHOTO_TREATMENTS);
+    const modSpacing = pickRandom(SPACING_PATTERNS);
+    return `${mod}:${modLayout}+${modTypography}+${modAnimation}+photo:${modPhoto}+${modSpacing}`;
+  });
+
+  const chaosSeed = pickN(CHAOS_TOKENS, 5).join('');
+
   const fingerprint = [
     `LAYOUT: ${primaryLayout}`,
     `LAYOUT_VARIANTS: ${secondaryLayout}, ${tertiaryLayout}`,
@@ -164,7 +202,9 @@ const generateDesignFingerprint = (eventType = '', theme = '', visualStyle = '',
     `SECTION_FLOW: ${sectionFlow}`,
     `AESTHETIC_FAMILY: ${aestheticFamily}`,
     `MODULE_SENSATIONS: ${moduleSensations}`,
-    `VARIATION_DIRECTIVE: Each module/section MUST have a distinct micro-layout. Use ${primaryLayout} as the OVERALL structure, but rotate between ${primaryLayout}, ${secondaryLayout}, and ${tertiaryLayout} for individual sections. Alternate typography between primary (${primaryTypography}) and accent (${secondaryTypography}). Alternate animation between primary (${primaryAnimation}) and secondary (${secondaryAnimation}). NO two adjacent sections should look identical.`,
+    `MODULE_LAYOUTS: ${moduleAssignments.join(' | ')}`,
+    `CHAOS_SEED: ${chaosSeed}`,
+    `VARIATION_DIRECTIVE: Each module has an EXPLICIT per-module assignment in MODULE_LAYOUTS. You MUST follow the layout, typography, animation, photo treatment, and spacing specified for EACH module. NO two adjacent modules may share the same layout. The CHAOS_SEED is a unique token for this invitation — use it to seed visual randomness (e.g. rotation angles, offset values, clip-path variations, z-index stacking).`,
   ];
 
   if (primaryColor) fingerprint.push(`USER_PRIMARY_COLOR: ${primaryColor}`);

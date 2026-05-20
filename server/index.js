@@ -1874,6 +1874,69 @@ app.delete('/api/admin/plans/:slug', adminMiddleware, (req, res) => {
   }
 });
 
+// GET /api/admin/plans/backup - Descargar backup de plan_config
+app.get('/api/admin/plans/backup', adminMiddleware, (req, res) => {
+  try {
+    const plans = db.prepare('SELECT * FROM plan_config ORDER BY created_at ASC').all();
+    const backup = {
+      version: 1,
+      exported_at: new Date().toISOString(),
+      data: { plan_config: plans }
+    };
+
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Disposition', `attachment; filename="plans-backup-${new Date().toISOString().slice(0, 10)}.json"`);
+    res.json(backup);
+  } catch (error) {
+    console.error('Error creating plans backup:', error);
+    res.status(500).json({ error: 'Error al crear backup de planes' });
+  }
+});
+
+// POST /api/admin/plans/backup - Importar backup de plan_config (sobrescribe existentes)
+app.post('/api/admin/plans/backup', adminMiddleware, (req, res) => {
+  try {
+    const backup = req.body;
+
+    if (!backup || !backup.version || !backup.data || !Array.isArray(backup.data.plan_config)) {
+      return res.status(400).json({ error: 'Formato de backup de planes inválido' });
+    }
+
+    const plans = backup.data.plan_config;
+    if (plans.length === 0) {
+      return res.status(400).json({ error: 'El backup no contiene planes' });
+    }
+
+    const requiredCols = ['plan_slug', 'plan_name'];
+    for (const plan of plans) {
+      if (!plan.plan_slug || !plan.plan_name) {
+        return res.status(400).json({ error: 'Cada plan debe tener plan_slug y plan_name' });
+      }
+    }
+
+    const replace = db.transaction(() => {
+      db.exec('DELETE FROM plan_config');
+
+      const columns = Object.keys(plans[0]);
+      const placeholders = columns.map(() => '?').join(', ');
+      const insertStmt = db.prepare(`INSERT INTO plan_config (${columns.join(', ')}) VALUES (${placeholders})`);
+
+      for (const plan of plans) {
+        const values = columns.map(c => plan[c] !== undefined ? plan[c] : null);
+        insertStmt.run(...values);
+      }
+    });
+
+    replace();
+
+    const updatedPlans = db.prepare('SELECT * FROM plan_config ORDER BY created_at ASC').all();
+    res.json({ success: true, message: `Se importaron ${plans.length} plan(es) correctamente`, plans: updatedPlans });
+  } catch (error) {
+    console.error('Error restoring plans backup:', error);
+    res.status(500).json({ error: 'Error al importar backup de planes: ' + error.message });
+  }
+});
+
 // PUT /api/admin/users/:id - Actualizar usuario
 app.put('/api/admin/users/:id', adminMiddleware, (req, res) => {
   const { id } = req.params;

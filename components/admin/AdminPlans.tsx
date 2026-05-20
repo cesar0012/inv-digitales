@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Plus, Pencil, Trash2, Check, X, Loader2, CreditCard, AlertTriangle } from 'lucide-react';
-import { getAdminPlans, createPlan, updatePlan, deletePlan, PlanConfig } from '../../services/adminService';
+import React, { useState, useEffect, useRef } from 'react';
+import { Plus, Pencil, Trash2, Check, X, Loader2, CreditCard, AlertTriangle, Download, Upload } from 'lucide-react';
+import { getAdminPlans, createPlan, updatePlan, deletePlan, downloadPlansBackup, uploadPlansBackup, PlanConfig, PlansBackupData } from '../../services/adminService';
 
 interface EditingPlan extends Partial<PlanConfig> {
   isNew?: boolean;
@@ -13,6 +13,12 @@ export const AdminPlans: React.FC = () => {
   const [editing, setEditing] = useState<EditingPlan | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [downloadingPlans, setDownloadingPlans] = useState(false);
+  const [uploadingPlans, setUploadingPlans] = useState(false);
+  const [plansFile, setPlansFile] = useState<File | null>(null);
+  const [plansPreview, setPlansPreview] = useState<PlansBackupData | null>(null);
+  const [confirmPlansRestore, setConfirmPlansRestore] = useState(false);
+  const plansFileRef = useRef<HTMLInputElement>(null);
 
   const fetchPlans = async () => {
     setLoading(true);
@@ -100,6 +106,65 @@ export const AdminPlans: React.FC = () => {
     }
   };
 
+  const handlePlansDownload = async () => {
+    setDownloadingPlans(true);
+    setMessage(null);
+    try {
+      await downloadPlansBackup();
+      setMessage({ type: 'success', text: 'Backup de planes descargado correctamente' });
+    } catch (error: any) {
+      setMessage({ type: 'error', text: error.message || 'Error al descargar backup de planes' });
+    } finally {
+      setDownloadingPlans(false);
+    }
+  };
+
+  const handlePlansFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setPlansFile(file);
+    setConfirmPlansRestore(false);
+    setMessage(null);
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const data = JSON.parse(ev.target?.result as string);
+        if (!data.version || !data.data || !Array.isArray(data.data.plan_config)) {
+          setMessage({ type: 'error', text: 'Formato de backup de planes inválido' });
+          setPlansPreview(null);
+          return;
+        }
+        setPlansPreview(data);
+      } catch {
+        setMessage({ type: 'error', text: 'El archivo no es un JSON válido' });
+        setPlansPreview(null);
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  const handlePlansUpload = async () => {
+    if (!plansPreview) return;
+    setUploadingPlans(true);
+    setMessage(null);
+    try {
+      const result = await uploadPlansBackup(plansPreview);
+      setMessage({ type: 'success', text: result.message || 'Planes importados correctamente' });
+      setConfirmPlansRestore(false);
+      setPlansFile(null);
+      setPlansPreview(null);
+      if (plansFileRef.current) plansFileRef.current.value = '';
+      fetchPlans();
+    } catch (error: any) {
+      setMessage({ type: 'error', text: error.message || 'Error al importar planes' });
+      setConfirmPlansRestore(false);
+    } finally {
+      setUploadingPlans(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
@@ -136,6 +201,152 @@ export const AdminPlans: React.FC = () => {
         }`}>
           {message.type === 'error' ? <AlertTriangle className="w-5 h-5 flex-shrink-0" /> : <Check className="w-5 h-5 flex-shrink-0" />}
           <span className="text-sm">{message.text}</span>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
+              <Download className="w-5 h-5 text-purple-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-800">Descargar Planes</h3>
+              <p className="text-sm text-gray-500">Exportar configuración de planes como JSON</p>
+            </div>
+          </div>
+          <p className="text-sm text-gray-600 mb-4">
+            Descarga un archivo JSON con todos los planes configurados. Útil como copia de seguridad o para migrar entre servidores.
+          </p>
+          <button
+            onClick={handlePlansDownload}
+            disabled={downloadingPlans}
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors disabled:opacity-50"
+          >
+            {downloadingPlans ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Descargando...
+              </>
+            ) : (
+              <>
+                <Download className="w-4 h-4" />
+                Descargar Planes
+              </>
+            )}
+          </button>
+        </div>
+
+        <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center">
+              <Upload className="w-5 h-5 text-amber-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-800">Importar Planes</h3>
+              <p className="text-sm text-gray-500">Cargar planes desde un archivo de backup</p>
+            </div>
+          </div>
+          <p className="text-sm text-gray-600 mb-4">
+            Selecciona un archivo JSON previamente descargado. <strong className="text-red-600">Esto reemplazará todos los planes actuales.</strong>
+          </p>
+          <input
+            ref={plansFileRef}
+            type="file"
+            accept=".json"
+            onChange={handlePlansFileSelect}
+            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-medium file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100 file:cursor-pointer cursor-pointer"
+          />
+        </div>
+      </div>
+
+      {plansPreview && (
+        <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
+              <CreditCard className="w-5 h-5 text-gray-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-800">Vista previa de planes a importar</h3>
+              <p className="text-sm text-gray-500">
+                Exportado: {new Date(plansPreview.exported_at).toLocaleString('es-MX')} · {plansPreview.data.plan_config.length} plan(es)
+              </p>
+            </div>
+          </div>
+
+          <div className="overflow-x-auto mb-4">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500 uppercase">Slug</th>
+                  <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500 uppercase">Nombre</th>
+                  <th className="text-center py-2 px-3 text-xs font-semibold text-gray-500 uppercase">Invitaciones</th>
+                  <th className="text-center py-2 px-3 text-xs font-semibold text-gray-500 uppercase">Créditos Gen.</th>
+                  <th className="text-center py-2 px-3 text-xs font-semibold text-gray-500 uppercase">Créditos Iter.</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {plansPreview.data.plan_config.map((plan) => (
+                  <tr key={plan.plan_slug} className="hover:bg-gray-50/50">
+                    <td className="py-2 px-3 font-mono text-gray-600">{plan.plan_slug}</td>
+                    <td className="py-2 px-3 font-medium text-gray-800">{plan.plan_name}</td>
+                    <td className="py-2 px-3 text-center text-gray-700">{plan.invites_included}</td>
+                    <td className="py-2 px-3 text-center text-blue-600">{plan.generation_credits}</td>
+                    <td className="py-2 px-3 text-center text-purple-600">{plan.iteration_credits}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {!confirmPlansRestore ? (
+            <button
+              onClick={() => setConfirmPlansRestore(true)}
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors"
+            >
+              <AlertTriangle className="w-4 h-4" />
+              Importar Planes (reemplazar actuales)
+            </button>
+          ) : (
+            <div className="space-y-3">
+              <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+                <div className="flex items-start gap-2">
+                  <AlertTriangle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-medium text-red-800">Confirmar importación</p>
+                    <p className="text-sm text-red-600 mt-1">
+                      Esto reemplazará TODOS los planes actuales con los del archivo. Esta acción no se puede deshacer.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setConfirmPlansRestore(false)}
+                  className="flex-1 px-4 py-2.5 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handlePlansUpload}
+                  disabled={uploadingPlans}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors disabled:opacity-50"
+                >
+                  {uploadingPlans ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Importando...
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="w-4 h-4" />
+                      Confirmar importación
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
 

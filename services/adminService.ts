@@ -344,3 +344,47 @@ export const deletePlan = async (slug: string): Promise<void> => {
     throw new Error(error.error || 'Error al eliminar plan');
   }
 };
+
+export interface PlansBackupData {
+  version: number;
+  exported_at: string;
+  data: {
+    plan_config: PlanConfig[];
+  };
+}
+
+export const downloadPlansBackup = async (): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/plans/backup`, {
+    headers: getAdminHeaders()
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al descargar backup de planes');
+  }
+
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `plans-backup-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  window.URL.revokeObjectURL(url);
+};
+
+export const uploadPlansBackup = async (data: PlansBackupData): Promise<{ success: boolean; message: string; plans: PlanConfig[] }> => {
+  const response = await fetch(`${API_BASE}/admin/plans/backup`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(data)
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al importar backup de planes');
+  }
+
+  return response.json();
+};
