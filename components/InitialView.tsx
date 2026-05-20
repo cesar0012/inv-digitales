@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Image as ImageIcon, Settings, Heart, X, ImagePlus, Palette, Type, ChevronDown, Save, Home, AlertCircle, FileText } from 'lucide-react';
+import { Send, Image as ImageIcon, Settings, Heart, X, ImagePlus, Palette, Type, ChevronDown, Save, Home, AlertCircle, FileText, Calendar, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Attachment, EditorConfig } from '../types';
 import { EVENT_TYPES, EVENT_DEFAULT_COLORS, VISUAL_STYLES, MOODS, EVENT_STYLE_SUGGESTIONS } from '../constants';
@@ -14,6 +14,8 @@ interface InitialViewProps {
   initialPrimaryColor?: string;
   initialSecondaryColor?: string;
   initialEventDetails?: string;
+  initialEventDate?: string;
+  initialEventTime?: string;
 }
 
 export const InitialView: React.FC<InitialViewProps> = ({ 
@@ -25,7 +27,9 @@ export const InitialView: React.FC<InitialViewProps> = ({
   initialTheme = '',
   initialPrimaryColor = '#f472b6',
   initialSecondaryColor = '#fb7185',
-  initialEventDetails = ''
+  initialEventDetails = '',
+  initialEventDate = '',
+  initialEventTime = ''
 }) => {
   const navigate = useNavigate();
   const [eventType, setEventType] = useState(initialEventType || '');
@@ -33,6 +37,8 @@ export const InitialView: React.FC<InitialViewProps> = ({
   const [primaryColor, setPrimaryColor] = useState(initialPrimaryColor);
   const [secondaryColor, setSecondaryColor] = useState(initialSecondaryColor);
   const [eventDetails, setEventDetails] = useState(initialEventDetails);
+  const [eventDate, setEventDate] = useState(initialEventDate || '');
+  const [eventTime, setEventTime] = useState(initialEventTime || '');
   const [visualStyle, setVisualStyle] = useState('');
   const [mood, setMood] = useState('');
   const [attachments, setAttachments] = useState<Attachment[]>([]);
@@ -51,7 +57,9 @@ export const InitialView: React.FC<InitialViewProps> = ({
     if (initialPrimaryColor) setPrimaryColor(initialPrimaryColor);
     if (initialSecondaryColor) setSecondaryColor(initialSecondaryColor);
     if (initialEventDetails) setEventDetails(initialEventDetails);
-  }, [initialEventType, initialTheme, initialPrimaryColor, initialSecondaryColor, initialEventDetails]);
+    if (initialEventDate) setEventDate(initialEventDate);
+    if (initialEventTime) setEventTime(initialEventTime);
+  }, [initialEventType, initialTheme, initialPrimaryColor, initialSecondaryColor, initialEventDetails, initialEventDate, initialEventTime]);
 
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -99,6 +107,13 @@ export const InitialView: React.FC<InitialViewProps> = ({
     
     prompt += `\n\nDetalles específicos del evenimiento:\n${eventDetails.trim()}`;
     
+    if (eventDate) {
+      prompt += `\n\nLa fecha del evento es: ${eventDate}`;
+    }
+    if (eventTime) {
+      prompt += `\nLa hora del evento es: ${eventTime}`;
+    }
+    
     prompt += `\n\nLa paleta de colores debe ser:`;
     if (primaryColor) prompt += `\n- Color Principal/Base: ${primaryColor}`;
     if (secondaryColor) prompt += `\n- Color Secundario/Acento: ${secondaryColor}`;
@@ -109,6 +124,8 @@ export const InitialView: React.FC<InitialViewProps> = ({
       primaryColor,
       secondaryColor,
       eventDetails: eventDetails.trim(),
+      eventDate: eventDate || undefined,
+      eventTime: eventTime || undefined,
       visualStyle: visualStyle || undefined,
       mood: mood || undefined
     };
@@ -240,6 +257,33 @@ export const InitialView: React.FC<InitialViewProps> = ({
                 ))}
               </div>
             )}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-semibold text-gray-700 uppercase tracking-wider flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-pink-500" />
+                Fecha del Evento
+              </label>
+              <input
+                type="date"
+                value={eventDate}
+                onChange={(e) => setEventDate(e.target.value)}
+                className="w-full bg-white border border-pink-200 hover:border-pink-400 px-4 py-3 rounded-xl text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all shadow-sm text-lg"
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-semibold text-gray-700 uppercase tracking-wider flex items-center gap-2">
+                <Clock className="w-4 h-4 text-pink-500" />
+                Hora del Evento
+              </label>
+              <input
+                type="time"
+                value={eventTime}
+                onChange={(e) => setEventTime(e.target.value)}
+                className="w-full bg-white border border-pink-200 hover:border-pink-400 px-4 py-3 rounded-xl text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all shadow-sm text-lg"
+              />
+            </div>
           </div>
 
           <div className="flex flex-col gap-2">

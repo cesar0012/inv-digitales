@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { EditorSidebar } from './EditorSidebar';
 import { PreviewPane } from './PreviewPane';
@@ -12,6 +12,17 @@ import { useAuth } from '../contexts/AuthContext';
 import { getLocalImages, hasLocalImages, buildLocalImageContext, getEventFolder } from '../services/localImageService';
 import { ReplaceInvitationModal } from './ReplaceInvitationModal';
 import { InvitationFile } from '../types';
+
+const GENERATING_TEXTS = [
+  'Generando Invitación...',
+  'Agregando colores...',
+  'Seleccionando fotos...',
+  'Eligiendo la fuente ideal...',
+  'Aplicando estilos...',
+  'Creando diseño único...',
+  'Optimizando elementos...',
+  'Finalizando invitación...',
+];
 
 export const EditorView: React.FC = () => {
   const { filename } = useParams<{ filename?: string }>();
@@ -38,7 +49,9 @@ export const EditorView: React.FC = () => {
     theme: '',
     primaryColor: '#f472b6',
     secondaryColor: '#fb7185',
-    eventDetails: ''
+    eventDetails: '',
+    eventDate: '',
+    eventTime: ''
   });
   
   const [existingMetadata, setExistingMetadata] = useState<InvitationMetadata | null>(null);
@@ -46,6 +59,10 @@ export const EditorView: React.FC = () => {
   const [replaceFilename, setReplaceFilename] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [showReplaceConfirm, setShowReplaceConfirm] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+  const [showUnsavedModal, setShowUnsavedModal] = useState(false);
+  const [rotatingTextIndex, setRotatingTextIndex] = useState(0);
+  const rotatingIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const activePage = pages.find(p => p.id === activePageId);
   const code = activePage?.code || '';
@@ -71,6 +88,38 @@ export const EditorView: React.FC = () => {
     }
   }, [filename]);
 
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (hasUnsavedChanges) {
+        e.preventDefault();
+        e.returnValue = '';
+        return '';
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [hasUnsavedChanges]);
+
+  useEffect(() => {
+    if (isGenerating) {
+      setRotatingTextIndex(0);
+      rotatingIntervalRef.current = setInterval(() => {
+        setRotatingTextIndex(prev => (prev + 1) % GENERATING_TEXTS.length);
+      }, 2500);
+    } else {
+      if (rotatingIntervalRef.current) {
+        clearInterval(rotatingIntervalRef.current);
+        rotatingIntervalRef.current = null;
+      }
+    }
+    return () => {
+      if (rotatingIntervalRef.current) {
+        clearInterval(rotatingIntervalRef.current);
+        rotatingIntervalRef.current = null;
+      }
+    };
+  }, [isGenerating]);
+
   const loadFromCatalogo = (htmlContent: string) => {
     const metadata = extractMetadata(htmlContent);
     if (metadata) {
@@ -80,7 +129,9 @@ export const EditorView: React.FC = () => {
         theme: metadata.theme || '',
         primaryColor: metadata.primaryColor || '#f472b6',
         secondaryColor: metadata.secondaryColor || '#fb7185',
-        eventDetails: ''
+        eventDetails: '',
+        eventDate: '',
+        eventTime: ''
       });
     }
     
@@ -110,7 +161,9 @@ export const EditorView: React.FC = () => {
           theme: metadata.theme || '',
           primaryColor: metadata.primaryColor || '#f472b6',
           secondaryColor: metadata.secondaryColor || '#fb7185',
-          eventDetails: ''
+          eventDetails: '',
+          eventDate: '',
+          eventTime: ''
         });
       }
       
@@ -166,6 +219,8 @@ export const EditorView: React.FC = () => {
       theme: config.theme,
       primaryColor: config.primaryColor,
       secondaryColor: config.secondaryColor,
+      eventDate: config.eventDate,
+      eventTime: config.eventTime,
       visualStyle: config.visualStyle,
       mood: config.mood
     } : undefined;
@@ -187,6 +242,7 @@ export const EditorView: React.FC = () => {
       setPages([newPage]);
       setActivePageId(newPage.id);
       setExistingMetadata(null);
+      setHasUnsavedChanges(true);
     } catch (error: any) {
       console.error(error);
       alert(`Error al generar la invitación: ${error.message}`);
@@ -213,6 +269,7 @@ export const EditorView: React.FC = () => {
     try {
       const updatedCode = await addModuleToProject(activePage.code, insertAfterModule, moduleDescription, loremFlickrSource, purchaseId);
       setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
+      setHasUnsavedChanges(true);
     } catch (error: any) {
       console.error(error);
       alert(`Error al agregar el módulo: ${error.message}`);
@@ -238,6 +295,7 @@ export const EditorView: React.FC = () => {
     try {
       const updatedCode = await modifyProjectDesign(activePage.code, designDescription, loremFlickrSource, purchaseId);
       setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
+      setHasUnsavedChanges(true);
     } catch (error: any) {
       console.error(error);
       alert(`Error al modificar el diseño: ${error.message}`);
@@ -287,6 +345,7 @@ export const EditorView: React.FC = () => {
         src: newAttributes?.src !== undefined ? newAttributes.src : prev.src,
         href: newAttributes?.href !== undefined ? newAttributes.href : prev.href,
       } : null);
+      setHasUnsavedChanges(true);
     }
   };
 
@@ -345,6 +404,28 @@ export const EditorView: React.FC = () => {
     
     const updatedCode = doc.documentElement.outerHTML;
     setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
+    setHasUnsavedChanges(true);
+  };
+
+  const handleUpdateCountdown = (targetDate: string) => {
+    if (!activePage) return;
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(activePage.code, 'text/html');
+
+    const countdownElements = doc.querySelectorAll('[data-gemini-id^="countdown"]');
+    countdownElements.forEach(el => {
+      (el as HTMLElement).setAttribute('data-countdown-target', targetDate);
+    });
+
+    let updatedCode = doc.documentElement.outerHTML;
+
+    const scriptRegex = /(countdown[_-]?target\s*[:=]\s*['"]?)(\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2})?)?)/gi;
+    updatedCode = updatedCode.replace(scriptRegex, `$1${targetDate}`);
+
+    setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
+
+    setHasUnsavedChanges(true);
   };
 
   const handleSaveInvitation = async (replaceFilenameArg?: string) => {
@@ -371,12 +452,12 @@ export const EditorView: React.FC = () => {
       if (filename && !effectiveReplace) {
         await updateInvitationContent(userId, filename, htmlWithMetadata, token);
         setSuccessMessage('Invitación actualizada correctamente');
-        setTimeout(() => setSuccessMessage(null), 3000);
+        setTimeout(() => setSuccessMessage(null), 5000);
       } else if (effectiveReplace) {
         await replaceInvitation(userId, effectiveReplace, htmlWithMetadata, editorConfig.eventType, purchaseId, token);
         setReplaceFilename(null);
         setSuccessMessage('Invitación reemplazada correctamente');
-        setTimeout(() => setSuccessMessage(null), 3000);
+        setTimeout(() => setSuccessMessage(null), 5000);
         navigate('/');
       } else {
         await saveInvitation(htmlWithMetadata, editorConfig.eventType, purchaseId, undefined, token);
@@ -384,6 +465,7 @@ export const EditorView: React.FC = () => {
       }
       setReplaceModalData(null);
       setShowReplaceConfirm(false);
+      setHasUnsavedChanges(false);
     } catch (error: any) {
       console.error('Error al guardar invitación:', error?.message || error);
       if (error?.isPlanHasInvitation) {
@@ -417,6 +499,8 @@ export const EditorView: React.FC = () => {
         initialPrimaryColor={editorConfig.primaryColor}
         initialSecondaryColor={editorConfig.secondaryColor}
         initialEventDetails={editorConfig.eventDetails}
+        initialEventDate={editorConfig.eventDate || ''}
+        initialEventTime={editorConfig.eventTime || ''}
       />
     );
   }
@@ -426,8 +510,18 @@ export const EditorView: React.FC = () => {
       
       {isGenerating && (
         <div className="absolute inset-0 z-50 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center">
-          <div className="w-16 h-16 border-4 border-pink-200 border-t-pink-500 rounded-full animate-spin mb-4" />
-          <p className="text-pink-600 font-medium text-lg animate-pulse">{generatingMessage}</p>
+          <div className="w-16 h-16 border-4 border-pink-200 border-t-pink-500 rounded-full animate-spin mb-6" />
+          <p className="text-pink-600 font-medium text-lg mb-4 transition-all duration-500">{generatingMessage || GENERATING_TEXTS[rotatingTextIndex]}</p>
+          <div className="w-64 h-2 bg-pink-100 rounded-full overflow-hidden">
+            <div className="h-full bg-gradient-to-r from-pink-400 to-pink-600 rounded-full animate-loading-bar" style={{ width: '40%', animation: 'loading-bar 2s ease-in-out infinite' }} />
+          </div>
+          <style>{`
+            @keyframes loading-bar {
+              0% { width: 10%; margin-left: 0%; }
+              50% { width: 50%; margin-left: 25%; }
+              100% { width: 10%; margin-left: 90%; }
+            }
+          `}</style>
         </div>
       )}
 
@@ -444,8 +538,11 @@ export const EditorView: React.FC = () => {
           onModifyDesign={handleModifyDesign}
           onToggleModuleVisibility={handleToggleModuleVisibility}
           onSaveInvitation={handleSaveInvitation}
+          onUpdateCountdown={handleUpdateCountdown}
           hasCode={code.length > 0}
           isReplace={!!replaceFilename}
+          hasUnsavedChanges={hasUnsavedChanges}
+          onNavigateHome={() => setShowUnsavedModal(true)}
         />
       )}
 
@@ -511,13 +608,56 @@ export const EditorView: React.FC = () => {
         </div>
       )}
 
+      {showUnsavedModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="w-full max-w-md mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <div className="px-6 py-5 border-b border-gray-100 bg-gradient-to-r from-red-50 to-pink-50">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-red-400 to-pink-500 rounded-xl flex items-center justify-center">
+                  <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                  </svg>
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold text-gray-800">¿Salir sin guardar?</h2>
+                  <p className="text-sm text-gray-500">Tienes cambios sin guardar</p>
+                </div>
+              </div>
+            </div>
+            <div className="px-6 py-4">
+              <p className="text-sm text-gray-600">
+                Si sales ahora perderás la invitación generada y el crédito consumido. ¿Estás seguro de que quieres salir?
+              </p>
+            </div>
+            <div className="px-6 py-4 border-t border-gray-100 bg-gray-50 flex justify-end gap-3">
+              <button
+                onClick={() => setShowUnsavedModal(false)}
+                className="px-4 py-2 bg-pink-500 hover:bg-pink-600 text-white rounded-xl font-medium transition-colors text-sm shadow-sm"
+              >
+                Quedarse
+              </button>
+              <button
+                onClick={() => {
+                  setShowUnsavedModal(false);
+                  setHasUnsavedChanges(false);
+                  navigate('/');
+                }}
+                className="px-4 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-xl font-medium transition-colors text-sm"
+              >
+                Salir sin guardar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {successMessage && (
-        <div className="fixed top-4 right-4 z-[100]">
-          <div className="bg-green-500 text-white px-5 py-3 rounded-xl shadow-lg flex items-center gap-2 text-sm font-medium">
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none">
+          <div className="bg-green-500 text-white px-8 py-5 rounded-2xl shadow-2xl flex flex-col items-center gap-3 animate-bounce">
+            <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            {successMessage}
+            <span className="text-base font-semibold">{successMessage}</span>
           </div>
         </div>
       )}

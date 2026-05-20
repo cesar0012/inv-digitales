@@ -8,7 +8,6 @@ interface PreviewPaneProps {
   isFullscreen: boolean;
   onToggleFullscreen: () => void;
   isSelectionMode: boolean;
-  onNavigate?: (path: string) => void;
 }
 
 export const PreviewPane: React.FC<PreviewPaneProps> = ({ 
@@ -16,13 +15,12 @@ export const PreviewPane: React.FC<PreviewPaneProps> = ({
   onElementClick,
   isFullscreen,
   onToggleFullscreen,
-  isSelectionMode,
-  onNavigate
+  isSelectionMode
 }) => {
   const [viewport, setViewport] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  // Inject script for Click-to-Edit functionality with mode support AND navigation interception
+  // Inject script for Click-to-Edit functionality with mode support
   const enhancedCode = code ? `
     ${code}
     <script>
@@ -32,6 +30,22 @@ export const PreviewPane: React.FC<PreviewPaneProps> = ({
         if (event.data && event.data.type === 'TOGGLE_SELECTION_MODE') {
           window.__GEMINI_SELECTION_MODE = event.data.payload;
           document.body.style.cursor = event.data.payload ? 'crosshair' : 'default';
+        }
+        if (event.data && event.data.type === 'UPDATE_COUNTDOWN') {
+          var targetDate = event.data.payload;
+          var countdownEls = document.querySelectorAll('[data-gemini-id^="countdown"]');
+          countdownEls.forEach(function(el) {
+            el.setAttribute('data-countdown-target', targetDate);
+          });
+          if (typeof window.__countdownTarget !== 'undefined') {
+            window.__countdownTarget = targetDate;
+          }
+          if (typeof window.countdown_target !== 'undefined') {
+            window.countdown_target = targetDate;
+          }
+          if (typeof window.updateCountdown === 'function') {
+            window.updateCountdown(targetDate);
+          }
         }
       });
 
@@ -75,23 +89,11 @@ export const PreviewPane: React.FC<PreviewPaneProps> = ({
           return;
         }
 
-        // 2. Handle Navigation Prevention & Routing
+// 2. Block all links in editor mode — they should only work in public view
         if (isLink) {
-           const href = target.getAttribute('href');
-           if (href) {
-             // If it's an internal anchor or JS, allow it
-             if (href.startsWith('#') || href.startsWith('javascript:')) return;
-             
-             // Prevent default browser navigation
-             e.preventDefault();
-             
-             // Communicate to parent to check if this is a known page
-             window.parent.postMessage({
-                type: 'GEMINI_NAVIGATE',
-                payload: { href }
-             }, '*');
-           }
-        }
+           e.preventDefault();
+           e.stopPropagation();
+         }
       }, true);
       
       // Request initial state
@@ -112,11 +114,6 @@ export const PreviewPane: React.FC<PreviewPaneProps> = ({
           href: event.data.payload.href
         });
       }
-      if (event.data?.type === 'GEMINI_NAVIGATE') {
-         if (onNavigate) {
-            onNavigate(event.data.payload.href);
-         }
-      }
       if (event.data?.type === 'GEMINI_PREVIEW_LOADED') {
          // Sync state when iframe loads
          iframeRef.current?.contentWindow?.postMessage({
@@ -128,7 +125,7 @@ export const PreviewPane: React.FC<PreviewPaneProps> = ({
 
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
-  }, [onElementClick, isSelectionMode, onNavigate]);
+  }, [onElementClick, isSelectionMode]);
 
   // Sync selection mode whenever prop changes
   useEffect(() => {
@@ -216,7 +213,7 @@ export const PreviewPane: React.FC<PreviewPaneProps> = ({
             srcDoc={enhancedCode}
             className="w-full flex-1 border-none bg-white"
             title="Preview"
-            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+            sandbox="allow-scripts allow-same-origin allow-forms"
           />
         </div>
       </div>

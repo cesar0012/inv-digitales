@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { Heart, Edit3, Save, Home, Image as ImageIcon, Link as LinkIcon, Type, MousePointer2, ChevronDown, ChevronRight, AlignLeft, AlignCenter, AlignRight, AlignJustify, Map, Upload, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { Heart, Pencil, Save, Home, Image as ImageIcon, Link as LinkIcon, Type, MousePointer2, ChevronDown, ChevronRight, AlignLeft, AlignCenter, AlignRight, AlignJustify, Map, Upload, Eye, EyeOff, Loader2, Calendar, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { compressImage } from '../services/imageCompressionService';
 
@@ -476,6 +476,7 @@ interface EditorSidebarProps {
   code: string;
   selectedElementId: string | null;
   onUpdateElement: (geminiId: string, newContent?: string, newAttributes?: Record<string, string>, newStyles?: Record<string, string>) => void;
+  onUpdateCountdown?: (targetDate: string) => void;
   onClearSelection: () => void;
   isSelectionMode: boolean;
   onToggleSelectionMode: () => void;
@@ -485,12 +486,97 @@ interface EditorSidebarProps {
   onSaveInvitation?: () => void;
   hasCode?: boolean;
   isReplace?: boolean;
+  hasUnsavedChanges?: boolean;
+  onNavigateHome?: () => void;
 }
+
+const CountdownEditor = ({ code, onUpdateCountdown }: { code: string, onUpdateCountdown?: (targetDate: string) => void }) => {
+  const [countdownDate, setCountdownDate] = useState('');
+  const [countdownTime, setCountdownTime] = useState('');
+  const [detected, setDetected] = useState(false);
+
+  useEffect(() => {
+    if (!code) return;
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(code, 'text/html');
+    const countdownEl = doc.querySelector('[data-gemini-id^="countdown"]');
+    if (countdownEl) {
+      setDetected(true);
+      const targetAttr = countdownEl.getAttribute('data-countdown-target');
+      if (targetAttr) {
+        try {
+          const d = new Date(targetAttr);
+          if (!isNaN(d.getTime())) {
+            setCountdownDate(d.toISOString().split('T')[0]);
+            setCountdownTime(d.toTimeString().substring(0, 5));
+          }
+        } catch {}
+      }
+      const scriptMatch = code.match(/countdown[_-]?target\s*[:=]\s*['"]?(\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2})?)/i);
+      if (scriptMatch && !countdownDate) {
+        try {
+          const d = new Date(scriptMatch[1]);
+          if (!isNaN(d.getTime())) {
+            setCountdownDate(d.toISOString().split('T')[0]);
+            setCountdownTime(scriptMatch[1].includes('T') ? scriptMatch[1].split('T')[1] : d.toTimeString().substring(0, 5));
+          }
+        } catch {}
+      }
+    } else {
+      setDetected(false);
+    }
+  }, [code]);
+
+  const handleApply = () => {
+    if (!countdownDate || !onUpdateCountdown) return;
+    const dateTime = countdownTime ? `${countdownDate}T${countdownTime}:00` : `${countdownDate}T00:00:00`;
+    onUpdateCountdown(dateTime);
+  };
+
+  if (!detected) return null;
+
+  return (
+    <div className="border border-purple-200 rounded-xl overflow-hidden bg-white shadow-sm">
+      <div className="flex items-center gap-2 px-3 py-2.5 bg-purple-50/50 cursor-pointer">
+        <Clock className="w-4 h-4 text-purple-500" />
+        <span className="text-xs font-bold text-purple-600 uppercase tracking-widest">Countdown</span>
+      </div>
+      <div className="p-4 bg-white border-t border-purple-50 space-y-3">
+        <div className="space-y-1.5">
+          <label className="text-xs font-medium text-gray-500">Fecha del evento</label>
+          <input
+            type="date"
+            value={countdownDate}
+            onChange={(e) => setCountdownDate(e.target.value)}
+            className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400"
+          />
+        </div>
+        <div className="space-y-1.5">
+          <label className="text-xs font-medium text-gray-500">Hora del evento</label>
+          <input
+            type="time"
+            value={countdownTime}
+            onChange={(e) => setCountdownTime(e.target.value)}
+            className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400"
+          />
+        </div>
+        <button
+          onClick={handleApply}
+          disabled={!countdownDate}
+          className="w-full py-2 bg-purple-500 hover:bg-purple-600 disabled:bg-purple-300 text-white rounded-lg text-sm font-semibold transition-colors"
+        >
+          Actualizar Countdown
+        </button>
+      </div>
+    </div>
+  );
+};
 
 export const EditorSidebar: React.FC<EditorSidebarProps> = ({
   code,
   selectedElementId,
   onUpdateElement,
+  onUpdateCountdown,
   onClearSelection,
   isSelectionMode,
   onToggleSelectionMode,
@@ -499,7 +585,9 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
   onToggleModuleVisibility,
   onSaveInvitation,
   hasCode = false,
-  isReplace = false
+  isReplace = false,
+  hasUnsavedChanges = false,
+  onNavigateHome
 }) => {
   const navigate = useNavigate();
   const elements = useMemo(() => parseEditableElements(code), [code]);
@@ -536,7 +624,13 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
       <div className="h-14 border-b border-pink-100 flex items-center justify-between px-4 bg-pink-50/50 shrink-0">
         <div className="flex items-center gap-2">
           <button
-            onClick={() => navigate('/')}
+            onClick={() => {
+            if (hasUnsavedChanges && onNavigateHome) {
+              onNavigateHome();
+            } else {
+              navigate('/');
+            }
+          }}
             className="p-1.5 rounded-lg text-gray-400 hover:text-pink-500 hover:bg-pink-100 transition-colors"
             title="Ir al Dashboard"
           >
@@ -564,7 +658,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
             className={`p-2 rounded-lg transition-colors ${isSelectionMode ? 'bg-pink-500 text-white shadow-md shadow-pink-500/20' : 'text-gray-400 hover:text-pink-500 hover:bg-pink-100'}`}
             title={isSelectionMode ? "Desactivar modo selección" : "Activar modo selección"}
           >
-            <Edit3 className="w-4 h-4" />
+            <Pencil className="w-4 h-4" />
           </button>
         </div>
       </div>
@@ -604,8 +698,10 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
                 selectedElementId={selectedElementId}
                 onToggleVisibility={onToggleModuleVisibility}
               />
-            ))}
-             
+))}
+              
+            <CountdownEditor code={code} onUpdateCountdown={onUpdateCountdown} />
+
             {/* ============================================================ */}
             {/* DESIGN MODIFIER SECTION - AI ITERATIONS (Feature Flag) */}
             {/* ============================================================ */}
