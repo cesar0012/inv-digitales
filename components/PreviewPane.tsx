@@ -35,8 +35,20 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
 
   // Inject script for Click-to-Edit functionality with mode support
   const enhancedCode = code ? `
+    <script>
+      window.__countdownIntervals = [];
+      var _origSetInterval = window.setInterval;
+      window.setInterval = function(fn, delay) {
+        var id = _origSetInterval.call(window, fn, delay);
+        if (delay >= 900 && delay <= 1100) {
+          window.__countdownIntervals.push(id);
+        }
+        return id;
+      };
+    </script>
     ${code}
     <script>
+      window.setInterval = _origSetInterval;
       window.__GEMINI_SELECTION_MODE = false;
 
       window.addEventListener('message', (event) => {
@@ -59,6 +71,45 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
           if (typeof window.updateCountdown === 'function') {
             window.updateCountdown(targetDate);
           }
+          (window.__countdownIntervals || []).forEach(function(id) { clearInterval(id); });
+          window.__countdownIntervals = [];
+          var ts = new Date(targetDate).getTime();
+          if (isNaN(ts)) return;
+          function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+          var newInterval = setInterval(function() {
+            var diff = ts - Date.now();
+            if (diff <= 0) diff = 0;
+            var d = Math.floor(diff / 86400000);
+            var h = Math.floor((diff % 86400000) / 3600000);
+            var m = Math.floor((diff % 3600000) / 60000);
+            var s = Math.floor((diff % 60000) / 1000);
+            countdownEls.forEach(function(el) {
+              var daysEl = el.querySelector('[data-unit="days"], .countdown-days, #countdown-days');
+              var hoursEl = el.querySelector('[data-unit="hours"], .countdown-hours, #countdown-hours');
+              var minsEl = el.querySelector('[data-unit="minutes"], .countdown-minutes, #countdown-minutes');
+              var secsEl = el.querySelector('[data-unit="seconds"], .countdown-seconds, #countdown-seconds');
+              if (daysEl) daysEl.textContent = d;
+              if (hoursEl) hoursEl.textContent = pad2(h);
+              if (minsEl) minsEl.textContent = pad2(m);
+              if (secsEl) secsEl.textContent = pad2(s);
+              var numSpans = el.querySelectorAll('.countdown-number, .countdown-value, .flip-number');
+              if (numSpans.length >= 4) {
+                numSpans[0].textContent = d;
+                numSpans[1].textContent = pad2(h);
+                numSpans[2].textContent = pad2(m);
+                numSpans[3].textContent = pad2(s);
+              }
+              var cards = el.querySelectorAll('.countdown-card-value, .timer-value');
+              if (cards.length >= 4) {
+                cards[0].textContent = d;
+                cards[1].textContent = pad2(h);
+                cards[2].textContent = pad2(m);
+                cards[3].textContent = pad2(s);
+              }
+            });
+            if (diff <= 0) clearInterval(newInterval);
+          }, 1000);
+          (window.__countdownIntervals = window.__countdownIntervals || []).push(newInterval);
         }
       });
 

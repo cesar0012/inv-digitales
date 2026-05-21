@@ -30,7 +30,8 @@ const parseEditableElements = (code: string): EditableElement[] => {
   if (!code) return [];
   const parser = new DOMParser();
   const doc = parser.parseFromString(code, 'text/html');
-  const elements = Array.from(doc.querySelectorAll('[data-gemini-id]'));
+  const elements = Array.from(doc.querySelectorAll('[data-gemini-id]'))
+    .filter(el => !(el as HTMLElement).getAttribute('data-gemini-id')!.startsWith('countdown'));
   
   return elements.map(el => {
     const htmlEl = el as HTMLElement;

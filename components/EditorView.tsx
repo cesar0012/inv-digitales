@@ -204,6 +204,7 @@ export const EditorView: React.FC = () => {
     if (eventType && hasLocalImages(eventType)) {
       setGeneratingMessage('Obteniendo imágenes del evento...');
       localImages = await getLocalImages(eventType);
+      setGeneratingMessage('');
       
       if (localImages.length > 0) {
         imageSource = IMAGE_SOURCES.find(s => s.id === 'local') || IMAGE_SOURCES[0];
@@ -230,6 +231,8 @@ export const EditorView: React.FC = () => {
     const imageFilesForApi = localImages.length > 0 && folder
       ? localImages.map(img => ({ folder: folder, filename: img.filename }))
       : undefined;
+
+    setGeneratingMessage('');
 
     try {
       const generatedCode = await generateWebProject(enhancedPrompt, imageSource, attachments, editorConfigForApi, imageFilesForApi, purchaseId);
@@ -421,8 +424,19 @@ export const EditorView: React.FC = () => {
 
     let updatedCode = doc.documentElement.outerHTML;
 
-    const scriptRegex = /(countdown[_-]?target\s*[:=]\s*['"]?)(\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2})?)?)/gi;
-    updatedCode = updatedCode.replace(scriptRegex, `$1${targetDate}`);
+    const dateInNewDate = /(new\s+Date\s*\(\s*['"])(\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2})?)?[^'"]*?)(['"]\s*\))/gi;
+    updatedCode = updatedCode.replace(dateInNewDate, `$1${targetDate}$3`);
+
+    const varAssignment = /(countdown[_-]?target\s*[:=]\s*['"]?)(\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2})?)?)/gi;
+    updatedCode = updatedCode.replace(varAssignment, `$1${targetDate}`);
+
+    const monthFormat = /(new\s+Date\s*\(\s*["'])([A-Z][a-z]{2}\s+\d{1,2},\s+\d{4}\s+\d{2}:\d{2}:\d{2})(["']\s*\))/gi;
+    updatedCode = updatedCode.replace(monthFormat, (match, prefix, _oldDate, suffix) => {
+      const d = new Date(targetDate);
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const formatted = `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
+      return `${prefix}${formatted}${suffix}`;
+    });
 
     setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
 
