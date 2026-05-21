@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Send, Image as ImageIcon, Settings, Heart, X, ImagePlus, Palette, Type, ChevronDown, Save, Home, AlertCircle, FileText, Calendar, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Attachment, EditorConfig } from '../types';
+import { compressImage, SUPPORTED_IMAGE_TYPES, SUPPORTED_FORMATS_LABEL } from '../services/imageCompressionService';
 import { EVENT_TYPES, EVENT_DEFAULT_COLORS, VISUAL_STYLES, MOODS, EVENT_STYLE_SUGGESTIONS } from '../constants';
 
 interface InitialViewProps {
@@ -133,24 +134,34 @@ export const InitialView: React.FC<InitialViewProps> = ({
     onGenerate(prompt, attachments, config);
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files) return;
+    e.target.value = '';
 
-    Array.from(files).forEach(file => {
-      if (file.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const result = e.target?.result as string;
-          setAttachments(prev => [...prev, {
-            type: 'image',
-            content: result,
-            mimeType: file.type
-          }]);
-        };
-        reader.readAsDataURL(file);
+    for (const file of Array.from(files)) {
+      const name = file.name.toLowerCase();
+      const type = file.type.toLowerCase();
+      const isHeic = type === 'image/heic' || type === 'image/heif' || name.endsWith('.heic') || name.endsWith('.heif');
+      const isSupported = type.startsWith('image/') || isHeic;
+
+      if (!isSupported) {
+        alert(`Formato no soportado. Usa: ${SUPPORTED_FORMATS_LABEL}`);
+        continue;
       }
-    });
+
+      try {
+        const compressedBase64 = await compressImage(file);
+        setAttachments(prev => [...prev, {
+          type: 'image',
+          content: compressedBase64,
+          mimeType: 'image/jpeg'
+        }]);
+      } catch (error) {
+        console.error('Error al procesar imagen:', error);
+        alert(`Error al procesar la imagen. Formatos soportados: ${SUPPORTED_FORMATS_LABEL}`);
+      }
+    }
   };
 
   const removeAttachment = (index: number) => {
@@ -435,8 +446,9 @@ export const InitialView: React.FC<InitialViewProps> = ({
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   <ImageIcon className="w-8 h-8 text-pink-400 mb-2" />
                   <p className="text-sm text-gray-500"><span className="font-semibold text-pink-600">Haz clic para subir</span> o arrastra una imagen</p>
+                  <p className="text-xs text-gray-400 mt-1">{SUPPORTED_FORMATS_LABEL}</p>
                 </div>
-                <input type="file" className="hidden" accept="image/*" multiple onChange={handleFileUpload} />
+                <input type="file" className="hidden" accept={SUPPORTED_IMAGE_TYPES} multiple onChange={handleFileUpload} />
               </label>
               
               {attachments.length > 0 && (

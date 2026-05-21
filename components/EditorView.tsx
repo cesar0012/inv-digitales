@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { EditorSidebar } from './EditorSidebar';
-import { PreviewPane } from './PreviewPane';
+import { PreviewPane, PreviewPaneHandle } from './PreviewPane';
 import { InitialView } from './InitialView';
 import { SelectedElement, Attachment, ProjectPage, InvitationMetadata, EditorConfig, LocalImageFile } from '../types';
 import { IMAGE_SOURCES } from '../constants';
@@ -63,6 +63,7 @@ export const EditorView: React.FC = () => {
   const [showUnsavedModal, setShowUnsavedModal] = useState(false);
   const [rotatingTextIndex, setRotatingTextIndex] = useState(0);
   const rotatingIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const previewRef = useRef<PreviewPaneHandle>(null);
 
   const activePage = pages.find(p => p.id === activePageId);
   const code = activePage?.code || '';
@@ -425,6 +426,8 @@ export const EditorView: React.FC = () => {
 
     setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
 
+    previewRef.current?.sendCountdownUpdate(targetDate);
+
     setHasUnsavedChanges(true);
   };
 
@@ -547,6 +550,7 @@ export const EditorView: React.FC = () => {
       )}
 
       <PreviewPane 
+        ref={previewRef}
         code={code} 
         onElementClick={(el) => {
           setSelectedElement(el);

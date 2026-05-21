@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Heart, FileText, CreditCard, Sparkles, Plus, Eye, Loader2, AlertCircle, 
-  Calendar, ArrowRight, Share2, LogOut, User as UserIcon, RefreshCw, Package
+  Calendar, ArrowRight, Share2, LogOut, User as UserIcon, RefreshCw, Package, Pencil
 } from 'lucide-react';
 import { getUser } from '../services/apiService';
 import { useAuth } from '../contexts/AuthContext';
@@ -424,7 +424,7 @@ export const Dashboard: React.FC = () => {
                         className="py-2 px-3 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors text-sm"
                         title="Editar"
                       >
-                        <FileText className="w-4 h-4" />
+                        <Pencil className="w-4 h-4" />
                       </button>
                     </div>
                   </div>

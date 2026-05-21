@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import { Monitor, Smartphone, Tablet, Eye, Maximize2, Minimize2 } from 'lucide-react';
 import { SelectedElement } from '../types';
 
@@ -10,15 +10,28 @@ interface PreviewPaneProps {
   isSelectionMode: boolean;
 }
 
-export const PreviewPane: React.FC<PreviewPaneProps> = ({ 
+export interface PreviewPaneHandle {
+  sendCountdownUpdate: (targetDate: string) => void;
+}
+
+export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({ 
   code, 
   onElementClick,
   isFullscreen,
   onToggleFullscreen,
   isSelectionMode
-}) => {
+}, ref) => {
   const [viewport, setViewport] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
   const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  useImperativeHandle(ref, () => ({
+    sendCountdownUpdate: (targetDate: string) => {
+      iframeRef.current?.contentWindow?.postMessage({
+        type: 'UPDATE_COUNTDOWN',
+        payload: targetDate
+      }, '*');
+    }
+  }));
 
   // Inject script for Click-to-Edit functionality with mode support
   const enhancedCode = code ? `
@@ -219,4 +232,4 @@ export const PreviewPane: React.FC<PreviewPaneProps> = ({
       </div>
     </div>
   );
-};
+});

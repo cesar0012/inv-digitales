@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Heart, Pencil, Save, Home, Image as ImageIcon, Link as LinkIcon, Type, MousePointer2, ChevronDown, ChevronRight, AlignLeft, AlignCenter, AlignRight, AlignJustify, Map, Upload, Eye, EyeOff, Loader2, Calendar, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { compressImage } from '../services/imageCompressionService';
+import { compressImage, SUPPORTED_IMAGE_TYPES, SUPPORTED_FORMATS_LABEL } from '../services/imageCompressionService';
 
 // ============================================================
 // FEATURE FLAG: AI ITERATIONS
@@ -103,6 +103,52 @@ const parseEditableElements = (code: string): EditableElement[] => {
   });
 };
 
+const parsePxValue = (value: string): number | null => {
+  if (!value) return null;
+  const match = value.match(/^(\d+(?:\.\d+)?)\s*px/);
+  return match ? parseFloat(match[1]) : null;
+};
+
+const parsePercentValue = (value: string): number | null => {
+  if (!value) return null;
+  const match = value.match(/^(\d+(?:\.\d+)?)\s*%$/);
+  return match ? parseFloat(match[1]) : null;
+};
+
+interface StyleSliderProps {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  step: number;
+  unit: string;
+  labels: { threshold: number; text: string }[];
+  onChange: (value: number) => void;
+}
+
+const StyleSlider = ({ label, value, min, max, step, unit, labels, onChange }: StyleSliderProps) => {
+  const currentLabel = [...labels].reverse().find(l => value >= l.threshold)?.text || labels[0].text;
+
+  return (
+    <div className="space-y-1.5">
+      <div className="flex items-center justify-between">
+        <label className="text-[10px] text-gray-500 uppercase font-medium">{label}</label>
+        <span className="text-[10px] text-pink-500 font-semibold">{value}{unit}</span>
+      </div>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-pink-500"
+      />
+      <p className="text-[10px] text-gray-400 text-center">{currentLabel}</p>
+    </div>
+  );
+};
+
 const ElementEditor = ({ element, onUpdate, isSelected }: { element: EditableElement, onUpdate: any, isSelected: boolean }) => {
   const [isExpanded, setIsExpanded] = useState(isSelected);
   const [content, setContent] = useState(element.content);
@@ -113,6 +159,13 @@ const ElementEditor = ({ element, onUpdate, isSelected }: { element: EditableEle
   const [isCompressing, setIsCompressing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const editorRef = useRef<HTMLDivElement>(null);
+
+  const [widthSlider, setWidthSlider] = useState(() => parsePercentValue(element.styles.width) || 100);
+  const [heightSlider, setHeightSlider] = useState(() => parsePxValue(element.styles.height) || 300);
+  const [paddingSlider, setPaddingSlider] = useState(() => {
+    const px = parsePxValue(element.styles.padding);
+    return px !== null ? px : 16;
+  });
 
   useEffect(() => {
     if (isSelected) {
@@ -129,6 +182,10 @@ const ElementEditor = ({ element, onUpdate, isSelected }: { element: EditableEle
     setHref(element.href);
     setStyles(element.styles);
     setAnimationClass(element.animationClass);
+    setWidthSlider(parsePercentValue(element.styles.width) || 100);
+    setHeightSlider(parsePxValue(element.styles.height) || 300);
+    const px = parsePxValue(element.styles.padding);
+    setPaddingSlider(px !== null ? px : 16);
   }, [element]);
 
   const triggerUpdate = (newContent = content, newSrc = src, newHref = href, newStyles = styles, newAnimationClass = animationClass) => {
@@ -150,6 +207,7 @@ const ElementEditor = ({ element, onUpdate, isSelected }: { element: EditableEle
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    e.target.value = '';
     
     setIsCompressing(true);
     try {
@@ -158,7 +216,7 @@ const ElementEditor = ({ element, onUpdate, isSelected }: { element: EditableEle
       triggerUpdate(content, compressedBase64, href, styles);
     } catch (error) {
       console.error('Error al procesar imagen:', error);
-      alert('Error al procesar la imagen. Intenta con otra.');
+      alert(`Error al procesar la imagen. Formatos soportados: ${SUPPORTED_FORMATS_LABEL}`);
     } finally {
       setIsCompressing(false);
     }
@@ -237,7 +295,7 @@ const ElementEditor = ({ element, onUpdate, isSelected }: { element: EditableEle
                   className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
                 />
               </div>
-              <input type="file" ref={fileInputRef} className="hidden" accept="image/*" onChange={handleFileUpload} disabled={isCompressing} />
+              <input type="file" ref={fileInputRef} className="hidden" accept={SUPPORTED_IMAGE_TYPES} onChange={handleFileUpload} disabled={isCompressing} />
               <button
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isCompressing}
@@ -255,6 +313,7 @@ const ElementEditor = ({ element, onUpdate, isSelected }: { element: EditableEle
                   </>
                 )}
               </button>
+              <p className="text-xs text-gray-400 text-center">{SUPPORTED_FORMATS_LABEL}</p>
               {src && <img src={src} alt="Preview" className="w-full h-32 object-cover rounded-lg border border-gray-200" />}
             </div>
           )}
@@ -349,45 +408,66 @@ const ElementEditor = ({ element, onUpdate, isSelected }: { element: EditableEle
             )}
 
             {(isImage || isIframe) && (
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-1">
-                  <label className="text-[10px] text-gray-500 uppercase">Ancho (Width)</label>
-                  <input 
-                    type="text" 
-                    placeholder="ej. 100%, 300px"
-                    value={styles.width}
-                    onChange={(e) => setStyles({...styles, width: e.target.value})}
-                    onBlur={() => triggerUpdate()}
-                    className="w-full bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
-                  />
-                </div>
+              <div className="space-y-3">
+                <StyleSlider
+                  label="Tamaño"
+                  value={widthSlider}
+                  min={20}
+                  max={100}
+                  step={5}
+                  unit="%"
+                  labels={[
+                    { threshold: 20, text: 'Pequeño' },
+                    { threshold: 36, text: 'Mediano' },
+                    { threshold: 61, text: 'Grande' },
+                    { threshold: 86, text: 'Completo' },
+                  ]}
+                  onChange={(v) => {
+                    setWidthSlider(v);
+                    handleStyleChange('width', `${v}%`);
+                  }}
+                />
                 {isIframe && (
-                  <div className="space-y-1">
-                    <label className="text-[10px] text-gray-500 uppercase">Alto (Height)</label>
-                    <input 
-                      type="text" 
-                      placeholder="ej. 400px"
-                      value={styles.height}
-                      onChange={(e) => setStyles({...styles, height: e.target.value})}
-                      onBlur={() => triggerUpdate()}
-                      className="w-full bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
-                    />
-                  </div>
+                  <StyleSlider
+                    label="Alto"
+                    value={heightSlider}
+                    min={100}
+                    max={600}
+                    step={25}
+                    unit="px"
+                    labels={[
+                      { threshold: 100, text: 'Compacto' },
+                      { threshold: 225, text: 'Normal' },
+                      { threshold: 375, text: 'Grande' },
+                      { threshold: 475, text: 'Extra grande' },
+                    ]}
+                    onChange={(v) => {
+                      setHeightSlider(v);
+                      handleStyleChange('height', `${v}px`);
+                    }}
+                  />
                 )}
               </div>
             )}
 
-            <div className="space-y-1">
-              <label className="text-[10px] text-gray-500 uppercase">Padding (Relleno)</label>
-              <input 
-                type="text" 
-                placeholder="ej. 10px 20px"
-                value={styles.padding}
-                onChange={(e) => setStyles({...styles, padding: e.target.value})}
-                onBlur={() => triggerUpdate()}
-                className="w-full bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
-              />
-            </div>
+            <StyleSlider
+              label="Espaciado"
+              value={paddingSlider}
+              min={0}
+              max={48}
+              step={4}
+              unit="px"
+              labels={[
+                { threshold: 0, text: 'Ninguno' },
+                { threshold: 4, text: 'Compacto' },
+                { threshold: 16, text: 'Normal' },
+                { threshold: 28, text: 'Espacioso' },
+              ]}
+              onChange={(v) => {
+                setPaddingSlider(v);
+                handleStyleChange('padding', `${v}px`);
+              }}
+            />
 
             <div className="space-y-1">
               <label className="text-[10px] text-gray-500 uppercase">Animación</label>
