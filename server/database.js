@@ -172,25 +172,26 @@ db.exec(`
     invites_included INTEGER DEFAULT 10,
     generation_credits INTEGER DEFAULT 10,
     iteration_credits INTEGER DEFAULT 10,
+    has_rsvp INTEGER DEFAULT 0,
     created_at TEXT DEFAULT (datetime('now'))
   )
 `);
 
 const PLAN_DEFAULTS = [
-  { slug: 'premium', name: 'Plan Premium', invites: 1, gen: 10, iter: 20 },
-  { slug: 'catalogo', name: 'Plan Catálogo', invites: 1, gen: 5, iter: 10 },
-  { slug: 'creativa', name: 'Plan Creativa', invites: 1, gen: 7, iter: 14 },
-  { slug: 'basic', name: 'Plan Básico', invites: 1, gen: 3, iter: 6 },
-  { slug: 'standard', name: 'Plan Estándar', invites: 1, gen: 5, iter: 10 },
+  { slug: 'premium', name: 'Plan Premium', invites: 1, gen: 10, iter: 20, rsvp: 0 },
+  { slug: 'catalogo', name: 'Plan Catálogo', invites: 1, gen: 5, iter: 10, rsvp: 0 },
+  { slug: 'creativa', name: 'Plan Creativa', invites: 1, gen: 7, iter: 14, rsvp: 0 },
+  { slug: 'basic', name: 'Plan Básico', invites: 1, gen: 3, iter: 6, rsvp: 0 },
+  { slug: 'standard', name: 'Plan Estándar', invites: 1, gen: 5, iter: 10, rsvp: 0 },
 ];
 
 try {
   const insertPlan = db.prepare(`
-    INSERT OR IGNORE INTO plan_config (plan_slug, plan_name, invites_included, generation_credits, iteration_credits)
-    VALUES (?, ?, ?, ?, ?)
+    INSERT OR IGNORE INTO plan_config (plan_slug, plan_name, invites_included, generation_credits, iteration_credits, has_rsvp)
+    VALUES (?, ?, ?, ?, ?, ?)
   `);
   for (const p of PLAN_DEFAULTS) {
-    insertPlan.run(p.slug, p.name, p.invites, p.gen, p.iter);
+    insertPlan.run(p.slug, p.name, p.invites, p.gen, p.iter, p.rsvp);
   }
   console.log('✅ Configuración de planes inicializada');
 } catch (e) { console.log('⚠️ Error inicializando planes:', e.message); }
@@ -228,8 +229,18 @@ try {
 } catch (e) {}
 
 try {
+  db.exec(`ALTER TABLE invitations ADD COLUMN is_active INTEGER DEFAULT 0`);
+  console.log('✅ Columna is_active agregada a invitations');
+} catch (e) {}
+
+try {
   db.exec(`ALTER TABLE admin_config ADD COLUMN use_agent_orchestrator INTEGER DEFAULT 0`);
   console.log('✅ Columna use_agent_orchestrator agregada a admin_config');
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE plan_config ADD COLUMN has_rsvp INTEGER DEFAULT 0`);
+  console.log('✅ Columna has_rsvp agregada a plan_config');
 } catch (e) {}
 
 // Crear usuario de prueba si no existe

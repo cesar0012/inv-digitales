@@ -38,6 +38,15 @@ export interface AdminUserPlan {
   generation_available: number;
   iteration_available: number;
   deployed_count: number;
+  active_invitation: {
+    filename: string;
+    slug: string;
+    public_url: string;
+    event_type: string;
+    event_domain: string | null;
+    event_date: string | null;
+    event_time: string | null;
+  } | null;
 }
 
 export interface AdminUser {
@@ -287,6 +296,7 @@ export interface PlanConfig {
   invites_included: number;
   generation_credits: number;
   iteration_credits: number;
+  has_rsvp: number;
   created_at: string;
 }
 

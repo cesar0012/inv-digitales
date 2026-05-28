@@ -42,6 +42,7 @@ export const AdminPlans: React.FC = () => {
       invites_included: 1,
       generation_credits: 5,
       iteration_credits: 10,
+      has_rsvp: 0,
     });
   };
 
@@ -70,6 +71,7 @@ export const AdminPlans: React.FC = () => {
           invites_included: editing.invites_included ?? 1,
           generation_credits: editing.generation_credits ?? 5,
           iteration_credits: editing.iteration_credits ?? 10,
+          has_rsvp: editing.has_rsvp ?? 0,
         });
         setMessage({ type: 'success', text: 'Plan creado correctamente' });
       } else {
@@ -78,6 +80,7 @@ export const AdminPlans: React.FC = () => {
           invites_included: editing.invites_included,
           generation_credits: editing.generation_credits,
           iteration_credits: editing.iteration_credits,
+          has_rsvp: editing.has_rsvp,
         });
         setMessage({ type: 'success', text: 'Plan actualizado correctamente' });
       }
@@ -283,6 +286,7 @@ export const AdminPlans: React.FC = () => {
                   <th className="text-center py-2 px-3 text-xs font-semibold text-gray-500 uppercase">Invitaciones</th>
                   <th className="text-center py-2 px-3 text-xs font-semibold text-gray-500 uppercase">Créditos Gen.</th>
                   <th className="text-center py-2 px-3 text-xs font-semibold text-gray-500 uppercase">Créditos Iter.</th>
+                  <th className="text-center py-2 px-3 text-xs font-semibold text-gray-500 uppercase">RSVP</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -293,6 +297,7 @@ export const AdminPlans: React.FC = () => {
                     <td className="py-2 px-3 text-center text-gray-700">{plan.invites_included}</td>
                     <td className="py-2 px-3 text-center text-blue-600">{plan.generation_credits}</td>
                     <td className="py-2 px-3 text-center text-purple-600">{plan.iteration_credits}</td>
+                    <td className="py-2 px-3 text-center">{(plan as any).has_rsvp ? <Check className="w-4 h-4 text-green-500 inline-block" /> : <X className="w-4 h-4 text-gray-300 inline-block" />}</td>
                   </tr>
                 ))}
               </tbody>
@@ -359,6 +364,7 @@ export const AdminPlans: React.FC = () => {
               <th className="text-center py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Invitaciones</th>
               <th className="text-center py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Créditos Generación</th>
               <th className="text-center py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Créditos Iteración</th>
+              <th className="text-center py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">RSVP</th>
               <th className="text-right py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Acciones</th>
             </tr>
           </thead>
@@ -408,6 +414,14 @@ export const AdminPlans: React.FC = () => {
                     value={editing.iteration_credits ?? 10}
                     onChange={(e) => setEditing({ ...editing, iteration_credits: parseInt(e.target.value) || 0 })}
                     className="w-20 text-center px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  />
+                </td>
+                <td className="py-3 px-4 text-center">
+                  <input
+                    type="checkbox"
+                    checked={editing.has_rsvp === 1}
+                    onChange={(e) => setEditing({ ...editing, has_rsvp: e.target.checked ? 1 : 0 })}
+                    className="w-4 h-4 text-pink-500 border-gray-300 rounded focus:ring-pink-500"
                   />
                 </td>
                 <td className="py-3 px-4">
@@ -463,6 +477,14 @@ export const AdminPlans: React.FC = () => {
                       className="w-20 text-center px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                     />
                   </td>
+                  <td className="py-3 px-4 text-center">
+                    <input
+                      type="checkbox"
+                      checked={editing.has_rsvp === 1}
+                      onChange={(e) => setEditing({ ...editing, has_rsvp: e.target.checked ? 1 : 0 })}
+                      className="w-4 h-4 text-pink-500 border-gray-300 rounded focus:ring-pink-500"
+                    />
+                  </td>
                   <td className="py-3 px-4">
                     <div className="flex items-center justify-end gap-1">
                       <button onClick={handleSave} disabled={saving} className="p-1.5 text-green-600 hover:bg-green-100 rounded-lg transition-colors disabled:opacity-50">
@@ -490,6 +512,13 @@ export const AdminPlans: React.FC = () => {
                   </td>
                   <td className="py-3 px-4 text-center">
                     <span className="text-sm font-semibold text-purple-600">{plan.iteration_credits}</span>
+                  </td>
+                  <td className="py-3 px-4 text-center">
+                    {plan.has_rsvp ? (
+                      <Check className="w-4 h-4 text-green-500 inline-block" />
+                    ) : (
+                      <X className="w-4 h-4 text-gray-300 inline-block" />
+                    )}
                   </td>
                   <td className="py-3 px-4">
                     <div className="flex items-center justify-end gap-1">
@@ -537,7 +566,7 @@ export const AdminPlans: React.FC = () => {
             ))}
             {plans.length === 0 && !editing && (
               <tr>
-                <td colSpan={6} className="py-8 text-center text-gray-400 text-sm">
+                <td colSpan={7} className="py-8 text-center text-gray-400 text-sm">
                   No hay planes configurados. Haz clic en "Agregar Plan" para crear uno.
                 </td>
               </tr>

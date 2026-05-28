@@ -169,7 +169,7 @@ Pick the best matching file for each module based on the filename keywords (port
 ===== data-gemini-id (MANDATORY on ALL text/image elements) =====
 Format: data-gemini-id="MODULE-ELEMENT" (e.g., portada-titulo, padres-nombre, itinerario-hora)
 Must be on ALL: h1-h6, p, span, a, img, iframe
-Modules: portada, padres, itinerario, ubicacion, countdown, padrinos, corte, vestimenta, regalos
+Modules: portada, padres, itinerario, ubicacion, countdown, padrinos, corte, vestimenta, regalos, confirmacion
 
 ===== STRUCTURE RULES =====
 - CSS :root { --color-primary: #hex; --color-secondary: #hex; } — define the user's chosen colors as variables and USE them throughout the ENTIRE invitation. These are NON-NEGOTIABLE. Apply them to: backgrounds, headings, accents, borders, overlays, buttons, gradients, decorative elements, hover states, section dividers.

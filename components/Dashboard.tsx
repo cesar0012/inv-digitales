@@ -51,8 +51,8 @@ export const Dashboard: React.FC = () => {
   };
 
   const handleReplaceInvitation = () => {
-    if (!selectedPlan?.invitation) return;
-    navigate(`/editor?purchaseId=${selectedPlan.purchase_id}&replace=${encodeURIComponent(selectedPlan.invitation.filename)}`);
+    if (!selectedPlan?.active_invitation) return;
+    navigate(`/editor?purchaseId=${selectedPlan.purchase_id}&replace=${encodeURIComponent(selectedPlan.active_invitation.filename)}`);
   };
 
   const handleOpenEditor = (inv: InvitationFile) => {
@@ -366,8 +366,8 @@ export const Dashboard: React.FC = () => {
               </div>
             </div>
 
-            {selectedPlan.invitation ? (() => {
-              const inv = selectedPlan.invitation;
+            {selectedPlan.active_invitation ? (() => {
+              const inv = selectedPlan.active_invitation;
               const invFile: InvitationFile = {
                 filename: inv.filename,
                 slug: inv.slug,

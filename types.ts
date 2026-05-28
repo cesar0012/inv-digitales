@@ -107,6 +107,7 @@ export interface InvitationFile {
 export interface PlanInvitation {
   filename: string;
   slug: string;
+  public_url: string;
   event_type: string;
   event_domain?: string | null;
   event_date?: string | null;
@@ -128,7 +129,7 @@ export interface UserPlan {
   iteration_available: number;
   invites_available: number;
   has_invitation: boolean;
-  invitation: PlanInvitation | null;
+  active_invitation: PlanInvitation | null;
 }
 
 export interface SaveInvitationResponse {

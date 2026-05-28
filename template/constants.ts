@@ -24,6 +24,7 @@ When generating a "XV Años" invitation, incorporate these modules:
 - People: honor_godparents (Padrinos de Honor), court_of_honor (Corte de Honor)
 - Details: dress_code (Código de Vestimenta), gift_registry (Mesa de Regalos)
 - Schedule: event_itinerary (Itinerario)
+- RSVP/Confirmation: confirmation_message (Mensaje informativo de confirmación de asistencia. If the plan includes RSVP, include a section with text like: "Si estás invitado a este evento, por favor revisa tu correo, SMS o WhatsApp donde recibirás un enlace único que te permitirá confirmar tu asistencia." Use data-gemini-id="confirmacion-texto" on the main text.)
 
 When generating a "Boda" (Wedding) invitation, incorporate these modules:
 - Cover/Hero: bride_name, groom_name (Nombres de los novios), cover_photo (Foto de portada), event_date (Fecha de la Boda)
@@ -33,6 +34,7 @@ When generating a "Boda" (Wedding) invitation, incorporate these modules:
 - People: godparents (Padrinos), wedding_party (Cortejo)
 - Details: dress_code (Código de Vestimenta), gift_registry (Mesa de Regalos)
 - Schedule: event_itinerary (Itinerario)
+- RSVP/Confirmation: confirmation_message (Mensaje informativo de confirmación de asistencia. If the plan includes RSVP, include a section with text like: "Si estás invitado a este evento, por favor revisa tu correo, SMS o WhatsApp donde recibirás un enlace único que te permitirá confirmar tu asistencia." Use data-gemini-id="confirmacion-texto" on the main text.)
 
 For other events (Bautizo, Primera Comunión, Confirmación, etc.), include relevant fields like honored person, parents/godparents, ceremony, reception, and date.
 

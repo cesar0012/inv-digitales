@@ -36,8 +36,14 @@ const generateInternalToken = (userId) => {
 
 const getPlanWithInvitation = (plan, userId) => {
   const invitation = db.prepare(
-    'SELECT * FROM invitations WHERE user_id = ? AND purchase_id = ? LIMIT 1'
+    'SELECT * FROM invitations WHERE user_id = ? AND purchase_id = ? AND is_active = 1 LIMIT 1'
   ).get(userId, plan.purchase_id);
+
+  const fallback = !invitation ? db.prepare(
+    'SELECT * FROM invitations WHERE user_id = ? AND purchase_id = ? LIMIT 1'
+  ).get(userId, plan.purchase_id) : null;
+
+  const active = invitation || fallback;
 
   return {
     id: plan.id,
@@ -53,16 +59,22 @@ const getPlanWithInvitation = (plan, userId) => {
     generation_available: Math.max(0, plan.generation_credits - plan.generation_used),
     iteration_available: Math.max(0, plan.iteration_credits - plan.iteration_used),
     invites_available: Math.max(0, plan.invites_included - plan.invites_used),
-    has_invitation: !!invitation,
-    invitation: invitation ? {
-      filename: invitation.filename,
-      slug: invitation.slug,
-      event_type: invitation.event_type,
-      event_domain: invitation.event_domain || null,
-      event_date: invitation.event_date || null,
-      event_time: invitation.event_time || null
+    has_invitation: !!active,
+    active_invitation: active ? {
+      filename: active.filename,
+      slug: active.slug,
+      public_url: `${PUBLIC_URL}/i/${active.slug}`,
+      event_type: active.event_type,
+      event_domain: active.event_domain || null,
+      event_date: active.event_date || null,
+      event_time: active.event_time || null
     } : null
   };
+};
+
+const activateInvitation = (userId, purchaseId, invitationId) => {
+  db.prepare('UPDATE invitations SET is_active = 0 WHERE user_id = ? AND purchase_id = ?').run(userId, purchaseId);
+  db.prepare('UPDATE invitations SET is_active = 1 WHERE id = ?').run(invitationId);
 };
 
 const validateInternalToken = (token) => {
@@ -291,6 +303,7 @@ const getUserInvitations = (userId) => {
         event_time: dbData?.event_time || null,
         purchase_id: dbData?.purchase_id || null,
         plan_slug: dbData?.plan_slug || null,
+        is_active: dbData?.is_active || 0,
         created_at: stats.birthtime.toISOString(),
         size: stats.size
       };
@@ -927,6 +940,11 @@ app.post('/api/invitations', authMiddleware, (req, res) => {
     'INSERT INTO invitations (user_id, filename, slug, event_type, purchase_id, plan_slug) VALUES (?, ?, ?, ?, ?, ?)'
   ).run(userId, filename, slug, eventType || 'Invitacion', purchaseId, plan.plan_slug);
 
+  const newInv = db.prepare('SELECT id FROM invitations WHERE user_id = ? AND filename = ?').get(userId, filename);
+  if (newInv) {
+    activateInvitation(userId, purchaseId, newInv.id);
+  }
+
 syncUserInvitationsCount(userId);
 
 const publicUrl = `${PUBLIC_URL}/i/${slug}`;
@@ -986,6 +1004,8 @@ app.put('/api/invitations/replace/:userId/:filename', authMiddleware, (req, res)
     'UPDATE invitations SET filename = ?, slug = ?, event_type = ?, purchase_id = ?, plan_slug = ? WHERE id = ?'
   ).run(newFilename, generateSlug(eventType || existingInv.event_type, timestamp), eventType || existingInv.event_type, purchaseId, plan.plan_slug, existingInv.id);
 
+  activateInvitation(userId, purchaseId, existingInv.id);
+
   syncUserInvitationsCount(userId);
 
   const publicUrl = `${PUBLIC_URL}/i/${generateSlug(eventType || existingInv.event_type, timestamp)}`;
@@ -1000,6 +1020,22 @@ app.put('/api/invitations/replace/:userId/:filename', authMiddleware, (req, res)
     generation_available: Math.max(0, updatedPlan.generation_credits - updatedPlan.generation_used),
     invites_available: Math.max(0, updatedPlan.invites_included - updatedPlan.invites_used)
   });
+});
+
+app.patch('/api/invitations/:invitationId/activate', authMiddleware, (req, res) => {
+  const { invitationId } = req.params;
+  const inv = db.prepare('SELECT * FROM invitations WHERE id = ?').get(invitationId);
+  if (!inv) {
+    return res.status(404).json({ error: 'Invitación no encontrada' });
+  }
+  if (req.user.id.toString() !== inv.user_id) {
+    return res.status(403).json({ error: 'No autorizado' });
+  }
+  if (!inv.purchase_id) {
+    return res.status(400).json({ error: 'La invitación no tiene un plan asociado' });
+  }
+  activateInvitation(inv.user_id, inv.purchase_id, inv.id);
+  res.json({ success: true, active_invitation: { id: inv.id, filename: inv.filename, slug: inv.slug } });
 });
 
 app.post('/api/user/:id/consume-credit', authMiddleware, (req, res) => {
@@ -1384,20 +1420,34 @@ app.get('/api/service/users', serviceMiddleware, (req, res) => {
       syncUserInvitationsCount(user.user_id);
 
       const rawPlans = db.prepare('SELECT * FROM user_plans WHERE user_id = ?').all(user.user_id);
-      const plans = rawPlans.map(p => ({
-        purchase_id: p.purchase_id,
-        plan_slug: p.plan_slug,
-        plan_name: p.plan_name,
-        invites_included: p.invites_included,
-        invites_used: p.invites_used,
-        invites_available: Math.max(0, p.invites_included - p.invites_used),
-        generation_credits: p.generation_credits,
-        generation_used: p.generation_used,
-        generation_available: Math.max(0, p.generation_credits - p.generation_used),
-        iteration_credits: p.iteration_credits,
-        iteration_used: p.iteration_used,
-        iteration_available: Math.max(0, p.iteration_credits - p.iteration_used)
-      }));
+      const plans = rawPlans.map(p => {
+        const active = db.prepare('SELECT * FROM invitations WHERE user_id = ? AND purchase_id = ? AND is_active = 1 LIMIT 1').get(user.user_id, p.purchase_id)
+          || db.prepare('SELECT * FROM invitations WHERE user_id = ? AND purchase_id = ? LIMIT 1').get(user.user_id, p.purchase_id);
+
+        return {
+          purchase_id: p.purchase_id,
+          plan_slug: p.plan_slug,
+          plan_name: p.plan_name,
+          invites_included: p.invites_included,
+          invites_used: p.invites_used,
+          invites_available: Math.max(0, p.invites_included - p.invites_used),
+          generation_credits: p.generation_credits,
+          generation_used: p.generation_used,
+          generation_available: Math.max(0, p.generation_credits - p.generation_used),
+          iteration_credits: p.iteration_credits,
+          iteration_used: p.iteration_used,
+          iteration_available: Math.max(0, p.iteration_credits - p.iteration_used),
+          active_invitation: active ? {
+            filename: active.filename,
+            slug: active.slug,
+            public_url: `${PUBLIC_URL}/i/${active.slug}`,
+            event_type: active.event_type,
+            event_domain: active.event_domain || null,
+            event_date: active.event_date || null,
+            event_time: active.event_time || null
+          } : null
+        };
+      });
 
       const invitationCount = db.prepare('SELECT COUNT(*) as count FROM invitations WHERE user_id = ?').get(user.user_id)?.count || 0;
 
@@ -1449,6 +1499,7 @@ app.get('/api/service/users/:userId', serviceMiddleware, (req, res) => {
         event_time: inv.event_time,
         purchase_id: inv.purchase_id,
         plan_slug: inv.plan_slug,
+        is_active: inv.is_active || 0,
         created_at: inv.created_at
       }))
     });
@@ -1668,21 +1719,35 @@ app.get('/api/admin/users', adminMiddleware, (req, res) => {
   `);
 
   const users = usersStmt.all().map(user => {
-    const plans = plansStmt.all(user.user_id).map(p => ({
-      purchase_id: p.purchase_id,
-      plan_slug: p.plan_slug,
-      plan_name: p.plan_name,
-      invites_included: p.invites_included,
-      invites_used: p.invites_used,
-      generation_credits: p.generation_credits,
-      generation_used: p.generation_used,
-      iteration_credits: p.iteration_credits,
-      iteration_used: p.iteration_used,
-      invites_available: Math.max(0, p.invites_included - p.invites_used),
-      generation_available: Math.max(0, p.generation_credits - p.generation_used),
-      iteration_available: Math.max(0, p.iteration_credits - p.iteration_used),
-      deployed_count: p.deployed_count
-    }));
+    const plans = plansStmt.all(user.user_id).map(p => {
+      const active = db.prepare('SELECT * FROM invitations WHERE user_id = ? AND purchase_id = ? AND is_active = 1 LIMIT 1').get(user.user_id, p.purchase_id)
+        || db.prepare('SELECT * FROM invitations WHERE user_id = ? AND purchase_id = ? LIMIT 1').get(user.user_id, p.purchase_id);
+
+      return {
+        purchase_id: p.purchase_id,
+        plan_slug: p.plan_slug,
+        plan_name: p.plan_name,
+        invites_included: p.invites_included,
+        invites_used: p.invites_used,
+        generation_credits: p.generation_credits,
+        generation_used: p.generation_used,
+        iteration_credits: p.iteration_credits,
+        iteration_used: p.iteration_used,
+        invites_available: Math.max(0, p.invites_included - p.invites_used),
+        generation_available: Math.max(0, p.generation_credits - p.generation_used),
+        iteration_available: Math.max(0, p.iteration_credits - p.iteration_used),
+        deployed_count: p.deployed_count,
+        active_invitation: active ? {
+          filename: active.filename,
+          slug: active.slug,
+          public_url: `${PUBLIC_URL}/i/${active.slug}`,
+          event_type: active.event_type,
+          event_domain: active.event_domain || null,
+          event_date: active.event_date || null,
+          event_time: active.event_time || null
+        } : null
+      };
+    });
 
     return {
       user_id: user.user_id,
@@ -1787,7 +1852,7 @@ app.get('/api/admin/plans', adminMiddleware, (req, res) => {
 // POST /api/admin/plans - Crear nuevo plan
 app.post('/api/admin/plans', adminMiddleware, (req, res) => {
   try {
-    const { plan_slug, plan_name, invites_included, generation_credits, iteration_credits } = req.body;
+    const { plan_slug, plan_name, invites_included, generation_credits, iteration_credits, has_rsvp } = req.body;
 
     if (!plan_slug || !plan_name) {
       return res.status(400).json({ error: 'plan_slug y plan_name son requeridos' });
@@ -1799,14 +1864,15 @@ app.post('/api/admin/plans', adminMiddleware, (req, res) => {
     }
 
     db.prepare(`
-      INSERT INTO plan_config (plan_slug, plan_name, invites_included, generation_credits, iteration_credits)
-      VALUES (?, ?, ?, ?, ?)
+      INSERT INTO plan_config (plan_slug, plan_name, invites_included, generation_credits, iteration_credits, has_rsvp)
+      VALUES (?, ?, ?, ?, ?, ?)
     `).run(
       plan_slug,
       plan_name,
       invites_included ?? 1,
       generation_credits ?? 5,
-      iteration_credits ?? 10
+      iteration_credits ?? 10,
+      has_rsvp ?? 0
     );
 
     const plan = db.prepare('SELECT * FROM plan_config WHERE plan_slug = ?').get(plan_slug);
@@ -1821,7 +1887,7 @@ app.post('/api/admin/plans', adminMiddleware, (req, res) => {
 app.put('/api/admin/plans/:slug', adminMiddleware, (req, res) => {
   try {
     const { slug } = req.params;
-    const { plan_name, invites_included, generation_credits, iteration_credits } = req.body;
+    const { plan_name, invites_included, generation_credits, iteration_credits, has_rsvp } = req.body;
 
     const existing = db.prepare('SELECT plan_slug FROM plan_config WHERE plan_slug = ?').get(slug);
     if (!existing) {
@@ -1835,6 +1901,7 @@ app.put('/api/admin/plans/:slug', adminMiddleware, (req, res) => {
     if (invites_included !== undefined) { updates.push('invites_included = ?'); values.push(invites_included); }
     if (generation_credits !== undefined) { updates.push('generation_credits = ?'); values.push(generation_credits); }
     if (iteration_credits !== undefined) { updates.push('iteration_credits = ?'); values.push(iteration_credits); }
+    if (has_rsvp !== undefined) { updates.push('has_rsvp = ?'); values.push(has_rsvp ? 1 : 0); }
 
     if (updates.length === 0) {
       return res.status(400).json({ error: 'No hay campos para actualizar' });
@@ -2474,6 +2541,17 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
 
     db.prepare('UPDATE user_plans SET generation_used = generation_used + 1 WHERE user_id = ? AND purchase_id = ?').run(userId, purchaseId);
     console.log('💳 Crédito de generación descontado del plan. Restantes:', generationAvailable - 1);
+
+    const planConfigRow = db.prepare('SELECT has_rsvp FROM plan_config WHERE plan_slug = ?').get(plan.plan_slug);
+    const hasRsvp = planConfigRow?.has_rsvp === 1;
+    console.log('📋 Plan RSVP:', hasRsvp ? 'HABILITADO' : 'DESHABILITADO', '| plan_slug:', plan.plan_slug);
+
+    let rsvpInstruction = '';
+    if (hasRsvp) {
+      rsvpInstruction = `\n\n===== RSVP / CONFIRMACION MODULE (MANDATORY) =====\nYou MUST include a "confirmacion" (RSVP) module in this invitation. This module MUST be purely INFORMATIONAL — do NOT include any form, button, or interactive element for confirming attendance. The module MUST contain a message similar to: "Si estás invitado a este evento, por favor revisa tu correo, SMS o WhatsApp donde recibirás un enlace único que te permitirá confirmar tu asistencia." Style it as a distinct section with data-gemini-id="confirmacion-texto" on the main text element. Use data-gemini-id prefix "confirmacion-" for all elements in this section. ===== END RSVP MODULE =====`;
+    } else {
+      rsvpInstruction = `\n\n===== RSVP / CONFIRMACION MODULE (FORBIDDEN) =====\nYou MUST NOT include any "confirmacion", RSVP, or attendance confirmation module/section in this invitation. Do NOT add any section about confirming attendance. ===== END RSVP FORBIDDEN =====`;
+    }
     
     // Obtener configuración actual
     const configStmt = db.prepare('SELECT * FROM admin_config WHERE id = 1');
@@ -2504,7 +2582,7 @@ const geminiOptions = {
         visualStyle: editorConfig?.visualStyle,
         mood: editorConfig?.mood,
         imageFiles: imageFiles || [],
-        promptInstruction: promptInstruction || '',
+        promptInstruction: (promptInstruction || '') + rsvpInstruction,
         imageApiKey: config.image_api_key || '',
         imageModel: config.image_model || 'gemini-3.1-flash-image-preview'
       };
