@@ -43,6 +43,8 @@ export const InitialView: React.FC<InitialViewProps> = ({
   const [visualStyle, setVisualStyle] = useState('');
   const [mood, setMood] = useState('');
   const [attachments, setAttachments] = useState<Attachment[]>([]);
+  const [isCompressing, setIsCompressing] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
   const [showEventTypeSelector, setShowEventTypeSelector] = useState(false);
@@ -134,11 +136,8 @@ export const InitialView: React.FC<InitialViewProps> = ({
     onGenerate(prompt, attachments, config);
   };
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) return;
-    e.target.value = '';
-
+  const processFiles = async (files: FileList | File[]) => {
+    setIsCompressing(true);
     for (const file of Array.from(files)) {
       const name = file.name.toLowerCase();
       const type = file.type.toLowerCase();
@@ -161,6 +160,41 @@ export const InitialView: React.FC<InitialViewProps> = ({
         console.error('Error al procesar imagen:', error);
         alert(`Error al procesar la imagen. Formatos soportados: ${SUPPORTED_FORMATS_LABEL}`);
       }
+    }
+    setIsCompressing(false);
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+    e.target.value = '';
+    await processFiles(files);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDragEnter = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(false);
+  };
+
+  const handleDrop = async (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(false);
+    const files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      await processFiles(files);
     }
   };
 
@@ -442,14 +476,34 @@ export const InitialView: React.FC<InitialViewProps> = ({
               Imagen de Inspiración (Opcional)
             </label>
             <div className="flex flex-col gap-3">
-              <label className="w-full flex flex-col items-center justify-center h-32 border-2 border-dashed border-pink-300 hover:border-pink-500 hover:bg-pink-50 rounded-xl cursor-pointer transition-colors">
-                <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                  <ImageIcon className="w-8 h-8 text-pink-400 mb-2" />
-                  <p className="text-sm text-gray-500"><span className="font-semibold text-pink-600">Haz clic para subir</span> o arrastra una imagen</p>
-                  <p className="text-xs text-gray-400 mt-1">{SUPPORTED_FORMATS_LABEL}</p>
-                </div>
-                <input type="file" className="hidden" accept={SUPPORTED_IMAGE_TYPES} multiple onChange={handleFileUpload} />
-              </label>
+              <div
+                className={`w-full flex flex-col items-center justify-center h-32 border-2 border-dashed rounded-xl cursor-pointer transition-colors ${
+                  isDragOver
+                    ? 'border-pink-500 bg-pink-100'
+                    : isCompressing
+                    ? 'border-pink-400 bg-pink-50'
+                    : 'border-pink-300 hover:border-pink-500 hover:bg-pink-50'
+                }`}
+                onDragOver={handleDragOver}
+                onDragEnter={handleDragEnter}
+                onDragLeave={handleDragLeave}
+                onDrop={handleDrop}
+                onClick={() => !isCompressing && document.getElementById('initial-file-input')?.click()}
+              >
+                {isCompressing ? (
+                  <div className="flex flex-col items-center justify-center">
+                    <div className="w-8 h-8 border-3 border-pink-200 border-t-pink-500 rounded-full animate-spin mb-2" />
+                    <p className="text-sm text-pink-600 font-medium">Procesando imagen...</p>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    <ImageIcon className="w-8 h-8 text-pink-400 mb-2" />
+                    <p className="text-sm text-gray-500"><span className="font-semibold text-pink-600">Haz clic para subir</span> o arrastra una imagen</p>
+                    <p className="text-xs text-gray-400 mt-1">{SUPPORTED_FORMATS_LABEL}</p>
+                  </div>
+                )}
+                <input id="initial-file-input" type="file" className="hidden" accept={SUPPORTED_IMAGE_TYPES} multiple onChange={handleFileUpload} />
+              </div>
               
               {attachments.length > 0 && (
                 <div className="flex flex-wrap gap-3 mt-2">
