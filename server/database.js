@@ -92,6 +92,40 @@ try {
 } catch (e) {}
 
 try {
+  db.exec(`ALTER TABLE catalogo ADD COLUMN slug TEXT UNIQUE`);
+  console.log('✅ Columna slug agregada a catalogo');
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE catalogo ADD COLUMN seo_title TEXT`);
+  console.log('✅ Columna seo_title agregada a catalogo');
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE catalogo ADD COLUMN meta_description TEXT`);
+  console.log('✅ Columna meta_description agregada a catalogo');
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE catalogo ADD COLUMN h1 TEXT`);
+  console.log('✅ Columna h1 agregada a catalogo');
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE catalogo ADD COLUMN seo_content_json TEXT`);
+  console.log('✅ Columna seo_content_json agregada a catalogo');
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE catalogo ADD COLUMN structured_data TEXT`);
+  console.log('✅ Columna structured_data agregada a catalogo');
+} catch (e) {}
+
+try {
+  db.exec(`CREATE INDEX IF NOT EXISTS idx_catalogo_slug ON catalogo(slug)`);
+} catch (e) {}
+
+try {
   db.exec(`ALTER TABLE users ADD COLUMN generation_credits INTEGER DEFAULT 10`);
 } catch (e) {}
 

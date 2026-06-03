@@ -10,6 +10,7 @@ import { TestLogin } from './components/TestLogin';
 import { AdminLogin } from './components/AdminLogin';
 import { AdminView } from './components/AdminView';
 import { CatalogoView } from './components/CatalogoView';
+import { ProductLandingView } from './components/ProductLandingView';
 
 const AdminRoute: React.FC = () => {
   const { admin, loading } = useAdminAuth();
@@ -40,6 +41,7 @@ const App: React.FC = () => {
             <Route path="/sso/consume" element={<SSOConsume />} />
             <Route path="/test" element={<TestLogin />} />
             <Route path="/catalogo" element={<CatalogoView />} />
+            <Route path="/catalogo/:eventType/:slug" element={<ProductLandingView />} />
             
             <Route path="/" element={
               <PrivateRoute>

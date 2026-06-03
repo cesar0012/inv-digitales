@@ -228,6 +228,18 @@ export const deleteCatalogoItem = async (id: number): Promise<void> => {
   }
 };
 
+export const generateSEO = async (id: number): Promise<{ success: boolean; slug: string }> => {
+  const response = await fetch(`${API_BASE}/admin/catalogo/${id}/generate-seo`, {
+    method: 'POST',
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al generar SEO');
+  }
+  return response.json();
+};
+
 export const syncUsers = async (): Promise<{ success: boolean; message: string; total: number }> => {
   const response = await fetch(`${API_BASE}/admin/sync-users`, {
     method: 'POST',

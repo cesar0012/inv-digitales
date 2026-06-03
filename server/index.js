@@ -1385,6 +1385,41 @@ app.get('/preview/:filename', (req, res) => {
   res.send(content);
 });
 
+// GET /api/catalogo/slug/:eventType/:slug - Obtener datos SEO de invitación por slug (público)
+app.get('/api/catalogo/slug/:eventType/:slug', (req, res) => {
+  try {
+    const fullSlug = `${req.params.eventType}/${req.params.slug}`;
+    const item = db.prepare('SELECT * FROM catalogo WHERE slug = ? AND starred = 1').get(fullSlug);
+
+    if (!item) {
+      return res.status(404).json({ error: 'Invitación no encontrada en el catálogo' });
+    }
+
+    let seoSections = null;
+    try {
+      seoSections = item.seo_content_json ? JSON.parse(item.seo_content_json) : null;
+    } catch (e) {
+      seoSections = null;
+    }
+
+    let structuredData = null;
+    try {
+      structuredData = item.structured_data ? JSON.parse(item.structured_data) : null;
+    } catch (e) {
+      structuredData = null;
+    }
+
+    res.json({
+      ...item,
+      seo_content_json: seoSections,
+      structured_data: structuredData
+    });
+  } catch (error) {
+    console.error('Error obteniendo invitación por slug:', error);
+    res.status(500).json({ error: 'Error al obtener invitación' });
+  }
+});
+
 // ==================== SERVICE API (consumido por Laravel) ====================
 
 const serviceMiddleware = (req, res, next) => {
@@ -1567,6 +1602,99 @@ app.delete('/api/admin/catalogo/:id', adminMiddleware, (req, res) => {
   const deleteStmt = db.prepare('DELETE FROM catalogo WHERE id = ?');
   deleteStmt.run(id);
   res.json({ success: true });
+});
+
+// POST /api/admin/catalogo/:id/generate-seo - Generar landing page SEO para invitación del catálogo
+app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const catalogoStmt = db.prepare('SELECT * FROM catalogo WHERE id = ?');
+    const catalogoItem = catalogoStmt.get(id);
+    if (!catalogoItem) {
+      return res.status(404).json({ error: 'Invitación no encontrada en catálogo' });
+    }
+
+    const configStmt = db.prepare('SELECT * FROM admin_config WHERE id = 1');
+    const config = configStmt.get();
+    if (!config || !config.html_google_api_key) {
+      return res.status(400).json({ error: 'API Key de Google no configurada en admin_config' });
+    }
+    const apiKey = config.html_google_api_key;
+    const model = config.html_google_model || 'gemini-2.5-flash';
+
+    const htmlFilePath = join(historicoPath, catalogoItem.filename);
+    if (!existsSync(htmlFilePath)) {
+      return res.status(404).json({ error: 'Archivo HTML de la invitación no encontrado en histórico' });
+    }
+    const htmlContent = readFileSync(htmlFilePath, 'utf-8');
+    const htmlMeta = extractMetadataFromHTML(htmlContent);
+
+    let colors = [];
+    try {
+      colors = catalogoItem.colors ? JSON.parse(catalogoItem.colors) : (htmlMeta.colors || []);
+    } catch (e) {
+      colors = htmlMeta.colors || [];
+    }
+
+    let tags = [];
+    try {
+      tags = catalogoItem.tags ? JSON.parse(catalogoItem.tags) : [];
+    } catch (e) {
+      tags = [];
+    }
+
+    const metadata = {
+      eventType: catalogoItem.event_type || htmlMeta.eventType || 'General',
+      theme: catalogoItem.theme || htmlMeta.theme || 'Elegante',
+      primaryColor: catalogoItem.primary_color || htmlMeta.primaryColor || '',
+      secondaryColor: catalogoItem.secondary_color || htmlMeta.secondaryColor || '',
+      colors: colors,
+      modules: tags.length > 0 ? tags : ['RSVP', 'Countdown', 'Map', 'Event Details'],
+      title: catalogoItem.title || htmlMeta.title || '',
+      originalPrompt: ''
+    };
+
+    console.log(`🚀 Generando SEO para catálogo ID ${id}: eventType=${metadata.eventType}, theme=${metadata.theme}`);
+
+    const { generateSEOPage } = await import('./geminiService.js');
+    const seoData = await generateSEOPage(metadata, apiKey, model);
+
+    const fullSlug = seoData.slug;
+    const existingSlug = db.prepare('SELECT id FROM catalogo WHERE slug = ? AND id != ?').get(fullSlug, id);
+    let finalSlug = fullSlug;
+    if (existingSlug) {
+      const suffix = Date.now().toString(36).slice(-4);
+      finalSlug = `${fullSlug}-${suffix}`;
+      console.log(`⚠️ Slug duplicado, aplicando sufijo: ${finalSlug}`);
+    }
+
+    db.prepare(`
+      UPDATE catalogo SET
+        starred = 1,
+        slug = ?,
+        seo_title = ?,
+        meta_description = ?,
+        h1 = ?,
+        seo_content_json = ?,
+        structured_data = ?
+      WHERE id = ?
+    `).run(
+      finalSlug,
+      seoData.seo_title || '',
+      seoData.meta_description || '',
+      seoData.h1 || '',
+      JSON.stringify(seoData.sections || {}),
+      JSON.stringify(seoData.structured_data || {}),
+      id
+    );
+
+    console.log(`✅ SEO generado exitosamente para catálogo ID ${id}, slug: ${finalSlug}`);
+    res.json({ success: true, slug: finalSlug });
+  } catch (error) {
+    console.error('❌ Error generando SEO:', error);
+    res.status(500).json({ error: 'Error al generar landing page SEO', details: error.message });
+  }
 });
 
 // GET /api/admin/config - Obtener configuración
@@ -2442,6 +2570,97 @@ app.get('/api/debug/logs/html', (req, res) => {
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '..', 'dist')));
+
+  // GET /catalogo/:eventType/:slug - SSR con meta tags SEO inyectados dinámicamente
+  app.get('/catalogo/:eventType/:slug', (req, res) => {
+    try {
+      const fullSlug = `${req.params.eventType}/${req.params.slug}`;
+      const item = db.prepare('SELECT slug, seo_title, meta_description, structured_data, filename FROM catalogo WHERE slug = ? AND starred = 1').get(fullSlug);
+
+      const distIndexPath = path.join(__dirname, '..', 'dist', 'index.html');
+
+      if (!existsSync(distIndexPath)) {
+        return res.sendFile(distIndexPath);
+      }
+
+      let html = readFileSync(distIndexPath, 'utf-8');
+
+      if (item && item.seo_title) {
+        let structuredData = null;
+        try {
+          structuredData = item.structured_data ? JSON.parse(item.structured_data) : null;
+        } catch (e) {
+          structuredData = null;
+        }
+
+        const seoTitle = item.seo_title || 'Invitaciones Digitales';
+        const metaDesc = item.meta_description || '';
+        const ogImage = item.filename ? `${process.env.PUBLIC_URL || ''}/storage/historico/${item.filename}` : '';
+
+        html = html.replace(
+          /<title[^>]*>[\s\S]*?<\/title>/i,
+          `<title>${seoTitle}</title>`
+        );
+
+        if (/<meta\s+name=["']description["'][^>]*>/i.test(html)) {
+          html = html.replace(
+            /<meta\s+name=["']description["'][^>]*>/i,
+            `<meta name="description" content="${metaDesc}">`
+          );
+        } else {
+          html = html.replace(
+            '</head>',
+            `  <meta name="description" content="${metaDesc}">\n</head>`
+          );
+        }
+
+        const ogTags = [];
+        ogTags.push(`<meta property="og:title" content="${seoTitle}">`);
+        ogTags.push(`<meta property="og:description" content="${metaDesc}">`);
+        if (ogImage) {
+          ogTags.push(`<meta property="og:image" content="${ogImage}">`);
+        }
+        ogTags.push(`<meta property="og:type" content="product">`);
+
+        html = html.replace(
+          /<meta\s+property=["']og:title["'][^>]*>/gi,
+          ''
+        );
+        html = html.replace(
+          /<meta\s+property=["']og:description["'][^>]*>/gi,
+          ''
+        );
+        html = html.replace(
+          /<meta\s+property=["']og:image["'][^>]*>/gi,
+          ''
+        );
+        html = html.replace(
+          /<meta\s+property=["']og:type["'][^>]*>/gi,
+          ''
+        );
+
+        html = html.replace(
+          '</head>',
+          `  ${ogTags.join('\n  ')}\n</head>`
+        );
+
+        if (structuredData) {
+          html = html.replace(
+            '</head>',
+            `  <script type="application/ld+json">${JSON.stringify(structuredData)}</script>\n</head>`
+          );
+        }
+
+        console.log(`🔍 SSR SEO inyectado para: ${fullSlug} | title: "${seoTitle.substring(0, 50)}..."`);
+      }
+
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.send(html);
+    } catch (error) {
+      console.error('Error en SSR SEO middleware:', error);
+      res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
+    }
+  });
   
   // ✅ Catch-all para React Router
   app.get('*', (req, res, next) => {
