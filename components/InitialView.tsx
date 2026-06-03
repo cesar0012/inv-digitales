@@ -155,37 +155,18 @@ export const InitialView: React.FC<InitialViewProps> = ({
 
     if (validFiles.length === 0) return;
 
+    const file = validFiles[0];
+
     setIsCompressing(true);
-    setCompressingProgress({ current: 0, total: validFiles.length });
+    setCompressingProgress({ current: 0, total: 1 });
 
     try {
-      const results = await Promise.allSettled(
-        validFiles.map(async (file, index) => {
-          const compressedBase64 = await compressImage(file);
-          setCompressingProgress(prev => ({ ...prev, current: prev.current + 1 }));
-          return { type: 'image' as const, content: compressedBase64, mimeType: 'image/jpeg' as const };
-        })
-      );
-
-      const newAttachments: Attachment[] = [];
-      let errorCount = 0;
-      for (const result of results) {
-        if (result.status === 'fulfilled') {
-          newAttachments.push(result.value);
-        } else {
-          errorCount++;
-          console.error('Error al procesar imagen:', result.reason);
-        }
-      }
-
-      if (newAttachments.length > 0) {
-        setAttachments(prev => [...prev, ...newAttachments]);
-      }
-      if (errorCount > 0) {
-        alert(`${errorCount} imagen(es) no pudieron ser procesadas. Formatos soportados: ${SUPPORTED_FORMATS_LABEL}`);
-      }
+      const compressedBase64 = await compressImage(file);
+      setCompressingProgress(prev => ({ ...prev, current: 1 }));
+      setAttachments([{ type: 'image', content: compressedBase64, mimeType: 'image/jpeg' }]);
     } catch (err) {
-      console.error('Error inesperado procesando imágenes:', err);
+      console.error('Error al procesar imagen:', err);
+      alert('No se pudo procesar la imagen. Intenta con otra.');
     } finally {
       setIsCompressing(false);
       setCompressingProgress({ current: 0, total: 0 });
@@ -509,70 +490,73 @@ export const InitialView: React.FC<InitialViewProps> = ({
               <ImagePlus className="w-4 h-4 text-pink-500" />
               Imagen de Inspiración (Opcional)
             </label>
-            <div className="flex flex-col gap-3">
-              <div
-                className={`w-full flex flex-col items-center justify-center h-32 border-2 rounded-xl cursor-pointer transition-colors ${
-                  isDragOver
-                    ? 'border-pink-500 bg-pink-100 border-solid'
-                    : isCompressing
-                    ? 'border-pink-400 bg-pink-50 border-dashed'
-                    : attachments.length > 0
-                    ? 'border-pink-300 hover:border-pink-500 hover:bg-pink-50 border-solid'
-                    : 'border-pink-300 hover:border-pink-500 hover:bg-pink-50 border-dashed'
-                }`}
-                onDragOver={handleDragOver}
-                onDragEnter={handleDragEnter}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-                onClick={() => !isCompressing && document.getElementById('initial-file-input')?.click()}
-              >
+            <div
+              className={`relative w-full h-28 rounded-2xl cursor-pointer overflow-hidden transition-all duration-500 group ${
+                isDragOver
+                  ? 'ring-2 ring-pink-500 ring-offset-2 scale-[1.02]'
+                  : ''
+              } ${attachments.length > 0 ? '' : ''}`}
+              onDragOver={handleDragOver}
+              onDragEnter={handleDragEnter}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              onClick={() => !isCompressing && document.getElementById('initial-file-input')?.click()}
+            >
+              <div className={`absolute inset-0 rounded-2xl transition-opacity duration-500 ${
+                attachments.length > 0 ? 'opacity-0' : 'opacity-100'
+              }`}>
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-100 via-rose-50 to-fuchsia-100" />
+                <div className="absolute inset-0 opacity-30" style={{
+                  backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(236,72,153,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 50%, rgba(244,114,182,0.15) 0%, transparent 50%)'
+                }} />
+                <div className="absolute inset-0 border-2 border-dashed border-pink-300/60 rounded-2xl group-hover:border-pink-400 group-hover:bg-pink-50/50 transition-colors" />
+              </div>
+
+              <div className="relative z-10 flex flex-col items-center justify-center h-full">
                 {isCompressing ? (
-                  <div className="flex flex-col items-center justify-center">
-                    <div className="w-8 h-8 border-3 border-pink-200 border-t-pink-500 rounded-full animate-spin mb-2" />
-                    <p className="text-sm text-pink-600 font-medium">
-                      {compressingProgress.total > 1
-                        ? `Procesando ${compressingProgress.current + 1} de ${compressingProgress.total}...`
-                        : 'Procesando imagen...'}
-                    </p>
+                  <div className="flex flex-col items-center justify-center animate-pulse">
+                    <div className="w-10 h-10 border-[3px] border-pink-200 border-t-pink-500 rounded-full animate-spin mb-2" />
+                    <p className="text-sm text-pink-600 font-medium">Procesando imagen...</p>
                   </div>
                 ) : attachments.length > 0 ? (
                   <div className="flex items-center gap-3 px-4">
-                    <div className="flex -space-x-2">
-                      {attachments.slice(0, 4).map((att, idx) => (
-                        <img key={idx} src={att.content} alt="" className="w-10 h-10 rounded-lg object-cover border-2 border-white shadow-sm" />
-                      ))}
+                    <div className="w-12 h-12 rounded-xl overflow-hidden shadow-md ring-2 ring-white">
+                      <img src={attachments[0].content} alt="" className="w-full h-full object-cover" />
                     </div>
                     <div className="flex flex-col">
-                      <p className="text-sm text-pink-600 font-semibold">{attachments.length} {attachments.length === 1 ? 'imagen adjunta' : 'imágenes adjuntas'}</p>
-                      <p className="text-xs text-gray-400">Haz clic o arrastra para agregar más</p>
+                      <p className="text-sm text-pink-600 font-semibold">Imagen adjunta</p>
+                      <p className="text-xs text-gray-400">Haz clic para reemplazar</p>
                     </div>
                   </div>
                 ) : (
-                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                    <ImageIcon className="w-8 h-8 text-pink-400 mb-2" />
-                    <p className="text-sm text-gray-500"><span className="font-semibold text-pink-600">Haz clic para subir</span> o arrastra una imagen</p>
-                    <p className="text-xs text-gray-400 mt-1">{SUPPORTED_FORMATS_LABEL}</p>
+                  <div className="flex flex-col items-center justify-center">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-400 to-rose-400 flex items-center justify-center mb-2 shadow-lg shadow-pink-300/30 group-hover:scale-110 transition-transform duration-300">
+                      <ImageIcon className="w-5 h-5 text-white" />
+                    </div>
+                    <p className="text-sm text-gray-500"><span className="font-semibold text-pink-600">Sube tu inspiración</span> o arrastra aquí</p>
+                    <p className="text-[11px] text-gray-400 mt-0.5">{SUPPORTED_FORMATS_LABEL}</p>
                   </div>
                 )}
-                <input id="initial-file-input" type="file" className="hidden" accept={SUPPORTED_IMAGE_TYPES} multiple onChange={handleFileUpload} />
               </div>
-              
-              {attachments.length > 0 && (
-                <div className="flex flex-wrap gap-3 mt-2">
-                  {attachments.map((att, idx) => (
-                    <div key={idx} className="relative group rounded-lg overflow-hidden border border-pink-200 shadow-sm">
-                      <img src={att.content} alt="Inspiración" className="w-20 h-20 object-cover" />
-                      <button
-                        onClick={() => removeAttachment(idx)}
-                        className="absolute top-1 right-1 bg-white/80 hover:bg-red-500 hover:text-white text-gray-700 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-all"
-                      >
-                        <X className="w-3 h-3" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <input id="initial-file-input" type="file" className="hidden" accept={SUPPORTED_IMAGE_TYPES} onChange={handleFileUpload} />
             </div>
+
+            {attachments.length > 0 && (
+              <div className="relative mt-2 rounded-2xl overflow-hidden border border-pink-200/60 shadow-lg shadow-pink-100/40 group animate-in fade-in duration-500">
+                <img src={attachments[0].content} alt="Inspiración" className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                <button
+                  onClick={(e) => { e.stopPropagation(); removeAttachment(0); }}
+                  className="absolute top-3 right-3 bg-white/90 hover:bg-red-500 hover:text-white text-gray-600 rounded-full p-2 shadow-md transition-all duration-200 hover:scale-110"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+                <div className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1.5 shadow-sm">
+                  <ImageIcon className="w-3.5 h-3.5 text-pink-500" />
+                  <span className="text-xs font-medium text-gray-700">Referencia visual</span>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-end gap-4 pt-2">
