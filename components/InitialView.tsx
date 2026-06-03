@@ -136,8 +136,10 @@ export const InitialView: React.FC<InitialViewProps> = ({
     onGenerate(prompt, attachments, config);
   };
 
+  const [compressingProgress, setCompressingProgress] = useState({ current: 0, total: 0 });
+
   const processFiles = async (files: FileList | File[]) => {
-    setIsCompressing(true);
+    const validFiles: File[] = [];
     for (const file of Array.from(files)) {
       const name = file.name.toLowerCase();
       const type = file.type.toLowerCase();
@@ -145,23 +147,44 @@ export const InitialView: React.FC<InitialViewProps> = ({
       const isSupported = type.startsWith('image/') || isHeic;
 
       if (!isSupported) {
-        alert(`Formato no soportado. Usa: ${SUPPORTED_FORMATS_LABEL}`);
+        alert(`Formato no soportado: ${file.name}. Usa: ${SUPPORTED_FORMATS_LABEL}`);
         continue;
       }
+      validFiles.push(file);
+    }
 
-      try {
+    if (validFiles.length === 0) return;
+
+    setIsCompressing(true);
+    setCompressingProgress({ current: 0, total: validFiles.length });
+
+    const results = await Promise.allSettled(
+      validFiles.map(async (file, index) => {
         const compressedBase64 = await compressImage(file);
-        setAttachments(prev => [...prev, {
-          type: 'image',
-          content: compressedBase64,
-          mimeType: 'image/jpeg'
-        }]);
-      } catch (error) {
-        console.error('Error al procesar imagen:', error);
-        alert(`Error al procesar la imagen. Formatos soportados: ${SUPPORTED_FORMATS_LABEL}`);
+        setCompressingProgress(prev => ({ ...prev, current: prev.current + 1 }));
+        return { type: 'image' as const, content: compressedBase64, mimeType: 'image/jpeg' as const };
+      })
+    );
+
+    const newAttachments: Attachment[] = [];
+    let errorCount = 0;
+    for (const result of results) {
+      if (result.status === 'fulfilled') {
+        newAttachments.push(result.value);
+      } else {
+        errorCount++;
+        console.error('Error al procesar imagen:', result.reason);
       }
     }
+
+    if (newAttachments.length > 0) {
+      setAttachments(prev => [...prev, ...newAttachments]);
+    }
+    if (errorCount > 0) {
+      alert(`${errorCount} imagen(es) no pudieron ser procesadas. Formatos soportados: ${SUPPORTED_FORMATS_LABEL}`);
+    }
     setIsCompressing(false);
+    setCompressingProgress({ current: 0, total: 0 });
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -174,6 +197,7 @@ export const InitialView: React.FC<InitialViewProps> = ({
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    setIsDragOver(true);
   };
 
   const handleDragEnter = (e: React.DragEvent) => {
@@ -185,7 +209,12 @@ export const InitialView: React.FC<InitialViewProps> = ({
   const handleDragLeave = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setIsDragOver(false);
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX;
+    const y = e.clientY;
+    if (x <= rect.left || x >= rect.right || y <= rect.top || y >= rect.bottom) {
+      setIsDragOver(false);
+    }
   };
 
   const handleDrop = async (e: React.DragEvent) => {
@@ -495,7 +524,11 @@ export const InitialView: React.FC<InitialViewProps> = ({
                 {isCompressing ? (
                   <div className="flex flex-col items-center justify-center">
                     <div className="w-8 h-8 border-3 border-pink-200 border-t-pink-500 rounded-full animate-spin mb-2" />
-                    <p className="text-sm text-pink-600 font-medium">Procesando imagen...</p>
+                    <p className="text-sm text-pink-600 font-medium">
+                      {compressingProgress.total > 1
+                        ? `Procesando ${compressingProgress.current + 1} de ${compressingProgress.total}...`
+                        : 'Procesando imagen...'}
+                    </p>
                   </div>
                 ) : attachments.length > 0 ? (
                   <div className="flex items-center gap-3 px-4">
