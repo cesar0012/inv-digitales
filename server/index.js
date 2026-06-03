@@ -2806,6 +2806,8 @@ const geminiOptions = {
         imageModel: config.image_model || 'gemini-3.1-flash-image-preview'
       };
 
+      const attachmentsForGemini = Array.isArray(attachments) ? attachments : [];
+
       if (useAgentOrchestrator) {
         try {
           const { runOrchestration } = await import('./agentOrchestrator.js');
@@ -2813,7 +2815,8 @@ const geminiOptions = {
             prompt,
             config.html_google_api_key,
             config.html_google_model || 'gemini-3.1-pro-preview',
-            geminiOptions
+            geminiOptions,
+            attachmentsForGemini
           );
         } catch (orchestratorError) {
           console.error('⚠️ Agent Orchestrator falló, usando fallback:', orchestratorError.message);
@@ -2822,7 +2825,8 @@ const geminiOptions = {
             prompt,
             config.html_google_api_key,
             config.html_google_model || 'gemini-3.1-pro-preview',
-            geminiOptions
+            geminiOptions,
+            attachmentsForGemini
           );
         }
       } else {
@@ -2831,7 +2835,8 @@ const geminiOptions = {
           prompt,
           config.html_google_api_key,
           config.html_google_model || 'gemini-3.1-pro-preview',
-          geminiOptions
+          geminiOptions,
+          attachmentsForGemini
         );
       }
     } else {

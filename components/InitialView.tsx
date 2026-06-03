@@ -158,33 +158,38 @@ export const InitialView: React.FC<InitialViewProps> = ({
     setIsCompressing(true);
     setCompressingProgress({ current: 0, total: validFiles.length });
 
-    const results = await Promise.allSettled(
-      validFiles.map(async (file, index) => {
-        const compressedBase64 = await compressImage(file);
-        setCompressingProgress(prev => ({ ...prev, current: prev.current + 1 }));
-        return { type: 'image' as const, content: compressedBase64, mimeType: 'image/jpeg' as const };
-      })
-    );
+    try {
+      const results = await Promise.allSettled(
+        validFiles.map(async (file, index) => {
+          const compressedBase64 = await compressImage(file);
+          setCompressingProgress(prev => ({ ...prev, current: prev.current + 1 }));
+          return { type: 'image' as const, content: compressedBase64, mimeType: 'image/jpeg' as const };
+        })
+      );
 
-    const newAttachments: Attachment[] = [];
-    let errorCount = 0;
-    for (const result of results) {
-      if (result.status === 'fulfilled') {
-        newAttachments.push(result.value);
-      } else {
-        errorCount++;
-        console.error('Error al procesar imagen:', result.reason);
+      const newAttachments: Attachment[] = [];
+      let errorCount = 0;
+      for (const result of results) {
+        if (result.status === 'fulfilled') {
+          newAttachments.push(result.value);
+        } else {
+          errorCount++;
+          console.error('Error al procesar imagen:', result.reason);
+        }
       }
-    }
 
-    if (newAttachments.length > 0) {
-      setAttachments(prev => [...prev, ...newAttachments]);
+      if (newAttachments.length > 0) {
+        setAttachments(prev => [...prev, ...newAttachments]);
+      }
+      if (errorCount > 0) {
+        alert(`${errorCount} imagen(es) no pudieron ser procesadas. Formatos soportados: ${SUPPORTED_FORMATS_LABEL}`);
+      }
+    } catch (err) {
+      console.error('Error inesperado procesando imágenes:', err);
+    } finally {
+      setIsCompressing(false);
+      setCompressingProgress({ current: 0, total: 0 });
     }
-    if (errorCount > 0) {
-      alert(`${errorCount} imagen(es) no pudieron ser procesadas. Formatos soportados: ${SUPPORTED_FORMATS_LABEL}`);
-    }
-    setIsCompressing(false);
-    setCompressingProgress({ current: 0, total: 0 });
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {

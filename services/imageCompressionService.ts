@@ -24,34 +24,43 @@ const withTimeout = <T,>(promise: Promise<T>, ms: number): Promise<T> => {
   });
 };
 
+const readFileAsDataURL = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result as string);
+    reader.onerror = () => reject(new Error('Error al leer archivo'));
+    reader.readAsDataURL(file);
+  });
+};
+
 export const compressImage = async (file: File): Promise<string> => {
   let processedFile = file;
 
-  if (isHeicFile(file)) {
-    processedFile = await withTimeout(convertHeicToJpeg(file), 30000);
-  }
-
-  const options = {
-    maxSizeMB: 0.15,
-    maxWidthOrHeight: 1200,
-    useWebWorker: true,
-    fileType: 'image/jpeg' as const
-  };
-  
   try {
+    if (isHeicFile(file)) {
+      processedFile = await withTimeout(convertHeicToJpeg(file), 30000);
+    }
+
+    const options = {
+      maxSizeMB: 0.15,
+      maxWidthOrHeight: 1200,
+      useWebWorker: true,
+      fileType: 'image/jpeg' as const
+    };
+
     const compressedFile = await withTimeout(imageCompression(processedFile, options), 30000);
-    const dataUrl = await imageCompression.getDataUrlFromFile(compressedFile);
+    const dataUrl = await withTimeout(imageCompression.getDataUrlFromFile(compressedFile), 10000);
     return dataUrl;
   } catch (error) {
-    console.error('Error comprimiendo imagen, usando original:', error);
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result as string);
-      reader.onerror = () => reject(new Error('Error al leer archivo'));
-      reader.readAsDataURL(processedFile);
-    });
+    console.error('Error comprimiendo imagen, usando original sin comprimir:', error);
+    try {
+      return await readFileAsDataURL(processedFile);
+    } catch (fallbackError) {
+      console.error('Error leyendo archivo original:', fallbackError);
+      return await readFileAsDataURL(file);
+    }
   }
 };
 
-export const SUPPORTED_IMAGE_TYPES = 'image/jpeg,image/png,image/webp,image/heic,image/heif';
+export const SUPPORTED_IMAGE_TYPES = 'image/*';
 export const SUPPORTED_FORMATS_LABEL = 'JPG, PNG, WebP, HEIC';

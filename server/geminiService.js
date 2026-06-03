@@ -412,7 +412,7 @@ Modules: portada, padres, itinerario, ubicacion, countdown, padrinos, corte, ves
 
 Now generate the complete HTML invitation: `;
 
-export const generateWithGemini = async (prompt, apiKey, model = 'gemini-3.1-pro', options = {}) => {
+export const generateWithGemini = async (prompt, apiKey, model = 'gemini-3.1-pro', options = {}, attachments = []) => {
   const { eventType, theme, primaryColor, secondaryColor, imageFiles, promptInstruction, visualStyle, mood } = options;
   const currentDate = new Date().toISOString().replace('T', ' ').substring(0, 19);
   const promptWithDate = prompt.replace(/SYSTEM_TIMESTAMP:\s*\S+/, `SYSTEM_TIMESTAMP: ${currentDate}`);
@@ -425,7 +425,25 @@ export const generateWithGemini = async (prompt, apiKey, model = 'gemini-3.1-pro
   
   const fingerprintBlock = `\n\n===== DESIGN FINGERPRINT (FOLLOW EXACTLY) =====\n${fingerprint}\n===== END FINGERPRINT =====\n\n`;
   const promptImageContext = promptInstruction ? `\n\n${promptInstruction}` : '';
-  const fullPrompt = `${SYSTEM_INSTRUCTION}${fingerprintBlock}${promptImageContext}${promptWithDate}`;
+
+  let referenceInstruction = '';
+  const parts = [];
+
+  if (attachments && attachments.length > 0) {
+    referenceInstruction = `\n\n===== REFERENCE IMAGES =====\nThe user has attached ${attachments.length} reference image(s) for visual inspiration. Analyze their style, colors, layout, and mood. Use them as a PRIMARY visual reference for the invitation design — match the aesthetic feel, color palette, and design direction while adapting it to the event type and theme specified. If the images show specific design elements (typography style, layout patterns, decorative motifs), incorporate similar elements into the invitation.\n===== END REFERENCE IMAGES =====\n`;
+
+    for (const att of attachments) {
+      if (att.type === 'image' && att.content) {
+        const base64Data = att.content.includes(',') ? att.content.split(',')[1] : att.content;
+        const mimeType = att.mimeType || 'image/jpeg';
+        parts.push({ inline_data: { mime_type: mimeType, data: base64Data } });
+      }
+    }
+    console.log(`📎 Including ${parts.length} reference image(s) in Gemini request`);
+  }
+
+  const fullPrompt = `${SYSTEM_INSTRUCTION}${fingerprintBlock}${promptImageContext}${referenceInstruction}${promptWithDate}`;
+  parts.unshift({ text: fullPrompt });
   
   // CORRECTO: usar v1beta sin API key en URL, mover al header
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
@@ -433,6 +451,7 @@ export const generateWithGemini = async (prompt, apiKey, model = 'gemini-3.1-pro
   console.log('=== GEMINI HTML GENERATION ===');
   console.log('Model:', model);
   console.log('Prompt length:', fullPrompt.length);
+  console.log('Attachments:', attachments?.length || 0);
   console.log('=====================================');
 
   const response = await fetchNoSSL(url, {
@@ -443,7 +462,7 @@ export const generateWithGemini = async (prompt, apiKey, model = 'gemini-3.1-pro
     },
     body: JSON.stringify({
       contents: [{
-        parts: [{ text: fullPrompt }]
+        parts: parts
       }],
       generationConfig: {
         temperature: 1.0,

@@ -153,7 +153,7 @@ const generateDesignFingerprint = (eventType = '', theme = '', visualStyle = '',
   const animationPool = moodPrefs ? [...new Set([...moodPrefs.animations, ...preferredAnimations])] : preferredAnimations;
   const colorStrategyPool = stylePrefs ? stylePrefs.colorStrategies : COLOR_STRATEGIES;
   const sflowPool = stylePrefs
-    ? [...new Set([.stylePrefs.sflows, ...(moodPrefs ? moodPrefs.sflows : [])])]
+    ? [...new Set([...stylePrefs.sflows, ...(moodPrefs ? moodPrefs.sflows : [])])]
     : (moodPrefs ? moodPrefs.sflows : SECTION_FLOW_OPTIONS);
 
   const hasUserColors = primaryColor && secondaryColor;
@@ -341,7 +341,7 @@ const fixInvalidImagePaths = (html, imageFiles) => {
   return result;
 };
 
-export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro', options = {}) => {
+export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro', options = {}, attachments = []) => {
   const {
     eventType = '',
     theme = '',
@@ -354,7 +354,7 @@ export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro',
   } = options;
 
   console.log('=== ORCHESTRATOR START ===');
-  console.log('Event:', eventType, '| Theme:', theme, '| Model:', model);
+  console.log('Event:', eventType, '| Theme:', theme, '| Model:', model, '| Attachments:', attachments?.length || 0);
 
   // ===== STEP 1: LOCAL — Generate fingerprint & extract metadata =====
   console.log('[ORQUESTADOR] Step 1: Generating design fingerprint...');
@@ -368,7 +368,25 @@ export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro',
   console.log('[ORQUESTADOR] Step 2: Calling Gemini with CODER prompt...');
   const fingerprintBlock = `\n\n===== DESIGN FINGERPRINT (FOLLOW EXACTLY) =====\n${fingerprint.raw}\n===== END FINGERPRINT =====\n\n`;
   const promptImageContext = promptInstruction ? `\n\n${promptInstruction}` : '';
-  const fullPrompt = `${CODER_SYSTEM_PROMPT}${fingerprintBlock}${promptImageContext}${promptWithDate}`;
+
+  let referenceInstruction = '';
+  const parts = [];
+
+  if (attachments && attachments.length > 0) {
+    referenceInstruction = `\n\n===== REFERENCE IMAGES =====\nThe user has attached ${attachments.length} reference image(s) for visual inspiration. Analyze their style, colors, layout, and mood. Use them as a PRIMARY visual reference for the invitation design — match the aesthetic feel, color palette, and design direction while adapting it to the event type and theme specified. If the images show specific design elements (typography style, layout patterns, decorative motifs), incorporate similar elements into the invitation.\n===== END REFERENCE IMAGES =====\n`;
+
+    for (const att of attachments) {
+      if (att.type === 'image' && att.content) {
+        const base64Data = att.content.includes(',') ? att.content.split(',')[1] : att.content;
+        const mimeType = att.mimeType || 'image/jpeg';
+        parts.push({ inline_data: { mime_type: mimeType, data: base64Data } });
+      }
+    }
+    console.log(`📎 [ORQUESTADOR] Including ${parts.length} reference image(s) in Gemini request`);
+  }
+
+  const fullPrompt = `${CODER_SYSTEM_PROMPT}${fingerprintBlock}${promptImageContext}${referenceInstruction}${promptWithDate}`;
+  parts.unshift({ text: fullPrompt });
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 
@@ -382,7 +400,7 @@ export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro',
     },
     body: JSON.stringify({
       contents: [{
-        parts: [{ text: fullPrompt }]
+        parts: parts
       }],
       generationConfig: {
         temperature: 1.0,
