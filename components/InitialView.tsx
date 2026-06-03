@@ -477,12 +477,14 @@ export const InitialView: React.FC<InitialViewProps> = ({
             </label>
             <div className="flex flex-col gap-3">
               <div
-                className={`w-full flex flex-col items-center justify-center h-32 border-2 border-dashed rounded-xl cursor-pointer transition-colors ${
+                className={`w-full flex flex-col items-center justify-center h-32 border-2 rounded-xl cursor-pointer transition-colors ${
                   isDragOver
-                    ? 'border-pink-500 bg-pink-100'
+                    ? 'border-pink-500 bg-pink-100 border-solid'
                     : isCompressing
-                    ? 'border-pink-400 bg-pink-50'
-                    : 'border-pink-300 hover:border-pink-500 hover:bg-pink-50'
+                    ? 'border-pink-400 bg-pink-50 border-dashed'
+                    : attachments.length > 0
+                    ? 'border-pink-300 hover:border-pink-500 hover:bg-pink-50 border-solid'
+                    : 'border-pink-300 hover:border-pink-500 hover:bg-pink-50 border-dashed'
                 }`}
                 onDragOver={handleDragOver}
                 onDragEnter={handleDragEnter}
@@ -494,6 +496,18 @@ export const InitialView: React.FC<InitialViewProps> = ({
                   <div className="flex flex-col items-center justify-center">
                     <div className="w-8 h-8 border-3 border-pink-200 border-t-pink-500 rounded-full animate-spin mb-2" />
                     <p className="text-sm text-pink-600 font-medium">Procesando imagen...</p>
+                  </div>
+                ) : attachments.length > 0 ? (
+                  <div className="flex items-center gap-3 px-4">
+                    <div className="flex -space-x-2">
+                      {attachments.slice(0, 4).map((att, idx) => (
+                        <img key={idx} src={att.content} alt="" className="w-10 h-10 rounded-lg object-cover border-2 border-white shadow-sm" />
+                      ))}
+                    </div>
+                    <div className="flex flex-col">
+                      <p className="text-sm text-pink-600 font-semibold">{attachments.length} {attachments.length === 1 ? 'imagen adjunta' : 'imágenes adjuntas'}</p>
+                      <p className="text-xs text-gray-400">Haz clic o arrastra para agregar más</p>
+                    </div>
                   </div>
                 ) : (
                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
