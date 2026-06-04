@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Send, Image as ImageIcon, Settings, Heart, X, ImagePlus, Palette, Type, ChevronDown, Save, Home, AlertCircle, FileText, Calendar, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Attachment, EditorConfig } from '../types';
-import { compressImage, SUPPORTED_IMAGE_TYPES, SUPPORTED_FORMATS_LABEL } from '../services/imageCompressionService';
+import { compressImage, SUPPORTED_IMAGE_TYPES, SUPPORTED_FORMATS_LABEL, readFileAsDataURL } from '../services/imageCompressionService';
 import { EVENT_TYPES, EVENT_DEFAULT_COLORS, VISUAL_STYLES, MOODS, EVENT_STYLE_SUGGESTIONS } from '../constants';
 
 interface InitialViewProps {
@@ -161,9 +161,14 @@ export const InitialView: React.FC<InitialViewProps> = ({
     setCompressingProgress({ current: 0, total: 1 });
 
     try {
-      const compressedBase64 = await compressImage(file);
-      setCompressingProgress(prev => ({ ...prev, current: 1 }));
-      setAttachments([{ type: 'image', content: compressedBase64, mimeType: 'image/jpeg' }]);
+      let dataUrl: string;
+      try {
+        dataUrl = await compressImage(file);
+      } catch (compressErr) {
+        console.warn('Compresión falló, leyendo archivo directamente:', compressErr);
+        dataUrl = await readFileAsDataURL(file);
+      }
+      setAttachments([{ type: 'image', content: dataUrl, mimeType: file.type || 'image/jpeg' }]);
     } catch (err) {
       console.error('Error al procesar imagen:', err);
       alert('No se pudo procesar la imagen. Intenta con otra.');
@@ -175,9 +180,10 @@ export const InitialView: React.FC<InitialViewProps> = ({
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (!files) return;
+    if (!files || files.length === 0) return;
+    const fileArray = Array.from(files);
     e.target.value = '';
-    await processFiles(files);
+    await processFiles(fileArray);
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -542,7 +548,7 @@ export const InitialView: React.FC<InitialViewProps> = ({
             </div>
 
             {attachments.length > 0 && (
-              <div className="relative mt-2 rounded-2xl overflow-hidden border border-pink-200/60 shadow-lg shadow-pink-100/40 group animate-in fade-in duration-500">
+              <div className="relative mt-2 rounded-2xl overflow-hidden border border-pink-200/60 shadow-lg shadow-pink-100/40 group transition-all duration-500">
                 <img src={attachments[0].content} alt="Inspiración" className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
                 <button
