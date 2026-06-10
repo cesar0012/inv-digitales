@@ -1,5 +1,6 @@
 import { createHash } from 'crypto';
 import https from 'https';
+import db from './database.js';
 import { AESTHETIC_FAMILY_MAP, MODULE_SENSATIONS_MAP } from './agents-prompt.js';
 
 const fetchNoSSL = async (url, options = {}) => {
@@ -412,8 +413,97 @@ Modules: portada, padres, itinerario, ubicacion, countdown, padrinos, corte, ves
 
 Now generate the complete HTML invitation: `;
 
+// === RAG FUNCTIONS FOR GEMINI SERVICE (fallback when not using orchestrator) ===
+const queryRAGTemplateGemini = async (eventType, theme) => {
+  try {
+    let query = 'SELECT * FROM knowledge_base WHERE is_active = 1';
+    const params = [];
+
+    if (eventType) {
+      query += ' AND category = ?';
+      params.push(eventType);
+    }
+
+    if (theme) {
+      query += ' AND (style_name LIKE ? OR theme_tags LIKE ? OR description LIKE ?)';
+      params.push(`%${theme}%`);
+      params.push(`%${theme}%`);
+      params.push(`%${theme}%`);
+    }
+
+    query += ' ORDER BY RANDOM() LIMIT 1';
+    const template = db.prepare(query).get(...params);
+
+    if (!template) return null;
+
+    return {
+      ...template,
+      theme_tags: JSON.parse(template.theme_tags || '[]'),
+      color_palette: JSON.parse(template.color_palette || '{}'),
+      typography_scale: JSON.parse(template.typography_scale || '{}'),
+      animation_rules: JSON.parse(template.animation_rules || '{}'),
+      variation_params: JSON.parse(template.variation_params || '{}')
+    };
+  } catch (error) {
+    console.error('[RAG] Error:', error);
+    return null;
+  }
+};
+
+const buildRAGPromptGemini = (ragTemplate) => {
+  if (!ragTemplate) return '';
+  
+  const parts = [];
+  parts.push(`===== RAG TEMPLATE: ${ragTemplate.style_name} =====`);
+  parts.push(`Description: ${ragTemplate.description}`);
+  parts.push(`Category: ${ragTemplate.category}`);
+  parts.push(`Theme Tags: ${ragTemplate.theme_tags.join(', ')}`);
+
+  if (ragTemplate.color_palette && Object.keys(ragTemplate.color_palette).length > 0) {
+    parts.push(`\nColor Palette:`);
+    Object.entries(ragTemplate.color_palette).forEach(([key, value]) => {
+      parts.push(`  ${key}: ${value}`);
+    });
+  }
+
+  if (ragTemplate.typography_scale) {
+    parts.push(`\nTypography:`);
+    if (ragTemplate.typography_scale.display) parts.push(`  Display: ${ragTemplate.typography_scale.display}`);
+    if (ragTemplate.typography_scale.ui) parts.push(`  UI: ${ragTemplate.typography_scale.ui}`);
+  }
+
+  if (ragTemplate.animation_rules) {
+    parts.push(`\nAnimation Rules:`);
+    Object.entries(ragTemplate.animation_rules).forEach(([key, value]) => {
+      parts.push(`  ${key}: ${value}`);
+    });
+  }
+
+  parts.push(`===== END RAG TEMPLATE =====\n`);
+  return parts.join('\n');
+};
+
 export const generateWithGemini = async (prompt, apiKey, model = 'gemini-3.1-pro', options = {}, attachments = []) => {
-  const { eventType, theme, primaryColor, secondaryColor, imageFiles, promptInstruction, visualStyle, mood } = options;
+  const { eventType, theme, primaryColor, secondaryColor, imageFiles, promptInstruction, visualStyle, mood, userId } = options;
+
+  // ===== CONSULTAR RAG PRIMERO =====
+  let ragContext = '';
+  const ragTemplate = await queryRAGTemplateGemini(eventType, theme);
+  
+  if (ragTemplate) {
+    ragContext = buildRAGPromptGemini(ragTemplate);
+    console.log('[RAG] Usando plantilla:', ragTemplate.style_name);
+    
+    // Track usage
+    if (userId) {
+      try {
+        db.prepare(`INSERT INTO knowledge_base_usage (template_id, user_id, event_type) VALUES (?, ?, ?)`)
+          .run(ragTemplate.id, userId, eventType);
+      } catch (e) {}
+    }
+  } else {
+    console.log('[RAG] Sin plantilla específica, usando fingerprint tradicional');
+  }
   const currentDate = new Date().toISOString().replace('T', ' ').substring(0, 19);
   const promptWithDate = prompt.replace(/SYSTEM_TIMESTAMP:\s*\S+/, `SYSTEM_TIMESTAMP: ${currentDate}`);
   
@@ -442,7 +532,11 @@ export const generateWithGemini = async (prompt, apiKey, model = 'gemini-3.1-pro
     console.log(`📎 Including ${parts.length} reference image(s) in Gemini request`);
   }
 
-  const fullPrompt = `${SYSTEM_INSTRUCTION}${fingerprintBlock}${promptImageContext}${referenceInstruction}${promptWithDate}`;
+  // SI hay RAG disponible, añadirlo después del fingerprint para dar guía de estilo
+  const ragContextBlock = ragContext ? `\n\n${ragContext}\n\n` : '';
+  const fullPrompt = ragContext
+    ? `${SYSTEM_INSTRUCTION}${fingerprintBlock}${ragContextBlock}${promptImageContext}${referenceInstruction}${promptWithDate}`
+    : `${SYSTEM_INSTRUCTION}${fingerprintBlock}${promptImageContext}${referenceInstruction}${promptWithDate}`;
   parts.unshift({ text: fullPrompt });
   
   // CORRECTO: usar v1beta sin API key en URL, mover al header

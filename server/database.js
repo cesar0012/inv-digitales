@@ -390,6 +390,103 @@ const ensureAllUsersHaveData = () => {
   console.log(`📊 Total usuarios verificados: ${users.length}`);
 };
 
+// === RAG KNOWLEDGE BASE TABLES ===
+db.exec(`
+  CREATE TABLE IF NOT EXISTS knowledge_base (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    style_id TEXT UNIQUE NOT NULL,
+    style_name TEXT NOT NULL,
+    description TEXT,
+    category TEXT,
+    theme_tags TEXT,
+    color_palette TEXT,
+    typography_scale TEXT,
+    layout_rules TEXT,
+    modules_def TEXT,
+    base_cdns TEXT,
+    js_dependencies TEXT,
+    animation_rules TEXT,
+    variation_params TEXT,
+    is_active INTEGER DEFAULT 1,
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT
+  )
+`);
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS knowledge_base_usage (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    template_id INTEGER,
+    user_id TEXT,
+    event_type TEXT,
+    used_at TEXT DEFAULT (datetime('now')),
+    FOREIGN KEY (template_id) REFERENCES knowledge_base(id)
+  )
+`);
+
+// === INSERT DEFAULT RAG TEMPLATES ===
+
+// 1. Boda Editorial Minimalista
+const insertRagTemplate1 = db.prepare(`
+  INSERT OR IGNORE INTO knowledge_base (
+    style_id, style_name, description, category, theme_tags,
+    color_palette, typography_scale, layout_rules, modules_def,
+    base_cdns, js_dependencies, animation_rules, variation_params
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+`);
+
+insertRagTemplate1.run(
+  'wed-editorial-minimalista',
+  'Boda Editorial Minimalista',
+  'Composición editorial asimétrica inspirada en revistas de lujo europeas. Espacio negativo protagonista.',
+  'boda',
+  '["elegante", "minimalista", "editorial", "europeo"]',
+  '{"bg_primary": "#F7F3EE", "bg_dark": "#1A1A1A", "accent": "#C9A96E", "text": "#1A1A1A", "text_secondary": "#6B6560"}',
+  '{"display": "Playfair Display", "ui": "DM Sans"}',
+  '{"grid": "CSS columns + Grid", "approach": "Editorial asimétrico", "negative_space": "py-24 py-28"}',
+  '{"portada": {"layout": "fullscreen", "visual": "parallax"}, "countdown": {"layout": "flex-4", "type": "real-time"}, "itinerario": {"layout": "vertical-timeline"}, "ubicacion": {"layout": "grid-2-col"}}',
+  '["tailwindcss", "iconify"]',
+  '["parallax", "countdown", "scroll-reveal"]',
+  '{"scroll_reveal": true, "parallax": true}',
+  '{"layouts": ["fullscreen", "split", "editorial"], "animations": ["fade-in", "parallax"]}'
+);
+
+// 2. XV Años Festivo
+insertRagTemplate1.run(
+  'xv-festivo',
+  'XV Años Festivo',
+  'Estilo festivo y colorido para quinceañeras celebration.',
+  'xv-años',
+  '["xv", "fiesta", "celebracion", "colorido"]',
+  '{"bg_primary": "#FDF2F8", "bg_accent": "#FCE7F3", "accent": "#EC4899", "text": "#831843"}',
+  '{"display": "Playfair Display", "ui": "DM Sans"}',
+  '{"grid": "masonry", "approach": "festy", "negative_space": "py-16 py-20"}',
+  '{"portada": {"layout": "fullscreen", "visual": "hero"}, "countdown": {"layout": "cards-4"}, "galeria": {"layout": "masonry"}}',
+  '["tailwindcss", "iconify"]',
+  '["confetti", "countdown", "hover-effects"]',
+  '{"scroll_reveal": true, "hover_animations": true}',
+  '{"layouts": ["fullscreen", "cards", "masonry"], "animations": ["bounce", "flip"]}'
+);
+
+// 3. Cumpleaños Divertido
+insertRagTemplate1.run(
+  'cumpleanos-divertido',
+  'Cumpleaños Divertido',
+  'Estilo festivo y divertido para cumpleaños.',
+  'cumpleaños',
+  '["divertido", "colorido", "fiesta"]',
+  '{"bg_primary": "#FEF3C7", "bg_accent": "#FDE68A", "accent": "#F59E0B", "text": "#92400E"}',
+  '{"display": "Pacifico", "ui": "Nunito"}',
+  '{"grid": "flex", "approach": "colorful", "negative_space": "py-12 py-16"}',
+  '{"portada": {"layout": "hero", "visual": "colorful"}}',
+  '["tailwindcss"]',
+  '["celebration", "confetti"]',
+  '{"confetti": true}',
+  '{"layouts": ["hero", "cards"], "animations": ["bounce", "celebration"]}'
+);
+
+console.log('✅ Plantillas RAG iniciales insertadas');
+
 ensureUserExists('test_user_001');
 ensureAllUsersHaveData();
 

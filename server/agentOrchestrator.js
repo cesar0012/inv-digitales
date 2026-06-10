@@ -1,4 +1,5 @@
 import https from 'https';
+import db from './database.js';
 import { CODER_SYSTEM_PROMPT, AESTHETIC_FAMILY_MAP, MODULE_SENSATIONS_MAP } from './agents-prompt.js';
 
 const fetchNoSSL = async (url, options = {}) => {
@@ -341,6 +342,120 @@ const fixInvalidImagePaths = (html, imageFiles) => {
   return result;
 };
 
+// === RAG FUNCTIONS ===
+const queryRAGTemplate = async (eventType, theme) => {
+  try {
+    let query = 'SELECT * FROM knowledge_base WHERE is_active = 1';
+    const params = [];
+
+    if (eventType) {
+      query += ' AND category = ?';
+      params.push(eventType);
+    }
+
+    if (theme) {
+      query += ' AND (style_name LIKE ? OR theme_tags LIKE ? OR description LIKE ?)';
+      params.push(`%${theme}%`);
+      params.push(`%${theme}%`);
+      params.push(`%${theme}%`);
+    }
+
+    query += ' ORDER BY RANDOM() LIMIT 1';
+
+    const template = db.prepare(query).get(...params);
+
+    if (!template) {
+      console.log('[RAG] No se encontró plantilla para:', { eventType, theme });
+      return null;
+    }
+
+    console.log('[RAG] Plantilla encontrada:', template.style_name);
+
+    // Parsear JSON fields
+    return {
+      ...template,
+      theme_tags: JSON.parse(template.theme_tags || '[]'),
+      color_palette: JSON.parse(template.color_palette || '{}'),
+      typography_scale: JSON.parse(template.typography_scale || '{}'),
+      layout_rules: JSON.parse(template.layout_rules || '{}'),
+      modules_def: JSON.parse(template.modules_def || '{}'),
+      base_cdns: JSON.parse(template.base_cdns || '[]'),
+      js_dependencies: JSON.parse(template.js_dependencies || '[]'),
+      animation_rules: JSON.parse(template.animation_rules || '{}'),
+      variation_params: JSON.parse(template.variation_params || '{}')
+    };
+  } catch (error) {
+    console.error('[RAG] Error query:', error);
+    return null;
+  }
+};
+
+const buildRAGPrompt = (ragTemplate) => {
+  if (!ragTemplate) return '';
+
+  const parts = [];
+
+  parts.push(`===== RAG TEMPLATE: ${ragTemplate.style_name} =====`);
+  parts.push(`Description: ${ragTemplate.description}`);
+  parts.push(`Category: ${ragTemplate.category}`);
+  parts.push(`Theme Tags: ${ragTemplate.theme_tags.join(', ')}`);
+
+  // Design Tokens
+  if (ragTemplate.color_palette && Object.keys(ragTemplate.color_palette).length > 0) {
+    parts.push(`\nColor Palette:`);
+    Object.entries(ragTemplate.color_palette).forEach(([key, value]) => {
+      parts.push(`  ${key}: ${value}`);
+    });
+  }
+
+  if (ragTemplate.typography_scale) {
+    parts.push(`\nTypography:`);
+    if (ragTemplate.typography_scale.display) {
+      parts.push(`  Display: ${ragTemplate.typography_scale.display}`);
+    }
+    if (ragTemplate.typography_scale.ui) {
+      parts.push(`  UI: ${ragTemplate.typography_scale.ui}`);
+    }
+  }
+
+  if (ragTemplate.layout_rules) {
+    parts.push(`\nLayout Rules:`);
+    Object.entries(ragTemplate.layout_rules).forEach(([key, value]) => {
+      parts.push(`  ${key}: ${value}`);
+    });
+  }
+
+  if (ragTemplate.animation_rules) {
+    parts.push(`\nAnimation Rules:`);
+    Object.entries(ragTemplate.animation_rules).forEach(([key, value]) => {
+      parts.push(`  ${key}: ${value}`);
+    });
+  }
+
+  if (ragTemplate.variation_params) {
+    parts.push(`\nVariation Parameters:`);
+    Object.entries(ragTemplate.variation_params).forEach(([key, value]) => {
+      parts.push(`  ${key}: ${JSON.stringify(value)}`);
+    });
+  }
+
+  parts.push(`===== END RAG TEMPLATE =====\n`);
+
+  return parts.join('\n');
+};
+
+const trackRAGUsage = (templateId, userId, eventType) => {
+  try {
+    db.prepare(`
+      INSERT INTO knowledge_base_usage (template_id, user_id, event_type)
+      VALUES (?, ?, ?)
+    `).run(templateId, userId, eventType);
+  } catch (error) {
+    console.error('[RAG] Error tracking usage:', error);
+  }
+};
+
+// === MAIN ORCHESTRATION FUNCTION ===
 export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro', options = {}, attachments = []) => {
   const {
     eventType = '',
@@ -350,13 +465,34 @@ export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro',
     visualStyle = '',
     mood = '',
     imageFiles = [],
-    promptInstruction = ''
+    promptInstruction = '',
+    userId = ''
   } = options;
 
   console.log('=== ORCHESTRATOR START ===');
   console.log('Event:', eventType, '| Theme:', theme, '| Model:', model, '| Attachments:', attachments?.length || 0);
 
-  // ===== STEP 1: LOCAL — Generate fingerprint & extract metadata =====
+  // ===== STEP 0: CONSULTAR RAG PRIMERO =====
+  let ragContext = '';
+  let ragTemplateFound = null;
+  
+  console.log('[ORQUESTADOR] Step 0: Consultando RAG knowledge base...');
+  const ragTemplate = await queryRAGTemplate(eventType, theme);
+  
+  if (ragTemplate) {
+    ragContext = buildRAGPrompt(ragTemplate);
+    ragTemplateFound = ragTemplate;
+    console.log('[RAG] Usando plantilla:', ragTemplate.style_name);
+    
+    // Track usage
+    if (userId) {
+      trackRAGUsage(ragTemplate.id, userId, eventType);
+    }
+  } else {
+    console.log('[RAG] Sin plantilla específica, usando fingerprint tradicional');
+  }
+
+  // ===== STEP 1: Generate fingerprint (solo si no hay RAG) =====
   console.log('[ORQUESTADOR] Step 1: Generating design fingerprint...');
   const fingerprint = generateDesignFingerprint(eventType, theme, visualStyle, mood, primaryColor, secondaryColor);
   console.log('[ORQUESTADOR] Fingerprint:', fingerprint.raw);
@@ -366,6 +502,9 @@ export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro',
 
   // ===== STEP 2: GEMINI API — CODER call =====
   console.log('[ORQUESTADOR] Step 2: Calling Gemini with CODER prompt...');
+  
+  // SI hay RAG, usarlo como parte del prompt (además del fingerprint para variación)
+  const ragContextBlock = ragContext ? `\n\n${ragContext}\n\n` : '';
   const fingerprintBlock = `\n\n===== DESIGN FINGERPRINT (FOLLOW EXACTLY) =====\n${fingerprint.raw}\n===== END FINGERPRINT =====\n\n`;
   const promptImageContext = promptInstruction ? `\n\n${promptInstruction}` : '';
 
@@ -385,7 +524,10 @@ export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro',
     console.log(`📎 [ORQUESTADOR] Including ${parts.length} reference image(s) in Gemini request`);
   }
 
-  const fullPrompt = `${CODER_SYSTEM_PROMPT}${fingerprintBlock}${promptImageContext}${referenceInstruction}${promptWithDate}`;
+  // SI hay RAG disponible, añadirlo después del fingerprint para dar guía de estilo
+  const fullPrompt = ragContext 
+    ? `${CODER_SYSTEM_PROMPT}${fingerprintBlock}${ragContextBlock}${promptImageContext}${referenceInstruction}${promptWithDate}`
+    : `${CODER_SYSTEM_PROMPT}${fingerprintBlock}${promptImageContext}${referenceInstruction}${promptWithDate}`;
   parts.unshift({ text: fullPrompt });
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;

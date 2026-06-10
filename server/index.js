@@ -2803,7 +2803,8 @@ const geminiOptions = {
         imageFiles: imageFiles || [],
         promptInstruction: (promptInstruction || '') + rsvpInstruction,
         imageApiKey: config.image_api_key || '',
-        imageModel: config.image_model || 'gemini-3.1-flash-image-preview'
+        imageModel: config.image_model || 'gemini-3.1-flash-image-preview',
+        userId: userId // Pasar userId para tracking de uso RAG
       };
 
       const attachmentsForGemini = Array.isArray(attachments) ? attachments : [];
@@ -2899,3 +2900,282 @@ const geminiOptions = {
     res.status(500).json({ error: error.message || 'Error al generar HTML' });
   }
 });
+
+// ==================== RAG KNOWLEDGE BASE ENDPOINTS ====================
+
+// GET /api/admin/rag-templates - Listar todas las plantillas
+app.get('/api/admin/rag-templates', adminMiddleware, (req, res) => {
+  try {
+    const templates = db.prepare(`
+      SELECT id, style_id, style_name, description, category, theme_tags, 
+             is_active, created_at, updated_at
+      FROM knowledge_base 
+      ORDER BY created_at DESC
+    `).all();
+    
+    res.json({ templates });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// GET /api/admin/rag-templates/:id - Obtener una plantilla completa
+app.get('/api/admin/rag-templates/:id', adminMiddleware, (req, res) => {
+  try {
+    const template = db.prepare(`
+      SELECT * FROM knowledge_base WHERE id = ?
+    `).get(req.params.id);
+    
+    if (!template) {
+      return res.status(404).json({ error: 'Plantilla no encontrada' });
+    }
+    
+    // Parsear JSON fields antes de enviar
+    const parsed = {
+      ...template,
+      theme_tags: JSON.parse(template.theme_tags || '[]'),
+      color_palette: JSON.parse(template.color_palette || '{}'),
+      typography_scale: JSON.parse(template.typography_scale || '{}'),
+      layout_rules: JSON.parse(template.layout_rules || '{}'),
+      modules_def: JSON.parse(template.modules_def || '{}'),
+      base_cdns: JSON.parse(template.base_cdns || '[]'),
+      js_dependencies: JSON.parse(template.js_dependencies || '[]'),
+      animation_rules: JSON.parse(template.animation_rules || '{}'),
+      variation_params: JSON.parse(template.variation_params || '{}')
+    };
+    
+    res.json({ template: parsed });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// POST /api/admin/rag-templates - Crear nueva plantilla
+app.post('/api/admin/rag-templates', adminMiddleware, (req, res) => {
+  try {
+    const {
+      style_id, style_name, description, category, theme_tags,
+      color_palette, typography_scale, layout_rules, modules_def,
+      base_cdns, js_dependencies, animation_rules, variation_params
+    } = req.body;
+    
+    // Validar required fields
+    if (!style_id || !style_name || !category) {
+      return res.status(400).json({ error: 'Faltan campos requeridos: style_id, style_name, category' });
+    }
+    
+    const stmt = db.prepare(`
+      INSERT INTO knowledge_base (
+        style_id, style_name, description, category, theme_tags,
+        color_palette, typography_scale, layout_rules, modules_def,
+        base_cdns, js_dependencies, animation_rules, variation_params,
+        created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+    `);
+    
+    const result = stmt.run(
+      style_id, style_name, description || '', category,
+      JSON.stringify(theme_tags || []),
+      JSON.stringify(color_palette || {}),
+      JSON.stringify(typography_scale || {}),
+      JSON.stringify(layout_rules || {}),
+      JSON.stringify(modules_def || {}),
+      JSON.stringify(base_cdns || []),
+      JSON.stringify(js_dependencies || []),
+      JSON.stringify(animation_rules || {}),
+      JSON.stringify(variation_params || {})
+    );
+    
+    res.json({ success: true, id: result.lastInsertRowid });
+  } catch (error) {
+    if (error.message.includes('UNIQUE constraint')) {
+      return res.status(400).json({ error: 'Ya existe una plantilla con ese style_id' });
+    }
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// PUT /api/admin/rag-templates/:id - Actualizar plantilla
+app.put('/api/admin/rag-templates/:id', adminMiddleware, (req, res) => {
+  try {
+    const {
+      style_name, description, category, theme_tags,
+      color_palette, typography_scale, layout_rules, modules_def,
+      base_cdns, js_dependencies, animation_rules, variation_params,
+      is_active
+    } = req.body;
+    
+    const stmt = db.prepare(`
+      UPDATE knowledge_base SET
+        style_name = ?, description = ?, category = ?, theme_tags = ?,
+        color_palette = ?, typography_scale = ?, layout_rules = ?, modules_def = ?,
+        base_cdns = ?, js_dependencies = ?, animation_rules = ?, variation_params = ?,
+        is_active = ?, updated_at = datetime('now')
+      WHERE id = ?
+    `);
+    
+    stmt.run(
+      style_name, description, category, JSON.stringify(theme_tags || []),
+      JSON.stringify(color_palette || {}),
+      JSON.stringify(typography_scale || {}),
+      JSON.stringify(layout_rules || {}),
+      JSON.stringify(modules_def || {}),
+      JSON.stringify(base_cdns || []),
+      JSON.stringify(js_dependencies || []),
+      JSON.stringify(animation_rules || {}),
+      JSON.stringify(variation_params || {}),
+      is_active !== undefined ? (is_active ? 1 : 0) : 1,
+      req.params.id
+    );
+    
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// DELETE /api/admin/rag-templates/:id - Eliminar plantilla
+app.delete('/api/admin/rag-templates/:id', adminMiddleware, (req, res) => {
+  try {
+    // Soft delete - marcar como inactiva
+    db.prepare('UPDATE knowledge_base SET is_active = 0 WHERE id = ?').run(req.params.id);
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// POST /api/admin/rag-templates/analyze - Analizar HTML y convertir a RAG
+app.post('/api/admin/rag-templates/analyze', adminMiddleware, (req, res) => {
+  try {
+    const { html, style_name } = req.body;
+    
+    if (!html || !style_name) {
+      return res.status(400).json({ error: 'HTML y style_name son requeridos' });
+    }
+    
+    // 1. Extraer CDNs usados
+    const cdnMatches = html.match(/src="(https:\/\/cdn[^"]+)"/g) || [];
+    const base_cdns = cdnMatches.map(m => {
+      const url = m.replace(/src="/, '').replace(/"/, '');
+      if (url.includes('tailwindcss')) return 'tailwindcss';
+      if (url.includes('gsap')) return 'gsap';
+      if (url.includes('three')) return 'three';
+      if (url.includes('iconify')) return 'iconify';
+      if (url.includes('animejs')) return 'animejs';
+      return 'other';
+    });
+    
+    // 2. Extraer colores (CSS variables y colores inline)
+    const colorMatches = html.match(/#[0-9A-Fa-f]{3,8}|rgb\([^)]+\)/g) || [];
+    const uniqueColors = [...new Set(colorMatches)].slice(0, 12);
+    const colorPalette = {};
+    uniqueColors.forEach((c, i) => {
+      colorPalette[`color_${i + 1}`] = c;
+    });
+    
+    // 3. Extraer fuentes Google
+    const fontMatches = html.match(/family=([^:&]+)/g) || [];
+    const fonts = fontMatches.map(m => m.replace('family=', '').replace(/:/g, '').replace(/%2B/g, '+'));
+    const typography_scale = {
+      display: fonts[0] || 'default',
+      ui: fonts[1] || 'default'
+    };
+    
+    // 4. Extraer estructura de módulos
+    const modulePatterns = {
+      portada: /data-gemini-id="portada|id="portada"/,
+      padres: /data-gemini-id="padres|id="padres"/,
+      countdown: /data-gemini-id="countdown|id="countdown"/,
+      itinerario: /data-gemini-id="itinerario|data-gemini-id="info-evento"/,
+      ubicacion: /data-gemini-id="ubicacion|data-gemini-id=" venue"/,
+      padrinos: /data-gemini-id="padrinos|id="padrinos"/,
+      corte: /data-gemini-id="corte|data-gemini-id="galeria"/,
+      vestimenta: /data-gemini-id="vestimenta|id="dress-code"/,
+      regalos: /data-gemini-id="regalos|id="regalos"/,
+      confirmacion: /data-gemini-id="confirmacion|id="rsvp"/
+    };
+    
+    const modulesDef = {};
+    Object.entries(modulePatterns).forEach(([modName, pattern]) => {
+      if (pattern.test(html)) {
+        modulesDef[modName] = {
+          detected: true,
+          has_js: new RegExp(`data-gemini-id="${modName}`).test(html),
+          layout_type: html.includes('grid') ? 'grid' : html.includes('flex') ? 'flex' : 'block'
+        };
+      }
+    });
+    
+    // 5. Detectar animaciones CSS
+    const animationRules = {
+      has_keyframes: /@keyframes/.test(html),
+      has_transitions: /transition:/.test(html),
+      has_scroll_reveal: /IntersectionObserver|reveal/.test(html),
+      has_parallax: /transform: translateY/.test(html)
+    };
+    
+    // 6. Variation params extraídos del HTML
+    const variationParams = {
+      uses_grid: html.includes('grid-cols'),
+      uses_flex: html.includes('flex '),
+      uses_masonry: html.includes('columns-'),
+      uses_absolute: html.includes('absolute')
+    };
+    
+    res.json({
+      analysis: {
+        style_id: style_name.toLowerCase().replace(/\s+/g, '-'),
+        base_cdns: [...new Set(base_cdns)],
+        color_palette: colorPalette,
+        typography_scale,
+        modules_def: modulesDef,
+        animation_rules: animationRules,
+        variation_params: variationParams
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// GET /api/rag/query - Query público para buscar plantillas
+app.get('/api/rag/query', (req, res) => {
+  try {
+    const { category, theme, limit = 3 } = req.query;
+    
+    let query = 'SELECT * FROM knowledge_base WHERE is_active = 1';
+    const params = [];
+    
+    if (category) {
+      query += ' AND category = ?';
+      params.push(category);
+    }
+    
+    if (theme) {
+      query += ' AND (theme_tags LIKE ? OR description LIKE ?)';
+      params.push(`%"${theme}"%`);
+      params.push(`%${theme}%`);
+    }
+    
+    query += ' ORDER BY RANDOM() LIMIT ?';
+    params.push(parseInt(limit) || 3);
+    
+    const templates = db.prepare(query).all(...params);
+    
+    // Parsear JSON
+    const parsed = templates.map(t => ({
+      ...t,
+      theme_tags: JSON.parse(t.theme_tags || '[]'),
+      color_palette: JSON.parse(t.color_palette || '{}'),
+      modules_def: JSON.parse(t.modules_def || '{}'),
+      base_cdns: JSON.parse(t.base_cdns || '[]')
+    }));
+    
+    res.json({ templates: parsed });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ==================== FIN RAG ENDPOINTS ====================
