@@ -50,7 +50,7 @@ const JsonField: React.FC<{
         value={displayValue}
         onChange={(e) => onChange(e.target.value)}
         rows={rows}
-        className="w-full border border-gray-300 rounded-lg px-3 py-2 font-mono text-xs focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+        className="w-full border border-gray-300 rounded-lg px-3 py-2 font-mono text-xs focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
       />
     </div>
   );
@@ -106,7 +106,7 @@ export const RAGTemplateModal: React.FC<Props> = ({
       <div className="relative min-h-screen flex items-center justify-center p-4">
         <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
           {/* Header */}
-          <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between bg-gradient-to-r from-pink-600 to-purple-600 rounded-t-xl">
+          <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between bg-purple-600 rounded-t-xl">
             <div className="flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-white" />
               <h3 className="text-lg font-bold text-white">
@@ -129,7 +129,7 @@ export const RAGTemplateModal: React.FC<Props> = ({
                   value={template.style_id || ''}
                   onChange={(e) => update('style_id', e.target.value)}
                   placeholder="xv-festivo"
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                 />
               </div>
               <div>
@@ -139,7 +139,7 @@ export const RAGTemplateModal: React.FC<Props> = ({
                   value={template.style_name || ''}
                   onChange={(e) => update('style_name', e.target.value)}
                   placeholder="XV Años Festivo"
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                 />
               </div>
             </div>
@@ -152,7 +152,7 @@ export const RAGTemplateModal: React.FC<Props> = ({
                 onChange={(e) => update('description', e.target.value)}
                 rows={2}
                 placeholder="Descripción del estilo visual de esta plantilla..."
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
               />
             </div>
 
@@ -163,7 +163,7 @@ export const RAGTemplateModal: React.FC<Props> = ({
                 <select
                   value={template.category || 'boda'}
                   onChange={(e) => update('category', e.target.value)}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                 >
                   {CATEGORIES.map(c => (
                     <option key={c} value={c}>{c}</option>
@@ -177,7 +177,7 @@ export const RAGTemplateModal: React.FC<Props> = ({
                   value={tagsDisplay}
                   onChange={(e) => update('theme_tags', e.target.value.split(',').map(t => t.trim()).filter(Boolean))}
                   placeholder="xv, fiesta, celebracion"
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                 />
               </div>
             </div>
@@ -225,7 +225,7 @@ export const RAGTemplateModal: React.FC<Props> = ({
                     onClick={() => toggleCdn(cdn)}
                     className={`px-3 py-1 rounded-full text-sm font-medium border transition-colors ${
                       cdnsArray.includes(cdn)
-                        ? 'bg-pink-100 border-pink-400 text-pink-700'
+                        ? 'bg-purple-100 border-purple-400 text-purple-700'
                         : 'bg-gray-50 border-gray-300 text-gray-600 hover:bg-gray-100'
                     }`}
                   >
@@ -279,7 +279,7 @@ export const RAGTemplateModal: React.FC<Props> = ({
                 id="is_active"
                 checked={template.is_active !== 0}
                 onChange={(e) => update('is_active', e.target.checked ? 1 : 0)}
-                className="w-4 h-4 text-pink-600 border-gray-300 rounded focus:ring-pink-500"
+                className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-pink-500"
               />
               <label htmlFor="is_active" className="text-sm font-medium text-gray-700">Activa</label>
             </div>
@@ -295,12 +295,12 @@ export const RAGTemplateModal: React.FC<Props> = ({
                 onChange={(e) => onHtmlChange(e.target.value)}
                 rows={6}
                 placeholder="<html>...</html>"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 font-mono text-xs focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 font-mono text-xs focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
               />
               <button
                 onClick={onAnalyze}
                 disabled={isAnalyzing || !htmlInput.trim()}
-                className="mt-2 flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-lg hover:from-pink-600 hover:to-purple-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="mt-2 flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isAnalyzing ? (
                   <>
@@ -328,7 +328,7 @@ export const RAGTemplateModal: React.FC<Props> = ({
             <button
               onClick={onSave}
               disabled={saving}
-              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-lg hover:from-pink-600 hover:to-purple-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {saving ? (
                 <>

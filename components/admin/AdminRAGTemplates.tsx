@@ -92,17 +92,18 @@ export const AdminRAGTemplates: React.FC = () => {
   };
 
   const analyzeHtml = async () => {
-    if (!htmlInput || !selectedTemplate.style_name) return;
+    if (!htmlInput.trim()) return;
     
     setIsAnalyzing(true);
     setAnalysisResult(null);
     try {
-      const result = await analyzeRAGHtml(htmlInput, selectedTemplate.style_name);
+      const result = await analyzeRAGHtml(htmlInput, selectedTemplate.style_name || 'auto');
       const a = result.analysis;
       setAnalysisResult(a);
       setSelectedTemplate(prev => ({
         ...prev,
-        style_id: a.style_id || prev.style_id,
+        style_id: (!prev.style_id && a.style_id) ? a.style_id : prev.style_id,
+        style_name: (!prev.style_name || prev.style_name === '') ? (a.style_name || a.style_id || '') : prev.style_name,
         description: a.description || prev.description,
         category: a.category || prev.category,
         theme_tags: a.theme_tags && a.theme_tags.length > 0 ? a.theme_tags : prev.theme_tags,
@@ -187,7 +188,7 @@ export const AdminRAGTemplates: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-xl flex items-center justify-center">
+          <div className="w-10 h-10 bg-purple-600 rounded-xl flex items-center justify-center">
             <BookOpen className="w-5 h-5 text-white" />
           </div>
           <div>
@@ -197,7 +198,7 @@ export const AdminRAGTemplates: React.FC = () => {
         </div>
         <button
           onClick={handleCreate}
-          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-xl hover:from-purple-600 hover:to-indigo-600 transition-all"
+          className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-all"
         >
           <Plus className="w-4 h-4" />
           Nueva Plantilla

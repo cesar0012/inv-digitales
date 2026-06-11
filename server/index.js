@@ -3050,8 +3050,8 @@ app.post('/api/admin/rag-templates/analyze', adminMiddleware, async (req, res) =
   try {
     const { html, style_name } = req.body;
     
-    if (!html || !style_name) {
-      return res.status(400).json({ error: 'HTML y style_name son requeridos' });
+    if (!html) {
+      return res.status(400).json({ error: 'HTML es requerido' });
     }
     
     // 1. Quick regex extraction as baseline
@@ -3085,6 +3085,8 @@ app.post('/api/admin/rag-templates/analyze', adminMiddleware, async (req, res) =
 Return ONLY a valid JSON object with these exact fields (no markdown, no code fences, no explanation):
 
 {
+  "style_id": "kebab-case-id-for-this-style",
+  "style_name": "Human-readable style name",
   "description": "A vivid 1-2 sentence description of the visual style and aesthetic of this invitation",
   "category": "One of: boda, xv-años, cumpleaños, bautizo, comunion, baby-shower, otro",
   "theme_tags": ["tag1", "tag2", "tag3"],
@@ -3175,7 +3177,8 @@ ${html.substring(0, 30000)}`;
     
     // 3. Build final analysis: LLM takes priority, regex fills gaps
     const analysis = {
-      style_id: style_name.toLowerCase().replace(/\s+/g, '-'),
+      style_id: llmAnalysis?.style_id || style_name?.toLowerCase().replace(/\s+/g, '-') || 'auto-detected',
+      style_name: llmAnalysis?.style_name || style_name || '',
       description: llmAnalysis?.description || '',
       category: llmAnalysis?.category || 'otro',
       theme_tags: llmAnalysis?.theme_tags || [],
