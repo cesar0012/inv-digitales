@@ -410,3 +410,100 @@ export const uploadPlansBackup = async (data: PlansBackupData): Promise<{ succes
 
   return response.json();
 };
+
+// ==================== RAG KNOWLEDGE BASE ====================
+
+export interface RAGTemplate {
+  id?: number;
+  style_id: string;
+  style_name: string;
+  description: string;
+  category: string;
+  theme_tags: string[];
+  color_palette: Record<string, string>;
+  typography_scale: Record<string, string>;
+  layout_rules: Record<string, string>;
+  modules_def: Record<string, any>;
+  base_cdns: string[];
+  js_dependencies: string[];
+  animation_rules: Record<string, any>;
+  variation_params: Record<string, any>;
+  is_active: number;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export const getRAGTemplates = async (): Promise<{ templates: RAGTemplate[] }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-templates`, {
+    method: 'GET',
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al cargar plantillas RAG');
+  }
+  return response.json();
+};
+
+export const getRAGTemplate = async (id: number): Promise<{ template: RAGTemplate }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-templates/${id}`, {
+    method: 'GET',
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al cargar plantilla');
+  }
+  return response.json();
+};
+
+export const createRAGTemplate = async (template: Partial<RAGTemplate>): Promise<{ success: boolean; id: number }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-templates`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(template)
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al crear plantilla');
+  }
+  return response.json();
+};
+
+export const updateRAGTemplate = async (id: number, template: Partial<RAGTemplate>): Promise<{ success: boolean }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-templates/${id}`, {
+    method: 'PUT',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(template)
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al actualizar plantilla');
+  }
+  return response.json();
+};
+
+export const deleteRAGTemplate = async (id: number): Promise<{ success: boolean }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-templates/${id}`, {
+    method: 'DELETE',
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al eliminar plantilla');
+  }
+  return response.json();
+};
+
+export const analyzeRAGHtml = async (html: string, styleName: string): Promise<{ analysis: any }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-templates/analyze`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify({ html, style_name: styleName })
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al analizar HTML');
+  }
+  return response.json();
+};

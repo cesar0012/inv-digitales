@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Home, Settings, Users, History, Star, CreditCard } from 'lucide-react';
+import { Home, Settings, Users, History, Star, CreditCard, BookOpen } from 'lucide-react';
 import { AdminModels } from './admin/AdminModels';
 import { AdminUsers } from './admin/AdminUsers';
 import { AdminHistory } from './admin/AdminHistory';
 import { AdminPlans } from './admin/AdminPlans';
+import { AdminRAGTemplates } from './admin/AdminRAGTemplates';
 
-type AdminTab = 'models' | 'users' | 'history' | 'plans';
+type AdminTab = 'models' | 'users' | 'history' | 'plans' | 'rag';
 
 export const AdminView: React.FC = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ export const AdminView: React.FC = () => {
     { id: 'models' as const, label: 'Modelos AI', icon: Settings },
     { id: 'users' as const, label: 'Usuarios', icon: Users },
     { id: 'plans' as const, label: 'Planes', icon: CreditCard },
+    { id: 'rag' as const, label: 'RAG', icon: BookOpen },
     { id: 'history' as const, label: 'Historial', icon: History },
   ];
 
@@ -72,6 +74,7 @@ export const AdminView: React.FC = () => {
           {activeTab === 'models' && <AdminModels />}
           {activeTab === 'users' && <AdminUsers />}
           {activeTab === 'plans' && <AdminPlans />}
+          {activeTab === 'rag' && <AdminRAGTemplates />}
           {activeTab === 'history' && <AdminHistory />}
         </div>
       </div>
