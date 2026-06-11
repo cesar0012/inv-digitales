@@ -3045,8 +3045,8 @@ app.delete('/api/admin/rag-templates/:id', adminMiddleware, (req, res) => {
   }
 });
 
-// POST /api/admin/rag-templates/analyze - Analizar HTML y convertir a RAG
-app.post('/api/admin/rag-templates/analyze', adminMiddleware, (req, res) => {
+// POST /api/admin/rag-templates/analyze - Analizar HTML y convertir a RAG usando LLM
+app.post('/api/admin/rag-templates/analyze', adminMiddleware, async (req, res) => {
   try {
     const { html, style_name } = req.body;
     
@@ -3054,87 +3054,188 @@ app.post('/api/admin/rag-templates/analyze', adminMiddleware, (req, res) => {
       return res.status(400).json({ error: 'HTML y style_name son requeridos' });
     }
     
-    // 1. Extraer CDNs usados
+    // 1. Quick regex extraction as baseline
     const cdnMatches = html.match(/src="(https:\/\/cdn[^"]+)"/g) || [];
-    const base_cdns = cdnMatches.map(m => {
+    const regexCdns = [...new Set(cdnMatches.map(m => {
       const url = m.replace(/src="/, '').replace(/"/, '');
       if (url.includes('tailwindcss')) return 'tailwindcss';
       if (url.includes('gsap')) return 'gsap';
+      if (url.includes('scrolltrigger')) return 'scrolltrigger';
       if (url.includes('three')) return 'three';
       if (url.includes('iconify')) return 'iconify';
       if (url.includes('animejs')) return 'animejs';
-      return 'other';
-    });
+      if (url.includes('tsparticles')) return 'tsparticles';
+      return null;
+    }).filter(Boolean))];
     
-    // 2. Extraer colores (CSS variables y colores inline)
     const colorMatches = html.match(/#[0-9A-Fa-f]{3,8}|rgb\([^)]+\)/g) || [];
-    const uniqueColors = [...new Set(colorMatches)].slice(0, 12);
-    const colorPalette = {};
-    uniqueColors.forEach((c, i) => {
-      colorPalette[`color_${i + 1}`] = c;
-    });
+    const regexColors = [...new Set(colorMatches)].slice(0, 15);
     
-    // 3. Extraer fuentes Google
-    const fontMatches = html.match(/family=([^:&]+)/g) || [];
-    const fonts = fontMatches.map(m => m.replace('family=', '').replace(/:/g, '').replace(/%2B/g, '+'));
-    const typography_scale = {
-      display: fonts[0] || 'default',
-      ui: fonts[1] || 'default'
-    };
+    const fontMatches = html.match(/family=([^:&"']+)/g) || [];
+    const regexFonts = fontMatches.map(m => m.replace('family=', '').replace(/:/g, '').replace(/\+/g, ' '));
     
-    // 4. Extraer estructura de módulos
-    const modulePatterns = {
-      portada: /data-gemini-id="portada|id="portada"/,
-      padres: /data-gemini-id="padres|id="padres"/,
-      countdown: /data-gemini-id="countdown|id="countdown"/,
-      itinerario: /data-gemini-id="itinerario|data-gemini-id="info-evento"/,
-      ubicacion: /data-gemini-id="ubicacion|data-gemini-id=" venue"/,
-      padrinos: /data-gemini-id="padrinos|id="padrinos"/,
-      corte: /data-gemini-id="corte|data-gemini-id="galeria"/,
-      vestimenta: /data-gemini-id="vestimenta|id="dress-code"/,
-      regalos: /data-gemini-id="regalos|id="regalos"/,
-      confirmacion: /data-gemini-id="confirmacion|id="rsvp"/
-    };
+    // 2. Try LLM-based extraction
+    const config = db.prepare('SELECT * FROM admin_config WHERE id = 1').get();
+    let llmAnalysis = null;
     
-    const modulesDef = {};
-    Object.entries(modulePatterns).forEach(([modName, pattern]) => {
-      if (pattern.test(html)) {
-        modulesDef[modName] = {
-          detected: true,
-          has_js: new RegExp(`data-gemini-id="${modName}`).test(html),
-          layout_type: html.includes('grid') ? 'grid' : html.includes('flex') ? 'flex' : 'block'
+    if (config && config.html_google_api_key) {
+      try {
+        const analyzePrompt = `You are an expert web designer analyzing HTML invitation code to extract a RAG (Retrieval-Augmented Generation) template. Analyze the following HTML code and extract ALL design properties.
+
+Return ONLY a valid JSON object with these exact fields (no markdown, no code fences, no explanation):
+
+{
+  "description": "A vivid 1-2 sentence description of the visual style and aesthetic of this invitation",
+  "category": "One of: boda, xv-años, cumpleaños, bautizo, comunion, baby-shower, otro",
+  "theme_tags": ["tag1", "tag2", "tag3"],
+  "color_palette": {
+    "bg_primary": "#hex",
+    "bg_secondary": "#hex",
+    "bg_accent": "#hex",
+    "accent": "#hex",
+    "text": "#hex",
+    "text_secondary": "#hex"
+  },
+  "typography_scale": {
+    "display": "Font name for headings",
+    "ui": "Font name for body/UI text"
+  },
+  "layout_rules": {
+    "grid": "CSS grid approach used",
+    "approach": "Overall layout strategy description",
+    "negative_space": "Tailwind spacing pattern like py-24 py-28"
+  },
+  "modules_def": {
+    "portada": {"layout": "layout type", "visual": "visual effect"},
+    "countdown": {"layout": "layout type", "type": "timer type"},
+    "itinerario": {"layout": "layout type"},
+    "ubicacion": {"layout": "layout type"},
+    "padrinos": {"layout": "layout type"},
+    "padres": {"layout": "layout type"}
+  },
+  "base_cdns": ["tailwindcss", "iconify"],
+  "js_dependencies": ["gsap", "scrolltrigger"],
+  "animation_rules": {
+    "scroll_reveal": true/false,
+    "parallax": true/false,
+    "hover_animations": true/false,
+    "keyframe_animations": true/false,
+    "description": "Brief description of animation style"
+  },
+  "variation_params": {
+    "layouts": ["list of layout variations possible"],
+    "animations": ["list of animation variations possible"],
+    "color_variations": ["description of how colors can vary"]
+  }
+}
+
+Be thorough and specific. Extract actual colors, fonts, and patterns from the HTML. Infer the category from the content. Generate meaningful theme tags. Describe the layout approach and animation patterns precisely.
+
+HTML to analyze:
+${html.substring(0, 30000)}`;
+
+        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${config.html_google_model || 'gemini-2.0-flash'}:generateContent`;
+        
+        const httpsAgent = new (await import('https')).Agent({ rejectUnauthorized: false });
+        const llmResponse = await fetch(geminiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-goog-api-key': config.html_google_api_key
+          },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: analyzePrompt }] }],
+            generationConfig: {
+              temperature: 0.2,
+              topP: 0.8,
+              maxOutputTokens: 4096
+            }
+          })
+        });
+
+        if (llmResponse.ok) {
+          const llmData = await llmResponse.json();
+          const llmText = llmData.candidates?.[0]?.content?.parts?.[0]?.text || '';
+          
+          const jsonMatch = llmText.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            llmAnalysis = JSON.parse(jsonMatch[0]);
+            console.log('[RAG ANALYZE] LLM extraction successful');
+          }
+        } else {
+          const errBody = await llmResponse.text();
+          console.log('[RAG ANALYZE] LLM call failed, using regex fallback:', llmResponse.status, errBody.substring(0, 200));
+        }
+      } catch (llmError) {
+        console.error('[RAG ANALYZE] LLM error, using regex fallback:', llmError.message);
+      }
+    } else {
+      console.log('[RAG ANALYZE] No Gemini API key configured, using regex extraction only');
+    }
+    
+    // 3. Build final analysis: LLM takes priority, regex fills gaps
+    const analysis = {
+      style_id: style_name.toLowerCase().replace(/\s+/g, '-'),
+      description: llmAnalysis?.description || '',
+      category: llmAnalysis?.category || 'otro',
+      theme_tags: llmAnalysis?.theme_tags || [],
+      color_palette: llmAnalysis?.color_palette || (() => {
+        const cp = {};
+        regexColors.forEach((c, i) => { cp[`color_${i + 1}`] = c; });
+        return cp;
+      })(),
+      typography_scale: llmAnalysis?.typography_scale || {
+        display: regexFonts[0] || 'default',
+        ui: regexFonts[1] || 'default'
+      },
+      layout_rules: llmAnalysis?.layout_rules || {
+        grid: html.includes('grid-cols') ? 'CSS Grid' : html.includes('flex') ? 'Flexbox' : 'Block',
+        approach: 'Extracted from HTML structure',
+        negative_space: 'py-16'
+      },
+      modules_def: llmAnalysis?.modules_def || (() => {
+        const modulePatterns = {
+          portada: /data-gemini-id="portada|id="portada"/,
+          padres: /data-gemini-id="padres|id="padres"/,
+          countdown: /data-gemini-id="countdown|id="countdown"/,
+          itinerario: /data-gemini-id="itinerario|data-gemini-id="info-evento"/,
+          ubicacion: /data-gemini-id="ubicacion|data-gemini-id="venue"/,
+          padrinos: /data-gemini-id="padrinos|id="padrinos"/,
+          corte: /data-gemini-id="corte|data-gemini-id="galeria"/,
+          vestimenta: /data-gemini-id="vestimenta|id="dress-code"/,
+          regalos: /data-gemini-id="regalos|id="regalos"/,
+          confirmacion: /data-gemini-id="confirmacion|id="rsvp"/
         };
+        const md = {};
+        Object.entries(modulePatterns).forEach(([modName, pattern]) => {
+          if (pattern.test(html)) {
+            md[modName] = {
+              detected: true,
+              layout_type: html.includes('grid') ? 'grid' : html.includes('flex') ? 'flex' : 'block'
+            };
+          }
+        });
+        return md;
+      })(),
+      base_cdns: llmAnalysis?.base_cdns || regexCdns.length > 0 ? regexCdns : ['tailwindcss'],
+      js_dependencies: llmAnalysis?.js_dependencies || [],
+      animation_rules: llmAnalysis?.animation_rules || {
+        has_keyframes: /@keyframes/.test(html),
+        has_transitions: /transition:/.test(html),
+        has_scroll_reveal: /IntersectionObserver|reveal/.test(html),
+        has_parallax: /transform: translateY/.test(html)
+      },
+      variation_params: llmAnalysis?.variation_params || {
+        uses_grid: html.includes('grid-cols'),
+        uses_flex: html.includes('flex '),
+        uses_masonry: html.includes('columns-'),
+        uses_absolute: html.includes('absolute')
       }
-    });
-    
-    // 5. Detectar animaciones CSS
-    const animationRules = {
-      has_keyframes: /@keyframes/.test(html),
-      has_transitions: /transition:/.test(html),
-      has_scroll_reveal: /IntersectionObserver|reveal/.test(html),
-      has_parallax: /transform: translateY/.test(html)
     };
     
-    // 6. Variation params extraídos del HTML
-    const variationParams = {
-      uses_grid: html.includes('grid-cols'),
-      uses_flex: html.includes('flex '),
-      uses_masonry: html.includes('columns-'),
-      uses_absolute: html.includes('absolute')
-    };
-    
-    res.json({
-      analysis: {
-        style_id: style_name.toLowerCase().replace(/\s+/g, '-'),
-        base_cdns: [...new Set(base_cdns)],
-        color_palette: colorPalette,
-        typography_scale,
-        modules_def: modulesDef,
-        animation_rules: animationRules,
-        variation_params: variationParams
-      }
-    });
+    res.json({ analysis });
   } catch (error) {
+    console.error('[RAG ANALYZE] Error:', error);
     res.status(500).json({ error: error.message });
   }
 });

@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { X, Upload, Loader2, Save } from 'lucide-react';
+import React from 'react';
+import { X, Loader2, Save, Sparkles } from 'lucide-react';
 
 const CATEGORIES = ['boda', 'xv-años', 'cumpleaños', 'bautizo', 'comunion', 'baby-shower', 'otro'];
 const CDN_OPTIONS = ['tailwindcss', 'iconify', 'gsap', 'scrolltrigger', 'three', 'animejs', 'tsparticles'];
@@ -36,195 +36,315 @@ interface Props {
   onHtmlChange: (html: string) => void;
 }
 
-// References para el modal nativo
-let modalContainer: HTMLDivElement | null = null;
+const JsonField: React.FC<{
+  label: string;
+  value: object | string;
+  onChange: (val: string) => void;
+  rows?: number;
+}> = ({ label, value, onChange, rows = 3 }) => {
+  const displayValue = typeof value === 'string' ? value : JSON.stringify(value, null, 2);
+  return (
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <textarea
+        value={displayValue}
+        onChange={(e) => onChange(e.target.value)}
+        rows={rows}
+        className="w-full border border-gray-300 rounded-lg px-3 py-2 font-mono text-xs focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+      />
+    </div>
+  );
+};
 
-function createModalElement(props: Props): HTMLDivElement {
-  const { 
-    template, isAnalyzing, analysisResult, htmlInput, saving,
-    onClose, onSave, onAnalyze, onUpdateTemplate, onHtmlChange 
-  } = props;
+export const RAGTemplateModal: React.FC<Props> = ({
+  isOpen,
+  template,
+  isAnalyzing,
+  htmlInput,
+  saving,
+  onClose,
+  onSave,
+  onAnalyze,
+  onUpdateTemplate,
+  onHtmlChange
+}) => {
+  if (!isOpen) return null;
 
-  // Crear contenedor principal
-  const container = document.createElement('div');
-  container.id = 'rag-modal-wrapper';
-  container.style.cssText = 'position:fixed;inset:0;z-index:999999;pointer-events:auto';
+  const update = (field: string, value: any) => {
+    onUpdateTemplate({ ...template, [field]: value });
+  };
 
-  // Overlay
-  const overlay = document.createElement('div');
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5)';
-  overlay.onclick = onClose;
+  const tagsDisplay = Array.isArray(template.theme_tags)
+    ? template.theme_tags.join(', ')
+    : (template.theme_tags || '');
 
-  // Modal wrapper
-  const wrapper = document.createElement('div');
-  wrapper.style.cssText = 'position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem';
+  const cdnsArray: string[] = Array.isArray(template.base_cdns)
+    ? template.base_cdns
+    : (typeof template.base_cdns === 'string' && template.base_cdns ? JSON.parse(template.base_cdns as string || '[]') : []);
 
-  // Modal content
-  const modal = document.createElement('div');
-  modal.style.cssText = 'background:white;border-radius:0.75rem;box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);width:100%;max-width:56rem;max-height:90vh;overflow:hidden;display:flex;flex-direction:column';
+  const jsDepsArray: string[] = Array.isArray(template.js_dependencies)
+    ? template.js_dependencies
+    : (typeof template.js_dependencies === 'string' && template.js_dependencies ? JSON.parse(template.js_dependencies as string || '[]') : []);
 
-  // Header
-  const header = document.createElement('div');
-  header.style.cssText = 'padding:1.5rem;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;background:#db2777;border-radius:0.75rem 0.75rem 0 0';
-  header.innerHTML = `<h3 style="margin:0;font-size:1.125rem;font-weight:700;color:white">${template.id ? 'Editar' : 'Nueva'} Plantilla RAG</h3>`;
-  const closeBtn = document.createElement('button');
-  closeBtn.innerHTML = '✕';
-  closeBtn.style.cssText = 'background:none;border:none;color:white;font-size:1.25rem;cursor:pointer;padding:0.25rem';
-  closeBtn.onclick = onClose;
-  header.appendChild(closeBtn);
+  const toggleCdn = (cdn: string) => {
+    const current = cdnsArray.includes(cdn)
+      ? cdnsArray.filter((c: string) => c !== cdn)
+      : [...cdnsArray, cdn];
+    update('base_cdns', current);
+  };
 
-  // Body
-  const body = document.createElement('div');
-  body.style.cssText = 'flex:1;overflow:auto;padding:1.5rem;display:flex;flex-direction:column;gap:1rem';
+  const toggleJsDep = (dep: string) => {
+    const current = jsDepsArray.includes(dep)
+      ? jsDepsArray.filter((d: string) => d !== dep)
+      : [...jsDepsArray, dep];
+    update('js_dependencies', current);
+  };
 
-  // Style ID input
-  const row1 = document.createElement('div');
-  row1.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:1rem';
-  const styleIdWrap = document.createElement('div');
-  styleIdWrap.innerHTML = '<label style="display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.25rem">Style ID *</label>';
-  const styleId = document.createElement('input');
-  styleId.value = template.style_id || '';
-  styleId.placeholder = 'xv-festivo';
-  styleId.style.cssText = 'width:100%;border:1px solid #e5e7eb;border-radius:0.5rem;padding:0.5rem 0.75rem';
-  styleId.oninput = (e) => onUpdateTemplate({...template, style_id: (e.target as HTMLInputElement).value});
-  styleIdWrap.appendChild(styleId);
-  const nameWrap = document.createElement('div');
-  nameWrap.innerHTML = '<label style="display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.25rem">Nombre *</label>';
-  const nameIn = document.createElement('input');
-  nameIn.value = template.style_name || '';
-  nameIn.placeholder = 'XV Años Festivo';
-  nameIn.style.cssText = 'width:100%;border:1px solid #e5e7eb;border-radius:0.5rem;padding:0.5rem 0.75rem';
-  nameIn.oninput = (e) => onUpdateTemplate({...template, style_name: (e.target as HTMLInputElement).value});
-  nameWrap.appendChild(nameIn);
-  row1.appendChild(styleIdWrap);
-  row1.appendChild(nameWrap);
-  body.appendChild(row1);
+  return (
+    <div className="fixed inset-0 z-[999999] pointer-events-auto">
+      <div className="fixed inset-0 bg-black/50" onClick={onClose} />
+      <div className="relative min-h-screen flex items-center justify-center p-4">
+        <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+          {/* Header */}
+          <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between bg-gradient-to-r from-pink-600 to-purple-600 rounded-t-xl">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-white" />
+              <h3 className="text-lg font-bold text-white">
+                {template.id ? 'Editar' : 'Nueva'} Plantilla RAG
+              </h3>
+            </div>
+            <button onClick={onClose} className="text-white/80 hover:text-white p-1">
+              <X className="w-5 h-5" />
+            </button>
+          </div>
 
-  // Description
-  const descWrap = document.createElement('div');
-  descWrap.innerHTML = '<label style="display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.25rem">Descripción</label>';
-  const descIn = document.createElement('textarea');
-  descIn.value = template.description || '';
-  descIn.rows = 2;
-  descIn.style.cssText = 'width:100%;border:1px solid #e5e7eb;border-radius:0.5rem;padding:0.5rem 0.75rem';
-  descIn.oninput = (e) => onUpdateTemplate({...template, description: (e.target as HTMLTextAreaElement).value});
-  descWrap.appendChild(descIn);
-  body.appendChild(descWrap);
+          {/* Body */}
+          <div className="flex-1 overflow-y-auto p-6 space-y-5">
+            {/* Row: Style ID + Name */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Style ID *</label>
+                <input
+                  type="text"
+                  value={template.style_id || ''}
+                  onChange={(e) => update('style_id', e.target.value)}
+                  placeholder="xv-festivo"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nombre *</label>
+                <input
+                  type="text"
+                  value={template.style_name || ''}
+                  onChange={(e) => update('style_name', e.target.value)}
+                  placeholder="XV Años Festivo"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+                />
+              </div>
+            </div>
 
-  // Category & Tags
-  const row2 = document.createElement('div');
-  row2.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:1rem';
-  const catWrap = document.createElement('div');
-  catWrap.innerHTML = '<label style="display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.25rem">Categoría *</label>';
-  const catSel = document.createElement('select');
-  catSel.value = template.category || 'boda';
-  catSel.style.cssText = 'width:100%;border:1px solid #e5e7eb;border-radius:0.5rem;padding:0.5rem 0.75rem';
-  CATEGORIES.forEach(c => {
-    const opt = document.createElement('option');
-    opt.value = c;
-    opt.textContent = c;
-    if (c === template.category) opt.selected = true;
-    catSel.appendChild(opt);
-  });
-  catSel.onchange = (e) => onUpdateTemplate({...template, category: (e.target as HTMLSelectElement).value});
-  catWrap.appendChild(catSel);
-  const tagsWrap = document.createElement('div');
-  tagsWrap.innerHTML = '<label style="display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.25rem">Etiquetas</label>';
-  const tagsIn = document.createElement('input');
-  const tagsVal = Array.isArray(template.theme_tags) ? template.theme_tags.join(', ') : (template.theme_tags || '');
-  tagsIn.value = tagsVal;
-  tagsIn.placeholder = 'xv, fiesta, celebracion';
-  tagsIn.style.cssText = 'width:100%;border:1px solid #e5e7eb;border-radius:0.5rem;padding:0.5rem 0.75rem';
-  tagsIn.oninput = (e) => onUpdateTemplate({...template, theme_tags: (e.target as HTMLInputElement).value.split(',').map(t => t.trim()).filter(Boolean)});
-  tagsWrap.appendChild(tagsIn);
-  row2.appendChild(catWrap);
-  row2.appendChild(tagsWrap);
-  body.appendChild(row2);
+            {/* Description */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
+              <textarea
+                value={template.description || ''}
+                onChange={(e) => update('description', e.target.value)}
+                rows={2}
+                placeholder="Descripción del estilo visual de esta plantilla..."
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+              />
+            </div>
 
-  // Analyzer
-  const analyzer = document.createElement('div');
-  analyzer.style.cssText = 'border-top:1px solid #e5e7eb;padding-top:1rem';
-  analyzer.innerHTML = '<h4 style="font-weight:500;margin:0 0 0.5rem">Analizador HTML → RAG</h4><p style="font-size:0.875rem;color:#6b7280;margin:0 0 0.5rem">Pega código HTML para extraer estructura</p>';
-  const htmlArea = document.createElement('textarea');
-  htmlArea.value = htmlInput;
-  htmlArea.rows = 6;
-  htmlArea.placeholder = '<html>...</html>';
-  htmlArea.style.cssText = 'width:100%;border:1px solid #e5e7eb;border-radius:0.5rem;padding:0.5rem;font-family:monospace;font-size:0.75rem';
-  htmlArea.oninput = (e) => onHtmlChange((e.target as HTMLTextAreaElement).value);
-  analyzer.appendChild(htmlArea);
-  const analyzeBtn = document.createElement('button');
-  analyzeBtn.textContent = isAnalyzing ? 'Analizando...' : 'Analizar HTML';
-  analyzeBtn.disabled = isAnalyzing || !htmlInput;
-  analyzeBtn.style.cssText = 'margin-top:0.5rem;padding:0.5rem 1rem;background:#db2777;color:white;border-radius:0.5rem;border:none;cursor:' + (isAnalyzing || !htmlInput ? 'not-allowed' : 'pointer');
-  analyzeBtn.onclick = onAnalyze;
-  analyzer.appendChild(analyzeBtn);
-  body.appendChild(analyzer);
+            {/* Row: Category + Tags */}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Categoría *</label>
+                <select
+                  value={template.category || 'boda'}
+                  onChange={(e) => update('category', e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+                >
+                  {CATEGORIES.map(c => (
+                    <option key={c} value={c}>{c}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Etiquetas (separadas por coma)</label>
+                <input
+                  type="text"
+                  value={tagsDisplay}
+                  onChange={(e) => update('theme_tags', e.target.value.split(',').map(t => t.trim()).filter(Boolean))}
+                  placeholder="xv, fiesta, celebracion"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+                />
+              </div>
+            </div>
 
-  // Footer
-  const footer = document.createElement('div');
-  footer.style.cssText = 'padding:1.5rem;border-top:1px solid #e5e7eb;display:flex;justify-content:flex-end;gap:0.75rem';
-  const cancelBtn = document.createElement('button');
-  cancelBtn.textContent = 'Cancelar';
-  cancelBtn.style.cssText = 'padding:0.5rem 1rem;border:1px solid #e5e7eb;border-radius:0.5rem;background:white;cursor:pointer';
-  cancelBtn.onclick = onClose;
-  const saveBtn = document.createElement('button');
-  saveBtn.textContent = saving ? 'Guardando...' : 'Guardar';
-  saveBtn.disabled = saving;
-  saveBtn.style.cssText = 'padding:0.5rem 1rem;background:#db2777;color:white;border-radius:0.5rem;border:none;cursor:' + (saving ? 'not-allowed' : 'pointer');
-  saveBtn.onclick = onSave;
-  footer.appendChild(cancelBtn);
-  footer.appendChild(saveBtn);
+            {/* JSON Fields: Color Palette + Typography */}
+            <div className="grid grid-cols-2 gap-4">
+              <JsonField
+                label="Color Palette (JSON)"
+                value={template.color_palette || {}}
+                onChange={(val) => update('color_palette', val)}
+                rows={4}
+              />
+              <JsonField
+                label="Typography Scale (JSON)"
+                value={template.typography_scale || {}}
+                onChange={(val) => update('typography_scale', val)}
+                rows={4}
+              />
+            </div>
 
-  // Assemble modal
-  modal.appendChild(header);
-  modal.appendChild(body);
-  modal.appendChild(footer);
-  wrapper.appendChild(modal);
-  container.appendChild(overlay);
-  container.appendChild(wrapper);
+            {/* JSON Fields: Layout Rules + Modules Def */}
+            <div className="grid grid-cols-2 gap-4">
+              <JsonField
+                label="Layout Rules (JSON)"
+                value={template.layout_rules || {}}
+                onChange={(val) => update('layout_rules', val)}
+                rows={4}
+              />
+              <JsonField
+                label="Modules Definition (JSON)"
+                value={template.modules_def || {}}
+                onChange={(val) => update('modules_def', val)}
+                rows={4}
+              />
+            </div>
 
-  return container;
-}
+            {/* CDNs */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">CDNs Base</label>
+              <div className="flex flex-wrap gap-2">
+                {CDN_OPTIONS.map(cdn => (
+                  <button
+                    key={cdn}
+                    type="button"
+                    onClick={() => toggleCdn(cdn)}
+                    className={`px-3 py-1 rounded-full text-sm font-medium border transition-colors ${
+                      cdnsArray.includes(cdn)
+                        ? 'bg-pink-100 border-pink-400 text-pink-700'
+                        : 'bg-gray-50 border-gray-300 text-gray-600 hover:bg-gray-100'
+                    }`}
+                  >
+                    {cdn}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-export const RAGTemplateModal: React.FC<Props> = (props) => {
-  const isOpen = props.isOpen;
+            {/* JS Dependencies */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">JS Dependencies</label>
+              <div className="flex flex-wrap gap-2">
+                {CDN_OPTIONS.filter(c => c !== 'tailwindcss' && c !== 'iconify').map(dep => (
+                  <button
+                    key={dep}
+                    type="button"
+                    onClick={() => toggleJsDep(dep)}
+                    className={`px-3 py-1 rounded-full text-sm font-medium border transition-colors ${
+                      jsDepsArray.includes(dep)
+                        ? 'bg-purple-100 border-purple-400 text-purple-700'
+                        : 'bg-gray-50 border-gray-300 text-gray-600 hover:bg-gray-100'
+                    }`}
+                  >
+                    {dep}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-  // Crear/remover modal cuando cambia isOpen
-  useEffect(() => {
-    if (isOpen) {
-      // Remover cualquier instancia previa
-      if (modalContainer) {
-        modalContainer.remove();
-      }
-      // Crear nuevo modal
-      modalContainer = createModalElement(props);
-      document.body.appendChild(modalContainer);
-    } else {
-      // Remover modal cuando se cierra
-      if (modalContainer) {
-        modalContainer.remove();
-        modalContainer = null;
-      }
-    }
+            {/* JSON Fields: Animation Rules + Variation Params */}
+            <div className="grid grid-cols-2 gap-4">
+              <JsonField
+                label="Animation Rules (JSON)"
+                value={template.animation_rules || {}}
+                onChange={(val) => update('animation_rules', val)}
+                rows={4}
+              />
+              <JsonField
+                label="Variation Params (JSON)"
+                value={template.variation_params || {}}
+                onChange={(val) => update('variation_params', val)}
+                rows={4}
+              />
+            </div>
 
-    // Cleanup al desmontar componente
-    return () => {
-      if (modalContainer) {
-        modalContainer.remove();
-        modalContainer = null;
-      }
-    };
-  }, [isOpen]);
+            {/* Active toggle */}
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                id="is_active"
+                checked={template.is_active !== 0}
+                onChange={(e) => update('is_active', e.target.checked ? 1 : 0)}
+                className="w-4 h-4 text-pink-600 border-gray-300 rounded focus:ring-pink-500"
+              />
+              <label htmlFor="is_active" className="text-sm font-medium text-gray-700">Activa</label>
+            </div>
 
-  // Actualizar props cuando cambian (sin cerrar el modal)
-  useEffect(() => {
-    if (isOpen && modalContainer) {
-      // Solo actualizar el contenido si el modal ya existe
-      const newModal = createModalElement(props);
-      document.body.replaceChild(newModal, modalContainer);
-      modalContainer = newModal;
-    }
-  }, [props.template, props.htmlInput, props.isAnalyzing, props.saving]);
+            {/* Analyzer Section */}
+            <div className="border-t border-gray-200 pt-4">
+              <h4 className="font-medium text-gray-800 mb-1">Analizador HTML → RAG</h4>
+              <p className="text-sm text-gray-500 mb-3">
+                Pega código HTML de una invitación existente para extraer su estructura y llenar automáticamente todos los campos usando IA.
+              </p>
+              <textarea
+                value={htmlInput}
+                onChange={(e) => onHtmlChange(e.target.value)}
+                rows={6}
+                placeholder="<html>...</html>"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 font-mono text-xs focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+              />
+              <button
+                onClick={onAnalyze}
+                disabled={isAnalyzing || !htmlInput.trim()}
+                className="mt-2 flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-lg hover:from-pink-600 hover:to-purple-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isAnalyzing ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Analizando con IA...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4" />
+                    Analizar HTML con IA
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
 
-  return null;
+          {/* Footer */}
+          <div className="px-6 py-4 border-t border-gray-200 flex justify-end gap-3">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={onSave}
+              disabled={saving}
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-lg hover:from-pink-600 hover:to-purple-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {saving ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Guardando...
+                </>
+              ) : (
+                <>
+                  <Save className="w-4 h-4" />
+                  Guardar
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };

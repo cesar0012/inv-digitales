@@ -42,7 +42,7 @@ export const AdminRAGTemplates: React.FC = () => {
   const [templates, setTemplates] = useState<TemplateData[]>([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  const [selectedTemplate, setSelectedTemplate] = useState<Partial<RAGTemplate>>(emptyTemplate);
+  const [selectedTemplate, setSelectedTemplate] = useState<Partial<TemplateData>>(emptyTemplate);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<any>(null);
@@ -98,16 +98,22 @@ export const AdminRAGTemplates: React.FC = () => {
     setAnalysisResult(null);
     try {
       const result = await analyzeRAGHtml(htmlInput, selectedTemplate.style_name);
-      setAnalysisResult(result.analysis);
+      const a = result.analysis;
+      setAnalysisResult(a);
       setSelectedTemplate(prev => ({
         ...prev,
-        style_id: result.analysis.style_id,
-        base_cdns: result.analysis.base_cdns,
-        color_palette: result.analysis.color_palette,
-        typography_scale: result.analysis.typography_scale,
-        modules_def: result.analysis.modules_def,
-        animation_rules: result.analysis.animation_rules,
-        variation_params: result.analysis.variation_params
+        style_id: a.style_id || prev.style_id,
+        description: a.description || prev.description,
+        category: a.category || prev.category,
+        theme_tags: a.theme_tags && a.theme_tags.length > 0 ? a.theme_tags : prev.theme_tags,
+        color_palette: a.color_palette && Object.keys(a.color_palette).length > 0 ? a.color_palette : prev.color_palette,
+        typography_scale: a.typography_scale && Object.keys(a.typography_scale).length > 0 ? a.typography_scale : prev.typography_scale,
+        layout_rules: a.layout_rules && Object.keys(a.layout_rules).length > 0 ? a.layout_rules : prev.layout_rules,
+        modules_def: a.modules_def && Object.keys(a.modules_def).length > 0 ? a.modules_def : prev.modules_def,
+        base_cdns: a.base_cdns && a.base_cdns.length > 0 ? a.base_cdns : prev.base_cdns,
+        js_dependencies: a.js_dependencies && a.js_dependencies.length > 0 ? a.js_dependencies : prev.js_dependencies,
+        animation_rules: a.animation_rules && Object.keys(a.animation_rules).length > 0 ? a.animation_rules : prev.animation_rules,
+        variation_params: a.variation_params && Object.keys(a.variation_params).length > 0 ? a.variation_params : prev.variation_params
       }));
     } catch (error: any) {
       setMessage({ type: 'error', text: error.message || 'Error al analizar HTML' });
@@ -168,7 +174,7 @@ export const AdminRAGTemplates: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const handleUpdateTemplate = (template: Partial<RAGTemplate>) => {
+  const handleUpdateTemplate = (template: Partial<TemplateData>) => {
     setSelectedTemplate(template);
   };
 
