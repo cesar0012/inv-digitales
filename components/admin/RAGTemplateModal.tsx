@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createPortal } from 'react';
 import { X, Upload, Loader2, Save } from 'lucide-react';
 
 const CATEGORIES = ['boda', 'xv-años', 'cumpleaños', 'bautizo', 'comunion', 'baby-shower', 'otro'];
@@ -55,8 +55,9 @@ export const RAGTemplateModal: React.FC<Props> = ({
     ? template.theme_tags.join(', ') 
     : (template.theme_tags || '');
 
-  return (
-    <div className="fixed inset-0 z-50 overflow-auto">
+  // Usar portal para renderizar al nivel del body
+  const modalElement = (
+    <div className="fixed inset-0 z-[9999] overflow-auto">
       {/* Overlay */}
       <div 
         className="fixed inset-0 bg-black/50" 
@@ -273,4 +274,7 @@ export const RAGTemplateModal: React.FC<Props> = ({
       </div>
     </div>
   );
+
+  // Renderizar usando portal al nivel del body
+  return createPortal(modalElement, document.body);
 };
