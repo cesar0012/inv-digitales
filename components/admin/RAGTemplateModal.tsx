@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { X, Upload, Loader2, Save } from 'lucide-react';
 
 const CATEGORIES = ['boda', 'xv-años', 'cumpleaños', 'bautizo', 'comunion', 'baby-shower', 'otro'];
@@ -36,309 +36,195 @@ interface Props {
   onHtmlChange: (html: string) => void;
 }
 
-export const RAGTemplateModal: React.FC<Props> = ({
-  isOpen,
-  template,
-  isAnalyzing,
-  analysisResult,
-  htmlInput,
-  saving,
-  onClose,
-  onSave,
-  onAnalyze,
-  onUpdateTemplate,
-  onHtmlChange
-}) => {
-  if (!isOpen) return null;
+// References para el modal nativo
+let modalContainer: HTMLDivElement | null = null;
 
-  const themeTagsValue = Array.isArray(template.theme_tags) 
-    ? template.theme_tags.join(', ') 
-    : (template.theme_tags || '');
+function createModalElement(props: Props): HTMLDivElement {
+  const { 
+    template, isAnalyzing, analysisResult, htmlInput, saving,
+    onClose, onSave, onAnalyze, onUpdateTemplate, onHtmlChange 
+  } = props;
 
-  return (
-    <>
-      {/* Overlay con z-index alto */}
-      <div 
-        style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 9999,
-          background: 'rgba(0,0,0,0.5)'
-        }}
-        onClick={onClose}
-      />
-      
-      {/* Contenedor del modal con z-index alto */}
-      <div style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 9999,
-        overflow: 'auto',
-        display: 'flex',
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-        padding: '2rem'
-      }}>
-        <div style={{
-          background: 'white',
-          borderRadius: '0.75rem',
-          boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)',
-          width: '100%',
-          maxWidth: '56rem',
-          maxHeight: '90vh',
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-          marginTop: '2rem'
-        }}>
-          {/* Header */}
-          <div style={{
-            flexShrink: 0,
-            padding: '1.5rem',
-            borderBottom: '1px solid #e5e7eb',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            background: 'linear-gradient(to right, #9333ea, #4f46e5)',
-            borderTopLeftRadius: '0.75rem',
-            borderTopRightRadius: '0.75rem'
-          }}>
-            <h3 style={{
-              fontSize: '1.125rem',
-              fontWeight: 700,
-              color: 'white',
-              margin: 0
-            }}>
-              {template.id ? 'Editar' : 'Nueva'} Plantilla RAG
-            </h3>
-            <button 
-              onClick={onClose}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: 'rgba(255,255,255,0.8)',
-                cursor: 'pointer',
-                padding: '0.25rem'
-              }}
-            >
-              <X size={20} />
-            </button>
-          </div>
+  // Crear contenedor principal
+  const container = document.createElement('div');
+  container.id = 'rag-modal-wrapper';
+  container.style.cssText = 'position:fixed;inset:0;z-index:999999;pointer-events:auto';
 
-          {/* Content */}
-          <div style={{
-            flex: 1,
-            overflow: 'auto',
-            padding: '1.5rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1rem'
-          }}>
-            {/* Basic Info */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
-              <div>
-                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.25rem' }}>Style ID *</label>
-                <input
-                  value={template.style_id || ''}
-                  onChange={e => onUpdateTemplate({...template, style_id: e.target.value})}
-                  style={{
-                    width: '100%',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '0.5rem',
-                    padding: '0.5rem 0.75rem'
-                  }}
-                  placeholder="xv-festivo"
-                />
-              </div>
-              <div>
-                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.25rem' }}>Nombre *</label>
-                <input
-                  value={template.style_name || ''}
-                  onChange={e => onUpdateTemplate({...template, style_name: e.target.value})}
-                  style={{
-                    width: '100%',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '0.5rem',
-                    padding: '0.5rem 0.75rem'
-                  }}
-                  placeholder="XV Años Festivo"
-                />
-              </div>
-            </div>
+  // Overlay
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5)';
+  overlay.onclick = onClose;
 
-            <div>
-              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.25rem' }}>Descripción</label>
-              <textarea
-                value={template.description || ''}
-                onChange={e => onUpdateTemplate({...template, description: e.target.value})}
-                style={{
-                  width: '100%',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '0.5rem',
-                  padding: '0.5rem 0.75rem'
-                }}
-                rows={2}
-              />
-            </div>
+  // Modal wrapper
+  const wrapper = document.createElement('div');
+  wrapper.style.cssText = 'position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem';
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
-              <div>
-                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.25rem' }}>Categoría *</label>
-                <select
-                  value={template.category || 'boda'}
-                  onChange={e => onUpdateTemplate({...template, category: e.target.value})}
-                  style={{
-                    width: '100%',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '0.5rem',
-                    padding: '0.5rem 0.75rem'
-                  }}
-                >
-                  {CATEGORIES.map(c => (
-                    <option key={c} value={c}>{c}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.25rem' }}>Etiquetas</label>
-                <input
-                  value={themeTagsValue}
-                  onChange={e => onUpdateTemplate({
-                    ...template,
-                    theme_tags: e.target.value.split(',').map(t => t.trim()).filter(Boolean)
-                  })}
-                  style={{
-                    width: '100%',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '0.5rem',
-                    padding: '0.5rem 0.75rem'
-                  }}
-                  placeholder="xv, fiesta, celebracion"
-                />
-              </div>
-            </div>
+  // Modal content
+  const modal = document.createElement('div');
+  modal.style.cssText = 'background:white;border-radius:0.75rem;box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);width:100%;max-width:56rem;max-height:90vh;overflow:hidden;display:flex;flex-direction:column';
 
-            {/* HTML Analyzer */}
-            <div style={{ borderTop: '1px solid #e5e7eb', paddingTop: '1rem' }}>
-              <h4 style={{ fontWeight: 500, marginBottom: '0.5rem' }}>Analizador HTML → RAG</h4>
-              <p style={{ fontSize: '0.875rem', color: '#6b7280', marginBottom: '0.5rem' }}>
-                Pega código HTML para extraer estructura automáticamente
-              </p>
-              <textarea
-                value={htmlInput}
-                onChange={e => onHtmlChange(e.target.value)}
-                style={{
-                  width: '100%',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: '0.5rem',
-                  padding: '0.5rem',
-                  fontFamily: 'monospace',
-                  fontSize: '0.75rem'
-                }}
-                rows={6}
-                placeholder="<html>...</html>"
-              />
-              <button
-                onClick={onAnalyze}
-                disabled={isAnalyzing || !htmlInput}
-                style={{
-                  marginTop: '0.5rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  padding: '0.5rem 1rem',
-                  background: '#9333ea',
-                  color: 'white',
-                  borderRadius: '0.5rem',
-                  border: 'none',
-                  cursor: isAnalyzing || !htmlInput ? 'not-allowed' : 'pointer',
-                  opacity: isAnalyzing || !htmlInput ? 0.5 : 1
-                }}
-              >
-                {isAnalyzing && <Loader2 className="w-4 h-4 animate-spin" />}
-                {isAnalyzing ? 'Analizando...' : 'Analizar HTML'}
-              </button>
-            </div>
+  // Header
+  const header = document.createElement('div');
+  header.style.cssText = 'padding:1.5rem;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;background:#db2777;border-radius:0.75rem 0.75rem 0 0';
+  header.innerHTML = `<h3 style="margin:0;font-size:1.125rem;font-weight:700;color:white">${template.id ? 'Editar' : 'Nueva'} Plantilla RAG</h3>`;
+  const closeBtn = document.createElement('button');
+  closeBtn.innerHTML = '✕';
+  closeBtn.style.cssText = 'background:none;border:none;color:white;font-size:1.25rem;cursor:pointer;padding:0.25rem';
+  closeBtn.onclick = onClose;
+  header.appendChild(closeBtn);
 
-            {/* CDNs */}
-            <div>
-              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.5rem' }}>CDNs Requeridos</label>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                {CDN_OPTIONS.map(cdn => {
-                  const currentCdns = Array.isArray(template.base_cdns) ? template.base_cdns : [];
-                  return (
-                    <label key={cdn} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', background: '#f3f4f6', padding: '0.25rem 0.75rem', borderRadius: '0.25rem', fontSize: '0.875rem' }}>
-                      <input
-                        type="checkbox"
-                        checked={currentCdns.includes(cdn)}
-                        onChange={e => {
-                          const newCdns = e.target.checked
-                            ? [...currentCdns, cdn]
-                            : currentCdns.filter(c => c !== cdn);
-                          onUpdateTemplate({...template, base_cdns: newCdns});
-                        }}
-                      />
-                      {cdn}
-                    </label>
-                  );
-                })}
-              </div>
-            </div>
+  // Body
+  const body = document.createElement('div');
+  body.style.cssText = 'flex:1;overflow:auto;padding:1.5rem;display:flex;flex-direction:column;gap:1rem';
 
-            {/* Analysis Result */}
-            {analysisResult && (
-              <div style={{ borderTop: '1px solid #e5e7eb', paddingTop: '1rem' }}>
-                <h4 style={{ fontWeight: 500, marginBottom: '0.5rem', color: '#16a34a' }}>Análisis completado:</h4>
-                <pre style={{ background: '#f3f4f6', padding: '0.75rem', borderRadius: '0.5rem', fontSize: '0.75rem', overflow: 'auto', maxHeight: '10rem' }}>
-                  {JSON.stringify(analysisResult, null, 2)}
-                </pre>
-              </div>
-            )}
-          </div>
+  // Style ID input
+  const row1 = document.createElement('div');
+  row1.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:1rem';
+  const styleIdWrap = document.createElement('div');
+  styleIdWrap.innerHTML = '<label style="display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.25rem">Style ID *</label>';
+  const styleId = document.createElement('input');
+  styleId.value = template.style_id || '';
+  styleId.placeholder = 'xv-festivo';
+  styleId.style.cssText = 'width:100%;border:1px solid #e5e7eb;border-radius:0.5rem;padding:0.5rem 0.75rem';
+  styleId.oninput = (e) => onUpdateTemplate({...template, style_id: (e.target as HTMLInputElement).value});
+  styleIdWrap.appendChild(styleId);
+  const nameWrap = document.createElement('div');
+  nameWrap.innerHTML = '<label style="display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.25rem">Nombre *</label>';
+  const nameIn = document.createElement('input');
+  nameIn.value = template.style_name || '';
+  nameIn.placeholder = 'XV Años Festivo';
+  nameIn.style.cssText = 'width:100%;border:1px solid #e5e7eb;border-radius:0.5rem;padding:0.5rem 0.75rem';
+  nameIn.oninput = (e) => onUpdateTemplate({...template, style_name: (e.target as HTMLInputElement).value});
+  nameWrap.appendChild(nameIn);
+  row1.appendChild(styleIdWrap);
+  row1.appendChild(nameWrap);
+  body.appendChild(row1);
 
-          {/* Footer */}
-          <div style={{
-            flexShrink: 0,
-            padding: '1.5rem',
-            borderTop: '1px solid #e5e7eb',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            gap: '0.75rem'
-          }}>
-            <button
-              onClick={onClose}
-              style={{
-                padding: '0.5rem 1rem',
-                border: '1px solid #e5e7eb',
-                borderRadius: '0.5rem',
-                background: 'white',
-                cursor: 'pointer'
-              }}
-            >
-              Cancelar
-            </button>
-            <button
-              onClick={onSave}
-              disabled={saving}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                padding: '0.5rem 1rem',
-                background: '#9333ea',
-                color: 'white',
-                borderRadius: '0.5rem',
-                border: 'none',
-                cursor: saving ? 'not-allowed' : 'pointer',
-                opacity: saving ? 0.5 : 1
-              }}
-            >
-              {saving && <Loader2 className="w-4 h-4 animate-spin" />}
-              Guardar
-            </button>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+  // Description
+  const descWrap = document.createElement('div');
+  descWrap.innerHTML = '<label style="display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.25rem">Descripción</label>';
+  const descIn = document.createElement('textarea');
+  descIn.value = template.description || '';
+  descIn.rows = 2;
+  descIn.style.cssText = 'width:100%;border:1px solid #e5e7eb;border-radius:0.5rem;padding:0.5rem 0.75rem';
+  descIn.oninput = (e) => onUpdateTemplate({...template, description: (e.target as HTMLTextAreaElement).value});
+  descWrap.appendChild(descIn);
+  body.appendChild(descWrap);
+
+  // Category & Tags
+  const row2 = document.createElement('div');
+  row2.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:1rem';
+  const catWrap = document.createElement('div');
+  catWrap.innerHTML = '<label style="display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.25rem">Categoría *</label>';
+  const catSel = document.createElement('select');
+  catSel.value = template.category || 'boda';
+  catSel.style.cssText = 'width:100%;border:1px solid #e5e7eb;border-radius:0.5rem;padding:0.5rem 0.75rem';
+  CATEGORIES.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c;
+    opt.textContent = c;
+    if (c === template.category) opt.selected = true;
+    catSel.appendChild(opt);
+  });
+  catSel.onchange = (e) => onUpdateTemplate({...template, category: (e.target as HTMLSelectElement).value});
+  catWrap.appendChild(catSel);
+  const tagsWrap = document.createElement('div');
+  tagsWrap.innerHTML = '<label style="display:block;font-size:0.875rem;font-weight:500;margin-bottom:0.25rem">Etiquetas</label>';
+  const tagsIn = document.createElement('input');
+  const tagsVal = Array.isArray(template.theme_tags) ? template.theme_tags.join(', ') : (template.theme_tags || '');
+  tagsIn.value = tagsVal;
+  tagsIn.placeholder = 'xv, fiesta, celebracion';
+  tagsIn.style.cssText = 'width:100%;border:1px solid #e5e7eb;border-radius:0.5rem;padding:0.5rem 0.75rem';
+  tagsIn.oninput = (e) => onUpdateTemplate({...template, theme_tags: (e.target as HTMLInputElement).value.split(',').map(t => t.trim()).filter(Boolean)});
+  tagsWrap.appendChild(tagsIn);
+  row2.appendChild(catWrap);
+  row2.appendChild(tagsWrap);
+  body.appendChild(row2);
+
+  // Analyzer
+  const analyzer = document.createElement('div');
+  analyzer.style.cssText = 'border-top:1px solid #e5e7eb;padding-top:1rem';
+  analyzer.innerHTML = '<h4 style="font-weight:500;margin:0 0 0.5rem">Analizador HTML → RAG</h4><p style="font-size:0.875rem;color:#6b7280;margin:0 0 0.5rem">Pega código HTML para extraer estructura</p>';
+  const htmlArea = document.createElement('textarea');
+  htmlArea.value = htmlInput;
+  htmlArea.rows = 6;
+  htmlArea.placeholder = '<html>...</html>';
+  htmlArea.style.cssText = 'width:100%;border:1px solid #e5e7eb;border-radius:0.5rem;padding:0.5rem;font-family:monospace;font-size:0.75rem';
+  htmlArea.oninput = (e) => onHtmlChange((e.target as HTMLTextAreaElement).value);
+  analyzer.appendChild(htmlArea);
+  const analyzeBtn = document.createElement('button');
+  analyzeBtn.textContent = isAnalyzing ? 'Analizando...' : 'Analizar HTML';
+  analyzeBtn.disabled = isAnalyzing || !htmlInput;
+  analyzeBtn.style.cssText = 'margin-top:0.5rem;padding:0.5rem 1rem;background:#db2777;color:white;border-radius:0.5rem;border:none;cursor:' + (isAnalyzing || !htmlInput ? 'not-allowed' : 'pointer');
+  analyzeBtn.onclick = onAnalyze;
+  analyzer.appendChild(analyzeBtn);
+  body.appendChild(analyzer);
+
+  // Footer
+  const footer = document.createElement('div');
+  footer.style.cssText = 'padding:1.5rem;border-top:1px solid #e5e7eb;display:flex;justify-content:flex-end;gap:0.75rem';
+  const cancelBtn = document.createElement('button');
+  cancelBtn.textContent = 'Cancelar';
+  cancelBtn.style.cssText = 'padding:0.5rem 1rem;border:1px solid #e5e7eb;border-radius:0.5rem;background:white;cursor:pointer';
+  cancelBtn.onclick = onClose;
+  const saveBtn = document.createElement('button');
+  saveBtn.textContent = saving ? 'Guardando...' : 'Guardar';
+  saveBtn.disabled = saving;
+  saveBtn.style.cssText = 'padding:0.5rem 1rem;background:#db2777;color:white;border-radius:0.5rem;border:none;cursor:' + (saving ? 'not-allowed' : 'pointer');
+  saveBtn.onclick = onSave;
+  footer.appendChild(cancelBtn);
+  footer.appendChild(saveBtn);
+
+  // Assemble modal
+  modal.appendChild(header);
+  modal.appendChild(body);
+  modal.appendChild(footer);
+  wrapper.appendChild(modal);
+  container.appendChild(overlay);
+  container.appendChild(wrapper);
+
+  return container;
+}
+
+export const RAGTemplateModal: React.FC<Props> = (props) => {
+  const isOpen = props.isOpen;
+
+  // Crear/remover modal cuando cambia isOpen
+  useEffect(() => {
+    if (isOpen) {
+      // Remover cualquier instancia previa
+      if (modalContainer) {
+        modalContainer.remove();
+      }
+      // Crear nuevo modal
+      modalContainer = createModalElement(props);
+      document.body.appendChild(modalContainer);
+    } else {
+      // Remover modal cuando se cierra
+      if (modalContainer) {
+        modalContainer.remove();
+        modalContainer = null;
+      }
+    }
+
+    // Cleanup al desmontar componente
+    return () => {
+      if (modalContainer) {
+        modalContainer.remove();
+        modalContainer = null;
+      }
+    };
+  }, [isOpen]);
+
+  // Actualizar props cuando cambian (sin cerrar el modal)
+  useEffect(() => {
+    if (isOpen && modalContainer) {
+      // Solo actualizar el contenido si el modal ya existe
+      const newModal = createModalElement(props);
+      document.body.replaceChild(newModal, modalContainer);
+      modalContainer = newModal;
+    }
+  }, [props.template, props.htmlInput, props.isAnalyzing, props.saving]);
+
+  return null;
 };
