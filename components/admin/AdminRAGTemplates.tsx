@@ -37,7 +37,20 @@ export const AdminRAGTemplates: React.FC = () => {
     setLoading(true);
     try {
       const result = await getRAGTemplates();
-      setTemplates(result.templates);
+      // Convertir campos JSON a strings para los textareas
+      const processed = result.templates.map((t: any) => ({
+        ...t,
+        color_palette: typeof t.color_palette === 'string' ? t.color_palette : JSON.stringify(t.color_palette || {}),
+        typography_scale: typeof t.typography_scale === 'string' ? t.typography_scale : JSON.stringify(t.typography_scale || {}),
+        layout_rules: typeof t.layout_rules === 'string' ? t.layout_rules : JSON.stringify(t.layout_rules || {}),
+        modules_def: typeof t.modules_def === 'string' ? t.modules_def : JSON.stringify(t.modules_def || {}),
+        animation_rules: typeof t.animation_rules === 'string' ? t.animation_rules : JSON.stringify(t.animation_rules || {}),
+        variation_params: typeof t.variation_params === 'string' ? t.variation_params : JSON.stringify(t.variation_params || {}),
+        theme_tags: Array.isArray(t.theme_tags) ? t.theme_tags : [],
+        base_cdns: Array.isArray(t.base_cdns) ? t.base_cdns : [],
+        js_dependencies: Array.isArray(t.js_dependencies) ? t.js_dependencies : []
+      }));
+      setTemplates(processed);
     } catch (error: any) {
       setMessage({ type: 'error', text: error.message || 'Error al cargar plantillas' });
     } finally {
@@ -97,10 +110,26 @@ export const AdminRAGTemplates: React.FC = () => {
 
     setSaving(true);
     try {
+      // Parsear JSON strings antes de enviar
+      const templateToSave = {
+        ...selectedTemplate,
+        theme_tags: Array.isArray(selectedTemplate.theme_tags) 
+          ? selectedTemplate.theme_tags 
+          : (typeof selectedTemplate.theme_tags === 'string' ? selectedTemplate.theme_tags : []),
+        color_palette: typeof selectedTemplate.color_palette === 'string' ? selectedTemplate.color_palette : JSON.stringify(selectedTemplate.color_palette || {}),
+        typography_scale: typeof selectedTemplate.typography_scale === 'string' ? selectedTemplate.typography_scale : JSON.stringify(selectedTemplate.typography_scale || {}),
+        layout_rules: typeof selectedTemplate.layout_rules === 'string' ? selectedTemplate.layout_rules : JSON.stringify(selectedTemplate.layout_rules || {}),
+        modules_def: typeof selectedTemplate.modules_def === 'string' ? selectedTemplate.modules_def : JSON.stringify(selectedTemplate.modules_def || {}),
+        base_cdns: Array.isArray(selectedTemplate.base_cdns) ? selectedTemplate.base_cdns : [],
+        js_dependencies: Array.isArray(selectedTemplate.js_dependencies) ? selectedTemplate.js_dependencies : [],
+        animation_rules: typeof selectedTemplate.animation_rules === 'string' ? selectedTemplate.animation_rules : JSON.stringify(selectedTemplate.animation_rules || {}),
+        variation_params: typeof selectedTemplate.variation_params === 'string' ? selectedTemplate.variation_params : JSON.stringify(selectedTemplate.variation_params || {})
+      };
+
       if (selectedTemplate.id) {
-        await updateRAGTemplate(selectedTemplate.id, selectedTemplate);
+        await updateRAGTemplate(selectedTemplate.id, templateToSave);
       } else {
-        await createRAGTemplate(selectedTemplate);
+        await createRAGTemplate(templateToSave);
       }
       setMessage({ type: 'success', text: 'Plantilla guardada correctamente' });
       setIsEditing(false);
@@ -254,10 +283,12 @@ export const AdminRAGTemplates: React.FC = () => {
                 <div>
                   <label className="block text-sm font-medium mb-1">Etiquetas (comma separated)</label>
                   <input
-                    value={(selectedTemplate.theme_tags || []).join(', ')}
+                    value={Array.isArray(selectedTemplate.theme_tags) ? selectedTemplate.theme_tags.join(', ') : (selectedTemplate.theme_tags || '')}
                     onChange={e => setSelectedTemplate({
                       ...selectedTemplate,
-                      theme_tags: e.target.value.split(',').map(t => t.trim()).filter(Boolean)
+                      theme_tags: typeof selectedTemplate.theme_tags === 'string' 
+                        ? e.target.value.split(',').map(t => t.trim()).filter(Boolean)
+                        : e.target.value.split(',').map(t => t.trim()).filter(Boolean)
                     })}
                     className="w-full border rounded-lg px-3 py-2"
                     placeholder="xv, fiesta, celebracion"
@@ -292,42 +323,58 @@ export const AdminRAGTemplates: React.FC = () => {
               <div>
                 <label className="block text-sm font-medium mb-2">CDNs Requeridos</label>
                 <div className="flex flex-wrap gap-2">
-                  {CDN_OPTIONS.map(cdn => (
+                  {CDN_OPTIONS.map(cdn => {
+                    const currentCdns = Array.isArray(selectedTemplate.base_cdns) ? selectedTemplate.base_cdns : [];
+                    return (
                     <label key={cdn} className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded text-sm">
                       <input
                         type="checkbox"
-                        checked={(selectedTemplate.base_cdns || []).includes(cdn)}
+                        checked={currentCdns.includes(cdn)}
                         onChange={e => {
                           const newCdns = e.target.checked
-                            ? [...(selectedTemplate.base_cdns || []), cdn]
-                            : (selectedTemplate.base_cdns || []).filter(c => c !== cdn);
+                            ? [...currentCdns, cdn]
+                            : currentCdns.filter(c => c !== cdn);
                           setSelectedTemplate({...selectedTemplate, base_cdns: newCdns});
                         }}
                       />
                       {cdn}
                     </label>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
 
               {/* JSON Editors */}
-              <div className="grid grid-cols-2 gap-4">
+<div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">Color Palette (JSON)</label>
                   <textarea
-                    value={JSON.stringify(selectedTemplate.color_palette || {}, null, 2)}
-                    onChange={e => {
-                      try {
-                        setSelectedTemplate({
-                          ...selectedTemplate,
-                          color_palette: JSON.parse(e.target.value)
-                        });
-                      } catch {}
-                    }}
+                    value={typeof selectedTemplate.color_palette === 'string' ? selectedTemplate.color_palette : JSON.stringify(selectedTemplate.color_palette || {}, null, 2)}
+                    onChange={e => setSelectedTemplate({...selectedTemplate, color_palette: e.target.value})}
                     className="w-full border rounded-lg px-3 py-2 font-mono text-xs"
                     rows={5}
                   />
                 </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Typography (JSON)</label>
+                  <textarea
+                    value={typeof selectedTemplate.typography_scale === 'string' ? selectedTemplate.typography_scale : JSON.stringify(selectedTemplate.typography_scale || {}, null, 2)}
+                    onChange={e => setSelectedTemplate({...selectedTemplate, typography_scale: e.target.value})}
+                    className="w-full border rounded-lg px-3 py-2 font-mono text-xs"
+                    rows={5}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">Modules Def (JSON)</label>
+                <textarea
+                  value={typeof selectedTemplate.modules_def === 'string' ? selectedTemplate.modules_def : JSON.stringify(selectedTemplate.modules_def || {}, null, 2)}
+                  onChange={e => setSelectedTemplate({...selectedTemplate, modules_def: e.target.value})}
+                  className="w-full border rounded-lg px-3 py-2 font-mono text-xs"
+                  rows={6}
+                />
+              </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Typography (JSON)</label>
                   <textarea
@@ -336,9 +383,14 @@ export const AdminRAGTemplates: React.FC = () => {
                       try {
                         setSelectedTemplate({
                           ...selectedTemplate,
-                          typography_scale: JSON.parse(e.target.value)
+                          typography_scale: typeof e.target.value === 'object' ? e.target.value : JSON.parse(e.target.value || '{}')
                         });
-                      } catch {}
+                      } catch {
+                        setSelectedTemplate({
+                          ...selectedTemplate,
+                          typography_scale: {}
+                        });
+                      }
                     }}
                     className="w-full border rounded-lg px-3 py-2 font-mono text-xs"
                     rows={5}
@@ -363,23 +415,48 @@ export const AdminRAGTemplates: React.FC = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+<div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-1">Animation Rules (JSON)</label>
+                  <label className="block text-sm font-medium mb-1">Typography (JSON)</label>
                   <textarea
-                    value={JSON.stringify(selectedTemplate.animation_rules || {}, null, 2)}
-                    onChange={e => {
-                      try {
-                        setSelectedTemplate({
-                          ...selectedTemplate,
-                          animation_rules: JSON.parse(e.target.value)
-                        });
-                      } catch {}
-                    }}
+                    value={typeof selectedTemplate.typography_scale === 'string' ? selectedTemplate.typography_scale : JSON.stringify(selectedTemplate.typography_scale || {}, null, 2)}
+                    onChange={e => setSelectedTemplate({...selectedTemplate, typography_scale: e.target.value})}
                     className="w-full border rounded-lg px-3 py-2 font-mono text-xs"
                     rows={5}
                   />
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">Modules Def (JSON)</label>
+                <textarea
+                  value={typeof selectedTemplate.modules_def === 'string' ? selectedTemplate.modules_def : JSON.stringify(selectedTemplate.modules_def || {}, null, 2)}
+                  onChange={e => setSelectedTemplate({...selectedTemplate, modules_def: e.target.value})}
+                  className="w-full border rounded-lg px-3 py-2 font-mono text-xs"
+                  rows={6}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1">Animation Rules (JSON)</label>
+                  <textarea
+                    value={typeof selectedTemplate.animation_rules === 'string' ? selectedTemplate.animation_rule : JSON.stringify(selectedTemplate.animation_rules || {}, null, 2)}
+                    onChange={e => setSelectedTemplate({...selectedTemplate, animation_rules: e.target.value})}
+                    className="w-full border rounded-lg px-3 py-2 font-mono text-xs"
+                    rows={5}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Variation Params (JSON)</label>
+                  <textarea
+                    value={typeof selectedTemplate.variation_params === 'string' ? selectedTemplate.variation_params : JSON.stringify(selectedTemplate.variation_params || {}, null, 2)}
+                    onChange={e => setSelectedTemplate({...selectedTemplate, variation_params: e.target.value})}
+                    className="w-full border rounded-lg px-3 py-2 font-mono text-xs"
+                    rows={5}
+                  />
+                </div>
+              </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Variation Params (JSON)</label>
                   <textarea
