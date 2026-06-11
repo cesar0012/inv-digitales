@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Plus, Trash2, Loader2, BookOpen } from 'lucide-react';
-import { getRAGTemplates, createRAGTemplate, updateRAGTemplate, deleteRAGTemplate, analyzeRAGHtml } from '../../services/adminService';
+import React, { useState, useEffect, useRef } from 'react';
+import { Plus, Trash2, Loader2, BookOpen, Download, Upload, AlertTriangle } from 'lucide-react';
+import { getRAGTemplates, createRAGTemplate, updateRAGTemplate, deleteRAGTemplate, analyzeRAGHtml, downloadRAGBackup, uploadRAGBackup, RAGBackupData } from '../../services/adminService';
 import { RAGTemplateModal } from './RAGTemplateModal';
 
 interface TemplateData {
@@ -48,6 +48,12 @@ export const AdminRAGTemplates: React.FC = () => {
   const [analysisResult, setAnalysisResult] = useState<any>(null);
   const [htmlInput, setHtmlInput] = useState('');
   const [saving, setSaving] = useState(false);
+  const [downloadingRag, setDownloadingRag] = useState(false);
+  const [ragFile, setRagFile] = useState<File | null>(null);
+  const [ragPreview, setRagPreview] = useState<RAGBackupData | null>(null);
+  const [confirmRagRestore, setConfirmRagRestore] = useState(false);
+  const [uploadingRag, setUploadingRag] = useState(false);
+  const ragFileRef = useRef<HTMLInputElement>(null);
 
   const fetchTemplates = async () => {
     setLoading(true);
@@ -183,6 +189,65 @@ export const AdminRAGTemplates: React.FC = () => {
     setHtmlInput(html);
   };
 
+  const handleRagDownload = async () => {
+    setDownloadingRag(true);
+    setMessage(null);
+    try {
+      await downloadRAGBackup();
+      setMessage({ type: 'success', text: 'Backup de plantillas RAG descargado correctamente' });
+    } catch (error: any) {
+      setMessage({ type: 'error', text: error.message || 'Error al descargar backup de plantillas RAG' });
+    } finally {
+      setDownloadingRag(false);
+    }
+  };
+
+  const handleRagFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setRagFile(file);
+    setConfirmRagRestore(false);
+    setMessage(null);
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const data = JSON.parse(ev.target?.result as string);
+        if (!data.version || !data.data || !Array.isArray(data.data.knowledge_base)) {
+          setMessage({ type: 'error', text: 'Formato de backup de plantillas RAG inválido' });
+          setRagPreview(null);
+          return;
+        }
+        setRagPreview(data);
+      } catch {
+        setMessage({ type: 'error', text: 'El archivo no es un JSON válido' });
+        setRagPreview(null);
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  const handleRagUpload = async () => {
+    if (!ragPreview) return;
+    setUploadingRag(true);
+    setMessage(null);
+    try {
+      const result = await uploadRAGBackup(ragPreview);
+      setMessage({ type: 'success', text: result.message || 'Plantillas RAG importadas correctamente' });
+      setConfirmRagRestore(false);
+      setRagFile(null);
+      setRagPreview(null);
+      if (ragFileRef.current) ragFileRef.current.value = '';
+      fetchTemplates();
+    } catch (error: any) {
+      setMessage({ type: 'error', text: error.message || 'Error al importar plantillas RAG' });
+      setConfirmRagRestore(false);
+    } finally {
+      setUploadingRag(false);
+    }
+  };
+
   return (
     <div>
       {/* Header */}
@@ -211,6 +276,149 @@ export const AdminRAGTemplates: React.FC = () => {
           message.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
         }`}>
           {message.text}
+        </div>
+      )}
+
+      {/* Export / Import */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
+              <Download className="w-5 h-5 text-purple-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-800">Exportar Plantillas</h3>
+              <p className="text-sm text-gray-500">Descargar todas las plantillas RAG como JSON</p>
+            </div>
+          </div>
+          <button
+            onClick={handleRagDownload}
+            disabled={downloadingRag}
+            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors disabled:opacity-50"
+          >
+            {downloadingRag ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Descargando...
+              </>
+            ) : (
+              <>
+                <Download className="w-4 h-4" />
+                Descargar Plantillas
+              </>
+            )}
+          </button>
+        </div>
+
+        <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center">
+              <Upload className="w-5 h-5 text-amber-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-800">Importar Plantillas</h3>
+              <p className="text-sm text-gray-500">Cargar plantillas desde un archivo de backup</p>
+            </div>
+          </div>
+          <p className="text-sm text-gray-600 mb-4">
+            Selecciona un archivo JSON previamente descargado. <strong className="text-red-600">Esto reemplazará todas las plantillas actuales.</strong>
+          </p>
+          <input
+            ref={ragFileRef}
+            type="file"
+            accept=".json"
+            onChange={handleRagFileSelect}
+            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-medium file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100 file:cursor-pointer cursor-pointer"
+          />
+        </div>
+      </div>
+
+      {/* Import preview */}
+      {ragPreview && (
+        <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
+              <BookOpen className="w-5 h-5 text-gray-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-800">Vista previa de plantillas a importar</h3>
+              <p className="text-sm text-gray-500">
+                Exportado: {new Date(ragPreview.exported_at).toLocaleString('es-MX')} · {ragPreview.data.knowledge_base.length} plantilla(s)
+              </p>
+            </div>
+          </div>
+
+          <div className="overflow-x-auto mb-4">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500 uppercase">Style ID</th>
+                  <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500 uppercase">Nombre</th>
+                  <th className="text-left py-2 px-3 text-xs font-semibold text-gray-500 uppercase">Categoría</th>
+                  <th className="text-center py-2 px-3 text-xs font-semibold text-gray-500 uppercase">Activa</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {ragPreview.data.knowledge_base.map((t: any, i: number) => (
+                  <tr key={i} className="hover:bg-gray-50/50">
+                    <td className="py-2 px-3 font-mono text-gray-600 text-xs">{t.style_id}</td>
+                    <td className="py-2 px-3 font-medium text-gray-800">{t.style_name}</td>
+                    <td className="py-2 px-3 text-gray-600">{t.category}</td>
+                    <td className="py-2 px-3 text-center">{t.is_active ? '✓' : '—'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {!confirmRagRestore ? (
+            <button
+              onClick={() => setConfirmRagRestore(true)}
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors"
+            >
+              <AlertTriangle className="w-4 h-4" />
+              Importar Plantillas (reemplazar actuales)
+            </button>
+          ) : (
+            <div className="space-y-3">
+              <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+                <div className="flex items-start gap-2">
+                  <AlertTriangle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-medium text-red-800">Confirmar importación</p>
+                    <p className="text-sm text-red-600 mt-1">
+                      Esto reemplazará TODAS las plantillas RAG actuales con las del archivo. Esta acción no se puede deshacer.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setConfirmRagRestore(false)}
+                  className="flex-1 px-4 py-2.5 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleRagUpload}
+                  disabled={uploadingRag}
+                  className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors disabled:opacity-50"
+                >
+                  {uploadingRag ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Importando...
+                    </>
+                  ) : (
+                    <>
+                      <AlertTriangle className="w-4 h-4" />
+                      Confirmar Importación
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
 

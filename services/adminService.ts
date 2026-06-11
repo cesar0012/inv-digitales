@@ -507,3 +507,47 @@ export const analyzeRAGHtml = async (html: string, styleName: string): Promise<{
   }
   return response.json();
 };
+
+export interface RAGBackupData {
+  version: number;
+  exported_at: string;
+  data: {
+    knowledge_base: any[];
+  };
+}
+
+export const downloadRAGBackup = async (): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/rag-templates/backup`, {
+    headers: getAdminHeaders()
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al descargar backup de plantillas RAG');
+  }
+
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `rag-backup-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  window.URL.revokeObjectURL(url);
+};
+
+export const uploadRAGBackup = async (data: RAGBackupData): Promise<{ success: boolean; message: string; templates: any[] }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-templates/backup`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(data)
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al importar backup de plantillas RAG');
+  }
+
+  return response.json();
+};
