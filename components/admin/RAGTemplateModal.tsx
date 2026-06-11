@@ -1,4 +1,4 @@
-import React, { createPortal } from 'react';
+import React from 'react';
 import { X, Upload, Loader2, Save } from 'lucide-react';
 
 const CATEGORIES = ['boda', 'xv-años', 'cumpleaños', 'bautizo', 'comunion', 'baby-shower', 'otro'];
@@ -55,72 +55,144 @@ export const RAGTemplateModal: React.FC<Props> = ({
     ? template.theme_tags.join(', ') 
     : (template.theme_tags || '');
 
-  // Usar portal para renderizar al nivel del body
-  const modalElement = (
-    <div className="fixed inset-0 z-[9999] overflow-auto">
-      {/* Overlay */}
+  return (
+    <>
+      {/* Overlay con z-index alto */}
       <div 
-        className="fixed inset-0 bg-black/50" 
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 9999,
+          background: 'rgba(0,0,0,0.5)'
+        }}
         onClick={onClose}
       />
       
-      {/* Modal */}
-      <div className="relative min-h-full flex items-start justify-center py-8 px-4">
-        <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+      {/* Contenedor del modal con z-index alto */}
+      <div style={{
+        position: 'fixed',
+        inset: 0,
+        zIndex: 9999,
+        overflow: 'auto',
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        padding: '2rem'
+      }}>
+        <div style={{
+          background: 'white',
+          borderRadius: '0.75rem',
+          boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)',
+          width: '100%',
+          maxWidth: '56rem',
+          maxHeight: '90vh',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          marginTop: '2rem'
+        }}>
           {/* Header */}
-          <div className="flex-shrink-0 p-6 border-b flex items-center justify-between bg-gradient-to-r from-purple-500 to-indigo-500 rounded-t-xl">
-            <h3 className="text-lg font-bold text-white">
+          <div style={{
+            flexShrink: 0,
+            padding: '1.5rem',
+            borderBottom: '1px solid #e5e7eb',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            background: 'linear-gradient(to right, #9333ea, #4f46e5)',
+            borderTopLeftRadius: '0.75rem',
+            borderTopRightRadius: '0.75rem'
+          }}>
+            <h3 style={{
+              fontSize: '1.125rem',
+              fontWeight: 700,
+              color: 'white',
+              margin: 0
+            }}>
               {template.id ? 'Editar' : 'Nueva'} Plantilla RAG
             </h3>
             <button 
-              onClick={onClose} 
-              className="text-white/80 hover:text-white transition-colors"
+              onClick={onClose}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'rgba(255,255,255,0.8)',
+                cursor: 'pointer',
+                padding: '0.25rem'
+              }}
             >
-              <X className="w-5 h-5" />
+              <X size={20} />
             </button>
           </div>
 
           {/* Content */}
-          <div className="flex-1 overflow-y-auto p-6 space-y-4">
+          <div style={{
+            flex: 1,
+            overflow: 'auto',
+            padding: '1.5rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem'
+          }}>
             {/* Basic Info */}
-            <div className="grid grid-cols-2 gap-4">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
               <div>
-                <label className="block text-sm font-medium mb-1">Style ID *</label>
+                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.25rem' }}>Style ID *</label>
                 <input
                   value={template.style_id || ''}
                   onChange={e => onUpdateTemplate({...template, style_id: e.target.value})}
-                  className="w-full border rounded-lg px-3 py-2"
+                  style={{
+                    width: '100%',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '0.5rem',
+                    padding: '0.5rem 0.75rem'
+                  }}
                   placeholder="xv-festivo"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Nombre *</label>
+                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.25rem' }}>Nombre *</label>
                 <input
                   value={template.style_name || ''}
                   onChange={e => onUpdateTemplate({...template, style_name: e.target.value})}
-                  className="w-full border rounded-lg px-3 py-2"
+                  style={{
+                    width: '100%',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '0.5rem',
+                    padding: '0.5rem 0.75rem'
+                  }}
                   placeholder="XV Años Festivo"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Descripción</label>
+              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.25rem' }}>Descripción</label>
               <textarea
                 value={template.description || ''}
                 onChange={e => onUpdateTemplate({...template, description: e.target.value})}
-                className="w-full border rounded-lg px-3 py-2"
+                style={{
+                  width: '100%',
+                  border: '1px solid #e5e7eb',
+                  borderRadius: '0.5rem',
+                  padding: '0.5rem 0.75rem'
+                }}
                 rows={2}
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }}>
               <div>
-                <label className="block text-sm font-medium mb-1">Categoría *</label>
+                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.25rem' }}>Categoría *</label>
                 <select
                   value={template.category || 'boda'}
                   onChange={e => onUpdateTemplate({...template, category: e.target.value})}
-                  className="w-full border rounded-lg px-3 py-2"
+                  style={{
+                    width: '100%',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '0.5rem',
+                    padding: '0.5rem 0.75rem'
+                  }}
                 >
                   {CATEGORIES.map(c => (
                     <option key={c} value={c}>{c}</option>
@@ -128,50 +200,74 @@ export const RAGTemplateModal: React.FC<Props> = ({
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Etiquetas</label>
+                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.25rem' }}>Etiquetas</label>
                 <input
                   value={themeTagsValue}
                   onChange={e => onUpdateTemplate({
                     ...template,
                     theme_tags: e.target.value.split(',').map(t => t.trim()).filter(Boolean)
                   })}
-                  className="w-full border rounded-lg px-3 py-2"
+                  style={{
+                    width: '100%',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '0.5rem',
+                    padding: '0.5rem 0.75rem'
+                  }}
                   placeholder="xv, fiesta, celebracion"
                 />
               </div>
             </div>
 
             {/* HTML Analyzer */}
-            <div className="border-t pt-4">
-              <h4 className="font-medium mb-2">Analizador HTML → RAG</h4>
-              <p className="text-sm text-gray-600 mb-2">
+            <div style={{ borderTop: '1px solid #e5e7eb', paddingTop: '1rem' }}>
+              <h4 style={{ fontWeight: 500, marginBottom: '0.5rem' }}>Analizador HTML → RAG</h4>
+              <p style={{ fontSize: '0.875rem', color: '#6b7280', marginBottom: '0.5rem' }}>
                 Pega código HTML para extraer estructura automáticamente
               </p>
               <textarea
                 value={htmlInput}
                 onChange={e => onHtmlChange(e.target.value)}
-                className="w-full border rounded-lg px-3 py-2 font-mono text-xs"
+                style={{
+                  width: '100%',
+                  border: '1px solid #e5e7eb',
+                  borderRadius: '0.5rem',
+                  padding: '0.5rem',
+                  fontFamily: 'monospace',
+                  fontSize: '0.75rem'
+                }}
                 rows={6}
                 placeholder="<html>...</html>"
               />
               <button
                 onClick={onAnalyze}
                 disabled={isAnalyzing || !htmlInput}
-                className="mt-2 flex items-center gap-2 px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 disabled:opacity-50"
+                style={{
+                  marginTop: '0.5rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  padding: '0.5rem 1rem',
+                  background: '#9333ea',
+                  color: 'white',
+                  borderRadius: '0.5rem',
+                  border: 'none',
+                  cursor: isAnalyzing || !htmlInput ? 'not-allowed' : 'pointer',
+                  opacity: isAnalyzing || !htmlInput ? 0.5 : 1
+                }}
               >
-                {isAnalyzing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                {isAnalyzing && <Loader2 className="w-4 h-4 animate-spin" />}
                 {isAnalyzing ? 'Analizando...' : 'Analizar HTML'}
               </button>
             </div>
 
             {/* CDNs */}
             <div>
-              <label className="block text-sm font-medium mb-2">CDNs Requeridos</label>
-              <div className="flex flex-wrap gap-2">
+              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: '0.5rem' }}>CDNs Requeridos</label>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
                 {CDN_OPTIONS.map(cdn => {
                   const currentCdns = Array.isArray(template.base_cdns) ? template.base_cdns : [];
                   return (
-                    <label key={cdn} className="flex items-center gap-1 bg-gray-100 px-3 py-1 rounded text-sm">
+                    <label key={cdn} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', background: '#f3f4f6', padding: '0.25rem 0.75rem', borderRadius: '0.25rem', fontSize: '0.875rem' }}>
                       <input
                         type="checkbox"
                         checked={currentCdns.includes(cdn)}
@@ -189,64 +285,11 @@ export const RAGTemplateModal: React.FC<Props> = ({
               </div>
             </div>
 
-            {/* JSON Editors */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">Color Palette (JSON)</label>
-                <textarea
-                  value={typeof template.color_palette === 'string' ? template.color_palette : JSON.stringify(template.color_palette || {}, null, 2)}
-                  onChange={e => onUpdateTemplate({...template, color_palette: e.target.value})}
-                  className="w-full border rounded-lg px-3 py-2 font-mono text-xs"
-                  rows={5}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Typography (JSON)</label>
-                <textarea
-                  value={typeof template.typography_scale === 'string' ? template.typography_scale : JSON.stringify(template.typography_scale || {}, null, 2)}
-                  onChange={e => onUpdateTemplate({...template, typography_scale: e.target.value})}
-                  className="w-full border rounded-lg px-3 py-2 font-mono text-xs"
-                  rows={5}
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Modules Def (JSON)</label>
-              <textarea
-                value={typeof template.modules_def === 'string' ? template.modules_def : JSON.stringify(template.modules_def || {}, null, 2)}
-                onChange={e => onUpdateTemplate({...template, modules_def: e.target.value})}
-                className="w-full border rounded-lg px-3 py-2 font-mono text-xs"
-                rows={6}
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">Animation Rules (JSON)</label>
-                <textarea
-                  value={typeof template.animation_rules === 'string' ? template.animation_rules : JSON.stringify(template.animation_rules || {}, null, 2)}
-                  onChange={e => onUpdateTemplate({...template, animation_rules: e.target.value})}
-                  className="w-full border rounded-lg px-3 py-2 font-mono text-xs"
-                  rows={5}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Variation Params (JSON)</label>
-                <textarea
-                  value={typeof template.variation_params === 'string' ? template.variation_params : JSON.stringify(template.variation_params || {}, null, 2)}
-                  onChange={e => onUpdateTemplate({...template, variation_params: e.target.value})}
-                  className="w-full border rounded-lg px-3 py-2 font-mono text-xs"
-                  rows={5}
-                />
-              </div>
-            </div>
-
             {/* Analysis Result */}
             {analysisResult && (
-              <div className="border-t pt-4">
-                <h4 className="font-medium mb-2 text-green-600">Análisis completado:</h4>
-                <pre className="bg-gray-100 p-3 rounded-lg text-xs overflow-auto max-h-40">
+              <div style={{ borderTop: '1px solid #e5e7eb', paddingTop: '1rem' }}>
+                <h4 style={{ fontWeight: 500, marginBottom: '0.5rem', color: '#16a34a' }}>Análisis completado:</h4>
+                <pre style={{ background: '#f3f4f6', padding: '0.75rem', borderRadius: '0.5rem', fontSize: '0.75rem', overflow: 'auto', maxHeight: '10rem' }}>
                   {JSON.stringify(analysisResult, null, 2)}
                 </pre>
               </div>
@@ -254,27 +297,48 @@ export const RAGTemplateModal: React.FC<Props> = ({
           </div>
 
           {/* Footer */}
-          <div className="flex-shrink-0 p-6 border-t flex justify-end gap-3">
+          <div style={{
+            flexShrink: 0,
+            padding: '1.5rem',
+            borderTop: '1px solid #e5e7eb',
+            display: 'flex',
+            justifyContent: 'flex-end',
+            gap: '0.75rem'
+          }}>
             <button
               onClick={onClose}
-              className="px-4 py-2 rounded-lg border hover:bg-gray-50"
+              style={{
+                padding: '0.5rem 1rem',
+                border: '1px solid #e5e7eb',
+                borderRadius: '0.5rem',
+                background: 'white',
+                cursor: 'pointer'
+              }}
             >
               Cancelar
             </button>
             <button
               onClick={onSave}
               disabled={saving}
-              className="flex items-center gap-2 px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 disabled:opacity-50"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.5rem 1rem',
+                background: '#9333ea',
+                color: 'white',
+                borderRadius: '0.5rem',
+                border: 'none',
+                cursor: saving ? 'not-allowed' : 'pointer',
+                opacity: saving ? 0.5 : 1
+              }}
             >
-              {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+              {saving && <Loader2 className="w-4 h-4 animate-spin" />}
               Guardar
             </button>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
-
-  // Renderizar usando portal al nivel del body
-  return createPortal(modalElement, document.body);
 };
