@@ -3053,9 +3053,35 @@ app.post('/api/admin/rag-templates/analyze', adminMiddleware, async (req, res) =
     if (!html) {
       return res.status(400).json({ error: 'HTML es requerido' });
     }
-    
+
+    const stripBase64Images = (rawHtml) => {
+      let cleaned = rawHtml.replace(/<img\s([^>]*?)src=["']data:image\/[^"']+["']([^>]*?)\/?>/gi, (match, before, after) => {
+        const alt = (match.match(/alt=["']([^"']*)["']/i) || [])[1];
+        const width = (match.match(/width=["']([^"']*)["']/i) || [])[1];
+        const height = (match.match(/height=["']([^"']*)["']/i) || [])[1];
+        const cls = (match.match(/class=["']([^"']*)["']/i) || [])[1];
+        const isSelfClosing = match.trimEnd().endsWith('/>');
+        let placeholder = '<img';
+        if (cls) placeholder += ` class="${cls}"`;
+        if (alt) placeholder += ` alt="${alt}"`;
+        if (width) placeholder += ` width="${width}"`;
+        if (height) placeholder += ` height="${height}"`;
+        placeholder += ' src="[IMAGE]"';
+        const leftover = after.replace(/src=["']data:image[^"']+["']/i, '').trim();
+        if (leftover) placeholder += ' ' + leftover;
+        placeholder = placeholder.replace(/\s+/g, ' ');
+        placeholder += isSelfClosing ? ' />' : '>';
+        return placeholder;
+      });
+      cleaned = cleaned.replace(/url\(["']?data:image\/[^"')]+["']?\)/gi, 'url([BG_IMAGE])');
+      cleaned = cleaned.replace(/src=["']data:[^"']+["']/gi, 'src="[MEDIA]"');
+      return cleaned;
+    };
+
+    const htmlClean = stripBase64Images(html);
+
     // 1. Quick regex extraction as baseline
-    const cdnMatches = html.match(/src="(https:\/\/cdn[^"]+)"/g) || [];
+    const cdnMatches = htmlClean.match(/src="(https:\/\/cdn[^"]+)"/g) || [];
     const regexCdns = [...new Set(cdnMatches.map(m => {
       const url = m.replace(/src="/, '').replace(/"/, '');
       if (url.includes('tailwindcss')) return 'tailwindcss';
@@ -3068,10 +3094,10 @@ app.post('/api/admin/rag-templates/analyze', adminMiddleware, async (req, res) =
       return null;
     }).filter(Boolean))];
     
-    const colorMatches = html.match(/#[0-9A-Fa-f]{3,8}|rgb\([^)]+\)/g) || [];
+    const colorMatches = htmlClean.match(/#[0-9A-Fa-f]{3,8}|rgb\([^)]+\)/g) || [];
     const regexColors = [...new Set(colorMatches)].slice(0, 15);
     
-    const fontMatches = html.match(/family=([^:&"']+)/g) || [];
+    const fontMatches = htmlClean.match(/family=([^:&"']+)/g) || [];
     const regexFonts = fontMatches.map(m => m.replace('family=', '').replace(/:/g, '').replace(/\+/g, ' '));
     
     // 2. Try LLM-based extraction
@@ -3133,8 +3159,8 @@ Return ONLY a valid JSON object with these exact fields (no markdown, no code fe
 
 Be thorough and specific. Extract actual colors, fonts, and patterns from the HTML. Infer the category from the content. Generate meaningful theme tags. Describe the layout approach and animation patterns precisely.
 
-HTML to analyze:
-${html.substring(0, 30000)}`;
+HTML to analyze (base64 images stripped to save tokens):
+${htmlClean.substring(0, 30000)}`;
 
         const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${config.html_google_model || 'gemini-2.0-flash'}:generateContent`;
         
