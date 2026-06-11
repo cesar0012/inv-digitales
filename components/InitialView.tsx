@@ -100,13 +100,7 @@ export const InitialView: React.FC<InitialViewProps> = ({
       prompt += `\nEl tema o estilo visual principal debe ser: ${theme}.`;
     }
     
-    if (visualStyle) {
-      prompt += `\nEstilo visual preferido: ${visualStyle}.`;
-    }
     
-    if (mood) {
-      prompt += `\nTono y ánimo: ${mood}.`;
-    }
     
     prompt += `\n\nDetalles específicos del evenimiento:\n${eventDetails.trim()}`;
     
@@ -129,8 +123,8 @@ export const InitialView: React.FC<InitialViewProps> = ({
       eventDetails: eventDetails.trim(),
       eventDate: eventDate || undefined,
       eventTime: eventTime || undefined,
-      visualStyle: visualStyle || undefined,
-      mood: mood || undefined
+      visualStyle: undefined,
+      mood: undefined
     };
 
     onGenerate(prompt, attachments, config);
@@ -366,6 +360,7 @@ export const InitialView: React.FC<InitialViewProps> = ({
             />
           </div>
 
+          {false && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col gap-2 relative" ref={visualStyleRef}>
               <label className="text-sm font-semibold text-gray-700 uppercase tracking-wider flex items-center gap-2">
@@ -439,6 +434,7 @@ export const InitialView: React.FC<InitialViewProps> = ({
               )}
             </div>
           </div>
+          )}
 
           <div className="flex flex-col gap-2">
             <label className="text-sm font-semibold text-gray-700 uppercase tracking-wider flex items-center gap-2">
