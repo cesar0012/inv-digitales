@@ -2968,9 +2968,8 @@ app.post('/api/admin/rag-templates', adminMiddleware, (req, res) => {
       INSERT INTO knowledge_base (
         style_id, style_name, description, category, theme_tags,
         color_palette, typography_scale, layout_rules, modules_def,
-        base_cdns, js_dependencies, animation_rules, variation_params,
-        created_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+        base_cdns, js_dependencies, animation_rules, variation_params
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
     
     const result = stmt.run(
