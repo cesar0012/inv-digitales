@@ -15,8 +15,8 @@ A design fingerprint will be injected before your prompt. It contains MANDATORY 
 - ANIMATION: You MUST use this as your primary animation/transition style.
 - COLOR STRATEGY: You MUST apply colors using this strategy (gradient, duotone, monochrome+accent, etc.) — BUT always anchored on USER_PRIMARY_COLOR and USER_SECONDARY_COLOR when present.
 - SECTION FLOW: You MUST organize sections using this flow pattern.
-- AESTHETIC FAMILY: You MUST apply the aesthetic direction described.
-- MODULE SENSATIONS: You MUST vary the "sensación" per module as specified.
+- AESTHETIC FAMILY: If present, you MUST apply the aesthetic direction described.
+- MODULE SENSATIONS: If present, you MUST vary the "sensación" per module as specified.
 The fingerprint is LAW, not a suggestion. If the fingerprint says "card-based layout", do NOT create a full-screen hero. If it says "typewriter animation", include typewriter effects. OBEY THE FINGERPRINT.
 
 ===== ANTI-MONOTONY PRINCIPLES (CRITICAL) =====
@@ -188,38 +188,6 @@ Modules: portada, padres, itinerario, ubicacion, countdown, padrinos, corte, ves
 
 Now generate the complete HTML invitation: `;
 
-const AESTHETIC_FAMILY_MAP = {
-  'Boda Tradicional': 'EDITORIAL ELEGANTE',
-  'Boda Americana': 'EDITORIAL ELEGANTE',
-  'Boda Gay (Hombres)': 'NEON OSCURO',
-  'Boda Gay (Mujeres)': 'BIOLUMINISCENCIA ABISAL',
-  'XV Años': 'CYBERPUNK NEON',
-  'Bautizo': 'BOHEMIO ORGÁNICO',
-  'Primera Comunión': 'BOHEMIO ORGÁNICO',
-  'Confirmación': 'EDITORIAL ELEGANTE',
-  'Cumpleaños Niño': 'CYBERPUNK NEON',
-  'Cumpleaños Niña': 'BIOLUMINISCENCIA ABISAL',
-  'Baby Shower': 'BOHEMIO ORGÁNICO',
-  'Otro': 'EDITORIAL ELEGANTE'
-};
-
-const MODULE_SENSATIONS_MAP = {
-  'Boda Tradicional': 'portada:elegancia_sutil|padres:tradicional|countdown:elegancia|itinerario:claridad|ubicacion:atmosfera|padrinos:celebracion|corte:formal|vestimenta:directivo|regalos:elegante|confirmacion:fluido',
-  'Boda Americana': 'portada:anticipacion|padres:moderno|countdown:elegancia|itinerario:inmersion|ubicacion:minimal|padrinos:informacion|corte:creativo|vestimenta:sugerido|regalos:elegante|confirmacion:fluido',
-  'Boda Gay (Hombres)': 'portada:sorpresa_inmediata|padres:moderno|countdown:celebracion|itinerario:ritmo|ubicacion:atmosfera|padrinos:celebracion|corte:interactivo|vestimenta:experiencia|regalos:celebracion|confirmacion:celebracion',
-  'Boda Gay (Mujeres)': 'portada:anticipacion|padres:creativo|countdown:elegancia|itinerario:inmersion|ubicacion:atmosfera|padrinos:celebracion|corte:creativo|vestimenta:sugerido|regalos:celebracion|confirmacion:fluido',
-  'XV Años': 'portada:sorpresa_inmediata|padres:tradicional|countdown:celebracion|itinerario:ritmo|ubicacion:atmosfera|padrinos:celebracion|corte:interactivo|vestimenta:experiencia|regalos:celebracion|confirmacion:celebracion',
-  'Bautizo': 'portada:elegancia_sutil|padres:tradicional|countdown:elegancia|itinerario:claridad|ubicacion:minimal|padrinos:informacion|corte:formal|vestimenta:sugerido|regalos:elegante|confirmacion:fluido',
-  'Primera Comunión': 'portada:elegancia_sutil|padres:tradicional|countdown:elegancia|itinerario:claridad|ubicacion:minimal|padrinos:informacion|corte:formal|vestimenta:sugerido|regalos:elegante|confirmacion:fluido',
-  'Confirmación': 'portada:elegancia_sutil|padres:tradicional|countdown:elegancia|itinerario:claridad|ubicacion:minimal|padrinos:informacion|corte:formal|vestimenta:directivo|regalos:elegante|confirmacion:fluido',
-  'Cumpleaños Niño': 'portada:sorpresa_inmediata|padres:creativo|countdown:celebracion|itinerario:ritmo|ubicacion:funcional|padrinos:celebracion|corte:interactivo|vestimenta:experiencia|regalos:celebracion|confirmacion:celebracion',
-  'Cumpleaños Niña': 'portada:sorpresa_inmediata|padres:creativo|countdown:celebracion|itinerario:ritmo|ubicacion:atmosfera|padrinos:celebracion|corte:creativo|vestimenta:experiencia|regalos:celebracion|confirmacion:celebracion',
-  'Baby Shower': 'portada:sorpresa_inmediata|padres:creativo|countdown:celebracion|itinerario:ritmo|ubicacion:atmosfera|padrinos:celebracion|corte:creativo|vestimenta:sugerido|regalos:celebracion|confirmacion:fluido',
-  'Otro': 'portada:elegancia_sutil|padres:moderno|countdown:elegancia|itinerario:claridad|ubicacion:funcional|padrinos:informacion|corte:formal|vestimenta:directivo|regalos:funcional|confirmacion:fluido'
-};
-
 export {
-  CODER_SYSTEM_PROMPT,
-  AESTHETIC_FAMILY_MAP,
-  MODULE_SENSATIONS_MAP
+  CODER_SYSTEM_PROMPT
 };

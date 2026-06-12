@@ -1,7 +1,7 @@
 import { createHash } from 'crypto';
 import https from 'https';
 import db from './database.js';
-import { AESTHETIC_FAMILY_MAP, MODULE_SENSATIONS_MAP } from './agents-prompt.js';
+
 
 const fetchNoSSL = async (url, options = {}) => {
   return new Promise((resolve, reject) => {
@@ -70,69 +70,7 @@ const SPACING_PATTERNS = [
   'py-28 gap-14', 'py-36 gap-6'
 ];
 
-const EVENT_PREFERRED_LAYOUTS = {
-  'Boda Tradicional': ['full-screen-hero', 'editorial-magazine', 'layered-cards', 'cinematic-panes', 'centered-timeline', 'side-by-side-columns', 'overlap-photos'],
-  'Boda Americana': ['cinematic-panes', 'split-screen', 'minimalist-center', 'parallax-layers', 'editorial-magazine', 'side-by-side-columns', 'broken-grid'],
-  'Boda Gay (Hombres)': ['diagonal-clash', 'split-screen', 'diagonal-sections', 'full-screen-hero', 'layered-cards', 'asymmetric-bleed'],
-  'Boda Gay (Mujeres)': ['overlapping-sections', 'storybook', 'wave-sections', 'full-screen-hero', 'collage', 'chaotic-collage'],
-  'XV Años': ['full-screen-hero', 'storybook', 'scrapbook', 'card-based', 'layered-cards', 'wave-sections', 'chaotic-collage', 'scattered-polaroids'],
-  'Bautizo': ['minimalist-center', 'centered-timeline', 'layered-cards', 'storybook', 'overlap-photos'],
-  'Primera Comunión': ['centered-timeline', 'minimalist-center', 'storybook', 'layered-cards', 'overlap-photos'],
-  'Confirmación': ['centered-timeline', 'minimalist-center', 'editorial-magazine', 'layered-cards'],
-  'Cumpleaños Niño': ['card-based', 'collage', 'masonry-grid', 'diagonal-sections', 'scrapbook', 'poster-style', 'chaotic-collage', 'mosaic-chaos'],
-  'Cumpleaños Niña': ['scrapbook', 'wave-sections', 'collage', 'card-based', 'storybook', 'masonry-grid', 'scattered-polaroids', 'chaotic-collage'],
-  'Baby Shower': ['card-based', 'scrapbook', 'wave-sections', 'overlapping-sections', 'storybook', 'masonry-grid', 'scattered-polaroids'],
-  'Otro': ['full-screen-hero', 'card-based', 'editorial-magazine', 'split-screen', 'minimalist-center', 'chaotic-collage', 'overlap-photos']
-};
 
-const EVENT_PREFERRED_ANIMATIONS = {
-  'Boda Tradicional': ['fade-in-stagger', 'parallax-scroll', 'particle-shimmer', 'soft-drift', 'slide-up-reveal', 'collage-assemble'],
-  'Boda Americana': ['cinematic-wipe', 'parallax-scroll', 'zoom-on-enter', 'fade-in-stagger', 'slide-up-reveal', 'chaotic-entrance'],
-  'Boda Gay (Hombres)': ['rotate-reveal', 'elastic-scale', 'parallax-scroll', 'morph-shapes', 'slide-up-reveal', 'grunge-reveal'],
-  'Boda Gay (Mujeres)': ['watercolor-bleed', 'floating-elements', 'soft-drift', 'ripple-effect', 'fade-in-stagger', 'collage-assemble'],
-  'XV Años': ['bounce-in', 'flip-cards', 'particle-shimmer', 'curtain-open', 'slide-up-reveal', 'floating-elements', 'chaotic-entrance', 'photo-scatter'],
-  'Bautizo': ['soft-drift', 'fade-in-stagger', 'floating-elements', 'ripple-effect', 'slide-up-reveal'],
-  'Primera Comunión': ['fade-in-stagger', 'soft-drift', 'slide-up-reveal', 'particle-shimmer', 'floating-elements'],
-  'Confirmación': ['fade-in-stagger', 'parallax-scroll', 'slide-up-reveal', 'soft-drift'],
-  'Cumpleaños Niño': ['bounce-in', 'elastic-scale', 'glitch-entrance', 'morph-shapes', 'rotate-reveal', 'flip-cards', 'chaotic-entrance', 'photo-scatter'],
-  'Cumpleaños Niña': ['bounce-in', 'watercolor-bleed', 'floating-elements', 'elastic-scale', 'ripple-effect', 'curtain-open', 'collage-assemble'],
-  'Baby Shower': ['floating-elements', 'soft-drift', 'bounce-in', 'watercolor-bleed', 'ripple-effect', 'fade-in-stagger', 'photo-scatter'],
-  'Otro': ['fade-in-stagger', 'slide-up-reveal', 'parallax-scroll', 'zoom-on-enter', 'bounce-in', 'chaotic-entrance']
-};
-
-const VISUAL_STYLE_PREFERENCES = {
-  'Elegante Clásico': { layouts: ['full-screen-hero', 'editorial-magazine', 'layered-cards', 'cinematic-panes', 'overlap-photos'], typographies: ['elegant-serif-pair', 'calligraphic-body', 'luxury-thin'], colorStrategies: ['muted-elegant', 'monochrome-accent', 'tonal-layering'], sflows: ['linear-classic', 'alternating-bg', 'fullbleed-interleaved'] },
-  'Moderno Minimalista': { layouts: ['minimalist-center', 'split-screen', 'side-by-side-columns', 'broken-grid'], typographies: ['modern-geometric', 'condensed-sans-expanded', 'display-sans'], colorStrategies: ['monochrome-accent', 'high-contrast', 'duotone'], sflows: ['linear-classic', 'scroll-snap-sections', 'card-stack'] },
-  'Rústico Vintage': { layouts: ['scrapbook', 'storybook', 'collage', 'overlapping-sections', 'scattered-polaroids'], typographies: ['handwritten-clean', 'boho-handwritten', 'vintage-serif'], colorStrategies: ['earth-tones', 'warm-palette', 'analogous-harmony'], sflows: ['wave-divider', 'alternating-bg', 'overlay-sections'] },
-  'Bohemio Floral': { layouts: ['overlapping-sections', 'scrapbook', 'wave-sections', 'storybook', 'chaotic-collage'], typographies: ['boho-handwritten', 'script-serif', 'calligraphic-body'], colorStrategies: ['earth-tones', 'pastel-spectrum', 'analogous-harmony'], sflows: ['wave-divider', 'overlay-sections', 'mosaic-grid'] },
-  'Tropical Playa': { layouts: ['wave-sections', 'full-screen-hero', 'asymmetrical', 'diagonal-sections', 'asymmetric-bleed'], typographies: ['handwritten-clean', 'display-sans', 'playful-rounded'], colorStrategies: ['warm-palette', 'complementary-pop', 'triadic-vibrant'], sflows: ['wave-divider', 'fullbleed-interleaved', 'overlay-sections'] },
-  'Art Deco': { layouts: ['editorial-magazine', 'diagonal-sections', 'split-screen', 'layered-cards', 'diagonal-clash'], typographies: ['art-deco-display', 'condensed-sans-expanded', 'luxury-thin'], colorStrategies: ['high-contrast', 'duotone', 'jewel-tones'], sflows: ['linear-classic', 'accordion-reveal', 'card-stack'] },
-  'Romántico Suave': { layouts: ['full-screen-hero', 'storybook', 'wave-sections', 'layered-cards', 'overlap-photos'], typographies: ['script-serif', 'calligraphic-body', 'elegant-serif-pair'], colorStrategies: ['pastel-spectrum', 'analogous-harmony', 'muted-elegant'], sflows: ['linear-classic', 'wave-divider', 'alternating-bg'] },
-  'Divertido Colorido': { layouts: ['collage', 'scrapbook', 'masonry-grid', 'card-based', 'poster-style', 'chaotic-collage', 'mosaic-chaos'], typographies: ['playful-rounded', 'display-sans', 'handwritten-clean', 'collage-typography'], colorStrategies: ['triadic-vibrant', 'complementary-pop', 'pastel-spectrum'], sflows: ['mosaic-grid', 'card-stack', 'scroll-snap-sections', 'chaotic-overlap'] },
-  'Glamuroso': { layouts: ['full-screen-hero', 'cinematic-panes', 'editorial-magazine', 'layered-cards', 'overlap-photos'], typographies: ['luxury-thin', 'elegant-serif-pair', 'art-deco-display'], colorStrategies: ['jewel-tones', 'monochrome-accent', 'gradient-flow'], sflows: ['linear-classic', 'fullbleed-interleaved', 'alternating-bg'] },
-  'Industrial Urbano': { layouts: ['asymmetrical', 'diagonal-sections', 'masonry-grid', 'split-screen', 'diagonal-clash', 'broken-grid'], typographies: ['condensed-sans-expanded', 'mono-display', 'retro-slab', 'brutalist-mix'], colorStrategies: ['high-contrast', 'monochrome-accent', 'duotone'], sflows: ['mosaic-grid', 'overlay-sections', 'card-stack', 'asymmetric-breaks'] },
-  'Campestre Natural': { layouts: ['scrapbook', 'storybook', 'overlapping-sections', 'wave-sections', 'scattered-polaroids'], typographies: ['handwritten-clean', 'boho-handwritten', 'vintage-serif'], colorStrategies: ['earth-tones', 'analogous-harmony', 'warm-palette'], sflows: ['wave-divider', 'alternating-bg', 'overlay-sections'] },
-  'Nocturno Lujoso': { layouts: ['cinematic-panes', 'full-screen-hero', 'editorial-magazine', 'parallax-layers', 'layered-z-messy'], typographies: ['luxury-thin', 'elegant-serif-pair', 'modern-geometric'], colorStrategies: ['jewel-tones', 'monochrome-accent', 'gradient-flow'], sflows: ['fullbleed-interleaved', 'linear-classic', 'accordion-reveal'] },
-  'Acuarela Artístico': { layouts: ['overlapping-sections', 'wave-sections', 'scrapbook', 'storybook', 'chaotic-collage'], typographies: ['calligraphic-body', 'script-serif', 'boho-handwritten'], colorStrategies: ['pastel-spectrum', 'analogous-harmony', 'gradient-flow'], sflows: ['wave-divider', 'overlay-sections', 'mosaic-grid'] },
-  'Geométrico Contemporáneo': { layouts: ['diagonal-sections', 'asymmetrical', 'masonry-grid', 'split-screen', 'diagonal-clash', 'broken-grid'], typographies: ['modern-geometric', 'condensed-sans-expanded', 'mono-display', 'extreme-contrast'], colorStrategies: ['high-contrast', 'duotone', 'complementary-pop'], sflows: ['mosaic-grid', 'card-stack', 'timeline-horizontal', 'asymmetric-breaks'] },
-  'Brutalista Etéreo': { layouts: ['broken-grid', 'diagonal-clash', 'asymmetric-bleed', 'chaotic-collage', 'layered-z-messy'], typographies: ['brutalist-mix', 'extreme-contrast', 'collage-typography'], colorStrategies: ['high-contrast', 'duotone', 'neon-accents'], sflows: ['chaotic-overlap', 'asymmetric-breaks', 'collage-flow'] },
-  'Cyberpunk Neon': { layouts: ['diagonal-clash', 'split-screen', 'layered-z-messy', 'asymmetric-bleed', 'broken-grid'], typographies: ['brutalist-mix', 'mono-display', 'extreme-contrast'], colorStrategies: ['neon-accents', 'high-contrast', 'duotone'], sflows: ['chaotic-overlap', 'mosaic-grid', 'asymmetric-breaks'] },
-  'Neon Oscuro': { layouts: ['asymmetric-bleed', 'diagonal-clash', 'layered-z-messy', 'full-screen-hero', 'broken-grid'], typographies: ['brutalist-mix', 'extreme-contrast', 'mono-display'], colorStrategies: ['neon-accents', 'monochrome-accent', 'high-contrast'], sflows: ['chaotic-overlap', 'asymmetric-breaks', 'collage-flow'] },
-  'Bioluminiscente Abisal': { layouts: ['full-screen-hero', 'parallax-layers', 'overlap-photos', 'cinematic-panes', 'layered-z-messy'], typographies: ['calligraphic-body', 'elegant-serif-pair', 'modern-geometric'], colorStrategies: ['gradient-flow', 'jewel-tones', 'tonal-layering'], sflows: ['fullbleed-interleaved', 'overlay-sections', 'wave-divider'] }
-};
-
-const MOOD_PREFERENCES = {
-  'Romántico': { animations: ['soft-drift', 'fade-in-stagger', 'floating-elements', 'watercolor-bleed', 'collage-assemble'], sflows: ['wave-divider', 'alternating-bg', 'overlay-sections'] },
-  'Festivo': { animations: ['bounce-in', 'elastic-scale', 'curtain-open', 'flip-cards', 'chaotic-entrance', 'photo-scatter'], sflows: ['scroll-snap-sections', 'card-stack', 'mosaic-grid', 'chaotic-overlap'] },
-  'Solemne': { animations: ['fade-in-stagger', 'parallax-scroll', 'slide-up-reveal', 'curtain-open'], sflows: ['linear-classic', 'alternating-bg', 'fullbleed-interleaved'] },
-  'Divertido': { animations: ['bounce-in', 'elastic-scale', 'glitch-entrance', 'morph-shapes', 'rotate-reveal', 'chaotic-entrance'], sflows: ['mosaic-grid', 'card-stack', 'scroll-snap-sections', 'chaotic-overlap'] },
-  'Íntimo': { animations: ['soft-drift', 'fade-in-stagger', 'slide-up-reveal', 'ripple-effect'], sflows: ['linear-classic', 'wave-divider', 'overlay-sections'] },
-  'Grandioso': { animations: ['cinematic-wipe', 'parallax-scroll', 'zoom-on-enter', 'particle-shimmer', 'collage-assemble'], sflows: ['fullbleed-interleaved', 'linear-classic', 'accordion-reveal'] },
-  'Tranquilo': { animations: ['soft-drift', 'fade-in-stagger', 'floating-elements', 'watercolor-bleed'], sflows: ['wave-divider', 'alternating-bg', 'overlay-sections'] },
-  'Enérgico': { animations: ['bounce-in', 'elastic-scale', 'rotate-reveal', 'glitch-entrance', 'morph-shapes', 'chaotic-entrance', 'photo-scatter'], sflows: ['mosaic-grid', 'scroll-snap-sections', 'card-stack', 'chaotic-overlap'] },
-  'Nostálgico': { animations: ['typewriter-text', 'stamp-reveal', 'fade-in-stagger', 'parallax-scroll', 'collage-assemble'], sflows: ['wave-divider', 'overlay-sections', 'timeline-horizontal'] },
-  'Místico': { animations: ['particle-shimmer', 'morph-shapes', 'ripple-effect', 'watercolor-bleed', 'grunge-reveal'], sflows: ['fullbleed-interleaved', 'overlay-sections', 'wave-divider'] }
-};
 
 const pickRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
@@ -146,22 +84,32 @@ const pickDifferent = (arr, exclude) => {
   return filtered.length > 0 ? pickRandom(filtered) : pickRandom(arr);
 };
 
-const generateDesignFingerprint = (eventType = '', theme = '', visualStyle = '', mood = '', primaryColor = '', secondaryColor = '') => {
-  const preferredLayouts = EVENT_PREFERRED_LAYOUTS[eventType] || EVENT_PREFERRED_LAYOUTS['Otro'];
-  const preferredAnimations = EVENT_PREFERRED_ANIMATIONS[eventType] || EVENT_PREFERRED_ANIMATIONS['Otro'];
-  const aestheticFamily = AESTHETIC_FAMILY_MAP[eventType] || AESTHETIC_FAMILY_MAP['Otro'];
-  const moduleSensations = MODULE_SENSATIONS_MAP[eventType] || MODULE_SENSATIONS_MAP['Otro'];
+const generateDesignFingerprint = (eventType = '', theme = '', visualStyle = '', mood = '', primaryColor = '', secondaryColor = '', ragTemplate = null) => {
+  let layoutPool, typographyPool, animationPool, colorStrategyPool, sflowPool, aestheticFamily, moduleSensations;
 
-  const stylePrefs = VISUAL_STYLE_PREFERENCES[visualStyle] || null;
-  const moodPrefs = MOOD_PREFERENCES[mood] || null;
+  if (ragTemplate) {
+    const lr = ragTemplate.layout_rules || {};
+    const ar = ragTemplate.animation_rules || {};
+    const ts = ragTemplate.typography_scale || {};
+    const cp = ragTemplate.color_palette || {};
+    const vp = ragTemplate.variation_params || {};
 
-  const layoutPool = stylePrefs ? [...new Set([...stylePrefs.layouts, ...preferredLayouts])] : preferredLayouts;
-  const typographyPool = stylePrefs ? stylePrefs.typographies : TYPOGRAPHY_OPTIONS;
-  const animationPool = moodPrefs ? [...new Set([...moodPrefs.animations, ...preferredAnimations])] : preferredAnimations;
-  const colorStrategyPool = stylePrefs ? stylePrefs.colorStrategies : COLOR_STRATEGIES;
-  const sflowPool = stylePrefs
-    ? [...new Set([...stylePrefs.sflows, ...(moodPrefs ? moodPrefs.sflows : [])])]
-    : (moodPrefs ? moodPrefs.sflows : SECTION_FLOW_OPTIONS);
+    layoutPool = Array.isArray(lr.layouts) && lr.layouts.length > 0 ? lr.layouts : LAYOUT_OPTIONS;
+    animationPool = Array.isArray(ar.animations) && ar.animations.length > 0 ? ar.animations : ANIMATION_OPTIONS;
+    typographyPool = Array.isArray(ts.options) && ts.options.length > 0 ? ts.options : TYPOGRAPHY_OPTIONS;
+    colorStrategyPool = Array.isArray(cp.strategies) && cp.strategies.length > 0 ? cp.strategies : COLOR_STRATEGIES;
+    sflowPool = Array.isArray(vp.section_flows) && vp.section_flows.length > 0 ? vp.section_flows : SECTION_FLOW_OPTIONS;
+    aestheticFamily = lr.aesthetic_family || null;
+    moduleSensations = ar.module_sensations || null;
+  } else {
+    layoutPool = LAYOUT_OPTIONS;
+    typographyPool = TYPOGRAPHY_OPTIONS;
+    animationPool = ANIMATION_OPTIONS;
+    colorStrategyPool = COLOR_STRATEGIES;
+    sflowPool = SECTION_FLOW_OPTIONS;
+    aestheticFamily = null;
+    moduleSensations = null;
+  }
 
   const hasUserColors = primaryColor && secondaryColor;
   const userPaletteStrategies = ['user-palette-gradient', 'user-palette-duotone', 'user-palette-accent', 'user-palette-layered'];
@@ -207,12 +155,16 @@ const generateDesignFingerprint = (eventType = '', theme = '', visualStyle = '',
     `ANIMATION: ${primaryAnimation} (primary) + ${secondaryAnimation} (secondary)`,
     `COLOR_STRATEGY: ${colorStrategy} (primary) + ${altColorStrategy} (accent sections)`,
     `SECTION_FLOW: ${sectionFlow}`,
-    `AESTHETIC_FAMILY: ${aestheticFamily}`,
-    `MODULE_SENSATIONS: ${moduleSensations}`,
+  ];
+
+  if (aestheticFamily) fingerprint.push(`AESTHETIC_FAMILY: ${aestheticFamily}`);
+  if (moduleSensations) fingerprint.push(`MODULE_SENSATIONS: ${moduleSensations}`);
+
+  fingerprint.push(
     `MODULE_LAYOUTS: ${moduleAssignments.join(' | ')}`,
     `CHAOS_SEED: ${chaosSeed}`,
     `VARIATION_DIRECTIVE: Each module has an EXPLICIT per-module assignment in MODULE_LAYOUTS. You MUST follow the layout, typography, animation, photo treatment, and spacing specified for EACH module. NO two adjacent modules may share the same layout. The CHAOS_SEED is a unique token for this invitation — use it to seed visual randomness (e.g. rotation angles, offset values, clip-path variations, z-index stacking).`,
-  ];
+  );
 
   if (primaryColor) fingerprint.push(`USER_PRIMARY_COLOR: ${primaryColor}`);
   if (secondaryColor) fingerprint.push(`USER_SECONDARY_COLOR: ${secondaryColor}`);
@@ -240,8 +192,8 @@ A design fingerprint will be injected before your prompt. It contains MANDATORY 
 - ANIMATION: You MUST use this as your primary animation/transition style.
 - COLOR STRATEGY: You MUST apply colors using this strategy (gradient, duotone, monochrome+accent, etc.) — BUT always anchored on USER_PRIMARY_COLOR and USER_SECONDARY_COLOR when present.
 - SECTION FLOW: You MUST organize sections using this flow pattern.
-- AESTHETIC FAMILY: You MUST apply the aesthetic direction described.
-- MODULE SENSATIONS: You MUST vary the "sensación" per module as specified.
+- AESTHETIC FAMILY: If present, you MUST apply the aesthetic direction described.
+- MODULE SENSATIONS: If present, you MUST vary the "sensación" per module as specified.
 The fingerprint is LAW, not a suggestion. If the fingerprint says "card-based layout", do NOT create a full-screen hero. If it says "typewriter animation", include typewriter effects. OBEY THE FINGERPRINT.
 
 ===== ANTI-MONOTONY PRINCIPLES (CRITICAL) =====
@@ -507,7 +459,7 @@ export const generateWithGemini = async (prompt, apiKey, model = 'gemini-3.1-pro
   const currentDate = new Date().toISOString().replace('T', ' ').substring(0, 19);
   const promptWithDate = prompt.replace(/SYSTEM_TIMESTAMP:\s*\S+/, `SYSTEM_TIMESTAMP: ${currentDate}`);
   
-  const fingerprint = generateDesignFingerprint(eventType, theme, visualStyle, mood, primaryColor, secondaryColor);
+  const fingerprint = generateDesignFingerprint(eventType, theme, visualStyle, mood, primaryColor, secondaryColor, ragTemplate);
   console.log('=== DESIGN FINGERPRINT ===');
   console.log('Event:', eventType, '| Theme:', theme, '| VisualStyle:', visualStyle, '| Mood:', mood, '| Primary:', primaryColor, '| Secondary:', secondaryColor);
   console.log('Fingerprint:', fingerprint);
