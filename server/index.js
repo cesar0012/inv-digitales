@@ -2919,6 +2919,68 @@ app.get('/api/admin/rag-templates', adminMiddleware, (req, res) => {
   }
 });
 
+// GET /api/admin/rag-templates/backup - Descargar backup de knowledge_base
+app.get('/api/admin/rag-templates/backup', adminMiddleware, (req, res) => {
+  try {
+    const templates = db.prepare('SELECT * FROM knowledge_base ORDER BY created_at ASC').all();
+    const backup = {
+      version: 1,
+      exported_at: new Date().toISOString(),
+      data: { knowledge_base: templates }
+    };
+
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Disposition', `attachment; filename="rag-backup-${new Date().toISOString().slice(0, 10)}.json"`);
+    res.json(backup);
+  } catch (error) {
+    console.error('Error creating RAG backup:', error);
+    res.status(500).json({ error: 'Error al crear backup de plantillas RAG' });
+  }
+});
+
+// POST /api/admin/rag-templates/backup - Importar backup de knowledge_base (sobrescribe existentes)
+app.post('/api/admin/rag-templates/backup', adminMiddleware, (req, res) => {
+  try {
+    const backup = req.body;
+
+    if (!backup || !backup.version || !backup.data || !Array.isArray(backup.data.knowledge_base)) {
+      return res.status(400).json({ error: 'Formato de backup de plantillas RAG inválido' });
+    }
+
+    const templates = backup.data.knowledge_base;
+    if (templates.length === 0) {
+      return res.status(400).json({ error: 'El backup no contiene plantillas RAG' });
+    }
+
+    for (const t of templates) {
+      if (!t.style_id || !t.style_name) {
+        return res.status(400).json({ error: 'Cada plantilla debe tener style_id y style_name' });
+      }
+    }
+
+    const replace = db.transaction(() => {
+      db.exec('DELETE FROM knowledge_base');
+
+      const columns = Object.keys(templates[0]);
+      const placeholders = columns.map(() => '?').join(', ');
+      const insertStmt = db.prepare(`INSERT INTO knowledge_base (${columns.join(', ')}) VALUES (${placeholders})`);
+
+      for (const t of templates) {
+        const values = columns.map(c => t[c] !== undefined ? t[c] : null);
+        insertStmt.run(...values);
+      }
+    });
+
+    replace();
+
+    const updatedTemplates = db.prepare('SELECT * FROM knowledge_base ORDER BY created_at ASC').all();
+    res.json({ success: true, message: `Se importaron ${templates.length} plantilla(s) RAG correctamente`, templates: updatedTemplates });
+  } catch (error) {
+    console.error('Error restoring RAG backup:', error);
+    res.status(500).json({ error: 'Error al importar backup de plantillas RAG: ' + error.message });
+  }
+});
+
 // GET /api/admin/rag-templates/:id - Obtener una plantilla completa
 app.get('/api/admin/rag-templates/:id', adminMiddleware, (req, res) => {
   try {
@@ -3036,73 +3098,13 @@ app.put('/api/admin/rag-templates/:id', adminMiddleware, (req, res) => {
 // DELETE /api/admin/rag-templates/:id - Eliminar plantilla
 app.delete('/api/admin/rag-templates/:id', adminMiddleware, (req, res) => {
   try {
-    // Soft delete - marcar como inactiva
-    db.prepare('UPDATE knowledge_base SET is_active = 0 WHERE id = ?').run(req.params.id);
+    const result = db.prepare('DELETE FROM knowledge_base WHERE id = ?').run(req.params.id);
+    if (result.changes === 0) {
+      return res.status(404).json({ error: 'Plantilla no encontrada' });
+    }
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: error.message });
-  }
-});
-
-// GET /api/admin/rag-templates/backup - Descargar backup de knowledge_base
-app.get('/api/admin/rag-templates/backup', adminMiddleware, (req, res) => {
-  try {
-    const templates = db.prepare('SELECT * FROM knowledge_base ORDER BY created_at ASC').all();
-    const backup = {
-      version: 1,
-      exported_at: new Date().toISOString(),
-      data: { knowledge_base: templates }
-    };
-
-    res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Content-Disposition', `attachment; filename="rag-backup-${new Date().toISOString().slice(0, 10)}.json"`);
-    res.json(backup);
-  } catch (error) {
-    console.error('Error creating RAG backup:', error);
-    res.status(500).json({ error: 'Error al crear backup de plantillas RAG' });
-  }
-});
-
-// POST /api/admin/rag-templates/backup - Importar backup de knowledge_base (sobrescribe existentes)
-app.post('/api/admin/rag-templates/backup', adminMiddleware, (req, res) => {
-  try {
-    const backup = req.body;
-
-    if (!backup || !backup.version || !backup.data || !Array.isArray(backup.data.knowledge_base)) {
-      return res.status(400).json({ error: 'Formato de backup de plantillas RAG inválido' });
-    }
-
-    const templates = backup.data.knowledge_base;
-    if (templates.length === 0) {
-      return res.status(400).json({ error: 'El backup no contiene plantillas RAG' });
-    }
-
-    for (const t of templates) {
-      if (!t.style_id || !t.style_name) {
-        return res.status(400).json({ error: 'Cada plantilla debe tener style_id y style_name' });
-      }
-    }
-
-    const replace = db.transaction(() => {
-      db.exec('DELETE FROM knowledge_base');
-
-      const columns = Object.keys(templates[0]);
-      const placeholders = columns.map(() => '?').join(', ');
-      const insertStmt = db.prepare(`INSERT INTO knowledge_base (${columns.join(', ')}) VALUES (${placeholders})`);
-
-      for (const t of templates) {
-        const values = columns.map(c => t[c] !== undefined ? t[c] : null);
-        insertStmt.run(...values);
-      }
-    });
-
-    replace();
-
-    const updatedTemplates = db.prepare('SELECT * FROM knowledge_base ORDER BY created_at ASC').all();
-    res.json({ success: true, message: `Se importaron ${templates.length} plantilla(s) RAG correctamente`, templates: updatedTemplates });
-  } catch (error) {
-    console.error('Error restoring RAG backup:', error);
-    res.status(500).json({ error: 'Error al importar backup de plantillas RAG: ' + error.message });
   }
 });
 
