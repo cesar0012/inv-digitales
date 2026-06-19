@@ -209,7 +209,7 @@ Your job: ADAPT the BASE template's CONTENT to match the user's request — chan
 
 2. ADAPT CONTENT
    - Replace placeholder text (names, dates, places, hours, dress code, gift info, RSVP details) with the user's real data from the prompt.
-   - If the user specifies colors (USER_PRIMARY_COLOR, USER_SECONDARY_COLOR), update CSS :root variables --color-primary and --color-secondary AND every hardcoded usage of the old palette (backgrounds, borders, accents, gradients, overlays, button colors, text colors).
+   - If the user specifies colors (USER_PRIMARY_COLOR, USER_SECONDARY_COLOR), use them to HUE-SHIFT the template's existing palette (see COLOR ADAPTATION DETAIL below). Do NOT replace the palette with the raw user colors — the template's saturation, lightness, and palette diversity MUST be preserved.
    - If the user specifies a different theme/mood than the template (e.g., template is "boho" but user wants "tropical"), adapt decorative text, image descriptions (GEMINI_GENERATE: prompts), and color accents to lean toward the user's theme — WITHOUT restructuring the layout. The template's bones stay; the skin shifts.
    - Update <img> src attributes:
      * If the user provided local images (e.g., /img/boda-color/hero.jpg), use them in the appropriate modules (portada, padres, ubicacion).
@@ -235,13 +235,48 @@ Your job: ADAPT the BASE template's CONTENT to match the user's request — chan
 6. DO NOT REMOVE MODULES
    - Even if the user's prompt does not mention a module (e.g., no dress code specified), KEEP the module in the template with sensible default content from the prompt's context. Do not delete sections.
 
-===== COLOR ADAPTATION DETAIL =====
-When the user provides USER_PRIMARY_COLOR and USER_SECONDARY_COLOR:
-- Update :root { --color-primary: USER_PRIMARY_COLOR; --color-secondary: USER_SECONDARY_COLOR; }
-- Find every hardcoded hex color in the BASE that came from the template's original palette and replace with the corresponding user color (primary→USER_PRIMARY_COLOR, secondary→USER_SECONDARY_COLOR).
-- For tints/shades/derivatives, compute new ones from the user's colors (e.g., primary/90, primary/20, rgba with alpha).
-- Update gradients, overlays, borders, button backgrounds, hover states, decorative SVG strokes, and text colors that referenced the old palette.
-- Do NOT touch neutral colors (white, black, grays) unless they were part of the template's accent palette.
+===== COLOR ADAPTATION DETAIL (HUE-SHIFT STRATEGY) =====
+The template's palette is VIBRANT and DIVERSE — it has 8-12 CSS variables with distinct saturation/lightness values that create visual richness. Your job is to HUE-SHIFT this palette toward the user's colors, NOT to replace it with 2 flat colors.
+
+STEP 1 — Extract the user's hue:
+- Convert USER_PRIMARY_COLOR to HSL. Note its H (hue) value. Call it H_primary.
+- Convert USER_SECONDARY_COLOR to HSL. Note its H (hue) value. Call it H_secondary.
+- Example: #a0826d → hsl(27, 21%, 53%) → H_primary = 27
+
+STEP 2 — Hue-shift EVERY palette variable:
+- For EACH CSS variable in :root (e.g., --sun-clay, --terracotta, --ochre, --rose-dust, --burnt, --espresso, --date, --sage, --pampas, --sand, --linen):
+  * Keep its ORIGINAL saturation (S) and lightness (L) EXACTLY as they are.
+  * Replace ONLY its hue (H) with H_primary (for warm/accent variables) or H_secondary (for cool/neutral variables).
+  * Reconstruct the hex from the new H, original S, original L.
+- Example: --sun-clay: #c8784f is hsl(18, 55%, 55%). User H_primary=27. New value: hsl(27, 55%, 55%) = #c87860. VIBRANT, not grey.
+- Example: --ochre: #d6a65f is hsl(38, 58%, 61%). User H_primary=27. New value: hsl(27, 58%, 61%) = #d6a05f. Still golden, not muted.
+
+STEP 3 — Maintain palette diversity:
+- Do NOT collapse multiple variables into the same color. Each variable must keep its distinct S/L, so the palette stays rich.
+- --sun-clay, --terracotta, and --burnt are DIFFERENT colors in the original — they must remain different after hue-shift (different S/L = different colors).
+- Warm variables (clays, terracottas, ochres, roses) shift toward H_primary.
+- Cool/neutral variables (sage, espresso if greenish) shift toward H_secondary.
+- Neutrals (sand, linen, pampas) shift slightly toward H_primary but keep high lightness.
+
+STEP 4 — Update ALL hardcoded usages:
+- Every hex color in the CSS that came from the original palette must be replaced with its hue-shifted counterpart.
+- Gradients, overlays, borders, button backgrounds, hover states, box-shadows, decorative SVG strokes, text colors — ALL must use the new hue-shifted values.
+- rgba() values with alpha: use the hue-shifted RGB, keep the same alpha.
+
+STEP 5 — Derive tints/shades from SHIFTED colors:
+- For tints (lighter versions): increase lightness of the SHIFTED color, keep the new hue and original saturation.
+- For shades (darker versions): decrease lightness of the SHIFTED color, keep the new hue and original saturation.
+- NEVER derive tints/shades from the raw user colors — always from the already-shifted palette.
+
+===== SATURATION GUARD (CRITICAL) =====
+The adapted palette MUST be as saturated or MORE saturated than the original template. Desaturation is FORBIDDEN.
+
+- If the user's color has LOWER saturation than the template variable, KEEP the template's saturation. Only take the hue.
+- Example: User #a0826d has S=21%. Template --sun-clay has S=55%. Use S=55%, NOT S=21%. Result: vibrant, not grey.
+- Anti-example (FORBIDDEN): Replacing --sun-clay: #c8784f (vibrant clay) with #a0826d (grey-brown) because "that's the user's color". This kills the design.
+- The user's colors are HUE INDICATORS, not replacement values. They tell you "shift toward warm brown", not "make everything grey-brown".
+
+Do NOT touch pure neutral colors (white #fff, black #000, pure greys #888) unless they were part of the template's accent palette.
 
 ===== IMAGE ADAPTATION DETAIL =====
 - For <img> tags with data-gemini-id="*-imagen" or similar:
