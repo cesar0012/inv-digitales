@@ -453,6 +453,13 @@ const buildTemplateSelectionContext = (templates) => {
     const modulesStr = typeof modules === 'object' && !Array.isArray(modules) && modules.sections
       ? (Array.isArray(modules.sections) ? modules.sections.join(', ') : Object.keys(modules.sections).join(', '))
       : '';
+    const animRules = t.animation_rules || {};
+    const animStr = typeof animRules === 'object' && !Array.isArray(animRules)
+      ? Object.entries(animRules).map(([k, v]) => `${k}:${v}`).join(', ')
+      : '';
+    const varParams = t.variation_params || {};
+    const layoutsStr = varParams.layouts ? (Array.isArray(varParams.layouts) ? varParams.layouts.join(', ') : '') : '';
+    const animsStr = varParams.animations ? (Array.isArray(varParams.animations) ? varParams.animations.join(', ') : '') : '';
     return `ID: ${t.id}
   style_name: ${t.style_name}
   description: ${(t.description || '').slice(0, 200)}
@@ -460,18 +467,29 @@ const buildTemplateSelectionContext = (templates) => {
   theme_tags: ${(t.theme_tags || []).join(', ')}
   color_palette: ${paletteStr}
   modules: ${modulesStr}
+  animation_rules: ${animStr}
+  layouts: ${layoutsStr}
+  animations: ${animsStr}
   html_size: ${t.html_content ? t.html_content.length : 0} chars`;
   }).join('\n---\n');
 };
 
 const selectTemplateWithGemini = async (prompt, eventType, theme, templates, apiKey, model) => {
-  const selectionPrompt = `You are a template selector for digital invitation designs. Given a user's event request and a list of available templates, select the SINGLE best-matching template to adapt.
+  const selectionPrompt = `You are a template selector for digital invitation designs. Given a user's event request and a list of available templates, select the SINGLE best-matching template to adapt and amplify.
 
 Selection criteria (in priority order):
 1. Category match (boda→boda, xv→xv, etc.) — HIGHEST priority
 2. Theme/mood alignment (tropical, boho, vintage, art deco, minimalist, etc.)
-3. Color palette compatibility with user's requested colors (if any)
-4. Module coverage (template has the sections the user needs)
+3. DRAMA AND COMPLEXITY PREFERENCE — STRONGLY prefer templates with:
+   - Non-linear scroll systems (chronicle, phase-based, panel-based, cinematic)
+   - Ornamental/ceremonial animation rules (ornamental, seal, chronicle, intro_screen)
+   - Complex layout systems (panels, chronicle, cinematic, mosaic, decree)
+   - Larger html_size (more complex templates have more elements to amplify)
+   - Templates with "minimal", "sereno", or "simple" in their description should be DEPRIORITIZED unless the user explicitly asks for minimalism.
+4. Color palette compatibility with user's requested colors (if any)
+5. Module coverage (template has the sections the user needs)
+
+When in doubt between two equally matching templates, ALWAYS choose the one with MORE drama, MORE animation complexity, and MORE ornamental elements. The adapter will amplify whatever template is chosen, so starting from a more dramatic base produces better results.
 
 Return ONLY the template ID as a number. No explanation, no markdown, no text — just the numeric ID.
 
@@ -570,7 +588,7 @@ const adaptTemplateWithGemini = async (template, prompt, apiKey, model, options)
     body: JSON.stringify({
       contents: [{ parts: parts }],
       generationConfig: {
-        temperature: 0.7,
+        temperature: 0.9,
         topP: 0.95,
         topK: 40,
         maxOutputTokens: 1500000

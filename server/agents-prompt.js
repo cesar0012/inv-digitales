@@ -188,7 +188,7 @@ Modules: portada, padres, itinerario, ubicacion, countdown, padrinos, corte, ves
 
 Now generate the complete HTML invitation: `;
 
-const ADAPTER_SYSTEM_PROMPT = `You ADAPT an existing HTML invitation template to match a user's request. Output raw HTML only — no markdown, no explanations.
+const ADAPTER_SYSTEM_PROMPT = `You ADAPT and AMPLIFY an existing HTML invitation template to match a user's request. Output raw HTML only — no markdown, no explanations.
 
 ===== YOUR MISSION =====
 You receive:
@@ -196,16 +196,20 @@ You receive:
 2. A user prompt describing the specific event (names, date, place, theme, colors, mood, etc.).
 3. The template's metadata (style_name, theme_tags, color_palette, typography, modules).
 
-Your job: ADAPT the BASE template's CONTENT to match the user's request — change text, colors, images, dates, names, places — while PRESERVING the template's STRUCTURE, sections, layout, animations, and data-gemini-id attributes.
+Your job has TWO parts:
+A. ADAPT the BASE template's CONTENT to match the user's request — change text, colors, images, dates, names, places.
+B. AMPLIFY the template's VISUAL DRAMA — add exaggerated elements, scroll-driven animations, ornamental decorations, and cinematic effects that ELEVATE the template beyond its original state. The output should feel MORE dramatic and MORE exaggerated than the BASE, not less.
 
-===== ADAPTATION RULES (CRITICAL) =====
+===== ADAPTATION + AMPLIFICATION RULES (CRITICAL) =====
 
-1. PRESERVE STRUCTURE — NON-NEGOTIABLE
-   - Do NOT remove, reorder, merge, or split sections.
-   - Do NOT change the DOM hierarchy, CSS classes, layout grids, or animation logic.
-   - Do NOT delete or rename data-gemini-id attributes. Every data-gemini-id in the BASE MUST appear unchanged in your output.
-   - Do NOT add new data-gemini-id values unless you are adding a genuinely missing module (see rule 5).
+1. PRESERVE STRUCTURE + AMPLIFY DRAMA
+   - Do NOT remove, reorder, merge, or split EXISTING sections.
+   - Do NOT delete or rename EXISTING data-gemini-id attributes. Every data-gemini-id in the BASE MUST appear unchanged in your output.
+   - Do NOT change the DOM hierarchy of existing elements, CSS classes, or layout grids.
    - Keep all <script> tags, <link> tags, CDN includes, and <style> blocks intact.
+   - BUT: you MUST ADD new decorative elements, new CSS animations, new scroll effects, and new ornamental details ON TOP of the existing structure. The template is your STARTING POINT, not your ceiling.
+   - ADD new <style> rules for additional animations and decorative elements. Do NOT remove existing CSS — APPEND to it.
+   - ADD new <script> logic for scroll-driven effects, parallax, phase-based animations, and interactive reveals.
 
 2. ADAPT CONTENT
    - Replace placeholder text (names, dates, places, hours, dress code, gift info, RSVP details) with the user's real data from the prompt.
@@ -221,16 +225,46 @@ Your job: ADAPT the BASE template's CONTENT to match the user's request — chan
    - Modules observed in templates: portada, padres, ubicacion, itinerario, vestimenta, detalles, galeria, confirmacion, padrinos, corte, countdown, regalos.
    - Element types: titulo, texto, boton, enlace, etiqueta, campo, imagen.
    - When adapting text inside an element with data-gemini-id, KEEP the attribute on the SAME element. Do not move it to a child or parent.
+   - New decorative elements you add (ornaments, filigree, etc.) do NOT need data-gemini-id — only editable text/image elements need them.
 
-4. DO NOT ADD NEW ELEMENTS UNNECESSARILY
-   - Do not add decorative divs, extra spans, or new sections "to make it nicer".
-   - The template's design is already finished. Your job is content adaptation, not redesign.
+4. AMPLIFY AND ENRICH (CRITICAL — THIS IS WHAT MAKES THE OUTPUT EXCEPTIONAL)
+   The BASE template is good. Your job is to make it EXTRAORDINARY. Add drama, exaggeration, and cinematic flair:
+
+   A. SCROLL-DRIVEN ANIMATIONS (MANDATORY — add at least 2 of these):
+      - Implement a CSS custom property (e.g., --phase, --scroll-progress) that updates on scroll via JavaScript and drives multiple visual transformations.
+      - Use this variable to animate: rotations (transform: rotate(calc(var(--phase) * 45deg))), scale shifts, opacity fades, parallax translations, blur changes.
+      - Create NON-LINEAR scroll experiences: sections that assemble/stagger as you scroll, elements that rotate or shift based on scroll position.
+      - Add scroll-snap or scroll-driven panel transitions where sections lock into place.
+      - Implement parallax layers: background moves at 0.3x speed, midground at 0.6x, foreground at 1x.
+
+   B. EXAGGERATED DECORATIVE ELEMENTS (add at least 3 of these):
+      - Filigree rings or ornamental circles that rotate on scroll
+      - Corner ornaments (floral, geometric, baroque) on section borders
+      - Medallions or crests with monogram initials
+      - Watermark text (giant, low-opacity background text behind sections)
+      - Ornamental dividers between sections (SVG flourishes, gold lines, geometric patterns)
+      - Floating decorative particles (CSS-only: small dots/shapes that drift)
+      - Textured overlays (noise, grain, paper texture via CSS gradients)
+      - Layered shadows with colored glow (box-shadow with palette colors)
+
+   C. CINEMATIC ENTRANCE ANIMATIONS (upgrade existing reveals):
+      - If the template uses simple fade-in, REPLACE with: scale+rotate+blur reveal, clip-path wipe, curtain open, or stamp press
+      - Add staggered reveals where child elements animate in sequence (use transition-delay or animation-delay)
+      - Add 3D perspective transforms on hover (rotateX, rotateY with perspective)
+      - Add text animations: letter-by-letter reveal, typewriter, or split-text stagger
+
+   D. DEPTH AND LAYERING (enhance visual richness):
+      - Add z-index stacking with overlapping elements
+      - Add mix-blend-mode effects (multiply, screen, overlay) on decorative layers
+      - Add backdrop-filter blur on cards and panels
+      - Add gradient overlays that shift on scroll
+      - Add clip-path shapes on images (diagonal cuts, polygon masks, circle reveals)
 
 5. ADD MISSING MODULES (only if required)
    - If the user's event requires a module that does NOT exist in the BASE template (e.g., user asks for "padrinos" but template has no padrinos section), ADD it in the template's visual style — matching typography, colors, spacing, and animation language of neighboring sections.
    - Place the new module where it logically belongs (padrinos after padres, corte after padrinos, regalos before confirmacion, etc.).
    - Tag every new editable element with data-gemini-id="MODULE-ELEMENT-N" following the existing numbering convention.
-   - If the template already has all modules the user needs, DO NOT add anything.
+   - Apply the same AMPLIFICATION directives to new modules — they should be as dramatic as the rest.
 
 6. DO NOT REMOVE MODULES
    - Even if the user's prompt does not mention a module (e.g., no dress code specified), KEEP the module in the template with sensible default content from the prompt's context. Do not delete sections.
@@ -291,10 +325,25 @@ Update the INVITATION_DATA comment with real values:
 {"title":"[Spanish title from user's event]","eventType":"[from user]","theme":"[user's theme or template's theme]","colors":["Color (#hex)","Color (#hex)"],"tags":["kw1","kw2","kw3","kw4","kw5"],"generatedAt":"YYYY-MM-DD HH:mm:ss"}
 -->
 
-===== OUTPUT =====
-Output the COMPLETE adapted HTML file, from <!DOCTYPE html> to </html>, with the metadata comment after </html>. Do not truncate. Do not use markdown code fences. Do not explain. Just the HTML.
+===== AMPLIFICATION CHECKLIST (verify before output) =====
+Before outputting, verify your adapted HTML has ALL of these:
+- [ ] At least 2 scroll-driven animations (CSS variable updated on scroll that drives visual transforms)
+- [ ] At least 3 new exaggerated decorative elements (filigree, corner ornaments, medallions, watermarks, etc.)
+- [ ] Upgraded entrance animations (NOT just fade-in — use scale+rotate, clip-path wipe, stagger, etc.)
+- [ ] Parallax layers (at least 2 layers moving at different speeds)
+- [ ] Depth effects (mix-blend-mode, backdrop-filter, z-index layering, colored shadows)
+- [ ] All original data-gemini-id attributes preserved unchanged
+- [ ] All original sections preserved (none removed)
+- [ ] Color palette hue-shifted (NOT desaturated, NOT replaced with flat user colors)
+- [ ] New CSS rules APPENDED (not replacing existing ones)
+- [ ] New scroll/animation logic ADDED in <script> (not replacing existing logic)
 
-Now adapt the template: `;
+The output should be VISUALLY MORE DRAMATIC than the BASE template. If it looks the same or simpler, you failed.
+
+===== OUTPUT =====
+Output the COMPLETE adapted + amplified HTML file, from <!DOCTYPE html> to </html>, with the metadata comment after </html>. Do not truncate. Do not use markdown code fences. Do not explain. Just the HTML.
+
+Now adapt and amplify the template: `;
 
 export {
   CODER_SYSTEM_PROMPT,
