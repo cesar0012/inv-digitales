@@ -1,6 +1,6 @@
 import https from 'https';
 import db from './database.js';
-import { CODER_SYSTEM_PROMPT } from './agents-prompt.js';
+import { CODER_SYSTEM_PROMPT, ADAPTER_SYSTEM_PROMPT } from './agents-prompt.js';
 
 const fetchNoSSL = async (url, options = {}) => {
   return new Promise((resolve, reject) => {
@@ -410,6 +410,190 @@ const trackRAGUsage = (templateId, userId, eventType) => {
   }
 };
 
+// === TEMPLATE ADAPTATION FLOW ===
+
+const getTemplatesWithHtmlContent = () => {
+  try {
+    const rows = db.prepare(`
+      SELECT id, style_name, description, category, theme_tags, color_palette,
+             typography_scale, layout_rules, modules_def, base_cdns,
+             js_dependencies, animation_rules, variation_params, html_content
+      FROM knowledge_base
+      WHERE is_active = 1 AND html_content IS NOT NULL AND html_content != ''
+    `).all();
+
+    if (!rows || rows.length === 0) return [];
+
+    return rows.map(row => {
+      let parsed = {};
+      try { parsed.theme_tags = JSON.parse(row.theme_tags || '[]'); } catch { parsed.theme_tags = []; }
+      try { parsed.color_palette = JSON.parse(row.color_palette || '{}'); } catch { parsed.color_palette = {}; }
+      try { parsed.typography_scale = JSON.parse(row.typography_scale || '{}'); } catch { parsed.typography_scale = {}; }
+      try { parsed.layout_rules = JSON.parse(row.layout_rules || '{}'); } catch { parsed.layout_rules = {}; }
+      try { parsed.modules_def = JSON.parse(row.modules_def || '{}'); } catch { parsed.modules_def = {}; }
+      try { parsed.base_cdns = JSON.parse(row.base_cdns || '[]'); } catch { parsed.base_cdns = []; }
+      try { parsed.js_dependencies = JSON.parse(row.js_dependencies || '[]'); } catch { parsed.js_dependencies = []; }
+      try { parsed.animation_rules = JSON.parse(row.animation_rules || '{}'); } catch { parsed.animation_rules = {}; }
+      try { parsed.variation_params = JSON.parse(row.variation_params || '{}'); } catch { parsed.variation_params = {}; }
+      return { ...row, ...parsed };
+    });
+  } catch (error) {
+    console.error('[ADAPTER] Error fetching templates with html_content:', error);
+    return [];
+  }
+};
+
+const buildTemplateSelectionContext = (templates) => {
+  return templates.map(t => {
+    const cp = t.color_palette || {};
+    const paletteStr = typeof cp === 'object' && !Array.isArray(cp)
+      ? Object.entries(cp).slice(0, 6).map(([k, v]) => `${k}: ${JSON.stringify(v)}`).join(', ')
+      : '';
+    const modules = t.modules_def || {};
+    const modulesStr = typeof modules === 'object' && !Array.isArray(modules) && modules.sections
+      ? (Array.isArray(modules.sections) ? modules.sections.join(', ') : Object.keys(modules.sections).join(', '))
+      : '';
+    return `ID: ${t.id}
+  style_name: ${t.style_name}
+  description: ${(t.description || '').slice(0, 200)}
+  category: ${t.category}
+  theme_tags: ${(t.theme_tags || []).join(', ')}
+  color_palette: ${paletteStr}
+  modules: ${modulesStr}
+  html_size: ${t.html_content ? t.html_content.length : 0} chars`;
+  }).join('\n---\n');
+};
+
+const selectTemplateWithGemini = async (prompt, eventType, theme, templates, apiKey, model) => {
+  const selectionPrompt = `You are a template selector for digital invitation designs. Given a user's event request and a list of available templates, select the SINGLE best-matching template to adapt.
+
+Selection criteria (in priority order):
+1. Category match (boda→boda, xv→xv, etc.) — HIGHEST priority
+2. Theme/mood alignment (tropical, boho, vintage, art deco, minimalist, etc.)
+3. Color palette compatibility with user's requested colors (if any)
+4. Module coverage (template has the sections the user needs)
+
+Return ONLY the template ID as a number. No explanation, no markdown, no text — just the numeric ID.
+
+User event type: ${eventType || '(not specified)'}
+User theme/mood: ${theme || '(not specified)'}
+User prompt (truncated): ${prompt.slice(0, 1500)}
+
+Available templates:
+${buildTemplateSelectionContext(templates)}
+
+Respond with ONLY the ID number of the best template:`;
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+  const response = await fetchNoSSL(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-goog-api-key': apiKey
+    },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: selectionPrompt }] }],
+      generationConfig: {
+        temperature: 0.2,
+        topP: 0.9,
+        topK: 20,
+        maxOutputTokens: 500
+      }
+    })
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(`Template selection API error: ${error.error?.message || response.status}`);
+  }
+
+  const data = await response.json();
+  const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  const match = text.match(/\d+/);
+  if (!match) throw new Error(`Could not parse template ID from: ${text}`);
+
+  const selectedId = parseInt(match[0], 10);
+  const selected = templates.find(t => t.id === selectedId);
+  if (!selected) throw new Error(`Selected ID ${selectedId} not in template list`);
+
+  console.log(`[ADAPTER] Gemini selected template: ${selected.style_name} (ID: ${selectedId})`);
+  return selected;
+};
+
+const adaptTemplateWithGemini = async (template, prompt, apiKey, model, options) => {
+  const { eventType, theme, primaryColor, secondaryColor, visualStyle, mood, imageFiles, promptInstruction } = options;
+
+  const currentDate = new Date().toISOString().replace('T', ' ').substring(0, 19);
+  const promptWithDate = prompt.replace(/SYSTEM_TIMESTAMP:\s*\S+/, `SYSTEM_TIMESTAMP: ${currentDate}`);
+
+  const userContextParts = [
+    `===== USER EVENT REQUEST =====`,
+    `Event type: ${eventType || '(infer from prompt)'}`,
+    `Theme: ${theme || '(infer from prompt)'}`,
+  ];
+  if (primaryColor) userContextParts.push(`USER_PRIMARY_COLOR: ${primaryColor}`);
+  if (secondaryColor) userContextParts.push(`USER_SECONDARY_COLOR: ${secondaryColor}`);
+  if (visualStyle) userContextParts.push(`VISUAL_STYLE: ${visualStyle}`);
+  if (mood) userContextParts.push(`MOOD: ${mood}`);
+  userContextParts.push(`===== END USER EVENT REQUEST =====`);
+
+  const templateMetaParts = [
+    `===== TEMPLATE METADATA =====`,
+    `style_name: ${template.style_name}`,
+    `description: ${template.description || ''}`,
+    `category: ${template.category}`,
+    `theme_tags: ${(template.theme_tags || []).join(', ')}`,
+  ];
+  if (template.color_palette && Object.keys(template.color_palette).length > 0) {
+    userContextParts.push(`\nTemplate color_palette:`);
+    Object.entries(template.color_palette).forEach(([k, v]) => templateMetaParts.push(`  ${k}: ${JSON.stringify(v)}`));
+  }
+  templateMetaParts.push(`===== END TEMPLATE METADATA =====`);
+
+  const imageContext = promptInstruction ? `\n\n${promptInstruction}` : '';
+  const userContext = userContextParts.join('\n');
+  const templateMeta = templateMetaParts.join('\n');
+
+  const fullPrompt = `${ADAPTER_SYSTEM_PROMPT}\n\n${userContext}\n\n${templateMeta}${imageContext}\n\n===== USER PROMPT =====\n${promptWithDate}\n===== END USER PROMPT =====\n\n===== BASE TEMPLATE HTML (ADAPT THIS) =====\n${template.html_content}\n===== END BASE TEMPLATE HTML =====\n\nNow output the complete adapted HTML:`;
+
+  const parts = [{ text: fullPrompt }];
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+  console.log(`[ADAPTER] Calling Gemini for adaptation | Template: ${template.style_name} | Prompt length: ${fullPrompt.length}`);
+
+  const response = await fetchNoSSL(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-goog-api-key': apiKey
+    },
+    body: JSON.stringify({
+      contents: [{ parts: parts }],
+      generationConfig: {
+        temperature: 0.7,
+        topP: 0.95,
+        topK: 40,
+        maxOutputTokens: 1500000
+      }
+    })
+  });
+
+  console.log('[ADAPTER] HTTP:', response.status);
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(`Adaptation API error: ${error.error?.message || response.status}`);
+  }
+
+  const data = await response.json();
+  const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+  console.log('[ADAPTER] Output length:', generatedText?.length || 0);
+
+  if (!generatedText) throw new Error('Empty response from Gemini during adaptation');
+
+  return generatedText;
+};
+
 // === MAIN ORCHESTRATION FUNCTION ===
 export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro', options = {}, attachments = []) => {
   const {
@@ -427,11 +611,50 @@ export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro',
   console.log('=== ORCHESTRATOR START ===');
   console.log('Event:', eventType, '| Theme:', theme, '| Model:', model, '| Attachments:', attachments?.length || 0);
 
-  // ===== STEP 0: CONSULTAR RAG PRIMERO =====
+  // ===== STEP 0: TEMPLATE ADAPTATION FLOW (preferred when templates with html_content exist) =====
+  console.log('[ORQUESTADOR] Step 0: Checking for templates with html_content...');
+  try {
+    const templatesWithHtml = getTemplatesWithHtmlContent();
+    if (templatesWithHtml.length > 0) {
+      console.log(`[ADAPTER] Found ${templatesWithHtml.length} templates with html_content. Attempting adaptation flow.`);
+      try {
+        const selectedTemplate = await selectTemplateWithGemini(prompt, eventType, theme, templatesWithHtml, apiKey, model);
+        const adaptedText = await adaptTemplateWithGemini(selectedTemplate, prompt, apiKey, model, options);
+
+        // Track usage
+        if (userId) {
+          trackRAGUsage(selectedTemplate.id, userId, eventType);
+        }
+
+        // Post-processing pipeline (same as CODER flow)
+        console.log('[ADAPTER] Step 3: COMPILER post-processing...');
+        const html = cleanHtml(adaptedText);
+        const fixedHtml = fixTailwindBgGemini(html);
+        const libHtml = injectMandatoryLibraries(fixedHtml);
+        const metaHtml = injectEditorMetadata(libHtml, eventType, theme, primaryColor, secondaryColor);
+        const finalHtml = fixInvalidImagePaths(metaHtml, imageFiles);
+
+        console.log('=== ORCHESTRATOR COMPLETE (ADAPTATION FLOW) ===');
+        console.log('Final HTML length:', finalHtml.length);
+        return finalHtml;
+      } catch (adaptError) {
+        console.error('[ADAPTER] Adaptation flow failed, falling back to CODER flow:', adaptError.message);
+      }
+    } else {
+      console.log('[ADAPTER] No templates with html_content found. Using CODER flow.');
+    }
+  } catch (fetchError) {
+    console.error('[ADAPTER] Error fetching templates, falling back to CODER flow:', fetchError.message);
+  }
+
+  // ===== FALLBACK: CODER FLOW (from-scratch generation) =====
+  console.log('[ORQUESTADOR] Using CODER (from-scratch) flow...');
+
+  // ===== STEP 0b: CONSULTAR RAG (metadata-only, for fingerprint guidance) =====
   let ragContext = '';
   let ragTemplateFound = null;
   
-  console.log('[ORQUESTADOR] Step 0: Consultando RAG knowledge base...');
+  console.log('[ORQUESTADOR] Step 0b: Consultando RAG knowledge base...');
   const ragTemplate = await queryRAGTemplate(eventType, theme);
   
   if (ragTemplate) {

@@ -19,6 +19,7 @@
     "cors": "^2.8.5",
     "express": "^4.21.0",
     "heic2any": "^0.0.4",
+    "linkedom": "^0.18.12",
     "lucide-react": "^0.556.0",
     "openai": "^6.33.0",
     "react": "^19.2.1",

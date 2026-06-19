@@ -1,5 +1,5 @@
-import React from 'react';
-import { X, Loader2, Save, Sparkles } from 'lucide-react';
+import React, { useRef } from 'react';
+import { X, Loader2, Save, Sparkles, Upload, FileCode } from 'lucide-react';
 
 const CATEGORIES = ['boda', 'xv-años', 'cumpleaños', 'bautizo', 'comunion', 'baby-shower', 'otro'];
 const CDN_OPTIONS = ['tailwindcss', 'iconify', 'gsap', 'scrolltrigger', 'three', 'animejs', 'tsparticles'];
@@ -20,6 +20,7 @@ interface TemplateData {
   animation_rules: object | string;
   variation_params: object | string;
   is_active: number;
+  html_content?: string | null;
 }
 
 interface Props {
@@ -68,6 +69,8 @@ export const RAGTemplateModal: React.FC<Props> = ({
   onUpdateTemplate,
   onHtmlChange
 }) => {
+  const htmlFileRef = useRef<HTMLInputElement>(null);
+
   if (!isOpen) return null;
 
   const update = (field: string, value: any) => {
@@ -99,6 +102,25 @@ export const RAGTemplateModal: React.FC<Props> = ({
       : [...jsDepsArray, dep];
     update('js_dependencies', current);
   };
+
+  const handleHtmlFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const content = ev.target?.result as string;
+      update('html_content', content);
+    };
+    reader.readAsText(file);
+  };
+
+  const formatBytes = (bytes: number) => {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+  };
+
+  const htmlContentSize = template.html_content ? new Blob([template.html_content]).size : 0;
 
   return (
     <div className="fixed inset-0 z-[999999] pointer-events-auto">
@@ -269,6 +291,58 @@ export const RAGTemplateModal: React.FC<Props> = ({
                 value={template.variation_params || {}}
                 onChange={(val) => update('variation_params', val)}
                 rows={4}
+              />
+            </div>
+
+            {/* HTML Content (Plantilla adaptada) */}
+            <div className="border-t border-gray-200 pt-4">
+              <div className="flex items-center justify-between mb-1">
+                <h4 className="font-medium text-gray-800 flex items-center gap-2">
+                  <FileCode className="w-4 h-4 text-purple-600" />
+                  Contenido HTML (Plantilla adaptada)
+                </h4>
+                {htmlContentSize > 0 && (
+                  <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
+                    {formatBytes(htmlContentSize)}
+                  </span>
+                )}
+              </div>
+              <p className="text-sm text-gray-500 mb-3">
+                HTML completo de la plantilla con atributos <code className="text-xs bg-gray-100 px-1 rounded">data-gemini-id</code> inyectados. Se usa para el flujo de adaptación (Gemini selecciona y adapta esta plantilla en lugar de generar desde cero).
+              </p>
+              <div className="flex gap-2 mb-2">
+                <input
+                  ref={htmlFileRef}
+                  type="file"
+                  accept=".html,.htm"
+                  onChange={handleHtmlFileSelect}
+                  className="hidden"
+                />
+                <button
+                  type="button"
+                  onClick={() => htmlFileRef.current?.click()}
+                  className="flex items-center gap-2 px-3 py-1.5 bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition-colors text-sm font-medium"
+                >
+                  <Upload className="w-4 h-4" />
+                  Subir .html
+                </button>
+                {template.html_content && (
+                  <button
+                    type="button"
+                    onClick={() => update('html_content', null)}
+                    className="flex items-center gap-2 px-3 py-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors text-sm font-medium"
+                  >
+                    <X className="w-4 h-4" />
+                    Quitar HTML
+                  </button>
+                )}
+              </div>
+              <textarea
+                value={template.html_content || ''}
+                onChange={(e) => update('html_content', e.target.value)}
+                rows={6}
+                placeholder="<!-- Pega o sube el HTML de la plantilla adaptada aquí -->"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 font-mono text-xs focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
               />
             </div>
 

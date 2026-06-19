@@ -407,11 +407,14 @@ db.exec(`
     js_dependencies TEXT,
     animation_rules TEXT,
     variation_params TEXT,
+    html_content TEXT,
     is_active INTEGER DEFAULT 1,
     created_at TEXT DEFAULT (datetime('now')),
     updated_at TEXT
   )
 `);
+
+try { db.exec(`ALTER TABLE knowledge_base ADD COLUMN html_content TEXT`); } catch (e) { /* column already exists */ }
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS knowledge_base_usage (

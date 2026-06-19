@@ -2908,7 +2908,9 @@ app.get('/api/admin/rag-templates', adminMiddleware, (req, res) => {
   try {
     const templates = db.prepare(`
       SELECT id, style_id, style_name, description, category, theme_tags, 
-             is_active, created_at, updated_at
+             is_active, created_at, updated_at,
+             CASE WHEN html_content IS NOT NULL AND html_content != '' THEN 1 ELSE 0 END as has_html_content,
+             CASE WHEN html_content IS NOT NULL THEN length(html_content) ELSE 0 END as html_size
       FROM knowledge_base 
       ORDER BY created_at DESC
     `).all();
@@ -3018,7 +3020,8 @@ app.post('/api/admin/rag-templates', adminMiddleware, (req, res) => {
     const {
       style_id, style_name, description, category, theme_tags,
       color_palette, typography_scale, layout_rules, modules_def,
-      base_cdns, js_dependencies, animation_rules, variation_params
+      base_cdns, js_dependencies, animation_rules, variation_params,
+      html_content
     } = req.body;
     
     // Validar required fields
@@ -3030,8 +3033,9 @@ app.post('/api/admin/rag-templates', adminMiddleware, (req, res) => {
       INSERT INTO knowledge_base (
         style_id, style_name, description, category, theme_tags,
         color_palette, typography_scale, layout_rules, modules_def,
-        base_cdns, js_dependencies, animation_rules, variation_params
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        base_cdns, js_dependencies, animation_rules, variation_params,
+        html_content
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
     
     const result = stmt.run(
@@ -3044,7 +3048,8 @@ app.post('/api/admin/rag-templates', adminMiddleware, (req, res) => {
       JSON.stringify(base_cdns || []),
       JSON.stringify(js_dependencies || []),
       JSON.stringify(animation_rules || {}),
-      JSON.stringify(variation_params || {})
+      JSON.stringify(variation_params || {}),
+      html_content || null
     );
     
     res.json({ success: true, id: result.lastInsertRowid });
@@ -3063,19 +3068,27 @@ app.put('/api/admin/rag-templates/:id', adminMiddleware, (req, res) => {
       style_name, description, category, theme_tags,
       color_palette, typography_scale, layout_rules, modules_def,
       base_cdns, js_dependencies, animation_rules, variation_params,
-      is_active
+      is_active, html_content
     } = req.body;
     
-    const stmt = db.prepare(`
-      UPDATE knowledge_base SET
+    // Si html_content viene en el body (string o null), se actualiza. Si es undefined, se preserva el valor existente.
+    const updateHtml = html_content !== undefined;
+    const sql = updateHtml
+      ? `UPDATE knowledge_base SET
+        style_name = ?, description = ?, category = ?, theme_tags = ?,
+        color_palette = ?, typography_scale = ?, layout_rules = ?, modules_def = ?,
+        base_cdns = ?, js_dependencies = ?, animation_rules = ?, variation_params = ?,
+        is_active = ?, html_content = ?, updated_at = datetime('now')
+        WHERE id = ?`
+      : `UPDATE knowledge_base SET
         style_name = ?, description = ?, category = ?, theme_tags = ?,
         color_palette = ?, typography_scale = ?, layout_rules = ?, modules_def = ?,
         base_cdns = ?, js_dependencies = ?, animation_rules = ?, variation_params = ?,
         is_active = ?, updated_at = datetime('now')
-      WHERE id = ?
-    `);
+        WHERE id = ?`;
     
-    stmt.run(
+    const stmt = db.prepare(sql);
+    const baseParams = [
       style_name, description, category, JSON.stringify(theme_tags || []),
       JSON.stringify(color_palette || {}),
       JSON.stringify(typography_scale || {}),
@@ -3085,9 +3098,14 @@ app.put('/api/admin/rag-templates/:id', adminMiddleware, (req, res) => {
       JSON.stringify(js_dependencies || []),
       JSON.stringify(animation_rules || {}),
       JSON.stringify(variation_params || {}),
-      is_active !== undefined ? (is_active ? 1 : 0) : 1,
-      req.params.id
-    );
+      is_active !== undefined ? (is_active ? 1 : 0) : 1
+    ];
+    
+    if (updateHtml) {
+      stmt.run(...baseParams, html_content || null, req.params.id);
+    } else {
+      stmt.run(...baseParams, req.params.id);
+    }
     
     res.json({ success: true });
   } catch (error) {

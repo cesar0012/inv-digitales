@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Plus, Trash2, Loader2, BookOpen, Download, Upload, AlertTriangle } from 'lucide-react';
-import { getRAGTemplates, createRAGTemplate, updateRAGTemplate, deleteRAGTemplate, analyzeRAGHtml, downloadRAGBackup, uploadRAGBackup, RAGBackupData } from '../../services/adminService';
+import { Plus, Trash2, Loader2, BookOpen, Download, Upload, AlertTriangle, FileCode } from 'lucide-react';
+import { getRAGTemplates, getRAGTemplate, createRAGTemplate, updateRAGTemplate, deleteRAGTemplate, analyzeRAGHtml, downloadRAGBackup, uploadRAGBackup, RAGBackupData } from '../../services/adminService';
 import { RAGTemplateModal } from './RAGTemplateModal';
 
 interface TemplateData {
@@ -19,6 +19,9 @@ interface TemplateData {
   animation_rules: object | string;
   variation_params: object | string;
   is_active: number;
+  html_content?: string | null;
+  has_html_content?: number;
+  html_size?: number;
 }
 
 const emptyTemplate: Partial<TemplateData> = {
@@ -35,7 +38,8 @@ const emptyTemplate: Partial<TemplateData> = {
   js_dependencies: [],
   animation_rules: {},
   variation_params: {},
-  is_active: 1
+  is_active: 1,
+  html_content: null
 };
 
 export const AdminRAGTemplates: React.FC = () => {
@@ -90,11 +94,21 @@ export const AdminRAGTemplates: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleEdit = (template: TemplateData) => {
+  const handleEdit = async (template: TemplateData) => {
     setSelectedTemplate({ ...template });
     setAnalysisResult(null);
     setHtmlInput('');
     setIsModalOpen(true);
+    if (template.id && template.has_html_content) {
+      try {
+        const result = await getRAGTemplate(template.id);
+        if (result.template?.html_content) {
+          setSelectedTemplate(prev => ({ ...prev, html_content: result.template.html_content }));
+        }
+      } catch {
+        // si falla, se queda sin html_content cargado
+      }
+    }
   };
 
   const analyzeHtml = async () => {
@@ -148,7 +162,8 @@ export const AdminRAGTemplates: React.FC = () => {
         base_cdns: Array.isArray(selectedTemplate.base_cdns) ? selectedTemplate.base_cdns : [],
         js_dependencies: Array.isArray(selectedTemplate.js_dependencies) ? selectedTemplate.js_dependencies : [],
         animation_rules: typeof selectedTemplate.animation_rules === 'string' ? selectedTemplate.animation_rules : JSON.stringify(selectedTemplate.animation_rules || {}),
-        variation_params: typeof selectedTemplate.variation_params === 'string' ? selectedTemplate.variation_params : JSON.stringify(selectedTemplate.variation_params || {})
+        variation_params: typeof selectedTemplate.variation_params === 'string' ? selectedTemplate.variation_params : JSON.stringify(selectedTemplate.variation_params || {}),
+        html_content: selectedTemplate.html_content !== undefined ? (selectedTemplate.html_content || null) : undefined
       };
 
       if (selectedTemplate.id) {
@@ -436,9 +451,21 @@ export const AdminRAGTemplates: React.FC = () => {
                   <h3 className="font-semibold text-gray-800">{template.style_name}</h3>
                   <p className="text-xs text-gray-500">{template.style_id}</p>
                 </div>
-                <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
-                  {template.category}
-                </span>
+                <div className="flex flex-col items-end gap-1">
+                  <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
+                    {template.category}
+                  </span>
+                  {template.has_html_content ? (
+                    <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full flex items-center gap-1" title={`HTML: ${template.html_size ? (template.html_size < 1024 ? template.html_size + ' B' : (template.html_size / 1024).toFixed(1) + ' KB') : ''}`}>
+                      <FileCode className="w-3 h-3" />
+                      HTML
+                    </span>
+                  ) : (
+                    <span className="text-xs bg-gray-100 text-gray-400 px-2 py-0.5 rounded-full">
+                      Sin HTML
+                    </span>
+                  )}
+                </div>
               </div>
               <p className="text-sm text-gray-600 mb-3 line-clamp-2">{template.description}</p>
               <div className="flex gap-2">

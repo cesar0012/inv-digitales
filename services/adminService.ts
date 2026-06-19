@@ -429,6 +429,9 @@ export interface RAGTemplate {
   animation_rules: Record<string, any>;
   variation_params: Record<string, any>;
   is_active: number;
+  html_content?: string | null;
+  has_html_content?: number;
+  html_size?: number;
   created_at?: string;
   updated_at?: string;
 }
