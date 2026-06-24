@@ -630,59 +630,65 @@ Now adapt and amplify the template above. Output the COMPLETE HTML file from <!D
 };
 
 export const generateWithGemini = async (prompt, apiKey, model = 'gemini-3.1-pro', options = {}, attachments = []) => {
-  const { eventType, theme, primaryColor, secondaryColor, imageFiles, promptInstruction, visualStyle, mood, userId } = options;
+  const { eventType, theme, primaryColor, secondaryColor, imageFiles, promptInstruction, visualStyle, mood, userId, useRagTemplates = 1 } = options;
+
+  console.log('[RAG-ADAPT] use_rag_templates =', useRagTemplates, useRagTemplates === 1 ? '(HABILITADO)' : '(DESHABILITADO)');
 
   // ===== RAG TEMPLATE ADAPTATION (html_content-based) =====
   // Intentar encontrar un template con html_content y adaptarlo+amplificarlo
   // en lugar de generar desde cero. Si falla, cae al flujo de generación tradicional.
-  try {
-    const ragTemplateWithHtml = selectRagTemplate(db, eventType, prompt, options);
+  if (useRagTemplates === 1) {
+    try {
+      const ragTemplateWithHtml = selectRagTemplate(db, eventType, prompt, options);
 
-    if (ragTemplateWithHtml && ragTemplateWithHtml.html_content) {
-      console.log('[RAG-ADAPT] Template con html_content encontrado:', ragTemplateWithHtml.style_name, '(id=' + ragTemplateWithHtml.id + ')');
+      if (ragTemplateWithHtml && ragTemplateWithHtml.html_content) {
+        console.log('[RAG-ADAPT] ✅ Template con html_content encontrado: ' + ragTemplateWithHtml.style_name + ' (id=' + ragTemplateWithHtml.id + ', ' + ragTemplateWithHtml.html_content.length + ' chars)');
 
-      if (userId) {
-        try {
-          db.prepare(`INSERT INTO knowledge_base_usage (template_id, user_id, event_type) VALUES (?, ?, ?)`)
-            .run(ragTemplateWithHtml.id, userId, eventType);
-        } catch (e) {}
-      }
+        if (userId) {
+          try {
+            db.prepare(`INSERT INTO knowledge_base_usage (template_id, user_id, event_type) VALUES (?, ?, ?)`)
+              .run(ragTemplateWithHtml.id, userId, eventType);
+          } catch (e) {}
+        }
 
-      const modifications = {
-        primaryColor,
-        secondaryColor,
-        theme,
-        visualStyle,
-        mood,
-        eventType,
-        imageFiles,
-        promptInstruction
-      };
+        const modifications = {
+          primaryColor,
+          secondaryColor,
+          theme,
+          visualStyle,
+          mood,
+          eventType,
+          imageFiles,
+          promptInstruction
+        };
 
-      const adaptedHtml = await adaptTemplateWithAI(
-        ragTemplateWithHtml.html_content,
-        prompt,
-        modifications,
-        apiKey,
-        model
-      );
+        const adaptedHtml = await adaptTemplateWithAI(
+          ragTemplateWithHtml.html_content,
+          prompt,
+          modifications,
+          apiKey,
+          model
+        );
 
-      if (adaptedHtml && adaptedHtml.length > 100) {
-        console.log('[RAG-ADAPT] ✅ Adaptación exitosa, length:', adaptedHtml.length);
-        const html = cleanHtml(adaptedHtml);
-        const fixedHtml = fixTailwindBgGemini(html);
-        const libHtml = injectMandatoryLibraries(fixedHtml);
-        const metaHtml = injectEditorMetadata(libHtml, eventType, theme, primaryColor, secondaryColor);
-        const finalHtml = fixInvalidImagePaths(metaHtml, imageFiles);
-        return finalHtml;
+        if (adaptedHtml && adaptedHtml.length > 100) {
+          console.log('[RAG-ADAPT] ✅ Adaptación exitosa, length:', adaptedHtml.length);
+          const html = cleanHtml(adaptedHtml);
+          const fixedHtml = fixTailwindBgGemini(html);
+          const libHtml = injectMandatoryLibraries(fixedHtml);
+          const metaHtml = injectEditorMetadata(libHtml, eventType, theme, primaryColor, secondaryColor);
+          const finalHtml = fixInvalidImagePaths(metaHtml, imageFiles);
+          return finalHtml;
+        } else {
+          console.log('[RAG-ADAPT] ⚠️ Adaptación devolvió HTML muy corto, fallback a generación desde cero');
+        }
       } else {
-        console.log('[RAG-ADAPT] ⚠️ Adaptación devolvió HTML muy corto, fallback a generación desde cero');
+        console.log('[RAG-ADAPT] ❌ No hay templates con html_content, usando generación desde cero');
       }
-    } else {
-      console.log('[RAG-ADAPT] No hay templates con html_content, usando generación desde cero');
+    } catch (adaptError) {
+      console.error('[RAG-ADAPT] ❌ Error en adaptación, fallback a generación desde cero:', adaptError.message);
     }
-  } catch (adaptError) {
-    console.error('[RAG-ADAPT] ❌ Error en adaptación, fallback a generación desde cero:', adaptError.message);
+  } else {
+    console.log('[RAG-ADAPT] use_rag_templates=0 — adaptación deshabilitada, usando generación desde cero');
   }
 
   // ===== FALLBACK: GENERACIÓN DESDE CERO =====

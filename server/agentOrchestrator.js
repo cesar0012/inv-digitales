@@ -623,46 +623,54 @@ export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro',
     mood = '',
     imageFiles = [],
     promptInstruction = '',
-    userId = ''
+    userId = '',
+    useRagTemplates = 1
   } = options;
 
   console.log('=== ORCHESTRATOR START ===');
   console.log('Event:', eventType, '| Theme:', theme, '| Model:', model, '| Attachments:', attachments?.length || 0);
+  console.log('[RAG-TEMPLATE] use_rag_templates =', useRagTemplates, useRagTemplates === 1 ? '(HABILITADO)' : '(DESHABILITADO)');
 
   // ===== STEP 0: TEMPLATE ADAPTATION FLOW (preferred when templates with html_content exist) =====
-  console.log('[ORQUESTADOR] Step 0: Checking for templates with html_content...');
-  try {
-    const templatesWithHtml = getTemplatesWithHtmlContent();
-    if (templatesWithHtml.length > 0) {
-      console.log(`[ADAPTER] Found ${templatesWithHtml.length} templates with html_content. Attempting adaptation flow.`);
-      try {
-        const selectedTemplate = await selectTemplateWithGemini(prompt, eventType, theme, templatesWithHtml, apiKey, model);
-        const adaptedText = await adaptTemplateWithGemini(selectedTemplate, prompt, apiKey, model, options);
+  if (useRagTemplates === 1) {
+    console.log('[RAG-TEMPLATE] 🔍 Buscando templates con html_content para eventType="' + eventType + '"...');
+    try {
+      const templatesWithHtml = getTemplatesWithHtmlContent();
+      if (templatesWithHtml.length > 0) {
+        console.log('[RAG-TEMPLATE] ✅ ' + templatesWithHtml.length + ' template(s) con html_content encontrados. Intentando adaptación.');
+        try {
+          const selectedTemplate = await selectTemplateWithGemini(prompt, eventType, theme, templatesWithHtml, apiKey, model);
+          console.log('[RAG-TEMPLATE] ✅ Template seleccionado: "' + selectedTemplate.style_name + '" (id=' + selectedTemplate.id + ', ' + (selectedTemplate.html_content ? selectedTemplate.html_content.length : 0) + ' chars)');
 
-        // Track usage
-        if (userId) {
-          trackRAGUsage(selectedTemplate.id, userId, eventType);
+          const adaptedText = await adaptTemplateWithGemini(selectedTemplate, prompt, apiKey, model, options);
+
+          // Track usage
+          if (userId) {
+            trackRAGUsage(selectedTemplate.id, userId, eventType);
+          }
+
+          // Post-processing pipeline (same as CODER flow)
+          console.log('[RAG-TEMPLATE] Step 3: COMPILER post-processing...');
+          const html = cleanHtml(adaptedText);
+          const fixedHtml = fixTailwindBgGemini(html);
+          const libHtml = injectMandatoryLibraries(fixedHtml);
+          const metaHtml = injectEditorMetadata(libHtml, eventType, theme, primaryColor, secondaryColor);
+          const finalHtml = fixInvalidImagePaths(metaHtml, imageFiles);
+
+          console.log('=== ORCHESTRATOR COMPLETE (ADAPTATION FLOW) ===');
+          console.log('Final HTML length:', finalHtml.length);
+          return finalHtml;
+        } catch (adaptError) {
+          console.error('[RAG-TEMPLATE] ⚠️ Adaptación falló: ' + adaptError.message + ', cayendo a generación desde cero');
         }
-
-        // Post-processing pipeline (same as CODER flow)
-        console.log('[ADAPTER] Step 3: COMPILER post-processing...');
-        const html = cleanHtml(adaptedText);
-        const fixedHtml = fixTailwindBgGemini(html);
-        const libHtml = injectMandatoryLibraries(fixedHtml);
-        const metaHtml = injectEditorMetadata(libHtml, eventType, theme, primaryColor, secondaryColor);
-        const finalHtml = fixInvalidImagePaths(metaHtml, imageFiles);
-
-        console.log('=== ORCHESTRATOR COMPLETE (ADAPTATION FLOW) ===');
-        console.log('Final HTML length:', finalHtml.length);
-        return finalHtml;
-      } catch (adaptError) {
-        console.error('[ADAPTER] Adaptation flow failed, falling back to CODER flow:', adaptError.message);
+      } else {
+        console.log('[RAG-TEMPLATE] ❌ No se encontraron templates con html_content, cayendo a generación desde cero');
       }
-    } else {
-      console.log('[ADAPTER] No templates with html_content found. Using CODER flow.');
+    } catch (fetchError) {
+      console.error('[RAG-TEMPLATE] ⚠️ Error al buscar templates: ' + fetchError.message + ', cayendo a generación desde cero');
     }
-  } catch (fetchError) {
-    console.error('[ADAPTER] Error fetching templates, falling back to CODER flow:', fetchError.message);
+  } else {
+    console.log('[RAG-TEMPLATE] use_rag_templates=0 — adaptación deshabilitada, usando generación desde cero');
   }
 
   // ===== FALLBACK: CODER FLOW (from-scratch generation) =====

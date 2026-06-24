@@ -1,7 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Plus, Trash2, Loader2, BookOpen, Download, Upload, AlertTriangle, FileCode } from 'lucide-react';
-import { getRAGTemplates, getRAGTemplate, createRAGTemplate, updateRAGTemplate, deleteRAGTemplate, analyzeRAGHtml, downloadRAGBackup, uploadRAGBackup, RAGBackupData } from '../../services/adminService';
+import { Plus, Trash2, Loader2, BookOpen, Download, Upload, AlertTriangle, FileCode, Copy, CheckCircle2, AlertCircle, Check } from 'lucide-react';
+import { getRAGTemplates, getRAGTemplate, createRAGTemplate, updateRAGTemplate, deleteRAGTemplate, analyzeRAGHtml, downloadRAGBackup, uploadRAGBackup, uploadRAGTemplate, RAGBackupData, RAGUploadResult } from '../../services/adminService';
 import { RAGTemplateModal } from './RAGTemplateModal';
+
+interface TemplateValidation {
+  isValid: boolean;
+  totalRequired: number;
+  foundCount: number;
+  missing: string[];
+  found: string[];
+}
 
 interface TemplateData {
   id?: number;
@@ -22,7 +30,30 @@ interface TemplateData {
   html_content?: string | null;
   has_html_content?: number;
   html_size?: number;
+  filename?: string | null;
+  colors?: string | null;
+  required_tags?: string | null;
+  ui_elements?: string | null;
+  validation?: TemplateValidation | null;
 }
+
+const RULES_TEXT = `=== REGLAS PARA GENERAR TEMPLATES RAG ===
+
+El template debe ser un archivo HTML unico con:
+
+1. DATA-GEMINI-ID REQUERIDOS (por modulo):
+- Modulo PORTADA: data-gemini-id="portada-nombre" (o portada-novia/portada-novio)
+- Modulo PADRES: data-gemini-id="padres-padre" (o padres-novia/padres-novio)
+- Modulo UBICACION: data-gemini-id="ubicacion-ceremonia", "ubicacion-mapa", "ubicacion-recepcion"
+- Modulo ITINERARIO: data-gemini-id="itinerario-agenda"
+- Modulo CONFIRMACION: data-gemini-id="confirmacion-texto"
+- Modulo DETALLES: data-gemini-id="detalles-vestimenta", "detalles-regalo"
+
+2. **tu prompt aqui** - Placeholder para descripcion del usuario
+
+3. Imagenes: usar formato url('GEMINI_GENERATE:descripcion')
+
+Output: HTML unico, autocontenido, con data-gemini-id unicos.`;
 
 const emptyTemplate: Partial<TemplateData> = {
   style_id: '',
@@ -58,6 +89,10 @@ export const AdminRAGTemplates: React.FC = () => {
   const [confirmRagRestore, setConfirmRagRestore] = useState(false);
   const [uploadingRag, setUploadingRag] = useState(false);
   const ragFileRef = useRef<HTMLInputElement>(null);
+  const [uploadingHtml, setUploadingHtml] = useState(false);
+  const [uploadAnalysis, setUploadAnalysis] = useState<RAGUploadResult['analysis'] | null>(null);
+  const [copiedRules, setCopiedRules] = useState(false);
+  const htmlUploadRef = useRef<HTMLInputElement>(null);
 
   const fetchTemplates = async () => {
     setLoading(true);
@@ -263,6 +298,55 @@ export const AdminRAGTemplates: React.FC = () => {
     }
   };
 
+  const handleHtmlUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingHtml(true);
+    setUploadAnalysis(null);
+    setMessage(null);
+    try {
+      const result = await uploadRAGTemplate(file, 'xv-anos');
+      setUploadAnalysis(result.analysis);
+      setMessage({ type: 'success', text: `Template subido (ID: ${result.id}). Análisis: ${result.analysis.isValid ? 'VÁLIDO' : 'Faltan módulos'}.` });
+      fetchTemplates();
+    } catch (error: any) {
+      setMessage({ type: 'error', text: error.message || 'Error al subir template HTML' });
+    } finally {
+      setUploadingHtml(false);
+      if (htmlUploadRef.current) htmlUploadRef.current.value = '';
+    }
+  };
+
+  const handleCopyRules = async () => {
+    try {
+      await navigator.clipboard.writeText(RULES_TEXT);
+      setCopiedRules(true);
+      setTimeout(() => setCopiedRules(false), 2000);
+    } catch {
+      setMessage({ type: 'error', text: 'No se pudo copiar al portapapeles' });
+    }
+  };
+
+  const parseColors = (colors: string | null | undefined): Array<[string, string]> => {
+    if (!colors) return [];
+    try {
+      const obj = typeof colors === 'string' ? JSON.parse(colors) : colors;
+      return Object.entries(obj).slice(0, 6);
+    } catch {
+      return [];
+    }
+  };
+
+  const parseStringArray = (val: string | null | undefined): string[] => {
+    if (!val) return [];
+    try {
+      const arr = typeof val === 'string' ? JSON.parse(val) : val;
+      return Array.isArray(arr) ? arr : [];
+    } catch {
+      return [];
+    }
+  };
+
   return (
     <div>
       {/* Header */}
@@ -276,13 +360,55 @@ export const AdminRAGTemplates: React.FC = () => {
             <p className="text-sm text-gray-500">Base de conocimiento para generación de invitaciones</p>
           </div>
         </div>
-        <button
-          onClick={handleCreate}
-          className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-all"
-        >
-          <Plus className="w-4 h-4" />
-          Nueva Plantilla
-        </button>
+        <div className="flex items-center gap-2">
+          <input
+            ref={htmlUploadRef}
+            type="file"
+            accept=".html,.htm"
+            onChange={handleHtmlUpload}
+            className="hidden"
+          />
+          <button
+            onClick={() => htmlUploadRef.current?.click()}
+            disabled={uploadingHtml}
+            className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-all disabled:opacity-50"
+          >
+            {uploadingHtml ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Subiendo...
+              </>
+            ) : (
+              <>
+                <Upload className="w-4 h-4" />
+                Subir HTML
+              </>
+            )}
+          </button>
+          <button
+            onClick={handleCopyRules}
+            className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all"
+          >
+            {copiedRules ? (
+              <>
+                <Check className="w-4 h-4 text-green-600" />
+                Copiado!
+              </>
+            ) : (
+              <>
+                <Copy className="w-4 h-4" />
+                Copiar Reglas
+              </>
+            )}
+          </button>
+          <button
+            onClick={handleCreate}
+            className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-all"
+          >
+            <Plus className="w-4 h-4" />
+            Nueva Plantilla
+          </button>
+        </div>
       </div>
 
       {/* Message */}
@@ -291,6 +417,79 @@ export const AdminRAGTemplates: React.FC = () => {
           message.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
         }`}>
           {message.text}
+        </div>
+      )}
+
+      {/* Upload analysis */}
+      {uploadAnalysis && (
+        <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm mb-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${uploadAnalysis.isValid ? 'bg-green-100' : 'bg-amber-100'}`}>
+              {uploadAnalysis.isValid ? (
+                <CheckCircle2 className="w-5 h-5 text-green-600" />
+              ) : (
+                <AlertCircle className="w-5 h-5 text-amber-600" />
+              )}
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-800">Análisis del template subido</h3>
+              <p className="text-sm text-gray-500">
+                {uploadAnalysis.isValid
+                  ? `Válido — ${uploadAnalysis.foundCount}/${uploadAnalysis.totalRequired} módulos requeridos`
+                  : `Faltan ${uploadAnalysis.missing.length} módulo(s): ${uploadAnalysis.missing.join(', ')}`}
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <p className="text-xs font-semibold text-gray-500 uppercase mb-2">Módulos</p>
+              <div className="flex flex-wrap gap-1.5">
+                {uploadAnalysis.found.map(m => (
+                  <span key={m} className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">{m}</span>
+                ))}
+                {uploadAnalysis.missing.map(m => (
+                  <span key={m} className="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full">{m} (falta)</span>
+                ))}
+              </div>
+              <p className="text-xs text-gray-500 mt-2">
+                {uploadAnalysis.foundCount}/{uploadAnalysis.totalRequired} requeridos
+              </p>
+            </div>
+
+            <div>
+              <p className="text-xs font-semibold text-gray-500 uppercase mb-2">Colores detectados</p>
+              <div className="flex flex-wrap gap-1.5">
+                {Object.entries(uploadAnalysis.colors || {}).slice(0, 8).map(([name, hex]) => (
+                  <div key={name} className="flex items-center gap-1" title={`${name}: ${hex}`}>
+                    <div className="w-5 h-5 rounded border border-gray-300" style={{ backgroundColor: hex }} />
+                  </div>
+                ))}
+                {Object.keys(uploadAnalysis.colors || {}).length === 0 && (
+                  <span className="text-xs text-gray-400">Sin colores detectados</span>
+                )}
+              </div>
+            </div>
+
+            <div>
+              <p className="text-xs font-semibold text-gray-500 uppercase mb-2">Elementos UI</p>
+              <div className="flex flex-wrap gap-1.5">
+                {(uploadAnalysis.ui_elements || []).map(el => (
+                  <span key={el} className="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">{el}</span>
+                ))}
+                {(uploadAnalysis.ui_elements || []).length === 0 && (
+                  <span className="text-xs text-gray-400">Sin elementos detectados</span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <button
+            onClick={() => setUploadAnalysis(null)}
+            className="mt-4 text-sm text-gray-500 hover:text-gray-700"
+          >
+            Cerrar análisis
+          </button>
         </div>
       )}
 
@@ -444,7 +643,11 @@ export const AdminRAGTemplates: React.FC = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-          {templates.map(template => (
+          {templates.map(template => {
+            const colors = parseColors(template.colors);
+            const uiEls = parseStringArray(template.ui_elements);
+            const validation = template.validation;
+            return (
             <div key={template.id} className="bg-white p-4 rounded-xl border border-gray-200 hover:border-purple-300 transition-all">
               <div className="flex items-start justify-between mb-2">
                 <div>
@@ -468,6 +671,42 @@ export const AdminRAGTemplates: React.FC = () => {
                 </div>
               </div>
               <p className="text-sm text-gray-600 mb-3 line-clamp-2">{template.description}</p>
+
+              {template.has_html_content && validation && (
+                <div className="mb-3 space-y-2">
+                  <div className="flex items-center gap-2">
+                    {validation.isValid ? (
+                      <span className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded-full flex items-center gap-1 border border-green-200">
+                        <CheckCircle2 className="w-3 h-3" />
+                        Válido
+                      </span>
+                    ) : (
+                      <span className="text-xs bg-red-50 text-red-700 px-2 py-0.5 rounded-full flex items-center gap-1 border border-red-200" title={`Faltan: ${validation.missing.join(', ')}`}>
+                        <AlertCircle className="w-3 h-3" />
+                        Faltan: {validation.missing.join(', ')}
+                      </span>
+                    )}
+                    <span className="text-xs text-gray-500">
+                      {validation.foundCount}/{validation.totalRequired} módulos
+                    </span>
+                  </div>
+                  {colors.length > 0 && (
+                    <div className="flex items-center gap-1">
+                      {colors.map(([name, hex]) => (
+                        <div key={name} className="w-4 h-4 rounded border border-gray-300" style={{ backgroundColor: hex }} title={`${name}: ${hex}`} />
+                      ))}
+                    </div>
+                  )}
+                  {uiEls.length > 0 && (
+                    <div className="flex flex-wrap gap-1">
+                      {uiEls.slice(0, 4).map(el => (
+                        <span key={el} className="text-xs bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded">{el}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
               <div className="flex gap-2">
                 <button
                   onClick={() => handleEdit(template)}
@@ -483,7 +722,8 @@ export const AdminRAGTemplates: React.FC = () => {
                 </button>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       )}
 

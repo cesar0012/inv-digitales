@@ -9,7 +9,7 @@ import { createHash, createHmac } from 'crypto';
 import https from 'https';
 import multer from 'multer';
 import db from './database.js';
-import { analyzeTemplate, REQUIRED_TAGS } from './ragValidator.js';
+import { analyzeTemplate, validateTemplate, REQUIRED_TAGS } from './ragValidator.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -1731,6 +1731,7 @@ app.get('/api/admin/config', adminMiddleware, (req, res) => {
       image_api_key: '',
       login_page_url: '/admin-login',
 use_agent_orchestrator: true,
+use_rag_templates: true,
       updated_at: null
     });
   }
@@ -1748,6 +1749,7 @@ use_agent_orchestrator: true,
     image_api_key: '', // No exponer
     login_page_url: config.login_page_url || '/admin-login',
     use_agent_orchestrator: config.use_agent_orchestrator === 1,
+    use_rag_templates: config.use_rag_templates === 1,
     updated_at: config.updated_at
   });
 });
@@ -1786,6 +1788,7 @@ const updatedConfig = {
     image_api_key: body.image_api_key && body.image_api_key.trim() !== '' ? body.image_api_key : currentConfig.image_api_key,
     login_page_url: body.login_page_url !== undefined ? body.login_page_url : currentConfig.login_page_url,
     use_agent_orchestrator: body.use_agent_orchestrator !== undefined ? (body.use_agent_orchestrator ? 1 : 0) : (currentConfig.use_agent_orchestrator || 0),
+    use_rag_templates: body.use_rag_templates !== undefined ? (body.use_rag_templates ? 1 : 0) : (currentConfig.use_rag_templates !== null ? currentConfig.use_rag_templates : 1),
   };
   
   console.log('=== CONFIG A GUARDAR ===');
@@ -1805,6 +1808,7 @@ const updatedConfig = {
       image_api_key = ?,
       login_page_url = ?,
       use_agent_orchestrator = ?,
+      use_rag_templates = ?,
       updated_at = datetime('now')
     WHERE id = 1
   `);
@@ -1819,7 +1823,8 @@ const updatedConfig = {
     updatedConfig.image_model,
     updatedConfig.image_api_key,
     updatedConfig.login_page_url,
-    updatedConfig.use_agent_orchestrator
+    updatedConfig.use_agent_orchestrator,
+    updatedConfig.use_rag_templates
   );
   
   // Verificar que se guardó
@@ -2804,7 +2809,9 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
     
     let htmlResult = '';
     const useAgentOrchestrator = config.use_agent_orchestrator === 1;
+    const useRagTemplates = config.use_rag_templates === 1;
     console.log('🤖 Agent Orchestrator:', useAgentOrchestrator ? 'ACTIVADO' : 'DESACTIVADO');
+    console.log('📄 RAG Templates:', useRagTemplates ? 'ACTIVADO' : 'DESACTIVADO');
     
     if (config.html_google_api_key) {
 const geminiOptions = {
@@ -2818,7 +2825,8 @@ const geminiOptions = {
         promptInstruction: (promptInstruction || '') + rsvpInstruction,
         imageApiKey: config.image_api_key || '',
         imageModel: config.image_model || 'gemini-3.1-flash-image-preview',
-        userId: userId // Pasar userId para tracking de uso RAG
+        userId: userId, // Pasar userId para tracking de uso RAG
+        useRagTemplates: useRagTemplates
       };
 
       const attachmentsForGemini = Array.isArray(attachments) ? attachments : [];
@@ -2923,13 +2931,29 @@ app.get('/api/admin/rag-templates', adminMiddleware, (req, res) => {
     const templates = db.prepare(`
       SELECT id, style_id, style_name, description, category, theme_tags, 
              is_active, created_at, updated_at,
+             filename, colors, required_tags, ui_elements,
              CASE WHEN html_content IS NOT NULL AND html_content != '' THEN 1 ELSE 0 END as has_html_content,
-             CASE WHEN html_content IS NOT NULL THEN length(html_content) ELSE 0 END as html_size
+             CASE WHEN html_content IS NOT NULL THEN length(html_content) ELSE 0 END as html_size,
+             html_content
       FROM knowledge_base 
       ORDER BY created_at DESC
     `).all();
+
+    const withValidation = templates.map(t => {
+      const hasHtml = t.has_html_content === 1;
+      let validation = null;
+      if (hasHtml && t.html_content) {
+        try {
+          validation = validateTemplate(t.html_content, t.category);
+        } catch (e) {
+          validation = null;
+        }
+      }
+      delete t.html_content;
+      return { ...t, validation };
+    });
     
-    res.json({ templates });
+    res.json({ templates: withValidation });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

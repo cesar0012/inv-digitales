@@ -27,6 +27,7 @@ export const AdminModels: React.FC = () => {
 // General Config
   const [loginPageUrl, setLoginPageUrl] = useState('/admin-login');
   const [useAgentOrchestrator, setUseAgentOrchestrator] = useState(false);
+  const [useRagTemplates, setUseRagTemplates] = useState(true);
   
   // Save states
   const [saving, setSaving] = useState(false);
@@ -60,6 +61,7 @@ const loadConfig = async () => {
       setImageApiKey(config.image_api_key);
       setLoginPageUrl(config.login_page_url || '/admin-login');
       setUseAgentOrchestrator(config.use_agent_orchestrator || false);
+      setUseRagTemplates(config.use_rag_templates !== false);
     } catch (error) {
       console.error('Error loading config:', error);
     } finally {
@@ -139,6 +141,8 @@ const loadConfig = async () => {
             setGoogleModel={setHtmlGoogleModel}
             useAgentOrchestrator={useAgentOrchestrator}
             setUseAgentOrchestrator={setUseAgentOrchestrator}
+            useRagTemplates={useRagTemplates}
+            setUseRagTemplates={setUseRagTemplates}
           />}
           {activeSection === 'images' && <ImageGeneratorConfig 
             selectedModel={imageModel}
@@ -160,12 +164,15 @@ interface HTMLGeneratorProps {
   setGoogleModel: (value: string) => void;
   useAgentOrchestrator: boolean;
   setUseAgentOrchestrator: (value: boolean) => void;
+  useRagTemplates: boolean;
+  setUseRagTemplates: (value: boolean) => void;
 }
 
 const HTMLGeneratorConfig: React.FC<HTMLGeneratorProps> = ({ 
   googleApiKey, setGoogleApiKey,
   googleModel, setGoogleModel,
-  useAgentOrchestrator, setUseAgentOrchestrator
+  useAgentOrchestrator, setUseAgentOrchestrator,
+  useRagTemplates, setUseRagTemplates
 }) => {
   const [saved, setSaved] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -188,6 +195,7 @@ const handleSave = async () => {
         html_google_api_key: googleApiKey,
         html_google_model: finalModel,
         use_agent_orchestrator: useAgentOrchestrator,
+        use_rag_templates: useRagTemplates,
       };
 
       console.log('=== GUARDANDO DESDE FRONTEND ===');
@@ -237,6 +245,30 @@ const handleSave = async () => {
               className="sr-only peer"
             />
             <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+          </div>
+        </label>
+      </div>
+
+      {/* RAG Templates Toggle */}
+      <div className="bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-xl p-4">
+        <label className="flex items-center justify-between cursor-pointer">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
+              <Settings className="w-5 h-5 text-emerald-600" />
+            </div>
+            <div>
+              <p className="font-medium text-gray-800">Plantillas RAG</p>
+              <p className="text-xs text-gray-500">Usa templates HTML existentes como base para adaptar y amplificar invitaciones automáticamente</p>
+            </div>
+          </div>
+          <div className="relative">
+            <input
+              type="checkbox"
+              checked={useRagTemplates}
+              onChange={(e) => setUseRagTemplates(e.target.checked)}
+              className="sr-only peer"
+            />
+            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
           </div>
         </label>
       </div>

@@ -273,6 +273,11 @@ try {
 } catch (e) {}
 
 try {
+  db.exec(`ALTER TABLE admin_config ADD COLUMN use_rag_templates INTEGER DEFAULT 1`);
+  console.log('✅ Columna use_rag_templates agregada a admin_config');
+} catch (e) {}
+
+try {
   db.exec(`ALTER TABLE plan_config ADD COLUMN has_rsvp INTEGER DEFAULT 0`);
   console.log('✅ Columna has_rsvp agregada a plan_config');
 } catch (e) {}

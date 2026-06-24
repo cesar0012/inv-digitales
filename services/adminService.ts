@@ -554,3 +554,43 @@ export const uploadRAGBackup = async (data: RAGBackupData): Promise<{ success: b
 
   return response.json();
 };
+
+export interface RAGUploadResult {
+  success: boolean;
+  id: number;
+  html_content: string;
+  analysis: {
+    description: string;
+    colors: Record<string, string>;
+    ui_elements: string[];
+    found_tags: string[];
+    isValid: boolean;
+    totalRequired: number;
+    foundCount: number;
+    missing: string[];
+    found: string[];
+    eventType: string;
+  };
+}
+
+export const uploadRAGTemplate = async (file: File, eventType: string = 'xv-anos'): Promise<RAGUploadResult> => {
+  const formData = new FormData();
+  formData.append('htmlFile', file);
+  formData.append('event_type', eventType);
+
+  const token = localStorage.getItem('admin_token');
+  const response = await fetch(`${API_BASE}/admin/rag-templates/upload`, {
+    method: 'POST',
+    headers: {
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+    },
+    body: formData
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al subir template HTML');
+  }
+
+  return response.json();
+};
