@@ -1,6 +1,8 @@
 import { createHash } from 'crypto';
 import https from 'https';
 import db from './database.js';
+import { analyzeTemplate } from './ragValidator.js';
+import { ADAPTER_SYSTEM_PROMPT } from './agents-prompt.js';
 
 
 const fetchNoSSL = async (url, options = {}) => {
@@ -435,9 +437,255 @@ const buildRAGPromptGemini = (ragTemplate) => {
   return parts.join('\n');
 };
 
+// === RAG TEMPLATE SELECTION (html_content-based) ===
+// Busca en knowledge_base el mejor template con html_content basado en
+// coincidencia de category con eventType + keywords del userPrompt en
+// description, theme_tags, visual_styles, mood, style_name.
+// Retorna el template completo (con html_content) o null si no encuentra.
+export const selectRagTemplate = (dbInstance, eventType, userPrompt, config = {}) => {
+  try {
+    let query = 'SELECT * FROM knowledge_base WHERE is_active = 1 AND html_content IS NOT NULL';
+    const params = [];
+
+    if (eventType) {
+      query += ' AND category = ?';
+      params.push(eventType);
+    }
+
+    const candidates = dbInstance.prepare(query).all(...params);
+
+    if (candidates.length === 0) {
+      console.log('[RAG-SELECT] No hay templates con html_content para eventType:', eventType);
+      return null;
+    }
+
+    console.log(`[RAG-SELECT] ${candidates.length} candidato(s) con html_content para eventType="${eventType}"`);
+
+    // Extraer keywords del userPrompt (palabras >3 chars, normalizadas)
+    const promptLower = (userPrompt || '').toLowerCase();
+    const stopWords = new Set(['para', 'con', 'una', 'este', 'esta', 'pero', 'por', 'los', 'las', 'del', 'desde', 'hasta', 'que', 'tiene', 'tienen', 'ser', 'son', 'como', 'mas', 'menos', 'the', 'and', 'for', 'with', 'this', 'that', 'from']);
+    const keywords = promptLower
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9\s]/g, ' ')
+      .split(/\s+/)
+      .filter(w => w.length > 3 && !stopWords.has(w));
+
+    console.log(`[RAG-SELECT] Keywords extraidas del prompt: ${keywords.slice(0, 15).join(', ')}${keywords.length > 15 ? '...' : ''}`);
+
+    let bestTemplate = null;
+    let bestScore = -1;
+
+    for (const t of candidates) {
+      let score = 0;
+      const haystack = [
+        t.style_name || '',
+        t.description || '',
+        t.theme_tags || '',
+        t.visual_styles || '',
+        t.mood || '',
+        t.filename || ''
+      ].join(' ').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+      for (const kw of keywords) {
+        if (haystack.includes(kw)) {
+          score += 1;
+        }
+      }
+
+      // Bonus por coincidencia exacta de category
+      if (eventType && t.category === eventType) {
+        score += 5;
+      }
+
+      // Bonus por tamano de html_content (preferir templates mas ricos)
+      const htmlSize = t.html_content ? t.html_content.length : 0;
+      if (htmlSize > 50000) score += 2;
+      else if (htmlSize > 30000) score += 1;
+
+      console.log(`[RAG-SELECT] Template id=${t.id} "${t.style_name}" → score=${score} (htmlSize=${htmlSize})`);
+
+      if (score > bestScore) {
+        bestScore = score;
+        bestTemplate = t;
+      }
+    }
+
+    if (!bestTemplate || bestScore < 0) {
+      console.log('[RAG-SELECT] Ningun template supero el umbral de score');
+      return null;
+    }
+
+    console.log(`[RAG-SELECT] ✅ Seleccionado: id=${bestTemplate.id} "${bestTemplate.style_name}" (score=${bestScore})`);
+
+    // Analizar el template seleccionado para log
+    try {
+      const analysis = analyzeTemplate(bestTemplate.html_content, eventType);
+      console.log(`[RAG-SELECT] Análisis: ${analysis.foundCount}/${analysis.totalRequired} modulos requeridos, ${analysis.found_tags.length} data-gemini-id tags, ${Object.keys(analysis.colors).length} colores, ui_elements=[${analysis.ui_elements.join(',')}]`);
+      if (analysis.missing.length > 0) {
+        console.log(`[RAG-SELECT] ⚠️ Modulos faltantes: ${analysis.missing.join(', ')}`);
+      }
+    } catch (e) {
+      console.warn('[RAG-SELECT] No se pudo analizar el template:', e.message);
+    }
+
+    return bestTemplate;
+  } catch (error) {
+    console.error('[RAG-SELECT] Error:', error);
+    return null;
+  }
+};
+
+// === ADAPT TEMPLATE WITH AI ===
+// Toma el HTML base del template + datos del usuario y le pide a Gemini que
+// ADAPTE el contenido (texto, colores, imagenes) y AMPLIFIQUE el drama visual
+// (scroll animations, decorative elements, cinematic effects) usando el
+// ADAPTER_SYSTEM_PROMPT. Retorna el HTML modificado.
+export const adaptTemplateWithAI = async (baseHtml, userData, modifications, apiKey, model = 'gemini-3.1-pro') => {
+  const userPrompt = userData || '';
+  const mods = modifications || {};
+
+  // Construir bloque de preferencias del usuario extraidas de options
+  const userPrefs = [];
+  if (mods.primaryColor) userPrefs.push(`USER_PRIMARY_COLOR: ${mods.primaryColor}`);
+  if (mods.secondaryColor) userPrefs.push(`USER_SECONDARY_COLOR: ${mods.secondaryColor}`);
+  if (mods.theme) userPrefs.push(`USER_THEME: ${mods.theme}`);
+  if (mods.visualStyle) userPrefs.push(`VISUAL_STYLE: ${mods.visualStyle}`);
+  if (mods.mood) userPrefs.push(`MOOD: ${mods.mood}`);
+  if (mods.eventType) userPrefs.push(`EVENT_TYPE: ${mods.eventType}`);
+
+  // Lista de imagenes locales disponibles (si las hay)
+  let imagesBlock = '';
+  if (mods.imageFiles && Array.isArray(mods.imageFiles) && mods.imageFiles.length > 0) {
+    const imgList = mods.imageFiles.map(f => `/img/${f.folder}/${f.filename}`).join('\n');
+    imagesBlock = `\n===== AVAILABLE IMAGES =====\nThe user has these local images available. Use them in the appropriate modules (portada, padres, ubicacion). NEVER invent filenames — only use these:\n${imgList}\n===== END AVAILABLE IMAGES =====\n`;
+  }
+
+  // Instruccion de imagenes (promptInstruction)
+  let promptInstructionBlock = '';
+  if (mods.promptInstruction) {
+    promptInstructionBlock = `\n===== IMAGE INSTRUCTIONS =====\n${mods.promptInstruction}\n===== END IMAGE INSTRUCTIONS =====\n`;
+  }
+
+  const fullPrompt = `===== USER REQUEST =====
+${userPrompt}
+===== END USER REQUEST =====
+
+${userPrefs.length > 0 ? `===== USER DESIGN PREFERENCES =====\n${userPrefs.join('\n')}\n===== END USER DESIGN PREFERENCES =====\n` : ''}${imagesBlock}${promptInstructionBlock}
+===== BASE TEMPLATE HTML (ADAPT AND AMPLIFY THIS — DO NOT GENERATE FROM SCRATCH) =====
+${baseHtml}
+===== END BASE TEMPLATE HTML =====
+
+Now adapt and amplify the template above. Output the COMPLETE HTML file from <!DOCTYPE html> to </html> with the metadata comment after.`;
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+
+  console.log('=== ADAPT TEMPLATE WITH AI ===');
+  console.log('Model:', model);
+  console.log('Base HTML length:', baseHtml.length);
+  console.log('User prompt length:', userPrompt.length);
+  console.log('User prefs:', userPrefs.join(', ') || '(none)');
+  console.log('================================');
+
+  const response = await fetchNoSSL(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-goog-api-key': apiKey
+    },
+    body: JSON.stringify({
+      system_instruction: {
+        parts: [{ text: ADAPTER_SYSTEM_PROMPT }]
+      },
+      contents: [{
+        parts: [{ text: fullPrompt }]
+      }],
+      generationConfig: {
+        temperature: 0.9,
+        topP: 0.95,
+        topK: 40,
+        maxOutputTokens: 1500000
+      }
+    })
+  });
+
+  console.log('ADAPT API HTTP:', response.status);
+
+  if (!response.ok) {
+    const error = await response.json();
+    console.error('ADAPT API Error:', JSON.stringify(error, null, 2));
+    throw new Error(error.error?.message || `ADAPT API HTTP ${response.status}`);
+  }
+
+  const data = await response.json();
+  const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+  console.log('ADAPT Output length:', generatedText?.length || 0);
+
+  if (!generatedText) {
+    throw new Error('Empty response from Gemini in adaptTemplateWithAI');
+  }
+
+  return generatedText;
+};
+
 export const generateWithGemini = async (prompt, apiKey, model = 'gemini-3.1-pro', options = {}, attachments = []) => {
   const { eventType, theme, primaryColor, secondaryColor, imageFiles, promptInstruction, visualStyle, mood, userId } = options;
 
+  // ===== RAG TEMPLATE ADAPTATION (html_content-based) =====
+  // Intentar encontrar un template con html_content y adaptarlo+amplificarlo
+  // en lugar de generar desde cero. Si falla, cae al flujo de generación tradicional.
+  try {
+    const ragTemplateWithHtml = selectRagTemplate(db, eventType, prompt, options);
+
+    if (ragTemplateWithHtml && ragTemplateWithHtml.html_content) {
+      console.log('[RAG-ADAPT] Template con html_content encontrado:', ragTemplateWithHtml.style_name, '(id=' + ragTemplateWithHtml.id + ')');
+
+      if (userId) {
+        try {
+          db.prepare(`INSERT INTO knowledge_base_usage (template_id, user_id, event_type) VALUES (?, ?, ?)`)
+            .run(ragTemplateWithHtml.id, userId, eventType);
+        } catch (e) {}
+      }
+
+      const modifications = {
+        primaryColor,
+        secondaryColor,
+        theme,
+        visualStyle,
+        mood,
+        eventType,
+        imageFiles,
+        promptInstruction
+      };
+
+      const adaptedHtml = await adaptTemplateWithAI(
+        ragTemplateWithHtml.html_content,
+        prompt,
+        modifications,
+        apiKey,
+        model
+      );
+
+      if (adaptedHtml && adaptedHtml.length > 100) {
+        console.log('[RAG-ADAPT] ✅ Adaptación exitosa, length:', adaptedHtml.length);
+        const html = cleanHtml(adaptedHtml);
+        const fixedHtml = fixTailwindBgGemini(html);
+        const libHtml = injectMandatoryLibraries(fixedHtml);
+        const metaHtml = injectEditorMetadata(libHtml, eventType, theme, primaryColor, secondaryColor);
+        const finalHtml = fixInvalidImagePaths(metaHtml, imageFiles);
+        return finalHtml;
+      } else {
+        console.log('[RAG-ADAPT] ⚠️ Adaptación devolvió HTML muy corto, fallback a generación desde cero');
+      }
+    } else {
+      console.log('[RAG-ADAPT] No hay templates con html_content, usando generación desde cero');
+    }
+  } catch (adaptError) {
+    console.error('[RAG-ADAPT] ❌ Error en adaptación, fallback a generación desde cero:', adaptError.message);
+  }
+
+  // ===== FALLBACK: GENERACIÓN DESDE CERO =====
   // ===== CONSULTAR RAG PRIMERO =====
   let ragContext = '';
   const ragTemplate = await queryRAGTemplateGemini(eventType, theme);

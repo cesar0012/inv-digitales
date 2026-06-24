@@ -7,7 +7,9 @@ import { dirname, join } from 'path';
 import { existsSync, mkdirSync, writeFileSync, readdirSync, statSync, readFileSync, unlinkSync, appendFileSync } from 'fs';
 import { createHash, createHmac } from 'crypto';
 import https from 'https';
+import multer from 'multer';
 import db from './database.js';
+import { analyzeTemplate, REQUIRED_TAGS } from './ragValidator.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -27,6 +29,18 @@ const PUBLIC_URL = process.env.VITE_PUBLIC_URL || `http://localhost:${PORT}`;
 const API_BASE_URL = process.env.VITE_API_BASE_URL || 'https://api.invitacionesmodernas.com/api';
 const HMAC_SECRET = process.env.EDITOR_HMAC_SECRET || 'invitaciones-digitales-hmac-secret-2026';
 const TOKEN_TTL_DAYS = parseInt(process.env.TOKEN_TTL_DAYS || '7', 10);
+
+const ragUpload = multer({
+  storage: multer.memoryStorage(),
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === 'text/html' && file.originalname.toLowerCase().endsWith('.html')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Solo se permiten archivos .html'));
+    }
+  },
+  limits: { fileSize: 2 * 1024 * 1024 }
+});
 
 const generateInternalToken = (userId) => {
   const issuedAt = Math.floor(Date.now() / 1000).toString();
@@ -3122,6 +3136,66 @@ app.delete('/api/admin/rag-templates/:id', adminMiddleware, (req, res) => {
     }
     res.json({ success: true });
   } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// POST /api/admin/rag-templates/upload - Subir template HTML y analizarlo con ragValidator
+app.post('/api/admin/rag-templates/upload', adminMiddleware, ragUpload.single('htmlFile'), (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'Archivo HTML es requerido (campo htmlFile)' });
+    }
+
+    const eventType = req.body.event_type || 'boda';
+    const filename = req.file.originalname;
+    const htmlContent = req.file.buffer.toString('utf8');
+
+    const analysis = analyzeTemplate(htmlContent, eventType);
+
+    const styleId = filename
+      .toLowerCase()
+      .replace(/\.html$/, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
+    const styleName = analysis.description
+      ? analysis.description.split('.')[0].substring(0, 80)
+      : filename.replace(/\.html$/i, '');
+
+    const requiredTags = REQUIRED_TAGS[eventType] || [];
+
+    const stmt = db.prepare(`
+      INSERT INTO knowledge_base (
+        style_id, style_name, description, category,
+        filename, ui_elements, colors, required_tags, html_size,
+        html_content, is_active
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)
+    `);
+
+    const result = stmt.run(
+      styleId,
+      styleName,
+      analysis.description || '',
+      eventType,
+      filename,
+      JSON.stringify(analysis.ui_elements),
+      JSON.stringify(analysis.colors),
+      JSON.stringify(requiredTags),
+      htmlContent.length,
+      htmlContent
+    );
+
+    res.json({
+      success: true,
+      id: result.lastInsertRowid,
+      html_content: htmlContent,
+      analysis
+    });
+  } catch (error) {
+    if (error.message && error.message.includes('UNIQUE constraint')) {
+      return res.status(400).json({ error: 'Ya existe una plantilla con ese style_id (filename)' });
+    }
     res.status(500).json({ error: error.message });
   }
 });

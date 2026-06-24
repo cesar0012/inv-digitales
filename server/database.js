@@ -416,6 +416,46 @@ db.exec(`
 
 try { db.exec(`ALTER TABLE knowledge_base ADD COLUMN html_content TEXT`); } catch (e) { /* column already exists */ }
 
+try {
+  db.exec(`ALTER TABLE knowledge_base ADD COLUMN filename TEXT`);
+  console.log('✅ Columna filename agregada a knowledge_base');
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE knowledge_base ADD COLUMN ui_elements TEXT`);
+  console.log('✅ Columna ui_elements agregada a knowledge_base');
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE knowledge_base ADD COLUMN visual_elements TEXT`);
+  console.log('✅ Columna visual_elements agregada a knowledge_base');
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE knowledge_base ADD COLUMN colors TEXT`);
+  console.log('✅ Columna colors agregada a knowledge_base');
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE knowledge_base ADD COLUMN visual_styles TEXT`);
+  console.log('✅ Columna visual_styles agregada a knowledge_base');
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE knowledge_base ADD COLUMN mood TEXT`);
+  console.log('✅ Columna mood agregada a knowledge_base');
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE knowledge_base ADD COLUMN required_tags TEXT`);
+  console.log('✅ Columna required_tags agregada a knowledge_base');
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE knowledge_base ADD COLUMN html_size INTEGER`);
+  console.log('✅ Columna html_size agregada a knowledge_base');
+} catch (e) {}
+
 db.exec(`
   CREATE TABLE IF NOT EXISTS knowledge_base_usage (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
