@@ -1725,6 +1725,7 @@ app.get('/api/admin/config', adminMiddleware, (req, res) => {
       html_api_key: '',
       html_model: 'gpt-4o',
       html_google_api_key: '',
+      has_google_api_key: false,
       html_google_model: 'gemini-3.1-flash-preview',
       image_provider: 'gemini',
       image_model: 'gemini-3.1-flash-image-preview',
@@ -1743,6 +1744,7 @@ use_rag_templates: true,
     html_api_key: '', // No exponer
     html_model: config.html_model || 'gpt-4o',
     html_google_api_key: '', // No exponer
+    has_google_api_key: !!config.html_google_api_key,
     html_google_model: config.html_google_model || 'gemini-3.1-flash-preview',
     image_provider: config.image_provider || 'gemini',
     image_model: config.image_model || 'gemini-3.1-flash-image-preview',

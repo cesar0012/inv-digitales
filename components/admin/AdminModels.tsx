@@ -28,6 +28,7 @@ export const AdminModels: React.FC = () => {
   const [loginPageUrl, setLoginPageUrl] = useState('/admin-login');
   const [useAgentOrchestrator, setUseAgentOrchestrator] = useState(false);
   const [useRagTemplates, setUseRagTemplates] = useState(true);
+  const [hasGoogleApiKey, setHasGoogleApiKey] = useState(false);
   
   // Save states
   const [saving, setSaving] = useState(false);
@@ -56,6 +57,7 @@ const loadConfig = async () => {
     try {
       const config = await getAdminConfig();
       setHtmlGoogleApiKey(config.html_google_api_key || '');
+      setHasGoogleApiKey(config.has_google_api_key || false);
       setHtmlGoogleModel(config.html_google_model || 'gemini-3.1-pro-preview');
       setImageModel(config.image_model);
       setImageApiKey(config.image_api_key);
@@ -143,6 +145,7 @@ const loadConfig = async () => {
             setUseAgentOrchestrator={setUseAgentOrchestrator}
             useRagTemplates={useRagTemplates}
             setUseRagTemplates={setUseRagTemplates}
+            hasGoogleApiKey={hasGoogleApiKey}
           />}
           {activeSection === 'images' && <ImageGeneratorConfig 
             selectedModel={imageModel}
@@ -166,13 +169,15 @@ interface HTMLGeneratorProps {
   setUseAgentOrchestrator: (value: boolean) => void;
   useRagTemplates: boolean;
   setUseRagTemplates: (value: boolean) => void;
+  hasGoogleApiKey: boolean;
 }
 
 const HTMLGeneratorConfig: React.FC<HTMLGeneratorProps> = ({ 
   googleApiKey, setGoogleApiKey,
   googleModel, setGoogleModel,
   useAgentOrchestrator, setUseAgentOrchestrator,
-  useRagTemplates, setUseRagTemplates
+  useRagTemplates, setUseRagTemplates,
+  hasGoogleApiKey
 }) => {
   const [saved, setSaved] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -290,6 +295,12 @@ const handleSave = async () => {
             placeholder="AIza..."
             className="w-full px-4 py-3 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 text-gray-800 font-mono text-sm"
           />
+          {hasGoogleApiKey && !googleApiKey && (
+            <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
+              <Key className="w-3 h-3" />
+              API Key guardada (déjalo vacío para mantener la actual)
+            </p>
+          )}
         </div>
 
         <div>
@@ -331,7 +342,7 @@ const handleSave = async () => {
 
       <button
         onClick={handleSave}
-        disabled={saving || !googleApiKey}
+        disabled={saving || (!googleApiKey && !hasGoogleApiKey)}
         className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all disabled:opacity-50 ${
           saved
             ? 'bg-green-500 text-white'
