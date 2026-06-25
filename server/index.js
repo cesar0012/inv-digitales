@@ -2815,7 +2815,12 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
     const useRagTemplates = config.use_rag_templates === 1;
     console.log('🤖 Agent Orchestrator:', useAgentOrchestrator ? 'ACTIVADO' : 'DESACTIVADO');
     console.log('📄 RAG Templates:', useRagTemplates ? 'ACTIVADO' : 'DESACTIVADO');
-    
+
+    // DEBUG: Ver qué API key se usa realmente
+    console.log('===== DEBUG API KEY =====');
+    console.log('Config from DB:', config.html_google_api_key ? `Preset: ${config.html_google_api_key.substring(0, 10)}...` : 'NO HAY');
+    console.log('======================');
+
     if (config.html_google_api_key) {
 const geminiOptions = {
         eventType: editorConfig?.eventType,
