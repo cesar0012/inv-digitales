@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { X, Loader2, Save, Sparkles, Upload, FileCode } from 'lucide-react';
 
-const CATEGORIES = ['boda', 'xv-años', 'cumpleaños', 'bautizo', 'comunion', 'baby-shower', 'otro'];
+export const CATEGORIES = ['boda', 'xv-anos', 'cumpleanos', 'bautizo', 'primera-comunion', 'confirmacion', 'baby-shower', 'otro'];
 const CDN_OPTIONS = ['tailwindcss', 'iconify', 'gsap', 'scrolltrigger', 'three', 'animejs', 'tsparticles'];
 
 interface TemplateData {

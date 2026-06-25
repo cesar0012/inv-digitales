@@ -370,13 +370,12 @@ Now generate the complete HTML invitation: `;
 // === RAG FUNCTIONS FOR GEMINI SERVICE (fallback when not using orchestrator) ===
 const queryRAGTemplateGemini = async (eventType, theme) => {
   try {
-    let query = 'SELECT * FROM knowledge_base WHERE is_active = 1';
-    const params = [];
+    const normalizedCategory = normalizeCategory(eventType);
+    console.log(`[RAG] eventType original="${eventType}" → normalizado="${normalizedCategory}"`);
 
-    if (eventType) {
-      query += ' AND category = ?';
-      params.push(eventType);
-    }
+    // Paso 1: buscar por category normalizada
+    let query = 'SELECT * FROM knowledge_base WHERE is_active = 1 AND category = ?';
+    let params = [normalizedCategory];
 
     if (theme) {
       query += ' AND (style_name LIKE ? OR theme_tags LIKE ? OR description LIKE ?)';
@@ -386,7 +385,23 @@ const queryRAGTemplateGemini = async (eventType, theme) => {
     }
 
     query += ' ORDER BY RANDOM() LIMIT 1';
-    const template = db.prepare(query).get(...params);
+    let template = db.prepare(query).get(...params);
+    console.log(`[RAG] Paso 1 (category="${normalizedCategory}"): ${template ? `encontrado id=${template.id} "${template.style_name}"` : 'no encontrado'}`);
+
+    // Paso 2: fallback sin filtro de category
+    if (!template) {
+      let fallbackQuery = 'SELECT * FROM knowledge_base WHERE is_active = 1';
+      const fallbackParams = [];
+      if (theme) {
+        fallbackQuery += ' AND (style_name LIKE ? OR theme_tags LIKE ? OR description LIKE ?)';
+        fallbackParams.push(`%${theme}%`);
+        fallbackParams.push(`%${theme}%`);
+        fallbackParams.push(`%${theme}%`);
+      }
+      fallbackQuery += ' ORDER BY RANDOM() LIMIT 1';
+      template = db.prepare(fallbackQuery).get(...fallbackParams);
+      console.log(`[RAG] Paso 2 (fallback sin category): ${template ? `encontrado id=${template.id} "${template.style_name}"` : 'no encontrado'}`);
+    }
 
     if (!template) return null;
 
@@ -437,29 +452,58 @@ const buildRAGPromptGemini = (ragTemplate) => {
   return parts.join('\n');
 };
 
+// === NORMALIZE CATEGORY ===
+// Mapea eventType del usuario ("Boda Tradicional", "XV Años", etc.) al slug
+// canonico usado en knowledge_base.category ("boda", "xv-anos", etc.)
+export const normalizeCategory = (eventType) => {
+  if (!eventType) return '';
+  const normalized = eventType
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')  // quitar acentos
+    .trim();
+
+  if (normalized.includes('boda') || normalized.includes('wedding') || normalized.includes('matrimo')) return 'boda';
+  if (normalized.includes('xv') || normalized.includes('quince') || normalized.includes('15')) return 'xv-anos';
+  if (normalized.includes('cumple') || normalized.includes('birthday')) return 'cumpleanos';
+  if (normalized.includes('bauti') || normalized.includes('bautism')) return 'bautizo';
+  if (normalized.includes('comunion') || normalized.includes('comunio')) return 'primera-comunion';
+  if (normalized.includes('confirmac')) return 'confirmacion';
+
+  return normalized;
+};
+
 // === RAG TEMPLATE SELECTION (html_content-based) ===
 // Busca en knowledge_base el mejor template con html_content basado en
 // coincidencia de category con eventType + keywords del userPrompt en
 // description, theme_tags, visual_styles, mood, style_name.
-// Retorna el template completo (con html_content) o null si no encuentra.
+// Estrategia: 1) match exacto de category normalizada, 2) fallback a cualquier
+// template con html_content. Retorna el template completo o null.
 export const selectRagTemplate = (dbInstance, eventType, userPrompt, config = {}) => {
   try {
-    let query = 'SELECT * FROM knowledge_base WHERE is_active = 1 AND html_content IS NOT NULL';
-    const params = [];
+    const normalizedCategory = normalizeCategory(eventType);
+    console.log(`[RAG-SELECT] eventType original="${eventType}" → normalizado="${normalizedCategory}"`);
 
-    if (eventType) {
-      query += ' AND category = ?';
-      params.push(eventType);
+    // Paso 1: buscar por category normalizada
+    let candidates = dbInstance.prepare(
+      'SELECT * FROM knowledge_base WHERE is_active = 1 AND html_content IS NOT NULL AND html_content != "" AND category = ?'
+    ).all(normalizedCategory);
+    console.log(`[RAG-SELECT] Paso 1 (category="${normalizedCategory}"): ${candidates.length} candidato(s)`);
+
+    // Paso 2: fallback a cualquier template con html_content
+    if (candidates.length === 0) {
+      candidates = dbInstance.prepare(
+        'SELECT * FROM knowledge_base WHERE is_active = 1 AND html_content IS NOT NULL AND html_content != ""'
+      ).all();
+      console.log(`[RAG-SELECT] Paso 2 (fallback sin filtro category): ${candidates.length} candidato(s)`);
     }
 
-    const candidates = dbInstance.prepare(query).all(...params);
-
     if (candidates.length === 0) {
-      console.log('[RAG-SELECT] No hay templates con html_content para eventType:', eventType);
+      console.log('[RAG-SELECT] ❌ No hay templates con html_content en la BD');
       return null;
     }
 
-    console.log(`[RAG-SELECT] ${candidates.length} candidato(s) con html_content para eventType="${eventType}"`);
+    console.log(`[RAG-SELECT] Evaluando ${candidates.length} candidato(s) por keywords...`);
 
     // Extraer keywords del userPrompt (palabras >3 chars, normalizadas)
     const promptLower = (userPrompt || '').toLowerCase();
@@ -493,8 +537,8 @@ export const selectRagTemplate = (dbInstance, eventType, userPrompt, config = {}
         }
       }
 
-      // Bonus por coincidencia exacta de category
-      if (eventType && t.category === eventType) {
+      // Bonus por coincidencia de category normalizada
+      if (normalizedCategory && t.category === normalizedCategory) {
         score += 5;
       }
 
@@ -618,11 +662,24 @@ Now adapt and amplify the template above. Output the COMPLETE HTML file from <!D
   }
 
   const data = await response.json();
-  const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+  // Modelos "thinking" pueden poner razonamiento en parts[0] (thought) y el
+  // HTML real en parts[1]+. Concatenar solo parts que NO son thought.
+  const allParts = data.candidates?.[0]?.content?.parts || [];
+  console.log(`[ADAPT] Response: ${allParts.length} part(s)`);
+  allParts.forEach((p, i) => {
+    const textLen = p?.text?.length || 0;
+    const hasThought = p?.thought ? ' [thought]' : '';
+    console.log(`[ADAPT] Part[${i}]: ${textLen} chars${hasThought}`);
+  });
+
+  const contentParts = allParts.filter(p => p?.text && !p?.thought);
+  const generatedText = contentParts.map(p => p.text).join('\n');
 
   console.log('ADAPT Output length:', generatedText?.length || 0);
 
-  if (!generatedText) {
+  if (!generatedText || generatedText.length < 50) {
+    console.error('[ADAPT] ❌ Respuesta vacía o muy corta. Data:', JSON.stringify(data).slice(0, 500));
     throw new Error('Empty response from Gemini in adaptTemplateWithAI');
   }
 
@@ -686,12 +743,14 @@ export const generateWithGemini = async (prompt, apiKey, model = 'gemini-3.1-pro
       }
     } catch (adaptError) {
       console.error('[RAG-ADAPT] ❌ Error en adaptación, fallback a generación desde cero:', adaptError.message);
+      console.error('[RAG-ADAPT] Stack:', adaptError.stack);
     }
   } else {
     console.log('[RAG-ADAPT] use_rag_templates=0 — adaptación deshabilitada, usando generación desde cero');
   }
 
   // ===== FALLBACK: GENERACIÓN DESDE CERO =====
+  console.log('[FROM-SCRATCH] === Iniciando generación desde cero ===');
   // ===== CONSULTAR RAG PRIMERO =====
   let ragContext = '';
   const ragTemplate = await queryRAGTemplateGemini(eventType, theme);
@@ -782,19 +841,37 @@ export const generateWithGemini = async (prompt, apiKey, model = 'gemini-3.1-pro
   }
 
   const data = await response.json();
-  const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
-  console.log('Output length:', generatedText?.length || 0);
+  // Modelos "thinking" pueden poner el razonamiento en parts[0] y el contenido
+  // real en parts[1]+. Concatenar todos los parts con text para no perder HTML.
+  const allParts = data.candidates?.[0]?.content?.parts || [];
+  console.log(`[FROM-SCRATCH] Response: ${allParts.length} part(s)`);
+  allParts.forEach((p, i) => {
+    const textLen = p?.text?.length || 0;
+    const hasThought = p?.thought ? ' [thought]' : '';
+    console.log(`[FROM-SCRATCH] Part[${i}]: ${textLen} chars${hasThought}`);
+  });
 
-  if (!generatedText) {
-    throw new Error('Empty response from Gemini');
+  // Filtrar solo parts que NO son thought y tienen text
+  const contentParts = allParts.filter(p => p?.text && !p?.thought);
+  const generatedText = contentParts.map(p => p.text).join('\n');
+
+  console.log('[FROM-SCRATCH] generatedText length:', generatedText?.length || 0);
+
+  if (!generatedText || generatedText.length < 50) {
+    console.error('[FROM-SCRATCH] ❌ Respuesta vacía o muy corta. Data completa:', JSON.stringify(data).slice(0, 500));
+    throw new Error('Empty response from Gemini (no content parts with text)');
   }
 
   const html = cleanHtml(generatedText);
+  console.log('[FROM-SCRATCH] After cleanHtml:', html?.length || 0, 'chars');
   const fixedHtml = fixTailwindBgGemini(html);
+  console.log('[FROM-SCRATCH] After fixTailwindBg:', fixedHtml?.length || 0, 'chars');
   const libHtml = injectMandatoryLibraries(fixedHtml);
+  console.log('[FROM-SCRATCH] After injectLibraries:', libHtml?.length || 0, 'chars');
   const metaHtml = injectEditorMetadata(libHtml, eventType, theme, primaryColor, secondaryColor);
   const finalHtml = fixInvalidImagePaths(metaHtml, imageFiles);
+  console.log('[FROM-SCRATCH] ✅ Final HTML:', finalHtml?.length || 0, 'chars');
   return finalHtml;
 };
 

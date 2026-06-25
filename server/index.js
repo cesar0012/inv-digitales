@@ -10,6 +10,7 @@ import https from 'https';
 import multer from 'multer';
 import db from './database.js';
 import { analyzeTemplate, validateTemplate, REQUIRED_TAGS } from './ragValidator.js';
+import { normalizeCategory } from './geminiService.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -3068,7 +3069,9 @@ app.post('/api/admin/rag-templates', adminMiddleware, (req, res) => {
     if (!style_id || !style_name || !category) {
       return res.status(400).json({ error: 'Faltan campos requeridos: style_id, style_name, category' });
     }
-    
+
+    const normalizedCat = normalizeCategory(category);
+
     const stmt = db.prepare(`
       INSERT INTO knowledge_base (
         style_id, style_name, description, category, theme_tags,
@@ -3077,9 +3080,9 @@ app.post('/api/admin/rag-templates', adminMiddleware, (req, res) => {
         html_content
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
-    
+
     const result = stmt.run(
-      style_id, style_name, description || '', category,
+      style_id, style_name, description || '', normalizedCat,
       JSON.stringify(theme_tags || []),
       JSON.stringify(color_palette || {}),
       JSON.stringify(typography_scale || {}),
@@ -3113,6 +3116,7 @@ app.put('/api/admin/rag-templates/:id', adminMiddleware, (req, res) => {
     
     // Si html_content viene en el body (string o null), se actualiza. Si es undefined, se preserva el valor existente.
     const updateHtml = html_content !== undefined;
+    const normalizedCat = category !== undefined ? normalizeCategory(category) : undefined;
     const sql = updateHtml
       ? `UPDATE knowledge_base SET
         style_name = ?, description = ?, category = ?, theme_tags = ?,
@@ -3126,10 +3130,10 @@ app.put('/api/admin/rag-templates/:id', adminMiddleware, (req, res) => {
         base_cdns = ?, js_dependencies = ?, animation_rules = ?, variation_params = ?,
         is_active = ?, updated_at = datetime('now')
         WHERE id = ?`;
-    
+
     const stmt = db.prepare(sql);
     const baseParams = [
-      style_name, description, category, JSON.stringify(theme_tags || []),
+      style_name, description, normalizedCat, JSON.stringify(theme_tags || []),
       JSON.stringify(color_palette || {}),
       JSON.stringify(typography_scale || {}),
       JSON.stringify(layout_rules || {}),
@@ -3173,7 +3177,8 @@ app.post('/api/admin/rag-templates/upload', adminMiddleware, ragUpload.single('h
       return res.status(400).json({ error: 'Archivo HTML es requerido (campo htmlFile)' });
     }
 
-    const eventType = req.body.event_type || 'boda';
+    const rawEventType = req.body.event_type || 'boda';
+    const eventType = normalizeCategory(rawEventType);
     const filename = req.file.originalname;
     const htmlContent = req.file.buffer.toString('utf8');
 
@@ -3212,12 +3217,18 @@ app.post('/api/admin/rag-templates/upload', adminMiddleware, ragUpload.single('h
       htmlContent
     );
 
-    res.json({
+    const response = {
       success: true,
       id: result.lastInsertRowid,
       html_content: htmlContent,
       analysis
-    });
+    };
+
+    if (analysis.found_tags.length === 0) {
+      response.warning = 'Template sin data-gemini-id. No será editable en el editor visual.';
+    }
+
+    res.json(response);
   } catch (error) {
     if (error.message && error.message.includes('UNIQUE constraint')) {
       return res.status(400).json({ error: 'Ya existe una plantilla con ese style_id (filename)' });

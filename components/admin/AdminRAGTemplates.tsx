@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Plus, Trash2, Loader2, BookOpen, Download, Upload, AlertTriangle, FileCode, Copy, CheckCircle2, AlertCircle, Check } from 'lucide-react';
 import { getRAGTemplates, getRAGTemplate, createRAGTemplate, updateRAGTemplate, deleteRAGTemplate, analyzeRAGHtml, downloadRAGBackup, uploadRAGBackup, uploadRAGTemplate, RAGBackupData, RAGUploadResult } from '../../services/adminService';
-import { RAGTemplateModal } from './RAGTemplateModal';
+import { RAGTemplateModal, CATEGORIES } from './RAGTemplateModal';
 
 interface TemplateValidation {
   isValid: boolean;
@@ -90,6 +90,7 @@ export const AdminRAGTemplates: React.FC = () => {
   const [uploadingRag, setUploadingRag] = useState(false);
   const ragFileRef = useRef<HTMLInputElement>(null);
   const [uploadingHtml, setUploadingHtml] = useState(false);
+  const [uploadCategory, setUploadCategory] = useState('boda');
   const [uploadAnalysis, setUploadAnalysis] = useState<RAGUploadResult['analysis'] | null>(null);
   const [copiedRules, setCopiedRules] = useState(false);
   const htmlUploadRef = useRef<HTMLInputElement>(null);
@@ -305,9 +306,10 @@ export const AdminRAGTemplates: React.FC = () => {
     setUploadAnalysis(null);
     setMessage(null);
     try {
-      const result = await uploadRAGTemplate(file, 'xv-anos');
+      const result = await uploadRAGTemplate(file, uploadCategory);
       setUploadAnalysis(result.analysis);
-      setMessage({ type: 'success', text: `Template subido (ID: ${result.id}). Análisis: ${result.analysis.isValid ? 'VÁLIDO' : 'Faltan módulos'}.` });
+      const warnPart = result.warning ? ` ⚠️ ${result.warning}` : '';
+      setMessage({ type: 'success', text: `Template subido (ID: ${result.id}). Análisis: ${result.analysis.isValid ? 'VÁLIDO' : 'Faltan módulos'}.${warnPart}` });
       fetchTemplates();
     } catch (error: any) {
       setMessage({ type: 'error', text: error.message || 'Error al subir template HTML' });
@@ -368,6 +370,16 @@ export const AdminRAGTemplates: React.FC = () => {
             onChange={handleHtmlUpload}
             className="hidden"
           />
+          <select
+            value={uploadCategory}
+            onChange={(e) => setUploadCategory(e.target.value)}
+            disabled={uploadingHtml}
+            className="px-3 py-2 border border-gray-300 rounded-xl text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+          >
+            {CATEGORIES.map(c => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
           <button
             onClick={() => htmlUploadRef.current?.click()}
             disabled={uploadingHtml}

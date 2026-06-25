@@ -422,7 +422,15 @@ const getTemplatesWithHtmlContent = () => {
       WHERE is_active = 1 AND html_content IS NOT NULL AND html_content != ''
     `).all();
 
-    if (!rows || rows.length === 0) return [];
+    if (!rows || rows.length === 0) {
+      console.log('[RAG-TEMPLATE] ❌ No hay templates con html_content en la BD');
+      return [];
+    }
+
+    console.log(`[RAG-TEMPLATE] 📋 ${rows.length} template(s) con html_content:`);
+    rows.forEach(r => {
+      console.log(`[RAG-TEMPLATE]   - id=${r.id} "${r.style_name}" category="${r.category}" html=${r.html_content.length} chars`);
+    });
 
     return rows.map(row => {
       let parsed = {};
@@ -526,9 +534,15 @@ Respond with ONLY the ID number of the best template:`;
   }
 
   const data = await response.json();
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-  const match = text.match(/\d+/);
-  if (!match) throw new Error(`Could not parse template ID from: ${text}`);
+
+  // Modelos "thinking" pueden poner razonamiento en parts[0] (thought) y la
+  // respuesta real en parts[1]+. Buscar el ID en todos los parts no-thought.
+  const allParts = data.candidates?.[0]?.content?.parts || [];
+  const contentText = allParts.filter(p => p?.text && !p?.thought).map(p => p.text).join(' ');
+  console.log(`[ADAPTER] Selection response: ${allParts.length} part(s), content text: "${contentText.slice(0, 100)}"`);
+
+  const match = contentText.match(/\d+/);
+  if (!match) throw new Error(`Could not parse template ID from: ${contentText}`);
 
   const selectedId = parseInt(match[0], 10);
   const selected = templates.find(t => t.id === selectedId);
@@ -604,10 +618,25 @@ const adaptTemplateWithGemini = async (template, prompt, apiKey, model, options)
   }
 
   const data = await response.json();
-  const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+  // Modelos "thinking" pueden poner razonamiento en parts[0] (thought) y el
+  // HTML real en parts[1]+. Concatenar solo parts que NO son thought.
+  const allParts = data.candidates?.[0]?.content?.parts || [];
+  console.log(`[ADAPTER] Response: ${allParts.length} part(s)`);
+  allParts.forEach((p, i) => {
+    const textLen = p?.text?.length || 0;
+    const hasThought = p?.thought ? ' [thought]' : '';
+    console.log(`[ADAPTER] Part[${i}]: ${textLen} chars${hasThought}`);
+  });
+
+  const contentParts = allParts.filter(p => p?.text && !p?.thought);
+  const generatedText = contentParts.map(p => p.text).join('\n');
   console.log('[ADAPTER] Output length:', generatedText?.length || 0);
 
-  if (!generatedText) throw new Error('Empty response from Gemini during adaptation');
+  if (!generatedText || generatedText.length < 50) {
+    console.error('[ADAPTER] ❌ Respuesta vacía o muy corta. Data:', JSON.stringify(data).slice(0, 500));
+    throw new Error('Empty response from Gemini during adaptation');
+  }
 
   return generatedText;
 };

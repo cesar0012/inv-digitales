@@ -571,9 +571,10 @@ export interface RAGUploadResult {
     found: string[];
     eventType: string;
   };
+  warning?: string;
 }
 
-export const uploadRAGTemplate = async (file: File, eventType: string = 'xv-anos'): Promise<RAGUploadResult> => {
+export const uploadRAGTemplate = async (file: File, eventType: string = 'boda'): Promise<RAGUploadResult> => {
   const formData = new FormData();
   formData.append('htmlFile', file);
   formData.append('event_type', eventType);
