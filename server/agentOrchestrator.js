@@ -653,15 +653,15 @@ export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro',
     imageFiles = [],
     promptInstruction = '',
     userId = '',
-    useRagTemplates = 1
+    useRagTemplates = true
   } = options;
 
   console.log('=== ORCHESTRATOR START ===');
   console.log('Event:', eventType, '| Theme:', theme, '| Model:', model, '| Attachments:', attachments?.length || 0);
-  console.log('[RAG-TEMPLATE] use_rag_templates =', useRagTemplates, useRagTemplates === 1 ? '(HABILITADO)' : '(DESHABILITADO)');
+  console.log('[RAG-TEMPLATE] use_rag_templates =', useRagTemplates, useRagTemplates ? '(HABILITADO)' : '(DESHABILITADO)');
 
   // ===== STEP 0: TEMPLATE ADAPTATION FLOW (preferred when templates with html_content exist) =====
-  if (useRagTemplates === 1) {
+  if (useRagTemplates) {
     console.log('[RAG-TEMPLATE] 🔍 Buscando templates con html_content para eventType="' + eventType + '"...');
     try {
       const templatesWithHtml = getTemplatesWithHtmlContent();

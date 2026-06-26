@@ -687,14 +687,14 @@ Now adapt and amplify the template above. Output the COMPLETE HTML file from <!D
 };
 
 export const generateWithGemini = async (prompt, apiKey, model = 'gemini-3.1-pro', options = {}, attachments = []) => {
-  const { eventType, theme, primaryColor, secondaryColor, imageFiles, promptInstruction, visualStyle, mood, userId, useRagTemplates = 1 } = options;
+  const { eventType, theme, primaryColor, secondaryColor, imageFiles, promptInstruction, visualStyle, mood, userId, useRagTemplates = true } = options;
 
-  console.log('[RAG-ADAPT] use_rag_templates =', useRagTemplates, useRagTemplates === 1 ? '(HABILITADO)' : '(DESHABILITADO)');
+  console.log('[RAG-ADAPT] use_rag_templates =', useRagTemplates, useRagTemplates ? '(HABILITADO)' : '(DESHABILITADO)');
 
   // ===== RAG TEMPLATE ADAPTATION (html_content-based) =====
   // Intentar encontrar un template con html_content y adaptarlo+amplificarlo
   // en lugar de generar desde cero. Si falla, cae al flujo de generación tradicional.
-  if (useRagTemplates === 1) {
+  if (useRagTemplates) {
     try {
       const ragTemplateWithHtml = selectRagTemplate(db, eventType, prompt, options);
 
