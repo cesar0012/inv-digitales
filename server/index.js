@@ -2927,7 +2927,12 @@ const geminiOptions = {
       console.error('Error restoring credit:', restoreError);
     }
     
-    res.status(500).json({ error: error.message || 'Error al generar HTML' });
+    const errorMsg = error.message?.includes('Empty response')
+      ? 'Gemini devolvió una respuesta vacía. Intenta de nuevo.'
+      : error.message?.includes('API key')
+      ? 'Error de autenticación con Gemini. Revisa la API key.'
+      : error.message || 'Error al generar HTML';
+    res.status(500).json({ error: errorMsg });
   }
 });
 

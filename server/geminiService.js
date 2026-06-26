@@ -486,14 +486,14 @@ export const selectRagTemplate = (dbInstance, eventType, userPrompt, config = {}
 
     // Paso 1: buscar por category normalizada
     let candidates = dbInstance.prepare(
-      'SELECT * FROM knowledge_base WHERE is_active = 1 AND html_content IS NOT NULL AND html_content != "" AND category = ?'
+      'SELECT * FROM knowledge_base WHERE is_active = 1 AND html_content IS NOT NULL AND html_content != \'\' AND category = ?'
     ).all(normalizedCategory);
     console.log(`[RAG-SELECT] Paso 1 (category="${normalizedCategory}"): ${candidates.length} candidato(s)`);
 
     // Paso 2: fallback a cualquier template con html_content
     if (candidates.length === 0) {
       candidates = dbInstance.prepare(
-        'SELECT * FROM knowledge_base WHERE is_active = 1 AND html_content IS NOT NULL AND html_content != ""'
+        'SELECT * FROM knowledge_base WHERE is_active = 1 AND html_content IS NOT NULL AND html_content != \'\''
       ).all();
       console.log(`[RAG-SELECT] Paso 2 (fallback sin filtro category): ${candidates.length} candidato(s)`);
     }
@@ -617,7 +617,7 @@ ${userPrompt}
 
 ${userPrefs.length > 0 ? `===== USER DESIGN PREFERENCES =====\n${userPrefs.join('\n')}\n===== END USER DESIGN PREFERENCES =====\n` : ''}${imagesBlock}${promptInstructionBlock}
 ===== BASE TEMPLATE HTML (ADAPT AND AMPLIFY THIS — DO NOT GENERATE FROM SCRATCH) =====
-${baseHtml}
+${(() => { const maxTemplateSize = 15000; return baseHtml.length > maxTemplateSize ? baseHtml.substring(0, maxTemplateSize) + '\n...[TEMPLATE TRUNCATED — CONTINUE WITH SAME STRUCTURE]...' : baseHtml; })()}
 ===== END BASE TEMPLATE HTML =====
 
 Now adapt and amplify the template above. Output the COMPLETE HTML file from <!DOCTYPE html> to </html> with the metadata comment after.`;

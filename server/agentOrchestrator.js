@@ -586,7 +586,12 @@ const adaptTemplateWithGemini = async (template, prompt, apiKey, model, options)
   const userContext = userContextParts.join('\n');
   const templateMeta = templateMetaParts.join('\n');
 
-  const fullPrompt = `${ADAPTER_SYSTEM_PROMPT}\n\n${userContext}\n\n${templateMeta}${imageContext}\n\n===== USER PROMPT =====\n${promptWithDate}\n===== END USER PROMPT =====\n\n===== BASE TEMPLATE HTML (ADAPT THIS) =====\n${template.html_content}\n===== END BASE TEMPLATE HTML =====\n\nNow output the complete adapted HTML:`;
+  const maxTemplateSize = 15000;
+  const templateContent = template.html_content.length > maxTemplateSize
+    ? template.html_content.substring(0, maxTemplateSize) + '\n...[TEMPLATE TRUNCATED — CONTINUE WITH SAME STRUCTURE]...'
+    : template.html_content;
+
+  const fullPrompt = `${ADAPTER_SYSTEM_PROMPT}\n\n${userContext}\n\n${templateMeta}${imageContext}\n\n===== USER PROMPT =====\n${promptWithDate}\n===== END USER PROMPT =====\n\n===== BASE TEMPLATE HTML (ADAPT THIS) =====\n${templateContent}\n===== END BASE TEMPLATE HTML =====\n\nNow output the complete adapted HTML:`;
 
   const parts = [{ text: fullPrompt }];
 
