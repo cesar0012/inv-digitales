@@ -646,6 +646,97 @@ const adaptTemplateWithGemini = async (template, prompt, apiKey, model, options)
   return generatedText;
 };
 
+// === REQUIRED IMAGES GUARANTEE ===
+const normalizeEventType = (eventType) => {
+  if (!eventType) return 'boda';
+  const n = eventType.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+  if (n.includes('boda') || n.includes('wedding') || n.includes('matrimo')) return 'boda';
+  if (n.includes('xv') || n.includes('quince') || n.includes('15')) return 'xv-anos';
+  if (n.includes('cumple') || n.includes('birthday')) return 'cumpleanos';
+  if (n.includes('bauti') || n.includes('bautism')) return 'bautizo';
+  if (n.includes('comunion') || n.includes('comunio')) return 'primera-comunion';
+  if (n.includes('confirmac')) return 'confirmacion';
+  return 'boda';
+};
+
+const IMAGE_DESCRIPTIONS = {
+  'boda': {
+    'portada-imagen': 'Elegant wedding couple portrait with romantic backdrop, bride and groom in formal attire, complete scene with full background',
+    'padres-imagen': 'Elegant family celebration, parents and family members in formal attire at wedding, complete scene',
+    'ubicacion-imagen': 'Beautiful wedding venue exterior, elegant event space with decorations, complete scene with full background'
+  },
+  'xv-anos': {
+    'portada-imagen': 'Beautiful quinceanera portrait in elegant ball gown, celebratory backdrop, complete scene with full background',
+    'padres-imagen': 'Family with quinceanera in formal attire, loving celebration scene, complete scene',
+    'ubicacion-imagen': 'Elegant party hall decorated for quinceanera celebration, complete scene with full background'
+  },
+  'cumpleanos': {
+    'portada-imagen': 'Joyful birthday celebration scene with cake and decorations, festive atmosphere, complete scene with full background',
+    'padres-imagen': 'Family at birthday celebration, warm and happy scene, complete scene',
+    'ubicacion-imagen': 'Birthday party venue with festive decorations, complete scene with full background'
+  },
+  'bautizo': {
+    'portada-imagen': 'Baby baptism scene in church, soft and tender atmosphere, complete scene with full background',
+    'padres-imagen': 'Parents holding baby at baptism, loving family scene, complete scene',
+    'ubicacion-imagen': 'Church interior decorated for baptism ceremony, complete scene with full background'
+  },
+  'primera-comunion': {
+    'portada-imagen': 'First communion child in white attire, church setting, serene atmosphere, complete scene with full background',
+    'padres-imagen': 'Family with child at first communion, proud and loving scene, complete scene',
+    'ubicacion-imagen': 'Church interior for first communion ceremony, complete scene with full background'
+  },
+  'confirmacion': {
+    'portada-imagen': 'Confirmation scene with young person in formal attire, church setting, complete scene with full background',
+    'padres-imagen': 'Family at confirmation ceremony, proud celebration scene, complete scene',
+    'ubicacion-imagen': 'Church interior for confirmation ceremony, complete scene with full background'
+  }
+};
+
+export const ensureRequiredImages = async (html, eventType, imageApiKey, imageModel) => {
+  if (!imageApiKey) {
+    console.log('[COMPILER] ⚠️ No image API key, skipping required images check');
+    return html;
+  }
+
+  const normalizedEvent = normalizeEventType(eventType);
+  const descriptions = IMAGE_DESCRIPTIONS[normalizedEvent] || IMAGE_DESCRIPTIONS['boda'];
+  let result = html;
+
+  console.log(`[COMPILER] 🔍 Checking required images for eventType="${eventType}" → normalized="${normalizedEvent}"`);
+
+  for (const [id, description] of Object.entries(descriptions)) {
+    const hasImage = result.includes(`data-gemini-id="${id}"`) ||
+                     result.includes(`data-gemini-id='${id}'`);
+
+    if (!hasImage) {
+      console.log(`[COMPILER] ⚠️ Missing ${id}. Generating with NanoBanana...`);
+      try {
+        const { generateImageWithNanoBanana } = await import('./nanoBananaService.js');
+        const fullPrompt = `IMPORTANT: Create a beautiful photograph with a COMPLETE BACKGROUND (no transparent backgrounds, no floating elements, no stickers, no isolated objects). The image must have a full scene. Description: ${description}`;
+        const imgResult = await generateImageWithNanoBanana(fullPrompt, imageApiKey, imageModel);
+
+        if (imgResult.success && imgResult.image) {
+          const imgTag = `<img src="data:image/png;base64,${imgResult.image}" data-gemini-id="${id}" style="width:100%;max-width:600px;display:block;margin:20px auto;border-radius:8px">`;
+          if (result.includes('</body>')) {
+            result = result.replace('</body>', imgTag + '</body>');
+          } else {
+            result = result + imgTag;
+          }
+          console.log(`[COMPILER] ✅ Generated ${id}`);
+        } else {
+          console.log(`[COMPILER] ❌ Failed to generate ${id}: ${imgResult.error || 'unknown'}`);
+        }
+      } catch (err) {
+        console.error(`[COMPILER] ❌ Error generating ${id}:`, err.message);
+      }
+    } else {
+      console.log(`[COMPILER] ✅ ${id} already present, skipping`);
+    }
+  }
+
+  return result;
+};
+
 // === MAIN ORCHESTRATION FUNCTION ===
 export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro', options = {}, attachments = []) => {
   const {
@@ -658,7 +749,9 @@ export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro',
     imageFiles = [],
     promptInstruction = '',
     userId = '',
-    useRagTemplates = true
+    useRagTemplates = true,
+    imageApiKey = '',
+    imageModel = 'gemini-3.1-flash-image-preview'
   } = options;
 
   console.log('=== ORCHESTRATOR START ===');
@@ -693,7 +786,7 @@ export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro',
 
           console.log('=== ORCHESTRATOR COMPLETE (ADAPTATION FLOW) ===');
           console.log('Final HTML length:', finalHtml.length);
-          return finalHtml;
+          return await ensureRequiredImages(finalHtml, eventType, imageApiKey, imageModel);
         } catch (adaptError) {
           console.error('[RAG-TEMPLATE] ⚠️ Adaptación falló: ' + adaptError.message + ', cayendo a generación desde cero');
         }
@@ -818,5 +911,5 @@ export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro',
   console.log('=== ORCHESTRATOR COMPLETE ===');
   console.log('Final HTML length:', finalHtml.length);
 
-  return finalHtml;
+  return await ensureRequiredImages(finalHtml, eventType, imageApiKey, imageModel);
 };

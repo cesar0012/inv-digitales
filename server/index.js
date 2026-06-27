@@ -2945,6 +2945,7 @@ app.get('/api/admin/rag-templates', adminMiddleware, (req, res) => {
       SELECT id, style_id, style_name, description, category, theme_tags, 
              is_active, created_at, updated_at,
              filename, colors, required_tags, ui_elements,
+             color_palette,
              CASE WHEN html_content IS NOT NULL AND html_content != '' THEN 1 ELSE 0 END as has_html_content,
              CASE WHEN html_content IS NOT NULL THEN length(html_content) ELSE 0 END as html_size,
              html_content
@@ -3114,53 +3115,46 @@ app.post('/api/admin/rag-templates', adminMiddleware, (req, res) => {
   }
 });
 
-// PUT /api/admin/rag-templates/:id - Actualizar plantilla
+// PUT /api/admin/rag-templates/:id - Actualizar plantilla (partial updates)
 app.put('/api/admin/rag-templates/:id', adminMiddleware, (req, res) => {
   try {
-    const {
-      style_name, description, category, theme_tags,
-      color_palette, typography_scale, layout_rules, modules_def,
-      base_cdns, js_dependencies, animation_rules, variation_params,
-      is_active, html_content
-    } = req.body;
-    
-    // Si html_content viene en el body (string o null), se actualiza. Si es undefined, se preserva el valor existente.
-    const updateHtml = html_content !== undefined;
-    const normalizedCat = category !== undefined ? normalizeCategory(category) : undefined;
-    const sql = updateHtml
-      ? `UPDATE knowledge_base SET
-        style_name = ?, description = ?, category = ?, theme_tags = ?,
-        color_palette = ?, typography_scale = ?, layout_rules = ?, modules_def = ?,
-        base_cdns = ?, js_dependencies = ?, animation_rules = ?, variation_params = ?,
-        is_active = ?, html_content = ?, updated_at = datetime('now')
-        WHERE id = ?`
-      : `UPDATE knowledge_base SET
-        style_name = ?, description = ?, category = ?, theme_tags = ?,
-        color_palette = ?, typography_scale = ?, layout_rules = ?, modules_def = ?,
-        base_cdns = ?, js_dependencies = ?, animation_rules = ?, variation_params = ?,
-        is_active = ?, updated_at = datetime('now')
-        WHERE id = ?`;
-
-    const stmt = db.prepare(sql);
-    const baseParams = [
-      style_name, description, normalizedCat, JSON.stringify(theme_tags || []),
-      JSON.stringify(color_palette || {}),
-      JSON.stringify(typography_scale || {}),
-      JSON.stringify(layout_rules || {}),
-      JSON.stringify(modules_def || {}),
-      JSON.stringify(base_cdns || []),
-      JSON.stringify(js_dependencies || []),
-      JSON.stringify(animation_rules || {}),
-      JSON.stringify(variation_params || {}),
-      is_active !== undefined ? (is_active ? 1 : 0) : 1
+    const body = req.body;
+    const allowedFields = [
+      'style_name', 'description', 'category', 'theme_tags',
+      'color_palette', 'typography_scale', 'layout_rules', 'modules_def',
+      'base_cdns', 'js_dependencies', 'animation_rules', 'variation_params',
+      'is_active', 'html_content'
     ];
-    
-    if (updateHtml) {
-      stmt.run(...baseParams, html_content || null, req.params.id);
-    } else {
-      stmt.run(...baseParams, req.params.id);
+    const jsonFields = ['theme_tags', 'color_palette', 'typography_scale', 'layout_rules', 'modules_def', 'base_cdns', 'js_dependencies', 'animation_rules', 'variation_params'];
+
+    const setClauses = [];
+    const params = [];
+
+    for (const field of allowedFields) {
+      if (body[field] === undefined) continue;
+
+      let value = body[field];
+
+      if (field === 'category') {
+        value = normalizeCategory(value);
+      } else if (field === 'is_active') {
+        value = value ? 1 : 0;
+      } else if (jsonFields.includes(field)) {
+        value = typeof value === 'string' ? value : JSON.stringify(value || (field === 'theme_tags' || field === 'base_cdns' || field === 'js_dependencies' ? [] : {}));
+      }
+
+      setClauses.push(`${field} = ?`);
+      params.push(value);
     }
-    
+
+    if (setClauses.length === 0) {
+      return res.status(400).json({ error: 'No hay campos para actualizar' });
+    }
+
+    setClauses.push(`updated_at = datetime('now')`);
+    params.push(req.params.id);
+
+    db.prepare(`UPDATE knowledge_base SET ${setClauses.join(', ')} WHERE id = ?`).run(...params);
     res.json({ success: true });
   } catch (error) {
     res.status(500).json({ error: error.message });

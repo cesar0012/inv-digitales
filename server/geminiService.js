@@ -3,6 +3,7 @@ import https from 'https';
 import db from './database.js';
 import { analyzeTemplate } from './ragValidator.js';
 import { ADAPTER_SYSTEM_PROMPT } from './agents-prompt.js';
+import { ensureRequiredImages } from './agentOrchestrator.js';
 
 
 const fetchNoSSL = async (url, options = {}) => {
@@ -687,7 +688,7 @@ Now adapt and amplify the template above. Output the COMPLETE HTML file from <!D
 };
 
 export const generateWithGemini = async (prompt, apiKey, model = 'gemini-3.1-pro', options = {}, attachments = []) => {
-  const { eventType, theme, primaryColor, secondaryColor, imageFiles, promptInstruction, visualStyle, mood, userId, useRagTemplates = true } = options;
+  const { eventType, theme, primaryColor, secondaryColor, imageFiles, promptInstruction, visualStyle, mood, userId, useRagTemplates = true, imageApiKey = '', imageModel = 'gemini-3.1-flash-image-preview' } = options;
 
   console.log('[RAG-ADAPT] use_rag_templates =', useRagTemplates, useRagTemplates ? '(HABILITADO)' : '(DESHABILITADO)');
 
@@ -734,7 +735,7 @@ export const generateWithGemini = async (prompt, apiKey, model = 'gemini-3.1-pro
           const libHtml = injectMandatoryLibraries(fixedHtml);
           const metaHtml = injectEditorMetadata(libHtml, eventType, theme, primaryColor, secondaryColor);
           const finalHtml = fixInvalidImagePaths(metaHtml, imageFiles);
-          return finalHtml;
+          return await ensureRequiredImages(finalHtml, eventType, imageApiKey, imageModel);
         } else {
           console.log('[RAG-ADAPT] ⚠️ Adaptación devolvió HTML muy corto, fallback a generación desde cero');
         }
@@ -872,7 +873,7 @@ export const generateWithGemini = async (prompt, apiKey, model = 'gemini-3.1-pro
   const metaHtml = injectEditorMetadata(libHtml, eventType, theme, primaryColor, secondaryColor);
   const finalHtml = fixInvalidImagePaths(metaHtml, imageFiles);
   console.log('[FROM-SCRATCH] ✅ Final HTML:', finalHtml?.length || 0, 'chars');
-  return finalHtml;
+  return await ensureRequiredImages(finalHtml, eventType, imageApiKey, imageModel);
 };
 
 const fixTailwindBgGemini = (html) => {
