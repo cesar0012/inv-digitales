@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Plus, Trash2, Loader2, BookOpen, Download, Upload, AlertTriangle, FileCode, Copy, CheckCircle2, AlertCircle, Check } from 'lucide-react';
+import { Plus, Trash2, Loader2, BookOpen, Download, Upload, AlertTriangle, FileCode, Copy, CheckCircle2, AlertCircle, Check, Eye, Pencil, Maximize2, Minimize2, ExternalLink, X } from 'lucide-react';
 import { getRAGTemplates, getRAGTemplate, createRAGTemplate, updateRAGTemplate, deleteRAGTemplate, analyzeRAGHtml, downloadRAGBackup, uploadRAGBackup, uploadRAGTemplate, RAGBackupData, RAGUploadResult } from '../../services/adminService';
 import { RAGTemplateModal, CATEGORIES } from './RAGTemplateModal';
 
@@ -94,23 +94,40 @@ export const AdminRAGTemplates: React.FC = () => {
   const [uploadAnalysis, setUploadAnalysis] = useState<RAGUploadResult['analysis'] | null>(null);
   const [copiedRules, setCopiedRules] = useState(false);
   const htmlUploadRef = useRef<HTMLInputElement>(null);
+  const [editingTemplate, setEditingTemplate] = useState<any>(null);
+  const [previewTemplate, setPreviewTemplate] = useState<any>(null);
+  const [previewMode, setPreviewMode] = useState<'modal' | 'newtab'>('modal');
+  const [previewExpanded, setPreviewExpanded] = useState(false);
+  const [toast, setToast] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [quickSaving, setQuickSaving] = useState(false);
+  const [togglingId, setTogglingId] = useState<number | null>(null);
+  const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const fetchTemplates = async () => {
     setLoading(true);
     try {
       const result = await getRAGTemplates();
-      const processed = result.templates.map((t: any) => ({
-        ...t,
-        color_palette: typeof t.color_palette === 'string' ? t.color_palette : JSON.stringify(t.color_palette || {}),
-        typography_scale: typeof t.typography_scale === 'string' ? t.typography_scale : JSON.stringify(t.typography_scale || {}),
-        layout_rules: typeof t.layout_rules === 'string' ? t.layout_rules : JSON.stringify(t.layout_rules || {}),
-        modules_def: typeof t.modules_def === 'string' ? t.modules_def : JSON.stringify(t.modules_def || {}),
-        animation_rules: typeof t.animation_rules === 'string' ? t.animation_rules : JSON.stringify(t.animation_rules || {}),
-        variation_params: typeof t.variation_params === 'string' ? t.variation_params : JSON.stringify(t.variation_params || {}),
-        theme_tags: Array.isArray(t.theme_tags) ? t.theme_tags : [],
-        base_cdns: Array.isArray(t.base_cdns) ? t.base_cdns : [],
-        js_dependencies: Array.isArray(t.js_dependencies) ? t.js_dependencies : []
-      }));
+      const processed = result.templates.map((t: any) => {
+        const parseJson = (val: any, fallback: any) => {
+          if (val === null || val === undefined) return fallback;
+          if (typeof val === 'string') {
+            try { return JSON.parse(val); } catch { return fallback; }
+          }
+          return val;
+        };
+        return {
+          ...t,
+          color_palette: typeof t.color_palette === 'string' ? t.color_palette : JSON.stringify(t.color_palette || {}),
+          typography_scale: typeof t.typography_scale === 'string' ? t.typography_scale : JSON.stringify(t.typography_scale || {}),
+          layout_rules: typeof t.layout_rules === 'string' ? t.layout_rules : JSON.stringify(t.layout_rules || {}),
+          modules_def: typeof t.modules_def === 'string' ? t.modules_def : JSON.stringify(t.modules_def || {}),
+          animation_rules: typeof t.animation_rules === 'string' ? t.animation_rules : JSON.stringify(t.animation_rules || {}),
+          variation_params: typeof t.variation_params === 'string' ? t.variation_params : JSON.stringify(t.variation_params || {}),
+          theme_tags: parseJson(t.theme_tags, []),
+          base_cdns: parseJson(t.base_cdns, []),
+          js_dependencies: parseJson(t.js_dependencies, [])
+        };
+      });
       setTemplates(processed);
     } catch (error: any) {
       setMessage({ type: 'error', text: error.message || 'Error al cargar plantillas' });
@@ -327,6 +344,106 @@ export const AdminRAGTemplates: React.FC = () => {
     } catch {
       setMessage({ type: 'error', text: 'No se pudo copiar al portapapeles' });
     }
+  };
+
+  const showToast = (type: 'success' | 'error', text: string) => {
+    setToast({ type, text });
+    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+    toastTimerRef.current = setTimeout(() => setToast(null), 3000);
+  };
+
+  const openInNewTab = (htmlContent: string) => {
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    window.open(url, '_blank');
+  };
+
+  const handleQuickEdit = async (template: TemplateData) => {
+    if (!template.id) return;
+    try {
+      const result = await getRAGTemplate(template.id);
+      const t = result.template;
+      setEditingTemplate({
+        ...t,
+        theme_tags: Array.isArray(t.theme_tags) ? t.theme_tags.join(', ') : (typeof t.theme_tags === 'string' ? t.theme_tags : ''),
+        color_palette: typeof t.color_palette === 'string' ? t.color_palette : JSON.stringify(t.color_palette || {}, null, 2)
+      });
+    } catch (error: any) {
+      showToast('error', error.message || 'Error al cargar plantilla');
+    }
+  };
+
+  const handleQuickSave = async () => {
+    if (!editingTemplate) return;
+    if (!editingTemplate.style_name || !editingTemplate.category) {
+      showToast('error', 'Nombre y categoría son requeridos');
+      return;
+    }
+
+    let parsedColors;
+    try {
+      parsedColors = typeof editingTemplate.color_palette === 'string' && editingTemplate.color_palette.trim()
+        ? JSON.parse(editingTemplate.color_palette)
+        : {};
+    } catch {
+      showToast('error', 'Color Palette no es JSON válido');
+      return;
+    }
+
+    const tagsArray = typeof editingTemplate.theme_tags === 'string'
+      ? editingTemplate.theme_tags.split(',').map((t: string) => t.trim()).filter(Boolean)
+      : (Array.isArray(editingTemplate.theme_tags) ? editingTemplate.theme_tags : []);
+
+    setQuickSaving(true);
+    try {
+      await updateRAGTemplate(editingTemplate.id, {
+        style_name: editingTemplate.style_name,
+        description: editingTemplate.description,
+        category: editingTemplate.category,
+        theme_tags: tagsArray,
+        color_palette: parsedColors,
+        is_active: editingTemplate.is_active
+      });
+      showToast('success', 'Plantilla actualizada correctamente');
+      setEditingTemplate(null);
+      fetchTemplates();
+    } catch (error: any) {
+      showToast('error', error.message || 'Error al guardar');
+    }
+    setQuickSaving(false);
+  };
+
+  const handlePreview = async (template: TemplateData) => {
+    if (!template.id) return;
+    try {
+      const result = await getRAGTemplate(template.id);
+      if (result.template?.html_content) {
+        if (previewMode === 'newtab') {
+          openInNewTab(result.template.html_content);
+        } else {
+          setPreviewTemplate({ ...result.template, style_name: template.style_name });
+          setPreviewExpanded(false);
+        }
+      } else {
+        showToast('error', 'Esta plantilla no tiene contenido HTML');
+      }
+    } catch (error: any) {
+      showToast('error', error.message || 'Error al cargar preview');
+    }
+  };
+
+  const handleToggleActive = async (template: TemplateData) => {
+    if (!template.id) return;
+    setTogglingId(template.id);
+    try {
+      const newValue = template.is_active ? 0 : 1;
+      await updateRAGTemplate(template.id, { is_active: newValue });
+      setTemplates(prev => prev.map(t => t.id === template.id ? { ...t, is_active: newValue } : t));
+      showToast('success', `Plantilla ${newValue ? 'activada' : 'desactivada'}`);
+    } catch (error: any) {
+      showToast('error', error.message || 'Error al cambiar estado');
+    }
+    setTogglingId(null);
   };
 
   const parseColors = (colors: string | null | undefined): Array<[string, string]> => {
@@ -648,94 +765,261 @@ export const AdminRAGTemplates: React.FC = () => {
         </div>
       )}
 
-      {/* Grid de plantillas */}
+      {/* Tabla de plantillas */}
       {loading ? (
         <div className="flex items-center justify-center py-12">
           <Loader2 className="w-8 h-8 animate-spin text-purple-500" />
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-          {templates.map(template => {
-            const colors = parseColors(template.colors);
-            const uiEls = parseStringArray(template.ui_elements);
-            const validation = template.validation;
-            return (
-            <div key={template.id} className="bg-white p-4 rounded-xl border border-gray-200 hover:border-purple-300 transition-all">
-              <div className="flex items-start justify-between mb-2">
-                <div>
-                  <h3 className="font-semibold text-gray-800">{template.style_name}</h3>
-                  <p className="text-xs text-gray-500">{template.style_id}</p>
-                </div>
-                <div className="flex flex-col items-end gap-1">
-                  <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
-                    {template.category}
-                  </span>
-                  {template.has_html_content ? (
-                    <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full flex items-center gap-1" title={`HTML: ${template.html_size ? (template.html_size < 1024 ? template.html_size + ' B' : (template.html_size / 1024).toFixed(1) + ' KB') : ''}`}>
-                      <FileCode className="w-3 h-3" />
-                      HTML
-                    </span>
-                  ) : (
-                    <span className="text-xs bg-gray-100 text-gray-400 px-2 py-0.5 rounded-full">
-                      Sin HTML
-                    </span>
-                  )}
-                </div>
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mb-6">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="bg-gray-50">
+                <tr className="border-b border-gray-200">
+                  <th className="text-left py-3 px-3 text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">ID</th>
+                  <th className="text-left py-3 px-3 text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">Nombre</th>
+                  <th className="text-left py-3 px-3 text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">Descripción</th>
+                  <th className="text-left py-3 px-3 text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">Categoría</th>
+                  <th className="text-left py-3 px-3 text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">Tags</th>
+                  <th className="text-left py-3 px-3 text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">Colores</th>
+                  <th className="text-center py-3 px-3 text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">Estado</th>
+                  <th className="text-center py-3 px-3 text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">Tamaño</th>
+                  <th className="text-center py-3 px-3 text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">Preview</th>
+                  <th className="text-center py-3 px-3 text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">Editar</th>
+                  <th className="text-center py-3 px-3 text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">Eliminar</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {templates.map((template, idx) => {
+                  const colors = parseColors(template.colors);
+                  const validation = template.validation;
+                  const tags = Array.isArray(template.theme_tags) ? template.theme_tags : [];
+                  const sizeStr = template.html_size ? (template.html_size < 1024 ? template.html_size + ' B' : (template.html_size / 1024).toFixed(1) + ' KB') : '—';
+                  return (
+                  <tr key={template.id} className={idx % 2 === 0 ? 'bg-white hover:bg-purple-50/30' : 'bg-gray-50/50 hover:bg-purple-50/30'}>
+                    <td className="py-2.5 px-3 text-gray-500 font-mono text-xs">{template.id}</td>
+                    <td className="py-2.5 px-3">
+                      <div className="font-medium text-gray-800">{template.style_name}</div>
+                      <div className="text-xs text-gray-400 font-mono">{template.style_id}</div>
+                      <div className="flex items-center gap-1 mt-1">
+                        {template.has_html_content ? (
+                          <span className="inline-flex items-center gap-1 text-xs bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full">
+                            <FileCode className="w-3 h-3" /> HTML
+                          </span>
+                        ) : (
+                          <span className="text-xs bg-gray-100 text-gray-400 px-1.5 py-0.5 rounded-full">Sin HTML</span>
+                        )}
+                        {template.has_html_content && validation && (
+                          <span className={`text-xs px-1.5 py-0.5 rounded-full ${validation.isValid ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'}`} title={validation.isValid ? 'Válido' : `Faltan: ${validation.missing.join(', ')}`}>
+                            {validation.isValid ? '✓' : `${validation.foundCount}/${validation.totalRequired}`}
+                          </span>
+                        )}
+                      </div>
+                    </td>
+                    <td className="py-2.5 px-3 text-gray-600 max-w-xs">
+                      <div className="truncate">{template.description || '—'}</div>
+                    </td>
+                    <td className="py-2.5 px-3">
+                      <span className="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full">{template.category}</span>
+                    </td>
+                    <td className="py-2.5 px-3">
+                      <div className="flex flex-wrap gap-1 max-w-[150px]">
+                        {tags.slice(0, 3).map((tag, i) => (
+                          <span key={i} className="text-xs bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded">{tag}</span>
+                        ))}
+                        {tags.length > 3 && <span className="text-xs text-gray-400">+{tags.length - 3}</span>}
+                        {tags.length === 0 && <span className="text-xs text-gray-300">—</span>}
+                      </div>
+                    </td>
+                    <td className="py-2.5 px-3">
+                      <div className="flex items-center gap-1">
+                        {colors.length > 0 ? colors.slice(0, 6).map(([name, hex]) => (
+                          <div key={name} className="w-4 h-4 rounded border border-gray-300" style={{ backgroundColor: hex }} title={`${name}: ${hex}`} />
+                        )) : <span className="text-xs text-gray-300">—</span>}
+                      </div>
+                    </td>
+                    <td className="py-2.5 px-3 text-center">
+                      <button
+                        onClick={() => handleToggleActive(template)}
+                        disabled={togglingId === template.id}
+                        className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors disabled:opacity-50 ${template.is_active ? 'bg-green-500' : 'bg-gray-300'}`}
+                        title={template.is_active ? 'Activa (click para desactivar)' : 'Inactiva (click para activar)'}
+                      >
+                        <span className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform ${template.is_active ? 'translate-x-5' : 'translate-x-1'}`} />
+                      </button>
+                    </td>
+                    <td className="py-2.5 px-3 text-center text-xs text-gray-500 whitespace-nowrap">{sizeStr}</td>
+                    <td className="py-2.5 px-3 text-center">
+                      <button
+                        onClick={() => handlePreview(template)}
+                        disabled={!template.has_html_content}
+                        className="text-blue-600 hover:text-blue-800 disabled:text-gray-300 disabled:cursor-not-allowed"
+                        title="Preview"
+                      >
+                        <Eye className="w-4 h-4" />
+                      </button>
+                    </td>
+                    <td className="py-2.5 px-3 text-center">
+                      <button
+                        onClick={() => handleQuickEdit(template)}
+                        className="text-amber-600 hover:text-amber-800"
+                        title="Editar rápido"
+                      >
+                        <Pencil className="w-4 h-4" />
+                      </button>
+                    </td>
+                    <td className="py-2.5 px-3 text-center">
+                      <button
+                        onClick={() => template.id && handleDelete(template.id)}
+                        className="text-red-600 hover:text-red-800"
+                        title="Eliminar"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </td>
+                  </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* Quick Edit Modal */}
+      {editingTemplate && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-5 border-b border-gray-200">
+              <h3 className="font-bold text-gray-800">Editar Plantilla</h3>
+              <button onClick={() => setEditingTemplate(null)} className="text-gray-400 hover:text-gray-600">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-5 space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 uppercase mb-1">Nombre</label>
+                <input
+                  type="text"
+                  value={editingTemplate.style_name || ''}
+                  onChange={(e) => setEditingTemplate({ ...editingTemplate, style_name: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                />
               </div>
-              <p className="text-sm text-gray-600 mb-3 line-clamp-2">{template.description}</p>
-
-              {template.has_html_content && validation && (
-                <div className="mb-3 space-y-2">
-                  <div className="flex items-center gap-2">
-                    {validation.isValid ? (
-                      <span className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded-full flex items-center gap-1 border border-green-200">
-                        <CheckCircle2 className="w-3 h-3" />
-                        Válido
-                      </span>
-                    ) : (
-                      <span className="text-xs bg-red-50 text-red-700 px-2 py-0.5 rounded-full flex items-center gap-1 border border-red-200" title={`Faltan: ${validation.missing.join(', ')}`}>
-                        <AlertCircle className="w-3 h-3" />
-                        Faltan: {validation.missing.join(', ')}
-                      </span>
-                    )}
-                    <span className="text-xs text-gray-500">
-                      {validation.foundCount}/{validation.totalRequired} módulos
-                    </span>
-                  </div>
-                  {colors.length > 0 && (
-                    <div className="flex items-center gap-1">
-                      {colors.map(([name, hex]) => (
-                        <div key={name} className="w-4 h-4 rounded border border-gray-300" style={{ backgroundColor: hex }} title={`${name}: ${hex}`} />
-                      ))}
-                    </div>
-                  )}
-                  {uiEls.length > 0 && (
-                    <div className="flex flex-wrap gap-1">
-                      {uiEls.slice(0, 4).map(el => (
-                        <span key={el} className="text-xs bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded">{el}</span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
-
-              <div className="flex gap-2">
-                <button
-                  onClick={() => handleEdit(template)}
-                  className="flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm"
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 uppercase mb-1">Descripción</label>
+                <textarea
+                  value={editingTemplate.description || ''}
+                  onChange={(e) => setEditingTemplate({ ...editingTemplate, description: e.target.value })}
+                  rows={2}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 uppercase mb-1">Categoría</label>
+                <select
+                  value={editingTemplate.category || 'boda'}
+                  onChange={(e) => setEditingTemplate({ ...editingTemplate, category: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
                 >
-                  Editar
+                  {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 uppercase mb-1">Tags (separados por comas)</label>
+                <input
+                  type="text"
+                  value={editingTemplate.theme_tags || ''}
+                  onChange={(e) => setEditingTemplate({ ...editingTemplate, theme_tags: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-gray-500 uppercase mb-1">Color Palette (JSON)</label>
+                <textarea
+                  value={editingTemplate.color_palette || '{}'}
+                  onChange={(e) => setEditingTemplate({ ...editingTemplate, color_palette: e.target.value })}
+                  rows={4}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-xs font-mono focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="quick-edit-active"
+                  checked={editingTemplate.is_active === 1 || editingTemplate.is_active === true}
+                  onChange={(e) => setEditingTemplate({ ...editingTemplate, is_active: e.target.checked ? 1 : 0 })}
+                  className="w-4 h-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                />
+                <label htmlFor="quick-edit-active" className="text-sm text-gray-700">Activa</label>
+              </div>
+            </div>
+            <div className="flex gap-3 p-5 border-t border-gray-200">
+              <button
+                onClick={() => setEditingTemplate(null)}
+                className="flex-1 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleQuickSave}
+                disabled={quickSaving}
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-medium disabled:opacity-50"
+              >
+                {quickSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                Guardar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Preview Modal */}
+      {previewTemplate && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className={`bg-white rounded-2xl shadow-2xl w-full ${previewExpanded ? 'max-w-6xl' : 'max-w-2xl'} transition-all max-h-[90vh] flex flex-col`}>
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <div className="flex items-center gap-2">
+                <h3 className="font-bold text-gray-800">Preview: {previewTemplate.style_name}</h3>
+                <span className="text-xs text-gray-400 font-mono">{previewTemplate.style_id}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setPreviewExpanded(!previewExpanded)}
+                  className="text-gray-400 hover:text-gray-600 p-1"
+                  title={previewExpanded ? 'Contraer' : 'Expandir'}
+                >
+                  {previewExpanded ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
                 </button>
                 <button
-                  onClick={() => template.id && handleDelete(template.id)}
-                  className="flex items-center gap-1 text-red-600 hover:text-red-800 text-sm"
+                  onClick={() => openInNewTab(previewTemplate.html_content)}
+                  className="text-gray-400 hover:text-gray-600 p-1"
+                  title="Abrir en pestaña nueva"
                 >
-                  Eliminar
+                  <ExternalLink className="w-4 h-4" />
+                </button>
+                <button onClick={() => setPreviewTemplate(null)} className="text-gray-400 hover:text-gray-600 p-1">
+                  <X className="w-5 h-5" />
                 </button>
               </div>
             </div>
-            );
-          })}
+            <div className="flex-1 overflow-hidden rounded-b-2xl">
+              <iframe
+                srcDoc={previewTemplate.html_content}
+                title="Preview"
+                className="w-full h-full border-0"
+                style={{ minHeight: '500px' }}
+                sandbox="allow-scripts allow-same-origin"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Toast */}
+      {toast && (
+        <div className={`fixed bottom-6 right-6 z-50 px-5 py-3 rounded-xl shadow-lg text-white text-sm font-medium transition-all ${toast.type === 'success' ? 'bg-green-600' : 'bg-red-600'}`}>
+          {toast.text}
         </div>
       )}
 
