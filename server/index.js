@@ -3204,8 +3204,8 @@ app.post('/api/admin/rag-templates/upload', adminMiddleware, ragUpload.single('h
       INSERT INTO knowledge_base (
         style_id, style_name, description, category,
         filename, ui_elements, colors, required_tags, html_size,
-        html_content, is_active
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)
+        html_content, is_active, theme_tags, color_palette
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)
     `);
 
     const result = stmt.run(
@@ -3218,7 +3218,9 @@ app.post('/api/admin/rag-templates/upload', adminMiddleware, ragUpload.single('h
       JSON.stringify(analysis.colors),
       JSON.stringify(requiredTags),
       htmlContent.length,
-      htmlContent
+      htmlContent,
+      JSON.stringify(analysis.theme_tags || []),
+      JSON.stringify(analysis.color_palette || {})
     );
 
     const response = {
