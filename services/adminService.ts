@@ -595,3 +595,161 @@ export const uploadRAGTemplate = async (file: File, eventType: string = 'boda'):
 
   return response.json();
 };
+
+// ==================== RAG MODULAR (PIEZAS) ====================
+
+export interface RAGModule {
+  id?: number;
+  module_id: string;
+  module_type: string;
+  style_name: string;
+  description: string;
+  tags: string[];
+  descripcion_larga: string;
+  theme_tags: string[];
+  color_palette: Record<string, string>;
+  css_variables: Record<string, string>;
+  has_memory_attributes: number;
+  memory_sources: Record<string, number>;
+  is_active: number;
+  category?: string;
+  filename?: string | null;
+  html_size?: number;
+  html_content?: string | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface RAGModuleUploadResult {
+  success: boolean;
+  id: number;
+  module_id: string;
+  module_type: string;
+  html_content: string;
+  analysis: {
+    metadata: any;
+    errors: string[];
+    warnings: string[];
+  };
+}
+
+export interface ModuleAnalysis {
+  module_id: string | null;
+  module_type: string | null;
+  style_name: string;
+  description: string;
+  tags: string[];
+  descripcion_larga: string;
+  theme_tags: string[];
+  color_palette: Record<string, string>;
+  css_variables: Record<string, string>;
+  has_memory_attributes: number;
+  memory_sources: Record<string, number>;
+  html_size: number;
+  is_valid: boolean;
+  errors: string[];
+  warnings: string[];
+  metadata: any;
+}
+
+export const getRAGModules = async (filters?: { module_type?: string; category?: string; is_active?: number }): Promise<{ modules: RAGModule[] }> => {
+  const params = new URLSearchParams();
+  if (filters?.module_type) params.append('module_type', filters.module_type);
+  if (filters?.category && filters.category !== 'general') params.append('category', filters.category);
+  if (filters?.is_active !== undefined) params.append('is_active', filters.is_active.toString());
+
+  const response = await fetch(`${API_BASE}/admin/rag-modules${params.toString() ? `?${params.toString()}` : ''}`, {
+    method: 'GET',
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al cargar módulos RAG');
+  }
+  return response.json();
+};
+
+export const getRAGModule = async (id: number): Promise<{ module: RAGModule }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-modules/${id}`, {
+    method: 'GET',
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al cargar módulo');
+  }
+  return response.json();
+};
+
+export const createRAGModule = async (module: Partial<RAGModule>): Promise<{ success: boolean; id: number }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-modules`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(module)
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al crear módulo');
+  }
+  return response.json();
+};
+
+export const updateRAGModule = async (id: number, module: Partial<RAGModule>): Promise<{ success: boolean }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-modules/${id}`, {
+    method: 'PUT',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(module)
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al actualizar módulo');
+  }
+  return response.json();
+};
+
+export const deleteRAGModule = async (id: number): Promise<{ success: boolean }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-modules/${id}`, {
+    method: 'DELETE',
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al eliminar módulo');
+  }
+  return response.json();
+};
+
+export const uploadRAGModule = async (file: File, module_type?: string): Promise<RAGModuleUploadResult> => {
+  const formData = new FormData();
+  formData.append('htmlFile', file);
+  if (module_type) formData.append('module_type', module_type);
+
+  const token = localStorage.getItem('admin_token');
+  const response = await fetch(`${API_BASE}/admin/rag-modules/upload`, {
+    method: 'POST',
+    headers: {
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+    },
+    body: formData
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al subir módulo HTML');
+  }
+
+  return response.json();
+};
+
+export const analyzeModuleHtml = async (html: string, module_type?: string): Promise<{ success: boolean; analysis: ModuleAnalysis }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-modules/analyze`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify({ html, module_type })
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al analizar módulo');
+  }
+  return response.json();
+};

@@ -1,0 +1,2295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f5efe0" />
+  <meta name="description" content="Invitación de boda · preset Vintage Clásico" />
+  <title>Valentina &amp; Mateo — Vintage Clásico</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair%20Display:wght@300;400;500;600;700&family=Cormorant%20Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+
+  <style>
+:root {
+  --uid: inv-97whl40c;
+  --preset: vintage-clasico;
+    --c-ivory: #f5efe0;
+    --c-ivoryDeep: #ebe2cc;
+    --c-parchment: #e8dcc0;
+    --c-gold: #a8884c;
+    --c-goldDeep: #7d6432;
+    --c-goldLight: #c4a45e;
+    --c-ink: #2a2620;
+    --c-inkSoft: #4d4639;
+    --c-inkMute: #7a7160;
+    --c-bordeaux: #6b2c2c;
+    --c-line: #c9b989;
+  --bg: radial-gradient(ellipse at 50% 0%, #f8f3e6 0%, #f5efe0 40%, #ebe2cc 100%);
+  --body-color: #2a2620;
+  --body-font: Cormorant Garamond, Georgia, serif;
+  --font-display: "Playfair Display", serif;
+  --font-body: "Cormorant Garamond", sans-serif;
+  --font-script: inherit;
+  --r-large: 2px;
+  --r-medium: 1px;
+  --r-small: 0px;
+  --shadow-soft: 0 1px 4px rgba(42,38,32,0.1), 0 12px 32px rgba(42,38,32,0.08);
+  --shadow-paper: 0 2px 8px rgba(42,38,32,0.12), 0 24px 56px rgba(42,38,32,0.1);
+  --max-w: 860px;
+  --texture: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.16 0 0 0 0 0.14 0 0 0 0 0.12 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+  --selection-bg: #a8884c;
+  --selection-color: #f5efe0;
+  --ease: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font-body);
+  color: var(--body-color);
+  background: var(--bg);
+  background-attachment: fixed;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  min-height: 100vh;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: var(--texture);
+  background-repeat: repeat;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+img, svg { display: block; max-width: 100%; }
+img { height: auto; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+input, textarea, select { font: inherit; color: inherit; }
+ul, ol { list-style: none; }
+::selection { background: var(--selection-bg); color: var(--selection-color); }
+#inv-97whl40c-root { position: relative; z-index: 1; }
+
+.inv-97whl40c-container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.inv-97whl40c-section {
+  padding: clamp(48px, 8vw, 96px) 0;
+  position: relative;
+}
+.inv-97whl40c-section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 0.5em;
+  line-height: 1.2;
+}
+.inv-97whl40c-section-subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  text-align: center;
+  opacity: 0.7;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 2.5em;
+}
+.inv-97whl40c-divider-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1.5em auto;
+  width: clamp(180px, 30vw, 280px);
+  color: var(--c-ink, var(--c-gold, currentColor));
+  opacity: 0.6;
+}
+.inv-97whl40c-divider-wrap svg { width: 100%; height: auto; }
+.inv-97whl40c-eyebrow {
+  font-family: var(--font-body);
+  font-size: clamp(0.7rem, 1.8vw, 0.85rem);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  opacity: 0.65;
+  text-align: center;
+  margin-bottom: 1em;
+}
+.inv-97whl40c-lead {
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+  line-height: 1.7;
+  text-align: center;
+  max-width: 60ch;
+  margin: 0 auto;
+  opacity: 0.85;
+}
+.inv-97whl40c-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.9em 2em;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-radius: var(--r-medium);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), background 0.3s var(--ease);
+  cursor: pointer;
+}
+.inv-97whl40c-btn:hover { transform: translateY(-2px); }
+.inv-97whl40c-btn:active { transform: translateY(0); }
+
+@media (max-width: 768px) {
+  .inv-97whl40c-section { padding: clamp(36px, 10vw, 64px) 0; }
+  .inv-97whl40c-container { padding: 0 16px; }
+}
+@media (max-width: 480px) {
+  .inv-97whl40c-section { padding: 32px 0; }
+  .inv-97whl40c-container { padding: 0 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.92); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes slipIn {
+      from { opacity: 0; transform: translateY(40px) rotate(var(--r, 0deg)); }
+      to { opacity: 1; transform: translateY(0) rotate(var(--r, 0deg)); }
+    }
+    @keyframes breath {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+    @keyframes slowSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    @keyframes lineGrow {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+  
+      @keyframes heraldicDial {
+        from { transform: rotate(0deg); opacity: 0; }
+        to { transform: rotate(0deg); opacity: 1; }
+      }
+      @keyframes medallionPulse {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.05); opacity: 0.85; }
+      }
+      @keyframes ribbonArrives {
+        from { opacity: 0; transform: scaleX(0) translateY(-10px); }
+        to { opacity: 1; transform: scaleX(1) translateY(0); }
+      }
+      @keyframes engrave {
+        from { opacity: 0; letter-spacing: 0.3em; }
+        to { opacity: 1; letter-spacing: 0.08em; }
+      }
+      @keyframes titleReveal {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes sealSlowTurn {
+        from { transform: rotate(-12deg) scale(0.9); opacity: 0; }
+        to { transform: rotate(0deg) scale(1); opacity: 1; }
+      }
+    
+
+
+    .inv-97whl40c-reveal {
+      opacity: 0;
+      transform: translateY(34px);
+      transition: opacity 0.9s var(--ease, cubic-bezier(0.19, 1, 0.22, 1)), transform 0.9s var(--ease, cubic-bezier(0.19, 1, 0.22, 1));
+      transition-delay: var(--d, 0ms);
+    }
+    .inv-97whl40c-reveal.inv-97whl40c-reveal-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  
+
+
+.inv-97whl40c-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  padding: 60px 20px;
+}
+.inv-97whl40c-hero-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--bg);
+  z-index: 0;
+}
+.inv-97whl40c-hero-inner {
+  position: relative;
+  z-index: 2;
+  max-width: var(--max-w);
+  width: 100%;
+}
+.inv-97whl40c-hero-eyebrow {
+  font-family: var(--font-body);
+  font-size: clamp(0.7rem, 2vw, 0.9rem);
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-bottom: 1.5em;
+}
+.inv-97whl40c-hero-seal {
+  width: clamp(48px, 8vw, 72px);
+  margin: 0 auto 1.5em;
+  opacity: 0.5;
+  animation: slowSpin 40s linear infinite;
+}
+.inv-97whl40c-hero-seal svg { width: 100%; height: auto; }
+.inv-97whl40c-hero-names {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 8vw, 5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  margin-bottom: 0.5em;
+  letter-spacing: 0.01em;
+}
+.inv-97whl40c-hero-names-large { font-size: clamp(2.5rem, 9vw, 6rem); }
+.inv-97whl40c-hero-names-minimal { font-size: clamp(2rem, 7vw, 4.5rem); font-weight: 300; }
+.inv-97whl40c-hero-names-ornate { font-size: clamp(2rem, 7vw, 4.5rem); }
+.inv-97whl40c-hero-amp {
+  display: block;
+  font-family: var(--font-script, var(--font-display));
+  font-style: italic;
+  font-size: 0.6em;
+  opacity: 0.7;
+  margin: 0.2em 0;
+  color: #a8884c;
+}
+.inv-97whl40c-hero-amp-script { font-family: var(--font-script, var(--font-display)); }
+.inv-97whl40c-hero-date-wrap {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.5em;
+  margin: 1.5em 0 0.5em;
+}
+.inv-97whl40c-hero-date-day {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 500;
+  color: #a8884c;
+}
+.inv-97whl40c-hero-date-month {
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+.inv-97whl40c-hero-date-year {
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  letter-spacing: 0.15em;
+  opacity: 0.7;
+}
+.inv-97whl40c-hero-time {
+  font-family: var(--font-body);
+  font-size: clamp(0.8rem, 2vw, 1rem);
+  letter-spacing: 0.2em;
+  opacity: 0.65;
+  margin-top: 0.5em;
+}
+.inv-97whl40c-hero-venue { font-family: var(--font-display); font-size: 1.1rem; margin: 0.3em 0; }
+.inv-97whl40c-hero-city { font-family: var(--font-body); font-size: 0.9rem; opacity: 0.6; }
+.inv-97whl40c-hero-scroll {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5em;
+  margin-top: 3em;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  transition: opacity 0.3s var(--ease);
+}
+.inv-97whl40c-hero-scroll:hover { opacity: 1; }
+.inv-97whl40c-hero-scroll svg { width: 20px; height: 20px; animation: floatY 2.5s ease-in-out infinite; }
+.inv-97whl40c-hero-flourish { width: 120px; margin: 1em 0; opacity: 0.4; }
+.inv-97whl40c-hero-flourish svg { width: 100%; }
+
+/* Split variant */
+.inv-97whl40c-hero-split-grid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: clamp(32px, 6vw, 80px);
+  align-items: center;
+  max-width: var(--max-w);
+  width: 100%;
+  text-align: left;
+}
+.inv-97whl40c-hero-split-left .inv-97whl40c-hero-eyebrow { text-align: left; }
+.inv-97whl40c-hero-split-left .inv-97whl40c-hero-names { text-align: left; }
+.inv-97whl40c-hero-split-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.8em;
+}
+.inv-97whl40c-hero-date-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1.5em 2em;
+  border: 1px solid #a8884c40;
+  border-radius: var(--r-medium);
+  background: #a8884c08;
+}
+.inv-97whl40c-hero-date-card .inv-97whl40c-hero-date-day { font-size: clamp(2.5rem, 6vw, 3.5rem); }
+.inv-97whl40c-hero-cta {
+  background: #a8884c;
+  color: var(--c-ivory, var(--c-cream, #fff));
+  margin-top: 1em;
+}
+
+/* Overlay variant */
+.inv-97whl40c-hero-bg-full { background: var(--bg); }
+.inv-97whl40c-hero-overlay-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, #a8884c10 50%, #a8884c20 100%);
+  z-index: 1;
+}
+.inv-97whl40c-hero-overlay-inner { text-shadow: 0 2px 24px #a8884c30; }
+.inv-97whl40c-hero-date-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 3vw, 1.6rem);
+  margin: 1.5em 0 0.5em;
+}
+.inv-97whl40c-hero-date-sep { opacity: 0.4; }
+
+/* Minimal variant */
+.inv-97whl40c-hero-minimal-inner { display: flex; flex-direction: column; align-items: center; }
+.inv-97whl40c-hero-minimal-line {
+  width: 1px;
+  height: 60px;
+  background: #a8884c;
+  opacity: 0.4;
+  margin: 2em 0;
+  transform-origin: top;
+  animation: lineGrow 1.2s var(--ease) 0.5s both;
+}
+.inv-97whl40c-hero-date-minimal {
+  font-family: var(--font-body);
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+/* Ornate variant */
+.inv-97whl40c-hero-ornate-frame {
+  position: relative;
+  z-index: 2;
+  padding: clamp(40px, 8vw, 80px) clamp(30px, 6vw, 60px);
+  border: 1px solid #a8884c30;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.inv-97whl40c-hero-ornate-inner { position: relative; z-index: 2; }
+.inv-97whl40c-hero-corner {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  opacity: 0.3;
+}
+.inv-97whl40c-hero-corner-tl { top: -1px; left: -1px; }
+.inv-97whl40c-hero-corner-tr { top: -1px; right: -1px; transform: scaleX(-1); }
+.inv-97whl40c-hero-corner-bl { bottom: -1px; left: -1px; transform: scaleY(-1); }
+.inv-97whl40c-hero-corner-br { bottom: -1px; right: -1px; transform: scale(-1, -1); }
+.inv-97whl40c-hero-ornate-date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8em;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  margin: 1.5em 0 0.5em;
+}
+.inv-97whl40c-hero-date-sep-ornate { color: #a8884c; opacity: 0.6; }
+
+@media (max-width: 768px) {
+  .inv-97whl40c-hero-split-grid { grid-template-columns: 1fr; text-align: center; }
+  .inv-97whl40c-hero-split-left .inv-97whl40c-hero-eyebrow,
+  .inv-97whl40c-hero-split-left .inv-97whl40c-hero-names { text-align: center; }
+  .inv-97whl40c-hero-split-right { align-items: center; }
+  .inv-97whl40c-hero-flourish { margin: 1em auto; }
+  .inv-97whl40c-hero-date-card { align-items: center; }
+}
+
+
+.inv-97whl40c-story-narrow { max-width: 680px; }
+
+/* Timeline */
+.inv-97whl40c-story-timeline-track {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto;
+  padding-left: 32px;
+}
+.inv-97whl40c-story-timeline-track::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: linear-gradient(180deg, #a8884c, #a8884c20);
+}
+.inv-97whl40c-story-item {
+  position: relative;
+  padding: 0 0 2.5em 0;
+}
+.inv-97whl40c-story-dot {
+  position: absolute;
+  left: -32px;
+  top: 6px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid #a8884c;
+  z-index: 2;
+}
+.inv-97whl40c-story-dot::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: #a8884c;
+}
+.inv-97whl40c-story-date {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #a8884c;
+  opacity: 0.8;
+}
+.inv-97whl40c-story-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  font-weight: 500;
+  margin: 0.3em 0 0.4em;
+}
+.inv-97whl40c-story-text {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  opacity: 0.8;
+}
+
+/* Cards */
+.inv-97whl40c-story-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-top: 2em;
+}
+.inv-97whl40c-story-card {
+  padding: 28px 24px;
+  background: #a8884c06;
+  border: 1px solid #c9b989;
+  border-radius: var(--r-medium);
+  transform: rotate(var(--r, 0deg));
+  transition: transform 0.4s var(--ease);
+}
+.inv-97whl40c-story-card:hover { transform: rotate(0deg) translateY(-4px); }
+.inv-97whl40c-story-card-date {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #a8884c;
+}
+.inv-97whl40c-story-card-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin: 0.4em 0 0.5em;
+}
+.inv-97whl40c-story-card-text {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  opacity: 0.8;
+}
+
+/* Narrative */
+.inv-97whl40c-story-narrative-body { margin-top: 2em; }
+.inv-97whl40c-story-narrative-block {
+  margin-bottom: 2.5em;
+  padding-left: 24px;
+  border-left: 2px solid #a8884c40;
+}
+.inv-97whl40c-story-narrative-date {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #a8884c;
+}
+.inv-97whl40c-story-narrative-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  font-weight: 500;
+  margin: 0.3em 0 0.5em;
+}
+.inv-97whl40c-story-narrative-text {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  opacity: 0.85;
+}
+
+/* Polaroid */
+.inv-97whl40c-story-polaroid-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 28px;
+  margin-top: 2em;
+}
+.inv-97whl40c-story-polaroid-card {
+  background: var(--c-ivory, var(--c-cream, var(--c-paper, #fff)));
+  padding: 16px 16px 24px;
+  box-shadow: var(--shadow-paper);
+  transform: rotate(var(--r, 0deg));
+  transition: transform 0.4s var(--ease);
+}
+.inv-97whl40c-story-polaroid-card:hover { transform: rotate(0deg) scale(1.02); }
+.inv-97whl40c-story-polaroid-inner {
+  padding: 20px;
+  border: 1px solid #c9b989;
+  text-align: center;
+}
+.inv-97whl40c-story-polaroid-date {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #a8884c;
+}
+.inv-97whl40c-story-polaroid-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: 0.5em 0;
+}
+.inv-97whl40c-story-polaroid-text {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  opacity: 0.75;
+}
+
+/* Steps */
+.inv-97whl40c-story-steps-track {
+  max-width: 760px;
+  margin: 0 auto;
+  counter-reset: step;
+}
+.inv-97whl40c-story-step {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 24px;
+  padding: 24px 0;
+  border-bottom: 1px solid #c9b989;
+  align-items: start;
+}
+.inv-97whl40c-story-step:last-child { border-bottom: none; }
+.inv-97whl40c-story-step-num {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 300;
+  color: #a8884c;
+  opacity: 0.5;
+  line-height: 1;
+}
+.inv-97whl40c-story-step-date {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #a8884c;
+}
+.inv-97whl40c-story-step-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  font-weight: 500;
+  margin: 0.3em 0 0.4em;
+}
+.inv-97whl40c-story-step-text {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  opacity: 0.8;
+}
+
+@media (max-width: 600px) {
+  .inv-97whl40c-story-step { grid-template-columns: 56px 1fr; gap: 16px; }
+}
+
+
+.inv-97whl40c-details-narrow { max-width: 640px; }
+
+/* Grid */
+.inv-97whl40c-details-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 2em;
+}
+.inv-97whl40c-details-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 28px 20px;
+  border: 1px solid #c9b989;
+  border-radius: var(--r-medium);
+  background: #a8884c04;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.inv-97whl40c-details-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-soft); }
+.inv-97whl40c-details-icon {
+  width: 36px;
+  height: 36px;
+  margin-bottom: 0.8em;
+  color: #a8884c;
+  opacity: 0.8;
+}
+.inv-97whl40c-details-icon svg { width: 100%; height: 100%; }
+.inv-97whl40c-details-label {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: 0.4em;
+}
+.inv-97whl40c-details-value {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+/* List */
+.inv-97whl40c-details-list-dl { margin-top: 2em; }
+.inv-97whl40c-details-list-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 1.2em 0;
+  border-bottom: 1px solid #c9b989;
+  gap: 24px;
+}
+.inv-97whl40c-details-list-row:last-child { border-bottom: none; }
+.inv-97whl40c-details-list-row dt {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+.inv-97whl40c-details-list-row dd {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  text-align: right;
+}
+
+/* Feature */
+.inv-97whl40c-details-feature-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2em;
+  margin: 2em 0;
+}
+.inv-97whl40c-details-feature-weekday {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+.inv-97whl40c-details-feature-day {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 10vw, 5rem);
+  font-weight: 500;
+  color: #a8884c;
+  line-height: 1;
+}
+.inv-97whl40c-details-feature-month {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 4vw, 1.8rem);
+  text-transform: capitalize;
+}
+.inv-97whl40c-details-feature-year {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  letter-spacing: 0.2em;
+  opacity: 0.6;
+}
+.inv-97whl40c-details-feature-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 4vw, 48px);
+  flex-wrap: wrap;
+  margin-top: 1em;
+}
+.inv-97whl40c-details-feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3em;
+}
+.inv-97whl40c-details-feature-label {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+.inv-97whl40c-details-feature-value {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+.inv-97whl40c-details-feature-sep {
+  width: 1px;
+  height: 32px;
+  background: #c9b989;
+}
+
+/* Calendar */
+.inv-97whl40c-details-calendar-card {
+  max-width: 280px;
+  margin: 2em auto;
+  background: var(--c-ivory, var(--c-cream, var(--c-paper, #fff)));
+  border: 1px solid #c9b989;
+  border-radius: var(--r-medium);
+  overflow: hidden;
+  box-shadow: var(--shadow-paper);
+}
+.inv-97whl40c-details-calendar-top {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #a8884c;
+  color: var(--c-ivory, var(--c-cream, #fff));
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.inv-97whl40c-details-calendar-day {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 16px 0 8px;
+  color: #a8884c;
+  line-height: 1;
+}
+.inv-97whl40c-details-calendar-bottom {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 16px 14px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  opacity: 0.7;
+  text-transform: capitalize;
+}
+.inv-97whl40c-details-calendar-time { letter-spacing: 0.1em; }
+.inv-97whl40c-details-calendar-info {
+  text-align: center;
+  margin-top: 1.5em;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+.inv-97whl40c-details-calendar-city { font-size: 0.9rem; opacity: 0.6; margin-top: 0.3em; }
+.inv-97whl40c-details-calendar-ceremony { font-size: 0.85rem; opacity: 0.5; margin-top: 0.5em; }
+
+/* Compact */
+.inv-97whl40c-details-compact-row {
+  display: flex;
+  justify-content: center;
+  gap: clamp(20px, 5vw, 56px);
+  flex-wrap: wrap;
+  margin-top: 2em;
+}
+.inv-97whl40c-details-compact-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.inv-97whl40c-details-compact-icon {
+  width: 32px;
+  height: 32px;
+  color: #a8884c;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+.inv-97whl40c-details-compact-icon svg { width: 100%; height: 100%; }
+.inv-97whl40c-details-compact-label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+.inv-97whl40c-details-compact-value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1rem;
+}
+
+@media (max-width: 600px) {
+  .inv-97whl40c-details-list-row { flex-direction: column; gap: 4px; }
+  .inv-97whl40c-details-list-row dd { text-align: left; }
+  .inv-97whl40c-details-feature-sep { display: none; }
+}
+
+
+.inv-97whl40c-location-venue {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  font-weight: 500;
+  margin-bottom: 0.4em;
+}
+.inv-97whl40c-location-address {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+.inv-97whl40c-location-city {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  opacity: 0.6;
+  margin-top: 0.2em;
+}
+.inv-97whl40c-location-cta {
+  background: #a8884c;
+  color: var(--c-ivory, var(--c-cream, var(--c-paper, #fff)));
+  margin-top: 1.2em;
+}
+.inv-97whl40c-location-cta svg { width: 18px; height: 18px; }
+
+/* Map variant */
+.inv-97whl40c-location-map-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: clamp(24px, 4vw, 48px);
+  align-items: center;
+  margin-top: 2em;
+}
+.inv-97whl40c-location-map-embed {
+  border-radius: var(--r-medium);
+  overflow: hidden;
+  border: 1px solid #c9b989;
+  box-shadow: var(--shadow-soft);
+  aspect-ratio: 4 / 3;
+}
+.inv-97whl40c-location-map-embed iframe { width: 100%; height: 100%; border: 0; }
+
+/* Card variant */
+.inv-97whl40c-location-card-wrap {
+  max-width: 480px;
+  margin: 2em auto 0;
+}
+.inv-97whl40c-location-card-inner {
+  padding: clamp(28px, 5vw, 44px);
+  border: 1px solid #c9b989;
+  border-radius: var(--r-medium);
+  background: #a8884c04;
+  text-align: center;
+}
+.inv-97whl40c-location-card-icon {
+  display: inline-flex;
+  width: 48px;
+  height: 48px;
+  color: #a8884c;
+  margin-bottom: 1em;
+}
+.inv-97whl40c-location-card-icon svg { width: 100%; height: 100%; }
+
+/* Directions variant */
+.inv-97whl40c-location-directions-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: clamp(24px, 4vw, 48px);
+  align-items: center;
+  margin-top: 2em;
+}
+.inv-97whl40c-location-directions-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.inv-97whl40c-location-copy {
+  border: 1px solid #c9b989;
+  background: transparent;
+}
+.inv-97whl40c-location-copy svg { width: 18px; height: 18px; }
+
+/* Feature variant */
+.inv-97whl40c-location-feature {
+  position: relative;
+  padding: 0;
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+}
+.inv-97whl40c-location-feature-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.inv-97whl40c-location-feature-bg iframe { width: 100%; height: 100%; border: 0; filter: grayscale(0.3) contrast(0.95); }
+.inv-97whl40c-location-feature-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--bg) 0%, transparent 60%);
+  z-index: 1;
+}
+.inv-97whl40c-location-feature-card {
+  position: relative;
+  z-index: 2;
+  max-width: 420px;
+  padding: clamp(28px, 5vw, 40px);
+  background: var(--bg);
+  border: 1px solid #c9b989;
+  border-radius: var(--r-medium);
+  box-shadow: var(--shadow-paper);
+}
+
+/* Compact variant */
+.inv-97whl40c-location-compact-inner { max-width: 760px; }
+.inv-97whl40c-location-compact-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  border: 1px solid #c9b989;
+  border-radius: var(--r-medium);
+  background: #a8884c04;
+}
+.inv-97whl40c-location-compact-icon {
+  width: 40px;
+  height: 40px;
+  color: #a8884c;
+  flex-shrink: 0;
+}
+.inv-97whl40c-location-compact-icon svg { width: 100%; height: 100%; }
+.inv-97whl40c-location-compact-text { flex: 1; }
+.inv-97whl40c-location-compact-text .inv-97whl40c-location-venue { font-size: 1.2rem; margin-bottom: 0.2em; }
+.inv-97whl40c-location-compact-text .inv-97whl40c-location-address { font-size: 0.9rem; }
+
+@media (max-width: 768px) {
+  .inv-97whl40c-location-map-grid,
+  .inv-97whl40c-location-directions-grid { grid-template-columns: 1fr; }
+  .inv-97whl40c-location-feature { min-height: auto; padding: clamp(36px, 8vw, 64px) 0; }
+  .inv-97whl40c-location-feature-bg { position: relative; min-height: 240px; }
+  .inv-97whl40c-location-compact-row { flex-wrap: wrap; }
+}
+
+
+.inv-97whl40c-timeline-minimal-inner { max-width: 640px; }
+
+/* Schedule */
+.inv-97whl40c-timeline-schedule-list {
+  max-width: 680px;
+  margin: 2em auto 0;
+}
+.inv-97whl40c-timeline-item {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 24px;
+  padding: 20px 0;
+  border-bottom: 1px solid #c9b989;
+  align-items: start;
+}
+.inv-97whl40c-timeline-item:last-child { border-bottom: none; }
+.inv-97whl40c-timeline-time {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #a8884c;
+}
+.inv-97whl40c-timeline-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin-bottom: 0.3em;
+}
+.inv-97whl40c-timeline-text {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  opacity: 0.75;
+}
+
+/* Vertical */
+.inv-97whl40c-timeline-vertical-track {
+  position: relative;
+  max-width: 640px;
+  margin: 2em auto 0;
+  padding-left: 32px;
+}
+.inv-97whl40c-timeline-vertical-track::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: linear-gradient(180deg, #a8884c, #a8884c20);
+}
+.inv-97whl40c-timeline-vstep {
+  position: relative;
+  padding: 0 0 2em 0;
+}
+.inv-97whl40c-timeline-vdot {
+  position: absolute;
+  left: -32px;
+  top: 6px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid #a8884c;
+  z-index: 2;
+}
+.inv-97whl40c-timeline-vdot::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: #a8884c;
+}
+.inv-97whl40c-timeline-vtime {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #a8884c;
+}
+.inv-97whl40c-timeline-vtitle {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: 0.3em 0 0.4em;
+}
+.inv-97whl40c-timeline-vtext {
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+/* Cards */
+.inv-97whl40c-timeline-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 2em;
+}
+.inv-97whl40c-timeline-card {
+  padding: 24px 20px;
+  border: 1px solid #c9b989;
+  border-radius: var(--r-medium);
+  background: #a8884c04;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.inv-97whl40c-timeline-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-soft); }
+.inv-97whl40c-timeline-card-time {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #a8884c;
+  display: block;
+  margin-bottom: 0.4em;
+}
+.inv-97whl40c-timeline-card-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 0.4em;
+}
+.inv-97whl40c-timeline-card-text {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  opacity: 0.75;
+}
+
+/* Horizontal */
+.inv-97whl40c-timeline-horizontal-track {
+  display: flex;
+  overflow-x: auto;
+  gap: 0;
+  margin-top: 2em;
+  padding-bottom: 16px;
+  scroll-snap-type: x mandatory;
+}
+.inv-97whl40c-timeline-hstep {
+  flex: 1 0 200px;
+  padding: 0 20px;
+  position: relative;
+  text-align: center;
+  scroll-snap-align: start;
+}
+.inv-97whl40c-timeline-hstep:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 32px;
+  right: 0;
+  width: 100%;
+  height: 1px;
+  background: #c9b989;
+  z-index: 0;
+}
+.inv-97whl40c-timeline-htime {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #a8884c;
+  display: block;
+  margin-bottom: 0.8em;
+}
+.inv-97whl40c-timeline-hdot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #a8884c;
+  margin: 0 auto 1.2em;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 0 6px var(--bg);
+}
+.inv-97whl40c-timeline-htitle {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 500;
+  margin-bottom: 0.4em;
+}
+.inv-97whl40c-timeline-htext {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  opacity: 0.75;
+}
+
+/* Minimal */
+.inv-97whl40c-timeline-minimal-list { margin-top: 2em; }
+.inv-97whl40c-timeline-minimal-row {
+  display: grid;
+  grid-template-columns: 100px 24px 1fr;
+  gap: 16px;
+  align-items: baseline;
+  padding: 14px 0;
+  border-bottom: 1px solid #c9b989;
+}
+.inv-97whl40c-timeline-minimal-row:last-child { border-bottom: none; }
+.inv-97whl40c-timeline-minimal-time {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: #a8884c;
+}
+.inv-97whl40c-timeline-minimal-sep {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #a8884c;
+  opacity: 0.5;
+  justify-self: center;
+}
+.inv-97whl40c-timeline-minimal-title {
+  font-family: var(--font-body);
+  font-size: 1rem;
+}
+
+@media (max-width: 600px) {
+  .inv-97whl40c-timeline-item { grid-template-columns: 80px 1fr; gap: 16px; }
+  .inv-97whl40c-timeline-minimal-row { grid-template-columns: 80px 16px 1fr; gap: 12px; }
+}
+
+
+.inv-97whl40c-gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-small);
+  background: #a8884c08;
+}
+.inv-97whl40c-gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease);
+}
+.inv-97whl40c-gallery-item:hover img { transform: scale(1.05); }
+.inv-97whl40c-gallery-item figcaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 16px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: #fff;
+  background: linear-gradient(transparent, rgba(0,0,0,0.6));
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+.inv-97whl40c-gallery-item:hover figcaption { opacity: 1; }
+
+/* Grid */
+.inv-97whl40c-gallery-grid-wrap {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 2em;
+}
+.inv-97whl40c-gallery-grid .inv-97whl40c-gallery-item { aspect-ratio: 1; }
+
+/* Masonry */
+.inv-97whl40c-gallery-masonry-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 2em;
+}
+.inv-97whl40c-gallery-masonry-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.inv-97whl40c-gallery-masonry .inv-97whl40c-gallery-item { aspect-ratio: auto; }
+.inv-97whl40c-gallery-masonry .inv-97whl40c-gallery-item img { height: auto; }
+
+/* Carousel */
+.inv-97whl40c-gallery-carousel-wrap {
+  position: relative;
+  margin-top: 2em;
+  overflow: hidden;
+  border-radius: var(--r-medium);
+}
+.inv-97whl40c-gallery-carousel-track {
+  display: flex;
+  transition: transform 0.6s var(--ease);
+}
+.inv-97whl40c-gallery-carousel-slide {
+  flex: 0 0 100%;
+  position: relative;
+  aspect-ratio: 16 / 10;
+}
+.inv-97whl40c-gallery-carousel-slide img { width: 100%; height: 100%; object-fit: cover; }
+.inv-97whl40c-gallery-carousel-slide figcaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px 20px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: #fff;
+  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  opacity: 1;
+}
+.inv-97whl40c-gallery-carousel-prev,
+.inv-97whl40c-gallery-carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.85);
+  color: #333;
+  box-shadow: var(--shadow-soft);
+  z-index: 2;
+  transition: background 0.3s var(--ease);
+}
+.inv-97whl40c-gallery-carousel-prev:hover,
+.inv-97whl40c-gallery-carousel-next:hover { background: #fff; }
+.inv-97whl40c-gallery-carousel-prev { left: 12px; }
+.inv-97whl40c-gallery-carousel-next { right: 12px; }
+.inv-97whl40c-gallery-carousel-prev svg,
+.inv-97whl40c-gallery-carousel-next svg { width: 20px; height: 20px; }
+.inv-97whl40c-gallery-carousel-dots {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+.inv-97whl40c-gallery-carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+  transition: background 0.3s var(--ease);
+}
+.inv-97whl40c-gallery-carousel-dot.is-active { background: #fff; }
+
+/* Polaroid */
+.inv-97whl40c-gallery-polaroid-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px 20px;
+  margin-top: 2em;
+}
+.inv-97whl40c-gallery-polaroid-card {
+  flex: 0 0 220px;
+  padding: 12px 12px 40px;
+  background: #fff;
+  box-shadow: var(--shadow-paper);
+  transform: rotate(var(--r, 0deg));
+  transition: transform 0.4s var(--ease-spring);
+}
+.inv-97whl40c-gallery-polaroid-card:hover { transform: rotate(0deg) translateY(-6px); }
+.inv-97whl40c-gallery-polaroid-img {
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: #a8884c08;
+}
+.inv-97whl40c-gallery-polaroid-img img { width: 100%; height: 100%; object-fit: cover; }
+.inv-97whl40c-gallery-polaroid-card figcaption {
+  position: static;
+  opacity: 1;
+  background: none;
+  color: #444;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  margin-top: 10px;
+  padding: 0;
+}
+
+/* Filmstrip */
+.inv-97whl40c-gallery-filmstrip-wrap {
+  margin-top: 2em;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 20px 0;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.inv-97whl40c-gallery-filmstrip-track {
+  display: flex;
+  gap: 16px;
+  padding: 0 20px;
+}
+.inv-97whl40c-gallery-filmstrip-frame {
+  flex: 0 0 280px;
+  scroll-snap-align: center;
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  border-radius: var(--r-small);
+  border: 8px solid #fff;
+  box-shadow: var(--shadow-soft);
+}
+.inv-97whl40c-gallery-filmstrip-frame img { width: 100%; height: 100%; object-fit: cover; }
+.inv-97whl40c-gallery-filmstrip-frame figcaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 14px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: #fff;
+  background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .inv-97whl40c-gallery-masonry-cols { grid-template-columns: repeat(2, 1fr); }
+  .inv-97whl40c-gallery-polaroid-card { flex: 0 0 160px; }
+  .inv-97whl40c-gallery-filmstrip-frame { flex: 0 0 220px; }
+}
+@media (max-width: 480px) {
+  .inv-97whl40c-gallery-grid-wrap { grid-template-columns: repeat(2, 1fr); }
+  .inv-97whl40c-gallery-masonry-cols { grid-template-columns: 1fr; }
+}
+
+
+.inv-97whl40c-dress-code-narrow { max-width: 640px; }
+.inv-97whl40c-dress-code-desc {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  text-align: center;
+  opacity: 0.8;
+  max-width: 50ch;
+  margin: 1.5em auto 0;
+}
+
+/* Elegant */
+.inv-97whl40c-dress-code-items { margin-top: 2em; }
+.inv-97whl40c-dress-code-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 1.1em 0;
+  border-bottom: 1px solid #c9b989;
+  gap: 24px;
+}
+.inv-97whl40c-dress-code-row:last-child { border-bottom: none; }
+.inv-97whl40c-dress-code-label {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+.inv-97whl40c-dress-code-value {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  text-align: right;
+}
+
+/* Palette */
+.inv-97whl40c-dress-code-palette-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 28px;
+  margin-top: 2em;
+}
+.inv-97whl40c-dress-code-swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.inv-97whl40c-dress-code-color {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid #c9b989;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.inv-97whl40c-dress-code-color-text {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  background: none;
+  box-shadow: none;
+  border: 1px solid #c9b989;
+  color: var(--body-color);
+}
+.inv-97whl40c-dress-code-swatch-label {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+
+/* Icons */
+.inv-97whl40c-dress-code-icons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+  margin-top: 2em;
+}
+.inv-97whl40c-dress-code-icon-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px 16px;
+  border: 1px solid #c9b989;
+  border-radius: var(--r-medium);
+  background: #a8884c04;
+}
+.inv-97whl40c-dress-code-icon {
+  width: 40px;
+  height: 40px;
+  color: #a8884c;
+  margin-bottom: 0.8em;
+}
+.inv-97whl40c-dress-code-icon svg { width: 100%; height: 100%; }
+.inv-97whl40c-dress-code-icon-label {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: 0.3em;
+}
+.inv-97whl40c-dress-code-icon-value {
+  font-family: var(--font-display);
+  font-size: 1rem;
+}
+
+/* Card */
+.inv-97whl40c-dress-code-card-wrap {
+  max-width: 480px;
+  margin: 2em auto 0;
+  padding: clamp(28px, 5vw, 40px);
+  border: 1px solid #c9b989;
+  border-radius: var(--r-medium);
+  background: #a8884c04;
+}
+.inv-97whl40c-dress-code-card-list { margin-top: 1.5em; }
+.inv-97whl40c-dress-code-card-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.8em 0;
+  border-bottom: 1px solid #c9b989;
+  gap: 16px;
+}
+.inv-97whl40c-dress-code-card-item:last-child { border-bottom: none; }
+.inv-97whl40c-dress-code-card-label {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+.inv-97whl40c-dress-code-card-value {
+  font-family: var(--font-display);
+  font-size: 1rem;
+}
+
+/* Minimal */
+.inv-97whl40c-dress-code-minimal-summary {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  text-align: center;
+  margin-top: 1.5em;
+  color: #a8884c;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 600px) {
+  .inv-97whl40c-dress-code-row { flex-direction: column; gap: 4px; }
+  .inv-97whl40c-dress-code-value { text-align: left; }
+  .inv-97whl40c-dress-code-card-item { flex-direction: column; gap: 4px; }
+}
+
+
+.inv-97whl40c-rsvp-narrow { max-width: 560px; }
+.inv-97whl40c-rsvp-msg {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  text-align: center;
+  opacity: 0.8;
+  max-width: 48ch;
+  margin: 1.5em auto 0;
+}
+.inv-97whl40c-rsvp-deadline {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  text-align: center;
+  opacity: 0.6;
+  margin-top: 0.8em;
+  letter-spacing: 0.05em;
+}
+.inv-97whl40c-rsvp-form-el {
+  margin-top: 2em;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.inv-97whl40c-rsvp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.inv-97whl40c-rsvp-label {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+.inv-97whl40c-rsvp-field input,
+.inv-97whl40c-rsvp-field select,
+.inv-97whl40c-rsvp-field textarea {
+  padding: 0.8em 1em;
+  border: 1px solid #c9b989;
+  border-radius: var(--r-small);
+  background: var(--bg);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  transition: border-color 0.3s var(--ease);
+}
+.inv-97whl40c-rsvp-field input:focus,
+.inv-97whl40c-rsvp-field select:focus,
+.inv-97whl40c-rsvp-field textarea:focus {
+  outline: none;
+  border-color: #a8884c;
+}
+.inv-97whl40c-rsvp-fieldset {
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.inv-97whl40c-rsvp-radio {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.inv-97whl40c-rsvp-radio input { width: 18px; height: 18px; accent-color: #a8884c; }
+.inv-97whl40c-rsvp-submit {
+  background: #a8884c;
+  color: var(--c-ivory, var(--c-cream, #fff));
+  align-self: center;
+  margin-top: 0.5em;
+}
+.inv-97whl40c-rsvp-status {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  text-align: center;
+  min-height: 1.2em;
+}
+.inv-97whl40c-rsvp-status.inv-97whl40c-rsvp-error { color: #c33; }
+.inv-97whl40c-rsvp-status.inv-97whl40c-rsvp-ok { color: #a8884c; }
+
+/* WhatsApp */
+.inv-97whl40c-rsvp-whatsapp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 2em;
+}
+.inv-97whl40c-rsvp-wa-btn {
+  background: #25d366;
+  color: #fff;
+}
+.inv-97whl40c-rsvp-wa-btn svg { width: 20px; height: 20px; }
+.inv-97whl40c-rsvp-phone-btn {
+  border: 1px solid #c9b989;
+  background: transparent;
+}
+.inv-97whl40c-rsvp-phone-btn svg { width: 18px; height: 18px; }
+
+/* Card */
+.inv-97whl40c-rsvp-card-wrap {
+  max-width: 480px;
+  margin: 2em auto 0;
+  padding: clamp(28px, 5vw, 40px);
+  border: 1px solid #c9b989;
+  border-radius: var(--r-medium);
+  background: #a8884c04;
+}
+
+/* Split */
+.inv-97whl40c-rsvp-split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 5vw, 64px);
+  align-items: start;
+  margin-top: 1em;
+}
+.inv-97whl40c-rsvp-split .inv-97whl40c-rsvp-form-el { margin-top: 0; }
+
+/* Minimal */
+.inv-97whl40c-rsvp-minimal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 2em;
+}
+.inv-97whl40c-rsvp-minimal .inv-97whl40c-rsvp-phone-btn {
+  border: 1px solid #c9b989;
+  background: transparent;
+}
+
+@media (max-width: 768px) {
+  .inv-97whl40c-rsvp-split-grid { grid-template-columns: 1fr; }
+}
+
+
+.inv-97whl40c-footer {
+  padding: clamp(40px, 6vw, 72px) 0;
+  text-align: center;
+  border-top: 1px solid #c9b989;
+}
+.inv-97whl40c-footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8em;
+}
+.inv-97whl40c-footer-msg {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  line-height: 1.6;
+  max-width: 40ch;
+  opacity: 0.9;
+}
+.inv-97whl40c-footer-host {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  opacity: 0.65;
+  font-style: italic;
+}
+.inv-97whl40c-footer-credit {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-top: 0.5em;
+}
+
+/* Minimal */
+.inv-97whl40c-footer-minimal { border-top: none; padding: clamp(32px, 5vw, 48px) 0; }
+.inv-97whl40c-footer-minimal .inv-97whl40c-footer-msg { font-size: 1rem; opacity: 0.7; }
+
+/* Ornate */
+.inv-97whl40c-footer-seal {
+  width: 56px;
+  height: 56px;
+  opacity: 0.4;
+  margin-bottom: 0.5em;
+}
+.inv-97whl40c-footer-seal svg { width: 100%; height: 100%; }
+
+/* Banner */
+.inv-97whl40c-footer-banner-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  margin-top: 0.5em;
+}
+.inv-97whl40c-footer-dot { color: #a8884c; }
+
+/* Signature */
+.inv-97whl40c-footer-signature-names {
+  font-family: var(--font-script, var(--font-display));
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  color: #a8884c;
+  line-height: 1.2;
+}
+.inv-97whl40c-footer-signature .inv-97whl40c-footer-credit { opacity: 0.5; }
+  </style>
+</head>
+<body>
+  <div id="inv-97whl40c-root">
+<section id="inv-97whl40c-hero" class="inv-97whl40c-hero inv-97whl40c-hero-centered" aria-label="Portada">
+    <div class="inv-97whl40c-hero-bg"></div>
+    <div class="inv-97whl40c-hero-inner">
+      <p class="inv-97whl40c-hero-eyebrow inv-97whl40c-reveal" data-delay="0">¡Nos vamos a casar!</p>
+      <div class="inv-97whl40c-hero-seal inv-97whl40c-reveal" data-delay="100"><svg viewBox="0 0 68 68" fill="none" aria-hidden="true"><circle cx="34" cy="34" r="32" stroke="currentColor" stroke-width="0.6" opacity="0.4"/><circle cx="34" cy="34" r="24" stroke="currentColor" stroke-width="0.4" opacity="0.3" stroke-dasharray="2 3"/><circle cx="34" cy="34" r="14" stroke="currentColor" stroke-width="0.5" opacity="0.4"/></svg></div>
+      <h1 class="inv-97whl40c-hero-names inv-97whl40c-reveal" data-delay="200">
+        Valentina
+        <span class="inv-97whl40c-hero-amp">&amp;</span>Mateo
+      </h1>
+      <div class="inv-97whl40c-hero-date-wrap inv-97whl40c-reveal" data-delay="400">
+        <span class="inv-97whl40c-hero-date-day">12</span>
+        <span class="inv-97whl40c-hero-date-month">sept</span>
+        <span class="inv-97whl40c-hero-date-year">2026</span>
+      </div>
+      <p class="inv-97whl40c-hero-time inv-97whl40c-reveal" data-delay="500">17:00 · Estado de México</p>
+      <a href="#inv-97whl40c-details" class="inv-97whl40c-hero-scroll inv-97whl40c-reveal" data-delay="600" aria-label="Ver más">
+        <span>Descubre más</span>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </section>
+
+<section id="inv-97whl40c-story" class="inv-97whl40c-section inv-97whl40c-story inv-97whl40c-story-timeline" aria-label="Nuestra historia">
+    <div class="inv-97whl40c-container">
+      <p class="inv-97whl40c-eyebrow inv-97whl40c-reveal">Nuestro camino</p>
+      <h2 class="inv-97whl40c-section-title inv-97whl40c-reveal" data-delay="100">Boda de Valentina y Mateo</h2>
+      <div class="inv-97whl40c-divider-wrap inv-97whl40c-reveal" data-delay="150"><svg class="inv-97whl40c-divider" viewBox="0 0 320 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M0 14 L130 14" stroke="currentColor" stroke-width="0.7" opacity="0.6"/><circle cx="160" cy="14" r="8" fill="none" stroke="currentColor" stroke-width="0.7"/><circle cx="160" cy="14" r="3" fill="currentColor" opacity="0.5"/><path d="M152 14 L168 14" stroke="currentColor" stroke-width="0.5" opacity="0.4"/><path d="M160 6 L160 22" stroke="currentColor" stroke-width="0.5" opacity="0.4"/><path d="M190 14 L320 14" stroke="currentColor" stroke-width="0.7" opacity="0.6"/></svg></div>
+      <p class="inv-97whl40c-lead inv-97whl40c-reveal" data-delay="200">Con la bendición de nuestras familias, invitamos a compartir este día tan especial.</p>
+      <div class="inv-97whl40c-story-timeline-track">
+        
+          <div class="inv-97whl40c-story-item inv-97whl40c-reveal" data-delay="300">
+            <div class="inv-97whl40c-story-dot"></div>
+            <div class="inv-97whl40c-story-content">
+              <span class="inv-97whl40c-story-date">2019</span>
+              <h3 class="inv-97whl40c-story-title">Nos conocimos</h3>
+              <p class="inv-97whl40c-story-text">Fue en una cafetería del centro, entre libros y un café derramado.</p>
+            </div>
+          </div>
+        
+          <div class="inv-97whl40c-story-item inv-97whl40c-reveal" data-delay="450">
+            <div class="inv-97whl40c-story-dot"></div>
+            <div class="inv-97whl40c-story-content">
+              <span class="inv-97whl40c-story-date">2021</span>
+              <h3 class="inv-97whl40c-story-title">Primer viaje juntos</h3>
+              <p class="inv-97whl40c-story-text">Recorrimos la costa en un viejo Volkswagen y descubrimos que éramos equipo.</p>
+            </div>
+          </div>
+        
+          <div class="inv-97whl40c-story-item inv-97whl40c-reveal" data-delay="600">
+            <div class="inv-97whl40c-story-dot"></div>
+            <div class="inv-97whl40c-story-content">
+              <span class="inv-97whl40c-story-date">2024</span>
+              <h3 class="inv-97whl40c-story-title">La propuesta</h3>
+              <p class="inv-97whl40c-story-text">Bajo el mismo cielo donde nos conocimos, Mateo se arrodilló y Valentina dijo sí.</p>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+<section id="inv-97whl40c-details" class="inv-97whl40c-section inv-97whl40c-details inv-97whl40c-details-grid" aria-label="Detalles del evento">
+    <div class="inv-97whl40c-container">
+      <p class="inv-97whl40c-eyebrow inv-97whl40c-reveal">Información</p>
+      <h2 class="inv-97whl40c-section-title inv-97whl40c-reveal" data-delay="100">Detalles</h2>
+      <div class="inv-97whl40c-divider-wrap inv-97whl40c-reveal" data-delay="150"><svg class="inv-97whl40c-divider" viewBox="0 0 320 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M0 14 L130 14" stroke="currentColor" stroke-width="0.7" opacity="0.6"/><circle cx="160" cy="14" r="8" fill="none" stroke="currentColor" stroke-width="0.7"/><circle cx="160" cy="14" r="3" fill="currentColor" opacity="0.5"/><path d="M152 14 L168 14" stroke="currentColor" stroke-width="0.5" opacity="0.4"/><path d="M160 6 L160 22" stroke="currentColor" stroke-width="0.5" opacity="0.4"/><path d="M190 14 L320 14" stroke="currentColor" stroke-width="0.7" opacity="0.6"/></svg></div>
+      <div class="inv-97whl40c-details-grid-cards">
+        
+          <div class="inv-97whl40c-details-card inv-97whl40c-reveal" data-delay="250">
+            <span class="inv-97whl40c-details-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            <span class="inv-97whl40c-details-label">Fecha</span>
+            <span class="inv-97whl40c-details-value">sábado, 12 de septiembre de 2026</span>
+          </div>
+        
+          <div class="inv-97whl40c-details-card inv-97whl40c-reveal" data-delay="350">
+            <span class="inv-97whl40c-details-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="inv-97whl40c-details-label">Hora</span>
+            <span class="inv-97whl40c-details-value">17:00</span>
+          </div>
+        
+          <div class="inv-97whl40c-details-card inv-97whl40c-reveal" data-delay="450">
+            <span class="inv-97whl40c-details-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <span class="inv-97whl40c-details-label">Lugar</span>
+            <span class="inv-97whl40c-details-value">Hacienda San Andrés</span>
+          </div>
+        
+          <div class="inv-97whl40c-details-card inv-97whl40c-reveal" data-delay="550">
+            <span class="inv-97whl40c-details-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7l3-7z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
+            <span class="inv-97whl40c-details-label">Ceremonia</span>
+            <span class="inv-97whl40c-details-value">Ceremonia religiosa</span>
+          </div>
+        
+          <div class="inv-97whl40c-details-card inv-97whl40c-reveal" data-delay="650">
+            <span class="inv-97whl40c-details-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 11v5M12 8v.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            <span class="inv-97whl40c-details-label">Ceremonia</span>
+            <span class="inv-97whl40c-details-value">17:00 hrs</span>
+          </div>
+        
+          <div class="inv-97whl40c-details-card inv-97whl40c-reveal" data-delay="750">
+            <span class="inv-97whl40c-details-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 11v5M12 8v.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            <span class="inv-97whl40c-details-label">Recepción</span>
+            <span class="inv-97whl40c-details-value">18:00 hrs</span>
+          </div>
+        
+          <div class="inv-97whl40c-details-card inv-97whl40c-reveal" data-delay="850">
+            <span class="inv-97whl40c-details-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 11v5M12 8v.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            <span class="inv-97whl40c-details-label">Cena</span>
+            <span class="inv-97whl40c-details-value">19:30 hrs</span>
+          </div>
+        
+          <div class="inv-97whl40c-details-card inv-97whl40c-reveal" data-delay="950">
+            <span class="inv-97whl40c-details-icon"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 11v5M12 8v.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            <span class="inv-97whl40c-details-label">Fiesta</span>
+            <span class="inv-97whl40c-details-value">21:00 hrs</span>
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+<section id="inv-97whl40c-location" class="inv-97whl40c-section inv-97whl40c-location inv-97whl40c-location-map" aria-label="Ubicación">
+    <div class="inv-97whl40c-container">
+      <p class="inv-97whl40c-eyebrow inv-97whl40c-reveal">Cómo llegar</p>
+      <h2 class="inv-97whl40c-section-title inv-97whl40c-reveal" data-delay="100">Ubicación</h2>
+      <div class="inv-97whl40c-divider-wrap inv-97whl40c-reveal" data-delay="150"><svg class="inv-97whl40c-divider" viewBox="0 0 320 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M0 14 L130 14" stroke="currentColor" stroke-width="0.7" opacity="0.6"/><circle cx="160" cy="14" r="8" fill="none" stroke="currentColor" stroke-width="0.7"/><circle cx="160" cy="14" r="3" fill="currentColor" opacity="0.5"/><path d="M152 14 L168 14" stroke="currentColor" stroke-width="0.5" opacity="0.4"/><path d="M160 6 L160 22" stroke="currentColor" stroke-width="0.5" opacity="0.4"/><path d="M190 14 L320 14" stroke="currentColor" stroke-width="0.7" opacity="0.6"/></svg></div>
+      <div class="inv-97whl40c-location-map-grid">
+        <div class="inv-97whl40c-location-map-info inv-97whl40c-reveal" data-delay="250">
+          <h3 class="inv-97whl40c-location-venue">Hacienda San Andrés</h3>
+          <p class="inv-97whl40c-location-address">Camino Real km 12, Valle de Bravo</p>
+          <p class="inv-97whl40c-location-city">Estado de México</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=Hacienda%20San%20Andr%C3%A9s%20Camino%20Real%20km%2012%2C%20Valle%20de%20Bravo"
+             target="_blank" rel="noopener" class="inv-97whl40c-btn inv-97whl40c-location-cta">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.5"/></svg>
+            Cómo llegar
+          </a>
+        </div>
+        <div class="inv-97whl40c-location-map-embed inv-97whl40c-reveal" data-delay="400">
+          <iframe src="https://www.google.com/maps?q=Valle+de+Bravo" loading="lazy" title="Mapa de Hacienda San Andrés" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section id="inv-97whl40c-timeline" class="inv-97whl40c-section inv-97whl40c-timeline inv-97whl40c-timeline-schedule" aria-label="Programa del día">
+    <div class="inv-97whl40c-container">
+      <p class="inv-97whl40c-eyebrow inv-97whl40c-reveal">El día</p>
+      <h2 class="inv-97whl40c-section-title inv-97whl40c-reveal" data-delay="100">Programa</h2>
+      <div class="inv-97whl40c-divider-wrap inv-97whl40c-reveal" data-delay="150"><svg class="inv-97whl40c-divider" viewBox="0 0 320 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M0 14 L130 14" stroke="currentColor" stroke-width="0.7" opacity="0.6"/><circle cx="160" cy="14" r="8" fill="none" stroke="currentColor" stroke-width="0.7"/><circle cx="160" cy="14" r="3" fill="currentColor" opacity="0.5"/><path d="M152 14 L168 14" stroke="currentColor" stroke-width="0.5" opacity="0.4"/><path d="M160 6 L160 22" stroke="currentColor" stroke-width="0.5" opacity="0.4"/><path d="M190 14 L320 14" stroke="currentColor" stroke-width="0.7" opacity="0.6"/></svg></div>
+      <div class="inv-97whl40c-timeline-schedule-list">
+        
+          <div class="inv-97whl40c-timeline-item inv-97whl40c-reveal" data-delay="250">
+            <span class="inv-97whl40c-timeline-time">16:30</span>
+            <div class="inv-97whl40c-timeline-body">
+              <h3 class="inv-97whl40c-timeline-title">Recepción</h3>
+              <p class="inv-97whl40c-timeline-text">Llegada de invitados y bienvenida.</p>
+            </div>
+          </div>
+        
+          <div class="inv-97whl40c-timeline-item inv-97whl40c-reveal" data-delay="370">
+            <span class="inv-97whl40c-timeline-time">17:00</span>
+            <div class="inv-97whl40c-timeline-body">
+              <h3 class="inv-97whl40c-timeline-title">Ceremonia</h3>
+              <p class="inv-97whl40c-timeline-text">Ceremonia religiosa en la capilla.</p>
+            </div>
+          </div>
+        
+          <div class="inv-97whl40c-timeline-item inv-97whl40c-reveal" data-delay="490">
+            <span class="inv-97whl40c-timeline-time">18:00</span>
+            <div class="inv-97whl40c-timeline-body">
+              <h3 class="inv-97whl40c-timeline-title">Cóctel</h3>
+              <p class="inv-97whl40c-timeline-text">Brindis y aperitivos en el jardín.</p>
+            </div>
+          </div>
+        
+          <div class="inv-97whl40c-timeline-item inv-97whl40c-reveal" data-delay="610">
+            <span class="inv-97whl40c-timeline-time">19:30</span>
+            <div class="inv-97whl40c-timeline-body">
+              <h3 class="inv-97whl40c-timeline-title">Banquete</h3>
+              <p class="inv-97whl40c-timeline-text">Cena de gala en el salón principal.</p>
+            </div>
+          </div>
+        
+          <div class="inv-97whl40c-timeline-item inv-97whl40c-reveal" data-delay="730">
+            <span class="inv-97whl40c-timeline-time">21:00</span>
+            <div class="inv-97whl40c-timeline-body">
+              <h3 class="inv-97whl40c-timeline-title">Fiesta</h3>
+              <p class="inv-97whl40c-timeline-text">Primer baile y celebración.</p>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+<section id="inv-97whl40c-gallery" class="inv-97whl40c-section inv-97whl40c-gallery inv-97whl40c-gallery-grid" aria-label="Galería">
+    <div class="inv-97whl40c-container">
+      <p class="inv-97whl40c-eyebrow inv-97whl40c-reveal">Momentos</p>
+      <h2 class="inv-97whl40c-section-title inv-97whl40c-reveal" data-delay="100">Galería</h2>
+      <div class="inv-97whl40c-divider-wrap inv-97whl40c-reveal" data-delay="150"><svg class="inv-97whl40c-divider" viewBox="0 0 320 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M0 14 L130 14" stroke="currentColor" stroke-width="0.7" opacity="0.6"/><circle cx="160" cy="14" r="8" fill="none" stroke="currentColor" stroke-width="0.7"/><circle cx="160" cy="14" r="3" fill="currentColor" opacity="0.5"/><path d="M152 14 L168 14" stroke="currentColor" stroke-width="0.5" opacity="0.4"/><path d="M160 6 L160 22" stroke="currentColor" stroke-width="0.5" opacity="0.4"/><path d="M190 14 L320 14" stroke="currentColor" stroke-width="0.7" opacity="0.6"/></svg></div>
+      <div class="inv-97whl40c-gallery-grid-wrap">
+        
+          <figure class="inv-97whl40c-gallery-item inv-97whl40c-reveal" data-delay="250">
+            <img src="https://picsum.photos/seed/inv1/800/600" alt="Pareja en el campo" loading="lazy" />
+            <figcaption>Primavera 2024</figcaption>
+          </figure>
+        
+          <figure class="inv-97whl40c-gallery-item inv-97whl40c-reveal" data-delay="330">
+            <img src="https://picsum.photos/seed/inv2/800/600" alt="Pareja en la playa" loading="lazy" />
+            <figcaption>Verano 2023</figcaption>
+          </figure>
+        
+          <figure class="inv-97whl40c-gallery-item inv-97whl40c-reveal" data-delay="410">
+            <img src="https://picsum.photos/seed/inv3/800/600" alt="Pareja en la ciudad" loading="lazy" />
+            <figcaption>Otoño 2022</figcaption>
+          </figure>
+        
+          <figure class="inv-97whl40c-gallery-item inv-97whl40c-reveal" data-delay="490">
+            <img src="https://picsum.photos/seed/inv4/800/600" alt="Pareja en la montaña" loading="lazy" />
+            <figcaption>Invierno 2021</figcaption>
+          </figure>
+        
+          <figure class="inv-97whl40c-gallery-item inv-97whl40c-reveal" data-delay="570">
+            <img src="https://picsum.photos/seed/inv5/800/600" alt="Pareja en el bosque" loading="lazy" />
+            <figcaption>Primavera 2020</figcaption>
+          </figure>
+        
+          <figure class="inv-97whl40c-gallery-item inv-97whl40c-reveal" data-delay="650">
+            <img src="https://picsum.photos/seed/inv6/800/600" alt="Pareja en el lago" loading="lazy" />
+            <figcaption>Verano 2019</figcaption>
+          </figure>
+        
+      </div>
+    </div>
+  </section>
+
+<section id="inv-97whl40c-dress-code" class="inv-97whl40c-section inv-97whl40c-dress-code inv-97whl40c-dress-code-elegant" aria-label="Código de vestimenta">
+    <div class="inv-97whl40c-container inv-97whl40c-dress-code-narrow">
+      <p class="inv-97whl40c-eyebrow inv-97whl40c-reveal">Cómo acompañarnos</p>
+      <h2 class="inv-97whl40c-section-title inv-97whl40c-reveal" data-delay="100">Código de vestir</h2>
+      <div class="inv-97whl40c-divider-wrap inv-97whl40c-reveal" data-delay="150"><svg class="inv-97whl40c-divider" viewBox="0 0 320 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M0 14 L130 14" stroke="currentColor" stroke-width="0.7" opacity="0.6"/><circle cx="160" cy="14" r="8" fill="none" stroke="currentColor" stroke-width="0.7"/><circle cx="160" cy="14" r="3" fill="currentColor" opacity="0.5"/><path d="M152 14 L168 14" stroke="currentColor" stroke-width="0.5" opacity="0.4"/><path d="M160 6 L160 22" stroke="currentColor" stroke-width="0.5" opacity="0.4"/><path d="M190 14 L320 14" stroke="currentColor" stroke-width="0.7" opacity="0.6"/></svg></div>
+      <p class="inv-97whl40c-dress-code-desc inv-97whl40c-reveal" data-delay="200">Sugerencia de etiqueta para la celebración.</p>
+      <div class="inv-97whl40c-dress-code-items">
+        
+          <div class="inv-97whl40c-dress-code-row inv-97whl40c-reveal" data-delay="300">
+            <span class="inv-97whl40c-dress-code-label">Hombres</span>
+            <span class="inv-97whl40c-dress-code-value">Traje oscuro, corbda opcional.</span>
+          </div>
+        
+          <div class="inv-97whl40c-dress-code-row inv-97whl40c-reveal" data-delay="400">
+            <span class="inv-97whl40c-dress-code-label">Mujeres</span>
+            <span class="inv-97whl40c-dress-code-value">Vestido largo o de cóctel.</span>
+          </div>
+        
+          <div class="inv-97whl40c-dress-code-row inv-97whl40c-reveal" data-delay="500">
+            <span class="inv-97whl40c-dress-code-label">Colores</span>
+            <span class="inv-97whl40c-dress-code-value">Tonos tierra, verde olivo y crema.</span>
+          </div>
+        
+          <div class="inv-97whl40c-dress-code-row inv-97whl40c-reveal" data-delay="600">
+            <span class="inv-97whl40c-dress-code-label">No llevar</span>
+            <span class="inv-97whl40c-dress-code-value">Blanco o estampados llamativos.</span>
+          </div>
+        
+      </div>
+    </div>
+  </section>
+
+<section id="inv-97whl40c-rsvp" class="inv-97whl40c-section inv-97whl40c-rsvp inv-97whl40c-rsvp-form" aria-label="Confirmación de asistencia">
+    <div class="inv-97whl40c-container inv-97whl40c-rsvp-narrow">
+      <p class="inv-97whl40c-eyebrow inv-97whl40c-reveal">Nos gustaría saber</p>
+      <h2 class="inv-97whl40c-section-title inv-97whl40c-reveal" data-delay="100">Confirmación</h2>
+      <div class="inv-97whl40c-divider-wrap inv-97whl40c-reveal" data-delay="150"><svg class="inv-97whl40c-divider" viewBox="0 0 320 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M0 14 L130 14" stroke="currentColor" stroke-width="0.7" opacity="0.6"/><circle cx="160" cy="14" r="8" fill="none" stroke="currentColor" stroke-width="0.7"/><circle cx="160" cy="14" r="3" fill="currentColor" opacity="0.5"/><path d="M152 14 L168 14" stroke="currentColor" stroke-width="0.5" opacity="0.4"/><path d="M160 6 L160 22" stroke="currentColor" stroke-width="0.5" opacity="0.4"/><path d="M190 14 L320 14" stroke="currentColor" stroke-width="0.7" opacity="0.6"/></svg></div>
+      <p class="inv-97whl40c-rsvp-msg inv-97whl40c-reveal" data-delay="200">Confirma tu asistencia antes del 15 de agosto. ¡Esperamos contar con tu presencia!</p>
+      <p class="inv-97whl40c-rsvp-deadline inv-97whl40c-reveal" data-delay="250">Por favor confirma antes del 2026-08-15</p>
+      <form id="inv-97whl40c-rsvp-form" class="inv-97whl40c-rsvp-form-el inv-97whl40c-reveal" data-delay="300"
+            data-whatsapp="525512345678" data-phone="+52 55 1234 5678">
+        <label class="inv-97whl40c-rsvp-field">
+        <span class="inv-97whl40c-rsvp-label">Nombre</span>
+        <input type="text" name="name" required placeholder="Tu nombre" />
+      </label><fieldset class="inv-97whl40c-rsvp-field inv-97whl40c-rsvp-fieldset">
+        <legend class="inv-97whl40c-rsvp-label">¿Asistirás?</legend>
+        <label class="inv-97whl40c-rsvp-radio"><input type="radio" name="attendance" value="yes" required /> <span>Sí, ahí estaré</span></label>
+        <label class="inv-97whl40c-rsvp-radio"><input type="radio" name="attendance" value="no" /> <span>No podré asistir</span></label>
+      </fieldset><label class="inv-97whl40c-rsvp-field">
+        <span class="inv-97whl40c-rsvp-label">Acompañantes</span>
+        <select name="guests">
+          <option value="0">Solo yo</option>
+          <option value="1">1 persona</option>
+          <option value="2">2 personas</option>
+          <option value="3">3 personas</option>
+          <option value="4">4 personas</option>
+        </select>
+      </label><label class="inv-97whl40c-rsvp-field">
+        <span class="inv-97whl40c-rsvp-label">Restricciones alimentarias</span>
+        <input type="text" name="dietary" placeholder="Vegetariano, sin gluten, etc." />
+      </label><label class="inv-97whl40c-rsvp-field">
+        <span class="inv-97whl40c-rsvp-label">Mensaje (opcional)</span>
+        <textarea name="message" rows="3" placeholder="Una palabra para los anfitriones..."></textarea>
+      </label>
+        <button type="submit" class="inv-97whl40c-btn inv-97whl40c-rsvp-submit">Confirmar</button>
+        <p class="inv-97whl40c-rsvp-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+<footer id="inv-97whl40c-footer" class="inv-97whl40c-section inv-97whl40c-footer inv-97whl40c-footer-classic">
+    <div class="inv-97whl40c-container inv-97whl40c-footer-inner">
+      <div class="inv-97whl40c-divider-wrap inv-97whl40c-reveal"><svg class="inv-97whl40c-divider" viewBox="0 0 320 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M0 14 L130 14" stroke="currentColor" stroke-width="0.7" opacity="0.6"/><circle cx="160" cy="14" r="8" fill="none" stroke="currentColor" stroke-width="0.7"/><circle cx="160" cy="14" r="3" fill="currentColor" opacity="0.5"/><path d="M152 14 L168 14" stroke="currentColor" stroke-width="0.5" opacity="0.4"/><path d="M160 6 L160 22" stroke="currentColor" stroke-width="0.5" opacity="0.4"/><path d="M190 14 L320 14" stroke="currentColor" stroke-width="0.7" opacity="0.6"/></svg></div>
+      <p class="inv-97whl40c-footer-msg inv-97whl40c-reveal" data-delay="100">Gracias por ser parte de nuestra historia. ¡Te esperamos!</p>
+      <p class="inv-97whl40c-footer-host inv-97whl40c-reveal" data-delay="200">Padres de la novia: Familia Herrera · Padres del novio: Familia Domínguez</p>
+      <p class="inv-97whl40c-footer-credit inv-97whl40c-reveal" data-delay="300">Con amor</p>
+    </div>
+  </footer>
+  </div>
+  <script>
+(function() {
+  'use strict';
+
+  // Scroll reveal
+  (function() {
+    var revealClass = 'inv-97whl40c-reveal';
+    var visibleClass = revealClass + '-visible';
+    var els = document.querySelectorAll('.' + revealClass);
+    if (!('IntersectionObserver' in window) || !els.length) {
+      els.forEach(function(el) { el.classList.add(visibleClass); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          var delay = el.getAttribute('data-delay') || '0';
+          el.style.setProperty('--d', delay + 'ms');
+          el.classList.add(visibleClass);
+          io.unobserve(el);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    els.forEach(function(el) { io.observe(el); });
+  })();
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      var href = a.getAttribute('href');
+      if (!href || href === '#') return;
+      var target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+
+  // RSVP form
+  (function() {
+    var form = document.getElementById('inv-97whl40c-rsvp-form');
+    if (!form) return;
+    var status = form.querySelector('.inv-97whl40c-rsvp-status');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var data = new FormData(form);
+      var name = (data.get('name') || '').toString().trim();
+      var attendance = (data.get('attendance') || '').toString();
+      if (!name) {
+        if (status) { status.textContent = 'Por favor ingresa tu nombre.'; status.className = 'inv-97whl40c-rsvp-status inv-97whl40c-rsvp-error'; }
+        return;
+      }
+      if (!attendance) {
+        if (status) { status.textContent = 'Por favor confirma tu asistencia.'; status.className = 'inv-97whl40c-rsvp-status inv-97whl40c-rsvp-error'; }
+        return;
+      }
+      var guests = (data.get('guests') || '0').toString();
+      var dietary = (data.get('dietary') || '').toString();
+      var message = (data.get('message') || '').toString();
+      var wa = form.getAttribute('data-whatsapp') || '';
+      var phone = form.getAttribute('data-phone') || '';
+      var lines = ['*Confirmación de asistencia*', '', 'Nombre: ' + name, 'Asistencia: ' + (attendance === 'yes' ? 'Sí, asistiré' : 'No podré asistir')];
+      if (guests && guests !== '0') lines.push('Acompañantes: ' + guests);
+      if (dietary) lines.push('Restricciones: ' + dietary);
+      if (message) lines.push('Mensaje: ' + message);
+      var text = encodeURIComponent(lines.join('\n'));
+      if (wa) {
+        var waNum = wa.replace(/[^0-9]/g, '');
+        window.open('https://wa.me/' + waNum + '?text=' + text, '_blank');
+        if (status) { status.textContent = 'Abriendo WhatsApp...'; status.className = 'inv-97whl40c-rsvp-status inv-97whl40c-rsvp-ok'; }
+      } else if (phone) {
+        if (status) { status.textContent = 'Llama al ' + phone + ' para confirmar.'; status.className = 'inv-97whl40c-rsvp-status inv-97whl40c-rsvp-ok'; }
+      } else {
+        if (status) { status.textContent = '¡Gracias, ' + name + '! Tu respuesta fue registrada.'; status.className = 'inv-97whl40c-rsvp-status inv-97whl40c-rsvp-ok'; }
+        form.reset();
+      }
+    });
+  })();
+
+  // Copy to clipboard
+  document.querySelectorAll('[data-copy]').forEach(function(el) {
+    el.addEventListener('click', function() {
+      var text = el.getAttribute('data-copy') || '';
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(function() {
+          showCopied(el);
+        });
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); showCopied(el); } catch(e) {}
+        document.body.removeChild(ta);
+      }
+    });
+  });
+  function showCopied(el) {
+    var orig = el.getAttribute('data-original') || el.textContent;
+    el.setAttribute('data-original', orig);
+    el.textContent = '¡Copiado!';
+    setTimeout(function() { el.textContent = orig; }, 1800);
+  }
+
+  // Lazy load images with data-src
+  (function() {
+    var imgs = document.querySelectorAll('img[data-src]');
+    if (!imgs.length) return;
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            var img = entry.target;
+            var src = img.getAttribute('data-src');
+            if (src) { img.src = src; img.removeAttribute('data-src'); }
+            io.unobserve(img);
+          }
+        });
+      }, { rootMargin: '200px' });
+      imgs.forEach(function(img) { io.observe(img); });
+    } else {
+      imgs.forEach(function(img) {
+        var src = img.getAttribute('data-src');
+        if (src) { img.src = src; img.removeAttribute('data-src'); }
+      });
+    }
+  })();
+})();
+  </script>
+</body>
+</html>

@@ -10,6 +10,13 @@ import https from 'https';
 import multer from 'multer';
 import db from './database.js';
 import { analyzeTemplate, validateTemplate, REQUIRED_TAGS } from './ragValidator.js';
+import {
+  analyzeModule,
+  validateModule,
+  extractModuleMetadata,
+  generateModuleIdFromFilename,
+  generateStyleName
+} from './ragModuleValidator.js';
 import { normalizeCategory } from './geminiService.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -3507,3 +3514,389 @@ app.get('/api/rag/query', (req, res) => {
 });
 
 // ==================== FIN RAG ENDPOINTS ====================
+
+// ==================== RAG MODULAR ENDPOINTS (PIEZAS) ====================
+
+// GET /api/admin/rag-modules - Listar todos los módulos
+app.get('/api/admin/rag-modules', adminMiddleware, (req, res) => {
+  try {
+    const { module_type, category, is_active } = req.query;
+    
+    let query = `
+      SELECT id, module_id, module_type, style_name, description, tags, 
+             descripcion_larga, theme_tags, color_palette, css_variables,
+             has_memory_attributes, memory_sources, is_active, category,
+             filename, html_size, created_at, updated_at
+      FROM knowledge_base_modules 
+      WHERE 1=1
+    `;
+    const params = [];
+    
+    if (module_type) {
+      query += ' AND module_type = ?';
+      params.push(module_type);
+    }
+    if (category && category !== 'general') {
+      query += ' AND category = ?';
+      params.push(category);
+    }
+    if (is_active !== undefined) {
+      query += ' AND is_active = ?';
+      params.push(parseInt(is_active));
+    }
+    
+    query += ' ORDER BY created_at DESC';
+    
+    const modules = db.prepare(query).all(...params);
+    
+    // Parsear JSON fields
+    const parsed = modules.map(m => ({
+      ...m,
+      tags: JSON.parse(m.tags || '[]'),
+      descripcion_larga: JSON.parse(m.descripcion_larga || ''),
+      theme_tags: JSON.parse(m.theme_tags || []),
+      color_palette: JSON.parse(m.color_palette || {}),
+      css_variables: JSON.parse(m.css_variables || {}),
+      memory_sources: JSON.parse(m.memory_sources || {})
+    }));
+    
+    res.json({ modules: parsed });
+  } catch (error) {
+    console.error('[RAG-MODULES LIST] Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// GET /api/admin/rag-modules/:id - Obtener un módulo completo
+app.get('/api/admin/rag-modules/:id', adminMiddleware, (req, res) => {
+  try {
+    const module = db.prepare(`
+      SELECT * FROM knowledge_base_modules WHERE id = ?
+    `).get(req.params.id);
+    
+    if (!module) {
+      return res.status(404).json({ error: 'Módulo no encontrado' });
+    }
+    
+    // Parsear JSON fields
+    const parsed = {
+      ...module,
+      tags: JSON.parse(module.tags || '[]'),
+      descripcion_larga: JSON.parse(module.descripcion_larga || ''),
+      theme_tags: JSON.parse(module.theme_tags || []),
+      color_palette: JSON.parse(module.color_palette || {}),
+      css_variables: JSON.parse(module.css_variables || {}),
+      memory_sources: JSON.parse(module.memory_sources || {})
+    };
+    
+    res.json({ module: parsed });
+  } catch (error) {
+    console.error('[RAG-MODULES GET] Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// POST /api/admin/rag-modules - Crear módulo manualmente
+app.post('/api/admin/rag-modules', adminMiddleware, (req, res) => {
+  try {
+    const {
+      module_id, module_type, style_name, description,
+      tags, descripcion_larga, theme_tags, color_palette,
+      css_variables, html_content, category, is_active
+    } = req.body;
+    
+    // Validar required fields
+    if (!module_id || !module_type || !style_name || !html_content) {
+      return res.status(400).json({ error: 'Faltan campos requeridos: module_id, module_type, style_name, html_content' });
+    }
+    
+    // Validar module_type conocido
+    const knownTypes = ['portada', 'padres', 'ubicacion', 'itinerario', 'confirmacion', 'detalles', 'countdown', 'padrinos', 'galeria', 'corte', 'vestimenta', 'regalos', 'hospedaje', 'transporte', 'music', 'quotes', 'mensaje', 'pascar', 'mensaje_padres', 'gracias'];
+    if (!knownTypes.includes(module_type)) {
+      return res.status(400).json({ error: `module_type "${module_type}" no es válido. Tipos conocidos: ${knownTypes.join(', ')}` });
+    }
+    
+    const normalizedCat = category || 'general';
+    
+    const stmt = db.prepare(`
+      INSERT INTO knowledge_base_modules (
+        module_id, module_type, style_name, description,
+        tags, descripcion_larga, theme_tags, color_palette,
+        css_variables, has_memory_attributes, memory_sources,
+        html_content, category, is_active, html_size
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+    
+    // Extraer metadata si no se proporciona
+    const meta = extractModuleMetadata(html_content);
+    const hasMemory = meta.has_memory_attributes ? 1 : 0;
+    const memSources = JSON.stringify(meta.memory_sources || {});
+    
+    const result = stmt.run(
+      module_id,
+      module_type,
+      style_name,
+      description || meta.module_metadata.descripcion || '',
+      typeof tags === 'string' ? tags : JSON.stringify(tags || meta.module_metadata.tags || []),
+      typeof descripcion_larga === 'string' ? descripcion_larga : JSON.stringify(descripcion_larga || meta.module_metadata.descripcion || ''),
+      typeof theme_tags === 'string' ? theme_tags : JSON.stringify(theme_tags || meta.theme_tags || []),
+      typeof color_palette === 'string' ? color_palette : JSON.stringify(color_palette || meta.color_palette || {}),
+      typeof css_variables === 'string' ? css_variables : JSON.stringify(css_variables || meta.css_variables || {}),
+      hasMemory,
+      memSources,
+      html_content,
+      normalizedCat,
+      is_active !== undefined ? (is_active ? 1 : 0) : 1,
+      Buffer.byteLength(html_content, 'utf8')
+    );
+    
+    res.json({ success: true, id: result.lastInsertRowid });
+  } catch (error) {
+    if (error.message.includes('UNIQUE constraint')) {
+      return res.status(400).json({ error: 'Ya existe un módulo con ese module_id' });
+    }
+    console.error('[RAG-MODULES CREATE] Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// PUT /api/admin/rag-modules/:id - Actualizar módulo
+app.put('/api/admin/rag-modules/:id', adminMiddleware, (req, res) => {
+  try {
+    const body = req.body;
+    const allowedFields = [
+      'style_name', 'description', 'module_type', 'category',
+      'tags', 'descripcion_larga', 'theme_tags', 'color_palette',
+      'css_variables', 'html_content', 'is_active'
+    ];
+    const jsonFields = ['tags', 'descripcion_larga', 'theme_tags', 'color_palette', 'css_variables'];
+    
+    const setClauses = [];
+    const params = [];
+    
+    for (const field of allowedFields) {
+      if (body[field] === undefined) continue;
+      
+      let value = body[field];
+      
+      if (field === 'is_active') {
+        value = value ? 1 : 0;
+      } else if (jsonFields.includes(field)) {
+        value = typeof value === 'string' ? value : JSON.stringify(value);
+      }
+      
+      if (field === 'html_content') {
+        const meta = extractModuleMetadata(value);
+        setClauses.push('html_size = ?');
+        params.push(Buffer.byteLength(value, 'utf8'));
+        setClauses.push('has_memory_attributes = ?');
+        params.push(meta.has_memory_attributes ? 1 : 0);
+        setClauses.push('memory_sources = ?');
+        params.push(JSON.stringify(meta.memory_sources || {}));
+      }
+      
+      setClauses.push(`${field} = ?`);
+      params.push(value);
+    }
+    
+    if (setClauses.length === 0) {
+      return res.status(400).json({ error: 'No hay campos para actualizar' });
+    }
+    
+    setClauses.push('updated_at = datetime(\'now\')');
+    params.push(req.params.id);
+    
+    db.prepare(`UPDATE knowledge_base_modules SET ${setClauses.join(', ')} WHERE id = ?`).run(...params);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('[RAG-MODULES UPDATE] Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// DELETE /api/admin/rag-modules/:id - Eliminar módulo
+app.delete('/api/admin/rag-modules/:id', adminMiddleware, (req, res) => {
+  try {
+    const result = db.prepare('DELETE FROM knowledge_base_modules WHERE id = ?').run(req.params.id);
+    if (result.changes === 0) {
+      return res.status(404).json({ error: 'Módulo no encontrado' });
+    }
+    res.json({ success: true });
+  } catch (error) {
+    console.error('[RAG-MODULES DELETE] Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// POST /api/admin/rag-modules/upload - Subir módulo HTML individual y analizarlo
+app.post('/api/admin/rag-modules/upload', adminMiddleware, ragUpload.single('htmlFile'), (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'Archivo HTML es requerido (campo htmlFile)' });
+    }
+    
+    const moduleTypeHint = req.body.module_type || null;
+    const filename = req.file.originalname;
+    const htmlContent = req.file.buffer.toString('utf8');
+    
+    // Analizar módulo
+    const analysis = analyzeModule(htmlContent, moduleTypeHint);
+    
+    // Validar
+    if (!analysis.is_valid) {
+      return res.status(400).json({ 
+        error: 'Módulo no válido',
+        validation: { errors: analysis.errors, warnings: analysis.warnings }
+      });
+    }
+    
+    // Generar module_id desde filename si no está en el HTML
+    const moduleId = analysis.module_id || generateModuleIdFromFilename(filename);
+    const styleName = analysis.style_name || generateStyleName(analysis.metadata, filename);
+    
+    // Insertar
+    const stmt = db.prepare(`
+      INSERT INTO knowledge_base_modules (
+        module_id, module_type, style_name, description,
+        tags, descripcion_larga, theme_tags, color_palette,
+        css_variables, has_memory_attributes, memory_sources,
+        html_content, category, is_active, filename, html_size
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)
+    `);
+    
+    const result = stmt.run(
+      moduleId,
+      analysis.module_type,
+      styleName,
+      analysis.description,
+      analysis.tags,
+      analysis.descripcion_larga,
+      analysis.theme_tags,
+      analysis.color_palette,
+      analysis.css_variables,
+      analysis.has_memory_attributes,
+      analysis.memory_sources,
+      htmlContent,
+      'general',
+      filename,
+      analysis.html_size
+    );
+    
+    const response = {
+      success: true,
+      id: result.lastInsertRowid,
+      module_id: moduleId,
+      module_type: analysis.module_type,
+      html_content: htmlContent,
+      analysis: {
+        metadata: analysis.metadata,
+        errors: analysis.errors,
+        warnings: analysis.warnings
+      }
+    };
+    
+    res.json(response);
+  } catch (error) {
+    if (error.message.includes('UNIQUE constraint')) {
+      return res.status(400).json({ error: 'Ya existe un módulo con ese module_id' });
+    }
+    console.error('[RAG-MODULES UPLOAD] Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// POST /api/admin/rag-modules/analyze - Analizar HTML de módulo con ragModuleValidator
+app.post('/api/admin/rag-modules/analyze', adminMiddleware, async (req, res) => {
+  try {
+    const { html, module_type } = req.body;
+    
+    if (!html) {
+      return res.status(400).json({ error: 'HTML es requerido' });
+    }
+    
+    const analysis = analyzeModule(html, module_type);
+    
+    res.json({
+      success: true,
+      analysis: {
+        module_id: analysis.module_id,
+        module_type: analysis.module_type,
+        style_name: analysis.style_name,
+        description: analysis.description,
+        tags: JSON.parse(analysis.tags),
+        descripcion_larga: JSON.parse(analysis.descripcion_larga),
+        theme_tags: JSON.parse(analysis.theme_tags),
+        color_palette: JSON.parse(analysis.color_palette),
+        css_variables: JSON.parse(analysis.css_variables),
+        has_memory_attributes: analysis.has_memory_attributes,
+        memory_sources: JSON.parse(analysis.memory_sources),
+        html_size: analysis.html_size,
+        is_valid: analysis.is_valid,
+        errors: analysis.errors,
+        warnings: analysis.warnings,
+        metadata: analysis.metadata
+      }
+    });
+  } catch (error) {
+    console.error('[RAG-MODULES ANALYZE] Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// GET /api/rag/modules/query - Query público para buscar módulos por tipo y tags
+app.get('/api/rag/modules/query', (req, res) => {
+  try {
+    const { module_type, tags, category, limit = 5 } = req.query;
+    
+    if (!module_type) {
+      return res.status(400).json({ error: 'module_type es requerido (ej: portada, padres, ubicacion)' });
+    }
+    
+    let query = `
+      SELECT id, module_id, module_type, style_name, description, tags,
+             theme_tags, color_palette, css_variables, memory_sources,
+             category, html_size
+      FROM knowledge_base_modules 
+      WHERE is_active = 1 AND module_type = ?
+    `;
+    const params = [module_type];
+    
+    if (category && category !== 'general') {
+      query += ' AND category = ?';
+      params.push(category);
+    }
+    
+    if (tags) {
+      // Buscar módulos que tengan al menos uno de los tags solicitados
+      const tagList = tags.split(',').map(t => t.trim());
+      // Construir condiciones OR para cada tag
+      const tagConditions = tagList.map(() => 'tags LIKE ?').join(' OR ');
+      query += ` AND (${tagConditions})`;
+      tagList.forEach(tag => {
+        params.push(`%"${tag}"%`);
+      });
+    }
+    
+    query += ' ORDER BY RANDOM() LIMIT ?';
+    params.push(parseInt(limit) || 5);
+    
+    const modules = db.prepare(query).all(...params);
+    
+    // Parsear JSON
+    const parsed = modules.map(m => ({
+      ...m,
+      tags: JSON.parse(m.tags || '[]'),
+      theme_tags: JSON.parse(m.theme_tags || []),
+      color_palette: JSON.parse(m.color_palette || {}),
+      css_variables: JSON.parse(m.css_variables || {}),
+      memory_sources: JSON.parse(m.memory_sources || {})
+    }));
+    
+    res.json({ modules: parsed });
+  } catch (error) {
+    console.error('[RAG-MODULES QUERY] Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ==================== FIN RAG MODULAR ENDPOINTS ====================

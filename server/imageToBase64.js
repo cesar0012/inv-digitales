@@ -158,5 +158,117 @@ const processAIImages = async (html, imageApiKey, imageModel) => {
 
 export default {
   compileLocalImagesToBase64,
-  compileAllImagesToBase64
+  compileAllImagesToBase64,
+  resolveModuleImages
+};
+
+/**
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * RESOLVE MODULE IMAGES (RAG MODULAR)
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * 
+ * Resuelve placeholders de imágenes en módulos RAG:
+ * - memory_source="generated" → Nano Banana con prompt contextual
+ * - memory_source="library" → Mantiene Lorem Flickr (se resuelve en selección final)
+ */
+
+export const resolveModuleImages = async (html, eventType, theme, imageApiKey, imageModel) => {
+  if (!html || !imageApiKey || imageApiKey.trim() === '') {
+    console.log('[RESOLVE-MODULE-IMAGES] Skip: No HTML o no API key');
+    return html;
+  }
+
+  console.log('=== RESOLVING MODULE IMAGES ===');
+  console.log('Event:', eventType, '| Theme:', theme);
+
+  try {
+    const { parseHTML } = await import('linkedom');
+    const { generateImageWithNanoBanana } = await import('./nanoBananaService.js');
+    
+    const { document } = parseHTML(html);
+    let modified = false;
+
+    // Buscar todos los [path="placeholder"]
+    const placeholders = document.querySelectorAll('[path="placeholder"]');
+    console.log(`[RESOLVE-MODULE] ${placeholders.length} placeholder(s) encontrado(s)`);
+
+    for (const placeholder of placeholders) {
+      // Determinar memory_source (puede estar en el elemento o en el ancestro)
+      let memorySource = placeholder.getAttribute('memory_source');
+      let ancestor = placeholder.parentElement;
+      while (!memorySource && ancestor) {
+        memorySource = ancestor.getAttribute('memory_source');
+        ancestor = ancestor.parentElement;
+      }
+
+      if (!memorySource) {
+        console.log('[RESOLVE-MODULE] ⚠️ Placeholder sin memory_source, saltando');
+        continue;
+      }
+
+      if (memorySource === 'generated') {
+        // Nano Banana: construir prompt con contexto
+        const tagsEl = placeholder.querySelector('script');
+        let tags = [];
+        let descripcion = '';
+        
+        if (tagsEl && tagsEl.textContent) {
+          const metaMatch = tagsEl.textContent.match(/moduleMetadata\s*=\s*(\{[\s\S]*?\});/);
+          if (metaMatch) {
+            try {
+              const fn = new Function(`return (${metaMatch[1]});`);
+              const meta = fn();
+              tags = meta.tags || [];
+              descripcion = meta.descripcion || '';
+            } catch (e) {
+              console.log('[RESOLVE-MODULE] No se pudo parsear moduleMetadata');
+            }
+          }
+        }
+
+        const prompt = `${descripcion || 'Imagen elegante'}. Estilo: ${theme || 'elegante'}. Categoría: ${eventType || 'general'}. Elementos: ${tags.join(', ')}. Fotografía profesional, alta calidad, fondo completo.`;
+        console.log(`[RESOLVE-MODULE] 🎨 Nano Banana: "${prompt.slice(0, 80)}..."`);
+
+        const imageData = await generateImageWithNanoBanana(prompt, imageApiKey, imageModel);
+        if (imageData && imageData.image) {
+          const base64 = `data:image/png;base64,${imageData.image}`;
+
+          // Reemplazar en background-image o src
+          if (placeholder.tagName === 'SECTION' || placeholder.tagName === 'DIV') {
+            // Buscar en <style> del módulo
+            const style = placeholder.querySelector('style');
+            if (style) {
+              const loremMatch = style.textContent.match(/url\(['"]?(https?:\/\/loremflickr\.com\/[^'")\s]+)['"]?\)/i);
+              if (loremMatch) {
+                style.textContent = style.textContent.replace(loremMatch[0], `url('${base64}')`);
+                modified = true;
+                console.log('[RESOLVE-MODULE] ✅ Background reemplazado');
+              }
+            }
+          } else if (placeholder.tagName === 'IMG') {
+            const loremMatch = placeholder.getAttribute('src');
+            if (loremMatch && loremMatch.includes('loremflickr.com')) {
+              placeholder.setAttribute('src', base64);
+              modified = true;
+              console.log('[RESOLVE-MODULE] ✅ IMG src reemplazado');
+            }
+          }
+        } else {
+          console.log('[RESOLVE-MODULE] ⚠️ Nano Banana falló:', imageData?.error);
+        }
+      } else if (memorySource === 'library') {
+        // Library: mantener Lorem Flickr como placeholder visual
+        // La selección final resolverá con el asset real de /img/
+        const assetType = placeholder.getAttribute('data-asset-type') || 'general';
+        console.log(`[RESOLVE-MODULE] 📚 Library: ${assetType} (placeholder mantenido)`);
+      }
+    }
+
+    const result = modified ? document.documentElement.outerHTML : html;
+    console.log('=== MODULE IMAGE RESOLUTION COMPLETE ===');
+    return result;
+  } catch (error) {
+    console.error('[RESOLVE-MODULE] Error:', error);
+    return html;
+  }
 };

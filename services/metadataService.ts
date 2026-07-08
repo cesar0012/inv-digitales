@@ -67,7 +67,7 @@ export const buildMetadataFromHTML = (
   });
   
   const allElements = doc.querySelectorAll('[data-gemini-id]');
-  const elementStyles: Record<string, { styles: Record<string, string>; animationClass: string }> = {};
+  const elementStyles: Record<string, { styles: Record<string, string>; animationClass: string; memoryUsage?: string }> = {};
   
   const animClasses = ['animate-spin', 'animate-ping', 'animate-pulse', 'animate-bounce', 'animate-fade-in', 'animate-slide-up'];
   
@@ -77,6 +77,9 @@ export const buildMetadataFromHTML = (
     
     const htmlEl = el as HTMLElement;
     const inlineStyles: Record<string, string> = {};
+    
+    // Leer memory_usage
+    const memoryUsage = htmlEl.getAttribute('memory_usage') || undefined;
     
     if (htmlEl.style.cssText) {
       const styleParts = htmlEl.style.cssText.split(';').filter(s => s.trim());
@@ -96,10 +99,11 @@ export const buildMetadataFromHTML = (
       }
     }
     
-    if (Object.keys(inlineStyles).length > 0 || animationClass !== 'none') {
+    if (Object.keys(inlineStyles).length > 0 || animationClass !== 'none' || memoryUsage) {
       elementStyles[geminiId] = {
         styles: inlineStyles,
-        animationClass
+        animationClass,
+        ...(memoryUsage ? { memoryUsage } : {})
       };
     }
   });

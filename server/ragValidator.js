@@ -1,3 +1,13 @@
+/**
+ * @deprecated Desde PR1 (mig modular RAG): este validator es para el flujo
+ * LEGACY de plantillas completas. El nuevo flujo modular usa
+ * `./ragModuleValidator.js`. Este archivo se mantendrá hasta PR3
+ * (eliminación del flujo legacy).
+ *
+ * Si necesitas validar módulos individuales, usa
+ * `extractModuleMetadata()` y `validateModule()` de ragModuleValidator.js.
+ */
+
 export const REQUIRED_TAGS = {
   'boda': ['portada', 'padres', 'ubicacion', 'itinerario', 'confirmacion', 'detalles'],
   'xv-anos': ['portada', 'padres', 'ubicacion', 'itinerario', 'confirmacion', 'detalles'],

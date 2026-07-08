@@ -1,0 +1,517 @@
+<section
+  class="module-portada-castillo-fotos"
+  data-gemini-id="portada-nombre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="portada-castillo-title"
+>
+  <style>
+    .module-portada-castillo-fotos {
+      --primary-color: #1f1f1f;
+      --text-color: #2f2f2f;
+      --muted-color: rgba(47, 47, 47, 0.68);
+      --accent-color: #b89a63;
+      --background-overlay: rgba(246, 241, 225, 0.34);
+      --photo-shadow: 0 28px 70px rgba(0, 0, 0, 0.24);
+      --soft-shadow: 0 18px 42px rgba(0, 0, 0, 0.16);
+
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+      color: var(--text-color);
+      background-image:
+        linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.16),
+          rgba(255, 255, 255, 0.08)
+        ),
+        url("https://loremflickr.com/1920/1080/castle,mountains");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      isolation: isolate;
+    }
+
+    .module-portada-castillo-fotos::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.62), transparent 34%),
+        linear-gradient(
+          to bottom,
+          rgba(244, 239, 222, 0.22),
+          rgba(38, 38, 38, 0.18)
+        );
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    .module-portada-castillo-fotos::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--background-overlay);
+      backdrop-filter: blur(0.4px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .portada-castillo__inner {
+      position: relative;
+      width: min(1440px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1rem, 4vw, 4rem);
+      box-sizing: border-box;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      align-items: center;
+    }
+
+    .portada-castillo__header {
+      text-align: center;
+      z-index: 4;
+    }
+
+    .portada-castillo__title {
+      margin: 0;
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: clamp(3.5rem, 8vw, 6.7rem);
+      font-weight: 400;
+      line-height: 0.9;
+      letter-spacing: 0.02em;
+      color: var(--primary-color);
+      text-shadow: 0 2px 24px rgba(255, 255, 255, 0.36);
+    }
+
+    .portada-castillo__date {
+      display: block;
+      margin-top: clamp(0.5rem, 1vw, 1rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(1rem, 1.8vw, 1.4rem);
+      letter-spacing: 0.02em;
+      color: var(--text-color);
+    }
+
+    .portada-castillo__stage {
+      position: relative;
+      width: 100%;
+      min-height: clamp(520px, 64vh, 720px);
+      display: grid;
+      align-items: center;
+      justify-items: center;
+    }
+
+    .portada-castillo__name {
+      position: absolute;
+      z-index: 5;
+      margin: 0;
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: clamp(2.5rem, 5vw, 5.2rem);
+      font-weight: 400;
+      line-height: 1;
+      color: var(--primary-color);
+      text-shadow: 0 2px 20px rgba(255, 255, 255, 0.32);
+    }
+
+    .portada-castillo__name--left {
+      left: clamp(1rem, 12vw, 10rem);
+      top: clamp(3rem, 12vh, 8rem);
+      transform: rotate(-6deg);
+    }
+
+    .portada-castillo__name--right {
+      right: clamp(1rem, 12vw, 10rem);
+      top: clamp(2.5rem, 11vh, 7.5rem);
+      transform: rotate(-4deg);
+    }
+
+    .portada-castillo__photos {
+      position: relative;
+      width: min(760px, 78vw);
+      height: clamp(330px, 42vw, 520px);
+      margin-top: clamp(2rem, 6vh, 5rem);
+      z-index: 3;
+    }
+
+    .portada-castillo__photo {
+      position: absolute;
+      margin: 0;
+      width: min(330px, 34vw);
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.74);
+      box-shadow: var(--photo-shadow);
+      transform-origin: center;
+      will-change: transform;
+    }
+
+    .portada-castillo__photo img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: saturate(0.95) contrast(0.98);
+    }
+
+    .portada-castillo__photo--left {
+      left: 2%;
+      top: 7%;
+      transform: rotate(-10deg);
+    }
+
+    .portada-castillo__photo--right {
+      right: 2%;
+      top: 5%;
+      transform: rotate(10deg);
+    }
+
+    .portada-castillo__ampersand {
+      position: absolute;
+      left: 50%;
+      top: 42%;
+      z-index: 6;
+      transform: translate(-50%, -50%);
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: clamp(6rem, 13vw, 12rem);
+      line-height: 1;
+      color: rgba(55, 64, 70, 0.17);
+      text-shadow: 0 12px 38px rgba(255, 255, 255, 0.2);
+      pointer-events: none;
+    }
+
+    .portada-castillo__caption {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .portada-castillo__path-glow {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: min(620px, 60vw);
+      height: 28%;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.24), transparent 68%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .portada-castillo__motion {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: portadaCastleReveal 0.5s ease-out forwards;
+    }
+
+    .portada-castillo__header {
+      animation-delay: 0.04s;
+    }
+
+    .portada-castillo__name--left {
+      animation-delay: 0.12s;
+    }
+
+    .portada-castillo__name--right {
+      animation-delay: 0.16s;
+    }
+
+    .portada-castillo__photos {
+      animation-delay: 0.22s;
+    }
+
+    @keyframes portadaCastleReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 980px) {
+      .portada-castillo__inner {
+        padding-top: 3rem;
+      }
+
+      .portada-castillo__stage {
+        min-height: 700px;
+      }
+
+      .portada-castillo__name {
+        position: relative;
+        inset: auto;
+        text-align: center;
+      }
+
+      .portada-castillo__name--left,
+      .portada-castillo__name--right {
+        transform: none;
+      }
+
+      .portada-castillo__name--left {
+        align-self: start;
+        margin-top: 2rem;
+      }
+
+      .portada-castillo__name--right {
+        align-self: end;
+        margin-bottom: 2rem;
+      }
+
+      .portada-castillo__photos {
+        position: absolute;
+        top: 48%;
+        left: 50%;
+        width: min(720px, 88vw);
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .module-portada-castillo-fotos {
+        min-height: 100svh;
+        background-position: center;
+      }
+
+      .portada-castillo__inner {
+        min-height: 100svh;
+        padding: 2.5rem 1rem;
+      }
+
+      .portada-castillo__title {
+        font-size: clamp(3rem, 15vw, 4.8rem);
+      }
+
+      .portada-castillo__date {
+        font-size: 1rem;
+      }
+
+      .portada-castillo__stage {
+        min-height: 690px;
+      }
+
+      .portada-castillo__photos {
+        width: min(420px, 94vw);
+        height: 470px;
+      }
+
+      .portada-castillo__photo {
+        width: min(230px, 55vw);
+      }
+
+      .portada-castillo__photo--left {
+        left: 0;
+        top: 4%;
+        transform: rotate(-8deg);
+      }
+
+      .portada-castillo__photo--right {
+        right: 0;
+        top: 40%;
+        transform: rotate(8deg);
+      }
+
+      .portada-castillo__ampersand {
+        top: 47%;
+        font-size: clamp(5rem, 24vw, 8rem);
+      }
+
+      .portada-castillo__name {
+        font-size: clamp(2.8rem, 14vw, 4.4rem);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .portada-castillo__motion,
+      .portada-castillo__photo,
+      .portada-castillo__ampersand {
+        animation: none;
+        transition: none;
+        opacity: 1;
+        transform: none;
+      }
+
+      .portada-castillo__photo--left {
+        transform: rotate(-8deg);
+      }
+
+      .portada-castillo__photo--right {
+        transform: rotate(8deg);
+      }
+    }
+  </style>
+
+  <div class="portada-castillo__inner">
+    <header
+      class="portada-castillo__header portada-castillo__motion"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="wedding-header"
+    >
+      <h1 id="portada-castillo-title" class="portada-castillo__title">
+        Our Wedding
+      </h1>
+
+      <time class="portada-castillo__date" datetime="2026-11-22">
+        November 22, 2026
+      </time>
+    </header>
+
+    <div class="portada-castillo__stage" aria-label="Presentación visual de los novios">
+      <p
+        class="portada-castillo__name portada-castillo__name--left portada-castillo__motion"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="bride-name"
+      >
+        Amy
+      </p>
+
+      <p
+        class="portada-castillo__name portada-castillo__name--right portada-castillo__motion"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="groom-name"
+      >
+        Lewis
+      </p>
+
+      <div class="portada-castillo__photos portada-castillo__motion">
+        <figure
+          class="portada-castillo__photo portada-castillo__photo--left"
+          memory_type="image"
+          memory_usage="custom"
+          memory_source="library"
+          memory_key="bride-photo"
+        >
+          <img
+            src="https://loremflickr.com/700/900/bride,wedding"
+            alt="Foto de la novia"
+            path="placeholder"
+            data-library-category="bodas"
+            data-asset-type="foto-personal"
+          />
+          <figcaption class="portada-castillo__caption">
+            Foto principal de la novia
+          </figcaption>
+        </figure>
+
+        <figure
+          class="portada-castillo__photo portada-castillo__photo--right"
+          memory_type="image"
+          memory_usage="custom"
+          memory_source="library"
+          memory_key="groom-photo"
+        >
+          <img
+            src="https://loremflickr.com/700/900/groom,wedding"
+            alt="Foto del novio"
+            path="placeholder"
+            data-library-category="bodas"
+            data-asset-type="foto-personal"
+          />
+          <figcaption class="portada-castillo__caption">
+            Foto principal del novio
+          </figcaption>
+        </figure>
+
+        <div
+          class="portada-castillo__ampersand"
+          aria-hidden="true"
+          memory_type="text"
+          memory_usage="protected"
+          memory_key="decorative-ampersand"
+        >
+          &amp;
+        </div>
+      </div>
+
+      <div class="portada-castillo__path-glow" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "portada",
+        "boda",
+        "castillo",
+        "montanas",
+        "novios",
+        "fotos inclinadas",
+        "hero",
+        "romantico",
+        "editorial",
+        "responsive"
+      ],
+      descripcion:
+        "Portada visual para boda con fondo generado tipo castillo, nombres, fecha, dos fotos personales inclinadas y ampersand decorativo central."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="portada-nombre"]');
+
+      if (!module) return;
+
+      const photos = module.querySelectorAll(".portada-castillo__photo");
+      const ampersand = module.querySelector(".portada-castillo__ampersand");
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (prefersReducedMotion) return;
+
+      module.addEventListener("pointermove", function (event) {
+        const rect = module.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        photos.forEach(function (photo, index) {
+          const direction = index === 0 ? -1 : 1;
+          const baseRotation = index === 0 ? -10 : 10;
+          const translateX = x * 14 * direction;
+          const translateY = y * 10;
+          const rotate = baseRotation + x * 3 * direction;
+
+          photo.style.transform =
+            "translate(" +
+            translateX +
+            "px, " +
+            translateY +
+            "px) rotate(" +
+            rotate +
+            "deg)";
+        });
+
+        if (ampersand) {
+          ampersand.style.transform =
+            "translate(calc(-50% + " +
+            x * 10 +
+            "px), calc(-50% + " +
+            y * 8 +
+            "px))";
+        }
+      });
+
+      module.addEventListener("pointerleave", function () {
+        photos.forEach(function (photo, index) {
+          const baseRotation = index === 0 ? -10 : 10;
+          photo.style.transform = "rotate(" + baseRotation + "deg)";
+        });
+
+        if (ampersand) {
+          ampersand.style.transform = "translate(-50%, -50%)";
+        }
+      });
+    })();
+  </script>
+</section>

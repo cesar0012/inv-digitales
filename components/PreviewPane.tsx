@@ -124,6 +124,21 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
           
           const element = e.target.closest('[data-gemini-id], a, img, h1, h2, h3, h4, p, span, div') || e.target;
           
+          // No permitir edición de elementos con memory_usage="protected"
+          const memoryUsage = element.getAttribute('memory_usage');
+          if (memoryUsage === 'protected') {
+            // Mostrar mensaje visual de que está protegido
+            const prevOutline = element.style.outline;
+            const prevOutlineOffset = element.style.outlineOffset;
+            element.style.outline = '2px solid #ef4444'; // red-500
+            element.style.outlineOffset = '2px';
+            setTimeout(() => { 
+              element.style.outline = prevOutline; 
+              element.style.outlineOffset = prevOutlineOffset;
+            }, 1500);
+            return;
+          }
+          
           // Ensure element has a gemini-id for editing
           if (!element.getAttribute('data-gemini-id')) {
              element.setAttribute('data-gemini-id', 'edit-' + Math.random().toString(36).substr(2, 9));

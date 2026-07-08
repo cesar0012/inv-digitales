@@ -1,6 +1,7 @@
 import https from 'https';
 import db from './database.js';
 import { CODER_SYSTEM_PROMPT, ADAPTER_SYSTEM_PROMPT } from './agents-prompt.js';
+import { parseHTML } from 'linkedom';
 
 const fetchNoSSL = async (url, options = {}) => {
   return new Promise((resolve, reject) => {
@@ -912,4 +913,552 @@ export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro',
   console.log('Final HTML length:', finalHtml.length);
 
   return await ensureRequiredImages(finalHtml, eventType, imageApiKey, imageModel);
+};
+
+// ==================== FUNCIONES PARA RAG MODULAR ====================
+
+import { MODULE_SYSTEM_PROMPT, MODULE_ADAPTER_PROMPT, MODULE_ASSEMBLER_PROMPT } from './agents-prompt-modular.js';
+
+/**
+ * Helper para llamar a Gemini API (patrón existente en selectTemplateWithGemini)
+ */
+const callGeminiAPI = async (prompt, apiKey, model, contentsOverride = null) => {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+  const contents = contentsOverride || [{ parts: [{ text: prompt }] }];
+  
+  const response = await fetchNoSSL(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-goog-api-key': apiKey
+    },
+    body: JSON.stringify({
+      contents: contents,
+      generationConfig: {
+        temperature: 0.7,
+        topP: 0.95,
+        topK: 40,
+        maxOutputTokens: 4096
+      }
+    })
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(`Gemini API error: ${error.error?.message || response.status}`);
+  }
+
+  return await response.json();
+};
+
+/**
+ * Extrae contenido de respuesta de Gemini (maneja modelos "thinking")
+ */
+const extractContent = (data) => {
+  const allParts = data.candidates?.[0]?.content?.parts || [];
+  const contentText = allParts.filter(p => p?.text && !p?.thought).map(p => p.text).join(' ');
+  return contentText;
+};
+
+/**
+ * Extrae HTML de respuesta de Gemini (quita markdown)
+ */
+const extractHtmlFromResponse = (content) => {
+  let html = content;
+  // Quitar bloques markdown
+  html = html.replace(/```html\s*/gi, '').replace(/```\s*/gi, '');
+  // Extraer DOCTYPE si existe
+  const doctypeMatch = html.match(/<!DOCTYPE html[^>]*>/i);
+  if (doctypeMatch) {
+    const start = html.indexOf('<!DOCTYPE');
+    const end = html.lastIndexOf('</html>');
+    if (start >= 0 && end > start) {
+      return html.substring(start, end + 8);
+    }
+  }
+  // Si no hay DOCTYPE, buscar <html>
+  const htmlStart = html.indexOf('<html');
+  const htmlEnd = html.lastIndexOf('</html>');
+  if (htmlStart >= 0 && htmlEnd > htmlStart) {
+    return html.substring(htmlStart, htmlEnd + 7);
+  }
+  return html;
+};
+
+/**
+ * Genera imagen con Nano Banana (import dinámico)
+ */
+const generateImageWithNanoBanana = async (prompt, apiKey, model = 'gemini-3.1-flash-image-preview') => {
+  const { generateImageWithNanoBanana: nanoFn } = await import('./nanoBananaService.js');
+  return await nanoFn(prompt, apiKey, model);
+};
+
+/**
+ * Query módulos por tipo desde knowledge_base_modules
+ */
+const queryRAGModules = async (moduleType, tags = null, category = null, limit = 5) => {
+  try {
+    let query = `
+      SELECT id, module_id, module_type, style_name, description, tags,
+             theme_tags, color_palette, css_variables, memory_sources,
+             category, html_content, html_size
+      FROM knowledge_base_modules 
+      WHERE is_active = 1 AND module_type = ?
+    `;
+    const params = [moduleType];
+
+    if (category && category !== 'general') {
+      query += ' AND category = ?';
+      params.push(category);
+    }
+
+    if (tags) {
+      const tagList = tags.split(',').map(t => t.trim());
+      const tagConditions = tagList.map(() => 'tags LIKE ?').join(' OR ');
+      query += ` AND (${tagConditions})`;
+      tagList.forEach(tag => {
+        params.push(`%"${tag}"%`);
+      });
+    }
+
+    query += ' ORDER BY RANDOM() LIMIT ?';
+    params.push(limit);
+
+    const modules = db.prepare(query).all(...params);
+
+    if (!modules || modules.length === 0) {
+      console.log(`[RAG-MODULE] No se encontraron módulos para module_type="${moduleType}"`);
+      return [];
+    }
+
+    console.log(`[RAG-MODULE] ${modules.length} módulo(s) encontrado(s) para "${moduleType}":`);
+    modules.forEach(m => {
+      console.log(`  - id=${m.id} "${m.style_name}" html=${m.html_content.length} chars`);
+    });
+
+    // Parsear JSON fields
+    return modules.map(m => ({
+      ...m,
+      tags: JSON.parse(m.tags || '[]'),
+      theme_tags: JSON.parse(m.theme_tags || []),
+      color_palette: JSON.parse(m.color_palette || {}),
+      css_variables: JSON.parse(m.css_variables || {}),
+      memory_sources: JSON.parse(m.memory_sources || {})
+    }));
+  } catch (error) {
+    console.error('[RAG-MODULE] Error query:', error);
+    return [];
+  }
+};
+
+/**
+ * Selecciona el mejor módulo entre candidatos usando Gemini
+ */
+const selectModuleWithGemini = async (candidates, eventType, theme, apiKey, model) => {
+  if (!candidates || candidates.length === 0) return null;
+  if (candidates.length === 1) return candidates[0];
+
+  const context = candidates.map((c, i) => `
+CANDIDATE ${i + 1}:
+  id: ${c.id}
+  module_id: ${c.module_id}
+  style_name: ${c.style_name}
+  description: ${(c.description || '').slice(0, 150)}
+  tags: ${c.tags.join(', ')}
+  theme_tags: ${c.theme_tags.join(', ')}
+  html_size: ${c.html_size} chars
+`).join('\n---\n');
+
+  const prompt = `You are a module selector for modular digital invitations. Given a user's event request and a list of available modules for a specific module_type, select the SINGLE best-matching module.
+
+Selection criteria:
+1. Category match (general → any, boda → boda, etc.)
+2. Theme/mood alignment with user request
+3. Tag relevance (more matching tags = better)
+4. HTML complexity (prefer richer modules when drama/complexity is requested)
+
+User request: "${theme || eventType || 'evento elegante'}"
+Event type: "${eventType || 'general'}"
+
+${context}
+
+Return ONLY the candidate ID number (1-${candidates.length}). No explanations.`;
+
+  try {
+    const response = await callGeminiAPI(prompt, apiKey, model);
+    const content = extractContent(response);
+    const match = content.match(/\d+/);
+    const selectedIndex = match ? parseInt(match[0], 10) - 1 : 0;
+
+    if (selectedIndex >= 0 && selectedIndex < candidates.length) {
+      const selected = candidates[selectedIndex];
+      console.log(`[RAG-MODULE] ✅ Módulo seleccionado: "${selected.style_name}" (id=${selected.id})`);
+      return selected;
+    }
+
+    console.log(`[RAG-MODULE] ⚠️ Índice inválido (${selectedIndex}), usando primero`);
+    return candidates[0];
+  } catch (error) {
+    console.error('[RAG-MODULE] Error selecting module:', error);
+    return candidates[0];
+  }
+};
+
+/**
+ * Adapta un módulo wireframe a la temática del usuario
+ */
+const adaptModuleWithGemini = async (module, userRequest, theme, eventType, apiKey, model) => {
+  const prompt = `${MODULE_ADAPTER_PROMPT}
+
+===== MÓDULO WIREFRAME =====
+${module.html_content}
+
+===== TEMÁTICA DEL USUARIO =====
+Evento: ${eventType || 'general'}
+Tema/Mood: ${theme || 'elegante'}
+Descripción completa: ${userRequest || 'evento elegante y sofisticado'}
+
+Adapta este módulo siguiendo las reglas del prompt.`;
+
+  try {
+    const response = await callGeminiAPI(prompt, apiKey, model, [
+      { type: 'text', text: prompt }
+    ]);
+    const content = extractContent(response);
+    return extractHtmlFromResponse(content);
+  } catch (error) {
+    console.error('[ADAPTER-MODULE] Error:', error);
+    return module.html_content;
+  }
+};
+
+/**
+ * Ensambla múltiples módulos en un único HTML
+ */
+const assembleModules = (modules, theme, eventType) => {
+  if (!modules || modules.length === 0) {
+    console.log('[ASSEMBLER] No hay módulos para ensamblar');
+    return '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Invitación</title></head><body></body></html>';
+  }
+
+  // Extraer CDNs necesarios de todos los módulos
+  const allCdns = new Set(['tailwindcss']);
+  const allJsDeps = new Set();
+  modules.forEach(m => {
+    if (m.html_content.includes('gsap')) allJsDeps.add('gsap');
+    if (m.html_content.includes('three')) allJsDeps.add('three');
+    if (m.html_content.includes('parallax')) allJsDeps.add('parallax');
+  });
+
+  const cdnsHtml = `
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    ${allJsDeps.has('gsap') ? '<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>' : ''}
+    ${allJsDeps.has('gsap') ? '<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>' : ''}
+    ${allJsDeps.has('three') ? '<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>' : ''}
+  `.trim();
+
+  // Concatenar módulos
+  const modulesHtml = modules.map(m => m.html_content).join('\n\n');
+
+  // Construir HTML final
+  const finalHtml = `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${eventType || 'Invitación'} - ${theme || 'Elegante'}</title>
+  ${cdnsHtml}
+  <style>
+    :root {
+      --primary-color: #1f1f1f;
+      --text-color: #2f2f2f;
+      --accent-color: #b89a63;
+      --background-color: #ffffff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body>
+  ${modulesHtml}
+  
+  <script>
+    // Metadata del editor
+    const invitationMetadata = {
+      version: '2.0-modular',
+      eventType: '${eventType || 'general'}',
+      theme: '${theme || 'elegante'}',
+      assembledAt: '${new Date().toISOString()}',
+      modules: ${JSON.stringify(modules.map(m => ({ module_id: m.module_id, module_type: m.module_type })))}
+    };
+    
+    // Registrar metadata en el DOM
+    const metaScript = document.createElement('script');
+    metaScript.id = 'invitation-editor-metadata';
+    metaScript.type = 'application/json';
+    metaScript.textContent = JSON.stringify(invitationMetadata);
+    document.body.appendChild(metaScript);
+  <\/script>
+</body>
+</html>`;
+
+  console.log(`[ASSEMBLER] ✅ ${modules.length} módulo(s) ensamblado(s), ${finalHtml.length} chars`);
+  return finalHtml;
+};
+
+/**
+ * Resuelve placeholders de imágenes según memory_source
+ */
+const resolvePlaceholders = async (html, eventType, theme, imageApiKey, imageModel) => {
+  try {
+    const { document } = parseHTML(html);
+    let modified = false;
+
+    // Buscar todos los [path="placeholder"]
+    const placeholders = document.querySelectorAll('[path="placeholder"]');
+    console.log(`[RESOLVER] ${placeholders.length} placeholder(s) encontrado(s)`);
+
+    for (const placeholder of placeholders) {
+      // Determinar memory_source (puede estar en el elemento o en el ancestro)
+      let memorySource = placeholder.getAttribute('memory_source');
+      let ancestor = placeholder.parentElement;
+      while (!memorySource && ancestor) {
+        memorySource = ancestor.getAttribute('memory_source');
+        ancestor = ancestor.parentElement;
+      }
+
+      if (!memorySource) {
+        console.log('[RESOLVER] ⚠️ Placeholder sin memory_source, saltando');
+        continue;
+      }
+
+      if (memorySource === 'generated') {
+        // Nano Banana: construir prompt con tags + descripcion + theme
+        const tagsEl = document.querySelector('script');
+        let tags = [];
+        let descripcion = '';
+        if (tagsEl && tagsEl.textContent) {
+          const metaMatch = tagsEl.textContent.match(/moduleMetadata\s*=\s*(\{[\s\S]*?\});/);
+          if (metaMatch) {
+            try {
+              const fn = new Function(`return (${metaMatch[1]});`);
+              const meta = fn();
+              tags = meta.tags || [];
+              descripcion = meta.descripcion || '';
+            } catch (e) {}
+          }
+        }
+
+        const prompt = `${descripcion || 'Imagen elegante'}. Estilo: ${theme || 'elegante'}. Categoría: ${eventType || 'general'}. Elementos: ${tags.join(', ')}. Fotografía profesional, alta calidad, fondo completo.`;
+        console.log(`[RESOLVER] 🎨 Nano Banana: "${prompt.slice(0, 80)}..."`);
+
+        const imageData = await generateImageWithNanoBanana(prompt, imageApiKey, imageModel);
+        if (imageData && imageData.image) {
+          const base64 = `data:image/png;base64,${imageData.image}`;
+
+          // Reemplazar en background-image o src
+          if (placeholder.tagName === 'SECTION' || placeholder.tagName === 'DIV') {
+            // Buscar en <style> del módulo
+            const style = placeholder.querySelector('style');
+            if (style) {
+              const loremMatch = style.textContent.match(/url\(['"]?(https?:\/\/loremflickr\.com\/[^'")\s]+)['"]?\)/i);
+              if (loremMatch) {
+                style.textContent = style.textContent.replace(loremMatch[0], `url('${base64}')`);
+                modified = true;
+                console.log('[RESOLVER] ✅ Background reemplazado');
+              }
+            }
+          } else if (placeholder.tagName === 'IMG') {
+            const loremMatch = placeholder.getAttribute('src');
+            if (loremMatch && loremMatch.includes('loremflickr.com')) {
+              placeholder.setAttribute('src', base64);
+              modified = true;
+              console.log('[RESOLVER] ✅ IMG src reemplazado');
+            }
+          }
+        }
+      } else if (memorySource === 'library') {
+        // Library: resolver ruta /img/${categoria}/${asset-type}/...
+        const assetType = placeholder.getAttribute('data-asset-type') || 'general';
+        const categoryFolder = mapCategoryToFolder(eventType);
+
+        // Para library, mantenemos Lorem Flickr como placeholder visual
+        // El proceso de selección final resolverá con el asset real
+        console.log(`[RESOLVER] 📚 Library: ${categoryFolder}/${assetType} (placeholder mantenido)`);
+      }
+    }
+
+    return modified ? document.documentElement.outerHTML : html;
+  } catch (error) {
+    console.error('[RESOLVER] Error:', error);
+    return html;
+  }
+};
+
+/**
+ * Aplica temática vía variables CSS
+ */
+const applyTheme = (html, primaryColor, secondaryColor, accentColor, fontFamily, fontFamilyHeading) => {
+  try {
+    const { document } = parseHTML(html);
+
+    // Actualizar :root variables
+    const style = document.querySelector('style');
+    if (style) {
+      const rootMatch = style.textContent.match(/:root\s*\{([^}]+)\}/);
+      if (rootMatch) {
+        let rootContent = rootMatch[1];
+
+        if (primaryColor) rootContent = rootContent.replace(/--primary-color:\s*[^;]+;/, `--primary-color: ${primaryColor};`);
+        if (secondaryColor) rootContent = rootContent.replace(/--text-color:\s*[^;]+;/, `--text-color: ${secondaryColor};`);
+        if (accentColor) rootContent = rootContent.replace(/--accent-color:\s*[^;]+;/, `--accent-color: ${accentColor};`);
+
+        style.textContent = style.textContent.replace(rootMatch[0], `:root {${rootContent}}`);
+      }
+    }
+
+    // Inyectar Google Fonts si se especificó
+    if (fontFamily || fontFamilyHeading) {
+      const head = document.querySelector('head');
+      const fonts = [];
+      if (fontFamilyHeading) fonts.push(fontFamilyHeading.replace(/['"]/g, '').replace(/\s+/g, '+'));
+      if (fontFamily && fontFamily !== fontFamilyHeading) fonts.push(fontFamily.replace(/['"]/g, '').replace(/\s+/g, '+'));
+
+      if (fonts.length > 0) {
+        const fontLink = document.createElement('link');
+        fontLink.rel = 'stylesheet';
+        fontLink.href = `https://fonts.googleapis.com/css2?family=${fonts.join('&family=')}&display=swap`;
+        head.insertBefore(fontLink, head.firstChild);
+      }
+    }
+
+    return document.documentElement.outerHTML;
+  } catch (error) {
+    console.error('[APPLY-THEME] Error:', error);
+    return html;
+  }
+};
+
+/**
+ * Reemplaza contenido dinámico (memory_type="text")
+ */
+const applyDynamicContent = (html, userData) => {
+  try {
+    const { document } = parseHTML(html);
+
+    const textos = document.querySelectorAll('[memory_type="text"]');
+    textos.forEach(el => {
+      const tagName = el.tagName.toLowerCase();
+      const geminiId = el.getAttribute('data-gemini-id');
+
+      // Mapeo básico de data-gemini-id a datos del usuario
+      if (geminiId && geminiId.includes('portada') && (tagName === 'h1' || tagName === 'p')) {
+        if (userData.nombres) el.textContent = userData.nombres;
+      } else if (geminiId && geminiId.includes('fecha') || (tagName === 'time' && userData.fecha)) {
+        if (userData.fecha) {
+          el.textContent = userData.fecha;
+          if (el.tagName === 'TIME') el.setAttribute('datetime', userData.fecha);
+        }
+      }
+      // ... más mapeos según sea necesario
+    });
+
+    return document.documentElement.outerHTML;
+  } catch (error) {
+    console.error('[APPLY-CONTENT] Error:', error);
+    return html;
+  }
+};
+
+/**
+ * Mapea categoría a folder de imágenes
+ */
+const mapCategoryToFolder = (category) => {
+  const map = {
+    'boda': 'boda-color',
+    'xv-anos': 'xv-años',
+    'cumpleanos': 'cumpleaños-niño',
+    'bautizo': 'bautizo',
+    'primera-comunion': 'primera-comunión'
+  };
+  return map[category] || 'boda-color';
+};
+
+/**
+ * Orquestación modular: selecciona, adapta y ensambla módulos
+ */
+export const runModularOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro', options = {}, attachments = []) => {
+  const {
+    eventType = '',
+    theme = '',
+    primaryColor = '',
+    secondaryColor = '',
+    visualStyle = '',
+    mood = '',
+    imageFiles = [],
+    promptInstruction = '',
+    userId = '',
+    imageApiKey = '',
+    imageModel = 'gemini-3.1-flash-image-preview'
+  } = options;
+
+  console.log('=== ORCHESTRATOR MODULAR START ===');
+  console.log('Event:', eventType, '| Theme:', theme, '| Model:', model);
+
+  const requiredModules = ['portada', 'padres', 'ubicacion', 'itinerario', 'confirmacion', 'detalles'];
+
+  // 1. Query y selección de módulos
+  const selectedModules = [];
+  for (const moduleType of requiredModules) {
+    console.log(`\n[Módular] Buscando módulo: ${moduleType}`);
+    const candidates = await queryRAGModules(moduleType, null, eventType, 5);
+
+    if (candidates.length === 0) {
+      console.log(`[Módular] ⚠️ No hay módulos para ${moduleType}, saltando`);
+      continue;
+    }
+
+    const selected = await selectModuleWithGemini(candidates, eventType, theme, apiKey, model);
+    if (selected) {
+      console.log(`[Módular] ✅ Seleccionado: ${selected.style_name}`);
+      selectedModules.push(selected);
+    }
+  }
+
+  if (selectedModules.length === 0) {
+    console.log('[Módular] ❌ No se seleccionó ningún módulo, fallback a orquestación tradicional');
+    return await runOrchestration(prompt, apiKey, model, options, attachments);
+  }
+
+  // 2. Adaptar cada módulo a la temática
+  console.log('\n[Módular] Adaptando módulos...');
+  const adaptedModules = [];
+  for (const module of selectedModules) {
+    console.log(`[Módular] Adaptando: ${module.module_id}`);
+    const adapted = await adaptModuleWithGemini(module, prompt, theme, eventType, apiKey, model);
+    adaptedModules.push({ ...module, html_content: adapted });
+  }
+
+  // 3. Ensamblar módulos
+  console.log('\n[Módular] Ensamblando módulos...');
+  const assembledHtml = assembleModules(adaptedModules, theme, eventType);
+
+  // 4. Resolver placeholders (imágenes)
+  console.log('\n[Módular] Resolviendo placeholders...');
+  const resolvedHtml = await resolvePlaceholders(assembledHtml, eventType, theme, imageApiKey, imageModel);
+
+  // 5. Aplicar temática
+  console.log('[Módular] Aplicando temática...');
+  const themedHtml = applyTheme(resolvedHtml, primaryColor, secondaryColor, '', '', '');
+
+  // 6. Post-proceso
+  console.log('[Módular] Post-proceso...');
+  const clean = cleanHtml(themedHtml);
+  const fixed = injectMandatoryLibraries(clean);
+  const finalHtml = injectEditorMetadata(fixed, eventType, theme, primaryColor, secondaryColor);
+
+  console.log('=== ORCHESTRATOR MODULAR COMPLETE ===');
+  console.log('Final HTML length:', finalHtml.length);
+
+  return finalHtml;
 };

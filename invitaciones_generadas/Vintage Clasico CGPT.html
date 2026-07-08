@@ -1,0 +1,1817 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Invitación digital de boda estilo Vintage Clásico / Monograma Real.">
+  <meta name="theme-color" content="#1b120d">
+
+  <title>Invitación Real | Isabella & Alejandro</title>
+
+  <!-- CDNs externas -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    /* =========================================================
+      METÁFORA VISUAL:
+      "Un sello real de lacre abre un mecanismo heráldico.
+      La invitación no aparece en scroll lineal: se ensambla
+      como un blasón antiguo, con placas, anillos y filigranas."
+    ========================================================= */
+
+    /* --- Variables Globales --- */
+    :root {
+      --ink: #1b120d;
+      --ink-soft: #3b2a1f;
+      --paper: #f3e7cf;
+      --paper-deep: #e2ceb0;
+      --gold: #b98e48;
+      --gold-dark: #70501f;
+      --wine: #5a1518;
+      --wine-dark: #29080a;
+      --sage: #70705a;
+      --shadow: rgba(0, 0, 0, 0.28);
+
+      --radius-xl: 34px;
+
+      --font-display: "Cinzel", serif;
+      --font-serif: "Cormorant Garamond", serif;
+      --font-script: "Great Vibes", cursive;
+
+      --phase: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--ink);
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font-serif);
+      color: var(--ink);
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 50% 8%, rgba(185, 142, 72, 0.14), transparent 36rem),
+        radial-gradient(circle at 0% 46%, rgba(90, 21, 24, 0.26), transparent 34rem),
+        linear-gradient(135deg, #100b08, #261710 42%, #0c0806);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      opacity: 0.34;
+      pointer-events: none;
+      background-image:
+        linear-gradient(90deg, rgba(243, 231, 207, 0.035) 1px, transparent 1px),
+        linear-gradient(rgba(243, 231, 207, 0.035) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: radial-gradient(circle at center, #000 0 48%, transparent 78%);
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      opacity: 0.16;
+      mix-blend-mode: overlay;
+      background:
+        repeating-linear-gradient(
+          96deg,
+          rgba(255, 255, 255, 0.04) 0,
+          rgba(255, 255, 255, 0.04) 1px,
+          transparent 1px,
+          transparent 7px
+        );
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: 0;
+      background: none;
+    }
+
+    ::selection {
+      background: var(--wine);
+      color: var(--paper);
+    }
+
+    /* --- Utilidades --- */
+    .eyebrow {
+      font-family: var(--font-display);
+      font-size: clamp(0.68rem, 1.4vw, 0.86rem);
+      font-weight: 700;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+    }
+
+    .royal-copy {
+      font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+      line-height: 1.75;
+      color: var(--ink-soft);
+    }
+
+    .ornament-divider {
+      width: min(320px, 70vw);
+      height: 34px;
+      margin: 1.2rem auto;
+      display: grid;
+      place-items: center;
+      color: var(--gold);
+    }
+
+    .ornament-divider svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    /* --- Navegación Real --- */
+    .royal-nav {
+      position: fixed;
+      top: 1rem;
+      left: 50%;
+      z-index: 50;
+      width: min(940px, calc(100vw - 2rem));
+      display: flex;
+      justify-content: center;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .nav-plate {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(185, 142, 72, 0.42);
+      background:
+        linear-gradient(90deg, rgba(243, 231, 207, 0.94), rgba(226, 206, 176, 0.9)),
+        repeating-linear-gradient(90deg, transparent 0 12px, rgba(112, 80, 31, 0.07) 12px 13px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.24);
+    }
+
+    .nav-plate a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 0.45rem 0.82rem;
+      border-radius: 999px;
+      font-family: var(--font-display);
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      transition: color 0.35s ease, background 0.35s ease, transform 0.35s ease;
+    }
+
+    .nav-plate a:hover,
+    .nav-plate a.is-active {
+      color: var(--paper);
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.2), transparent 42%),
+        linear-gradient(135deg, var(--wine), var(--wine-dark));
+      transform: translateY(-1px);
+    }
+
+    .nav-seal {
+      display: none;
+      width: 44px;
+      height: 44px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: var(--paper);
+      background:
+        radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.24), transparent 26%),
+        radial-gradient(circle, var(--wine), var(--wine-dark));
+      box-shadow:
+        inset 0 0 0 2px rgba(185, 142, 72, 0.5),
+        0 12px 24px rgba(0, 0, 0, 0.24);
+    }
+
+    /* --- Layout SPA --- */
+    .invitation-shell {
+      position: relative;
+    }
+
+    .scroll-chronicle {
+      position: relative;
+      height: 540vh;
+    }
+
+    .royal-stage {
+      position: sticky;
+      top: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      isolation: isolate;
+      padding: 5.8rem 1.2rem 2rem;
+    }
+
+    .royal-stage::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      width: min(86vw, 860px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 1px solid rgba(185, 142, 72, 0.18);
+      box-shadow:
+        inset 0 0 0 34px rgba(243, 231, 207, 0.018),
+        inset 0 0 0 36px rgba(185, 142, 72, 0.08);
+      transform: rotate(calc(var(--phase) * 56deg)) scale(calc(0.88 + var(--phase) * 0.08));
+      transition: transform 0.08s linear;
+    }
+
+    .royal-stage::after {
+      content: "";
+      position: absolute;
+      z-index: -2;
+      width: min(92vw, 980px);
+      aspect-ratio: 1.28;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(243, 231, 207, 0.22), transparent 64%);
+      filter: blur(18px);
+    }
+
+    .manuscript {
+      position: relative;
+      width: min(1180px, 100%);
+      min-height: min(760px, calc(100vh - 8rem));
+      display: grid;
+      place-items: center;
+    }
+
+    /* --- Hero / Monograma Real --- */
+    .hero-medallion {
+      position: absolute;
+      width: min(620px, 86vw);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      transform:
+        scale(calc(1 - var(--phase) * 0.12))
+        rotate(calc(var(--phase) * -5deg));
+      transform-origin: center;
+      transition: transform 0.08s linear;
+    }
+
+    .filigree-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      opacity: 0.9;
+      background:
+        conic-gradient(
+          from calc(var(--phase) * 180deg),
+          transparent 0 4deg,
+          rgba(185, 142, 72, 0.86) 4deg 5deg,
+          transparent 5deg 20deg,
+          rgba(185, 142, 72, 0.36) 20deg 21deg,
+          transparent 21deg 38deg
+        );
+      mask:
+        radial-gradient(circle, transparent 0 61%, #000 61.4% 62.6%, transparent 63% 100%);
+    }
+
+    .filigree-ring.second {
+      inset: 7%;
+      opacity: 0.55;
+      transform: rotate(calc(var(--phase) * -115deg));
+      mask:
+        radial-gradient(circle, transparent 0 68%, #000 68.3% 70%, transparent 70.4% 100%);
+    }
+
+    .crest-card {
+      position: relative;
+      width: 78%;
+      aspect-ratio: 0.78;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: clamp(1.3rem, 5vw, 3.4rem);
+      border-radius: 46% 46% 32% 32% / 42% 42% 24% 24%;
+      border: 1px solid rgba(185, 142, 72, 0.7);
+      background:
+        linear-gradient(150deg, rgba(255, 248, 235, 0.96), rgba(226, 206, 176, 0.94)),
+        repeating-linear-gradient(0deg, transparent 0 11px, rgba(112, 80, 31, 0.06) 11px 12px);
+      box-shadow:
+        0 34px 90px rgba(0, 0, 0, 0.34),
+        inset 0 0 0 10px rgba(255, 248, 235, 0.32),
+        inset 0 0 0 12px rgba(112, 80, 31, 0.18);
+    }
+
+    .crest-card::before,
+    .crest-card::after {
+      content: "";
+      position: absolute;
+      width: 54%;
+      height: 54%;
+      border: 1px solid rgba(185, 142, 72, 0.42);
+      border-radius: 50%;
+      opacity: 0.7;
+    }
+
+    .crest-card::before {
+      top: -23%;
+      left: -17%;
+    }
+
+    .crest-card::after {
+      right: -19%;
+      bottom: -24%;
+    }
+
+    .corner-fleur {
+      position: absolute;
+      width: 78px;
+      height: 78px;
+      color: rgba(112, 80, 31, 0.72);
+    }
+
+    .corner-fleur.tl {
+      top: 20px;
+      left: 20px;
+    }
+
+    .corner-fleur.tr {
+      top: 20px;
+      right: 20px;
+      transform: rotate(90deg);
+    }
+
+    .corner-fleur.bl {
+      bottom: 20px;
+      left: 20px;
+      transform: rotate(-90deg);
+    }
+
+    .corner-fleur.br {
+      right: 20px;
+      bottom: 20px;
+      transform: rotate(180deg);
+    }
+
+    /* --- Hero / Nombres Legibles --- */
+    .hero-identity {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      height: 100%;
+      min-height: 430px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: clamp(1.4rem, 4vw, 2.6rem);
+    }
+
+    .royal-watermark {
+      position: absolute;
+      inset: 50% auto auto 50%;
+      width: min(330px, 72%);
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%);
+      display: grid;
+      place-items: center;
+      opacity: 0.08;
+      color: var(--wine);
+      pointer-events: none;
+    }
+
+    .royal-watermark span {
+      position: absolute;
+      font-family: var(--font-script);
+      font-size: clamp(8rem, 18vw, 13rem);
+      line-height: 1;
+    }
+
+    .royal-watermark span:first-child {
+      transform: translateX(-0.26em) rotate(-8deg);
+    }
+
+    .royal-watermark span:last-child {
+      transform: translateX(0.26em) rotate(8deg);
+    }
+
+    .names-stack {
+      position: relative;
+      z-index: 4;
+      display: grid;
+      justify-items: center;
+      gap: clamp(0.2rem, 1vw, 0.6rem);
+      width: 100%;
+    }
+
+    .wedding-name {
+      display: block;
+      max-width: 100%;
+      font-family: var(--font-script);
+      font-weight: 400;
+      line-height: 0.82;
+      color: var(--wine);
+      text-shadow:
+        0 2px 0 rgba(255, 255, 255, 0.42),
+        0 10px 24px rgba(90, 21, 24, 0.12);
+      white-space: nowrap;
+    }
+
+    .name-top {
+      font-size: clamp(4.2rem, 10vw, 7.4rem);
+      transform: translateX(-0.08em);
+    }
+
+    .name-bottom {
+      font-size: clamp(4rem, 9.4vw, 7rem);
+      transform: translateX(0.06em);
+    }
+
+    .amp-medallion {
+      position: relative;
+      z-index: 5;
+      width: clamp(66px, 12vw, 94px);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      margin-block: clamp(-0.2rem, -0.6vw, -0.1rem);
+      border-radius: 50%;
+      color: var(--paper);
+      background:
+        radial-gradient(circle at 35% 24%, rgba(255, 255, 255, 0.24), transparent 32%),
+        radial-gradient(circle, var(--wine), var(--wine-dark));
+      box-shadow:
+        inset 0 0 0 2px rgba(185, 142, 72, 0.66),
+        inset 0 0 0 8px rgba(255, 248, 235, 0.08),
+        0 16px 30px rgba(90, 21, 24, 0.22);
+    }
+
+    .amp-medallion::before,
+    .amp-medallion::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: clamp(52px, 10vw, 92px);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(185, 142, 72, 0.88), transparent);
+    }
+
+    .amp-medallion::before {
+      right: calc(100% + 0.6rem);
+    }
+
+    .amp-medallion::after {
+      left: calc(100% + 0.6rem);
+    }
+
+    .amp-medallion span {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1;
+    }
+
+    .hero-subtitle {
+      position: absolute;
+      left: 50%;
+      bottom: clamp(1rem, 3vw, 1.8rem);
+      transform: translateX(-50%);
+      width: 100%;
+      padding-inline: 1.2rem;
+      font-family: var(--font-display);
+      font-size: clamp(0.7rem, 1.4vw, 0.92rem);
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+    }
+
+    .scroll-instruction {
+      position: absolute;
+      bottom: 1.2rem;
+      left: 50%;
+      z-index: 6;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.7rem 0.95rem;
+      border-radius: 999px;
+      border: 1px solid rgba(185, 142, 72, 0.36);
+      color: var(--paper);
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      background: rgba(27, 18, 13, 0.42);
+      transform: translateX(-50%);
+      opacity: calc(1 - min(var(--phase) * 4, 1));
+      transition: opacity 0.08s linear;
+    }
+
+    .scroll-instruction i {
+      color: var(--gold);
+      animation: nudgeDown 1.7s ease-in-out infinite;
+    }
+
+    @keyframes nudgeDown {
+      0%,
+      100% {
+        transform: translateY(-2px);
+      }
+
+      50% {
+        transform: translateY(4px);
+      }
+    }
+
+    /* --- Placas de Información No Lineal --- */
+    .royal-panel {
+      position: absolute;
+      width: min(430px, 86vw);
+      min-height: 265px;
+      overflow: hidden;
+      padding: clamp(1.35rem, 3vw, 2rem);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(185, 142, 72, 0.6);
+      opacity: 0;
+      pointer-events: none;
+      transform-origin: center;
+      background:
+        linear-gradient(145deg, rgba(255, 248, 235, 0.96), rgba(226, 206, 176, 0.92)),
+        repeating-linear-gradient(98deg, transparent 0 10px, rgba(112, 80, 31, 0.055) 10px 11px);
+      box-shadow:
+        0 26px 64px rgba(0, 0, 0, 0.28),
+        inset 0 0 0 8px rgba(255, 248, 235, 0.33),
+        inset 0 0 0 9px rgba(112, 80, 31, 0.13);
+      transition:
+        opacity 0.7s ease,
+        transform 0.7s cubic-bezier(0.18, 0.84, 0.2, 1),
+        filter 0.7s ease;
+    }
+
+    .royal-panel::before {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border: 1px solid rgba(185, 142, 72, 0.35);
+      border-radius: calc(var(--radius-xl) - 11px);
+      pointer-events: none;
+    }
+
+    .royal-panel::after {
+      content: attr(data-chapter);
+      position: absolute;
+      right: 1.1rem;
+      bottom: 0.72rem;
+      font-family: var(--font-display);
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(112, 80, 31, 0.48);
+    }
+
+    .royal-panel.is-visible {
+      opacity: 1;
+      filter: blur(0);
+      pointer-events: auto;
+    }
+
+    .royal-panel h2 {
+      margin-top: 0.3rem;
+      font-family: var(--font-script);
+      font-size: clamp(3rem, 7vw, 4.9rem);
+      font-weight: 400;
+      line-height: 0.82;
+      color: var(--wine);
+    }
+
+    .mini-rule {
+      width: 86px;
+      height: 1px;
+      margin: 1.1rem 0;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .panel-date {
+      transform: translate(-46vw, -18vh) rotate(-9deg) scale(0.82);
+    }
+
+    .panel-place {
+      transform: translate(45vw, -15vh) rotate(8deg) scale(0.82);
+    }
+
+    .panel-story {
+      transform: translate(-42vw, 26vh) rotate(7deg) scale(0.82);
+    }
+
+    .panel-family {
+      transform: translate(42vw, 25vh) rotate(-7deg) scale(0.82);
+    }
+
+    .panel-rsvp {
+      transform: translateY(38vh) scale(0.82);
+    }
+
+    .panel-date.is-visible {
+      transform: translate(-30vw, -13vh) rotate(-3deg) scale(1);
+    }
+
+    .panel-place.is-visible {
+      transform: translate(30vw, -12vh) rotate(3deg) scale(1);
+    }
+
+    .panel-story.is-visible {
+      transform: translate(-29vw, 21vh) rotate(2deg) scale(1);
+    }
+
+    .panel-family.is-visible {
+      transform: translate(29vw, 20vh) rotate(-2deg) scale(1);
+    }
+
+    .panel-rsvp.is-visible {
+      transform: translateY(10vh) rotate(0.8deg) scale(1);
+    }
+
+    /* --- Contenido de Placas --- */
+    .date-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 0.9rem;
+      margin-top: 1rem;
+      color: var(--ink-soft);
+    }
+
+    .date-grid strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: clamp(2.6rem, 9vw, 5.2rem);
+      line-height: 0.82;
+      color: var(--wine);
+    }
+
+    .date-grid span {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+    }
+
+    .date-side {
+      text-align: center;
+      padding-block: 0.55rem;
+      border-block: 1px solid rgba(112, 80, 31, 0.22);
+    }
+
+    .place-card {
+      display: grid;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .place-card p {
+      font-size: 1.1rem;
+      line-height: 1.55;
+      color: var(--ink-soft);
+    }
+
+    .dress-token {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      width: fit-content;
+      margin-top: 1rem;
+      padding: 0.65rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid rgba(185, 142, 72, 0.28);
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--wine);
+      background: rgba(185, 142, 72, 0.14);
+    }
+
+    .itinerary-list {
+      display: grid;
+      gap: 0.72rem;
+      margin-top: 1rem;
+    }
+
+    .itinerary-item {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 0.95rem;
+      align-items: center;
+      padding-bottom: 0.7rem;
+      border-bottom: 1px solid rgba(112, 80, 31, 0.14);
+    }
+
+    .itinerary-item:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .itinerary-time {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      color: var(--gold-dark);
+    }
+
+    .itinerary-item strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 0.92rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--wine);
+    }
+
+    .itinerary-item span {
+      display: block;
+      margin-top: 0.1rem;
+      font-size: 0.98rem;
+      color: var(--ink-soft);
+    }
+
+    .family-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .family-columns h3 {
+      margin-bottom: 0.6rem;
+      font-family: var(--font-display);
+      font-size: 0.74rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+    }
+
+    .family-columns p {
+      font-size: 1.05rem;
+      line-height: 1.55;
+      color: var(--ink-soft);
+    }
+
+    .panel-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 1.2rem;
+    }
+
+    .royal-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      min-height: 44px;
+      padding: 0.75rem 1rem;
+      border-radius: 999px;
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--paper);
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.18), transparent 28%),
+        linear-gradient(135deg, var(--wine), var(--wine-dark));
+      box-shadow: 0 10px 20px rgba(90, 21, 24, 0.2);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .royal-btn:hover {
+      transform: translateY(-2px) rotate(-0.4deg);
+      box-shadow: 0 18px 26px rgba(90, 21, 24, 0.25);
+    }
+
+    .royal-btn.secondary {
+      color: var(--wine);
+      border: 1px solid rgba(185, 142, 72, 0.42);
+      background: rgba(185, 142, 72, 0.16);
+      box-shadow: none;
+    }
+
+    .seal-feedback {
+      min-height: 1.2rem;
+      margin-top: 0.8rem;
+      font-family: var(--font-display);
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--wine);
+    }
+
+    /* --- Formulario RSVP --- */
+    .rsvp-form {
+      display: grid;
+      gap: 0.78rem;
+      margin-top: 1rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.7rem;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 0.35rem;
+      font-family: var(--font-display);
+      font-size: 0.64rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 0.75rem 0.85rem;
+      border-radius: 18px;
+      border: 1px solid rgba(112, 80, 31, 0.24);
+      outline: none;
+      color: var(--ink);
+      background: rgba(255, 248, 235, 0.62);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+
+    .field textarea {
+      min-height: 86px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: rgba(90, 21, 24, 0.55);
+      box-shadow: 0 0 0 4px rgba(90, 21, 24, 0.08);
+      background: rgba(255, 248, 235, 0.9);
+    }
+
+    .field.is-error input,
+    .field.is-error select,
+    .field.is-error textarea {
+      border-color: rgba(90, 21, 24, 0.75);
+    }
+
+    .field-error {
+      display: none;
+      margin-top: 0.25rem;
+      font-size: 0.86rem;
+      color: var(--wine);
+    }
+
+    .field.is-error .field-error {
+      display: block;
+    }
+
+    /* --- Medidor de Capítulos --- */
+    .chapter-meter {
+      position: fixed;
+      top: 50%;
+      right: 1rem;
+      z-index: 40;
+      display: grid;
+      gap: 0.55rem;
+      transform: translateY(-50%);
+    }
+
+    .chapter-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1px solid rgba(185, 142, 72, 0.68);
+      background: rgba(243, 231, 207, 0.18);
+      transition: transform 0.35s ease, background 0.35s ease;
+    }
+
+    .chapter-dot.is-active {
+      transform: scale(1.55);
+      background: var(--gold);
+    }
+
+    /* --- Sección Final --- */
+    .closing-section {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 6rem 1.2rem;
+      background:
+        radial-gradient(circle at center, rgba(243, 231, 207, 0.12), transparent 34rem),
+        linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.28));
+    }
+
+    .closing-card {
+      position: relative;
+      width: min(860px, 100%);
+      overflow: hidden;
+      padding: clamp(2rem, 7vw, 5rem);
+      text-align: center;
+      border-radius: 46px;
+      border: 1px solid rgba(185, 142, 72, 0.6);
+      background:
+        linear-gradient(145deg, rgba(255, 248, 235, 0.96), rgba(226, 206, 176, 0.94)),
+        repeating-linear-gradient(95deg, transparent 0 10px, rgba(112, 80, 31, 0.05) 10px 11px);
+      box-shadow:
+        0 36px 90px rgba(0, 0, 0, 0.32),
+        inset 0 0 0 12px rgba(255, 248, 235, 0.24),
+        inset 0 0 0 13px rgba(112, 80, 31, 0.14);
+    }
+
+    .closing-card::before {
+      content: "";
+      position: absolute;
+      inset: 24px;
+      border: 1px solid rgba(185, 142, 72, 0.38);
+      border-radius: 32px;
+      pointer-events: none;
+    }
+
+    .final-monogram {
+      width: 128px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 1.4rem;
+      border-radius: 50%;
+      font-family: var(--font-script);
+      font-size: 4.8rem;
+      color: var(--paper);
+      background:
+        radial-gradient(circle at 34% 24%, rgba(255, 255, 255, 0.24), transparent 28%),
+        radial-gradient(circle, var(--wine), var(--wine-dark));
+      box-shadow:
+        inset 0 0 0 2px rgba(185, 142, 72, 0.7),
+        inset 0 0 0 8px rgba(255, 248, 235, 0.08),
+        0 16px 34px rgba(90, 21, 24, 0.28);
+    }
+
+    .closing-card h2 {
+      font-family: var(--font-script);
+      font-size: clamp(3.2rem, 9vw, 7rem);
+      font-weight: 400;
+      line-height: 0.85;
+      color: var(--wine);
+    }
+
+    .closing-card p {
+      width: min(610px, 100%);
+      margin: 1.2rem auto 0;
+    }
+
+    /* --- Footer --- */
+    .royal-footer {
+      padding: 2rem 1rem 2.6rem;
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(243, 231, 207, 0.72);
+    }
+
+    /* --- Animaciones --- */
+    .ink-awake {
+      animation: inkAwake 1.2s cubic-bezier(0.16, 0.84, 0.2, 1) both;
+    }
+
+    @keyframes inkAwake {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.96);
+        filter: blur(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+      }
+    }
+
+    .seal-pulse {
+      animation: sealPulse 0.9s ease both;
+    }
+
+    @keyframes sealPulse {
+      0% {
+        transform: scale(1);
+      }
+
+      38% {
+        transform: scale(0.92) rotate(-2deg);
+      }
+
+      72% {
+        transform: scale(1.04) rotate(1deg);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    /* --- Responsive Tablet --- */
+    @media (max-width: 1080px) {
+      .manuscript {
+        min-height: calc(100vh - 7rem);
+      }
+
+      .hero-medallion {
+        width: min(560px, 84vw);
+        opacity: calc(1 - min(var(--phase) * 0.65, 0.36));
+      }
+
+      .royal-panel {
+        width: min(390px, 86vw);
+      }
+
+      .panel-date.is-visible {
+        transform: translate(-22vw, -16vh) rotate(-2deg) scale(0.98);
+      }
+
+      .panel-place.is-visible {
+        transform: translate(22vw, -15vh) rotate(2deg) scale(0.98);
+      }
+
+      .panel-story.is-visible {
+        transform: translate(-22vw, 18vh) rotate(1.5deg) scale(0.98);
+      }
+
+      .panel-family.is-visible {
+        transform: translate(22vw, 18vh) rotate(-1.5deg) scale(0.98);
+      }
+
+      .panel-rsvp.is-visible {
+        transform: translateY(12vh) scale(0.98);
+      }
+    }
+
+    /* --- Responsive Móvil --- */
+    @media (max-width: 760px) {
+      .royal-nav {
+        top: 0.8rem;
+        justify-content: flex-end;
+        padding-inline: 0.8rem;
+      }
+
+      .nav-seal {
+        display: inline-flex;
+        pointer-events: auto;
+      }
+
+      .nav-plate {
+        position: absolute;
+        top: 3.5rem;
+        right: 1rem;
+        width: min(270px, calc(100vw - 2rem));
+        display: grid;
+        border-radius: 24px;
+        opacity: 0;
+        transform: translateY(-12px) scale(0.96);
+        pointer-events: none;
+        transition: opacity 0.25s ease, transform 0.25s ease;
+      }
+
+      .royal-nav.is-open .nav-plate {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+      }
+
+      .nav-plate a {
+        width: 100%;
+        justify-content: flex-start;
+        border-radius: 16px;
+      }
+
+      .chapter-meter {
+        display: none;
+      }
+
+      .scroll-chronicle {
+        height: auto;
+      }
+
+      .royal-stage {
+        position: relative;
+        min-height: auto;
+        overflow: visible;
+        padding: 6.2rem 1rem 2rem;
+      }
+
+      .manuscript {
+        min-height: auto;
+        display: grid;
+        gap: 1.2rem;
+      }
+
+      .hero-medallion {
+        position: relative;
+        width: min(480px, 92vw);
+        margin-bottom: 1rem;
+        transform: none;
+      }
+
+      .crest-card {
+        width: 86%;
+      }
+
+      .hero-identity {
+        min-height: 380px;
+      }
+
+      .name-top {
+        font-size: clamp(3.8rem, 17vw, 5.8rem);
+      }
+
+      .name-bottom {
+        font-size: clamp(3.6rem, 16vw, 5.6rem);
+      }
+
+      .amp-medallion::before,
+      .amp-medallion::after {
+        width: 44px;
+      }
+
+      .scroll-instruction {
+        display: none;
+      }
+
+      .royal-panel,
+      .royal-panel.is-visible,
+      .panel-date,
+      .panel-place,
+      .panel-story,
+      .panel-family,
+      .panel-rsvp {
+        position: relative;
+        width: 100%;
+        min-height: unset;
+        opacity: 1;
+        filter: none;
+        transform: none;
+        pointer-events: auto;
+      }
+
+      .date-grid,
+      .form-row,
+      .family-columns {
+        grid-template-columns: 1fr;
+      }
+
+      .date-grid strong {
+        font-size: 4.4rem;
+        text-align: center;
+      }
+
+      .closing-section {
+        min-height: auto;
+        padding: 2rem 1rem 4rem;
+      }
+
+      .closing-card {
+        border-radius: 30px;
+      }
+
+      .closing-card::before {
+        inset: 15px;
+        border-radius: 22px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .royal-stage {
+        padding-top: 5.6rem;
+      }
+
+      .corner-fleur {
+        width: 54px;
+        height: 54px;
+      }
+
+      .corner-fleur.tl {
+        top: 14px;
+        left: 14px;
+      }
+
+      .corner-fleur.tr {
+        top: 14px;
+        right: 14px;
+      }
+
+      .corner-fleur.bl {
+        bottom: 14px;
+        left: 14px;
+      }
+
+      .corner-fleur.br {
+        right: 14px;
+        bottom: 14px;
+      }
+
+      .hero-identity {
+        min-height: 340px;
+      }
+
+      .wedding-name {
+        white-space: normal;
+      }
+
+      .name-top,
+      .name-bottom {
+        font-size: clamp(3.5rem, 18vw, 4.8rem);
+      }
+
+      .amp-medallion {
+        width: 62px;
+      }
+
+      .hero-subtitle {
+        font-size: 0.62rem;
+        letter-spacing: 0.2em;
+      }
+
+      .royal-panel {
+        padding: 1.25rem;
+      }
+    }
+
+    /* --- Accesibilidad: Movimiento Reducido --- */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.001ms !important;
+      }
+
+      .royal-stage,
+      .hero-medallion,
+      .filigree-ring {
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="royal-nav" id="royalNav" aria-label="Navegación principal">
+    <button class="nav-seal" id="navToggle" type="button" aria-label="Abrir menú">
+      <i class="fa-solid fa-crown"></i>
+    </button>
+
+    <nav class="nav-plate">
+      <a href="#inicio" class="is-active">Inicio</a>
+      <a href="#fecha">Fecha</a>
+      <a href="#lugar">Lugar</a>
+      <a href="#historia">Historia</a>
+      <a href="#familia">Familia</a>
+      <a href="#rsvp">RSVP</a>
+    </nav>
+  </header>
+
+  <main class="invitation-shell">
+    <div class="chapter-meter" aria-hidden="true">
+      <span class="chapter-dot is-active"></span>
+      <span class="chapter-dot"></span>
+      <span class="chapter-dot"></span>
+      <span class="chapter-dot"></span>
+      <span class="chapter-dot"></span>
+      <span class="chapter-dot"></span>
+    </div>
+
+    <section class="scroll-chronicle" id="inicio" aria-label="Invitación de boda">
+      <div class="royal-stage">
+        <div class="manuscript">
+          <article class="hero-medallion ink-awake" aria-label="Monograma de Isabella y Alejandro">
+            <div class="filigree-ring"></div>
+            <div class="filigree-ring second"></div>
+
+            <div class="crest-card">
+              <svg class="corner-fleur tl" viewBox="0 0 100 100" aria-hidden="true">
+                <path d="M18 82 C34 72 35 54 24 46 C45 50 50 31 50 18 C50 31 55 50 76 46 C65 54 66 72 82 82 C64 77 54 82 50 92 C46 82 36 77 18 82Z" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="M50 18 V92 M18 82 H82" stroke="currentColor" stroke-width="1"/>
+              </svg>
+
+              <svg class="corner-fleur tr" viewBox="0 0 100 100" aria-hidden="true">
+                <path d="M18 82 C34 72 35 54 24 46 C45 50 50 31 50 18 C50 31 55 50 76 46 C65 54 66 72 82 82 C64 77 54 82 50 92 C46 82 36 77 18 82Z" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="M50 18 V92 M18 82 H82" stroke="currentColor" stroke-width="1"/>
+              </svg>
+
+              <svg class="corner-fleur bl" viewBox="0 0 100 100" aria-hidden="true">
+                <path d="M18 82 C34 72 35 54 24 46 C45 50 50 31 50 18 C50 31 55 50 76 46 C65 54 66 72 82 82 C64 77 54 82 50 92 C46 82 36 77 18 82Z" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="M50 18 V92 M18 82 H82" stroke="currentColor" stroke-width="1"/>
+              </svg>
+
+              <svg class="corner-fleur br" viewBox="0 0 100 100" aria-hidden="true">
+                <path d="M18 82 C34 72 35 54 24 46 C45 50 50 31 50 18 C50 31 55 50 76 46 C65 54 66 72 82 82 C64 77 54 82 50 92 C46 82 36 77 18 82Z" fill="none" stroke="currentColor" stroke-width="2"/>
+                <path d="M50 18 V92 M18 82 H82" stroke="currentColor" stroke-width="1"/>
+              </svg>
+
+              <div class="hero-identity">
+                <div class="royal-watermark" aria-hidden="true">
+                  <span>I</span>
+                  <span>A</span>
+                </div>
+
+                <div class="names-stack">
+                  <span class="wedding-name name-top">Isabella</span>
+
+                  <span class="amp-medallion">
+                    <span>&</span>
+                  </span>
+
+                  <span class="wedding-name name-bottom">Alejandro</span>
+                </div>
+
+                <p class="hero-subtitle">Uniremos nuestras vidas</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="royal-panel panel-date" id="fecha" data-chapter="Capítulo I">
+            <p class="eyebrow">Ceremonia nupcial</p>
+            <h2>La fecha</h2>
+            <div class="mini-rule"></div>
+
+            <div class="date-grid">
+              <div class="date-side">
+                <span>Sábado</span>
+              </div>
+
+              <strong>18</strong>
+
+              <div class="date-side">
+                <span>Octubre · 2026</span>
+              </div>
+            </div>
+
+            <p class="royal-copy" style="margin-top: 1rem;">
+              A las <strong>17:30 horas</strong>, cuando la tarde tome color de oro antiguo,
+              celebraremos el inicio de nuestra historia.
+            </p>
+          </article>
+
+          <article class="royal-panel panel-place" id="lugar" data-chapter="Capítulo II">
+            <p class="eyebrow">Lugar de honor</p>
+            <h2>El recinto</h2>
+            <div class="mini-rule"></div>
+
+            <div class="place-card">
+              <p>
+                <strong>Hacienda San Gabriel</strong><br>
+                Salón de los Arcos, Jardín Principal<br>
+                Tuxtla Gutiérrez, Chiapas
+              </p>
+
+              <span class="dress-token">
+                <i class="fa-solid fa-gem"></i>
+                Código de vestimenta: Etiqueta formal
+              </span>
+            </div>
+
+            <div class="panel-actions">
+              <button class="royal-btn secondary" type="button" id="copyAddress">
+                <i class="fa-regular fa-copy"></i>
+                Copiar dirección
+              </button>
+            </div>
+
+            <p class="seal-feedback" id="addressFeedback" aria-live="polite"></p>
+          </article>
+
+          <article class="royal-panel panel-story" id="historia" data-chapter="Capítulo III">
+            <p class="eyebrow">Nuestro linaje emocional</p>
+            <h2>La historia</h2>
+            <div class="mini-rule"></div>
+
+            <p class="royal-copy">
+              No fue un instante, sino una sucesión de pequeños gestos:
+              miradas que encontraron casa, conversaciones que se volvieron refugio
+              y días ordinarios que aprendieron a sentirse eternos.
+            </p>
+
+            <div class="itinerary-list" aria-label="Itinerario del evento">
+              <div class="itinerary-item">
+                <span class="itinerary-time">17:30</span>
+                <div>
+                  <strong>Ceremonia</strong>
+                  <span>Jardín principal</span>
+                </div>
+              </div>
+
+              <div class="itinerary-item">
+                <span class="itinerary-time">19:00</span>
+                <div>
+                  <strong>Recepción</strong>
+                  <span>Brindis y cena</span>
+                </div>
+              </div>
+
+              <div class="itinerary-item">
+                <span class="itinerary-time">21:00</span>
+                <div>
+                  <strong>Baile</strong>
+                  <span>Salón de los Arcos</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="royal-panel panel-family" id="familia" data-chapter="Capítulo IV">
+            <p class="eyebrow">Con la bendición de</p>
+            <h2>Familia</h2>
+            <div class="mini-rule"></div>
+
+            <div class="family-columns">
+              <div>
+                <h3>Padres de la novia</h3>
+                <p>
+                  Mariana Velasco<br>
+                  Eduardo Rivera
+                </p>
+              </div>
+
+              <div>
+                <h3>Padres del novio</h3>
+                <p>
+                  Catalina Montes<br>
+                  Fernando Larios
+                </p>
+              </div>
+            </div>
+
+            <div class="ornament-divider" aria-hidden="true">
+              <svg viewBox="0 0 320 34">
+                <path d="M8 17 H116 C132 17 137 6 150 6 C157 6 160 13 160 17 C160 13 163 6 170 6 C183 6 188 17 204 17 H312" fill="none" stroke="currentColor" stroke-width="1.4"/>
+                <circle cx="160" cy="17" r="4" fill="currentColor"/>
+              </svg>
+            </div>
+
+            <p class="royal-copy">
+              Gracias por acompañarnos en este capítulo que escribiremos con quienes más amamos.
+            </p>
+          </article>
+
+          <article class="royal-panel panel-rsvp" id="rsvp" data-chapter="Capítulo V">
+            <p class="eyebrow">Confirmación real</p>
+            <h2>RSVP</h2>
+            <div class="mini-rule"></div>
+
+            <form class="rsvp-form" id="rsvpForm" novalidate>
+              <div class="field">
+                <label for="guestName">Nombre completo</label>
+                <input id="guestName" name="guestName" type="text" autocomplete="name" placeholder="Escribe tu nombre">
+                <span class="field-error">Por favor escribe tu nombre.</span>
+              </div>
+
+              <div class="form-row">
+                <div class="field">
+                  <label for="attendance">Asistencia</label>
+                  <select id="attendance" name="attendance">
+                    <option value="">Seleccionar</option>
+                    <option value="si">Sí asistiré</option>
+                    <option value="no">No podré asistir</option>
+                  </select>
+                  <span class="field-error">Selecciona una opción.</span>
+                </div>
+
+                <div class="field">
+                  <label for="guests">Invitados</label>
+                  <select id="guests" name="guests">
+                    <option value="">Seleccionar</option>
+                    <option value="1">1 persona</option>
+                    <option value="2">2 personas</option>
+                    <option value="3">3 personas</option>
+                  </select>
+                  <span class="field-error">Indica el número de invitados.</span>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="message">Mensaje para los novios</label>
+                <textarea id="message" name="message" placeholder="Deja un mensaje breve"></textarea>
+              </div>
+
+              <div class="panel-actions">
+                <button class="royal-btn" type="submit">
+                  <i class="fa-solid fa-feather"></i>
+                  Sellar confirmación
+                </button>
+              </div>
+
+              <p class="seal-feedback" id="rsvpFeedback" aria-live="polite"></p>
+            </form>
+          </article>
+        </div>
+
+        <div class="scroll-instruction" aria-hidden="true">
+          <i class="fa-solid fa-chevron-down"></i>
+          Desliza para abrir el blasón
+        </div>
+      </div>
+    </section>
+
+    <section class="closing-section" aria-label="Mensaje final">
+      <article class="closing-card">
+        <div class="final-monogram" aria-hidden="true">I&A</div>
+
+        <p class="eyebrow">El honor de tu presencia</p>
+        <h2>Será nuestro regalo</h2>
+
+        <div class="ornament-divider" aria-hidden="true">
+          <svg viewBox="0 0 320 34">
+            <path d="M10 17 C58 17 58 8 90 8 C126 8 124 26 160 26 C196 26 194 8 230 8 C262 8 262 17 310 17" fill="none" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M142 17 C150 8 170 8 178 17 C170 26 150 26 142 17Z" fill="none" stroke="currentColor" stroke-width="1.2"/>
+          </svg>
+        </div>
+
+        <p class="royal-copy">
+          Con gratitud y alegría, te esperamos para brindar por el amor,
+          la familia y el comienzo de una nueva tradición.
+        </p>
+
+        <div class="panel-actions" style="justify-content: center;">
+          <a class="royal-btn" href="#rsvp">
+            <i class="fa-solid fa-envelope-open-text"></i>
+            Confirmar asistencia
+          </a>
+
+          <a class="royal-btn secondary" href="#inicio">
+            <i class="fa-solid fa-crown"></i>
+            Volver al inicio
+          </a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="royal-footer">
+    Invitación digital · Isabella & Alejandro · 2026
+  </footer>
+
+  <script>
+    // =========================================================
+    // --- Estado Global del Pergamino ---
+    // =========================================================
+    const root = document.documentElement;
+    const panels = Array.from(document.querySelectorAll(".royal-panel"));
+    const navLinks = Array.from(document.querySelectorAll(".nav-plate a"));
+    const chapterDots = Array.from(document.querySelectorAll(".chapter-dot"));
+    const chronicle = document.querySelector(".scroll-chronicle");
+    const nav = document.getElementById("royalNav");
+    const navToggle = document.getElementById("navToggle");
+
+    let ticking = false;
+
+    // =========================================================
+    // --- Lógica del Menú ---
+    // =========================================================
+    navToggle.addEventListener("click", () => {
+      nav.classList.toggle("is-open");
+      navToggle.classList.add("seal-pulse");
+
+      setTimeout(() => {
+        navToggle.classList.remove("seal-pulse");
+      }, 900);
+    });
+
+    navLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        nav.classList.remove("is-open");
+      });
+    });
+
+    // =========================================================
+    // --- Utilidades JS ---
+    // =========================================================
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function getScrollPhase() {
+      if (window.matchMedia("(max-width: 760px)").matches) {
+        return 1;
+      }
+
+      const rect = chronicle.getBoundingClientRect();
+      const scrollable = chronicle.offsetHeight - window.innerHeight;
+      const traveled = clamp(-rect.top, 0, scrollable);
+
+      return scrollable > 0 ? traveled / scrollable : 0;
+    }
+
+    // =========================================================
+    // --- Scroll Heráldico No Lineal ---
+    // =========================================================
+    function updateRoyalMechanism() {
+      const phase = getScrollPhase();
+
+      root.style.setProperty("--phase", phase.toFixed(4));
+
+      const thresholds = [0.08, 0.21, 0.37, 0.54, 0.71];
+
+      panels.forEach((panel, index) => {
+        const shouldReveal =
+          window.matchMedia("(max-width: 760px)").matches ||
+          phase >= thresholds[index];
+
+        panel.classList.toggle("is-visible", shouldReveal);
+      });
+
+      const activeIndex = phase < 0.08
+        ? 0
+        : clamp(thresholds.findIndex((threshold) => phase < threshold), 0, thresholds.length);
+
+      const currentIndex = phase >= thresholds[thresholds.length - 1]
+        ? 5
+        : activeIndex;
+
+      chapterDots.forEach((dot, index) => {
+        dot.classList.toggle("is-active", index === currentIndex);
+      });
+
+      const ids = ["inicio", "fecha", "lugar", "historia", "familia", "rsvp"];
+
+      navLinks.forEach((link) => {
+        link.classList.toggle(
+          "is-active",
+          link.getAttribute("href") === `#${ids[currentIndex]}`
+        );
+      });
+
+      ticking = false;
+    }
+
+    function requestRoyalTick() {
+      if (!ticking) {
+        window.requestAnimationFrame(updateRoyalMechanism);
+        ticking = true;
+      }
+    }
+
+    window.addEventListener("scroll", requestRoyalTick, { passive: true });
+    window.addEventListener("resize", requestRoyalTick);
+    window.addEventListener("load", updateRoyalMechanism);
+
+    // =========================================================
+    // --- Navegación por Anclas con Ensamblaje ---
+    // =========================================================
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", (event) => {
+        const target = document.querySelector(anchor.getAttribute("href"));
+
+        if (!target) return;
+
+        if (
+          !window.matchMedia("(max-width: 760px)").matches &&
+          target.classList.contains("royal-panel")
+        ) {
+          event.preventDefault();
+
+          const panelIndex = panels.indexOf(target);
+          const thresholds = [0.09, 0.23, 0.39, 0.57, 0.74];
+          const chronicleTop = chronicle.getBoundingClientRect().top + window.scrollY;
+          const scrollable = chronicle.offsetHeight - window.innerHeight;
+          const destination = chronicleTop + scrollable * thresholds[panelIndex];
+
+          window.scrollTo({
+            top: destination,
+            behavior: "smooth"
+          });
+        }
+      });
+    });
+
+    // =========================================================
+    // --- Copiar Dirección ---
+    // =========================================================
+    const copyAddressButton = document.getElementById("copyAddress");
+    const addressFeedback = document.getElementById("addressFeedback");
+
+    const addressText =
+      "Hacienda San Gabriel, Salón de los Arcos, Jardín Principal, Tuxtla Gutiérrez, Chiapas";
+
+    copyAddressButton.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(addressText);
+        addressFeedback.textContent = "Dirección copiada con elegancia.";
+      } catch (error) {
+        addressFeedback.textContent =
+          "No se pudo copiar automáticamente. Selecciona la dirección manualmente.";
+      }
+
+      copyAddressButton.classList.add("seal-pulse");
+
+      setTimeout(() => {
+        copyAddressButton.classList.remove("seal-pulse");
+      }, 900);
+    });
+
+    // =========================================================
+    // --- Validación RSVP ---
+    // =========================================================
+    const rsvpForm = document.getElementById("rsvpForm");
+    const rsvpFeedback = document.getElementById("rsvpFeedback");
+
+    function setFieldError(field, hasError) {
+      field.closest(".field").classList.toggle("is-error", hasError);
+    }
+
+    rsvpForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const guestName = document.getElementById("guestName");
+      const attendance = document.getElementById("attendance");
+      const guests = document.getElementById("guests");
+      const submitButton = rsvpForm.querySelector(".royal-btn");
+
+      const validations = [
+        [guestName, guestName.value.trim().length < 2],
+        [attendance, attendance.value === ""],
+        [guests, guests.value === ""]
+      ];
+
+      validations.forEach(([field, hasError]) => {
+        setFieldError(field, hasError);
+      });
+
+      const hasErrors = validations.some(([, hasError]) => hasError);
+
+      if (hasErrors) {
+        rsvpFeedback.textContent =
+          "Revisa los campos marcados antes de sellar tu confirmación.";
+        return;
+      }
+
+      const attendanceText =
+        attendance.value === "si"
+          ? "asistencia confirmada"
+          : "ausencia registrada";
+
+      rsvpFeedback.textContent =
+        `Gracias, ${guestName.value.trim()}. Tu ${attendanceText} ha quedado sellada.`;
+
+      submitButton.classList.add("seal-pulse");
+
+      setTimeout(() => {
+        submitButton.classList.remove("seal-pulse");
+      }, 900);
+
+      rsvpForm.reset();
+    });
+
+    // =========================================================
+    // --- Limpieza de Errores al Escribir ---
+    // =========================================================
+    rsvpForm.querySelectorAll("input, select, textarea").forEach((field) => {
+      field.addEventListener("input", () => {
+        setFieldError(field, false);
+        rsvpFeedback.textContent = "";
+      });
+    });
+  </script>
+</body>
+</html>

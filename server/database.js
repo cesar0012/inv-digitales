@@ -395,7 +395,9 @@ const ensureAllUsersHaveData = () => {
   console.log(`📊 Total usuarios verificados: ${users.length}`);
 };
 
-// === RAG KNOWLEDGE BASE TABLES ===
+// === RAG KNOWLEDGE BASE TABLES (LEGACY - mantenida temporalmente para referencia) ===
+// NOTA: Este esquema legacy se conserva para consultas históricas pero NO se utiliza
+// en el nuevo flujo modular. El nuevo flujo usa knowledge_base_modules (más abajo).
 db.exec(`
   CREATE TABLE IF NOT EXISTS knowledge_base (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -420,46 +422,14 @@ db.exec(`
 `);
 
 try { db.exec(`ALTER TABLE knowledge_base ADD COLUMN html_content TEXT`); } catch (e) { /* column already exists */ }
-
-try {
-  db.exec(`ALTER TABLE knowledge_base ADD COLUMN filename TEXT`);
-  console.log('✅ Columna filename agregada a knowledge_base');
-} catch (e) {}
-
-try {
-  db.exec(`ALTER TABLE knowledge_base ADD COLUMN ui_elements TEXT`);
-  console.log('✅ Columna ui_elements agregada a knowledge_base');
-} catch (e) {}
-
-try {
-  db.exec(`ALTER TABLE knowledge_base ADD COLUMN visual_elements TEXT`);
-  console.log('✅ Columna visual_elements agregada a knowledge_base');
-} catch (e) {}
-
-try {
-  db.exec(`ALTER TABLE knowledge_base ADD COLUMN colors TEXT`);
-  console.log('✅ Columna colors agregada a knowledge_base');
-} catch (e) {}
-
-try {
-  db.exec(`ALTER TABLE knowledge_base ADD COLUMN visual_styles TEXT`);
-  console.log('✅ Columna visual_styles agregada a knowledge_base');
-} catch (e) {}
-
-try {
-  db.exec(`ALTER TABLE knowledge_base ADD COLUMN mood TEXT`);
-  console.log('✅ Columna mood agregada a knowledge_base');
-} catch (e) {}
-
-try {
-  db.exec(`ALTER TABLE knowledge_base ADD COLUMN required_tags TEXT`);
-  console.log('✅ Columna required_tags agregada a knowledge_base');
-} catch (e) {}
-
-try {
-  db.exec(`ALTER TABLE knowledge_base ADD COLUMN html_size INTEGER`);
-  console.log('✅ Columna html_size agregada a knowledge_base');
-} catch (e) {}
+try { db.exec(`ALTER TABLE knowledge_base ADD COLUMN filename TEXT`); } catch (e) {}
+try { db.exec(`ALTER TABLE knowledge_base ADD COLUMN ui_elements TEXT`); } catch (e) {}
+try { db.exec(`ALTER TABLE knowledge_base ADD COLUMN visual_elements TEXT`); } catch (e) {}
+try { db.exec(`ALTER TABLE knowledge_base ADD COLUMN colors TEXT`); } catch (e) {}
+try { db.exec(`ALTER TABLE knowledge_base ADD COLUMN visual_styles TEXT`); } catch (e) {}
+try { db.exec(`ALTER TABLE knowledge_base ADD COLUMN mood TEXT`); } catch (e) {}
+try { db.exec(`ALTER TABLE knowledge_base ADD COLUMN required_tags TEXT`); } catch (e) {}
+try { db.exec(`ALTER TABLE knowledge_base ADD COLUMN html_size INTEGER`); } catch (e) {}
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS knowledge_base_usage (
@@ -472,68 +442,67 @@ db.exec(`
   )
 `);
 
-// === INSERT DEFAULT RAG TEMPLATES ===
-
-// 1. Boda Editorial Minimalista
-const insertRagTemplate1 = db.prepare(`
-  INSERT OR IGNORE INTO knowledge_base (
-    style_id, style_name, description, category, theme_tags,
-    color_palette, typography_scale, layout_rules, modules_def,
-    base_cdns, js_dependencies, animation_rules, variation_params
-  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+// === NUEVO ESQUEMA MODULAR: RAG por piezas / módulos individuales ===
+// Cada fila = una sección reusable (portada, padres, countdown, etc.)
+// con atributos memory_* y moduleMetadata {tags, descripcion} embebidos.
+db.exec(`
+  CREATE TABLE IF NOT EXISTS knowledge_base_modules (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    module_id TEXT UNIQUE NOT NULL,
+    module_type TEXT NOT NULL,
+    style_name TEXT NOT NULL,
+    description TEXT,
+    tags TEXT,
+    descripcion_larga TEXT,
+    theme_tags TEXT,
+    color_palette TEXT,
+    css_variables TEXT,
+    has_memory_attributes INTEGER DEFAULT 0,
+    memory_sources TEXT,
+    html_content TEXT NOT NULL,
+    is_active INTEGER DEFAULT 1,
+    category TEXT DEFAULT 'general',
+    filename TEXT,
+    html_size INTEGER,
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT
+  )
 `);
 
-insertRagTemplate1.run(
-  'wed-editorial-minimalista',
-  'Boda Editorial Minimalista',
-  'Composición editorial asimétrica inspirada en revistas de lujo europeas. Espacio negativo protagonista.',
-  'boda',
-  '["elegante", "minimalista", "editorial", "europeo"]',
-  '{"bg_primary": "#F7F3EE", "bg_dark": "#1A1A1A", "accent": "#C9A96E", "text": "#1A1A1A", "text_secondary": "#6B6560"}',
-  '{"display": "Playfair Display", "ui": "DM Sans"}',
-  '{"grid": "CSS columns + Grid", "approach": "Editorial asimétrico", "negative_space": "py-24 py-28"}',
-  '{"portada": {"layout": "fullscreen", "visual": "parallax"}, "countdown": {"layout": "flex-4", "type": "real-time"}, "itinerario": {"layout": "vertical-timeline"}, "ubicacion": {"layout": "grid-2-col"}}',
-  '["tailwindcss", "iconify"]',
-  '["parallax", "countdown", "scroll-reveal"]',
-  '{"scroll_reveal": true, "parallax": true}',
-  '{"layouts": ["fullscreen", "split", "editorial"], "animations": ["fade-in", "parallax"]}'
-);
+try {
+  db.exec(`ALTER TABLE knowledge_base_modules ADD COLUMN filename TEXT`);
+  console.log('✅ Columna filename agregada a knowledge_base_modules');
+} catch (e) {}
 
-// 2. XV Años Festivo
-insertRagTemplate1.run(
-  'xv-festivo',
-  'XV Años Festivo',
-  'Estilo festivo y colorido para quinceañeras celebration.',
-  'xv-años',
-  '["xv", "fiesta", "celebracion", "colorido"]',
-  '{"bg_primary": "#FDF2F8", "bg_accent": "#FCE7F3", "accent": "#EC4899", "text": "#831843"}',
-  '{"display": "Playfair Display", "ui": "DM Sans"}',
-  '{"grid": "masonry", "approach": "festy", "negative_space": "py-16 py-20"}',
-  '{"portada": {"layout": "fullscreen", "visual": "hero"}, "countdown": {"layout": "cards-4"}, "galeria": {"layout": "masonry"}}',
-  '["tailwindcss", "iconify"]',
-  '["confetti", "countdown", "hover-effects"]',
-  '{"scroll_reveal": true, "hover_animations": true}',
-  '{"layouts": ["fullscreen", "cards", "masonry"], "animations": ["bounce", "flip"]}'
-);
+try {
+  db.exec(`ALTER TABLE knowledge_base_modules ADD COLUMN html_size INTEGER`);
+  console.log('✅ Columna html_size agregada a knowledge_base_modules');
+} catch (e) {}
 
-// 3. Cumpleaños Divertido
-insertRagTemplate1.run(
-  'cumpleanos-divertido',
-  'Cumpleaños Divertido',
-  'Estilo festivo y divertido para cumpleaños.',
-  'cumpleaños',
-  '["divertido", "colorido", "fiesta"]',
-  '{"bg_primary": "#FEF3C7", "bg_accent": "#FDE68A", "accent": "#F59E0B", "text": "#92400E"}',
-  '{"display": "Pacifico", "ui": "Nunito"}',
-  '{"grid": "flex", "approach": "colorful", "negative_space": "py-12 py-16"}',
-  '{"portada": {"layout": "hero", "visual": "colorful"}}',
-  '["tailwindcss"]',
-  '["celebration", "confetti"]',
-  '{"confetti": true}',
-  '{"layouts": ["hero", "cards"], "animations": ["bounce", "celebration"]}'
-);
+db.exec(`
+  CREATE TABLE IF NOT EXISTS knowledge_base_modules_usage (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    module_id INTEGER,
+    user_id TEXT,
+    event_type TEXT,
+    used_at TEXT DEFAULT (datetime('now')),
+    FOREIGN KEY (module_id) REFERENCES knowledge_base_modules(id)
+  )
+`);
 
-console.log('✅ Plantillas RAG iniciales insertadas');
+db.exec(`
+  CREATE INDEX IF NOT EXISTS idx_kb_modules_module_type ON knowledge_base_modules(module_type)
+`);
+
+db.exec(`
+  CREATE INDEX IF NOT EXISTS idx_kb_modules_is_active ON knowledge_base_modules(is_active)
+`);
+
+// Flag de transición a RAG modular (default 1 = usar nuevo flujo modular activado)
+try {
+  db.exec(`ALTER TABLE admin_config ADD COLUMN use_modular_rag INTEGER DEFAULT 1`);
+  console.log('✅ Columna use_modular_rag agregada a admin_config');
+} catch (e) {}
 
 ensureUserExists('test_user_001');
 ensureAllUsersHaveData();

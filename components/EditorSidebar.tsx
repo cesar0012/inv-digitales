@@ -31,7 +31,13 @@ const parseEditableElements = (code: string): EditableElement[] => {
   const parser = new DOMParser();
   const doc = parser.parseFromString(code, 'text/html');
   const elements = Array.from(doc.querySelectorAll('[data-gemini-id]'))
-    .filter(el => !(el as HTMLElement).getAttribute('data-gemini-id')!.startsWith('countdown'));
+    .filter(el => {
+      // Excluir countdowns
+      if ((el as HTMLElement).getAttribute('data-gemini-id')!.startsWith('countdown')) return false;
+      // Excluir elementos con memory_usage="protected"
+      if ((el as HTMLElement).getAttribute('memory_usage') === 'protected') return false;
+      return true;
+    });
   
   return elements.map(el => {
     const htmlEl = el as HTMLElement;
