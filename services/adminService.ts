@@ -650,6 +650,7 @@ export interface ModuleAnalysis {
   errors: string[];
   warnings: string[];
   metadata: any;
+  llm_used?: boolean;
 }
 
 export const getRAGModules = async (filters?: { module_type?: string; category?: string; is_active?: number }): Promise<{ modules: RAGModule[] }> => {
@@ -752,4 +753,30 @@ export const analyzeModuleHtml = async (html: string, module_type?: string): Pro
     throw new Error(error.error || 'Error al analizar módulo');
   }
   return response.json();
+};
+
+// Alias con el nombre canónico solicitado en la nueva interfaz del servicio.
+// Mantiene retrocompatibilidad con analyzeModuleHtml (cualquiera funciona).
+export const analyzeRAGModule = async (html: string, module_type?: string): Promise<ModuleAnalysis> => {
+  const result = await analyzeModuleHtml(html, module_type);
+  return result.analysis;
+};
+
+// Preview de un módulo guardado: retorna HTML + metadatos para renderizar en iframe sandbox.
+export const previewRAGModule = async (id: number): Promise<{ html_content: string; module_type: string; style_name: string }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-modules/${id}/preview`, {
+    method: 'GET',
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al obtener preview del módulo');
+  }
+  const data = await response.json();
+  // El backend responde { success, html_content, module_type, style_name }
+  return {
+    html_content: data.html_content,
+    module_type: data.module_type,
+    style_name: data.style_name
+  };
 };

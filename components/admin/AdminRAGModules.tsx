@@ -1,46 +1,93 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Plus, Upload, CheckCircle2, AlertCircle, X } from 'lucide-react';
+import {
+  Plus, Upload, CheckCircle2, AlertCircle, X, Search, Eye,
+  Pencil, Trash2, Sparkles, Loader2, FileCode, Filter
+} from 'lucide-react';
 import {
   getRAGModules,
-  getRAGModule,
-  createRAGModule,
   updateRAGModule,
   deleteRAGModule,
   uploadRAGModule,
   analyzeModuleHtml,
+  createRAGModule,
   RAGModule,
   ModuleAnalysis
 } from '../../services/adminService';
-import { RAGModuleModal } from './RAGModuleModal';
+import { RAGModuleModal, MODULE_TYPES } from './RAGModuleModal';
+import { RAGModulePreviewModal } from './RAGModulePreviewModal';
 
-const MODULE_TYPES = [
-  'portada', 'padres', 'ubicacion', 'itinerario', 'confirmacion', 'detalles',
-  'countdown', 'padrinos', 'corte', 'vestimenta', 'regalos', 'galeria',
-  'hospedaje', 'transporte', 'music', 'quotes', 'mensaje', 'pascar', 'mensaje_padres', 'gracias'
-];
+const MODULE_CATEGORIES = ['all', 'general', 'boda', 'xv-anos', 'cumpleanos', 'bautizo', 'primera-comunion', 'confirmacion', 'baby-shower'];
+const TYPE_BADGE_COLORS: Record<string, string> = {
+  portada: 'bg-pink-100 text-pink-800 border-pink-200',
+  padres: 'bg-blue-100 text-blue-800 border-blue-200',
+  ubicacion: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+  itinerario: 'bg-amber-100 text-amber-800 border-amber-200',
+  confirmacion: 'bg-cyan-100 text-cyan-800 border-cyan-200',
+  detalles: 'bg-indigo-100 text-indigo-800 border-indigo-200',
+  countdown: 'bg-red-100 text-red-800 border-red-200',
+  padrinos: 'bg-purple-100 text-purple-800 border-purple-200',
+  corte: 'bg-orange-100 text-orange-800 border-orange-200',
+  vestimenta: 'bg-teal-100 text-teal-800 border-teal-200',
+  regalos: 'bg-lime-100 text-lime-800 border-lime-200',
+  galeria: 'bg-rose-100 text-rose-800 border-rose-200',
+  hospedaje: 'bg-sky-100 text-sky-800 border-sky-200',
+  transporte: 'bg-violet-100 text-violet-800 border-violet-200',
+  music: 'bg-fuchsia-100 text-fuchsia-800 border-fuchsia-200',
+  quotes: 'bg-yellow-100 text-yellow-800 border-yellow-200',
+  mensaje: 'bg-green-100 text-green-800 border-green-200',
+  pascar: 'bg-stone-100 text-stone-800 border-stone-200',
+  mensaje_padres: 'bg-blue-100 text-blue-800 border-blue-200',
+  gracias: 'bg-emerald-100 text-emerald-800 border-emerald-200'
+};
+
+const formatBytes = (bytes?: number) => {
+  if (!bytes) return '—';
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+};
 
 export const AdminRAGModules: React.FC = () => {
   const [modules, setModules] = useState<RAGModule[]>([]);
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  const [selectedModule, setSelectedModule] = useState<Partial<RAGModule> | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [toast, setToast] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [filterType, setFilterType] = useState<string>('all');
+  const [filterCategory, setFilterCategory] = useState<string>('all');
+  const [search, setSearch] = useState<string>('');
+
   const [uploading, setUploading] = useState(false);
-  const [analyzing, setAnalyzing] = useState(false);
+  const uploadFileRef = useRef<HTMLInputElement>(null);
+
+  // Modal de edición/creación
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedModule, setSelectedModule] = useState<Partial<RAGModule>>({});
+  const [saving, setSaving] = useState(false);
+
+  // Analyzer
+  const [htmlInput, setHtmlInput] = useState<string>('');
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<ModuleAnalysis | null>(null);
-  const [htmlPreview, setHtmlPreview] = useState<string>('');
-  const htmlFileRef = useRef<HTMLInputElement>(null);
+
+  // Modal de preview
+  const [previewId, setPreviewId] = useState<number | null>(null);
+
+  // Toast auto-dismiss
+  useEffect(() => {
+    if (!toast) return;
+    const timer = setTimeout(() => setToast(null), 3500);
+    return () => clearTimeout(timer);
+  }, [toast]);
 
   const fetchModules = async () => {
     setLoading(true);
     try {
       const filters: any = {};
       if (filterType !== 'all') filters.module_type = filterType;
+      if (filterCategory !== 'all') filters.category = filterCategory;
       const result = await getRAGModules(filters);
-      setModules(result.modules);
+      setModules(result.modules || []);
     } catch (error: any) {
-      setMessage({ type: 'error', text: error.message });
+      setToast({ type: 'error', text: error.message });
     } finally {
       setLoading(false);
     }
@@ -48,22 +95,22 @@ export const AdminRAGModules: React.FC = () => {
 
   useEffect(() => {
     fetchModules();
-  }, [filterType]);
+  }, [filterType, filterCategory]);
 
   const handleUpload = async (file: File) => {
     setUploading(true);
     try {
       const result = await uploadRAGModule(file);
-      setMessage({ type: 'success', text: `Módulo "${result.module_id}" subido exitosamente` });
+      setToast({ type: 'success', text: `Módulo "${result.module_id}" subido exitosamente` });
       fetchModules();
     } catch (error: any) {
-      setMessage({ type: 'error', text: error.message });
+      setToast({ type: 'error', text: error.message });
     } finally {
       setUploading(false);
     }
   };
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUploadFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       handleUpload(file);
@@ -71,37 +118,23 @@ export const AdminRAGModules: React.FC = () => {
     }
   };
 
-  const handleAnalyze = async (file: File) => {
-    setAnalyzing(true);
-    try {
-      const html = await file.text();
-      const result = await analyzeModuleHtml(html);
-      setAnalysisResult(result.analysis);
-      setHtmlPreview(html);
-    } catch (error: any) {
-      setMessage({ type: 'error', text: error.message });
-    } finally {
-      setAnalyzing(false);
-    }
-  };
-
   const handleDelete = async (id: number, moduleName: string) => {
     if (!confirm(`¿Eliminar módulo "${moduleName}"?`)) return;
     try {
       await deleteRAGModule(id);
-      setMessage({ type: 'success', text: 'Módulo eliminado' });
+      setToast({ type: 'success', text: 'Módulo eliminado' });
       fetchModules();
     } catch (error: any) {
-      setMessage({ type: 'error', text: error.message });
+      setToast({ type: 'error', text: error.message });
     }
   };
 
   const handleToggleActive = async (id: number, current: number) => {
     try {
       await updateRAGModule(id, { is_active: current ? 0 : 1 });
-      fetchModules();
+      setModules(prev => prev.map(m => m.id === id ? { ...m, is_active: current ? 0 : 1 } : m));
     } catch (error: any) {
-      setMessage({ type: 'error', text: error.message });
+      setToast({ type: 'error', text: error.message });
     }
   };
 
@@ -116,200 +149,264 @@ export const AdminRAGModules: React.FC = () => {
       theme_tags: [],
       color_palette: {},
       css_variables: {},
+      memory_sources: {},
       is_active: 1,
-      category: 'general'
+      category: 'general',
+      html_content: ''
     });
+    setHtmlInput('');
+    setAnalysisResult(null);
     setIsModalOpen(true);
   };
 
   const openEditModule = (module: RAGModule) => {
     setSelectedModule({
       ...module,
-      tags: typeof module.tags === 'string' ? JSON.parse(module.tags) : module.tags,
-      theme_tags: typeof module.theme_tags === 'string' ? JSON.parse(module.theme_tags) : module.theme_tags,
-      color_palette: typeof module.color_palette === 'string' ? JSON.parse(module.color_palette) : module.color_palette,
-      css_variables: typeof module.css_variables === 'string' ? JSON.parse(module.css_variables) : module.css_variables
+      tags: typeof module.tags === 'string' ? safeParseArray(module.tags) : module.tags,
+      theme_tags: typeof module.theme_tags === 'string' ? safeParseArray(module.theme_tags) : module.theme_tags,
+      color_palette: typeof module.color_palette === 'string' ? safeParseObj(module.color_palette) : module.color_palette,
+      css_variables: typeof module.css_variables === 'string' ? safeParseObj(module.css_variables) : module.css_variables,
+      memory_sources: typeof module.memory_sources === 'string' ? safeParseObj(module.memory_sources) : module.memory_sources
     });
+    setHtmlInput('');
+    setAnalysisResult(null);
     setIsModalOpen(true);
   };
 
-  const handleSaveModule = async (module: Partial<RAGModule>) => {
+  const safeParseArray = (s: string): string[] => {
+    try { return JSON.parse(s) || []; } catch { return []; }
+  };
+  const safeParseObj = (s: string) => {
+    try { return JSON.parse(s) || {}; } catch { return {}; }
+  };
+
+  const handleAnalyze = async () => {
+    if (!htmlInput.trim()) return;
+    setIsAnalyzing(true);
     try {
-      if (module.id) {
-        await updateRAGModule(module.id, module);
-        setMessage({ type: 'success', text: 'Módulo actualizado' });
-      } else {
-        await createRAGModule(module);
-        setMessage({ type: 'success', text: 'Módulo creado' });
-      }
-      fetchModules();
-      setIsModalOpen(false);
-      setSelectedModule(null);
+      const result = await analyzeModuleHtml(htmlInput);
+      const analysis = result.analysis;
+      setAnalysisResult(analysis);
+      // Autocompletar el módulo con los resultados del análisis
+      setSelectedModule(prev => ({
+        ...prev,
+        module_id: analysis.module_id || prev.module_id,
+        module_type: analysis.module_type || prev.module_type,
+        style_name: analysis.style_name || prev.style_name,
+        description: analysis.description || prev.description,
+        tags: analysis.tags || prev.tags,
+        theme_tags: analysis.theme_tags || prev.theme_tags,
+        color_palette: analysis.color_palette || prev.color_palette,
+        css_variables: analysis.css_variables || prev.css_variables,
+        memory_sources: analysis.memory_sources || prev.memory_sources,
+        html_content: htmlInput || prev.html_content,
+        html_size: (htmlInput ? new Blob([htmlInput]).size : prev.html_size) as number | undefined
+      }));
+      setToast({ type: 'success', text: `Análisis ${analysis.llm_used ? 'con IA' : 'regex'} completado` });
     } catch (error: any) {
-      setMessage({ type: 'error', text: error.message });
+      setToast({ type: 'error', text: error.message });
+    } finally {
+      setIsAnalyzing(false);
     }
   };
 
+  const handleSaveModule = async () => {
+    if (!selectedModule.module_id || !selectedModule.module_type || !selectedModule.style_name || !selectedModule.html_content) {
+      setToast({ type: 'error', text: 'Faltan campos requeridos: module_id, module_type, style_name, html_content' });
+      return;
+    }
+    setSaving(true);
+    try {
+      if (selectedModule.id) {
+        await updateRAGModule(selectedModule.id, selectedModule);
+        setToast({ type: 'success', text: 'Módulo actualizado' });
+      } else {
+        await createRAGModule(selectedModule);
+        setToast({ type: 'success', text: 'Módulo creado' });
+      }
+      fetchModules();
+      setIsModalOpen(false);
+      setSelectedModule({});
+    } catch (error: any) {
+      setToast({ type: 'error', text: error.message });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const filteredModules = modules.filter(m => {
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      if (!(`${m.module_id} ${m.style_name} ${m.description || ''}`.toLowerCase().includes(q))) return false;
+    }
+    return true;
+  });
+
   return (
-    <div className="p-6">
+    <div className="p-6 max-w-7xl mx-auto">
+      {/* Header */}
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">Módulos RAG (Piezas)</h2>
+        <div className="flex items-center gap-2">
+          <Sparkles className="w-7 h-7 text-purple-600" />
+          <div>
+            <h2 className="text-2xl font-bold text-gray-800">Módulos RAG</h2>
+            <p className="text-sm text-gray-500">Piezas individuales reutilizables del flujo modular</p>
+          </div>
+        </div>
         <div className="flex gap-2">
           <input
             type="file"
             accept=".html"
-            ref={htmlFileRef}
-            onChange={(e) => e.target.files?.[0] && handleAnalyze(e.target.files[0])}
+            ref={uploadFileRef}
+            onChange={handleUploadFileSelect}
             className="hidden"
           />
           <button
-            onClick={() => htmlFileRef.current?.click()}
-            disabled={analyzing}
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2"
-          >
-            <Upload size={18} />
-            {analyzing ? 'Analizando...' : 'Analizar HTML'}
-          </button>
-          <button
-            onClick={() => htmlFileRef.current?.click()}
+            onClick={() => uploadFileRef.current?.click()}
             disabled={uploading}
-            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 flex items-center gap-2"
+            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 flex items-center gap-2 transition-colors"
           >
-            <Upload size={18} />
-            {uploading ? 'Subiendo...' : 'Subir Módulo'}
+            {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+            {uploading ? 'Subiendo...' : 'Subir HTML'}
           </button>
           <button
             onClick={openNewModule}
-            className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 flex items-center gap-2"
+            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center gap-2 transition-colors"
           >
-            <Plus size={18} />
+            <Plus className="w-4 h-4" />
             Nuevo Módulo
           </button>
         </div>
       </div>
 
-      {message && (
-        <div className={`p-4 mb-4 rounded ${message.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-          {message.text}
-          <button onClick={() => setMessage(null)} className="float-right"><X size={16} /></button>
+      {/* Toast */}
+      {toast && (
+        <div className={`mb-4 p-3 rounded-lg flex items-center gap-2 border ${
+          toast.type === 'success' 
+            ? 'bg-green-50 text-green-800 border-green-200' 
+            : 'bg-red-50 text-red-800 border-red-200'
+        }`}>
+          {toast.type === 'success' 
+            ? <CheckCircle2 className="w-5 h-5 text-green-600" />
+            : <AlertCircle className="w-5 h-5 text-red-600" />
+          }
+          <span className="text-sm font-medium flex-1">{toast.text}</span>
+          <button onClick={() => setToast(null)} className="text-gray-400 hover:text-gray-600">
+            <X className="w-4 h-4" />
+          </button>
         </div>
       )}
 
-      {analysisResult && (
-        <div className="bg-gray-50 p-4 mb-6 rounded border">
-          <h3 className="text-lg font-bold mb-2">Resultado del Análisis</h3>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <p className="text-sm text-gray-600">Module ID</p>
-              <p className="font-mono">{analysisResult.module_id || 'N/A'}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Module Type</p>
-              <p className="font-mono">{analysisResult.module_type || 'N/A'}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Tags</p>
-              <p className="text-sm">{analysisResult.tags?.join(', ') || 'N/A'}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Descripción</p>
-              <p className="text-sm">{analysisResult.descripcion_larga?.slice(0, 100) || 'N/A'}...</p>
-            </div>
-          </div>
-          {analysisResult.errors.length > 0 && (
-            <div className="mt-4">
-              <p className="text-red-600 font-bold">Errores:</p>
-              <ul className="list-disc list-inside text-red-600">
-                {analysisResult.errors.map((e, i) => <li key={i}>{e}</li>)}
-              </ul>
-            </div>
-          )}
-          {analysisResult.warnings.length > 0 && (
-            <div className="mt-2">
-              <p className="text-yellow-600 font-bold">Advertencias:</p>
-              <ul className="list-disc list-inside text-yellow-600">
-                {analysisResult.warnings.map((e, i) => <li key={i}>{e}</li>)}
-              </ul>
-            </div>
-          )}
-          <div className="mt-4 flex gap-2">
-            <button
-              onClick={() => {
-                if (analysisResult.module_id && htmlPreview) {
-                  handleUpload(new Blob([htmlPreview], { type: 'text/html' }) as File);
-                }
-              }}
-              className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-            >
-              Guardar Módulo
-            </button>
-            <button onClick={() => { setAnalysisResult(null); setHtmlPreview(''); }} className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
-              Cerrar
-            </button>
-          </div>
+      {/* Filtros */}
+      <div className="mb-4 flex flex-wrap gap-3 items-center">
+        <div className="relative">
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Buscar por nombre o ID..."
+            className="pl-9 pr-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 w-64"
+          />
         </div>
-      )}
-
-      <div className="mb-4">
-        <label className="mr-2 font-medium">Filtrar por tipo:</label>
-        <select
-          value={filterType}
-          onChange={(e) => setFilterType(e.target.value)}
-          className="border rounded px-3 py-1"
-        >
-          <option value="all">Todos</option>
-          {MODULE_TYPES.map(type => (
-            <option key={type} value={type}>{type}</option>
-          ))}
-        </select>
+        <div className="flex items-center gap-2">
+          <Filter className="w-4 h-4 text-gray-500" />
+          <select
+            value={filterType}
+            onChange={(e) => setFilterType(e.target.value)}
+            className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500"
+          >
+            <option value="all">Todos los tipos</option>
+            {MODULE_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+          </select>
+          <select
+            value={filterCategory}
+            onChange={(e) => setFilterCategory(e.target.value)}
+            className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-purple-500"
+          >
+            {MODULE_CATEGORIES.map(c => <option key={c} value={c}>{c === 'all' ? 'Todas las categorías' : c}</option>)}
+          </select>
+        </div>
+        <span className="text-sm text-gray-500 ml-auto">{filteredModules.length} módulo(s)</span>
       </div>
 
+      {/* Tabla */}
       {loading ? (
-        <p className="text-center text-gray-500">Cargando módulos...</p>
+        <div className="flex flex-col items-center gap-2 py-12 text-gray-500">
+          <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
+          <p>Cargando módulos...</p>
+        </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
+        <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+          <table className="w-full border-collapse bg-white">
             <thead>
-              <tr className="bg-gray-100">
-                <th className="border p-2 text-left">ID</th>
-                <th className="border p-2 text-left">Module ID</th>
-                <th className="border p-2 text-left">Tipo</th>
-                <th className="border p-2 text-left">Nombre</th>
-                <th className="border p-2 text-left">Tags</th>
-                <th className="border p-2 text-left">HTML Size</th>
-                <th className="border p-2 text-left">Activo</th>
-                <th className="border p-2 text-left">Acciones</th>
+              <tr className="bg-gray-50 text-gray-700 text-sm">
+                <th className="px-3 py-3 text-left font-semibold">ID</th>
+                <th className="px-3 py-3 text-left font-semibold">Module ID</th>
+                <th className="px-3 py-3 text-left font-semibold">Tipo</th>
+                <th className="px-3 py-3 text-left font-semibold">Nombre</th>
+                <th className="px-3 py-3 text-left font-semibold">Categoría</th>
+                <th className="px-3 py-3 text-left font-semibold">Tamaño</th>
+                <th className="px-3 py-3 text-left font-semibold">Activo</th>
+                <th className="px-3 py-3 text-left font-semibold">Acciones</th>
               </tr>
             </thead>
-            <tbody>
-              {modules.map((m) => (
-                <tr key={m.id} className="hover:bg-gray-50">
-                  <td className="border p-2">{m.id}</td>
-                  <td className="border p-2 font-mono text-sm">{m.module_id}</td>
-                  <td className="border p-2">{m.module_type}</td>
-                  <td className="border p-2">{m.style_name}</td>
-                  <td className="border p-2 text-xs">{Array.isArray(m.tags) ? m.tags.slice(0, 3).join(', ') + (m.tags.length > 3 ? '...' : '') : ''}</td>
-                  <td className="border p-2 text-sm">{m.html_size ? `${(m.html_size / 1024).toFixed(1)} KB` : '—'}</td>
-                  <td className="border p-2">
+            <tbody className="divide-y divide-gray-100">
+              {filteredModules.map((m) => (
+                <tr key={m.id} className="hover:bg-purple-50/40 transition-colors">
+                  <td className="px-3 py-3 text-sm text-gray-500">{m.id}</td>
+                  <td className="px-3 py-3">
+                    <code className="text-xs bg-purple-50 text-purple-800 px-2 py-0.5 rounded">{m.module_id}</code>
+                  </td>
+                  <td className="px-3 py-3">
+                    <span className={`text-xs px-2 py-1 rounded-full border font-medium ${TYPE_BADGE_COLORS[m.module_type] || 'bg-gray-100 text-gray-800 border-gray-200'}`}>
+                      {m.module_type}
+                    </span>
+                  </td>
+                  <td className="px-3 py-3 text-sm text-gray-800 font-medium">{m.style_name}</td>
+                  <td className="px-3 py-3 text-sm text-gray-600">{m.category || 'general'}</td>
+                  <td className="px-3 py-3 text-sm text-gray-600">{formatBytes(m.html_size)}</td>
+                  <td className="px-3 py-3">
                     <button
                       onClick={() => handleToggleActive(m.id!, m.is_active)}
-                      className={`px-2 py-1 rounded text-sm ${m.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-200 text-gray-600'}`}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${m.is_active ? 'bg-purple-600' : 'bg-gray-300'}`}
+                      title={m.is_active ? 'Activo · Click para desactivar' : 'Inactivo · Click para activar'}
                     >
-                      {m.is_active ? 'Sí' : 'No'}
+                      <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${m.is_active ? 'translate-x-6' : 'translate-x-1'}`} />
                     </button>
                   </td>
-                  <td className="border p-2">
+                  <td className="px-3 py-3">
                     <div className="flex gap-1">
-                      <button onClick={() => openEditModule(m)} className="px-2 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600">Editar</button>
-                      <button onClick={() => handleDelete(m.id!, m.style_name)} className="px-2 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600">Eliminar</button>
+                      <button
+                        onClick={() => setPreviewId(m.id!)}
+                        className="p-1.5 bg-purple-50 text-purple-700 rounded hover:bg-purple-100 transition-colors"
+                        title="Preview"
+                      >
+                        <Eye className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => openEditModule(m)}
+                        className="p-1.5 bg-blue-50 text-blue-700 rounded hover:bg-blue-100 transition-colors"
+                        title="Editar"
+                      >
+                        <Pencil className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(m.id!, m.style_name)}
+                        className="p-1.5 bg-red-50 text-red-700 rounded hover:bg-red-100 transition-colors"
+                        title="Eliminar"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
                     </div>
                   </td>
                 </tr>
               ))}
-              {modules.length === 0 && (
+              {filteredModules.length === 0 && !loading && (
                 <tr>
-                  <td colSpan={8} className="border p-4 text-center text-gray-500">
-                    No hay módulos. Sube el primero con "Subir Módulo" o "Analizar HTML".
+                  <td colSpan={8} className="px-4 py-12 text-center text-gray-500">
+                    <FileCode className="w-10 h-10 mx-auto mb-2 text-gray-300" />
+                    <p>No hay módulos. Sube un .html o crea uno manualmente.</p>
                   </td>
                 </tr>
               )}
@@ -318,13 +415,23 @@ export const AdminRAGModules: React.FC = () => {
         </div>
       )}
 
-      {isModalOpen && selectedModule && (
-        <RAGModuleModal
-          module={selectedModule}
-          onSave={handleSaveModule}
-          onClose={() => { setIsModalOpen(false); setSelectedModule(null); }}
-        />
-      )}
+      {/* Modal de edición/creación */}
+      <RAGModuleModal
+        isOpen={isModalOpen}
+        module={selectedModule}
+        isAnalyzing={isAnalyzing}
+        analysisResult={analysisResult}
+        htmlInput={htmlInput}
+        saving={saving}
+        onClose={() => { setIsModalOpen(false); setSelectedModule({}); setAnalysisResult(null); setHtmlInput(''); }}
+        onSave={handleSaveModule}
+        onAnalyze={handleAnalyze}
+        onUpdateModule={(m) => setSelectedModule(m)}
+        onHtmlInput={setHtmlInput}
+      />
+
+      {/* Modal de preview */}
+      <RAGModulePreviewModal moduleId={previewId} onClose={() => setPreviewId(null)} />
     </div>
   );
 };

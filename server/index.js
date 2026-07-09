@@ -3596,6 +3596,31 @@ app.get('/api/admin/rag-modules/:id', adminMiddleware, (req, res) => {
   }
 });
 
+// GET /api/admin/rag-modules/:id/preview - Obtener HTML para preview del módulo
+app.get('/api/admin/rag-modules/:id/preview', adminMiddleware, (req, res) => {
+  try {
+    const row = db.prepare(`
+      SELECT html_content, module_type, style_name 
+      FROM knowledge_base_modules 
+      WHERE id = ?
+    `).get(req.params.id);
+    
+    if (!row) {
+      return res.status(404).json({ error: 'Módulo no encontrado' });
+    }
+    
+    res.json({
+      success: true,
+      html_content: row.html_content,
+      module_type: row.module_type,
+      style_name: row.style_name
+    });
+  } catch (error) {
+    console.error('[RAG-MODULES PREVIEW] Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // POST /api/admin/rag-modules - Crear módulo manualmente
 app.post('/api/admin/rag-modules', adminMiddleware, (req, res) => {
   try {
@@ -3742,7 +3767,29 @@ app.post('/api/admin/rag-modules/upload', adminMiddleware, ragUpload.single('htm
     // Analizar módulo
     const analysis = analyzeModule(htmlContent, moduleTypeHint);
     
-    // Validar
+    // VALIDACIÓN DE FALLBACK: asegurar campos requeridos antes del INSERT
+    if (!analysis.module_type) {
+      analysis.module_type = moduleTypeHint || 'general';
+    }
+    if (!analysis.module_id) {
+      analysis.module_id = generateModuleIdFromFilename(filename);
+    }
+    if (!analysis.style_name) {
+      analysis.style_name = generateStyleName(analysis.metadata, filename);
+    }
+    if (analysis.html_size === undefined || analysis.html_size === null) {
+      analysis.html_size = Buffer.byteLength(htmlContent, 'utf8');
+    }
+    // Asegurar que los campos JSON/string no sean undefined
+    analysis.tags = analysis.tags || '[]';
+    analysis.descripcion_larga = analysis.descripcion_larga || JSON.stringify('');
+    analysis.theme_tags = analysis.theme_tags || '[]';
+    analysis.color_palette = analysis.color_palette || '{}';
+    analysis.css_variables = analysis.css_variables || '{}';
+    analysis.memory_sources = analysis.memory_sources || '{}';
+    analysis.description = analysis.description || '';
+    
+    // Validar (sólo errores fatales, no warnings)
     if (!analysis.is_valid) {
       return res.status(400).json({ 
         error: 'Módulo no válido',
@@ -3750,11 +3797,10 @@ app.post('/api/admin/rag-modules/upload', adminMiddleware, ragUpload.single('htm
       });
     }
     
-    // Generar module_id desde filename si no está en el HTML
-    const moduleId = analysis.module_id || generateModuleIdFromFilename(filename);
-    const styleName = analysis.style_name || generateStyleName(analysis.metadata, filename);
+    const moduleId = analysis.module_id;
+    const styleName = analysis.style_name;
     
-    // Insertar
+    // Insertar con manejo de errores específico
     const stmt = db.prepare(`
       INSERT INTO knowledge_base_modules (
         module_id, module_type, style_name, description,
@@ -3764,23 +3810,41 @@ app.post('/api/admin/rag-modules/upload', adminMiddleware, ragUpload.single('htm
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)
     `);
     
-    const result = stmt.run(
-      moduleId,
-      analysis.module_type,
-      styleName,
-      analysis.description,
-      analysis.tags,
-      analysis.descripcion_larga,
-      analysis.theme_tags,
-      analysis.color_palette,
-      analysis.css_variables,
-      analysis.has_memory_attributes,
-      analysis.memory_sources,
-      htmlContent,
-      'general',
-      filename,
-      analysis.html_size
-    );
+    let result;
+    try {
+      result = stmt.run(
+        moduleId,
+        analysis.module_type,
+        styleName,
+        analysis.description,
+        analysis.tags,
+        analysis.descripcion_larga,
+        analysis.theme_tags,
+        analysis.color_palette,
+        analysis.css_variables,
+        analysis.has_memory_attributes ? 1 : 0,
+        analysis.memory_sources,
+        htmlContent,
+        'general',
+        filename,
+        analysis.html_size
+      );
+    } catch (dbError) {
+      if (dbError.message && dbError.message.includes('NOT NULL')) {
+        // Intentar identificar el campo faltante
+        const fieldMap = ['module_id', 'module_type', 'style_name', 'description', 'tags', 'descripcion_larga', 'theme_tags', 'color_palette', 'css_variables', 'has_memory_attributes', 'memory_sources', 'html_content', 'category', 'filename', 'html_size'];
+        const missingField = fieldMap.find(f => dbError.message.includes(f));
+        return res.status(400).json({ 
+          error: 'Campo requerido faltante en el módulo', 
+          field: missingField || 'desconocido',
+          detail: dbError.message
+        });
+      }
+      if (dbError.message && dbError.message.includes('UNIQUE')) {
+        return res.status(400).json({ error: 'Ya existe un módulo con ese module_id' });
+      }
+      throw dbError;
+    }
     
     const response = {
       success: true,
@@ -3797,7 +3861,7 @@ app.post('/api/admin/rag-modules/upload', adminMiddleware, ragUpload.single('htm
     
     res.json(response);
   } catch (error) {
-    if (error.message.includes('UNIQUE constraint')) {
+    if (error.message && error.message.includes('UNIQUE constraint')) {
       return res.status(400).json({ error: 'Ya existe un módulo con ese module_id' });
     }
     console.error('[RAG-MODULES UPLOAD] Error:', error);
@@ -3805,7 +3869,7 @@ app.post('/api/admin/rag-modules/upload', adminMiddleware, ragUpload.single('htm
   }
 });
 
-// POST /api/admin/rag-modules/analyze - Analizar HTML de módulo con ragModuleValidator
+// POST /api/admin/rag-modules/analyze - Analizar HTML de módulo con ragModuleValidator (con LLM fallback)
 app.post('/api/admin/rag-modules/analyze', adminMiddleware, async (req, res) => {
   try {
     const { html, module_type } = req.body;
@@ -3813,29 +3877,157 @@ app.post('/api/admin/rag-modules/analyze', adminMiddleware, async (req, res) => 
     if (!html) {
       return res.status(400).json({ error: 'HTML es requerido' });
     }
+
+    // Helper local para sanear base64 (mismo patrón que rag-templates/analyze)
+    const stripBase64Images = (rawHtml) => {
+      let cleaned = rawHtml.replace(/<img\s([^>]*?)src=["']data:image\/[^"']+["']([^>]*?)\/?>/gi, (match, before, after) => {
+        const alt = (match.match(/alt=["']([^"']*)["']/i) || [])[1];
+        const width = (match.match(/width=["']([^"']*)["']/i) || [])[1];
+        const height = (match.match(/height=["']([^"']*)["']/i) || [])[1];
+        const cls = (match.match(/class=["']([^"']*)["']/i) || [])[1];
+        const isSelfClosing = match.trimEnd().endsWith('/>');
+        let placeholder = '<img';
+        if (cls) placeholder += ` class="${cls}"`;
+        if (alt) placeholder += ` alt="${alt}"`;
+        if (width) placeholder += ` width="${width}"`;
+        if (height) placeholder += ` height="${height}"`;
+        placeholder += ' src="[IMAGE]"';
+        const leftover = after.replace(/src=["']data:image[^"']+["']/i, '').trim();
+        if (leftover) placeholder += ' ' + leftover;
+        placeholder = placeholder.replace(/\s+/g, ' ');
+        placeholder += isSelfClosing ? ' />' : '>';
+        return placeholder;
+      });
+      cleaned = cleaned.replace(/url\(["']?data:image\/[^"')]+["']?\)/gi, 'url([BG_IMAGE])');
+      cleaned = cleaned.replace(/src=["']data:[^"']+["']/gi, 'src="[MEDIA]"');
+      return cleaned;
+    };
     
-    const analysis = analyzeModule(html, module_type);
+    // 1. Regex extraction (baseline) usando ragModuleValidator
+    const regexAnalysis = analyzeModule(html, module_type);
+
+    // 2. Intento de extracción con LLM (Gemini) si hay API key configurada
+    const config = db.prepare('SELECT * FROM admin_config WHERE id = 1').get();
+    let llmAnalysis = null;
+
+    if (config && config.html_google_api_key) {
+      try {
+        const htmlClean = stripBase64Images(html);
+
+        const modulePrompt = `You are an expert web designer analyzing an HTML MODULE (a single reusable piece of a digital invitation) to extract its RAG (Retrieval-Augmented Generation) metadata. This is NOT a full invitation template; it is ONE module (e.g. portada, padres, ubicacion, countdown).
+
+Analyze the following HTML code and extract ALL module properties.
+
+Return ONLY a valid JSON object with these exact fields (no markdown, no code fences, no explanation):
+
+{
+  "module_id": "kebab-case-id-from-data-gemini-id-or-generated-from-content",
+  "module_type": "One of: portada, padres, ubicacion, itinerario, confirmacion, detalles, countdown, padrinos, corte, galeria, regalos, vestimenta, hospedaje, transporte, music, quotes, mensaje, pascar, mensaje_padres, gracias",
+  "style_name": "Human-readable name for this module variant (max 80 chars)",
+  "description": "A vivid 1-2 sentence description of what this module does visually",
+  "tags": ["tag1", "tag2", "tag3"],
+  "theme_tags": ["elegant", "modern", "romantico", "animado", ...],
+  "color_palette": {
+    "bg_primary": "#hex",
+    "bg_secondary": "#hex",
+    "accent": "#hex",
+    "text": "#hex",
+    "text_secondary": "#hex"
+  },
+  "css_variables": {
+    "--var-name": "value"
+  },
+  "has_memory_attributes": true/false,
+  "memory_sources": {
+    "generated": 0,
+    "library": 0
+  }
+}
+
+Rules:
+- Detect data-gemini-id attribute to derive module_id and module_type (module_type is the part before the first hyphen, e.g. "portada-nombre" → "portada").
+- memory_attributes: true if any element in the module has memory_type, memory_usage, or memory_source attributes.
+- memory_sources: count occurrences of memory_source="generated" and memory_source="library" across all elements (including descendants of elements with memory_source inherited).
+- theme_tags: extract from font families, CSS techniques (glassmorphism, gradients, animations), and visual style. Use Spanish tags like: elegante, moderno, romantico, impactante, glassmorphism, gradientes, animado, cinematografico.
+- color_palette: extract actual hex/rgb values used in CSS variables or inline styles. Map to canonical keys when possible.
+- css_variables: extract all CSS custom properties (--xxx) declared in <style> blocks of the module.
+- description and tags should reflect the module purpose (e.g. "portada with countdown", "ubicacion with map placeholder").
+- If data-gemini-id is missing, generate a meaningful module_id based on the module_type and content.
+
+HTML to analyze (base64 images stripped to save tokens):
+${htmlClean.substring(0, 30000)}`;
+
+        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${config.html_google_model || 'gemini-2.0-flash'}:generateContent`;
+        
+        const httpsAgent = new (await import('https')).Agent({ rejectUnauthorized: false });
+        const llmResponse = await fetch(geminiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-goog-api-key': config.html_google_api_key
+          },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: modulePrompt }] }],
+            generationConfig: {
+              temperature: 0.2,
+              topP: 0.8,
+              maxOutputTokens: 4096
+            }
+          })
+        });
+
+        if (llmResponse.ok) {
+          const llmData = await llmResponse.json();
+          const llmText = llmData.candidates?.[0]?.content?.parts?.[0]?.text || '';
+          
+          const jsonMatch = llmText.match(/\{[\s\S]*\}/);
+          if (jsonMatch) {
+            llmAnalysis = JSON.parse(jsonMatch[0]);
+            console.log('[RAG-MODULE ANALYZE] LLM extraction successful');
+          }
+        } else {
+          const errBody = await llmResponse.text();
+          console.log('[RAG-MODULE ANALYZE] LLM call failed, using regex fallback:', llmResponse.status, errBody.substring(0, 200));
+        }
+      } catch (llmError) {
+        console.error('[RAG-MODULE ANALYZE] LLM error, using regex fallback:', llmError.message);
+      }
+    } else {
+      console.log('[RAG-MODULE ANALYZE] No Gemini API key configured, using regex extraction only');
+    }
+
+    // 3. Construir análisis final: LLM tiene prioridad, regex llena los huecos
+    const analysis = {
+      module_id: llmAnalysis?.module_id || regexAnalysis.module_id,
+      module_type: llmAnalysis?.module_type || regexAnalysis.module_type || module_type || null,
+      style_name: llmAnalysis?.style_name || regexAnalysis.style_name,
+      description: llmAnalysis?.description || regexAnalysis.description,
+      tags: Array.isArray(llmAnalysis?.tags) ? llmAnalysis.tags : JSON.parse(regexAnalysis.tags),
+      descripcion_larga: JSON.parse(regexAnalysis.descripcion_larga),
+      theme_tags: Array.isArray(llmAnalysis?.theme_tags) ? llmAnalysis.theme_tags : JSON.parse(regexAnalysis.theme_tags),
+      color_palette: (llmAnalysis?.color_palette && typeof llmAnalysis.color_palette === 'object') 
+        ? llmAnalysis.color_palette 
+        : JSON.parse(regexAnalysis.color_palette),
+      css_variables: (llmAnalysis?.css_variables && typeof llmAnalysis.css_variables === 'object')
+        ? llmAnalysis.css_variables
+        : JSON.parse(regexAnalysis.css_variables),
+      has_memory_attributes: typeof llmAnalysis?.has_memory_attributes === 'boolean'
+        ? (llmAnalysis.has_memory_attributes ? 1 : 0)
+        : regexAnalysis.has_memory_attributes,
+      memory_sources: (llmAnalysis?.memory_sources && typeof llmAnalysis.memory_sources === 'object')
+        ? llmAnalysis.memory_sources
+        : JSON.parse(regexAnalysis.memory_sources),
+      html_size: regexAnalysis.html_size,
+      is_valid: regexAnalysis.is_valid,
+      errors: regexAnalysis.errors,
+      warnings: regexAnalysis.warnings,
+      metadata: regexAnalysis.metadata,
+      llm_used: llmAnalysis !== null
+    };
     
     res.json({
       success: true,
-      analysis: {
-        module_id: analysis.module_id,
-        module_type: analysis.module_type,
-        style_name: analysis.style_name,
-        description: analysis.description,
-        tags: JSON.parse(analysis.tags),
-        descripcion_larga: JSON.parse(analysis.descripcion_larga),
-        theme_tags: JSON.parse(analysis.theme_tags),
-        color_palette: JSON.parse(analysis.color_palette),
-        css_variables: JSON.parse(analysis.css_variables),
-        has_memory_attributes: analysis.has_memory_attributes,
-        memory_sources: JSON.parse(analysis.memory_sources),
-        html_size: analysis.html_size,
-        is_valid: analysis.is_valid,
-        errors: analysis.errors,
-        warnings: analysis.warnings,
-        metadata: analysis.metadata
-      }
+      analysis
     });
   } catch (error) {
     console.error('[RAG-MODULES ANALYZE] Error:', error);
