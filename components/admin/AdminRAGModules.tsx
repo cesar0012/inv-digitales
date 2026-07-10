@@ -101,7 +101,10 @@ export const AdminRAGModules: React.FC = () => {
     setUploading(true);
     try {
       const result = await uploadRAGModule(file);
-      setToast({ type: 'success', text: `Módulo "${result.module_id}" subido exitosamente` });
+      const text = result.renamed_from
+        ? `Módulo subido como "${result.module_id}" (renombrado desde "${result.renamed_from}")`
+        : `Módulo "${result.module_id}" subido exitosamente`;
+      setToast({ type: 'success', text });
       fetchModules();
     } catch (error: any) {
       setToast({ type: 'error', text: error.message });

@@ -624,6 +624,7 @@ export interface RAGModuleUploadResult {
   success: boolean;
   id: number;
   module_id: string;
+  renamed_from?: string | null;
   module_type: string;
   html_content: string;
   analysis: {

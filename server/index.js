@@ -3809,11 +3809,12 @@ app.post('/api/admin/rag-modules/upload', adminMiddleware, ragUpload.single('htm
         html_content, category, is_active, filename, html_size
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)
     `);
-    
-    let result;
-    try {
-      result = stmt.run(
-        moduleId,
+
+    // Helper para ejecutar el INSERT con un module_id dado.
+    // Devuelve { result, id } o lanza el error original.
+    const tryInsert = (idCandidate) => {
+      return stmt.run(
+        idCandidate,
         analysis.module_type,
         styleName,
         analysis.description,
@@ -3829,9 +3830,16 @@ app.post('/api/admin/rag-modules/upload', adminMiddleware, ragUpload.single('htm
         filename,
         analysis.html_size
       );
+    };
+
+    let result;
+    let finalModuleId = moduleId;
+    let renamedFrom = null;
+
+    try {
+      result = tryInsert(moduleId);
     } catch (dbError) {
       if (dbError.message && dbError.message.includes('NOT NULL')) {
-        // Intentar identificar el campo faltante
         const fieldMap = ['module_id', 'module_type', 'style_name', 'description', 'tags', 'descripcion_larga', 'theme_tags', 'color_palette', 'css_variables', 'has_memory_attributes', 'memory_sources', 'html_content', 'category', 'filename', 'html_size'];
         const missingField = fieldMap.find(f => dbError.message.includes(f));
         return res.status(400).json({ 
@@ -3841,15 +3849,45 @@ app.post('/api/admin/rag-modules/upload', adminMiddleware, ragUpload.single('htm
         });
       }
       if (dbError.message && dbError.message.includes('UNIQUE')) {
-        return res.status(400).json({ error: 'Ya existe un módulo con ese module_id' });
+        // Reintentar con sufijo incremental en module_id hasta encontrar uno libre
+        const baseId = moduleId;
+        const MAX_ATTEMPTS = 50;
+        const checkStmt = db.prepare('SELECT 1 FROM knowledge_base_modules WHERE module_id = ?');
+        let attempt = 2;
+        while (attempt <= MAX_ATTEMPTS) {
+          const candidate = `${baseId}-${attempt}`;
+          if (checkStmt.get(candidate)) {
+            attempt++;
+            continue;
+          }
+          try {
+            result = tryInsert(candidate);
+            finalModuleId = candidate;
+            renamedFrom = baseId;
+            break;
+          } catch (e) {
+            if (e.message && e.message.includes('UNIQUE')) {
+              attempt++;
+              continue;
+            }
+            throw e;
+          }
+        }
+        if (!result) {
+          return res.status(400).json({ 
+            error: `No se pudo insertar el módulo: el module_id "${baseId}" y sus ${MAX_ATTEMPTS} variantes ya existen.` 
+          });
+        }
+      } else {
+        throw dbError;
       }
-      throw dbError;
     }
     
     const response = {
       success: true,
       id: result.lastInsertRowid,
-      module_id: moduleId,
+      module_id: finalModuleId,
+      renamed_from: renamedFrom,
       module_type: analysis.module_type,
       html_content: htmlContent,
       analysis: {
