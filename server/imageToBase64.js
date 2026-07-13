@@ -156,22 +156,6 @@ const processAIImages = async (html, imageApiKey, imageModel) => {
   return newHtml;
 };
 
-export default {
-  compileLocalImagesToBase64,
-  compileAllImagesToBase64,
-  resolveModuleImages
-};
-
-/**
- * ═══════════════════════════════════════════════════════════════════════════════
- * RESOLVE MODULE IMAGES (RAG MODULAR)
- * ═══════════════════════════════════════════════════════════════════════════════
- * 
- * Resuelve placeholders de imágenes en módulos RAG:
- * - memory_source="generated" → Nano Banana con prompt contextual
- * - memory_source="library" → Mantiene Lorem Flickr (se resuelve en selección final)
- */
-
 export const resolveModuleImages = async (html, eventType, theme, imageApiKey, imageModel) => {
   if (!html || !imageApiKey || imageApiKey.trim() === '') {
     console.log('[RESOLVE-MODULE-IMAGES] Skip: No HTML o no API key');
@@ -202,7 +186,7 @@ export const resolveModuleImages = async (html, eventType, theme, imageApiKey, i
       }
 
       if (!memorySource) {
-        console.log('[RESOLVE-MODULE] ⚠️ Placeholder sin memory_source, saltando');
+        console.log('[RESOLVE-MODULE] \u26a0\ufe0f Placeholder sin memory_source, saltando');
         continue;
       }
 
@@ -227,7 +211,7 @@ export const resolveModuleImages = async (html, eventType, theme, imageApiKey, i
         }
 
         const prompt = `${descripcion || 'Imagen elegante'}. Estilo: ${theme || 'elegante'}. Categoría: ${eventType || 'general'}. Elementos: ${tags.join(', ')}. Fotografía profesional, alta calidad, fondo completo.`;
-        console.log(`[RESOLVE-MODULE] 🎨 Nano Banana: "${prompt.slice(0, 80)}..."`);
+        console.log(`[RESOLVE-MODULE] \ud83c\udfa8 Nano Banana: "${prompt.slice(0, 80)}..."`);
 
         const imageData = await generateImageWithNanoBanana(prompt, imageApiKey, imageModel);
         if (imageData && imageData.image) {
@@ -242,7 +226,7 @@ export const resolveModuleImages = async (html, eventType, theme, imageApiKey, i
               if (loremMatch) {
                 style.textContent = style.textContent.replace(loremMatch[0], `url('${base64}')`);
                 modified = true;
-                console.log('[RESOLVE-MODULE] ✅ Background reemplazado');
+                console.log('[RESOLVE-MODULE] \u2705 Background reemplazado');
               }
             }
           } else if (placeholder.tagName === 'IMG') {
@@ -250,17 +234,17 @@ export const resolveModuleImages = async (html, eventType, theme, imageApiKey, i
             if (loremMatch && loremMatch.includes('loremflickr.com')) {
               placeholder.setAttribute('src', base64);
               modified = true;
-              console.log('[RESOLVE-MODULE] ✅ IMG src reemplazado');
+              console.log('[RESOLVE-MODULE] \u2705 IMG src reemplazado');
             }
           }
         } else {
-          console.log('[RESOLVE-MODULE] ⚠️ Nano Banana falló:', imageData?.error);
+          console.log('[RESOLVE-MODULE] \u26a0\ufe0f Nano Banana falló:', imageData?.error);
         }
       } else if (memorySource === 'library') {
         // Library: mantener Lorem Flickr como placeholder visual
         // La selección final resolverá con el asset real de /img/
         const assetType = placeholder.getAttribute('data-asset-type') || 'general';
-        console.log(`[RESOLVE-MODULE] 📚 Library: ${assetType} (placeholder mantenido)`);
+        console.log(`[RESOLVE-MODULE] \ud83d\udcda Library: ${assetType} (placeholder mantenido)`);
       }
     }
 
@@ -271,4 +255,10 @@ export const resolveModuleImages = async (html, eventType, theme, imageApiKey, i
     console.error('[RESOLVE-MODULE] Error:', error);
     return html;
   }
+};
+
+export default {
+  compileLocalImagesToBase64,
+  compileAllImagesToBase64,
+  resolveModuleImages
 };

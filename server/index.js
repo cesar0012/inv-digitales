@@ -2818,10 +2818,12 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
     console.log('==========================');
     
     let htmlResult = '';
+    const useModularRAG = config.use_modular_rag === 1;
     const useAgentOrchestrator = config.use_agent_orchestrator === 1;
     const useRagTemplates = config.use_rag_templates === 1;
-    console.log('🤖 Agent Orchestrator:', useAgentOrchestrator ? 'ACTIVADO' : 'DESACTIVADO');
-    console.log('📄 RAG Templates:', useRagTemplates ? 'ACTIVADO' : 'DESACTIVADO');
+    console.log('\ud83e\udde9 Modular RAG:', useModularRAG ? 'ACTIVADO' : 'DESACTIVADO');
+    console.log('\ud83e\ud916 Agent Orchestrator:', useAgentOrchestrator ? 'ACTIVADO' : 'DESACTIVADO');
+    console.log('\ud83d\udcc4 RAG Templates:', useRagTemplates ? 'ACTIVADO' : 'DESACTIVADO');
 
     // DEBUG: Ver qué API key se usa realmente
     console.log('===== DEBUG API KEY =====');
@@ -2846,7 +2848,59 @@ const geminiOptions = {
 
       const attachmentsForGemini = Array.isArray(attachments) ? attachments : [];
 
-      if (useAgentOrchestrator) {
+      // Flujo de generación con prioridad: Modular RAG > Agent Orchestrator > generateWithGemini directo
+      // - Modular RAG: orquestación modular (select/adapt/assemble de módulos) - runModularOrchestration
+      //   tiene fallback interno a runOrchestration si no encuentra módulos en la KB.
+      // - Agent Orchestrator: orquestación tradicional.
+      // - generateWithGemini: generación directa sin orquestación.
+      if (useModularRAG) {
+        try {
+          console.log('\ud83e\udde9 [MODULAR] Iniciando runModularOrchestration...');
+          const { runModularOrchestration } = await import('./agentOrchestrator.js');
+          htmlResult = await runModularOrchestration(
+            prompt,
+            config.html_google_api_key,
+            config.html_google_model || 'gemini-3.1-pro-preview',
+            geminiOptions,
+            attachmentsForGemini
+          );
+        } catch (modularError) {
+          console.error('\u26a0\ufe0f Modular Orchestrator fall\u00f3:', modularError.message);
+          if (useAgentOrchestrator) {
+            try {
+              console.log('\ud83e\ud916 [FALLBACK] Intentando Agent Orchestrator tradicional...');
+              const { runOrchestration } = await import('./agentOrchestrator.js');
+              htmlResult = await runOrchestration(
+                prompt,
+                config.html_google_api_key,
+                config.html_google_model || 'gemini-3.1-pro-preview',
+                geminiOptions,
+                attachmentsForGemini
+              );
+            } catch (orchestratorError) {
+              console.error('\u26a0\ufe0f Agent Orchestrator tambi\u00e9n fall\u00f3, usando generateWithGemini:', orchestratorError.message);
+              const { generateWithGemini } = await import('./geminiService.js');
+              htmlResult = await generateWithGemini(
+                prompt,
+                config.html_google_api_key,
+                config.html_google_model || 'gemini-3.1-pro-preview',
+                geminiOptions,
+                attachmentsForGemini
+              );
+            }
+          } else {
+            console.log('\ud83d\udcbb [FALLBACK] Sin Agent Orchestrator, usando generateWithGemini directo...');
+            const { generateWithGemini } = await import('./geminiService.js');
+            htmlResult = await generateWithGemini(
+              prompt,
+              config.html_google_api_key,
+              config.html_google_model || 'gemini-3.1-pro-preview',
+              geminiOptions,
+              attachmentsForGemini
+            );
+          }
+        }
+      } else if (useAgentOrchestrator) {
         try {
           const { runOrchestration } = await import('./agentOrchestrator.js');
           htmlResult = await runOrchestration(
@@ -2857,7 +2911,7 @@ const geminiOptions = {
             attachmentsForGemini
           );
         } catch (orchestratorError) {
-          console.error('⚠️ Agent Orchestrator falló, usando fallback:', orchestratorError.message);
+          console.error('\u26a0\ufe0f Agent Orchestrator fall\u00f3, usando fallback:', orchestratorError.message);
           const { generateWithGemini } = await import('./geminiService.js');
           htmlResult = await generateWithGemini(
             prompt,
