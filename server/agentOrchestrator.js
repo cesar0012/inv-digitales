@@ -1024,7 +1024,11 @@ const queryRAGModules = async (moduleType, tags = null, category = null, limit =
     query += ' ORDER BY RANDOM() LIMIT ?';
     params.push(limit);
 
+    console.log('[RAG-MODULE] SQL:', query.replace(/\s+/g, ' ').trim());
+    console.log('[RAG-MODULE] Params:', JSON.stringify(params));
+
     const modules = db.prepare(query).all(...params);
+    console.log(`[RAG-MODULE] Rows: ${modules ? modules.length : 0} for module_type="${moduleType}"`);
 
     if (!modules || modules.length === 0) {
       console.log(`[RAG-MODULE] No se encontraron módulos para module_type="${moduleType}"`);
@@ -1033,7 +1037,7 @@ const queryRAGModules = async (moduleType, tags = null, category = null, limit =
 
     console.log(`[RAG-MODULE] ${modules.length} módulo(s) encontrado(s) para "${moduleType}":`);
     modules.forEach(m => {
-      console.log(`  - id=${m.id} "${m.style_name}" html=${m.html_content.length} chars`);
+      console.log(`  - id=${m.id} "${m.style_name}" html=${m.html_content ? m.html_content.length : 0} chars`);
     });
 
     // Parsear JSON fields
@@ -1411,7 +1415,7 @@ export const runModularOrchestration = async (prompt, apiKey, model = 'gemini-3.
   const selectedModules = [];
   for (const moduleType of requiredModules) {
     console.log(`\n[Módular] Buscando módulo: ${moduleType}`);
-    const candidates = await queryRAGModules(moduleType, null, eventType, 5);
+    const candidates = await queryRAGModules(moduleType, null, null, 5);
 
     if (candidates.length === 0) {
       console.log(`[Módular] ⚠️ No hay módulos para ${moduleType}, saltando`);
