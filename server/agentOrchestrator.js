@@ -1080,6 +1080,7 @@ Selection criteria:
 2. Theme/mood alignment with user request
 3. Tag relevance (more matching tags = better)
 4. HTML complexity (prefer richer modules when drama/complexity is requested)
+5. UNIVERSAL PREFERENCE: Cuando el theme del usuario no coincida exactamente con un módulo temático específico, preferir módulos universales/agnósticos (style_name/tags sin palabras como "western", "floral", "rústico", "vintage", "bohemio"). Los módulos universales son más adaptables a cualquier temática.
 
 User request: "${theme || eventType || 'evento elegante'}"
 Event type: "${eventType || 'general'}"
@@ -1237,10 +1238,11 @@ const resolvePlaceholders = async (html, eventType, theme, imageApiKey, imageMod
       }
 
       if (memorySource === 'generated') {
-        // Nano Banana: construir prompt con tags + descripcion + theme
+        // Nano Banana: prompt basado SOLO en temática del usuario (eventType + theme).
+        // El módulo no aporta temática visual, solo estructura. Los tags del módulo
+        // se usan como pista de elementos visuales (hero, background) pero NO de estilo.
         const tagsEl = document.querySelector('script');
         let tags = [];
-        let descripcion = '';
         if (tagsEl && tagsEl.textContent) {
           const metaMatch = tagsEl.textContent.match(/moduleMetadata\s*=\s*(\{[\s\S]*?\});/);
           if (metaMatch) {
@@ -1248,12 +1250,11 @@ const resolvePlaceholders = async (html, eventType, theme, imageApiKey, imageMod
               const fn = new Function(`return (${metaMatch[1]});`);
               const meta = fn();
               tags = meta.tags || [];
-              descripcion = meta.descripcion || '';
             } catch (e) {}
           }
         }
 
-        const prompt = `${descripcion || 'Imagen elegante'}. Estilo: ${theme || 'elegante'}. Categoría: ${eventType || 'general'}. Elementos: ${tags.join(', ')}. Fotografía profesional, alta calidad, fondo completo.`;
+        const prompt = `${eventType || 'Evento'} con temática ${theme || 'elegante'}. Fondo decorativo profesional, alta calidad, fondo completo. Elementos: ${tags.join(', ')}. Fotografía profesional.`;
         console.log(`[RESOLVER] 🎨 Nano Banana: "${prompt.slice(0, 80)}..."`);
 
         const imageData = await generateImageWithNanoBanana(prompt, imageApiKey, imageModel);
