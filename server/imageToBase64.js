@@ -191,11 +191,27 @@ export const resolveModuleImages = async (html, eventType, theme, imageApiKey, i
       }
 
       if (memorySource === 'generated') {
-        // Nano Banana: prompt basado SOLO en theme (no eventType). El módulo no aporta
-        // temática visual, solo estructura. Los tags del módulo se filtran para excluir
-        // términos que inducen a generar personas/parejas (novios, retrato, foto de
-        // pareja) o marcadores estructurales (portada, hero, boda) sin valor visual.
-        const EXCLUDE_TAGS = /^(novios|pareja|retrato|retrato de pareja|foto de pareja|fotos inclinadas|familias|portada|hero|boda|quinceanera|cumpleanos|baby shower|graduacion|despedida|aniversario|evento|modulo universal|responsive|slider|3 slides|background slider|tarjeta|overlay|moderno|minimalista|editorial)$/i;
+        // Nano Banana: prompt basado SOLO en theme (no eventType) + tipo de módulo
+        // (derivado de data-gemini-id). El módulo aporta estructura, no temática visual;
+        // los tags se filtran para excluir términos que inducen a generar personas/parejas
+        // (novios, retrato, foto de pareja) o marcadores estructurales (portada, hero,
+        // boda, western, sombrero...) sin valor visual. El theme elegido por el usuario
+        // captura la temática visual (Floral, Elegante, Rustico...).
+        const EXCLUDE_TAGS = /^(novios|pareja|retrato|retrato de pareja|foto de pareja|fotos inclinadas|familias|portada|hero|boda|quinceanera|cumpleanos|baby shower|graduacion|despedida|aniversario|evento|modulo universal|responsive|slider|3 slides|background slider|tarjeta|tarjeta central|tarjeta editorial|tarjetas|overlay|overlay oscuro|moderno|minimalista|editorial|ubicacion|ceremonia|recepcion|mapa|mapa integrado|asistencia|rsvp|confirmacion|itinerario|agenda|western|vaquera|charra|sombrero|caballo|monograma|boton|cuenta regresiva|countdown|padres|festejados|historia|organizacion|personas|personas importantes|galeria|galeria grid|galeria fotos|mesa|mesa regalos|regalos|dress code|vestimenta)$/i;
+
+        // Plantillas de prompt por tipo de módulo formal (definidos en
+        // components/admin/RAGModuleModal.tsx y AdminRAGModules.tsx).
+        // {theme} se reemplaza por el theme elegido por el usuario.
+        const PROMPT_TEMPLATES = {
+          portada: 'Fondo ambiental amplio y solemne para portada de invitación, sin personas, sin novios, sin retratos, sin parejas, sin texto. Estilo: {theme}. Ambiente decorativo, fotografía profesional, alta resolución, fondo completo.',
+          padres: 'Fondo decorativo elegante y sobrio para sección de familias, sin personas, sin retratos, sin nombres, sin texto. Estilo: {theme}. Decoración floral o geométrica discreta, fotografía profesional, alta resolución, fondo uniforme.',
+          ubicacion: 'Vista panorámica de entorno natural o urbano apropiado para ceremonia, sin personas, sin novios, sin edificios prominentes, sin señales, sin texto. Estilo: {theme}. Ambiente amplio, fotografía profesional, alta resolución.',
+          itinerario: 'Fondo decorativo sutil y minimalista para itinerario, sin personas, sin texto, sin relojes, sin iconos. Estilo: {theme}. Elementos decorativos discretos, fotografía profesional, alta resolución, fondo uniforme.',
+          confirmacion: 'Fondo elegante y limpio para sección de confirmación, sin personas, sin texto visible, sin formularios, sin botones. Estilo: {theme}. Decoración abstracta sutil, fotografía profesional, alta resolución, fondo uniforme.',
+          detalles: 'Fondo decorativo con elementos discretos para sección de detalles, sin personas, sin texto, sin iconos, sin listas. Estilo: {theme}. Decoración sutil de fondo, fotografía profesional, alta resolución, fondo uniforme.',
+          countdown: 'Fondo decorativo atmosférico para cuenta regresiva, sin personas, sin números, sin texto, sin relojes. Estilo: {theme}. Ambiente festivo elegante, fotografía profesional, alta resolución, fondo uniforme.',
+          general: 'Fondo decorativo profesional, sin personas, sin texto. Estilo: {theme}. Fotografía profesional, alta resolución, fondo completo.'
+        };
 
         const tagsEl = placeholder.querySelector('script');
         let tags = [];
@@ -213,15 +229,20 @@ export const resolveModuleImages = async (html, eventType, theme, imageApiKey, i
         }
 
         const memoryType = placeholder.getAttribute('memory_type');
+        const dataGeminiId = placeholder.getAttribute('data-gemini-id') || '';
+        const moduleType = dataGeminiId.split('-')[0];
         const cleanTags = tags.filter((t) => !EXCLUDE_TAGS.test(t.trim()));
 
         let prompt;
         if (memoryType === 'background') {
-          prompt = `FONDO ÚNICO SIN ELEMENTOS ADICIONALES: ${theme || 'elegante'}. Fotografía profesional de alta calidad, fondo completo, sin personas, sin novios, sin retratos, sin parejas, sin texto.${cleanTags.length ? ` Estilo: ${cleanTags.join(', ')}.` : ''} Ambientación decorativa.`;
+          const template = PROMPT_TEMPLATES[moduleType] || PROMPT_TEMPLATES.general;
+          prompt = template.replace(/\{theme\}/g, theme || 'elegante');
         } else {
+          // memory_type="image" (IMG dentro de un módulo): se conservan los tags limpios
+          // como pista de elementos visuales a ilustrar.
           prompt = `Imagen decorativa profesional, ${theme || 'elegante'}.${cleanTags.length ? ` Elementos: ${cleanTags.join(', ')}.` : ''} Fotografía profesional, sin personas, sin retratos.`;
         }
-        console.log(`[RESOLVE-MODULE] \ud83c\udfa8 Nano Banana [${memoryType || 'unknown'}]: "${prompt.slice(0, 80)}..."`);
+        console.log(`[RESOLVE-MODULE] \ud83c\udfa8 Nano Banana [${memoryType || '?'}/${moduleType || '?'}]: "${prompt.slice(0, 80)}..."`);
 
         const imageData = await generateImageWithNanoBanana(prompt, imageApiKey, imageModel);
         if (imageData && imageData.image) {
