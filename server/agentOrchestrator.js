@@ -1127,12 +1127,23 @@ Adapta este módulo siguiendo las reglas del prompt.`;
 
   try {
     const response = await callGeminiAPI(prompt, apiKey, model);
+    // Detectar finishReason no-STOP (RECITATION, SAFETY, OTHER, etc.)
+    // Gemini responde 200 OK pero con content vacío cuando filtra. Sin este check,
+    // el JSON crudo con finishReason se loguea de forma críptica y el fallback es silencioso.
+    const finishReason = response.candidates?.[0]?.finishReason;
+    if (finishReason && finishReason !== 'STOP') {
+      console.warn(`[ADAPTER-MODULE] Gemini filtró el output (finishReason=${finishReason}). Fallback a wireframe original sin adaptación temática.`);
+      return module.html_content;
+    }
     const content = extractContent(response);
     const adapted = extractHtmlFromResponse(content);
-    // Validacion minima: si el adaptador no retorno un <section data-gemini-id>,
-    // el adaptador fallo y devolvemos el wireframe original para no romper el flujo.
-    if (!adapted || !adapted.includes('data-gemini-id')) {
-      console.warn('[ADAPTER-MODULE] Respuesta sin data-gemini-id, fallback a wireframe original');
+    // Validación robusta: el output debe ser HTML válido con data-gemini-id
+    // Y contener <section o <div (rechazar strings markdown que mencionen el atributo sin ser HTML).
+    const isValidHtml = adapted
+      && adapted.includes('data-gemini-id')
+      && (adapted.includes('<section') || adapted.includes('<div'));
+    if (!isValidHtml) {
+      console.warn('[ADAPTER-MODULE] Output no es HTML válido con data-gemini-id, fallback a wireframe original');
       return module.html_content;
     }
     return adapted;

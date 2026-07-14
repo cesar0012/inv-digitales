@@ -142,6 +142,13 @@ Recibes:
    - Mantener clases estándar editables
    - Evitar !important y selectores globales
 
+6. EVITAR RECITATION / COPYRIGHT
+   - NO reproducir ni imitar estrechamente estructuras, patrones HTML o CSS existentes que puedan estar protegidos por copyright.
+   - Crea NUEVA estructura HTML ORIGINAL que cumpla el mismo propósito funcional del wireframe.
+   - NO usar nombres de marcas, frases comerciales reconocibles, ni textos de plantillas de terceros.
+   - Si reconoces una biblioteca CSS o framework con licencia restrictiva en el wireframe, reemplaza los patrones por equivalentes semánticamente neutros usando solo HTML5 + CSS3 standard.
+   - Mantén el código lo suficientemente genérico para que no coincida con plantillas publicadas en sitios como ThemeForest, TemplateMonster, Wix, Squarespace u otros marketplaces de templates.
+
 ===== SALIDA =====
 
 Módulo HTML adaptado con:
