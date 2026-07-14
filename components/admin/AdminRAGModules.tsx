@@ -17,6 +17,9 @@ import { RAGModuleModal, MODULE_TYPES } from './RAGModuleModal';
 import { RAGModulePreviewModal } from './RAGModulePreviewModal';
 
 const MODULE_CATEGORIES = ['all', 'general', 'boda', 'xv-anos', 'cumpleanos', 'bautizo', 'primera-comunion', 'confirmacion', 'baby-shower'];
+// Tipos esperados por el flujo modular (REQUIRED_MODULES del runModularOrchestration).
+// Si alguno tiene 0 modulos activos, se marca con warning en el dashboard.
+const EXPECTED_TYPES = ['portada', 'padres', 'ubicacion', 'itinerario', 'confirmacion', 'detalles', 'countdown'];
 const TYPE_BADGE_COLORS: Record<string, string> = {
   portada: 'bg-pink-100 text-pink-800 border-pink-200',
   padres: 'bg-blue-100 text-blue-800 border-blue-200',
@@ -280,6 +283,28 @@ export const AdminRAGModules: React.FC = () => {
             Nuevo Módulo
           </button>
         </div>
+      </div>
+
+      {/* Mini-dashboard: conteo por tipo */}
+      <div className="mb-4 flex flex-wrap gap-1.5">
+        {MODULE_TYPES.map(t => {
+          const count = modules.filter(m => m.module_type === t && m.is_active).length;
+          const missing = count === 0;
+          const isExpected = EXPECTED_TYPES.includes(t);
+          return (
+            <span
+              key={t}
+              title={missing ? `Sin módulos para ${t}` : `${count} módulo(s) para ${t}`}
+              className={`text-xs px-2 py-0.5 rounded-full border font-medium ${
+                missing
+                  ? 'bg-red-50 text-red-700 border-red-200'
+                  : 'bg-green-50 text-green-700 border-green-200'
+              } ${!isExpected && !missing ? 'opacity-60' : ''}`}
+            >
+              {t}: {count}{missing && isExpected ? ' ⚠️' : ''}
+            </span>
+          );
+        })}
       </div>
 
       {/* Toast */}

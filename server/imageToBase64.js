@@ -191,11 +191,11 @@ export const resolveModuleImages = async (html, eventType, theme, imageApiKey, i
       }
 
       if (memorySource === 'generated') {
-        // Nano Banana: construir prompt con contexto
+        // Nano Banana: prompt basado SOLO en temática del usuario (eventType + theme).
+        // El módulo no aporta temática visual, solo estructura. Los tags del módulo
+        // se usan como pista de elementos visuales (hero, background) pero NO de estilo.
         const tagsEl = placeholder.querySelector('script');
         let tags = [];
-        let descripcion = '';
-        
         if (tagsEl && tagsEl.textContent) {
           const metaMatch = tagsEl.textContent.match(/moduleMetadata\s*=\s*(\{[\s\S]*?\});/);
           if (metaMatch) {
@@ -203,14 +203,13 @@ export const resolveModuleImages = async (html, eventType, theme, imageApiKey, i
               const fn = new Function(`return (${metaMatch[1]});`);
               const meta = fn();
               tags = meta.tags || [];
-              descripcion = meta.descripcion || '';
             } catch (e) {
               console.log('[RESOLVE-MODULE] No se pudo parsear moduleMetadata');
             }
           }
         }
 
-        const prompt = `${descripcion || 'Imagen elegante'}. Estilo: ${theme || 'elegante'}. Categoría: ${eventType || 'general'}. Elementos: ${tags.join(', ')}. Fotografía profesional, alta calidad, fondo completo.`;
+        const prompt = `${eventType || 'Evento'} con temática ${theme || 'elegante'}. Fondo decorativo profesional, alta calidad, fondo completo. Elementos: ${tags.join(', ')}. Fotografía profesional.`;
         console.log(`[RESOLVE-MODULE] \ud83c\udfa8 Nano Banana: "${prompt.slice(0, 80)}..."`);
 
         const imageData = await generateImageWithNanoBanana(prompt, imageApiKey, imageModel);

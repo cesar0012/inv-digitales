@@ -1126,11 +1126,16 @@ Descripción completa: ${userRequest || 'evento elegante y sofisticado'}
 Adapta este módulo siguiendo las reglas del prompt.`;
 
   try {
-    const response = await callGeminiAPI(prompt, apiKey, model, [
-      { type: 'text', text: prompt }
-    ]);
+    const response = await callGeminiAPI(prompt, apiKey, model);
     const content = extractContent(response);
-    return extractHtmlFromResponse(content);
+    const adapted = extractHtmlFromResponse(content);
+    // Validacion minima: si el adaptador no retorno un <section data-gemini-id>,
+    // el adaptador fallo y devolvemos el wireframe original para no romper el flujo.
+    if (!adapted || !adapted.includes('data-gemini-id')) {
+      console.warn('[ADAPTER-MODULE] Respuesta sin data-gemini-id, fallback a wireframe original');
+      return module.html_content;
+    }
+    return adapted;
   } catch (error) {
     console.error('[ADAPTER-MODULE] Error:', error);
     return module.html_content;
@@ -1218,6 +1223,7 @@ const resolvePlaceholders = async (html, eventType, theme, imageApiKey, imageMod
   try {
     const { document } = parseHTML(html);
     let modified = false;
+    let libraryAssetCounter = 0;
 
     // Buscar todos los [path="placeholder"]
     const placeholders = document.querySelectorAll('[path="placeholder"]');
@@ -1283,13 +1289,68 @@ const resolvePlaceholders = async (html, eventType, theme, imageApiKey, imageMod
           }
         }
       } else if (memorySource === 'library') {
-        // Library: resolver ruta /img/${categoria}/${asset-type}/...
-        const assetType = placeholder.getAttribute('data-asset-type') || 'general';
+        // Library: intenta resolver la URL de Lorem Flickr con una imagen real de /img/<folder>/.
+        // Si no existe la carpeta o no hay imágenes, mantiene el placeholder original.
+        const libraryIndex = libraryAssetCounter++;
         const categoryFolder = mapCategoryToFolder(eventType);
+        const resolvedUrl = await resolveLibraryAsset(categoryFolder, libraryIndex);
 
-        // Para library, mantenemos Lorem Flickr como placeholder visual
-        // El proceso de selección final resolverá con el asset real
-        console.log(`[RESOLVER] 📚 Library: ${categoryFolder}/${assetType} (placeholder mantenido)`);
+        if (resolvedUrl) {
+          // Reemplazar en background-image o src según el tipo de elemento
+          if (placeholder.tagName === 'SECTION' || placeholder.tagName === 'DIV') {
+            const style = placeholder.querySelector('style');
+            if (style) {
+              const loremMatch = style.textContent.match(/url\(['"]?(https?:\/\/loremflickr\.com\/[^'")\s]+)['"]?\)/i);
+              if (loremMatch) {
+                style.textContent = style.textContent.replace(loremMatch[0], `url('${resolvedUrl}')`);
+                modified = true;
+                console.log(`[RESOLVER] 📚 Library background reemplazado: ${resolvedUrl}`);
+              }
+            }
+            // Tambien soporta style inline via atributo style=
+            const inlineStyle = placeholder.getAttribute('style');
+            if (inlineStyle) {
+              const loremMatch = inlineStyle.match(/url\(['"]?(https?:\/\/loremflickr\.com\/[^'")\s]+)['"]?\)/i);
+              if (loremMatch) {
+                placeholder.setAttribute('style', inlineStyle.replace(loremMatch[0], `url('${resolvedUrl}')`));
+                modified = true;
+                console.log(`[RESOLVER] 📚 Library inline background reemplazado: ${resolvedUrl}`);
+              }
+            }
+          } else if (placeholder.tagName === 'IMG') {
+            const src = placeholder.getAttribute('src');
+            if (src && src.includes('loremflickr.com')) {
+              placeholder.setAttribute('src', resolvedUrl);
+              modified = true;
+              console.log(`[RESOLVER] 📚 Library IMG src reemplazado: ${resolvedUrl}`);
+            }
+          } else {
+            // Fallback: reemplazar primer <img> dentro del placeholder
+            const innerImg = placeholder.querySelector('img');
+            if (innerImg) {
+              const src = innerImg.getAttribute('src');
+              if (src && src.includes('loremflickr.com')) {
+                innerImg.setAttribute('src', resolvedUrl);
+                modified = true;
+                console.log(`[RESOLVER] 📚 Library inner IMG reemplazado: ${resolvedUrl}`);
+              }
+            }
+            // Y buscar en estilos de hijos
+            const innerStyled = placeholder.querySelector('[style*="loremflickr"]');
+            if (innerStyled) {
+              const styleAttr = innerStyled.getAttribute('style');
+              const loremMatch = styleAttr.match(/url\(['"]?(https?:\/\/loremflickr\.com\/[^'")\s]+)['"]?\)/i);
+              if (loremMatch) {
+                innerStyled.setAttribute('style', styleAttr.replace(loremMatch[0], `url('${resolvedUrl}')`));
+                modified = true;
+                console.log(`[RESOLVER] 📚 Library inner background reemplazado: ${resolvedUrl}`);
+              }
+            }
+          }
+        } else {
+          const assetType = placeholder.getAttribute('data-asset-type') || 'general';
+          console.log(`[RESOLVER] ⚠️ Library asset no encontrado en disco: /img/${categoryFolder}/ (assetType=${assetType}, placeholder mantenido)`);
+        }
       }
     }
 
@@ -1376,17 +1437,63 @@ const applyDynamicContent = (html, userData) => {
 };
 
 /**
+ * Normaliza el eventType del usuario (ej: "Boda Tradicional", "XV Años") a una
+ * categoría canónica ("boda", "xv-anos", "cumpleanos", "bautizo", "primera-comunion")
+ * reconocida por mapCategoryToFolder. Case-insensitive, partial-match.
+ */
+const normalizeEventTypeToCategory = (eventType) => {
+  if (!eventType || typeof eventType !== 'string') return 'boda';
+  const s = eventType.toLowerCase().trim();
+  if (s.includes('xv') || s.includes('quince') || s.includes('15')) return 'xv-anos';
+  if (s.includes('cumple') || s.includes('birthday')) return 'cumpleanos';
+  if (s.includes('bautizo') || s.includes('christening')) return 'bautizo';
+  if (s.includes('comunion') || s.includes('comunión') || s.includes('communion')) return 'primera-comunion';
+  if (s.includes('baby') || s.includes('shower')) return 'baby-shower';
+  if (s.includes('boda') || s.includes('wedding') || s.includes('matrimoni')) return 'boda';
+  return 'boda';
+};
+
+/**
  * Mapea categoría a folder de imágenes
  */
-const mapCategoryToFolder = (category) => {
+const mapCategoryToFolder = (categoryOrEventType) => {
+  const normalized = normalizeEventTypeToCategory(categoryOrEventType);
   const map = {
     'boda': 'boda-color',
     'xv-anos': 'xv-años',
     'cumpleanos': 'cumpleaños-niño',
     'bautizo': 'bautizo',
-    'primera-comunion': 'primera-comunión'
+    'primera-comunion': 'primera-comunión',
+    'baby-shower': 'baby-shower'
   };
-  return map[category] || 'boda-color';
+  return map[normalized] || 'boda-color';
+};
+
+/**
+ * Resuelve un placeholder library reemplazando URL loremflickr por una imagen
+ * existente en /img/<folder>/. Rotación simple basada en index.
+ * Devuelve la URL /img/... si encuentra un archivo, o null si no hay disponible.
+ */
+const resolveLibraryAsset = async (folder, indexHint = 0) => {
+  try {
+    const { readdirSync, existsSync } = await import('fs');
+    const { join } = await import('path');
+    const folderPath = join(process.cwd(), 'img', folder);
+    if (!existsSync(folderPath)) {
+      console.log(`[RESOLVER] ⚠️ Library: carpeta no existe /img/${folder}/`);
+      return null;
+    }
+    const files = readdirSync(folderPath).filter(f => /\.(jpg|jpeg|png|webp|gif)$/i.test(f));
+    if (files.length === 0) {
+      console.log(`[RESOLVER] ⚠️ Library: no hay imágenes en /img/${folder}/`);
+      return null;
+    }
+    const chosen = files[indexHint % files.length];
+    return `/img/${folder}/${chosen}`;
+  } catch (err) {
+    console.log(`[RESOLVER] ⚠️ Library error leyendo /img/${folder}/:`, err.message);
+    return null;
+  }
 };
 
 /**
