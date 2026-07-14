@@ -209,7 +209,7 @@ export const resolveModuleImages = async (html, eventType, theme, imageApiKey, i
           }
         }
 
-        const prompt = `${eventType || 'Evento'} con temática ${theme || 'elegante'}. Fondo decorativo profesional, alta calidad, fondo completo. Elementos: ${tags.join(', ')}. Fotografía profesional.`;
+        const prompt = `Temática ${theme || 'elegante'}. Fondo decorativo profesional, alta calidad, fondo completo. Elementos: ${tags.join(', ')}. Fotografía profesional.`;
         console.log(`[RESOLVE-MODULE] \ud83c\udfa8 Nano Banana: "${prompt.slice(0, 80)}..."`);
 
         const imageData = await generateImageWithNanoBanana(prompt, imageApiKey, imageModel);
