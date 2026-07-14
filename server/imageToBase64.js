@@ -191,9 +191,12 @@ export const resolveModuleImages = async (html, eventType, theme, imageApiKey, i
       }
 
       if (memorySource === 'generated') {
-        // Nano Banana: prompt basado SOLO en temática del usuario (eventType + theme).
-        // El módulo no aporta temática visual, solo estructura. Los tags del módulo
-        // se usan como pista de elementos visuales (hero, background) pero NO de estilo.
+        // Nano Banana: prompt basado SOLO en theme (no eventType). El módulo no aporta
+        // temática visual, solo estructura. Los tags del módulo se filtran para excluir
+        // términos que inducen a generar personas/parejas (novios, retrato, foto de
+        // pareja) o marcadores estructurales (portada, hero, boda) sin valor visual.
+        const EXCLUDE_TAGS = /^(novios|pareja|retrato|retrato de pareja|foto de pareja|fotos inclinadas|familias|portada|hero|boda|quinceanera|cumpleanos|baby shower|graduacion|despedida|aniversario|evento|modulo universal|responsive|slider|3 slides|background slider|tarjeta|overlay|moderno|minimalista|editorial)$/i;
+
         const tagsEl = placeholder.querySelector('script');
         let tags = [];
         if (tagsEl && tagsEl.textContent) {
@@ -209,8 +212,16 @@ export const resolveModuleImages = async (html, eventType, theme, imageApiKey, i
           }
         }
 
-        const prompt = `Temática ${theme || 'elegante'}. Fondo decorativo profesional, alta calidad, fondo completo. Elementos: ${tags.join(', ')}. Fotografía profesional.`;
-        console.log(`[RESOLVE-MODULE] \ud83c\udfa8 Nano Banana: "${prompt.slice(0, 80)}..."`);
+        const memoryType = placeholder.getAttribute('memory_type');
+        const cleanTags = tags.filter((t) => !EXCLUDE_TAGS.test(t.trim()));
+
+        let prompt;
+        if (memoryType === 'background') {
+          prompt = `FONDO ÚNICO SIN ELEMENTOS ADICIONALES: ${theme || 'elegante'}. Fotografía profesional de alta calidad, fondo completo, sin personas, sin novios, sin retratos, sin parejas, sin texto.${cleanTags.length ? ` Estilo: ${cleanTags.join(', ')}.` : ''} Ambientación decorativa.`;
+        } else {
+          prompt = `Imagen decorativa profesional, ${theme || 'elegante'}.${cleanTags.length ? ` Elementos: ${cleanTags.join(', ')}.` : ''} Fotografía profesional, sin personas, sin retratos.`;
+        }
+        console.log(`[RESOLVE-MODULE] \ud83c\udfa8 Nano Banana [${memoryType || 'unknown'}]: "${prompt.slice(0, 80)}..."`);
 
         const imageData = await generateImageWithNanoBanana(prompt, imageApiKey, imageModel);
         if (imageData && imageData.image) {
