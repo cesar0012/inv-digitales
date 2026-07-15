@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
   Plus, Upload, CheckCircle2, AlertCircle, X, Search, Eye,
-  Pencil, Trash2, Sparkles, Loader2, FileCode, Filter
+  Pencil, Trash2, Sparkles, Loader2, FileCode, Filter,
+  Download, AlertTriangle
 } from 'lucide-react';
 import {
   getRAGModules,
@@ -10,8 +11,11 @@ import {
   uploadRAGModule,
   analyzeModuleHtml,
   createRAGModule,
+  downloadRAGModulesBackup,
+  uploadRAGModulesBackup,
   RAGModule,
-  ModuleAnalysis
+  ModuleAnalysis,
+  RAGModulesBackupData
 } from '../../services/adminService';
 import { RAGModuleModal, MODULE_TYPES } from './RAGModuleModal';
 import { RAGModulePreviewModal } from './RAGModulePreviewModal';
@@ -74,6 +78,13 @@ export const AdminRAGModules: React.FC = () => {
   // Modal de preview
   const [previewId, setPreviewId] = useState<number | null>(null);
 
+  // Backup / Restore
+  const [backupDownloading, setBackupDownloading] = useState(false);
+  const [backupPreview, setBackupPreview] = useState<RAGModulesBackupData | null>(null);
+  const [backupConfirm, setBackupConfirm] = useState(false);
+  const [backupUploading, setBackupUploading] = useState(false);
+  const backupFileRef = useRef<HTMLInputElement>(null);
+
   // Toast auto-dismiss
   useEffect(() => {
     if (!toast) return;
@@ -122,6 +133,62 @@ export const AdminRAGModules: React.FC = () => {
       handleUpload(file);
       e.target.value = '';
     }
+  };
+
+  // === Backup / Restore handlers ===
+  const handleBackupDownload = async () => {
+    setBackupDownloading(true);
+    try {
+      await downloadRAGModulesBackup();
+      setToast({ type: 'success', text: 'Backup de módulos descargado' });
+    } catch (error: any) {
+      setToast({ type: 'error', text: error.message });
+    } finally {
+      setBackupDownloading(false);
+    }
+  };
+
+  const handleBackupFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const parsed = JSON.parse(ev.target?.result as string);
+        if (!parsed.version || !parsed.data || !Array.isArray(parsed.data.modules)) {
+          setToast({ type: 'error', text: 'Formato de backup inválido' });
+          return;
+        }
+        setBackupPreview(parsed as RAGModulesBackupData);
+        setBackupConfirm(false);
+      } catch {
+        setToast({ type: 'error', text: 'El archivo no es JSON válido' });
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  const handleBackupUpload = async () => {
+    if (!backupPreview) return;
+    setBackupUploading(true);
+    try {
+      const result = await uploadRAGModulesBackup(backupPreview);
+      setToast({ type: 'success', text: result.message });
+      setBackupPreview(null);
+      setBackupConfirm(false);
+      if (backupFileRef.current) backupFileRef.current.value = '';
+      fetchModules();
+    } catch (error: any) {
+      setToast({ type: 'error', text: error.message });
+    } finally {
+      setBackupUploading(false);
+    }
+  };
+
+  const handleBackupCancel = () => {
+    setBackupPreview(null);
+    setBackupConfirm(false);
+    if (backupFileRef.current) backupFileRef.current.value = '';
   };
 
   const handleDelete = async (id: number, moduleName: string) => {
@@ -283,6 +350,120 @@ export const AdminRAGModules: React.FC = () => {
             Nuevo Módulo
           </button>
         </div>
+      </div>
+
+      {/* Backup / Restore de módulos */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+        {/* Export */}
+        <div className="border border-gray-200 rounded-lg p-4 bg-white">
+          <h3 className="font-semibold text-gray-800 mb-1">Exportar módulos</h3>
+          <p className="text-sm text-gray-600 mb-3">
+            Descarga un archivo JSON con todos los módulos RAG actuales.
+          </p>
+          <button
+            onClick={handleBackupDownload}
+            disabled={backupDownloading}
+            className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-60 transition-colors"
+          >
+            {backupDownloading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+            {backupDownloading ? 'Descargando...' : 'Descargar Backup'}
+          </button>
+        </div>
+
+        {/* Import */}
+        <div className="border border-gray-200 rounded-lg p-4 bg-white">
+          <h3 className="font-semibold text-gray-800 mb-1">Importar módulos</h3>
+          <p className="text-sm text-gray-600 mb-3">
+            Reemplaza TODOS los módulos actuales con los del archivo. Operación destructiva.
+          </p>
+          <input
+            type="file"
+            accept=".json"
+            ref={backupFileRef}
+            onChange={handleBackupFileSelect}
+            className="text-sm text-gray-700 file:mr-3 file:py-1.5 file:px-3 file:rounded file:border-0 file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 file:cursor-pointer"
+          />
+        </div>
+
+        {/* Vista previa del backup */}
+        {backupPreview && (
+          <div className="md:col-span-2 border border-amber-300 rounded-lg p-4 bg-amber-50">
+            <div className="flex items-start gap-2 mb-3">
+              <AlertTriangle className="text-amber-600 mt-0.5 flex-shrink-0" size={20} />
+              <div>
+                <h3 className="font-semibold text-gray-800">Vista previa del backup</h3>
+                <p className="text-sm text-gray-700">
+                  Exportado: {new Date(backupPreview.exported_at).toLocaleString()} · {backupPreview.data.modules.length} módulo(s)
+                </p>
+              </div>
+            </div>
+
+            <div className="overflow-x-auto bg-white rounded border border-amber-200 mb-4">
+              <table className="w-full text-sm">
+                <thead className="bg-amber-100 text-gray-700">
+                  <tr>
+                    <th className="text-left p-2 font-semibold">Module ID</th>
+                    <th className="text-left p-2 font-semibold">Tipo</th>
+                    <th className="text-left p-2 font-semibold">Style</th>
+                    <th className="text-left p-2 font-semibold">Categoría</th>
+                    <th className="text-center p-2 font-semibold">Activo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {backupPreview.data.modules.map((m, i) => (
+                    <tr key={i} className="border-t border-amber-200">
+                      <td className="p-2 font-mono text-xs text-gray-800">{m.module_id}</td>
+                      <td className="p-2 text-gray-700">{m.module_type}</td>
+                      <td className="p-2 text-gray-700">{m.style_name}</td>
+                      <td className="p-2 text-gray-700">{m.category || 'general'}</td>
+                      <td className="p-2 text-center text-gray-700">{m.is_active ? 'Sí' : 'No'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {!backupConfirm ? (
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setBackupConfirm(true)}
+                  className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
+                >
+                  Restaurar Backup
+                </button>
+                <button
+                  onClick={handleBackupCancel}
+                  className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors"
+                >
+                  Cancelar
+                </button>
+              </div>
+            ) : (
+              <div className="border-t border-amber-300 pt-3">
+                <p className="text-sm font-semibold mb-3 text-red-700">
+                  ¿Confirmar? Se borrarán TODOS los módulos actuales y se reemplazarán con {backupPreview.data.modules.length} módulo(s) del backup. Esta acción no se puede deshacer.
+                </p>
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleBackupUpload}
+                    disabled={backupUploading}
+                    className="flex items-center gap-2 bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-800 disabled:opacity-60 transition-colors"
+                  >
+                    {backupUploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <AlertTriangle className="w-4 h-4" />}
+                    {backupUploading ? 'Restaurando...' : 'Sí, restaurar'}
+                  </button>
+                  <button
+                    onClick={handleBackupCancel}
+                    disabled={backupUploading}
+                    className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 disabled:opacity-60 transition-colors"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Mini-dashboard: conteo por tipo */}

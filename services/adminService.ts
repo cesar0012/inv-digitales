@@ -781,3 +781,73 @@ export const previewRAGModule = async (id: number): Promise<{ html_content: stri
     style_name: data.style_name
   };
 };
+
+// ==================== RAG MODULES BACKUP / RESTORE ====================
+
+export interface RAGModulesBackupData {
+  version: string;
+  exported_at: string;
+  data: {
+    modules: Array<{
+      module_id: string;
+      module_type: string;
+      style_name: string;
+      description?: string;
+      tags?: string;            // JSON text (stringify)
+      descripcion_larga?: string;
+      theme_tags?: string;      // JSON text
+      color_palette?: string;   // JSON text
+      css_variables?: string;   // JSON text
+      has_memory_attributes?: number;
+      memory_sources?: string;  // JSON text
+      html_content: string;
+      is_active?: number;
+      category?: string;
+      filename?: string;
+      html_size?: number;
+    }>;
+  };
+}
+
+export interface RAGModulesRestoreResult {
+  success: boolean;
+  message: string;
+  imported: number;
+  skipped: { module_id: string; missing: string[] }[];
+  total: number;
+}
+
+// Descarga un backup completo de TODOS los módulos RAG en un archivo JSON.
+export const downloadRAGModulesBackup = async (): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/rag-modules/backup`, {
+    method: 'GET',
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al descargar backup de módulos');
+  }
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `rag-modules-backup-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  window.URL.revokeObjectURL(url);
+};
+
+// Restaura/reemplaza TODOS los módulos RAG con los del backup enviado.
+export const uploadRAGModulesBackup = async (data: RAGModulesBackupData): Promise<RAGModulesRestoreResult> => {
+  const response = await fetch(`${API_BASE}/admin/rag-modules/backup`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(data)
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al restaurar backup de módulos');
+  }
+  return response.json();
+};

@@ -3621,6 +3621,106 @@ app.get('/api/admin/rag-modules', adminMiddleware, (req, res) => {
   }
 });
 
+// GET /api/admin/rag-modules/backup - Exportar TODOS los módulos a JSON
+// Importante: debe ir antes que GET /:id para que Express no matchee "backup" como :id
+app.get('/api/admin/rag-modules/backup', adminMiddleware, (req, res) => {
+  try {
+    const rows = db.prepare(`
+      SELECT module_id, module_type, style_name, description,
+             tags, descripcion_larga, theme_tags, color_palette,
+             css_variables, has_memory_attributes, memory_sources,
+             html_content, is_active, category, filename, html_size
+      FROM knowledge_base_modules
+      ORDER BY created_at ASC
+    `).all();
+
+    const backup = {
+      version: '1.0',
+      exported_at: new Date().toISOString(),
+      data: { modules: rows }
+    };
+    const dateStamp = new Date().toISOString().slice(0, 10);
+    res.setHeader('Content-Disposition', `attachment; filename="rag-modules-backup-${dateStamp}.json"`);
+    res.json(backup);
+  } catch (error) {
+    console.error('[RAG-MODULES BACKUP GET] Error:', error);
+    res.status(500).json({ error: 'Error al exportar módulos' });
+  }
+});
+
+// POST /api/admin/rag-modules/backup - Restaurar/reemplazar módulos desde JSON
+app.post('/api/admin/rag-modules/backup', adminMiddleware, (req, res) => {
+  try {
+    const body = req.body || {};
+
+    // Validar shape del backup
+    if (!body.version || !body.data || !Array.isArray(body.data.modules)) {
+      return res.status(400).json({ error: 'Formato de backup inválido: se espera { version, data: { modules: [] } }' });
+    }
+    const modules = body.data.modules;
+    if (modules.length === 0) {
+      return res.status(400).json({ error: 'El backup no contiene módulos a importar' });
+    }
+
+    // Validar campos obligatorios (4 NOT NULL del schema)
+    const REQUIRED = ['module_id', 'module_type', 'style_name', 'html_content'];
+    const valid = [];
+    const skipped = [];
+    for (const m of modules) {
+      const missing = REQUIRED.filter((f) => !m[f] && m[f] !== 0);
+      if (missing.length > 0) {
+        skipped.push({ module_id: m.module_id || '(sin id)', missing });
+        continue;
+      }
+      valid.push(m);
+    }
+    if (valid.length === 0) {
+      return res.status(400).json({ error: 'Ningún módulo pasó la validación', skipped });
+    }
+
+    // Columnas a insertar (mismo orden que el SELECT del backup)
+    const INSERT_COLUMNS = [
+      'module_id', 'module_type', 'style_name', 'description',
+      'tags', 'descripcion_larga', 'theme_tags', 'color_palette',
+      'css_variables', 'has_memory_attributes', 'memory_sources',
+      'html_content', 'is_active', 'category', 'filename', 'html_size'
+    ];
+    const placeholders = INSERT_COLUMNS.map(() => '?').join(', ');
+
+    // Reemplazo atómico: DELETE + INSERT en transacción con FKs desactivados
+    // El FK knowledge_base_modules_usage.module_id -> knowledge_base_modules.id
+    // haría fallar el DELETE si hay registros de uso; por eso se desactiva temporalmente.
+    db.pragma('foreign_keys = OFF');
+    const txn = db.transaction(() => {
+      db.exec('DELETE FROM knowledge_base_modules');
+      const insertStmt = db.prepare(
+        `INSERT INTO knowledge_base_modules (${INSERT_COLUMNS.join(', ')}) VALUES (${placeholders})`
+      );
+      for (const m of valid) {
+        const values = INSERT_COLUMNS.map((c) => (m[c] !== undefined ? m[c] : null));
+        insertStmt.run(...values);
+      }
+    });
+    try {
+      txn();
+    } finally {
+      db.pragma('foreign_keys = ON');
+    }
+
+    const total = db.prepare('SELECT COUNT(*) as n FROM knowledge_base_modules').get().n;
+    return res.json({
+      success: true,
+      message: `Se importaron ${valid.length} módulo(s) correctamente`,
+      imported: valid.length,
+      skipped,
+      total
+    });
+  } catch (error) {
+    console.error('[RAG-MODULES BACKUP POST] Error:', error);
+    return res.status(500).json({ error: 'Error al restaurar módulos' });
+  }
+});
+
 // GET /api/admin/rag-modules/:id - Obtener un módulo completo
 app.get('/api/admin/rag-modules/:id', adminMiddleware, (req, res) => {
   try {
