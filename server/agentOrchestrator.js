@@ -1227,6 +1227,58 @@ const assembleModules = (modules, theme, eventType) => {
   return finalHtml;
 };
 
+// Inyecta data-gemini-id en elementos editables internos del flujo modular.
+// El editor (EditorSidebar.parseEditableElements) detecta editables via
+// querySelectorAll('[data-gemini-id]'), pero el flujo modular solo emite
+// data-gemini-id en la raiz de cada <section> (marcada memory_usage=protected
+// y por tanto filtrada por el editor). Los editables internos usan
+// memory_type=text/image + memory_key, que el editor no lee. Esta funcion
+// bridgea ambos schemas: inyecta data-gemini-id="<module_id>__<memory_key>" en
+// cada editable interno para que el editor los detecte sin cambios.
+const injectEditableIds = (html) => {
+  try {
+    const { document } = parseHTML(html);
+    let injected = 0;
+
+    // Para cada section con data-gemini-id (raiz del modulo), buscar elementos
+    // internos con memory_type=text o memory_type=image y asignarles
+    // data-gemini-id basado en el module_id de la raiz + memory_key (o fallback).
+    const moduleSections = document.querySelectorAll('[data-gemini-id]');
+    for (const section of moduleSections) {
+      const moduleId = section.getAttribute('data-gemini-id') || 'module';
+      // memory_usage=protected en la section raiz: el editor la filtrara, lo cual
+      // es correcto (no se edita el background entero como texto). Solo nos
+      // importan sus descendientes editables.
+      const editables = section.querySelectorAll('[memory_type="text"], [memory_type="image"]');
+      let elementCounter = 0;
+      for (const el of editables) {
+        // Defensivo: no sobrescribir si ya tiene data-gemini-id
+        if (el.getAttribute('data-gemini-id')) continue;
+        const memoryKey = el.getAttribute('memory_key');
+        let suffix = memoryKey;
+        if (!suffix) {
+          elementCounter += 1;
+          suffix = `element-${elementCounter}`;
+        }
+        // Sanitizar suffix para que sea un atributo valido (sin espacios ni comillas)
+        suffix = String(suffix).replace(/[\s"']/g, '-');
+        const newId = `${moduleId}__${suffix}`;
+        el.setAttribute('data-gemini-id', newId);
+        injected += 1;
+      }
+    }
+
+    if (injected > 0) {
+      console.log(`[INJECT-IDS] ${injected} data-gemini-id(s) inyectados en editables modulares`);
+      return document.documentElement.outerHTML;
+    }
+    return html; // sin cambios, devolver original
+  } catch (error) {
+    console.error('[INJECT-IDS] Error:', error.message);
+    return html; // fail-safe: devolver HTML original sin inyeccion
+  }
+};
+
 /**
  * Resuelve placeholders de imágenes según memory_source
  */
@@ -1599,9 +1651,12 @@ export const runModularOrchestration = async (prompt, apiKey, model = 'gemini-3.
   console.log('\n[Módular] Ensamblando módulos...');
   const assembledHtml = assembleModules(adaptedModules, theme, eventType);
 
+  // 3.5 Inyectar data-gemini-id en editables internos (bridge schema modular → editor)
+  const withEditableIds = injectEditableIds(assembledHtml);
+
   // 4. Resolver placeholders (imágenes)
   console.log('\n[Módular] Resolviendo placeholders...');
-  const resolvedHtml = await resolvePlaceholders(assembledHtml, eventType, theme, imageApiKey, imageModel);
+  const resolvedHtml = await resolvePlaceholders(withEditableIds, eventType, theme, imageApiKey, imageModel);
 
   // 5. Aplicar temática
   console.log('[Módular] Aplicando temática...');
