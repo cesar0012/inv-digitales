@@ -1,0 +1,504 @@
+<section
+  class="module-organizacion-evento"
+  data-gemini-id="organizacion-evento"
+  memory_type="background"
+  memory_usage="protected"
+  aria-labelledby="organizacion-evento-title"
+>
+  <style>
+    .module-organizacion-evento {
+      --primary-color: #202326;
+      --secondary-color: #6f7478;
+      --accent-color: #9faf91;
+      --background-color: #f8f8f8;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(0, 0, 0, 0.1);
+      --line-color: rgba(0, 0, 0, 0.12);
+      --text-color: #202326;
+
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+      color: var(--text-color);
+      background: var(--background-color);
+    }
+
+    .organizacion-evento__inner {
+      width: min(1440px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(3rem, 6vw, 6rem) clamp(1.25rem, 5vw, 4rem);
+      box-sizing: border-box;
+      display: grid;
+      align-content: center;
+      gap: clamp(3rem, 6vw, 5rem);
+    }
+
+    .organizacion-evento__header {
+      max-width: 860px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .organizacion-evento__eyebrow {
+      margin: 0 0 0.8rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.72rem, 1vw, 0.86rem);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .organizacion-evento__title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3rem, 6vw, 5.8rem);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: var(--primary-color);
+    }
+
+    .organizacion-evento__subtitle {
+      margin: 1rem 0 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.95rem, 1.25vw, 1.08rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .organizacion-evento__layout {
+      display: grid;
+      grid-template-columns: minmax(240px, 1fr) minmax(360px, 1.05fr) minmax(240px, 1fr);
+      align-items: center;
+      gap: clamp(2rem, 4vw, 4rem);
+    }
+
+    .organizacion-evento__column {
+      display: grid;
+      gap: clamp(2rem, 4vw, 3.5rem);
+    }
+
+    .organizacion-evento__item {
+      position: relative;
+      display: grid;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .organizacion-evento__number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 92px;
+      min-height: 32px;
+      padding: 0.35rem 1rem;
+      box-sizing: border-box;
+      background: var(--accent-color);
+      color: #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      line-height: 1;
+    }
+
+    .organizacion-evento__item-title {
+      margin: clamp(1.4rem, 2.5vw, 2rem) 0 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.8rem, 3.2vw, 3rem);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--primary-color);
+    }
+
+    .organizacion-evento__item-text {
+      margin: clamp(0.85rem, 1.6vw, 1.15rem) 0 0;
+      max-width: 410px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.92rem, 1.18vw, 1.02rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .organizacion-evento__divider {
+      width: min(420px, 100%);
+      height: 1px;
+      margin: clamp(1.6rem, 3vw, 2.2rem) auto 0;
+      background: var(--line-color);
+    }
+
+    .organizacion-evento__image-wrap {
+      position: relative;
+      width: 100%;
+      margin: 0;
+      background: var(--surface-color);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+
+    .organizacion-evento__image-wrap img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 4.5;
+      height: auto;
+      object-fit: cover;
+      object-position: center;
+      filter: contrast(0.98) saturate(0.96);
+    }
+
+    .organizacion-evento__image-caption {
+      position: absolute;
+      left: 1rem;
+      bottom: 1rem;
+      padding: 0.55rem 0.9rem;
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid var(--surface-border-color);
+      color: var(--primary-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .organizacion-evento__decor {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.5;
+      z-index: 1;
+    }
+
+    .organizacion-evento__decor--left {
+      left: clamp(1rem, 4vw, 3rem);
+      top: clamp(1rem, 5vw, 4rem);
+      width: clamp(120px, 16vw, 240px);
+      aspect-ratio: 2 / 1;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 25% 50%, rgba(159, 175, 145, 0.35) 0 12%, transparent 13%),
+        radial-gradient(circle at 52% 46%, rgba(159, 175, 145, 0.28) 0 10%, transparent 11%),
+        radial-gradient(circle at 75% 55%, rgba(159, 175, 145, 0.24) 0 9%, transparent 10%);
+    }
+
+    .organizacion-evento__decor--right {
+      right: clamp(1rem, 4vw, 3rem);
+      top: clamp(1rem, 5vw, 4rem);
+      width: clamp(120px, 16vw, 240px);
+      aspect-ratio: 2 / 1;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 25% 50%, rgba(159, 175, 145, 0.35) 0 12%, transparent 13%),
+        radial-gradient(circle at 52% 46%, rgba(159, 175, 145, 0.28) 0 10%, transparent 11%),
+        radial-gradient(circle at 75% 55%, rgba(159, 175, 145, 0.24) 0 9%, transparent 10%);
+    }
+
+    .organizacion-evento__motion {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: organizacionEventoReveal 0.5s ease-out forwards;
+    }
+
+    .organizacion-evento__header {
+      animation-delay: 0.04s;
+    }
+
+    .organizacion-evento__image-wrap {
+      animation-delay: 0.12s;
+    }
+
+    .organizacion-evento__item:nth-child(1) {
+      animation-delay: 0.16s;
+    }
+
+    .organizacion-evento__item:nth-child(2) {
+      animation-delay: 0.22s;
+    }
+
+    @keyframes organizacionEventoReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 980px) {
+      .organizacion-evento__layout {
+        grid-template-columns: 1fr;
+      }
+
+      .organizacion-evento__image-wrap {
+        width: min(620px, 100%);
+        margin: 0 auto;
+        order: -1;
+      }
+
+      .organizacion-evento__column {
+        width: min(720px, 100%);
+        margin: 0 auto;
+      }
+
+      .organizacion-evento__decor {
+        opacity: 0.28;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .module-organizacion-evento,
+      .organizacion-evento__inner {
+        min-height: 100svh;
+      }
+
+      .organizacion-evento__inner {
+        padding: 3rem 1.25rem;
+      }
+
+      .organizacion-evento__title {
+        font-size: clamp(2.8rem, 15vw, 4.4rem);
+      }
+
+      .organizacion-evento__image-wrap img {
+        aspect-ratio: 4 / 3;
+      }
+
+      .organizacion-evento__item-title {
+        font-size: clamp(1.8rem, 10vw, 2.6rem);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .organizacion-evento__motion {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <div
+    class="organizacion-evento__decor organizacion-evento__decor--left"
+    memory_type="background"
+    memory_usage="protected"
+    memory_source="library"
+    path="placeholder"
+    data-library-category="eventos"
+    data-asset-type="decoracion-esquina"
+    aria-hidden="true"
+  ></div>
+
+  <div
+    class="organizacion-evento__decor organizacion-evento__decor--right"
+    memory_type="background"
+    memory_usage="protected"
+    memory_source="library"
+    path="placeholder"
+    data-library-category="eventos"
+    data-asset-type="decoracion-esquina"
+    aria-hidden="true"
+  ></div>
+
+  <div class="organizacion-evento__inner">
+    <header
+      class="organizacion-evento__header organizacion-evento__motion"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="organization-header"
+    >
+      <p class="organizacion-evento__eyebrow">
+        Event Menu
+      </p>
+
+      <h2 id="organizacion-evento-title" class="organizacion-evento__title">
+        Event Organization
+      </h2>
+
+      <p class="organizacion-evento__subtitle">
+        A simple guide to the moments, activities, and details planned for the celebration.
+      </p>
+    </header>
+
+    <div class="organizacion-evento__layout">
+      <div class="organizacion-evento__column">
+        <article
+          class="organizacion-evento__item organizacion-evento__motion"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="organization-item-1"
+        >
+          <span class="organizacion-evento__number">
+            01
+          </span>
+
+          <h3 class="organizacion-evento__item-title">
+            First Moment
+          </h3>
+
+          <p class="organizacion-evento__item-text">
+            Use this space to describe the first important activity, meal, ceremony,
+            entrance, welcome, or scheduled part of the celebration.
+          </p>
+
+          <div class="organizacion-evento__divider" aria-hidden="true"></div>
+        </article>
+
+        <article
+          class="organizacion-evento__item organizacion-evento__motion"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="organization-item-2"
+        >
+          <span class="organizacion-evento__number">
+            02
+          </span>
+
+          <h3 class="organizacion-evento__item-title">
+            Second Moment
+          </h3>
+
+          <p class="organizacion-evento__item-text">
+            This can describe dinner, cake cutting, games, speeches, dances,
+            photo sessions, or any important event detail.
+          </p>
+        </article>
+      </div>
+
+      <figure
+        class="organizacion-evento__image-wrap organizacion-evento__motion"
+        memory_type="image"
+        memory_usage="custom"
+        memory_source="library"
+        memory_key="organization-center-image"
+      >
+        <img
+          src="https://loremflickr.com/900/1100/event,celebration?lock=701"
+          alt="Event organization featured image"
+          path="placeholder"
+          data-library-category="eventos"
+          data-asset-type="foto-organizacion"
+        />
+
+        <figcaption
+          class="organizacion-evento__image-caption"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="organization-image-caption"
+        >
+          Featured Detail
+        </figcaption>
+      </figure>
+
+      <div class="organizacion-evento__column">
+        <article
+          class="organizacion-evento__item organizacion-evento__motion"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="organization-item-3"
+        >
+          <span class="organizacion-evento__number">
+            03
+          </span>
+
+          <h3 class="organizacion-evento__item-title">
+            Third Moment
+          </h3>
+
+          <p class="organizacion-evento__item-text">
+            Use this area for the main ceremony, presentation, toast, activity,
+            performance, or meaningful highlight.
+          </p>
+
+          <div class="organizacion-evento__divider" aria-hidden="true"></div>
+        </article>
+
+        <article
+          class="organizacion-evento__item organizacion-evento__motion"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="organization-item-4"
+        >
+          <span class="organizacion-evento__number">
+            04
+          </span>
+
+          <h3 class="organizacion-evento__item-title">
+            Final Moment
+          </h3>
+
+          <p class="organizacion-evento__item-text">
+            This can describe music, dancing, farewell, closing activity,
+            dessert, photos, or the final part of the celebration.
+          </p>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "organizacion",
+        "programa",
+        "menu",
+        "event menu",
+        "event organization",
+        "cronograma",
+        "actividad",
+        "evento",
+        "modulo universal",
+        "boda",
+        "quinceanera",
+        "cumpleanos",
+        "baby shower",
+        "graduacion",
+        "despedida",
+        "aniversario",
+        "foto central",
+        "sin slider",
+        "responsive"
+      ],
+      descripcion:
+        "Wireframe universal de organización del evento con cuatro momentos alrededor de una imagen central fija, sin slider."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="organizacion-evento"]');
+      if (!module) return;
+
+      const image = module.querySelector(".organizacion-evento__image-wrap");
+      const items = module.querySelectorAll(".organizacion-evento__item");
+
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReducedMotion) return;
+
+      module.addEventListener("pointermove", function (event) {
+        const rect = module.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        if (image) {
+          image.style.transform = "translate(" + x * 5 + "px, " + y * 4 + "px)";
+        }
+
+        items.forEach(function (item, index) {
+          const depth = (index + 1) * 2;
+          item.style.transform = "translate(" + x * depth + "px, " + y * depth + "px)";
+        });
+      });
+
+      module.addEventListener("pointerleave", function () {
+        if (image) {
+          image.style.transform = "translate(0, 0)";
+        }
+
+        items.forEach(function (item) {
+          item.style.transform = "translate(0, 0)";
+        });
+      });
+    })();
+  </script>
+</section>

@@ -1,0 +1,455 @@
+<section
+  class="module-pareja-editorial"
+  data-gemini-id="historia-pareja"
+  memory_type="background"
+  memory_usage="protected"
+  aria-labelledby="pareja-editorial-title"
+>
+  <style>
+    .module-pareja-editorial {
+      --primary-color: #202326;
+      --secondary-color: #6f7478;
+      --accent-color: #b59b72;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(0, 0, 0, 0.1);
+      --background-color: #ffffff;
+      --text-color: #202326;
+
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+      color: var(--text-color);
+      background: var(--background-color);
+    }
+
+    .pareja-editorial__inner {
+      width: min(1220px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(3rem, 6vw, 6rem) clamp(1.25rem, 5vw, 4rem);
+      box-sizing: border-box;
+      display: grid;
+      align-content: center;
+      gap: clamp(3rem, 7vw, 6rem);
+    }
+
+    .pareja-editorial__header {
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .pareja-editorial__title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    .pareja-editorial__subtitle {
+      margin: clamp(0.75rem, 1.6vw, 1rem) 0 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--secondary-color);
+    }
+
+    .pareja-editorial__ornament {
+      width: min(150px, 42%);
+      height: 34px;
+      margin: clamp(1.2rem, 2.4vw, 1.6rem) auto 0;
+      position: relative;
+      color: var(--accent-color);
+    }
+
+    .pareja-editorial__ornament::before,
+    .pareja-editorial__ornament::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 48%;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.6;
+    }
+
+    .pareja-editorial__ornament::before {
+      left: 0;
+    }
+
+    .pareja-editorial__ornament::after {
+      right: 0;
+    }
+
+    .pareja-editorial__ornament span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 18px;
+      height: 18px;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--background-color);
+    }
+
+    .pareja-editorial__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(280px, 1fr));
+      gap: clamp(3rem, 7vw, 6rem);
+      align-items: center;
+    }
+
+    .pareja-editorial__profile {
+      display: grid;
+      grid-template-columns: minmax(220px, 320px) minmax(220px, 1fr);
+      align-items: center;
+      gap: clamp(1.5rem, 3vw, 2rem);
+    }
+
+    .pareja-editorial__profile--reverse {
+      direction: rtl;
+    }
+
+    .pareja-editorial__profile--reverse > * {
+      direction: ltr;
+    }
+
+    .pareja-editorial__figure {
+      position: relative;
+      margin: 0;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      padding: clamp(0.45rem, 1vw, 0.65rem);
+      box-sizing: border-box;
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+
+    .pareja-editorial__figure img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3.7;
+      height: auto;
+      object-fit: cover;
+      object-position: center;
+      filter: contrast(0.96) saturate(0.94);
+    }
+
+    .pareja-editorial__role {
+      position: absolute;
+      right: clamp(0.9rem, 2vw, 1.4rem);
+      bottom: clamp(0.9rem, 2vw, 1.4rem);
+      padding: 0.65rem 1.15rem;
+      border-radius: 0.35rem;
+      background: var(--accent-color);
+      color: #ffffff;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+      font-style: italic;
+      line-height: 1;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+    }
+
+    .pareja-editorial__content {
+      position: relative;
+    }
+
+    .pareja-editorial__name {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    .pareja-editorial__quote {
+      margin: clamp(0.55rem, 1.2vw, 0.85rem) 0 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1rem, 1.5vw, 1.22rem);
+      font-style: italic;
+      line-height: 1.45;
+      color: var(--secondary-color);
+    }
+
+    .pareja-editorial__divider {
+      width: 44px;
+      height: 4px;
+      margin: clamp(1.1rem, 2vw, 1.4rem) 0;
+      background: var(--accent-color);
+    }
+
+    .pareja-editorial__bio {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.95rem, 1.2vw, 1.08rem);
+      line-height: 1.72;
+      color: var(--primary-color);
+    }
+
+    .pareja-editorial__motion {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: parejaEditorialReveal 0.5s ease-out forwards;
+    }
+
+    .pareja-editorial__header {
+      animation-delay: 0.04s;
+    }
+
+    .pareja-editorial__profile:nth-child(1) {
+      animation-delay: 0.12s;
+    }
+
+    .pareja-editorial__profile:nth-child(2) {
+      animation-delay: 0.18s;
+    }
+
+    @keyframes parejaEditorialReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 1040px) {
+      .pareja-editorial__grid {
+        grid-template-columns: 1fr;
+        gap: clamp(2.5rem, 6vw, 4rem);
+      }
+
+      .pareja-editorial__profile {
+        width: min(760px, 100%);
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .module-pareja-editorial {
+        min-height: 100svh;
+      }
+
+      .pareja-editorial__inner {
+        min-height: 100svh;
+        padding: 3rem 1.25rem;
+      }
+
+      .pareja-editorial__profile,
+      .pareja-editorial__profile--reverse {
+        grid-template-columns: 1fr;
+        direction: ltr;
+        text-align: center;
+      }
+
+      .pareja-editorial__divider {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .pareja-editorial__figure {
+        width: min(420px, 100%);
+        margin: 0 auto;
+      }
+
+      .pareja-editorial__role {
+        right: 1rem;
+        bottom: 1rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pareja-editorial__motion {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <div class="pareja-editorial__inner">
+    <header
+      class="pareja-editorial__header pareja-editorial__motion"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="couple-section-header"
+    >
+      <h2 id="pareja-editorial-title" class="pareja-editorial__title">
+        The Happy Couple
+      </h2>
+
+      <p class="pareja-editorial__subtitle">
+        A happy marriage is the union of two good forgivers.
+      </p>
+
+      <div class="pareja-editorial__ornament" aria-hidden="true">
+        <span></span>
+      </div>
+    </header>
+
+    <div class="pareja-editorial__grid">
+      <article
+        class="pareja-editorial__profile pareja-editorial__motion"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="bride-profile"
+      >
+        <figure
+          class="pareja-editorial__figure"
+          memory_type="image"
+          memory_usage="custom"
+          memory_source="library"
+          memory_key="bride-photo"
+        >
+          <img
+            src="https://loremflickr.com/700/600/bride,wedding"
+            alt="Photo of the bride"
+            path="placeholder"
+            data-library-category="bodas"
+            data-asset-type="foto-novia"
+          />
+
+          <figcaption class="pareja-editorial__role">
+            The Bride
+          </figcaption>
+        </figure>
+
+        <div class="pareja-editorial__content">
+          <h3 class="pareja-editorial__name">
+            Jane Milea
+          </h3>
+
+          <p class="pareja-editorial__quote">
+            I kind of have a thing for Him
+          </p>
+
+          <div class="pareja-editorial__divider" aria-hidden="true"></div>
+
+          <p class="pareja-editorial__bio">
+            I am just crazy about Dilan. He has a truly amazing heart. I am so
+            incredibly blessed and excited to spend everyday for the rest of my
+            life with my best friend.
+          </p>
+        </div>
+      </article>
+
+      <article
+        class="pareja-editorial__profile pareja-editorial__profile--reverse pareja-editorial__motion"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="groom-profile"
+      >
+        <figure
+          class="pareja-editorial__figure"
+          memory_type="image"
+          memory_usage="custom"
+          memory_source="library"
+          memory_key="groom-photo"
+        >
+          <img
+            src="https://loremflickr.com/700/600/groom,wedding"
+            alt="Photo of the groom"
+            path="placeholder"
+            data-library-category="bodas"
+            data-asset-type="foto-novio"
+          />
+
+          <figcaption class="pareja-editorial__role">
+            The Groom
+          </figcaption>
+        </figure>
+
+        <div class="pareja-editorial__content">
+          <h3 class="pareja-editorial__name">
+            John Dilan
+          </h3>
+
+          <p class="pareja-editorial__quote">
+            I kind of have a thing for Her
+          </p>
+
+          <div class="pareja-editorial__divider" aria-hidden="true"></div>
+
+          <p class="pareja-editorial__bio">
+            Milea means so much to me and I can’t believe she is actually going
+            to marry me. I’m so excited to spend the rest of my life with her.
+            Milea is perfect for me.
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "pareja",
+        "novios",
+        "happy couple",
+        "bride",
+        "groom",
+        "perfiles",
+        "foto de pareja",
+        "boda",
+        "editorial",
+        "moderno",
+        "testimonios",
+        "responsive"
+      ],
+      descripcion:
+        "Wireframe editorial para presentar a la pareja con encabezado centrado, dos perfiles, fotos individuales, roles, citas y biografías breves."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="historia-pareja"]');
+
+      if (!module) return;
+
+      const profiles = module.querySelectorAll(".pareja-editorial__profile");
+      const figures = module.querySelectorAll(".pareja-editorial__figure");
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (prefersReducedMotion) return;
+
+      module.addEventListener("pointermove", function (event) {
+        const rect = module.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        profiles.forEach(function (profile, index) {
+          const depth = (index + 1) * 3;
+          profile.style.transform =
+            "translate(" + x * depth + "px, " + y * depth + "px)";
+        });
+
+        figures.forEach(function (figure, index) {
+          const depth = (index + 1) * -4;
+          figure.style.transform =
+            "translate(" + x * depth + "px, " + y * depth + "px)";
+        });
+      });
+
+      module.addEventListener("pointerleave", function () {
+        profiles.forEach(function (profile) {
+          profile.style.transform = "translate(0, 0)";
+        });
+
+        figures.forEach(function (figure) {
+          figure.style.transform = "translate(0, 0)";
+        });
+      });
+    })();
+  </script>
+</section>

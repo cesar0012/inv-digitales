@@ -1,0 +1,496 @@
+<section
+  class="module-rsvp-minimal-evento"
+  data-gemini-id="rsvp-form"
+  memory_type="background"
+  memory_usage="protected"
+  aria-labelledby="rsvp-minimal-title"
+>
+  <style>
+    .module-rsvp-minimal-evento {
+      --primary-color: #202326;
+      --secondary-color: #6f7478;
+      --accent-color: #9faf91;
+      --background-color: #f8f8f8;
+      --surface-border-color: rgba(0, 0, 0, 0.12);
+      --input-border-color: rgba(0, 0, 0, 0.12);
+      --input-focus-color: rgba(159, 175, 145, 0.45);
+      --button-text-color: #ffffff;
+      --text-color: #202326;
+
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+      color: var(--text-color);
+      background: var(--background-color);
+    }
+
+    .rsvp-minimal__decor {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.55;
+      z-index: 1;
+    }
+
+    .rsvp-minimal__decor--top-left {
+      left: 0;
+      top: 0;
+      width: clamp(120px, 16vw, 240px);
+      height: clamp(120px, 16vw, 240px);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(159, 175, 145, 0.28) 0 12%, transparent 13%),
+        radial-gradient(circle at 45% 32%, rgba(159, 175, 145, 0.2) 0 10%, transparent 11%),
+        radial-gradient(circle at 28% 55%, rgba(159, 175, 145, 0.18) 0 9%, transparent 10%);
+    }
+
+    .rsvp-minimal__decor--top-right {
+      right: 0;
+      top: 0;
+      width: clamp(120px, 16vw, 240px);
+      height: clamp(120px, 16vw, 240px);
+      background:
+        radial-gradient(circle at 80% 20%, rgba(159, 175, 145, 0.28) 0 12%, transparent 13%),
+        radial-gradient(circle at 55% 32%, rgba(159, 175, 145, 0.2) 0 10%, transparent 11%),
+        radial-gradient(circle at 72% 55%, rgba(159, 175, 145, 0.18) 0 9%, transparent 10%);
+    }
+
+    .rsvp-minimal__decor--bottom-left {
+      left: 0;
+      bottom: 0;
+      width: clamp(120px, 16vw, 240px);
+      height: clamp(120px, 16vw, 240px);
+      background:
+        radial-gradient(circle at 22% 78%, rgba(159, 175, 145, 0.28) 0 12%, transparent 13%),
+        radial-gradient(circle at 45% 62%, rgba(159, 175, 145, 0.2) 0 10%, transparent 11%),
+        radial-gradient(circle at 28% 45%, rgba(159, 175, 145, 0.18) 0 9%, transparent 10%);
+    }
+
+    .rsvp-minimal__inner {
+      position: relative;
+      z-index: 2;
+      width: min(1280px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(3rem, 6vw, 6rem) clamp(1.25rem, 5vw, 4rem);
+      box-sizing: border-box;
+      display: grid;
+      align-content: center;
+      gap: clamp(2.5rem, 5vw, 4rem);
+    }
+
+    .rsvp-minimal__header {
+      max-width: 920px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .rsvp-minimal__eyebrow {
+      margin: 0 0 clamp(0.8rem, 1.5vw, 1rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.72rem, 1vw, 0.86rem);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .rsvp-minimal__title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3rem, 6vw, 5.8rem);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: var(--primary-color);
+    }
+
+    .rsvp-minimal__subtitle {
+      max-width: 680px;
+      margin: clamp(1rem, 2vw, 1.4rem) auto 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.95rem, 1.25vw, 1.08rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .rsvp-minimal__form {
+      display: grid;
+      gap: clamp(1.6rem, 3vw, 2.4rem);
+      width: min(1120px, 100%);
+      margin: 0 auto;
+    }
+
+    .rsvp-minimal__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(240px, 1fr));
+      column-gap: clamp(1.5rem, 3vw, 2rem);
+      row-gap: clamp(1.4rem, 3vw, 2rem);
+    }
+
+    .rsvp-minimal__field {
+      display: grid;
+      gap: 0.6rem;
+    }
+
+    .rsvp-minimal__field--full {
+      grid-column: 1 / -1;
+    }
+
+    .rsvp-minimal__label {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.92rem, 1.18vw, 1.05rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--primary-color);
+    }
+
+    .rsvp-minimal__input,
+    .rsvp-minimal__select,
+    .rsvp-minimal__textarea {
+      width: 100%;
+      box-sizing: border-box;
+      border: 0;
+      border-bottom: 1px solid var(--input-border-color);
+      border-radius: 0;
+      background: transparent;
+      color: var(--primary-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+      line-height: 1.5;
+      outline: none;
+      transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .rsvp-minimal__input,
+    .rsvp-minimal__select {
+      min-height: 48px;
+      padding: 0.6rem 0;
+    }
+
+    .rsvp-minimal__textarea {
+      min-height: clamp(180px, 22vw, 260px);
+      padding: 1rem;
+      border: 1px solid var(--input-border-color);
+      resize: vertical;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .rsvp-minimal__input:focus,
+    .rsvp-minimal__select:focus,
+    .rsvp-minimal__textarea:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 2px 0 var(--input-focus-color);
+    }
+
+    .rsvp-minimal__actions {
+      display: grid;
+      justify-items: center;
+    }
+
+    .rsvp-minimal__button {
+      width: 100%;
+      min-height: 56px;
+      border: 0;
+      background: var(--accent-color);
+      color: var(--button-text-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition:
+        transform 0.25s ease,
+        opacity 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .rsvp-minimal__button:hover,
+    .rsvp-minimal__button:focus-visible {
+      transform: translateY(-2px);
+      opacity: 0.92;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.12);
+      outline: none;
+    }
+
+    .rsvp-minimal__deadline {
+      margin: 0;
+      text-align: center;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1rem, 1.35vw, 1.15rem);
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--secondary-color);
+    }
+
+    .rsvp-minimal__motion {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: rsvpMinimalReveal 0.5s ease-out forwards;
+    }
+
+    .rsvp-minimal__header {
+      animation-delay: 0.04s;
+    }
+
+    .rsvp-minimal__form {
+      animation-delay: 0.12s;
+    }
+
+    @keyframes rsvpMinimalReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 760px) {
+      .rsvp-minimal__grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .module-rsvp-minimal-evento,
+      .rsvp-minimal__inner {
+        min-height: 100svh;
+      }
+
+      .rsvp-minimal__inner {
+        padding: 3rem 1rem;
+      }
+
+      .rsvp-minimal__title {
+        font-size: clamp(2.8rem, 15vw, 4.5rem);
+      }
+
+      .rsvp-minimal__textarea {
+        min-height: 180px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .rsvp-minimal__motion,
+      .rsvp-minimal__button {
+        animation: none;
+        transition: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <div
+    class="rsvp-minimal__decor rsvp-minimal__decor--top-left"
+    memory_type="background"
+    memory_usage="protected"
+    memory_source="library"
+    path="placeholder"
+    data-library-category="eventos"
+    data-asset-type="decoracion-esquina"
+    aria-hidden="true"
+  ></div>
+
+  <div
+    class="rsvp-minimal__decor rsvp-minimal__decor--top-right"
+    memory_type="background"
+    memory_usage="protected"
+    memory_source="library"
+    path="placeholder"
+    data-library-category="eventos"
+    data-asset-type="decoracion-esquina"
+    aria-hidden="true"
+  ></div>
+
+  <div
+    class="rsvp-minimal__decor rsvp-minimal__decor--bottom-left"
+    memory_type="background"
+    memory_usage="protected"
+    memory_source="library"
+    path="placeholder"
+    data-library-category="eventos"
+    data-asset-type="decoracion-esquina"
+    aria-hidden="true"
+  ></div>
+
+  <div class="rsvp-minimal__inner">
+    <header
+      class="rsvp-minimal__header rsvp-minimal__motion"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="rsvp-header"
+    >
+      <p class="rsvp-minimal__eyebrow">
+        Get in Touch
+      </p>
+
+      <h2 id="rsvp-minimal-title" class="rsvp-minimal__title">
+        Confirmation for the Event
+      </h2>
+
+      <p class="rsvp-minimal__subtitle">
+        Please confirm your attendance and share any details that will help us
+        prepare for your visit.
+      </p>
+    </header>
+
+    <form
+      class="rsvp-minimal__form rsvp-minimal__motion"
+      action="#"
+      method="post"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="rsvp-form-fields"
+    >
+      <div class="rsvp-minimal__grid">
+        <div class="rsvp-minimal__field">
+          <label class="rsvp-minimal__label" for="rsvp-minimal-name">
+            Name
+          </label>
+          <input
+            class="rsvp-minimal__input"
+            id="rsvp-minimal-name"
+            name="name"
+            type="text"
+            autocomplete="name"
+            placeholder=""
+          />
+        </div>
+
+        <div class="rsvp-minimal__field">
+          <label class="rsvp-minimal__label" for="rsvp-minimal-email">
+            Email
+          </label>
+          <input
+            class="rsvp-minimal__input"
+            id="rsvp-minimal-email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            placeholder=""
+          />
+        </div>
+
+        <div class="rsvp-minimal__field">
+          <label class="rsvp-minimal__label" for="rsvp-minimal-phone">
+            Phone
+          </label>
+          <input
+            class="rsvp-minimal__input"
+            id="rsvp-minimal-phone"
+            name="phone"
+            type="tel"
+            autocomplete="tel"
+            placeholder=""
+          />
+        </div>
+
+        <div class="rsvp-minimal__field">
+          <label class="rsvp-minimal__label" for="rsvp-minimal-guests">
+            Guests
+          </label>
+          <select
+            class="rsvp-minimal__select"
+            id="rsvp-minimal-guests"
+            name="guest_count"
+          >
+            <option value="">Select guests</option>
+            <option value="1">1 Guest</option>
+            <option value="2">2 Guests</option>
+            <option value="3">3 Guests</option>
+            <option value="4">4 Guests</option>
+          </select>
+        </div>
+
+        <div class="rsvp-minimal__field rsvp-minimal__field--full">
+          <label class="rsvp-minimal__label" for="rsvp-minimal-message">
+            Message
+          </label>
+          <textarea
+            class="rsvp-minimal__textarea"
+            id="rsvp-minimal-message"
+            name="message"
+            placeholder=""
+          ></textarea>
+        </div>
+      </div>
+
+      <p
+        class="rsvp-minimal__deadline"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="rsvp-deadline"
+      >
+        Please RSVP before the event date.
+      </p>
+
+      <div class="rsvp-minimal__actions">
+        <button
+          class="rsvp-minimal__button"
+          type="submit"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="rsvp-submit-button"
+        >
+          Submit Now
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "rsvp",
+        "confirmacion",
+        "confirmacion de asistencia",
+        "formulario",
+        "contacto",
+        "evento",
+        "modulo universal",
+        "boda",
+        "quinceanera",
+        "cumpleanos",
+        "baby shower",
+        "graduacion",
+        "despedida",
+        "aniversario",
+        "minimal",
+        "sin imagen",
+        "responsive"
+      ],
+      descripcion:
+        "Wireframe universal de RSVP minimalista con encabezado centrado, formulario amplio, campos de contacto, número de invitados, mensaje y botón de confirmación."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="rsvp-form"]');
+      if (!module) return;
+
+      const form = module.querySelector(".rsvp-minimal__form");
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (prefersReducedMotion) return;
+
+      module.addEventListener("pointermove", function (event) {
+        const rect = module.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        if (form) {
+          form.style.transform = "translate(" + x * 3 + "px, " + y * 2 + "px)";
+        }
+      });
+
+      module.addEventListener("pointerleave", function () {
+        if (form) {
+          form.style.transform = "translate(0, 0)";
+        }
+      });
+    })();
+  </script>
+</section>

@@ -1,0 +1,554 @@
+<section
+  class="module-countdown-western"
+  data-gemini-id="countdown-target"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="countdown-western-title"
+>
+  <style>
+    .module-countdown-western {
+      --primary-color: #2f2f2f;
+      --secondary-color: #666666;
+      --accent-color: #8a8a8a;
+      --surface-color: rgba(255, 255, 255, 0.72);
+      --surface-border-color: rgba(0, 0, 0, 0.12);
+      --background-color: #eeeeee;
+      --text-color: #2f2f2f;
+
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+      color: var(--text-color);
+      background-color: var(--background-color);
+      background-image: url("https://loremflickr.com/1920/1080/parchment,western,wedding");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      isolation: isolate;
+    }
+
+    .module-countdown-western::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 42%, rgba(255,255,255,0.34), transparent 38%),
+        linear-gradient(
+          90deg,
+          rgba(255,255,255,0.32),
+          rgba(255,255,255,0.12),
+          rgba(255,255,255,0.28)
+        );
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .countdown-western__inner {
+      position: relative;
+      width: min(1200px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 5rem);
+      box-sizing: border-box;
+      display: grid;
+      place-items: center;
+    }
+
+    .countdown-western__card {
+      position: relative;
+      z-index: 3;
+      width: min(940px, 94vw);
+      padding: clamp(2.5rem, 5vw, 5.5rem);
+      box-sizing: border-box;
+      text-align: center;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: clamp(28px, 4vw, 56px);
+      box-shadow:
+        0 30px 90px rgba(0, 0, 0, 0.14),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(8px);
+      overflow: hidden;
+    }
+
+    .countdown-western__card::before {
+      content: "";
+      position: absolute;
+      inset: clamp(0.7rem, 1.4vw, 1rem);
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      border-radius: clamp(22px, 3vw, 44px);
+      pointer-events: none;
+    }
+
+    .countdown-western__content {
+      position: relative;
+      z-index: 4;
+      width: min(780px, 100%);
+      margin: 0 auto;
+    }
+
+    .countdown-western__eyebrow {
+      margin: 0 0 clamp(0.8rem, 1.6vw, 1.2rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.68rem, 1vw, 0.82rem);
+      font-weight: 700;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .countdown-western__title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3.4rem, 7vw, 7rem);
+      font-weight: 400;
+      line-height: 0.98;
+      letter-spacing: -0.035em;
+      color: var(--primary-color);
+    }
+
+    .countdown-western__intro {
+      max-width: 620px;
+      margin: clamp(1rem, 2vw, 1.5rem) auto 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.95rem, 1.35vw, 1.08rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .countdown-western__timer {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(110px, 1fr));
+      gap: clamp(1rem, 2vw, 1.5rem);
+      margin-top: clamp(2rem, 4vw, 3.5rem);
+      padding: 0;
+      list-style: none;
+    }
+
+    .countdown-western__unit {
+      position: relative;
+      min-height: clamp(130px, 15vw, 180px);
+      padding: clamp(1rem, 2vw, 1.5rem);
+      box-sizing: border-box;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid var(--surface-border-color);
+      border-radius: clamp(20px, 2.5vw, 34px);
+      box-shadow:
+        0 18px 48px rgba(0, 0, 0, 0.1),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(6px);
+    }
+
+    .countdown-western__unit::before {
+      content: "";
+      position: absolute;
+      top: clamp(0.7rem, 1vw, 0.9rem);
+      left: 50%;
+      width: 34px;
+      height: 1px;
+      transform: translateX(-50%);
+      background: var(--accent-color);
+      opacity: 0.6;
+    }
+
+    .countdown-western__number {
+      display: block;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3rem, 6vw, 5.8rem);
+      font-weight: 400;
+      line-height: 1;
+      color: var(--primary-color);
+    }
+
+    .countdown-western__label {
+      display: block;
+      margin-top: 0.55rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.68rem, 1vw, 0.82rem);
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .countdown-western__date-note {
+      margin: clamp(1.8rem, 3vw, 2.5rem) auto 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.85rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.78rem, 1.1vw, 0.95rem);
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    .countdown-western__date-note::before,
+    .countdown-western__date-note::after {
+      content: "";
+      width: 42px;
+      height: 1px;
+      background: var(--accent-color);
+      opacity: 0.5;
+    }
+
+    .countdown-western__decor {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.5;
+    }
+
+    .countdown-western__decor--flowers-left {
+      left: clamp(0.5rem, 3vw, 2rem);
+      bottom: clamp(0.5rem, 3vw, 2rem);
+      width: clamp(200px, 30vw, 500px);
+      aspect-ratio: 5 / 2.4;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 24% 52%, rgba(0,0,0,0.11) 0 14%, transparent 15%),
+        radial-gradient(circle at 50% 48%, rgba(0,0,0,0.13) 0 17%, transparent 18%),
+        radial-gradient(circle at 78% 56%, rgba(0,0,0,0.09) 0 13%, transparent 14%);
+      border: 1px dashed rgba(0, 0, 0, 0.08);
+    }
+
+    .countdown-western__decor--flowers-right {
+      right: clamp(0.5rem, 3vw, 2rem);
+      top: clamp(0.5rem, 3vw, 2rem);
+      width: clamp(180px, 26vw, 420px);
+      aspect-ratio: 5 / 2.4;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 25% 48%, rgba(0,0,0,0.1) 0 14%, transparent 15%),
+        radial-gradient(circle at 55% 45%, rgba(0,0,0,0.12) 0 18%, transparent 19%),
+        radial-gradient(circle at 82% 56%, rgba(0,0,0,0.08) 0 13%, transparent 14%);
+      border: 1px dashed rgba(0, 0, 0, 0.08);
+    }
+
+    .countdown-western__decor--horseshoe {
+      left: clamp(1rem, 6vw, 5rem);
+      top: clamp(2rem, 8vw, 7rem);
+      width: clamp(120px, 16vw, 260px);
+      aspect-ratio: 1 / 1;
+      border: 18px solid rgba(0, 0, 0, 0.1);
+      border-top-color: transparent;
+      border-radius: 50%;
+      transform: rotate(-12deg);
+    }
+
+    .countdown-western__motion {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: countdownWesternReveal 0.5s ease-out forwards;
+    }
+
+    .countdown-western__decor--horseshoe {
+      animation-delay: 0.04s;
+    }
+
+    .countdown-western__card {
+      animation-delay: 0.12s;
+    }
+
+    .countdown-western__unit:nth-child(1) {
+      animation-delay: 0.16s;
+    }
+
+    .countdown-western__unit:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .countdown-western__unit:nth-child(3) {
+      animation-delay: 0.24s;
+    }
+
+    .countdown-western__unit:nth-child(4) {
+      animation-delay: 0.28s;
+    }
+
+    @keyframes countdownWesternReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 860px) {
+      .countdown-western__timer {
+        grid-template-columns: repeat(2, minmax(120px, 1fr));
+      }
+
+      .countdown-western__card {
+        width: min(720px, 94vw);
+      }
+
+      .countdown-western__decor {
+        opacity: 0.32;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .module-countdown-western {
+        min-height: 100svh;
+      }
+
+      .countdown-western__inner {
+        min-height: 100svh;
+        padding: 2rem 1.25rem;
+      }
+
+      .countdown-western__card {
+        width: 100%;
+        padding: 2.5rem 1.35rem;
+        border-radius: 28px;
+      }
+
+      .countdown-western__title {
+        font-size: clamp(3rem, 15vw, 4.8rem);
+      }
+
+      .countdown-western__timer {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.85rem;
+      }
+
+      .countdown-western__unit {
+        min-height: 120px;
+        border-radius: 22px;
+      }
+
+      .countdown-western__date-note {
+        flex-direction: column;
+        gap: 0.5rem;
+        letter-spacing: 0.18em;
+      }
+
+      .countdown-western__date-note::before,
+      .countdown-western__date-note::after {
+        width: 56px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .countdown-western__motion {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <div class="countdown-western__inner">
+    <div
+      class="countdown-western__decor countdown-western__decor--flowers-left"
+      memory_type="background"
+      memory_usage="protected"
+      memory_source="library"
+      path="placeholder"
+      data-library-category="bodas"
+      data-asset-type="decoracion-floral"
+      aria-hidden="true"
+    ></div>
+
+    <div
+      class="countdown-western__decor countdown-western__decor--flowers-right"
+      memory_type="background"
+      memory_usage="protected"
+      memory_source="library"
+      path="placeholder"
+      data-library-category="bodas"
+      data-asset-type="decoracion-floral"
+      aria-hidden="true"
+    ></div>
+
+    <div
+      class="countdown-western__decor countdown-western__decor--horseshoe countdown-western__motion"
+      memory_type="background"
+      memory_usage="protected"
+      memory_source="library"
+      path="placeholder"
+      data-library-category="bodas"
+      data-asset-type="decoracion-western-herradura"
+      aria-hidden="true"
+    ></div>
+
+    <article class="countdown-western__card countdown-western__motion">
+      <header
+        class="countdown-western__content"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="countdown-header"
+      >
+        <p class="countdown-western__eyebrow">
+          The Countdown Begins
+        </p>
+
+        <h2 id="countdown-western-title" class="countdown-western__title">
+          Counting the days until forever.
+        </h2>
+
+        <p class="countdown-western__intro">
+          The trail is set, the roses are ready, and every moment brings us
+          closer to the celebration.
+        </p>
+
+        <ol
+          class="countdown-western__timer"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="countdown-values"
+          data-countdown-target="2027-10-18T16:30:00"
+        >
+          <li class="countdown-western__unit countdown-western__motion">
+            <span class="countdown-western__number" data-countdown-unit="days">
+              000
+            </span>
+            <span class="countdown-western__label">
+              Days
+            </span>
+          </li>
+
+          <li class="countdown-western__unit countdown-western__motion">
+            <span class="countdown-western__number" data-countdown-unit="hours">
+              00
+            </span>
+            <span class="countdown-western__label">
+              Hours
+            </span>
+          </li>
+
+          <li class="countdown-western__unit countdown-western__motion">
+            <span class="countdown-western__number" data-countdown-unit="minutes">
+              00
+            </span>
+            <span class="countdown-western__label">
+              Minutes
+            </span>
+          </li>
+
+          <li class="countdown-western__unit countdown-western__motion">
+            <span class="countdown-western__number" data-countdown-unit="seconds">
+              00
+            </span>
+            <span class="countdown-western__label">
+              Seconds
+            </span>
+          </li>
+        </ol>
+
+        <time
+          class="countdown-western__date-note"
+          datetime="2027-10-18T16:30:00"
+        >
+          October 18, 2027 · 4:30 PM
+        </time>
+      </header>
+    </article>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "countdown",
+        "contador",
+        "cuenta regresiva",
+        "boda",
+        "western",
+        "vaquera",
+        "charra",
+        "fecha",
+        "timer",
+        "tarjeta central",
+        "herradura",
+        "responsive"
+      ],
+      descripcion:
+        "Wireframe de cuenta regresiva para boda western con tarjeta central, fecha objetivo, unidades de tiempo y decoraciones temáticas."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="countdown-target"]');
+
+      if (!module) return;
+
+      const timer = module.querySelector("[data-countdown-target]");
+      const card = module.querySelector(".countdown-western__card");
+      const decor = module.querySelectorAll(".countdown-western__decor");
+
+      if (timer) {
+        const targetDate = new Date(timer.getAttribute("data-countdown-target"));
+
+        const units = {
+          days: timer.querySelector('[data-countdown-unit="days"]'),
+          hours: timer.querySelector('[data-countdown-unit="hours"]'),
+          minutes: timer.querySelector('[data-countdown-unit="minutes"]'),
+          seconds: timer.querySelector('[data-countdown-unit="seconds"]')
+        };
+
+        function pad(value, length) {
+          return String(value).padStart(length, "0");
+        }
+
+        function updateCountdown() {
+          const now = new Date();
+          const distance = Math.max(targetDate.getTime() - now.getTime(), 0);
+
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+          const minutes = Math.floor((distance / (1000 * 60)) % 60);
+          const seconds = Math.floor((distance / 1000) % 60);
+
+          if (units.days) units.days.textContent = pad(days, 3);
+          if (units.hours) units.hours.textContent = pad(hours, 2);
+          if (units.minutes) units.minutes.textContent = pad(minutes, 2);
+          if (units.seconds) units.seconds.textContent = pad(seconds, 2);
+        }
+
+        updateCountdown();
+        window.setInterval(updateCountdown, 1000);
+      }
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (prefersReducedMotion) return;
+
+      module.addEventListener("pointermove", function (event) {
+        const rect = module.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        if (card) {
+          card.style.transform =
+            "translate(" + x * 5 + "px, " + y * 4 + "px)";
+        }
+
+        decor.forEach(function (item, index) {
+          const depth = (index + 1) * 4;
+          item.style.transform =
+            "translate(" + x * depth + "px, " + y * depth + "px)";
+        });
+      });
+
+      module.addEventListener("pointerleave", function () {
+        if (card) {
+          card.style.transform = "translate(0, 0)";
+        }
+
+        decor.forEach(function (item) {
+          item.style.transform = "translate(0, 0)";
+        });
+      });
+    })();
+  </script>
+</section>

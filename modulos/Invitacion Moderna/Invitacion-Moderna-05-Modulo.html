@@ -1,0 +1,487 @@
+<section
+  class="module-historia-evento-editorial"
+  data-gemini-id="historia-evento"
+  memory_type="background"
+  memory_usage="protected"
+  aria-labelledby="historia-evento-title"
+>
+  <style>
+    .module-historia-evento-editorial {
+      --primary-color: #202326;
+      --secondary-color: #6f7478;
+      --accent-color: #9a9a9a;
+      --background-color: #ffffff;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(0, 0, 0, 0.1);
+      --text-color: #202326;
+
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+      color: var(--text-color);
+      background: var(--background-color);
+    }
+
+    .historia-evento__inner {
+      width: min(1220px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(3rem, 6vw, 6rem) clamp(1.25rem, 5vw, 4rem);
+      box-sizing: border-box;
+      display: grid;
+      align-content: center;
+      gap: clamp(3rem, 7vw, 6rem);
+    }
+
+    .historia-evento__header {
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .historia-evento__eyebrow {
+      margin: 0 0 clamp(0.75rem, 1.5vw, 1rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.7rem, 1vw, 0.85rem);
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .historia-evento__title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.7rem, 3vw, 2.5rem);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    .historia-evento__subtitle {
+      margin: clamp(0.75rem, 1.6vw, 1rem) 0 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.05rem, 2vw, 1.45rem);
+      font-style: italic;
+      line-height: 1.55;
+      color: var(--secondary-color);
+    }
+
+    .historia-evento__ornament {
+      width: min(150px, 42%);
+      height: 34px;
+      margin: clamp(1.2rem, 2.4vw, 1.6rem) auto 0;
+      position: relative;
+      color: var(--accent-color);
+    }
+
+    .historia-evento__ornament::before,
+    .historia-evento__ornament::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 46%;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.6;
+    }
+
+    .historia-evento__ornament::before {
+      left: 0;
+    }
+
+    .historia-evento__ornament::after {
+      right: 0;
+    }
+
+    .historia-evento__ornament span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 18px;
+      height: 18px;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--background-color);
+    }
+
+    .historia-evento__layout {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.95fr) minmax(320px, 1.05fr);
+      align-items: center;
+      gap: clamp(2.5rem, 6vw, 5.5rem);
+    }
+
+    .historia-evento__visual {
+      position: relative;
+      margin: 0;
+      min-height: clamp(280px, 34vw, 430px);
+      display: grid;
+      place-items: center;
+    }
+
+    .historia-evento__brush {
+      position: absolute;
+      inset: 8% 2%;
+      z-index: 1;
+      background:
+        linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05), transparent),
+        rgba(0, 0, 0, 0.04);
+      border-radius: 48% 52% 44% 56%;
+      transform: rotate(-4deg);
+    }
+
+    .historia-evento__image-frame {
+      position: relative;
+      z-index: 2;
+      width: min(520px, 100%);
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      clip-path: polygon(5% 8%, 92% 0, 100% 82%, 11% 100%, 0 55%);
+      background: var(--surface-color);
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.12);
+    }
+
+    .historia-evento__image-frame img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: contrast(0.98) saturate(0.96);
+    }
+
+    .historia-evento__floating-mark {
+      position: absolute;
+      z-index: 3;
+      width: clamp(12px, 1.6vw, 18px);
+      height: clamp(12px, 1.6vw, 18px);
+      border-radius: 50%;
+      background: var(--accent-color);
+      opacity: 0.7;
+    }
+
+    .historia-evento__floating-mark--one {
+      left: 6%;
+      top: 24%;
+    }
+
+    .historia-evento__floating-mark--two {
+      right: 8%;
+      top: 18%;
+    }
+
+    .historia-evento__floating-mark--three {
+      right: 2%;
+      bottom: 30%;
+    }
+
+    .historia-evento__content {
+      max-width: 580px;
+    }
+
+    .historia-evento__section-title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.65rem, 3vw, 2.35rem);
+      font-weight: 400;
+      line-height: 1.18;
+      color: var(--primary-color);
+    }
+
+    .historia-evento__divider {
+      width: 44px;
+      height: 4px;
+      margin: clamp(1rem, 2vw, 1.4rem) 0;
+      background: var(--accent-color);
+    }
+
+    .historia-evento__body {
+      display: grid;
+      gap: clamp(1rem, 2vw, 1.35rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.95rem, 1.24vw, 1.08rem);
+      line-height: 1.75;
+      color: var(--primary-color);
+    }
+
+    .historia-evento__body p {
+      margin: 0;
+    }
+
+    .historia-evento__navigation {
+      margin-top: clamp(2rem, 4vw, 3rem);
+      display: flex;
+      justify-content: center;
+      gap: clamp(0.8rem, 2vw, 1.2rem);
+      color: var(--accent-color);
+    }
+
+    .historia-evento__nav-dot {
+      width: 28px;
+      height: 28px;
+      border: 2px solid currentColor;
+      border-radius: 50%;
+      background: transparent;
+      opacity: 0.75;
+    }
+
+    .historia-evento__motion {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: historiaEventoReveal 0.5s ease-out forwards;
+    }
+
+    .historia-evento__header {
+      animation-delay: 0.04s;
+    }
+
+    .historia-evento__visual {
+      animation-delay: 0.12s;
+    }
+
+    .historia-evento__content {
+      animation-delay: 0.18s;
+    }
+
+    @keyframes historiaEventoReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .historia-evento__layout {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .historia-evento__content {
+        margin: 0 auto;
+      }
+
+      .historia-evento__divider {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .module-historia-evento-editorial {
+        min-height: 100svh;
+      }
+
+      .historia-evento__inner {
+        min-height: 100svh;
+        padding: 3rem 1.25rem;
+      }
+
+      .historia-evento__image-frame {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+      }
+
+      .historia-evento__navigation {
+        gap: 0.65rem;
+      }
+
+      .historia-evento__nav-dot {
+        width: 22px;
+        height: 22px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .historia-evento__motion {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <div class="historia-evento__inner">
+    <header
+      class="historia-evento__header historia-evento__motion"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="story-header"
+    >
+      <p class="historia-evento__eyebrow">
+        Featured Moment
+      </p>
+
+      <h2 id="historia-evento-title" class="historia-evento__title">
+        Our Special Story
+      </h2>
+
+      <p class="historia-evento__subtitle">
+        A meaningful moment shared with the people we love.
+      </p>
+
+      <div class="historia-evento__ornament" aria-hidden="true">
+        <span></span>
+      </div>
+    </header>
+
+    <div class="historia-evento__layout">
+      <figure
+        class="historia-evento__visual historia-evento__motion"
+        memory_type="image"
+        memory_usage="custom"
+        memory_source="library"
+        memory_key="featured-story-image"
+      >
+        <div
+          class="historia-evento__brush"
+          memory_type="background"
+          memory_usage="protected"
+          memory_source="library"
+          path="placeholder"
+          data-library-category="eventos"
+          data-asset-type="textura-decorativa"
+          aria-hidden="true"
+        ></div>
+
+        <div class="historia-evento__image-frame">
+          <img
+            src="https://loremflickr.com/900/650/celebration,event"
+            alt="Featured event moment"
+            path="placeholder"
+            data-library-category="eventos"
+            data-asset-type="foto-destacada"
+          />
+        </div>
+
+        <span class="historia-evento__floating-mark historia-evento__floating-mark--one" aria-hidden="true"></span>
+        <span class="historia-evento__floating-mark historia-evento__floating-mark--two" aria-hidden="true"></span>
+        <span class="historia-evento__floating-mark historia-evento__floating-mark--three" aria-hidden="true"></span>
+
+        <figcaption hidden>
+          Featured story image
+        </figcaption>
+      </figure>
+
+      <article
+        class="historia-evento__content historia-evento__motion"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="story-content"
+      >
+        <h3 class="historia-evento__section-title">
+          A moment worth remembering
+        </h3>
+
+        <div class="historia-evento__divider" aria-hidden="true"></div>
+
+        <div class="historia-evento__body">
+          <p>
+            Use this section to share a short story, a favorite memory, or the
+            reason this celebration is so meaningful.
+          </p>
+
+          <p>
+            This module can adapt to weddings, quinceañeras, birthdays, baby
+            showers, graduations, anniversaries, family gatherings, and other
+            special events.
+          </p>
+        </div>
+      </article>
+    </div>
+
+    <nav
+      class="historia-evento__navigation"
+      aria-label="Story navigation"
+      memory_type="text"
+      memory_usage="protected"
+      memory_key="story-navigation"
+    >
+      <span class="historia-evento__nav-dot" aria-hidden="true"></span>
+      <span class="historia-evento__nav-dot" aria-hidden="true"></span>
+      <span class="historia-evento__nav-dot" aria-hidden="true"></span>
+      <span class="historia-evento__nav-dot" aria-hidden="true"></span>
+      <span class="historia-evento__nav-dot" aria-hidden="true"></span>
+    </nav>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "historia",
+        "momento destacado",
+        "evento",
+        "foto destacada",
+        "storytelling",
+        "modulo universal",
+        "boda",
+        "quinceanera",
+        "cumpleanos",
+        "baby shower",
+        "graduacion",
+        "despedida",
+        "aniversario",
+        "responsive"
+      ],
+      descripcion:
+        "Wireframe universal para contar una historia o momento destacado con imagen, encabezado, texto narrativo y navegación decorativa adaptable a cualquier evento."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="historia-evento"]');
+
+      if (!module) return;
+
+      const visual = module.querySelector(".historia-evento__visual");
+      const content = module.querySelector(".historia-evento__content");
+      const marks = module.querySelectorAll(".historia-evento__floating-mark");
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (prefersReducedMotion) return;
+
+      module.addEventListener("pointermove", function (event) {
+        const rect = module.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        if (visual) {
+          visual.style.transform =
+            "translate(" + x * 6 + "px, " + y * 5 + "px)";
+        }
+
+        if (content) {
+          content.style.transform =
+            "translate(" + x * -3 + "px, " + y * -2 + "px)";
+        }
+
+        marks.forEach(function (mark, index) {
+          const depth = (index + 1) * 4;
+          mark.style.transform =
+            "translate(" + x * depth + "px, " + y * depth + "px)";
+        });
+      });
+
+      module.addEventListener("pointerleave", function () {
+        if (visual) {
+          visual.style.transform = "translate(0, 0)";
+        }
+
+        if (content) {
+          content.style.transform = "translate(0, 0)";
+        }
+
+        marks.forEach(function (mark) {
+          mark.style.transform = "translate(0, 0)";
+        });
+      });
+    })();
+  </script>
+</section>

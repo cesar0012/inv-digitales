@@ -1,0 +1,414 @@
+<section
+  class="module-galeria-grid-evento"
+  data-gemini-id="galeria-grid"
+  memory_type="background"
+  memory_usage="protected"
+  aria-labelledby="galeria-grid-title"
+>
+  <style>
+    .module-galeria-grid-evento {
+      --primary-color: #202326;
+      --secondary-color: #6f7478;
+      --accent-color: #9faf91;
+      --background-color: #ffffff;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(0, 0, 0, 0.08);
+      --text-color: #202326;
+
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+      color: var(--text-color);
+      background: var(--background-color);
+    }
+
+    .galeria-grid__inner {
+      width: min(1440px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(3rem, 6vw, 6rem) clamp(1.25rem, 4vw, 3rem);
+      box-sizing: border-box;
+      display: grid;
+      align-content: center;
+      gap: clamp(2.5rem, 5vw, 4rem);
+    }
+
+    .galeria-grid__header {
+      max-width: 780px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .galeria-grid__eyebrow {
+      margin: 0 0 0.8rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.72rem, 1vw, 0.86rem);
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .galeria-grid__title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.2rem, 4.5vw, 4.8rem);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: var(--primary-color);
+    }
+
+    .galeria-grid__subtitle {
+      margin: 1rem 0 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.95rem, 1.25vw, 1.08rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .galeria-grid__grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 1fr));
+      gap: clamp(1rem, 2vw, 2rem);
+    }
+
+    .galeria-grid__item {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.06);
+    }
+
+    .galeria-grid__item img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      height: auto;
+      object-fit: cover;
+      object-position: center;
+      filter: contrast(0.98) saturate(0.96);
+      transition:
+        transform 0.45s ease,
+        filter 0.45s ease;
+    }
+
+    .galeria-grid__item:hover img {
+      transform: scale(1.04);
+      filter: contrast(1) saturate(1);
+    }
+
+    .galeria-grid__caption {
+      position: absolute;
+      left: 1rem;
+      bottom: 1rem;
+      max-width: calc(100% - 2rem);
+      padding: 0.55rem 0.85rem;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--surface-border-color);
+      color: var(--primary-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(8px);
+      transition:
+        opacity 0.35s ease,
+        transform 0.35s ease;
+    }
+
+    .galeria-grid__item:hover .galeria-grid__caption,
+    .galeria-grid__item:focus-within .galeria-grid__caption {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .galeria-grid__motion {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: galeriaGridReveal 0.5s ease-out forwards;
+    }
+
+    .galeria-grid__header {
+      animation-delay: 0.04s;
+    }
+
+    .galeria-grid__item:nth-child(1) {
+      animation-delay: 0.08s;
+    }
+
+    .galeria-grid__item:nth-child(2) {
+      animation-delay: 0.12s;
+    }
+
+    .galeria-grid__item:nth-child(3) {
+      animation-delay: 0.16s;
+    }
+
+    .galeria-grid__item:nth-child(4) {
+      animation-delay: 0.2s;
+    }
+
+    .galeria-grid__item:nth-child(5) {
+      animation-delay: 0.24s;
+    }
+
+    .galeria-grid__item:nth-child(6) {
+      animation-delay: 0.28s;
+    }
+
+    .galeria-grid__item:nth-child(7) {
+      animation-delay: 0.32s;
+    }
+
+    .galeria-grid__item:nth-child(8) {
+      animation-delay: 0.36s;
+    }
+
+    @keyframes galeriaGridReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 1080px) {
+      .galeria-grid__grid {
+        grid-template-columns: repeat(3, minmax(180px, 1fr));
+      }
+    }
+
+    @media (max-width: 760px) {
+      .galeria-grid__grid {
+        grid-template-columns: repeat(2, minmax(140px, 1fr));
+      }
+    }
+
+    @media (max-width: 520px) {
+      .module-galeria-grid-evento,
+      .galeria-grid__inner {
+        min-height: 100svh;
+      }
+
+      .galeria-grid__inner {
+        padding: 3rem 1rem;
+      }
+
+      .galeria-grid__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .galeria-grid__title {
+        font-size: clamp(2.6rem, 15vw, 4rem);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .galeria-grid__motion,
+      .galeria-grid__item img,
+      .galeria-grid__caption {
+        animation: none;
+        transition: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <div class="galeria-grid__inner">
+    <header
+      class="galeria-grid__header galeria-grid__motion"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="gallery-grid-header"
+    >
+      <p class="galeria-grid__eyebrow">
+        Memories
+      </p>
+
+      <h2 id="galeria-grid-title" class="galeria-grid__title">
+        Photo Gallery
+      </h2>
+
+      <p class="galeria-grid__subtitle">
+        A clean grid of favorite images from this celebration, designed for event
+        highlights, portraits, details, guests, and meaningful moments.
+      </p>
+    </header>
+
+    <div
+      class="galeria-grid__grid"
+      memory_type="image"
+      memory_usage="custom"
+      memory_source="library"
+      memory_key="gallery-grid-images"
+    >
+      <figure class="galeria-grid__item galeria-grid__motion">
+        <img
+          src="https://loremflickr.com/900/600/event,celebration?lock=901"
+          alt="Gallery image one"
+          path="placeholder"
+          data-library-category="eventos"
+          data-asset-type="foto-galeria"
+        />
+        <figcaption
+          class="galeria-grid__caption"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="gallery-grid-caption-1"
+        >
+          Moment One
+        </figcaption>
+      </figure>
+
+      <figure class="galeria-grid__item galeria-grid__motion">
+        <img
+          src="https://loremflickr.com/900/600/friends,event?lock=902"
+          alt="Gallery image two"
+          path="placeholder"
+          data-library-category="eventos"
+          data-asset-type="foto-galeria"
+        />
+        <figcaption class="galeria-grid__caption" memory_type="text" memory_usage="custom" memory_key="gallery-grid-caption-2">
+          Moment Two
+        </figcaption>
+      </figure>
+
+      <figure class="galeria-grid__item galeria-grid__motion">
+        <img
+          src="https://loremflickr.com/900/600/family,celebration?lock=903"
+          alt="Gallery image three"
+          path="placeholder"
+          data-library-category="eventos"
+          data-asset-type="foto-galeria"
+        />
+        <figcaption class="galeria-grid__caption" memory_type="text" memory_usage="custom" memory_key="gallery-grid-caption-3">
+          Moment Three
+        </figcaption>
+      </figure>
+
+      <figure class="galeria-grid__item galeria-grid__motion">
+        <img
+          src="https://loremflickr.com/900/600/party,event?lock=904"
+          alt="Gallery image four"
+          path="placeholder"
+          data-library-category="eventos"
+          data-asset-type="foto-galeria"
+        />
+        <figcaption class="galeria-grid__caption" memory_type="text" memory_usage="custom" memory_key="gallery-grid-caption-4">
+          Moment Four
+        </figcaption>
+      </figure>
+
+      <figure class="galeria-grid__item galeria-grid__motion">
+        <img
+          src="https://loremflickr.com/900/600/details,event?lock=905"
+          alt="Gallery image five"
+          path="placeholder"
+          data-library-category="eventos"
+          data-asset-type="foto-galeria"
+        />
+        <figcaption class="galeria-grid__caption" memory_type="text" memory_usage="custom" memory_key="gallery-grid-caption-5">
+          Detail
+        </figcaption>
+      </figure>
+
+      <figure class="galeria-grid__item galeria-grid__motion">
+        <img
+          src="https://loremflickr.com/900/600/portrait,celebration?lock=906"
+          alt="Gallery image six"
+          path="placeholder"
+          data-library-category="eventos"
+          data-asset-type="foto-galeria"
+        />
+        <figcaption class="galeria-grid__caption" memory_type="text" memory_usage="custom" memory_key="gallery-grid-caption-6">
+          Portrait
+        </figcaption>
+      </figure>
+
+      <figure class="galeria-grid__item galeria-grid__motion">
+        <img
+          src="https://loremflickr.com/900/600/ceremony,event?lock=907"
+          alt="Gallery image seven"
+          path="placeholder"
+          data-library-category="eventos"
+          data-asset-type="foto-galeria"
+        />
+        <figcaption class="galeria-grid__caption" memory_type="text" memory_usage="custom" memory_key="gallery-grid-caption-7">
+          Ceremony
+        </figcaption>
+      </figure>
+
+      <figure class="galeria-grid__item galeria-grid__motion">
+        <img
+          src="https://loremflickr.com/900/600/celebration,people?lock=908"
+          alt="Gallery image eight"
+          path="placeholder"
+          data-library-category="eventos"
+          data-asset-type="foto-galeria"
+        />
+        <figcaption class="galeria-grid__caption" memory_type="text" memory_usage="custom" memory_key="gallery-grid-caption-8">
+          Celebration
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "galeria",
+        "photo gallery",
+        "grid",
+        "galeria uniforme",
+        "evento",
+        "modulo universal",
+        "boda",
+        "quinceanera",
+        "cumpleanos",
+        "baby shower",
+        "graduacion",
+        "despedida",
+        "aniversario",
+        "fotos",
+        "responsive"
+      ],
+      descripcion:
+        "Wireframe universal de galería fotográfica en grid uniforme, diferente a la galería masonry, con ocho imágenes reemplazables y captions opcionales."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="galeria-grid"]');
+      if (!module) return;
+
+      const items = module.querySelectorAll(".galeria-grid__item");
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (prefersReducedMotion) return;
+
+      module.addEventListener("pointermove", function (event) {
+        const rect = module.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        items.forEach(function (item, index) {
+          const depth = ((index % 4) + 1) * 1.2;
+          item.style.transform = "translate(" + x * depth + "px, " + y * depth + "px)";
+        });
+      });
+
+      module.addEventListener("pointerleave", function () {
+        items.forEach(function (item) {
+          item.style.transform = "translate(0, 0)";
+        });
+      });
+    })();
+  </script>
+</section>

@@ -1,0 +1,356 @@
+<section
+  class="module-vestimenta-editorial-photo"
+  data-gemini-id="detalles-vestimenta"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="vestimenta-editorial-title"
+>
+  <style>
+    .module-vestimenta-editorial-photo {
+      --primary-color: #202326;
+      --secondary-color: #5f666b;
+      --accent-color: #b59b72;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(0, 0, 0, 0.12);
+      --overlay-color: rgba(0, 0, 0, 0.58);
+      --text-color: #202326;
+
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+      color: var(--text-color);
+      background-color: #eeeeee;
+      background-image: url("https://loremflickr.com/1920/1080/fashion,event");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      isolation: isolate;
+    }
+
+    .module-vestimenta-editorial-photo::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.66),
+          rgba(0, 0, 0, 0.34),
+          rgba(0, 0, 0, 0.56)
+        ),
+        var(--overlay-color);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .vestimenta-editorial__inner {
+      width: min(1280px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 5rem);
+      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: minmax(320px, 480px) 1fr;
+      align-items: center;
+      gap: clamp(2rem, 6vw, 6rem);
+    }
+
+    .vestimenta-editorial__card {
+      position: relative;
+      z-index: 3;
+      width: min(480px, 100%);
+      padding: clamp(2rem, 4vw, 3.4rem);
+      box-sizing: border-box;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: clamp(8px, 1.2vw, 14px);
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.28);
+      overflow: hidden;
+    }
+
+    .vestimenta-editorial__card::before,
+    .vestimenta-editorial__card::after {
+      content: "";
+      position: absolute;
+      width: 72px;
+      height: 72px;
+      border-color: var(--accent-color);
+      border-style: solid;
+      opacity: 0.28;
+      pointer-events: none;
+    }
+
+    .vestimenta-editorial__card::before {
+      left: 1rem;
+      bottom: 1rem;
+      border-width: 0 0 1px 1px;
+    }
+
+    .vestimenta-editorial__card::after {
+      right: 1rem;
+      bottom: 1rem;
+      border-width: 0 1px 1px 0;
+    }
+
+    .vestimenta-editorial__eyebrow {
+      margin: 0 0 clamp(0.85rem, 1.5vw, 1.1rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.72rem, 1vw, 0.86rem);
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .vestimenta-editorial__title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.7rem, 3vw, 2.35rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    .vestimenta-editorial__divider {
+      width: 42px;
+      height: 4px;
+      margin: clamp(1rem, 2vw, 1.4rem) 0;
+      background: var(--accent-color);
+    }
+
+    .vestimenta-editorial__intro,
+    .vestimenta-editorial__body p {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.95rem, 1.2vw, 1.08rem);
+      line-height: 1.75;
+      color: var(--primary-color);
+    }
+
+    .vestimenta-editorial__body {
+      display: grid;
+      gap: clamp(1rem, 2vw, 1.35rem);
+      margin-top: clamp(1.25rem, 2.5vw, 1.8rem);
+    }
+
+    .vestimenta-editorial__quote {
+      margin: clamp(1.35rem, 2.6vw, 2rem) 0 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.15rem, 1.7vw, 1.35rem);
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--primary-color);
+    }
+
+    .vestimenta-editorial__ornament {
+      width: min(120px, 38%);
+      height: 28px;
+      margin: clamp(1.5rem, 3vw, 2rem) auto 0;
+      position: relative;
+      color: var(--accent-color);
+    }
+
+    .vestimenta-editorial__ornament::before,
+    .vestimenta-editorial__ornament::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 46%;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.65;
+    }
+
+    .vestimenta-editorial__ornament::before {
+      left: 0;
+    }
+
+    .vestimenta-editorial__ornament::after {
+      right: 0;
+    }
+
+    .vestimenta-editorial__ornament span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 14px;
+      height: 14px;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--surface-color);
+    }
+
+    .vestimenta-editorial__visual-space {
+      min-height: 60vh;
+      pointer-events: none;
+    }
+
+    .vestimenta-editorial__motion {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: vestimentaEditorialReveal 0.5s ease-out forwards;
+    }
+
+    .vestimenta-editorial__card {
+      animation-delay: 0.08s;
+    }
+
+    @keyframes vestimentaEditorialReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .vestimenta-editorial__inner {
+        grid-template-columns: 1fr;
+        place-items: center;
+      }
+
+      .vestimenta-editorial__card {
+        width: min(520px, 94vw);
+      }
+
+      .vestimenta-editorial__visual-space {
+        display: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .module-vestimenta-editorial-photo {
+        min-height: 100svh;
+      }
+
+      .vestimenta-editorial__inner {
+        min-height: 100svh;
+        padding: 1.25rem;
+      }
+
+      .vestimenta-editorial__card {
+        width: 100%;
+        padding: 2.25rem 1.5rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .vestimenta-editorial__motion {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <div class="vestimenta-editorial__inner">
+    <article
+      class="vestimenta-editorial__card vestimenta-editorial__motion"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="dress-code-content"
+    >
+      <header>
+        <p class="vestimenta-editorial__eyebrow">
+          Dress Code
+        </p>
+
+        <h2 id="vestimenta-editorial-title" class="vestimenta-editorial__title">
+          What to Wear
+        </h2>
+
+        <div class="vestimenta-editorial__divider" aria-hidden="true"></div>
+
+        <p class="vestimenta-editorial__intro">
+          Please dress in a way that feels comfortable, polished, and appropriate
+          for the celebration.
+        </p>
+      </header>
+
+      <div class="vestimenta-editorial__body">
+        <p>
+          Suggested attire: semi-formal, cocktail, themed, or event-appropriate
+          clothing based on the style of the celebration.
+        </p>
+
+        <p>
+          Guests are welcome to use the event colors as inspiration. Comfortable
+          shoes are recommended if the celebration includes dancing, outdoor
+          areas, or extended standing time.
+        </p>
+      </div>
+
+      <p class="vestimenta-editorial__quote">
+        “Come ready to celebrate, feel your best, and enjoy every moment.”
+      </p>
+
+      <div class="vestimenta-editorial__ornament" aria-hidden="true">
+        <span></span>
+      </div>
+    </article>
+
+    <div class="vestimenta-editorial__visual-space" aria-hidden="true"></div>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "detalles",
+        "vestimenta",
+        "dress code",
+        "guest details",
+        "evento",
+        "modulo universal",
+        "boda",
+        "quinceanera",
+        "cumpleanos",
+        "baby shower",
+        "graduacion",
+        "despedida",
+        "tarjeta flotante",
+        "foto de fondo",
+        "overlay oscuro",
+        "responsive"
+      ],
+      descripcion:
+        "Wireframe universal de vestimenta con foto de fondo, overlay oscuro y tarjeta editorial para explicar el código de vestimenta del evento."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="detalles-vestimenta"]');
+
+      if (!module) return;
+
+      const card = module.querySelector(".vestimenta-editorial__card");
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (prefersReducedMotion) return;
+
+      module.addEventListener("pointermove", function (event) {
+        const rect = module.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        if (card) {
+          card.style.transform =
+            "translate(" + x * 6 + "px, " + y * 5 + "px)";
+        }
+      });
+
+      module.addEventListener("pointerleave", function () {
+        if (card) {
+          card.style.transform = "translate(0, 0)";
+        }
+      });
+    })();
+  </script>
+</section>

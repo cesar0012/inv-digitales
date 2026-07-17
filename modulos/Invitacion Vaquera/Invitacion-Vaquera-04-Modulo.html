@@ -1,0 +1,412 @@
+<section
+  class="module-familias-western"
+  data-gemini-id="familias-invitacion"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="familias-western-title"
+>
+  <style>
+    .module-familias-western {
+      --primary-color: #2f2f2f;
+      --secondary-color: #686868;
+      --accent-color: #8a8a8a;
+      --surface-color: rgba(255, 255, 255, 0.72);
+      --surface-border-color: rgba(0, 0, 0, 0.12);
+      --background-color: #eeeeee;
+      --text-color: #2f2f2f;
+
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+      color: var(--text-color);
+      background-color: var(--background-color);
+      background-image: url("https://loremflickr.com/1920/1080/parchment,wedding");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      isolation: isolate;
+    }
+
+    .module-familias-western::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 24% 42%, rgba(255,255,255,0.34), transparent 28%),
+        linear-gradient(
+          90deg,
+          rgba(255,255,255,0.28),
+          rgba(255,255,255,0.1),
+          rgba(255,255,255,0.26)
+        );
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .familias-western__inner {
+      width: min(1200px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 5rem);
+      box-sizing: border-box;
+      display: grid;
+      place-items: center;
+    }
+
+    .familias-western__card {
+      position: relative;
+      width: min(980px, 94vw);
+      min-height: clamp(520px, 68vh, 720px);
+      padding: clamp(2rem, 5vw, 5rem);
+      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: minmax(180px, 0.75fr) minmax(320px, 1fr);
+      align-items: center;
+      gap: clamp(2rem, 5vw, 5rem);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: clamp(28px, 4vw, 56px);
+      box-shadow:
+        0 28px 80px rgba(0, 0, 0, 0.14),
+        inset 0 0 0 1px rgba(255,255,255,0.36);
+      backdrop-filter: blur(7px);
+      overflow: hidden;
+    }
+
+    .familias-western__card::before {
+      content: "";
+      position: absolute;
+      inset: clamp(0.65rem, 1.2vw, 1rem);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: clamp(22px, 3.5vw, 44px);
+      pointer-events: none;
+    }
+
+    .familias-western__monogram-area {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 320px;
+    }
+
+    .familias-western__monogram-orbit {
+      position: relative;
+      width: clamp(180px, 24vw, 270px);
+      aspect-ratio: 1 / 1;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at center, rgba(255,255,255,0.58) 0 28%, transparent 29%),
+        radial-gradient(circle at center, rgba(0,0,0,0.08), rgba(0,0,0,0.02));
+      border: 1px dashed rgba(0, 0, 0, 0.12);
+    }
+
+    .familias-western__monogram {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(4rem, 9vw, 7rem);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1;
+      color: var(--accent-color);
+    }
+
+    .familias-western__content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .familias-western__eyebrow {
+      margin: 0 0 clamp(1rem, 2vw, 1.5rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.68rem, 1vw, 0.82rem);
+      font-weight: 700;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .familias-western__title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3rem, 6vw, 6rem);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--primary-color);
+    }
+
+    .familias-western__copy {
+      margin-top: clamp(1.25rem, 2.5vw, 2rem);
+      display: grid;
+      gap: clamp(1rem, 2vw, 1.45rem);
+      max-width: 560px;
+    }
+
+    .familias-western__copy p {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.95rem, 1.3vw, 1.08rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .familias-western__decor {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.45;
+      z-index: 1;
+    }
+
+    .familias-western__decor--top-left {
+      top: 0;
+      left: 0;
+      width: clamp(140px, 20vw, 260px);
+      aspect-ratio: 3 / 2;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 30% 35%, rgba(0,0,0,0.1) 0 16%, transparent 17%),
+        radial-gradient(circle at 62% 42%, rgba(0,0,0,0.08) 0 13%, transparent 14%);
+      border: 1px dashed rgba(0,0,0,0.08);
+      transform: translate(-25%, -30%);
+    }
+
+    .familias-western__decor--bottom-right {
+      right: 0;
+      bottom: 0;
+      width: clamp(180px, 28vw, 360px);
+      aspect-ratio: 4 / 2;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 28% 50%, rgba(0,0,0,0.1) 0 14%, transparent 15%),
+        radial-gradient(circle at 55% 45%, rgba(0,0,0,0.12) 0 17%, transparent 18%),
+        radial-gradient(circle at 78% 55%, rgba(0,0,0,0.08) 0 13%, transparent 14%);
+      border: 1px dashed rgba(0,0,0,0.08);
+      transform: translate(18%, 22%);
+    }
+
+    .familias-western__motion {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: familiasWesternReveal 0.5s ease-out forwards;
+    }
+
+    .familias-western__monogram-area {
+      animation-delay: 0.06s;
+    }
+
+    .familias-western__content {
+      animation-delay: 0.12s;
+    }
+
+    @keyframes familiasWesternReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .familias-western__card {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2rem;
+      }
+
+      .familias-western__monogram-area {
+        min-height: 220px;
+      }
+
+      .familias-western__copy {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .module-familias-western {
+        min-height: 100svh;
+      }
+
+      .familias-western__inner {
+        min-height: 100svh;
+        padding: 1.25rem;
+      }
+
+      .familias-western__card {
+        width: 100%;
+        min-height: auto;
+        padding: 2rem 1.25rem;
+        border-radius: 28px;
+      }
+
+      .familias-western__title {
+        font-size: clamp(3rem, 14vw, 4.5rem);
+      }
+
+      .familias-western__eyebrow {
+        letter-spacing: 0.2em;
+      }
+
+      .familias-western__monogram-orbit {
+        width: clamp(150px, 48vw, 210px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .familias-western__motion {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <div class="familias-western__inner">
+    <article class="familias-western__card">
+      <div
+        class="familias-western__decor familias-western__decor--top-left"
+        memory_type="background"
+        memory_usage="protected"
+        memory_source="library"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="decoracion-floral"
+        aria-hidden="true"
+      ></div>
+
+      <div
+        class="familias-western__decor familias-western__decor--bottom-right"
+        memory_type="background"
+        memory_usage="protected"
+        memory_source="library"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="decoracion-floral"
+        aria-hidden="true"
+      ></div>
+
+      <aside
+        class="familias-western__monogram-area familias-western__motion"
+        aria-label="Monograma de la invitación"
+      >
+        <div
+          class="familias-western__monogram-orbit"
+          memory_type="background"
+          memory_usage="protected"
+          memory_source="library"
+          path="placeholder"
+          data-library-category="bodas"
+          data-asset-type="monograma-decorativo"
+        >
+          <p
+            class="familias-western__monogram"
+            memory_type="text"
+            memory_usage="custom"
+            memory_key="family-monogram"
+          >
+            W
+          </p>
+        </div>
+      </aside>
+
+      <header
+        class="familias-western__content familias-western__motion"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="families-copy"
+      >
+        <p class="familias-western__eyebrow">
+          Together With Their Families
+        </p>
+
+        <h2 id="familias-western-title" class="familias-western__title">
+          Hosted with love and western grace.
+        </h2>
+
+        <div class="familias-western__copy">
+          <p>
+            Mr. and Mrs. Rivera joyfully invite you to celebrate the marriage of
+            their daughter.
+          </p>
+
+          <p>
+            Mr. and Mrs. Hayes warmly welcome family and friends to honor this
+            union and the beginning of a shared life.
+          </p>
+
+          <p>
+            With grateful hearts, both families invite you to a romantic western
+            wedding celebration filled with love, music, dinner, and dancing.
+          </p>
+        </div>
+      </header>
+    </article>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "familias",
+        "padres",
+        "invitacion formal",
+        "boda",
+        "western",
+        "vaquera",
+        "charra",
+        "monograma",
+        "tarjeta central",
+        "texto editorial",
+        "responsive"
+      ],
+      descripcion:
+        "Wireframe de sección formal donde las familias presentan la invitación con monograma, encabezado editorial y texto de bienvenida."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="familias-invitacion"]');
+
+      if (!module) return;
+
+      const card = module.querySelector(".familias-western__card");
+      const monogram = module.querySelector(".familias-western__monogram-orbit");
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (prefersReducedMotion) return;
+
+      module.addEventListener("pointermove", function (event) {
+        const rect = module.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        if (card) {
+          card.style.transform =
+            "translate(" + x * 5 + "px, " + y * 4 + "px)";
+        }
+
+        if (monogram) {
+          monogram.style.transform =
+            "translate(" + x * -8 + "px, " + y * -6 + "px) rotate(" + x * 4 + "deg)";
+        }
+      });
+
+      module.addEventListener("pointerleave", function () {
+        if (card) {
+          card.style.transform = "translate(0, 0)";
+        }
+
+        if (monogram) {
+          monogram.style.transform = "translate(0, 0) rotate(0deg)";
+        }
+      });
+    })();
+  </script>
+</section>

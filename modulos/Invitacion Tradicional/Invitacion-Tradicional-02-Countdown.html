@@ -1,0 +1,396 @@
+<section
+  class="module-countdown-strip-evento"
+  data-gemini-id="countdown-target"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="countdown-strip-title"
+>
+  <style>
+    .module-countdown-strip-evento {
+      --primary-color: #ffffff;
+      --secondary-color: rgba(255, 255, 255, 0.82);
+      --accent-color: #ffffff;
+      --divider-color: rgba(255, 255, 255, 0.28);
+      --overlay-color: rgba(0, 0, 0, 0.54);
+      --background-color: #111111;
+
+      position: relative;
+      width: 100%;
+      min-height: clamp(240px, 28vw, 360px);
+      overflow: hidden;
+      box-sizing: border-box;
+      color: var(--primary-color);
+      background-color: var(--background-color);
+      background-image: url("https://loremflickr.com/1920/720/event,celebration");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      isolation: isolate;
+    }
+
+    .module-countdown-strip-evento::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.68),
+          rgba(0, 0, 0, 0.44),
+          rgba(0, 0, 0, 0.58)
+        ),
+        var(--overlay-color);
+      pointer-events: none;
+    }
+
+    .countdown-strip__inner {
+      width: min(1440px, 100%);
+      min-height: inherit;
+      margin: 0 auto;
+      padding: clamp(2rem, 4vw, 4rem) clamp(1.25rem, 5vw, 5rem);
+      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: minmax(220px, 0.75fr) minmax(520px, 1.25fr);
+      align-items: center;
+      gap: clamp(2rem, 5vw, 5rem);
+    }
+
+    .countdown-strip__intro {
+      position: relative;
+      z-index: 2;
+    }
+
+    .countdown-strip__eyebrow {
+      margin: 0 0 clamp(0.75rem, 1.5vw, 1rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.78rem, 1.1vw, 1rem);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .countdown-strip__title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.1rem, 4.6vw, 4.6rem);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: var(--primary-color);
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.28);
+    }
+
+    .countdown-strip__timer {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(100px, 1fr));
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .countdown-strip__unit {
+      position: relative;
+      min-height: clamp(110px, 12vw, 160px);
+      padding: clamp(0.75rem, 2vw, 1.5rem);
+      box-sizing: border-box;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .countdown-strip__unit + .countdown-strip__unit {
+      border-left: 1px solid var(--divider-color);
+    }
+
+    .countdown-strip__number {
+      display: block;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3.1rem, 6vw, 6.2rem);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 0.95;
+      color: var(--primary-color);
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.25);
+    }
+
+    .countdown-strip__label {
+      display: block;
+      margin-top: clamp(0.55rem, 1vw, 0.8rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.78rem, 1.1vw, 0.96rem);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .countdown-strip__date {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .countdown-strip__motion {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: countdownStripReveal 0.5s ease-out forwards;
+    }
+
+    .countdown-strip__intro {
+      animation-delay: 0.04s;
+    }
+
+    .countdown-strip__unit:nth-child(1) {
+      animation-delay: 0.1s;
+    }
+
+    .countdown-strip__unit:nth-child(2) {
+      animation-delay: 0.16s;
+    }
+
+    .countdown-strip__unit:nth-child(3) {
+      animation-delay: 0.22s;
+    }
+
+    .countdown-strip__unit:nth-child(4) {
+      animation-delay: 0.28s;
+    }
+
+    @keyframes countdownStripReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .countdown-strip__inner {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        text-align: center;
+      }
+
+      .countdown-strip__timer {
+        width: min(760px, 100%);
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .module-countdown-strip-evento {
+        min-height: auto;
+      }
+
+      .countdown-strip__inner {
+        padding: 3rem 1.25rem;
+      }
+
+      .countdown-strip__timer {
+        grid-template-columns: repeat(2, minmax(120px, 1fr));
+        gap: 0;
+      }
+
+      .countdown-strip__unit {
+        min-height: 120px;
+        border-left: 0;
+        border-top: 1px solid var(--divider-color);
+      }
+
+      .countdown-strip__unit + .countdown-strip__unit {
+        border-left: 0;
+      }
+
+      .countdown-strip__unit:nth-child(odd) {
+        border-right: 1px solid var(--divider-color);
+      }
+
+      .countdown-strip__number {
+        font-size: clamp(3rem, 16vw, 4.8rem);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .countdown-strip__motion {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <div class="countdown-strip__inner">
+    <header
+      class="countdown-strip__intro countdown-strip__motion"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="countdown-strip-heading"
+    >
+      <p class="countdown-strip__eyebrow">
+        Missing Days To
+      </p>
+
+      <h2 id="countdown-strip-title" class="countdown-strip__title">
+        Our Event
+      </h2>
+
+      <time
+        class="countdown-strip__date"
+        datetime="2027-10-18T16:30:00"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="countdown-event-date"
+      >
+        October 18, 2027 · 4:30 PM
+      </time>
+    </header>
+
+    <ol
+      class="countdown-strip__timer"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="countdown-values"
+      data-countdown-target="2027-10-18T16:30:00"
+      aria-label="Countdown timer"
+    >
+      <li class="countdown-strip__unit countdown-strip__motion">
+        <span class="countdown-strip__number" data-countdown-unit="days">
+          000
+        </span>
+        <span class="countdown-strip__label">
+          Days
+        </span>
+      </li>
+
+      <li class="countdown-strip__unit countdown-strip__motion">
+        <span class="countdown-strip__number" data-countdown-unit="hours">
+          00
+        </span>
+        <span class="countdown-strip__label">
+          Hours
+        </span>
+      </li>
+
+      <li class="countdown-strip__unit countdown-strip__motion">
+        <span class="countdown-strip__number" data-countdown-unit="minutes">
+          00
+        </span>
+        <span class="countdown-strip__label">
+          Minutes
+        </span>
+      </li>
+
+      <li class="countdown-strip__unit countdown-strip__motion">
+        <span class="countdown-strip__number" data-countdown-unit="seconds">
+          00
+        </span>
+        <span class="countdown-strip__label">
+          Seconds
+        </span>
+      </li>
+    </ol>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "countdown",
+        "contador",
+        "cuenta regresiva",
+        "franja horizontal",
+        "foto de fondo",
+        "overlay oscuro",
+        "evento",
+        "modulo universal",
+        "boda",
+        "quinceanera",
+        "cumpleanos",
+        "baby shower",
+        "graduacion",
+        "despedida",
+        "aniversario",
+        "responsive"
+      ],
+      descripcion:
+        "Wireframe universal de countdown horizontal con fondo fotográfico, overlay oscuro, título del evento y unidades de días, horas, minutos y segundos."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="countdown-target"]');
+
+      if (!module) return;
+
+      const timer = module.querySelector("[data-countdown-target]");
+      const units = timer
+        ? {
+            days: timer.querySelector('[data-countdown-unit="days"]'),
+            hours: timer.querySelector('[data-countdown-unit="hours"]'),
+            minutes: timer.querySelector('[data-countdown-unit="minutes"]'),
+            seconds: timer.querySelector('[data-countdown-unit="seconds"]')
+          }
+        : null;
+
+      function pad(value, length) {
+        return String(value).padStart(length, "0");
+      }
+
+      function updateCountdown() {
+        if (!timer || !units) return;
+
+        const targetDate = new Date(timer.getAttribute("data-countdown-target"));
+        const now = new Date();
+        const distance = Math.max(targetDate.getTime() - now.getTime(), 0);
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((distance / (1000 * 60)) % 60);
+        const seconds = Math.floor((distance / 1000) % 60);
+
+        if (units.days) units.days.textContent = pad(days, 3);
+        if (units.hours) units.hours.textContent = pad(hours, 2);
+        if (units.minutes) units.minutes.textContent = pad(minutes, 2);
+        if (units.seconds) units.seconds.textContent = pad(seconds, 2);
+      }
+
+      updateCountdown();
+      window.setInterval(updateCountdown, 1000);
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (prefersReducedMotion) return;
+
+      const inner = module.querySelector(".countdown-strip__inner");
+
+      module.addEventListener("pointermove", function (event) {
+        const rect = module.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        if (inner) {
+          inner.style.transform =
+            "translate(" + x * 4 + "px, " + y * 3 + "px)";
+        }
+      });
+
+      module.addEventListener("pointerleave", function () {
+        if (inner) {
+          inner.style.transform = "translate(0, 0)";
+        }
+      });
+    })();
+  </script>
+</section>

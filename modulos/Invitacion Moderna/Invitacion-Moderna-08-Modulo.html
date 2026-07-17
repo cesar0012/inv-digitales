@@ -1,0 +1,608 @@
+<section
+  class="module-rsvp-evento-editorial"
+  data-gemini-id="rsvp-form"
+  memory_type="background"
+  memory_usage="protected"
+  aria-labelledby="rsvp-evento-title"
+>
+  <style>
+    .module-rsvp-evento-editorial {
+      --primary-color: #202326;
+      --secondary-color: #6f7478;
+      --accent-color: #b59b72;
+      --background-color: #ffffff;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(0, 0, 0, 0.12);
+      --input-background: #f8f8f8;
+      --text-color: #202326;
+      --button-text-color: #ffffff;
+
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+      color: var(--text-color);
+      background: var(--background-color);
+    }
+
+    .rsvp-evento__inner {
+      width: min(1260px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(3rem, 6vw, 6rem) clamp(1.25rem, 5vw, 4rem);
+      box-sizing: border-box;
+      display: grid;
+      align-content: center;
+      gap: clamp(2.5rem, 5vw, 4rem);
+    }
+
+    .rsvp-evento__header {
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .rsvp-evento__eyebrow {
+      margin: 0 0 clamp(0.75rem, 1.5vw, 1rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.72rem, 1vw, 0.86rem);
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .rsvp-evento__title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.8rem, 3vw, 2.7rem);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    .rsvp-evento__subtitle {
+      margin: clamp(0.75rem, 1.6vw, 1rem) 0 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.05rem, 2vw, 1.45rem);
+      font-style: italic;
+      line-height: 1.55;
+      color: var(--secondary-color);
+    }
+
+    .rsvp-evento__ornament {
+      width: min(150px, 42%);
+      height: 34px;
+      margin: clamp(1.2rem, 2.4vw, 1.6rem) auto 0;
+      position: relative;
+      color: var(--accent-color);
+    }
+
+    .rsvp-evento__ornament::before,
+    .rsvp-evento__ornament::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 46%;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.6;
+    }
+
+    .rsvp-evento__ornament::before {
+      left: 0;
+    }
+
+    .rsvp-evento__ornament::after {
+      right: 0;
+    }
+
+    .rsvp-evento__ornament span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 18px;
+      height: 18px;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--background-color);
+    }
+
+    .rsvp-evento__layout {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.9fr) minmax(340px, 1.1fr);
+      align-items: center;
+      gap: clamp(2.5rem, 6vw, 5rem);
+    }
+
+    .rsvp-evento__visual {
+      position: relative;
+      margin: 0;
+      min-height: clamp(260px, 30vw, 420px);
+      display: grid;
+      place-items: center;
+    }
+
+    .rsvp-evento__brush {
+      position: absolute;
+      inset: 8% 4%;
+      z-index: 1;
+      background:
+        linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05), transparent),
+        rgba(0, 0, 0, 0.04);
+      border-radius: 48% 52% 44% 56%;
+      transform: rotate(-4deg);
+    }
+
+    .rsvp-evento__image-frame {
+      position: relative;
+      z-index: 2;
+      width: min(500px, 100%);
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      clip-path: polygon(6% 9%, 92% 0, 100% 82%, 12% 100%, 0 55%);
+      box-shadow: 0 20px 55px rgba(0, 0, 0, 0.12);
+      background: var(--surface-color);
+    }
+
+    .rsvp-evento__image-frame img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: contrast(0.98) saturate(0.96);
+    }
+
+    .rsvp-evento__floating-mark {
+      position: absolute;
+      z-index: 3;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      opacity: 0.72;
+    }
+
+    .rsvp-evento__floating-mark--one {
+      left: 4%;
+      top: 22%;
+    }
+
+    .rsvp-evento__floating-mark--two {
+      right: 7%;
+      top: 18%;
+    }
+
+    .rsvp-evento__floating-mark--three {
+      right: 5%;
+      bottom: 22%;
+    }
+
+    .rsvp-evento__form-wrap {
+      width: 100%;
+    }
+
+    .rsvp-evento__form {
+      display: grid;
+      gap: clamp(1.25rem, 2.4vw, 1.8rem);
+    }
+
+    .rsvp-evento__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(220px, 1fr));
+      gap: clamp(1rem, 2vw, 1.5rem);
+    }
+
+    .rsvp-evento__field {
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .rsvp-evento__field--full {
+      grid-column: 1 / -1;
+    }
+
+    .rsvp-evento__label {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1rem, 1.4vw, 1.2rem);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    .rsvp-evento__input,
+    .rsvp-evento__select,
+    .rsvp-evento__textarea {
+      width: 100%;
+      min-height: 54px;
+      padding: 0.9rem 1rem;
+      box-sizing: border-box;
+      border: 1px solid #d5d9dd;
+      border-radius: 6px;
+      background: var(--input-background);
+      color: var(--primary-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1rem;
+      line-height: 1.4;
+      outline: none;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .rsvp-evento__textarea {
+      min-height: 170px;
+      resize: vertical;
+    }
+
+    .rsvp-evento__input:focus,
+    .rsvp-evento__select:focus,
+    .rsvp-evento__textarea:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(181, 155, 114, 0.12);
+    }
+
+    .rsvp-evento__note {
+      margin: 0;
+      text-align: center;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1rem, 1.4vw, 1.2rem);
+      line-height: 1.5;
+      color: var(--secondary-color);
+    }
+
+    .rsvp-evento__actions {
+      display: flex;
+      justify-content: center;
+    }
+
+    .rsvp-evento__button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 150px;
+      min-height: 52px;
+      padding: 0.9rem 1.5rem;
+      border: 0;
+      border-radius: 8px;
+      background: var(--accent-color);
+      color: var(--button-text-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.12);
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        opacity 0.25s ease;
+    }
+
+    .rsvp-evento__button:hover,
+    .rsvp-evento__button:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.16);
+      outline: none;
+    }
+
+    .rsvp-evento__motion {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: rsvpEventoReveal 0.5s ease-out forwards;
+    }
+
+    .rsvp-evento__header {
+      animation-delay: 0.04s;
+    }
+
+    .rsvp-evento__visual {
+      animation-delay: 0.12s;
+    }
+
+    .rsvp-evento__form-wrap {
+      animation-delay: 0.18s;
+    }
+
+    @keyframes rsvpEventoReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 920px) {
+      .rsvp-evento__layout {
+        grid-template-columns: 1fr;
+      }
+
+      .rsvp-evento__visual,
+      .rsvp-evento__form-wrap {
+        max-width: 760px;
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .module-rsvp-evento-editorial {
+        min-height: 100svh;
+      }
+
+      .rsvp-evento__inner {
+        min-height: 100svh;
+        padding: 3rem 1.25rem;
+      }
+
+      .rsvp-evento__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .rsvp-evento__image-frame {
+        width: 100%;
+      }
+
+      .rsvp-evento__button {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .rsvp-evento__motion,
+      .rsvp-evento__button {
+        animation: none;
+        transition: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <div class="rsvp-evento__inner">
+    <header
+      class="rsvp-evento__header rsvp-evento__motion"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="rsvp-header"
+    >
+      <p class="rsvp-evento__eyebrow">
+        RSVP
+      </p>
+
+      <h2 id="rsvp-evento-title" class="rsvp-evento__title">
+        Come and Celebrate With Us
+      </h2>
+
+      <p class="rsvp-evento__subtitle">
+        We would love to know if you’ll be joining this special celebration.
+      </p>
+
+      <div class="rsvp-evento__ornament" aria-hidden="true">
+        <span></span>
+      </div>
+    </header>
+
+    <div class="rsvp-evento__layout">
+      <figure
+        class="rsvp-evento__visual rsvp-evento__motion"
+        memory_type="image"
+        memory_usage="custom"
+        memory_source="library"
+        memory_key="rsvp-image"
+      >
+        <div
+          class="rsvp-evento__brush"
+          memory_type="background"
+          memory_usage="protected"
+          memory_source="library"
+          path="placeholder"
+          data-library-category="eventos"
+          data-asset-type="textura-decorativa"
+          aria-hidden="true"
+        ></div>
+
+        <div class="rsvp-evento__image-frame">
+          <img
+            src="https://loremflickr.com/900/680/celebration,event"
+            alt="Celebration photo"
+            path="placeholder"
+            data-library-category="eventos"
+            data-asset-type="foto-rsvp"
+          />
+        </div>
+
+        <span class="rsvp-evento__floating-mark rsvp-evento__floating-mark--one" aria-hidden="true"></span>
+        <span class="rsvp-evento__floating-mark rsvp-evento__floating-mark--two" aria-hidden="true"></span>
+        <span class="rsvp-evento__floating-mark rsvp-evento__floating-mark--three" aria-hidden="true"></span>
+
+        <figcaption hidden>
+          RSVP featured image
+        </figcaption>
+      </figure>
+
+      <div
+        class="rsvp-evento__form-wrap rsvp-evento__motion"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="rsvp-form-content"
+      >
+        <form class="rsvp-evento__form" action="#" method="post">
+          <div class="rsvp-evento__grid">
+            <div class="rsvp-evento__field">
+              <label class="rsvp-evento__label" for="rsvp-full-name">
+                Name
+              </label>
+              <input
+                class="rsvp-evento__input"
+                id="rsvp-full-name"
+                name="full_name"
+                type="text"
+                placeholder="Your Full Name"
+              />
+            </div>
+
+            <div class="rsvp-evento__field">
+              <label class="rsvp-evento__label" for="rsvp-email">
+                Email
+              </label>
+              <input
+                class="rsvp-evento__input"
+                id="rsvp-email"
+                name="email"
+                type="email"
+                placeholder="Your Email Address"
+              />
+            </div>
+
+            <div class="rsvp-evento__field">
+              <label class="rsvp-evento__label" for="rsvp-event">
+                Event
+              </label>
+              <select
+                class="rsvp-evento__select"
+                id="rsvp-event"
+                name="event_selection"
+              >
+                <option value="">- Please Select -</option>
+                <option value="main-event">Main Event</option>
+                <option value="ceremony">Ceremony</option>
+                <option value="reception">Reception</option>
+                <option value="after-party">After Party</option>
+              </select>
+            </div>
+
+            <div class="rsvp-evento__field">
+              <label class="rsvp-evento__label" for="rsvp-guest-count">
+                Guests
+              </label>
+              <select
+                class="rsvp-evento__select"
+                id="rsvp-guest-count"
+                name="guest_count"
+              >
+                <option value="">- Please Select -</option>
+                <option value="1">1 Guest</option>
+                <option value="2">2 Guests</option>
+                <option value="3">3 Guests</option>
+                <option value="4">4 Guests</option>
+              </select>
+            </div>
+
+            <div class="rsvp-evento__field rsvp-evento__field--full">
+              <label class="rsvp-evento__label" for="rsvp-additional-info">
+                Additional Information
+              </label>
+              <textarea
+                class="rsvp-evento__textarea"
+                id="rsvp-additional-info"
+                name="additional_information"
+                placeholder="Eg. Dietary restrictions, song request, message, special accommodations, or anything else we should know."
+              ></textarea>
+            </div>
+          </div>
+
+          <p
+            class="rsvp-evento__note"
+            memory_type="text"
+            memory_usage="custom"
+            memory_key="rsvp-deadline"
+          >
+            Please RSVP by November 21, 2027.
+          </p>
+
+          <div class="rsvp-evento__actions">
+            <button
+              class="rsvp-evento__button"
+              type="submit"
+              memory_type="text"
+              memory_usage="custom"
+              memory_key="rsvp-button"
+            >
+              RSVP Now
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "rsvp",
+        "confirmacion",
+        "formulario",
+        "evento",
+        "modulo universal",
+        "boda",
+        "quinceanera",
+        "cumpleanos",
+        "baby shower",
+        "graduacion",
+        "despedida",
+        "aniversario",
+        "guest form",
+        "responsive"
+      ],
+      descripcion:
+        "Wireframe universal de RSVP con encabezado centrado, imagen decorativa lateral y formulario de confirmación adaptable a cualquier tipo de evento."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="rsvp-form"]');
+
+      if (!module) return;
+
+      const visual = module.querySelector(".rsvp-evento__visual");
+      const formWrap = module.querySelector(".rsvp-evento__form-wrap");
+      const marks = module.querySelectorAll(".rsvp-evento__floating-mark");
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (prefersReducedMotion) return;
+
+      module.addEventListener("pointermove", function (event) {
+        const rect = module.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        if (visual) {
+          visual.style.transform =
+            "translate(" + x * 5 + "px, " + y * 4 + "px)";
+        }
+
+        if (formWrap) {
+          formWrap.style.transform =
+            "translate(" + x * -3 + "px, " + y * -2 + "px)";
+        }
+
+        marks.forEach(function (mark, index) {
+          const depth = (index + 1) * 4;
+          mark.style.transform =
+            "translate(" + x * depth + "px, " + y * depth + "px)";
+        });
+      });
+
+      module.addEventListener("pointerleave", function () {
+        if (visual) {
+          visual.style.transform = "translate(0, 0)";
+        }
+
+        if (formWrap) {
+          formWrap.style.transform = "translate(0, 0)";
+        }
+
+        marks.forEach(function (mark) {
+          mark.style.transform = "translate(0, 0)";
+        });
+      });
+    })();
+  </script>
+</section>

@@ -1,0 +1,445 @@
+<section
+  class="module-personas-importantes"
+  data-gemini-id="personas-importantes"
+  memory_type="background"
+  memory_usage="protected"
+  aria-labelledby="personas-importantes-title"
+>
+  <style>
+    .module-personas-importantes {
+      --primary-color: #202326;
+      --secondary-color: #6f7478;
+      --accent-color: #9faf91;
+      --background-color: #f8f8f8;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(0, 0, 0, 0.08);
+      --text-color: #202326;
+
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+      color: var(--text-color);
+      background: var(--background-color);
+    }
+
+    .personas-importantes__decor {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.55;
+      z-index: 1;
+    }
+
+    .personas-importantes__decor--top-left {
+      left: 0;
+      top: 0;
+      width: clamp(120px, 16vw, 240px);
+      height: clamp(120px, 16vw, 240px);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(159, 175, 145, 0.28) 0 12%, transparent 13%),
+        radial-gradient(circle at 45% 32%, rgba(159, 175, 145, 0.2) 0 10%, transparent 11%),
+        radial-gradient(circle at 28% 55%, rgba(159, 175, 145, 0.18) 0 9%, transparent 10%);
+    }
+
+    .personas-importantes__decor--bottom-right {
+      right: 0;
+      bottom: 0;
+      width: clamp(120px, 16vw, 240px);
+      height: clamp(120px, 16vw, 240px);
+      background:
+        radial-gradient(circle at 70% 70%, rgba(159, 175, 145, 0.28) 0 12%, transparent 13%),
+        radial-gradient(circle at 48% 60%, rgba(159, 175, 145, 0.2) 0 10%, transparent 11%),
+        radial-gradient(circle at 76% 42%, rgba(159, 175, 145, 0.18) 0 9%, transparent 10%);
+    }
+
+    .personas-importantes__inner {
+      position: relative;
+      z-index: 2;
+      width: min(1280px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(3rem, 6vw, 6rem) clamp(1.25rem, 5vw, 4rem);
+      box-sizing: border-box;
+      display: grid;
+      align-content: center;
+      gap: clamp(3rem, 6vw, 5rem);
+    }
+
+    .personas-importantes__header {
+      max-width: 780px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .personas-importantes__eyebrow {
+      margin: 0 0 0.8rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.72rem, 1vw, 0.86rem);
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .personas-importantes__title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3rem, 6vw, 5.8rem);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: var(--primary-color);
+    }
+
+    .personas-importantes__subtitle {
+      margin: 1rem 0 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.95rem, 1.25vw, 1.08rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .personas-importantes__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(280px, 1fr));
+      gap: clamp(1.5rem, 3vw, 3rem);
+      align-items: stretch;
+    }
+
+    .personas-importantes__card {
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.06);
+      padding: clamp(1rem, 2vw, 1.4rem);
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .personas-importantes__image-frame {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #ececec;
+    }
+
+    .personas-importantes__image-frame img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: contrast(0.98) saturate(0.96);
+    }
+
+    .personas-importantes__content {
+      padding: clamp(1.5rem, 3vw, 2.2rem) clamp(0.75rem, 2vw, 1.5rem) 0.75rem;
+      text-align: center;
+    }
+
+    .personas-importantes__group-label {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.72rem, 1vw, 0.86rem);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .personas-importantes__names {
+      margin: clamp(1rem, 2vw, 1.4rem) 0 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem clamp(1.2rem, 2.5vw, 2rem);
+      padding: 0;
+      list-style: none;
+    }
+
+    .personas-importantes__names li {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.82rem, 1.05vw, 0.95rem);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    .personas-importantes__message {
+      max-width: 560px;
+      margin: clamp(1.5rem, 3vw, 2rem) auto 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+
+    .personas-importantes__footer-note {
+      margin: clamp(0.9rem, 2vw, 1.2rem) auto 0;
+      max-width: 520px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(0.95rem, 1.2vw, 1.08rem);
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--secondary-color);
+    }
+
+    .personas-importantes__motion {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: personasImportantesReveal 0.5s ease-out forwards;
+    }
+
+    .personas-importantes__header {
+      animation-delay: 0.04s;
+    }
+
+    .personas-importantes__card:nth-child(1) {
+      animation-delay: 0.12s;
+    }
+
+    .personas-importantes__card:nth-child(2) {
+      animation-delay: 0.18s;
+    }
+
+    @keyframes personasImportantesReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .personas-importantes__grid {
+        grid-template-columns: 1fr;
+        max-width: 760px;
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .module-personas-importantes,
+      .personas-importantes__inner {
+        min-height: 100svh;
+      }
+
+      .personas-importantes__inner {
+        padding: 3rem 1rem;
+      }
+
+      .personas-importantes__title {
+        font-size: clamp(2.8rem, 15vw, 4.5rem);
+      }
+
+      .personas-importantes__content {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
+
+      .personas-importantes__names {
+        gap: 0.65rem 1rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .personas-importantes__motion {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <div
+    class="personas-importantes__decor personas-importantes__decor--top-left"
+    memory_type="background"
+    memory_usage="protected"
+    memory_source="library"
+    path="placeholder"
+    data-library-category="eventos"
+    data-asset-type="decoracion-esquina"
+    aria-hidden="true"
+  ></div>
+
+  <div
+    class="personas-importantes__decor personas-importantes__decor--bottom-right"
+    memory_type="background"
+    memory_usage="protected"
+    memory_source="library"
+    path="placeholder"
+    data-library-category="eventos"
+    data-asset-type="decoracion-esquina"
+    aria-hidden="true"
+  ></div>
+
+  <div class="personas-importantes__inner">
+    <header
+      class="personas-importantes__header personas-importantes__motion"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="important-people-header"
+    >
+      <p class="personas-importantes__eyebrow">
+        Thanks for Being There
+      </p>
+
+      <h2 id="personas-importantes-title" class="personas-importantes__title">
+        Our Special People
+      </h2>
+
+      <p class="personas-importantes__subtitle">
+        A space to honor the people who are part of this celebration, from family
+        and close friends to the court of honor or event party.
+      </p>
+    </header>
+
+    <div
+      class="personas-importantes__grid"
+      memory_type="image"
+      memory_usage="custom"
+      memory_source="library"
+      memory_key="important-people-groups"
+    >
+      <article
+        class="personas-importantes__card personas-importantes__motion"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="important-group-1"
+      >
+        <figure class="personas-importantes__image-frame">
+          <img
+            src="https://loremflickr.com/1000/640/friends,celebration?lock=801"
+            alt="Important people group one"
+            path="placeholder"
+            data-library-category="eventos"
+            data-asset-type="foto-grupo"
+          />
+        </figure>
+
+        <div class="personas-importantes__content">
+          <p class="personas-importantes__group-label">
+            Group One
+          </p>
+
+          <ul class="personas-importantes__names">
+            <li>Name One</li>
+            <li>Name Two</li>
+            <li>Name Three</li>
+            <li>Name Four</li>
+            <li>Name Five</li>
+          </ul>
+
+          <p class="personas-importantes__message">
+            Use this card to introduce one group of important people, such as
+            damas, chambelanes, bridesmaids, family members, padrinos, friends,
+            cousins, siblings, or special guests.
+          </p>
+
+          <p class="personas-importantes__footer-note">
+            Thank you for being part of this moment.
+          </p>
+        </div>
+      </article>
+
+      <article
+        class="personas-importantes__card personas-importantes__motion"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="important-group-2"
+      >
+        <figure class="personas-importantes__image-frame">
+          <img
+            src="https://loremflickr.com/1000/640/family,event?lock=802"
+            alt="Important people group two"
+            path="placeholder"
+            data-library-category="eventos"
+            data-asset-type="foto-grupo"
+          />
+        </figure>
+
+        <div class="personas-importantes__content">
+          <p class="personas-importantes__group-label">
+            Group Two
+          </p>
+
+          <ul class="personas-importantes__names">
+            <li>Name One</li>
+            <li>Name Two</li>
+            <li>Name Three</li>
+            <li>Name Four</li>
+            <li>Name Five</li>
+          </ul>
+
+          <p class="personas-importantes__message">
+            Use this card for a second group, such as relatives, best friends,
+            escorts, padrinos, godparents, classmates, teammates, or people who
+            play a meaningful role in the event.
+          </p>
+
+          <p class="personas-importantes__footer-note">
+            Your presence makes this celebration more meaningful.
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "personas importantes",
+        "corte de honor",
+        "familiares",
+        "padrinos",
+        "damas",
+        "chambelanes",
+        "amigos",
+        "best friends",
+        "grupo",
+        "honor court",
+        "evento",
+        "modulo universal",
+        "boda",
+        "quinceanera",
+        "cumpleanos",
+        "baby shower",
+        "graduacion",
+        "despedida",
+        "aniversario",
+        "sin redes sociales",
+        "responsive"
+      ],
+      descripcion:
+        "Wireframe universal para presentar grupos importantes del evento, como corte de honor, familiares, padrinos, damas, chambelanes o amigos cercanos, sin redes sociales."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="personas-importantes"]');
+      if (!module) return;
+
+      const cards = module.querySelectorAll(".personas-importantes__card");
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (prefersReducedMotion) return;
+
+      module.addEventListener("pointermove", function (event) {
+        const rect = module.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        cards.forEach(function (card, index) {
+          const depth = (index + 1) * 4;
+          card.style.transform = "translate(" + x * depth + "px, " + y * depth + "px)";
+        });
+      });
+
+      module.addEventListener("pointerleave", function () {
+        cards.forEach(function (card) {
+          card.style.transform = "translate(0, 0)";
+        });
+      });
+    })();
+  </script>
+</section>

@@ -1,0 +1,502 @@
+<section
+  class="module-festejados-editorial"
+  data-gemini-id="personas-festejadas"
+  memory_type="background"
+  memory_usage="protected"
+  aria-labelledby="festejados-title"
+>
+  <style>
+    .module-festejados-editorial {
+      --primary-color: #202326;
+      --secondary-color: #6f7478;
+      --accent-color: #aeb694;
+      --background-color: #f8f8f8;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(0, 0, 0, 0.08);
+      --text-color: #202326;
+
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+      color: var(--text-color);
+      background: var(--background-color);
+    }
+
+    .module-festejados-editorial::before,
+    .module-festejados-editorial::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.85;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+
+    .module-festejados-editorial::before {
+      top: 0;
+      left: 0;
+      width: 220px;
+      height: 220px;
+      background-image: radial-gradient(circle at 30% 30%, rgba(120, 150, 140, 0.18), transparent 48%);
+    }
+
+    .module-festejados-editorial::after {
+      right: 0;
+      bottom: 0;
+      width: 220px;
+      height: 220px;
+      background-image: radial-gradient(circle at 70% 70%, rgba(120, 150, 140, 0.16), transparent 48%);
+    }
+
+    .festejados__inner {
+      width: min(1240px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(3rem, 6vw, 6rem) clamp(1.25rem, 4vw, 3rem);
+      box-sizing: border-box;
+      display: grid;
+      align-content: center;
+      gap: clamp(2.5rem, 4vw, 4rem);
+    }
+
+    .festejados__header {
+      max-width: 780px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .festejados__eyebrow {
+      margin: 0 0 0.8rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.72rem, 1vw, 0.85rem);
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .festejados__title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    .festejados__subtitle {
+      margin: 0.85rem 0 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1rem, 1.8vw, 1.35rem);
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--secondary-color);
+    }
+
+    .festejados__ornament {
+      width: min(140px, 40%);
+      height: 28px;
+      margin: 1.2rem auto 0;
+      position: relative;
+      color: var(--accent-color);
+    }
+
+    .festejados__ornament::before,
+    .festejados__ornament::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 44%;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.65;
+    }
+
+    .festejados__ornament::before {
+      left: 0;
+    }
+
+    .festejados__ornament::after {
+      right: 0;
+    }
+
+    .festejados__ornament span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 16px;
+      height: 16px;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--background-color);
+    }
+
+    .festejados__grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(280px, 1fr));
+      gap: clamp(1.5rem, 3vw, 3rem);
+      align-items: stretch;
+    }
+
+    .festejados__grid::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 28%;
+      width: calc(100% - 6rem);
+      height: 1px;
+      background: rgba(0, 0, 0, 0.12);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .festejados__grid[data-layout="single"] {
+      grid-template-columns: minmax(320px, 680px);
+      justify-content: center;
+    }
+
+    .festejados__grid[data-layout="single"]::before {
+      display: none;
+    }
+
+    .festejados__card {
+      position: relative;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.06);
+      padding: 1.1rem 1.1rem 1.6rem;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .festejados__card::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 12px;
+      background: linear-gradient(90deg, rgba(174, 182, 148, 0.18), rgba(174, 182, 148, 0.02));
+      pointer-events: none;
+    }
+
+    .festejados__image-frame {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background: #ececec;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .festejados__image-frame img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .festejados__content {
+      padding: 1.5rem 1rem 0.2rem;
+      text-align: center;
+    }
+
+    .festejados__role {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.72rem, 1vw, 0.84rem);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .festejados__name {
+      margin: 1rem 0 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2rem, 3.4vw, 3rem);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.05;
+      color: var(--primary-color);
+    }
+
+    .festejados__description {
+      margin: 1.3rem auto 0;
+      max-width: 92%;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.96rem, 1.2vw, 1.05rem);
+      line-height: 1.8;
+      color: var(--primary-color);
+    }
+
+    .festejados__footer-note {
+      margin: 0.9rem auto 0;
+      max-width: 92%;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+      font-style: italic;
+      line-height: 1.65;
+      color: var(--secondary-color);
+    }
+
+    .festejados__timeline-hint {
+      margin: 0 auto;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .festejados__motion {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: festejadosReveal 0.5s ease-out forwards;
+    }
+
+    .festejados__header {
+      animation-delay: 0.04s;
+    }
+
+    .festejados__card:nth-child(1) {
+      animation-delay: 0.12s;
+    }
+
+    .festejados__card:nth-child(2) {
+      animation-delay: 0.18s;
+    }
+
+    @keyframes festejadosReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .festejados__grid,
+      .festejados__grid[data-layout="single"] {
+        grid-template-columns: 1fr;
+        max-width: 720px;
+        margin: 0 auto;
+      }
+
+      .festejados__grid::before {
+        display: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .module-festejados-editorial,
+      .festejados__inner {
+        min-height: 100svh;
+      }
+
+      .festejados__inner {
+        padding: 3rem 1rem;
+      }
+
+      .festejados__card {
+        padding: 0.9rem 0.9rem 1.3rem;
+      }
+
+      .festejados__content {
+        padding: 1.25rem 0.55rem 0.1rem;
+      }
+
+      .festejados__description,
+      .festejados__footer-note {
+        max-width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .festejados__motion {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <div class="festejados__inner">
+    <header
+      class="festejados__header festejados__motion"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="celebrated-header"
+    >
+      <p class="festejados__eyebrow">
+        Featured People
+      </p>
+
+      <h2 id="festejados-title" class="festejados__title">
+        Celebrated Moments
+      </h2>
+
+      <p class="festejados__subtitle">
+        This section can introduce one celebrated person, two celebrated people,
+        or a visual timeline showing a meaningful before-and-now story.
+      </p>
+
+      <div class="festejados__ornament" aria-hidden="true">
+        <span></span>
+      </div>
+    </header>
+
+    <p
+      class="festejados__timeline-hint"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="celebrated-usage-note"
+    >
+      Festejado · Festejados · Antes y Ahora
+    </p>
+
+    <div
+      class="festejados__grid"
+      data-layout="dual"
+      memory_type="image"
+      memory_usage="custom"
+      memory_source="library"
+      memory_key="celebrated-cards"
+    >
+      <article
+        class="festejados__card festejados__motion"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="celebrated-card-1"
+      >
+        <div class="festejados__image-frame">
+          <img
+            src="https://loremflickr.com/900/620/portrait,celebration?lock=601"
+            alt="Celebrated photo one"
+            path="placeholder"
+            data-library-category="eventos"
+            data-asset-type="foto-festejado"
+          />
+        </div>
+
+        <div class="festejados__content">
+          <p class="festejados__role">
+            Festejada
+          </p>
+
+          <h3 class="festejados__name">
+            Name One
+          </h3>
+
+          <p class="festejados__description">
+            Use this card to present the celebrated person, share a short story,
+            or describe a meaningful stage of the event. This can be used for
+            the main honoree or for a “before” photo in a timeline.
+          </p>
+
+          <p class="festejados__footer-note">
+            Example uses: quinceañera de pequeña, birthday memory, childhood portrait,
+            first chapter, or honored guest profile.
+          </p>
+        </div>
+      </article>
+
+      <article
+        class="festejados__card festejados__motion"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="celebrated-card-2"
+      >
+        <div class="festejados__image-frame">
+          <img
+            src="https://loremflickr.com/900/620/people,event?lock=602"
+            alt="Celebrated photo two"
+            path="placeholder"
+            data-library-category="eventos"
+            data-asset-type="foto-festejado"
+          />
+        </div>
+
+        <div class="festejados__content">
+          <p class="festejados__role">
+            Actual / Companion / Second Honoree
+          </p>
+
+          <h3 class="festejados__name">
+            Name Two
+          </h3>
+
+          <p class="festejados__description">
+            The second card can introduce another celebrated person, the couple,
+            a family member, or the “now” stage of the same person to create a
+            visual timeline across the celebration.
+          </p>
+
+          <p class="festejados__footer-note">
+            Example uses: current quince portrait, groom/bride counterpart,
+            graduate today, present-day birthday portrait, or second honoree.
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "festejado",
+        "festejados",
+        "celebrated people",
+        "timeline",
+        "before and now",
+        "quinceanera",
+        "boda",
+        "cumpleanos",
+        "graduacion",
+        "baby shower",
+        "aniversario",
+        "evento",
+        "2 cards",
+        "1 card",
+        "photo story",
+        "responsive"
+      ],
+      descripcion:
+        "Wireframe universal para mostrar uno o dos festejados, o para funcionar como cronograma visual de fotos tipo antes y ahora, sin redes sociales."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="personas-festejadas"]');
+      if (!module) return;
+
+      const cards = module.querySelectorAll(".festejados__card");
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (prefersReducedMotion) return;
+
+      module.addEventListener("pointermove", function (event) {
+        const rect = module.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        cards.forEach(function (card, index) {
+          const depth = (index + 1) * 4;
+          card.style.transform = "translate(" + x * depth + "px, " + y * depth + "px)";
+        });
+      });
+
+      module.addEventListener("pointerleave", function () {
+        cards.forEach(function (card) {
+          card.style.transform = "translate(0, 0)";
+        });
+      });
+    })();
+  </script>
+</section>

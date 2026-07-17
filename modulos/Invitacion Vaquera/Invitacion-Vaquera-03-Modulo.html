@@ -1,0 +1,489 @@
+<section
+  class="module-retrato-western-pareja"
+  data-gemini-id="retrato-pareja"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="retrato-western-title"
+>
+  <style>
+    .module-retrato-western-pareja {
+      --primary-color: #2f2f2f;
+      --secondary-color: #666666;
+      --accent-color: #8a8a8a;
+      --surface-color: rgba(255, 255, 255, 0.68);
+      --surface-border-color: rgba(0, 0, 0, 0.14);
+      --background-color: #eeeeee;
+      --text-color: #2f2f2f;
+
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+      color: var(--text-color);
+      background-color: var(--background-color);
+      background-image: url("https://loremflickr.com/1920/1080/western,roses");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      isolation: isolate;
+    }
+
+    .module-retrato-western-pareja::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.42),
+          rgba(255, 255, 255, 0.18),
+          rgba(255, 255, 255, 0.32)
+        ),
+        rgba(245, 245, 245, 0.2);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .retrato-western__inner {
+      position: relative;
+      width: min(1440px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 5rem);
+      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: minmax(280px, 0.9fr) minmax(320px, 1.1fr);
+      align-items: center;
+      gap: clamp(2rem, 6vw, 7rem);
+    }
+
+    .retrato-western__content {
+      position: relative;
+      z-index: 3;
+      max-width: 560px;
+    }
+
+    .retrato-western__eyebrow {
+      margin: 0 0 clamp(1rem, 2vw, 1.5rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.68rem, 1vw, 0.82rem);
+      font-weight: 700;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .retrato-western__title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3.5rem, 7vw, 7.4rem);
+      font-weight: 400;
+      line-height: 0.96;
+      letter-spacing: -0.03em;
+      color: var(--primary-color);
+    }
+
+    .retrato-western__body {
+      margin-top: clamp(1.25rem, 2.5vw, 2rem);
+      display: grid;
+      gap: clamp(1rem, 2vw, 1.4rem);
+    }
+
+    .retrato-western__body p {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.95rem, 1.35vw, 1.1rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .retrato-western__frame-area {
+      position: relative;
+      z-index: 2;
+      width: min(520px, 100%);
+      justify-self: center;
+    }
+
+    .retrato-western__portrait-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      margin: 0;
+      overflow: hidden;
+      border-radius: clamp(32px, 5vw, 56px);
+      background:
+        linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.8),
+          rgba(230, 230, 230, 0.46)
+        );
+      border: 1px solid var(--surface-border-color);
+      box-shadow:
+        0 28px 80px rgba(0, 0, 0, 0.16),
+        inset 0 0 0 10px rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(6px);
+    }
+
+    .retrato-western__portrait-frame::before {
+      content: "";
+      position: absolute;
+      inset: clamp(0.65rem, 1.4vw, 1rem);
+      border: 1px solid rgba(0, 0, 0, 0.14);
+      border-radius: clamp(24px, 4vw, 44px);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .retrato-western__portrait-frame img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.24;
+      filter: grayscale(1);
+    }
+
+    .retrato-western__label {
+      position: absolute;
+      left: clamp(1rem, 3vw, 2rem);
+      bottom: clamp(3.2rem, 6vw, 4.8rem);
+      z-index: 4;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.55rem 1.1rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.78);
+      color: var(--primary-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    .retrato-western__frame-caption {
+      position: absolute;
+      left: clamp(1rem, 2vw, 1.5rem);
+      right: clamp(1rem, 2vw, 1.5rem);
+      bottom: clamp(0.8rem, 1.6vw, 1.2rem);
+      z-index: 4;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.7rem, 3.2vw, 2.7rem);
+      font-style: italic;
+      line-height: 1;
+      color: var(--primary-color);
+      opacity: 0.78;
+    }
+
+    .retrato-western__decor {
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.68;
+    }
+
+    .retrato-western__decor--flowers-left {
+      left: 0;
+      top: 0;
+      width: clamp(180px, 22vw, 360px);
+      aspect-ratio: 4 / 3;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(0,0,0,0.13) 0 16%, transparent 17%),
+        radial-gradient(circle at 45% 35%, rgba(0,0,0,0.1) 0 13%, transparent 14%),
+        radial-gradient(circle at 30% 70%, rgba(0,0,0,0.12) 0 15%, transparent 16%);
+      border: 1px dashed rgba(0, 0, 0, 0.08);
+    }
+
+    .retrato-western__decor--flowers-right {
+      right: 0;
+      bottom: 0;
+      width: clamp(220px, 30vw, 520px);
+      aspect-ratio: 5 / 2.4;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 20% 54%, rgba(0,0,0,0.12) 0 13%, transparent 14%),
+        radial-gradient(circle at 46% 50%, rgba(0,0,0,0.14) 0 17%, transparent 18%),
+        radial-gradient(circle at 74% 55%, rgba(0,0,0,0.1) 0 14%, transparent 15%);
+      border: 1px dashed rgba(0, 0, 0, 0.08);
+    }
+
+    .retrato-western__decor--flourish-left {
+      left: clamp(1rem, 3vw, 2rem);
+      top: 38%;
+      width: clamp(110px, 14vw, 220px);
+      height: clamp(110px, 14vw, 220px);
+      border: 1px dashed rgba(0, 0, 0, 0.16);
+      border-radius: 50%;
+      transform: rotate(-18deg);
+    }
+
+    .retrato-western__decor--flourish-right {
+      right: clamp(1rem, 5vw, 4rem);
+      top: clamp(1rem, 4vw, 3rem);
+      width: clamp(140px, 18vw, 280px);
+      height: clamp(140px, 18vw, 280px);
+      border: 1px dashed rgba(0, 0, 0, 0.16);
+      border-radius: 50%;
+      transform: rotate(12deg);
+    }
+
+    .retrato-western__motion {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: retratoWesternReveal 0.5s ease-out forwards;
+    }
+
+    .retrato-western__content {
+      animation-delay: 0.06s;
+    }
+
+    .retrato-western__frame-area {
+      animation-delay: 0.14s;
+    }
+
+    @keyframes retratoWesternReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 960px) {
+      .retrato-western__inner {
+        grid-template-columns: 1fr;
+        gap: clamp(2rem, 5vw, 4rem);
+        align-content: center;
+        text-align: center;
+      }
+
+      .retrato-western__content {
+        max-width: 720px;
+        justify-self: center;
+      }
+
+      .retrato-western__frame-area {
+        width: min(480px, 88vw);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .module-retrato-western-pareja {
+        min-height: 100svh;
+      }
+
+      .retrato-western__inner {
+        min-height: 100svh;
+        padding: 2rem 1.25rem;
+      }
+
+      .retrato-western__title {
+        font-size: clamp(3.4rem, 17vw, 5.2rem);
+      }
+
+      .retrato-western__frame-caption {
+        font-size: clamp(1.4rem, 8vw, 2rem);
+      }
+
+      .retrato-western__decor--flourish-left,
+      .retrato-western__decor--flourish-right {
+        display: none;
+      }
+
+      .retrato-western__decor--flowers-left,
+      .retrato-western__decor--flowers-right {
+        opacity: 0.38;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .retrato-western__motion {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <div class="retrato-western__inner">
+    <div
+      class="retrato-western__decor retrato-western__decor--flowers-left"
+      memory_type="background"
+      memory_usage="protected"
+      memory_source="library"
+      path="placeholder"
+      data-library-category="bodas"
+      data-asset-type="decoracion-floral"
+      aria-hidden="true"
+    ></div>
+
+    <div
+      class="retrato-western__decor retrato-western__decor--flowers-right"
+      memory_type="background"
+      memory_usage="protected"
+      memory_source="library"
+      path="placeholder"
+      data-library-category="bodas"
+      data-asset-type="decoracion-floral"
+      aria-hidden="true"
+    ></div>
+
+    <div
+      class="retrato-western__decor retrato-western__decor--flourish-left"
+      memory_type="background"
+      memory_usage="protected"
+      memory_source="library"
+      path="placeholder"
+      data-library-category="bodas"
+      data-asset-type="ornamento-dorado"
+      aria-hidden="true"
+    ></div>
+
+    <div
+      class="retrato-western__decor retrato-western__decor--flourish-right"
+      memory_type="background"
+      memory_usage="protected"
+      memory_source="library"
+      path="placeholder"
+      data-library-category="bodas"
+      data-asset-type="ornamento-dorado"
+      aria-hidden="true"
+    ></div>
+
+    <article
+      class="retrato-western__content retrato-western__motion"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="portrait-copy"
+    >
+      <p class="retrato-western__eyebrow">
+        Our Portrait
+      </p>
+
+      <h2 id="retrato-western-title" class="retrato-western__title">
+        A love story framed in roses and gold.
+      </h2>
+
+      <div class="retrato-western__body">
+        <p>
+          Add a favorite photo of the couple inside a romantic western portrait
+          frame inspired by antique parchment, ivory roses, deep red florals,
+          and refined gold details.
+        </p>
+
+        <p>
+          This section is designed as a keepsake moment before guests continue
+          into the celebration details.
+        </p>
+      </div>
+    </article>
+
+    <figure
+      class="retrato-western__frame-area retrato-western__motion"
+      memory_type="image"
+      memory_usage="custom"
+      memory_source="library"
+      memory_key="couple-photo"
+    >
+      <div class="retrato-western__portrait-frame">
+        <img
+          src="https://loremflickr.com/900/1100/couple,wedding"
+          alt="Foto de la pareja"
+          path="placeholder"
+          data-library-category="bodas"
+          data-asset-type="foto-pareja"
+        />
+
+        <span
+          class="retrato-western__label"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="photo-label"
+        >
+          Couple Photo
+        </span>
+
+        <figcaption
+          class="retrato-western__frame-caption"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="frame-caption"
+        >
+          <span>Forever</span>
+          <span>Begins Here</span>
+        </figcaption>
+      </div>
+    </figure>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "retrato",
+        "pareja",
+        "boda",
+        "western",
+        "vaquera",
+        "charra",
+        "rosas",
+        "oro",
+        "foto de pareja",
+        "marco",
+        "storytelling",
+        "responsive"
+      ],
+      descripcion:
+        "Wireframe de retrato para pareja con texto editorial, marco fotográfico, decoración floral, detalles dorados y foto reemplazable."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="retrato-pareja"]');
+
+      if (!module) return;
+
+      const frame = module.querySelector(".retrato-western__frame-area");
+      const decor = module.querySelectorAll(".retrato-western__decor");
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (prefersReducedMotion) return;
+
+      module.addEventListener("pointermove", function (event) {
+        const rect = module.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        if (frame) {
+          frame.style.transform =
+            "translate(" + x * 8 + "px, " + y * 6 + "px)";
+        }
+
+        decor.forEach(function (item, index) {
+          const depth = (index + 1) * 3;
+          item.style.transform =
+            "translate(" + x * depth + "px, " + y * depth + "px)";
+        });
+      });
+
+      module.addEventListener("pointerleave", function () {
+        if (frame) {
+          frame.style.transform = "translate(0, 0)";
+        }
+
+        decor.forEach(function (item) {
+          item.style.transform = "";
+        });
+      });
+    })();
+  </script>
+</section>
