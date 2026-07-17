@@ -56,17 +56,38 @@ const parseEditableElements = (code: string): EditableElement[] => {
     // Create a more descriptive label based on the geminiId if it exists and isn't just a random string
     let label = 'Elemento';
     let moduleName = '';
-    
-    if (geminiId && !geminiId.startsWith('edit-') && geminiId.length < 30) {
-      // Try to extract module name if it follows a pattern like module-element
-      const parts = geminiId.split('-');
-      if (parts.length > 1) {
+
+    // Soporta el formato jerárquico nuevo: <moduleId>__<memoryKey>__<tagName>-<idx>
+    // (ej: "portada-nombre__couple-names__h1-1") inyectado por injectEditableIds
+    // en el flujo modular. Y el formato legacy: "module-name-element" (split por '-').
+    if (geminiId && !geminiId.startsWith('edit-') && geminiId.length < 60) {
+      if (geminiId.includes('__')) {
+        // Formato modular jerárquico: moduleId__memoryKey__tag-idx
+        const parts = geminiId.split('__');
         moduleName = parts[0].replace(/\b\w/g, l => l.toUpperCase());
-        label = parts.slice(1).join(' ').replace(/\b\w/g, l => l.toUpperCase());
+        const memoryKey = parts[1] || '';
+        // Tag descriptivo por tagName del elemento
+        const tagLabels = {
+          H1: 'Título', H2: 'Título', H3: 'Subtítulo', H4: 'Subtítulo',
+          H5: 'Subtítulo', H6: 'Subtítulo',
+          P: 'Párrafo', SPAN: 'Texto', A: 'Enlace',
+          IMG: 'Imagen', FIGCAPTION: 'Descripción', LI: 'Ítem', TIME: 'Fecha'
+        };
+        const tagLabel = tagLabels[htmlEl.tagName as keyof typeof tagLabels] || 'Texto';
+        // memoryKey en human-readable: "couple-names" -> "Couple Names"
+        const humanKey = memoryKey.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        label = humanKey ? `${humanKey} · ${tagLabel}` : tagLabel;
       } else {
-        label = geminiId
-          .replace(/[-_]/g, ' ')
-          .replace(/\b\w/g, l => l.toUpperCase());
+        // Formato legacy: split por '-' (module-element-name)
+        const parts = geminiId.split('-');
+        if (parts.length > 1) {
+          moduleName = parts[0].replace(/\b\w/g, l => l.toUpperCase());
+          label = parts.slice(1).join(' ').replace(/\b\w/g, l => l.toUpperCase());
+        } else {
+          label = geminiId
+            .replace(/[-_]/g, ' ')
+            .replace(/\b\w/g, l => l.toUpperCase());
+        }
       }
     } else {
       if (htmlEl.tagName === 'IMG') label = 'Imagen';
@@ -88,7 +109,14 @@ const parseEditableElements = (code: string): EditableElement[] => {
     return {
       geminiId: htmlEl.getAttribute('data-gemini-id')!,
       tagName: htmlEl.tagName,
-      content: htmlEl.innerHTML,
+      // Para texto atómico (no IMG/IFRAME), cargar textContent plano en content
+      // (lo que el usuario ve y edita en el <textarea>). Antes se cargaba innerHTML
+      // que mostraba HTML crudo en la UI y confundía a usuarios no técnicos.
+      // Para enlaces <a> con contenido simple, preserva innerHTML solo si tiene
+      // tags complejos internos (img, svg, icon).
+      content: (htmlEl.tagName !== 'IMG' && htmlEl.tagName !== 'IFRAME')
+        ? (htmlEl.textContent || '')
+        : '',
       textContent: htmlEl.textContent || '',
       src: htmlEl.getAttribute('src') || '',
       href: htmlEl.getAttribute('href') || '',

@@ -317,7 +317,16 @@ export const EditorView: React.FC = () => {
     
     if (el) {
       if (newContent !== undefined && el.tagName !== 'IMG' && el.tagName !== 'IFRAME') {
-        el.innerHTML = newContent;
+        // Para texto atómico usar textContent en vez de innerHTML: no interpreta
+        // HTML escrito por el usuario como marcado, evitando inyecciones accidentales
+        // y respetando el texto exacto. Para enlaces con hijos complejos (img/icon),
+        // preserva innerHTML.
+        const hasComplexChildren = el.querySelector('img, svg, video, iframe, .icon');
+        if (el.tagName === 'A' && hasComplexChildren) {
+          el.innerHTML = newContent;
+        } else {
+          el.textContent = newContent;
+        }
       }
       if (newAttributes) {
         Object.entries(newAttributes).forEach(([k, v]) => {
