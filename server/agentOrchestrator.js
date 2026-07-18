@@ -1110,9 +1110,16 @@ Return ONLY the candidate ID number (1-${candidates.length}). No explanations.`;
 };
 
 /**
- * Adapta un módulo wireframe a la temática del usuario
+ * Adapta un módulo wireframe a la temática del usuario.
+ * userData (opcional): contexto estructurado del usuario construido por
+ * buildUserEventContext a partir del prompt libre. Se inyecta al prompt para que
+ * Gemini personalice con datos concretos (nombres, fecha, lugar, etc.).
+ * En cualquier fallback (RECITATION/MAX_TOKENS/SAFETY/HTML inválido/error), en
+ * lugar de devolver el wireframe tal cual, se aplica applyDynamicContent para
+ * reemplazar al menos los textos básicos con los datos del usuario.
  */
-const adaptModuleWithGemini = async (module, userRequest, theme, eventType, apiKey, model) => {
+const adaptModuleWithGemini = async (module, userRequest, theme, eventType, apiKey, model, userData = {}) => {
+  const datosEventoBlock = buildDatosEventoBlock(userData);
   const prompt = `${MODULE_ADAPTER_PROMPT}
 
 ===== MÓDULO WIREFRAME =====
@@ -1121,9 +1128,13 @@ ${module.html_content}
 ===== TEMÁTICA DEL USUARIO =====
 Evento: ${eventType || 'general'}
 Tema/Mood: ${theme || 'elegante'}
+${datosEventoBlock}
+
 Descripción completa: ${userRequest || 'evento elegante y sofisticado'}
 
 Adapta este módulo siguiendo las reglas del prompt.`;
+
+  const ctxForFallback = { module_id: module.module_id, moduleType: module.module_type };
 
   try {
     const response = await callGeminiAPI(prompt, apiKey, model);
@@ -1132,8 +1143,8 @@ Adapta este módulo siguiendo las reglas del prompt.`;
     // el JSON crudo con finishReason se loguea de forma críptica y el fallback es silencioso.
     const finishReason = response.candidates?.[0]?.finishReason;
     if (finishReason && finishReason !== 'STOP') {
-      console.warn(`[ADAPTER-MODULE] Gemini filtró el output (finishReason=${finishReason}). Fallback a wireframe original sin adaptación temática.`);
-      return module.html_content;
+      console.warn(`[ADAPTER-MODULE] Gemini filtró el output (finishReason=${finishReason}). Fallback con reemplazo de textos base.`);
+      return applyDynamicContent(module.html_content, userData, ctxForFallback);
     }
     const content = extractContent(response);
     const adapted = extractHtmlFromResponse(content);
@@ -1143,13 +1154,13 @@ Adapta este módulo siguiendo las reglas del prompt.`;
       && adapted.includes('data-gemini-id')
       && (adapted.includes('<section') || adapted.includes('<div'));
     if (!isValidHtml) {
-      console.warn('[ADAPTER-MODULE] Output no es HTML válido con data-gemini-id, fallback a wireframe original');
-      return module.html_content;
+      console.warn('[ADAPTER-MODULE] Output no es HTML válido con data-gemini-id, fallback con reemplazo de textos base');
+      return applyDynamicContent(module.html_content, userData, ctxForFallback);
     }
     return adapted;
   } catch (error) {
     console.error('[ADAPTER-MODULE] Error:', error);
-    return module.html_content;
+    return applyDynamicContent(module.html_content, userData, ctxForFallback);
   }
 };
 
@@ -1502,34 +1513,510 @@ const applyTheme = (html, primaryColor, secondaryColor, accentColor, fontFamily,
 };
 
 /**
- * Reemplaza contenido dinámico (memory_type="text")
+ * Mons. en castellano para mapear texto de mes -> número y viceversa.
  */
-const applyDynamicContent = (html, userData) => {
+const MESES_ES = [
+  'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+  'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+];
+
+/**
+ * Parsea el prompt libre del usuario y extrae un contexto estructurado del evento:
+ * nombres, fecha, hora, lugar, ciudad, padres (novia/novio), itinerario,
+ * vestimenta y fecha límite de RSVP. Heurísticas regex ES/EN, alta confianza.
+ * Devuelve SIEMPRE un objeto (campos vacíos si no hay match).
+ */
+const parsePromptForEventContext = (rawPrompt) => {
+  const out = {
+    nombres: '',
+    nombresLista: [],
+    fecha: '',
+    fechaHumana: '',
+    fechaISO: '',
+    hora: '',
+    lugar: '',
+    ciudad: '',
+    padresNovia: '',
+    padresNovio: '',
+    padresHeader: '',
+    padresMasculino: '',
+    padresFemenino: '',
+    itinerario: [],
+    vestimenta: '',
+    vestimentaHombres: '',
+    vestimentaMujeres: '',
+    vestimentaNota: '',
+    fechaLimiteRSVP: '',
+    recepcion: ''
+  };
+  if (!rawPrompt || typeof rawPrompt !== 'string') return out;
+  const prompt = rawPrompt.trim();
+
+  // Nombres: "Boda de X y Y", "Casamiento de X y Y", "XV Años de X", "Cumpleaños de X".
+  // Cada parte admite 1 o 2 tokens capitalizados (p. ej. "María José", "San Miguel").
+  // NOTA 1: En Node/V8 sin bandera 'u', \w NO incluye acentos. Por eso \w se evita y
+  //   se usa una clase de caracteres explícita (incluye ÁÉÍÓÚÑáéíóúñ).
+  // NOTA 2: Búsqueda case-insensitive (el usuario puede escribir "boda" o "Boda").
+  //   Para evitar capturar palabras genéricas ("y Anna con amor"), filtramos por blacklist.
+  const NAME_TOKEN = '[A-ZÁÉÍÓÚÑa-záéíóúñ][A-Za-zÁÉÍÓÚÑáéíóúñ]+';
+  const NAME_PART = `${NAME_TOKEN}(?:\\s+${NAME_TOKEN})?`;
+  const NOMBRE_BLACKLIST = new Set([
+    'la', 'el', 'los', 'las', 'un', 'una', 'unos', 'unas',
+    'mi', 'mis', 'tu', 'tus', 'su', 'sus',
+    'de', 'del', 'al', 'y', 'o', 'e', 'u', 'con', 'sin', 'para', 'por',
+    'amor', 'fiesta', 'celebracion', 'invitacion', 'evento', 'ceremonia',
+    'boda', 'casamiento', 'matrimonio', 'wedding',
+    'xv', 'anos', 'años', 'cumpleanos', 'cumpleaños', 'quinceanera', 'quinceañera',
+    'bautizo', 'comunion', 'comunión', 'primera', 'baby', 'shower',
+    'floral', 'elegante', 'clasico', 'clásico', 'moderno', 'tradicional',
+    'palacio', 'blanco', 'bohemio', 'romantico', 'romántico', 'intimo',
+    'the', 'and', 'our', 'of', 'my'
+  ]);
+  const mNombres = prompt.match(
+    new RegExp(`(?:boda|casamiento|matrimonio|wedding)\\s+de\\s+(${NAME_PART})\\s*(?:y|&)\\s*(${NAME_PART})`, 'i')
+  )
+    || prompt.match(
+      new RegExp(`(?:para|invitamos\\s+a|invitaci[oó]n\\s+(?:de|para))\\s+(${NAME_PART})\\s*(?:y|&)\\s*(${NAME_PART})`, 'i')
+    )
+    || prompt.match(
+      new RegExp(`^(${NAME_PART})\\s*(?:y|&)\\s*(${NAME_PART})\\b`, 'im')
+    )
+    || prompt.match(
+      new RegExp(`(?:xv\\s+a[ñn]os|cumplea[ñn]os?|quincea[ñn]era|bautizo|primera\\s+comuni[óo]n)\\s+de\\s+(${NAME_PART})`, 'i')
+    );
+  if (mNombres) {
+    const firstRaw = (mNombres[1] || '').trim();
+    const secondRaw = (mNombres[2] || '').trim();
+    // Filtro blacklist: si la primera palabra es genérica, descartar el match entero
+    const firstWordLower = firstRaw.split(/\s+/)[0].toLowerCase();
+    if (!NOMBRE_BLACKLIST.has(firstWordLower)) {
+      out.nombresLista = secondRaw ? [firstRaw, secondRaw] : [firstRaw];
+      out.nombres = secondRaw ? `${firstRaw} y ${secondRaw}` : firstRaw;
+    }
+  }
+
+  // Fecha: "15 de septiembre de 2026" | "15/09/2026" | "2026-09-15" | "Sept 15, 2026"
+  const mFecha = prompt.match(
+    /(\d{1,2})\s+de\s+([a-záéíóúñ]+)(?:\s+de\s+(\d{4}))?/i
+  ) || prompt.match(
+    /(\d{1,2})[/-](\d{1,2})[/-](\d{4})/
+  ) || prompt.match(
+    /(\d{4})-(\d{1,2})-(\d{1,2})/
+  ) || prompt.match(
+    /\b([a-záéíóúñ]{3,9})\.?\s+(\d{1,2}),?\s+(\d{4})/i
+  );
+  if (mFecha) {
+    let dia, mesStr, anio;
+    if (mFecha[1] && mFecha[1].length === 4 && !mFecha[3]) {
+      // YYYY-MM-DD
+      anio = mFecha[1];
+      mesStr = mFecha[2];
+      dia = mFecha[3];
+    } else if (mFecha[3] && mFecha[3].length === 4) {
+      // "DD de MES de YYYY" o "DD/MM/YYYY"
+      dia = mFecha[1];
+      mesStr = mFecha[2];
+      anio = mFecha[3];
+    } else {
+      // "DD de MES" sin año, o "MES DD, YYYY"
+      if (/^\d+$/.test(mFecha[1])) {
+        dia = mFecha[1];
+        mesStr = mFecha[2];
+        anio = mFecha[3] || (new Date().getFullYear()).toString();
+      } else {
+        mesStr = mFecha[1];
+        dia = mFecha[2];
+        anio = mFecha[3];
+      }
+    }
+    const mesIdx = MESES_ES.findIndex(m => mesStr && m.startsWith(mesStr.toLowerCase().slice(0, 3)));
+    const mesNum = mesIdx >= 0 ? mesIdx + 1 : (parseInt(mesStr, 10) || 0);
+    if (dia && mesNum) {
+      const diaP = String(dia).padStart(2, '0');
+      const mesP = String(mesNum).padStart(2, '0');
+      const anioP = anio || (new Date().getFullYear()).toString();
+      out.fecha = `${diaP}/${mesP}/${anioP}`;
+      out.fechaISO = `${anioP}-${mesP}-${diaP}`;
+      // Si el match original vino del formulario "DD de MES [de YYYY]", preservar
+      // la forma humana legible para usarla en los textos visible.
+      const esFormatoHumano = /^\d{1,2}\s+de\s+[a-záéíóúñ]+/i.test(mFecha[0]);
+      if (esFormatoHumano) {
+        const mesHumanizado = mesIdx >= 0 ? MESES_ES[mesIdx] : mesStr;
+        out.fechaHumana = anioP
+          ? `${dia} de ${mesHumanizado} de ${anioP}`
+          : `${dia} de ${mesHumanizado}`;
+      } else {
+        out.fechaHumana = out.fecha;
+      }
+    }
+  }
+
+  // Hora: "6:00 PM" | "18:00" | "Hora: 6:00 PM"
+  const mHora = prompt.match(/\bhora:\s*(\d{1,2}):(\d{2})\s*(am|pm)?/i)
+    || prompt.match(/\b(\d{1,2}):(\d{2})\s*(am|pm)\b/i)
+    || prompt.match(/\b(\d{1,2}):(\d{2})\b(?!\s*[-/]\s*\d)/);
+  if (mHora) {
+    const hh = mHora[1];
+    const mm = mHora[2];
+    const ampm = (mHora[3] || '').toUpperCase();
+    out.hora = ampm ? `${hh}:${mm} ${ampm}` : `${hh}:${mm}`;
+  }
+
+  // Lugar: "Lugar: X" / "Lugar: X, Ciudad" | "en X" (con heurística de capitalización)
+  const mLugar = prompt.match(/^lugar:\s*(.+)$/im)
+    || prompt.match(/^direcci[oó]n:\s*(.+)$/im)
+    || prompt.match(/^sal[oó]n:\s*(.+)$/im)
+    || prompt.match(/^ubicaci[oó]n:\s*(.+)$/im);
+  if (mLugar) {
+    const lugarFull = mLugar[1].trim().replace(/\s+$/, '');
+    // Separar "Lugar, Ciudad" si hay coma
+    const partes = lugarFull.split(',').map(s => s.trim()).filter(Boolean);
+    out.lugar = partes[0] || lugarFull;
+    out.ciudad = partes.slice(1).join(', ') || '';
+    out.recepcion = out.lugar;
+  }
+
+  // Padres de la novia / novio. Acepta "Padres...", "Los padres...", "Los/Las padres...".
+  const mPadresNovia = prompt.match(/^(?:los?\s+|las?\s+)?padres?\s+de\s+la\s+novia:\s*(.+)$/im);
+  if (mPadresNovia) out.padresNovia = mPadresNovia[1].trim();
+  const mPadresNovio = prompt.match(/^(?:los?\s+|las?\s+)?padres?\s+del\s+novio:\s*(.+)$/im);
+  if (mPadresNovio) out.padresNovio = mPadresNovio[1].trim();
+  const mPadresBautizo = prompt.match(/^(?:los?\s+|las?\s+)?padres(?:\s+del\s+(?:cumplea[ñn]ero|festejado?|bautizado))?:\s*(.+)$/im);
+  if (mPadresBautizo && !out.padresNovia && !out.padresNovio) out.padresNovia = mPadresBautizo[1].trim();
+
+  out.padresHeader = out.padresNovia || out.padresNovio ? 'Nuestros Padres' : '';
+
+  // Itinerario: líneas "- 6:00 PM Ceremonia" o "6:00 PM - Ceremonia"
+  const lines = prompt.split(/\r?\n/);
+  const itin = [];
+  for (const ln of lines) {
+    const mItin = ln.match(/^\s*[-•·*]\s*(.+)$/);
+    if (mItin && /\d{1,2}:\s*\d{2}/.test(mItin[1])) {
+      itin.push(mItin[1].trim());
+      continue;
+    }
+    const mTime = ln.match(/^\s*(\d{1,2}:\d{2}\s*(?:am|pm)?)\s*[-—–:]\s*(.+)$/i);
+    if (mTime) itin.push(`${mTime[1]} ${mTime[2]}`.trim());
+  }
+  out.itinerario = itin;
+
+  // Vestimenta
+  const mVest = prompt.match(/^vestimenta:\s*(.+)$/im)
+    || prompt.match(/^dress\s*code:\s*(.+)$/im)
+    || prompt.match(/^c[oó]digo\s+de\s+vestir:\s*(.+)$/im);
+  if (mVest) out.vestimenta = mVest[1].trim();
+
+  // Fecha límite RSVP
+  const mRSVP = prompt.match(/confirm(?:ar)?(?:\s+(?:su\s+)?asistencia)?\s+antes\s+del?\s{0,2}(\d{1,2}\s+de\s+[a-záéíóúñ]+(?:\s+de\s+\d{4})?)/i);
+  if (mRSVP) out.fechaLimiteRSVP = mRSVP[1].trim();
+
+  return out;
+};
+
+/**
+ * Consolida el contexto estructurado del usuario mezclando:
+ *   - datos parseados del prompt libre (parsePromptForEventContext)
+ *   - campos genéricos pasados en options (eventType, theme, mood, visualStyle)
+ * El usuario NO completa datos en la pantalla de generación (ver decisión producto),
+ * por eso la mayoría de campos estructurados vienen vacíos y se rellenan vía parser.
+ */
+const buildUserEventContext = ({ prompt, eventType, theme, mood, visualStyle } = {}) => {
+  const parsed = parsePromptForEventContext(prompt || '');
+  return {
+    ...parsed,
+    eventType: eventType || '',
+    theme: theme || '',
+    mood: mood || '',
+    visualStyle: visualStyle || ''
+  };
+};
+
+/**
+ * Construye un bloque de texto plano "DATOS DEL EVENTO" para inyectar al prompt
+ * del adaptador Gemini. Solo incluye líneas de campos no vacíos.
+ */
+const buildDatosEventoBlock = (ud) => {
+  if (!ud) return '';
+  const lines = [];
+  if (ud.nombres) lines.push(`- Anfitriones / Novios: ${ud.nombres}`);
+  if (ud.fechaHumana || ud.fecha) lines.push(`- Fecha del evento: ${ud.fechaHumana || ud.fecha}`);
+  if (ud.hora) lines.push(`- Hora: ${ud.hora}`);
+  if (ud.lugar) {
+    const lugarFull = ud.ciudad ? `${ud.lugar}, ${ud.ciudad}` : ud.lugar;
+    lines.push(`- Lugar: ${lugarFull}`);
+  } else if (ud.ciudad) {
+    lines.push(`- Ciudad: ${ud.ciudad}`);
+  }
+  if (ud.padresNovia) lines.push(`- Padres de la novia: ${ud.padresNovia}`);
+  if (ud.padresNovio) lines.push(`- Padres del novio: ${ud.padresNovio}`);
+  if (ud.itinerario && ud.itinerario.length) {
+    lines.push('- Itinerario:');
+    for (const item of ud.itinerario) lines.push(`    · ${item}`);
+  }
+  if (ud.vestimenta) lines.push(`- Vestimenta: ${ud.vestimenta}`);
+  if (ud.fechaLimiteRSVP) lines.push(`- Confirmar asistencia antes del: ${ud.fechaLimiteRSVP}`);
+  if (!lines.length) return '';
+  return `===== DATOS DEL EVENTO =====\n${lines.join('\n')}`;
+};
+
+/**
+ * Tabla de mapeo memory_key -> función que produce el texto reemplazo a partir
+ * de userData. Indices derivados del inventario de módulos catálogo (Tradicional,
+ * Vaquera, Moderna). Las keys son case-insensitive (se lowercasen al comparar).
+ * Cada entrada devuelve `null` si el dato del usuario no existe (mantener placeholder).
+ */
+const MEMORY_KEY_MAP = {
+  'hero-main-title': ud => ud.nombres || null,
+  'couple-names':   ud => ud.nombres || null,
+  'hero-date-line': ud => ud.fechaHumana || ud.fecha || null,
+  'hero-subtitle':  ud => ud.nombres
+    ? `Te invitamos a celebrar con nosotros. ${ud.fechaHumana || ud.fecha || ''}`.trim()
+    : null,
+  'hero-primary-cta':  ud => 'Ver detalles del evento',
+  'hero-secondary-cta': ud => 'Nuestra historia',
+
+  // Countdown / fecha
+  'countdown-event-date':   ud => ud.fechaHumana || ud.fecha || null,
+  'countdown-strip-heading': ud => (ud.fechaHumana || ud.fecha) ? `Faltan pocos días para nuestra boda · ${ud.fechaHumana || ud.fecha}` : null,
+  'countdown-header':       ud => (ud.fechaHumana || ud.fecha) ? `Cuenta regresiva · ${ud.fechaHumana || ud.fecha}` : null,
+  'countdown-values':       ud => null, // valores numéricos: no se reemplazan, se calculan en JS
+
+  // Padres / personas importantes
+  'important-people-header': ud => ud.padresNovia || ud.padresNovio ? 'Nuestros Padres' : null,
+  'celebrated-header':       ud => ud.padresNovia || ud.padresNovio ? 'Nuestros Padres' : null,
+  'celebrated-usage-note':   ud => ud.padresNovia || ud.padresNovio ? 'Homenaje a quienes nos acompañan.' : null,
+  'important-group-1':       ud => ud.padresNovia || null,
+  'important-group-2':       ud => ud.padresNovio || null,
+  'celebrated-card-1':       ud => ud.padresNovia || null,
+  'celebrated-card-2':       ud => ud.padresNovio || null,
+
+  // Itinerario / organización
+  'organization-header':         ud => 'Itinerario del evento',
+  'organization-image-caption':  ud => ud.lugar || null,
+  'organization-item-1': ud => ud.itinerario?.[0] || null,
+  'organization-item-2': ud => ud.itinerario?.[1] || null,
+  'organization-item-3': ud => ud.itinerario?.[2] || null,
+  'organization-item-4': ud => ud.itinerario?.[3] || null,
+
+  // Galería captions
+  'gallery-grid-caption-1': ud => ud.lugar || 'Ceremonia',
+  'gallery-grid-caption-2': ud => ud.itinerario?.[0] || 'Recepción',
+  'gallery-grid-caption-3': ud => 'Momento especial',
+  'gallery-grid-caption-4': ud => ud.recepcion || ud.lugar || 'Celebración',
+  'gallery-grid-caption-5': ud => 'Detalle',
+  'gallery-grid-caption-6': ud => 'Retrato',
+  'gallery-grid-caption-7': ud => 'Ceremonia',
+  'gallery-grid-caption-8': ud => 'Celebración',
+
+  // RSVP
+  'rsvp-header':        ud => 'Confirmación de asistencia',
+  'rsvp-copy':          ud => ud.nombres ? `Confirma tu asistencia a la celebración de ${ud.nombres}.` : null,
+  'rsvp-monogram':      ud => ud.nombres ? (ud.nombres.split(' y ')[0]?.[0] || ud.nombres[0]) : null,
+  'rsvp-deadline':      ud => ud.fechaLimiteRSVP ? `Confirma tu asistencia antes del ${ud.fechaLimiteRSVP}.` : null,
+  'rsvp-button':        ud => 'Confirmar asistencia',
+  'rsvp-submit-button': ud => 'Confirmar',
+  'rsvp-form-fields':   ud => null, // campos de form se preservan
+  'rsvp-form-content':  ud => null,
+
+  // Dress code
+  'dress-code-header':  ud => ud.vestimenta ? `Código de vestimenta · ${ud.vestimenta}` : 'Código de vestimenta',
+  'dress-code-men':     ud => ud.vestimenta || null,
+  'dress-code-women':   ud => ud.vestimenta || null,
+  'dress-code-note':    ud => ud.vestimenta ? `Te sugerimos ${ud.vestimenta.toLowerCase()}.` : null,
+  'dress-code-details': ud => ud.vestimenta || null,
+  'details-header':     ud => 'Detalles para invitados',
+
+  // regalos / gift table
+  'gift-table-header':  ud => 'Mesa de regalos',
+  'gift-table-note':    ud => 'Tu presencia es el mejor regalo.',
+  'gift-store-1-link':  ud => 'Ver lista',
+  'gift-store-2-link':  ud => 'Ver lista',
+  'gift-store-3-link':  ud => 'Ver lista',
+  'gift-store-4-link':  ud => 'Ver lista',
+  'gift-content':       ud => 'Mesa de regalos',
+  'gift-quote':         ud => 'El mejor regalo es celebrar juntos.',
+  'gift-details':       ud => 'Tu presencia es nuestro mayor regalo.',
+  'gift-primary-action':   ud => 'Ver lista de regalos',
+  'gift-secondary-action': ud => 'Nota de regalo'
+};
+
+/**
+ * Heurísticas de fallback: cuando el elemento NO tiene memory_key (wireframes
+ * universales del seed), mapeamos por texto visible placeholder + tagName.
+ * Devuelve `null` si no hay match o no hay dato del usuario asociado.
+ */
+const PLACEHOLDER_PATTERNS = [
+  // Cabecera de padres/padrinos. Resuelve siempre: es texto editable fijo.
+  // Solo casos no ambiguos: cuando hay UN padre (no los 4 wireframes), se respeta.
+  { test: /^nuestros\s+padres$/i, field: 'padresHeader' },
+  // "Nombre de los Novios" / "Nombre de los/Novios" — solo si tenemos nombres y NO hay
+  // ambigüedad (no hay padres múltiples). Para evitar aplastar el "Nombre del Padre",
+  // "Nombre de la Madre", "Padre de la Novia", etc., NO los tocamos aquí. El editor
+  // visual es AU­TFNTICO lugar de edición para los nombres individuales.
+  { test: /^nombre(?:s)?\s+(?:de\s+)?(?:los|las)\s+novios?$/i, field: 'nombres' },
+  // "Nuestra Boda" sin contexto — reemplazo por nombres si disponibles
+  { test: /^nuestra\s+boda$/i, field: 'nombres' },
+  // Fecha / Save the date / fecha del evento
+  { test: /\bsave\s+the\s+date\b/i,        field: 'fechaHumana', fallbackField: 'fecha' },
+  { test: /\bfecha\s+del\s+evento\b/i,     field: 'fechaHumana', fallbackField: 'fecha' },
+  // CTAs genéricos
+  { test: /\bconfirm(?:ar)?(?:\s+asistencia)?\b/i, resolve: () => 'Confirmar asistencia' },
+  { test: /\bsubmit\s+now\b/i,            resolve: () => 'Confirmar' },
+  { test: /\bopen\s+(?:the\s+)?invitation\b/i, resolve: () => 'Ver invitación' },
+  { test: /\bmain\s+event\b/i,             resolve: () => 'Ver detalles del evento' },
+  { test: /\bfeatured\s+detail\b/i,       resolve: () => 'Detalle del evento' },
+  // Lugar (placeholder "Direccion" / "rivée）
+  { test: /^\s*direcci[oó]n\s*:?$/i,       field: 'lugar' }
+];
+
+/**
+ * Heurística por texto placeholder visible. Devuelve el texto reemplazo o null.
+ * Soporta patrones:
+ *   - resolve: () => string          -> texto fijo
+ *   - field: 'userDataKey'            -> copia userData[field] (si existe)
+ *   - field + fallbackField           -> intenta field, si vacío usa fallbackField
+ * Para placeholders de nombres individuales ("Nombre del Padre", "Madre de la Novia",
+ * etc.) NO se definen patrones: requieren discrimination que el parser no tiene. Esos
+ * slots se editan en el editor visual.
+ */
+
+// Fallback hint normalizer: derivar padresMasculino/padresFemenino desde padresNovia/Novio
+const resolveFemeninoMasculino = (ud, roleHint) => {
+  if (roleHint === 'm') return ud.padresMasculino || ud.padresNovio || null;
+  if (roleHint === 'f') return ud.padresFemenino || ud.padresNovia || null;
+  return null;
+};
+
+/**
+ * Reemplaza el texto del último textNode no-vacío de un elemento, conservando
+ * atributos, hijos decorativos (<span>, <i>, iconos) y structura. Importante para
+ * no destruir CTAs con span/icono inline.
+ */
+const setElementTextPreservingInlineFormat = (el, newText) => {
+  if (!newText || typeof newText !== 'string') return;
+  const textChildren = Array.from(el.childNodes).filter(n => n.nodeType === 3); // textNodes
+  if (textChildren.length === 0) {
+    // Sin textNode directo: append uno (no rompe elementos decorativos existentes)
+    el.appendChild(el.ownerDocument.createTextNode(newText));
+    return;
+  }
+  // Borrar todos los textNodes excepto el ultimo, y sustituir el último
+  for (let i = 0; i < textChildren.length - 1; i++) {
+    textChildren[i].remove();
+  }
+  textChildren[textChildren.length - 1].nodeValue = newText;
+};
+
+/**
+ * Reemplaza contenido dinámico (memory_type="text") en el HTML del módulo.
+ * - Capa 1 (selector A): elementos con memory_type="text".
+ *   - Si tienen memory_key: usa MEMORY_KEY_MAP (catálogo).
+ *   - Si no: heurística por texto placeholder visible (PLACEHOLDER_PATTERNS).
+ * - Capa 2 (selector B): elementos SIN memory_type en tags comunes de texto
+ *   (h1,h2,h3,p,a,button,figcaption,time,span) cuyo texto visible matchee
+ *   PLACEHOLDER_PATTERNS. Esto cubre wireframes universales sin schema (seed)
+ *   cuyos placeholders ("Nombre del Padre", "Nuestros Padres", "Save the date")
+ *   no llevan memory_type. Solo aplica si el match es por patrón (no por
+ *   memory_key, que no tienen) y respeta elementos decorativos (span/icono).
+ *
+ * ctx = { module_id, moduleType } sólo informativo, para logging.
+ */
+const applyDynamicContent = (html, userData, ctx = {}) => {
+  if (!userData || typeof userData !== 'object' || Object.keys(userData).length === 0) return html;
   try {
     const { document } = parseHTML(html);
+    let replaced = 0;
+    const processed = new Set();
 
-    const textos = document.querySelectorAll('[memory_type="text"]');
-    textos.forEach(el => {
+    // Selector A: elementos con memory_type="text" (catálogo)
+    const textosAnotados = document.querySelectorAll('[memory_type="text"]');
+    textosAnotados.forEach(el => {
       const tagName = el.tagName.toLowerCase();
-      const geminiId = el.getAttribute('data-gemini-id');
+      const memoryKey = (el.getAttribute('memory_key') || '').toLowerCase();
+      const visibleText = (el.textContent || '').trim();
 
-      // Mapeo básico de data-gemini-id a datos del usuario
-      if (geminiId && geminiId.includes('portada') && (tagName === 'h1' || tagName === 'p')) {
-        if (userData.nombres) el.textContent = userData.nombres;
-      } else if (geminiId && geminiId.includes('fecha') || (tagName === 'time' && userData.fecha)) {
-        if (userData.fecha) {
-          el.textContent = userData.fecha;
-          if (el.tagName === 'TIME') el.setAttribute('datetime', userData.fecha);
-        }
+      // Capa 1: mapeo por memory_key (catálogo)
+      let newText = null;
+      if (memoryKey && MEMORY_KEY_MAP[memoryKey]) {
+        const produced = MEMORY_KEY_MAP[memoryKey](userData);
+        if (produced) newText = String(produced);
       }
-      // ... más mapeos según sea necesario
+
+      // Capa 1b (mismo elemento sin memory_key): heurística por texto visible
+      if (!newText && visibleText) {
+        newText = matchPlaceholderPattern(visibleText, userData);
+      }
+
+      if (newText) {
+        setElementTextPreservingInlineFormat(el, newText);
+        if (tagName === 'time' && userData.fechaISO) el.setAttribute('datetime', userData.fechaISO);
+        replaced += 1;
+      }
+      processed.add(el);
     });
 
-    return document.documentElement.outerHTML;
+    // Selector B: elementos SIN memory_type en tags HOJA de texto (no contenedores).
+    // Deliberadamente excluimos <header>, <article>, <figure>, <figcaption>, <form>
+    // porque su textContent incluye el de sus hijos y reemplazar todo el contenedor
+    // aplastaría a los <p>/<span> internos. Solo hojas: h1,h2,h3,p,a,button,time,span.
+    const tagsCandidatos = 'h1, h2, h3, p, a, button, time, span';
+    const candidatos = document.querySelectorAll(tagsCandidatos);
+    candidatos.forEach(el => {
+      if (processed.has(el)) return;
+      // Saltar si tiene cualquier memory_type (incluso text/image) — queremos sólo los quirúrgicamente NO anotados
+      if (el.hasAttribute && el.hasAttribute('memory_type')) return;
+      // Saltar si algún ancestro ya fue procesado (evita doble toque)
+      let ancestor = el.parentElement;
+      while (ancestor) {
+        if (processed.has(ancestor)) return;
+        ancestor = ancestor.parentElement;
+      }
+
+      const tagName = el.tagName.toLowerCase();
+      const visibleText = (el.textContent || '').trim();
+      if (!visibleText) return;
+
+      const newText = matchPlaceholderPattern(visibleText, userData);
+      if (newText) {
+        setElementTextPreservingInlineFormat(el, newText);
+        if (tagName === 'time' && userData.fechaISO) el.setAttribute('datetime', userData.fechaISO);
+        replaced += 1;
+        processed.add(el);
+      }
+    });
+
+    if (replaced > 0) {
+      console.log(`[APPLY-CONTENT] ${replaced} texto(s) reemplazado(s) (módulo=${ctx.moduleType || ctx.module_id || 'n/a'})`);
+      return document.documentElement.outerHTML;
+    }
+    return html;
   } catch (error) {
-    console.error('[APPLY-CONTENT] Error:', error);
+    console.error('[APPLY-CONTENT] Error:', error.message || error);
     return html;
   }
+};
+
+/**
+ * Heurística por texto placeholder visible. Devuelve el texto reemplazo o null.
+ * Soporta 3 tipos de patrones:
+ *   - resolve: () => string          -> texto fijo
+ *   - field: 'userDataKey', role: 'm'|'f' -> copia userData[field] o (role) userData...
+ *   - roleByCapture + fieldsByRole   -> inspecciona el sustantivo (m/f) y elige userData[fieldsByRole[x]]
+ */
+const matchPlaceholderPattern = (visibleText, userData) => {
+  for (const pat of PLACEHOLDER_PATTERNS) {
+    const m = pat.test.exec(visibleText);
+    if (!m) continue;
+    if (pat.resolve) {
+      return pat.resolve();
+    }
+    if (pat.field) {
+      let v = userData[pat.field];
+      if (!v && pat.fallbackField) v = userData[pat.fallbackField];
+      if (v) return String(v);
+    }
+  }
+  return null;
 };
 
 /**
@@ -1613,6 +2100,17 @@ export const runModularOrchestration = async (prompt, apiKey, model = 'gemini-3.
   console.log('=== ORCHESTRATOR MODULAR START ===');
   console.log('Event:', eventType, '| Theme:', theme, '| Model:', model);
 
+  // Construir contexto estructurado del usuario a partir del prompt libre.
+  // El usuario NO completa datos en la pantalla de generación, por esto se parsea el prompt.
+  const userData = buildUserEventContext({ prompt, eventType, theme, mood, visualStyle });
+  console.log('[Módular] userData parsed:', JSON.stringify({
+    nombres: userData.nombres, fecha: userData.fecha, hora: userData.hora,
+    lugar: userData.lugar, ciudad: userData.ciudad,
+    padresNovia: userData.padresNovia ? '<set>' : '', padresNovio: userData.padresNovio ? '<set>' : '',
+    itinerario: userData.itinerario.length, vestimenta: userData.vestimenta ? '<set>' : '',
+    fechaLimiteRSVP: userData.fechaLimiteRSVP ? '<set>' : ''
+  }));
+
   const requiredModules = ['portada', 'padres', 'ubicacion', 'itinerario', 'confirmacion', 'detalles'];
 
   // 1. Query y selección de módulos
@@ -1643,8 +2141,15 @@ export const runModularOrchestration = async (prompt, apiKey, model = 'gemini-3.
   const adaptedModules = [];
   for (const module of selectedModules) {
     console.log(`[Módular] Adaptando: ${module.module_id}`);
-    const adapted = await adaptModuleWithGemini(module, prompt, theme, eventType, apiKey, model);
-    adaptedModules.push({ ...module, html_content: adapted });
+    const adapted = await adaptModuleWithGemini(module, prompt, theme, eventType, apiKey, model, userData);
+    // Pase de sanitización SIEMPRE: aunque el adaptador tuvo éxito, puede haber dejado
+    // intactos algunos slots textuales (memory_type="text"). Esto garantiza que nombres,
+    // fecha, lugar y otros datos del usuario queden contextualizados en cada generación.
+    const sanitized = applyDynamicContent(adapted, userData, {
+      module_id: module.module_id,
+      moduleType: module.module_type
+    });
+    adaptedModules.push({ ...module, html_content: sanitized });
   }
 
   // 3. Ensamblar módulos
