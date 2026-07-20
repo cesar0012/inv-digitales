@@ -8,6 +8,7 @@ interface PreviewPaneProps {
   isFullscreen: boolean;
   onToggleFullscreen: () => void;
   isSelectionMode: boolean;
+  selectedElementId: string | null;
 }
 
 export interface PreviewPaneHandle {
@@ -19,7 +20,8 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
   onElementClick,
   isFullscreen,
   onToggleFullscreen,
-  isSelectionMode
+  isSelectionMode,
+  selectedElementId
 }, ref) => {
   const [viewport, setViewport] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -50,11 +52,51 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
     <script>
       window.setInterval = _origSetInterval;
       window.__GEMINI_SELECTION_MODE = false;
+      // Tracking del elemento seleccionado persistente (highlight visual)
+      // Mantiene el outline hasta que se seleccione otro o se desactive.
+      window.__GEMINI_SELECTED_EL = null;
+      window.__GEMINI_SELECTED_PREV_OUTLINE = '';
+      window.__GEMINI_SELECTED_PREV_OFFSET = '';
+
+      function __geminiClearSelected() {
+        if (window.__GEMINI_SELECTED_EL) {
+          try {
+            window.__GEMINI_SELECTED_EL.style.outline = window.__GEMINI_SELECTED_PREV_OUTLINE;
+            window.__GEMINI_SELECTED_EL.style.outlineOffset = window.__GEMINI_SELECTED_PREV_OFFSET;
+          } catch (e) {}
+          window.__GEMINI_SELECTED_EL = null;
+          window.__GEMINI_SELECTED_PREV_OUTLINE = '';
+          window.__GEMINI_SELECTED_PREV_OFFSET = '';
+        }
+      }
+
+      function __geminiSetSelected(el) {
+        __geminiClearSelected();
+        if (!el) return;
+        window.__GEMINI_SELECTED_EL = el;
+        window.__GEMINI_SELECTED_PREV_OUTLINE = el.style.outline;
+        window.__GEMINI_SELECTED_PREV_OFFSET = el.style.outlineOffset;
+        el.style.outline = '2px dashed #f472b6'; // pink-400
+        el.style.outlineOffset = '2px';
+      }
 
       window.addEventListener('message', (event) => {
         if (event.data && event.data.type === 'TOGGLE_SELECTION_MODE') {
           window.__GEMINI_SELECTION_MODE = event.data.payload;
           document.body.style.cursor = event.data.payload ? 'crosshair' : 'default';
+          // Al desactivar el modo selección, quitar el highlight persistente
+          if (!event.data.payload) {
+            __geminiClearSelected();
+          }
+        }
+        if (event.data && event.data.type === 'SELECT_ELEMENT') {
+          const id = event.data.payload;
+          if (!id) { __geminiClearSelected(); return; }
+          const el = document.querySelector('[data-gemini-id="' + id + '"]');
+          __geminiSetSelected(el);
+        }
+        if (event.data && event.data.type === 'DESELECT_ELEMENT') {
+          __geminiClearSelected();
         }
         if (event.data && event.data.type === 'UPDATE_COUNTDOWN') {
           var targetDate = event.data.payload;
@@ -144,14 +186,11 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
              element.setAttribute('data-gemini-id', 'edit-' + Math.random().toString(36).substr(2, 9));
           }
 
-          const prevOutline = element.style.outline;
-          const prevOutlineOffset = element.style.outlineOffset;
-          element.style.outline = '2px dashed #f472b6'; // pink-400
-          element.style.outlineOffset = '2px';
-          setTimeout(() => { 
-            element.style.outline = prevOutline; 
-            element.style.outlineOffset = prevOutlineOffset;
-          }, 1500);
+          // Highlight persistente: marca el elemento seleccionado hasta que
+          // se elija otro o se desactive el modo selección. Se envía el
+          // outerHTML YA CON el data-gemini-id para que el parent pueda
+          // persistirlo en el code si es efímero.
+          __geminiSetSelected(element);
 
           window.parent.postMessage({
             type: 'GEMINI_ELEMENT_CLICK',
@@ -199,12 +238,19 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
           type: 'TOGGLE_SELECTION_MODE',
           payload: isSelectionMode
         }, '*');
-      }
-    };
+         // Re-apply highlight del elemento seleccionado previamente si existe
+         if (selectedElementId) {
+           iframeRef.current?.contentWindow?.postMessage({
+             type: 'SELECT_ELEMENT',
+             payload: selectedElementId
+           }, '*');
+         }
+       }
+     };
 
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
-  }, [onElementClick, isSelectionMode]);
+  }, [onElementClick, isSelectionMode, selectedElementId]);
 
   // Sync selection mode whenever prop changes
   useEffect(() => {
@@ -213,6 +259,20 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
       payload: isSelectionMode
     }, '*');
   }, [isSelectionMode]);
+
+  // Sync selected element highlight whenever the selected id or code changes
+  // (necesario porque el iframe se re-renderiza con el srcDoc y pierde el
+  // outline aplicado). También re-envía tras un UPDATE_COUNTDOWN.
+  useEffect(() => {
+    if (!selectedElementId) {
+      iframeRef.current?.contentWindow?.postMessage({ type: 'DESELECT_ELEMENT' }, '*');
+    } else {
+      iframeRef.current?.contentWindow?.postMessage({
+        type: 'SELECT_ELEMENT',
+        payload: selectedElementId
+      }, '*');
+    }
+  }, [selectedElementId, code]);
 
   const getViewportWidth = () => {
     switch (viewport) {

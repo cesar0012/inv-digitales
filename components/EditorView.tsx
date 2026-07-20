@@ -343,9 +343,10 @@ export const EditorView: React.FC = () => {
         });
       }
       if (newStyles) {
+        const camelToKebab = (k: string) => k.replace(/([A-Z])/g, "-$1").toLowerCase();
         Object.entries(newStyles).forEach(([k, v]) => {
           if (v) el.style[k as any] = v;
-          else el.style.removeProperty(k.replace(/([A-Z])/g, "-$1").toLowerCase());
+          else el.style.removeProperty(camelToKebab(k));
         });
       }
       
@@ -576,12 +577,54 @@ export const EditorView: React.FC = () => {
         ref={previewRef}
         code={code} 
         onElementClick={(el) => {
+          // Persistir el data-gemini-id efímero en el code si fue asignado
+          // dinámicamente por el iframe (elemento sin ID previo). Esto asegura
+          // que parseEditableElements lo encuentre y que handleUpdateElement
+          // pueda localizarlo después.
+          if (el.geminiId && el.geminiId.startsWith('edit-') && el.fullHtml && activePage) {
+            try {
+              const parser = new DOMParser();
+              const doc = parser.parseFromString(activePage.code, 'text/html');
+              // Buscar el elemento por su outerHTML actual (sin el ID efímero
+              // aún) y asignárselo. El fullHtml que llega del iframe ya trae
+              // el data-gemini-id="edit-xxx" inyectado, así que localizamos por
+              // coincidencia estructural: tagName + sin data-gemini-id previo
+              // + mismo contenido.
+              const tempDoc = parser.parseFromString(el.fullHtml, 'text/html');
+              const tempEl = tempDoc.body.firstElementChild as HTMLElement | null;
+              if (tempEl) {
+                const tag = tempEl.tagName;
+                const newId = el.geminiId;
+                // Remover el atributo data-gemini-id temporal del tempEl para
+                // poder comparar outerHTML contra candidatos del doc.
+                tempEl.removeAttribute('data-gemini-id');
+                const strippedHtml = tempEl.outerHTML;
+                const candidates = Array.from(doc.querySelectorAll(tag.toLowerCase()));
+                const match = candidates.find((c: Element) => {
+                  const ce = c as HTMLElement;
+                  // Noalready tiene un data-gemini-id? (si lo tiene, ya está
+                  // registrado en el sidebar, no debería tocarse)
+                  if (ce.getAttribute('data-gemini-id')) return false;
+                  return ce.outerHTML === strippedHtml;
+                }) as HTMLElement | undefined;
+                if (match) {
+                  match.setAttribute('data-gemini-id', newId);
+                  const updatedCode = doc.documentElement.outerHTML;
+                  setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
+                }
+              }
+            } catch (err) {
+              console.error('Error persistiendo data-gemini-id efímero:', err);
+            }
+          }
           setSelectedElement(el);
-          setIsSelectionMode(false);
+          // Modo selección persistente: NO desactivar automáticamente.
+          // El usuario lo desactiva manualmente con el botón del lápiz.
         }}
         isFullscreen={isFullscreen}
         onToggleFullscreen={() => setIsFullscreen(!isFullscreen)}
         isSelectionMode={isSelectionMode}
+        selectedElementId={selectedElement?.geminiId || null}
       />
 
       {replaceModalData && (

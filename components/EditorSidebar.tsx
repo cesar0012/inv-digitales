@@ -202,6 +202,17 @@ const ElementEditor = ({ element, onUpdate, isSelected }: { element: EditableEle
     return px !== null ? px : 16;
   });
 
+  // Ref para trackear el último snapshot que el componente envió al parent.
+  // Solo sincronizamos el estado local cuando el `element` entrante difiere
+  // del último enviado — es decir, el cambio viene de una fuente externa
+  // (selección de otro elemento, load inicial, etc.). Evita que el parent
+  // re-renderice tras cada triggerUpdate y sobrescriba lo que el usuario
+  // está escribiendo en el textarea/input activo.
+  const lastSentRef = useRef<{ geminiId: string; content: string; src: string; href: string; stylesKey: string; animationClass: string } | null>(null);
+
+  // Helper para firmar styles de forma estable.
+  const stylesKey = (s: Record<string, string>) => Object.keys(s).sort().map(k => `${k}:${s[k] || ''}`).join('|');
+
   useEffect(() => {
     if (isSelected) {
       setIsExpanded(true);
@@ -212,6 +223,28 @@ const ElementEditor = ({ element, onUpdate, isSelected }: { element: EditableEle
   }, [isSelected]);
 
   useEffect(() => {
+    // Si el elemento entrante coincide con el último snapshot enviado, no
+    // sobrescribimos el estado local: el cambio ya vino del usuario.
+    const incomingSig = {
+      geminiId: element.geminiId,
+      content: element.content,
+      src: element.src,
+      href: element.href,
+      stylesKey: stylesKey(element.styles),
+      animationClass: element.animationClass
+    };
+    const last = lastSentRef.current;
+    const isSameAsSent = last
+      && last.geminiId === incomingSig.geminiId
+      && last.content === incomingSig.content
+      && last.src === incomingSig.src
+      && last.href === incomingSig.href
+      && last.stylesKey === incomingSig.stylesKey
+      && last.animationClass === incomingSig.animationClass;
+
+    if (isSameAsSent) return; // cambio originado por el usuario, no sobrescribir
+
+    // Cambio externo: actualizar estado local.
     setContent(element.content);
     setSrc(element.src);
     setHref(element.href);
@@ -221,16 +254,54 @@ const ElementEditor = ({ element, onUpdate, isSelected }: { element: EditableEle
     setHeightSlider(parsePxValue(element.styles.height) || 300);
     const px = parsePxValue(element.styles.padding);
     setPaddingSlider(px !== null ? px : 16);
+    // Actualizar el snapshot para futuras comparaciones.
+    lastSentRef.current = incomingSig;
   }, [element]);
 
   const triggerUpdate = (newContent = content, newSrc = src, newHref = href, newStyles = styles, newAnimationClass = animationClass) => {
+    // Registrar el snapshot enviado para que el useEffect de [element] no
+    // sobrescriba el estado local cuando el parent re-renderice con este
+    // mismo contenido tras aplicar la edición.
+    lastSentRef.current = {
+      geminiId: element.geminiId,
+      content: newContent,
+      src: newSrc,
+      href: newHref,
+      stylesKey: stylesKey(newStyles),
+      animationClass: newAnimationClass
+    };
     onUpdate(element.geminiId, newContent, { src: newSrc, href: newHref, animationClass: newAnimationClass }, newStyles);
   };
+
+  // Debounce timer ref para sliders: evita regenerar el HTML/iframe en cada
+  // px de arrastre. Commit inmediato para selects/buttons (no slider).
+  const debounceRef = useRef<number | null>(null);
+
+  // Cleanup del timer al desmontar para evitar memory leaks.
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current !== null) {
+        clearTimeout(debounceRef.current);
+        debounceRef.current = null;
+      }
+    };
+  }, []);
 
   const handleStyleChange = (key: string, value: string) => {
     const newStyles = { ...styles, [key]: value };
     setStyles(newStyles);
-    triggerUpdate(content, src, href, newStyles, animationClass);
+    const sliderKeys = ['width', 'height', 'padding'];
+    if (sliderKeys.includes(key)) {
+      if (debounceRef.current !== null) {
+        clearTimeout(debounceRef.current);
+      }
+      debounceRef.current = window.setTimeout(() => {
+        debounceRef.current = null;
+        triggerUpdate(content, src, href, newStyles, animationClass);
+      }, 120);
+    } else {
+      triggerUpdate(content, src, href, newStyles, animationClass);
+    }
   };
 
   const handleAnimationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
