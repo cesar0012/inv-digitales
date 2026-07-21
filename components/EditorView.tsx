@@ -223,6 +223,7 @@ export const EditorView: React.FC = () => {
       secondaryColor: config.secondaryColor,
       eventDate: config.eventDate,
       eventTime: config.eventTime,
+      eventDetails: config.eventDetails,
       visualStyle: config.visualStyle,
       mood: config.mood
     } : undefined;
@@ -270,8 +271,22 @@ export const EditorView: React.FC = () => {
     setGeneratingMessage('Agregando Módulo...');
     const loremFlickrSource = IMAGE_SOURCES.find(s => s.id === 'loremflickr') || IMAGE_SOURCES[0];
 
+    // Pasar el editorConfig al backend para que el nuevo módulo adapte sus
+    // textos al tipo de evento del proyecto actual.
+    const editorConfigForApi = editorConfig ? {
+      eventType: editorConfig.eventType,
+      theme: editorConfig.theme,
+      primaryColor: editorConfig.primaryColor,
+      secondaryColor: editorConfig.secondaryColor,
+      visualStyle: editorConfig.visualStyle,
+      mood: editorConfig.mood,
+      eventDate: editorConfig.eventDate,
+      eventTime: editorConfig.eventTime,
+      eventDetails: editorConfig.eventDetails
+    } : undefined;
+
     try {
-      const updatedCode = await addModuleToProject(activePage.code, insertAfterModule, moduleDescription, loremFlickrSource, purchaseId);
+      const updatedCode = await addModuleToProject(activePage.code, insertAfterModule, moduleDescription, loremFlickrSource, editorConfigForApi, purchaseId);
       setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
       setHasUnsavedChanges(true);
     } catch (error: any) {
@@ -296,8 +311,20 @@ export const EditorView: React.FC = () => {
     setGeneratingMessage('Modificando Diseño...');
     const loremFlickrSource = IMAGE_SOURCES.find(s => s.id === 'loremflickr') || IMAGE_SOURCES[0];
 
+    const editorConfigForApi = editorConfig ? {
+      eventType: editorConfig.eventType,
+      theme: editorConfig.theme,
+      primaryColor: editorConfig.primaryColor,
+      secondaryColor: editorConfig.secondaryColor,
+      visualStyle: editorConfig.visualStyle,
+      mood: editorConfig.mood,
+      eventDate: editorConfig.eventDate,
+      eventTime: editorConfig.eventTime,
+      eventDetails: editorConfig.eventDetails
+    } : undefined;
+
     try {
-      const updatedCode = await modifyProjectDesign(activePage.code, designDescription, loremFlickrSource, purchaseId);
+      const updatedCode = await modifyProjectDesign(activePage.code, designDescription, loremFlickrSource, editorConfigForApi, purchaseId);
       setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
       setHasUnsavedChanges(true);
     } catch (error: any) {

@@ -123,8 +123,8 @@ export const InitialView: React.FC<InitialViewProps> = ({
       eventDetails: eventDetails.trim(),
       eventDate: eventDate || undefined,
       eventTime: eventTime || undefined,
-      visualStyle: undefined,
-      mood: undefined
+      visualStyle: visualStyle || undefined,
+      mood: mood || undefined
     };
 
     onGenerate(prompt, attachments, config);

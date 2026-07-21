@@ -1720,10 +1720,34 @@ const parsePromptForEventContext = (rawPrompt) => {
  * El usuario NO completa datos en la pantalla de generación (ver decisión producto),
  * por eso la mayoría de campos estructurados vienen vacíos y se rellenan vía parser.
  */
-const buildUserEventContext = ({ prompt, eventType, theme, mood, visualStyle } = {}) => {
+const buildUserEventContext = ({ prompt, eventType, theme, mood, visualStyle, eventDate, eventTime, eventDetails } = {}) => {
   const parsed = parsePromptForEventContext(prompt || '');
+  const merged = { ...parsed };
+
+  // Si el parser no extrajo fecha, usar eventDate estructurado del formulario.
+  // El input type=date envía formato ISO "YYYY-MM-DD" que el regex del parser
+  // pourrait capturar, pero no siempre. Priorizamos el input estructurado.
+  if (!merged.fechaISO && eventDate) {
+    merged.fechaISO = eventDate;
+    merged.fecha = eventDate;
+    if (!merged.fechaHumana) {
+      try {
+        const d = new Date(eventDate + 'T00:00:00');
+        if (!isNaN(d.getTime())) {
+          const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+          merged.fechaHumana = `${d.getDate()} de ${months[d.getMonth()]} de ${d.getFullYear()}`;
+        }
+      } catch {}
+    }
+  }
+
+  // Hora estructurada del formulario (input type=time formato "HH:MM")
+  if (!merged.hora && eventTime) {
+    merged.hora = eventTime;
+  }
+
   return {
-    ...parsed,
+    ...merged,
     eventType: eventType || '',
     theme: theme || '',
     mood: mood || '',
@@ -1765,6 +1789,46 @@ const buildDatosEventoBlock = (ud) => {
  * Vaquera, Moderna). Las keys son case-insensitive (se lowercasen al comparar).
  * Cada entrada devuelve `null` si el dato del usuario no existe (mantener placeholder).
  */
+/**
+ * Helper: produce etiqueta legible + pronombre según ud.eventType.
+ * Soporta boda, XV años, cumpleaños, bautizo, primera comunión, confirmación,
+ * baby shower, graduación, aniversario. Default: "nuestro evento" (neutro).
+ * Devuelve { pronoun, noun, phrasePre } para componibilidad:
+ *   - phrasePre: preposición "para" + articulado → "para nuestra boda", "para los XV años"
+ */
+const getEventTypeLabel = (ud) => {
+  const evt = (ud?.eventType || '').toLowerCase();
+  if (evt.includes('xv') || evt.includes('quince') || evt.includes('15 a')) {
+    return { pronoun: 'los', noun: 'XV años', phrasePre: 'para los XV años' };
+  }
+  if (evt.includes('cumple') || evt.includes('birthday')) {
+    return { pronoun: 'el', noun: 'cumpleaños', phrasePre: 'para el cumpleaños' };
+  }
+  if (evt.includes('bautiz')) {
+    return { pronoun: 'el', noun: 'bautizo', phrasePre: 'para el bautizo' };
+  }
+  if (evt.includes('comunion') || evt.includes('comunión')) {
+    return { pronoun: 'la', noun: 'primera comunión', phrasePre: 'para la primera comunión' };
+  }
+  if (evt.includes('confirm')) {
+    return { pronoun: 'la', noun: 'confirmación', phrasePre: 'para la confirmación' };
+  }
+  if (evt.includes('baby shower') || evt.includes('babyshower')) {
+    return { pronoun: 'el', noun: 'baby shower', phrasePre: 'para el baby shower' };
+  }
+  if (evt.includes('graduac')) {
+    return { pronoun: 'la', noun: 'graduación', phrasePre: 'para la graduación' };
+  }
+  if (evt.includes('aniversar')) {
+    return { pronoun: 'nuestro', noun: 'aniversario', phrasePre: 'para nuestro aniversario' };
+  }
+  if (evt.includes('boda') || evt.includes('wedding') || evt.includes('casamiento') || evt.includes('matrimonio')) {
+    return { pronoun: 'nuestra', noun: 'boda', phrasePre: 'para nuestra boda' };
+  }
+  // Por defecto neutro (no asume boda)
+  return { pronoun: 'nuestro', noun: 'evento', phrasePre: 'para nuestro evento' };
+};
+
 const MEMORY_KEY_MAP = {
   'hero-main-title': ud => ud.nombres || null,
   'couple-names':   ud => ud.nombres || null,
@@ -1777,18 +1841,91 @@ const MEMORY_KEY_MAP = {
 
   // Countdown / fecha
   'countdown-event-date':   ud => ud.fechaHumana || ud.fecha || null,
-  'countdown-strip-heading': ud => (ud.fechaHumana || ud.fecha) ? `Faltan pocos días para nuestra boda · ${ud.fechaHumana || ud.fecha}` : null,
+  'countdown-strip-heading': ud => {
+    if (!ud.fechaHumana && !ud.fecha) return null;
+    const label = getEventTypeLabel(ud);
+    return `Faltan pocos días ${label.phrasePre} · ${ud.fechaHumana || ud.fecha}`;
+  },
   'countdown-header':       ud => (ud.fechaHumana || ud.fecha) ? `Cuenta regresiva · ${ud.fechaHumana || ud.fecha}` : null,
+  'countdown-card-header':  ud => (ud.fechaHumana || ud.fecha) ? `Cuenta regresiva · ${ud.fechaHumana || ud.fecha}` : null,
+  'countdown-editorial-intro': ud => {
+    if (!ud.fechaHumana && !ud.fecha) return null;
+    const label = getEventTypeLabel(ud);
+    return `Faltan pocos días ${label.phrasePre} · ${ud.fechaHumana || ud.fecha}`;
+  },
   'countdown-values':       ud => null, // valores numéricos: no se reemplazan, se calculan en JS
 
-  // Padres / personas importantes
-  'important-people-header': ud => ud.padresNovia || ud.padresNovio ? 'Nuestros Padres' : null,
-  'celebrated-header':       ud => ud.padresNovia || ud.padresNovio ? 'Nuestros Padres' : null,
+  // Padres / personas importantes — varía por tipo de evento
+  'important-people-header': ud => {
+    if (!ud.padresNovia && !ud.padresNovio) return null;
+    const label = getEventTypeLabel(ud);
+    if (label.noun === 'bautizo') return 'Padres del bautizado';
+    if (label.noun === 'primera comunión') return 'Padres del communionando';
+    if (label.noun === 'confirmación') return 'Padres del confirmando';
+    if (label.noun === 'XV años') return 'Padres de la quinceañera';
+    if (label.noun === 'cumpleaños') return 'Padres del cumpleañero';
+    if (label.noun === 'baby shower') return 'Papás del bebé';
+    return 'Nuestros Padres';
+  },
+  'celebrated-header':       ud => {
+    if (!ud.padresNovia && !ud.padresNovio) return null;
+    const label = getEventTypeLabel(ud);
+    if (label.noun === 'bautizo') return 'Padres del bautizado';
+    if (label.noun === 'primera comunión') return 'Padres del communionando';
+    if (label.noun === 'confirmación') return 'Padres del confirmando';
+    if (label.noun === 'XV años') return 'Padres de la quinceañera';
+    if (label.noun === 'cumpleaños') return 'Padres del cumpleañero';
+    if (label.noun === 'baby shower') return 'Papás del bebé';
+    return 'Nuestros Padres';
+  },
   'celebrated-usage-note':   ud => ud.padresNovia || ud.padresNovio ? 'Homenaje a quienes nos acompañan.' : null,
   'important-group-1':       ud => ud.padresNovia || null,
   'important-group-2':       ud => ud.padresNovio || null,
   'celebrated-card-1':       ud => ud.padresNovia || null,
   'celebrated-card-2':       ud => ud.padresNovio || null,
+
+  // Sección de pareja/protagonistas — adaptado por tipo de evento
+  'couple-section-header':   ud => {
+    if (!ud.nombres) return null;
+    const label = getEventTypeLabel(ud);
+    if (label.noun === 'boda') return 'Los novios';
+    if (label.noun === 'XV años') return 'La quinceañera';
+    if (label.noun === 'cumpleaños') return 'El cumpleañero';
+    if (label.noun === 'bautizo') return 'El bautizado';
+    if (label.noun === 'baby shower') return 'Los papás';
+    return 'Protagonistas';
+  },
+  'bride-profile':           ud => {
+    if (!ud.nombres) return null;
+    const label = getEventTypeLabel(ud);
+    if (label.noun === 'boda') {
+      const parts = ud.nombres.split(/\s+y\s+/);
+      return parts[0] || ud.nombres;
+    }
+    return ud.nombres;
+  },
+  'groom-profile':           ud => {
+    if (!ud.nombres) return null;
+    const label = getEventTypeLabel(ud);
+    if (label.noun === 'boda') {
+      const parts = ud.nombres.split(/\s+y\s+/);
+      return parts[1] || null;
+    }
+    return null; // no-boda: no hayPerfil segundo (evitar duplicar)
+  },
+
+  // Historia / retrato
+  'story-header':            ud => ud.nombres ? `Quiénes somos` : null,
+  'story-content':           ud => null,
+  'story-navigation':        ud => null,
+  'portrait-copy':           ud => {
+    if (!ud.nombres) return null;
+    const label = getEventTypeLabel(ud);
+    if (label.noun === 'boda') return `Un retrato de ${ud.nombres}.`;
+    return `Un retrato de ${ud.nombres}.`;
+  },
+  'photo-label':             ud => null, // decorativo
+  'frame-caption':           ud => null, // decorativo
 
   // Itinerario / organización
   'organization-header':         ud => 'Itinerario del evento',
@@ -1797,6 +1934,19 @@ const MEMORY_KEY_MAP = {
   'organization-item-2': ud => ud.itinerario?.[1] || null,
   'organization-item-3': ud => ud.itinerario?.[2] || null,
   'organization-item-4': ud => ud.itinerario?.[3] || null,
+  'itinerary-header':         ud => 'Itinerario',
+  'event-agenda':            ud => 'Programa del evento',
+
+  // Ubicación / lugar
+  'event-location-header':   ud => 'Lugar del evento',
+  'location-header':         ud => 'Lugar del evento',
+  'ceremony-location':       ud => ud.lugar || null,
+  'reception-location':      ud => ud.lugar || null,
+  'ceremony-card':           ud => ud.lugar || null,
+  'reception-card':          ud => ud.lugar || null,
+  'ceremony-directions-button': ud => ud.lugar ? 'Cómo llegar' : null,
+  'reception-map-link':      ud => ud.lugar ? 'Ver mapa' : null,
+  'map-instructions':        ud => ud.lugar ? `Cómo llegar a ${ud.lugar}.` : null,
 
   // Galería captions
   'gallery-grid-caption-1': ud => ud.lugar || 'Ceremonia',
@@ -1808,9 +1958,21 @@ const MEMORY_KEY_MAP = {
   'gallery-grid-caption-7': ud => 'Ceremonia',
   'gallery-grid-caption-8': ud => 'Celebración',
 
-  // RSVP
+  // RSVP — adapta a tipo de evento
   'rsvp-header':        ud => 'Confirmación de asistencia',
-  'rsvp-copy':          ud => ud.nombres ? `Confirma tu asistencia a la celebración de ${ud.nombres}.` : null,
+  'rsvp-copy':          ud => {
+    if (!ud.nombres) return null;
+    const label = getEventTypeLabel(ud);
+    if (label.noun === 'boda') return `Confirma tu asistencia a la celebración de ${ud.nombres}.`;
+    if (label.noun === 'XV años') return `Confirma tu asistencia a los XV años de ${ud.nombres}.`;
+    if (label.noun === 'cumpleaños') return `Confirma tu asistencia al cumpleaños de ${ud.nombres}.`;
+    if (label.noun === 'bautizo') return `Confirma tu asistencia al bautizo de ${ud.nombres}.`;
+    if (label.noun === 'primera comunión') return `Confirma tu asistencia a la primera comunión de ${ud.nombres}.`;
+    if (label.noun === 'confirmación') return `Confirma tu asistencia a la confirmación de ${ud.nombres}.`;
+    if (label.noun === 'baby shower') return `Confirma tu asistencia al baby shower de ${ud.nombres}.`;
+    if (label.noun === 'graduación') return `Confirma tu asistencia a la graduación de ${ud.nombres}.`;
+    return `Confirma tu asistencia al evento de ${ud.nombres}.`;
+  },
   'rsvp-monogram':      ud => ud.nombres ? (ud.nombres.split(' y ')[0]?.[0] || ud.nombres[0]) : null,
   'rsvp-deadline':      ud => ud.fechaLimiteRSVP ? `Confirma tu asistencia antes del ${ud.fechaLimiteRSVP}.` : null,
   'rsvp-button':        ud => 'Confirmar asistencia',
@@ -1823,8 +1985,9 @@ const MEMORY_KEY_MAP = {
   'dress-code-men':     ud => ud.vestimenta || null,
   'dress-code-women':   ud => ud.vestimenta || null,
   'dress-code-note':    ud => ud.vestimenta ? `Te sugerimos ${ud.vestimenta.toLowerCase()}.` : null,
+  'dress-code-content': ud => ud.vestimenta ? `Código de vestimenta · ${ud.vestimenta}` : 'Código de vestimenta',
   'dress-code-details': ud => ud.vestimenta || null,
-  'details-header':     ud => 'Detalles para invitados',
+  'details-header':     ud => 'Detalles del evento',
 
   // regalos / gift table
   'gift-table-header':  ud => 'Mesa de regalos',
@@ -1837,7 +2000,11 @@ const MEMORY_KEY_MAP = {
   'gift-quote':         ud => 'El mejor regalo es celebrar juntos.',
   'gift-details':       ud => 'Tu presencia es nuestro mayor regalo.',
   'gift-primary-action':   ud => 'Ver lista de regalos',
-  'gift-secondary-action': ud => 'Nota de regalo'
+  'gift-secondary-action': ud => 'Nota de regalo',
+
+  // Familia / monograma (decorativos en su mayoría)
+  'family-monogram':    ud => null, // decorativo
+  'families-copy':      ud => (ud.padresNovia || ud.padresNovio) ? 'Con el apoyo de nuestras familias' : null
 };
 
 /**
@@ -2090,6 +2257,9 @@ export const runModularOrchestration = async (prompt, apiKey, model = 'gemini-3.
     secondaryColor = '',
     visualStyle = '',
     mood = '',
+    eventDate = '',
+    eventTime = '',
+    eventDetails = '',
     imageFiles = [],
     promptInstruction = '',
     userId = '',
@@ -2100,9 +2270,10 @@ export const runModularOrchestration = async (prompt, apiKey, model = 'gemini-3.
   console.log('=== ORCHESTRATOR MODULAR START ===');
   console.log('Event:', eventType, '| Theme:', theme, '| Model:', model);
 
-  // Construir contexto estructurado del usuario a partir del prompt libre.
-  // El usuario NO completa datos en la pantalla de generación, por esto se parsea el prompt.
-  const userData = buildUserEventContext({ prompt, eventType, theme, mood, visualStyle });
+  // Construir contexto estructurado del usuario. Antes solo se parseaba el
+  // prompt libre; ahora también se aceptan campos estructurados del formulario
+  // (eventDate/eventTime/eventDetails) que llegan vía geminiOptions.
+  const userData = buildUserEventContext({ prompt, eventType, theme, mood, visualStyle, eventDate, eventTime, eventDetails });
   console.log('[Módular] userData parsed:', JSON.stringify({
     nombres: userData.nombres, fecha: userData.fecha, hora: userData.hora,
     lugar: userData.lugar, ciudad: userData.ciudad,

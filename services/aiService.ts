@@ -103,6 +103,7 @@ export const addModuleToProject = async (
   insertAfterModule: string,
   moduleDescription: string,
   imageSource: ImageSource,
+  editorConfig?: { eventType: string; theme: string; primaryColor: string; secondaryColor: string; visualStyle?: string; mood?: string; eventDate?: string; eventTime?: string; eventDetails?: string },
   purchaseId?: string
 ): Promise<string> => {
   try {
@@ -122,6 +123,8 @@ If it is appropriate, generate the HTML for this new module and insert it into t
   - If "${insertAfterModule}" is "Al principio", insert it at the top of the main content container.
   - If "${insertAfterModule}" is "Al final", insert it at the bottom of the main content container.
   - Otherwise, find the section/div containing elements with \`data-gemini-id\` starting with "${insertAfterModule}-" and insert the new module after it.
+- The texts of the new module MUST be adapted to the event type${editorConfig?.eventType ? ` ("${editorConfig.eventType}")` : ''} and use the user's event data (names, date, location) when available. Do not use placeholder wedding-specific texts like "Nuestra Boda" if the event is not a wedding.
+${editorConfig?.eventType ? `\nEVENT CONTEXT (use these to personalize the new module's texts):\n- Event type: ${editorConfig.eventType}` : ''}${editorConfig?.eventDetails ? `\n- Event details: ${editorConfig.eventDetails}` : ''}${editorConfig?.eventDate ? `\n- Event date: ${editorConfig.eventDate}` : ''}${editorConfig?.theme ? `\n- Visual theme: ${editorConfig.theme}` : ''}
 
 Return the complete, updated HTML code. Raw HTML only, no markdown formatting.
 `;
@@ -139,6 +142,7 @@ Return the complete, updated HTML code. Raw HTML only, no markdown formatting.
       body: JSON.stringify({
         prompt: addModulePrompt,
         attachments: [],
+        editorConfig: editorConfig,
         promptInstruction: imageSource?.promptInstruction || '',
         purchaseId: purchaseId || ''
       })
@@ -186,6 +190,7 @@ export const modifyProjectDesign = async (
   currentCode: string,
   designDescription: string,
   imageSource: ImageSource,
+  editorConfig?: { eventType: string; theme: string; primaryColor: string; secondaryColor: string; visualStyle?: string; mood?: string; eventDate?: string; eventTime?: string; eventDetails?: string },
   purchaseId?: string
 ): Promise<string> => {
   try {
@@ -198,6 +203,7 @@ CRITICAL INSTRUCTIONS:
 - You MUST keep ALL existing content, structure, and \`data-gemini-id\` attributes EXACTLY intact. Do not remove, rename, or alter the \`data-gemini-id\` attributes, as they are required for the editor to work.
 - You can change Tailwind classes, inline styles, fonts, background colors, and layout structures to match the requested design.
 - If the user asks for something completely unrelated to design (e.g., 'add a calculator'), ignore that part and only apply design changes.
+- Preserve (and if appropriate, reinforce) the event-specific texts already in the HTML.${editorConfig?.eventType ? ` The event type is "${editorConfig.eventType}": do not introduce wedding-specific texts (e.g., "Nuestra Boda", bride/groom labels) unless the event is actually a wedding.` : ''}
 
 Return the complete, updated HTML code. Raw HTML only, no markdown formatting.
 `;
@@ -215,6 +221,7 @@ Return the complete, updated HTML code. Raw HTML only, no markdown formatting.
       body: JSON.stringify({
         prompt: designPrompt,
         attachments: [],
+        editorConfig: editorConfig,
         promptInstruction: imageSource?.promptInstruction || '',
         purchaseId: purchaseId || ''
       })
