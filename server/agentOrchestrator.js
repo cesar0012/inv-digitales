@@ -1559,7 +1559,8 @@ const parsePromptForEventContext = (rawPrompt) => {
   // NOTA 2: Búsqueda case-insensitive (el usuario puede escribir "boda" o "Boda").
   //   Para evitar capturar palabras genéricas ("y Anna con amor"), filtramos por blacklist.
   const NAME_TOKEN = '[A-ZÁÉÍÓÚÑa-záéíóúñ][A-Za-zÁÉÍÓÚÑáéíóúñ]+';
-  const NAME_PART = `${NAME_TOKEN}(?:\\s+${NAME_TOKEN})?`;
+  // Hasta 3 tokens: soporta "María José González", "San Miguel Arcángel", etc.
+  const NAME_PART = `${NAME_TOKEN}(?:\\s+${NAME_TOKEN}){0,2}`;
   const NOMBRE_BLACKLIST = new Set([
     'la', 'el', 'los', 'las', 'un', 'una', 'unos', 'unas',
     'mi', 'mis', 'tu', 'tus', 'su', 'sus',
@@ -1572,6 +1573,38 @@ const parsePromptForEventContext = (rawPrompt) => {
     'palacio', 'blanco', 'bohemio', 'romantico', 'romántico', 'intimo',
     'the', 'and', 'our', 'of', 'my'
   ]);
+
+  // Patrones colon para festejadx (eventos no-boda). Capturan el formato
+  // "Quinceañera: María", "Festejada: María José", "Cumpleañero: Pepe", etc.
+  // Permite dos formas de entrada:
+  //   (a) standalone en su propia línea: "Quinceañera: María" (fin de línea)
+  //   (b) inline separado por coma: "Quinceañera: María, salón X, fecha Y"
+  // Captura hasta la primera coma/salto/punto-and-space o final de string.
+  const mFestejadColon = prompt.match(
+    new RegExp(`(?:quincea[ñn]era?|quinceañero|festejad[oa]|cumplea[ñn]er[oa]|bautizad[oa]|communionand[oa]|confirmad[oa]|confirmand[oa]|baby|beb[ée])\\s*:\\s*(${NAME_PART})(?:\\s*[,;\\.](?:\\s|$)|\\s*\\n|\\s*$)`, 'im')
+  );
+  if (mFestejadColon) {
+    const nm = mFestejadColon[1].trim();
+    const firstWordLower = nm.split(/\s+/)[0].toLowerCase();
+    if (!NOMBRE_BLACKLIST.has(firstWordLower) && !out.nombres) {
+      out.nombresLista = [nm];
+      out.nombres = nm;
+    }
+  }
+
+  // Variante con "de": "Quinceañera de: X" / "Bautizado de: X" / "Festejada de: X"
+  const mFestejadDe = prompt.match(
+    new RegExp(`(?:quincea[ñn]era?|quinceañero|festejad[oa]|cumplea[ñn]er[oa]|bautizad[oa]|communionand[oa]|confirmad[oa]|confirmand[oa]|baby|beb[ée])\\s+de\\s*:\\s*(${NAME_PART})(?:\\s*[,;\\.](?:\\s|$)|\\s*\\n|\\s*$)`, 'im')
+  );
+  if (mFestejadDe && !out.nombres) {
+    const nm = mFestejadDe[1].trim();
+    const firstWordLower = nm.split(/\s+/)[0].toLowerCase();
+    if (!NOMBRE_BLACKLIST.has(firstWordLower)) {
+      out.nombresLista = [nm];
+      out.nombres = nm;
+    }
+  }
+
   const mNombres = prompt.match(
     new RegExp(`(?:boda|casamiento|matrimonio|wedding)\\s+de\\s+(${NAME_PART})\\s*(?:y|&)\\s*(${NAME_PART})`, 'i')
   )
@@ -1683,6 +1716,15 @@ const parsePromptForEventContext = (rawPrompt) => {
   if (mPadresNovio) out.padresNovio = mPadresNovio[1].trim();
   const mPadresBautizo = prompt.match(/^(?:los?\s+|las?\s+)?padres(?:\s+del\s+(?:cumplea[ñn]ero|festejado?|bautizado))?:\s*(.+)$/im);
   if (mPadresBautizo && !out.padresNovia && !out.padresNovio) out.padresNovia = mPadresBautizo[1].trim();
+  // Padres no-boda (variantes femeninas + "papás"): "Padres de la quinceañera:",
+  // "Padres de la festejada:", "Padres de la cumpleañera:", "Padres de la bautizada:",
+  // "Papás: X y Y", "Papá y mamá: X y Y", "Papá: X / Mamá: Y".
+  const mPadresQuinceanera = prompt.match(/^(?:los?\s+|las?\s+)?padres?\s+de\s+la\s+(?:quincea[ñn]era|festejada|cumplea[ñn]era|bautizada):\s*(.+)$/im);
+  if (mPadresQuinceanera && !out.padresNovia && !out.padresNovio) out.padresNovia = mPadresQuinceanera[1].trim();
+  const mPapas = prompt.match(/^pap[áa]s\s*:\s*(.+)$/im);
+  if (mPapas && !out.padresNovia && !out.padresNovio) out.padresNovia = mPapas[1].trim();
+  const mMamaPapa = prompt.match(/^pap[áa]\s+y\s+mam[áa]\s*:\s*(.+)$/im);
+  if (mMamaPapa && !out.padresNovia && !out.padresNovio) out.padresNovia = mMamaPapa[1].trim();
 
   out.padresHeader = out.padresNovia || out.padresNovio ? 'Nuestros Padres' : '';
 
@@ -1721,12 +1763,30 @@ const parsePromptForEventContext = (rawPrompt) => {
  * por eso la mayoría de campos estructurados vienen vacíos y se rellenan vía parser.
  */
 const buildUserEventContext = ({ prompt, eventType, theme, mood, visualStyle, eventDate, eventTime, eventDetails } = {}) => {
-  const parsed = parsePromptForEventContext(prompt || '');
-  const merged = { ...parsed };
+  // Parse AMBOS: el prompt completo (que incluye eventDetails inlineado por
+  // InitialView) y el eventDetails estructurado que viene del formulario.
+  // El usuario escribe datos del festejadx/lugar/hora en eventDetails con
+  // comas y formato libre ("Quinceañera: María, salón Las Palmas, ...") que
+  // el parser regex aislado sobre el prompt inline NO captura cuando son
+  // frases sin anchor al inicio de línea. Parsear eventDetails por separado
+  // permite que los patrones ^...$ (con flag multiline) anclen correctamente.
+  const parsedFromPrompt = parsePromptForEventContext(prompt || '');
+  const parsedFromDetails = parsePromptForEventContext(eventDetails || '');
+
+  // Merge: prioridad — el primer valor no-vacio gana. Para arrays (itinerario)
+  // se concatenan. El parser ya respeta NOMBRE_BLACKLIST y patrones estrictos.
+  const merged = { ...parsedFromPrompt };
+  for (const k of Object.keys(parsedFromDetails)) {
+    const v = parsedFromDetails[k];
+    if (Array.isArray(v)) {
+      const existing = Array.isArray(merged[k]) ? merged[k] : [];
+      merged[k] = [...existing, ...v].filter(Boolean);
+    } else if (v && !merged[k]) {
+      merged[k] = v;
+    }
+  }
 
   // Si el parser no extrajo fecha, usar eventDate estructurado del formulario.
-  // El input type=date envía formato ISO "YYYY-MM-DD" que el regex del parser
-  // pourrait capturar, pero no siempre. Priorizamos el input estructurado.
   if (!merged.fechaISO && eventDate) {
     merged.fechaISO = eventDate;
     merged.fecha = eventDate;
@@ -2055,23 +2115,50 @@ const resolveFemeninoMasculino = (ud, roleHint) => {
 };
 
 /**
- * Reemplaza el texto del último textNode no-vacío de un elemento, conservando
- * atributos, hijos decorativos (<span>, <i>, iconos) y structura. Importante para
- * no destruir CTAs con span/icono inline.
+ * Reemplaza el contenido textual visible de un elemento wrapper con memory_key.
+ * Antes: si el wrapper no tenía textNode directo (texto dentro de <h1>/<p>
+ * hijos), el texto se appendC como sibling, dejando intactos "Millea & Dillan"
+ * en <h1>. Eso provocaba que los textos default de los módulos sobrevivieran.
+ *
+ * Ahora: hace un walk DFS hasta todas las hojas textuales significativas
+ * (h1-h6, p, a, button, span, figcaption, time). Reemplaza el contenido de
+ * la PRIMERA hoja con newText y LIMPIA (vacía) todas las demás, para que
+ * no queden textos default subsistentes como "Request the honor..." en un
+ * <p> hermano del <h1>. Esto implementa "reemplazo total del contenido
+ * textual del wrapper" según decisión de diseño del usuario.
  */
 const setElementTextPreservingInlineFormat = (el, newText) => {
   if (!newText || typeof newText !== 'string') return;
-  const textChildren = Array.from(el.childNodes).filter(n => n.nodeType === 3); // textNodes
-  if (textChildren.length === 0) {
-    // Sin textNode directo: append uno (no rompe elementos decorativos existentes)
+  // 1) ¿Tiene textNode directo con contenido no-vacío?
+  const directTextChildren = Array.from(el.childNodes).filter(n => n.nodeType === 3 && n.nodeValue.trim());
+  if (directTextChildren.length > 0) {
+    for (let i = 0; i < directTextChildren.length - 1; i++) directTextChildren[i].remove();
+    directTextChildren[directTextChildren.length - 1].nodeValue = newText;
+    return;
+  }
+  // 2) Walk DFS: recolectar TODAS las hojas textuales significativas del subárbol
+  const TARGET_TAGS = new Set(['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P', 'A', 'BUTTON', 'FIGCAPTION', 'TIME', 'SPAN']);
+  const leaves = [];
+  const collectLeaves = (node) => {
+    for (const child of Array.from(node.childNodes)) {
+      if (child.nodeType === 1 && TARGET_TAGS.has(child.tagName)) {
+        leaves.push(child);
+      } else if (child.nodeType === 1) {
+        collectLeaves(child);
+      }
+    }
+  };
+  collectLeaves(el);
+  if (leaves.length === 0) {
+    // Sin hoja textual: append un textNode (preserva wrappers decorativos)
     el.appendChild(el.ownerDocument.createTextNode(newText));
     return;
   }
-  // Borrar todos los textNodes excepto el ultimo, y sustituir el último
-  for (let i = 0; i < textChildren.length - 1; i++) {
-    textChildren[i].remove();
+  // 3) Reemplazo total: primera hoja recibe newText, las demás se vacían
+  leaves[0].textContent = newText;
+  for (let i = 1; i < leaves.length; i++) {
+    leaves[i].textContent = '';
   }
-  textChildren[textChildren.length - 1].nodeValue = newText;
 };
 
 /**
@@ -2118,8 +2205,12 @@ const applyDynamicContent = (html, userData, ctx = {}) => {
         setElementTextPreservingInlineFormat(el, newText);
         if (tagName === 'time' && userData.fechaISO) el.setAttribute('datetime', userData.fechaISO);
         replaced += 1;
+        // Solo marcar como procesado si hubo replace. Si newPassword === null
+        // (userData no tenía la clave), NO agregar a processed — permite que
+        // Selector B recursa sobre los hijos del wrapper y los atrape vía
+        // PLACEHOLDER_PATTERNS por visible-text.
+        processed.add(el);
       }
-      processed.add(el);
     });
 
     // Selector B: elementos SIN memory_type en tags HOJA de texto (no contenedores).
