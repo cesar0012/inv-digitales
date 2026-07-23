@@ -1889,35 +1889,73 @@ const getEventTypeLabel = (ud) => {
   return { pronoun: 'nuestro', noun: 'evento', phrasePre: 'para nuestro evento' };
 };
 
+/**
+ * MEMORY_KEY_MAP — Tabla de mapeo memory_key → texto reemplazo.
+ *
+ * PRINCIPIO RECTOR: NUNCA devolver null. Si el dato real del usuario
+ * (nombres, fecha, lugar, padre, etc.) no está poblado, el mapa debe
+ * generar un texto fallback contextualizado al tipo de evento (ej.
+ * "Protagonistas" / "Nuestro evento" / "Lugar del evento").
+ *
+ * Esto evita que el usuario vea campos vacíos o que sólo vea texto
+ * genérico de wireframe boda cuando seleccionó Quinceaños. Todo
+ * texto producido queda además sujeto al adaptador Gemini que lo
+ * enriquece con más contexto.
+ */
 const MEMORY_KEY_MAP = {
-  'hero-main-title': ud => ud.nombres || null,
-  'couple-names':   ud => ud.nombres || null,
-  'hero-date-line': ud => ud.fechaHumana || ud.fecha || null,
-  'hero-subtitle':  ud => ud.nombres
-    ? `Te invitamos a celebrar con nosotros. ${ud.fechaHumana || ud.fecha || ''}`.trim()
-    : null,
+  'hero-main-title': ud => {
+    if (ud.nombres) return ud.nombres;
+    const label = getEventTypeLabel(ud);
+    return label.noun === 'boda' ? 'Nuestra Boda' : label.noun;
+  },
+  'couple-names': ud => {
+    if (ud.nombres) return ud.nombres;
+    const label = getEventTypeLabel(ud);
+    return label.noun === 'boda' ? 'Nuestra Boda' : label.noun;
+  },
+  'hero-date-line': ud => {
+    if (ud.fechaHumana) return ud.fechaHumana;
+    if (ud.fecha) return ud.fecha;
+    return 'Fecha del evento';
+  },
+  'hero-subtitle': ud => {
+    if (ud.nombres) {
+      return `Te invitamos a celebrar con nosotros. ${ud.fechaHumana || ud.fecha || ''}`.trim();
+    }
+    const label = getEventTypeLabel(ud);
+    return `Te invitamos a celebrar ${label.phrasePre.replace(/^para\s+/, 'con nosotros en ')}.`;
+  },
   'hero-primary-cta':  ud => 'Ver detalles del evento',
   'hero-secondary-cta': ud => 'Nuestra historia',
 
   // Countdown / fecha
-  'countdown-event-date':   ud => ud.fechaHumana || ud.fecha || null,
+  'countdown-event-date': ud => {
+    if (ud.fechaHumana) return ud.fechaHumana;
+    if (ud.fecha) return ud.fecha;
+    return 'Fecha del evento';
+  },
   'countdown-strip-heading': ud => {
-    if (!ud.fechaHumana && !ud.fecha) return null;
+    const fecha = ud.fechaHumana || ud.fecha || 'Próximamente';
     const label = getEventTypeLabel(ud);
-    return `Faltan pocos días ${label.phrasePre} · ${ud.fechaHumana || ud.fecha}`;
+    return `Faltan pocos días ${label.phrasePre} · ${fecha}`;
   },
-  'countdown-header':       ud => (ud.fechaHumana || ud.fecha) ? `Cuenta regresiva · ${ud.fechaHumana || ud.fecha}` : null,
-  'countdown-card-header':  ud => (ud.fechaHumana || ud.fecha) ? `Cuenta regresiva · ${ud.fechaHumana || ud.fecha}` : null,
+  'countdown-header': ud => {
+    const fecha = ud.fechaHumana || ud.fecha || 'Próximamente';
+    return `Cuenta regresiva · ${fecha}`;
+  },
+  'countdown-card-header': ud => {
+    const fecha = ud.fechaHumana || ud.fecha || 'Próximamente';
+    return `Cuenta regresiva · ${fecha}`;
+  },
   'countdown-editorial-intro': ud => {
-    if (!ud.fechaHumana && !ud.fecha) return null;
+    const fecha = ud.fechaHumana || ud.fecha || 'Próximamente';
     const label = getEventTypeLabel(ud);
-    return `Faltan pocos días ${label.phrasePre} · ${ud.fechaHumana || ud.fecha}`;
+    return `Faltan pocos días ${label.phrasePre} · ${fecha}`;
   },
-  'countdown-values':       ud => null, // valores numéricos: no se reemplazan, se calculan en JS
+  'countdown-values': ud => null, // numéricos, se calculan en JS
 
-  // Padres / personas importantes — varía por tipo de evento
+  // Padres / personas importantes
   'important-people-header': ud => {
-    if (!ud.padresNovia && !ud.padresNovio) return null;
     const label = getEventTypeLabel(ud);
     if (label.noun === 'bautizo') return 'Padres del bautizado';
     if (label.noun === 'primera comunión') return 'Padres del communionando';
@@ -1925,10 +1963,10 @@ const MEMORY_KEY_MAP = {
     if (label.noun === 'XV años') return 'Padres de la quinceañera';
     if (label.noun === 'cumpleaños') return 'Padres del cumpleañero';
     if (label.noun === 'baby shower') return 'Papás del bebé';
-    return 'Nuestros Padres';
+    if (ud.padresNovia || ud.padresNovio) return 'Nuestros Padres';
+    return label.noun === 'boda' ? 'Nuestros Padres' : 'Familia';
   },
-  'celebrated-header':       ud => {
-    if (!ud.padresNovia && !ud.padresNovio) return null;
+  'celebrated-header': ud => {
     const label = getEventTypeLabel(ud);
     if (label.noun === 'bautizo') return 'Padres del bautizado';
     if (label.noun === 'primera comunión') return 'Padres del communionando';
@@ -1936,17 +1974,20 @@ const MEMORY_KEY_MAP = {
     if (label.noun === 'XV años') return 'Padres de la quinceañera';
     if (label.noun === 'cumpleaños') return 'Padres del cumpleañero';
     if (label.noun === 'baby shower') return 'Papás del bebé';
-    return 'Nuestros Padres';
+    if (ud.padresNovia || ud.padresNovio) return 'Nuestros Padres';
+    return label.noun === 'boda' ? 'Nuestros Padres' : 'Familia';
   },
-  'celebrated-usage-note':   ud => ud.padresNovia || ud.padresNovio ? 'Homenaje a quienes nos acompañan.' : null,
-  'important-group-1':       ud => ud.padresNovia || null,
-  'important-group-2':       ud => ud.padresNovio || null,
-  'celebrated-card-1':       ud => ud.padresNovia || null,
-  'celebrated-card-2':       ud => ud.padresNovio || null,
+  'celebrated-usage-note': ud => {
+    if (ud.padresNovia || ud.padresNovio) return 'Homenaje a quienes nos acompañan.';
+    return 'A quienes nos acompañan en esta celebración.';
+  },
+  'important-group-1':       ud => ud.padresNovia || 'Familia',
+  'important-group-2':       ud => ud.padresNovio || '',
+  'celebrated-card-1':       ud => ud.padresNovia || 'Familia',
+  'celebrated-card-2':       ud => ud.padresNovio || '',
 
-  // Sección de pareja/protagonistas — adaptado por tipo de evento
-  'couple-section-header':   ud => {
-    if (!ud.nombres) return null;
+  // Sección de protagonistas
+  'couple-section-header': ud => {
     const label = getEventTypeLabel(ud);
     if (label.noun === 'boda') return 'Los novios';
     if (label.noun === 'XV años') return 'La quinceañera';
@@ -1955,58 +1996,55 @@ const MEMORY_KEY_MAP = {
     if (label.noun === 'baby shower') return 'Los papás';
     return 'Protagonistas';
   },
-  'bride-profile':           ud => {
-    if (!ud.nombres) return null;
+  'bride-profile': ud => {
     const label = getEventTypeLabel(ud);
+    if (!ud.nombres) return label.noun || 'Protagonista';
     if (label.noun === 'boda') {
       const parts = ud.nombres.split(/\s+y\s+/);
       return parts[0] || ud.nombres;
     }
     return ud.nombres;
   },
-  'groom-profile':           ud => {
-    if (!ud.nombres) return null;
+  'groom-profile': ud => {
     const label = getEventTypeLabel(ud);
-    if (label.noun === 'boda') {
-      const parts = ud.nombres.split(/\s+y\s+/);
-      return parts[1] || null;
-    }
-    return null; // no-boda: no hayPerfil segundo (evitar duplicar)
+    if (label.noun !== 'boda') return ''; // no-boda: sin segundo perfil
+    if (!ud.nombres) return '';
+    const parts = ud.nombres.split(/\s+y\s+/);
+    return parts[1] || '';
   },
 
   // Historia / retrato
-  'story-header':            ud => ud.nombres ? `Quiénes somos` : null,
-  'story-content':           ud => null,
+  'story-header':            ud => (ud.nombres ? 'Quiénes somos' : 'Nuestra historia'),
+  'story-content':           ud => null, // texto libre del adaptador Gemini
   'story-navigation':        ud => null,
-  'portrait-copy':           ud => {
-    if (!ud.nombres) return null;
+  'portrait-copy': ud => {
+    if (ud.nombres) return `Un retrato de ${ud.nombres}.`;
     const label = getEventTypeLabel(ud);
-    if (label.noun === 'boda') return `Un retrato de ${ud.nombres}.`;
-    return `Un retrato de ${ud.nombres}.`;
+    return `Un momento especial ${label.phrasePre}.`;
   },
   'photo-label':             ud => null, // decorativo
   'frame-caption':           ud => null, // decorativo
 
   // Itinerario / organización
   'organization-header':         ud => 'Itinerario del evento',
-  'organization-image-caption':  ud => ud.lugar || null,
-  'organization-item-1': ud => ud.itinerario?.[0] || null,
-  'organization-item-2': ud => ud.itinerario?.[1] || null,
-  'organization-item-3': ud => ud.itinerario?.[2] || null,
-  'organization-item-4': ud => ud.itinerario?.[3] || null,
+  'organization-image-caption':  ud => ud.lugar || 'Lugar del evento',
+  'organization-item-1': ud => ud.itinerario?.[0] || 'Ceremonia',
+  'organization-item-2': ud => ud.itinerario?.[1] || 'Recepción',
+  'organization-item-3': ud => ud.itinerario?.[2] || '',
+  'organization-item-4': ud => ud.itinerario?.[3] || '',
   'itinerary-header':         ud => 'Itinerario',
   'event-agenda':            ud => 'Programa del evento',
 
   // Ubicación / lugar
   'event-location-header':   ud => 'Lugar del evento',
   'location-header':         ud => 'Lugar del evento',
-  'ceremony-location':       ud => ud.lugar || null,
-  'reception-location':      ud => ud.lugar || null,
-  'ceremony-card':           ud => ud.lugar || null,
-  'reception-card':          ud => ud.lugar || null,
-  'ceremony-directions-button': ud => ud.lugar ? 'Cómo llegar' : null,
-  'reception-map-link':      ud => ud.lugar ? 'Ver mapa' : null,
-  'map-instructions':        ud => ud.lugar ? `Cómo llegar a ${ud.lugar}.` : null,
+  'ceremony-location':       ud => ud.lugar || 'Lugar del evento',
+  'reception-location':      ud => ud.lugar || 'Lugar del evento',
+  'ceremony-card':           ud => ud.lugar || 'Lugar del evento',
+  'reception-card':          ud => ud.lugar || 'Lugar del evento',
+  'ceremony-directions-button': ud => ud.lugar ? 'Cómo llegar' : 'Ver ubicación',
+  'reception-map-link':      ud => ud.lugar ? 'Ver mapa' : 'Ver ubicación',
+  'map-instructions':        ud => ud.lugar ? `Cómo llegar a ${ud.lugar}.` : 'Cómo llegar al lugar del evento.',
 
   // Galería captions
   'gallery-grid-caption-1': ud => ud.lugar || 'Ceremonia',
@@ -2021,20 +2059,24 @@ const MEMORY_KEY_MAP = {
   // RSVP — adapta a tipo de evento
   'rsvp-header':        ud => 'Confirmación de asistencia',
   'rsvp-copy':          ud => {
-    if (!ud.nombres) return null;
     const label = getEventTypeLabel(ud);
-    if (label.noun === 'boda') return `Confirma tu asistencia a la celebración de ${ud.nombres}.`;
-    if (label.noun === 'XV años') return `Confirma tu asistencia a los XV años de ${ud.nombres}.`;
-    if (label.noun === 'cumpleaños') return `Confirma tu asistencia al cumpleaños de ${ud.nombres}.`;
-    if (label.noun === 'bautizo') return `Confirma tu asistencia al bautizo de ${ud.nombres}.`;
-    if (label.noun === 'primera comunión') return `Confirma tu asistencia a la primera comunión de ${ud.nombres}.`;
-    if (label.noun === 'confirmación') return `Confirma tu asistencia a la confirmación de ${ud.nombres}.`;
-    if (label.noun === 'baby shower') return `Confirma tu asistencia al baby shower de ${ud.nombres}.`;
-    if (label.noun === 'graduación') return `Confirma tu asistencia a la graduación de ${ud.nombres}.`;
-    return `Confirma tu asistencia al evento de ${ud.nombres}.`;
+    const name = ud.nombres || (label.noun === 'boda' ? 'los novios' : label.noun);
+    if (label.noun === 'boda') return `Confirma tu asistencia a la celebración de ${name}.`;
+    if (label.noun === 'XV años') return `Confirma tu asistencia a los XV años de ${name}.`;
+    if (label.noun === 'cumpleaños') return `Confirma tu asistencia al cumpleaños de ${name}.`;
+    if (label.noun === 'bautizo') return `Confirma tu asistencia al bautizo de ${name}.`;
+    if (label.noun === 'primera comunión') return `Confirma tu asistencia a la primera comunión de ${name}.`;
+    if (label.noun === 'confirmación') return `Confirma tu asistencia a la confirmación de ${name}.`;
+    if (label.noun === 'baby shower') return `Confirma tu asistencia al baby shower de ${name}.`;
+    if (label.noun === 'graduación') return `Confirma tu asistencia a la graduación de ${name}.`;
+    return `Confirma tu asistencia al evento de ${name}.`;
   },
-  'rsvp-monogram':      ud => ud.nombres ? (ud.nombres.split(' y ')[0]?.[0] || ud.nombres[0]) : null,
-  'rsvp-deadline':      ud => ud.fechaLimiteRSVP ? `Confirma tu asistencia antes del ${ud.fechaLimiteRSVP}.` : null,
+  'rsvp-monogram':      ud => {
+    if (ud.nombres) return (ud.nombres.split(' y ')[0]?.[0] || ud.nombres[0]);
+    const label = getEventTypeLabel(ud);
+    return label.noun?.[0]?.toUpperCase() || 'E';
+  },
+  'rsvp-deadline':      ud => ud.fechaLimiteRSVP ? `Confirma tu asistencia antes del ${ud.fechaLimiteRSVP}.` : 'Confirma tu asistencia a la brevedad.',
   'rsvp-button':        ud => 'Confirmar asistencia',
   'rsvp-submit-button': ud => 'Confirmar',
   'rsvp-form-fields':   ud => null, // campos de form se preservan
@@ -2042,11 +2084,11 @@ const MEMORY_KEY_MAP = {
 
   // Dress code
   'dress-code-header':  ud => ud.vestimenta ? `Código de vestimenta · ${ud.vestimenta}` : 'Código de vestimenta',
-  'dress-code-men':     ud => ud.vestimenta || null,
-  'dress-code-women':   ud => ud.vestimenta || null,
-  'dress-code-note':    ud => ud.vestimenta ? `Te sugerimos ${ud.vestimenta.toLowerCase()}.` : null,
+  'dress-code-men':     ud => ud.vestimenta || '',
+  'dress-code-women':   ud => ud.vestimenta || '',
+  'dress-code-note':    ud => ud.vestimenta ? `Te sugerimos ${ud.vestimenta.toLowerCase()}.` : 'Consulta el código de vestimenta.',
   'dress-code-content': ud => ud.vestimenta ? `Código de vestimenta · ${ud.vestimenta}` : 'Código de vestimenta',
-  'dress-code-details': ud => ud.vestimenta || null,
+  'dress-code-details': ud => ud.vestimenta || '',
   'details-header':     ud => 'Detalles del evento',
 
   // regalos / gift table
@@ -2064,7 +2106,7 @@ const MEMORY_KEY_MAP = {
 
   // Familia / monograma (decorativos en su mayoría)
   'family-monogram':    ud => null, // decorativo
-  'families-copy':      ud => (ud.padresNovia || ud.padresNovio) ? 'Con el apoyo de nuestras familias' : null
+  'families-copy':      ud => (ud.padresNovia || ud.padresNovio) ? 'Con el apoyo de nuestras familias' : 'Con el apoyo de nuestras familias'
 };
 
 /**
@@ -2120,12 +2162,12 @@ const resolveFemeninoMasculino = (ud, roleHint) => {
  * hijos), el texto se appendC como sibling, dejando intactos "Millea & Dillan"
  * en <h1>. Eso provocaba que los textos default de los módulos sobrevivieran.
  *
- * Ahora: hace un walk DFS hasta todas las hojas textuales significativas
- * (h1-h6, p, a, button, span, figcaption, time). Reemplaza el contenido de
- * la PRIMERA hoja con newText y LIMPIA (vacía) todas las demás, para que
- * no queden textos default subsistentes como "Request the honor..." en un
- * <p> hermano del <h1>. Esto implementa "reemplazo total del contenido
- * textual del wrapper" según decisión de diseño del usuario.
+ * Ahora: hace un walk DFS hasta la PRIMERA hoja textual significativa
+ * (h1-h6, p, a, button, span, figcaption, time) y reemplaza TODO su
+ * contenido con newText. Las demás hojas textuales hermanas (subtítulos,
+ * descripciones, etc.) se PRESERVAN con su texto default — eso asegura
+ * que no queden espacios en blanco y que Gemini o el editor las rellenen
+ * después con contexto del evento.
  */
 const setElementTextPreservingInlineFormat = (el, newText) => {
   if (!newText || typeof newText !== 'string') return;
@@ -2136,29 +2178,27 @@ const setElementTextPreservingInlineFormat = (el, newText) => {
     directTextChildren[directTextChildren.length - 1].nodeValue = newText;
     return;
   }
-  // 2) Walk DFS: recolectar TODAS las hojas textuales significativas del subárbol
+  // 2) Walk DFS: encontrar la PRIMERA hoja textual significativa y reemplazarla.
+  //    No vaciar las demás: se preservan como copy de respaldo para que el
+  //    módulo no quede con huecos visibles.
   const TARGET_TAGS = new Set(['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P', 'A', 'BUTTON', 'FIGCAPTION', 'TIME', 'SPAN']);
-  const leaves = [];
-  const collectLeaves = (node) => {
+  const findFirstLeaf = (node) => {
     for (const child of Array.from(node.childNodes)) {
-      if (child.nodeType === 1 && TARGET_TAGS.has(child.tagName)) {
-        leaves.push(child);
-      } else if (child.nodeType === 1) {
-        collectLeaves(child);
+      if (child.nodeType === 1 && TARGET_TAGS.has(child.tagName)) return child;
+      if (child.nodeType === 1) {
+        const nested = findFirstLeaf(child);
+        if (nested) return nested;
       }
     }
+    return null;
   };
-  collectLeaves(el);
-  if (leaves.length === 0) {
-    // Sin hoja textual: append un textNode (preserva wrappers decorativos)
-    el.appendChild(el.ownerDocument.createTextNode(newText));
+  const leaf = findFirstLeaf(el);
+  if (leaf) {
+    leaf.textContent = newText;
     return;
   }
-  // 3) Reemplazo total: primera hoja recibe newText, las demás se vacían
-  leaves[0].textContent = newText;
-  for (let i = 1; i < leaves.length; i++) {
-    leaves[i].textContent = '';
-  }
+  // 3) Sin hoja textual: append un textNode (preserva wrappers decorativos)
+  el.appendChild(el.ownerDocument.createTextNode(newText));
 };
 
 /**
