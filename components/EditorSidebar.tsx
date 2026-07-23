@@ -19,12 +19,19 @@ interface EditableElement {
   textContent: string;
   src: string;
   href: string;
+  bgImage: string;
   styles: Record<string, string>;
   animationClass: string;
   label: string;
   moduleName?: string;
   isHidden: boolean;
 }
+
+const extractBgImageUrl = (bgValue: string): string => {
+  if (!bgValue || bgValue === 'none') return '';
+  const match = bgValue.match(/url\(["']?([^"')]+)["']?\)/);
+  return match ? match[1] : '';
+};
 
 const parseEditableElements = (code: string): EditableElement[] => {
   if (!code) return [];
@@ -106,6 +113,14 @@ const parseEditableElements = (code: string): EditableElement[] => {
       }
     }
 
+    const bgImage = extractBgImageUrl(htmlEl.style.backgroundImage);
+
+    // Si el elemento tiene background-image y no se le asignó un label
+    // descriptivo vía geminiId, etiquetarlo como "Imagen de fondo".
+    if (bgImage && label === 'Elemento') {
+      label = 'Imagen de fondo';
+    }
+
     return {
       geminiId: htmlEl.getAttribute('data-gemini-id')!,
       tagName: htmlEl.tagName,
@@ -120,6 +135,7 @@ const parseEditableElements = (code: string): EditableElement[] => {
       textContent: htmlEl.textContent || '',
       src: htmlEl.getAttribute('src') || '',
       href: htmlEl.getAttribute('href') || '',
+      bgImage,
       styles: {
         textAlign: htmlEl.style.textAlign || '',
         fontWeight: htmlEl.style.fontWeight || '',
@@ -184,15 +200,17 @@ const StyleSlider = ({ label, value, min, max, step, unit, labels, onChange }: S
   );
 };
 
-const ElementEditor = ({ element, onUpdate, isSelected }: { element: EditableElement, onUpdate: any, isSelected: boolean }) => {
+const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility }: { element: EditableElement, onUpdate: any, isSelected: boolean, onToggleVisibility?: () => void }) => {
   const [isExpanded, setIsExpanded] = useState(isSelected);
   const [content, setContent] = useState(element.content);
   const [src, setSrc] = useState(element.src);
   const [href, setHref] = useState(element.href);
+  const [bgImage, setBgImage] = useState(element.bgImage);
   const [styles, setStyles] = useState(element.styles);
   const [animationClass, setAnimationClass] = useState(element.animationClass);
   const [isCompressing, setIsCompressing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const bgFileInputRef = useRef<HTMLInputElement>(null);
   const editorRef = useRef<HTMLDivElement>(null);
 
   const [widthSlider, setWidthSlider] = useState(() => parsePercentValue(element.styles.width) || 100);
@@ -208,7 +226,7 @@ const ElementEditor = ({ element, onUpdate, isSelected }: { element: EditableEle
   // (selección de otro elemento, load inicial, etc.). Evita que el parent
   // re-renderice tras cada triggerUpdate y sobrescriba lo que el usuario
   // está escribiendo en el textarea/input activo.
-  const lastSentRef = useRef<{ geminiId: string; content: string; src: string; href: string; stylesKey: string; animationClass: string } | null>(null);
+  const lastSentRef = useRef<{ geminiId: string; content: string; src: string; href: string; bgImage: string; stylesKey: string; animationClass: string } | null>(null);
 
   // Helper para firmar styles de forma estable.
   const stylesKey = (s: Record<string, string>) => Object.keys(s).sort().map(k => `${k}:${s[k] || ''}`).join('|');
@@ -230,6 +248,7 @@ const ElementEditor = ({ element, onUpdate, isSelected }: { element: EditableEle
       content: element.content,
       src: element.src,
       href: element.href,
+      bgImage: element.bgImage,
       stylesKey: stylesKey(element.styles),
       animationClass: element.animationClass
     };
@@ -239,6 +258,7 @@ const ElementEditor = ({ element, onUpdate, isSelected }: { element: EditableEle
       && last.content === incomingSig.content
       && last.src === incomingSig.src
       && last.href === incomingSig.href
+      && last.bgImage === incomingSig.bgImage
       && last.stylesKey === incomingSig.stylesKey
       && last.animationClass === incomingSig.animationClass;
 
@@ -248,6 +268,7 @@ const ElementEditor = ({ element, onUpdate, isSelected }: { element: EditableEle
     setContent(element.content);
     setSrc(element.src);
     setHref(element.href);
+    setBgImage(element.bgImage);
     setStyles(element.styles);
     setAnimationClass(element.animationClass);
     setWidthSlider(parsePercentValue(element.styles.width) || 100);
@@ -328,10 +349,29 @@ const ElementEditor = ({ element, onUpdate, isSelected }: { element: EditableEle
     }
   };
 
+  const handleBgFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    e.target.value = '';
+
+    setIsCompressing(true);
+    try {
+      const compressedBase64 = await compressImage(file);
+      setBgImage(compressedBase64);
+      triggerUpdate(content, src, href, styles, animationClass, compressedBase64);
+    } catch (error) {
+      console.error('Error al procesar imagen de fondo:', error);
+      alert(`Error al procesar la imagen. Formatos soportados: ${SUPPORTED_FORMATS_LABEL}`);
+    } finally {
+      setIsCompressing(false);
+    }
+  };
+
   const renderIcon = () => {
     if (element.tagName === 'IMG') return <ImageIcon className="w-4 h-4 text-pink-500" />;
     if (element.tagName === 'IFRAME') return <Map className="w-4 h-4 text-pink-500" />;
     if (element.tagName === 'A') return <LinkIcon className="w-4 h-4 text-pink-500" />;
+    if (element.bgImage) return <ImageIcon className="w-4 h-4 text-pink-500" />;
     return <Type className="w-4 h-4 text-pink-500" />;
   };
 
@@ -339,26 +379,38 @@ const ElementEditor = ({ element, onUpdate, isSelected }: { element: EditableEle
   const isImage = element.tagName === 'IMG';
   const isIframe = element.tagName === 'IFRAME';
   const isLink = element.tagName === 'A';
+  const isBgImage = !!element.bgImage;
 
   return (
-    <div ref={editorRef} className={`border rounded-xl mb-2 overflow-hidden transition-all ${isSelected ? 'border-pink-400 shadow-md shadow-pink-100' : 'border-pink-100 hover:border-pink-200'}`}>
-      <button 
-        onClick={() => setIsExpanded(!isExpanded)}
-        className={`w-full flex items-center justify-between p-3 bg-white hover:bg-pink-50/50 transition-colors ${isExpanded ? 'bg-pink-50/30' : ''}`}
-      >
-        <div className="flex items-center gap-3 overflow-hidden">
+    <div ref={editorRef} className={`border rounded-xl mb-2 overflow-hidden transition-all ${isSelected ? 'border-pink-400 shadow-md shadow-pink-100' : 'border-pink-100 hover:border-pink-200'} ${element.isHidden ? 'opacity-50' : ''}`}>
+      <div className="w-full flex items-center justify-between p-3 bg-white hover:bg-pink-50/50 transition-colors">
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className={`flex-1 flex items-center gap-3 overflow-hidden text-left ${isExpanded ? 'bg-pink-50/30' : ''}`}
+        >
           <div className="p-1.5 bg-pink-100 rounded-lg shrink-0">
             {renderIcon()}
           </div>
           <div className="flex flex-col items-start overflow-hidden">
             <span className="text-sm font-semibold text-gray-700">{element.label}</span>
             <span className="text-xs text-gray-400 truncate w-48 text-left">
-              {isText ? element.textContent.substring(0, 30) || 'Texto vacío' : element.src.substring(0, 30) || 'Sin URL'}
+              {isText && element.textContent ? element.textContent.substring(0, 30) : isBgImage ? element.bgImage.substring(0, 30) || 'Sin URL' : element.src.substring(0, 30) || 'Sin URL'}
             </span>
           </div>
+        </button>
+        <div className="flex items-center gap-1 shrink-0">
+          {onToggleVisibility && (
+            <button
+              onClick={(e) => { e.stopPropagation(); onToggleVisibility(); }}
+              className={`p-1.5 rounded-md transition-colors ${element.isHidden ? 'text-gray-400 hover:text-gray-600 bg-gray-100' : 'text-gray-400 hover:text-pink-500 hover:bg-pink-100'}`}
+              title={element.isHidden ? "Mostrar elemento" : "Ocultar elemento"}
+            >
+              {element.isHidden ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+            </button>
+          )}
+          {isExpanded ? <ChevronDown className="w-4 h-4 text-gray-400" /> : <ChevronRight className="w-4 h-4 text-gray-400" />}
         </div>
-        {isExpanded ? <ChevronDown className="w-4 h-4 text-gray-400" /> : <ChevronRight className="w-4 h-4 text-gray-400" />}
-      </button>
+      </div>
 
       {isExpanded && (
         <div className="p-4 bg-white border-t border-pink-50 space-y-4">
@@ -434,6 +486,41 @@ const ElementEditor = ({ element, onUpdate, isSelected }: { element: EditableEle
                 onBlur={() => triggerUpdate()}
                 className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
               />
+            </div>
+          )}
+
+          {isBgImage && (
+            <div className="space-y-3">
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-gray-500">URL de la Imagen de Fondo</label>
+                <input
+                  type="text"
+                  value={bgImage}
+                  onChange={(e) => setBgImage(e.target.value)}
+                  onBlur={() => triggerUpdate()}
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
+                />
+              </div>
+              <input type="file" ref={bgFileInputRef} className="hidden" accept={SUPPORTED_IMAGE_TYPES} onChange={handleBgFileUpload} disabled={isCompressing} />
+              <button
+                onClick={() => bgFileInputRef.current?.click()}
+                disabled={isCompressing}
+                className="w-full py-2 bg-pink-50 text-pink-600 hover:bg-pink-100 border border-pink-200 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isCompressing ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Comprimiendo...
+                  </>
+                ) : (
+                  <>
+                    <Upload className="w-4 h-4" />
+                    Subir Imagen de Fondo
+                  </>
+                )}
+              </button>
+              <p className="text-xs text-gray-400 text-center">{SUPPORTED_FORMATS_LABEL}</p>
+              {bgImage && <img src={bgImage} alt="Preview" className="w-full h-32 object-cover rounded-lg border border-gray-200" />}
             </div>
           )}
 
@@ -599,61 +686,25 @@ const ElementEditor = ({ element, onUpdate, isSelected }: { element: EditableEle
   );
 };
 
-const ModuleGroup = ({ 
-  groupName, 
-  elements, 
-  onUpdateElement, 
-  selectedElementId, 
-  onToggleVisibility 
-}: { 
-  groupName: string, 
-  elements: EditableElement[], 
-  onUpdateElement: any, 
-  selectedElementId: string | null,
-  onToggleVisibility: (name: string) => void
+const SectionHeader = ({
+  groupName,
+  isHidden,
+  onToggleVisibility
+}: {
+  groupName: string,
+  isHidden: boolean,
+  onToggleVisibility: () => void
 }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  
-  const hasSelected = elements.some(el => el.geminiId === selectedElementId);
-  
-  useEffect(() => {
-    if (hasSelected) {
-      setIsExpanded(true);
-    }
-  }, [hasSelected]);
-
-  const isHidden = elements.every(el => el.isHidden);
-
   return (
-    <div className="space-y-0 border border-pink-100 rounded-xl overflow-hidden bg-white shadow-sm">
-      <div 
-        className="flex items-center justify-between px-3 py-2.5 bg-pink-50/50 hover:bg-pink-100/50 cursor-pointer transition-colors" 
-        onClick={() => setIsExpanded(!isExpanded)}
+    <div className="flex items-center justify-between px-1 py-2 mt-4 first:mt-0">
+      <span className="text-xs font-bold text-pink-600 uppercase tracking-widest">{groupName}</span>
+      <button
+        onClick={onToggleVisibility}
+        className={`p-1 rounded-md transition-colors ${isHidden ? 'text-gray-400 hover:text-gray-600 bg-gray-100' : 'text-pink-500 hover:text-pink-600 bg-pink-100/50'}`}
+        title={isHidden ? "Mostrar sección" : "Ocultar sección"}
       >
-        <div className="flex items-center gap-2">
-          {isExpanded ? <ChevronDown className="w-4 h-4 text-pink-500" /> : <ChevronRight className="w-4 h-4 text-pink-500" />}
-          <span className="text-xs font-bold text-pink-600 uppercase tracking-widest">{groupName}</span>
-        </div>
-        <button 
-          onClick={(e) => { e.stopPropagation(); onToggleVisibility(groupName); }}
-          className={`p-1.5 rounded-md transition-colors ${isHidden ? 'text-gray-400 hover:text-gray-600 bg-gray-100' : 'text-pink-500 hover:text-pink-600 bg-pink-100/50'}`}
-          title={isHidden ? "Mostrar módulo" : "Ocultar módulo"}
-        >
-          {isHidden ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-        </button>
-      </div>
-      {isExpanded && (
-        <div className="p-2 space-y-2 bg-white border-t border-pink-50">
-          {elements.map(el => (
-            <ElementEditor 
-              key={el.geminiId} 
-              element={el} 
-              onUpdate={onUpdateElement} 
-              isSelected={selectedElementId === el.geminiId} 
-            />
-          ))}
-        </div>
-      )}
+        {isHidden ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+      </button>
     </div>
   );
 };
@@ -669,6 +720,7 @@ interface EditorSidebarProps {
   onAddModule: (insertAfterModule: string, moduleDescription: string) => void;
   onModifyDesign: (designDescription: string) => void;
   onToggleModuleVisibility: (moduleName: string) => void;
+  onToggleElementVisibility: (geminiId: string) => void;
   onSaveInvitation?: () => void;
   hasCode?: boolean;
   isReplace?: boolean;
@@ -769,6 +821,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
   onAddModule,
   onModifyDesign,
   onToggleModuleVisibility,
+  onToggleElementVisibility,
   onSaveInvitation,
   hasCode = false,
   isReplace = false,
@@ -864,10 +917,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
             </div>
           </div>
         ) : (
-          <div className="space-y-4 pb-4">
-            <div className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3 px-1">
-              Elementos por orden de aparición
-            </div>
+          <div className="space-y-1 pb-4">
             {Object.entries(
               elements.reduce((acc, el) => {
                 const group = el.moduleName || 'Otros Elementos';
@@ -876,15 +926,23 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
                 return acc;
               }, {} as Record<string, EditableElement[]>)
             ).map(([groupName, groupElements]) => (
-              <ModuleGroup 
-                key={groupName}
-                groupName={groupName}
-                elements={groupElements}
-                onUpdateElement={onUpdateElement}
-                selectedElementId={selectedElementId}
-                onToggleVisibility={onToggleModuleVisibility}
-              />
-))}
+              <div key={groupName}>
+                <SectionHeader
+                  groupName={groupName}
+                  isHidden={groupElements.every(el => el.isHidden)}
+                  onToggleVisibility={() => onToggleModuleVisibility(groupName)}
+                />
+                {groupElements.map(el => (
+                  <ElementEditor
+                    key={el.geminiId}
+                    element={el}
+                    onUpdate={onUpdateElement}
+                    isSelected={selectedElementId === el.geminiId}
+                    onToggleVisibility={() => onToggleElementVisibility(el.geminiId)}
+                  />
+                ))}
+              </div>
+            ))}
               
             <CountdownEditor code={code} onUpdateCountdown={onUpdateCountdown} />
 

@@ -12,6 +12,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { getLocalImages, hasLocalImages, buildLocalImageContext, getEventFolder } from '../services/localImageService';
 import { ReplaceInvitationModal } from './ReplaceInvitationModal';
 import { InvitationFile } from '../types';
+import { normalizeEditableIds } from '../services/editableElementsService';
 
 const GENERATING_TEXTS = [
   'Generando Invitación...',
@@ -140,7 +141,7 @@ export const EditorView: React.FC = () => {
       id: 'home-' + Date.now(),
       name: 'Inicio',
       path: 'index.html',
-      code: htmlContent,
+      code: normalizeEditableIds(htmlContent),
       isCreated: true
     };
     setPages([newPage]);
@@ -172,7 +173,7 @@ export const EditorView: React.FC = () => {
         id: 'home-' + Date.now(),
         name: 'Inicio',
         path: 'index.html',
-        code: htmlContent,
+        code: normalizeEditableIds(htmlContent),
         isCreated: true
       };
       setPages([newPage]);
@@ -241,7 +242,7 @@ export const EditorView: React.FC = () => {
         id: 'home-' + Date.now(),
         name: 'Inicio',
         path: 'index.html',
-        code: generatedCode,
+        code: normalizeEditableIds(generatedCode),
         isCreated: true
       };
       setPages([newPage]);
@@ -286,7 +287,8 @@ export const EditorView: React.FC = () => {
     } : undefined;
 
     try {
-      const updatedCode = await addModuleToProject(activePage.code, insertAfterModule, moduleDescription, loremFlickrSource, editorConfigForApi, purchaseId);
+      const rawCode = await addModuleToProject(activePage.code, insertAfterModule, moduleDescription, loremFlickrSource, editorConfigForApi, purchaseId);
+      const updatedCode = normalizeEditableIds(rawCode);
       setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
       setHasUnsavedChanges(true);
     } catch (error: any) {
@@ -324,7 +326,8 @@ export const EditorView: React.FC = () => {
     } : undefined;
 
     try {
-      const updatedCode = await modifyProjectDesign(activePage.code, designDescription, loremFlickrSource, editorConfigForApi, purchaseId);
+      const rawCode = await modifyProjectDesign(activePage.code, designDescription, loremFlickrSource, editorConfigForApi, purchaseId);
+      const updatedCode = normalizeEditableIds(rawCode);
       setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
       setHasUnsavedChanges(true);
     } catch (error: any) {
@@ -361,6 +364,12 @@ export const EditorView: React.FC = () => {
             el.classList.remove('animate-none', 'animate-spin', 'animate-ping', 'animate-pulse', 'animate-bounce', 'animate-fade-in', 'animate-slide-up');
             if (v && v !== 'none') {
               el.classList.add(v);
+            }
+          } else if (k === 'bgImage') {
+            if (v) {
+              el.style.setProperty('background-image', `url("${v}")`, 'important');
+            } else {
+              el.style.removeProperty('background-image');
             }
           } else if (v) {
             el.setAttribute(k, v);
@@ -446,6 +455,28 @@ export const EditorView: React.FC = () => {
     const updatedCode = doc.documentElement.outerHTML;
     setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
     setHasUnsavedChanges(true);
+  };
+
+  const handleToggleElementVisibility = (geminiId: string) => {
+    if (!activePage) return;
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(activePage.code, 'text/html');
+    const el = doc.querySelector(`[data-gemini-id="${geminiId}"]`) as HTMLElement | null;
+
+    if (el) {
+      const isHidden = el.getAttribute('data-gemini-hidden') === 'true';
+      if (isHidden) {
+        el.removeAttribute('data-gemini-hidden');
+        el.style.removeProperty('display');
+      } else {
+        el.setAttribute('data-gemini-hidden', 'true');
+        el.style.setProperty('display', 'none', 'important');
+      }
+      const updatedCode = doc.documentElement.outerHTML;
+      setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
+      setHasUnsavedChanges(true);
+    }
   };
 
   const handleUpdateCountdown = (targetDate: string) => {
@@ -591,6 +622,7 @@ export const EditorView: React.FC = () => {
           onAddModule={handleAddModule}
           onModifyDesign={handleModifyDesign}
           onToggleModuleVisibility={handleToggleModuleVisibility}
+          onToggleElementVisibility={handleToggleElementVisibility}
           onSaveInvitation={handleSaveInvitation}
           onUpdateCountdown={handleUpdateCountdown}
           hasCode={code.length > 0}

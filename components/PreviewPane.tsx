@@ -164,7 +164,7 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
           e.preventDefault();
           e.stopPropagation();
           
-          const element = e.target.closest('[data-gemini-id], a, img, h1, h2, h3, h4, p, span, div') || e.target;
+          const element = e.target.closest('[data-gemini-id], a, img, h1, h2, h3, h4, p, span') || e.target;
           
           // No permitir edición de elementos con memory_usage="protected"
           const memoryUsage = element.getAttribute('memory_usage');
