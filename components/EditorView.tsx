@@ -347,15 +347,26 @@ export const EditorView: React.FC = () => {
     
     if (el) {
       if (newContent !== undefined && el.tagName !== 'IMG' && el.tagName !== 'IFRAME') {
-        // Para texto atómico usar textContent en vez de innerHTML: no interpreta
-        // HTML escrito por el usuario como marcado, evitando inyecciones accidentales
-        // y respetando el texto exacto. Para enlaces con hijos complejos (img/icon),
-        // preserva innerHTML.
-        const hasComplexChildren = el.querySelector('img, svg, video, iframe, .icon');
-        if (el.tagName === 'A' && hasComplexChildren) {
-          el.innerHTML = newContent;
-        } else {
+        const TEXT_LEAF_SELECTOR = 'h1, h2, h3, h4, h5, h6, p, span, li, time, figcaption, blockquote, strong, em, label, td, th';
+        if (el.children.length === 0) {
           el.textContent = newContent;
+        } else {
+          let textNode: Node | null = null;
+          for (let i = 0; i < el.childNodes.length; i++) {
+            const node = el.childNodes[i];
+            if (node.nodeType === Node.TEXT_NODE && node.textContent && node.textContent.trim().length > 0) {
+              textNode = node;
+              break;
+            }
+          }
+          if (textNode) {
+            textNode.textContent = newContent;
+          } else {
+            const leaf = el.querySelector(TEXT_LEAF_SELECTOR);
+            if (leaf && leaf.children.length === 0) {
+              leaf.textContent = newContent;
+            }
+          }
         }
       }
       if (newAttributes) {

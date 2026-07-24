@@ -33,6 +33,25 @@ const extractBgImageUrl = (bgValue: string): string => {
   return match ? match[1] : '';
 };
 
+const TEXT_LEAF_SELECTOR = 'h1, h2, h3, h4, h5, h6, p, span, li, time, figcaption, blockquote, strong, em, label, td, th';
+
+const extractEditableText = (el: HTMLElement): string => {
+  if (el.children.length === 0) {
+    return el.textContent || '';
+  }
+  for (let i = 0; i < el.childNodes.length; i++) {
+    const node = el.childNodes[i];
+    if (node.nodeType === Node.TEXT_NODE && node.textContent && node.textContent.trim().length > 0) {
+      return node.textContent;
+    }
+  }
+  const leaf = el.querySelector(TEXT_LEAF_SELECTOR);
+  if (leaf && leaf.children.length === 0) {
+    return leaf.textContent || '';
+  }
+  return el.textContent || '';
+};
+
 const parseEditableElements = (code: string): EditableElement[] => {
   if (!code) return [];
   const parser = new DOMParser();
@@ -130,7 +149,7 @@ const parseEditableElements = (code: string): EditableElement[] => {
       // Para enlaces <a> con contenido simple, preserva innerHTML solo si tiene
       // tags complejos internos (img, svg, icon).
       content: (htmlEl.tagName !== 'IMG' && htmlEl.tagName !== 'IFRAME')
-        ? (htmlEl.textContent || '')
+        ? extractEditableText(htmlEl)
         : '',
       textContent: htmlEl.textContent || '',
       src: htmlEl.getAttribute('src') || '',

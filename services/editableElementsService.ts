@@ -15,8 +15,6 @@ export const normalizeEditableIds = (html: string): string => {
     let injected = 0;
     let counter = 0;
 
-    const hasMemoryType = doc.querySelector('[memory_type]') !== null;
-
     const assignId = (el: Element, prefix: string): void => {
       const htmlEl = el as HTMLElement;
       if (htmlEl.getAttribute('data-gemini-id')) return;
@@ -61,11 +59,9 @@ export const normalizeEditableIds = (html: string): string => {
       }
     });
 
-    if (!hasMemoryType) {
-      doc.querySelectorAll(TEXT_TAG_SELECTOR).forEach(el => {
-        assignId(el, 'edit-txt');
-      });
-    }
+    doc.querySelectorAll(TEXT_TAG_SELECTOR).forEach(el => {
+      assignId(el, 'edit-txt');
+    });
 
     if (injected > 0) {
       return doc.documentElement.outerHTML;
