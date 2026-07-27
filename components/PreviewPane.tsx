@@ -167,8 +167,10 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
           const element = e.target.closest('[data-gemini-id], a, img, h1, h2, h3, h4, p, span') || e.target;
           
           // No permitir edición de elementos con memory_usage="protected"
+          // salvo backgrounds editables
           const memoryUsage = element.getAttribute('memory_usage');
-          if (memoryUsage === 'protected') {
+          const memoryType = element.getAttribute('memory_type');
+          if (memoryUsage === 'protected' && memoryType !== 'background') {
             // Mostrar mensaje visual de que está protegido
             const prevOutline = element.style.outline;
             const prevOutlineOffset = element.style.outlineOffset;

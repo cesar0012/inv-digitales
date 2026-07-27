@@ -25,6 +25,7 @@ interface EditableElement {
   label: string;
   moduleName?: string;
   isHidden: boolean;
+  isBackground: boolean;
 }
 
 const extractBgImageUrl = (bgValue: string): string => {
@@ -58,10 +59,12 @@ const parseEditableElements = (code: string): EditableElement[] => {
   const doc = parser.parseFromString(code, 'text/html');
   const elements = Array.from(doc.querySelectorAll('[data-gemini-id]'))
     .filter(el => {
+      const htmlEl = el as HTMLElement;
       // Excluir countdowns
-      if ((el as HTMLElement).getAttribute('data-gemini-id')!.startsWith('countdown')) return false;
-      // Excluir elementos con memory_usage="protected"
-      if ((el as HTMLElement).getAttribute('memory_usage') === 'protected') return false;
+      if (htmlEl.getAttribute('data-gemini-id')!.startsWith('countdown')) return false;
+      // Excluir elementos con memory_usage="protected" salvo backgrounds editables
+      if (htmlEl.getAttribute('memory_usage') === 'protected'
+          && htmlEl.getAttribute('memory_type') !== 'background') return false;
       return true;
     });
   
@@ -82,6 +85,7 @@ const parseEditableElements = (code: string): EditableElement[] => {
     // Create a more descriptive label based on the geminiId if it exists and isn't just a random string
     let label = 'Elemento';
     let moduleName = '';
+    const isBackground = htmlEl.getAttribute('memory_type') === 'background';
 
     // Soporta el formato jerárquico nuevo: <moduleId>__<memoryKey>__<tagName>-<idx>
     // (ej: "portada-nombre__couple-names__h1-1") inyectado por injectEditableIds
@@ -121,6 +125,25 @@ const parseEditableElements = (code: string): EditableElement[] => {
       else if (htmlEl.tagName === 'A') label = 'Enlace';
       else if (htmlEl.tagName.match(/^H[1-6]$/)) label = `Título (${htmlEl.tagName})`;
       else label = 'Texto';
+    }
+
+    if (isBackground) {
+      const assetType = htmlEl.getAttribute('data-asset-type');
+      const memoryKey = htmlEl.getAttribute('memory_key');
+      const source = assetType || memoryKey;
+      if (source) {
+        label = source.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+      } else if (label === 'Texto' || label === 'Elemento') {
+        label = 'Fondo';
+      }
+      if (!moduleName) {
+        const classMatch = htmlEl.className.match(/module-([a-z]+)/);
+        if (classMatch) {
+          moduleName = classMatch[1].replace(/\b\w/g, l => l.toUpperCase());
+        } else if (source) {
+          moduleName = source.split('-')[0].replace(/\b\w/g, l => l.toUpperCase());
+        }
+      }
     }
 
     let animationClass = 'none';
@@ -168,7 +191,8 @@ const parseEditableElements = (code: string): EditableElement[] => {
       animationClass,
       label,
       moduleName,
-      isHidden
+      isHidden,
+      isBackground
     };
   });
 };
@@ -298,7 +322,7 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility }: { 
     lastSentRef.current = incomingSig;
   }, [element]);
 
-  const triggerUpdate = (newContent = content, newSrc = src, newHref = href, newStyles = styles, newAnimationClass = animationClass) => {
+  const triggerUpdate = (newContent = content, newSrc = src, newHref = href, newStyles = styles, newAnimationClass = animationClass, newBgImage = bgImage) => {
     // Registrar el snapshot enviado para que el useEffect de [element] no
     // sobrescriba el estado local cuando el parent re-renderice con este
     // mismo contenido tras aplicar la edición.
@@ -307,10 +331,11 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility }: { 
       content: newContent,
       src: newSrc,
       href: newHref,
+      bgImage: newBgImage,
       stylesKey: stylesKey(newStyles),
       animationClass: newAnimationClass
     };
-    onUpdate(element.geminiId, newContent, { src: newSrc, href: newHref, animationClass: newAnimationClass }, newStyles);
+    onUpdate(element.geminiId, newContent, { src: newSrc, href: newHref, animationClass: newAnimationClass, bgImage: newBgImage }, newStyles);
   };
 
   // Debounce timer ref para sliders: evita regenerar el HTML/iframe en cada
@@ -390,15 +415,15 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility }: { 
     if (element.tagName === 'IMG') return <ImageIcon className="w-4 h-4 text-pink-500" />;
     if (element.tagName === 'IFRAME') return <Map className="w-4 h-4 text-pink-500" />;
     if (element.tagName === 'A') return <LinkIcon className="w-4 h-4 text-pink-500" />;
-    if (element.bgImage) return <ImageIcon className="w-4 h-4 text-pink-500" />;
+    if (element.bgImage || element.isBackground) return <ImageIcon className="w-4 h-4 text-pink-500" />;
     return <Type className="w-4 h-4 text-pink-500" />;
   };
 
-  const isText = !['IMG', 'IFRAME'].includes(element.tagName);
+  const isText = !['IMG', 'IFRAME'].includes(element.tagName) && !element.isBackground;
   const isImage = element.tagName === 'IMG';
   const isIframe = element.tagName === 'IFRAME';
   const isLink = element.tagName === 'A';
-  const isBgImage = !!element.bgImage;
+  const isBgImage = !!element.bgImage || element.isBackground;
 
   return (
     <div ref={editorRef} className={`border rounded-xl mb-2 overflow-hidden transition-all ${isSelected ? 'border-pink-400 shadow-md shadow-pink-100' : 'border-pink-100 hover:border-pink-200'} ${element.isHidden ? 'opacity-50' : ''}`}>
@@ -413,7 +438,7 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility }: { 
           <div className="flex flex-col items-start overflow-hidden">
             <span className="text-sm font-semibold text-gray-700">{element.label}</span>
             <span className="text-xs text-gray-400 truncate w-48 text-left">
-              {isText && element.textContent ? element.textContent.substring(0, 30) : isBgImage ? element.bgImage.substring(0, 30) || 'Sin URL' : element.src.substring(0, 30) || 'Sin URL'}
+              {isText && element.textContent ? element.textContent.substring(0, 30) : isBgImage ? (element.bgImage.substring(0, 30) || (element.isBackground ? 'Imagen de fondo' : 'Sin URL')) : element.src.substring(0, 30) || 'Sin URL'}
             </span>
           </div>
         </button>

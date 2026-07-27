@@ -77,6 +77,22 @@ export const normalizeEditableIds = (html: string): string => {
       }
     });
 
+    doc.querySelectorAll('[memory_type="background"]').forEach(el => {
+      const htmlEl = el as HTMLElement;
+      if (htmlEl.getAttribute('data-gemini-id')) return;
+      if (SKIP_TAGS.has(htmlEl.tagName)) return;
+      const memoryKey = htmlEl.getAttribute('memory_key');
+      const assetType = htmlEl.getAttribute('data-asset-type');
+      const base = memoryKey || assetType;
+      if (base) {
+        htmlEl.setAttribute('data-gemini-id', `edit-bg-${sanitizeId(base)}`);
+      } else {
+        counter += 1;
+        htmlEl.setAttribute('data-gemini-id', genId('edit-bg', counter));
+      }
+      injected += 1;
+    });
+
     doc.querySelectorAll(EDITABLE_TAG_SELECTOR).forEach(el => {
       assignId(el, 'edit-el');
     });
