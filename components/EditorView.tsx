@@ -33,8 +33,11 @@ export const EditorView: React.FC = () => {
   const { user: authUser, token } = useAuth();
   const userId = authUser?.id.toString() || '';
   const purchaseId = searchParams.get('purchaseId') || '';
-  const activePlan = authUser?.plans?.find(p => p.purchase_id === purchaseId);
+  const activePlan = authUser?.plans?.find(p => p.purchase_id === purchaseId)
+    || authUser?.plans?.find(p => (p.iteration_credits - p.iteration_used) > 0)
+    || authUser?.plans?.[0];
   const iterationAvailable = activePlan ? Math.max(0, activePlan.iteration_credits - activePlan.iteration_used) : 0;
+  const effectivePurchaseId = activePlan?.purchase_id || purchaseId;
   
   const [hasStarted, setHasStarted] = useState(false);
   const [pages, setPages] = useState<ProjectPage[]>([]);
@@ -309,7 +312,7 @@ export const EditorView: React.FC = () => {
         moduleHtml,
         description,
         editorConfigForApi,
-        purchaseId,
+        effectivePurchaseId,
         imageMap
       );
 
