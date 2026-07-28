@@ -2768,6 +2768,162 @@ const processGeminiImages = async (html, imageApiKey, imageModel) => {
   return newHtml;
 };
 
+// ==================== ITERATE MODULE (per-module iteration, consumes iteration credits) ====================
+app.post('/api/iterate-module', authMiddleware, async (req, res) => {
+  let creditConsumed = false;
+  let userId = null;
+  let purchaseIdFromReq = null;
+  try {
+    const { mode, moduleHtml, iterationDescription, editorConfig, purchaseId, imageMap } = req.body;
+    userId = req.user.id ? req.user.id.toString() : ensureUserInDB(req.user);
+    purchaseIdFromReq = purchaseId;
+
+    if (!purchaseId) {
+      return res.status(400).json({ error: 'purchaseId es requerido' });
+    }
+    if (!mode || (mode !== 'add' && mode !== 'modify')) {
+      return res.status(400).json({ error: 'mode debe ser "add" o "modify"' });
+    }
+    if (!iterationDescription || !iterationDescription.trim()) {
+      return res.status(400).json({ error: 'iterationDescription es requerido' });
+    }
+    if (mode === 'modify' && !moduleHtml) {
+      return res.status(400).json({ error: 'moduleHtml es requerido para mode=modify' });
+    }
+
+    const plan = db.prepare('SELECT * FROM user_plans WHERE user_id = ? AND purchase_id = ?').get(userId, purchaseId);
+    if (!plan) {
+      return res.status(404).json({ error: 'Plan no encontrado para este usuario' });
+    }
+
+    const iterationAvailable = Math.max(0, plan.iteration_credits - plan.iteration_used);
+    if (iterationAvailable < 1) {
+      return res.status(400).json({ error: 'No tienes créditos de iteración disponibles en este plan.' });
+    }
+
+    db.prepare('UPDATE user_plans SET iteration_used = iteration_used + 1 WHERE user_id = ? AND purchase_id = ?').run(userId, purchaseId);
+    creditConsumed = true;
+    console.log('🔄 Crédito de iteración descontado. Restantes:', iterationAvailable - 1);
+
+    const configStmt = db.prepare('SELECT * FROM admin_config WHERE id = 1');
+    const config = configStmt.get();
+    if (!config || !config.html_google_api_key) {
+      if (creditConsumed) {
+        db.prepare('UPDATE user_plans SET iteration_used = iteration_used - 1 WHERE user_id = ? AND purchase_id = ?').run(userId, purchaseId);
+        creditConsumed = false;
+      }
+      return res.status(500).json({ error: 'No hay API key de Google configurada.' });
+    }
+
+    const apiKey = config.html_google_api_key;
+    const model = config.html_google_model || 'gemini-3.1-flash-preview';
+    const evt = editorConfig?.eventType || '';
+    const theme = editorConfig?.theme || '';
+    const primaryColor = editorConfig?.primaryColor || '';
+    const secondaryColor = editorConfig?.secondaryColor || '';
+    const visualStyle = editorConfig?.visualStyle || '';
+    const mood = editorConfig?.mood || '';
+
+    let promptText = '';
+    if (mode === 'add') {
+      promptText = `You are generating ONE HTML module for a digital invitation.
+Generate ONLY the module's HTML (a single <section> or <div> wrapper). Do NOT include <html>, <head>, <body>, or <script> tags.
+Use Tailwind CSS classes. Include data-gemini-id="[modulename]-[element]" attributes on all editable elements (text, images, iframes).
+Match the event context and use Tailwind only. Return raw HTML only, no markdown.
+
+Event type: ${evt}
+Theme: ${theme}
+Colors: ${primaryColor} / ${secondaryColor}
+Visual style: ${visualStyle}
+Mood: ${mood}
+
+Module to generate: ${iterationDescription}`;
+    } else {
+      promptText = `You are modifying ONE HTML module of a digital invitation.
+Apply the requested changes to the module HTML below.
+CRITICAL: Keep ALL existing data-gemini-id attributes EXACTLY intact. Do not remove, rename, or add new data-gemini-id attributes.
+Use Tailwind CSS only. You may change classes, inline styles, fonts, colors, and layout.
+Return ONLY the modified module HTML, no markdown, no <html>/<head>/<body> tags.
+
+Changes requested: ${iterationDescription}
+
+Module HTML:
+${moduleHtml}`;
+    }
+
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-goog-api-key': apiKey
+      },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: promptText }] }],
+        generationConfig: {
+          temperature: 0.7,
+          topP: 0.9,
+          topK: 40,
+          maxOutputTokens: 65536
+        }
+      })
+    });
+
+    if (!response.ok) {
+      const errData = await response.json().catch(() => ({}));
+      throw new Error(errData.error?.message || `Gemini HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+    const allParts = data.candidates?.[0]?.content?.parts || [];
+    const contentParts = allParts.filter((p) => p?.text && !p?.thought);
+    const generatedText = contentParts.map((p) => p.text).join('\n');
+
+    if (!generatedText || generatedText.trim().length < 20) {
+      throw new Error('Gemini devolvió una respuesta vacía.');
+    }
+
+    let cleaned = generatedText.replace(/```html\s*/g, '').replace(/```\s*/g, '').replace(/```/g, '').trim();
+
+    // Si Gemini devuelve un documento HTML completo, extraer solo el body
+    const fullHtmlMatch = cleaned.match(/<html[\s\S]*?<\/html>/i) || cleaned.match(/<!DOCTYPE[\s\S]*?<\/html>/i);
+    if (fullHtmlMatch) {
+      const parser = new (await import('linkedom')).parseHTML(fullHtmlMatch[0]);
+      const bodyContent = parser.document.body?.innerHTML;
+      if (bodyContent) cleaned = bodyContent.trim();
+    }
+
+    // Reestablecer imágenes base64 desde el mapa de placeholders
+    if (imageMap && typeof imageMap === 'object') {
+      for (const [placeholder, base64] of Object.entries(imageMap)) {
+        cleaned = cleaned.split(placeholder).join(base64);
+      }
+      console.log('🖼️ Imágenes base64 reestablecidas:', Object.keys(imageMap).length);
+    }
+
+    console.log('✅ Módulo iterado generado, length:', cleaned.length);
+    res.json({ html: cleaned });
+  } catch (error) {
+    console.error('Error en /api/iterate-module:', error);
+
+    if (creditConsumed && userId && purchaseIdFromReq) {
+      try {
+        db.prepare('UPDATE user_plans SET iteration_used = iteration_used - 1 WHERE user_id = ? AND purchase_id = ?').run(userId, purchaseIdFromReq);
+        console.log('🔄 Crédito de iteración restaurado por error');
+      } catch (restoreError) {
+        console.error('Error restaurando crédito de iteración:', restoreError);
+      }
+    }
+
+    const errorMsg = error.message?.includes('Empty response')
+      ? 'Gemini devolvió una respuesta vacía. Intenta de nuevo.'
+      : error.message?.includes('API key')
+      ? 'Error de autenticación con Gemini. Revisa la API key.'
+      : error.message || 'Error al iterar módulo';
+    res.status(500).json({ error: errorMsg });
+  }
+});
+
 app.post('/api/generate-html', authMiddleware, async (req, res) => {
   try {
     const { prompt, attachments, editorConfig, imageFiles, promptInstruction, purchaseId } = req.body;

@@ -5,7 +5,7 @@ import { PreviewPane, PreviewPaneHandle } from './PreviewPane';
 import { InitialView } from './InitialView';
 import { SelectedElement, Attachment, ProjectPage, InvitationMetadata, EditorConfig, LocalImageFile } from '../types';
 import { IMAGE_SOURCES } from '../constants';
-import { generateWebProject, addModuleToProject, modifyProjectDesign } from '../services/aiService';
+import { generateWebProject, addModuleToProject, modifyProjectDesign, iterateModule } from '../services/aiService';
 import { consumeCredit, saveInvitation, replaceInvitation, updateInvitationContent, getInvitationContent } from '../services/apiService';
 import { injectMetadata, extractMetadata, buildMetadataFromHTML } from '../services/metadataService';
 import { useAuth } from '../contexts/AuthContext';
@@ -13,6 +13,7 @@ import { getLocalImages, hasLocalImages, buildLocalImageContext, getEventFolder 
 import { ReplaceInvitationModal } from './ReplaceInvitationModal';
 import { InvitationFile } from '../types';
 import { normalizeEditableIds } from '../services/editableElementsService';
+import { replaceBase64WithPlaceholders, extractModuleHtml, reinsertModuleHtml, insertModuleAtPosition } from '../services/moduleService';
 
 const GENERATING_TEXTS = [
   'Generando Invitación...',
@@ -32,6 +33,8 @@ export const EditorView: React.FC = () => {
   const { user: authUser, token } = useAuth();
   const userId = authUser?.id.toString() || '';
   const purchaseId = searchParams.get('purchaseId') || '';
+  const activePlan = authUser?.plans?.find(p => p.purchase_id === purchaseId);
+  const iterationAvailable = activePlan ? Math.max(0, activePlan.iteration_credits - activePlan.iteration_used) : 0;
   
   const [hasStarted, setHasStarted] = useState(false);
   const [pages, setPages] = useState<ProjectPage[]>([]);
@@ -43,6 +46,8 @@ export const EditorView: React.FC = () => {
   
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
+  const [isModuleSelectionMode, setIsModuleSelectionMode] = useState(false);
+  const [selectedModuleName, setSelectedModuleName] = useState<string | null>(null);
   const [isLoadingFile, setIsLoadingFile] = useState(false);
   
   const [editorConfig, setEditorConfig] = useState<EditorConfig>({
@@ -258,60 +263,20 @@ export const EditorView: React.FC = () => {
     }
   };
 
-  const handleAddModule = async (insertAfterModule: string, moduleDescription: string) => {
+  const handleIterateModule = async (
+    mode: 'add' | 'modify',
+    description: string,
+    targetModuleName?: string
+  ) => {
     if (!activePage) return;
-    
-    try {
-      await consumeCredit(userId, token, purchaseId);
-    } catch (error: any) {
-      alert(`Sin créditos: ${error.message}`);
+
+    if (iterationAvailable < 1) {
+      alert('No tienes créditos de iteración disponibles en este plan.');
       return;
     }
-    
+
     setIsGenerating(true);
-    setGeneratingMessage('Agregando Módulo...');
-    const loremFlickrSource = IMAGE_SOURCES.find(s => s.id === 'loremflickr') || IMAGE_SOURCES[0];
-
-    // Pasar el editorConfig al backend para que el nuevo módulo adapte sus
-    // textos al tipo de evento del proyecto actual.
-    const editorConfigForApi = editorConfig ? {
-      eventType: editorConfig.eventType,
-      theme: editorConfig.theme,
-      primaryColor: editorConfig.primaryColor,
-      secondaryColor: editorConfig.secondaryColor,
-      visualStyle: editorConfig.visualStyle,
-      mood: editorConfig.mood,
-      eventDate: editorConfig.eventDate,
-      eventTime: editorConfig.eventTime,
-      eventDetails: editorConfig.eventDetails
-    } : undefined;
-
-    try {
-      const rawCode = await addModuleToProject(activePage.code, insertAfterModule, moduleDescription, loremFlickrSource, editorConfigForApi, purchaseId);
-      const updatedCode = normalizeEditableIds(rawCode);
-      setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
-      setHasUnsavedChanges(true);
-    } catch (error: any) {
-      console.error(error);
-      alert(`Error al agregar el módulo: ${error.message}`);
-    } finally {
-      setIsGenerating(false);
-    }
-  };
-
-  const handleModifyDesign = async (designDescription: string) => {
-    if (!activePage) return;
-    
-    try {
-      await consumeCredit(userId, token, purchaseId);
-    } catch (error: any) {
-      alert(`Sin créditos: ${error.message}`);
-      return;
-    }
-    
-    setIsGenerating(true);
-    setGeneratingMessage('Modificando Diseño...');
-    const loremFlickrSource = IMAGE_SOURCES.find(s => s.id === 'loremflickr') || IMAGE_SOURCES[0];
+    setGeneratingMessage(mode === 'add' ? 'Agregando Módulo...' : 'Modificando Módulo...');
 
     const editorConfigForApi = editorConfig ? {
       eventType: editorConfig.eventType,
@@ -319,20 +284,51 @@ export const EditorView: React.FC = () => {
       primaryColor: editorConfig.primaryColor,
       secondaryColor: editorConfig.secondaryColor,
       visualStyle: editorConfig.visualStyle,
-      mood: editorConfig.mood,
-      eventDate: editorConfig.eventDate,
-      eventTime: editorConfig.eventTime,
-      eventDetails: editorConfig.eventDetails
+      mood: editorConfig.mood
     } : undefined;
 
+    let moduleHtml = '';
+    let imageMap: Record<string, string> = {};
+
     try {
-      const rawCode = await modifyProjectDesign(activePage.code, designDescription, loremFlickrSource, editorConfigForApi, purchaseId);
-      const updatedCode = normalizeEditableIds(rawCode);
+      if (mode === 'modify') {
+        if (!targetModuleName) {
+          throw new Error('Debes seleccionar un módulo para modificar.');
+        }
+        const rawModuleHtml = extractModuleHtml(activePage.code, targetModuleName);
+        if (!rawModuleHtml) {
+          throw new Error('No se pudo extraer el HTML del módulo seleccionado.');
+        }
+        const replaced = replaceBase64WithPlaceholders(rawModuleHtml);
+        moduleHtml = replaced.html;
+        imageMap = replaced.imageMap;
+      }
+
+      const generatedModuleHtml = await iterateModule(
+        mode,
+        moduleHtml,
+        description,
+        editorConfigForApi,
+        purchaseId,
+        imageMap
+      );
+
+      let updatedCode: string;
+      if (mode === 'modify' && targetModuleName) {
+        updatedCode = reinsertModuleHtml(activePage.code, targetModuleName, generatedModuleHtml);
+      } else {
+        const insertAfter = targetModuleName || 'Al final';
+        updatedCode = insertModuleAtPosition(activePage.code, insertAfter, generatedModuleHtml);
+      }
+
+      updatedCode = normalizeEditableIds(updatedCode);
       setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
       setHasUnsavedChanges(true);
+      setSelectedModuleName(null);
+      setIsModuleSelectionMode(false);
     } catch (error: any) {
       console.error(error);
-      alert(`Error al modificar el diseño: ${error.message}`);
+      alert(`Error al iterar módulo: ${error.message}`);
     } finally {
       setIsGenerating(false);
     }
@@ -629,9 +625,7 @@ export const EditorView: React.FC = () => {
           onClearSelection={() => setSelectedElement(null)}
           isSelectionMode={isSelectionMode}
           onToggleSelectionMode={() => setIsSelectionMode(!isSelectionMode)}
-          // AI ITERATIONS: Props conditionally passed (feature flag in EditorSidebar)
-          onAddModule={handleAddModule}
-          onModifyDesign={handleModifyDesign}
+          onIterateModule={handleIterateModule}
           onToggleModuleVisibility={handleToggleModuleVisibility}
           onToggleElementVisibility={handleToggleElementVisibility}
           onSaveInvitation={handleSaveInvitation}
@@ -640,6 +634,14 @@ export const EditorView: React.FC = () => {
           isReplace={!!replaceFilename}
           hasUnsavedChanges={hasUnsavedChanges}
           onNavigateHome={() => setShowUnsavedModal(true)}
+          iterationAvailable={iterationAvailable}
+          isModuleSelectionMode={isModuleSelectionMode}
+          onToggleModuleSelectionMode={() => {
+            setIsModuleSelectionMode(!isModuleSelectionMode);
+            setSelectedModuleName(null);
+          }}
+          selectedModuleName={selectedModuleName}
+          onClearModuleSelection={() => setSelectedModuleName(null)}
         />
       )}
 
@@ -695,6 +697,8 @@ export const EditorView: React.FC = () => {
         onToggleFullscreen={() => setIsFullscreen(!isFullscreen)}
         isSelectionMode={isSelectionMode}
         selectedElementId={selectedElement?.geminiId || null}
+        isModuleSelectionMode={isModuleSelectionMode}
+        onModuleClick={(moduleName) => setSelectedModuleName(moduleName)}
       />
 
       {replaceModalData && (

@@ -9,7 +9,7 @@ import { compressImage, SUPPORTED_IMAGE_TYPES, SUPPORTED_FORMATS_LABEL } from '.
 // Establecer en false para ocultar las funciones de IA en el editor
 // Estas funciones permiten regenerar diseño y agregar nuevos módulos
 // Mantener false hasta que el sistema de créditos esté implementado
-const AI_ITERATIONS_ENABLED = false;
+const AI_ITERATIONS_ENABLED = true;
 // ============================================================
 
 interface EditableElement {
@@ -761,8 +761,7 @@ interface EditorSidebarProps {
   onClearSelection: () => void;
   isSelectionMode: boolean;
   onToggleSelectionMode: () => void;
-  onAddModule: (insertAfterModule: string, moduleDescription: string) => void;
-  onModifyDesign: (designDescription: string) => void;
+  onIterateModule: (mode: 'add' | 'modify', description: string, targetModuleName?: string) => void;
   onToggleModuleVisibility: (moduleName: string) => void;
   onToggleElementVisibility: (geminiId: string) => void;
   onSaveInvitation?: () => void;
@@ -770,6 +769,11 @@ interface EditorSidebarProps {
   isReplace?: boolean;
   hasUnsavedChanges?: boolean;
   onNavigateHome?: () => void;
+  iterationAvailable: number;
+  isModuleSelectionMode: boolean;
+  onToggleModuleSelectionMode: () => void;
+  selectedModuleName: string | null;
+  onClearModuleSelection: () => void;
 }
 
 const CountdownEditor = ({ code, onUpdateCountdown }: { code: string, onUpdateCountdown?: (targetDate: string) => void }) => {
@@ -862,15 +866,19 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
   onClearSelection,
   isSelectionMode,
   onToggleSelectionMode,
-  onAddModule,
-  onModifyDesign,
+  onIterateModule,
   onToggleModuleVisibility,
   onToggleElementVisibility,
   onSaveInvitation,
   hasCode = false,
   isReplace = false,
   hasUnsavedChanges = false,
-  onNavigateHome
+  onNavigateHome,
+  iterationAvailable,
+  isModuleSelectionMode,
+  onToggleModuleSelectionMode,
+  selectedModuleName,
+  onClearModuleSelection
 }) => {
   const navigate = useNavigate();
   const elements = useMemo(() => parseEditableElements(code), [code]);
@@ -890,13 +898,16 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
 
   const handleAddSubmit = () => {
     if (!moduleDescription.trim()) return;
-    onAddModule(insertAfter, moduleDescription);
+    if (iterationAvailable < 1) return;
+    onIterateModule('add', moduleDescription, insertAfter);
     setModuleDescription('');
   };
 
   const handleModifySubmit = () => {
     if (!designDescription.trim()) return;
-    onModifyDesign(designDescription);
+    if (iterationAvailable < 1) return;
+    if (!selectedModuleName) return;
+    onIterateModule('modify', designDescription, selectedModuleName);
     setDesignDescription('');
   };
 
@@ -991,27 +1002,30 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
             <CountdownEditor code={code} onUpdateCountdown={onUpdateCountdown} />
 
             {/* ============================================================ */}
-            {/* DESIGN MODIFIER SECTION - AI ITERATIONS (Feature Flag) */}
+            {/* DESIGN MODIFIER SECTION - AI ITERATIONS (per-module) */}
             {/* ============================================================ */}
             {AI_ITERATIONS_ENABLED && (
             <div className="mt-8 border-t border-pink-200 pt-6">
-              <h3 className="text-sm font-bold text-gray-800 mb-4 flex items-center gap-2">
+              <h3 className="text-sm font-bold text-gray-800 mb-2 flex items-center gap-2">
                 <span className="w-6 h-6 rounded-full bg-pink-100 flex items-center justify-center text-pink-500">✨</span>
-                Agregar / Modificar Diseño
+                Agregar / Modificar Módulo
               </h3>
-              
+              <div className="mb-4 text-xs text-gray-500">
+                Iteraciones disponibles: <span className={`font-bold ${iterationAvailable > 0 ? 'text-pink-600' : 'text-red-500'}`}>{iterationAvailable}</span>
+              </div>
+
               <div className="flex bg-gray-100 p-1 rounded-lg mb-4">
-                <button 
+                <button
                   onClick={() => setActiveTab('add')}
                   className={`flex-1 text-xs font-medium py-2 rounded-md transition-colors ${activeTab === 'add' ? 'bg-white shadow-sm text-pink-600' : 'text-gray-500 hover:text-gray-700'}`}
                 >
                   Agregar Módulo
                 </button>
-                <button 
+                <button
                   onClick={() => setActiveTab('modify')}
                   className={`flex-1 text-xs font-medium py-2 rounded-md transition-colors ${activeTab === 'modify' ? 'bg-white shadow-sm text-pink-600' : 'text-gray-500 hover:text-gray-700'}`}
                 >
-                  Modificar Diseño
+                  Modificar Módulo
                 </button>
               </div>
 
@@ -1019,10 +1033,11 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
                 <div className="space-y-3 bg-pink-50/30 p-4 rounded-xl border border-pink-100">
                   <div className="space-y-1.5">
                     <label className="text-xs font-medium text-gray-600">Insertar después de:</label>
-                    <select 
+                    <select
                       value={insertAfter}
                       onChange={(e) => setInsertAfter(e.target.value)}
-                      className="w-full bg-white border border-pink-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
+                      disabled={iterationAvailable < 1}
+                      className="w-full bg-white border border-pink-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <option value="Al principio">Al principio</option>
                       {moduleNames.map(name => (
@@ -1033,19 +1048,20 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-xs font-medium text-gray-600">Descripción del módulo:</label>
-                    <textarea 
+                    <textarea
                       value={moduleDescription}
                       onChange={(e) => setModuleDescription(e.target.value)}
                       placeholder="Ej. Una sección para mesa de postres con una imagen y texto descriptivo."
-                      className="w-full bg-white border border-pink-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 min-h-[80px] resize-y"
+                      disabled={iterationAvailable < 1}
+                      className="w-full bg-white border border-pink-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 min-h-[80px] resize-y disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
-                  <button 
+                  <button
                     onClick={handleAddSubmit}
-                    disabled={!moduleDescription.trim()}
+                    disabled={!moduleDescription.trim() || iterationAvailable < 1}
                     className="w-full py-2.5 bg-pink-500 hover:bg-pink-600 disabled:bg-pink-300 text-white rounded-lg text-sm font-semibold transition-colors shadow-md shadow-pink-500/20"
                   >
-                    Generar Módulo
+                    {iterationAvailable < 1 ? 'Sin iteraciones disponibles' : 'Generar Módulo'}
                   </button>
                 </div>
               )}
@@ -1053,20 +1069,53 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
               {activeTab === 'modify' && (
                 <div className="space-y-3 bg-pink-50/30 p-4 rounded-xl border border-pink-100">
                   <div className="space-y-1.5">
+                    <label className="text-xs font-medium text-gray-600">Módulo a modificar:</label>
+                    <button
+                      onClick={onToggleModuleSelectionMode}
+                      disabled={iterationAvailable < 1}
+                      className={`w-full py-2 px-3 rounded-lg text-sm font-medium transition-colors border ${
+                        isModuleSelectionMode
+                          ? 'bg-pink-500 text-white border-pink-500'
+                          : selectedModuleName
+                          ? 'bg-white text-pink-600 border-pink-300 hover:bg-pink-50'
+                          : 'bg-white text-gray-600 border-pink-200 hover:bg-pink-50 disabled:opacity-50 disabled:cursor-not-allowed'
+                      }`}
+                    >
+                      {isModuleSelectionMode
+                        ? 'Haz click en un módulo de la invitación...'
+                        : selectedModuleName
+                        ? `Seleccionado: ${selectedModuleName}`
+                        : 'Seleccionar módulo en la invitación'}
+                    </button>
+                    {selectedModuleName && !isModuleSelectionMode && (
+                      <button
+                        onClick={onClearModuleSelection}
+                        className="text-xs text-gray-400 hover:text-red-500 transition-colors"
+                      >
+                        Cambiar selección
+                      </button>
+                    )}
+                  </div>
+                  <div className="space-y-1.5">
                     <label className="text-xs font-medium text-gray-600">Descripción de los cambios:</label>
-                    <textarea 
+                    <textarea
                       value={designDescription}
                       onChange={(e) => setDesignDescription(e.target.value)}
                       placeholder="Ej. Cambia la paleta de colores a tonos azules y haz que los bordes sean más redondeados."
-                      className="w-full bg-white border border-pink-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 min-h-[100px] resize-y"
+                      disabled={iterationAvailable < 1 || !selectedModuleName}
+                      className="w-full bg-white border border-pink-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 min-h-[100px] resize-y disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
-                  <button 
+                  <button
                     onClick={handleModifySubmit}
-                    disabled={!designDescription.trim()}
+                    disabled={!designDescription.trim() || iterationAvailable < 1 || !selectedModuleName}
                     className="w-full py-2.5 bg-pink-500 hover:bg-pink-600 disabled:bg-pink-300 text-white rounded-lg text-sm font-semibold transition-colors shadow-md shadow-pink-500/20"
                   >
-                    Aplicar Cambios
+                    {iterationAvailable < 1
+                      ? 'Sin iteraciones disponibles'
+                      : !selectedModuleName
+                      ? 'Selecciona un módulo primero'
+                      : 'Aplicar Cambios'}
                   </button>
                 </div>
               )}

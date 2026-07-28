@@ -186,6 +186,56 @@ Return the complete, updated HTML code. Raw HTML only, no markdown formatting.
   }
 };
 
+export const iterateModule = async (
+  mode: 'add' | 'modify',
+  moduleHtml: string,
+  iterationDescription: string,
+  editorConfig?: { eventType: string; theme: string; primaryColor: string; secondaryColor: string; visualStyle?: string; mood?: string },
+  purchaseId?: string,
+  imageMap?: Record<string, string>
+): Promise<string> => {
+  try {
+    const token = localStorage.getItem('auth_token');
+    const response = await fetch(`${API_BASE}/iterate-module`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+      },
+      body: JSON.stringify({
+        mode,
+        moduleHtml,
+        iterationDescription,
+        editorConfig,
+        purchaseId: purchaseId || '',
+        imageMap: imageMap || {}
+      })
+    });
+
+    if (!response.ok && response.status === 401) {
+      try {
+        const loginUrl = await fetchConfig();
+        window.location.href = loginUrl;
+      } catch {
+        window.location.href = '/admin-login';
+      }
+      throw new Error('No autenticado');
+    }
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || `Error ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.html;
+  } catch (error) {
+    console.error('Iterate Module Error:', error);
+    throw error;
+  }
+};
+
 export const modifyProjectDesign = async (
   currentCode: string,
   designDescription: string,

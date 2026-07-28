@@ -9,6 +9,8 @@ interface PreviewPaneProps {
   onToggleFullscreen: () => void;
   isSelectionMode: boolean;
   selectedElementId: string | null;
+  isModuleSelectionMode?: boolean;
+  onModuleClick?: (moduleName: string) => void;
 }
 
 export interface PreviewPaneHandle {
@@ -21,7 +23,9 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
   isFullscreen,
   onToggleFullscreen,
   isSelectionMode,
-  selectedElementId
+  selectedElementId,
+  isModuleSelectionMode,
+  onModuleClick
 }, ref) => {
   const [viewport, setViewport] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -52,11 +56,19 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
     <script>
       window.setInterval = _origSetInterval;
       window.__GEMINI_SELECTION_MODE = false;
+      window.__GEMINI_MODULE_SELECTION_MODE = false;
       // Tracking del elemento seleccionado persistente (highlight visual)
       // Mantiene el outline hasta que se seleccione otro o se desactive.
       window.__GEMINI_SELECTED_EL = null;
       window.__GEMINI_SELECTED_PREV_OUTLINE = '';
       window.__GEMINI_SELECTED_PREV_OFFSET = '';
+
+      function __getModuleName(geminiId) {
+        if (!geminiId || geminiId.indexOf('edit-') === 0) return '';
+        if (geminiId.indexOf('__') !== -1) return geminiId.split('__')[0];
+        var parts = geminiId.split('-');
+        return parts.length > 1 ? parts[0] : '';
+      }
 
       function __geminiClearSelected() {
         if (window.__GEMINI_SELECTED_EL) {
@@ -88,6 +100,10 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
           if (!event.data.payload) {
             __geminiClearSelected();
           }
+        }
+        if (event.data && event.data.type === 'TOGGLE_MODULE_SELECTION_MODE') {
+          window.__GEMINI_MODULE_SELECTION_MODE = event.data.payload;
+          document.body.style.cursor = event.data.payload ? 'crosshair' : 'default';
         }
         if (event.data && event.data.type === 'SELECT_ELEMENT') {
           const id = event.data.payload;
@@ -159,6 +175,24 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
         const target = e.target.closest('a') || e.target;
         const isLink = target.tagName === 'A';
         
+        // 0. Handle Module Selection Mode (Modificar Diseño per-module)
+        if (window.__GEMINI_MODULE_SELECTION_MODE) {
+          e.preventDefault();
+          e.stopPropagation();
+          const el = e.target.closest('[data-gemini-id]');
+          if (!el) return;
+          const geminiId = el.getAttribute('data-gemini-id');
+          const moduleName = __getModuleName(geminiId);
+          if (!moduleName) return;
+          // Highlight visual temporal del módulo
+          __geminiSetSelected(el);
+          window.parent.postMessage({
+            type: 'GEMINI_MODULE_CLICK',
+            payload: moduleName
+          }, '*');
+          return;
+        }
+
         // 1. Handle Selection Mode
         if (window.__GEMINI_SELECTION_MODE) {
           e.preventDefault();
@@ -234,11 +268,18 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
           href: event.data.payload.href
         });
       }
+      if (event.data?.type === 'GEMINI_MODULE_CLICK') {
+        onModuleClick?.(event.data.payload as string);
+      }
       if (event.data?.type === 'GEMINI_PREVIEW_LOADED') {
          // Sync state when iframe loads
          iframeRef.current?.contentWindow?.postMessage({
           type: 'TOGGLE_SELECTION_MODE',
           payload: isSelectionMode
+        }, '*');
+         iframeRef.current?.contentWindow?.postMessage({
+          type: 'TOGGLE_MODULE_SELECTION_MODE',
+          payload: isModuleSelectionMode
         }, '*');
          // Re-apply highlight del elemento seleccionado previamente si existe
          if (selectedElementId) {
@@ -252,7 +293,7 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
 
     window.addEventListener('message', handleMessage);
     return () => window.removeEventListener('message', handleMessage);
-  }, [onElementClick, isSelectionMode, selectedElementId]);
+  }, [onElementClick, onModuleClick, isSelectionMode, isModuleSelectionMode, selectedElementId]);
 
   // Sync selection mode whenever prop changes
   useEffect(() => {
@@ -261,6 +302,14 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
       payload: isSelectionMode
     }, '*');
   }, [isSelectionMode]);
+
+  // Sync module selection mode whenever prop changes
+  useEffect(() => {
+    iframeRef.current?.contentWindow?.postMessage({
+      type: 'TOGGLE_MODULE_SELECTION_MODE',
+      payload: isModuleSelectionMode
+    }, '*');
+  }, [isModuleSelectionMode]);
 
   // Sync selected element highlight whenever the selected id or code changes
   // (necesario porque el iframe se re-renderiza con el srcDoc y pierde el
