@@ -2378,6 +2378,88 @@ const resolveLibraryAsset = async (folder, indexHint = 0) => {
 };
 
 /**
+ * Módulos mandatorios según el tipo de evento.
+ * - Eventos con sección de padres/padrinos: bodas, XV años, bautizo, primera comunión, confirmación.
+ * - Eventos sin padres: cumpleaños (niño/niña), baby shower, otro.
+ * Todos incluyen: portada, countdown, itinerario, ubicacion, confirmacion, detalles.
+ * La sección "confirmacion" se filtra posteriormente si hasRsvp=false.
+ */
+const MANDATORY_MODULES_BY_EVENT_TYPE = {
+  'Boda Tradicional':       ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
+  'Boda Americana':         ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
+  'Boda Gay (Hombres)':     ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
+  'Boda Gay (Mujeres)':     ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
+  'XV Años':                ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
+  'Bautizo':                ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
+  'Primera Comunión':       ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
+  'Confirmación':           ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
+  'Cumpleaños Niño':        ['portada', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
+  'Cumpleaños Niña':        ['portada', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
+  'Baby Shower':            ['portada', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
+  'Otro':                   ['portada', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles']
+};
+
+const DEFAULT_MANDATORY_MODULES = ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'];
+
+/**
+ * Genera un módulo desde cero usando MODULE_SYSTEM_PROMPT cuando la KB no tiene
+ * candidatos para un module_type dado. Devuelve un objeto con el mismo shape que
+ * los módulos del RAG para que fluya por adaptModuleWithGemini/assembleModules,
+ * o null si la generación falla.
+ */
+const generateModuleFromScratch = async (moduleType, eventType, theme, apiKey, model, userData = {}) => {
+  console.log(`[RAG-MODULE] ⚠️ Generando módulo desde cero: ${moduleType}`);
+  const datosEventoBlock = buildDatosEventoBlock(userData);
+  const prompt = `${MODULE_SYSTEM_PROMPT}
+
+===== TIPO DE MÓDULO REQUERIDO =====
+${moduleType}
+
+===== CONTEXTO DEL EVENTO =====
+Evento: ${eventType || 'general'}
+Tema/Mood: ${theme || 'elegante'}
+${datosEventoBlock}
+
+Genera ÚNICAMENTE el módulo de tipo "${moduleType}" siguiendo las reglas del prompt.`;
+
+  try {
+    const response = await callGeminiAPI(prompt, apiKey, model);
+    const finishReason = response.candidates?.[0]?.finishReason;
+    if (finishReason && finishReason !== 'STOP') {
+      console.warn(`[GENERATE-MODULE] Gemini filtró el output (finishReason=${finishReason}) para ${moduleType}`);
+      return null;
+    }
+    const content = extractContent(response);
+    const html = extractHtmlFromResponse(content);
+    const isValid = html
+      && html.includes('data-gemini-id')
+      && (html.includes('<section') || html.includes('<div'));
+    if (!isValid) {
+      console.warn(`[GENERATE-MODULE] Output inválido para ${moduleType}, descartando`);
+      return null;
+    }
+    const generatedModuleId = `generated-${moduleType}-${Date.now()}`;
+    console.log(`[GENERATE-MODULE] ✅ Módulo ${moduleType} generado (${html.length} chars)`);
+    return {
+      id: `gen_${generatedModuleId}`,
+      module_id: generatedModuleId,
+      module_type: moduleType,
+      style_name: `Generado ${moduleType}`,
+      description: `Módulo ${moduleType} generado desde cero`,
+      tags: [],
+      theme_tags: [],
+      color_palette: {},
+      css_variables: {},
+      memory_sources: {},
+      html_content: html
+    };
+  } catch (error) {
+    console.error(`[GENERATE-MODULE] Error generando ${moduleType}:`, error);
+    return null;
+  }
+};
+
+/**
  * Orquestación modular: selecciona, adapta y ensambla módulos
  */
 export const runModularOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro', options = {}, attachments = []) => {
@@ -2395,7 +2477,8 @@ export const runModularOrchestration = async (prompt, apiKey, model = 'gemini-3.
     promptInstruction = '',
     userId = '',
     imageApiKey = '',
-    imageModel = 'gemini-3.1-flash-image-preview'
+    imageModel = 'gemini-3.1-flash-image-preview',
+    hasRsvp = false
   } = options;
 
   console.log('=== ORCHESTRATOR MODULAR START ===');
@@ -2413,7 +2496,12 @@ export const runModularOrchestration = async (prompt, apiKey, model = 'gemini-3.
     fechaLimiteRSVP: userData.fechaLimiteRSVP ? '<set>' : ''
   }));
 
-  const requiredModules = ['portada', 'padres', 'ubicacion', 'itinerario', 'confirmacion', 'detalles'];
+  let requiredModules = MANDATORY_MODULES_BY_EVENT_TYPE[eventType] || DEFAULT_MANDATORY_MODULES;
+  if (!hasRsvp) {
+    requiredModules = requiredModules.filter(m => m !== 'confirmacion');
+    console.log('[Módular] RSVP deshabilitado, módulo "confirmacion" omitido');
+  }
+  console.log(`[Módular] Módulos mandatorios para eventType="${eventType}":`, requiredModules);
 
   // 1. Query y selección de módulos
   const selectedModules = [];
@@ -2422,7 +2510,13 @@ export const runModularOrchestration = async (prompt, apiKey, model = 'gemini-3.
     const candidates = await queryRAGModules(moduleType, null, null, 5);
 
     if (candidates.length === 0) {
-      console.log(`[Módular] ⚠️ No hay módulos para ${moduleType}, saltando`);
+      console.log(`[Módular] ⚠️ No hay módulos en KB para ${moduleType}, generando desde cero`);
+      const generated = await generateModuleFromScratch(moduleType, eventType, theme, apiKey, model, userData);
+      if (generated) {
+        selectedModules.push(generated);
+      } else {
+        console.warn(`[Módular] ❌ No se pudo generar ni seleccionar ${moduleType}, se omite`);
+      }
       continue;
     }
 
@@ -2440,6 +2534,15 @@ export const runModularOrchestration = async (prompt, apiKey, model = 'gemini-3.
 
   // 2. Adaptar cada módulo a la temática
   console.log('\n[Módular] Adaptando módulos...');
+
+  // Post-validación: verificar que los módulos mandatorios estén presentes
+  const selectedTypes = selectedModules.map(m => m.module_type);
+  const missingModules = requiredModules.filter(t => !selectedTypes.includes(t));
+  if (missingModules.length > 0) {
+    console.warn(`[Módular] ⚠️ Módulos mandatorios faltantes: ${missingModules.join(', ')}`);
+  }
+  console.log(`[Módular] Módulos a adaptar: ${selectedModules.length}/${requiredModules.length}`);
+
   const adaptedModules = [];
   for (const module of selectedModules) {
     console.log(`[Módular] Adaptando: ${module.module_id}`);

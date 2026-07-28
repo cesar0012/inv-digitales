@@ -3002,7 +3002,8 @@ const geminiOptions = {
         imageApiKey: config.image_api_key || '',
         imageModel: config.image_model || 'gemini-3.1-flash-image-preview',
         userId: userId, // Pasar userId para tracking de uso RAG
-        useRagTemplates: useRagTemplates
+        useRagTemplates: useRagTemplates,
+        hasRsvp: hasRsvp
       };
 
       const attachmentsForGemini = Array.isArray(attachments) ? attachments : [];
