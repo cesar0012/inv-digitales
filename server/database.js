@@ -44,7 +44,7 @@ db.exec(`
     html_api_key TEXT DEFAULT '',
     html_model TEXT DEFAULT 'gpt-4o',
     html_google_api_key TEXT DEFAULT '',
-    html_google_model TEXT DEFAULT 'gemini-3.1-flash-preview',
+    html_google_model TEXT DEFAULT 'gemini-3.1-pro-preview',
     image_provider TEXT DEFAULT 'gemini',
     image_model TEXT DEFAULT 'gemini-3.1-flash-image-preview',
     image_api_key TEXT DEFAULT '',
@@ -287,6 +287,15 @@ try {
   }
 } catch (e) {
   console.warn('Backfill is_active falló:', e.message);
+}
+
+try {
+  const result = db.prepare("UPDATE admin_config SET html_google_model = 'gemini-3.1-pro-preview' WHERE html_google_model IS NULL OR TRIM(html_google_model) = '' OR html_google_model = 'gemini-3.1-flash-preview'").run();
+  if (result.changes > 0) {
+    console.log(`✅ Migración html_google_model: ${result.changes} fila(s) corregida(s) a 'gemini-3.1-pro-preview'`);
+  }
+} catch (e) {
+  console.warn('Migración html_google_model falló:', e.message);
 }
 
 try {

@@ -2808,7 +2808,10 @@ app.post('/api/iterate-module', authMiddleware, async (req, res) => {
     }
 
     const apiKey = config.html_google_api_key;
-    const model = config.html_google_model || 'gemini-3.1-pro-preview';
+    const rawModel = config.html_google_model && config.html_google_model.trim() !== '' && config.html_google_model !== 'gemini-3.1-flash-preview'
+      ? config.html_google_model
+      : 'gemini-3.1-pro-preview';
+    const model = rawModel;
     const evt = editorConfig?.eventType || '';
     const theme = editorConfig?.theme || '';
     const primaryColor = editorConfig?.primaryColor || '';
