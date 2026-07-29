@@ -693,7 +693,33 @@ const IMAGE_DESCRIPTIONS = {
   }
 };
 
-export const ensureRequiredImages = async (html, eventType, imageApiKey, imageModel) => {
+export const ensureRequiredImages = async (html, eventType, imageApiKey, imageModel, imageProvider = 'gemini') => {
+  // Lorem Flickr: inyectar <img src="https://loremflickr.com/..."> sin invocar IA
+  if (imageProvider === 'loremflickr') {
+    const normalizedEvent = normalizeEventType(eventType);
+    const descriptions = IMAGE_DESCRIPTIONS[normalizedEvent] || IMAGE_DESCRIPTIONS['boda'];
+    let result = html;
+    console.log(`[COMPILER] 🔍 Checking required images (imageProvider=loremflickr) for eventType="${eventType}"`);
+    for (const [id, description] of Object.entries(descriptions)) {
+      const hasImage = result.includes(`data-gemini-id="${id}"`) ||
+                       result.includes(`data-gemini-id='${id}'`);
+      if (!hasImage) {
+        const { promptToLoremFlickrUrl } = await import('./imageToBase64.js');
+        const loremUrl = promptToLoremFlickrUrl(description, 800, 600);
+        const imgTag = `<img src="${loremUrl}" data-gemini-id="${id}" style="width:100%;max-width:600px;display:block;margin:20px auto;border-radius:8px">`;
+        if (result.includes('</body>')) {
+          result = result.replace('</body>', imgTag + '</body>');
+        } else {
+          result = result + imgTag;
+        }
+        console.log(`[COMPILER] ✅ Inserted ${id} (loremflickr): ${loremUrl}`);
+      } else {
+        console.log(`[COMPILER] ✅ ${id} already present, skipping`);
+      }
+    }
+    return result;
+  }
+
   if (!imageApiKey) {
     console.log('[COMPILER] ⚠️ No image API key, skipping required images check');
     return html;
@@ -752,7 +778,8 @@ export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro',
     userId = '',
     useRagTemplates = true,
     imageApiKey = '',
-    imageModel = 'gemini-3.1-flash-image-preview'
+    imageModel = 'gemini-3.1-flash-image-preview',
+    imageProvider = 'gemini'
   } = options;
 
   console.log('=== ORCHESTRATOR START ===');
@@ -787,7 +814,7 @@ export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro',
 
           console.log('=== ORCHESTRATOR COMPLETE (ADAPTATION FLOW) ===');
           console.log('Final HTML length:', finalHtml.length);
-          return await ensureRequiredImages(finalHtml, eventType, imageApiKey, imageModel);
+          return await ensureRequiredImages(finalHtml, eventType, imageApiKey, imageModel, imageProvider);
         } catch (adaptError) {
           console.error('[RAG-TEMPLATE] ⚠️ Adaptación falló: ' + adaptError.message + ', cayendo a generación desde cero');
         }
@@ -912,7 +939,7 @@ export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro',
   console.log('=== ORCHESTRATOR COMPLETE ===');
   console.log('Final HTML length:', finalHtml.length);
 
-  return await ensureRequiredImages(finalHtml, eventType, imageApiKey, imageModel);
+  return await ensureRequiredImages(finalHtml, eventType, imageApiKey, imageModel, imageProvider);
 };
 
 // ==================== FUNCIONES PARA RAG MODULAR ====================
@@ -1293,7 +1320,13 @@ const injectEditableIds = (html) => {
 /**
  * Resuelve placeholders de imágenes según memory_source
  */
-const resolvePlaceholders = async (html, eventType, theme, imageApiKey, imageModel) => {
+const resolvePlaceholders = async (html, eventType, theme, imageApiKey, imageModel, imageProvider = 'gemini') => {
+  // Lorem Flickr: no invocar Nano Banana. Las URLs loremflickr.com embebidas en los
+  // módulos se dejan intactas — el navegador las resuelve directamente.
+  if (imageProvider === 'loremflickr') {
+    console.log('[RESOLVER] imageProvider=loremflickr — placeholders generados se dejan como loremflickr (sin IA)');
+    return html;
+  }
   try {
     const { document } = parseHTML(html);
     let modified = false;
@@ -2478,7 +2511,8 @@ export const runModularOrchestration = async (prompt, apiKey, model = 'gemini-3.
     userId = '',
     imageApiKey = '',
     imageModel = 'gemini-3.1-flash-image-preview',
-    hasRsvp = false
+    hasRsvp = false,
+    imageProvider = 'gemini'
   } = options;
 
   console.log('=== ORCHESTRATOR MODULAR START ===');
@@ -2566,7 +2600,7 @@ export const runModularOrchestration = async (prompt, apiKey, model = 'gemini-3.
 
   // 4. Resolver placeholders (imágenes)
   console.log('\n[Módular] Resolviendo placeholders...');
-  const resolvedHtml = await resolvePlaceholders(withEditableIds, eventType, theme, imageApiKey, imageModel);
+  const resolvedHtml = await resolvePlaceholders(withEditableIds, eventType, theme, imageApiKey, imageModel, imageProvider);
 
   // 5. Aplicar temática
   console.log('[Módular] Aplicando temática...');

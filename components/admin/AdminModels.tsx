@@ -23,6 +23,7 @@ export const AdminModels: React.FC = () => {
   // Image Config
   const [imageModel, setImageModel] = useState<AIModel['id']>('gemini-3.1-flash-image-preview');
   const [imageApiKey, setImageApiKey] = useState('');
+  const [imageProvider, setImageProvider] = useState<string>('gemini');
   
 // General Config
   const [loginPageUrl, setLoginPageUrl] = useState('/admin-login');
@@ -61,6 +62,7 @@ const loadConfig = async () => {
       setHtmlGoogleModel(config.html_google_model || 'gemini-3.1-pro-preview');
       setImageModel(config.image_model);
       setImageApiKey(config.image_api_key);
+      setImageProvider(config.image_provider || 'gemini');
       setLoginPageUrl(config.login_page_url || '/admin-login');
       setUseAgentOrchestrator(config.use_agent_orchestrator || false);
       setUseRagTemplates(config.use_rag_templates !== false);
@@ -153,6 +155,8 @@ const loadConfig = async () => {
             apiKey={imageApiKey}
             setApiKey={setImageApiKey}
             loginPageUrl={loginPageUrl}
+            imageProvider={imageProvider}
+            setImageProvider={setImageProvider}
           />}
         </>
       )}
@@ -362,12 +366,15 @@ interface ImageGeneratorProps {
   apiKey: string;
   setApiKey: (value: string) => void;
   loginPageUrl: string;
+  imageProvider: string;
+  setImageProvider: (value: string) => void;
 }
 
 const ImageGeneratorConfig: React.FC<ImageGeneratorProps> = ({ 
   selectedModel, setSelectedModel, 
   apiKey, setApiKey,
-  loginPageUrl
+  loginPageUrl,
+  imageProvider, setImageProvider
 }) => {
   const [saved, setSaved] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -375,12 +382,18 @@ const ImageGeneratorConfig: React.FC<ImageGeneratorProps> = ({
   const handleSave = async () => {
     setSaving(true);
     try {
-      await saveAdminConfig({
+      const payload: Record<string, unknown> = {
         html_google_api_key: '', // Mantener actual
-        image_model: selectedModel,
-        image_api_key: apiKey,
+        image_provider: imageProvider,
         login_page_url: loginPageUrl
-      });
+      };
+      // Solo enviar model/apiKey cuando provider=gemini (loremflickr no los necesita
+      // y mantenerlos fuera del payload preserva los valores previos en la DB).
+      if (imageProvider === 'gemini') {
+        payload.image_model = selectedModel;
+        payload.image_api_key = apiKey;
+      }
+      await saveAdminConfig(payload);
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
     } catch (error) {
@@ -394,57 +407,119 @@ const ImageGeneratorConfig: React.FC<ImageGeneratorProps> = ({
     <div className="space-y-4">
       <div className="bg-purple-50 border border-purple-200 rounded-xl p-4">
         <p className="text-sm text-purple-700">
-          Google AI Platform (NanoBanana) se usa para generar imágenes temáticas para las invitaciones.
+          Selecciona el proveedor de imágenes. <strong>Nano Banana</strong> genera imágenes temáticas con IA. <strong>Lorem Flickr</strong> usa imágenes placeholder genéricas (no consume IA).
         </p>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
-          <Key className="w-4 h-4 text-pink-500" />
-          Google AI Platform API Key
-        </label>
-        <input
-          type="password"
-          value={apiKey}
-          onChange={(e) => setApiKey(e.target.value)}
-          placeholder="Ingresa tu API Key de Google AI Platform"
-          className="w-full px-4 py-3 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 text-gray-800 font-mono text-sm"
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-3">Modelo de Generación de Imágenes</label>
+        <label className="block text-sm font-medium text-gray-700 mb-3">Proveedor de Imágenes</label>
         <div className="space-y-2">
-          {AI_MODELS.map((model) => (
-            <label
-              key={model.id}
-              className={`flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all ${
-                selectedModel === model.id
-                  ? 'border-pink-500 bg-pink-50'
-                  : 'border-gray-200 hover:border-pink-300 hover:bg-pink-50/50'
-              }`}
-            >
-              <input
-                type="radio"
-                name="imageModel"
-                value={model.id}
-                checked={selectedModel === model.id}
-                onChange={() => setSelectedModel(model.id)}
-                className="w-4 h-4 text-pink-500 focus:ring-pink-500"
-              />
-              <div className="flex-1">
-                <p className="font-medium text-gray-800">{model.name}</p>
-                <p className="text-xs text-gray-500">{model.provider}</p>
-              </div>
-              {selectedModel === model.id && (
-                <span className="px-3 py-1 bg-pink-500 text-white text-xs font-medium rounded-full">
-                  Activo
-                </span>
-              )}
-            </label>
-          ))}
+          <label
+            className={`flex items-center gap-3 p-4 rounded-xl border cursor-pointer transition-all ${
+              imageProvider === 'gemini'
+                ? 'border-pink-500 bg-pink-50'
+                : 'border-gray-200 hover:border-pink-300 hover:bg-pink-50/50'
+            }`}
+          >
+            <input
+              type="radio"
+              name="imageProvider"
+              value="gemini"
+              checked={imageProvider === 'gemini'}
+              onChange={() => setImageProvider('gemini')}
+              className="w-4 h-4 text-pink-500 focus:ring-pink-500"
+            />
+            <div className="flex-1">
+              <p className="font-medium text-gray-800 flex items-center gap-2">
+                <Image className="w-4 h-4 text-pink-500" />
+                Nano Banana (Gemini)
+              </p>
+              <p className="text-xs text-gray-500">Genera imágenes temáticas con IA (consume API key)</p>
+            </div>
+            {imageProvider === 'gemini' && (
+              <span className="px-3 py-1 bg-pink-500 text-white text-xs font-medium rounded-full">Activo</span>
+            )}
+          </label>
+          <label
+            className={`flex items-center gap-3 p-4 rounded-xl border cursor-pointer transition-all ${
+              imageProvider === 'loremflickr'
+                ? 'border-pink-500 bg-pink-50'
+                : 'border-gray-200 hover:border-pink-300 hover:bg-pink-50/50'
+            }`}
+          >
+            <input
+              type="radio"
+              name="imageProvider"
+              value="loremflickr"
+              checked={imageProvider === 'loremflickr'}
+              onChange={() => setImageProvider('loremflickr')}
+              className="w-4 h-4 text-pink-500 focus:ring-pink-500"
+            />
+            <div className="flex-1">
+              <p className="font-medium text-gray-800 flex items-center gap-2">
+                <Image className="w-4 h-4 text-gray-500" />
+                Lorem Flickr (Placeholder)
+              </p>
+              <p className="text-xs text-gray-500">Usa imágenes placeholder genéricas. No consume IA.</p>
+            </div>
+            {imageProvider === 'loremflickr' && (
+              <span className="px-3 py-1 bg-pink-500 text-white text-xs font-medium rounded-full">Activo</span>
+            )}
+          </label>
         </div>
       </div>
+
+      {imageProvider === 'gemini' && (
+        <>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+              <Key className="w-4 h-4 text-pink-500" />
+              Google AI Platform API Key
+            </label>
+            <input
+              type="password"
+              value={apiKey}
+              onChange={(e) => setApiKey(e.target.value)}
+              placeholder="Ingresa tu API Key de Google AI Platform"
+              className="w-full px-4 py-3 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 text-gray-800 font-mono text-sm"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-3">Modelo de Generación de Imágenes</label>
+            <div className="space-y-2">
+              {AI_MODELS.map((model) => (
+                <label
+                  key={model.id}
+                  className={`flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all ${
+                    selectedModel === model.id
+                      ? 'border-pink-500 bg-pink-50'
+                      : 'border-gray-200 hover:border-pink-300 hover:bg-pink-50/50'
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="imageModel"
+                    value={model.id}
+                    checked={selectedModel === model.id}
+                    onChange={() => setSelectedModel(model.id)}
+                    className="w-4 h-4 text-pink-500 focus:ring-pink-500"
+                  />
+                  <div className="flex-1">
+                    <p className="font-medium text-gray-800">{model.name}</p>
+                    <p className="text-xs text-gray-500">{model.provider}</p>
+                  </div>
+                  {selectedModel === model.id && (
+                    <span className="px-3 py-1 bg-pink-500 text-white text-xs font-medium rounded-full">
+                      Activo
+                    </span>
+                  )}
+                </label>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
 
       <button
         onClick={handleSave}

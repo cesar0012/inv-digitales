@@ -14,6 +14,21 @@
 import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
+// Construye una URL de loremflickr.com a partir de un prompt de texto.
+// Extrae 2-3 keywords significativas (ignora stopwords) y las usa como tags.
+const LOREMFLICKR_STOPWORDS = new Set([
+  'the','a','an','of','for','with','and','or','in','on','at','to','image','photo','picture',
+  'beautiful','complete','background','no','transparent','elements','stickers','isolated',
+  'objects','scene','description','important','create','must','have','full','that','can','be',
+  'used','as','is','this','must','include','do','not','any'
+]);
+export const promptToLoremFlickrUrl = (prompt, w = 800, h = 600) => {
+  const words = (prompt || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/)
+    .filter(w => w && !LOREMFLICKR_STOPWORDS.has(w));
+  const keywords = words.slice(0, 3).join(',') || 'invitation';
+  return `https://loremflickr.com/${w}/${h}/${keywords}`;
+};
+
 // Base path for images
 const IMG_BASE_PATH = join(process.cwd(), 'img');
 
@@ -77,12 +92,13 @@ export const compileLocalImagesToBase64 = async (html) => {
 };
 
 // Compile ALL images (local + AI-generated) to base64
-export const compileAllImagesToBase64 = async (html, imageApiKey, imageModel) => {
+export const compileAllImagesToBase64 = async (html, imageApiKey, imageModel, imageProvider = 'gemini') => {
   if (!html || !html.includes('<!DOCTYPE')) {
     return html;
   }
 
   console.log('=== COMPILING ALL IMAGES TO BASE64 ===');
+  console.log(`[IMAGE_TO_BASE64] imageProvider=${imageProvider}`);
   
   let result = html;
   
@@ -91,9 +107,12 @@ export const compileAllImagesToBase64 = async (html, imageApiKey, imageModel) =>
   result = await compileLocalImagesToBase64(result);
   
   // Step 2: Process AI-generated images (GEMINI_GENERATE placeholders)
-  if (imageApiKey && imageApiKey.trim() !== '') {
+  if (imageProvider === 'loremflickr') {
+    console.log('[IMAGE_TO_BASE64] Step 2: imageProvider=loremflickr - reemplazando GEMINI_GENERATE por URLs loremflickr (sin IA)');
+    result = await processAIImages(result, imageApiKey, imageModel, imageProvider);
+  } else if (imageApiKey && imageApiKey.trim() !== '') {
     console.log('[IMAGE_TO_BASE64] Step 2: Processing AI-generated images...');
-    result = await processAIImages(result, imageApiKey, imageModel);
+    result = await processAIImages(result, imageApiKey, imageModel, imageProvider);
   } else {
     console.log('[IMAGE_TO_BASE64] Step 2: No AI image API key - skipping AI images');
   }
@@ -103,7 +122,7 @@ export const compileAllImagesToBase64 = async (html, imageApiKey, imageModel) =>
 };
 
 // Process AI-generated images
-const processAIImages = async (html, imageApiKey, imageModel) => {
+const processAIImages = async (html, imageApiKey, imageModel, imageProvider = 'gemini') => {
   const srcRegex = /src=["'](GEMINI_GENERATE:([^"']+))["']/g;
   const bgRegex = /url\(["']?(GEMINI_GENERATE:([^"')]+))["']?\)/g;
   
@@ -120,7 +139,21 @@ const processAIImages = async (html, imageApiKey, imageModel) => {
   }
   
   const urls = Array.from(new Set(allMatches));
-  console.log(`[IMAGE_TO_BASE64] Processing ${urls.length} AI images...`);
+  console.log(`[IMAGE_TO_BASE64] Processing ${urls.length} AI images (provider=${imageProvider})...`);
+  
+  // Lorem Flickr: reemplazar GEMINI_GENERATE:prompt por URLs de loremflickr sin invocar IA
+  if (imageProvider === 'loremflickr') {
+    let newHtml = html;
+    let replaced = 0;
+    for (const url of urls) {
+      const promptText = url.replace('GEMINI_GENERATE:', '').trim();
+      const loremUrl = promptToLoremFlickrUrl(promptText);
+      newHtml = newHtml.split(url).join(loremUrl);
+      replaced++;
+    }
+    console.log(`[IMAGE_TO_BASE64] Lorem Flickr URLs insertadas: ${replaced}/${urls.length}`);
+    return newHtml;
+  }
   
   const { generateImageWithNanoBanana } = await import('./nanoBananaService.js');
   
@@ -156,8 +189,21 @@ const processAIImages = async (html, imageApiKey, imageModel) => {
   return newHtml;
 };
 
-export const resolveModuleImages = async (html, eventType, theme, imageApiKey, imageModel) => {
-  if (!html || !imageApiKey || imageApiKey.trim() === '') {
+export const resolveModuleImages = async (html, eventType, theme, imageApiKey, imageModel, imageProvider = 'gemini') => {
+  if (!html) {
+    console.log('[RESOLVE-MODULE-IMAGES] Skip: No HTML');
+    return html;
+  }
+
+  // Lorem Flickr: no invocar Nano Banana. Las URLs loremflickr.com embebidas
+  // en los módulos (placeholders "generated") se dejan intactas — el navegador
+  // las resuelve directamente desde loremflickr.com.
+  if (imageProvider === 'loremflickr') {
+    console.log('[RESOLVE-MODULE-IMAGES] imageProvider=loremflickr — placeholders generados se dejan como loremflickr (sin IA)');
+    return html;
+  }
+
+  if (!imageApiKey || imageApiKey.trim() === '') {
     console.log('[RESOLVE-MODULE-IMAGES] Skip: No HTML o no API key');
     return html;
   }

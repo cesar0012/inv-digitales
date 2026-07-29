@@ -1786,6 +1786,7 @@ const updatedConfig = {
     html_model: body.html_model && body.html_model.trim() !== '' ? body.html_model : currentConfig.html_model,
     html_google_api_key: body.html_google_api_key && body.html_google_api_key.trim() !== '' ? body.html_google_api_key : currentConfig.html_google_api_key,
     html_google_model: body.html_google_model && body.html_google_model.trim() !== '' ? body.html_google_model : currentConfig.html_google_model,
+    image_provider: body.image_provider && body.image_provider.trim() !== '' ? body.image_provider : (currentConfig.image_provider || 'gemini'),
     image_model: body.image_model && body.image_model.trim() !== '' ? body.image_model : currentConfig.image_model,
     image_api_key: body.image_api_key && body.image_api_key.trim() !== '' ? body.image_api_key : currentConfig.image_api_key,
     login_page_url: body.login_page_url !== undefined ? body.login_page_url : currentConfig.login_page_url,
@@ -1806,6 +1807,7 @@ const updatedConfig = {
       html_model = ?,
       html_google_api_key = ?,
       html_google_model = ?,
+      image_provider = ?,
       image_model = ?,
       image_api_key = ?,
       login_page_url = ?,
@@ -1822,6 +1824,7 @@ const updatedConfig = {
     updatedConfig.html_model,
     updatedConfig.html_google_api_key,
     updatedConfig.html_google_model,
+    updatedConfig.image_provider,
     updatedConfig.image_model,
     updatedConfig.image_api_key,
     updatedConfig.login_page_url,
@@ -2711,7 +2714,7 @@ app.listen(PORT, () => {
 // ==================== GENERATE HTML ENDPOINT (PROXY SEGURO) ====================
 
 // Función auxiliar para procesar imágenes GEMINI_GENERATE en el HTML
-const processGeminiImages = async (html, imageApiKey, imageModel) => {
+const processGeminiImages = async (html, imageApiKey, imageModel, imageProvider = 'gemini') => {
   const srcRegex = /src=["'](GEMINI_GENERATE:([^"']+))["']/g;
   const bgRegex = /url\(["']?(GEMINI_GENERATE:([^"')]+))["']?\)/g;
   
@@ -2726,7 +2729,22 @@ const processGeminiImages = async (html, imageApiKey, imageModel) => {
   if (allMatches.length === 0) return html;
   
   const urls = Array.from(new Set(allMatches));
-  console.log(`=== PROCESANDO ${urls.length} IMÁGENES (${srcMatches.length} src + ${bgMatches.length} background-image) ===`);
+  console.log(`=== PROCESANDO ${urls.length} IMÁGENES (${srcMatches.length} src + ${bgMatches.length} background-image) (provider=${imageProvider}) ===`);
+  
+  // Lorem Flickr: reemplazar GEMINI_GENERATE:prompt por URLs de loremflickr sin invocar IA
+  if (imageProvider === 'loremflickr') {
+    const { promptToLoremFlickrUrl } = await import('./imageToBase64.js');
+    let newHtml = html;
+    let replaced = 0;
+    for (const url of urls) {
+      const promptText = url.replace('GEMINI_GENERATE:', '').trim();
+      const loremUrl = promptToLoremFlickrUrl(promptText);
+      newHtml = newHtml.split(url).join(loremUrl);
+      replaced++;
+    }
+    console.log(`=== Lorem Flickr URLs insertadas: ${replaced}/${urls.length} ===`);
+    return newHtml;
+  }
   
   const { generateImageWithNanoBanana } = await import('./nanoBananaService.js');
   
@@ -2996,6 +3014,7 @@ const geminiOptions = {
         promptInstruction: (promptInstruction || '') + rsvpInstruction,
         imageApiKey: config.image_api_key || '',
         imageModel: config.image_model || 'gemini-3.1-flash-image-preview',
+        imageProvider: config.image_provider || 'gemini',
         userId: userId, // Pasar userId para tracking de uso RAG
         useRagTemplates: useRagTemplates,
         hasRsvp: hasRsvp
@@ -3095,7 +3114,7 @@ const geminiOptions = {
 // Compilar TODAS las imágenes a base64 (locales + AI generadas)
     // Esto asegura que la invitación sea completamente autocontenida
     const { compileAllImagesToBase64 } = await import('./imageToBase64.js');
-    htmlResult = await compileAllImagesToBase64(htmlResult, config.image_api_key, config.image_model);
+    htmlResult = await compileAllImagesToBase64(htmlResult, config.image_api_key, config.image_model, config.image_provider || 'gemini');
     
     const historicoPath = join(__dirname, 'storage', 'historico');
     if (!existsSync(historicoPath)) {
