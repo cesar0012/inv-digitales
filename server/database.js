@@ -268,6 +268,28 @@ try {
 } catch (e) {}
 
 try {
+  const orphanPlans = db.prepare(`
+    SELECT user_id, purchase_id, MIN(id) as first_id
+    FROM invitations
+    WHERE purchase_id IS NOT NULL AND is_active = 0
+    GROUP BY user_id, purchase_id
+  `).all();
+  let backfilled = 0;
+  for (const row of orphanPlans) {
+    const anyActive = db.prepare('SELECT 1 FROM invitations WHERE user_id = ? AND purchase_id = ? AND is_active = 1 LIMIT 1').get(row.user_id, row.purchase_id);
+    if (!anyActive) {
+      db.prepare('UPDATE invitations SET is_active = 1 WHERE id = ?').run(row.first_id);
+      backfilled++;
+    }
+  }
+  if (backfilled > 0) {
+    console.log(`✅ Backfill is_active: ${backfilled} invitación(es) marcada(s) como destacada(s)`);
+  }
+} catch (e) {
+  console.warn('Backfill is_active falló:', e.message);
+}
+
+try {
   db.exec(`ALTER TABLE admin_config ADD COLUMN use_agent_orchestrator INTEGER DEFAULT 0`);
   console.log('✅ Columna use_agent_orchestrator agregada a admin_config');
 } catch (e) {}

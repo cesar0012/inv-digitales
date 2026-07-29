@@ -57,11 +57,9 @@ export const saveInvitation = async (
   htmlContent: string,
   eventType: string | undefined,
   purchaseId: string,
-  replaceFilename?: string,
   token?: string
 ): Promise<SaveInvitationResponse> => {
   const body: Record<string, unknown> = { htmlContent, eventType, purchaseId };
-  if (replaceFilename) body.replaceFilename = replaceFilename;
 
   const response = await fetch(`${API_BASE}/invitations`, {
     method: 'POST',
@@ -72,37 +70,37 @@ export const saveInvitation = async (
     credentials: 'include',
     body: JSON.stringify(body)
   });
-  
-  if (response.status === 409) {
-    const data = await response.json();
-    const error: any = new Error(data.error);
-    error.code = data.code;
-    error.existing_filename = data.existing_filename;
-    error.isPlanHasInvitation = true;
-    throw error;
-  }
-  
+
   return handleResponse(response);
 };
 
-export const replaceInvitation = async (
-  userId: string,
-  filename: string,
-  htmlContent: string,
-  eventType: string | undefined,
-  purchaseId: string,
-  token?: string
-): Promise<SaveInvitationResponse> => {
-  const response = await fetch(`${API_BASE}/invitations/replace/${userId}/${filename}`, {
-    method: 'PUT',
+export const activateInvitation = async (
+  token: string,
+  invitationId: number | string,
+): Promise<{ success: boolean; active_invitation: { id: number; filename: string; slug: string } }> => {
+  const response = await fetch(`${API_BASE}/invitations/${invitationId}/activate`, {
+    method: 'PATCH',
     headers: {
-      'Content-Type':  'application/json',
+      'Content-Type': 'application/json',
       ...getAuthHeaders(token)
     },
-    credentials: 'include',
-    body: JSON.stringify({ htmlContent, eventType, purchaseId })
+    credentials: 'include'
   });
-  
+  return handleResponse(response);
+};
+
+export const deleteInvitation = async (
+  token: string,
+  invitationId: number | string,
+): Promise<{ success: boolean }> => {
+  const response = await fetch(`${API_BASE}/invitations/${invitationId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      ...getAuthHeaders(token)
+    },
+    credentials: 'include'
+  });
   return handleResponse(response);
 };
 

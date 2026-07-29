@@ -67,6 +67,35 @@ const getPlanWithInvitation = (plan, userId) => {
 
   const active = invitation || fallback;
 
+  const rawPlanInvitations = db.prepare(
+    'SELECT * FROM invitations WHERE user_id = ? AND purchase_id = ? ORDER BY created_at DESC'
+  ).all(userId, plan.purchase_id);
+
+  const planInvitations = rawPlanInvitations.map(inv => {
+    let size = 0;
+    try {
+      const filePath = join(storagePath, userId.toString(), inv.filename);
+      if (existsSync(filePath)) {
+        size = statSync(filePath).size;
+      }
+    } catch (e) {}
+    return {
+      id: inv.id,
+      filename: inv.filename,
+      slug: inv.slug,
+      publicUrl: `${PUBLIC_URL}/i/${inv.slug}`,
+      event_type: inv.event_type,
+      event_domain: inv.event_domain || null,
+      event_date: inv.event_date || null,
+      event_time: inv.event_time || null,
+      is_active: inv.is_active || 0,
+      created_at: inv.created_at || null,
+      size,
+      purchase_id: inv.purchase_id || plan.purchase_id,
+      plan_slug: inv.plan_slug || plan.plan_slug
+    };
+  });
+
   return {
     id: plan.id,
     purchase_id: plan.purchase_id,
@@ -83,6 +112,7 @@ const getPlanWithInvitation = (plan, userId) => {
     invites_available: Math.max(0, plan.invites_included - plan.invites_used),
     has_invitation: !!active,
     active_invitation: active ? {
+      id: active.id,
       filename: active.filename,
       slug: active.slug,
       public_url: `${PUBLIC_URL}/i/${active.slug}`,
@@ -90,7 +120,8 @@ const getPlanWithInvitation = (plan, userId) => {
       event_domain: active.event_domain || null,
       event_date: active.event_date || null,
       event_time: active.event_time || null
-    } : null
+    } : null,
+    plan_invitations: planInvitations
   };
 };
 
@@ -941,15 +972,6 @@ app.post('/api/invitations', authMiddleware, (req, res) => {
     return res.status(404).json({ error: 'Plan no encontrado para este usuario' });
   }
 
-  const existingInv = db.prepare('SELECT * FROM invitations WHERE user_id = ? AND purchase_id = ?').get(userId, purchaseId);
-  if (existingInv) {
-    return res.status(409).json({
-      error: 'Este plan ya tiene una invitación. Usa replace para reemplazarla.',
-      code: 'PLAN_HAS_INVITATION',
-      existing_filename: existingInv.filename
-    });
-  }
-
   const userFolder = ensureUserFolder(userId);
   const timestamp = Date.now();
   const slug = generateSlug(eventType || 'invitacion', timestamp);
@@ -984,66 +1006,6 @@ const publicUrl = `${PUBLIC_URL}/i/${slug}`;
   });
 });
 
-// PUT /api/invitations/replace/:userId/:filename - Reemplaza la invitación de un plan
-app.put('/api/invitations/replace/:userId/:filename', authMiddleware, (req, res) => {
-  const { userId, filename } = req.params;
-  const { htmlContent, eventType, purchaseId } = req.body;
-
-  if (req.user.id.toString() !== userId) {
-    return res.status(403).json({ error: 'No autorizado' });
-  }
-
-  if (!htmlContent) {
-    return res.status(400).json({ error: 'htmlContent es requerido' });
-  }
-
-  if (!purchaseId) {
-    return res.status(400).json({ error: 'purchaseId es requerido' });
-  }
-
-  const plan = db.prepare('SELECT * FROM user_plans WHERE user_id = ? AND purchase_id = ?').get(userId, purchaseId);
-  if (!plan) {
-    return res.status(404).json({ error: 'Plan no encontrado' });
-  }
-
-  const existingInv = db.prepare('SELECT * FROM invitations WHERE user_id = ? AND purchase_id = ?').get(userId, purchaseId);
-  if (!existingInv) {
-    return res.status(404).json({ error: 'No existe invitación para este plan' });
-  }
-
-  const oldFilePath = join(storagePath, userId, existingInv.filename);
-  if (existsSync(oldFilePath)) {
-    unlinkSync(oldFilePath);
-  }
-
-  const userFolder = ensureUserFolder(userId);
-  const timestamp = Date.now();
-  const newFilename = `invitation_${timestamp}.html`;
-  const newFilePath = join(userFolder, newFilename);
-  writeFileSync(newFilePath, htmlContent, 'utf-8');
-
-  db.prepare(
-    'UPDATE invitations SET filename = ?, slug = ?, event_type = ?, purchase_id = ?, plan_slug = ? WHERE id = ?'
-  ).run(newFilename, generateSlug(eventType || existingInv.event_type, timestamp), eventType || existingInv.event_type, purchaseId, plan.plan_slug, existingInv.id);
-
-  activateInvitation(userId, purchaseId, existingInv.id);
-
-  syncUserInvitationsCount(userId);
-
-  const publicUrl = `${PUBLIC_URL}/i/${generateSlug(eventType || existingInv.event_type, timestamp)}`;
-  const updatedPlan = db.prepare('SELECT * FROM user_plans WHERE user_id = ? AND purchase_id = ?').get(userId, purchaseId);
-
-  res.json({
-    success: true,
-    filename: newFilename,
-    publicUrl,
-    purchase_id: purchaseId,
-    plan_slug: plan.plan_slug,
-    generation_available: Math.max(0, updatedPlan.generation_credits - updatedPlan.generation_used),
-    invites_available: Math.max(0, updatedPlan.invites_included - updatedPlan.invites_used)
-  });
-});
-
 app.patch('/api/invitations/:invitationId/activate', authMiddleware, (req, res) => {
   const { invitationId } = req.params;
   const inv = db.prepare('SELECT * FROM invitations WHERE id = ?').get(invitationId);
@@ -1058,6 +1020,36 @@ app.patch('/api/invitations/:invitationId/activate', authMiddleware, (req, res) 
   }
   activateInvitation(inv.user_id, inv.purchase_id, inv.id);
   res.json({ success: true, active_invitation: { id: inv.id, filename: inv.filename, slug: inv.slug } });
+});
+
+app.delete('/api/invitations/:invitationId', authMiddleware, (req, res) => {
+  const { invitationId } = req.params;
+  const inv = db.prepare('SELECT * FROM invitations WHERE id = ?').get(invitationId);
+  if (!inv) {
+    return res.status(404).json({ error: 'Invitación no encontrada' });
+  }
+  if (req.user.id.toString() !== inv.user_id) {
+    return res.status(403).json({ error: 'No autorizado' });
+  }
+  if (inv.purchase_id) {
+    const planCount = db.prepare('SELECT COUNT(*) as count FROM invitations WHERE user_id = ? AND purchase_id = ?').get(inv.user_id, inv.purchase_id)?.count || 0;
+    if (planCount <= 1) {
+      return res.status(400).json({ error: 'No puedes eliminar la única invitación de este plan' });
+    }
+  }
+  const filePath = join(storagePath, inv.user_id.toString(), inv.filename);
+  if (existsSync(filePath)) {
+    try { unlinkSync(filePath); } catch (e) { console.warn('No se pudo borrar el archivo:', e.message); }
+  }
+  db.prepare('DELETE FROM invitations WHERE id = ?').run(inv.id);
+  if (inv.purchase_id && inv.is_active === 1) {
+    const remaining = db.prepare('SELECT id FROM invitations WHERE user_id = ? AND purchase_id = ? ORDER BY created_at DESC LIMIT 1').get(inv.user_id, inv.purchase_id);
+    if (remaining) {
+      db.prepare('UPDATE invitations SET is_active = 1 WHERE id = ?').run(remaining.id);
+    }
+  }
+  syncUserInvitationsCount(inv.user_id);
+  res.json({ success: true });
 });
 
 app.post('/api/user/:id/consume-credit', authMiddleware, (req, res) => {
@@ -1337,7 +1329,7 @@ function syncHistoricoWithDB() {
 app.get('/i/:slug', (req, res) => {
   try {
     const { slug } = req.params;
-    const inv = db.prepare('SELECT user_id, filename FROM invitations WHERE slug = ?').get(slug);
+    const inv = db.prepare('SELECT user_id, filename FROM invitations WHERE slug = ? AND is_active = 1').get(slug);
     if (!inv) {
       return res.status(404).send('Invitación no encontrada');
     }

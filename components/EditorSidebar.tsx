@@ -766,7 +766,6 @@ interface EditorSidebarProps {
   onToggleElementVisibility: (geminiId: string) => void;
   onSaveInvitation?: () => void;
   hasCode?: boolean;
-  isReplace?: boolean;
   hasUnsavedChanges?: boolean;
   onNavigateHome?: () => void;
   iterationAvailable: number;
@@ -871,7 +870,6 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
   onToggleElementVisibility,
   onSaveInvitation,
   hasCode = false,
-  isReplace = false,
   hasUnsavedChanges = false,
   onNavigateHome,
   iterationAvailable,
@@ -937,12 +935,8 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
           {hasCode && onSaveInvitation && (
             <button
               onClick={() => onSaveInvitation()}
-              className={`p-2 rounded-lg transition-colors ${
-                isReplace
-                  ? 'bg-amber-500 text-white hover:bg-amber-600'
-                  : 'bg-green-500 text-white hover:bg-green-600'
-              }`}
-              title={isReplace ? 'Guardar y Reemplazar' : 'Guardar Invitación'}
+              className="p-2 rounded-lg transition-colors bg-green-500 text-white hover:bg-green-600"
+              title="Guardar Invitación"
             >
               <Save className="w-4 h-4" />
             </button>

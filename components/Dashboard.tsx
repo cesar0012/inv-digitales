@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Heart, FileText, CreditCard, Sparkles, Plus, Eye, Loader2, AlertCircle, 
-  Calendar, ArrowRight, Share2, LogOut, User as UserIcon, RefreshCw, Package, Pencil
+  Calendar, ArrowRight, Share2, LogOut, User as UserIcon, Package, Pencil, Star, Trash2, Check
 } from 'lucide-react';
-import { getUser } from '../services/apiService';
+import { getUser, activateInvitation, deleteInvitation } from '../services/apiService';
 import { useAuth } from '../contexts/AuthContext';
 import { InvitationPreviewModal } from './InvitationPreviewModal';
 import { ShareModal } from './ShareModal';
@@ -21,9 +21,17 @@ export const Dashboard: React.FC = () => {
   
   const [previewInvitation, setPreviewInvitation] = useState<InvitationFile | null>(null);
   const [shareInvitation, setShareInvitation] = useState<InvitationFile | null>(null);
+  const [actionLoadingId, setActionLoadingId] = useState<number | string | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<number | string | null>(null);
 
   const plans = userData?.plans || [];
   const selectedPlan = plans.find(p => p.purchase_id === selectedPlanId) || plans[0] || null;
+
+  const refreshUserData = async () => {
+    if (!authUser) return;
+    const data = await getUser(authUser.id.toString(), token);
+    setUserData(data);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,11 +58,6 @@ export const Dashboard: React.FC = () => {
     navigate(`/editor?purchaseId=${selectedPlan.purchase_id}`);
   };
 
-  const handleReplaceInvitation = () => {
-    if (!selectedPlan?.active_invitation) return;
-    navigate(`/editor?purchaseId=${selectedPlan.purchase_id}&replace=${encodeURIComponent(selectedPlan.active_invitation.filename)}`);
-  };
-
   const handleOpenEditor = (inv: InvitationFile) => {
     const purchaseId = inv.purchase_id || selectedPlan?.purchase_id || '';
     navigate(`/editor/${encodeURIComponent(inv.filename)}?purchaseId=${purchaseId}`);
@@ -67,6 +70,33 @@ export const Dashboard: React.FC = () => {
   const handleShare = (inv: InvitationFile) => {
     setPreviewInvitation(null);
     setShareInvitation(inv);
+  };
+
+  const handleActivate = async (inv: InvitationFile) => {
+    if (!inv.id) return;
+    setActionLoadingId(inv.id);
+    try {
+      await activateInvitation(token, inv.id);
+      await refreshUserData();
+    } catch (err: any) {
+      alert(err.message || 'Error al destacar la invitación');
+    } finally {
+      setActionLoadingId(null);
+    }
+  };
+
+  const handleDelete = async (inv: InvitationFile) => {
+    if (!inv.id) return;
+    setActionLoadingId(inv.id);
+    try {
+      await deleteInvitation(token, inv.id);
+      setConfirmDeleteId(null);
+      await refreshUserData();
+    } catch (err: any) {
+      alert(err.message || 'Error al eliminar la invitación');
+    } finally {
+      setActionLoadingId(null);
+    }
   };
 
   const handleLogout = async () => {
@@ -319,49 +349,34 @@ export const Dashboard: React.FC = () => {
             </div>
 
             <div className="flex justify-center mb-8">
-              {selectedPlan.has_invitation ? (
-                <button
-                  onClick={handleReplaceInvitation}
-                  disabled={selectedPlan.generation_available < 1}
-                  className={`px-8 py-4 rounded-2xl font-semibold text-lg transition-all flex items-center gap-3 ${
-                    selectedPlan.generation_available >= 1
-                      ? 'bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-xl shadow-amber-500/25 hover:shadow-amber-500/40 hover:scale-[1.02] active:scale-[0.98]'
-                      : 'bg-gray-200 text-gray-400 cursor-not-allowed shadow-none'
-                  }`}
-                >
-                  <RefreshCw className="w-5 h-5" />
-                  <span>{selectedPlan.generation_available >= 1 ? 'Reemplazar Invitación' : 'Sin Créditos para Reemplazar'}</span>
-                </button>
-              ) : (
-                <button
-                  onClick={handleCreateNew}
-                  disabled={selectedPlan.generation_available < 1 || selectedPlan.invites_available < 1}
-                  className={`px-8 py-4 rounded-2xl font-semibold text-lg transition-all flex items-center gap-3 ${
-                    selectedPlan.generation_available >= 1 && selectedPlan.invites_available >= 1
-                      ? 'bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-xl shadow-pink-500/25 hover:shadow-pink-500/40 hover:scale-[1.02] active:scale-[0.98]'
-                      : 'bg-gray-200 text-gray-400 cursor-not-allowed shadow-none'
-                  }`}
-                >
-                  <Plus className="w-5 h-5" />
-                  <span>
-                    {selectedPlan.generation_available < 1
-                      ? 'Sin Créditos de Generación'
-                      : selectedPlan.invites_available < 1
-                        ? 'Sin Invitaciones Disponibles'
-                        : 'Crear Nueva Invitación'}
-                  </span>
-                  {selectedPlan.generation_available >= 1 && selectedPlan.invites_available >= 1 && <ArrowRight className="w-5 h-5 opacity-70" />}
-                </button>
-              )}
+              <button
+                onClick={handleCreateNew}
+                disabled={selectedPlan.generation_available < 1 || selectedPlan.invites_available < 1}
+                className={`px-8 py-4 rounded-2xl font-semibold text-lg transition-all flex items-center gap-3 ${
+                  selectedPlan.generation_available >= 1 && selectedPlan.invites_available >= 1
+                    ? 'bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white shadow-xl shadow-pink-500/25 hover:shadow-pink-500/40 hover:scale-[1.02] active:scale-[0.98]'
+                    : 'bg-gray-200 text-gray-400 cursor-not-allowed shadow-none'
+                }`}
+              >
+                <Plus className="w-5 h-5" />
+                <span>
+                  {selectedPlan.generation_available < 1
+                    ? 'Sin Créditos de Generación'
+                    : selectedPlan.invites_available < 1
+                      ? 'Sin Invitaciones Disponibles'
+                      : 'Generar Nueva Invitación'}
+                </span>
+                {selectedPlan.generation_available >= 1 && selectedPlan.invites_available >= 1 && <ArrowRight className="w-5 h-5 opacity-70" />}
+              </button>
             </div>
 
             <div className="mb-4">
               <div className="flex items-center gap-3 mb-5">
-                <div className="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center">
-                  <FileText className="w-4 h-4 text-pink-500" />
+                <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center">
+                  <Star className="w-4 h-4 text-amber-500" fill="currentColor" />
                 </div>
                 <h2 className="text-lg font-semibold text-gray-800">
-                  Invitación del Plan {getPlanLabel(selectedPlan.plan_slug)}
+                  Invitación Destacada
                 </h2>
               </div>
             </div>
@@ -369,6 +384,7 @@ export const Dashboard: React.FC = () => {
             {selectedPlan.active_invitation ? (() => {
               const inv = selectedPlan.active_invitation;
               const invFile: InvitationFile = {
+                id: inv.id,
                 filename: inv.filename,
                 slug: inv.slug,
                 publicUrl: getPublicUrlForSlug(inv.slug),
@@ -379,9 +395,9 @@ export const Dashboard: React.FC = () => {
                 plan_slug: selectedPlan.plan_slug
               };
               return (
-                <div className="bg-white/80 backdrop-blur-md rounded-2xl border border-pink-100 shadow-lg shadow-pink-100/30 overflow-hidden hover:border-pink-200 transition-all hover:shadow-xl max-w-md">
-                  <div 
-                    className="aspect-[16/10] bg-gradient-to-br from-pink-50 to-rose-50 relative overflow-hidden cursor-pointer"
+                <div className="bg-white/80 backdrop-blur-md rounded-2xl border-2 border-amber-200 shadow-lg shadow-amber-100/40 overflow-hidden hover:shadow-xl max-w-md mb-10">
+                  <div
+                    className="aspect-[16/10] bg-gradient-to-br from-amber-50 to-rose-50 relative overflow-hidden cursor-pointer"
                     onClick={() => handlePreview(invFile)}
                   >
                     <iframe
@@ -390,6 +406,12 @@ export const Dashboard: React.FC = () => {
                       title={`Preview ${inv.filename}`}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent" />
+                    <div className="absolute top-2 right-2">
+                      <div className="px-2 py-1 bg-amber-500 text-white rounded-lg text-xs font-semibold flex items-center gap-1 shadow">
+                        <Star className="w-3 h-3" fill="currentColor" />
+                        Pública
+                      </div>
+                    </div>
                     <div className="absolute bottom-2 right-2">
                       <div className="px-2 py-1 bg-white/90 rounded-lg text-xs text-gray-500 flex items-center gap-1">
                         <Eye className="w-3 h-3" />
@@ -431,14 +453,134 @@ export const Dashboard: React.FC = () => {
                 </div>
               );
             })() : (
-              <div className="bg-white/60 backdrop-blur-sm rounded-2xl border border-pink-100 p-10 text-center">
+              <div className="bg-white/60 backdrop-blur-sm rounded-2xl border border-pink-100 p-10 text-center mb-10 max-w-md">
                 <div className="w-16 h-16 bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-pink-200/50">
                   <FileText className="w-8 h-8 text-pink-400" />
                 </div>
-                <h3 className="text-lg font-medium text-gray-700 mb-2">Sin invitación en este plan</h3>
+                <h3 className="text-lg font-medium text-gray-700 mb-2">Sin invitación destacada</h3>
                 <p className="text-gray-500 max-w-sm mx-auto text-sm">
-                  Crea tu primera invitación para este plan haciendo clic en el botón de arriba.
+                  Aún no has generado invitaciones para este plan. Crea tu primera invitación con el botón de arriba.
                 </p>
+              </div>
+            )}
+
+            {selectedPlan.plan_invitations && selectedPlan.plan_invitations.length > 0 && (
+              <div className="mb-4">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center">
+                    <FileText className="w-4 h-4 text-pink-500" />
+                  </div>
+                  <h2 className="text-lg font-semibold text-gray-800">
+                    Historial de invitaciones ({selectedPlan.plan_invitations.length})
+                  </h2>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {selectedPlan.plan_invitations.map((inv) => {
+                    const isActive = inv.is_active === 1;
+                    const isLoading = actionLoadingId === inv.id;
+                    const isConfirming = confirmDeleteId === inv.id;
+                    return (
+                      <div
+                        key={inv.id || inv.filename}
+                        className={`bg-white/80 backdrop-blur-md rounded-2xl border-2 overflow-hidden transition-all hover:shadow-lg ${
+                          isActive ? 'border-amber-200 shadow-md' : 'border-gray-100 shadow-sm'
+                        }`}
+                      >
+                        <div
+                          className="aspect-[16/10] bg-gradient-to-br from-pink-50 to-rose-50 relative overflow-hidden cursor-pointer"
+                          onClick={() => handlePreview(inv)}
+                        >
+                          <iframe
+                            src={inv.publicUrl}
+                            className="w-[200%] h-[200%] origin-top-left scale-[0.5] pointer-events-none"
+                            title={`Preview ${inv.filename}`}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent" />
+                          {isActive && (
+                            <div className="absolute top-2 right-2">
+                              <div className="px-2 py-1 bg-amber-500 text-white rounded-lg text-xs font-semibold flex items-center gap-1 shadow">
+                                <Star className="w-3 h-3" fill="currentColor" />
+                                Pública
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                        <div className="p-3">
+                          <div className="flex items-center justify-between mb-2">
+                            <h3 className="font-medium text-gray-800 truncate text-sm">{inv.event_type}</h3>
+                            <span className="text-[10px] text-gray-400 whitespace-nowrap">
+                              {inv.created_at ? formatDate(inv.created_at) : ''}
+                            </span>
+                          </div>
+                          {isConfirming ? (
+                            <div className="flex gap-2 items-center">
+                              <span className="text-xs text-gray-600 flex-1">¿Eliminar?</span>
+                              <button
+                                onClick={() => handleDelete(inv)}
+                                disabled={isLoading}
+                                className="px-2 py-1 bg-red-500 text-white rounded-lg text-xs font-medium hover:bg-red-600 transition-colors flex items-center gap-1"
+                              >
+                                {isLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Check className="w-3 h-3" />}
+                                Sí
+                              </button>
+                              <button
+                                onClick={() => setConfirmDeleteId(null)}
+                                className="px-2 py-1 bg-gray-100 text-gray-600 rounded-lg text-xs font-medium hover:bg-gray-200 transition-colors"
+                              >
+                                No
+                              </button>
+                            </div>
+                          ) : (
+                            <div className="flex items-center gap-1">
+                              <button
+                                onClick={() => handlePreview(inv)}
+                                className="flex-1 py-1.5 bg-pink-50 text-pink-600 hover:bg-pink-100 rounded-lg font-medium transition-colors flex items-center justify-center gap-1 text-xs"
+                              >
+                                <Eye className="w-3.5 h-3.5" />
+                                Ver
+                              </button>
+                              <button
+                                onClick={() => handleOpenEditor(inv)}
+                                className="py-1.5 px-2 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                                title="Editar"
+                              >
+                                <Pencil className="w-3.5 h-3.5" />
+                              </button>
+                              {isActive ? (
+                                <span
+                                  className="py-1.5 px-2 bg-amber-50 text-amber-600 rounded-lg flex items-center gap-1 text-xs font-medium"
+                                  title="Ésta es tu invitación pública actual"
+                                >
+                                  <Star className="w-3.5 h-3.5" fill="currentColor" />
+                                </span>
+                              ) : (
+                                <button
+                                  onClick={() => handleActivate(inv)}
+                                  disabled={isLoading}
+                                  className="py-1.5 px-2 bg-amber-50 text-amber-600 hover:bg-amber-100 rounded-lg font-medium transition-colors flex items-center gap-1 text-xs disabled:opacity-60"
+                                  title="Hacer pública (destacar)"
+                                >
+                                  {isLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Star className="w-3.5 h-3.5" />}
+                                  Destacar
+                                </button>
+                              )}
+                              {!isActive && (
+                                <button
+                                  onClick={() => setConfirmDeleteId(inv.id || inv.filename)}
+                                  disabled={isLoading}
+                                  className="py-1.5 px-2 bg-red-50 text-red-500 hover:bg-red-100 rounded-lg transition-colors"
+                                  title="Eliminar"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             )}
           </>

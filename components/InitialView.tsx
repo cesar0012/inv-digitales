@@ -9,7 +9,6 @@ interface InitialViewProps {
   onGenerate: (prompt: string, attachments: Attachment[], config: EditorConfig) => void;
   onSaveInvitation?: () => void;
   hasCode?: boolean;
-  isReplace?: boolean;
   initialEventType?: string;
   initialTheme?: string;
   initialPrimaryColor?: string;
@@ -23,7 +22,6 @@ export const InitialView: React.FC<InitialViewProps> = ({
   onGenerate,
   onSaveInvitation,
   hasCode = false,
-  isReplace = false,
   initialEventType = '',
   initialTheme = '',
   initialPrimaryColor = '#f472b6',
@@ -239,14 +237,10 @@ export const InitialView: React.FC<InitialViewProps> = ({
         <div className="fixed top-4 right-4 z-50">
           <button
             onClick={() => onSaveInvitation()}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all shadow-lg hover:shadow-xl ${
-              isReplace
-                ? 'bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white'
-                : 'bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white'
-            }`}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl transition-all shadow-lg hover:shadow-xl bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white"
           >
             <Save className="w-4 h-4" />
-            <span className="text-sm font-medium">{isReplace ? 'Guardar y Reemplazar' : 'Guardar'}</span>
+            <span className="text-sm font-medium">Guardar</span>
           </button>
         </div>
       )}
@@ -263,7 +257,7 @@ export const InitialView: React.FC<InitialViewProps> = ({
         </div>
         
         <h2 className="text-xl md:text-2xl font-light text-gray-600 mb-10 text-center leading-relaxed max-w-2xl">
-          {isReplace ? 'Genera una nueva invitación para reemplazar la anterior.' : 'Diseña invitaciones únicas definiendo el estilo y los colores de tu evento.'}
+          Diseña invitaciones únicas definiendo el estilo y los colores de tu evento.
         </h2>
 
         <div className="w-full bg-white/80 backdrop-blur-md rounded-3xl border border-pink-200 shadow-xl shadow-pink-100/50 flex flex-col p-8 gap-6">

@@ -96,15 +96,21 @@ export interface EditorConfig {
 export interface InvitationFile {
   filename: string;
   slug: string;
-  publicUrl: string;
+  publicUrl?: string;
   event_type: string;
   created_at: string;
   size: number;
   purchase_id?: string;
   plan_slug?: string;
+  is_active?: number;
+  id?: number | string;
+  event_domain?: string | null;
+  event_date?: string | null;
+  event_time?: string | null;
 }
 
 export interface PlanInvitation {
+  id?: number;
   filename: string;
   slug: string;
   public_url: string;
@@ -130,6 +136,7 @@ export interface UserPlan {
   invites_available: number;
   has_invitation: boolean;
   active_invitation: PlanInvitation | null;
+  plan_invitations: InvitationFile[];
 }
 
 export interface SaveInvitationResponse {
