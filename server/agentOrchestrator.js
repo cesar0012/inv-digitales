@@ -2385,21 +2385,21 @@ const resolveLibraryAsset = async (folder, indexHint = 0) => {
  * La sección "confirmacion" se filtra posteriormente si hasRsvp=false.
  */
 const MANDATORY_MODULES_BY_EVENT_TYPE = {
-  'Boda Tradicional':       ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
-  'Boda Americana':         ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
-  'Boda Gay (Hombres)':     ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
-  'Boda Gay (Mujeres)':     ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
-  'XV Años':                ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
-  'Bautizo':                ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
-  'Primera Comunión':       ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
-  'Confirmación':           ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
+  'Boda Tradicional':       ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'padrinos', 'confirmacion', 'detalles'],
+  'Boda Americana':         ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'padrinos', 'confirmacion', 'detalles'],
+  'Boda Gay (Hombres)':     ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'padrinos', 'confirmacion', 'detalles'],
+  'Boda Gay (Mujeres)':     ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'padrinos', 'confirmacion', 'detalles'],
+  'XV Años':                ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'padrinos', 'confirmacion', 'detalles'],
+  'Bautizo':                ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'padrinos', 'confirmacion', 'detalles'],
+  'Primera Comunión':       ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'padrinos', 'confirmacion', 'detalles'],
+  'Confirmación':           ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'padrinos', 'confirmacion', 'detalles'],
   'Cumpleaños Niño':        ['portada', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
   'Cumpleaños Niña':        ['portada', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
   'Baby Shower':            ['portada', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'],
   'Otro':                   ['portada', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles']
 };
 
-const DEFAULT_MANDATORY_MODULES = ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'confirmacion', 'detalles'];
+const DEFAULT_MANDATORY_MODULES = ['portada', 'padres', 'countdown', 'itinerario', 'ubicacion', 'padrinos', 'confirmacion', 'detalles'];
 
 /**
  * Genera un módulo desde cero usando MODULE_SYSTEM_PROMPT cuando la KB no tiene

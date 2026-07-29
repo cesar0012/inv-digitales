@@ -16,6 +16,7 @@ El módulo debe seguir ESTAS REGLAS ESTRICTAS:
 1. data-gemini-id ÚNICO: El módulo debe tener EXACTAMENTE UN atributo data-gemini-id según su tipo:
    - PORTADA: data-gemini-id="portada-nombre" (o portada-novia/portada-novio)
    - PADRES: data-gemini-id="padres-padre" (o padres-novia/padres-novio)
+   - PADRINOS: data-gemini-id="padrinos-lista" (o padrinos-boda/padrinos-xv)
    - UBICACIÓN: data-gemini-id="ubicacion-ceremonia", "ubicacion-mapa", o "ubicacion-recepcion"
    - ITINERARIO: data-gemini-id="itinerario-agenda"
    - CONFIRMACIÓN: data-gemini-id="confirmacion-texto"

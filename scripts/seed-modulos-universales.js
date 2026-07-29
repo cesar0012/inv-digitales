@@ -486,6 +486,101 @@ const MODULES_TO_SEED = [
 `,
   },
   {
+    module_id: 'padrinos-universal',
+    module_type: 'padrinos',
+    style_name: 'Padrinos Wireframe Universal',
+    description: 'Wireframe universal de padrinos con lista de nombres placeholder.',
+    tags: ['padrinos', 'wireframe', 'responsive', 'universal'],
+    memory_source: 'generated',
+    asset_type_hint: '',
+    body_html: `
+  <style>
+    .module-padrinos-universal {
+      --primary-color: #1f1f1f;
+      --text-color: #2f2f2f;
+      --muted-color: rgba(47, 47, 47, 0.68);
+      --accent-color: #b89a63;
+      --soft-shadow: 0 18px 42px rgba(0, 0, 0, 0.16);
+      position: relative;
+      width: 100%;
+      padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 4vw, 4rem);
+      box-sizing: border-box;
+      background: #faf8f3;
+      color: var(--text-color);
+    }
+    .padrinos-universal__title {
+      text-align: center;
+      font-family: "Georgia", serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin: 0 0 0.5rem;
+      color: var(--primary-color);
+    }
+    .padrinos-universal__subtitle {
+      text-align: center;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+      margin: 0 0 2.5rem;
+    }
+    .padrinos-universal__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .padrinos-universal__card {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: var(--soft-shadow);
+      border-top: 3px solid var(--accent-color);
+    }
+    .padrinos-universal__name {
+      font-family: "Georgia", serif;
+      font-size: 1.15rem;
+      margin: 0 0 0.25rem;
+      color: var(--primary-color);
+    }
+    .padrinos-universal__role {
+      font-size: 0.85rem;
+      color: var(--muted-color);
+      margin: 0;
+    }
+  </style>
+
+  <h2 class="padrinos-universal__title">Padrinos</h2>
+  <p class="padrinos-universal__subtitle">Con su bendición y apoyo</p>
+  <div class="padrinos-universal__grid">
+    <div class="padrinos-universal__card">
+      <p class="padrinos-universal__name">Nombre del Padrino</p>
+      <p class="padrinos-universal__role">Padrino de la Novia</p>
+    </div>
+    <div class="padrinos-universal__card">
+      <p class="padrinos-universal__name">Nombre de la Madrina</p>
+      <p class="padrinos-universal__role">Madrina de la Novia</p>
+    </div>
+    <div class="padrinos-universal__card">
+      <p class="padrinos-universal__name">Nombre del Padrino</p>
+      <p class="padrinos-universal__role">Padrino del Novio</p>
+    </div>
+    <div class="padrinos-universal__card">
+      <p class="padrinos-universal__name">Nombre de la Madrina</p>
+      <p class="padrinos-universal__role">Madrina del Novio</p>
+    </div>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: ["padrinos", "wireframe", "responsive", "universal"],
+      descripcion: "Wireframe universal de padrinos con lista de nombres placeholder."
+    };
+  </script>
+`,
+  },
+  {
     module_id: 'countdown-universal',
     module_type: 'countdown',
     style_name: 'Countdown Wireframe Universal',
