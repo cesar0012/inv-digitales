@@ -97,6 +97,7 @@ export interface InvitationFile {
   filename: string;
   slug: string;
   publicUrl?: string;
+  previewUrl?: string;
   event_type: string;
   created_at: string;
   size: number;

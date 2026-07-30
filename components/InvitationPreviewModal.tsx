@@ -4,6 +4,7 @@ import { X, Share2, ExternalLink, Copy, Check } from 'lucide-react';
 interface InvitationPreviewModalProps {
   slug: string;
   publicUrl: string;
+  previewUrl?: string;
   eventType: string;
   onClose: () => void;
   onShare: () => void;
@@ -12,6 +13,7 @@ interface InvitationPreviewModalProps {
 export const InvitationPreviewModal: React.FC<InvitationPreviewModalProps> = ({
   slug,
   publicUrl,
+  previewUrl,
   eventType,
   onClose,
   onShare
@@ -67,7 +69,7 @@ export const InvitationPreviewModal: React.FC<InvitationPreviewModalProps> = ({
         <div className="flex-1 bg-gray-100 p-4 overflow-hidden">
           <div className="w-full h-full bg-white rounded-xl shadow-lg overflow-hidden">
             <iframe
-              src={publicUrl}
+              src={previewUrl || publicUrl}
               className="w-full h-full border-0"
               title="Vista previa de invitación"
             />

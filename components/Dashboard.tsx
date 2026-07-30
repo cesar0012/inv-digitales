@@ -383,11 +383,13 @@ export const Dashboard: React.FC = () => {
 
             {selectedPlan.active_invitation ? (() => {
               const inv = selectedPlan.active_invitation;
+              const previewUrl = getPreviewUrlForFilename(authUser?.id?.toString() || '', inv.filename);
               const invFile: InvitationFile = {
                 id: inv.id,
                 filename: inv.filename,
                 slug: inv.slug,
                 publicUrl: getPublicUrlForSlug(inv.slug),
+                previewUrl,
                 event_type: inv.event_type,
                 created_at: '',
                 size: 0,
@@ -401,7 +403,7 @@ export const Dashboard: React.FC = () => {
                     onClick={() => handlePreview(invFile)}
                   >
                     <iframe
-                      src={invFile.publicUrl}
+                      src={previewUrl}
                       className="w-[200%] h-[200%] origin-top-left scale-[0.5] pointer-events-none"
                       title={`Preview ${inv.filename}`}
                     />
@@ -491,7 +493,7 @@ export const Dashboard: React.FC = () => {
                           onClick={() => handlePreview(inv)}
                         >
                           <iframe
-                            src={inv.publicUrl}
+                            src={getPreviewUrlForFilename(authUser?.id?.toString() || '', inv.filename)}
                             className="w-[200%] h-[200%] origin-top-left scale-[0.5] pointer-events-none"
                             title={`Preview ${inv.filename}`}
                           />
@@ -591,6 +593,7 @@ export const Dashboard: React.FC = () => {
         <InvitationPreviewModal
           slug={previewInvitation.slug}
           publicUrl={previewInvitation.publicUrl}
+          previewUrl={previewInvitation.previewUrl || (previewInvitation.filename ? getPreviewUrlForFilename(authUser?.id?.toString() || '', previewInvitation.filename) : undefined)}
           eventType={previewInvitation.event_type}
           onClose={() => setPreviewInvitation(null)}
           onShare={() => handleShare(previewInvitation)}
@@ -611,4 +614,11 @@ export const Dashboard: React.FC = () => {
 const getPublicUrlForSlug = (slug: string): string => {
   const PUBLIC_BASE = import.meta.env.VITE_PUBLIC_URL || window.location.origin;
   return `${PUBLIC_BASE}/i/${slug}`;
+};
+
+// URL de preview interno (protegida por auth cookie). Sirve la invitación sin
+// importar si es la destacada (is_active). Solo el usuario logueado la ve.
+// Se usa para los iframes del dashboard/historial; Compartir sigue usando /i/:slug.
+const getPreviewUrlForFilename = (userId: string, filename: string): string => {
+  return `${window.location.origin}/api/preview/${userId}/${encodeURIComponent(filename)}`;
 };

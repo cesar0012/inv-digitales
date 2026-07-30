@@ -1149,6 +1149,28 @@ app.get('/api/invitations/:userId/:filename', authMiddleware, (req, res) => {
   res.send(content);
 });
 
+// GET /api/preview/:userId/:filename - Preview interno del dashboard (sin importar is_active).
+// Sirve el HTML de cualquier invitación del usuario. Para preview del panel únicamente;
+// el acceso público para compartir sigue siendo /i/:slug (que valida is_active=1).
+app.get('/api/preview/:userId/:filename', authMiddleware, (req, res) => {
+  const { userId, filename } = req.params;
+  if (req.user.id.toString() !== userId) {
+    return res.status(403).json({ error: 'No autorizado' });
+  }
+  // Evitar path traversal: el filename debe ser un basename simple
+  if (filename.includes('/') || filename.includes('..') || filename.includes('\\')) {
+    return res.status(400).json({ error: 'Filename inválido' });
+  }
+  const filePath = join(storagePath, userId, filename);
+  if (!existsSync(filePath)) {
+    return res.status(404).send('Invitación no encontrada');
+  }
+  const content = readFileSync(filePath, 'utf-8');
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.send(content);
+});
+
+
 // GET /api/get-user/:userId - Datos completos del usuario con créditos e invitaciones (protegido)
 app.get('/api/get-user/:userId', authMiddleware, (req, res) => {
   const { userId } = req.params;
