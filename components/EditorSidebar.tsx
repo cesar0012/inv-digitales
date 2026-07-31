@@ -797,13 +797,21 @@ const CountdownEditor = ({ code, onUpdateCountdown }: { code: string, onUpdateCo
           }
         } catch {}
       }
-      const scriptMatch = code.match(/countdown[_-]?target\s*[:=]\s*['"]?(\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2})?)/i);
+      let scriptMatch = code.match(/countdown[_-]?target\s*[:=]\s*['"]?(\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2})?)?)/i);
+      if (!scriptMatch) {
+        const newDateMatch = code.match(/new\s+Date\s*\(\s*['"](\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2})?)?)/i);
+        if (newDateMatch) scriptMatch = newDateMatch;
+      }
+      if (!scriptMatch) {
+        const monthMatch = code.match(/new\s+Date\s*\(\s*['"]([A-Z][a-z]{2}\s+\d{1,2},\s+\d{4}\s+\d{2}:\d{2}(?::\d{2})?)/i);
+        if (monthMatch) scriptMatch = monthMatch;
+      }
       if (scriptMatch && !countdownDate) {
         try {
           const d = new Date(scriptMatch[1]);
           if (!isNaN(d.getTime())) {
             setCountdownDate(d.toISOString().split('T')[0]);
-            setCountdownTime(scriptMatch[1].includes('T') ? scriptMatch[1].split('T')[1] : d.toTimeString().substring(0, 5));
+            setCountdownTime(scriptMatch[1].includes('T') ? scriptMatch[1].split('T')[1].substring(0, 5) : d.toTimeString().substring(0, 5));
           }
         } catch {}
       }
