@@ -50,7 +50,13 @@ El módulo debe seguir ESTAS REGLAS ESTRICTAS:
    - Contenido variable: usa min-height en lugar de height, permite saltos de línea
    - Imágenes responsive: width:100%, height:auto, object-fit:cover, aspect-ratio
 
-6. VARIABLES (Regla 7): Incluir en un <script> dos variables:
+6. VARIABLES (Regla 7): Incluir en un <script> tres variables:
+   - tipo: el tipo de módulo que estás generando, debe ser uno de la lista canónica:
+     portada, padres, ubicacion, itinerario, confirmacion, detalles, countdown,
+     padrinos, corte, vestimenta, regalos, galeria, hospedaje, transporte, music,
+     quotes, mensaje, pascar, mensaje_padres, gracias.
+     Es OBLIGATORIO. El sistema de ingesta usa este campo para asignar el
+     module_type antes que cualquier otra heurística (data-gemini-id split).
    - tags: array con características para que el RAG entienda el módulo
    - descripcion: máximo 250 caracteres describiendo el propósito del módulo
 
@@ -79,6 +85,7 @@ Genera el módulo como un wireframe con:
   </div>
   <script>
     const moduleMetadata = {
+      tipo: "portada",
       tags: ["portada", "nombres", "hero", "elegante"],
       descripcion: "Sección principal que muestra nombres y fecha"
     };
@@ -95,7 +102,7 @@ Genera el módulo como un wireframe con:
 - NO añadir JavaScript/librerías externas que causen colisiones
 - NO olvidar el atributo path="placeholder" en TODAS las imágenes y fondos
 - NO usar URLs que no sean de Lorem Flickr como placeholder inicial
-- NO olvidar las variables tags y descripcion en el JavaScript
+- NO olvidar las variables tipo, tags y descripcion en el JavaScript
 
 Recuerda: El RAG espera recibir módulos "limpios" que solo contengan la estructura semántica con los atributos especificados. Los placeholders serán reemplazados automáticamente por el proceso agentico.`;
 

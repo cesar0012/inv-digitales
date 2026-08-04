@@ -15,7 +15,9 @@ import {
   validateModule,
   extractModuleMetadata,
   generateModuleIdFromFilename,
-  generateStyleName
+  generateStyleName,
+  KNOWN_MODULE_TYPES,
+  normalizeModuleType
 } from './ragModuleValidator.js';
 import { normalizeCategory } from './geminiService.js';
 
@@ -3980,16 +3982,28 @@ app.post('/api/admin/rag-modules', adminMiddleware, (req, res) => {
       css_variables, html_content, category, is_active
     } = req.body;
     
-    // Validar required fields
-    if (!module_id || !module_type || !style_name || !html_content) {
-      return res.status(400).json({ error: 'Faltan campos requeridos: module_id, module_type, style_name, html_content' });
+    // Validar required fields. module_type puede venir en el body O en el
+    // <script> moduleMetadata.tipo del html_content. Si esta ausente en
+    // ambos, error.
+    if (!module_id || !style_name || !html_content) {
+      return res.status(400).json({ error: 'Faltan campos requeridos: module_id, style_name, html_content' });
     }
-    
-    // Validar module_type conocido
-    const knownTypes = ['portada', 'padres', 'ubicacion', 'itinerario', 'confirmacion', 'detalles', 'countdown', 'padrinos', 'galeria', 'corte', 'vestimenta', 'regalos', 'hospedaje', 'transporte', 'music', 'quotes', 'mensaje', 'pascar', 'mensaje_padres', 'gracias'];
-    if (!knownTypes.includes(module_type)) {
-      return res.status(400).json({ error: `module_type "${module_type}" no es válido. Tipos conocidos: ${knownTypes.join(', ')}` });
+
+    // Resolver module_type final: body > moduleMetadata.tipo del HTML > split del
+    // data-gemini-id. El endpoint manual sigue exigiendo uno de los tipos
+    // conocidos (whitelist) para evitar filas invalidas.
+    const meta = extractModuleMetadata(html_content);
+    let resolvedModuleType = module_type || meta.module_type || null;
+    if (!resolvedModuleType) {
+      return res.status(400).json({
+        error: `No se pudo determinar module_type. Provealo en el body, en moduleMetadata.tipo dentro del <script>, o con un data-gemini-id con prefijo valido. Tipos conocidos: ${KNOWN_MODULE_TYPES.join(', ')}`
+      });
     }
+    if (!KNOWN_MODULE_TYPES.includes(resolvedModuleType)) {
+      return res.status(400).json({ error: `module_type "${resolvedModuleType}" no es válido. Tipos conocidos: ${KNOWN_MODULE_TYPES.join(', ')}` });
+    }
+    const hasMemory = meta.has_memory_attributes ? 1 : 0;
+    const memSources = JSON.stringify(meta.memory_sources || {});
     
     const normalizedCat = category || 'general';
     
@@ -4002,14 +4016,9 @@ app.post('/api/admin/rag-modules', adminMiddleware, (req, res) => {
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
     
-    // Extraer metadata si no se proporciona
-    const meta = extractModuleMetadata(html_content);
-    const hasMemory = meta.has_memory_attributes ? 1 : 0;
-    const memSources = JSON.stringify(meta.memory_sources || {});
-    
     const result = stmt.run(
       module_id,
-      module_type,
+      resolvedModuleType,
       style_name,
       description || meta.module_metadata.descripcion || '',
       typeof tags === 'string' ? tags : JSON.stringify(tags || meta.module_metadata.tags || []),
@@ -4025,7 +4034,7 @@ app.post('/api/admin/rag-modules', adminMiddleware, (req, res) => {
       Buffer.byteLength(html_content, 'utf8')
     );
     
-    res.json({ success: true, id: result.lastInsertRowid });
+    res.json({ success: true, id: result.lastInsertRowid, module_type: resolvedModuleType });
   } catch (error) {
     if (error.message.includes('UNIQUE constraint')) {
       return res.status(400).json({ error: 'Ya existe un módulo con ese module_id' });
@@ -4117,8 +4126,21 @@ app.post('/api/admin/rag-modules/upload', adminMiddleware, ragUpload.single('htm
     // Analizar módulo
     const analysis = analyzeModule(htmlContent, moduleTypeHint);
     
-    // VALIDACIÓN DE FALLBACK: asegurar campos requeridos antes del INSERT
+    // VALIDACIÓN DE FALLBACK: asegurar campos requeridos antes del INSERT.
+    // module_type se resuelve asi: body (moduleTypeHint) > moduleMetadata.tipo
+    // del <script> > prefijo del data-gemini-id > 'general'. El parser ya
+    // normalizo el `tipo` cuando es valido, analyzeModule devuelve meta.module_type.
+    // Si aun asi esta vacio (no habia data-gemini-id, no habia tipo declarado
+    // y no llego hint del body), usamos 'general'.
     if (!analysis.module_type) {
+      analysis.module_type = moduleTypeHint || 'general';
+    }
+    // Validar contra la whitelist canonica si llego algo no nulo pero invalido
+    if (analysis.module_type && analysis.module_type !== 'general' && !KNOWN_MODULE_TYPES.includes(analysis.module_type)) {
+      // Si el tipo declarado en el script era invalido, el parser ya emitio un
+      // warning y mantuvo el split del data-gemini-id. Si eso tampoco esta en
+      // la whitelist, delegamos a 'general' para no romper el INSERT.
+      console.warn(`[RAG-UPLOAD] module_type "${analysis.module_type}" no esta en KNOWN_MODULE_TYPES, fallback a 'general'`);
       analysis.module_type = moduleTypeHint || 'general';
     }
     if (!analysis.module_id) {
@@ -4291,8 +4313,12 @@ app.post('/api/admin/rag-modules/analyze', adminMiddleware, async (req, res) => 
       return cleaned;
     };
     
-    // 1. Regex extraction (baseline) usando ragModuleValidator
+    // 1. Regex extraction (baseline) usando ragModuleValidator.
+    // Si el HTML declara moduleMetadata.tipo, regexAnalysis.module_type ya
+    // toma ese valor (si es valido) antes que el split del data-gemini-id.
     const regexAnalysis = analyzeModule(html, module_type);
+    const declaredTipo = regexAnalysis.metadata?.module_metadata?.tipo || null;
+    const declaredTipoNormalized = declaredTipo ? normalizeModuleType(declaredTipo) : null;
 
     // 2. Intento de extracción con LLM (Gemini) si hay API key configurada
     const config = db.prepare('SELECT * FROM admin_config WHERE id = 1').get();
@@ -4301,6 +4327,10 @@ app.post('/api/admin/rag-modules/analyze', adminMiddleware, async (req, res) => 
     if (config && config.html_google_api_key) {
       try {
         const htmlClean = stripBase64Images(html);
+
+        const declaredHint = declaredTipoNormalized
+          ? `\nIMPORTANT: the embedded <script> already declares moduleMetadata.tipo = "${declaredTipoNormalized}". If this is a valid type from the list below, USE IT as module_type. Only override it if the HTML clearly contradicts that (e.g. the markers and content match a different module type).`
+          : '';
 
         const modulePrompt = `You are an expert web designer analyzing an HTML MODULE (a single reusable piece of a digital invitation) to extract its RAG (Retrieval-Augmented Generation) metadata. This is NOT a full invitation template; it is ONE module (e.g. portada, padres, ubicacion, countdown).
 
@@ -4334,6 +4364,7 @@ Return ONLY a valid JSON object with these exact fields (no markdown, no code fe
 
 Rules:
 - Detect data-gemini-id attribute to derive module_id and module_type (module_type is the part before the first hyphen, e.g. "portada-nombre" → "portada").
+- If the <script> contains moduleMetadata.tipo, USE that value as module_type when it is in the valid list above (the file author explicitly declares the type).${declaredHint}
 - memory_attributes: true if any element in the module has memory_type, memory_usage, or memory_source attributes.
 - memory_sources: count occurrences of memory_source="generated" and memory_source="library" across all elements (including descendants of elements with memory_source inherited).
 - theme_tags: extract from font families, CSS techniques (glassmorphism, gradients, animations), and visual style. Use Spanish tags like: elegante, moderno, romantico, impactante, glassmorphism, gradientes, animado, cinematografico.

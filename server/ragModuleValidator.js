@@ -17,6 +17,40 @@ export const EXTRA_MODULE_TYPES = [
   'mensaje', 'pascar', 'mensaje_padres', 'gracias'
 ];
 
+// Lista canónica de tipos de módulos registrados en el RAG.
+// Es la única fuente de verdad que se debe consultar/importar desde el resto del
+// código (endpoints de ingesta, prompt del LLM, validación). Cualquier tipo
+// declarado en `moduleMetadata.tipo` debe estar en esta lista para que se
+// asigne; si no está, se hace fallback al split del `data-gemini-id` y luego a
+// `'general'`.
+export const KNOWN_MODULE_TYPES = [
+  ...Object.keys(VALID_MODULE_IDS),
+  ...EXTRA_MODULE_TYPES
+];
+
+/**
+ * Normaliza y valida un `tipo` declarado en `moduleMetadata.tipo`.
+ * Retorna el tipo canonico lowercase si es valido, o null si no lo es.
+ *
+ * @param {string|undefined} tipo - valor declarado en `moduleMetadata.tipo`
+ * @returns {string|null}
+ */
+export function normalizeModuleType(tipo) {
+  if (typeof tipo !== 'string') return null;
+  const t = tipo.trim().toLowerCase();
+  if (!t) return null;
+  if (KNOWN_MODULE_TYPES.includes(t)) return t;
+  // Alias comunes
+  const ALIASES = {
+    'galería': 'galeria',
+    'mute': 'music',
+    'photo': 'galeria',
+    'fotos': 'galeria',
+    'hospedaje': 'hospedaje'
+  };
+  return ALIASES[t] || null;
+}
+
 export const VALID_MEMORY_TYPES = ['text', 'background', 'image'];
 export const VALID_MEMORY_USAGE = ['custom', 'protected'];
 export const VALID_MEMORY_SOURCES = ['generated', 'library'];
@@ -57,7 +91,9 @@ export function extractModuleMetadata(htmlContent) {
   });
 
   // 3. Extraer moduleMetadata del <script> embebido
-  let moduleMetadata = { tags: [], descripcion: '' };
+  // Soporta el campo `tipo` (declaracion explicita del tipo de modulo, ver
+  // docs/prompt_rag_actualizado.md) con fallback a `tags`/`descripcion` unicamente.
+  let moduleMetadata = { tags: [], descripcion: '', tipo: null };
   const scripts = document.querySelectorAll('script');
   for (const script of scripts) {
     if (script.hasAttribute('src')) continue;
@@ -66,7 +102,7 @@ export function extractModuleMetadata(htmlContent) {
     const metaMatch = code.match(/(?:const|let|var)\s+moduleMetadata\s*=\s*(\{[\s\S]*?\});/);
     if (metaMatch) {
       try {
-        // Evaluar el objeto de forma segura (esperamos { tags: [...], descripcion: "..." })
+        // Evaluar el objeto de forma segura (esperamos { tipo: "...", tags: [...], descripcion: "..." })
         // Usamos Function en vez de eval para limitar el scope
         const fn = new Function(`return (${metaMatch[1]});`);
         const parsed = fn();
@@ -76,11 +112,15 @@ export function extractModuleMetadata(htmlContent) {
         if (parsed && typeof parsed.descripcion === 'string') {
           moduleMetadata.descripcion = parsed.descripcion.slice(0, 250);
         }
+        if (parsed && typeof parsed.tipo === 'string') {
+          moduleMetadata.tipo = parsed.tipo.trim();
+        }
       } catch (err) {
         // JSON falló, intentar un parser más permisivo
         try {
           const tagsMatch = code.match(/tags\s*:\s*\[([^\]]*)\]/);
           const descMatch = code.match(/descripcion\s*:\s*["']([^"']*)["']/);
+          const tipoMatch = code.match(/tipo\s*:\s*["']([^"']+)["']/);
           if (tagsMatch) {
             moduleMetadata.tags = tagsMatch[1]
               .split(',')
@@ -88,11 +128,21 @@ export function extractModuleMetadata(htmlContent) {
               .filter(Boolean);
           }
           if (descMatch) moduleMetadata.descripcion = descMatch[1].slice(0, 250);
+          if (tipoMatch) moduleMetadata.tipo = tipoMatch[1].trim();
         } catch (e) {}
       }
       break;
     }
   }
+
+  // 3.1 Si moduleMetadata.tipo es un tipo valido, PREDOMINA sobre el split del
+  // data-gemini-id (se declaró explícitamente en el tag <script>). Sino, se
+  // mantiene el moduleType inferido del prefijo del data-gemini-id (fallback).
+  const declaredTipo = normalizeModuleType(moduleMetadata.tipo);
+  if (declaredTipo) {
+    moduleType = declaredTipo;
+  }
+
 
   // 4. Contar y clasificar elementos memory_*
   const memoryCounts = { text: 0, background: 0, image: 0 };
@@ -224,6 +274,12 @@ export function validateModule(htmlContent) {
   }
   if (!meta.module_metadata.descripcion) {
     warnings.push('moduleMetadata.descripcion vacío o no encontrado. Se recomienda incluir descripcion en el <script>.');
+  }
+  // moduleMetadata.tipo declarado pero invalido: el admin quizas cometio un typo
+  if (meta.module_metadata.tipo && !normalizeModuleType(meta.module_metadata.tipo)) {
+    warnings.push(`moduleMetadata.tipo "${meta.module_metadata.tipo}" no es un tipo conocido. Se mantiene el fallback a "${meta.module_type}" (derivado del data-gemini-id).`);
+  } else if (meta.module_metadata.tipo && normalizeModuleType(meta.module_metadata.tipo)) {
+    // Confirmacion silenciosa util para logs: el tipo declarado es el que se persiste
   }
 
   // Coherencia de memory_source
