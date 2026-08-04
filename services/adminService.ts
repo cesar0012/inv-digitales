@@ -204,7 +204,31 @@ export const unstarCatalogo = async (id: number): Promise<void> => {
 
 
 
-export const getCatalogo = async (starred?: boolean): Promise<{ invitaciones: any[] }> => {
+export interface CatalogoItem {
+  id: number;
+  filename: string;
+  title: string;
+  event_type: string;
+  theme: string;
+  colors: string;
+  tags: string;
+  primary_color: string;
+  secondary_color: string;
+  event_domain: string | null;
+  event_date: string | null;
+  event_time: string | null;
+  user_data: string | null;
+  starred: boolean;
+  slug: string | null;
+  seo_title?: string | null;
+  meta_description?: string | null;
+  h1?: string | null;
+  seo_content_json?: string | null;
+  structured_data?: string | null;
+  created_at: string;
+}
+
+export const getCatalogo = async (starred?: boolean): Promise<{ invitaciones: CatalogoItem[] }> => {
   let url = `${API_BASE}/catalogo`;
   if (starred !== undefined) {
     url += `?starred=${starred}`;

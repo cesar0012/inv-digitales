@@ -10,6 +10,8 @@ interface Invitacion {
   theme: string;
   colors: string;
   tags: string;
+  starred: boolean;
+  slug: string | null;
   created_at: string;
 }
 
@@ -20,6 +22,10 @@ const API_BASE = import.meta.env.VITE_PUBLIC_URL
 const PREVIEW_BASE = import.meta.env.VITE_PUBLIC_URL 
   ? `${import.meta.env.VITE_PUBLIC_URL}/preview`
   : 'http://localhost:3001/preview';
+
+const PUBLIC_BASE = import.meta.env.VITE_PUBLIC_URL
+  ? import.meta.env.VITE_PUBLIC_URL
+  : 'http://localhost:3001';
 
 export const CatalogoView: React.FC = () => {
   const [invitaciones, setInvitaciones] = useState<Invitacion[]>([]);
@@ -118,6 +124,11 @@ export const CatalogoView: React.FC = () => {
                     title={`Preview ${inv.filename}`}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent pointer-events-none" />
+                  {inv.slug && (
+                    <div className="absolute top-2 right-2 bg-emerald-500 text-white text-xs px-2 py-1 rounded-lg">
+                      SEO ✓
+                    </div>
+                  )}
                 </div>
                 <div className="p-4">
                   <h3 className="font-semibold text-gray-800 mb-1 truncate">{inv.title || 'Sin título'}</h3>
@@ -165,6 +176,22 @@ export const CatalogoView: React.FC = () => {
                   <Edit3 className="w-4 h-4" />
                   Personalizar
                 </button>
+                {selectedInvitacion.slug && (
+                  <a
+                    href={`${PUBLIC_BASE}/catalogo/${selectedInvitacion.slug}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-lg transition-colors"
+                  >
+                    <Eye className="w-4 h-4" />
+                    Ver página de producto
+                  </a>
+                )}
+                {!selectedInvitacion.slug && selectedInvitacion.starred && (
+                  <span className="text-xs text-amber-600 self-center">
+                    Página de producto no generada
+                  </span>
+                )}
                 <a
                   href={`${PREVIEW_BASE}/${selectedInvitacion.filename}`}
                   target="_blank"

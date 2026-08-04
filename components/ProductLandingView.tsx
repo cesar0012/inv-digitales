@@ -196,7 +196,7 @@ export const ProductLandingView: React.FC = () => {
     );
   }
 
-  if (notFound || !data || !data.seo_content_json) {
+  if (notFound || !data) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-rose-50 flex items-center justify-center">
         <div className="text-center max-w-md mx-auto px-6">
@@ -207,6 +207,38 @@ export const ProductLandingView: React.FC = () => {
           <p className="text-gray-500 mb-8 leading-relaxed">
             Lo sentimos, la invitación que buscas no existe o ha sido removida del catálogo.
           </p>
+          <Link
+            to="/catalogo"
+            className="inline-flex items-center gap-2 bg-rose-500 hover:bg-rose-600 text-white px-6 py-3 rounded-xl font-medium transition-colors shadow-lg shadow-rose-200"
+          >
+            Ver todo el catálogo
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  if (!data.seo_content_json) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-rose-50 flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto px-6">
+          <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <AlertCircle className="w-10 h-10 text-amber-400" />
+          </div>
+          <h1 className="text-3xl font-bold text-gray-800 mb-3">
+            {data.starred ? 'Página en construcción' : 'Invitación no encontrada'}
+          </h1>
+          <p className="text-gray-500 mb-8 leading-relaxed">
+            {data.starred
+              ? 'Esta invitación está en el catálogo pero su página de producto aún no ha sido generada por el administrador.'
+              : 'Lo sentimos, la invitación que buscas no existe o ha sido removida del catálogo.'}
+          </p>
+          {data.starred && (
+            <p className="text-sm text-gray-400 mb-4">
+              Por favor contacta al administrador para generar la página SEO de esta invitación.
+            </p>
+          )}
           <Link
             to="/catalogo"
             className="inline-flex items-center gap-2 bg-rose-500 hover:bg-rose-600 text-white px-6 py-3 rounded-xl font-medium transition-colors shadow-lg shadow-rose-200"

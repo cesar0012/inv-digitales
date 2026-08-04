@@ -122,6 +122,11 @@ try {
 } catch (e) {}
 
 try {
+  db.exec(`ALTER TABLE catalogo ADD COLUMN user_data TEXT`);
+  console.log('✅ Columna user_data agregada a catalogo');
+} catch (e) {}
+
+try {
   db.exec(`CREATE INDEX IF NOT EXISTS idx_catalogo_slug ON catalogo(slug)`);
 } catch (e) {}
 

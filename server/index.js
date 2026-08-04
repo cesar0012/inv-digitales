@@ -20,6 +20,7 @@ import {
   normalizeModuleType
 } from './ragModuleValidator.js';
 import { normalizeCategory } from './geminiService.js';
+import { parseHTML } from 'linkedom';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -1249,6 +1250,102 @@ function extractMetadataFromHTML(htmlContent) {
   return { title, eventType, theme, colors, tags, primaryColor, secondaryColor };
 }
 
+function extractUserDataFromHTML(htmlContent) {
+  const userData = {
+    names: '',
+    eventDate: '',
+    eventTime: '',
+    ceremonyLocation: '',
+    receptionLocation: '',
+    parents: '',
+    godparents: '',
+    dressCode: '',
+    giftRegistry: ''
+  };
+
+  if (!htmlContent) return userData;
+
+  try {
+    const { document } = parseHTML(htmlContent);
+
+    // Nombres: buscar portada-nombre, portada-novia, portada-novio
+    const nameSelectors = [
+      '[data-gemini-id^="portada-nombre"]',
+      '[data-gemini-id^="portada-novia"]',
+      '[data-gemini-id^="portada-novio"]'
+    ];
+    for (const sel of nameSelectors) {
+      const el = document.querySelector(sel);
+      if (el && el.textContent && el.textContent.trim()) {
+        userData.names = el.textContent.trim();
+        break;
+      }
+    }
+
+    // Fecha y hora: buscar data-countdown-target
+    const countdownEl = document.querySelector('[data-countdown-target]');
+    if (countdownEl) {
+      const target = countdownEl.getAttribute('data-countdown-target');
+      if (target) {
+        const d = new Date(target);
+        if (!isNaN(d.getTime())) {
+          userData.eventDate = d.toISOString().split('T')[0];
+          userData.eventTime = d.toTimeString().substring(0, 5);
+        }
+      }
+    }
+
+    // Fecha/hora alternativas: <time datetime="">
+    if (!userData.eventDate) {
+      const timeEl = document.querySelector('time[datetime]');
+      if (timeEl) {
+        const dt = timeEl.getAttribute('datetime');
+        if (dt) {
+          // Si el datetime es solo fecha (YYYY-MM-DD) o include tz, evitamos
+          // el salto de dia por conversion UTC usando la parte literal antes
+          // del separador. Si hay hora T, parseamos normal.
+          const dateOnly = dt.length === 10 ? dt : '';
+          if (dateOnly) {
+            userData.eventDate = dateOnly;
+          } else {
+            const d = new Date(dt);
+            if (!isNaN(d.getTime())) {
+              userData.eventDate = d.toISOString().split('T')[0];
+              userData.eventTime = d.toTimeString().substring(0, 5);
+            }
+          }
+        }
+      }
+    }
+
+    // Ubicacion: ubicacion-ceremonia, ubicacion-recepcion
+    const ceremonyEl = document.querySelector('[data-gemini-id^="ubicacion-ceremonia"]');
+    if (ceremonyEl) userData.ceremonyLocation = (ceremonyEl.textContent || '').trim();
+    const receptionEl = document.querySelector('[data-gemini-id^="ubicacion-recepcion"]');
+    if (receptionEl) userData.receptionLocation = (receptionEl.textContent || '').trim();
+
+    // Padres: padres-padre, padres-novia, padres-novio
+    const padreEl = document.querySelector('[data-gemini-id^="padres-padre"], [data-gemini-id^="padres-novia"], [data-gemini-id^="padres-novio"]');
+    if (padreEl) userData.parents = (padreEl.textContent || '').trim();
+
+    // Padrinos: padrinos-*
+    const padrinoEl = document.querySelector('[data-gemini-id^="padrinos"]');
+    if (padrinoEl) userData.godparents = (padrinoEl.textContent || '').trim();
+
+    // Vestimenta: detalles-vestimenta
+    const vestimentaEl = document.querySelector('[data-gemini-id^="detalles-vestimenta"]');
+    if (vestimentaEl) userData.dressCode = (vestimentaEl.textContent || '').trim();
+
+    // Regalo: detalles-regalo
+    const regaloEl = document.querySelector('[data-gemini-id^="detalles-regalo"]');
+    if (regaloEl) userData.giftRegistry = (regaloEl.textContent || '').trim();
+  } catch (e) {
+    console.error('Error extrayendo userData del HTML:', e);
+  }
+
+  return userData;
+}
+
 function colorNameFromHex(hex) {
   if (!hex) return '';
   const h = hex.toLowerCase();
@@ -1323,8 +1420,8 @@ function syncHistoricoWithDB() {
   const existingFiles = new Set(existingRows.map(r => r.filename));
 
   const insertStmt = db.prepare(`
-    INSERT INTO catalogo (filename, title, event_type, theme, colors, tags, primary_color, secondary_color, created_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+    INSERT INTO catalogo (filename, title, event_type, theme, colors, tags, primary_color, secondary_color, event_date, event_time, user_data, created_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
   `);
 
   for (const file of files) {
@@ -1333,6 +1430,7 @@ function syncHistoricoWithDB() {
       const filePath = join(historicoPath, file);
       const content = readFileSync(filePath, 'utf-8');
       const meta = extractMetadataFromHTML(content);
+      const ud = extractUserDataFromHTML(content);
       insertStmt.run(
         file,
         meta.title || file.replace('.html', ''),
@@ -1341,7 +1439,10 @@ function syncHistoricoWithDB() {
         JSON.stringify(meta.colors),
         JSON.stringify(meta.tags),
         meta.primaryColor || '',
-        meta.secondaryColor || ''
+        meta.secondaryColor || '',
+        ud.eventDate || '',
+        ud.eventTime || '',
+        JSON.stringify(ud)
       );
       console.log('📊 Sincronizado archivo huérfano en catalogo:', file);
     } catch (e) {
@@ -1388,7 +1489,9 @@ app.get('/api/catalogo', (req, res) => {
       secondary_color: inv.secondary_color || '',
       event_domain: inv.event_domain || null,
       event_date: inv.event_date || null,
-      event_time: inv.event_time || null
+      event_time: inv.event_time || null,
+      user_data: inv.user_data || null,
+      slug: inv.slug || null
     }));
     res.json({ invitaciones });
   } catch (error) {
@@ -1447,10 +1550,18 @@ app.get('/api/catalogo/slug/:eventType/:slug', (req, res) => {
       structuredData = null;
     }
 
+    let userData = {};
+    try {
+      userData = item.user_data ? JSON.parse(item.user_data) : {};
+    } catch (e) {
+      userData = {};
+    }
+
     res.json({
       ...item,
       seo_content_json: seoSections,
-      structured_data: structuredData
+      structured_data: structuredData,
+      user_data: userData
     });
   } catch (error) {
     console.error('Error obteniendo invitación por slug:', error);
@@ -1693,6 +1804,29 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
       originalPrompt: ''
     };
 
+    // Incluir user_data extraido del HTML (datos reales del evento) para que el
+    // SEO generator los use al redactar hero / quick details / about. Si la
+    // fila del catalogo no tiene user_data poblado, intentamos extraerlo en
+    // caliente del HTML almacenado en historico/.
+    let userDataForSEO = {};
+    try {
+      userDataForSEO = catalogoItem.user_data ? JSON.parse(catalogoItem.user_data) : extractUserDataFromHTML(htmlContent);
+    } catch (e) {
+      console.warn('Error parseando user_data para SEO, extrayendo en caliente:', e);
+      userDataForSEO = extractUserDataFromHTML(htmlContent);
+    }
+    metadata.userData = {
+      names: userDataForSEO.names || '',
+      eventDate: userDataForSEO.eventDate || catalogoItem.event_date || '',
+      eventTime: userDataForSEO.eventTime || catalogoItem.event_time || '',
+      ceremonyLocation: userDataForSEO.ceremonyLocation || '',
+      receptionLocation: userDataForSEO.receptionLocation || '',
+      parents: userDataForSEO.parents || '',
+      godparents: userDataForSEO.godparents || '',
+      dressCode: userDataForSEO.dressCode || '',
+      giftRegistry: userDataForSEO.giftRegistry || ''
+    };
+
     console.log(`🚀 Generando SEO para catálogo ID ${id}: eventType=${metadata.eventType}, theme=${metadata.theme}`);
 
     const { generateSEOPage } = await import('./geminiService.js');
@@ -1715,7 +1849,10 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
         meta_description = ?,
         h1 = ?,
         seo_content_json = ?,
-        structured_data = ?
+        structured_data = ?,
+        event_date = COALESCE(NULLIF(event_date, ''), ?),
+        event_time = COALESCE(NULLIF(event_time, ''), ?),
+        user_data = COALESCE(NULLIF(user_data, ''), ?)
       WHERE id = ?
     `).run(
       finalSlug,
@@ -1724,6 +1861,9 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
       seoData.h1 || '',
       JSON.stringify(seoData.sections || {}),
       JSON.stringify(seoData.structured_data || {}),
+      metadata.userData.eventDate || '',
+      metadata.userData.eventTime || '',
+      JSON.stringify(userDataForSEO),
       id
     );
 
@@ -2925,7 +3065,7 @@ ${moduleHtml}`;
     // Si Gemini devuelve un documento HTML completo, extraer solo el body
     const fullHtmlMatch = cleaned.match(/<html[\s\S]*?<\/html>/i) || cleaned.match(/<!DOCTYPE[\s\S]*?<\/html>/i);
     if (fullHtmlMatch) {
-      const parser = new (await import('linkedom')).parseHTML(fullHtmlMatch[0]);
+      const parser = parseHTML(fullHtmlMatch[0]);
       const bodyContent = parser.document.body?.innerHTML;
       if (bodyContent) cleaned = bodyContent.trim();
     }
@@ -3150,10 +3290,11 @@ const geminiOptions = {
     console.log('📁 Invitación (generación IA) guardada en historico:', historicoFilename);
     
     const meta = extractMetadataFromHTML(htmlResult);
+    const userData = extractUserDataFromHTML(htmlResult);
     try {
       const insertMetaStmt = db.prepare(`
-        INSERT INTO catalogo (filename, title, event_type, theme, colors, tags, primary_color, secondary_color, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+        INSERT INTO catalogo (filename, title, event_type, theme, colors, tags, primary_color, secondary_color, event_date, event_time, user_data, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
       `);
       insertMetaStmt.run(
         historicoFilename,
@@ -3163,7 +3304,10 @@ const geminiOptions = {
         JSON.stringify(meta.colors || []),
         JSON.stringify(meta.tags || []),
         meta.primaryColor || '',
-        meta.secondaryColor || ''
+        meta.secondaryColor || '',
+        userData.eventDate || '',
+        userData.eventTime || '',
+        JSON.stringify(userData)
       );
       console.log('📊 Metadata guardada en tabla catalogo:', meta.title);
     } catch (metaError) {

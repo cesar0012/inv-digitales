@@ -1278,7 +1278,7 @@ const slugify = (text) => {
 };
 
 export const generateSEOPage = async (metadata, apiKey, model = 'gemini-2.5-flash') => {
-  const { eventType, theme, primaryColor, secondaryColor, colors, modules, title, originalPrompt } = metadata;
+  const { eventType, theme, primaryColor, secondaryColor, colors, modules, title, originalPrompt, userData } = metadata;
 
   const colorName = (hex) => {
     if (!hex) return '';
@@ -1317,6 +1317,28 @@ export const generateSEOPage = async (metadata, apiKey, model = 'gemini-2.5-flas
   const secondaryColorName = colorName(secondaryColor) || (secondaryColor ? secondaryColor.toUpperCase() : '');
   const colorsList = colors && colors.length > 0 ? colors.join(', ') : [primaryColorName, secondaryColorName].filter(Boolean).join(', ');
 
+  // Bloque USER DATA: solo se incluye si hay campos no vacios para no desperdiciar
+  // tokens en invitaciones sin datos reales del usuario.
+  const ud = userData && typeof userData === 'object' ? userData : {};
+  const userLines = [];
+  if (ud.names) userLines.push(`Names: ${ud.names}`);
+  if (ud.eventDate) userLines.push(`Event date: ${ud.eventDate}`);
+  if (ud.eventTime) userLines.push(`Event time: ${ud.eventTime}`);
+  if (ud.ceremonyLocation) userLines.push(`Ceremony location: ${ud.ceremonyLocation}`);
+  if (ud.receptionLocation) userLines.push(`Reception location: ${ud.receptionLocation}`);
+  if (ud.parents) userLines.push(`Parents: ${ud.parents}`);
+  if (ud.godparents) userLines.push(`Godparents: ${ud.godparents}`);
+  if (ud.dressCode) userLines.push(`Dress code: ${ud.dressCode}`);
+  if (ud.giftRegistry) userLines.push(`Gift registry: ${ud.giftRegistry}`);
+
+  const userDataBlock = userLines.length > 0
+    ? `\n===== USER DATA (REAL INVITATION DATA) =====\nUse these real customer details to personalize the page. If a field is empty, OMIT it gracefully — do NOT invent fake user data. If a field is present, weave it into the corresponding section.\n${userLines.join('\n')}\n===== END USER DATA =====\n`
+    : '';
+
+  const userDataInstructions = userLines.length > 0
+    ? `\nIn section_1 (hero summary), if Names are provided, mention them naturally as an example of the personalization available.\nIn section_2 (quick details), include Event date and Event time as example values when provided (use a human-readable format like "October 18, 2027 at 4:30 PM"), keeping the same JSON schema.\nIn section_3 (about description), mention Ceremony location and Reception location if provided.\nDo NOT invent or fabricate user data that is not present above.\n`
+    : '';
+
   const userPrompt = `Generate SEO landing page content for this digital invitation:
 
 Event Type: ${eventType || 'General'}
@@ -1327,8 +1349,8 @@ Color Palette: ${colorsList}
 Included Modules: ${modules && modules.length > 0 ? modules.join(', ') : 'RSVP, Countdown, Map, Event Details, Photo Gallery'}
 Title: ${title || ''}
 Design Description: ${originalPrompt || 'A beautiful digital invitation design'}
-
-Remember: Return ONLY the JSON object. No markdown, no code blocks, no explanation.`;
+${userDataBlock}
+Remember: Return ONLY the JSON object. No markdown, no code blocks, no explanation.${userDataInstructions}`;
 
   console.log('=== SEO PAGE GENERATION ===');
   console.log('Event:', eventType, '| Theme:', theme, '| Colors:', primaryColor, secondaryColor);

@@ -1,21 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { History, Star, Eye, Trash2, ExternalLink, Loader2, Sparkles, X, CheckCircle, AlertTriangle } from 'lucide-react';
-import { getCatalogo, starCatalogo, unstarCatalogo, deleteCatalogoItem, generateSEO } from '../../services/adminService';
-
-interface CatalogoItem {
-  id: number;
-  filename: string;
-  title: string;
-  event_type: string;
-  theme: string;
-  colors: string;
-  tags: string;
-  primary_color: string;
-  secondary_color: string;
-  starred: boolean;
-  slug: string | null;
-  created_at: string;
-}
+import { getCatalogo, starCatalogo, unstarCatalogo, deleteCatalogoItem, generateSEO, CatalogoItem } from '../../services/adminService';
 
 export const AdminHistory: React.FC = () => {
   const [activeSubTab, setActiveSubTab] = useState<'all' | 'starred'>('all');
@@ -187,8 +172,10 @@ export const AdminHistory: React.FC = () => {
                 <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">Título</th>
                 <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">Tipo / Tema</th>
                 <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">Colores</th>
+                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">Fecha Evento</th>
+                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">Datos</th>
                 <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">Slug SEO</th>
-                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">Fecha</th>
+                <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">Creado</th>
                 <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">URL</th>
                 <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">Acciones</th>
               </tr>
@@ -197,7 +184,7 @@ export const AdminHistory: React.FC = () => {
               {items.map((item) => (
                 <tr key={item.id} className="border-b border-pink-50 hover:bg-pink-50/30 transition-colors relative">
                   {isGeneratingSEO === item.id && (
-                    <td colSpan={7} className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex items-center justify-center rounded-lg">
+                    <td colSpan={9} className="absolute inset-0 bg-white/80 backdrop-blur-sm z-10 flex items-center justify-center rounded-lg">
                       <div className="flex items-center gap-3">
                         <Loader2 className="w-5 h-5 text-amber-500 animate-spin" />
                         <span className="text-sm font-medium text-amber-700">Generando página SEO con IA...</span>
@@ -216,7 +203,7 @@ export const AdminHistory: React.FC = () => {
                   </td>
                   <td className="py-3 px-4">
                     <div className="flex items-center gap-2 flex-wrap">
-                      {item.primary_color && (
+                      {item.primary_color ? (
                         <div className="flex items-center gap-1">
                           <div
                             className="w-4 h-4 rounded-full border border-gray-200"
@@ -224,8 +211,10 @@ export const AdminHistory: React.FC = () => {
                           />
                           <span className="text-xs text-gray-500">{item.primary_color}</span>
                         </div>
+                      ) : (
+                        <span className="text-xs text-gray-400">Sin color primario</span>
                       )}
-                      {item.secondary_color && (
+                      {item.secondary_color ? (
                         <div className="flex items-center gap-1">
                           <div
                             className="w-4 h-4 rounded-full border border-gray-200"
@@ -233,6 +222,8 @@ export const AdminHistory: React.FC = () => {
                           />
                           <span className="text-xs text-gray-500">{item.secondary_color}</span>
                         </div>
+                      ) : (
+                        <span className="text-xs text-gray-400">Sin color secundario</span>
                       )}
                       {parseColors(item.colors).map((c, i) => (
                         <span key={i} className="text-xs text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">
@@ -240,6 +231,33 @@ export const AdminHistory: React.FC = () => {
                         </span>
                       ))}
                     </div>
+                  </td>
+                  <td className="py-3 px-4 text-sm text-gray-700">
+                    {item.event_date ? (
+                      <div>
+                        <div>{new Date(item.event_date).toLocaleDateString('es-MX')}</div>
+                        {item.event_time && (
+                          <div className="text-xs text-gray-500">{item.event_time}</div>
+                        )}
+                      </div>
+                    ) : (
+                      <span className="text-xs text-gray-400">Sin fecha</span>
+                    )}
+                  </td>
+                  <td className="py-3 px-4">
+                    {(() => {
+                      try {
+                        const ud = item.user_data ? JSON.parse(item.user_data) : {};
+                        const summary = ud.names || ud.ceremonyLocation || ud.parents || '';
+                        return (
+                          <div className="text-xs text-gray-600 max-w-[200px] truncate" title={summary || ''}>
+                            {summary || '—'}
+                          </div>
+                        );
+                      } catch {
+                        return <span className="text-xs text-gray-400">—</span>;
+                      }
+                    })()}
                   </td>
                   <td className="py-3 px-4">
                     {item.slug ? (
@@ -273,6 +291,17 @@ export const AdminHistory: React.FC = () => {
                       >
                         <Eye className="w-4 h-4" />
                       </a>
+                      {item.starred && item.slug && (
+                        <a
+                          href={`${baseUrl}/catalogo/${item.event_type || 'general'}/${item.slug.split('/').pop()}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2 bg-emerald-100 text-emerald-600 rounded-lg hover:bg-emerald-200 transition-colors"
+                          title="Ver página SEO"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                        </a>
+                      )}
                       <button
                         onClick={() => handleStarClick(item)}
                         disabled={actionLoading === item.id || isGeneratingSEO === item.id}
