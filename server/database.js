@@ -67,73 +67,69 @@ db.exec(`
   )
 `);
 
-try {
-  db.exec(`ALTER TABLE catalogo ADD COLUMN starred INTEGER DEFAULT 0`);
-} catch (e) {}
+// safeAlter: aplica un ALTER TABLE y registra el resultado en consola.
+// Solo silencia el error "duplicate column" (columna ya existe en DBs
+// preexistentes). Cualquier otro error (sintaxis, constraint, etc.) se
+// loguea como fallo para que no quede oculto como antes con try/catch {} vacío.
+function safeAlter(sql, label) {
+  try {
+    db.exec(sql);
+    console.log('✅ Migración OK:', label);
+  } catch (e) {
+    if (/duplicate column/i.test(e.message)) {
+      console.log('ℹ️ Ya existe (ok):', label);
+    } else {
+      console.error('❌ Fallo migración:', label, '-', e.message);
+    }
+  }
+}
 
-try {
-  db.exec(`ALTER TABLE catalogo ADD COLUMN primary_color TEXT`);
-} catch (e) {}
+// safeExec: variante para CREATE INDEX u otras sentencias idempotentes.
+function safeExec(sql, label) {
+  try {
+    db.exec(sql);
+    console.log('✅ OK:', label);
+  } catch (e) {
+    console.error('❌ Fallo:', label, '-', e.message);
+  }
+}
 
-try {
-  db.exec(`ALTER TABLE catalogo ADD COLUMN secondary_color TEXT`);
-} catch (e) {}
+safeAlter('ALTER TABLE catalogo ADD COLUMN starred INTEGER DEFAULT 0', 'catalogo.starred');
+safeAlter('ALTER TABLE catalogo ADD COLUMN primary_color TEXT', 'catalogo.primary_color');
+safeAlter('ALTER TABLE catalogo ADD COLUMN secondary_color TEXT', 'catalogo.secondary_color');
+safeAlter('ALTER TABLE catalogo ADD COLUMN event_domain TEXT', 'catalogo.event_domain');
+safeAlter('ALTER TABLE catalogo ADD COLUMN event_date TEXT', 'catalogo.event_date');
+safeAlter('ALTER TABLE catalogo ADD COLUMN event_time TEXT', 'catalogo.event_time');
+// slug sin UNIQUE: el endpoint generate-seo resuelve duplicados con sufijo y
+// idx_catalogo_slug ya crea el índice. Si la columna ya existe con UNIQUE de
+// un esquema previo, ALTER fallará con "duplicate column" safely.
+safeAlter('ALTER TABLE catalogo ADD COLUMN slug TEXT', 'catalogo.slug');
+safeAlter('ALTER TABLE catalogo ADD COLUMN seo_title TEXT', 'catalogo.seo_title');
+safeAlter('ALTER TABLE catalogo ADD COLUMN meta_description TEXT', 'catalogo.meta_description');
+safeAlter('ALTER TABLE catalogo ADD COLUMN h1 TEXT', 'catalogo.h1');
+safeAlter('ALTER TABLE catalogo ADD COLUMN seo_content_json TEXT', 'catalogo.seo_content_json');
+safeAlter('ALTER TABLE catalogo ADD COLUMN structured_data TEXT', 'catalogo.structured_data');
+safeAlter('ALTER TABLE catalogo ADD COLUMN user_data TEXT', 'catalogo.user_data');
+safeAlter('ALTER TABLE catalogo ADD COLUMN seo_card TEXT', 'catalogo.seo_card');
+safeExec('CREATE INDEX IF NOT EXISTS idx_catalogo_slug ON catalogo(slug)', 'idx_catalogo_slug');
 
-try {
-  db.exec(`ALTER TABLE catalogo ADD COLUMN event_domain TEXT`);
-} catch (e) {}
-
-try {
-  db.exec(`ALTER TABLE catalogo ADD COLUMN event_date TEXT`);
-} catch (e) {}
-
-try {
-  db.exec(`ALTER TABLE catalogo ADD COLUMN event_time TEXT`);
-} catch (e) {}
-
-try {
-  db.exec(`ALTER TABLE catalogo ADD COLUMN slug TEXT UNIQUE`);
-  console.log('✅ Columna slug agregada a catalogo');
-} catch (e) {}
-
-try {
-  db.exec(`ALTER TABLE catalogo ADD COLUMN seo_title TEXT`);
-  console.log('✅ Columna seo_title agregada a catalogo');
-} catch (e) {}
-
-try {
-  db.exec(`ALTER TABLE catalogo ADD COLUMN meta_description TEXT`);
-  console.log('✅ Columna meta_description agregada a catalogo');
-} catch (e) {}
-
-try {
-  db.exec(`ALTER TABLE catalogo ADD COLUMN h1 TEXT`);
-  console.log('✅ Columna h1 agregada a catalogo');
-} catch (e) {}
-
-try {
-  db.exec(`ALTER TABLE catalogo ADD COLUMN seo_content_json TEXT`);
-  console.log('✅ Columna seo_content_json agregada a catalogo');
-} catch (e) {}
-
-try {
-  db.exec(`ALTER TABLE catalogo ADD COLUMN structured_data TEXT`);
-  console.log('✅ Columna structured_data agregada a catalogo');
-} catch (e) {}
-
-try {
-  db.exec(`ALTER TABLE catalogo ADD COLUMN user_data TEXT`);
-  console.log('✅ Columna user_data agregada a catalogo');
-} catch (e) {}
-
-try {
-  db.exec(`ALTER TABLE catalogo ADD COLUMN seo_card TEXT`);
-  console.log('✅ Columna seo_card agregada a catalogo');
-} catch (e) {}
-
-try {
-  db.exec(`CREATE INDEX IF NOT EXISTS idx_catalogo_slug ON catalogo(slug)`);
-} catch (e) {}
+// Verificación post-migración: lista columnas faltantes para detectar
+// silenciosamente cualquier ALTER que no aplicó (p.ej. DB preexistente
+// con esquema parcial). Falla ruidosamente en logs de arranque.
+function verifyCatalogoColumns() {
+  const cols = db.prepare('PRAGMA table_info(catalogo)').all().map(c => c.name);
+  const required = [
+    'slug', 'seo_title', 'meta_description', 'h1', 'seo_content_json',
+    'structured_data', 'event_date', 'event_time', 'user_data', 'seo_card'
+  ];
+  const missing = required.filter(c => !cols.includes(c));
+  if (missing.length) {
+    console.error('❌ CATALOGO columnas faltantes:', missing.join(', '));
+  } else {
+    console.log('✅ Todas las columnas de catalogo presentes');
+  }
+}
+verifyCatalogoColumns();
 
 try {
   db.exec(`ALTER TABLE users ADD COLUMN generation_credits INTEGER DEFAULT 10`);
