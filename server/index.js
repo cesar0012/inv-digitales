@@ -3503,16 +3503,18 @@ const geminiOptions = {
     const userData = extractUserDataFromHTML(htmlResult);
 
     // Construir seoCard: fuente única de datos para generateSEOPage.
-    // Prioriza options de generación (editorConfig) porque eventType/title aquí
-    // ya son correctos; fallback a meta extraída del HTML y user_data del HTML.
+    // Prioriza options de generación (editorConfig del request body) porque
+    // eventType/title aquí ya son correctos; fallback a meta extraída del HTML
+    // y user_data del HTML. Nota: geminiOptions está fuera de scope aquí
+    // (se declara dentro del if config.html_google_api_key), usar editorConfig.
     const seoCard = {
-      eventType: geminiOptions.eventType || meta.eventType || 'General',
-      theme: geminiOptions.theme || meta.theme || 'Elegante',
-      primaryColor: geminiOptions.primaryColor || meta.primaryColor || '',
-      secondaryColor: geminiOptions.secondaryColor || meta.secondaryColor || '',
+      eventType: editorConfig?.eventType || meta.eventType || 'General',
+      theme: editorConfig?.theme || meta.theme || 'Elegante',
+      primaryColor: editorConfig?.primaryColor || meta.primaryColor || '',
+      secondaryColor: editorConfig?.secondaryColor || meta.secondaryColor || '',
       names: userData.names || '',
-      eventDate: userData.eventDate || geminiOptions.eventDate || '',
-      eventTime: userData.eventTime || geminiOptions.eventTime || '',
+      eventDate: userData.eventDate || editorConfig?.eventDate || '',
+      eventTime: userData.eventTime || editorConfig?.eventTime || '',
       ceremonyLocation: userData.ceremonyLocation || '',
       receptionLocation: userData.receptionLocation || '',
       parents: userData.parents || '',
