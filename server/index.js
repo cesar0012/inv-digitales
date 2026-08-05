@@ -1528,6 +1528,35 @@ app.get('/preview/:filename', (req, res) => {
 });
 
 // GET /api/catalogo/slug/:eventType/:slug - Obtener datos SEO de invitación por slug (público)
+// GET /api/plans - Lista pública de planes activos (para landing SEO).
+// No requiere auth. Devuelve plan_slug, plan_name, invites_included,
+// generation_credits, iteration_credits, has_rsvp. Sin precios. Si la columna
+// is_active no existe en la DB (migracion fallida), hace fallback a todos.
+app.get('/api/plans', (req, res) => {
+  try {
+    let plans;
+    try {
+      plans = db.prepare(`
+        SELECT plan_slug, plan_name, invites_included, generation_credits,
+               iteration_credits, has_rsvp
+        FROM plan_config WHERE is_active = 1 ORDER BY rowid
+      `).all();
+    } catch (e) {
+      // Columna is_active ausente: fallback sin filtro
+      console.warn('⚠️ /api/plans: is_active no disponible, devolviendo todos:', e.message);
+      plans = db.prepare(`
+        SELECT plan_slug, plan_name, invites_included, generation_credits,
+               iteration_credits, has_rsvp
+        FROM plan_config ORDER BY rowid
+      `).all();
+    }
+    res.json({ plans });
+  } catch (e) {
+    console.error('Error en /api/plans:', e);
+    res.status(500).json({ error: 'Error al obtener planes' });
+  }
+});
+
 app.get('/api/catalogo/slug/:eventType/:slug', (req, res) => {
   try {
     const fullSlug = `${req.params.eventType}/${req.params.slug}`;

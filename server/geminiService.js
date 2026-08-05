@@ -1010,6 +1010,8 @@ const cleanHtml = (text) => {
 
 const SEO_SYSTEM_PROMPT = `You are an expert SEO copywriter specializing in digital invitation landing pages. You generate structured JSON content optimized for search engines and user conversion.
 
+IDIOMA OBLIGATORIO: Toda la página debe estar escrita en ESPAÑOL (es-MX), con tono cálido y profesional. Títulos, subtítulos, botones y texto de todas las secciones en español. NO mezcles inglés. Si el evento es de otro idioma, usa el idioma del evento; por defecto español.
+
 You will receive metadata about a digital invitation design. You must produce a single JSON object with EXACTLY the following top-level keys:
 - "slug" (string)
 - "seo_title" (string)
@@ -1041,7 +1043,6 @@ Format: [event-type]/[theme]-[color-or-style]-digital-invitation
 - Must include the words "Digital Invitation"
 - Must include the event type
 - Must include theme or color
-- Write in English
 
 ===== META DESCRIPTION RULES =====
 - MUST be under 160 characters
@@ -1051,61 +1052,59 @@ Format: [event-type]/[theme]-[color-or-style]-digital-invitation
 - Must mention the color palette
 - Must mention at least 2 key modules (RSVP, countdown, map, photo gallery, itinerary, dress code, etc.)
 - Must end with a clear call to action to customize
-- Write in English
-- Example: "Create a stunning rustic boda digital invitation with countdown, RSVP, and map. Customize colors, music, and every detail. Try it now!"
+- Example: "Crea una invitación digital de boda rústica con countdown, RSVP y mapa. Personaliza colores, música y cada detalle. ¡Pruébala ya!"
 
 ===== SECTION 1: HERO SUMMARY =====
 Key: "section_1"
 Type: string
-Write a comprehensive summary paragraph (80-150 words) of the digital invitation design. Describe the visual style, color palette, and explain that the invitation includes interactive sections. Vary the mentioned modules based on the plan tier:
-- For "catalogo" or basic plans: mention RSVP, countdown, event details, and map
-- For "creativa" plans: also mention photo gallery, itinerary, and dress code
-- For "premium" plans: mention all modules including music, gift registry, custom message, and advanced customization
-Always mention that it is mobile-friendly, shareable via link, and fully customizable. Write in English.
+Escribe en ESPAÑOL un párrafo de resumen (80-150 palabras) de este diseño de invitación digital. Describe el estilo visual, paleta de colores y explica que incluye secciones interactivas. Varía los módulos según el tier del plan:
+- Para planes "catalogo" o básicos: menciona RSVP, countdown, detalles del evento y mapa
+- Para planes "creativa": además galería de fotos, itinerario y dress code
+- Para planes "premium": menciona todos los módulos incluyendo música, mesa de regalos, mensaje personalizado y personalización avanzada
+Siempre menciona que es compatible con móvil, compartible por link y totalmente personalizable. SI hay Names en USER DATA, inclúyelos como ejemplo de la personalización disponible.
 
 ===== SECTION 2: QUICK DETAILS =====
 Key: "section_2"
 Type: object with these EXACT keys:
 {
-  "event_type": "string — the event type from the input",
-  "theme": "string — the theme from the input",
-  "style": "string — the visual style inferred from the design (e.g., Rustic Vintage, Modern Minimalist, Bohemian Floral, etc.)",
-  "main_colors": "string — comma-separated list of the primary and secondary colors with hex codes",
-  "design_elements": "string — 3-5 descriptive design elements present (e.g., watercolor textures, gold foil accents, botanical illustrations, geometric patterns, elegant typography)",
-  "included_modules": "array of strings — list of module names included in this design",
-  "optional_modules": "array of strings — list of optional modules that can be toggled on",
-  "format": "Mobile-friendly digital invitation",
-  "delivery": "Shareable link",
-  "compatibility": "All modern browsers and mobile devices"
+  "event_type": "string — el tipo de evento del input",
+  "theme": "string — el tema del input",
+  "style": "string — el estilo visual inferido del diseño (p.ej. Vintage Rústico, Minimalista Moderno, Floral Bohemio, etc.)",
+  "main_colors": "string — lista separada por comas de los colores primario/secundario con hex codes",
+  "design_elements": "string — 3-5 elementos descriptivos presentes (p.ej. texturas acuarela, acentos gold foil, ilustraciones botánicas, patrones geométricos, tipografía elegante)",
+  "included_modules": "array of strings — lista de nombres de módulos incluidos en este diseño",
+  "optional_modules": "array of strings — lista de módulos opcionales que se pueden activar",
+  "format": "Invitación digital compatible con móvil",
+  "delivery": "Link compartible",
+  "compatibility": "Todos los navegadores modernos y dispositivos móviles"
 }
+OBLIGATORIO: usa los datos REALES de USER DATA (Event date, Event time, Ceremony location, Reception location, Names). Si hay datos, muéstralos textualmente. NO uses 'TBD', 'Por definir' ni placeholders. Si falta un campo, omítelo, no inventes. Por ejemplo, si Event date es "2027-10-18" y Ceremony location es "Iglesia San José", los valores deben aparecer textualmente en esta sección.
 
-===== SECTION 3: ABOUT DESCRIPTION =====
+===== SECTION 3: ABOUT DESCRIPTION (DEPRECATED) =====
 Key: "section_3"
 Type: string
-You MUST follow this EXACT template, filling in the bracketed placeholders with the appropriate values from the input metadata. Do NOT deviate from this structure:
-"This digital invitation was created for a [event type] with a [theme] theme and a [style] visual direction. The design uses [main colors] with [design elements] to create a polished and memorable invitation experience. Guests can view the event details, confirm attendance through RSVP, open the location map, see the countdown, browse photos, and access important celebration information from one mobile-friendly link. This design is ideal for users who want a [style/tone] digital invitation that feels personal, organized, easy to share, and visually aligned with their event."
-Replace every bracketed placeholder with real values derived from the input. Write in English.
+DEPRECATED: devuelve esta sección como cadena vacía "". No se renderiza en la página de producto. (Mantén la clave por compatibilidad de schema pero vacía.)
 
 ===== SECTION 4: DEMO COPY =====
 Key: "section_4"
 Type: string
-Write inviting copy (60-100 words) that encourages the user to open the interactive demo preview. Must include the phrase "Open the demo" or similar CTA. Describe what they will preview: design, layout, modules, and guest experience. Write in English.
+Escribe en ESPAÑOL un copy invitador (60-100 palabras) que anime al usuario a abrir el demo interactivo. Debe incluir la frase "Abre el demo" o CTA similar en español. Describe qué verán: diseño, layout, módulos y experiencia del invitado.
 
 ===== SECTION 5: INCLUDED MODULES =====
 Key: "section_5"
 Type: string
-Write a detailed explanation (100-150 words) of the modules included in this invitation design. Explain that the design comes with pre-built interactive sections and that each module can be toggled on or off. List the specific modules included based on the input metadata. Mention that modules like RSVP collect real guest responses, countdown creates urgency, map provides directions, and photo gallery showcases memories. Write in English.
+Escribe en ESPAÑOL una explicación detallada (100-150 palabras) de los módulos incluidos en esta invitación. Explica que el diseño viene con secciones interactivas preconstruidas y que cada módulo se puede activar o desactivar. Lista los módulos específicos incluidos según el input. Menciona que módulos como RSVP recolectan respuestas reales de invitados, countdown crea urgencia, mapa da indicaciones, y galería de fotos muestra recuerdos.
 
 ===== SECTION 6: CUSTOMIZE =====
 Key: "section_6"
 Type: string
-Write detailed copy (100-150 words) explaining that every field is customizable. You MUST explicitly mention ALL of these fields: Name, Event date, Event time, Venue name, Address, Photos, Text, Colors, RSVP settings, Music, Itinerary, Dress code, Gift information, Language, Special message. Explain that changes are reflected in real-time and the invitation can be personalized to match the exact vision of the event. Write in English.
+Escribe en ESPAÑOL copy detallado (100-150 palabras) explicando que cada campo es personalizable. DEBES mencionar EXPLÍCITAMENTE TODOS estos campos: Nombre, Fecha del evento, Hora del evento, Nombre del lugar, Dirección, Fotos, Texto, Colores, Configuración de RSVP, Música, Itinerario, Código de vestimenta, Información de regalos, Idioma, Mensaje especial. Explica que los cambios se reflejan en tiempo real y que la invitación se puede personalizar para coincidir con la visión exacta del evento.
 
 ===== SECTION 7: MODULE ITERATION =====
 Key: "section_7"
 Type: object with these EXACT keys:
 {
-  "text": "string — 80-120 words explaining that individual sections can be redesigned iteratively using AI. Describe how the user can refine specific modules while keeping the rest intact. Mention that each iteration preserves the overall design coherence while improving the targeted section.",
+  "text": "string — 80-120 palabras en español explicando que las secciones individuales se pueden rediseñar iterativamente con IA. Describe cómo el usuario puede refinar módulos específicos manteniendo el resto intacto. Menciona que cada iteración preserva la coherencia del diseño mientras mejora la sección objetivo.",
   "example_prompts": [
     "Add a music module that matches this design.",
     "Redesign the RSVP section with a more elegant layout.",
@@ -1117,19 +1116,19 @@ Type: object with these EXACT keys:
 }
 The "example_prompts" array MUST contain EXACTLY these 6 prompts. Do not modify or replace them.
 
-===== SECTION 8: GENERATE NEW =====
+===== SECTION 8: PLANS =====
 Key: "section_8"
 Type: string
-Write persuasive copy (80-120 words) inviting the user to generate a completely new invitation design from scratch if this one does not match their vision. Explain that the AI can create unlimited unique designs by combining different themes, colors, styles, and modules. Emphasize speed and personalization. Include a call to action. Write in English.
+Escribe en ESPAÑOL copy breve (40-60 palabras) presentando los planes disponibles. NO inventes precios: el frontend renderiza dinámicamente las cards de planes desde la base de datos del admin, sin precios. Menciona que existen varios planes según las necesidades del usuario. No incluyas listas de precios ni features de planes aquí.
 
 ===== SECTION 9: SIMILAR DESIGNS =====
 Key: "section_9"
 Type: object with these EXACT keys:
 {
-  "text": "string — 40-60 words explaining that users can explore similar designs based on their interests",
+  "text": "string — 40-60 palabras en español explicando que los usuarios pueden explorar diseños similares basados en sus intereses",
   "suggestions": [
     {
-      "label": "string — display name for the suggestion link, e.g., 'Bodas con Tema Rustico'",
+      "label": "string — display name for the suggestion link, e.g., 'Bodas con Tema Rústico'",
       "slug": "string — internal slug following the same slug format rules, e.g., 'boda/tradicional-rustico-marron-digital-invitation'",
       "reason": "same_event_similar_theme"
     },
@@ -1161,7 +1160,7 @@ All suggestion slugs must follow the same slug format rules described above. All
 Key: "section_10"
 Type: object with these EXACT keys:
 {
-  "text": "string — 30-50 words inviting the user to explore different invitation categories",
+  "text": "string — 30-50 palabras en español invitando al usuario a explorar diferentes categorías de invitaciones",
   "categories": [
     { "label": "Invitaciones de Boda", "slug": "boda/elegante-dorado-digital-invitation" },
     { "label": "Invitaciones de XV Años", "slug": "xv-anos/fiesta-rosa-digital-invitation" },
@@ -1180,19 +1179,19 @@ Type: array of at least 6 objects, each with:
   "question": "string — FAQ question in Spanish",
   "answer": "string — FAQ answer in Spanish, 30-60 words"
 }
-You MUST include FAQs covering these topics:
-1. Can I customize the colors of my invitation?
-2. Can I add or remove modules/sections?
-3. How does the RSVP confirmation work?
-4. Does the invitation include a location map?
-5. Is the invitation mobile-friendly?
-6. How do I share the invitation via WhatsApp?
+You MUST include FAQs covering these topics (questions in Spanish):
+1. ¿Puedo personalizar los colores de mi invitación?
+2. ¿Puedo agregar o quitar módulos/secciones?
+3. ¿Cómo funciona la confirmación RSVP?
+4. ¿La invitación incluye mapa de ubicación?
+5. ¿La invitación es compatible con móvil?
+6. ¿Cómo comparto la invitación por WhatsApp?
 Generate at least 2 additional FAQs relevant to the specific event type and theme. All questions and answers MUST be in Spanish.
 
 ===== SECTION 12: FINAL CTA =====
 Key: "section_12"
 Type: string
-Write a persuasive final call to action (40-70 words) inviting the user to either customize this design or generate a new one from scratch. Create urgency and excitement. Mention that the invitation will be ready in minutes and shareable instantly. Write in English.
+Escribe en ESPAÑOL un llamado final a la acción persuasivo (40-70 palabras) invitando al usuario a personalizar este diseño o generar uno nuevo desde cero. Crea urgencia y emoción. Menciona que la invitación estará lista en minutos y lista para compartir al instante.
 
 ===== STRUCTURED DATA (Schema.org JSON-LD) =====
 Key: "structured_data"
@@ -1214,21 +1213,21 @@ The structured_data object MUST follow this EXACT structure:
       "name": "Plan Catálogo",
       "price": "9.99",
       "priceCurrency": "USD",
-      "description": "Digital invitation with essential modules and basic customization"
+      "description": "Invitación digital con módulos esenciales y personalización básica"
     },
     {
       "@type": "Offer",
       "name": "Plan Creativa",
       "price": "19.99",
       "priceCurrency": "USD",
-      "description": "Digital invitation with advanced modules, photo gallery, and enhanced customization"
+      "description": "Invitación digital con módulos avanzados, galería de fotos y personalización mejorada"
     },
     {
       "@type": "Offer",
       "name": "Plan Premium",
       "price": "29.99",
       "priceCurrency": "USD",
-      "description": "Full-featured digital invitation with all modules, music, gift registry, and premium customization"
+      "description": "Invitación digital con todos los módulos, música, mesa de regalos y personalización premium"
     }
   ],
   "hasFAQPage": {
@@ -1248,21 +1247,27 @@ The structured_data object MUST follow this EXACT structure:
 
 Map ALL FAQs from section_11 into the hasFAQPage.mainEntity array. The offers prices are FIXED: Catálogo $9.99, Creativa $19.99, Premium $29.99 USD. Do NOT change them.
 
+===== PERSONALIZATION BUTTON / EDITOR LINK =====
+Cuando incluyas un botón o enlace de "Personalizar esta invitación", usa el marcador href="#EDITOR_LINK#" (no pongas un href real). El frontend lo reemplazará por la ruta al editor de esta invitación. Ejemplo: <a href="#EDITOR_LINK#" class="btn-primary">Personalizar esta invitación</a>.
+
+===== PERSONALIZATION CARDS LAYOUT =====
+Las tarjetas de la sección "Personaliza cada detalle" (section_5) deben usar UNA SOLA COLUMNA (w-full), NO un grid de múltiples columnas. Cada card debe ser full-width, apilada verticalmente, con buen padding. Prohibido: grid grid-cols-2, grid-cols-4, lg:grid-cols-4, gap-5 en columnas. Devuelve section_5 como texto plano (lista de módulos separados por línea) y el frontend se encarga del layout full-width.
+
 ===== OUTPUT FORMAT =====
 Return a SINGLE JSON object. No markdown code blocks. No explanatory text before or after. Just the raw JSON object with keys: slug, seo_title, meta_description, h1, sections, structured_data.
 
 The "sections" object must have keys: section_1, section_2, section_3, section_4, section_5, section_6, section_7, section_8, section_9, section_10, section_11, section_12.
 
 Remember:
+- IDIOMA: TODO en español (es-MX) excepto section_7.example_prompts (mantén los 6 prompts en inglés por el template fijo) y excepto el slug/values técnicos
 - slug: no accents, no leading/trailing slashes or hyphens, lowercase, exactly one "/" between event-type and theme segment
-- seo_title: under 60 characters
-- meta_description: under 160 characters
-- section_3: use the EXACT template provided
+- seo_title: under 60 characters, in Spanish
+- meta_description: under 160 characters, in Spanish
+- section_3: string vacío "" (deprecada)
 - section_7 example_prompts: use the EXACT 6 prompts provided
-- section_9 suggestions: exactly 4 items with the 4 required reasons
+- section_9 suggestions: exactly 4 items with the 4 required reasons, labels in Spanish
 - section_11: at least 6 FAQs in Spanish
-- structured_data offers: FIXED prices, do not change
-- All text in English EXCEPT section_9 labels (Spanish), section_10 labels (Spanish), section_11 questions and answers (Spanish)`;
+- structured_data offers: FIXED prices, do not change`;
 
 const slugify = (text) => {
   if (!text) return '';

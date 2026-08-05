@@ -61,6 +61,15 @@ export const CatalogoView: React.FC = () => {
   };
 
   const handleVerCompleta = (invitacion: Invitacion) => {
+    // Si la invitación tiene slug (SEO generado), ir a la página de producto.
+    // Si no, abrir el modal de preview legacy.
+    if (invitacion.slug) {
+      const slugParts = invitacion.slug.split('/');
+      const evtType = slugParts.length > 1 ? slugParts[0] : invitacion.event_type || '';
+      const sSlug = slugParts.length > 1 ? slugParts[1] : invitacion.slug;
+      navigate(`/catalogo/${evtType}/${sSlug}`);
+      return;
+    }
     setSelectedInvitacion(invitacion);
   };
 

@@ -319,6 +319,11 @@ try {
   console.log('✅ Columna has_rsvp agregada a plan_config');
 } catch (e) {}
 
+try {
+  db.exec(`ALTER TABLE plan_config ADD COLUMN is_active INTEGER DEFAULT 1`);
+  console.log('✅ Columna is_active agregada a plan_config');
+} catch (e) {}
+
 // Crear usuario de prueba si no existe
 const testUserEmail = 'arj1931126@gmail.com';
 const testUserPasswordHash = createHash('sha256').update('Jar123456').digest('hex');

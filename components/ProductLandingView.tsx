@@ -83,6 +83,15 @@ interface CatalogoLandingData {
   structured_data: StructuredData | null;
 }
 
+interface PlanItem {
+  plan_slug: string;
+  plan_name: string;
+  invites_included: number;
+  generation_credits: number;
+  iteration_credits: number;
+  has_rsvp: number;
+}
+
 const API_BASE = import.meta.env.VITE_PUBLIC_URL
   ? `${import.meta.env.VITE_PUBLIC_URL}/api`
   : 'http://localhost:3001/api';
@@ -110,6 +119,7 @@ export const ProductLandingView: React.FC = () => {
   const { isAuthenticated } = useAuth();
 
   const [data, setData] = useState<CatalogoLandingData | null>(null);
+  const [plansData, setPlansData] = useState<PlanItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [iframeExpanded, setIframeExpanded] = useState(false);
@@ -118,7 +128,21 @@ export const ProductLandingView: React.FC = () => {
 
   useEffect(() => {
     loadLandingData();
+    loadPlans();
   }, [eventType, slug]);
+
+  const loadPlans = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/plans`);
+      if (!res.ok) return;
+      const json = await res.json();
+      setPlansData(Array.isArray(json.plans) ? json.plans : []);
+      console.log('[PRODUCT] plans cargados:', json.plans?.length || 0);
+    } catch (e) {
+      console.error('Error cargando planes:', e);
+      setPlansData([]);
+    }
+  };
 
   const loadLandingData = async () => {
     setLoading(true);
@@ -131,6 +155,7 @@ export const ProductLandingView: React.FC = () => {
       }
       const json = await res.json();
       setData(json);
+      console.log('[PRODUCT] filename=', json?.filename, 'slug=', slug);
     } catch {
       setNotFound(true);
     } finally {
@@ -146,6 +171,14 @@ export const ProductLandingView: React.FC = () => {
       return;
     }
 
+    // Usuario autenticado: ir al editor de esta invitación.
+    // El editor recibe ?filename= y carga el HTML del catálogo.
+    if (data.filename) {
+      window.location.href = `/editor?filename=${encodeURIComponent(data.filename)}`;
+      return;
+    }
+
+    // Fallback: cargar HTML manualmente (compat legacy sin filename)
     setCtaLoading(true);
     try {
       const res = await fetch(`${API_BASE}/catalogo/${data.filename}`);
@@ -356,23 +389,8 @@ export const ProductLandingView: React.FC = () => {
         </section>
       )}
 
-      {/* ── Section 3: Description ── */}
-      {seo.section_3 && (
-        <section className="py-20 bg-white">
-          <div className="max-w-3xl mx-auto px-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-8">
-              Sobre esta invitación
-            </h2>
-            <div className="prose prose-lg prose-rose max-w-none">
-              {splitParagraphs(seo.section_3).map((p, i) => (
-                <p key={i} className="text-gray-600 leading-relaxed mb-4 text-base md:text-lg font-light">
-                  {p}
-                </p>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      {/* ── Section 3: About Description — DEPRECATED, no se renderiza ── */}
+      {/* seo.section_3 se ignora por decisión de producto */}
 
       {/* ── Section 4: Demo Preview ── */}
       <section className="py-20 bg-gray-50">
@@ -430,19 +448,21 @@ export const ProductLandingView: React.FC = () => {
             <p className="text-gray-500 text-center mb-12 max-w-2xl mx-auto font-light">
               Haz que esta invitación sea verdaderamente tuya. Cada elemento se adapta a tu estilo y necesidades.
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div className="flex flex-col gap-4 w-full">
               {customizationItems.map((item, i) => (
                 <div
                   key={i}
-                  className="group relative bg-gray-50 rounded-2xl p-6 hover:bg-white hover:shadow-lg border border-transparent hover:border-gray-100 transition-all"
+                  className="group relative bg-gray-50 rounded-2xl p-6 hover:bg-white hover:shadow-lg border border-transparent hover:border-gray-100 transition-all w-full"
                 >
-                  <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-white"
-                    style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
-                  >
-                    {CUSTOMIZATION_ICONS[i % CUSTOMIZATION_ICONS.length]}
+                  <div className="flex items-start gap-4">
+                    <div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 text-white"
+                      style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
+                    >
+                      {CUSTOMIZATION_ICONS[i % CUSTOMIZATION_ICONS.length]}
+                    </div>
+                    <p className="text-gray-700 font-medium text-sm leading-relaxed flex-1">{item}</p>
                   </div>
-                  <p className="text-gray-700 font-medium text-sm leading-relaxed">{item}</p>
                 </div>
               ))}
             </div>
@@ -521,75 +541,75 @@ export const ProductLandingView: React.FC = () => {
         </section>
       )}
 
-      {/* ── Section 8: Plans & Pricing ── */}
-      {seo.section_8 && (
-        <section className="py-20 bg-gray-50">
-          <div className="max-w-5xl mx-auto px-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-4">
-              Planes y precios
-            </h2>
-            {splitParagraphs(seo.section_8).map((p, i) => (
-              <p key={i} className="text-gray-500 text-center max-w-2xl mx-auto font-light leading-relaxed mb-2">
-                {p}
-              </p>
-            ))}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-              {[
-                { name: 'Catálogo', price: '$9.99', features: ['1 invitación', 'Diseño del catálogo', 'Comparte por link', 'RSVP incluido'] },
-                { name: 'Creativa', price: '$19.99', features: ['1 invitación', 'Diseño personalizado con IA', 'Música de fondo', 'RSVP + confirmación', 'Soporte prioritario'], popular: true },
-                { name: 'Premium', price: '$29.99', features: ['Hasta 5 invitaciones', 'Todo de Creativa', 'Diseño premium', 'Mapa interactivo', 'Galería de fotos', 'Asesoría de diseño'] }
-              ].map((plan) => (
-                <div
-                  key={plan.name}
-                  className={`relative rounded-3xl p-7 transition-all ${
-                    plan.popular
-                      ? 'bg-white shadow-2xl border-2 scale-105'
-                      : 'bg-white shadow-md border border-gray-100'
-                  }`}
-                  style={plan.popular ? { borderColor: primaryColor } : undefined}
-                >
-                  {plan.popular && (
-                    <div
-                      className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold text-white"
-                      style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
-                    >
-                      MÁS POPULAR
-                    </div>
-                  )}
-                  <h3 className="text-xl font-bold text-gray-800 mb-1">{plan.name}</h3>
-                  <div className="flex items-baseline gap-1 mb-6">
-                    <span className="text-4xl font-extrabold text-gray-900">{plan.price}</span>
-                    <span className="text-gray-400 text-sm">USD</span>
-                  </div>
-                  <ul className="space-y-3 mb-8">
-                    {plan.features.map((f, i) => (
-                      <li key={i} className="flex items-center gap-2.5 text-sm text-gray-600">
-                        <Check className="w-4 h-4 shrink-0" style={{ color: primaryColor }} />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <button
-                    onClick={handleCTA}
-                    disabled={ctaLoading}
-                    className={`w-full py-3 rounded-xl font-semibold text-sm transition-all ${
-                      plan.popular
-                        ? 'text-white shadow-lg hover:scale-105 disabled:hover:scale-100'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+      {/* ── Section 8: Planes (render dinámico desde /api/plans) ── */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-5xl mx-auto px-6">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-4">
+            Planes y precios
+          </h2>
+          {seo.section_8 && (
+            <p className="text-gray-500 text-center max-w-2xl mx-auto font-light leading-relaxed mb-12">
+              {seo.section_8}
+            </p>
+          )}
+          {plansData.length === 0 ? (
+            <p className="text-center text-gray-400 font-light">Planes no disponibles</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+              {plansData.map((plan, i) => {
+                const isFeatured = i === 1;
+                return (
+                  <div
+                    key={plan.plan_slug}
+                    className={`relative rounded-3xl p-7 transition-all ${
+                      isFeatured
+                        ? 'bg-white shadow-2xl border-2'
+                        : 'bg-white shadow-md border border-gray-100'
                     }`}
-                    style={plan.popular ? {
-                      background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
-                      boxShadow: `0 10px 25px -5px ${primaryColor}44`
-                    } : undefined}
+                    style={isFeatured ? { borderColor: primaryColor } : undefined}
                   >
-                    {ctaLoading ? <Loader2 className="w-4 h-4 animate-spin mx-auto" /> : 'Comenzar ahora'}
-                  </button>
-                </div>
-              ))}
+                    {isFeatured && (
+                      <div
+                        className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold text-white"
+                        style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
+                      >
+                        POPULAR
+                      </div>
+                    )}
+                    <h3 className="text-xl font-bold text-gray-800 mb-4">{plan.plan_name}</h3>
+                    <ul className="space-y-3 mb-8">
+                      <li className="flex items-center gap-2.5 text-sm text-gray-600">
+                        <Check className="w-4 h-4 shrink-0" style={{ color: primaryColor }} />
+                        {plan.invites_included} invitación{plan.invites_included === 1 ? '' : 'es'}
+                      </li>
+                      <li className="flex items-center gap-2.5 text-sm text-gray-600">
+                        <Check className="w-4 h-4 shrink-0" style={{ color: primaryColor }} />
+                        {plan.generation_credits} créditos de generación
+                      </li>
+                      <li className="flex items-center gap-2.5 text-sm text-gray-600">
+                        <Check className="w-4 h-4 shrink-0" style={{ color: primaryColor }} />
+                        {plan.iteration_credits} créditos de iteración
+                      </li>
+                      {plan.has_rsvp === 1 && (
+                        <li className="flex items-center gap-2.5 text-sm text-gray-600">
+                          <Check className="w-4 h-4 shrink-0" style={{ color: primaryColor }} />
+                          RSVP incluido
+                        </li>
+                      )}
+                    </ul>
+                    <a
+                      href={PLANS_URL}
+                      className="w-full py-3 rounded-xl font-semibold text-sm text-center inline-block bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+                    >
+                      Ver plan
+                    </a>
+                  </div>
+                );
+              })}
             </div>
-          </div>
-        </section>
-      )}
+          )}
+        </div>
+      </section>
 
       {/* ── Section 9: Related Suggestions ── */}
       {seo.section_9 && seo.section_9.suggestions && seo.section_9.suggestions.length > 0 && (
