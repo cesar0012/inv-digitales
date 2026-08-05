@@ -1,19 +1,75 @@
 import React, { useState, useEffect } from 'react';
-import { History, Star, Eye, Trash2, ExternalLink, Loader2, Sparkles, X, CheckCircle, AlertTriangle } from 'lucide-react';
-import { getCatalogo, starCatalogo, unstarCatalogo, deleteCatalogoItem, generateSEO, CatalogoItem } from '../../services/adminService';
+import { History, Star, Eye, Trash2, ExternalLink, Loader2, Sparkles, X, CheckCircle, AlertTriangle, Download, Trash } from 'lucide-react';
+import { getCatalogo, starCatalogo, unstarCatalogo, deleteCatalogoItem, generateSEO, CatalogoItem, getHistorialStats, downloadHistorialBackup, clearHistorial, HistorialStats } from '../../services/adminService';
 
 export const AdminHistory: React.FC = () => {
-  const [activeSubTab, setActiveSubTab] = useState<'all' | 'starred'>('all');
+  const [activeSubTab, setActiveSubTab] = useState<'all' | 'starred' | 'backup'>('all');
   const [items, setItems] = useState<CatalogoItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<number | null>(null);
   const [isGeneratingSEO, setIsGeneratingSEO] = useState<number | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState<CatalogoItem | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [historialStats, setHistorialStats] = useState<HistorialStats | null>(null);
+  const [historialStatsLoading, setHistorialStatsLoading] = useState(false);
+  const [backupLoading, setBackupLoading] = useState(false);
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
+  const [clearLoading, setClearLoading] = useState(false);
 
   useEffect(() => {
-    loadItems();
+    if (activeSubTab === 'backup') {
+      loadHistorialStats();
+    } else {
+      loadItems();
+    }
   }, [activeSubTab]);
+
+  const loadHistorialStats = async () => {
+    setHistorialStatsLoading(true);
+    try {
+      const stats = await getHistorialStats();
+      setHistorialStats(stats);
+    } catch (error) {
+      console.error('Error loading historial stats:', error);
+    } finally {
+      setHistorialStatsLoading(false);
+    }
+  };
+
+  const handleDownloadBackup = async () => {
+    setBackupLoading(true);
+    try {
+      const { url, filename, size } = await downloadHistorialBackup();
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 5000);
+      setSuccessMessage(`Backup generado: ${filename} (${(size / 1024 / 1024).toFixed(2)} MB)`);
+    } catch (error: any) {
+      console.error('Error downloading backup:', error);
+      alert(`Error al descargar backup: ${error.message || 'Error desconocido'}`);
+    } finally {
+      setBackupLoading(false);
+    }
+  };
+
+  const handleClearHistorial = async () => {
+    setShowClearConfirm(false);
+    setClearLoading(true);
+    try {
+      const result = await clearHistorial();
+      setSuccessMessage(`Historial limpiado: ${result.deletedFiles} archivos eliminados, ${result.dbRowsDeleted} filas en catálogo. Recomendado: recarga la pestaña "Históricos" para confirmar.`);
+      await loadHistorialStats();
+    } catch (error: any) {
+      console.error('Error clearing historial:', error);
+      alert(`Error al limpiar historial: ${error.message || 'Error desconocido'}`);
+    } finally {
+      setClearLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (!successMessage) return;
@@ -150,9 +206,111 @@ export const AdminHistory: React.FC = () => {
           <Star className="w-3 h-3" />
           Seleccionadas
         </button>
+        <button
+          onClick={() => setActiveSubTab('backup')}
+          className={`px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center gap-2 ${
+            activeSubTab === 'backup'
+              ? 'bg-blue-500 text-white'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}
+          title="Descarga masiva / limpieza del historial — útil cuando la pestaña Históricos se cuelga"
+        >
+          <Download className="w-3 h-3" />
+          Historial Backup
+        </button>
       </div>
 
-      {loading ? (
+      {activeSubTab === 'backup' ? (
+        <div className="space-y-6">
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+                <Download className="w-5 h-5 text-blue-600" />
+              </div>
+              <div>
+                <h3 className="text-base font-semibold text-gray-800">Respaldar y limpiar historial</h3>
+                <p className="text-sm text-gray-500">
+                  Operaciones de mantenimiento. No invoca la sincronización del catálogo, por lo que es seguro
+                  usarlas aunque la pestaña «Históricos» se quede colgada.
+                </p>
+              </div>
+            </div>
+
+            {historialStatsLoading ? (
+              <div className="flex items-center gap-2 text-sm text-gray-500 py-4">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Contando archivos en storage/historico...
+              </div>
+            ) : historialStats ? (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                <div className="bg-gray-50 border border-gray-100 rounded-xl p-4">
+                  <div className="text-xs font-medium text-gray-500 uppercase tracking-wider">Archivos .html</div>
+                  <div className="text-2xl font-bold text-gray-800 mt-1">{historialStats.count}</div>
+                </div>
+                <div className="bg-gray-50 border border-gray-100 rounded-xl p-4">
+                  <div className="text-xs font-medium text-gray-500 uppercase tracking-wider">Tamaño total</div>
+                  <div className="text-2xl font-bold text-gray-800 mt-1">
+                    {historialStats.totalBytes > 0
+                      ? `${(historialStats.totalBytes / 1024 / 1024).toFixed(2)} MB`
+                      : '0 KB'}
+                  </div>
+                </div>
+                <div className="bg-gray-50 border border-gray-100 rounded-xl p-4">
+                  <div className="text-xs font-medium text-gray-500 uppercase tracking-wider">Filas en catálogo</div>
+                  <div className="text-2xl font-bold text-gray-800 mt-1">{historialStats.dbRows}</div>
+                </div>
+              </div>
+            ) : (
+              <p className="text-sm text-gray-500">No se pudieron obtener estadísticas.</p>
+            )}
+
+            <div className="flex flex-wrap gap-3">
+              <button
+                onClick={handleDownloadBackup}
+                disabled={backupLoading || (historialStats?.count ?? 0) === 0}
+                className="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white rounded-xl text-sm font-semibold transition-colors"
+              >
+                {backupLoading ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Download className="w-4 h-4" />
+                )}
+                {backupLoading ? 'Generando ZIP...' : 'Descargar todos los .html'}
+              </button>
+              <button
+                onClick={() => setShowClearConfirm(true)}
+                disabled={clearLoading || (historialStats?.count ?? 0) === 0 && (historialStats?.dbRows ?? 0) === 0}
+                className="flex items-center gap-2 px-4 py-2.5 bg-red-100 hover:bg-red-200 disabled:bg-red-50 text-red-700 disabled:text-red-300 rounded-xl text-sm font-semibold transition-colors"
+              >
+                {clearLoading ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Trash className="w-4 h-4" />
+                )}
+                {clearLoading ? 'Limpiando...' : 'Limpiar historial completo'}
+              </button>
+            </div>
+
+            {(historialStats?.count ?? 0) === 0 && (historialStats?.dbRows ?? 0) === 0 && (
+              <p className="text-xs text-gray-400 mt-4">
+                El historial ya está vacío. Si la pestaña «Históricos» sigue colgada, recarga esta página.
+              </p>
+            )}
+          </div>
+
+          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-start gap-3">
+            <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+            <div className="text-sm text-amber-800 space-y-1">
+              <p className="font-medium">Recomendación de uso</p>
+              <p>
+                1) Descarga el ZIP completo. 2) Verifica que el ZIP abre correctamente y contiene los HTML esperados.
+                3) Recién entonces ejecuta «Limpiar historial completo» para vaciar storage/historico y la tabla catalogo.
+                Las invitaciones de usuarios (en storage/&#123;user_id&#125;/) NO se ven afectadas — solo el catálogo histórico.
+              </p>
+            </div>
+          </div>
+        </div>
+      ) : loading ? (
         <div className="flex items-center justify-center py-12">
           <Loader2 className="w-6 h-6 text-pink-500 animate-spin" />
           <span className="ml-2 text-gray-500">Cargando invitaciones...</span>
@@ -381,6 +539,62 @@ export const AdminHistory: React.FC = () => {
                 className="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600 transition-all shadow-lg shadow-amber-200"
               >
                 Confirmar y Generar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showClearConfirm && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={() => setShowClearConfirm(false)}>
+          <div
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-3 px-6 py-4 border-b border-red-100 bg-gradient-to-r from-red-50 to-orange-50">
+              <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl flex items-center justify-center">
+                <Trash className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h2 className="text-lg font-semibold text-gray-800">Limpiar historial completo</h2>
+                <p className="text-sm text-red-700">Esta acción no se puede deshacer</p>
+              </div>
+            </div>
+
+            <div className="p-6">
+              <div className="flex items-start gap-3 mb-4">
+                <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  Vas a borrar TODOS los <span className="font-semibold">.html del storage/historico</span> y
+                  todas las filas de la tabla <span className="font-semibold">catalogo</span>. Las invitaciones
+                  de los usuarios (en storage/&#123;user_id&#125;/) NO se tocan.
+                </p>
+              </div>
+              <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs text-amber-800">
+                <p className="font-medium mb-1">Antes de continuar:</p>
+                <p>Asegúrate de haber descargado el ZIP de backup. Si aún no lo hiciste, cancela y usa «Descargar todos los .html» primero.</p>
+              </div>
+            </div>
+
+            <div className="flex gap-3 px-6 py-4 bg-gray-50 border-t border-gray-100">
+              <button
+                onClick={() => setShowClearConfirm(false)}
+                disabled={clearLoading}
+                className="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium bg-white border border-gray-200 text-gray-700 hover:bg-gray-100 transition-colors"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleClearHistorial}
+                disabled={clearLoading}
+                className="flex-1 px-4 py-2.5 rounded-xl text-sm font-medium bg-gradient-to-r from-red-500 to-orange-500 text-white hover:from-red-600 hover:to-orange-600 transition-all shadow-lg shadow-red-200 disabled:opacity-60 flex items-center justify-center gap-2"
+              >
+                {clearLoading ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Trash className="w-4 h-4" />
+                )}
+                {clearLoading ? 'Limpiando...' : 'Sí, borrar todo'}
               </button>
             </div>
           </div>

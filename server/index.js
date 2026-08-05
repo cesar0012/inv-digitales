@@ -21,6 +21,7 @@ import {
 } from './ragModuleValidator.js';
 import { normalizeCategory } from './geminiService.js';
 import { parseHTML } from 'linkedom';
+import { deflateRawSync } from 'zlib';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -1736,6 +1737,39 @@ app.delete('/api/catalogo/:id/star', adminMiddleware, (req, res) => {
   res.json({ success: true });
 });
 
+// DELETE /api/admin/catalogo/historial — Borra todos los .html del historico
+// y limpia la tabla catalogo. DEBE registrarse antes del DELETE /:id para que
+// Express no capture "historial" como valor de :id. Funcion de mantenimiento
+// cuando el historial crecio demasiado o contiene invitaciones viejas
+// incompatibles que rompen el GET /api/catalogo.
+app.delete('/api/admin/catalogo/historial', adminMiddleware, (req, res) => {
+  try {
+    const { confirm } = req.body || {};
+    if (confirm !== 'DELETE') {
+      return res.status(400).json({ error: 'Confirmacion requerida: body { confirm: "DELETE" }' });
+    }
+    let deletedFiles = 0;
+    if (existsSync(historicoPath)) {
+      const files = readdirSync(historicoPath).filter(f => f.endsWith('.html'));
+      for (const f of files) {
+        try { unlinkSync(join(historicoPath, f)); deletedFiles++; } catch (e) {}
+      }
+    }
+    let dbRowsDeleted = 0;
+    try {
+      const info = db.prepare('DELETE FROM catalogo').run();
+      dbRowsDeleted = info.changes || 0;
+    } catch (e) {
+      console.error('Error limpiando tabla catalogo:', e);
+    }
+    console.log(`🧹 Historial limpiado: ${deletedFiles} archivos, ${dbRowsDeleted} filas en catalogo`);
+    res.json({ success: true, deletedFiles, dbRowsDeleted });
+  } catch (error) {
+    console.error('Error limpiando historial:', error);
+    res.status(500).json({ error: 'Error al limpiar historial', details: error.message });
+  }
+});
+
 // DELETE /api/admin/catalogo/:id - Eliminar invitación del catálogo
 app.delete('/api/admin/catalogo/:id', adminMiddleware, (req, res) => {
   const { id } = req.params;
@@ -1872,6 +1906,159 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
   } catch (error) {
     console.error('❌ Error generando SEO:', error);
     res.status(500).json({ error: 'Error al generar landing page SEO', details: error.message });
+  }
+});
+
+// ====== Backup / limpieza masiva del historico ======
+//
+// Helpers para construir un archivo .zip sin dependencias externas.
+// Implementacion minimal de ZIP/2.0 con deflate ( metodo 8 ) y un unico
+// Central Directory al final. CRC32 mediante tabla generada al vuelo.
+
+const crc32Table = (() => {
+  const t = new Int32Array(256);
+  for (let i = 0; i < 256; i++) {
+    let c = i;
+    for (let k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+    t[i] = c;
+  }
+  return t;
+})();
+
+function crc32(buf) {
+  let c = 0xFFFFFFFF;
+  for (let i = 0; i < buf.length; i++) {
+    c = crc32Table[(c ^ buf[i]) & 0xFF] ^ (c >>> 8);
+  }
+  return (c ^ 0xFFFFFFFF) >>> 0;
+}
+
+function u16(n) { const b = Buffer.alloc(2); b.writeUInt16LE(n & 0xFFFF, 0); return b; }
+function u32(n) { const b = Buffer.alloc(4); b.writeUInt32LE(n >>> 0, 0); return b; }
+
+function buildZip(entries) {
+  const localHeaders = [];
+  const fileData = [];
+  const centralRecords = [];
+  let offset = 0;
+  for (const { filename, content } of entries) {
+    const nameBuf = Buffer.from(filename, 'utf8');
+    const contentBuf = Buffer.from(content, 'utf8');
+    const crc = crc32(contentBuf);
+    const compressed = deflateRawSync(contentBuf);
+    const method = 8;
+    const localHeader = Buffer.concat([
+      u32(0x04034b50),     // Local file header signature
+      u16(20),             // Version needed to extract (2.0)
+      u16(0x0800),         // General purpose bit flag: UTF-8 name
+      u16(method),         // Compression method (deflate)
+      u16(0), u16(0),      // Mod time, mod date
+      u32(crc),            // CRC-32
+      u32(compressed.length),
+      u32(contentBuf.length),
+      u16(nameBuf.length),
+      u16(0)               // Extra field length
+    ]);
+    localHeaders.push(localHeader);
+    fileData.push(compressed);
+    centralRecords.push(Buffer.concat([
+      u32(0x02014b50),           // Central directory file header signature
+      u16(20),                   // Version made by
+      u16(20),                   // Version needed to extract
+      u16(0x0800),               // General purpose bit flag
+      u16(method),               // Compression method
+      u16(0), u16(0),            // Mod time, mod date
+      u32(crc),
+      u32(compressed.length),
+      u32(contentBuf.length),
+      u16(nameBuf.length),
+      u16(0),                    // Extra length
+      u16(0),                    // Comment length
+      u16(0),                    // Disk number start
+      u16(0),                    // Internal attributes
+      u32(0),                    // External attributes
+      u32(offset)                // Offset of local header
+    ]));
+    offset += localHeader.length + nameBuf.length + compressed.length;
+  }
+  // Concatenar archivo: local headers + file data + central directory + EOCD
+  let out = Buffer.alloc(0);
+  for (let i = 0; i < localHeaders.length; i++) {
+    const nameBuf = Buffer.from(entries[i].filename, 'utf8');
+    out = Buffer.concat([out, localHeaders[i], nameBuf, fileData[i]]);
+  }
+  let centralDir = Buffer.alloc(0);
+  for (let i = 0; i < centralRecords.length; i++) {
+    const nameBuf = Buffer.from(entries[i].filename, 'utf8');
+    centralDir = Buffer.concat([centralDir, centralRecords[i], nameBuf]);
+  }
+  const eocd = Buffer.concat([
+    u32(0x06054b50),     // End of central directory signature
+    u16(0), u16(0),      // Number of this disk, disk where central directory starts
+    u16(entries.length),
+    u16(entries.length),
+    u32(centralDir.length),
+    u32(offset),         // Offset of start of central directory
+    u16(0)               // Comment length
+  ]);
+  return Buffer.concat([out, centralDir, eocd]);
+}
+
+// GET /api/admin/catalogo/backup-html.zip — Descarga ZIP con todos los .html
+// del storage/historico. No invoca syncHistoricoWithDB ni parsea los HTML,
+// por lo que es seguro correrlo aunque el historial este corrupto.
+app.get('/api/admin/catalogo/backup-html.zip', adminMiddleware, (req, res) => {
+  try {
+    if (!existsSync(historicoPath)) {
+      return res.status(404).json({ error: 'No existe el directorio storage/historico' });
+    }
+    const files = readdirSync(historicoPath).filter(f => f.endsWith('.html'));
+    if (files.length === 0) {
+      return res.status(404).json({ error: 'No hay archivos .html en el historico para respaldar' });
+    }
+    const entries = [];
+    for (const file of files) {
+      try {
+        const content = readFileSync(join(historicoPath, file), 'utf-8');
+        entries.push({ filename: file, content });
+      } catch (e) {
+        console.error('Error leyendo', file, ':', e.message);
+      }
+    }
+    if (entries.length === 0) {
+      return res.status(500).json({ error: 'No se pudo leer ningun archivo .html del historico' });
+    }
+    const zipBuffer = buildZip(entries);
+    const stamp = new Date().toISOString().slice(0, 10);
+    res.setHeader('Content-Type', 'application/zip');
+    res.setHeader('Content-Disposition', `attachment; filename="historico-backup-${stamp}.zip"`);
+    res.setHeader('Content-Length', zipBuffer.length);
+    res.send(zipBuffer);
+  } catch (error) {
+    console.error('Error generando backup ZIP:', error);
+    res.status(500).json({ error: 'Error al generar backup ZIP', details: error.message });
+  }
+});
+
+// GET /api/admin/catalogo/historial/stats — Conteo ligero sin parsear HTML.
+// solo cuenta archivos y suma bytes; sirve para mostrar al admin cuanto hay
+// que respaldar/borrar sin disparar syncHistoricoWithDB.
+app.get('/api/admin/catalogo/historial/stats', adminMiddleware, (req, res) => {
+  try {
+    if (!existsSync(historicoPath)) {
+      return res.json({ count: 0, totalBytes: 0, dbRows: 0 });
+    }
+    const files = readdirSync(historicoPath).filter(f => f.endsWith('.html'));
+    let totalBytes = 0;
+    for (const f of files) {
+      try { totalBytes += statSync(join(historicoPath, f)).size; } catch (e) {}
+    }
+    let dbRows = 0;
+    try { dbRows = (db.prepare('SELECT COUNT(*) as n FROM catalogo').get()).n; } catch (e) {}
+    res.json({ count: files.length, totalBytes, dbRows });
+  } catch (error) {
+    console.error('Error obteniendo stats del historial:', error);
+    res.status(500).json({ error: 'Error al obtener stats', details: error.message });
   }
 });
 

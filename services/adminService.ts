@@ -264,6 +264,61 @@ export const generateSEO = async (id: number): Promise<{ success: boolean; slug:
   return response.json();
 };
 
+// ====== Historial Backup ======
+// Estos endpoints NO disparan syncHistoricoWithDB: son seguros para
+// administradores con catalogos corruptos o muy grandes donde el GET
+// /api/catalogo normal se cuelga.
+
+export interface HistorialStats {
+  count: number;
+  totalBytes: number;
+  dbRows: number;
+}
+
+export const getHistorialStats = async (): Promise<HistorialStats> => {
+  const response = await fetch(`${API_BASE}/admin/catalogo/historial/stats`, {
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al obtener stats del historial');
+  }
+  return response.json();
+};
+
+/**
+ * Descarga el backup ZIP de todos los .html del storage/historico.
+ * Retorna una URL objeto Blob para descargar; el caller debe revocarla.
+ */
+export const downloadHistorialBackup = async (): Promise<{ url: string; filename: string; size: number }> => {
+  const response = await fetch(`${API_BASE}/admin/catalogo/backup-html.zip`, {
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ error: 'Error al generar backup' }));
+    throw new Error(error.error || 'Error al generar backup');
+  }
+  const blob = await response.blob();
+  const cd = response.headers.get('content-disposition') || '';
+  const match = cd.match(/filename="?([^";]+)"?/i);
+  const filename = match ? match[1] : `historico-backup-${new Date().toISOString().slice(0, 10)}.zip`;
+  const url = URL.createObjectURL(blob);
+  return { url, filename, size: blob.size };
+};
+
+export const clearHistorial = async (): Promise<{ success: boolean; deletedFiles: number; dbRowsDeleted: number }> => {
+  const response = await fetch(`${API_BASE}/admin/catalogo/historial`, {
+    method: 'DELETE',
+    headers: { ...getAdminHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify({ confirm: 'DELETE' })
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al limpiar historial');
+  }
+  return response.json();
+};
+
 export const syncUsers = async (): Promise<{ success: boolean; message: string; total: number }> => {
   const response = await fetch(`${API_BASE}/admin/sync-users`, {
     method: 'POST',
