@@ -1813,6 +1813,36 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
     const htmlContent = readFileSync(htmlFilePath, 'utf-8');
     const htmlMeta = extractMetadataFromHTML(htmlContent);
 
+    let seoCard = {};
+    try {
+      seoCard = catalogoItem.seo_card ? JSON.parse(catalogoItem.seo_card) : {};
+    } catch (e) {
+      console.warn('Error parseando seo_card para SEO:', e);
+      seoCard = {};
+    }
+    // Fallback: si no hay card (filas antiguas), construir desde catálogo + HTML
+    if (!seoCard || Object.keys(seoCard).length === 0) {
+      const userData = extractUserDataFromHTML(htmlContent);
+      seoCard = {
+        eventType: catalogoItem.event_type || htmlMeta.eventType || 'General',
+        theme: catalogoItem.theme || htmlMeta.theme || 'Elegante',
+        primaryColor: catalogoItem.primary_color || htmlMeta.primaryColor || '',
+        secondaryColor: catalogoItem.secondary_color || htmlMeta.secondaryColor || '',
+        names: userData.names || '',
+        eventDate: userData.eventDate || catalogoItem.event_date || '',
+        eventTime: userData.eventTime || catalogoItem.event_time || '',
+        ceremonyLocation: userData.ceremonyLocation || '',
+        receptionLocation: userData.receptionLocation || '',
+        parents: userData.parents || '',
+        godparents: userData.godparents || '',
+        dressCode: userData.dressCode || '',
+        giftRegistry: userData.giftRegistry || '',
+        title: catalogoItem.title || htmlMeta.title || '',
+        slugSuggestion: '',
+        description: ''
+      };
+    }
+
     let colors = [];
     try {
       colors = catalogoItem.colors ? JSON.parse(catalogoItem.colors) : (htmlMeta.colors || []);
@@ -1827,38 +1857,31 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
       tags = [];
     }
 
+    // metadata sigue siendo requerido por el validador y por la lógica de
+    // normalize de slug en generateSEOPage (campos: eventType, colors, modules)
     const metadata = {
-      eventType: catalogoItem.event_type || htmlMeta.eventType || 'General',
-      theme: catalogoItem.theme || htmlMeta.theme || 'Elegante',
-      primaryColor: catalogoItem.primary_color || htmlMeta.primaryColor || '',
-      secondaryColor: catalogoItem.secondary_color || htmlMeta.secondaryColor || '',
+      eventType: seoCard.eventType || 'General',
+      theme: seoCard.theme || 'Elegante',
+      primaryColor: seoCard.primaryColor || '',
+      secondaryColor: seoCard.secondaryColor || '',
       colors: colors,
       modules: tags.length > 0 ? tags : ['RSVP', 'Countdown', 'Map', 'Event Details'],
-      title: catalogoItem.title || htmlMeta.title || '',
-      originalPrompt: ''
-    };
-
-    // Incluir user_data extraido del HTML (datos reales del evento) para que el
-    // SEO generator los use al redactar hero / quick details / about. Si la
-    // fila del catalogo no tiene user_data poblado, intentamos extraerlo en
-    // caliente del HTML almacenado en historico/.
-    let userDataForSEO = {};
-    try {
-      userDataForSEO = catalogoItem.user_data ? JSON.parse(catalogoItem.user_data) : extractUserDataFromHTML(htmlContent);
-    } catch (e) {
-      console.warn('Error parseando user_data para SEO, extrayendo en caliente:', e);
-      userDataForSEO = extractUserDataFromHTML(htmlContent);
-    }
-    metadata.userData = {
-      names: userDataForSEO.names || '',
-      eventDate: userDataForSEO.eventDate || catalogoItem.event_date || '',
-      eventTime: userDataForSEO.eventTime || catalogoItem.event_time || '',
-      ceremonyLocation: userDataForSEO.ceremonyLocation || '',
-      receptionLocation: userDataForSEO.receptionLocation || '',
-      parents: userDataForSEO.parents || '',
-      godparents: userDataForSEO.godparents || '',
-      dressCode: userDataForSEO.dressCode || '',
-      giftRegistry: userDataForSEO.giftRegistry || ''
+      title: seoCard.title || '',
+      originalPrompt: '',
+      // userData para retrocompatibilidad del prompt antiguo (ya no usado)
+      userData: {
+        names: seoCard.names || '',
+        eventDate: seoCard.eventDate || catalogoItem.event_date || '',
+        eventTime: seoCard.eventTime || catalogoItem.event_time || '',
+        ceremonyLocation: seoCard.ceremonyLocation || '',
+        receptionLocation: seoCard.receptionLocation || '',
+        parents: seoCard.parents || '',
+        godparents: seoCard.godparents || '',
+        dressCode: seoCard.dressCode || '',
+        giftRegistry: seoCard.giftRegistry || ''
+      },
+      // seoCard completa: fuente primaria de datos para generateSEOPage
+      seoCard: seoCard
     };
 
     console.log(`🚀 Generando SEO para catálogo ID ${id}: eventType=${metadata.eventType}, theme=${metadata.theme}`);
@@ -3478,10 +3501,42 @@ const geminiOptions = {
     
     const meta = extractMetadataFromHTML(htmlResult);
     const userData = extractUserDataFromHTML(htmlResult);
+
+    // Construir seoCard: fuente única de datos para generateSEOPage.
+    // Prioriza options de generación (editorConfig) porque eventType/title aquí
+    // ya son correctos; fallback a meta extraída del HTML y user_data del HTML.
+    const seoCard = {
+      eventType: geminiOptions.eventType || meta.eventType || 'General',
+      theme: geminiOptions.theme || meta.theme || 'Elegante',
+      primaryColor: geminiOptions.primaryColor || meta.primaryColor || '',
+      secondaryColor: geminiOptions.secondaryColor || meta.secondaryColor || '',
+      names: userData.names || '',
+      eventDate: userData.eventDate || geminiOptions.eventDate || '',
+      eventTime: userData.eventTime || geminiOptions.eventTime || '',
+      ceremonyLocation: userData.ceremonyLocation || '',
+      receptionLocation: userData.receptionLocation || '',
+      parents: userData.parents || '',
+      godparents: userData.godparents || '',
+      dressCode: userData.dressCode || '',
+      giftRegistry: userData.giftRegistry || '',
+      title: meta.title || '',
+      slugSuggestion: '',
+      description: ''
+    };
+    // slugSuggestion simple: <eventType-slug>/<names-slug>
+    {
+      const base = (seoCard.eventType || 'invitacion')
+        .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      const nameSlug = (seoCard.names || 'invitacion')
+        .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+        .slice(0, 40) || 'invitacion';
+      seoCard.slugSuggestion = `${base}/${nameSlug}`;
+    }
+
     try {
       const insertMetaStmt = db.prepare(`
-        INSERT INTO catalogo (filename, title, event_type, theme, colors, tags, primary_color, secondary_color, event_date, event_time, user_data, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+        INSERT INTO catalogo (filename, title, event_type, theme, colors, tags, primary_color, secondary_color, event_date, event_time, user_data, seo_card, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
       `);
       insertMetaStmt.run(
         historicoFilename,
@@ -3492,9 +3547,10 @@ const geminiOptions = {
         JSON.stringify(meta.tags || []),
         meta.primaryColor || '',
         meta.secondaryColor || '',
-        userData.eventDate || '',
-        userData.eventTime || '',
-        JSON.stringify(userData)
+        seoCard.eventDate || '',
+        seoCard.eventTime || '',
+        JSON.stringify(userData),
+        JSON.stringify(seoCard)
       );
       console.log('📊 Metadata guardada en tabla catalogo:', meta.title);
     } catch (metaError) {

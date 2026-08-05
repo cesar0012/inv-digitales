@@ -127,6 +127,11 @@ try {
 } catch (e) {}
 
 try {
+  db.exec(`ALTER TABLE catalogo ADD COLUMN seo_card TEXT`);
+  console.log('✅ Columna seo_card agregada a catalogo');
+} catch (e) {}
+
+try {
   db.exec(`CREATE INDEX IF NOT EXISTS idx_catalogo_slug ON catalogo(slug)`);
 } catch (e) {}
 

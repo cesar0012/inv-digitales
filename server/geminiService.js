@@ -1277,8 +1277,61 @@ const slugify = (text) => {
     .replace(/^-+|-+$/g, '');
 };
 
+// extractJson: parseo resiliente de respuestas del modelo.
+// 1. JSON.parse directo
+// 2. Quita fences ```json ... ```
+// 3. Extrae subcadena desde el primer { al último }
+// 4. Throw informativo
+export function extractJson(text) {
+  if (text == null) throw new Error('Empty text in extractJson');
+  const tryParse = (s) => JSON.parse(s);
+  try { return tryParse(text); } catch (e) {}
+  // fences ```json...``` o ```...```
+  const fenceMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if (fenceMatch) {
+    try { return tryParse(fenceMatch[1]); } catch (e) {}
+  }
+  // Subcadena primer { al último }
+  const firstBrace = text.indexOf('{');
+  const lastBrace = text.lastIndexOf('}');
+  if (firstBrace >= 0 && lastBrace > firstBrace) {
+    const sub = text.slice(firstBrace, lastBrace + 1);
+    try { return tryParse(sub); } catch (e) {}
+  }
+  throw new Error('Failed to parse SEO JSON response');
+}
+
 export const generateSEOPage = async (metadata, apiKey, model = 'gemini-2.5-flash') => {
-  const { eventType, theme, primaryColor, secondaryColor, colors, modules, title, originalPrompt, userData } = metadata;
+  // La fuente primaria es metadata.seoCard (construida en generate-html).
+  // Si la fila del catalogo no tiene seoCard, se construye en index.js con
+  // fallback a user_data del HTML (modo legacy). Aquí solo leemos.
+  const card = (metadata && metadata.seoCard && typeof metadata.seoCard === 'object' && Object.keys(metadata.seoCard).length > 0)
+    ? metadata.seoCard
+    : {
+        eventType: metadata?.eventType || 'General',
+        theme: metadata?.theme || 'Elegante',
+        primaryColor: metadata?.primaryColor || '',
+        secondaryColor: metadata?.secondaryColor || '',
+        names: metadata?.userData?.names || '',
+        eventDate: metadata?.userData?.eventDate || '',
+        eventTime: metadata?.userData?.eventTime || '',
+        ceremonyLocation: metadata?.userData?.ceremonyLocation || '',
+        receptionLocation: metadata?.userData?.receptionLocation || '',
+        parents: metadata?.userData?.parents || '',
+        godparents: metadata?.userData?.godparents || '',
+        dressCode: metadata?.userData?.dressCode || '',
+        giftRegistry: metadata?.userData?.giftRegistry || '',
+        title: metadata?.title || '',
+        slugSuggestion: '',
+        description: ''
+      };
+
+  const {
+    eventType, theme, primaryColor, secondaryColor,
+    names, eventDate, eventTime, ceremonyLocation, receptionLocation,
+    parents, godparents, dressCode, giftRegistry,
+    title, slugSuggestion, description
+  } = card;
 
   const colorName = (hex) => {
     if (!hex) return '';
@@ -1315,21 +1368,19 @@ export const generateSEOPage = async (metadata, apiKey, model = 'gemini-2.5-flas
 
   const primaryColorName = colorName(primaryColor) || (primaryColor ? primaryColor.toUpperCase() : '');
   const secondaryColorName = colorName(secondaryColor) || (secondaryColor ? secondaryColor.toUpperCase() : '');
-  const colorsList = colors && colors.length > 0 ? colors.join(', ') : [primaryColorName, secondaryColorName].filter(Boolean).join(', ');
 
   // Bloque USER DATA: solo se incluye si hay campos no vacios para no desperdiciar
-  // tokens en invitaciones sin datos reales del usuario.
-  const ud = userData && typeof userData === 'object' ? userData : {};
+  // tokens. El modelo solo ENSAMBLA las 12 secciones desde esta card (input pequeño).
   const userLines = [];
-  if (ud.names) userLines.push(`Names: ${ud.names}`);
-  if (ud.eventDate) userLines.push(`Event date: ${ud.eventDate}`);
-  if (ud.eventTime) userLines.push(`Event time: ${ud.eventTime}`);
-  if (ud.ceremonyLocation) userLines.push(`Ceremony location: ${ud.ceremonyLocation}`);
-  if (ud.receptionLocation) userLines.push(`Reception location: ${ud.receptionLocation}`);
-  if (ud.parents) userLines.push(`Parents: ${ud.parents}`);
-  if (ud.godparents) userLines.push(`Godparents: ${ud.godparents}`);
-  if (ud.dressCode) userLines.push(`Dress code: ${ud.dressCode}`);
-  if (ud.giftRegistry) userLines.push(`Gift registry: ${ud.giftRegistry}`);
+  if (names) userLines.push(`Names: ${names}`);
+  if (eventDate) userLines.push(`Event date: ${eventDate}`);
+  if (eventTime) userLines.push(`Event time: ${eventTime}`);
+  if (ceremonyLocation) userLines.push(`Ceremony location: ${ceremonyLocation}`);
+  if (receptionLocation) userLines.push(`Reception location: ${receptionLocation}`);
+  if (parents) userLines.push(`Parents: ${parents}`);
+  if (godparents) userLines.push(`Godparents: ${godparents}`);
+  if (dressCode) userLines.push(`Dress code: ${dressCode}`);
+  if (giftRegistry) userLines.push(`Gift registry: ${giftRegistry}`);
 
   const userDataBlock = userLines.length > 0
     ? `\n===== USER DATA (REAL INVITATION DATA) =====\nUse these real customer details to personalize the page. If a field is empty, OMIT it gracefully — do NOT invent fake user data. If a field is present, weave it into the corresponding section.\n${userLines.join('\n')}\n===== END USER DATA =====\n`
@@ -1339,22 +1390,22 @@ export const generateSEOPage = async (metadata, apiKey, model = 'gemini-2.5-flas
     ? `\nIn section_1 (hero summary), if Names are provided, mention them naturally as an example of the personalization available.\nIn section_2 (quick details), include Event date and Event time as example values when provided (use a human-readable format like "October 18, 2027 at 4:30 PM"), keeping the same JSON schema.\nIn section_3 (about description), mention Ceremony location and Reception location if provided.\nDo NOT invent or fabricate user data that is not present above.\n`
     : '';
 
-  const userPrompt = `Generate SEO landing page content for this digital invitation:
+  // Prompt ligero: solo la card + instrucciones de ensamblado. NO se envía el
+  // HTML completo (eso causaba MAX_TOKENS y JSON inválido con pro-preview).
+  const userPrompt = `Generate the 12-section SEO landing page JSON for this invitation.
 
 Event Type: ${eventType || 'General'}
 Theme: ${theme || 'Elegant'}
 Primary Color: ${primaryColor ? `${primaryColorName} (${primaryColor})` : 'Pink (#f472b6)'}
 Secondary Color: ${secondaryColor ? `${secondaryColorName} (${secondaryColor})` : 'Coral (#fb7185)'}
-Color Palette: ${colorsList}
-Included Modules: ${modules && modules.length > 0 ? modules.join(', ') : 'RSVP, Countdown, Map, Event Details, Photo Gallery'}
 Title: ${title || ''}
-Design Description: ${originalPrompt || 'A beautiful digital invitation design'}
-${userDataBlock}
-Remember: Return ONLY the JSON object. No markdown, no code blocks, no explanation.${userDataInstructions}`;
+${description ? `Description: ${description}\n` : ''}${userDataBlock}
+Remember: Return ONLY the JSON object with keys slug, seo_title, meta_description, h1, sections, structured_data. No markdown, no code blocks, no explanation.${userDataInstructions}`;
 
-  console.log('=== SEO PAGE GENERATION ===');
+  console.log('=== SEO PAGE GENERATION (card mode) ===');
   console.log('Event:', eventType, '| Theme:', theme, '| Colors:', primaryColor, secondaryColor);
   console.log('Model:', model);
+  console.log('Prompt size (chars):', userPrompt.length);
   console.log('===========================');
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
@@ -1377,7 +1428,7 @@ Remember: Return ONLY the JSON object. No markdown, no code blocks, no explanati
         temperature: 0.7,
         topP: 0.9,
         topK: 40,
-        maxOutputTokens: 65536
+        maxOutputTokens: 32768
       }
     })
   });
@@ -1391,17 +1442,22 @@ Remember: Return ONLY the JSON object. No markdown, no code blocks, no explanati
   }
 
   const data = await response.json();
-  const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+  const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  const finishReason = data.candidates?.[0]?.finishReason;
 
   if (!rawText) {
+    console.error('SEO raw length:', 0);
+    console.error('SEO finishReason:', finishReason);
     throw new Error('Empty response from Gemini SEO API');
   }
 
   let seoData;
   try {
-    seoData = JSON.parse(rawText);
+    seoData = extractJson(rawText);
   } catch (parseError) {
     console.error('SEO JSON Parse Error:', parseError.message);
+    console.error('SEO raw length:', rawText.length);
+    console.error('SEO finishReason:', finishReason);
     console.error('Raw response (first 500 chars):', rawText.substring(0, 500));
     throw new Error('Failed to parse SEO JSON response from Gemini');
   }
@@ -1428,6 +1484,12 @@ Remember: Return ONLY the JSON object. No markdown, no code blocks, no explanati
   if (seoData.meta_description && seoData.meta_description.length > 160) {
     console.warn(`Meta description too long (${seoData.meta_description.length} chars), truncating`);
     seoData.meta_description = seoData.meta_description.substring(0, 157) + '...';
+  }
+
+  // Fallback de slug: si el modelo no generó slug, usar card.slugSuggestion
+  if (!seoData.slug && slugSuggestion) {
+    seoData.slug = slugSuggestion.replace(/^\/+|\/+$/g, '');
+    console.log('📌 Slug generado desde card.slugSuggestion:', seoData.slug);
   }
 
   if (seoData.slug) {
