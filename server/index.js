@@ -1898,6 +1898,15 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
       console.log(`⚠️ Slug duplicado, aplicando sufijo: ${finalSlug}`);
     }
 
+    // Línea defensiva: en migración a card mode se dejó userDataForSEO sin
+    // declarar en este scope. Se unifica con seoCard para que el COALESCE de
+    // user_data no rompa si en el futuro alguien reactiva esa referencia.
+    const userDataForSEO = seoCard || {};
+
+    console.log('[SEO-UPDATE] id=', id, 'slug=', finalSlug,
+      'eventDate=', seoCard.eventDate, 'eventTime=', seoCard.eventTime,
+      'hasCard=', !!seoCard, 'cardKeys=', Object.keys(seoCard || {}).length);
+
     db.prepare(`
       UPDATE catalogo SET
         starred = 1,
@@ -1918,9 +1927,9 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
       seoData.h1 || '',
       JSON.stringify(seoData.sections || {}),
       JSON.stringify(seoData.structured_data || {}),
-      metadata.userData.eventDate || '',
-      metadata.userData.eventTime || '',
-      JSON.stringify(userDataForSEO),
+      seoCard.eventDate || '',
+      seoCard.eventTime || '',
+      JSON.stringify(seoCard),
       id
     );
 
