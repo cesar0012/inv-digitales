@@ -1840,7 +1840,15 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
       return res.status(404).json({ error: 'Archivo HTML de la invitación no encontrado en histórico' });
     }
     const htmlContent = readFileSync(htmlFilePath, 'utf-8');
-    const htmlMeta = extractMetadataFromHTML(htmlContent);
+    // Limpiar base64 para que extractMetadataFromHTML/extractUserDataFromHTML
+    // no procesen megabytes de imagenes (evita OOM y tokensسات). La card sola
+    // basta para el SEO; el HTML limpio solo se usa en fallback para filas
+    // antiguas sin seo_card persistida.
+    const cleanHtml = htmlContent.replace(
+      /data:image\/[a-zA-Z0-9.+-]+;base64,[^"')\s]+/g,
+      'data:image/placeholder'
+    );
+    const htmlMeta = extractMetadataFromHTML(cleanHtml);
 
     let seoCard = {};
     try {
@@ -1849,9 +1857,9 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
       console.warn('Error parseando seo_card para SEO:', e);
       seoCard = {};
     }
-    // Fallback: si no hay card (filas antiguas), construir desde catálogo + HTML
+    // Fallback: si no hay card (filas antiguas), construir desde catálogo + cleanHtml
     if (!seoCard || Object.keys(seoCard).length === 0) {
-      const userData = extractUserDataFromHTML(htmlContent);
+      const userData = extractUserDataFromHTML(cleanHtml);
       seoCard = {
         eventType: catalogoItem.event_type || htmlMeta.eventType || 'General',
         theme: catalogoItem.theme || htmlMeta.theme || 'Elegante',
@@ -1886,8 +1894,8 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
       tags = [];
     }
 
-    // metadata sigue siendo requerido por el validador y por la lógica de
-    // normalize de slug en generateSEOPage (campos: eventType, colors, modules)
+    // Se pasa SOLO el card + metadata mínima (eventType/colors/modules para
+    // validación de slug). NUNCA htmlContent ni cleanHtml a generateSEOPage.
     const metadata = {
       eventType: seoCard.eventType || 'General',
       theme: seoCard.theme || 'Elegante',
@@ -1897,7 +1905,6 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
       modules: tags.length > 0 ? tags : ['RSVP', 'Countdown', 'Map', 'Event Details'],
       title: seoCard.title || '',
       originalPrompt: '',
-      // userData para retrocompatibilidad del prompt antiguo (ya no usado)
       userData: {
         names: seoCard.names || '',
         eventDate: seoCard.eventDate || catalogoItem.event_date || '',
@@ -1909,11 +1916,10 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
         dressCode: seoCard.dressCode || '',
         giftRegistry: seoCard.giftRegistry || ''
       },
-      // seoCard completa: fuente primaria de datos para generateSEOPage
       seoCard: seoCard
     };
 
-    console.log(`🚀 Generando SEO para catálogo ID ${id}: eventType=${metadata.eventType}, theme=${metadata.theme}`);
+    console.log(`🚀 Generando SEO para catálogo ID ${id}: eventType=${metadata.eventType}, theme=${metadata.theme}, cardKeys=${Object.keys(seoCard).length}`);
 
     const { generateSEOPage } = await import('./geminiService.js');
     const seoData = await generateSEOPage(metadata, apiKey, model);

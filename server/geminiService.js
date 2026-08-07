@@ -1306,30 +1306,38 @@ export function extractJson(text) {
   throw new Error('Failed to parse SEO JSON response');
 }
 
-export const generateSEOPage = async (metadata, apiKey, model = 'gemini-2.5-flash') => {
-  // La fuente primaria es metadata.seoCard (construida en generate-html).
-  // Si la fila del catalogo no tiene seoCard, se construye en index.js con
-  // fallback a user_data del HTML (modo legacy). Aquí solo leemos.
-  const card = (metadata && metadata.seoCard && typeof metadata.seoCard === 'object' && Object.keys(metadata.seoCard).length > 0)
-    ? metadata.seoCard
-    : {
-        eventType: metadata?.eventType || 'General',
-        theme: metadata?.theme || 'Elegante',
-        primaryColor: metadata?.primaryColor || '',
-        secondaryColor: metadata?.secondaryColor || '',
-        names: metadata?.userData?.names || '',
-        eventDate: metadata?.userData?.eventDate || '',
-        eventTime: metadata?.userData?.eventTime || '',
-        ceremonyLocation: metadata?.userData?.ceremonyLocation || '',
-        receptionLocation: metadata?.userData?.receptionLocation || '',
-        parents: metadata?.userData?.parents || '',
-        godparents: metadata?.userData?.godparents || '',
-        dressCode: metadata?.userData?.dressCode || '',
-        giftRegistry: metadata?.userData?.giftRegistry || '',
-        title: metadata?.title || '',
-        slugSuggestion: '',
-        description: ''
-      };
+// generateSEOPage: genera la landing SEO ensamblando las 12 secciones desde
+// `card` (text-only, sin HTML). Nunca debe recibir el HTML completo de la
+// invitación (contiene base64 de imágenes → millones de chars → HTTP 400).
+// `model` se usa tal cual (config.html_google_model).
+export const generateSEOPage = async (card, apiKey, model = 'gemini-2.5-flash') => {
+  // Normalización: aceptar card directa o envoltorio metadata{seoCard} para
+  // retrocompatibilidad con llamadores viejos. SOLO se leen campos de texto.
+  if (card && card.seoCard && typeof card.seoCard === 'object' && Object.keys(card.seoCard).length > 0) {
+    card = card.seoCard;
+  }
+  // Garantizar que card sea un objeto con los campos esperados; si viene vacío,
+  // defaults seguros.
+  if (!card || typeof card !== 'object' || Object.keys(card).length === 0) {
+    card = {
+      eventType: card?.eventType || 'General',
+      theme: card?.theme || 'Elegante',
+      primaryColor: card?.primaryColor || '',
+      secondaryColor: card?.secondaryColor || '',
+      names: card?.names || '',
+      eventDate: card?.eventDate || '',
+      eventTime: card?.eventTime || '',
+      ceremonyLocation: card?.ceremonyLocation || '',
+      receptionLocation: card?.receptionLocation || '',
+      parents: card?.parents || '',
+      godparents: card?.godparents || '',
+      dressCode: card?.dressCode || '',
+      giftRegistry: card?.giftRegistry || '',
+      title: card?.title || '',
+      slugSuggestion: '',
+      description: ''
+    };
+  }
 
   const {
     eventType, theme, primaryColor, secondaryColor,
@@ -1392,11 +1400,11 @@ export const generateSEOPage = async (metadata, apiKey, model = 'gemini-2.5-flas
     : '';
 
   const userDataInstructions = userLines.length > 0
-    ? `\nIn section_1 (hero summary), if Names are provided, mention them naturally as an example of the personalization available.\nIn section_2 (quick details), include Event date and Event time as example values when provided (use a human-readable format like "October 18, 2027 at 4:30 PM"), keeping the same JSON schema.\nIn section_3 (about description), mention Ceremony location and Reception location if provided.\nDo NOT invent or fabricate user data that is not present above.\n`
+    ? `\nIn section_1 (hero summary), if Names are provided, mention them naturally as an example of the personalization available.\nIn section_2 (quick details), include Event date and Event time as example values when provided (use a human-readable format like "October 18, 2027 at 4:30 PM"), keeping the same JSON schema.\nDo NOT invent or fabricate user data that is not present above.\n`
     : '';
 
-  // Prompt ligero: solo la card + instrucciones de ensamblado. NO se envía el
-  // HTML completo (eso causaba MAX_TOKENS y JSON inválido con pro-preview).
+  // Prompt ligero: solo la card + instrucciones de ensamblado. NUNCA se envía
+  // el HTML completo (contiene base64 → millones de chars → HTTP 400).
   const userPrompt = `Generate the 12-section SEO landing page JSON for this invitation.
 
 Event Type: ${eventType || 'General'}
@@ -1410,8 +1418,16 @@ Remember: Return ONLY the JSON object with keys slug, seo_title, meta_descriptio
   console.log('=== SEO PAGE GENERATION (card mode) ===');
   console.log('Event:', eventType, '| Theme:', theme, '| Colors:', primaryColor, secondaryColor);
   console.log('Model:', model);
-  console.log('Prompt size (chars):', userPrompt.length);
+  console.log('userPrompt size (chars):', userPrompt.length);
   console.log('===========================');
+
+  // GUARD de seguridad: el prompt (systema + user) debe ser pequeño (decenas
+  // de miles de chars). Si pasa ~900k chars, seguro se coló base64 de HTML.
+  const estimatedChars = SEO_SYSTEM_PROMPT.length + userPrompt.length;
+  console.log('[SEO] prompt size (chars):', estimatedChars);
+  if (estimatedChars > 900000) {
+    throw new Error(`SEO prompt too large (${estimatedChars} chars). HTML base64 not stripped?`);
+  }
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 
@@ -1501,7 +1517,7 @@ Remember: Return ONLY the JSON object with keys slug, seo_title, meta_descriptio
     seoData.slug = seoData.slug.replace(/^\//, '').replace(/\/$/, '').replace(/^-+/, '').replace(/-+$/, '');
     const slashCount = (seoData.slug.match(/\//g) || []).length;
     if (slashCount === 0) {
-      const eventTypeSlug = slugify(metadata.eventType || 'invitacion');
+      const eventTypeSlug = slugify(eventType || 'invitacion');
       seoData.slug = `${eventTypeSlug}/${seoData.slug}`;
     } else if (slashCount > 1) {
       const parts = seoData.slug.split('/');
