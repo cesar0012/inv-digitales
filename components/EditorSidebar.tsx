@@ -36,6 +36,55 @@ const extractBgImageUrl = (bgValue: string): string => {
 
 const TEXT_LEAF_SELECTOR = 'h1, h2, h3, h4, h5, h6, p, span, li, time, figcaption, blockquote, strong, em, label, td, th';
 
+// Etiquetas de TEXTO: si su contenido es vacío/insustancial, se descartan.
+// Etiquetas visuales (IMG, IFRAME, A con fondo, backgrounds) se conservan.
+const TEXT_ONLY_TAGS = new Set([
+  'H1','H2','H3','H4','H5','H6','P','SPAN','LI','TIME','FIGCAPTION',
+  'BLOCKQUOTE','STRONG','EM','LABEL','TD','TH','DIV'
+]);
+
+// hasUsefulText: true si el texto limpia substance meaningful. Descartamos:
+// - vacío
+// - solo whitespace/tabs/newlines
+// - solo 1 caracter
+// - solo signos/puntuación/símbolos (e.g. ".", "-", "·", "*", "—", "/", "|")
+// - secuencias de un mismo caracter (e.g. "----", "....")
+// Se conserva cualquier texto >= 2 chars que mezcle letras o dígitos.
+const hasUsefulText = (raw: string): boolean => {
+  if (!raw) return false;
+  const trimmed = raw.trim();
+  if (!trimmed) return false;
+  if (trimmed.length < 2) return false;
+  // Solo signos/puntuación/símbolos. Bloqueamos también secuencias repetidas
+  // de un mismo caracter (e.g. "----", ".....").
+  // Si contiene al menos una letra o dígito (de longitud >= 2 tras stripped),
+  // lo consideramos útil para editar.
+  const hasLetterOrDigit = /[A-Za-zÁÉÍÓÚáéíóúÑñ0-9]/.test(trimmed);
+  if (!hasLetterOrDigit) return false;
+  // Secuencia de un único caracter repetido (---, ..., ···, ===, ___)
+  if (/^(.)\1+$/.test(trimmed)) return false;
+  return true;
+};
+
+// isVisualElement: conserva elementos no textuales aunque no tengan texto.
+// - IMG, IFRAME siempre visuales
+// - A con imagen de fondo o con IMG interno
+// - elementos con background-image (con data-gemini-id) → backgrounds
+// - memory_type="background"
+const isVisualElement = (el: HTMLElement): boolean => {
+  const tag = el.tagName;
+  if (tag === 'IMG' || tag === 'IFRAME') return true;
+  if (tag === 'A') {
+    if (el.querySelector('img')) return true;
+    const bg = extractBgImageUrl(el.style.backgroundImage);
+    if (bg) return true;
+  }
+  if (el.getAttribute('memory_type') === 'background') return true;
+  const bg = extractBgImageUrl(el.style.backgroundImage);
+  if (bg) return true;
+  return false;
+};
+
 const extractEditableText = (el: HTMLElement): string => {
   if (el.children.length === 0) {
     return el.textContent || '';
@@ -65,6 +114,13 @@ const parseEditableElements = (code: string): EditableElement[] => {
       // Excluir elementos con memory_usage="protected" salvo backgrounds editables
       if (htmlEl.getAttribute('memory_usage') === 'protected'
           && htmlEl.getAttribute('memory_type') !== 'background') return false;
+      // Filtro de contenido: descartar elementos de TEXTO sin contenido útil.
+      // Los visuales (IMG/IFRAME/A-con-img/backgrounds) se conservan aunque
+      // su textContent sea vacío.
+      if (TEXT_ONLY_TAGS.has(htmlEl.tagName) && !isVisualElement(htmlEl)) {
+        const text = htmlEl.textContent || '';
+        if (!hasUsefulText(text)) return false;
+      }
       return true;
     });
   
@@ -256,6 +312,49 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility }: { 
   const bgFileInputRef = useRef<HTMLInputElement>(null);
   const editorRef = useRef<HTMLDivElement>(null);
 
+  // Estado para edición de Google Maps: dirección textual que el usuario
+  // ingresa. El embed se regenera con https://www.google.com/maps?q=<addr>
+  // Solo se activa cuando el iframe es de Google Maps (o está vacío y el
+  // geminiId sugiere ubicación/región, en cuyo caso lo tractamos como Maps).
+  const [mapAddress, setMapAddress] = useState<string>('');
+
+  // isGoogleMapsIframe: detecta si el src del iframe apunta a Google Maps
+  // (incluye embeds legacy, output=embed, maps/embed/v1/place). Si el src
+  // está vacío pero el geminiId sugiere ubicación/mapa, también true para
+  // que el usuario pueda inicializar el embed con una dirección.
+  const isGoogleMapsIframe = (iframeSrc: string, geminiId: string): boolean => {
+    const s = (iframeSrc || '').toLowerCase();
+    if (s.includes('google.com/maps') || s.includes('maps.google.com')) return true;
+    if (s.includes('googleapis.com/maps') || s.includes('google.com/maps/embed')) return true;
+    const gid = (geminiId || '').toLowerCase();
+    if (!s && (gid.includes('ubicacion') || gid.includes('mapa') || gid.includes('location'))) return true;
+    return false;
+  };
+
+  // buildMapsEmbedUrl: genera el src de embed sin API key usando el endpoint
+  // público https://www.google.com/maps?q=<encoded>&output=embed. Soporta
+  // direcciones (textuales), coordenadas "lat,lng" y plus codes.
+  const buildMapsEmbedUrl = (address: string): string => {
+    const q = (address || '').trim();
+    if (!q) return '';
+    return `https://www.google.com/maps?q=${encodeURIComponent(q)}&output=embed`;
+  };
+
+  // extractMapsAddress: intenta extraer una dirección legible del src actual
+  // del iframe (para pre-poblar el input cuando ya hay un embed de Maps).
+  const extractMapsAddress = (iframeSrc: string): string => {
+    const s = iframeSrc || '';
+    const m = s.match(/[?&]q=([^&]+)/);
+    if (m) {
+      try { return decodeURIComponent(m[1]).replace(/\+/g, ' '); } catch { return m[1]; }
+    }
+    const m2 = s.match(/[?&]center=([^&]+)/);
+    if (m2) {
+      try { return decodeURIComponent(m2[1]).replace(/\+/g, ' '); } catch { return m2[1]; }
+    }
+    return '';
+  };
+
   const [widthSlider, setWidthSlider] = useState(() => parsePercentValue(element.styles.width) || 100);
   const [heightSlider, setHeightSlider] = useState(() => parsePxValue(element.styles.height) || 300);
   const [paddingSlider, setPaddingSlider] = useState(() => {
@@ -321,6 +420,17 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility }: { 
     // Actualizar el snapshot para futuras comparaciones.
     lastSentRef.current = incomingSig;
   }, [element]);
+
+  // Pre-poblar mapAddress cuando el elemento es un iframe de Google Maps.
+  // Si el src ya tiene un?q=<addr>, lo decodifica; si no, deja vacío para
+  // que el usuario ingrese una nueva dirección.
+  useEffect(() => {
+    if (element.tagName === 'IFRAME' && isGoogleMapsIframe(element.src, element.geminiId)) {
+      setMapAddress(extractMapsAddress(element.src));
+    } else {
+      setMapAddress('');
+    }
+  }, [element.geminiId, element.src, element.tagName]);
 
   const triggerUpdate = (newContent = content, newSrc = src, newHref = href, newStyles = styles, newAnimationClass = animationClass, newBgImage = bgImage) => {
     // Registrar el snapshot enviado para que el useEffect de [element] no
@@ -521,15 +631,48 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility }: { 
           )}
 
           {isIframe && (
-            <div className="space-y-1.5">
-              <label className="text-xs font-medium text-gray-500">URL del Mapa/Video (src)</label>
-              <input
-                type="text"
-                value={src}
-                onChange={(e) => setSrc(e.target.value)}
-                onBlur={() => triggerUpdate()}
-                className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
-              />
+            <div className="space-y-3">
+              {isGoogleMapsIframe(src, element.geminiId) && (
+                <div className="space-y-1.5 p-3 bg-pink-50/50 border border-pink-200 rounded-lg">
+                  <label className="text-xs font-medium text-pink-700 flex items-center gap-1.5">
+                    <Map className="w-3.5 h-3.5" />
+                    Dirección del mapa
+                  </label>
+                  <input
+                    type="text"
+                    value={mapAddress}
+                    onChange={(e) => setMapAddress(e.target.value)}
+                    placeholder="Ej: Av. Reforma 123, CDMX"
+                    className="w-full bg-white border border-pink-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!mapAddress.trim()) return;
+                      const newSrc = buildMapsEmbedUrl(mapAddress);
+                      setSrc(newSrc);
+                      triggerUpdate(content, newSrc, href, styles, animationClass, bgImage);
+                    }}
+                    className="w-full py-2 bg-pink-500 text-white hover:bg-pink-600 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
+                  >
+                    <Map className="w-4 h-4" />
+                    Actualizar mapa
+                  </button>
+                  <p className="text-[10px] text-gray-400">
+                    Escribe la dirección y presiona "Actualizar mapa" para regenerar la ubicación.
+                  </p>
+                </div>
+              )}
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-gray-500">URL del Mapa/Video (src)</label>
+                <input
+                  type="text"
+                  value={src}
+                  onChange={(e) => setSrc(e.target.value)}
+                  onBlur={() => triggerUpdate()}
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
+                />
+              </div>
             </div>
           )}
 
