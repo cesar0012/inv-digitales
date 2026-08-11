@@ -36,30 +36,28 @@ const extractBgImageUrl = (bgValue: string): string => {
 
 const TEXT_LEAF_SELECTOR = 'h1, h2, h3, h4, h5, h6, p, span, li, time, figcaption, blockquote, strong, em, label, td, th';
 
-// Etiquetas de TEXTO: si su contenido es vacío/insustancial, se descartan.
-// Etiquetas visuales (IMG, IFRAME, A con fondo, backgrounds) se conservan.
-const TEXT_ONLY_TAGS = new Set([
-  'H1','H2','H3','H4','H5','H6','P','SPAN','LI','TIME','FIGCAPTION',
-  'BLOCKQUOTE','STRONG','EM','LABEL','TD','TH','DIV'
-]);
+// hasUsefulText: revisa el texto que REALMENTE se mostrará en el panel
+// (extractEditableText). El filtro anterior miraba textContent global del
+// elemento, lo que NO coincidía con el contenido del textarea del panel
+// cuando extractEditableText iteraba childNodes o buscaba hojas.
+// Descartos: vacío, solo whitespace/tabs/newlines (incluye U+00A0 &nbsp;),
+// 1 solo char, solo signos/puntuación/símbolos, secuencias de un mismo char.
+const NORMALIZE_WHITESPACE = (s: string): string => {
+  if (!s) return '';
+  // .trim() no cubre U+00A0 (nbsp) ni otros espacios Unicode. Convertimos
+  // a U+0020 y luego trim.
+  return s
+    .replace(/[\u00A0\u2000-\u200A\u202F\u205F\u3000\uFEFF]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+};
 
-// hasUsefulText: true si el texto limpia substance meaningful. Descartamos:
-// - vacío
-// - solo whitespace/tabs/newlines
-// - solo 1 caracter
-// - solo signos/puntuación/símbolos (e.g. ".", "-", "·", "*", "—", "/", "|")
-// - secuencias de un mismo caracter (e.g. "----", "....")
-// Se conserva cualquier texto >= 2 chars que mezcle letras o dígitos.
 const hasUsefulText = (raw: string): boolean => {
-  if (!raw) return false;
-  const trimmed = raw.trim();
+  const trimmed = NORMALIZE_WHITESPACE(raw);
   if (!trimmed) return false;
   if (trimmed.length < 2) return false;
-  // Solo signos/puntuación/símbolos. Bloqueamos también secuencias repetidas
-  // de un mismo caracter (e.g. "----", ".....").
-  // Si contiene al menos una letra o dígito (de longitud >= 2 tras stripped),
-  // lo consideramos útil para editar.
-  const hasLetterOrDigit = /[A-Za-zÁÉÍÓÚáéíóúÑñ0-9]/.test(trimmed);
+  // Sin letras ni dígitos (solo signos/puntos/rayas/símbolos) → descartar.
+  const hasLetterOrDigit = /[A-Za-zÁÉÍÓÚáéíóúÜüÑñ0-9]/.test(trimmed);
   if (!hasLetterOrDigit) return false;
   // Secuencia de un único caracter repetido (---, ..., ···, ===, ___)
   if (/^(.)\1+$/.test(trimmed)) return false;
@@ -114,12 +112,21 @@ const parseEditableElements = (code: string): EditableElement[] => {
       // Excluir elementos con memory_usage="protected" salvo backgrounds editables
       if (htmlEl.getAttribute('memory_usage') === 'protected'
           && htmlEl.getAttribute('memory_type') !== 'background') return false;
-      // Filtro de contenido: descartar elementos de TEXTO sin contenido útil.
-      // Los visuales (IMG/IFRAME/A-con-img/backgrounds) se conservan aunque
-      // su textContent sea vacío.
-      if (TEXT_ONLY_TAGS.has(htmlEl.tagName) && !isVisualElement(htmlEl)) {
-        const text = htmlEl.textContent || '';
-        if (!hasUsefulText(text)) return false;
+      // Filtro de contenido: descartar elementos cuyo texto-editable (lo que
+      // verá el usuario en el textarea del panel) NO tenga contenido útil.
+      // El filtro anterior miraba textContent global (incluía descendientes),
+      // lo que no coincidía con extractEditableText y por eso entraban elementos
+      // con solo whitespace/tabs/saltos de línea. Ahora revisamos justo el
+      // sub-árbol que se mostrará.
+      if (!isVisualElement(htmlEl)) {
+        // Elementos A sin imagen de fondo pero con href: se conservan (son
+        // enlaces útiles aunque su texto sea corto). A con texto utilizable
+        // también pasa por la regla general.
+        const isLinkWithHref = htmlEl.tagName === 'A' && (htmlEl.getAttribute('href') || '').trim().length > 0;
+        if (!isLinkWithHref) {
+          const text = extractEditableText(htmlEl);
+          if (!hasUsefulText(text)) return false;
+        }
       }
       return true;
     });
