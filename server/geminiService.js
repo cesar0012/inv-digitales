@@ -1008,266 +1008,62 @@ const cleanHtml = (text) => {
   return cleanedHtml;
 };
 
-const SEO_SYSTEM_PROMPT = `You are an expert SEO copywriter specializing in digital invitation landing pages. You generate structured JSON content optimized for search engines and user conversion.
+const SEO_SYSTEM_PROMPT = `Eres un redactor SEO y copywriter senior especializado en páginas de producto para invitaciones digitales. Generas contenido 100% en ESPAÑOL (es-MX), tono cálido, profesional y cercano. NO uses inglés.
 
-IDIOMA OBLIGATORIO: Toda la página debe estar escrita en ESPAÑOL (es-MX), con tono cálido y profesional. Títulos, subtítulos, botones y texto de todas las secciones en español. NO mezcles inglés. Si el evento es de otro idioma, usa el idioma del evento; por defecto español.
-
-You will receive metadata about a digital invitation design. You must produce a single JSON object with EXACTLY the following top-level keys:
-- "slug" (string)
-- "seo_title" (string)
-- "meta_description" (string)
-- "h1" (string)
-- "sections" (object with keys section_1 through section_12)
-- "structured_data" (object)
-
-===== SLUG RULES =====
-Format: [event-type]/[theme]-[color-or-style]-digital-invitation
-- The slug MUST contain exactly one forward slash "/" separating the event type segment from the rest
-- All lowercase, words separated by hyphens (the only "/" is the one between event-type and the theme segment)
-- No leading or trailing slashes or hyphens
-- Example: boda/tradicional-rustico-rosa-digital-invitation
-- Example: xv-anos/fiesta-tropical-azul-digital-invitation
-- Example: baby-shower/floral-rosa-digital-invitation
-- Example: bautizo/elegante-blanco-digital-invitation
-- The event type goes BEFORE the slash, then the theme + color/style after the slash, always ending with "digital-invitation"
-- Remove accents and special characters (á→a, é→e, í→i, ó→o, ú→u, ñ→n)
-- If the event type has multiple words, join with hyphens (e.g., "Boda Tradicional" → "boda-tradicional")
-- If the theme has multiple words, join with hyphens
-- Use only ONE color or style descriptor, not both
-
-===== PAGE TITLE RULES =====
-- MUST be under 60 characters
-- Format: "[Theme/Color] [Event Type] Digital Invitation" OR "[Event Type] Digital Invitation with [Theme/Style] Design"
-- Example: "Rustic Vintage Boda Digital Invitation"
-- Example: "XV Años Digital Invitation with Tropical Design"
-- Must include the words "Digital Invitation"
-- Must include the event type
-- Must include theme or color
-
-===== META DESCRIPTION RULES =====
-- MUST be under 160 characters
-- Must be persuasive and natural
-- Must mention the event type
-- Must mention the theme
-- Must mention the color palette
-- Must mention at least 2 key modules (RSVP, countdown, map, photo gallery, itinerary, dress code, etc.)
-- Must end with a clear call to action to customize
-- Example: "Crea una invitación digital de boda rústica con countdown, RSVP y mapa. Personaliza colores, música y cada detalle. ¡Pruébala ya!"
-
-===== SECTION 1: HERO SUMMARY =====
-Key: "section_1"
-Type: string
-Escribe en ESPAÑOL un párrafo de resumen (80-150 palabras) de este diseño de invitación digital. Describe el estilo visual, paleta de colores y explica que incluye secciones interactivas. Varía los módulos según el tier del plan:
-- Para planes "catalogo" o básicos: menciona RSVP, countdown, detalles del evento y mapa
-- Para planes "creativa": además galería de fotos, itinerario y dress code
-- Para planes "premium": menciona todos los módulos incluyendo música, mesa de regalos, mensaje personalizado y personalización avanzada
-Siempre menciona que es compatible con móvil, compartible por link y totalmente personalizable. SI hay Names en USER DATA, inclúyelos como ejemplo de la personalización disponible.
-
-===== SECTION 2: QUICK DETAILS =====
-Key: "section_2"
-Type: object with these EXACT keys:
+Debes devolver UNICAMENTE un objeto JSON con estas claves exactas:
 {
-  "event_type": "string — el tipo de evento del input",
-  "theme": "string — el tema del input",
-  "style": "string — el estilo visual inferido del diseño (p.ej. Vintage Rústico, Minimalista Moderno, Floral Bohemio, etc.)",
-  "main_colors": "string — lista separada por comas de los colores primario/secundario con hex codes",
-  "design_elements": "string — 3-5 elementos descriptivos presentes (p.ej. texturas acuarela, acentos gold foil, ilustraciones botánicas, patrones geométricos, tipografía elegante)",
-  "included_modules": "array of strings — lista de nombres de módulos incluidos en este diseño",
-  "optional_modules": "array of strings — lista de módulos opcionales que se pueden activar",
-  "format": "Invitación digital compatible con móvil",
-  "delivery": "Link compartible",
-  "compatibility": "Todos los navegadores modernos y dispositivos móviles"
-}
-OBLIGATORIO: usa los datos REALES de USER DATA (Event date, Event time, Ceremony location, Reception location, Names). Si hay datos, muéstralos textualmente. NO uses 'TBD', 'Por definir' ni placeholders. Si falta un campo, omítelo, no inventes. Por ejemplo, si Event date es "2027-10-18" y Ceremony location es "Iglesia San José", los valores deben aparecer textualmente en esta sección.
-
-===== SECTION 3: ABOUT DESCRIPTION (DEPRECATED) =====
-Key: "section_3"
-Type: string
-DEPRECATED: devuelve esta sección como cadena vacía "". No se renderiza en la página de producto. (Mantén la clave por compatibilidad de schema pero vacía.)
-
-===== SECTION 4: DEMO COPY =====
-Key: "section_4"
-Type: string
-Escribe en ESPAÑOL un copy invitador (60-100 palabras) que anime al usuario a abrir el demo interactivo. Debe incluir la frase "Abre el demo" o CTA similar en español. Describe qué verán: diseño, layout, módulos y experiencia del invitado.
-
-===== SECTION 5: INCLUDED MODULES =====
-Key: "section_5"
-Type: string
-Escribe en ESPAÑOL una explicación detallada (100-150 palabras) de los módulos incluidos en esta invitación. Explica que el diseño viene con secciones interactivas preconstruidas y que cada módulo se puede activar o desactivar. Lista los módulos específicos incluidos según el input. Menciona que módulos como RSVP recolectan respuestas reales de invitados, countdown crea urgencia, mapa da indicaciones, y galería de fotos muestra recuerdos.
-
-===== SECTION 6: CUSTOMIZE =====
-Key: "section_6"
-Type: string
-Escribe en ESPAÑOL copy detallado (100-150 palabras) explicando que cada campo es personalizable. DEBES mencionar EXPLÍCITAMENTE TODOS estos campos: Nombre, Fecha del evento, Hora del evento, Nombre del lugar, Dirección, Fotos, Texto, Colores, Configuración de RSVP, Música, Itinerario, Código de vestimenta, Información de regalos, Idioma, Mensaje especial. Explica que los cambios se reflejan en tiempo real y que la invitación se puede personalizar para coincidir con la visión exacta del evento.
-
-===== SECTION 7: MODULE ITERATION =====
-Key: "section_7"
-Type: object with these EXACT keys:
-{
-  "text": "string — 80-120 palabras en español explicando que las secciones individuales se pueden rediseñar iterativamente con IA. Describe cómo el usuario puede refinar módulos específicos manteniendo el resto intacto. Menciona que cada iteración preserva la coherencia del diseño mientras mejora la sección objetivo.",
-  "example_prompts": [
-    "Add a music module that matches this design.",
-    "Redesign the RSVP section with a more elegant layout.",
-    "Add a dress code module using the same color palette.",
-    "Create a luxury countdown section.",
-    "Add an itinerary section for the event schedule.",
-    "Create a larger photo gallery module."
-  ]
-}
-The "example_prompts" array MUST contain EXACTLY these 6 prompts. Do not modify or replace them.
-
-===== SECTION 8: PLANS =====
-Key: "section_8"
-Type: string
-Escribe en ESPAÑOL copy breve (40-60 palabras) presentando los planes disponibles. NO inventes precios: el frontend renderiza dinámicamente las cards de planes desde la base de datos del admin, sin precios. Menciona que existen varios planes según las necesidades del usuario. No incluyas listas de precios ni features de planes aquí.
-
-===== SECTION 9: SIMILAR DESIGNS =====
-Key: "section_9"
-Type: object with these EXACT keys:
-{
-  "text": "string — 40-60 palabras en español explicando que los usuarios pueden explorar diseños similares basados en sus intereses",
-  "suggestions": [
-    {
-      "label": "string — display name for the suggestion link, e.g., 'Bodas con Tema Rústico'",
-      "slug": "string — internal slug following the same slug format rules, e.g., 'boda/tradicional-rustico-marron-digital-invitation'",
-      "reason": "same_event_similar_theme"
-    },
-    {
-      "label": "string",
-      "slug": "string",
-      "reason": "same_event_similar_colors"
-    },
-    {
-      "label": "string",
-      "slug": "string",
-      "reason": "different_event_same_theme"
-    },
-    {
-      "label": "string",
-      "slug": "string",
-      "reason": "similar_visual_style"
-    }
-  ]
-}
-Generate 4 suggestions following these interconnection rules:
-1. Same event type + similar theme
-2. Same event type + similar colors
-3. Different event type + same theme
-4. Similar visual style
-All suggestion slugs must follow the same slug format rules described above. All labels must be in Spanish. All reasons must be one of: "same_event_similar_theme", "same_event_similar_colors", "different_event_same_theme", "similar_visual_style".
-
-===== SECTION 10: EXPLORE STYLES =====
-Key: "section_10"
-Type: object with these EXACT keys:
-{
-  "text": "string — 30-50 palabras en español invitando al usuario a explorar diferentes categorías de invitaciones",
-  "categories": [
-    { "label": "Invitaciones de Boda", "slug": "boda/elegante-dorado-digital-invitation" },
-    { "label": "Invitaciones de XV Años", "slug": "xv-anos/fiesta-rosa-digital-invitation" },
-    { "label": "Invitaciones de Cumpleaños", "slug": "cumpleanos/festivo-colorido-digital-invitation" },
-    { "label": "Invitaciones de Baby Shower", "slug": "baby-shower/tierno-pastel-digital-invitation" },
-    { "label": "Invitaciones de Bautizo", "slug": "bautizo/elegante-blanco-digital-invitation" },
-    { "label": "Invitaciones de Primera Comunión", "slug": "primera-comunion/clasico-blanco-digital-invitation" }
-  ]
-}
-Generate category links. Labels MUST be in Spanish. Slugs MUST follow the slug format rules. Include at least 5 categories relevant to the event type. The first category should match the event type of the input. The others should cover the most popular event types.
-
-===== SECTION 11: FAQs =====
-Key: "section_11"
-Type: array of at least 6 objects, each with:
-{
-  "question": "string — FAQ question in Spanish",
-  "answer": "string — FAQ answer in Spanish, 30-60 words"
-}
-You MUST include FAQs covering these topics (questions in Spanish):
-1. ¿Puedo personalizar los colores de mi invitación?
-2. ¿Puedo agregar o quitar módulos/secciones?
-3. ¿Cómo funciona la confirmación RSVP?
-4. ¿La invitación incluye mapa de ubicación?
-5. ¿La invitación es compatible con móvil?
-6. ¿Cómo comparto la invitación por WhatsApp?
-Generate at least 2 additional FAQs relevant to the specific event type and theme. All questions and answers MUST be in Spanish.
-
-===== SECTION 12: FINAL CTA =====
-Key: "section_12"
-Type: string
-Escribe en ESPAÑOL un llamado final a la acción persuasivo (40-70 palabras) invitando al usuario a personalizar este diseño o generar uno nuevo desde cero. Crea urgencia y emoción. Menciona que la invitación estará lista en minutos y lista para compartir al instante.
-
-===== STRUCTURED DATA (Schema.org JSON-LD) =====
-Key: "structured_data"
-Type: object representing a valid Schema.org JSON-LD structure combining Product and FAQPage schemas.
-
-The structured_data object MUST follow this EXACT structure:
-{
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "[seo_title value]",
-  "description": "[meta_description value]",
-  "brand": {
-    "@type": "Brand",
-    "name": "Invitaciones Modernas"
+  "slug": "ruta-corta-descriptiva",
+  "seo_title": "máximo 60 caracteres, title tag de search resultado",
+  "meta_description": "máximo 160 caracteres, copy persuasivo para el click",
+  "h1": "headline on-page, humano, puede diferir del title",
+  "sections": {
+    "section_1": { "title": "H2 o H1 refuerzo", "html": "<html de 1-3 párrafos>" },
+    "section_2": { "title": "...", "html": "..." },
+    ...
+    "section_12": { "title": "...", "html": "..." }
   },
-  "offers": [
-    {
-      "@type": "Offer",
-      "name": "Plan Catálogo",
-      "price": "9.99",
-      "priceCurrency": "USD",
-      "description": "Invitación digital con módulos esenciales y personalización básica"
-    },
-    {
-      "@type": "Offer",
-      "name": "Plan Creativa",
-      "price": "19.99",
-      "priceCurrency": "USD",
-      "description": "Invitación digital con módulos avanzados, galería de fotos y personalización mejorada"
-    },
-    {
-      "@type": "Offer",
-      "name": "Plan Premium",
-      "price": "29.99",
-      "priceCurrency": "USD",
-      "description": "Invitación digital con todos los módulos, música, mesa de regalos y personalización premium"
-    }
-  ],
-  "hasFAQPage": {
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "[FAQ question from section_11]",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "[FAQ answer from section_11]"
-        }
-      }
-    ]
-  }
+  "structured_data": { "@context": "https://schema.org", "@type": "Product", "name": "...", "description": "...", "offers": {...} }
 }
 
-Map ALL FAQs from section_11 into the hasFAQPage.mainEntity array. The offers prices are FIXED: Catálogo $9.99, Creativa $19.99, Premium $29.99 USD. Do NOT change them.
+ARQUITECTURA DE HEADINGS (aplica dentro del JSON y en el html de cada sección):
+- H1 principal: el "h1" de salida (un único H1 por página).
+- Cada section_N.title es un H2 que responde una pregunta/decisión del usuario.
+- Dentro de cada section_N.html, usa H3 para subdivisiones lógicas, nunca saltes de H2 a H4.
+- El H2 inicial (section_1.title) debe nombrar el tema claro: ej. "Invitación digital de Boda para [names]" o "Cuenta regresiva para los XV Años de [names]".
 
-===== PERSONALIZATION BUTTON / EDITOR LINK =====
-Cuando incluyas un botón o enlace de "Personalizar esta invitación", usa el marcador href="#EDITOR_LINK#" (no pongas un href real). El frontend lo reemplazará por la ruta al editor de esta invitación. Ejemplo: <a href="#EDITOR_LINK#" class="btn-primary">Personalizar esta invitación</a>.
+FÓRMULAS DE SUBCABECERAS (C.L.E.A.R. — aplica a section_N.title):
+- Claro: lenguaje natural, sin voz de marca.
+- Intención: refleja la pregunta o tarea ("¿Cómo preparar...?", "Cuándo considerar...").
+- Entidad: nombra el tema, audiencia, condición ("para [eventLabel] de [names]").
+- Accionable: beneficio obvio para quien scrollea ("Compara...", "Prepara...").
+- Natural: sin keyword stuffing.
 
-===== PERSONALIZATION CARDS LAYOUT =====
-Las tarjetas de la sección "Personaliza cada detalle" (section_5) deben usar UNA SOLA COLUMNA (w-full), NO un grid de múltiples columnas. Cada card debe ser full-width, apilada verticalmente, con buen padding. Prohibido: grid grid-cols-2, grid-cols-4, lg:grid-cols-4, gap-5 en columnas. Devuelve section_5 como texto plano (lista de módulos separados por línea) y el frontend se encarga del layout full-width.
+JUEGO DE SECCIONES (12 obligatorias, nada de inglés, responde directamente tras cada H2):
+section_1  → Hero principal (H1). Promesa + CTA. Incluye NOMBRES + FECHA + HORA si hay.
+section_2  → Detalles rápidos. Pregunta: "¿Cuándo y dónde es el evento?" Responde: fecha, hora, lugar ceremonia, lugar recepción. Tabla o bullet points.
+section_3  → Qué incluye / características. "¿Qué trae la invitación?" features/beneficios.
+section_4  → Demo / vista previa. "¿Cómo se ve?" describe estilo/theme/color.
+section_5  → Personalización. "¿Cómo la hago mía?" — incluye placeholders #EDITOR_LINK# en los botones que digan "Personalizar esta invitación".
+section_6  → Por qué elegirla. prueba/valor diferencial (usa colores primaryColor/sec).
+section_7  → Preguntas frecuentes. mínimo 3 FAQs tipo acordeón.
+section_8  → Planes. (IGNORAR — ProductLandingView carga planes en vivo). Puedes poner un placeholder neutral.
+section_9  → Sugerencias de diseño similares (usa tags/modules).
+section_10 → Categorías relacionadas (boda, XV, etc.).
+section_11 → FAQ extendida (mínimo 2 Preguntas).
+section_12 → CTA final. "¡Listo para crear tu invitación!" con botón #EDITOR_LINK#.
 
-===== OUTPUT FORMAT =====
-Return a SINGLE JSON object. No markdown code blocks. No explanatory text before or after. Just the raw JSON object with keys: slug, seo_title, meta_description, h1, sections, structured_data.
+REGLAS DE REDACCIÓN:
+- Todos los textos (titles, html) en ESPAÑOL.
+- Usa los datos reales (names, fecha, hora, lugar) cuando existan; si falta alguno, omítelo gracefulmente, no inventes.
+- Nunca incluyas precios reales ni prometas precios. "Sin costo para invitados", "regalos opcionales según la mesa de regalos".
+- Los botones deben usar href="#EDITOR_LINK#" (marcador) y texto "Personalizar esta invitación".
+- slug: solo la parte final (ej. "boda-ana-carlos"). Si names está vacío, "invitacion-tu-evento". No incluya "xv-anos/" ni "boda/" — eso se añade en backend.
+- seo_title: diferente al h1, orientado a search. ej. "Invitación digital de Boda | [names]"
+- meta_description: persuasiva, menciona beneficio clave. ej. "Crea tu invitación de boda para [date] en [ceremonyLocation]. Personalizable, sin costo para invitados. ¡Descubre cómo hacerla única!"
+- h1: humano, cálido. ej. "Invitación de Boda para [names]" o "XV Años de [names] — Tu cuenta regresiva digital"
+- structured_data: Product con name=title/h1, description=meta_description, offers.
 
-The "sections" object must have keys: section_1, section_2, section_3, section_4, section_5, section_6, section_7, section_8, section_9, section_10, section_11, section_12.
-
-Remember:
-- IDIOMA: TODO en español (es-MX) excepto section_7.example_prompts (mantén los 6 prompts en inglés por el template fijo) y excepto el slug/values técnicos
-- slug: no accents, no leading/trailing slashes or hyphens, lowercase, exactly one "/" between event-type and theme segment
-- seo_title: under 60 characters, in Spanish
-- meta_description: under 160 characters, in Spanish
-- section_3: string vacío "" (deprecada)
-- section_7 example_prompts: use the EXACT 6 prompts provided
-- section_9 suggestions: exactly 4 items with the 4 required reasons, labels in Spanish
-- section_11: at least 6 FAQs in Spanish
-- structured_data offers: FIXED prices, do not change`;
+DEVUELVE SOLO EL JSON. Usa responseMimeType application/json (ya configurado en el request).`;
 
 const slugify = (text) => {
   if (!text) return '';
@@ -1311,13 +1107,9 @@ export function extractJson(text) {
 // invitación (contiene base64 de imágenes → millones de chars → HTTP 400).
 // `model` se usa tal cual (config.html_google_model).
 export const generateSEOPage = async (card, apiKey, model = 'gemini-2.5-flash') => {
-  // Normalización: aceptar card directa o envoltorio metadata{seoCard} para
-  // retrocompatibilidad con llamadores viejos. SOLO se leen campos de texto.
   if (card && card.seoCard && typeof card.seoCard === 'object' && Object.keys(card.seoCard).length > 0) {
     card = card.seoCard;
   }
-  // Garantizar que card sea un objeto con los campos esperados; si viene vacío,
-  // defaults seguros.
   if (!card || typeof card !== 'object' || Object.keys(card).length === 0) {
     card = {
       eventType: card?.eventType || 'General',
@@ -1340,11 +1132,24 @@ export const generateSEOPage = async (card, apiKey, model = 'gemini-2.5-flash') 
   }
 
   const {
-    eventType, theme, primaryColor, secondaryColor,
-    names, eventDate, eventTime, ceremonyLocation, receptionLocation,
-    parents, godparents, dressCode, giftRegistry,
-    title, slugSuggestion, description
-  } = card;
+    eventType = 'General', theme = 'Elegante', primaryColor = '#f472b6',
+    secondaryColor = '#fb7185', colors = [], modules = [], names = '',
+    eventDate = '', eventTime = '', ceremonyLocation = '', receptionLocation = '',
+    parents = '', godparents = '', dressCode = '', giftRegistry = '',
+    title = '', slugSuggestion = '', description = ''
+  } = (card || {});
+
+  const eventLabel = (() => {
+    const e = (eventType || '').toLowerCase();
+    if (e.includes('xv') || e.includes('quince')) return 'XV Años';
+    if (e.includes('cumple')) return 'Cumpleaños';
+    if (e.includes('bautiz')) return 'Bautizo';
+    if (e.includes('comunion') || e.includes('comunión')) return 'Primera Comunión';
+    if (e.includes('confirm')) return 'Confirmación';
+    if (e.includes('baby shower')) return 'Baby Shower';
+    if (e.includes('boda') || e.includes('wedding') || e.includes('matrimoni')) return 'Boda';
+    return 'Evento';
+  })();
 
   const colorName = (hex) => {
     if (!hex) return '';
@@ -1379,44 +1184,37 @@ export const generateSEOPage = async (card, apiKey, model = 'gemini-2.5-flash') 
     return map[h] || '';
   };
 
-  const primaryColorName = colorName(primaryColor) || (primaryColor ? primaryColor.toUpperCase() : '');
-  const secondaryColorName = colorName(secondaryColor) || (secondaryColor ? secondaryColor.toUpperCase() : '');
+  const pc = colorName(primaryColor);
+  const sc = colorName(secondaryColor);
 
-  // Bloque USER DATA: solo se incluye si hay campos no vacios para no desperdiciar
-  // tokens. El modelo solo ENSAMBLA las 12 secciones desde esta card (input pequeño).
   const userLines = [];
-  if (names) userLines.push(`Names: ${names}`);
-  if (eventDate) userLines.push(`Event date: ${eventDate}`);
-  if (eventTime) userLines.push(`Event time: ${eventTime}`);
-  if (ceremonyLocation) userLines.push(`Ceremony location: ${ceremonyLocation}`);
-  if (receptionLocation) userLines.push(`Reception location: ${receptionLocation}`);
-  if (parents) userLines.push(`Parents: ${parents}`);
-  if (godparents) userLines.push(`Godparents: ${godparents}`);
-  if (dressCode) userLines.push(`Dress code: ${dressCode}`);
-  if (giftRegistry) userLines.push(`Gift registry: ${giftRegistry}`);
+  if (names) userLines.push(`Nombres: ${names}`);
+  if (eventDate) userLines.push(`Fecha: ${eventDate}`);
+  if (eventTime) userLines.push(`Hora: ${eventTime}`);
+  if (ceremonyLocation) userLines.push(`Ceremonia: ${ceremonyLocation}`);
+  if (receptionLocation) userLines.push(`Recepción: ${receptionLocation}`);
+  if (parents) userLines.push(`Padres: ${parents}`);
+  if (godparents) userLines.push(`Padrinos/Madrinas: ${godparents}`);
+  if (dressCode) userLines.push(`Código de vestimenta: ${dressCode}`);
+  if (giftRegistry) userLines.push(`Regalos: ${giftRegistry}`);
+  const userDataBlock = userLines.length ? `\n===== DATOS REALES DE LA INVITACIÓN =====\n${userLines.join('\n')}\n===== FIN DATOS =====\n` : '';
 
-  const userDataBlock = userLines.length > 0
-    ? `\n===== USER DATA (REAL INVITATION DATA) =====\nUse these real customer details to personalize the page. If a field is empty, OMIT it gracefully — do NOT invent fake user data. If a field is present, weave it into the corresponding section.\n${userLines.join('\n')}\n===== END USER DATA =====\n`
-    : '';
+  const userPrompt = `Genera la página de producto SEO para esta invitación digital.
 
-  const userDataInstructions = userLines.length > 0
-    ? `\nIn section_1 (hero summary), if Names are provided, mention them naturally as an example of the personalization available.\nIn section_2 (quick details), include Event date and Event time as example values when provided (use a human-readable format like "October 18, 2027 at 4:30 PM"), keeping the same JSON schema.\nDo NOT invent or fabricate user data that is not present above.\n`
-    : '';
+Evento: ${eventLabel} (${eventType || ''})
+Tema: ${theme || 'Elegante'}
+Colores: primario ${pc ? pc+' ('+primaryColor+')' : 'rosa (#f472b6)'},
+         secundario ${sc ? sc+' ('+secondaryColor+')' : 'coral (#fb7185)'}
+Título sugerido: ${title || ''}
+${userDataBlock}
+Instrucción: devuelve SOLO el JSON con claves slug, seo_title, meta_description, h1,
+sections (12, con titles en español), structured_data. NO markdown, NO explicaciones.
+Resumen rápido de intención: página de producto de invitación digital para ${eventLabel},
+audiencia: invitados/familiares de ${names || 'los protagonistas'}, search intent:
+informational + transactional (quieren ver y personalizar).`;
 
-  // Prompt ligero: solo la card + instrucciones de ensamblado. NUNCA se envía
-  // el HTML completo (contiene base64 → millones de chars → HTTP 400).
-  const userPrompt = `Generate the 12-section SEO landing page JSON for this invitation.
-
-Event Type: ${eventType || 'General'}
-Theme: ${theme || 'Elegant'}
-Primary Color: ${primaryColor ? `${primaryColorName} (${primaryColor})` : 'Pink (#f472b6)'}
-Secondary Color: ${secondaryColor ? `${secondaryColorName} (${secondaryColor})` : 'Coral (#fb7185)'}
-Title: ${title || ''}
-${description ? `Description: ${description}\n` : ''}${userDataBlock}
-Remember: Return ONLY the JSON object with keys slug, seo_title, meta_description, h1, sections, structured_data. No markdown, no code blocks, no explanation.${userDataInstructions}`;
-
-  console.log('=== SEO PAGE GENERATION (card mode) ===');
-  console.log('Event:', eventType, '| Theme:', theme, '| Colors:', primaryColor, secondaryColor);
+  console.log('=== SEO PAGE GENERATION (card mode, español) ===');
+  console.log('Event:', eventType, '| Label:', eventLabel, '| Theme:', theme, '| Colors:', primaryColor, secondaryColor);
   console.log('Model:', model);
   console.log('userPrompt size (chars):', userPrompt.length);
   console.log('===========================');
@@ -1448,8 +1246,8 @@ Remember: Return ONLY the JSON object with keys slug, seo_title, meta_descriptio
         responseMimeType: 'application/json',
         temperature: 0.7,
         topP: 0.9,
-        topK: 40,
-        maxOutputTokens: 32768
+        topK: 20,
+        maxOutputTokens: 8192
       }
     })
   });
@@ -1527,12 +1325,12 @@ Remember: Return ONLY the JSON object with keys slug, seo_title, meta_descriptio
 
   if (seoData.sections.section_7 && Array.isArray(seoData.sections.section_7.example_prompts)) {
     const FIXED_PROMPTS = [
-      "Add a music module that matches this design.",
-      "Redesign the RSVP section with a more elegant layout.",
-      "Add a dress code module using the same color palette.",
-      "Create a luxury countdown section.",
-      "Add an itinerary section for the event schedule.",
-      "Create a larger photo gallery module."
+      "Agrega un módulo de música que combine con este diseño.",
+      "Rediseña la sección de confirmación con un layout más elegante.",
+      "Añade un módulo de código de vestimenta usando la misma paleta de colores.",
+      "Crea una sección de cuenta regresiva de lujo.",
+      "Añade un módulo de itinerario para el horario del evento.",
+      "Crea una galería de fotos más grande."
     ];
     seoData.sections.section_7.example_prompts = FIXED_PROMPTS;
   }
