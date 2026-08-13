@@ -2267,38 +2267,34 @@ const applyDynamicContent = (html, userData, ctx = {}) => {
     // fechaISO preferido (parser de prompt); fallback construye ISO desde
     // fecha (YYYY-MM-DD) + hora (HH:MM) del formulario. Si no hay fecha,
     // dejamos el placeholder (no rompe render, countdown cae en fallback).
-    const cdToISO = (ud) => {
-      if (ud && ud.fechaISO) {
-        // Asegurar formato ISO completo. Si viene solo "YYYY-MM-DD", añadir T y hora.
-        if (/^\d{4}-\d{2}-\d{2}$/.test(ud.fechaISO)) {
-          const h = (ud.hora || '00:00').padStart(5, '0');
-          return `${ud.fechaISO}T${h}:00`;
-        }
-        if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(ud.fechaISO)) return ud.fechaISO;
-        // Si no es un formato conocido pero es parseable, usarlo tal cual.
-        const d = new Date(ud.fechaISO);
-        if (!isNaN(d.getTime())) return ud.fechaISO;
-      }
-      if (ud && ud.fecha) {
-        const h = (ud.hora || '00:00').padStart(5, '0');
-        return `${ud.fecha}T${h}:00`;
-      }
-      return null;
-    };
-    const targetISO = cdToISO(userData);
+    function normalizeDateToISO(fecha, hora) {
+      if (!fecha) return null;
+      const f = String(fecha).replace(/\//g, '-').trim();
+      const datePart = f.split('T')[0];
+      const rawTime = f.includes('T') ? f.split('T')[1] : (hora || '00:00');
+      const timePart = String(rawTime).replace(/\//g, '-');
+      const iso = `${datePart}T${timePart}:00`;
+      return isNaN(new Date(iso).getTime()) ? null : iso;
+    }
+
+    let targetISO = null;
+    if (userData.fechaISO) {
+      targetISO = String(userData.fechaISO).replace(/\//g, '-');
+      if (isNaN(new Date(targetISO).getTime())) targetISO = null;
+    }
+    if (!targetISO) {
+      targetISO = normalizeDateToISO(userData.fecha, userData.hora);
+    }
     if (targetISO) {
-      const countdownContainers = document.querySelectorAll('[data-gemini-id^="countdown"]');
-      let cdUpdated = 0;
-      countdownContainers.forEach(cd => {
+      document.querySelectorAll('[data-gemini-id^="countdown"]').forEach(cd => {
         const cur = cd.getAttribute('data-countdown-target') || '';
-        const looksInvalid = !cur || cur.includes('YYYY-MM-DD') || isNaN(new Date(cur).getTime());
-        if (looksInvalid) {
-          cd.setAttribute('data-countdown-target', targetISO);
-          cdUpdated++;
-          replaced += 1;
-        }
+        const invalid = !cur || cur.includes('YYYY-MM-DD') || isNaN(new Date(cur).getTime());
+        if (invalid) cd.setAttribute('data-countdown-target', targetISO);
       });
-      console.log('[COUNTDOWN-INIT] targetISO=', targetISO, 'módulos actualizados=', cdUpdated);
+      console.log('[COUNTDOWN-INIT] targetISO=', targetISO, 'módulos actualizados=',
+        document.querySelectorAll('[data-gemini-id^="countdown"]').length);
+    } else {
+      console.log('[COUNTDOWN-INIT] sin fecha válida, se deja placeholder');
     }
 
     // Selector A: elementos con memory_type="text" (catálogo)
