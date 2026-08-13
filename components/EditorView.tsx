@@ -484,6 +484,7 @@ export const EditorView: React.FC = () => {
 
   const handleUpdateCountdown = (targetDate: string) => {
     if (!activePage) return;
+    console.log('[EDITOR-COUNTDOWN] aplicando targetDate=', targetDate);
 
     const parser = new DOMParser();
     const doc = parser.parseFromString(activePage.code, 'text/html');
@@ -511,7 +512,12 @@ export const EditorView: React.FC = () => {
 
     setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
 
-    previewRef.current?.sendCountdownUpdate(targetDate);
+    // Esperar a que React re-renderice el iframe con el nuevo srcDoc antes
+    // de enviar el postMessage, para que UPDATE_COUNTDOWN llegue al documento
+    // nuevo (no al viejo que se destruye al cambiar srcDoc).
+    setTimeout(() => {
+      previewRef.current?.sendCountdownUpdate(targetDate);
+    }, 0);
 
     setHasUnsavedChanges(true);
   };

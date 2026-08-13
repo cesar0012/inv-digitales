@@ -2288,17 +2288,17 @@ const applyDynamicContent = (html, userData, ctx = {}) => {
     const targetISO = cdToISO(userData);
     if (targetISO) {
       const countdownContainers = document.querySelectorAll('[data-gemini-id^="countdown"]');
+      let cdUpdated = 0;
       countdownContainers.forEach(cd => {
         const cur = cd.getAttribute('data-countdown-target') || '';
-        // Reemplazar si: no tiene atributo, contiene el placeholder YYYY-MM-DD,
-        // o new Date(cur) es inválido. Si ya tiene una fecha válida real
-        // (e.g. el usuario ya editó), respetarla.
         const looksInvalid = !cur || cur.includes('YYYY-MM-DD') || isNaN(new Date(cur).getTime());
         if (looksInvalid) {
           cd.setAttribute('data-countdown-target', targetISO);
+          cdUpdated++;
           replaced += 1;
         }
       });
+      console.log('[COUNTDOWN-INIT] targetISO=', targetISO, 'módulos actualizados=', cdUpdated);
     }
 
     // Selector A: elementos con memory_type="text" (catálogo)

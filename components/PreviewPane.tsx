@@ -116,6 +116,7 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
         }
         if (event.data && event.data.type === 'UPDATE_COUNTDOWN') {
           var targetDate = event.data.payload;
+          console.log('[PREVIEW-COUNTDOWN] recibido targetDate=', targetDate, 'countdownEls=', document.querySelectorAll('[data-gemini-id^="countdown"]').length);
           var countdownEls = document.querySelectorAll('[data-gemini-id^="countdown"]');
           countdownEls.forEach(function(el) {
             el.setAttribute('data-countdown-target', targetDate);
@@ -132,7 +133,7 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
           (window.__countdownIntervals || []).forEach(function(id) { clearInterval(id); });
           window.__countdownIntervals = [];
           var ts = new Date(targetDate).getTime();
-          if (isNaN(ts)) return;
+          if (isNaN(ts)) { console.warn('[PREVIEW-COUNTDOWN] invalid date:', targetDate); return; }
           function pad2(n) { return n < 10 ? '0' + n : '' + n; }
           var newInterval = setInterval(function() {
             var diff = ts - Date.now();
@@ -142,14 +143,21 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
             var m = Math.floor((diff % 3600000) / 60000);
             var s = Math.floor((diff % 60000) / 1000);
             countdownEls.forEach(function(el) {
-              var daysEl = el.querySelector('[data-unit="days"], .countdown-days, #countdown-days');
-              var hoursEl = el.querySelector('[data-unit="hours"], .countdown-hours, #countdown-hours');
-              var minsEl = el.querySelector('[data-unit="minutes"], .countdown-minutes, #countdown-minutes');
-              var secsEl = el.querySelector('[data-unit="seconds"], .countdown-seconds, #countdown-seconds');
+              var daysEl = el.querySelector('[data-countdown-unit="days"]') || el.querySelector('[data-unit="days"]');
+              var hoursEl = el.querySelector('[data-countdown-unit="hours"]') || el.querySelector('[data-unit="hours"]');
+              var minsEl = el.querySelector('[data-countdown-unit="minutes"]') || el.querySelector('[data-unit="minutes"]');
+              var secsEl = el.querySelector('[data-countdown-unit="seconds"]') || el.querySelector('[data-unit="seconds"]');
               if (daysEl) daysEl.textContent = d;
               if (hoursEl) hoursEl.textContent = pad2(h);
               if (minsEl) minsEl.textContent = pad2(m);
               if (secsEl) secsEl.textContent = pad2(s);
+              var dataNums = el.querySelectorAll('[data-countdown-number]');
+              if (dataNums.length >= 4) {
+                dataNums[0].textContent = d;
+                dataNums[1].textContent = pad2(h);
+                dataNums[2].textContent = pad2(m);
+                dataNums[3].textContent = pad2(s);
+              }
               var numSpans = el.querySelectorAll('.countdown-number, .countdown-value, .flip-number');
               if (numSpans.length >= 4) {
                 numSpans[0].textContent = d;
@@ -315,6 +323,7 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
   // (necesario porque el iframe se re-renderiza con el srcDoc y pierde el
   // outline aplicado). También re-envía tras un UPDATE_COUNTDOWN.
   useEffect(() => {
+    console.log('[PREVIEW] iframe re-render por cambio de code, selectedElementId=', selectedElementId);
     if (!selectedElementId) {
       iframeRef.current?.contentWindow?.postMessage({ type: 'DESELECT_ELEMENT' }, '*');
     } else {
