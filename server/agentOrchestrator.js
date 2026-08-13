@@ -2255,6 +2255,52 @@ const applyDynamicContent = (html, userData, ctx = {}) => {
     let replaced = 0;
     const processed = new Set();
 
+    // PASO 0 — Countdown: propagar la fecha/hora real del usuario a
+    // data-countdown-target de todos los contenedores [data-gemini-id^="countdown"].
+    // Los módulos del catálogo RAG (Countdown/*.html) traen el placeholder
+    // "YYYY-MM-DDTHH:MM:SS" en data-countdown-target; el JS del módulo hace
+    // new Date('YYYY-MM-DDTHH:MM:SS') → fecha inválida → countdown congelado
+    // en "--" / 1970. applyDynamicContent SÍ reemplaza el <time> (memory_key
+    // "countdown-event-date") pero NO tocaba data-countdown-target, así que
+    // el atributo que lee el JS quedaba con el placeholder. Aquí lo arreglamos.
+    //
+    // fechaISO preferido (parser de prompt); fallback construye ISO desde
+    // fecha (YYYY-MM-DD) + hora (HH:MM) del formulario. Si no hay fecha,
+    // dejamos el placeholder (no rompe render, countdown cae en fallback).
+    const cdToISO = (ud) => {
+      if (ud && ud.fechaISO) {
+        // Asegurar formato ISO completo. Si viene solo "YYYY-MM-DD", añadir T y hora.
+        if (/^\d{4}-\d{2}-\d{2}$/.test(ud.fechaISO)) {
+          const h = (ud.hora || '00:00').padStart(5, '0');
+          return `${ud.fechaISO}T${h}:00`;
+        }
+        if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(ud.fechaISO)) return ud.fechaISO;
+        // Si no es un formato conocido pero es parseable, usarlo tal cual.
+        const d = new Date(ud.fechaISO);
+        if (!isNaN(d.getTime())) return ud.fechaISO;
+      }
+      if (ud && ud.fecha) {
+        const h = (ud.hora || '00:00').padStart(5, '0');
+        return `${ud.fecha}T${h}:00`;
+      }
+      return null;
+    };
+    const targetISO = cdToISO(userData);
+    if (targetISO) {
+      const countdownContainers = document.querySelectorAll('[data-gemini-id^="countdown"]');
+      countdownContainers.forEach(cd => {
+        const cur = cd.getAttribute('data-countdown-target') || '';
+        // Reemplazar si: no tiene atributo, contiene el placeholder YYYY-MM-DD,
+        // o new Date(cur) es inválido. Si ya tiene una fecha válida real
+        // (e.g. el usuario ya editó), respetarla.
+        const looksInvalid = !cur || cur.includes('YYYY-MM-DD') || isNaN(new Date(cur).getTime());
+        if (looksInvalid) {
+          cd.setAttribute('data-countdown-target', targetISO);
+          replaced += 1;
+        }
+      });
+    }
+
     // Selector A: elementos con memory_type="text" (catálogo)
     const textosAnotados = document.querySelectorAll('[memory_type="text"]');
     textosAnotados.forEach(el => {
