@@ -92,6 +92,57 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
         el.style.outlineOffset = '2px';
       }
 
+      function __startAllCountdowns() {
+        document.querySelectorAll('[data-gemini-id^="countdown"]').forEach(function(cd) {
+          var t = cd.getAttribute('data-countdown-target');
+          if (!t || t.indexOf('YYYY-MM-DD') !== -1) return;
+          var ts = new Date(t).getTime();
+          if (isNaN(ts)) return;
+          function pad2(n){return n<10?'0'+n:''+n;}
+          function tick(){
+            var diff = ts - Date.now(); if (diff<0) diff=0;
+            cd.querySelectorAll('[data-countdown-unit]').forEach(function(u){
+              var u2 = u.getAttribute('data-countdown-unit');
+              if (u2==='days') u.textContent = Math.floor(diff/86400000);
+              if (u2==='hours') u.textContent = pad2(Math.floor((diff%86400000)/3600000));
+              if (u2==='minutes') u.textContent = pad2(Math.floor((diff%3600000)/60000));
+              if (u2==='seconds') u.textContent = pad2(Math.floor((diff%60000)/1000));
+            });
+            var d2 = Math.floor(diff/86400000);
+            var h2 = Math.floor((diff%86400000)/3600000);
+            var m2 = Math.floor((diff%3600000)/60000);
+            var s2 = Math.floor((diff%60000)/1000);
+            var dataNums = cd.querySelectorAll('[data-countdown-number]');
+            if (dataNums.length >= 4) {
+              dataNums[0].textContent = d2;
+              dataNums[1].textContent = pad2(h2);
+              dataNums[2].textContent = pad2(m2);
+              dataNums[3].textContent = pad2(s2);
+            }
+            var numSpans = cd.querySelectorAll('.countdown-number, .countdown-value, .flip-number');
+            if (numSpans.length >= 4) {
+              numSpans[0].textContent = d2;
+              numSpans[1].textContent = pad2(h2);
+              numSpans[2].textContent = pad2(m2);
+              numSpans[3].textContent = pad2(s2);
+            }
+            var cards = cd.querySelectorAll('.countdown-card-value, .timer-value');
+            if (cards.length >= 4) {
+              cards[0].textContent = d2;
+              cards[1].textContent = pad2(h2);
+              cards[2].textContent = pad2(m2);
+              cards[3].textContent = pad2(s2);
+            }
+          }
+          tick();
+          if (ts > Date.now()) {
+            var id = _origSetInterval.call(window, tick, 1000);
+            (window.__countdownIntervals = window.__countdownIntervals || []).push(id);
+          }
+          console.log('[PREVIEW-COUNTDOWN] arrancado para', cd.getAttribute('data-gemini-id'), 'target=', t);
+        });
+      }
+
       window.addEventListener('message', (event) => {
         if (event.data && event.data.type === 'TOGGLE_SELECTION_MODE') {
           window.__GEMINI_SELECTION_MODE = event.data.payload;
@@ -132,50 +183,7 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
           }
           (window.__countdownIntervals || []).forEach(function(id) { clearInterval(id); });
           window.__countdownIntervals = [];
-          var ts = new Date(targetDate).getTime();
-          if (isNaN(ts)) { console.warn('[PREVIEW-COUNTDOWN] invalid date:', targetDate); return; }
-          function pad2(n) { return n < 10 ? '0' + n : '' + n; }
-          var newInterval = setInterval(function() {
-            var diff = ts - Date.now();
-            if (diff <= 0) diff = 0;
-            var d = Math.floor(diff / 86400000);
-            var h = Math.floor((diff % 86400000) / 3600000);
-            var m = Math.floor((diff % 3600000) / 60000);
-            var s = Math.floor((diff % 60000) / 1000);
-            countdownEls.forEach(function(el) {
-              var daysEl = el.querySelector('[data-countdown-unit="days"]') || el.querySelector('[data-unit="days"]');
-              var hoursEl = el.querySelector('[data-countdown-unit="hours"]') || el.querySelector('[data-unit="hours"]');
-              var minsEl = el.querySelector('[data-countdown-unit="minutes"]') || el.querySelector('[data-unit="minutes"]');
-              var secsEl = el.querySelector('[data-countdown-unit="seconds"]') || el.querySelector('[data-unit="seconds"]');
-              if (daysEl) daysEl.textContent = d;
-              if (hoursEl) hoursEl.textContent = pad2(h);
-              if (minsEl) minsEl.textContent = pad2(m);
-              if (secsEl) secsEl.textContent = pad2(s);
-              var dataNums = el.querySelectorAll('[data-countdown-number]');
-              if (dataNums.length >= 4) {
-                dataNums[0].textContent = d;
-                dataNums[1].textContent = pad2(h);
-                dataNums[2].textContent = pad2(m);
-                dataNums[3].textContent = pad2(s);
-              }
-              var numSpans = el.querySelectorAll('.countdown-number, .countdown-value, .flip-number');
-              if (numSpans.length >= 4) {
-                numSpans[0].textContent = d;
-                numSpans[1].textContent = pad2(h);
-                numSpans[2].textContent = pad2(m);
-                numSpans[3].textContent = pad2(s);
-              }
-              var cards = el.querySelectorAll('.countdown-card-value, .timer-value');
-              if (cards.length >= 4) {
-                cards[0].textContent = d;
-                cards[1].textContent = pad2(h);
-                cards[2].textContent = pad2(m);
-                cards[3].textContent = pad2(s);
-              }
-            });
-            if (diff <= 0) clearInterval(newInterval);
-          }, 1000);
-          (window.__countdownIntervals = window.__countdownIntervals || []).push(newInterval);
+          __startAllCountdowns();
         }
       });
 
@@ -258,6 +266,8 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
          }
       }, true);
       
+      __startAllCountdowns();
+
       // Request initial state
       window.parent.postMessage({ type: 'GEMINI_PREVIEW_LOADED' }, '*');
     </script>
