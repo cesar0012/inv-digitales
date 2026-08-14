@@ -418,51 +418,7 @@ export const ProductLandingView: React.FC = () => {
         </div>
       </section>
 
-      {/* ── Section 2: Quick Details ── */}
-      {seo.section_2 && (() => {
-        const s2 = seo.section_2;
-        const s2Title = getSectionTitle(s2);
-        const s2Html = getSectionHtml(s2);
-        const s2Obj = isObject(s2) ? s2 as SectionObj : null;
-        // Legacy: Record<string, string> (quick details as key-value)
-        const s2Entries = s2Obj && !s2Obj.html && !s2Obj.title
-          ? Object.entries(s2Obj).filter(([k]) => !['title','html','text'].includes(k))
-          : [];
-        return (
-          <section className="py-16 bg-gray-50">
-            <div className="max-w-5xl mx-auto px-6">
-              {s2Title && (
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-4">{s2Title}</h2>
-              )}
-              {s2Html ? (
-                <div className="prose prose-gray max-w-none" dangerouslySetInnerHTML={{ __html: s2Html }} />
-              ) : s2Entries.length > 0 ? (
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {s2Entries.map(([key, value], i) => (
-                    <div key={i} className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                      <p className="text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold">{key}</p>
-                      <p className="text-gray-800 font-medium text-sm">{String(value)}</p>
-                    </div>
-                  ))}
-                </div>
-              ) : null}
-              {(colors.length > 0 || tags.length > 0) && (
-                <div className="flex flex-wrap items-center gap-3 mt-8 justify-center">
-                  {colors.map((c, i) => (
-                    <span key={i} className="flex items-center gap-1.5 text-sm text-gray-600 bg-white px-3 py-1.5 rounded-full border border-gray-100">
-                      <span className="w-3 h-3 rounded-full inline-block border border-gray-200" style={{ backgroundColor: c }} />
-                      {c}
-                    </span>
-                  ))}
-                  {tags.slice(0, 6).map((t, i) => (
-                    <span key={i} className="text-sm bg-rose-50 text-rose-600 px-3 py-1.5 rounded-full font-medium">{t}</span>
-                  ))}
-                </div>
-              )}
-            </div>
-          </section>
-        );
-      })()}
+      {/* ── Section 2: Quick Details — REMOVIDA por decisión de producto ── */}
 
       {/* ── Section 3: DEPRECATED — no se renderiza ── */}
 
@@ -520,12 +476,12 @@ export const ProductLandingView: React.FC = () => {
         const s5Html = getSectionHtml(seo.section_5);
         return (
           <section className="py-20 bg-white">
-            <div className="max-w-5xl mx-auto px-6">
+            <div className="max-w-3xl mx-auto px-6 text-center">
               {s5Title && (
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-4">{s5Title}</h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">{s5Title}</h2>
               )}
               {s5Html ? (
-                <div className="max-w-3xl mx-auto" dangerouslySetInnerHTML={{ __html: s5Html }} />
+                <div className="text-gray-600 leading-relaxed font-light" dangerouslySetInnerHTML={{ __html: replaceEditorLinks(s5Html) }} />
               ) : null}
             </div>
           </section>
@@ -748,45 +704,63 @@ export const ProductLandingView: React.FC = () => {
 
       {/* ── Section 11: FAQ ── */}
       {seo.section_11 && (faqs.length > 0 || section11Html) && (
-        <section className="py-20 bg-white">
+        <section className="py-20 bg-gradient-to-b from-white via-indigo-50/30 to-white">
           <div className="max-w-3xl mx-auto px-6">
             <div className="text-center mb-12">
-              <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-50 mb-4">
-                <HelpCircle className="w-7 h-7 text-indigo-500" />
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-100 mb-4">
+                <HelpCircle className="w-7 h-7 text-indigo-600" />
               </div>
               <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
                 {section11Title || 'Preguntas frecuentes'}
               </h2>
             </div>
             {faqs.length > 0 ? (
-              <div className="space-y-3">
-                {faqs.map((faq, i) => (
-                  <div
-                    key={i}
-                    className="bg-gray-50 rounded-2xl overflow-hidden border border-gray-100 transition-colors"
-                  >
-                    <button
-                      onClick={() => setOpenFAQ(openFAQ === i ? null : i)}
-                      className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-gray-100/50 transition-colors"
-                    >
-                      <span className="font-semibold text-gray-800 pr-4">{faq.question}</span>
-                      {openFAQ === i ? (
-                        <ChevronUp className="w-5 h-5 text-gray-400 shrink-0" />
-                      ) : (
-                        <ChevronDown className="w-5 h-5 text-gray-400 shrink-0" />
-                      )}
-                    </button>
+              <div className="space-y-4">
+                {faqs.map((faq, i) => {
+                  const isOpen = openFAQ === i;
+                  return (
                     <div
-                      className={`overflow-hidden transition-all duration-300 ${
-                        openFAQ === i ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                      key={i}
+                      className={`rounded-2xl overflow-hidden border transition-all duration-300 ${
+                        isOpen
+                          ? 'border-indigo-200 bg-white shadow-lg shadow-indigo-100/50'
+                          : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm'
                       }`}
                     >
-                      <div className="px-6 pb-5">
-                        <p className="text-gray-600 leading-relaxed text-sm font-light">{faq.answer}</p>
+                      <button
+                        onClick={() => setOpenFAQ(isOpen ? null : i)}
+                        className="w-full flex items-center gap-4 px-6 py-5 text-left transition-colors"
+                      >
+                        <div
+                          className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors duration-300 ${
+                            isOpen
+                              ? 'bg-indigo-600 text-white'
+                              : 'bg-gray-100 text-gray-500'
+                          }`}
+                        >
+                          <HelpCircle className="w-4 h-4" />
+                        </div>
+                        <span className={`flex-1 font-semibold text-base transition-colors duration-200 ${
+                          isOpen ? 'text-indigo-700' : 'text-gray-800'
+                        }`}>{faq.question}</span>
+                        <div className={`shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
+                          <ChevronDown className="w-5 h-5 text-gray-400" />
+                        </div>
+                      </button>
+                      <div
+                        className={`overflow-hidden transition-all duration-300 ${
+                          isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+                        }`}
+                      >
+                        <div className="px-6 pb-6 pt-0">
+                          <div className="ml-12 pl-4 border-l-2 border-indigo-200">
+                            <p className="text-gray-600 leading-relaxed text-sm">{faq.answer}</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             ) : section11Html ? (
               <div className="prose prose-gray max-w-none" dangerouslySetInnerHTML={{ __html: section11Html }} />

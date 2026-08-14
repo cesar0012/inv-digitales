@@ -1040,7 +1040,7 @@ FÓRMULAS DE SUBCABECERAS (C.L.E.A.R. — aplica a section_N.title):
 
 JUEGO DE SECCIONES (12 obligatorias, nada de inglés, responde directamente tras cada H2):
 section_1  → Hero principal (H1). Promesa + CTA. Incluye NOMBRES + FECHA + HORA si hay.
-section_2  → Detalles rápidos. Pregunta: "¿Cuándo y dónde es el evento?" Responde: fecha, hora, lugar ceremonia, lugar recepción. Tabla o bullet points.
+section_2  → DEPRECATED. Devuelve cadena vacía "" (no se renderiza en la página).
 section_3  → Qué incluye / características. "¿Qué trae la invitación?" features/beneficios.
 section_4  → Demo / vista previa. "¿Cómo se ve?" describe estilo/theme/color.
 section_5  → Personalización. "¿Cómo la hago mía?" — incluye placeholders #EDITOR_LINK# en los botones que digan "Personalizar esta invitación".
