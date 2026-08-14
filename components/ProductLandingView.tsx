@@ -8,14 +8,6 @@ import {
   Minimize2,
   ArrowRight,
   Sparkles,
-  Palette,
-  Type,
-  Music,
-  Image,
-  MapPin,
-  Calendar,
-  Clock,
-  Gift,
   Heart,
   Star,
   Check,
@@ -44,19 +36,33 @@ interface FAQItem {
   answer: string;
 }
 
+interface SectionObj {
+  title?: string;
+  html?: string;
+  text?: string;
+  example_prompts?: string[];
+  suggestions?: Suggestion[];
+  categories?: Category[];
+  faqs?: FAQItem[];
+  [key: string]: any;
+}
+
+type SectionValue = string | SectionObj | any;
+
 interface SEOSections {
-  section_1: string;
-  section_2: Record<string, string>;
-  section_3: string;
-  section_4: string;
-  section_5: string;
-  section_6: string;
-  section_7: { text: string; example_prompts: string[] };
-  section_8: string;
-  section_9: { text: string; suggestions: Suggestion[] };
-  section_10: { text: string; categories: Category[] };
-  section_11: FAQItem[];
-  section_12: string;
+  section_1: SectionValue;
+  section_2: SectionValue;
+  section_3: SectionValue;
+  section_4: SectionValue;
+  section_5: SectionValue;
+  section_6: SectionValue;
+  section_7: SectionValue;
+  section_8: SectionValue;
+  section_9: SectionValue;
+  section_10: SectionValue;
+  section_11: SectionValue;
+  section_12: SectionValue;
+  [key: string]: SectionValue;
 }
 
 interface StructuredData {
@@ -77,6 +83,7 @@ interface CatalogoLandingData {
   secondary_color: string;
   starred: boolean;
   slug: string;
+  h1?: string;
   seo_title: string | null;
   seo_meta_description: string | null;
   seo_content_json: SEOSections | null;
@@ -102,16 +109,13 @@ const PREVIEW_BASE = import.meta.env.VITE_PUBLIC_URL
 
 const PLANS_URL = 'https://app.invitacionesmodernas.com/app/planes';
 
-const CUSTOMIZATION_ICONS = [
-  <Palette className="w-6 h-6" />,
-  <Type className="w-6 h-6" />,
-  <Music className="w-6 h-6" />,
-  <Image className="w-6 h-6" />,
-  <MapPin className="w-6 h-6" />,
-  <Calendar className="w-6 h-6" />,
-  <Clock className="w-6 h-6" />,
-  <Gift className="w-6 h-6" />
-];
+function isObject(val: any): val is SectionObj {
+  return val != null && typeof val === 'object' && !Array.isArray(val);
+}
+
+function sanitizeHtml(html: string): string {
+  return html.replace(/<script[\s\S]*?<\/script>/gi, '');
+}
 
 export const ProductLandingView: React.FC = () => {
   const { eventType, slug } = useParams<{ eventType: string; slug: string }>();
@@ -155,7 +159,19 @@ export const ProductLandingView: React.FC = () => {
       }
       const json = await res.json();
       setData(json);
-      console.log('[PRODUCT] filename=', json?.filename, 'slug=', slug);
+      const seo = json?.seo_content_json;
+      console.log('[PRODUCT] loaded:', {
+        filename: json?.filename,
+        slug,
+        sections: Object.keys(seo || {}).length
+      });
+      const editorUrl = `/editor?filename=${encodeURIComponent(json?.filename || '')}`;
+      console.log('[PRODUCT] editorUrl=', editorUrl);
+      console.log('[PRODUCT] schema checks:', {
+        s5: typeof seo?.section_5,
+        s6: typeof seo?.section_6,
+        s11: Array.isArray(seo?.section_11?.faqs)
+      });
     } catch {
       setNotFound(true);
     } finally {
@@ -171,14 +187,11 @@ export const ProductLandingView: React.FC = () => {
       return;
     }
 
-    // Usuario autenticado: ir al editor de esta invitación.
-    // El editor recibe ?filename= y carga el HTML del catálogo.
     if (data.filename) {
       window.location.href = `/editor?filename=${encodeURIComponent(data.filename)}`;
       return;
     }
 
-    // Fallback: cargar HTML manualmente (compat legacy sin filename)
     setCtaLoading(true);
     try {
       const res = await fetch(`${API_BASE}/catalogo/${data.filename}`);
@@ -191,6 +204,12 @@ export const ProductLandingView: React.FC = () => {
     } finally {
       setCtaLoading(false);
     }
+  };
+
+  const editorUrl = `/editor?filename=${encodeURIComponent(data?.filename || '')}`;
+
+  const replaceEditorLinks = (html: string): string => {
+    return sanitizeHtml(html.replace(/#EDITOR_LINK#/g, editorUrl));
   };
 
   const parseColors = (colorsStr: string): string[] => {
@@ -209,13 +228,21 @@ export const ProductLandingView: React.FC = () => {
     return [];
   };
 
-  const parseCustomizationList = (text: string): string[] => {
-    const lines = text.split('\n').map(l => l.replace(/^[-•*\d.)\s]+/, '').trim()).filter(Boolean);
-    return lines;
+  const getSectionTitle = (s: SectionValue): string => {
+    if (isObject(s) && s.title) return s.title;
+    return '';
   };
 
-  const splitParagraphs = (text: string): string[] => {
-    return text.split(/\n{2,}/).filter(p => p.trim());
+  const getSectionHtml = (s: SectionValue): string => {
+    if (isObject(s) && s.html) return replaceEditorLinks(s.html);
+    if (typeof s === 'string') return replaceEditorLinks(s);
+    return '';
+  };
+
+  const renderSectionHtml = (s: SectionValue, className: string = ''): React.ReactNode => {
+    const html = getSectionHtml(s);
+    if (!html) return null;
+    return <div className={`prose prose-gray max-w-none ${className}`} dangerouslySetInnerHTML={{ __html: html }} />;
   };
 
   if (loading) {
@@ -289,7 +316,46 @@ export const ProductLandingView: React.FC = () => {
   const secondaryColor = data.secondary_color || '#f43f5e';
   const colors = parseColors(data.colors);
   const tags = parseTags(data.tags);
-  const customizationItems = seo.section_5 ? parseCustomizationList(seo.section_5) : [];
+
+  // Section 7: example_prompts from {title, html, example_prompts} or legacy {text, example_prompts}
+  const section7 = seo.section_7;
+  const section7Title = getSectionTitle(section7);
+  const section7Html = isObject(section7) ? (section7 as SectionObj).html || (section7 as SectionObj).text || '' : '';
+  const section7Prompts: string[] = isObject(section7)
+    ? (Array.isArray((section7 as SectionObj).example_prompts) ? (section7 as SectionObj).example_prompts : [])
+    : [];
+
+  // Section 9: suggestions
+  const section9 = seo.section_9;
+  const section9Title = getSectionTitle(section9);
+  const section9Html = isObject(section9) ? (section9 as SectionObj).html || (section9 as SectionObj).text || '' : '';
+  const section9Suggestions: Suggestion[] = isObject(section9) && Array.isArray((section9 as SectionObj).suggestions)
+    ? (section9 as SectionObj).suggestions
+    : [];
+
+  // Section 10: categories
+  const section10 = seo.section_10;
+  const section10Title = getSectionTitle(section10);
+  const section10Html = isObject(section10) ? (section10 as SectionObj).html || (section10 as SectionObj).text || '' : '';
+  const section10Categories: Category[] = isObject(section10) && Array.isArray((section10 as SectionObj).categories)
+    ? (section10 as SectionObj).categories
+    : [];
+
+  // Section 11: FAQs - could be array of {question,answer} or {title,html,faqs:[...]}
+  const section11 = seo.section_11;
+  let faqs: FAQItem[] = [];
+  let section11Title = '';
+  let section11Html = '';
+  if (Array.isArray(section11)) {
+    // Legacy: array of {question, answer}
+    faqs = section11;
+  } else if (isObject(section11)) {
+    section11Title = (section11 as SectionObj).title || '';
+    section11Html = (section11 as SectionObj).html || '';
+    if (Array.isArray((section11 as SectionObj).faqs)) {
+      faqs = (section11 as SectionObj).faqs;
+    }
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -312,11 +378,11 @@ export const ProductLandingView: React.FC = () => {
               {data.event_type}
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight mb-6">
-              {data.seo_title || data.title}
+              {data.h1 || data.seo_title || data.title}
             </h1>
-            <p className="text-lg md:text-xl text-white/70 max-w-2xl leading-relaxed mb-10 font-light">
-              {seo.section_1}
-            </p>
+            <div className="text-lg md:text-xl text-white/70 max-w-2xl leading-relaxed mb-10 font-light">
+              {renderSectionHtml(seo.section_1)}
+            </div>
             <button
               onClick={handleCTA}
               disabled={ctaLoading}
@@ -353,55 +419,65 @@ export const ProductLandingView: React.FC = () => {
       </section>
 
       {/* ── Section 2: Quick Details ── */}
-      {seo.section_2 && Object.keys(seo.section_2).length > 0 && (
-        <section className="py-16 bg-gray-50">
-          <div className="max-w-5xl mx-auto px-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-10">
-              Detalles rápidos
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {Object.entries(seo.section_2).map(([key, value], i) => (
-                <div
-                  key={i}
-                  className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
-                >
-                  <p className="text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold">{key}</p>
-                  <p className="text-gray-800 font-medium text-sm">{value}</p>
+      {seo.section_2 && (() => {
+        const s2 = seo.section_2;
+        const s2Title = getSectionTitle(s2);
+        const s2Html = getSectionHtml(s2);
+        const s2Obj = isObject(s2) ? s2 as SectionObj : null;
+        // Legacy: Record<string, string> (quick details as key-value)
+        const s2Entries = s2Obj && !s2Obj.html && !s2Obj.title
+          ? Object.entries(s2Obj).filter(([k]) => !['title','html','text'].includes(k))
+          : [];
+        return (
+          <section className="py-16 bg-gray-50">
+            <div className="max-w-5xl mx-auto px-6">
+              {s2Title && (
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-4">{s2Title}</h2>
+              )}
+              {s2Html ? (
+                <div className="prose prose-gray max-w-none" dangerouslySetInnerHTML={{ __html: s2Html }} />
+              ) : s2Entries.length > 0 ? (
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {s2Entries.map(([key, value], i) => (
+                    <div key={i} className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                      <p className="text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold">{key}</p>
+                      <p className="text-gray-800 font-medium text-sm">{String(value)}</p>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              ) : null}
+              {(colors.length > 0 || tags.length > 0) && (
+                <div className="flex flex-wrap items-center gap-3 mt-8 justify-center">
+                  {colors.map((c, i) => (
+                    <span key={i} className="flex items-center gap-1.5 text-sm text-gray-600 bg-white px-3 py-1.5 rounded-full border border-gray-100">
+                      <span className="w-3 h-3 rounded-full inline-block border border-gray-200" style={{ backgroundColor: c }} />
+                      {c}
+                    </span>
+                  ))}
+                  {tags.slice(0, 6).map((t, i) => (
+                    <span key={i} className="text-sm bg-rose-50 text-rose-600 px-3 py-1.5 rounded-full font-medium">{t}</span>
+                  ))}
+                </div>
+              )}
             </div>
-            {(colors.length > 0 || tags.length > 0) && (
-              <div className="flex flex-wrap items-center gap-3 mt-8 justify-center">
-                {colors.map((c, i) => (
-                  <span key={i} className="flex items-center gap-1.5 text-sm text-gray-600 bg-white px-3 py-1.5 rounded-full border border-gray-100">
-                    <span className="w-3 h-3 rounded-full inline-block border border-gray-200" style={{ backgroundColor: c }} />
-                    {c}
-                  </span>
-                ))}
-                {tags.slice(0, 6).map((t, i) => (
-                  <span key={i} className="text-sm bg-rose-50 text-rose-600 px-3 py-1.5 rounded-full font-medium">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
-        </section>
-      )}
+          </section>
+        );
+      })()}
 
-      {/* ── Section 3: About Description — DEPRECATED, no se renderiza ── */}
-      {/* seo.section_3 se ignora por decisión de producto */}
+      {/* ── Section 3: DEPRECATED — no se renderiza ── */}
 
       {/* ── Section 4: Demo Preview ── */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-10">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
-              Vista previa en vivo
+              {getSectionTitle(seo.section_4) || 'Vista previa en vivo'}
             </h2>
-            {seo.section_4 && (
+            {getSectionHtml(seo.section_4) ? (
+              <div className="text-gray-500 max-w-2xl mx-auto font-light leading-relaxed" dangerouslySetInnerHTML={{ __html: getSectionHtml(seo.section_4) }} />
+            ) : (
               <p className="text-gray-500 max-w-2xl mx-auto font-light leading-relaxed">
-                {seo.section_4}
+                Explora cómo se ve esta invitación en acción. Abre el demo interactivo.
               </p>
             )}
           </div>
@@ -439,36 +515,22 @@ export const ProductLandingView: React.FC = () => {
       </section>
 
       {/* ── Section 5: Customization ── */}
-      {seo.section_5 && (
-        <section className="py-20 bg-white">
-          <div className="max-w-5xl mx-auto px-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-4">
-              Personaliza cada detalle
-            </h2>
-            <p className="text-gray-500 text-center mb-12 max-w-2xl mx-auto font-light">
-              Haz que esta invitación sea verdaderamente tuya. Cada elemento se adapta a tu estilo y necesidades.
-            </p>
-            <div className="flex flex-col gap-4 w-full">
-              {customizationItems.map((item, i) => (
-                <div
-                  key={i}
-                  className="group relative bg-gray-50 rounded-2xl p-6 hover:bg-white hover:shadow-lg border border-transparent hover:border-gray-100 transition-all w-full"
-                >
-                  <div className="flex items-start gap-4">
-                    <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 text-white"
-                      style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
-                    >
-                      {CUSTOMIZATION_ICONS[i % CUSTOMIZATION_ICONS.length]}
-                    </div>
-                    <p className="text-gray-700 font-medium text-sm leading-relaxed flex-1">{item}</p>
-                  </div>
-                </div>
-              ))}
+      {seo.section_5 && (() => {
+        const s5Title = getSectionTitle(seo.section_5);
+        const s5Html = getSectionHtml(seo.section_5);
+        return (
+          <section className="py-20 bg-white">
+            <div className="max-w-5xl mx-auto px-6">
+              {s5Title && (
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-4">{s5Title}</h2>
+              )}
+              {s5Html ? (
+                <div className="max-w-3xl mx-auto" dangerouslySetInnerHTML={{ __html: s5Html }} />
+              ) : null}
             </div>
-          </div>
-        </section>
-      )}
+          </section>
+        );
+      })()}
 
       {/* ── Section 6: Why Choose ── */}
       {seo.section_6 && (
@@ -481,13 +543,9 @@ export const ProductLandingView: React.FC = () => {
           </div>
           <div className="relative max-w-3xl mx-auto px-6 text-center">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
-              ¿Por qué elegir esta invitación?
+              {getSectionTitle(seo.section_6) || '¿Por qué elegir esta invitación?'}
             </h2>
-            {splitParagraphs(seo.section_6).map((p, i) => (
-              <p key={i} className="text-white/70 leading-relaxed mb-4 text-base md:text-lg font-light">
-                {p}
-              </p>
-            ))}
+            {renderSectionHtml(seo.section_6, 'text-white/70')}
             <button
               onClick={handleCTA}
               disabled={ctaLoading}
@@ -514,29 +572,29 @@ export const ProductLandingView: React.FC = () => {
                 <MessageSquare className="w-7 h-7 text-amber-500" />
               </div>
               <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
-                Ejemplos de personalización
+                {section7Title || 'Ejemplos de personalización'}
               </h2>
-              {seo.section_7.text && (
-                <p className="text-gray-500 max-w-2xl mx-auto font-light leading-relaxed">
-                  {seo.section_7.text}
-                </p>
+              {section7Html && (
+                <div className="text-gray-500 max-w-2xl mx-auto font-light leading-relaxed" dangerouslySetInnerHTML={{ __html: replaceEditorLinks(section7Html) }} />
               )}
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {seo.section_7.example_prompts.map((prompt, i) => (
-                <div
-                  key={i}
-                  className="flex items-start gap-4 bg-gray-50 rounded-2xl p-5 hover:bg-amber-50/50 transition-colors border border-gray-100"
-                >
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm font-bold text-white"
-                    style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
+            {section7Prompts.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {section7Prompts.map((prompt, i) => (
+                  <div
+                    key={i}
+                    className="flex items-start gap-4 bg-gray-50 rounded-2xl p-5 hover:bg-amber-50/50 transition-colors border border-gray-100"
                   >
-                    {i + 1}
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-sm font-bold text-white"
+                      style={{ background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})` }}
+                    >
+                      {i + 1}
+                    </div>
+                    <p className="text-gray-700 text-sm leading-relaxed">{prompt}</p>
                   </div>
-                  <p className="text-gray-700 text-sm leading-relaxed">{prompt}</p>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </section>
       )}
@@ -547,11 +605,9 @@ export const ProductLandingView: React.FC = () => {
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-4">
             Planes y precios
           </h2>
-          {seo.section_8 && (
-            <p className="text-gray-500 text-center max-w-2xl mx-auto font-light leading-relaxed mb-12">
-              {seo.section_8}
-            </p>
-          )}
+          <p className="text-gray-500 text-center max-w-2xl mx-auto font-light leading-relaxed mb-12">
+            Elige el plan que mejor se adapte a tu evento. Todos incluyen invitación digital personalizable.
+          </p>
           {plansData.length === 0 ? (
             <p className="text-center text-gray-400 font-light">Planes no disponibles</p>
           ) : (
@@ -612,7 +668,7 @@ export const ProductLandingView: React.FC = () => {
       </section>
 
       {/* ── Section 9: Related Suggestions ── */}
-      {seo.section_9 && seo.section_9.suggestions && seo.section_9.suggestions.length > 0 && (
+      {seo.section_9 && section9Suggestions.length > 0 && (
         <section className="py-20 bg-white">
           <div className="max-w-5xl mx-auto px-6">
             <div className="text-center mb-12">
@@ -620,16 +676,14 @@ export const ProductLandingView: React.FC = () => {
                 <Search className="w-7 h-7 text-rose-500" />
               </div>
               <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
-                Otras invitaciones que te pueden gustar
+                {section9Title || 'Otras invitaciones que te pueden gustar'}
               </h2>
-              {seo.section_9.text && (
-                <p className="text-gray-500 max-w-2xl mx-auto font-light leading-relaxed">
-                  {seo.section_9.text}
-                </p>
+              {section9Html && (
+                <div className="text-gray-500 max-w-2xl mx-auto font-light leading-relaxed" dangerouslySetInnerHTML={{ __html: replaceEditorLinks(section9Html) }} />
               )}
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {seo.section_9.suggestions.map((s, i) => {
+              {section9Suggestions.map((s, i) => {
                 const slugParts = s.slug.split('/');
                 const sEventType = slugParts.length > 1 ? slugParts[0] : eventType || '';
                 const sSlug = slugParts.length > 1 ? slugParts[1] : s.slug;
@@ -662,14 +716,17 @@ export const ProductLandingView: React.FC = () => {
       )}
 
       {/* ── Section 10: Categories ── */}
-      {seo.section_10 && seo.section_10.categories && seo.section_10.categories.length > 0 && (
+      {seo.section_10 && section10Categories.length > 0 && (
         <section className="py-16 bg-gray-50">
           <div className="max-w-5xl mx-auto px-6 text-center">
-            {seo.section_10.text && (
-              <p className="text-gray-500 mb-8 font-light">{seo.section_10.text}</p>
+            {section10Title && (
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">{section10Title}</h2>
+            )}
+            {section10Html && (
+              <div className="text-gray-500 mb-8 font-light" dangerouslySetInnerHTML={{ __html: replaceEditorLinks(section10Html) }} />
             )}
             <div className="flex flex-wrap items-center justify-center gap-3">
-              {seo.section_10.categories.map((cat, i) => {
+              {section10Categories.map((cat, i) => {
                 const slugParts = cat.slug.split('/');
                 const cEventType = slugParts.length > 1 ? slugParts[0] : eventType || '';
                 const cSlug = slugParts.length > 1 ? slugParts[1] : cat.slug;
@@ -690,7 +747,7 @@ export const ProductLandingView: React.FC = () => {
       )}
 
       {/* ── Section 11: FAQ ── */}
-      {seo.section_11 && seo.section_11.length > 0 && (
+      {seo.section_11 && (faqs.length > 0 || section11Html) && (
         <section className="py-20 bg-white">
           <div className="max-w-3xl mx-auto px-6">
             <div className="text-center mb-12">
@@ -698,38 +755,42 @@ export const ProductLandingView: React.FC = () => {
                 <HelpCircle className="w-7 h-7 text-indigo-500" />
               </div>
               <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
-                Preguntas frecuentes
+                {section11Title || 'Preguntas frecuentes'}
               </h2>
             </div>
-            <div className="space-y-3">
-              {seo.section_11.map((faq, i) => (
-                <div
-                  key={i}
-                  className="bg-gray-50 rounded-2xl overflow-hidden border border-gray-100 transition-colors"
-                >
-                  <button
-                    onClick={() => setOpenFAQ(openFAQ === i ? null : i)}
-                    className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-gray-100/50 transition-colors"
-                  >
-                    <span className="font-semibold text-gray-800 pr-4">{faq.question}</span>
-                    {openFAQ === i ? (
-                      <ChevronUp className="w-5 h-5 text-gray-400 shrink-0" />
-                    ) : (
-                      <ChevronDown className="w-5 h-5 text-gray-400 shrink-0" />
-                    )}
-                  </button>
+            {faqs.length > 0 ? (
+              <div className="space-y-3">
+                {faqs.map((faq, i) => (
                   <div
-                    className={`overflow-hidden transition-all duration-300 ${
-                      openFAQ === i ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                    }`}
+                    key={i}
+                    className="bg-gray-50 rounded-2xl overflow-hidden border border-gray-100 transition-colors"
                   >
-                    <div className="px-6 pb-5">
-                      <p className="text-gray-600 leading-relaxed text-sm font-light">{faq.answer}</p>
+                    <button
+                      onClick={() => setOpenFAQ(openFAQ === i ? null : i)}
+                      className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-gray-100/50 transition-colors"
+                    >
+                      <span className="font-semibold text-gray-800 pr-4">{faq.question}</span>
+                      {openFAQ === i ? (
+                        <ChevronUp className="w-5 h-5 text-gray-400 shrink-0" />
+                      ) : (
+                        <ChevronDown className="w-5 h-5 text-gray-400 shrink-0" />
+                      )}
+                    </button>
+                    <div
+                      className={`overflow-hidden transition-all duration-300 ${
+                        openFAQ === i ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                      }`}
+                    >
+                      <div className="px-6 pb-5">
+                        <p className="text-gray-600 leading-relaxed text-sm font-light">{faq.answer}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : section11Html ? (
+              <div className="prose prose-gray max-w-none" dangerouslySetInnerHTML={{ __html: section11Html }} />
+            ) : null}
           </div>
         </section>
       )}
@@ -749,13 +810,9 @@ export const ProductLandingView: React.FC = () => {
           </div>
           <div className="relative max-w-3xl mx-auto px-6 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
-              Crea tu invitación perfecta hoy
+              {getSectionTitle(seo.section_12) || 'Crea tu invitación perfecta hoy'}
             </h2>
-            {splitParagraphs(seo.section_12).map((p, i) => (
-              <p key={i} className="text-white/70 leading-relaxed mb-4 text-base md:text-lg font-light">
-                {p}
-              </p>
-            ))}
+            {renderSectionHtml(seo.section_12, 'text-white/70')}
             <button
               onClick={handleCTA}
               disabled={ctaLoading}

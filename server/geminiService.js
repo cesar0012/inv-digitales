@@ -1263,6 +1263,7 @@ informational + transactional (quieren ver y personalizar).`;
   const data = await response.json();
   const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
   const finishReason = data.candidates?.[0]?.finishReason;
+  console.log('[SEO] finishReason:', finishReason);
 
   if (!rawText) {
     console.error('SEO raw length:', 0);
@@ -1280,6 +1281,8 @@ informational + transactional (quieren ver y personalizar).`;
     console.error('Raw response (first 500 chars):', rawText.substring(0, 500));
     throw new Error('Failed to parse SEO JSON response from Gemini');
   }
+
+  console.log('[SEO] sections keys:', Object.keys(seoData.sections || {}));
 
   const requiredKeys = ['slug', 'seo_title', 'meta_description', 'h1', 'sections', 'structured_data'];
   const missingKeys = requiredKeys.filter(k => !(k in seoData));
@@ -1323,7 +1326,7 @@ informational + transactional (quieren ver y personalizar).`;
     }
   }
 
-  if (seoData.sections.section_7 && Array.isArray(seoData.sections.section_7.example_prompts)) {
+  if (seoData.sections.section_7) {
     const FIXED_PROMPTS = [
       "Agrega un módulo de música que combine con este diseño.",
       "Rediseña la sección de confirmación con un layout más elegante.",
@@ -1332,7 +1335,11 @@ informational + transactional (quieren ver y personalizar).`;
       "Añade un módulo de itinerario para el horario del evento.",
       "Crea una galería de fotos más grande."
     ];
-    seoData.sections.section_7.example_prompts = FIXED_PROMPTS;
+    if (Array.isArray(seoData.sections.section_7.example_prompts)) {
+      seoData.sections.section_7.example_prompts = FIXED_PROMPTS;
+    } else {
+      seoData.sections.section_7.example_prompts = FIXED_PROMPTS;
+    }
   }
 
   console.log('✅ SEO page generated successfully');
@@ -1340,7 +1347,9 @@ informational + transactional (quieren ver y personalizar).`;
   console.log('Title:', seoData.seo_title, `(${seoData.seo_title?.length || 0} chars)`);
   console.log('Meta desc:', seoData.meta_description?.substring(0, 80) + '...', `(${seoData.meta_description?.length || 0} chars)`);
   console.log('Sections:', Object.keys(seoData.sections).length);
-  console.log('FAQs:', Array.isArray(seoData.sections.section_11) ? seoData.sections.section_11.length : 0);
+  console.log('FAQs:', Array.isArray(seoData.sections.section_11?.faqs)
+    ? seoData.sections.section_11.faqs.length
+    : (Array.isArray(seoData.sections.section_11) ? seoData.sections.section_11.length : 0));
   console.log('Similar designs:', seoData.sections.section_9?.suggestions?.length || 0);
 
   return seoData;

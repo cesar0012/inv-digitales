@@ -1593,6 +1593,7 @@ app.get('/api/catalogo/slug/:eventType/:slug', (req, res) => {
       structured_data: structuredData,
       user_data: userData
     });
+    console.log('[SEO-LANDING] filename=', item?.filename, 'sections=', Object.keys(seoSections?.sections || {}).length);
   } catch (error) {
     console.error('Error obteniendo invitación por slug:', error);
     res.status(500).json({ error: 'Error al obtener invitación' });
