@@ -704,57 +704,52 @@ export const ProductLandingView: React.FC = () => {
 
       {/* ── Section 11: FAQ ── */}
       {seo.section_11 && (faqs.length > 0 || section11Html) && (
-        <section className="py-20 bg-gradient-to-b from-white via-indigo-50/30 to-white">
+        <section className="py-24 bg-gradient-to-b from-white to-gray-50">
           <div className="max-w-3xl mx-auto px-6">
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-100 mb-4">
-                <HelpCircle className="w-7 h-7 text-indigo-600" />
+            <div className="text-center mb-14">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 mb-5 shadow-lg shadow-indigo-200">
+                <HelpCircle className="w-8 h-8 text-white" />
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
                 {section11Title || 'Preguntas frecuentes'}
               </h2>
             </div>
             {faqs.length > 0 ? (
-              <div className="space-y-4">
+              <div className="divide-y divide-gray-200 rounded-3xl bg-white shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
                 {faqs.map((faq, i) => {
                   const isOpen = openFAQ === i;
                   return (
-                    <div
-                      key={i}
-                      className={`rounded-2xl overflow-hidden border transition-all duration-300 ${
-                        isOpen
-                          ? 'border-indigo-200 bg-white shadow-lg shadow-indigo-100/50'
-                          : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm'
-                      }`}
-                    >
+                    <div key={i} className={isOpen ? 'bg-gradient-to-r from-indigo-50/40 to-purple-50/40' : ''}>
                       <button
                         onClick={() => setOpenFAQ(isOpen ? null : i)}
-                        className="w-full flex items-center gap-4 px-6 py-5 text-left transition-colors"
+                        className="w-full flex items-start gap-4 px-6 py-5 text-left group"
                       >
-                        <div
-                          className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors duration-300 ${
-                            isOpen
-                              ? 'bg-indigo-600 text-white'
-                              : 'bg-gray-100 text-gray-500'
-                          }`}
-                        >
-                          <HelpCircle className="w-4 h-4" />
-                        </div>
-                        <span className={`flex-1 font-semibold text-base transition-colors duration-200 ${
-                          isOpen ? 'text-indigo-700' : 'text-gray-800'
+                        <span className={`flex-shrink-0 mt-0.5 font-bold text-sm transition-colors ${
+                          isOpen ? 'text-indigo-600' : 'text-gray-300 group-hover:text-indigo-400'
+                        }`}>
+                          {String(i + 1).padStart(2, '0')}
+                        </span>
+                        <span className={`flex-1 text-base md:text-lg font-semibold transition-colors duration-200 ${
+                          isOpen ? 'text-indigo-900' : 'text-gray-800 group-hover:text-gray-900'
                         }`}>{faq.question}</span>
-                        <div className={`shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
-                          <ChevronDown className="w-5 h-5 text-gray-400" />
+                        <div className={`flex-shrink-0 mt-0.5 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300 ${
+                          isOpen ? 'bg-indigo-600 rotate-180' : 'bg-gray-100 group-hover:bg-gray-200'
+                        }`}>
+                          <ChevronDown className={`w-4 h-4 transition-colors ${isOpen ? 'text-white' : 'text-gray-500'}`} />
                         </div>
                       </button>
                       <div
-                        className={`overflow-hidden transition-all duration-300 ${
-                          isOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+                        className={`grid transition-all duration-500 ease-in-out ${
+                          isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
                         }`}
                       >
-                        <div className="px-6 pb-6 pt-0">
-                          <div className="ml-12 pl-4 border-l-2 border-indigo-200">
-                            <p className="text-gray-600 leading-relaxed text-sm">{faq.answer}</p>
+                        <div className="overflow-hidden">
+                          <div className="px-6 pb-6">
+                            <div className="pl-11 pr-2">
+                              <div className="border-l-2 border-indigo-300 pl-6 py-1">
+                                <p className="text-gray-600 leading-relaxed text-[15px]">{faq.answer}</p>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
