@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invitación Fixture</title>
+  <style>
+    :root {
+      --legacy-var: 7;
+  --primary-color: #8A4F3D;
+  --text-color: #2E2A26;
+  --accent-color: #B98A5E;
+  --bg-color: #FAF6F0;
+  --background-color: #FAF6F0;
+  --surface-color: #FFFFFF;
+  --border-color: #E5DCCF;
+  --surface-border-color: #E5DCCF;
+  --font-base: 'Playfair Display', sans-serif;
+  --font-heading: 'Cormorant Garamond', serif;}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-base); }
+  </style>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Cormorant+Garamond&display=swap" data-theme-font="1" rel="stylesheet"></head>
+<body>
+  <section class="fixture-count" data-gemini-id="countdown-fixture" memory_type="background" memory_usage="protected" data-countdown-target="2026-12-31T00:00:00">
+    <style>
+      .fixture-count {
+        --panel: color-mix(in srgb, var(--bg-color) 82%, transparent);
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        padding: 2rem;
+        text-align: center;
+      }
+      .fixture-count h4 { color: var(--primary-color); }
+    </style>
+    <h4 memory_type="text" memory_usage="custom" memory_key="fixture-count-title">Cuenta regresiva</h4>
+  </section>
+
+  <section class="fixture-literales" data-gemini-id="detalles-regalo" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+    <style>
+      .fixture-literales {
+        --panel-tone: #abcdef;
+        background-color: #112233;
+        color: #445566;
+        font-family: var(--font-base);
+        border: 3px dotted #999999;
+        padding: 2rem;
+      }
+      .fixture-literales .nota { color: var(--accent-color); }
+    </style>
+
+    <div class="fixture-literales__content" memory_type="text" memory_usage="custom" memory_key="fixture-content">
+      <style>
+        .fixture-literales .tarjeta {
+          color: var(--text-color);
+          background-color: var(--surface-color);
+          border-color: var(--border-color);
+          border: 2px solid var(--border-color);
+          font-family: var(--font-base);
+          padding: 1rem;
+        }
+      </style>
+      <h3 memory_type="text" memory_usage="custom" memory_key="fixture-title" style="color: var(--text-color); font-family: var(--font-heading);">Título editable</h3>
+      <p style="background-color: var(--surface-color);">Texto editable</p>
+      <div style="background: rgba(0,0,0,.5); color: var(--text-color);">Overlay semitransparente (el rgba debe preservarse)</div>
+    </div>
+  </section>
+</body>
+</html>

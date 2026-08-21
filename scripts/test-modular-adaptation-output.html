@@ -1,0 +1,1148 @@
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boda Tradicional - Floral - palacio blanco</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #ffffff;
+      --text-color: #b5a280;
+      --accent-color: #b89a63;
+      --background-color: #ffffff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body>
+  <section class="module-portada-castillo-fotos" data-gemini-id="portada-nombre" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder" aria-labelledby="portada-castillo-title">
+  <style>
+    .module-portada-castillo-fotos {
+      --primary-color: #1f1f1f;
+      --text-color: #2f2f2f;
+      --muted-color: rgba(47, 47, 47, 0.68);
+      --accent-color: #b89a63;
+      --background-overlay: rgba(246, 241, 225, 0.34);
+      --photo-shadow: 0 28px 70px rgba(0, 0, 0, 0.24);
+      --soft-shadow: 0 18px 42px rgba(0, 0, 0, 0.16);
+
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+      color: var(--text-color);
+      background-image:
+        linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.16),
+          rgba(255, 255, 255, 0.08)
+        ),
+        url("https://loremflickr.com/1920/1080/castle,mountains");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      isolation: isolate;
+    }
+
+    .module-portada-castillo-fotos::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.62), transparent 34%),
+        linear-gradient(
+          to bottom,
+          rgba(244, 239, 222, 0.22),
+          rgba(38, 38, 38, 0.18)
+        );
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    .module-portada-castillo-fotos::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--background-overlay);
+      backdrop-filter: blur(0.4px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .portada-castillo__inner {
+      position: relative;
+      width: min(1440px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1rem, 4vw, 4rem);
+      box-sizing: border-box;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      align-items: center;
+    }
+
+    .portada-castillo__header {
+      text-align: center;
+      z-index: 4;
+    }
+
+    .portada-castillo__title {
+      margin: 0;
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: clamp(3.5rem, 8vw, 6.7rem);
+      font-weight: 400;
+      line-height: 0.9;
+      letter-spacing: 0.02em;
+      color: var(--primary-color);
+      text-shadow: 0 2px 24px rgba(255, 255, 255, 0.36);
+    }
+
+    .portada-castillo__date {
+      display: block;
+      margin-top: clamp(0.5rem, 1vw, 1rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(1rem, 1.8vw, 1.4rem);
+      letter-spacing: 0.02em;
+      color: var(--text-color);
+    }
+
+    .portada-castillo__stage {
+      position: relative;
+      width: 100%;
+      min-height: clamp(520px, 64vh, 720px);
+      display: grid;
+      align-items: center;
+      justify-items: center;
+    }
+
+    .portada-castillo__name {
+      position: absolute;
+      z-index: 5;
+      margin: 0;
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: clamp(2.5rem, 5vw, 5.2rem);
+      font-weight: 400;
+      line-height: 1;
+      color: var(--primary-color);
+      text-shadow: 0 2px 20px rgba(255, 255, 255, 0.32);
+    }
+
+    .portada-castillo__name--left {
+      left: clamp(1rem, 12vw, 10rem);
+      top: clamp(3rem, 12vh, 8rem);
+      transform: rotate(-6deg);
+    }
+
+    .portada-castillo__name--right {
+      right: clamp(1rem, 12vw, 10rem);
+      top: clamp(2.5rem, 11vh, 7.5rem);
+      transform: rotate(-4deg);
+    }
+
+    .portada-castillo__photos {
+      position: relative;
+      width: min(760px, 78vw);
+      height: clamp(330px, 42vw, 520px);
+      margin-top: clamp(2rem, 6vh, 5rem);
+      z-index: 3;
+    }
+
+    .portada-castillo__photo {
+      position: absolute;
+      margin: 0;
+      width: min(330px, 34vw);
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.74);
+      box-shadow: var(--photo-shadow);
+      transform-origin: center;
+      will-change: transform;
+    }
+
+    .portada-castillo__photo img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: saturate(0.95) contrast(0.98);
+    }
+
+    .portada-castillo__photo--left {
+      left: 2%;
+      top: 7%;
+      transform: rotate(-10deg);
+    }
+
+    .portada-castillo__photo--right {
+      right: 2%;
+      top: 5%;
+      transform: rotate(10deg);
+    }
+
+    .portada-castillo__ampersand {
+      position: absolute;
+      left: 50%;
+      top: 42%;
+      z-index: 6;
+      transform: translate(-50%, -50%);
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: clamp(6rem, 13vw, 12rem);
+      line-height: 1;
+      color: rgba(55, 64, 70, 0.17);
+      text-shadow: 0 12px 38px rgba(255, 255, 255, 0.2);
+      pointer-events: none;
+    }
+
+    .portada-castillo__caption {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .portada-castillo__path-glow {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: min(620px, 60vw);
+      height: 28%;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.24), transparent 68%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .portada-castillo__motion {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: portadaCastleReveal 0.5s ease-out forwards;
+    }
+
+    .portada-castillo__header {
+      animation-delay: 0.04s;
+    }
+
+    .portada-castillo__name--left {
+      animation-delay: 0.12s;
+    }
+
+    .portada-castillo__name--right {
+      animation-delay: 0.16s;
+    }
+
+    .portada-castillo__photos {
+      animation-delay: 0.22s;
+    }
+
+    @keyframes portadaCastleReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 980px) {
+      .portada-castillo__inner {
+        padding-top: 3rem;
+      }
+
+      .portada-castillo__stage {
+        min-height: 700px;
+      }
+
+      .portada-castillo__name {
+        position: relative;
+        inset: auto;
+        text-align: center;
+      }
+
+      .portada-castillo__name--left,
+      .portada-castillo__name--right {
+        transform: none;
+      }
+
+      .portada-castillo__name--left {
+        align-self: start;
+        margin-top: 2rem;
+      }
+
+      .portada-castillo__name--right {
+        align-self: end;
+        margin-bottom: 2rem;
+      }
+
+      .portada-castillo__photos {
+        position: absolute;
+        top: 48%;
+        left: 50%;
+        width: min(720px, 88vw);
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .module-portada-castillo-fotos {
+        min-height: 100svh;
+        background-position: center;
+      }
+
+      .portada-castillo__inner {
+        min-height: 100svh;
+        padding: 2.5rem 1rem;
+      }
+
+      .portada-castillo__title {
+        font-size: clamp(3rem, 15vw, 4.8rem);
+      }
+
+      .portada-castillo__date {
+        font-size: 1rem;
+      }
+
+      .portada-castillo__stage {
+        min-height: 690px;
+      }
+
+      .portada-castillo__photos {
+        width: min(420px, 94vw);
+        height: 470px;
+      }
+
+      .portada-castillo__photo {
+        width: min(230px, 55vw);
+      }
+
+      .portada-castillo__photo--left {
+        left: 0;
+        top: 4%;
+        transform: rotate(-8deg);
+      }
+
+      .portada-castillo__photo--right {
+        right: 0;
+        top: 40%;
+        transform: rotate(8deg);
+      }
+
+      .portada-castillo__ampersand {
+        top: 47%;
+        font-size: clamp(5rem, 24vw, 8rem);
+      }
+
+      .portada-castillo__name {
+        font-size: clamp(2.8rem, 14vw, 4.4rem);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .portada-castillo__motion,
+      .portada-castillo__photo,
+      .portada-castillo__ampersand {
+        animation: none;
+        transition: none;
+        opacity: 1;
+        transform: none;
+      }
+
+      .portada-castillo__photo--left {
+        transform: rotate(-8deg);
+      }
+
+      .portada-castillo__photo--right {
+        transform: rotate(8deg);
+      }
+    }
+  </style>
+
+  <div class="portada-castillo__inner">
+    <header data-gemini-id="portada-nombre__wedding-header" class="portada-castillo__header portada-castillo__motion" memory_type="text" memory_usage="custom" memory_key="wedding-header">
+      <h1 id="portada-castillo-title" class="portada-castillo__title">
+        Our Wedding
+      </h1>
+
+      <time class="portada-castillo__date" datetime="2026-11-22">
+        November 22, 2026
+      </time>
+    </header>
+
+    <div class="portada-castillo__stage" aria-label="Presentación visual de los novios">
+      <p data-gemini-id="portada-nombre__bride-name" class="portada-castillo__name portada-castillo__name--left portada-castillo__motion" memory_type="text" memory_usage="custom" memory_key="bride-name">
+        Amy
+      </p>
+
+      <p data-gemini-id="portada-nombre__groom-name" class="portada-castillo__name portada-castillo__name--right portada-castillo__motion" memory_type="text" memory_usage="custom" memory_key="groom-name">
+        Lewis
+      </p>
+
+      <div class="portada-castillo__photos portada-castillo__motion">
+        <figure data-gemini-id="portada-nombre__bride-photo" class="portada-castillo__photo portada-castillo__photo--left" memory_type="image" memory_usage="custom" memory_source="library" memory_key="bride-photo">
+          <img src="/img/boda-color/bride-groom-smiling-under-floral-arch.jpg" alt="Foto de la novia" path="placeholder" data-library-category="bodas" data-asset-type="foto-personal">
+          <figcaption class="portada-castillo__caption">
+            Foto principal de la novia
+          </figcaption>
+        </figure>
+
+        <figure data-gemini-id="portada-nombre__groom-photo" class="portada-castillo__photo portada-castillo__photo--right" memory_type="image" memory_usage="custom" memory_source="library" memory_key="groom-photo">
+          <img src="/img/boda-color/first-kiss-bride-groom-romantic-closeup.jpg" alt="Foto del novio" path="placeholder" data-library-category="bodas" data-asset-type="foto-personal">
+          <figcaption class="portada-castillo__caption">
+            Foto principal del novio
+          </figcaption>
+        </figure>
+
+        <div data-gemini-id="portada-nombre__decorative-ampersand" class="portada-castillo__ampersand" aria-hidden="true" memory_type="text" memory_usage="protected" memory_key="decorative-ampersand">
+          &amp;
+        </div>
+      </div>
+
+      <div class="portada-castillo__path-glow" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "portada",
+        "boda",
+        "castillo",
+        "montanas",
+        "novios",
+        "fotos inclinadas",
+        "hero",
+        "romantico",
+        "editorial",
+        "responsive"
+      ],
+      descripcion:
+        "Portada visual para boda con fondo generado tipo castillo, nombres, fecha, dos fotos personales inclinadas y ampersand decorativo central."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="portada-nombre"]');
+
+      if (!module) return;
+
+      const photos = module.querySelectorAll(".portada-castillo__photo");
+      const ampersand = module.querySelector(".portada-castillo__ampersand");
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (prefersReducedMotion) return;
+
+      module.addEventListener("pointermove", function (event) {
+        const rect = module.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        photos.forEach(function (photo, index) {
+          const direction = index === 0 ? -1 : 1;
+          const baseRotation = index === 0 ? -10 : 10;
+          const translateX = x * 14 * direction;
+          const translateY = y * 10;
+          const rotate = baseRotation + x * 3 * direction;
+
+          photo.style.transform =
+            "translate(" +
+            translateX +
+            "px, " +
+            translateY +
+            "px) rotate(" +
+            rotate +
+            "deg)";
+        });
+
+        if (ampersand) {
+          ampersand.style.transform =
+            "translate(calc(-50% + " +
+            x * 10 +
+            "px), calc(-50% + " +
+            y * 8 +
+            "px))";
+        }
+      });
+
+      module.addEventListener("pointerleave", function () {
+        photos.forEach(function (photo, index) {
+          const baseRotation = index === 0 ? -10 : 10;
+          photo.style.transform = "rotate(" + baseRotation + "deg)";
+        });
+
+        if (ampersand) {
+          ampersand.style.transform = "translate(-50%, -50%)";
+        }
+      });
+    })();
+  </script>
+</section>
+
+<section class="module-padres-universal" data-gemini-id="padres-universal" memory_type="image" memory_usage="protected" memory_source="library" path="placeholder">
+  <style>
+    .module-padres-universal {
+      --primary-color: #1f1f1f;
+      --text-color: #2f2f2f;
+      --muted-color: rgba(47, 47, 47, 0.68);
+      --accent-color: #b89a63;
+      --soft-shadow: 0 18px 42px rgba(0, 0, 0, 0.16);
+      position: relative;
+      width: 100%;
+      padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 4vw, 4rem);
+      box-sizing: border-box;
+      background: #faf8f3;
+      color: var(--text-color);
+    }
+    .padres-universal__title {
+      text-align: center;
+      font-family: "Georgia", serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin: 0 0 2rem;
+      color: var(--primary-color);
+    }
+    .padres-universal__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .padres-universal__card {
+      text-align: center;
+      padding: 1.5rem;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: var(--soft-shadow);
+    }
+    .padres-universal__photo {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: url('/img/boda-color/first-kiss-wedding-ceremony-floral-arch.jpg') center/cover;
+      margin: 0 auto 1rem;
+      filter: grayscale(20%);
+    }
+    .padres-universal__name {
+      font-family: "Georgia", serif;
+      font-size: 1.25rem;
+      margin: 0 0 0.25rem;
+      color: var(--primary-color);
+    }
+    .padres-universal__role {
+      font-size: 0.9rem;
+      color: var(--muted-color);
+      margin: 0;
+    }
+  </style>
+
+  <h2 class="padres-universal__title">Nuestros Padres</h2>
+  <div class="padres-universal__grid">
+    <figure class="padres-universal__card" memory_source="library" data-asset-type="retrato" path="placeholder">
+      <div class="padres-universal__photo"></div>
+      <figcaption>
+        <p class="padres-universal__name">Nombre del Padre</p>
+        <p class="padres-universal__role">Padre de la Novia</p>
+      </figcaption>
+    </figure>
+    <figure class="padres-universal__card" memory_source="library" data-asset-type="retrato" path="placeholder">
+      <div class="padres-universal__photo"></div>
+      <figcaption>
+        <p class="padres-universal__name">Nombre de la Madre</p>
+        <p class="padres-universal__role">Madre de la Novia</p>
+      </figcaption>
+    </figure>
+    <figure class="padres-universal__card" memory_source="library" data-asset-type="retrato" path="placeholder">
+      <div class="padres-universal__photo"></div>
+      <figcaption>
+        <p class="padres-universal__name">Nombre del Padre</p>
+        <p class="padres-universal__role">Padre del Novio</p>
+      </figcaption>
+    </figure>
+    <figure class="padres-universal__card" memory_source="library" data-asset-type="retrato" path="placeholder">
+      <div class="padres-universal__photo"></div>
+      <figcaption>
+        <p class="padres-universal__name">Nombre de la Madre</p>
+        <p class="padres-universal__role">Madre del Novio</p>
+      </figcaption>
+    </figure>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: ["padres", "wireframe", "responsive", "universal"],
+      descripcion: "Wireframe universal de padres con retratos placeholder."
+    };
+  </script>
+
+</section>
+
+<section class="module-countdown-universal" data-gemini-id="countdown-universal" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+  <style>
+    .module-countdown-universal {
+      --primary-color: #1f1f1f;
+      --text-color: #2f2f2f;
+      --muted-color: rgba(47, 47, 47, 0.68);
+      --accent-color: #b89a63;
+      --background-overlay: rgba(246, 241, 225, 0.34);
+      position: relative;
+      width: 100%;
+      padding: clamp(4rem, 8vw, 6rem) clamp(1rem, 4vw, 4rem);
+      box-sizing: border-box;
+      color: var(--text-color);
+      background-image:
+        linear-gradient(to bottom, rgba(255,255,255,0.16), rgba(255,255,255,0.08)),
+        url("https://loremflickr.com/1920/1080/celebration,elegant");
+      background-size: cover;
+      background-position: center;
+      isolation: isolate;
+    }
+    .module-countdown-universal::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--background-overlay);
+      z-index: -1;
+    }
+    .countdown-universal__title {
+      position: relative;
+      text-align: center;
+      font-family: "Georgia", serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      margin: 0 0 2rem;
+      color: var(--primary-color);
+    }
+    .countdown-universal__grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    @media (max-width: 540px) {
+      .countdown-universal__grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .countdown-universal__cell {
+      text-align: center;
+      padding: 1.5rem 0.5rem;
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(8px);
+      border-radius: 12px;
+    }
+    .countdown-universal__num {
+      font-family: "Georgia", serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1;
+      color: var(--primary-color);
+      margin: 0 0 0.25rem;
+    }
+    .countdown-universal__label {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted-color);
+      margin: 0;
+    }
+  </style>
+
+  <h2 class="countdown-universal__title">Faltan pocos días</h2>
+  <div class="countdown-universal__grid">
+    <div class="countdown-universal__cell">
+      <p class="countdown-universal__num" data-countdown="days">--</p>
+      <p class="countdown-universal__label">Días</p>
+    </div>
+    <div class="countdown-universal__cell">
+      <p class="countdown-universal__num" data-countdown="hours">--</p>
+      <p class="countdown-universal__label">Horas</p>
+    </div>
+    <div class="countdown-universal__cell">
+      <p class="countdown-universal__num" data-countdown="minutes">--</p>
+      <p class="countdown-universal__label">Minutos</p>
+    </div>
+    <div class="countdown-universal__cell">
+      <p class="countdown-universal__num" data-countdown="seconds">--</p>
+      <p class="countdown-universal__label">Segundos</p>
+    </div>
+  </div>
+
+  <script data-gemini-id="countdown-universal">
+    (function() {
+      const target = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+      const cells = document.querySelectorAll('[data-countdown]');
+      function tick() {
+        const now = new Date();
+        const diff = Math.max(0, target - now);
+        const days = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff % 86400000) / 3600000);
+        const minutes = Math.floor((diff % 3600000) / 60000);
+        const seconds = Math.floor((diff % 60000) / 1000);
+        cells.forEach(cell => {
+          const key = cell.getAttribute('data-countdown');
+          const value = { days, hours, minutes, seconds }[key];
+          cell.textContent = String(value).padStart(2, '0');
+        });
+      }
+      tick();
+      setInterval(tick, 1000);
+    })();
+
+    const moduleMetadata = {
+      tags: ["countdown", "wireframe", "responsive", "universal", "timer"],
+      descripcion: "Wireframe universal de countdown con memoria generada."
+    };
+  </script>
+
+</section>
+
+<section class="module-itinerario-universal" data-gemini-id="itinerario-universal" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+  <style>
+    .module-itinerario-universal {
+      --primary-color: #1f1f1f;
+      --text-color: #2f2f2f;
+      --muted-color: rgba(47, 47, 47, 0.68);
+      --accent-color: #b89a63;
+      position: relative;
+      width: 100%;
+      padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 4vw, 4rem);
+      box-sizing: border-box;
+      background: #faf8f3;
+      color: var(--text-color);
+    }
+    .itinerario-universal__title {
+      text-align: center;
+      font-family: "Georgia", serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin: 0 0 2rem;
+      color: var(--primary-color);
+    }
+    .itinerario-universal__timeline {
+      max-width: 720px;
+      margin: 0 auto;
+      position: relative;
+      padding-left: 2rem;
+    }
+    .itinerario-universal__timeline::before {
+      content: "";
+      position: absolute;
+      left: 8px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--accent-color);
+      opacity: 0.4;
+    }
+    .itinerario-universal__item {
+      position: relative;
+      padding: 0 0 2rem 1rem;
+    }
+    .itinerario-universal__item::before {
+      content: "";
+      position: absolute;
+      left: -2rem;
+      top: 6px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      border: 3px solid #faf8f3;
+    }
+    .itinerario-universal__time {
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+      margin: 0 0 0.25rem;
+    }
+    .itinerario-universal__label {
+      font-family: "Georgia", serif;
+      font-size: 1.15rem;
+      margin: 0 0 0.25rem;
+      color: var(--primary-color);
+    }
+    .itinerario-universal__desc {
+      font-size: 0.9rem;
+      color: var(--muted-color);
+      margin: 0;
+    }
+  </style>
+
+  <h2 class="itinerario-universal__title">Itinerario</h2>
+  <div class="itinerario-universal__timeline">
+    <div class="itinerario-universal__item">
+      <p class="itinerario-universal__time">17:00</p>
+      <p class="itinerario-universal__label">Ceremonia</p>
+      <p class="itinerario-universal__desc">Inicio de la ceremonia civil.</p>
+    </div>
+    <div class="itinerario-universal__item">
+      <p class="itinerario-universal__time">18:30</p>
+      <p class="itinerario-universal__label">Recepción</p>
+      <p class="itinerario-universal__desc">Bienvenida a los invitados.</p>
+    </div>
+    <div class="itinerario-universal__item">
+      <p class="itinerario-universal__time">20:00</p>
+      <p class="itinerario-universal__label">Cena</p>
+      <p class="itinerario-universal__desc">Banquete y brindis.</p>
+    </div>
+    <div class="itinerario-universal__item">
+      <p class="itinerario-universal__time">22:00</p>
+      <p class="itinerario-universal__label">Fiesta</p>
+      <p class="itinerario-universal__desc">Baile y celebración.</p>
+    </div>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: ["itinerario", "wireframe", "responsive", "universal", "timeline"],
+      descripcion: "Wireframe universal de itinerario con timeline placeholder."
+    };
+  </script>
+
+</section>
+
+<section class="module-ubicacion-universal" data-gemini-id="ubicacion-universal" memory_type="image" memory_usage="protected" memory_source="library" path="placeholder">
+  <style>
+    .module-ubicacion-universal {
+      --primary-color: #1f1f1f;
+      --text-color: #2f2f2f;
+      --muted-color: rgba(47, 47, 47, 0.68);
+      --accent-color: #b89a63;
+      position: relative;
+      width: 100%;
+      padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 4vw, 4rem);
+      box-sizing: border-box;
+      background: #faf8f3;
+      color: var(--text-color);
+    }
+    .ubicacion-universal__title {
+      text-align: center;
+      font-family: "Georgia", serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin: 0 0 1.5rem;
+      color: var(--primary-color);
+    }
+    .ubicacion-universal__layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      align-items: center;
+    }
+    @media (max-width: 768px) {
+      .ubicacion-universal__layout { grid-template-columns: 1fr; }
+    }
+    .ubicacion-universal__info { padding: 1.5rem; }
+    .ubicacion-universal__venue {
+      font-family: "Georgia", serif;
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      margin: 0 0 0.5rem;
+    }
+    .ubicacion-universal__address {
+      font-size: 1rem;
+      color: var(--muted-color);
+      margin: 0 0 1rem;
+      line-height: 1.5;
+    }
+    .ubicacion-universal__time {
+      font-size: 0.9rem;
+      color: var(--accent-color);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .ubicacion-universal__map {
+      width: 100%;
+      height: 280px;
+      border-radius: 12px;
+      background: url('/img/boda-color/romantic-wedding-couple-lavender-field.jpg') center/cover;
+      box-shadow: 0 18px 42px rgba(0,0,0,0.16);
+    }
+  </style>
+
+  <h2 class="ubicacion-universal__title">Ubicacion del Evento</h2>
+  <div class="ubicacion-universal__layout">
+    <div class="ubicacion-universal__info">
+      <h3 class="ubicacion-universal__venue">Nombre del Salón</h3>
+      <p class="ubicacion-universal__address">
+        Direccion completa del lugar<br>
+        Ciudad, Código Postal
+      </p>
+      <p class="ubicacion-universal__time">Ceremonia · 17:00 hrs</p>
+    </div>
+    <div class="ubicacion-universal__map" memory_source="library" data-asset-type="mapa" path="placeholder"></div>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: ["ubicacion", "wireframe", "responsive", "universal", "mapa"],
+      descripcion: "Wireframe universal de ubicacion con mapa placeholder."
+    };
+  </script>
+
+</section>
+
+<section class="module-padrinos-universal" data-gemini-id="padrinos-universal" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+  <style>
+    .module-padrinos-universal {
+      --primary-color: #1f1f1f;
+      --text-color: #2f2f2f;
+      --muted-color: rgba(47, 47, 47, 0.68);
+      --accent-color: #b89a63;
+      --soft-shadow: 0 18px 42px rgba(0, 0, 0, 0.16);
+      position: relative;
+      width: 100%;
+      padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 4vw, 4rem);
+      box-sizing: border-box;
+      background: #faf8f3;
+      color: var(--text-color);
+    }
+    .padrinos-universal__title {
+      text-align: center;
+      font-family: "Georgia", serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin: 0 0 0.5rem;
+      color: var(--primary-color);
+    }
+    .padrinos-universal__subtitle {
+      text-align: center;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+      margin: 0 0 2.5rem;
+    }
+    .padrinos-universal__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .padrinos-universal__card {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: var(--soft-shadow);
+      border-top: 3px solid var(--accent-color);
+    }
+    .padrinos-universal__name {
+      font-family: "Georgia", serif;
+      font-size: 1.15rem;
+      margin: 0 0 0.25rem;
+      color: var(--primary-color);
+    }
+    .padrinos-universal__role {
+      font-size: 0.85rem;
+      color: var(--muted-color);
+      margin: 0;
+    }
+  </style>
+
+  <h2 class="padrinos-universal__title">Padrinos</h2>
+  <p class="padrinos-universal__subtitle">Con su bendición y apoyo</p>
+  <div class="padrinos-universal__grid">
+    <div class="padrinos-universal__card">
+      <p class="padrinos-universal__name">Nombre del Padrino</p>
+      <p class="padrinos-universal__role">Padrino de la Novia</p>
+    </div>
+    <div class="padrinos-universal__card">
+      <p class="padrinos-universal__name">Nombre de la Madrina</p>
+      <p class="padrinos-universal__role">Madrina de la Novia</p>
+    </div>
+    <div class="padrinos-universal__card">
+      <p class="padrinos-universal__name">Nombre del Padrino</p>
+      <p class="padrinos-universal__role">Padrino del Novio</p>
+    </div>
+    <div class="padrinos-universal__card">
+      <p class="padrinos-universal__name">Nombre de la Madrina</p>
+      <p class="padrinos-universal__role">Madrina del Novio</p>
+    </div>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: ["padrinos", "wireframe", "responsive", "universal"],
+      descripcion: "Wireframe universal de padrinos con lista de nombres placeholder."
+    };
+  </script>
+
+</section>
+
+<section class="module-confirmacion-universal" data-gemini-id="confirmacion-universal" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+  <style>
+    .module-confirmacion-universal {
+      --primary-color: #1f1f1f;
+      --text-color: #2f2f2f;
+      --muted-color: rgba(47, 47, 47, 0.68);
+      --accent-color: #b89a63;
+      position: relative;
+      width: 100%;
+      padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 4vw, 4rem);
+      box-sizing: border-box;
+      background: #faf8f3;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .confirmacion-universal__title {
+      font-family: "Georgia", serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin: 0 0 1rem;
+      color: var(--primary-color);
+    }
+    .confirmacion-universal__lead {
+      max-width: 620px;
+      margin: 0 auto 2rem;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: var(--muted-color);
+    }
+    .confirmacion-universal__btn {
+      display: inline-block;
+      padding: 0.9rem 2.4rem;
+      font-family: "Georgia", serif;
+      font-size: 1.05rem;
+      letter-spacing: 0.06em;
+      color: #fff;
+      background: var(--accent-color);
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform .2s ease, box-shadow .2s ease;
+      box-shadow: 0 14px 32px rgba(184, 154, 99, 0.32);
+    }
+    .confirmacion-universal__btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px rgba(184, 154, 99, 0.4);
+    }
+    .confirmacion-universal__deadline {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+  </style>
+
+  <h2 class="confirmacion-universal__title">Confirma tu Asistencia</h2>
+  <p class="confirmacion-universal__lead">
+    Nos encantaria que nos acompañes en este dia tan especial. Por favor confirma
+    tu asistencia antes de la fecha limite.
+  </p>
+  <a href="#" class="confirmacion-universal__btn">Confirmar asistencia</a>
+  <p class="confirmacion-universal__deadline">Fecha limite · 30 de noviembre</p>
+
+  <script>
+    const moduleMetadata = {
+      tags: ["confirmacion", "wireframe", "responsive", "universal", "rsvp"],
+      descripcion: "Wireframe universal de confirmacion RSVP."
+    };
+  </script>
+
+</section>
+
+<section class="module-detalles-universal" data-gemini-id="detalles-universal" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+  <style>
+    .module-detalles-universal {
+      --primary-color: #1f1f1f;
+      --text-color: #2f2f2f;
+      --muted-color: rgba(47, 47, 47, 0.68);
+      --accent-color: #b89a63;
+      position: relative;
+      width: 100%;
+      padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 4vw, 4rem);
+      box-sizing: border-box;
+      background: #faf8f3;
+      color: var(--text-color);
+    }
+    .detalles-universal__title {
+      text-align: center;
+      font-family: "Georgia", serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin: 0 0 2rem;
+      color: var(--primary-color);
+    }
+    .detalles-universal__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    @media (max-width: 768px) {
+      .detalles-universal__grid { grid-template-columns: 1fr; }
+    }
+    .detalles-universal__card {
+      padding: 2rem;
+      text-align: center;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 18px 42px rgba(0,0,0,0.16);
+    }
+    .detalles-universal__card h3 {
+      font-family: "Georgia", serif;
+      font-size: 1.3rem;
+      color: var(--primary-color);
+      margin: 0 0 0.75rem;
+    }
+    .detalles-universal__card p {
+      font-size: 0.95rem;
+      color: var(--muted-color);
+      line-height: 1.5;
+      margin: 0;
+    }
+    .detalles-universal__card .detalles-universal__hint {
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+  </style>
+
+  <h2 class="detalles-universal__title">Detalles del Evento</h2>
+  <div class="detalles-universal__grid">
+    <div class="detalles-universal__card">
+      <h3>Codigo de Vestimenta</h3>
+      <p>Elegante. Te sugerimos tonos pasteles y evitar blanco.</p>
+      <p class="detalles-universal__hint">Formal</p>
+    </div>
+    <div class="detalles-universal__card">
+      <h3>Mesa de Regalos</h3>
+      <p>Tu presencia es el mejor regalo. Si deseas obsequiar, agradecemos contribuciones.</p>
+      <p class="detalles-universal__hint">Lluvia de Sobres</p>
+    </div>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: ["detalles", "wireframe", "responsive", "universal", "vestimenta", "regalos"],
+      descripcion: "Wireframe universal de detalles (vestimenta y regalos)."
+    };
+  </script>
+
+</section>
+  
+  <script>
+    // Metadata del editor
+    const invitationMetadata = {
+      version: '2.0-modular',
+      eventType: 'Boda Tradicional',
+      theme: 'Floral - palacio blanco',
+      assembledAt: '2026-07-29T02:42:27.377Z',
+      modules: [{"module_id":"portada-nombre","module_type":"portada"},{"module_id":"padres-universal","module_type":"padres"},{"module_id":"countdown-universal","module_type":"countdown"},{"module_id":"itinerario-universal","module_type":"itinerario"},{"module_id":"ubicacion-universal","module_type":"ubicacion"},{"module_id":"padrinos-universal","module_type":"padrinos"},{"module_id":"confirmacion-universal","module_type":"confirmacion"},{"module_id":"detalles-universal","module_type":"detalles"}]
+    };
+    
+    // Registrar metadata en el DOM
+    const metaScript = document.createElement('script');
+    metaScript.id = 'invitation-editor-metadata';
+    metaScript.type = 'application/json';
+    metaScript.textContent = JSON.stringify(invitationMetadata);
+    document.body.appendChild(metaScript);
+  </script>
+</body>
+</html>

@@ -1,0 +1,241 @@
+{
+  "version": "1.0.0",
+  "appliedAt": "2026-08-21T15:20:50.602Z",
+  "mode": "post-rag-modules",
+  "request": {
+    "colors": {
+      "primary": "#8A4F3D",
+      "text": "#2E2A26",
+      "accent": "#B98A5E",
+      "background": "#FAF6F0",
+      "surface": "#FFFFFF",
+      "border": "#E5DCCF"
+    },
+    "font": {
+      "base": "Playfair Display",
+      "heading": "Cormorant Garamond",
+      "fallback": "Inter"
+    },
+    "fontOptions": {
+      "overrideProtectedFonts": true
+    }
+  },
+  "theme": {
+    "variables": {
+      "--primary-color": "#8A4F3D",
+      "--text-color": "#2E2A26",
+      "--accent-color": "#B98A5E",
+      "--bg-color": "#FAF6F0",
+      "--background-color": "#FAF6F0",
+      "--surface-color": "#FFFFFF",
+      "--border-color": "#E5DCCF",
+      "--surface-border-color": "#E5DCCF",
+      "--font-base": "'Playfair Display', sans-serif",
+      "--font-heading": "'Cormorant Garamond', serif"
+    },
+    "googleFontsUrl": "https://fonts.googleapis.com/css2?family=Playfair+Display&family=Cormorant+Garamond&display=swap",
+    "fontResolution": {
+      "base": {
+        "family": "Playfair Display",
+        "status": "verified"
+      },
+      "heading": {
+        "family": "Cormorant Garamond",
+        "status": "verified"
+      }
+    }
+  },
+  "modules": [
+    {
+      "module": "../Countdown/countdown-01.html",
+      "output": "C:\\Users\\Usuario\\Documents\\Linksocially\\invitaciones-digitales\\theming\\test-output\\countdown-01.html",
+      "status": "ok",
+      "changes": {
+        "colorSubstitutions": 0,
+        "fontSubstitutions": 0,
+        "protectedStyleBlocksSkipped": 1,
+        "varRebinds": [],
+        "fontReplacements": []
+      },
+      "elements": [
+        {
+          "elementId": "countdown-central-classic__countdown-strip-heading",
+          "tag": "h2",
+          "memoryKey": "countdown-strip-heading",
+          "memoryUsage": "custom",
+          "wasProtected": false,
+          "originalFont": null,
+          "currentFont": "var(--font-heading)"
+        },
+        {
+          "elementId": "countdown-central-classic__countdown-event-date",
+          "tag": "time",
+          "memoryKey": "countdown-event-date",
+          "memoryUsage": "custom",
+          "wasProtected": false,
+          "originalFont": null,
+          "currentFont": "var(--font-base)"
+        }
+      ]
+    },
+    {
+      "module": "../Countdown/countdown-05.html",
+      "output": "C:\\Users\\Usuario\\Documents\\Linksocially\\invitaciones-digitales\\theming\\test-output\\countdown-05.html",
+      "status": "ok",
+      "changes": {
+        "colorSubstitutions": 0,
+        "fontSubstitutions": 0,
+        "protectedStyleBlocksSkipped": 1,
+        "varRebinds": [],
+        "fontReplacements": []
+      },
+      "elements": [
+        {
+          "elementId": "countdown-analog-clock__countdown-strip-heading",
+          "tag": "h2",
+          "memoryKey": "countdown-strip-heading",
+          "memoryUsage": "custom",
+          "wasProtected": false,
+          "originalFont": null,
+          "currentFont": "var(--font-heading)"
+        },
+        {
+          "elementId": "countdown-analog-clock__countdown-event-date",
+          "tag": "time",
+          "memoryKey": "countdown-event-date",
+          "memoryUsage": "custom",
+          "wasProtected": false,
+          "originalFont": null,
+          "currentFont": "var(--font-base)"
+        }
+      ]
+    },
+    {
+      "module": "test-fixtures/module-with-literals.html",
+      "output": "C:\\Users\\Usuario\\Documents\\Linksocially\\invitaciones-digitales\\theming\\test-output\\module-with-literals.html",
+      "status": "ok",
+      "changes": {
+        "colorSubstitutions": 7,
+        "fontSubstitutions": 3,
+        "protectedStyleBlocksSkipped": 1,
+        "varRebinds": [
+          {
+            "var": "--primary-color",
+            "originalValue": "#123456"
+          },
+          {
+            "var": "--text-color",
+            "originalValue": "#654321"
+          }
+        ],
+        "fontReplacements": [
+          {
+            "selector": ".fixture-literales",
+            "original": "'Comic Sans MS', cursive",
+            "applied": "var(--font-base)"
+          },
+          {
+            "selector": ".fixture-literales .tarjeta",
+            "original": "Georgia, serif",
+            "applied": "var(--font-base)"
+          }
+        ]
+      },
+      "elements": [
+        {
+          "elementId": "detalles-regalo__fixture-title",
+          "tag": "h3",
+          "memoryKey": "fixture-title",
+          "memoryUsage": "custom",
+          "wasProtected": false,
+          "originalFont": "'Times New Roman', serif",
+          "currentFont": "var(--font-heading)"
+        },
+        {
+          "elementId": "detalles-regalo__fixture-content",
+          "tag": "div",
+          "memoryKey": "fixture-content",
+          "memoryUsage": "custom",
+          "wasProtected": false,
+          "originalFont": null,
+          "currentFont": "var(--font-base)"
+        }
+      ]
+    }
+  ],
+  "container": {
+    "file": "test-fixtures/container.html",
+    "output": "C:\\Users\\Usuario\\Documents\\Linksocially\\invitaciones-digitales\\theming\\test-output\\container.html",
+    "injected": [
+      "root-override",
+      "font-link",
+      "body-font"
+    ],
+    "changes": {
+      "colorSubstitutions": 7,
+      "fontSubstitutions": 4,
+      "protectedStyleBlocksSkipped": 2,
+      "varRebinds": [
+        {
+          "var": "--primary-color",
+          "originalValue": "#deadbe"
+        },
+        {
+          "var": "--primary-color",
+          "originalValue": "#123456"
+        },
+        {
+          "var": "--text-color",
+          "originalValue": "#654321"
+        }
+      ],
+      "fontReplacements": [
+        {
+          "selector": "body",
+          "original": "system-ui, -apple-system, sans-serif",
+          "applied": "var(--font-base)"
+        },
+        {
+          "selector": ".fixture-literales",
+          "original": "'Comic Sans MS', cursive",
+          "applied": "var(--font-base)"
+        },
+        {
+          "selector": ".fixture-literales .tarjeta",
+          "original": "Georgia, serif",
+          "applied": "var(--font-base)"
+        }
+      ]
+    },
+    "elements": [
+      {
+        "elementId": "countdown-fixture__fixture-title",
+        "tag": "h3",
+        "memoryKey": "fixture-title",
+        "memoryUsage": "custom",
+        "wasProtected": false,
+        "originalFont": "'Times New Roman', serif",
+        "currentFont": "var(--font-heading)"
+      },
+      {
+        "elementId": "countdown-fixture__fixture-count-title",
+        "tag": "h4",
+        "memoryKey": "fixture-count-title",
+        "memoryUsage": "custom",
+        "wasProtected": false,
+        "originalFont": null,
+        "currentFont": "var(--font-heading)"
+      },
+      {
+        "elementId": "countdown-fixture__fixture-content",
+        "tag": "div",
+        "memoryKey": "fixture-content",
+        "memoryUsage": "custom",
+        "wasProtected": false,
+        "originalFont": null,
+        "currentFont": "var(--font-base)"
+      }
+    ]
+  },
+  "warnings": []
+}

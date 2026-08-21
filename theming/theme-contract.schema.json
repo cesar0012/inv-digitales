@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "theme-contract.schema.json",
+  "title": "ThemeRequest",
+  "description": "Contrato de entrada del subsistema de Tematización Post-RAG. Describe los requerimientos de color y tipografía del cliente y los módulos .html seleccionados por el RAG a tematizar.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["colors", "modules"],
+  "properties": {
+    "colors": {
+      "type": "object",
+      "description": "Mapeo de roles semánticos a valores de color hex/rgb. Roles obligatorios: primary, text, accent, background. Opcionales: surface, border.",
+      "additionalProperties": false,
+      "required": ["primary", "text", "accent", "background"],
+      "properties": {
+        "primary": { "$ref": "#/definitions/cssColor" },
+        "text": { "$ref": "#/definitions/cssColor" },
+        "accent": { "$ref": "#/definitions/cssColor" },
+        "background": { "$ref": "#/definitions/cssColor" },
+        "surface": { "$ref": "#/definitions/cssColor" },
+        "border": { "$ref": "#/definitions/cssColor" }
+      }
+    },
+    "font": {
+      "type": "object",
+      "description": "Unificación tipográfica hacia Google Fonts. Si se omite, se omite la etapa de fuentes (solo se tematizan colores).",
+      "additionalProperties": false,
+      "required": ["base"],
+      "properties": {
+        "base": { "$ref": "#/definitions/googleFontName" },
+        "heading": { "$ref": "#/definitions/googleFontName" },
+        "fallback": {
+          "type": "string",
+          "description": "Fuente de reemplazo si la validación contra Google Fonts falla (default: Inter)."
+        }
+      }
+    },
+    "fontOptions": {
+      "type": "object",
+      "description": "Opciones de la unificación tipográfica.",
+      "additionalProperties": false,
+      "properties": {
+        "overrideProtectedFonts": {
+          "type": "boolean",
+          "description": "Reemplazar font-family también en bloques memory_usage=protected (default: true; corresponde a la exigencia explícita de unificación del cliente; cada reemplazo queda registrado en el manifiesto con wasProtected=true)."
+        }
+      }
+    },
+    "modules": {
+      "type": "array",
+      "description": "Rutas de los módulos .html seleccionados por el RAG. Rutas relativas al archivo de request.",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^[^<>|?*]+$"
+      }
+    },
+    "container": {
+      "type": "string",
+      "description": "Ruta opcional del documento/contenedor final de la invitación donde se inyecta el bloque :root y el <link> de Google Fonts."
+    },
+    "output": {
+      "type": "string",
+      "description": "Directorio de salida para los módulos tematizados y theme-manifest.json (default: theming/output)."
+    },
+    "dryRun": {
+      "type": "boolean",
+      "description": "Si es true, no se escribe ningún archivo; solo se genera el manifiesto en memoria y el log."
+    }
+  },
+  "definitions": {
+    "cssColor": {
+      "type": "string",
+      "description": "Color CSS en formato hex (#rgb, #rrggbb, #rrggbbaa) o rgb()/rgba() con componentes decimales.",
+      "pattern": "^(#[0-9a-fA-F]{3}|#[0-9a-fA-F]{6}|#[0-9a-fA-F]{8}|rgba?\\(\\s*(?:[0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\s*,\\s*(?:[0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\s*,\\s*(?:[0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\s*(?:,\\s*(?:0(?:\\.[0-9]+)?|1(?:\\.0+)?)\\s*)?\\))$"
+    },
+    "googleFontName": {
+      "type": "string",
+      "description": "Nombre exacto de una Google Font (ej. 'Playfair Display'). Solo letras, dígitos, espacios, guiones y apóstrofos.",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9 '\\-]{0,63}$",
+      "minLength": 2
+    }
+  }
+}

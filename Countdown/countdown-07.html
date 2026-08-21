@@ -1,0 +1,345 @@
+﻿<section
+  class="countdown-ring"
+  data-gemini-id="countdown-progress-ring"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+  data-countdown-start=""
+>
+  <style>
+    .countdown-ring {
+      --ring-size: clamp(292px, 48vw, 410px);
+      --ring-stroke: clamp(10px, 1.7vw, 14px);
+      position: relative;
+      isolation: isolate;
+      min-height: 600px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: clamp(3rem, 7vw, 5rem) 1rem;
+      background-color: var(--bg-color, #f4efe8);
+      background-image: url('https://loremflickr.com/1600/1000/celebration,elegant');
+      background-position: center;
+      background-size: cover;
+      color: var(--text-color, #202020);
+      text-align: center;
+    }
+
+    .countdown-ring::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color, #f4efe8) 86%, transparent);
+    }
+
+    .countdown-ring,
+    .countdown-ring * { box-sizing: border-box; }
+
+    .countdown-ring__content {
+      width: min(100%, 760px);
+      margin: 0 auto;
+    }
+
+    .countdown-ring__heading {
+      margin: 0 0 .45rem;
+      color: var(--primary-color, currentColor);
+      font-size: clamp(1.55rem, 3.5vw, 2.35rem);
+      line-height: 1.1;
+    }
+
+    .countdown-ring__date {
+      display: block;
+      margin: 0 0 clamp(1.6rem, 4vw, 2.4rem);
+      color: var(--text-color, currentColor);
+      font-size: clamp(.82rem, 1.8vw, 1rem);
+    }
+
+    .countdown-ring__dial {
+      position: relative;
+      width: var(--ring-size);
+      aspect-ratio: 1;
+      margin: 0 auto;
+      border-radius: 50%;
+    }
+
+    .countdown-ring__svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .countdown-ring__track,
+    .countdown-ring__progress {
+      fill: none;
+      stroke-width: var(--ring-stroke);
+    }
+
+    .countdown-ring__track {
+      stroke: var(--text-color, #202020);
+      opacity: .18;
+    }
+
+    .countdown-ring__progress {
+      stroke: var(--accent-color, var(--primary-color, #547f79));
+      stroke-linecap: round;
+      stroke-dasharray: 1;
+      /* Preview state: remains visibly ring-shaped before a real target is injected. */
+      stroke-dashoffset: .18;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+      transition: stroke-dashoffset 1s linear;
+    }
+
+    .countdown-ring__marker-halo {
+      fill: var(--bg-color, #f4efe8);
+      stroke: var(--text-color, #202020);
+      stroke-width: 2.5;
+    }
+
+    .countdown-ring__marker-core {
+      fill: var(--accent-color, var(--primary-color, #547f79));
+    }
+
+    .countdown-ring__center {
+      position: absolute;
+      inset: 16%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+    }
+
+    .countdown-ring__caption {
+      margin: 0 0 clamp(.8rem, 2vw, 1.15rem);
+      color: var(--text-color, currentColor);
+      font-size: clamp(.68rem, 1.5vw, .84rem);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .countdown-ring__timer {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .countdown-ring__unit {
+      position: relative;
+      min-width: 0;
+      padding: 0 clamp(.18rem, .8vw, .5rem);
+    }
+
+    .countdown-ring__unit + .countdown-ring__unit::before {
+      content: ':';
+      position: absolute;
+      left: 0;
+      top: .02em;
+      transform: translateX(-50%);
+      color: var(--text-color, currentColor);
+      font-size: clamp(1.15rem, 3vw, 2rem);
+      line-height: 1;
+    }
+
+    .countdown-ring__number {
+      display: block;
+      min-width: 0;
+      overflow: hidden;
+      color: var(--primary-color, currentColor);
+      font-size: clamp(1.45rem, 4vw, 2.55rem);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .countdown-ring__label {
+      display: block;
+      margin-top: .45rem;
+      color: var(--text-color, currentColor);
+      font-size: clamp(.5rem, 1.15vw, .68rem);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .countdown-ring__progress-text {
+      margin: clamp(1.5rem, 3.5vw, 2.1rem) 0 0;
+      color: var(--text-color, currentColor);
+      font-size: clamp(.7rem, 1.5vw, .85rem);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .countdown-ring__percent {
+      color: var(--primary-color, currentColor);
+      font-variant-numeric: tabular-nums;
+    }
+
+    @media (max-width: 420px) {
+      .countdown-ring {
+        --ring-size: min(88vw, 320px);
+        min-height: 525px;
+      }
+
+      .countdown-ring__center { inset: 15%; }
+      .countdown-ring__unit { padding-inline: .12rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .countdown-ring__progress { transition: none; }
+    }
+  </style>
+
+  <div class="countdown-ring__content">
+    <h2 class="countdown-ring__heading" memory_type="text" memory_usage="custom" memory_key="countdown-ring-heading">Cada vuelta nos acerca</h2>
+    <time
+      class="countdown-ring__date"
+      datetime="YYYY-MM-DDTHH:MM:SS"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="countdown-event-date"
+    >Fecha del evento</time>
+
+    <div class="countdown-ring__dial">
+      <svg class="countdown-ring__svg" viewBox="0 0 400 400" aria-hidden="true">
+        <circle class="countdown-ring__track" cx="200" cy="200" r="176" pathLength="1"></circle>
+        <circle class="countdown-ring__progress" data-ring-progress cx="200" cy="200" r="176" pathLength="1"></circle>
+        <circle class="countdown-ring__marker-halo" data-ring-marker-halo cx="41" cy="125" r="10"></circle>
+        <circle class="countdown-ring__marker-core" data-ring-marker-core cx="41" cy="125" r="4.5"></circle>
+      </svg>
+
+      <div class="countdown-ring__center">
+        <p class="countdown-ring__caption">Tiempo restante</p>
+        <div class="countdown-ring__timer" aria-label="Cuenta regresiva">
+          <div class="countdown-ring__unit"><span class="countdown-ring__number" data-countdown-unit="days">--</span><span class="countdown-ring__label">Días</span></div>
+          <div class="countdown-ring__unit"><span class="countdown-ring__number" data-countdown-unit="hours">--</span><span class="countdown-ring__label">Horas</span></div>
+          <div class="countdown-ring__unit"><span class="countdown-ring__number" data-countdown-unit="minutes">--</span><span class="countdown-ring__label">Min</span></div>
+          <div class="countdown-ring__unit"><span class="countdown-ring__number" data-countdown-unit="seconds">--</span><span class="countdown-ring__label">Seg</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="countdown-ring__progress-text"><span class="countdown-ring__percent" data-ring-percent>--%</span> del camino al gran día</p>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var el = null;
+    try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch(e) {}
+    if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+    if (!el) return;
+    console.log('[COUNTDOWN-MODULE] el encontrado=', !!el);
+
+    var targetAttr = el.getAttribute('data-countdown-target');
+    var target = NaN;
+    if (targetAttr && targetAttr.indexOf('YYYY') === -1) { var _parsed = new Date(targetAttr); if (!isNaN(_parsed.getTime())) target = _parsed.getTime(); }
+    if (isNaN(target)) { if (window.__countdownTarget) { var _p1 = new Date(window.__countdownTarget); if (!isNaN(_p1.getTime())) target = _p1.getTime(); } else if (window.countdown_target) { var _p2 = new Date(window.countdown_target); if (!isNaN(_p2.getTime())) target = _p2.getTime(); } }
+    console.log('[COUNTDOWN-MODULE] el encontrado=', !!el, 'target=', targetAttr, 'targetMs=', isNaN(target) ? 'NaN' : target);
+    var startAttr = el.getAttribute('data-countdown-start');
+    var start = startAttr ? new Date(startAttr).getTime() : NaN;
+    var intervalId = null;
+
+    (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+    window.__countdownIntervals = [];
+
+    function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function setUnit(unit, value) {
+      var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
+      if (node) node.textContent = value;
+    }
+
+    function setRingProgress(now) {
+      if (!Number.isFinite(target)) return;
+
+      /* data-countdown-start should contain the invitation publication date.
+         The 365-day fallback keeps the component functional in previews. */
+      var effectiveStart = Number.isFinite(start) && start < target
+        ? start
+        : target - (365 * 86400000);
+      var duration = target - effectiveStart;
+      var elapsed = now - effectiveStart;
+      var percent = duration > 0 ? (elapsed / duration) * 100 : 100;
+      percent = Math.max(0, Math.min(100, percent));
+
+      var progress = el.querySelector('[data-ring-progress]');
+      var halo = el.querySelector('[data-ring-marker-halo]');
+      var core = el.querySelector('[data-ring-marker-core]');
+      var percentText = el.querySelector('[data-ring-percent]');
+
+      if (progress) progress.style.strokeDashoffset = String(1 - (percent / 100));
+
+      var angle = ((percent / 100) * Math.PI * 2) - (Math.PI / 2);
+      var markerX = 200 + (176 * Math.cos(angle));
+      var markerY = 200 + (176 * Math.sin(angle));
+      [halo, core].forEach(function (node) {
+        if (!node) return;
+        node.setAttribute('cx', markerX.toFixed(2));
+        node.setAttribute('cy', markerY.toFixed(2));
+      });
+
+      if (percentText) percentText.textContent = Math.round(percent) + '%';
+    }
+
+    function tick() {
+      if (!Number.isFinite(target)) return;
+
+      var now = Date.now();
+      var diff = target - now;
+      if (diff < 0) diff = 0;
+
+      var d = Math.floor(diff / 86400000);
+      var h = Math.floor((diff % 86400000) / 3600000);
+      var m = Math.floor((diff % 3600000) / 60000);
+      var s = Math.floor((diff % 60000) / 1000);
+
+      setUnit('days', d);
+      setUnit('hours', pad2(h));
+      setUnit('minutes', pad2(m));
+      setUnit('seconds', pad2(s));
+      setRingProgress(now);
+
+      if (diff === 0 && intervalId) {
+        clearInterval(intervalId);
+        window.__countdownIntervals = window.__countdownIntervals.filter(function (id) {
+          return id !== intervalId;
+        });
+      }
+    }
+
+    function startTimer() {
+      tick();
+      if (!Number.isFinite(target) || target <= Date.now()) return;
+      intervalId = setInterval(tick, 1000);
+      window.__countdownIntervals.push(intervalId);
+    }
+
+    window.updateCountdown = function (newTarget) {
+      target = new Date(newTarget).getTime();
+      (window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+      intervalId = null;
+      startTimer();
+    };
+
+    startTimer();
+  })();
+</script>
+
+<script>
+  var moduleMetadata = {
+    module_type: 'countdown',
+    module_name: 'countdown-progress-ring',
+    style_name: 'Progress Ring',
+    descripcion: 'Cuenta regresiva circular con anillo de progreso hacia el evento, marcador móvil y cuatro unidades numéricas actualizadas cada segundo.',
+    tags: ['countdown', 'cuenta regresiva', 'timer', 'boda', 'quinceañera', 'celebración'],
+    tipo: 'countdown'
+  };
+</script>

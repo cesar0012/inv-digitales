@@ -1,0 +1,293 @@
+﻿<section
+  class="countdown-progress"
+  data-gemini-id="countdown-progress-bar"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+  data-countdown-start=""
+>
+  <style>
+    .countdown-progress {
+      position: relative;
+      isolation: isolate;
+      min-height: 560px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: clamp(3.5rem, 8vw, 6rem) clamp(1rem, 5vw, 3rem);
+      background-color: var(--bg-color, #f4efe8);
+      background-image: url('https://loremflickr.com/1600/1000/celebration,elegant');
+      background-position: center;
+      background-size: cover;
+      color: var(--text-color, #202020);
+      text-align: center;
+    }
+
+    .countdown-progress::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: rgba(255,255,255,.78);
+    }
+
+    .countdown-progress,
+    .countdown-progress * { box-sizing: border-box; }
+
+    .countdown-progress__content {
+      width: min(100%, 920px);
+      margin: 0 auto;
+    }
+
+    .countdown-progress__heading {
+      margin: 0 0 .55rem;
+      color: var(--primary-color, currentColor);
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1.1;
+    }
+
+    .countdown-progress__date {
+      display: block;
+      margin-bottom: clamp(2.5rem, 6vw, 4rem);
+      color: var(--text-color, currentColor);
+      font-size: clamp(.9rem, 2vw, 1.05rem);
+    }
+
+    .countdown-progress__rail-wrap {
+      width: min(100%, 820px);
+      margin: 0 auto;
+    }
+
+    .countdown-progress__rail {
+      position: relative;
+      height: clamp(20px, 3.2vw, 28px);
+      overflow: hidden;
+      border: 2px solid var(--primary-color, currentColor);
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--bg-color, #f4efe8) 82%, transparent);
+      box-shadow: inset 0 2px 7px rgba(0,0,0,.08);
+    }
+
+    .countdown-progress__fill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 0%;
+      border-radius: inherit;
+      background: var(--primary-color, currentColor);
+      transition: width 1s linear;
+    }
+
+    .countdown-progress__fill::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.32), transparent);
+      transform: translateX(-100%);
+      animation: countdown-progress-shimmer 4s ease-in-out infinite;
+    }
+
+    .countdown-progress__marker {
+      position: absolute;
+      top: 50%;
+      left: 0%;
+      width: clamp(30px, 5vw, 40px);
+      height: clamp(30px, 5vw, 40px);
+      border: 3px solid var(--bg-color, #f4efe8);
+      border-radius: 50%;
+      background: var(--accent-color, var(--primary-color, currentColor));
+      box-shadow: 0 3px 10px rgba(0,0,0,.18);
+      transform: translate(-50%, -50%);
+      transition: left 1s linear;
+    }
+
+    .countdown-progress__ends {
+      display: flex;
+      justify-content: space-between;
+      margin-top: .8rem;
+      color: var(--text-color, currentColor);
+      font-size: clamp(.68rem, 1.6vw, .8rem);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .countdown-progress__message {
+      margin: clamp(2.4rem, 5vw, 3.5rem) 0 1.25rem;
+      color: var(--text-color, currentColor);
+      font-size: clamp(.78rem, 1.8vw, .95rem);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .countdown-progress__timer {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(.3rem, 2vw, 1.4rem);
+      width: min(100%, 680px);
+      margin: 0 auto;
+    }
+
+    .countdown-progress__unit { min-width: 0; }
+
+    .countdown-progress__number {
+      display: block;
+      color: var(--primary-color, currentColor);
+      font-size: clamp(2rem, 6vw, 4.2rem);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .countdown-progress__label {
+      display: block;
+      margin-top: .5rem;
+      color: var(--text-color, currentColor);
+      font-size: clamp(.58rem, 1.4vw, .76rem);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    @keyframes countdown-progress-shimmer {
+      0%, 60% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    @media (max-width: 480px) {
+      .countdown-progress { min-height: 520px; }
+      .countdown-progress__marker { border-width: 2px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .countdown-progress__fill,
+      .countdown-progress__marker { transition: none; }
+      .countdown-progress__fill::after { animation: none; }
+    }
+  </style>
+
+  <div class="countdown-progress__content">
+    <h2 class="countdown-progress__heading" memory_type="text" memory_usage="custom" memory_key="countdown-strip-heading">Cada vez falta menos</h2>
+    <time class="countdown-progress__date" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-event-date">Fecha del evento</time>
+
+    <div class="countdown-progress__rail-wrap" aria-hidden="true">
+      <div class="countdown-progress__rail">
+        <div class="countdown-progress__fill" data-progress-fill></div>
+        <span class="countdown-progress__marker" data-progress-marker></span>
+      </div>
+      <div class="countdown-progress__ends">
+        <span>Invitación</span>
+        <span>El gran día</span>
+      </div>
+    </div>
+
+    <p class="countdown-progress__message">Tiempo para celebrar</p>
+
+    <div class="countdown-progress__timer" aria-label="Cuenta regresiva">
+      <div class="countdown-progress__unit"><span class="countdown-progress__number" data-countdown-unit="days">--</span><span class="countdown-progress__label">Días</span></div>
+      <div class="countdown-progress__unit"><span class="countdown-progress__number" data-countdown-unit="hours">--</span><span class="countdown-progress__label">Horas</span></div>
+      <div class="countdown-progress__unit"><span class="countdown-progress__number" data-countdown-unit="minutes">--</span><span class="countdown-progress__label">Min</span></div>
+      <div class="countdown-progress__unit"><span class="countdown-progress__number" data-countdown-unit="seconds">--</span><span class="countdown-progress__label">Seg</span></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var el = null;
+    try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch(e) {}
+    if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+    if (!el) return;
+    console.log('[COUNTDOWN-MODULE] el encontrado=', !!el);
+
+    var fallbackTarget = 'YYYY-MM-DDTHH:MM:SS';
+    var targetAttr = el.getAttribute('data-countdown-target');
+    var target = NaN;
+    if (targetAttr && targetAttr.indexOf('YYYY') === -1) { var _parsed = new Date(targetAttr); if (!isNaN(_parsed.getTime())) target = _parsed.getTime(); }
+    if (isNaN(target)) { if (window.__countdownTarget) { var _p1 = new Date(window.__countdownTarget); if (!isNaN(_p1.getTime())) target = _p1.getTime(); } else if (window.countdown_target) { var _p2 = new Date(window.countdown_target); if (!isNaN(_p2.getTime())) target = _p2.getTime(); } }
+    console.log('[COUNTDOWN-MODULE] el encontrado=', !!el, 'target=', targetAttr, 'targetMs=', isNaN(target) ? 'NaN' : target);
+    var startAttr = el.getAttribute('data-countdown-start');
+    var start = startAttr ? new Date(startAttr).getTime() : NaN;
+    var intervalId = null;
+
+    (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+    window.__countdownIntervals = [];
+
+    function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+    function setUnit(unit, value) {
+      var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
+      if (node) node.textContent = value;
+    }
+
+    function setProgress(now) {
+      if (!Number.isFinite(target)) return;
+
+      /* If no explicit start is supplied, use 365 days before the event.
+         Production can populate data-countdown-start with the invitation's
+         publication/creation timestamp for true invitation-to-event progress. */
+      var effectiveStart = Number.isFinite(start) && start < target
+        ? start
+        : target - 365 * 86400000;
+      var duration = target - effectiveStart;
+      var elapsed = now - effectiveStart;
+      var percent = duration > 0 ? (elapsed / duration) * 100 : 100;
+      percent = Math.max(0, Math.min(100, percent));
+
+      var fill = el.querySelector('[data-progress-fill]');
+      var marker = el.querySelector('[data-progress-marker]');
+      if (fill) fill.style.width = percent + '%';
+      if (marker) marker.style.left = percent + '%';
+      el.style.setProperty('--countdown-progress', percent + '%');
+    }
+
+    function tick() {
+      if (!Number.isFinite(target)) return;
+      var now = Date.now();
+      var diff = target - now;
+      if (diff < 0) diff = 0;
+
+      var d = Math.floor(diff / 86400000);
+      var h = Math.floor((diff % 86400000) / 3600000);
+      var m = Math.floor((diff % 3600000) / 60000);
+      var s = Math.floor((diff % 60000) / 1000);
+
+      setUnit('days', d);
+      setUnit('hours', pad2(h));
+      setUnit('minutes', pad2(m));
+      setUnit('seconds', pad2(s));
+      setProgress(now);
+
+      if (diff === 0 && intervalId) {
+        clearInterval(intervalId);
+        window.__countdownIntervals = window.__countdownIntervals.filter(function (id) { return id !== intervalId; });
+      }
+    }
+
+    function startTimer() {
+      tick();
+      if (!Number.isFinite(target) || target <= Date.now()) return;
+      intervalId = setInterval(tick, 1000);
+      window.__countdownIntervals.push(intervalId);
+    }
+
+    window.updateCountdown = function (newTarget) {
+      target = new Date(newTarget).getTime();
+      (window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+      intervalId = null;
+      startTimer();
+    };
+
+    startTimer();
+  })();
+</script>
+
+<script>
+  var moduleMetadata = {
+    module_type: 'countdown',
+    module_name: 'countdown-progress-bar',
+    style_name: 'Progress Bar',
+    descripcion: 'Cuenta regresiva con barra que avanza hacia la fecha del evento y cuatro unidades numéricas actualizadas cada segundo.',
+    tags: ['countdown', 'cuenta regresiva', 'timer', 'boda', 'quinceañera', 'celebración'],
+    tipo: 'countdown'
+  };
+</script>

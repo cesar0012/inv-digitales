@@ -1,0 +1,338 @@
+﻿<section
+  class="countdown-analog"
+  data-gemini-id="countdown-analog-clock"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+>
+  <style>
+    .countdown-analog {
+      position: relative;
+      isolation: isolate;
+      min-height: 720px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 5vw, 3rem);
+      background-color: var(--bg-color, #f4efe8);
+      background-image: url('https://loremflickr.com/1600/1000/celebration,elegant');
+      background-position: center;
+      background-size: cover;
+      color: var(--text-color, #202020);
+      text-align: center;
+    }
+
+    .countdown-analog::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: rgba(255,255,255,.76);
+    }
+
+    .countdown-analog,
+    .countdown-analog * { box-sizing: border-box; }
+
+    .countdown-analog__content {
+      width: min(100%, 900px);
+      margin: 0 auto;
+    }
+
+    .countdown-analog__heading {
+      margin: 0 0 .5rem;
+      color: var(--primary-color, currentColor);
+      font-size: clamp(1.7rem, 4vw, 2.8rem);
+      line-height: 1.1;
+    }
+
+    .countdown-analog__date {
+      display: block;
+      margin: 0 0 clamp(1.5rem, 4vw, 2.5rem);
+      color: var(--text-color, currentColor);
+      font-size: clamp(.9rem, 2vw, 1.05rem);
+    }
+
+    /* The SVG makes the clock geometry independent of theme CSS variables. */
+    .countdown-analog__clock-wrap {
+      width: clamp(270px, 46vw, 390px);
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      color: var(--text-color, currentColor);
+    }
+
+    .countdown-analog__clock {
+      display: block;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+      filter: drop-shadow(0 9px 18px rgba(0,0,0,.12));
+    }
+
+    .countdown-analog__face {
+      fill: var(--bg-color, #f4efe8);
+      fill-opacity: .88;
+      stroke: var(--primary-color, currentColor);
+      stroke-width: 3;
+    }
+
+    .countdown-analog__ring {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1;
+      opacity: .22;
+    }
+
+    .countdown-analog__major-tick {
+      stroke: currentColor;
+      stroke-width: 3;
+      stroke-linecap: round;
+      opacity: .7;
+    }
+
+    .countdown-analog__minor-tick {
+      stroke: currentColor;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      opacity: .36;
+    }
+
+    .countdown-analog__hand {
+      stroke-linecap: round;
+      transform-origin: 150px 150px;
+      transition: transform .65s cubic-bezier(.22,.8,.3,1);
+    }
+
+    .countdown-analog__hand--days {
+      stroke: var(--primary-color, currentColor);
+      stroke-width: 9;
+      opacity: .62;
+    }
+
+    .countdown-analog__hand--hours {
+      stroke: var(--accent-color, currentColor);
+      stroke-width: 7;
+      opacity: .78;
+    }
+
+    .countdown-analog__hand--minutes {
+      stroke: currentColor;
+      stroke-width: 4;
+      opacity: .9;
+    }
+
+    .countdown-analog__hand--seconds {
+      stroke: var(--primary-color, currentColor);
+      stroke-width: 2;
+    }
+
+    .countdown-analog__hub-outer {
+      fill: var(--primary-color, currentColor);
+    }
+
+    .countdown-analog__hub-inner {
+      fill: var(--bg-color, #f4efe8);
+    }
+
+    .countdown-analog__key {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: .45rem 1rem;
+      margin-top: .8rem;
+      font-size: clamp(.6rem, 1.5vw, .72rem);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .countdown-analog__key-item {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+    }
+
+    .countdown-analog__swatch {
+      display: inline-block;
+      width: 1.25rem;
+      height: 2px;
+      background: currentColor;
+    }
+    .countdown-analog__key-item:nth-child(1) .countdown-analog__swatch { height: 7px; opacity: .62; }
+    .countdown-analog__key-item:nth-child(2) .countdown-analog__swatch { height: 5px; opacity: .78; }
+    .countdown-analog__key-item:nth-child(3) .countdown-analog__swatch { height: 3px; opacity: .9; }
+    .countdown-analog__key-item:nth-child(4) .countdown-analog__swatch { height: 1px; }
+
+    .countdown-analog__timer {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(.35rem, 2vw, 1.25rem);
+      width: min(100%, 690px);
+      margin: 0 auto;
+    }
+
+    .countdown-analog__unit { min-width: 0; }
+
+    .countdown-analog__number {
+      display: block;
+      color: var(--primary-color, currentColor);
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .countdown-analog__label {
+      display: block;
+      margin-top: .55rem;
+      color: var(--text-color, currentColor);
+      font-size: clamp(.6rem, 1.4vw, .78rem);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 480px) {
+      .countdown-analog { min-height: 650px; padding-block: 2.75rem; }
+      .countdown-analog__clock-wrap { width: min(78vw, 320px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .countdown-analog__hand { transition: none; }
+    }
+  </style>
+
+  <div class="countdown-analog__content">
+    <h2 class="countdown-analog__heading" memory_type="text" memory_usage="custom" memory_key="countdown-strip-heading">Cada segundo nos acerca</h2>
+    <time class="countdown-analog__date" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-event-date">Fecha del evento</time>
+
+    <div class="countdown-analog__clock-wrap" aria-hidden="true">
+      <svg class="countdown-analog__clock" viewBox="0 0 300 300" role="img" aria-label="Reloj visual de la cuenta regresiva">
+        <circle class="countdown-analog__face" cx="150" cy="150" r="142" />
+        <circle class="countdown-analog__ring" cx="150" cy="150" r="119" />
+        <circle class="countdown-analog__ring" cx="150" cy="150" r="92" />
+
+        <g>
+          <line class="countdown-analog__major-tick" x1="150" y1="19" x2="150" y2="34" />
+          <line class="countdown-analog__major-tick" x1="281" y1="150" x2="266" y2="150" />
+          <line class="countdown-analog__major-tick" x1="150" y1="281" x2="150" y2="266" />
+          <line class="countdown-analog__major-tick" x1="19" y1="150" x2="34" y2="150" />
+          <line class="countdown-analog__minor-tick" x1="215.5" y1="36.5" x2="209.5" y2="47" />
+          <line class="countdown-analog__minor-tick" x1="263.5" y1="84.5" x2="253" y2="90.5" />
+          <line class="countdown-analog__minor-tick" x1="263.5" y1="215.5" x2="253" y2="209.5" />
+          <line class="countdown-analog__minor-tick" x1="215.5" y1="263.5" x2="209.5" y2="253" />
+          <line class="countdown-analog__minor-tick" x1="84.5" y1="263.5" x2="90.5" y2="253" />
+          <line class="countdown-analog__minor-tick" x1="36.5" y1="215.5" x2="47" y2="209.5" />
+          <line class="countdown-analog__minor-tick" x1="36.5" y1="84.5" x2="47" y2="90.5" />
+          <line class="countdown-analog__minor-tick" x1="84.5" y1="36.5" x2="90.5" y2="47" />
+        </g>
+
+        <!-- Default rotations keep the concept visible before a date is assigned. -->
+        <line class="countdown-analog__hand countdown-analog__hand--days" data-clock-hand="days" x1="150" y1="150" x2="150" y2="92" transform="rotate(305 150 150)" />
+        <line class="countdown-analog__hand countdown-analog__hand--hours" data-clock-hand="hours" x1="150" y1="150" x2="150" y2="75" transform="rotate(70 150 150)" />
+        <line class="countdown-analog__hand countdown-analog__hand--minutes" data-clock-hand="minutes" x1="150" y1="158" x2="150" y2="48" transform="rotate(155 150 150)" />
+        <line class="countdown-analog__hand countdown-analog__hand--seconds" data-clock-hand="seconds" x1="150" y1="169" x2="150" y2="31" transform="rotate(235 150 150)" />
+
+        <circle class="countdown-analog__hub-outer" cx="150" cy="150" r="9" />
+        <circle class="countdown-analog__hub-inner" cx="150" cy="150" r="3" />
+      </svg>
+
+      <div class="countdown-analog__key">
+        <span class="countdown-analog__key-item"><i class="countdown-analog__swatch"></i>Días</span>
+        <span class="countdown-analog__key-item"><i class="countdown-analog__swatch"></i>Horas</span>
+        <span class="countdown-analog__key-item"><i class="countdown-analog__swatch"></i>Min</span>
+        <span class="countdown-analog__key-item"><i class="countdown-analog__swatch"></i>Seg</span>
+      </div>
+    </div>
+
+    <div class="countdown-analog__timer" aria-label="Cuenta regresiva">
+      <div class="countdown-analog__unit"><span class="countdown-analog__number" data-countdown-unit="days">--</span><span class="countdown-analog__label">Días</span></div>
+      <div class="countdown-analog__unit"><span class="countdown-analog__number" data-countdown-unit="hours">--</span><span class="countdown-analog__label">Horas</span></div>
+      <div class="countdown-analog__unit"><span class="countdown-analog__number" data-countdown-unit="minutes">--</span><span class="countdown-analog__label">Min</span></div>
+      <div class="countdown-analog__unit"><span class="countdown-analog__number" data-countdown-unit="seconds">--</span><span class="countdown-analog__label">Seg</span></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var el = null;
+    try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch(e) {}
+    if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+    if (!el) return;
+    console.log('[COUNTDOWN-MODULE] el encontrado=', !!el);
+
+    var fallbackTarget = 'YYYY-MM-DDTHH:MM:SS';
+    var targetAttr = el.getAttribute('data-countdown-target');
+    var target = NaN;
+    if (targetAttr && targetAttr.indexOf('YYYY') === -1) { var _parsed = new Date(targetAttr); if (!isNaN(_parsed.getTime())) target = _parsed.getTime(); }
+    if (isNaN(target)) { if (window.__countdownTarget) { var _p1 = new Date(window.__countdownTarget); if (!isNaN(_p1.getTime())) target = _p1.getTime(); } else if (window.countdown_target) { var _p2 = new Date(window.countdown_target); if (!isNaN(_p2.getTime())) target = _p2.getTime(); } }
+    console.log('[COUNTDOWN-MODULE] el encontrado=', !!el, 'target=', targetAttr, 'targetMs=', isNaN(target) ? 'NaN' : target);
+    var intervalId = null;
+
+    (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+    window.__countdownIntervals = [];
+
+    function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+    function setUnit(unit, value) {
+      var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
+      if (node) node.textContent = value;
+    }
+    function setHand(unit, degrees) {
+      var hand = el.querySelector('[data-clock-hand="' + unit + '"]');
+      if (hand) hand.setAttribute('transform', 'rotate(' + degrees + ' 150 150)');
+    }
+
+    function tick() {
+      if (!Number.isFinite(target)) return;
+      var diff = target - Date.now();
+      if (diff < 0) diff = 0;
+
+      var d = Math.floor(diff / 86400000);
+      var h = Math.floor((diff % 86400000) / 3600000);
+      var m = Math.floor((diff % 3600000) / 60000);
+      var s = Math.floor((diff % 60000) / 1000);
+
+      setUnit('days', d);
+      setUnit('hours', pad2(h));
+      setUnit('minutes', pad2(m));
+      setUnit('seconds', pad2(s));
+
+      setHand('days', ((d % 365) / 365) * 360);
+      setHand('hours', ((h + m / 60) / 24) * 360);
+      setHand('minutes', ((m + s / 60) / 60) * 360);
+      setHand('seconds', (s / 60) * 360);
+
+      if (diff === 0 && intervalId !== null) {
+        clearInterval(intervalId);
+        intervalId = null;
+        window.__countdownIntervals = [];
+      }
+    }
+
+    function start(newTarget) {
+      if (newTarget) target = new Date(newTarget).getTime();
+      (window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+      intervalId = null;
+      if (!Number.isFinite(target)) return;
+      tick();
+      if (target > Date.now()) {
+        intervalId = setInterval(tick, 1000);
+        window.__countdownIntervals.push(intervalId);
+      }
+    }
+
+    start();
+    window.updateCountdown = start;
+  })();
+</script>
+
+<script>
+  var moduleMetadata = {
+    module_type: 'countdown',
+    module_name: 'countdown-analog-clock',
+    style_name: 'Reloj Analógico',
+    descripcion: 'Cuenta regresiva con reloj analógico de cuatro agujas y lectura numérica accesible. La fecha es editable y el fondo decorativo es generado.',
+    tags: ['countdown', 'cuenta regresiva', 'timer', 'celebración elegante'],
+    tipo: 'countdown'
+  };
+</script>

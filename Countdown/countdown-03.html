@@ -1,0 +1,117 @@
+﻿<section
+  class="countdown-editorial"
+  data-gemini-id="countdown-editorial"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+>
+  <style>
+    .countdown-editorial {
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 64vw, 46rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/celebration,architecture');
+      background-position: center;
+      background-size: cover;
+      color: var(--text-color);
+    }
+    .countdown-editorial::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 88%, transparent);
+    }
+    .countdown-editorial__content { width: min(100%, 72rem); }
+    .countdown-editorial__intro { margin: 0; font-size: clamp(.75rem, 1.7vw, 1rem); letter-spacing: .18em; text-transform: uppercase; color: var(--accent-color); }
+    .countdown-editorial__date { display: block; margin-top: .65rem; font-size: clamp(1rem, 2.2vw, 1.25rem); color: var(--text-color); }
+    .countdown-editorial__timer {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-top: clamp(2.5rem, 7vw, 5rem);
+      border-block: 1px solid color-mix(in srgb, var(--accent-color) 50%, transparent);
+    }
+    .countdown-editorial__unit {
+      min-width: 0;
+      padding: clamp(1.5rem, 4vw, 3rem) clamp(.25rem, 2vw, 1.5rem);
+      text-align: center;
+    }
+    .countdown-editorial__unit + .countdown-editorial__unit { border-left: 1px solid color-mix(in srgb, var(--accent-color) 50%, transparent); }
+    .countdown-editorial__number {
+      display: block;
+      font-size: clamp(3rem, 10vw, 8rem);
+      line-height: .82;
+      letter-spacing: -.05em;
+      font-variant-numeric: tabular-nums;
+      color: var(--primary-color);
+    }
+    .countdown-editorial__label { display: block; margin-top: 1rem; font-size: clamp(.6rem, 1.4vw, .85rem); letter-spacing: .14em; text-transform: uppercase; color: var(--text-color); }
+    @media (max-width: 580px) {
+      .countdown-editorial__timer { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .countdown-editorial__unit:nth-child(3) { border-left: 0; border-top: 1px solid color-mix(in srgb, var(--accent-color) 50%, transparent); }
+      .countdown-editorial__unit:nth-child(4) { border-top: 1px solid color-mix(in srgb, var(--accent-color) 50%, transparent); }
+      .countdown-editorial__number { font-size: clamp(3.2rem, 20vw, 5.5rem); }
+    }
+  </style>
+
+  <div class="countdown-editorial__content">
+    <p class="countdown-editorial__intro" memory_type="text" memory_usage="custom" memory_key="countdown-editorial-intro">La espera casi termina</p>
+    <time class="countdown-editorial__date" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-event-date">Fecha del evento</time>
+    <div class="countdown-editorial__timer" aria-label="Cuenta regresiva">
+      <div class="countdown-editorial__unit"><span class="countdown-editorial__number" data-countdown-unit="days">--</span><span class="countdown-editorial__label">Días</span></div>
+      <div class="countdown-editorial__unit"><span class="countdown-editorial__number" data-countdown-unit="hours">--</span><span class="countdown-editorial__label">Horas</span></div>
+      <div class="countdown-editorial__unit"><span class="countdown-editorial__number" data-countdown-unit="minutes">--</span><span class="countdown-editorial__label">Min</span></div>
+      <div class="countdown-editorial__unit"><span class="countdown-editorial__number" data-countdown-unit="seconds">--</span><span class="countdown-editorial__label">Seg</span></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var el = null;
+    try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch(e) {}
+    if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+    if (!el) return;
+    console.log('[COUNTDOWN-MODULE] el encontrado=', !!el);
+    var fallbackTarget = 'YYYY-MM-DDTHH:MM:SS';
+    var targetAttr = el.getAttribute('data-countdown-target');
+    var target = NaN;
+    if (targetAttr && targetAttr.indexOf('YYYY') === -1) { var _parsed = new Date(targetAttr); if (!isNaN(_parsed.getTime())) target = _parsed.getTime(); }
+    if (isNaN(target)) { if (window.__countdownTarget) { var _p1 = new Date(window.__countdownTarget); if (!isNaN(_p1.getTime())) target = _p1.getTime(); } else if (window.countdown_target) { var _p2 = new Date(window.countdown_target); if (!isNaN(_p2.getTime())) target = _p2.getTime(); } }
+    console.log('[COUNTDOWN-MODULE] el encontrado=', !!el, 'target=', targetAttr, 'targetMs=', isNaN(target) ? 'NaN' : target);
+    var intervalId = null;
+    (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval); window.__countdownIntervals = [];
+    function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+    function setUnit(unit, value) { var node = el.querySelector('[data-countdown-unit="' + unit + '"]'); if (node) node.textContent = value; }
+    function tick() {
+      var diff = target - Date.now(); if (diff < 0) diff = 0;
+      setUnit('days', Math.floor(diff / 86400000));
+      setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
+      setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
+      setUnit('seconds', pad2(Math.floor((diff % 60000) / 1000)));
+      if (diff === 0 && intervalId !== null) { clearInterval(intervalId); intervalId = null; window.__countdownIntervals = []; }
+    }
+    function start(newTarget) {
+      if (newTarget) target = new Date(newTarget).getTime();
+      (window.__countdownIntervals || []).forEach(clearInterval); window.__countdownIntervals = []; intervalId = null;
+      if (!Number.isFinite(target)) return;
+      tick();
+      if (target > Date.now()) { intervalId = setInterval(tick, 1000); window.__countdownIntervals.push(intervalId); }
+    }
+    start(); window.updateCountdown = start;
+  })();
+</script>
+<script>
+  var moduleMetadata = {
+    module_type: 'countdown', module_name: 'countdown-editorial', style_name: 'Editorial',
+    descripcion: 'Cuenta regresiva editorial con números de gran escala, separadores visuales y composición 2 × 2 en móvil para mantener impacto y legibilidad.',
+    tags: ['countdown', 'cuenta regresiva', 'timer', 'celebración moderna'], tipo: 'countdown'
+  };
+</script>

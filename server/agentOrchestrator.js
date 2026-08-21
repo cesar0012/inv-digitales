@@ -945,6 +945,7 @@ export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro',
 // ==================== FUNCIONES PARA RAG MODULAR ====================
 
 import { MODULE_SYSTEM_PROMPT, MODULE_ADAPTER_PROMPT, MODULE_ASSEMBLER_PROMPT } from './agents-prompt-modular.js';
+import { applyPostRagTheme } from '../theming/apply-theme.js';
 
 /**
  * Helper para llamar a Gemini API (patrón existente en selectTemplateWithGemini)
@@ -2644,9 +2645,39 @@ export const runModularOrchestration = async (prompt, apiKey, model = 'gemini-3.
   console.log('\n[Módular] Resolviendo placeholders...');
   const resolvedHtml = await resolvePlaceholders(withEditableIds, eventType, theme, imageApiKey, imageModel, imageProvider);
 
-  // 5. Aplicar temática
-  console.log('[Módular] Aplicando temática...');
-  const themedHtml = applyTheme(resolvedHtml, primaryColor, secondaryColor, '', '', '');
+  // 5. Aplicar temática (subsistema Post-RAG Theming: override centralizado de
+  // variables CSS + unificación tipográfica, respetando memory_usage=protected).
+  // La pantalla de generación puede enviar, además de primaryColor/secondaryColor:
+  // textColor, accentColor, bgColor, surfaceColor, borderColor, fontBase y
+  // fontHeading; lo que no llega usa los defaults del ensamblador (paridad visual
+  // con el applyTheme legacy). Ante cualquier fallo se degrada al legacy.
+  console.log('[Módular] Aplicando temática (Post-RAG)...');
+  let themedHtml;
+  try {
+    const fontRequest = options.fontBase
+      ? { base: options.fontBase, ...(options.fontHeading ? { heading: options.fontHeading } : {}) }
+      : null;
+    const themeRequest = {
+      colors: {
+        primary: primaryColor || '#1f1f1f',
+        text: options.textColor || secondaryColor || '#2f2f2f',
+        accent: options.accentColor || '#b89a63',
+        background: options.bgColor || '#ffffff',
+        ...(options.surfaceColor ? { surface: options.surfaceColor } : {}),
+        ...(options.borderColor ? { border: options.borderColor } : {})
+      },
+      ...(fontRequest ? { font: fontRequest } : {})
+    };
+    const themed = await applyPostRagTheme(resolvedHtml, themeRequest, {
+      push: (e) => console[e.level === 'error' ? 'error' : 'warn'](`[THEME] ${e.code}: ${e.message}`)
+    });
+    themedHtml = themed.html;
+    const ch = themed.manifest.document.changes;
+    console.log(`[THEME] ✅ Tematización aplicada: ${ch.colorSubstitutions} sustitución(es) de color, ${ch.fontSubstitutions} de fuente, ${ch.varRebinds.length} rebind(s) de variables`);
+  } catch (error) {
+    console.error('[THEME] ❌ Falló la tematización Post-RAG, fallback a applyTheme legacy:', error.message);
+    themedHtml = applyTheme(resolvedHtml, primaryColor, secondaryColor, options.accentColor || '', options.fontBase || '', options.fontHeading || '');
+  }
 
   // 6. Post-proceso
   console.log('[Módular] Post-proceso...');
