@@ -11,6 +11,7 @@
       /* Variables reservadas: el theming las rebinds (elimina) para que gobierne el :root global */
       --primary-color: #123456;
       --text-color: #654321;
+      --secondary-color: #555544;
       --panel-tone: #abcdef;
       background-color: #112233;
       color: #445566;
@@ -19,6 +20,24 @@
       padding: 2rem;
     }
     .fixture-literales .nota { color: var(--accent-color); }
+
+    /* Simula un módulo adaptado por Gemini con paleta propia */
+    .fixture-literales .adaptado {
+      --ink: #242321;
+      --paper: #f7f2ea;
+      --serif-adaptada: 'Noto Serif JP', serif;
+      color: var(--ink);
+      background-color: var(--paper);
+      font-family: var(--serif-adaptada);
+      padding: 1rem;
+    }
+
+    /* Texto de contraste sobre overlay oscuro: se PRESERVA */
+    .fixture-literales .sobre-foto {
+      background: rgba(0,0,0,.55);
+      color: #ffffff;
+      padding: 1rem;
+    }
   </style>
 
   <div class="fixture-literales__content" memory_type="text" memory_usage="custom" memory_key="fixture-content">

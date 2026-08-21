@@ -3419,7 +3419,7 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
     console.log('======================');
 
     if (config.html_google_api_key) {
-const geminiOptions = {
+	const geminiOptions = {
         eventType: editorConfig?.eventType,
         theme: editorConfig?.theme,
         primaryColor: editorConfig?.primaryColor,
@@ -3429,6 +3429,8 @@ const geminiOptions = {
         eventDate: editorConfig?.eventDate,
         eventTime: editorConfig?.eventTime,
         eventDetails: editorConfig?.eventDetails,
+        ...(editorConfig?.fontBase ? { fontBase: editorConfig.fontBase } : {}),
+        ...(editorConfig?.fontHeading ? { fontHeading: editorConfig.fontHeading } : {}),
         imageFiles: imageFiles || [],
         promptInstruction: (promptInstruction || '') + rsvpInstruction,
         imageApiKey: config.image_api_key || '',

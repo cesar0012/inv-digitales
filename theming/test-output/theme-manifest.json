@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "appliedAt": "2026-08-21T15:20:50.602Z",
+  "appliedAt": "2026-08-21T19:26:25.691Z",
   "mode": "post-rag-modules",
   "request": {
     "colors": {
@@ -18,6 +18,9 @@
     },
     "fontOptions": {
       "overrideProtectedFonts": true
+    },
+    "colorOptions": {
+      "overrideProtectedColors": true
     }
   },
   "theme": {
@@ -27,6 +30,7 @@
       "--accent-color": "#B98A5E",
       "--bg-color": "#FAF6F0",
       "--background-color": "#FAF6F0",
+      "--secondary-color": "color-mix(in srgb, var(--text-color) 72%, var(--bg-color))",
       "--surface-color": "#FFFFFF",
       "--border-color": "#E5DCCF",
       "--surface-border-color": "#E5DCCF",
@@ -53,7 +57,8 @@
       "changes": {
         "colorSubstitutions": 0,
         "fontSubstitutions": 0,
-        "protectedStyleBlocksSkipped": 1,
+        "protectedStyleBlocksSkipped": 0,
+        "protectedColorOverrides": 0,
         "varRebinds": [],
         "fontReplacements": []
       },
@@ -85,7 +90,8 @@
       "changes": {
         "colorSubstitutions": 0,
         "fontSubstitutions": 0,
-        "protectedStyleBlocksSkipped": 1,
+        "protectedStyleBlocksSkipped": 0,
+        "protectedColorOverrides": 0,
         "varRebinds": [],
         "fontReplacements": []
       },
@@ -115,9 +121,10 @@
       "output": "C:\\Users\\Usuario\\Documents\\Linksocially\\invitaciones-digitales\\theming\\test-output\\module-with-literals.html",
       "status": "ok",
       "changes": {
-        "colorSubstitutions": 7,
-        "fontSubstitutions": 3,
-        "protectedStyleBlocksSkipped": 1,
+        "colorSubstitutions": 12,
+        "fontSubstitutions": 4,
+        "protectedStyleBlocksSkipped": 0,
+        "protectedColorOverrides": 5,
         "varRebinds": [
           {
             "var": "--primary-color",
@@ -126,12 +133,21 @@
           {
             "var": "--text-color",
             "originalValue": "#654321"
+          },
+          {
+            "var": "--secondary-color",
+            "originalValue": "#555544"
           }
         ],
         "fontReplacements": [
           {
             "selector": ".fixture-literales",
             "original": "'Comic Sans MS', cursive",
+            "applied": "var(--font-base)"
+          },
+          {
+            "selector": "\u00001\u0000\r\n    .fixture-literales .adaptado",
+            "original": "var(--serif-adaptada)",
             "applied": "var(--font-base)"
           },
           {
@@ -172,9 +188,10 @@
       "body-font"
     ],
     "changes": {
-      "colorSubstitutions": 7,
-      "fontSubstitutions": 4,
-      "protectedStyleBlocksSkipped": 2,
+      "colorSubstitutions": 12,
+      "fontSubstitutions": 5,
+      "protectedStyleBlocksSkipped": 0,
+      "protectedColorOverrides": 5,
       "varRebinds": [
         {
           "var": "--primary-color",
@@ -187,6 +204,10 @@
         {
           "var": "--text-color",
           "originalValue": "#654321"
+        },
+        {
+          "var": "--secondary-color",
+          "originalValue": "#555544"
         }
       ],
       "fontReplacements": [
@@ -201,6 +222,11 @@
           "applied": "var(--font-base)"
         },
         {
+          "selector": "\u00001\u0000\r\n    .fixture-literales .adaptado",
+          "original": "var(--serif-adaptada)",
+          "applied": "var(--font-base)"
+        },
+        {
           "selector": ".fixture-literales .tarjeta",
           "original": "Georgia, serif",
           "applied": "var(--font-base)"
@@ -209,7 +235,7 @@
     },
     "elements": [
       {
-        "elementId": "countdown-fixture__fixture-title",
+        "elementId": "detalles-regalo__fixture-title",
         "tag": "h3",
         "memoryKey": "fixture-title",
         "memoryUsage": "custom",
@@ -218,16 +244,7 @@
         "currentFont": "var(--font-heading)"
       },
       {
-        "elementId": "countdown-fixture__fixture-count-title",
-        "tag": "h4",
-        "memoryKey": "fixture-count-title",
-        "memoryUsage": "custom",
-        "wasProtected": false,
-        "originalFont": null,
-        "currentFont": "var(--font-heading)"
-      },
-      {
-        "elementId": "countdown-fixture__fixture-content",
+        "elementId": "detalles-regalo__fixture-content",
         "tag": "div",
         "memoryKey": "fixture-content",
         "memoryUsage": "custom",

@@ -70,11 +70,23 @@ const RESERVED_VARS = {
   '--background-color': 'background', // alias usado por el ensamblador legacy
   '--surface-color': 'surface',
   '--border-color': 'border',
-  '--surface-border-color': 'border' // alias común en módulos de la KB
+  '--surface-border-color': 'border', // alias común en módulos de la KB
+  // Texto secundario/atenuado: los módulos KB lo usan como "texto gris". Se
+  // define globalmente derivado del color de texto del cliente (ver
+  // buildThemeVariables) y las definiciones locales se rebindan.
+  '--secondary-color': 'secondary'
 };
 
 /** Colores literales que el subsistema sabe sustituir (hex / rgb / rgba). */
 const COLOR_LITERAL_RE = /^(#[0-9a-fA-F]{3}|#[0-9a-fA-F]{6}|#[0-9a-fA-F]{8}|rgba?\(\s*[\d.]+%?\s*,\s*[\d.]+%?\s*,\s*[\d.]+%?\s*(?:,\s*[\d.]+\s*)?\))$/;
+
+/**
+ * Definición de variable CSS local con valor de color literal opaco.
+ * Los módulos adaptados por Gemini suelen inventar paletas propias
+ * (--charcoal, --paper, --ink...); este patrón las detecta para poder
+ * tematizar sus USOS (color/background/border) por propiedad.
+ */
+const LOCAL_COLOR_VAR_DEF_RE = /(--[a-zA-Z][\w-]*)\s*:\s*(#[0-9a-fA-F]{3}|#[0-9a-fA-F]{6}|#[0-9a-fA-F]{8}|rgba?\([^;{}]*\))\s*(?:;|\}|$)/g;
 
 /** Selector que contiene un type-selector de encabezado (h1..h6). */
 const HEADING_SELECTOR_RE = /(?:^|[\s,+>~])h[1-6](?=$|[\s,+>~:.#[*])/;
@@ -195,6 +207,7 @@ export async function validateThemeRequest(request) {
     colors,
     font: null,
     fontOptions: { overrideProtectedFonts: request.fontOptions?.overrideProtectedFonts !== false },
+    colorOptions: { overrideProtectedColors: request.colorOptions?.overrideProtectedColors !== false },
     modules: (request.modules || []).map(m => String(m).trim()).filter(Boolean),
     container: request.container ? String(request.container).trim() : null,
     output: request.output ? String(request.output).trim() : null,
@@ -221,6 +234,59 @@ function isOpaqueColorLiteral(value) {
   const alphaMatch = v.match(/rgba?\([^)]*,\s*([\d.]+)\s*\)/i);
   if (alphaMatch) return parseFloat(alphaMatch[1]) >= 1;
   return true; // hex3/hex6/rgb() sin canal alfa
+}
+
+/** Parsea un literal hex/rgb a [r,g,b] (0-255); null si no es literal de color. */
+function parseColorLiteral(value) {
+  const v = String(value).trim();
+  if (/^#[0-9a-fA-F]{3}$/.test(v)) {
+    return [parseInt(v[1] + v[1], 16), parseInt(v[2] + v[2], 16), parseInt(v[3] + v[3], 16)];
+  }
+  if (/^#[0-9a-fA-F]{6}$/.test(v)) {
+    return [parseInt(v.slice(1, 3), 16), parseInt(v.slice(3, 5), 16), parseInt(v.slice(5, 7), 16)];
+  }
+  const m = v.match(/^rgba?\(\s*([\d.]+)%?\s*,\s*([\d.]+)%?\s*,\s*([\d.]+)%?/i);
+  if (m) return [Number(m[1]), Number(m[2]), Number(m[3])];
+  return null;
+}
+
+/**
+ * Luminancia percibida (0..1). En bloques protected, un `color` de texto con
+ * luminancia extrema (>= 0.92 casi blanco, <= 0.08 casi negro) se considera
+ * decisión de contraste del diseñador (texto sobre foto/overlay oscuro o
+ * claro) y se PRESERVA: cambiarlo rompería la legibilidad.
+ */
+function colorLuminance(value) {
+  const rgb = parseColorLiteral(value);
+  if (!rgb) return null;
+  return (0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]) / 255;
+}
+
+const isExtremeTextLiteral = (value) => {
+  const l = colorLuminance(value);
+  return l !== null && (l >= 0.92 || l <= 0.08);
+};
+
+/**
+ * Recolecta las variables de color definidas localmente en el documento con
+ * valor literal opaco (paletas propias de módulos adaptados). Devuelve un
+ * Map nombre→literal. Excluye las variables reservadas (esas se rebindan y
+ * sus usos ya resuelven contra el :root central).
+ */
+function collectLocalOpaqueColorVars(cssTexts) {
+  const map = new Map();
+  for (const css of cssTexts) {
+    if (!css) continue;
+    LOCAL_COLOR_VAR_DEF_RE.lastIndex = 0;
+    let m;
+    while ((m = LOCAL_COLOR_VAR_DEF_RE.exec(css)) !== null) {
+      const name = m[1];
+      const value = m[2];
+      if (RESERVED_VARS[name]) continue;
+      if (isOpaqueColorLiteral(value) && !map.has(name)) map.set(name, value);
+    }
+  }
+  return map;
 }
 
 const cssEscapeFontFamily = (name) => `'${String(name).replace(/\\/g, '\\\\').replace(/'/g, "\\'")}'`;
@@ -327,7 +393,10 @@ function transformDeclarations(css, ctx) {
     out = out.replace(re, (m, lead) => (lead === ';' ? ';' : lead === '{' ? '{' : ''));
   }
 
-  // (b) Sustitución de colores literales (solo contexto custom/no-protegido)
+  // (b) Sustitución de colores: literales opacos y usos de variables locales
+  //     opacas (--charcoal, --paper...) mapeadas por propiedad. En contexto
+  //     protected solo si colorOptions.overrideProtectedColors, preservando
+  //     los `color` de luminancia extrema (contraste sobre fotos/overlays).
   if (ctx.allowColors) {
     const colorProps = 'color|background-color|background|border-color|border|border-top|border-right|border-bottom|border-left';
     out = out.replace(
@@ -337,36 +406,62 @@ function transformDeclarations(css, ctx) {
         const value = rawValue.replace(/\s*!important\s*$/, '').trim();
         const target = colorTargetForProperty(prop, ctx);
         if (!target) return full;
+
+        // En protected, preservar color de texto de contraste extremo.
+        const preserveProtectedText = (literal) =>
+          ctx.isProtectedBlock && prop === 'color' && isExtremeTextLiteral(literal);
+
+        const substituteToken = (tok) => {
+          const t = tok.trim();
+          if (!t) return null;
+          if (isOpaqueColorLiteral(t)) {
+            return preserveProtectedText(t) ? null : target;
+          }
+          const varUse = t.match(/^var\((--[a-zA-Z][\w-]*)\)$/);
+          if (varUse && ctx.localColorVars) {
+            const literal = ctx.localColorVars.get(varUse[1]);
+            if (literal && !preserveProtectedText(literal)) return target;
+          }
+          return null;
+        };
+
         if (prop === 'border' || prop.startsWith('border-')) {
-          // Shorthand: sustituir solo los tokens de color literales del valor.
-          const before = countColorLiterals(value);
+          // Shorthand: sustituir solo los tokens de color del valor.
+          let subs = 0;
           const replaced = value.split(/(\s+)/).map(tok => {
-            const t = tok.trim();
-            return t && !t.startsWith('var(') && isOpaqueColorLiteral(t) ? target : tok;
+            const rep = substituteToken(tok);
+            if (rep) { subs += 1; return rep; }
+            return tok;
           }).join('');
-          if (replaced !== value) {
-            ctx.changes.colorSubstitutions += before;
+          if (subs > 0) {
+            ctx.changes.colorSubstitutions += subs;
+            if (ctx.isProtectedBlock) ctx.changes.protectedColorOverrides += subs;
             return `${lead}${prop}: ${replaced}${important}`;
           }
           return full;
         }
         // color / background-color / background: sustituir solo si el valor
-        // completo es un literal opaco (gradients y overlays se preservan).
-        if (isOpaqueColorLiteral(value) && !value.includes('var(')) {
+        // completo es un literal opaco o un var(--local) opaco (gradients,
+        // overlays y vars reservadas se preservan).
+        const replacement = value.includes(' ') ? null : substituteToken(value);
+        if (replacement) {
           ctx.changes.colorSubstitutions += 1;
-          return `${lead}${prop}: ${target}${important}`;
+          if (ctx.isProtectedBlock) ctx.changes.protectedColorOverrides += 1;
+          return `${lead}${prop}: ${replacement}${important}`;
         }
         return full;
       }
     );
   }
 
-  // (c) Unificación tipográfica: font-family → var(--font-base/--font-heading)
+  // (c) Unificación tipográfica: todo font-family → var(--font-base/--font-heading).
+  //     También los valores var(--x) NO reservados (p.ej. --serif de módulos
+  //     adaptados); solo se preservan los ya unificados.
   if (ctx.allowFonts && ctx.baseVarValue) {
     out = out.replace(
       /(^|[{;\s])(font-family)\s*:\s*([^;{}]+)/g,
       (full, lead, prop, rawValue) => {
-        if (/^\s*var\(/.test(rawValue)) return full; // ya unificada (re-theming seguro)
+        if (/var\(--font-(base|heading)\)/.test(rawValue)) return full; // ya unificada
         const important = /!important\s*$/.test(rawValue) ? ' !important' : '';
         const original = unmaskCssFragments(rawValue.trim(), ctx.store);
         const varRef = (ctx.isHeading && ctx.headingVarValue) ? 'var(--font-heading)' : 'var(--font-base)';
@@ -389,9 +484,6 @@ function colorTargetForProperty(prop, ctx) {
   // bordes: rol border si el cliente lo dio, si no primary (spec Paso 3)
   return ctx.roles.has('border') ? 'var(--border-color)' : 'var(--primary-color)';
 }
-
-const countColorLiterals = (value) =>
-  value.split(/(\s+)/).filter(t => t && isOpaqueColorLiteral(t.trim())).length;
 
 /**
  * Procesa una hoja de estilo completa: localiza cada bloque interior
@@ -474,7 +566,7 @@ function collectRebindMatches(css, roles) {
 /**
  * Aplica la tematización al HTML de un módulo (fragmento) o documento.
  * @param {string} source HTML
- * @param {object} themeCtx { roles, fontEnabled, overrideProtectedFonts, baseVarValue, headingVarValue }
+ * @param {object} themeCtx { roles, fontEnabled, overrideProtectedFonts, overrideProtectedColors, baseVarValue, headingVarValue }
  * @param {string} label identificador para el reporte
  * @returns {{ html: string, report: object }}
  */
@@ -486,7 +578,7 @@ export function applyThemeToModuleHtml(source, themeCtx, label = 'module') {
   const WRAP_ID = '__theming_wrap__';
   const parseInput = isFullDoc ? source : `<div id="${WRAP_ID}">${source}</div>`;
   const { document } = parseHTML(parseInput);
-  const changes = { colorSubstitutions: 0, fontSubstitutions: 0, protectedStyleBlocksSkipped: 0, varRebinds: [], fontReplacements: [] };
+  const changes = { colorSubstitutions: 0, fontSubstitutions: 0, protectedStyleBlocksSkipped: 0, protectedColorOverrides: 0, varRebinds: [], fontReplacements: [] };
   const elements = [];
   let activeFontElement = null;
   const recordFont = (original, applied, ctx) => {
@@ -498,14 +590,23 @@ export function applyThemeToModuleHtml(source, themeCtx, label = 'module') {
     }
   };
 
+  // Paleta local del módulo: variables de color no reservadas definidas aquí
+  // con literal opaco (--charcoal, --paper... típicas de módulos adaptados).
+  // Recolectar ANTES de transformar nada.
+  const cssTexts = [...document.querySelectorAll('style')].map(s => s.textContent || '');
+  cssTexts.push(...[...document.querySelectorAll('[style]')].map(el => el.getAttribute('style') || ''));
+  const localColorVars = collectLocalOpaqueColorVars(cssTexts);
+
   const rootModuleEl = document.querySelector('[data-gemini-id]');
   const rootModuleId = rootModuleEl ? rootModuleEl.getAttribute('data-gemini-id') : null;
   let elementIndex = 0;
 
-  const makeCtx = (allowColors, allowFonts) => ({
+  const makeCtx = (allowColors, allowFonts, isProtectedBlock) => ({
     roles: themeCtx.roles,
     allowColors,
     allowFonts,
+    isProtectedBlock,
+    localColorVars,
     baseVarValue: themeCtx.baseVarValue,
     headingVarValue: themeCtx.headingVarValue,
     changes,
@@ -521,10 +622,11 @@ export function applyThemeToModuleHtml(source, themeCtx, label = 'module') {
     if (!original || !original.trim()) continue;
     const usage = nearestMemoryUsage(styleEl);
     const isProtected = usage === 'protected';
-    const allowColors = !isProtected;
+    const allowColors = !isProtected || themeCtx.overrideProtectedColors;
     const allowFonts = themeCtx.fontEnabled && (!isProtected || themeCtx.overrideProtectedFonts);
+    if (isProtected && !allowColors) changes.protectedStyleBlocksSkipped += 1;
     const beforeRebinds = collectRebindMatches(original, themeCtx.roles);
-    const ctx = makeCtx(allowColors, allowFonts);
+    const ctx = makeCtx(allowColors, allowFonts, isProtected);
     const transformed = transformStylesheet(original, ctx);
     if (transformed !== original) {
       styleEl.textContent = transformed;
@@ -532,7 +634,6 @@ export function applyThemeToModuleHtml(source, themeCtx, label = 'module') {
         if (!new RegExp(`${escapeRe(rb.var)}\\s*:`).test(transformed)) changes.varRebinds.push(rb);
       }
     }
-    if (isProtected) changes.protectedStyleBlocksSkipped += 1;
   }
 
   // --- Atributos style="..." inline ---
@@ -541,9 +642,9 @@ export function applyThemeToModuleHtml(source, themeCtx, label = 'module') {
     if (!original || !original.trim()) continue;
     const usage = nearestMemoryUsage(el);
     const isProtected = usage === 'protected';
-    const allowColors = !isProtected;
+    const allowColors = !isProtected || themeCtx.overrideProtectedColors;
     const allowFonts = themeCtx.fontEnabled && (!isProtected || themeCtx.overrideProtectedFonts);
-    const ctx = makeCtx(allowColors, allowFonts);
+    const ctx = makeCtx(allowColors, allowFonts, isProtected);
     const tag = (el.tagName || '').toLowerCase();
     const isHeadingTag = /^h[1-6]$/.test(tag);
     const hadFont = /font-family\s*:/.test(original);
@@ -605,7 +706,11 @@ export function buildThemeVariables(colors, fontResolution) {
     '--text-color': colors.text,
     '--accent-color': colors.accent,
     '--bg-color': colors.background,
-    '--background-color': colors.background // compat ensamblador legacy
+    '--background-color': colors.background, // compat ensamblador legacy
+    // Texto secundario/atenuado derivado del cliente: los módulos KB usan
+    // var(--secondary-color) como "texto gris"; así hereda la paleta del
+    // cliente en lugar del gris original del wireframe.
+    '--secondary-color': 'color-mix(in srgb, var(--text-color) 72%, var(--bg-color))'
   };
   if (colors.surface) vars['--surface-color'] = colors.surface;
   if (colors.border) {
@@ -723,6 +828,7 @@ export async function applyPostRagTheme(html, request, logger = { push: () => {}
   if (!validation.valid) throw new ThemeContractError(validation.errors);
   const normalized = validation.normalized;
   const roles = new Set(Object.keys(normalized.colors));
+  roles.add('secondary'); // rol derivado: --secondary-color se define globalmente desde text+bg
 
   const fontResolution = await resolveRequestFonts(normalized.font, logger);
   const variables = buildThemeVariables(normalized.colors, fontResolution);
@@ -730,6 +836,7 @@ export async function applyPostRagTheme(html, request, logger = { push: () => {}
     roles,
     fontEnabled: !!normalized.font,
     overrideProtectedFonts: normalized.fontOptions.overrideProtectedFonts,
+    overrideProtectedColors: normalized.colorOptions.overrideProtectedColors,
     baseVarValue: variables['--font-base'] || null,
     headingVarValue: variables['--font-heading'] || null
   };
@@ -779,6 +886,7 @@ export async function runThemeRequest(request, { baseDir = __dirname, logger = n
   if (!validation.valid) throw new ThemeContractError(validation.errors);
   const normalized = validation.normalized;
   const roles = new Set(Object.keys(normalized.colors));
+  roles.add('secondary'); // rol derivado: --secondary-color se define globalmente desde text+bg
 
   const fontResolution = await resolveRequestFonts(normalized.font, log);
   const variables = buildThemeVariables(normalized.colors, fontResolution);
@@ -786,6 +894,7 @@ export async function runThemeRequest(request, { baseDir = __dirname, logger = n
     roles,
     fontEnabled: !!normalized.font,
     overrideProtectedFonts: normalized.fontOptions.overrideProtectedFonts,
+    overrideProtectedColors: normalized.colorOptions.overrideProtectedColors,
     baseVarValue: variables['--font-base'] || null,
     headingVarValue: variables['--font-heading'] || null
   };
@@ -794,7 +903,7 @@ export async function runThemeRequest(request, { baseDir = __dirname, logger = n
     version: '1.0.0',
     appliedAt: new Date().toISOString(),
     mode: 'post-rag-modules',
-    request: { colors: normalized.colors, font: normalized.font, fontOptions: normalized.fontOptions },
+    request: { colors: normalized.colors, font: normalized.font, fontOptions: normalized.fontOptions, colorOptions: normalized.colorOptions },
     theme: {
       variables,
       googleFontsUrl: fontResolution.url,

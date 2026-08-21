@@ -91,6 +91,8 @@ export interface EditorConfig {
   eventTime?: string;
   visualStyle?: string;
   mood?: string;
+  fontBase?: string;
+  fontHeading?: string;
 }
 
 export interface InvitationFile {

@@ -46,6 +46,17 @@
         }
       }
     },
+    "colorOptions": {
+      "type": "object",
+      "description": "Opciones de la sustitución de colores.",
+      "additionalProperties": false,
+      "properties": {
+        "overrideProtectedColors": {
+          "type": "boolean",
+          "description": "Sustituir colores por rol también en bloques memory_usage=protected (default: true). Se preservan siempre los rgba() translúcidos, gradientes y los color de contraste extremo (casi blanco/negro); cada override queda contabilizado en el manifiesto (protectedColorOverrides)."
+        }
+      }
+    },
     "modules": {
       "type": "array",
       "description": "Rutas de los módulos .html seleccionados por el RAG. Rutas relativas al archivo de request.",

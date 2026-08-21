@@ -124,15 +124,19 @@ Recibes:
    - NO modificar la jerarquía del DOM o clases CSS de estructura
    - NO eliminar <style>, <script>, o CDNs existentes
 
-2. APLICAR TEMÁTICA (memory_usage="protected" SÍ se modifica aquí)
-   - Reemplazar variables CSS genéricas con los colores del usuario:
-     * --primary-color → color principal del usuario
-     * --text-color → color de texto del usuario
-     * --accent-color → color de acento del usuario
-     * --font-family → tipografía del usuario
-     * --font-family-heading → tipografía para títulos
-   - Inyectar Google Fonts si el usuario especificó tipografía
+2. PRESERVAR EL SISTEMA DE VARIABLES CSS GENÉRICAS (clave para la tematización centralizada)
+   - NO reemplazar var(--primary-color), var(--text-color), var(--accent-color),
+     var(--bg-color), var(--secondary-color), var(--font-base) ni var(--font-heading)
+     por valores literales: DEJA LOS USOS DE ESTAS VARIABLES TAL CUAL.
+   - NO introducir paletas propias de variables (--charcoal, --paper, --ink, --serif...)
+     ni Google Fonts literales en font-family: el color y la tipografía del cliente
+     se aplican de forma CENTRALIZADA después de la adaptación.
+   - Si necesitas un color derivado (tinte de panel, borde suave), usa
+     color-mix() sobre las variables genéricas, ej.:
+     color-mix(in srgb, var(--primary-color) 30%, transparent)
    - Mantener estilos avanzados (backdrop-filter, sombras, degradados) intactos
+   - La adaptación visual se logra con ESTRUCTURA, proporciones, ornamentos y
+     contenido, no cambiando la paleta de colores
 
 3. REEMPLAZAR CONTENIDO DINÁMICO (memory_type="text")
    - Nombres: reemplazar con nombres del usuario

@@ -292,3 +292,26 @@ export const AI_MODELS: AIModel[] = [
   { id: 'gemini-3-pro-image-preview', name: 'Gemini 3 Pro Image', provider: 'Google AI Platform' },
   { id: 'nano-banana-1', name: 'Nano Banana 1', provider: 'Google AI Platform' }
 ];
+
+// Google Fonts disponibles para la unificación tipográfica de la invitación
+// (subsistema de Tematización Post-RAG). El subsistema valida el nombre
+// contra la API de Google Fonts; estas son las ofrecidas en la pantalla.
+export const GOOGLE_FONT_OPTIONS: { value: string; label: string }[] = [
+  { value: 'Playfair Display', label: 'Playfair Display (elegante clásica)' },
+  { value: 'Cormorant Garamond', label: 'Cormorant Garamond (refinada serif)' },
+  { value: 'Cinzel', label: 'Cinzel (solemne romana)' },
+  { value: 'Great Vibes', label: 'Great Vibes (caligráfica)' },
+  { value: 'Dancing Script', label: 'Dancing Script (script casual)' },
+  { value: 'Montserrat', label: 'Montserrat (moderna sans)' },
+  { value: 'Poppins', label: 'Poppins (geométrica redondeada)' },
+  { value: 'Lora', label: 'Lora (serif cálida)' },
+  { value: 'Josefin Sans', label: 'Josefin Sans (vintage sans)' },
+  { value: 'Marcellus', label: 'Marcellus (epigráfica)' },
+  { value: 'Karla', label: 'Karla (grotesca amable)' },
+  { value: 'Space Grotesk', label: 'Space Grotesk (contemporánea)' }
+];
+
+export const GOOGLE_HEADING_FONT_OPTIONS: { value: string; label: string }[] = [
+  { value: '', label: 'Igual que la fuente base' },
+  ...GOOGLE_FONT_OPTIONS.map(f => ({ value: f.value, label: f.label }))
+];

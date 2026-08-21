@@ -59,6 +59,7 @@ pantalla de generación ──► request JSON (theme-contract.schema.json)
 | `--background-color` | background | alias del ensamblador legacy |
 | `--surface-color` | surface | solo si el cliente lo envía |
 | `--border-color`, `--surface-border-color` | border | solo si el cliente lo envía |
+| `--secondary-color` | secondary (derivado) | texto atenuado; se define global como `color-mix(in srgb, var(--text-color) 72%, var(--bg-color))` — los módulos KB que la usan heredan la paleta del cliente |
 | `--font-base` / `--font-heading` | — | stacks completos (family + genérica) |
 
 **Regla de oro:** el bloque `:root` se inyecta **una sola vez** en el `<head>` del
@@ -75,20 +76,34 @@ son "estilos avanzados": son el mecanismo mismo de la tematización.
 La protección se determina por el **ancestro más cercano** con `memory_usage`
 (el propio elemento cuenta). El `<style>` de un módulo hereda la marca de su sección raíz.
 
-| Contexto | Colores literales | `font-family` | Variables reservadas |
+| Contexto | Colores (literales y `var(--local)`) | `font-family` | Variables reservadas |
 |---|---|---|---|
 | `custom` o sin marca | se sustituyen por la variable semántica | → `var(--font-base[/heading])` | rebind |
-| `protected` | **NO se tocan** | se unifican solo con `overrideProtectedFonts: true` (default) | rebind |
+| `protected` | se sustituyen con `colorOptions.overrideProtectedColors: true` (default), salvo las preservaciones de abajo | se unifican con `overrideProtectedFonts: true` (default) | rebind |
 
-- Sustitución semántica: `color`→`--text-color`; `background[-color]`→`--surface-color`
-  (o `--bg-color`); bordes→`--border-color` (o `--primary-color`).
-- **Solo se sustituyen literales opacos** (`#333`, `rgb(1,2,3)`). Los `rgba(...)` con
-  transparencia (overlays, capas) y los gradientes se **preservan**: cambiarlos rompería
-  la intención de diseño.
-- La unificación de fuentes en contexto `protected` responde a la exigencia explícita del
-  cliente (Paso 4 del spec); cada reemplazo queda documentado con `wasProtected`/selector
-  en el manifiesto. Con `overrideProtectedFonts: false` se desactiva.
-- `var(--primary-color)` **como uso** nunca se toca: se resuelve centralizadamente.
+**Siempre se preserva** (independientemente del contexto):
+
+- `rgba()` translúcidos y gradientes (overlays y capas: cambiarlos rompería la legibilidad).
+- En `protected`, los `color` de **contraste extremo** (luminancia ≥ 0.92 casi blanco o
+  ≤ 0.08 casi negro): son decisiones de contraste sobre fotos/overlays oscuros.
+- Los usos `var(--primary-color)` y demás reservadas (ya resuelven centralizadamente).
+
+### Paletas propias de módulos adaptados
+
+Cuando el adaptador (o un módulo de la KB) define su propia paleta
+(`--charcoal: #242321`, `--paper: #f7f2ea`, `--serif: "Noto Serif JP", serif`...),
+el subsistema detecta las variables locales con valor opaco y tematiza sus **usos por
+propiedad**: `color: var(--ink)` → `var(--text-color)`, `background-color: var(--paper)`
+→ surface/bg, `font-family: var(--serif)` → `var(--font-base)`. Las definiciones locales
+quedan muertas (sin usos) y los `box-shadow`/sombras que las reutilicen conservan el valor
+original. Las variables de fuente locales (`--serif`) también se unifican por su uso.
+
+### Origen del problema que esto corrige
+
+El prompt del adaptador (`MODULE_ADAPTER_PROMPT`) antes ordenaba reemplazar las variables
+genéricas por literales del usuario, lo que destruía la tematización centralizada. Ahora
+el adaptador debe **preservar** `var(--primary-color)` etc. y no introducir paletas
+propias; este subsistema actúa como corrector determinista de lo que se escape.
 
 ## Manifiesto (`theme-manifest.json`)
 
@@ -129,9 +144,13 @@ Exit codes: `0` OK · `1` fallos de módulos (o warnings con `--strict`) · `2` 
 
 `server/agentOrchestrator.js` (paso 5 de `runModularOrchestration`) ya integra
 `applyPostRagTheme(html, request)` sobre el documento ensamblado, con fallback al
-`applyTheme` legacy ante cualquier error. La pantalla de generación puede enviar además:
-`textColor`, `accentColor`, `bgColor`, `surfaceColor`, `borderColor`, `fontBase`,
-`fontHeading`; lo que no llega usa los defaults del ensamblador.
+`applyTheme` legacy ante cualquier error. La unificación tipográfica es **garantizada**:
+si la pantalla no envía `fontBase` se aplica la Google Font por defecto
+(`Playfair Display`) para que todos los módulos compartan la misma fuente. La pantalla de
+generación (`components/InitialView.tsx`) ofrece un selector de tipografía (base y
+opcional para títulos, `constants.ts → GOOGLE_FONT_OPTIONS`) que viaja en
+`editorConfig.fontBase`/`fontHeading` → `server/index.js` → orquestador. También puede
+enviar `textColor`, `accentColor`, `bgColor`, `surfaceColor`, `borderColor`.
 
 ```js
 import { applyPostRagTheme } from '../theming/apply-theme.js';
@@ -170,10 +189,11 @@ inexistentes, idempotencia del re-theming y smoke del CLI. Salidas de inspecció
 
 ## Decisiones y límites conocidos
 
-- `--secondary-color` y otras variables semánticas locales de módulos (p. ej.
-  `--overlay-color`) **no** son reservadas: se preservan (no hay rol del cliente que las
-  reemplace de forma segura).
-- El shorthand `font:` (fuente+tamano en una declaración) no se unifica; solo `font-family`.
-- La sustitución de color en shorthands `border` se hace por token: solo literales opacos.
+- Variables semánticas locales distintas de las reservadas (p. ej. `--overlay-color`,
+  `--countdown-panel`) se preservan como definiciones; si su valor es un literal opaco y
+  se usan en `color`/`background`/`border`, el **uso** se tematiza por propiedad.
+- El shorthand `font:` (fuente+tamaño en una declaración) no se unifica; solo `font-family`.
+- La sustitución de color en shorthands `border` se hace por token: solo literales opacos
+  o `var(--local)` opacas.
 - La serialización pasa por linkedom: puede normalizarse cosméticamente el HTML (comillas,
-  barras de auto-cierre), nunca el contenido de los `<style>` protegidos.
+  barras de auto-cierre), nunca el contenido semántico de los `<style>`.

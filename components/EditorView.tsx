@@ -280,7 +280,9 @@ export const EditorView: React.FC = () => {
       primaryColor: editorConfig.primaryColor,
       secondaryColor: editorConfig.secondaryColor,
       visualStyle: editorConfig.visualStyle,
-      mood: editorConfig.mood
+      mood: editorConfig.mood,
+      fontBase: editorConfig.fontBase,
+      fontHeading: editorConfig.fontHeading
     } : undefined;
 
     let moduleHtml = '';

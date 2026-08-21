@@ -58,6 +58,8 @@ ok(containerOut.includes('--bg-color: #FAF6F0'), ':root --bg-color del cliente')
 ok(containerOut.includes('--background-color: #FAF6F0'), ':root --background-color (alias legacy)');
 ok(containerOut.includes('--surface-color: #FFFFFF'), ':root --surface-color opcional');
 ok(containerOut.includes('--border-color: #E5DCCF'), ':root --border-color opcional');
+ok(containerOut.includes('--secondary-color: color-mix(in srgb, var(--text-color) 72%, var(--bg-color))'),
+  ':root --secondary-color derivada del cliente (texto atenuado)');
 ok(containerOut.includes("--font-base: 'Playfair Display', sans-serif"), ':root --font-base');
 ok(containerOut.includes("--font-heading: 'Cormorant Garamond', serif"), ':root --font-heading');
 ok(containerOut.includes('--legacy-var: 7'), 'fusión :root preserva variables no reservadas (--legacy-var)');
@@ -83,16 +85,30 @@ ok(outC5.includes('var(--bg-color, #f4efe8)'), 'fallbacks var(--bg-color, #f4efe
 console.log('\n=== 4. Fixture con literales: sustitución + protección (Paso 3/4) ===');
 const outFx = await read(manifest.modules[2].output);
 
-// (c) protected NO se modifica (colores y variables no reservadas)
-ok(outFx.includes('background-color: #112233'), 'protected: background-color: #112233 intacto');
-ok(outFx.includes('color: #445566'), 'protected: color: #445566 intacto');
-ok(outFx.includes('border: 3px dotted #999999'), 'protected: border con #999999 intacto');
+// (c) override de colores en protected (nueva política overrideProtectedColors)
+ok(outFx.includes('background-color: var(--surface-color)'), 'protected: background-color #112233 → var(--surface-color)');
+ok(outFx.includes('color: var(--text-color)'), 'protected: color #445566 → var(--text-color)');
+ok(outFx.includes('border: 3px dotted var(--border-color)'), 'protected: border #999999 → var(--border-color)');
+for (const lit of ['#112233', '#445566', '#999999']) {
+  ok(!outFx.includes(lit), `protected: literal ${lit} sustituido`);
+}
+
+// (c2) lo que SÍ se preserva en protected: contraste y capas
+ok(outFx.includes('color: #ffffff'), 'protected: color #ffffff (contraste sobre overlay) PRESERVADO');
+ok(outFx.includes('background: rgba(0,0,0,.55)'), 'protected: overlay rgba(0,0,0,.55) PRESERVADO');
 ok(outFx.includes('--panel-tone: #abcdef'), 'protected: variable no reservada --panel-tone intacta');
 ok(outFx.includes('color: var(--accent-color)'), 'protected: declaración var-driven intacta');
 
-// (d) rebind de variables reservadas (fusión sin duplicar)
+// (d) paleta propia de módulo adaptado (--ink/--paper/--serif-adaptada)
+ok(!outFx.includes('color: var(--ink)'), 'adaptado: color var(--ink) → var(--text-color)');
+ok(!outFx.includes('background-color: var(--paper)'), 'adaptado: background-color var(--paper) → var(--surface-color)');
+ok(!outFx.includes('font-family: var(--serif-adaptada)'), 'adaptado: font-family var(--serif-adaptada) → var(--font-base)');
+ok(outFx.includes('--ink: #242321'), 'adaptado: definición local --ink intacta (queda muerta, sin usos)');
+
+// (d2) rebind de variables reservadas (fusión sin duplicar)
 ok(!outFx.includes('--primary-color: #123456'), 'rebind: --primary-color: #123456 eliminado');
 ok(!outFx.includes('--text-color: #654321'), 'rebind: --text-color: #654321 eliminado');
+ok(!outFx.includes('--secondary-color: #555544'), 'rebind: --secondary-color local eliminada (gobierna la global derivada)');
 
 // unificación de fuentes (incluida protected, documentada)
 ok(outFx.includes('font-family: var(--font-base)'), 'fuente unificada a var(--font-base)');
@@ -100,7 +116,6 @@ ok(!outFx.includes('Comic Sans MS'), "fuente protected 'Comic Sans MS' unificada
 ok(!outFx.includes('Georgia'), "fuente custom 'Georgia' unificada");
 
 // sustitución de literales en contexto custom
-ok(outFx.includes('color: var(--text-color)'), 'custom: color → var(--text-color)');
 ok(outFx.includes('background-color: var(--surface-color)'), 'custom: background-color → var(--surface-color)');
 ok(outFx.includes('border-color: var(--border-color)'), 'custom: border-color → var(--border-color)');
 ok(outFx.includes('border: 2px solid var(--border-color)'), 'custom: shorthand border → var(--border-color)');
@@ -124,7 +139,9 @@ ok(!!titleEntry, 'elementId derivado data-gemini-id + memory_key (detalles-regal
 ok(titleEntry && /Times New Roman/.test(titleEntry.originalFont || ''), 'currentFont/originalFont registrados para el editor');
 ok(fxReport.changes.varRebinds.some(r => r.var === '--primary-color' && r.originalValue === '#123456'),
   'varRebinds con valor original (revertible)');
-ok(fxReport.changes.protectedStyleBlocksSkipped >= 1, 'bloques protected contabilizados como omitidos');
+ok(fxReport.changes.varRebinds.some(r => r.var === '--secondary-color' && r.originalValue === '#555544'),
+  'varRebinds de --secondary-color local');
+ok(fxReport.changes.protectedColorOverrides >= 3, `overrides de color en protected contabilizados (${fxReport.changes.protectedColorOverrides})`);
 ok(fxReport.changes.fontReplacements.some(r => /Comic Sans/.test(r.original)), 'reemplazos de fuente en hojas de estilo registrados con selector');
 ok(manifest.container.injected.includes('root-override') && manifest.container.injected.includes('font-link') && manifest.container.injected.includes('body-font'),
   'contenedor: inyecciones registradas en manifiesto');

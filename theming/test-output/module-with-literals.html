@@ -3,13 +3,31 @@
     .fixture-literales {
       /* Variables reservadas: el theming las rebinds (elimina) para que gobierne el :root global */
       --panel-tone: #abcdef;
-      background-color: #112233;
-      color: #445566;
+      background-color: var(--surface-color);
+      color: var(--text-color);
       font-family: var(--font-base);
-      border: 3px dotted #999999;
+      border: 3px dotted var(--border-color);
       padding: 2rem;
     }
     .fixture-literales .nota { color: var(--accent-color); }
+
+    /* Simula un módulo adaptado por Gemini con paleta propia */
+    .fixture-literales .adaptado {
+      --ink: #242321;
+      --paper: #f7f2ea;
+      --serif-adaptada: 'Noto Serif JP', serif;
+      color: var(--text-color);
+      background-color: var(--surface-color);
+      font-family: var(--font-base);
+      padding: 1rem;
+    }
+
+    /* Texto de contraste sobre overlay oscuro: se PRESERVA */
+    .fixture-literales .sobre-foto {
+      background: rgba(0,0,0,.55);
+      color: #ffffff;
+      padding: 1rem;
+    }
   </style>
 
   <div class="fixture-literales__content" memory_type="text" memory_usage="custom" memory_key="fixture-content">
