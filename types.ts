@@ -74,6 +74,8 @@ export interface InvitationMetadata {
   theme: string;
   primaryColor: string;
   secondaryColor: string;
+  fontBase?: string;
+  fontHeading?: string;
   hiddenModules: string[];
   elementStyles: Record<string, {
     styles: Record<string, string>;
@@ -179,6 +181,8 @@ export interface AdminConfig {
   updated_at: string | null;
   use_agent_orchestrator?: boolean;
   login_page_url?: string;
+  default_font_base?: string;
+  default_font_heading?: string;
 }
 
 export interface AdminUserPlan {

@@ -153,6 +153,35 @@ export const getPublicUrl = (slug: string): string => {
   return `${PUBLIC_BASE}/i/${slug}`;
 };
 
+// Tipografía global configurada por el admin (Google Fonts base/heading).
+export const getDefaultFonts = async (): Promise<{ fontBase: string; fontHeading: string }> => {
+  const response = await fetch(`${API_BASE}/config/fonts`);
+  if (!response.ok) {
+    throw new Error('Error al obtener la tipografía global');
+  }
+  return response.json();
+};
+
+// Re-tematiza el HTML de la invitación con nuevas Google Fonts (textos y
+// títulos) usando el subsistema Post-RAG Theming del servidor.
+export const applyInvitationFonts = async (
+  html: string,
+  fontBase: string,
+  fontHeading: string,
+  token?: string
+): Promise<{ html: string }> => {
+  const response = await fetch(`${API_BASE}/theme/fonts`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...getAuthHeaders(token)
+    },
+    credentials: 'include',
+    body: JSON.stringify({ html, fontBase, fontHeading })
+  });
+  return handleResponse(response);
+};
+
 const redirectToLogin = async () => {
   try {
     const baseUrl = import.meta.env.VITE_PUBLIC_URL || window.location.origin;

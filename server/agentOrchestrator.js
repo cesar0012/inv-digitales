@@ -553,6 +553,36 @@ Respond with ONLY the ID number of the best template:`;
   return selected;
 };
 
+/**
+ * Directiva de tipografía unificada para las rutas de generación que NO pasan
+ * por el subsistema Post-RAG Theming (adaptación de templates y CODER).
+ * La fuente SIEMPRE viene de la configuración del admin (options.fontBase /
+ * options.fontHeading, inyectados server-side en /api/generate-html).
+ */
+const buildTypographyDirective = (options = {}) => {
+  const base = options.fontBase || 'Playfair Display';
+  const heading = options.fontHeading || '';
+  const familiesParam = [base, ...(heading && heading !== base ? [heading] : [])]
+    .map(f => encodeURIComponent(f).replace(/%20/g, '+'))
+    .join('&family=');
+  const fontsUrl = `https://fonts.googleapis.com/css2?family=${familiesParam}&display=swap`;
+  return [
+    ``,
+    `===== TYPOGRAPHY (MANDATORY — FOLLOW EXACTLY) =====`,
+    `- Body/paragraph text font-family: "${base}" (Google Font).`,
+    heading
+      ? `- Headings h1-h6 font-family: "${heading}" (Google Font).`
+      : `- Headings h1-h6 use the same font: "${base}".`,
+    `- Do NOT use any other Google Fonts anywhere in the invitation.`,
+    `- Include this exact tag inside <head>:`,
+    `  <link rel="preconnect" href="https://fonts.googleapis.com">`,
+    `  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>`,
+    `  <link href="${fontsUrl}" rel="stylesheet">`,
+    `- Set body { font-family: '${base}', sans-serif; } and apply headings via CSS classes.`,
+    `===== END TYPOGRAPHY =====`
+  ].join('\n');
+};
+
 const adaptTemplateWithGemini = async (template, prompt, apiKey, model, options) => {
   const { eventType, theme, primaryColor, secondaryColor, visualStyle, mood, imageFiles, promptInstruction } = options;
 
@@ -568,6 +598,7 @@ const adaptTemplateWithGemini = async (template, prompt, apiKey, model, options)
   if (secondaryColor) userContextParts.push(`USER_SECONDARY_COLOR: ${secondaryColor}`);
   if (visualStyle) userContextParts.push(`VISUAL_STYLE: ${visualStyle}`);
   if (mood) userContextParts.push(`MOOD: ${mood}`);
+  userContextParts.push(buildTypographyDirective(options));
   userContextParts.push(`===== END USER EVENT REQUEST =====`);
 
   const templateMetaParts = [
@@ -884,9 +915,10 @@ export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro',
   }
 
   // SI hay RAG disponible, añadirlo después del fingerprint para dar guía de estilo
+  const typographyBlock = `\n${buildTypographyDirective(options)}\n`;
   const fullPrompt = ragContext 
-    ? `${CODER_SYSTEM_PROMPT}${fingerprintBlock}${ragContextBlock}${promptImageContext}${referenceInstruction}${promptWithDate}`
-    : `${CODER_SYSTEM_PROMPT}${fingerprintBlock}${promptImageContext}${referenceInstruction}${promptWithDate}`;
+    ? `${CODER_SYSTEM_PROMPT}${fingerprintBlock}${typographyBlock}${ragContextBlock}${promptImageContext}${referenceInstruction}${promptWithDate}`
+    : `${CODER_SYSTEM_PROMPT}${fingerprintBlock}${typographyBlock}${promptImageContext}${referenceInstruction}${promptWithDate}`;
   parts.unshift({ text: fullPrompt });
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;

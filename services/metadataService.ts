@@ -47,7 +47,7 @@ export const createDefaultMetadata = (): InvitationMetadata => ({
 export const buildMetadataFromHTML = (
   html: string, 
   existingMetadata: InvitationMetadata | null,
-  config: { eventType: string; theme: string; primaryColor: string; secondaryColor: string }
+  config: { eventType: string; theme: string; primaryColor: string; secondaryColor: string; fontBase?: string; fontHeading?: string }
 ): InvitationMetadata => {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, 'text/html');
@@ -116,6 +116,8 @@ export const buildMetadataFromHTML = (
     theme: config.theme || existingMetadata?.theme || '',
     primaryColor: config.primaryColor || existingMetadata?.primaryColor || '#f472b6',
     secondaryColor: config.secondaryColor || existingMetadata?.secondaryColor || '#fb7185',
+    fontBase: config.fontBase || existingMetadata?.fontBase || undefined,
+    fontHeading: config.fontHeading !== undefined ? (config.fontHeading || undefined) : existingMetadata?.fontHeading,
     hiddenModules: Array.from(hiddenModules),
     elementStyles
   };

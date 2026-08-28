@@ -598,6 +598,12 @@ export const adaptTemplateWithAI = async (baseHtml, userData, modifications, api
   if (mods.visualStyle) userPrefs.push(`VISUAL_STYLE: ${mods.visualStyle}`);
   if (mods.mood) userPrefs.push(`MOOD: ${mods.mood}`);
   if (mods.eventType) userPrefs.push(`EVENT_TYPE: ${mods.eventType}`);
+  // Tipografía global del admin: unificar toda la invitación a estas fuentes
+  const adaptFontBase = mods.fontBase || 'Playfair Display';
+  const adaptFontHeading = mods.fontHeading || '';
+  userPrefs.push(
+    `TYPOGRAPHY (MANDATORY): all body text uses Google Font "${adaptFontBase}"; headings h1-h6 use ${adaptFontHeading ? `Google Font "${adaptFontHeading}"` : `the same font "${adaptFontBase}"`}. Do NOT use any other Google Fonts.`
+  );
 
   // Lista de imagenes locales disponibles (si las hay)
   let imagesBlock = '';
@@ -690,6 +696,22 @@ Now adapt and amplify the template above. Output the COMPLETE HTML file from <!D
 export const generateWithGemini = async (prompt, apiKey, model = 'gemini-3.1-pro', options = {}, attachments = []) => {
   const { eventType, theme, primaryColor, secondaryColor, imageFiles, promptInstruction, visualStyle, mood, userId, useRagTemplates = true, imageApiKey = '', imageModel = 'gemini-3.1-flash-image-preview', imageProvider = 'gemini' } = options;
 
+  // Tipografía global (Google Fonts) configurada por el admin: una fuente para
+  // textos y otra para títulos. Se aplica en TODAS las rutas de este servicio.
+  const fontBase = options.fontBase || 'Playfair Display';
+  const fontHeading = options.fontHeading || '';
+  const typographyBlock = [
+    ``,
+    `===== TYPOGRAPHY (MANDATORY — FOLLOW EXACTLY) =====`,
+    `- Body/paragraph text font-family: "${fontBase}" (Google Font).`,
+    fontHeading
+      ? `- Headings h1-h6 font-family: "${fontHeading}" (Google Font).`
+      : `- Headings h1-h6 use the same font: "${fontBase}".`,
+    `- Do NOT use any other Google Fonts anywhere in the invitation.`,
+    `- Set body { font-family: '${fontBase}', sans-serif; } and apply headings via CSS classes.`,
+    `===== END TYPOGRAPHY =====`
+  ].join('\n');
+
   console.log('[RAG-ADAPT] use_rag_templates =', useRagTemplates, useRagTemplates ? '(HABILITADO)' : '(DESHABILITADO)');
 
   // ===== RAG TEMPLATE ADAPTATION (html_content-based) =====
@@ -717,7 +739,9 @@ export const generateWithGemini = async (prompt, apiKey, model = 'gemini-3.1-pro
           mood,
           eventType,
           imageFiles,
-          promptInstruction
+          promptInstruction,
+          fontBase,
+          fontHeading
         };
 
         const adaptedHtml = await adaptTemplateWithAI(
@@ -801,8 +825,8 @@ export const generateWithGemini = async (prompt, apiKey, model = 'gemini-3.1-pro
   // SI hay RAG disponible, añadirlo después del fingerprint para dar guía de estilo
   const ragContextBlock = ragContext ? `\n\n${ragContext}\n\n` : '';
   const fullPrompt = ragContext
-    ? `${SYSTEM_INSTRUCTION}${fingerprintBlock}${ragContextBlock}${promptImageContext}${referenceInstruction}${promptWithDate}`
-    : `${SYSTEM_INSTRUCTION}${fingerprintBlock}${promptImageContext}${referenceInstruction}${promptWithDate}`;
+    ? `${SYSTEM_INSTRUCTION}${fingerprintBlock}${typographyBlock}${ragContextBlock}${promptImageContext}${referenceInstruction}${promptWithDate}`
+    : `${SYSTEM_INSTRUCTION}${fingerprintBlock}${typographyBlock}${promptImageContext}${referenceInstruction}${promptWithDate}`;
   parts.unshift({ text: fullPrompt });
   
   // CORRECTO: usar v1beta sin API key en URL, mover al header

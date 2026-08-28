@@ -2152,6 +2152,8 @@ app.get('/api/admin/config', adminMiddleware, (req, res) => {
       login_page_url: '/admin-login',
 use_agent_orchestrator: true,
 use_rag_templates: true,
+      default_font_base: 'Playfair Display',
+      default_font_heading: '',
       updated_at: null
     });
   }
@@ -2171,6 +2173,8 @@ use_rag_templates: true,
     login_page_url: config.login_page_url || '/admin-login',
     use_agent_orchestrator: config.use_agent_orchestrator === 1,
     use_rag_templates: config.use_rag_templates === 1,
+    default_font_base: config.default_font_base || 'Playfair Display',
+    default_font_heading: config.default_font_heading || '',
     updated_at: config.updated_at
   });
 });
@@ -2183,6 +2187,88 @@ app.get('/api/config/public', (req, res) => {
   res.json({
     login_page_url: config?.login_page_url || '/admin-login'
   });
+});
+
+// GET /api/config/fonts - Tipografía global (Google Fonts) configurada desde el admin.
+// Público: solo expone dos nombres de fuente, sin datos sensibles.
+app.get('/api/config/fonts', (req, res) => {
+  const stmt = db.prepare('SELECT default_font_base, default_font_heading FROM admin_config WHERE id = 1');
+  const config = stmt.get();
+  
+  res.json({
+    fontBase: config?.default_font_base || 'Playfair Display',
+    fontHeading: config?.default_font_heading || ''
+  });
+});
+
+// POST /api/theme/fonts - Re-tematiza un HTML ya generado cambiando SOLO la
+// tipografía (Google Fonts base/heading). Usa el subsistema Post-RAG Theming,
+// que unifica todo font-family a var(--font-base)/var(--font-heading),
+// actualiza las variables :root y el <link> de Google Fonts.
+// Los colores se reutilizan del propio HTML (:root existente) para que el
+// cambio de fuente no altere la paleta actual de la invitación.
+app.post('/api/theme/fonts', authMiddleware, async (req, res) => {
+  try {
+    const { html, fontBase, fontHeading } = req.body || {};
+
+    if (!html || typeof html !== 'string' || html.trim().length < 50) {
+      return res.status(400).json({ error: 'html es requerido' });
+    }
+    if (html.length > 8 * 1024 * 1024) {
+      return res.status(413).json({ error: 'HTML demasiado grande' });
+    }
+
+    // Validación estricta del nombre de Google Font (mismo patrón que el
+    // contrato del subsistema de theming: letras, dígitos, espacios,
+    // guiones y apóstrofos).
+    const FONT_NAME_RE = /^[A-Za-z0-9 '-]{1,60}$/;
+    const base = typeof fontBase === 'string' ? fontBase.trim() : '';
+    const heading = typeof fontHeading === 'string' ? fontHeading.trim() : '';
+    if (!base || !FONT_NAME_RE.test(base)) {
+      return res.status(400).json({ error: 'fontBase inválido' });
+    }
+    if (heading && !FONT_NAME_RE.test(heading)) {
+      return res.status(400).json({ error: 'fontHeading inválido' });
+    }
+
+    // Extraer la paleta actual del :root del documento para NO recolorar.
+    const extractVar = (name) => {
+      const m = html.match(new RegExp(`--${name}\\s*:\\s*([^;}]+)`, 'i'));
+      return m ? m[1].trim() : '';
+    };
+    const COLOR_OK_RE = /^(#[0-9a-fA-F]{3}|#[0-9a-fA-F]{6}|#[0-9a-fA-F]{8}|rgba?\(\s*[\d.]+%?\s*,\s*[\d.]+%?\s*,\s*[\d.]+%?\s*(?:,\s*[\d.]+\s*)?\))$/;
+    const pickColor = (...candidates) => {
+      for (const c of candidates) {
+        const v = (c || '').trim();
+        if (v && COLOR_OK_RE.test(v)) return v;
+      }
+      return '';
+    };
+
+    const themeRequest = {
+      colors: {
+        primary: pickColor(extractVar('primary-color'), '#1f1f1f'),
+        text: pickColor(extractVar('text-color'), '#2f2f2f'),
+        accent: pickColor(extractVar('accent-color'), '#b89a63'),
+        background: pickColor(extractVar('bg-color'), extractVar('background-color'), '#ffffff')
+      },
+      font: {
+        base,
+        ...(heading ? { heading } : {})
+      }
+    };
+
+    const { applyPostRagTheme } = await import('../theming/apply-theme.js');
+    const themed = await applyPostRagTheme(html, themeRequest, {
+      push: (e) => console[e.level === 'error' ? 'error' : 'warn'](`[THEME-FONTS] ${e.code}: ${e.message}`)
+    });
+
+    console.log(`[THEME-FONTS] ✅ Fuentes aplicadas (base: ${base}${heading ? `, títulos: ${heading}` : ''})`);
+    res.json({ html: themed.html, success: true });
+  } catch (error) {
+    console.error('[THEME-FONTS] ❌ Error:', error.message);
+    res.status(500).json({ error: 'No se pudo aplicar la tipografía: ' + error.message });
+  }
 });
 
 // POST /api/admin/config - Guardar configuración
@@ -2211,6 +2297,10 @@ const updatedConfig = {
     login_page_url: body.login_page_url !== undefined ? body.login_page_url : currentConfig.login_page_url,
     use_agent_orchestrator: body.use_agent_orchestrator !== undefined ? (body.use_agent_orchestrator ? 1 : 0) : (currentConfig.use_agent_orchestrator || 0),
     use_rag_templates: body.use_rag_templates !== undefined ? (body.use_rag_templates ? 1 : 0) : (currentConfig.use_rag_templates !== null ? currentConfig.use_rag_templates : 1),
+    // Tipografía global: base no puede quedar vacía; heading SÍ puede ser ''
+    // ('' = títulos usan la misma fuente que los textos).
+    default_font_base: body.default_font_base !== undefined && body.default_font_base.trim() !== '' ? body.default_font_base : (currentConfig.default_font_base || 'Playfair Display'),
+    default_font_heading: body.default_font_heading !== undefined ? body.default_font_heading : (currentConfig.default_font_heading || ''),
   };
   
   console.log('=== CONFIG A GUARDAR ===');
@@ -2232,6 +2322,8 @@ const updatedConfig = {
       login_page_url = ?,
       use_agent_orchestrator = ?,
       use_rag_templates = ?,
+      default_font_base = ?,
+      default_font_heading = ?,
       updated_at = datetime('now')
     WHERE id = 1
   `);
@@ -2248,7 +2340,9 @@ const updatedConfig = {
     updatedConfig.image_api_key,
     updatedConfig.login_page_url,
     updatedConfig.use_agent_orchestrator,
-    updatedConfig.use_rag_templates
+    updatedConfig.use_rag_templates,
+    updatedConfig.default_font_base,
+    updatedConfig.default_font_heading
   );
   
   // Verificar que se guardó
@@ -3255,6 +3349,12 @@ app.post('/api/iterate-module', authMiddleware, async (req, res) => {
     const secondaryColor = editorConfig?.secondaryColor || '';
     const visualStyle = editorConfig?.visualStyle || '';
     const mood = editorConfig?.mood || '';
+    // Tipografía vigente de la invitación (el usuario la define en el editor;
+    // si no viene, usa la global configurada por el admin).
+    const cfgStmt = db.prepare('SELECT default_font_base, default_font_heading FROM admin_config WHERE id = 1');
+    const fontCfg = cfgStmt.get();
+    const iterFontBase = editorConfig?.fontBase || fontCfg?.default_font_base || 'Playfair Display';
+    const iterFontHeading = editorConfig?.fontHeading || fontCfg?.default_font_heading || '';
 
     let promptText = '';
     if (mode === 'add') {
@@ -3274,7 +3374,7 @@ Module to generate: ${iterationDescription}`;
       promptText = `You are modifying ONE HTML module of a digital invitation.
 Apply the requested changes to the module HTML below.
 CRITICAL: Keep ALL existing data-gemini-id attributes EXACTLY intact. Do not remove, rename, or add new data-gemini-id attributes.
-Use Tailwind CSS only. You may change classes, inline styles, fonts, colors, and layout.
+Use Tailwind CSS only. You may change classes, inline styles, colors, and layout. Do NOT change font-family values.
 Return ONLY the modified module HTML, no markdown, no <html>/<head>/<body> tags.
 
 Changes requested: ${iterationDescription}
@@ -3282,6 +3382,17 @@ Changes requested: ${iterationDescription}
 Module HTML:
 ${moduleHtml}`;
     }
+
+    // Directiva de tipografía unificada para el módulo generado/editado.
+    promptText += `\n\n===== TYPOGRAPHY (MANDATORY) =====\n`;
+    promptText += `All text MUST use the Google Font "${iterFontBase}" as font-family for body/paragraph text.\n`;
+    if (iterFontHeading) {
+      promptText += `Headings (h1-h6) MUST use the Google Font "${iterFontHeading}".\n`;
+    } else {
+      promptText += `Headings (h1-h6) also use "${iterFontBase}".\n`;
+    }
+    promptText += `Load fonts with <link href="https://fonts.googleapis.com/css2?family=${encodeURIComponent(iterFontBase).replace(/%20/g, '+')}${iterFontHeading ? `&family=${encodeURIComponent(iterFontHeading).replace(/%20/g, '+')}` : ''}&display=swap" rel="stylesheet"> only if the module needs its own <head> (normally NOT required).\n`;
+    promptText += `===== END TYPOGRAPHY =====`;
 
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
     const response = await fetch(url, {
@@ -3429,8 +3540,11 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
         eventDate: editorConfig?.eventDate,
         eventTime: editorConfig?.eventTime,
         eventDetails: editorConfig?.eventDetails,
-        ...(editorConfig?.fontBase ? { fontBase: editorConfig.fontBase } : {}),
-        ...(editorConfig?.fontHeading ? { fontHeading: editorConfig.fontHeading } : {}),
+        // Tipografía: SIEMPRE desde la configuración del admin (Google Fonts
+        // global para textos y títulos). El usuario final ya no la elige en
+        // el generador; podrá cambiarla después desde el editor.
+        ...(config.default_font_base ? { fontBase: config.default_font_base } : {}),
+        ...(config.default_font_heading ? { fontHeading: config.default_font_heading } : {}),
         imageFiles: imageFiles || [],
         promptInstruction: (promptInstruction || '') + rsvpInstruction,
         imageApiKey: config.image_api_key || '',

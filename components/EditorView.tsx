@@ -6,7 +6,7 @@ import { InitialView } from './InitialView';
 import { SelectedElement, Attachment, ProjectPage, InvitationMetadata, EditorConfig, LocalImageFile } from '../types';
 import { IMAGE_SOURCES } from '../constants';
 import { generateWebProject, addModuleToProject, modifyProjectDesign, iterateModule } from '../services/aiService';
-import { consumeCredit, saveInvitation, updateInvitationContent, getInvitationContent } from '../services/apiService';
+import { consumeCredit, saveInvitation, updateInvitationContent, getInvitationContent, getDefaultFonts, applyInvitationFonts } from '../services/apiService';
 import { injectMetadata, extractMetadata, buildMetadataFromHTML } from '../services/metadataService';
 import { useAuth } from '../contexts/AuthContext';
 import { getLocalImages, hasLocalImages, buildLocalImageContext, getEventFolder } from '../services/localImageService';
@@ -24,6 +24,41 @@ const GENERATING_TEXTS = [
   'Optimizando elementos...',
   'Finalizando invitación...',
 ];
+
+// Fallback local (solo si el re-theming server-side falla): actualiza el
+// <link> de Google Fonts y las variables :root --font-base/--font-heading.
+// No unifica font-family literales (eso lo hace el subsistema Post-RAG en el
+// servidor), pero mantiene la selección funcional ante errores de red.
+const applyFontsFallbackLocal = (html: string, fontBase: string, fontHeading: string): string => {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  const head = doc.head || doc.documentElement;
+
+  const baseStack = `'${fontBase}', sans-serif`;
+  const headingStack = fontHeading ? `'${fontHeading}', serif` : null;
+
+  const families = [fontBase, ...(fontHeading && fontHeading !== fontBase ? [fontHeading] : [])];
+  const href = `https://fonts.googleapis.com/css2?family=${families.map(f => encodeURIComponent(f).replace(/%20/g, '+')).join('&family=')}&display=swap`;
+
+  let link = head.querySelector('link[data-editor-fonts]') as HTMLLinkElement | null;
+  if (!link) {
+    link = doc.createElement('link');
+    link.setAttribute('data-editor-fonts', 'true');
+    link.setAttribute('rel', 'stylesheet');
+    head.appendChild(link);
+  }
+  link.setAttribute('href', href);
+
+  let styleEl = head.querySelector('style[data-editor-font-vars]') as HTMLStyleElement | null;
+  if (!styleEl) {
+    styleEl = doc.createElement('style');
+    styleEl.setAttribute('data-editor-font-vars', 'true');
+    head.appendChild(styleEl);
+  }
+  styleEl.textContent = `:root { --font-base: ${baseStack}; ${headingStack ? `--font-heading: ${headingStack};` : ''} }`;
+
+  return '<!DOCTYPE html>' + doc.documentElement.outerHTML;
+};
 
 export const EditorView: React.FC = () => {
   const { filename } = useParams<{ filename?: string }>();
@@ -69,6 +104,24 @@ export const EditorView: React.FC = () => {
   const [rotatingTextIndex, setRotatingTextIndex] = useState(0);
   const rotatingIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const previewRef = useRef<PreviewPaneHandle>(null);
+
+  // Tipografía global configurada por el admin (Google Fonts para textos y
+  // títulos). Es la que usa la generación y el default del selector del editor.
+  const [globalFonts, setGlobalFonts] = useState<{ fontBase: string; fontHeading: string }>({
+    fontBase: 'Playfair Display',
+    fontHeading: ''
+  });
+  const globalFontsRef = useRef(globalFonts);
+
+  useEffect(() => {
+    getDefaultFonts()
+      .then(f => {
+        const next = { fontBase: f.fontBase || 'Playfair Display', fontHeading: f.fontHeading || '' };
+        setGlobalFonts(next);
+        globalFontsRef.current = next;
+      })
+      .catch(err => console.warn('[FONTS] No se pudo cargar la tipografía global:', err));
+  }, []);
 
   const activePage = pages.find(p => p.id === activePageId);
   const code = activePage?.code || '';
@@ -134,7 +187,9 @@ export const EditorView: React.FC = () => {
         secondaryColor: metadata.secondaryColor || '#fb7185',
         eventDetails: '',
         eventDate: '',
-        eventTime: ''
+        eventTime: '',
+        fontBase: metadata.fontBase || globalFontsRef.current.fontBase,
+        fontHeading: metadata.fontHeading || ''
       });
     }
     
@@ -166,8 +221,13 @@ export const EditorView: React.FC = () => {
           secondaryColor: metadata.secondaryColor || '#fb7185',
           eventDetails: '',
           eventDate: '',
-          eventTime: ''
+          eventTime: '',
+          fontBase: metadata.fontBase || globalFontsRef.current.fontBase,
+          fontHeading: metadata.fontHeading || ''
         });
+      } else {
+        // Invitación sin metadatos de fuentes: usar la tipografía global
+        setEditorConfig(prev => ({ ...prev, fontBase: globalFontsRef.current.fontBase, fontHeading: globalFontsRef.current.fontHeading }));
       }
       
       const newPage: ProjectPage = {
@@ -250,11 +310,53 @@ export const EditorView: React.FC = () => {
       setActivePageId(newPage.id);
       setExistingMetadata(null);
       setHasUnsavedChanges(true);
+      // La generación ya aplicó la tipografía global del admin (server-side);
+      // sincronizar el selector del editor con esas fuentes.
+      setEditorConfig(prev => ({
+        ...prev,
+        fontBase: prev.fontBase || globalFontsRef.current.fontBase,
+        fontHeading: prev.fontHeading || ''
+      }));
     } catch (error: any) {
       console.error(error);
       alert(`Error al generar la invitación: ${error.message}`);
       setHasStarted(false);
     } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  // Cambio de tipografía desde el editor: re-tematiza TODO el HTML con las
+  // nuevas Google Fonts (textos/títulos) vía el subsistema Post-RAG en el
+  // servidor. Ante fallo, aplica un fallback local (link + variables :root).
+  const handleUpdateFont = async (which: 'base' | 'heading', value: string) => {
+    if (!activePage) return;
+
+    const nextBase = which === 'base' ? value : (editorConfig.fontBase || globalFontsRef.current.fontBase || 'Playfair Display');
+    const nextHeading = which === 'heading' ? value : (editorConfig.fontHeading || '');
+
+    if (nextBase === editorConfig.fontBase && nextHeading === (editorConfig.fontHeading || '')) {
+      return;
+    }
+
+    setIsGenerating(true);
+    setGeneratingMessage('Aplicando tipografía...');
+
+    try {
+      const result = await applyInvitationFonts(activePage.code, nextBase, nextHeading, token);
+      setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: result.html } : p));
+    } catch (error: any) {
+      console.warn('[FONTS] Re-theming server falló, aplicando fallback local:', error?.message);
+      try {
+        const updatedCode = applyFontsFallbackLocal(activePage.code, nextBase, nextHeading);
+        setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
+      } catch (fallbackError) {
+        console.error('[FONTS] Fallback local también falló:', fallbackError);
+        alert('No se pudo cambiar la tipografía. Intenta de nuevo.');
+      }
+    } finally {
+      setEditorConfig(prev => ({ ...prev, fontBase: nextBase, fontHeading: nextHeading }));
+      setHasUnsavedChanges(true);
       setIsGenerating(false);
     }
   };
@@ -627,6 +729,9 @@ export const EditorView: React.FC = () => {
           }}
           selectedModuleName={selectedModuleName}
           onClearModuleSelection={() => setSelectedModuleName(null)}
+          fontBase={editorConfig.fontBase}
+          fontHeading={editorConfig.fontHeading}
+          onFontChange={handleUpdateFont}
         />
       )}
 

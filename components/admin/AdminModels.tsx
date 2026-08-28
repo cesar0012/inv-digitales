@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Save, Key, Cpu, MessageSquare, Image, Loader2, Bot, Settings } from 'lucide-react';
-import { AI_MODELS } from '../../constants';
+import { Save, Key, Cpu, MessageSquare, Image, Loader2, Bot, Settings, Type } from 'lucide-react';
+import { AI_MODELS, GOOGLE_FONT_OPTIONS, GOOGLE_HEADING_FONT_OPTIONS } from '../../constants';
 import { AIModel } from '../../types';
 import { getAdminConfig, saveAdminConfig } from '../../services/adminService';
 
@@ -30,6 +30,8 @@ export const AdminModels: React.FC = () => {
   const [useAgentOrchestrator, setUseAgentOrchestrator] = useState(false);
   const [useRagTemplates, setUseRagTemplates] = useState(true);
   const [hasGoogleApiKey, setHasGoogleApiKey] = useState(false);
+  const [defaultFontBase, setDefaultFontBase] = useState('Playfair Display');
+  const [defaultFontHeading, setDefaultFontHeading] = useState('');
   
   // Save states
   const [saving, setSaving] = useState(false);
@@ -43,7 +45,9 @@ export const AdminModels: React.FC = () => {
     setSaving(true);
     try {
       await saveAdminConfig({
-        login_page_url: loginPageUrl
+        login_page_url: loginPageUrl,
+        default_font_base: defaultFontBase,
+        default_font_heading: defaultFontHeading
       });
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
@@ -66,6 +70,8 @@ const loadConfig = async () => {
       setLoginPageUrl(config.login_page_url || '/admin-login');
       setUseAgentOrchestrator(config.use_agent_orchestrator || false);
       setUseRagTemplates(config.use_rag_templates !== false);
+      setDefaultFontBase(config.default_font_base || 'Playfair Display');
+      setDefaultFontHeading(config.default_font_heading || '');
     } catch (error) {
       console.error('Error loading config:', error);
     } finally {
@@ -132,6 +138,10 @@ const loadConfig = async () => {
             <GeneralConfig
               loginPageUrl={loginPageUrl}
               onLoginPageUrlChange={setLoginPageUrl}
+              defaultFontBase={defaultFontBase}
+              onDefaultFontBaseChange={setDefaultFontBase}
+              defaultFontHeading={defaultFontHeading}
+              onDefaultFontHeadingChange={setDefaultFontHeading}
               onSave={handleSave}
               saving={saving}
               saved={saved}
@@ -540,12 +550,26 @@ const ImageGeneratorConfig: React.FC<ImageGeneratorProps> = ({
 interface GeneralConfigProps {
   loginPageUrl: string;
   onLoginPageUrlChange: (url: string) => void;
+  defaultFontBase: string;
+  onDefaultFontBaseChange: (font: string) => void;
+  defaultFontHeading: string;
+  onDefaultFontHeadingChange: (font: string) => void;
   onSave: () => void;
   saving: boolean;
   saved: boolean;
 }
 
-const GeneralConfig: React.FC<GeneralConfigProps> = ({ loginPageUrl, onLoginPageUrlChange, onSave, saving, saved }) => {
+const GeneralConfig: React.FC<GeneralConfigProps> = ({
+  loginPageUrl,
+  onLoginPageUrlChange,
+  defaultFontBase,
+  onDefaultFontBaseChange,
+  defaultFontHeading,
+  onDefaultFontHeadingChange,
+  onSave,
+  saving,
+  saved
+}) => {
   return (
     <div className="space-y-6">
       <div className="bg-gray-50 rounded-xl p-6 space-y-4">
@@ -565,6 +589,71 @@ const GeneralConfig: React.FC<GeneralConfigProps> = ({ loginPageUrl, onLoginPage
           <p className="text-xs text-gray-500 mt-1">
             URL a la que se redireccionará cuando el usuario no esté autenticado
           </p>
+        </div>
+      </div>
+
+      <div className="bg-pink-50 border border-pink-200 rounded-xl p-6 space-y-4">
+        <h3 className="font-semibold text-gray-800 flex items-center gap-2">
+          <Type className="w-5 h-5 text-pink-500" />
+          Tipografía Global (Google Fonts)
+        </h3>
+        <p className="text-xs text-gray-500 -mt-2">
+          Estas fuentes se aplican automáticamente a TODA invitación generada. El usuario final podrá cambiarlas desde el editor.
+        </p>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Fuente para textos (base)
+          </label>
+          <select
+            value={defaultFontBase}
+            onChange={(e) => {
+              onDefaultFontBaseChange(e.target.value);
+              // Si la fuente de títulos era "igual que la base", mantener coherencia visual
+              if (!defaultFontHeading) onDefaultFontHeadingChange('');
+            }}
+            style={{ fontFamily: `'${defaultFontBase}', sans-serif` }}
+            className="w-full px-4 py-3 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 text-gray-800 bg-white"
+          >
+            {GOOGLE_FONT_OPTIONS.map((f) => (
+              <option key={f.value} value={f.value} style={{ fontFamily: `'${f.value}', sans-serif` }}>
+                {f.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Fuente para títulos (opcional)
+          </label>
+          <select
+            value={defaultFontHeading}
+            onChange={(e) => onDefaultFontHeadingChange(e.target.value)}
+            style={{ fontFamily: `'${defaultFontHeading || defaultFontBase}', serif` }}
+            className="w-full px-4 py-3 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 text-gray-800 bg-white"
+          >
+            {GOOGLE_HEADING_FONT_OPTIONS.map((f) => (
+              <option key={f.value} value={f.value} style={{ fontFamily: `'${f.value || defaultFontBase}', serif` }}>
+                {f.value ? f.label : 'Igual que la fuente de textos'}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex items-center gap-3 pt-1 border-t border-pink-100">
+          <span
+            className="text-2xl leading-none text-gray-800"
+            style={{ fontFamily: `'${defaultFontHeading || defaultFontBase}', serif` }}
+          >
+            Aa
+          </span>
+          <span
+            className="text-base leading-none text-gray-600"
+            style={{ fontFamily: `'${defaultFontBase}', sans-serif` }}
+          >
+            Texto de ejemplo 123
+          </span>
         </div>
       </div>
       

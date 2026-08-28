@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Heart, Pencil, Save, Home, Image as ImageIcon, Link as LinkIcon, Type, MousePointer2, ChevronDown, ChevronRight, AlignLeft, AlignCenter, AlignRight, AlignJustify, Map, Upload, Eye, EyeOff, Loader2, Calendar, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { compressImage, SUPPORTED_IMAGE_TYPES, SUPPORTED_FORMATS_LABEL } from '../services/imageCompressionService';
+import { GOOGLE_FONT_OPTIONS, GOOGLE_HEADING_FONT_OPTIONS } from '../constants';
 
 // ============================================================
 // FEATURE FLAG: AI ITERATIONS
@@ -923,7 +924,104 @@ interface EditorSidebarProps {
   onToggleModuleSelectionMode: () => void;
   selectedModuleName: string | null;
   onClearModuleSelection: () => void;
+  fontBase?: string;
+  fontHeading?: string;
+  onFontChange?: (which: 'base' | 'heading', value: string) => void;
 }
+
+// ============================================================
+// TYPOGRAPHY CARD — Selector de Google Fonts (textos y títulos)
+// Aparece SIEMPRE al inicio de la barra lateral del editor.
+// Las fuentes se aplican a toda la invitación vía Post-RAG Theming.
+// ============================================================
+const ensureGoogleFontsLoaded = (families: string[]) => {
+  const valid = families.map(f => (f || '').trim()).filter(Boolean);
+  if (valid.length === 0) return;
+  const href = `https://fonts.googleapis.com/css2?family=${valid.map(f => encodeURIComponent(f).replace(/%20/g, '+')).join('&family=')}&display=swap`;
+  const LINK_ID = 'editor-sidebar-google-fonts';
+  let link = document.getElementById(LINK_ID) as HTMLLinkElement | null;
+  if (!link) {
+    link = document.createElement('link');
+    link.id = LINK_ID;
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+  }
+  // Solo actualizar el <link> si cambió la selección (evita re-fetch)
+  const signature = valid.join('|');
+  if (link.getAttribute('data-families') !== signature) {
+    link.href = href;
+    link.setAttribute('data-families', signature);
+  }
+};
+
+const TypographyCard: React.FC<{
+  fontBase?: string;
+  fontHeading?: string;
+  onFontChange?: (which: 'base' | 'heading', value: string) => void;
+}> = ({ fontBase = '', fontHeading = '', onFontChange }) => {
+  useEffect(() => {
+    ensureGoogleFontsLoaded([fontBase, fontHeading].filter(Boolean) as string[]);
+  }, [fontBase, fontHeading]);
+
+  return (
+    <div className="mb-4 border border-pink-200 rounded-xl overflow-hidden bg-white shadow-sm shrink-0">
+      <div className="flex items-center gap-2 px-3 py-2.5 bg-pink-50/70">
+        <Type className="w-4 h-4 text-pink-500" />
+        <span className="text-xs font-bold text-pink-600 uppercase tracking-widest">Tipografía</span>
+      </div>
+      <div className="p-3 space-y-3">
+        <div className="space-y-1">
+          <label className="text-[10px] text-gray-500 uppercase font-medium">Fuente de textos</label>
+          <select
+            value={fontBase}
+            onChange={(e) => onFontChange?.('base', e.target.value)}
+            disabled={!onFontChange}
+            style={{ fontFamily: `'${fontBase}', sans-serif` }}
+            className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 cursor-pointer disabled:opacity-50"
+          >
+            {GOOGLE_FONT_OPTIONS.map((f) => (
+              <option key={f.value} value={f.value} style={{ fontFamily: `'${f.value}', sans-serif` }}>
+                {f.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="space-y-1">
+          <label className="text-[10px] text-gray-500 uppercase font-medium">Fuente de títulos</label>
+          <select
+            value={fontHeading}
+            onChange={(e) => onFontChange?.('heading', e.target.value)}
+            disabled={!onFontChange}
+            style={{ fontFamily: `'${fontHeading || fontBase}', serif` }}
+            className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 cursor-pointer disabled:opacity-50"
+          >
+            {GOOGLE_HEADING_FONT_OPTIONS.map((f) => (
+              <option key={f.value} value={f.value} style={{ fontFamily: `'${f.value || fontBase}', serif` }}>
+                {f.value ? f.label : 'Igual que la fuente de textos'}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="flex items-center gap-3 pt-1 border-t border-gray-100">
+          <span
+            className="text-xl leading-none text-gray-800 truncate"
+            style={{ fontFamily: `'${fontHeading || fontBase}', serif` }}
+            title="Vista previa de títulos"
+          >
+            Aa
+          </span>
+          <span
+            className="text-sm leading-none text-gray-600 truncate"
+            style={{ fontFamily: `'${fontBase}', sans-serif` }}
+            title="Vista previa de textos"
+          >
+            Texto de ejemplo 123
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const CountdownEditor = ({ code, onUpdateCountdown }: { code: string, onUpdateCountdown?: (targetDate: string) => void }) => {
   const [countdownDate, setCountdownDate] = useState('');
@@ -1034,7 +1132,10 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
   isModuleSelectionMode,
   onToggleModuleSelectionMode,
   selectedModuleName,
-  onClearModuleSelection
+  onClearModuleSelection,
+  fontBase,
+  fontHeading,
+  onFontChange
 }) => {
   const navigate = useNavigate();
   const elements = useMemo(() => parseEditableElements(code), [code]);
@@ -1111,6 +1212,13 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
 
       {/* Body */}
       <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
+        {/* Selector de tipografía: SIEMPRE visible al inicio de la barra lateral */}
+        <TypographyCard
+          fontBase={fontBase}
+          fontHeading={fontHeading}
+          onFontChange={onFontChange}
+        />
+
         {elements.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-center space-y-4 opacity-70">
             <div className="w-16 h-16 bg-pink-50 rounded-full flex items-center justify-center border border-pink-100">

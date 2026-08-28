@@ -22,6 +22,8 @@ export interface AdminConfig {
   login_page_url: string;
   updated_at: string | null;
   use_agent_orchestrator?: boolean;
+  default_font_base?: string;
+  default_font_heading?: string;
 }
 
 export interface AdminUserPlan {

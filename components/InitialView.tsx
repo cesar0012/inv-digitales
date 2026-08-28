@@ -3,7 +3,7 @@ import { Send, Image as ImageIcon, Settings, Heart, X, ImagePlus, Palette, Type,
 import { useNavigate } from 'react-router-dom';
 import { Attachment, EditorConfig } from '../types';
 import { compressImage, SUPPORTED_IMAGE_TYPES, SUPPORTED_FORMATS_LABEL, readFileAsDataURL } from '../services/imageCompressionService';
-import { EVENT_TYPES, EVENT_DEFAULT_COLORS, VISUAL_STYLES, MOODS, EVENT_STYLE_SUGGESTIONS, GOOGLE_FONT_OPTIONS, GOOGLE_HEADING_FONT_OPTIONS } from '../constants';
+import { EVENT_TYPES, EVENT_DEFAULT_COLORS, VISUAL_STYLES, MOODS, EVENT_STYLE_SUGGESTIONS } from '../constants';
 
 interface InitialViewProps {
   onGenerate: (prompt: string, attachments: Attachment[], config: EditorConfig) => void;
@@ -35,8 +35,6 @@ export const InitialView: React.FC<InitialViewProps> = ({
   const [theme, setTheme] = useState(initialTheme);
   const [primaryColor, setPrimaryColor] = useState(initialPrimaryColor);
   const [secondaryColor, setSecondaryColor] = useState(initialSecondaryColor);
-  const [fontBase, setFontBase] = useState('Playfair Display');
-  const [fontHeading, setFontHeading] = useState('');
   const [eventDetails, setEventDetails] = useState(initialEventDetails);
   const [eventDate, setEventDate] = useState(initialEventDate || '');
   const [eventTime, setEventTime] = useState(initialEventTime || '');
@@ -115,8 +113,9 @@ export const InitialView: React.FC<InitialViewProps> = ({
     if (primaryColor) prompt += `\n- Color Principal/Base: ${primaryColor}`;
     if (secondaryColor) prompt += `\n- Color Secundario/Acento: ${secondaryColor}`;
 
-    prompt += `\n\nTipografía: toda la invitación debe usar la Google Font "${fontBase || 'Playfair Display'}"`;
-    if (fontHeading) prompt += ` para el texto general y "${fontHeading}" para títulos`;
+    // Nota: la tipografía NO se selecciona aquí. Se aplica server-side con la
+    // Google Font global configurada en el admin (base y títulos) y el usuario
+    // final puede cambiarla desde el editor.
 
     const config: EditorConfig = {
       eventType,
@@ -127,9 +126,7 @@ export const InitialView: React.FC<InitialViewProps> = ({
       eventDate: eventDate || undefined,
       eventTime: eventTime || undefined,
       visualStyle: visualStyle || undefined,
-      mood: mood || undefined,
-      fontBase: fontBase || 'Playfair Display',
-      fontHeading: fontHeading || undefined
+      mood: mood || undefined
     };
 
     onGenerate(prompt, attachments, config);
@@ -486,42 +483,6 @@ export const InitialView: React.FC<InitialViewProps> = ({
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className="flex flex-col gap-4">
-            <label className="text-sm font-semibold text-gray-700 uppercase tracking-wider flex items-center gap-2">
-              <Type className="w-4 h-4 text-pink-500" />
-              Tipografía (Google Font)
-            </label>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex flex-col gap-1">
-                <span className="text-xs text-gray-500 font-medium">Fuente principal (toda la invitación)</span>
-                <select
-                  value={fontBase}
-                  onChange={(e) => setFontBase(e.target.value)}
-                  className="w-full bg-white border border-pink-200 hover:border-pink-400 px-3 py-2.5 rounded-xl transition-all shadow-sm text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-300 cursor-pointer"
-                >
-                  {GOOGLE_FONT_OPTIONS.map((f) => (
-                    <option key={f.value} value={f.value}>{f.label}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="flex flex-col gap-1">
-                <span className="text-xs text-gray-500 font-medium">Fuente para títulos (opcional)</span>
-                <select
-                  value={fontHeading}
-                  onChange={(e) => setFontHeading(e.target.value)}
-                  className="w-full bg-white border border-pink-200 hover:border-pink-400 px-3 py-2.5 rounded-xl transition-all shadow-sm text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-300 cursor-pointer"
-                >
-                  {GOOGLE_HEADING_FONT_OPTIONS.map((f) => (
-                    <option key={f.value} value={f.value}>{f.label}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-            <span className="text-xs text-gray-400">
-              Se aplica de forma unificada a todos los módulos de la invitación.
-            </span>
           </div>
 
           <div className="flex flex-col gap-2">

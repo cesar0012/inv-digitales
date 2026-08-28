@@ -314,6 +314,23 @@ try {
   console.log('✅ Columna use_rag_templates agregada a admin_config');
 } catch (e) {}
 
+// Tipografía global (Google Fonts) configurada desde el admin:
+// una fuente para textos (base) y una para títulos (heading).
+try {
+  db.exec(`ALTER TABLE admin_config ADD COLUMN default_font_base TEXT DEFAULT 'Playfair Display'`);
+  console.log('✅ Columna default_font_base agregada a admin_config');
+} catch (e) {}
+try {
+  db.exec(`ALTER TABLE admin_config ADD COLUMN default_font_heading TEXT DEFAULT ''`);
+  console.log('✅ Columna default_font_heading agregada a admin_config');
+} catch (e) {}
+try {
+  const fontBackfill = db.prepare("UPDATE admin_config SET default_font_base = 'Playfair Display' WHERE default_font_base IS NULL OR TRIM(default_font_base) = ''").run();
+  if (fontBackfill.changes > 0) {
+    console.log(`✅ Backfill default_font_base: ${fontBackfill.changes} fila(s) actualizada(s)`);
+  }
+} catch (e) {}
+
 try {
   db.exec(`ALTER TABLE plan_config ADD COLUMN has_rsvp INTEGER DEFAULT 0`);
   console.log('✅ Columna has_rsvp agregada a plan_config');
