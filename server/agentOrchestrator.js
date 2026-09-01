@@ -10,6 +10,39 @@ const fetchNoSSL = async (url, options = {}) => {
   });
 };
 
+// ============================================================================
+// OPTIMIZACIÓN DE TIEMPO: runner de concurrencia limitada que PRESERVA el
+// orden de los resultados (índice de entrada == índice de salida). Las tareas
+// son las mismas que el flujo secuencial original — solo se solapan en el
+// tiempo, sin cambiar prompts, fallbacks ni el orden de ensamblado.
+// Configurable vía env para ajustarse a los rate limits de la API:
+//   MODULAR_CONCURRENCY (default 4): selección+adaptación de módulos
+//   IMAGE_CONCURRENCY  (default 3): generación de imágenes placeholder
+// ============================================================================
+const MODULAR_CONCURRENCY = Math.max(1, parseInt(process.env.MODULAR_CONCURRENCY || '4', 10) || 4);
+const IMAGE_CONCURRENCY = Math.max(1, parseInt(process.env.IMAGE_CONCURRENCY || '3', 10) || 3);
+
+const runWithConcurrency = async (tasks, limit) => {
+  const results = new Array(tasks.length);
+  let nextIndex = 0;
+  const worker = async () => {
+    while (true) {
+      const i = nextIndex;
+      nextIndex += 1;
+      if (i >= tasks.length) break;
+      results[i] = await tasks[i]();
+    }
+  };
+  const workers = Array.from({ length: Math.min(limit, tasks.length) }, worker);
+  await Promise.all(workers);
+  return results;
+};
+
+// Exportados para pruebas (scripts/test-perf-orchestrator.js): el runner de
+// concurrencia y el resolver de placeholders son las piezas críticas cuya
+// equivalencia con el flujo secuencial debe verificarse.
+export { runWithConcurrency, resolvePlaceholders, buildPlaceholderPrompt };
+
 const LAYOUT_OPTIONS = [
   'full-screen-hero', 'split-screen', 'card-based', 'editorial-magazine', 'asymmetrical',
   'overlapping-sections', 'parallax-layers', 'horizontal-scroll-segments', 'masonry-grid',
@@ -979,13 +1012,19 @@ export const runOrchestration = async (prompt, apiKey, model = 'gemini-3.1-pro',
 import { MODULE_SYSTEM_PROMPT, MODULE_ADAPTER_PROMPT, MODULE_ASSEMBLER_PROMPT } from './agents-prompt-modular.js';
 import { applyPostRagTheme } from '../theming/apply-theme.js';
 
+// Timeout por llamada a la API: evita que una petición colgada (red degradada)
+// bloquee la generación completa. Configurable vía GEMINI_TIMEOUT_MS (default 120s,
+// suficiente para los prompts grandes de adaptación). Al vencer, el error cae en
+// los catch existentes que aplican los mismos fallbacks que cualquier error de red.
+const GEMINI_TIMEOUT_MS = Math.max(5000, parseInt(process.env.GEMINI_TIMEOUT_MS || '120000', 10) || 120000);
+
 /**
  * Helper para llamar a Gemini API (patrón existente en selectTemplateWithGemini)
  */
 const callGeminiAPI = async (prompt, apiKey, model, contentsOverride = null) => {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
   const contents = contentsOverride || [{ parts: [{ text: prompt }] }];
-  
+
   const response = await fetchNoSSL(url, {
     method: 'POST',
     headers: {
@@ -1000,7 +1039,8 @@ const callGeminiAPI = async (prompt, apiKey, model, contentsOverride = null) => 
         topK: 40,
         maxOutputTokens: 4096
       }
-    })
+    }),
+    signal: AbortSignal.timeout(GEMINI_TIMEOUT_MS)
   });
 
   if (!response.ok) {
@@ -1351,7 +1391,163 @@ const injectEditableIds = (html) => {
 };
 
 /**
- * Resuelve placeholders de imágenes según memory_source
+ * Construye el prompt de Nano Banana para un placeholder "generated".
+ * Lógica idéntica a la del flujo secuencial original (EXCLUDE_TAGS,
+ * PROMPT_TEMPLATES por tipo de módulo y tags limpios del moduleMetadata).
+ */
+const buildPlaceholderPrompt = (placeholder, theme) => {
+  // Nano Banana: prompt basado en theme + tipo de módulo (data-gemini-id).
+  // El módulo aporta estructura, no temática visual. Los tags del módulo se filtran
+  // para excluir términos que inducen a generar personas/parejas/novios o
+  // marcadores estructurales (western, portada, hero, boda, sombrero...) sin valor
+  // visual. El theme elegido por el usuario captura la temática visual.
+  const EXCLUDE_TAGS = /^(novios|pareja|retrato|retrato de pareja|foto de pareja|fotos inclinadas|familias|portada|hero|boda|quinceanera|cumpleanos|baby shower|graduacion|despedida|aniversario|evento|modulo universal|responsive|slider|3 slides|background slider|tarjeta|tarjeta central|tarjeta editorial|tarjetas|overlay|overlay oscuro|moderno|minimalista|editorial|ubicacion|ceremonia|recepcion|mapa|mapa integrado|asistencia|rsvp|confirmacion|itinerario|agenda|western|vaquera|charra|sombrero|caballo|monograma|boton|cuenta regresiva|countdown|padres|festejados|historia|organizacion|personas|personas importantes|galeria|galeria grid|galeria fotos|mesa|mesa regalos|regalos|dress code|vestimenta)$/i;
+
+  // Plantillas de prompt por tipo de módulo formal (definidos en
+  // components/admin/RAGModuleModal.tsx y AdminRAGModules.tsx).
+  // {theme} se reemplaza por el theme elegido por el usuario.
+  const PROMPT_TEMPLATES = {
+    portada: 'Fondo ambiental amplio y solemne para portada de invitación, sin personas, sin novios, sin retratos, sin parejas, sin texto. Estilo: {theme}. Ambiente decorativo, fotografía profesional, alta resolución, fondo completo.',
+    padres: 'Fondo decorativo elegante y sobrio para sección de familias, sin personas, sin retratos, sin nombres, sin texto. Estilo: {theme}. Decoración floral o geométrica discreta, fotografía profesional, alta resolución, fondo uniforme.',
+    ubicacion: 'Vista panorámica de entorno natural o urbano apropiado para ceremonia, sin personas, sin novios, sin edificios prominentes, sin señales, sin texto. Estilo: {theme}. Ambiente amplio, fotografía profesional, alta resolución.',
+    itinerario: 'Fondo decorativo sutil y minimalista para itinerario, sin personas, sin texto, sin relojes, sin iconos. Estilo: {theme}. Elementos decorativos discretos, fotografía profesional, alta resolución, fondo uniforme.',
+    confirmacion: 'Fondo elegante y limpio para sección de confirmación, sin personas, sin texto visible, sin formularios, sin botones. Estilo: {theme}. Decoración abstracta sutil, fotografía profesional, alta resolución, fondo uniforme.',
+    detalles: 'Fondo decorativo con elementos discretos para sección de detalles, sin personas, sin texto, sin iconos, sin listas. Estilo: {theme}. Decoración sutil de fondo, fotografía profesional, alta resolución, fondo uniforme.',
+    countdown: 'Fondo decorativo atmosférico para cuenta regresiva, sin personas, sin números, sin texto, sin relojes. Estilo: {theme}. Ambiente festivo elegante, fotografía profesional, alta resolución, fondo uniforme.',
+    general: 'Fondo decorativo profesional, sin personas, sin texto. Estilo: {theme}. Fotografía profesional, alta resolución, fondo completo.'
+  };
+  // Bug previo: `document.querySelector('script')` agarraba el PRIMER script del
+  // documento (de cualquier módulo). Ahora `placeholder.querySelector('script')`
+  // busca el script DENTRO del placeholder actual.
+  const tagsEl = placeholder.querySelector('script');
+  let tags = [];
+  if (tagsEl && tagsEl.textContent) {
+    const metaMatch = tagsEl.textContent.match(/moduleMetadata\s*=\s*(\{[\s\S]*?\});/);
+    if (metaMatch) {
+      try {
+        const fn = new Function(`return (${metaMatch[1]});`);
+        const meta = fn();
+        tags = meta.tags || [];
+      } catch (e) {}
+    }
+  }
+
+  const memoryType = placeholder.getAttribute('memory_type');
+  const dataGeminiId = placeholder.getAttribute('data-gemini-id') || '';
+  const moduleType = dataGeminiId.split('-')[0];
+  const cleanTags = tags.filter((t) => !EXCLUDE_TAGS.test(t.trim()));
+
+  let prompt;
+  if (memoryType === 'background') {
+    const template = PROMPT_TEMPLATES[moduleType] || PROMPT_TEMPLATES.general;
+    prompt = template.replace(/\{theme\}/g, theme || 'elegante');
+  } else {
+    // memory_type="image" (IMG dentro de un módulo): se conservan los tags limpios
+    // como pista de elementos visuales a ilustrar.
+    prompt = `Imagen decorativa profesional, ${theme || 'elegante'}.${cleanTags.length ? ` Elementos: ${cleanTags.join(', ')}.` : ''} Fotografía profesional, sin personas, sin retratos.`;
+  }
+  console.log(`[RESOLVER] 🎨 Nano Banana [${memoryType || '?'}/${moduleType || '?'}]: "${prompt.slice(0, 80)}..."`);
+  return prompt;
+};
+
+/**
+ * Aplica una imagen generada (base64) a un placeholder. Lógica idéntica a la
+ * rama "generated" del flujo secuencial original.
+ * @returns {boolean} true si el documento fue modificado
+ */
+const applyGeneratedImageToPlaceholder = (placeholder, base64) => {
+  if (placeholder.tagName === 'SECTION' || placeholder.tagName === 'DIV') {
+    // Buscar en <style> del módulo
+    const style = placeholder.querySelector('style');
+    if (style) {
+      const loremMatch = style.textContent.match(/url\(['"]?(https?:\/\/loremflickr\.com\/[^'")\s]+)['"]?\)/i);
+      if (loremMatch) {
+        style.textContent = style.textContent.replace(loremMatch[0], `url('${base64}')`);
+        console.log('[RESOLVER] ✅ Background reemplazado');
+        return true;
+      }
+    }
+  } else if (placeholder.tagName === 'IMG') {
+    const loremMatch = placeholder.getAttribute('src');
+    if (loremMatch && loremMatch.includes('loremflickr.com')) {
+      placeholder.setAttribute('src', base64);
+      console.log('[RESOLVER] ✅ IMG src reemplazado');
+      return true;
+    }
+  }
+  return false;
+};
+
+/**
+ * Aplica un asset de librería a un placeholder. Lógica idéntica a la rama
+ * "library" del flujo secuencial original (background en <style>, inline
+ * style, IMG y fallbacks internos).
+ * @returns {boolean} true si el documento fue modificado
+ */
+const applyLibraryAssetToPlaceholder = (placeholder, resolvedUrl) => {
+  let modified = false;
+  if (placeholder.tagName === 'SECTION' || placeholder.tagName === 'DIV') {
+    const style = placeholder.querySelector('style');
+    if (style) {
+      const loremMatch = style.textContent.match(/url\(['"]?(https?:\/\/loremflickr\.com\/[^'")\s]+)['"]?\)/i);
+      if (loremMatch) {
+        style.textContent = style.textContent.replace(loremMatch[0], `url('${resolvedUrl}')`);
+        modified = true;
+        console.log(`[RESOLVER] 📚 Library background reemplazado: ${resolvedUrl}`);
+      }
+    }
+    // Tambien soporta style inline via atributo style=
+    const inlineStyle = placeholder.getAttribute('style');
+    if (inlineStyle) {
+      const loremMatch = inlineStyle.match(/url\(['"]?(https?:\/\/loremflickr\.com\/[^'")\s]+)['"]?\)/i);
+      if (loremMatch) {
+        placeholder.setAttribute('style', inlineStyle.replace(loremMatch[0], `url('${resolvedUrl}')`));
+        modified = true;
+        console.log(`[RESOLVER] 📚 Library inline background reemplazado: ${resolvedUrl}`);
+      }
+    }
+  } else if (placeholder.tagName === 'IMG') {
+    const src = placeholder.getAttribute('src');
+    if (src && src.includes('loremflickr.com')) {
+      placeholder.setAttribute('src', resolvedUrl);
+      modified = true;
+      console.log(`[RESOLVER] 📚 Library IMG src reemplazado: ${resolvedUrl}`);
+    }
+  } else {
+    // Fallback: reemplazar primer <img> dentro del placeholder
+    const innerImg = placeholder.querySelector('img');
+    if (innerImg) {
+      const src = innerImg.getAttribute('src');
+      if (src && src.includes('loremflickr.com')) {
+        innerImg.setAttribute('src', resolvedUrl);
+        modified = true;
+        console.log(`[RESOLVER] 📚 Library inner IMG reemplazado: ${resolvedUrl}`);
+      }
+    }
+    // Y buscar en estilos de hijos
+    const innerStyled = placeholder.querySelector('[style*="loremflickr"]');
+    if (innerStyled) {
+      const styleAttr = innerStyled.getAttribute('style');
+      const loremMatch = styleAttr.match(/url\(['"]?(https?:\/\/loremflickr\.com\/[^'")\s]+)['"]?\)/i);
+      if (loremMatch) {
+        innerStyled.setAttribute('style', styleAttr.replace(loremMatch[0], `url('${resolvedUrl}')`));
+        modified = true;
+        console.log(`[RESOLVER] 📚 Library inner background reemplazado: ${resolvedUrl}`);
+      }
+    }
+  }
+  return modified;
+};
+
+/**
+ * Resuelve placeholders de imágenes según memory_source.
+ * OPTIMIZACIÓN: antes se generaban las imágenes Nano Banana UNA POR UNA en un
+ * loop secuencial (N llamadas de 5-15s encadenadas). Ahora trabaja en 3 fases
+ * con la MISMA lógica de prompts y de reemplazos:
+ *   (1) extrae los trabajos en orden DOM (los índices de library siguen siendo
+ *       deterministas, igual que el flujo original),
+ *   (2) genera las imágenes en un pool de concurrencia limitada,
+ *   (3) aplica los reemplazos secuencialmente sobre el DOM.
  */
 const resolvePlaceholders = async (html, eventType, theme, imageApiKey, imageModel, imageProvider = 'gemini') => {
   // Lorem Flickr: no invocar Nano Banana. Las URLs loremflickr.com embebidas en los
@@ -1365,10 +1561,12 @@ const resolvePlaceholders = async (html, eventType, theme, imageApiKey, imageMod
     let modified = false;
     let libraryAssetCounter = 0;
 
-    // Buscar todos los [path="placeholder"]
-    const placeholders = document.querySelectorAll('[path="placeholder"]');
+    // --- Fase 1: extraer trabajos en orden DOM (síncrono) ---
+    const placeholders = [...document.querySelectorAll('[path="placeholder"]')];
     console.log(`[RESOLVER] ${placeholders.length} placeholder(s) encontrado(s)`);
 
+    const generatedJobs = [];
+    const libraryJobs = [];
     for (const placeholder of placeholders) {
       // Determinar memory_source (puede estar en el elemento o en el ancestro)
       let memorySource = placeholder.getAttribute('memory_source');
@@ -1384,146 +1582,48 @@ const resolvePlaceholders = async (html, eventType, theme, imageApiKey, imageMod
       }
 
       if (memorySource === 'generated') {
-        // Nano Banana: prompt basado en theme + tipo de módulo (data-gemini-id).
-        // El módulo aporta estructura, no temática visual. Los tags del módulo se filtran
-        // para excluir términos que inducen a generar personas/parejas/novios o
-        // marcadores estructurales (western, portada, hero, boda, sombrero...) sin valor
-        // visual. El theme elegido por el usuario captura la temática visual.
-        const EXCLUDE_TAGS = /^(novios|pareja|retrato|retrato de pareja|foto de pareja|fotos inclinadas|familias|portada|hero|boda|quinceanera|cumpleanos|baby shower|graduacion|despedida|aniversario|evento|modulo universal|responsive|slider|3 slides|background slider|tarjeta|tarjeta central|tarjeta editorial|tarjetas|overlay|overlay oscuro|moderno|minimalista|editorial|ubicacion|ceremonia|recepcion|mapa|mapa integrado|asistencia|rsvp|confirmacion|itinerario|agenda|western|vaquera|charra|sombrero|caballo|monograma|boton|cuenta regresiva|countdown|padres|festejados|historia|organizacion|personas|personas importantes|galeria|galeria grid|galeria fotos|mesa|mesa regalos|regalos|dress code|vestimenta)$/i;
-
-        // Plantillas de prompt por tipo de módulo formal (definidos en
-        // components/admin/RAGModuleModal.tsx y AdminRAGModules.tsx).
-        // {theme} se reemplaza por el theme elegido por el usuario.
-        const PROMPT_TEMPLATES = {
-          portada: 'Fondo ambiental amplio y solemne para portada de invitación, sin personas, sin novios, sin retratos, sin parejas, sin texto. Estilo: {theme}. Ambiente decorativo, fotografía profesional, alta resolución, fondo completo.',
-          padres: 'Fondo decorativo elegante y sobrio para sección de familias, sin personas, sin retratos, sin nombres, sin texto. Estilo: {theme}. Decoración floral o geométrica discreta, fotografía profesional, alta resolución, fondo uniforme.',
-          ubicacion: 'Vista panorámica de entorno natural o urbano apropiado para ceremonia, sin personas, sin novios, sin edificios prominentes, sin señales, sin texto. Estilo: {theme}. Ambiente amplio, fotografía profesional, alta resolución.',
-          itinerario: 'Fondo decorativo sutil y minimalista para itinerario, sin personas, sin texto, sin relojes, sin iconos. Estilo: {theme}. Elementos decorativos discretos, fotografía profesional, alta resolución, fondo uniforme.',
-          confirmacion: 'Fondo elegante y limpio para sección de confirmación, sin personas, sin texto visible, sin formularios, sin botones. Estilo: {theme}. Decoración abstracta sutil, fotografía profesional, alta resolución, fondo uniforme.',
-          detalles: 'Fondo decorativo con elementos discretos para sección de detalles, sin personas, sin texto, sin iconos, sin listas. Estilo: {theme}. Decoración sutil de fondo, fotografía profesional, alta resolución, fondo uniforme.',
-          countdown: 'Fondo decorativo atmosférico para cuenta regresiva, sin personas, sin números, sin texto, sin relojes. Estilo: {theme}. Ambiente festivo elegante, fotografía profesional, alta resolución, fondo uniforme.',
-          general: 'Fondo decorativo profesional, sin personas, sin texto. Estilo: {theme}. Fotografía profesional, alta resolución, fondo completo.'
-        };
-        // Bug previo: `document.querySelector('script')` agarraba el PRIMER script del
-        // documento (de cualquier módulo). Ahora `placeholder.querySelector('script')`
-        // busca el script DENTRO del placeholder actual.
-        const tagsEl = placeholder.querySelector('script');
-        let tags = [];
-        if (tagsEl && tagsEl.textContent) {
-          const metaMatch = tagsEl.textContent.match(/moduleMetadata\s*=\s*(\{[\s\S]*?\});/);
-          if (metaMatch) {
-            try {
-              const fn = new Function(`return (${metaMatch[1]});`);
-              const meta = fn();
-              tags = meta.tags || [];
-            } catch (e) {}
-          }
-        }
-
-        const memoryType = placeholder.getAttribute('memory_type');
-        const dataGeminiId = placeholder.getAttribute('data-gemini-id') || '';
-        const moduleType = dataGeminiId.split('-')[0];
-        const cleanTags = tags.filter((t) => !EXCLUDE_TAGS.test(t.trim()));
-
-        let prompt;
-        if (memoryType === 'background') {
-          const template = PROMPT_TEMPLATES[moduleType] || PROMPT_TEMPLATES.general;
-          prompt = template.replace(/\{theme\}/g, theme || 'elegante');
-        } else {
-          // memory_type="image" (IMG dentro de un módulo): se conservan los tags limpios
-          // como pista de elementos visuales a ilustrar.
-          prompt = `Imagen decorativa profesional, ${theme || 'elegante'}.${cleanTags.length ? ` Elementos: ${cleanTags.join(', ')}.` : ''} Fotografía profesional, sin personas, sin retratos.`;
-        }
-        console.log(`[RESOLVER] \ud83c\udfa8 Nano Banana [${memoryType || '?'}/${moduleType || '?'}]: "${prompt.slice(0, 80)}..."`);
-
-        const imageData = await generateImageWithNanoBanana(prompt, imageApiKey, imageModel);
-        if (imageData && imageData.image) {
-          const base64 = `data:image/png;base64,${imageData.image}`;
-
-          // Reemplazar en background-image o src
-          if (placeholder.tagName === 'SECTION' || placeholder.tagName === 'DIV') {
-            // Buscar en <style> del módulo
-            const style = placeholder.querySelector('style');
-            if (style) {
-              const loremMatch = style.textContent.match(/url\(['"]?(https?:\/\/loremflickr\.com\/[^'")\s]+)['"]?\)/i);
-              if (loremMatch) {
-                style.textContent = style.textContent.replace(loremMatch[0], `url('${base64}')`);
-                modified = true;
-                console.log('[RESOLVER] ✅ Background reemplazado');
-              }
-            }
-          } else if (placeholder.tagName === 'IMG') {
-            const loremMatch = placeholder.getAttribute('src');
-            if (loremMatch && loremMatch.includes('loremflickr.com')) {
-              placeholder.setAttribute('src', base64);
-              modified = true;
-              console.log('[RESOLVER] ✅ IMG src reemplazado');
-            }
-          }
-        }
+        generatedJobs.push({ placeholder, prompt: buildPlaceholderPrompt(placeholder, theme) });
       } else if (memorySource === 'library') {
         // Library: intenta resolver la URL de Lorem Flickr con una imagen real de /img/<folder>/.
         // Si no existe la carpeta o no hay imágenes, mantiene el placeholder original.
         const libraryIndex = libraryAssetCounter++;
         const categoryFolder = mapCategoryToFolder(eventType);
-        const resolvedUrl = await resolveLibraryAsset(categoryFolder, libraryIndex);
+        libraryJobs.push({ placeholder, libraryIndex, categoryFolder });
+      }
+    }
 
-        if (resolvedUrl) {
-          // Reemplazar en background-image o src según el tipo de elemento
-          if (placeholder.tagName === 'SECTION' || placeholder.tagName === 'DIV') {
-            const style = placeholder.querySelector('style');
-            if (style) {
-              const loremMatch = style.textContent.match(/url\(['"]?(https?:\/\/loremflickr\.com\/[^'")\s]+)['"]?\)/i);
-              if (loremMatch) {
-                style.textContent = style.textContent.replace(loremMatch[0], `url('${resolvedUrl}')`);
-                modified = true;
-                console.log(`[RESOLVER] 📚 Library background reemplazado: ${resolvedUrl}`);
-              }
-            }
-            // Tambien soporta style inline via atributo style=
-            const inlineStyle = placeholder.getAttribute('style');
-            if (inlineStyle) {
-              const loremMatch = inlineStyle.match(/url\(['"]?(https?:\/\/loremflickr\.com\/[^'")\s]+)['"]?\)/i);
-              if (loremMatch) {
-                placeholder.setAttribute('style', inlineStyle.replace(loremMatch[0], `url('${resolvedUrl}')`));
-                modified = true;
-                console.log(`[RESOLVER] 📚 Library inline background reemplazado: ${resolvedUrl}`);
-              }
-            }
-          } else if (placeholder.tagName === 'IMG') {
-            const src = placeholder.getAttribute('src');
-            if (src && src.includes('loremflickr.com')) {
-              placeholder.setAttribute('src', resolvedUrl);
-              modified = true;
-              console.log(`[RESOLVER] 📚 Library IMG src reemplazado: ${resolvedUrl}`);
-            }
-          } else {
-            // Fallback: reemplazar primer <img> dentro del placeholder
-            const innerImg = placeholder.querySelector('img');
-            if (innerImg) {
-              const src = innerImg.getAttribute('src');
-              if (src && src.includes('loremflickr.com')) {
-                innerImg.setAttribute('src', resolvedUrl);
-                modified = true;
-                console.log(`[RESOLVER] 📚 Library inner IMG reemplazado: ${resolvedUrl}`);
-              }
-            }
-            // Y buscar en estilos de hijos
-            const innerStyled = placeholder.querySelector('[style*="loremflickr"]');
-            if (innerStyled) {
-              const styleAttr = innerStyled.getAttribute('style');
-              const loremMatch = styleAttr.match(/url\(['"]?(https?:\/\/loremflickr\.com\/[^'")\s]+)['"]?\)/i);
-              if (loremMatch) {
-                innerStyled.setAttribute('style', styleAttr.replace(loremMatch[0], `url('${resolvedUrl}')`));
-                modified = true;
-                console.log(`[RESOLVER] 📚 Library inner background reemplazado: ${resolvedUrl}`);
-              }
-            }
-          }
-        } else {
-          const assetType = placeholder.getAttribute('data-asset-type') || 'general';
-          console.log(`[RESOLVER] ⚠️ Library asset no encontrado en disco: /img/${categoryFolder}/ (assetType=${assetType}, placeholder mantenido)`);
-        }
+    // Library: lecturas de disco, rápidas y en paralelo.
+    const libraryUrls = await Promise.all(
+      libraryJobs.map((j) => resolveLibraryAsset(j.categoryFolder, j.libraryIndex))
+    );
+
+    // --- Fase 2: generación de imágenes en pool de concurrencia limitada ---
+    let generatedImages = [];
+    if (generatedJobs.length > 0) {
+      const perfImgStart = Date.now();
+      console.log(`[RESOLVER] 🎨 Generando ${generatedJobs.length} imagen(es) Nano Banana en paralelo (concurrencia ${IMAGE_CONCURRENCY})...`);
+      generatedImages = await runWithConcurrency(
+        generatedJobs.map((j) => () => generateImageWithNanoBanana(j.prompt, imageApiKey, imageModel)),
+        IMAGE_CONCURRENCY
+      );
+      console.log(`[PERF] Imágenes: ${((Date.now() - perfImgStart) / 1000).toFixed(1)}s (${generatedJobs.length} placeholder(s), concurrencia ${IMAGE_CONCURRENCY})`);
+    }
+
+    // --- Fase 3: aplicar reemplazos secuencialmente (misma lógica original) ---
+    for (let i = 0; i < generatedJobs.length; i++) {
+      const imageData = generatedImages[i];
+      if (imageData && imageData.image) {
+        const base64 = `data:image/png;base64,${imageData.image}`;
+        if (applyGeneratedImageToPlaceholder(generatedJobs[i].placeholder, base64)) modified = true;
+      }
+    }
+    for (let i = 0; i < libraryJobs.length; i++) {
+      const resolvedUrl = libraryUrls[i];
+      if (resolvedUrl) {
+        if (applyLibraryAssetToPlaceholder(libraryJobs[i].placeholder, resolvedUrl)) modified = true;
+      } else {
+        const assetType = libraryJobs[i].placeholder.getAttribute('data-asset-type') || 'general';
+        console.log(`[RESOLVER] ⚠️ Library asset no encontrado en disco: /img/${libraryJobs[i].categoryFolder}/ (assetType=${assetType}, placeholder mantenido)`);
       }
     }
 
@@ -2612,59 +2712,59 @@ export const runModularOrchestration = async (prompt, apiKey, model = 'gemini-3.
   }
   console.log(`[Módular] Módulos mandatorios para eventType="${eventType}":`, requiredModules);
 
-  // 1. Query y selección de módulos
-  const selectedModules = [];
-  for (const moduleType of requiredModules) {
-    console.log(`\n[Módular] Buscando módulo: ${moduleType}`);
+  // 1+2. Selección y adaptación de módulos.
+  // OPTIMIZACIÓN: antes eran dos loops secuenciales (N llamadas de selección y
+  // luego N de adaptación una tras otra). Ahora cada tipo de módulo corre su
+  // cadena completa (query KB → selección → adaptación → sanitización) como
+  // tarea independiente en un pool de concurrencia limitada. Los prompts, los
+  // fallbacks ante error y el ORDEN de ensamblado (orden de requiredModules)
+  // son idénticos al flujo secuencial: runWithConcurrency preserva el índice.
+  console.log(`\n[Módular] Seleccionando y adaptando ${requiredModules.length} módulo(s) en paralelo (concurrencia ${MODULAR_CONCURRENCY})...`);
+  const perfSelStart = Date.now();
+
+  const moduleChains = requiredModules.map((moduleType) => async () => {
+    console.log(`[Módular][${moduleType}] Buscando módulo...`);
     const candidates = await queryRAGModules(moduleType, null, null, 5);
 
+    let selected = null;
     if (candidates.length === 0) {
-      console.log(`[Módular] ⚠️ No hay módulos en KB para ${moduleType}, generando desde cero`);
-      const generated = await generateModuleFromScratch(moduleType, eventType, theme, apiKey, model, userData);
-      if (generated) {
-        selectedModules.push(generated);
-      } else {
-        console.warn(`[Módular] ❌ No se pudo generar ni seleccionar ${moduleType}, se omite`);
-      }
-      continue;
+      console.log(`[Módular][${moduleType}] ⚠️ No hay módulos en KB, generando desde cero`);
+      selected = await generateModuleFromScratch(moduleType, eventType, theme, apiKey, model, userData);
+      if (!selected) console.warn(`[Módular][${moduleType}] ❌ No se pudo generar ni seleccionar, se omite`);
+    } else {
+      selected = await selectModuleWithGemini(candidates, eventType, theme, apiKey, model);
+      if (selected) console.log(`[Módular][${moduleType}] ✅ Seleccionado: ${selected.style_name}`);
     }
+    if (!selected) return null;
 
-    const selected = await selectModuleWithGemini(candidates, eventType, theme, apiKey, model);
-    if (selected) {
-      console.log(`[Módular] ✅ Seleccionado: ${selected.style_name}`);
-      selectedModules.push(selected);
-    }
-  }
-
-  if (selectedModules.length === 0) {
-    console.log('[Módular] ❌ No se seleccionó ningún módulo, fallback a orquestación tradicional');
-    return await runOrchestration(prompt, apiKey, model, options, attachments);
-  }
-
-  // 2. Adaptar cada módulo a la temática
-  console.log('\n[Módular] Adaptando módulos...');
-
-  // Post-validación: verificar que los módulos mandatorios estén presentes
-  const selectedTypes = selectedModules.map(m => m.module_type);
-  const missingModules = requiredModules.filter(t => !selectedTypes.includes(t));
-  if (missingModules.length > 0) {
-    console.warn(`[Módular] ⚠️ Módulos mandatorios faltantes: ${missingModules.join(', ')}`);
-  }
-  console.log(`[Módular] Módulos a adaptar: ${selectedModules.length}/${requiredModules.length}`);
-
-  const adaptedModules = [];
-  for (const module of selectedModules) {
-    console.log(`[Módular] Adaptando: ${module.module_id}`);
-    const adapted = await adaptModuleWithGemini(module, prompt, theme, eventType, apiKey, model, userData);
+    console.log(`[Módular][${moduleType}] Adaptando: ${selected.module_id}`);
+    const adapted = await adaptModuleWithGemini(selected, prompt, theme, eventType, apiKey, model, userData);
     // Pase de sanitización SIEMPRE: aunque el adaptador tuvo éxito, puede haber dejado
     // intactos algunos slots textuales (memory_type="text"). Esto garantiza que nombres,
     // fecha, lugar y otros datos del usuario queden contextualizados en cada generación.
     const sanitized = applyDynamicContent(adapted, userData, {
-      module_id: module.module_id,
-      moduleType: module.module_type
+      module_id: selected.module_id,
+      moduleType: selected.module_type
     });
-    adaptedModules.push({ ...module, html_content: sanitized });
+    return { ...selected, html_content: sanitized };
+  });
+
+  const chainResults = await runWithConcurrency(moduleChains, MODULAR_CONCURRENCY);
+  const adaptedModules = chainResults.filter(Boolean);
+  console.log(`[PERF] Selección+adaptación: ${((Date.now() - perfSelStart) / 1000).toFixed(1)}s (${adaptedModules.length} módulo(s) listos, concurrencia ${MODULAR_CONCURRENCY})`);
+
+  if (adaptedModules.length === 0) {
+    console.log('[Módular] ❌ No se seleccionó ningún módulo, fallback a orquestación tradicional');
+    return await runOrchestration(prompt, apiKey, model, options, attachments);
   }
+
+  // Post-validación: verificar que los módulos mandatorios estén presentes
+  const selectedTypes = adaptedModules.map(m => m.module_type);
+  const missingModules = requiredModules.filter(t => !selectedTypes.includes(t));
+  if (missingModules.length > 0) {
+    console.warn(`[Módular] ⚠️ Módulos mandatorios faltantes: ${missingModules.join(', ')}`);
+  }
+  console.log(`[Módular] Módulos adaptados: ${adaptedModules.length}/${requiredModules.length}`);
 
   // 3. Ensamblar módulos
   console.log('\n[Módular] Ensamblando módulos...');

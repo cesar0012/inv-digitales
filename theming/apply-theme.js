@@ -299,8 +299,17 @@ function buildFontStack(family, generic) {
 // RESOLUCIÓN DE GOOGLE FONTS (Paso 1b)
 // ============================================================================
 /**
+ * Caché de resolución por familia (clave: lowercase). Evita revalidar contra
+ * la API en cada generación de invitación durante la vida del proceso.
+ */
+const _fontResolutionCache = new Map();
+
+/**
  * Resuelve una familia contra la API pública de Google Fonts con timeout.
- * Degradación determinista:
+ * Fast-path: las familias de la lista blanca local se aceptan sin llamada a
+ * la red (son Google Fonts conocidas; el <link> del navegador las resuelve),
+ * lo que elimina la latencia de validación del flujo de generación.
+ * Degradación determinista para familias desconocidas:
  *   - 200            → status 'verified'
  *   - 400/404        → no existe → fallback (font.fallback) + advertencia
  *   - red caída/5xx  → lista blanca local ('whitelist') o 'assumed' + advertencia
@@ -308,32 +317,41 @@ function buildFontStack(family, generic) {
  */
 export async function resolveGoogleFontFamily(name, { timeoutMs = LIMITS.fontTimeoutMs, fallback = 'Inter' } = {}) {
   const clean = String(name).trim();
-  const urlId = encodeURIComponent(clean).replace(/%20/g, '+');
-  try {
-    const res = await fetch(`https://fonts.googleapis.com/css2?family=${urlId}&display=swap`, {
-      signal: AbortSignal.timeout(timeoutMs),
-      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; LinksociallyTheming/1.0)' }
-    });
-    if (res.ok) return { requested: clean, family: clean, status: 'verified' };
-    if (res.status === 400 || res.status === 404) {
-      return {
-        requested: clean, family: fallback, status: 'fallback',
-        warning: `Google Fonts no reconoce la familia "${clean}"; se aplica el fallback "${fallback}".`
+  const cacheKey = clean.toLowerCase();
+  if (_fontResolutionCache.has(cacheKey)) return _fontResolutionCache.get(cacheKey);
+
+  let result;
+  if (GOOGLE_FONTS_WHITELIST.has(cacheKey)) {
+    // Fast-path: familia conocida, sin latencia de red.
+    result = { requested: clean, family: clean, status: 'whitelist' };
+  } else {
+    const urlId = encodeURIComponent(clean).replace(/%20/g, '+');
+    result = null;
+    try {
+      const res = await fetch(`https://fonts.googleapis.com/css2?family=${urlId}&display=swap`, {
+        signal: AbortSignal.timeout(timeoutMs),
+        headers: { 'User-Agent': 'Mozilla/5.0 (compatible; LinksociallyTheming/1.0)' }
+      });
+      if (res.ok) {
+        result = { requested: clean, family: clean, status: 'verified' };
+      } else if (res.status === 400 || res.status === 404) {
+        result = {
+          requested: clean, family: fallback, status: 'fallback',
+          warning: `Google Fonts no reconoce la familia "${clean}"; se aplica el fallback "${fallback}".`
+        };
+      }
+    } catch {
+      /* sin red o timeout: degradar a 'assumed' más abajo */
+    }
+    if (!result) {
+      result = {
+        requested: clean, family: clean, status: 'assumed',
+        warning: `Sin acceso a la API de Google Fonts y "${clean}" no está en la lista blanca local: se asume válida (el <link> la resolverá en el navegador).`
       };
     }
-  } catch {
-    /* sin red o timeout: degradar a lista blanca local */
   }
-  if (GOOGLE_FONTS_WHITELIST.has(clean.toLowerCase())) {
-    return {
-      requested: clean, family: clean, status: 'whitelist',
-      warning: `Sin acceso a la API de Google Fonts: "${clean}" validada contra la lista blanca local.`
-    };
-  }
-  return {
-    requested: clean, family: clean, status: 'assumed',
-    warning: `Sin acceso a la API de Google Fonts y "${clean}" no está en la lista blanca local: se asume válida (el <link> la resolverá en el navegador).`
-  };
+  _fontResolutionCache.set(cacheKey, result);
+  return result;
 }
 
 async function resolveRequestFonts(font, logger) {
