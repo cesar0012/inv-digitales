@@ -1237,20 +1237,47 @@ export const generateSEOPage = async (card, apiKey, model = 'gemini-2.5-flash') 
   const pc = colorName(primaryColor);
   const sc = colorName(secondaryColor);
 
+  // ---- Sanitización de campos de identidad --------------------------------
+  // Los seo_cards guardados en catálogo (filas antiguas) pueden traer campos
+  // contaminados con HTML/base64 de la invitación original (se han visto
+  // prompts de >1MB). Ningún campo de identidad supera unos cientos de chars:
+  // cualquier campo que exceda su máximo razonable o huela a base64 se
+  // DESCARTA (no se trunca: un fragmento de basura no aporta nada).
+  const IDENTITY_FIELD_LIMITS = { names: 300, title: 300, theme: 200, eventType: 120, description: 0 };
+  const sanitizeIdentityField = (value, label) => {
+    if (value == null) return '';
+    const s = String(value);
+    const max = IDENTITY_FIELD_LIMITS[label] ?? 300;
+    if (s.length > max || /data:image|base64/i.test(s)) {
+      console.warn(`[SEO] Campo "${label}" descartado por sospechoso (${s.length} chars${/data:image|base64/i.test(s) ? ', contiene base64' : ''})`);
+      return '';
+    }
+    return s.trim();
+  };
+  const cleanNames = sanitizeIdentityField(names, 'names');
+  const cleanTitle = sanitizeIdentityField(title, 'title');
+  const cleanTheme = sanitizeIdentityField(theme, 'theme');
+  const cleanEventType = sanitizeIdentityField(eventType, 'eventType');
+  const cleanColors = (Array.isArray(colors) ? colors : [])
+    .filter((c) => typeof c === 'string' && c.length <= 40 && !/[<>]/.test(c));
+  const cleanModules = (Array.isArray(modules) ? modules : [])
+    .filter((m) => typeof m === 'string' && m.length <= 80 && !/[<>]|base64/i.test(m));
+
   // La página de producto NO debe recibir datos de evento (fecha, hora, lugares,
   // padres, etc.): promociona una PLANTILLA del catálogo que el usuario
   // personalizará después. Solo identidad del producto: evento, tema, colores
-  // y nombres (identidad demo de la plantilla).
+  // y nombres (identidad demo de la plantilla). Todos los campos pasan por
+  // sanitización: con campos limpios este prompt mide ~1-3 KB.
   const userPrompt = `Genera la página de producto SEO para esta plantilla de invitación digital.
 
-Evento: ${eventLabel} (${eventType || ''})
-Tema: ${theme || 'Elegante'}
+Evento: ${eventLabel}${cleanEventType ? ` (${cleanEventType})` : ''}
+Tema: ${cleanTheme || 'Elegante'}
 Colores: primario ${pc ? pc+' ('+primaryColor+')' : 'rosa (#f472b6)'},
          secundario ${sc ? sc+' ('+secondaryColor+')' : 'coral (#fb7185)'}
-Título sugerido: ${title || ''}
-${names ? `Nombres (identidad demo de la plantilla, SOLO para h1/seo_title/slug): ${names}` : ''}
-${(Array.isArray(colors) && colors.length) ? `Paleta: ${colors.join(', ')}` : ''}
-${(Array.isArray(modules) && modules.length) ? `Módulos incluidos: ${modules.join(', ')}` : ''}
+Título sugerido: ${cleanTitle || ''}
+${cleanNames ? `Nombres (identidad demo de la plantilla, SOLO para h1/seo_title/slug): ${cleanNames}` : ''}
+${cleanColors.length ? `Paleta: ${cleanColors.join(', ')}` : ''}
+${cleanModules.length ? `Módulos incluidos: ${cleanModules.join(', ')}` : ''}
 Instrucción: devuelve SOLO el JSON con claves slug, seo_title, meta_description, h1,
 sections (12, con titles en español), structured_data. NO markdown, NO explicaciones.
 Recuerda: SIN fechas, horas ni lugares específicos — habla de "tus datos", "tu fecha".

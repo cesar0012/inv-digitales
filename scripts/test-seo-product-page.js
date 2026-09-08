@@ -70,6 +70,43 @@ console.log('\n=== 0. Reglas del generador (offline) ===');
     'server: seoCard sin datos de evento (solo identidad de la plantilla)');
 }
 
+// ===== Sanitización: card contaminada (seo_card viejo con base64) =====
+console.log('\n=== 0b. Sanitización de campos contaminados ===');
+{
+  const contaminatedCard = {
+    eventType: 'XV Años',
+    theme: 'Palacio de hielo',
+    primaryColor: '#769bd5',
+    secondaryColor: '#6dd8d9',
+    // names contaminado con base64 (el caso real: prompt de 1.3 MB)
+    names: `data:image/png;base64,${'A'.repeat(1300000)}`,
+    title: `Título ${'<div>'.repeat(200000)}`,
+    colors: ['#769bd5', '#6dd8d9', `#${'f'.repeat(5000)}`],
+    modules: ['countdown', `<section>${'x'.repeat(400000)}</section>`],
+    slugSuggestion: '',
+    description: ''
+  };
+
+  // Interceptamos el log de generateSEOPage para capturar el tamaño del userPrompt
+  const originalLog = console.log.bind(console);
+  let capturedPromptSize = null;
+  console.log = (...args) => {
+    const line = args.join(' ');
+    const m = line.match(/userPrompt size \(chars\): (\d+)/);
+    if (m) capturedPromptSize = parseInt(m[1], 10);
+    if (/Campo "(names|title)" descartado/.test(line)) originalLog('     (sanitización) ' + line);
+  };
+  try {
+    await generateSEOPage(contaminatedCard, 'invalid-key-for-test', 'gemini-2.5-flash');
+  } catch {
+    /* se espera fallo de API por key inválida; lo que importa es el tamaño del prompt */
+  } finally {
+    console.log = originalLog;
+  }
+  ok(capturedPromptSize !== null && capturedPromptSize < 5000,
+    `userPrompt con card contaminada queda < 5000 chars (${capturedPromptSize})`);
+}
+
 // ===== Validaciones E2E (requieren API válida; modo skip si la key falla) =====
 let seo = null;
 let apiOk = true;

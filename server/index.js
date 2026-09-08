@@ -1858,7 +1858,9 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
       console.warn('Error parseando seo_card para SEO:', e);
       seoCard = {};
     }
-    // Fallback: si no hay card (filas antiguas), construir desde catálogo + cleanHtml
+    // Fallback: si no hay card (filas antiguas), construir desde catálogo + cleanHtml.
+    // Solo identidad de la plantilla: la página de producto NO debe recibir
+    // fecha/hora/ubicaciones/padres (el comprador pondrá sus propios datos).
     if (!seoCard || Object.keys(seoCard).length === 0) {
       const userData = extractUserDataFromHTML(cleanHtml);
       seoCard = {
@@ -1867,14 +1869,6 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
         primaryColor: catalogoItem.primary_color || htmlMeta.primaryColor || '',
         secondaryColor: catalogoItem.secondary_color || htmlMeta.secondaryColor || '',
         names: userData.names || '',
-        eventDate: userData.eventDate || catalogoItem.event_date || '',
-        eventTime: userData.eventTime || catalogoItem.event_time || '',
-        ceremonyLocation: userData.ceremonyLocation || '',
-        receptionLocation: userData.receptionLocation || '',
-        parents: userData.parents || '',
-        godparents: userData.godparents || '',
-        dressCode: userData.dressCode || '',
-        giftRegistry: userData.giftRegistry || '',
         title: catalogoItem.title || htmlMeta.title || '',
         slugSuggestion: '',
         description: ''
@@ -1897,6 +1891,7 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
 
     // Se pasa SOLO el card + metadata mínima (eventType/colors/modules para
     // validación de slug). NUNCA htmlContent ni cleanHtml a generateSEOPage.
+    // Sin userData de evento: la página de producto promociona la plantilla.
     const metadata = {
       eventType: seoCard.eventType || 'General',
       theme: seoCard.theme || 'Elegante',
@@ -1906,17 +1901,6 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
       modules: tags.length > 0 ? tags : ['RSVP', 'Countdown', 'Map', 'Event Details'],
       title: seoCard.title || '',
       originalPrompt: '',
-      userData: {
-        names: seoCard.names || '',
-        eventDate: seoCard.eventDate || catalogoItem.event_date || '',
-        eventTime: seoCard.eventTime || catalogoItem.event_time || '',
-        ceremonyLocation: seoCard.ceremonyLocation || '',
-        receptionLocation: seoCard.receptionLocation || '',
-        parents: seoCard.parents || '',
-        godparents: seoCard.godparents || '',
-        dressCode: seoCard.dressCode || '',
-        giftRegistry: seoCard.giftRegistry || ''
-      },
       seoCard: seoCard
     };
 
