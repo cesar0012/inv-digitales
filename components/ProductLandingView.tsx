@@ -239,10 +239,16 @@ export const ProductLandingView: React.FC = () => {
     return '';
   };
 
-  const renderSectionHtml = (s: SectionValue, className: string = ''): React.ReactNode => {
+  const renderSectionHtml = (s: SectionValue, className: string = '', center: boolean = true): React.ReactNode => {
     const html = getSectionHtml(s);
     if (!html) return null;
-    return <div className={`prose prose-gray max-w-none ${className}`} dangerouslySetInnerHTML={{ __html: html }} />;
+    return (
+      <div
+        className={`landing-prose ${center ? 'landing-prose--center' : ''} ${className}`}
+        style={{ '--lp-accent': primaryColor } as React.CSSProperties}
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+    );
   };
 
   if (loading) {
@@ -316,6 +322,8 @@ export const ProductLandingView: React.FC = () => {
   const secondaryColor = data.secondary_color || '#f43f5e';
   const colors = parseColors(data.colors);
   const tags = parseTags(data.tags);
+  // Acento para .landing-prose (checks de listas y enlaces del contenido IA)
+  const accentStyle = { '--lp-accent': primaryColor } as React.CSSProperties;
 
   // Section 7: example_prompts from {title, html, example_prompts} or legacy {text, example_prompts}
   const section7 = seo.section_7;
@@ -430,7 +438,7 @@ export const ProductLandingView: React.FC = () => {
               {getSectionTitle(seo.section_4) || 'Vista previa en vivo'}
             </h2>
             {getSectionHtml(seo.section_4) ? (
-              <div className="text-gray-500 max-w-2xl mx-auto font-light leading-relaxed" dangerouslySetInnerHTML={{ __html: getSectionHtml(seo.section_4) }} />
+              <div className="landing-prose landing-prose--center text-gray-500 max-w-2xl mx-auto font-light" style={accentStyle} dangerouslySetInnerHTML={{ __html: getSectionHtml(seo.section_4) }} />
             ) : (
               <p className="text-gray-500 max-w-2xl mx-auto font-light leading-relaxed">
                 Explora cómo se ve esta invitación en acción. Abre el demo interactivo.
@@ -481,7 +489,7 @@ export const ProductLandingView: React.FC = () => {
                 <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">{s5Title}</h2>
               )}
               {s5Html ? (
-                <div className="text-gray-600 leading-relaxed font-light" dangerouslySetInnerHTML={{ __html: replaceEditorLinks(s5Html) }} />
+                <div className="landing-prose landing-prose--center text-gray-600 font-light" style={accentStyle} dangerouslySetInnerHTML={{ __html: replaceEditorLinks(s5Html) }} />
               ) : null}
             </div>
           </section>
@@ -531,7 +539,7 @@ export const ProductLandingView: React.FC = () => {
                 {section7Title || 'Ejemplos de personalización'}
               </h2>
               {section7Html && (
-                <div className="text-gray-500 max-w-2xl mx-auto font-light leading-relaxed" dangerouslySetInnerHTML={{ __html: replaceEditorLinks(section7Html) }} />
+                <div className="landing-prose landing-prose--center text-gray-500 max-w-2xl mx-auto font-light" style={accentStyle} dangerouslySetInnerHTML={{ __html: replaceEditorLinks(section7Html) }} />
               )}
             </div>
             {section7Prompts.length > 0 && (
@@ -635,7 +643,7 @@ export const ProductLandingView: React.FC = () => {
                 {section9Title || 'Otras invitaciones que te pueden gustar'}
               </h2>
               {section9Html && (
-                <div className="text-gray-500 max-w-2xl mx-auto font-light leading-relaxed" dangerouslySetInnerHTML={{ __html: replaceEditorLinks(section9Html) }} />
+                <div className="landing-prose landing-prose--center text-gray-500 max-w-2xl mx-auto font-light" style={accentStyle} dangerouslySetInnerHTML={{ __html: replaceEditorLinks(section9Html) }} />
               )}
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -758,7 +766,7 @@ export const ProductLandingView: React.FC = () => {
                 })}
               </div>
             ) : section11Html ? (
-              <div className="prose prose-gray max-w-none" dangerouslySetInnerHTML={{ __html: section11Html }} />
+              <div className="landing-prose landing-prose--flat" style={accentStyle} dangerouslySetInnerHTML={{ __html: section11Html }} />
             ) : null}
           </div>
         </section>

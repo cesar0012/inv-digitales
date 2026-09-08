@@ -3668,20 +3668,16 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
     // eventType/title aquí ya son correctos; fallback a meta extraída del HTML
     // y user_data del HTML. Nota: geminiOptions está fuera de scope aquí
     // (se declara dentro del if config.html_google_api_key), usar editorConfig.
+    // IMPORTANTE: la página de producto promociona una PLANTILLA del catálogo,
+    // no un evento concreto — NO se pasan fecha/hora/ubicaciones/padres/etc.
+    // (el comprador pondrá sus propios datos al personalizar). Solo identidad
+    // del producto: evento, tema, colores, nombres demo y título.
     const seoCard = {
       eventType: editorConfig?.eventType || meta.eventType || 'General',
       theme: editorConfig?.theme || meta.theme || 'Elegante',
       primaryColor: editorConfig?.primaryColor || meta.primaryColor || '',
       secondaryColor: editorConfig?.secondaryColor || meta.secondaryColor || '',
       names: userData.names || '',
-      eventDate: userData.eventDate || editorConfig?.eventDate || '',
-      eventTime: userData.eventTime || editorConfig?.eventTime || '',
-      ceremonyLocation: userData.ceremonyLocation || '',
-      receptionLocation: userData.receptionLocation || '',
-      parents: userData.parents || '',
-      godparents: userData.godparents || '',
-      dressCode: userData.dressCode || '',
-      giftRegistry: userData.giftRegistry || '',
       title: meta.title || '',
       slugSuggestion: '',
       description: ''

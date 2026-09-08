@@ -48,6 +48,97 @@
       ::-webkit-scrollbar-thumb:hover {
         background: #f472b6; /* pink-400 */
       }
+      /* ============================================================
+         .landing-prose — tipografía para el HTML generado por IA en las
+         páginas de producto (ProductLandingView). El CDN de Tailwind no
+         incluye el plugin typography (las clases `prose` no existen), por
+         lo que el contenido inyectado se estiliza aquí de forma explícita.
+         El acento (checks/enlaces) usa --lp-accent (color primario de la
+         plantilla, asignado inline por el componente).
+         ============================================================ */
+      .landing-prose {
+        color: inherit;
+        font-size: 1.0625rem;
+        line-height: 1.75;
+      }
+      .landing-prose p {
+        margin: 0 0 1rem;
+      }
+      .landing-prose p:last-child {
+        margin-bottom: 0;
+      }
+      .landing-prose h3 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: inherit;
+        margin: 1.4rem 0 0.6rem;
+      }
+      .landing-prose h3:first-child {
+        margin-top: 0;
+      }
+      .landing-prose ul {
+        margin: 0 0 1rem;
+        padding: 0;
+        list-style: none;
+      }
+      .landing-prose ul:last-child {
+        margin-bottom: 0;
+      }
+      .landing-prose ul li {
+        position: relative;
+        padding-left: 1.6rem;
+        margin-bottom: 0.5rem;
+      }
+      .landing-prose ul li:last-child {
+        margin-bottom: 0;
+      }
+      .landing-prose ul li::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: var(--lp-accent, #e11d48);
+        font-weight: 700;
+      }
+      .landing-prose ol {
+        margin: 0 0 1rem 1.4rem;
+        padding: 0;
+        list-style: decimal;
+      }
+      .landing-prose ol li {
+        margin-bottom: 0.5rem;
+      }
+      .landing-prose strong {
+        font-weight: 600;
+      }
+      .landing-prose em {
+        font-style: italic;
+      }
+      .landing-prose a {
+        color: var(--lp-accent, #e11d48);
+        text-decoration: underline;
+      }
+      /* Variante centrada para secciones con layout centrado (hero, cta, etc.) */
+      .landing-prose--center {
+        text-align: center;
+      }
+      .landing-prose--center ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.4rem 1.4rem;
+        margin-bottom: 1rem;
+      }
+      .landing-prose--center ul li {
+        padding-left: 1.6rem;
+        margin-bottom: 0;
+      }
+      /* Variante lista con viñetas neutras (para FAQ fallback y bloques de texto largo) */
+      .landing-prose--flat {
+        text-align: left;
+        font-size: 1rem;
+        color: #4b5563; /* gray-600 */
+      }
     </style>
   <script type="importmap">
 {

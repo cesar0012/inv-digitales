@@ -1032,7 +1032,24 @@ const cleanHtml = (text) => {
   return cleanedHtml;
 };
 
-const SEO_SYSTEM_PROMPT = `Eres un redactor SEO y copywriter senior especializado en páginas de producto para invitaciones digitales. Generas contenido 100% en ESPAÑOL (es-MX), tono cálido, profesional y cercano. NO uses inglés.
+// Exportado para pruebas (scripts/test-seo-product-page.js valida sus reglas offline).
+export const SEO_SYSTEM_PROMPT = `Eres un redactor SEO y copywriter senior especializado en páginas de producto para invitaciones digitales. Generas contenido 100% en ESPAÑOL (es-MX), tono cálido, profesional y cercano. NO uses inglés.
+
+NATURALEZA DE LA PÁGINA (regla más importante):
+Esto es una PÁGINA DE PRODUCTO que promociona una PLANTILLA de invitación digital del
+catálogo. Cualquier usuario la comprará y personalizará con SUS propios datos. NO es la
+invitación de un evento concreto. Por eso:
+- PROHIBIDO mencionar fechas específicas ("25 de septiembre de 2026"), horas ("14:00
+  horas"), ubicaciones o venues concretos, nombres de padres/padrinos, códigos de
+  vestimenta concretos o mesas de regalo concretas. Esos datos NO existen para esta
+  página: el usuario los pondrá después al personalizar.
+- Habla SIEMPRE en segunda persona del comprador: "tus nombres", "tu fecha", "tu
+  ceremonia", "tus invitados", "tu evento".
+- "names" (si se proporciona) es SOLO la identidad demo de la plantilla: úsalo
+  únicamente en h1, seo_title y slug (ej. "Invitación de Boda para Ana y Carlos"),
+  nunca en frases narrativas ni con fecha.
+- El beneficio es la plantilla: diseño, personalización, entrega inmediata, compartir
+  por WhatsApp, sin descargas.
 
 Debes devolver UNICAMENTE un objeto JSON con estas claves exactas:
 {
@@ -1053,38 +1070,56 @@ ARQUITECTURA DE HEADINGS (aplica dentro del JSON y en el html de cada sección):
 - H1 principal: el "h1" de salida (un único H1 por página).
 - Cada section_N.title es un H2 que responde una pregunta/decisión del usuario.
 - Dentro de cada section_N.html, usa H3 para subdivisiones lógicas, nunca saltes de H2 a H4.
-- El H2 inicial (section_1.title) debe nombrar el tema claro: ej. "Invitación digital de Boda para [names]" o "Cuenta regresiva para los XV Años de [names]".
+- El H2 inicial (section_1.title) debe nombrar el producto claro: ej. "Invitación digital de Boda elegante" o "Invitación digital para XV Años".
 
 FÓRMULAS DE SUBCABECERAS (C.L.E.A.R. — aplica a section_N.title):
 - Claro: lenguaje natural, sin voz de marca.
-- Intención: refleja la pregunta o tarea ("¿Cómo preparar...?", "Cuándo considerar...").
-- Entidad: nombra el tema, audiencia, condición ("para [eventLabel] de [names]").
-- Accionable: beneficio obvio para quien scrollea ("Compara...", "Prepara...").
+- Intención: refleja la pregunta o tarea ("¿Cómo personalizar...?", "Qué incluye...").
+- Entidad: nombra el tema y audiencia ("para tu Boda", "para tus XV Años").
+- Accionable: beneficio obvio para quien scrollea ("Compara...", "Personaliza...").
 - Natural: sin keyword stuffing.
 
 JUEGO DE SECCIONES (12 obligatorias, nada de inglés, responde directamente tras cada H2):
-section_1  → Hero principal (H1). Promesa + CTA. Incluye NOMBRES + FECHA + HORA si hay.
+section_1  → Hero principal. Promesa del producto (2 párrafos máx, SIN CTA: el diseño
+             ya renderiza el botón "Personalizar esta invitación").
 section_2  → DEPRECATED. Devuelve cadena vacía "" (no se renderiza en la página).
-section_3  → Qué incluye / características. "¿Qué trae la invitación?" features/beneficios.
-section_4  → Demo / vista previa. "¿Cómo se ve?" describe estilo/theme/color.
-section_5  → Personalización. "¿Cómo la hago mía?" — incluye placeholders #EDITOR_LINK# en los botones que digan "Personalizar esta invitación".
-section_6  → Por qué elegirla. prueba/valor diferencial (usa colores primaryColor/sec).
-section_7  → Preguntas frecuentes. mínimo 3 FAQs tipo acordeón.
-section_8  → Planes. (IGNORAR — ProductLandingView carga planes en vivo). Puedes poner un placeholder neutral.
-section_9  → Sugerencias de diseño similares (usa tags/modules).
-section_10 → Categorías relacionadas (boda, XV, etc.).
-section_11 → FAQ extendida (mínimo 2 Preguntas).
-section_12 → CTA final. "¡Listo para crear tu invitación!" con botón #EDITOR_LINK#.
+section_3  → Qué incluye / características. "¿Qué trae la invitación?" features/benefits.
+section_4  → Demo / vista previa. "¿Cómo se ve?" describe estilo/theme/color de la plantilla.
+section_5  → Personalización. "¿Cómo la hago mía?" explica el flujo: abrir el editor,
+             cambiar textos/colores/fotos con tus datos, ver el resultado al instante.
+             NO incluyas botones ni enlaces: el diseño los coloca automáticamente.
+section_6  → Por qué elegirla. Prueba social / valor diferencial (usa colores primaryColor/sec).
+section_7  → Ejemplos de personalización. Formato EXACTO:
+             { "title": "...", "html": "<1 párrafo intro>", "example_prompts": ["...", "...", "..."] }
+             example_prompts: 3-4 frases cortas que un comprador escribiría para
+             personalizar esta plantilla (ej. "Cámbialo a tonos azules y agrega los
+             nombres de mis padrinos"). Se renderizan como tarjetas, NO como FAQ.
+section_8  → Planes. (IGNORAR — ProductLandingView carga planes en vivo). Devuelve title vacío y html "".
+section_9  → Sugerencias de diseño similares. Formato:
+             { "title": "...", "html": "<1 párrafo>", "suggestions": [{ "slug": "boda/nombre-plantilla", "title": "...", "reason": "..." }] }
+             Solo si hay módulos/tags relevantes; si no, suggestions vacío.
+section_10 → Categorías relacionadas (boda, XV, etc.). Formato:
+             { "title": "...", "html": "<1 párrafo>", "categories": [{ "name": "Invitaciones de Boda", "slug": "boda" }, ...] }
+section_11 → Preguntas frecuentes (FAQ). Formato EXACTO (el diseño renderiza un acordeón):
+             { "title": "Preguntas frecuentes", "html": "", "faqs": [
+               { "question": "¿...?", "answer": "2-3 frases de respuesta." },
+               ... mínimo 4 FAQs ...
+             ] }
+             FAQs sobre el PRODUCTO: personalización, entrega, compatibilidad, compartir,
+             precio de planes SIN cifras concretas. NUNCA pongas las FAQs como html.
+section_12 → CTA final. Título entusiasta + 1 párrafo corto. SIN botones ni enlaces.
 
-REGLAS DE REDACCIÓN:
+REGLAS DE REDACCIÓN Y HTML:
 - Todos los textos (titles, html) en ESPAÑOL.
-- Usa los datos reales (names, fecha, hora, lugar) cuando existan; si falta alguno, omítelo gracefulmente, no inventes.
-- Nunca incluyas precios reales ni prometas precios. "Sin costo para invitados", "regalos opcionales según la mesa de regalos".
-- Los botones deben usar href="#EDITOR_LINK#" (marcador) y texto "Personalizar esta invitación".
+- El "html" de cada sección usa SOLO: <p>, <h3>, <ul>/<ol>/<li>, <strong>/<em>, <br>.
+  PROHIBIDO: atributos style inline, clases CSS, <div>, <button>, <a>, <img>, bloques de código.
+- PROHIBIDO incluir botones, CTAs o el texto "Personalizar esta invitación" dentro de los
+  html: los botones los renderiza el diseño automáticamente.
+- Nunca incluyas precios reales ni cifras de planes.
 - slug: solo la parte final (ej. "boda-ana-carlos"). Si names está vacío, "invitacion-tu-evento". No incluya "xv-anos/" ni "boda/" — eso se añade en backend.
-- seo_title: diferente al h1, orientado a search. ej. "Invitación digital de Boda | [names]"
-- meta_description: persuasiva, menciona beneficio clave. ej. "Crea tu invitación de boda para [date] en [ceremonyLocation]. Personalizable, sin costo para invitados. ¡Descubre cómo hacerla única!"
-- h1: humano, cálido. ej. "Invitación de Boda para [names]" o "XV Años de [names] — Tu cuenta regresiva digital"
+- seo_title: diferente al h1, orientado a search. ej. "Invitación digital de Boda elegante | Ana y Carlos"
+- meta_description: persuasiva, beneficio clave, SIN fecha ni lugar. ej. "Plantilla de invitación digital de boda con estilo floral elegante. Personaliza nombres, fecha y colores en minutos y compártela por WhatsApp. ¡Pruébala ya!"
+- h1: humano, cálido, sobre la plantilla. ej. "Invitación de Boda Elegante para Ana y Carlos" o "Invitación digital para XV Años — Floral y romántica"
 - structured_data: Product con name=title/h1, description=meta_description, offers.
 
 DEVUELVE SOLO EL JSON. Usa responseMimeType application/json (ya configurado en el request).`;
@@ -1135,20 +1170,13 @@ export const generateSEOPage = async (card, apiKey, model = 'gemini-2.5-flash') 
     card = card.seoCard;
   }
   if (!card || typeof card !== 'object' || Object.keys(card).length === 0) {
+    // Fallback mínimo: solo identidad del producto (sin datos de evento).
     card = {
       eventType: card?.eventType || 'General',
       theme: card?.theme || 'Elegante',
       primaryColor: card?.primaryColor || '',
       secondaryColor: card?.secondaryColor || '',
       names: card?.names || '',
-      eventDate: card?.eventDate || '',
-      eventTime: card?.eventTime || '',
-      ceremonyLocation: card?.ceremonyLocation || '',
-      receptionLocation: card?.receptionLocation || '',
-      parents: card?.parents || '',
-      godparents: card?.godparents || '',
-      dressCode: card?.dressCode || '',
-      giftRegistry: card?.giftRegistry || '',
       title: card?.title || '',
       slugSuggestion: '',
       description: ''
@@ -1158,8 +1186,6 @@ export const generateSEOPage = async (card, apiKey, model = 'gemini-2.5-flash') 
   const {
     eventType = 'General', theme = 'Elegante', primaryColor = '#f472b6',
     secondaryColor = '#fb7185', colors = [], modules = [], names = '',
-    eventDate = '', eventTime = '', ceremonyLocation = '', receptionLocation = '',
-    parents = '', godparents = '', dressCode = '', giftRegistry = '',
     title = '', slugSuggestion = '', description = ''
   } = (card || {});
 
@@ -1211,31 +1237,24 @@ export const generateSEOPage = async (card, apiKey, model = 'gemini-2.5-flash') 
   const pc = colorName(primaryColor);
   const sc = colorName(secondaryColor);
 
-  const userLines = [];
-  if (names) userLines.push(`Nombres: ${names}`);
-  if (eventDate) userLines.push(`Fecha: ${eventDate}`);
-  if (eventTime) userLines.push(`Hora: ${eventTime}`);
-  if (ceremonyLocation) userLines.push(`Ceremonia: ${ceremonyLocation}`);
-  if (receptionLocation) userLines.push(`Recepción: ${receptionLocation}`);
-  if (parents) userLines.push(`Padres: ${parents}`);
-  if (godparents) userLines.push(`Padrinos/Madrinas: ${godparents}`);
-  if (dressCode) userLines.push(`Código de vestimenta: ${dressCode}`);
-  if (giftRegistry) userLines.push(`Regalos: ${giftRegistry}`);
-  const userDataBlock = userLines.length ? `\n===== DATOS REALES DE LA INVITACIÓN =====\n${userLines.join('\n')}\n===== FIN DATOS =====\n` : '';
-
-  const userPrompt = `Genera la página de producto SEO para esta invitación digital.
+  // La página de producto NO debe recibir datos de evento (fecha, hora, lugares,
+  // padres, etc.): promociona una PLANTILLA del catálogo que el usuario
+  // personalizará después. Solo identidad del producto: evento, tema, colores
+  // y nombres (identidad demo de la plantilla).
+  const userPrompt = `Genera la página de producto SEO para esta plantilla de invitación digital.
 
 Evento: ${eventLabel} (${eventType || ''})
 Tema: ${theme || 'Elegante'}
 Colores: primario ${pc ? pc+' ('+primaryColor+')' : 'rosa (#f472b6)'},
          secundario ${sc ? sc+' ('+secondaryColor+')' : 'coral (#fb7185)'}
 Título sugerido: ${title || ''}
-${userDataBlock}
+${names ? `Nombres (identidad demo de la plantilla, SOLO para h1/seo_title/slug): ${names}` : ''}
+${(Array.isArray(colors) && colors.length) ? `Paleta: ${colors.join(', ')}` : ''}
+${(Array.isArray(modules) && modules.length) ? `Módulos incluidos: ${modules.join(', ')}` : ''}
 Instrucción: devuelve SOLO el JSON con claves slug, seo_title, meta_description, h1,
 sections (12, con titles en español), structured_data. NO markdown, NO explicaciones.
-Resumen rápido de intención: página de producto de invitación digital para ${eventLabel},
-audiencia: invitados/familiares de ${names || 'los protagonistas'}, search intent:
-informational + transactional (quieren ver y personalizar).`;
+Recuerda: SIN fechas, horas ni lugares específicos — habla de "tus datos", "tu fecha".
+Search intent: informational + transactional (quieren ver la plantilla y personalizarla).`;
 
   console.log('=== SEO PAGE GENERATION (card mode, español) ===');
   console.log('Event:', eventType, '| Label:', eventLabel, '| Theme:', theme, '| Colors:', primaryColor, secondaryColor);
