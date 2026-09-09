@@ -3091,98 +3091,77 @@ app.get('/api/debug/logs/html', (req, res) => {
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '..', 'dist')));
+  // Imagen og:image por defecto para páginas de producto (si existe el asset).
+  // NUNCA se usa el .html del histórico como imagen (bug anterior).
+  app.use('/storage/og', express.static(path.join(__dirname, 'storage', 'og')));
 
-  // GET /catalogo/:eventType/:slug - SSR con meta tags SEO inyectados dinámicamente
-  app.get('/catalogo/:eventType/:slug', (req, res) => {
+  // GET /sitemap.xml — sitemap dinámico con las páginas de producto públicas
+  app.get('/sitemap.xml', (req, res) => {
+    try {
+      const publicUrl = (process.env.PUBLIC_URL || '').replace(/\/+$/, '');
+      const rows = db.prepare('SELECT slug, created_at FROM catalogo WHERE starred = 1 AND slug IS NOT NULL AND slug != ?').all('');
+      const urls = [
+        { loc: `${publicUrl}/`, changefreq: 'weekly', priority: '1.0' },
+        { loc: `${publicUrl}/catalogo`, changefreq: 'daily', priority: '0.9' },
+        ...rows.map((r) => ({
+          loc: `${publicUrl}/catalogo/${r.slug}`,
+          lastmod: r.created_at || undefined,
+          changefreq: 'weekly',
+          priority: '0.8'
+        }))
+      ];
+      const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url>\n    <loc>${u.loc}</loc>${u.lastmod ? `\n    <lastmod>${u.lastmod}</lastmod>` : ''}\n    <changefreq>${u.changefreq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`).join('\n')}\n</urlset>`;
+      res.setHeader('Content-Type', 'application/xml; charset=utf-8');
+      res.send(xml);
+    } catch (error) {
+      console.error('Error generando sitemap.xml:', error);
+      res.status(500).send('<?xml version="1.0"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>');
+    }
+  });
+
+  // GET /robots.txt — dinámico (si dist/ trae uno propio, el estático gana)
+  app.get('/robots.txt', (req, res) => {
+    const publicUrl = (process.env.PUBLIC_URL || '').replace(/\/+$/, '');
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.send(`User-agent: *\nAllow: /\n\nSitemap: ${publicUrl}/sitemap.xml\n`);
+  });
+
+  // GET /catalogo/:eventType/:slug — SSR COMPLETO: meta tags + capa de contenido
+  // estática rastreable (H1, secciones, FAQ en <details>, JSON-LD) construida
+  // desde seo_content_json. Los crawlers sin JavaScript ven la página completa;
+  // la SPA (createRoot) reemplaza el contenido al montar para el usuario.
+  app.get('/catalogo/:eventType/:slug', async (req, res) => {
     try {
       const fullSlug = `${req.params.eventType}/${req.params.slug}`;
-      const item = db.prepare('SELECT slug, seo_title, meta_description, structured_data, filename FROM catalogo WHERE slug = ? AND starred = 1').get(fullSlug);
+      const item = db.prepare('SELECT slug, seo_title, meta_description, structured_data, seo_content_json, filename, event_type, title FROM catalogo WHERE slug = ? AND starred = 1').get(fullSlug);
 
       const distIndexPath = path.join(__dirname, '..', 'dist', 'index.html');
-
       if (!existsSync(distIndexPath)) {
         return res.sendFile(distIndexPath);
       }
 
-      let html = readFileSync(distIndexPath, 'utf-8');
+      const distHtml = readFileSync(distIndexPath, 'utf-8');
+      const { renderCatalogoSsr } = await import('./ssr/catalogo-ssr.js');
 
-      if (item && item.seo_title) {
-        let structuredData = null;
-        try {
-          structuredData = item.structured_data ? JSON.parse(item.structured_data) : null;
-        } catch (e) {
-          structuredData = null;
-        }
-
-        const seoTitle = item.seo_title || 'Invitaciones Digitales';
-        const metaDesc = item.meta_description || '';
-        const ogImage = item.filename ? `${process.env.PUBLIC_URL || ''}/storage/historico/${item.filename}` : '';
-
-        html = html.replace(
-          /<title[^>]*>[\s\S]*?<\/title>/i,
-          `<title>${seoTitle}</title>`
-        );
-
-        if (/<meta\s+name=["']description["'][^>]*>/i.test(html)) {
-          html = html.replace(
-            /<meta\s+name=["']description["'][^>]*>/i,
-            `<meta name="description" content="${metaDesc}">`
-          );
-        } else {
-          html = html.replace(
-            '</head>',
-            `  <meta name="description" content="${metaDesc}">\n</head>`
-          );
-        }
-
-        const ogTags = [];
-        ogTags.push(`<meta property="og:title" content="${seoTitle}">`);
-        ogTags.push(`<meta property="og:description" content="${metaDesc}">`);
-        if (ogImage) {
-          ogTags.push(`<meta property="og:image" content="${ogImage}">`);
-        }
-        ogTags.push(`<meta property="og:type" content="product">`);
-
-        html = html.replace(
-          /<meta\s+property=["']og:title["'][^>]*>/gi,
-          ''
-        );
-        html = html.replace(
-          /<meta\s+property=["']og:description["'][^>]*>/gi,
-          ''
-        );
-        html = html.replace(
-          /<meta\s+property=["']og:image["'][^>]*>/gi,
-          ''
-        );
-        html = html.replace(
-          /<meta\s+property=["']og:type["'][^>]*>/gi,
-          ''
-        );
-
-        html = html.replace(
-          '</head>',
-          `  ${ogTags.join('\n  ')}\n</head>`
-        );
-
-        if (structuredData) {
-          html = html.replace(
-            '</head>',
-            `  <script type="application/ld+json">${JSON.stringify(structuredData)}</script>\n</head>`
-          );
-        }
-
-        console.log(`🔍 SSR SEO inyectado para: ${fullSlug} | title: "${seoTitle.substring(0, 50)}..."`);
+      if (item && (item.seo_title || item.seo_content_json)) {
+        const html = renderCatalogoSsr(distHtml, item, {
+          publicUrl: (process.env.PUBLIC_URL || '').replace(/\/+$/, ''),
+          requestPath: `/catalogo/${fullSlug}`
+        });
+        console.log(`🔍 SSR completo (head + contenido rastreable) para: ${fullSlug}`);
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        return res.send(html);
       }
 
+      // Sin datos SEO: servir la SPA sin inyecciones (igual que antes).
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
-      res.send(html);
+      res.send(distHtml);
     } catch (error) {
-      console.error('Error en SSR SEO middleware:', error);
+      console.error('Error en SSR de catálogo:', error);
       res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
     }
   });
-  
+
   // ✅ Catch-all para React Router
   app.get('*', (req, res, next) => {
     // Si es una ruta API, saltar
