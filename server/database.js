@@ -111,7 +111,12 @@ safeAlter('ALTER TABLE catalogo ADD COLUMN seo_content_json TEXT', 'catalogo.seo
 safeAlter('ALTER TABLE catalogo ADD COLUMN structured_data TEXT', 'catalogo.structured_data');
 safeAlter('ALTER TABLE catalogo ADD COLUMN user_data TEXT', 'catalogo.user_data');
 safeAlter('ALTER TABLE catalogo ADD COLUMN seo_card TEXT', 'catalogo.seo_card');
+// old_slug: slug anterior cuando generate-seo cambia la URL de una plantilla
+// (migración a slugs nativos). El SSR responde 301 desde el old_slug para no
+// romper enlaces ya indexados.
+safeAlter('ALTER TABLE catalogo ADD COLUMN old_slug TEXT', 'catalogo.old_slug');
 safeExec('CREATE INDEX IF NOT EXISTS idx_catalogo_slug ON catalogo(slug)', 'idx_catalogo_slug');
+safeExec('CREATE INDEX IF NOT EXISTS idx_catalogo_old_slug ON catalogo(old_slug)', 'idx_catalogo_old_slug');
 
 // Verificación post-migración: lista columnas faltantes para detectar
 // silenciosamente cualquier ALTER que no aplicó (p.ej. DB preexistente

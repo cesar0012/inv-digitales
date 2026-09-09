@@ -13,7 +13,7 @@
  *
  * Uso: node scripts/test-catalogo-ssr.js
  */
-import { renderCatalogoSsr, stripEventDates, sanitizeSeoHtml } from '../server/ssr/catalogo-ssr.js';
+import { renderCatalogoSsr, stripEventDates, sanitizeSeoHtml, DEFAULT_PUBLIC_URL } from '../server/ssr/catalogo-ssr.js';
 import { writeFileSync, unlinkSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -105,8 +105,14 @@ let html;
   if (ldMatch) {
     const ld = JSON.parse(ldMatch[1]);
     const types = (ld['@graph'] || []).map((g) => g['@type']);
-    ok(types.includes('Product') && types.includes('BreadcrumbList') && types.includes('FAQPage') && types.includes('Organization'),
-      `grafo con Product+BreadcrumbList+FAQPage+Organization (${types.join(', ')})`);
+    ok(types.includes('Product') && types.includes('BreadcrumbList') && types.includes('FAQPage') && types.includes('Organization') && types.includes('WebSite'),
+      `grafo con Product+BreadcrumbList+FAQPage+Organization+WebSite (${types.join(', ')})`);
+    const org = ld['@graph'].find((g) => g['@type'] === 'Organization');
+    ok(org?.name === 'Invitaciones Modernas' && /invitaciones digitales/i.test(org?.description || ''),
+      'Organization de marca definida: Invitaciones Modernas (negocio de invitaciones digitales)');
+    const site = ld['@graph'].find((g) => g['@type'] === 'WebSite');
+    ok(site?.publisher?.['@id'] === 'https://invitacionesmodernas.com/#organization',
+      'WebSite del generador con publisher apuntando a la Organization del dominio raíz');
     const faqNode = ld['@graph'].find((g) => g['@type'] === 'FAQPage');
     ok(faqNode?.mainEntity?.length === 4, 'FAQPage con las 4 preguntas');
     const prod = ld['@graph'].find((g) => g['@type'] === 'Product');
@@ -155,6 +161,17 @@ console.log('\n=== 5. og:image con prioridad screenshot > default > omitir ===')
   // Sin screenshot ni default → omitido (ya validado en sección 3, re-verificación rápida)
   const noOg = renderCatalogoSsr(DIST_HTML, item, { publicUrl: 'https://g.mx', requestPath: `/catalogo/${slug}` });
   ok(!/<meta property="og:image"/.test(noOg), 'sin screenshot ni default: og:image omitido (nunca el .html del histórico)');
+}
+
+// ============================================================================
+console.log('\n=== 6. URLs nativas del subdominio (sin PUBLIC_URL configurada) ===');
+{
+  const html = renderCatalogoSsr(DIST_HTML, item, { publicUrl: '', requestPath: '/catalogo/boda/x' });
+  const canonical = html.match(/<link rel="canonical" href="([^"]*)">/)?.[1];
+  ok(canonical === `${DEFAULT_PUBLIC_URL}/catalogo/boda/x`,
+    `canonical absoluto al subdominio nativo por defecto (${canonical})`);
+  const ogUrl = html.match(/<meta property="og:url" content="([^"]*)">/)?.[1];
+  ok(ogUrl === `${DEFAULT_PUBLIC_URL}/catalogo/boda/x`, 'og:url absoluto al subdominio');
 }
 
 // ============================================================================

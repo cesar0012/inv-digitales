@@ -30,7 +30,13 @@ import { hasOgScreenshot, ogScreenshotFile } from '../screenshotService.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+// Marca definida (decisión del negocio): Invitaciones Modernas, el negocio de
+// INVITACIONES DIGITALES del grupo. El dominio raíz es la casa matriz; el
+// generador es el sitio de producto. sameAs queda para las URLs oficiales de
+// redes cuando se confirmen (no inventar perfiles).
 const BRAND_NAME = 'Invitaciones Modernas';
+const ROOT_URL = 'https://invitacionesmodernas.com';
+export const DEFAULT_PUBLIC_URL = 'https://generador.invitacionesmodernas.com';
 
 // ----------------------------------------------------------------------------
 // Utilidades de escape y saneamiento
@@ -207,13 +213,27 @@ function buildJsonLd(item, seo, { publicUrl, requestPath, ogImage }) {
   };
 
   const graph = [
-    { '@type': 'Organization', '@id': `${publicUrl}/#organization`, name: BRAND_NAME, url: `${publicUrl}/` },
+    {
+      '@type': 'Organization',
+      '@id': `${ROOT_URL}/#organization`,
+      name: BRAND_NAME,
+      alternateName: 'Invitaciones Digitales Modernas',
+      url: `${ROOT_URL}/`,
+      description: 'Invitaciones digitales personalizables para bodas, XV años, bautizos, cumpleaños y celebraciones: se personalizan en minutos y se comparten por WhatsApp, sin descargas.',
+      // sameAs: se añadirán las URLs oficiales de redes al confirmarlas
+      // (el conflicto miquinceaneravip vs invitacionesmodernasusa se resuelve
+      // unificando las señales del sitio raíz).
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${publicUrl}/#website`,
+      url: `${publicUrl}/`,
+      name: `${BRAND_NAME} — Generador de invitaciones digitales`,
+      publisher: { '@id': `${ROOT_URL}/#organization` }
+    },
     product,
     breadcrumb
   ];
-  // sameAs OMITIDO a propósito: hay conflicto de marca (miquinceaneravip vs
-  // invitacionesmodernasusa) — se unifica cuando el usuario decida la marca
-  // canónica y entonces se añade aquí.
   if (faqs.length > 0) {
     graph.push({
       '@type': 'FAQPage',
@@ -237,7 +257,8 @@ function buildJsonLd(item, seo, { publicUrl, requestPath, ogImage }) {
  * @param {{ publicUrl: string, requestPath: string }} ctx
  * @returns {string} HTML listo para enviar
  */
-export function renderCatalogoSsr(distHtml, item, { publicUrl = '', requestPath = '' }) {
+export function renderCatalogoSsr(distHtml, item, { publicUrl = DEFAULT_PUBLIC_URL, requestPath = '' }) {
+  publicUrl = String(publicUrl || DEFAULT_PUBLIC_URL).replace(/\/+$/, '');
   let html = distHtml;
 
   const seo = parseJsonSafe(item.seo_content_json, null) || {};

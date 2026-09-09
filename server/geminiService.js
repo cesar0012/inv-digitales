@@ -1116,8 +1116,10 @@ REGLAS DE REDACCIÓN Y HTML:
 - PROHIBIDO incluir botones, CTAs o el texto "Personalizar esta invitación" dentro de los
   html: los botones los renderiza el diseño automáticamente.
 - Nunca incluyas precios reales ni cifras de planes.
-- slug: solo la parte final (ej. "boda-ana-carlos"). Si names está vacío, "invitacion-tu-evento". No incluya "xv-anos/" ni "boda/" — eso se añade en backend.
-- seo_title: diferente al h1, orientado a search. ej. "Invitación digital de Boda elegante | Ana y Carlos"
+- slug: SOLO la parte final, SIN categoría (el backend compone "<categoría>/invitacion-digital-<slug>").
+  Describe la plantilla con 2-4 palabras del estilo/theme + identidad si existe: ej. "floral-elegante-ana-carlos", "palacio-de-hielo". No incluyas "boda/", "xv-anos/" ni repitas "invitacion".
+- seo_title: diferente al h1, orientado a search, SIEMPRE terminando con la marca:
+  " | Invitaciones Modernas". ej. "Invitación digital de boda floral elegante | Invitaciones Modernas"
 - meta_description: persuasiva, beneficio clave, SIN fecha ni lugar. ej. "Plantilla de invitación digital de boda con estilo floral elegante. Personaliza nombres, fecha y colores en minutos y compártela por WhatsApp. ¡Pruébala ya!"
 - h1: humano, cálido, sobre la plantilla. ej. "Invitación de Boda Elegante para Ana y Carlos" o "Invitación digital para XV Años — Floral y romántica"
 - structured_data: Product con name=title/h1, description=meta_description, offers.
@@ -1136,6 +1138,54 @@ const slugify = (text) => {
     .replace(/-+/g, '-')
     .replace(/^-+|-+$/g, '');
 };
+
+// Categorías SEO nativas por tipo de evento (coincidencia sobre el eventType
+// normalizado, sin acentos/ñ: "Boda Tradicional" → boda, "XV Años" → xv-anos).
+// El head noun que demanda la búsqueda en español ("invitación digital") vive
+// en el slug; la categoría agrupa por evento. Desconocido/vacío/general →
+// "invitaciones-digitales" (nunca el segmento nulo "general" del audit).
+const normEvent = (t) => String(t || '')
+  .toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  .replace(/ñ/g, 'n').trim();
+
+const CATEGORY_RULES = [
+  [/baby\s?shower/, 'baby-shower'],
+  [/quinceanera|quince|(^|\s)xv(\s|$)/, 'xv-anos'],
+  [/boda|bodas|wedding|matrimoni/, 'boda'],
+  [/cumpleanos|cumple/, 'cumpleanos'],
+  [/bautizo/, 'bautizo'],
+  [/comunion/, 'comunion'],
+  [/confirmacion/, 'confirmacion'],
+  [/graduacion/, 'graduacion'],
+  [/aniversario/, 'aniversario'],
+  [/despedida/, 'despedida']
+];
+
+/**
+ * Compone el slug de catálogo nativo de 2 segmentos:
+ *   <categoría>/invitacion-digital-<descripción>
+ * Reglas: jamás "general"; el head noun "invitacion-digital" aparece una sola
+ * vez (en el slug si la categoría es concreta, en la categoría si no lo es);
+ * si el slug del modelo trae categoría pegada ("boda/ana-carlos") se descarta.
+ * @param {string} rawSlug slug generado por el modelo (con o sin categoría)
+ * @param {string} eventType eventType de la plantilla
+ * @returns {string} ej. "boda/invitacion-digital-floral-elegante"
+ */
+export function composeCatalogoSlug(rawSlug, eventType) {
+  // Segmentar ANTES de slugify (slugify elimina las barras)
+  const segments = String(rawSlug || '').split('/').filter(Boolean);
+  const base = slugify(segments.length > 1 ? segments.slice(1).join(' ') : (segments[0] || 'plantilla')) || 'plantilla';
+
+  const ev = normEvent(eventType);
+  let category = 'invitaciones-digitales';
+  for (const [re, cat] of CATEGORY_RULES) {
+    if (re.test(ev)) { category = cat; break; }
+  }
+
+  const hasHeadNoun = /^invitacion/.test(base);
+  const finalSlug = hasHeadNoun ? base : `invitacion-digital-${base}`;
+  return `${category}/${finalSlug}`;
+}
 
 // extractJson: parseo resiliente de respuestas del modelo.
 // 1. JSON.parse directo
@@ -1385,15 +1435,8 @@ Search intent: informational + transactional (quieren ver la plantilla y persona
   }
 
   if (seoData.slug) {
-    seoData.slug = seoData.slug.replace(/^\//, '').replace(/\/$/, '').replace(/^-+/, '').replace(/-+$/, '');
-    const slashCount = (seoData.slug.match(/\//g) || []).length;
-    if (slashCount === 0) {
-      const eventTypeSlug = slugify(eventType || 'invitacion');
-      seoData.slug = `${eventTypeSlug}/${seoData.slug}`;
-    } else if (slashCount > 1) {
-      const parts = seoData.slug.split('/');
-      seoData.slug = parts[0] + '/' + parts.slice(1).join('-');
-    }
+    // Slug nativo: <categoría>/invitacion-digital-<descripción> (sin "general")
+    seoData.slug = composeCatalogoSlug(seoData.slug, eventType);
   }
 
   if (seoData.sections.section_7) {

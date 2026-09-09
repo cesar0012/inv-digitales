@@ -18,7 +18,7 @@ import Database from 'better-sqlite3';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { readFileSync } from 'fs';
-import { generateSEOPage, SEO_SYSTEM_PROMPT } from '../server/geminiService.js';
+import { generateSEOPage, SEO_SYSTEM_PROMPT, composeCatalogoSlug } from '../server/geminiService.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const dbPath = join(__dirname, '..', 'server', 'database.sqlite');
@@ -63,6 +63,21 @@ console.log('\n=== 0. Reglas del generador (offline) ===');
   ok(/"faqs": \[/.test(SEO_SYSTEM_PROMPT) && /mínimo 4 FAQs/.test(SEO_SYSTEM_PROMPT), 'prompt: section_11 con faqs[] (acordeón)');
   ok(/PROHIBIDO: atributos style inline/.test(SEO_SYSTEM_PROMPT), 'prompt: html restringido (sin style inline/div/button/a)');
   ok(/SIN CTA/.test(SEO_SYSTEM_PROMPT), 'prompt: hero sin CTA textual');
+  ok(/\| Invitaciones Modernas/.test(SEO_SYSTEM_PROMPT), 'prompt: seo_title con marca "| Invitaciones Modernas"');
+
+  // Slug nativo: categoría real + head noun "invitacion-digital", jamás "general"
+  const slugCases = [
+    ['floral-elegante', 'Boda', 'boda/invitacion-digital-floral-elegante'],
+    ['boda/ana-carlos', 'Boda Tradicional', 'boda/invitacion-digital-ana-carlos'],
+    ['invitacion-digital-floral', 'XV Años', 'xv-anos/invitacion-digital-floral'],
+    ['mi-plantilla', 'General', 'invitaciones-digitales/invitacion-digital-mi-plantilla'],
+    ['palacio-de-hielo', 'Quinceañera', 'xv-anos/invitacion-digital-palacio-de-hielo']
+  ];
+  for (const [raw, ev, expected] of slugCases) {
+    const got = composeCatalogoSlug(raw, ev);
+    ok(got === expected, `slug nativo (${raw} + ${ev}) → ${got}`);
+  }
+  ok(!composeCatalogoSlug('x', 'General').startsWith('general/'), 'jamás segmento "general"');
 
   const indexSrc = readFileSync(join(__dirname, '..', 'server', 'index.js'), 'utf-8');
   const seoCardBlock = indexSrc.slice(indexSrc.indexOf('const seoCard = {'), indexSrc.indexOf('};', indexSrc.indexOf('const seoCard = {')));

@@ -10,6 +10,12 @@ import https from 'https';
 import multer from 'multer';
 import db from './database.js';
 import { analyzeTemplate, validateTemplate, REQUIRED_TAGS } from './ragValidator.js';
+import { DEFAULT_PUBLIC_URL } from './ssr/catalogo-ssr.js';
+
+// URL pública canónica del generador: env PUBLIC_URL o el subdominio nativo.
+// SEO (canonical, og:url, sitemap, robots) siempre emite URLs absolutas de
+// generador.invitacionesmodernas.com aunque la env no esté configurada.
+const getPublicUrl = () => String(process.env.PUBLIC_URL || DEFAULT_PUBLIC_URL).replace(/\/+$/, '');
 import {
   analyzeModule,
   validateModule,
@@ -1931,6 +1937,7 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
       UPDATE catalogo SET
         starred = 1,
         slug = ?,
+        old_slug = COALESCE(?, old_slug),
         seo_title = ?,
         meta_description = ?,
         h1 = ?,
@@ -1942,6 +1949,7 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
       WHERE id = ?
     `).run(
       finalSlug,
+      (catalogoItem.slug && catalogoItem.slug !== finalSlug) ? catalogoItem.slug : null,
       seoData.seo_title || '',
       seoData.meta_description || '',
       seoData.h1 || '',
@@ -3132,7 +3140,7 @@ if (process.env.NODE_ENV === 'production') {
   // GET /sitemap.xml — sitemap dinámico con las páginas de producto públicas
   app.get('/sitemap.xml', (req, res) => {
     try {
-      const publicUrl = (process.env.PUBLIC_URL || '').replace(/\/+$/, '');
+      const publicUrl = getPublicUrl();
       const rows = db.prepare('SELECT slug, created_at FROM catalogo WHERE starred = 1 AND slug IS NOT NULL AND slug != ?').all('');
       const urls = [
         { loc: `${publicUrl}/`, changefreq: 'weekly', priority: '1.0' },
@@ -3155,7 +3163,7 @@ if (process.env.NODE_ENV === 'production') {
 
   // GET /robots.txt — dinámico (si dist/ trae uno propio, el estático gana)
   app.get('/robots.txt', (req, res) => {
-    const publicUrl = (process.env.PUBLIC_URL || '').replace(/\/+$/, '');
+    const publicUrl = getPublicUrl();
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
     res.send(`User-agent: *\nAllow: /\n\nSitemap: ${publicUrl}/sitemap.xml\n`);
   });
@@ -3164,10 +3172,20 @@ if (process.env.NODE_ENV === 'production') {
   // estática rastreable (H1, secciones, FAQ en <details>, JSON-LD) construida
   // desde seo_content_json. Los crawlers sin JavaScript ven la página completa;
   // la SPA (createRoot) reemplaza el contenido al montar para el usuario.
+  // Si el slug no existe pero fue migrado (old_slug), responde 301 al nativo.
   app.get('/catalogo/:eventType/:slug', async (req, res) => {
     try {
       const fullSlug = `${req.params.eventType}/${req.params.slug}`;
       const item = db.prepare('SELECT slug, seo_title, meta_description, structured_data, seo_content_json, filename, event_type, title FROM catalogo WHERE slug = ? AND starred = 1').get(fullSlug);
+
+      if (!item) {
+        // Redirect permanente desde slugs migrados (p.ej. "general/..." → nativo)
+        const moved = db.prepare('SELECT slug FROM catalogo WHERE old_slug = ? AND starred = 1').get(fullSlug);
+        if (moved && moved.slug && moved.slug !== fullSlug) {
+          console.log(`↪️ 301 ${fullSlug} → ${moved.slug}`);
+          return res.redirect(301, `/catalogo/${moved.slug}`);
+        }
+      }
 
       const distIndexPath = path.join(__dirname, '..', 'dist', 'index.html');
       if (!existsSync(distIndexPath)) {
@@ -3179,7 +3197,7 @@ if (process.env.NODE_ENV === 'production') {
 
       if (item && (item.seo_title || item.seo_content_json)) {
         const html = renderCatalogoSsr(distHtml, item, {
-          publicUrl: (process.env.PUBLIC_URL || '').replace(/\/+$/, ''),
+          publicUrl: getPublicUrl(),
           requestPath: `/catalogo/${fullSlug}`
         });
         console.log(`🔍 SSR completo (head + contenido rastreable) para: ${fullSlug}`);
