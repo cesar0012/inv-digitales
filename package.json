@@ -23,6 +23,7 @@
     "lucide-react": "^0.556.0",
     "multer": "^2.2.0",
     "openai": "^6.33.0",
+    "puppeteer": "^25.10.0",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "react-router-dom": "^7.13.2"

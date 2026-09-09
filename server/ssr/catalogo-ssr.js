@@ -26,6 +26,7 @@
 import { existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { hasOgScreenshot, ogScreenshotFile } from '../screenshotService.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -243,10 +244,13 @@ export function renderCatalogoSsr(distHtml, item, { publicUrl = '', requestPath 
   const metaDesc = stripEventDates(item.meta_description || '');
   const canonical = `${publicUrl}${requestPath}`;
 
-  // og:image: SOLO una imagen real si existe el asset por defecto en storage/og.
-  // Nunca el .html del histórico (bug anterior: social previews muertos).
+  // og:image por prioridad: screenshot real del hero de ESTA plantilla >
+  // imagen por defecto de marca > omitir. Nunca el .html del histórico
+  // (bug anterior: social previews muertos).
   const ogDefaultPath = join(__dirname, '..', 'storage', 'og', 'og-default.jpg');
-  const ogImage = existsSync(ogDefaultPath) ? `${publicUrl}/storage/og/og-default.jpg` : '';
+  const ogImage = hasOgScreenshot(item.slug)
+    ? `${publicUrl}/storage/og/${ogScreenshotFile(item.slug)}`
+    : (existsSync(ogDefaultPath) ? `${publicUrl}/storage/og/og-default.jpg` : '');
 
   // --- Head ---
   const title = escapeHtml(item.seo_title || item.title || 'Invitaciones Digitales');

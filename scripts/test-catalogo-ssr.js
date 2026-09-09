@@ -14,6 +14,12 @@
  * Uso: node scripts/test-catalogo-ssr.js
  */
 import { renderCatalogoSsr, stripEventDates, sanitizeSeoHtml } from '../server/ssr/catalogo-ssr.js';
+import { writeFileSync, unlinkSync, existsSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const OG_DIR = join(__dirname, '..', 'server', 'storage', 'og');
 
 const failures = [];
 let passed = 0;
@@ -129,6 +135,26 @@ console.log('\n=== 4. Casos borde ===');
   // Robustez: seo_content_json corrupto
   const corrupt = renderCatalogoSsr(DIST_HTML, { ...item, seo_content_json: '{invalid json' }, { publicUrl: 'https://g.mx', requestPath: '/catalogo/boda/x' });
   ok(corrupt.includes('ssr-hero'), 'seo_content_json corrupto: no rompe, sirve fallback');
+}
+
+// ============================================================================
+console.log('\n=== 5. og:image con prioridad screenshot > default > omitir ===');
+{
+  const slug = 'boda/boda-tradicional-floral';
+  const shotFile = join(OG_DIR, slug.replace(/\//g, '-') + '.jpg');
+  const created = !existsSync(shotFile);
+  try {
+    if (created) writeFileSync(shotFile, 'jpg-test');
+    const withShot = renderCatalogoSsr(DIST_HTML, item, { publicUrl: 'https://g.mx', requestPath: `/catalogo/${slug}` });
+    const og = withShot.match(/<meta property="og:image" content="([^"]*)">/);
+    ok(!!og && og[1] === 'https://g.mx/storage/og/boda-boda-tradicional-floral.jpg',
+      `og:image usa el screenshot de la plantilla (${og?.[1]})`);
+  } finally {
+    if (created && existsSync(shotFile)) unlinkSync(shotFile);
+  }
+  // Sin screenshot ni default → omitido (ya validado en sección 3, re-verificación rápida)
+  const noOg = renderCatalogoSsr(DIST_HTML, item, { publicUrl: 'https://g.mx', requestPath: `/catalogo/${slug}` });
+  ok(!/<meta property="og:image"/.test(noOg), 'sin screenshot ni default: og:image omitido (nunca el .html del histórico)');
 }
 
 // ============================================================================

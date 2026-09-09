@@ -1954,10 +1954,44 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
     );
 
     console.log(`✅ SEO generado exitosamente para catálogo ID ${id}, slug: ${finalSlug}`);
+
+    // og:image: screenshot del hero de la invitación (no bloquea el resultado:
+    // si puppeteer/Chromium no está disponible, la página queda con el default).
+    try {
+      const { captureInvitationHeroOG } = await import('./screenshotService.js');
+      const historicoDir = join(__dirname, 'storage', 'historico');
+      const shotPath = await captureInvitationHeroOG(join(historicoDir, catalogoItem.filename), finalSlug);
+      if (shotPath) console.log(`📸 og:image listo para ${finalSlug}`);
+    } catch (shotError) {
+      console.warn('[SCREENSHOT] omitido en generate-seo:', shotError.message);
+    }
+
     res.json({ success: true, slug: finalSlug });
   } catch (error) {
     console.error('❌ Error generando SEO:', error);
     res.status(500).json({ error: 'Error al generar landing page SEO', details: error.message });
+  }
+});
+
+// POST /api/admin/catalogo/:id/screenshot — regenera el og:image (screenshot del
+// hero de la invitación) de una plantilla del catálogo.
+app.post('/api/admin/catalogo/:id/screenshot', adminMiddleware, async (req, res) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+    const item = db.prepare('SELECT id, slug, filename FROM catalogo WHERE id = ?').get(id);
+    if (!item || !item.slug || !item.filename) {
+      return res.status(404).json({ error: 'Plantilla no encontrada o sin slug/filename' });
+    }
+    const { captureInvitationHeroOG, ogScreenshotFile } = await import('./screenshotService.js');
+    const historicoDir = join(__dirname, 'storage', 'historico');
+    const shotPath = await captureInvitationHeroOG(join(historicoDir, item.filename), item.slug);
+    if (!shotPath) {
+      return res.status(500).json({ error: 'No se pudo capturar el screenshot (¿puppeteer/Chromium instalado?)' });
+    }
+    res.json({ success: true, slug: item.slug, image: `/storage/og/${ogScreenshotFile(item.slug)}` });
+  } catch (error) {
+    console.error('Error generando screenshot:', error);
+    res.status(500).json({ error: 'Error generando screenshot', details: error.message });
   }
 });
 
