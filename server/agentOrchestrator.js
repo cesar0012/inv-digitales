@@ -2808,6 +2808,21 @@ export const runModularOrchestration = async (prompt, apiKey, model = 'gemini-3.
     themedHtml = themed.html;
     const ch = themed.manifest.document.changes;
     console.log(`[THEME] ✅ Tematización aplicada (fuente base: ${themeRequest.font.base}): ${ch.colorSubstitutions} sustitución(es) de color, ${ch.fontSubstitutions} de fuente, ${ch.varRebinds.length} rebind(s) de variables`);
+
+    // 5.5 Ajuste de contraste texto/fondo sobre las imágenes GENERADAS por Nano
+    // Banana: si la paleta del cliente no contrasta con la tonalidad de la foto
+    // (p. ej. texto azul sobre fondo azul), se inyecta un fallback scoped al
+    // módulo (accent del cliente con contraste cómodo > blanco > negro).
+    try {
+      const { applyTextContrast } = await import('./contrastService.js');
+      const contrast = await applyTextContrast(themedHtml, themeRequest.colors);
+      if (contrast.fixes.length > 0) {
+        themedHtml = contrast.html;
+        console.log(`[CONTRAST] ✅ ${contrast.fixes.length} módulo(s) con ajuste de contraste sobre fondo generado`);
+      }
+    } catch (contrastError) {
+      console.warn('[CONTRAST] ⚠️ Omitido (no rompe la generación):', contrastError.message);
+    }
   } catch (error) {
     console.error('[THEME] ❌ Falló la tematización Post-RAG, fallback a applyTheme legacy:', error.message);
     themedHtml = applyTheme(resolvedHtml, primaryColor, secondaryColor, options.accentColor || '', options.fontBase || '', options.fontHeading || '');
