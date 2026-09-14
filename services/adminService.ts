@@ -932,3 +932,104 @@ export const uploadRAGModulesBackup = async (data: RAGModulesBackupData): Promis
   }
   return response.json();
 };
+// ============================================================================
+// GENERADOR DE MÓDULOS (independiente) — LLM rotation OpenRouter/NVIDIA
+// ============================================================================
+export interface RotatorCatalogEntry {
+  modelKey: string;
+  provider: string;
+  model: string;
+  lanes: string[];
+  score: number;
+  available: boolean;
+  cooldown_until: number;
+  successes: number;
+  failures: number;
+  bench: { coding: boolean; reasoning: boolean; latencyMs: number; score: number; at: string } | null;
+}
+
+export interface ModuleGeneratorStatus {
+  keys: { openrouter: string; nvidia: string };
+  moduleTypes: string[];
+  rotator: {
+    current: { modelKey: string; provider: string; model: string } | null;
+    providers: Record<string, { name: string; hasKey: boolean }>;
+    catalog: RotatorCatalogEntry[];
+    catalogAgeMs: number | null;
+    benchmarkRunning: boolean;
+  };
+}
+
+export interface GeneratedModule {
+  moduleType: string;
+  html: string;
+  attempts: number;
+  models: string[];
+  validation: { valid: boolean; errors: string[] };
+  brief?: { style_name?: string; concepto?: string; seeds?: Record<string, string> };
+  failed?: boolean;
+}
+
+export const getModuleGeneratorStatus = async (): Promise<ModuleGeneratorStatus> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/status`, { method: 'GET', headers: getAdminHeaders() });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al obtener estado del generador');
+  }
+  return response.json();
+};
+
+export const saveModuleGeneratorKeys = async (keys: { openrouter_api_key?: string; nvidia_api_key?: string }): Promise<{ keys: { openrouter: string; nvidia: string } }> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/keys`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(keys)
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al guardar las API keys');
+  }
+  return response.json();
+};
+
+export const moduleGeneratorRotatorAction = async (action: 'rotate' | 'reset-cooldowns' | 'refresh-catalog' | 'benchmark'): Promise<ModuleGeneratorStatus> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/rotator`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify({ action })
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error en la acción del rotador');
+  }
+  const json = await response.json();
+  return json.rotator;
+};
+
+export const generateModuleWithRotator = async (moduleType: string, extraInstructions: string): Promise<GeneratedModule> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/generate-module`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify({ moduleType, extraInstructions })
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || `Error generando módulo ${moduleType}`);
+  }
+  return response.json();
+};
+
+export const importGeneratedModulesToRAG = async (
+  modules: Array<{ html: string; styleName?: string; category?: string }>
+): Promise<{ success: boolean; results: Array<{ ok: boolean; module_id?: string; module_type?: string; style_name?: string; error?: string }> }> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/import`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify({ modules })
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error importando módulos al RAG');
+  }
+  return response.json();
+};

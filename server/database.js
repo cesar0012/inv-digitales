@@ -117,6 +117,9 @@ safeAlter('ALTER TABLE catalogo ADD COLUMN seo_card TEXT', 'catalogo.seo_card');
 safeAlter('ALTER TABLE catalogo ADD COLUMN old_slug TEXT', 'catalogo.old_slug');
 safeExec('CREATE INDEX IF NOT EXISTS idx_catalogo_slug ON catalogo(slug)', 'idx_catalogo_slug');
 safeExec('CREATE INDEX IF NOT EXISTS idx_catalogo_old_slug ON catalogo(old_slug)', 'idx_catalogo_old_slug');
+// Generador de módulos (independiente): API keys de OpenRouter/NVIDIA para el LLM rotator
+safeAlter('ALTER TABLE admin_config ADD COLUMN openrouter_api_key TEXT', 'admin_config.openrouter_api_key');
+safeAlter('ALTER TABLE admin_config ADD COLUMN nvidia_api_key TEXT', 'admin_config.nvidia_api_key');
 
 // Verificación post-migración: lista columnas faltantes para detectar
 // silenciosamente cualquier ALTER que no aplicó (p.ej. DB preexistente

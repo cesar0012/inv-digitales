@@ -2003,7 +2003,102 @@ app.post('/api/admin/catalogo/:id/screenshot', adminMiddleware, async (req, res)
   }
 });
 
-// ====== Backup / limpieza masiva del historico ======
+// ============================================================================
+// GENERADOR DE MÓDULOS (independiente — no toca el proceso agéntico de
+// invitaciones). LLM rotation OpenRouter/NVIDIA + pipeline con validación.
+// ============================================================================
+const maskKey = (k) => (k ? `${k.slice(0, 6)}…${k.slice(-4)}` : '');
+
+// GET /api/admin/module-generator/status — rotator + keys + tipos disponibles
+app.get('/api/admin/module-generator/status', adminMiddleware, async (req, res) => {
+  try {
+    const { llmRotator } = await import('./llmRotator.js');
+    await llmRotator.refreshCatalog().catch(() => null);
+    const cfg = db.prepare('SELECT openrouter_api_key, nvidia_api_key FROM admin_config WHERE id = 1').get() || {};
+    const { KNOWN_MODULE_TYPES } = await import('./ragModuleValidator.js');
+    res.json({
+      keys: {
+        openrouter: maskKey(cfg.openrouter_api_key || ''),
+        nvidia: maskKey(cfg.nvidia_api_key || '')
+      },
+      moduleTypes: KNOWN_MODULE_TYPES,
+      rotator: llmRotator.getStatus()
+    });
+  } catch (error) {
+    console.error('[MODULE-GEN status] Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// POST /api/admin/module-generator/keys — guardar API keys de los proveedores
+app.post('/api/admin/module-generator/keys', adminMiddleware, (req, res) => {
+  try {
+    const { openrouter_api_key, nvidia_api_key } = req.body || {};
+    const sets = [];
+    const params = [];
+    if (typeof openrouter_api_key === 'string') { sets.push('openrouter_api_key = ?'); params.push(openrouter_api_key.trim()); }
+    if (typeof nvidia_api_key === 'string') { sets.push('nvidia_api_key = ?'); params.push(nvidia_api_key.trim()); }
+    if (sets.length === 0) return res.status(400).json({ error: 'Sin campos para actualizar' });
+    db.prepare(`UPDATE admin_config SET ${sets.join(', ')} WHERE id = 1`).run(...params);
+    const cfg = db.prepare('SELECT openrouter_api_key, nvidia_api_key FROM admin_config WHERE id = 1').get() || {};
+    res.json({ success: true, keys: { openrouter: maskKey(cfg.openrouter_api_key || ''), nvidia: maskKey(cfg.nvidia_api_key || '') } });
+  } catch (error) {
+    console.error('[MODULE-GEN keys] Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// POST /api/admin/module-generator/rotator — acciones del rotador
+app.post('/api/admin/module-generator/rotator', adminMiddleware, async (req, res) => {
+  try {
+    const { llmRotator } = await import('./llmRotator.js');
+    const { action } = req.body || {};
+    let result;
+    if (action === 'rotate') result = llmRotator.forceRotate();
+    else if (action === 'reset-cooldowns') { llmRotator.resetCooldowns(); result = { ok: true }; }
+    else if (action === 'refresh-catalog') result = await llmRotator.refreshCatalog({ force: true });
+    else if (action === 'benchmark') result = await llmRotator.runBenchmarks({ limit: 5 });
+    else return res.status(400).json({ error: 'acción inválida' });
+    res.json({ success: true, result: result ? { length: Array.isArray(result) ? result.length : undefined } : undefined, rotator: llmRotator.getStatus() });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// POST /api/admin/module-generator/generate-module — genera UN módulo
+// (el frontend orquesta la lista seleccionada y muestra progreso en vivo)
+app.post('/api/admin/module-generator/generate-module', adminMiddleware, async (req, res) => {
+  try {
+    const { moduleType, extraInstructions = '' } = req.body || {};
+    const { KNOWN_MODULE_TYPES } = await import('./ragModuleValidator.js');
+    if (!moduleType || !KNOWN_MODULE_TYPES.includes(moduleType)) {
+      return res.status(400).json({ error: `moduleType inválido. Tipos: ${KNOWN_MODULE_TYPES.join(', ')}` });
+    }
+    const { generateModule } = await import('./moduleGeneratorService.js');
+    const result = await generateModule(moduleType, { extraInstructions: String(extraInstructions || '').slice(0, 2000) });
+    res.json(result);
+  } catch (error) {
+    console.error('[MODULE-GEN generate] Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// POST /api/admin/module-generator/import — importa los módulos aprobados al RAG
+app.post('/api/admin/module-generator/import', adminMiddleware, async (req, res) => {
+  try {
+    const { modules = [] } = req.body || {};
+    if (!Array.isArray(modules) || modules.length === 0) {
+      return res.status(400).json({ error: 'Sin módulos para importar' });
+    }
+    const { importGeneratedModules } = await import('./moduleGeneratorService.js');
+    const results = importGeneratedModules(modules, db);
+    res.json({ success: results.every((r) => r.ok), results });
+  } catch (error) {
+    console.error('[MODULE-GEN import] Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 //
 // Helpers para construir un archivo .zip sin dependencias externas.
 // Implementacion minimal de ZIP/2.0 con deflate ( metodo 8 ) y un unico
