@@ -2,5 +2,13 @@ node_modules
 dist
 .git
 server/storage
+server/data
 server/database.db
+server/database.sqlite
+server/database.sqlite-journal
 *.log
+*.7z
+temp
+invitaciones_generadas
+storage
+.zcode
