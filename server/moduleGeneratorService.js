@@ -22,8 +22,27 @@
  */
 import { validateModule, extractModuleMetadata, VALID_MODULE_IDS } from './ragModuleValidator.js';
 import { createMission } from './llmRotator.js';
+import { readFileSync, existsSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const MAX_ATTEMPTS = 3;
+
+// Ejemplo canónico del contrato: un módulo REAL de la KB (Countdown/countdown-01)
+// que cumple todo el validador. Los LLMs flojos generan MUCHO mejor con un
+// ejemplo few-shot que con 20 reglas escritas.
+let _canonicalExample = null;
+function getCanonicalExample() {
+  if (_canonicalExample !== null) return _canonicalExample;
+  const p = join(__dirname, '..', 'Countdown', 'countdown-01.html');
+  try {
+    _canonicalExample = existsSync(p) ? readFileSync(p, 'utf-8') : '';
+  } catch {
+    _canonicalExample = '';
+  }
+  return _canonicalExample;
+}
 
 // ----------------------------------------------------------------------------
 // Semillas creativas (aleatoriedad servida, no dependiente del modelo)
@@ -282,7 +301,7 @@ ${html}
 
 Devuelve el módulo COMPLETO mejorado (SOLO HTML).`,
       temperature: 0.7,
-      maxTokens: 16000
+      maxTokens: 8192
     });
 
     const candidate = extractModuleHtml(refinedText);
@@ -335,6 +354,7 @@ No inventes colores de marca: el sistema aplica la paleta del cliente después.`
   }
 
   // Fases 2+3: generación + critic loop
+  const canonical = getCanonicalExample();
   let feedback = [];
   let lastHtml = '';
   let validation = { valid: false, errors: [] };
@@ -344,10 +364,15 @@ No inventes colores de marca: el sistema aplica la paleta del cliente después.`
       prompt: `Genera el módulo "${type}" siguiendo ESTE brief creativo:
 
 ${JSON.stringify(brief, null, 2)}
+${canonical ? `\n===== EJEMPLO CANÓNICO DE REFERENCIA =====
+Este es un módulo REAL que CUMPLE todo el contrato (estructura, atributos memory_*, variables CSS genéricas, fondo loremflickr placeholder, responsive, metadatos). Úsalo como referencia de NIVEL y ESTRUCTURA — NO lo copies: crea un diseño completamente distinto acorde al brief y al tipo "${type}".
+
+${canonical}
+===== FIN EJEMPLO =====` : ''}
 ${feedback.length > 0 ? `\n===== INTENTO ANTERIOR RECHAZADO POR EL VALIDADOR — CORRIGE EXACTAMENTE ESTO =====\n${feedback.map((f, i) => `${i + 1}. ${f}`).join('\n')}\nReentrega el módulo COMPLETO corregido.` : ''}
 Recuerda: SOLO HTML, temática agnóstica, textos placeholder en español, nivel producción.`.trim(),
       temperature: 0.95,
-      maxTokens: 16000
+      maxTokens: 8192
     });
     models.push(modelKey);
 

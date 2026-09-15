@@ -124,6 +124,7 @@ const BAD_MODULE = `<section class="x" data-gemini-id="countdown-fallo">
 {
   const excluded = [];
   let genCalls = 0;
+  const genPrompts = [];
   const mission = {
     call: async (task) => {
       if (task.maxTokens <= 700) {
@@ -134,6 +135,7 @@ const BAD_MODULE = `<section class="x" data-gemini-id="countdown-fallo">
         return { content: JSON.stringify({ score: 95, mejoras: [] }), modelKey: 'openrouter::critic/test:free' };
       }
       genCalls += 1;
+      genPrompts.push(task.prompt);
       const content = genCalls === 1 ? BAD_MODULE : countdownFixture;
       return { content, modelKey: genCalls === 1 ? 'openrouter::mal/test:free' : 'openrouter::buen/test:free' };
     },
@@ -142,6 +144,7 @@ const BAD_MODULE = `<section class="x" data-gemini-id="countdown-fallo">
   };
 
   const result = await generateModule('countdown', { mission });
+  ok(genPrompts.some((p) => p.includes('EJEMPLO CANÓNICO') && p.includes('countdown-central')), 'prompt de generación incluye el EJEMPLO few-shot real (Countdown/countdown-01)');
   ok(result.validation.valid, 'crítico: el 2º intento (con feedback) produce un módulo válido');
   ok(result.attempts === 2, `attempts === 2 (${result.attempts})`);
   ok(genCalls === 2, 'se generó exactamente 2 veces');

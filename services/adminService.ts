@@ -953,6 +953,7 @@ export interface ModuleGeneratorStatus {
   moduleTypes: string[];
   rotator: {
     current: { modelKey: string; provider: string; model: string } | null;
+    catalogErrors?: Record<string, string>;
     providers: Record<string, { name: string; hasKey: boolean }>;
     catalog: RotatorCatalogEntry[];
     catalogAgeMs: number | null;

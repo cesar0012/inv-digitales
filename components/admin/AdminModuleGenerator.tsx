@@ -260,6 +260,13 @@ export const AdminModuleGenerator: React.FC = () => {
               {loadingStatus ? 'cargando…' : `${availableCount}/${catalog.length} modelos disponibles`}
             </span>
           </div>
+          {Object.keys(status?.rotator.catalogErrors || {}).length > 0 && (
+            <div className="mb-3 p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-xs text-amber-700 space-y-1">
+              {Object.entries(status.rotator.catalogErrors).map(([prov, err]) => (
+                <p key={prov}><strong>{prov}</strong>: {err}</p>
+              ))}
+            </div>
+          )}
           <div className="flex flex-wrap gap-2 mb-3">
             <button onClick={() => handleRotatorAction('rotate')} className="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-medium hover:bg-indigo-100 flex items-center gap-1.5">
               <RotateCcw className="w-3.5 h-3.5" /> Rotar

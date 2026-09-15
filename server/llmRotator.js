@@ -47,10 +47,10 @@ const CONFIG = {
   catalogTtlMs: 10 * 60 * 1000,
   quotaCooldownMs: 30 * 60 * 1000,
   deadCooldownMs: 24 * 60 * 60 * 1000,
-  maxCatalog: 25,
-  callTimeoutMs: parseInt(process.env.ROTATOR_CALL_TIMEOUT_MS || '120000', 10),
-  maxDeadSkips: 5,
-  maxQuotaRetries: 2,
+  maxCatalog: 30,
+  callTimeoutMs: parseInt(process.env.ROTATOR_CALL_TIMEOUT_MS || '180000', 10),
+  maxDeadSkips: 6,
+  maxQuotaRetries: 3,
   benchFreshMs: 48 * 60 * 60 * 1000
 };
 
@@ -86,7 +86,10 @@ function heuristicScore(entry) {
   for (const [re, bonus] of FAMILY_BONUS) if (re.test(id)) { family = bonus; break; }
   const ctx = Math.min((entry.context_length || 0) / 20000, 30);
   let score = family + ctx;
-  if (entry.provider === 'nvidia') score *= 0.75; // catálogo con modelos no servibles
+  // Catálogo NVIDIA lista modelos no servibles: dampening SUAVE (0.9, no 0.75):
+  // el dead-detection se encarga de enfriar los que fallen; castigarlos de
+  // entrada impedía que NVIDIA compitiera en igualdad con OpenRouter.
+  if (entry.provider === 'nvidia') score *= 0.9;
   if (id === 'openrouter/free') score = 20; // auto-router: último recurso
   return score;
 }
@@ -114,6 +117,7 @@ let catalog = null;            // [{provider, model, context_length, lanes, scor
 let catalogFetchedAt = 0;
 let catalogPromise = null;     // deduplica refresh concurrentes
 let benchRunning = false;
+const catalogErrors = {};      // último error de fetch por proveedor (visible en la UI)
 
 // Fallback curado mínimo (§4: si el fetch vivo nunca funcionó)
 const FALLBACK_CATALOG = [
@@ -158,8 +162,10 @@ async function refreshCatalog({ force = false } = {}) {
         !NON_CHAT_RE.test(m.id) && !STRIP_PREFIX_RE.test(m.id)
       );
       for (const m of free) merged.push({ provider: 'openrouter', model: m.id, context_length: m.context_length || 0 });
+      delete catalogErrors.openrouter;
       console.log(`[ROTATOR] catálogo OpenRouter: ${free.length} modelos free`);
     } catch (e) {
+      catalogErrors.openrouter = e.message;
       console.warn('[ROTATOR] fallo catálogo OpenRouter:', e.message);
     }
     const keys = getKeys();
@@ -168,11 +174,14 @@ async function refreshCatalog({ force = false } = {}) {
         const json = await fetchJson(PROVIDERS.nvidia.modelsUrl, PROVIDERS.nvidia.auth(keys.nvidia));
         const models = (json.data || []).filter((m) => typeof m.id === 'string' && !NON_CHAT_RE.test(m.id));
         for (const m of models) merged.push({ provider: 'nvidia', model: m.id, context_length: m.context_length || 0 });
+        delete catalogErrors.nvidia;
         console.log(`[ROTATOR] catálogo NVIDIA: ${models.length} modelos`);
       } catch (e) {
+        catalogErrors.nvidia = e.message;
         console.warn('[ROTATOR] fallo catálogo NVIDIA (revisa la API key):', e.message);
       }
     } else {
+      catalogErrors.nvidia = 'sin API key configurada';
       console.log('[ROTATOR] NVIDIA sin API key: guarda la clave (sk/nvapi) para incluir también sus modelos');
     }
 
@@ -241,6 +250,30 @@ const benchScore = (c) => {
   return c.heuristic || 0;
 };
 
+/** Candidato con el cooldown MÁS CORTO (cuando todo el catálogo está en
+ * cooldown: mejor lanzar al que recupera en minutos que al de mejor score
+ * con 23 h de espera). */
+function soonestRecovery(exclude) {
+  if (!catalog) return null;
+  const keys = getKeys();
+  const excludeSet = new Set(Array.isArray(exclude) ? exclude : []);
+  const pool = catalog.filter((c) => keys[c.provider] && !excludeSet.has(`${c.provider}::${c.model}`));
+  if (pool.length === 0) return null;
+  const best = pool.reduce((a, b) => {
+    const ca = entryState(`${a.provider}::${a.model}`).cooldown_until || 0;
+    const cb = entryState(`${b.provider}::${b.model}`).cooldown_until || 0;
+    return cb < ca ? b : a;
+  });
+  return {
+    modelKey: `${best.provider}::${best.model}`,
+    provider: best.provider,
+    model: best.model,
+    api_key: keys[best.provider],
+    api_base: PROVIDERS[best.provider].chatUrl,
+    fallback: true
+  };
+}
+
 function reportFailure(modelKey, rawErrorText) {
   const st = entryState(modelKey);
   st.failures += 1;
@@ -275,32 +308,45 @@ function resetCooldowns() {
   saveState();
 }
 
-/** Llamada cruda a un modelo resuelto (chat completions OpenAI-compatible). */
-async function invokeLLM(resolved, { system, prompt, temperature = 0.8, maxTokens = 8000 }) {
-  const headers = { 'Content-Type': 'application/json', ...PROVIDERS[resolved.provider].auth(resolved.api_key) };
-  const body = {
-    model: resolved.model,
-    messages: [
-      ...(system ? [{ role: 'system', content: system }] : []),
-      { role: 'user', content: prompt }
-    ],
-    temperature,
-    max_tokens: maxTokens,
-    stream: false
+/** Llamada cruda a un modelo resuelto (chat completions OpenAI-compatible).
+ * Retry adaptativo: muchos modelos free limitan max_tokens por debajo de lo
+ * pedido (400 "max_tokens must be <= N") — se reintenta una vez con la mitad. */
+async function invokeLLM(resolved, { system, prompt, temperature = 0.8, maxTokens = 8000, _retried = false }) {
+  const call = async (mt) => {
+    const headers = { 'Content-Type': 'application/json', ...PROVIDERS[resolved.provider].auth(resolved.api_key) };
+    const body = {
+      model: resolved.model,
+      messages: [
+        ...(system ? [{ role: 'system', content: system }] : []),
+        { role: 'user', content: prompt }
+      ],
+      temperature,
+      max_tokens: mt,
+      stream: false
+    };
+    const res = await fetch(resolved.api_base, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(CONFIG.callTimeoutMs)
+    });
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw Object.assign(new Error(json?.error?.message || `HTTP ${res.status}`), { status: res.status });
+    }
+    const content = json.choices?.[0]?.message?.content;
+    if (!content) throw new Error('respuesta sin contenido');
+    return content;
   };
-  const res = await fetch(resolved.api_base, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify(body),
-    signal: AbortSignal.timeout(CONFIG.callTimeoutMs)
-  });
-  const json = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    throw Object.assign(new Error(json?.error?.message || `HTTP ${res.status}`), { status: res.status });
+  try {
+    return await call(maxTokens);
+  } catch (error) {
+    if (!_retried && /max_tokens|too large|larger than|exceeds the model/i.test(String(error.message))) {
+      console.warn(`[ROTATOR] ${resolved.modelKey}: max_tokens ${maxTokens} rechazado, reintentando con ${Math.floor(maxTokens / 2)}`);
+      return call(Math.max(1024, Math.floor(maxTokens / 2)));
+    }
+    throw error;
   }
-  const content = json.choices?.[0]?.message?.content;
-  if (!content) throw new Error('respuesta sin contenido');
-  return content;
 }
 
 /**
@@ -322,8 +368,19 @@ export function createMission(lane = 'general') {
         if (!resolved) throw new Error('Rotator sin candidatos: configura API keys de OpenRouter/NVIDIA');
         if (resolved.fallback) {
           const wider = resolve({ exclude: [...dead] }); // lane-widening
-          if (wider && !wider.fallback) resolved = wider;
+          if (wider && !wider.fallback) {
+            resolved = wider;
+          } else {
+            // Todo el catálogo en cooldown: elegir el que ANTES recupera
+            // (menor cooldown_until), no el de mejor score con 23h de espera.
+            const soonest = soonestRecovery([...dead]);
+            if (soonest) {
+              console.warn(`[ROTATOR] ⚠️ todos los modelos en cooldown — usando el de recuperación más próxima: ${soonest.modelKey}`);
+              resolved = soonest;
+            }
+          }
         }
+        console.log(`[ROTATOR] → ${resolved.modelKey} (${task.maxTokens <= 900 ? 'crítica/brief' : 'generación'})`);
         try {
           const content = await invokeLLM(resolved, task);
           reportSuccess(resolved.modelKey);
@@ -397,6 +454,7 @@ function getStatus() {
   const now = Date.now();
   return {
     current: state.current,
+    catalogErrors: { ...catalogErrors },
     providers: Object.fromEntries(Object.entries(PROVIDERS).map(([id, p]) => [id, { name: p.name, hasKey: !!keys[id] }])),
     catalog: (catalog || []).map((c) => {
       const st = state.entries[`${c.provider}::${c.model}`] || {};
