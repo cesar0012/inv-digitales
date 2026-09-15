@@ -208,9 +208,9 @@ function entryState(modelKey) {
 function resolve({ lane = 'general', exclude = [] } = {}) {
   if (!catalog || catalog.length === 0) return null;
   const keys = getKeys();
-  const excludeSet = new Set(exclude);
+  const excludeSet = new Set(Array.isArray(exclude) ? exclude : []);
   const candidates = catalog.filter((c) =>
-    keys[c.provider] && c.lanes.includes(lane) && !excludeSet.includes(`${c.provider}::${c.model}`)
+    keys[c.provider] && c.lanes.includes(lane) && !excludeSet.has(`${c.provider}::${c.model}`)
   );
   if (candidates.length === 0) return null;
 

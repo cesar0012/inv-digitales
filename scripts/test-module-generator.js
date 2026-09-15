@@ -73,6 +73,30 @@ console.log('\n=== 3. Misión sin keys/catálogo ===');
 }
 
 // ============================================================================
+console.log('\n=== 3b. resolve() con keys y exclusión (regresión del bug .includes) ===');
+{
+  // Regresión real de producción: con keys configuradas el filter evalúa el
+  // predicado y un Set().includes habría lanzado TypeError. Se inyecta una
+  // key temporal y se resuelve con exclude NO vacío.
+  let previousKey = null;
+  try {
+    previousKey = db.prepare('SELECT openrouter_api_key AS k FROM admin_config WHERE id = 1').get()?.k || '';
+    db.prepare("UPDATE admin_config SET openrouter_api_key = 'sk-or-test-regression' WHERE id = 1").run();
+    await llmRotator.refreshCatalog({ force: true });
+    const r1 = llmRotator.resolve({ lane: 'general', exclude: [] });
+    ok(r1 !== null && r1.modelKey.startsWith('openrouter::'), `con key hay candidato (${r1?.modelKey?.slice(0, 40)})`);
+    const r2 = llmRotator.resolve({ lane: 'general', exclude: [r1.modelKey] });
+    ok(r2 !== null && r2.modelKey !== r1.modelKey, `exclude=[modelo] NO lanza y devuelve otro (${r2?.modelKey?.slice(0, 40)})`);
+    const m = llmRotator.createMission('coding');
+    m.excludeModel(r1.modelKey);
+    const r3 = llmRotator.resolve({ lane: 'coding', exclude: m.deadModels() });
+    ok(r3 === null || r3.modelKey !== r1.modelKey, 'misión con dead-set respeta la exclusión');
+  } finally {
+    db.prepare('UPDATE admin_config SET openrouter_api_key = ? WHERE id = 1').run(previousKey || '');
+  }
+}
+
+// ============================================================================
 console.log('\n=== 4. Validación determinista de módulos ===');
 const countdownFixture = readFileSync(join(__dirname, '..', 'Countdown', 'countdown-01.html'), 'utf-8');
 {
