@@ -2030,8 +2030,10 @@ app.get('/api/admin/module-generator/status', adminMiddleware, async (req, res) 
   }
 });
 
-// POST /api/admin/module-generator/keys — guardar API keys de los proveedores
-app.post('/api/admin/module-generator/keys', adminMiddleware, (req, res) => {
+// POST /api/admin/module-generator/keys — guardar API keys de los proveedores.
+// Tras guardar refresca el catálogo FORZADO para que los modelos del proveedor
+// nuevo (p. ej. NVIDIA) aparezcan de inmediato, sin esperar el TTL de 10 min.
+app.post('/api/admin/module-generator/keys', adminMiddleware, async (req, res) => {
   try {
     const { openrouter_api_key, nvidia_api_key } = req.body || {};
     const sets = [];
@@ -2041,7 +2043,15 @@ app.post('/api/admin/module-generator/keys', adminMiddleware, (req, res) => {
     if (sets.length === 0) return res.status(400).json({ error: 'Sin campos para actualizar' });
     db.prepare(`UPDATE admin_config SET ${sets.join(', ')} WHERE id = 1`).run(...params);
     const cfg = db.prepare('SELECT openrouter_api_key, nvidia_api_key FROM admin_config WHERE id = 1').get() || {};
-    res.json({ success: true, keys: { openrouter: maskKey(cfg.openrouter_api_key || ''), nvidia: maskKey(cfg.nvidia_api_key || '') } });
+    const { llmRotator } = await import('./llmRotator.js');
+    await llmRotator.refreshCatalog({ force: true }).catch((e) => console.warn('[ROTATOR] refresh tras guardar keys:', e.message));
+    const { KNOWN_MODULE_TYPES } = await import('./ragModuleValidator.js');
+    res.json({
+      success: true,
+      keys: { openrouter: maskKey(cfg.openrouter_api_key || ''), nvidia: maskKey(cfg.nvidia_api_key || '') },
+      moduleTypes: KNOWN_MODULE_TYPES,
+      rotator: llmRotator.getStatus()
+    });
   } catch (error) {
     console.error('[MODULE-GEN keys] Error:', error);
     res.status(500).json({ error: error.message });

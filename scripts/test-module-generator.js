@@ -116,7 +116,7 @@ const countdownFixture = readFileSync(join(__dirname, '..', 'Countdown', 'countd
 }
 
 // ============================================================================
-console.log('\n=== 5. Pipeline agéntico con LLM simulado (critic loop) ===');
+console.log('\n=== 5. Pipeline agéntico con LLM simulado (critic loop + refine) ===');
 const BAD_MODULE = `<section class="x" data-gemini-id="countdown-fallo">
   <style>.x { color: #333; background-color: white; font-family: Georgia; }</style>
   <h2>Título</h2>
@@ -128,6 +128,10 @@ const BAD_MODULE = `<section class="x" data-gemini-id="countdown-fallo">
     call: async (task) => {
       if (task.maxTokens <= 700) {
         return { content: JSON.stringify({ style_name: 'Estela Minimal', concepto: 'Poética del vacío', paleta_neutral: 'grises cálidos', tipografia: 'serif aireada', animaciones: ['fade sutil'], ornamentos: ['línea fina'] }), modelKey: 'openrouter::qwen/test:free' };
+      }
+      if (task.maxTokens <= 900) {
+        // Crítico de rúbrica: score alto → no se refina en este escenario
+        return { content: JSON.stringify({ score: 95, mejoras: [] }), modelKey: 'openrouter::critic/test:free' };
       }
       genCalls += 1;
       const content = genCalls === 1 ? BAD_MODULE : countdownFixture;
@@ -143,12 +147,14 @@ const BAD_MODULE = `<section class="x" data-gemini-id="countdown-fallo">
   ok(genCalls === 2, 'se generó exactamente 2 veces');
   ok(excluded.includes('openrouter::mal/test:free'), 'el modelo del intento fallido queda EXCLUIDO (diversidad/segunda opinión)');
   ok(!!result.brief?.style_name, `brief creativo integrado (${result.brief?.style_name})`);
+  ok(result.critique?.score === 95 && result.refined === false, 'crítico con score alto → sin refinamiento adicional');
 
   // Fallo persistente: 3 intentos, todos inválidos
   let calls = 0;
   const alwaysBad = {
     call: async (task) => {
       if (task.maxTokens <= 700) return { content: '{}', modelKey: 'x::y' };
+      if (task.maxTokens <= 900) return { content: '{"score":95,"mejoras":[]}', modelKey: 'x::critic' };
       calls += 1;
       return { content: BAD_MODULE, modelKey: `x::model${calls}` };
     },
@@ -158,6 +164,83 @@ const BAD_MODULE = `<section class="x" data-gemini-id="countdown-fallo">
   const failed = await generateModule('countdown', { mission: alwaysBad });
   ok(failed.failed === true && calls === 3, `fallos persistentes: 3 intentos y failed=true (${calls})`);
   ok(failed.validation.errors.length > 0, 'los errores del último intento viajan para diagnóstico');
+}
+
+// ============================================================================
+console.log('\n=== 5b. Refinamiento por rúbrica (sube el nivel de LLMs débiles) ===');
+{
+  // Crítico severo (score 68 + mejoras) y refinador que devuelve el módulo mejorado
+  const refinedFixture = countdownFixture.replace('</section>', '\n<!-- refined-v2: tipografía y ritmo mejorados -->\n</section>');
+  let refineCalls = 0;
+  const mission = {
+    call: async (task) => {
+      if (task.maxTokens <= 700) return { content: '{}', modelKey: 'x::b' };
+      if (task.maxTokens <= 900) {
+        return { content: JSON.stringify({ score: 68, mejoras: ['Aumentar contraste del texto sobre el fondo', 'Mejorar ritmo tipográfico en móvil'] }), modelKey: 'x::critic' };
+      }
+      if (/aplica las mejoras/i.test(task.prompt)) {
+        refineCalls += 1;
+        return { content: refinedFixture, modelKey: 'x::refiner' };
+      }
+      return { content: countdownFixture, modelKey: 'x::gen' };
+    },
+    excludeModel: () => {},
+    deadModels: () => []
+  };
+  const result = await generateModule('countdown', { mission });
+  ok(result.validation.valid, 'módulo refinado sigue siendo válido');
+  ok(result.refined === true, 'el refinamiento se aplicó');
+  ok(refineCalls === 1, 'exactamente 1 pasada de refinamiento');
+  ok(result.html.includes('refined-v2'), 'el HTML final es el refinado');
+  ok(result.critique?.score === 68, `la crítica viaja en el resultado (${result.critique?.score})`);
+
+  // Refiner que rompe el contrato → se conserva el original válido
+  const mission2 = {
+    call: async (task) => {
+      if (task.maxTokens <= 700) return { content: '{}', modelKey: 'x::b' };
+      if (task.maxTokens <= 900) return { content: '{"score":60,"mejoras":["x","y"]}', modelKey: 'x::critic' };
+      if (/aplica las mejoras/i.test(task.prompt)) return { content: BAD_MODULE, modelKey: 'x::refiner' };
+      return { content: countdownFixture, modelKey: 'x::gen' };
+    },
+    excludeModel: () => {},
+    deadModels: () => []
+  };
+  const kept = await generateModule('countdown', { mission: mission2 });
+  ok(kept.validation.valid && !kept.refined && !kept.html.includes('countdown-fallo'),
+    'refinado inválido → se conserva el original válido (no el BAD del refiner)');
+}
+
+// ============================================================================
+console.log('\n=== 5c. Fotos por tipo, mapa de Google Maps y sandbox de iframes ===');
+{
+  // Mapa permitido vs iframe malicioso (sobre un módulo countdown válido de base)
+  const withEvilIframe = countdownFixture.replace('<div class="countdown-central__content">', '<iframe src="https://evil.com/embed"></iframe>\n<div class="countdown-central__content">');
+  const vEvil = validateGeneratedModule(withEvilIframe, 'countdown');
+  ok(!vEvil.valid && vEvil.errors.some((e) => /iframe prohibido/i.test(e)), 'iframe que NO es Google Maps → rechazado');
+
+  const withMaps = countdownFixture.replace(
+    '<div class="countdown-central__content">',
+    '<div memory_type="text" memory_usage="custom" memory_key="mapa"><iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa"></iframe></div>\n<div class="countdown-central__content">'
+  );
+  const vMaps = validateGeneratedModule(withMaps, 'countdown');
+  ok(!vMaps.errors.some((e) => /iframe prohibido/i.test(e)), 'embed de Google Maps permitido por la allowlist');
+
+  // Requisito de mapa en ubicacion
+  const vUbic = validateGeneratedModule(countdownFixture, 'ubicacion');
+  ok(vUbic.errors.some((e) => /mapa de Google Maps embebido/i.test(e)), 'módulo ubicacion sin mapa → error específico');
+
+  // Requisito de fotos: countdown exige fondo loremflickr+generated+placeholder (fixture lo cumple)
+  const vCd = validateGeneratedModule(countdownFixture, 'countdown');
+  ok(!vCd.errors.some((e) => /FONDO placeholder/i.test(e)), 'countdown con fondo loremflickr/generated cumple el requisito de fotos');
+
+  // Galería exige ≥3 imgs library
+  const vGal = validateGeneratedModule(countdownFixture, 'galeria');
+  ok(vGal.errors.some((e) => /al menos 3 <img> loremflickr/i.test(e)), 'galería sin imágenes library → error específico');
+
+  // Responsivo: sin clamp/grid → error
+  const noResponsive = countdownFixture.replace(/clamp\([^)]*\)/g, '2rem');
+  const vResp = validateGeneratedModule(noResponsive, 'countdown');
+  ok(vResp.errors.some((e) => /responsivo insuficiente/i.test(e)), 'sin clamp()/layout fluido → error de responsividad');
 }
 
 // ============================================================================

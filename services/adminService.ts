@@ -979,7 +979,7 @@ export const getModuleGeneratorStatus = async (): Promise<ModuleGeneratorStatus>
   return response.json();
 };
 
-export const saveModuleGeneratorKeys = async (keys: { openrouter_api_key?: string; nvidia_api_key?: string }): Promise<{ keys: { openrouter: string; nvidia: string } }> => {
+export const saveModuleGeneratorKeys = async (keys: { openrouter_api_key?: string; nvidia_api_key?: string }): Promise<{ keys: { openrouter: string; nvidia: string }; rotator?: ModuleGeneratorStatus['rotator'] }> => {
   const response = await fetch(`${API_BASE}/admin/module-generator/keys`, {
     method: 'POST',
     headers: getAdminHeaders(),

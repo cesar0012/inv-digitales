@@ -170,8 +170,10 @@ async function refreshCatalog({ force = false } = {}) {
         for (const m of models) merged.push({ provider: 'nvidia', model: m.id, context_length: m.context_length || 0 });
         console.log(`[ROTATOR] catálogo NVIDIA: ${models.length} modelos`);
       } catch (e) {
-        console.warn('[ROTATOR] fallo catálogo NVIDIA:', e.message);
+        console.warn('[ROTATOR] fallo catálogo NVIDIA (revisa la API key):', e.message);
       }
+    } else {
+      console.log('[ROTATOR] NVIDIA sin API key: guarda la clave (sk/nvapi) para incluir también sus modelos');
     }
 
     let next = merged;
