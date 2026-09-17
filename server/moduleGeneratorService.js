@@ -73,7 +73,32 @@ const SIGNATURES = [
   'puntos que conectan formando una constelación', 'una cinta que ondea suavemente',
   'marcadores de sección con animación escalonada', 'un degradado que respira (hue-rotate lento)'
 ];
+// Direcciones creativas automáticas para lotes SIN input del usuario: cada
+// set recibe una distinta (con exclusión dentro del lote) para que ningún
+// par de sets comparta atmósfera.
+const CONCEPT_DIRECTIONS = [
+  'que se sienta como una galería de arte contemporáneo, sobrio y con mucho aire',
+  'con calidez artesanal, como una invitación escrita a mano sobre papel de algodón',
+  'de elegancia nocturna, como una gala: terciopelo, brasa y destellos sutiles',
+  'luminoso y botánico, como un invernadero al mediodía',
+  'con carácter editorial de revista de arquitectura, retícula visible y tipografía protagonista',
+  'romántico clásico, como una carta de otra época con sellos y filigranas',
+  'modernista geométrico, círculos y líneas finas en equilibrio',
+  'etéreo y minimalista, casi un susurro: mucho espacio negativo y detalle diminuto',
+  'festivo refinado, confeti de lujo en pequeñas dosis doradas',
+  'orgánico y terrenal, texturas de lino, barro y madera clara',
+  'celestial, degradados de cielo nocturno y polvo de estrellas fino',
+  'urbanista chic, como el menú de un restaurante con estrella'
+];
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+/** Elige aleatorio EXCLUYENDO los ya usados en el lote (variedad forzada);
+ *  si todo el pool está usado, libera y empieza de nuevo. */
+function pickExcluding(arr, usedSet, label) {
+  const free = arr.filter((x) => !usedSet.has(`${label}:${x}`));
+  const chosen = pick(free.length > 0 ? free : arr);
+  usedSet.add(`${label}:${chosen}`);
+  return chosen;
+}
 
 // ----------------------------------------------------------------------------
 // Contrato por tipo de módulo (adaptación estricta de Plantillas-Prompt/00-PROMPT-BASE.md)
@@ -323,15 +348,23 @@ Devuelve el módulo COMPLETO mejorado (SOLO HTML).`,
  * @param {{extraInstructions?: string, mission?: object, temperature?: number}} opts
  * @returns {Promise<{moduleType, html, attempts, models, validation, brief}>}
  */
-export async function generateModule(type, { extraInstructions = '', mission = null } = {}) {
+export async function generateModule(type, { extraInstructions = '', mission = null, seedUsed = null, forcedSeeds = null } = {}) {
   const m = mission || createMission('coding');
   const models = [];
+  const used = seedUsed || new Set();
   const briefSeeds = {
-    estetica: pick(AESTHETICS),
-    layout: pick(LAYOUTS),
-    tecnica: pick(TECHNIQUES),
-    firma: pick(SIGNATURES)
+    estetica: pickExcluding(AESTHETICS, used, 'estetica'),
+    layout: pickExcluding(LAYOUTS, used, 'layout'),
+    tecnica: pickExcluding(TECHNIQUES, used, 'tecnica'),
+    firma: pickExcluding(SIGNATURES, used, 'firma')
   };
+  // Semillas forzadas del SET (coherencia estética dentro de una misma
+  // invitación): la estética/firma del set ganan a las aleatorias.
+  if (forcedSeeds) {
+    for (const [k, v] of Object.entries(forcedSeeds)) {
+      if (v) { briefSeeds[k] = v; used.add(`${k === 'estetica' ? 'estetica' : 'firma'}:${v}`); }
+    }
+  }
 
   // Fase 1: brief creativo (JSON corto)
   const briefPrompt = `Diseña un BRIEF creativo para un módulo de invitación digital tipo "${type}".
@@ -456,4 +489,72 @@ export function importGeneratedModules(modules, dbInstance) {
     }
   }
   return results;
+}
+
+// ----------------------------------------------------------------------------
+// SETS de módulos (lotes automáticos): coherencia DENTRO del set (misma
+// estética/firma, como una invitación real) y divergencia TOTAL entre sets
+// (exclusión de estética/layout/firma/dirección ya usados en el lote).
+// Sin input del usuario, cada set recibe una DIRECCIÓN CREATIVA automática
+// distinta que actúa como instrucciones del "cliente imaginario".
+// ----------------------------------------------------------------------------
+/**
+ * Genera un set completo de módulos.
+ * @param {string[]} moduleTypes tipos del set
+ * @param {{extraInstructions?: string, batchSeeds?: Set<string>, mission?: object}} opts
+ * @returns {Promise<{modules: Array, setSeeds: object, autoDirection: string}>}
+ */
+export async function generateSet(moduleTypes, { extraInstructions = '', batchSeeds = new Set(), mission = null } = {}) {
+  const setSeeds = {
+    estetica: pickExcluding(AESTHETICS, batchSeeds, 'estetica'),
+    firma: pickExcluding(SIGNATURES, batchSeeds, 'firma')
+  };
+  const autoDirection = extraInstructions.trim()
+    ? ''
+    : pickExcluding(CONCEPT_DIRECTIONS, batchSeeds, 'concepto');
+  const setInstructions = [autoDirection, extraInstructions].filter(Boolean).join('. ');
+
+  const modules = [];
+  for (const type of moduleTypes) {
+    try {
+      const result = await generateModule(type, {
+        extraInstructions: setInstructions,
+        mission,
+        seedUsed: batchSeeds,
+        forcedSeeds: setSeeds
+      });
+      modules.push(result);
+    } catch (error) {
+      console.warn(`[MODULE-GEN][set] módulo ${type} falló en el set: ${error.message}`);
+      modules.push({ moduleType: type, failed: true, error: error.message, attempts: 0, models: [], validation: { valid: false, errors: [error.message] }, html: '' });
+    }
+  }
+  return { modules, setSeeds, autoDirection };
+}
+
+// ----------------------------------------------------------------------------
+// Persistencia de resultados para revisión posterior
+// ----------------------------------------------------------------------------
+/**
+ * Guarda un módulo generado en module_generator_results.
+ * @returns {number} id de la fila
+ */
+export function saveGeneratedResult(dbInstance, { batchId, setIndex, result }) {
+  const info = dbInstance.prepare(`
+    INSERT INTO module_generator_results
+      (batch_id, set_index, module_type, style_name, brief_json, html, critique_score, models_json, attempts, valid, status)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'generated')
+  `).run(
+    batchId || null,
+    setIndex || 0,
+    result.moduleType || '',
+    result.brief?.style_name || null,
+    JSON.stringify({ brief: result.brief || null, critique: result.critique || null, refined: !!result.refined }),
+    result.html || '',
+    typeof result.critique?.score === 'number' ? result.critique.score : null,
+    JSON.stringify(result.models || []),
+    result.attempts || 0,
+    result.validation?.valid ? 1 : 0
+  );
+  return info.lastInsertRowid;
 }

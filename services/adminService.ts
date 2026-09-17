@@ -954,6 +954,7 @@ export interface ModuleGeneratorStatus {
   rotator: {
     current: { modelKey: string; provider: string; model: string } | null;
     catalogErrors?: Record<string, string>;
+    allowedModels?: string[];
     providers: Record<string, { name: string; hasKey: boolean }>;
     catalog: RotatorCatalogEntry[];
     catalogAgeMs: number | null;
@@ -1031,6 +1032,93 @@ export const importGeneratedModulesToRAG = async (
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));
     throw new Error(error.error || 'Error importando módulos al RAG');
+  }
+  return response.json();
+};
+
+// —— Allowlist de modelos del rotator (solo los que el admin define) ——
+export const saveAllowedModels = async (allowedModels: string[]): Promise<{ allowedModels: string[]; rotator: ModuleGeneratorStatus['rotator'] }> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/models`, {
+    method: 'POST', headers: getAdminHeaders(), body: JSON.stringify({ allowedModels })
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al guardar los modelos permitidos');
+  }
+  return response.json();
+};
+
+// —— Lotes automáticos ——
+export interface BatchStatus {
+  active: boolean; batchId: string | null; totalSets: number; doneSets: number;
+  currentLabel: string; generated: number; failed: number;
+  startedAt: string | null; finishedAt: string | null; lastError: string | null;
+}
+
+export const startModuleBatch = async (moduleTypes: string[], sets: number, extraInstructions: string): Promise<BatchStatus> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/batch/start`, {
+    method: 'POST', headers: getAdminHeaders(), body: JSON.stringify({ moduleTypes, sets, extraInstructions })
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al iniciar el lote');
+  }
+  const json = await response.json();
+  return json.batch;
+};
+
+export const getModuleBatchStatus = async (): Promise<BatchStatus> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/batch/status`, { headers: getAdminHeaders() });
+  if (!response.ok) throw new Error('Error al consultar el lote');
+  return response.json();
+};
+
+export const stopModuleBatch = async (): Promise<BatchStatus> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/batch/stop`, { method: 'POST', headers: getAdminHeaders() });
+  if (!response.ok) throw new Error('Error al detener el lote');
+  return response.json();
+};
+
+// —— Resultados para revisión ——
+export interface GeneratorResultRow {
+  id: number; batchId: string | null; setIndex: number; moduleType: string;
+  styleName: string; concepto: string; refined: boolean; critiqueScore: number | null;
+  models: string[]; attempts: number; valid: boolean; status: string;
+  importedModuleId: string | null; createdAt: string; html?: string;
+}
+
+export const getGeneratorResults = async (status?: string, limit = 50): Promise<{ results: GeneratorResultRow[] }> => {
+  const params = new URLSearchParams();
+  if (status) params.append('status', status);
+  params.append('limit', String(limit));
+  const response = await fetch(`${API_BASE}/admin/module-generator/results?${params.toString()}`, { headers: getAdminHeaders() });
+  if (!response.ok) throw new Error('Error al cargar resultados');
+  return response.json();
+};
+
+export const getGeneratorResult = async (id: number): Promise<{ result: GeneratorResultRow }> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/results/${id}`, { headers: getAdminHeaders() });
+  if (!response.ok) throw new Error('Error al cargar el resultado');
+  return response.json();
+};
+
+export const reviewGeneratorResult = async (id: number, approve: boolean): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/results/${id}/review`, {
+    method: 'POST', headers: getAdminHeaders(), body: JSON.stringify({ approve })
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al revisar el resultado');
+  }
+};
+
+export const importGeneratorResults = async (ids?: number[]): Promise<{ success: boolean; imported: number }> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/results/import`, {
+    method: 'POST', headers: getAdminHeaders(), body: JSON.stringify({ ids: ids || null })
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al importar resultados');
   }
   return response.json();
 };

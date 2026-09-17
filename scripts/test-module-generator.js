@@ -20,7 +20,7 @@ import {
 } from '../server/llmRotator.js';
 const { getEntry } = llmRotator;
 import {
-  generateModule, validateGeneratedModule, importGeneratedModules
+  generateModule, validateGeneratedModule, importGeneratedModules, generateSet, saveGeneratedResult
 } from '../server/moduleGeneratorService.js';
 import db from '../server/database.js';
 
@@ -271,7 +271,116 @@ console.log('\n=== 6. Importación al RAG (DB real) ===');
 }
 
 // ============================================================================
-console.log('\n=== RESULTADO ===');
+console.log('\n=== 7. Allowlist manual de modelos (solo los definidos) ===');
+{
+  let prevKey = '', prevAllowed = null;
+  try {
+    prevKey = db.prepare('SELECT openrouter_api_key AS k FROM admin_config WHERE id = 1').get()?.k || '';
+    prevAllowed = db.prepare('SELECT rotator_allowed_models AS m FROM admin_config WHERE id = 1').get()?.m || null;
+    db.prepare("UPDATE admin_config SET openrouter_api_key = 'sk-or-test' WHERE id = 1").run();
+    await llmRotator.refreshCatalog({ force: true });
+
+    // Allowlist con un modelo EXISTENTE del catálogo + uno manual sintético
+    const anyCatalogModel = llmRotator.getStatus().catalog[0].modelKey;
+    const manualModel = 'openrouter::manual/invisible-model-test';
+    db.prepare('UPDATE admin_config SET rotator_allowed_models = ? WHERE id = 1').run(JSON.stringify([anyCatalogModel, manualModel]));
+
+    const r = llmRotator.resolve({ lane: 'general', exclude: [] });
+    ok(r !== null && (r.modelKey === anyCatalogModel || r.modelKey === manualModel), `resolve devuelve SOLO un permitido (${r?.modelKey})`);
+    const r2 = llmRotator.resolve({ lane: 'general', exclude: [r.modelKey] });
+    ok(r2 !== null && (r2.modelKey === anyCatalogModel || r2.modelKey === manualModel), `excluido el primero, sigue dentro de la allowlist (${r2?.modelKey})`);
+    // El modelo manual sintético (no listado en catálogo) es utilizable
+    const r3 = llmRotator.resolve({ lane: 'general', exclude: [anyCatalogModel] });
+    ok(r3?.modelKey === manualModel, 'modelo escrito a mano no listado también participa (sintético)');
+
+    // Allowlist VACÍA → rotación libre otra vez
+    db.prepare('UPDATE admin_config SET rotator_allowed_models = NULL WHERE id = 1').run();
+    const free = llmRotator.resolve({ lane: 'general', exclude: [] });
+    ok(free !== null && free.modelKey !== manualModel, 'allowlist vacía → catálogo completo (rotación libre)');
+    ok(Array.isArray(llmRotator.getStatus().allowedModels) && llmRotator.getStatus().allowedModels.length === 0, 'status.allowedModels refleja el estado');
+  } finally {
+    db.prepare('UPDATE admin_config SET openrouter_api_key = ?, rotator_allowed_models = ? WHERE id = 1').run(prevKey, prevAllowed);
+  }
+}
+
+// ============================================================================
+console.log('\n=== 8. Sets: coherencia interna y variedad entre sets ===');
+const GALERIA_FIXTURE = `<section class="gal-ejemplo" data-gemini-id="galeria-ejemplo-test" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+  <style>
+    .gal-ejemplo { background: var(--bg-color); color: var(--text-color); padding: clamp(2rem, 5vw, 4rem); }
+    .gal-ejemplo h2 { color: var(--primary-color); font-size: clamp(1.5rem, 3vw, 2.4rem); }
+    .gal-ejemplo .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: clamp(.8rem, 2vw, 1.5rem); }
+    .gal-ejemplo img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+    @media (max-width: 600px) { .gal-ejemplo .grid { grid-template-columns: 1fr 1fr; } }
+  </style>
+  <h2 memory_type="text" memory_usage="custom" memory_key="gal-titulo">Galería de momentos</h2>
+  <div class="grid">
+    <figure memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/600/450/flores" path="placeholder" data-library-category="eventos" data-asset-type="galeria" alt="Foto 1"></figure>
+    <figure memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/600/450/jardin" path="placeholder" data-library-category="eventos" data-asset-type="galeria" alt="Foto 2"></figure>
+    <figure memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/600/450/detalle" path="placeholder" data-library-category="eventos" data-asset-type="galeria" alt="Foto 3"></figure>
+  </div>
+  <script>var moduleMetadata = { module_type: 'galeria', module_name: 'galeria-ejemplo-test', style_name: 'Galería Grid', descripcion: 'Rejilla de momentos editables con imágenes library.', tags: ['galeria', 'fotos', 'grid', 'editable'], tipo: 'galeria' };</script>
+</section>`;
+{
+  const setMissions = [];
+  const mission = {
+    call: async (task) => {
+      if (task.maxTokens <= 700) return { content: '{}', modelKey: 'x::b' };
+      if (task.maxTokens <= 900) return { content: '{"score":95,"mejoras":[]}', modelKey: 'x::critic' };
+      // Extraer del prompt los seeds forzados para verificar coherencia
+      const est = task.prompt.match(/"estetica":\s*"([^"]+)"/)?.[1] || '';
+      const firma = task.prompt.match(/"firma":\s*"([^"]+)"/)?.[1] || '';
+      setMissions.push({ est, firma, prompt: task.prompt });
+      const isGaleria = /Genera el módulo "galeria"/.test(task.prompt);
+      const base = isGaleria ? GALERIA_FIXTURE.replace('galeria-ejemplo-test', `galeria-ejemplo-${setMissions.length}`) : countdownFixture.replace('countdown-central-classic', `countdown-${setMissions.length}`);
+      return { content: base, modelKey: 'x::gen' };
+    },
+    excludeModel: () => {},
+    deadModels: () => []
+  };
+
+  const batchSeeds = new Set();
+  const s1 = await generateSet(['countdown', 'galeria'], { mission, batchSeeds });
+  ok(s1.modules.length === 2 && s1.modules.every((m) => !m.failed), 'set 1: ambos módulos generados');
+  ok(setMissions.length === 2 && setMissions[0].est === setMissions[1].est && setMissions[0].firma === setMissions[1].firma,
+    'coherencia interna: los módulos del set COMPARTEN estética y firma');
+  ok(s1.autoDirection.length > 10, `dirección creativa automática sin input (${s1.autoDirection.slice(0, 40)}…)`);
+
+  const s1Seeds = `${s1.setSeeds.estetica}|${s1.setSeeds.firma}|${s1.autoDirection}`;
+  const s2 = await generateSet(['countdown'], { mission, batchSeeds });
+  const s2Seeds = `${s2.setSeeds.estetica}|${s2.setSeeds.firma}|${s2.autoDirection}`;
+  ok(s1Seeds !== s2Seeds, 'variedad forzada: el set 2 NO repite estética/firma/dirección del set 1');
+}
+
+// ============================================================================
+console.log('\n=== 9. Persistencia y revisión de resultados ===');
+{
+  const result = await generateModule('countdown', {
+    mission: {
+      call: async (task) => {
+        if (task.maxTokens <= 700) return { content: JSON.stringify({ style_name: 'Persistencia Test', concepto: 'x' }), modelKey: 'x::b' };
+        if (task.maxTokens <= 900) return { content: '{"score":95,"mejoras":[]}', modelKey: 'x::critic' };
+        return { content: countdownFixture, modelKey: 'x::gen' };
+      },
+      excludeModel: () => {}, deadModels: () => []
+    }
+  });
+  const ids = [];
+  try {
+    const id = saveGeneratedResult(db, { batchId: 'batch_test', setIndex: 1, result });
+    ids.push(id);
+    const row = db.prepare('SELECT module_type, style_name, status, valid, critique_score FROM module_generator_results WHERE id = ?').get(id);
+    ok(row && row.module_type === 'countdown' && row.style_name === 'Persistencia Test' && row.status === 'generated' && row.valid === 1,
+      'resultado persistido con metadata completa');
+    ok(row.critique_score === 95, 'score del crítico guardado');
+    db.prepare("UPDATE module_generator_results SET status = 'approved' WHERE id = ?").run(id);
+    ok(db.prepare("SELECT status FROM module_generator_results WHERE id = ?").get(id).status === 'approved', 'flujo de revisión (aprobar) funciona');
+  } finally {
+    for (const id of ids) db.prepare('DELETE FROM module_generator_results WHERE id = ?').run(id);
+  }
+  const remain = db.prepare("SELECT COUNT(*) AS c FROM module_generator_results WHERE batch_id = 'batch_test'").get().c;
+  ok(remain === 0, 'limpieza de prueba completa');
+}
 if (failures.length === 0) {
   console.log(`✅ TEST PASSED: ${passed} verificaciones superadas`);
 } else {

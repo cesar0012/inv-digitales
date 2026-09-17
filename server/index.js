@@ -11,6 +11,7 @@ import multer from 'multer';
 import db from './database.js';
 import { analyzeTemplate, validateTemplate, REQUIRED_TAGS } from './ragValidator.js';
 import { DEFAULT_PUBLIC_URL } from './ssr/catalogo-ssr.js';
+import { startBatch, getBatchStatus, requestStop } from './moduleGeneratorBatch.js';
 
 // URL pública canónica del generador: env PUBLIC_URL o el subdominio nativo.
 // SEO (canonical, og:url, sitemap, robots) siempre emite URLs absolutas de
@@ -2093,21 +2094,129 @@ app.post('/api/admin/module-generator/generate-module', adminMiddleware, async (
   }
 });
 
-// POST /api/admin/module-generator/import — importa los módulos aprobados al RAG
-app.post('/api/admin/module-generator/import', adminMiddleware, async (req, res) => {
+// POST /api/admin/module-generator/models — allowlist manual de modelos del
+// rotator. Si se define (array NO vacío), SOLO esos modelos se usan para TODA
+// la generación del módulo generator. Vacío/null = rotación libre por ranking.
+app.post('/api/admin/module-generator/models', adminMiddleware, async (req, res) => {
   try {
-    const { modules = [] } = req.body || {};
-    if (!Array.isArray(modules) || modules.length === 0) {
-      return res.status(400).json({ error: 'Sin módulos para importar' });
+    const { allowedModels } = req.body || {};
+    let clean = [];
+    if (Array.isArray(allowedModels)) {
+      clean = [...new Set(allowedModels
+        .map((m) => String(m || '').trim().toLowerCase())
+        .filter((m) => /^(openrouter|nvidia)::\S+$/i.test(m)))].slice(0, 15);
     }
-    const { importGeneratedModules } = await import('./moduleGeneratorService.js');
-    const results = importGeneratedModules(modules, db);
-    res.json({ success: results.every((r) => r.ok), results });
+    db.prepare('UPDATE admin_config SET rotator_allowed_models = ? WHERE id = 1').run(clean.length ? JSON.stringify(clean) : null);
+    const { llmRotator } = await import('./llmRotator.js');
+    res.json({ success: true, allowedModels: llmRotator.getStatus().allowedModels, rotator: llmRotator.getStatus() });
   } catch (error) {
-    console.error('[MODULE-GEN import] Error:', error);
+    console.error('[MODULE-GEN models] Error:', error);
     res.status(500).json({ error: error.message });
   }
 });
+
+// POST /api/admin/module-generator/batch/start — lote automático en background
+app.post('/api/admin/module-generator/batch/start', adminMiddleware, (req, res) => {
+  try {
+    const { moduleTypes = [], sets = 3, extraInstructions = '' } = req.body || {};
+    const status = startBatch({ moduleTypes, sets, extraInstructions });
+    res.json({ success: true, batch: status });
+  } catch (error) {
+    if (error.status === 409 || error.status === 400) return res.status(error.status).json({ error: error.message });
+    console.error('[MODULE-GEN batch/start] Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// GET /api/admin/module-generator/batch/status
+app.get('/api/admin/module-generator/batch/status', adminMiddleware, (req, res) => {
+  res.json(getBatchStatus());
+});
+
+// POST /api/admin/module-generator/batch/stop
+app.post('/api/admin/module-generator/batch/stop', adminMiddleware, (req, res) => {
+  res.json(requestStop());
+});
+
+// GET /api/admin/module-generator/results — lista para revisión (sin html pesado)
+app.get('/api/admin/module-generator/results', adminMiddleware, (req, res) => {
+  try {
+    const status = String(req.query.status || '');
+    const limit = Math.min(100, parseInt(req.query.limit, 10) || 50);
+    const rows = status
+      ? db.prepare('SELECT id, batch_id, set_index, module_type, style_name, brief_json, critique_score, models_json, attempts, valid, status, created_at FROM module_generator_results WHERE status = ? ORDER BY id DESC LIMIT ?').all(status, limit)
+      : db.prepare('SELECT id, batch_id, set_index, module_type, style_name, brief_json, critique_score, models_json, attempts, valid, status, created_at FROM module_generator_results ORDER BY id DESC LIMIT ?').all(limit);
+    res.json({ results: rows.map(deserializeResultRow) });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// GET /api/admin/module-generator/results/:id — con html (preview)
+app.get('/api/admin/module-generator/results/:id', adminMiddleware, (req, res) => {
+  try {
+    const row = db.prepare('SELECT * FROM module_generator_results WHERE id = ?').get(parseInt(req.params.id, 10));
+    if (!row) return res.status(404).json({ error: 'Resultado no encontrado' });
+    res.json({ result: { ...deserializeResultRow(row), html: row.html } });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// POST /api/admin/module-generator/results/:id/review — aprobar/rechazar
+app.post('/api/admin/module-generator/results/:id/review', adminMiddleware, (req, res) => {
+  try {
+    const { approve } = req.body || {};
+    const id = parseInt(req.params.id, 10);
+    const row = db.prepare('SELECT id, status, valid FROM module_generator_results WHERE id = ?').get(id);
+    if (!row) return res.status(404).json({ error: 'Resultado no encontrado' });
+    if (row.status === 'imported') return res.status(400).json({ error: 'Resultado ya importado' });
+    db.prepare('UPDATE module_generator_results SET status = ? WHERE id = ?').run(approve ? 'approved' : 'rejected', id);
+    res.json({ success: true, id, status: approve ? 'approved' : 'rejected' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// POST /api/admin/module-generator/results/import — importa aprobados (o ids dados)
+app.post('/api/admin/module-generator/results/import', adminMiddleware, async (req, res) => {
+  try {
+    const ids = Array.isArray(req.body?.ids) && req.body.ids.length > 0
+      ? req.body.ids.map((x) => parseInt(x, 10))
+      : null;
+    const rows = ids
+      ? db.prepare(`SELECT * FROM module_generator_results WHERE id IN (${ids.map(() => '?').join(',')})`).all(...ids)
+      : db.prepare("SELECT * FROM module_generator_results WHERE status = 'approved' AND valid = 1").all();
+    const importable = rows.filter((r) => r.status !== 'imported' && r.valid === 1);
+    if (importable.length === 0) return res.status(400).json({ error: 'Sin resultados aprobados y válidos para importar' });
+    const { importGeneratedModules } = await import('./moduleGeneratorService.js');
+    const results = importGeneratedModules(importable.map((r) => ({ html: r.html, styleName: r.style_name })), db);
+    importable.forEach((r, i) => {
+      if (results[i]?.ok) {
+        db.prepare('UPDATE module_generator_results SET status = ?, imported_module_id = ? WHERE id = ?').run('imported', results[i].module_id, r.id);
+      }
+    });
+    res.json({ success: results.every((r) => r.ok), imported: results.filter((r) => r.ok).length, results });
+  } catch (error) {
+    console.error('[MODULE-GEN results/import] Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+function deserializeResultRow(row) {
+  let brief = null;
+  let models = [];
+  try { brief = row.brief_json ? JSON.parse(row.brief_json) : null; } catch { brief = null; }
+  try { models = row.models_json ? JSON.parse(row.models_json) : []; } catch { models = []; }
+  return {
+    id: row.id, batchId: row.batch_id, setIndex: row.set_index, moduleType: row.module_type,
+    styleName: row.style_name || brief?.brief?.style_name || '',
+    concepto: brief?.brief?.concepto || '', refined: !!brief?.refined,
+    critiqueScore: row.critique_score, models, attempts: row.attempts,
+    valid: !!row.valid, status: row.status, importedModuleId: row.imported_module_id || null,
+    createdAt: row.created_at
+  };
+}
 
 //
 // Helpers para construir un archivo .zip sin dependencias externas.

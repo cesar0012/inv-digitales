@@ -141,6 +141,21 @@ function getKeys() {
   }
 }
 
+/**
+ * Allowlist manual del admin (admin_config.rotator_allowed_models, JSON array
+ * de "provider::model"). Si está definida y NO vacía, el rotator SOLO usa
+ * esos modelos — en generación de módulos y todo lo que use el rotator.
+ */
+function getAllowedModels() {
+  try {
+    const row = db.prepare('SELECT rotator_allowed_models FROM admin_config WHERE id = 1').get();
+    const parsed = row?.rotator_allowed_models ? JSON.parse(row.rotator_allowed_models) : null;
+    return Array.isArray(parsed) ? parsed.filter((k) => typeof k === 'string' && k.includes('::')) : null;
+  } catch {
+    return null;
+  }
+}
+
 async function fetchJson(url, headers = {}, timeoutMs = 20000) {
   const res = await fetch(url, { headers, signal: AbortSignal.timeout(timeoutMs) });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -215,21 +230,42 @@ function entryState(modelKey) {
   return state.entries[modelKey];
 }
 
-/** resolve() — síncrono y barato (§3). Excluye sin-key, cooling y exclude[]. */
+/** resolve() — síncrono y barato (§3). Excluye sin-key, cooling y exclude[].
+ * Con allowlist definida, el pool se restringe a esos modelos (incluidos
+ * modelos escritos a mano que no aparezcan en el catálogo: entrada sintética). */
 function resolve({ lane = 'general', exclude = [] } = {}) {
   if (!catalog || catalog.length === 0) return null;
   const keys = getKeys();
   const excludeSet = new Set(Array.isArray(exclude) ? exclude : []);
-  const candidates = catalog.filter((c) =>
+  let pool = catalog;
+  const allowed = getAllowedModels();
+  if (allowed && allowed.length > 0) {
+    const allowedSet = new Set(allowed.map((k) => k.toLowerCase()));
+    pool = catalog.filter((c) => allowedSet.has(`${c.provider}::${c.model}`.toLowerCase()));
+    for (const key of allowedSet) {
+      const already = pool.some((c) => `${c.provider}::${c.model}`.toLowerCase() === key);
+      if (!already) {
+        const [prov, ...rest] = key.split('::');
+        const model = rest.join('::');
+        if (PROVIDERS[prov] && model) {
+          // Modelo manual no listado en el catálogo: se intenta igual (si el
+          // proveedor no lo sirve, el dead-detection lo enfría solo).
+          pool.push({ provider: prov, model, context_length: 0, lanes: laneOf(model), heuristic: 10 });
+        }
+      }
+    }
+    if (pool.length === 0) return null;
+  }
+  const candidates = pool.filter((c) =>
     keys[c.provider] && c.lanes.includes(lane) && !excludeSet.has(`${c.provider}::${c.model}`)
   );
   if (candidates.length === 0) return null;
 
   const now = Date.now();
   const available = candidates.filter((c) => (entryState(`${c.provider}::${c.model}`).cooldown_until || 0) <= now);
-  const pool = available.length > 0 ? available : candidates; // si TODO está en cooldown → flag fallback
+  const finalPool = available.length > 0 ? available : candidates; // si TODO está en cooldown → flag fallback
   // Benchmarks frescos dominan (§5 Layer 2)
-  const ranked = [...pool].sort((a, b) => benchScore(b) - benchScore(a));
+  const ranked = [...finalPool].sort((a, b) => benchScore(b) - benchScore(a));
   const chosen = ranked[0];
   const modelKey = `${chosen.provider}::${chosen.model}`;
   return {
@@ -455,6 +491,7 @@ function getStatus() {
   return {
     current: state.current,
     catalogErrors: { ...catalogErrors },
+    allowedModels: getAllowedModels() || [],
     providers: Object.fromEntries(Object.entries(PROVIDERS).map(([id, p]) => [id, { name: p.name, hasKey: !!keys[id] }])),
     catalog: (catalog || []).map((c) => {
       const st = state.entries[`${c.provider}::${c.model}`] || {};

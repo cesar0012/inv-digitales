@@ -120,6 +120,30 @@ safeExec('CREATE INDEX IF NOT EXISTS idx_catalogo_old_slug ON catalogo(old_slug)
 // Generador de módulos (independiente): API keys de OpenRouter/NVIDIA para el LLM rotator
 safeAlter('ALTER TABLE admin_config ADD COLUMN openrouter_api_key TEXT', 'admin_config.openrouter_api_key');
 safeAlter('ALTER TABLE admin_config ADD COLUMN nvidia_api_key TEXT', 'admin_config.nvidia_api_key');
+// Allowlist manual de modelos del rotator (JSON array de "provider::model").
+// Si está definida, el rotator SOLO usa esos modelos (elegidos por el admin).
+safeAlter('ALTER TABLE admin_config ADD COLUMN rotator_allowed_models TEXT', 'admin_config.rotator_allowed_models');
+
+// Resultados del generador de módulos (lotes automáticos + revisión posterior)
+db.exec(`
+  CREATE TABLE IF NOT EXISTS module_generator_results (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    batch_id TEXT,
+    set_index INTEGER DEFAULT 0,
+    module_type TEXT,
+    style_name TEXT,
+    brief_json TEXT,
+    html TEXT,
+    critique_score INTEGER,
+    models_json TEXT,
+    attempts INTEGER DEFAULT 0,
+    valid INTEGER DEFAULT 0,
+    status TEXT DEFAULT 'generated',
+    imported_module_id TEXT,
+    created_at TEXT DEFAULT (datetime('now'))
+  )
+`);
+safeExec('CREATE INDEX IF NOT EXISTS idx_mgr_status ON module_generator_results(status)', 'idx_mgr_status');
 
 // Verificación post-migración: lista columnas faltantes para detectar
 // silenciosamente cualquier ALTER que no aplicó (p.ej. DB preexistente
