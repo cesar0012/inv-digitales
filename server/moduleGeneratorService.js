@@ -378,7 +378,7 @@ Devuelve SOLO JSON: {"style_name": "...", "concepto": "1-2 frases", "paleta_neut
 No inventes colores de marca: el sistema aplica la paleta del cliente después.`;
   const brief = { seeds: briefSeeds };
   try {
-    const { content, modelKey } = await m.call({ system: 'Eres director creativo. Respondes SOLO JSON válido.', prompt: briefPrompt, temperature: 1.0, maxTokens: 700 });
+    const { content, modelKey } = await m.call({ system: 'Eres director creativo. Respondes SOLO JSON válido.', prompt: briefPrompt, temperature: 1.0, maxTokens: 1400 });
     models.push(modelKey);
     const jsonText = content.slice(content.indexOf('{'), content.lastIndexOf('}') + 1);
     Object.assign(brief, JSON.parse(jsonText));

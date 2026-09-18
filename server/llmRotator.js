@@ -55,7 +55,7 @@ const CONFIG = {
 };
 
 // --- Clasificación de errores (§7 de la guía; quota se evalúa PRIMERO) ---
-const QUOTA_RE = /\b429\b|\b503\b|rate.?limit|too many requests|quota|insufficient|exceeded your|out of (free )?credits|no more free|\bthrottl|overloaded|temporarily unavailable|service unavailable|try again later/i;
+const QUOTA_RE = /\b429\b|\b503\b|rate.?limit|too many requests|quota|insufficient|exceeded your|out of (free )?credits|no more free|\bthrottl|overloaded|temporarily unavailable|service unavailable|try again later|respuesta sin contenido|empty (response|content)|no content/i;
 const DEAD_RE = /\b404\b|\b403\b|not found|does not exist|no longer (available|exists)|unavailable|invalid model|unknown model|model .* not (available|supported)|only available to|forbidden|not (authorized|permitted|entitled)/i;
 
 export const isQuotaError = (text) => QUOTA_RE.test(String(text || ''));
@@ -241,6 +241,7 @@ function resolve({ lane = 'general', exclude = [] } = {}) {
   const allowed = getAllowedModels();
   if (allowed && allowed.length > 0) {
     const allowedSet = new Set(allowed.map((k) => k.toLowerCase()));
+    const allowedOrder = new Map(allowed.map((k, i) => [k.toLowerCase(), i]));
     pool = catalog.filter((c) => allowedSet.has(`${c.provider}::${c.model}`.toLowerCase()));
     for (const key of allowedSet) {
       const already = pool.some((c) => `${c.provider}::${c.model}`.toLowerCase() === key);
@@ -255,6 +256,11 @@ function resolve({ lane = 'general', exclude = [] } = {}) {
       }
     }
     if (pool.length === 0) return null;
+    // PRIORIDAD POR ORDEN de la lista del admin: el primer modelo de la
+    // allowlist es el preferido; si está en cooldown/falló, el siguiente.
+    pool = [...pool].sort((a, b) =>
+      (allowedOrder.get(`${a.provider}::${a.model}`.toLowerCase()) ?? 999) -
+      (allowedOrder.get(`${b.provider}::${b.model}`.toLowerCase()) ?? 999));
   }
   let candidates = pool.filter((c) =>
     keys[c.provider] && c.lanes.includes(lane) && !excludeSet.has(`${c.provider}::${c.model}`)
@@ -277,8 +283,11 @@ function resolve({ lane = 'general', exclude = [] } = {}) {
   const now = Date.now();
   const available = candidates.filter((c) => (entryState(`${c.provider}::${c.model}`).cooldown_until || 0) <= now);
   const finalPool = available.length > 0 ? available : candidates; // si TODO está en cooldown → flag fallback
-  // Benchmarks frescos dominan (§5 Layer 2)
-  const ranked = [...finalPool].sort((a, b) => benchScore(b) - benchScore(a));
+  // Con allowlist, el ORDEN del admin manda (ya viene ordenado en el pool);
+  // sin allowlist, benchmarks/heurística rankean.
+  const ranked = (allowed && allowed.length > 0)
+    ? [...finalPool]
+    : [...finalPool].sort((a, b) => benchScore(b) - benchScore(a));
   const chosen = ranked[0];
   const modelKey = `${chosen.provider}::${chosen.model}`;
   return {
@@ -381,11 +390,20 @@ async function invokeLLM(resolved, { system, prompt, temperature = 0.8, maxToken
       signal: AbortSignal.timeout(CONFIG.callTimeoutMs)
     });
     const json = await res.json().catch(() => ({}));
+    // OpenRouter a veces responde 200 con el error DENTRO del body (típico de
+    // free tier saturado): tratarlo como error para que la rotación actúe.
+    if (json.error) {
+      const msg = json.error.message || JSON.stringify(json.error);
+      throw Object.assign(new Error(`${msg} (code ${json.error.code ?? '?'})`), { status: json.error.code || res.status });
+    }
     if (!res.ok) {
       throw Object.assign(new Error(json?.error?.message || `HTTP ${res.status}`), { status: res.status });
     }
     const content = json.choices?.[0]?.message?.content;
-    if (!content) throw new Error('respuesta sin contenido');
+    if (!content || !String(content).trim()) {
+      const finish = json.choices?.[0]?.finish_reason;
+      throw new Error(`respuesta sin contenido${finish ? ` (finish_reason: ${finish})` : ''}`);
+    }
     return content;
   };
   try {
@@ -430,7 +448,7 @@ export function createMission(lane = 'general') {
             }
           }
         }
-        console.log(`[ROTATOR] → ${resolved.modelKey} (${task.maxTokens <= 900 ? 'crítica/brief' : 'generación'})`);
+        console.log(`[ROTATOR] → ${resolved.modelKey} (${task.maxTokens <= 900 ? 'crítica' : task.maxTokens <= 1400 ? 'brief' : 'generación'})`);
         try {
           const content = await invokeLLM(resolved, task);
           reportSuccess(resolved.modelKey);

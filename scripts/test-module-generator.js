@@ -127,10 +127,10 @@ const BAD_MODULE = `<section class="x" data-gemini-id="countdown-fallo">
   const genPrompts = [];
   const mission = {
     call: async (task) => {
-      if (task.maxTokens <= 700) {
+      if (/BRIEF creativo/.test(task.prompt)) {
         return { content: JSON.stringify({ style_name: 'Estela Minimal', concepto: 'Poética del vacío', paleta_neutral: 'grises cálidos', tipografia: 'serif aireada', animaciones: ['fade sutil'], ornamentos: ['línea fina'] }), modelKey: 'openrouter::qwen/test:free' };
       }
-      if (task.maxTokens <= 900) {
+      if (/RÚBRICA/.test(task.prompt)) {
         // Crítico de rúbrica: score alto → no se refina en este escenario
         return { content: JSON.stringify({ score: 95, mejoras: [] }), modelKey: 'openrouter::critic/test:free' };
       }
@@ -156,8 +156,8 @@ const BAD_MODULE = `<section class="x" data-gemini-id="countdown-fallo">
   let calls = 0;
   const alwaysBad = {
     call: async (task) => {
-      if (task.maxTokens <= 700) return { content: '{}', modelKey: 'x::y' };
-      if (task.maxTokens <= 900) return { content: '{"score":95,"mejoras":[]}', modelKey: 'x::critic' };
+      if (/BRIEF creativo/.test(task.prompt)) return { content: '{}', modelKey: 'x::y' };
+      if (/RÚBRICA/.test(task.prompt)) return { content: '{"score":95,"mejoras":[]}', modelKey: 'x::critic' };
       calls += 1;
       return { content: BAD_MODULE, modelKey: `x::model${calls}` };
     },
@@ -177,8 +177,8 @@ console.log('\n=== 5b. Refinamiento por rúbrica (sube el nivel de LLMs débiles
   let refineCalls = 0;
   const mission = {
     call: async (task) => {
-      if (task.maxTokens <= 700) return { content: '{}', modelKey: 'x::b' };
-      if (task.maxTokens <= 900) {
+      if (/BRIEF creativo/.test(task.prompt)) return { content: '{}', modelKey: 'x::b' };
+      if (/RÚBRICA/.test(task.prompt)) {
         return { content: JSON.stringify({ score: 68, mejoras: ['Aumentar contraste del texto sobre el fondo', 'Mejorar ritmo tipográfico en móvil'] }), modelKey: 'x::critic' };
       }
       if (/aplica las mejoras/i.test(task.prompt)) {
@@ -200,8 +200,8 @@ console.log('\n=== 5b. Refinamiento por rúbrica (sube el nivel de LLMs débiles
   // Refiner que rompe el contrato → se conserva el original válido
   const mission2 = {
     call: async (task) => {
-      if (task.maxTokens <= 700) return { content: '{}', modelKey: 'x::b' };
-      if (task.maxTokens <= 900) return { content: '{"score":60,"mejoras":["x","y"]}', modelKey: 'x::critic' };
+      if (/BRIEF creativo/.test(task.prompt)) return { content: '{}', modelKey: 'x::b' };
+      if (/RÚBRICA/.test(task.prompt)) return { content: '{"score":60,"mejoras":["x","y"]}', modelKey: 'x::critic' };
       if (/aplica las mejoras/i.test(task.prompt)) return { content: BAD_MODULE, modelKey: 'x::refiner' };
       return { content: countdownFixture, modelKey: 'x::gen' };
     },
@@ -299,6 +299,23 @@ console.log('\n=== 7. Allowlist manual de modelos (solo los definidos) ===');
     ok(free !== null && free.modelKey !== manualModel, 'allowlist vacía → catálogo completo (rotación libre)');
     ok(Array.isArray(llmRotator.getStatus().allowedModels) && llmRotator.getStatus().allowedModels.length === 0, 'status.allowedModels refleja el estado');
 
+    // REGRESIÓN: 'respuesta sin contenido' (free tier saturado) debe ser
+    // ROTABLE (quota/transitorio), no un error terminal del módulo.
+    // (verificado en la sección 1 de clasificación)
+
+    // REGRESIÓN: el ORDEN de la allowlist define la prioridad (el admin pone
+    // el mejor primero), por encima del ranking heurístico.
+    {
+      const statusNow = llmRotator.getStatus();
+      const byScore = statusNow.catalog.slice().sort((a, b) => b.score - a.score);
+      if (statusNow.catalog.length < 2) { ok(true, 'orden allowlist: catálogo insuficiente, saltado'); } else {
+        const userOrder = [byScore[1].modelKey, byScore[0].modelKey]; // orden INVERSO al score
+        db.prepare('UPDATE admin_config SET rotator_allowed_models = ? WHERE id = 1').run(JSON.stringify(userOrder));
+        const ordered = llmRotator.resolve({ lane: 'general', exclude: [] });
+        ok(ordered?.modelKey === userOrder[0], `orden de la allowlist manda sobre el ranking (${ordered?.modelKey})`);
+      }
+    }
+
     // REGRESIÓN (bug real en producción): allowlist SOLO con modelos chat
     // (sin lane 'coding' por nombre) + resolve con lane 'coding' → antes
     // devolvía null ("Rotator sin candidatos"); ahora amplia a 'general'.
@@ -337,8 +354,8 @@ const GALERIA_FIXTURE = `<section class="gal-ejemplo" data-gemini-id="galeria-ej
   const setMissions = [];
   const mission = {
     call: async (task) => {
-      if (task.maxTokens <= 700) return { content: '{}', modelKey: 'x::b' };
-      if (task.maxTokens <= 900) return { content: '{"score":95,"mejoras":[]}', modelKey: 'x::critic' };
+      if (/BRIEF creativo/.test(task.prompt)) return { content: '{}', modelKey: 'x::b' };
+      if (/RÚBRICA/.test(task.prompt)) return { content: '{"score":95,"mejoras":[]}', modelKey: 'x::critic' };
       // Extraer del prompt los seeds forzados para verificar coherencia
       const est = task.prompt.match(/"estetica":\s*"([^"]+)"/)?.[1] || '';
       const firma = task.prompt.match(/"firma":\s*"([^"]+)"/)?.[1] || '';
@@ -370,8 +387,8 @@ console.log('\n=== 9. Persistencia y revisión de resultados ===');
   const result = await generateModule('countdown', {
     mission: {
       call: async (task) => {
-        if (task.maxTokens <= 700) return { content: JSON.stringify({ style_name: 'Persistencia Test', concepto: 'x' }), modelKey: 'x::b' };
-        if (task.maxTokens <= 900) return { content: '{"score":95,"mejoras":[]}', modelKey: 'x::critic' };
+        if (/BRIEF creativo/.test(task.prompt)) return { content: JSON.stringify({ style_name: 'Persistencia Test', concepto: 'x' }), modelKey: 'x::b' };
+        if (/RÚBRICA/.test(task.prompt)) return { content: '{"score":95,"mejoras":[]}', modelKey: 'x::critic' };
         return { content: countdownFixture, modelKey: 'x::gen' };
       },
       excludeModel: () => {}, deadModels: () => []
