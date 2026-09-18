@@ -256,9 +256,22 @@ function resolve({ lane = 'general', exclude = [] } = {}) {
     }
     if (pool.length === 0) return null;
   }
-  const candidates = pool.filter((c) =>
+  let candidates = pool.filter((c) =>
     keys[c.provider] && c.lanes.includes(lane) && !excludeSet.has(`${c.provider}::${c.model}`)
   );
+  // Lane-widening: si la lane pedida (p. ej. 'coding', asignada por heurística
+  // de NOMBRE de modelo) no tiene ningún candidato — típico con allowlist de
+  // modelos chat — se amplía a 'general' en vez de fallar con "sin candidatos".
+  let laneWidened = false;
+  if (candidates.length === 0 && lane !== 'general') {
+    candidates = pool.filter((c) =>
+      keys[c.provider] && c.lanes.includes('general') && !excludeSet.has(`${c.provider}::${c.model}`)
+    );
+    laneWidened = true;
+    if (candidates.length > 0) {
+      console.warn(`[ROTATOR] lane "${lane}" sin candidatos — ampliada a "general" (${candidates.length} modelos)`);
+    }
+  }
   if (candidates.length === 0) return null;
 
   const now = Date.now();
@@ -274,7 +287,8 @@ function resolve({ lane = 'general', exclude = [] } = {}) {
     model: chosen.model,
     api_key: keys[chosen.provider],
     api_base: PROVIDERS[chosen.provider].chatUrl,
-    fallback: available.length === 0
+    fallback: available.length === 0,
+    laneWidened
   };
 }
 

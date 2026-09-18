@@ -298,6 +298,18 @@ console.log('\n=== 7. Allowlist manual de modelos (solo los definidos) ===');
     const free = llmRotator.resolve({ lane: 'general', exclude: [] });
     ok(free !== null && free.modelKey !== manualModel, 'allowlist vacía → catálogo completo (rotación libre)');
     ok(Array.isArray(llmRotator.getStatus().allowedModels) && llmRotator.getStatus().allowedModels.length === 0, 'status.allowedModels refleja el estado');
+
+    // REGRESIÓN (bug real en producción): allowlist SOLO con modelos chat
+    // (sin lane 'coding' por nombre) + resolve con lane 'coding' → antes
+    // devolvía null ("Rotator sin candidatos"); ahora amplia a 'general'.
+    const catalogKeys = llmRotator.getStatus().catalog.map((c) => c.modelKey);
+    const chatOnly = catalogKeys.filter((k) => !/cod(e|er|ing)|codestral|devstral|starcoder|codegemma/i.test(k)).slice(0, 2);
+    if (chatOnly.length > 0) {
+      db.prepare('UPDATE admin_config SET rotator_allowed_models = ? WHERE id = 1').run(JSON.stringify(chatOnly));
+      const codingReq = llmRotator.resolve({ lane: 'coding', exclude: [] });
+      ok(codingReq !== null && codingReq.laneWidened === true && chatOnly.includes(codingReq.modelKey),
+        `allowlist sin modelos coding + lane 'coding' → amplia a general y responde (${codingReq?.modelKey})`);
+    }
   } finally {
     db.prepare('UPDATE admin_config SET openrouter_api_key = ?, rotator_allowed_models = ? WHERE id = 1').run(prevKey, prevAllowed);
   }

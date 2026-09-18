@@ -68,7 +68,7 @@ export function startBatch({ moduleTypes, sets, extraInstructions = '' }) {
 
 async function runBatch(batchId, totalSets, moduleTypes, extraInstructions) {
   const batchSeeds = new Set();
-  const mission = llmRotator.createMission('coding');
+  const mission = llmRotator.createMission('general');
   try {
     for (let s = 1; s <= totalSets; s++) {
       if (jobState.stopRequested) {

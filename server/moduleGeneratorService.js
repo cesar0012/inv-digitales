@@ -349,7 +349,7 @@ Devuelve el módulo COMPLETO mejorado (SOLO HTML).`,
  * @returns {Promise<{moduleType, html, attempts, models, validation, brief}>}
  */
 export async function generateModule(type, { extraInstructions = '', mission = null, seedUsed = null, forcedSeeds = null } = {}) {
-  const m = mission || createMission('coding');
+  const m = mission || createMission('general');
   const models = [];
   const used = seedUsed || new Set();
   const briefSeeds = {
