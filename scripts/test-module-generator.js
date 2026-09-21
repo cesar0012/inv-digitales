@@ -165,7 +165,7 @@ const BAD_MODULE = `<section class="x" data-gemini-id="countdown-fallo">
     deadModels: () => []
   };
   const failed = await generateModule('countdown', { mission: alwaysBad });
-  ok(failed.failed === true && calls === 3, `fallos persistentes: 3 intentos y failed=true (${calls})`);
+  ok(failed.failed === true && calls === 4, `fallos persistentes: 4 intentos y failed=true (${calls})`);
   ok(failed.validation.errors.length > 0, 'los errores del último intento viajan para diagnóstico');
 }
 
@@ -410,6 +410,36 @@ console.log('\n=== 9. Persistencia y revisión de resultados ===');
   const remain = db.prepare("SELECT COUNT(*) AS c FROM module_generator_results WHERE batch_id = 'batch_test'").get().c;
   ok(remain === 0, 'limpieza de prueba completa');
 }
+
+console.log('\n=== 10. La generación NUNCA se rinde (timeout → misión fresca) ===');
+{
+  const exhaustedMission = {
+    call: async () => { throw new Error('DOMException [TimeoutError]: The operation was aborted due to timeout'); },
+    excludeModel: () => {},
+    deadModels: () => ['a::x', 'b::y']
+  };
+  let factoryCalls = 0;
+  const freshOk = {
+    call: async (task) => {
+      if (/BRIEF creativo/.test(task.prompt)) return { content: '{}', modelKey: 'fresh::brief' };
+      if (/RÚBRICA/.test(task.prompt)) return { content: '{"score":95,"mejoras":[]}', modelKey: 'fresh::critic' };
+      return { content: countdownFixture, modelKey: 'fresh::gen' };
+    },
+    excludeModel: () => {},
+    deadModels: () => []
+  };
+  const result = await generateModule('countdown', {
+    mission: exhaustedMission,
+    missionFactory: () => { factoryCalls += 1; return freshOk; }
+  });
+  ok(result.validation.valid, 'misión agotada por timeouts → misión fresca → módulo generado');
+  ok(factoryCalls >= 1, `el factory de misión fresca se invocó (${factoryCalls})`);
+  ok(result.models.includes('fresh::gen'), 'el modelo de la misión fresca queda registrado');
+
+  const simple = await generateModule('countdown', { mission: freshOk });
+  ok(simple.validation.valid, 'misión normal sigue funcionando (compatibilidad)');
+}
+
 if (failures.length === 0) {
   console.log(`✅ TEST PASSED: ${passed} verificaciones superadas`);
 } else {

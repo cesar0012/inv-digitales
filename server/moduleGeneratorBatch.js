@@ -69,6 +69,7 @@ export function startBatch({ moduleTypes, sets, extraInstructions = '' }) {
 async function runBatch(batchId, totalSets, moduleTypes, extraInstructions) {
   const batchSeeds = new Set();
   const mission = llmRotator.createMission('general');
+  const missionFactory = () => llmRotator.createMission('general'); // respaldo fresco si la misión compartida agota el catálogo
   try {
     for (let s = 1; s <= totalSets; s++) {
       if (jobState.stopRequested) {
@@ -77,7 +78,7 @@ async function runBatch(batchId, totalSets, moduleTypes, extraInstructions) {
       }
       jobState.currentLabel = `set ${s}/${totalSets}`;
       try {
-        const set = await generateSet(moduleTypes, { extraInstructions, batchSeeds, mission });
+        const set = await generateSet(moduleTypes, { extraInstructions, batchSeeds, mission, missionFactory });
         for (const result of set.modules) {
           const id = saveGeneratedResult(db, { batchId, setIndex: s, result });
           if (result.failed || !result.validation?.valid) {

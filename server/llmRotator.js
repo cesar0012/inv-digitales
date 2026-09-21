@@ -48,14 +48,20 @@ const CONFIG = {
   quotaCooldownMs: 30 * 60 * 1000,
   deadCooldownMs: 24 * 60 * 60 * 1000,
   maxCatalog: 30,
-  callTimeoutMs: parseInt(process.env.ROTATOR_CALL_TIMEOUT_MS || '180000', 10),
-  maxDeadSkips: 6,
-  maxQuotaRetries: 3,
+  // Timeout por FASE: respuestas cortas (brief/crítica) fallan rápido; la
+  // generación de HTML largo en free tier puede tardar varios minutos.
+  shortCallTimeoutMs: parseInt(process.env.ROTATOR_SHORT_TIMEOUT_MS || '90000', 10),
+  longCallTimeoutMs: parseInt(process.env.ROTATOR_CALL_TIMEOUT_MS || '240000', 10),
+  // La rotación NO se rinde por presupuesto: se agota solo cuando no queda
+  // ningún modelo vivo en el catálogo (límite de seguridad anti-bucle).
+  maxDeadSkips: 40,
+  maxQuotaRetries: 40,
+  maxRotationLoop: 60,
   benchFreshMs: 48 * 60 * 60 * 1000
 };
 
 // --- Clasificación de errores (§7 de la guía; quota se evalúa PRIMERO) ---
-const QUOTA_RE = /\b429\b|\b503\b|rate.?limit|too many requests|quota|insufficient|exceeded your|out of (free )?credits|no more free|\bthrottl|overloaded|temporarily unavailable|service unavailable|try again later|respuesta sin contenido|empty (response|content)|no content/i;
+const QUOTA_RE = /\b429\b|\b503\b|rate.?limit|too many requests|quota|insufficient|exceeded your|out of (free )?credits|no more free|\bthrottl|overloaded|temporarily unavailable|service unavailable|try again later|respuesta sin contenido|empty (response|content)|no content|timeout|timed?\s*out|abort|ETIMEDOUT|ECONNRESET|ECONNREFUSED|ENOTFOUND|EAI_AGAIN|EPIPE|network|fetch failed|socket hang up/i;
 const DEAD_RE = /\b404\b|\b403\b|not found|does not exist|no longer (available|exists)|unavailable|invalid model|unknown model|model .* not (available|supported)|only available to|forbidden|not (authorized|permitted|entitled)/i;
 
 export const isQuotaError = (text) => QUOTA_RE.test(String(text || ''));
@@ -368,9 +374,11 @@ function resetCooldowns() {
 }
 
 /** Llamada cruda a un modelo resuelto (chat completions OpenAI-compatible).
- * Retry adaptativo: muchos modelos free limitan max_tokens por debajo de lo
- * pedido (400 "max_tokens must be <= N") — se reintenta una vez con la mitad. */
-async function invokeLLM(resolved, { system, prompt, temperature = 0.8, maxTokens = 8000, _retried = false }) {
+ * - Timeout por fase: corto para brief/crítica, largo para generación.
+ * - Retry adaptativo de max_tokens (arriba si el razonador se quedó corto,
+ *   abajo si el modelo limita el output). */
+async function invokeLLM(resolved, { system, prompt, temperature = 0.8, maxTokens = 8000, _tokenRetry = 0 }) {
+  const timeoutMs = maxTokens >= 4000 ? CONFIG.longCallTimeoutMs : CONFIG.shortCallTimeoutMs;
   const call = async (mt) => {
     const headers = { 'Content-Type': 'application/json', ...PROVIDERS[resolved.provider].auth(resolved.api_key) };
     const body = {
@@ -387,7 +395,7 @@ async function invokeLLM(resolved, { system, prompt, temperature = 0.8, maxToken
       method: 'POST',
       headers,
       body: JSON.stringify(body),
-      signal: AbortSignal.timeout(CONFIG.callTimeoutMs)
+      signal: AbortSignal.timeout(timeoutMs)
     });
     const json = await res.json().catch(() => ({}));
     // OpenRouter a veces responde 200 con el error DENTRO del body (típico de
@@ -400,8 +408,14 @@ async function invokeLLM(resolved, { system, prompt, temperature = 0.8, maxToken
       throw Object.assign(new Error(json?.error?.message || `HTTP ${res.status}`), { status: res.status });
     }
     const content = json.choices?.[0]?.message?.content;
+    const finish = json.choices?.[0]?.finish_reason;
+    if ((!content || !String(content).trim()) && finish === 'length' && _tokenRetry < 2 && mt < 16384) {
+      // Razonador que quemó TODO el budget en razonamiento: MÁS tokens, no menos.
+      const next = Math.min(16384, Math.ceil(mt * 1.5));
+      console.warn(`[ROTATOR] ${resolved.modelKey}: finish_reason=length sin contenido — reintentando con ${next} tokens`);
+      return invokeLLM(resolved, { system, prompt, temperature, maxTokens: next, _tokenRetry: _tokenRetry + 1 });
+    }
     if (!content || !String(content).trim()) {
-      const finish = json.choices?.[0]?.finish_reason;
       throw new Error(`respuesta sin contenido${finish ? ` (finish_reason: ${finish})` : ''}`);
     }
     return content;
@@ -409,7 +423,7 @@ async function invokeLLM(resolved, { system, prompt, temperature = 0.8, maxToken
   try {
     return await call(maxTokens);
   } catch (error) {
-    if (!_retried && /max_tokens|too large|larger than|exceeds the model/i.test(String(error.message))) {
+    if (_tokenRetry === 0 && /max_tokens|too large|larger than|exceeds the model/i.test(String(error.message))) {
       console.warn(`[ROTATOR] ${resolved.modelKey}: max_tokens ${maxTokens} rechazado, reintentando con ${Math.floor(maxTokens / 2)}`);
       return call(Math.max(1024, Math.floor(maxTokens / 2)));
     }
@@ -430,7 +444,12 @@ export function createMission(lane = 'general') {
     /** Ejecuta una tarea con rotación. Devuelve {content, modelKey} o lanza. */
     async call(task) {
       let deadSkips = 0;
+      let loops = 0;
       for (;;) {
+        loops += 1;
+        if (loops > CONFIG.maxRotationLoop) {
+          throw new Error(`Rotator: límite de seguridad de ${CONFIG.maxRotationLoop} rotaciones alcanzado (catálogo agotado para esta tarea)`);
+        }
         await refreshCatalog();
         let resolved = resolve({ lane, exclude: [...dead] });
         if (!resolved) throw new Error('Rotator sin candidatos: configura API keys de OpenRouter/NVIDIA');
@@ -469,7 +488,17 @@ export function createMission(lane = 'general') {
             quotaRetries += 1;
             continue;
           }
-          throw error; // fallo no rotable (bug de prompt, etc.)
+          // Presupuesto agotado pero ¿queda algún modelo vivo sin probar?
+          if (quota || isDead) {
+            const next = resolve({ lane, exclude: [...dead] });
+            if (next) {
+              console.warn(`[ROTATOR] presupuesto de rotación excedido pero quedan modelos — continuando`);
+              reportFailure(resolved.modelKey, text);
+              dead.add(resolved.modelKey);
+              continue;
+            }
+          }
+          throw error; // fallo no rotable (bug de prompt, etc.) o catálogo agotado
         }
       }
     },

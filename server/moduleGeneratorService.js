@@ -27,7 +27,7 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const MAX_ATTEMPTS = 3;
+const MAX_ATTEMPTS = 4;
 
 // Ejemplo canónico del contrato: un módulo REAL de la KB (Countdown/countdown-01)
 // que cumple todo el validador. Los LLMs flojos generan MUCHO mejor con un
@@ -348,8 +348,12 @@ Devuelve el módulo COMPLETO mejorado (SOLO HTML).`,
  * @param {{extraInstructions?: string, mission?: object, temperature?: number}} opts
  * @returns {Promise<{moduleType, html, attempts, models, validation, brief}>}
  */
-export async function generateModule(type, { extraInstructions = '', mission = null, seedUsed = null, forcedSeeds = null } = {}) {
-  const m = mission || createMission('general');
+export async function generateModule(type, { extraInstructions = '', mission = null, missionFactory = null, seedUsed = null, forcedSeeds = null } = {}) {
+  // missionFactory permite re-crear misiones frescas si una se agota (todos
+  // sus modelos muertos): la generación de un módulo NO se abandona mientras
+  // quede algún modelo del catálogo por intentar.
+  const freshMission = () => (missionFactory ? missionFactory() : createMission('general'));
+  let m = mission || freshMission();
   const models = [];
   const used = seedUsed || new Set();
   const briefSeeds = {
@@ -392,9 +396,11 @@ No inventes colores de marca: el sistema aplica la paleta del cliente después.`
   let lastHtml = '';
   let validation = { valid: false, errors: [] };
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-    const { content, modelKey } = await m.call({
-      system: buildSystemPrompt(type),
-      prompt: `Genera el módulo "${type}" siguiendo ESTE brief creativo:
+    let content, modelKey;
+    try {
+      ({ content, modelKey } = await m.call({
+        system: buildSystemPrompt(type),
+        prompt: `Genera el módulo "${type}" siguiendo ESTE brief creativo:
 
 ${JSON.stringify(brief, null, 2)}
 ${canonical ? `\n===== EJEMPLO CANÓNICO DE REFERENCIA =====
@@ -402,11 +408,19 @@ Este es un módulo REAL que CUMPLE todo el contrato (estructura, atributos memor
 
 ${canonical}
 ===== FIN EJEMPLO =====` : ''}
-${feedback.length > 0 ? `\n===== INTENTO ANTERIOR RECHAZADO POR EL VALIDADOR — CORRIGE EXACTAMENTE ESTO =====\n${feedback.map((f, i) => `${i + 1}. ${f}`).join('\n')}\nReentrega el módulo COMPLETO corregido.` : ''}
+${feedback.length > 0 ? `\n===== INTENTO ANTERIOR RECHAZADO — CORRIGE EXACTAMENTE ESTO =====\n${feedback.map((f, i) => `${i + 1}. ${f}`).join('\n')}\nReentrega el módulo COMPLETO corregido.` : ''}
 Recuerda: SOLO HTML, temática agnóstica, textos placeholder en español, nivel producción.`.trim(),
-      temperature: 0.95,
-      maxTokens: 8192
-    });
+        temperature: 0.95,
+        maxTokens: 8192
+      }));
+    } catch (callError) {
+      // La misión agotó el catálogo (o error no rotable): NO abandonar el
+      // módulo — reintentar con una misión FRESCA (catálogo completo otra vez).
+      console.warn(`[MODULE-GEN][${type}] intento ${attempt}: la rotación se agotó (${callError.message}) — reintentando con misión fresca`);
+      feedback = [`La llamada al LLM falló: ${callError.message}. Genera el módulo completo de nuevo.`];
+      m = freshMission();
+      continue;
+    }
     models.push(modelKey);
 
     lastHtml = extractModuleHtml(content);
@@ -504,7 +518,7 @@ export function importGeneratedModules(modules, dbInstance) {
  * @param {{extraInstructions?: string, batchSeeds?: Set<string>, mission?: object}} opts
  * @returns {Promise<{modules: Array, setSeeds: object, autoDirection: string}>}
  */
-export async function generateSet(moduleTypes, { extraInstructions = '', batchSeeds = new Set(), mission = null } = {}) {
+export async function generateSet(moduleTypes, { extraInstructions = '', batchSeeds = new Set(), mission = null, missionFactory = null } = {}) {
   const setSeeds = {
     estetica: pickExcluding(AESTHETICS, batchSeeds, 'estetica'),
     firma: pickExcluding(SIGNATURES, batchSeeds, 'firma')
@@ -520,6 +534,7 @@ export async function generateSet(moduleTypes, { extraInstructions = '', batchSe
       const result = await generateModule(type, {
         extraInstructions: setInstructions,
         mission,
+        missionFactory,
         seedUsed: batchSeeds,
         forcedSeeds: setSeeds
       });
