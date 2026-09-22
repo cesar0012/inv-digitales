@@ -398,6 +398,13 @@ export const AdminModuleGenerator: React.FC = () => {
               {allowedModels.length > 0 && <span className="ml-1 text-indigo-600 font-medium">· solo permitidos ({allowedModels.length})</span>}
             </span>
           </div>
+          {(status?.rotator as any)?.premium?.lastFatalError && (
+            <div className="mb-3 p-2.5 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700">
+              <p className="font-semibold mb-0.5">LLM Premium suspendido — error de la cuenta:</p>
+              <p className="font-mono">{(status?.rotator as any).premium.lastFatalError}</p>
+              <p className="mt-1 opacity-80">La generación sigue con el rotator. Corrige la cuenta (p. ej. recarga saldo), guarda de nuevo el premium y se reactivará.</p>
+            </div>
+          )}
           {Object.keys(status?.rotator.catalogErrors || {}).length > 0 && (
             <div className="mb-3 p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-xs text-amber-700 space-y-1">
               {Object.entries(status!.rotator.catalogErrors!).map(([prov, err]) => (

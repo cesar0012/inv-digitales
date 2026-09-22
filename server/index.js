@@ -2136,6 +2136,7 @@ app.post('/api/admin/module-generator/premium', adminMiddleware, async (req, res
     }
     db.prepare(`UPDATE admin_config SET ${sets.join(', ')} WHERE id = 1`).run(...params);
     const { llmRotator } = await import('./llmRotator.js');
+    llmRotator.clearPremiumFatal?.(); // credenciales nuevas: revalidar el premium
     res.json({ success: true, premium: llmRotator.getStatus().premium });
   } catch (error) {
     console.error('[MODULE-GEN premium] Error:', error);

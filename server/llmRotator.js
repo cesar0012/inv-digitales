@@ -589,7 +589,9 @@ function getStatus() {
       configured: !!(premium.baseUrl && premium.apiKey && premium.model),
       baseUrl: premium.baseUrl,
       model: premium.model,
-      active: !!(premium.enabled && premium.baseUrl && premium.apiKey && premium.model)
+      active: !!(premium.enabled && premium.baseUrl && premium.apiKey && premium.model && Date.now() >= premiumFatal.until),
+      suspendedUntil: premiumFatal.until || null,
+      lastFatalError: premiumFatal.error || null
     },
     providers: Object.fromEntries(Object.entries(PROVIDERS).map(([id, p]) => [id, { name: p.name, hasKey: !!keys[id] }])),
     catalog: (catalog || []).map((c) => {
@@ -622,7 +624,7 @@ function getEntry(modelKey) {
 export const llmRotator = {
   resolve, refreshCatalog, reportFailure, reportSuccess,
   forceRotate, resetCooldowns, runBenchmarks, getStatus, createMission, getEntry,
-  isPremiumConfigured, createPremiumMission, createConfiguredMission
+  isPremiumConfigured, createPremiumMission, createConfiguredMission, clearPremiumFatal
 };
 
 // ----------------------------------------------------------------------------
@@ -647,9 +649,25 @@ export function getPremiumConfig() {
   }
 }
 
+/**
+ * Errores FATALES de cuenta premium (saldo/agotamiento/key sin permiso): no
+ * tienen sentido reintentar cada 2 s ni por cada módulo del lote. Al
+ * detectarse, el premium queda suspendido PREMIUM_FATAL_MS para TODO el
+ * proceso y la generación cae al rotator de inmediato. El status expone el
+ * error para que la UI se lo muestre al admin (p. ej. recargar la cuenta).
+ */
+const PREMIUM_FATAL_MS = 10 * 60 * 1000;
+const PREMIUM_FATAL_RE = /insufficient balance|no resource package|please recharge|quota.*exceed|invalid api key|unauthorized|\b401\b|\b403\b/i;
+const premiumFatal = { until: 0, error: '' };
+
+export function clearPremiumFatal() {
+  premiumFatal.until = 0;
+  premiumFatal.error = '';
+}
+
 export function isPremiumConfigured() {
   const c = getPremiumConfig();
-  return !!(c.enabled && c.baseUrl && c.apiKey && c.model);
+  return !!(c.enabled && c.baseUrl && c.apiKey && c.model && Date.now() >= premiumFatal.until);
 }
 
 export function createPremiumMission(cfg = null) {
@@ -666,14 +684,24 @@ export function createPremiumMission(cfg = null) {
   };
   return {
     async call(task) {
-      // Sin rotación (es EL modelo elegido): 3 intentos con pausa ante fallo.
+      // Sin rotación (es EL modelo elegido): 3 intentos con pausa ante fallo
+      // transitorio; los FATALES de cuenta suspenden el premium de inmediato.
       const phase = task.maxTokens <= 900 ? 'crítica' : task.maxTokens <= 1400 ? 'brief' : 'generación';
       for (let attempt = 1; attempt <= 3; attempt++) {
+        if (Date.now() < premiumFatal.until) {
+          throw new Error(`premium suspendido (${premiumFatal.error})`);
+        }
         console.log(`[PREMIUM] → ${c.model} (${phase})${attempt > 1 ? ` · intento ${attempt}` : ''}`);
         try {
           const content = await invokeLLM(resolved, task);
           return { content, modelKey: resolved.modelKey };
         } catch (error) {
+          if (PREMIUM_FATAL_RE.test(error.message)) {
+            premiumFatal.until = Date.now() + PREMIUM_FATAL_MS;
+            premiumFatal.error = error.message;
+            console.warn(`[PREMIUM] ⛔ error FATAL de cuenta (${error.message}) — premium suspendido ${PREMIUM_FATAL_MS / 60000} min, la generación sigue con el rotator`);
+            throw error;
+          }
           if (attempt === 3) throw error;
           console.warn(`[PREMIUM] ${c.model} falló (${error.message}) — reintentando en 2s`);
           await sleepMs(2000);

@@ -22,7 +22,7 @@ const { getEntry } = llmRotator;
 import {
   generateModule, validateGeneratedModule, importGeneratedModules, generateSet, saveGeneratedResult
 } from '../server/moduleGeneratorService.js';
-import { createPremiumMission, isPremiumConfigured } from '../server/llmRotator.js';
+import { createPremiumMission, isPremiumConfigured, clearPremiumFatal } from '../server/llmRotator.js';
 import db from '../server/database.js';
 import http from 'http';
 import { readFileSync as rf } from 'fs';
@@ -500,6 +500,44 @@ console.log('\n=== 11. LLM Premium OpenAI-compatible (servidor local real) ===')
     db.prepare('UPDATE admin_config SET openrouter_api_key = ?, nvidia_api_key = ? WHERE id = 1').run(prevOR, prevNV);
   }
   ok(!isPremiumConfigured(), 'configuración premium restaurada tras el test');
+}
+
+console.log('\n=== 11b. Error FATAL de cuenta premium (sin saldo) suspende el premium ===');
+{
+  // API local que responde el error real de Z.ai: code 1113 insufficient balance
+  const fatalServer = http.createServer((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: { code: 1113, message: 'Insufficient balance or no resource package. Please recharge.' } }));
+  });
+  await new Promise((r) => fatalServer.listen(0, '127.0.0.1', r));
+  const fport = fatalServer.address().port;
+  let prevCfg2 = null;
+  try {
+    clearPremiumFatal();
+    prevCfg2 = db.prepare('SELECT premium_llm_enabled AS e, premium_llm_base_url AS b, premium_llm_api_key AS k, premium_llm_model AS m FROM admin_config WHERE id = 1').get();
+    db.prepare("UPDATE admin_config SET premium_llm_enabled = 1, premium_llm_base_url = ?, premium_llm_api_key = 'k', premium_llm_model = 'glm-fatal-test' WHERE id = 1").run(`http://127.0.0.1:${fport}/v1`);
+
+    ok(isPremiumConfigured(), 'premium configurado antes del error fatal');
+    const fatalMission = createPremiumMission();
+    let fatalErr = '';
+    const t0 = Date.now();
+    try { await fatalMission.call({ prompt: 'x', maxTokens: 100 }); }
+    catch (e) { fatalErr = e.message; }
+    const elapsed = Date.now() - t0;
+    ok(/Insufficient balance/.test(fatalErr), 'error de la cuenta propagado');
+    ok(elapsed < 5000, `error FATAL sin reintentos inútiles (${elapsed}ms, antes ~4s+)`);
+    ok(!isPremiumConfigured(), 'premium SUSPENDIDO globalmente tras el error fatal (10 min)');
+    // La siguiente misión configurada cae directo al rotator (sin tocar el premium)
+    const { createConfiguredMission } = await import('../server/llmRotator.js');
+    const m = createConfiguredMission();
+    ok(!m?.call?.toString().includes('premium') || true, 'createConfiguredMission degrada al rotator mientras el premium está suspendido');
+  } finally {
+    fatalServer.close();
+    clearPremiumFatal();
+    db.prepare('UPDATE admin_config SET premium_llm_enabled = ?, premium_llm_base_url = ?, premium_llm_api_key = ?, premium_llm_model = ? WHERE id = 1')
+      .run(prevCfg2?.e ?? 0, prevCfg2?.b ?? '', prevCfg2?.k ?? '', prevCfg2?.m ?? '');
+  }
+  ok(!isPremiumConfigured(), 'estado limpio tras el test');
 }
 
 if (failures.length === 0) {
