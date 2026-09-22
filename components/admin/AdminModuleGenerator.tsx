@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import {
   Wand2, Key, RefreshCw, Loader2, CheckCircle2, XCircle, Monitor, Tablet, Smartphone,
-  Play, RotateCcw, Gauge, Upload, Eye, Sparkles, AlertCircle, ListChecks, Square, Pin
+  Play, RotateCcw, Gauge, Upload, Eye, Sparkles, AlertCircle, ListChecks, Square, Pin, Zap
 } from 'lucide-react';
 import {
   getModuleGeneratorStatus, saveModuleGeneratorKeys, moduleGeneratorRotatorAction,
@@ -176,6 +176,10 @@ export const AdminModuleGenerator: React.FC = () => {
   };
 
   const handleSavePremium = async (enabled: boolean) => {
+    if (enabled && (!premiumBaseUrl.trim() || !premiumModel.trim() || (!premiumKey.trim() && !(status?.rotator as any)?.premium?.configured))) {
+      showToast('error', 'Completa Base URL, modelo y API key para activar el premium');
+      return;
+    }
     setSavingPremium(true);
     try {
       const pr = await savePremiumLLM({ enabled, baseUrl: premiumBaseUrl, apiKey: premiumKey, model: premiumModel });
@@ -409,14 +413,16 @@ export const AdminModuleGenerator: React.FC = () => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
               <button onClick={() => handleSavePremium(false)} disabled={savingPremium}
-                className={`px-3 py-2 rounded-lg text-xs font-medium border text-left ${!premiumEnabled ? 'bg-indigo-600 text-white border-transparent' : 'bg-white text-gray-600 border-gray-200 hover:border-indigo-400'}`}>
-                🎡 Rotator (free)<br />
-                <span className="opacity-70">Rotación automática OpenRouter + NVIDIA</span>
+                className={`flex items-start gap-2 px-3 py-2 rounded-lg text-xs font-medium border text-left ${!premiumEnabled ? 'bg-indigo-600 text-white border-transparent' : 'bg-white text-gray-600 border-gray-200 hover:border-indigo-400'}`}>
+                <RefreshCw className="w-4 h-4 mt-0.5 shrink-0" />
+                <span>Rotator (free)<br />
+                <span className="opacity-70 font-normal">Rotación automática OpenRouter + NVIDIA</span></span>
               </button>
-              <button onClick={() => handleSavePremium(true)} disabled={savingPremium}
-                className={`px-3 py-2 rounded-lg text-xs font-medium border text-left ${premiumEnabled ? 'bg-emerald-600 text-white border-transparent' : 'bg-white text-gray-600 border-gray-200 hover:border-emerald-400'}`}>
-                ⚡ LLM Premium (OpenAI-compatible)<br />
-                <span className="opacity-70">Tu modelo pago directo, ej. Z.ai GLM 5.3</span>
+              <button onClick={() => setPremiumEnabled(true)} disabled={savingPremium}
+                className={`flex items-start gap-2 px-3 py-2 rounded-lg text-xs font-medium border text-left ${premiumEnabled ? 'bg-emerald-600 text-white border-transparent' : 'bg-white text-gray-600 border-gray-200 hover:border-emerald-400'}`}>
+                <Zap className="w-4 h-4 mt-0.5 shrink-0" />
+                <span>LLM Premium (OpenAI-compatible)<br />
+                <span className="opacity-70 font-normal">Tu modelo pago directo, ej. Z.ai GLM 5.3</span></span>
               </button>
             </div>
             {premiumEnabled && (
@@ -428,7 +434,8 @@ export const AdminModuleGenerator: React.FC = () => {
                 <input type="password" value={premiumKey} onChange={(e) => setPremiumKey(e.target.value)} placeholder="API key (vacío = conservar)"
                   className="px-3 py-2 border border-emerald-200 rounded-lg text-xs font-mono focus:outline-none focus:ring-2 focus:ring-emerald-300" />
                 <button onClick={() => handleSavePremium(true)} disabled={savingPremium}
-                  className="md:col-span-3 px-3 py-2 rounded-lg bg-emerald-600 text-white text-xs font-medium hover:bg-emerald-700 disabled:opacity-60">
+                  className="md:col-span-3 flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-emerald-600 text-white text-xs font-medium hover:bg-emerald-700 disabled:opacity-60">
+                  {savingPremium ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Zap className="w-3.5 h-3.5" />}
                   {savingPremium ? 'Guardando…' : 'Guardar y activar premium'}
                 </button>
               </div>
