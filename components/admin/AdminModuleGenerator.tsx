@@ -7,7 +7,7 @@ import {
   getModuleGeneratorStatus, saveModuleGeneratorKeys, moduleGeneratorRotatorAction,
   generateModuleWithRotator, importGeneratedModulesToRAG,
   saveAllowedModels, startModuleBatch, getModuleBatchStatus, stopModuleBatch,
-  getGeneratorResults, getGeneratorResult, reviewGeneratorResult, importGeneratorResults,
+  getGeneratorResults, getGeneratorResult, reviewGeneratorResult, importGeneratorResults, savePremiumLLM,
   type ModuleGeneratorStatus, type GeneratedModule, type BatchStatus, type GeneratorResultRow
 } from '../../services/adminService';
 
@@ -81,6 +81,13 @@ export const AdminModuleGenerator: React.FC = () => {
   // Allowlist de modelos (solo estos se usan)
   const [modelsInput, setModelsInput] = useState('');
   const [savingModels, setSavingModels] = useState(false);
+
+  // LLM Premium (OpenAI-compatible)
+  const [premiumEnabled, setPremiumEnabled] = useState(false);
+  const [premiumBaseUrl, setPremiumBaseUrl] = useState('');
+  const [premiumModel, setPremiumModel] = useState('');
+  const [premiumKey, setPremiumKey] = useState('');
+  const [savingPremium, setSavingPremium] = useState(false);
 
   // Lote automático
   const [batch, setBatch] = useState<BatchStatus | null>(null);
@@ -165,6 +172,23 @@ export const AdminModuleGenerator: React.FC = () => {
       showToast('error', e.message);
     } finally {
       setSavingKeys(false);
+    }
+  };
+
+  const handleSavePremium = async (enabled: boolean) => {
+    setSavingPremium(true);
+    try {
+      const pr = await savePremiumLLM({ enabled, baseUrl: premiumBaseUrl, apiKey: premiumKey, model: premiumModel });
+      setPremiumEnabled(pr.enabled);
+      setPremiumKey('');
+      setStatus((st) => (st ? { ...st, rotator: { ...st.rotator, ...(st.rotator as any), premium: pr } as any } : st));
+      showToast('success', pr.active
+        ? `LLM Premium ACTIVO: ${pr.model} (${pr.baseUrl}) — el rotator queda como respaldo`
+        : 'Modo rotator: modelos free con rotación');
+    } catch (e: any) {
+      showToast('error', e.message);
+    } finally {
+      setSavingPremium(false);
     }
   };
 
@@ -377,6 +401,40 @@ export const AdminModuleGenerator: React.FC = () => {
               ))}
             </div>
           )}
+          {/* Modo LLM: Rotator (free) o Premium directo (OpenAI-compatible) */}
+          <div className="mb-3 p-3 rounded-xl bg-gradient-to-r from-indigo-50 to-white border border-indigo-100">
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Modo LLM de generación</span>
+              {(status?.rotator as any)?.premium?.active && <span className="text-xs bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-medium">premium activo</span>}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
+              <button onClick={() => handleSavePremium(false)} disabled={savingPremium}
+                className={`px-3 py-2 rounded-lg text-xs font-medium border text-left ${!premiumEnabled ? 'bg-indigo-600 text-white border-transparent' : 'bg-white text-gray-600 border-gray-200 hover:border-indigo-400'}`}>
+                🎡 Rotator (free)<br />
+                <span className="opacity-70">Rotación automática OpenRouter + NVIDIA</span>
+              </button>
+              <button onClick={() => handleSavePremium(true)} disabled={savingPremium}
+                className={`px-3 py-2 rounded-lg text-xs font-medium border text-left ${premiumEnabled ? 'bg-emerald-600 text-white border-transparent' : 'bg-white text-gray-600 border-gray-200 hover:border-emerald-400'}`}>
+                ⚡ LLM Premium (OpenAI-compatible)<br />
+                <span className="opacity-70">Tu modelo pago directo, ej. Z.ai GLM 5.3</span>
+              </button>
+            </div>
+            {premiumEnabled && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                <input value={premiumBaseUrl} onChange={(e) => setPremiumBaseUrl(e.target.value)} placeholder="Base URL: https://api.z.ai/api/paas/v4"
+                  className="px-3 py-2 border border-emerald-200 rounded-lg text-xs font-mono focus:outline-none focus:ring-2 focus:ring-emerald-300" />
+                <input value={premiumModel} onChange={(e) => setPremiumModel(e.target.value)} placeholder="Modelo: glm-5.3"
+                  className="px-3 py-2 border border-emerald-200 rounded-lg text-xs font-mono focus:outline-none focus:ring-2 focus:ring-emerald-300" />
+                <input type="password" value={premiumKey} onChange={(e) => setPremiumKey(e.target.value)} placeholder="API key (vacío = conservar)"
+                  className="px-3 py-2 border border-emerald-200 rounded-lg text-xs font-mono focus:outline-none focus:ring-2 focus:ring-emerald-300" />
+                <button onClick={() => handleSavePremium(true)} disabled={savingPremium}
+                  className="md:col-span-3 px-3 py-2 rounded-lg bg-emerald-600 text-white text-xs font-medium hover:bg-emerald-700 disabled:opacity-60">
+                  {savingPremium ? 'Guardando…' : 'Guardar y activar premium'}
+                </button>
+              </div>
+            )}
+          </div>
+
           <div className="flex flex-wrap gap-2 mb-3">
             <button onClick={() => handleRotatorAction('rotate')} className="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-medium hover:bg-indigo-100 flex items-center gap-1.5">
               <RotateCcw className="w-3.5 h-3.5" /> Rotar

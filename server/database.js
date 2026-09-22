@@ -123,6 +123,11 @@ safeAlter('ALTER TABLE admin_config ADD COLUMN nvidia_api_key TEXT', 'admin_conf
 // Allowlist manual de modelos del rotator (JSON array de "provider::model").
 // Si está definida, el rotator SOLO usa esos modelos (elegidos por el admin).
 safeAlter('ALTER TABLE admin_config ADD COLUMN rotator_allowed_models TEXT', 'admin_config.rotator_allowed_models');
+// LLM Premium directo (OpenAI-compatible: base_url + api_key + modelo, ej. Z.ai GLM)
+safeAlter('ALTER TABLE admin_config ADD COLUMN premium_llm_enabled INTEGER DEFAULT 0', 'admin_config.premium_llm_enabled');
+safeAlter('ALTER TABLE admin_config ADD COLUMN premium_llm_base_url TEXT', 'admin_config.premium_llm_base_url');
+safeAlter('ALTER TABLE admin_config ADD COLUMN premium_llm_api_key TEXT', 'admin_config.premium_llm_api_key');
+safeAlter('ALTER TABLE admin_config ADD COLUMN premium_llm_model TEXT', 'admin_config.premium_llm_model');
 
 // Resultados del generador de módulos (lotes automáticos + revisión posterior)
 db.exec(`

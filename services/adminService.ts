@@ -1122,3 +1122,22 @@ export const importGeneratorResults = async (ids?: number[]): Promise<{ success:
   }
   return response.json();
 };
+
+// —— LLM Premium directo (OpenAI-compatible) ——
+export interface PremiumLLMConfig {
+  enabled: boolean; configured: boolean; baseUrl: string; model: string; active: boolean;
+}
+
+export const savePremiumLLM = async (config: {
+  enabled: boolean; baseUrl?: string; apiKey?: string; model?: string;
+}): Promise<PremiumLLMConfig> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/premium`, {
+    method: 'POST', headers: getAdminHeaders(), body: JSON.stringify(config)
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al guardar el LLM premium');
+  }
+  const json = await response.json();
+  return json.premium;
+};

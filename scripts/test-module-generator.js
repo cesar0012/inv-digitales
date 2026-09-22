@@ -22,7 +22,10 @@ const { getEntry } = llmRotator;
 import {
   generateModule, validateGeneratedModule, importGeneratedModules, generateSet, saveGeneratedResult
 } from '../server/moduleGeneratorService.js';
+import { createPremiumMission, isPremiumConfigured } from '../server/llmRotator.js';
 import db from '../server/database.js';
+import http from 'http';
+import { readFileSync as rf } from 'fs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const failures = [];
@@ -438,6 +441,65 @@ console.log('\n=== 10. La generación NUNCA se rinde (timeout → misión fresca
 
   const simple = await generateModule('countdown', { mission: freshOk });
   ok(simple.validation.valid, 'misión normal sigue funcionando (compatibilidad)');
+}
+
+console.log('\n=== 11. LLM Premium OpenAI-compatible (servidor local real) ===');
+{
+  // Mini API OpenAI-compatible local: responde chat/completions según el prompt
+  const countdownFx = rf(join(__dirname, '..', 'Countdown', 'countdown-01.html'), 'utf-8');
+  let premiumCalls = 0;
+  let serverMode = 'ok'; // ok | down
+  const server = http.createServer((req, res) => {
+    let body = '';
+    req.on('data', (c) => { body += c; });
+    req.on('end', () => {
+      premiumCalls += 1;
+      if (serverMode === 'down') { res.writeHead(500, { 'Content-Type': 'application/json' }); return res.end(JSON.stringify({ error: { message: 'premium caido' } })); }
+      const prompt = JSON.parse(body).messages?.[0]?.content || '';
+      let content;
+      if (/RÚBRICA/.test(prompt)) content = JSON.stringify({ score: 95, mejoras: [] });
+      else if (/BRIEF creativo/.test(prompt)) content = JSON.stringify({ style_name: 'GLM Premium Test', concepto: 'Elegancia AI' });
+      else content = countdownFx;
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ choices: [{ message: { content }, finish_reason: 'stop' }] }));
+    });
+  });
+  await new Promise((r) => server.listen(0, '127.0.0.1', r));
+  const port = server.address().port;
+
+  let prevCfg = null, prevOR = '', prevNV = '';
+  try {
+    prevCfg = db.prepare('SELECT premium_llm_enabled AS e, premium_llm_base_url AS b, premium_llm_api_key AS k, premium_llm_model AS m FROM admin_config WHERE id = 1').get();
+    prevOR = db.prepare('SELECT openrouter_api_key AS k FROM admin_config WHERE id = 1').get()?.k || '';
+    prevNV = db.prepare('SELECT nvidia_api_key AS k FROM admin_config WHERE id = 1').get()?.k || '';
+    db.prepare("UPDATE admin_config SET premium_llm_enabled = 1, premium_llm_base_url = ?, premium_llm_api_key = 'test-key', premium_llm_model = 'glm-5.3-test' WHERE id = 1").run(`http://127.0.0.1:${port}/v1`);
+
+    ok(isPremiumConfigured(), 'premium configurado (enabled + base + key + modelo)');
+    const mission = createPremiumMission();
+    const direct = await mission.call({ prompt: 'dime hola', maxTokens: 100 });
+    ok(/hola/.test('' + direct) || direct.modelKey === 'premium::glm-5.3-test', `misión premium llama al endpoint OpenAI-compatible (modelKey ${direct.modelKey})`);
+    void direct;
+
+    // E2E: generateModule usa el premium automáticamente
+    const result = await generateModule('countdown', {});
+    ok(result.validation.valid, 'generateModule con premium activo genera módulo válido');
+    ok(result.models.some((mk) => mk === 'premium::glm-5.3-test'), 'el modelo premium queda registrado en models');
+    ok(premiumCalls >= 3, `el premium atendió brief+generación+crítica (${premiumCalls} llamadas)`);
+    ok(result.models.includes('premium::glm-5.3-test') && !result.failed, 'sin tocar el rotator (0 llamadas free)');
+
+    // Fallback: premium caído + rotator sin keys → failed tras agotar, sin colgarse
+    serverMode = 'down';
+    db.prepare("UPDATE admin_config SET openrouter_api_key = '', nvidia_api_key = '' WHERE id = 1").run();
+    const broken = await generateModule('countdown', {});
+    ok(broken.failed === true, 'premium caído + rotator sin keys → failed registrado (no se cuelga)');
+    ok(broken.models.filter((m) => m === 'premium::glm-5.3-test').length <= 4 * 3, 'reintentos del premium acotados (3 por intento)');
+  } finally {
+    server.close();
+    db.prepare('UPDATE admin_config SET premium_llm_enabled = ?, premium_llm_base_url = ?, premium_llm_api_key = ?, premium_llm_model = ? WHERE id = 1')
+      .run(prevCfg?.e ?? 0, prevCfg?.b ?? '', prevCfg?.k ?? '', prevCfg?.m ?? '');
+    db.prepare('UPDATE admin_config SET openrouter_api_key = ?, nvidia_api_key = ? WHERE id = 1').run(prevOR, prevNV);
+  }
+  ok(!isPremiumConfigured(), 'configuración premium restaurada tras el test');
 }
 
 if (failures.length === 0) {

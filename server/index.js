@@ -2115,6 +2115,34 @@ app.post('/api/admin/module-generator/models', adminMiddleware, async (req, res)
   }
 });
 
+// POST /api/admin/module-generator/premium — configurar/alternar el LLM premium
+// directo (OpenAI-compatible: base_url + api_key + modelo, ej. Z.ai GLM).
+// enabled=true lo usa TODO el generador (premium → fallback rotator si cae).
+app.post('/api/admin/module-generator/premium', adminMiddleware, async (req, res) => {
+  try {
+    const { enabled, baseUrl, apiKey, model } = req.body || {};
+    const current = db.prepare('SELECT premium_llm_base_url, premium_llm_api_key, premium_llm_model FROM admin_config WHERE id = 1').get() || {};
+    const sets = ['premium_llm_enabled = ?'];
+    const params = [enabled ? 1 : 0];
+    if (typeof baseUrl === 'string') { sets.push('premium_llm_base_url = ?'); params.push(baseUrl.trim()); }
+    // apiKey vacía = conservar la actual (la UI no reenvía el secreto)
+    if (typeof apiKey === 'string' && apiKey.trim()) { sets.push('premium_llm_api_key = ?'); params.push(apiKey.trim()); }
+    if (typeof model === 'string') { sets.push('premium_llm_model = ?'); params.push(model.trim()); }
+    const effBase = typeof baseUrl === 'string' ? baseUrl.trim() : (current.premium_llm_base_url || '');
+    const effKey = (typeof apiKey === 'string' && apiKey.trim()) ? apiKey.trim() : (current.premium_llm_api_key || '');
+    const effModel = typeof model === 'string' ? model.trim() : (current.premium_llm_model || '');
+    if (enabled && (!effBase || !effKey || !effModel)) {
+      return res.status(400).json({ error: 'Para habilitar el premium necesitas base URL, API key y modelo' });
+    }
+    db.prepare(`UPDATE admin_config SET ${sets.join(', ')} WHERE id = 1`).run(...params);
+    const { llmRotator } = await import('./llmRotator.js');
+    res.json({ success: true, premium: llmRotator.getStatus().premium });
+  } catch (error) {
+    console.error('[MODULE-GEN premium] Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // POST /api/admin/module-generator/batch/start — lote automático en background
 app.post('/api/admin/module-generator/batch/start', adminMiddleware, (req, res) => {
   try {

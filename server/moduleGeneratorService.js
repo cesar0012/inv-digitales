@@ -21,7 +21,7 @@
  * El LLM se elige y rota con server/llmRotator.js (misión por generación).
  */
 import { validateModule, extractModuleMetadata, VALID_MODULE_IDS } from './ragModuleValidator.js';
-import { createMission } from './llmRotator.js';
+import { createMission, createConfiguredMission, isPremiumConfigured } from './llmRotator.js';
 import { readFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -352,7 +352,10 @@ export async function generateModule(type, { extraInstructions = '', mission = n
   // missionFactory permite re-crear misiones frescas si una se agota (todos
   // sus modelos muertos): la generación de un módulo NO se abandona mientras
   // quede algún modelo del catálogo por intentar.
-  const freshMission = () => (missionFactory ? missionFactory() : createMission('general'));
+  // Modo LLM del admin: premium (OpenAI-compatible) si está habilitado; si no,
+  // rotator. Tras un agotamiento se degrada: premium → rotator (nunca rendirse).
+  let degradedToRotator = false;
+  const freshMission = () => (missionFactory ? missionFactory() : createConfiguredMission({ forceRotator: degradedToRotator }));
   let m = mission || freshMission();
   const models = [];
   const used = seedUsed || new Set();
@@ -416,8 +419,9 @@ Recuerda: SOLO HTML, temática agnóstica, textos placeholder en español, nivel
     } catch (callError) {
       // La misión agotó el catálogo (o error no rotable): NO abandonar el
       // módulo — reintentar con una misión FRESCA (catálogo completo otra vez).
-      console.warn(`[MODULE-GEN][${type}] intento ${attempt}: la rotación se agotó (${callError.message}) — reintentando con misión fresca`);
+      console.warn(`[MODULE-GEN][${type}] intento ${attempt}: la misión se agotó (${callError.message}) — ${isPremiumConfigured() && !degradedToRotator ? 'degradando al rotator' : 'reintentando con misión fresca'}`);
       feedback = [`La llamada al LLM falló: ${callError.message}. Genera el módulo completo de nuevo.`];
+      degradedToRotator = true; // si el premium está caído, el respaldo cae al rotator
       m = freshMission();
       continue;
     }

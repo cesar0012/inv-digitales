@@ -11,7 +11,7 @@
  * Un solo batch activo a la vez; parada manual disponible.
  */
 import { generateSet, saveGeneratedResult } from './moduleGeneratorService.js';
-import { llmRotator } from './llmRotator.js';
+import { llmRotator, createConfiguredMission, isPremiumConfigured } from './llmRotator.js';
 import db from './database.js';
 
 const MAX_SETS = 20;
@@ -68,8 +68,11 @@ export function startBatch({ moduleTypes, sets, extraInstructions = '' }) {
 
 async function runBatch(batchId, totalSets, moduleTypes, extraInstructions) {
   const batchSeeds = new Set();
-  const mission = llmRotator.createMission('general');
-  const missionFactory = () => llmRotator.createMission('general'); // respaldo fresco si la misión compartida agota el catálogo
+  // Modo LLM del admin: premium (OpenAI-compatible) o rotator; el respaldo
+  // degrada al rotator si el premium está caído.
+  const usingPremium = isPremiumConfigured();
+  const mission = createConfiguredMission();
+  const missionFactory = () => createConfiguredMission({ forceRotator: usingPremium });
   try {
     for (let s = 1; s <= totalSets; s++) {
       if (jobState.stopRequested) {

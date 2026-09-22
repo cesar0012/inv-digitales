@@ -397,8 +397,12 @@ function resetCooldowns() {
  *   abajo si el modelo limita el output). */
 async function invokeLLM(resolved, { system, prompt, temperature = 0.8, maxTokens = 8000, _tokenRetry = 0 }) {
   const timeoutMs = maxTokens >= 4000 ? CONFIG.longCallTimeoutMs : CONFIG.shortCallTimeoutMs;
-  const call = async (mt) => {
-    const headers = { 'Content-Type': 'application/json', ...PROVIDERS[resolved.provider].auth(resolved.api_key) };
+    const call = async (mt) => {
+    // 'premium' = LLM propio OpenAI-compatible (base_url + key): auth Bearer directo.
+    const authHeaders = resolved.provider === 'premium'
+      ? { Authorization: `Bearer ${resolved.api_key}` }
+      : PROVIDERS[resolved.provider].auth(resolved.api_key);
+    const headers = { 'Content-Type': 'application/json', ...authHeaders };
     const body = {
       model: resolved.model,
       messages: [
@@ -575,10 +579,18 @@ async function runBenchmarks({ limit = 5 } = {}) {
 function getStatus() {
   const keys = getKeys();
   const now = Date.now();
+  const premium = getPremiumConfig();
   return {
     current: state.current,
     catalogErrors: { ...catalogErrors },
     allowedModels: getAllowedModels() || [],
+    premium: {
+      enabled: premium.enabled,
+      configured: !!(premium.baseUrl && premium.apiKey && premium.model),
+      baseUrl: premium.baseUrl,
+      model: premium.model,
+      active: !!(premium.enabled && premium.baseUrl && premium.apiKey && premium.model)
+    },
     providers: Object.fromEntries(Object.entries(PROVIDERS).map(([id, p]) => [id, { name: p.name, hasKey: !!keys[id] }])),
     catalog: (catalog || []).map((c) => {
       const st = state.entries[`${c.provider}::${c.model}`] || {};
@@ -609,5 +621,78 @@ function getEntry(modelKey) {
 
 export const llmRotator = {
   resolve, refreshCatalog, reportFailure, reportSuccess,
-  forceRotate, resetCooldowns, runBenchmarks, getStatus, createMission, getEntry
+  forceRotate, resetCooldowns, runBenchmarks, getStatus, createMission, getEntry,
+  isPremiumConfigured, createPremiumMission, createConfiguredMission
 };
+
+// ----------------------------------------------------------------------------
+// LLM PREMIUM directo (OpenAI-compatible): base_url + api_key + modelo.
+// Ej.: Z.ai GLM — base_url https://api.z.ai/api/paas/v4, modelo glm-5.3.
+// Es una "misión" con la misma interfaz del rotator: el generador no cambia.
+// Si el premium falla, el servicio degrada al rotator (nunca se rinde).
+// ----------------------------------------------------------------------------
+const sleepMs = (ms) => new Promise((r) => setTimeout(r, ms));
+
+export function getPremiumConfig() {
+  try {
+    const row = db.prepare('SELECT premium_llm_enabled, premium_llm_base_url, premium_llm_api_key, premium_llm_model FROM admin_config WHERE id = 1').get();
+    return {
+      enabled: row?.premium_llm_enabled === 1,
+      baseUrl: (row?.premium_llm_base_url || '').trim(),
+      apiKey: (row?.premium_llm_api_key || '').trim(),
+      model: (row?.premium_llm_model || '').trim()
+    };
+  } catch {
+    return { enabled: false, baseUrl: '', apiKey: '', model: '' };
+  }
+}
+
+export function isPremiumConfigured() {
+  const c = getPremiumConfig();
+  return !!(c.enabled && c.baseUrl && c.apiKey && c.model);
+}
+
+export function createPremiumMission(cfg = null) {
+  const c = cfg || getPremiumConfig();
+  const base = c.baseUrl.replace(/\/+$/, '');
+  // Aceptar base con o sin /chat/completions (convención OpenAI: /v1)
+  const chatUrl = /\/chat\/completions$/.test(base) ? base : `${base}/chat/completions`;
+  const resolved = {
+    provider: 'premium',
+    modelKey: `premium::${c.model}`,
+    model: c.model,
+    api_key: c.apiKey,
+    api_base: chatUrl
+  };
+  return {
+    async call(task) {
+      // Sin rotación (es EL modelo elegido): 3 intentos con pausa ante fallo.
+      const phase = task.maxTokens <= 900 ? 'crítica' : task.maxTokens <= 1400 ? 'brief' : 'generación';
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        console.log(`[PREMIUM] → ${c.model} (${phase})${attempt > 1 ? ` · intento ${attempt}` : ''}`);
+        try {
+          const content = await invokeLLM(resolved, task);
+          return { content, modelKey: resolved.modelKey };
+        } catch (error) {
+          if (attempt === 3) throw error;
+          console.warn(`[PREMIUM] ${c.model} falló (${error.message}) — reintentando en 2s`);
+          await sleepMs(2000);
+        }
+      }
+    },
+    excludeModel: () => {},
+    deadModels: () => []
+  };
+}
+
+/**
+ * Misión según configuración del admin: LLM premium si está habilitado y
+ * configurado; si no, el rotator de free models. forceRotator permite al
+ * generador degradar al rotator cuando el premium está caído.
+ */
+export function createConfiguredMission({ forceRotator = false } = {}) {
+  if (!forceRotator && isPremiumConfigured()) {
+    return createPremiumMission();
+  }
+  return createMission('general');
+}
