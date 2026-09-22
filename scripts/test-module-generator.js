@@ -50,7 +50,7 @@ console.log('\n=== 2. Cooldowns + persistencia + reset ===');
   const fakeKey = 'test::fake-model';
   llmRotator.reportFailure(fakeKey, '429 rate limit');
   const quotaCooldown = getEntry(fakeKey).cooldown_until - Date.now();
-  ok(quotaCooldown > 29 * 60 * 1000 && quotaCooldown <= 31 * 60 * 1000, `quota → cooldown ~30 min (${Math.round(quotaCooldown / 60000)} min)`);
+  ok(quotaCooldown > 2 * 60 * 1000 && quotaCooldown <= 4 * 60 * 1000, `quota → cooldown corto ~3 min (${Math.round(quotaCooldown / 60000)} min)`);
   llmRotator.reportFailure(fakeKey, '404 model not found');
   const deadCooldown = getEntry(fakeKey).cooldown_until - Date.now();
   ok(deadCooldown > 23 * 60 * 60 * 1000, `dead → cooldown ~24 h (${Math.round(deadCooldown / 3600000)} h)`);

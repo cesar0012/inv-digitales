@@ -45,13 +45,20 @@ const PROVIDERS = {
 
 const CONFIG = {
   catalogTtlMs: 10 * 60 * 1000,
-  quotaCooldownMs: 30 * 60 * 1000,
+  // QUOTA cooldown CORTO: los rate limits free (429) se reciclan en 1-2 min
+  // y en OpenRouter aplican a TODOS los :free con la misma key — 30 min
+  // habría dejado el sistema parado media hora por un pico de 429.
+  quotaCooldownMs: 3 * 60 * 1000,
   deadCooldownMs: 24 * 60 * 60 * 1000,
   maxCatalog: 30,
   // Timeout por FASE: respuestas cortas (brief/crítica) fallan rápido; la
   // generación de HTML largo en free tier puede tardar varios minutos.
-  shortCallTimeoutMs: parseInt(process.env.ROTATOR_SHORT_TIMEOUT_MS || '90000', 10),
-  longCallTimeoutMs: parseInt(process.env.ROTATOR_CALL_TIMEOUT_MS || '240000', 10),
+  shortCallTimeoutMs: parseInt(process.env.ROTATOR_SHORT_TIMEOUT_MS || '60000', 10),
+  longCallTimeoutMs: parseInt(process.env.ROTATOR_CALL_TIMEOUT_MS || '180000', 10),
+  // Cuando TODO el catálogo está en cooldown: esperar (batch en background)
+  // hasta MAX_COOLDOWN_WAIT al modelo de recuperación más próxima; si falta
+  // más, error claro para que el lote lo registre y siga con el próximo set.
+  maxCooldownWaitMs: 15 * 60 * 1000,
   // La rotación NO se rinde por presupuesto: se agota solo cuando no queda
   // ningún modelo vivo en el catálogo (límite de seguridad anti-bucle).
   maxDeadSkips: 40,
@@ -92,10 +99,10 @@ function heuristicScore(entry) {
   for (const [re, bonus] of FAMILY_BONUS) if (re.test(id)) { family = bonus; break; }
   const ctx = Math.min((entry.context_length || 0) / 20000, 30);
   let score = family + ctx;
-  // Catálogo NVIDIA lista modelos no servibles: dampening SUAVE (0.9, no 0.75):
-  // el dead-detection se encarga de enfriar los que fallen; castigarlos de
-  // entrada impedía que NVIDIA compitiera en igualdad con OpenRouter.
-  if (entry.provider === 'nvidia') score *= 0.9;
+  // Catálogo NVIDIA lista muchos modelos NO servibles con la key free (404) o
+  // colgados (timeout): dampening — que un NVIDIA demuestre con benchmarks
+  // que sirve antes de adelantar a los OpenRouter free verificados.
+  if (entry.provider === 'nvidia') score *= 0.85;
   if (id === 'openrouter/free') score = 20; // auto-router: último recurso
   return score;
 }
@@ -319,24 +326,35 @@ const benchScore = (c) => {
  * cooldown: mejor lanzar al que recupera en minutos que al de mejor score
  * con 23 h de espera). */
 function soonestRecovery(exclude) {
+  const wait = soonestCooldownWait(exclude);
+  if (!wait) return null;
+  const [provider, ...rest] = wait.modelKey.split('::');
+  const keys = getKeys();
+  return {
+    modelKey: wait.modelKey,
+    provider,
+    model: rest.join('::'),
+    api_key: keys[provider],
+    api_base: PROVIDERS[provider].chatUrl,
+    fallback: true
+  };
+}
+
+/** Cuánto falta (ms) para que recupere el modelo con el cooldown más corto. */
+function soonestCooldownWait(exclude) {
   if (!catalog) return null;
   const keys = getKeys();
   const excludeSet = new Set(Array.isArray(exclude) ? exclude : []);
   const pool = catalog.filter((c) => keys[c.provider] && !excludeSet.has(`${c.provider}::${c.model}`));
   if (pool.length === 0) return null;
-  const best = pool.reduce((a, b) => {
-    const ca = entryState(`${a.provider}::${a.model}`).cooldown_until || 0;
-    const cb = entryState(`${b.provider}::${b.model}`).cooldown_until || 0;
-    return cb < ca ? b : a;
-  });
-  return {
-    modelKey: `${best.provider}::${best.model}`,
-    provider: best.provider,
-    model: best.model,
-    api_key: keys[best.provider],
-    api_base: PROVIDERS[best.provider].chatUrl,
-    fallback: true
-  };
+  let best = null;
+  for (const c of pool) {
+    const until = entryState(`${c.provider}::${c.model}`).cooldown_until || 0;
+    if (!best || until < best.until) {
+      best = { modelKey: `${c.provider}::${c.model}`, until };
+    }
+  }
+  return { modelKey: best.modelKey, ms: Math.max(0, best.until - Date.now()) };
 }
 
 function reportFailure(modelKey, rawErrorText) {
@@ -347,7 +365,7 @@ function reportFailure(modelKey, rawErrorText) {
   const dead = isModelUnavailableError(rawErrorText) && !isQuotaError(rawErrorText);
   st.cooldown_until = Date.now() + (dead ? CONFIG.deadCooldownMs : CONFIG.quotaCooldownMs);
   saveState();
-  console.warn(`[ROTATOR] ${modelKey} → cooldown ${dead ? '24h (muerto)' : '30min (quota/transitorio)'}: ${st.last_error.slice(0, 90)}`);
+  console.warn(`[ROTATOR] ${modelKey} → cooldown ${dead ? '24h (muerto)' : `${Math.round(CONFIG.quotaCooldownMs / 60000)}min (quota/transitorio)`}: ${st.last_error.slice(0, 90)}`);
   return { dead };
 }
 
@@ -458,13 +476,21 @@ export function createMission(lane = 'general') {
           if (wider && !wider.fallback) {
             resolved = wider;
           } else {
-            // Todo el catálogo en cooldown: elegir el que ANTES recupera
-            // (menor cooldown_until), no el de mejor score con 23h de espera.
-            const soonest = soonestRecovery([...dead]);
-            if (soonest) {
-              console.warn(`[ROTATOR] ⚠️ todos los modelos en cooldown — usando el de recuperación más próxima: ${soonest.modelKey}`);
-              resolved = soonest;
+            // Todo el catálogo en cooldown (típico: 429 de OpenRouter aplica a
+            // todos los :free con la misma key). Para un lote en background lo
+            // correcto es ESPERAR al modelo de recuperación más próxima.
+            const wait = soonestCooldownWait([...dead]);
+            if (wait && wait.ms > 0) {
+              if (wait.ms <= CONFIG.maxCooldownWaitMs) {
+                const mins = (wait.ms / 60000).toFixed(1);
+                console.warn(`[ROTATOR] ⏳ todos los modelos en cooldown — esperando ${mins} min a que recupere ${wait.modelKey}`);
+                await new Promise((r) => setTimeout(r, wait.ms + 1000));
+              } else {
+                throw new Error(`todos los modelos en cooldown (el primero recupera en ${(wait.ms / 60000).toFixed(0)} min: ${wait.modelKey}). Espera o amplía la allowlist.`);
+              }
             }
+            resolved = resolve({ lane, exclude: [...dead] }) || resolve({ exclude: [...dead] });
+            if (!resolved) continue;
           }
         }
         console.log(`[ROTATOR] → ${resolved.modelKey} (${task.maxTokens <= 900 ? 'crítica' : task.maxTokens <= 1400 ? 'brief' : 'generación'})`);
