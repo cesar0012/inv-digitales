@@ -130,7 +130,7 @@ const BAD_MODULE = `<section class="x" data-gemini-id="countdown-fallo">
   const genPrompts = [];
   const mission = {
     call: async (task) => {
-      if (/BRIEF creativo/.test(task.prompt)) {
+      if (/DIRECCIÓN CREATIVA/.test(task.prompt)) {
         return { content: JSON.stringify({ style_name: 'Estela Minimal', concepto: 'Poética del vacío', paleta_neutral: 'grises cálidos', tipografia: 'serif aireada', animaciones: ['fade sutil'], ornamentos: ['línea fina'] }), modelKey: 'openrouter::qwen/test:free' };
       }
       if (/RÚBRICA/.test(task.prompt)) {
@@ -159,7 +159,7 @@ const BAD_MODULE = `<section class="x" data-gemini-id="countdown-fallo">
   let calls = 0;
   const alwaysBad = {
     call: async (task) => {
-      if (/BRIEF creativo/.test(task.prompt)) return { content: '{}', modelKey: 'x::y' };
+      if (/DIRECCIÓN CREATIVA/.test(task.prompt)) return { content: '{"style_name":"B","concepto":"c"}', modelKey: 'x::y' };
       if (/RÚBRICA/.test(task.prompt)) return { content: '{"score":95,"mejoras":[]}', modelKey: 'x::critic' };
       calls += 1;
       return { content: BAD_MODULE, modelKey: `x::model${calls}` };
@@ -180,7 +180,7 @@ console.log('\n=== 5b. Refinamiento por rúbrica (sube el nivel de LLMs débiles
   let refineCalls = 0;
   const mission = {
     call: async (task) => {
-      if (/BRIEF creativo/.test(task.prompt)) return { content: '{}', modelKey: 'x::b' };
+      if (/DIRECCIÓN CREATIVA/.test(task.prompt)) return { content: '{"style_name":"Brief Test","concepto":"c"}', modelKey: 'x::b' };
       if (/RÚBRICA/.test(task.prompt)) {
         return { content: JSON.stringify({ score: 68, mejoras: ['Aumentar contraste del texto sobre el fondo', 'Mejorar ritmo tipográfico en móvil'] }), modelKey: 'x::critic' };
       }
@@ -203,7 +203,7 @@ console.log('\n=== 5b. Refinamiento por rúbrica (sube el nivel de LLMs débiles
   // Refiner que rompe el contrato → se conserva el original válido
   const mission2 = {
     call: async (task) => {
-      if (/BRIEF creativo/.test(task.prompt)) return { content: '{}', modelKey: 'x::b' };
+      if (/DIRECCIÓN CREATIVA/.test(task.prompt)) return { content: '{"style_name":"Brief Test","concepto":"c"}', modelKey: 'x::b' };
       if (/RÚBRICA/.test(task.prompt)) return { content: '{"score":60,"mejoras":["x","y"]}', modelKey: 'x::critic' };
       if (/aplica las mejoras/i.test(task.prompt)) return { content: BAD_MODULE, modelKey: 'x::refiner' };
       return { content: countdownFixture, modelKey: 'x::gen' };
@@ -241,7 +241,11 @@ console.log('\n=== 5c. Fotos por tipo, mapa de Google Maps y sandbox de iframes 
 
   // Galería exige ≥3 imgs library
   const vGal = validateGeneratedModule(countdownFixture, 'galeria');
-  ok(vGal.errors.some((e) => /al menos 3 <img> loremflickr/i.test(e)), 'galería sin imágenes library → error específico');
+  ok(vGal.errors.some((e) => /al menos 4 <img> loremflickr/i.test(e)), 'galería sin imágenes library → error específico (≥4)');
+
+  // Fotos de contenido exigidas por tipo: un módulo sin <img> library falla para portada
+  const vPort = validateGeneratedModule(countdownFixture.replace('countdown-central-classic', 'portada-nombre'), 'portada');
+  ok(vPort.errors.some((e) => /al menos 1 <img> loremflickr/i.test(e)), 'portada sin foto de contenido → error específico');
 
   // Responsivo: sin clamp/grid → error
   const noResponsive = countdownFixture.replace(/clamp\([^)]*\)/g, '2rem');
@@ -350,6 +354,7 @@ const GALERIA_FIXTURE = `<section class="gal-ejemplo" data-gemini-id="galeria-ej
     <figure memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/600/450/flores" path="placeholder" data-library-category="eventos" data-asset-type="galeria" alt="Foto 1"></figure>
     <figure memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/600/450/jardin" path="placeholder" data-library-category="eventos" data-asset-type="galeria" alt="Foto 2"></figure>
     <figure memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/600/450/detalle" path="placeholder" data-library-category="eventos" data-asset-type="galeria" alt="Foto 3"></figure>
+    <figure memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/600/450/luz" path="placeholder" data-library-category="eventos" data-asset-type="galeria" alt="Foto 4"></figure>
   </div>
   <script>var moduleMetadata = { module_type: 'galeria', module_name: 'galeria-ejemplo-test', style_name: 'Galería Grid', descripcion: 'Rejilla de momentos editables con imágenes library.', tags: ['galeria', 'fotos', 'grid', 'editable'], tipo: 'galeria' };</script>
 </section>`;
@@ -357,9 +362,10 @@ const GALERIA_FIXTURE = `<section class="gal-ejemplo" data-gemini-id="galeria-ej
   const setMissions = [];
   const mission = {
     call: async (task) => {
-      if (/BRIEF creativo/.test(task.prompt)) return { content: '{}', modelKey: 'x::b' };
+      if (/DIRECCIÓN CREATIVA/.test(task.prompt)) return { content: '{"style_name":"Brief Test","concepto":"c"}', modelKey: 'x::b' };
       if (/RÚBRICA/.test(task.prompt)) return { content: '{"score":95,"mejoras":[]}', modelKey: 'x::critic' };
       // Extraer del prompt los seeds forzados para verificar coherencia
+      if (!/Genera el módulo/.test(task.prompt)) return { content: '{}', modelKey: 'x::brief' };
       const est = task.prompt.match(/"estetica":\s*"([^"]+)"/)?.[1] || '';
       const firma = task.prompt.match(/"firma":\s*"([^"]+)"/)?.[1] || '';
       setMissions.push({ est, firma, prompt: task.prompt });
@@ -390,7 +396,7 @@ console.log('\n=== 9. Persistencia y revisión de resultados ===');
   const result = await generateModule('countdown', {
     mission: {
       call: async (task) => {
-        if (/BRIEF creativo/.test(task.prompt)) return { content: JSON.stringify({ style_name: 'Persistencia Test', concepto: 'x' }), modelKey: 'x::b' };
+        if (/DIRECCIÓN CREATIVA/.test(task.prompt)) return { content: JSON.stringify({ style_name: 'Persistencia Test', concepto: 'x' }), modelKey: 'x::b' };
         if (/RÚBRICA/.test(task.prompt)) return { content: '{"score":95,"mejoras":[]}', modelKey: 'x::critic' };
         return { content: countdownFixture, modelKey: 'x::gen' };
       },
@@ -424,7 +430,7 @@ console.log('\n=== 10. La generación NUNCA se rinde (timeout → misión fresca
   let factoryCalls = 0;
   const freshOk = {
     call: async (task) => {
-      if (/BRIEF creativo/.test(task.prompt)) return { content: '{}', modelKey: 'fresh::brief' };
+      if (/DIRECCIÓN CREATIVA/.test(task.prompt)) return { content: '{"style_name":"Fresh Brief","concepto":"c"}', modelKey: 'fresh::brief' };
       if (/RÚBRICA/.test(task.prompt)) return { content: '{"score":95,"mejoras":[]}', modelKey: 'fresh::critic' };
       return { content: countdownFixture, modelKey: 'fresh::gen' };
     },
@@ -558,7 +564,7 @@ console.log('\n=== 12. Endpoint de import manual + paralelismo de sets ===');
   const parMission = {
     call: async (task) => {
       await sleep(250);
-      if (/BRIEF creativo/.test(task.prompt)) return { content: '{}', modelKey: 'x::b' };
+      if (/DIRECCIÓN CREATIVA/.test(task.prompt)) return { content: '{"style_name":"Brief Test","concepto":"c"}', modelKey: 'x::b' };
       if (/RÚBRICA/.test(task.prompt)) return { content: '{"score":95,"mejoras":[]}', modelKey: 'x::c' };
       const type = task.prompt.match(/Genera el módulo "([a-z_]+)"/i)?.[1] || 'countdown';
       return { content: type === 'galeria' ? GALERIA_FIXTURE.replace(/galeria-ejemplo-test/g, 'galeria-par') : adaptFixture(type), modelKey: 'x::g' };

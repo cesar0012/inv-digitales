@@ -53,25 +53,50 @@ const AESTHETICS = [
   'botánico científico vintage', 'cinematográfico con luz dorada', 'celestial nocturno con polvo de estrellas',
   'mediterráneo fresco con cal y terracota', 'vintage años 50 con serigrafía', 'futurista suave con degradados auróra',
   'rústico refinado con lino y madera', 'acuarela orgánica difuminada', 'geometría bauhaus juguetona',
-  'preppy clásico con marcos finos', 'tropical chic de resort', 'gótico delicado con filigrana'
+  'preppy clásico con marcos finos', 'tropical chic de resort', 'gótico delicado con filigrana',
+  'origami plegado en capas de papel', 'escultórico monumental con mármol y bronce',
+  'crystalino translúcido con vidrio esmerilado y reflejos', 'neón editorial sobre negro profundo',
+  'low-poly facetado con planos de color', 'holográfico iridiscente con brillos prismáticos',
+  'diorama en miniatura con profundidad de capas', 'vitrina de museo con pedestales y focos',
+  'feria nocturna con luces de bombilla cálidas', 'cartografía antigua con líneas de expedición',
+  'buen retiro vintage con bordados y encaje', 'cósmico retro-futurista de los 70 con naranja y crema'
 ];
 const LAYOUTS = [
   'composición central simétrica y solemne', 'asimétrica editorial en diagonal', 'tarjeta flotante sobre fondo amplio',
   'franja horizontal con ritmo de columnas', 'escalonado en zigzag descendente', 'marco doble con esquinas ornamentadas',
   'lienzo completo con tipografía protagonista', 'collage superpuesto con capas', 'timeline vertical con hitos',
-  'split-screen con dos mitades dialogantes', 'círculos concéntricos ceremoniales', 'rejilla de tarjetas intercaladas'
+  'split-screen con dos mitades dialogantes', 'círculos concéntricos ceremoniales', 'rejilla de tarjetas intercaladas',
+  'carrusel visual con paneles deslizantes', 'prateado tipo escaparate con nichos iluminados',
+  'escalera de pasos que desciende hacia el CTA', 'medallones conectados por líneas punteadas',
+  'arco triunfal que enmarca el contenido', 'múltiples planos apilados con profundidad (foreground/midground/background)'
 ];
 const TECHNIQUES = [
   'sombras multicapa suaves y profundidad', 'bordes con doble filete fino', 'máscaras orgánicas con clip-path',
   'degradados radiales sutiles de fondo', 'patrones repetitivos en SVG inline', 'line-art decorativo trazado a mano',
   'glassmorphism contenido (solo backdrop-filter delgado)', 'detalle tipográfico con versalitas y tracking amplio',
-  'ornamentos geométricos animados', 'textura de grano fino con opacity baja'
+  'ornamentos geométricos animados', 'textura de grano fino con opacity baja',
+  'CSS 3D: perspective + preserve-3d con tarjetas que se inclinan (rotateX/rotateY) al hover',
+  'CSS 3D: translateZ en capas para un efecto diorama con profundidad real',
+  'sellos y monedas circulares con conic-gradient y rotación lenta',
+  'mix-blend-mode para que ornamentos se fundan con las fotos',
+  'sombras largas proyectadas (estilo cartel) en los títulos',
+  'cinta washi / cinta adhesiva con transform rotate simulando pegado a mano',
+  'marcos de foto con cinta y polaroid apilados con rotate',
+  'ondas SVG como separadores de sección con animación de desplazamiento',
+  'números gigantes como texto de fondo con opacity baja (tipografía escenográfica)',
+  'puntitos/líneas de brillo animados tipo partículas discretas'
 ];
 const SIGNATURES = [
   'una línea divisoria que se dibuja al hacer scroll', 'números tabulares que rotan al cambiar',
   'un sello circular que gira lentamente', 'iniciales entrelazadas en monograma',
   'puntos que conectan formando una constelación', 'una cinta que ondea suavemente',
-  'marcadores de sección con animación escalonada', 'un degradado que respira (hue-rotate lento)'
+  'marcadores de sección con animación escalonada', 'un degradado que respira (hue-rotate lento)',
+  'una tarjeta 3D que se inclina siguiendo el cursor (tilt sutil)',
+  'fotos que se revelan con clip-path al entrar en pantalla',
+  'un contador de música visual con barras que laten',
+  'el título que se arma letra por letra con un pequeño rebote',
+  'un confeti minimalista de 8-12 partículas al llegar al CTA',
+  'sombra de las fotos que se despega suavemente al hover (efecto flotante)'
 ];
 // Direcciones creativas automáticas para lotes SIN input del usuario: cada
 // set recibe una distinta (con exclusión dentro del lote) para que ningún
@@ -88,7 +113,13 @@ const CONCEPT_DIRECTIONS = [
   'festivo refinado, confeti de lujo en pequeñas dosis doradas',
   'orgánico y terrenal, texturas de lino, barro y madera clara',
   'celestial, degradados de cielo nocturno y polvo de estrellas fino',
-  'urbanista chic, como el menú de un restaurante con estrella'
+  'urbanista chic, como el menú de un restaurante con estrella',
+  'como un tesoro desenterrado: papiros, sellos de lacre y bordes dorados desgastados',
+  'de película indie europea: fotogramas, créditos en tipografía serif y momentos quietos',
+  'como una vitrina de joyería: terciopelo de fondo y focos precisos sobre cada pieza',
+  'de cuento ilustrado: escenas en capas de papel con profundidad y sombras suaves',
+  'de universo en miniatura: un diorama del evento visto como maqueta con capa tras capa',
+  'de expedición elegante: mapas, brújulas y coordenadas hacia el gran día'
 ];
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 /** Elige aleatorio EXCLUYENDO los ya usados en el lote (variedad forzada);
@@ -136,15 +167,20 @@ El CSS del iframe: width:100%; aspect-ratio:16/9 (o 4/3); border:0; border-radiu
  * { imgs: n } = al menos n <img> loremflickr con path="placeholder".
  */
 const PHOTO_REQUIREMENTS = {
-  portada: { bg: true },
+  portada: { bg: true, imgs: 1 },
   countdown: { bg: true },
-  padres: { bg: true },
-  padrinos: { bg: true },
+  padres: { bg: true, imgs: 1 },
+  padrinos: { bg: true, imgs: 1 },
   gracias: { bg: true },
   quotes: { bg: true },
   confirmacion: { bg: true },
-  galeria: { imgs: 3 },
-  ubicacion: { mapEmbed: true }
+  galeria: { imgs: 4 },
+  ubicacion: { mapEmbed: true, imgs: 1 },
+  detalles: { imgs: 1 },
+  itinerario: { bg: true },
+  music: { imgs: 1 },
+  hospedaje: { imgs: 1 },
+  transporte: { imgs: 1 }
 };
 
 /** Único iframe permitido: embed de Google Maps (módulo ubicacion). */
@@ -176,9 +212,13 @@ function buildSystemPrompt(type) {
 9. Metadatos OBLIGATORIOS al final: <script> var moduleMetadata = { module_type: '${type}', module_name: '<data-gemini-id>', style_name: '<Nombre Legible del Estilo>', descripcion: '<≤250 chars, propósito del módulo>', tags: ['${type}', ...5-8 tags útiles para RAG], tipo: '${type}' }; </script>
 ${TYPE_SPECIFICS[type] ? `\n===== REQUISITOS ESPECÍFICOS ${type.toUpperCase()} =====\n${TYPE_SPECIFICS[type]}` : ''}
 
-===== CALIDAD DE PRODUCCIÓN (un crítico automático puntuará esto) =====
-- Composición intencional: jerarquía clara, ritmo, espacio negativo generoso.
-- Detalle artesanal: ornamentos CSS/SVG inline, tipografía cuidada, estados hover sutiles, esquinas y sombras coherentes.
+===== COMPLEJIDAD VISUAL OBLIGATORIA (el crítico puntuará esto duro) =====
+- Prohibido lo genérico: un módulo de dos bloques de texto sobre fondo liso se RECHAZA por pobre.
+- MÍNIMO 5 elementos decorativos distintos del brief (ornamentos SVG inline, sellos, marcos, cintas, geometría, texturas), integrados con intención.
+- PROFUNDIDAD siempre: sombras multicapa y, cuando el brief lo pida, CSS 3D real (perspective + transform-style: preserve-3d, translateZ/rotateX/rotateY) — un diorama de capas o tarjetas que se inclinan.
+- FOTOS según el plan_fotos del brief (mínimo el requisito del tipo): composítalas con marcos, máscaras clip-path o polaroids rotadas; una foto mal tirada sin tratamiento puntúa 0.
+- Composición intencional: jerarquía clara, ritmo, espacio negativo generoso, numeración/etiquetas escenográficas.
+- Detalle artesanal: estados hover sutiles, esquinas y sombras coherentes, micro-animaciones (<=0.5s) de la lista del brief.
 - Textos placeholder en ESPAÑOL, genéricos (sin temática de evento concreto: "Nombre de los Novios", "Fecha del evento").
 - Temática AGNÓSTICA: colores/tipografía serán reemplazados por el sistema de tematización.
 
@@ -285,12 +325,12 @@ async function refineModule(mission, type, html) {
     const { content: critiqueText, modelKey: criticModel } = await mission.call({
       system: 'Eres un CRÍTICO de diseño web senior, exigente y objetivo. Respondes SOLO JSON válido.',
       prompt: `Puntúa de 0 a 100 este módulo de invitación digital (tipo ${type}) contra la RÚBRICA:
-1. Composición y jerarquía visual (25 pts)
-2. Responsividad real a 390/768/1280 px: clamp, grid/flex, @media (25 pts)
-3. Detalle artesanal: ornamentos, tipografía, ritmo, espacio negativo (20 pts)
-4. Fotos placeholder correctas según el tipo + composición con ellas (15 pts)
-5. Accesibilidad y semántica (alt/aria/labels, HTML5) (15 pts)
-Resta puntos por: textos que se perderían sobre el fondo, paddings pobres, tipografía plana, fotos ausentes o mal ubicadas, desorden en móvil.
+1. Composición y jerarquía visual (20 pts)
+2. Responsividad real a 390/768/1280 px: clamp, grid/flex, @media (20 pts)
+3. RIQUEZA VISUAL: ≥5 ornamentos/elementos decorativos, profundidad (sombras multicapa o CSS 3D perspective/preserve-3d), tratamiento artesanal (25 pts)
+4. FOTOS: presentes según el tipo, bien compuestas (marcos, máscaras, polaroids), nunca sueltas sin tratar (25 pts)
+5. Accesibilidad y semántica (alt/aria/labels, HTML5) (10 pts)
+Resta DURAMENTE por: módulo pobre de solo texto, una única foto solitaria sin composición, tipografía plana, paddings pobres, fotos ausentes, desorden en móvil, cero elementos decorativos.
 
 MÓDULO:
 ${html}
@@ -360,9 +400,13 @@ export async function generateModule(type, { extraInstructions = '', mission = n
   const models = [];
   const used = seedUsed || new Set();
   const briefSeeds = {
+    // FUSIÓN de dos estéticas inesperadas = creatividad que ningún modelo
+    // saca solo; dos técnicas (una puede ser CSS 3D) y una firma memorable.
     estetica: pickExcluding(AESTHETICS, used, 'estetica'),
+    esteticaB: pickExcluding(AESTHETICS, used, 'estetica'),
     layout: pickExcluding(LAYOUTS, used, 'layout'),
     tecnica: pickExcluding(TECHNIQUES, used, 'tecnica'),
+    tecnicaB: pickExcluding(TECHNIQUES, used, 'tecnica'),
     firma: pickExcluding(SIGNATURES, used, 'firma')
   };
   // Semillas forzadas del SET (coherencia estética dentro de una misma
@@ -372,20 +416,29 @@ export async function generateModule(type, { extraInstructions = '', mission = n
       if (v) { briefSeeds[k] = v; used.add(`${k === 'estetica' ? 'estetica' : 'firma'}:${v}`); }
     }
   }
+  if (briefSeeds.esteticaB === briefSeeds.estetica) {
+    briefSeeds.esteticaB = pickExcluding(AESTHETICS, used, 'estetica');
+  }
 
   // Fase 1: brief creativo (JSON corto)
-  const briefPrompt = `Diseña un BRIEF creativo para un módulo de invitación digital tipo "${type}".
-Semillas OBLIGATORIAS (combínalas con libertad creativa):
-- Estética: ${briefSeeds.estetica}
+  const briefPrompt = `Diseña el DOCUMENTO DE DIRECCIÓN CREATIVA para un módulo de invitación digital tipo "${type}". Este brief es lo ÚNICO que guiará la generación: debe ser tan rico y específico que el resultado sea memorable, jamás genérico.
+
+SEMILLAS OBLIGATORIAS (fúndelas con libertad creativa audaz):
+- Estética principal: ${briefSeeds.estetica}
+- Segunda estética a FUSIONAR (sorpresa deliberada): ${briefSeeds.esteticaB}
 - Layout: ${briefSeeds.layout}
-- Técnica destacada: ${briefSeeds.tecnica}
+- Técnica estrella: ${briefSeeds.tecnica}
+- Segunda técnica: ${briefSeeds.tecnicaB}
 - Firma visual (momento memorable): ${briefSeeds.firma}
 ${extraInstructions ? `Instrucciones extra del administrador (prioridad máxima): ${extraInstructions}` : ''}
-Devuelve SOLO JSON: {"style_name": "...", "concepto": "1-2 frases", "paleta_neutral": "descripción de tonos neutros (no hex)", "tipografia": "carácter tipográfico", "animaciones": ["...", "..."], "ornamentos": ["..."]}
+NIVEL EXIGIDO: piensa en Awwwards/Godly, no en plantilla web. El módulo debe causar envidia creativa.
+
+Devuelve SOLO JSON con estos campos (todos obligatorios, en español, específicos — nada de "colores bonitos"):
+{"style_name": "nombre memorable del estilo", "concepto": "2-3 frases con narrativa visual concreta", "fusion_esteticas": "cómo se combinan las dos estéticas", "paleta_neutral": "descripción de tonos neutros (sin hex)", "tipografia": "carácter tipográfico: display/serif/sans, pesos, tracking", "texturas": "2-3 texturas o materiales visibles", "ornamentos": ["5-8 elementos decorativos CONCRETOS (svg line-art, sellos, marcos, cintas, geometría...)"], "elementos_3d": "si aplica profundidad: perspective/translateZ/rotateX/diorama de capas; si no, cómo lograr profundidad con sombras multicapa", "plan_fotos": "cuántas fotos y de qué (fondos amplios, retratos decorativos, detalles) — mínimo 1, preferible 2-3", "animaciones": ["2-4 animaciones concretas <=0.5s"], "firma_visual": "cómo implementar el momento memorable"}
 No inventes colores de marca: el sistema aplica la paleta del cliente después.`;
   const brief = { seeds: briefSeeds };
   try {
-    const { content, modelKey } = await m.call({ system: 'Eres director creativo. Respondes SOLO JSON válido.', prompt: briefPrompt, temperature: 1.0, maxTokens: 1400 });
+    const { content, modelKey } = await m.call({ system: 'Eres director de arte de élite (Awwwards). Respondes SOLO JSON válido, con ideas concretas y audaces, nunca genéricas.', prompt: briefPrompt, temperature: 1.0, maxTokens: 2200 });
     models.push(modelKey);
     const jsonText = content.slice(content.indexOf('{'), content.lastIndexOf('}') + 1);
     Object.assign(brief, JSON.parse(jsonText));
