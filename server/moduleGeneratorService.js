@@ -639,3 +639,44 @@ export function saveGeneratedResult(dbInstance, { batchId, setIndex, result }) {
   );
   return info.lastInsertRowid;
 }
+
+// ----------------------------------------------------------------------------
+// ITERACIÓN dirigida por el admin: aplica un cambio concreto a un módulo ya
+// generado (mismo pipeline: misión premium/rotator + re-validación; si la
+// iteración rompe el contrato, se conserva el original).
+// ----------------------------------------------------------------------------
+export async function generateModuleIteration(html, { moduleType = '', instructions = '', mission = null } = {}) {
+  const type = moduleType || html.match(/data-gemini-id="([a-z_]+)-/i)?.[1] || 'general';
+  const run = async (forceRotator) => {
+    const m = mission || createConfiguredMission({ forceRotator });
+    const { content, modelKey } = await m.call({
+      system: buildSystemPrompt(type),
+      prompt: `aplica EXACTAMENTE estos cambios del administrador conservando TODO el contrato (data-gemini-id, atributos memory_*, variables CSS genéricas, placeholders loremflickr, fotos según el tipo, metadatos completos). Mantén intacto todo lo que NO pida el cambio.
+
+CAMBIOS SOLICITADOS:
+${instructions}
+
+MÓDULO ACTUAL:
+${html}
+
+Devuelve el módulo COMPLETO con los cambios aplicados (SOLO HTML).`,
+      temperature: 0.7,
+      maxTokens: 8192
+    });
+    return { candidate: extractModuleHtml(content), modelKey };
+  };
+  let out;
+  try {
+    out = await run(false);
+  } catch (e) {
+    console.warn(`[MODULE-ITERATE] misión primaria falló (${e.message}) — reintentando con el rotator`);
+    out = await run(true);
+  }
+  const check = validateGeneratedModule(out.candidate, type);
+  if (check.valid) {
+    console.log(`[MODULE-ITERATE][${type}] ✅ iteración válida (${out.modelKey})`);
+    return { ok: true, html: out.candidate, validation: check, models: [out.modelKey], moduleType: type };
+  }
+  console.warn(`[MODULE-ITERATE][${type}] iteración inválida (se conserva el original): ${check.errors.slice(0, 2).join(' | ')}`);
+  return { ok: false, html, validation: check, models: [out.modelKey], moduleType: type, error: `La iteración rompió el contrato (${check.errors.slice(0, 2).join(' | ')}); se conserva el original` };
+}

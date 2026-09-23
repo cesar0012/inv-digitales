@@ -1141,3 +1141,36 @@ export const savePremiumLLM = async (config: {
   const json = await response.json();
   return json.premium;
 };
+
+// —— Preview "Ejemplo real" e iteración de módulos ——
+export const getPreviewImages = async (): Promise<{ images: string[] }> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/preview-images`, { headers: getAdminHeaders() });
+  if (!response.ok) throw new Error('Error al cargar el pool de imágenes');
+  return response.json();
+};
+
+export interface IterationResult {
+  ok: boolean; html: string; moduleType: string; models: string[];
+  validation: { valid: boolean; errors: string[] }; error?: string;
+}
+
+export const iterateGeneratedModule = async (html: string, instructions: string, moduleType: string): Promise<IterationResult> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/iterate`, {
+    method: 'POST', headers: getAdminHeaders(), body: JSON.stringify({ html, instructions, moduleType })
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al iterar el módulo');
+  }
+  return response.json();
+};
+
+export const saveResultHtml = async (id: number, html: string, styleName?: string): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/results/${id}/html`, {
+    method: 'POST', headers: getAdminHeaders(), body: JSON.stringify({ html, styleName })
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al guardar la iteración');
+  }
+};

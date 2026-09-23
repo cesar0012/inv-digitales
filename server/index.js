@@ -950,6 +950,18 @@ app.put('/api/invitations/:userId/:filename', authMiddleware, (req, res) => {
   
   if (htmlContent) {
     writeFileSync(filePath, htmlContent, 'utf-8');
+    // Bug de 'guardo en el editor y el link público no refleja el cambio':
+    // el catálogo sirve una COPIA en storage/historico con el mismo filename;
+    // si esta invitación está publicada, mantener la copia sincronizada.
+    try {
+      const historicoCopy = join(__dirname, 'storage', 'historico', filename);
+      if (existsSync(historicoCopy)) {
+        writeFileSync(historicoCopy, htmlContent, 'utf-8');
+        console.log(`🔄 Copia pública (historico) sincronizada: ${filename}`);
+      }
+    } catch (syncError) {
+      console.warn('No se pudo sincronizar la copia histórica:', syncError.message);
+    }
   }
   
   const updateStmt = db.prepare(`
@@ -2090,6 +2102,67 @@ app.post('/api/admin/module-generator/generate-module', adminMiddleware, async (
     res.json(result);
   } catch (error) {
     console.error('[MODULE-GEN generate] Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// GET /api/admin/module-generator/preview-images — pool de imágenes REALES del
+// disco (/img) para el "Ejemplo real" del preview del generador: simula cómo
+// quedarían los placeholders (fondos generated + imgs library) cuando el
+// proceso agéntico los reemplace. SOLO LECTURA, no toca generación alguna.
+app.get('/api/admin/module-generator/preview-images', adminMiddleware, (req, res) => {
+  try {
+    const imgRoot = join(__dirname, '..', 'img');
+    const pool = [];
+    const walk = (dir, prefix) => {
+      let entries = [];
+      try { entries = readdirSync(dir, { withFileTypes: true }); } catch { return; }
+      for (const e of entries) {
+        if (e.isDirectory()) walk(join(dir, e.name), `${prefix}${e.name}/`);
+        else if (/\.(jpe?g|png|webp)$/i.test(e.name)) pool.push(`/img/${prefix}${e.name}`);
+      }
+    };
+    walk(imgRoot, '');
+    res.json({ images: pool.slice(0, 400) });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// POST /api/admin/module-generator/iterate — itera un módulo generado con
+// instrucciones del admin (cambio dirigido): refine del MISMO pipeline
+// (misión premium/rotator según configuración) + re-validación del contrato.
+app.post('/api/admin/module-generator/iterate', adminMiddleware, async (req, res) => {
+  try {
+    const { html = '', instructions = '', moduleType = '' } = req.body || {};
+    if (!html.trim() || !instructions.trim()) {
+      return res.status(400).json({ error: 'Se requieren html e instructions' });
+    }
+    const { generateModuleIteration } = await import('./moduleGeneratorService.js');
+    const result = await generateModuleIteration(html, {
+      moduleType,
+      instructions: String(instructions).slice(0, 2000)
+    });
+    res.json(result);
+  } catch (error) {
+    console.error('[MODULE-GEN iterate] Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// POST /api/admin/module-generator/results/:id/html — persiste un html
+// iterado sobre un resultado guardado (la galería queda con la versión final).
+app.post('/api/admin/module-generator/results/:id/html', adminMiddleware, (req, res) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+    const { html = '', styleName } = req.body || {};
+    const row = db.prepare('SELECT id FROM module_generator_results WHERE id = ?').get(id);
+    if (!row) return res.status(404).json({ error: 'Resultado no encontrado' });
+    if (!html.trim()) return res.status(400).json({ error: 'html vacío' });
+    db.prepare('UPDATE module_generator_results SET html = ?, style_name = COALESCE(?, style_name) WHERE id = ?')
+      .run(html, styleName || null, id);
+    res.json({ success: true });
+  } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });

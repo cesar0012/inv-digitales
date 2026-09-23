@@ -20,7 +20,7 @@ import {
 } from '../server/llmRotator.js';
 const { getEntry } = llmRotator;
 import {
-  generateModule, validateGeneratedModule, importGeneratedModules, generateSet, saveGeneratedResult
+  generateModule, validateGeneratedModule, importGeneratedModules, generateSet, saveGeneratedResult, generateModuleIteration
 } from '../server/moduleGeneratorService.js';
 import { createPremiumMission, isPremiumConfigured, clearPremiumFatal } from '../server/llmRotator.js';
 import db from '../server/database.js';
@@ -582,6 +582,34 @@ console.log('\n=== 12. Endpoint de import manual + paralelismo de sets ===');
   ok(set.modules.length === 4, 'los 4 módulos del set procesados');
   ok(set.modules.every((m) => m.moduleType), 'resultados en el ORDEN de los tipos (pool preserva índice)');
   ok(elapsed < 1900, `paralelo con concurrencia 3: 2 rondas de 750ms (${elapsed}ms; secuencial seria ~3000ms)`);
+}
+
+console.log('\n=== 13. Iteración dirigida por el admin (cambio concreto) ===');
+{
+  const iterated = countdownFixture.replace('</section>', '\n<!-- iterated: foto polaroid agregada por el admin -->\n</section>');
+  let iterPrompt = '';
+  const result = await generateModuleIteration(countdownFixture, {
+    moduleType: 'countdown',
+    instructions: 'agrega una foto polaroid rotada',
+    mission: {
+      call: async (task) => { iterPrompt = task.prompt; return { content: iterated, modelKey: 'x::iter' }; },
+      excludeModel: () => {}, deadModels: () => []
+    }
+  });
+  ok(result.ok === true && result.html.includes('iterated: foto polaroid'), 'iteración aplica el cambio y devuelve el módulo completo');
+  ok(result.validation.valid, 'la iteración re-valida el contrato');
+  ok(/agrega una foto polaroid/i.test(iterPrompt), 'las instrucciones del admin viajan al prompt');
+
+  // Iteración que rompe el contrato → conserva el original
+  const broken = await generateModuleIteration(countdownFixture, {
+    moduleType: 'countdown',
+    instructions: 'quita todo',
+    mission: {
+      call: async () => ({ content: BAD_MODULE, modelKey: 'x::iter2' }),
+      excludeModel: () => {}, deadModels: () => []
+    }
+  });
+  ok(broken.ok === false && broken.html === countdownFixture, 'iteración inválida → se conserva el original sin cambios');
 }
 
 if (failures.length === 0) {

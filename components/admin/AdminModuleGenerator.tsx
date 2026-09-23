@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import {
   Wand2, Key, RefreshCw, Loader2, CheckCircle2, XCircle, Monitor, Tablet, Smartphone,
-  Play, RotateCcw, Gauge, Upload, Eye, Sparkles, AlertCircle, ListChecks, Square, Pin, Zap
+  Play, RotateCcw, Gauge, Upload, Eye, Sparkles, AlertCircle, ListChecks, Square, Pin, Zap, Shuffle, MessageSquare, ImageIcon
 } from 'lucide-react';
 import {
   getModuleGeneratorStatus, saveModuleGeneratorKeys, moduleGeneratorRotatorAction,
   generateModuleWithRotator, importGeneratedModulesToRAG,
   saveAllowedModels, startModuleBatch, getModuleBatchStatus, stopModuleBatch,
   getGeneratorResults, getGeneratorResult, reviewGeneratorResult, importGeneratorResults, savePremiumLLM,
+  getPreviewImages, iterateGeneratedModule, saveResultHtml,
   type ModuleGeneratorStatus, type GeneratedModule, type BatchStatus, type GeneratorResultRow
 } from '../../services/adminService';
 
@@ -94,6 +95,15 @@ export const AdminModuleGenerator: React.FC = () => {
   const [batchSets, setBatchSets] = useState(5);
   const [batchStarting, setBatchStarting] = useState(false);
 
+  // Preview "Ejemplo real" (placeholders loremflickr → imágenes locales /img)
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const [realExample, setRealExample] = useState(false);
+  const [shuffleSeed, setShuffleSeed] = useState(0);
+
+  // Iteración por módulo (cambio dirigido del admin)
+  const [iterating, setIterating] = useState<Record<string, boolean>>({});
+  const [iterateText, setIterateText] = useState<Record<string, string>>({});
+
   // Resultados para revisión posterior
   const [results, setResults] = useState<GeneratorResultRow[]>([]);
   const [resultsFilter, setResultsFilter] = useState<string>('');
@@ -150,6 +160,20 @@ export const AdminModuleGenerator: React.FC = () => {
   }, [batch?.active]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => { getModuleBatchStatus().then(setBatch).catch(() => {}); }, []);
+  useEffect(() => { getPreviewImages().then((r) => setPreviewImages(r.images || [])).catch(() => {}); }, []);
+
+  // Preview "Ejemplo real": reemplaza los placeholders loremflickr por
+  // imágenes REALES del disco (/img) de forma aleatoria pero estable por
+  // posición (seed). Simula el resultado de Nano Banana/library SIN llamar
+  // a ninguna API — solo afecta al srcDoc del preview del generador.
+  const applyRealExample = useCallback((html: string): string => {
+    if (!realExample || previewImages.length === 0) return html;
+    let i = shuffleSeed;
+    const next = () => previewImages[(i = (i * 31 + 7) % previewImages.length + previewImages.length) % previewImages.length] || previewImages[0];
+    return html
+      .replace(/(src=["'])https?:\/\/loremflickr\.com\/[^"']+(["'])/gi, (m, a, b) => `${a}${next()}${b}`)
+      .replace(/url\((['"]?)https?:\/\/loremflickr\.com\/[^)'"]+(['"]?)\)/gi, (m, a, b) => `url(${a}${next()}${b})`);
+  }, [realExample, previewImages, shuffleSeed]);
 
   const hasKeys = !!status?.keys.openrouter || !!status?.keys.nvidia;
   const allowedModels = status?.rotator.allowedModels || [];
@@ -284,6 +308,27 @@ export const AdminModuleGenerator: React.FC = () => {
       showToast('error', e.message);
     } finally {
       setImporting(false);
+    }
+  };
+
+  // —— Iteración dirigida de un módulo (manual y resultados guardados) ——
+  const runIteration = async (key: string, html: string, moduleType: string, onDone: (r: any) => void) => {
+    const text = (iterateText[key] || '').trim();
+    if (!text) return showToast('error', 'Escribe el cambio que quieres aplicar');
+    setIterating((p) => ({ ...p, [key]: true }));
+    try {
+      const r = await iterateGeneratedModule(html, text, moduleType);
+      if (r.ok) {
+        onDone(r);
+        setIterateText((p) => ({ ...p, [key]: '' }));
+        showToast('success', 'Iteración aplicada y validada ✓');
+      } else {
+        showToast('error', r.error || 'La iteración rompió el contrato; se conserva el original');
+      }
+    } catch (e: any) {
+      showToast('error', e.message);
+    } finally {
+      setIterating((p) => ({ ...p, [key]: false }));
     }
   };
 
@@ -625,17 +670,36 @@ export const AdminModuleGenerator: React.FC = () => {
                   {r.failed && r.validation.errors.length > 0 && <p className="text-xs text-red-600 mt-1">{r.validation.errors.slice(0, 3).join(' · ')}</p>}
                 </div>
               </div>
-              <div className="flex gap-1 bg-gray-100 rounded-xl p-1 shrink-0">
-                {(Object.keys(VIEWPORTS) as Viewport[]).map((vp) => (
-                  <button key={vp} onClick={() => setViewport(vp)} title={VIEWPORTS[vp].label}
-                    className={`px-2.5 py-1.5 rounded-lg text-xs ${viewport === vp ? 'bg-white shadow text-pink-600' : 'text-gray-500'}`}>
-                    {VIEWPORTS[vp].icon}
-                  </button>
-                ))}
+              <div className="flex items-center gap-1 shrink-0">
+                <button onClick={() => setIterateText((p) => ({ ...p, [`manual-${idx}`]: p[`manual-${idx}`] === undefined ? '' : p[`manual-${idx}`] }))} title="Iterar este módulo con un cambio dirigido"
+                  className={`px-2.5 py-1.5 rounded-lg text-xs flex items-center gap-1 ${iterateText[`manual-${idx}`] !== undefined ? 'bg-pink-500 text-white' : 'bg-pink-50 text-pink-600 hover:bg-pink-100'}`}>
+                  <MessageSquare className="w-3.5 h-3.5" /> Iterar
+                </button>
+                <div className="flex gap-1 bg-gray-100 rounded-xl p-1">
+                  {(Object.keys(VIEWPORTS) as Viewport[]).map((vp) => (
+                    <button key={vp} onClick={() => setViewport(vp)} title={VIEWPORTS[vp].label}
+                      className={`px-2.5 py-1.5 rounded-lg text-xs ${viewport === vp ? 'bg-white shadow text-pink-600' : 'text-gray-500'}`}>
+                      {VIEWPORTS[vp].icon}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
+            {iterateText[`manual-${idx}`] !== undefined && (
+              <div className="px-4 py-3 bg-pink-50/50 border-b border-pink-100 flex flex-col md:flex-row gap-2">
+                <textarea value={iterateText[`manual-${idx}`] || ''} onChange={(e) => setIterateText((p) => ({ ...p, [`manual-${idx}`]: e.target.value }))}
+                  placeholder="Cambio dirigido: ej. 'agrega una segunda foto con marco polaroid y más profundidad 3D en la tarjeta'…"
+                  rows={2} className="flex-1 px-3 py-2 border border-pink-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-300 resize-none" />
+                <button onClick={() => runIteration(`manual-${idx}`, r.html, r.moduleType, (res: any) => {
+                  setItems((prev) => prev.map((it, i2) => (i2 === idx ? { ...it, result: { ...it.result!, html: res.html, refined: true } } : it)));
+                })} disabled={iterating[`manual-${idx}`]}
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 text-white text-sm font-medium disabled:opacity-60 flex items-center gap-2 self-start">
+                  {iterating[`manual-${idx}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <MessageSquare className="w-4 h-4" />} Aplicar
+                </button>
+              </div>
+            )}
             <div className="p-4">
-              <ScaledViewportFrame html={r.html} viewport={viewport} height={560} title={`modulo-${r.moduleType}`} />
+              <ScaledViewportFrame html={applyRealExample(r.html)} viewport={viewport} height={560} title={`modulo-${r.moduleType}`} />
             </div>
           </div>
         );
@@ -730,14 +794,33 @@ export const AdminModuleGenerator: React.FC = () => {
                       </>
                     )}
                     {r.importedModuleId && <span className="text-[11px] text-indigo-500 font-mono">{r.importedModuleId}</span>}
+                    <button onClick={() => setIterateText((p) => ({ ...p, [`res-${r.id}`]: p[`res-${r.id}`] === undefined ? '' : p[`res-${r.id}`] }))} title="Iterar este módulo con un cambio dirigido"
+                      className={`px-3 py-1 rounded-lg text-xs font-medium flex items-center gap-1 ${iterateText[`res-${r.id}`] !== undefined ? 'bg-pink-500 text-white' : 'bg-pink-50 text-pink-600 hover:bg-pink-100'}`}>
+                      <MessageSquare className="w-3.5 h-3.5" /> Iterar
+                    </button>
                     <button onClick={() => expandResult(r.id)} className="px-3 py-1 rounded-lg bg-gray-100 text-gray-600 text-xs font-medium hover:bg-gray-200 flex items-center gap-1">
                       <Eye className="w-3.5 h-3.5" /> {expandedResult[r.id] ? 'Ocultar' : 'Ver'}
                     </button>
                   </div>
                 </div>
+                {iterateText[`res-${r.id}`] !== undefined && (
+                  <div className="px-3 py-3 bg-pink-50/50 border-y border-pink-100 flex flex-col md:flex-row gap-2">
+                    <textarea value={iterateText[`res-${r.id}`] || ''} onChange={(e) => setIterateText((p) => ({ ...p, [`res-${r.id}`]: e.target.value }))}
+                      placeholder="Cambio dirigido para este resultado guardado…"
+                      rows={2} className="flex-1 px-3 py-2 border border-pink-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-pink-300 resize-none" />
+                    <button onClick={() => runIteration(`res-${r.id}`, expandedResult[r.id] || '', r.moduleType, async (res: any) => {
+                      await saveResultHtml(r.id, res.html).catch(() => {});
+                      setExpandedResult((p) => ({ ...p, [r.id]: res.html }));
+                      loadResults();
+                    })} disabled={iterating[`res-${r.id}`] || !expandedResult[r.id]}
+                      className="px-4 py-2 rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 text-white text-sm font-medium disabled:opacity-60 flex items-center gap-2 self-start">
+                      {iterating[`res-${r.id}`] ? <Loader2 className="w-4 h-4 animate-spin" /> : <MessageSquare className="w-4 h-4" />} Aplicar y guardar
+                    </button>
+                  </div>
+                )}
                 {expandedResult[r.id] !== undefined && expandedResult[r.id] !== '' && (
                   <div className="p-3">
-                    <ScaledViewportFrame html={expandedResult[r.id]} viewport={viewport} height={520} title={`resultado-${r.id}`} />
+                    <ScaledViewportFrame html={applyRealExample(expandedResult[r.id])} viewport={viewport} height={520} title={`resultado-${r.id}`} />
                   </div>
                 )}
               </div>
