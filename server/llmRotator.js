@@ -55,6 +55,10 @@ const CONFIG = {
   // generación de HTML largo en free tier puede tardar varios minutos.
   shortCallTimeoutMs: parseInt(process.env.ROTATOR_SHORT_TIMEOUT_MS || '60000', 10),
   longCallTimeoutMs: parseInt(process.env.ROTATOR_CALL_TIMEOUT_MS || '180000', 10),
+  // El premium es EL modelo elegido (pago): los razonadores como GLM tardan
+  // varios minutos en generaciones largas — no hay que descartarlos rápido.
+  premiumShortTimeoutMs: parseInt(process.env.ROTATOR_PREMIUM_SHORT_TIMEOUT_MS || '180000', 10),
+  premiumLongTimeoutMs: parseInt(process.env.ROTATOR_PREMIUM_LONG_TIMEOUT_MS || '480000', 10),
   // Cuando TODO el catálogo está en cooldown: esperar (batch en background)
   // hasta MAX_COOLDOWN_WAIT al modelo de recuperación más próxima; si falta
   // más, error claro para que el lote lo registre y siga con el próximo set.
@@ -396,7 +400,11 @@ function resetCooldowns() {
  * - Retry adaptativo de max_tokens (arriba si el razonador se quedó corto,
  *   abajo si el modelo limita el output). */
 async function invokeLLM(resolved, { system, prompt, temperature = 0.8, maxTokens = 8000, _tokenRetry = 0 }) {
-  const timeoutMs = maxTokens >= 4000 ? CONFIG.longCallTimeoutMs : CONFIG.shortCallTimeoutMs;
+  // Premium = modelo pago del admin (uno solo, confiable): merece esperar
+  // bastante más que a un free colgado antes de descartar la llamada.
+  const timeoutMs = resolved.provider === 'premium'
+    ? (maxTokens >= 4000 ? CONFIG.premiumLongTimeoutMs : CONFIG.premiumShortTimeoutMs)
+    : (maxTokens >= 4000 ? CONFIG.longCallTimeoutMs : CONFIG.shortCallTimeoutMs);
     const call = async (mt) => {
     // 'premium' = LLM propio OpenAI-compatible (base_url + key): auth Bearer directo.
     const authHeaders = resolved.provider === 'premium'
@@ -411,7 +419,14 @@ async function invokeLLM(resolved, { system, prompt, temperature = 0.8, maxToken
       ],
       temperature,
       max_tokens: mt,
-      stream: false
+      stream: false,
+      // GLM (Z.ai) en modo razonador quema el budget en "razonamiento" y
+      // devuelve content vacío con finish_reason=length: para generación de
+      // HTML el razonamiento no aporta — desactivarlo. (Campo oficial de Z.ai;
+      // otros endpoints OpenAI-compat ignoran campos extra.)
+      ...(resolved.provider === 'premium' && /glm/i.test(resolved.model)
+        ? { thinking: { type: 'disabled' } }
+        : {})
     };
     const res = await fetch(resolved.api_base, {
       method: 'POST',

@@ -448,12 +448,14 @@ console.log('\n=== 11. LLM Premium OpenAI-compatible (servidor local real) ===')
   // Mini API OpenAI-compatible local: responde chat/completions según el prompt
   const countdownFx = rf(join(__dirname, '..', 'Countdown', 'countdown-01.html'), 'utf-8');
   let premiumCalls = 0;
+  let sawThinkingDisabled = false;
   let serverMode = 'ok'; // ok | down
   const server = http.createServer((req, res) => {
     let body = '';
     req.on('data', (c) => { body += c; });
     req.on('end', () => {
       premiumCalls += 1;
+      try { if (JSON.parse(body)?.thinking?.type === 'disabled') sawThinkingDisabled = true; } catch {}
       if (serverMode === 'down') { res.writeHead(500, { 'Content-Type': 'application/json' }); return res.end(JSON.stringify({ error: { message: 'premium caido' } })); }
       const prompt = JSON.parse(body).messages?.[0]?.content || '';
       let content;
@@ -486,6 +488,7 @@ console.log('\n=== 11. LLM Premium OpenAI-compatible (servidor local real) ===')
     ok(result.models.some((mk) => mk === 'premium::glm-5.3-test'), 'el modelo premium queda registrado en models');
     ok(premiumCalls >= 3, `el premium atendió brief+generación+crítica (${premiumCalls} llamadas)`);
     ok(result.models.includes('premium::glm-5.3-test') && !result.failed, 'sin tocar el rotator (0 llamadas free)');
+    ok(sawThinkingDisabled, 'body enviado al premium GLM incluye thinking.type=disabled (evita content vacío por razonamiento)');
 
     // Fallback: premium caído + rotator sin keys → failed tras agotar, sin colgarse
     serverMode = 'down';
