@@ -241,16 +241,26 @@ export const AdminModuleGenerator: React.FC = () => {
     const initial = selectedTypes.map((type) => ({ type, state: 'idle' as GenState }));
     setItems(initial);
     setChecked({});
-    for (let i = 0; i < initial.length; i++) {
-      setItems((prev) => prev.map((it, idx) => (idx === i ? { ...it, state: 'generating' } : it)));
-      try {
-        const result = await generateModuleWithRotator(initial[i].type, extraInstructions);
-        setItems((prev) => prev.map((it, idx) => (idx === i ? { ...it, state: result.failed ? 'error' : 'done', result, error: result.failed ? result.validation.errors.slice(0, 4).join(' · ') : undefined } : it)));
-        if (!result.failed) setChecked((prev) => ({ ...prev, [i]: true }));
-      } catch (e: any) {
-        setItems((prev) => prev.map((it, idx) => (idx === i ? { ...it, state: 'error', error: e.message } : it)));
+    // Paralelo con concurrencia limitada: premium 3 (endpoint pago aguanta),
+    // rotator 2 (no incendiar los rate limits free). Progreso por módulo igual.
+    const concurrent = (status?.rotator as any)?.premium?.active ? 3 : 2;
+    let nextIdx = 0;
+    const worker = async () => {
+      for (;;) {
+        const i = nextIdx;
+        nextIdx += 1;
+        if (i >= initial.length) break;
+        setItems((prev) => prev.map((it, idx) => (idx === i ? { ...it, state: 'generating' } : it)));
+        try {
+          const result = await generateModuleWithRotator(initial[i].type, extraInstructions);
+          setItems((prev) => prev.map((it, idx) => (idx === i ? { ...it, state: result.failed ? 'error' : 'done', result, error: result.failed ? result.validation.errors.slice(0, 4).join(' · ') : undefined } : it)));
+          if (!result.failed) setChecked((prev) => ({ ...prev, [i]: true }));
+        } catch (e: any) {
+          setItems((prev) => prev.map((it, idx) => (idx === i ? { ...it, state: 'error', error: e.message } : it)));
+        }
       }
-    }
+    };
+    await Promise.all(Array.from({ length: Math.max(1, Math.min(concurrent, initial.length)) }, worker));
     setGenerating(false);
   };
 

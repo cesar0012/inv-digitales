@@ -543,6 +543,41 @@ console.log('\n=== 11b. Error FATAL de cuenta premium (sin saldo) suspende el pr
   ok(!isPremiumConfigured(), 'estado limpio tras el test');
 }
 
+console.log('\n=== 12. Endpoint de import manual + paralelismo de sets ===');
+{
+  // Regresión del 404: el endpoint de import de la generación manual existe
+  const indexSrc = readFileSync(join(__dirname, '..', 'server', 'index.js'), 'utf-8');
+  ok(indexSrc.includes("/api/admin/module-generator/import'"), "endpoint POST /module-generator/import presente (regresión 404)");
+
+  // Paralelismo: 4 módulos × 250ms con concurrencia 3 → ~500-750ms (secuencial: 1000ms+)
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  const adaptFixture = (type) => countdownFixture
+    .replace(/countdown-central-classic/g, `${type}-par`)
+    .replace(/module_type: 'countdown'/, `module_type: '${type}'`)
+    .replace(/tipo: 'countdown'/, `tipo: '${type}'`);
+  const parMission = {
+    call: async (task) => {
+      await sleep(250);
+      if (/BRIEF creativo/.test(task.prompt)) return { content: '{}', modelKey: 'x::b' };
+      if (/RÚBRICA/.test(task.prompt)) return { content: '{"score":95,"mejoras":[]}', modelKey: 'x::c' };
+      const type = task.prompt.match(/Genera el módulo "([a-z_]+)"/i)?.[1] || 'countdown';
+      return { content: type === 'galeria' ? GALERIA_FIXTURE.replace(/galeria-ejemplo-test/g, 'galeria-par') : adaptFixture(type), modelKey: 'x::g' };
+    },
+    excludeModel: () => {},
+    deadModels: () => []
+  };
+  const t0 = Date.now();
+  const set = await generateSet(['countdown', 'galeria', 'quotes', 'gracias'], {
+    mission: parMission,
+    batchSeeds: new Set(),
+    concurrency: 3
+  });
+  const elapsed = Date.now() - t0;
+  ok(set.modules.length === 4, 'los 4 módulos del set procesados');
+  ok(set.modules.every((m) => m.moduleType), 'resultados en el ORDEN de los tipos (pool preserva índice)');
+  ok(elapsed < 1900, `paralelo con concurrencia 3: 2 rondas de 750ms (${elapsed}ms; secuencial seria ~3000ms)`);
+}
+
 if (failures.length === 0) {
   console.log(`✅ TEST PASSED: ${passed} verificaciones superadas`);
 } else {

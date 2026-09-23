@@ -2094,6 +2094,25 @@ app.post('/api/admin/module-generator/generate-module', adminMiddleware, async (
   }
 });
 
+// POST /api/admin/module-generator/import — importa los módulos aprobados de
+// la GENERACIÓN MANUAL al RAG (los de la galería de resultados usan
+// /results/import). Restaurado: fue reemplazado por error al añadir los
+// endpoints de lotes.
+app.post('/api/admin/module-generator/import', adminMiddleware, async (req, res) => {
+  try {
+    const { modules = [] } = req.body || {};
+    if (!Array.isArray(modules) || modules.length === 0) {
+      return res.status(400).json({ error: 'Sin módulos para importar' });
+    }
+    const { importGeneratedModules } = await import('./moduleGeneratorService.js');
+    const results = importGeneratedModules(modules, db);
+    res.json({ success: results.every((r) => r.ok), results });
+  } catch (error) {
+    console.error('[MODULE-GEN import] Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // POST /api/admin/module-generator/models — allowlist manual de modelos del
 // rotator. Si se define (array NO vacío), SOLO esos modelos se usan para TODA
 // la generación del módulo generator. Vacío/null = rotación libre por ranking.

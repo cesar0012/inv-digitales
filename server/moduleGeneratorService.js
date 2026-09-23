@@ -522,7 +522,7 @@ export function importGeneratedModules(modules, dbInstance) {
  * @param {{extraInstructions?: string, batchSeeds?: Set<string>, mission?: object}} opts
  * @returns {Promise<{modules: Array, setSeeds: object, autoDirection: string}>}
  */
-export async function generateSet(moduleTypes, { extraInstructions = '', batchSeeds = new Set(), mission = null, missionFactory = null } = {}) {
+export async function generateSet(moduleTypes, { extraInstructions = '', batchSeeds = new Set(), mission = null, missionFactory = null, concurrency = 2 } = {}) {
   const setSeeds = {
     estetica: pickExcluding(AESTHETICS, batchSeeds, 'estetica'),
     firma: pickExcluding(SIGNATURES, batchSeeds, 'firma')
@@ -532,23 +532,32 @@ export async function generateSet(moduleTypes, { extraInstructions = '', batchSe
     : pickExcluding(CONCEPT_DIRECTIONS, batchSeeds, 'concepto');
   const setInstructions = [autoDirection, extraInstructions].filter(Boolean).join('. ');
 
-  const modules = [];
-  for (const type of moduleTypes) {
-    try {
-      const result = await generateModule(type, {
-        extraInstructions: setInstructions,
-        mission,
-        missionFactory,
-        seedUsed: batchSeeds,
-        forcedSeeds: setSeeds
-      });
-      modules.push(result);
-    } catch (error) {
-      console.warn(`[MODULE-GEN][set] módulo ${type} falló en el set: ${error.message}`);
-      modules.push({ moduleType: type, failed: true, error: error.message, attempts: 0, models: [], validation: { valid: false, errors: [error.message] }, html: '' });
+  // Paralelo con concurrencia limitada: los resultados conservan el ORDEN de
+  // moduleTypes y un fallo individual no tumba el set.
+  const results = new Array(moduleTypes.length);
+  let nextIdx = 0;
+  const worker = async () => {
+    for (;;) {
+      const i = nextIdx;
+      nextIdx += 1;
+      if (i >= moduleTypes.length) break;
+      const type = moduleTypes[i];
+      try {
+        results[i] = await generateModule(type, {
+          extraInstructions: setInstructions,
+          mission,
+          missionFactory,
+          seedUsed: batchSeeds,
+          forcedSeeds: setSeeds
+        });
+      } catch (error) {
+        console.warn(`[MODULE-GEN][set] módulo ${type} falló en el set: ${error.message}`);
+        results[i] = { moduleType: type, failed: true, error: error.message, attempts: 0, models: [], validation: { valid: false, errors: [error.message] }, html: '' };
+      }
     }
-  }
-  return { modules, setSeeds, autoDirection };
+  };
+  await Promise.all(Array.from({ length: Math.max(1, Math.min(concurrency, moduleTypes.length)) }, worker));
+  return { modules: results, setSeeds, autoDirection };
 }
 
 // ----------------------------------------------------------------------------

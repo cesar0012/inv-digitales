@@ -81,7 +81,7 @@ async function runBatch(batchId, totalSets, moduleTypes, extraInstructions) {
       }
       jobState.currentLabel = `set ${s}/${totalSets}`;
       try {
-        const set = await generateSet(moduleTypes, { extraInstructions, batchSeeds, mission, missionFactory });
+        const set = await generateSet(moduleTypes, { extraInstructions, batchSeeds, mission, missionFactory, concurrency: usingPremium ? 3 : 2 });
         for (const result of set.modules) {
           const id = saveGeneratedResult(db, { batchId, setIndex: s, result });
           if (result.failed || !result.validation?.valid) {
