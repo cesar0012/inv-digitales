@@ -1,0 +1,169 @@
+<section
+  class="bh-confirmacion"
+  data-gemini-id="confirmacion-texto"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .bh-confirmacion {
+      --primary-color: #22242a;
+      --secondary-color: #6d7078;
+      --accent-color: #e2543e;
+      --bg-color: #f3f1ec;
+      --surface-color: #fbfaf7;
+      --surface-border-color: rgba(34, 36, 42, 0.18);
+      --text-color: #22242a;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 72svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/circle,minimal');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .bh-confirmacion *,
+    .bh-confirmacion *::before,
+    .bh-confirmacion *::after { box-sizing: border-box; }
+
+    .bh-confirmacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 92%, transparent);
+    }
+
+    .bh-confirmacion__anillo {
+      position: absolute;
+      z-index: 0;
+      top: 50%;
+      left: 50%;
+      width: clamp(300px, 52vw, 560px);
+      aspect-ratio: 1 / 1;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 1px solid var(--surface-border-color);
+      pointer-events: none;
+    }
+    .bh-confirmacion__anillo::before {
+      content: '';
+      position: absolute;
+      inset: clamp(20px, 4vw, 40px);
+      border-radius: 50%;
+      border: 1px dashed var(--surface-border-color);
+    }
+    .bh-confirmacion__anillo::after {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      animation: bhConfirmacionOrbita 14s linear infinite;
+      transform-origin: 50% calc(50% + clamp(150px, 26vw, 280px));
+    }
+    @keyframes bhConfirmacionOrbita { to { transform: rotate(360deg); } }
+
+    .bh-confirmacion__contenido {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 600px);
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 12px 12px 0 color-mix(in srgb, var(--secondary-color) 35%, transparent);
+    }
+
+    .bh-confirmacion__triangulo {
+      display: block;
+      width: 0;
+      height: 0;
+      margin: 0 auto 1.1rem;
+      border-left: 17px solid transparent;
+      border-right: 17px solid transparent;
+      border-bottom: 28px solid var(--accent-color);
+    }
+    .bh-confirmacion__etiqueta {
+      margin: 0 0 0.7rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .bh-confirmacion__titulo {
+      margin: 0 0 1rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .bh-confirmacion__texto {
+      margin: 0 auto 1.4rem;
+      max-width: 46ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .bh-confirmacion__limite {
+      display: inline-block;
+      padding: 0.55rem 1.4rem;
+      border: 2px solid var(--primary-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .bh-confirmacion__limite time { color: var(--accent-color); }
+
+    @media (max-width: 560px) {
+      .bh-confirmacion { min-height: 62svh; }
+      .bh-confirmacion__contenido { padding: 2.2rem 1.2rem; box-shadow: 8px 8px 0 color-mix(in srgb, var(--secondary-color) 35%, transparent); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bh-confirmacion * { animation: none !important; }
+    }
+  </style>
+
+  <span class="bh-confirmacion__anillo" aria-hidden="true"></span>
+
+  <div class="bh-confirmacion__contenido">
+    <span class="bh-confirmacion__triangulo" aria-hidden="true"></span>
+    <p class="bh-confirmacion__etiqueta" memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta">Confirma tu asistencia</p>
+    <h2 class="bh-confirmacion__titulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">Cuenta con tu forma</h2>
+    <p class="bh-confirmacion__texto" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">
+      Cada confirmación completa la composición. Usa el enlace de tu invitación digital
+      antes de la fecha señalada y ocupa tu lugar en el cuadro final.
+    </p>
+    <p class="bh-confirmacion__limite" memory_type="text" memory_usage="custom" memory_key="confirmacion-rotulo">
+      Antes del <time datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha">DD de mes</time>
+    </p>
+  </div>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Bauhaus Geométrico — Confirmación',
+      descripcion: 'Anillos concéntricos con satélite orbital, tarjeta con sombra dura, triángulo de acento y límite enmarcado; RSVP informativo.',
+      tags: ['confirmacion', 'rsvp', 'bauhaus', 'orbita', 'anillos', 'geometrico'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>

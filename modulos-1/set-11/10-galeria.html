@@ -1,0 +1,235 @@
+<section
+  class="su-galeria"
+  data-gemini-id="galeria-suizo-contacto"
+>
+  <style>
+    .su-galeria {
+      --primary-color: #17171a;
+      --secondary-color: #75757c;
+      --accent-color: #d43d2a;
+      --bg-color: #f2f2ef;
+      --surface-color: #fbfbf9;
+      --surface-border-color: rgba(23, 23, 26, 0.16);
+      --text-color: #17171a;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .su-galeria *,
+    .su-galeria *::before,
+    .su-galeria *::after { box-sizing: border-box; }
+
+    .su-galeria__cabecera {
+      width: min(100%, 1060px);
+      margin: 0 auto clamp(1.4rem, 3vw, 2rem);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.8rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .su-galeria__titulo {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .su-galeria__folio {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.28em;
+      color: var(--secondary-color);
+    }
+
+    .su-galeria__rejilla {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: 6px;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+      background: var(--surface-border-color);
+      padding: 6px;
+      outline: 1px solid var(--surface-border-color);
+    }
+
+    .su-galeria__celda {
+      position: relative;
+      margin: 0;
+      background: var(--surface-color);
+      cursor: pointer;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .su-galeria.su-js .su-galeria__celda { opacity: 0; transform: translateY(14px); }
+    .su-galeria .su-galeria__celda.esta-visto { opacity: 1; transform: none; }
+    .su-galeria__celda::after {
+      content: attr(data-su-num);
+      position: absolute;
+      bottom: 6px;
+      left: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      color: var(--surface-color);
+      mix-blend-mode: difference;
+    }
+    .su-galeria__celda img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.06);
+      transition: filter 0.4s ease;
+    }
+    .su-galeria__celda:hover img { filter: grayscale(0.2) contrast(1.03); }
+
+    .su-galeria__lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      place-items: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      background: color-mix(in srgb, var(--primary-color) 92%, black);
+    }
+    .su-galeria__lightbox.abierto { display: grid; }
+    .su-galeria__lightbox img {
+      max-width: min(920px, 92vw);
+      max-height: 82svh;
+      width: auto;
+      height: auto;
+      outline: 6px solid var(--surface-color);
+    }
+    .su-galeria__cerrar {
+      position: absolute;
+      top: clamp(0.8rem, 2.5vw, 1.6rem);
+      right: clamp(0.8rem, 2.5vw, 1.6rem);
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--accent-color);
+      background: transparent;
+      color: var(--accent-color);
+      font-size: 1.2rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.4s ease, background 0.4s ease;
+    }
+    .su-galeria__cerrar:hover { transform: rotate(90deg); background: var(--accent-color); color: var(--bg-color); }
+
+    @media (max-width: 560px) {
+      .su-galeria__rejilla { grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .su-galeria * { transition: none !important; }
+      .su-galeria__celda { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="su-galeria__cabecera" memory_type="text" memory_usage="custom" memory_key="galeria-cabecera">
+    <h2 class="su-galeria__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Fig. 08 — Registro</h2>
+    <span class="su-galeria__folio" memory_type="text" memory_usage="custom" memory_key="galeria-folio">6/6 EXPUESTAS</span>
+  </header>
+
+  <div class="su-galeria__rejilla">
+    <figure class="su-galeria__celda" data-su-celda data-su-num="N.01" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-1" tabindex="0" role="button" aria-label="Ampliar foto uno">
+      <img src="https://loremflickr.com/480/360/minimal,couple" alt="Foto uno" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Foto uno</figcaption>
+    </figure>
+    <figure class="su-galeria__celda" data-su-celda data-su-num="N.02" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-2" tabindex="0" role="button" aria-label="Ampliar foto dos">
+      <img src="https://loremflickr.com/480/360/minimal,dinner" alt="Foto dos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Foto dos</figcaption>
+    </figure>
+    <figure class="su-galeria__celda" data-su-celda data-su-num="N.03" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-3" tabindex="0" role="button" aria-label="Ampliar foto tres">
+      <img src="https://loremflickr.com/480/360/white,party" alt="Foto tres" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Foto tres</figcaption>
+    </figure>
+    <figure class="su-galeria__celda" data-su-celda data-su-num="N.04" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-4" tabindex="0" role="button" aria-label="Ampliar foto cuatro">
+      <img src="https://loremflickr.com/480/360/clean,dance" alt="Foto cuatro" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Foto cuatro</figcaption>
+    </figure>
+    <figure class="su-galeria__celda" data-su-celda data-su-num="N.05" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-5" tabindex="0" role="button" aria-label="Ampliar foto cinco">
+      <img src="https://loremflickr.com/480/360/studio,flowers" alt="Foto cinco" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Foto cinco</figcaption>
+    </figure>
+    <figure class="su-galeria__celda" data-su-celda data-su-num="N.06" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-6" tabindex="0" role="button" aria-label="Ampliar foto seis">
+      <img src="https://loremflickr.com/480/360/mono,toast" alt="Foto seis" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Foto seis</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.su-galeria');
+      if (!root) return;
+      root.classList.add('su-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var celdas = Array.prototype.slice.call(root.querySelectorAll('[data-su-celda]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var i = celdas.indexOf(entry.target);
+            entry.target.style.transitionDelay = (Math.min(i, 5) * 0.08).toFixed(2) + 's';
+            entry.target.classList.add('esta-visto');
+            io.unobserve(entry.target);
+          });
+        }, { threshold: 0.18 });
+        celdas.forEach(function (c) { io.observe(c); });
+      } else {
+        celdas.forEach(function (c) { c.classList.add('esta-visto'); });
+      }
+
+      var lightbox = document.createElement('div');
+      lightbox.className = 'su-galeria__lightbox';
+      lightbox.setAttribute('role', 'dialog');
+      lightbox.setAttribute('aria-modal', 'true');
+      lightbox.setAttribute('aria-label', 'Vista ampliada');
+      lightbox.innerHTML =
+        '<img alt="" />' +
+        '<button type="button" class="su-galeria__cerrar" aria-label="Cerrar">×</button>';
+      root.appendChild(lightbox);
+      var imgAmpliada = lightbox.querySelector('img');
+      var botonCerrar = lightbox.querySelector('.su-galeria__cerrar');
+
+      function abrir(fig) {
+        var foto = fig.querySelector('img');
+        if (!foto) return;
+        imgAmpliada.src = foto.src;
+        imgAmpliada.alt = foto.alt;
+        lightbox.classList.add('abierto');
+      }
+      function cerrar() { lightbox.classList.remove('abierto'); }
+
+      celdas.forEach(function (fig) {
+        fig.addEventListener('click', function () { abrir(fig); });
+        fig.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(fig); }
+        });
+      });
+      botonCerrar.addEventListener('click', cerrar);
+      lightbox.addEventListener('click', function (e) { if (e.target === lightbox) cerrar(); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-suizo-contacto',
+      style_name: 'Suizo Tipográfico — Galería',
+      descripcion: 'Rejilla de 6px con fotos cuadradas en grises numeradas por difference, color al hover y lightbox enmarcado.',
+      tags: ['galeria', 'rejilla', 'suizo', 'grises', 'difference', 'lightbox'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

@@ -303,3 +303,45 @@ Return the complete, updated HTML code. Raw HTML only, no markdown formatting.
     throw error;
   }
 };
+// ==================== EVENT DATA — datos específicos durante la generación ====================
+
+export interface EventDataTarget {
+  i: number;
+  m: string;
+  id: string;
+  k: string;
+  t: string;
+}
+
+export interface EventDataFillResult {
+  items: { i: number; t: string }[];
+  usedAI: boolean;
+  aiError?: string;
+}
+
+/**
+ * Pase IA para colocar datos del evento en nodos editables de la invitación.
+ * Envía SOLO el índice compacto de nodos (sin HTML ni imágenes base64).
+ * El endpoint nunca responde error HTTP: en fallo devuelve items vacíos y el
+ * cliente continúa con el resultado del pase determinista.
+ */
+export const aiFillEventData = async (
+  eventType: string,
+  data: Record<string, string>,
+  targets: EventDataTarget[]
+): Promise<EventDataFillResult> => {
+  const token = localStorage.getItem('auth_token');
+  const response = await fetch(`${API_BASE}/event-data/ai-fill`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+    },
+    body: JSON.stringify({ eventType, data, targets })
+  });
+  if (!response.ok) {
+    throw new Error(`ai-fill ${response.status}`);
+  }
+  return response.json();
+};

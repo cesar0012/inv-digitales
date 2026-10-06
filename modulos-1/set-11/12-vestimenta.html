@@ -1,0 +1,207 @@
+<section
+  class="su-vestimenta"
+  data-gemini-id="vestimenta-suizo-muestras"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .su-vestimenta {
+      --primary-color: #17171a;
+      --secondary-color: #75757c;
+      --accent-color: #d43d2a;
+      --bg-color: #f2f2ef;
+      --surface-color: #fbfbf9;
+      --surface-border-color: rgba(23, 23, 26, 0.16);
+      --text-color: #17171a;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      min-height: 64svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: left;
+    }
+    .su-vestimenta *,
+    .su-vestimenta *::before,
+    .su-vestimenta *::after { box-sizing: border-box; }
+
+    .su-vestimenta__panel {
+      width: min(100%, 680px);
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      border: 1px solid var(--surface-border-color);
+      background: var(--surface-color);
+    }
+
+    .su-vestimenta__cabecera {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.8rem;
+    }
+    .su-vestimenta__titulo {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 3.2vw, 2rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .su-vestimenta__folio {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.28em;
+      color: var(--secondary-color);
+    }
+    .su-vestimenta__texto {
+      margin: 0 0 1.8rem;
+      max-width: 50ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .su-vestimenta__fila-muestras {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      border: 1px solid var(--surface-border-color);
+      margin-bottom: 1.4rem;
+    }
+    .su-vestimenta__muestra {
+      display: grid;
+      grid-template-rows: 1fr auto;
+      aspect-ratio: 3 / 4;
+      border-right: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .su-vestimenta.su-js .su-vestimenta__muestra { opacity: 0; transform: translateY(14px); }
+    .su-vestimenta .su-vestimenta__muestra.esta-visto { opacity: 1; transform: none; }
+    .su-vestimenta__muestra:last-child { border-right: 0; }
+    .su-vestimenta__chip {
+      display: block;
+      background: var(--bg-color);
+      transition: background-color 0.5s ease;
+    }
+    .su-vestimenta__codigo {
+      padding: 0.35rem 0.3rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.54rem;
+      letter-spacing: 0.14em;
+      text-align: center;
+      color: var(--secondary-color);
+      border-top: 1px solid var(--surface-border-color);
+    }
+
+    .su-vestimenta__leyenda {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.64rem, 1.25vw, 0.74rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 480px) {
+      .su-vestimenta__fila-muestras { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .su-vestimenta__muestra:nth-child(3) { border-right: 0; }
+      .su-vestimenta__muestra:nth-child(-n + 3) { border-bottom: 1px solid var(--surface-border-color); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .su-vestimenta * { transition: none !important; }
+      .su-vestimenta__muestra { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="su-vestimenta__panel">
+    <header class="su-vestimenta__cabecera" memory_type="text" memory_usage="custom" memory_key="vestimenta-intro">
+      <h2 class="su-vestimenta__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Fig. 10 — Paleta</h2>
+      <span class="su-vestimenta__folio" memory_type="text" memory_usage="custom" memory_key="vestimenta-folio">6 TONOS</span>
+    </header>
+    <p class="su-vestimenta__texto" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">
+      Muestras oficiales del código de vestimenta. Cualquiera de estos tonos encuadra perfecto.
+    </p>
+
+    <div class="su-vestimenta__fila-muestras" data-su-muestras aria-hidden="true"></div>
+
+    <p class="su-vestimenta__leyenda" memory_type="text" memory_usage="custom" memory_key="vestimenta-leyenda">FORMAL MODERNO — SIN BLANCO PURO</p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.su-vestimenta');
+      if (!root) return;
+      root.classList.add('su-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var muestras = root.querySelector('[data-su-muestras]');
+      if (muestras && !muestras.children.length) {
+        var tonos = [
+          ['#17171a', 'NEGRO'],
+          ['#d43d2a', 'ROJO'],
+          ['#75757c', 'GRIS'],
+          ['#e8e2d6', 'HUESO'],
+          ['#31456b', 'AZUL'],
+          ['#5a5f4e', 'OLIVA']
+        ];
+        for (var i = 0; i < tonos.length; i++) {
+          var muestra = document.createElement('span');
+          muestra.className = 'su-vestimenta__muestra';
+          muestra.style.transitionDelay = (i * 0.07).toFixed(2) + 's, ' + (i * 0.07).toFixed(2) + 's';
+          var chip = document.createElement('span');
+          chip.className = 'su-vestimenta__chip';
+          chip.setAttribute('data-su-tono', tonos[i][0]);
+          var codigo = document.createElement('span');
+          codigo.className = 'su-vestimenta__codigo';
+          codigo.textContent = tonos[i][1];
+          muestra.appendChild(chip);
+          muestra.appendChild(codigo);
+          muestras.appendChild(muestra);
+        }
+      }
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function colorear() {
+        root.querySelectorAll('[data-su-tono]').forEach(function (c) {
+          c.style.backgroundColor = c.getAttribute('data-su-tono');
+        });
+      }
+      if (reduce || !('IntersectionObserver' in window)) {
+        root.querySelectorAll('.su-vestimenta__muestra').forEach(function (m) { m.classList.add('esta-visto'); });
+        colorear();
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          root.querySelectorAll('.su-vestimenta__muestra').forEach(function (m, i) {
+            m.style.transitionDelay = (i * 0.07).toFixed(2) + 's, ' + (i * 0.07).toFixed(2) + 's';
+            m.classList.add('esta-visto');
+          });
+          setTimeout(colorear, 220);
+          io.disconnect();
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-suizo-muestras',
+      style_name: 'Suizo Tipográfico — Paleta',
+      descripcion: 'Fila de muestras tabulares con códigos de color que se rellenan por JS en cascada; leyenda de reglas en monoespaciada.',
+      tags: ['vestimenta', 'dress code', 'muestras', 'suizo', 'paleta', 'tabular'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

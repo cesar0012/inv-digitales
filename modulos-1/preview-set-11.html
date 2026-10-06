@@ -1,0 +1,2528 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>set-11</title><style>:root{--primary-color:#1f2937;--text-color:#1f2937;--accent-color:#b59b72;--bg-color:#f5f1e8;--secondary-color:#6b7280;--surface-color:#ffffff;--surface-border-color:rgba(0,0,0,.12);--font-base:Georgia,serif}body{margin:0}</style></head><body><section
+  class="su-portada"
+  data-gemini-id="portada-nombre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="su-portada-titulo"
+>
+  <style>
+    .su-portada {
+      --primary-color: #17171a;
+      --secondary-color: #75757c;
+      --accent-color: #d43d2a;
+      --bg-color: #f2f2ef;
+      --surface-color: #fbfbf9;
+      --surface-border-color: rgba(23, 23, 26, 0.16);
+      --text-color: #17171a;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 100svh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/minimal,white');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .su-portada *,
+    .su-portada *::before,
+    .su-portada *::after { box-sizing: border-box; }
+
+    .su-portada::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 95%, transparent);
+    }
+
+    .su-portada__barra-superior {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding-bottom: 0.9rem;
+      border-bottom: 2px solid var(--primary-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .su-portada__barra-superior b {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      background: var(--accent-color);
+    }
+
+    .su-portada__cuerpo {
+      display: grid;
+      grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+      gap: clamp(1.4rem, 4vw, 3rem);
+      align-items: end;
+      padding: clamp(2rem, 5vw, 4rem) 0 clamp(1.4rem, 3vw, 2.4rem);
+    }
+
+    .su-portada__titulo {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(2.6rem, 8.5vw, 6.2rem);
+      line-height: 0.96;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .su-portada__titulo span {
+      display: block;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .su-portada__titulo span:nth-child(2) {
+      color: var(--accent-color);
+      transition-delay: 0.12s;
+    }
+    .su-portada.su-js .su-portada__titulo span { opacity: 0; transform: translateY(0.25em); }
+    .su-portada.esta-visto .su-portada__titulo span { opacity: 1; transform: none; }
+
+    .su-portada__columna {
+      display: grid;
+      gap: 1.1rem;
+      border-left: 1px solid var(--surface-border-color);
+      padding-left: clamp(1rem, 2.5vw, 1.8rem);
+    }
+    .su-portada__rotulo {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.58rem, 1.05vw, 0.66rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .su-portada__nombres {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      line-height: 1.35;
+      color: var(--primary-color);
+    }
+    .su-portada__fecha {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.78rem, 1.5vw, 0.92rem);
+      letter-spacing: 0.12em;
+      color: var(--text-color);
+    }
+
+    .su-portada__pie {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      border-top: 1px solid var(--surface-border-color);
+      padding-top: 1rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.58rem, 1.05vw, 0.66rem);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .su-portada__foto {
+      position: relative;
+      margin: 0;
+      width: clamp(96px, 13vw, 140px);
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      outline: 1px solid var(--surface-border-color);
+    }
+    .su-portada__foto::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -6%;
+      right: -6%;
+      height: 1px;
+      background: var(--accent-color);
+    }
+    .su-portada__foto::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: -6%;
+      bottom: -6%;
+      width: 1px;
+      background: var(--accent-color);
+      z-index: 1;
+    }
+    .su-portada__foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.08);
+    }
+
+    @media (max-width: 760px) {
+      .su-portada__cuerpo { grid-template-columns: 1fr; align-items: start; }
+      .su-portada__columna { border-left: 0; border-top: 1px solid var(--surface-border-color); padding-left: 0; padding-top: 1.1rem; }
+      .su-portada__pie { flex-wrap: wrap; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .su-portada * { transition: none !important; }
+      .su-portada__titulo span { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <header class="su-portada__barra-superior" memory_type="text" memory_usage="custom" memory_key="portada-encabezado">
+    <span>Invitación · N.º 01</span>
+    <b aria-hidden="true"></b>
+    <span memory_type="text" memory_usage="custom" memory_key="portada-edicion">Edición única</span>
+  </header>
+
+  <div class="su-portada__cuerpo">
+    <div memory_type="text" memory_usage="custom" memory_key="portada-nombres">
+      <h1 id="su-portada-titulo" class="su-portada__titulo">
+        <span>Nombre</span>
+        <span>&amp; Nombre</span>
+      </h1>
+    </div>
+
+    <div class="su-portada__columna">
+      <p class="su-portada__rotulo" memory_type="text" memory_usage="custom" memory_key="portada-rotulo">Celebran</p>
+      <p class="su-portada__nombres" memory_type="text" memory_usage="custom" memory_key="portada-completo">Nombre de la Novia y Nombre del Novio</p>
+      <time class="su-portada__fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="portada-fecha">FECHA DEL EVENTO — 16:00 H</time>
+      <figure class="su-portada__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="portada-foto">
+        <img src="https://loremflickr.com/360/360/couple,minimal" alt="Retrato de los anfitriones" path="placeholder" data-library-category="bodas" data-asset-type="foto-pareja" loading="lazy" />
+        <figcaption hidden>Retrato principal</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <footer class="su-portada__pie">
+    <span memory_type="text" memory_usage="custom" memory_key="portada-lugar">Lugar del evento</span>
+    <span memory_type="text" memory_usage="custom" memory_key="portada-pie-derecho">Pase de entrada</span>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.su-portada');
+      if (!root) return;
+      root.classList.add('su-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.22 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Suizo Tipográfico',
+      descripcion: 'Retícula suiza: barra superior con cuadrado rojo, titular gigante en dos líneas, columna con regla vertical y foto cuadrada con retícula.',
+      tags: ['portada', 'hero', 'suizo', 'tipografia', 'reticula', 'minimal'],
+      tipo: 'portada'
+    };
+  </script>
+</section>
+
+<section
+  class="su-padres"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .su-padres {
+      --primary-color: #17171a;
+      --secondary-color: #75757c;
+      --accent-color: #d43d2a;
+      --bg-color: #f2f2ef;
+      --surface-color: #fbfbf9;
+      --surface-border-color: rgba(23, 23, 26, 0.16);
+      --text-color: #17171a;
+
+      background-image: url('https://loremflickr.com/1600/900/paper,architecture');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .su-padres *,
+    .su-padres *::before,
+    .su-padres *::after { box-sizing: border-box; }
+
+    .su-padres__cabecera {
+      width: min(100%, 900px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.8rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .su-padres__titulo {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      color: var(--primary-color);
+    }
+    .su-padres__folio {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.28em;
+      color: var(--secondary-color);
+    }
+
+    .su-padres__tabla {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      width: min(100%, 900px);
+      margin: 0 auto;
+      border: 1px solid var(--surface-border-color);
+    }
+
+    .su-padres__celda {
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 1rem;
+      padding: clamp(1.4rem, 3.4vw, 2.2rem);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .su-padres.su-js .su-padres__celda { opacity: 0; transform: translateY(18px); }
+    .su-padres .su-padres__celda.esta-visto { opacity: 1; transform: none; }
+    .su-padres__celda:first-child { border-right: 1px solid var(--surface-border-color); }
+
+    .su-padres__foto {
+      position: relative;
+      margin: 0;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      outline: 1px solid var(--surface-border-color);
+    }
+    .su-padres__foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.06);
+    }
+    .su-padres__num {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 0.25rem 0.6rem;
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-family: 'Courier New', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+    }
+
+    .su-padres__rol {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.58rem, 1.05vw, 0.66rem);
+      letter-spacing: 0.36em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .su-padres__nombres {
+      margin: 0;
+      align-self: end;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1rem, 2vw, 1.28rem);
+      line-height: 1.35;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 700px) {
+      .su-padres__tabla { grid-template-columns: 1fr; }
+      .su-padres__celda:first-child { border-right: 0; border-bottom: 1px solid var(--surface-border-color); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .su-padres * { transition: none !important; }
+      .su-padres__celda { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="su-padres__cabecera" memory_type="text" memory_usage="custom" memory_key="padres-intro">
+    <h2 class="su-padres__titulo" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Fig. 01 — Familias</h2>
+    <span class="su-padres__folio" memory_type="text" memory_usage="custom" memory_key="padres-folio">CAT. A/B</span>
+  </header>
+
+  <div class="su-padres__tabla">
+    <article class="su-padres__celda" data-su-celda>
+      <figure class="su-padres__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-uno">
+        <span class="su-padres__num" aria-hidden="true">A</span>
+        <img src="https://loremflickr.com/480/360/family,mono" alt="Retrato de la familia de la novia" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" />
+        <figcaption hidden>Familia A</figcaption>
+      </figure>
+      <p class="su-padres__rol" memory_type="text" memory_usage="custom" memory_key="padres-rol-uno">Familia de la novia</p>
+      <h3 class="su-padres__nombres" memory_type="text" memory_usage="custom" memory_key="padres-bloque-uno">Nombre Papá y Nombre Mamá</h3>
+    </article>
+
+    <article class="su-padres__celda" data-su-celda>
+      <figure class="su-padres__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-dos">
+        <span class="su-padres__num" aria-hidden="true">B</span>
+        <img src="https://loremflickr.com/480/360/parents,portrait" alt="Retrato de la familia del novio" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" />
+        <figcaption hidden>Familia B</figcaption>
+      </figure>
+      <p class="su-padres__rol" memory_type="text" memory_usage="custom" memory_key="padres-rol-dos">Familia del novio</p>
+      <h3 class="su-padres__nombres" memory_type="text" memory_usage="custom" memory_key="padres-bloque-dos">Nombre Papá y Nombre Mamá</h3>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.su-padres');
+      if (!root) return;
+      root.classList.add('su-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var celdas = Array.prototype.slice.call(root.querySelectorAll('[data-su-celda]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        celdas.forEach(function (c) { c.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = celdas.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.15).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      celdas.forEach(function (c) { io.observe(c); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Suizo Tipográfico — Padres',
+      descripcion: 'Tabla de dos celdas con fotos en blanco y negro rotuladas A/B, reglas divisorias y nombres en bold al pie de cada figura.',
+      tags: ['padres', 'familias', 'suizo', 'tabla', 'blanco y negro', 'fig'],
+      tipo: 'padres'
+    };
+  </script>
+</section>
+
+<section
+  class="su-ubicacion"
+  data-gemini-id="ubicacion-recepcion"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .su-ubicacion {
+      --primary-color: #17171a;
+      --secondary-color: #75757c;
+      --accent-color: #d43d2a;
+      --bg-color: #f2f2ef;
+      --surface-color: #fbfbf9;
+      --surface-border-color: rgba(23, 23, 26, 0.16);
+      --text-color: #17171a;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .su-ubicacion *,
+    .su-ubicacion *::before,
+    .su-ubicacion *::after { box-sizing: border-box; }
+
+    .su-ubicacion__cabecera {
+      width: min(100%, 940px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.8rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .su-ubicacion__titulo {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .su-ubicacion__coord {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.24em;
+      color: var(--secondary-color);
+    }
+
+    .su-ubicacion__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.4rem, 3.6vw, 2.6rem);
+      align-items: start;
+      width: min(100%, 940px);
+      margin: 0 auto;
+    }
+
+    .su-ubicacion__datos { display: grid; gap: 1rem; }
+    .su-ubicacion__fila-dato {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 0.9rem;
+      padding-bottom: 0.9rem;
+      border-bottom: 1px solid var(--surface-border-color);
+    }
+    .su-ubicacion__rotulo {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.56rem, 1vw, 0.64rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+      padding-top: 0.2rem;
+    }
+    .su-ubicacion__dato {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.88rem, 1.6vw, 1rem);
+      line-height: 1.6;
+      color: var(--primary-color);
+    }
+    .su-ubicacion__boton {
+      justify-self: start;
+      display: inline-block;
+      padding: 0.75rem 1.7rem;
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.66rem, 1.25vw, 0.76rem);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.4s ease;
+    }
+    .su-ubicacion__boton:hover { background: var(--accent-color); }
+
+    .su-ubicacion__marco {
+      position: relative;
+      margin: 0;
+    }
+    .su-ubicacion__marco img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.08);
+    }
+    .su-ubicacion__cruz {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      pointer-events: none;
+    }
+    .su-ubicacion__cruz::before,
+    .su-ubicacion__cruz::after {
+      content: '';
+      position: absolute;
+      background: var(--accent-color);
+    }
+    .su-ubicacion__cruz::before { left: 50%; top: 0; bottom: 0; width: 2px; transform: translateX(-50%); }
+    .su-ubicacion__cruz::after { top: 50%; left: 0; right: 0; height: 2px; transform: translateY(-50%); }
+    .su-ubicacion__circular {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      left: 50%;
+      width: 84px;
+      height: 84px;
+      transform: translate(-50%, -50%);
+      border: 1.5px solid var(--accent-color);
+      border-radius: 50%;
+      animation: suUbicacionFija 3.2s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes suUbicacionFija {
+      0%, 100% { opacity: 0.9; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.4; transform: translate(-50%, -50%) scale(1.08); }
+    }
+    .su-ubicacion__mapa {
+      margin: 1rem 0 0;
+      overflow: hidden;
+      outline: 1px solid var(--surface-border-color);
+    }
+    .su-ubicacion__mapa iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 8;
+      border: 0;
+      filter: grayscale(1) contrast(1.05);
+    }
+
+    @media (max-width: 820px) {
+      .su-ubicacion__grid { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .su-ubicacion * { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <header class="su-ubicacion__cabecera" memory_type="text" memory_usage="custom" memory_key="ubicacion-intro">
+    <h2 class="su-ubicacion__titulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Fig. 02 — Ubicación</h2>
+    <span class="su-ubicacion__coord" memory_type="text" memory_usage="custom" memory_key="ubicacion-coord">LAT 0.000 / LON 0.000</span>
+  </header>
+
+  <div class="su-ubicacion__grid">
+    <div class="su-ubicacion__datos">
+      <div class="su-ubicacion__fila-dato">
+        <span class="su-ubicacion__rotulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-rotulo-lugar">Sede</span>
+        <span class="su-ubicacion__dato" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar">Nombre del lugar — Sala Norte</span>
+      </div>
+      <div class="su-ubicacion__fila-dato">
+        <span class="su-ubicacion__rotulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-rotulo-dir">Dirección</span>
+        <address class="su-ubicacion__dato" memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion" style="font-style: normal;">
+          Avenida de la Retícula 100<br />
+          Ciudad, Estado
+        </address>
+      </div>
+      <div class="su-ubicacion__fila-dato">
+        <span class="su-ubicacion__rotulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-rotulo-hora">Hora</span>
+        <time class="su-ubicacion__dato" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora">16:00 h puntual</time>
+      </div>
+      <a class="su-ubicacion__boton" href="https://www.google.com/maps?q=Ubicacion+del+evento" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Cómo llegar</a>
+    </div>
+
+    <figure class="su-ubicacion__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="ubicacion-foto">
+      <span class="su-ubicacion__cruz" aria-hidden="true"></span>
+      <span class="su-ubicacion__circular" aria-hidden="true"></span>
+      <img src="https://loremflickr.com/560/420/map,minimal" alt="Plano de la zona del evento" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" />
+      <div class="su-ubicacion__mapa" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url">
+        <iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen></iframe>
+      </div>
+      <figcaption hidden>Plano y mapa</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.su-ubicacion');
+      if (!root) return;
+      root.classList.add('su-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-recepcion',
+      style_name: 'Suizo Tipográfico — Ubicación',
+      descripcion: 'Tabla de datos por filas rotuladas, plano con retícula de mira roja y mapa en escala de grises; botón sólido.',
+      tags: ['ubicacion', 'mapa', 'suizo', 'tabla', 'reticula', 'grises'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>
+
+<section
+  class="su-itinerario"
+  data-gemini-id="itinerario-agenda"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .su-itinerario {
+      background-image: url('https://loremflickr.com/1600/900/concrete,minimal');
+      background-size: cover;
+      background-position: center;
+      --primary-color: #17171a;
+      --secondary-color: #75757c;
+      --accent-color: #d43d2a;
+      --bg-color: #f2f2ef;
+      --surface-color: #fbfbf9;
+      --surface-border-color: rgba(23, 23, 26, 0.16);
+      --text-color: #17171a;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .su-itinerario *,
+    .su-itinerario *::before,
+    .su-itinerario *::after { box-sizing: border-box; }
+
+    .su-itinerario__cabecera {
+      width: min(100%, 820px);
+      margin: 0 auto clamp(1.4rem, 3vw, 2rem);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.8rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .su-itinerario__titulo {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .su-itinerario__nota {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.28em;
+      color: var(--secondary-color);
+    }
+
+    .su-itinerario__tabla {
+      width: min(100%, 820px);
+      margin: 0 auto;
+      border-top: 1px solid var(--surface-border-color);
+    }
+
+    .su-itinerario__fila {
+      position: relative;
+      display: grid;
+      grid-template-columns: clamp(70px, 10vw, 120px) 1fr auto;
+      gap: clamp(0.9rem, 2.6vw, 1.8rem);
+      align-items: baseline;
+      padding: clamp(1rem, 2.5vw, 1.5rem) 0.3rem;
+      border-bottom: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .su-itinerario.su-js .su-itinerario__fila { opacity: 0; transform: translateX(-14px); }
+    .su-itinerario .su-itinerario__fila.esta-visto { opacity: 1; transform: none; }
+    .su-itinerario__fila::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 0;
+      background: var(--accent-color);
+      transition: width 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .su-itinerario__fila.esta-visto::before { width: 4px; }
+
+    .su-itinerario__num {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.7rem, 4vw, 2.8rem);
+      line-height: 1;
+      color: color-mix(in srgb, var(--primary-color) 24%, transparent);
+    }
+    .su-itinerario__fila.esta-visto .su-itinerario__num { color: var(--primary-color); }
+
+    .su-itinerario__cuerpo { min-width: 0; }
+    .su-itinerario__momento {
+      margin: 0 0 0.25rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1rem, 2vw, 1.24rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .su-itinerario__detalle {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
+      line-height: 1.6;
+      color: var(--secondary-color);
+    }
+    .su-itinerario__hora {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.7rem, 1.35vw, 0.82rem);
+      letter-spacing: 0.18em;
+      color: var(--primary-color);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 560px) {
+      .su-itinerario__fila { grid-template-columns: 1fr auto; }
+      .su-itinerario__num { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .su-itinerario * { transition: none !important; }
+      .su-itinerario__fila { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="su-itinerario__cabecera" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">
+    <h2 class="su-itinerario__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Fig. 03 — Programa</h2>
+    <span class="su-itinerario__nota" memory_type="text" memory_usage="custom" memory_key="itinerario-nota">4 PUNTOS</span>
+  </header>
+
+  <div class="su-itinerario__tabla">
+    <article class="su-itinerario__fila" data-su-fila>
+      <span class="su-itinerario__num" aria-hidden="true">01</span>
+      <div class="su-itinerario__cuerpo" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
+        <h3 class="su-itinerario__momento">Recepción</h3>
+        <p class="su-itinerario__detalle">Acreditación en la entrada y programa impreso.</p>
+      </div>
+      <time class="su-itinerario__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00</time>
+    </article>
+
+    <article class="su-itinerario__fila" data-su-fila>
+      <span class="su-itinerario__num" aria-hidden="true">02</span>
+      <div class="su-itinerario__cuerpo" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
+        <h3 class="su-itinerario__momento">Ceremonia</h3>
+        <p class="su-itinerario__detalle">Acto principal en la sala norte. Puntualidad suiza.</p>
+      </div>
+      <time class="su-itinerario__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00</time>
+    </article>
+
+    <article class="su-itinerario__fila" data-su-fila>
+      <span class="su-itinerario__num" aria-hidden="true">03</span>
+      <div class="su-itinerario__cuerpo" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
+        <h3 class="su-itinerario__momento">Cena</h3>
+        <p class="su-itinerario__detalle">Servicio emplatado y discursos breves.</p>
+      </div>
+      <time class="su-itinerario__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00</time>
+    </article>
+
+    <article class="su-itinerario__fila" data-su-fila>
+      <span class="su-itinerario__num" aria-hidden="true">04</span>
+      <div class="su-itinerario__cuerpo" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
+        <h3 class="su-itinerario__momento">Cierre</h3>
+        <p class="su-itinerario__detalle">Baile y despedida a medianoche en punto.</p>
+      </div>
+      <time class="su-itinerario__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:30</time>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.su-itinerario');
+      if (!root) return;
+      root.classList.add('su-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var filas = Array.prototype.slice.call(root.querySelectorAll('[data-su-fila]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        filas.forEach(function (f) { f.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = filas.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.12).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      filas.forEach(function (f) { io.observe(f); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Suizo Tipográfico — Itinerario',
+      descripcion: 'Tabla de programa con numerales gigantes que se acentúan al revelarse, barra roja lateral por fila y horas monoespaciadas.',
+      tags: ['itinerario', 'timeline', 'suizo', 'tabla', 'numerales', 'barra'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>
+
+<section
+  class="su-confirmacion"
+  data-gemini-id="confirmacion-texto"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .su-confirmacion {
+      background-image: url('https://loremflickr.com/1600/900/white,architecture');
+      background-size: cover;
+      background-position: center;
+      --primary-color: #17171a;
+      --secondary-color: #75757c;
+      --accent-color: #d43d2a;
+      --bg-color: #f2f2ef;
+      --surface-color: #fbfbf9;
+      --surface-border-color: rgba(23, 23, 26, 0.16);
+      --text-color: #17171a;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 72svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .su-confirmacion *,
+    .su-confirmacion *::before,
+    .su-confirmacion *::after { box-sizing: border-box; }
+
+    .su-confirmacion__manifiesto {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 640px);
+      padding-left: clamp(1.4rem, 4vw, 2.4rem);
+      border-left: 6px solid var(--accent-color);
+      text-align: left;
+    }
+
+    .su-confirmacion__etiqueta {
+      margin: 0 0 0.8rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .su-confirmacion__titulo {
+      margin: 0 0 1rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.8rem, 4.2vw, 2.8rem);
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      color: var(--primary-color);
+    }
+    .su-confirmacion__titulo em { font-style: normal; color: var(--accent-color); }
+    .su-confirmacion__texto {
+      margin: 0 0 1.4rem;
+      max-width: 52ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.88rem, 1.6vw, 1rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .su-confirmacion__limite {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.7rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.72rem, 1.4vw, 0.86rem);
+      letter-spacing: 0.16em;
+      color: var(--primary-color);
+    }
+    .su-confirmacion__limite::before {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background: var(--accent-color);
+      align-self: center;
+    }
+    .su-confirmacion__limite time { color: var(--accent-color); }
+
+    .su-confirmacion__num-fondo {
+      position: absolute;
+      z-index: 1;
+      right: clamp(0.5rem, 4vw, 3rem);
+      bottom: clamp(0.5rem, 3vw, 2rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(6rem, 22vw, 17rem);
+      line-height: 0.8;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--surface-border-color);
+      pointer-events: none;
+    }
+
+    @media (max-width: 560px) {
+      .su-confirmacion { min-height: 62svh; }
+    }
+  </style>
+
+  <div class="su-confirmacion__manifiesto">
+    <p class="su-confirmacion__etiqueta" memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta">Confirmación de asistencia</p>
+    <h2 class="su-confirmacion__titulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">Respuesta requerida <em>antes del cierre</em></h2>
+    <p class="su-confirmacion__texto" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">
+      El aforo es exacto y la lista, cerrada. Confirma con el enlace de tu invitación digital;
+      sin tu respuesta no hay lugar en la mesa.
+    </p>
+    <p class="su-confirmacion__limite" memory_type="text" memory_usage="custom" memory_key="confirmacion-rotulo">
+      FECHA LÍMITE <time datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha">DD.MM</time>
+    </p>
+  </div>
+
+  <span class="su-confirmacion__num-fondo" aria-hidden="true">RSVP</span>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Suizo Tipográfico — Confirmación',
+      descripcion: 'Manifiesto con barra roja lateral, titular con acento y numeral de fondo en contorno; límite con cuadrado rojo.',
+      tags: ['confirmacion', 'rsvp', 'suizo', 'manifiesto', 'contorno', 'barra'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>
+
+<section
+  class="su-detalles"
+  data-gemini-id="detalles-regalo"
+>
+  <style>
+    .su-detalles {
+      --primary-color: #17171a;
+      --secondary-color: #75757c;
+      --accent-color: #d43d2a;
+      --bg-color: #f2f2ef;
+      --surface-color: #fbfbf9;
+      --surface-border-color: rgba(23, 23, 26, 0.16);
+      --text-color: #17171a;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .su-detalles *,
+    .su-detalles *::before,
+    .su-detalles *::after { box-sizing: border-box; }
+
+    .su-detalles__cabecera {
+      width: min(100%, 1020px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.8rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .su-detalles__titulo {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .su-detalles__folio {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.28em;
+      color: var(--secondary-color);
+    }
+
+    .su-detalles__banner {
+      width: min(100%, 1020px);
+      margin: 0 auto clamp(1.4rem, 3vw, 2rem);
+      outline: 1px solid var(--surface-border-color);
+    }
+    .su-detalles__banner img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 21 / 7;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.08);
+    }
+
+    .su-detalles__columnas {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      width: min(100%, 1020px);
+      margin: 0 auto;
+      border: 1px solid var(--surface-border-color);
+    }
+
+    .su-detalles__columna {
+      padding: clamp(1.4rem, 3.2vw, 2.2rem);
+      border-right: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .su-detalles.su-js .su-detalles__columna { opacity: 0; transform: translateY(18px); }
+    .su-detalles .su-detalles__columna.esta-visto { opacity: 1; transform: none; }
+    .su-detalles__columna:last-child { border-right: 0; }
+
+    .su-detalles__indice {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--surface-border-color);
+    }
+    .su-detalles__num {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+      line-height: 1;
+      color: var(--accent-color);
+    }
+    .su-detalles__glifo {
+      width: 12px;
+      height: 12px;
+      background: var(--primary-color);
+    }
+    .su-detalles__columna:nth-child(2) .su-detalles__glifo { border-radius: 50%; }
+    .su-detalles__columna:nth-child(3) .su-detalles__glifo { transform: rotate(45deg); }
+
+    .su-detalles__rotulo {
+      margin: 0 0 0.3rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.56rem, 1vw, 0.64rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .su-detalles__titulo-card {
+      margin: 0 0 0.4rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(0.98rem, 1.9vw, 1.16rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .su-detalles__texto {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.76rem, 1.35vw, 0.86rem);
+      line-height: 1.65;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 720px) {
+      .su-detalles__columnas { grid-template-columns: 1fr; }
+      .su-detalles__columna { border-right: 0; border-bottom: 1px solid var(--surface-border-color); }
+      .su-detalles__columna:last-child { border-bottom: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .su-detalles * { transition: none !important; }
+      .su-detalles__columna { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="su-detalles__cabecera" memory_type="text" memory_usage="custom" memory_key="detalles-intro">
+    <h2 class="su-detalles__titulo" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Fig. 04 — Notas</h2>
+    <span class="su-detalles__folio" memory_type="text" memory_usage="custom" memory_key="detalles-folio">3 APUNTES</span>
+  </header>
+
+  <figure class="su-detalles__banner" memory_type="image" memory_usage="custom" memory_source="library" memory_key="detalles-foto">
+    <img src="https://loremflickr.com/1050/350/architecture,minimal" alt="Vista del recinto en blanco y negro" path="placeholder" data-library-category="bodas" data-asset-type="detalle" loading="lazy" />
+    <figcaption hidden>Banner del recinto</figcaption>
+  </figure>
+
+  <div class="su-detalles__columnas">
+    <article class="su-detalles__columna" data-su-col>
+      <div class="su-detalles__indice"><span class="su-detalles__num" aria-hidden="true">1</span><span class="su-detalles__glifo" aria-hidden="true"></span></div>
+      <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-1">
+        <p class="su-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-1">Vestimenta</p>
+        <h3 class="su-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Formal moderno</h3>
+        <p class="su-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Traje oscuro o vestido sobrio. El rojo queda reservado para la decoración.</p>
+      </div>
+    </article>
+    <article class="su-detalles__columna" data-su-col>
+      <div class="su-detalles__indice"><span class="su-detalles__num" aria-hidden="true">2</span><span class="su-detalles__glifo" aria-hidden="true"></span></div>
+      <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-2">
+        <p class="su-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-2">Acceso</p>
+        <h3 class="su-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Lista en puerta</h3>
+        <p class="su-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">Presenta tu pase digital en el acceso principal.</p>
+      </div>
+    </article>
+    <article class="su-detalles__columna" data-su-col>
+      <div class="su-detalles__indice"><span class="su-detalles__num" aria-hidden="true">3</span><span class="su-detalles__glifo" aria-hidden="true"></span></div>
+      <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-3">
+        <p class="su-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-3">Parking</p>
+        <h3 class="su-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Plazas 1—40</h3>
+        <p class="su-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">Estacionamiento cubierto con acceso directo al vestíbulo.</p>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.su-detalles');
+      if (!root) return;
+      root.classList.add('su-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var columnas = Array.prototype.slice.call(root.querySelectorAll('[data-su-col]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        columnas.forEach(function (c) { c.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = columnas.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.13).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      columnas.forEach(function (c) { io.observe(c); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-regalo',
+      style_name: 'Suizo Tipográfico — Detalles',
+      descripcion: 'Tres columnas tabulares con índices rojos y glifos geométricos (cuadro, círculo, rombo); notas numeradas con reglas divisorias.',
+      tags: ['detalles', 'suizo', 'columnas', 'indices', 'glifos', 'tabla'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>
+
+<section
+  class="su-countdown"
+  data-gemini-id="countdown-suizo-grid"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+>
+  <style>
+    .su-countdown {
+      background-image: url('https://loremflickr.com/1600/900/grid,minimal');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 640px;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 5vw, 3rem);
+      background-color: var(--bg-color, #f2f2ef);
+      color: var(--text-color, #17171a);
+      text-align: center;
+    }
+    .su-countdown *,
+    .su-countdown *::before,
+    .su-countdown *::after { box-sizing: border-box; }
+
+    .su-countdown::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color, #f2f2ef) 97%, transparent);
+    }
+
+    .su-countdown__contenido { width: min(100%, 780px); }
+
+    .su-countdown__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--secondary-color, #75757c);
+    }
+    .su-countdown__titulo {
+      margin: 0 0 0.4rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.7rem, 4vw, 2.7rem);
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      color: var(--primary-color, #17171a);
+    }
+    .su-countdown__titulo em { font-style: normal; color: var(--accent-color, #d43d2a); }
+    .su-countdown__fecha {
+      display: block;
+      margin-bottom: clamp(1.6rem, 4vw, 2.4rem);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.74rem, 1.5vw, 0.88rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--secondary-color, #75757c);
+    }
+
+    .su-countdown__cifras {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border: 2px solid var(--primary-color, #17171a);
+    }
+    .su-countdown__cifra {
+      position: relative;
+      padding: clamp(1.4rem, 3.6vw, 2.3rem) 0.4rem clamp(1rem, 2.4vw, 1.5rem);
+      border-right: 1px solid var(--surface-border-color, rgba(23, 23, 26, 0.16));
+    }
+    .su-countdown__cifra:last-child { border-right: 0; }
+    .su-countdown__numero {
+      display: block;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(2.2rem, 6.5vw, 4.2rem);
+      font-variant-numeric: tabular-nums;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--primary-color, #17171a);
+    }
+    .su-countdown__rotulo {
+      display: block;
+      margin-top: 0.6rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--surface-border-color, rgba(23, 23, 26, 0.16));
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.54rem, 1.05vw, 0.62rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--secondary-color, #75757c);
+    }
+    .su-countdown__cifra--segundos .su-countdown__numero { color: var(--accent-color, #d43d2a); }
+
+    .su-countdown__regla {
+      position: relative;
+      height: 26px;
+      margin-top: clamp(1.2rem, 3vw, 1.8rem);
+      background:
+        repeating-linear-gradient(90deg, var(--primary-color, #17171a) 0 1px, transparent 1px 10%) 0 0 / 100% 8px no-repeat,
+        linear-gradient(var(--primary-color, #17171a), var(--primary-color, #17171a)) 0 100% / 100% 1.5px no-repeat;
+      opacity: 0.7;
+    }
+    .su-countdown__cursor {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--accent-color, #d43d2a);
+      transition: left 0.5s linear;
+    }
+
+    @media (max-width: 560px) {
+      .su-countdown__cifras { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .su-countdown__cifra:nth-child(2) { border-right: 0; }
+      .su-countdown__cifra:nth-child(-n + 2) { border-bottom: 1px solid var(--surface-border-color, rgba(23, 23, 26, 0.16)); }
+      .su-countdown { min-height: 580px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .su-countdown__cursor { transition: none; }
+    }
+  </style>
+
+  <div class="su-countdown__contenido">
+    <p class="su-countdown__etiqueta" memory_type="text" memory_usage="custom" memory_key="countdown-etiqueta">Fig. 05 — Cuenta regresiva</p>
+    <h2 class="su-countdown__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Faltan <em>exactamente</em></h2>
+    <time class="su-countdown__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+
+    <div class="su-countdown__cifras" aria-label="Cuenta regresiva">
+      <div class="su-countdown__cifra"><span class="su-countdown__numero" data-countdown-unit="days">--</span><span class="su-countdown__rotulo">Días</span></div>
+      <div class="su-countdown__cifra"><span class="su-countdown__numero" data-countdown-unit="hours">--</span><span class="su-countdown__rotulo">Horas</span></div>
+      <div class="su-countdown__cifra"><span class="su-countdown__numero" data-countdown-unit="minutes">--</span><span class="su-countdown__rotulo">Min</span></div>
+      <div class="su-countdown__cifra su-countdown__cifra--segundos"><span class="su-countdown__numero" data-countdown-unit="seconds">--</span><span class="su-countdown__rotulo">Seg</span></div>
+    </div>
+
+    <div class="su-countdown__regla" aria-hidden="true">
+      <span class="su-countdown__cursor" data-su-cursor></span>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var el = null;
+      try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
+      if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+      if (!el) return;
+
+      var cursor = el.querySelector('[data-su-cursor]');
+      var target = NaN;
+      var attr = el.getAttribute('data-countdown-target');
+      if (attr && attr.indexOf('YYYY') === -1) { var p = new Date(attr); if (!isNaN(p.getTime())) target = p.getTime(); }
+      if (isNaN(target) && window.__countdownTarget) { var p1 = new Date(window.__countdownTarget); if (!isNaN(p1.getTime())) target = p1.getTime(); }
+      if (isNaN(target) && window.countdown_target) { var p2 = new Date(window.countdown_target); if (!isNaN(p2.getTime())) target = p2.getTime(); }
+
+      var intervalId = null;
+      (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+
+      function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+      function setUnit(unit, value) {
+        var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
+        if (node) node.textContent = value;
+      }
+      function tick() {
+        if (!Number.isFinite(target)) return;
+        var diff = Math.max(target - Date.now(), 0);
+        setUnit('days', Math.floor(diff / 86400000));
+        setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
+        setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
+        var s = Math.floor((diff % 60000) / 1000);
+        setUnit('seconds', pad2(s));
+        if (cursor) cursor.style.left = ((s / 60) * 100).toFixed(2) + '%';
+        if (diff === 0 && intervalId !== null) {
+          clearInterval(intervalId);
+          intervalId = null;
+          window.__countdownIntervals = [];
+        }
+      }
+      function start(newTarget) {
+        if (newTarget) { var p = new Date(newTarget); if (!isNaN(p.getTime())) target = p.getTime(); }
+        (window.__countdownIntervals || []).forEach(clearInterval);
+        window.__countdownIntervals = [];
+        intervalId = null;
+        if (!Number.isFinite(target)) return;
+        tick();
+        if (target > Date.now()) {
+          intervalId = setInterval(tick, 1000);
+          window.__countdownIntervals.push(intervalId);
+        }
+      }
+      start();
+      window.updateCountdown = start;
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-suizo-grid',
+      style_name: 'Cifras Suizas',
+      descripcion: 'Cuadrícula de cifras gigantes con divisores finos, segundos destacados en rojo y regla con cursor que recorre cada minuto.',
+      tags: ['countdown', 'cuenta regresiva', 'suizo', 'cifras', 'regla', 'grid'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>
+
+<section
+  class="su-padrinos"
+  data-gemini-id="padrinos-suizo-indice"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .su-padrinos {
+      --primary-color: #17171a;
+      --secondary-color: #75757c;
+      --accent-color: #d43d2a;
+      --bg-color: #f2f2ef;
+      --surface-color: #fbfbf9;
+      --surface-border-color: rgba(23, 23, 26, 0.16);
+      --text-color: #17171a;
+
+      background-image: url('https://loremflickr.com/1600/900/studio,minimal');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .su-padrinos *,
+    .su-padrinos *::before,
+    .su-padrinos *::after { box-sizing: border-box; }
+
+    .su-padrinos__cabecera {
+      width: min(100%, 920px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.8rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .su-padrinos__titulo {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .su-padrinos__folio {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.28em;
+      color: var(--secondary-color);
+    }
+
+    .su-padrinos__indice {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      width: min(100%, 920px);
+      margin: 0 auto;
+      border: 1px solid var(--surface-border-color);
+    }
+
+    .su-padrinos__entrada {
+      display: grid;
+      gap: 0.9rem;
+      padding: clamp(1.1rem, 2.6vw, 1.7rem);
+      border-right: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .su-padrinos.su-js .su-padrinos__entrada { opacity: 0; transform: translateY(18px); }
+    .su-padrinos .su-padrinos__entrada.esta-visto { opacity: 1; transform: none; }
+    .su-padrinos__entrada:last-child { border-right: 0; }
+
+    .su-padrinos__foto {
+      margin: 0;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      outline: 1px solid var(--surface-border-color);
+    }
+    .su-padrinos__foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.06);
+    }
+
+    .su-padrinos__num {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      line-height: 1;
+      color: var(--accent-color);
+    }
+    .su-padrinos__rol {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.54rem, 1vw, 0.62rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .su-padrinos__nombre {
+      margin: 0;
+      align-self: end;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(0.9rem, 1.75vw, 1.08rem);
+      line-height: 1.3;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 860px) {
+      .su-padrinos__indice { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .su-padrinos__entrada:nth-child(2) { border-right: 0; }
+      .su-padrinos__entrada:nth-child(-n + 2) { border-bottom: 1px solid var(--surface-border-color); }
+    }
+    @media (max-width: 440px) {
+      .su-padrinos__indice { grid-template-columns: 1fr; }
+      .su-padrinos__entrada { border-right: 0 !important; border-bottom: 1px solid var(--surface-border-color); }
+      .su-padrinos__entrada:last-child { border-bottom: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .su-padrinos * { transition: none !important; }
+      .su-padrinos__entrada { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="su-padrinos__cabecera" memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
+    <h2 class="su-padrinos__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Fig. 06 — Padrinos</h2>
+    <span class="su-padrinos__folio" memory_type="text" memory_usage="custom" memory_key="padrinos-folio">ÍNDICE 1—4</span>
+  </header>
+
+  <div class="su-padrinos__indice">
+    <article class="su-padrinos__entrada" data-su-entrada>
+      <figure class="su-padrinos__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
+        <img src="https://loremflickr.com/300/400/portrait,mono" alt="Retrato de padrino" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrino uno</figcaption>
+      </figure>
+      <span class="su-padrinos__num" aria-hidden="true">1.</span>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
+        <p class="su-padrinos__rol">Padrinos de alianzas</p>
+        <h3 class="su-padrinos__nombre">Nombre Padrino</h3>
+      </div>
+    </article>
+
+    <article class="su-padrinos__entrada" data-su-entrada>
+      <figure class="su-padrinos__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
+        <img src="https://loremflickr.com/300/400/portrait,gray" alt="Retrato de madrina" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Madrina dos</figcaption>
+      </figure>
+      <span class="su-padrinos__num" aria-hidden="true">2.</span>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
+        <p class="su-padrinos__rol">Padrinos de velo</p>
+        <h3 class="su-padrinos__nombre">Nombre Madrina</h3>
+      </div>
+    </article>
+
+    <article class="su-padrinos__entrada" data-su-entrada>
+      <figure class="su-padrinos__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
+        <img src="https://loremflickr.com/300/400/portrait,black" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrino tres</figcaption>
+      </figure>
+      <span class="su-padrinos__num" aria-hidden="true">3.</span>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
+        <p class="su-padrinos__rol">Padrinos de arras</p>
+        <h3 class="su-padrinos__nombre">Nombre Padrino</h3>
+      </div>
+    </article>
+
+    <article class="su-padrinos__entrada" data-su-entrada>
+      <figure class="su-padrinos__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
+        <img src="https://loremflickr.com/300/400/portrait,white" alt="Retrato de madrinas" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Madrina cuatro</figcaption>
+      </figure>
+      <span class="su-padrinos__num" aria-hidden="true">4.</span>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
+        <p class="su-padrinos__rol">Padrinos de lazos</p>
+        <h3 class="su-padrinos__nombre">Nombre Madrina</h3>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.su-padrinos');
+      if (!root) return;
+      root.classList.add('su-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var entradas = Array.prototype.slice.call(root.querySelectorAll('[data-su-entrada]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        entradas.forEach(function (e) { e.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = entradas.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.11).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.2 });
+      entradas.forEach(function (e) { io.observe(e); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padrinos',
+      module_name: 'padrinos-suizo-indice',
+      style_name: 'Suizo Tipográfico — Padrinos',
+      descripcion: 'Índice de cuatro entradas con retratos 3:4 en grises, numeración roja y nombres bold al pie; rejilla con reglas divisorias.',
+      tags: ['padrinos', 'indice', 'suizo', 'grises', 'numeracion', 'rejilla'],
+      tipo: 'padrinos'
+    };
+  </script>
+</section>
+
+<section
+  class="su-corte"
+  data-gemini-id="corte-suizo-barrido"
+>
+  <style>
+    .su-corte {
+      --primary-color: #17171a;
+      --secondary-color: #75757c;
+      --accent-color: #d43d2a;
+      --bg-color: #f2f2ef;
+      --surface-color: #fbfbf9;
+      --surface-border-color: rgba(23, 23, 26, 0.16);
+      --text-color: #17171a;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .su-corte *,
+    .su-corte *::before,
+    .su-corte *::after { box-sizing: border-box; }
+
+    .su-corte__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: clamp(1.8rem, 4.5vw, 3.4rem);
+      align-items: center;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .su-corte__plancha {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      outline: 1px solid var(--surface-border-color);
+    }
+    .su-corte__plancha img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.08);
+      transform: scale(1.06);
+      transition: transform 0.5s ease;
+    }
+    .su-corte.esta-visto .su-corte__plancha img { transform: scale(1); }
+
+    .su-corte__tapa {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: none;
+      pointer-events: none;
+    }
+    .su-corte.su-js .su-corte__tapa { display: block; }
+    .su-corte__puerta {
+      position: absolute;
+      inset: 0;
+      background: var(--surface-color);
+      border-right: 6px solid var(--accent-color);
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .su-corte.esta-visto .su-corte__puerta { transform: translateX(-103%); }
+
+    .su-corte__rotulo {
+      position: absolute;
+      z-index: 3;
+      bottom: 10px;
+      right: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.26em;
+      color: var(--secondary-color);
+    }
+
+    .su-corte__contenido { text-align: left; }
+    .su-corte__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .su-corte__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.8rem, 4.2vw, 2.7rem);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .su-corte__texto {
+      margin: 0 0 1.2rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .su-corte__leyenda {
+      display: inline-block;
+      padding-top: 0.7rem;
+      border-top: 2px solid var(--primary-color);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.66rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.22em;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 880px) {
+      .su-corte__grid { grid-template-columns: 1fr; }
+      .su-corte__contenido { text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .su-corte * { transition: none !important; }
+      .su-corte__tapa { display: none !important; }
+      .su-corte__plancha img { transform: none; }
+    }
+  </style>
+
+  <div class="su-corte__grid">
+    <figure class="su-corte__plancha" memory_type="image" memory_usage="custom" memory_source="library" memory_key="corte-foto">
+      <img
+        src="https://loremflickr.com/960/600/cake,minimal"
+        alt="Momento del corte"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="corte"
+        loading="lazy"
+      />
+      <span class="su-corte__tapa" aria-hidden="true">
+        <span class="su-corte__puerta"></span>
+      </span>
+      <span class="su-corte__rotulo" aria-hidden="true">FIG. 07</span>
+      <figcaption hidden>Momento del corte</figcaption>
+    </figure>
+
+    <div class="su-corte__contenido" memory_type="text" memory_usage="custom" memory_key="corte-texto">
+      <p class="su-corte__etiqueta" memory_type="text" memory_usage="custom" memory_key="corte-etiqueta">Momento clave</p>
+      <h2 class="su-corte__titulo" memory_type="text" memory_usage="custom" memory_key="corte-titulo">El corte, sin adorno</h2>
+      <p class="su-corte__texto">
+        Una puerta se desliza y deja ver lo esencial: el corte del pastel.
+        Menos ornamento, más momento. Ese es el lema de la noche.
+      </p>
+      <span class="su-corte__leyenda" memory_type="text" memory_usage="custom" memory_key="corte-leyenda">REGISTRO FOTOGRÁFICO OFICIAL</span>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.su-corte');
+      if (!root) return;
+      root.classList.add('su-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root.querySelector('.su-corte__plancha') || root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-suizo-barrido',
+      style_name: 'Suizo Tipográfico — Corte',
+      descripcion: 'Puerta blanca con filo rojo que se desliza a la izquierda revelando la foto en blanco y negro; rótulo de figura al pie.',
+      tags: ['corte', 'puerta', 'suizo', 'barrido', 'blanco y negro', 'minimal'],
+      tipo: 'corte'
+    };
+  </script>
+</section>
+
+<section
+  class="su-galeria"
+  data-gemini-id="galeria-suizo-contacto"
+>
+  <style>
+    .su-galeria {
+      --primary-color: #17171a;
+      --secondary-color: #75757c;
+      --accent-color: #d43d2a;
+      --bg-color: #f2f2ef;
+      --surface-color: #fbfbf9;
+      --surface-border-color: rgba(23, 23, 26, 0.16);
+      --text-color: #17171a;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .su-galeria *,
+    .su-galeria *::before,
+    .su-galeria *::after { box-sizing: border-box; }
+
+    .su-galeria__cabecera {
+      width: min(100%, 1060px);
+      margin: 0 auto clamp(1.4rem, 3vw, 2rem);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.8rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .su-galeria__titulo {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .su-galeria__folio {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.28em;
+      color: var(--secondary-color);
+    }
+
+    .su-galeria__rejilla {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: 6px;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+      background: var(--surface-border-color);
+      padding: 6px;
+      outline: 1px solid var(--surface-border-color);
+    }
+
+    .su-galeria__celda {
+      position: relative;
+      margin: 0;
+      background: var(--surface-color);
+      cursor: pointer;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .su-galeria.su-js .su-galeria__celda { opacity: 0; transform: translateY(14px); }
+    .su-galeria .su-galeria__celda.esta-visto { opacity: 1; transform: none; }
+    .su-galeria__celda::after {
+      content: attr(data-su-num);
+      position: absolute;
+      bottom: 6px;
+      left: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      color: var(--surface-color);
+      mix-blend-mode: difference;
+    }
+    .su-galeria__celda img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.06);
+      transition: filter 0.4s ease;
+    }
+    .su-galeria__celda:hover img { filter: grayscale(0.2) contrast(1.03); }
+
+    .su-galeria__lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      place-items: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      background: color-mix(in srgb, var(--primary-color) 92%, black);
+    }
+    .su-galeria__lightbox.abierto { display: grid; }
+    .su-galeria__lightbox img {
+      max-width: min(920px, 92vw);
+      max-height: 82svh;
+      width: auto;
+      height: auto;
+      outline: 6px solid var(--surface-color);
+    }
+    .su-galeria__cerrar {
+      position: absolute;
+      top: clamp(0.8rem, 2.5vw, 1.6rem);
+      right: clamp(0.8rem, 2.5vw, 1.6rem);
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--accent-color);
+      background: transparent;
+      color: var(--accent-color);
+      font-size: 1.2rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.4s ease, background 0.4s ease;
+    }
+    .su-galeria__cerrar:hover { transform: rotate(90deg); background: var(--accent-color); color: var(--bg-color); }
+
+    @media (max-width: 560px) {
+      .su-galeria__rejilla { grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .su-galeria * { transition: none !important; }
+      .su-galeria__celda { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="su-galeria__cabecera" memory_type="text" memory_usage="custom" memory_key="galeria-cabecera">
+    <h2 class="su-galeria__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Fig. 08 — Registro</h2>
+    <span class="su-galeria__folio" memory_type="text" memory_usage="custom" memory_key="galeria-folio">6/6 EXPUESTAS</span>
+  </header>
+
+  <div class="su-galeria__rejilla">
+    <figure class="su-galeria__celda" data-su-celda data-su-num="N.01" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-1" tabindex="0" role="button" aria-label="Ampliar foto uno">
+      <img src="https://loremflickr.com/480/360/minimal,couple" alt="Foto uno" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Foto uno</figcaption>
+    </figure>
+    <figure class="su-galeria__celda" data-su-celda data-su-num="N.02" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-2" tabindex="0" role="button" aria-label="Ampliar foto dos">
+      <img src="https://loremflickr.com/480/360/minimal,dinner" alt="Foto dos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Foto dos</figcaption>
+    </figure>
+    <figure class="su-galeria__celda" data-su-celda data-su-num="N.03" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-3" tabindex="0" role="button" aria-label="Ampliar foto tres">
+      <img src="https://loremflickr.com/480/360/white,party" alt="Foto tres" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Foto tres</figcaption>
+    </figure>
+    <figure class="su-galeria__celda" data-su-celda data-su-num="N.04" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-4" tabindex="0" role="button" aria-label="Ampliar foto cuatro">
+      <img src="https://loremflickr.com/480/360/clean,dance" alt="Foto cuatro" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Foto cuatro</figcaption>
+    </figure>
+    <figure class="su-galeria__celda" data-su-celda data-su-num="N.05" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-5" tabindex="0" role="button" aria-label="Ampliar foto cinco">
+      <img src="https://loremflickr.com/480/360/studio,flowers" alt="Foto cinco" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Foto cinco</figcaption>
+    </figure>
+    <figure class="su-galeria__celda" data-su-celda data-su-num="N.06" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-6" tabindex="0" role="button" aria-label="Ampliar foto seis">
+      <img src="https://loremflickr.com/480/360/mono,toast" alt="Foto seis" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Foto seis</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.su-galeria');
+      if (!root) return;
+      root.classList.add('su-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var celdas = Array.prototype.slice.call(root.querySelectorAll('[data-su-celda]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var i = celdas.indexOf(entry.target);
+            entry.target.style.transitionDelay = (Math.min(i, 5) * 0.08).toFixed(2) + 's';
+            entry.target.classList.add('esta-visto');
+            io.unobserve(entry.target);
+          });
+        }, { threshold: 0.18 });
+        celdas.forEach(function (c) { io.observe(c); });
+      } else {
+        celdas.forEach(function (c) { c.classList.add('esta-visto'); });
+      }
+
+      var lightbox = document.createElement('div');
+      lightbox.className = 'su-galeria__lightbox';
+      lightbox.setAttribute('role', 'dialog');
+      lightbox.setAttribute('aria-modal', 'true');
+      lightbox.setAttribute('aria-label', 'Vista ampliada');
+      lightbox.innerHTML =
+        '<img alt="" />' +
+        '<button type="button" class="su-galeria__cerrar" aria-label="Cerrar">×</button>';
+      root.appendChild(lightbox);
+      var imgAmpliada = lightbox.querySelector('img');
+      var botonCerrar = lightbox.querySelector('.su-galeria__cerrar');
+
+      function abrir(fig) {
+        var foto = fig.querySelector('img');
+        if (!foto) return;
+        imgAmpliada.src = foto.src;
+        imgAmpliada.alt = foto.alt;
+        lightbox.classList.add('abierto');
+      }
+      function cerrar() { lightbox.classList.remove('abierto'); }
+
+      celdas.forEach(function (fig) {
+        fig.addEventListener('click', function () { abrir(fig); });
+        fig.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(fig); }
+        });
+      });
+      botonCerrar.addEventListener('click', cerrar);
+      lightbox.addEventListener('click', function (e) { if (e.target === lightbox) cerrar(); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-suizo-contacto',
+      style_name: 'Suizo Tipográfico — Galería',
+      descripcion: 'Rejilla de 6px con fotos cuadradas en grises numeradas por difference, color al hover y lightbox enmarcado.',
+      tags: ['galeria', 'rejilla', 'suizo', 'grises', 'difference', 'lightbox'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>
+
+<section
+  class="su-regalos"
+  data-gemini-id="regalos-suizo-lista"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .su-regalos {
+      --primary-color: #17171a;
+      --secondary-color: #75757c;
+      --accent-color: #d43d2a;
+      --bg-color: #f2f2ef;
+      --surface-color: #fbfbf9;
+      --surface-border-color: rgba(23, 23, 26, 0.16);
+      --text-color: #17171a;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .su-regalos *,
+    .su-regalos *::before,
+    .su-regalos *::after { box-sizing: border-box; }
+
+    .su-regalos__panel {
+      width: min(100%, 660px);
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      border: 1px solid var(--surface-border-color);
+      background: var(--surface-color);
+    }
+
+    .su-regalos__cabecera {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.6rem;
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.8rem;
+    }
+    .su-regalos__titulo {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 3.2vw, 2rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .su-regalos__folio {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.28em;
+      color: var(--secondary-color);
+    }
+    .su-regalos__intro {
+      margin: 0 0 1.5rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .su-regalos__lista { display: grid; gap: 0; border-top: 1px solid var(--surface-border-color); margin-bottom: 1.6rem; }
+    .su-regalos__fila {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 1rem;
+      align-items: center;
+      padding: clamp(0.9rem, 2.2vw, 1.15rem) 0.3rem;
+      border-bottom: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .su-regalos.su-js .su-regalos__fila { opacity: 0; transform: translateX(-12px); }
+    .su-regalos .su-regalos__fila.esta-visto { opacity: 1; transform: none; }
+    .su-regalos__num {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(0.9rem, 1.7vw, 1.05rem);
+      color: var(--accent-color);
+    }
+    .su-regalos__nombre {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(0.9rem, 1.7vw, 1.02rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .su-regalos__via {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .su-regalos__zona-boton { text-align: right; }
+    .su-regalos__boton {
+      min-width: 220px;
+      padding: 0.85rem 2rem;
+      border: 0;
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(0.66rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.4s ease;
+    }
+    .su-regalos__boton:hover { background: var(--accent-color); }
+    .su-regalos__boton.esta-listo { background: var(--accent-color); }
+    .su-regalos__nota {
+      margin-top: 0.8rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.64rem, 1.25vw, 0.74rem);
+      letter-spacing: 0.14em;
+      color: var(--secondary-color);
+      text-align: left;
+    }
+
+    @media (max-width: 520px) {
+      .su-regalos__fila { grid-template-columns: auto 1fr; }
+      .su-regalos__via { grid-column: 2; }
+      .su-regalos__zona-boton { text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .su-regalos * { transition: none !important; }
+      .su-regalos__fila { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="su-regalos__panel">
+    <header class="su-regalos__cabecera" memory_type="text" memory_usage="custom" memory_key="regalos-intro">
+      <h2 class="su-regalos__titulo" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Fig. 09 — Regalos</h2>
+      <span class="su-regalos__folio" memory_type="text" memory_usage="custom" memory_key="regalos-folio">LISTA 1—3</span>
+    </header>
+    <p class="su-regalos__intro" memory_type="text" memory_usage="custom" memory_key="regalos-texto">
+      Tres opciones. Sin envoltorio. Si algo te llama, agéndalo.
+    </p>
+
+    <div class="su-regalos__lista" data-su-lista>
+      <div class="su-regalos__fila" data-su-fila>
+        <span class="su-regalos__num" aria-hidden="true">1.</span>
+        <span class="su-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-1">Fondo de hogar</span>
+        <span class="su-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-1">TIENDA</span>
+      </div>
+      <div class="su-regalos__fila" data-su-fila>
+        <span class="su-regalos__num" aria-hidden="true">2.</span>
+        <span class="su-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-2">Fondo de viaje</span>
+        <span class="su-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-2">SOBRE</span>
+      </div>
+      <div class="su-regalos__fila" data-su-fila>
+        <span class="su-regalos__num" aria-hidden="true">3.</span>
+        <span class="su-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-3">Una clase juntos</span>
+        <span class="su-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-3">DIGITAL</span>
+      </div>
+    </div>
+
+    <div class="su-regalos__zona-boton">
+      <button type="button" class="su-regalos__boton" data-su-boton>
+        <span data-su-boton-texto memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span>
+      </button>
+      <p class="su-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota">// registrado en tu invitación digital</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.su-regalos');
+      if (!root) return;
+      root.classList.add('su-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var filas = Array.prototype.slice.call(root.querySelectorAll('[data-su-fila]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            filas.forEach(function (fila, i) { fila.style.transitionDelay = (i * 0.11).toFixed(2) + 's'; });
+            filas.forEach(function (fila) { fila.classList.add('esta-visto'); });
+            io.disconnect();
+          });
+        }, { threshold: 0.3 });
+        io.observe(root.querySelector('[data-su-lista]') || root);
+      } else {
+        filas.forEach(function (fila) { fila.classList.add('esta-visto'); });
+      }
+
+      var boton = root.querySelector('[data-su-boton]');
+      var texto = root.querySelector('[data-su-boton-texto]');
+      if (boton && texto) {
+        boton.addEventListener('click', function () {
+          var listo = boton.classList.toggle('esta-listo');
+          texto.textContent = listo ? 'Regalo agendado' : 'Agendar regalo';
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-suizo-lista',
+      style_name: 'Suizo Tipográfico — Regalos',
+      descripcion: 'Lista numerada en bold mayúsculas con vías monoespaciadas y botón sólido que pasa a rojo al agendar.',
+      tags: ['regalos', 'lista', 'suizo', 'numerada', 'boton', 'minimal'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>
+
+<section
+  class="su-vestimenta"
+  data-gemini-id="vestimenta-suizo-muestras"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .su-vestimenta {
+      --primary-color: #17171a;
+      --secondary-color: #75757c;
+      --accent-color: #d43d2a;
+      --bg-color: #f2f2ef;
+      --surface-color: #fbfbf9;
+      --surface-border-color: rgba(23, 23, 26, 0.16);
+      --text-color: #17171a;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      min-height: 64svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: left;
+    }
+    .su-vestimenta *,
+    .su-vestimenta *::before,
+    .su-vestimenta *::after { box-sizing: border-box; }
+
+    .su-vestimenta__panel {
+      width: min(100%, 680px);
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      border: 1px solid var(--surface-border-color);
+      background: var(--surface-color);
+    }
+
+    .su-vestimenta__cabecera {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.8rem;
+    }
+    .su-vestimenta__titulo {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 3.2vw, 2rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .su-vestimenta__folio {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.28em;
+      color: var(--secondary-color);
+    }
+    .su-vestimenta__texto {
+      margin: 0 0 1.8rem;
+      max-width: 50ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .su-vestimenta__fila-muestras {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      border: 1px solid var(--surface-border-color);
+      margin-bottom: 1.4rem;
+    }
+    .su-vestimenta__muestra {
+      display: grid;
+      grid-template-rows: 1fr auto;
+      aspect-ratio: 3 / 4;
+      border-right: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .su-vestimenta.su-js .su-vestimenta__muestra { opacity: 0; transform: translateY(14px); }
+    .su-vestimenta .su-vestimenta__muestra.esta-visto { opacity: 1; transform: none; }
+    .su-vestimenta__muestra:last-child { border-right: 0; }
+    .su-vestimenta__chip {
+      display: block;
+      background: var(--bg-color);
+      transition: background-color 0.5s ease;
+    }
+    .su-vestimenta__codigo {
+      padding: 0.35rem 0.3rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.54rem;
+      letter-spacing: 0.14em;
+      text-align: center;
+      color: var(--secondary-color);
+      border-top: 1px solid var(--surface-border-color);
+    }
+
+    .su-vestimenta__leyenda {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.64rem, 1.25vw, 0.74rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 480px) {
+      .su-vestimenta__fila-muestras { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .su-vestimenta__muestra:nth-child(3) { border-right: 0; }
+      .su-vestimenta__muestra:nth-child(-n + 3) { border-bottom: 1px solid var(--surface-border-color); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .su-vestimenta * { transition: none !important; }
+      .su-vestimenta__muestra { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="su-vestimenta__panel">
+    <header class="su-vestimenta__cabecera" memory_type="text" memory_usage="custom" memory_key="vestimenta-intro">
+      <h2 class="su-vestimenta__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Fig. 10 — Paleta</h2>
+      <span class="su-vestimenta__folio" memory_type="text" memory_usage="custom" memory_key="vestimenta-folio">6 TONOS</span>
+    </header>
+    <p class="su-vestimenta__texto" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">
+      Muestras oficiales del código de vestimenta. Cualquiera de estos tonos encuadra perfecto.
+    </p>
+
+    <div class="su-vestimenta__fila-muestras" data-su-muestras aria-hidden="true"></div>
+
+    <p class="su-vestimenta__leyenda" memory_type="text" memory_usage="custom" memory_key="vestimenta-leyenda">FORMAL MODERNO — SIN BLANCO PURO</p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.su-vestimenta');
+      if (!root) return;
+      root.classList.add('su-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var muestras = root.querySelector('[data-su-muestras]');
+      if (muestras && !muestras.children.length) {
+        var tonos = [
+          ['#17171a', 'NEGRO'],
+          ['#d43d2a', 'ROJO'],
+          ['#75757c', 'GRIS'],
+          ['#e8e2d6', 'HUESO'],
+          ['#31456b', 'AZUL'],
+          ['#5a5f4e', 'OLIVA']
+        ];
+        for (var i = 0; i < tonos.length; i++) {
+          var muestra = document.createElement('span');
+          muestra.className = 'su-vestimenta__muestra';
+          muestra.style.transitionDelay = (i * 0.07).toFixed(2) + 's, ' + (i * 0.07).toFixed(2) + 's';
+          var chip = document.createElement('span');
+          chip.className = 'su-vestimenta__chip';
+          chip.setAttribute('data-su-tono', tonos[i][0]);
+          var codigo = document.createElement('span');
+          codigo.className = 'su-vestimenta__codigo';
+          codigo.textContent = tonos[i][1];
+          muestra.appendChild(chip);
+          muestra.appendChild(codigo);
+          muestras.appendChild(muestra);
+        }
+      }
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function colorear() {
+        root.querySelectorAll('[data-su-tono]').forEach(function (c) {
+          c.style.backgroundColor = c.getAttribute('data-su-tono');
+        });
+      }
+      if (reduce || !('IntersectionObserver' in window)) {
+        root.querySelectorAll('.su-vestimenta__muestra').forEach(function (m) { m.classList.add('esta-visto'); });
+        colorear();
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          root.querySelectorAll('.su-vestimenta__muestra').forEach(function (m, i) {
+            m.style.transitionDelay = (i * 0.07).toFixed(2) + 's, ' + (i * 0.07).toFixed(2) + 's';
+            m.classList.add('esta-visto');
+          });
+          setTimeout(colorear, 220);
+          io.disconnect();
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-suizo-muestras',
+      style_name: 'Suizo Tipográfico — Paleta',
+      descripcion: 'Fila de muestras tabulares con códigos de color que se rellenan por JS en cascada; leyenda de reglas en monoespaciada.',
+      tags: ['vestimenta', 'dress code', 'muestras', 'suizo', 'paleta', 'tabular'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>
+</body></html>

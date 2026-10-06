@@ -1,0 +1,256 @@
+<section
+  class="hb-countdown"
+  data-gemini-id="countdown-herbario-dial"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+>
+  <style>
+    .hb-countdown {
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      min-height: 640px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 5vw, 3rem);
+      background-color: var(--bg-color, #f6f4ec);
+      background-image: url('https://loremflickr.com/1600/900/botanical,garden');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color, #23301f);
+      text-align: center;
+    }
+    .hb-countdown *,
+    .hb-countdown *::before,
+    .hb-countdown *::after { box-sizing: border-box; }
+
+    .hb-countdown::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color, #f6f4ec) 84%, transparent);
+    }
+
+    .hb-countdown__contenido { width: min(100%, 780px); }
+
+    .hb-countdown__etiqueta {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.64rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--accent-color, #7d8f6e);
+    }
+
+    .hb-countdown__titulo {
+      margin: 0 0 0.4rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 4vw, 2.7rem);
+      color: var(--primary-color, #23301f);
+    }
+
+    .hb-countdown__fecha {
+      display: block;
+      margin-bottom: clamp(1.4rem, 3.4vw, 2.2rem);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.84rem, 1.7vw, 0.98rem);
+      letter-spacing: 0.14em;
+      color: var(--secondary-color, #5c6657);
+    }
+
+    .hb-countdown__dial-zona {
+      display: grid;
+      grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+      gap: clamp(1.4rem, 4vw, 2.6rem);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hb-countdown__dial {
+      position: relative;
+      width: clamp(168px, 26vw, 224px);
+      margin: 0 auto;
+      color: var(--text-color, #23301f);
+    }
+    .hb-countdown__dial svg { display: block; width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 10px 22px rgba(35, 48, 31, 0.14)); }
+    .hb-countdown__cara { fill: color-mix(in srgb, var(--bg-color, #f6f4ec) 90%, transparent); stroke: var(--primary-color, #23301f); stroke-width: 1.4; }
+    .hb-countdown__tic { stroke: currentColor; stroke-width: 1.4; opacity: 0.45; }
+    .hb-countdown__arco-fondo { fill: none; stroke: color-mix(in srgb, var(--accent-color, #7d8f6e) 30%, transparent); stroke-width: 5; }
+    .hb-countdown__arco {
+      fill: none;
+      stroke: var(--accent-color, #7d8f6e);
+      stroke-width: 5;
+      stroke-linecap: round;
+      transform: rotate(-90deg);
+      transform-origin: 110px 110px;
+      transition: stroke-dashoffset 0.6s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .hb-countdown__hoja-central { stroke: var(--primary-color, #23301f); stroke-width: 1.2; fill: none; }
+    .hb-countdown__segundo {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+      font-variant-numeric: tabular-nums;
+      color: var(--primary-color, #23301f);
+    }
+
+    .hb-countdown__unidades {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(0.7rem, 2vw, 1.1rem);
+    }
+    .hb-countdown__unidad {
+      padding: clamp(0.8rem, 2vw, 1.2rem) 0.5rem;
+      background: color-mix(in srgb, var(--bg-color, #f6f4ec) 88%, transparent);
+      border: 1px solid color-mix(in srgb, var(--primary-color, #23301f) 22%, transparent);
+      outline: 1px solid color-mix(in srgb, var(--primary-color, #23301f) 14%, transparent);
+      outline-offset: 4px;
+    }
+    .hb-countdown__numero {
+      display: block;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.7rem, 4.4vw, 2.6rem);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      color: var(--primary-color, #23301f);
+    }
+    .hb-countdown__rotulo {
+      display: block;
+      margin-top: 0.45rem;
+      font-size: clamp(0.58rem, 1.2vw, 0.68rem);
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--secondary-color, #5c6657);
+    }
+
+    @media (max-width: 720px) {
+      .hb-countdown__dial-zona { grid-template-columns: 1fr; }
+      .hb-countdown__unidades { width: min(100%, 420px); margin: 0 auto; }
+    }
+
+    @media (max-width: 420px) {
+      .hb-countdown { min-height: 560px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-countdown__arco { transition: none; }
+    }
+  </style>
+
+  <div class="hb-countdown__contenido">
+    <p class="hb-countdown__etiqueta" memory_type="text" memory_usage="custom" memory_key="countdown-etiqueta">Cuenta regresiva</p>
+    <h2 class="hb-countdown__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">El gran día se acerca</h2>
+    <time class="hb-countdown__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+
+    <div class="hb-countdown__dial-zona">
+      <div class="hb-countdown__dial" aria-hidden="true">
+        <svg viewBox="0 0 220 220">
+          <circle class="hb-countdown__cara" cx="110" cy="110" r="104" />
+          <g class="hb-countdown__tics">
+            <line class="hb-countdown__tic" x1="110" y1="14" x2="110" y2="24" />
+            <line class="hb-countdown__tic" x1="206" y1="110" x2="196" y2="110" />
+            <line class="hb-countdown__tic" x1="110" y1="206" x2="110" y2="196" />
+            <line class="hb-countdown__tic" x1="14" y1="110" x2="24" y2="110" />
+            <line class="hb-countdown__tic" x1="177" y1="43" x2="170" y2="50" transform="rotate(45 110 110)" />
+            <line class="hb-countdown__tic" x1="177" y1="177" x2="170" y2="170" transform="rotate(135 110 110)" />
+            <line class="hb-countdown__tic" x1="43" y1="177" x2="50" y2="170" transform="rotate(45 110 110)" />
+            <line class="hb-countdown__tic" x1="43" y1="43" x2="50" y2="50" transform="rotate(135 110 110)" />
+          </g>
+          <circle class="hb-countdown__arco-fondo" cx="110" cy="110" r="86" />
+          <circle class="hb-countdown__arco" data-hb-arco cx="110" cy="110" r="86" stroke-dasharray="540.35" stroke-dashoffset="0" />
+          <path class="hb-countdown__hoja-central" d="M110 92 C122 100 124 116 110 130 C96 116 98 100 110 92 Z" />
+          <path class="hb-countdown__hoja-central" d="M110 130 L110 142" />
+        </svg>
+        <span class="hb-countdown__segundo" data-hb-segundo>00</span>
+      </div>
+
+      <div class="hb-countdown__unidades" aria-label="Cuenta regresiva">
+        <div class="hb-countdown__unidad"><span class="hb-countdown__numero" data-countdown-unit="days">--</span><span class="hb-countdown__rotulo">Días</span></div>
+        <div class="hb-countdown__unidad"><span class="hb-countdown__numero" data-countdown-unit="hours">--</span><span class="hb-countdown__rotulo">Horas</span></div>
+        <div class="hb-countdown__unidad"><span class="hb-countdown__numero" data-countdown-unit="minutes">--</span><span class="hb-countdown__rotulo">Min</span></div>
+        <div class="hb-countdown__unidad"><span class="hb-countdown__numero" data-countdown-unit="seconds">--</span><span class="hb-countdown__rotulo">Seg</span></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var el = null;
+      try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
+      if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+      if (!el) return;
+
+      var arco = el.querySelector('[data-hb-arco]');
+      var segundoNodo = el.querySelector('[data-hb-segundo]');
+      var LONGITUD = arco ? 2 * Math.PI * 86 : 0;
+      var target = NaN;
+      var attr = el.getAttribute('data-countdown-target');
+      if (attr && attr.indexOf('YYYY') === -1) { var p = new Date(attr); if (!isNaN(p.getTime())) target = p.getTime(); }
+      if (isNaN(target) && window.__countdownTarget) { var p1 = new Date(window.__countdownTarget); if (!isNaN(p1.getTime())) target = p1.getTime(); }
+      if (isNaN(target) && window.countdown_target) { var p2 = new Date(window.countdown_target); if (!isNaN(p2.getTime())) target = p2.getTime(); }
+
+      var intervalId = null;
+      (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+
+      function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+      function setUnit(unit, value) {
+        var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
+        if (node) node.textContent = value;
+      }
+      function tick() {
+        if (!Number.isFinite(target)) return;
+        var diff = Math.max(target - Date.now(), 0);
+        setUnit('days', Math.floor(diff / 86400000));
+        setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
+        setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
+        var s = Math.floor((diff % 60000) / 1000);
+        setUnit('seconds', pad2(s));
+        if (segundoNodo) segundoNodo.textContent = pad2(s);
+        if (arco) {
+          var fraccion = 1 - s / 60;
+          arco.setAttribute('stroke-dashoffset', (LONGITUD * fraccion).toFixed(2));
+        }
+        if (diff === 0 && intervalId !== null) {
+          clearInterval(intervalId);
+          intervalId = null;
+          window.__countdownIntervals = [];
+        }
+      }
+      function start(newTarget) {
+        if (newTarget) { var p = new Date(newTarget); if (!isNaN(p.getTime())) target = p.getTime(); }
+        (window.__countdownIntervals || []).forEach(clearInterval);
+        window.__countdownIntervals = [];
+        intervalId = null;
+        if (!Number.isFinite(target)) return;
+        tick();
+        if (target > Date.now()) {
+          intervalId = setInterval(tick, 1000);
+          window.__countdownIntervals.push(intervalId);
+        }
+      }
+      start();
+      window.updateCountdown = start;
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-herbario-dial',
+      style_name: 'Dial de Herbario',
+      descripcion: 'Cuenta regresiva con dial circular de línea botánica: arco de segundos que se vacía, hoja central y cuatro unidades editables.',
+      tags: ['countdown', 'cuenta regresiva', 'dial', 'arco', 'botanico', 'editorial'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>

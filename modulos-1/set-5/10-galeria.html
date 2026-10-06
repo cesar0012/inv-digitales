@@ -1,0 +1,248 @@
+<section
+  class="ne-galeria"
+  data-gemini-id="galeria-neon-negativo"
+>
+  <style>
+    .ne-galeria {
+      --primary-color: #f2f4fa;
+      --secondary-color: #9aa3b8;
+      --accent-color: #ff4d7d;
+      --bg-color: #14161d;
+      --surface-color: #1b1e27;
+      --surface-border-color: rgba(255, 255, 255, 0.14);
+      --text-color: #f2f4fa;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ne-galeria *,
+    .ne-galeria *::before,
+    .ne-galeria *::after { box-sizing: border-box; }
+
+    .ne-galeria__cabecera {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      width: min(100%, 1060px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 0.9rem;
+      text-align: left;
+    }
+    .ne-galeria__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ne-galeria__folio {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--secondary-color);
+    }
+
+    .ne-galeria__mosaico {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
+      gap: clamp(0.9rem, 2.4vw, 1.4rem);
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .ne-galeria__negativo {
+      position: relative;
+      margin: 0;
+      padding: 7px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      cursor: pointer;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+    .ne-galeria.ne-js .ne-galeria__negativo { opacity: 0; transform: translateY(18px); }
+    .ne-galeria .ne-galeria__negativo.esta-visto { opacity: 1; transform: none; }
+    .ne-galeria__negativo:hover {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 24px color-mix(in srgb, var(--accent-color) 35%, transparent), 0 18px 40px rgba(0, 0, 0, 0.45);
+    }
+    .ne-galeria__negativo img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      filter: grayscale(0.65) contrast(1.1);
+      transition: filter 0.4s ease;
+    }
+    .ne-galeria__negativo:hover img { filter: grayscale(0) contrast(1.04); }
+
+    .ne-galeria__pie {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 7px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .ne-galeria__pie b { color: var(--accent-color); font-weight: 400; }
+
+    .ne-galeria__lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      place-items: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      background: rgba(0, 0, 0, 0.9);
+    }
+    .ne-galeria__lightbox.abierto { display: grid; }
+    .ne-galeria__lightbox img {
+      max-width: min(920px, 92vw);
+      max-height: 82svh;
+      width: auto;
+      height: auto;
+      border: 1px solid var(--accent-color);
+      box-shadow: 0 0 40px color-mix(in srgb, var(--accent-color) 40%, transparent), 0 30px 80px rgba(0, 0, 0, 0.6);
+    }
+    .ne-galeria__cerrar {
+      position: absolute;
+      top: clamp(0.8rem, 2.5vw, 1.6rem);
+      right: clamp(0.8rem, 2.5vw, 1.6rem);
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--accent-color);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--accent-color);
+      font-size: 1.2rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.4s ease, background 0.4s ease;
+    }
+    .ne-galeria__cerrar:hover { transform: rotate(90deg); background: color-mix(in srgb, var(--accent-color) 20%, transparent); }
+
+    @media (max-width: 560px) {
+      .ne-galeria__mosaico { grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr)); gap: 0.7rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ne-galeria * { transition: none !important; }
+      .ne-galeria__negativo { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="ne-galeria__cabecera" memory_type="text" memory_usage="custom" memory_key="galeria-cabecera">
+    <h2 class="ne-galeria__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Negativos de la noche</h2>
+    <span class="ne-galeria__folio" memory_type="text" memory_usage="custom" memory_key="galeria-folio">ROLL / 12 EXP</span>
+  </header>
+
+  <div class="ne-galeria__mosaico">
+    <figure class="ne-galeria__negativo" data-ne-negativo memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-1" tabindex="0" role="button" aria-label="Ampliar negativo uno">
+      <img src="https://loremflickr.com/520/520/night,couple" alt="Negativo uno" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="ne-galeria__pie"><span>EXP. 01</span><b>■</b></span>
+      <figcaption hidden>Negativo uno</figcaption>
+    </figure>
+    <figure class="ne-galeria__negativo" data-ne-negativo memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-2" tabindex="0" role="button" aria-label="Ampliar negativo dos">
+      <img src="https://loremflickr.com/520/520/neon,party" alt="Negativo dos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="ne-galeria__pie"><span>EXP. 02</span><b>■</b></span>
+      <figcaption hidden>Negativo dos</figcaption>
+    </figure>
+    <figure class="ne-galeria__negativo" data-ne-negativo memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-3" tabindex="0" role="button" aria-label="Ampliar negativo tres">
+      <img src="https://loremflickr.com/520/520/dark,dinner" alt="Negativo tres" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="ne-galeria__pie"><span>EXP. 03</span><b>■</b></span>
+      <figcaption hidden>Negativo tres</figcaption>
+    </figure>
+    <figure class="ne-galeria__negativo" data-ne-negativo memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-4" tabindex="0" role="button" aria-label="Ampliar negativo cuatro">
+      <img src="https://loremflickr.com/520/520/city,lights" alt="Negativo cuatro" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="ne-galeria__pie"><span>EXP. 04</span><b>■</b></span>
+      <figcaption hidden>Negativo cuatro</figcaption>
+    </figure>
+    <figure class="ne-galeria__negativo" data-ne-negativo memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-5" tabindex="0" role="button" aria-label="Ampliar negativo cinco">
+      <img src="https://loremflickr.com/520/520/dance,dark" alt="Negativo cinco" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="ne-galeria__pie"><span>EXP. 05</span><b>■</b></span>
+      <figcaption hidden>Negativo cinco</figcaption>
+    </figure>
+    <figure class="ne-galeria__negativo" data-ne-negativo memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-6" tabindex="0" role="button" aria-label="Ampliar negativo seis">
+      <img src="https://loremflickr.com/520/520/night,toast" alt="Negativo seis" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="ne-galeria__pie"><span>EXP. 06</span><b>■</b></span>
+      <figcaption hidden>Negativo seis</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ne-galeria');
+      if (!root) return;
+      root.classList.add('ne-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var piezas = Array.prototype.slice.call(root.querySelectorAll('[data-ne-negativo]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var i = piezas.indexOf(entry.target);
+            entry.target.style.transitionDelay = (Math.min(i, 5) * 0.08).toFixed(2) + 's';
+            entry.target.classList.add('esta-visto');
+            io.unobserve(entry.target);
+          });
+        }, { threshold: 0.18 });
+        piezas.forEach(function (p) { io.observe(p); });
+      } else {
+        piezas.forEach(function (p) { p.classList.add('esta-visto'); });
+      }
+
+      var lightbox = document.createElement('div');
+      lightbox.className = 'ne-galeria__lightbox';
+      lightbox.setAttribute('role', 'dialog');
+      lightbox.setAttribute('aria-modal', 'true');
+      lightbox.setAttribute('aria-label', 'Vista ampliada');
+      lightbox.innerHTML =
+        '<img alt="" />' +
+        '<button type="button" class="ne-galeria__cerrar" aria-label="Cerrar">×</button>';
+      root.appendChild(lightbox);
+      var imgAmpliada = lightbox.querySelector('img');
+      var botonCerrar = lightbox.querySelector('.ne-galeria__cerrar');
+
+      function abrir(fig) {
+        var foto = fig.querySelector('img');
+        if (!foto) return;
+        imgAmpliada.src = foto.src;
+        imgAmpliada.alt = foto.alt;
+        lightbox.classList.add('abierto');
+      }
+      function cerrar() { lightbox.classList.remove('abierto'); }
+
+      piezas.forEach(function (fig) {
+        fig.addEventListener('click', function () { abrir(fig); });
+        fig.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(fig); }
+        });
+      });
+      botonCerrar.addEventListener('click', cerrar);
+      lightbox.addEventListener('click', function (e) { if (e.target === lightbox) cerrar(); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-neon-negativo',
+      style_name: 'Neón Editorial — Galería',
+      descripcion: 'Negativos cuadrados en blanco y negro que recuperan color al hover con marco de neón; exposiciones numeradas y lightbox propio.',
+      tags: ['galeria', 'mosaico', 'negativo', 'neon', 'hover color', 'lightbox'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

@@ -1174,3 +1174,63 @@ export const saveResultHtml = async (id: number, html: string, styleName?: strin
     throw new Error(error.error || 'Error al guardar la iteración');
   }
 };
+
+// ==================== SUBIDA MASIVA (bulk) de módulos RAG ====================
+
+export interface RAGModuleBulkResult {
+  filename: string;
+  ok: boolean;
+  module_id?: string;
+  renamed_from?: string | null;
+  module_type?: string;
+  error?: string;
+  duplicate?: boolean;
+  validation?: { errors: string[]; warnings: string[] } | null;
+}
+
+export interface RAGModuleBulkResponse {
+  total: number;
+  ok: number;
+  failed: number;
+  renamed: number;
+  results: RAGModuleBulkResult[];
+}
+
+/**
+ * Sube N archivos .html a Módulos RAG en un solo lote (drag & drop masivo).
+ * Se envían en tandas de 40 archivos para no exceder límites del request.
+ */
+export const uploadRAGModulesBulk = async (files: File[], module_type?: string): Promise<RAGModuleBulkResponse> => {
+  const BATCH = 40;
+  const aggregated: RAGModuleBulkResponse = { total: 0, ok: 0, failed: 0, renamed: 0, results: [] };
+
+  for (let i = 0; i < files.length; i += BATCH) {
+    const batch = files.slice(i, i + BATCH);
+    const formData = new FormData();
+    batch.forEach((f) => formData.append('htmlFiles', f));
+    if (module_type) formData.append('module_type', module_type);
+
+    const token = localStorage.getItem('admin_token');
+    const response = await fetch(`${API_BASE}/admin/rag-modules/upload-bulk`, {
+      method: 'POST',
+      headers: {
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+      },
+      body: formData
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ error: `Error ${response.status}` }));
+      throw new Error(error.error || 'Error en la subida masiva');
+    }
+
+    const part: RAGModuleBulkResponse = await response.json();
+    aggregated.total += part.total;
+    aggregated.ok += part.ok;
+    aggregated.failed += part.failed;
+    aggregated.renamed += part.renamed;
+    aggregated.results.push(...part.results);
+  }
+
+  return aggregated;
+};

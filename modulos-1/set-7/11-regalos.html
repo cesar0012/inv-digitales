@@ -1,0 +1,230 @@
+<section
+  class="mu-regalos"
+  data-gemini-id="regalos-museo-boutique"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .mu-regalos {
+      --primary-color: #2a2724;
+      --secondary-color: #75705f;
+      --accent-color: #b3925a;
+      --bg-color: #f4f1ea;
+      --surface-color: #fdfbf6;
+      --surface-border-color: rgba(42, 39, 36, 0.16);
+      --text-color: #2a2724;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/gold,velvet');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .mu-regalos *,
+    .mu-regalos *::before,
+    .mu-regalos *::after { box-sizing: border-box; }
+
+    .mu-regalos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 89%, transparent);
+    }
+
+    .mu-regalos__vitrina {
+      width: min(100%, 680px);
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow:
+        inset 0 0 0 4px var(--surface-color),
+        inset 0 0 0 5.5px var(--accent-color),
+        0 28px 60px rgba(42, 39, 36, 0.2);
+      text-align: center;
+    }
+
+    .mu-regalos__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .mu-regalos__titulo {
+      margin: 0 0 0.7rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .mu-regalos__intro {
+      margin: 0 auto 1.6rem;
+      max-width: 46ch;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .mu-regalos__lista { display: grid; gap: clamp(0.7rem, 2vw, 1rem); margin-bottom: 1.7rem; text-align: left; }
+    .mu-regalos__fila {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.95rem;
+      align-items: center;
+      padding: clamp(0.85rem, 2.2vw, 1.1rem) clamp(1rem, 2.4vw, 1.3rem);
+      background: var(--bg-color);
+      border: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .mu-regalos.mu-js .mu-regalos__fila { opacity: 0; transform: translateY(12px); }
+    .mu-regalos .mu-regalos__fila.esta-visto { opacity: 1; transform: none; }
+    .mu-regalos__num {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--accent-color);
+      border-radius: 50%;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.78rem;
+      color: var(--accent-color);
+    }
+    .mu-regalos__nombre {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.92rem, 1.75vw, 1.04rem);
+      color: var(--primary-color);
+    }
+    .mu-regalos__via {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .mu-regalos__zona-boton { text-align: center; }
+    .mu-regalos__boton {
+      position: relative;
+      min-width: 230px;
+      padding: 0.85rem 2rem;
+      border: 0;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--accent-color) 70%, #8a6d3b), color-mix(in srgb, var(--accent-color) 45%, #6d5527));
+      color: #fdfbf6;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 12px 26px rgba(42, 39, 36, 0.3);
+      transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease;
+    }
+    .mu-regalos__boton:hover { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(42, 39, 36, 0.38); }
+    .mu-regalos__boton.esta-listo { filter: saturate(0.75) brightness(1.05); }
+    .mu-regalos__nota {
+      margin-top: 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.76rem, 1.4vw, 0.86rem);
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 520px) {
+      .mu-regalos__fila { grid-template-columns: auto 1fr; }
+      .mu-regalos__via { grid-column: 2; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mu-regalos * { transition: none !important; }
+      .mu-regalos__fila { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="mu-regalos__vitrina">
+    <p class="mu-regalos__etiqueta" memory_type="text" memory_usage="custom" memory_key="regalos-etiqueta">Boutique del museo</p>
+    <h2 class="mu-regalos__titulo" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Donaciones de colección</h2>
+    <p class="mu-regalos__intro" memory_type="text" memory_usage="custom" memory_key="regalos-texto">
+      Si desea aportar una pieza a nuestra colección, estas son las opciones curadas por los anfitriones.
+    </p>
+
+    <div class="mu-regalos__lista" data-mu-lista>
+      <div class="mu-regalos__fila" data-mu-fila>
+        <span class="mu-regalos__num" aria-hidden="true">I</span>
+        <span class="mu-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-1">Piezas para el nuevo hogar</span>
+        <span class="mu-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-1">Tienda</span>
+      </div>
+      <div class="mu-regalos__fila" data-mu-fila>
+        <span class="mu-regalos__num" aria-hidden="true">II</span>
+        <span class="mu-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-2">Fondo de luna de miel</span>
+        <span class="mu-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-2">Sobre</span>
+      </div>
+      <div class="mu-regalos__fila" data-mu-fila>
+        <span class="mu-regalos__num" aria-hidden="true">III</span>
+        <span class="mu-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-3">Una experiencia irrepetible</span>
+        <span class="mu-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-3">Digital</span>
+      </div>
+    </div>
+
+    <div class="mu-regalos__zona-boton">
+      <button type="button" class="mu-regalos__boton" data-mu-boton>
+        <span data-mu-boton-texto memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span>
+      </button>
+      <p class="mu-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota">Su aportación quedará registrada en el catálogo.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.mu-regalos');
+      if (!root) return;
+      root.classList.add('mu-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var filas = Array.prototype.slice.call(root.querySelectorAll('[data-mu-fila]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            filas.forEach(function (fila, i) { fila.style.transitionDelay = (i * 0.11).toFixed(2) + 's'; });
+            filas.forEach(function (fila) { fila.classList.add('esta-visto'); });
+            io.disconnect();
+          });
+        }, { threshold: 0.3 });
+        io.observe(root.querySelector('[data-mu-lista]') || root);
+      } else {
+        filas.forEach(function (fila) { fila.classList.add('esta-visto'); });
+      }
+
+      var boton = root.querySelector('[data-mu-boton]');
+      var texto = root.querySelector('[data-mu-boton-texto]');
+      if (boton && texto) {
+        boton.addEventListener('click', function () {
+          var listo = boton.classList.toggle('esta-listo');
+          texto.textContent = listo ? 'Regalo agendado' : 'Agendar regalo';
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-museo-boutique',
+      style_name: 'Vitrina de Museo — Regalos',
+      descripcion: 'Boutique curatorial con filas numeradas en romanos, vitrina de doble fileto dorado y botón de bronce que registra la donación.',
+      tags: ['regalos', 'boutique', 'museo', 'romanos', 'boton', 'curatorial'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>

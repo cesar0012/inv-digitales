@@ -1,0 +1,269 @@
+<section
+  class="ma-portada"
+  data-gemini-id="portada-nombre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="ma-portada-titulo"
+>
+  <style>
+    .ma-portada {
+      --primary-color: #e8f2f4;
+      --secondary-color: #9dbcc4;
+      --accent-color: #5fc4cf;
+      --bg-color: #0e1b22;
+      --surface-color: #14232b;
+      --surface-border-color: rgba(232, 242, 244, 0.16);
+      --text-color: #e8f2f4;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 5vw, 4rem) clamp(5rem, 10vw, 7rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/ocean,deep');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ma-portada *,
+    .ma-portada *::before,
+    .ma-portada *::after { box-sizing: border-box; }
+
+    .ma-portada::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--bg-color) 55%, transparent), color-mix(in srgb, var(--bg-color) 92%, transparent));
+    }
+    .ma-portada::after {
+      content: '';
+      position: absolute;
+      z-index: 0;
+      top: -20%;
+      left: 50%;
+      width: 140%;
+      height: 80%;
+      transform: translateX(-50%) rotate(14deg);
+      background: repeating-linear-gradient(100deg, color-mix(in srgb, var(--accent-color) 12%, transparent) 0 26px, transparent 26px 74px);
+      filter: blur(6px);
+      pointer-events: none;
+    }
+
+    .ma-portada__burbuja {
+      position: absolute;
+      z-index: 1;
+      border-radius: 50%;
+      border: 1px solid color-mix(in srgb, var(--accent-color) 55%, transparent);
+      background: radial-gradient(circle at 32% 30%, rgba(255, 255, 255, 0.28), transparent 55%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .ma-portada.esta-visto .ma-portada__burbuja { animation: maPortadaSube 9s ease-in infinite; }
+
+    @keyframes maPortadaSube {
+      0% { opacity: 0; transform: translateY(40px); }
+      15% { opacity: 0.8; }
+      85% { opacity: 0.4; }
+      100% { opacity: 0; transform: translateY(-260px); }
+    }
+
+    .ma-portada__carta {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 700px);
+      padding: clamp(2.2rem, 5.5vw, 3.8rem) clamp(1.4rem, 5vw, 3.2rem);
+      background: color-mix(in srgb, var(--surface-color) 82%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 42% 58% 46% 54% / 8% 8% 10% 10%;
+      box-shadow: 0 34px 74px rgba(0, 0, 0, 0.5);
+    }
+
+    .ma-portada__perla {
+      width: clamp(54px, 8vw, 70px);
+      margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
+      color: var(--accent-color);
+      animation: maPortadaFlota 7s ease-in-out infinite;
+    }
+    @keyframes maPortadaFlota {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-9px); }
+    }
+
+    .ma-portada__eyebrow {
+      margin: 0 0 1rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .ma-portada__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(2rem, 6vw, 4.2rem);
+      line-height: 1.06;
+      color: var(--primary-color);
+      text-shadow: 0 0 28px color-mix(in srgb, var(--accent-color) 40%, transparent);
+    }
+    .ma-portada__titulo span {
+      display: inline-block;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ma-portada.ma-js .ma-portada__titulo span { opacity: 0; transform: translateY(0.55em); }
+    .ma-portada.esta-visto .ma-portada__titulo span { opacity: 1; transform: none; }
+    .ma-portada.esta-visto .ma-portada__titulo span:nth-child(1) { transition-delay: 0.08s; }
+    .ma-portada.esta-visto .ma-portada__titulo span:nth-child(2) { transition-delay: 0.18s; }
+    .ma-portada.esta-visto .ma-portada__titulo span:nth-child(3) { transition-delay: 0.28s; }
+
+    .ma-portada__ampersand {
+      display: block;
+      margin: 0.12em 0;
+      font-style: italic;
+      color: var(--accent-color);
+    }
+
+    .ma-portada__fecha {
+      display: inline-block;
+      margin-top: clamp(1.2rem, 3vw, 1.8rem);
+      padding: 0.55rem 1.7rem;
+      border: 1px solid var(--surface-border-color);
+      border-radius: 999px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.7rem, 1.4vw, 0.82rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--text-color);
+    }
+
+    .ma-portada__retrato {
+      width: clamp(104px, 15vw, 132px);
+      margin: clamp(1.2rem, 3vw, 1.8rem) auto 0;
+      padding: 5px;
+      border: 1px solid var(--surface-border-color);
+      border-radius: 54% 46% 52% 48% / 48% 54% 46% 52%;
+      overflow: hidden;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
+    }
+    .ma-portada__retrato img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 54% 46% 52% 48% / 48% 54% 46% 52%;
+      filter: saturate(0.95);
+    }
+
+    .ma-portada__olas {
+      position: absolute;
+      left: -3%;
+      right: -3%;
+      bottom: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .ma-portada__olas svg { display: block; width: 100%; }
+    .ma-portada__ola { fill: var(--surface-color); opacity: 0.9; }
+    .ma-portada__ola--frente {
+      fill: color-mix(in srgb, var(--accent-color) 22%, var(--surface-color));
+      animation: maPortadaOla 11s ease-in-out infinite;
+    }
+    @keyframes maPortadaOla {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(-3.5%); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ma-portada * { animation: none !important; transition: none !important; }
+      .ma-portada__titulo span { opacity: 1; transform: none; }
+      .ma-portada__burbuja { display: none; }
+    }
+  </style>
+
+  <div class="ma-portada__carta">
+    <svg class="ma-portada__perla" viewBox="0 0 70 70" fill="none" aria-hidden="true">
+      <path d="M8 46 C8 26, 22 12, 35 12 C48 12, 62 26, 62 46" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="35" cy="50" r="9" fill="currentColor" opacity="0.85"/>
+      <circle cx="32" cy="47" r="2.6" fill="#ffffff" opacity="0.7"/>
+    </svg>
+
+    <p class="ma-portada__eyebrow" memory_type="text" memory_usage="custom" memory_key="portada-encabezado">Una inmersión a lo profundo</p>
+
+    <div memory_type="text" memory_usage="custom" memory_key="portada-nombres">
+      <h1 id="ma-portada-titulo" class="ma-portada__titulo">
+        <span>Nombre de la Novia</span>
+        <span class="ma-portada__ampersand">&amp;</span>
+        <span>Nombre del Novio</span>
+      </h1>
+    </div>
+
+    <time class="ma-portada__fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="portada-fecha">Fecha del evento</time>
+
+    <figure class="ma-portada__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="portada-foto">
+      <img src="https://loremflickr.com/360/360/couple,ocean" alt="Retrato de los anfitriones" path="placeholder" data-library-category="bodas" data-asset-type="foto-pareja" loading="lazy" />
+      <figcaption hidden>Retrato principal</figcaption>
+    </figure>
+  </div>
+
+  <div class="ma-portada__olas" aria-hidden="true">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+      <path class="ma-portada__ola" d="M0 64 C 180 24, 360 104, 540 64 S 900 24, 1080 64 S 1320 104, 1440 64 V120 H0 Z"/>
+      <path class="ma-portada__ola ma-portada__ola--frente" d="M0 84 C 200 44, 400 124, 600 84 S 1000 44, 1200 84 S 1380 114, 1440 84 V120 H0 Z"/>
+    </svg>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ma-portada');
+      if (!root) return;
+      root.classList.add('ma-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var cielo = root;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reduce && !cielo.querySelector('.ma-portada__burbuja')) {
+        for (var i = 0; i < 12; i++) {
+          var b = document.createElement('span');
+          b.className = 'ma-portada__burbuja';
+          var s = 6 + Math.random() * 16;
+          b.style.width = s + 'px';
+          b.style.height = s + 'px';
+          b.style.left = (3 + Math.random() * 94) + '%';
+          b.style.top = (55 + Math.random() * 35) + '%';
+          b.style.animationDelay = (Math.random() * 8).toFixed(2) + 's';
+          root.appendChild(b);
+        }
+      }
+
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.22 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Marino de Profundidad',
+      descripcion: 'Carta de contorno orgánico bajo rayos de luz, burbujas que ascienden por JS y doble ola SVG que respira en la base.',
+      tags: ['portada', 'hero', 'marino', 'olas', 'burbujas', 'profundidad', 'organico'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

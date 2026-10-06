@@ -1,0 +1,225 @@
+<section
+  class="ne-detalles"
+  data-gemini-id="detalles-regalo"
+>
+  <style>
+    .ne-detalles {
+      --primary-color: #f2f4fa;
+      --secondary-color: #9aa3b8;
+      --accent-color: #ff4d7d;
+      --bg-color: #14161d;
+      --surface-color: #1b1e27;
+      --surface-border-color: rgba(255, 255, 255, 0.14);
+      --text-color: #f2f4fa;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .ne-detalles *,
+    .ne-detalles *::before,
+    .ne-detalles *::after { box-sizing: border-box; }
+
+    .ne-detalles__escena {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.6rem, 4vw, 3rem);
+      align-items: center;
+      width: min(100%, 1020px);
+      margin: 0 auto;
+    }
+
+    .ne-detalles__figura {
+      position: relative;
+      margin: 0;
+      padding: 8px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 26px 56px rgba(0, 0, 0, 0.5);
+      transform: rotate(-2deg);
+    }
+    .ne-detalles__figura::after {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid color-mix(in srgb, var(--accent-color) 45%, transparent);
+      pointer-events: none;
+    }
+    .ne-detalles__figura img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      filter: saturate(0.7) contrast(1.08);
+    }
+    .ne-detalles__timecode {
+      position: absolute;
+      top: 14px;
+      left: 16px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.24em;
+      color: var(--accent-color);
+      text-shadow: 0 0 8px color-mix(in srgb, var(--accent-color) 80%, transparent);
+    }
+
+    .ne-detalles__titulo {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.65rem, 3.7vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ne-detalles__intro {
+      margin: 0 0 1.4rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .ne-detalles__filas { display: grid; gap: 0; border-top: 1px solid var(--surface-border-color); }
+
+    .ne-detalles__fila {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      align-items: start;
+      padding: clamp(0.9rem, 2.3vw, 1.2rem) 0.3rem;
+      border-bottom: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .ne-detalles.ne-js .ne-detalles__fila { opacity: 0; transform: translateX(16px); }
+    .ne-detalles .ne-detalles__fila.esta-visto { opacity: 1; transform: none; }
+
+    .ne-detalles__num {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+      line-height: 1.2;
+      color: var(--accent-color);
+      text-shadow: 0 0 12px color-mix(in srgb, var(--accent-color) 60%, transparent);
+    }
+    .ne-detalles__rotulo {
+      margin: 0 0 0.2rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.56rem, 1.05vw, 0.64rem);
+      letter-spacing: 0.36em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .ne-detalles__titulo-card {
+      margin: 0 0 0.25rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.98rem, 1.9vw, 1.16rem);
+      color: var(--primary-color);
+    }
+    .ne-detalles__texto {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.76rem, 1.35vw, 0.86rem);
+      line-height: 1.6;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 880px) {
+      .ne-detalles__escena { grid-template-columns: 1fr; }
+      .ne-detalles__figura { max-width: 380px; margin: 0 auto; transform: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ne-detalles * { transition: none !important; }
+      .ne-detalles__fila { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="ne-detalles__escena">
+    <figure class="ne-detalles__figura" memory_type="image" memory_usage="custom" memory_source="library" memory_key="detalles-foto">
+      <span class="ne-detalles__timecode" aria-hidden="true">TC 21:04:12</span>
+      <img
+        src="https://loremflickr.com/500/620/night,fashion"
+        alt="Detalle de vestuario nocturno"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="detalle"
+        loading="lazy"
+      />
+      <figcaption hidden>Detalle</figcaption>
+    </figure>
+
+    <div>
+      <header memory_type="text" memory_usage="custom" memory_key="detalles-intro">
+        <h2 class="ne-detalles__titulo" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Notas de producción</h2>
+        <p class="ne-detalles__intro" memory_type="text" memory_usage="custom" memory_key="detalles-texto">Especificaciones para que la noche salga perfecta.</p>
+      </header>
+
+      <div class="ne-detalles__filas">
+        <article class="ne-detalles__fila" data-ne-fila>
+          <span class="ne-detalles__num" aria-hidden="true">01</span>
+          <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-1">
+            <p class="ne-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-1">Dress code</p>
+            <h3 class="ne-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Formal nocturno</h3>
+            <p class="ne-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Tonos profundos; el neón se queda para las luces.</p>
+          </div>
+        </article>
+        <article class="ne-detalles__fila" data-ne-fila>
+          <span class="ne-detalles__num" aria-hidden="true">02</span>
+          <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-2">
+            <p class="ne-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-2">Acceso</p>
+            <h3 class="ne-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Lista en puerta</h3>
+            <p class="ne-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">Menciona tu nombre en la entrada; hay valet desde las 16:30.</p>
+          </div>
+        </article>
+        <article class="ne-detalles__fila" data-ne-fila>
+          <span class="ne-detalles__num" aria-hidden="true">03</span>
+          <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-3">
+            <p class="ne-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-3">Clima</p>
+            <h3 class="ne-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Terraza cubierta</h3>
+            <p class="ne-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">La recepción es en interior; la terraza es zona de fumar.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ne-detalles');
+      if (!root) return;
+      root.classList.add('ne-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var filas = Array.prototype.slice.call(root.querySelectorAll('[data-ne-fila]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        filas.forEach(function (f) { f.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = filas.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.12).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      filas.forEach(function (f) { io.observe(f); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-regalo',
+      style_name: 'Neón Editorial — Detalles',
+      descripcion: 'Foto con marco interior de neón y timecode junto a filas de producción con numerales que se encienden en cascada.',
+      tags: ['detalles', 'neon', 'filas', 'timecode', 'nocturno', 'editorial'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>

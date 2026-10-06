@@ -1,0 +1,300 @@
+<section
+  class="dc-ubicacion"
+  data-gemini-id="ubicacion-recepcion"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .dc-ubicacion {
+      --primary-color: #1f1a17;
+      --secondary-color: #6e6257;
+      --accent-color: #b08d57;
+      --bg-color: #f4efe6;
+      --surface-color: #fbf7ee;
+      --surface-border-color: rgba(31, 26, 23, 0.25);
+      --text-color: #1f1a17;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/architecture,elegant');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .dc-ubicacion *,
+    .dc-ubicacion *::before,
+    .dc-ubicacion *::after { box-sizing: border-box; }
+
+    .dc-ubicacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 88%, transparent);
+    }
+
+    .dc-ubicacion__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .dc-ubicacion__intro {
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      max-width: 52ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .dc-ubicacion__sedes {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1rem, 3vw, 1.8rem);
+      width: min(100%, 880px);
+      margin: 0 auto clamp(1.6rem, 4vw, 2.4rem);
+    }
+
+    .dc-ubicacion__sede {
+      position: relative;
+      padding: clamp(1.5rem, 3.5vw, 2.2rem) clamp(1.1rem, 3vw, 1.8rem);
+      background: color-mix(in srgb, var(--surface-color) 95%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 16px 38px rgba(31, 26, 23, 0.14);
+    }
+    .dc-ubicacion__sede::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 64px;
+      height: 3px;
+      transform: translateX(-50%);
+      background: var(--accent-color);
+    }
+
+    .dc-ubicacion__sede-rol {
+      margin: 0 0 0.5rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .dc-ubicacion__lugar {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+      color: var(--primary-color);
+    }
+    .dc-ubicacion__sede address {
+      margin: 0 0 0.5rem;
+      font-style: normal;
+      font-size: clamp(0.82rem, 1.5vw, 0.92rem);
+      line-height: 1.65;
+      color: var(--secondary-color);
+    }
+    .dc-ubicacion__hora {
+      display: inline-block;
+      padding: 0.2rem 0.9rem;
+      border: 1px solid var(--surface-border-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.72rem, 1.3vw, 0.8rem);
+      letter-spacing: 0.2em;
+      color: var(--primary-color);
+    }
+
+    .dc-ubicacion__marco {
+      position: relative;
+      width: min(100%, 920px);
+      margin: 0 auto;
+      padding: 10px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 26px 60px rgba(31, 26, 23, 0.2);
+    }
+    .dc-ubicacion__marco::before {
+      content: '';
+      position: absolute;
+      inset: 5px;
+      border: 1px solid var(--accent-color);
+      pointer-events: none;
+    }
+    .dc-ubicacion__mapa {
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--surface-border-color);
+    }
+    .dc-ubicacion__mapa iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 0;
+      filter: saturate(0.85);
+    }
+    .dc-ubicacion__figura {
+      position: absolute;
+      z-index: 2;
+      bottom: -18px;
+      left: clamp(1rem, 4vw, 2.4rem);
+      width: clamp(120px, 18vw, 170px);
+      margin: 0;
+      padding: 5px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 14px 30px rgba(31, 26, 23, 0.24);
+      transform: rotate(-2deg);
+    }
+    .dc-ubicacion__figura img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      filter: saturate(0.9);
+    }
+    .dc-ubicacion__marcador {
+      position: absolute;
+      z-index: 2;
+      top: 18px;
+      right: clamp(1.4rem, 4vw, 2.6rem);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.4rem 0.9rem;
+      background: color-mix(in srgb, var(--surface-color) 94%, transparent);
+      border: 1px solid var(--surface-border-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--text-color);
+    }
+    .dc-ubicacion__rombo {
+      position: relative;
+      width: 11px;
+      height: 11px;
+      transform: rotate(45deg);
+      background: var(--accent-color);
+    }
+    .dc-ubicacion__rombo::after {
+      content: '';
+      position: absolute;
+      inset: -7px;
+      border: 1.4px solid var(--accent-color);
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    .dc-ubicacion.esta-visto .dc-ubicacion__rombo::after { animation: dcUbicacionLatido 1.7s ease-out infinite; }
+    @keyframes dcUbicacionLatido {
+      0% { opacity: 0.9; transform: scale(0.4) rotate(0deg); }
+      75% { opacity: 0.1; transform: scale(1.3) rotate(45deg); }
+      100% { opacity: 0; transform: scale(1.4) rotate(45deg); }
+    }
+
+    .dc-ubicacion__acciones { margin-top: clamp(2.2rem, 5vw, 3rem); }
+    .dc-ubicacion__boton {
+      display: inline-block;
+      padding: 0.8rem 2.1rem;
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.7rem, 1.3vw, 0.8rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      text-decoration: none;
+      box-shadow: 5px 5px 0 color-mix(in srgb, var(--accent-color) 80%, transparent);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .dc-ubicacion__boton:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 color-mix(in srgb, var(--accent-color) 80%, transparent); }
+
+    @media (max-width: 760px) {
+      .dc-ubicacion__sedes { grid-template-columns: 1fr; }
+      .dc-ubicacion__figura { position: static; margin: 0.8rem auto 0; transform: rotate(0deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dc-ubicacion * { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="ubicacion-intro">
+    <h2 class="dc-ubicacion__titulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Los escenarios</h2>
+    <p class="dc-ubicacion__intro" memory_type="text" memory_usage="custom" memory_key="ubicacion-texto">Dos momentos, dos escenarios preparados con mimo para recibirte.</p>
+  </header>
+
+  <div class="dc-ubicacion__sedes">
+    <article class="dc-ubicacion__sede">
+      <p class="dc-ubicacion__sede-rol" memory_type="text" memory_usage="custom" memory_key="ubicacion-rol-ceremonia">Ceremonia</p>
+      <h3 class="dc-ubicacion__lugar" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar-ceremonia">Nombre del lugar</h3>
+      <address memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion-ceremonia">Calle Principal 123, Colonia Centro</address>
+      <time class="dc-ubicacion__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora-ceremonia">16:00 h</time>
+    </article>
+    <article class="dc-ubicacion__sede">
+      <p class="dc-ubicacion__sede-rol" memory_type="text" memory_usage="custom" memory_key="ubicacion-rol-recepcion">Recepción</p>
+      <h3 class="dc-ubicacion__lugar" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar-recepcion">Nombre del salón</h3>
+      <address memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion-recepcion">Avenida Central 456, Zona Dorada</address>
+      <time class="dc-ubicacion__hora" datetime="18:30" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora-recepcion">18:30 h</time>
+    </article>
+  </div>
+
+  <figure class="dc-ubicacion__marco">
+    <figcaption class="dc-ubicacion__marcador" aria-hidden="true">
+      <span class="dc-ubicacion__rombo"></span>
+      Estamos aquí
+    </figcaption>
+    <div class="dc-ubicacion__mapa" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url">
+      <iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen></iframe>
+    </div>
+    <figure class="dc-ubicacion__figura" memory_type="image" memory_usage="custom" memory_source="library" memory_key="ubicacion-foto">
+      <img
+        src="https://loremflickr.com/440/330/venue,elegant"
+        alt="Vista del lugar"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="lugar"
+        loading="lazy"
+      />
+      <figcaption hidden>El lugar</figcaption>
+    </figure>
+  </figure>
+
+  <div class="dc-ubicacion__acciones">
+    <a class="dc-ubicacion__boton" href="https://www.google.com/maps?q=Ubicacion+del+evento" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Cómo llegar</a>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.dc-ubicacion');
+      if (!root) return;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-recepcion',
+      style_name: 'Salón Déco — Ubicación',
+      descripcion: 'Dos sedes ceremoniales con hora en time, mapa enmarcado con filete dorado, marcador rombo con latido y foto del lugar superpuesta.',
+      tags: ['ubicacion', 'mapa', 'ceremonia', 'recepcion', 'marcador', 'deco'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>

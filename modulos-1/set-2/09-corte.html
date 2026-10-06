@@ -1,0 +1,223 @@
+<section
+  class="dc-corte"
+  data-gemini-id="corte-salon-escenario"
+>
+  <style>
+    .dc-corte {
+      --primary-color: #1f1a17;
+      --secondary-color: #6e6257;
+      --accent-color: #b08d57;
+      --bg-color: #f4efe6;
+      --surface-color: #fbf7ee;
+      --surface-border-color: rgba(31, 26, 23, 0.25);
+      --text-color: #1f1a17;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .dc-corte *,
+    .dc-corte *::before,
+    .dc-corte *::after { box-sizing: border-box; }
+
+    .dc-corte__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+      gap: clamp(1.8rem, 4.5vw, 3.4rem);
+      align-items: center;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .dc-corte__escenario {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 28px 64px rgba(31, 26, 23, 0.22);
+    }
+    .dc-corte__escenario::after {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid color-mix(in srgb, var(--accent-color) 60%, transparent);
+      pointer-events: none;
+      z-index: 3;
+    }
+    .dc-corte__escenario img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 11;
+      object-fit: cover;
+      filter: saturate(0.92);
+      transform: scale(1.08);
+      transition: transform 0.5s ease;
+    }
+    .dc-corte.esta-visto .dc-corte__escenario img { transform: scale(1); }
+
+    .dc-corte__telon {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: none;
+      pointer-events: none;
+    }
+    .dc-corte.dc-js .dc-corte__telon { display: flex; }
+    .dc-corte__hoja {
+      flex: 1;
+      background:
+        repeating-linear-gradient(90deg,
+          color-mix(in srgb, var(--primary-color) 88%, var(--accent-color)) 0 18px,
+          color-mix(in srgb, var(--primary-color) 70%, var(--bg-color)) 18px 24px);
+      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.35);
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .dc-corte.esta-visto .dc-corte__hoja--izq { transform: translateX(-101%); }
+    .dc-corte.esta-visto .dc-corte__hoja--der { transform: translateX(101%); }
+
+    .dc-corte__insignia {
+      position: absolute;
+      z-index: 3;
+      top: 50%;
+      left: 50%;
+      width: 74px;
+      transform: translate(-50%, -50%);
+      display: grid;
+      place-items: center;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      background: conic-gradient(from 180deg, var(--accent-color), color-mix(in srgb, var(--accent-color) 30%, var(--bg-color)), var(--accent-color));
+      color: var(--bg-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      text-align: center;
+      box-shadow: 0 14px 30px rgba(31, 26, 23, 0.35);
+      transition: opacity 0.4s ease, transform 0.5s ease;
+      animation: dcCortePulso 5s ease-in-out infinite;
+      display: none;
+    }
+    .dc-corte.dc-js .dc-corte__insignia { display: grid; }
+    @keyframes dcCortePulso {
+      0%, 100% { box-shadow: 0 14px 30px rgba(31, 26, 23, 0.35); }
+      50% { box-shadow: 0 14px 40px color-mix(in srgb, var(--accent-color) 60%, transparent); }
+    }
+    .dc-corte.esta-visto .dc-corte__insignia { opacity: 0; transform: translate(-50%, -50%) scale(1.35); }
+
+    .dc-corte__contenido { text-align: left; }
+    .dc-corte__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.46em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .dc-corte__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.9rem, 4.2vw, 2.8rem);
+      line-height: 1.1;
+      color: var(--primary-color);
+      text-shadow: 0.04em 0.04em 0 color-mix(in srgb, var(--accent-color) 40%, transparent);
+    }
+    .dc-corte__texto {
+      margin: 0 0 1.3rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .dc-corte__remate {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.86rem, 1.6vw, 0.98rem);
+      color: var(--primary-color);
+    }
+    .dc-corte__remate::before {
+      content: '';
+      width: 44px;
+      height: 1px;
+      background: var(--accent-color);
+    }
+
+    @media (max-width: 880px) {
+      .dc-corte__grid { grid-template-columns: 1fr; }
+      .dc-corte__contenido { text-align: center; }
+      .dc-corte__remate { justify-content: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dc-corte * { transition: none !important; animation: none !important; }
+      .dc-corte .dc-corte__telon, .dc-corte .dc-corte__insignia { display: none !important; }
+      .dc-corte__escenario img { transform: none; }
+    }
+  </style>
+
+  <div class="dc-corte__grid">
+    <figure class="dc-corte__escenario" memory_type="image" memory_usage="custom" memory_source="library" memory_key="corte-foto">
+      <img
+        src="https://loremflickr.com/960/660/champagne,toast"
+        alt="Escenario del brindis"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="corte"
+        loading="lazy"
+      />
+      <span class="dc-corte__telon" aria-hidden="true">
+        <span class="dc-corte__hoja dc-corte__hoja--izq"></span>
+        <span class="dc-corte__hoja dc-corte__hoja--der"></span>
+      </span>
+      <span class="dc-corte__insignia" aria-hidden="true">Gran<br />momento</span>
+      <figcaption hidden>Escenario del brindis</figcaption>
+    </figure>
+
+    <div class="dc-corte__contenido" memory_type="text" memory_usage="custom" memory_key="corte-texto">
+      <p class="dc-corte__etiqueta" memory_type="text" memory_usage="custom" memory_key="corte-etiqueta">Acto principal</p>
+      <h2 class="dc-corte__titulo" memory_type="text" memory_usage="custom" memory_key="corte-titulo">El gran brindis</h2>
+      <p class="dc-corte__texto">
+        Las cortinas se abren para el instante más esperado de la velada: el brindis por una
+        historia que comienza. Alzamos las copas con quienes nos acompañan esta noche.
+      </p>
+      <p class="dc-corte__remate" memory_type="text" memory_usage="custom" memory_key="corte-remate">Que el brindis sea el primero de mil.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.dc-corte');
+      if (!root) return;
+      root.classList.add('dc-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root.querySelector('.dc-corte__escenario') || root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-salon-escenario',
+      style_name: 'Salón Déco — Brindis',
+      descripcion: 'Escenario con telón de terciopelo a rayas que se abre al entrar en pantalla, insignia cónica que se disipa y título con sombra larga.',
+      tags: ['corte', 'brindis', 'telon', 'escenario', 'insignia', 'deco'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

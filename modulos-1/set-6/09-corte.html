@@ -1,0 +1,174 @@
+<section
+  class="bh-corte"
+  data-gemini-id="corte-bauhaus-barrido"
+>
+  <style>
+    .bh-corte {
+      --primary-color: #22242a;
+      --secondary-color: #6d7078;
+      --accent-color: #e2543e;
+      --bg-color: #f3f1ec;
+      --surface-color: #fbfaf7;
+      --surface-border-color: rgba(34, 36, 42, 0.18);
+      --text-color: #22242a;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .bh-corte *,
+    .bh-corte *::before,
+    .bh-corte *::after { box-sizing: border-box; }
+
+    .bh-corte__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: clamp(1.8rem, 4.5vw, 3.4rem);
+      align-items: center;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .bh-corte__cuadro {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 12px 12px 0 color-mix(in srgb, var(--accent-color) 55%, transparent);
+    }
+    .bh-corte__cuadro img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      filter: saturate(0.9);
+    }
+
+    .bh-corte__barrido {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: none;
+      pointer-events: none;
+    }
+    .bh-corte.bh-js .bh-corte__barrido { display: block; }
+    .bh-corte__paleta {
+      position: absolute;
+      inset: 0;
+      background: var(--secondary-color);
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .bh-corte__paleta::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: 22px;
+      background: var(--accent-color);
+    }
+    .bh-corte.esta-visto .bh-corte__paleta { transform: translateX(103%); }
+
+    .bh-corte__contenido { text-align: left; }
+    .bh-corte__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .bh-corte__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      line-height: 1.08;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .bh-corte__texto {
+      margin: 0 0 1.2rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .bh-corte__regla {
+      width: 96px;
+      height: 8px;
+      background: repeating-linear-gradient(90deg, var(--primary-color) 0 12px, transparent 12px 18px);
+    }
+
+    @media (max-width: 880px) {
+      .bh-corte__grid { grid-template-columns: 1fr; }
+      .bh-corte__contenido { text-align: center; }
+      .bh-corte__regla { margin: 0 auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bh-corte * { transition: none !important; }
+      .bh-corte__barrido { display: none !important; }
+    }
+  </style>
+
+  <div class="bh-corte__grid">
+    <figure class="bh-corte__cuadro" memory_type="image" memory_usage="custom" memory_source="library" memory_key="corte-foto">
+      <img
+        src="https://loremflickr.com/960/600/celebration,minimal"
+        alt="Momento del corte"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="corte"
+        loading="lazy"
+      />
+      <span class="bh-corte__barrido" aria-hidden="true">
+        <span class="bh-corte__paleta"></span>
+      </span>
+      <figcaption hidden>Momento del corte</figcaption>
+    </figure>
+
+    <div class="bh-corte__contenido" memory_type="text" memory_usage="custom" memory_key="corte-texto">
+      <p class="bh-corte__etiqueta" memory_type="text" memory_usage="custom" memory_key="corte-etiqueta">Serie principal</p>
+      <h2 class="bh-corte__titulo" memory_type="text" memory_usage="custom" memory_key="corte-titulo">El corte, toma única</h2>
+      <p class="bh-corte__texto">
+        Una paleta cruza el cuadro y revela la escena más esperada: el corte que da inicio
+        al brindis. Sin retoques, sin repeticiones, puro gesto.
+      </p>
+      <div class="bh-corte__regla" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.bh-corte');
+      if (!root) return;
+      root.classList.add('bh-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root.querySelector('.bh-corte__cuadro') || root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-bauhaus-barrido',
+      style_name: 'Bauhaus Geométrico — Corte',
+      descripcion: 'Paleta sólida con filo de acento que barre el cuadro hacia la derecha revelando la foto; sombra dura y regla punteada.',
+      tags: ['corte', 'barrido', 'bauhaus', 'paleta', 'revelado', 'geometrico'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

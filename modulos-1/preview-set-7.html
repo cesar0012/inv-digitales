@@ -1,0 +1,2701 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>set-7</title><style>:root{--primary-color:#1f2937;--text-color:#1f2937;--accent-color:#b59b72;--bg-color:#f5f1e8;--secondary-color:#6b7280;--surface-color:#ffffff;--surface-border-color:rgba(0,0,0,.12);--font-base:Georgia,serif}body{margin:0}</style></head><body><section
+  class="mu-portada"
+  data-gemini-id="portada-nombre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="mu-portada-titulo"
+>
+  <style>
+    .mu-portada {
+      --primary-color: #2a2724;
+      --secondary-color: #75705f;
+      --accent-color: #b3925a;
+      --bg-color: #f4f1ea;
+      --surface-color: #fdfbf6;
+      --surface-border-color: rgba(42, 39, 36, 0.16);
+      --text-color: #2a2724;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/marble,museum');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+      perspective: 1000px;
+    }
+    .mu-portada *,
+    .mu-portada *::before,
+    .mu-portada *::after { box-sizing: border-box; }
+
+    .mu-portada::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(60% 45% at 50% 0%, color-mix(in srgb, var(--accent-color) 22%, transparent), transparent 70%),
+        color-mix(in srgb, var(--bg-color) 88%, transparent);
+    }
+
+    .mu-portada__foco {
+      position: absolute;
+      z-index: 0;
+      top: -12%;
+      left: 50%;
+      width: clamp(280px, 56vw, 640px);
+      height: 78%;
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--accent-color) 30%, transparent), transparent 75%);
+      clip-path: polygon(42% 0, 58% 0, 100% 100%, 0 100%);
+      pointer-events: none;
+      animation: muPortadaLatiende 7s ease-in-out infinite;
+    }
+    @keyframes muPortadaLatiende {
+      0%, 100% { opacity: 0.75; }
+      50% { opacity: 1; }
+    }
+
+    .mu-portada__vitrina {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 720px);
+      padding: clamp(2.4rem, 6vw, 4rem) clamp(1.3rem, 5vw, 3.4rem);
+      background: color-mix(in srgb, var(--surface-color) 94%, transparent);
+      border: 1px solid var(--surface-border-color);
+      transform: rotateX(2.5deg);
+      transform-style: preserve-3d;
+      box-shadow: 0 34px 70px rgba(42, 39, 36, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+    .mu-portada__vitrina::before {
+      content: '';
+      position: absolute;
+      inset: 10px;
+      border: 3px double var(--surface-border-color);
+      pointer-events: none;
+    }
+
+    .mu-portada__placa {
+      display: inline-block;
+      padding: 0.35rem 1.1rem;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--accent-color) 70%, #8a6d3b), color-mix(in srgb, var(--accent-color) 45%, #6d5527));
+      color: #fdfbf6;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.7rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: clamp(1.1rem, 2.6vw, 1.6rem);
+      box-shadow: 0 4px 10px rgba(42, 39, 36, 0.3);
+    }
+
+    .mu-portada__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(2rem, 6vw, 4.2rem);
+      line-height: 1.06;
+      color: var(--primary-color);
+    }
+    .mu-portada__titulo span {
+      display: inline-block;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .mu-portada.mu-js .mu-portada__titulo span { opacity: 0; transform: translateY(0.45em); }
+    .mu-portada.esta-visto .mu-portada__titulo span { opacity: 1; transform: none; }
+    .mu-portada.esta-visto .mu-portada__titulo span:nth-child(1) { transition-delay: 0.08s; }
+    .mu-portada.esta-visto .mu-portada__titulo span:nth-child(2) { transition-delay: 0.18s; }
+    .mu-portada.esta-visto .mu-portada__titulo span:nth-child(3) { transition-delay: 0.28s; }
+
+    .mu-portada__ampersand {
+      display: block;
+      margin: 0.12em 0;
+      font-style: italic;
+      color: var(--accent-color);
+    }
+
+    .mu-portada__cinta {
+      width: min(230px, 62%);
+      height: 12px;
+      margin: clamp(1.2rem, 3vw, 1.8rem) auto;
+      border-top: 1px solid var(--accent-color);
+      border-bottom: 1px solid var(--accent-color);
+      position: relative;
+    }
+    .mu-portada__cinta::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 9px;
+      height: 9px;
+      transform: translate(-50%, -50%) rotate(45deg);
+      background: var(--accent-color);
+    }
+
+    .mu-portada__fecha {
+      display: inline-block;
+      padding: 0.55rem 1.6rem;
+      border: 1px solid var(--surface-border-color);
+      background: var(--bg-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.72rem, 1.4vw, 0.86rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    .mu-portada__pedestal-foto {
+      width: clamp(120px, 17vw, 168px);
+      margin: clamp(1.6rem, 3.4vw, 2.2rem) auto 0;
+      transform-style: preserve-3d;
+      transform: translateZ(30px);
+    }
+    .mu-portada__pedestal-foto figure { margin: 0; }
+    .mu-portada__pedestal-foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border: 6px solid var(--surface-color);
+      outline: 1px solid var(--surface-border-color);
+      box-shadow: 0 18px 38px rgba(42, 39, 36, 0.25);
+      filter: saturate(0.9);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mu-portada * { animation: none !important; transition: none !important; }
+      .mu-portada__titulo span { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <span class="mu-portada__foco" aria-hidden="true"></span>
+
+  <div class="mu-portada__vitrina">
+    <p class="mu-portada__placa" memory_type="text" memory_usage="custom" memory_key="portada-encabezado">Sala principal</p>
+
+    <div memory_type="text" memory_usage="custom" memory_key="portada-nombres">
+      <h1 id="mu-portada-titulo" class="mu-portada__titulo">
+        <span>Nombre de la Novia</span>
+        <span class="mu-portada__ampersand">&amp;</span>
+        <span>Nombre del Novio</span>
+      </h1>
+    </div>
+
+    <div class="mu-portada__cinta" aria-hidden="true"></div>
+
+    <time class="mu-portada__fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="portada-fecha">Fecha del evento</time>
+
+    <div class="mu-portada__pedestal-foto">
+      <figure memory_type="image" memory_usage="custom" memory_source="library" memory_key="portada-foto">
+        <img src="https://loremflickr.com/420/520/couple,museum" alt="Retrato de los anfitriones" path="placeholder" data-library-category="bodas" data-asset-type="foto-pareja" loading="lazy" />
+        <figcaption hidden>Retrato principal</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.mu-portada');
+      if (!root) return;
+      root.classList.add('mu-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.22 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Vitrina de Museo',
+      descripcion: 'Exposición inaugural: haz de foco que late, vitrina en perspectiva rotateX, placa de bronce y retrato en pedestal con translateZ.',
+      tags: ['portada', 'hero', 'museo', 'vitrina', '3d', 'foco', 'placa'],
+      tipo: 'portada'
+    };
+  </script>
+</section>
+
+<section
+  class="mu-padres"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .mu-padres {
+      --primary-color: #2a2724;
+      --secondary-color: #75705f;
+      --accent-color: #b3925a;
+      --bg-color: #f4f1ea;
+      --surface-color: #fdfbf6;
+      --surface-border-color: rgba(42, 39, 36, 0.16);
+      --text-color: #2a2724;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/gallery,marble');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+      perspective: 1100px;
+    }
+    .mu-padres *,
+    .mu-padres *::before,
+    .mu-padres *::after { box-sizing: border-box; }
+
+    .mu-padres::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .mu-padres__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .mu-padres__intro {
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      max-width: 50ch;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.86rem, 1.55vw, 0.98rem);
+      line-height: 1.7;
+      font-style: italic;
+      color: var(--secondary-color);
+    }
+
+    .mu-padres__salas {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1.6rem, 4.4vw, 3.2rem);
+      width: min(100%, 880px);
+      margin: 0 auto;
+      transform-style: preserve-3d;
+    }
+
+    .mu-padres__sala {
+      position: relative;
+      padding: clamp(1.8rem, 4vw, 2.6rem) clamp(1.2rem, 3vw, 1.9rem) 0;
+      background:
+        radial-gradient(120% 55% at 50% 0%, color-mix(in srgb, var(--accent-color) 20%, transparent), transparent 62%),
+        color-mix(in srgb, var(--surface-color) 96%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-bottom: none;
+      box-shadow: inset 0 10px 26px rgba(42, 39, 36, 0.08);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+      transform-style: preserve-3d;
+    }
+    .mu-padres.mu-js .mu-padres__sala { opacity: 0; transform: rotateX(26deg) translateY(22px); transform-origin: bottom center; }
+    .mu-padres .mu-padres__sala.esta-visto { opacity: 1; transform: rotateX(0) translateY(0); }
+
+    .mu-padres__pedestal {
+      position: relative;
+      width: clamp(110px, 15vw, 140px);
+      margin: 0 auto;
+      transform-style: preserve-3d;
+    }
+    .mu-padres__retrato {
+      display: block;
+      margin: 0;
+      padding: 6px;
+      background: var(--bg-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 50%;
+      box-shadow: 0 14px 30px rgba(42, 39, 36, 0.2);
+      transform: translateZ(18px);
+    }
+    .mu-padres__retrato img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      object-fit: cover;
+      filter: saturate(0.9);
+    }
+    .mu-padres__columna {
+      height: clamp(46px, 7vw, 64px);
+      margin-top: -8px;
+      background:
+        linear-gradient(90deg, color-mix(in srgb, var(--secondary-color) 55%, transparent) 0 12%, transparent 12% 88%, color-mix(in srgb, var(--secondary-color) 55%, transparent) 88%),
+        repeating-linear-gradient(0deg, color-mix(in srgb, var(--surface-color) 90%, var(--secondary-color)) 0 12px, color-mix(in srgb, var(--surface-color) 70%, var(--secondary-color)) 12px 14px);
+      border: 1px solid var(--surface-border-color);
+      border-top: none;
+      box-shadow: 0 16px 26px rgba(42, 39, 36, 0.18);
+    }
+
+    .mu-padres__placa {
+      position: relative;
+      margin: 0 auto;
+      width: min(100%, 240px);
+      padding: 0.6rem 0.9rem;
+      transform: translateZ(10px);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--accent-color) 62%, #8a6d3b), color-mix(in srgb, var(--accent-color) 40%, #6d5527));
+      color: #fdfbf6;
+      border-radius: 3px;
+      box-shadow: 0 8px 16px rgba(42, 39, 36, 0.3);
+    }
+    .mu-padres__rol {
+      margin: 0 0 0.2rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.56rem, 1vw, 0.64rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+    .mu-padres__nombres {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.94rem, 1.9vw, 1.14rem);
+      line-height: 1.3;
+    }
+
+    @media (max-width: 740px) {
+      .mu-padres__salas { grid-template-columns: 1fr; max-width: 380px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mu-padres * { transition: none !important; }
+      .mu-padres__sala { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="padres-intro">
+    <h2 class="mu-padres__titulo" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Colección fundadora</h2>
+    <p class="mu-padres__intro" memory_type="text" memory_usage="custom" memory_key="padres-texto">Las dos salas donde comienza todo: las familias que hicieron posible esta exposición.</p>
+  </header>
+
+  <div class="mu-padres__salas">
+    <article class="mu-padres__sala" data-mu-sala>
+      <figure class="mu-padres__pedestal" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-uno">
+        <span class="mu-padres__retrato">
+          <img src="https://loremflickr.com/380/380/family,portrait" alt="Retrato de la familia de la novia" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" />
+        </span>
+        <figcaption hidden>Familia uno</figcaption>
+      </figure>
+      <div class="mu-padres__columna" aria-hidden="true"></div>
+      <div class="mu-padres__placa" memory_type="text" memory_usage="custom" memory_key="padres-bloque-uno">
+        <p class="mu-padres__rol">Padres de la novia</p>
+        <h3 class="mu-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+      </div>
+    </article>
+
+    <article class="mu-padres__sala" data-mu-sala>
+      <figure class="mu-padres__pedestal" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-dos">
+        <span class="mu-padres__retrato">
+          <img src="https://loremflickr.com/380/380/parents,love" alt="Retrato de la familia del novio" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" />
+        </span>
+        <figcaption hidden>Familia dos</figcaption>
+      </figure>
+      <div class="mu-padres__columna" aria-hidden="true"></div>
+      <div class="mu-padres__placa" memory_type="text" memory_usage="custom" memory_key="padres-bloque-dos">
+        <p class="mu-padres__rol">Padres del novio</p>
+        <h3 class="mu-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.mu-padres');
+      if (!root) return;
+      root.classList.add('mu-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var salas = Array.prototype.slice.call(root.querySelectorAll('[data-mu-sala]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        salas.forEach(function (s) { s.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = salas.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.16).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      salas.forEach(function (s) { io.observe(s); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Vitrina de Museo — Padres',
+      descripcion: 'Salas con foco superior, retratos en pedestal de columna con translateZ y placas de bronce; despliegue en rotateX desde abajo.',
+      tags: ['padres', 'museo', 'pedestal', '3d', 'placa', 'columna'],
+      tipo: 'padres'
+    };
+  </script>
+</section>
+
+<section
+  class="mu-ubicacion"
+  data-gemini-id="ubicacion-mapa"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .mu-ubicacion {
+      --primary-color: #2a2724;
+      --secondary-color: #75705f;
+      --accent-color: #b3925a;
+      --bg-color: #f4f1ea;
+      --surface-color: #fdfbf6;
+      --surface-border-color: rgba(42, 39, 36, 0.16);
+      --text-color: #2a2724;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/map,vintage');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .mu-ubicacion *,
+    .mu-ubicacion *::before,
+    .mu-ubicacion *::after { box-sizing: border-box; }
+
+    .mu-ubicacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .mu-ubicacion__cabecera {
+      text-align: center;
+      margin-bottom: clamp(1.8rem, 4vw, 2.6rem);
+    }
+    .mu-ubicacion__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .mu-ubicacion__intro {
+      margin: 0 auto;
+      max-width: 50ch;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .mu-ubicacion__vitrina {
+      position: relative;
+      width: min(100%, 940px);
+      margin: 0 auto;
+      padding: clamp(1rem, 2.6vw, 1.6rem);
+      background:
+        radial-gradient(80% 40% at 50% 0%, color-mix(in srgb, var(--accent-color) 14%, transparent), transparent 65%),
+        var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 30px 64px rgba(42, 39, 36, 0.2);
+    }
+    .mu-ubicacion__vitrina::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 3px double var(--surface-border-color);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .mu-ubicacion__cuerpo {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.2rem, 3vw, 2rem);
+      align-items: center;
+    }
+
+    .mu-ubicacion__datos { padding-left: clamp(0.4rem, 2vw, 1.2rem); }
+    .mu-ubicacion__etiqueta {
+      margin: 0 0 0.55rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.6rem, 1.1vw, 0.68rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .mu-ubicacion__lugar {
+      margin: 0 0 0.8rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.3rem, 2.8vw, 1.8rem);
+      color: var(--primary-color);
+    }
+    .mu-ubicacion__direccion {
+      margin: 0 0 1.1rem;
+      padding-left: 0.9rem;
+      border-left: 2px solid var(--accent-color);
+      font-style: normal;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+    .mu-ubicacion__usted {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.2rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .mu-ubicacion__chincheta {
+      position: relative;
+      width: 13px;
+      height: 13px;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      background: var(--accent-color);
+      box-shadow: 0 4px 8px rgba(42, 39, 36, 0.3);
+    }
+    .mu-ubicacion__chincheta::after {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border: 1.4px solid var(--accent-color);
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    .mu-ubicacion.esta-visto .mu-ubicacion__chincheta::after { animation: muUbicacionPulso 1.9s ease-out infinite; }
+    @keyframes muUbicacionPulso {
+      0% { opacity: 0.85; transform: scale(0.4) rotate(45deg); }
+      75% { opacity: 0.1; transform: scale(1.3) rotate(45deg); }
+      100% { opacity: 0; transform: scale(1.4) rotate(45deg); }
+    }
+    .mu-ubicacion__boton {
+      display: inline-block;
+      padding: 0.75rem 1.8rem;
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      text-decoration: none;
+      box-shadow: 0 10px 22px rgba(42, 39, 36, 0.28);
+      transition: background 0.4s ease, transform 0.4s ease;
+    }
+    .mu-ubicacion__boton:hover { background: var(--accent-color); transform: translateY(-2px); }
+
+    .mu-ubicacion__mapa {
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--surface-border-color);
+    }
+    .mu-ubicacion__mapa iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border: 0;
+      filter: sepia(0.25) saturate(0.85);
+    }
+
+    .mu-ubicacion__figura {
+      position: static;
+      width: clamp(140px, 18vw, 190px);
+      margin: 1.4rem auto 0;
+      padding: 6px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 16px 34px rgba(42, 39, 36, 0.25);
+      transform: rotate(-2deg);
+    }
+    .mu-ubicacion__figura img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      filter: saturate(0.88);
+    }
+
+    @media (max-width: 820px) {
+      .mu-ubicacion__cuerpo { grid-template-columns: 1fr; }
+      .mu-ubicacion__figura { position: static; margin: 1rem auto 0; transform: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mu-ubicacion * { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <header class="mu-ubicacion__cabecera" memory_type="text" memory_usage="custom" memory_key="ubicacion-intro">
+    <h2 class="mu-ubicacion__titulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Plano de la sala</h2>
+    <p class="mu-ubicacion__intro" memory_type="text" memory_usage="custom" memory_key="ubicacion-texto">La exposición se celebra aquí; sigue el plano hasta la entrada principal.</p>
+  </header>
+
+  <div class="mu-ubicacion__vitrina">
+    <div class="mu-ubicacion__cuerpo">
+      <div class="mu-ubicacion__datos">
+        <p class="mu-ubicacion__etiqueta" memory_type="text" memory_usage="custom" memory_key="ubicacion-etiqueta">Sede de la exposición</p>
+        <h3 class="mu-ubicacion__lugar" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar">Nombre del lugar</h3>
+        <address class="mu-ubicacion__direccion" memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion">
+          Galería Principal 12<br />
+          Barrio de las Artes<br />
+          Ciudad, Estado
+        </address>
+        <span class="mu-ubicacion__usted" aria-hidden="true">
+          <span class="mu-ubicacion__chincheta"></span>
+          Usted está aquí
+        </span>
+        <br />
+        <a class="mu-ubicacion__boton" href="https://www.google.com/maps?q=Ubicacion+del+evento" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Cómo llegar</a>
+      </div>
+
+      <div class="mu-ubicacion__mapa" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url">
+        <iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <figure class="mu-ubicacion__figura" memory_type="image" memory_usage="custom" memory_source="library" memory_key="ubicacion-foto">
+      <img src="https://loremflickr.com/440/330/venue,classic" alt="Vista del lugar del evento" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" />
+      <figcaption hidden>El lugar</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.mu-ubicacion');
+      if (!root) return;
+      root.classList.add('mu-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-mapa',
+      style_name: 'Vitrina de Museo — Mapa',
+      descripcion: 'Plano en vitrina de doble fileto, chincheta con pulso de usted-está-aquí, mapa en tono sepia y postal del recinto.',
+      tags: ['ubicacion', 'mapa', 'museo', 'chincheta', 'sepia', 'plano'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>
+
+<section
+  class="mu-itinerario"
+  data-gemini-id="itinerario-agenda"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .mu-itinerario {
+      --primary-color: #2a2724;
+      --secondary-color: #75705f;
+      --accent-color: #b3925a;
+      --bg-color: #f4f1ea;
+      --surface-color: #fdfbf6;
+      --surface-border-color: rgba(42, 39, 36, 0.16);
+      --text-color: #2a2724;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/hall,museum');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .mu-itinerario *,
+    .mu-itinerario *::before,
+    .mu-itinerario *::after { box-sizing: border-box; }
+
+    .mu-itinerario::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .mu-itinerario__cabecera {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      width: min(100%, 780px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.8rem;
+    }
+    .mu-itinerario__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .mu-itinerario__folio {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .mu-itinerario__recorrido {
+      width: min(100%, 780px);
+      margin: 0 auto;
+    }
+
+    .mu-itinerario__sala {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: clamp(1rem, 3vw, 1.6rem);
+      align-items: start;
+      margin-bottom: clamp(1.3rem, 3.4vw, 2rem);
+      padding-bottom: clamp(1.3rem, 3.4vw, 2rem);
+      border-bottom: 1px dashed var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .mu-itinerario.mu-js .mu-itinerario__sala { opacity: 0; transform: translateY(16px); }
+    .mu-itinerario .mu-itinerario__sala.esta-visto { opacity: 1; transform: none; }
+    .mu-itinerario__sala:last-child { border-bottom: 0; margin-bottom: 0; padding-bottom: 0; }
+
+    .mu-itinerario__num {
+      display: grid;
+      place-items: center;
+      width: clamp(52px, 7.5vw, 66px);
+      aspect-ratio: 1 / 1;
+      border: 1px solid var(--accent-color);
+      border-radius: 50%;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.05rem, 2.2vw, 1.4rem);
+      color: var(--accent-color);
+      background: var(--surface-color);
+      box-shadow: 0 8px 18px rgba(42, 39, 36, 0.14);
+    }
+
+    .mu-itinerario__contenido { min-width: 0; }
+    .mu-itinerario__hora {
+      display: inline-block;
+      margin-bottom: 0.3rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .mu-itinerario__momento {
+      margin: 0 0 0.3rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.04rem, 2.1vw, 1.3rem);
+      color: var(--primary-color);
+    }
+    .mu-itinerario__detalle {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.8rem, 1.45vw, 0.9rem);
+      line-height: 1.65;
+      font-style: italic;
+      color: var(--secondary-color);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mu-itinerario * { transition: none !important; }
+      .mu-itinerario__sala { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="mu-itinerario__cabecera" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">
+    <h2 class="mu-itinerario__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Recorrido guiado</h2>
+    <span class="mu-itinerario__folio" memory_type="text" memory_usage="custom" memory_key="itinerario-folio">Salas I — IV</span>
+  </header>
+
+  <div class="mu-itinerario__recorrido">
+    <article class="mu-itinerario__sala" data-mu-sala>
+      <span class="mu-itinerario__num" aria-hidden="true">I</span>
+      <div class="mu-itinerario__contenido" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
+        <time class="mu-itinerario__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00 h</time>
+        <h3 class="mu-itinerario__momento">Sala de recepción</h3>
+        <p class="mu-itinerario__detalle">Acreditación de invitados y copa de bienvenida en el vestíbulo.</p>
+      </div>
+    </article>
+
+    <article class="mu-itinerario__sala" data-mu-sala>
+      <span class="mu-itinerario__num" aria-hidden="true">II</span>
+      <div class="mu-itinerario__contenido" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
+        <time class="mu-itinerario__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00 h</time>
+        <h3 class="mu-itinerario__momento">Sala principal</h3>
+        <p class="mu-itinerario__detalle">Ceremonia bajo la cúpula, frente a la pieza central.</p>
+      </div>
+    </article>
+
+    <article class="mu-itinerario__sala" data-mu-sala>
+      <span class="mu-itinerario__num" aria-hidden="true">III</span>
+      <div class="mu-itinerario__contenido" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
+        <time class="mu-itinerario__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00 h</time>
+        <h3 class="mu-itinerario__momento">Salón de banquetes</h3>
+        <p class="mu-itinerario__detalle">Cena de gala con discursos breves entre platillos.</p>
+      </div>
+    </article>
+
+    <article class="mu-itinerario__sala" data-mu-sala>
+      <span class="mu-itinerario__num" aria-hidden="true">IV</span>
+      <div class="mu-itinerario__contenido" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
+        <time class="mu-itinerario__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:30 h</time>
+        <h3 class="mu-itinerario__momento">Jardín de esculturas</h3>
+        <p class="mu-itinerario__detalle">Cierre bajo las estrellas entre las piezas del jardín.</p>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.mu-itinerario');
+      if (!root) return;
+      root.classList.add('mu-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var salas = Array.prototype.slice.call(root.querySelectorAll('[data-mu-sala]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        salas.forEach(function (s) { s.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = salas.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.12).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      salas.forEach(function (s) { io.observe(s); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Vitrina de Museo — Itinerario',
+      descripcion: 'Recorrido de salas en numeración romana con horas en versalitas, separadores punteados y textos curatoriales en cursiva.',
+      tags: ['itinerario', 'timeline', 'museo', 'salas', 'romano', 'curatorial'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>
+
+<section
+  class="mu-confirmacion"
+  data-gemini-id="confirmacion-texto"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .mu-confirmacion {
+      --primary-color: #2a2724;
+      --secondary-color: #75705f;
+      --accent-color: #b3925a;
+      --bg-color: #f4f1ea;
+      --surface-color: #fdfbf6;
+      --surface-border-color: rgba(42, 39, 36, 0.16);
+      --text-color: #2a2724;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 72svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/velvet,gold');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .mu-confirmacion *,
+    .mu-confirmacion *::before,
+    .mu-confirmacion *::after { box-sizing: border-box; }
+
+    .mu-confirmacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 88%, transparent);
+    }
+
+    .mu-confirmacion__cuerda {
+      position: absolute;
+      z-index: 0;
+      top: clamp(1rem, 3vw, 2rem);
+      left: 0;
+      right: 0;
+      height: 40px;
+      pointer-events: none;
+    }
+    .mu-confirmacion__cuerda path {
+      fill: none;
+      stroke: var(--accent-color);
+      stroke-width: 1.4;
+      stroke-dasharray: 5 4;
+      opacity: 0.8;
+    }
+
+    .mu-confirmacion__placa {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 640px);
+      padding: clamp(2.4rem, 6vw, 3.8rem) clamp(1.4rem, 5vw, 3.2rem);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow:
+        inset 0 0 0 4px var(--surface-color),
+        inset 0 0 0 5.5px var(--accent-color),
+        0 30px 64px rgba(42, 39, 36, 0.22);
+    }
+
+    .mu-confirmacion__sello {
+      width: clamp(58px, 9vw, 76px);
+      margin: 0 auto clamp(1rem, 2.4vw, 1.4rem);
+      color: var(--accent-color);
+      animation: muConfirmacionGiro 30s linear infinite;
+    }
+    @keyframes muConfirmacionGiro { to { transform: rotate(360deg); } }
+
+    .mu-confirmacion__etiqueta {
+      margin: 0 0 0.7rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .mu-confirmacion__titulo {
+      margin: 0 0 1rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .mu-confirmacion__texto {
+      margin: 0 auto 1.4rem;
+      max-width: 46ch;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.88rem, 1.6vw, 1rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .mu-confirmacion__limite {
+      display: inline-grid;
+      gap: 0.25rem;
+      padding: 0.7rem 1.7rem;
+      border: 1px solid var(--surface-border-color);
+      background: var(--bg-color);
+    }
+    .mu-confirmacion__limite-rotulo {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.36em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .mu-confirmacion__limite-fecha {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.9rem, 1.7vw, 1.02rem);
+      letter-spacing: 0.08em;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 560px) {
+      .mu-confirmacion { min-height: 62svh; }
+      .mu-confirmacion__placa { padding: 2.2rem 1.2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mu-confirmacion * { animation: none !important; }
+    }
+  </style>
+
+  <svg class="mu-confirmacion__cuerda" viewBox="0 0 800 40" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 6 C 200 34, 600 34, 800 6" />
+  </svg>
+
+  <div class="mu-confirmacion__placa">
+    <svg class="mu-confirmacion__sello" viewBox="0 0 90 90" fill="none" aria-hidden="true">
+      <circle cx="45" cy="45" r="42" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="45" cy="45" r="34" stroke="currentColor" stroke-width="1" stroke-dasharray="3 4"/>
+      <path d="M45 20 L52 36 L69 36 L55 46 L60 63 L45 53 L30 63 L35 46 L21 36 L38 36 Z" stroke="currentColor" stroke-width="1.2"/>
+    </svg>
+
+    <p class="mu-confirmacion__etiqueta" memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta">Confirmar asistencia</p>
+    <h2 class="mu-confirmacion__titulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">Su lugar está reservado</h2>
+    <p class="mu-confirmacion__texto" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">
+      Cada invitado forma parte del catálogo de esta noche. Confirme con el enlace de su
+      invitación digital antes de la fecha de cierre para asegurar su pieza en la exposición.
+    </p>
+    <p class="mu-confirmacion__limite">
+      <span class="mu-confirmacion__limite-rotulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-rotulo">Cierre de catálogo</span>
+      <time class="mu-confirmacion__limite-fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha">DD de mes</time>
+    </p>
+  </div>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Vitrina de Museo — Confirmación',
+      descripcion: 'Placa enmarcada con fileto dorado interior, sello estelar giratorio y cuerda punteada de museo; RSVP informativo con cierre de catálogo.',
+      tags: ['confirmacion', 'rsvp', 'museo', 'placa', 'sello', 'curatorial'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>
+
+<section
+  class="mu-detalles"
+  data-gemini-id="detalles-regalo"
+>
+  <style>
+    .mu-detalles {
+      --primary-color: #2a2724;
+      --secondary-color: #75705f;
+      --accent-color: #b3925a;
+      --bg-color: #f4f1ea;
+      --surface-color: #fdfbf6;
+      --surface-border-color: rgba(42, 39, 36, 0.16);
+      --text-color: #2a2724;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+      perspective: 900px;
+    }
+    .mu-detalles *,
+    .mu-detalles *::before,
+    .mu-detalles *::after { box-sizing: border-box; }
+
+    .mu-detalles__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .mu-detalles__intro {
+      margin: 0 auto clamp(2.2rem, 5vw, 3.2rem);
+      max-width: 52ch;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .mu-detalles__galeria {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.6rem, 4vw, 3rem);
+      align-items: center;
+      width: min(100%, 1040px);
+      margin: 0 auto;
+    }
+
+    .mu-detalles__obra {
+      position: relative;
+      margin: 0;
+      padding: 12px;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--accent-color) 75%, #8a6d3b), color-mix(in srgb, var(--accent-color) 45%, #6d5527));
+      box-shadow: 0 26px 56px rgba(42, 39, 36, 0.28);
+      transform: rotateX(3deg);
+      transform-style: preserve-3d;
+    }
+    .mu-detalles__obra img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border: 8px solid var(--surface-color);
+      filter: saturate(0.9);
+    }
+    .mu-detalles__etiqueta-obra {
+      margin: 10px auto 0;
+      width: min(100%, 220px);
+      padding: 0.4rem 0.6rem;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+      transform: translateZ(14px);
+    }
+
+    .mu-detalles__vitrinas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 2.6vw, 1.6rem); }
+
+    .mu-detalles__vitrina {
+      position: relative;
+      padding: clamp(1.2rem, 2.8vw, 1.7rem) clamp(0.9rem, 2.2vw, 1.3rem) 0;
+      background:
+        radial-gradient(130% 60% at 50% 0%, color-mix(in srgb, var(--accent-color) 22%, transparent), transparent 60%),
+        color-mix(in srgb, var(--surface-color) 96%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-bottom: none;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+      transform-style: preserve-3d;
+    }
+    .mu-detalles.mu-js .mu-detalles__vitrina { opacity: 0; transform: rotateX(30deg) translateY(18px); transform-origin: bottom center; }
+    .mu-detalles .mu-detalles__vitrina.esta-visto { opacity: 1; transform: none; }
+
+    .mu-detalles__pieza {
+      width: 44px;
+      margin: 0 auto 0.8rem;
+      color: var(--primary-color);
+      transform: translateZ(12px);
+    }
+    .mu-detalles__plinth {
+      height: 10px;
+      margin-top: 1rem;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--secondary-color) 40%, transparent), color-mix(in srgb, var(--secondary-color) 65%, transparent));
+      border-top: 1px solid var(--surface-border-color);
+    }
+
+    .mu-detalles__rotulo {
+      margin: 0 0 0.25rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.56rem, 1.05vw, 0.64rem);
+      letter-spacing: 0.36em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .mu-detalles__titulo-card {
+      margin: 0 0 0.3rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.98rem, 1.9vw, 1.16rem);
+      color: var(--primary-color);
+    }
+    .mu-detalles__texto {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.76rem, 1.35vw, 0.86rem);
+      line-height: 1.6;
+      font-style: italic;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 880px) {
+      .mu-detalles__galeria { grid-template-columns: 1fr; }
+      .mu-detalles__obra { max-width: 380px; margin: 0 auto; }
+    }
+    @media (max-width: 640px) {
+      .mu-detalles__vitrinas { grid-template-columns: 1fr; max-width: 340px; margin: 0 auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mu-detalles * { transition: none !important; }
+      .mu-detalles__vitrina { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="detalles-intro">
+    <h2 class="mu-detalles__titulo" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Piezas de la colección</h2>
+    <p class="mu-detalles__intro" memory_type="text" memory_usage="custom" memory_key="detalles-texto">Notas curatoriales sobre las piezas que acompañan esta exposición.</p>
+  </header>
+
+  <div class="mu-detalles__galeria">
+    <figure class="mu-detalles__obra" memory_type="image" memory_usage="custom" memory_source="library" memory_key="detalles-foto">
+      <img src="https://loremflickr.com/500/620/classic,elegant" alt="Obra invitada de la colección" path="placeholder" data-library-category="bodas" data-asset-type="detalle" loading="lazy" />
+      <figcaption class="mu-detalles__etiqueta-obra" memory_type="text" memory_usage="custom" memory_key="detalles-foto-pie">Obra invitada · Sala central</figcaption>
+    </figure>
+
+    <div class="mu-detalles__vitrinas">
+      <article class="mu-detalles__vitrina" data-mu-vitrina>
+        <svg class="mu-detalles__pieza" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <path d="M24 4 L30 18 L45 18 L33 27 L38 42 L24 33 L10 42 L15 27 L3 18 L18 18 Z" stroke="currentColor" stroke-width="1.4"/>
+        </svg>
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-1">
+          <p class="mu-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-1">Pieza I</p>
+          <h3 class="mu-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Código de gala</h3>
+          <p class="mu-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Etiqueta formal; el negro y el dorado son bienvenidos.</p>
+        </div>
+        <div class="mu-detalles__plinth" aria-hidden="true"></div>
+      </article>
+
+      <article class="mu-detalles__vitrina" data-mu-vitrina>
+        <svg class="mu-detalles__pieza" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <circle cx="24" cy="24" r="18" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M24 10 V24 L33 29" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-2">
+          <p class="mu-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-2">Pieza II</p>
+          <h3 class="mu-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Horario de visita</h3>
+          <p class="mu-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">Las puertas abren puntual; la ceremonia inicia a la hora exacta.</p>
+        </div>
+        <div class="mu-detalles__plinth" aria-hidden="true"></div>
+      </article>
+
+      <article class="mu-detalles__vitrina" data-mu-vitrina>
+        <svg class="mu-detalles__pieza" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <path d="M8 40 V20 C8 12 15 6 24 6 C33 6 40 12 40 20 V40" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M8 40 H40" stroke="currentColor" stroke-width="1.4"/>
+        </svg>
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-3">
+          <p class="mu-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-3">Pieza III</p>
+          <h3 class="mu-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Guardarraya</h3>
+          <p class="mu-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">Servicio de valet en la entrada sur durante toda la velada.</p>
+        </div>
+        <div class="mu-detalles__plinth" aria-hidden="true"></div>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.mu-detalles');
+      if (!root) return;
+      root.classList.add('mu-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var vitrinas = Array.prototype.slice.call(root.querySelectorAll('[data-mu-vitrina]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        vitrinas.forEach(function (v) { v.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = vitrinas.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.14).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      vitrinas.forEach(function (v) { io.observe(v); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-regalo',
+      style_name: 'Vitrina de Museo — Detalles',
+      descripcion: 'Obra con marco dorado en rotateX y etiqueta curatorial junto a vitrinas con piezas SVG sobre plinth y foco superior en 3D.',
+      tags: ['detalles', 'museo', 'vitrinas', '3d', 'curatorial', 'plinth'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>
+
+<section
+  class="mu-countdown"
+  data-gemini-id="countdown-museo-cuenta"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+>
+  <style>
+    .mu-countdown {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 660px;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 5vw, 3rem);
+      background-color: var(--bg-color, #f4f1ea);
+      background-image: url('https://loremflickr.com/1600/900/museum,gold');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color, #2a2724);
+      text-align: center;
+      perspective: 900px;
+    }
+    .mu-countdown *,
+    .mu-countdown *::before,
+    .mu-countdown *::after { box-sizing: border-box; }
+
+    .mu-countdown::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(60% 40% at 50% 0%, color-mix(in srgb, var(--accent-color, #b3925a) 20%, transparent), transparent 70%),
+        color-mix(in srgb, var(--bg-color, #f4f1ea) 90%, transparent);
+    }
+
+    .mu-countdown__etiqueta {
+      margin: 0 0 0.55rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--accent-color, #b3925a);
+    }
+    .mu-countdown__titulo {
+      margin: 0 0 0.4rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.75rem, 4vw, 2.7rem);
+      color: var(--primary-color, #2a2724);
+    }
+    .mu-countdown__fecha {
+      display: block;
+      margin-bottom: clamp(1.6rem, 4vw, 2.4rem);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.76rem, 1.5vw, 0.88rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--secondary-color, #75705f);
+    }
+
+    .mu-countdown__flip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(0.8rem, 2.2vw, 1.4rem);
+      max-width: 680px;
+      margin: 0 auto;
+      transform-style: preserve-3d;
+    }
+    .mu-countdown__carta {
+      position: relative;
+      padding: clamp(1.3rem, 3.2vw, 2rem) 0.4rem clamp(1.1rem, 2.6vw, 1.6rem);
+      background: var(--surface-color, #fdfbf6);
+      border: 1px solid var(--surface-border-color, rgba(42, 39, 36, 0.16));
+      box-shadow: 0 20px 44px rgba(42, 39, 36, 0.2);
+      transform: rotateX(0deg);
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+      transform-style: preserve-3d;
+    }
+    .mu-countdown__carta.giro { transform: rotateX(-38deg); }
+    .mu-countdown__carta::before {
+      content: '';
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      top: 50%;
+      height: 1px;
+      background: color-mix(in srgb, var(--primary-color, #2a2724) 20%, transparent);
+    }
+    .mu-countdown__numero {
+      display: block;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.9rem, 5.2vw, 3.1rem);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      color: var(--primary-color, #2a2724);
+    }
+    .mu-countdown__rotulo {
+      display: block;
+      margin-top: 0.55rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.54rem, 1.05vw, 0.62rem);
+      letter-spacing: 0.36em;
+      text-transform: uppercase;
+      color: var(--accent-color, #b3925a);
+    }
+
+    .mu-countdown__pie {
+      margin-top: clamp(1.4rem, 3.4vw, 2rem);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.78rem, 1.5vw, 0.9rem);
+      color: var(--secondary-color, #75705f);
+    }
+
+    @media (max-width: 560px) {
+      .mu-countdown__flip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .mu-countdown { min-height: 600px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mu-countdown__carta { transition: none; }
+      .mu-countdown__carta.giro { transform: none; }
+    }
+  </style>
+
+  <div class="mu-countdown__contenido">
+    <p class="mu-countdown__etiqueta" memory_type="text" memory_usage="custom" memory_key="countdown-etiqueta">Inauguración en</p>
+    <h2 class="mu-countdown__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Cuenta regresiva</h2>
+    <time class="mu-countdown__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+
+    <div class="mu-countdown__flip" aria-label="Cuenta regresiva">
+      <div class="mu-countdown__carta" data-mu-carta="days"><span class="mu-countdown__numero" data-countdown-unit="days">--</span><span class="mu-countdown__rotulo">Días</span></div>
+      <div class="mu-countdown__carta" data-mu-carta="hours"><span class="mu-countdown__numero" data-countdown-unit="hours">--</span><span class="mu-countdown__rotulo">Horas</span></div>
+      <div class="mu-countdown__carta" data-mu-carta="minutes"><span class="mu-countdown__numero" data-countdown-unit="minutes">--</span><span class="mu-countdown__rotulo">Min</span></div>
+      <div class="mu-countdown__carta" data-mu-carta="seconds"><span class="mu-countdown__numero" data-countdown-unit="seconds">--</span><span class="mu-countdown__rotulo">Seg</span></div>
+    </div>
+
+    <p class="mu-countdown__pie" memory_type="text" memory_usage="custom" memory_key="countdown-pie">La sala abre sus puertas puntualmente.</p>
+  </div>
+
+  <script>
+    (function () {
+      var el = null;
+      try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
+      if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+      if (!el) return;
+
+      var previos = {};
+      var target = NaN;
+      var attr = el.getAttribute('data-countdown-target');
+      if (attr && attr.indexOf('YYYY') === -1) { var p = new Date(attr); if (!isNaN(p.getTime())) target = p.getTime(); }
+      if (isNaN(target) && window.__countdownTarget) { var p1 = new Date(window.__countdownTarget); if (!isNaN(p1.getTime())) target = p1.getTime(); }
+      if (isNaN(target) && window.countdown_target) { var p2 = new Date(window.countdown_target); if (!isNaN(p2.getTime())) target = p2.getTime(); }
+
+      var intervalId = null;
+      (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+
+      function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+      function setUnit(unit, value) {
+        var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
+        if (!node) return;
+        node.textContent = value;
+        if (previos[unit] !== undefined && previos[unit] !== String(value)) {
+          var carta = el.querySelector('[data-mu-carta="' + unit + '"]');
+          if (carta && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            carta.classList.add('giro');
+            setTimeout(function () { carta.classList.remove('giro'); }, 300);
+          }
+        }
+        previos[unit] = String(value);
+      }
+      function tick() {
+        if (!Number.isFinite(target)) return;
+        var diff = Math.max(target - Date.now(), 0);
+        setUnit('days', Math.floor(diff / 86400000));
+        setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
+        setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
+        setUnit('seconds', pad2(Math.floor((diff % 60000) / 1000)));
+        if (diff === 0 && intervalId !== null) {
+          clearInterval(intervalId);
+          intervalId = null;
+          window.__countdownIntervals = [];
+        }
+      }
+      function start(newTarget) {
+        if (newTarget) { var p = new Date(newTarget); if (!isNaN(p.getTime())) target = p.getTime(); }
+        (window.__countdownIntervals || []).forEach(clearInterval);
+        window.__countdownIntervals = [];
+        intervalId = null;
+        if (!Number.isFinite(target)) return;
+        tick();
+        if (target > Date.now()) {
+          intervalId = setInterval(tick, 1000);
+          window.__countdownIntervals.push(intervalId);
+        }
+      }
+      start();
+      window.updateCountdown = start;
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-museo-cuenta',
+      style_name: 'Cartas de Museo',
+      descripcion: 'Cartas de estación con línea de pliegue central que giran en rotateX al cambiar de valor; foco dorado superior de sala.',
+      tags: ['countdown', 'cuenta regresiva', 'museo', 'flip', '3d', 'cartas'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>
+
+<section
+  class="mu-padrinos"
+  data-gemini-id="padrinos-museo-murales"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .mu-padrinos {
+      --primary-color: #2a2724;
+      --secondary-color: #75705f;
+      --accent-color: #b3925a;
+      --bg-color: #f4f1ea;
+      --surface-color: #fdfbf6;
+      --surface-border-color: rgba(42, 39, 36, 0.16);
+      --text-color: #2a2724;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/wall,gallery');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .mu-padrinos *,
+    .mu-padrinos *::before,
+    .mu-padrinos *::after { box-sizing: border-box; }
+
+    .mu-padrinos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .mu-padrinos__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .mu-padrinos__intro {
+      margin: 0 auto clamp(2.2rem, 5vw, 3.2rem);
+      max-width: 50ch;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .mu-padrinos__murales {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(1rem, 2.8vw, 1.9rem);
+      width: min(100%, 960px);
+      margin: 0 auto;
+    }
+
+    .mu-padrinos__mural {
+      padding: clamp(0.9rem, 2vw, 1.2rem) clamp(0.7rem, 1.8vw, 1rem) clamp(1rem, 2.2vw, 1.3rem);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 18px 40px rgba(42, 39, 36, 0.16);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .mu-padrinos.mu-js .mu-padrinos__mural { opacity: 0; transform: translateY(24px) rotate(1.5deg); }
+    .mu-padrinos .mu-padrinos__mural.esta-visto { opacity: 1; transform: none; }
+    .mu-padrinos__mural:nth-child(even) { transform-origin: top center; }
+    .mu-padrinos.mu-js .mu-padrinos__mural:nth-child(even) { transform: translateY(24px) rotate(-1.5deg); }
+    .mu-padrinos.mu-js .mu-padrinos__mural:nth-child(even).esta-visto { transform: none; }
+
+    .mu-padrinos__marco {
+      margin: 0 0 0.9rem;
+      padding: 7px;
+      border: 1px solid var(--accent-color);
+      background: var(--bg-color);
+      box-shadow: inset 0 0 0 3px var(--surface-color), inset 0 0 0 4px var(--surface-border-color);
+    }
+    .mu-padrinos__marco img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      filter: saturate(0.88);
+    }
+
+    .mu-padrinos__rol {
+      margin: 0 0 0.25rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.54rem, 1vw, 0.62rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .mu-padrinos__nombre {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.88rem, 1.75vw, 1.05rem);
+      line-height: 1.3;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 860px) {
+      .mu-padrinos__murales { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 440px) {
+      .mu-padrinos__murales { grid-template-columns: 1fr; max-width: 260px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mu-padrinos * { transition: none !important; }
+      .mu-padrinos__mural { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
+    <h2 class="mu-padrinos__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Murales de honor</h2>
+    <p class="mu-padrinos__intro" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Cuatro retratos enmarcados en oro, colgados en la galería de los padrinos.</p>
+  </header>
+
+  <div class="mu-padrinos__murales">
+    <article class="mu-padrinos__mural" data-mu-mural>
+      <figure class="mu-padrinos__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
+        <img src="https://loremflickr.com/300/400/portrait,classic" alt="Retrato de padrino" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrino uno</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
+        <p class="mu-padrinos__rol">Padrinos de alianzas</p>
+        <h3 class="mu-padrinos__nombre">Nombre Padrino</h3>
+      </div>
+    </article>
+
+    <article class="mu-padrinos__mural" data-mu-mural>
+      <figure class="mu-padrinos__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
+        <img src="https://loremflickr.com/300/400/portrait,gold" alt="Retrato de madrina" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Madrina dos</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
+        <p class="mu-padrinos__rol">Padrinos de velo</p>
+        <h3 class="mu-padrinos__nombre">Nombre Madrina</h3>
+      </div>
+    </article>
+
+    <article class="mu-padrinos__mural" data-mu-mural>
+      <figure class="mu-padrinos__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
+        <img src="https://loremflickr.com/300/400/portrait,formal" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrino tres</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
+        <p class="mu-padrinos__rol">Padrinos de arras</p>
+        <h3 class="mu-padrinos__nombre">Nombre Padrino</h3>
+      </div>
+    </article>
+
+    <article class="mu-padrinos__mural" data-mu-mural>
+      <figure class="mu-padrinos__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
+        <img src="https://loremflickr.com/300/400/portrait,elegant" alt="Retrato de madrinas" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Madrina cuatro</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
+        <p class="mu-padrinos__rol">Padrinos de lazos</p>
+        <h3 class="mu-padrinos__nombre">Nombre Madrina</h3>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.mu-padrinos');
+      if (!root) return;
+      root.classList.add('mu-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var murales = Array.prototype.slice.call(root.querySelectorAll('[data-mu-mural]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        murales.forEach(function (m) { m.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = murales.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.12).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.2 });
+      murales.forEach(function (m) { io.observe(m); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padrinos',
+      module_name: 'padrinos-museo-murales',
+      style_name: 'Vitrina de Museo — Padrinos',
+      descripcion: 'Galería de cuatro retratos 3:4 en marcos dorados de doble fileto, colgado alternado con leve rotación y aparición escalonada.',
+      tags: ['padrinos', 'murales', 'museo', 'marcos', 'retratos', 'stagger'],
+      tipo: 'padrinos'
+    };
+  </script>
+</section>
+
+<section
+  class="mu-corte"
+  data-gemini-id="corte-museo-telones"
+>
+  <style>
+    .mu-corte {
+      --primary-color: #2a2724;
+      --secondary-color: #75705f;
+      --accent-color: #b3925a;
+      --bg-color: #f4f1ea;
+      --surface-color: #fdfbf6;
+      --surface-border-color: rgba(42, 39, 36, 0.16);
+      --text-color: #2a2724;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .mu-corte *,
+    .mu-corte *::before,
+    .mu-corte *::after { box-sizing: border-box; }
+
+    .mu-corte__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: clamp(1.8rem, 4.5vw, 3.4rem);
+      align-items: center;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .mu-corte__escenario {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 28px 60px rgba(42, 39, 36, 0.24);
+    }
+    .mu-corte__escenario img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      filter: saturate(0.9);
+      transform: scale(1.07);
+      transition: transform 0.5s ease;
+    }
+    .mu-corte.esta-visto .mu-corte__escenario img { transform: scale(1); }
+
+    .mu-corte__telones {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: none;
+      pointer-events: none;
+    }
+    .mu-corte.mu-js .mu-corte__telones { display: flex; }
+    .mu-corte__telon {
+      flex: 1;
+      background:
+        radial-gradient(60% 20% at 50% 0%, color-mix(in srgb, var(--accent-color) 55%, transparent), transparent 70%),
+        repeating-linear-gradient(90deg, color-mix(in srgb, var(--primary-color) 85%, var(--accent-color)) 0 16px, color-mix(in srgb, var(--primary-color) 60%, var(--bg-color)) 16px 22px);
+      box-shadow: inset 0 0 44px rgba(0, 0, 0, 0.4);
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .mu-corte__telon--izq { border-right: 2px solid var(--accent-color); }
+    .mu-corte__telon--der { border-left: 2px solid var(--accent-color); }
+    .mu-corte.esta-visto .mu-corte__telon--izq { transform: translateY(-102%); }
+    .mu-corte.esta-visto .mu-corte__telon--der { transform: translateY(102%); }
+
+    .mu-corte__insignia {
+      position: absolute;
+      z-index: 3;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: grid;
+      place-items: center;
+      width: 76px;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--accent-color) 72%, #8a6d3b), color-mix(in srgb, var(--accent-color) 48%, #6d5527));
+      color: #fdfbf6;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-align: center;
+      box-shadow: 0 14px 30px rgba(42, 39, 36, 0.4);
+      transition: opacity 0.4s ease, transform 0.5s ease;
+      display: none;
+    }
+    .mu-corte.mu-js .mu-corte__insignia { display: grid; }
+    .mu-corte.esta-visto .mu-corte__insignia { opacity: 0; transform: translate(-50%, -50%) scale(1.35); }
+
+    .mu-corte__contenido { text-align: left; }
+    .mu-corte__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .mu-corte__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.85rem, 4.2vw, 2.7rem);
+      line-height: 1.1;
+      color: var(--primary-color);
+    }
+    .mu-corte__texto {
+      margin: 0 0 1.2rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .mu-corte__firma {
+      display: inline-block;
+      padding-top: 0.7rem;
+      border-top: 1px solid var(--accent-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.86rem, 1.6vw, 0.98rem);
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 880px) {
+      .mu-corte__grid { grid-template-columns: 1fr; }
+      .mu-corte__contenido { text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mu-corte * { transition: none !important; }
+      .mu-corte__telones, .mu-corte__insignia { display: none !important; }
+      .mu-corte__escenario img { transform: none; }
+    }
+  </style>
+
+  <div class="mu-corte__grid">
+    <figure class="mu-corte__escenario" memory_type="image" memory_usage="custom" memory_source="library" memory_key="corte-foto">
+      <img
+        src="https://loremflickr.com/960/600/gala,toast"
+        alt="Escenario del brindis de gala"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="corte"
+        loading="lazy"
+      />
+      <span class="mu-corte__telones" aria-hidden="true">
+        <span class="mu-corte__telon mu-corte__telon--izq"></span>
+        <span class="mu-corte__telon mu-corte__telon--der"></span>
+      </span>
+      <span class="mu-corte__insignia" aria-hidden="true">Gran<br />reveal</span>
+      <figcaption hidden>Escenario del brindis</figcaption>
+    </figure>
+
+    <div class="mu-corte__contenido" memory_type="text" memory_usage="custom" memory_key="corte-texto">
+      <p class="mu-corte__etiqueta" memory_type="text" memory_usage="custom" memory_key="corte-etiqueta">Acto de gala</p>
+      <h2 class="mu-corte__titulo" memory_type="text" memory_usage="custom" memory_key="corte-titulo">El gran telón</h2>
+      <p class="mu-corte__texto">
+        Los pesados telones de gala se retiran hacia el techo y el piso para develar la escena
+        del primer brindis. Un instante de museo, digno de marco.
+      </p>
+      <span class="mu-corte__firma" memory_type="text" memory_usage="custom" memory_key="corte-firma">Colección permanente de recuerdos.</span>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.mu-corte');
+      if (!root) return;
+      root.classList.add('mu-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root.querySelector('.mu-corte__escenario') || root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-museo-telones',
+      style_name: 'Vitrina de Museo — Corte',
+      descripcion: 'Telones de terciopelo a rayas que se retiran verticalmente en direcciones opuestas con insignia dorada que se disipa.',
+      tags: ['corte', 'telones', 'museo', 'gala', 'revelado', 'insignia'],
+      tipo: 'corte'
+    };
+  </script>
+</section>
+
+<section
+  class="mu-galeria"
+  data-gemini-id="galeria-museo-pasillo"
+>
+  <style>
+    .mu-galeria {
+      --primary-color: #2a2724;
+      --secondary-color: #75705f;
+      --accent-color: #b3925a;
+      --bg-color: #f4f1ea;
+      --surface-color: #fdfbf6;
+      --surface-border-color: rgba(42, 39, 36, 0.16);
+      --text-color: #2a2724;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+    }
+    .mu-galeria *,
+    .mu-galeria *::before,
+    .mu-galeria *::after { box-sizing: border-box; }
+
+    .mu-galeria__cabecera {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      width: min(100%, 1080px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.8rem;
+      text-align: left;
+    }
+    .mu-galeria__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .mu-galeria__folio {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .mu-galeria__pasillo {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+      gap: clamp(1.4rem, 3.4vw, 2.4rem);
+      width: min(100%, 1080px);
+      margin: 0 auto;
+    }
+
+    .mu-galeria__lienzo {
+      position: relative;
+      margin: 0;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .mu-galeria.bh-js .mu-galeria__lienzo,
+    .mu-galeria.mu-js .mu-galeria__lienzo { opacity: 0; transform: translateY(22px); }
+    .mu-galeria .mu-galeria__lienzo.esta-visto { opacity: 1; transform: none; }
+
+    .mu-galeria__lienzo img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border: 10px solid var(--surface-color);
+      outline: 1px solid var(--surface-border-color);
+      box-shadow: 0 22px 48px rgba(42, 39, 36, 0.2), inset 0 0 0 1px var(--surface-border-color);
+      filter: saturate(0.9);
+      cursor: pointer;
+    }
+    .mu-galeria__lienzo:nth-child(odd) img { transform: rotate(-1.2deg); }
+    .mu-galeria__lienzo:nth-child(even) img { transform: rotate(1.2deg); }
+    .mu-galeria__lienzo figcaption {
+      margin-top: 0.8rem;
+      display: grid;
+      gap: 0.15rem;
+    }
+    .mu-galeria__titulo-obra {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.84rem, 1.6vw, 0.96rem);
+      color: var(--primary-color);
+    }
+    .mu-galeria__detalle-obra {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.66rem, 1.2vw, 0.74rem);
+      color: var(--secondary-color);
+    }
+
+    .mu-galeria__lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      place-items: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      background: color-mix(in srgb, var(--primary-color) 88%, black);
+    }
+    .mu-galeria__lightbox.abierto { display: grid; }
+    .mu-galeria__lightbox img {
+      max-width: min(920px, 92vw);
+      max-height: 80svh;
+      width: auto;
+      height: auto;
+      border: 12px solid var(--surface-color);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+    }
+    .mu-galeria__cerrar {
+      position: absolute;
+      top: clamp(0.8rem, 2.5vw, 1.6rem);
+      right: clamp(0.8rem, 2.5vw, 1.6rem);
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--accent-color);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--accent-color);
+      font-size: 1.2rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.4s ease, background 0.4s ease;
+    }
+    .mu-galeria__cerrar:hover { transform: rotate(90deg); background: color-mix(in srgb, var(--accent-color) 25%, transparent); }
+
+    @media (max-width: 560px) {
+      .mu-galeria__pasillo { grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr)); gap: 1rem; }
+      .mu-galeria__lienzo img { border-width: 7px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mu-galeria * { transition: none !important; }
+      .mu-galeria__lienzo { opacity: 1 !important; transform: none !important; }
+      .mu-galeria__lienzo img { transform: none !important; }
+    }
+  </style>
+
+  <header class="mu-galeria__cabecera" memory_type="text" memory_usage="custom" memory_key="galeria-cabecera">
+    <h2 class="mu-galeria__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Pasillo de recuerdos</h2>
+    <span class="mu-galeria__folio" memory_type="text" memory_usage="custom" memory_key="galeria-folio">Sala permanente</span>
+  </header>
+
+  <div class="mu-galeria__pasillo">
+    <figure class="mu-galeria__lienzo" data-mu-lienzo memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-1" tabindex="0" role="button" aria-label="Ampliar obra uno">
+      <img src="https://loremflickr.com/480/600/classic,couple" alt="Obra uno" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption>
+        <span class="mu-galeria__titulo-obra" memory_type="text" memory_usage="custom" memory_key="galeria-titulo-1">«Primer vistazo»</span>
+        <span class="mu-galeria__detalle-obra" memory_type="text" memory_usage="custom" memory_key="galeria-detalle-1">A. Anfitrión · N.º 01</span>
+      </figcaption>
+    </figure>
+    <figure class="mu-galeria__lienzo" data-mu-lienzo memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-2" tabindex="0" role="button" aria-label="Ampliar obra dos">
+      <img src="https://loremflickr.com/480/600/gala,dinner" alt="Obra dos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption>
+        <span class="mu-galeria__titulo-obra" memory_type="text" memory_usage="custom" memory_key="galeria-titulo-2">«Mesa de honor»</span>
+        <span class="mu-galeria__detalle-obra" memory_type="text" memory_usage="custom" memory_key="galeria-detalle-2">A. Anfitrión · N.º 02</span>
+      </figcaption>
+    </figure>
+    <figure class="mu-galeria__lienzo" data-mu-lienzo memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-3" tabindex="0" role="button" aria-label="Ampliar obra tres">
+      <img src="https://loremflickr.com/480/600/gold,celebration" alt="Obra tres" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption>
+        <span class="mu-galeria__titulo-obra" memory_type="text" memory_usage="custom" memory_key="galeria-titulo-3">«Brindis dorado»</span>
+        <span class="mu-galeria__detalle-obra" memory_type="text" memory_usage="custom" memory_key="galeria-detalle-3">A. Anfitrión · N.º 03</span>
+      </figcaption>
+    </figure>
+    <figure class="mu-galeria__lienzo" data-mu-lienzo memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-4" tabindex="0" role="button" aria-label="Ampliar obra cuatro">
+      <img src="https://loremflickr.com/480/600/museum,dance" alt="Obra cuatro" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption>
+        <span class="mu-galeria__titulo-obra" memory_type="text" memory_usage="custom" memory_key="galeria-titulo-4">«Danza final»</span>
+        <span class="mu-galeria__detalle-obra" memory_type="text" memory_usage="custom" memory_key="galeria-detalle-4">A. Anfitrión · N.º 04</span>
+      </figcaption>
+    </figure>
+    <figure class="mu-galeria__lienzo" data-mu-lienzo memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-5" tabindex="0" role="button" aria-label="Ampliar obra cinco">
+      <img src="https://loremflickr.com/480/600/classic,flowers" alt="Obra cinco" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption>
+        <span class="mu-galeria__titulo-obra" memory_type="text" memory_usage="custom" memory_key="galeria-titulo-5">«Naturaleza viva»</span>
+        <span class="mu-galeria__detalle-obra" memory_type="text" memory_usage="custom" memory_key="galeria-detalle-5">A. Anfitrión · N.º 05</span>
+      </figcaption>
+    </figure>
+    <figure class="mu-galeria__lienzo" data-mu-lienzo memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-6" tabindex="0" role="button" aria-label="Ampliar obra seis">
+      <img src="https://loremflickr.com/480/600/gala,party" alt="Obra seis" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption>
+        <span class="mu-galeria__titulo-obra" memory_type="text" memory_usage="custom" memory_key="galeria-titulo-6">«Velada completa»</span>
+        <span class="mu-galeria__detalle-obra" memory_type="text" memory_usage="custom" memory_key="galeria-detalle-6">A. Anfitrión · N.º 06</span>
+      </figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.mu-galeria');
+      if (!root) return;
+      root.classList.add('mu-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var lienzos = Array.prototype.slice.call(root.querySelectorAll('[data-mu-lienzo]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var i = lienzos.indexOf(entry.target);
+            entry.target.style.transitionDelay = (Math.min(i, 5) * 0.09).toFixed(2) + 's';
+            entry.target.classList.add('esta-visto');
+            io.unobserve(entry.target);
+          });
+        }, { threshold: 0.15 });
+        lienzos.forEach(function (l) { io.observe(l); });
+      } else {
+        lienzos.forEach(function (l) { l.classList.add('esta-visto'); });
+      }
+
+      var lightbox = document.createElement('div');
+      lightbox.className = 'mu-galeria__lightbox';
+      lightbox.setAttribute('role', 'dialog');
+      lightbox.setAttribute('aria-modal', 'true');
+      lightbox.setAttribute('aria-label', 'Vista ampliada');
+      lightbox.innerHTML =
+        '<img alt="" />' +
+        '<button type="button" class="mu-galeria__cerrar" aria-label="Cerrar">×</button>';
+      root.appendChild(lightbox);
+      var imgAmpliada = lightbox.querySelector('img');
+      var botonCerrar = lightbox.querySelector('.mu-galeria__cerrar');
+
+      function abrir(fig) {
+        var foto = fig.querySelector('img');
+        if (!foto) return;
+        imgAmpliada.src = foto.src;
+        imgAmpliada.alt = foto.alt;
+        lightbox.classList.add('abierto');
+      }
+      function cerrar() { lightbox.classList.remove('abierto'); }
+
+      lienzos.forEach(function (fig) {
+        fig.querySelector('img').addEventListener('click', function () { abrir(fig); });
+        fig.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(fig); }
+        });
+      });
+      botonCerrar.addEventListener('click', cerrar);
+      lightbox.addEventListener('click', function (e) { if (e.target === lightbox) cerrar(); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-museo-pasillo',
+      style_name: 'Vitrina de Museo — Galería',
+      descripcion: 'Pasillo de lienzos 4:5 con marcos gruesos, títulos curatoriales con numeración y lightbox de galería accesible.',
+      tags: ['galeria', 'pasillo', 'museo', 'lienzos', 'curatorial', 'lightbox'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>
+
+<section
+  class="mu-regalos"
+  data-gemini-id="regalos-museo-boutique"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .mu-regalos {
+      --primary-color: #2a2724;
+      --secondary-color: #75705f;
+      --accent-color: #b3925a;
+      --bg-color: #f4f1ea;
+      --surface-color: #fdfbf6;
+      --surface-border-color: rgba(42, 39, 36, 0.16);
+      --text-color: #2a2724;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/gold,velvet');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .mu-regalos *,
+    .mu-regalos *::before,
+    .mu-regalos *::after { box-sizing: border-box; }
+
+    .mu-regalos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 89%, transparent);
+    }
+
+    .mu-regalos__vitrina {
+      width: min(100%, 680px);
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow:
+        inset 0 0 0 4px var(--surface-color),
+        inset 0 0 0 5.5px var(--accent-color),
+        0 28px 60px rgba(42, 39, 36, 0.2);
+      text-align: center;
+    }
+
+    .mu-regalos__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .mu-regalos__titulo {
+      margin: 0 0 0.7rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .mu-regalos__intro {
+      margin: 0 auto 1.6rem;
+      max-width: 46ch;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .mu-regalos__lista { display: grid; gap: clamp(0.7rem, 2vw, 1rem); margin-bottom: 1.7rem; text-align: left; }
+    .mu-regalos__fila {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.95rem;
+      align-items: center;
+      padding: clamp(0.85rem, 2.2vw, 1.1rem) clamp(1rem, 2.4vw, 1.3rem);
+      background: var(--bg-color);
+      border: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .mu-regalos.mu-js .mu-regalos__fila { opacity: 0; transform: translateY(12px); }
+    .mu-regalos .mu-regalos__fila.esta-visto { opacity: 1; transform: none; }
+    .mu-regalos__num {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--accent-color);
+      border-radius: 50%;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.78rem;
+      color: var(--accent-color);
+    }
+    .mu-regalos__nombre {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.92rem, 1.75vw, 1.04rem);
+      color: var(--primary-color);
+    }
+    .mu-regalos__via {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .mu-regalos__zona-boton { text-align: center; }
+    .mu-regalos__boton {
+      position: relative;
+      min-width: 230px;
+      padding: 0.85rem 2rem;
+      border: 0;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--accent-color) 70%, #8a6d3b), color-mix(in srgb, var(--accent-color) 45%, #6d5527));
+      color: #fdfbf6;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 12px 26px rgba(42, 39, 36, 0.3);
+      transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease;
+    }
+    .mu-regalos__boton:hover { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(42, 39, 36, 0.38); }
+    .mu-regalos__boton.esta-listo { filter: saturate(0.75) brightness(1.05); }
+    .mu-regalos__nota {
+      margin-top: 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.76rem, 1.4vw, 0.86rem);
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 520px) {
+      .mu-regalos__fila { grid-template-columns: auto 1fr; }
+      .mu-regalos__via { grid-column: 2; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mu-regalos * { transition: none !important; }
+      .mu-regalos__fila { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="mu-regalos__vitrina">
+    <p class="mu-regalos__etiqueta" memory_type="text" memory_usage="custom" memory_key="regalos-etiqueta">Boutique del museo</p>
+    <h2 class="mu-regalos__titulo" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Donaciones de colección</h2>
+    <p class="mu-regalos__intro" memory_type="text" memory_usage="custom" memory_key="regalos-texto">
+      Si desea aportar una pieza a nuestra colección, estas son las opciones curadas por los anfitriones.
+    </p>
+
+    <div class="mu-regalos__lista" data-mu-lista>
+      <div class="mu-regalos__fila" data-mu-fila>
+        <span class="mu-regalos__num" aria-hidden="true">I</span>
+        <span class="mu-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-1">Piezas para el nuevo hogar</span>
+        <span class="mu-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-1">Tienda</span>
+      </div>
+      <div class="mu-regalos__fila" data-mu-fila>
+        <span class="mu-regalos__num" aria-hidden="true">II</span>
+        <span class="mu-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-2">Fondo de luna de miel</span>
+        <span class="mu-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-2">Sobre</span>
+      </div>
+      <div class="mu-regalos__fila" data-mu-fila>
+        <span class="mu-regalos__num" aria-hidden="true">III</span>
+        <span class="mu-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-3">Una experiencia irrepetible</span>
+        <span class="mu-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-3">Digital</span>
+      </div>
+    </div>
+
+    <div class="mu-regalos__zona-boton">
+      <button type="button" class="mu-regalos__boton" data-mu-boton>
+        <span data-mu-boton-texto memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span>
+      </button>
+      <p class="mu-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota">Su aportación quedará registrada en el catálogo.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.mu-regalos');
+      if (!root) return;
+      root.classList.add('mu-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var filas = Array.prototype.slice.call(root.querySelectorAll('[data-mu-fila]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            filas.forEach(function (fila, i) { fila.style.transitionDelay = (i * 0.11).toFixed(2) + 's'; });
+            filas.forEach(function (fila) { fila.classList.add('esta-visto'); });
+            io.disconnect();
+          });
+        }, { threshold: 0.3 });
+        io.observe(root.querySelector('[data-mu-lista]') || root);
+      } else {
+        filas.forEach(function (fila) { fila.classList.add('esta-visto'); });
+      }
+
+      var boton = root.querySelector('[data-mu-boton]');
+      var texto = root.querySelector('[data-mu-boton-texto]');
+      if (boton && texto) {
+        boton.addEventListener('click', function () {
+          var listo = boton.classList.toggle('esta-listo');
+          texto.textContent = listo ? 'Regalo agendado' : 'Agendar regalo';
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-museo-boutique',
+      style_name: 'Vitrina de Museo — Regalos',
+      descripcion: 'Boutique curatorial con filas numeradas en romanos, vitrina de doble fileto dorado y botón de bronce que registra la donación.',
+      tags: ['regalos', 'boutique', 'museo', 'romanos', 'boton', 'curatorial'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>
+
+<section
+  class="mu-vestimenta"
+  data-gemini-id="vestimenta-museo-conservacion"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .mu-vestimenta {
+      --primary-color: #2a2724;
+      --secondary-color: #75705f;
+      --accent-color: #b3925a;
+      --bg-color: #f4f1ea;
+      --surface-color: #fdfbf6;
+      --surface-border-color: rgba(42, 39, 36, 0.16);
+      --text-color: #2a2724;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      min-height: 64svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/fabric,gold');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .mu-vestimenta *,
+    .mu-vestimenta *::before,
+    .mu-vestimenta *::after { box-sizing: border-box; }
+
+    .mu-vestimenta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 88%, transparent);
+    }
+
+    .mu-vestimenta__panel {
+      width: min(100%, 660px);
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow:
+        inset 0 0 0 4px var(--surface-color),
+        inset 0 0 0 5.5px var(--accent-color),
+        0 26px 56px rgba(42, 39, 36, 0.18);
+    }
+
+    .mu-vestimenta__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .mu-vestimenta__titulo {
+      margin: 0 0 0.8rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .mu-vestimenta__texto {
+      margin: 0 auto 1.8rem;
+      max-width: 46ch;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .mu-vestimenta__muestras {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(0.8rem, 2.2vw, 1.3rem);
+      margin-bottom: 1.6rem;
+    }
+    .mu-vestimenta__pastilla {
+      display: grid;
+      justify-items: center;
+      gap: 0.45rem;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .mu-vestimenta.mu-js .mu-vestimenta__pastilla { opacity: 0; transform: translateY(16px); }
+    .mu-vestimenta .mu-vestimenta__pastilla.esta-visto { opacity: 1; transform: none; }
+    .mu-vestimenta__tela {
+      width: clamp(48px, 8.5vw, 62px);
+      height: clamp(62px, 11vw, 80px);
+      border: 1px solid var(--surface-border-color);
+      background:
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.12) 0 3px, transparent 3px 6px),
+        var(--bg-color);
+      box-shadow: 0 10px 20px rgba(42, 39, 36, 0.16), inset 0 0 0 3px var(--surface-color);
+      transition: background-color 0.5s ease, transform 0.5s ease;
+    }
+    .mu-vestimenta__pastilla:hover .mu-vestimenta__tela { transform: translateY(-4px) rotate(-1deg); }
+    .mu-vestimenta__codigo {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.56rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .mu-vestimenta__leyenda {
+      display: inline-block;
+      padding: 0.55rem 1.6rem;
+      border: 1px solid var(--accent-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 480px) {
+      .mu-vestimenta__tela { width: 42px; height: 54px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mu-vestimenta * { transition: none !important; }
+      .mu-vestimenta__pastilla { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="mu-vestimenta__panel">
+    <p class="mu-vestimenta__etiqueta" memory_type="text" memory_usage="custom" memory_key="vestimenta-etiqueta">Código de vestimenta</p>
+    <h2 class="mu-vestimenta__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Paleta del conservador</h2>
+    <p class="mu-vestimenta__texto" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">
+      Muestras de tela seleccionadas para armonizar con la colección de esta noche.
+    </p>
+
+    <div class="mu-vestimenta__muestras" data-mu-muestras aria-hidden="true"></div>
+
+    <p class="mu-vestimenta__leyenda" memory_type="text" memory_usage="custom" memory_key="vestimenta-leyenda">Etiqueta de gala</p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.mu-vestimenta');
+      if (!root) return;
+      root.classList.add('mu-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var muestras = root.querySelector('[data-mu-muestras]');
+      if (muestras && !muestras.children.length) {
+        var tonos = ['#2a2724', '#6d5527', '#b3925a', '#75705f', '#4a4438', '#93856f'];
+        var nombres = ['Noche', 'Bronce', 'Dorado', 'Piedra', 'Umbría', 'Arena'];
+        for (var i = 0; i < tonos.length; i++) {
+          var pastilla = document.createElement('span');
+          pastilla.className = 'mu-vestimenta__pastilla';
+          pastilla.style.transitionDelay = (i * 0.08).toFixed(2) + 's, ' + (i * 0.08).toFixed(2) + 's';
+          var tela = document.createElement('span');
+          tela.className = 'mu-vestimenta__tela';
+          tela.setAttribute('data-mu-tono', tonos[i]);
+          var codigo = document.createElement('span');
+          codigo.className = 'mu-vestimenta__codigo';
+          codigo.textContent = nombres[i];
+          pastilla.appendChild(tela);
+          pastilla.appendChild(codigo);
+          muestras.appendChild(pastilla);
+        }
+      }
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function colorear() {
+        root.querySelectorAll('[data-mu-tono]').forEach(function (t) {
+          t.style.backgroundColor = t.getAttribute('data-mu-tono');
+        });
+      }
+      if (reduce || !('IntersectionObserver' in window)) {
+        root.querySelectorAll('.mu-vestimenta__pastilla').forEach(function (p) { p.classList.add('esta-visto'); });
+        colorear();
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          root.querySelectorAll('.mu-vestimenta__pastilla').forEach(function (p, i) {
+            p.style.transitionDelay = (i * 0.08).toFixed(2) + 's, ' + (i * 0.08).toFixed(2) + 's';
+            p.classList.add('esta-visto');
+          });
+          setTimeout(colorear, 240);
+          io.disconnect();
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-museo-conservacion',
+      style_name: 'Vitrina de Museo — Vestimenta',
+      descripcion: 'Muestras de tela con trama horizontal que se colorean por JS con nombres de pigmento; etiqueta de gala en marco dorado.',
+      tags: ['vestimenta', 'dress code', 'tela', 'paleta', 'museo', 'pigmentos'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>
+</body></html>

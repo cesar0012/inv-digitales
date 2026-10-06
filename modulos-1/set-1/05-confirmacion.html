@@ -1,0 +1,178 @@
+<section
+  class="hb-confirmacion"
+  data-gemini-id="confirmacion-texto"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .hb-confirmacion {
+      --primary-color: #23301f;
+      --secondary-color: #5c6657;
+      --accent-color: #7d8f6e;
+      --bg-color: #f6f4ec;
+      --surface-color: #fffdf6;
+      --surface-border-color: rgba(35, 48, 31, 0.22);
+      --text-color: #23301f;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 72svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/meadow,light');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .hb-confirmacion *,
+    .hb-confirmacion *::before,
+    .hb-confirmacion *::after { box-sizing: border-box; }
+
+    .hb-confirmacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 85%, transparent);
+    }
+
+    .hb-confirmacion__tarjeta {
+      position: relative;
+      width: min(100%, 640px);
+      padding: clamp(2.2rem, 5.5vw, 3.6rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 95%, transparent);
+      border: 1px solid var(--surface-border-color);
+      outline: 1px solid var(--surface-border-color);
+      outline-offset: 6px;
+      box-shadow: 0 24px 54px rgba(35, 48, 31, 0.16);
+    }
+
+    .hb-confirmacion__esquina {
+      position: absolute;
+      width: 34px;
+      height: 34px;
+      color: var(--accent-color);
+      opacity: 0.75;
+      pointer-events: none;
+    }
+    .hb-confirmacion__esquina::before,
+    .hb-confirmacion__esquina::after {
+      content: '';
+      position: absolute;
+      background: currentColor;
+    }
+    .hb-confirmacion__esquina::before { width: 100%; height: 1px; }
+    .hb-confirmacion__esquina::after { width: 1px; height: 100%; }
+    .hb-confirmacion__esquina--si { top: 10px; left: 10px; }
+    .hb-confirmacion__esquina--sd { top: 10px; right: 10px; transform: scaleX(-1); }
+    .hb-confirmacion__esquina--ii { bottom: 10px; left: 10px; transform: scaleY(-1); }
+    .hb-confirmacion__esquina--id { bottom: 10px; right: 10px; transform: scale(-1); }
+
+    .hb-confirmacion__sello {
+      width: clamp(58px, 8vw, 74px);
+      margin: 0 auto clamp(1rem, 2.4vw, 1.5rem);
+      color: var(--accent-color);
+      animation: hbConfirmacionGiro 34s linear infinite;
+    }
+    @keyframes hbConfirmacionGiro { to { transform: rotate(360deg); } }
+
+    .hb-confirmacion__etiqueta {
+      margin: 0 0 0.7rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.64rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .hb-confirmacion__titulo {
+      margin: 0 0 1rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+
+    .hb-confirmacion__texto {
+      margin: 0 auto 1.4rem;
+      max-width: 46ch;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.9rem, 1.7vw, 1.02rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+
+    .hb-confirmacion__limite {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding: 0.6rem 1.5rem;
+      border-top: 1px solid var(--accent-color);
+      border-bottom: 1px solid var(--accent-color);
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+    .hb-confirmacion__limite-rotulo {
+      font-size: 0.62rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .hb-confirmacion__limite-fecha {
+      font-size: clamp(0.86rem, 1.6vw, 0.98rem);
+      letter-spacing: 0.12em;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 560px) {
+      .hb-confirmacion { min-height: 64svh; }
+      .hb-confirmacion__tarjeta { padding: 2.2rem 1.3rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-confirmacion * { animation: none !important; }
+    }
+  </style>
+
+  <div class="hb-confirmacion__tarjeta">
+    <span class="hb-confirmacion__esquina hb-confirmacion__esquina--si" aria-hidden="true"></span>
+    <span class="hb-confirmacion__esquina hb-confirmacion__esquina--sd" aria-hidden="true"></span>
+    <span class="hb-confirmacion__esquina hb-confirmacion__esquina--ii" aria-hidden="true"></span>
+    <span class="hb-confirmacion__esquina hb-confirmacion__esquina--id" aria-hidden="true"></span>
+
+    <svg class="hb-confirmacion__sello" viewBox="0 0 90 90" fill="none" aria-hidden="true">
+      <circle cx="45" cy="45" r="42" stroke="currentColor" stroke-width="1.4" stroke-dasharray="2 4"/>
+      <circle cx="45" cy="45" r="31" stroke="currentColor" stroke-width="1"/>
+      <path d="M45 24 L49.5 37.5 L63.5 37.5 L52.5 46 L56.5 59.5 L45 51.5 L33.5 59.5 L37.5 46 L26.5 37.5 L40.5 37.5 Z" stroke="currentColor" stroke-width="1.1"/>
+      <path d="M30 66 C38 62 52 62 60 66" stroke="currentColor" stroke-width="1"/>
+    </svg>
+
+    <p class="hb-confirmacion__etiqueta" memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta">Confirma tu asistencia</p>
+    <h2 class="hb-confirmacion__titulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">Nos encantaría celebrar contigo</h2>
+    <p class="hb-confirmacion__texto" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">
+      Cada lugar en esta celebración está pensado con cariño. Utiliza el botón de confirmación de tu invitación
+      digital para avisarnos si podrás acompañarnos; así reservamos tu asiento en la mesa.
+    </p>
+    <p class="hb-confirmacion__limite">
+      <span class="hb-confirmacion__limite-rotulo">Fecha límite</span>
+      <time class="hb-confirmacion__limite-fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha">DD de mes</time>
+    </p>
+  </div>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Herbario de Línea — Confirmación',
+      descripcion: 'Tarjeta informativa de RSVP con esquinas de filete, sello giratorio y fecha límite; el enlace de confirmación vive en la invitación.',
+      tags: ['confirmacion', 'rsvp', 'informativo', 'sello', 'fecha limite', 'botanico'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>

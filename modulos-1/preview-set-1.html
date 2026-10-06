@@ -1,0 +1,2953 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>set-1</title><style>:root{--primary-color:#1f2937;--text-color:#1f2937;--accent-color:#b59b72;--bg-color:#f5f1e8;--secondary-color:#6b7280;--surface-color:#ffffff;--surface-border-color:rgba(0,0,0,.12);--font-base:Georgia,serif}body{margin:0}</style></head><body><section
+  class="hb-portada"
+  data-gemini-id="portada-nombre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="hb-portada-titulo"
+>
+  <style>
+    .hb-portada {
+      --primary-color: #23301f;
+      --secondary-color: #5c6657;
+      --accent-color: #7d8f6e;
+      --bg-color: #f6f4ec;
+      --surface-color: #fffdf6;
+      --surface-border-color: rgba(35, 48, 31, 0.22);
+      --text-color: #23301f;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/botanical,leaves');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .hb-portada *,
+    .hb-portada *::before,
+    .hb-portada *::after { box-sizing: border-box; }
+
+    .hb-portada::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--bg-color) 88%, transparent), color-mix(in srgb, var(--bg-color) 78%, transparent));
+    }
+
+    .hb-portada__plancha {
+      position: relative;
+      width: min(100%, 880px);
+      min-height: min(78svh, 640px);
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 4vw, 3.5rem);
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      background: color-mix(in srgb, var(--surface-color) 92%, transparent);
+      border: 1px solid var(--surface-border-color);
+      outline: 1px solid var(--surface-border-color);
+      outline-offset: 6px;
+      box-shadow: 0 24px 60px rgba(35, 48, 31, 0.16), 0 4px 14px rgba(35, 48, 31, 0.08);
+    }
+
+    .hb-portada__lamina-num {
+      position: absolute;
+      top: clamp(0.9rem, 2vw, 1.4rem);
+      left: clamp(0.9rem, 2vw, 1.4rem);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.62rem, 1.1vw, 0.75rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .hb-portada__rama {
+      position: absolute;
+      z-index: 0;
+      width: clamp(140px, 24vw, 260px);
+      color: var(--accent-color);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .hb-portada__rama--izq { left: clamp(-1.5rem, -1vw, 0rem); top: 8%; transform: rotate(12deg); }
+    .hb-portada__rama--der { right: clamp(-1.5rem, -1vw, 0rem); bottom: 10%; transform: rotate(194deg); }
+
+    .hb-portada__sello {
+      width: clamp(64px, 9vw, 88px);
+      margin-bottom: clamp(1rem, 2.5vw, 1.6rem);
+      color: var(--accent-color);
+      animation: hbPortadaSello 38s linear infinite;
+    }
+    @keyframes hbPortadaSello { to { transform: rotate(360deg); } }
+
+    .hb-portada__eyebrow {
+      margin: 0 0 clamp(0.9rem, 2vw, 1.4rem);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.72rem, 1.3vw, 0.85rem);
+      font-weight: 700;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .hb-portada__filete {
+      width: min(180px, 42%);
+      height: 10px;
+      margin: 0 auto clamp(1.2rem, 2.6vw, 1.8rem);
+      border-top: 1px solid var(--accent-color);
+      border-bottom: 1px solid var(--accent-color);
+      padding-top: 3px;
+      background: linear-gradient(var(--accent-color), var(--accent-color)) center / 100% 1px no-repeat;
+    }
+
+    .hb-portada__nombres {
+      position: relative;
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(2.1rem, 6vw, 4.2rem);
+      line-height: 1.08;
+      letter-spacing: 0.02em;
+      color: var(--primary-color);
+    }
+
+    .hb-portada.hb-js .hb-portada__linea-revel {
+      display: block;
+      clip-path: inset(0 0 105% 0);
+      transition: clip-path 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .hb-portada__linea-revel:nth-child(2) { transition-delay: 0.12s; }
+    .hb-portada.esta-visto .hb-portada__linea-revel { clip-path: inset(0 0 -10% 0); }
+
+    .hb-portada__ampersand {
+      display: inline-block;
+      margin: 0 0.35em;
+      font-style: italic;
+      color: var(--accent-color);
+    }
+
+    .hb-portada__espora {
+      position: absolute;
+      z-index: 1;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--accent-color) 70%, transparent);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .hb-portada.esta-visto .hb-portada__espora { animation: hbPortadaFlota 9s ease-in-out infinite; }
+    @keyframes hbPortadaFlota {
+      0% { opacity: 0; transform: translateY(0); }
+      18% { opacity: 0.7; }
+      70% { opacity: 0.35; }
+      100% { opacity: 0; transform: translateY(-70px); }
+    }
+
+    .hb-portada__fecha {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      margin-top: clamp(1.4rem, 3vw, 2rem);
+      padding: 0.55rem 1.4rem;
+      border: 1px solid var(--surface-border-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.8rem, 1.6vw, 0.95rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-color);
+      transition: opacity 0.5s ease 0.28s, transform 0.5s ease 0.28s;
+    }
+    .hb-portada.hb-js .hb-portada__fecha { opacity: 0; transform: translateY(12px); }
+    .hb-portada.esta-visto .hb-portada__fecha { opacity: 1; transform: none; }
+
+    .hb-portada__foto {
+      justify-self: end;
+      margin-top: 1.5rem;
+      width: clamp(96px, 14vw, 150px);
+      padding: 6px 6px 14px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 12px 26px rgba(35, 48, 31, 0.18);
+      transform: rotate(4deg);
+      transition: transform 0.5s ease;
+    }
+    .hb-portada__foto:hover { transform: rotate(0deg) translateY(-4px); }
+    .hb-portada__foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      filter: saturate(0.92);
+    }
+    .hb-portada__foto figcaption {
+      margin-top: 6px;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 900px) {
+      .hb-portada__foto { justify-self: center; margin: 1.6rem auto 0; transform: rotate(-3deg); }
+      .hb-portada__plancha { min-height: 0; }
+    }
+
+    @media (max-width: 560px) {
+      .hb-portada { padding: 1.5rem 0.9rem; }
+      .hb-portada__rama { opacity: 0.32; }
+      .hb-portada__nombres { font-size: clamp(1.9rem, 9.4vw, 2.6rem); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-portada * { animation: none !important; transition: none !important; }
+      .hb-portada__linea-revel { clip-path: none; }
+      .hb-portada__fecha { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <div class="hb-portada__plancha">
+    <span class="hb-portada__lamina-num" aria-hidden="true">Lámina I</span>
+
+    <svg class="hb-portada__rama hb-portada__rama--izq" viewBox="0 0 120 220" fill="none" aria-hidden="true">
+      <path d="M60 214 C58 150 56 90 62 8" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M60 60 C42 52 32 38 30 20 C48 24 58 38 60 60Z" stroke="currentColor" stroke-width="1.2"/>
+      <path d="M61 100 C80 92 90 78 92 60 C74 64 63 78 61 100Z" stroke="currentColor" stroke-width="1.2"/>
+      <path d="M59 146 C42 138 33 124 32 108 C49 112 58 126 59 146Z" stroke="currentColor" stroke-width="1.2"/>
+    </svg>
+    <svg class="hb-portada__rama hb-portada__rama--der" viewBox="0 0 120 220" fill="none" aria-hidden="true">
+      <path d="M60 214 C58 150 56 90 62 8" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M60 60 C42 52 32 38 30 20 C48 24 58 38 60 60Z" stroke="currentColor" stroke-width="1.2"/>
+      <path d="M61 100 C80 92 90 78 92 60 C74 64 63 78 61 100Z" stroke="currentColor" stroke-width="1.2"/>
+      <path d="M59 146 C42 138 33 124 32 108 C49 112 58 126 59 146Z" stroke="currentColor" stroke-width="1.2"/>
+    </svg>
+
+    <svg class="hb-portada__sello" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+      <circle cx="50" cy="50" r="47" stroke="currentColor" stroke-width="1.6" stroke-dasharray="3 5"/>
+      <circle cx="50" cy="50" r="36" stroke="currentColor" stroke-width="1"/>
+      <path d="M50 26 L56 42 L73 42 L59 52 L64 68 L50 58 L36 68 L41 52 L27 42 L44 42 Z" stroke="currentColor" stroke-width="1.2" fill="none"/>
+    </svg>
+
+    <header memory_type="text" memory_usage="custom" memory_key="portada-encabezado">
+      <p class="hb-portada__eyebrow">Con la bendición de sus familias</p>
+      <div class="hb-portada__filete" aria-hidden="true"></div>
+    </header>
+
+    <div memory_type="text" memory_usage="custom" memory_key="portada-nombres">
+      <h1 id="hb-portada-titulo" class="hb-portada__nombres">
+        <span class="hb-portada__linea-revel">Nombre de la Novia</span>
+        <span class="hb-portada__linea-revel"><span class="hb-portada__ampersand">&amp;</span> Nombre del Novio</span>
+      </h1>
+    </div>
+
+    <time class="hb-portada__fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="portada-fecha">
+      Fecha del evento
+    </time>
+
+    <figure class="hb-portada__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="portada-foto">
+      <img
+        src="https://loremflickr.com/480/600/couple,elegant"
+        alt="Retrato de los anfitriones"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="foto-pareja"
+        loading="lazy"
+      />
+      <figcaption hidden>Retrato principal</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.hb-portada');
+      if (!root) return;
+      root.classList.add('hb-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var title = root.querySelector('.hb-portada__nombres');
+      if (title && !title.textContent.trim()) {
+        title.closest('[memory_key="portada-nombres"]').style.display = 'none';
+      }
+
+      var area = root.querySelector('.hb-portada__plancha');
+      if (area) {
+        for (var i = 0; i < 9; i++) {
+          var dot = document.createElement('span');
+          dot.className = 'hb-portada__espora';
+          dot.style.left = (8 + Math.random() * 84) + '%';
+          dot.style.top = (55 + Math.random() * 38) + '%';
+          dot.style.animationDelay = (Math.random() * 8).toFixed(2) + 's';
+          area.appendChild(dot);
+        }
+      }
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        root.classList.add('esta-visto');
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            root.classList.add('esta-visto');
+            io.disconnect();
+          }
+        });
+      }, { threshold: 0.25 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Herbario de Línea',
+      descripcion: 'Portada editorial tipo lámina botánica: plancha con filete doble, rama line-art, sello giratorio y revelado de nombres por máscara.',
+      tags: ['portada', 'hero', 'botanico', 'editorial', 'line-art', 'sello', 'revelado', 'wireframe'],
+      tipo: 'portada'
+    };
+  </script>
+</section>
+
+<section
+  class="hb-padres"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .hb-padres {
+      --primary-color: #23301f;
+      --secondary-color: #5c6657;
+      --accent-color: #7d8f6e;
+      --bg-color: #f6f4ec;
+      --surface-color: #fffdf6;
+      --surface-border-color: rgba(35, 48, 31, 0.22);
+      --text-color: #23301f;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/paper,texture');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .hb-padres *,
+    .hb-padres *::before,
+    .hb-padres *::after { box-sizing: border-box; }
+
+    .hb-padres::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 86%, transparent);
+    }
+
+    .hb-padres__cabecera {
+      width: min(100%, 640px);
+      margin: 0 auto clamp(2rem, 5vw, 3.2rem);
+      text-align: center;
+    }
+
+    .hb-padres__titulo {
+      margin: 0 0 0.8rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.4rem);
+      letter-spacing: 0.04em;
+      color: var(--primary-color);
+    }
+
+    .hb-padres__intro {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.9rem, 1.6vw, 1rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .hb-padres__filete {
+      width: min(160px, 40%);
+      height: 7px;
+      margin: 1.1rem auto 0;
+      border-top: 1px solid var(--accent-color);
+      border-bottom: 1px solid var(--accent-color);
+    }
+
+    .hb-padres__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1.2rem, 3.5vw, 2.4rem);
+      width: min(100%, 920px);
+      margin: 0 auto;
+    }
+
+    .hb-padres__tarjeta {
+      position: relative;
+      padding: clamp(1.6rem, 3.5vw, 2.4rem) clamp(1.2rem, 3vw, 2rem);
+      text-align: center;
+      background: color-mix(in srgb, var(--surface-color) 94%, transparent);
+      border: 1px solid var(--surface-border-color);
+      outline: 1px solid var(--surface-border-color);
+      outline-offset: 5px;
+      box-shadow: 0 16px 38px rgba(35, 48, 31, 0.12);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .hb-padres.hb-js .hb-padres__tarjeta { opacity: 0; transform: translateY(18px); }
+    .hb-padres.esta-visto .hb-padres__tarjeta { opacity: 1; transform: none; }
+    .hb-padres.esta-visto .hb-padres__tarjeta:nth-child(2) { transition-delay: 0.14s; }
+
+    .hb-padres__num {
+      position: absolute;
+      top: 0.8rem;
+      left: 1rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.3em;
+      color: var(--accent-color);
+    }
+
+    .hb-padres__retrato {
+      width: clamp(112px, 16vw, 148px);
+      margin: 0 auto 1.2rem;
+      padding: 6px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 50%;
+      box-shadow: 0 10px 24px rgba(35, 48, 31, 0.16);
+    }
+    .hb-padres__retrato img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      object-fit: cover;
+      filter: saturate(0.9);
+    }
+
+    .hb-padres__rol {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.66rem, 1.2vw, 0.74rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .hb-padres__nombres {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+      line-height: 1.3;
+      color: var(--primary-color);
+    }
+
+    .hb-padres__nota {
+      margin: 0.6rem 0 0;
+      font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+      line-height: 1.65;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 760px) {
+      .hb-padres__grid { grid-template-columns: 1fr; max-width: 420px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-padres * { transition: none !important; animation: none !important; }
+      .hb-padres__tarjeta { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <header class="hb-padres__cabecera" memory_type="text" memory_usage="custom" memory_key="padres-intro">
+    <h2 class="hb-padres__titulo">Con el amor de nuestros padres</h2>
+    <p class="hb-padres__intro">Dos familias que se unen para celebrar; su apoyo y su ejemplo hacen posible este día.</p>
+    <div class="hb-padres__filete" aria-hidden="true"></div>
+  </header>
+
+  <div class="hb-padres__grid">
+    <article class="hb-padres__tarjeta">
+      <span class="hb-padres__num" aria-hidden="true">I</span>
+      <figure class="hb-padres__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-uno">
+        <img
+          src="https://loremflickr.com/400/400/portrait,family"
+          alt="Retrato de la familia de los novios"
+          path="placeholder"
+          data-library-category="bodas"
+          data-asset-type="retrato-familia"
+          loading="lazy"
+        />
+        <figcaption hidden>Retrato familia uno</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-uno">
+        <p class="hb-padres__rol">Padres de la novia</p>
+        <h3 class="hb-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+        <p class="hb-padres__nota">Apellido Familiar</p>
+      </div>
+    </article>
+
+    <article class="hb-padres__tarjeta">
+      <span class="hb-padres__num" aria-hidden="true">II</span>
+      <figure class="hb-padres__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-dos">
+        <img
+          src="https://loremflickr.com/400/400/portrait,parents"
+          alt="Retrato de la familia del novio"
+          path="placeholder"
+          data-library-category="bodas"
+          data-asset-type="retrato-familia"
+          loading="lazy"
+        />
+        <figcaption hidden>Retrato familia dos</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-dos">
+        <p class="hb-padres__rol">Padres del novio</p>
+        <h3 class="hb-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+        <p class="hb-padres__nota">Apellido Familiar</p>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.hb-padres');
+      if (!root) return;
+      root.classList.add('hb-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.2 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Herbario de Línea — Padres',
+      descripcion: 'Dos láminas numeradas con retratos circulares enmarcados, roles en versalitas y entrada escalonada al entrar en pantalla.',
+      tags: ['padres', 'familias', 'retratos', 'circulo', 'stagger', 'botanico', 'editorial'],
+      tipo: 'padres'
+    };
+  </script>
+</section>
+
+<section
+  class="hb-ubicacion"
+  data-gemini-id="ubicacion-mapa"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .hb-ubicacion {
+      --primary-color: #23301f;
+      --secondary-color: #5c6657;
+      --accent-color: #7d8f6e;
+      --bg-color: #f6f4ec;
+      --surface-color: #fffdf6;
+      --surface-border-color: rgba(35, 48, 31, 0.22);
+      --text-color: #23301f;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/landscape,soft');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .hb-ubicacion *,
+    .hb-ubicacion *::before,
+    .hb-ubicacion *::after { box-sizing: border-box; }
+
+    .hb-ubicacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 88%, transparent);
+    }
+
+    .hb-ubicacion__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.6rem, 4vw, 3rem);
+      align-items: center;
+      width: min(100%, 1080px);
+      margin: 0 auto;
+    }
+
+    .hb-ubicacion__info { text-align: left; }
+
+    .hb-ubicacion__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.64rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .hb-ubicacion__titulo {
+      margin: 0 0 1rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.5rem);
+      line-height: 1.15;
+      color: var(--primary-color);
+    }
+
+    .hb-ubicacion__direccion {
+      margin: 0 0 1.4rem;
+      padding-left: 1rem;
+      border-left: 2px solid var(--accent-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: normal;
+      font-size: clamp(0.92rem, 1.7vw, 1.02rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .hb-ubicacion__lugar {
+      margin: 0 0 1.4rem;
+      border: 1px solid var(--surface-border-color);
+      padding: 6px;
+      background: var(--surface-color);
+      box-shadow: 0 10px 24px rgba(35, 48, 31, 0.12);
+    }
+    .hb-ubicacion__lugar img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      filter: saturate(0.9);
+    }
+
+    .hb-ubicacion__marcador {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.4rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-color);
+    }
+    .hb-ubicacion__punto {
+      position: relative;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent-color);
+    }
+    .hb-ubicacion__onda {
+      position: absolute;
+      inset: -7px;
+      border: 1.5px solid var(--accent-color);
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    .hb-ubicacion.esta-visto .hb-ubicacion__onda { animation: hbUbicacionPulso 1.8s ease-out infinite; }
+    @keyframes hbUbicacionPulso {
+      0% { opacity: 0.9; transform: scale(0.4); }
+      70% { opacity: 0.15; transform: scale(1.25); }
+      100% { opacity: 0; transform: scale(1.35); }
+    }
+
+    .hb-ubicacion__boton {
+      display: inline-block;
+      padding: 0.75rem 1.7rem;
+      border: 1px solid var(--primary-color);
+      outline: 1px solid var(--surface-border-color);
+      outline-offset: 4px;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.74rem, 1.4vw, 0.84rem);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--primary-color);
+      background: var(--surface-color);
+      transition: background 0.4s ease, color 0.4s ease, transform 0.4s ease;
+    }
+    .hb-ubicacion__boton:hover { background: var(--primary-color); color: var(--bg-color); transform: translateY(-2px); }
+
+    .hb-ubicacion__marco {
+      position: relative;
+      padding: 10px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      outline: 1px solid var(--surface-border-color);
+      outline-offset: 5px;
+      box-shadow: 0 22px 50px rgba(35, 48, 31, 0.16);
+    }
+    .hb-ubicacion__marco-titulo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0 0 10px;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .hb-ubicacion__mapa {
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--surface-border-color);
+    }
+    .hb-ubicacion__mapa iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border: 0;
+      filter: saturate(0.82) contrast(0.98);
+    }
+
+    .hb-ubicacion__rosa {
+      position: absolute;
+      top: -18px;
+      right: -16px;
+      width: 46px;
+      color: var(--accent-color);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 50%;
+      padding: 6px;
+      box-shadow: 0 8px 18px rgba(35, 48, 31, 0.18);
+    }
+
+    @media (max-width: 880px) {
+      .hb-ubicacion__grid { grid-template-columns: 1fr; }
+      .hb-ubicacion__info { text-align: center; }
+      .hb-ubicacion__direccion { border-left: 0; padding-left: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-ubicacion * { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="hb-ubicacion__grid">
+    <div class="hb-ubicacion__info">
+      <p class="hb-ubicacion__etiqueta" memory_type="text" memory_usage="custom" memory_key="ubicacion-etiqueta">Lámina de ruta</p>
+      <h2 class="hb-ubicacion__titulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Cómo llegar</h2>
+      <address class="hb-ubicacion__direccion" memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion">
+        Nombre del lugar<br />
+        Calle Principal 123, Colonia Centro<br />
+        Ciudad, Estado
+      </address>
+      <figure class="hb-ubicacion__lugar" memory_type="image" memory_usage="custom" memory_source="library" memory_key="ubicacion-foto">
+        <img
+          src="https://loremflickr.com/520/360/venue,garden"
+          alt="Vista del lugar del evento"
+          path="placeholder"
+          data-library-category="bodas"
+          data-asset-type="lugar"
+          loading="lazy"
+        />
+        <figcaption hidden>Vista del lugar</figcaption>
+      </figure>
+
+      <span class="hb-ubicacion__marcador" aria-hidden="true">
+        <span class="hb-ubicacion__punto"><span class="hb-ubicacion__onda"></span></span>
+        Punto de reunión
+      </span>
+      <a
+        class="hb-ubicacion__boton"
+        href="https://www.google.com/maps?q=Ubicacion+del+evento"
+        target="_blank"
+        rel="noopener"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="ubicacion-boton"
+      >Cómo llegar</a>
+    </div>
+
+    <figure class="hb-ubicacion__marco">
+      <svg class="hb-ubicacion__rosa" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <path d="M24 4 L28 24 L24 44 L20 24 Z" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M4 24 L24 20 L44 24 L24 28 Z" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="24" cy="24" r="3" fill="currentColor"/>
+      </svg>
+      <figcaption class="hb-ubicacion__marco-titulo">
+        <span>Mapa</span><span>Esc. 1:1</span>
+      </figcaption>
+      <div class="hb-ubicacion__mapa" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url">
+        <iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen></iframe>
+      </div>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.hb-ubicacion');
+      if (!root) return;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) { root.classList.add('esta-visto'); return; }
+      if (!('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-mapa',
+      style_name: 'Herbario de Línea — Mapa',
+      descripcion: 'Mapa enmarcado con doble filete y rosa de los vientos, dirección en address, marcador con pulso y botón Cómo llegar.',
+      tags: ['ubicacion', 'mapa', 'direccion', 'marcador', 'pulso', 'boton', 'botanico'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>
+
+<section
+  class="hb-itinerario"
+  data-gemini-id="itinerario-agenda"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .hb-itinerario {
+      --primary-color: #23301f;
+      --secondary-color: #5c6657;
+      --accent-color: #7d8f6e;
+      --bg-color: #f6f4ec;
+      --surface-color: #fffdf6;
+      --surface-border-color: rgba(35, 48, 31, 0.22);
+      --text-color: #23301f;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/garden,soft');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .hb-itinerario *,
+    .hb-itinerario *::before,
+    .hb-itinerario *::after { box-sizing: border-box; }
+
+    .hb-itinerario::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 87%, transparent);
+    }
+
+    .hb-itinerario__cabecera { text-align: center; margin: 0 auto clamp(2rem, 5vw, 3.4rem); max-width: 620px; }
+    .hb-itinerario__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.64rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .hb-itinerario__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.5rem);
+      color: var(--primary-color);
+    }
+    .hb-itinerario__intro {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .hb-itinerario__timeline {
+      position: relative;
+      width: min(100%, 680px);
+      margin: 0 auto;
+      padding-left: clamp(2.2rem, 6vw, 3.4rem);
+    }
+    .hb-itinerario__riel {
+      position: absolute;
+      top: 6px;
+      bottom: 6px;
+      left: 12px;
+      width: 2px;
+      background: color-mix(in srgb, var(--accent-color) 28%, transparent);
+    }
+    .hb-itinerario__progreso {
+      position: absolute;
+      top: 6px;
+      left: 12px;
+      width: 2px;
+      height: 0%;
+      background: var(--accent-color);
+      transition: height 0.2s linear;
+    }
+
+    .hb-itinerario__hito {
+      position: relative;
+      margin: 0 0 clamp(1.6rem, 4vw, 2.4rem);
+      padding: clamp(1.1rem, 2.6vw, 1.6rem) clamp(1.2rem, 3vw, 1.8rem);
+      background: color-mix(in srgb, var(--surface-color) 94%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 12px 30px rgba(35, 48, 31, 0.1);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .hb-itinerario.hb-js .hb-itinerario__hito { opacity: 0; transform: translateX(-14px); }
+    .hb-itinerario .hb-itinerario__hito.esta-visto { opacity: 1; transform: none; }
+
+    .hb-itinerario__hoja {
+      position: absolute;
+      top: 50%;
+      left: calc(-1 * clamp(2.2rem, 6vw, 3.4rem) - 8px);
+      transform: translateY(-50%) rotate(45deg);
+      width: 15px;
+      height: 15px;
+      background: var(--bg-color);
+      border: 2px solid var(--accent-color);
+      border-radius: 50% 50% 50% 0;
+    }
+
+    .hb-itinerario__hora {
+      display: inline-block;
+      margin-bottom: 0.45rem;
+      padding: 0.18rem 0.7rem;
+      border: 1px solid var(--surface-border-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.7rem, 1.3vw, 0.8rem);
+      letter-spacing: 0.2em;
+      color: var(--primary-color);
+      background: var(--bg-color);
+    }
+    .hb-itinerario__momento {
+      margin: 0 0 0.35rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+      color: var(--primary-color);
+    }
+    .hb-itinerario__detalle {
+      margin: 0;
+      font-size: clamp(0.82rem, 1.5vw, 0.92rem);
+      line-height: 1.65;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 560px) {
+      .hb-itinerario__timeline { padding-left: 1.9rem; }
+      .hb-itinerario__hoja { left: -1.7rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-itinerario * { transition: none !important; }
+      .hb-itinerario__hito { opacity: 1; transform: none; }
+      .hb-itinerario__progreso { transition: none; }
+    }
+  </style>
+
+  <header class="hb-itinerario__cabecera" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">
+    <p class="hb-itinerario__etiqueta" memory_type="text" memory_usage="custom" memory_key="itinerario-etiqueta">Programa del día</p>
+    <h2 class="hb-itinerario__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Itinerario</h2>
+    <p class="hb-itinerario__intro" memory_type="text" memory_usage="custom" memory_key="itinerario-texto">Los momentos de la celebración, uno tras otro, como páginas de un cuaderno de campo.</p>
+  </header>
+
+  <div class="hb-itinerario__timeline">
+    <span class="hb-itinerario__riel" aria-hidden="true"></span>
+    <span class="hb-itinerario__progreso" aria-hidden="true" data-hb-riel></span>
+
+    <article class="hb-itinerario__hito" data-hb-hito>
+      <span class="hb-itinerario__hoja" aria-hidden="true"></span>
+      <time class="hb-itinerario__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00 h</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
+        <h3 class="hb-itinerario__momento">Ceremonia</h3>
+        <p class="hb-itinerario__detalle">Llegada de invitados y comienzo del brindis inicial.</p>
+      </div>
+    </article>
+
+    <article class="hb-itinerario__hito" data-hb-hito>
+      <span class="hb-itinerario__hoja" aria-hidden="true"></span>
+      <time class="hb-itinerario__hora" datetime="18:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">18:00 h</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
+        <h3 class="hb-itinerario__momento">Recepción</h3>
+        <p class="hb-itinerario__detalle">Bienvenida en el jardín con música ambiental.</p>
+      </div>
+    </article>
+
+    <article class="hb-itinerario__hito" data-hb-hito>
+      <span class="hb-itinerario__hoja" aria-hidden="true"></span>
+      <time class="hb-itinerario__hora" datetime="20:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">20:00 h</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
+        <h3 class="hb-itinerario__momento">Comida</h3>
+        <p class="hb-itinerario__detalle">Servicio de banquete y momentos especiales.</p>
+      </div>
+    </article>
+
+    <article class="hb-itinerario__hito" data-hb-hito>
+      <span class="hb-itinerario__hoja" aria-hidden="true"></span>
+      <time class="hb-itinerario__hora" datetime="22:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">22:00 h</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
+        <h3 class="hb-itinerario__momento">Fiesta</h3>
+        <p class="hb-itinerario__detalle">Apertura de la pista y celebración hasta el final.</p>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.hb-itinerario');
+      if (!root) return;
+      root.classList.add('hb-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var riel = root.querySelector('[data-hb-riel]');
+      var hitos = Array.prototype.slice.call(root.querySelectorAll('[data-hb-hito]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      var revealIO = ('IntersectionObserver' in window) && !reduce ? new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('esta-visto');
+            revealIO.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 }) : null;
+
+      hitos.forEach(function (hito) {
+        if (revealIO) revealIO.observe(hito);
+        else hito.classList.add('esta-visto');
+      });
+
+      function alHacerScroll() {
+        if (!riel) return;
+        var rect = root.getBoundingClientRect();
+        var total = rect.height + window.innerHeight * 0.4;
+        var pasado = Math.min(Math.max(window.innerHeight * 0.75 - rect.top, 0), total);
+        riel.style.height = ((pasado / total) * 100).toFixed(2) + '%';
+      }
+      if (!reduce) {
+        window.addEventListener('scroll', alHacerScroll, { passive: true });
+        window.addEventListener('resize', alHacerScroll);
+        alHacerScroll();
+      } else if (riel) {
+        riel.style.height = '100%';
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Herbario de Línea — Itinerario',
+      descripcion: 'Línea de tiempo vertical con riel que se dibuja al hacer scroll, hitos en tarjetas con hoja marcadora y horas en time.',
+      tags: ['itinerario', 'timeline', 'agenda', 'scroll', 'horarios', 'botanico', 'editorial'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>
+
+<section
+  class="hb-confirmacion"
+  data-gemini-id="confirmacion-texto"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .hb-confirmacion {
+      --primary-color: #23301f;
+      --secondary-color: #5c6657;
+      --accent-color: #7d8f6e;
+      --bg-color: #f6f4ec;
+      --surface-color: #fffdf6;
+      --surface-border-color: rgba(35, 48, 31, 0.22);
+      --text-color: #23301f;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 72svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/meadow,light');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .hb-confirmacion *,
+    .hb-confirmacion *::before,
+    .hb-confirmacion *::after { box-sizing: border-box; }
+
+    .hb-confirmacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 85%, transparent);
+    }
+
+    .hb-confirmacion__tarjeta {
+      position: relative;
+      width: min(100%, 640px);
+      padding: clamp(2.2rem, 5.5vw, 3.6rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 95%, transparent);
+      border: 1px solid var(--surface-border-color);
+      outline: 1px solid var(--surface-border-color);
+      outline-offset: 6px;
+      box-shadow: 0 24px 54px rgba(35, 48, 31, 0.16);
+    }
+
+    .hb-confirmacion__esquina {
+      position: absolute;
+      width: 34px;
+      height: 34px;
+      color: var(--accent-color);
+      opacity: 0.75;
+      pointer-events: none;
+    }
+    .hb-confirmacion__esquina::before,
+    .hb-confirmacion__esquina::after {
+      content: '';
+      position: absolute;
+      background: currentColor;
+    }
+    .hb-confirmacion__esquina::before { width: 100%; height: 1px; }
+    .hb-confirmacion__esquina::after { width: 1px; height: 100%; }
+    .hb-confirmacion__esquina--si { top: 10px; left: 10px; }
+    .hb-confirmacion__esquina--sd { top: 10px; right: 10px; transform: scaleX(-1); }
+    .hb-confirmacion__esquina--ii { bottom: 10px; left: 10px; transform: scaleY(-1); }
+    .hb-confirmacion__esquina--id { bottom: 10px; right: 10px; transform: scale(-1); }
+
+    .hb-confirmacion__sello {
+      width: clamp(58px, 8vw, 74px);
+      margin: 0 auto clamp(1rem, 2.4vw, 1.5rem);
+      color: var(--accent-color);
+      animation: hbConfirmacionGiro 34s linear infinite;
+    }
+    @keyframes hbConfirmacionGiro { to { transform: rotate(360deg); } }
+
+    .hb-confirmacion__etiqueta {
+      margin: 0 0 0.7rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.64rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .hb-confirmacion__titulo {
+      margin: 0 0 1rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+
+    .hb-confirmacion__texto {
+      margin: 0 auto 1.4rem;
+      max-width: 46ch;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.9rem, 1.7vw, 1.02rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+
+    .hb-confirmacion__limite {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      padding: 0.6rem 1.5rem;
+      border-top: 1px solid var(--accent-color);
+      border-bottom: 1px solid var(--accent-color);
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+    .hb-confirmacion__limite-rotulo {
+      font-size: 0.62rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .hb-confirmacion__limite-fecha {
+      font-size: clamp(0.86rem, 1.6vw, 0.98rem);
+      letter-spacing: 0.12em;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 560px) {
+      .hb-confirmacion { min-height: 64svh; }
+      .hb-confirmacion__tarjeta { padding: 2.2rem 1.3rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-confirmacion * { animation: none !important; }
+    }
+  </style>
+
+  <div class="hb-confirmacion__tarjeta">
+    <span class="hb-confirmacion__esquina hb-confirmacion__esquina--si" aria-hidden="true"></span>
+    <span class="hb-confirmacion__esquina hb-confirmacion__esquina--sd" aria-hidden="true"></span>
+    <span class="hb-confirmacion__esquina hb-confirmacion__esquina--ii" aria-hidden="true"></span>
+    <span class="hb-confirmacion__esquina hb-confirmacion__esquina--id" aria-hidden="true"></span>
+
+    <svg class="hb-confirmacion__sello" viewBox="0 0 90 90" fill="none" aria-hidden="true">
+      <circle cx="45" cy="45" r="42" stroke="currentColor" stroke-width="1.4" stroke-dasharray="2 4"/>
+      <circle cx="45" cy="45" r="31" stroke="currentColor" stroke-width="1"/>
+      <path d="M45 24 L49.5 37.5 L63.5 37.5 L52.5 46 L56.5 59.5 L45 51.5 L33.5 59.5 L37.5 46 L26.5 37.5 L40.5 37.5 Z" stroke="currentColor" stroke-width="1.1"/>
+      <path d="M30 66 C38 62 52 62 60 66" stroke="currentColor" stroke-width="1"/>
+    </svg>
+
+    <p class="hb-confirmacion__etiqueta" memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta">Confirma tu asistencia</p>
+    <h2 class="hb-confirmacion__titulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">Nos encantaría celebrar contigo</h2>
+    <p class="hb-confirmacion__texto" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">
+      Cada lugar en esta celebración está pensado con cariño. Utiliza el botón de confirmación de tu invitación
+      digital para avisarnos si podrás acompañarnos; así reservamos tu asiento en la mesa.
+    </p>
+    <p class="hb-confirmacion__limite">
+      <span class="hb-confirmacion__limite-rotulo">Fecha límite</span>
+      <time class="hb-confirmacion__limite-fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha">DD de mes</time>
+    </p>
+  </div>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Herbario de Línea — Confirmación',
+      descripcion: 'Tarjeta informativa de RSVP con esquinas de filete, sello giratorio y fecha límite; el enlace de confirmación vive en la invitación.',
+      tags: ['confirmacion', 'rsvp', 'informativo', 'sello', 'fecha limite', 'botanico'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>
+
+<section
+  class="hb-detalles"
+  data-gemini-id="detalles-vestimenta"
+>
+  <style>
+    .hb-detalles {
+      --primary-color: #23301f;
+      --secondary-color: #5c6657;
+      --accent-color: #7d8f6e;
+      --bg-color: #f6f4ec;
+      --surface-color: #fffdf6;
+      --surface-border-color: rgba(35, 48, 31, 0.22);
+      --text-color: #23301f;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .hb-detalles *,
+    .hb-detalles *::before,
+    .hb-detalles *::after { box-sizing: border-box; }
+
+    .hb-detalles__cabecera {
+      display: grid;
+      grid-template-columns: minmax(0, 4fr) minmax(0, 6fr);
+      gap: clamp(1.6rem, 4vw, 3rem);
+      align-items: center;
+      width: min(100%, 1020px);
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+    }
+
+    .hb-detalles__figura {
+      position: relative;
+      margin: 0;
+      padding: 8px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 18px 44px rgba(35, 48, 31, 0.15);
+      transform: rotate(-2deg);
+    }
+    .hb-detalles__figura img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      clip-path: polygon(0 0, 100% 0, 100% 88%, 88% 100%, 0 100%);
+      filter: saturate(0.9);
+    }
+    .hb-detalles__figura figcaption {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      padding: 0.25rem 0.7rem;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .hb-detalles__cinta {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      width: 92px;
+      height: 24px;
+      transform: translateX(-50%) rotate(-3deg);
+      background: color-mix(in srgb, var(--accent-color) 55%, transparent);
+      box-shadow: 0 4px 10px rgba(35, 48, 31, 0.15);
+    }
+
+    .hb-detalles__titulo {
+      margin: 0 0 0.8rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.5rem);
+      color: var(--primary-color);
+    }
+    .hb-detalles__intro {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.9rem, 1.6vw, 1rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .hb-detalles__grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(1rem, 3vw, 1.8rem);
+      width: min(100%, 1020px);
+      margin: 0 auto;
+      perspective: 900px;
+    }
+
+    .hb-detalles__cara {
+      position: relative;
+      padding: clamp(1.4rem, 3vw, 2rem);
+      text-align: center;
+      background: color-mix(in srgb, var(--surface-color) 96%, transparent);
+      border: 1px solid var(--surface-border-color);
+      outline: 1px solid var(--surface-border-color);
+      outline-offset: 4px;
+      box-shadow: 0 14px 34px rgba(35, 48, 31, 0.12);
+      transform-style: preserve-3d;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), box-shadow 0.5s ease;
+    }
+    .hb-detalles.hb-js .hb-detalles__cara { opacity: 0; transform: rotateX(38deg) translateY(16px); }
+    .hb-detalles.esta-visto .hb-detalles__cara { opacity: 1; transform: none; }
+    .hb-detalles.esta-visto .hb-detalles__cara:nth-child(2) { transition-delay: 0.12s; }
+    .hb-detalles.esta-visto .hb-detalles__cara:nth-child(3) { transition-delay: 0.24s; }
+    .hb-detalles__cara:hover { box-shadow: 0 22px 48px rgba(35, 48, 31, 0.2); transform: translateY(-4px); }
+
+    .hb-detalles__icono {
+      width: 46px;
+      margin: 0 auto 0.9rem;
+      color: var(--accent-color);
+    }
+    .hb-detalles__rotulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.64rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .hb-detalles__titulo-card {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.05rem, 2.1vw, 1.25rem);
+      color: var(--primary-color);
+    }
+    .hb-detalles__texto {
+      margin: 0;
+      font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 880px) {
+      .hb-detalles__cabecera { grid-template-columns: 1fr; }
+      .hb-detalles__figura { max-width: 380px; margin: 0 auto; transform: rotate(0deg); }
+    }
+    @media (max-width: 640px) {
+      .hb-detalles__grid { grid-template-columns: 1fr; max-width: 380px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-detalles * { transition: none !important; }
+      .hb-detalles__cara { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <header class="hb-detalles__cabecera">
+    <figure class="hb-detalles__figura" memory_type="image" memory_usage="custom" memory_source="library" memory_key="detalles-foto">
+      <span class="hb-detalles__cinta" aria-hidden="true"></span>
+      <img
+        src="https://loremflickr.com/480/600/elegant,fabric"
+        alt="Detalle de telas y elegancia"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="detalle-elegancia"
+        loading="lazy"
+      />
+      <figcaption hidden>Detalle</figcaption>
+    </figure>
+    <div memory_type="text" memory_usage="custom" memory_key="detalles-intro">
+      <h2 class="hb-detalles__titulo">Detalles a considerar</h2>
+      <p class="hb-detalles__intro">
+        Todo está pensado para que disfrutes sin preocupaciones: el código de vestimenta,
+        los horarios y esos pequeños datos que hacen la diferencia.
+      </p>
+    </div>
+  </header>
+
+  <div class="hb-detalles__grid">
+    <article class="hb-detalles__cara">
+      <svg class="hb-detalles__icono" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <path d="M18 6 L14 16 L24 20 L34 16 L30 6" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M14 16 L10 42 L38 42 L34 16" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M20 26 H28 M20 32 H28" stroke="currentColor" stroke-width="1.2"/>
+      </svg>
+      <p class="hb-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-1">Etiqueta</p>
+      <h3 class="hb-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Vestimenta formal</h3>
+      <p class="hb-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">
+        Traje de gala o vestido largo. Los tonos neutros acompañan la atmósfera de la celebración.
+      </p>
+    </article>
+
+    <article class="hb-detalles__cara">
+      <svg class="hb-detalles__icono" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <circle cx="24" cy="16" r="8" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M10 42 C10 32 16 28 24 28 C32 28 38 32 38 42" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M18 8 C22 4 28 4 31 7" stroke="currentColor" stroke-width="1.2"/>
+      </svg>
+      <p class="hb-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-2">Comodidad</p>
+      <h3 class="hb-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Celebración al aire libre</h3>
+      <p class="hb-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">
+        Considera calzado cómodo para el jardín y un abrigo ligero para la noche.
+      </p>
+    </article>
+
+    <article class="hb-detalles__cara">
+      <svg class="hb-detalles__icono" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <rect x="8" y="18" width="32" height="22" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M8 18 L14 10 H34 L40 18" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M24 10 V18 M18 14 H30" stroke="currentColor" stroke-width="1.2"/>
+      </svg>
+      <p class="hb-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-3">Extra</p>
+      <h3 class="hb-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Zona de descanso</h3>
+      <p class="hb-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">
+        Habrá área sombreada y estación de bebidas durante toda la recepción.
+      </p>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.hb-detalles');
+      if (!root) return;
+      root.classList.add('hb-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.22 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-vestimenta',
+      style_name: 'Herbario de Línea — Detalles',
+      descripcion: 'Foto con esquina recortada y cinta adhesiva junto a tarjetas informativas que se revelan en perspectiva 3D al entrar en pantalla.',
+      tags: ['detalles', 'vestimenta', 'tarjetas', 'revelado', 'cinta', 'perspectiva', 'botanico'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>
+
+<section
+  class="hb-countdown"
+  data-gemini-id="countdown-herbario-dial"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+>
+  <style>
+    .hb-countdown {
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      min-height: 640px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 5vw, 3rem);
+      background-color: var(--bg-color, #f6f4ec);
+      background-image: url('https://loremflickr.com/1600/900/botanical,garden');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color, #23301f);
+      text-align: center;
+    }
+    .hb-countdown *,
+    .hb-countdown *::before,
+    .hb-countdown *::after { box-sizing: border-box; }
+
+    .hb-countdown::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color, #f6f4ec) 84%, transparent);
+    }
+
+    .hb-countdown__contenido { width: min(100%, 780px); }
+
+    .hb-countdown__etiqueta {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.64rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--accent-color, #7d8f6e);
+    }
+
+    .hb-countdown__titulo {
+      margin: 0 0 0.4rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 4vw, 2.7rem);
+      color: var(--primary-color, #23301f);
+    }
+
+    .hb-countdown__fecha {
+      display: block;
+      margin-bottom: clamp(1.4rem, 3.4vw, 2.2rem);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.84rem, 1.7vw, 0.98rem);
+      letter-spacing: 0.14em;
+      color: var(--secondary-color, #5c6657);
+    }
+
+    .hb-countdown__dial-zona {
+      display: grid;
+      grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+      gap: clamp(1.4rem, 4vw, 2.6rem);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hb-countdown__dial {
+      position: relative;
+      width: clamp(168px, 26vw, 224px);
+      margin: 0 auto;
+      color: var(--text-color, #23301f);
+    }
+    .hb-countdown__dial svg { display: block; width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 10px 22px rgba(35, 48, 31, 0.14)); }
+    .hb-countdown__cara { fill: color-mix(in srgb, var(--bg-color, #f6f4ec) 90%, transparent); stroke: var(--primary-color, #23301f); stroke-width: 1.4; }
+    .hb-countdown__tic { stroke: currentColor; stroke-width: 1.4; opacity: 0.45; }
+    .hb-countdown__arco-fondo { fill: none; stroke: color-mix(in srgb, var(--accent-color, #7d8f6e) 30%, transparent); stroke-width: 5; }
+    .hb-countdown__arco {
+      fill: none;
+      stroke: var(--accent-color, #7d8f6e);
+      stroke-width: 5;
+      stroke-linecap: round;
+      transform: rotate(-90deg);
+      transform-origin: 110px 110px;
+      transition: stroke-dashoffset 0.6s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .hb-countdown__hoja-central { stroke: var(--primary-color, #23301f); stroke-width: 1.2; fill: none; }
+    .hb-countdown__segundo {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+      font-variant-numeric: tabular-nums;
+      color: var(--primary-color, #23301f);
+    }
+
+    .hb-countdown__unidades {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(0.7rem, 2vw, 1.1rem);
+    }
+    .hb-countdown__unidad {
+      padding: clamp(0.8rem, 2vw, 1.2rem) 0.5rem;
+      background: color-mix(in srgb, var(--bg-color, #f6f4ec) 88%, transparent);
+      border: 1px solid color-mix(in srgb, var(--primary-color, #23301f) 22%, transparent);
+      outline: 1px solid color-mix(in srgb, var(--primary-color, #23301f) 14%, transparent);
+      outline-offset: 4px;
+    }
+    .hb-countdown__numero {
+      display: block;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.7rem, 4.4vw, 2.6rem);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      color: var(--primary-color, #23301f);
+    }
+    .hb-countdown__rotulo {
+      display: block;
+      margin-top: 0.45rem;
+      font-size: clamp(0.58rem, 1.2vw, 0.68rem);
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--secondary-color, #5c6657);
+    }
+
+    @media (max-width: 720px) {
+      .hb-countdown__dial-zona { grid-template-columns: 1fr; }
+      .hb-countdown__unidades { width: min(100%, 420px); margin: 0 auto; }
+    }
+
+    @media (max-width: 420px) {
+      .hb-countdown { min-height: 560px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-countdown__arco { transition: none; }
+    }
+  </style>
+
+  <div class="hb-countdown__contenido">
+    <p class="hb-countdown__etiqueta" memory_type="text" memory_usage="custom" memory_key="countdown-etiqueta">Cuenta regresiva</p>
+    <h2 class="hb-countdown__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">El gran día se acerca</h2>
+    <time class="hb-countdown__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+
+    <div class="hb-countdown__dial-zona">
+      <div class="hb-countdown__dial" aria-hidden="true">
+        <svg viewBox="0 0 220 220">
+          <circle class="hb-countdown__cara" cx="110" cy="110" r="104" />
+          <g class="hb-countdown__tics">
+            <line class="hb-countdown__tic" x1="110" y1="14" x2="110" y2="24" />
+            <line class="hb-countdown__tic" x1="206" y1="110" x2="196" y2="110" />
+            <line class="hb-countdown__tic" x1="110" y1="206" x2="110" y2="196" />
+            <line class="hb-countdown__tic" x1="14" y1="110" x2="24" y2="110" />
+            <line class="hb-countdown__tic" x1="177" y1="43" x2="170" y2="50" transform="rotate(45 110 110)" />
+            <line class="hb-countdown__tic" x1="177" y1="177" x2="170" y2="170" transform="rotate(135 110 110)" />
+            <line class="hb-countdown__tic" x1="43" y1="177" x2="50" y2="170" transform="rotate(45 110 110)" />
+            <line class="hb-countdown__tic" x1="43" y1="43" x2="50" y2="50" transform="rotate(135 110 110)" />
+          </g>
+          <circle class="hb-countdown__arco-fondo" cx="110" cy="110" r="86" />
+          <circle class="hb-countdown__arco" data-hb-arco cx="110" cy="110" r="86" stroke-dasharray="540.35" stroke-dashoffset="0" />
+          <path class="hb-countdown__hoja-central" d="M110 92 C122 100 124 116 110 130 C96 116 98 100 110 92 Z" />
+          <path class="hb-countdown__hoja-central" d="M110 130 L110 142" />
+        </svg>
+        <span class="hb-countdown__segundo" data-hb-segundo>00</span>
+      </div>
+
+      <div class="hb-countdown__unidades" aria-label="Cuenta regresiva">
+        <div class="hb-countdown__unidad"><span class="hb-countdown__numero" data-countdown-unit="days">--</span><span class="hb-countdown__rotulo">Días</span></div>
+        <div class="hb-countdown__unidad"><span class="hb-countdown__numero" data-countdown-unit="hours">--</span><span class="hb-countdown__rotulo">Horas</span></div>
+        <div class="hb-countdown__unidad"><span class="hb-countdown__numero" data-countdown-unit="minutes">--</span><span class="hb-countdown__rotulo">Min</span></div>
+        <div class="hb-countdown__unidad"><span class="hb-countdown__numero" data-countdown-unit="seconds">--</span><span class="hb-countdown__rotulo">Seg</span></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var el = null;
+      try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
+      if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+      if (!el) return;
+
+      var arco = el.querySelector('[data-hb-arco]');
+      var segundoNodo = el.querySelector('[data-hb-segundo]');
+      var LONGITUD = arco ? 2 * Math.PI * 86 : 0;
+      var target = NaN;
+      var attr = el.getAttribute('data-countdown-target');
+      if (attr && attr.indexOf('YYYY') === -1) { var p = new Date(attr); if (!isNaN(p.getTime())) target = p.getTime(); }
+      if (isNaN(target) && window.__countdownTarget) { var p1 = new Date(window.__countdownTarget); if (!isNaN(p1.getTime())) target = p1.getTime(); }
+      if (isNaN(target) && window.countdown_target) { var p2 = new Date(window.countdown_target); if (!isNaN(p2.getTime())) target = p2.getTime(); }
+
+      var intervalId = null;
+      (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+
+      function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+      function setUnit(unit, value) {
+        var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
+        if (node) node.textContent = value;
+      }
+      function tick() {
+        if (!Number.isFinite(target)) return;
+        var diff = Math.max(target - Date.now(), 0);
+        setUnit('days', Math.floor(diff / 86400000));
+        setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
+        setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
+        var s = Math.floor((diff % 60000) / 1000);
+        setUnit('seconds', pad2(s));
+        if (segundoNodo) segundoNodo.textContent = pad2(s);
+        if (arco) {
+          var fraccion = 1 - s / 60;
+          arco.setAttribute('stroke-dashoffset', (LONGITUD * fraccion).toFixed(2));
+        }
+        if (diff === 0 && intervalId !== null) {
+          clearInterval(intervalId);
+          intervalId = null;
+          window.__countdownIntervals = [];
+        }
+      }
+      function start(newTarget) {
+        if (newTarget) { var p = new Date(newTarget); if (!isNaN(p.getTime())) target = p.getTime(); }
+        (window.__countdownIntervals || []).forEach(clearInterval);
+        window.__countdownIntervals = [];
+        intervalId = null;
+        if (!Number.isFinite(target)) return;
+        tick();
+        if (target > Date.now()) {
+          intervalId = setInterval(tick, 1000);
+          window.__countdownIntervals.push(intervalId);
+        }
+      }
+      start();
+      window.updateCountdown = start;
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-herbario-dial',
+      style_name: 'Dial de Herbario',
+      descripcion: 'Cuenta regresiva con dial circular de línea botánica: arco de segundos que se vacía, hoja central y cuatro unidades editables.',
+      tags: ['countdown', 'cuenta regresiva', 'dial', 'arco', 'botanico', 'editorial'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>
+
+<section
+  class="hb-padrinos"
+  data-gemini-id="padrinos-herbario-medallones"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .hb-padrinos {
+      --primary-color: #23301f;
+      --secondary-color: #5c6657;
+      --accent-color: #7d8f6e;
+      --bg-color: #f6f4ec;
+      --surface-color: #fffdf6;
+      --surface-border-color: rgba(35, 48, 31, 0.22);
+      --text-color: #23301f;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/linen,texture');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .hb-padrinos *,
+    .hb-padrinos *::before,
+    .hb-padrinos *::after { box-sizing: border-box; }
+
+    .hb-padrinos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 87%, transparent);
+    }
+
+    .hb-padrinos__cabecera { max-width: 620px; margin: 0 auto clamp(2rem, 5vw, 3.2rem); }
+    .hb-padrinos__titulo {
+      margin: 0 0 0.8rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .hb-padrinos__intro {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .hb-padrinos__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1.4rem, 4vw, 2.6rem);
+      width: min(100%, 860px);
+      margin: 0 auto;
+    }
+
+    .hb-padrinos__medallon {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: clamp(0.9rem, 2.5vw, 1.4rem);
+      align-items: center;
+      padding: clamp(1.1rem, 3vw, 1.6rem);
+      text-align: left;
+      background: color-mix(in srgb, var(--surface-color) 95%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 14px 32px rgba(35, 48, 31, 0.12);
+      border-radius: 999px;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .hb-padrinos.hb-js .hb-padrinos__medallon { opacity: 0; transform: translateY(16px) scale(0.97); }
+    .hb-padrinos.esta-visto .hb-padrinos__medallon { opacity: 1; transform: none; }
+
+    .hb-padrinos__marco {
+      width: clamp(72px, 11vw, 96px);
+      padding: 5px;
+      border: 1px solid var(--surface-border-color);
+      border-radius: 50%;
+      background: var(--bg-color);
+      box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--accent-color) 35%, transparent);
+    }
+    .hb-padrinos__marco img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      object-fit: cover;
+      filter: saturate(0.9);
+    }
+
+    .hb-padrinos__rol {
+      margin: 0 0 0.25rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.6rem, 1.1vw, 0.68rem);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .hb-padrinos__nombre {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.98rem, 2vw, 1.2rem);
+      line-height: 1.3;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 820px) {
+      .hb-padrinos__grid { grid-template-columns: 1fr; max-width: 460px; }
+    }
+    @media (max-width: 460px) {
+      .hb-padrinos__medallon { grid-template-columns: 1fr; justify-items: center; border-radius: 24px; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-padrinos * { transition: none !important; }
+      .hb-padrinos__medallon { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <header class="hb-padrinos__cabecera" memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
+    <h2 class="hb-padrinos__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Nuestros padrinos</h2>
+    <p class="hb-padrinos__intro" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">
+      Personas queridas que nos acompañan y bendicen este día con su presencia y su cariño.
+    </p>
+  </header>
+
+  <div class="hb-padrinos__grid">
+    <article class="hb-padrinos__medallon" data-hb-medallon>
+      <figure class="hb-padrinos__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
+        <img
+          src="https://loremflickr.com/300/300/portrait,elegant"
+          alt="Retrato de padrino"
+          path="placeholder"
+          data-library-category="bodas"
+          data-asset-type="retrato-padrino"
+          loading="lazy"
+        />
+        <figcaption hidden>Padrino uno</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
+        <p class="hb-padrinos__rol">Padrinos de alianzas</p>
+        <h3 class="hb-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+      </div>
+    </article>
+
+    <article class="hb-padrinos__medallon" data-hb-medallon>
+      <figure class="hb-padrinos__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
+        <img
+          src="https://loremflickr.com/300/300/portrait,smile"
+          alt="Retrato de madrina"
+          path="placeholder"
+          data-library-category="bodas"
+          data-asset-type="retrato-padrino"
+          loading="lazy"
+        />
+        <figcaption hidden>Padrino dos</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
+        <p class="hb-padrinos__rol">Padrinos de velo</p>
+        <h3 class="hb-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+      </div>
+    </article>
+
+    <article class="hb-padrinos__medallon" data-hb-medallon>
+      <figure class="hb-padrinos__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
+        <img
+          src="https://loremflickr.com/300/300/portrait,formal"
+          alt="Retrato de padrinos"
+          path="placeholder"
+          data-library-category="bodas"
+          data-asset-type="retrato-padrino"
+          loading="lazy"
+        />
+        <figcaption hidden>Padrino tres</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
+        <p class="hb-padrinos__rol">Padrinos de arras</p>
+        <h3 class="hb-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+      </div>
+    </article>
+
+    <article class="hb-padrinos__medallon" data-hb-medallon>
+      <figure class="hb-padrinos__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
+        <img
+          src="https://loremflickr.com/300/300/portrait,warm"
+          alt="Retrato de madrinas"
+          path="placeholder"
+          data-library-category="bodas"
+          data-asset-type="retrato-padrino"
+          loading="lazy"
+        />
+        <figcaption hidden>Padrino cuatro</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
+        <p class="hb-padrinos__rol">Padrinos de lazos</p>
+        <h3 class="hb-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.hb-padrinos');
+      if (!root) return;
+      root.classList.add('hb-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var piezas = Array.prototype.slice.call(root.querySelectorAll('[data-hb-medallon]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        piezas.forEach(function (p) { p.style.opacity = 1; p.style.transform = 'none'; });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = piezas.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.09).toFixed(2) + 's';
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'none';
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      piezas.forEach(function (p) { io.observe(p); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padrinos',
+      module_name: 'padrinos-herbario-medallones',
+      style_name: 'Herbario de Línea — Padrinos',
+      descripcion: 'Medallones ovalados en píldora con retratos circulares de doble marco y entrada escalonada por observador de pantalla.',
+      tags: ['padrinos', 'medallones', 'retratos', 'circulo', 'stagger', 'botanico'],
+      tipo: 'padrinos'
+    };
+  </script>
+</section>
+
+<section
+  class="hb-corte"
+  data-gemini-id="corte-herbario-lamina"
+>
+  <style>
+    .hb-corte {
+      --primary-color: #23301f;
+      --secondary-color: #5c6657;
+      --accent-color: #7d8f6e;
+      --bg-color: #f6f4ec;
+      --surface-color: #fffdf6;
+      --surface-border-color: rgba(35, 48, 31, 0.22);
+      --text-color: #23301f;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .hb-corte *,
+    .hb-corte *::before,
+    .hb-corte *::after { box-sizing: border-box; }
+
+    .hb-corte__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: clamp(1.6rem, 4.5vw, 3.2rem);
+      align-items: center;
+      width: min(100%, 1080px);
+      margin: 0 auto;
+    }
+
+    .hb-corte__escena {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--surface-border-color);
+      outline: 1px solid var(--surface-border-color);
+      outline-offset: 6px;
+      box-shadow: 0 26px 60px rgba(35, 48, 31, 0.18);
+    }
+    .hb-corte__escena img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      filter: saturate(0.92);
+      transform: scale(1.06);
+      transition: transform 0.5s ease;
+    }
+    .hb-corte.esta-visto .hb-corte__escena img { transform: scale(1); }
+
+    .hb-corte__telon {
+      position: absolute;
+      inset: 0;
+      display: none;
+      pointer-events: none;
+    }
+    .hb-corte.hb-js .hb-corte__telon { display: flex; }
+    .hb-corte__panel {
+      flex: 1;
+      background:
+        repeating-linear-gradient(90deg, color-mix(in srgb, var(--bg-color) 96%, transparent) 0 26px, color-mix(in srgb, var(--accent-color) 12%, var(--bg-color)) 26px 28px);
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .hb-corte__panel--izq { border-right: 1px solid var(--surface-border-color); }
+    .hb-corte__panel--der { border-left: 1px solid var(--surface-border-color); }
+    .hb-corte.esta-visto .hb-corte__panel--izq { transform: translateX(-101%); }
+    .hb-corte.esta-visto .hb-corte__panel--der { transform: translateX(101%); }
+
+    .hb-corte__sello {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      left: 50%;
+      width: 64px;
+      transform: translate(-50%, -50%);
+      color: var(--accent-color);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 50%;
+      padding: 8px;
+      box-shadow: 0 10px 24px rgba(35, 48, 31, 0.2);
+      transition: opacity 0.4s ease, transform 0.5s ease;
+      display: none;
+    }
+    .hb-corte.hb-js .hb-corte__sello { display: block; }
+    .hb-corte.esta-visto .hb-corte__sello { opacity: 0; transform: translate(-50%, -50%) scale(1.3); }
+
+    .hb-corte__contenido { text-align: left; }
+
+    .hb-corte__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.64rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .hb-corte__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      line-height: 1.12;
+      color: var(--primary-color);
+    }
+    .hb-corte__texto {
+      margin: 0 0 1.2rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.9rem, 1.7vw, 1.02rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .hb-corte__linea {
+      width: 120px;
+      height: 8px;
+      border-top: 1px solid var(--accent-color);
+      border-bottom: 1px solid var(--accent-color);
+    }
+
+    @media (max-width: 880px) {
+      .hb-corte__grid { grid-template-columns: 1fr; }
+      .hb-corte__contenido { text-align: center; }
+      .hb-corte__linea { margin: 0 auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-corte * { transition: none !important; }
+      .hb-corte .hb-corte__telon { display: none !important; }
+      .hb-corte .hb-corte__sello { display: none !important; }
+      .hb-corte__escena img { transform: none; }
+    }
+  </style>
+
+  <div class="hb-corte__grid">
+    <figure class="hb-corte__escena" memory_type="image" memory_usage="custom" memory_source="library" memory_key="corte-foto">
+      <img
+        src="https://loremflickr.com/960/600/celebration,cake"
+        alt="Momento del corte"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="corte"
+        loading="lazy"
+      />
+      <span class="hb-corte__telon" aria-hidden="true">
+        <span class="hb-corte__panel hb-corte__panel--izq"></span>
+        <span class="hb-corte__panel hb-corte__panel--der"></span>
+      </span>
+      <svg class="hb-corte__sello" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <circle cx="24" cy="24" r="21" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2 3"/>
+        <path d="M24 12 L27 20 L35 20 L28.5 25 L31 33 L24 28.5 L17 33 L19.5 25 L13 20 L21 20 Z" stroke="currentColor" stroke-width="1.1"/>
+      </svg>
+      <figcaption hidden>Momento del corte</figcaption>
+    </figure>
+
+    <div class="hb-corte__contenido" memory_type="text" memory_usage="custom" memory_key="corte-texto">
+      <p class="hb-corte__etiqueta" memory_type="text" memory_usage="custom" memory_key="corte-etiqueta">Un momento esperado</p>
+      <h2 class="hb-corte__titulo" memory_type="text" memory_usage="custom" memory_key="corte-titulo">El corte</h2>
+      <p class="hb-corte__texto">
+        La escena que todos esperan: el brindis por lo vivido y lo que está por venir.
+        Acompáñanos a compartir este instante rodeados de quienes más queremos.
+      </p>
+      <div class="hb-corte__linea" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.hb-corte');
+      if (!root) return;
+      root.classList.add('hb-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root.querySelector('.hb-corte__escena') || root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-herbario-lamina',
+      style_name: 'Herbario de Línea — Corte',
+      descripcion: 'Imagen destacada con revelado de telón en dos paneles a rayas y sello central que se disipa; texto editorial al lado.',
+      tags: ['corte', 'revelado', 'telon', 'imagen destacada', 'editorial', 'botanico'],
+      tipo: 'corte'
+    };
+  </script>
+</section>
+
+<section
+  class="hb-galeria"
+  data-gemini-id="galeria-herbario-laminas"
+>
+  <style>
+    .hb-galeria {
+      --primary-color: #23301f;
+      --secondary-color: #5c6657;
+      --accent-color: #7d8f6e;
+      --bg-color: #f6f4ec;
+      --surface-color: #fffdf6;
+      --surface-border-color: rgba(35, 48, 31, 0.22);
+      --text-color: #23301f;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .hb-galeria *,
+    .hb-galeria *::before,
+    .hb-galeria *::after { box-sizing: border-box; }
+
+    .hb-galeria__cabecera {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.8rem;
+      width: min(100%, 1080px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.8rem);
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 1rem;
+    }
+    .hb-galeria__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .hb-galeria__nota {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .hb-galeria__mosaico {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: clamp(0.9rem, 2.4vw, 1.5rem);
+      width: min(100%, 1080px);
+      margin: 0 auto;
+    }
+
+    .hb-galeria__pieza {
+      position: relative;
+      margin: 0;
+      padding: 7px 7px 26px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 12px 28px rgba(35, 48, 31, 0.13);
+      cursor: pointer;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), box-shadow 0.5s ease;
+    }
+    .hb-galeria.hb-js .hb-galeria__pieza { opacity: 0; transform: translateY(16px); }
+    .hb-galeria.esta-visto .hb-galeria__pieza { opacity: 1; transform: none; }
+    .hb-galeria__pieza:hover { box-shadow: 0 20px 40px rgba(35, 48, 31, 0.2); }
+    .hb-galeria.hb-js .hb-galeria__pieza:nth-child(odd) { transform: translateY(16px) rotate(-1.1deg); }
+    .hb-galeria.esta-visto .hb-galeria__pieza:nth-child(odd) { transform: rotate(-1.1deg); }
+    .hb-galeria.hb-js .hb-galeria__pieza:nth-child(even) { transform: translateY(16px) rotate(1deg); }
+    .hb-galeria.esta-visto .hb-galeria__pieza:nth-child(even) { transform: rotate(1deg); }
+
+    .hb-galeria__pieza img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      filter: saturate(0.9);
+    }
+    .hb-galeria__num {
+      position: absolute;
+      bottom: 6px;
+      left: 9px;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.24em;
+      color: var(--secondary-color);
+    }
+    .hb-galeria__lupa {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--bg-color) 88%, transparent);
+      color: var(--primary-color);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .hb-galeria__pieza:hover .hb-galeria__lupa { opacity: 1; }
+
+    .hb-galeria__lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      place-items: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      background: color-mix(in srgb, var(--primary-color) 78%, black);
+    }
+    .hb-galeria__lightbox.abierto { display: grid; }
+    .hb-galeria__lightbox img {
+      max-width: min(920px, 92vw);
+      max-height: 82svh;
+      width: auto;
+      height: auto;
+      border: 6px solid var(--surface-color);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    }
+    .hb-galeria__cerrar {
+      position: absolute;
+      top: clamp(0.8rem, 2.5vw, 1.6rem);
+      right: clamp(0.8rem, 2.5vw, 1.6rem);
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--surface-color);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--surface-color);
+      font-size: 1.2rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.4s ease, background 0.4s ease;
+    }
+    .hb-galeria__cerrar:hover { transform: rotate(90deg); background: color-mix(in srgb, var(--surface-color) 18%, transparent); }
+
+    @media (max-width: 560px) {
+      .hb-galeria__mosaico { grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 0.7rem; }
+      .hb-galeria__pieza { padding: 5px 5px 20px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-galeria * { transition: none !important; }
+      .hb-galeria__pieza { opacity: 1; transform: none; }
+      .hb-galeria__pieza:nth-child(odd) { transform: rotate(-1.1deg); }
+      .hb-galeria__pieza:nth-child(even) { transform: rotate(1deg); }
+    }
+  </style>
+
+  <header class="hb-galeria__cabecera" memory_type="text" memory_usage="custom" memory_key="galeria-cabecera">
+    <h2 class="hb-galeria__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Galería de recuerdos</h2>
+    <p class="hb-galeria__nota" memory_type="text" memory_usage="custom" memory_key="galeria-nota">Colección de instancias</p>
+  </header>
+
+  <div class="hb-galeria__mosaico">
+    <figure class="hb-galeria__pieza" data-hb-pieza memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-1" tabindex="0" role="button" aria-label="Ampliar foto uno">
+      <img src="https://loremflickr.com/600/450/garden,couple" alt="Recuerdo uno" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="hb-galeria__num" aria-hidden="true">N.º 01</span>
+      <span class="hb-galeria__lupa" aria-hidden="true">
+        <svg viewBox="0 0 20 20" width="13" height="13" fill="none"><circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.6"/><path d="M13 13 L17.5 17.5" stroke="currentColor" stroke-width="1.6"/></svg>
+      </span>
+      <figcaption hidden>Recuerdo uno</figcaption>
+    </figure>
+
+    <figure class="hb-galeria__pieza" data-hb-pieza memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-2" tabindex="0" role="button" aria-label="Ampliar foto dos">
+      <img src="https://loremflickr.com/600/450/wedding,flowers" alt="Recuerdo dos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="hb-galeria__num" aria-hidden="true">N.º 02</span>
+      <span class="hb-galeria__lupa" aria-hidden="true">
+        <svg viewBox="0 0 20 20" width="13" height="13" fill="none"><circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.6"/><path d="M13 13 L17.5 17.5" stroke="currentColor" stroke-width="1.6"/></svg>
+      </span>
+      <figcaption hidden>Recuerdo dos</figcaption>
+    </figure>
+
+    <figure class="hb-galeria__pieza" data-hb-pieza memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-3" tabindex="0" role="button" aria-label="Ampliar foto tres">
+      <img src="https://loremflickr.com/600/450/celebration,party" alt="Recuerdo tres" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="hb-galeria__num" aria-hidden="true">N.º 03</span>
+      <span class="hb-galeria__lupa" aria-hidden="true">
+        <svg viewBox="0 0 20 20" width="13" height="13" fill="none"><circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.6"/><path d="M13 13 L17.5 17.5" stroke="currentColor" stroke-width="1.6"/></svg>
+      </span>
+      <figcaption hidden>Recuerdo tres</figcaption>
+    </figure>
+
+    <figure class="hb-galeria__pieza" data-hb-pieza memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-4" tabindex="0" role="button" aria-label="Ampliar foto cuatro">
+      <img src="https://loremflickr.com/600/450/couple,love" alt="Recuerdo cuatro" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="hb-galeria__num" aria-hidden="true">N.º 04</span>
+      <span class="hb-galeria__lupa" aria-hidden="true">
+        <svg viewBox="0 0 20 20" width="13" height="13" fill="none"><circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.6"/><path d="M13 13 L17.5 17.5" stroke="currentColor" stroke-width="1.6"/></svg>
+      </span>
+      <figcaption hidden>Recuerdo cuatro</figcaption>
+    </figure>
+
+    <figure class="hb-galeria__pieza" data-hb-pieza memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-5" tabindex="0" role="button" aria-label="Ampliar foto cinco">
+      <img src="https://loremflickr.com/600/450/bouquet,elegant" alt="Recuerdo cinco" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="hb-galeria__num" aria-hidden="true">N.º 05</span>
+      <span class="hb-galeria__lupa" aria-hidden="true">
+        <svg viewBox="0 0 20 20" width="13" height="13" fill="none"><circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.6"/><path d="M13 13 L17.5 17.5" stroke="currentColor" stroke-width="1.6"/></svg>
+      </span>
+      <figcaption hidden>Recuerdo cinco</figcaption>
+    </figure>
+
+    <figure class="hb-galeria__pieza" data-hb-pieza memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-6" tabindex="0" role="button" aria-label="Ampliar foto seis">
+      <img src="https://loremflickr.com/600/450/dinner,table" alt="Recuerdo seis" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="hb-galeria__num" aria-hidden="true">N.º 06</span>
+      <span class="hb-galeria__lupa" aria-hidden="true">
+        <svg viewBox="0 0 20 20" width="13" height="13" fill="none"><circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.6"/><path d="M13 13 L17.5 17.5" stroke="currentColor" stroke-width="1.6"/></svg>
+      </span>
+      <figcaption hidden>Recuerdo seis</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.hb-galeria');
+      if (!root) return;
+      root.classList.add('hb-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var piezas = Array.prototype.slice.call(root.querySelectorAll('[data-hb-pieza]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var i = piezas.indexOf(entry.target);
+            entry.target.style.transitionDelay = (Math.min(i, 5) * 0.08).toFixed(2) + 's';
+            root.classList.add('esta-visto');
+            io.unobserve(entry.target);
+          });
+        }, { threshold: 0.18 });
+        piezas.forEach(function (p) { io.observe(p); });
+      } else {
+        root.classList.add('esta-visto');
+      }
+
+      var lightbox = document.createElement('div');
+      lightbox.className = 'hb-galeria__lightbox';
+      lightbox.setAttribute('role', 'dialog');
+      lightbox.setAttribute('aria-modal', 'true');
+      lightbox.setAttribute('aria-label', 'Vista ampliada');
+      lightbox.innerHTML =
+        '<img alt="" />' +
+        '<button type="button" class="hb-galeria__cerrar" aria-label="Cerrar">×</button>';
+      root.appendChild(lightbox);
+      var imgAmpliada = lightbox.querySelector('img');
+      var botonCerrar = lightbox.querySelector('.hb-galeria__cerrar');
+
+      function abrir(fig) {
+        var foto = fig.querySelector('img');
+        if (!foto) return;
+        imgAmpliada.src = foto.src;
+        imgAmpliada.alt = foto.alt;
+        lightbox.classList.add('abierto');
+      }
+      function cerrar() { lightbox.classList.remove('abierto'); }
+
+      piezas.forEach(function (fig) {
+        fig.addEventListener('click', function () { abrir(fig); });
+        fig.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(fig); }
+        });
+      });
+      botonCerrar.addEventListener('click', cerrar);
+      lightbox.addEventListener('click', function (e) { if (e.target === lightbox) cerrar(); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-herbario-laminas',
+      style_name: 'Herbario de Línea — Galería',
+      descripcion: 'Mosaico autoajustable de polaroids numeradas levemente rotadas con lightbox propio, teclado accesible y entrada escalonada.',
+      tags: ['galeria', 'mosaico', 'lightbox', 'polaroid', 'numerada', 'editorial'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>
+
+<section
+  class="hb-regalos"
+  data-gemini-id="regalos-herbario-indice"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .hb-regalos {
+      --primary-color: #23301f;
+      --secondary-color: #5c6657;
+      --accent-color: #7d8f6e;
+      --bg-color: #f6f4ec;
+      --surface-color: #fffdf6;
+      --surface-border-color: rgba(35, 48, 31, 0.22);
+      --text-color: #23301f;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/flowers,soft');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .hb-regalos *,
+    .hb-regalos *::before,
+    .hb-regalos *::after { box-sizing: border-box; }
+
+    .hb-regalos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 86%, transparent);
+    }
+
+    .hb-regalos__indice {
+      width: min(100%, 700px);
+      margin: 0 auto;
+      padding: clamp(1.8rem, 5vw, 3rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 94%, transparent);
+      border: 1px solid var(--surface-border-color);
+      outline: 1px solid var(--surface-border-color);
+      outline-offset: 6px;
+      box-shadow: 0 24px 54px rgba(35, 48, 31, 0.15);
+    }
+
+    .hb-regalos__cabecera { text-align: center; margin-bottom: clamp(1.4rem, 3.5vw, 2rem); }
+    .hb-regalos__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.64rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .hb-regalos__titulo {
+      margin: 0 0 0.7rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .hb-regalos__intro {
+      margin: 0 auto;
+      max-width: 48ch;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .hb-regalos__lista {
+      display: grid;
+      gap: 0;
+      border-top: 1px solid var(--surface-border-color);
+      margin-top: 1.4rem;
+    }
+    .hb-regalos__fila {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: clamp(0.85rem, 2.2vw, 1.15rem) 0.4rem;
+      border-bottom: 1px dashed var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .hb-regalos.hb-js .hb-regalos__fila { opacity: 0; transform: translateY(10px); }
+    .hb-regalos.esta-visto .hb-regalos__fila { opacity: 1; transform: none; }
+    .hb-regalos__punto {
+      flex: none;
+      width: 10px;
+      height: 10px;
+      transform: rotate(45deg);
+      background: var(--accent-color);
+    }
+    .hb-regalos__nombre {
+      flex: 1;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.92rem, 1.8vw, 1.05rem);
+      color: var(--primary-color);
+    }
+    .hb-regalos__apunte {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.66rem, 1.2vw, 0.74rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .hb-regalos__mesa {
+      margin-top: 1.6rem;
+      text-align: center;
+    }
+    .hb-regalos__boton {
+      position: relative;
+      display: inline-block;
+      min-width: 220px;
+      padding: 0.85rem 2rem;
+      border: 1px solid var(--primary-color);
+      outline: 1px solid var(--surface-border-color);
+      outline-offset: 4px;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.74rem, 1.4vw, 0.84rem);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+      background: var(--bg-color);
+      cursor: pointer;
+      transition: background 0.4s ease, color 0.4s ease, transform 0.4s ease;
+      overflow: hidden;
+    }
+    .hb-regalos__boton:hover { transform: translateY(-2px); }
+    .hb-regalos__boton.esta-listo { background: var(--primary-color); color: var(--bg-color); }
+    .hb-regalos__check {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      transform: scale(0.6);
+      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .hb-regalos__boton.esta-listo .hb-regalos__check { opacity: 1; transform: none; }
+    .hb-regalos__nota-boton {
+      margin-top: 0.8rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.7rem, 1.3vw, 0.8rem);
+      line-height: 1.6;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 560px) {
+      .hb-regalos__fila { flex-wrap: wrap; }
+      .hb-regalos__apunte { width: 100%; padding-left: 1.6rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-regalos * { transition: none !important; }
+      .hb-regalos__fila { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <div class="hb-regalos__indice">
+    <header class="hb-regalos__cabecera" memory_type="text" memory_usage="custom" memory_key="regalos-intro">
+      <p class="hb-regalos__etiqueta" memory_type="text" memory_usage="custom" memory_key="regalos-etiqueta">Mesa de regalos</p>
+      <h2 class="hb-regalos__titulo" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Un detalle con cariño</h2>
+      <p class="hb-regalos__intro" memory_type="text" memory_usage="custom" memory_key="regalos-texto">
+        Tu presencia es nuestro mayor regalo; si deseas consentirnos, aquí encuentras algunas ideas.
+      </p>
+    </header>
+
+    <ul class="hb-regalos__lista" data-hb-lista>
+      <li class="hb-regalos__fila">
+        <span class="hb-regalos__punto" aria-hidden="true"></span>
+        <span class="hb-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-1">Artículos para el hogar</span>
+        <span class="hb-regalos__apunte" memory_type="text" memory_usage="custom" memory_key="regalos-apunte-1">Tienda departamental</span>
+      </li>
+      <li class="hb-regalos__fila">
+        <span class="hb-regalos__punto" aria-hidden="true"></span>
+        <span class="hb-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-2">Experiencias para dos</span>
+        <span class="hb-regalos__apunte" memory_type="text" memory_usage="custom" memory_key="regalos-apunte-2">Sobre sorpresa</span>
+      </li>
+      <li class="hb-regalos__fila">
+        <span class="hb-regalos__punto" aria-hidden="true"></span>
+        <span class="hb-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-3">Luna de miel</span>
+        <span class="hb-regalos__apunte" memory_type="text" memory_usage="custom" memory_key="regalos-apunte-3">Datos en mesa de regalos</span>
+      </li>
+    </ul>
+
+    <div class="hb-regalos__mesa">
+      <button type="button" class="hb-regalos__boton" data-hb-boton>
+        <span data-hb-boton-texto memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span>
+        <span class="hb-regalos__check" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M4 12.5 L10 18.5 L20 6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <p class="hb-regalos__nota-boton" memory_type="text" memory_usage="custom" memory_key="regalos-nota">Guarda tu elección y confirma en tu invitación digital.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.hb-regalos');
+      if (!root) return;
+      root.classList.add('hb-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var filas = Array.prototype.slice.call(root.querySelectorAll('.hb-regalos__fila'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            filas.forEach(function (fila, i) {
+              fila.style.transitionDelay = (i * 0.1).toFixed(2) + 's';
+            });
+            root.classList.add('esta-visto');
+            io.disconnect();
+          });
+        }, { threshold: 0.25 });
+        io.observe(root.querySelector('[data-hb-lista]') || root);
+      } else {
+        root.classList.add('esta-visto');
+      }
+
+      var boton = root.querySelector('[data-hb-boton]');
+      var texto = root.querySelector('[data-hb-boton-texto]');
+      if (boton && texto) {
+        boton.addEventListener('click', function () {
+          var listo = boton.classList.toggle('esta-listo');
+          texto.textContent = listo ? 'Regalo agendado' : 'Agendar regalo';
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-herbario-indice',
+      style_name: 'Herbario de Línea — Regalos',
+      descripcion: 'Índice editorial de ideas de regalo con filas punteadas, rombos de salvia y botón agendar con confirmación animada de palomita.',
+      tags: ['regalos', 'mesa de regalos', 'lista', 'boton', 'micro-interaccion', 'editorial'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>
+
+<section
+  class="hb-vestimenta"
+  data-gemini-id="vestimenta-herbario-acuarela"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .hb-vestimenta {
+      --primary-color: #23301f;
+      --secondary-color: #5c6657;
+      --accent-color: #7d8f6e;
+      --bg-color: #f6f4ec;
+      --surface-color: #fffdf6;
+      --surface-border-color: rgba(35, 48, 31, 0.22);
+      --text-color: #23301f;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      min-height: 62svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/silk,pastel');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .hb-vestimenta *,
+    .hb-vestimenta *::before,
+    .hb-vestimenta *::after { box-sizing: border-box; }
+
+    .hb-vestimenta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 85%, transparent);
+    }
+
+    .hb-vestimenta__tarjeta {
+      width: min(100%, 660px);
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 94%, transparent);
+      border: 1px solid var(--surface-border-color);
+      outline: 1px solid var(--surface-border-color);
+      outline-offset: 6px;
+      box-shadow: 0 22px 50px rgba(35, 48, 31, 0.15);
+    }
+
+    .hb-vestimenta__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.64rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .hb-vestimenta__titulo {
+      margin: 0 0 0.8rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .hb-vestimenta__texto {
+      margin: 0 auto 1.6rem;
+      max-width: 46ch;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .hb-vestimenta__paleta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(0.7rem, 2vw, 1.1rem);
+      margin-bottom: 1.4rem;
+    }
+    .hb-vestimenta__chispa {
+      width: clamp(44px, 8vw, 58px);
+      height: clamp(44px, 8vw, 58px);
+      border-radius: 50% 50% 50% 4px;
+      border: 1px solid var(--surface-border-color);
+      box-shadow: inset 0 -8px 14px rgba(0, 0, 0, 0.08), 0 8px 18px rgba(35, 48, 31, 0.14);
+      background: var(--bg-color);
+      transition: background 0.5s ease, transform 0.5s ease;
+    }
+    .hb-vestimenta.hb-js .hb-vestimenta__chispa { opacity: 0; transform: scale(0.7); }
+    .hb-vestimenta.esta-visto .hb-vestimenta__chispa { opacity: 1; transform: none; }
+    .hb-vestimenta__chispa:hover { transform: translateY(-4px); }
+
+    .hb-vestimenta__leyenda {
+      display: inline-block;
+      padding: 0.5rem 1.4rem;
+      border-top: 1px solid var(--accent-color);
+      border-bottom: 1px solid var(--accent-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.7rem, 1.3vw, 0.8rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 480px) {
+      .hb-vestimenta__chispa { width: 40px; height: 40px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-vestimenta * { transition: none !important; }
+      .hb-vestimenta__chispa { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <div class="hb-vestimenta__tarjeta">
+    <p class="hb-vestimenta__etiqueta" memory_type="text" memory_usage="custom" memory_key="vestimenta-etiqueta">Código de vestimenta</p>
+    <h2 class="hb-vestimenta__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Vestimenta sugerida</h2>
+    <p class="hb-vestimenta__texto" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">
+      Nos encantaría verte cómodo y elegante. Estos tonos acompañan la atmósfera de la celebración;
+      siéntete libre de tomarlos como inspiración.
+    </p>
+
+    <div class="hb-vestimenta__paleta" data-hb-paleta aria-hidden="true"></div>
+
+    <p class="hb-vestimenta__leyenda" memory_type="text" memory_usage="custom" memory_key="vestimenta-leyenda">Formal · tonos suaves</p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.hb-vestimenta');
+      if (!root) return;
+      root.classList.add('hb-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var paleta = root.querySelector('[data-hb-paleta]');
+      if (paleta && !paleta.children.length) {
+        var tonos = ['#8a94a6', '#b7a98e', '#9aa98f', '#c4b5a5', '#7d8f8c', '#a68e9a'];
+        for (var i = 0; i < tonos.length; i++) {
+          var chispa = document.createElement('span');
+          chispa.className = 'hb-vestimenta__chispa';
+          chispa.style.transitionDelay = (i * 0.07).toFixed(2) + 's, ' + (i * 0.07).toFixed(2) + 's';
+          chispa.dataset.hbTono = tonos[i];
+          paleta.appendChild(chispa);
+        }
+      }
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function colorear() {
+        var chispas = root.querySelectorAll('[data-hb-tono]');
+        chispas.forEach(function (c) { c.style.background = c.getAttribute('data-hb-tono'); });
+      }
+      if (reduce || !('IntersectionObserver' in window)) {
+        root.classList.add('esta-visto');
+        colorear();
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          root.classList.add('esta-visto');
+          setTimeout(colorear, 220);
+          io.disconnect();
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-herbario-acuarela',
+      style_name: 'Herbario de Línea — Vestimenta',
+      descripcion: 'Código de vestimenta con paleta de gotas de acuarela generadas por JS que se colorean al entrar en pantalla y leyenda en filete.',
+      tags: ['vestimenta', 'dress code', 'paleta', 'swatches', 'color', 'botanico'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>
+</body></html>

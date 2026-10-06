@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { CheckCircle2, Loader2, ClipboardList } from 'lucide-react';
 import { EditorSidebar } from './EditorSidebar';
 import { PreviewPane, PreviewPaneHandle } from './PreviewPane';
 import { InitialView } from './InitialView';
 import { SelectedElement, Attachment, ProjectPage, InvitationMetadata, EditorConfig, LocalImageFile } from '../types';
 import { IMAGE_SOURCES } from '../constants';
-import { generateWebProject, addModuleToProject, modifyProjectDesign, iterateModule } from '../services/aiService';
+import { generateWebProject, addModuleToProject, modifyProjectDesign, iterateModule, aiFillEventData } from '../services/aiService';
+import { resolveSchema, missingRequired, applyDeterministicData, collectTextTargets, applyTextByIndex } from '../server/eventDataSchema.js';
 import { consumeCredit, saveInvitation, updateInvitationContent, getInvitationContent, getDefaultFonts, applyInvitationFonts } from '../services/apiService';
 import { injectMetadata, extractMetadata, buildMetadataFromHTML } from '../services/metadataService';
 import { useAuth } from '../contexts/AuthContext';
@@ -80,6 +82,22 @@ export const EditorView: React.FC = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatingMessage, setGeneratingMessage] = useState('Generando Invitación...');
   const [selectedElement, setSelectedElement] = useState<SelectedElement | null>(null);
+
+  // === Datos específicos del evento (se piden durante la generación) ===
+  // Mientras corre la generación el overlay de loading muestra un formulario
+  // con los campos que requiere el tipo de evento. Si al terminar la
+  // generación ya están todos los campos requeridos, se aplican y se entra;
+  // si falta alguno, el overlay permanece avisando que la invitación ya está
+  // generada pero necesita esos datos. La inyección es un proceso agéntico:
+  // pase determinista (placeholders canónicos del 00-PROMPT-BASE + atributos
+  // memory_*) + pase IA (Gemini indexa nodos compactos, sin base64).
+  const [eventData, setEventData] = useState<Record<string, string>>({});
+  const eventDataRef = useRef<Record<string, string>>({}); // espejo fresco (closures de generación)
+  const [generationFinished, setGenerationFinished] = useState(false);
+  const [applyingData, setApplyingData] = useState(false);
+  const pendingCodeRef = useRef<string>('');
+  const autoApplyRef = useRef(false);
+  const eventDataKey = `event_data_${purchaseId || 'nuevo'}`;
   
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
@@ -96,6 +114,8 @@ export const EditorView: React.FC = () => {
     eventDate: '',
     eventTime: ''
   });
+  const dataSchema = editorConfig.eventType ? resolveSchema(editorConfig.eventType) : null;
+  const missingFields = dataSchema ? missingRequired(dataSchema, eventData) : [];
   
   const [existingMetadata, setExistingMetadata] = useState<InvitationMetadata | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -122,6 +142,20 @@ export const EditorView: React.FC = () => {
       })
       .catch(err => console.warn('[FONTS] No se pudo cargar la tipografía global:', err));
   }, []);
+
+  // Restaurar datos del evento tecleados antes de un refresh (por si el
+  // usuario recarga durante una generación larga).
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem(eventDataKey);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        setEventData(parsed);
+        eventDataRef.current = parsed || {};
+      }
+    } catch { /* storage no disponible */ }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [eventDataKey]);
 
   const activePage = pages.find(p => p.id === activePageId);
   const code = activePage?.code || '';
@@ -248,14 +282,123 @@ export const EditorView: React.FC = () => {
     }
   };
 
+  // === Pipeline de datos específicos ===
+  const handleEventDataChange = (key: string, value: string) => {
+    setEventData(prev => {
+      const next = { ...prev, [key]: value };
+      eventDataRef.current = next;
+      try { sessionStorage.setItem(eventDataKey, JSON.stringify(next)); } catch { /* noop */ }
+      return next;
+    });
+  };
+
+  /**
+   * Proceso agéntico de inyección de datos en la invitación YA generada:
+   * 1) pase determinista: localiza placeholders canónicos (00-PROMPT-BASE)
+   *    vía memory_key / data-gemini-id dentro de cada módulo;
+   * 2) pase IA (Gemini vía /api/event-data/ai-fill): un índice compacto de
+   *    nodos editables viaja al servidor (nunca el HTML ni base64) y vuelve
+   *    una lista de colocaciones que se aplican localmente.
+   * Cualquier fallo se degrada con elegancia: se continúa con lo aplicado.
+   */
+  const applyEventDataPipeline = async (rawCode: string): Promise<string> => {
+    try {
+      const currentData = eventDataRef.current;
+      const hasAny = Object.values(currentData).some(v => (v || '').toString().trim());
+      if (!hasAny) return rawCode;
+
+      const schema = resolveSchema(editorConfig.eventType);
+      const doc = new DOMParser().parseFromString(rawCode, 'text/html');
+      const deterministicApplied = applyDeterministicData(doc, schema, currentData);
+
+      let ops: { i: number; t: string }[] = [];
+      try {
+        const targets = collectTextTargets(doc);
+        if (targets.length > 0) {
+          const res = await aiFillEventData(editorConfig.eventType, currentData, targets);
+          ops = res.items || [];
+        }
+      } catch (err: any) {
+        console.warn('[EVENT-DATA] pase IA no disponible, continúo con determinista:', err?.message);
+      }
+
+      for (const op of ops) applyTextByIndex(doc, op);
+      console.log('[EVENT-DATA] determinista:', deterministicApplied, '| colocaciones IA:', ops.length);
+      return '<!DOCTYPE html>' + doc.documentElement.outerHTML;
+    } catch (err: any) {
+      console.warn('[EVENT-DATA] inyección falló, la invitación continúa sin datos:', err?.message);
+      return rawCode;
+    }
+  };
+
+  /** Termina la generación: inyecta datos y carga la invitación en el editor. */
+  const finishGeneration = async (rawCode: string) => {
+    setApplyingData(true);
+    setGeneratingMessage('Colocando tus datos en la invitación...');
+    let finalCode = rawCode;
+    try {
+      finalCode = await applyEventDataPipeline(rawCode);
+    } finally {
+      const newPage: ProjectPage = {
+        id: 'home-' + Date.now(),
+        name: 'Inicio',
+        path: 'index.html',
+        code: normalizeEditableIds(finalCode),
+        isCreated: true
+      };
+      setPages([newPage]);
+      setActivePageId(newPage.id);
+      setExistingMetadata(null);
+      setHasUnsavedChanges(true);
+      setEditorConfig(prev => ({
+        ...prev,
+        fontBase: prev.fontBase || globalFontsRef.current.fontBase,
+        fontHeading: prev.fontHeading || ''
+      }));
+      setGenerationFinished(false);
+      setApplyingData(false);
+      setGeneratingMessage('');
+      try { sessionStorage.removeItem(eventDataKey); } catch { /* noop */ }
+      pendingCodeRef.current = '';
+      setIsGenerating(false);
+    }
+  };
+
+  /** Botón del formulario de datos (visible durante Y después de generar). */
+  const handleSubmitEventData = async () => {
+    if (missingFields.length > 0 || applyingData) return;
+    if (!pendingCodeRef.current) {
+      // La generación aún corre: los datos se aplicarán automáticamente
+      // en cuanto termine.
+      autoApplyRef.current = true;
+      setGeneratingMessage('Datos listos. Se aplicarán al terminar la generación...');
+      return;
+    }
+    await finishGeneration(pendingCodeRef.current);
+  };
+
   const handleGenerate = async (prompt: string, attachments: Attachment[] = [], config?: EditorConfig) => {
     setIsGenerating(true);
     setGeneratingMessage('Generando Invitación...');
+    setGenerationFinished(false);
+    autoApplyRef.current = false;
+    pendingCodeRef.current = '';
 
     setHasStarted(true);
 
     if (config) {
       setEditorConfig(config);
+      // Prefill: fecha/hora ya pedidas por el generador cuentan como datos.
+      setEventData(prev => {
+        const next = {
+          ...prev,
+          fecha: prev.fecha || config.eventDate || '',
+          hora: prev.hora || config.eventTime || ''
+        };
+        eventDataRef.current = next;
+        try { sessionStorage.setItem(eventDataKey, JSON.stringify(next)); } catch { /* noop */ }
+        return next;
+      });
     }
 
     const eventType = config?.eventType || '';
@@ -299,29 +442,29 @@ export const EditorView: React.FC = () => {
 
     try {
       const generatedCode = await generateWebProject(enhancedPrompt, imageSource, attachments, editorConfigForApi, imageFilesForApi, purchaseId);
-      const newPage: ProjectPage = {
-        id: 'home-' + Date.now(),
-        name: 'Inicio',
-        path: 'index.html',
-        code: normalizeEditableIds(generatedCode),
-        isCreated: true
-      };
-      setPages([newPage]);
-      setActivePageId(newPage.id);
-      setExistingMetadata(null);
-      setHasUnsavedChanges(true);
-      // La generación ya aplicó la tipografía global del admin (server-side);
-      // sincronizar el selector del editor con esas fuentes.
-      setEditorConfig(prev => ({
-        ...prev,
-        fontBase: prev.fontBase || globalFontsRef.current.fontBase,
-        fontHeading: prev.fontHeading || ''
-      }));
+      pendingCodeRef.current = generatedCode;
+
+      // GATE: si el cliente ya llenó los datos requeridos, se aplican y se
+      // entra directo. Si no, el overlay permanece: la invitación ya está
+      // generada por detrás, pero no se le deja entrar hasta dar los datos.
+      const schemaNow = resolveSchema(editorConfigForApi?.eventType || config?.eventType || '');
+      const missing = missingRequired(schemaNow, {
+        fecha: editorConfigForApi?.eventDate || '',
+        hora: editorConfigForApi?.eventTime || '',
+        ...eventDataRef.current
+      });
+
+      if (missing.length === 0 || autoApplyRef.current) {
+        await finishGeneration(generatedCode);
+      } else {
+        setGenerationFinished(true);
+        setGeneratingMessage('');
+        // isGenerating permanece en true: el overlay muestra el formulario.
+      }
     } catch (error: any) {
       console.error(error);
       alert(`Error al generar la invitación: ${error.message}`);
       setHasStarted(false);
-    } finally {
       setIsGenerating(false);
     }
   };
@@ -689,19 +832,110 @@ export const EditorView: React.FC = () => {
     <div className="flex flex-col md:flex-row h-screen w-full bg-pink-50 text-gray-800 overflow-hidden font-sans relative">
       
       {isGenerating && (
-        <div className="absolute inset-0 z-50 bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center">
-          <div className="w-16 h-16 border-4 border-pink-200 border-t-pink-500 rounded-full animate-spin mb-6" />
-          <p className="text-pink-600 font-medium text-lg mb-4 transition-all duration-500">{generatingMessage || GENERATING_TEXTS[rotatingTextIndex]}</p>
-          <div className="w-64 h-2 bg-pink-100 rounded-full overflow-hidden">
-            <div className="h-full bg-gradient-to-r from-pink-400 to-pink-600 rounded-full animate-loading-bar" style={{ width: '40%', animation: 'loading-bar 2s ease-in-out infinite' }} />
+        <div className="absolute inset-0 z-50 bg-white/95 backdrop-blur-sm overflow-y-auto">
+          <div className="min-h-full flex flex-col items-center py-8 px-4">
+
+            {/* Estado del proceso */}
+            {!generationFinished ? (
+              <div className="flex flex-col items-center mb-6">
+                <div className="w-16 h-16 border-4 border-pink-200 border-t-pink-500 rounded-full animate-spin mb-4" />
+                <p className="text-pink-600 font-medium text-lg mb-3 text-center transition-all duration-500">
+                  {generatingMessage || GENERATING_TEXTS[rotatingTextIndex]}
+                </p>
+                <div className="w-64 h-2 bg-pink-100 rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-pink-400 to-pink-600 rounded-full animate-loading-bar" style={{ width: '40%', animation: 'loading-bar 2s ease-in-out infinite' }} />
+                </div>
+                <style>{`
+                  @keyframes loading-bar {
+                    0% { width: 10%; margin-left: 0%; }
+                    50% { width: 50%; margin-left: 25%; }
+                    100% { width: 10%; margin-left: 90%; }
+                  }
+                `}</style>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center text-center mb-5 mt-2">
+                <CheckCircle2 className="w-14 h-14 text-green-500 mb-2" />
+                <p className="text-2xl font-bold text-gray-800">¡Tu invitación ya está generada!</p>
+                <p className="text-sm text-gray-600 mt-2 max-w-md">
+                  Terminamos por detrás, pero <span className="font-semibold text-gray-800">no podemos dejarte entrar hasta que nos des los datos</span> del
+                  evento: los colocaremos automáticamente en su lugar exacto.
+                </p>
+              </div>
+            )}
+
+            {/* Formulario de datos del evento (aparece con el tipo de evento) */}
+            {dataSchema && (
+              <div className="w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-pink-100 p-5 md:p-6">
+                <div className="flex items-center gap-2 mb-1">
+                  <ClipboardList className="w-5 h-5 text-pink-500" />
+                  <h3 className="text-lg font-bold text-gray-800">Datos de tu {dataSchema.label}</h3>
+                </div>
+                <p className="text-xs text-gray-500 mb-4">
+                  {generationFinished
+                    ? 'Estos datos se colocarán automáticamente en su lugar dentro de la invitación.'
+                    : 'Llénalos mientras generamos: se aplicarán automáticamente al terminar. La fecha y hora vienen del paso anterior.'}
+                </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {dataSchema.fields.map((f) => {
+                    const value = eventData[f.key] || '';
+                    const isMissing = missingFields.includes(f.key);
+                    return (
+                      <div key={f.key} className={`flex flex-col gap-1 ${f.type === 'textarea' ? 'md:col-span-2' : ''}`}>
+                        <label className="text-xs font-semibold text-gray-700 uppercase tracking-wide">
+                          {f.label} {f.required && <span className="text-red-400">*</span>}
+                        </label>
+                        {f.type === 'textarea' ? (
+                          <textarea
+                            value={value}
+                            onChange={(e) => handleEventDataChange(f.key, e.target.value)}
+                            placeholder={f.placeholder || ''}
+                            rows={3}
+                            className={`w-full px-3 py-2 border rounded-lg text-sm text-gray-800 focus:outline-none focus:ring-2 transition-all ${
+                              isMissing ? 'border-red-300 focus:ring-red-200' : 'border-gray-300 focus:ring-pink-200'
+                            }`}
+                          />
+                        ) : (
+                          <input
+                            type={f.type === 'date' ? 'date' : f.type === 'time' ? 'time' : 'text'}
+                            value={value}
+                            onChange={(e) => handleEventDataChange(f.key, e.target.value)}
+                            placeholder={f.placeholder || ''}
+                            className={`w-full px-3 py-2 border rounded-lg text-sm text-gray-800 focus:outline-none focus:ring-2 transition-all ${
+                              isMissing ? 'border-red-300 focus:ring-red-200' : 'border-gray-300 focus:ring-pink-200'
+                            }`}
+                          />
+                        )}
+                        {f.help && <span className="text-[11px] text-gray-400">{f.help}</span>}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {generationFinished && missingFields.length > 0 && (
+                  <p className="text-xs text-red-500 mt-3">
+                    Faltan campos requeridos ({missingFields.length}) para entrar a tu invitación.
+                  </p>
+                )}
+
+                <button
+                  onClick={handleSubmitEventData}
+                  disabled={applyingData || (generationFinished && missingFields.length > 0)}
+                  className="mt-4 w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold hover:from-pink-600 hover:to-rose-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+                >
+                  {applyingData && <Loader2 className="w-4 h-4 animate-spin" />}
+                  {applyingData
+                    ? 'Colocando datos...'
+                    : generationFinished
+                      ? (missingFields.length > 0 ? 'Completa los campos requeridos' : 'Aplicar datos y ver mi invitación')
+                      : (missingFields.length === 0
+                          ? 'Datos listos: aplicar automáticamente al terminar'
+                          : 'Guardar datos (se aplicarán al terminar)')}
+                </button>
+              </div>
+            )}
           </div>
-          <style>{`
-            @keyframes loading-bar {
-              0% { width: 10%; margin-left: 0%; }
-              50% { width: 50%; margin-left: 25%; }
-              100% { width: 10%; margin-left: 90%; }
-            }
-          `}</style>
         </div>
       )}
 

@@ -1,0 +1,215 @@
+<section
+  class="su-detalles"
+  data-gemini-id="detalles-regalo"
+>
+  <style>
+    .su-detalles {
+      --primary-color: #17171a;
+      --secondary-color: #75757c;
+      --accent-color: #d43d2a;
+      --bg-color: #f2f2ef;
+      --surface-color: #fbfbf9;
+      --surface-border-color: rgba(23, 23, 26, 0.16);
+      --text-color: #17171a;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .su-detalles *,
+    .su-detalles *::before,
+    .su-detalles *::after { box-sizing: border-box; }
+
+    .su-detalles__cabecera {
+      width: min(100%, 1020px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.8rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .su-detalles__titulo {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .su-detalles__folio {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.28em;
+      color: var(--secondary-color);
+    }
+
+    .su-detalles__banner {
+      width: min(100%, 1020px);
+      margin: 0 auto clamp(1.4rem, 3vw, 2rem);
+      outline: 1px solid var(--surface-border-color);
+    }
+    .su-detalles__banner img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 21 / 7;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.08);
+    }
+
+    .su-detalles__columnas {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      width: min(100%, 1020px);
+      margin: 0 auto;
+      border: 1px solid var(--surface-border-color);
+    }
+
+    .su-detalles__columna {
+      padding: clamp(1.4rem, 3.2vw, 2.2rem);
+      border-right: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .su-detalles.su-js .su-detalles__columna { opacity: 0; transform: translateY(18px); }
+    .su-detalles .su-detalles__columna.esta-visto { opacity: 1; transform: none; }
+    .su-detalles__columna:last-child { border-right: 0; }
+
+    .su-detalles__indice {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--surface-border-color);
+    }
+    .su-detalles__num {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+      line-height: 1;
+      color: var(--accent-color);
+    }
+    .su-detalles__glifo {
+      width: 12px;
+      height: 12px;
+      background: var(--primary-color);
+    }
+    .su-detalles__columna:nth-child(2) .su-detalles__glifo { border-radius: 50%; }
+    .su-detalles__columna:nth-child(3) .su-detalles__glifo { transform: rotate(45deg); }
+
+    .su-detalles__rotulo {
+      margin: 0 0 0.3rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.56rem, 1vw, 0.64rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .su-detalles__titulo-card {
+      margin: 0 0 0.4rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(0.98rem, 1.9vw, 1.16rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .su-detalles__texto {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.76rem, 1.35vw, 0.86rem);
+      line-height: 1.65;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 720px) {
+      .su-detalles__columnas { grid-template-columns: 1fr; }
+      .su-detalles__columna { border-right: 0; border-bottom: 1px solid var(--surface-border-color); }
+      .su-detalles__columna:last-child { border-bottom: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .su-detalles * { transition: none !important; }
+      .su-detalles__columna { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="su-detalles__cabecera" memory_type="text" memory_usage="custom" memory_key="detalles-intro">
+    <h2 class="su-detalles__titulo" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Fig. 04 — Notas</h2>
+    <span class="su-detalles__folio" memory_type="text" memory_usage="custom" memory_key="detalles-folio">3 APUNTES</span>
+  </header>
+
+  <figure class="su-detalles__banner" memory_type="image" memory_usage="custom" memory_source="library" memory_key="detalles-foto">
+    <img src="https://loremflickr.com/1050/350/architecture,minimal" alt="Vista del recinto en blanco y negro" path="placeholder" data-library-category="bodas" data-asset-type="detalle" loading="lazy" />
+    <figcaption hidden>Banner del recinto</figcaption>
+  </figure>
+
+  <div class="su-detalles__columnas">
+    <article class="su-detalles__columna" data-su-col>
+      <div class="su-detalles__indice"><span class="su-detalles__num" aria-hidden="true">1</span><span class="su-detalles__glifo" aria-hidden="true"></span></div>
+      <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-1">
+        <p class="su-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-1">Vestimenta</p>
+        <h3 class="su-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Formal moderno</h3>
+        <p class="su-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Traje oscuro o vestido sobrio. El rojo queda reservado para la decoración.</p>
+      </div>
+    </article>
+    <article class="su-detalles__columna" data-su-col>
+      <div class="su-detalles__indice"><span class="su-detalles__num" aria-hidden="true">2</span><span class="su-detalles__glifo" aria-hidden="true"></span></div>
+      <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-2">
+        <p class="su-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-2">Acceso</p>
+        <h3 class="su-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Lista en puerta</h3>
+        <p class="su-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">Presenta tu pase digital en el acceso principal.</p>
+      </div>
+    </article>
+    <article class="su-detalles__columna" data-su-col>
+      <div class="su-detalles__indice"><span class="su-detalles__num" aria-hidden="true">3</span><span class="su-detalles__glifo" aria-hidden="true"></span></div>
+      <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-3">
+        <p class="su-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-3">Parking</p>
+        <h3 class="su-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Plazas 1—40</h3>
+        <p class="su-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">Estacionamiento cubierto con acceso directo al vestíbulo.</p>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.su-detalles');
+      if (!root) return;
+      root.classList.add('su-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var columnas = Array.prototype.slice.call(root.querySelectorAll('[data-su-col]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        columnas.forEach(function (c) { c.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = columnas.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.13).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      columnas.forEach(function (c) { io.observe(c); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-regalo',
+      style_name: 'Suizo Tipográfico — Detalles',
+      descripcion: 'Tres columnas tabulares con índices rojos y glifos geométricos (cuadro, círculo, rombo); notas numeradas con reglas divisorias.',
+      tags: ['detalles', 'suizo', 'columnas', 'indices', 'glifos', 'tabla'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>

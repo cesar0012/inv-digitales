@@ -1,0 +1,2999 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>set-3</title><style>:root{--primary-color:#1f2937;--text-color:#1f2937;--accent-color:#b59b72;--bg-color:#f5f1e8;--secondary-color:#6b7280;--surface-color:#ffffff;--surface-border-color:rgba(0,0,0,.12);--font-base:Georgia,serif}body{margin:0}</style></head><body><section
+  class="pl-portada"
+  data-gemini-id="portada-nombre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="pl-portada-titulo"
+>
+  <style>
+    .pl-portada {
+      --primary-color: #1c2340;
+      --secondary-color: #6b7395;
+      --accent-color: #9aa7d0;
+      --bg-color: #eef0f8;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(28, 35, 64, 0.2);
+      --text-color: #1c2340;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 5vw, 4rem) clamp(6rem, 14vw, 9rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/paper,blue');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .pl-portada *,
+    .pl-portada *::before,
+    .pl-portada *::after { box-sizing: border-box; }
+
+    .pl-portada::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--bg-color) 90%, transparent), color-mix(in srgb, var(--bg-color) 76%, transparent));
+    }
+
+    .pl-portada__carta {
+      position: relative;
+      width: min(100%, 740px);
+      padding: clamp(2.2rem, 5.5vw, 3.8rem) clamp(1.3rem, 5vw, 3.2rem);
+      background: color-mix(in srgb, var(--surface-color) 96%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 26px 60px rgba(28, 35, 64, 0.2);
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+    .pl-portada__carta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 74px;
+      height: 74px;
+      background: linear-gradient(225deg, var(--bg-color) 0 49.5%, color-mix(in srgb, var(--accent-color) 55%, var(--bg-color)) 49.5% 100%);
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+      box-shadow: -6px 6px 12px rgba(28, 35, 64, 0.12);
+    }
+
+    .pl-portada__estrellas {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .pl-portada__estrella {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--accent-color);
+      clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+      opacity: 0;
+    }
+    .pl-portada.esta-visto .pl-portada__estrella { animation: plPortadaTitila 6s ease-in-out infinite; }
+    @keyframes plPortadaTitila {
+      0%, 100% { opacity: 0.15; }
+      50% { opacity: 0.85; }
+    }
+
+    .pl-portada__constelacion {
+      width: clamp(150px, 26vw, 210px);
+      margin: 0 auto clamp(1rem, 2.5vw, 1.5rem);
+      color: var(--accent-color);
+    }
+    .pl-portada__constelacion circle { fill: currentColor; }
+    .pl-portada__constelacion path {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1;
+      stroke-dasharray: 300;
+      stroke-dashoffset: 300;
+      transition: stroke-dashoffset 0.5s ease 0.3s;
+    }
+    .pl-portada.esta-visto .pl-portada__constelacion path { stroke-dashoffset: 0; }
+
+    .pl-portada__eyebrow {
+      margin: 0 0 0.9rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .pl-portada__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(2rem, 6vw, 4.2rem);
+      line-height: 1.06;
+      color: var(--primary-color);
+    }
+    .pl-portada__titulo span {
+      display: inline-block;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .pl-portada.pl-js .pl-portada__titulo span { opacity: 0; transform: translateY(0.5em) rotateX(70deg); }
+    .pl-portada.esta-visto .pl-portada__titulo span { opacity: 1; transform: none; }
+    .pl-portada.esta-visto .pl-portada__titulo span:nth-child(1) { transition-delay: 0.1s; }
+    .pl-portada.esta-visto .pl-portada__titulo span:nth-child(2) { transition-delay: 0.2s; }
+    .pl-portada.esta-visto .pl-portada__titulo span:nth-child(3) { transition-delay: 0.3s; }
+
+    .pl-portada__ampersand {
+      display: block;
+      margin: 0.15em 0;
+      font-style: italic;
+      color: var(--accent-color);
+    }
+
+    .pl-portada__fecha {
+      display: inline-block;
+      margin-top: clamp(1.2rem, 3vw, 1.8rem);
+      padding: 0.55rem 1.5rem;
+      border-top: 1px dashed var(--accent-color);
+      border-bottom: 1px dashed var(--accent-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.72rem, 1.5vw, 0.86rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--text-color);
+    }
+
+    .pl-portada__foto {
+      position: absolute;
+      left: clamp(-1.4rem, -0.5vw, 0rem);
+      bottom: clamp(-1.6rem, -0.5vw, 0rem);
+      width: clamp(120px, 18vw, 168px);
+      margin: 0;
+      padding: 7px 7px 20px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 16px 34px rgba(28, 35, 64, 0.25);
+      transform: rotate(-5deg);
+      transition: transform 0.5s ease;
+    }
+    .pl-portada__foto:hover { transform: rotate(-1deg) translateY(-5px); }
+    .pl-portada__foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+      filter: saturate(0.9);
+    }
+    .pl-portada__washi {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      width: 66px;
+      height: 20px;
+      transform: translateX(-50%) rotate(-4deg);
+      background: color-mix(in srgb, var(--accent-color) 55%, transparent);
+      box-shadow: 0 3px 8px rgba(28, 35, 64, 0.18);
+    }
+
+    .pl-portada__diorama {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: clamp(70px, 12vw, 110px);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .pl-portada__capa {
+      position: absolute;
+      left: -2%;
+      right: -2%;
+      background: color-mix(in srgb, var(--surface-color) 82%, transparent);
+      border-top: 1px solid var(--surface-border-color);
+    }
+    .pl-portada__capa--1 {
+      bottom: 0;
+      height: 60%;
+      clip-path: polygon(0 62%, 12% 34%, 26% 58%, 42% 20%, 58% 52%, 74% 28%, 88% 56%, 100% 38%, 100% 100%, 0 100%);
+      box-shadow: 0 -8px 20px rgba(28, 35, 64, 0.08);
+    }
+    .pl-portada__capa--2 {
+      bottom: 0;
+      height: 42%;
+      clip-path: polygon(0 46%, 16% 76%, 34% 40%, 52% 70%, 68% 34%, 84% 62%, 100% 44%, 100% 100%, 0 100%);
+      background: color-mix(in srgb, var(--accent-color) 26%, var(--bg-color));
+    }
+
+    @media (max-width: 640px) {
+      .pl-portada { padding-bottom: 7rem; }
+      .pl-portada__foto { width: 108px; }
+      .pl-portada__titulo span { display: block; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pl-portada * { animation: none !important; transition: none !important; }
+      .pl-portada__titulo span { opacity: 1; transform: none; }
+      .pl-portada__constelacion path { stroke-dashoffset: 0; }
+    }
+  </style>
+
+  <div class="pl-portada__estrellas" aria-hidden="true"></div>
+
+  <div class="pl-portada__carta">
+    <svg class="pl-portada__constelacion" viewBox="0 0 200 70" aria-hidden="true">
+      <path d="M14 52 L52 24 L92 44 L136 14 L186 34" />
+      <circle cx="14" cy="52" r="3"/>
+      <circle cx="52" cy="24" r="2.4"/>
+      <circle cx="92" cy="44" r="3.2"/>
+      <circle cx="136" cy="14" r="2.2"/>
+      <circle cx="186" cy="34" r="2.8"/>
+    </svg>
+
+    <p class="pl-portada__eyebrow" memory_type="text" memory_usage="custom" memory_key="portada-encabezado">Una historia escrita en el cielo</p>
+
+    <div memory_type="text" memory_usage="custom" memory_key="portada-nombres">
+      <h1 id="pl-portada-titulo" class="pl-portada__titulo">
+        <span>Nombre de la Novia</span>
+        <span class="pl-portada__ampersand">&amp;</span>
+        <span>Nombre del Novio</span>
+      </h1>
+    </div>
+
+    <time class="pl-portada__fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="portada-fecha">Fecha del evento</time>
+
+    <figure class="pl-portada__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="portada-foto">
+      <span class="pl-portada__washi" aria-hidden="true"></span>
+      <img
+        src="https://loremflickr.com/420/420/couple,sky"
+        alt="Retrato de los anfitriones"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="foto-pareja"
+        loading="lazy"
+      />
+      <figcaption hidden>Retrato principal</figcaption>
+    </figure>
+  </div>
+
+  <div class="pl-portada__diorama" aria-hidden="true">
+    <span class="pl-portada__capa pl-portada__capa--1"></span>
+    <span class="pl-portada__capa pl-portada__capa--2"></span>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.pl-portada');
+      if (!root) return;
+      root.classList.add('pl-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var cielo = root.querySelector('.pl-portada__estrellas');
+      if (cielo && !cielo.children.length) {
+        for (var i = 0; i < 14; i++) {
+          var estrella = document.createElement('span');
+          estrella.className = 'pl-portada__estrella';
+          estrella.style.left = (4 + Math.random() * 92) + '%';
+          estrella.style.top = (5 + Math.random() * 55) + '%';
+          estrella.style.animationDelay = (Math.random() * 5).toFixed(2) + 's';
+          cielo.appendChild(estrella);
+        }
+      }
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.22 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Plegado Celeste',
+      descripcion: 'Carta plegada con esquina doblada, constelación que se dibuja, nombres que emergen en rotateX, polaroid con cinta washi y diorama de montañas de papel.',
+      tags: ['portada', 'hero', 'origami', 'celestial', 'constelacion', 'papel', 'diorama'],
+      tipo: 'portada'
+    };
+  </script>
+</section>
+
+<section
+  class="pl-padres"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .pl-padres {
+      --primary-color: #1c2340;
+      --secondary-color: #6b7395;
+      --accent-color: #9aa7d0;
+      --bg-color: #eef0f8;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(28, 35, 64, 0.2);
+      --text-color: #1c2340;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/night,stars');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .pl-padres *,
+    .pl-padres *::before,
+    .pl-padres *::after { box-sizing: border-box; }
+
+    .pl-padres::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 87%, transparent);
+    }
+
+    .pl-padres__cabecera {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: clamp(0.9rem, 2.5vw, 1.4rem);
+      width: min(100%, 860px);
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+    }
+    .pl-padres__pliegue {
+      width: clamp(40px, 6vw, 58px);
+      color: var(--accent-color);
+    }
+    .pl-padres__titulo {
+      margin: 0;
+      text-align: center;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .pl-padres__intro {
+      margin: 0.7rem 0 0;
+      text-align: center;
+      grid-column: 1 / -1;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .pl-padres__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1.4rem, 4vw, 2.6rem);
+      width: min(100%, 860px);
+      margin: 0 auto;
+      perspective: 1100px;
+    }
+
+    .pl-padres__carta {
+      position: relative;
+      padding: clamp(1.8rem, 4vw, 2.6rem) clamp(1.2rem, 3vw, 1.9rem) clamp(1.4rem, 3vw, 2rem);
+      background: color-mix(in srgb, var(--surface-color) 96%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 20px 46px rgba(28, 35, 64, 0.16);
+      clip-path: polygon(0 0, calc(100% - 44px) 0, 100% 44px, 100% 100%, 0 100%);
+      transform-origin: top center;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .pl-padres.pl-js .pl-padres__carta { opacity: 0; transform: rotateX(28deg) translateY(18px); }
+    .pl-padres.esta-visto .pl-padres__carta { opacity: 1; transform: none; }
+    .pl-padres.esta-visto .pl-padres__carta:nth-child(2) { transition-delay: 0.15s; }
+    .pl-padres__carta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(225deg, var(--bg-color) 0 49%, color-mix(in srgb, var(--accent-color) 50%, var(--bg-color)) 49% 100%);
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+    }
+
+    .pl-padres__retrato {
+      width: clamp(104px, 15vw, 138px);
+      margin: 0 auto 1.1rem;
+      padding: 5px;
+      background: var(--bg-color);
+      border: 1px dashed var(--accent-color);
+      border-radius: 50%;
+    }
+    .pl-padres__retrato img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      object-fit: cover;
+      filter: saturate(0.9);
+    }
+
+    .pl-padres__rol {
+      margin: 0 0 0.4rem;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.58rem, 1.1vw, 0.68rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .pl-padres__nombres {
+      margin: 0;
+      text-align: center;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.08rem, 2.2vw, 1.4rem);
+      line-height: 1.3;
+      color: var(--primary-color);
+    }
+    .pl-padres__nota {
+      margin: 0.5rem 0 0;
+      text-align: center;
+      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
+      line-height: 1.6;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 740px) {
+      .pl-padres__grid { grid-template-columns: 1fr; max-width: 400px; }
+      .pl-padres__cabecera { grid-template-columns: 1fr; }
+      .pl-padres__pliegue { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pl-padres * { transition: none !important; }
+      .pl-padres__carta { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <header class="pl-padres__cabecera" memory_type="text" memory_usage="custom" memory_key="padres-intro">
+    <svg class="pl-padres__pliegue" viewBox="0 0 60 60" fill="none" aria-hidden="true">
+      <path d="M4 54 L30 6 L56 54 L30 40 Z" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M30 6 L30 40" stroke="currentColor" stroke-width="1"/>
+    </svg>
+    <div>
+      <h2 class="pl-padres__titulo" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Con el amor de nuestros padres</h2>
+      <p class="pl-padres__intro" memory_type="text" memory_usage="custom" memory_key="padres-texto">Dos hogares que se pliegan en uno para celebrar juntos.</p>
+    </div>
+    <svg class="pl-padres__pliegue" viewBox="0 0 60 60" fill="none" aria-hidden="true">
+      <path d="M4 54 L30 6 L56 54 L30 40 Z" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M30 6 L30 40" stroke="currentColor" stroke-width="1"/>
+    </svg>
+  </header>
+
+  <div class="pl-padres__grid">
+    <article class="pl-padres__carta">
+      <figure class="pl-padres__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-uno">
+        <img
+          src="https://loremflickr.com/380/380/family,portrait"
+          alt="Retrato de la familia de la novia"
+          path="placeholder"
+          data-library-category="bodas"
+          data-asset-type="retrato-familia"
+          loading="lazy"
+        />
+        <figcaption hidden>Familia uno</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-uno">
+        <p class="pl-padres__rol">Padres de la novia</p>
+        <h3 class="pl-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+        <p class="pl-padres__nota">Con cariño infinito</p>
+      </div>
+    </article>
+
+    <article class="pl-padres__carta">
+      <figure class="pl-padres__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-dos">
+        <img
+          src="https://loremflickr.com/380/380/parents,love"
+          alt="Retrato de la familia del novio"
+          path="placeholder"
+          data-library-category="bodas"
+          data-asset-type="retrato-familia"
+          loading="lazy"
+        />
+        <figcaption hidden>Familia dos</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-dos">
+        <p class="pl-padres__rol">Padres del novio</p>
+        <h3 class="pl-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+        <p class="pl-padres__nota">Con gratitud eterna</p>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.pl-padres');
+      if (!root) return;
+      root.classList.add('pl-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.2 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Plegado Celeste — Padres',
+      descripcion: 'Cartas de papel con esquina doblada que se despliegan con rotateX al entrar en pantalla, retratos circulares punteados y grullas laterales.',
+      tags: ['padres', 'familias', 'origami', 'plegado', 'cartas', 'stagger'],
+      tipo: 'padres'
+    };
+  </script>
+</section>
+
+<section
+  class="pl-ubicacion"
+  data-gemini-id="ubicacion-ceremonia"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .pl-ubicacion {
+      --primary-color: #1c2340;
+      --secondary-color: #6b7395;
+      --accent-color: #9aa7d0;
+      --bg-color: #eef0f8;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(28, 35, 64, 0.2);
+      --text-color: #1c2340;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/map,journey');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .pl-ubicacion *,
+    .pl-ubicacion *::before,
+    .pl-ubicacion *::after { box-sizing: border-box; }
+
+    .pl-ubicacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 88%, transparent);
+    }
+
+    .pl-ubicacion__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+      gap: clamp(1.6rem, 4vw, 3rem);
+      align-items: center;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .pl-ubicacion__sobre {
+      position: relative;
+      padding: clamp(1.8rem, 4.5vw, 2.8rem) clamp(1.4rem, 3.5vw, 2.4rem);
+      background: color-mix(in srgb, var(--surface-color) 96%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 22px 50px rgba(28, 35, 64, 0.16);
+      clip-path: polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 0 100%);
+    }
+    .pl-ubicacion__sobre::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(225deg, var(--bg-color) 0 49%, color-mix(in srgb, var(--accent-color) 50%, var(--bg-color)) 49% 100%);
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+    }
+
+    .pl-ubicacion__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .pl-ubicacion__titulo {
+      margin: 0 0 1rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .pl-ubicacion__direccion {
+      margin: 0 0 1.3rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-style: normal;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .pl-ubicacion__marcador {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.4rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.64rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-color);
+    }
+    .pl-ubicacion__estrella {
+      position: relative;
+      width: 16px;
+      height: 16px;
+      background: var(--accent-color);
+      clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+    }
+    .pl-ubicacion__estrella::after {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      background: var(--accent-color);
+      clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    .pl-ubicacion.esta-visto .pl-ubicacion__estrella::after { animation: plUbicacionBrillo 1.9s ease-out infinite; }
+    @keyframes plUbicacionBrillo {
+      0% { opacity: 0.85; transform: scale(0.4); }
+      75% { opacity: 0.12; transform: scale(1.3); }
+      100% { opacity: 0; transform: scale(1.45); }
+    }
+
+    .pl-ubicacion__postal {
+      margin: 1.4rem 0 1.6rem;
+      padding: 5px;
+      background: var(--bg-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 10px 22px rgba(28, 35, 64, 0.14);
+      transform: rotate(-1.6deg);
+    }
+    .pl-ubicacion__postal img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      filter: saturate(0.9);
+    }
+
+    .pl-ubicacion__boton {
+      display: inline-block;
+      padding: 0.78rem 1.9rem;
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      text-decoration: none;
+      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+      transition: background 0.4s ease, transform 0.4s ease;
+    }
+    .pl-ubicacion__boton:hover { background: color-mix(in srgb, var(--accent-color) 80%, var(--primary-color)); transform: translateY(-2px); }
+
+    .pl-ubicacion__mapa-zona {
+      position: relative;
+      margin: 0;
+      padding: 9px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 24px 54px rgba(28, 35, 64, 0.2);
+      transform: rotate(1.4deg);
+    }
+    .pl-ubicacion__mapa-zona figcaption {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .pl-ubicacion__mapa {
+      overflow: hidden;
+      border: 1px solid var(--surface-border-color);
+    }
+    .pl-ubicacion__mapa iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border: 0;
+      filter: saturate(0.82);
+    }
+    .pl-ubicacion__grulla {
+      position: absolute;
+      top: -20px;
+      right: -14px;
+      width: 52px;
+      padding: 6px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 50%;
+      box-shadow: 0 10px 22px rgba(28, 35, 64, 0.2);
+      color: var(--accent-color);
+      animation: plUbicacionPlanea 7s ease-in-out infinite;
+    }
+    @keyframes plUbicacionPlanea {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-7px) rotate(-4deg); }
+    }
+
+    @media (max-width: 880px) {
+      .pl-ubicacion__grid { grid-template-columns: 1fr; }
+      .pl-ubicacion__mapa-zona { transform: rotate(0deg); max-width: 460px; margin: 0 auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pl-ubicacion * { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="pl-ubicacion__grid">
+    <div class="pl-ubicacion__sobre">
+      <p class="pl-ubicacion__etiqueta" memory_type="text" memory_usage="custom" memory_key="ubicacion-etiqueta">Ruta al evento</p>
+      <h2 class="pl-ubicacion__titulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Encuentra el lugar</h2>
+      <address class="pl-ubicacion__direccion" memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion">
+        Nombre del lugar<br />
+        Camino de la Colina 789<br />
+        Ciudad, Estado
+      </address>
+      <span class="pl-ubicacion__marcador" aria-hidden="true">
+        <span class="pl-ubicacion__estrella"></span>
+        Punto de encuentro
+      </span>
+      <br />
+      <figure class="pl-ubicacion__postal" memory_type="image" memory_usage="custom" memory_source="library" memory_key="ubicacion-foto">
+        <img
+          src="https://loremflickr.com/560/315/venue,night"
+          alt="Vista nocturna del lugar"
+          path="placeholder"
+          data-library-category="bodas"
+          data-asset-type="lugar"
+          loading="lazy"
+        />
+        <figcaption hidden>Vista del lugar</figcaption>
+      </figure>
+
+      <a
+        class="pl-ubicacion__boton"
+        href="https://www.google.com/maps?q=Ubicacion+del+evento"
+        target="_blank"
+        rel="noopener"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="ubicacion-boton"
+      >Cómo llegar</a>
+    </div>
+
+    <figure class="pl-ubicacion__mapa-zona">
+      <svg class="pl-ubicacion__grulla" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <path d="M8 30 L24 10 L30 22 L40 16 L32 30 L24 26 L14 40 Z" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M24 10 L24 26" stroke="currentColor" stroke-width="1"/>
+      </svg>
+      <figcaption>
+        <span memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-rotulo">Mapa del evento</span>
+        <span>N ↑</span>
+      </figcaption>
+      <div class="pl-ubicacion__mapa" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url">
+        <iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen></iframe>
+      </div>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.pl-ubicacion');
+      if (!root) return;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-ceremonia',
+      style_name: 'Plegado Celeste — Mapa',
+      descripcion: 'Sobre de papel con esquina doblada, marcador estrella con destello, mapa rotado tipo postal y grulla de papel planeando.',
+      tags: ['ubicacion', 'mapa', 'direccion', 'origami', 'estrella', 'grulla', 'boton'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>
+
+<section
+  class="pl-itinerario"
+  data-gemini-id="itinerario-agenda"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .pl-itinerario {
+      --primary-color: #1c2340;
+      --secondary-color: #6b7395;
+      --accent-color: #9aa7d0;
+      --bg-color: #eef0f8;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(28, 35, 64, 0.2);
+      --text-color: #1c2340;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/stars,night');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .pl-itinerario *,
+    .pl-itinerario *::before,
+    .pl-itinerario *::after { box-sizing: border-box; }
+
+    .pl-itinerario::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 87%, transparent);
+    }
+
+    .pl-itinerario__cabecera { text-align: center; margin-bottom: clamp(2rem, 5vw, 3rem); }
+    .pl-itinerario__titulo {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .pl-itinerario__intro {
+      margin: 0 auto;
+      max-width: 50ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .pl-itinerario__vuelo {
+      position: relative;
+      width: min(100%, 640px);
+      margin: 0 auto;
+      padding-left: clamp(2.4rem, 6vw, 3.2rem);
+    }
+    .pl-itinerario__ruta {
+      position: absolute;
+      top: 8px;
+      bottom: 8px;
+      left: 13px;
+      width: 2px;
+      background-image: linear-gradient(var(--accent-color) 55%, transparent 55%);
+      background-size: 2px 12px;
+      opacity: 0.55;
+    }
+    .pl-itinerario__progreso {
+      position: absolute;
+      top: 8px;
+      left: 13px;
+      width: 2px;
+      height: 0%;
+      background: var(--accent-color);
+    }
+    .pl-itinerario__grulla-vuelo {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 28px;
+      margin-left: 0.5px;
+      color: var(--primary-color);
+      transition: top 0.2s linear;
+      filter: drop-shadow(0 3px 6px rgba(28, 35, 64, 0.3));
+    }
+
+    .pl-itinerario__hito {
+      position: relative;
+      margin: 0 0 clamp(1.5rem, 4vw, 2.3rem);
+      padding: clamp(1.1rem, 2.7vw, 1.6rem) clamp(1.2rem, 3vw, 1.8rem);
+      background: color-mix(in srgb, var(--surface-color) 96%, transparent);
+      border: 1px solid var(--surface-border-color);
+      clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 26px, 100% 100%, 0 100%);
+      box-shadow: 0 14px 32px rgba(28, 35, 64, 0.12);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .pl-itinerario.pl-js .pl-itinerario__hito { opacity: 0; transform: translateX(-16px); }
+    .pl-itinerario .pl-itinerario__hito.esta-visto { opacity: 1; transform: none; }
+    .pl-itinerario__hito::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 26px;
+      height: 26px;
+      background: linear-gradient(225deg, var(--bg-color) 0 49%, color-mix(in srgb, var(--accent-color) 48%, var(--bg-color)) 49% 100%);
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+    }
+
+    .pl-itinerario__nodo {
+      position: absolute;
+      top: 50%;
+      left: calc(-1 * clamp(2.4rem, 6vw, 3.2rem) + 2px);
+      transform: translate(-50%, -50%);
+      width: 14px;
+      height: 14px;
+      background: var(--bg-color);
+      clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+      border: 0;
+      outline: 1px solid var(--accent-color);
+    }
+
+    .pl-itinerario__hora {
+      display: inline-block;
+      margin-bottom: 0.4rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.76rem, 1.5vw, 0.88rem);
+      letter-spacing: 0.18em;
+      color: var(--accent-color);
+    }
+    .pl-itinerario__momento {
+      margin: 0 0 0.3rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.02rem, 2.1vw, 1.28rem);
+      color: var(--primary-color);
+    }
+    .pl-itinerario__detalle {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
+      line-height: 1.65;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 560px) {
+      .pl-itinerario__vuelo { padding-left: 2rem; }
+      .pl-itinerario__grulla-vuelo { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pl-itinerario * { transition: none !important; }
+      .pl-itinerario__hito { opacity: 1; transform: none; }
+      .pl-itinerario__grulla-vuelo { display: none; }
+    }
+  </style>
+
+  <header class="pl-itinerario__cabecera" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">
+    <h2 class="pl-itinerario__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Ruta de la noche</h2>
+    <p class="pl-itinerario__intro" memory_type="text" memory_usage="custom" memory_key="itinerario-texto">Una grulla de papel guía cada momento de la celebración.</p>
+  </header>
+
+  <div class="pl-itinerario__vuelo">
+    <span class="pl-itinerario__ruta" aria-hidden="true"></span>
+    <span class="pl-itinerario__progreso" aria-hidden="true" data-pl-progreso></span>
+    <svg class="pl-itinerario__grulla-vuelo" viewBox="0 0 48 48" fill="none" aria-hidden="true" data-pl-grulla>
+      <path d="M8 30 L24 10 L30 22 L40 16 L32 30 L24 26 L14 40 Z" stroke="currentColor" stroke-width="1.6" fill="color-mix(in srgb, var(--surface-color) 90%, transparent)"/>
+    </svg>
+
+    <article class="pl-itinerario__hito" data-pl-hito>
+      <span class="pl-itinerario__nodo" aria-hidden="true"></span>
+      <time class="pl-itinerario__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00 h</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
+        <h3 class="pl-itinerario__momento">Despegue</h3>
+        <p class="pl-itinerario__detalle">Recepción de invitados y bienvenida estelar.</p>
+      </div>
+    </article>
+
+    <article class="pl-itinerario__hito" data-pl-hito>
+      <span class="pl-itinerario__nodo" aria-hidden="true"></span>
+      <time class="pl-itinerario__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00 h</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
+        <h3 class="pl-itinerario__momento">Ceremonia</h3>
+        <p class="pl-itinerario__detalle">El momento en que las estrellas se alinean.</p>
+      </div>
+    </article>
+
+    <article class="pl-itinerario__hito" data-pl-hito>
+      <span class="pl-itinerario__nodo" aria-hidden="true"></span>
+      <time class="pl-itinerario__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00 h</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
+        <h3 class="pl-itinerario__momento">Cena bajo las estrellas</h3>
+        <p class="pl-itinerario__detalle">Banquete y mensajes de los seres queridos.</p>
+      </div>
+    </article>
+
+    <article class="pl-itinerario__hito" data-pl-hito>
+      <span class="pl-itinerario__nodo" aria-hidden="true"></span>
+      <time class="pl-itinerario__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:30 h</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
+        <h3 class="pl-itinerario__momento">Aterrizaje final</h3>
+        <p class="pl-itinerario__detalle">Baile, brillos y despedida con confeti estelar.</p>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.pl-itinerario');
+      if (!root) return;
+      root.classList.add('pl-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var progreso = root.querySelector('[data-pl-progreso]');
+      var grulla = root.querySelector('[data-pl-grulla]');
+      var hitos = Array.prototype.slice.call(root.querySelectorAll('[data-pl-hito]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      var revealIO = ('IntersectionObserver' in window) && !reduce ? new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('esta-visto');
+            revealIO.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 }) : null;
+
+      hitos.forEach(function (hito) {
+        if (revealIO) revealIO.observe(hito);
+        else hito.classList.add('esta-visto');
+      });
+
+      function alVolar() {
+        if (!progreso) return;
+        var rect = root.getBoundingClientRect();
+        var total = rect.height + window.innerHeight * 0.35;
+        var pasado = Math.min(Math.max(window.innerHeight * 0.7 - rect.top, 0), total);
+        var fraccion = pasado / total;
+        progreso.style.height = (fraccion * 100).toFixed(2) + '%';
+        if (grulla) grulla.style.top = 'calc(' + (fraccion * 100).toFixed(2) + '% - 14px)';
+      }
+      if (!reduce) {
+        window.addEventListener('scroll', alVolar, { passive: true });
+        window.addEventListener('resize', alVolar);
+        alVolar();
+      } else if (progreso) {
+        progreso.style.height = '100%';
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Plegado Celeste — Itinerario',
+      descripcion: 'Ruta punteada nocturna con grulla de papel que desciende según el scroll, nodos estrella y tarjetas con esquina plegada.',
+      tags: ['itinerario', 'timeline', 'origami', 'grulla', 'estrellas', 'scroll'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>
+
+<section
+  class="pl-confirmacion"
+  data-gemini-id="confirmacion-texto"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .pl-confirmacion {
+      --primary-color: #1c2340;
+      --secondary-color: #6b7395;
+      --accent-color: #9aa7d0;
+      --bg-color: #eef0f8;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(28, 35, 64, 0.2);
+      --text-color: #1c2340;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 72svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/night,sky');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .pl-confirmacion *,
+    .pl-confirmacion *::before,
+    .pl-confirmacion *::after { box-sizing: border-box; }
+
+    .pl-confirmacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 85%, transparent);
+    }
+
+    .pl-confirmacion__carta {
+      position: relative;
+      width: min(100%, 640px);
+      padding: clamp(2.2rem, 5.5vw, 3.5rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 96%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 26px 56px rgba(28, 35, 64, 0.18);
+      clip-path: polygon(0 0, calc(100% - 46px) 0, 100% 46px, 100% 100%, 0 100%);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .pl-confirmacion.pl-js .pl-confirmacion__carta { opacity: 0; transform: translateY(20px); }
+    .pl-confirmacion.esta-visto .pl-confirmacion__carta { opacity: 1; transform: none; }
+    .pl-confirmacion__carta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 46px;
+      height: 46px;
+      background: linear-gradient(225deg, var(--bg-color) 0 49%, color-mix(in srgb, var(--accent-color) 52%, var(--bg-color)) 49% 100%);
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+    }
+    .pl-confirmacion__carta::after {
+      content: '';
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      width: 40px;
+      height: 40px;
+      border-left: 1px dashed var(--accent-color);
+      border-bottom: 1px dashed var(--accent-color);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .pl-confirmacion__estrella-sello {
+      width: clamp(56px, 9vw, 72px);
+      margin: 0 auto clamp(1rem, 2.4vw, 1.4rem);
+      color: var(--accent-color);
+      animation: plConfirmacionFlota 6s ease-in-out infinite;
+    }
+    @keyframes plConfirmacionFlota {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(8deg); }
+    }
+
+    .pl-confirmacion__etiqueta {
+      margin: 0 0 0.7rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .pl-confirmacion__titulo {
+      margin: 0 0 1rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.65rem, 3.7vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .pl-confirmacion__texto {
+      margin: 0 auto 1.4rem;
+      max-width: 46ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+
+    .pl-confirmacion__limite {
+      display: inline-grid;
+      gap: 0.3rem;
+      padding: 0.7rem 1.7rem;
+      background: var(--bg-color);
+      border: 1px dashed var(--accent-color);
+    }
+    .pl-confirmacion__limite-rotulo {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.56rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .pl-confirmacion__limite-fecha {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.88rem, 1.65vw, 1rem);
+      letter-spacing: 0.1em;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 560px) {
+      .pl-confirmacion { min-height: 62svh; }
+      .pl-confirmacion__carta { padding: 2.2rem 1.2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pl-confirmacion * { animation: none !important; transition: none !important; }
+      .pl-confirmacion__carta { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <div class="pl-confirmacion__carta">
+    <svg class="pl-confirmacion__estrella-sello" viewBox="0 0 80 80" fill="none" aria-hidden="true">
+      <path d="M40 6 L46 30 L70 24 L52 40 L70 56 L46 50 L40 74 L34 50 L10 56 L28 40 L10 24 L34 30 Z" stroke="currentColor" stroke-width="1.4"/>
+      <circle cx="40" cy="40" r="7" stroke="currentColor" stroke-width="1.2"/>
+    </svg>
+
+    <p class="pl-confirmacion__etiqueta" memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta">Confirma tu lugar</p>
+    <h2 class="pl-confirmacion__titulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">El cielo te espera</h2>
+    <p class="pl-confirmacion__texto" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">
+      Queremos tenerte cerca esa noche. Confirma tu asistencia con el enlace de tu invitación
+      digital antes de la fecha señalada; tu lugar estará reservado entre las estrellas.
+    </p>
+    <p class="pl-confirmacion__limite">
+      <span class="pl-confirmacion__limite-rotulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-rotulo">Fecha límite</span>
+      <time class="pl-confirmacion__limite-fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha">DD de mes</time>
+    </p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.pl-confirmacion');
+      if (!root) return;
+      root.classList.add('pl-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.25 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Plegado Celeste — Confirmación',
+      descripcion: 'Carta plegada con sello estrella flotante, texto de RSVP informativo y fecha límite enmarcada en guiones celestes.',
+      tags: ['confirmacion', 'rsvp', 'origami', 'estrella', 'fecha limite', 'celestial'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>
+
+<section
+  class="pl-detalles"
+  data-gemini-id="detalles-vestimenta"
+>
+  <style>
+    .pl-detalles {
+      --primary-color: #1c2340;
+      --secondary-color: #6b7395;
+      --accent-color: #9aa7d0;
+      --bg-color: #eef0f8;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(28, 35, 64, 0.2);
+      --text-color: #1c2340;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+    }
+    .pl-detalles *,
+    .pl-detalles *::before,
+    .pl-detalles *::after { box-sizing: border-box; }
+
+    .pl-detalles__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .pl-detalles__intro {
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      max-width: 52ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .pl-detalles__escena {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.6rem, 4vw, 3rem);
+      align-items: center;
+      width: min(100%, 1040px);
+      margin: 0 auto;
+      perspective: 1000px;
+    }
+
+    .pl-detalles__figura {
+      position: relative;
+      margin: 0;
+      padding: 8px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 20px 46px rgba(28, 35, 64, 0.18);
+      clip-path: polygon(0 0, calc(100% - 34px) 0, 100% 34px, 100% 100%, 0 100%);
+      transform: rotate(2deg);
+    }
+    .pl-detalles__figura::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 34px;
+      height: 34px;
+      background: linear-gradient(225deg, var(--bg-color) 0 49%, color-mix(in srgb, var(--accent-color) 52%, var(--bg-color)) 49% 100%);
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+    }
+    .pl-detalles__figura img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      filter: saturate(0.9);
+    }
+    .pl-detalles__cinta {
+      position: absolute;
+      bottom: -9px;
+      right: 22%;
+      width: 74px;
+      height: 18px;
+      transform: rotate(-3deg);
+      background: color-mix(in srgb, var(--accent-color) 50%, transparent);
+      box-shadow: 0 3px 8px rgba(28, 35, 64, 0.2);
+    }
+
+    .pl-detalles__abanico {
+      display: grid;
+      gap: clamp(0.9rem, 2.4vw, 1.3rem);
+    }
+
+    .pl-detalles__solapa {
+      position: relative;
+      padding: clamp(1.2rem, 3vw, 1.7rem) clamp(1.2rem, 3vw, 1.8rem);
+      text-align: left;
+      background: color-mix(in srgb, var(--surface-color) 96%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 14px 32px rgba(28, 35, 64, 0.12);
+      clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);
+      transform-style: preserve-3d;
+      transform-origin: left center;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .pl-detalles.pl-js .pl-detalles__solapa { opacity: 0; transform: rotateY(-40deg) translateX(-14px); }
+    .pl-detalles.esta-visto .pl-detalles__solapa { opacity: 1; transform: none; }
+    .pl-detalles.esta-visto .pl-detalles__solapa:nth-child(2) { transition-delay: 0.13s; }
+    .pl-detalles.esta-visto .pl-detalles__solapa:nth-child(3) { transition-delay: 0.26s; }
+    .pl-detalles__solapa::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(225deg, var(--bg-color) 0 49%, color-mix(in srgb, var(--accent-color) 48%, var(--bg-color)) 49% 100%);
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+    }
+
+    .pl-detalles__rotulo {
+      margin: 0 0 0.3rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.56rem, 1.1vw, 0.64rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .pl-detalles__titulo-card {
+      margin: 0 0 0.4rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--primary-color);
+    }
+    .pl-detalles__texto {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
+      line-height: 1.65;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 880px) {
+      .pl-detalles__escena { grid-template-columns: 1fr; }
+      .pl-detalles__figura { max-width: 380px; margin: 0 auto; transform: rotate(0deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pl-detalles * { transition: none !important; }
+      .pl-detalles__solapa { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="detalles-intro">
+    <h2 class="pl-detalles__titulo" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Notas de la noche</h2>
+    <p class="pl-detalles__intro" memory_type="text" memory_usage="custom" memory_key="detalles-texto">Pequeños pliegues de información para que todo salga a la perfección.</p>
+  </header>
+
+  <div class="pl-detalles__escena">
+    <figure class="pl-detalles__figura" memory_type="image" memory_usage="custom" memory_source="library" memory_key="detalles-foto">
+      <img
+        src="https://loremflickr.com/500/620/night,fashion"
+        alt="Detalle de vestimenta nocturna"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="detalle"
+        loading="lazy"
+      />
+      <span class="pl-detalles__cinta" aria-hidden="true"></span>
+      <figcaption hidden>Detalle nocturno</figcaption>
+    </figure>
+
+    <div class="pl-detalles__abanico">
+      <article class="pl-detalles__solapa">
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-1">
+          <p class="pl-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-1">Vestimenta</p>
+          <h3 class="pl-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Formal nocturno</h3>
+          <p class="pl-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Tonos profundos y telas suaves acompañan la atmósfera estelar.</p>
+        </div>
+      </article>
+      <article class="pl-detalles__solapa">
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-2">
+          <p class="pl-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-2">Comodidad</p>
+          <h3 class="pl-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Noche fresca</h3>
+          <p class="pl-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">Un abrigo ligero será tu mejor compañero después del atardecer.</p>
+        </div>
+      </article>
+      <article class="pl-detalles__solapa">
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-3">
+          <p class="pl-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-3">Extra</p>
+          <h3 class="pl-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Estacionamiento</h3>
+          <p class="pl-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">Habrá valet parking disponible durante toda la celebración.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.pl-detalles');
+      if (!root) return;
+      root.classList.add('pl-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.22 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-vestimenta',
+      style_name: 'Plegado Celeste — Detalles',
+      descripcion: 'Foto plegada con cinta washi y solapas de papel que se despliegan con rotateY desde la izquierda al entrar en pantalla.',
+      tags: ['detalles', 'vestimenta', 'origami', 'solapas', 'revelado', 'celestial'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>
+
+<section
+  class="pl-countdown"
+  data-gemini-id="countdown-constelacion-tiempo"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+>
+  <style>
+    .pl-countdown {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 650px;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 5vw, 3rem);
+      background-color: var(--bg-color, #eef0f8);
+      background-image: url('https://loremflickr.com/1600/900/starry,night');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color, #1c2340);
+      text-align: center;
+    }
+    .pl-countdown *,
+    .pl-countdown *::before,
+    .pl-countdown *::after { box-sizing: border-box; }
+
+    .pl-countdown::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color, #eef0f8) 84%, transparent);
+    }
+
+    .pl-countdown__contenido { width: min(100%, 760px); }
+
+    .pl-countdown__etiqueta {
+      margin: 0 0 0.55rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--accent-color, #9aa7d0);
+    }
+    .pl-countdown__titulo {
+      margin: 0 0 0.4rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.75rem, 4vw, 2.7rem);
+      color: var(--primary-color, #1c2340);
+    }
+    .pl-countdown__fecha {
+      display: block;
+      margin-bottom: clamp(1.5rem, 3.6vw, 2.2rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.76rem, 1.5vw, 0.88rem);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--secondary-color, #6b7395);
+    }
+
+    .pl-countdown__orbita {
+      position: relative;
+      width: clamp(170px, 26vw, 230px);
+      margin: 0 auto clamp(1.4rem, 3.4vw, 2rem);
+      color: var(--accent-color, #9aa7d0);
+    }
+    .pl-countdown__orbita svg { display: block; width: 100%; height: auto; }
+    .pl-countdown__orbita-fondo {
+      fill: none;
+      stroke: color-mix(in srgb, var(--accent-color, #9aa7d0) 30%, transparent);
+      stroke-width: 1.4;
+      stroke-dasharray: 3 6;
+    }
+    .pl-countdown__orbita-segundo {
+      fill: none;
+      stroke: var(--primary-color, #1c2340);
+      stroke-width: 3;
+      stroke-linecap: round;
+      transform: rotate(-90deg);
+      transform-origin: 115px 115px;
+      transition: stroke-dashoffset 0.5s linear;
+    }
+    .pl-countdown__satelite {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 14px;
+      height: 14px;
+      transform-origin: 50% calc(50% + var(--pl-radio, 115px) * 1px);
+      transform: translate(-50%, calc(-1px * var(--pl-radio, 115px)));
+      background: var(--primary-color, #1c2340);
+      clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+    }
+    .pl-countdown__centro {
+      position: absolute;
+      inset: 22%;
+      display: grid;
+      place-items: center;
+      border: 1px dashed var(--accent-color, #9aa7d0);
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--surface-color, #ffffff) 92%, transparent);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.4rem, 3.2vw, 2rem);
+      font-variant-numeric: tabular-nums;
+      color: var(--primary-color, #1c2340);
+    }
+
+    .pl-countdown__constelacion {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(0.7rem, 2vw, 1.1rem);
+      max-width: 620px;
+      margin: 0 auto;
+    }
+    .pl-countdown__nodo {
+      position: relative;
+      padding: clamp(0.9rem, 2.2vw, 1.3rem) 0.4rem;
+      background: color-mix(in srgb, var(--surface-color, #ffffff) 94%, transparent);
+      border: 1px solid var(--surface-border-color, rgba(28, 35, 64, 0.2));
+      box-shadow: 0 12px 28px rgba(28, 35, 64, 0.12);
+      clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+    }
+    .pl-countdown__nodo::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 16px;
+      height: 16px;
+      background: linear-gradient(225deg, var(--bg-color, #eef0f8) 0 49%, color-mix(in srgb, var(--accent-color, #9aa7d0) 50%, var(--bg-color, #eef0f8)) 49% 100%);
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+    }
+    .pl-countdown__numero {
+      display: block;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.6rem, 4.2vw, 2.5rem);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      color: var(--primary-color, #1c2340);
+    }
+    .pl-countdown__rotulo {
+      display: block;
+      margin-top: 0.45rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.54rem, 1.1vw, 0.62rem);
+      letter-spacing: 0.36em;
+      text-transform: uppercase;
+      color: var(--secondary-color, #6b7395);
+    }
+
+    @media (max-width: 560px) {
+      .pl-countdown__constelacion { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 360px; }
+      .pl-countdown { min-height: 600px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pl-countdown__orbita-segundo { transition: none; }
+      .pl-countdown__satelite { display: none; }
+    }
+  </style>
+
+  <div class="pl-countdown__contenido">
+    <p class="pl-countdown__etiqueta" memory_type="text" memory_usage="custom" memory_key="countdown-etiqueta">Cuenta regresiva</p>
+    <h2 class="pl-countdown__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Las estrellas se alinean</h2>
+    <time class="pl-countdown__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+
+    <div class="pl-countdown__orbita" aria-hidden="true">
+      <svg viewBox="0 0 230 230" style="--pl-radio: 100;">
+        <circle class="pl-countdown__orbita-fondo" cx="115" cy="115" r="100" />
+        <circle class="pl-countdown__orbita-segundo" data-pl-orbita cx="115" cy="115" r="100" stroke-dasharray="628.3" stroke-dashoffset="0" />
+      </svg>
+      <span class="pl-countdown__satelite" data-pl-satelite></span>
+      <div class="pl-countdown__centro" data-pl-segundos>00</div>
+    </div>
+
+    <div class="pl-countdown__constelacion" aria-label="Cuenta regresiva">
+      <div class="pl-countdown__nodo"><span class="pl-countdown__numero" data-countdown-unit="days">--</span><span class="pl-countdown__rotulo">Días</span></div>
+      <div class="pl-countdown__nodo"><span class="pl-countdown__numero" data-countdown-unit="hours">--</span><span class="pl-countdown__rotulo">Horas</span></div>
+      <div class="pl-countdown__nodo"><span class="pl-countdown__numero" data-countdown-unit="minutes">--</span><span class="pl-countdown__rotulo">Min</span></div>
+      <div class="pl-countdown__nodo"><span class="pl-countdown__numero" data-countdown-unit="seconds">--</span><span class="pl-countdown__rotulo">Seg</span></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var el = null;
+      try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
+      if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+      if (!el) return;
+
+      var orbita = el.querySelector('[data-pl-orbita]');
+      var satelite = el.querySelector('[data-pl-satelite]');
+      var centro = el.querySelector('[data-pl-segundos]');
+      var LONGITUD = orbita ? 2 * Math.PI * 100 : 0;
+      var target = NaN;
+      var attr = el.getAttribute('data-countdown-target');
+      if (attr && attr.indexOf('YYYY') === -1) { var p = new Date(attr); if (!isNaN(p.getTime())) target = p.getTime(); }
+      if (isNaN(target) && window.__countdownTarget) { var p1 = new Date(window.__countdownTarget); if (!isNaN(p1.getTime())) target = p1.getTime(); }
+      if (isNaN(target) && window.countdown_target) { var p2 = new Date(window.countdown_target); if (!isNaN(p2.getTime())) target = p2.getTime(); }
+
+      var intervalId = null;
+      (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+
+      function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+      function setUnit(unit, value) {
+        var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
+        if (node) node.textContent = value;
+      }
+      function tick() {
+        if (!Number.isFinite(target)) return;
+        var diff = Math.max(target - Date.now(), 0);
+        setUnit('days', Math.floor(diff / 86400000));
+        setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
+        setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
+        var s = Math.floor((diff % 60000) / 1000);
+        setUnit('seconds', pad2(s));
+        if (centro) centro.textContent = pad2(s);
+        var fraccion = s / 60;
+        if (orbita) orbita.setAttribute('stroke-dashoffset', (LONGITUD * (1 - fraccion)).toFixed(2));
+        if (satelite) satelite.style.transform = 'translate(-50%, -115px) rotate(' + (fraccion * 360).toFixed(1) + 'deg)';
+        if (diff === 0 && intervalId !== null) {
+          clearInterval(intervalId);
+          intervalId = null;
+          window.__countdownIntervals = [];
+        }
+      }
+      function start(newTarget) {
+        if (newTarget) { var p = new Date(newTarget); if (!isNaN(p.getTime())) target = p.getTime(); }
+        (window.__countdownIntervals || []).forEach(clearInterval);
+        window.__countdownIntervals = [];
+        intervalId = null;
+        if (!Number.isFinite(target)) return;
+        tick();
+        if (target > Date.now()) {
+          intervalId = setInterval(tick, 1000);
+          window.__countdownIntervals.push(intervalId);
+        }
+      }
+      start();
+      window.updateCountdown = start;
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-constelacion-tiempo',
+      style_name: 'Órbita Celeste',
+      descripcion: 'Cuenta regresiva orbital: estrella satélite que gira sobre anillo punteado, arco de segundos y constelación de nodos plegados por unidad.',
+      tags: ['countdown', 'cuenta regresiva', 'orbita', 'satelite', 'origami', 'celestial'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>
+
+<section
+  class="pl-padrinos"
+  data-gemini-id="padrinos-plegado-estrellas"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .pl-padrinos {
+      --primary-color: #1c2340;
+      --secondary-color: #6b7395;
+      --accent-color: #9aa7d0;
+      --bg-color: #eef0f8;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(28, 35, 64, 0.2);
+      --text-color: #1c2340;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/clouds,sky');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .pl-padrinos *,
+    .pl-padrinos *::before,
+    .pl-padrinos *::after { box-sizing: border-box; }
+
+    .pl-padrinos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 88%, transparent);
+    }
+
+    .pl-padrinos__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .pl-padrinos__intro {
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      max-width: 50ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .pl-padrinos__banderines {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1.5rem, 4.5vw, 3rem) clamp(1.2rem, 4vw, 2.6rem);
+      width: min(100%, 840px);
+      margin: 0 auto;
+    }
+
+    .pl-padrinos__banderin {
+      position: relative;
+      margin: 0 auto;
+      width: min(100%, 330px);
+      padding: clamp(1.5rem, 3.5vw, 2rem) clamp(1.2rem, 3vw, 1.7rem) clamp(2rem, 4.5vw, 2.6rem);
+      background: color-mix(in srgb, var(--surface-color) 96%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 16px 38px rgba(28, 35, 64, 0.14);
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 26px), 50% 100%, 0 calc(100% - 26px));
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .pl-padrinos.pl-js .pl-padrinos__banderin { opacity: 0; transform: translateY(-16px); }
+    .pl-padrinos.esta-visto .pl-padrinos__banderin { opacity: 1; transform: none; }
+
+    .pl-padrinos__cordel {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: color-mix(in srgb, var(--accent-color) 70%, transparent);
+    }
+
+    .pl-padrinos__retrato {
+      width: clamp(92px, 14vw, 122px);
+      margin: 0 auto 1rem;
+      padding: 5px;
+      background: var(--bg-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 50%;
+      position: relative;
+    }
+    .pl-padrinos__retrato::after {
+      content: '';
+      position: absolute;
+      top: -9px;
+      right: -6px;
+      width: 20px;
+      height: 20px;
+      background: var(--accent-color);
+      clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+    }
+    .pl-padrinos__retrato img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      object-fit: cover;
+      filter: saturate(0.9);
+    }
+
+    .pl-padrinos__rol {
+      margin: 0 0 0.3rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.56rem, 1.05vw, 0.64rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .pl-padrinos__nombre {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1rem, 2vw, 1.22rem);
+      line-height: 1.3;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 700px) {
+      .pl-padrinos__banderines { grid-template-columns: 1fr; max-width: 360px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pl-padrinos * { transition: none !important; }
+      .pl-padrinos__banderin { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
+    <h2 class="pl-padrinos__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Nuestros guías</h2>
+    <p class="pl-padrinos__intro" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Banderines de papel para quienes sostienen nuestra historia con cariño.</p>
+  </header>
+
+  <div class="pl-padrinos__banderines">
+    <article class="pl-padrinos__banderin" data-pl-banderin>
+      <span class="pl-padrinos__cordel" aria-hidden="true"></span>
+      <figure class="pl-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
+        <img src="https://loremflickr.com/300/300/portrait,night" alt="Retrato de padrino" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrino uno</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
+        <p class="pl-padrinos__rol">Padrinos de velas</p>
+        <h3 class="pl-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+      </div>
+    </article>
+
+    <article class="pl-padrinos__banderin" data-pl-banderin>
+      <span class="pl-padrinos__cordel" aria-hidden="true"></span>
+      <figure class="pl-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
+        <img src="https://loremflickr.com/300/300/portrait,stars" alt="Retrato de madrina" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Madrina dos</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
+        <p class="pl-padrinos__rol">Padrinos de anillos</p>
+        <h3 class="pl-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+      </div>
+    </article>
+
+    <article class="pl-padrinos__banderin" data-pl-banderin>
+      <span class="pl-padrinos__cordel" aria-hidden="true"></span>
+      <figure class="pl-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
+        <img src="https://loremflickr.com/300/300/portrait,evening" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrino tres</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
+        <p class="pl-padrinos__rol">Padrinos de lazo</p>
+        <h3 class="pl-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+      </div>
+    </article>
+
+    <article class="pl-padrinos__banderin" data-pl-banderin>
+      <span class="pl-padrinos__cordel" aria-hidden="true"></span>
+      <figure class="pl-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
+        <img src="https://loremflickr.com/300/300/portrait,gentle" alt="Retrato de madrinas" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Madrina cuatro</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
+        <p class="pl-padrinos__rol">Padrinos de arras</p>
+        <h3 class="pl-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.pl-padrinos');
+      if (!root) return;
+      root.classList.add('pl-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var piezas = Array.prototype.slice.call(root.querySelectorAll('[data-pl-banderin]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        piezas.forEach(function (p) { p.style.opacity = 1; p.style.transform = 'none'; });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = piezas.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.11).toFixed(2) + 's';
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'none';
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      piezas.forEach(function (p) { io.observe(p); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padrinos',
+      module_name: 'padrinos-plegado-estrellas',
+      style_name: 'Plegado Celeste — Padrinos',
+      descripcion: 'Banderines de papel con punta diagonal, cordel celeste, retratos circulares con estrella y caída escalonada desde arriba.',
+      tags: ['padrinos', 'banderines', 'origami', 'retratos', 'stagger', 'celestial'],
+      tipo: 'padrinos'
+    };
+  </script>
+</section>
+
+<section
+  class="pl-corte"
+  data-gemini-id="corte-plegado-acordeon"
+>
+  <style>
+    .pl-corte {
+      --primary-color: #1c2340;
+      --secondary-color: #6b7395;
+      --accent-color: #9aa7d0;
+      --bg-color: #eef0f8;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(28, 35, 64, 0.2);
+      --text-color: #1c2340;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .pl-corte *,
+    .pl-corte *::before,
+    .pl-corte *::after { box-sizing: border-box; }
+
+    .pl-corte__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: clamp(1.8rem, 4.5vw, 3.4rem);
+      align-items: center;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .pl-corte__escena {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 26px 58px rgba(28, 35, 64, 0.2);
+    }
+    .pl-corte__escena img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      filter: saturate(0.92);
+      transform: scale(1.07);
+      transition: transform 0.5s ease;
+    }
+    .pl-corte.esta-visto .pl-corte__escena img { transform: scale(1); }
+
+    .pl-corte__acordeon {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: none;
+      pointer-events: none;
+    }
+    .pl-corte.pl-js .pl-corte__acordeon { display: flex; }
+    .pl-corte__pliegue {
+      flex: 1;
+      background: repeating-linear-gradient(90deg,
+        color-mix(in srgb, var(--surface-color) 97%, transparent) 0 16px,
+        color-mix(in srgb, var(--accent-color) 26%, var(--bg-color)) 16px 22px);
+      box-shadow: inset 0 0 26px rgba(28, 35, 64, 0.12);
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), opacity 0.45s ease;
+    }
+    .pl-corte__pliegue:nth-child(1) { transition-delay: 0s; }
+    .pl-corte__pliegue:nth-child(2) { transition-delay: 0.06s; }
+    .pl-corte__pliegue:nth-child(3) { transition-delay: 0.12s; }
+    .pl-corte__pliegue:nth-child(4) { transition-delay: 0.18s; }
+    .pl-corte__pliegue:nth-child(5) { transition-delay: 0.24s; }
+    .pl-corte.esta-visto .pl-corte__pliegue:nth-child(odd) { transform: translateY(-102%); }
+    .pl-corte.esta-visto .pl-corte__pliegue:nth-child(even) { transform: translateY(102%); }
+
+    .pl-corte__estrella {
+      position: absolute;
+      z-index: 3;
+      top: 50%;
+      left: 50%;
+      width: 58px;
+      transform: translate(-50%, -50%);
+      color: var(--primary-color);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 50%;
+      padding: 9px;
+      box-shadow: 0 12px 26px rgba(28, 35, 64, 0.25);
+      transition: opacity 0.4s ease, transform 0.5s ease;
+      animation: plCorteGira 14s linear infinite;
+      display: none;
+    }
+    .pl-corte.pl-js .pl-corte__estrella { display: block; }
+    @keyframes plCorteGira { to { transform: translate(-50%, -50%) rotate(360deg); } }
+    .pl-corte.esta-visto .pl-corte__estrella { opacity: 0; }
+
+    .pl-corte__contenido { text-align: left; }
+    .pl-corte__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .pl-corte__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.85rem, 4.2vw, 2.7rem);
+      line-height: 1.1;
+      color: var(--primary-color);
+    }
+    .pl-corte__texto {
+      margin: 0 0 1.2rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .pl-corte__firma {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.86rem, 1.6vw, 0.98rem);
+      color: var(--primary-color);
+    }
+    .pl-corte__firma::after {
+      content: '';
+      width: 46px;
+      height: 1px;
+      background: var(--accent-color);
+    }
+
+    @media (max-width: 880px) {
+      .pl-corte__grid { grid-template-columns: 1fr; }
+      .pl-corte__contenido { text-align: center; }
+      .pl-corte__firma { justify-content: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pl-corte * { transition: none !important; animation: none !important; }
+      .pl-corte .pl-corte__acordeon, .pl-corte .pl-corte__estrella { display: none !important; }
+      .pl-corte__escena img { transform: none; }
+    }
+  </style>
+
+  <div class="pl-corte__grid">
+    <figure class="pl-corte__escena" memory_type="image" memory_usage="custom" memory_source="library" memory_key="corte-foto">
+      <img
+        src="https://loremflickr.com/960/600/celebration,night"
+        alt="Momento del corte bajo las estrellas"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="corte"
+        loading="lazy"
+      />
+      <span class="pl-corte__acordeon" aria-hidden="true">
+        <span class="pl-corte__pliegue"></span>
+        <span class="pl-corte__pliegue"></span>
+        <span class="pl-corte__pliegue"></span>
+        <span class="pl-corte__pliegue"></span>
+        <span class="pl-corte__pliegue"></span>
+      </span>
+      <svg class="pl-corte__estrella" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <path d="M24 5 L28 19 L42 15 L31 24 L42 33 L28 29 L24 43 L20 29 L6 33 L17 24 L6 15 L20 19 Z" stroke="currentColor" stroke-width="1.3"/>
+      </svg>
+      <figcaption hidden>Momento del corte</figcaption>
+    </figure>
+
+    <div class="pl-corte__contenido" memory_type="text" memory_usage="custom" memory_key="corte-texto">
+      <p class="pl-corte__etiqueta" memory_type="text" memory_usage="custom" memory_key="corte-etiqueta">Instante estelar</p>
+      <h2 class="pl-corte__titulo" memory_type="text" memory_usage="custom" memory_key="corte-titulo">El corte de la noche</h2>
+      <p class="pl-corte__texto">
+        Los pliegues se abren para revelar la escena más dulce: el corte que marca el
+        comienzo de nuestra nueva historia. Queremos vivirlo contigo.
+      </p>
+      <p class="pl-corte__firma" memory_type="text" memory_usage="custom" memory_key="corte-firma">Un deseo, una estrella.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.pl-corte');
+      if (!root) return;
+      root.classList.add('pl-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root.querySelector('.pl-corte__escena') || root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-plegado-acordeon',
+      style_name: 'Plegado Celeste — Corte',
+      descripcion: 'Revelado en acordeón: cinco pliegues de papel alternos que se abren hacia arriba y abajo, con estrella giratoria que se desvanece.',
+      tags: ['corte', 'acordeon', 'revelado', 'origami', 'papel', 'celestial'],
+      tipo: 'corte'
+    };
+  </script>
+</section>
+
+<section
+  class="pl-galeria"
+  data-gemini-id="galeria-plegado-figuras"
+>
+  <style>
+    .pl-galeria {
+      --primary-color: #1c2340;
+      --secondary-color: #6b7395;
+      --accent-color: #9aa7d0;
+      --bg-color: #eef0f8;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(28, 35, 64, 0.2);
+      --text-color: #1c2340;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+    }
+    .pl-galeria *,
+    .pl-galeria *::before,
+    .pl-galeria *::after { box-sizing: border-box; }
+
+    .pl-galeria__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .pl-galeria__nota {
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .pl-galeria__mosaico {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: clamp(1rem, 2.6vw, 1.6rem);
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .pl-galeria__figura {
+      position: relative;
+      margin: 0;
+      padding: 8px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 16px 36px rgba(28, 35, 64, 0.15);
+      cursor: pointer;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), box-shadow 0.5s ease;
+    }
+    .pl-galeria.pl-js .pl-galeria__figura { opacity: 0; transform: translateY(18px); }
+    .pl-galeria.esta-visto .pl-galeria__figura { opacity: 1; transform: none; }
+    .pl-galeria__figura:hover { box-shadow: 0 24px 48px rgba(28, 35, 64, 0.24); }
+
+    .pl-galeria__figura:nth-child(1) img { clip-path: polygon(0 0, calc(100% - 34px) 0, 100% 34px, 100% 100%, 0 100%); }
+    .pl-galeria__figura:nth-child(2) img { clip-path: polygon(50% 0, 100% 26%, 100% 100%, 0 100%, 0 26%); }
+    .pl-galeria__figura:nth-child(3) img { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 34px), calc(100% - 34px) 100%, 0 100%); }
+    .pl-galeria__figura:nth-child(4) img { clip-path: polygon(26% 0, 100% 0, 100% 74%, 74% 100%, 0 100%, 0 26%); }
+    .pl-galeria__figura:nth-child(5) img { clip-path: polygon(0 22%, 100% 0, 100% 100%, 0 100%); }
+    .pl-galeria__figura:nth-child(6) img { clip-path: polygon(0 0, 100% 0, 100% 100%, 34px 100%, 0 calc(100% - 34px)); }
+
+    .pl-galeria__figura img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      filter: saturate(0.9);
+    }
+    .pl-galeria__pie {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 8px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .pl-galeria__pie i {
+      width: 9px;
+      height: 9px;
+      background: var(--accent-color);
+      clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+    }
+
+    .pl-galeria__lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      place-items: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      background: color-mix(in srgb, var(--primary-color) 82%, black);
+    }
+    .pl-galeria__lightbox.abierto { display: grid; }
+    .pl-galeria__lightbox img {
+      max-width: min(920px, 92vw);
+      max-height: 82svh;
+      width: auto;
+      height: auto;
+      border: 6px solid var(--surface-color);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    }
+    .pl-galeria__cerrar {
+      position: absolute;
+      top: clamp(0.8rem, 2.5vw, 1.6rem);
+      right: clamp(0.8rem, 2.5vw, 1.6rem);
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--surface-color);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--surface-color);
+      font-size: 1.2rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.4s ease, background 0.4s ease;
+    }
+    .pl-galeria__cerrar:hover { transform: rotate(90deg); background: color-mix(in srgb, var(--surface-color) 18%, transparent); }
+
+    @media (max-width: 560px) {
+      .pl-galeria__mosaico { grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 0.8rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pl-galeria * { transition: none !important; }
+      .pl-galeria__figura { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="galeria-cabecera">
+    <h2 class="pl-galeria__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Figuras de papel</h2>
+    <p class="pl-galeria__nota" memory_type="text" memory_usage="custom" memory_key="galeria-nota">Galería plegada</p>
+  </header>
+
+  <div class="pl-galeria__mosaico">
+    <figure class="pl-galeria__figura" data-pl-figura memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-1" tabindex="0" role="button" aria-label="Ampliar figura uno">
+      <img src="https://loremflickr.com/480/600/stars,couple" alt="Figura uno" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="pl-galeria__pie"><span>N.º 01</span><i aria-hidden="true"></i></span>
+      <figcaption hidden>Figura uno</figcaption>
+    </figure>
+    <figure class="pl-galeria__figura" data-pl-figura memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-2" tabindex="0" role="button" aria-label="Ampliar figura dos">
+      <img src="https://loremflickr.com/480/600/night,dance" alt="Figura dos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="pl-galeria__pie"><span>N.º 02</span><i aria-hidden="true"></i></span>
+      <figcaption hidden>Figura dos</figcaption>
+    </figure>
+    <figure class="pl-galeria__figura" data-pl-figura memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-3" tabindex="0" role="button" aria-label="Ampliar figura tres">
+      <img src="https://loremflickr.com/480/600/ceremony,stars" alt="Figura tres" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="pl-galeria__pie"><span>N.º 03</span><i aria-hidden="true"></i></span>
+      <figcaption hidden>Figura tres</figcaption>
+    </figure>
+    <figure class="pl-galeria__figura" data-pl-figura memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-4" tabindex="0" role="button" aria-label="Ampliar figura cuatro">
+      <img src="https://loremflickr.com/480/600/party,lights" alt="Figura cuatro" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="pl-galeria__pie"><span>N.º 04</span><i aria-hidden="true"></i></span>
+      <figcaption hidden>Figura cuatro</figcaption>
+    </figure>
+    <figure class="pl-galeria__figura" data-pl-figura memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-5" tabindex="0" role="button" aria-label="Ampliar figura cinco">
+      <img src="https://loremflickr.com/480/600/love,night" alt="Figura cinco" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="pl-galeria__pie"><span>N.º 05</span><i aria-hidden="true"></i></span>
+      <figcaption hidden>Figura cinco</figcaption>
+    </figure>
+    <figure class="pl-galeria__figura" data-pl-figura memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-6" tabindex="0" role="button" aria-label="Ampliar figura seis">
+      <img src="https://loremflickr.com/480/600/elegant,evening" alt="Figura seis" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="pl-galeria__pie"><span>N.º 06</span><i aria-hidden="true"></i></span>
+      <figcaption hidden>Figura seis</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.pl-galeria');
+      if (!root) return;
+      root.classList.add('pl-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var figuras = Array.prototype.slice.call(root.querySelectorAll('[data-pl-figura]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var i = figuras.indexOf(entry.target);
+            entry.target.style.transitionDelay = (Math.min(i, 5) * 0.08).toFixed(2) + 's';
+            root.classList.add('esta-visto');
+            io.unobserve(entry.target);
+          });
+        }, { threshold: 0.18 });
+        figuras.forEach(function (f) { io.observe(f); });
+      } else {
+        root.classList.add('esta-visto');
+      }
+
+      var lightbox = document.createElement('div');
+      lightbox.className = 'pl-galeria__lightbox';
+      lightbox.setAttribute('role', 'dialog');
+      lightbox.setAttribute('aria-modal', 'true');
+      lightbox.setAttribute('aria-label', 'Vista ampliada');
+      lightbox.innerHTML =
+        '<img alt="" />' +
+        '<button type="button" class="pl-galeria__cerrar" aria-label="Cerrar">×</button>';
+      root.appendChild(lightbox);
+      var imgAmpliada = lightbox.querySelector('img');
+      var botonCerrar = lightbox.querySelector('.pl-galeria__cerrar');
+
+      function abrir(fig) {
+        var foto = fig.querySelector('img');
+        if (!foto) return;
+        imgAmpliada.src = foto.src;
+        imgAmpliada.alt = foto.alt;
+        lightbox.classList.add('abierto');
+      }
+      function cerrar() { lightbox.classList.remove('abierto'); }
+
+      figuras.forEach(function (fig) {
+        fig.addEventListener('click', function () { abrir(fig); });
+        fig.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(fig); }
+        });
+      });
+      botonCerrar.addEventListener('click', cerrar);
+      lightbox.addEventListener('click', function (e) { if (e.target === lightbox) cerrar(); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-plegado-figuras',
+      style_name: 'Plegado Celeste — Galería',
+      descripcion: 'Galería con máscaras clip-path distintas por figura (esquina doblada, hexágono, diagonal), pie numerado y lightbox accesible.',
+      tags: ['galeria', 'mosaico', 'clip-path', 'origami', 'lightbox', 'celestial'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>
+
+<section
+  class="pl-regalos"
+  data-gemini-id="regalos-plegado-mesa"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .pl-regalos {
+      --primary-color: #1c2340;
+      --secondary-color: #6b7395;
+      --accent-color: #9aa7d0;
+      --bg-color: #eef0f8;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(28, 35, 64, 0.2);
+      --text-color: #1c2340;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/paper,craft');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .pl-regalos *,
+    .pl-regalos *::before,
+    .pl-regalos *::after { box-sizing: border-box; }
+
+    .pl-regalos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 86%, transparent);
+    }
+
+    .pl-regalos__sobre {
+      width: min(100%, 700px);
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 96%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 24px 52px rgba(28, 35, 64, 0.16);
+      clip-path: polygon(0 0, calc(100% - 42px) 0, 100% 42px, 100% 100%, 0 100%);
+    }
+    .pl-regalos__sobre::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(225deg, var(--bg-color) 0 49%, color-mix(in srgb, var(--accent-color) 52%, var(--bg-color)) 49% 100%);
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+    }
+
+    .pl-regalos__etiqueta {
+      margin: 0 0 0.6rem;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .pl-regalos__titulo {
+      margin: 0 0 0.7rem;
+      text-align: center;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .pl-regalos__intro {
+      margin: 0 auto 1.6rem;
+      max-width: 48ch;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .pl-regalos__lista {
+      display: grid;
+      gap: clamp(0.8rem, 2.2vw, 1.1rem);
+      margin-bottom: 1.8rem;
+    }
+    .pl-regalos__item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      align-items: center;
+      padding: clamp(0.85rem, 2.2vw, 1.1rem) clamp(1rem, 2.5vw, 1.3rem);
+      background: var(--bg-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 8px 18px rgba(28, 35, 64, 0.08);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .pl-regalos.pl-js .pl-regalos__item { opacity: 0; transform: translateX(-12px); }
+    .pl-regalos.esta-visto .pl-regalos__item { opacity: 1; transform: none; }
+    .pl-regalos__banderita {
+      width: 20px;
+      height: 30px;
+      background: color-mix(in srgb, var(--accent-color) 60%, transparent);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 74%, 0 100%);
+    }
+    .pl-regalos__cuerpo { display: grid; gap: 0.15rem; }
+    .pl-regalos__nombre {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.92rem, 1.75vw, 1.04rem);
+      color: var(--primary-color);
+    }
+    .pl-regalos__nota {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.68rem, 1.25vw, 0.76rem);
+      color: var(--secondary-color);
+    }
+
+    .pl-regalos__zona-boton { text-align: center; }
+    .pl-regalos__boton {
+      position: relative;
+      min-width: 225px;
+      padding: 0.85rem 2rem;
+      border: 0;
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: pointer;
+      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+      transition: background 0.4s ease, transform 0.4s ease;
+      overflow: hidden;
+    }
+    .pl-regalos__boton:hover { transform: translateY(-2px); }
+    .pl-regalos__boton.esta-listo { background: color-mix(in srgb, var(--accent-color) 85%, var(--primary-color)); }
+    .pl-regalos__confeti {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 7px;
+      height: 7px;
+      background: var(--bg-color);
+      clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .pl-regalos__boton.esta-listo .pl-regalos__confeti { animation: plRegalosChispa 0.5s ease-out forwards; }
+    @keyframes plRegalosChispa {
+      0% { opacity: 1; transform: translate(0, 0) scale(0.6) rotate(0deg); }
+      100% { opacity: 0; transform: translate(var(--pl-dx, 0px), var(--pl-dy, -30px)) scale(1.1) rotate(180deg); }
+    }
+    .pl-regalos__nota {
+      margin-top: 0.9rem;
+      text-align: center;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.76rem, 1.4vw, 0.86rem);
+      color: var(--secondary-color);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pl-regalos * { transition: none !important; animation: none !important; }
+      .pl-regalos__item { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <div class="pl-regalos__sobre">
+    <header memory_type="text" memory_usage="custom" memory_key="regalos-intro">
+      <p class="pl-regalos__etiqueta" memory_type="text" memory_usage="custom" memory_key="regalos-etiqueta">Mesa de regalos</p>
+      <h2 class="pl-regalos__titulo" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Regalos hechos a mano</h2>
+      <p class="pl-regalos__intro" memory_type="text" memory_usage="custom" memory_key="regalos-texto">
+        Como un plegado hecho con paciencia, tu detalle será recordado. Elige una idea y agéndala.
+      </p>
+    </header>
+
+    <div class="pl-regalos__lista" data-pl-lista>
+      <div class="pl-regalos__item">
+        <span class="pl-regalos__banderita" aria-hidden="true"></span>
+        <div class="pl-regalos__cuerpo">
+          <span class="pl-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-1">Piezas para el hogar</span>
+          <span class="pl-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota-1">Disponible en tienda</span>
+        </div>
+      </div>
+      <div class="pl-regalos__item">
+        <span class="pl-regalos__banderita" aria-hidden="true"></span>
+        <div class="pl-regalos__cuerpo">
+          <span class="pl-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-2">Aporte para la luna de miel</span>
+          <span class="pl-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota-2">Sobre personalizado</span>
+        </div>
+      </div>
+      <div class="pl-regalos__item">
+        <span class="pl-regalos__banderita" aria-hidden="true"></span>
+        <div class="pl-regalos__cuerpo">
+          <span class="pl-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-3">Una experiencia inolvidable</span>
+          <span class="pl-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota-3">Sorpréndenos</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pl-regalos__zona-boton">
+      <button type="button" class="pl-regalos__boton" data-pl-boton>
+        <span data-pl-boton-texto memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span>
+        <span class="pl-regalos__confeti" aria-hidden="true" style="--pl-dx:-26px; --pl-dy:-30px;"></span>
+        <span class="pl-regalos__confeti" aria-hidden="true" style="--pl-dx:22px; --pl-dy:-34px;"></span>
+        <span class="pl-regalos__confeti" aria-hidden="true" style="--pl-dx:-4px; --pl-dy:-40px;"></span>
+        <span class="pl-regalos__confeti" aria-hidden="true" style="--pl-dx:34px; --pl-dy:-22px;"></span>
+        <span class="pl-regalos__confeti" aria-hidden="true" style="--pl-dx:-36px; --pl-dy:-20px;"></span>
+      </button>
+      <p class="pl-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-pie">Se guardará en tu invitación digital.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.pl-regalos');
+      if (!root) return;
+      root.classList.add('pl-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var items = Array.prototype.slice.call(root.querySelectorAll('.pl-regalos__item'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            items.forEach(function (item, i) { item.style.transitionDelay = (i * 0.11).toFixed(2) + 's'; });
+            root.classList.add('esta-visto');
+            io.disconnect();
+          });
+        }, { threshold: 0.3 });
+        io.observe(root.querySelector('[data-pl-lista]') || root);
+      } else {
+        root.classList.add('esta-visto');
+      }
+
+      var boton = root.querySelector('[data-pl-boton]');
+      var texto = root.querySelector('[data-pl-boton-texto]');
+      if (boton && texto) {
+        boton.addEventListener('click', function () {
+          var listo = boton.classList.toggle('esta-listo');
+          texto.textContent = listo ? 'Regalo agendado' : 'Agendar regalo';
+          if (listo && !reduce) {
+            boton.querySelectorAll('.pl-regalos__confeti').forEach(function (c) {
+              c.style.animation = 'none';
+              void c.offsetWidth;
+              c.style.animation = '';
+            });
+          }
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-plegado-mesa',
+      style_name: 'Plegado Celeste — Regalos',
+      descripcion: 'Sobre plegado con lista de banderitas de papel y botón agendar que lanza un estallido de confeti estelar al confirmar.',
+      tags: ['regalos', 'mesa de regalos', 'confeti', 'origami', 'boton', 'celestial'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>
+
+<section
+  class="pl-vestimenta"
+  data-gemini-id="vestimenta-plegado-gemas"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .pl-vestimenta {
+      --primary-color: #1c2340;
+      --secondary-color: #6b7395;
+      --accent-color: #9aa7d0;
+      --bg-color: #eef0f8;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(28, 35, 64, 0.2);
+      --text-color: #1c2340;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      min-height: 64svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/pastel,paper');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .pl-vestimenta *,
+    .pl-vestimenta *::before,
+    .pl-vestimenta *::after { box-sizing: border-box; }
+
+    .pl-vestimenta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 85%, transparent);
+    }
+
+    .pl-vestimenta__tarjeta {
+      width: min(100%, 660px);
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 95%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 24px 52px rgba(28, 35, 64, 0.16);
+      clip-path: polygon(0 0, calc(100% - 38px) 0, 100% 38px, 100% 100%, 0 100%);
+    }
+    .pl-vestimenta__tarjeta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(225deg, var(--bg-color) 0 49%, color-mix(in srgb, var(--accent-color) 52%, var(--bg-color)) 49% 100%);
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+    }
+
+    .pl-vestimenta__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .pl-vestimenta__titulo {
+      margin: 0 0 0.8rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .pl-vestimenta__texto {
+      margin: 0 auto 1.8rem;
+      max-width: 46ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .pl-vestimenta__enjambre {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(0.9rem, 2.6vw, 1.4rem);
+      margin-bottom: 1.7rem;
+    }
+    .pl-vestimenta__gema-zona {
+      display: grid;
+      justify-items: center;
+      gap: 0.5rem;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .pl-vestimenta.pl-js .pl-vestimenta__gema-zona { opacity: 0; transform: translateY(12px) scale(0.85); }
+    .pl-vestimenta.esta-visto .pl-vestimenta__gema-zona { opacity: 1; transform: none; }
+    .pl-vestimenta__gema {
+      position: relative;
+      width: clamp(42px, 7.5vw, 56px);
+      height: clamp(42px, 7.5vw, 56px);
+      background: var(--bg-color);
+      clip-path: polygon(50% 0, 100% 32%, 82% 100%, 18% 100%, 0 32%);
+      box-shadow: 0 10px 20px rgba(28, 35, 64, 0.18);
+      transition: background 0.5s ease, transform 0.5s ease;
+    }
+    .pl-vestimenta__gema::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(150deg, rgba(255, 255, 255, 0.4) 0 38%, transparent 38% 62%, rgba(0, 0, 0, 0.16) 62% 100%);
+    }
+    .pl-vestimenta__gema-zona:hover .pl-vestimenta__gema { transform: translateY(-5px) rotate(4deg); }
+    .pl-vestimenta__sombra {
+      width: clamp(30px, 5.5vw, 40px);
+      height: 4px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--primary-color) 25%, transparent);
+      filter: blur(2px);
+    }
+
+    .pl-vestimenta__leyenda {
+      display: inline-block;
+      padding: 0.55rem 1.6rem;
+      border-top: 1px dashed var(--accent-color);
+      border-bottom: 1px dashed var(--accent-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.64rem, 1.25vw, 0.74rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 480px) {
+      .pl-vestimenta__gema { width: 38px; height: 38px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pl-vestimenta * { transition: none !important; }
+      .pl-vestimenta__gema-zona { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <div class="pl-vestimenta__tarjeta">
+    <p class="pl-vestimenta__etiqueta" memory_type="text" memory_usage="custom" memory_key="vestimenta-etiqueta">Código de vestimenta</p>
+    <h2 class="pl-vestimenta__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Gemas de inspiración</h2>
+    <p class="pl-vestimenta__texto" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">
+      Estos tonos pliegan la atmósfera de la noche; tómalos como inspiración para tu atuendo.
+    </p>
+
+    <div class="pl-vestimenta__enjambre" data-pl-enjambre aria-hidden="true"></div>
+
+    <p class="pl-vestimenta__leyenda" memory_type="text" memory_usage="custom" memory_key="vestimenta-leyenda">Formal · tonos crepusculares</p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.pl-vestimenta');
+      if (!root) return;
+      root.classList.add('pl-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var enjambre = root.querySelector('[data-pl-enjambre]');
+      if (enjambre && !enjambre.children.length) {
+        var tonos = ['#5a6b8c', '#8c7a9e', '#7d8ca6', '#a4899c', '#6e8291', '#938fb0'];
+        for (var i = 0; i < tonos.length; i++) {
+          var zona = document.createElement('span');
+          zona.className = 'pl-vestimenta__gema-zona';
+          zona.style.transitionDelay = (i * 0.08).toFixed(2) + 's, ' + (i * 0.08).toFixed(2) + 's';
+          var gema = document.createElement('span');
+          gema.className = 'pl-vestimenta__gema';
+          gema.setAttribute('data-pl-tono', tonos[i]);
+          var sombra = document.createElement('span');
+          sombra.className = 'pl-vestimenta__sombra';
+          zona.appendChild(gema);
+          zona.appendChild(sombra);
+          enjambre.appendChild(zona);
+        }
+      }
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function colorear() {
+        root.querySelectorAll('[data-pl-tono]').forEach(function (g) {
+          g.style.background = g.getAttribute('data-pl-tono');
+        });
+      }
+      if (reduce || !('IntersectionObserver' in window)) {
+        root.classList.add('esta-visto');
+        colorear();
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          root.classList.add('esta-visto');
+          setTimeout(colorear, 220);
+          io.disconnect();
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-plegado-gemas',
+      style_name: 'Plegado Celeste — Vestimenta',
+      descripcion: 'Gemas de origami facetadas que se despliegan y colorean por JS al entrar en pantalla, con sombras difuminadas y leyenda punteada.',
+      tags: ['vestimenta', 'dress code', 'gemas', 'paleta', 'origami', 'celestial'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>
+</body></html>

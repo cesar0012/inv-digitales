@@ -1,0 +1,238 @@
+<section
+  class="fe-vestimenta"
+  data-gemini-id="vestimenta-feria-distintivos"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .fe-vestimenta {
+      --primary-color: #f5e9d7;
+      --secondary-color: #b39a7d;
+      --accent-color: #ffb347;
+      --bg-color: #1a1410;
+      --surface-color: #241c15;
+      --surface-border-color: rgba(245, 233, 215, 0.16);
+      --text-color: #f5e9d7;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      min-height: 64svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/stripes,night');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .fe-vestimenta *,
+    .fe-vestimenta *::before,
+    .fe-vestimenta *::after { box-sizing: border-box; }
+
+    .fe-vestimenta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 89%, transparent);
+    }
+
+    .fe-vestimenta__panel {
+      width: min(100%, 660px);
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 14px;
+      box-shadow: 0 26px 56px rgba(0, 0, 0, 0.55);
+    }
+
+    .fe-vestimenta__etiqueta {
+      margin: 0 0 0.6rem;
+      display: inline-block;
+      padding: 0.35rem 1.1rem;
+      background: repeating-linear-gradient(-45deg, var(--accent-color) 0 10px, var(--bg-color) 10px 20px);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.34em;
+      color: var(--text-color);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+    }
+    .fe-vestimenta__etiqueta span {
+      background: color-mix(in srgb, var(--bg-color) 82%, transparent);
+      padding: 0.1rem 0.5rem;
+    }
+    .fe-vestimenta__titulo {
+      margin: 0 0 0.8rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .fe-vestimenta__texto {
+      margin: 0 auto 1.8rem;
+      max-width: 46ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .fe-vestimenta__rosetas {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(1rem, 2.8vw, 1.6rem);
+      margin-bottom: 1.6rem;
+    }
+    .fe-vestimenta__roseta-zona {
+      display: grid;
+      justify-items: center;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .fe-vestimenta.fe-js .fe-vestimenta__roseta-zona { opacity: 0; transform: translateY(16px) scale(0.8); }
+    .fe-vestimenta .fe-vestimenta__roseta-zona.esta-visto { opacity: 1; transform: none; }
+    .fe-vestimenta__roseta {
+      position: relative;
+      width: clamp(48px, 8.5vw, 62px);
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      background:
+        repeating-conic-gradient(var(--accent-color) 0 18deg, color-mix(in srgb, var(--accent-color) 45%, var(--bg-color)) 18deg 36deg);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.45), inset 0 0 0 4px var(--bg-color);
+      transition: transform 0.5s ease;
+    }
+    .fe-vestimenta__roseta::before {
+      content: '';
+      position: absolute;
+      inset: 22%;
+      border-radius: 50%;
+      background: var(--fe-centro, var(--bg-color));
+      transition: background-color 0.5s ease;
+    }
+    .fe-vestimenta__roseta::after {
+      content: '';
+      position: absolute;
+      inset: 32%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.5), transparent 60%);
+    }
+    .fe-vestimenta__roseta-zona:hover .fe-vestimenta__roseta { transform: translateY(-4px) rotate(-6deg); }
+    .fe-vestimenta__cintas-roseta {
+      display: flex;
+      gap: 4px;
+      margin-top: -6px;
+    }
+    .fe-vestimenta__cintas-roseta i {
+      width: 8px;
+      height: 22px;
+      background: var(--secondary-color);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%);
+    }
+    .fe-vestimenta__cintas-roseta i:first-child { transform: rotate(10deg); }
+    .fe-vestimenta__cintas-roseta i:last-child { transform: rotate(-10deg); }
+
+    .fe-vestimenta__leyenda {
+      display: inline-block;
+      padding: 0.55rem 1.5rem;
+      border: 1px dashed var(--accent-color);
+      border-radius: 999px;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 480px) {
+      .fe-vestimenta__roseta { width: 44px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fe-vestimenta * { transition: none !important; }
+      .fe-vestimenta__roseta-zona { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="fe-vestimenta__panel">
+    <p class="fe-vestimenta__etiqueta" memory_type="text" memory_usage="custom" memory_key="vestimenta-etiqueta"><span>STAFF · DRESS CODE</span></p>
+    <h2 class="fe-vestimenta__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Distintivos del personal</h2>
+    <p class="fe-vestimenta__texto" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">
+      Elige tu roseta de color y úsela con orgullo; cada tono es un puesto distinto en la feria.
+    </p>
+
+    <div class="fe-vestimenta__rosetas" data-fe-rosetas aria-hidden="true"></div>
+
+    <p class="fe-vestimenta__leyenda" memory_type="text" memory_usage="custom" memory_key="vestimenta-leyenda">Formal festivo · tonos cálidos</p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.fe-vestimenta');
+      if (!root) return;
+      root.classList.add('fe-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var rosetas = root.querySelector('[data-fe-rosetas]');
+      if (rosetas && !rosetas.children.length) {
+        var tonos = ['#ffb347', '#e2543e', '#e8d06a', '#7ca982', '#c46a9a', '#6aa3c4'];
+        for (var i = 0; i < tonos.length; i++) {
+          var zona = document.createElement('span');
+          zona.className = 'fe-vestimenta__roseta-zona';
+          zona.style.transitionDelay = (i * 0.08).toFixed(2) + 's, ' + (i * 0.08).toFixed(2) + 's';
+          var roseta = document.createElement('span');
+          roseta.className = 'fe-vestimenta__roseta';
+          roseta.setAttribute('data-fe-tono', tonos[i]);
+          var cintas = document.createElement('span');
+          cintas.className = 'fe-vestimenta__cintas-roseta';
+          cintas.innerHTML = '<i></i><i></i>';
+          zona.appendChild(roseta);
+          zona.appendChild(cintas);
+          rosetas.appendChild(zona);
+        }
+      }
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function colorear() {
+        root.querySelectorAll('[data-fe-tono]').forEach(function (r) {
+          var tono = r.getAttribute('data-fe-tono');
+          r.style.background =
+            'repeating-conic-gradient(' + tono + ' 0 18deg, color-mix(in srgb, ' + tono + ' 45%, #1a1410) 18deg 36deg)';
+          r.style.setProperty('--fe-centro', tono);
+        });
+      }
+      if (reduce || !('IntersectionObserver' in window)) {
+        root.querySelectorAll('.fe-vestimenta__roseta-zona').forEach(function (z) { z.classList.add('esta-visto'); });
+        colorear();
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          root.querySelectorAll('.fe-vestimenta__roseta-zona').forEach(function (z, i) {
+            z.style.transitionDelay = (i * 0.08).toFixed(2) + 's, ' + (i * 0.08).toFixed(2) + 's';
+            z.classList.add('esta-visto');
+          });
+          setTimeout(colorear, 240);
+          io.disconnect();
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-feria-distintivos',
+      style_name: 'Feria Nocturna — Distintivos',
+      descripcion: 'Rosetas de staff con picos de conic-gradient y cintas traseras; el centro se colorea por JS al entrar en pantalla.',
+      tags: ['vestimenta', 'dress code', 'rosetas', 'staff', 'feria', 'conic'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

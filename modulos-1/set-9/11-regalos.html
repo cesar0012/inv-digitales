@@ -1,0 +1,235 @@
+<section
+  class="ci-regalos"
+  data-gemini-id="regalos-cine-wishlist"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ci-regalos {
+      --primary-color: #f3ead8;
+      --secondary-color: #b3a488;
+      --accent-color: #e8a13c;
+      --bg-color: #191512;
+      --surface-color: #221d18;
+      --surface-border-color: rgba(243, 234, 216, 0.16);
+      --text-color: #f3ead8;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/film,dark');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .ci-regalos *,
+    .ci-regalos *::before,
+    .ci-regalos *::after { box-sizing: border-box; }
+
+    .ci-regalos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 91%, transparent);
+    }
+
+    .ci-regalos__panel {
+      width: min(100%, 660px);
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 92%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.55);
+    }
+
+    .ci-regalos__cabecera {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.6rem;
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 0.8rem;
+    }
+    .ci-regalos__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.2rem);
+      color: var(--primary-color);
+    }
+    .ci-regalos__bobina {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--accent-color);
+    }
+    .ci-regalos__intro {
+      margin: 0 0 1.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .ci-regalos__lista { display: grid; gap: 0; border-top: 1px solid var(--surface-border-color); margin-bottom: 1.6rem; }
+    .ci-regalos__fila {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.95rem;
+      align-items: center;
+      padding: clamp(0.85rem, 2.2vw, 1.1rem) 0.3rem;
+      border-bottom: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .ci-regalos.ci-js .ci-regalos__fila { opacity: 0; transform: translateX(-12px); }
+    .ci-regalos .ci-regalos__fila.esta-visto { opacity: 1; transform: none; }
+    .ci-regalos__reel {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid var(--secondary-color);
+      position: relative;
+    }
+    .ci-regalos__reel::before,
+    .ci-regalos__reel::after {
+      content: '';
+      position: absolute;
+      background: var(--secondary-color);
+    }
+    .ci-regalos__reel::before { left: 50%; top: 3px; bottom: 3px; width: 1px; transform: translateX(-50%); }
+    .ci-regalos__reel::after { top: 50%; left: 3px; right: 3px; height: 1px; transform: translateY(-50%); }
+    .ci-regalos__nombre {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.92rem, 1.75vw, 1.04rem);
+      color: var(--primary-color);
+    }
+    .ci-regalos__via {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .ci-regalos__zona-boton { text-align: center; }
+    .ci-regalos__boton {
+      min-width: 230px;
+      padding: 0.85rem 2rem;
+      border: 1px solid var(--accent-color);
+      background: transparent;
+      color: var(--accent-color);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+    .ci-regalos__boton:hover { background: color-mix(in srgb, var(--accent-color) 18%, transparent); }
+    .ci-regalos__boton.esta-listo { background: var(--accent-color); color: var(--bg-color); }
+    .ci-regalos__nota {
+      margin-top: 0.9rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.66rem, 1.25vw, 0.74rem);
+      letter-spacing: 0.16em;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 520px) {
+      .ci-regalos__fila { grid-template-columns: auto 1fr; }
+      .ci-regalos__via { grid-column: 2; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ci-regalos * { transition: none !important; }
+      .ci-regalos__fila { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="ci-regalos__panel">
+    <header class="ci-regalos__cabecera" memory_type="text" memory_usage="custom" memory_key="regalos-intro">
+      <h2 class="ci-regalos__titulo" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Wishlist del rodaje</h2>
+      <span class="ci-regalos__bobina" memory_type="text" memory_usage="custom" memory_key="regalos-bobina">REEL B</span>
+    </header>
+    <p class="ci-regalos__intro" memory_type="text" memory_usage="custom" memory_key="regalos-texto">
+      Para equipar la próxima producción; cualquier aporte sale en los créditos.
+    </p>
+
+    <div class="ci-regalos__lista" data-ci-lista>
+      <div class="ci-regalos__fila" data-ci-fila>
+        <span class="ci-regalos__reel" aria-hidden="true"></span>
+        <span class="ci-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-1">Equipo para la casa nueva</span>
+        <span class="ci-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-1">TIENDA</span>
+      </div>
+      <div class="ci-regalos__fila" data-ci-fila>
+        <span class="ci-regalos__reel" aria-hidden="true"></span>
+        <span class="ci-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-2">Fondo de luna de miel</span>
+        <span class="ci-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-2">SOBRE</span>
+      </div>
+      <div class="ci-regalos__fila" data-ci-fila>
+        <span class="ci-regalos__reel" aria-hidden="true"></span>
+        <span class="ci-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-3">Un viaje en película</span>
+        <span class="ci-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-3">DIGITAL</span>
+      </div>
+    </div>
+
+    <div class="ci-regalos__zona-boton">
+      <button type="button" class="ci-regalos__boton" data-ci-boton>
+        <span data-ci-boton-texto memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span>
+      </button>
+      <p class="ci-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota">// grabado en tu invitación digital</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ci-regalos');
+      if (!root) return;
+      root.classList.add('ci-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var filas = Array.prototype.slice.call(root.querySelectorAll('[data-ci-fila]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            filas.forEach(function (fila, i) { fila.style.transitionDelay = (i * 0.11).toFixed(2) + 's'; });
+            filas.forEach(function (fila) { fila.classList.add('esta-visto'); });
+            io.disconnect();
+          });
+        }, { threshold: 0.3 });
+        io.observe(root.querySelector('[data-ci-lista]') || root);
+      } else {
+        filas.forEach(function (fila) { fila.classList.add('esta-visto'); });
+      }
+
+      var boton = root.querySelector('[data-ci-boton]');
+      var texto = root.querySelector('[data-ci-boton-texto]');
+      if (boton && texto) {
+        boton.addEventListener('click', function () {
+          var listo = boton.classList.toggle('esta-listo');
+          texto.textContent = listo ? 'Regalo agendado' : 'Agendar regalo';
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-cine-wishlist',
+      style_name: 'Cine Indie — Wishlist',
+      descripcion: 'Lista de deseados del rodaje con carretes de película como viñetas y botón outline ámbar que se rellena al agendar.',
+      tags: ['regalos', 'wishlist', 'cine', 'carretes', 'boton', 'indie'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>

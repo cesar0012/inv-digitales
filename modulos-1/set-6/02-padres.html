@@ -1,0 +1,209 @@
+<section
+  class="bh-padres"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .bh-padres {
+      --primary-color: #22242a;
+      --secondary-color: #6d7078;
+      --accent-color: #e2543e;
+      --bg-color: #f3f1ec;
+      --surface-color: #fbfaf7;
+      --surface-border-color: rgba(34, 36, 42, 0.18);
+      --text-color: #22242a;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/paper,minimal');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .bh-padres *,
+    .bh-padres *::before,
+    .bh-padres *::after { box-sizing: border-box; }
+
+    .bh-padres::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 93%, transparent);
+    }
+
+    .bh-padres__titulo {
+      margin: 0 0 0.5rem;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.5rem, 3.4vw, 2.2rem);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      color: var(--primary-color);
+    }
+    .bh-padres__intro {
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      max-width: 50ch;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .bh-padres__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1.4rem, 4vw, 2.6rem);
+      width: min(100%, 860px);
+      margin: 0 auto;
+    }
+
+    .bh-padres__bloque {
+      position: relative;
+      padding: clamp(1.6rem, 3.8vw, 2.4rem) clamp(1.2rem, 3vw, 1.9rem);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .bh-padres.bh-js .bh-padres__bloque { opacity: 0; transform: translateY(20px); }
+    .bh-padres .bh-padres__bloque.esta-visto { opacity: 1; transform: none; }
+    .bh-padres__bloque::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: clamp(10px, 1.8vw, 16px);
+      background: var(--accent-color);
+    }
+    .bh-padres__bloque:nth-child(2)::before { background: var(--secondary-color); }
+
+    .bh-padres__semicirculo {
+      width: clamp(96px, 13vw, 126px);
+      height: clamp(48px, 6.5vw, 63px);
+      margin: 0 auto 1rem;
+      border-radius: clamp(96px, 13vw, 126px) clamp(96px, 13vw, 126px) 0 0;
+      overflow: hidden;
+      border: 1px solid var(--surface-border-color);
+      border-bottom: 0;
+    }
+    .bh-padres__semicirculo img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: clamp(96px, 13vw, 126px);
+      object-fit: cover;
+      border-radius: 50% 50% 0 0;
+      filter: saturate(0.88);
+    }
+
+    .bh-padres__rol {
+      margin: 0 0 0.4rem;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .bh-padres__nombres {
+      margin: 0;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.02rem, 2vw, 1.28rem);
+      line-height: 1.3;
+      color: var(--primary-color);
+    }
+    .bh-padres__linea {
+      width: 44px;
+      height: 5px;
+      margin: 0.8rem auto 0;
+      background: repeating-linear-gradient(90deg, var(--secondary-color) 0 8px, transparent 8px 12px);
+    }
+
+    @media (max-width: 740px) {
+      .bh-padres__grid { grid-template-columns: 1fr; max-width: 400px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bh-padres * { transition: none !important; }
+      .bh-padres__bloque { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="padres-intro">
+    <h2 class="bh-padres__titulo" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Fundamentos</h2>
+    <p class="bh-padres__intro" memory_type="text" memory_usage="custom" memory_key="padres-texto">Toda gran composición se sostiene sobre dos bases sólidas.</p>
+  </header>
+
+  <div class="bh-padres__grid">
+    <article class="bh-padres__bloque" data-bh-bloque>
+      <figure class="bh-padres__semicirculo" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-uno">
+        <img src="https://loremflickr.com/380/380/family,home" alt="Retrato de la familia de la novia" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" />
+        <figcaption hidden>Familia uno</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-uno">
+        <p class="bh-padres__rol">Padres de la novia</p>
+        <h3 class="bh-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+        <div class="bh-padres__linea" aria-hidden="true"></div>
+      </div>
+    </article>
+
+    <article class="bh-padres__bloque" data-bh-bloque>
+      <figure class="bh-padres__semicirculo" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-dos">
+        <img src="https://loremflickr.com/380/380/parents,together" alt="Retrato de la familia del novio" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" />
+        <figcaption hidden>Familia dos</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-dos">
+        <p class="bh-padres__rol">Padres del novio</p>
+        <h3 class="bh-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+        <div class="bh-padres__linea" aria-hidden="true"></div>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.bh-padres');
+      if (!root) return;
+      root.classList.add('bh-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var bloques = Array.prototype.slice.call(root.querySelectorAll('[data-bh-bloque]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        bloques.forEach(function (b) { b.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = bloques.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.15).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      bloques.forEach(function (b) { io.observe(b); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Bauhaus Geométrico — Padres',
+      descripcion: 'Bloques con barra superior de acento, retratos en semicírculo y subrayado punteado; ascenso escalonado de los cimientos.',
+      tags: ['padres', 'familias', 'bauhaus', 'semicirculo', 'bloques', 'stagger'],
+      tipo: 'padres'
+    };
+  </script>
+</section>

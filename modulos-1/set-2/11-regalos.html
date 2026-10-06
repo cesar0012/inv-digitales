@@ -1,0 +1,254 @@
+<section
+  class="dc-regalos"
+  data-gemini-id="regalos-salon-mesa"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .dc-regalos {
+      --primary-color: #1f1a17;
+      --secondary-color: #6e6257;
+      --accent-color: #b08d57;
+      --bg-color: #f4efe6;
+      --surface-color: #fbf7ee;
+      --surface-border-color: rgba(31, 26, 23, 0.25);
+      --text-color: #1f1a17;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/gold,silk');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .dc-regalos *,
+    .dc-regalos *::before,
+    .dc-regalos *::after { box-sizing: border-box; }
+
+    .dc-regalos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 87%, transparent);
+    }
+
+    .dc-regalos__placa {
+      width: min(100%, 720px);
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      text-align: center;
+      background: color-mix(in srgb, var(--surface-color) 95%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 28px 60px rgba(31, 26, 23, 0.18);
+    }
+    .dc-regalos__placa::before {
+      content: '';
+      position: absolute;
+      inset: 9px;
+      border: 3px double var(--accent-color);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .dc-regalos__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.46em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .dc-regalos__titulo {
+      margin: 0 0 0.7rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .dc-regalos__intro {
+      margin: 0 auto 1.6rem;
+      max-width: 48ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .dc-regalos__opciones {
+      display: grid;
+      gap: clamp(0.7rem, 2vw, 1rem);
+      max-width: 520px;
+      margin: 0 auto 1.8rem;
+    }
+    .dc-regalos__opcion {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 0.9rem;
+      padding: clamp(0.8rem, 2.2vw, 1.1rem) clamp(0.9rem, 2.4vw, 1.3rem);
+      text-align: left;
+      background: var(--bg-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 3px 3px 0 color-mix(in srgb, var(--accent-color) 40%, transparent);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .dc-regalos.dc-js .dc-regalos__opcion { opacity: 0; transform: translateY(10px); }
+    .dc-regalos.esta-visto .dc-regalos__opcion { opacity: 1; transform: none; }
+    .dc-regalos__numeracion {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--accent-color);
+      border-radius: 50%;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.8rem;
+      color: var(--accent-color);
+    }
+    .dc-regalos__nombre {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.9rem, 1.7vw, 1.02rem);
+      color: var(--primary-color);
+    }
+    .dc-regalos__via {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .dc-regalos__boton {
+      position: relative;
+      min-width: 230px;
+      padding: 0.9rem 2.1rem;
+      border: 1px solid var(--primary-color);
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.7rem, 1.3vw, 0.8rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 5px 5px 0 color-mix(in srgb, var(--accent-color) 80%, transparent);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      overflow: hidden;
+    }
+    .dc-regalos__boton:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 color-mix(in srgb, var(--accent-color) 80%, transparent); }
+    .dc-regalos__boton.esta-listo { background: color-mix(in srgb, var(--accent-color) 85%, var(--primary-color)); border-color: var(--accent-color); }
+    .dc-regalos__check {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      transform: scale(0.5) rotate(-20deg);
+      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .dc-regalos__boton.esta-listo .dc-regalos__check { opacity: 1; transform: none; }
+    .dc-regalos__nota {
+      margin-top: 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.76rem, 1.4vw, 0.86rem);
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 520px) {
+      .dc-regalos__opcion { grid-template-columns: auto 1fr; }
+      .dc-regalos__via { grid-column: 2; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dc-regalos * { transition: none !important; }
+      .dc-regalos__opcion { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <div class="dc-regalos__placa">
+    <header memory_type="text" memory_usage="custom" memory_key="regalos-intro">
+      <p class="dc-regalos__etiqueta" memory_type="text" memory_usage="custom" memory_key="regalos-etiqueta">Mesa de regalos</p>
+      <h2 class="dc-regalos__titulo" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Un obsequio, mil gracias</h2>
+      <p class="dc-regalos__intro" memory_type="text" memory_usage="custom" memory_key="regalos-texto">
+        Si desean consentirnos, estas son las opciones que preparamos con cariño.
+      </p>
+    </header>
+
+    <div class="dc-regalos__opciones" data-dc-opciones>
+      <div class="dc-regalos__opcion">
+        <span class="dc-regalos__numeracion" aria-hidden="true">I</span>
+        <span class="dc-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-1">Artículos para el hogar</span>
+        <span class="dc-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-1">Tienda</span>
+      </div>
+      <div class="dc-regalos__opcion">
+        <span class="dc-regalos__numeracion" aria-hidden="true">II</span>
+        <span class="dc-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-2">Fondo de luna de miel</span>
+        <span class="dc-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-2">Sobre</span>
+      </div>
+      <div class="dc-regalos__opcion">
+        <span class="dc-regalos__numeracion" aria-hidden="true">III</span>
+        <span class="dc-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-3">Experiencias para dos</span>
+        <span class="dc-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-3">Digital</span>
+      </div>
+    </div>
+
+    <button type="button" class="dc-regalos__boton" data-dc-boton>
+      <span data-dc-boton-texto memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span>
+      <span class="dc-regalos__check" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M4 12.5 L10 18.5 L20 6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </button>
+    <p class="dc-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota">Tu elección se agendará en tu invitación digital.</p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.dc-regalos');
+      if (!root) return;
+      root.classList.add('dc-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var opciones = Array.prototype.slice.call(root.querySelectorAll('.dc-regalos__opcion'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            opciones.forEach(function (op, i) { op.style.transitionDelay = (i * 0.12).toFixed(2) + 's'; });
+            root.classList.add('esta-visto');
+            io.disconnect();
+          });
+        }, { threshold: 0.3 });
+        io.observe(root.querySelector('[data-dc-opciones]') || root);
+      } else {
+        root.classList.add('esta-visto');
+      }
+
+      var boton = root.querySelector('[data-dc-boton]');
+      var texto = root.querySelector('[data-dc-boton-texto]');
+      if (boton && texto) {
+        boton.addEventListener('click', function () {
+          var listo = boton.classList.toggle('esta-listo');
+          texto.textContent = listo ? 'Regalo agendado' : 'Agendar regalo';
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-salon-mesa',
+      style_name: 'Salón Déco — Regalos',
+      descripcion: 'Placa de doble filete con opciones numeradas en romanos, sombras duras doradas y botón agendar con confirmación animada.',
+      tags: ['regalos', 'mesa de regalos', 'opciones', 'boton', 'deco', 'micro-interaccion'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>

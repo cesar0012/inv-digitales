@@ -1,0 +1,2713 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>set-5</title><style>:root{--primary-color:#1f2937;--text-color:#1f2937;--accent-color:#b59b72;--bg-color:#f5f1e8;--secondary-color:#6b7280;--surface-color:#ffffff;--surface-border-color:rgba(0,0,0,.12);--font-base:Georgia,serif}body{margin:0}</style></head><body><section
+  class="ne-portada"
+  data-gemini-id="portada-nombre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="ne-portada-titulo"
+>
+  <style>
+    .ne-portada {
+      --primary-color: #f2f4fa;
+      --secondary-color: #9aa3b8;
+      --accent-color: #ff4d7d;
+      --bg-color: #14161d;
+      --surface-color: #1b1e27;
+      --surface-border-color: rgba(255, 255, 255, 0.14);
+      --text-color: #f2f4fa;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/night,city');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ne-portada *,
+    .ne-portada *::before,
+    .ne-portada *::after { box-sizing: border-box; }
+
+    .ne-portada::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--bg-color) 92%, transparent), color-mix(in srgb, var(--bg-color) 82%, transparent));
+    }
+    .ne-portada::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 4px);
+      pointer-events: none;
+    }
+
+    .ne-portada__indice {
+      position: absolute;
+      top: clamp(1rem, 3vw, 1.8rem);
+      left: clamp(1rem, 3vw, 1.8rem);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--secondary-color);
+    }
+
+    .ne-portada__marco {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 780px);
+      padding: clamp(2.4rem, 6vw, 4.2rem) clamp(1.3rem, 5vw, 3.4rem);
+      background: color-mix(in srgb, var(--surface-color) 88%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 34px 80px rgba(0, 0, 0, 0.55);
+    }
+    .ne-portada__marco::before,
+    .ne-portada__marco::after {
+      content: '';
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border: 2px solid var(--accent-color);
+      pointer-events: none;
+    }
+    .ne-portada__marco::before { top: -2px; left: -2px; border-right: 0; border-bottom: 0; }
+    .ne-portada__marco::after { bottom: -2px; right: -2px; border-left: 0; border-top: 0; }
+
+    .ne-portada__eyebrow {
+      margin: 0 0 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.62rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .ne-portada__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(2.1rem, 6.6vw, 4.6rem);
+      line-height: 1.02;
+      letter-spacing: 0.01em;
+      color: var(--primary-color);
+      text-shadow: 0 0 22px color-mix(in srgb, var(--accent-color) 55%, transparent);
+    }
+    .ne-portada__titulo span {
+      display: inline-block;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), filter 0.5s ease;
+    }
+    .ne-portada.ne-js .ne-portada__titulo span { opacity: 0; transform: translateY(0.4em); filter: blur(8px); }
+    .ne-portada.esta-visto .ne-portada__titulo span { opacity: 1; transform: none; filter: blur(0); }
+    .ne-portada.esta-visto .ne-portada__titulo span:nth-child(1) { transition-delay: 0.06s; }
+    .ne-portada.esta-visto .ne-portada__titulo span:nth-child(2) { transition-delay: 0.16s; }
+    .ne-portada.esta-visto .ne-portada__titulo span:nth-child(3) { transition-delay: 0.26s; }
+
+    .ne-portada__ampersand {
+      display: block;
+      margin: 0.1em 0;
+      font-style: italic;
+      color: var(--accent-color);
+      text-shadow: 0 0 18px color-mix(in srgb, var(--accent-color) 90%, transparent);
+    }
+
+    .ne-portada__subrayado {
+      width: min(240px, 60%);
+      height: 3px;
+      margin: clamp(1.2rem, 3vw, 1.8rem) auto;
+      background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+      box-shadow: 0 0 16px color-mix(in srgb, var(--accent-color) 85%, transparent);
+      transform: scaleX(0);
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1) 0.3s;
+    }
+    .ne-portada.esta-visto .ne-portada__subrayado { transform: scaleX(1); }
+
+    .ne-portada__fecha {
+      display: inline-block;
+      padding: 0.55rem 1.6rem;
+      border: 1px solid var(--surface-border-color);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.7rem, 1.4vw, 0.84rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--text-color);
+    }
+
+    .ne-portada__foto {
+      position: absolute;
+      z-index: 3;
+      right: clamp(0.8rem, 4vw, 2.8rem);
+      bottom: clamp(1rem, 4vw, 2.4rem);
+      width: clamp(110px, 15vw, 158px);
+      margin: 0;
+      padding: 6px;
+      background: var(--surface-color);
+      border: 1px solid var(--accent-color);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-color) 40%, transparent), 0 0 24px color-mix(in srgb, var(--accent-color) 30%, transparent), 0 20px 44px rgba(0, 0, 0, 0.5);
+      transform: rotate(3deg);
+      transition: transform 0.5s ease;
+    }
+    .ne-portada__foto:hover { transform: rotate(0deg) translateY(-4px); }
+    .ne-portada__foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      filter: saturate(1.05) contrast(1.05);
+    }
+
+    @media (max-width: 720px) {
+      .ne-portada__foto { position: static; margin: 1.6rem auto 0; transform: rotate(-2deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ne-portada * { transition: none !important; }
+      .ne-portada__titulo span { opacity: 1; transform: none; filter: none; }
+      .ne-portada__subrayado { transform: none; }
+    }
+  </style>
+
+  <span class="ne-portada__indice" aria-hidden="true">N.º 001 — Portada</span>
+
+  <div class="ne-portada__marco">
+    <p class="ne-portada__eyebrow" memory_type="text" memory_usage="custom" memory_key="portada-encabezado">Edición nocturna</p>
+
+    <div memory_type="text" memory_usage="custom" memory_key="portada-nombres">
+      <h1 id="ne-portada-titulo" class="ne-portada__titulo">
+        <span>Nombre de la Novia</span>
+        <span class="ne-portada__ampersand">&amp;</span>
+        <span>Nombre del Novio</span>
+      </h1>
+    </div>
+
+    <div class="ne-portada__subrayado" aria-hidden="true"></div>
+
+    <time class="ne-portada__fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="portada-fecha">Fecha del evento</time>
+  </div>
+
+  <figure class="ne-portada__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="portada-foto">
+    <img
+      src="https://loremflickr.com/420/520/couple,night"
+      alt="Retrato de los anfitriones"
+      path="placeholder"
+      data-library-category="bodas"
+      data-asset-type="foto-pareja"
+      loading="lazy"
+    />
+    <figcaption hidden>Retrato principal</figcaption>
+  </figure>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ne-portada');
+      if (!root) return;
+      root.classList.add('ne-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.22 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Neón Editorial',
+      descripcion: 'Portada nocturna con tipografía enorme que emerge del desenfoque con glow de neón, subrayado que se traza, esquinas de corchete y scanlines.',
+      tags: ['portada', 'hero', 'neon', 'nocturno', 'editorial', 'glow', 'tipografia'],
+      tipo: 'portada'
+    };
+  </script>
+</section>
+
+<section
+  class="ne-padres"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ne-padres {
+      --primary-color: #f2f4fa;
+      --secondary-color: #9aa3b8;
+      --accent-color: #ff4d7d;
+      --bg-color: #14161d;
+      --surface-color: #1b1e27;
+      --surface-border-color: rgba(255, 255, 255, 0.14);
+      --text-color: #f2f4fa;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/dark,texture');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .ne-padres *,
+    .ne-padres *::before,
+    .ne-padres *::after { box-sizing: border-box; }
+
+    .ne-padres::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .ne-padres__cabecera {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      width: min(100%, 880px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 0.9rem;
+    }
+    .ne-padres__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ne-padres__folio {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--secondary-color);
+    }
+    .ne-padres__intro {
+      width: min(100%, 880px);
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .ne-padres__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1.4rem, 4vw, 2.6rem);
+      width: min(100%, 880px);
+      margin: 0 auto;
+    }
+
+    .ne-padres__ficha {
+      position: relative;
+      padding: clamp(1.6rem, 3.6vw, 2.3rem) clamp(1.2rem, 3vw, 1.9rem);
+      background: color-mix(in srgb, var(--surface-color) 92%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 22px 48px rgba(0, 0, 0, 0.45);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), border-color 0.5s ease;
+    }
+    .ne-padres.ne-js .ne-padres__ficha { opacity: 0; transform: translateY(20px); }
+    .ne-padres .ne-padres__ficha.esta-visto { opacity: 1; transform: none; }
+    .ne-padres__ficha:hover { border-color: color-mix(in srgb, var(--accent-color) 60%, transparent); }
+    .ne-padres__ficha::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-color), transparent);
+      box-shadow: 0 0 12px color-mix(in srgb, var(--accent-color) 70%, transparent);
+    }
+
+    .ne-padres__retrato {
+      width: clamp(100px, 14vw, 132px);
+      margin: 0 auto 1rem;
+      padding: 4px;
+      border: 1px solid var(--surface-border-color);
+      border-radius: 50%;
+      box-shadow: 0 0 18px color-mix(in srgb, var(--accent-color) 25%, transparent);
+    }
+    .ne-padres__retrato img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      object-fit: cover;
+      filter: saturate(0.95);
+    }
+
+    .ne-padres__rol {
+      margin: 0 0 0.35rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.58rem, 1.05vw, 0.66rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ne-padres__nombres {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.06rem, 2.2vw, 1.36rem);
+      line-height: 1.3;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 740px) {
+      .ne-padres__grid { grid-template-columns: 1fr; max-width: 400px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ne-padres * { transition: none !important; }
+      .ne-padres__ficha { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="ne-padres__cabecera" memory_type="text" memory_usage="custom" memory_key="padres-intro">
+    <h2 class="ne-padres__titulo" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Dos casas, una portada</h2>
+    <span class="ne-padres__folio" memory_type="text" memory_usage="custom" memory_key="padres-folio">FAM / 2026</span>
+  </header>
+  <p class="ne-padres__intro" memory_type="text" memory_usage="custom" memory_key="padres-texto">Detrás de cada edición nocturna hay dos familias que encendieron la primera luz.</p>
+
+  <div class="ne-padres__grid">
+    <article class="ne-padres__ficha" data-ne-ficha>
+      <figure class="ne-padres__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-uno">
+        <img src="https://loremflickr.com/380/380/family,portrait" alt="Retrato de la familia de la novia" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" />
+        <figcaption hidden>Familia uno</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-uno">
+        <p class="ne-padres__rol">Padres de la novia</p>
+        <h3 class="ne-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+      </div>
+    </article>
+
+    <article class="ne-padres__ficha" data-ne-ficha>
+      <figure class="ne-padres__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-dos">
+        <img src="https://loremflickr.com/380/380/parents,smile" alt="Retrato de la familia del novio" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" />
+        <figcaption hidden>Familia dos</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-dos">
+        <p class="ne-padres__rol">Padres del novio</p>
+        <h3 class="ne-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ne-padres');
+      if (!root) return;
+      root.classList.add('ne-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var fichas = Array.prototype.slice.call(root.querySelectorAll('[data-ne-ficha]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        fichas.forEach(function (f) { f.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = fichas.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.14).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      fichas.forEach(function (f) { io.observe(f); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Neón Editorial — Padres',
+      descripcion: 'Fichas de catálogo nocturno con línea de neón superior, retratos circulares con halo rosa y aparición escalonada con folio editorial.',
+      tags: ['padres', 'familias', 'neon', 'nocturno', 'catalogo', 'stagger'],
+      tipo: 'padres'
+    };
+  </script>
+</section>
+
+<section
+  class="ne-ubicacion"
+  data-gemini-id="ubicacion-recepcion"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ne-ubicacion {
+      --primary-color: #f2f4fa;
+      --secondary-color: #9aa3b8;
+      --accent-color: #ff4d7d;
+      --bg-color: #14161d;
+      --surface-color: #1b1e27;
+      --surface-border-color: rgba(255, 255, 255, 0.14);
+      --text-color: #f2f4fa;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/night,street');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .ne-ubicacion *,
+    .ne-ubicacion *::before,
+    .ne-ubicacion *::after { box-sizing: border-box; }
+
+    .ne-ubicacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .ne-ubicacion__cabecera {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      width: min(100%, 920px);
+      margin: 0 auto clamp(1.6rem, 4vw, 2.4rem);
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 0.9rem;
+    }
+    .ne-ubicacion__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ne-ubicacion__coord {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.28em;
+      color: var(--secondary-color);
+    }
+
+    .ne-ubicacion__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1rem, 3vw, 1.8rem);
+      width: min(100%, 920px);
+      margin: 0 auto clamp(1.6rem, 4vw, 2.4rem);
+    }
+
+    .ne-ubicacion__sede {
+      padding: clamp(1.4rem, 3.2vw, 2rem) clamp(1.1rem, 2.8vw, 1.7rem);
+      background: color-mix(in srgb, var(--surface-color) 92%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.4);
+    }
+    .ne-ubicacion__sede-rol {
+      margin: 0 0 0.45rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.58rem, 1.05vw, 0.66rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ne-ubicacion__lugar {
+      margin: 0 0 0.55rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.08rem, 2.2vw, 1.38rem);
+      color: var(--primary-color);
+    }
+    .ne-ubicacion__sede address {
+      margin: 0 0 0.55rem;
+      font-style: normal;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.8rem, 1.45vw, 0.9rem);
+      line-height: 1.65;
+      color: var(--secondary-color);
+    }
+    .ne-ubicacion__hora {
+      display: inline-block;
+      padding: 0.18rem 0.8rem;
+      border: 1px solid var(--surface-border-color);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.7rem, 1.3vw, 0.8rem);
+      letter-spacing: 0.2em;
+      color: var(--text-color);
+    }
+
+    .ne-ubicacion__marco {
+      position: relative;
+      width: min(100%, 920px);
+      margin: 0 auto;
+      padding: 10px;
+      background: var(--surface-color);
+      border: 1px solid var(--accent-color);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-color) 35%, transparent), 0 0 30px color-mix(in srgb, var(--accent-color) 22%, transparent), 0 26px 58px rgba(0, 0, 0, 0.5);
+    }
+    .ne-ubicacion__mapa { overflow: hidden; border: 1px solid var(--surface-border-color); }
+    .ne-ubicacion__mapa iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 0;
+      filter: grayscale(0.5) contrast(1.05);
+    }
+    .ne-ubicacion__pin {
+      position: absolute;
+      z-index: 2;
+      top: 18px;
+      right: 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.4rem 0.9rem;
+      background: color-mix(in srgb, var(--surface-color) 94%, transparent);
+      border: 1px solid var(--accent-color);
+      font-family: 'Courier New', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--text-color);
+      box-shadow: 0 0 16px color-mix(in srgb, var(--accent-color) 40%, transparent);
+    }
+    .ne-ubicacion__pulso {
+      position: relative;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      box-shadow: 0 0 10px var(--accent-color);
+    }
+    .ne-ubicacion__pulso::after {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border: 1px solid var(--accent-color);
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    .ne-ubicacion.esta-visto .ne-ubicacion__pulso::after { animation: neUbicacionLatido 1.7s ease-out infinite; }
+    @keyframes neUbicacionLatido {
+      0% { opacity: 0.9; transform: scale(0.4); }
+      75% { opacity: 0.1; transform: scale(1.3); }
+      100% { opacity: 0; transform: scale(1.4); }
+    }
+
+    .ne-ubicacion__foto {
+      position: absolute;
+      z-index: 2;
+      bottom: -18px;
+      left: clamp(1rem, 4vw, 2.2rem);
+      width: clamp(120px, 17vw, 170px);
+      margin: 0;
+      padding: 5px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 18px 38px rgba(0, 0, 0, 0.55);
+      transform: rotate(-2.2deg);
+    }
+    .ne-ubicacion__foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      filter: saturate(1.02);
+    }
+
+    .ne-ubicacion__acciones {
+      width: min(100%, 920px);
+      margin: clamp(2.2rem, 5vw, 3rem) auto 0;
+      text-align: right;
+    }
+    .ne-ubicacion__boton {
+      display: inline-block;
+      padding: 0.8rem 2.1rem;
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      text-decoration: none;
+      box-shadow: inset 0 0 18px color-mix(in srgb, var(--accent-color) 18%, transparent), 0 0 20px color-mix(in srgb, var(--accent-color) 25%, transparent);
+      transition: background 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+    }
+    .ne-ubicacion__boton:hover {
+      background: var(--accent-color);
+      color: var(--bg-color);
+      box-shadow: 0 0 34px color-mix(in srgb, var(--accent-color) 70%, transparent);
+    }
+
+    @media (max-width: 760px) {
+      .ne-ubicacion__grid { grid-template-columns: 1fr; }
+      .ne-ubicacion__foto { position: static; margin: 0.8rem auto 0; transform: none; }
+      .ne-ubicacion__acciones { text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ne-ubicacion * { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <header class="ne-ubicacion__cabecera" memory_type="text" memory_usage="custom" memory_key="ubicacion-intro">
+    <h2 class="ne-ubicacion__titulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Coordenadas del evento</h2>
+    <span class="ne-ubicacion__coord" memory_type="text" memory_usage="custom" memory_key="ubicacion-coord">LOC / 19.4326 N</span>
+  </header>
+
+  <div class="ne-ubicacion__grid">
+    <article class="ne-ubicacion__sede">
+      <p class="ne-ubicacion__sede-rol" memory_type="text" memory_usage="custom" memory_key="ubicacion-rol-ceremonia">Ceremonia</p>
+      <h3 class="ne-ubicacion__lugar" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar-ceremonia">Nombre del lugar</h3>
+      <address memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion-ceremonia">Calle Nocturna 55, Centro</address>
+      <time class="ne-ubicacion__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora-ceremonia">17:00 h</time>
+    </article>
+    <article class="ne-ubicacion__sede">
+      <p class="ne-ubicacion__sede-rol" memory_type="text" memory_usage="custom" memory_key="ubicacion-rol-recepcion">Recepción</p>
+      <h3 class="ne-ubicacion__lugar" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar-recepcion">Nombre del salón</h3>
+      <address memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion-recepcion">Avenida Neón 88, Zona Rosa</address>
+      <time class="ne-ubicacion__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora-recepcion">19:00 h</time>
+    </article>
+  </div>
+
+  <figure class="ne-ubicacion__marco">
+    <span class="ne-ubicacion__pin" aria-hidden="true">
+      <span class="ne-ubicacion__pulso"></span>
+      Estamos aquí
+    </span>
+    <div class="ne-ubicacion__mapa" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url">
+      <iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen></iframe>
+    </div>
+    <figure class="ne-ubicacion__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="ubicacion-foto">
+      <img src="https://loremflickr.com/440/280/venue,night" alt="Vista nocturna del lugar" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" />
+      <figcaption hidden>El lugar</figcaption>
+    </figure>
+  </figure>
+
+  <div class="ne-ubicacion__acciones">
+    <a class="ne-ubicacion__boton" href="https://www.google.com/maps?q=Ubicacion+del+evento" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Cómo llegar</a>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ne-ubicacion');
+      if (!root) return;
+      root.classList.add('ne-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-recepcion',
+      style_name: 'Neón Editorial — Ubicación',
+      descripcion: 'Sedes con hora en marcos nocturnos, mapa con marco de neón pulsante, pin con latido y botón de texto que se enciende al hover.',
+      tags: ['ubicacion', 'mapa', 'neon', 'coordenadas', 'pin', 'nocturno'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>
+
+<section
+  class="ne-itinerario"
+  data-gemini-id="itinerario-agenda"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ne-itinerario {
+      --primary-color: #f2f4fa;
+      --secondary-color: #9aa3b8;
+      --accent-color: #ff4d7d;
+      --bg-color: #14161d;
+      --surface-color: #1b1e27;
+      --surface-border-color: rgba(255, 255, 255, 0.14);
+      --text-color: #f2f4fa;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/dark,night');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .ne-itinerario *,
+    .ne-itinerario *::before,
+    .ne-itinerario *::after { box-sizing: border-box; }
+
+    .ne-itinerario::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .ne-itinerario__cabecera {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      width: min(100%, 760px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 0.9rem;
+    }
+    .ne-itinerario__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ne-itinerario__folio {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--secondary-color);
+    }
+
+    .ne-itinerario__lista {
+      position: relative;
+      width: min(100%, 760px);
+      margin: 0 auto;
+      padding-left: clamp(2rem, 5vw, 2.8rem);
+    }
+    .ne-itinerario__riel {
+      position: absolute;
+      top: 6px;
+      bottom: 6px;
+      left: 8px;
+      width: 2px;
+      background: var(--surface-border-color);
+    }
+    .ne-itinerario__progreso {
+      position: absolute;
+      top: 6px;
+      left: 8px;
+      width: 2px;
+      height: 0%;
+      background: var(--accent-color);
+      box-shadow: 0 0 12px var(--accent-color);
+    }
+
+    .ne-itinerario__hito {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: clamp(0.8rem, 2.4vw, 1.4rem);
+      align-items: baseline;
+      padding: clamp(1rem, 2.4vw, 1.4rem) 0.4rem;
+      border-bottom: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ne-itinerario.ne-js .ne-itinerario__hito { opacity: 0; transform: translateX(-14px); }
+    .ne-itinerario .ne-itinerario__hito.esta-visto { opacity: 1; transform: none; }
+
+    .ne-itinerario__nodo {
+      position: absolute;
+      top: 50%;
+      left: calc(-1 * clamp(2rem, 5vw, 2.8rem) + 3px);
+      transform: translate(-50%, -50%);
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--bg-color);
+      border: 2px solid var(--secondary-color);
+    }
+    .ne-itinerario__hito.esta-visto .ne-itinerario__nodo {
+      border-color: var(--accent-color);
+      background: var(--accent-color);
+      box-shadow: 0 0 10px var(--accent-color);
+    }
+
+    .ne-itinerario__num {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      line-height: 1;
+      color: color-mix(in srgb, var(--primary-color) 30%, transparent);
+    }
+    .ne-itinerario__hito.esta-visto .ne-itinerario__num {
+      color: color-mix(in srgb, var(--primary-color) 85%, transparent);
+      text-shadow: 0 0 14px color-mix(in srgb, var(--accent-color) 30%, transparent);
+    }
+
+    .ne-itinerario__cuerpo { min-width: 0; }
+    .ne-itinerario__momento {
+      margin: 0 0 0.25rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.02rem, 2.1vw, 1.26rem);
+      color: var(--primary-color);
+    }
+    .ne-itinerario__detalle {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.76rem, 1.4vw, 0.86rem);
+      line-height: 1.6;
+      color: var(--secondary-color);
+    }
+    .ne-itinerario__hora {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.2em;
+      color: var(--accent-color);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 560px) {
+      .ne-itinerario__hito { grid-template-columns: auto 1fr; }
+      .ne-itinerario__hora { grid-column: 2; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ne-itinerario * { transition: none !important; }
+      .ne-itinerario__hito { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="ne-itinerario__cabecera" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">
+    <h2 class="ne-itinerario__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Índice del evento</h2>
+    <span class="ne-itinerario__folio" memory_type="text" memory_usage="custom" memory_key="itinerario-folio">RUN / 01</span>
+  </header>
+
+  <div class="ne-itinerario__lista">
+    <span class="ne-itinerario__riel" aria-hidden="true"></span>
+    <span class="ne-itinerario__progreso" aria-hidden="true" data-ne-progreso></span>
+
+    <article class="ne-itinerario__hito" data-ne-hito>
+      <span class="ne-itinerario__nodo" aria-hidden="true"></span>
+      <span class="ne-itinerario__num" aria-hidden="true">01</span>
+      <div class="ne-itinerario__cuerpo" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
+        <h3 class="ne-itinerario__momento">Apertura</h3>
+        <p class="ne-itinerario__detalle">Recepción de invitados y primera ronda de brindis.</p>
+      </div>
+      <time class="ne-itinerario__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">17:00 h</time>
+    </article>
+
+    <article class="ne-itinerario__hito" data-ne-hito>
+      <span class="ne-itinerario__nodo" aria-hidden="true"></span>
+      <span class="ne-itinerario__num" aria-hidden="true">02</span>
+      <div class="ne-itinerario__cuerpo" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
+        <h3 class="ne-itinerario__momento">Editorial central</h3>
+        <p class="ne-itinerario__detalle">Ceremonia frente a la cubierta iluminada.</p>
+      </div>
+      <time class="ne-itinerario__hora" datetime="18:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">18:00 h</time>
+    </article>
+
+    <article class="ne-itinerario__hito" data-ne-hito>
+      <span class="ne-itinerario__nodo" aria-hidden="true"></span>
+      <span class="ne-itinerario__num" aria-hidden="true">03</span>
+      <div class="ne-itinerario__cuerpo" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
+        <h3 class="ne-itinerario__momento">Cena de portada</h3>
+        <p class="ne-itinerario__detalle">Banquete con sombras cálidas y discursos breves.</p>
+      </div>
+      <time class="ne-itinerario__hora" datetime="20:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">20:00 h</time>
+    </article>
+
+    <article class="ne-itinerario__hito" data-ne-hito>
+      <span class="ne-itinerario__nodo" aria-hidden="true"></span>
+      <span class="ne-itinerario__num" aria-hidden="true">04</span>
+      <div class="ne-itinerario__cuerpo" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
+        <h3 class="ne-itinerario__momento">Contraportada</h3>
+        <p class="ne-itinerario__detalle">Pista abierta y cierre con luces bajas.</p>
+      </div>
+      <time class="ne-itinerario__hora" datetime="22:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">22:00 h</time>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ne-itinerario');
+      if (!root) return;
+      root.classList.add('ne-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var progreso = root.querySelector('[data-ne-progreso]');
+      var hitos = Array.prototype.slice.call(root.querySelectorAll('[data-ne-hito]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      var revealIO = ('IntersectionObserver' in window) && !reduce ? new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('esta-visto');
+            revealIO.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 }) : null;
+
+      hitos.forEach(function (hito) {
+        if (revealIO) revealIO.observe(hito);
+        else hito.classList.add('esta-visto');
+      });
+
+      function alAvanzar() {
+        if (!progreso) return;
+        var rect = root.getBoundingClientRect();
+        var total = rect.height + window.innerHeight * 0.35;
+        var pasado = Math.min(Math.max(window.innerHeight * 0.7 - rect.top, 0), total);
+        progreso.style.height = ((pasado / total) * 100).toFixed(2) + '%';
+      }
+      if (!reduce) {
+        window.addEventListener('scroll', alAvanzar, { passive: true });
+        window.addEventListener('resize', alAvanzar);
+        alAvanzar();
+      } else if (progreso) {
+        progreso.style.height = '100%';
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Neón Editorial — Itinerario',
+      descripcion: 'Índice editorial con numerales gigantes que se encienden al revelarse, nodos de neón y progreso luminoso con el scroll.',
+      tags: ['itinerario', 'timeline', 'indice', 'neon', 'scroll', 'editorial'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>
+
+<section
+  class="ne-confirmacion"
+  data-gemini-id="confirmacion-texto"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ne-confirmacion {
+      --primary-color: #f2f4fa;
+      --secondary-color: #9aa3b8;
+      --accent-color: #ff4d7d;
+      --bg-color: #14161d;
+      --surface-color: #1b1e27;
+      --surface-border-color: rgba(255, 255, 255, 0.14);
+      --text-color: #f2f4fa;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 72svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/neon,dark');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ne-confirmacion *,
+    .ne-confirmacion *::before,
+    .ne-confirmacion *::after { box-sizing: border-box; }
+
+    .ne-confirmacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .ne-confirmacion__marco {
+      position: relative;
+      width: min(100%, 640px);
+      padding: clamp(2.2rem, 5.5vw, 3.5rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 92%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 30px 64px rgba(0, 0, 0, 0.5);
+    }
+    .ne-confirmacion__marco::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px dashed var(--surface-border-color);
+      pointer-events: none;
+    }
+
+    .ne-confirmacion__etiqueta {
+      margin: 0 0 0.8rem;
+      display: inline-block;
+      padding: 0.3rem 1rem;
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      box-shadow: 0 0 14px color-mix(in srgb, var(--accent-color) 30%, transparent);
+    }
+    .ne-confirmacion__titulo {
+      margin: 0 0 1rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      line-height: 1.15;
+      color: var(--primary-color);
+      text-shadow: 0 0 18px color-mix(in srgb, var(--accent-color) 30%, transparent);
+    }
+    .ne-confirmacion__texto {
+      margin: 0 auto 1.4rem;
+      max-width: 46ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+
+    .ne-confirmacion__limite {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.72rem, 1.4vw, 0.84rem);
+      letter-spacing: 0.2em;
+      color: var(--text-color);
+    }
+    .ne-confirmacion__limite::before,
+    .ne-confirmacion__limite::after {
+      content: '';
+      width: 34px;
+      height: 1px;
+      background: var(--accent-color);
+      box-shadow: 0 0 8px var(--accent-color);
+    }
+    .ne-confirmacion__limite time {
+      color: var(--accent-color);
+      text-shadow: 0 0 12px color-mix(in srgb, var(--accent-color) 80%, transparent);
+    }
+
+    @media (max-width: 560px) {
+      .ne-confirmacion { min-height: 62svh; }
+      .ne-confirmacion__marco { padding: 2.2rem 1.2rem; }
+    }
+  </style>
+
+  <div class="ne-confirmacion__marco">
+    <p class="ne-confirmacion__etiqueta" memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta">RSVP</p>
+    <h2 class="ne-confirmacion__titulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">Tu nombre en la lista</h2>
+    <p class="ne-confirmacion__texto" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">
+      La edición sale a la luz una sola vez. Confirma con el enlace de tu invitación digital
+      y tu lugar quedará reservado en esta historia nocturna.
+    </p>
+    <p class="ne-confirmacion__limite" memory_type="text" memory_usage="custom" memory_key="confirmacion-rotulo">
+      Confirma antes del <time datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha">DD de mes</time>
+    </p>
+  </div>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Neón Editorial — Confirmación',
+      descripcion: 'Marco editorial con doble fileto punteado, etiqueta RSVP de neón y fecha límite entre reglas luminosas; sin formularios.',
+      tags: ['confirmacion', 'rsvp', 'neon', 'editorial', 'fecha limite', 'nocturno'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>
+
+<section
+  class="ne-detalles"
+  data-gemini-id="detalles-regalo"
+>
+  <style>
+    .ne-detalles {
+      --primary-color: #f2f4fa;
+      --secondary-color: #9aa3b8;
+      --accent-color: #ff4d7d;
+      --bg-color: #14161d;
+      --surface-color: #1b1e27;
+      --surface-border-color: rgba(255, 255, 255, 0.14);
+      --text-color: #f2f4fa;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .ne-detalles *,
+    .ne-detalles *::before,
+    .ne-detalles *::after { box-sizing: border-box; }
+
+    .ne-detalles__escena {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.6rem, 4vw, 3rem);
+      align-items: center;
+      width: min(100%, 1020px);
+      margin: 0 auto;
+    }
+
+    .ne-detalles__figura {
+      position: relative;
+      margin: 0;
+      padding: 8px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 26px 56px rgba(0, 0, 0, 0.5);
+      transform: rotate(-2deg);
+    }
+    .ne-detalles__figura::after {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid color-mix(in srgb, var(--accent-color) 45%, transparent);
+      pointer-events: none;
+    }
+    .ne-detalles__figura img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      filter: saturate(0.7) contrast(1.08);
+    }
+    .ne-detalles__timecode {
+      position: absolute;
+      top: 14px;
+      left: 16px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.24em;
+      color: var(--accent-color);
+      text-shadow: 0 0 8px color-mix(in srgb, var(--accent-color) 80%, transparent);
+    }
+
+    .ne-detalles__titulo {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.65rem, 3.7vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ne-detalles__intro {
+      margin: 0 0 1.4rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .ne-detalles__filas { display: grid; gap: 0; border-top: 1px solid var(--surface-border-color); }
+
+    .ne-detalles__fila {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      align-items: start;
+      padding: clamp(0.9rem, 2.3vw, 1.2rem) 0.3rem;
+      border-bottom: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .ne-detalles.ne-js .ne-detalles__fila { opacity: 0; transform: translateX(16px); }
+    .ne-detalles .ne-detalles__fila.esta-visto { opacity: 1; transform: none; }
+
+    .ne-detalles__num {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+      line-height: 1.2;
+      color: var(--accent-color);
+      text-shadow: 0 0 12px color-mix(in srgb, var(--accent-color) 60%, transparent);
+    }
+    .ne-detalles__rotulo {
+      margin: 0 0 0.2rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.56rem, 1.05vw, 0.64rem);
+      letter-spacing: 0.36em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .ne-detalles__titulo-card {
+      margin: 0 0 0.25rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.98rem, 1.9vw, 1.16rem);
+      color: var(--primary-color);
+    }
+    .ne-detalles__texto {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.76rem, 1.35vw, 0.86rem);
+      line-height: 1.6;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 880px) {
+      .ne-detalles__escena { grid-template-columns: 1fr; }
+      .ne-detalles__figura { max-width: 380px; margin: 0 auto; transform: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ne-detalles * { transition: none !important; }
+      .ne-detalles__fila { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="ne-detalles__escena">
+    <figure class="ne-detalles__figura" memory_type="image" memory_usage="custom" memory_source="library" memory_key="detalles-foto">
+      <span class="ne-detalles__timecode" aria-hidden="true">TC 21:04:12</span>
+      <img
+        src="https://loremflickr.com/500/620/night,fashion"
+        alt="Detalle de vestuario nocturno"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="detalle"
+        loading="lazy"
+      />
+      <figcaption hidden>Detalle</figcaption>
+    </figure>
+
+    <div>
+      <header memory_type="text" memory_usage="custom" memory_key="detalles-intro">
+        <h2 class="ne-detalles__titulo" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Notas de producción</h2>
+        <p class="ne-detalles__intro" memory_type="text" memory_usage="custom" memory_key="detalles-texto">Especificaciones para que la noche salga perfecta.</p>
+      </header>
+
+      <div class="ne-detalles__filas">
+        <article class="ne-detalles__fila" data-ne-fila>
+          <span class="ne-detalles__num" aria-hidden="true">01</span>
+          <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-1">
+            <p class="ne-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-1">Dress code</p>
+            <h3 class="ne-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Formal nocturno</h3>
+            <p class="ne-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Tonos profundos; el neón se queda para las luces.</p>
+          </div>
+        </article>
+        <article class="ne-detalles__fila" data-ne-fila>
+          <span class="ne-detalles__num" aria-hidden="true">02</span>
+          <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-2">
+            <p class="ne-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-2">Acceso</p>
+            <h3 class="ne-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Lista en puerta</h3>
+            <p class="ne-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">Menciona tu nombre en la entrada; hay valet desde las 16:30.</p>
+          </div>
+        </article>
+        <article class="ne-detalles__fila" data-ne-fila>
+          <span class="ne-detalles__num" aria-hidden="true">03</span>
+          <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-3">
+            <p class="ne-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-3">Clima</p>
+            <h3 class="ne-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Terraza cubierta</h3>
+            <p class="ne-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">La recepción es en interior; la terraza es zona de fumar.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ne-detalles');
+      if (!root) return;
+      root.classList.add('ne-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var filas = Array.prototype.slice.call(root.querySelectorAll('[data-ne-fila]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        filas.forEach(function (f) { f.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = filas.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.12).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      filas.forEach(function (f) { io.observe(f); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-regalo',
+      style_name: 'Neón Editorial — Detalles',
+      descripcion: 'Foto con marco interior de neón y timecode junto a filas de producción con numerales que se encienden en cascada.',
+      tags: ['detalles', 'neon', 'filas', 'timecode', 'nocturno', 'editorial'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>
+
+<section
+  class="ne-countdown"
+  data-gemini-id="countdown-editorial-neon"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+>
+  <style>
+    .ne-countdown {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 640px;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 5vw, 3rem);
+      background-color: var(--bg-color, #14161d);
+      background-image: url('https://loremflickr.com/1600/900/neon,night');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color, #f2f4fa);
+      text-align: center;
+    }
+    .ne-countdown *,
+    .ne-countdown *::before,
+    .ne-countdown *::after { box-sizing: border-box; }
+
+    .ne-countdown::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color, #14161d) 90%, transparent);
+    }
+
+    .ne-countdown__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.46em;
+      text-transform: uppercase;
+      color: var(--accent-color, #ff4d7d);
+      text-shadow: 0 0 14px color-mix(in srgb, var(--accent-color, #ff4d7d) 70%, transparent);
+    }
+    .ne-countdown__titulo {
+      margin: 0 0 0.4rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.8rem, 4.2vw, 2.8rem);
+      color: var(--primary-color, #f2f4fa);
+    }
+    .ne-countdown__fecha {
+      display: block;
+      margin-bottom: clamp(1.6rem, 4vw, 2.4rem);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.74rem, 1.5vw, 0.88rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--secondary-color, #9aa3b8);
+    }
+
+    .ne-countdown__tablero {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(0.7rem, 2vw, 1.2rem);
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .ne-countdown__celda {
+      position: relative;
+      padding: clamp(1.2rem, 3vw, 1.8rem) 0.4rem clamp(1rem, 2.4vw, 1.4rem);
+      background: color-mix(in srgb, var(--surface-color, #1b1e27) 92%, transparent);
+      border: 1px solid var(--surface-border-color, rgba(255, 255, 255, 0.14));
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+      overflow: hidden;
+    }
+    .ne-countdown__celda::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--accent-color, #ff4d7d);
+      box-shadow: 0 0 12px var(--accent-color, #ff4d7d);
+      opacity: 0.7;
+    }
+    .ne-countdown__numero {
+      display: block;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.9rem, 5.2vw, 3.1rem);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      color: var(--primary-color, #f2f4fa);
+      text-shadow: 0 0 20px color-mix(in srgb, var(--accent-color, #ff4d7d) 40%, transparent);
+    }
+    .ne-countdown__rotulo {
+      display: block;
+      margin-top: 0.5rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.54rem, 1.05vw, 0.62rem);
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--secondary-color, #9aa3b8);
+    }
+
+    .ne-countdown__segundero {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-top: clamp(1.4rem, 3.4vw, 2rem);
+      padding: 0.5rem 1.4rem;
+      border: 1px solid var(--surface-border-color, rgba(255, 255, 255, 0.14));
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.8rem, 1.6vw, 0.95rem);
+      letter-spacing: 0.24em;
+      color: var(--accent-color, #ff4d7d);
+      text-shadow: 0 0 10px color-mix(in srgb, var(--accent-color, #ff4d7d) 80%, transparent);
+    }
+    .ne-countdown__punto {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-color, #ff4d7d);
+      box-shadow: 0 0 10px var(--accent-color, #ff4d7d);
+      animation: neCountdownLatido 1s steps(2) infinite;
+    }
+    @keyframes neCountdownLatido { 50% { opacity: 0.25; } }
+
+    @media (max-width: 560px) {
+      .ne-countdown__tablero { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .ne-countdown { min-height: 580px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ne-countdown__punto { animation: none; }
+    }
+  </style>
+
+  <div class="ne-countdown__contenido">
+    <p class="ne-countdown__etiqueta" memory_type="text" memory_usage="custom" memory_key="countdown-etiqueta">Próxima edición</p>
+    <h2 class="ne-countdown__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Cuenta regresiva</h2>
+    <time class="ne-countdown__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+
+    <div class="ne-countdown__tablero" aria-label="Cuenta regresiva">
+      <div class="ne-countdown__celda"><span class="ne-countdown__numero" data-countdown-unit="days">--</span><span class="ne-countdown__rotulo">Días</span></div>
+      <div class="ne-countdown__celda"><span class="ne-countdown__numero" data-countdown-unit="hours">--</span><span class="ne-countdown__rotulo">Horas</span></div>
+      <div class="ne-countdown__celda"><span class="ne-countdown__numero" data-countdown-unit="minutes">--</span><span class="ne-countdown__rotulo">Min</span></div>
+      <div class="ne-countdown__celda"><span class="ne-countdown__numero" data-countdown-unit="seconds">--</span><span class="ne-countdown__rotulo">Seg</span></div>
+    </div>
+
+    <p class="ne-countdown__segundero" aria-hidden="true">
+      <span class="ne-countdown__punto"></span>
+      <span data-ne-live>EN VIVO EN</span>
+    </p>
+  </div>
+
+  <script>
+    (function () {
+      var el = null;
+      try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
+      if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+      if (!el) return;
+
+      var live = el.querySelector('[data-ne-live]');
+      var target = NaN;
+      var attr = el.getAttribute('data-countdown-target');
+      if (attr && attr.indexOf('YYYY') === -1) { var p = new Date(attr); if (!isNaN(p.getTime())) target = p.getTime(); }
+      if (isNaN(target) && window.__countdownTarget) { var p1 = new Date(window.__countdownTarget); if (!isNaN(p1.getTime())) target = p1.getTime(); }
+      if (isNaN(target) && window.countdown_target) { var p2 = new Date(window.countdown_target); if (!isNaN(p2.getTime())) target = p2.getTime(); }
+
+      var intervalId = null;
+      (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+
+      function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+      function setUnit(unit, value) {
+        var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
+        if (node) node.textContent = value;
+      }
+      function tick() {
+        if (!Number.isFinite(target)) return;
+        var diff = Math.max(target - Date.now(), 0);
+        setUnit('days', Math.floor(diff / 86400000));
+        setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
+        setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
+        var s = Math.floor((diff % 60000) / 1000);
+        setUnit('seconds', pad2(s));
+        if (live) live.textContent = 'EN VIVO EN ' + pad2(Math.floor(diff / 1000));
+        if (diff === 0 && intervalId !== null) {
+          clearInterval(intervalId);
+          intervalId = null;
+          window.__countdownIntervals = [];
+        }
+      }
+      function start(newTarget) {
+        if (newTarget) { var p = new Date(newTarget); if (!isNaN(p.getTime())) target = p.getTime(); }
+        (window.__countdownIntervals || []).forEach(clearInterval);
+        window.__countdownIntervals = [];
+        intervalId = null;
+        if (!Number.isFinite(target)) return;
+        tick();
+        if (target > Date.now()) {
+          intervalId = setInterval(tick, 1000);
+          window.__countdownIntervals.push(intervalId);
+        }
+      }
+      start();
+      window.updateCountdown = start;
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-editorial-neon',
+      style_name: 'Tablero de Neón',
+      descripcion: 'Tablero nocturno de cuatro celdas con reglas de neón, numerales con glow y letrero EN VIVO que late cada segundo.',
+      tags: ['countdown', 'cuenta regresiva', 'neon', 'tablero', 'glow', 'nocturno'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>
+
+<section
+  class="ne-padrinos"
+  data-gemini-id="padrinos-neon-creditos"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ne-padrinos {
+      --primary-color: #f2f4fa;
+      --secondary-color: #9aa3b8;
+      --accent-color: #ff4d7d;
+      --bg-color: #14161d;
+      --surface-color: #1b1e27;
+      --surface-border-color: rgba(255, 255, 255, 0.14);
+      --text-color: #f2f4fa;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/dark,studio');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .ne-padrinos *,
+    .ne-padrinos *::before,
+    .ne-padrinos *::after { box-sizing: border-box; }
+
+    .ne-padrinos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .ne-padrinos__cabecera {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      width: min(100%, 760px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 0.9rem;
+    }
+    .ne-padrinos__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ne-padrinos__folio {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--secondary-color);
+    }
+
+    .ne-padrinos__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1rem, 3vw, 1.7rem);
+      width: min(100%, 760px);
+      margin: 0 auto;
+    }
+
+    .ne-padrinos__credito {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: clamp(0.9rem, 2.4vw, 1.3rem);
+      align-items: center;
+      padding: clamp(1rem, 2.5vw, 1.4rem);
+      background: color-mix(in srgb, var(--surface-color) 92%, transparent);
+      border: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), border-color 0.4s ease;
+    }
+    .ne-padrinos.ne-js .ne-padrinos__credito { opacity: 0; transform: translateY(18px); }
+    .ne-padrinos .ne-padrinos__credito.esta-visto { opacity: 1; transform: none; }
+    .ne-padrinos__credito:hover { border-color: color-mix(in srgb, var(--accent-color) 55%, transparent); }
+
+    .ne-padrinos__retrato {
+      width: clamp(74px, 10.5vw, 96px);
+      margin: 0;
+      padding: 4px;
+      border: 1px solid var(--surface-border-color);
+      border-radius: 50%;
+      box-shadow: 0 0 16px color-mix(in srgb, var(--accent-color) 22%, transparent);
+    }
+    .ne-padrinos__retrato img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      object-fit: cover;
+      filter: saturate(0.95);
+    }
+
+    .ne-padrinos__rol {
+      margin: 0 0 0.25rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.56rem, 1.05vw, 0.64rem);
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ne-padrinos__nombre {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.96rem, 1.9vw, 1.18rem);
+      line-height: 1.3;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 680px) {
+      .ne-padrinos__grid { grid-template-columns: 1fr; max-width: 400px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ne-padrinos * { transition: none !important; }
+      .ne-padrinos__credito { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="ne-padrinos__cabecera" memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
+    <h2 class="ne-padrinos__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Créditos de honor</h2>
+    <span class="ne-padrinos__folio" memory_type="text" memory_usage="custom" memory_key="padrinos-folio">CAST / 04</span>
+  </header>
+
+  <div class="ne-padrinos__grid">
+    <article class="ne-padrinos__credito" data-ne-credito>
+      <figure class="ne-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
+        <img src="https://loremflickr.com/280/280/portrait,noir" alt="Retrato de padrino" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrino uno</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
+        <p class="ne-padrinos__rol">Padrinos de alianzas</p>
+        <h3 class="ne-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+      </div>
+    </article>
+
+    <article class="ne-padrinos__credito" data-ne-credito>
+      <figure class="ne-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
+        <img src="https://loremflickr.com/280/280/portrait,dark" alt="Retrato de madrina" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Madrina dos</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
+        <p class="ne-padrinos__rol">Padrinos de velo</p>
+        <h3 class="ne-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+      </div>
+    </article>
+
+    <article class="ne-padrinos__credito" data-ne-credito>
+      <figure class="ne-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
+        <img src="https://loremflickr.com/280/280/portrait,studio" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrino tres</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
+        <p class="ne-padrinos__rol">Padrinos de arras</p>
+        <h3 class="ne-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+      </div>
+    </article>
+
+    <article class="ne-padrinos__credito" data-ne-credito>
+      <figure class="ne-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
+        <img src="https://loremflickr.com/280/280/portrait,elegant" alt="Retrato de madrinas" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Madrina cuatro</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
+        <p class="ne-padrinos__rol">Padrinos de lazos</p>
+        <h3 class="ne-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ne-padrinos');
+      if (!root) return;
+      root.classList.add('ne-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var creditos = Array.prototype.slice.call(root.querySelectorAll('[data-ne-credito]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        creditos.forEach(function (c) { c.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = creditos.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.1).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      creditos.forEach(function (c) { io.observe(c); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padrinos',
+      module_name: 'padrinos-neon-creditos',
+      style_name: 'Neón Editorial — Padrinos',
+      descripcion: 'Créditos de reparto en fichas nocturnas con retratos circulares de halo rosa y aparición escalonada; folio de casting.',
+      tags: ['padrinos', 'creditos', 'neon', 'retratos', 'stagger', 'nocturno'],
+      tipo: 'padrinos'
+    };
+  </script>
+</section>
+
+<section
+  class="ne-corte"
+  data-gemini-id="corte-neon-persianas"
+>
+  <style>
+    .ne-corte {
+      --primary-color: #f2f4fa;
+      --secondary-color: #9aa3b8;
+      --accent-color: #ff4d7d;
+      --bg-color: #14161d;
+      --surface-color: #1b1e27;
+      --surface-border-color: rgba(255, 255, 255, 0.14);
+      --text-color: #f2f4fa;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .ne-corte *,
+    .ne-corte *::before,
+    .ne-corte *::after { box-sizing: border-box; }
+
+    .ne-corte__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+      gap: clamp(1.8rem, 4.5vw, 3.4rem);
+      align-items: center;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .ne-corte__marco {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--accent-color);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-color) 30%, transparent), 0 0 34px color-mix(in srgb, var(--accent-color) 22%, transparent), 0 26px 58px rgba(0, 0, 0, 0.5);
+    }
+    .ne-corte__marco img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      filter: saturate(1.05) contrast(1.06);
+      transform: scale(1.07);
+      transition: transform 0.5s ease;
+    }
+    .ne-corte.esta-visto .ne-corte__marco img { transform: scale(1); }
+
+    .ne-corte__persianas {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: none;
+      flex-direction: column;
+      pointer-events: none;
+    }
+    .ne-corte.ne-js .ne-corte__persianas { display: flex; }
+    .ne-corte__lamina {
+      flex: 1;
+      background: repeating-linear-gradient(0deg, var(--surface-color) 0 12px, color-mix(in srgb, var(--accent-color) 30%, var(--surface-color)) 12px 14px);
+      border-bottom: 1px solid var(--surface-border-color);
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ne-corte__lamina:nth-child(odd) { transform: translateX(-102%); }
+    .ne-corte__lamina:nth-child(even) { transform: translateX(102%); }
+    .ne-corte.esta-visto .ne-corte__lamina { transform: translateX(0); }
+
+    .ne-corte__rotulo {
+      position: absolute;
+      z-index: 3;
+      bottom: 12px;
+      right: 14px;
+      padding: 0.25rem 0.7rem;
+      background: color-mix(in srgb, var(--bg-color) 85%, transparent);
+      border: 1px solid var(--surface-border-color);
+      font-family: 'Courier New', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .ne-corte__contenido { text-align: left; }
+    .ne-corte__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ne-corte__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.85rem, 4.2vw, 2.7rem);
+      line-height: 1.1;
+      color: var(--primary-color);
+    }
+    .ne-corte__texto {
+      margin: 0 0 1.2rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .ne-corte__cita {
+      display: inline-block;
+      padding-left: 1rem;
+      border-left: 2px solid var(--accent-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.86rem, 1.6vw, 0.98rem);
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 880px) {
+      .ne-corte__grid { grid-template-columns: 1fr; }
+      .ne-corte__contenido { text-align: center; }
+      .ne-corte__cita { border-left: 0; padding-left: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ne-corte * { transition: none !important; }
+      .ne-corte__persianas { display: none !important; }
+      .ne-corte__marco img { transform: none; }
+    }
+  </style>
+
+  <div class="ne-corte__grid">
+    <figure class="ne-corte__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="corte-foto">
+      <img
+        src="https://loremflickr.com/960/600/cake,night"
+        alt="Momento del corte nocturno"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="corte"
+        loading="lazy"
+      />
+      <span class="ne-corte__persianas" aria-hidden="true">
+        <span class="ne-corte__lamina"></span>
+        <span class="ne-corte__lamina"></span>
+        <span class="ne-corte__lamina"></span>
+        <span class="ne-corte__lamina"></span>
+      </span>
+      <span class="ne-corte__rotulo" aria-hidden="true">ESC. 07 — Toma única</span>
+      <figcaption hidden>Momento del corte</figcaption>
+    </figure>
+
+    <div class="ne-corte__contenido" memory_type="text" memory_usage="custom" memory_key="corte-texto">
+      <p class="ne-corte__etiqueta" memory_type="text" memory_usage="custom" memory_key="corte-etiqueta">Escena principal</p>
+      <h2 class="ne-corte__titulo" memory_type="text" memory_usage="custom" memory_key="corte-titulo">El corte bajo neón</h2>
+      <p class="ne-corte__texto">
+        Las persianas se abren en direcciones opuestas para revelar la toma única de la noche:
+        el corte que abre el brindis y enciende la pista.
+      </p>
+      <p class="ne-corte__cita" memory_type="text" memory_usage="custom" memory_key="corte-cita">Una toma, sin repeticiones.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ne-corte');
+      if (!root) return;
+      root.classList.add('ne-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root.querySelector('.ne-corte__marco') || root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-neon-persianas',
+      style_name: 'Neón Editorial — Corte',
+      descripcion: 'Persianas de reglas de neón que se cierran desde lados opuestos al entrar en pantalla; marco luminoso con rótulo de escena.',
+      tags: ['corte', 'persianas', 'neon', 'revelado', 'escena', 'nocturno'],
+      tipo: 'corte'
+    };
+  </script>
+</section>
+
+<section
+  class="ne-galeria"
+  data-gemini-id="galeria-neon-negativo"
+>
+  <style>
+    .ne-galeria {
+      --primary-color: #f2f4fa;
+      --secondary-color: #9aa3b8;
+      --accent-color: #ff4d7d;
+      --bg-color: #14161d;
+      --surface-color: #1b1e27;
+      --surface-border-color: rgba(255, 255, 255, 0.14);
+      --text-color: #f2f4fa;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ne-galeria *,
+    .ne-galeria *::before,
+    .ne-galeria *::after { box-sizing: border-box; }
+
+    .ne-galeria__cabecera {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      width: min(100%, 1060px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 0.9rem;
+      text-align: left;
+    }
+    .ne-galeria__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ne-galeria__folio {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--secondary-color);
+    }
+
+    .ne-galeria__mosaico {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
+      gap: clamp(0.9rem, 2.4vw, 1.4rem);
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .ne-galeria__negativo {
+      position: relative;
+      margin: 0;
+      padding: 7px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      cursor: pointer;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+    .ne-galeria.ne-js .ne-galeria__negativo { opacity: 0; transform: translateY(18px); }
+    .ne-galeria .ne-galeria__negativo.esta-visto { opacity: 1; transform: none; }
+    .ne-galeria__negativo:hover {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 24px color-mix(in srgb, var(--accent-color) 35%, transparent), 0 18px 40px rgba(0, 0, 0, 0.45);
+    }
+    .ne-galeria__negativo img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      filter: grayscale(0.65) contrast(1.1);
+      transition: filter 0.4s ease;
+    }
+    .ne-galeria__negativo:hover img { filter: grayscale(0) contrast(1.04); }
+
+    .ne-galeria__pie {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 7px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .ne-galeria__pie b { color: var(--accent-color); font-weight: 400; }
+
+    .ne-galeria__lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      place-items: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      background: rgba(0, 0, 0, 0.9);
+    }
+    .ne-galeria__lightbox.abierto { display: grid; }
+    .ne-galeria__lightbox img {
+      max-width: min(920px, 92vw);
+      max-height: 82svh;
+      width: auto;
+      height: auto;
+      border: 1px solid var(--accent-color);
+      box-shadow: 0 0 40px color-mix(in srgb, var(--accent-color) 40%, transparent), 0 30px 80px rgba(0, 0, 0, 0.6);
+    }
+    .ne-galeria__cerrar {
+      position: absolute;
+      top: clamp(0.8rem, 2.5vw, 1.6rem);
+      right: clamp(0.8rem, 2.5vw, 1.6rem);
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--accent-color);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--accent-color);
+      font-size: 1.2rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.4s ease, background 0.4s ease;
+    }
+    .ne-galeria__cerrar:hover { transform: rotate(90deg); background: color-mix(in srgb, var(--accent-color) 20%, transparent); }
+
+    @media (max-width: 560px) {
+      .ne-galeria__mosaico { grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr)); gap: 0.7rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ne-galeria * { transition: none !important; }
+      .ne-galeria__negativo { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="ne-galeria__cabecera" memory_type="text" memory_usage="custom" memory_key="galeria-cabecera">
+    <h2 class="ne-galeria__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Negativos de la noche</h2>
+    <span class="ne-galeria__folio" memory_type="text" memory_usage="custom" memory_key="galeria-folio">ROLL / 12 EXP</span>
+  </header>
+
+  <div class="ne-galeria__mosaico">
+    <figure class="ne-galeria__negativo" data-ne-negativo memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-1" tabindex="0" role="button" aria-label="Ampliar negativo uno">
+      <img src="https://loremflickr.com/520/520/night,couple" alt="Negativo uno" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="ne-galeria__pie"><span>EXP. 01</span><b>■</b></span>
+      <figcaption hidden>Negativo uno</figcaption>
+    </figure>
+    <figure class="ne-galeria__negativo" data-ne-negativo memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-2" tabindex="0" role="button" aria-label="Ampliar negativo dos">
+      <img src="https://loremflickr.com/520/520/neon,party" alt="Negativo dos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="ne-galeria__pie"><span>EXP. 02</span><b>■</b></span>
+      <figcaption hidden>Negativo dos</figcaption>
+    </figure>
+    <figure class="ne-galeria__negativo" data-ne-negativo memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-3" tabindex="0" role="button" aria-label="Ampliar negativo tres">
+      <img src="https://loremflickr.com/520/520/dark,dinner" alt="Negativo tres" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="ne-galeria__pie"><span>EXP. 03</span><b>■</b></span>
+      <figcaption hidden>Negativo tres</figcaption>
+    </figure>
+    <figure class="ne-galeria__negativo" data-ne-negativo memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-4" tabindex="0" role="button" aria-label="Ampliar negativo cuatro">
+      <img src="https://loremflickr.com/520/520/city,lights" alt="Negativo cuatro" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="ne-galeria__pie"><span>EXP. 04</span><b>■</b></span>
+      <figcaption hidden>Negativo cuatro</figcaption>
+    </figure>
+    <figure class="ne-galeria__negativo" data-ne-negativo memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-5" tabindex="0" role="button" aria-label="Ampliar negativo cinco">
+      <img src="https://loremflickr.com/520/520/dance,dark" alt="Negativo cinco" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="ne-galeria__pie"><span>EXP. 05</span><b>■</b></span>
+      <figcaption hidden>Negativo cinco</figcaption>
+    </figure>
+    <figure class="ne-galeria__negativo" data-ne-negativo memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-6" tabindex="0" role="button" aria-label="Ampliar negativo seis">
+      <img src="https://loremflickr.com/520/520/night,toast" alt="Negativo seis" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="ne-galeria__pie"><span>EXP. 06</span><b>■</b></span>
+      <figcaption hidden>Negativo seis</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ne-galeria');
+      if (!root) return;
+      root.classList.add('ne-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var piezas = Array.prototype.slice.call(root.querySelectorAll('[data-ne-negativo]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var i = piezas.indexOf(entry.target);
+            entry.target.style.transitionDelay = (Math.min(i, 5) * 0.08).toFixed(2) + 's';
+            entry.target.classList.add('esta-visto');
+            io.unobserve(entry.target);
+          });
+        }, { threshold: 0.18 });
+        piezas.forEach(function (p) { io.observe(p); });
+      } else {
+        piezas.forEach(function (p) { p.classList.add('esta-visto'); });
+      }
+
+      var lightbox = document.createElement('div');
+      lightbox.className = 'ne-galeria__lightbox';
+      lightbox.setAttribute('role', 'dialog');
+      lightbox.setAttribute('aria-modal', 'true');
+      lightbox.setAttribute('aria-label', 'Vista ampliada');
+      lightbox.innerHTML =
+        '<img alt="" />' +
+        '<button type="button" class="ne-galeria__cerrar" aria-label="Cerrar">×</button>';
+      root.appendChild(lightbox);
+      var imgAmpliada = lightbox.querySelector('img');
+      var botonCerrar = lightbox.querySelector('.ne-galeria__cerrar');
+
+      function abrir(fig) {
+        var foto = fig.querySelector('img');
+        if (!foto) return;
+        imgAmpliada.src = foto.src;
+        imgAmpliada.alt = foto.alt;
+        lightbox.classList.add('abierto');
+      }
+      function cerrar() { lightbox.classList.remove('abierto'); }
+
+      piezas.forEach(function (fig) {
+        fig.addEventListener('click', function () { abrir(fig); });
+        fig.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(fig); }
+        });
+      });
+      botonCerrar.addEventListener('click', cerrar);
+      lightbox.addEventListener('click', function (e) { if (e.target === lightbox) cerrar(); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-neon-negativo',
+      style_name: 'Neón Editorial — Galería',
+      descripcion: 'Negativos cuadrados en blanco y negro que recuperan color al hover con marco de neón; exposiciones numeradas y lightbox propio.',
+      tags: ['galeria', 'mosaico', 'negativo', 'neon', 'hover color', 'lightbox'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>
+
+<section
+  class="ne-regalos"
+  data-gemini-id="regalos-neon-lista"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ne-regalos {
+      --primary-color: #f2f4fa;
+      --secondary-color: #9aa3b8;
+      --accent-color: #ff4d7d;
+      --bg-color: #14161d;
+      --surface-color: #1b1e27;
+      --surface-border-color: rgba(255, 255, 255, 0.14);
+      --text-color: #f2f4fa;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/dark,gift');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .ne-regalos *,
+    .ne-regalos *::before,
+    .ne-regalos *::after { box-sizing: border-box; }
+
+    .ne-regalos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .ne-regalos__panel {
+      width: min(100%, 660px);
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 92%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .ne-regalos__cabecera {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.6rem;
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 0.8rem;
+    }
+    .ne-regalos__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.2rem);
+      color: var(--primary-color);
+    }
+    .ne-regalos__folio {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--secondary-color);
+    }
+    .ne-regalos__intro {
+      margin: 0 0 1.5rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .ne-regalos__lista { display: grid; gap: 0; border-top: 1px solid var(--surface-border-color); margin-bottom: 1.6rem; }
+    .ne-regalos__fila {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.9rem;
+      align-items: center;
+      padding: clamp(0.85rem, 2.2vw, 1.1rem) 0.3rem;
+      border-bottom: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .ne-regalos.ne-js .ne-regalos__fila { opacity: 0; transform: translateX(-12px); }
+    .ne-regalos .ne-regalos__fila.esta-visto { opacity: 1; transform: none; }
+    .ne-regalos__check {
+      width: 16px;
+      height: 16px;
+      border: 1px solid var(--secondary-color);
+      display: grid;
+      place-items: center;
+      color: var(--accent-color);
+      font-size: 0.7rem;
+      line-height: 1;
+    }
+    .ne-regalos__nombre {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.92rem, 1.75vw, 1.04rem);
+      color: var(--primary-color);
+    }
+    .ne-regalos__via {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .ne-regalos__zona-boton { text-align: center; }
+    .ne-regalos__boton {
+      position: relative;
+      min-width: 230px;
+      padding: 0.85rem 2rem;
+      border: 1px solid var(--accent-color);
+      background: transparent;
+      color: var(--accent-color);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: inset 0 0 16px color-mix(in srgb, var(--accent-color) 15%, transparent);
+      transition: background 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+    }
+    .ne-regalos__boton:hover { box-shadow: inset 0 0 24px color-mix(in srgb, var(--accent-color) 30%, transparent), 0 0 20px color-mix(in srgb, var(--accent-color) 30%, transparent); }
+    .ne-regalos__boton.esta-listo { background: var(--accent-color); color: var(--bg-color); box-shadow: 0 0 30px color-mix(in srgb, var(--accent-color) 60%, transparent); }
+    .ne-regalos__nota {
+      margin-top: 0.9rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.68rem, 1.3vw, 0.76rem);
+      letter-spacing: 0.14em;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 520px) {
+      .ne-regalos__fila { grid-template-columns: auto 1fr; }
+      .ne-regalos__via { grid-column: 2; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ne-regalos * { transition: none !important; }
+      .ne-regalos__fila { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="ne-regalos__panel">
+    <header class="ne-regalos__cabecera" memory_type="text" memory_usage="custom" memory_key="regalos-intro">
+      <h2 class="ne-regalos__titulo" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Lista de deseados</h2>
+      <span class="ne-regalos__folio" memory_type="text" memory_usage="custom" memory_key="regalos-folio">WISH / 03</span>
+    </header>
+    <p class="ne-regalos__intro" memory_type="text" memory_usage="custom" memory_key="regalos-texto">
+      Tu presencia es el titular; si quieres un detalle, marca una línea y agéndala.
+    </p>
+
+    <div class="ne-regalos__lista" data-ne-lista>
+      <div class="ne-regalos__fila" data-ne-fila>
+        <span class="ne-regalos__check" aria-hidden="true">✓</span>
+        <span class="ne-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-1">Piezas para la casa nueva</span>
+        <span class="ne-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-1">Tienda</span>
+      </div>
+      <div class="ne-regalos__fila" data-ne-fila>
+        <span class="ne-regalos__check" aria-hidden="true">✓</span>
+        <span class="ne-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-2">Fondo de luna de miel</span>
+        <span class="ne-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-2">Sobre</span>
+      </div>
+      <div class="ne-regalos__fila" data-ne-fila>
+        <span class="ne-regalos__check" aria-hidden="true">✓</span>
+        <span class="ne-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-3">Una aventura para dos</span>
+        <span class="ne-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-3">Digital</span>
+      </div>
+    </div>
+
+    <div class="ne-regalos__zona-boton">
+      <button type="button" class="ne-regalos__boton" data-ne-boton>
+        <span data-ne-boton-texto memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span>
+      </button>
+      <p class="ne-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota">// se guarda en tu invitación digital</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ne-regalos');
+      if (!root) return;
+      root.classList.add('ne-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var filas = Array.prototype.slice.call(root.querySelectorAll('[data-ne-fila]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            filas.forEach(function (fila, i) { fila.style.transitionDelay = (i * 0.11).toFixed(2) + 's'; });
+            filas.forEach(function (fila) { fila.classList.add('esta-visto'); });
+            io.disconnect();
+          });
+        }, { threshold: 0.3 });
+        io.observe(root.querySelector('[data-ne-lista]') || root);
+      } else {
+        filas.forEach(function (fila) { fila.classList.add('esta-visto'); });
+      }
+
+      var boton = root.querySelector('[data-ne-boton]');
+      var texto = root.querySelector('[data-ne-boton-texto]');
+      if (boton && texto) {
+        boton.addEventListener('click', function () {
+          var listo = boton.classList.toggle('esta-listo');
+          texto.textContent = listo ? 'Regalo agendado' : 'Agendar regalo';
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-neon-lista',
+      style_name: 'Neón Editorial — Regalos',
+      descripcion: 'Panel de deseados con filas de checklist, folio editorial y botón outline de neón que se llena al agendar el regalo.',
+      tags: ['regalos', 'lista', 'neon', 'checklist', 'boton', 'nocturno'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>
+
+<section
+  class="ne-vestimenta"
+  data-gemini-id="vestimenta-neon-muestras"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ne-vestimenta {
+      --primary-color: #f2f4fa;
+      --secondary-color: #9aa3b8;
+      --accent-color: #ff4d7d;
+      --bg-color: #14161d;
+      --surface-color: #1b1e27;
+      --surface-border-color: rgba(255, 255, 255, 0.14);
+      --text-color: #f2f4fa;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      min-height: 64svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/dark,fabric');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ne-vestimenta *,
+    .ne-vestimenta *::before,
+    .ne-vestimenta *::after { box-sizing: border-box; }
+
+    .ne-vestimenta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .ne-vestimenta__panel {
+      width: min(100%, 660px);
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 92%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .ne-vestimenta__etiqueta {
+      margin: 0 0 0.8rem;
+      display: inline-block;
+      padding: 0.3rem 1rem;
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+    }
+    .ne-vestimenta__titulo {
+      margin: 0 0 0.8rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ne-vestimenta__texto {
+      margin: 0 auto 1.8rem;
+      max-width: 46ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .ne-vestimenta__muestras {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(0.8rem, 2.2vw, 1.2rem);
+      margin-bottom: 1.6rem;
+    }
+    .ne-vestimenta__muestra {
+      display: grid;
+      justify-items: center;
+      gap: 0.5rem;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ne-vestimenta.ne-js .ne-vestimenta__muestra { opacity: 0; transform: translateY(16px); }
+    .ne-vestimenta .ne-vestimenta__muestra.esta-visto { opacity: 1; transform: none; }
+    .ne-vestimenta__chip {
+      width: clamp(46px, 8vw, 60px);
+      height: clamp(46px, 8vw, 60px);
+      border: 1px solid var(--surface-border-color);
+      background: var(--surface-color);
+      box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--bg-color) 80%, transparent), 0 0 0 1px var(--accent-color), 0 0 16px color-mix(in srgb, var(--accent-color) 25%, transparent);
+      transition: background 0.5s ease, transform 0.5s ease;
+    }
+    .ne-vestimenta__muestra:hover .ne-vestimenta__chip { transform: translateY(-4px); }
+    .ne-vestimenta__codigo {
+      font-family: 'Courier New', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.2em;
+      color: var(--secondary-color);
+    }
+
+    .ne-vestimenta__leyenda {
+      display: inline-block;
+      padding: 0.55rem 1.6rem;
+      border-top: 1px solid var(--accent-color);
+      border-bottom: 1px solid var(--accent-color);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--text-color);
+    }
+
+    @media (max-width: 480px) {
+      .ne-vestimenta__chip { width: 40px; height: 40px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ne-vestimenta * { transition: none !important; }
+      .ne-vestimenta__muestra { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="ne-vestimenta__panel">
+    <p class="ne-vestimenta__etiqueta" memory_type="text" memory_usage="custom" memory_key="vestimenta-etiqueta">Dress code</p>
+    <h2 class="ne-vestimenta__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Muestras del editor</h2>
+    <p class="ne-vestimenta__texto" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">
+      Paleta de inspiración para tu look nocturno; elige tonos profundos y deja que las luces hagan el resto.
+    </p>
+
+    <div class="ne-vestimenta__muestras" data-ne-muestras aria-hidden="true"></div>
+
+    <p class="ne-vestimenta__leyenda" memory_type="text" memory_usage="custom" memory_key="vestimenta-leyenda">Formal · edición nocturna</p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ne-vestimenta');
+      if (!root) return;
+      root.classList.add('ne-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var muestras = root.querySelector('[data-ne-muestras]');
+      if (muestras && !muestras.children.length) {
+        var tonos = ['#ff4d7d', '#7d6bff', '#39d0c3', '#ffb84d', '#f2f4fa', '#8a94ad'];
+        for (var i = 0; i < tonos.length; i++) {
+          var muestra = document.createElement('span');
+          muestra.className = 'ne-vestimenta__muestra';
+          muestra.style.transitionDelay = (i * 0.08).toFixed(2) + 's, ' + (i * 0.08).toFixed(2) + 's';
+          var chip = document.createElement('span');
+          chip.className = 'ne-vestimenta__chip';
+          chip.setAttribute('data-ne-tono', tonos[i]);
+          var codigo = document.createElement('span');
+          codigo.className = 'ne-vestimenta__codigo';
+          codigo.textContent = '0' + (i + 1);
+          muestra.appendChild(chip);
+          muestra.appendChild(codigo);
+          muestras.appendChild(muestra);
+        }
+      }
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function colorear() {
+        root.querySelectorAll('[data-ne-tono]').forEach(function (c) {
+          c.style.background = c.getAttribute('data-ne-tono');
+        });
+      }
+      if (reduce || !('IntersectionObserver' in window)) {
+        root.querySelectorAll('.ne-vestimenta__muestra').forEach(function (m) { m.classList.add('esta-visto'); });
+        colorear();
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          root.querySelectorAll('.ne-vestimenta__muestra').forEach(function (m, i) {
+            m.style.transitionDelay = (i * 0.08).toFixed(2) + 's, ' + (i * 0.08).toFixed(2) + 's';
+            m.classList.add('esta-visto');
+          });
+          setTimeout(colorear, 240);
+          io.disconnect();
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-neon-muestras',
+      style_name: 'Neón Editorial — Vestimenta',
+      descripcion: 'Muestras de color con marco de neón numeradas que aparecen escalonadas y se colorean por JS al entrar en pantalla.',
+      tags: ['vestimenta', 'dress code', 'muestras', 'neon', 'paleta', 'nocturno'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>
+</body></html>

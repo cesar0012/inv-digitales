@@ -1,0 +1,256 @@
+<section
+  class="fe-portada"
+  data-gemini-id="portada-nombre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="fe-portada-titulo"
+>
+  <style>
+    .fe-portada {
+      --primary-color: #f5e9d7;
+      --secondary-color: #b39a7d;
+      --accent-color: #ffb347;
+      --bg-color: #1a1410;
+      --surface-color: #241c15;
+      --surface-border-color: rgba(245, 233, 215, 0.16);
+      --text-color: #f5e9d7;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 6.5rem) clamp(1rem, 5vw, 4rem) clamp(2.5rem, 6vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/carnival,night');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .fe-portada *,
+    .fe-portada *::before,
+    .fe-portada *::after { box-sizing: border-box; }
+
+    .fe-portada::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 88%, transparent);
+    }
+
+    .fe-portada__guirnalda {
+      position: absolute;
+      z-index: 2;
+      top: clamp(0.8rem, 2.5vw, 1.6rem);
+      left: 0;
+      right: 0;
+      height: 60px;
+      pointer-events: none;
+    }
+    .fe-portada__guirnalda path {
+      fill: none;
+      stroke: var(--secondary-color);
+      stroke-width: 1.6;
+      opacity: 0.7;
+    }
+    .fe-portada__bombilla {
+      position: absolute;
+      width: 12px;
+      height: 16px;
+      border-radius: 50% 50% 60% 60%;
+      background: radial-gradient(circle at 40% 30%, #fff6dd, var(--accent-color) 65%);
+      box-shadow: 0 0 14px var(--accent-color), 0 0 34px color-mix(in srgb, var(--accent-color) 60%, transparent);
+      transform-origin: top center;
+      animation: fePortadaColumpio 4.5s ease-in-out infinite;
+    }
+    @keyframes fePortadaColumpio {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(5deg); }
+    }
+
+    .fe-portada__ticket {
+      position: relative;
+      z-index: 3;
+      width: min(100%, 680px);
+      padding: clamp(2.2rem, 5.5vw, 3.6rem) clamp(1.4rem, 5vw, 3rem);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 18px;
+      box-shadow: 0 32px 70px rgba(0, 0, 0, 0.55);
+      transform: rotate(-1.2deg);
+      display: grid;
+      justify-items: center;
+    }
+    .fe-portada__ticket::before,
+    .fe-portada__ticket::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--bg-color);
+      transform: translateY(-50%);
+    }
+    .fe-portada__ticket::before { left: -13px; }
+    .fe-portada__ticket::after { right: -13px; }
+
+    .fe-portada__entrada {
+      margin: 0 0 1.1rem;
+      padding: 0.35rem 1.2rem;
+      border: 1px dashed var(--accent-color);
+      border-radius: 999px;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .fe-portada__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(2rem, 6vw, 4.2rem);
+      line-height: 1.05;
+      color: var(--primary-color);
+      text-shadow: 0 0 30px color-mix(in srgb, var(--accent-color) 45%, transparent);
+    }
+    .fe-portada__titulo span {
+      display: inline-block;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .fe-portada.fe-js .fe-portada__titulo span { opacity: 0; transform: translateY(0.5em); }
+    .fe-portada.esta-visto .fe-portada__titulo span { opacity: 1; transform: none; }
+    .fe-portada.esta-visto .fe-portada__titulo span:nth-child(1) { transition-delay: 0.08s; }
+    .fe-portada.esta-visto .fe-portada__titulo span:nth-child(2) { transition-delay: 0.18s; }
+    .fe-portada.esta-visto .fe-portada__titulo span:nth-child(3) { transition-delay: 0.28s; }
+
+    .fe-portada__ampersand {
+      display: block;
+      margin: 0.12em 0;
+      font-style: italic;
+      color: var(--accent-color);
+    }
+
+    .fe-portada__fecha {
+      display: inline-block;
+      margin-top: clamp(1.2rem, 3vw, 1.8rem);
+      padding: 0.55rem 1.6rem;
+      border-top: 1px dashed var(--surface-border-color);
+      border-bottom: 1px dashed var(--surface-border-color);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.7rem, 1.4vw, 0.84rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--text-color);
+    }
+
+    .fe-portada__foto {
+      position: absolute;
+      z-index: 3;
+      bottom: clamp(1rem, 4vw, 2.4rem);
+      right: clamp(0.6rem, 3.5vw, 2.4rem);
+      width: clamp(104px, 14vw, 150px);
+      margin: 0;
+      padding: 6px 6px 18px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55);
+      transform: rotate(4deg);
+      transition: transform 0.5s ease;
+    }
+    .fe-portada__foto:hover { transform: rotate(0deg) translateY(-4px); }
+    .fe-portada__foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      filter: saturate(1.05) contrast(1.03);
+    }
+
+    @media (max-width: 640px) {
+      .fe-portada__foto { position: static; margin: 1.4rem auto 0; transform: rotate(-2deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fe-portada * { animation: none !important; transition: none !important; }
+      .fe-portada__titulo span { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <div class="fe-portada__guirnalda" aria-hidden="true">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
+      <path d="M0 8 C 200 52, 400 52, 600 8 S 1000 52, 1200 8" />
+    </svg>
+  </div>
+
+  <div class="fe-portada__ticket">
+    <p class="fe-portada__entrada" memory_type="text" memory_usage="custom" memory_key="portada-encabezado">Admit · Una noche de feria</p>
+
+    <div memory_type="text" memory_usage="custom" memory_key="portada-nombres">
+      <h1 id="fe-portada-titulo" class="fe-portada__titulo">
+        <span>Nombre de la Novia</span>
+        <span class="fe-portada__ampersand">&amp;</span>
+        <span>Nombre del Novio</span>
+      </h1>
+    </div>
+
+    <time class="fe-portada__fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="portada-fecha">Fecha del evento</time>
+  </div>
+
+  <figure class="fe-portada__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="portada-foto">
+    <img src="https://loremflickr.com/400/400/couple,fair" alt="Retrato de los anfitriones en la feria" path="placeholder" data-library-category="bodas" data-asset-type="foto-pareja" loading="lazy" />
+    <figcaption hidden>Retrato principal</figcaption>
+  </figure>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.fe-portada');
+      if (!root) return;
+      root.classList.add('fe-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var guirnalda = root.querySelector('.fe-portada__guirnalda');
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reduce && guirnalda && !guirnalda.querySelectorAll('.fe-portada__bombilla').length) {
+        var posiciones = [6, 14, 22, 30, 38, 46, 54, 62, 70, 78, 86, 94];
+        for (var i = 0; i < posiciones.length; i++) {
+          var b = document.createElement('span');
+          b.className = 'fe-portada__bombilla';
+          b.style.left = posiciones[i] + '%';
+          b.style.top = (i % 2 === 0 ? 34 : 42) + 'px';
+          b.style.animationDelay = (Math.random() * 4).toFixed(2) + 's';
+          guirnalda.appendChild(b);
+        }
+      }
+
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.22 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Feria Nocturna',
+      descripcion: 'Ticket de admisión con muescas laterales bajo una guirnalda de bombillas colgantes generadas por JS que se mecen; glow ámbar.',
+      tags: ['portada', 'hero', 'feria', 'bombillas', 'ticket', 'nocturno', 'carnaval'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

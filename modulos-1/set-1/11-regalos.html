@@ -1,0 +1,251 @@
+<section
+  class="hb-regalos"
+  data-gemini-id="regalos-herbario-indice"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .hb-regalos {
+      --primary-color: #23301f;
+      --secondary-color: #5c6657;
+      --accent-color: #7d8f6e;
+      --bg-color: #f6f4ec;
+      --surface-color: #fffdf6;
+      --surface-border-color: rgba(35, 48, 31, 0.22);
+      --text-color: #23301f;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/flowers,soft');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .hb-regalos *,
+    .hb-regalos *::before,
+    .hb-regalos *::after { box-sizing: border-box; }
+
+    .hb-regalos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 86%, transparent);
+    }
+
+    .hb-regalos__indice {
+      width: min(100%, 700px);
+      margin: 0 auto;
+      padding: clamp(1.8rem, 5vw, 3rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 94%, transparent);
+      border: 1px solid var(--surface-border-color);
+      outline: 1px solid var(--surface-border-color);
+      outline-offset: 6px;
+      box-shadow: 0 24px 54px rgba(35, 48, 31, 0.15);
+    }
+
+    .hb-regalos__cabecera { text-align: center; margin-bottom: clamp(1.4rem, 3.5vw, 2rem); }
+    .hb-regalos__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.64rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .hb-regalos__titulo {
+      margin: 0 0 0.7rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .hb-regalos__intro {
+      margin: 0 auto;
+      max-width: 48ch;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .hb-regalos__lista {
+      display: grid;
+      gap: 0;
+      border-top: 1px solid var(--surface-border-color);
+      margin-top: 1.4rem;
+    }
+    .hb-regalos__fila {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: clamp(0.85rem, 2.2vw, 1.15rem) 0.4rem;
+      border-bottom: 1px dashed var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .hb-regalos.hb-js .hb-regalos__fila { opacity: 0; transform: translateY(10px); }
+    .hb-regalos.esta-visto .hb-regalos__fila { opacity: 1; transform: none; }
+    .hb-regalos__punto {
+      flex: none;
+      width: 10px;
+      height: 10px;
+      transform: rotate(45deg);
+      background: var(--accent-color);
+    }
+    .hb-regalos__nombre {
+      flex: 1;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.92rem, 1.8vw, 1.05rem);
+      color: var(--primary-color);
+    }
+    .hb-regalos__apunte {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.66rem, 1.2vw, 0.74rem);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .hb-regalos__mesa {
+      margin-top: 1.6rem;
+      text-align: center;
+    }
+    .hb-regalos__boton {
+      position: relative;
+      display: inline-block;
+      min-width: 220px;
+      padding: 0.85rem 2rem;
+      border: 1px solid var(--primary-color);
+      outline: 1px solid var(--surface-border-color);
+      outline-offset: 4px;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.74rem, 1.4vw, 0.84rem);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+      background: var(--bg-color);
+      cursor: pointer;
+      transition: background 0.4s ease, color 0.4s ease, transform 0.4s ease;
+      overflow: hidden;
+    }
+    .hb-regalos__boton:hover { transform: translateY(-2px); }
+    .hb-regalos__boton.esta-listo { background: var(--primary-color); color: var(--bg-color); }
+    .hb-regalos__check {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      transform: scale(0.6);
+      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .hb-regalos__boton.esta-listo .hb-regalos__check { opacity: 1; transform: none; }
+    .hb-regalos__nota-boton {
+      margin-top: 0.8rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.7rem, 1.3vw, 0.8rem);
+      line-height: 1.6;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 560px) {
+      .hb-regalos__fila { flex-wrap: wrap; }
+      .hb-regalos__apunte { width: 100%; padding-left: 1.6rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-regalos * { transition: none !important; }
+      .hb-regalos__fila { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <div class="hb-regalos__indice">
+    <header class="hb-regalos__cabecera" memory_type="text" memory_usage="custom" memory_key="regalos-intro">
+      <p class="hb-regalos__etiqueta" memory_type="text" memory_usage="custom" memory_key="regalos-etiqueta">Mesa de regalos</p>
+      <h2 class="hb-regalos__titulo" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Un detalle con cariño</h2>
+      <p class="hb-regalos__intro" memory_type="text" memory_usage="custom" memory_key="regalos-texto">
+        Tu presencia es nuestro mayor regalo; si deseas consentirnos, aquí encuentras algunas ideas.
+      </p>
+    </header>
+
+    <ul class="hb-regalos__lista" data-hb-lista>
+      <li class="hb-regalos__fila">
+        <span class="hb-regalos__punto" aria-hidden="true"></span>
+        <span class="hb-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-1">Artículos para el hogar</span>
+        <span class="hb-regalos__apunte" memory_type="text" memory_usage="custom" memory_key="regalos-apunte-1">Tienda departamental</span>
+      </li>
+      <li class="hb-regalos__fila">
+        <span class="hb-regalos__punto" aria-hidden="true"></span>
+        <span class="hb-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-2">Experiencias para dos</span>
+        <span class="hb-regalos__apunte" memory_type="text" memory_usage="custom" memory_key="regalos-apunte-2">Sobre sorpresa</span>
+      </li>
+      <li class="hb-regalos__fila">
+        <span class="hb-regalos__punto" aria-hidden="true"></span>
+        <span class="hb-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-3">Luna de miel</span>
+        <span class="hb-regalos__apunte" memory_type="text" memory_usage="custom" memory_key="regalos-apunte-3">Datos en mesa de regalos</span>
+      </li>
+    </ul>
+
+    <div class="hb-regalos__mesa">
+      <button type="button" class="hb-regalos__boton" data-hb-boton>
+        <span data-hb-boton-texto memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span>
+        <span class="hb-regalos__check" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M4 12.5 L10 18.5 L20 6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </button>
+      <p class="hb-regalos__nota-boton" memory_type="text" memory_usage="custom" memory_key="regalos-nota">Guarda tu elección y confirma en tu invitación digital.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.hb-regalos');
+      if (!root) return;
+      root.classList.add('hb-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var filas = Array.prototype.slice.call(root.querySelectorAll('.hb-regalos__fila'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            filas.forEach(function (fila, i) {
+              fila.style.transitionDelay = (i * 0.1).toFixed(2) + 's';
+            });
+            root.classList.add('esta-visto');
+            io.disconnect();
+          });
+        }, { threshold: 0.25 });
+        io.observe(root.querySelector('[data-hb-lista]') || root);
+      } else {
+        root.classList.add('esta-visto');
+      }
+
+      var boton = root.querySelector('[data-hb-boton]');
+      var texto = root.querySelector('[data-hb-boton-texto]');
+      if (boton && texto) {
+        boton.addEventListener('click', function () {
+          var listo = boton.classList.toggle('esta-listo');
+          texto.textContent = listo ? 'Regalo agendado' : 'Agendar regalo';
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-herbario-indice',
+      style_name: 'Herbario de Línea — Regalos',
+      descripcion: 'Índice editorial de ideas de regalo con filas punteadas, rombos de salvia y botón agendar con confirmación animada de palomita.',
+      tags: ['regalos', 'mesa de regalos', 'lista', 'boton', 'micro-interaccion', 'editorial'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>

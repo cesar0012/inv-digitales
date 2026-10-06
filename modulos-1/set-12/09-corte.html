@@ -1,0 +1,200 @@
+<section
+  class="fe-corte"
+  data-gemini-id="corte-feria-cortina"
+>
+  <style>
+    .fe-corte {
+      --primary-color: #f5e9d7;
+      --secondary-color: #b39a7d;
+      --accent-color: #ffb347;
+      --bg-color: #1a1410;
+      --surface-color: #241c15;
+      --surface-border-color: rgba(245, 233, 215, 0.16);
+      --text-color: #f5e9d7;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .fe-corte *,
+    .fe-corte *::before,
+    .fe-corte *::after { box-sizing: border-box; }
+
+    .fe-corte__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: clamp(1.8rem, 4.5vw, 3.4rem);
+      align-items: center;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .fe-corte__escaparate {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 3px solid var(--secondary-color);
+      box-shadow: 0 0 30px color-mix(in srgb, var(--accent-color) 22%, transparent), 0 28px 60px rgba(0, 0, 0, 0.55);
+    }
+    .fe-corte__escaparate img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      filter: saturate(1.06);
+      transform: scale(1.07);
+      transition: transform 0.5s ease;
+    }
+    .fe-corte.esta-visto .fe-corte__escaparate img { transform: scale(1); }
+
+    .fe-corte__cortina {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: none;
+      pointer-events: none;
+    }
+    .fe-corte.fe-js .fe-corte__cortina { display: flex; }
+    .fe-corte__panel {
+      flex: 1;
+      background: repeating-linear-gradient(90deg, var(--accent-color) 0 14px, color-mix(in srgb, var(--accent-color) 45%, var(--bg-color)) 14px 22px, var(--surface-color) 22px 36px);
+      box-shadow: inset 0 0 34px rgba(0, 0, 0, 0.4);
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .fe-corte__panel--izq { border-right: 2px solid var(--secondary-color); }
+    .fe-corte__panel--der { border-left: 2px solid var(--secondary-color); }
+    .fe-corte.esta-visto .fe-corte__panel--izq { transform: translateX(-101%); }
+    .fe-corte.esta-visto .fe-corte__panel--der { transform: translateX(101%); }
+
+    .fe-corte__estrella {
+      position: absolute;
+      z-index: 3;
+      top: 50%;
+      left: 50%;
+      width: 60px;
+      transform: translate(-50%, -50%);
+      color: var(--bg-color);
+      background: var(--accent-color);
+      border-radius: 50%;
+      padding: 10px;
+      box-shadow: 0 0 26px var(--accent-color);
+      display: none;
+      animation: feCorteGiro 12s linear infinite;
+    }
+    .fe-corte.fe-js .fe-corte__estrella { display: block; }
+    @keyframes feCorteGiro { to { transform: translate(-50%, -50%) rotate(360deg); } }
+    .fe-corte.esta-visto .fe-corte__estrella { opacity: 0; transition: opacity 0.4s ease; }
+
+    .fe-corte__contenido { text-align: left; }
+    .fe-corte__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .fe-corte__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.85rem, 4.2vw, 2.7rem);
+      line-height: 1.1;
+      color: var(--primary-color);
+    }
+    .fe-corte__texto {
+      margin: 0 0 1.2rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .fe-corte__boleto {
+      display: inline-block;
+      padding: 0.5rem 1.2rem;
+      border: 1px dashed var(--accent-color);
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 880px) {
+      .fe-corte__grid { grid-template-columns: 1fr; }
+      .fe-corte__contenido { text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fe-corte * { transition: none !important; animation: none !important; }
+      .fe-corte__cortina, .fe-corte__estrella { display: none !important; }
+      .fe-corte__escaparate img { transform: none; }
+    }
+  </style>
+
+  <div class="fe-corte__grid">
+    <figure class="fe-corte__escaparate" memory_type="image" memory_usage="custom" memory_source="library" memory_key="corte-foto">
+      <img
+        src="https://loremflickr.com/960/600/cake,carnival"
+        alt="Momento del corte en la feria"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="corte"
+        loading="lazy"
+      />
+      <span class="fe-corte__cortina" aria-hidden="true">
+        <span class="fe-corte__panel fe-corte__panel--izq"></span>
+        <span class="fe-corte__panel fe-corte__panel--der"></span>
+      </span>
+      <svg class="fe-corte__estrella" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <path d="M24 4 L28.5 18 L43 18 L31.5 27 L35.5 41 L24 32.5 L12.5 41 L16.5 27 L5 18 L19.5 18 Z" stroke="currentColor" stroke-width="2"/>
+      </svg>
+      <figcaption hidden>Momento del corte</figcaption>
+    </figure>
+
+    <div class="fe-corte__contenido" memory_type="text" memory_usage="custom" memory_key="corte-texto">
+      <p class="fe-corte__etiqueta" memory_type="text" memory_usage="custom" memory_key="corte-etiqueta">Atracción estelar</p>
+      <h2 class="fe-corte__titulo" memory_type="text" memory_usage="custom" memory_key="corte-titulo">El corte bajo la carpa</h2>
+      <p class="fe-corte__texto">
+        La cortina de rayas se corre a los lados y aparece la escena más dulce de la feria.
+        Primera fila garantizada para ti.
+      </p>
+      <span class="fe-corte__boleto" memory_type="text" memory_usage="custom" memory_key="corte-boleto">FILA 1 · ACCESO TOTAL</span>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.fe-corte');
+      if (!root) return;
+      root.classList.add('fe-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root.querySelector('.fe-corte__escaparate') || root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-feria-cortina',
+      style_name: 'Feria Nocturna — Cortina',
+      descripcion: 'Cortina de rayas de carpa que se corre a ambos lados, estrella giratoria de neon que se apaga y boleto de primera fila.',
+      tags: ['corte', 'cortina', 'feria', 'rayas', 'revelado', 'estrella'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

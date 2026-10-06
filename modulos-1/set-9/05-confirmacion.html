@@ -1,0 +1,150 @@
+<section
+  class="ci-confirmacion"
+  data-gemini-id="confirmacion-texto"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ci-confirmacion {
+      --primary-color: #f3ead8;
+      --secondary-color: #b3a488;
+      --accent-color: #e8a13c;
+      --bg-color: #191512;
+      --surface-color: #221d18;
+      --surface-border-color: rgba(243, 234, 216, 0.16);
+      --text-color: #f3ead8;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 72svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/cinema,seats');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ci-confirmacion *,
+    .ci-confirmacion *::before,
+    .ci-confirmacion *::after { box-sizing: border-box; }
+
+    .ci-confirmacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .ci-confirmacion__haz {
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 50%;
+      width: clamp(240px, 46vw, 560px);
+      height: 70%;
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--accent-color) 32%, transparent), transparent 80%);
+      clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
+      pointer-events: none;
+      animation: ciConfirmacionProyector 5s ease-in-out infinite;
+    }
+    @keyframes ciConfirmacionProyector {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+
+    .ci-confirmacion__pantalla {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 620px);
+      padding: clamp(2.2rem, 5.5vw, 3.5rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 92%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 30px 64px rgba(0, 0, 0, 0.55);
+    }
+
+    .ci-confirmacion__aviso {
+      display: inline-block;
+      margin-bottom: 0.9rem;
+      padding: 0.35rem 1rem;
+      background: repeating-linear-gradient(-45deg, var(--accent-color) 0 9px, var(--bg-color) 9px 18px);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.34em;
+      color: var(--text-color);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+    }
+    .ci-confirmacion__aviso span {
+      background: color-mix(in srgb, var(--bg-color) 82%, transparent);
+      padding: 0.1rem 0.5rem;
+    }
+
+    .ci-confirmacion__titulo {
+      margin: 0 0 1rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      line-height: 1.15;
+      color: var(--primary-color);
+    }
+    .ci-confirmacion__texto {
+      margin: 0 auto 1.4rem;
+      max-width: 46ch;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+
+    .ci-confirmacion__apague {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.68rem, 1.35vw, 0.8rem);
+      letter-spacing: 0.26em;
+      color: var(--accent-color);
+    }
+    .ci-confirmacion__apague time { border-bottom: 1px solid var(--accent-color); }
+
+    @media (max-width: 560px) {
+      .ci-confirmacion { min-height: 62svh; }
+      .ci-confirmacion__pantalla { padding: 2.2rem 1.2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ci-confirmacion * { animation: none !important; }
+    }
+  </style>
+
+  <span class="ci-confirmacion__haz" aria-hidden="true"></span>
+
+  <div class="ci-confirmacion__pantalla">
+    <p class="ci-confirmacion__aviso" memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta"><span>CONFIRME SU LUGAR</span></p>
+    <h2 class="ci-confirmacion__titulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">La función es con usted o no es</h2>
+    <p class="ci-confirmacion__texto" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">
+      Reservamos su butaca en la fila central. Confirme con el enlace de su invitación digital
+      antes del cierre de taquilla; la sala se llena rápido.
+    </p>
+    <p class="ci-confirmacion__apague" memory_type="text" memory_usage="custom" memory_key="confirmacion-rotulo">
+      CIERRA TAQUILLA: <time datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha">DD DE MES</time>
+    </p>
+  </div>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Cine Indie — Confirmación',
+      descripcion: 'Haz de proyector latiendo sobre pantalla de sala, aviso a rayas de claqueta y cierre de taquilla con fecha subrayada.',
+      tags: ['confirmacion', 'rsvp', 'cine', 'proyector', 'taquilla', 'butaca'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>

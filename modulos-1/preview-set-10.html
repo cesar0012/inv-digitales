@@ -1,0 +1,2727 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>set-10</title><style>:root{--primary-color:#1f2937;--text-color:#1f2937;--accent-color:#b59b72;--bg-color:#f5f1e8;--secondary-color:#6b7280;--surface-color:#ffffff;--surface-border-color:rgba(0,0,0,.12);--font-base:Georgia,serif}body{margin:0}</style></head><body><section
+  class="ma-portada"
+  data-gemini-id="portada-nombre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="ma-portada-titulo"
+>
+  <style>
+    .ma-portada {
+      --primary-color: #e8f2f4;
+      --secondary-color: #9dbcc4;
+      --accent-color: #5fc4cf;
+      --bg-color: #0e1b22;
+      --surface-color: #14232b;
+      --surface-border-color: rgba(232, 242, 244, 0.16);
+      --text-color: #e8f2f4;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 5vw, 4rem) clamp(5rem, 10vw, 7rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/ocean,deep');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ma-portada *,
+    .ma-portada *::before,
+    .ma-portada *::after { box-sizing: border-box; }
+
+    .ma-portada::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--bg-color) 55%, transparent), color-mix(in srgb, var(--bg-color) 92%, transparent));
+    }
+    .ma-portada::after {
+      content: '';
+      position: absolute;
+      z-index: 0;
+      top: -20%;
+      left: 50%;
+      width: 140%;
+      height: 80%;
+      transform: translateX(-50%) rotate(14deg);
+      background: repeating-linear-gradient(100deg, color-mix(in srgb, var(--accent-color) 12%, transparent) 0 26px, transparent 26px 74px);
+      filter: blur(6px);
+      pointer-events: none;
+    }
+
+    .ma-portada__burbuja {
+      position: absolute;
+      z-index: 1;
+      border-radius: 50%;
+      border: 1px solid color-mix(in srgb, var(--accent-color) 55%, transparent);
+      background: radial-gradient(circle at 32% 30%, rgba(255, 255, 255, 0.28), transparent 55%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .ma-portada.esta-visto .ma-portada__burbuja { animation: maPortadaSube 9s ease-in infinite; }
+
+    @keyframes maPortadaSube {
+      0% { opacity: 0; transform: translateY(40px); }
+      15% { opacity: 0.8; }
+      85% { opacity: 0.4; }
+      100% { opacity: 0; transform: translateY(-260px); }
+    }
+
+    .ma-portada__carta {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 700px);
+      padding: clamp(2.2rem, 5.5vw, 3.8rem) clamp(1.4rem, 5vw, 3.2rem);
+      background: color-mix(in srgb, var(--surface-color) 82%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 42% 58% 46% 54% / 8% 8% 10% 10%;
+      box-shadow: 0 34px 74px rgba(0, 0, 0, 0.5);
+    }
+
+    .ma-portada__perla {
+      width: clamp(54px, 8vw, 70px);
+      margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
+      color: var(--accent-color);
+      animation: maPortadaFlota 7s ease-in-out infinite;
+    }
+    @keyframes maPortadaFlota {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-9px); }
+    }
+
+    .ma-portada__eyebrow {
+      margin: 0 0 1rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .ma-portada__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(2rem, 6vw, 4.2rem);
+      line-height: 1.06;
+      color: var(--primary-color);
+      text-shadow: 0 0 28px color-mix(in srgb, var(--accent-color) 40%, transparent);
+    }
+    .ma-portada__titulo span {
+      display: inline-block;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ma-portada.ma-js .ma-portada__titulo span { opacity: 0; transform: translateY(0.55em); }
+    .ma-portada.esta-visto .ma-portada__titulo span { opacity: 1; transform: none; }
+    .ma-portada.esta-visto .ma-portada__titulo span:nth-child(1) { transition-delay: 0.08s; }
+    .ma-portada.esta-visto .ma-portada__titulo span:nth-child(2) { transition-delay: 0.18s; }
+    .ma-portada.esta-visto .ma-portada__titulo span:nth-child(3) { transition-delay: 0.28s; }
+
+    .ma-portada__ampersand {
+      display: block;
+      margin: 0.12em 0;
+      font-style: italic;
+      color: var(--accent-color);
+    }
+
+    .ma-portada__fecha {
+      display: inline-block;
+      margin-top: clamp(1.2rem, 3vw, 1.8rem);
+      padding: 0.55rem 1.7rem;
+      border: 1px solid var(--surface-border-color);
+      border-radius: 999px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.7rem, 1.4vw, 0.82rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--text-color);
+    }
+
+    .ma-portada__retrato {
+      width: clamp(104px, 15vw, 132px);
+      margin: clamp(1.2rem, 3vw, 1.8rem) auto 0;
+      padding: 5px;
+      border: 1px solid var(--surface-border-color);
+      border-radius: 54% 46% 52% 48% / 48% 54% 46% 52%;
+      overflow: hidden;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
+    }
+    .ma-portada__retrato img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 54% 46% 52% 48% / 48% 54% 46% 52%;
+      filter: saturate(0.95);
+    }
+
+    .ma-portada__olas {
+      position: absolute;
+      left: -3%;
+      right: -3%;
+      bottom: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .ma-portada__olas svg { display: block; width: 100%; }
+    .ma-portada__ola { fill: var(--surface-color); opacity: 0.9; }
+    .ma-portada__ola--frente {
+      fill: color-mix(in srgb, var(--accent-color) 22%, var(--surface-color));
+      animation: maPortadaOla 11s ease-in-out infinite;
+    }
+    @keyframes maPortadaOla {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(-3.5%); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ma-portada * { animation: none !important; transition: none !important; }
+      .ma-portada__titulo span { opacity: 1; transform: none; }
+      .ma-portada__burbuja { display: none; }
+    }
+  </style>
+
+  <div class="ma-portada__carta">
+    <svg class="ma-portada__perla" viewBox="0 0 70 70" fill="none" aria-hidden="true">
+      <path d="M8 46 C8 26, 22 12, 35 12 C48 12, 62 26, 62 46" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="35" cy="50" r="9" fill="currentColor" opacity="0.85"/>
+      <circle cx="32" cy="47" r="2.6" fill="#ffffff" opacity="0.7"/>
+    </svg>
+
+    <p class="ma-portada__eyebrow" memory_type="text" memory_usage="custom" memory_key="portada-encabezado">Una inmersión a lo profundo</p>
+
+    <div memory_type="text" memory_usage="custom" memory_key="portada-nombres">
+      <h1 id="ma-portada-titulo" class="ma-portada__titulo">
+        <span>Nombre de la Novia</span>
+        <span class="ma-portada__ampersand">&amp;</span>
+        <span>Nombre del Novio</span>
+      </h1>
+    </div>
+
+    <time class="ma-portada__fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="portada-fecha">Fecha del evento</time>
+
+    <figure class="ma-portada__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="portada-foto">
+      <img src="https://loremflickr.com/360/360/couple,ocean" alt="Retrato de los anfitriones" path="placeholder" data-library-category="bodas" data-asset-type="foto-pareja" loading="lazy" />
+      <figcaption hidden>Retrato principal</figcaption>
+    </figure>
+  </div>
+
+  <div class="ma-portada__olas" aria-hidden="true">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+      <path class="ma-portada__ola" d="M0 64 C 180 24, 360 104, 540 64 S 900 24, 1080 64 S 1320 104, 1440 64 V120 H0 Z"/>
+      <path class="ma-portada__ola ma-portada__ola--frente" d="M0 84 C 200 44, 400 124, 600 84 S 1000 44, 1200 84 S 1380 114, 1440 84 V120 H0 Z"/>
+    </svg>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ma-portada');
+      if (!root) return;
+      root.classList.add('ma-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var cielo = root;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reduce && !cielo.querySelector('.ma-portada__burbuja')) {
+        for (var i = 0; i < 12; i++) {
+          var b = document.createElement('span');
+          b.className = 'ma-portada__burbuja';
+          var s = 6 + Math.random() * 16;
+          b.style.width = s + 'px';
+          b.style.height = s + 'px';
+          b.style.left = (3 + Math.random() * 94) + '%';
+          b.style.top = (55 + Math.random() * 35) + '%';
+          b.style.animationDelay = (Math.random() * 8).toFixed(2) + 's';
+          root.appendChild(b);
+        }
+      }
+
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.22 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Marino de Profundidad',
+      descripcion: 'Carta de contorno orgánico bajo rayos de luz, burbujas que ascienden por JS y doble ola SVG que respira en la base.',
+      tags: ['portada', 'hero', 'marino', 'olas', 'burbujas', 'profundidad', 'organico'],
+      tipo: 'portada'
+    };
+  </script>
+</section>
+
+<section
+  class="ma-padres"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ma-padres {
+      --primary-color: #e8f2f4;
+      --secondary-color: #9dbcc4;
+      --accent-color: #5fc4cf;
+      --bg-color: #0e1b22;
+      --surface-color: #14232b;
+      --surface-border-color: rgba(232, 242, 244, 0.16);
+      --text-color: #e8f2f4;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/coral,sea');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ma-padres *,
+    .ma-padres *::before,
+    .ma-padres *::after { box-sizing: border-box; }
+
+    .ma-padres::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--bg-color) 60%, transparent), color-mix(in srgb, var(--bg-color) 93%, transparent));
+    }
+
+    .ma-padres__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .ma-padres__intro {
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      max-width: 50ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .ma-padres__arrecife {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1.6rem, 4.4vw, 3.2rem);
+      width: min(100%, 860px);
+      margin: 0 auto;
+      align-items: end;
+    }
+
+    .ma-padres__coral {
+      position: relative;
+      padding: clamp(1.8rem, 4vw, 2.5rem) clamp(1.2rem, 3vw, 1.9rem);
+      background: color-mix(in srgb, var(--surface-color) 88%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 58% 42% 34% 66% / 12% 16% 8% 10%;
+      box-shadow: 0 24px 52px rgba(0, 0, 0, 0.45);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ma-padres.ma-js .ma-padres__coral { opacity: 0; transform: translateY(26px) rotate(-2deg); }
+    .ma-padres .ma-padres__coral.esta-visto { opacity: 1; transform: none; }
+    .ma-padres__coral:nth-child(2) { border-radius: 42% 58% 66% 34% / 16% 12% 10% 8%; }
+
+    .ma-padres__retrato {
+      width: clamp(100px, 14vw, 130px);
+      margin: 0 auto 1rem;
+      padding: 5px;
+      border: 1px solid var(--accent-color);
+      border-radius: 54% 46% 52% 48% / 48% 54% 46% 52%;
+      overflow: hidden;
+      box-shadow: 0 0 24px color-mix(in srgb, var(--accent-color) 30%, transparent);
+    }
+    .ma-padres__retrato img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 54% 46% 52% 48% / 48% 54% 46% 52%;
+      filter: saturate(0.95);
+    }
+
+    .ma-padres__rol {
+      margin: 0 0 0.35rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ma-padres__nombres {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.04rem, 2.1vw, 1.3rem);
+      line-height: 1.3;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 740px) {
+      .ma-padres__arrecife { grid-template-columns: 1fr; max-width: 390px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ma-padres * { transition: none !important; }
+      .ma-padres__coral { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="padres-intro">
+    <h2 class="ma-padres__titulo" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Formaciones madre</h2>
+    <p class="ma-padres__intro" memory_type="text" memory_usage="custom" memory_key="padres-texto">Los arrecifes que nos dieron refugio; esta inmersion también es suya.</p>
+  </header>
+
+  <div class="ma-padres__arrecife">
+    <article class="ma-padres__coral" data-ma-coral>
+      <figure class="ma-padres__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-uno">
+        <img src="https://loremflickr.com/380/380/family,sea" alt="Retrato de la familia de la novia" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" />
+        <figcaption hidden>Familia uno</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-uno">
+        <p class="ma-padres__rol">Padres de la novia</p>
+        <h3 class="ma-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+      </div>
+    </article>
+
+    <article class="ma-padres__coral" data-ma-coral>
+      <figure class="ma-padres__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-dos">
+        <img src="https://loremflickr.com/380/380/parents,ocean" alt="Retrato de la familia del novio" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" />
+        <figcaption hidden>Familia dos</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-dos">
+        <p class="ma-padres__rol">Padres del novio</p>
+        <h3 class="ma-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ma-padres');
+      if (!root) return;
+      root.classList.add('ma-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var corales = Array.prototype.slice.call(root.querySelectorAll('[data-ma-coral]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        corales.forEach(function (c) { c.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = corales.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.16).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      corales.forEach(function (c) { io.observe(c); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Marino de Profundidad — Padres',
+      descripcion: 'Formaciones de coral con contornos blob asimétricos y retratos orgánicos con halo cian; ascenso desde el fondo del arrecife.',
+      tags: ['padres', 'familias', 'marino', 'coral', 'blob', 'organico'],
+      tipo: 'padres'
+    };
+  </script>
+</section>
+
+<section
+  class="ma-ubicacion"
+  data-gemini-id="ubicacion-mapa"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ma-ubicacion {
+      --primary-color: #e8f2f4;
+      --secondary-color: #9dbcc4;
+      --accent-color: #5fc4cf;
+      --bg-color: #0e1b22;
+      --surface-color: #14232b;
+      --surface-border-color: rgba(232, 242, 244, 0.16);
+      --text-color: #e8f2f4;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/lagoon,night');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .ma-ubicacion *,
+    .ma-ubicacion *::before,
+    .ma-ubicacion *::after { box-sizing: border-box; }
+
+    .ma-ubicacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .ma-ubicacion__sonar {
+      position: relative;
+      width: min(100%, 940px);
+      margin: 0 auto;
+      padding: clamp(1.4rem, 3.4vw, 2.2rem);
+      background: color-mix(in srgb, var(--surface-color) 90%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 24px;
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.5), inset 0 0 60px color-mix(in srgb, var(--accent-color) 8%, transparent);
+    }
+
+    .ma-ubicacion__cuerpo {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.4rem, 3.6vw, 2.4rem);
+      align-items: center;
+    }
+
+    .ma-ubicacion__info { text-align: left; }
+    .ma-ubicacion__etiqueta {
+      margin: 0 0 0.55rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ma-ubicacion__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.2rem);
+      color: var(--primary-color);
+    }
+    .ma-ubicacion__direccion {
+      margin: 0 0 1.2rem;
+      font-style: normal;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+    .ma-ubicacion__postal {
+      margin: 0 0 1.2rem;
+      padding: 6px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 12px;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.4);
+      transform: rotate(-2deg);
+    }
+    .ma-ubicacion__postal img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: 8px;
+      filter: hue-rotate(140deg) saturate(0.75) brightness(0.95);
+    }
+
+    .ma-ubicacion__eco {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.3rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .ma-ubicacion__onda {
+      position: relative;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      box-shadow: 0 0 12px var(--accent-color);
+    }
+    .ma-ubicacion__onda::after {
+      content: '';
+      position: absolute;
+      inset: -7px;
+      border: 1.4px solid var(--accent-color);
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    .ma-ubicacion.esta-visto .ma-ubicacion__onda::after { animation: maUbicacionEco 2s ease-out infinite; }
+    @keyframes maUbicacionEco {
+      0% { opacity: 0.9; transform: scale(0.4); }
+      75% { opacity: 0.1; transform: scale(1.3); }
+      100% { opacity: 0; transform: scale(1.4); }
+    }
+    .ma-ubicacion__boton {
+      display: inline-block;
+      padding: 0.75rem 1.8rem;
+      border-radius: 999px;
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.66rem, 1.25vw, 0.76rem);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+    .ma-ubicacion__boton:hover { background: var(--accent-color); color: var(--bg-color); }
+
+    .ma-ubicacion__mapa-zona {
+      position: relative;
+      margin: 0;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--surface-border-color);
+    }
+    .ma-ubicacion__mapa iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border: 0;
+      filter: hue-rotate(140deg) saturate(0.7) brightness(0.9);
+    }
+    .ma-ubicacion__bib {
+      position: absolute;
+      z-index: 3;
+      top: -16px;
+      right: -12px;
+      width: 54px;
+      padding: 6px;
+      border-radius: 50%;
+      background: var(--surface-color);
+      border: 1px solid var(--accent-color);
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.45);
+      color: var(--accent-color);
+      animation: maUbicacionNado 6s ease-in-out infinite;
+    }
+    @keyframes maUbicacionNado {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-7px) rotate(-5deg); }
+    }
+
+    @media (max-width: 820px) {
+      .ma-ubicacion__cuerpo { grid-template-columns: 1fr; }
+      .ma-ubicacion__info { text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ma-ubicacion * { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="ma-ubicacion__sonar">
+    <div class="ma-ubicacion__cuerpo">
+      <div class="ma-ubicacion__info">
+        <p class="ma-ubicacion__etiqueta" memory_type="text" memory_usage="custom" memory_key="ubicacion-etiqueta">Punto de inmersión</p>
+        <h2 class="ma-ubicacion__titulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Cómo llegar</h2>
+        <address class="ma-ubicacion__direccion" memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion">
+          Cala del Faro Azul s/n<br />
+          Bahía Protegida<br />
+          Ciudad, Estado
+        </address>
+        <figure class="ma-ubicacion__postal" memory_type="image" memory_usage="custom" memory_source="library" memory_key="ubicacion-foto">
+        <img src="https://loremflickr.com/440/260/lagoon,venue" alt="Vista de la cala del evento" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" />
+        <figcaption hidden>La cala</figcaption>
+      </figure>
+
+      <span class="ma-ubicacion__eco" aria-hidden="true">
+          <span class="ma-ubicacion__onda"></span>
+          Eco detectado
+        </span>
+        <br />
+        <a class="ma-ubicacion__boton" href="https://www.google.com/maps?q=Ubicacion+del+evento" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Trazar rumbo</a>
+      </div>
+
+      <figure class="ma-ubicacion__mapa-zona">
+        <svg class="ma-ubicacion__bib" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <path d="M6 28 C14 18, 22 18, 28 26 L40 20 L34 30 C30 38, 16 38, 6 28 Z" stroke="currentColor" stroke-width="1.6"/>
+          <circle cx="34" cy="25" r="1.8" fill="currentColor"/>
+        </svg>
+        <div class="ma-ubicacion__mapa" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url">
+          <iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen></iframe>
+        </div>
+      </figure>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ma-ubicacion');
+      if (!root) return;
+      root.classList.add('ma-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-mapa',
+      style_name: 'Marino de Profundidad — Mapa',
+      descripcion: 'Cabin de sonar con eco pulsante, mapa en tinte abisal y pez de papel nadando sobre la esquina; rumbo en cápsula.',
+      tags: ['ubicacion', 'mapa', 'sonar', 'marino', 'eco', 'abisal'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>
+
+<section
+  class="ma-itinerario"
+  data-gemini-id="itinerario-agenda"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ma-itinerario {
+      --primary-color: #e8f2f4;
+      --secondary-color: #9dbcc4;
+      --accent-color: #5fc4cf;
+      --bg-color: #0e1b22;
+      --surface-color: #14232b;
+      --surface-border-color: rgba(232, 242, 244, 0.16);
+      --text-color: #e8f2f4;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/underwater,light');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .ma-itinerario *,
+    .ma-itinerario *::before,
+    .ma-itinerario *::after { box-sizing: border-box; }
+
+    .ma-itinerario::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 88%, transparent);
+    }
+
+    .ma-itinerario__cabecera {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      width: min(100%, 720px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 0.9rem;
+    }
+    .ma-itinerario__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ma-itinerario__profundimetro {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.28em;
+      color: var(--accent-color);
+    }
+
+    .ma-itinerario__descenso {
+      position: relative;
+      width: min(100%, 720px);
+      margin: 0 auto;
+      padding-left: clamp(2.4rem, 6vw, 3.2rem);
+    }
+    .ma-itinerario__cable {
+      position: absolute;
+      top: 8px;
+      bottom: 8px;
+      left: 11px;
+      width: 3px;
+      background: color-mix(in srgb, var(--accent-color) 25%, transparent);
+    }
+    .ma-itinerario__burbuja-progreso {
+      position: absolute;
+      top: 8px;
+      left: 11px;
+      width: 3px;
+      height: 0%;
+      background: linear-gradient(var(--accent-color), transparent);
+      border-radius: 999px;
+    }
+
+    .ma-itinerario__nivel {
+      position: relative;
+      margin: 0 0 clamp(1.4rem, 3.6vw, 2rem);
+      padding: clamp(1.1rem, 2.7vw, 1.6rem) clamp(1.2rem, 3vw, 1.8rem);
+      background: color-mix(in srgb, var(--surface-color) 88%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 34% 66% 12px 12px / 10% 16% 12px 12px;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ma-itinerario.ma-js .ma-itinerario__nivel { opacity: 0; transform: translateY(18px); }
+    .ma-itinerario .ma-itinerario__nivel.esta-visto { opacity: 1; transform: none; }
+
+    .ma-itinerario__nodo {
+      position: absolute;
+      top: 50%;
+      left: calc(-1 * clamp(2.4rem, 6vw, 3.2rem) + 2px);
+      transform: translate(-50%, -50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-color);
+      background: var(--bg-color);
+      box-shadow: 0 0 10px color-mix(in srgb, var(--accent-color) 60%, transparent);
+    }
+
+    .ma-itinerario__hora {
+      display: inline-block;
+      margin-bottom: 0.35rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.66rem, 1.3vw, 0.76rem);
+      letter-spacing: 0.24em;
+      color: var(--accent-color);
+    }
+    .ma-itinerario__momento {
+      margin: 0 0 0.3rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.02rem, 2.1vw, 1.28rem);
+      color: var(--primary-color);
+    }
+    .ma-itinerario__detalle {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
+      line-height: 1.65;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 560px) {
+      .ma-itinerario__descenso { padding-left: 2rem; }
+      .ma-itinerario__nodo { left: -1.6rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ma-itinerario * { transition: none !important; }
+      .ma-itinerario__nivel { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="ma-itinerario__cabecera" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">
+    <h2 class="ma-itinerario__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Bitácora de descenso</h2>
+    <span class="ma-itinerario__profundimetro" memory_type="text" memory_usage="custom" memory_key="itinerario-prof">0 → 40 M</span>
+  </header>
+
+  <div class="ma-itinerario__descenso">
+    <span class="ma-itinerario__cable" aria-hidden="true"></span>
+    <span class="ma-itinerario__burbuja-progreso" aria-hidden="true" data-ma-progreso></span>
+
+    <article class="ma-itinerario__nivel" data-ma-nivel>
+      <span class="ma-itinerario__nodo" aria-hidden="true"></span>
+      <time class="ma-itinerario__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">−0 M · 16:00</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
+        <h3 class="ma-itinerario__momento">Superficie</h3>
+        <p class="ma-itinerario__detalle">Bienvenida en el muelle con ponche de mar.</p>
+      </div>
+    </article>
+
+    <article class="ma-itinerario__nivel" data-ma-nivel>
+      <span class="ma-itinerario__nodo" aria-hidden="true"></span>
+      <time class="ma-itinerario__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">−10 M · 17:00</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
+        <h3 class="ma-itinerario__momento">Primera inmersión</h3>
+        <p class="ma-itinerario__detalle">Ceremonia frente al arrecife iluminado.</p>
+      </div>
+    </article>
+
+    <article class="ma-itinerario__nivel" data-ma-nivel>
+      <span class="ma-itinerario__nodo" aria-hidden="true"></span>
+      <time class="ma-itinerario__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">−25 M · 19:00</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
+        <h3 class="ma-itinerario__momento">Cueva de la cena</h3>
+        <p class="ma-itinerario__detalle">Banquete abisal entre peces de linterna.</p>
+      </div>
+    </article>
+
+    <article class="ma-itinerario__nivel" data-ma-nivel>
+      <span class="ma-itinerario__nodo" aria-hidden="true"></span>
+      <time class="ma-itinerario__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">−40 M · 21:30</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
+        <h3 class="ma-itinerario__momento">Fondo del baile</h3>
+        <p class="ma-itinerario__detalle">Bioluminiscencia, pista y regreso a la superficie.</p>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ma-itinerario');
+      if (!root) return;
+      root.classList.add('ma-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var progreso = root.querySelector('[data-ma-progreso]');
+      var niveles = Array.prototype.slice.call(root.querySelectorAll('[data-ma-nivel]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      var revealIO = ('IntersectionObserver' in window) && !reduce ? new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('esta-visto');
+            revealIO.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 }) : null;
+
+      niveles.forEach(function (nivel) {
+        if (revealIO) revealIO.observe(nivel);
+        else nivel.classList.add('esta-visto');
+      });
+
+      function alDescender() {
+        if (!progreso) return;
+        var rect = root.getBoundingClientRect();
+        var total = rect.height + window.innerHeight * 0.35;
+        var pasado = Math.min(Math.max(window.innerHeight * 0.7 - rect.top, 0), total);
+        progreso.style.height = ((pasado / total) * 100).toFixed(2) + '%';
+      }
+      if (!reduce) {
+        window.addEventListener('scroll', alDescender, { passive: true });
+        window.addEventListener('resize', alDescender);
+        alDescender();
+      } else if (progreso) {
+        progreso.style.height = '100%';
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Marino de Profundidad — Itinerario',
+      descripcion: 'Bitácora de descenso por profundidades, cable con progreso luminoso y niveles en tarjetas de contorno orgánico.',
+      tags: ['itinerario', 'timeline', 'marino', 'descenso', 'profundidad', 'scroll'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>
+
+<section
+  class="ma-confirmacion"
+  data-gemini-id="confirmacion-texto"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ma-confirmacion {
+      --primary-color: #e8f2f4;
+      --secondary-color: #9dbcc4;
+      --accent-color: #5fc4cf;
+      --bg-color: #0e1b22;
+      --surface-color: #14232b;
+      --surface-border-color: rgba(232, 242, 244, 0.16);
+      --text-color: #e8f2f4;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 72svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/bottle,sea');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ma-confirmacion *,
+    .ma-confirmacion *::before,
+    .ma-confirmacion *::after { box-sizing: border-box; }
+
+    .ma-confirmacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 89%, transparent);
+    }
+
+    .ma-confirmacion__botella {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 600px);
+      padding: clamp(2.2rem, 5.5vw, 3.5rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 88%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 16px 16px 90px 90px;
+      box-shadow: 0 30px 64px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+    .ma-confirmacion__botella::before {
+      content: '';
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      width: 64px;
+      height: 16px;
+      transform: translateX(-50%);
+      background: color-mix(in srgb, var(--accent-color) 55%, var(--surface-color));
+      border-radius: 8px 8px 0 0;
+    }
+
+    .ma-confirmacion__sello {
+      width: clamp(54px, 8.5vw, 70px);
+      margin: 0 auto clamp(1rem, 2.4vw, 1.4rem);
+      color: var(--accent-color);
+      animation: maConfirmacionCuna 6s ease-in-out infinite;
+    }
+    @keyframes maConfirmacionCuna {
+      0%, 100% { transform: rotate(-6deg); }
+      50% { transform: rotate(6deg); }
+    }
+
+    .ma-confirmacion__etiqueta {
+      margin: 0 0 0.7rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ma-confirmacion__titulo {
+      margin: 0 0 1rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.65rem, 3.7vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ma-confirmacion__texto {
+      margin: 0 auto 1.4rem;
+      max-width: 46ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .ma-confirmacion__limite {
+      display: inline-grid;
+      gap: 0.28rem;
+      padding: 0.7rem 1.7rem;
+      border: 1px dashed var(--accent-color);
+      border-radius: 999px;
+    }
+    .ma-confirmacion__limite-rotulo {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.56rem;
+      letter-spacing: 0.36em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ma-confirmacion__limite-fecha {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.88rem, 1.65vw, 1rem);
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 560px) {
+      .ma-confirmacion { min-height: 62svh; }
+      .ma-confirmacion__botella { padding: 2.2rem 1.2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ma-confirmacion * { animation: none !important; }
+    }
+  </style>
+
+  <div class="ma-confirmacion__botella">
+    <svg class="ma-confirmacion__sello" viewBox="0 0 70 70" fill="none" aria-hidden="true">
+      <path d="M20 12 H50 L46 24 V52 A8 8 0 0 1 38 60 H32 A8 8 0 0 1 24 52 V24 Z" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M26 40 C31 36, 39 44, 44 40" stroke="currentColor" stroke-width="1.4"/>
+      <circle cx="35" cy="30" r="4" stroke="currentColor" stroke-width="1.3"/>
+    </svg>
+
+    <p class="ma-confirmacion__etiqueta" memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta">Mensaje en la botella</p>
+    <h2 class="ma-confirmacion__titulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">Responde a esta llamada</h2>
+    <p class="ma-confirmacion__texto" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">
+      Esta botella cruzó el mar hasta ti. Responde con el enlace de tu invitación digital
+      antes de la fecha marcada y tu balsa quedará lista.
+    </p>
+    <p class="ma-confirmacion__limite">
+      <span class="ma-confirmacion__limite-rotulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-rotulo">Zarpa antes del</span>
+      <time class="ma-confirmacion__limite-fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha">DD de mes</time>
+    </p>
+  </div>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Marino de Profundidad — Confirmación',
+      descripcion: 'Botella con corcho, sello que se mece como ola y límite de zarpe en cápsula punteada; RSVP informativo marino.',
+      tags: ['confirmacion', 'rsvp', 'botella', 'marino', 'mensaje', 'ola'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>
+
+<section
+  class="ma-detalles"
+  data-gemini-id="detalles-vestimenta"
+>
+  <style>
+    .ma-detalles {
+      --primary-color: #e8f2f4;
+      --secondary-color: #9dbcc4;
+      --accent-color: #5fc4cf;
+      --bg-color: #0e1b22;
+      --surface-color: #14232b;
+      --surface-border-color: rgba(232, 242, 244, 0.16);
+      --text-color: #e8f2f4;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ma-detalles *,
+    .ma-detalles *::before,
+    .ma-detalles *::after { box-sizing: border-box; }
+
+    .ma-detalles__escena {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.6rem, 4vw, 3rem);
+      align-items: center;
+      width: min(100%, 1040px);
+      margin: 0 auto;
+    }
+
+    .ma-detalles__concha {
+      position: relative;
+      margin: 0;
+      padding: 9px;
+      background: color-mix(in srgb, var(--surface-color) 90%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 60% 40% 55% 45% / 50% 55% 45% 50%;
+      box-shadow: 0 26px 56px rgba(0, 0, 0, 0.5);
+      transform: rotate(-2deg);
+    }
+    .ma-detalles__concha img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border-radius: 55% 45% 50% 50% / 46% 52% 48% 54%;
+      filter: saturate(0.95);
+    }
+    .ma-detalles__perla-flotante {
+      position: absolute;
+      top: -12px;
+      right: 10%;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 30%, #ffffff, color-mix(in srgb, var(--accent-color) 60%, transparent));
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
+      animation: maDetallesFlota 6s ease-in-out infinite;
+    }
+    @keyframes maDetallesFlota {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-7px); }
+    }
+
+    .ma-detalles__titulo {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.65rem, 3.7vw, 2.3rem);
+      color: var(--primary-color);
+      text-align: left;
+    }
+    .ma-detalles__intro {
+      margin: 0 0 1.4rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+      text-align: left;
+    }
+
+    .ma-detalles__cards { display: grid; gap: clamp(0.8rem, 2.2vw, 1.2rem); }
+
+    .ma-detalles__card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      align-items: center;
+      padding: clamp(1rem, 2.5vw, 1.4rem) clamp(1.1rem, 2.8vw, 1.6rem);
+      text-align: left;
+      background: color-mix(in srgb, var(--surface-color) 90%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 22px;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ma-detalles.ma-js .ma-detalles__card { opacity: 0; transform: translateX(20px); }
+    .ma-detalles .ma-detalles__card.esta-visto { opacity: 1; transform: none; }
+    .ma-detalles__card:nth-child(2) { border-radius: 12px 26px 26px 26px; }
+    .ma-detalles__card:nth-child(3) { border-radius: 26px 12px 26px 26px; }
+
+    .ma-detalles__icono {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--accent-color) 18%, transparent);
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+    }
+    .ma-detalles__icono svg { width: 20px; }
+
+    .ma-detalles__rotulo {
+      margin: 0 0 0.2rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.56rem, 1.05vw, 0.64rem);
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ma-detalles__titulo-card {
+      margin: 0 0 0.25rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.98rem, 1.9vw, 1.16rem);
+      color: var(--primary-color);
+    }
+    .ma-detalles__texto {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.76rem, 1.35vw, 0.86rem);
+      line-height: 1.6;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 880px) {
+      .ma-detalles__escena { grid-template-columns: 1fr; }
+      .ma-detalles__concha { max-width: 380px; margin: 0 auto; transform: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ma-detalles * { transition: none !important; animation: none !important; }
+      .ma-detalles__card { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="ma-detalles__escena">
+    <figure class="ma-detalles__concha" memory_type="image" memory_usage="custom" memory_source="library" memory_key="detalles-foto">
+      <span class="ma-detalles__perla-flotante" aria-hidden="true"></span>
+      <img src="https://loremflickr.com/500/620/sea,texture" alt="Texturas del fondo marino" path="placeholder" data-library-category="bodas" data-asset-type="detalle" loading="lazy" />
+      <figcaption hidden>Detalle marino</figcaption>
+    </figure>
+
+    <div>
+      <header memory_type="text" memory_usage="custom" memory_key="detalles-intro">
+        <h2 class="ma-detalles__titulo" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Corrientes a considerar</h2>
+        <p class="ma-detalles__intro" memory_type="text" memory_usage="custom" memory_key="detalles-texto">Notas de navegación para que la travesía sea perfecta.</p>
+      </header>
+
+      <div class="ma-detalles__cards">
+        <article class="ma-detalles__card" data-ma-card>
+          <span class="ma-detalles__icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 16 C8 12, 12 20, 16 16 S 20 12, 21 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </span>
+          <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-1">
+            <p class="ma-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-1">Vestimenta</p>
+            <h3 class="ma-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Ligera y fluida</h3>
+            <p class="ma-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Telas que se muevan con la brisa del mar.</p>
+          </div>
+        </article>
+        <article class="ma-detalles__card" data-ma-card>
+          <span class="ma-detalles__icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3 C9 7, 5 9, 5 13 A7 7 0 0 0 19 13 C19 9, 15 7, 12 3 Z" stroke="currentColor" stroke-width="1.5"/></svg>
+          </span>
+          <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-2">
+            <p class="ma-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-2">Marea</p>
+            <h3 class="ma-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Ceremonia a pie de arena</h3>
+            <p class="ma-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">Calzado plano recomendado para la orilla.</p>
+          </div>
+        </article>
+        <article class="ma-detalles__card" data-ma-card>
+          <span class="ma-detalles__icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M12 4 V20 M4 12 H20" stroke="currentColor" stroke-width="1"/></svg>
+          </span>
+          <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-3">
+            <p class="ma-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-3">Brújula</p>
+            <h3 class="ma-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Señalización bioluminiscente</h3>
+            <p class="ma-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">Sigue las luces cian hasta la entrada.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ma-detalles');
+      if (!root) return;
+      root.classList.add('ma-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var cards = Array.prototype.slice.call(root.querySelectorAll('[data-ma-card]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        cards.forEach(function (c) { c.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = cards.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.13).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      cards.forEach(function (c) { io.observe(c); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-vestimenta',
+      style_name: 'Marino de Profundidad — Detalles',
+      descripcion: 'Concha con contorno blob, perla flotante y tarjetas de navegación con esquinas orgánicas que entran en cascada lateral.',
+      tags: ['detalles', 'marino', 'concha', 'perla', 'blob', 'navegacion'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>
+
+<section
+  class="ma-countdown"
+  data-gemini-id="countdown-marea-tiempo"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+>
+  <style>
+    .ma-countdown {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 660px;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 5vw, 3rem);
+      background-color: var(--bg-color, #0e1b22);
+      background-image: url('https://loremflickr.com/1600/900/deep,sea');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color, #e8f2f4);
+      text-align: center;
+    }
+    .ma-countdown *,
+    .ma-countdown *::before,
+    .ma-countdown *::after { box-sizing: border-box; }
+
+    .ma-countdown::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--bg-color, #0e1b22) 60%, transparent), color-mix(in srgb, var(--bg-color, #0e1b22) 94%, transparent));
+    }
+
+    .ma-countdown__contenido { width: min(100%, 760px); position: relative; z-index: 2; }
+
+    .ma-countdown__etiqueta {
+      margin: 0 0 0.55rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--accent-color, #5fc4cf);
+    }
+    .ma-countdown__titulo {
+      margin: 0 0 0.4rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.75rem, 4vw, 2.7rem);
+      color: var(--primary-color, #e8f2f4);
+    }
+    .ma-countdown__fecha {
+      display: block;
+      margin-bottom: clamp(1.5rem, 3.6vw, 2.2rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.76rem, 1.5vw, 0.88rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--secondary-color, #9dbcc4);
+    }
+
+    .ma-countdown__reloj-marea {
+      position: relative;
+      width: clamp(190px, 28vw, 250px);
+      margin: 0 auto clamp(1.4rem, 3.4vw, 2rem);
+    }
+    .ma-countdown__reloj-marea svg { display: block; width: 100%; height: auto; }
+    .ma-countdown__esfera { fill: color-mix(in srgb, var(--surface-color, #14232b) 92%, transparent); stroke: var(--surface-border-color, rgba(232, 242, 244, 0.16)); stroke-width: 1.5; }
+    .ma-countdown__marcas { stroke: color-mix(in srgb, var(--secondary-color, #9dbcc4) 55%, transparent); stroke-width: 1.4; }
+    .ma-countdown__ola-arco {
+      fill: none;
+      stroke: var(--accent-color, #5fc4cf);
+      stroke-width: 5;
+      stroke-linecap: round;
+      transform: rotate(-90deg);
+      transform-origin: 115px 115px;
+      transition: stroke-dashoffset 0.5s linear;
+      filter: drop-shadow(0 0 8px color-mix(in srgb, var(--accent-color, #5fc4cf) 70%, transparent));
+    }
+    .ma-countdown__ola-centro {
+      position: absolute;
+      inset: 22%;
+      display: grid;
+      place-items: center;
+      border-radius: 46% 54% 52% 48% / 52% 46% 54% 48%;
+      background: color-mix(in srgb, var(--surface-color, #14232b) 95%, transparent);
+      border: 1px solid var(--surface-border-color, rgba(232, 242, 244, 0.16));
+      font-family: 'Courier New', monospace;
+      font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+      font-variant-numeric: tabular-nums;
+      color: var(--primary-color, #e8f2f4);
+      animation: maCountdownRespira 5s ease-in-out infinite;
+    }
+    @keyframes maCountdownRespira {
+      0%, 100% { border-radius: 46% 54% 52% 48% / 52% 46% 54% 48%; }
+      50% { border-radius: 54% 46% 48% 52% / 46% 54% 48% 52%; }
+    }
+
+    .ma-countdown__unidades {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(0.6rem, 1.8vw, 1rem);
+      max-width: 620px;
+      margin: 0 auto;
+    }
+    .ma-countdown__unidad {
+      padding: clamp(0.9rem, 2.2vw, 1.3rem) 0.3rem;
+      background: color-mix(in srgb, var(--surface-color, #14232b) 90%, transparent);
+      border: 1px solid var(--surface-border-color, rgba(232, 242, 244, 0.16));
+      border-radius: 18px 18px 8px 8px;
+    }
+    .ma-countdown__numero {
+      display: block;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(1.5rem, 4vw, 2.4rem);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      color: var(--primary-color, #e8f2f4);
+    }
+    .ma-countdown__rotulo {
+      display: block;
+      margin-top: 0.45rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.54rem, 1.05vw, 0.62rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--secondary-color, #9dbcc4);
+    }
+
+    @media (max-width: 560px) {
+      .ma-countdown__unidades { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .ma-countdown { min-height: 600px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ma-countdown__ola-arco { transition: none; }
+      .ma-countdown__ola-centro { animation: none; }
+    }
+  </style>
+
+  <div class="ma-countdown__contenido">
+    <p class="ma-countdown__etiqueta" memory_type="text" memory_usage="custom" memory_key="countdown-etiqueta">La marea sube</p>
+    <h2 class="ma-countdown__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Cuenta regresiva</h2>
+    <time class="ma-countdown__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+
+    <div class="ma-countdown__reloj-marea" aria-hidden="true">
+      <svg viewBox="0 0 230 230">
+        <circle class="ma-countdown__esfera" cx="115" cy="115" r="108"/>
+        <g class="ma-countdown__marcas">
+          <path d="M115 12 V24 M115 206 V218 M12 115 H24 M206 115 H218"/>
+          <path d="M43 43 L51 51 M187 187 L179 179 M187 43 L179 51 M43 187 L51 179"/>
+        </g>
+        <circle class="ma-countdown__ola-arco" data-ma-arco cx="115" cy="115" r="92" stroke-dasharray="578.1" stroke-dashoffset="0"/>
+      </svg>
+      <div class="ma-countdown__ola-centro" data-ma-segundos>00</div>
+    </div>
+
+    <div class="ma-countdown__unidades" aria-label="Cuenta regresiva">
+      <div class="ma-countdown__unidad"><span class="ma-countdown__numero" data-countdown-unit="days">--</span><span class="ma-countdown__rotulo">Días</span></div>
+      <div class="ma-countdown__unidad"><span class="ma-countdown__numero" data-countdown-unit="hours">--</span><span class="ma-countdown__rotulo">Horas</span></div>
+      <div class="ma-countdown__unidad"><span class="ma-countdown__numero" data-countdown-unit="minutes">--</span><span class="ma-countdown__rotulo">Min</span></div>
+      <div class="ma-countdown__unidad"><span class="ma-countdown__numero" data-countdown-unit="seconds">--</span><span class="ma-countdown__rotulo">Seg</span></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var el = null;
+      try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
+      if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+      if (!el) return;
+
+      var arco = el.querySelector('[data-ma-arco]');
+      var centro = el.querySelector('[data-ma-segundos]');
+      var LONGITUD = arco ? 2 * Math.PI * 92 : 0;
+      var target = NaN;
+      var attr = el.getAttribute('data-countdown-target');
+      if (attr && attr.indexOf('YYYY') === -1) { var p = new Date(attr); if (!isNaN(p.getTime())) target = p.getTime(); }
+      if (isNaN(target) && window.__countdownTarget) { var p1 = new Date(window.__countdownTarget); if (!isNaN(p1.getTime())) target = p1.getTime(); }
+      if (isNaN(target) && window.countdown_target) { var p2 = new Date(window.countdown_target); if (!isNaN(p2.getTime())) target = p2.getTime(); }
+
+      var intervalId = null;
+      (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+
+      function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+      function setUnit(unit, value) {
+        var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
+        if (node) node.textContent = value;
+      }
+      function tick() {
+        if (!Number.isFinite(target)) return;
+        var diff = Math.max(target - Date.now(), 0);
+        setUnit('days', Math.floor(diff / 86400000));
+        setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
+        setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
+        var s = Math.floor((diff % 60000) / 1000);
+        setUnit('seconds', pad2(s));
+        if (centro) centro.textContent = pad2(s);
+        if (arco) arco.setAttribute('stroke-dashoffset', (LONGITUD * (1 - s / 60)).toFixed(2));
+        if (diff === 0 && intervalId !== null) {
+          clearInterval(intervalId);
+          intervalId = null;
+          window.__countdownIntervals = [];
+        }
+      }
+      function start(newTarget) {
+        if (newTarget) { var p = new Date(newTarget); if (!isNaN(p.getTime())) target = p.getTime(); }
+        (window.__countdownIntervals || []).forEach(clearInterval);
+        window.__countdownIntervals = [];
+        intervalId = null;
+        if (!Number.isFinite(target)) return;
+        tick();
+        if (target > Date.now()) {
+          intervalId = setInterval(tick, 1000);
+          window.__countdownIntervals.push(intervalId);
+        }
+      }
+      start();
+      window.updateCountdown = start;
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-marea-tiempo',
+      style_name: 'Reloj de Marea',
+      descripcion: 'Esfera abisal con arco luminoso de marea, centro orgánico que respira contorneando blob y unidades en peceras.',
+      tags: ['countdown', 'cuenta regresiva', 'marea', 'abisal', 'blob', 'marino'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>
+
+<section
+  class="ma-padrinos"
+  data-gemini-id="padrinos-marino-faro"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ma-padrinos {
+      --primary-color: #e8f2f4;
+      --secondary-color: #9dbcc4;
+      --accent-color: #5fc4cf;
+      --bg-color: #0e1b22;
+      --surface-color: #14232b;
+      --surface-border-color: rgba(232, 242, 244, 0.16);
+      --text-color: #e8f2f4;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/lighthouse,night');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ma-padrinos *,
+    .ma-padrinos *::before,
+    .ma-padrinos *::after { box-sizing: border-box; }
+
+    .ma-padrinos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 89%, transparent);
+    }
+
+    .ma-padrinos__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .ma-padrinos__intro {
+      margin: 0 auto clamp(2.2rem, 5vw, 3.2rem);
+      max-width: 50ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .ma-padrinos__faros {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(1rem, 2.8vw, 1.9rem);
+      width: min(100%, 960px);
+      margin: 0 auto;
+    }
+
+    .ma-padrinos__faro {
+      padding: clamp(1.2rem, 2.8vw, 1.7rem) clamp(0.9rem, 2vw, 1.3rem);
+      background: color-mix(in srgb, var(--surface-color) 90%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 60px 60px 10px 10px;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ma-padrinos.ma-js .ma-padrinos__faro { opacity: 0; transform: translateY(24px); }
+    .ma-padrinos .ma-padrinos__faro.esta-visto { opacity: 1; transform: none; }
+
+    .ma-padrinos__linterna {
+      width: 12px;
+      height: 12px;
+      margin: 0 auto 0.9rem;
+      border-radius: 50%;
+      background: var(--accent-color);
+      box-shadow: 0 0 18px var(--accent-color);
+      animation: maPadrinosParpadeo 4s ease-in-out infinite;
+    }
+    .ma-padrinos__faro:nth-child(2) .ma-padrinos__linterna { animation-delay: 1s; }
+    .ma-padrinos__faro:nth-child(3) .ma-padrinos__linterna { animation-delay: 2s; }
+    .ma-padrinos__faro:nth-child(4) .ma-padrinos__linterna { animation-delay: 3s; }
+    @keyframes maPadrinosParpadeo {
+      0%, 100% { opacity: 0.35; }
+      50% { opacity: 1; }
+    }
+
+    .ma-padrinos__retrato {
+      margin: 0 0 0.8rem;
+      padding: 4px;
+      border: 1px solid var(--surface-border-color);
+      border-radius: 999px 999px 8px 8px;
+      overflow: hidden;
+    }
+    .ma-padrinos__retrato img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      border-radius: 999px 999px 6px 6px;
+      filter: saturate(0.9);
+    }
+
+    .ma-padrinos__rol {
+      margin: 0 0 0.25rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.54rem, 1vw, 0.62rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ma-padrinos__nombre {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.88rem, 1.75vw, 1.05rem);
+      line-height: 1.3;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 860px) {
+      .ma-padrinos__faros { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 440px) {
+      .ma-padrinos__faros { grid-template-columns: 1fr; max-width: 250px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ma-padrinos * { transition: none !important; animation: none !important; }
+      .ma-padrinos__faro { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
+    <h2 class="ma-padrinos__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Torres que nos guían</h2>
+    <p class="ma-padrinos__intro" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Cuatro faros cuyas luces nos devolvieron a casa siempre.</p>
+  </header>
+
+  <div class="ma-padrinos__faros">
+    <article class="ma-padrinos__faro" data-ma-faro>
+      <span class="ma-padrinos__linterna" aria-hidden="true"></span>
+      <figure class="ma-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
+        <img src="https://loremflickr.com/300/400/portrait,sea" alt="Retrato de padrino" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrino uno</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
+        <p class="ma-padrinos__rol">Padrinos de alianzas</p>
+        <h3 class="ma-padrinos__nombre">Nombre Padrino</h3>
+      </div>
+    </article>
+
+    <article class="ma-padrinos__faro" data-ma-faro>
+      <span class="ma-padrinos__linterna" aria-hidden="true"></span>
+      <figure class="ma-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
+        <img src="https://loremflickr.com/300/400/portrait,coast" alt="Retrato de madrina" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Madrina dos</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
+        <p class="ma-padrinos__rol">Padrinos de velo</p>
+        <h3 class="ma-padrinos__nombre">Nombre Madrina</h3>
+      </div>
+    </article>
+
+    <article class="ma-padrinos__faro" data-ma-faro>
+      <span class="ma-padrinos__linterna" aria-hidden="true"></span>
+      <figure class="ma-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
+        <img src="https://loremflickr.com/300/400/portrait,tide" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrino tres</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
+        <p class="ma-padrinos__rol">Padrinos de arras</p>
+        <h3 class="ma-padrinos__nombre">Nombre Padrino</h3>
+      </div>
+    </article>
+
+    <article class="ma-padrinos__faro" data-ma-faro>
+      <span class="ma-padrinos__linterna" aria-hidden="true"></span>
+      <figure class="ma-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
+        <img src="https://loremflickr.com/300/400/portrait,wave" alt="Retrato de madrinas" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Madrina cuatro</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
+        <p class="ma-padrinos__rol">Padrinos de lazos</p>
+        <h3 class="ma-padrinos__nombre">Nombre Madrina</h3>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ma-padrinos');
+      if (!root) return;
+      root.classList.add('ma-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var faros = Array.prototype.slice.call(root.querySelectorAll('[data-ma-faro]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        faros.forEach(function (f) { f.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = faros.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.11).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.2 });
+      faros.forEach(function (f) { io.observe(f); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padrinos',
+      module_name: 'padrinos-marino-faro',
+      style_name: 'Marino de Profundidad — Padrinos',
+      descripcion: 'Cuatro torres de faro con linterna cian que late por turnos, retratos en arcada marina y encendido escalonado.',
+      tags: ['padrinos', 'faros', 'marino', 'linterna', 'retratos', 'stagger'],
+      tipo: 'padrinos'
+    };
+  </script>
+</section>
+
+<section
+  class="ma-corte"
+  data-gemini-id="corte-marino-marea"
+>
+  <style>
+    .ma-corte {
+      --primary-color: #e8f2f4;
+      --secondary-color: #9dbcc4;
+      --accent-color: #5fc4cf;
+      --bg-color: #0e1b22;
+      --surface-color: #14232b;
+      --surface-border-color: rgba(232, 242, 244, 0.16);
+      --text-color: #e8f2f4;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .ma-corte *,
+    .ma-corte *::before,
+    .ma-corte *::after { box-sizing: border-box; }
+
+    .ma-corte__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: clamp(1.8rem, 4.5vw, 3.4rem);
+      align-items: center;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .ma-corte__acuario {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.5);
+    }
+    .ma-corte__acuario img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      filter: saturate(0.95);
+      transform: scale(1.07);
+      transition: transform 0.5s ease;
+    }
+    .ma-corte.esta-visto .ma-corte__acuario img { transform: scale(1); }
+
+    .ma-corte__marea {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: none;
+      pointer-events: none;
+    }
+    .ma-corte.ma-js .ma-corte__marea { display: block; }
+    .ma-corte__agua {
+      position: absolute;
+      left: -2%;
+      right: -2%;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--accent-color) 45%, var(--surface-color)), var(--surface-color));
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ma-corte__agua svg { display: block; width: 100%; }
+    .ma-corte__agua path { fill: color-mix(in srgb, var(--accent-color) 45%, var(--surface-color)); }
+    .ma-corte__agua--sup { top: -3%; height: 48%; }
+    .ma-corte__agua--sup svg { transform: rotate(180deg); }
+    .ma-corte__agua--inf { bottom: -3%; height: 48%; }
+    .ma-corte.esta-visto .ma-corte__agua--sup { transform: translateY(-104%); }
+    .ma-corte.esta-visto .ma-corte__agua--inf { transform: translateY(104%); }
+
+    .ma-corte__burbuja-sello {
+      position: absolute;
+      z-index: 3;
+      top: 50%;
+      left: 50%;
+      width: 58px;
+      height: 58px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 1.5px solid var(--accent-color);
+      background: radial-gradient(circle at 32% 30%, rgba(255, 255, 255, 0.25), transparent 55%);
+      display: none;
+      place-items: center;
+      color: var(--accent-color);
+      transition: opacity 0.4s ease;
+      animation: maCorteSube 4s ease-in-out infinite;
+    }
+    .ma-corte.ma-js .ma-corte__burbuja-sello { display: grid; }
+    @keyframes maCorteSube {
+      0%, 100% { transform: translate(-50%, -46%); }
+      50% { transform: translate(-50%, -54%); }
+    }
+    .ma-corte.esta-visto .ma-corte__burbuja-sello { opacity: 0; }
+
+    .ma-corte__contenido { text-align: left; }
+    .ma-corte__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ma-corte__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.85rem, 4.2vw, 2.7rem);
+      line-height: 1.1;
+      color: var(--primary-color);
+    }
+    .ma-corte__texto {
+      margin: 0 0 1.2rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .ma-corte__espuma {
+      width: 130px;
+      height: 10px;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 20% 50%, var(--accent-color) 0 4px, transparent 5px) 0 0 / 26px 100% repeat-x,
+        linear-gradient(var(--accent-color), var(--accent-color)) 0 50% / 100% 1.5px no-repeat;
+      opacity: 0.85;
+    }
+
+    @media (max-width: 880px) {
+      .ma-corte__grid { grid-template-columns: 1fr; }
+      .ma-corte__contenido { text-align: center; }
+      .ma-corte__espuma { margin: 0 auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ma-corte * { transition: none !important; animation: none !important; }
+      .ma-corte__marea, .ma-corte__burbuja-sello { display: none !important; }
+      .ma-corte__acuario img { transform: none; }
+    }
+  </style>
+
+  <div class="ma-corte__grid">
+    <figure class="ma-corte__acuario" memory_type="image" memory_usage="custom" memory_source="library" memory_key="corte-foto">
+      <img
+        src="https://loremflickr.com/960/600/cake,ocean"
+        alt="Momento del corte frente al mar"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="corte"
+        loading="lazy"
+      />
+      <span class="ma-corte__marea" aria-hidden="true">
+        <span class="ma-corte__agua ma-corte__agua--sup">
+          <svg viewBox="0 0 600 40" preserveAspectRatio="none"><path d="M0 40 C 100 4, 200 40, 300 20 S 500 4, 600 28 V40 H0 Z"/></svg>
+        </span>
+        <span class="ma-corte__agua ma-corte__agua--inf">
+          <svg viewBox="0 0 600 40" preserveAspectRatio="none"><path d="M0 40 C 100 4, 200 40, 300 20 S 500 4, 600 28 V0 H600 V40 Z" transform="scale(1,-1) translate(0,-40)"/></svg>
+        </span>
+      </span>
+      <span class="ma-corte__burbuja-sello" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" fill="none"><path d="M12 4 C9 8, 5 10, 5 14 A7 7 0 0 0 19 14 C19 10, 15 8, 12 4 Z" stroke="currentColor" stroke-width="1.5"/></svg>
+      </span>
+      <figcaption hidden>Momento del corte</figcaption>
+    </figure>
+
+    <div class="ma-corte__contenido" memory_type="text" memory_usage="custom" memory_key="corte-texto">
+      <p class="ma-corte__etiqueta" memory_type="text" memory_usage="custom" memory_key="corte-etiqueta">Pleamar</p>
+      <h2 class="ma-corte__titulo" memory_type="text" memory_usage="custom" memory_key="corte-titulo">El corte con la marea</h2>
+      <p class="ma-corte__texto">
+        Cuando la marea sube, las aguas se separan y revelan la mesa dulce frente al horizonte.
+        El primer corte se hace con espuma en los pies.
+      </p>
+      <div class="ma-corte__espuma" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ma-corte');
+      if (!root) return;
+      root.classList.add('ma-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root.querySelector('.ma-corte__acuario') || root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-marino-marea',
+      style_name: 'Marino de Profundidad — Corte',
+      descripcion: 'Aguas con borde de ola que se retiran arriba y abajo revelando el acuario del pastel; burbuja de aire que se desvanece.',
+      tags: ['corte', 'marea', 'marino', 'ola', 'revelado', 'burbuja'],
+      tipo: 'corte'
+    };
+  </script>
+</section>
+
+<section
+  class="ma-galeria"
+  data-gemini-id="galeria-arrecife-recuerdos"
+>
+  <style>
+    .ma-galeria {
+      --primary-color: #e8f2f4;
+      --secondary-color: #9dbcc4;
+      --accent-color: #5fc4cf;
+      --bg-color: #0e1b22;
+      --surface-color: #14232b;
+      --surface-border-color: rgba(232, 242, 244, 0.16);
+      --text-color: #e8f2f4;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ma-galeria *,
+    .ma-galeria *::before,
+    .ma-galeria *::after { box-sizing: border-box; }
+
+    .ma-galeria__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .ma-galeria__nota {
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .ma-galeria__pecera {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: clamp(1.2rem, 3vw, 1.9rem);
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .ma-galeria__pez {
+      margin: 0;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ma-galeria.ma-js .ma-galeria__pez { opacity: 0; transform: translateY(20px) scale(0.94); }
+    .ma-galeria .ma-galeria__pez.esta-visto { opacity: 1; transform: none; }
+
+    .ma-galeria__foto {
+      position: relative;
+      margin: 0;
+      padding: 8px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      overflow: hidden;
+      cursor: pointer;
+      transition: box-shadow 0.5s ease;
+    }
+    .ma-galeria__pez:nth-child(1) .ma-galeria__foto { border-radius: 48% 52% 44% 56% / 10% 12% 10% 12%; }
+    .ma-galeria__pez:nth-child(2) .ma-galeria__foto { border-radius: 14px; }
+    .ma-galeria__pez:nth-child(3) .ma-galeria__foto { border-radius: 42% 58% 40% 60% / 14% 10% 14% 10%; }
+    .ma-galeria__pez:nth-child(4) .ma-galeria__foto { border-radius: 10px 10px 34px 34px; }
+    .ma-galeria__pez:nth-child(5) .ma-galeria__foto { border-radius: 58% 42% 60% 40% / 12% 16% 10% 12%; }
+    .ma-galeria__pez:nth-child(6) .ma-galeria__foto { border-radius: 24px 6px 24px 6px; }
+    .ma-galeria__pez:hover .ma-galeria__foto { box-shadow: 0 0 26px color-mix(in srgb, var(--accent-color) 30%, transparent), 0 18px 40px rgba(0, 0, 0, 0.5); }
+    .ma-galeria__foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 5 / 4;
+      object-fit: cover;
+      filter: saturate(0.95);
+    }
+    .ma-galeria__burbuja-num {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 1px solid var(--accent-color);
+      background: color-mix(in srgb, var(--bg-color) 70%, transparent);
+      font-family: 'Courier New', monospace;
+      font-size: 0.6rem;
+      color: var(--accent-color);
+    }
+
+    .ma-galeria__lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      place-items: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      background: color-mix(in srgb, var(--bg-color) 94%, black);
+    }
+    .ma-galeria__lightbox.abierto { display: grid; }
+    .ma-galeria__lightbox img {
+      max-width: min(920px, 92vw);
+      max-height: 82svh;
+      width: auto;
+      height: auto;
+      border-radius: 16px;
+      border: 1px solid var(--accent-color);
+      box-shadow: 0 0 40px color-mix(in srgb, var(--accent-color) 30%, transparent), 0 30px 80px rgba(0, 0, 0, 0.6);
+    }
+    .ma-galeria__cerrar {
+      position: absolute;
+      top: clamp(0.8rem, 2.5vw, 1.6rem);
+      right: clamp(0.8rem, 2.5vw, 1.6rem);
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--accent-color);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--accent-color);
+      font-size: 1.2rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.4s ease, background 0.4s ease;
+    }
+    .ma-galeria__cerrar:hover { transform: rotate(90deg); background: color-mix(in srgb, var(--accent-color) 20%, transparent); }
+
+    @media (max-width: 560px) {
+      .ma-galeria__pecera { grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 1rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ma-galeria * { transition: none !important; }
+      .ma-galeria__pez { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="galeria-cabecera">
+    <h2 class="ma-galeria__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Cardumen de instantes</h2>
+    <p class="ma-galeria__nota" memory_type="text" memory_usage="custom" memory_key="galeria-nota">Galería abisal</p>
+  </header>
+
+  <div class="ma-galeria__pecera">
+    <figure class="ma-galeria__pez" data-ma-pez memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-1" tabindex="0" role="button" aria-label="Ampliar instante uno">
+      <span class="ma-galeria__foto">
+        <img src="https://loremflickr.com/520/420/ocean,couple" alt="Instante uno" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+        <span class="ma-galeria__burbuja-num" aria-hidden="true">01</span>
+      </span>
+      <figcaption hidden>Instante uno</figcaption>
+    </figure>
+    <figure class="ma-galeria__pez" data-ma-pez memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-2" tabindex="0" role="button" aria-label="Ampliar instante dos">
+      <span class="ma-galeria__foto">
+        <img src="https://loremflickr.com/520/420/coral,party" alt="Instante dos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+        <span class="ma-galeria__burbuja-num" aria-hidden="true">02</span>
+      </span>
+      <figcaption hidden>Instante dos</figcaption>
+    </figure>
+    <figure class="ma-galeria__pez" data-ma-pez memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-3" tabindex="0" role="button" aria-label="Ampliar instante tres">
+      <span class="ma-galeria__foto">
+        <img src="https://loremflickr.com/520/420/lagoon,dinner" alt="Instante tres" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+        <span class="ma-galeria__burbuja-num" aria-hidden="true">03</span>
+      </span>
+      <figcaption hidden>Instante tres</figcaption>
+    </figure>
+    <figure class="ma-galeria__pez" data-ma-pez memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-4" tabindex="0" role="button" aria-label="Ampliar instante cuatro">
+      <span class="ma-galeria__foto">
+        <img src="https://loremflickr.com/520/420/wave,celebration" alt="Instante cuatro" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+        <span class="ma-galeria__burbuja-num" aria-hidden="true">04</span>
+      </span>
+      <figcaption hidden>Instante cuatro</figcaption>
+    </figure>
+    <figure class="ma-galeria__pez" data-ma-pez memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-5" tabindex="0" role="button" aria-label="Ampliar instante cinco">
+      <span class="ma-galeria__foto">
+        <img src="https://loremflickr.com/520/420/sea,dance" alt="Instante cinco" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+        <span class="ma-galeria__burbuja-num" aria-hidden="true">05</span>
+      </span>
+      <figcaption hidden>Instante cinco</figcaption>
+    </figure>
+    <figure class="ma-galeria__pez" data-ma-pez memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-6" tabindex="0" role="button" aria-label="Ampliar instante seis">
+      <span class="ma-galeria__foto">
+        <img src="https://loremflickr.com/520/420/tide,night" alt="Instante seis" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+        <span class="ma-galeria__burbuja-num" aria-hidden="true">06</span>
+      </span>
+      <figcaption hidden>Instante seis</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ma-galeria');
+      if (!root) return;
+      root.classList.add('ma-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var peces = Array.prototype.slice.call(root.querySelectorAll('[data-ma-pez]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var i = peces.indexOf(entry.target);
+            entry.target.style.transitionDelay = (Math.min(i, 5) * 0.09).toFixed(2) + 's';
+            entry.target.classList.add('esta-visto');
+            io.unobserve(entry.target);
+          });
+        }, { threshold: 0.18 });
+        peces.forEach(function (p) { io.observe(p); });
+      } else {
+        peces.forEach(function (p) { p.classList.add('esta-visto'); });
+      }
+
+      var lightbox = document.createElement('div');
+      lightbox.className = 'ma-galeria__lightbox';
+      lightbox.setAttribute('role', 'dialog');
+      lightbox.setAttribute('aria-modal', 'true');
+      lightbox.setAttribute('aria-label', 'Vista ampliada');
+      lightbox.innerHTML =
+        '<img alt="" />' +
+        '<button type="button" class="ma-galeria__cerrar" aria-label="Cerrar">×</button>';
+      root.appendChild(lightbox);
+      var imgAmpliada = lightbox.querySelector('img');
+      var botonCerrar = lightbox.querySelector('.ma-galeria__cerrar');
+
+      function abrir(fig) {
+        var foto = fig.querySelector('img');
+        if (!foto) return;
+        imgAmpliada.src = foto.src;
+        imgAmpliada.alt = foto.alt;
+        lightbox.classList.add('abierto');
+      }
+      function cerrar() { lightbox.classList.remove('abierto'); }
+
+      peces.forEach(function (fig) {
+        fig.querySelector('.ma-galeria__foto').addEventListener('click', function () { abrir(fig); });
+        fig.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(fig); }
+        });
+      });
+      botonCerrar.addEventListener('click', cerrar);
+      lightbox.addEventListener('click', function (e) { if (e.target === lightbox) cerrar(); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-arrecife-recuerdos',
+      style_name: 'Marino de Profundidad — Galería',
+      descripcion: 'Cardumen de fotos con máscaras orgánicas rotativas, burbujas numeradas cian y lightbox abisal con glow.',
+      tags: ['galeria', 'cardumen', 'marino', 'mascaras', 'burbujas', 'lightbox'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>
+
+<section
+  class="ma-regalos"
+  data-gemini-id="regalos-cofre-mesa"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ma-regalos {
+      --primary-color: #e8f2f4;
+      --secondary-color: #9dbcc4;
+      --accent-color: #5fc4cf;
+      --bg-color: #0e1b22;
+      --surface-color: #14232b;
+      --surface-border-color: rgba(232, 242, 244, 0.16);
+      --text-color: #e8f2f4;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/treasure,sea');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .ma-regalos *,
+    .ma-regalos *::before,
+    .ma-regalos *::after { box-sizing: border-box; }
+
+    .ma-regalos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .ma-regalos__cofre {
+      width: min(100%, 660px);
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 90%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 16px 16px 40px 40px;
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+    .ma-regalos__cofre::before {
+      content: '';
+      display: block;
+      height: 5px;
+      margin: -1.6rem -1.6rem 1.8rem;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+      box-shadow: 0 0 14px var(--accent-color);
+    }
+
+    .ma-regalos__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ma-regalos__titulo {
+      margin: 0 0 0.7rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ma-regalos__intro {
+      margin: 0 auto 1.6rem;
+      max-width: 46ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .ma-regalos__lista { display: grid; gap: clamp(0.7rem, 2vw, 1rem); margin-bottom: 1.7rem; }
+    .ma-regalos__fila {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.95rem;
+      align-items: center;
+      padding: clamp(0.85rem, 2.2vw, 1.1rem) clamp(1rem, 2.4vw, 1.3rem);
+      background: color-mix(in srgb, var(--bg-color) 70%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 999px;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .ma-regalos.ma-js .ma-regalos__fila { opacity: 0; transform: translateY(12px); }
+    .ma-regalos .ma-regalos__fila.esta-visto { opacity: 1; transform: none; }
+    .ma-regalos__moneda {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 30%, color-mix(in srgb, var(--accent-color) 80%, white), var(--accent-color));
+      box-shadow: 0 0 10px color-mix(in srgb, var(--accent-color) 60%, transparent);
+    }
+    .ma-regalos__nombre {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.92rem, 1.75vw, 1.04rem);
+      color: var(--primary-color);
+    }
+
+    .ma-regalos__zona-boton { text-align: center; }
+    .ma-regalos__boton {
+      min-width: 230px;
+      padding: 0.9rem 2rem;
+      border: 0;
+      border-radius: 999px;
+      background: var(--accent-color);
+      color: var(--bg-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 12px 26px color-mix(in srgb, var(--accent-color) 40%, transparent);
+      transition: transform 0.4s ease, filter 0.4s ease;
+    }
+    .ma-regalos__boton:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .ma-regalos__boton.esta-listo { filter: saturate(0.6) brightness(1.12); }
+    .ma-regalos__nota {
+      margin-top: 0.9rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.76rem, 1.4vw, 0.86rem);
+      color: var(--secondary-color);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ma-regalos * { transition: none !important; }
+      .ma-regalos__fila { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="ma-regalos__cofre">
+    <p class="ma-regalos__etiqueta" memory_type="text" memory_usage="custom" memory_key="regalos-etiqueta">Cofre de la mesa</p>
+    <h2 class="ma-regalos__titulo" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Tesoros del Pacífico</h2>
+    <p class="ma-regalos__intro" memory_type="text" memory_usage="custom" memory_key="regalos-texto">
+      Si quieres lanzar una moneda a nuestro cofre, estas son las piezas que soñamos.
+    </p>
+
+    <div class="ma-regalos__lista" data-ma-lista>
+      <div class="ma-regalos__fila" data-ma-fila>
+        <span class="ma-regalos__moneda" aria-hidden="true"></span>
+        <span class="ma-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-1">Aventuras de luna de miel</span>
+      </div>
+      <div class="ma-regalos__fila" data-ma-fila>
+        <span class="ma-regalos__moneda" aria-hidden="true"></span>
+        <span class="ma-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-2">Rincón para el hogar</span>
+      </div>
+      <div class="ma-regalos__fila" data-ma-fila>
+        <span class="ma-regalos__moneda" aria-hidden="true"></span>
+        <span class="ma-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-3">Clases de buceo para dos</span>
+      </div>
+    </div>
+
+    <div class="ma-regalos__zona-boton">
+      <button type="button" class="ma-regalos__boton" data-ma-boton>
+        <span data-ma-boton-texto memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span>
+      </button>
+      <p class="ma-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota">La botella registrará tu aporte.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ma-regalos');
+      if (!root) return;
+      root.classList.add('ma-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var filas = Array.prototype.slice.call(root.querySelectorAll('[data-ma-fila]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            filas.forEach(function (fila, i) { fila.style.transitionDelay = (i * 0.11).toFixed(2) + 's'; });
+            filas.forEach(function (fila) { fila.classList.add('esta-visto'); });
+            io.disconnect();
+          });
+        }, { threshold: 0.3 });
+        io.observe(root.querySelector('[data-ma-lista]') || root);
+      } else {
+        filas.forEach(function (fila) { fila.classList.add('esta-visto'); });
+      }
+
+      var boton = root.querySelector('[data-ma-boton]');
+      var texto = root.querySelector('[data-ma-boton-texto]');
+      if (boton && texto) {
+        boton.addEventListener('click', function () {
+          var listo = boton.classList.toggle('esta-listo');
+          texto.textContent = listo ? 'Regalo agendado' : 'Agendar regalo';
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-cofre-mesa',
+      style_name: 'Marino de Profundidad — Regalos',
+      descripcion: 'Cofre con costura luminosa, filas en cápsulas con monedas brillantes y botón de perla que confirma el agendado.',
+      tags: ['regalos', 'cofre', 'marino', 'monedas', 'boton', 'tesoro'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>
+
+<section
+  class="ma-vestimenta"
+  data-gemini-id="vestimenta-perlas-tonos"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ma-vestimenta {
+      --primary-color: #e8f2f4;
+      --secondary-color: #9dbcc4;
+      --accent-color: #5fc4cf;
+      --bg-color: #0e1b22;
+      --surface-color: #14232b;
+      --surface-border-color: rgba(232, 242, 244, 0.16);
+      --text-color: #e8f2f4;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      min-height: 64svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/pearl,sea');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ma-vestimenta *,
+    .ma-vestimenta *::before,
+    .ma-vestimenta *::after { box-sizing: border-box; }
+
+    .ma-vestimenta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 88%, transparent);
+    }
+
+    .ma-vestimenta__panel {
+      width: min(100%, 660px);
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 88%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 48% 52% 12px 12px / 6% 6% 12px 12px;
+      box-shadow: 0 26px 56px rgba(0, 0, 0, 0.5);
+    }
+
+    .ma-vestimenta__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ma-vestimenta__titulo {
+      margin: 0 0 0.8rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ma-vestimenta__texto {
+      margin: 0 auto 1.8rem;
+      max-width: 46ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .ma-vestimenta__collar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(0.8rem, 2.2vw, 1.3rem);
+      margin-bottom: 1.6rem;
+    }
+    .ma-vestimenta__perla {
+      display: grid;
+      justify-items: center;
+      gap: 0.5rem;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ma-vestimenta.ma-js .ma-vestimenta__perla { opacity: 0; transform: translateY(16px) scale(0.8); }
+    .ma-vestimenta .ma-vestimenta__perla.esta-visto { opacity: 1; transform: none; }
+    .ma-vestimenta__esfera {
+      width: clamp(46px, 8vw, 60px);
+      height: clamp(46px, 8vw, 60px);
+      border-radius: 50%;
+      border: 1px solid var(--surface-border-color);
+      background:
+        radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.5), transparent 42%),
+        var(--bg-color);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+      transition: background-color 0.5s ease, transform 0.5s ease;
+    }
+    .ma-vestimenta__perla:hover .ma-vestimenta__esfera { transform: translateY(-5px); }
+
+    .ma-vestimenta__leyenda {
+      display: inline-block;
+      padding: 0.55rem 1.6rem;
+      border-radius: 999px;
+      border: 1px solid var(--accent-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 480px) {
+      .ma-vestimenta__esfera { width: 40px; height: 40px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ma-vestimenta * { transition: none !important; }
+      .ma-vestimenta__perla { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="ma-vestimenta__panel">
+    <p class="ma-vestimenta__etiqueta" memory_type="text" memory_usage="custom" memory_key="vestimenta-etiqueta">Código de vestimenta</p>
+    <h2 class="ma-vestimenta__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Perlas del litoral</h2>
+    <p class="ma-vestimenta__texto" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">
+      Collar de perlas teñidas como inspiración para tu atuendo; brillo suave, espíritu de mar.
+    </p>
+
+    <div class="ma-vestimenta__collar" data-ma-collar aria-hidden="true"></div>
+
+    <p class="ma-vestimenta__leyenda" memory_type="text" memory_usage="custom" memory_key="vestimenta-leyenda">Formal · tonos de litoral</p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ma-vestimenta');
+      if (!root) return;
+      root.classList.add('ma-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var collar = root.querySelector('[data-ma-collar]');
+      if (collar && !collar.children.length) {
+        var tonos = ['#5fc4cf', '#3d8f9c', '#9dbcc4', '#2e5d68', '#c7dee2', '#1d4a54'];
+        for (var i = 0; i < tonos.length; i++) {
+          var perla = document.createElement('span');
+          perla.className = 'ma-vestimenta__perla';
+          perla.style.transitionDelay = (i * 0.08).toFixed(2) + 's, ' + (i * 0.08).toFixed(2) + 's';
+          var esfera = document.createElement('span');
+          esfera.className = 'ma-vestimenta__esfera';
+          esfera.setAttribute('data-ma-tono', tonos[i]);
+          perla.appendChild(esfera);
+          collar.appendChild(perla);
+        }
+      }
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function colorear() {
+        root.querySelectorAll('[data-ma-tono]').forEach(function (e) {
+          e.style.backgroundColor = e.getAttribute('data-ma-tono');
+        });
+      }
+      if (reduce || !('IntersectionObserver' in window)) {
+        root.querySelectorAll('.ma-vestimenta__perla').forEach(function (p) { p.classList.add('esta-visto'); });
+        colorear();
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          root.querySelectorAll('.ma-vestimenta__perla').forEach(function (p, i) {
+            p.style.transitionDelay = (i * 0.08).toFixed(2) + 's, ' + (i * 0.08).toFixed(2) + 's';
+            p.classList.add('esta-visto');
+          });
+          setTimeout(colorear, 240);
+          io.disconnect();
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-perlas-tonos',
+      style_name: 'Marino de Profundidad — Vestimenta',
+      descripcion: 'Collar de perlas del litoral que ascienden escalonadas y se colorean por JS con brillo especular fijo.',
+      tags: ['vestimenta', 'dress code', 'perlas', 'paleta', 'marino', 'litoral'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>
+</body></html>

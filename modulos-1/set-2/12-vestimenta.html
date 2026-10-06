@@ -1,0 +1,209 @@
+<section
+  class="dc-vestimenta"
+  data-gemini-id="vestimenta-salon-joyeria"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .dc-vestimenta {
+      --primary-color: #1f1a17;
+      --secondary-color: #6e6257;
+      --accent-color: #b08d57;
+      --bg-color: #f4efe6;
+      --surface-color: #fbf7ee;
+      --surface-border-color: rgba(31, 26, 23, 0.25);
+      --text-color: #1f1a17;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      min-height: 64svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/velvet,elegant');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .dc-vestimenta *,
+    .dc-vestimenta *::before,
+    .dc-vestimenta *::after { box-sizing: border-box; }
+
+    .dc-vestimenta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 86%, transparent);
+    }
+
+    .dc-vestimenta__vitrina {
+      width: min(100%, 680px);
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 94%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 26px 58px rgba(31, 26, 23, 0.18);
+    }
+    .dc-vestimenta__vitrina::before {
+      content: '';
+      position: absolute;
+      inset: 9px;
+      border: 3px double var(--accent-color);
+      pointer-events: none;
+    }
+
+    .dc-vestimenta__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.46em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .dc-vestimenta__titulo {
+      margin: 0 0 0.8rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .dc-vestimenta__texto {
+      margin: 0 auto 1.8rem;
+      max-width: 46ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .dc-vestimenta__pedestales {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(0.9rem, 2.6vw, 1.5rem);
+      margin-bottom: 1.6rem;
+    }
+    .dc-vestimenta__joya {
+      display: grid;
+      justify-items: center;
+      gap: 0.55rem;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .dc-vestimenta.dc-js .dc-vestimenta__joya { opacity: 0; transform: translateY(14px); }
+    .dc-vestimenta.esta-visto .dc-vestimenta__joya { opacity: 1; transform: none; }
+    .dc-vestimenta__gema {
+      width: clamp(40px, 7vw, 52px);
+      height: clamp(40px, 7vw, 52px);
+      transform: rotate(45deg);
+      border: 1px solid var(--surface-border-color);
+      background: var(--bg-color);
+      box-shadow:
+        inset 4px 4px 0 color-mix(in srgb, white 35%, transparent),
+        inset -4px -4px 0 rgba(0, 0, 0, 0.14),
+        0 10px 20px rgba(31, 26, 23, 0.2);
+      transition: background 0.5s ease, transform 0.5s ease;
+    }
+    .dc-vestimenta__joya:hover .dc-vestimenta__gema { transform: rotate(45deg) translateY(-4px); }
+    .dc-vestimenta__base {
+      width: clamp(34px, 6vw, 44px);
+      height: 5px;
+      background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent-color) 70%, transparent), transparent);
+    }
+
+    .dc-vestimenta__leyenda {
+      display: inline-block;
+      padding: 0.55rem 1.7rem;
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 480px) {
+      .dc-vestimenta__gema { width: 38px; height: 38px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dc-vestimenta * { transition: none !important; }
+      .dc-vestimenta__joya { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <div class="dc-vestimenta__vitrina">
+    <p class="dc-vestimenta__etiqueta" memory_type="text" memory_usage="custom" memory_key="vestimenta-etiqueta">Etiqueta sugerida</p>
+    <h2 class="dc-vestimenta__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Paleta de la velada</h2>
+    <p class="dc-vestimenta__texto" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">
+      Inspiración de tonos para tu vestuario; cada pieza elegida con elegancia hará brillar la noche.
+    </p>
+
+    <div class="dc-vestimenta__pedestales" data-dc-pedestales aria-hidden="true"></div>
+
+    <p class="dc-vestimenta__leyenda" memory_type="text" memory_usage="custom" memory_key="vestimenta-leyenda">Black tie opcional</p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.dc-vestimenta');
+      if (!root) return;
+      root.classList.add('dc-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var pedestales = root.querySelector('[data-dc-pedestales]');
+      if (pedestales && !pedestales.children.length) {
+        var gemas = ['#5b6770', '#8f7f6a', '#a98d7a', '#6d7b6a', '#7a6d82', '#93856f'];
+        for (var i = 0; i < gemas.length; i++) {
+          var joya = document.createElement('span');
+          joya.className = 'dc-vestimenta__joya';
+          joya.style.transitionDelay = (i * 0.08).toFixed(2) + 's, ' + (i * 0.08).toFixed(2) + 's';
+          var gema = document.createElement('span');
+          gema.className = 'dc-vestimenta__gema';
+          gema.setAttribute('data-dc-gema', gemas[i]);
+          var base = document.createElement('span');
+          base.className = 'dc-vestimenta__base';
+          joya.appendChild(gema);
+          joya.appendChild(base);
+          pedestales.appendChild(joya);
+        }
+      }
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function colorear() {
+        root.querySelectorAll('[data-dc-gema]').forEach(function (g) {
+          g.style.background = g.getAttribute('data-dc-gema');
+        });
+      }
+      if (reduce || !('IntersectionObserver' in window)) {
+        root.classList.add('esta-visto');
+        colorear();
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          root.classList.add('esta-visto');
+          setTimeout(colorear, 240);
+          io.disconnect();
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-salon-joyeria',
+      style_name: 'Salón Déco — Vestimenta',
+      descripcion: 'Vitrina de joyería con gemas facetadas sobre pedestales que se colorean en JS al entrar en pantalla; etiqueta black tie.',
+      tags: ['vestimenta', 'dress code', 'gemas', 'paleta', 'swatches', 'deco'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

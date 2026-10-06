@@ -1,0 +1,193 @@
+<section
+  class="ci-corte"
+  data-gemini-id="corte-cine-claqueta"
+>
+  <style>
+    .ci-corte {
+      --primary-color: #f3ead8;
+      --secondary-color: #b3a488;
+      --accent-color: #e8a13c;
+      --bg-color: #191512;
+      --surface-color: #221d18;
+      --surface-border-color: rgba(243, 234, 216, 0.16);
+      --text-color: #f3ead8;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      perspective: 900px;
+    }
+    .ci-corte *,
+    .ci-corte *::before,
+    .ci-corte *::after { box-sizing: border-box; }
+
+    .ci-corte__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: clamp(1.8rem, 4.5vw, 3.4rem);
+      align-items: center;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .ci-corte__rodaje {
+      position: relative;
+      margin: 0;
+      transform-style: preserve-3d;
+    }
+    .ci-corte__rodaje img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.55);
+      filter: sepia(0.2) contrast(1.05);
+      transform: scale(1.06);
+      transition: transform 0.5s ease;
+    }
+    .ci-corte.esta-visto .ci-corte__rodaje img { transform: scale(1); }
+
+    .ci-corte__claqueta {
+      position: absolute;
+      z-index: 3;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: none;
+      transform-origin: top left;
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), opacity 0.45s ease 0.3s;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+    }
+    .ci-corte.ci-js .ci-corte__claqueta { display: block; }
+    .ci-corte.esta-visto .ci-corte__claqueta { transform: rotate(-78deg); opacity: 0; }
+
+    .ci-corte__barra {
+      height: 30px;
+      background: repeating-linear-gradient(-45deg, var(--accent-color) 0 16px, var(--bg-color) 16px 32px);
+      border-bottom: 2px solid var(--bg-color);
+    }
+    .ci-corte__tablero {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0 1rem;
+      padding: 0.6rem 1rem;
+      background: var(--surface-color);
+      border-bottom: 2px solid var(--bg-color);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.56rem, 1.1vw, 0.68rem);
+      letter-spacing: 0.18em;
+      color: var(--primary-color);
+    }
+    .ci-corte__tablero dt { color: var(--secondary-color); }
+    .ci-corte__tablero dd { margin: 0; }
+
+    .ci-corte__contenido { text-align: left; }
+    .ci-corte__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ci-corte__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.85rem, 4.2vw, 2.7rem);
+      line-height: 1.1;
+      color: var(--primary-color);
+    }
+    .ci-corte__texto {
+      margin: 0 0 1.2rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .ci-corte__lapiz {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.66rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.22em;
+      color: var(--accent-color);
+    }
+
+    @media (max-width: 880px) {
+      .ci-corte__grid { grid-template-columns: 1fr; }
+      .ci-corte__contenido { text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ci-corte * { transition: none !important; }
+      .ci-corte__claqueta { display: none !important; }
+      .ci-corte__rodaje img { transform: none; }
+    }
+  </style>
+
+  <div class="ci-corte__grid">
+    <figure class="ci-corte__rodaje" memory_type="image" memory_usage="custom" memory_source="library" memory_key="corte-foto">
+      <img
+        src="https://loremflickr.com/960/600/cake,cinema"
+        alt="Momento del corte en el rodaje"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="corte"
+        loading="lazy"
+      />
+      <span class="ci-corte__claqueta" aria-hidden="true">
+        <span class="ci-corte__barra"></span>
+        <span class="ci-corte__tablero">
+          <dt>PROD.</dt><dd>LA GRAN NOCHE</dd>
+          <dt>ESC.</dt><dd>07 — TOMA ÚNICA</dd>
+          <dt>DIR.</dt><dd>N. &amp; N.</dd>
+        </span>
+      </span>
+      <figcaption hidden>Momento del corte</figcaption>
+    </figure>
+
+    <div class="ci-corte__contenido" memory_type="text" memory_usage="custom" memory_key="corte-texto">
+      <p class="ci-corte__etiqueta" memory_type="text" memory_usage="custom" memory_key="corte-etiqueta">Toma principal</p>
+      <h2 class="ci-corte__titulo" memory_type="text" memory_usage="custom" memory_key="corte-titulo">¡Corte!</h2>
+      <p class="ci-corte__texto">
+        La claqueta cae, la escena arranca: el corte del pastel abre el tercer acto.
+        Sin dobles, sin ensayos, una sola oportunidad de aplauso.
+      </p>
+      <span class="ci-corte__lapiz" memory_type="text" memory_usage="custom" memory_key="corte-nota">// sonido directo · luz natural</span>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ci-corte');
+      if (!root) return;
+      root.classList.add('ci-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root.querySelector('.ci-corte__rodaje') || root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-cine-claqueta',
+      style_name: 'Cine Indie — Claqueta',
+      descripcion: 'Claqueta 3D con barra a rayas que se abre sobre su bisagra al entrar en pantalla, revelando el fotograma del pastel.',
+      tags: ['corte', 'claqueta', 'cine', '3d', 'revelado', 'toma unica'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

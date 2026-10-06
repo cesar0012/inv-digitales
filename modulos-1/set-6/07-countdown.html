@@ -1,0 +1,237 @@
+<section
+  class="bh-countdown"
+  data-gemini-id="countdown-bauhaus-dial"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+>
+  <style>
+    .bh-countdown {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 640px;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 5vw, 3rem);
+      background-color: var(--bg-color, #f3f1ec);
+      background-image: url('https://loremflickr.com/1600/900/shapes,color');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color, #22242a);
+      text-align: center;
+    }
+    .bh-countdown *,
+    .bh-countdown *::before,
+    .bh-countdown *::after { box-sizing: border-box; }
+
+    .bh-countdown::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color, #f3f1ec) 92%, transparent);
+    }
+
+    .bh-countdown__panel {
+      width: min(100%, 740px);
+      padding: clamp(2rem, 5vw, 3.4rem) clamp(1.3rem, 4.5vw, 3rem);
+      background: var(--surface-color, #fbfaf7);
+      border: 1px solid var(--surface-border-color, rgba(34, 36, 42, 0.18));
+      box-shadow: clamp(10px, 1.8vw, 20px) clamp(10px, 1.8vw, 20px) 0 color-mix(in srgb, var(--accent-color, #e2543e) 55%, transparent);
+    }
+
+    .bh-countdown__etiqueta {
+      margin: 0 0 0.55rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--secondary-color, #6d7078);
+    }
+    .bh-countdown__titulo {
+      margin: 0 0 0.4rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.7rem, 4vw, 2.6rem);
+      text-transform: uppercase;
+      color: var(--primary-color, #22242a);
+    }
+    .bh-countdown__fecha {
+      display: block;
+      margin-bottom: clamp(1.5rem, 3.6vw, 2.2rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.76rem, 1.5vw, 0.88rem);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--accent-color, #e2543e);
+    }
+
+    .bh-countdown__dial {
+      position: relative;
+      width: clamp(160px, 24vw, 210px);
+      margin: 0 auto clamp(1.4rem, 3.4vw, 2rem);
+    }
+    .bh-countdown__dial svg { display: block; width: 100%; height: auto; transform: rotate(-90deg); }
+    .bh-countdown__cuarto-a { fill: none; stroke: color-mix(in srgb, var(--primary-color, #22242a) 18%, transparent); stroke-width: 12; }
+    .bh-countdown__cuarto-b { fill: none; stroke: color-mix(in srgb, var(--accent-color, #e2543e) 30%, transparent); stroke-width: 12; }
+    .bh-countdown__arco {
+      fill: none;
+      stroke: var(--accent-color, #e2543e);
+      stroke-width: 12;
+      transform-origin: 110px 110px;
+      transition: stroke-dashoffset 0.5s linear;
+    }
+    .bh-countdown__centro {
+      position: absolute;
+      inset: 27%;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--primary-color, #22242a);
+      color: var(--bg-color, #f3f1ec);
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 3.2vw, 2rem);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .bh-countdown__unidades {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(0.6rem, 1.8vw, 1rem);
+      max-width: 620px;
+      margin: 0 auto;
+    }
+    .bh-countdown__unidad {
+      padding: clamp(0.9rem, 2.2vw, 1.3rem) 0.3rem;
+      background: var(--surface-color, #fbfaf7);
+      border: 1px solid var(--surface-border-color, rgba(34, 36, 42, 0.18));
+    }
+    .bh-countdown__unidad:nth-child(1) { border-top: 6px solid var(--accent-color, #e2543e); }
+    .bh-countdown__unidad:nth-child(2) { border-top: 6px solid var(--primary-color, #22242a); }
+    .bh-countdown__unidad:nth-child(3) { border-top: 6px solid var(--secondary-color, #6d7078); }
+    .bh-countdown__unidad:nth-child(4) { border-top: 6px solid color-mix(in srgb, var(--accent-color, #e2543e) 55%, var(--bg-color)); }
+    .bh-countdown__numero {
+      display: block;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 4.2vw, 2.5rem);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      color: var(--primary-color, #22242a);
+    }
+    .bh-countdown__rotulo {
+      display: block;
+      margin-top: 0.45rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.54rem, 1.05vw, 0.62rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--secondary-color, #6d7078);
+    }
+
+    @media (max-width: 560px) {
+      .bh-countdown__unidades { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .bh-countdown { min-height: 580px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bh-countdown__arco { transition: none; }
+    }
+  </style>
+
+  <div class="bh-countdown__panel">
+    <p class="bh-countdown__etiqueta" memory_type="text" memory_usage="custom" memory_key="countdown-etiqueta">Composición en progreso</p>
+    <h2 class="bh-countdown__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Cuenta regresiva</h2>
+    <time class="bh-countdown__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+
+    <div class="bh-countdown__dial" aria-hidden="true">
+      <svg viewBox="0 0 220 220">
+        <circle class="bh-countdown__cuarto-a" cx="110" cy="110" r="92" stroke-dasharray="144.5 433.5" stroke-dashoffset="-289" />
+        <circle class="bh-countdown__cuarto-b" cx="110" cy="110" r="72" stroke-dasharray="113 339.3" stroke-dashoffset="56.5" />
+        <circle class="bh-countdown__arco" data-bh-arco cx="110" cy="110" r="92" stroke-dasharray="578.1" stroke-dashoffset="0" />
+      </svg>
+      <div class="bh-countdown__centro" data-bh-segundos>00</div>
+    </div>
+
+    <div class="bh-countdown__unidades" aria-label="Cuenta regresiva">
+      <div class="bh-countdown__unidad"><span class="bh-countdown__numero" data-countdown-unit="days">--</span><span class="bh-countdown__rotulo">Días</span></div>
+      <div class="bh-countdown__unidad"><span class="bh-countdown__numero" data-countdown-unit="hours">--</span><span class="bh-countdown__rotulo">Horas</span></div>
+      <div class="bh-countdown__unidad"><span class="bh-countdown__numero" data-countdown-unit="minutes">--</span><span class="bh-countdown__rotulo">Min</span></div>
+      <div class="bh-countdown__unidad"><span class="bh-countdown__numero" data-countdown-unit="seconds">--</span><span class="bh-countdown__rotulo">Seg</span></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var el = null;
+      try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
+      if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+      if (!el) return;
+
+      var arco = el.querySelector('[data-bh-arco]');
+      var centro = el.querySelector('[data-bh-segundos]');
+      var LONGITUD = arco ? 2 * Math.PI * 92 : 0;
+      var target = NaN;
+      var attr = el.getAttribute('data-countdown-target');
+      if (attr && attr.indexOf('YYYY') === -1) { var p = new Date(attr); if (!isNaN(p.getTime())) target = p.getTime(); }
+      if (isNaN(target) && window.__countdownTarget) { var p1 = new Date(window.__countdownTarget); if (!isNaN(p1.getTime())) target = p1.getTime(); }
+      if (isNaN(target) && window.countdown_target) { var p2 = new Date(window.countdown_target); if (!isNaN(p2.getTime())) target = p2.getTime(); }
+
+      var intervalId = null;
+      (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+
+      function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+      function setUnit(unit, value) {
+        var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
+        if (node) node.textContent = value;
+      }
+      function tick() {
+        if (!Number.isFinite(target)) return;
+        var diff = Math.max(target - Date.now(), 0);
+        setUnit('days', Math.floor(diff / 86400000));
+        setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
+        setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
+        var s = Math.floor((diff % 60000) / 1000);
+        setUnit('seconds', pad2(s));
+        if (centro) centro.textContent = pad2(s);
+        if (arco) arco.setAttribute('stroke-dashoffset', (LONGITUD * (1 - s / 60)).toFixed(2));
+        if (diff === 0 && intervalId !== null) {
+          clearInterval(intervalId);
+          intervalId = null;
+          window.__countdownIntervals = [];
+        }
+      }
+      function start(newTarget) {
+        if (newTarget) { var p = new Date(newTarget); if (!isNaN(p.getTime())) target = p.getTime(); }
+        (window.__countdownIntervals || []).forEach(clearInterval);
+        window.__countdownIntervals = [];
+        intervalId = null;
+        if (!Number.isFinite(target)) return;
+        tick();
+        if (target > Date.now()) {
+          intervalId = setInterval(tick, 1000);
+          window.__countdownIntervals.push(intervalId);
+        }
+      }
+      start();
+      window.updateCountdown = start;
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-bauhaus-dial',
+      style_name: 'Dial Bauhaus',
+      descripcion: 'Dial de cuartos concéntricos con arco de acento que se vacía, centro circular negro y unidades con reglas de color distintas.',
+      tags: ['countdown', 'cuenta regresiva', 'bauhaus', 'dial', 'cuartos', 'geometrico'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>

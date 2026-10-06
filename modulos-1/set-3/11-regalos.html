@@ -1,0 +1,271 @@
+<section
+  class="pl-regalos"
+  data-gemini-id="regalos-plegado-mesa"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .pl-regalos {
+      --primary-color: #1c2340;
+      --secondary-color: #6b7395;
+      --accent-color: #9aa7d0;
+      --bg-color: #eef0f8;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(28, 35, 64, 0.2);
+      --text-color: #1c2340;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/paper,craft');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .pl-regalos *,
+    .pl-regalos *::before,
+    .pl-regalos *::after { box-sizing: border-box; }
+
+    .pl-regalos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 86%, transparent);
+    }
+
+    .pl-regalos__sobre {
+      width: min(100%, 700px);
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 96%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 24px 52px rgba(28, 35, 64, 0.16);
+      clip-path: polygon(0 0, calc(100% - 42px) 0, 100% 42px, 100% 100%, 0 100%);
+    }
+    .pl-regalos__sobre::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(225deg, var(--bg-color) 0 49%, color-mix(in srgb, var(--accent-color) 52%, var(--bg-color)) 49% 100%);
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+    }
+
+    .pl-regalos__etiqueta {
+      margin: 0 0 0.6rem;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .pl-regalos__titulo {
+      margin: 0 0 0.7rem;
+      text-align: center;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .pl-regalos__intro {
+      margin: 0 auto 1.6rem;
+      max-width: 48ch;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .pl-regalos__lista {
+      display: grid;
+      gap: clamp(0.8rem, 2.2vw, 1.1rem);
+      margin-bottom: 1.8rem;
+    }
+    .pl-regalos__item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      align-items: center;
+      padding: clamp(0.85rem, 2.2vw, 1.1rem) clamp(1rem, 2.5vw, 1.3rem);
+      background: var(--bg-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 8px 18px rgba(28, 35, 64, 0.08);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .pl-regalos.pl-js .pl-regalos__item { opacity: 0; transform: translateX(-12px); }
+    .pl-regalos.esta-visto .pl-regalos__item { opacity: 1; transform: none; }
+    .pl-regalos__banderita {
+      width: 20px;
+      height: 30px;
+      background: color-mix(in srgb, var(--accent-color) 60%, transparent);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 74%, 0 100%);
+    }
+    .pl-regalos__cuerpo { display: grid; gap: 0.15rem; }
+    .pl-regalos__nombre {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.92rem, 1.75vw, 1.04rem);
+      color: var(--primary-color);
+    }
+    .pl-regalos__nota {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.68rem, 1.25vw, 0.76rem);
+      color: var(--secondary-color);
+    }
+
+    .pl-regalos__zona-boton { text-align: center; }
+    .pl-regalos__boton {
+      position: relative;
+      min-width: 225px;
+      padding: 0.85rem 2rem;
+      border: 0;
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: pointer;
+      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+      transition: background 0.4s ease, transform 0.4s ease;
+      overflow: hidden;
+    }
+    .pl-regalos__boton:hover { transform: translateY(-2px); }
+    .pl-regalos__boton.esta-listo { background: color-mix(in srgb, var(--accent-color) 85%, var(--primary-color)); }
+    .pl-regalos__confeti {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 7px;
+      height: 7px;
+      background: var(--bg-color);
+      clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .pl-regalos__boton.esta-listo .pl-regalos__confeti { animation: plRegalosChispa 0.5s ease-out forwards; }
+    @keyframes plRegalosChispa {
+      0% { opacity: 1; transform: translate(0, 0) scale(0.6) rotate(0deg); }
+      100% { opacity: 0; transform: translate(var(--pl-dx, 0px), var(--pl-dy, -30px)) scale(1.1) rotate(180deg); }
+    }
+    .pl-regalos__nota {
+      margin-top: 0.9rem;
+      text-align: center;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.76rem, 1.4vw, 0.86rem);
+      color: var(--secondary-color);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pl-regalos * { transition: none !important; animation: none !important; }
+      .pl-regalos__item { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <div class="pl-regalos__sobre">
+    <header memory_type="text" memory_usage="custom" memory_key="regalos-intro">
+      <p class="pl-regalos__etiqueta" memory_type="text" memory_usage="custom" memory_key="regalos-etiqueta">Mesa de regalos</p>
+      <h2 class="pl-regalos__titulo" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Regalos hechos a mano</h2>
+      <p class="pl-regalos__intro" memory_type="text" memory_usage="custom" memory_key="regalos-texto">
+        Como un plegado hecho con paciencia, tu detalle será recordado. Elige una idea y agéndala.
+      </p>
+    </header>
+
+    <div class="pl-regalos__lista" data-pl-lista>
+      <div class="pl-regalos__item">
+        <span class="pl-regalos__banderita" aria-hidden="true"></span>
+        <div class="pl-regalos__cuerpo">
+          <span class="pl-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-1">Piezas para el hogar</span>
+          <span class="pl-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota-1">Disponible en tienda</span>
+        </div>
+      </div>
+      <div class="pl-regalos__item">
+        <span class="pl-regalos__banderita" aria-hidden="true"></span>
+        <div class="pl-regalos__cuerpo">
+          <span class="pl-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-2">Aporte para la luna de miel</span>
+          <span class="pl-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota-2">Sobre personalizado</span>
+        </div>
+      </div>
+      <div class="pl-regalos__item">
+        <span class="pl-regalos__banderita" aria-hidden="true"></span>
+        <div class="pl-regalos__cuerpo">
+          <span class="pl-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-3">Una experiencia inolvidable</span>
+          <span class="pl-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota-3">Sorpréndenos</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pl-regalos__zona-boton">
+      <button type="button" class="pl-regalos__boton" data-pl-boton>
+        <span data-pl-boton-texto memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span>
+        <span class="pl-regalos__confeti" aria-hidden="true" style="--pl-dx:-26px; --pl-dy:-30px;"></span>
+        <span class="pl-regalos__confeti" aria-hidden="true" style="--pl-dx:22px; --pl-dy:-34px;"></span>
+        <span class="pl-regalos__confeti" aria-hidden="true" style="--pl-dx:-4px; --pl-dy:-40px;"></span>
+        <span class="pl-regalos__confeti" aria-hidden="true" style="--pl-dx:34px; --pl-dy:-22px;"></span>
+        <span class="pl-regalos__confeti" aria-hidden="true" style="--pl-dx:-36px; --pl-dy:-20px;"></span>
+      </button>
+      <p class="pl-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-pie">Se guardará en tu invitación digital.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.pl-regalos');
+      if (!root) return;
+      root.classList.add('pl-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var items = Array.prototype.slice.call(root.querySelectorAll('.pl-regalos__item'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            items.forEach(function (item, i) { item.style.transitionDelay = (i * 0.11).toFixed(2) + 's'; });
+            root.classList.add('esta-visto');
+            io.disconnect();
+          });
+        }, { threshold: 0.3 });
+        io.observe(root.querySelector('[data-pl-lista]') || root);
+      } else {
+        root.classList.add('esta-visto');
+      }
+
+      var boton = root.querySelector('[data-pl-boton]');
+      var texto = root.querySelector('[data-pl-boton-texto]');
+      if (boton && texto) {
+        boton.addEventListener('click', function () {
+          var listo = boton.classList.toggle('esta-listo');
+          texto.textContent = listo ? 'Regalo agendado' : 'Agendar regalo';
+          if (listo && !reduce) {
+            boton.querySelectorAll('.pl-regalos__confeti').forEach(function (c) {
+              c.style.animation = 'none';
+              void c.offsetWidth;
+              c.style.animation = '';
+            });
+          }
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-plegado-mesa',
+      style_name: 'Plegado Celeste — Regalos',
+      descripcion: 'Sobre plegado con lista de banderitas de papel y botón agendar que lanza un estallido de confeti estelar al confirmar.',
+      tags: ['regalos', 'mesa de regalos', 'confeti', 'origami', 'boton', 'celestial'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>

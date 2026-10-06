@@ -1,0 +1,229 @@
+<section
+  class="bh-portada"
+  data-gemini-id="portada-nombre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="bh-portada-titulo"
+>
+  <style>
+    .bh-portada {
+      --primary-color: #22242a;
+      --secondary-color: #6d7078;
+      --accent-color: #e2543e;
+      --bg-color: #f3f1ec;
+      --surface-color: #fbfaf7;
+      --surface-border-color: rgba(34, 36, 42, 0.18);
+      --text-color: #22242a;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/geometric,paper');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .bh-portada *,
+    .bh-portada *::before,
+    .bh-portada *::after { box-sizing: border-box; }
+
+    .bh-portada::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 92%, transparent);
+    }
+
+    .bh-portada__formas {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .bh-portada__cuarto {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: clamp(130px, 26vw, 300px);
+      aspect-ratio: 1 / 1;
+      background: color-mix(in srgb, var(--accent-color) 20%, transparent);
+      border-bottom-right-radius: 100%;
+    }
+    .bh-portada__circulo {
+      position: absolute;
+      bottom: -8%;
+      right: -6%;
+      width: clamp(150px, 30vw, 340px);
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      border: clamp(14px, 2.6vw, 28px) solid color-mix(in srgb, var(--secondary-color) 30%, transparent);
+    }
+    .bh-portada__barra {
+      position: absolute;
+      top: 18%;
+      right: 10%;
+      width: clamp(80px, 16vw, 190px);
+      height: clamp(12px, 2vw, 22px);
+      background: color-mix(in srgb, var(--secondary-color) 45%, transparent);
+      transform: rotate(-24deg);
+    }
+
+    .bh-portada__tarjeta {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 700px);
+      padding: clamp(2.2rem, 5.5vw, 3.8rem) clamp(1.3rem, 5vw, 3.2rem);
+      display: grid;
+      justify-items: center;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: clamp(10px, 2vw, 22px) clamp(10px, 2vw, 22px) 0 color-mix(in srgb, var(--accent-color) 55%, transparent);
+    }
+
+    .bh-portada__punto {
+      width: clamp(52px, 8vw, 68px);
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent-color) 0 25%, var(--secondary-color) 25% 50%, var(--primary-color) 50% 75%, color-mix(in srgb, var(--secondary-color) 40%, transparent) 75% 100%);
+      margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
+      animation: bhPortadaGiro 22s linear infinite;
+    }
+    @keyframes bhPortadaGiro { to { transform: rotate(360deg); } }
+
+    .bh-portada__eyebrow {
+      margin: 0 0 1rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .bh-portada__titulo {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.9rem, 5.8vw, 4rem);
+      line-height: 1.04;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .bh-portada__titulo span {
+      display: block;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .bh-portada__titulo span:nth-child(2) { color: var(--accent-color); }
+    .bh-portada.bh-js .bh-portada__titulo span { opacity: 0; transform: translateX(-1.2em); }
+    .bh-portada.esta-visto .bh-portada__titulo span { opacity: 1; transform: none; }
+    .bh-portada.esta-visto .bh-portada__titulo span:nth-child(1) { transition-delay: 0.08s; }
+    .bh-portada.esta-visto .bh-portada__titulo span:nth-child(2) { transition-delay: 0.2s; }
+
+    .bh-portada__regla {
+      width: 74px;
+      height: 8px;
+      margin: clamp(1.2rem, 3vw, 1.8rem) 0;
+      background: repeating-linear-gradient(90deg, var(--primary-color) 0 10px, transparent 10px 16px);
+    }
+
+    .bh-portada__fecha {
+      display: inline-block;
+      padding: 0.55rem 1.5rem;
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.68rem, 1.4vw, 0.8rem);
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+    }
+
+    .bh-portada__foto {
+      width: clamp(110px, 16vw, 160px);
+      margin: clamp(1.4rem, 3vw, 2rem) auto 0;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 16px 34px rgba(34, 36, 42, 0.18);
+    }
+    .bh-portada__foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.9);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bh-portada * { animation: none !important; transition: none !important; }
+      .bh-portada__titulo span { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <div class="bh-portada__formas" aria-hidden="true">
+    <span class="bh-portada__cuarto"></span>
+    <span class="bh-portada__circulo"></span>
+    <span class="bh-portada__barra"></span>
+  </div>
+
+  <div class="bh-portada__tarjeta">
+    <span class="bh-portada__punto" aria-hidden="true"></span>
+
+    <p class="bh-portada__eyebrow" memory_type="text" memory_usage="custom" memory_key="portada-encabezado">Una composición en tres actos</p>
+
+    <div memory_type="text" memory_usage="custom" memory_key="portada-nombres">
+      <h1 id="bh-portada-titulo" class="bh-portada__titulo">
+        <span>Nombre de la Novia</span>
+        <span>&amp; Nombre del Novio</span>
+      </h1>
+    </div>
+
+    <div class="bh-portada__regla" aria-hidden="true"></div>
+
+    <time class="bh-portada__fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="portada-fecha">Fecha del evento</time>
+
+    <figure class="bh-portada__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="portada-foto">
+      <img src="https://loremflickr.com/420/420/couple,minimal" alt="Retrato de los anfitriones" path="placeholder" data-library-category="bodas" data-asset-type="foto-pareja" loading="lazy" />
+      <figcaption hidden>Retrato principal</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.bh-portada');
+      if (!root) return;
+      root.classList.add('bh-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.22 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Bauhaus Geométrico',
+      descripcion: 'Composición bauhaus con cuarto de círculo, anillo y barra; tarjeta con sombra dura de acento, punto cónico giratorio y nombres en bloques.',
+      tags: ['portada', 'hero', 'bauhaus', 'geometrico', 'formas', 'minimal'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

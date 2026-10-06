@@ -1,0 +1,242 @@
+<section
+  class="pl-padres"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .pl-padres {
+      --primary-color: #1c2340;
+      --secondary-color: #6b7395;
+      --accent-color: #9aa7d0;
+      --bg-color: #eef0f8;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(28, 35, 64, 0.2);
+      --text-color: #1c2340;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/night,stars');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .pl-padres *,
+    .pl-padres *::before,
+    .pl-padres *::after { box-sizing: border-box; }
+
+    .pl-padres::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 87%, transparent);
+    }
+
+    .pl-padres__cabecera {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: clamp(0.9rem, 2.5vw, 1.4rem);
+      width: min(100%, 860px);
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+    }
+    .pl-padres__pliegue {
+      width: clamp(40px, 6vw, 58px);
+      color: var(--accent-color);
+    }
+    .pl-padres__titulo {
+      margin: 0;
+      text-align: center;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .pl-padres__intro {
+      margin: 0.7rem 0 0;
+      text-align: center;
+      grid-column: 1 / -1;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .pl-padres__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1.4rem, 4vw, 2.6rem);
+      width: min(100%, 860px);
+      margin: 0 auto;
+      perspective: 1100px;
+    }
+
+    .pl-padres__carta {
+      position: relative;
+      padding: clamp(1.8rem, 4vw, 2.6rem) clamp(1.2rem, 3vw, 1.9rem) clamp(1.4rem, 3vw, 2rem);
+      background: color-mix(in srgb, var(--surface-color) 96%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 20px 46px rgba(28, 35, 64, 0.16);
+      clip-path: polygon(0 0, calc(100% - 44px) 0, 100% 44px, 100% 100%, 0 100%);
+      transform-origin: top center;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .pl-padres.pl-js .pl-padres__carta { opacity: 0; transform: rotateX(28deg) translateY(18px); }
+    .pl-padres.esta-visto .pl-padres__carta { opacity: 1; transform: none; }
+    .pl-padres.esta-visto .pl-padres__carta:nth-child(2) { transition-delay: 0.15s; }
+    .pl-padres__carta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(225deg, var(--bg-color) 0 49%, color-mix(in srgb, var(--accent-color) 50%, var(--bg-color)) 49% 100%);
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+    }
+
+    .pl-padres__retrato {
+      width: clamp(104px, 15vw, 138px);
+      margin: 0 auto 1.1rem;
+      padding: 5px;
+      background: var(--bg-color);
+      border: 1px dashed var(--accent-color);
+      border-radius: 50%;
+    }
+    .pl-padres__retrato img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      object-fit: cover;
+      filter: saturate(0.9);
+    }
+
+    .pl-padres__rol {
+      margin: 0 0 0.4rem;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.58rem, 1.1vw, 0.68rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .pl-padres__nombres {
+      margin: 0;
+      text-align: center;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.08rem, 2.2vw, 1.4rem);
+      line-height: 1.3;
+      color: var(--primary-color);
+    }
+    .pl-padres__nota {
+      margin: 0.5rem 0 0;
+      text-align: center;
+      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
+      line-height: 1.6;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 740px) {
+      .pl-padres__grid { grid-template-columns: 1fr; max-width: 400px; }
+      .pl-padres__cabecera { grid-template-columns: 1fr; }
+      .pl-padres__pliegue { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pl-padres * { transition: none !important; }
+      .pl-padres__carta { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <header class="pl-padres__cabecera" memory_type="text" memory_usage="custom" memory_key="padres-intro">
+    <svg class="pl-padres__pliegue" viewBox="0 0 60 60" fill="none" aria-hidden="true">
+      <path d="M4 54 L30 6 L56 54 L30 40 Z" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M30 6 L30 40" stroke="currentColor" stroke-width="1"/>
+    </svg>
+    <div>
+      <h2 class="pl-padres__titulo" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Con el amor de nuestros padres</h2>
+      <p class="pl-padres__intro" memory_type="text" memory_usage="custom" memory_key="padres-texto">Dos hogares que se pliegan en uno para celebrar juntos.</p>
+    </div>
+    <svg class="pl-padres__pliegue" viewBox="0 0 60 60" fill="none" aria-hidden="true">
+      <path d="M4 54 L30 6 L56 54 L30 40 Z" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M30 6 L30 40" stroke="currentColor" stroke-width="1"/>
+    </svg>
+  </header>
+
+  <div class="pl-padres__grid">
+    <article class="pl-padres__carta">
+      <figure class="pl-padres__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-uno">
+        <img
+          src="https://loremflickr.com/380/380/family,portrait"
+          alt="Retrato de la familia de la novia"
+          path="placeholder"
+          data-library-category="bodas"
+          data-asset-type="retrato-familia"
+          loading="lazy"
+        />
+        <figcaption hidden>Familia uno</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-uno">
+        <p class="pl-padres__rol">Padres de la novia</p>
+        <h3 class="pl-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+        <p class="pl-padres__nota">Con cariño infinito</p>
+      </div>
+    </article>
+
+    <article class="pl-padres__carta">
+      <figure class="pl-padres__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-dos">
+        <img
+          src="https://loremflickr.com/380/380/parents,love"
+          alt="Retrato de la familia del novio"
+          path="placeholder"
+          data-library-category="bodas"
+          data-asset-type="retrato-familia"
+          loading="lazy"
+        />
+        <figcaption hidden>Familia dos</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-dos">
+        <p class="pl-padres__rol">Padres del novio</p>
+        <h3 class="pl-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+        <p class="pl-padres__nota">Con gratitud eterna</p>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.pl-padres');
+      if (!root) return;
+      root.classList.add('pl-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.2 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Plegado Celeste — Padres',
+      descripcion: 'Cartas de papel con esquina doblada que se despliegan con rotateX al entrar en pantalla, retratos circulares punteados y grullas laterales.',
+      tags: ['padres', 'familias', 'origami', 'plegado', 'cartas', 'stagger'],
+      tipo: 'padres'
+    };
+  </script>
+</section>

@@ -1,0 +1,245 @@
+<section
+  class="ma-itinerario"
+  data-gemini-id="itinerario-agenda"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ma-itinerario {
+      --primary-color: #e8f2f4;
+      --secondary-color: #9dbcc4;
+      --accent-color: #5fc4cf;
+      --bg-color: #0e1b22;
+      --surface-color: #14232b;
+      --surface-border-color: rgba(232, 242, 244, 0.16);
+      --text-color: #e8f2f4;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/underwater,light');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .ma-itinerario *,
+    .ma-itinerario *::before,
+    .ma-itinerario *::after { box-sizing: border-box; }
+
+    .ma-itinerario::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 88%, transparent);
+    }
+
+    .ma-itinerario__cabecera {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      width: min(100%, 720px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 0.9rem;
+    }
+    .ma-itinerario__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ma-itinerario__profundimetro {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.28em;
+      color: var(--accent-color);
+    }
+
+    .ma-itinerario__descenso {
+      position: relative;
+      width: min(100%, 720px);
+      margin: 0 auto;
+      padding-left: clamp(2.4rem, 6vw, 3.2rem);
+    }
+    .ma-itinerario__cable {
+      position: absolute;
+      top: 8px;
+      bottom: 8px;
+      left: 11px;
+      width: 3px;
+      background: color-mix(in srgb, var(--accent-color) 25%, transparent);
+    }
+    .ma-itinerario__burbuja-progreso {
+      position: absolute;
+      top: 8px;
+      left: 11px;
+      width: 3px;
+      height: 0%;
+      background: linear-gradient(var(--accent-color), transparent);
+      border-radius: 999px;
+    }
+
+    .ma-itinerario__nivel {
+      position: relative;
+      margin: 0 0 clamp(1.4rem, 3.6vw, 2rem);
+      padding: clamp(1.1rem, 2.7vw, 1.6rem) clamp(1.2rem, 3vw, 1.8rem);
+      background: color-mix(in srgb, var(--surface-color) 88%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 34% 66% 12px 12px / 10% 16% 12px 12px;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ma-itinerario.ma-js .ma-itinerario__nivel { opacity: 0; transform: translateY(18px); }
+    .ma-itinerario .ma-itinerario__nivel.esta-visto { opacity: 1; transform: none; }
+
+    .ma-itinerario__nodo {
+      position: absolute;
+      top: 50%;
+      left: calc(-1 * clamp(2.4rem, 6vw, 3.2rem) + 2px);
+      transform: translate(-50%, -50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-color);
+      background: var(--bg-color);
+      box-shadow: 0 0 10px color-mix(in srgb, var(--accent-color) 60%, transparent);
+    }
+
+    .ma-itinerario__hora {
+      display: inline-block;
+      margin-bottom: 0.35rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.66rem, 1.3vw, 0.76rem);
+      letter-spacing: 0.24em;
+      color: var(--accent-color);
+    }
+    .ma-itinerario__momento {
+      margin: 0 0 0.3rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.02rem, 2.1vw, 1.28rem);
+      color: var(--primary-color);
+    }
+    .ma-itinerario__detalle {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
+      line-height: 1.65;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 560px) {
+      .ma-itinerario__descenso { padding-left: 2rem; }
+      .ma-itinerario__nodo { left: -1.6rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ma-itinerario * { transition: none !important; }
+      .ma-itinerario__nivel { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="ma-itinerario__cabecera" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">
+    <h2 class="ma-itinerario__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Bitácora de descenso</h2>
+    <span class="ma-itinerario__profundimetro" memory_type="text" memory_usage="custom" memory_key="itinerario-prof">0 → 40 M</span>
+  </header>
+
+  <div class="ma-itinerario__descenso">
+    <span class="ma-itinerario__cable" aria-hidden="true"></span>
+    <span class="ma-itinerario__burbuja-progreso" aria-hidden="true" data-ma-progreso></span>
+
+    <article class="ma-itinerario__nivel" data-ma-nivel>
+      <span class="ma-itinerario__nodo" aria-hidden="true"></span>
+      <time class="ma-itinerario__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">−0 M · 16:00</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
+        <h3 class="ma-itinerario__momento">Superficie</h3>
+        <p class="ma-itinerario__detalle">Bienvenida en el muelle con ponche de mar.</p>
+      </div>
+    </article>
+
+    <article class="ma-itinerario__nivel" data-ma-nivel>
+      <span class="ma-itinerario__nodo" aria-hidden="true"></span>
+      <time class="ma-itinerario__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">−10 M · 17:00</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
+        <h3 class="ma-itinerario__momento">Primera inmersión</h3>
+        <p class="ma-itinerario__detalle">Ceremonia frente al arrecife iluminado.</p>
+      </div>
+    </article>
+
+    <article class="ma-itinerario__nivel" data-ma-nivel>
+      <span class="ma-itinerario__nodo" aria-hidden="true"></span>
+      <time class="ma-itinerario__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">−25 M · 19:00</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
+        <h3 class="ma-itinerario__momento">Cueva de la cena</h3>
+        <p class="ma-itinerario__detalle">Banquete abisal entre peces de linterna.</p>
+      </div>
+    </article>
+
+    <article class="ma-itinerario__nivel" data-ma-nivel>
+      <span class="ma-itinerario__nodo" aria-hidden="true"></span>
+      <time class="ma-itinerario__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">−40 M · 21:30</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
+        <h3 class="ma-itinerario__momento">Fondo del baile</h3>
+        <p class="ma-itinerario__detalle">Bioluminiscencia, pista y regreso a la superficie.</p>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ma-itinerario');
+      if (!root) return;
+      root.classList.add('ma-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var progreso = root.querySelector('[data-ma-progreso]');
+      var niveles = Array.prototype.slice.call(root.querySelectorAll('[data-ma-nivel]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      var revealIO = ('IntersectionObserver' in window) && !reduce ? new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('esta-visto');
+            revealIO.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 }) : null;
+
+      niveles.forEach(function (nivel) {
+        if (revealIO) revealIO.observe(nivel);
+        else nivel.classList.add('esta-visto');
+      });
+
+      function alDescender() {
+        if (!progreso) return;
+        var rect = root.getBoundingClientRect();
+        var total = rect.height + window.innerHeight * 0.35;
+        var pasado = Math.min(Math.max(window.innerHeight * 0.7 - rect.top, 0), total);
+        progreso.style.height = ((pasado / total) * 100).toFixed(2) + '%';
+      }
+      if (!reduce) {
+        window.addEventListener('scroll', alDescender, { passive: true });
+        window.addEventListener('resize', alDescender);
+        alDescender();
+      } else if (progreso) {
+        progreso.style.height = '100%';
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Marino de Profundidad — Itinerario',
+      descripcion: 'Bitácora de descenso por profundidades, cable con progreso luminoso y niveles en tarjetas de contorno orgánico.',
+      tags: ['itinerario', 'timeline', 'marino', 'descenso', 'profundidad', 'scroll'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>

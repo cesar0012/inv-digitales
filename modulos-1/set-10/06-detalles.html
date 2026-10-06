@@ -1,0 +1,236 @@
+<section
+  class="ma-detalles"
+  data-gemini-id="detalles-vestimenta"
+>
+  <style>
+    .ma-detalles {
+      --primary-color: #e8f2f4;
+      --secondary-color: #9dbcc4;
+      --accent-color: #5fc4cf;
+      --bg-color: #0e1b22;
+      --surface-color: #14232b;
+      --surface-border-color: rgba(232, 242, 244, 0.16);
+      --text-color: #e8f2f4;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ma-detalles *,
+    .ma-detalles *::before,
+    .ma-detalles *::after { box-sizing: border-box; }
+
+    .ma-detalles__escena {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.6rem, 4vw, 3rem);
+      align-items: center;
+      width: min(100%, 1040px);
+      margin: 0 auto;
+    }
+
+    .ma-detalles__concha {
+      position: relative;
+      margin: 0;
+      padding: 9px;
+      background: color-mix(in srgb, var(--surface-color) 90%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 60% 40% 55% 45% / 50% 55% 45% 50%;
+      box-shadow: 0 26px 56px rgba(0, 0, 0, 0.5);
+      transform: rotate(-2deg);
+    }
+    .ma-detalles__concha img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border-radius: 55% 45% 50% 50% / 46% 52% 48% 54%;
+      filter: saturate(0.95);
+    }
+    .ma-detalles__perla-flotante {
+      position: absolute;
+      top: -12px;
+      right: 10%;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 30%, #ffffff, color-mix(in srgb, var(--accent-color) 60%, transparent));
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
+      animation: maDetallesFlota 6s ease-in-out infinite;
+    }
+    @keyframes maDetallesFlota {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-7px); }
+    }
+
+    .ma-detalles__titulo {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.65rem, 3.7vw, 2.3rem);
+      color: var(--primary-color);
+      text-align: left;
+    }
+    .ma-detalles__intro {
+      margin: 0 0 1.4rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+      text-align: left;
+    }
+
+    .ma-detalles__cards { display: grid; gap: clamp(0.8rem, 2.2vw, 1.2rem); }
+
+    .ma-detalles__card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      align-items: center;
+      padding: clamp(1rem, 2.5vw, 1.4rem) clamp(1.1rem, 2.8vw, 1.6rem);
+      text-align: left;
+      background: color-mix(in srgb, var(--surface-color) 90%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 22px;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ma-detalles.ma-js .ma-detalles__card { opacity: 0; transform: translateX(20px); }
+    .ma-detalles .ma-detalles__card.esta-visto { opacity: 1; transform: none; }
+    .ma-detalles__card:nth-child(2) { border-radius: 12px 26px 26px 26px; }
+    .ma-detalles__card:nth-child(3) { border-radius: 26px 12px 26px 26px; }
+
+    .ma-detalles__icono {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--accent-color) 18%, transparent);
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+    }
+    .ma-detalles__icono svg { width: 20px; }
+
+    .ma-detalles__rotulo {
+      margin: 0 0 0.2rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.56rem, 1.05vw, 0.64rem);
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ma-detalles__titulo-card {
+      margin: 0 0 0.25rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.98rem, 1.9vw, 1.16rem);
+      color: var(--primary-color);
+    }
+    .ma-detalles__texto {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.76rem, 1.35vw, 0.86rem);
+      line-height: 1.6;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 880px) {
+      .ma-detalles__escena { grid-template-columns: 1fr; }
+      .ma-detalles__concha { max-width: 380px; margin: 0 auto; transform: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ma-detalles * { transition: none !important; animation: none !important; }
+      .ma-detalles__card { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="ma-detalles__escena">
+    <figure class="ma-detalles__concha" memory_type="image" memory_usage="custom" memory_source="library" memory_key="detalles-foto">
+      <span class="ma-detalles__perla-flotante" aria-hidden="true"></span>
+      <img src="https://loremflickr.com/500/620/sea,texture" alt="Texturas del fondo marino" path="placeholder" data-library-category="bodas" data-asset-type="detalle" loading="lazy" />
+      <figcaption hidden>Detalle marino</figcaption>
+    </figure>
+
+    <div>
+      <header memory_type="text" memory_usage="custom" memory_key="detalles-intro">
+        <h2 class="ma-detalles__titulo" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Corrientes a considerar</h2>
+        <p class="ma-detalles__intro" memory_type="text" memory_usage="custom" memory_key="detalles-texto">Notas de navegación para que la travesía sea perfecta.</p>
+      </header>
+
+      <div class="ma-detalles__cards">
+        <article class="ma-detalles__card" data-ma-card>
+          <span class="ma-detalles__icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 16 C8 12, 12 20, 16 16 S 20 12, 21 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </span>
+          <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-1">
+            <p class="ma-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-1">Vestimenta</p>
+            <h3 class="ma-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Ligera y fluida</h3>
+            <p class="ma-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Telas que se muevan con la brisa del mar.</p>
+          </div>
+        </article>
+        <article class="ma-detalles__card" data-ma-card>
+          <span class="ma-detalles__icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3 C9 7, 5 9, 5 13 A7 7 0 0 0 19 13 C19 9, 15 7, 12 3 Z" stroke="currentColor" stroke-width="1.5"/></svg>
+          </span>
+          <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-2">
+            <p class="ma-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-2">Marea</p>
+            <h3 class="ma-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Ceremonia a pie de arena</h3>
+            <p class="ma-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">Calzado plano recomendado para la orilla.</p>
+          </div>
+        </article>
+        <article class="ma-detalles__card" data-ma-card>
+          <span class="ma-detalles__icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M12 4 V20 M4 12 H20" stroke="currentColor" stroke-width="1"/></svg>
+          </span>
+          <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-3">
+            <p class="ma-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-3">Brújula</p>
+            <h3 class="ma-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Señalización bioluminiscente</h3>
+            <p class="ma-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">Sigue las luces cian hasta la entrada.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ma-detalles');
+      if (!root) return;
+      root.classList.add('ma-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var cards = Array.prototype.slice.call(root.querySelectorAll('[data-ma-card]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        cards.forEach(function (c) { c.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = cards.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.13).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      cards.forEach(function (c) { io.observe(c); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-vestimenta',
+      style_name: 'Marino de Profundidad — Detalles',
+      descripcion: 'Concha con contorno blob, perla flotante y tarjetas de navegación con esquinas orgánicas que entran en cascada lateral.',
+      tags: ['detalles', 'marino', 'concha', 'perla', 'blob', 'navegacion'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>

@@ -1,0 +1,234 @@
+<section
+  class="mu-portada"
+  data-gemini-id="portada-nombre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="mu-portada-titulo"
+>
+  <style>
+    .mu-portada {
+      --primary-color: #2a2724;
+      --secondary-color: #75705f;
+      --accent-color: #b3925a;
+      --bg-color: #f4f1ea;
+      --surface-color: #fdfbf6;
+      --surface-border-color: rgba(42, 39, 36, 0.16);
+      --text-color: #2a2724;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/marble,museum');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+      perspective: 1000px;
+    }
+    .mu-portada *,
+    .mu-portada *::before,
+    .mu-portada *::after { box-sizing: border-box; }
+
+    .mu-portada::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(60% 45% at 50% 0%, color-mix(in srgb, var(--accent-color) 22%, transparent), transparent 70%),
+        color-mix(in srgb, var(--bg-color) 88%, transparent);
+    }
+
+    .mu-portada__foco {
+      position: absolute;
+      z-index: 0;
+      top: -12%;
+      left: 50%;
+      width: clamp(280px, 56vw, 640px);
+      height: 78%;
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--accent-color) 30%, transparent), transparent 75%);
+      clip-path: polygon(42% 0, 58% 0, 100% 100%, 0 100%);
+      pointer-events: none;
+      animation: muPortadaLatiende 7s ease-in-out infinite;
+    }
+    @keyframes muPortadaLatiende {
+      0%, 100% { opacity: 0.75; }
+      50% { opacity: 1; }
+    }
+
+    .mu-portada__vitrina {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 720px);
+      padding: clamp(2.4rem, 6vw, 4rem) clamp(1.3rem, 5vw, 3.4rem);
+      background: color-mix(in srgb, var(--surface-color) 94%, transparent);
+      border: 1px solid var(--surface-border-color);
+      transform: rotateX(2.5deg);
+      transform-style: preserve-3d;
+      box-shadow: 0 34px 70px rgba(42, 39, 36, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+    .mu-portada__vitrina::before {
+      content: '';
+      position: absolute;
+      inset: 10px;
+      border: 3px double var(--surface-border-color);
+      pointer-events: none;
+    }
+
+    .mu-portada__placa {
+      display: inline-block;
+      padding: 0.35rem 1.1rem;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--accent-color) 70%, #8a6d3b), color-mix(in srgb, var(--accent-color) 45%, #6d5527));
+      color: #fdfbf6;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.7rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin-bottom: clamp(1.1rem, 2.6vw, 1.6rem);
+      box-shadow: 0 4px 10px rgba(42, 39, 36, 0.3);
+    }
+
+    .mu-portada__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(2rem, 6vw, 4.2rem);
+      line-height: 1.06;
+      color: var(--primary-color);
+    }
+    .mu-portada__titulo span {
+      display: inline-block;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .mu-portada.mu-js .mu-portada__titulo span { opacity: 0; transform: translateY(0.45em); }
+    .mu-portada.esta-visto .mu-portada__titulo span { opacity: 1; transform: none; }
+    .mu-portada.esta-visto .mu-portada__titulo span:nth-child(1) { transition-delay: 0.08s; }
+    .mu-portada.esta-visto .mu-portada__titulo span:nth-child(2) { transition-delay: 0.18s; }
+    .mu-portada.esta-visto .mu-portada__titulo span:nth-child(3) { transition-delay: 0.28s; }
+
+    .mu-portada__ampersand {
+      display: block;
+      margin: 0.12em 0;
+      font-style: italic;
+      color: var(--accent-color);
+    }
+
+    .mu-portada__cinta {
+      width: min(230px, 62%);
+      height: 12px;
+      margin: clamp(1.2rem, 3vw, 1.8rem) auto;
+      border-top: 1px solid var(--accent-color);
+      border-bottom: 1px solid var(--accent-color);
+      position: relative;
+    }
+    .mu-portada__cinta::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 9px;
+      height: 9px;
+      transform: translate(-50%, -50%) rotate(45deg);
+      background: var(--accent-color);
+    }
+
+    .mu-portada__fecha {
+      display: inline-block;
+      padding: 0.55rem 1.6rem;
+      border: 1px solid var(--surface-border-color);
+      background: var(--bg-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.72rem, 1.4vw, 0.86rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    .mu-portada__pedestal-foto {
+      width: clamp(120px, 17vw, 168px);
+      margin: clamp(1.6rem, 3.4vw, 2.2rem) auto 0;
+      transform-style: preserve-3d;
+      transform: translateZ(30px);
+    }
+    .mu-portada__pedestal-foto figure { margin: 0; }
+    .mu-portada__pedestal-foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border: 6px solid var(--surface-color);
+      outline: 1px solid var(--surface-border-color);
+      box-shadow: 0 18px 38px rgba(42, 39, 36, 0.25);
+      filter: saturate(0.9);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mu-portada * { animation: none !important; transition: none !important; }
+      .mu-portada__titulo span { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <span class="mu-portada__foco" aria-hidden="true"></span>
+
+  <div class="mu-portada__vitrina">
+    <p class="mu-portada__placa" memory_type="text" memory_usage="custom" memory_key="portada-encabezado">Sala principal</p>
+
+    <div memory_type="text" memory_usage="custom" memory_key="portada-nombres">
+      <h1 id="mu-portada-titulo" class="mu-portada__titulo">
+        <span>Nombre de la Novia</span>
+        <span class="mu-portada__ampersand">&amp;</span>
+        <span>Nombre del Novio</span>
+      </h1>
+    </div>
+
+    <div class="mu-portada__cinta" aria-hidden="true"></div>
+
+    <time class="mu-portada__fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="portada-fecha">Fecha del evento</time>
+
+    <div class="mu-portada__pedestal-foto">
+      <figure memory_type="image" memory_usage="custom" memory_source="library" memory_key="portada-foto">
+        <img src="https://loremflickr.com/420/520/couple,museum" alt="Retrato de los anfitriones" path="placeholder" data-library-category="bodas" data-asset-type="foto-pareja" loading="lazy" />
+        <figcaption hidden>Retrato principal</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.mu-portada');
+      if (!root) return;
+      root.classList.add('mu-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.22 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Vitrina de Museo',
+      descripcion: 'Exposición inaugural: haz de foco que late, vitrina en perspectiva rotateX, placa de bronce y retrato en pedestal con translateZ.',
+      tags: ['portada', 'hero', 'museo', 'vitrina', '3d', 'foco', 'placa'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

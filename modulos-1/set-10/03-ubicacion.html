@@ -1,0 +1,257 @@
+<section
+  class="ma-ubicacion"
+  data-gemini-id="ubicacion-mapa"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ma-ubicacion {
+      --primary-color: #e8f2f4;
+      --secondary-color: #9dbcc4;
+      --accent-color: #5fc4cf;
+      --bg-color: #0e1b22;
+      --surface-color: #14232b;
+      --surface-border-color: rgba(232, 242, 244, 0.16);
+      --text-color: #e8f2f4;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/lagoon,night');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .ma-ubicacion *,
+    .ma-ubicacion *::before,
+    .ma-ubicacion *::after { box-sizing: border-box; }
+
+    .ma-ubicacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .ma-ubicacion__sonar {
+      position: relative;
+      width: min(100%, 940px);
+      margin: 0 auto;
+      padding: clamp(1.4rem, 3.4vw, 2.2rem);
+      background: color-mix(in srgb, var(--surface-color) 90%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 24px;
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.5), inset 0 0 60px color-mix(in srgb, var(--accent-color) 8%, transparent);
+    }
+
+    .ma-ubicacion__cuerpo {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.4rem, 3.6vw, 2.4rem);
+      align-items: center;
+    }
+
+    .ma-ubicacion__info { text-align: left; }
+    .ma-ubicacion__etiqueta {
+      margin: 0 0 0.55rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ma-ubicacion__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.2rem);
+      color: var(--primary-color);
+    }
+    .ma-ubicacion__direccion {
+      margin: 0 0 1.2rem;
+      font-style: normal;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+    .ma-ubicacion__postal {
+      margin: 0 0 1.2rem;
+      padding: 6px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 12px;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.4);
+      transform: rotate(-2deg);
+    }
+    .ma-ubicacion__postal img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: 8px;
+      filter: hue-rotate(140deg) saturate(0.75) brightness(0.95);
+    }
+
+    .ma-ubicacion__eco {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.3rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .ma-ubicacion__onda {
+      position: relative;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      box-shadow: 0 0 12px var(--accent-color);
+    }
+    .ma-ubicacion__onda::after {
+      content: '';
+      position: absolute;
+      inset: -7px;
+      border: 1.4px solid var(--accent-color);
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    .ma-ubicacion.esta-visto .ma-ubicacion__onda::after { animation: maUbicacionEco 2s ease-out infinite; }
+    @keyframes maUbicacionEco {
+      0% { opacity: 0.9; transform: scale(0.4); }
+      75% { opacity: 0.1; transform: scale(1.3); }
+      100% { opacity: 0; transform: scale(1.4); }
+    }
+    .ma-ubicacion__boton {
+      display: inline-block;
+      padding: 0.75rem 1.8rem;
+      border-radius: 999px;
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.66rem, 1.25vw, 0.76rem);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+    .ma-ubicacion__boton:hover { background: var(--accent-color); color: var(--bg-color); }
+
+    .ma-ubicacion__mapa-zona {
+      position: relative;
+      margin: 0;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--surface-border-color);
+    }
+    .ma-ubicacion__mapa iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border: 0;
+      filter: hue-rotate(140deg) saturate(0.7) brightness(0.9);
+    }
+    .ma-ubicacion__bib {
+      position: absolute;
+      z-index: 3;
+      top: -16px;
+      right: -12px;
+      width: 54px;
+      padding: 6px;
+      border-radius: 50%;
+      background: var(--surface-color);
+      border: 1px solid var(--accent-color);
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.45);
+      color: var(--accent-color);
+      animation: maUbicacionNado 6s ease-in-out infinite;
+    }
+    @keyframes maUbicacionNado {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-7px) rotate(-5deg); }
+    }
+
+    @media (max-width: 820px) {
+      .ma-ubicacion__cuerpo { grid-template-columns: 1fr; }
+      .ma-ubicacion__info { text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ma-ubicacion * { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="ma-ubicacion__sonar">
+    <div class="ma-ubicacion__cuerpo">
+      <div class="ma-ubicacion__info">
+        <p class="ma-ubicacion__etiqueta" memory_type="text" memory_usage="custom" memory_key="ubicacion-etiqueta">Punto de inmersión</p>
+        <h2 class="ma-ubicacion__titulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Cómo llegar</h2>
+        <address class="ma-ubicacion__direccion" memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion">
+          Cala del Faro Azul s/n<br />
+          Bahía Protegida<br />
+          Ciudad, Estado
+        </address>
+        <figure class="ma-ubicacion__postal" memory_type="image" memory_usage="custom" memory_source="library" memory_key="ubicacion-foto">
+        <img src="https://loremflickr.com/440/260/lagoon,venue" alt="Vista de la cala del evento" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" />
+        <figcaption hidden>La cala</figcaption>
+      </figure>
+
+      <span class="ma-ubicacion__eco" aria-hidden="true">
+          <span class="ma-ubicacion__onda"></span>
+          Eco detectado
+        </span>
+        <br />
+        <a class="ma-ubicacion__boton" href="https://www.google.com/maps?q=Ubicacion+del+evento" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Trazar rumbo</a>
+      </div>
+
+      <figure class="ma-ubicacion__mapa-zona">
+        <svg class="ma-ubicacion__bib" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <path d="M6 28 C14 18, 22 18, 28 26 L40 20 L34 30 C30 38, 16 38, 6 28 Z" stroke="currentColor" stroke-width="1.6"/>
+          <circle cx="34" cy="25" r="1.8" fill="currentColor"/>
+        </svg>
+        <div class="ma-ubicacion__mapa" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url">
+          <iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen></iframe>
+        </div>
+      </figure>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ma-ubicacion');
+      if (!root) return;
+      root.classList.add('ma-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-mapa',
+      style_name: 'Marino de Profundidad — Mapa',
+      descripcion: 'Cabin de sonar con eco pulsante, mapa en tinte abisal y pez de papel nadando sobre la esquina; rumbo en cápsula.',
+      tags: ['ubicacion', 'mapa', 'sonar', 'marino', 'eco', 'abisal'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>

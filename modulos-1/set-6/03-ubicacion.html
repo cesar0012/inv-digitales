@@ -1,0 +1,273 @@
+<section
+  class="bh-ubicacion"
+  data-gemini-id="ubicacion-ceremonia"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .bh-ubicacion {
+      --primary-color: #22242a;
+      --secondary-color: #6d7078;
+      --accent-color: #e2543e;
+      --bg-color: #f3f1ec;
+      --surface-color: #fbfaf7;
+      --surface-border-color: rgba(34, 36, 42, 0.18);
+      --text-color: #22242a;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/architecture,minimal');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .bh-ubicacion *,
+    .bh-ubicacion *::before,
+    .bh-ubicacion *::after { box-sizing: border-box; }
+
+    .bh-ubicacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 93%, transparent);
+    }
+
+    .bh-ubicacion__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+      gap: clamp(1.6rem, 4vw, 3rem);
+      align-items: stretch;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .bh-ubicacion__info {
+      display: grid;
+      align-content: center;
+      gap: 1rem;
+      padding: clamp(1.6rem, 4vw, 2.6rem);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+    }
+    .bh-ubicacion__rotulo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .bh-ubicacion__rotulo i {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent-color) 0 50%, var(--primary-color) 50% 100%);
+    }
+    .bh-ubicacion__titulo {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .bh-ubicacion__direccion {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-style: normal;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+    .bh-ubicacion__punto {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .bh-ubicacion__diana {
+      position: relative;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent-color);
+    }
+    .bh-ubicacion__diana::after {
+      content: '';
+      position: absolute;
+      inset: -7px;
+      border: 2px solid var(--primary-color);
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    .bh-ubicacion.esta-visto .bh-ubicacion__diana::after { animation: bhUbicacionBlanco 1.8s ease-out infinite; }
+    @keyframes bhUbicacionBlanco {
+      0% { opacity: 0.85; transform: scale(0.4); }
+      75% { opacity: 0.1; transform: scale(1.3); }
+      100% { opacity: 0; transform: scale(1.4); }
+    }
+    .bh-ubicacion__boton {
+      justify-self: start;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.78rem 1.8rem;
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.4s ease;
+    }
+    .bh-ubicacion__boton:hover { background: var(--accent-color); }
+    .bh-ubicacion__boton i {
+      width: 0;
+      height: 0;
+      border-left: 8px solid currentColor;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+    }
+
+    .bh-ubicacion__mapa-zona {
+      position: relative;
+      margin: 0;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+    }
+    .bh-ubicacion__mapa-cinta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.7rem 1rem;
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+    .bh-ubicacion__mapa-cinta b {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--accent-color);
+    }
+    .bh-ubicacion__mapa { min-height: 0; }
+    .bh-ubicacion__mapa iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      min-height: 320px;
+      aspect-ratio: 16 / 10;
+      border: 0;
+      filter: saturate(0.8);
+    }
+    .bh-ubicacion__postal {
+      position: absolute;
+      bottom: -16px;
+      right: -12px;
+      width: clamp(110px, 15vw, 150px);
+      margin: 0;
+      border: 1px solid var(--surface-border-color);
+      background: var(--surface-color);
+      padding: 5px;
+      box-shadow: 6px 6px 0 color-mix(in srgb, var(--accent-color) 55%, transparent);
+      transform: rotate(2deg);
+    }
+    .bh-ubicacion__postal img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      filter: saturate(0.9);
+    }
+
+    @media (max-width: 880px) {
+      .bh-ubicacion__grid { grid-template-columns: 1fr; }
+      .bh-ubicacion__postal { right: 8px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bh-ubicacion * { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="bh-ubicacion__grid">
+    <div class="bh-ubicacion__info">
+      <p class="bh-ubicacion__rotulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-etiqueta"><i aria-hidden="true"></i> Plano del evento</p>
+      <h2 class="bh-ubicacion__titulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Cómo llegar</h2>
+      <address class="bh-ubicacion__direccion" memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion">
+        Nombre del lugar<br />
+        Circuito Geométrico 45<br />
+        Ciudad, Estado
+      </address>
+      <span class="bh-ubicacion__punto" aria-hidden="true">
+        <span class="bh-ubicacion__diana"></span>
+        Punto exacto de reunión
+      </span>
+      <a class="bh-ubicacion__boton" href="https://www.google.com/maps?q=Ubicacion+del+evento" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Trazar ruta <i aria-hidden="true"></i></a>
+    </div>
+
+    <figure class="bh-ubicacion__mapa-zona">
+      <figcaption class="bh-ubicacion__mapa-cinta">
+        <span memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-rotulo">Mapa · Escala urbana</span>
+        <b aria-hidden="true"></b>
+      </figcaption>
+      <div class="bh-ubicacion__mapa" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url">
+        <iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen></iframe>
+      </div>
+      <figure class="bh-ubicacion__postal" memory_type="image" memory_usage="custom" memory_source="library" memory_key="ubicacion-foto">
+        <img src="https://loremflickr.com/400/300/venue,arch" alt="Vista del lugar del evento" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" />
+        <figcaption hidden>El lugar</figcaption>
+      </figure>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.bh-ubicacion');
+      if (!root) return;
+      root.classList.add('bh-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-ceremonia',
+      style_name: 'Bauhaus Geométrico — Mapa',
+      descripcion: 'Info panel con diana pulsante y botón flecha junto a mapa con cinta superior, postal con sombra dura de acento.',
+      tags: ['ubicacion', 'mapa', 'bauhaus', 'diana', 'flecha', 'geometrico'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>

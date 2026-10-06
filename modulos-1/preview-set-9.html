@@ -1,0 +1,2710 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>set-9</title><style>:root{--primary-color:#1f2937;--text-color:#1f2937;--accent-color:#b59b72;--bg-color:#f5f1e8;--secondary-color:#6b7280;--surface-color:#ffffff;--surface-border-color:rgba(0,0,0,.12);--font-base:Georgia,serif}body{margin:0}</style></head><body><section
+  class="ci-portada"
+  data-gemini-id="portada-nombre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="ci-portada-titulo"
+>
+  <style>
+    .ci-portada {
+      --primary-color: #f3ead8;
+      --secondary-color: #b3a488;
+      --accent-color: #e8a13c;
+      --bg-color: #191512;
+      --surface-color: #221d18;
+      --surface-border-color: rgba(243, 234, 216, 0.16);
+      --text-color: #f3ead8;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 7vw, 5.5rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/film,sepia');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ci-portada *,
+    .ci-portada *::before,
+    .ci-portada *::after { box-sizing: border-box; }
+
+    .ci-portada::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+    .ci-portada__fuga {
+      position: absolute;
+      z-index: 0;
+      top: -10%;
+      right: -8%;
+      width: clamp(220px, 40vw, 520px);
+      height: clamp(220px, 40vw, 520px);
+      background: radial-gradient(circle, color-mix(in srgb, var(--accent-color) 30%, transparent), transparent 65%);
+      filter: blur(10px);
+      pointer-events: none;
+      animation: ciPortadaParpadeo 6s ease-in-out infinite;
+    }
+    @keyframes ciPortadaParpadeo {
+      0%, 100% { opacity: 0.55; }
+      45% { opacity: 0.95; }
+      55% { opacity: 0.7; }
+    }
+
+    .ci-portada__pelicula {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 760px);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 34px 74px rgba(0, 0, 0, 0.6);
+    }
+    .ci-portada__perforaciones {
+      height: 22px;
+      background:
+        radial-gradient(circle, var(--bg-color) 0 5px, transparent 5.5px) 0 50% / 34px 100% repeat-x;
+      border-bottom: 1px solid var(--surface-border-color);
+    }
+    .ci-portada__perforaciones--abajo { border-bottom: 0; border-top: 1px solid var(--surface-border-color); }
+
+    .ci-portada__encuadre {
+      padding: clamp(2.2rem, 5.5vw, 3.8rem) clamp(1.4rem, 5vw, 3.2rem);
+      display: grid;
+      justify-items: center;
+      position: relative;
+    }
+    .ci-portada__encuadre::before,
+    .ci-portada__encuadre::after {
+      content: '';
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border: 1.5px solid var(--accent-color);
+      opacity: 0.8;
+    }
+    .ci-portada__encuadre::before { top: 12px; left: 12px; border-right: 0; border-bottom: 0; }
+    .ci-portada__encuadre::after { bottom: 12px; right: 12px; border-left: 0; border-top: 0; }
+
+    .ci-portada__claqueta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 1.1rem;
+      padding: 0.35rem 1rem;
+      background: repeating-linear-gradient(-45deg, var(--accent-color) 0 10px, var(--bg-color) 10px 20px);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.15vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--text-color);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+    }
+    .ci-portada__claqueta span {
+      background: color-mix(in srgb, var(--bg-color) 80%, transparent);
+      padding: 0.1rem 0.5rem;
+    }
+
+    .ci-portada__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(2rem, 6vw, 4.2rem);
+      line-height: 1.05;
+      color: var(--primary-color);
+      text-shadow: 0 2px 24px rgba(232, 161, 60, 0.25);
+    }
+    .ci-portada__titulo span {
+      display: inline-block;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), filter 0.5s ease;
+    }
+    .ci-portada.ci-js .ci-portada__titulo span { opacity: 0; transform: scale(1.15); filter: blur(10px); }
+    .ci-portada.esta-visto .ci-portada__titulo span { opacity: 1; transform: none; filter: blur(0); }
+    .ci-portada.esta-visto .ci-portada__titulo span:nth-child(1) { transition-delay: 0.1s; }
+    .ci-portada.esta-visto .ci-portada__titulo span:nth-child(2) { transition-delay: 0.2s; }
+    .ci-portada.esta-visto .ci-portada__titulo span:nth-child(3) { transition-delay: 0.3s; }
+
+    .ci-portada__ampersand {
+      display: block;
+      margin: 0.12em 0;
+      font-style: italic;
+      color: var(--accent-color);
+    }
+
+    .ci-portada__timecode {
+      display: inline-block;
+      margin-top: clamp(1.2rem, 3vw, 1.8rem);
+      padding: 0.45rem 1.3rem;
+      border: 1px solid var(--surface-border-color);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.68rem, 1.35vw, 0.82rem);
+      letter-spacing: 0.3em;
+      color: var(--accent-color);
+    }
+
+    .ci-portada__still {
+      position: absolute;
+      z-index: 3;
+      bottom: clamp(3.4rem, 7vw, 4.6rem);
+      right: clamp(0.6rem, 3.5vw, 2.4rem);
+      width: clamp(100px, 14vw, 148px);
+      margin: 0;
+      padding: 5px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55);
+      transform: rotate(4deg);
+      transition: transform 0.5s ease;
+    }
+    .ci-portada__still:hover { transform: rotate(0deg) translateY(-4px); }
+    .ci-portada__still img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      filter: sepia(0.25) saturate(1.05);
+    }
+
+    @media (max-width: 640px) {
+      .ci-portada__still { position: static; margin: 1.4rem auto 0; transform: rotate(-2deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ci-portada * { animation: none !important; transition: none !important; }
+      .ci-portada__titulo span { opacity: 1; transform: none; filter: none; }
+    }
+  </style>
+
+  <span class="ci-portada__fuga" aria-hidden="true"></span>
+
+  <div class="ci-portada__pelicula">
+    <div class="ci-portada__perforaciones" aria-hidden="true"></div>
+
+    <div class="ci-portada__encuadre">
+      <p class="ci-portada__claqueta" memory_type="text" memory_usage="custom" memory_key="portada-encabezado"><span>RODANDO</span> ESC. 01 · TOMA ÚNICA</p>
+
+      <div memory_type="text" memory_usage="custom" memory_key="portada-nombres">
+        <h1 id="ci-portada-titulo" class="ci-portada__titulo">
+          <span>Nombre de la Novia</span>
+          <span class="ci-portada__ampersand">&amp;</span>
+          <span>Nombre del Novio</span>
+        </h1>
+      </div>
+
+      <time class="ci-portada__timecode" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="portada-fecha">TC · FECHA DEL EVENTO</time>
+    </div>
+
+    <div class="ci-portada__perforaciones ci-portada__perforaciones--abajo" aria-hidden="true"></div>
+  </div>
+
+  <figure class="ci-portada__still" memory_type="image" memory_usage="custom" memory_source="library" memory_key="portada-foto">
+    <img src="https://loremflickr.com/420/320/couple,indie" alt="Fotograma de los anfitriones" path="placeholder" data-library-category="bodas" data-asset-type="foto-pareja" loading="lazy" />
+    <figcaption hidden>Fotograma principal</figcaption>
+  </figure>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ci-portada');
+      if (!root) return;
+      root.classList.add('ci-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.22 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Cine Indie',
+      descripcion: 'Franja de película con perforaciones, claqueta a rayas, títulos que aparecen desenfocando y fuga de luz ámbar que parpadea.',
+      tags: ['portada', 'hero', 'cine', 'pelicula', 'claqueta', 'sepia', 'indie'],
+      tipo: 'portada'
+    };
+  </script>
+</section>
+
+<section
+  class="ci-padres"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ci-padres {
+      --primary-color: #f3ead8;
+      --secondary-color: #b3a488;
+      --accent-color: #e8a13c;
+      --bg-color: #191512;
+      --surface-color: #221d18;
+      --surface-border-color: rgba(243, 234, 216, 0.16);
+      --text-color: #f3ead8;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/vintage,film');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .ci-padres *,
+    .ci-padres *::before,
+    .ci-padres *::after { box-sizing: border-box; }
+
+    .ci-padres::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 91%, transparent);
+    }
+
+    .ci-padres__cabecera {
+      width: min(100%, 880px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 0.9rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .ci-padres__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ci-padres__bobina {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--accent-color);
+    }
+    .ci-padres__intro {
+      width: min(100%, 880px);
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .ci-padres__cintas {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1.4rem, 4vw, 2.6rem);
+      width: min(100%, 880px);
+      margin: 0 auto;
+    }
+
+    .ci-padres__cinta {
+      position: relative;
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 22px 46px rgba(0, 0, 0, 0.5);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ci-padres.ci-js .ci-padres__cinta { opacity: 0; transform: translateY(20px); }
+    .ci-padres .ci-padres__cinta.esta-visto { opacity: 1; transform: none; }
+
+    .ci-padres__perforaciones {
+      background:
+        radial-gradient(circle, var(--bg-color) 0 4px, transparent 4.5px) 50% 0 / 100% 26px repeat-y;
+      border-right: 1px solid var(--surface-border-color);
+    }
+
+    .ci-padres__contenido { padding: clamp(1.4rem, 3.4vw, 2rem); text-align: center; }
+    .ci-padres__retrato {
+      width: clamp(96px, 13.5vw, 124px);
+      margin: 0 auto 0.9rem;
+      padding: 4px;
+      border: 1px solid var(--accent-color);
+      border-radius: 50%;
+      box-shadow: 0 0 18px color-mix(in srgb, var(--accent-color) 25%, transparent);
+    }
+    .ci-padres__retrato img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      object-fit: cover;
+      filter: sepia(0.2) saturate(1.02);
+    }
+
+    .ci-padres__rol {
+      margin: 0 0 0.3rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.56rem, 1.05vw, 0.64rem);
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ci-padres__nombres {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.02rem, 2.05vw, 1.28rem);
+      line-height: 1.3;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 740px) {
+      .ci-padres__cintas { grid-template-columns: 1fr; max-width: 380px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ci-padres * { transition: none !important; }
+      .ci-padres__cinta { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="ci-padres__cabecera" memory_type="text" memory_usage="custom" memory_key="padres-intro">
+    <h2 class="ci-padres__titulo" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Reparto de origen</h2>
+    <span class="ci-padres__bobina" memory_type="text" memory_usage="custom" memory_key="padres-bobina">BOBINA 01 · REEL A</span>
+  </header>
+  <p class="ci-padres__intro" memory_type="text" memory_usage="custom" memory_key="padres-texto">Todo gran filme empieza con dos familias frente a la cámara.</p>
+
+  <div class="ci-padres__cintas">
+    <article class="ci-padres__cinta" data-ci-cinta>
+      <span class="ci-padres__perforaciones" aria-hidden="true"></span>
+      <div class="ci-padres__contenido">
+        <figure class="ci-padres__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-uno">
+          <img src="https://loremflickr.com/380/380/family,vintage" alt="Retrato de la familia de la novia" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" />
+          <figcaption hidden>Familia uno</figcaption>
+        </figure>
+        <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-uno">
+          <p class="ci-padres__rol">Padres de la novia</p>
+          <h3 class="ci-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+        </div>
+      </div>
+    </article>
+
+    <article class="ci-padres__cinta" data-ci-cinta>
+      <span class="ci-padres__perforaciones" aria-hidden="true"></span>
+      <div class="ci-padres__contenido">
+        <figure class="ci-padres__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-dos">
+          <img src="https://loremflickr.com/380/380/parents,retro" alt="Retrato de la familia del novio" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" />
+          <figcaption hidden>Familia dos</figcaption>
+        </figure>
+        <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-dos">
+          <p class="ci-padres__rol">Padres del novio</p>
+          <h3 class="ci-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ci-padres');
+      if (!root) return;
+      root.classList.add('ci-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var cintas = Array.prototype.slice.call(root.querySelectorAll('[data-ci-cinta]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        cintas.forEach(function (c) { c.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = cintas.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.15).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      cintas.forEach(function (c) { io.observe(c); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Cine Indie — Padres',
+      descripcion: 'Cintas de 35mm con perforaciones laterales, retratos circulares con halo ámbar y ascenso escalonado; bobina rotulada.',
+      tags: ['padres', 'familias', 'cine', 'pelicula', 'perforaciones', 'bobina'],
+      tipo: 'padres'
+    };
+  </script>
+</section>
+
+<section
+  class="ci-ubicacion"
+  data-gemini-id="ubicacion-ceremonia"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ci-ubicacion {
+      --primary-color: #f3ead8;
+      --secondary-color: #b3a488;
+      --accent-color: #e8a13c;
+      --bg-color: #191512;
+      --surface-color: #221d18;
+      --surface-border-color: rgba(243, 234, 216, 0.16);
+      --text-color: #f3ead8;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/night,town');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .ci-ubicacion *,
+    .ci-ubicacion *::before,
+    .ci-ubicacion *::after { box-sizing: border-box; }
+
+    .ci-ubicacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 91%, transparent);
+    }
+
+    .ci-ubicacion__cabecera {
+      width: min(100%, 920px);
+      margin: 0 auto clamp(1.6rem, 4vw, 2.4rem);
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 0.9rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .ci-ubicacion__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ci-ubicacion__rotulo {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--accent-color);
+    }
+
+    .ci-ubicacion__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.4rem, 3.6vw, 2.6rem);
+      align-items: center;
+      width: min(100%, 920px);
+      margin: 0 auto;
+    }
+
+    .ci-ubicacion__info { text-align: left; }
+    .ci-ubicacion__lugar {
+      margin: 0 0 0.7rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.3rem, 2.8vw, 1.8rem);
+      color: var(--primary-color);
+    }
+    .ci-ubicacion__direccion {
+      margin: 0 0 1.2rem;
+      padding-left: 0.9rem;
+      border-left: 2px solid var(--accent-color);
+      font-style: normal;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+    .ci-ubicacion__still {
+      margin: 0 0 1.2rem;
+      padding: 5px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.45);
+      transform: rotate(-1.6deg);
+    }
+    .ci-ubicacion__still img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      filter: sepia(0.25) saturate(1.02);
+    }
+
+    .ci-ubicacion__localizador {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.3rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .ci-ubicacion__marco-luz {
+      position: relative;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      box-shadow: 0 0 14px var(--accent-color);
+    }
+    .ci-ubicacion__marco-luz::after {
+      content: '';
+      position: absolute;
+      inset: -7px;
+      border: 1.4px solid var(--accent-color);
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    .ci-ubicacion.esta-visto .ci-ubicacion__marco-luz::after { animation: ciUbicacionAviso 1.9s ease-out infinite; }
+    @keyframes ciUbicacionAviso {
+      0% { opacity: 0.85; transform: scale(0.4); }
+      75% { opacity: 0.1; transform: scale(1.3); }
+      100% { opacity: 0; transform: scale(1.4); }
+    }
+    .ci-ubicacion__boton {
+      display: inline-block;
+      padding: 0.75rem 1.8rem;
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.66rem, 1.25vw, 0.76rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+    .ci-ubicacion__boton:hover { background: var(--accent-color); color: var(--bg-color); }
+
+    .ci-ubicacion__marco {
+      position: relative;
+      margin: 0;
+      padding: 9px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 26px 56px rgba(0, 0, 0, 0.5);
+    }
+    .ci-ubicacion__marco figcaption {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .ci-ubicacion__mapa { overflow: hidden; border: 1px solid var(--surface-border-color); }
+    .ci-ubicacion__mapa iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border: 0;
+      filter: sepia(0.3) contrast(1.02);
+    }
+
+    @media (max-width: 820px) {
+      .ci-ubicacion__grid { grid-template-columns: 1fr; }
+      .ci-ubicacion__info { text-align: center; }
+      .ci-ubicacion__direccion { border-left: 0; padding-left: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ci-ubicacion * { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <header class="ci-ubicacion__cabecera" memory_type="text" memory_usage="custom" memory_key="ubicacion-intro">
+    <h2 class="ci-ubicacion__titulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Locación del rodaje</h2>
+    <span class="ci-ubicacion__rotulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-rotulo">INT. NOCHE</span>
+  </header>
+
+  <div class="ci-ubicacion__grid">
+    <div class="ci-ubicacion__info">
+      <h3 class="ci-ubicacion__lugar" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar">Nombre del lugar</h3>
+      <address class="ci-ubicacion__direccion" memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion">
+        Cine Independiente, Sala 3<br />
+        Calle del Proyector 21<br />
+        Ciudad, Estado
+      </address>
+      <figure class="ci-ubicacion__still" memory_type="image" memory_usage="custom" memory_source="library" memory_key="ubicacion-foto">
+        <img src="https://loremflickr.com/440/300/venue,night" alt="Vista nocturna de la locación" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" />
+        <figcaption hidden>La locación</figcaption>
+      </figure>
+
+      <span class="ci-ubicacion__localizador" aria-hidden="true">
+        <span class="ci-ubicacion__marco-luz"></span>
+        Punto de rodaje
+      </span>
+      <br />
+      <a class="ci-ubicacion__boton" href="https://www.google.com/maps?q=Ubicacion+del+evento" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Cómo llegar</a>
+    </div>
+
+    <figure class="ci-ubicacion__marco">
+      <figcaption>
+        <span memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-rotulo">Mapa de locación</span>
+        <span>ESC. 01</span>
+      </figcaption>
+      <div class="ci-ubicacion__mapa" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url">
+        <iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen></iframe>
+      </div>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ci-ubicacion');
+      if (!root) return;
+      root.classList.add('ci-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-ceremonia',
+      style_name: 'Cine Indie — Mapa',
+      descripcion: 'Cabecera INT.NOCHE, localizador con luz parpadeante, mapa enmarcado en sepia con claqueta de escena y CTA outline ámbar.',
+      tags: ['ubicacion', 'mapa', 'cine', 'locacion', 'int noche', 'sepia'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>
+
+<section
+  class="ci-itinerario"
+  data-gemini-id="itinerario-agenda"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ci-itinerario {
+      --primary-color: #f3ead8;
+      --secondary-color: #b3a488;
+      --accent-color: #e8a13c;
+      --bg-color: #191512;
+      --surface-color: #221d18;
+      --surface-border-color: rgba(243, 234, 216, 0.16);
+      --text-color: #f3ead8;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/cinema,night');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .ci-itinerario *,
+    .ci-itinerario *::before,
+    .ci-itinerario *::after { box-sizing: border-box; }
+
+    .ci-itinerario::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 91%, transparent);
+    }
+
+    .ci-itinerario__cabecera {
+      width: min(100%, 780px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 0.9rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .ci-itinerario__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ci-itinerario__metraje {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--accent-color);
+    }
+
+    .ci-itinerario__carrete {
+      position: relative;
+      width: min(100%, 780px);
+      margin: 0 auto;
+      padding-left: clamp(2.2rem, 5.5vw, 3rem);
+    }
+    .ci-itinerario__perforaciones {
+      position: absolute;
+      top: 4px;
+      bottom: 4px;
+      left: 8px;
+      width: 16px;
+      background:
+        radial-gradient(circle, var(--bg-color) 0 3px, transparent 3.5px) 50% 0 / 100% 22px repeat-y,
+        var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+    }
+    .ci-itinerario__revelado {
+      position: absolute;
+      top: 4px;
+      bottom: 4px;
+      left: 8px;
+      width: 16px;
+      background: color-mix(in srgb, var(--accent-color) 55%, transparent);
+      clip-path: inset(calc(100% - var(--ci-progreso, 0%)) 0 0 0);
+      pointer-events: none;
+    }
+
+    .ci-itinerario__escena {
+      position: relative;
+      margin: 0 0 clamp(1.4rem, 3.6vw, 2rem);
+      padding: clamp(1.1rem, 2.7vw, 1.6rem) clamp(1.2rem, 3vw, 1.8rem);
+      background: color-mix(in srgb, var(--surface-color) 92%, transparent);
+      border: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ci-itinerario.ci-js .ci-itinerario__escena { opacity: 0; transform: translateX(16px); }
+    .ci-itinerario .ci-itinerario__escena.esta-visto { opacity: 1; transform: none; }
+
+    .ci-itinerario__marco {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 16px;
+      height: 16px;
+      border-top: 2px solid var(--accent-color);
+      border-left: 2px solid var(--accent-color);
+      opacity: 0.7;
+    }
+
+    .ci-itinerario__timecode {
+      display: inline-block;
+      margin-bottom: 0.35rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.66rem, 1.3vw, 0.76rem);
+      letter-spacing: 0.24em;
+      color: var(--accent-color);
+    }
+    .ci-itinerario__momento {
+      margin: 0 0 0.3rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.02rem, 2.1vw, 1.28rem);
+      color: var(--primary-color);
+    }
+    .ci-itinerario__detalle {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
+      line-height: 1.65;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 560px) {
+      .ci-itinerario__carrete { padding-left: 2rem; }
+      .ci-itinerario__perforaciones, .ci-itinerario__revelado { left: 4px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ci-itinerario * { transition: none !important; }
+      .ci-itinerario__escena { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="ci-itinerario__cabecera" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">
+    <h2 class="ci-itinerario__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Guion de la noche</h2>
+    <span class="ci-itinerario__metraje" memory_type="text" memory_usage="custom" memory_key="itinerario-metraje">4 ESCENAS · 35MM</span>
+  </header>
+
+  <div class="ci-itinerario__carrete">
+    <span class="ci-itinerario__perforaciones" aria-hidden="true"></span>
+    <span class="ci-itinerario__revelado" aria-hidden="true" data-ci-revelado></span>
+
+    <article class="ci-itinerario__escena" data-ci-escena>
+      <span class="ci-itinerario__marco" aria-hidden="true"></span>
+      <time class="ci-itinerario__timecode" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">ESC. 01 · 16:00</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
+        <h3 class="ci-itinerario__momento">Plano de apertura</h3>
+        <p class="ci-itinerario__detalle">Los invitados entran al patio; títulos de crédito rodantes.</p>
+      </div>
+    </article>
+
+    <article class="ci-itinerario__escena" data-ci-escena>
+      <span class="ci-itinerario__marco" aria-hidden="true"></span>
+      <time class="ci-itinerario__timecode" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">ESC. 02 · 17:00</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
+        <h3 class="ci-itinerario__momento">Escena central</h3>
+        <p class="ci-itinerario__detalle">La ceremonia, cámara lenta, luz de contraluz.</p>
+      </div>
+    </article>
+
+    <article class="ci-itinerario__escena" data-ci-escena>
+      <span class="ci-itinerario__marco" aria-hidden="true"></span>
+      <time class="ci-itinerario__timecode" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">ESC. 03 · 19:00</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
+        <h3 class="ci-itinerario__momento">Diálogos de mesa</h3>
+        <p class="ci-itinerario__detalle">Cena con conversaciones largas y vino corto.</p>
+      </div>
+    </article>
+
+    <article class="ci-itinerario__escena" data-ci-escena>
+      <span class="ci-itinerario__marco" aria-hidden="true"></span>
+      <time class="ci-itinerario__timecode" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">ESC. 04 · 21:30</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
+        <h3 class="ci-itinerario__momento">Créditos finales</h3>
+        <p class="ci-itinerario__detalle">Pista abierta; los nombres suben en la pantalla.</p>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ci-itinerario');
+      if (!root) return;
+      root.classList.add('ci-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var revelado = root.querySelector('[data-ci-revelado]');
+      var escenas = Array.prototype.slice.call(root.querySelectorAll('[data-ci-escena]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      var revealIO = ('IntersectionObserver' in window) && !reduce ? new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('esta-visto');
+            revealIO.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 }) : null;
+
+      escenas.forEach(function (escena) {
+        if (revealIO) revealIO.observe(escena);
+        else escena.classList.add('esta-visto');
+      });
+
+      function alRevelar() {
+        if (!revelado) return;
+        var rect = root.getBoundingClientRect();
+        var total = rect.height + window.innerHeight * 0.35;
+        var pasado = Math.min(Math.max(window.innerHeight * 0.7 - rect.top, 0), total);
+        revelado.style.setProperty('--ci-progreso', ((pasado / total) * 100).toFixed(2) + '%');
+      }
+      if (!reduce) {
+        window.addEventListener('scroll', alRevelar, { passive: true });
+        window.addEventListener('resize', alRevelar);
+        alRevelar();
+      } else if (revelado) {
+        revelado.style.setProperty('--ci-progreso', '100%');
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Cine Indie — Itinerario',
+      descripcion: 'Carrete vertical con perforaciones que se revelan en ámbar con el scroll, escenas con marcos de encuadre y timecodes.',
+      tags: ['itinerario', 'timeline', 'cine', 'carrete', 'revelado', 'timecode'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>
+
+<section
+  class="ci-confirmacion"
+  data-gemini-id="confirmacion-texto"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ci-confirmacion {
+      --primary-color: #f3ead8;
+      --secondary-color: #b3a488;
+      --accent-color: #e8a13c;
+      --bg-color: #191512;
+      --surface-color: #221d18;
+      --surface-border-color: rgba(243, 234, 216, 0.16);
+      --text-color: #f3ead8;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 72svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/cinema,seats');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ci-confirmacion *,
+    .ci-confirmacion *::before,
+    .ci-confirmacion *::after { box-sizing: border-box; }
+
+    .ci-confirmacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .ci-confirmacion__haz {
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 50%;
+      width: clamp(240px, 46vw, 560px);
+      height: 70%;
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--accent-color) 32%, transparent), transparent 80%);
+      clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
+      pointer-events: none;
+      animation: ciConfirmacionProyector 5s ease-in-out infinite;
+    }
+    @keyframes ciConfirmacionProyector {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+
+    .ci-confirmacion__pantalla {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 620px);
+      padding: clamp(2.2rem, 5.5vw, 3.5rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 92%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 30px 64px rgba(0, 0, 0, 0.55);
+    }
+
+    .ci-confirmacion__aviso {
+      display: inline-block;
+      margin-bottom: 0.9rem;
+      padding: 0.35rem 1rem;
+      background: repeating-linear-gradient(-45deg, var(--accent-color) 0 9px, var(--bg-color) 9px 18px);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.34em;
+      color: var(--text-color);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+    }
+    .ci-confirmacion__aviso span {
+      background: color-mix(in srgb, var(--bg-color) 82%, transparent);
+      padding: 0.1rem 0.5rem;
+    }
+
+    .ci-confirmacion__titulo {
+      margin: 0 0 1rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      line-height: 1.15;
+      color: var(--primary-color);
+    }
+    .ci-confirmacion__texto {
+      margin: 0 auto 1.4rem;
+      max-width: 46ch;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+
+    .ci-confirmacion__apague {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.68rem, 1.35vw, 0.8rem);
+      letter-spacing: 0.26em;
+      color: var(--accent-color);
+    }
+    .ci-confirmacion__apague time { border-bottom: 1px solid var(--accent-color); }
+
+    @media (max-width: 560px) {
+      .ci-confirmacion { min-height: 62svh; }
+      .ci-confirmacion__pantalla { padding: 2.2rem 1.2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ci-confirmacion * { animation: none !important; }
+    }
+  </style>
+
+  <span class="ci-confirmacion__haz" aria-hidden="true"></span>
+
+  <div class="ci-confirmacion__pantalla">
+    <p class="ci-confirmacion__aviso" memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta"><span>CONFIRME SU LUGAR</span></p>
+    <h2 class="ci-confirmacion__titulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">La función es con usted o no es</h2>
+    <p class="ci-confirmacion__texto" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">
+      Reservamos su butaca en la fila central. Confirme con el enlace de su invitación digital
+      antes del cierre de taquilla; la sala se llena rápido.
+    </p>
+    <p class="ci-confirmacion__apague" memory_type="text" memory_usage="custom" memory_key="confirmacion-rotulo">
+      CIERRA TAQUILLA: <time datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha">DD DE MES</time>
+    </p>
+  </div>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Cine Indie — Confirmación',
+      descripcion: 'Haz de proyector latiendo sobre pantalla de sala, aviso a rayas de claqueta y cierre de taquilla con fecha subrayada.',
+      tags: ['confirmacion', 'rsvp', 'cine', 'proyector', 'taquilla', 'butaca'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>
+
+<section
+  class="ci-detalles"
+  data-gemini-id="detalles-regalo"
+>
+  <style>
+    .ci-detalles {
+      --primary-color: #f3ead8;
+      --secondary-color: #b3a488;
+      --accent-color: #e8a13c;
+      --bg-color: #191512;
+      --surface-color: #221d18;
+      --surface-border-color: rgba(243, 234, 216, 0.16);
+      --text-color: #f3ead8;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .ci-detalles *,
+    .ci-detalles *::before,
+    .ci-detalles *::after { box-sizing: border-box; }
+
+    .ci-detalles__cabecera {
+      width: min(100%, 1020px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 0.9rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .ci-detalles__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ci-detalles__claque {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--accent-color);
+    }
+
+    .ci-detalles__set {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.6rem, 4vw, 3rem);
+      align-items: center;
+      width: min(100%, 1020px);
+      margin: 0 auto;
+    }
+
+    .ci-detalles__foto {
+      position: relative;
+      margin: 0;
+      padding: 8px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 26px 56px rgba(0, 0, 0, 0.55);
+      transform: rotate(-2deg);
+    }
+    .ci-detalles__foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      filter: sepia(0.22) contrast(1.05);
+    }
+    .ci-detalles__perforaciones {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: -1px;
+      width: 14px;
+      background:
+        radial-gradient(circle, var(--bg-color) 0 3px, transparent 3.5px) 50% 0 / 100% 20px repeat-y,
+        color-mix(in srgb, var(--accent-color) 25%, var(--surface-color));
+    }
+
+    .ci-detalles__filas { display: grid; gap: 0; border-top: 1px solid var(--surface-border-color); }
+
+    .ci-detalles__fila {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      align-items: start;
+      padding: clamp(0.9rem, 2.3vw, 1.2rem) 0.3rem;
+      border-bottom: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .ci-detalles.ci-js .ci-detalles__fila { opacity: 0; transform: translateX(-14px); }
+    .ci-detalles .ci-detalles__fila.esta-visto { opacity: 1; transform: none; }
+
+    .ci-detalles__slaqueta-num {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.8rem, 1.6vw, 1rem);
+      color: var(--accent-color);
+      letter-spacing: 0.1em;
+    }
+    .ci-detalles__rotulo {
+      margin: 0 0 0.2rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.56rem, 1.05vw, 0.64rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .ci-detalles__titulo-card {
+      margin: 0 0 0.25rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.98rem, 1.9vw, 1.16rem);
+      color: var(--primary-color);
+    }
+    .ci-detalles__texto {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.76rem, 1.35vw, 0.86rem);
+      line-height: 1.6;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 880px) {
+      .ci-detalles__set { grid-template-columns: 1fr; }
+      .ci-detalles__foto { max-width: 380px; margin: 0 auto; transform: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ci-detalles * { transition: none !important; }
+      .ci-detalles__fila { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="ci-detalles__cabecera" memory_type="text" memory_usage="custom" memory_key="detalles-intro">
+    <h2 class="ci-detalles__titulo" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Notas de producción</h2>
+    <span class="ci-detalles__claque" memory_type="text" memory_usage="custom" memory_key="detalles-claque">DEPT. VESTUARIO</span>
+  </header>
+
+  <div class="ci-detalles__set">
+    <figure class="ci-detalles__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="detalles-foto">
+      <img src="https://loremflickr.com/500/620/vintage,fashion" alt="Detalle de vestuario" path="placeholder" data-library-category="bodas" data-asset-type="detalle" loading="lazy" />
+      <span class="ci-detalles__perforaciones" aria-hidden="true"></span>
+      <figcaption hidden>Detalle</figcaption>
+    </figure>
+
+    <div class="ci-detalles__filas">
+      <article class="ci-detalles__fila" data-ci-fila>
+        <span class="ci-detalles__slaqueta-num" aria-hidden="true">01</span>
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-1">
+          <p class="ci-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-1">Vestuario</p>
+          <h3 class="ci-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Elegancia con carácter</h3>
+          <p class="ci-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Nada de blanco puro ni negro total; deja que el ámbar te encuentre.</p>
+        </div>
+      </article>
+      <article class="ci-detalles__fila" data-ci-fila>
+        <span class="ci-detalles__slaqueta-num" aria-hidden="true">02</span>
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-2">
+          <p class="ci-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-2">Llamadas</p>
+          <h3 class="ci-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Call time 16:30</h3>
+          <p class="ci-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">Llega con margen: la cámara arranca a las 17:00 en punto.</p>
+        </div>
+      </article>
+      <article class="ci-detalles__fila" data-ci-fila>
+        <span class="ci-detalles__slaqueta-num" aria-hidden="true">03</span>
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-3">
+          <p class="ci-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-3">Utilería</p>
+          <h3 class="ci-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Manta y música</h3>
+          <p class="ci-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">Habrá mantas para el patio y proyección al aire libre.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ci-detalles');
+      if (!root) return;
+      root.classList.add('ci-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var filas = Array.prototype.slice.call(root.querySelectorAll('[data-ci-fila]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        filas.forEach(function (f) { f.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = filas.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.12).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      filas.forEach(function (f) { io.observe(f); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-regalo',
+      style_name: 'Cine Indie — Detalles',
+      descripcion: 'Fotograma con perforaciones laterales y filas de producción numeradas por claqueta; llamadas y utilería en cursiva.',
+      tags: ['detalles', 'cine', 'produccion', 'perforaciones', 'vestuario', 'indie'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>
+
+<section
+  class="ci-countdown"
+  data-gemini-id="countdown-leader-cine"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+>
+  <style>
+    .ci-countdown {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 660px;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 5vw, 3rem);
+      background-color: var(--bg-color, #191512);
+      background-image: url('https://loremflickr.com/1600/900/film,grain');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color, #f3ead8);
+      text-align: center;
+    }
+    .ci-countdown *,
+    .ci-countdown *::before,
+    .ci-countdown *::after { box-sizing: border-box; }
+
+    .ci-countdown::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color, #191512) 90%, transparent);
+    }
+    .ci-countdown::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: repeating-linear-gradient(0deg, rgba(243, 234, 216, 0.02) 0 1px, transparent 1px 3px);
+      pointer-events: none;
+    }
+
+    .ci-countdown__contenido { position: relative; z-index: 2; width: min(100%, 720px); }
+
+    .ci-countdown__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.46em;
+      text-transform: uppercase;
+      color: var(--accent-color, #e8a13c);
+    }
+    .ci-countdown__titulo {
+      margin: 0 0 0.4rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.8rem, 4.2vw, 2.8rem);
+      color: var(--primary-color, #f3ead8);
+    }
+    .ci-countdown__fecha {
+      display: block;
+      margin-bottom: clamp(1.6rem, 4vw, 2.4rem);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.74rem, 1.5vw, 0.88rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--secondary-color, #b3a488);
+    }
+
+    .ci-countdown__leader {
+      position: relative;
+      width: clamp(180px, 27vw, 240px);
+      margin: 0 auto clamp(1.4rem, 3.4vw, 2rem);
+    }
+    .ci-countdown__leader svg { display: block; width: 100%; height: auto; }
+    .ci-countdown__reticula { stroke: color-mix(in srgb, var(--secondary-color, #b3a488) 60%, transparent); stroke-width: 1; }
+    .ci-countdown__circulo { fill: none; stroke: var(--secondary-color, #b3a488); stroke-width: 1.4; }
+    .ci-countdown__barrido {
+      fill: color-mix(in srgb, var(--accent-color, #e8a13c) 16%, transparent);
+      transform-origin: 110px 110px;
+      transition: transform 0.5s linear;
+    }
+    .ci-countdown__aguja {
+      stroke: var(--accent-color, #e8a13c);
+      stroke-width: 2;
+      stroke-linecap: round;
+      transform-origin: 110px 110px;
+      transition: transform 0.5s linear;
+    }
+    .ci-countdown__numero-centro {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-variant-numeric: tabular-nums;
+      color: var(--primary-color, #f3ead8);
+      text-shadow: 0 0 18px color-mix(in srgb, var(--accent-color, #e8a13c) 55%, transparent);
+    }
+
+    .ci-countdown__unidades {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(0.7rem, 2vw, 1.1rem);
+      max-width: 620px;
+      margin: 0 auto;
+    }
+    .ci-countdown__unidad {
+      padding: clamp(0.85rem, 2.2vw, 1.25rem) 0.3rem;
+      background: color-mix(in srgb, var(--surface-color, #221d18) 92%, transparent);
+      border: 1px solid var(--surface-border-color, rgba(243, 234, 216, 0.16));
+    }
+    .ci-countdown__numero {
+      display: block;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(1.5rem, 4vw, 2.3rem);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      color: var(--primary-color, #f3ead8);
+    }
+    .ci-countdown__rotulo {
+      display: block;
+      margin-top: 0.45rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.54rem, 1.05vw, 0.62rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--secondary-color, #b3a488);
+    }
+
+    @media (max-width: 560px) {
+      .ci-countdown__unidades { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .ci-countdown { min-height: 600px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ci-countdown__barrido, .ci-countdown__aguja { transition: none; }
+    }
+  </style>
+
+  <div class="ci-countdown__contenido">
+    <p class="ci-countdown__etiqueta" memory_type="text" memory_usage="custom" memory_key="countdown-etiqueta">Cuenta de cabeza de película</p>
+    <h2 class="ci-countdown__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Cuenta regresiva</h2>
+    <time class="ci-countdown__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+
+    <div class="ci-countdown__leader" aria-hidden="true">
+      <svg viewBox="0 0 220 220">
+        <circle class="ci-countdown__circulo" cx="110" cy="110" r="100"/>
+        <circle class="ci-countdown__circulo" cx="110" cy="110" r="70"/>
+        <path class="ci-countdown__reticula" d="M110 6 V60 M110 160 V214 M6 110 H60 M160 110 H214"/>
+        <path class="ci-countdown__barrido" data-ci-barrido d="M110 110 L110 10 A100 100 0 0 1 210 110 Z"/>
+        <line class="ci-countdown__aguja" data-ci-aguja x1="110" y1="110" x2="110" y2="14"/>
+      </svg>
+      <span class="ci-countdown__numero-centro" data-ci-segundos>00</span>
+    </div>
+
+    <div class="ci-countdown__unidades" aria-label="Cuenta regresiva">
+      <div class="ci-countdown__unidad"><span class="ci-countdown__numero" data-countdown-unit="days">--</span><span class="ci-countdown__rotulo">Días</span></div>
+      <div class="ci-countdown__unidad"><span class="ci-countdown__numero" data-countdown-unit="hours">--</span><span class="ci-countdown__rotulo">Horas</span></div>
+      <div class="ci-countdown__unidad"><span class="ci-countdown__numero" data-countdown-unit="minutes">--</span><span class="ci-countdown__rotulo">Min</span></div>
+      <div class="ci-countdown__unidad"><span class="ci-countdown__numero" data-countdown-unit="seconds">--</span><span class="ci-countdown__rotulo">Seg</span></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var el = null;
+      try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
+      if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+      if (!el) return;
+
+      var barrido = el.querySelector('[data-ci-barrido]');
+      var aguja = el.querySelector('[data-ci-aguja]');
+      var centro = el.querySelector('[data-ci-segundos]');
+      var target = NaN;
+      var attr = el.getAttribute('data-countdown-target');
+      if (attr && attr.indexOf('YYYY') === -1) { var p = new Date(attr); if (!isNaN(p.getTime())) target = p.getTime(); }
+      if (isNaN(target) && window.__countdownTarget) { var p1 = new Date(window.__countdownTarget); if (!isNaN(p1.getTime())) target = p1.getTime(); }
+      if (isNaN(target) && window.countdown_target) { var p2 = new Date(window.countdown_target); if (!isNaN(p2.getTime())) target = p2.getTime(); }
+
+      var intervalId = null;
+      (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+
+      function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+      function setUnit(unit, value) {
+        var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
+        if (node) node.textContent = value;
+      }
+      function tick() {
+        if (!Number.isFinite(target)) return;
+        var diff = Math.max(target - Date.now(), 0);
+        setUnit('days', Math.floor(diff / 86400000));
+        setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
+        setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
+        var s = Math.floor((diff % 60000) / 1000);
+        setUnit('seconds', pad2(s));
+        var grados = 360 - (s / 60) * 360;
+        if (barrido) barrido.setAttribute('transform', 'rotate(' + grados.toFixed(2) + ' 110 110)');
+        if (aguja) aguja.setAttribute('transform', 'rotate(' + grados.toFixed(2) + ' 110 110)');
+        if (centro) centro.textContent = pad2(s);
+        if (diff === 0 && intervalId !== null) {
+          clearInterval(intervalId);
+          intervalId = null;
+          window.__countdownIntervals = [];
+        }
+      }
+      function start(newTarget) {
+        if (newTarget) { var p = new Date(newTarget); if (!isNaN(p.getTime())) target = p.getTime(); }
+        (window.__countdownIntervals || []).forEach(clearInterval);
+        window.__countdownIntervals = [];
+        intervalId = null;
+        if (!Number.isFinite(target)) return;
+        tick();
+        if (target > Date.now()) {
+          intervalId = setInterval(tick, 1000);
+          window.__countdownIntervals.push(intervalId);
+        }
+      }
+      start();
+      window.updateCountdown = start;
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-leader-cine',
+      style_name: 'Cuenta de Leader',
+      descripcion: 'Cabeza de película: retícula de mira, barrido radar y aguja que barren cada minuto con numerales filmados y grano en pantalla.',
+      tags: ['countdown', 'cuenta regresiva', 'cine', 'leader', 'radar', 'reticula'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>
+
+<section
+  class="ci-padrinos"
+  data-gemini-id="padrinos-cine-reparto"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ci-padrinos {
+      --primary-color: #f3ead8;
+      --secondary-color: #b3a488;
+      --accent-color: #e8a13c;
+      --bg-color: #191512;
+      --surface-color: #221d18;
+      --surface-border-color: rgba(243, 234, 216, 0.16);
+      --text-color: #f3ead8;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/stage,night');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .ci-padrinos *,
+    .ci-padrinos *::before,
+    .ci-padrinos *::after { box-sizing: border-box; }
+
+    .ci-padrinos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 91%, transparent);
+    }
+
+    .ci-padrinos__cabecera {
+      width: min(100%, 860px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 0.9rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .ci-padrinos__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ci-padrinos__creditos {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--accent-color);
+    }
+
+    .ci-padrinos__reparto {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(1rem, 2.8vw, 1.9rem);
+      width: min(100%, 960px);
+      margin: 0 auto;
+    }
+
+    .ci-padrinos__actor {
+      text-align: center;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ci-padrinos.ci-js .ci-padrinos__actor { opacity: 0; transform: translateY(22px); }
+    .ci-padrinos .ci-padrinos__actor.esta-visto { opacity: 1; transform: none; }
+
+    .ci-padrinos__marco {
+      position: relative;
+      margin: 0 0 0.9rem;
+      padding: 8px 8px 22px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 18px 38px rgba(0, 0, 0, 0.5);
+    }
+    .ci-padrinos__marco img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      filter: sepia(0.25) contrast(1.04);
+    }
+    .ci-padrinos__rotulo-foto {
+      position: absolute;
+      bottom: 5px;
+      left: 0;
+      right: 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.54rem;
+      letter-spacing: 0.3em;
+      color: var(--secondary-color);
+    }
+
+    .ci-padrinos__rol {
+      margin: 0 0 0.25rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.54rem, 1vw, 0.62rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ci-padrinos__nombre {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.88rem, 1.75vw, 1.05rem);
+      line-height: 1.3;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 860px) {
+      .ci-padrinos__reparto { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 440px) {
+      .ci-padrinos__reparto { grid-template-columns: 1fr; max-width: 250px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ci-padrinos * { transition: none !important; }
+      .ci-padrinos__actor { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="ci-padrinos__cabecera" memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
+    <h2 class="ci-padrinos__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Reparto de apoyo</h2>
+    <span class="ci-padrinos__creditos" memory_type="text" memory_usage="custom" memory_key="padrinos-creditos">CON LA PARTICIPACIÓN DE</span>
+  </header>
+
+  <div class="ci-padrinos__reparto">
+    <article class="ci-padrinos__actor" data-ci-actor>
+      <figure class="ci-padrinos__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
+        <img src="https://loremflickr.com/300/300/portrait,sepia" alt="Retrato de padrino" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <span class="ci-padrinos__rotulo-foto" aria-hidden="true">FOTO 1</span>
+        <figcaption hidden>Padrino uno</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
+        <p class="ci-padrinos__rol">Padrinos de alianzas</p>
+        <h3 class="ci-padrinos__nombre">Nombre Padrino</h3>
+      </div>
+    </article>
+
+    <article class="ci-padrinos__actor" data-ci-actor>
+      <figure class="ci-padrinos__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
+        <img src="https://loremflickr.com/300/300/portrait,film" alt="Retrato de madrina" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <span class="ci-padrinos__rotulo-foto" aria-hidden="true">FOTO 2</span>
+        <figcaption hidden>Madrina dos</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
+        <p class="ci-padrinos__rol">Padrinos de velo</p>
+        <h3 class="ci-padrinos__nombre">Nombre Madrina</h3>
+      </div>
+    </article>
+
+    <article class="ci-padrinos__actor" data-ci-actor>
+      <figure class="ci-padrinos__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
+        <img src="https://loremflickr.com/300/300/portrait,warm" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <span class="ci-padrinos__rotulo-foto" aria-hidden="true">FOTO 3</span>
+        <figcaption hidden>Padrino tres</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
+        <p class="ci-padrinos__rol">Padrinos de arras</p>
+        <h3 class="ci-padrinos__nombre">Nombre Padrino</h3>
+      </div>
+    </article>
+
+    <article class="ci-padrinos__actor" data-ci-actor>
+      <figure class="ci-padrinos__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
+        <img src="https://loremflickr.com/300/300/portrait,indie" alt="Retrato de madrinas" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <span class="ci-padrinos__rotulo-foto" aria-hidden="true">FOTO 4</span>
+        <figcaption hidden>Madrina cuatro</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
+        <p class="ci-padrinos__rol">Padrinos de lazos</p>
+        <h3 class="ci-padrinos__nombre">Nombre Madrina</h3>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ci-padrinos');
+      if (!root) return;
+      root.classList.add('ci-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var actores = Array.prototype.slice.call(root.querySelectorAll('[data-ci-actor]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        actores.forEach(function (a) { a.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = actores.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.11).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.2 });
+      actores.forEach(function (a) { io.observe(a); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padrinos',
+      module_name: 'padrinos-cine-reparto',
+      style_name: 'Cine Indie — Padrinos',
+      descripcion: 'Reparto de apoyo con polaroids de set numeradas, roles en monoespaciada ámbar y ascenso escalonado del elenco.',
+      tags: ['padrinos', 'reparto', 'cine', 'polaroid', 'creditos', 'indie'],
+      tipo: 'padrinos'
+    };
+  </script>
+</section>
+
+<section
+  class="ci-corte"
+  data-gemini-id="corte-cine-claqueta"
+>
+  <style>
+    .ci-corte {
+      --primary-color: #f3ead8;
+      --secondary-color: #b3a488;
+      --accent-color: #e8a13c;
+      --bg-color: #191512;
+      --surface-color: #221d18;
+      --surface-border-color: rgba(243, 234, 216, 0.16);
+      --text-color: #f3ead8;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      perspective: 900px;
+    }
+    .ci-corte *,
+    .ci-corte *::before,
+    .ci-corte *::after { box-sizing: border-box; }
+
+    .ci-corte__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: clamp(1.8rem, 4.5vw, 3.4rem);
+      align-items: center;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .ci-corte__rodaje {
+      position: relative;
+      margin: 0;
+      transform-style: preserve-3d;
+    }
+    .ci-corte__rodaje img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.55);
+      filter: sepia(0.2) contrast(1.05);
+      transform: scale(1.06);
+      transition: transform 0.5s ease;
+    }
+    .ci-corte.esta-visto .ci-corte__rodaje img { transform: scale(1); }
+
+    .ci-corte__claqueta {
+      position: absolute;
+      z-index: 3;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: none;
+      transform-origin: top left;
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), opacity 0.45s ease 0.3s;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+    }
+    .ci-corte.ci-js .ci-corte__claqueta { display: block; }
+    .ci-corte.esta-visto .ci-corte__claqueta { transform: rotate(-78deg); opacity: 0; }
+
+    .ci-corte__barra {
+      height: 30px;
+      background: repeating-linear-gradient(-45deg, var(--accent-color) 0 16px, var(--bg-color) 16px 32px);
+      border-bottom: 2px solid var(--bg-color);
+    }
+    .ci-corte__tablero {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0 1rem;
+      padding: 0.6rem 1rem;
+      background: var(--surface-color);
+      border-bottom: 2px solid var(--bg-color);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.56rem, 1.1vw, 0.68rem);
+      letter-spacing: 0.18em;
+      color: var(--primary-color);
+    }
+    .ci-corte__tablero dt { color: var(--secondary-color); }
+    .ci-corte__tablero dd { margin: 0; }
+
+    .ci-corte__contenido { text-align: left; }
+    .ci-corte__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ci-corte__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.85rem, 4.2vw, 2.7rem);
+      line-height: 1.1;
+      color: var(--primary-color);
+    }
+    .ci-corte__texto {
+      margin: 0 0 1.2rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .ci-corte__lapiz {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.66rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.22em;
+      color: var(--accent-color);
+    }
+
+    @media (max-width: 880px) {
+      .ci-corte__grid { grid-template-columns: 1fr; }
+      .ci-corte__contenido { text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ci-corte * { transition: none !important; }
+      .ci-corte__claqueta { display: none !important; }
+      .ci-corte__rodaje img { transform: none; }
+    }
+  </style>
+
+  <div class="ci-corte__grid">
+    <figure class="ci-corte__rodaje" memory_type="image" memory_usage="custom" memory_source="library" memory_key="corte-foto">
+      <img
+        src="https://loremflickr.com/960/600/cake,cinema"
+        alt="Momento del corte en el rodaje"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="corte"
+        loading="lazy"
+      />
+      <span class="ci-corte__claqueta" aria-hidden="true">
+        <span class="ci-corte__barra"></span>
+        <span class="ci-corte__tablero">
+          <dt>PROD.</dt><dd>LA GRAN NOCHE</dd>
+          <dt>ESC.</dt><dd>07 — TOMA ÚNICA</dd>
+          <dt>DIR.</dt><dd>N. &amp; N.</dd>
+        </span>
+      </span>
+      <figcaption hidden>Momento del corte</figcaption>
+    </figure>
+
+    <div class="ci-corte__contenido" memory_type="text" memory_usage="custom" memory_key="corte-texto">
+      <p class="ci-corte__etiqueta" memory_type="text" memory_usage="custom" memory_key="corte-etiqueta">Toma principal</p>
+      <h2 class="ci-corte__titulo" memory_type="text" memory_usage="custom" memory_key="corte-titulo">¡Corte!</h2>
+      <p class="ci-corte__texto">
+        La claqueta cae, la escena arranca: el corte del pastel abre el tercer acto.
+        Sin dobles, sin ensayos, una sola oportunidad de aplauso.
+      </p>
+      <span class="ci-corte__lapiz" memory_type="text" memory_usage="custom" memory_key="corte-nota">// sonido directo · luz natural</span>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ci-corte');
+      if (!root) return;
+      root.classList.add('ci-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root.querySelector('.ci-corte__rodaje') || root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-cine-claqueta',
+      style_name: 'Cine Indie — Claqueta',
+      descripcion: 'Claqueta 3D con barra a rayas que se abre sobre su bisagra al entrar en pantalla, revelando el fotograma del pastel.',
+      tags: ['corte', 'claqueta', 'cine', '3d', 'revelado', 'toma unica'],
+      tipo: 'corte'
+    };
+  </script>
+</section>
+
+<section
+  class="ci-galeria"
+  data-gemini-id="galeria-cine-contactos"
+>
+  <style>
+    .ci-galeria {
+      --primary-color: #f3ead8;
+      --secondary-color: #b3a488;
+      --accent-color: #e8a13c;
+      --bg-color: #191512;
+      --surface-color: #221d18;
+      --surface-border-color: rgba(243, 234, 216, 0.16);
+      --text-color: #f3ead8;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .ci-galeria *,
+    .ci-galeria *::before,
+    .ci-galeria *::after { box-sizing: border-box; }
+
+    .ci-galeria__cabecera {
+      width: min(100%, 1060px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 0.9rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .ci-galeria__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ci-galeria__hoja {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--accent-color);
+    }
+
+    .ci-galeria__contactos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: clamp(0.9rem, 2.4vw, 1.4rem);
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .ci-galeria__fotograma {
+      position: relative;
+      margin: 0;
+      padding: 8px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      cursor: pointer;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), box-shadow 0.4s ease;
+    }
+    .ci-galeria.ci-js .ci-galeria__fotograma { opacity: 0; transform: translateY(18px); }
+    .ci-galeria .ci-galeria__fotograma.esta-visto { opacity: 1; transform: none; }
+    .ci-galeria__fotograma:hover { box-shadow: 0 0 24px color-mix(in srgb, var(--accent-color) 25%, transparent), 0 18px 40px rgba(0, 0, 0, 0.5); }
+
+    .ci-galeria__fotograma img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      filter: sepia(0.24) contrast(1.05);
+    }
+    .ci-galeria__codigo {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 7px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      color: var(--secondary-color);
+    }
+    .ci-galeria__codigo b { color: var(--accent-color); font-weight: 400; }
+
+    .ci-galeria__lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      place-items: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      background: rgba(0, 0, 0, 0.92);
+    }
+    .ci-galeria__lightbox.abierto { display: grid; }
+    .ci-galeria__lightbox img {
+      max-width: min(920px, 92vw);
+      max-height: 82svh;
+      width: auto;
+      height: auto;
+      border: 6px solid var(--surface-color);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+    }
+    .ci-galeria__cerrar {
+      position: absolute;
+      top: clamp(0.8rem, 2.5vw, 1.6rem);
+      right: clamp(0.8rem, 2.5vw, 1.6rem);
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--accent-color);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--accent-color);
+      font-size: 1.2rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.4s ease, background 0.4s ease;
+    }
+    .ci-galeria__cerrar:hover { transform: rotate(90deg); background: color-mix(in srgb, var(--accent-color) 20%, transparent); }
+
+    @media (max-width: 560px) {
+      .ci-galeria__contactos { grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 0.7rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ci-galeria * { transition: none !important; }
+      .ci-galeria__fotograma { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="ci-galeria__cabecera" memory_type="text" memory_usage="custom" memory_key="galeria-cabecera">
+    <h2 class="ci-galeria__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Hoja de contactos</h2>
+    <span class="ci-galeria__hoja" memory_type="text" memory_usage="custom" memory_key="galeria-hoja">12 EXP · 35MM</span>
+  </header>
+
+  <div class="ci-galeria__contactos">
+    <figure class="ci-galeria__fotograma" data-ci-fotograma memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-1" tabindex="0" role="button" aria-label="Ampliar fotograma uno">
+      <img src="https://loremflickr.com/560/350/indie,couple" alt="Fotograma uno" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="ci-galeria__codigo"><span>FR-01</span><b>OK</b></span>
+      <figcaption hidden>Fotograma uno</figcaption>
+    </figure>
+    <figure class="ci-galeria__fotograma" data-ci-fotograma memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-2" tabindex="0" role="button" aria-label="Ampliar fotograma dos">
+      <img src="https://loremflickr.com/560/350/cinema,dinner" alt="Fotograma dos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="ci-galeria__codigo"><span>FR-02</span><b>OK</b></span>
+      <figcaption hidden>Fotograma dos</figcaption>
+    </figure>
+    <figure class="ci-galeria__fotograma" data-ci-fotograma memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-3" tabindex="0" role="button" aria-label="Ampliar fotograma tres">
+      <img src="https://loremflickr.com/560/350/film,party" alt="Fotograma tres" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="ci-galeria__codigo"><span>FR-03</span><b>OK</b></span>
+      <figcaption hidden>Fotograma tres</figcaption>
+    </figure>
+    <figure class="ci-galeria__fotograma" data-ci-fotograma memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-4" tabindex="0" role="button" aria-label="Ampliar fotograma cuatro">
+      <img src="https://loremflickr.com/560/350/sepia,dance" alt="Fotograma cuatro" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="ci-galeria__codigo"><span>FR-04</span><b>OK</b></span>
+      <figcaption hidden>Fotograma cuatro</figcaption>
+    </figure>
+    <figure class="ci-galeria__fotograma" data-ci-fotograma memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-5" tabindex="0" role="button" aria-label="Ampliar fotograma cinco">
+      <img src="https://loremflickr.com/560/350/indie,flowers" alt="Fotograma cinco" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="ci-galeria__codigo"><span>FR-05</span><b>OK</b></span>
+      <figcaption hidden>Fotograma cinco</figcaption>
+    </figure>
+    <figure class="ci-galeria__fotograma" data-ci-fotograma memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-6" tabindex="0" role="button" aria-label="Ampliar fotograma seis">
+      <img src="https://loremflickr.com/560/350/projector,night" alt="Fotograma seis" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="ci-galeria__codigo"><span>FR-06</span><b>OK</b></span>
+      <figcaption hidden>Fotograma seis</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ci-galeria');
+      if (!root) return;
+      root.classList.add('ci-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var fotos = Array.prototype.slice.call(root.querySelectorAll('[data-ci-fotograma]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var i = fotos.indexOf(entry.target);
+            entry.target.style.transitionDelay = (Math.min(i, 5) * 0.08).toFixed(2) + 's';
+            entry.target.classList.add('esta-visto');
+            io.unobserve(entry.target);
+          });
+        }, { threshold: 0.18 });
+        fotos.forEach(function (f) { io.observe(f); });
+      } else {
+        fotos.forEach(function (f) { f.classList.add('esta-visto'); });
+      }
+
+      var lightbox = document.createElement('div');
+      lightbox.className = 'ci-galeria__lightbox';
+      lightbox.setAttribute('role', 'dialog');
+      lightbox.setAttribute('aria-modal', 'true');
+      lightbox.setAttribute('aria-label', 'Vista ampliada');
+      lightbox.innerHTML =
+        '<img alt="" />' +
+        '<button type="button" class="ci-galeria__cerrar" aria-label="Cerrar">×</button>';
+      root.appendChild(lightbox);
+      var imgAmpliada = lightbox.querySelector('img');
+      var botonCerrar = lightbox.querySelector('.ci-galeria__cerrar');
+
+      function abrir(fig) {
+        var foto = fig.querySelector('img');
+        if (!foto) return;
+        imgAmpliada.src = foto.src;
+        imgAmpliada.alt = foto.alt;
+        lightbox.classList.add('abierto');
+      }
+      function cerrar() { lightbox.classList.remove('abierto'); }
+
+      fotos.forEach(function (fig) {
+        fig.addEventListener('click', function () { abrir(fig); });
+        fig.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(fig); }
+        });
+      });
+      botonCerrar.addEventListener('click', cerrar);
+      lightbox.addEventListener('click', function (e) { if (e.target === lightbox) cerrar(); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-cine-contactos',
+      style_name: 'Cine Indie — Contactos',
+      descripcion: 'Hoja de contactos con fotogramas panorámicos numerados y marcados OK, sepia de laboratorio y lightbox a pantalla completa.',
+      tags: ['galeria', 'contactos', 'cine', 'fotogramas', 'sepia', 'lightbox'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>
+
+<section
+  class="ci-regalos"
+  data-gemini-id="regalos-cine-wishlist"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ci-regalos {
+      --primary-color: #f3ead8;
+      --secondary-color: #b3a488;
+      --accent-color: #e8a13c;
+      --bg-color: #191512;
+      --surface-color: #221d18;
+      --surface-border-color: rgba(243, 234, 216, 0.16);
+      --text-color: #f3ead8;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/film,dark');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .ci-regalos *,
+    .ci-regalos *::before,
+    .ci-regalos *::after { box-sizing: border-box; }
+
+    .ci-regalos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 91%, transparent);
+    }
+
+    .ci-regalos__panel {
+      width: min(100%, 660px);
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 92%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.55);
+    }
+
+    .ci-regalos__cabecera {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.6rem;
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 0.8rem;
+    }
+    .ci-regalos__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.2rem);
+      color: var(--primary-color);
+    }
+    .ci-regalos__bobina {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--accent-color);
+    }
+    .ci-regalos__intro {
+      margin: 0 0 1.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .ci-regalos__lista { display: grid; gap: 0; border-top: 1px solid var(--surface-border-color); margin-bottom: 1.6rem; }
+    .ci-regalos__fila {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.95rem;
+      align-items: center;
+      padding: clamp(0.85rem, 2.2vw, 1.1rem) 0.3rem;
+      border-bottom: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .ci-regalos.ci-js .ci-regalos__fila { opacity: 0; transform: translateX(-12px); }
+    .ci-regalos .ci-regalos__fila.esta-visto { opacity: 1; transform: none; }
+    .ci-regalos__reel {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid var(--secondary-color);
+      position: relative;
+    }
+    .ci-regalos__reel::before,
+    .ci-regalos__reel::after {
+      content: '';
+      position: absolute;
+      background: var(--secondary-color);
+    }
+    .ci-regalos__reel::before { left: 50%; top: 3px; bottom: 3px; width: 1px; transform: translateX(-50%); }
+    .ci-regalos__reel::after { top: 50%; left: 3px; right: 3px; height: 1px; transform: translateY(-50%); }
+    .ci-regalos__nombre {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.92rem, 1.75vw, 1.04rem);
+      color: var(--primary-color);
+    }
+    .ci-regalos__via {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .ci-regalos__zona-boton { text-align: center; }
+    .ci-regalos__boton {
+      min-width: 230px;
+      padding: 0.85rem 2rem;
+      border: 1px solid var(--accent-color);
+      background: transparent;
+      color: var(--accent-color);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+    .ci-regalos__boton:hover { background: color-mix(in srgb, var(--accent-color) 18%, transparent); }
+    .ci-regalos__boton.esta-listo { background: var(--accent-color); color: var(--bg-color); }
+    .ci-regalos__nota {
+      margin-top: 0.9rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.66rem, 1.25vw, 0.74rem);
+      letter-spacing: 0.16em;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 520px) {
+      .ci-regalos__fila { grid-template-columns: auto 1fr; }
+      .ci-regalos__via { grid-column: 2; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ci-regalos * { transition: none !important; }
+      .ci-regalos__fila { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="ci-regalos__panel">
+    <header class="ci-regalos__cabecera" memory_type="text" memory_usage="custom" memory_key="regalos-intro">
+      <h2 class="ci-regalos__titulo" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Wishlist del rodaje</h2>
+      <span class="ci-regalos__bobina" memory_type="text" memory_usage="custom" memory_key="regalos-bobina">REEL B</span>
+    </header>
+    <p class="ci-regalos__intro" memory_type="text" memory_usage="custom" memory_key="regalos-texto">
+      Para equipar la próxima producción; cualquier aporte sale en los créditos.
+    </p>
+
+    <div class="ci-regalos__lista" data-ci-lista>
+      <div class="ci-regalos__fila" data-ci-fila>
+        <span class="ci-regalos__reel" aria-hidden="true"></span>
+        <span class="ci-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-1">Equipo para la casa nueva</span>
+        <span class="ci-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-1">TIENDA</span>
+      </div>
+      <div class="ci-regalos__fila" data-ci-fila>
+        <span class="ci-regalos__reel" aria-hidden="true"></span>
+        <span class="ci-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-2">Fondo de luna de miel</span>
+        <span class="ci-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-2">SOBRE</span>
+      </div>
+      <div class="ci-regalos__fila" data-ci-fila>
+        <span class="ci-regalos__reel" aria-hidden="true"></span>
+        <span class="ci-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-3">Un viaje en película</span>
+        <span class="ci-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-3">DIGITAL</span>
+      </div>
+    </div>
+
+    <div class="ci-regalos__zona-boton">
+      <button type="button" class="ci-regalos__boton" data-ci-boton>
+        <span data-ci-boton-texto memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span>
+      </button>
+      <p class="ci-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota">// grabado en tu invitación digital</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ci-regalos');
+      if (!root) return;
+      root.classList.add('ci-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var filas = Array.prototype.slice.call(root.querySelectorAll('[data-ci-fila]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            filas.forEach(function (fila, i) { fila.style.transitionDelay = (i * 0.11).toFixed(2) + 's'; });
+            filas.forEach(function (fila) { fila.classList.add('esta-visto'); });
+            io.disconnect();
+          });
+        }, { threshold: 0.3 });
+        io.observe(root.querySelector('[data-ci-lista]') || root);
+      } else {
+        filas.forEach(function (fila) { fila.classList.add('esta-visto'); });
+      }
+
+      var boton = root.querySelector('[data-ci-boton]');
+      var texto = root.querySelector('[data-ci-boton-texto]');
+      if (boton && texto) {
+        boton.addEventListener('click', function () {
+          var listo = boton.classList.toggle('esta-listo');
+          texto.textContent = listo ? 'Regalo agendado' : 'Agendar regalo';
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-cine-wishlist',
+      style_name: 'Cine Indie — Wishlist',
+      descripcion: 'Lista de deseados del rodaje con carretes de película como viñetas y botón outline ámbar que se rellena al agendar.',
+      tags: ['regalos', 'wishlist', 'cine', 'carretes', 'boton', 'indie'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>
+
+<section
+  class="ci-vestimenta"
+  data-gemini-id="vestimenta-cine-vestuario"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ci-vestimenta {
+      --primary-color: #f3ead8;
+      --secondary-color: #b3a488;
+      --accent-color: #e8a13c;
+      --bg-color: #191512;
+      --surface-color: #221d18;
+      --surface-border-color: rgba(243, 234, 216, 0.16);
+      --text-color: #f3ead8;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      min-height: 64svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/wardrobe,vintage');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ci-vestimenta *,
+    .ci-vestimenta *::before,
+    .ci-vestimenta *::after { box-sizing: border-box; }
+
+    .ci-vestimenta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .ci-vestimenta__panel {
+      width: min(100%, 660px);
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 92%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.55);
+    }
+
+    .ci-vestimenta__etiqueta {
+      margin: 0 0 0.8rem;
+      display: inline-block;
+      padding: 0.35rem 1rem;
+      background: repeating-linear-gradient(-45deg, var(--accent-color) 0 9px, var(--bg-color) 9px 18px);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.34em;
+      color: var(--text-color);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+    }
+    .ci-vestimenta__etiqueta span {
+      background: color-mix(in srgb, var(--bg-color) 82%, transparent);
+      padding: 0.1rem 0.5rem;
+    }
+    .ci-vestimenta__titulo {
+      margin: 0 0 0.8rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ci-vestimenta__texto {
+      margin: 0 auto 1.8rem;
+      max-width: 46ch;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .ci-vestimenta__perchas {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(0.9rem, 2.4vw, 1.4rem);
+      margin-bottom: 1.6rem;
+    }
+    .ci-vestimenta__etiqueta-ropa {
+      display: grid;
+      justify-items: center;
+      gap: 0.5rem;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ci-vestimenta.ci-js .ci-vestimenta__etiqueta-ropa { opacity: 0; transform: translateY(16px); }
+    .ci-vestimenta .ci-vestimenta__tag.esta-visto,
+    .ci-vestimenta .ci-vestimenta__etiqueta-ropa.esta-visto { opacity: 1; transform: none; }
+    .ci-vestimenta__tag {
+      position: relative;
+      width: clamp(52px, 9vw, 66px);
+      padding: 0.6rem 0.4rem 0.7rem;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      clip-path: polygon(50% 0, 100% 14%, 100% 100%, 0 100%, 0 14%);
+      transition: background-color 0.5s ease, transform 0.5s ease;
+    }
+    .ci-vestimenta__tag::before {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 50%;
+      width: 8px;
+      height: 8px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: var(--bg-color);
+    }
+    .ci-vestimenta__tag b {
+      display: block;
+      margin-top: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.56rem;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      color: var(--bg-color);
+      text-align: center;
+    }
+    .ci-vestimenta__etiqueta-ropa:hover .ci-vestimenta__tag { transform: translateY(-4px) rotate(-2deg); }
+
+    .ci-vestimenta__leyenda {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 480px) {
+      .ci-vestimenta__tag { width: 44px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ci-vestimenta * { transition: none !important; }
+      .ci-vestimenta__etiqueta-ropa { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="ci-vestimenta__panel">
+    <p class="ci-vestimenta__etiqueta" memory_type="text" memory_usage="custom" memory_key="vestimenta-etiqueta"><span>DEPT. VESTUARIO</span></p>
+    <h2 class="ci-vestimenta__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Etiquetas del guardarropa</h2>
+    <p class="ci-vestimenta__texto" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">
+      Elige tu tono de vestuario según estas etiquetas colgadas; cada una es un personaje.
+    </p>
+
+    <div class="ci-vestimenta__perchas" data-ci-perchas aria-hidden="true"></div>
+
+    <p class="ci-vestimenta__leyenda" memory_type="text" memory_usage="custom" memory_key="vestimenta-leyenda">FORMAL · TONOS DE ESTUDIO</p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ci-vestimenta');
+      if (!root) return;
+      root.classList.add('ci-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var perchas = root.querySelector('[data-ci-perchas]');
+      if (perchas && !perchas.children.length) {
+        var tonos = [
+          ['#e8a13c', 'AMBAR'],
+          ['#8a5a3b', 'SEPIA'],
+          ['#4a4438', 'UMBR'],
+          ['#f3ead8', 'CREMA'],
+          ['#7d3b2e', 'LADR'],
+          ['#3d4a3e', 'SALV']
+        ];
+        for (var i = 0; i < tonos.length; i++) {
+          var etiqueta = document.createElement('span');
+          etiqueta.className = 'ci-vestimenta__etiqueta-ropa';
+          etiqueta.style.transitionDelay = (i * 0.08).toFixed(2) + 's, ' + (i * 0.08).toFixed(2) + 's';
+          var tag = document.createElement('span');
+          tag.className = 'ci-vestimenta__tag';
+          tag.setAttribute('data-ci-tono', tonos[i][0]);
+          var codigo = document.createElement('b');
+          codigo.textContent = tonos[i][1];
+          tag.appendChild(codigo);
+          etiqueta.appendChild(tag);
+          perchas.appendChild(etiqueta);
+        }
+      }
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function colorear() {
+        root.querySelectorAll('[data-ci-tono]').forEach(function (t) {
+          t.style.backgroundColor = t.getAttribute('data-ci-tono');
+        });
+      }
+      if (reduce || !('IntersectionObserver' in window)) {
+        root.querySelectorAll('.ci-vestimenta__etiqueta-ropa').forEach(function (e) { e.classList.add('esta-visto'); });
+        colorear();
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          root.querySelectorAll('.ci-vestimenta__etiqueta-ropa').forEach(function (e, i) {
+            e.style.transitionDelay = (i * 0.08).toFixed(2) + 's, ' + (i * 0.08).toFixed(2) + 's';
+            e.classList.add('esta-visto');
+          });
+          setTimeout(colorear, 240);
+          io.disconnect();
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-cine-vestuario',
+      style_name: 'Cine Indie — Vestuario',
+      descripcion: 'Etiquetas colgantes de vestuario con ojal superior que aparecen escalonadas y se colorean por JS con códigos de tres letras.',
+      tags: ['vestimenta', 'dress code', 'etiquetas', 'guardarropa', 'cine', 'indie'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>
+</body></html>

@@ -1,0 +1,251 @@
+<section
+  class="dc-detalles"
+  data-gemini-id="detalles-regalo"
+>
+  <style>
+    .dc-detalles {
+      --primary-color: #1f1a17;
+      --secondary-color: #6e6257;
+      --accent-color: #b08d57;
+      --bg-color: #f4efe6;
+      --surface-color: #fbf7ee;
+      --surface-border-color: rgba(31, 26, 23, 0.25);
+      --text-color: #1f1a17;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+    }
+    .dc-detalles *,
+    .dc-detalles *::before,
+    .dc-detalles *::after { box-sizing: border-box; }
+
+    .dc-detalles__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .dc-detalles__intro {
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      max-width: 52ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .dc-detalles__escenario {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.6rem, 4vw, 3rem);
+      align-items: center;
+      width: min(100%, 1040px);
+      margin: 0 auto;
+      perspective: 1100px;
+    }
+
+    .dc-detalles__vitrina {
+      position: relative;
+      margin: 0;
+      padding: clamp(1.6rem, 4vw, 2.4rem) clamp(1.2rem, 3vw, 1.8rem);
+      background: color-mix(in srgb, var(--surface-color) 95%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 999px 999px 0 0;
+      box-shadow: 0 24px 54px rgba(31, 26, 23, 0.18);
+      transform-style: preserve-3d;
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .dc-detalles__vitrina::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid var(--surface-border-color);
+      border-radius: 999px 999px 0 0;
+      pointer-events: none;
+    }
+    .dc-detalles__vitrina img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border-radius: 999px 999px 0 0;
+      filter: saturate(0.92);
+      box-shadow: 0 16px 34px rgba(31, 26, 23, 0.22);
+    }
+
+    .dc-detalles__tarjetas {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: clamp(0.9rem, 2.4vw, 1.3rem);
+    }
+
+    .dc-detalles__tarjeta {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: clamp(0.9rem, 2.4vw, 1.3rem);
+      align-items: center;
+      padding: clamp(1.1rem, 2.8vw, 1.5rem);
+      text-align: left;
+      background: color-mix(in srgb, var(--surface-color) 96%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 14px 32px rgba(31, 26, 23, 0.12);
+      transform-style: preserve-3d;
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), box-shadow 0.5s ease, opacity 0.5s ease;
+    }
+    .dc-detalles.dc-js .dc-detalles__tarjeta { opacity: 0; transform: rotateX(24deg) translateY(14px); }
+    .dc-detalles.esta-visto .dc-detalles__tarjeta { opacity: 1; transform: none; }
+    .dc-detalles.esta-visto .dc-detalles__tarjeta:nth-child(2) { transition-delay: 0.12s; }
+    .dc-detalles.esta-visto .dc-detalles__tarjeta:nth-child(3) { transition-delay: 0.24s; }
+    .dc-detalles__tarjeta:hover { box-shadow: -10px 12px 0 color-mix(in srgb, var(--accent-color) 35%, transparent), 0 18px 40px rgba(31, 26, 23, 0.18); transform: translateZ(24px); }
+
+    .dc-detalles__glifo {
+      width: 44px;
+      height: 44px;
+      flex: none;
+      display: grid;
+      place-items: center;
+      color: var(--accent-color);
+      border: 1px solid var(--accent-color);
+      transform: rotate(45deg);
+    }
+    .dc-detalles__glifo svg { transform: rotate(-45deg); width: 22px; }
+
+    .dc-detalles__rotulo {
+      margin: 0 0 0.25rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .dc-detalles__titulo-card {
+      margin: 0 0 0.35rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.02rem, 2vw, 1.2rem);
+      color: var(--primary-color);
+    }
+    .dc-detalles__texto {
+      margin: 0;
+      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
+      line-height: 1.65;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 880px) {
+      .dc-detalles__escenario { grid-template-columns: 1fr; }
+      .dc-detalles__vitrina { max-width: 400px; margin: 0 auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dc-detalles * { transition: none !important; }
+      .dc-detalles__tarjeta { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="detalles-intro">
+    <h2 class="dc-detalles__titulo" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Indicaciones del salón</h2>
+    <p class="dc-detalles__intro" memory_type="text" memory_usage="custom" memory_key="detalles-texto">Pequeños detalles pensados para que cada instante sea perfecto.</p>
+  </header>
+
+  <div class="dc-detalles__escenario">
+    <figure class="dc-detalles__vitrina" data-dc-tilt memory_type="image" memory_usage="custom" memory_source="library" memory_key="detalles-foto">
+      <img
+        src="https://loremflickr.com/520/650/gold,jewelry"
+        alt="Detalle elegante de la celebración"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="detalle"
+        loading="lazy"
+      />
+      <figcaption hidden>Detalle elegante</figcaption>
+    </figure>
+
+    <div class="dc-detalles__tarjetas">
+      <article class="dc-detalles__tarjeta">
+        <span class="dc-detalles__glifo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 3 L5 9 L9 9 L8 3 Z M10 3 L9 9 L13 9 L12 3 Z M14 3 L13 9 L17 9 L16 3 Z" stroke="currentColor" stroke-width="1.1"/><path d="M5 9 H17 L11 21 Z" stroke="currentColor" stroke-width="1.2"/></svg>
+        </span>
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-1">
+          <p class="dc-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-1">Etiqueta</p>
+          <h3 class="dc-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Black tie opcional</h3>
+          <p class="dc-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Elegancia nocturna: esmoquin o vestido de gala.</p>
+        </div>
+      </article>
+
+      <article class="dc-detalles__tarjeta">
+        <span class="dc-detalles__glifo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.2"/><path d="M12 4 V20 M4 12 H20" stroke="currentColor" stroke-width="1"/></svg>
+        </span>
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-2">
+          <p class="dc-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-2">Horario</p>
+          <h3 class="dc-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Puntualidad ceremonial</h3>
+          <p class="dc-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">La recepción inicia puntual; llega con 15 minutos de margen.</p>
+        </div>
+      </article>
+
+      <article class="dc-detalles__tarjeta">
+        <span class="dc-detalles__glifo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3 C9 7 5 9 5 13 A7 7 0 0 0 19 13 C19 9 15 7 12 3 Z" stroke="currentColor" stroke-width="1.2"/></svg>
+        </span>
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-3">
+          <p class="dc-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-3">Clima</p>
+          <h3 class="dc-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Salón climatizado</h3>
+          <p class="dc-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">Ambiente interior perfecto durante toda la velada.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.dc-detalles');
+      if (!root) return;
+      root.classList.add('dc-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); }
+      else {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+          });
+        }, { threshold: 0.22 });
+        io.observe(root);
+      }
+
+      var vitrina = root.querySelector('[data-dc-tilt]');
+      if (vitrina && !reduce) {
+        vitrina.addEventListener('pointermove', function (event) {
+          var rect = vitrina.getBoundingClientRect();
+          var x = (event.clientX - rect.left) / rect.width - 0.5;
+          var y = (event.clientY - rect.top) / rect.height - 0.5;
+          vitrina.style.transform = 'rotateY(' + (x * 7).toFixed(2) + 'deg) rotateX(' + (-y * 7).toFixed(2) + 'deg)';
+        });
+        vitrina.addEventListener('pointerleave', function () {
+          vitrina.style.transform = 'none';
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-regalo',
+      style_name: 'Salón Déco — Detalles',
+      descripcion: 'Vitrina en arco con tilt 3D que sigue el cursor y tarjetas con glifos en rombo que se revelan en perspectiva al entrar en pantalla.',
+      tags: ['detalles', 'tarjetas', 'tilt', '3d', 'vitrina', 'deco', 'revelado'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>

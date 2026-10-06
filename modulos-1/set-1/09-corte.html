@@ -1,0 +1,199 @@
+<section
+  class="hb-corte"
+  data-gemini-id="corte-herbario-lamina"
+>
+  <style>
+    .hb-corte {
+      --primary-color: #23301f;
+      --secondary-color: #5c6657;
+      --accent-color: #7d8f6e;
+      --bg-color: #f6f4ec;
+      --surface-color: #fffdf6;
+      --surface-border-color: rgba(35, 48, 31, 0.22);
+      --text-color: #23301f;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .hb-corte *,
+    .hb-corte *::before,
+    .hb-corte *::after { box-sizing: border-box; }
+
+    .hb-corte__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: clamp(1.6rem, 4.5vw, 3.2rem);
+      align-items: center;
+      width: min(100%, 1080px);
+      margin: 0 auto;
+    }
+
+    .hb-corte__escena {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--surface-border-color);
+      outline: 1px solid var(--surface-border-color);
+      outline-offset: 6px;
+      box-shadow: 0 26px 60px rgba(35, 48, 31, 0.18);
+    }
+    .hb-corte__escena img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      filter: saturate(0.92);
+      transform: scale(1.06);
+      transition: transform 0.5s ease;
+    }
+    .hb-corte.esta-visto .hb-corte__escena img { transform: scale(1); }
+
+    .hb-corte__telon {
+      position: absolute;
+      inset: 0;
+      display: none;
+      pointer-events: none;
+    }
+    .hb-corte.hb-js .hb-corte__telon { display: flex; }
+    .hb-corte__panel {
+      flex: 1;
+      background:
+        repeating-linear-gradient(90deg, color-mix(in srgb, var(--bg-color) 96%, transparent) 0 26px, color-mix(in srgb, var(--accent-color) 12%, var(--bg-color)) 26px 28px);
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .hb-corte__panel--izq { border-right: 1px solid var(--surface-border-color); }
+    .hb-corte__panel--der { border-left: 1px solid var(--surface-border-color); }
+    .hb-corte.esta-visto .hb-corte__panel--izq { transform: translateX(-101%); }
+    .hb-corte.esta-visto .hb-corte__panel--der { transform: translateX(101%); }
+
+    .hb-corte__sello {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      left: 50%;
+      width: 64px;
+      transform: translate(-50%, -50%);
+      color: var(--accent-color);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 50%;
+      padding: 8px;
+      box-shadow: 0 10px 24px rgba(35, 48, 31, 0.2);
+      transition: opacity 0.4s ease, transform 0.5s ease;
+      display: none;
+    }
+    .hb-corte.hb-js .hb-corte__sello { display: block; }
+    .hb-corte.esta-visto .hb-corte__sello { opacity: 0; transform: translate(-50%, -50%) scale(1.3); }
+
+    .hb-corte__contenido { text-align: left; }
+
+    .hb-corte__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.64rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .hb-corte__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      line-height: 1.12;
+      color: var(--primary-color);
+    }
+    .hb-corte__texto {
+      margin: 0 0 1.2rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.9rem, 1.7vw, 1.02rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .hb-corte__linea {
+      width: 120px;
+      height: 8px;
+      border-top: 1px solid var(--accent-color);
+      border-bottom: 1px solid var(--accent-color);
+    }
+
+    @media (max-width: 880px) {
+      .hb-corte__grid { grid-template-columns: 1fr; }
+      .hb-corte__contenido { text-align: center; }
+      .hb-corte__linea { margin: 0 auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-corte * { transition: none !important; }
+      .hb-corte .hb-corte__telon { display: none !important; }
+      .hb-corte .hb-corte__sello { display: none !important; }
+      .hb-corte__escena img { transform: none; }
+    }
+  </style>
+
+  <div class="hb-corte__grid">
+    <figure class="hb-corte__escena" memory_type="image" memory_usage="custom" memory_source="library" memory_key="corte-foto">
+      <img
+        src="https://loremflickr.com/960/600/celebration,cake"
+        alt="Momento del corte"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="corte"
+        loading="lazy"
+      />
+      <span class="hb-corte__telon" aria-hidden="true">
+        <span class="hb-corte__panel hb-corte__panel--izq"></span>
+        <span class="hb-corte__panel hb-corte__panel--der"></span>
+      </span>
+      <svg class="hb-corte__sello" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <circle cx="24" cy="24" r="21" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2 3"/>
+        <path d="M24 12 L27 20 L35 20 L28.5 25 L31 33 L24 28.5 L17 33 L19.5 25 L13 20 L21 20 Z" stroke="currentColor" stroke-width="1.1"/>
+      </svg>
+      <figcaption hidden>Momento del corte</figcaption>
+    </figure>
+
+    <div class="hb-corte__contenido" memory_type="text" memory_usage="custom" memory_key="corte-texto">
+      <p class="hb-corte__etiqueta" memory_type="text" memory_usage="custom" memory_key="corte-etiqueta">Un momento esperado</p>
+      <h2 class="hb-corte__titulo" memory_type="text" memory_usage="custom" memory_key="corte-titulo">El corte</h2>
+      <p class="hb-corte__texto">
+        La escena que todos esperan: el brindis por lo vivido y lo que está por venir.
+        Acompáñanos a compartir este instante rodeados de quienes más queremos.
+      </p>
+      <div class="hb-corte__linea" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.hb-corte');
+      if (!root) return;
+      root.classList.add('hb-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root.querySelector('.hb-corte__escena') || root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-herbario-lamina',
+      style_name: 'Herbario de Línea — Corte',
+      descripcion: 'Imagen destacada con revelado de telón en dos paneles a rayas y sello central que se disipa; texto editorial al lado.',
+      tags: ['corte', 'revelado', 'telon', 'imagen destacada', 'editorial', 'botanico'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

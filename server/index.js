@@ -28,6 +28,8 @@ import {
 } from './ragModuleValidator.js';
 import { normalizeCategory } from './geminiService.js';
 import { parseHTML } from 'linkedom';
+import { processModuleUploadFile } from './ragUploadService.js';
+import { resolveSchema } from './eventDataSchema.js';
 import { deflateRawSync } from 'zlib';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -4091,6 +4093,118 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
   }
 });
 
+// ==================== EVENT DATA — datos específicos de la invitación ====================
+// El cliente recolecta datos del evento durante la generación (pantalla de
+// loading) y necesita colocarlos en los módulos generados. Aquí SOLO corre la
+// fase IA: el cliente ya aplicó el pase determinista (compartido en
+// server/eventDataSchema.js) y nos envía un ÍNDICE compacto de nodos
+// editables — nunca el HTML completo ni imágenes base64 (ahorro de tokens).
+// Este endpoint NUNCA responde error HTTP: si algo falla devuelve
+// { items: [], aiError } y el cliente continúa con el resultado determinista.
+
+
+app.post('/api/event-data/ai-fill', authMiddleware, async (req, res) => {
+  try {
+    const { eventType = '', data = {}, targets = [] } = req.body || {};
+    if (!Array.isArray(targets) || targets.length === 0 || !data || typeof data !== 'object') {
+      return res.json({ items: [], usedAI: false, aiError: 'sin targets o datos' });
+    }
+
+    const config = db.prepare('SELECT * FROM admin_config WHERE id = 1').get();
+    const apiKey = config && (config.html_google_api_key || config.gemini_api_key);
+    if (!apiKey) {
+      return res.json({ items: [], usedAI: false, aiError: 'sin API key de Gemini configurada' });
+    }
+
+    const schema = resolveSchema(eventType);
+    const withData = schema.fields.filter((f) => {
+      const v = String(data[f.key] || '').trim();
+      if (!v) return false;
+      // fecha/hora ya las coloca el pase determinista y el generador base
+      return f.key !== 'fecha' && f.key !== 'hora';
+    });
+    if (withData.length === 0) {
+      return res.json({ items: [], usedAI: false, aiError: 'sin datos nuevos que colocar' });
+    }
+
+    const datosBlock = withData
+      .map((f) => `- campo "${f.key}" (${f.label}): "${String(data[f.key]).trim().slice(0, 200)}"`)
+      .join('\n');
+
+    const targetLines = targets
+      .slice(0, 400)
+      .map((t) => `#${t.i} | módulo:${t.m || '?'} | id:${t.id || '-'} | key:${t.k || '-'} | texto: ${String(t.t || '').replace(/\s+/g, ' ').slice(0, 150)}`)
+      .join('\n');
+
+    const prompt = `Eres un colocador de datos para invitaciones digitales. Los módulos de la invitación fueron generados con placeholders genéricos y el usuario te da sus datos reales.
+
+===== DATOS REALES DEL CLIENTE =====
+${datosBlock}
+===== FIN DATOS =====
+
+===== NODOS EDITABLES DE LA INVITACIÓN (índice compacto) =====
+${targetLines}
+===== FIN NODOS =====
+
+TAREA: decide en qué nodo va cada dato. Reglas:
+1. Cada dato va al nodo cuyo texto actual es el placeholder equivalente (ej. "Nombre de la Novia" recibe el nombre de la novia; "Nombre Papá & Nombre Mamá" recibe los padres; direcciones, lugares, fechas límite, códigos de vestimenta, itinerarios y mensajes igual).
+2. NO inventes datos ni rellenes nodos sin correspondencia clara: si un dato no tiene nodo, omítelo.
+3. NO toques etiquetas de rol (ej. "Padres de la novia", "Padrinos de alianzas") ni títulos de sección: esos se quedan igual.
+4. Si un nodo de itinerario/lista recibe varias líneas, inclúyelas con saltos de línea \\n.
+5. Conserva connctores naturales: para parejas usa " & " entre nombres si el placeholder lo usa.
+6. Itinerario: si el cliente dio líneas "HH:MM actividad", distribúyelas entre los nodos de hora/título/detalle de los hitos del itinerario cuando sea claro; si no, colócalas completas en el primer hito.
+
+Responde SOLO con JSON válido, sin markdown:
+{"items":[{"i":<número del nodo>,"t":"<texto final exacto para ese nodo>"}]}`;
+
+    const model = (config.html_google_model || 'gemini-3.1-flash').includes('pro')
+      ? 'gemini-3.1-flash'
+      : (config.html_google_model || 'gemini-3.1-flash');
+
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-goog-api-key': apiKey
+      },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0.1, maxOutputTokens: 8192 }
+      })
+    });
+
+    if (!response.ok) {
+      const detail = await response.text().catch(() => '');
+      console.warn('[EVENT-DATA AI-FILL] Gemini', response.status, detail.slice(0, 200));
+      return res.json({ items: [], usedAI: false, aiError: `gemini ${response.status}` });
+    }
+
+    const jd = await response.json();
+    const text = (jd?.candidates?.[0]?.content?.parts || []).map((p) => p.text || '').join('');
+    const jsonText = text.slice(text.indexOf('{'), text.lastIndexOf('}') + 1);
+    let parsed;
+    try {
+      parsed = JSON.parse(jsonText);
+    } catch {
+      return res.json({ items: [], usedAI: true, aiError: 'respuesta no-JSON de Gemini' });
+    }
+
+    const validIdx = new Set(targets.map((t) => t.i));
+    const items = (Array.isArray(parsed.items) ? parsed.items : [])
+      .filter((it) => it && validIdx.has(Number(it.i)) && typeof it.t === 'string' && it.t.trim().length > 0)
+      .map((it) => ({ i: Number(it.i), t: String(it.t).trim().slice(0, 300) }));
+
+    console.log(`[EVENT-DATA AI-FILL] ${items.length} colocación(es) para "${eventType}" (${targets.length} nodos indexados)`);
+    res.json({ items, usedAI: true });
+  } catch (error) {
+    // NUNCA fallar: el cliente continúa con el resultado determinista.
+    console.error('[EVENT-DATA AI-FILL] error (fallback determinista en cliente):', error.message);
+    res.json({ items: [], usedAI: false, aiError: error.message });
+  }
+});
+
+
 // ==================== RAG KNOWLEDGE BASE ENDPOINTS ====================
 
 // GET /api/admin/rag-templates - Listar todas las plantillas
@@ -5014,165 +5128,55 @@ app.post('/api/admin/rag-modules/upload', adminMiddleware, ragUpload.single('htm
     if (!req.file) {
       return res.status(400).json({ error: 'Archivo HTML es requerido (campo htmlFile)' });
     }
-    
-    const moduleTypeHint = req.body.module_type || null;
-    const filename = req.file.originalname;
-    const htmlContent = req.file.buffer.toString('utf8');
-    
-    // Analizar módulo
-    const analysis = analyzeModule(htmlContent, moduleTypeHint);
-    
-    // VALIDACIÓN DE FALLBACK: asegurar campos requeridos antes del INSERT.
-    // module_type se resuelve asi: body (moduleTypeHint) > moduleMetadata.tipo
-    // del <script> > prefijo del data-gemini-id > 'general'. El parser ya
-    // normalizo el `tipo` cuando es valido, analyzeModule devuelve meta.module_type.
-    // Si aun asi esta vacio (no habia data-gemini-id, no habia tipo declarado
-    // y no llego hint del body), usamos 'general'.
-    if (!analysis.module_type) {
-      analysis.module_type = moduleTypeHint || 'general';
-    }
-    // Validar contra la whitelist canonica si llego algo no nulo pero invalido
-    if (analysis.module_type && analysis.module_type !== 'general' && !KNOWN_MODULE_TYPES.includes(analysis.module_type)) {
-      // Si el tipo declarado en el script era invalido, el parser ya emitio un
-      // warning y mantuvo el split del data-gemini-id. Si eso tampoco esta en
-      // la whitelist, delegamos a 'general' para no romper el INSERT.
-      console.warn(`[RAG-UPLOAD] module_type "${analysis.module_type}" no esta en KNOWN_MODULE_TYPES, fallback a 'general'`);
-      analysis.module_type = moduleTypeHint || 'general';
-    }
-    if (!analysis.module_id) {
-      analysis.module_id = generateModuleIdFromFilename(filename);
-    }
-    if (!analysis.style_name) {
-      analysis.style_name = generateStyleName(analysis.metadata, filename);
-    }
-    if (analysis.html_size === undefined || analysis.html_size === null) {
-      analysis.html_size = Buffer.byteLength(htmlContent, 'utf8');
-    }
-    // Asegurar que los campos JSON/string no sean undefined
-    analysis.tags = analysis.tags || '[]';
-    analysis.descripcion_larga = analysis.descripcion_larga || JSON.stringify('');
-    analysis.theme_tags = analysis.theme_tags || '[]';
-    analysis.color_palette = analysis.color_palette || '{}';
-    analysis.css_variables = analysis.css_variables || '{}';
-    analysis.memory_sources = analysis.memory_sources || '{}';
-    analysis.description = analysis.description || '';
-    
-    // Validar (sólo errores fatales, no warnings)
-    if (!analysis.is_valid) {
-      return res.status(400).json({ 
-        error: 'Módulo no válido',
-        validation: { errors: analysis.errors, warnings: analysis.warnings }
-      });
-    }
-    
-    const moduleId = analysis.module_id;
-    const styleName = analysis.style_name;
-    
-    // Insertar con manejo de errores específico
-    const stmt = db.prepare(`
-      INSERT INTO knowledge_base_modules (
-        module_id, module_type, style_name, description,
-        tags, descripcion_larga, theme_tags, color_palette,
-        css_variables, has_memory_attributes, memory_sources,
-        html_content, category, is_active, filename, html_size
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)
-    `);
-
-    // Helper para ejecutar el INSERT con un module_id dado.
-    // Devuelve { result, id } o lanza el error original.
-    const tryInsert = (idCandidate) => {
-      return stmt.run(
-        idCandidate,
-        analysis.module_type,
-        styleName,
-        analysis.description,
-        analysis.tags,
-        analysis.descripcion_larga,
-        analysis.theme_tags,
-        analysis.color_palette,
-        analysis.css_variables,
-        analysis.has_memory_attributes ? 1 : 0,
-        analysis.memory_sources,
-        htmlContent,
-        'general',
-        filename,
-        analysis.html_size
-      );
-    };
-
-    let result;
-    let finalModuleId = moduleId;
-    let renamedFrom = null;
-
-    try {
-      result = tryInsert(moduleId);
-    } catch (dbError) {
-      if (dbError.message && dbError.message.includes('NOT NULL')) {
-        const fieldMap = ['module_id', 'module_type', 'style_name', 'description', 'tags', 'descripcion_larga', 'theme_tags', 'color_palette', 'css_variables', 'has_memory_attributes', 'memory_sources', 'html_content', 'category', 'filename', 'html_size'];
-        const missingField = fieldMap.find(f => dbError.message.includes(f));
-        return res.status(400).json({ 
-          error: 'Campo requerido faltante en el módulo', 
-          field: missingField || 'desconocido',
-          detail: dbError.message
-        });
-      }
-      if (dbError.message && dbError.message.includes('UNIQUE')) {
-        // Reintentar con sufijo incremental en module_id hasta encontrar uno libre
-        const baseId = moduleId;
-        const MAX_ATTEMPTS = 50;
-        const checkStmt = db.prepare('SELECT 1 FROM knowledge_base_modules WHERE module_id = ?');
-        let attempt = 2;
-        while (attempt <= MAX_ATTEMPTS) {
-          const candidate = `${baseId}-${attempt}`;
-          if (checkStmt.get(candidate)) {
-            attempt++;
-            continue;
-          }
-          try {
-            result = tryInsert(candidate);
-            finalModuleId = candidate;
-            renamedFrom = baseId;
-            break;
-          } catch (e) {
-            if (e.message && e.message.includes('UNIQUE')) {
-              attempt++;
-              continue;
-            }
-            throw e;
-          }
-        }
-        if (!result) {
-          return res.status(400).json({ 
-            error: `No se pudo insertar el módulo: el module_id "${baseId}" y sus ${MAX_ATTEMPTS} variantes ya existen.` 
-          });
-        }
-      } else {
-        throw dbError;
-      }
-    }
-    
-    const response = {
-      success: true,
-      id: result.lastInsertRowid,
-      module_id: finalModuleId,
-      renamed_from: renamedFrom,
-      module_type: analysis.module_type,
-      html_content: htmlContent,
-      analysis: {
-        metadata: analysis.metadata,
-        errors: analysis.errors,
-        warnings: analysis.warnings
-      }
-    };
-    
-    res.json(response);
+    const deps = { db, analyzeModule, generateModuleIdFromFilename, generateStyleName, KNOWN_MODULE_TYPES };
+    const result = processModuleUploadFile(deps, req.file.originalname, req.file.buffer.toString('utf8'), req.body.module_type || null);
+    res.json(result);
   } catch (error) {
+    if (error.payload) return res.status(error.status || 400).json(error.payload);
     if (error.message && error.message.includes('UNIQUE constraint')) {
       return res.status(400).json({ error: 'Ya existe un módulo con ese module_id' });
     }
     console.error('[RAG-MODULES UPLOAD] Error:', error);
     res.status(500).json({ error: error.message });
   }
+});
+
+// POST /api/admin/rag-modules/upload-bulk - SUBIDA MASIVA: 1..200 archivos .html
+// en un solo request (drag & drop del admin en Módulos RAG). Cada archivo se
+// procesa de forma independiente: un archivo inválido NO aborta el lote.
+app.post('/api/admin/rag-modules/upload-bulk', adminMiddleware, ragUpload.array('htmlFiles', 200), (req, res) => {
+  const files = Array.isArray(req.files) ? req.files : [];
+  if (files.length === 0) {
+    return res.status(400).json({ error: 'Se requiere al menos un archivo .html (campo htmlFiles)' });
+  }
+
+  const deps = { db, analyzeModule, generateModuleIdFromFilename, generateStyleName, KNOWN_MODULE_TYPES };
+  const results = [];
+  let ok = 0, failed = 0, renamed = 0;
+
+  for (const file of files) {
+    const filename = file.originalname;
+    try {
+      const r = processModuleUploadFile(deps, filename, file.buffer.toString('utf8'), req.body.module_type || null);
+      results.push({ filename, ok: true, module_id: r.module_id, renamed_from: r.renamed_from, module_type: r.module_type });
+      ok++;
+      if (r.renamed_from) renamed++;
+    } catch (error) {
+      const payload = error.payload || {};
+      const msg = payload.error || error.message || 'Error desconocido';
+      results.push({
+        filename,
+        ok: false,
+        error: msg,
+        duplicate: /ya existen|Ya existe/.test(msg) || payload.duplicate === true ? true : undefined,
+        validation: payload.validation || null
+      });
+      failed++;
+    }
+  }
+
+  console.log(`[RAG-BULK] ${files.length} archivo(s): ${ok} ok, ${failed} fallidos, ${renamed} renombrados`);
+  res.json({ total: files.length, ok, failed, renamed, results });
 });
 
 // POST /api/admin/rag-modules/analyze - Analizar HTML de módulo con ragModuleValidator (con LLM fallback)

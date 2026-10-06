@@ -1,0 +1,243 @@
+<section
+  class="su-portada"
+  data-gemini-id="portada-nombre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="su-portada-titulo"
+>
+  <style>
+    .su-portada {
+      --primary-color: #17171a;
+      --secondary-color: #75757c;
+      --accent-color: #d43d2a;
+      --bg-color: #f2f2ef;
+      --surface-color: #fbfbf9;
+      --surface-border-color: rgba(23, 23, 26, 0.16);
+      --text-color: #17171a;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 100svh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/minimal,white');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .su-portada *,
+    .su-portada *::before,
+    .su-portada *::after { box-sizing: border-box; }
+
+    .su-portada::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 95%, transparent);
+    }
+
+    .su-portada__barra-superior {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding-bottom: 0.9rem;
+      border-bottom: 2px solid var(--primary-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .su-portada__barra-superior b {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      background: var(--accent-color);
+    }
+
+    .su-portada__cuerpo {
+      display: grid;
+      grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+      gap: clamp(1.4rem, 4vw, 3rem);
+      align-items: end;
+      padding: clamp(2rem, 5vw, 4rem) 0 clamp(1.4rem, 3vw, 2.4rem);
+    }
+
+    .su-portada__titulo {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(2.6rem, 8.5vw, 6.2rem);
+      line-height: 0.96;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .su-portada__titulo span {
+      display: block;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .su-portada__titulo span:nth-child(2) {
+      color: var(--accent-color);
+      transition-delay: 0.12s;
+    }
+    .su-portada.su-js .su-portada__titulo span { opacity: 0; transform: translateY(0.25em); }
+    .su-portada.esta-visto .su-portada__titulo span { opacity: 1; transform: none; }
+
+    .su-portada__columna {
+      display: grid;
+      gap: 1.1rem;
+      border-left: 1px solid var(--surface-border-color);
+      padding-left: clamp(1rem, 2.5vw, 1.8rem);
+    }
+    .su-portada__rotulo {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.58rem, 1.05vw, 0.66rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .su-portada__nombres {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      line-height: 1.35;
+      color: var(--primary-color);
+    }
+    .su-portada__fecha {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.78rem, 1.5vw, 0.92rem);
+      letter-spacing: 0.12em;
+      color: var(--text-color);
+    }
+
+    .su-portada__pie {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      border-top: 1px solid var(--surface-border-color);
+      padding-top: 1rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.58rem, 1.05vw, 0.66rem);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .su-portada__foto {
+      position: relative;
+      margin: 0;
+      width: clamp(96px, 13vw, 140px);
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      outline: 1px solid var(--surface-border-color);
+    }
+    .su-portada__foto::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: -6%;
+      right: -6%;
+      height: 1px;
+      background: var(--accent-color);
+    }
+    .su-portada__foto::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: -6%;
+      bottom: -6%;
+      width: 1px;
+      background: var(--accent-color);
+      z-index: 1;
+    }
+    .su-portada__foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.08);
+    }
+
+    @media (max-width: 760px) {
+      .su-portada__cuerpo { grid-template-columns: 1fr; align-items: start; }
+      .su-portada__columna { border-left: 0; border-top: 1px solid var(--surface-border-color); padding-left: 0; padding-top: 1.1rem; }
+      .su-portada__pie { flex-wrap: wrap; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .su-portada * { transition: none !important; }
+      .su-portada__titulo span { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <header class="su-portada__barra-superior" memory_type="text" memory_usage="custom" memory_key="portada-encabezado">
+    <span>Invitación · N.º 01</span>
+    <b aria-hidden="true"></b>
+    <span memory_type="text" memory_usage="custom" memory_key="portada-edicion">Edición única</span>
+  </header>
+
+  <div class="su-portada__cuerpo">
+    <div memory_type="text" memory_usage="custom" memory_key="portada-nombres">
+      <h1 id="su-portada-titulo" class="su-portada__titulo">
+        <span>Nombre</span>
+        <span>&amp; Nombre</span>
+      </h1>
+    </div>
+
+    <div class="su-portada__columna">
+      <p class="su-portada__rotulo" memory_type="text" memory_usage="custom" memory_key="portada-rotulo">Celebran</p>
+      <p class="su-portada__nombres" memory_type="text" memory_usage="custom" memory_key="portada-completo">Nombre de la Novia y Nombre del Novio</p>
+      <time class="su-portada__fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="portada-fecha">FECHA DEL EVENTO — 16:00 H</time>
+      <figure class="su-portada__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="portada-foto">
+        <img src="https://loremflickr.com/360/360/couple,minimal" alt="Retrato de los anfitriones" path="placeholder" data-library-category="bodas" data-asset-type="foto-pareja" loading="lazy" />
+        <figcaption hidden>Retrato principal</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <footer class="su-portada__pie">
+    <span memory_type="text" memory_usage="custom" memory_key="portada-lugar">Lugar del evento</span>
+    <span memory_type="text" memory_usage="custom" memory_key="portada-pie-derecho">Pase de entrada</span>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.su-portada');
+      if (!root) return;
+      root.classList.add('su-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.22 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Suizo Tipográfico',
+      descripcion: 'Retícula suiza: barra superior con cuadrado rojo, titular gigante en dos líneas, columna con regla vertical y foto cuadrada con retícula.',
+      tags: ['portada', 'hero', 'suizo', 'tipografia', 'reticula', 'minimal'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

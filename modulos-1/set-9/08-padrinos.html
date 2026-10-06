@@ -1,0 +1,227 @@
+<section
+  class="ci-padrinos"
+  data-gemini-id="padrinos-cine-reparto"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ci-padrinos {
+      --primary-color: #f3ead8;
+      --secondary-color: #b3a488;
+      --accent-color: #e8a13c;
+      --bg-color: #191512;
+      --surface-color: #221d18;
+      --surface-border-color: rgba(243, 234, 216, 0.16);
+      --text-color: #f3ead8;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/stage,night');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .ci-padrinos *,
+    .ci-padrinos *::before,
+    .ci-padrinos *::after { box-sizing: border-box; }
+
+    .ci-padrinos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 91%, transparent);
+    }
+
+    .ci-padrinos__cabecera {
+      width: min(100%, 860px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 0.9rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .ci-padrinos__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ci-padrinos__creditos {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--accent-color);
+    }
+
+    .ci-padrinos__reparto {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(1rem, 2.8vw, 1.9rem);
+      width: min(100%, 960px);
+      margin: 0 auto;
+    }
+
+    .ci-padrinos__actor {
+      text-align: center;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ci-padrinos.ci-js .ci-padrinos__actor { opacity: 0; transform: translateY(22px); }
+    .ci-padrinos .ci-padrinos__actor.esta-visto { opacity: 1; transform: none; }
+
+    .ci-padrinos__marco {
+      position: relative;
+      margin: 0 0 0.9rem;
+      padding: 8px 8px 22px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 18px 38px rgba(0, 0, 0, 0.5);
+    }
+    .ci-padrinos__marco img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      filter: sepia(0.25) contrast(1.04);
+    }
+    .ci-padrinos__rotulo-foto {
+      position: absolute;
+      bottom: 5px;
+      left: 0;
+      right: 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.54rem;
+      letter-spacing: 0.3em;
+      color: var(--secondary-color);
+    }
+
+    .ci-padrinos__rol {
+      margin: 0 0 0.25rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.54rem, 1vw, 0.62rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ci-padrinos__nombre {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.88rem, 1.75vw, 1.05rem);
+      line-height: 1.3;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 860px) {
+      .ci-padrinos__reparto { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 440px) {
+      .ci-padrinos__reparto { grid-template-columns: 1fr; max-width: 250px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ci-padrinos * { transition: none !important; }
+      .ci-padrinos__actor { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="ci-padrinos__cabecera" memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
+    <h2 class="ci-padrinos__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Reparto de apoyo</h2>
+    <span class="ci-padrinos__creditos" memory_type="text" memory_usage="custom" memory_key="padrinos-creditos">CON LA PARTICIPACIÓN DE</span>
+  </header>
+
+  <div class="ci-padrinos__reparto">
+    <article class="ci-padrinos__actor" data-ci-actor>
+      <figure class="ci-padrinos__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
+        <img src="https://loremflickr.com/300/300/portrait,sepia" alt="Retrato de padrino" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <span class="ci-padrinos__rotulo-foto" aria-hidden="true">FOTO 1</span>
+        <figcaption hidden>Padrino uno</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
+        <p class="ci-padrinos__rol">Padrinos de alianzas</p>
+        <h3 class="ci-padrinos__nombre">Nombre Padrino</h3>
+      </div>
+    </article>
+
+    <article class="ci-padrinos__actor" data-ci-actor>
+      <figure class="ci-padrinos__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
+        <img src="https://loremflickr.com/300/300/portrait,film" alt="Retrato de madrina" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <span class="ci-padrinos__rotulo-foto" aria-hidden="true">FOTO 2</span>
+        <figcaption hidden>Madrina dos</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
+        <p class="ci-padrinos__rol">Padrinos de velo</p>
+        <h3 class="ci-padrinos__nombre">Nombre Madrina</h3>
+      </div>
+    </article>
+
+    <article class="ci-padrinos__actor" data-ci-actor>
+      <figure class="ci-padrinos__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
+        <img src="https://loremflickr.com/300/300/portrait,warm" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <span class="ci-padrinos__rotulo-foto" aria-hidden="true">FOTO 3</span>
+        <figcaption hidden>Padrino tres</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
+        <p class="ci-padrinos__rol">Padrinos de arras</p>
+        <h3 class="ci-padrinos__nombre">Nombre Padrino</h3>
+      </div>
+    </article>
+
+    <article class="ci-padrinos__actor" data-ci-actor>
+      <figure class="ci-padrinos__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
+        <img src="https://loremflickr.com/300/300/portrait,indie" alt="Retrato de madrinas" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <span class="ci-padrinos__rotulo-foto" aria-hidden="true">FOTO 4</span>
+        <figcaption hidden>Madrina cuatro</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
+        <p class="ci-padrinos__rol">Padrinos de lazos</p>
+        <h3 class="ci-padrinos__nombre">Nombre Madrina</h3>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ci-padrinos');
+      if (!root) return;
+      root.classList.add('ci-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var actores = Array.prototype.slice.call(root.querySelectorAll('[data-ci-actor]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        actores.forEach(function (a) { a.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = actores.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.11).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.2 });
+      actores.forEach(function (a) { io.observe(a); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padrinos',
+      module_name: 'padrinos-cine-reparto',
+      style_name: 'Cine Indie — Padrinos',
+      descripcion: 'Reparto de apoyo con polaroids de set numeradas, roles en monoespaciada ámbar y ascenso escalonado del elenco.',
+      tags: ['padrinos', 'reparto', 'cine', 'polaroid', 'creditos', 'indie'],
+      tipo: 'padrinos'
+    };
+  </script>
+</section>

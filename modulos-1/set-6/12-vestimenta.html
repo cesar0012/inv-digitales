@@ -1,0 +1,174 @@
+<section
+  class="bh-vestimenta"
+  data-gemini-id="vestimenta-bauhaus-circulos"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .bh-vestimenta {
+      --primary-color: #22242a;
+      --secondary-color: #6d7078;
+      --accent-color: #e2543e;
+      --bg-color: #f3f1ec;
+      --surface-color: #fbfaf7;
+      --surface-border-color: rgba(34, 36, 42, 0.18);
+      --text-color: #22242a;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      min-height: 64svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/color,minimal');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .bh-vestimenta *,
+    .bh-vestimenta *::before,
+    .bh-vestimenta *::after { box-sizing: border-box; }
+
+    .bh-vestimenta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 92%, transparent);
+    }
+
+    .bh-vestimenta__panel {
+      width: min(100%, 660px);
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: clamp(10px, 1.8vw, 18px) clamp(10px, 1.8vw, 18px) 0 color-mix(in srgb, var(--accent-color) 55%, transparent);
+    }
+
+    .bh-vestimenta__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .bh-vestimenta__titulo {
+      margin: 0 0 0.8rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .bh-vestimenta__texto {
+      margin: 0 auto 1.8rem;
+      max-width: 46ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .bh-vestimenta__rueda {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1.7rem;
+    }
+    .bh-vestimenta__disco {
+      width: clamp(52px, 9vw, 66px);
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      border: 3px solid var(--surface-color);
+      background: var(--bg-color);
+      transition: background 0.5s ease, transform 0.5s ease, margin 0.5s ease;
+      transition: background 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), margin-left 0.5s ease;
+    }
+    .bh-vestimenta__disco + .bh-vestimenta__disco { margin-left: calc(-1 * clamp(14px, 2.6vw, 22px)); }
+    .bh-vestimenta__disco:hover { transform: translateY(-8px) scale(1.08); z-index: 2; }
+
+    .bh-vestimenta__leyenda {
+      display: inline-block;
+      padding: 0.55rem 1.5rem;
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 480px) {
+      .bh-vestimenta__disco { width: 44px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bh-vestimenta * { transition: none !important; }
+    }
+  </style>
+
+  <div class="bh-vestimenta__panel">
+    <p class="bh-vestimenta__etiqueta" memory_type="text" memory_usage="custom" memory_key="vestimenta-etiqueta">Dress code</p>
+    <h2 class="bh-vestimenta__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Círculos de color</h2>
+    <p class="bh-vestimenta__texto" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">
+      Seis discos superpuestos como inspiración; cualquier combinación encaja en esta composición.
+    </p>
+
+    <div class="bh-vestimenta__rueda" data-bh-rueda aria-hidden="true"></div>
+
+    <p class="bh-vestimenta__leyenda" memory_type="text" memory_usage="custom" memory_key="vestimenta-leyenda">Formal · color bienvenido</p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.bh-vestimenta');
+      if (!root) return;
+      root.classList.add('bh-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var rueda = root.querySelector('[data-bh-rueda]');
+      if (rueda && !rueda.children.length) {
+        var tonos = ['#e2543e', '#2e4a8f', '#e8b93e', '#3e7d5a', '#8a5aa8', '#22242a'];
+        for (var i = 0; i < tonos.length; i++) {
+          var disco = document.createElement('span');
+          disco.className = 'bh-vestimenta__disco';
+          disco.setAttribute('data-bh-tono', tonos[i]);
+          rueda.appendChild(disco);
+        }
+      }
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function colorear() {
+        root.querySelectorAll('[data-bh-tono]').forEach(function (d) {
+          d.style.background = d.getAttribute('data-bh-tono');
+        });
+      }
+      if (reduce || !('IntersectionObserver' in window)) { colorear(); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          setTimeout(colorear, 200);
+          io.disconnect();
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-bauhaus-circulos',
+      style_name: 'Bauhaus Geométrico — Vestimenta',
+      descripcion: 'Rueda de discos superpuestos que se colorean por JS al entrar en pantalla; elevación al hover y leyenda en placa.',
+      tags: ['vestimenta', 'dress code', 'discos', 'paleta', 'bauhaus', 'geometrico'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

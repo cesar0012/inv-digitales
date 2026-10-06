@@ -1,0 +1,194 @@
+<section
+  class="ne-corte"
+  data-gemini-id="corte-neon-persianas"
+>
+  <style>
+    .ne-corte {
+      --primary-color: #f2f4fa;
+      --secondary-color: #9aa3b8;
+      --accent-color: #ff4d7d;
+      --bg-color: #14161d;
+      --surface-color: #1b1e27;
+      --surface-border-color: rgba(255, 255, 255, 0.14);
+      --text-color: #f2f4fa;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .ne-corte *,
+    .ne-corte *::before,
+    .ne-corte *::after { box-sizing: border-box; }
+
+    .ne-corte__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+      gap: clamp(1.8rem, 4.5vw, 3.4rem);
+      align-items: center;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .ne-corte__marco {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--accent-color);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-color) 30%, transparent), 0 0 34px color-mix(in srgb, var(--accent-color) 22%, transparent), 0 26px 58px rgba(0, 0, 0, 0.5);
+    }
+    .ne-corte__marco img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      filter: saturate(1.05) contrast(1.06);
+      transform: scale(1.07);
+      transition: transform 0.5s ease;
+    }
+    .ne-corte.esta-visto .ne-corte__marco img { transform: scale(1); }
+
+    .ne-corte__persianas {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: none;
+      flex-direction: column;
+      pointer-events: none;
+    }
+    .ne-corte.ne-js .ne-corte__persianas { display: flex; }
+    .ne-corte__lamina {
+      flex: 1;
+      background: repeating-linear-gradient(0deg, var(--surface-color) 0 12px, color-mix(in srgb, var(--accent-color) 30%, var(--surface-color)) 12px 14px);
+      border-bottom: 1px solid var(--surface-border-color);
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ne-corte__lamina:nth-child(odd) { transform: translateX(-102%); }
+    .ne-corte__lamina:nth-child(even) { transform: translateX(102%); }
+    .ne-corte.esta-visto .ne-corte__lamina { transform: translateX(0); }
+
+    .ne-corte__rotulo {
+      position: absolute;
+      z-index: 3;
+      bottom: 12px;
+      right: 14px;
+      padding: 0.25rem 0.7rem;
+      background: color-mix(in srgb, var(--bg-color) 85%, transparent);
+      border: 1px solid var(--surface-border-color);
+      font-family: 'Courier New', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .ne-corte__contenido { text-align: left; }
+    .ne-corte__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ne-corte__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.85rem, 4.2vw, 2.7rem);
+      line-height: 1.1;
+      color: var(--primary-color);
+    }
+    .ne-corte__texto {
+      margin: 0 0 1.2rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .ne-corte__cita {
+      display: inline-block;
+      padding-left: 1rem;
+      border-left: 2px solid var(--accent-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.86rem, 1.6vw, 0.98rem);
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 880px) {
+      .ne-corte__grid { grid-template-columns: 1fr; }
+      .ne-corte__contenido { text-align: center; }
+      .ne-corte__cita { border-left: 0; padding-left: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ne-corte * { transition: none !important; }
+      .ne-corte__persianas { display: none !important; }
+      .ne-corte__marco img { transform: none; }
+    }
+  </style>
+
+  <div class="ne-corte__grid">
+    <figure class="ne-corte__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="corte-foto">
+      <img
+        src="https://loremflickr.com/960/600/cake,night"
+        alt="Momento del corte nocturno"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="corte"
+        loading="lazy"
+      />
+      <span class="ne-corte__persianas" aria-hidden="true">
+        <span class="ne-corte__lamina"></span>
+        <span class="ne-corte__lamina"></span>
+        <span class="ne-corte__lamina"></span>
+        <span class="ne-corte__lamina"></span>
+      </span>
+      <span class="ne-corte__rotulo" aria-hidden="true">ESC. 07 — Toma única</span>
+      <figcaption hidden>Momento del corte</figcaption>
+    </figure>
+
+    <div class="ne-corte__contenido" memory_type="text" memory_usage="custom" memory_key="corte-texto">
+      <p class="ne-corte__etiqueta" memory_type="text" memory_usage="custom" memory_key="corte-etiqueta">Escena principal</p>
+      <h2 class="ne-corte__titulo" memory_type="text" memory_usage="custom" memory_key="corte-titulo">El corte bajo neón</h2>
+      <p class="ne-corte__texto">
+        Las persianas se abren en direcciones opuestas para revelar la toma única de la noche:
+        el corte que abre el brindis y enciende la pista.
+      </p>
+      <p class="ne-corte__cita" memory_type="text" memory_usage="custom" memory_key="corte-cita">Una toma, sin repeticiones.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ne-corte');
+      if (!root) return;
+      root.classList.add('ne-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root.querySelector('.ne-corte__marco') || root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-neon-persianas',
+      style_name: 'Neón Editorial — Corte',
+      descripcion: 'Persianas de reglas de neón que se cierran desde lados opuestos al entrar en pantalla; marco luminoso con rótulo de escena.',
+      tags: ['corte', 'persianas', 'neon', 'revelado', 'escena', 'nocturno'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

@@ -1,0 +1,265 @@
+<section
+  class="dc-countdown"
+  data-gemini-id="countdown-salon-deco"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+>
+  <style>
+    .dc-countdown {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 660px;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 5vw, 3rem);
+      background-color: var(--bg-color, #f4efe6);
+      background-image: url('https://loremflickr.com/1600/900/golden,ballroom');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color, #1f1a17);
+      text-align: center;
+    }
+    .dc-countdown *,
+    .dc-countdown *::before,
+    .dc-countdown *::after { box-sizing: border-box; }
+
+    .dc-countdown::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color, #f4efe6) 86%, transparent);
+    }
+
+    .dc-countdown__rayos {
+      position: absolute;
+      z-index: 0;
+      top: -30%;
+      left: 50%;
+      width: 200%;
+      transform: translateX(-50%);
+      color: var(--accent-color, #b08d57);
+      opacity: 0.12;
+      pointer-events: none;
+      animation: dcCountdownGiro 90s linear infinite;
+    }
+    @keyframes dcCountdownGiro { to { transform: translateX(-50%) rotate(360deg); } }
+
+    .dc-countdown__contenido { position: relative; z-index: 1; width: min(100%, 820px); }
+
+    .dc-countdown__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--accent-color, #b08d57);
+    }
+    .dc-countdown__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.8rem, 4.2vw, 2.8rem);
+      letter-spacing: 0.03em;
+      color: var(--primary-color, #1f1a17);
+    }
+    .dc-countdown__fecha {
+      display: block;
+      margin-bottom: clamp(1.6rem, 4vw, 2.4rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.78rem, 1.5vw, 0.9rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--secondary-color, #6e6257);
+    }
+
+    .dc-countdown__tablero {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(0.7rem, 2vw, 1.2rem);
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .dc-countdown__celda {
+      position: relative;
+      padding: clamp(1.2rem, 3vw, 1.8rem) 0.4rem clamp(1rem, 2.4vw, 1.4rem);
+      background: color-mix(in srgb, var(--surface-color, #fbf7ee) 96%, transparent);
+      border: 1px solid var(--surface-border-color, rgba(31, 26, 23, 0.25));
+      box-shadow: 0 16px 36px rgba(31, 26, 23, 0.14);
+      overflow: hidden;
+    }
+    .dc-countdown__celda::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-color, #b08d57) 0 30%, transparent 30% 70%, var(--accent-color, #b08d57) 70% 100%);
+    }
+    .dc-countdown__numero {
+      display: block;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.9rem, 5.2vw, 3.1rem);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      color: var(--primary-color, #1f1a17);
+    }
+    .dc-countdown__rotulo {
+      display: block;
+      margin-top: 0.55rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.55rem, 1.1vw, 0.64rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--secondary-color, #6e6257);
+    }
+
+    .dc-countdown__anillo {
+      position: relative;
+      width: clamp(150px, 24vw, 200px);
+      margin: clamp(1.6rem, 4vw, 2.2rem) auto 0;
+      color: var(--accent-color, #b08d57);
+    }
+    .dc-countdown__anillo svg { display: block; width: 100%; height: auto; transform: rotate(-90deg); }
+    .dc-countdown__anillo-fondo { fill: none; stroke: color-mix(in srgb, var(--accent-color, #b08d57) 25%, transparent); stroke-width: 3; }
+    .dc-countdown__anillo-segundo {
+      fill: none;
+      stroke: var(--accent-color, #b08d57);
+      stroke-width: 3;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.5s linear;
+    }
+    .dc-countdown__anillo-centro {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.95rem, 2.2vw, 1.25rem);
+      font-variant-numeric: tabular-nums;
+      color: var(--primary-color, #1f1a17);
+    }
+    .dc-countdown__anillo-centro small {
+      display: block;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--secondary-color, #6e6257);
+    }
+
+    @media (max-width: 560px) {
+      .dc-countdown__tablero { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .dc-countdown { min-height: 600px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dc-countdown * { animation: none !important; }
+      .dc-countdown__anillo-segundo { transition: none; }
+    }
+  </style>
+
+  <svg class="dc-countdown__rayos" viewBox="0 0 400 400" fill="none" aria-hidden="true">
+    <g stroke="currentColor" stroke-width="1">
+      <path d="M200 200 L200 10 M200 200 L240 15 M200 200 L280 30 M200 200 L316 56 M200 200 L344 88 M200 200 L366 124 M200 200 L380 162 M200 200 L386 200 M200 200 L380 238 M200 200 L366 276 M200 200 L344 312 M200 200 L316 344 M200 200 L280 370 M200 200 L240 385 M200 200 L200 390 M200 200 L160 385 M200 200 L120 370 M200 200 L84 344 M200 200 L56 312 M200 200 L34 276 M200 200 L20 238 M200 200 L14 200 M200 200 L20 162 M200 200 L34 124 M200 200 L56 88 M200 200 L84 56 M200 200 L120 30 M200 200 L160 15"/>
+    </g>
+  </svg>
+
+  <div class="dc-countdown__contenido">
+    <p class="dc-countdown__etiqueta" memory_type="text" memory_usage="custom" memory_key="countdown-etiqueta">La espera termina pronto</p>
+    <h2 class="dc-countdown__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Cuenta regresiva</h2>
+    <time class="dc-countdown__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+
+    <div class="dc-countdown__tablero" aria-label="Cuenta regresiva">
+      <div class="dc-countdown__celda"><span class="dc-countdown__numero" data-countdown-unit="days">--</span><span class="dc-countdown__rotulo">Días</span></div>
+      <div class="dc-countdown__celda"><span class="dc-countdown__numero" data-countdown-unit="hours">--</span><span class="dc-countdown__rotulo">Horas</span></div>
+      <div class="dc-countdown__celda"><span class="dc-countdown__numero" data-countdown-unit="minutes">--</span><span class="dc-countdown__rotulo">Min</span></div>
+      <div class="dc-countdown__celda"><span class="dc-countdown__numero" data-countdown-unit="seconds">--</span><span class="dc-countdown__rotulo">Seg</span></div>
+    </div>
+
+    <div class="dc-countdown__anillo" aria-hidden="true">
+      <svg viewBox="0 0 120 120">
+        <circle class="dc-countdown__anillo-fondo" cx="60" cy="60" r="52" />
+        <circle class="dc-countdown__anillo-segundo" data-dc-anillo cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="0" />
+      </svg>
+      <div class="dc-countdown__anillo-centro" data-dc-segundos>
+        <span>00<small>Seg</small></span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var el = null;
+      try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
+      if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+      if (!el) return;
+
+      var anillo = el.querySelector('[data-dc-anillo]');
+      var segundosCentro = el.querySelector('[data-dc-segundos] span');
+      var LONGITUD = anillo ? 2 * Math.PI * 52 : 0;
+      var target = NaN;
+      var attr = el.getAttribute('data-countdown-target');
+      if (attr && attr.indexOf('YYYY') === -1) { var p = new Date(attr); if (!isNaN(p.getTime())) target = p.getTime(); }
+      if (isNaN(target) && window.__countdownTarget) { var p1 = new Date(window.__countdownTarget); if (!isNaN(p1.getTime())) target = p1.getTime(); }
+      if (isNaN(target) && window.countdown_target) { var p2 = new Date(window.countdown_target); if (!isNaN(p2.getTime())) target = p2.getTime(); }
+
+      var intervalId = null;
+      (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+
+      function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+      function setUnit(unit, value) {
+        var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
+        if (node) node.textContent = value;
+      }
+      function tick() {
+        if (!Number.isFinite(target)) return;
+        var diff = Math.max(target - Date.now(), 0);
+        setUnit('days', Math.floor(diff / 86400000));
+        setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
+        setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
+        var s = Math.floor((diff % 60000) / 1000);
+        setUnit('seconds', pad2(s));
+        if (segundosCentro) segundosCentro.innerHTML = pad2(s) + '<small>Seg</small>';
+        if (anillo) anillo.setAttribute('stroke-dashoffset', (LONGITUD * (1 - s / 60)).toFixed(2));
+        if (diff === 0 && intervalId !== null) {
+          clearInterval(intervalId);
+          intervalId = null;
+          window.__countdownIntervals = [];
+        }
+      }
+      function start(newTarget) {
+        if (newTarget) { var p = new Date(newTarget); if (!isNaN(p.getTime())) target = p.getTime(); }
+        (window.__countdownIntervals || []).forEach(clearInterval);
+        window.__countdownIntervals = [];
+        intervalId = null;
+        if (!Number.isFinite(target)) return;
+        tick();
+        if (target > Date.now()) {
+          intervalId = setInterval(tick, 1000);
+          window.__countdownIntervals.push(intervalId);
+        }
+      }
+      start();
+      window.updateCountdown = start;
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-salon-deco',
+      style_name: 'Tablero Déco',
+      descripcion: 'Tablero ceremonioso de cuatro celdas con remates dorados, rayos giratorios de fondo y anillo de segundos que se vacía en el centro.',
+      tags: ['countdown', 'cuenta regresiva', 'deco', 'anillo', 'tablero', 'solemne'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>

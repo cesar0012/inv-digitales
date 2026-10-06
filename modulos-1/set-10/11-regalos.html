@@ -1,0 +1,217 @@
+<section
+  class="ma-regalos"
+  data-gemini-id="regalos-cofre-mesa"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ma-regalos {
+      --primary-color: #e8f2f4;
+      --secondary-color: #9dbcc4;
+      --accent-color: #5fc4cf;
+      --bg-color: #0e1b22;
+      --surface-color: #14232b;
+      --surface-border-color: rgba(232, 242, 244, 0.16);
+      --text-color: #e8f2f4;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/treasure,sea');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .ma-regalos *,
+    .ma-regalos *::before,
+    .ma-regalos *::after { box-sizing: border-box; }
+
+    .ma-regalos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .ma-regalos__cofre {
+      width: min(100%, 660px);
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 90%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 16px 16px 40px 40px;
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+    .ma-regalos__cofre::before {
+      content: '';
+      display: block;
+      height: 5px;
+      margin: -1.6rem -1.6rem 1.8rem;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+      box-shadow: 0 0 14px var(--accent-color);
+    }
+
+    .ma-regalos__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ma-regalos__titulo {
+      margin: 0 0 0.7rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ma-regalos__intro {
+      margin: 0 auto 1.6rem;
+      max-width: 46ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .ma-regalos__lista { display: grid; gap: clamp(0.7rem, 2vw, 1rem); margin-bottom: 1.7rem; }
+    .ma-regalos__fila {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.95rem;
+      align-items: center;
+      padding: clamp(0.85rem, 2.2vw, 1.1rem) clamp(1rem, 2.4vw, 1.3rem);
+      background: color-mix(in srgb, var(--bg-color) 70%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 999px;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .ma-regalos.ma-js .ma-regalos__fila { opacity: 0; transform: translateY(12px); }
+    .ma-regalos .ma-regalos__fila.esta-visto { opacity: 1; transform: none; }
+    .ma-regalos__moneda {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 30%, color-mix(in srgb, var(--accent-color) 80%, white), var(--accent-color));
+      box-shadow: 0 0 10px color-mix(in srgb, var(--accent-color) 60%, transparent);
+    }
+    .ma-regalos__nombre {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.92rem, 1.75vw, 1.04rem);
+      color: var(--primary-color);
+    }
+
+    .ma-regalos__zona-boton { text-align: center; }
+    .ma-regalos__boton {
+      min-width: 230px;
+      padding: 0.9rem 2rem;
+      border: 0;
+      border-radius: 999px;
+      background: var(--accent-color);
+      color: var(--bg-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 12px 26px color-mix(in srgb, var(--accent-color) 40%, transparent);
+      transition: transform 0.4s ease, filter 0.4s ease;
+    }
+    .ma-regalos__boton:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .ma-regalos__boton.esta-listo { filter: saturate(0.6) brightness(1.12); }
+    .ma-regalos__nota {
+      margin-top: 0.9rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.76rem, 1.4vw, 0.86rem);
+      color: var(--secondary-color);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ma-regalos * { transition: none !important; }
+      .ma-regalos__fila { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="ma-regalos__cofre">
+    <p class="ma-regalos__etiqueta" memory_type="text" memory_usage="custom" memory_key="regalos-etiqueta">Cofre de la mesa</p>
+    <h2 class="ma-regalos__titulo" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Tesoros del Pacífico</h2>
+    <p class="ma-regalos__intro" memory_type="text" memory_usage="custom" memory_key="regalos-texto">
+      Si quieres lanzar una moneda a nuestro cofre, estas son las piezas que soñamos.
+    </p>
+
+    <div class="ma-regalos__lista" data-ma-lista>
+      <div class="ma-regalos__fila" data-ma-fila>
+        <span class="ma-regalos__moneda" aria-hidden="true"></span>
+        <span class="ma-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-1">Aventuras de luna de miel</span>
+      </div>
+      <div class="ma-regalos__fila" data-ma-fila>
+        <span class="ma-regalos__moneda" aria-hidden="true"></span>
+        <span class="ma-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-2">Rincón para el hogar</span>
+      </div>
+      <div class="ma-regalos__fila" data-ma-fila>
+        <span class="ma-regalos__moneda" aria-hidden="true"></span>
+        <span class="ma-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-3">Clases de buceo para dos</span>
+      </div>
+    </div>
+
+    <div class="ma-regalos__zona-boton">
+      <button type="button" class="ma-regalos__boton" data-ma-boton>
+        <span data-ma-boton-texto memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span>
+      </button>
+      <p class="ma-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota">La botella registrará tu aporte.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ma-regalos');
+      if (!root) return;
+      root.classList.add('ma-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var filas = Array.prototype.slice.call(root.querySelectorAll('[data-ma-fila]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            filas.forEach(function (fila, i) { fila.style.transitionDelay = (i * 0.11).toFixed(2) + 's'; });
+            filas.forEach(function (fila) { fila.classList.add('esta-visto'); });
+            io.disconnect();
+          });
+        }, { threshold: 0.3 });
+        io.observe(root.querySelector('[data-ma-lista]') || root);
+      } else {
+        filas.forEach(function (fila) { fila.classList.add('esta-visto'); });
+      }
+
+      var boton = root.querySelector('[data-ma-boton]');
+      var texto = root.querySelector('[data-ma-boton-texto]');
+      if (boton && texto) {
+        boton.addEventListener('click', function () {
+          var listo = boton.classList.toggle('esta-listo');
+          texto.textContent = listo ? 'Regalo agendado' : 'Agendar regalo';
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-cofre-mesa',
+      style_name: 'Marino de Profundidad — Regalos',
+      descripcion: 'Cofre con costura luminosa, filas en cápsulas con monedas brillantes y botón de perla que confirma el agendado.',
+      tags: ['regalos', 'cofre', 'marino', 'monedas', 'boton', 'tesoro'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>

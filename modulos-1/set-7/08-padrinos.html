@@ -1,0 +1,212 @@
+<section
+  class="mu-padrinos"
+  data-gemini-id="padrinos-museo-murales"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .mu-padrinos {
+      --primary-color: #2a2724;
+      --secondary-color: #75705f;
+      --accent-color: #b3925a;
+      --bg-color: #f4f1ea;
+      --surface-color: #fdfbf6;
+      --surface-border-color: rgba(42, 39, 36, 0.16);
+      --text-color: #2a2724;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/wall,gallery');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .mu-padrinos *,
+    .mu-padrinos *::before,
+    .mu-padrinos *::after { box-sizing: border-box; }
+
+    .mu-padrinos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .mu-padrinos__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .mu-padrinos__intro {
+      margin: 0 auto clamp(2.2rem, 5vw, 3.2rem);
+      max-width: 50ch;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .mu-padrinos__murales {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(1rem, 2.8vw, 1.9rem);
+      width: min(100%, 960px);
+      margin: 0 auto;
+    }
+
+    .mu-padrinos__mural {
+      padding: clamp(0.9rem, 2vw, 1.2rem) clamp(0.7rem, 1.8vw, 1rem) clamp(1rem, 2.2vw, 1.3rem);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 18px 40px rgba(42, 39, 36, 0.16);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .mu-padrinos.mu-js .mu-padrinos__mural { opacity: 0; transform: translateY(24px) rotate(1.5deg); }
+    .mu-padrinos .mu-padrinos__mural.esta-visto { opacity: 1; transform: none; }
+    .mu-padrinos__mural:nth-child(even) { transform-origin: top center; }
+    .mu-padrinos.mu-js .mu-padrinos__mural:nth-child(even) { transform: translateY(24px) rotate(-1.5deg); }
+    .mu-padrinos.mu-js .mu-padrinos__mural:nth-child(even).esta-visto { transform: none; }
+
+    .mu-padrinos__marco {
+      margin: 0 0 0.9rem;
+      padding: 7px;
+      border: 1px solid var(--accent-color);
+      background: var(--bg-color);
+      box-shadow: inset 0 0 0 3px var(--surface-color), inset 0 0 0 4px var(--surface-border-color);
+    }
+    .mu-padrinos__marco img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      filter: saturate(0.88);
+    }
+
+    .mu-padrinos__rol {
+      margin: 0 0 0.25rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.54rem, 1vw, 0.62rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .mu-padrinos__nombre {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.88rem, 1.75vw, 1.05rem);
+      line-height: 1.3;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 860px) {
+      .mu-padrinos__murales { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 440px) {
+      .mu-padrinos__murales { grid-template-columns: 1fr; max-width: 260px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mu-padrinos * { transition: none !important; }
+      .mu-padrinos__mural { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
+    <h2 class="mu-padrinos__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Murales de honor</h2>
+    <p class="mu-padrinos__intro" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Cuatro retratos enmarcados en oro, colgados en la galería de los padrinos.</p>
+  </header>
+
+  <div class="mu-padrinos__murales">
+    <article class="mu-padrinos__mural" data-mu-mural>
+      <figure class="mu-padrinos__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
+        <img src="https://loremflickr.com/300/400/portrait,classic" alt="Retrato de padrino" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrino uno</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
+        <p class="mu-padrinos__rol">Padrinos de alianzas</p>
+        <h3 class="mu-padrinos__nombre">Nombre Padrino</h3>
+      </div>
+    </article>
+
+    <article class="mu-padrinos__mural" data-mu-mural>
+      <figure class="mu-padrinos__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
+        <img src="https://loremflickr.com/300/400/portrait,gold" alt="Retrato de madrina" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Madrina dos</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
+        <p class="mu-padrinos__rol">Padrinos de velo</p>
+        <h3 class="mu-padrinos__nombre">Nombre Madrina</h3>
+      </div>
+    </article>
+
+    <article class="mu-padrinos__mural" data-mu-mural>
+      <figure class="mu-padrinos__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
+        <img src="https://loremflickr.com/300/400/portrait,formal" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrino tres</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
+        <p class="mu-padrinos__rol">Padrinos de arras</p>
+        <h3 class="mu-padrinos__nombre">Nombre Padrino</h3>
+      </div>
+    </article>
+
+    <article class="mu-padrinos__mural" data-mu-mural>
+      <figure class="mu-padrinos__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
+        <img src="https://loremflickr.com/300/400/portrait,elegant" alt="Retrato de madrinas" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Madrina cuatro</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
+        <p class="mu-padrinos__rol">Padrinos de lazos</p>
+        <h3 class="mu-padrinos__nombre">Nombre Madrina</h3>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.mu-padrinos');
+      if (!root) return;
+      root.classList.add('mu-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var murales = Array.prototype.slice.call(root.querySelectorAll('[data-mu-mural]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        murales.forEach(function (m) { m.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = murales.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.12).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.2 });
+      murales.forEach(function (m) { io.observe(m); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padrinos',
+      module_name: 'padrinos-museo-murales',
+      style_name: 'Vitrina de Museo — Padrinos',
+      descripcion: 'Galería de cuatro retratos 3:4 en marcos dorados de doble fileto, colgado alternado con leve rotación y aparición escalonada.',
+      tags: ['padrinos', 'murales', 'museo', 'marcos', 'retratos', 'stagger'],
+      tipo: 'padrinos'
+    };
+  </script>
+</section>

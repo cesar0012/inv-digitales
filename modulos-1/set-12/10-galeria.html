@@ -1,0 +1,223 @@
+<section
+  class="fe-galeria"
+  data-gemini-id="galeria-feria-cabina"
+>
+  <style>
+    .fe-galeria {
+      --primary-color: #f5e9d7;
+      --secondary-color: #b39a7d;
+      --accent-color: #ffb347;
+      --bg-color: #1a1410;
+      --surface-color: #241c15;
+      --surface-border-color: rgba(245, 233, 215, 0.16);
+      --text-color: #f5e9d7;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+    }
+    .fe-galeria *,
+    .fe-galeria *::before,
+    .fe-galeria *::after { box-sizing: border-box; }
+
+    .fe-galeria__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .fe-galeria__nota {
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .fe-galeria__tiras {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
+      gap: clamp(1rem, 2.8vw, 1.8rem);
+      width: min(100%, 900px);
+      margin: 0 auto;
+      justify-items: center;
+    }
+
+    .fe-galeria__tira {
+      margin: 0;
+      padding: 10px 10px 26px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .fe-galeria.fe-js .fe-galeria__tira { opacity: 0; transform: translateY(22px) rotate(-2deg); }
+    .fe-galeria .fe-galeria__tira.esta-visto { opacity: 1; transform: none; }
+    .fe-galeria__tira:nth-child(odd) { transform-origin: top left; }
+    .fe-galeria.fe-js .fe-galeria__tira:nth-child(even) { transform: translateY(22px) rotate(2deg); }
+    .fe-galeria__tira img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      filter: saturate(1.05) contrast(1.04);
+    }
+    .fe-galeria__tira img + img { margin-top: 6px; }
+    .fe-galeria__numerito {
+      display: block;
+      padding-top: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.28em;
+      color: var(--secondary-color);
+    }
+
+    .fe-galeria__lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      place-items: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      background: rgba(0, 0, 0, 0.92);
+    }
+    .fe-galeria__lightbox.abierto { display: grid; }
+    .fe-galeria__lightbox img {
+      max-width: min(920px, 92vw);
+      max-height: 82svh;
+      width: auto;
+      height: auto;
+      border: 6px solid var(--surface-color);
+      box-shadow: 0 0 40px color-mix(in srgb, var(--accent-color) 30%, transparent), 0 30px 80px rgba(0, 0, 0, 0.6);
+    }
+    .fe-galeria__cerrar {
+      position: absolute;
+      top: clamp(0.8rem, 2.5vw, 1.6rem);
+      right: clamp(0.8rem, 2.5vw, 1.6rem);
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--accent-color);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--accent-color);
+      font-size: 1.2rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.4s ease, background 0.4s ease;
+    }
+    .fe-galeria__cerrar:hover { transform: rotate(90deg); background: color-mix(in srgb, var(--accent-color) 20%, transparent); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fe-galeria * { transition: none !important; }
+      .fe-galeria__tira { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="galeria-cabecera">
+    <h2 class="fe-galeria__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Tiras de la cabina</h2>
+    <p class="fe-galeria__nota" memory_type="text" memory_usage="custom" memory_key="galeria-nota">Photo booth · 2 fotos por tira</p>
+  </header>
+
+  <div class="fe-galeria__tiras">
+    <figure class="fe-galeria__tira" data-fe-tira memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-1" tabindex="0" role="button" aria-label="Ampliar tira uno">
+      <img src="https://loremflickr.com/380/285/fair,couple" alt="Tira uno, foto uno" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <img src="https://loremflickr.com/380/285/carnival,laugh" alt="Tira uno, foto dos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="fe-galeria__numerito" aria-hidden="true">TIRA 01</span>
+      <figcaption hidden>Tira uno</figcaption>
+    </figure>
+    <figure class="fe-galeria__tira" data-fe-tira memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-2" tabindex="0" role="button" aria-label="Ampliar tira dos">
+      <img src="https://loremflickr.com/380/285/festival,friends" alt="Tira dos, foto uno" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <img src="https://loremflickr.com/380/285/lights,party" alt="Tira dos, foto dos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="fe-galeria__numerito" aria-hidden="true">TIRA 02</span>
+      <figcaption hidden>Tira dos</figcaption>
+    </figure>
+    <figure class="fe-galeria__tira" data-fe-tira memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-3" tabindex="0" role="button" aria-label="Ampliar tira tres">
+      <img src="https://loremflickr.com/380/285/carnival,food" alt="Tira tres, foto uno" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <img src="https://loremflickr.com/380/285/night,toast" alt="Tira tres, foto dos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="fe-galeria__numerito" aria-hidden="true">TIRA 03</span>
+      <figcaption hidden>Tira tres</figcaption>
+    </figure>
+    <figure class="fe-galeria__tira" data-fe-tira memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-4" tabindex="0" role="button" aria-label="Ampliar tira cuatro">
+      <img src="https://loremflickr.com/380/285/fair,dance" alt="Tira cuatro, foto uno" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <img src="https://loremflickr.com/380/285/carnival,ride" alt="Tira cuatro, foto dos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="fe-galeria__numerito" aria-hidden="true">TIRA 04</span>
+      <figcaption hidden>Tira cuatro</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.fe-galeria');
+      if (!root) return;
+      root.classList.add('fe-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var tiras = Array.prototype.slice.call(root.querySelectorAll('[data-fe-tira]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var i = tiras.indexOf(entry.target);
+            entry.target.style.transitionDelay = (Math.min(i, 3) * 0.12).toFixed(2) + 's';
+            entry.target.classList.add('esta-visto');
+            io.unobserve(entry.target);
+          });
+        }, { threshold: 0.18 });
+        tiras.forEach(function (t) { io.observe(t); });
+      } else {
+        tiras.forEach(function (t) { t.classList.add('esta-visto'); });
+      }
+
+      var lightbox = document.createElement('div');
+      lightbox.className = 'fe-galeria__lightbox';
+      lightbox.setAttribute('role', 'dialog');
+      lightbox.setAttribute('aria-modal', 'true');
+      lightbox.setAttribute('aria-label', 'Vista ampliada');
+      lightbox.innerHTML =
+        '<img alt="" />' +
+        '<button type="button" class="fe-galeria__cerrar" aria-label="Cerrar">×</button>';
+      root.appendChild(lightbox);
+      var imgAmpliada = lightbox.querySelector('img');
+      var botonCerrar = lightbox.querySelector('.fe-galeria__cerrar');
+
+      function abrir(fig) {
+        var foto = fig.querySelector('img');
+        if (!foto) return;
+        imgAmpliada.src = foto.src;
+        imgAmpliada.alt = foto.alt;
+        lightbox.classList.add('abierto');
+      }
+      function cerrar() { lightbox.classList.remove('abierto'); }
+
+      tiras.forEach(function (fig) {
+        fig.addEventListener('click', function () { abrir(fig); });
+        fig.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(fig); }
+        });
+      });
+      botonCerrar.addEventListener('click', cerrar);
+      lightbox.addEventListener('click', function (e) { if (e.target === lightbox) cerrar(); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-feria-cabina',
+      style_name: 'Feria Nocturna — Cabina',
+      descripcion: 'Tiras de photo booth con dos fotos cada una, numeradas y balanceadas al aparecer; lightbox a pantalla completa.',
+      tags: ['galeria', 'photo booth', 'feria', 'tiras', 'lightbox', 'nocturno'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

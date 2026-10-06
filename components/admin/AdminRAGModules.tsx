@@ -2,20 +2,22 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   Plus, Upload, CheckCircle2, AlertCircle, X, Search, Eye,
   Pencil, Trash2, Sparkles, Loader2, FileCode, Filter,
-  Download, AlertTriangle
+  Download, AlertTriangle, FileUp, XCircle
 } from 'lucide-react';
 import {
   getRAGModules,
   updateRAGModule,
   deleteRAGModule,
   uploadRAGModule,
+  uploadRAGModulesBulk,
   analyzeModuleHtml,
   createRAGModule,
   downloadRAGModulesBackup,
   uploadRAGModulesBackup,
   RAGModule,
   ModuleAnalysis,
-  RAGModulesBackupData
+  RAGModulesBackupData,
+  RAGModuleBulkResponse
 } from '../../services/adminService';
 import { RAGModuleModal, MODULE_TYPES } from './RAGModuleModal';
 import { RAGModulePreviewModal } from './RAGModulePreviewModal';
@@ -64,6 +66,12 @@ export const AdminRAGModules: React.FC = () => {
 
   const [uploading, setUploading] = useState(false);
   const uploadFileRef = useRef<HTMLInputElement>(null);
+
+  // Subida masiva (bulk): drag & drop de 1..200 archivos .html
+  const [bulkUploading, setBulkUploading] = useState(false);
+  const [bulkDragActive, setBulkDragActive] = useState(false);
+  const [bulkResults, setBulkResults] = useState<RAGModuleBulkResponse | null>(null);
+  const bulkInputRef = useRef<HTMLInputElement>(null);
 
   // Modal de edición/creación
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -131,6 +139,47 @@ export const AdminRAGModules: React.FC = () => {
     const file = e.target.files?.[0];
     if (file) {
       handleUpload(file);
+      e.target.value = '';
+    }
+  };
+
+  // === Subida masiva (bulk) ===
+  const handleBulkFiles = async (fileList: FileList | File[]) => {
+    const files = Array.from(fileList).filter((f) => f.name.toLowerCase().endsWith('.html'));
+    if (files.length === 0) {
+      setToast({ type: 'error', text: 'Arrastra archivos .html (no se encontró ninguno)' });
+      return;
+    }
+    setBulkUploading(true);
+    setBulkResults(null);
+    try {
+      const result = await uploadRAGModulesBulk(files);
+      setBulkResults(result);
+      if (result.failed === 0) {
+        setToast({ type: 'success', text: `✅ ${result.ok}/${result.total} módulos importados${result.renamed ? ` (${result.renamed} renombrados por duplicidad)` : ''}` });
+      } else {
+        setToast({ type: 'error', text: `${result.ok}/${result.total} importados · ${result.failed} con error (ver detalle)` });
+      }
+      fetchModules();
+    } catch (error: any) {
+      setToast({ type: 'error', text: error.message });
+    } finally {
+      setBulkUploading(false);
+    }
+  };
+
+  const handleBulkDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setBulkDragActive(false);
+    if (bulkUploading) return;
+    if (e.dataTransfer?.files?.length) {
+      handleBulkFiles(e.dataTransfer.files);
+    }
+  };
+
+  const handleBulkInputSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.length) {
+      handleBulkFiles(e.target.files);
       e.target.value = '';
     }
   };
@@ -351,6 +400,83 @@ export const AdminRAGModules: React.FC = () => {
           </button>
         </div>
       </div>
+
+      {/* Subida masiva (bulk): drag & drop de muchos archivos .html */}
+      <div
+        onDragOver={(e) => { e.preventDefault(); if (!bulkUploading) setBulkDragActive(true); }}
+        onDragLeave={() => setBulkDragActive(false)}
+        onDrop={handleBulkDrop}
+        onClick={() => { if (!bulkUploading) bulkInputRef.current?.click(); }}
+        className={`mb-6 rounded-xl border-2 border-dashed p-6 text-center cursor-pointer transition-colors ${
+          bulkDragActive
+            ? 'border-purple-500 bg-purple-50'
+            : 'border-gray-300 bg-white hover:border-purple-400 hover:bg-purple-50/40'
+        } ${bulkUploading ? 'opacity-60 pointer-events-none' : ''}`}
+      >
+        <input
+          type="file"
+          accept=".html"
+          multiple
+          ref={bulkInputRef}
+          onChange={handleBulkInputSelect}
+          className="hidden"
+        />
+        {bulkUploading ? (
+          <div className="flex flex-col items-center gap-2">
+            <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
+            <p className="text-purple-700 font-medium">Importando módulos...</p>
+            <p className="text-xs text-gray-500">Procesando cada archivo de forma independiente</p>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center gap-1">
+            <FileUp className="w-8 h-8 text-purple-500" />
+            <p className="text-gray-800 font-medium">
+              Arrastra aquí tus módulos .html <span className="text-purple-600 font-semibold">en masa</span>
+            </p>
+            <p className="text-xs text-gray-500">
+              10, 20 o más archivos de golpe — o haz clic para seleccionarlos. Un archivo inválido no cancela el resto.
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Resultado de la subida masiva */}
+      {bulkResults && (
+        <div className={`mb-6 rounded-lg border p-4 ${
+          bulkResults.failed === 0 ? 'border-green-300 bg-green-50' : 'border-amber-300 bg-amber-50'
+        }`}>
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="font-semibold text-gray-800 flex items-center gap-2">
+              {bulkResults.failed === 0
+                ? <CheckCircle2 className="text-green-600" size={18} />
+                : <AlertCircle className="text-amber-600" size={18} />}
+              Importación masiva: {bulkResults.ok}/{bulkResults.total} módulos
+              {bulkResults.renamed > 0 && <span className="text-xs text-gray-500">({bulkResults.renamed} renombrados por duplicidad)</span>}
+            </h3>
+            <button onClick={() => setBulkResults(null)} className="text-gray-400 hover:text-gray-600">
+              <X size={16} />
+            </button>
+          </div>
+          <div className="max-h-56 overflow-y-auto rounded border bg-white divide-y divide-gray-100">
+            {bulkResults.results.map((r, i) => (
+              <div key={i} className="px-3 py-1.5 text-sm flex items-center gap-2">
+                {r.ok
+                  ? <CheckCircle2 className="text-green-600 flex-shrink-0" size={14} />
+                  : <XCircle className="text-red-500 flex-shrink-0" size={14} />}
+                <span className="font-mono text-xs text-gray-700 flex-1 truncate" title={r.filename}>{r.filename}</span>
+                {r.ok ? (
+                  <span className="text-xs text-gray-500">
+                    → <code className="bg-purple-50 text-purple-700 px-1 rounded">{r.module_id}</code>
+                    {r.renamed_from && <span className="text-amber-600 ml-1" title={`Renombrado desde ${r.renamed_from}`}>(duplicado)</span>}
+                  </span>
+                ) : (
+                  <span className="text-xs text-red-600 truncate max-w-[60%]" title={r.error}>{r.error}</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Backup / Restore de módulos */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">

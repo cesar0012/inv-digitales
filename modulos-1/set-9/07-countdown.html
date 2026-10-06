@@ -1,0 +1,240 @@
+<section
+  class="ci-countdown"
+  data-gemini-id="countdown-leader-cine"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+>
+  <style>
+    .ci-countdown {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 660px;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 5vw, 3rem);
+      background-color: var(--bg-color, #191512);
+      background-image: url('https://loremflickr.com/1600/900/film,grain');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color, #f3ead8);
+      text-align: center;
+    }
+    .ci-countdown *,
+    .ci-countdown *::before,
+    .ci-countdown *::after { box-sizing: border-box; }
+
+    .ci-countdown::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color, #191512) 90%, transparent);
+    }
+    .ci-countdown::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: repeating-linear-gradient(0deg, rgba(243, 234, 216, 0.02) 0 1px, transparent 1px 3px);
+      pointer-events: none;
+    }
+
+    .ci-countdown__contenido { position: relative; z-index: 2; width: min(100%, 720px); }
+
+    .ci-countdown__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.46em;
+      text-transform: uppercase;
+      color: var(--accent-color, #e8a13c);
+    }
+    .ci-countdown__titulo {
+      margin: 0 0 0.4rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.8rem, 4.2vw, 2.8rem);
+      color: var(--primary-color, #f3ead8);
+    }
+    .ci-countdown__fecha {
+      display: block;
+      margin-bottom: clamp(1.6rem, 4vw, 2.4rem);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.74rem, 1.5vw, 0.88rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--secondary-color, #b3a488);
+    }
+
+    .ci-countdown__leader {
+      position: relative;
+      width: clamp(180px, 27vw, 240px);
+      margin: 0 auto clamp(1.4rem, 3.4vw, 2rem);
+    }
+    .ci-countdown__leader svg { display: block; width: 100%; height: auto; }
+    .ci-countdown__reticula { stroke: color-mix(in srgb, var(--secondary-color, #b3a488) 60%, transparent); stroke-width: 1; }
+    .ci-countdown__circulo { fill: none; stroke: var(--secondary-color, #b3a488); stroke-width: 1.4; }
+    .ci-countdown__barrido {
+      fill: color-mix(in srgb, var(--accent-color, #e8a13c) 16%, transparent);
+      transform-origin: 110px 110px;
+      transition: transform 0.5s linear;
+    }
+    .ci-countdown__aguja {
+      stroke: var(--accent-color, #e8a13c);
+      stroke-width: 2;
+      stroke-linecap: round;
+      transform-origin: 110px 110px;
+      transition: transform 0.5s linear;
+    }
+    .ci-countdown__numero-centro {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-variant-numeric: tabular-nums;
+      color: var(--primary-color, #f3ead8);
+      text-shadow: 0 0 18px color-mix(in srgb, var(--accent-color, #e8a13c) 55%, transparent);
+    }
+
+    .ci-countdown__unidades {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(0.7rem, 2vw, 1.1rem);
+      max-width: 620px;
+      margin: 0 auto;
+    }
+    .ci-countdown__unidad {
+      padding: clamp(0.85rem, 2.2vw, 1.25rem) 0.3rem;
+      background: color-mix(in srgb, var(--surface-color, #221d18) 92%, transparent);
+      border: 1px solid var(--surface-border-color, rgba(243, 234, 216, 0.16));
+    }
+    .ci-countdown__numero {
+      display: block;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(1.5rem, 4vw, 2.3rem);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      color: var(--primary-color, #f3ead8);
+    }
+    .ci-countdown__rotulo {
+      display: block;
+      margin-top: 0.45rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.54rem, 1.05vw, 0.62rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--secondary-color, #b3a488);
+    }
+
+    @media (max-width: 560px) {
+      .ci-countdown__unidades { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .ci-countdown { min-height: 600px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ci-countdown__barrido, .ci-countdown__aguja { transition: none; }
+    }
+  </style>
+
+  <div class="ci-countdown__contenido">
+    <p class="ci-countdown__etiqueta" memory_type="text" memory_usage="custom" memory_key="countdown-etiqueta">Cuenta de cabeza de película</p>
+    <h2 class="ci-countdown__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Cuenta regresiva</h2>
+    <time class="ci-countdown__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+
+    <div class="ci-countdown__leader" aria-hidden="true">
+      <svg viewBox="0 0 220 220">
+        <circle class="ci-countdown__circulo" cx="110" cy="110" r="100"/>
+        <circle class="ci-countdown__circulo" cx="110" cy="110" r="70"/>
+        <path class="ci-countdown__reticula" d="M110 6 V60 M110 160 V214 M6 110 H60 M160 110 H214"/>
+        <path class="ci-countdown__barrido" data-ci-barrido d="M110 110 L110 10 A100 100 0 0 1 210 110 Z"/>
+        <line class="ci-countdown__aguja" data-ci-aguja x1="110" y1="110" x2="110" y2="14"/>
+      </svg>
+      <span class="ci-countdown__numero-centro" data-ci-segundos>00</span>
+    </div>
+
+    <div class="ci-countdown__unidades" aria-label="Cuenta regresiva">
+      <div class="ci-countdown__unidad"><span class="ci-countdown__numero" data-countdown-unit="days">--</span><span class="ci-countdown__rotulo">Días</span></div>
+      <div class="ci-countdown__unidad"><span class="ci-countdown__numero" data-countdown-unit="hours">--</span><span class="ci-countdown__rotulo">Horas</span></div>
+      <div class="ci-countdown__unidad"><span class="ci-countdown__numero" data-countdown-unit="minutes">--</span><span class="ci-countdown__rotulo">Min</span></div>
+      <div class="ci-countdown__unidad"><span class="ci-countdown__numero" data-countdown-unit="seconds">--</span><span class="ci-countdown__rotulo">Seg</span></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var el = null;
+      try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
+      if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+      if (!el) return;
+
+      var barrido = el.querySelector('[data-ci-barrido]');
+      var aguja = el.querySelector('[data-ci-aguja]');
+      var centro = el.querySelector('[data-ci-segundos]');
+      var target = NaN;
+      var attr = el.getAttribute('data-countdown-target');
+      if (attr && attr.indexOf('YYYY') === -1) { var p = new Date(attr); if (!isNaN(p.getTime())) target = p.getTime(); }
+      if (isNaN(target) && window.__countdownTarget) { var p1 = new Date(window.__countdownTarget); if (!isNaN(p1.getTime())) target = p1.getTime(); }
+      if (isNaN(target) && window.countdown_target) { var p2 = new Date(window.countdown_target); if (!isNaN(p2.getTime())) target = p2.getTime(); }
+
+      var intervalId = null;
+      (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+
+      function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+      function setUnit(unit, value) {
+        var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
+        if (node) node.textContent = value;
+      }
+      function tick() {
+        if (!Number.isFinite(target)) return;
+        var diff = Math.max(target - Date.now(), 0);
+        setUnit('days', Math.floor(diff / 86400000));
+        setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
+        setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
+        var s = Math.floor((diff % 60000) / 1000);
+        setUnit('seconds', pad2(s));
+        var grados = 360 - (s / 60) * 360;
+        if (barrido) barrido.setAttribute('transform', 'rotate(' + grados.toFixed(2) + ' 110 110)');
+        if (aguja) aguja.setAttribute('transform', 'rotate(' + grados.toFixed(2) + ' 110 110)');
+        if (centro) centro.textContent = pad2(s);
+        if (diff === 0 && intervalId !== null) {
+          clearInterval(intervalId);
+          intervalId = null;
+          window.__countdownIntervals = [];
+        }
+      }
+      function start(newTarget) {
+        if (newTarget) { var p = new Date(newTarget); if (!isNaN(p.getTime())) target = p.getTime(); }
+        (window.__countdownIntervals || []).forEach(clearInterval);
+        window.__countdownIntervals = [];
+        intervalId = null;
+        if (!Number.isFinite(target)) return;
+        tick();
+        if (target > Date.now()) {
+          intervalId = setInterval(tick, 1000);
+          window.__countdownIntervals.push(intervalId);
+        }
+      }
+      start();
+      window.updateCountdown = start;
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-leader-cine',
+      style_name: 'Cuenta de Leader',
+      descripcion: 'Cabeza de película: retícula de mira, barrido radar y aguja que barren cada minuto con numerales filmados y grano en pantalla.',
+      tags: ['countdown', 'cuenta regresiva', 'cine', 'leader', 'radar', 'reticula'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>

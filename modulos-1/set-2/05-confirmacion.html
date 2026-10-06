@@ -1,0 +1,175 @@
+<section
+  class="dc-confirmacion"
+  data-gemini-id="confirmacion-texto"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .dc-confirmacion {
+      --primary-color: #1f1a17;
+      --secondary-color: #6e6257;
+      --accent-color: #b08d57;
+      --bg-color: #f4efe6;
+      --surface-color: #fbf7ee;
+      --surface-border-color: rgba(31, 26, 23, 0.25);
+      --text-color: #1f1a17;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 74svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/velvet,gold');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .dc-confirmacion *,
+    .dc-confirmacion *::before,
+    .dc-confirmacion *::after { box-sizing: border-box; }
+
+    .dc-confirmacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 86%, transparent);
+    }
+
+    .dc-confirmacion__placa {
+      position: relative;
+      width: min(100%, 680px);
+      padding: clamp(2.4rem, 6vw, 3.8rem) clamp(1.4rem, 5vw, 3.2rem);
+      background: color-mix(in srgb, var(--surface-color) 95%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 30px 64px rgba(31, 26, 23, 0.2);
+    }
+    .dc-confirmacion__placa::before {
+      content: '';
+      position: absolute;
+      inset: 9px;
+      border: 3px double var(--accent-color);
+      pointer-events: none;
+    }
+    .dc-confirmacion__placa::after {
+      content: '';
+      position: absolute;
+      top: -7px;
+      left: 50%;
+      width: 90px;
+      height: 14px;
+      transform: translateX(-50%);
+      background:
+        linear-gradient(135deg, color-mix(in srgb, var(--accent-color) 70%, transparent) 25%, transparent 25%) 0 0 / 14px 14px,
+        linear-gradient(-135deg, color-mix(in srgb, var(--accent-color) 70%, transparent) 25%, transparent 25%) 0 0 / 14px 14px;
+      background-color: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 3px;
+    }
+
+    .dc-confirmacion__monograma {
+      width: clamp(74px, 11vw, 96px);
+      margin: 0 auto clamp(1rem, 2.6vw, 1.5rem);
+      display: grid;
+      place-items: center;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, color-mix(in srgb, var(--accent-color) 75%, transparent), color-mix(in srgb, var(--accent-color) 20%, transparent), color-mix(in srgb, var(--accent-color) 75%, transparent));
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+      font-style: italic;
+      color: var(--bg-color);
+      animation: dcConfirmacionGiro 26s linear infinite;
+    }
+    @keyframes dcConfirmacionGiro { to { transform: rotate(360deg); } }
+    .dc-confirmacion__monograma span { transform: rotate(-360deg); animation: dcConfirmacionGiroInverso 26s linear infinite; }
+    @keyframes dcConfirmacionGiroInverso { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+
+    .dc-confirmacion__etiqueta {
+      margin: 0 0 0.7rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .dc-confirmacion__titulo {
+      margin: 0 0 1rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .dc-confirmacion__texto {
+      margin: 0 auto 1.5rem;
+      max-width: 46ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.6vw, 0.96rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+
+    .dc-confirmacion__limite {
+      display: inline-grid;
+      gap: 0.3rem;
+      padding: 0.7rem 1.8rem;
+      border: 1px solid var(--surface-border-color);
+      background: var(--bg-color);
+    }
+    .dc-confirmacion__limite-rotulo {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .dc-confirmacion__limite-fecha {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.9rem, 1.7vw, 1.02rem);
+      letter-spacing: 0.1em;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 560px) {
+      .dc-confirmacion { min-height: 64svh; }
+      .dc-confirmacion__placa { padding: 2.4rem 1.2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dc-confirmacion * { animation: none !important; }
+    }
+  </style>
+
+  <div class="dc-confirmacion__placa">
+    <div class="dc-confirmacion__monograma" aria-hidden="true"><span>N&amp;N</span></div>
+
+    <p class="dc-confirmacion__etiqueta" memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta">Confirmación de asistencia</p>
+    <h2 class="dc-confirmacion__titulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">Su presencia es un honor</h2>
+    <p class="dc-confirmacion__texto" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">
+      Para nosotros es importante recibirte como mereces. Confirma tu asistencia desde el enlace
+      incluido en tu invitación digital antes de la fecha límite; así tendremos todo listo para recibirte.
+    </p>
+    <p class="dc-confirmacion__limite">
+      <span class="dc-confirmacion__limite-rotulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-rotulo">Confirma antes del</span>
+      <time class="dc-confirmacion__limite-fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha">DD de mes</time>
+    </p>
+  </div>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Salón Déco — Confirmación',
+      descripcion: 'Placa solemne con monograma cónico giratorio, doble filete interior y fecha límite de RSVP enmarcada; sin formularios.',
+      tags: ['confirmacion', 'rsvp', 'monograma', 'sello', 'deco', 'informativo'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>

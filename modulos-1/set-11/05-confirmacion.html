@@ -1,0 +1,133 @@
+<section
+  class="su-confirmacion"
+  data-gemini-id="confirmacion-texto"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .su-confirmacion {
+      background-image: url('https://loremflickr.com/1600/900/white,architecture');
+      background-size: cover;
+      background-position: center;
+      --primary-color: #17171a;
+      --secondary-color: #75757c;
+      --accent-color: #d43d2a;
+      --bg-color: #f2f2ef;
+      --surface-color: #fbfbf9;
+      --surface-border-color: rgba(23, 23, 26, 0.16);
+      --text-color: #17171a;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 72svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .su-confirmacion *,
+    .su-confirmacion *::before,
+    .su-confirmacion *::after { box-sizing: border-box; }
+
+    .su-confirmacion__manifiesto {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 640px);
+      padding-left: clamp(1.4rem, 4vw, 2.4rem);
+      border-left: 6px solid var(--accent-color);
+      text-align: left;
+    }
+
+    .su-confirmacion__etiqueta {
+      margin: 0 0 0.8rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .su-confirmacion__titulo {
+      margin: 0 0 1rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.8rem, 4.2vw, 2.8rem);
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      color: var(--primary-color);
+    }
+    .su-confirmacion__titulo em { font-style: normal; color: var(--accent-color); }
+    .su-confirmacion__texto {
+      margin: 0 0 1.4rem;
+      max-width: 52ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.88rem, 1.6vw, 1rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .su-confirmacion__limite {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.7rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.72rem, 1.4vw, 0.86rem);
+      letter-spacing: 0.16em;
+      color: var(--primary-color);
+    }
+    .su-confirmacion__limite::before {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background: var(--accent-color);
+      align-self: center;
+    }
+    .su-confirmacion__limite time { color: var(--accent-color); }
+
+    .su-confirmacion__num-fondo {
+      position: absolute;
+      z-index: 1;
+      right: clamp(0.5rem, 4vw, 3rem);
+      bottom: clamp(0.5rem, 3vw, 2rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(6rem, 22vw, 17rem);
+      line-height: 0.8;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--surface-border-color);
+      pointer-events: none;
+    }
+
+    @media (max-width: 560px) {
+      .su-confirmacion { min-height: 62svh; }
+    }
+  </style>
+
+  <div class="su-confirmacion__manifiesto">
+    <p class="su-confirmacion__etiqueta" memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta">Confirmación de asistencia</p>
+    <h2 class="su-confirmacion__titulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">Respuesta requerida <em>antes del cierre</em></h2>
+    <p class="su-confirmacion__texto" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">
+      El aforo es exacto y la lista, cerrada. Confirma con el enlace de tu invitación digital;
+      sin tu respuesta no hay lugar en la mesa.
+    </p>
+    <p class="su-confirmacion__limite" memory_type="text" memory_usage="custom" memory_key="confirmacion-rotulo">
+      FECHA LÍMITE <time datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha">DD.MM</time>
+    </p>
+  </div>
+
+  <span class="su-confirmacion__num-fondo" aria-hidden="true">RSVP</span>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Suizo Tipográfico — Confirmación',
+      descripcion: 'Manifiesto con barra roja lateral, titular con acento y numeral de fondo en contorno; límite con cuadrado rojo.',
+      tags: ['confirmacion', 'rsvp', 'suizo', 'manifiesto', 'contorno', 'barra'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>

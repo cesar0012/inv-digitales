@@ -1,0 +1,198 @@
+<section
+  class="ma-vestimenta"
+  data-gemini-id="vestimenta-perlas-tonos"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ma-vestimenta {
+      --primary-color: #e8f2f4;
+      --secondary-color: #9dbcc4;
+      --accent-color: #5fc4cf;
+      --bg-color: #0e1b22;
+      --surface-color: #14232b;
+      --surface-border-color: rgba(232, 242, 244, 0.16);
+      --text-color: #e8f2f4;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      min-height: 64svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/pearl,sea');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ma-vestimenta *,
+    .ma-vestimenta *::before,
+    .ma-vestimenta *::after { box-sizing: border-box; }
+
+    .ma-vestimenta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 88%, transparent);
+    }
+
+    .ma-vestimenta__panel {
+      width: min(100%, 660px);
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 88%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 48% 52% 12px 12px / 6% 6% 12px 12px;
+      box-shadow: 0 26px 56px rgba(0, 0, 0, 0.5);
+    }
+
+    .ma-vestimenta__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ma-vestimenta__titulo {
+      margin: 0 0 0.8rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ma-vestimenta__texto {
+      margin: 0 auto 1.8rem;
+      max-width: 46ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .ma-vestimenta__collar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(0.8rem, 2.2vw, 1.3rem);
+      margin-bottom: 1.6rem;
+    }
+    .ma-vestimenta__perla {
+      display: grid;
+      justify-items: center;
+      gap: 0.5rem;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ma-vestimenta.ma-js .ma-vestimenta__perla { opacity: 0; transform: translateY(16px) scale(0.8); }
+    .ma-vestimenta .ma-vestimenta__perla.esta-visto { opacity: 1; transform: none; }
+    .ma-vestimenta__esfera {
+      width: clamp(46px, 8vw, 60px);
+      height: clamp(46px, 8vw, 60px);
+      border-radius: 50%;
+      border: 1px solid var(--surface-border-color);
+      background:
+        radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.5), transparent 42%),
+        var(--bg-color);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+      transition: background-color 0.5s ease, transform 0.5s ease;
+    }
+    .ma-vestimenta__perla:hover .ma-vestimenta__esfera { transform: translateY(-5px); }
+
+    .ma-vestimenta__leyenda {
+      display: inline-block;
+      padding: 0.55rem 1.6rem;
+      border-radius: 999px;
+      border: 1px solid var(--accent-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 480px) {
+      .ma-vestimenta__esfera { width: 40px; height: 40px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ma-vestimenta * { transition: none !important; }
+      .ma-vestimenta__perla { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="ma-vestimenta__panel">
+    <p class="ma-vestimenta__etiqueta" memory_type="text" memory_usage="custom" memory_key="vestimenta-etiqueta">Código de vestimenta</p>
+    <h2 class="ma-vestimenta__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Perlas del litoral</h2>
+    <p class="ma-vestimenta__texto" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">
+      Collar de perlas teñidas como inspiración para tu atuendo; brillo suave, espíritu de mar.
+    </p>
+
+    <div class="ma-vestimenta__collar" data-ma-collar aria-hidden="true"></div>
+
+    <p class="ma-vestimenta__leyenda" memory_type="text" memory_usage="custom" memory_key="vestimenta-leyenda">Formal · tonos de litoral</p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ma-vestimenta');
+      if (!root) return;
+      root.classList.add('ma-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var collar = root.querySelector('[data-ma-collar]');
+      if (collar && !collar.children.length) {
+        var tonos = ['#5fc4cf', '#3d8f9c', '#9dbcc4', '#2e5d68', '#c7dee2', '#1d4a54'];
+        for (var i = 0; i < tonos.length; i++) {
+          var perla = document.createElement('span');
+          perla.className = 'ma-vestimenta__perla';
+          perla.style.transitionDelay = (i * 0.08).toFixed(2) + 's, ' + (i * 0.08).toFixed(2) + 's';
+          var esfera = document.createElement('span');
+          esfera.className = 'ma-vestimenta__esfera';
+          esfera.setAttribute('data-ma-tono', tonos[i]);
+          perla.appendChild(esfera);
+          collar.appendChild(perla);
+        }
+      }
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function colorear() {
+        root.querySelectorAll('[data-ma-tono]').forEach(function (e) {
+          e.style.backgroundColor = e.getAttribute('data-ma-tono');
+        });
+      }
+      if (reduce || !('IntersectionObserver' in window)) {
+        root.querySelectorAll('.ma-vestimenta__perla').forEach(function (p) { p.classList.add('esta-visto'); });
+        colorear();
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          root.querySelectorAll('.ma-vestimenta__perla').forEach(function (p, i) {
+            p.style.transitionDelay = (i * 0.08).toFixed(2) + 's, ' + (i * 0.08).toFixed(2) + 's';
+            p.classList.add('esta-visto');
+          });
+          setTimeout(colorear, 240);
+          io.disconnect();
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-perlas-tonos',
+      style_name: 'Marino de Profundidad — Vestimenta',
+      descripcion: 'Collar de perlas del litoral que ascienden escalonadas y se colorean por JS con brillo especular fijo.',
+      tags: ['vestimenta', 'dress code', 'perlas', 'paleta', 'marino', 'litoral'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

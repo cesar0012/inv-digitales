@@ -1,0 +1,211 @@
+<section
+  class="mu-vestimenta"
+  data-gemini-id="vestimenta-museo-conservacion"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .mu-vestimenta {
+      --primary-color: #2a2724;
+      --secondary-color: #75705f;
+      --accent-color: #b3925a;
+      --bg-color: #f4f1ea;
+      --surface-color: #fdfbf6;
+      --surface-border-color: rgba(42, 39, 36, 0.16);
+      --text-color: #2a2724;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      min-height: 64svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/fabric,gold');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .mu-vestimenta *,
+    .mu-vestimenta *::before,
+    .mu-vestimenta *::after { box-sizing: border-box; }
+
+    .mu-vestimenta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 88%, transparent);
+    }
+
+    .mu-vestimenta__panel {
+      width: min(100%, 660px);
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow:
+        inset 0 0 0 4px var(--surface-color),
+        inset 0 0 0 5.5px var(--accent-color),
+        0 26px 56px rgba(42, 39, 36, 0.18);
+    }
+
+    .mu-vestimenta__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .mu-vestimenta__titulo {
+      margin: 0 0 0.8rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .mu-vestimenta__texto {
+      margin: 0 auto 1.8rem;
+      max-width: 46ch;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .mu-vestimenta__muestras {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(0.8rem, 2.2vw, 1.3rem);
+      margin-bottom: 1.6rem;
+    }
+    .mu-vestimenta__pastilla {
+      display: grid;
+      justify-items: center;
+      gap: 0.45rem;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .mu-vestimenta.mu-js .mu-vestimenta__pastilla { opacity: 0; transform: translateY(16px); }
+    .mu-vestimenta .mu-vestimenta__pastilla.esta-visto { opacity: 1; transform: none; }
+    .mu-vestimenta__tela {
+      width: clamp(48px, 8.5vw, 62px);
+      height: clamp(62px, 11vw, 80px);
+      border: 1px solid var(--surface-border-color);
+      background:
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.12) 0 3px, transparent 3px 6px),
+        var(--bg-color);
+      box-shadow: 0 10px 20px rgba(42, 39, 36, 0.16), inset 0 0 0 3px var(--surface-color);
+      transition: background-color 0.5s ease, transform 0.5s ease;
+    }
+    .mu-vestimenta__pastilla:hover .mu-vestimenta__tela { transform: translateY(-4px) rotate(-1deg); }
+    .mu-vestimenta__codigo {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.56rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .mu-vestimenta__leyenda {
+      display: inline-block;
+      padding: 0.55rem 1.6rem;
+      border: 1px solid var(--accent-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 480px) {
+      .mu-vestimenta__tela { width: 42px; height: 54px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mu-vestimenta * { transition: none !important; }
+      .mu-vestimenta__pastilla { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="mu-vestimenta__panel">
+    <p class="mu-vestimenta__etiqueta" memory_type="text" memory_usage="custom" memory_key="vestimenta-etiqueta">Código de vestimenta</p>
+    <h2 class="mu-vestimenta__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Paleta del conservador</h2>
+    <p class="mu-vestimenta__texto" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">
+      Muestras de tela seleccionadas para armonizar con la colección de esta noche.
+    </p>
+
+    <div class="mu-vestimenta__muestras" data-mu-muestras aria-hidden="true"></div>
+
+    <p class="mu-vestimenta__leyenda" memory_type="text" memory_usage="custom" memory_key="vestimenta-leyenda">Etiqueta de gala</p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.mu-vestimenta');
+      if (!root) return;
+      root.classList.add('mu-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var muestras = root.querySelector('[data-mu-muestras]');
+      if (muestras && !muestras.children.length) {
+        var tonos = ['#2a2724', '#6d5527', '#b3925a', '#75705f', '#4a4438', '#93856f'];
+        var nombres = ['Noche', 'Bronce', 'Dorado', 'Piedra', 'Umbría', 'Arena'];
+        for (var i = 0; i < tonos.length; i++) {
+          var pastilla = document.createElement('span');
+          pastilla.className = 'mu-vestimenta__pastilla';
+          pastilla.style.transitionDelay = (i * 0.08).toFixed(2) + 's, ' + (i * 0.08).toFixed(2) + 's';
+          var tela = document.createElement('span');
+          tela.className = 'mu-vestimenta__tela';
+          tela.setAttribute('data-mu-tono', tonos[i]);
+          var codigo = document.createElement('span');
+          codigo.className = 'mu-vestimenta__codigo';
+          codigo.textContent = nombres[i];
+          pastilla.appendChild(tela);
+          pastilla.appendChild(codigo);
+          muestras.appendChild(pastilla);
+        }
+      }
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function colorear() {
+        root.querySelectorAll('[data-mu-tono]').forEach(function (t) {
+          t.style.backgroundColor = t.getAttribute('data-mu-tono');
+        });
+      }
+      if (reduce || !('IntersectionObserver' in window)) {
+        root.querySelectorAll('.mu-vestimenta__pastilla').forEach(function (p) { p.classList.add('esta-visto'); });
+        colorear();
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          root.querySelectorAll('.mu-vestimenta__pastilla').forEach(function (p, i) {
+            p.style.transitionDelay = (i * 0.08).toFixed(2) + 's, ' + (i * 0.08).toFixed(2) + 's';
+            p.classList.add('esta-visto');
+          });
+          setTimeout(colorear, 240);
+          io.disconnect();
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-museo-conservacion',
+      style_name: 'Vitrina de Museo — Vestimenta',
+      descripcion: 'Muestras de tela con trama horizontal que se colorean por JS con nombres de pigmento; etiqueta de gala en marco dorado.',
+      tags: ['vestimenta', 'dress code', 'tela', 'paleta', 'museo', 'pigmentos'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

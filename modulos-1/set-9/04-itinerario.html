@@ -1,0 +1,247 @@
+<section
+  class="ci-itinerario"
+  data-gemini-id="itinerario-agenda"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ci-itinerario {
+      --primary-color: #f3ead8;
+      --secondary-color: #b3a488;
+      --accent-color: #e8a13c;
+      --bg-color: #191512;
+      --surface-color: #221d18;
+      --surface-border-color: rgba(243, 234, 216, 0.16);
+      --text-color: #f3ead8;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/cinema,night');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .ci-itinerario *,
+    .ci-itinerario *::before,
+    .ci-itinerario *::after { box-sizing: border-box; }
+
+    .ci-itinerario::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 91%, transparent);
+    }
+
+    .ci-itinerario__cabecera {
+      width: min(100%, 780px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 0.9rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .ci-itinerario__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ci-itinerario__metraje {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--accent-color);
+    }
+
+    .ci-itinerario__carrete {
+      position: relative;
+      width: min(100%, 780px);
+      margin: 0 auto;
+      padding-left: clamp(2.2rem, 5.5vw, 3rem);
+    }
+    .ci-itinerario__perforaciones {
+      position: absolute;
+      top: 4px;
+      bottom: 4px;
+      left: 8px;
+      width: 16px;
+      background:
+        radial-gradient(circle, var(--bg-color) 0 3px, transparent 3.5px) 50% 0 / 100% 22px repeat-y,
+        var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+    }
+    .ci-itinerario__revelado {
+      position: absolute;
+      top: 4px;
+      bottom: 4px;
+      left: 8px;
+      width: 16px;
+      background: color-mix(in srgb, var(--accent-color) 55%, transparent);
+      clip-path: inset(calc(100% - var(--ci-progreso, 0%)) 0 0 0);
+      pointer-events: none;
+    }
+
+    .ci-itinerario__escena {
+      position: relative;
+      margin: 0 0 clamp(1.4rem, 3.6vw, 2rem);
+      padding: clamp(1.1rem, 2.7vw, 1.6rem) clamp(1.2rem, 3vw, 1.8rem);
+      background: color-mix(in srgb, var(--surface-color) 92%, transparent);
+      border: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ci-itinerario.ci-js .ci-itinerario__escena { opacity: 0; transform: translateX(16px); }
+    .ci-itinerario .ci-itinerario__escena.esta-visto { opacity: 1; transform: none; }
+
+    .ci-itinerario__marco {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 16px;
+      height: 16px;
+      border-top: 2px solid var(--accent-color);
+      border-left: 2px solid var(--accent-color);
+      opacity: 0.7;
+    }
+
+    .ci-itinerario__timecode {
+      display: inline-block;
+      margin-bottom: 0.35rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.66rem, 1.3vw, 0.76rem);
+      letter-spacing: 0.24em;
+      color: var(--accent-color);
+    }
+    .ci-itinerario__momento {
+      margin: 0 0 0.3rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.02rem, 2.1vw, 1.28rem);
+      color: var(--primary-color);
+    }
+    .ci-itinerario__detalle {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
+      line-height: 1.65;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 560px) {
+      .ci-itinerario__carrete { padding-left: 2rem; }
+      .ci-itinerario__perforaciones, .ci-itinerario__revelado { left: 4px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ci-itinerario * { transition: none !important; }
+      .ci-itinerario__escena { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="ci-itinerario__cabecera" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">
+    <h2 class="ci-itinerario__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Guion de la noche</h2>
+    <span class="ci-itinerario__metraje" memory_type="text" memory_usage="custom" memory_key="itinerario-metraje">4 ESCENAS · 35MM</span>
+  </header>
+
+  <div class="ci-itinerario__carrete">
+    <span class="ci-itinerario__perforaciones" aria-hidden="true"></span>
+    <span class="ci-itinerario__revelado" aria-hidden="true" data-ci-revelado></span>
+
+    <article class="ci-itinerario__escena" data-ci-escena>
+      <span class="ci-itinerario__marco" aria-hidden="true"></span>
+      <time class="ci-itinerario__timecode" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">ESC. 01 · 16:00</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
+        <h3 class="ci-itinerario__momento">Plano de apertura</h3>
+        <p class="ci-itinerario__detalle">Los invitados entran al patio; títulos de crédito rodantes.</p>
+      </div>
+    </article>
+
+    <article class="ci-itinerario__escena" data-ci-escena>
+      <span class="ci-itinerario__marco" aria-hidden="true"></span>
+      <time class="ci-itinerario__timecode" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">ESC. 02 · 17:00</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
+        <h3 class="ci-itinerario__momento">Escena central</h3>
+        <p class="ci-itinerario__detalle">La ceremonia, cámara lenta, luz de contraluz.</p>
+      </div>
+    </article>
+
+    <article class="ci-itinerario__escena" data-ci-escena>
+      <span class="ci-itinerario__marco" aria-hidden="true"></span>
+      <time class="ci-itinerario__timecode" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">ESC. 03 · 19:00</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
+        <h3 class="ci-itinerario__momento">Diálogos de mesa</h3>
+        <p class="ci-itinerario__detalle">Cena con conversaciones largas y vino corto.</p>
+      </div>
+    </article>
+
+    <article class="ci-itinerario__escena" data-ci-escena>
+      <span class="ci-itinerario__marco" aria-hidden="true"></span>
+      <time class="ci-itinerario__timecode" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">ESC. 04 · 21:30</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
+        <h3 class="ci-itinerario__momento">Créditos finales</h3>
+        <p class="ci-itinerario__detalle">Pista abierta; los nombres suben en la pantalla.</p>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ci-itinerario');
+      if (!root) return;
+      root.classList.add('ci-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var revelado = root.querySelector('[data-ci-revelado]');
+      var escenas = Array.prototype.slice.call(root.querySelectorAll('[data-ci-escena]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      var revealIO = ('IntersectionObserver' in window) && !reduce ? new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('esta-visto');
+            revealIO.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 }) : null;
+
+      escenas.forEach(function (escena) {
+        if (revealIO) revealIO.observe(escena);
+        else escena.classList.add('esta-visto');
+      });
+
+      function alRevelar() {
+        if (!revelado) return;
+        var rect = root.getBoundingClientRect();
+        var total = rect.height + window.innerHeight * 0.35;
+        var pasado = Math.min(Math.max(window.innerHeight * 0.7 - rect.top, 0), total);
+        revelado.style.setProperty('--ci-progreso', ((pasado / total) * 100).toFixed(2) + '%');
+      }
+      if (!reduce) {
+        window.addEventListener('scroll', alRevelar, { passive: true });
+        window.addEventListener('resize', alRevelar);
+        alRevelar();
+      } else if (revelado) {
+        revelado.style.setProperty('--ci-progreso', '100%');
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Cine Indie — Itinerario',
+      descripcion: 'Carrete vertical con perforaciones que se revelan en ámbar con el scroll, escenas con marcos de encuadre y timecodes.',
+      tags: ['itinerario', 'timeline', 'cine', 'carrete', 'revelado', 'timecode'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>

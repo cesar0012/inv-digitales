@@ -1,0 +1,250 @@
+<section
+  class="dc-galeria"
+  data-gemini-id="galeria-salon-escalonada"
+>
+  <style>
+    .dc-galeria {
+      --primary-color: #1f1a17;
+      --secondary-color: #6e6257;
+      --accent-color: #b08d57;
+      --bg-color: #f4efe6;
+      --surface-color: #fbf7ee;
+      --surface-border-color: rgba(31, 26, 23, 0.25);
+      --text-color: #1f1a17;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+    }
+    .dc-galeria *,
+    .dc-galeria *::before,
+    .dc-galeria *::after { box-sizing: border-box; }
+
+    .dc-galeria__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .dc-galeria__nota {
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.9rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .dc-galeria__nota::before,
+    .dc-galeria__nota::after {
+      content: '';
+      width: 52px;
+      height: 1px;
+      background: var(--accent-color);
+    }
+
+    .dc-galeria__mosaico {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
+      gap: clamp(1rem, 2.6vw, 1.6rem);
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .dc-galeria__pieza {
+      position: relative;
+      margin: 0;
+      padding: 8px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 16px 36px rgba(31, 26, 23, 0.15);
+      cursor: pointer;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), box-shadow 0.5s ease;
+    }
+    .dc-galeria.dc-js .dc-galeria__pieza { opacity: 0; transform: translateY(18px); }
+    .dc-galeria.esta-visto .dc-galeria__pieza { opacity: 1; transform: none; }
+    .dc-galeria__pieza::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      width: 26px;
+      height: 26px;
+      border-top: 2px solid var(--accent-color);
+      border-left: 2px solid var(--accent-color);
+      pointer-events: none;
+    }
+    .dc-galeria__pieza::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      right: -5px;
+      width: 26px;
+      height: 26px;
+      border-bottom: 2px solid var(--accent-color);
+      border-right: 2px solid var(--accent-color);
+      pointer-events: none;
+    }
+    .dc-galeria__pieza:hover { box-shadow: 0 24px 48px rgba(31, 26, 23, 0.24); }
+
+    .dc-galeria__pieza img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      filter: saturate(0.92);
+    }
+
+    .dc-galeria__lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      place-items: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      background: color-mix(in srgb, var(--primary-color) 82%, black);
+    }
+    .dc-galeria__lightbox.abierto { display: grid; }
+    .dc-galeria__lightbox img {
+      max-width: min(920px, 92vw);
+      max-height: 82svh;
+      width: auto;
+      height: auto;
+      border: 6px solid var(--surface-color);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    }
+    .dc-galeria__cerrar {
+      position: absolute;
+      top: clamp(0.8rem, 2.5vw, 1.6rem);
+      right: clamp(0.8rem, 2.5vw, 1.6rem);
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--surface-color);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--surface-color);
+      font-size: 1.2rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.4s ease, background 0.4s ease;
+    }
+    .dc-galeria__cerrar:hover { transform: rotate(90deg); background: color-mix(in srgb, var(--surface-color) 18%, transparent); }
+
+    @media (max-width: 560px) {
+      .dc-galeria__mosaico { grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr)); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dc-galeria * { transition: none !important; }
+      .dc-galeria__pieza { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="galeria-cabecera">
+    <h2 class="dc-galeria__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Galería del salón</h2>
+    <p class="dc-galeria__nota" memory_type="text" memory_usage="custom" memory_key="galeria-nota">Instantes elegidos</p>
+  </header>
+
+  <div class="dc-galeria__mosaico">
+    <figure class="dc-galeria__pieza" data-dc-pieza memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-1" tabindex="0" role="button" aria-label="Ampliar foto uno">
+      <img src="https://loremflickr.com/520/520/gala,elegant" alt="Instante uno" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Instante uno</figcaption>
+    </figure>
+    <figure class="dc-galeria__pieza" data-dc-pieza memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-2" tabindex="0" role="button" aria-label="Ampliar foto dos">
+      <img src="https://loremflickr.com/520/520/couple,dance" alt="Instante dos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Instante dos</figcaption>
+    </figure>
+    <figure class="dc-galeria__pieza" data-dc-pieza memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-3" tabindex="0" role="button" aria-label="Ampliar foto tres">
+      <img src="https://loremflickr.com/520/520/champagne,celebration" alt="Instante tres" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Instante tres</figcaption>
+    </figure>
+    <figure class="dc-galeria__pieza" data-dc-pieza memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-4" tabindex="0" role="button" aria-label="Ampliar foto cuatro">
+      <img src="https://loremflickr.com/520/520/ballroom,lights" alt="Instante cuatro" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Instante cuatro</figcaption>
+    </figure>
+    <figure class="dc-galeria__pieza" data-dc-pieza memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-5" tabindex="0" role="button" aria-label="Ampliar foto cinco">
+      <img src="https://loremflickr.com/520/520/wedding,dinner" alt="Instante cinco" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Instante cinco</figcaption>
+    </figure>
+    <figure class="dc-galeria__pieza" data-dc-pieza memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-6" tabindex="0" role="button" aria-label="Ampliar foto seis">
+      <img src="https://loremflickr.com/520/520/ceremony,elegant" alt="Instante seis" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Instante seis</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.dc-galeria');
+      if (!root) return;
+      root.classList.add('dc-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var piezas = Array.prototype.slice.call(root.querySelectorAll('[data-dc-pieza]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var i = piezas.indexOf(entry.target);
+            entry.target.style.transitionDelay = (Math.min(i, 5) * 0.08).toFixed(2) + 's';
+            root.classList.add('esta-visto');
+            io.unobserve(entry.target);
+          });
+        }, { threshold: 0.18 });
+        piezas.forEach(function (p) { io.observe(p); });
+      } else {
+        root.classList.add('esta-visto');
+      }
+
+      var lightbox = document.createElement('div');
+      lightbox.className = 'dc-galeria__lightbox';
+      lightbox.setAttribute('role', 'dialog');
+      lightbox.setAttribute('aria-modal', 'true');
+      lightbox.setAttribute('aria-label', 'Vista ampliada');
+      lightbox.innerHTML =
+        '<img alt="" />' +
+        '<button type="button" class="dc-galeria__cerrar" aria-label="Cerrar">×</button>';
+      root.appendChild(lightbox);
+      var imgAmpliada = lightbox.querySelector('img');
+      var botonCerrar = lightbox.querySelector('.dc-galeria__cerrar');
+
+      function abrir(fig) {
+        var foto = fig.querySelector('img');
+        if (!foto) return;
+        imgAmpliada.src = foto.src;
+        imgAmpliada.alt = foto.alt;
+        lightbox.classList.add('abierto');
+      }
+      function cerrar() { lightbox.classList.remove('abierto'); }
+
+      piezas.forEach(function (fig) {
+        fig.addEventListener('click', function () { abrir(fig); });
+        fig.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(fig); }
+        });
+      });
+      botonCerrar.addEventListener('click', cerrar);
+      lightbox.addEventListener('click', function (e) { if (e.target === lightbox) cerrar(); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-salon-escalonada',
+      style_name: 'Salón Déco — Galería',
+      descripcion: 'Mosaico cuadrado con esquinas déco superpuestas, lightbox propio accesible por teclado y aparición escalonada de las piezas.',
+      tags: ['galeria', 'mosaico', 'lightbox', 'esquinas', 'deco', 'elegante'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

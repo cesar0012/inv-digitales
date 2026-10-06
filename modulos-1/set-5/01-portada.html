@@ -1,0 +1,238 @@
+<section
+  class="ne-portada"
+  data-gemini-id="portada-nombre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="ne-portada-titulo"
+>
+  <style>
+    .ne-portada {
+      --primary-color: #f2f4fa;
+      --secondary-color: #9aa3b8;
+      --accent-color: #ff4d7d;
+      --bg-color: #14161d;
+      --surface-color: #1b1e27;
+      --surface-border-color: rgba(255, 255, 255, 0.14);
+      --text-color: #f2f4fa;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/night,city');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ne-portada *,
+    .ne-portada *::before,
+    .ne-portada *::after { box-sizing: border-box; }
+
+    .ne-portada::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--bg-color) 92%, transparent), color-mix(in srgb, var(--bg-color) 82%, transparent));
+    }
+    .ne-portada::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 4px);
+      pointer-events: none;
+    }
+
+    .ne-portada__indice {
+      position: absolute;
+      top: clamp(1rem, 3vw, 1.8rem);
+      left: clamp(1rem, 3vw, 1.8rem);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--secondary-color);
+    }
+
+    .ne-portada__marco {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 780px);
+      padding: clamp(2.4rem, 6vw, 4.2rem) clamp(1.3rem, 5vw, 3.4rem);
+      background: color-mix(in srgb, var(--surface-color) 88%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 34px 80px rgba(0, 0, 0, 0.55);
+    }
+    .ne-portada__marco::before,
+    .ne-portada__marco::after {
+      content: '';
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border: 2px solid var(--accent-color);
+      pointer-events: none;
+    }
+    .ne-portada__marco::before { top: -2px; left: -2px; border-right: 0; border-bottom: 0; }
+    .ne-portada__marco::after { bottom: -2px; right: -2px; border-left: 0; border-top: 0; }
+
+    .ne-portada__eyebrow {
+      margin: 0 0 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.62rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .ne-portada__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(2.1rem, 6.6vw, 4.6rem);
+      line-height: 1.02;
+      letter-spacing: 0.01em;
+      color: var(--primary-color);
+      text-shadow: 0 0 22px color-mix(in srgb, var(--accent-color) 55%, transparent);
+    }
+    .ne-portada__titulo span {
+      display: inline-block;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), filter 0.5s ease;
+    }
+    .ne-portada.ne-js .ne-portada__titulo span { opacity: 0; transform: translateY(0.4em); filter: blur(8px); }
+    .ne-portada.esta-visto .ne-portada__titulo span { opacity: 1; transform: none; filter: blur(0); }
+    .ne-portada.esta-visto .ne-portada__titulo span:nth-child(1) { transition-delay: 0.06s; }
+    .ne-portada.esta-visto .ne-portada__titulo span:nth-child(2) { transition-delay: 0.16s; }
+    .ne-portada.esta-visto .ne-portada__titulo span:nth-child(3) { transition-delay: 0.26s; }
+
+    .ne-portada__ampersand {
+      display: block;
+      margin: 0.1em 0;
+      font-style: italic;
+      color: var(--accent-color);
+      text-shadow: 0 0 18px color-mix(in srgb, var(--accent-color) 90%, transparent);
+    }
+
+    .ne-portada__subrayado {
+      width: min(240px, 60%);
+      height: 3px;
+      margin: clamp(1.2rem, 3vw, 1.8rem) auto;
+      background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+      box-shadow: 0 0 16px color-mix(in srgb, var(--accent-color) 85%, transparent);
+      transform: scaleX(0);
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1) 0.3s;
+    }
+    .ne-portada.esta-visto .ne-portada__subrayado { transform: scaleX(1); }
+
+    .ne-portada__fecha {
+      display: inline-block;
+      padding: 0.55rem 1.6rem;
+      border: 1px solid var(--surface-border-color);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.7rem, 1.4vw, 0.84rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--text-color);
+    }
+
+    .ne-portada__foto {
+      position: absolute;
+      z-index: 3;
+      right: clamp(0.8rem, 4vw, 2.8rem);
+      bottom: clamp(1rem, 4vw, 2.4rem);
+      width: clamp(110px, 15vw, 158px);
+      margin: 0;
+      padding: 6px;
+      background: var(--surface-color);
+      border: 1px solid var(--accent-color);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-color) 40%, transparent), 0 0 24px color-mix(in srgb, var(--accent-color) 30%, transparent), 0 20px 44px rgba(0, 0, 0, 0.5);
+      transform: rotate(3deg);
+      transition: transform 0.5s ease;
+    }
+    .ne-portada__foto:hover { transform: rotate(0deg) translateY(-4px); }
+    .ne-portada__foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      filter: saturate(1.05) contrast(1.05);
+    }
+
+    @media (max-width: 720px) {
+      .ne-portada__foto { position: static; margin: 1.6rem auto 0; transform: rotate(-2deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ne-portada * { transition: none !important; }
+      .ne-portada__titulo span { opacity: 1; transform: none; filter: none; }
+      .ne-portada__subrayado { transform: none; }
+    }
+  </style>
+
+  <span class="ne-portada__indice" aria-hidden="true">N.º 001 — Portada</span>
+
+  <div class="ne-portada__marco">
+    <p class="ne-portada__eyebrow" memory_type="text" memory_usage="custom" memory_key="portada-encabezado">Edición nocturna</p>
+
+    <div memory_type="text" memory_usage="custom" memory_key="portada-nombres">
+      <h1 id="ne-portada-titulo" class="ne-portada__titulo">
+        <span>Nombre de la Novia</span>
+        <span class="ne-portada__ampersand">&amp;</span>
+        <span>Nombre del Novio</span>
+      </h1>
+    </div>
+
+    <div class="ne-portada__subrayado" aria-hidden="true"></div>
+
+    <time class="ne-portada__fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="portada-fecha">Fecha del evento</time>
+  </div>
+
+  <figure class="ne-portada__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="portada-foto">
+    <img
+      src="https://loremflickr.com/420/520/couple,night"
+      alt="Retrato de los anfitriones"
+      path="placeholder"
+      data-library-category="bodas"
+      data-asset-type="foto-pareja"
+      loading="lazy"
+    />
+    <figcaption hidden>Retrato principal</figcaption>
+  </figure>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ne-portada');
+      if (!root) return;
+      root.classList.add('ne-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.22 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Neón Editorial',
+      descripcion: 'Portada nocturna con tipografía enorme que emerge del desenfoque con glow de neón, subrayado que se traza, esquinas de corchete y scanlines.',
+      tags: ['portada', 'hero', 'neon', 'nocturno', 'editorial', 'glow', 'tipografia'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

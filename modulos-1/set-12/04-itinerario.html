@@ -1,0 +1,248 @@
+<section
+  class="fe-itinerario"
+  data-gemini-id="itinerario-agenda"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .fe-itinerario {
+      --primary-color: #f5e9d7;
+      --secondary-color: #b39a7d;
+      --accent-color: #ffb347;
+      --bg-color: #1a1410;
+      --surface-color: #241c15;
+      --surface-border-color: rgba(245, 233, 215, 0.16);
+      --text-color: #f5e9d7;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/festival,night');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .fe-itinerario *,
+    .fe-itinerario *::before,
+    .fe-itinerario *::after { box-sizing: border-box; }
+
+    .fe-itinerario::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .fe-itinerario__cabecera {
+      width: min(100%, 700px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 1px dashed var(--surface-border-color);
+      padding-bottom: 0.9rem;
+      text-align: center;
+    }
+    .fe-itinerario__titulo {
+      margin: 0 0 0.4rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .fe-itinerario__aviso {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .fe-itinerario__marquesina {
+      position: relative;
+      width: min(100%, 700px);
+      margin: 0 auto;
+      padding-left: clamp(2.4rem, 6vw, 3.2rem);
+    }
+    .fe-itinerario__cable {
+      position: absolute;
+      top: 10px;
+      bottom: 10px;
+      left: 12px;
+      width: 2px;
+      background: var(--surface-border-color);
+    }
+    .fe-itinerario__hilos {
+      position: absolute;
+      top: 10px;
+      bottom: 10px;
+      left: 12px;
+      width: 2px;
+      height: 0%;
+      background: linear-gradient(var(--accent-color), transparent);
+    }
+
+    .fe-itinerario__parada {
+      position: relative;
+      margin: 0 0 clamp(1.4rem, 3.6vw, 2rem);
+      padding: clamp(1.1rem, 2.7vw, 1.6rem) clamp(1.2rem, 3vw, 1.8rem);
+      background: color-mix(in srgb, var(--surface-color) 92%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 10px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .fe-itinerario.fe-js .fe-itinerario__parada { opacity: 0; transform: translateX(-16px); }
+    .fe-itinerario .fe-itinerario__parada.esta-visto { opacity: 1; transform: none; }
+
+    .fe-itinerario__bomba {
+      position: absolute;
+      top: 50%;
+      left: calc(-1 * clamp(2.4rem, 6vw, 3.2rem) + 3px);
+      transform: translate(-50%, -50%);
+      width: 12px;
+      height: 15px;
+      border-radius: 50% 50% 60% 60%;
+      background: var(--surface-color);
+      border: 1.5px solid var(--secondary-color);
+      transition: background 0.5s ease, box-shadow 0.5s ease;
+    }
+    .fe-itinerario__parada.esta-visto .fe-itinerario__bomba {
+      background: radial-gradient(circle at 40% 30%, #fff6dd, var(--accent-color) 65%);
+      box-shadow: 0 0 12px var(--accent-color);
+    }
+
+    .fe-itinerario__hora {
+      display: inline-block;
+      margin-bottom: 0.35rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.66rem, 1.3vw, 0.76rem);
+      letter-spacing: 0.24em;
+      color: var(--accent-color);
+    }
+    .fe-itinerario__momento {
+      margin: 0 0 0.3rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.02rem, 2.1vw, 1.28rem);
+      color: var(--primary-color);
+    }
+    .fe-itinerario__detalle {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
+      line-height: 1.65;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 560px) {
+      .fe-itinerario__marquesina { padding-left: 2rem; }
+      .fe-itinerario__bomba { left: -1.65rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fe-itinerario * { transition: none !important; }
+      .fe-itinerario__parada { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="fe-itinerario__cabecera" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">
+    <h2 class="fe-itinerario__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Horario de atracciones</h2>
+    <span class="fe-itinerario__aviso" memory_type="text" memory_usage="custom" memory_key="itinerario-aviso">Abierto hasta el cierre</span>
+  </header>
+
+  <div class="fe-itinerario__marquesina">
+    <span class="fe-itinerario__cable" aria-hidden="true"></span>
+    <span class="fe-itinerario__hilos" aria-hidden="true" data-fe-hilos></span>
+
+    <article class="fe-itinerario__parada" data-fe-parada>
+      <span class="fe-itinerario__bomba" aria-hidden="true"></span>
+      <time class="fe-itinerario__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00 · APERTURA</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
+        <h3 class="fe-itinerario__momento">Se abre el torniquete</h3>
+        <p class="fe-itinerario__detalle">Recepción de invitados con algodón de azúcar.</p>
+      </div>
+    </article>
+
+    <article class="fe-itinerario__parada" data-fe-parada>
+      <span class="fe-itinerario__bomba" aria-hidden="true"></span>
+      <time class="fe-itinerario__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00 · ATRACCIÓN PRINCIPAL</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
+        <h3 class="fe-itinerario__momento">La gran noria</h3>
+        <p class="fe-itinerario__detalle">Ceremonia en la cima, con toda la feria abajo.</p>
+      </div>
+    </article>
+
+    <article class="fe-itinerario__parada" data-fe-parada>
+      <span class="fe-itinerario__bomba" aria-hidden="true"></span>
+      <time class="fe-itinerario__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00 · PUESTO DE COMIDA</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
+        <h3 class="fe-itinerario__momento">Fila del puesto bueno</h3>
+        <p class="fe-itinerario__detalle">Cena de feria: lo clásico, hecho con mimo.</p>
+      </div>
+    </article>
+
+    <article class="fe-itinerario__parada" data-fe-parada>
+      <span class="fe-itinerario__bomba" aria-hidden="true"></span>
+      <time class="fe-itinerario__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:30 · CIERRE</time>
+      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
+        <h3 class="fe-itinerario__momento">Último vuelo</h3>
+        <p class="fe-itinerario__detalle">Baile bajo las luces y despedida en la salida.</p>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.fe-itinerario');
+      if (!root) return;
+      root.classList.add('fe-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var hilos = root.querySelector('[data-fe-hilos]');
+      var paradas = Array.prototype.slice.call(root.querySelectorAll('[data-fe-parada]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      var revealIO = ('IntersectionObserver' in window) && !reduce ? new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('esta-visto');
+            revealIO.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 }) : null;
+
+      paradas.forEach(function (parada) {
+        if (revealIO) revealIO.observe(parada);
+        else parada.classList.add('esta-visto');
+      });
+
+      function alEncender() {
+        if (!hilos) return;
+        var rect = root.getBoundingClientRect();
+        var total = rect.height + window.innerHeight * 0.35;
+        var pasado = Math.min(Math.max(window.innerHeight * 0.7 - rect.top, 0), total);
+        hilos.style.height = ((pasado / total) * 100).toFixed(2) + '%';
+      }
+      if (!reduce) {
+        window.addEventListener('scroll', alEncender, { passive: true });
+        window.addEventListener('resize', alEncender);
+        alEncender();
+      } else if (hilos) {
+        hilos.style.height = '100%';
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Feria Nocturna — Itinerario',
+      descripcion: 'Marquesina de atracciones: las bombillas se encienden al revelarse cada parada y un hilo ámbar progresa con el scroll.',
+      tags: ['itinerario', 'timeline', 'feria', 'bombillas', 'atracciones', 'scroll'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>

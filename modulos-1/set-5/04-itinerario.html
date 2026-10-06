@@ -1,0 +1,266 @@
+<section
+  class="ne-itinerario"
+  data-gemini-id="itinerario-agenda"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ne-itinerario {
+      --primary-color: #f2f4fa;
+      --secondary-color: #9aa3b8;
+      --accent-color: #ff4d7d;
+      --bg-color: #14161d;
+      --surface-color: #1b1e27;
+      --surface-border-color: rgba(255, 255, 255, 0.14);
+      --text-color: #f2f4fa;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/dark,night');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .ne-itinerario *,
+    .ne-itinerario *::before,
+    .ne-itinerario *::after { box-sizing: border-box; }
+
+    .ne-itinerario::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .ne-itinerario__cabecera {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      width: min(100%, 760px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 0.9rem;
+    }
+    .ne-itinerario__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ne-itinerario__folio {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--secondary-color);
+    }
+
+    .ne-itinerario__lista {
+      position: relative;
+      width: min(100%, 760px);
+      margin: 0 auto;
+      padding-left: clamp(2rem, 5vw, 2.8rem);
+    }
+    .ne-itinerario__riel {
+      position: absolute;
+      top: 6px;
+      bottom: 6px;
+      left: 8px;
+      width: 2px;
+      background: var(--surface-border-color);
+    }
+    .ne-itinerario__progreso {
+      position: absolute;
+      top: 6px;
+      left: 8px;
+      width: 2px;
+      height: 0%;
+      background: var(--accent-color);
+      box-shadow: 0 0 12px var(--accent-color);
+    }
+
+    .ne-itinerario__hito {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: clamp(0.8rem, 2.4vw, 1.4rem);
+      align-items: baseline;
+      padding: clamp(1rem, 2.4vw, 1.4rem) 0.4rem;
+      border-bottom: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ne-itinerario.ne-js .ne-itinerario__hito { opacity: 0; transform: translateX(-14px); }
+    .ne-itinerario .ne-itinerario__hito.esta-visto { opacity: 1; transform: none; }
+
+    .ne-itinerario__nodo {
+      position: absolute;
+      top: 50%;
+      left: calc(-1 * clamp(2rem, 5vw, 2.8rem) + 3px);
+      transform: translate(-50%, -50%);
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--bg-color);
+      border: 2px solid var(--secondary-color);
+    }
+    .ne-itinerario__hito.esta-visto .ne-itinerario__nodo {
+      border-color: var(--accent-color);
+      background: var(--accent-color);
+      box-shadow: 0 0 10px var(--accent-color);
+    }
+
+    .ne-itinerario__num {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(1.6rem, 4vw, 2.6rem);
+      line-height: 1;
+      color: color-mix(in srgb, var(--primary-color) 30%, transparent);
+    }
+    .ne-itinerario__hito.esta-visto .ne-itinerario__num {
+      color: color-mix(in srgb, var(--primary-color) 85%, transparent);
+      text-shadow: 0 0 14px color-mix(in srgb, var(--accent-color) 30%, transparent);
+    }
+
+    .ne-itinerario__cuerpo { min-width: 0; }
+    .ne-itinerario__momento {
+      margin: 0 0 0.25rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.02rem, 2.1vw, 1.26rem);
+      color: var(--primary-color);
+    }
+    .ne-itinerario__detalle {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.76rem, 1.4vw, 0.86rem);
+      line-height: 1.6;
+      color: var(--secondary-color);
+    }
+    .ne-itinerario__hora {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.2em;
+      color: var(--accent-color);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 560px) {
+      .ne-itinerario__hito { grid-template-columns: auto 1fr; }
+      .ne-itinerario__hora { grid-column: 2; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ne-itinerario * { transition: none !important; }
+      .ne-itinerario__hito { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="ne-itinerario__cabecera" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">
+    <h2 class="ne-itinerario__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Índice del evento</h2>
+    <span class="ne-itinerario__folio" memory_type="text" memory_usage="custom" memory_key="itinerario-folio">RUN / 01</span>
+  </header>
+
+  <div class="ne-itinerario__lista">
+    <span class="ne-itinerario__riel" aria-hidden="true"></span>
+    <span class="ne-itinerario__progreso" aria-hidden="true" data-ne-progreso></span>
+
+    <article class="ne-itinerario__hito" data-ne-hito>
+      <span class="ne-itinerario__nodo" aria-hidden="true"></span>
+      <span class="ne-itinerario__num" aria-hidden="true">01</span>
+      <div class="ne-itinerario__cuerpo" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
+        <h3 class="ne-itinerario__momento">Apertura</h3>
+        <p class="ne-itinerario__detalle">Recepción de invitados y primera ronda de brindis.</p>
+      </div>
+      <time class="ne-itinerario__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">17:00 h</time>
+    </article>
+
+    <article class="ne-itinerario__hito" data-ne-hito>
+      <span class="ne-itinerario__nodo" aria-hidden="true"></span>
+      <span class="ne-itinerario__num" aria-hidden="true">02</span>
+      <div class="ne-itinerario__cuerpo" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
+        <h3 class="ne-itinerario__momento">Editorial central</h3>
+        <p class="ne-itinerario__detalle">Ceremonia frente a la cubierta iluminada.</p>
+      </div>
+      <time class="ne-itinerario__hora" datetime="18:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">18:00 h</time>
+    </article>
+
+    <article class="ne-itinerario__hito" data-ne-hito>
+      <span class="ne-itinerario__nodo" aria-hidden="true"></span>
+      <span class="ne-itinerario__num" aria-hidden="true">03</span>
+      <div class="ne-itinerario__cuerpo" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
+        <h3 class="ne-itinerario__momento">Cena de portada</h3>
+        <p class="ne-itinerario__detalle">Banquete con sombras cálidas y discursos breves.</p>
+      </div>
+      <time class="ne-itinerario__hora" datetime="20:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">20:00 h</time>
+    </article>
+
+    <article class="ne-itinerario__hito" data-ne-hito>
+      <span class="ne-itinerario__nodo" aria-hidden="true"></span>
+      <span class="ne-itinerario__num" aria-hidden="true">04</span>
+      <div class="ne-itinerario__cuerpo" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
+        <h3 class="ne-itinerario__momento">Contraportada</h3>
+        <p class="ne-itinerario__detalle">Pista abierta y cierre con luces bajas.</p>
+      </div>
+      <time class="ne-itinerario__hora" datetime="22:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">22:00 h</time>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ne-itinerario');
+      if (!root) return;
+      root.classList.add('ne-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var progreso = root.querySelector('[data-ne-progreso]');
+      var hitos = Array.prototype.slice.call(root.querySelectorAll('[data-ne-hito]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      var revealIO = ('IntersectionObserver' in window) && !reduce ? new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('esta-visto');
+            revealIO.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 }) : null;
+
+      hitos.forEach(function (hito) {
+        if (revealIO) revealIO.observe(hito);
+        else hito.classList.add('esta-visto');
+      });
+
+      function alAvanzar() {
+        if (!progreso) return;
+        var rect = root.getBoundingClientRect();
+        var total = rect.height + window.innerHeight * 0.35;
+        var pasado = Math.min(Math.max(window.innerHeight * 0.7 - rect.top, 0), total);
+        progreso.style.height = ((pasado / total) * 100).toFixed(2) + '%';
+      }
+      if (!reduce) {
+        window.addEventListener('scroll', alAvanzar, { passive: true });
+        window.addEventListener('resize', alAvanzar);
+        alAvanzar();
+      } else if (progreso) {
+        progreso.style.height = '100%';
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Neón Editorial — Itinerario',
+      descripcion: 'Índice editorial con numerales gigantes que se encienden al revelarse, nodos de neón y progreso luminoso con el scroll.',
+      tags: ['itinerario', 'timeline', 'indice', 'neon', 'scroll', 'editorial'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>

@@ -1,0 +1,161 @@
+<section
+  class="gl-confirmacion"
+  data-gemini-id="confirmacion-texto"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .gl-confirmacion {
+      --primary-color: #223038;
+      --secondary-color: #5d7078;
+      --accent-color: #8fb6c9;
+      --bg-color: #eef4f7;
+      --surface-color: rgba(255, 255, 255, 0.55);
+      --surface-border-color: rgba(255, 255, 255, 0.75);
+      --text-color: #223038;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 72svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/glass,soft');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .gl-confirmacion *,
+    .gl-confirmacion *::before,
+    .gl-confirmacion *::after { box-sizing: border-box; }
+
+    .gl-confirmacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--bg-color) 72%, transparent), color-mix(in srgb, var(--accent-color) 24%, transparent));
+    }
+
+    .gl-confirmacion__lente {
+      position: absolute;
+      z-index: 0;
+      top: 50%;
+      left: 50%;
+      width: clamp(260px, 46vw, 480px);
+      aspect-ratio: 1 / 1;
+      transform: translate(-50%, -52%);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.85), transparent 42%),
+        radial-gradient(circle at 70% 75%, color-mix(in srgb, var(--accent-color) 45%, transparent), transparent 55%);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 30px 70px rgba(34, 48, 56, 0.18), inset 0 0 60px rgba(255, 255, 255, 0.4);
+      animation: glConfirmacionRespira 9s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes glConfirmacionRespira {
+      0%, 100% { transform: translate(-50%, -52%) scale(1); }
+      50% { transform: translate(-50%, -52%) scale(1.045); }
+    }
+
+    .gl-confirmacion__panel {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 620px);
+      padding: clamp(2.2rem, 5.5vw, 3.5rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: clamp(18px, 3vw, 28px);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 28px 60px rgba(34, 48, 56, 0.2);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .gl-confirmacion__etiqueta {
+      margin: 0 0 0.7rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .gl-confirmacion__titulo {
+      margin: 0 0 1rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.65rem, 3.7vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .gl-confirmacion__texto {
+      margin: 0 auto 1.4rem;
+      max-width: 46ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+
+    .gl-confirmacion__limite {
+      display: inline-grid;
+      gap: 0.28rem;
+      padding: 0.7rem 1.7rem;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.45);
+      border: 1px solid var(--surface-border-color);
+    }
+    .gl-confirmacion__limite-rotulo {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.56rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .gl-confirmacion__limite-fecha {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.88rem, 1.65vw, 1rem);
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 560px) {
+      .gl-confirmacion { min-height: 62svh; }
+      .gl-confirmacion__panel { padding: 2.2rem 1.2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .gl-confirmacion * { animation: none !important; }
+    }
+  </style>
+
+  <span class="gl-confirmacion__lente" aria-hidden="true"></span>
+
+  <div class="gl-confirmacion__panel">
+    <p class="gl-confirmacion__etiqueta" memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta">Confirma tu asistencia</p>
+    <h2 class="gl-confirmacion__titulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">Claridad plena</h2>
+    <p class="gl-confirmacion__texto" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">
+      Queremos verte con total nitidez entre la niebla. Confirma con el enlace de tu invitación
+      digital antes de la fecha límite y tu lugar quedará reservado y pulido para ti.
+    </p>
+    <p class="gl-confirmacion__limite">
+      <span class="gl-confirmacion__limite-rotulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-rotulo">Fecha límite</span>
+      <time class="gl-confirmacion__limite-fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha">DD de mes</time>
+    </p>
+  </div>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Vidrio Esmerilado — Confirmación',
+      descripcion: 'Lente de cristal que respira tras un panel esmerilado; RSVP informativo con fecha límite en pastilla translúcida.',
+      tags: ['confirmacion', 'rsvp', 'lente', 'cristal', 'glassmorphism', 'informativo'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>
