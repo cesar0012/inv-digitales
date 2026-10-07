@@ -1,210 +1,55 @@
-<section
-  class="su-itinerario"
-  data-gemini-id="itinerario-agenda"
-  memory_type="background"
-  memory_usage="protected"
-  memory_source="generated"
-  path="placeholder"
->
-  <style>
-    .su-itinerario {
-      background-image: url('https://loremflickr.com/1600/900/concrete,minimal');
-      background-size: cover;
-      background-position: center;
-      --primary-color: #17171a;
-      --secondary-color: #75757c;
-      --accent-color: #d43d2a;
-      --bg-color: #f2f2ef;
-      --surface-color: #fbfbf9;
-      --surface-border-color: rgba(23, 23, 26, 0.16);
-      --text-color: #17171a;
-
-      position: relative;
-      isolation: isolate;
-      box-sizing: border-box;
-      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
-      background-color: var(--bg-color);
-      color: var(--text-color);
-    }
-    .su-itinerario *,
-    .su-itinerario *::before,
-    .su-itinerario *::after { box-sizing: border-box; }
-
-    .su-itinerario__cabecera {
-      width: min(100%, 820px);
-      margin: 0 auto clamp(1.4rem, 3vw, 2rem);
-      border-bottom: 2px solid var(--primary-color);
-      padding-bottom: 0.8rem;
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-    .su-itinerario__titulo {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      font-weight: 700;
-      font-size: clamp(1.4rem, 3.2vw, 2.1rem);
-      text-transform: uppercase;
-      color: var(--primary-color);
-    }
-    .su-itinerario__nota {
-      font-family: 'Courier New', monospace;
-      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
-      letter-spacing: 0.28em;
-      color: var(--secondary-color);
-    }
-
-    .su-itinerario__tabla {
-      width: min(100%, 820px);
-      margin: 0 auto;
-      border-top: 1px solid var(--surface-border-color);
-    }
-
-    .su-itinerario__fila {
-      position: relative;
-      display: grid;
-      grid-template-columns: clamp(70px, 10vw, 120px) 1fr auto;
-      gap: clamp(0.9rem, 2.6vw, 1.8rem);
-      align-items: baseline;
-      padding: clamp(1rem, 2.5vw, 1.5rem) 0.3rem;
-      border-bottom: 1px solid var(--surface-border-color);
-      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
-    }
-    .su-itinerario.su-js .su-itinerario__fila { opacity: 0; transform: translateX(-14px); }
-    .su-itinerario .su-itinerario__fila.esta-visto { opacity: 1; transform: none; }
-    .su-itinerario__fila::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 0;
-      background: var(--accent-color);
-      transition: width 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
-    }
-    .su-itinerario__fila.esta-visto::before { width: 4px; }
-
-    .su-itinerario__num {
-      font-family: Arial, Helvetica, sans-serif;
-      font-weight: 700;
-      font-size: clamp(1.7rem, 4vw, 2.8rem);
-      line-height: 1;
-      color: color-mix(in srgb, var(--primary-color) 24%, transparent);
-    }
-    .su-itinerario__fila.esta-visto .su-itinerario__num { color: var(--primary-color); }
-
-    .su-itinerario__cuerpo { min-width: 0; }
-    .su-itinerario__momento {
-      margin: 0 0 0.25rem;
-      font-family: Arial, Helvetica, sans-serif;
-      font-weight: 700;
-      font-size: clamp(1rem, 2vw, 1.24rem);
-      text-transform: uppercase;
-      color: var(--primary-color);
-    }
-    .su-itinerario__detalle {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
-      line-height: 1.6;
-      color: var(--secondary-color);
-    }
-    .su-itinerario__hora {
-      font-family: 'Courier New', monospace;
-      font-size: clamp(0.7rem, 1.35vw, 0.82rem);
-      letter-spacing: 0.18em;
-      color: var(--primary-color);
-      white-space: nowrap;
-    }
-
-    @media (max-width: 560px) {
-      .su-itinerario__fila { grid-template-columns: 1fr auto; }
-      .su-itinerario__num { display: none; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .su-itinerario * { transition: none !important; }
-      .su-itinerario__fila { opacity: 1 !important; transform: none !important; }
-    }
-  </style>
-
-  <header class="su-itinerario__cabecera" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">
-    <h2 class="su-itinerario__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Fig. 03 — Programa</h2>
-    <span class="su-itinerario__nota" memory_type="text" memory_usage="custom" memory_key="itinerario-nota">4 PUNTOS</span>
-  </header>
-
-  <div class="su-itinerario__tabla">
-    <article class="su-itinerario__fila" data-su-fila>
-      <span class="su-itinerario__num" aria-hidden="true">01</span>
-      <div class="su-itinerario__cuerpo" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
-        <h3 class="su-itinerario__momento">Recepción</h3>
-        <p class="su-itinerario__detalle">Acreditación en la entrada y programa impreso.</p>
-      </div>
-      <time class="su-itinerario__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00</time>
-    </article>
-
-    <article class="su-itinerario__fila" data-su-fila>
-      <span class="su-itinerario__num" aria-hidden="true">02</span>
-      <div class="su-itinerario__cuerpo" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
-        <h3 class="su-itinerario__momento">Ceremonia</h3>
-        <p class="su-itinerario__detalle">Acto principal en la sala norte. Puntualidad suiza.</p>
-      </div>
-      <time class="su-itinerario__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00</time>
-    </article>
-
-    <article class="su-itinerario__fila" data-su-fila>
-      <span class="su-itinerario__num" aria-hidden="true">03</span>
-      <div class="su-itinerario__cuerpo" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
-        <h3 class="su-itinerario__momento">Cena</h3>
-        <p class="su-itinerario__detalle">Servicio emplatado y discursos breves.</p>
-      </div>
-      <time class="su-itinerario__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00</time>
-    </article>
-
-    <article class="su-itinerario__fila" data-su-fila>
-      <span class="su-itinerario__num" aria-hidden="true">04</span>
-      <div class="su-itinerario__cuerpo" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
-        <h3 class="su-itinerario__momento">Cierre</h3>
-        <p class="su-itinerario__detalle">Baile y despedida a medianoche en punto.</p>
-      </div>
-      <time class="su-itinerario__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:30</time>
-    </article>
+<section class="su-itin2" data-gemini-id="itinerario-agenda" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.su-itin2 { --primary-color:#17171a; --secondary-color:#75757c; --accent-color:#d43d2a; --bg-color:#f2f2ef; --surface-color:#fbfbf9; --surface-border-color:rgba(23,23,26,.16); --text-color:#17171a;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/swiss,grid'); background-size:cover; background-position:center; color:var(--text-color); }
+.itin-su-filtro::before { content: /* placeholder */; }
+.su-itin2 *, .su-itin2 *::before, .su-itin2 *::after { box-sizing:border-box; }
+/* numerales colosales sangrando por la izquierda; las filas los cruzan montadas */
+.su-itin2__fila { position:relative; display:grid; grid-template-columns:auto 1fr; column-gap:clamp(.8rem,3vw,2rem); align-items:center; padding:clamp(1.1rem,2.8vw,1.7rem) 0; border-bottom:1px solid var(--surface-border-color); }
+.su-itin2__numeral { font-family:Arial,sans-serif; font-weight:700; font-size:clamp(4.5rem,15vw,11rem); line-height:.78; letter-spacing:-.05em; color:var(--primary-color); margin-left:clamp(-3rem,-6vw,-1rem); }
+.su-itin2__fila:nth-child(2) .su-itin2__numeral { color:var(--accent-color); transform:translateY(6px); }
+.su-itin2__fila:nth-child(3) .su-itin2__numeral { -webkit-text-stroke:2px var(--primary-color); color:transparent; transform:translateY(-4px); }
+.su-itin2__fila:nth-child(4) .su-itin2__numeral { transform:rotate(-90deg) translateX(-14%); transform-origin:center; font-size:clamp(2.6rem,8vw,5.4rem); }
+.su-itin2__cuerpo { position:relative; z-index:2; background:var(--surface-color); border:1px solid var(--surface-border-color); padding:clamp(.8rem,2vw,1.2rem) clamp(1rem,2.6vw,1.6rem); box-shadow:6px 6px 0 color-mix(in srgb, var(--accent-color) 55%, transparent); }
+.su-itin2__hora { font-family:'Courier New',monospace; font-size:clamp(.66rem,1.3vw,.78rem); letter-spacing:.24em; color:var(--secondary-color); }
+.su-itin2__momento { margin:.2rem 0 .25rem; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(1rem,2vw,1.24rem); text-transform:uppercase; color:var(--primary-color); }
+.su-itin2__detalle { margin:0; font-family:Arial,sans-serif; font-size:clamp(.76rem,1.35vw,.86rem); line-height:1.55; color:var(--secondary-color); }
+@media (max-width:560px){ .su-itin2__numeral { font-size:clamp(3rem,10vw,5rem); } }
+</style>
+<div class="su-itin2__fila">
+  <span class="su-itin2__numeral" aria-hidden="true">1</span>
+  <div class="su-itin2__cuerpo" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
+    <time class="su-itin2__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00</time>
+    <h3 class="su-itin2__momento">Recepción</h3>
+    <p class="su-itin2__detalle">Acreditación y programa impreso.</p>
   </div>
-
-  <script>
-    (function () {
-      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.su-itinerario');
-      if (!root) return;
-      root.classList.add('su-js');
-      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
-      var filas = Array.prototype.slice.call(root.querySelectorAll('[data-su-fila]'));
-      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduce || !('IntersectionObserver' in window)) {
-        filas.forEach(function (f) { f.classList.add('esta-visto'); });
-        return;
-      }
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          var i = filas.indexOf(entry.target);
-          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.12).toFixed(2) + 's';
-          entry.target.classList.add('esta-visto');
-          io.unobserve(entry.target);
-        });
-      }, { threshold: 0.25 });
-      filas.forEach(function (f) { io.observe(f); });
-    })();
-  </script>
-
-  <script>
-    var moduleMetadata = {
-      module_type: 'itinerario',
-      module_name: 'itinerario-agenda',
-      style_name: 'Suizo Tipográfico — Itinerario',
-      descripcion: 'Tabla de programa con numerales gigantes que se acentúan al revelarse, barra roja lateral por fila y horas monoespaciadas.',
-      tags: ['itinerario', 'timeline', 'suizo', 'tabla', 'numerales', 'barra'],
-      tipo: 'itinerario'
-    };
-  </script>
+</div>
+<div class="su-itin2__fila">
+  <span class="su-itin2__numeral" aria-hidden="true">2</span>
+  <div class="su-itin2__cuerpo" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
+    <time class="su-itin2__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00</time>
+    <h3 class="su-itin2__momento">Ceremonia</h3>
+    <p class="su-itin2__detalle">Acto principal, puntualidad absoluta.</p>
+  </div>
+</div>
+<div class="su-itin2__fila">
+  <span class="su-itin2__numeral" aria-hidden="true">3</span>
+  <div class="su-itin2__cuerpo" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
+    <time class="su-itin2__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00</time>
+    <h3 class="su-itin2__momento">Cena</h3>
+    <p class="su-itin2__detalle">Servicio emplatado y discursos breves.</p>
+  </div>
+</div>
+<div class="su-itin2__fila">
+  <span class="su-itin2__numeral" aria-hidden="true">4</span>
+  <div class="su-itin2__cuerpo" memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
+    <time class="su-itin2__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:30</time>
+    <h3 class="su-itin2__momento">Cierre</h3>
+    <p class="su-itin2__detalle">Baile y despedida a medianoche en punto.</p>
+  </div>
+</div>
+<script>
+var moduleMetadata = { module_type:'itinerario', module_name:'itinerario-agenda', style_name:'Suizo — Numerales Colosales', descripcion:'Numerales colosales sangrando del borde (sólido, rojo, en contorno, girado 90°) cruzados por fichas de contenido con sombra dura.', tags:['itinerario','numerales colosales','sangrado','suizo','superposicion'], tipo:'itinerario' };
+</script>
 </section>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>set-6</title><style>:root{--primary-color:#1f2937;--text-color:#1f2937;--accent-color:#b59b72;--bg-color:#f5f1e8;--secondary-color:#6b7280;--surface-color:#ffffff;--surface-border-color:rgba(0,0,0,.12);--font-base:Georgia,serif}body{margin:0}</style></head><body><section
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>set-6</title><style>:root{--primary-color:#1f2937;--text-color:#1f2937;--accent-color:#b59b72;--bg-color:#f5f1e8;--secondary-color:#6b7280;--surface-color:#ffffff;--surface-border-color:rgba(0,0,0,.12);--font-base:Georgia,serif}body{margin:0}</style></head><body><section
   class="bh-portada"
   data-gemini-id="portada-nombre"
   memory_type="background"
@@ -712,218 +712,70 @@
   </script>
 </section>
 
-<section
-  class="bh-itinerario"
-  data-gemini-id="itinerario-agenda"
-  memory_type="background"
-  memory_usage="protected"
-  memory_source="generated"
-  path="placeholder"
->
-  <style>
-    .bh-itinerario {
-      --primary-color: #22242a;
-      --secondary-color: #6d7078;
-      --accent-color: #e2543e;
-      --bg-color: #f3f1ec;
-      --surface-color: #fbfaf7;
-      --surface-border-color: rgba(34, 36, 42, 0.18);
-      --text-color: #22242a;
-
-      position: relative;
-      isolation: isolate;
-      box-sizing: border-box;
-      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
-      background-color: var(--bg-color);
-      background-image: url('https://loremflickr.com/1600/900/stairs,minimal');
-      background-size: cover;
-      background-position: center;
-      color: var(--text-color);
-    }
-    .bh-itinerario *,
-    .bh-itinerario *::before,
-    .bh-itinerario *::after { box-sizing: border-box; }
-
-    .bh-itinerario::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      background: color-mix(in srgb, var(--bg-color) 93%, transparent);
-    }
-
-    .bh-itinerario__cabecera {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 1rem;
-      width: min(100%, 860px);
-      margin: 0 auto clamp(2rem, 5vw, 3rem);
-    }
-    .bh-itinerario__titulo {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      font-weight: 700;
-      font-size: clamp(1.5rem, 3.4vw, 2.2rem);
-      text-transform: uppercase;
-      color: var(--primary-color);
-    }
-    .bh-itinerario__nota {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.6rem, 1.1vw, 0.68rem);
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--secondary-color);
-    }
-
-    .bh-itinerario__escalera {
-      width: min(100%, 860px);
-      margin: 0 auto;
-    }
-
-    .bh-itinerario__peldano {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: clamp(1rem, 3vw, 1.8rem);
-      align-items: center;
-      margin-bottom: clamp(1.1rem, 3vw, 1.7rem);
-      padding: clamp(1.1rem, 2.6vw, 1.6rem) clamp(1.2rem, 3vw, 1.8rem);
-      background: var(--surface-color);
-      border: 1px solid var(--surface-border-color);
-      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
-    }
-    .bh-itinerario.bh-js .bh-itinerario__peldano { opacity: 0; transform: translateY(18px); }
-    .bh-itinerario .bh-itinerario__peldano.esta-visto { opacity: 1; transform: none; }
-    .bh-itinerario__peldano:nth-child(2) { margin-left: clamp(0rem, 6vw, 90px); }
-    .bh-itinerario__peldano:nth-child(3) { margin-left: clamp(0rem, 12vw, 180px); }
-    .bh-itinerario__peldano:nth-child(4) { margin-left: clamp(0rem, 18vw, 270px); }
-
-    .bh-itinerario__chip {
-      display: grid;
-      place-items: center;
-      width: clamp(58px, 8vw, 74px);
-      aspect-ratio: 1 / 1;
-      font-family: Arial, Helvetica, sans-serif;
-      font-weight: 700;
-      font-size: clamp(0.66rem, 1.3vw, 0.78rem);
-      letter-spacing: 0.08em;
-      color: var(--bg-color);
-      background: var(--primary-color);
-    }
-    .bh-itinerario__peldano:nth-child(2) .bh-itinerario__chip { border-radius: 50%; background: var(--secondary-color); }
-    .bh-itinerario__peldano:nth-child(3) .bh-itinerario__chip { border-radius: 0 50% 50% 50%; background: var(--accent-color); }
-    .bh-itinerario__peldano:nth-child(4) .bh-itinerario__chip { clip-path: polygon(0 0, 100% 0, 100% 74%, 50% 100%, 0 74%); background: var(--primary-color); color: var(--bg-color); }
-
-    .bh-itinerario__momento {
-      margin: 0 0 0.25rem;
-      font-family: Arial, Helvetica, sans-serif;
-      font-weight: 700;
-      font-size: clamp(1rem, 2vw, 1.22rem);
-      text-transform: uppercase;
-      color: var(--primary-color);
-    }
-    .bh-itinerario__detalle {
-      margin: 0 0 0.3rem;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
-      line-height: 1.6;
-      color: var(--secondary-color);
-    }
-    .bh-itinerario__hora {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
-      letter-spacing: 0.26em;
-      color: var(--accent-color);
-    }
-
-    @media (max-width: 640px) {
-      .bh-itinerario__peldano:nth-child(n) { margin-left: 0; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .bh-itinerario * { transition: none !important; }
-      .bh-itinerario__peldano { opacity: 1 !important; transform: none !important; }
-    }
-  </style>
-
-  <header class="bh-itinerario__cabecera" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">
-    <h2 class="bh-itinerario__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Escalera al gran día</h2>
-    <span class="bh-itinerario__nota" memory_type="text" memory_usage="custom" memory_key="itinerario-nota">Paso a paso</span>
-  </header>
-
-  <div class="bh-itinerario__escalera">
-    <article class="bh-itinerario__peldano" data-bh-paso>
-      <span class="bh-itinerario__chip" aria-hidden="true">16:00</span>
-      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
-        <h3 class="bh-itinerario__momento">Primer peldaño</h3>
-        <p class="bh-itinerario__detalle">Recepción de invitados en la entrada principal.</p>
-        <time class="bh-itinerario__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00 H</time>
-      </div>
-    </article>
-
-    <article class="bh-itinerario__peldano" data-bh-paso>
-      <span class="bh-itinerario__chip" aria-hidden="true">17:00</span>
-      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
-        <h3 class="bh-itinerario__momento">Segundo peldaño</h3>
-        <p class="bh-itinerario__detalle">Ceremonia frente al muro de formas.</p>
-        <time class="bh-itinerario__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00 H</time>
-      </div>
-    </article>
-
-    <article class="bh-itinerario__peldano" data-bh-paso>
-      <span class="bh-itinerario__chip" aria-hidden="true">19:00</span>
-      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
-        <h3 class="bh-itinerario__momento">Tercer peldaño</h3>
-        <p class="bh-itinerario__detalle">Comida y brindis con los anfitriones.</p>
-        <time class="bh-itinerario__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00 H</time>
-      </div>
-    </article>
-
-    <article class="bh-itinerario__peldano" data-bh-paso>
-      <span class="bh-itinerario__chip" aria-hidden="true">21:30</span>
-      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
-        <h3 class="bh-itinerario__momento">La cima</h3>
-        <p class="bh-itinerario__detalle">Baile de apertura y fiesta hasta el final.</p>
-        <time class="bh-itinerario__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:30 H</time>
-      </div>
-    </article>
-  </div>
-
-  <script>
-    (function () {
-      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.bh-itinerario');
-      if (!root) return;
-      root.classList.add('bh-js');
-      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
-      var pasos = Array.prototype.slice.call(root.querySelectorAll('[data-bh-paso]'));
-      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduce || !('IntersectionObserver' in window)) {
-        pasos.forEach(function (p) { p.classList.add('esta-visto'); });
-        return;
-      }
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          var i = pasos.indexOf(entry.target);
-          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.13).toFixed(2) + 's';
-          entry.target.classList.add('esta-visto');
-          io.unobserve(entry.target);
-        });
-      }, { threshold: 0.25 });
-      pasos.forEach(function (p) { io.observe(p); });
-    })();
-  </script>
-
-  <script>
-    var moduleMetadata = {
-      module_type: 'itinerario',
-      module_name: 'itinerario-agenda',
-      style_name: 'Bauhaus Geométrico — Itinerario',
-      descripcion: 'Escalera descendente de peldaños con chips de formas distintas (cuadro, círculo, gota, triángulo) y horas dentro de cada figura.',
-      tags: ['itinerario', 'timeline', 'bauhaus', 'escalera', 'formas', 'horarios'],
-      tipo: 'itinerario'
-    };
-  </script>
+<section class="bh-itin2" data-gemini-id="itinerario-agenda" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.bh-itin2 { --primary-color:#22242a; --secondary-color:#6d7078; --accent-color:#e2543e; --bg-color:#f3f1ec; --surface-color:#fbfaf7; --surface-border-color:rgba(34,36,42,.18); --text-color:#22242a;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/bauhaus,poster'); background-size:cover; background-position:center; color:var(--text-color); }
+.bh-itin2 *, .bh-itin2 *::before, .bh-itin2 *::after { box-sizing:border-box; }
+.bh-itin2::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 93%, transparent); }
+.bh-itin2__titulo { margin:0 0 1rem; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(2rem,5.5vw,3.6rem); line-height:.95; text-transform:uppercase; letter-spacing:-.02em; color:var(--primary-color); }
+.bh-itin2__titulo em { display:block; font-style:normal; font-size:.45em; letter-spacing:.4em; color:var(--accent-color); margin-top:.6rem; transform:translateX(clamp(.4rem,3vw,2rem)); }
+/* composición chocante: bloques primarios gigantes en diagonal + hitos cruzándolos */
+.bh-itin2__escena { position:relative; width:min(100%,900px); margin:0 auto; }
+.bh-itin2__circulo { position:absolute; z-index:0; top:-8%; right:-10%; width:clamp(160px,32vw,380px); aspect-ratio:1/1; border-radius:50%; background:color-mix(in srgb, var(--accent-color) 24%, transparent); }
+.bh-itin2__barra { position:absolute; z-index:0; bottom:6%; left:-8%; width:clamp(180px,40vw,460px); height:clamp(16px,3vw,28px); background:var(--primary-color); transform:rotate(-18deg); }
+.bh-itin2__hito { position:relative; z-index:2; display:grid; grid-template-columns:auto 1fr; gap:clamp(.8rem,2.4vw,1.4rem); align-items:center; width:min(88%,540px); margin:0 0 clamp(-.6rem,-1.2vw,-.2rem); padding:clamp(1rem,2.4vw,1.4rem) clamp(1.1rem,2.7vw,1.6rem); background:var(--surface-color); border:1px solid var(--surface-border-color); box-shadow:10px 10px 0 rgba(34,36,42,.16); }
+.bh-itin2__hito:nth-child(2) { transform:rotate(1.8deg) translateX(clamp(2rem,10vw,8rem)); }
+.bh-itin2__hito:nth-child(3) { transform:rotate(-1.4deg) translateX(clamp(.6rem,4vw,3rem)); }
+.bh-itin2__hito:nth-child(4) { transform:rotate(2.4deg) translateX(clamp(3rem,14vw,11rem)); }
+.bh-itin2__figura {
+  width:clamp(48px,8vw,64px); aspect-ratio:1/1; display:grid; place-items:center; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(1rem,2.2vw,1.4rem); color:var(--bg-color); }
+.bh-itin2__hito:nth-child(1) .bh-itin2__figura { background:var(--accent-color); border-radius:50%; }
+.bh-itin2__hito:nth-child(2) .bh-itin2__figura { background:var(--primary-color); }
+.bh-itin2__hito:nth-child(3) .bh-itin2__figura { background:var(--secondary-color); border-radius:50% 50% 0 0; }
+.bh-itin2__hito:nth-child(4) .bh-itin2__figura { background:color-mix(in srgb, var(--accent-color) 50%, var(--bg-color)); transform:rotate(45deg); }
+.bh-itin2__hora { font-family:'Courier New',monospace; font-size:clamp(.64rem,1.25vw,.74rem); letter-spacing:.22em; color:var(--accent-color); }
+.bh-itin2__momento { margin:.15rem 0 .2rem; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(1rem,2vw,1.24rem); text-transform:uppercase; color:var(--primary-color); }
+.bh-itin2__detalle { margin:0; font-family:Arial,sans-serif; font-size:clamp(.76rem,1.35vw,.86rem); line-height:1.55; color:var(--secondary-color); }
+@media (max-width:560px){ .bh-itin2__hito, .bh-itin2__hito:nth-child(n) { width:100%; transform:none; margin-left:0; } }
+</style>
+<h2 class="bh-itin2__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Composición N.º 3 <em>El día en cuatro formas</em></h2>
+<div class="bh-itin2__escena">
+  <span class="bh-itin2__circulo" aria-hidden="true"></span>
+  <span class="bh-itin2__barra" aria-hidden="true"></span>
+  <article class="bh-itin2__hito">
+    <span class="bh-itin2__figura" aria-hidden="true">16</span>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
+      <time class="bh-itin2__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00 H</time>
+      <h3 class="bh-itin2__momento">Círculo</h3><p class="bh-itin2__detalle">Recepción circular: todos visibles, nadie al margen.</p>
+    </div>
+  </article>
+  <article class="bh-itin2__hito">
+    <span class="bh-itin2__figura" aria-hidden="true">17</span>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
+      <time class="bh-itin2__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00 H</time>
+      <h3 class="bh-itin2__momento">Cuadrado</h3><p class="bh-itin2__detalle">Ceremonia con estructura y ángulos rectos.</p>
+    </div>
+  </article>
+  <article class="bh-itin2__hito">
+    <span class="bh-itin2__figura" aria-hidden="true">19</span>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
+      <time class="bh-itin2__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00 H</time>
+      <h3 class="bh-itin2__momento">Medialuna</h3><p class="bh-itin2__detalle">Cena a media luz, abrazo de formas.</p>
+    </div>
+  </article>
+  <article class="bh-itin2__hito">
+    <span class="bh-itin2__figura" aria-hidden="true">21</span>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
+      <time class="bh-itin2__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:30 H</time>
+      <h3 class="bh-itin2__momento">Rombo</h3><p class="bh-itin2__detalle">La pista gira 45 grados y todo baila.</p>
+    </div>
+  </article>
+</div>
+<script>
+var moduleMetadata = { module_type:'itinerario', module_name:'itinerario-agenda', style_name:'Bauhaus — Cuatro Formas', descripcion:'Hitos cruzando formas primarias gigantes (círculo y barra de fondo), cada tarjeta con figura distinta, rotaciones y sombras duras.', tags:['itinerario','bauhaus','formas','diagonal','sombras duras'], tipo:'itinerario' };
+</script>
 </section>
 
 <section
@@ -1309,454 +1161,139 @@
   </script>
 </section>
 
-<section
-  class="bh-countdown"
-  data-gemini-id="countdown-bauhaus-dial"
-  path="placeholder"
-  memory_source="generated"
-  memory_type="background"
-  memory_usage="protected"
-  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
->
-  <style>
-    .bh-countdown {
-      position: relative;
-      isolation: isolate;
-      overflow: hidden;
-      box-sizing: border-box;
-      min-height: 640px;
-      display: grid;
-      place-items: center;
-      padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 5vw, 3rem);
-      background-color: var(--bg-color, #f3f1ec);
-      background-image: url('https://loremflickr.com/1600/900/shapes,color');
-      background-size: cover;
-      background-position: center;
-      color: var(--text-color, #22242a);
-      text-align: center;
-    }
-    .bh-countdown *,
-    .bh-countdown *::before,
-    .bh-countdown *::after { box-sizing: border-box; }
-
-    .bh-countdown::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      background: color-mix(in srgb, var(--bg-color, #f3f1ec) 92%, transparent);
-    }
-
-    .bh-countdown__panel {
-      width: min(100%, 740px);
-      padding: clamp(2rem, 5vw, 3.4rem) clamp(1.3rem, 4.5vw, 3rem);
-      background: var(--surface-color, #fbfaf7);
-      border: 1px solid var(--surface-border-color, rgba(34, 36, 42, 0.18));
-      box-shadow: clamp(10px, 1.8vw, 20px) clamp(10px, 1.8vw, 20px) 0 color-mix(in srgb, var(--accent-color, #e2543e) 55%, transparent);
-    }
-
-    .bh-countdown__etiqueta {
-      margin: 0 0 0.55rem;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
-      letter-spacing: 0.44em;
-      text-transform: uppercase;
-      color: var(--secondary-color, #6d7078);
-    }
-    .bh-countdown__titulo {
-      margin: 0 0 0.4rem;
-      font-family: Arial, Helvetica, sans-serif;
-      font-weight: 700;
-      font-size: clamp(1.7rem, 4vw, 2.6rem);
-      text-transform: uppercase;
-      color: var(--primary-color, #22242a);
-    }
-    .bh-countdown__fecha {
-      display: block;
-      margin-bottom: clamp(1.5rem, 3.6vw, 2.2rem);
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.76rem, 1.5vw, 0.88rem);
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--accent-color, #e2543e);
-    }
-
-    .bh-countdown__dial {
-      position: relative;
-      width: clamp(160px, 24vw, 210px);
-      margin: 0 auto clamp(1.4rem, 3.4vw, 2rem);
-    }
-    .bh-countdown__dial svg { display: block; width: 100%; height: auto; transform: rotate(-90deg); }
-    .bh-countdown__cuarto-a { fill: none; stroke: color-mix(in srgb, var(--primary-color, #22242a) 18%, transparent); stroke-width: 12; }
-    .bh-countdown__cuarto-b { fill: none; stroke: color-mix(in srgb, var(--accent-color, #e2543e) 30%, transparent); stroke-width: 12; }
-    .bh-countdown__arco {
-      fill: none;
-      stroke: var(--accent-color, #e2543e);
-      stroke-width: 12;
-      transform-origin: 110px 110px;
-      transition: stroke-dashoffset 0.5s linear;
-    }
-    .bh-countdown__centro {
-      position: absolute;
-      inset: 27%;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: var(--primary-color, #22242a);
-      color: var(--bg-color, #f3f1ec);
-      font-family: Arial, Helvetica, sans-serif;
-      font-weight: 700;
-      font-size: clamp(1.4rem, 3.2vw, 2rem);
-      font-variant-numeric: tabular-nums;
-    }
-
-    .bh-countdown__unidades {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: clamp(0.6rem, 1.8vw, 1rem);
-      max-width: 620px;
-      margin: 0 auto;
-    }
-    .bh-countdown__unidad {
-      padding: clamp(0.9rem, 2.2vw, 1.3rem) 0.3rem;
-      background: var(--surface-color, #fbfaf7);
-      border: 1px solid var(--surface-border-color, rgba(34, 36, 42, 0.18));
-    }
-    .bh-countdown__unidad:nth-child(1) { border-top: 6px solid var(--accent-color, #e2543e); }
-    .bh-countdown__unidad:nth-child(2) { border-top: 6px solid var(--primary-color, #22242a); }
-    .bh-countdown__unidad:nth-child(3) { border-top: 6px solid var(--secondary-color, #6d7078); }
-    .bh-countdown__unidad:nth-child(4) { border-top: 6px solid color-mix(in srgb, var(--accent-color, #e2543e) 55%, var(--bg-color)); }
-    .bh-countdown__numero {
-      display: block;
-      font-family: Arial, Helvetica, sans-serif;
-      font-weight: 700;
-      font-size: clamp(1.6rem, 4.2vw, 2.5rem);
-      font-variant-numeric: tabular-nums;
-      line-height: 1;
-      color: var(--primary-color, #22242a);
-    }
-    .bh-countdown__rotulo {
-      display: block;
-      margin-top: 0.45rem;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.54rem, 1.05vw, 0.62rem);
-      letter-spacing: 0.34em;
-      text-transform: uppercase;
-      color: var(--secondary-color, #6d7078);
-    }
-
-    @media (max-width: 560px) {
-      .bh-countdown__unidades { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .bh-countdown { min-height: 580px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .bh-countdown__arco { transition: none; }
-    }
-  </style>
-
-  <div class="bh-countdown__panel">
-    <p class="bh-countdown__etiqueta" memory_type="text" memory_usage="custom" memory_key="countdown-etiqueta">Composición en progreso</p>
-    <h2 class="bh-countdown__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Cuenta regresiva</h2>
-    <time class="bh-countdown__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
-
-    <div class="bh-countdown__dial" aria-hidden="true">
-      <svg viewBox="0 0 220 220">
-        <circle class="bh-countdown__cuarto-a" cx="110" cy="110" r="92" stroke-dasharray="144.5 433.5" stroke-dashoffset="-289" />
-        <circle class="bh-countdown__cuarto-b" cx="110" cy="110" r="72" stroke-dasharray="113 339.3" stroke-dashoffset="56.5" />
-        <circle class="bh-countdown__arco" data-bh-arco cx="110" cy="110" r="92" stroke-dasharray="578.1" stroke-dashoffset="0" />
-      </svg>
-      <div class="bh-countdown__centro" data-bh-segundos>00</div>
-    </div>
-
-    <div class="bh-countdown__unidades" aria-label="Cuenta regresiva">
-      <div class="bh-countdown__unidad"><span class="bh-countdown__numero" data-countdown-unit="days">--</span><span class="bh-countdown__rotulo">Días</span></div>
-      <div class="bh-countdown__unidad"><span class="bh-countdown__numero" data-countdown-unit="hours">--</span><span class="bh-countdown__rotulo">Horas</span></div>
-      <div class="bh-countdown__unidad"><span class="bh-countdown__numero" data-countdown-unit="minutes">--</span><span class="bh-countdown__rotulo">Min</span></div>
-      <div class="bh-countdown__unidad"><span class="bh-countdown__numero" data-countdown-unit="seconds">--</span><span class="bh-countdown__rotulo">Seg</span></div>
-    </div>
+<section class="bh-cd2" data-gemini-id="countdown-bloques-caos" path="placeholder" memory_source="generated" memory_type="background" memory_usage="protected" data-countdown-target="YYYY-MM-DDTHH:MM:SS">
+<style>
+.bh-cd2 { --primary-color:#22242a; --secondary-color:#6d7078; --accent-color:#e2543e; --bg-color:#f3f1ec; --surface-color:#fbfaf7; --surface-border-color:rgba(34,36,42,.18); --text-color:#22242a;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:640px; display:grid; place-items:center; padding:clamp(3rem,7vw,5rem) clamp(1rem,5vw,3rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/primary,shapes'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.bh-cd2 *, .bh-cd2 *::before, .bh-cd2 *::after { box-sizing:border-box; }
+.bh-cd2::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 93%, transparent); }
+/* collage caótico de bloques: cada cifra en un bloque distinto, rotado y superpuesto */
+.bh-cd2__collage { position:relative; display:flex; justify-content:center; align-items:center; }
+.bh-cd2__bloque { position:relative; width:clamp(120px,24vw,190px); aspect-ratio:1/1.1; display:grid; place-items:center; padding:.4rem; }
+.bh-cd2__bloque:nth-child(1) { background:var(--accent-color); transform:rotate(-6deg); z-index:3; }
+.bh-cd2__bloque:nth-child(2) { background:var(--primary-color); transform:rotate(4deg) translate(-14%, 12%); z-index:2; }
+.bh-cd2__bloque:nth-child(3) { background:var(--secondary-color); transform:rotate(-3deg) translate(-4%, -6%); z-index:1; border-radius:50% 50% 0 0; }
+.bh-cd2__bloque:nth-child(4) { background:var(--surface-color); color:var(--primary-color); transform:rotate(6deg) translate(-18%, -14%); z-index:4; border:2px solid var(--primary-color); }
+.bh-cd2__bloque:hover { z-index:9; }
+.bh-cd2__numero { display:block; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(2rem,6.4vw,4rem); font-variant-numeric:tabular-nums; line-height:1; color:var(--bg-color); }
+.bh-cd2__bloque:nth-child(4) .bh-cd2__numero { color:var(--primary-color); }
+.bh-cd2__rotulo { display:block; margin-top:.4rem; font-family:Arial,sans-serif; font-size:clamp(.5rem,1vw,.6rem); letter-spacing:.34em; text-transform:uppercase; color:var(--bg-color); opacity:.85; }
+.bh-cd2__bloque:nth-child(4) .bh-cd2__rotulo { color:var(--secondary-color); }
+.bh-cd2__titulo { position:relative; z-index:5; margin:0 0 clamp(1.6rem,4vw,2.6rem); font-family:Arial,sans-serif; font-weight:700; font-size:clamp(1.7rem,4vw,2.6rem); text-transform:uppercase; color:var(--primary-color); }
+.bh-cd2__titulo em { font-style:normal; color:var(--accent-color); }
+.bh-cd2__fecha { position:relative; z-index:5; display:inline-block; margin-top:clamp(1.4rem,3vw,2rem); padding:.5rem 1.4rem; background:var(--primary-color); color:var(--bg-color); font-family:'Courier New',monospace; font-size:clamp(.7rem,1.4vw,.84rem); letter-spacing:.28em; text-transform:uppercase; }
+</style>
+<div>
+  <h2 class="bh-cd2__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Cuenta en <em>colaje</em></h2>
+  <div class="bh-cd2__collage" aria-label="Cuenta regresiva">
+    <div class="bh-cd2__bloque"><span><span class="bh-cd2__numero" data-countdown-unit="days">--</span><span class="bh-cd2__rotulo">Días</span></span></div>
+    <div class="bh-cd2__bloque"><span><span class="bh-cd2__numero" data-countdown-unit="hours">--</span><span class="bh-cd2__rotulo">Horas</span></span></div>
+    <div class="bh-cd2__bloque"><span><span class="bh-cd2__numero" data-countdown-unit="minutes">--</span><span class="bh-cd2__rotulo">Min</span></span></div>
+    <div class="bh-cd2__bloque"><span><span class="bh-cd2__numero" data-countdown-unit="seconds">--</span><span class="bh-cd2__rotulo">Seg</span></span></div>
   </div>
-
-  <script>
-    (function () {
-      var el = null;
-      try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
-      if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
-      if (!el) return;
-
-      var arco = el.querySelector('[data-bh-arco]');
-      var centro = el.querySelector('[data-bh-segundos]');
-      var LONGITUD = arco ? 2 * Math.PI * 92 : 0;
-      var target = NaN;
-      var attr = el.getAttribute('data-countdown-target');
-      if (attr && attr.indexOf('YYYY') === -1) { var p = new Date(attr); if (!isNaN(p.getTime())) target = p.getTime(); }
-      if (isNaN(target) && window.__countdownTarget) { var p1 = new Date(window.__countdownTarget); if (!isNaN(p1.getTime())) target = p1.getTime(); }
-      if (isNaN(target) && window.countdown_target) { var p2 = new Date(window.countdown_target); if (!isNaN(p2.getTime())) target = p2.getTime(); }
-
-      var intervalId = null;
-      (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
-      window.__countdownIntervals = [];
-
-      function pad2(n) { return n < 10 ? '0' + n : '' + n; }
-      function setUnit(unit, value) {
-        var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
-        if (node) node.textContent = value;
-      }
-      function tick() {
-        if (!Number.isFinite(target)) return;
-        var diff = Math.max(target - Date.now(), 0);
-        setUnit('days', Math.floor(diff / 86400000));
-        setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
-        setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
-        var s = Math.floor((diff % 60000) / 1000);
-        setUnit('seconds', pad2(s));
-        if (centro) centro.textContent = pad2(s);
-        if (arco) arco.setAttribute('stroke-dashoffset', (LONGITUD * (1 - s / 60)).toFixed(2));
-        if (diff === 0 && intervalId !== null) {
-          clearInterval(intervalId);
-          intervalId = null;
-          window.__countdownIntervals = [];
-        }
-      }
-      function start(newTarget) {
-        if (newTarget) { var p = new Date(newTarget); if (!isNaN(p.getTime())) target = p.getTime(); }
-        (window.__countdownIntervals || []).forEach(clearInterval);
-        window.__countdownIntervals = [];
-        intervalId = null;
-        if (!Number.isFinite(target)) return;
-        tick();
-        if (target > Date.now()) {
-          intervalId = setInterval(tick, 1000);
-          window.__countdownIntervals.push(intervalId);
-        }
-      }
-      start();
-      window.updateCountdown = start;
-    })();
-  </script>
-
-  <script>
-    var moduleMetadata = {
-      module_type: 'countdown',
-      module_name: 'countdown-bauhaus-dial',
-      style_name: 'Dial Bauhaus',
-      descripcion: 'Dial de cuartos concéntricos con arco de acento que se vacía, centro circular negro y unidades con reglas de color distintas.',
-      tags: ['countdown', 'cuenta regresiva', 'bauhaus', 'dial', 'cuartos', 'geometrico'],
-      tipo: 'countdown'
-    };
-  </script>
+  <time class="bh-cd2__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+</div>
+<script>
+(function(){ var el=null; try{ el=document.currentScript.closest('[data-gemini-id^="countdown"]'); }catch(e){} if(!el) el=document.querySelector('[data-gemini-id^="countdown"]'); if(!el) return;
+  var target=NaN; var attr=el.getAttribute('data-countdown-target');
+  if(attr&&attr.indexOf('YYYY')===-1){ var p=new Date(attr); if(!isNaN(p.getTime())) target=p.getTime(); }
+  if(isNaN(target)&&window.__countdownTarget){ var p1=new Date(window.__countdownTarget); if(!isNaN(p1.getTime())) target=p1.getTime(); }
+  if(isNaN(target)&&window.countdown_target){ var p2=new Date(window.countdown_target); if(!isNaN(p2.getTime())) target=p2.getTime(); }
+  var intervalId=null; (window.__countdownIntervals=window.__countdownIntervals||[]).forEach(clearInterval); window.__countdownIntervals=[];
+  function pad2(n){ return n<10?'0'+n:''+n; }
+  function setUnit(u,v){ var n=el.querySelector('[data-countdown-unit="'+u+'"]'); if(n) n.textContent=v; }
+  function tick(){ if(!Number.isFinite(target)) return; var d=Math.max(target-Date.now(),0);
+    setUnit('days',Math.floor(d/86400000)); setUnit('hours',pad2(Math.floor((d%86400000)/3600000))); setUnit('minutes',pad2(Math.floor((d%3600000)/60000))); setUnit('seconds',pad2(Math.floor((d%60000)/1000)));
+    if(d===0&&intervalId!==null){ clearInterval(intervalId); intervalId=null; window.__countdownIntervals=[]; } }
+  function start(nt){ if(nt){ var p=new Date(nt); if(!isNaN(p.getTime())) target=p.getTime(); }
+    (window.__countdownIntervals||[]).forEach(clearInterval); window.__countdownIntervals=[]; intervalId=null;
+    if(!Number.isFinite(target)) return; tick(); if(target>Date.now()){ intervalId=setInterval(tick,1000); window.__countdownIntervals.push(intervalId); } }
+  start(); window.updateCountdown=start;
+})();
+</script>
+<script>
+var moduleMetadata = { module_type:'countdown', module_name:'countdown-bloques-caos', style_name:'Collage de Bloques', descripcion:'Collage caótico: cuatro bloques de color rotados y superpuestos entre sí, cada cifra en un bloque distinto; hover trae el bloque al frente.', tags:['countdown','collage','bloques','superpuestos','bauhaus'], tipo:'countdown' };
+</script>
 </section>
 
-<section
-  class="bh-padrinos"
-  data-gemini-id="padrinos-bauhaus-matriz"
-  memory_type="background"
-  memory_usage="protected"
-  memory_source="generated"
-  path="placeholder"
->
-  <style>
-    .bh-padrinos {
-      --primary-color: #22242a;
-      --secondary-color: #6d7078;
-      --accent-color: #e2543e;
-      --bg-color: #f3f1ec;
-      --surface-color: #fbfaf7;
-      --surface-border-color: rgba(34, 36, 42, 0.18);
-      --text-color: #22242a;
-
-      position: relative;
-      isolation: isolate;
-      box-sizing: border-box;
-      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
-      background-color: var(--bg-color);
-      background-image: url('https://loremflickr.com/1600/900/grid,paper');
-      background-size: cover;
-      background-position: center;
-      color: var(--text-color);
-      text-align: center;
-    }
-    .bh-padrinos *,
-    .bh-padrinos *::before,
-    .bh-padrinos *::after { box-sizing: border-box; }
-
-    .bh-padrinos::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      background: color-mix(in srgb, var(--bg-color) 93%, transparent);
-    }
-
-    .bh-padrinos__titulo {
-      margin: 0 0 0.5rem;
-      font-family: Arial, Helvetica, sans-serif;
-      font-weight: 700;
-      font-size: clamp(1.5rem, 3.4vw, 2.2rem);
-      text-transform: uppercase;
-      color: var(--primary-color);
-    }
-    .bh-padrinos__intro {
-      margin: 0 auto clamp(2rem, 5vw, 3rem);
-      max-width: 48ch;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
-      line-height: 1.7;
-      color: var(--secondary-color);
-    }
-
-    .bh-padrinos__matriz {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: clamp(1rem, 2.8vw, 1.8rem);
-      width: min(100%, 820px);
-      margin: 0 auto;
-    }
-
-    .bh-padrinos__celda {
-      padding: clamp(1.4rem, 3.2vw, 2rem) clamp(1rem, 2.6vw, 1.6rem) clamp(1.2rem, 2.8vw, 1.7rem);
-      background: var(--surface-color);
-      border: 1px solid var(--surface-border-color);
-      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
-    }
-    .bh-padrinos.bh-js .bh-padrinos__celda { opacity: 0; transform: scale(0.9); }
-    .bh-padrinos .bh-padrinos__celda.esta-visto { opacity: 1; transform: none; }
-    .bh-padrinos__celda:nth-child(1) { background: color-mix(in srgb, var(--accent-color) 10%, var(--surface-color)); }
-    .bh-padrinos__celda:nth-child(4) { background: color-mix(in srgb, var(--secondary-color) 12%, var(--surface-color)); }
-
-    .bh-padrinos__retrato {
-      width: clamp(88px, 12vw, 114px);
-      margin: 0 auto 0.9rem;
-      border: 1px solid var(--surface-border-color);
-      overflow: hidden;
-    }
-    .bh-padrinos__celda:nth-child(1) .bh-padrinos__retrato { border-radius: 50%; }
-    .bh-padrinos__celda:nth-child(2) .bh-padrinos__retrato { border-radius: 0; }
-    .bh-padrinos__celda:nth-child(3) .bh-padrinos__retrato { border-radius: 50% 50% 0 0; }
-    .bh-padrinos__celda:nth-child(4) .bh-padrinos__retrato { border-radius: 0 0 50% 50%; }
-    .bh-padrinos__retrato img {
-      color: transparent;
-      display: block;
-      width: 100%;
-      height: auto;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-      filter: saturate(0.88);
-    }
-
-    .bh-padrinos__rol {
-      margin: 0 0 0.3rem;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.56rem, 1.05vw, 0.64rem);
-      letter-spacing: 0.38em;
-      text-transform: uppercase;
-      color: var(--accent-color);
-    }
-    .bh-padrinos__nombre {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      font-weight: 700;
-      font-size: clamp(0.94rem, 1.9vw, 1.14rem);
-      line-height: 1.3;
-      color: var(--primary-color);
-    }
-
-    @media (max-width: 680px) {
-      .bh-padrinos__matriz { grid-template-columns: 1fr; max-width: 340px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .bh-padrinos * { transition: none !important; }
-      .bh-padrinos__celda { opacity: 1 !important; transform: none !important; }
-    }
-  </style>
-
-  <header memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
-    <h2 class="bh-padrinos__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Matriz de honor</h2>
-    <p class="bh-padrinos__intro" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Cuatro celdas, cuatro formas, un mismo cariño.</p>
-  </header>
-
-  <div class="bh-padrinos__matriz">
-    <article class="bh-padrinos__celda" data-bh-celda>
-      <figure class="bh-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
-        <img src="https://loremflickr.com/300/300/portrait,minimal" alt="Retrato de padrino" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-        <figcaption hidden>Padrino uno</figcaption>
-      </figure>
-      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
-        <p class="bh-padrinos__rol">Padrinos de alianzas</p>
-        <h3 class="bh-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
-      </div>
-    </article>
-
-    <article class="bh-padrinos__celda" data-bh-celda>
-      <figure class="bh-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
-        <img src="https://loremflickr.com/300/300/portrait,studio" alt="Retrato de madrina" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-        <figcaption hidden>Madrina dos</figcaption>
-      </figure>
-      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
-        <p class="bh-padrinos__rol">Padrinos de velo</p>
-        <h3 class="bh-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
-      </div>
-    </article>
-
-    <article class="bh-padrinos__celda" data-bh-celda>
-      <figure class="bh-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
-        <img src="https://loremflickr.com/300/300/portrait,creative" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-        <figcaption hidden>Padrino tres</figcaption>
-      </figure>
-      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
-        <p class="bh-padrinos__rol">Padrinos de arras</p>
-        <h3 class="bh-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
-      </div>
-    </article>
-
-    <article class="bh-padrinos__celda" data-bh-celda>
-      <figure class="bh-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
-        <img src="https://loremflickr.com/300/300/portrait,warm" alt="Retrato de madrinas" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-        <figcaption hidden>Madrina cuatro</figcaption>
-      </figure>
-      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
-        <p class="bh-padrinos__rol">Padrinos de lazos</p>
-        <h3 class="bh-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
-      </div>
-    </article>
-  </div>
-
-  <script>
-    (function () {
-      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.bh-padrinos');
-      if (!root) return;
-      root.classList.add('bh-js');
-      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
-      var celdas = Array.prototype.slice.call(root.querySelectorAll('[data-bh-celda]'));
-      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduce || !('IntersectionObserver' in window)) {
-        celdas.forEach(function (c) { c.classList.add('esta-visto'); });
-        return;
-      }
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          var i = celdas.indexOf(entry.target);
-          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.11).toFixed(2) + 's';
-          entry.target.classList.add('esta-visto');
-          io.unobserve(entry.target);
-        });
-      }, { threshold: 0.25 });
-      celdas.forEach(function (c) { io.observe(c); });
-    })();
-  </script>
-
-  <script>
-    var moduleMetadata = {
-      module_type: 'padrinos',
-      module_name: 'padrinos-bauhaus-matriz',
-      style_name: 'Bauhaus Geométrico — Padrinos',
-      descripcion: 'Matriz 2x2 con máscaras de retrato distintas por celda (círculo, cuadro, arco, cueva) y tintes alternos; escala escalonada.',
-      tags: ['padrinos', 'matriz', 'bauhaus', 'mascaras', 'retratos', 'geometrico'],
-      tipo: 'padrinos'
-    };
-  </script>
+<section class="bh-padrinos2" data-gemini-id="padrinos-bauhaus-recorte" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.bh-padrinos2 { --primary-color:#22242a; --secondary-color:#6d7078; --accent-color:#e2543e; --bg-color:#f3f1ec; --surface-color:#fbfaf7; --surface-border-color:rgba(34,36,42,.18); --text-color:#22242a;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/primary,paper'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.bh-padrinos2 *, .bh-padrinos2 *::before, .bh-padrinos2 *::after { box-sizing:border-box; }
+.bh-padrinos2::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 93%, transparent); }
+.bh-padrinos2__titulo { margin:0 0 .5rem; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(1.8rem,4.2vw,2.8rem); text-transform:uppercase; letter-spacing:-.02em; color:var(--primary-color); }
+.bh-padrinos2__intro { margin:0 auto clamp(2.4rem,6vw,3.6rem); max-width:46ch; font-family:Arial,sans-serif; font-size:clamp(.84rem,1.5vw,.94rem); line-height:1.7; color:var(--secondary-color); }
+/* recortes de papel pegados con cinta, todos rotados y superpuestos */
+.bh-padrinos2__recortes { position:relative; display:flex; flex-wrap:wrap; justify-content:center; width:min(100%,1000px); margin:0 auto; }
+.bh-padrinos2__recorte { position:relative; width:clamp(210px,30vw,280px); margin:clamp(-.5rem,-1vw,-.3rem) clamp(-.3rem,-.6vw,-.15rem); padding:14px 14px 18px; background:var(--surface-color); box-shadow:0 18px 40px rgba(34,36,42,.2); transform:rotate(var(--g)) translateY(var(--y)); transition:transform .5s cubic-bezier(.22,.8,.3,1); z-index:var(--z,1); }
+.bh-padrinos2__recorte:hover { transform:rotate(0) translateY(-8px) scale(1.03); z-index:9; }
+.bh-padrinos2__recorte:nth-child(1){ --g:-5deg; --y:10px; --z:1; }
+.bh-padrinos2__recorte:nth-child(2){ --g:3.4deg; --y:-6px; --z:2; background:color-mix(in srgb, var(--accent-color) 9%, var(--surface-color)); }
+.bh-padrinos2__recorte:nth-child(3){ --g:-1.8deg; --y:16px; --z:3; }
+.bh-padrinos2__recorte:nth-child(4){ --g:4.6deg; --y:-2px; --z:4; background:color-mix(in srgb, var(--secondary-color) 10%, var(--surface-color)); }
+.bh-padrinos2__recorte::before { content:''; position:absolute; top:-9px; left:50%; width:66px; height:20px; transform:translateX(-50%) rotate(-2deg); background:color-mix(in srgb, var(--accent-color) 42%, transparent); }
+.bh-padrinos2__recorte::after { content:attr(data-num); position:absolute; top:6px; right:10px; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(1.1rem,2.4vw,1.6rem); color:var(--accent-color); }
+.bh-padrinos2__foto { margin:0 0 .8rem; aspect-ratio:4/5; overflow:hidden; outline:1px solid var(--surface-border-color); }
+.bh-padrinos2__recorte:nth-child(2) .bh-padrinos2__foto { clip-path:polygon(50% 0, 100% 100%, 0 100%); aspect-ratio:1/1; }
+.bh-padrinos2__recorte:nth-child(3) .bh-padrinos2__foto { border-radius:50%; aspect-ratio:1/1; }
+.bh-padrinos2__foto img { display:block; width:100%; height:100%; object-fit:cover; filter:grayscale(1) contrast(1.08); transition:filter .5s ease; }
+.bh-padrinos2__recorte:hover .bh-padrinos2__foto img { filter:grayscale(0) contrast(1); }
+.bh-padrinos2__rol { margin:0 0 .25rem; font-family:Arial,sans-serif; font-size:clamp(.54rem,1vw,.62rem); letter-spacing:.3em; text-transform:uppercase; color:var(--accent-color); }
+.bh-padrinos2__nombre { margin:0; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(.92rem,1.85vw,1.1rem); line-height:1.3; color:var(--primary-color); }
+@media (max-width:700px){ .bh-padrinos2__recortes { flex-direction:column; align-items:center; } .bh-padrinos2__recorte { width:min(100%,300px); margin:0; } }
+</style>
+<header memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
+  <h2 class="bh-padrinos2__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Recortes de honor</h2>
+  <p class="bh-padrinos2__intro" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Retratos recortados y pegados: encuadres distintos para personas igual de valiosas.</p>
+</header>
+<div class="bh-padrinos2__recortes">
+  <article class="bh-padrinos2__recorte" data-num="1">
+    <figure class="bh-padrinos2__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
+      <img src="https://loremflickr.com/300/380/portrait,bw" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+      <figcaption hidden>Padrinos uno</figcaption>
+    </figure>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
+      <p class="bh-padrinos2__rol">Padrinos de alianzas</p>
+      <h3 class="bh-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+    </div>
+  </article>
+  <article class="bh-padrinos2__recorte" data-num="2">
+    <figure class="bh-padrinos2__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
+      <img src="https://loremflickr.com/300/300/portrait,tri" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+      <figcaption hidden>Padrinos dos</figcaption>
+    </figure>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
+      <p class="bh-padrinos2__rol">Padrinos de velo</p>
+      <h3 class="bh-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+    </div>
+  </article>
+  <article class="bh-padrinos2__recorte" data-num="3">
+    <figure class="bh-padrinos2__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
+      <img src="https://loremflickr.com/300/300/portrait,red" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+      <figcaption hidden>Padrinos tres</figcaption>
+    </figure>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
+      <p class="bh-padrinos2__rol">Padrinos de arras</p>
+      <h3 class="bh-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+    </div>
+  </article>
+  <article class="bh-padrinos2__recorte" data-num="4">
+    <figure class="bh-padrinos2__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
+      <img src="https://loremflickr.com/300/380/portrait,paper" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+      <figcaption hidden>Padrinos cuatro</figcaption>
+    </figure>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
+      <p class="bh-padrinos2__rol">Padrinos de lazos</p>
+      <h3 class="bh-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+    </div>
+  </article>
+</div>
+<script>
+var moduleMetadata = { module_type:'padrinos', module_name:'padrinos-bauhaus-recorte', style_name:'Bauhaus — Recortes de Papel', descripcion:'Recortes de papel pegados con cinta, superpuestos y rotados; encudres distintos por tarjeta (rect, triángulo, círculo) y B/N a color al hover.', tags:['padrinos','recortes','collage','rotados','bauhaus'], tipo:'padrinos' };
+</script>
 </section>
 
 <section

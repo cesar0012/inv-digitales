@@ -851,272 +851,55 @@
   </script>
 </section>
 
-<section
-  class="pl-itinerario"
-  data-gemini-id="itinerario-agenda"
-  memory_type="background"
-  memory_usage="protected"
-  memory_source="generated"
-  path="placeholder"
->
-  <style>
-    .pl-itinerario {
-      --primary-color: #1c2340;
-      --secondary-color: #6b7395;
-      --accent-color: #9aa7d0;
-      --bg-color: #eef0f8;
-      --surface-color: #ffffff;
-      --surface-border-color: rgba(28, 35, 64, 0.2);
-      --text-color: #1c2340;
-
-      position: relative;
-      isolation: isolate;
-      box-sizing: border-box;
-      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
-      background-color: var(--bg-color);
-      background-image: url('https://loremflickr.com/1600/900/stars,night');
-      background-size: cover;
-      background-position: center;
-      color: var(--text-color);
-    }
-    .pl-itinerario *,
-    .pl-itinerario *::before,
-    .pl-itinerario *::after { box-sizing: border-box; }
-
-    .pl-itinerario::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      background: color-mix(in srgb, var(--bg-color) 87%, transparent);
-    }
-
-    .pl-itinerario__cabecera { text-align: center; margin-bottom: clamp(2rem, 5vw, 3rem); }
-    .pl-itinerario__titulo {
-      margin: 0 0 0.6rem;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-weight: 400;
-      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
-      color: var(--primary-color);
-    }
-    .pl-itinerario__intro {
-      margin: 0 auto;
-      max-width: 50ch;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
-      line-height: 1.7;
-      color: var(--secondary-color);
-    }
-
-    .pl-itinerario__vuelo {
-      position: relative;
-      width: min(100%, 640px);
-      margin: 0 auto;
-      padding-left: clamp(2.4rem, 6vw, 3.2rem);
-    }
-    .pl-itinerario__ruta {
-      position: absolute;
-      top: 8px;
-      bottom: 8px;
-      left: 13px;
-      width: 2px;
-      background-image: linear-gradient(var(--accent-color) 55%, transparent 55%);
-      background-size: 2px 12px;
-      opacity: 0.55;
-    }
-    .pl-itinerario__progreso {
-      position: absolute;
-      top: 8px;
-      left: 13px;
-      width: 2px;
-      height: 0%;
-      background: var(--accent-color);
-    }
-    .pl-itinerario__grulla-vuelo {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 28px;
-      margin-left: 0.5px;
-      color: var(--primary-color);
-      transition: top 0.2s linear;
-      filter: drop-shadow(0 3px 6px rgba(28, 35, 64, 0.3));
-    }
-
-    .pl-itinerario__hito {
-      position: relative;
-      margin: 0 0 clamp(1.5rem, 4vw, 2.3rem);
-      padding: clamp(1.1rem, 2.7vw, 1.6rem) clamp(1.2rem, 3vw, 1.8rem);
-      background: color-mix(in srgb, var(--surface-color) 96%, transparent);
-      border: 1px solid var(--surface-border-color);
-      clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 26px, 100% 100%, 0 100%);
-      box-shadow: 0 14px 32px rgba(28, 35, 64, 0.12);
-      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
-    }
-    .pl-itinerario.pl-js .pl-itinerario__hito { opacity: 0; transform: translateX(-16px); }
-    .pl-itinerario .pl-itinerario__hito.esta-visto { opacity: 1; transform: none; }
-    .pl-itinerario__hito::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 26px;
-      height: 26px;
-      background: linear-gradient(225deg, var(--bg-color) 0 49%, color-mix(in srgb, var(--accent-color) 48%, var(--bg-color)) 49% 100%);
-      clip-path: polygon(100% 0, 0 0, 100% 100%);
-    }
-
-    .pl-itinerario__nodo {
-      position: absolute;
-      top: 50%;
-      left: calc(-1 * clamp(2.4rem, 6vw, 3.2rem) + 2px);
-      transform: translate(-50%, -50%);
-      width: 14px;
-      height: 14px;
-      background: var(--bg-color);
-      clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
-      border: 0;
-      outline: 1px solid var(--accent-color);
-    }
-
-    .pl-itinerario__hora {
-      display: inline-block;
-      margin-bottom: 0.4rem;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(0.76rem, 1.5vw, 0.88rem);
-      letter-spacing: 0.18em;
-      color: var(--accent-color);
-    }
-    .pl-itinerario__momento {
-      margin: 0 0 0.3rem;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(1.02rem, 2.1vw, 1.28rem);
-      color: var(--primary-color);
-    }
-    .pl-itinerario__detalle {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
-      line-height: 1.65;
-      color: var(--secondary-color);
-    }
-
-    @media (max-width: 560px) {
-      .pl-itinerario__vuelo { padding-left: 2rem; }
-      .pl-itinerario__grulla-vuelo { display: none; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .pl-itinerario * { transition: none !important; }
-      .pl-itinerario__hito { opacity: 1; transform: none; }
-      .pl-itinerario__grulla-vuelo { display: none; }
-    }
-  </style>
-
-  <header class="pl-itinerario__cabecera" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">
-    <h2 class="pl-itinerario__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Ruta de la noche</h2>
-    <p class="pl-itinerario__intro" memory_type="text" memory_usage="custom" memory_key="itinerario-texto">Una grulla de papel guía cada momento de la celebración.</p>
-  </header>
-
-  <div class="pl-itinerario__vuelo">
-    <span class="pl-itinerario__ruta" aria-hidden="true"></span>
-    <span class="pl-itinerario__progreso" aria-hidden="true" data-pl-progreso></span>
-    <svg class="pl-itinerario__grulla-vuelo" viewBox="0 0 48 48" fill="none" aria-hidden="true" data-pl-grulla>
-      <path d="M8 30 L24 10 L30 22 L40 16 L32 30 L24 26 L14 40 Z" stroke="currentColor" stroke-width="1.6" fill="color-mix(in srgb, var(--surface-color) 90%, transparent)"/>
-    </svg>
-
-    <article class="pl-itinerario__hito" data-pl-hito>
-      <span class="pl-itinerario__nodo" aria-hidden="true"></span>
-      <time class="pl-itinerario__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00 h</time>
-      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
-        <h3 class="pl-itinerario__momento">Despegue</h3>
-        <p class="pl-itinerario__detalle">Recepción de invitados y bienvenida estelar.</p>
-      </div>
-    </article>
-
-    <article class="pl-itinerario__hito" data-pl-hito>
-      <span class="pl-itinerario__nodo" aria-hidden="true"></span>
-      <time class="pl-itinerario__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00 h</time>
-      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
-        <h3 class="pl-itinerario__momento">Ceremonia</h3>
-        <p class="pl-itinerario__detalle">El momento en que las estrellas se alinean.</p>
-      </div>
-    </article>
-
-    <article class="pl-itinerario__hito" data-pl-hito>
-      <span class="pl-itinerario__nodo" aria-hidden="true"></span>
-      <time class="pl-itinerario__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00 h</time>
-      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
-        <h3 class="pl-itinerario__momento">Cena bajo las estrellas</h3>
-        <p class="pl-itinerario__detalle">Banquete y mensajes de los seres queridos.</p>
-      </div>
-    </article>
-
-    <article class="pl-itinerario__hito" data-pl-hito>
-      <span class="pl-itinerario__nodo" aria-hidden="true"></span>
-      <time class="pl-itinerario__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:30 h</time>
-      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
-        <h3 class="pl-itinerario__momento">Aterrizaje final</h3>
-        <p class="pl-itinerario__detalle">Baile, brillos y despedida con confeti estelar.</p>
-      </div>
-    </article>
-  </div>
-
-  <script>
-    (function () {
-      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.pl-itinerario');
-      if (!root) return;
-      root.classList.add('pl-js');
-      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
-
-      var progreso = root.querySelector('[data-pl-progreso]');
-      var grulla = root.querySelector('[data-pl-grulla]');
-      var hitos = Array.prototype.slice.call(root.querySelectorAll('[data-pl-hito]'));
-      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      var revealIO = ('IntersectionObserver' in window) && !reduce ? new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('esta-visto');
-            revealIO.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.3 }) : null;
-
-      hitos.forEach(function (hito) {
-        if (revealIO) revealIO.observe(hito);
-        else hito.classList.add('esta-visto');
-      });
-
-      function alVolar() {
-        if (!progreso) return;
-        var rect = root.getBoundingClientRect();
-        var total = rect.height + window.innerHeight * 0.35;
-        var pasado = Math.min(Math.max(window.innerHeight * 0.7 - rect.top, 0), total);
-        var fraccion = pasado / total;
-        progreso.style.height = (fraccion * 100).toFixed(2) + '%';
-        if (grulla) grulla.style.top = 'calc(' + (fraccion * 100).toFixed(2) + '% - 14px)';
-      }
-      if (!reduce) {
-        window.addEventListener('scroll', alVolar, { passive: true });
-        window.addEventListener('resize', alVolar);
-        alVolar();
-      } else if (progreso) {
-        progreso.style.height = '100%';
-      }
-    })();
-  </script>
-
-  <script>
-    var moduleMetadata = {
-      module_type: 'itinerario',
-      module_name: 'itinerario-agenda',
-      style_name: 'Plegado Celeste — Itinerario',
-      descripcion: 'Ruta punteada nocturna con grulla de papel que desciende según el scroll, nodos estrella y tarjetas con esquina plegada.',
-      tags: ['itinerario', 'timeline', 'origami', 'grulla', 'estrellas', 'scroll'],
-      tipo: 'itinerario'
-    };
-  </script>
+<section class="pl-itin2" data-gemini-id="itinerario-agenda" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.pl-itin2 { --primary-color:#1c2340; --secondary-color:#6b7395; --accent-color:#9aa7d0; --bg-color:#eef0f8; --surface-color:#ffffff; --surface-border-color:rgba(28,35,64,.2); --text-color:#1c2340;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/origami,blue'); background-size:cover; background-position:center; color:var(--text-color); }
+.pl-itin2 *, .pl-itin2 *::before, .pl-itin2 *::after { box-sizing:border-box; }
+.pl-itin2::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 87%, transparent); }
+.pl-itin2__titulo { position:relative; z-index:2; margin:0 0 2.2rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.9rem,4.4vw,3rem); color:var(--primary-color); }
+.pl-itin2__titulo em { font-style:italic; color:var(--accent-color); }
+/* acordeón de papel: hitos alternando pliegues arriba/abajo con solape fuerte */
+.pl-itin2__acordeon { position:relative; z-index:2; width:min(100%,820px); margin:0 auto; }
+.pl-itin2__pliegue { position:relative; width:min(72%,420px); padding:clamp(1.1rem,2.6vw,1.6rem) clamp(1.2rem,3vw,1.8rem); background:var(--surface-color); border:1px solid var(--surface-border-color); box-shadow:0 16px 34px rgba(28,35,64,.16); margin-bottom:clamp(-.8rem,-1.4vw,-.4rem); }
+.pl-itin2__pliegue:nth-child(odd) { transform:rotate(-3.4deg) translateX(-6%); clip-path:polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 0, 26px 0, 0 26px); }
+.pl-itin2__pliegue:nth-child(even) { transform:rotate(3deg) translateX(32%); clip-path:polygon(0 0, calc(100% - 26px) 0, 100% 26px, 100% 100%, 0 100%); background:color-mix(in srgb, var(--accent-color) 14%, var(--surface-color)); }
+.pl-itin2__pliegue:nth-child(2) { transform:rotate(2deg) translateX(34%); }
+.pl-itin2__pliegue:nth-child(4) { transform:rotate(-2.2deg) translateX(-4%); }
+.pl-itin2__pliegue:hover { z-index:5; }
+.pl-itin2__esquina { position:absolute; top:0; right:0; width:22px; height:22px; background:linear-gradient(225deg, var(--bg-color) 0 49%, color-mix(in srgb, var(--accent-color) 55%, var(--bg-color)) 49% 100%); clip-path:polygon(100% 0, 0 0, 100% 100%); }
+.pl-itin2__hora { display:inline-block; margin-bottom:.3rem; font-family:'Courier New',monospace; font-size:clamp(.66rem,1.3vw,.76rem); letter-spacing:.26em; color:var(--accent-color); }
+.pl-itin2__momento { margin:0 0 .25rem; font-family:Georgia,serif; font-size:clamp(1.04rem,2.1vw,1.3rem); color:var(--primary-color); }
+.pl-itin2__detalle { margin:0; font-size:clamp(.78rem,1.4vw,.88rem); line-height:1.6; color:var(--secondary-color); }
+@media (max-width:640px){ .pl-itin2__pliegue, .pl-itin2__pliegue:nth-child(even) { width:100%; transform:rotate(0); margin-left:0; } }
+</style>
+<h2 class="pl-itin2__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Acordeón de <em>momentos</em></h2>
+<div class="pl-itin2__acordeon">
+  <article class="pl-itin2__pliegue">
+    <span class="pl-itin2__esquina" aria-hidden="true"></span>
+    <time class="pl-itin2__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00 h</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1"><h3 class="pl-itin2__momento">Primer pliegue</h3><p class="pl-itin2__detalle">Recepción entre grullas de papel.</p></div>
+  </article>
+  <article class="pl-itin2__pliegue">
+    <span class="pl-itin2__esquina" aria-hidden="true"></span>
+    <time class="pl-itin2__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00 h</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2"><h3 class="pl-itin2__momento">Ceremonia</h3><p class="pl-itin2__detalle">El pliego se abre: el voto principal.</p></div>
+  </article>
+  <article class="pl-itin2__pliegue">
+    <span class="pl-itin2__esquina" aria-hidden="true"></span>
+    <time class="pl-itin2__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00 h</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3"><h3 class="pl-itin2__momento">Cena plegada</h3><p class="pl-itin2__detalle">Banquete entre constelaciones de papel.</p></div>
+  </article>
+  <article class="pl-itin2__pliegue">
+    <span class="pl-itin2__esquina" aria-hidden="true"></span>
+    <time class="pl-itin2__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:30 h</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4"><h3 class="pl-itin2__momento">Último pliegue</h3><p class="pl-itin2__detalle">Baile hasta desdoblarnos de alegría.</p></div>
+  </article>
+</div>
+<script>
+var moduleMetadata = { module_type:'itinerario', module_name:'itinerario-agenda', style_name:'Origami — Acordeón', descripcion:'Acordeón de papel: pliegues alternados con solape fuerte, esquinas dobladas y rotaciones opuestas; hover trae el pliegue al frente.', tags:['itinerario','acordeon','pliegues','solape','origami'], tipo:'itinerario' };
+</script>
 </section>
 
 <section
@@ -1543,502 +1326,149 @@
   </script>
 </section>
 
-<section
-  class="pl-countdown"
-  data-gemini-id="countdown-constelacion-tiempo"
-  path="placeholder"
-  memory_source="generated"
-  memory_type="background"
-  memory_usage="protected"
-  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
->
-  <style>
-    .pl-countdown {
-      position: relative;
-      isolation: isolate;
-      overflow: hidden;
-      box-sizing: border-box;
-      min-height: 650px;
-      display: grid;
-      place-items: center;
-      padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 5vw, 3rem);
-      background-color: var(--bg-color, #eef0f8);
-      background-image: url('https://loremflickr.com/1600/900/starry,night');
-      background-size: cover;
-      background-position: center;
-      color: var(--text-color, #1c2340);
-      text-align: center;
-    }
-    .pl-countdown *,
-    .pl-countdown *::before,
-    .pl-countdown *::after { box-sizing: border-box; }
-
-    .pl-countdown::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      background: color-mix(in srgb, var(--bg-color, #eef0f8) 84%, transparent);
-    }
-
-    .pl-countdown__contenido { width: min(100%, 760px); }
-
-    .pl-countdown__etiqueta {
-      margin: 0 0 0.55rem;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
-      letter-spacing: 0.44em;
-      text-transform: uppercase;
-      color: var(--accent-color, #9aa7d0);
-    }
-    .pl-countdown__titulo {
-      margin: 0 0 0.4rem;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-weight: 400;
-      font-size: clamp(1.75rem, 4vw, 2.7rem);
-      color: var(--primary-color, #1c2340);
-    }
-    .pl-countdown__fecha {
-      display: block;
-      margin-bottom: clamp(1.5rem, 3.6vw, 2.2rem);
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.76rem, 1.5vw, 0.88rem);
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--secondary-color, #6b7395);
-    }
-
-    .pl-countdown__orbita {
-      position: relative;
-      width: clamp(170px, 26vw, 230px);
-      margin: 0 auto clamp(1.4rem, 3.4vw, 2rem);
-      color: var(--accent-color, #9aa7d0);
-    }
-    .pl-countdown__orbita svg { display: block; width: 100%; height: auto; }
-    .pl-countdown__orbita-fondo {
-      fill: none;
-      stroke: color-mix(in srgb, var(--accent-color, #9aa7d0) 30%, transparent);
-      stroke-width: 1.4;
-      stroke-dasharray: 3 6;
-    }
-    .pl-countdown__orbita-segundo {
-      fill: none;
-      stroke: var(--primary-color, #1c2340);
-      stroke-width: 3;
-      stroke-linecap: round;
-      transform: rotate(-90deg);
-      transform-origin: 115px 115px;
-      transition: stroke-dashoffset 0.5s linear;
-    }
-    .pl-countdown__satelite {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: 14px;
-      height: 14px;
-      transform-origin: 50% calc(50% + var(--pl-radio, 115px) * 1px);
-      transform: translate(-50%, calc(-1px * var(--pl-radio, 115px)));
-      background: var(--primary-color, #1c2340);
-      clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
-    }
-    .pl-countdown__centro {
-      position: absolute;
-      inset: 22%;
-      display: grid;
-      place-items: center;
-      border: 1px dashed var(--accent-color, #9aa7d0);
-      border-radius: 50%;
-      background: color-mix(in srgb, var(--surface-color, #ffffff) 92%, transparent);
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(1.4rem, 3.2vw, 2rem);
-      font-variant-numeric: tabular-nums;
-      color: var(--primary-color, #1c2340);
-    }
-
-    .pl-countdown__constelacion {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: clamp(0.7rem, 2vw, 1.1rem);
-      max-width: 620px;
-      margin: 0 auto;
-    }
-    .pl-countdown__nodo {
-      position: relative;
-      padding: clamp(0.9rem, 2.2vw, 1.3rem) 0.4rem;
-      background: color-mix(in srgb, var(--surface-color, #ffffff) 94%, transparent);
-      border: 1px solid var(--surface-border-color, rgba(28, 35, 64, 0.2));
-      box-shadow: 0 12px 28px rgba(28, 35, 64, 0.12);
-      clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
-    }
-    .pl-countdown__nodo::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 16px;
-      height: 16px;
-      background: linear-gradient(225deg, var(--bg-color, #eef0f8) 0 49%, color-mix(in srgb, var(--accent-color, #9aa7d0) 50%, var(--bg-color, #eef0f8)) 49% 100%);
-      clip-path: polygon(100% 0, 0 0, 100% 100%);
-    }
-    .pl-countdown__numero {
-      display: block;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(1.6rem, 4.2vw, 2.5rem);
-      font-variant-numeric: tabular-nums;
-      line-height: 1;
-      color: var(--primary-color, #1c2340);
-    }
-    .pl-countdown__rotulo {
-      display: block;
-      margin-top: 0.45rem;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.54rem, 1.1vw, 0.62rem);
-      letter-spacing: 0.36em;
-      text-transform: uppercase;
-      color: var(--secondary-color, #6b7395);
-    }
-
-    @media (max-width: 560px) {
-      .pl-countdown__constelacion { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 360px; }
-      .pl-countdown { min-height: 600px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .pl-countdown__orbita-segundo { transition: none; }
-      .pl-countdown__satelite { display: none; }
-    }
-  </style>
-
-  <div class="pl-countdown__contenido">
-    <p class="pl-countdown__etiqueta" memory_type="text" memory_usage="custom" memory_key="countdown-etiqueta">Cuenta regresiva</p>
-    <h2 class="pl-countdown__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Las estrellas se alinean</h2>
-    <time class="pl-countdown__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
-
-    <div class="pl-countdown__orbita" aria-hidden="true">
-      <svg viewBox="0 0 230 230" style="--pl-radio: 100;">
-        <circle class="pl-countdown__orbita-fondo" cx="115" cy="115" r="100" />
-        <circle class="pl-countdown__orbita-segundo" data-pl-orbita cx="115" cy="115" r="100" stroke-dasharray="628.3" stroke-dashoffset="0" />
-      </svg>
-      <span class="pl-countdown__satelite" data-pl-satelite></span>
-      <div class="pl-countdown__centro" data-pl-segundos>00</div>
-    </div>
-
-    <div class="pl-countdown__constelacion" aria-label="Cuenta regresiva">
-      <div class="pl-countdown__nodo"><span class="pl-countdown__numero" data-countdown-unit="days">--</span><span class="pl-countdown__rotulo">Días</span></div>
-      <div class="pl-countdown__nodo"><span class="pl-countdown__numero" data-countdown-unit="hours">--</span><span class="pl-countdown__rotulo">Horas</span></div>
-      <div class="pl-countdown__nodo"><span class="pl-countdown__numero" data-countdown-unit="minutes">--</span><span class="pl-countdown__rotulo">Min</span></div>
-      <div class="pl-countdown__nodo"><span class="pl-countdown__numero" data-countdown-unit="seconds">--</span><span class="pl-countdown__rotulo">Seg</span></div>
-    </div>
+<section class="pl-cd2" data-gemini-id="countdown-diamante-plegado" path="placeholder" memory_source="generated" memory_type="background" memory_usage="protected" data-countdown-target="YYYY-MM-DDTHH:MM:SS">
+<style>
+.pl-cd2 { --primary-color:#1c2340; --secondary-color:#6b7395; --accent-color:#9aa7d0; --bg-color:#eef0f8; --surface-color:#ffffff; --surface-border-color:rgba(28,35,64,.2); --text-color:#1c2340;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:620px; display:grid; place-items:center; padding:clamp(3rem,7vw,5rem) clamp(1rem,5vw,3rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/origami,night'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.pl-cd2 *, .pl-cd2 *::before, .pl-cd2 *::after { box-sizing:border-box; }
+.pl-cd2::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 86%, transparent); }
+/* diamantes de papel colgando en diagonal, cada uno con una cifra */
+.pl-cd2__trenza { position:relative; z-index:2; display:flex; justify-content:center; align-items:flex-start; gap:clamp(.3rem,1.6vw,1rem); }
+.pl-cd2__diamante { position:relative; width:clamp(84px,17vw,140px); aspect-ratio:1/1.16; transform:rotate(var(--g)); filter:drop-shadow(0 16px 26px rgba(28,35,64,.22)); }
+.pl-cd2__diamante:nth-child(1){ --g:-7deg; margin-top:34px; }
+.pl-cd2__diamante:nth-child(2){ --g:4deg; margin-top:8px; }
+.pl-cd2__diamante:nth-child(3){ --g:-3deg; margin-top:44px; }
+.pl-cd2__diamante:nth-child(4){ --g:6deg; margin-top:0; }
+.pl-cd2__cara { position:absolute; inset:0; display:grid; place-items:center; padding-top:18%; background:var(--surface-color); border:1px solid var(--surface-border-color); clip-path:polygon(50% 0, 100% 30%, 100% 74%, 50% 100%, 0 74%, 0 30%); }
+.pl-cd2__cara::before { content:''; position:absolute; inset:0; background:linear-gradient(225deg, transparent 49.6%, color-mix(in srgb, var(--accent-color) 34%, transparent) 49.6%); }
+.pl-cd2__hilo { position:absolute; top:-46px; left:50%; width:1.5px; height:46px; background:var(--secondary-color); transform:translateX(-50%); }
+.pl-cd2__numero { position:relative; z-index:1; font-family:Georgia,serif; font-size:clamp(1.7rem,4.6vw,2.9rem); font-variant-numeric:tabular-nums; color:var(--primary-color); }
+.pl-cd2__rotulo { position:relative; z-index:1; display:block; font-family:'Courier New',monospace; font-size:clamp(.5rem,1vw,.58rem); letter-spacing:.3em; text-transform:uppercase; color:var(--secondary-color); }
+.pl-cd2__titulo { margin:0 0 3.4rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.7rem,4vw,2.6rem); color:var(--primary-color); }
+.pl-cd2__fecha { display:block; margin-bottom:0; font-family:'Courier New',monospace; font-size:clamp(.72rem,1.45vw,.86rem); letter-spacing:.3em; text-transform:uppercase; color:var(--secondary-color); }
+@media (max-width:520px){ .pl-cd2__trenza { flex-wrap:wrap; align-items:center; } .pl-cd2__diamante { margin-top:0 !important; } .pl-cd2__diamante:nth-child(even){ --g:3deg; } }
+</style>
+<div>
+  <h2 class="pl-cd2__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Diamantes del tiempo</h2>
+  <div class="pl-cd2__trenza" aria-label="Cuenta regresiva">
+    <div class="pl-cd2__diamante"><span class="pl-cd2__hilo" aria-hidden="true"></span><div class="pl-cd2__cara"><span><span class="pl-cd2__numero" data-countdown-unit="days">--</span><span class="pl-cd2__rotulo">Días</span></span></div></div>
+    <div class="pl-cd2__diamante"><span class="pl-cd2__hilo" aria-hidden="true"></span><div class="pl-cd2__cara"><span><span class="pl-cd2__numero" data-countdown-unit="hours">--</span><span class="pl-cd2__rotulo">Horas</span></span></div></div>
+    <div class="pl-cd2__diamante"><span class="pl-cd2__hilo" aria-hidden="true"></span><div class="pl-cd2__cara"><span><span class="pl-cd2__numero" data-countdown-unit="minutes">--</span><span class="pl-cd2__rotulo">Min</span></span></div></div>
+    <div class="pl-cd2__diamante"><span class="pl-cd2__hilo" aria-hidden="true"></span><div class="pl-cd2__cara"><span><span class="pl-cd2__numero" data-countdown-unit="seconds">--</span><span class="pl-cd2__rotulo">Seg</span></span></div></div>
   </div>
-
-  <script>
-    (function () {
-      var el = null;
-      try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
-      if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
-      if (!el) return;
-
-      var orbita = el.querySelector('[data-pl-orbita]');
-      var satelite = el.querySelector('[data-pl-satelite]');
-      var centro = el.querySelector('[data-pl-segundos]');
-      var LONGITUD = orbita ? 2 * Math.PI * 100 : 0;
-      var target = NaN;
-      var attr = el.getAttribute('data-countdown-target');
-      if (attr && attr.indexOf('YYYY') === -1) { var p = new Date(attr); if (!isNaN(p.getTime())) target = p.getTime(); }
-      if (isNaN(target) && window.__countdownTarget) { var p1 = new Date(window.__countdownTarget); if (!isNaN(p1.getTime())) target = p1.getTime(); }
-      if (isNaN(target) && window.countdown_target) { var p2 = new Date(window.countdown_target); if (!isNaN(p2.getTime())) target = p2.getTime(); }
-
-      var intervalId = null;
-      (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
-      window.__countdownIntervals = [];
-
-      function pad2(n) { return n < 10 ? '0' + n : '' + n; }
-      function setUnit(unit, value) {
-        var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
-        if (node) node.textContent = value;
-      }
-      function tick() {
-        if (!Number.isFinite(target)) return;
-        var diff = Math.max(target - Date.now(), 0);
-        setUnit('days', Math.floor(diff / 86400000));
-        setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
-        setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
-        var s = Math.floor((diff % 60000) / 1000);
-        setUnit('seconds', pad2(s));
-        if (centro) centro.textContent = pad2(s);
-        var fraccion = s / 60;
-        if (orbita) orbita.setAttribute('stroke-dashoffset', (LONGITUD * (1 - fraccion)).toFixed(2));
-        if (satelite) satelite.style.transform = 'translate(-50%, -115px) rotate(' + (fraccion * 360).toFixed(1) + 'deg)';
-        if (diff === 0 && intervalId !== null) {
-          clearInterval(intervalId);
-          intervalId = null;
-          window.__countdownIntervals = [];
-        }
-      }
-      function start(newTarget) {
-        if (newTarget) { var p = new Date(newTarget); if (!isNaN(p.getTime())) target = p.getTime(); }
-        (window.__countdownIntervals || []).forEach(clearInterval);
-        window.__countdownIntervals = [];
-        intervalId = null;
-        if (!Number.isFinite(target)) return;
-        tick();
-        if (target > Date.now()) {
-          intervalId = setInterval(tick, 1000);
-          window.__countdownIntervals.push(intervalId);
-        }
-      }
-      start();
-      window.updateCountdown = start;
-    })();
-  </script>
-
-  <script>
-    var moduleMetadata = {
-      module_type: 'countdown',
-      module_name: 'countdown-constelacion-tiempo',
-      style_name: 'Órbita Celeste',
-      descripcion: 'Cuenta regresiva orbital: estrella satélite que gira sobre anillo punteado, arco de segundos y constelación de nodos plegados por unidad.',
-      tags: ['countdown', 'cuenta regresiva', 'orbita', 'satelite', 'origami', 'celestial'],
-      tipo: 'countdown'
-    };
-  </script>
+  <time class="pl-cd2__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+</div>
+<script>
+(function(){ var el=null; try{ el=document.currentScript.closest('[data-gemini-id^="countdown"]'); }catch(e){} if(!el) el=document.querySelector('[data-gemini-id^="countdown"]'); if(!el) return;
+  var target=NaN; var attr=el.getAttribute('data-countdown-target');
+  if(attr&&attr.indexOf('YYYY')===-1){ var p=new Date(attr); if(!isNaN(p.getTime())) target=p.getTime(); }
+  if(isNaN(target)&&window.__countdownTarget){ var p1=new Date(window.__countdownTarget); if(!isNaN(p1.getTime())) target=p1.getTime(); }
+  if(isNaN(target)&&window.countdown_target){ var p2=new Date(window.countdown_target); if(!isNaN(p2.getTime())) target=p2.getTime(); }
+  var intervalId=null; (window.__countdownIntervals=window.__countdownIntervals||[]).forEach(clearInterval); window.__countdownIntervals=[];
+  function pad2(n){ return n<10?'0'+n:''+n; }
+  function setUnit(u,v){ var n=el.querySelector('[data-countdown-unit="'+u+'"]'); if(n) n.textContent=v; }
+  function tick(){ if(!Number.isFinite(target)) return; var d=Math.max(target-Date.now(),0);
+    setUnit('days',Math.floor(d/86400000)); setUnit('hours',pad2(Math.floor((d%86400000)/3600000))); setUnit('minutes',pad2(Math.floor((d%3600000)/60000))); setUnit('seconds',pad2(Math.floor((d%60000)/1000)));
+    if(d===0&&intervalId!==null){ clearInterval(intervalId); intervalId=null; window.__countdownIntervals=[]; } }
+  function start(nt){ if(nt){ var p=new Date(nt); if(!isNaN(p.getTime())) target=p.getTime(); }
+    (window.__countdownIntervals||[]).forEach(clearInterval); window.__countdownIntervals=[]; intervalId=null;
+    if(!Number.isFinite(target)) return; tick(); if(target>Date.now()){ intervalId=setInterval(tick,1000); window.__countdownIntervals.push(intervalId); } }
+  start(); window.updateCountdown=start;
+})();
+</script>
+<script>
+var moduleMetadata = { module_type:'countdown', module_name:'countdown-diamante-plegado', style_name:'Diamantes Plegados', descripcion:'Diamantes de papel colgando de hilos a distintas alturas y giros, con pliegue de luz en esquina y cifras tabulares dentro.', tags:['countdown','diamantes','colgantes','origami','giros'], tipo:'countdown' };
+</script>
 </section>
 
-<section
-  class="pl-padrinos"
-  data-gemini-id="padrinos-plegado-estrellas"
-  memory_type="background"
-  memory_usage="protected"
-  memory_source="generated"
-  path="placeholder"
->
-  <style>
-    .pl-padrinos {
-      --primary-color: #1c2340;
-      --secondary-color: #6b7395;
-      --accent-color: #9aa7d0;
-      --bg-color: #eef0f8;
-      --surface-color: #ffffff;
-      --surface-border-color: rgba(28, 35, 64, 0.2);
-      --text-color: #1c2340;
-
-      position: relative;
-      isolation: isolate;
-      box-sizing: border-box;
-      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
-      background-color: var(--bg-color);
-      background-image: url('https://loremflickr.com/1600/900/clouds,sky');
-      background-size: cover;
-      background-position: center;
-      color: var(--text-color);
-      text-align: center;
-    }
-    .pl-padrinos *,
-    .pl-padrinos *::before,
-    .pl-padrinos *::after { box-sizing: border-box; }
-
-    .pl-padrinos::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      background: color-mix(in srgb, var(--bg-color) 88%, transparent);
-    }
-
-    .pl-padrinos__titulo {
-      margin: 0 0 0.5rem;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-weight: 400;
-      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
-      color: var(--primary-color);
-    }
-    .pl-padrinos__intro {
-      margin: 0 auto clamp(2rem, 5vw, 3rem);
-      max-width: 50ch;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
-      line-height: 1.7;
-      color: var(--secondary-color);
-    }
-
-    .pl-padrinos__banderines {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: clamp(1.5rem, 4.5vw, 3rem) clamp(1.2rem, 4vw, 2.6rem);
-      width: min(100%, 840px);
-      margin: 0 auto;
-    }
-
-    .pl-padrinos__banderin {
-      position: relative;
-      margin: 0 auto;
-      width: min(100%, 330px);
-      padding: clamp(1.5rem, 3.5vw, 2rem) clamp(1.2rem, 3vw, 1.7rem) clamp(2rem, 4.5vw, 2.6rem);
-      background: color-mix(in srgb, var(--surface-color) 96%, transparent);
-      border: 1px solid var(--surface-border-color);
-      box-shadow: 0 16px 38px rgba(28, 35, 64, 0.14);
-      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 26px), 50% 100%, 0 calc(100% - 26px));
-      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
-    }
-    .pl-padrinos.pl-js .pl-padrinos__banderin { opacity: 0; transform: translateY(-16px); }
-    .pl-padrinos.esta-visto .pl-padrinos__banderin { opacity: 1; transform: none; }
-
-    .pl-padrinos__cordel {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: color-mix(in srgb, var(--accent-color) 70%, transparent);
-    }
-
-    .pl-padrinos__retrato {
-      width: clamp(92px, 14vw, 122px);
-      margin: 0 auto 1rem;
-      padding: 5px;
-      background: var(--bg-color);
-      border: 1px solid var(--surface-border-color);
-      border-radius: 50%;
-      position: relative;
-    }
-    .pl-padrinos__retrato::after {
-      content: '';
-      position: absolute;
-      top: -9px;
-      right: -6px;
-      width: 20px;
-      height: 20px;
-      background: var(--accent-color);
-      clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
-    }
-    .pl-padrinos__retrato img {
-      color: transparent;
-      display: block;
-      width: 100%;
-      height: auto;
-      aspect-ratio: 1 / 1;
-      border-radius: 50%;
-      object-fit: cover;
-      filter: saturate(0.9);
-    }
-
-    .pl-padrinos__rol {
-      margin: 0 0 0.3rem;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.56rem, 1.05vw, 0.64rem);
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: var(--accent-color);
-    }
-    .pl-padrinos__nombre {
-      margin: 0;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(1rem, 2vw, 1.22rem);
-      line-height: 1.3;
-      color: var(--primary-color);
-    }
-
-    @media (max-width: 700px) {
-      .pl-padrinos__banderines { grid-template-columns: 1fr; max-width: 360px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .pl-padrinos * { transition: none !important; }
-      .pl-padrinos__banderin { opacity: 1; transform: none; }
-    }
-  </style>
-
-  <header memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
-    <h2 class="pl-padrinos__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Nuestros guías</h2>
-    <p class="pl-padrinos__intro" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Banderines de papel para quienes sostienen nuestra historia con cariño.</p>
-  </header>
-
-  <div class="pl-padrinos__banderines">
-    <article class="pl-padrinos__banderin" data-pl-banderin>
-      <span class="pl-padrinos__cordel" aria-hidden="true"></span>
-      <figure class="pl-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
-        <img src="https://loremflickr.com/300/300/portrait,night" alt="Retrato de padrino" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-        <figcaption hidden>Padrino uno</figcaption>
+<section class="pl-padrinos2" data-gemini-id="padrinos-grullas-mensajeras" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.pl-padrinos2 { --primary-color:#1c2340; --secondary-color:#6b7395; --accent-color:#9aa7d0; --bg-color:#eef0f8; --surface-color:#ffffff; --surface-border-color:rgba(28,35,64,.2); --text-color:#1c2340;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/origami,sky'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.pl-padrinos2 *, .pl-padrinos2 *::before, .pl-padrinos2 *::after { box-sizing:border-box; }
+.pl-padrinos2::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 88%, transparent); }
+.pl-padrinos2__titulo { margin:0 0 .5rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.8rem); color:var(--primary-color); }
+.pl-padrinos2__intro { margin:0 auto clamp(2.4rem,6vw,3.6rem); max-width:46ch; font-size:clamp(.84rem,1.5vw,.94rem); line-height:1.7; color:var(--secondary-color); }
+/* grullas mensajeras llevando cartas a distintos ángulos y alturas */
+.pl-padrinos2__vuelo { position:relative; display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(1rem,3vw,2rem); width:min(100%,980px); margin:0 auto; }
+.pl-padrinos2__grulla { width:clamp(190px,27vw,250px); transform:rotate(var(--g)) translateY(var(--y)); transition:transform .5s cubic-bezier(.22,.8,.3,1); }
+.pl-padrinos2__grulla:hover { transform:rotate(0) translateY(calc(var(--y) - 10px)); z-index:3; }
+.pl-padrinos2__grulla:nth-child(1){ --g:-5deg; --y:16px; }
+.pl-padrinos2__grulla:nth-child(2){ --g:3.4deg; --y:-10px; }
+.pl-padrinos2__grulla:nth-child(3){ --g:-2.2deg; --y:24px; }
+.pl-padrinos2__grulla:nth-child(4){ --g:5deg; --y:0px; }
+.pl-padrinos2__carta { position:relative; padding:clamp(1.1rem,2.6vw,1.6rem) clamp(1rem,2.4vw,1.4rem) clamp(1.3rem,3vw,1.8rem); background:var(--surface-color); border:1px solid var(--surface-border-color); box-shadow:0 18px 40px rgba(28,35,64,.18); clip-path:polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%); }
+.pl-padrinos2__carta::before { content:''; position:absolute; top:0; right:0; width:24px; height:24px; background:linear-gradient(225deg, var(--bg-color) 0 49%, color-mix(in srgb, var(--accent-color) 55%, var(--bg-color)) 49% 100%); clip-path:polygon(100% 0, 0 0, 100% 100%); }
+.pl-padrinos2__grulla-svg { width:40px; margin:0 auto .5rem; color:var(--accent-color); }
+.pl-padrinos2__retrato { width:clamp(76px,11vw,96px); margin:0 auto .7rem; padding:4px; border:1px dashed var(--accent-color); border-radius:50%; }
+.pl-padrinos2__retrato img { display:block; width:100%; height:auto; aspect-ratio:1/1; border-radius:50%; object-fit:cover; filter:saturate(.9); }
+.pl-padrinos2__rol { margin:0 0 .25rem; font-family:'Courier New',monospace; font-size:clamp(.54rem,1vw,.62rem); letter-spacing:.32em; text-transform:uppercase; color:var(--accent-color); }
+.pl-padrinos2__nombre { margin:0; font-family:Georgia,serif; font-size:clamp(.92rem,1.85vw,1.12rem); line-height:1.3; color:var(--primary-color); }
+@media (max-width:700px){ .pl-padrinos2__vuelo { flex-direction:column; align-items:center; } .pl-padrinos2__grulla { width:min(100%,300px); transform:rotate(0); } }
+</style>
+<header memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
+  <h2 class="pl-padrinos2__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Grullas mensajeras</h2>
+  <p class="pl-padrinos2__intro" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Cuatro grullas cruzan el cielo llevando los nombres que sostienen este día.</p>
+</header>
+<div class="pl-padrinos2__vuelo">
+  <article class="pl-padrinos2__grulla">
+    <div class="pl-padrinos2__carta">
+      <svg class="pl-padrinos2__grulla-svg" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M8 30 L24 10 L30 22 L40 16 L32 30 L24 26 L14 40 Z" stroke="currentColor" stroke-width="1.5"/></svg>
+      <figure class="pl-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
+        <img src="https://loremflickr.com/280/280/portrait,indigo" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrinos uno</figcaption>
       </figure>
       <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
-        <p class="pl-padrinos__rol">Padrinos de velas</p>
-        <h3 class="pl-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+        <p class="pl-padrinos2__rol">Padrinos de alianzas</p>
+        <h3 class="pl-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
       </div>
-    </article>
-
-    <article class="pl-padrinos__banderin" data-pl-banderin>
-      <span class="pl-padrinos__cordel" aria-hidden="true"></span>
-      <figure class="pl-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
-        <img src="https://loremflickr.com/300/300/portrait,stars" alt="Retrato de madrina" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-        <figcaption hidden>Madrina dos</figcaption>
+    </div>
+  </article>
+  <article class="pl-padrinos2__grulla">
+    <div class="pl-padrinos2__carta">
+      <svg class="pl-padrinos2__grulla-svg" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M6 26 C16 16, 26 30, 42 14" stroke="currentColor" stroke-width="1.5"/><circle cx="42" cy="14" r="3" fill="currentColor"/></svg>
+      <figure class="pl-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
+        <img src="https://loremflickr.com/280/280/portrait,dusk" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrinos dos</figcaption>
       </figure>
       <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
-        <p class="pl-padrinos__rol">Padrinos de anillos</p>
-        <h3 class="pl-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+        <p class="pl-padrinos2__rol">Padrinos de velo</p>
+        <h3 class="pl-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
       </div>
-    </article>
-
-    <article class="pl-padrinos__banderin" data-pl-banderin>
-      <span class="pl-padrinos__cordel" aria-hidden="true"></span>
-      <figure class="pl-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
-        <img src="https://loremflickr.com/300/300/portrait,evening" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-        <figcaption hidden>Padrino tres</figcaption>
+    </div>
+  </article>
+  <article class="pl-padrinos2__grulla">
+    <div class="pl-padrinos2__carta">
+      <svg class="pl-padrinos2__grulla-svg" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M10 34 L24 8 L38 34 M14 26 H34" stroke="currentColor" stroke-width="1.5"/></svg>
+      <figure class="pl-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
+        <img src="https://loremflickr.com/280/280/portrait,star" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrinos tres</figcaption>
       </figure>
       <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
-        <p class="pl-padrinos__rol">Padrinos de lazo</p>
-        <h3 class="pl-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+        <p class="pl-padrinos2__rol">Padrinos de arras</p>
+        <h3 class="pl-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
       </div>
-    </article>
-
-    <article class="pl-padrinos__banderin" data-pl-banderin>
-      <span class="pl-padrinos__cordel" aria-hidden="true"></span>
-      <figure class="pl-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
-        <img src="https://loremflickr.com/300/300/portrait,gentle" alt="Retrato de madrinas" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-        <figcaption hidden>Madrina cuatro</figcaption>
+    </div>
+  </article>
+  <article class="pl-padrinos2__grulla">
+    <div class="pl-padrinos2__carta">
+      <svg class="pl-padrinos2__grulla-svg" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="16" stroke="currentColor" stroke-width="1.5"/><path d="M24 12 V36 M12 24 H36" stroke="currentColor" stroke-width="1"/></svg>
+      <figure class="pl-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
+        <img src="https://loremflickr.com/280/280/portrait,cloud" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrinos cuatro</figcaption>
       </figure>
       <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
-        <p class="pl-padrinos__rol">Padrinos de arras</p>
-        <h3 class="pl-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+        <p class="pl-padrinos2__rol">Padrinos de lazos</p>
+        <h3 class="pl-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
       </div>
-    </article>
-  </div>
-
-  <script>
-    (function () {
-      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.pl-padrinos');
-      if (!root) return;
-      root.classList.add('pl-js');
-      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
-      var piezas = Array.prototype.slice.call(root.querySelectorAll('[data-pl-banderin]'));
-      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduce || !('IntersectionObserver' in window)) {
-        piezas.forEach(function (p) { p.style.opacity = 1; p.style.transform = 'none'; });
-        return;
-      }
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          var i = piezas.indexOf(entry.target);
-          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.11).toFixed(2) + 's';
-          entry.target.style.opacity = 1;
-          entry.target.style.transform = 'none';
-          io.unobserve(entry.target);
-        });
-      }, { threshold: 0.25 });
-      piezas.forEach(function (p) { io.observe(p); });
-    })();
-  </script>
-
-  <script>
-    var moduleMetadata = {
-      module_type: 'padrinos',
-      module_name: 'padrinos-plegado-estrellas',
-      style_name: 'Plegado Celeste — Padrinos',
-      descripcion: 'Banderines de papel con punta diagonal, cordel celeste, retratos circulares con estrella y caída escalonada desde arriba.',
-      tags: ['padrinos', 'banderines', 'origami', 'retratos', 'stagger', 'celestial'],
-      tipo: 'padrinos'
-    };
-  </script>
+    </div>
+  </article>
+</div>
+<script>
+var moduleMetadata = { module_type:'padrinos', module_name:'padrinos-grullas-mensajeras', style_name:'Origami — Grullas Mensajeras', descripcion:'Grullas de papel en vuelo inclinado cargando cartas plegadas con retratos punteados; cada grulla a un ángulo y altura distinta.', tags:['padrinos','grullas','cartas','angulos','origami'], tipo:'padrinos' };
+</script>
 </section>
 
 <section

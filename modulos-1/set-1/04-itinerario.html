@@ -1,5 +1,5 @@
 <section
-  class="hb-itinerario"
+  class="hb-itinerario2"
   data-gemini-id="itinerario-agenda"
   memory_type="background"
   memory_usage="protected"
@@ -7,7 +7,7 @@
   path="placeholder"
 >
   <style>
-    .hb-itinerario {
+    .hb-itinerario2 {
       --primary-color: #23301f;
       --secondary-color: #5c6657;
       --accent-color: #7d8f6e;
@@ -18,230 +18,213 @@
 
       position: relative;
       isolation: isolate;
+      overflow: hidden;
       box-sizing: border-box;
-      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      padding: clamp(3rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem) clamp(4rem, 10vw, 7rem);
       background-color: var(--bg-color);
-      background-image: url('https://loremflickr.com/1600/900/garden,soft');
+      background-image: url('https://loremflickr.com/1600/900/botanical,paper');
       background-size: cover;
       background-position: center;
       color: var(--text-color);
     }
-    .hb-itinerario *,
-    .hb-itinerario *::before,
-    .hb-itinerario *::after { box-sizing: border-box; }
+    .hb-itinerario2 *,
+    .hb-itinerario2 *::before,
+    .hb-itinerario2 *::after { box-sizing: border-box; }
 
-    .hb-itinerario::before {
+    .hb-itinerario2::before {
       content: '';
       position: absolute;
       inset: 0;
       z-index: -1;
-      background: color-mix(in srgb, var(--bg-color) 87%, transparent);
+      background: color-mix(in srgb, var(--bg-color) 86%, transparent);
     }
 
-    .hb-itinerario__cabecera { text-align: center; margin: 0 auto clamp(2rem, 5vw, 3.4rem); max-width: 620px; }
-    .hb-itinerario__etiqueta {
-      margin: 0 0 0.6rem;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(0.64rem, 1.2vw, 0.72rem);
-      letter-spacing: 0.32em;
-      text-transform: uppercase;
-      color: var(--accent-color);
+    .hb-itinerario2__cinta {
+      position: absolute;
+      z-index: 0;
+      top: 52%;
+      left: -12%;
+      width: 130%;
+      padding: clamp(1.6rem, 4vw, 3rem) 0;
+      transform: rotate(-7deg);
+      background:
+        repeating-linear-gradient(90deg, transparent 0 34px, color-mix(in srgb, var(--accent-color) 16%, transparent) 34px 35px),
+        var(--surface-color);
+      border-top: 1px solid var(--accent-color);
+      border-bottom: 1px solid var(--accent-color);
+      box-shadow: 0 24px 54px rgba(35, 48, 31, 0.16);
     }
-    .hb-itinerario__titulo {
-      margin: 0 0 0.9rem;
+    .hb-itinerario2__cinta::before,
+    .hb-itinerario2__cinta::after {
+      content: '';
+      position: absolute;
+      top: -12px;
+      width: 90px;
+      height: 26px;
+      background: color-mix(in srgb, var(--accent-color) 34%, transparent);
+      transform: rotate(-4deg);
+    }
+    .hb-itinerario2__cinta::before { left: 8%; }
+    .hb-itinerario2__cinta::after { right: 12%; transform: rotate(5deg); }
+
+    .hb-itinerario2__titulo {
+      position: relative;
+      z-index: 2;
+      margin: 0 0 0.4rem;
       font-family: Georgia, 'Times New Roman', serif;
       font-weight: 400;
-      font-size: clamp(1.7rem, 3.8vw, 2.5rem);
+      font-size: clamp(2.4rem, 7vw, 4.6rem);
+      line-height: 0.95;
       color: var(--primary-color);
     }
-    .hb-itinerario__intro {
-      margin: 0;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
-      line-height: 1.7;
-      color: var(--secondary-color);
+    .hb-itinerario2__titulo em {
+      display: block;
+      font-style: italic;
+      font-size: 0.42em;
+      color: var(--accent-color);
+      transform: rotate(-2deg) translateX(clamp(0.6rem, 4vw, 3rem));
     }
 
-    .hb-itinerario__timeline {
+    .hb-itinerario2__hito {
       position: relative;
-      width: min(100%, 680px);
-      margin: 0 auto;
-      padding-left: clamp(2.2rem, 6vw, 3.4rem);
-    }
-    .hb-itinerario__riel {
-      position: absolute;
-      top: 6px;
-      bottom: 6px;
-      left: 12px;
-      width: 2px;
-      background: color-mix(in srgb, var(--accent-color) 28%, transparent);
-    }
-    .hb-itinerario__progreso {
-      position: absolute;
-      top: 6px;
-      left: 12px;
-      width: 2px;
-      height: 0%;
-      background: var(--accent-color);
-      transition: height 0.2s linear;
-    }
-
-    .hb-itinerario__hito {
-      position: relative;
-      margin: 0 0 clamp(1.6rem, 4vw, 2.4rem);
-      padding: clamp(1.1rem, 2.6vw, 1.6rem) clamp(1.2rem, 3vw, 1.8rem);
-      background: color-mix(in srgb, var(--surface-color) 94%, transparent);
+      z-index: 2;
+      width: min(78%, 470px);
+      margin: 0 0 clamp(-1rem, -1.5vw, -0.4rem) 0;
+      padding: clamp(1.1rem, 2.6vw, 1.6rem) clamp(1.2rem, 3vw, 1.9rem);
+      background: color-mix(in srgb, var(--surface-color) 92%, transparent);
       border: 1px solid var(--surface-border-color);
-      box-shadow: 0 12px 30px rgba(35, 48, 31, 0.1);
-      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+      box-shadow: 0 16px 36px rgba(35, 48, 31, 0.16);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
     }
-    .hb-itinerario.hb-js .hb-itinerario__hito { opacity: 0; transform: translateX(-14px); }
-    .hb-itinerario .hb-itinerario__hito.esta-visto { opacity: 1; transform: none; }
+    .hb-itinerario2__hito:nth-child(odd) { transform: rotate(-2.6deg) translateX(clamp(-2rem, -4vw, -1rem)); }
+    .hb-itinerario2__hito:nth-child(even) { transform: rotate(2.2deg) translateX(clamp(4rem, 14vw, 12rem)); }
+    .hb-itinerario2__hito:nth-child(even) .hb-itinerario2__num { color: var(--bg-color); background: var(--accent-color); }
+    .hb-itinerario2__hito:nth-child(3) { transform: rotate(-1.2deg) translateX(clamp(1rem, 6vw, 5rem)); }
 
-    .hb-itinerario__hoja {
+    .hb-itinerario2__num {
       position: absolute;
-      top: 50%;
-      left: calc(-1 * clamp(2.2rem, 6vw, 3.4rem) - 8px);
-      transform: translateY(-50%) rotate(45deg);
-      width: 15px;
-      height: 15px;
-      background: var(--bg-color);
-      border: 2px solid var(--accent-color);
-      border-radius: 50% 50% 50% 0;
+      top: -0.85em;
+      left: -0.4em;
+      display: grid;
+      place-items: center;
+      width: clamp(2.6rem, 6vw, 3.6rem);
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      border: 1px solid var(--accent-color);
+      background: var(--surface-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1rem, 2.4vw, 1.5rem);
+      color: var(--accent-color);
+      box-shadow: 0 8px 18px rgba(35, 48, 31, 0.2);
     }
 
-    .hb-itinerario__hora {
+    .hb-itinerario2__hora {
       display: inline-block;
-      margin-bottom: 0.45rem;
-      padding: 0.18rem 0.7rem;
-      border: 1px solid var(--surface-border-color);
+      margin-bottom: 0.3rem;
       font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(0.7rem, 1.3vw, 0.8rem);
-      letter-spacing: 0.2em;
-      color: var(--primary-color);
-      background: var(--bg-color);
+      font-size: clamp(0.68rem, 1.3vw, 0.8rem);
+      letter-spacing: 0.26em;
+      color: var(--accent-color);
     }
-    .hb-itinerario__momento {
-      margin: 0 0 0.35rem;
+    .hb-itinerario2__momento {
+      margin: 0 0 0.25rem;
       font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+      font-size: clamp(1.05rem, 2.2vw, 1.32rem);
       color: var(--primary-color);
     }
-    .hb-itinerario__detalle {
+    .hb-itinerario2__detalle {
       margin: 0;
-      font-size: clamp(0.82rem, 1.5vw, 0.92rem);
-      line-height: 1.65;
+      font-style: italic;
+      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
+      line-height: 1.6;
       color: var(--secondary-color);
     }
 
-    @media (max-width: 560px) {
-      .hb-itinerario__timeline { padding-left: 1.9rem; }
-      .hb-itinerario__hoja { left: -1.7rem; }
+    .hb-itinerario2__especimen {
+      position: absolute;
+      z-index: 1;
+      width: clamp(80px, 14vw, 150px);
+      color: var(--accent-color);
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    .hb-itinerario2__especimen--a { top: 6%; right: 4%; transform: rotate(24deg); }
+    .hb-itinerario2__especimen--b { bottom: 4%; left: 2%; transform: rotate(-30deg); }
+
+    @media (max-width: 640px) {
+      .hb-itinerario2__hito,
+      .hb-itinerario2__hito:nth-child(even),
+      .hb-itinerario2__hito:nth-child(3) { width: 100%; transform: rotate(0); margin-left: 0; }
+      .hb-itinerario2__cinta { transform: rotate(-3deg); }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .hb-itinerario * { transition: none !important; }
-      .hb-itinerario__hito { opacity: 1; transform: none; }
-      .hb-itinerario__progreso { transition: none; }
+      .hb-itinerario2 * { transition: none !important; }
     }
   </style>
 
-  <header class="hb-itinerario__cabecera" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">
-    <p class="hb-itinerario__etiqueta" memory_type="text" memory_usage="custom" memory_key="itinerario-etiqueta">Programa del día</p>
-    <h2 class="hb-itinerario__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Itinerario</h2>
-    <p class="hb-itinerario__intro" memory_type="text" memory_usage="custom" memory_key="itinerario-texto">Los momentos de la celebración, uno tras otro, como páginas de un cuaderno de campo.</p>
-  </header>
+  <svg class="hb-itinerario2__especimen hb-itinerario2__especimen--a" viewBox="0 0 120 220" fill="none" aria-hidden="true">
+    <path d="M60 214 C58 150 56 90 62 8" stroke="currentColor" stroke-width="1.4"/>
+    <path d="M60 60 C42 52 32 38 30 20 C48 24 58 38 60 60Z" stroke="currentColor" stroke-width="1.2"/>
+    <path d="M61 100 C80 92 90 78 92 60 C74 64 63 78 61 100Z" stroke="currentColor" stroke-width="1.2"/>
+    <circle cx="88" cy="130" r="9" stroke="currentColor" stroke-width="1.2"/>
+  </svg>
+  <svg class="hb-itinerario2__especimen hb-itinerario2__especimen--b" viewBox="0 0 120 220" fill="none" aria-hidden="true">
+    <path d="M60 214 C58 150 56 90 62 8" stroke="currentColor" stroke-width="1.4"/>
+    <path d="M61 100 C80 92 90 78 92 60 C74 64 63 78 61 100Z" stroke="currentColor" stroke-width="1.2"/>
+    <circle cx="34" cy="120" r="9" stroke="currentColor" stroke-width="1.2"/>
+  </svg>
 
-  <div class="hb-itinerario__timeline">
-    <span class="hb-itinerario__riel" aria-hidden="true"></span>
-    <span class="hb-itinerario__progreso" aria-hidden="true" data-hb-riel></span>
+  <div class="hb-itinerario2__cinta" aria-hidden="true"></div>
 
-    <article class="hb-itinerario__hito" data-hb-hito>
-      <span class="hb-itinerario__hoja" aria-hidden="true"></span>
-      <time class="hb-itinerario__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00 h</time>
-      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
-        <h3 class="hb-itinerario__momento">Ceremonia</h3>
-        <p class="hb-itinerario__detalle">Llegada de invitados y comienzo del brindis inicial.</p>
-      </div>
-    </article>
+  <h2 class="hb-itinerario2__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">
+    Herbario <em>del gran día</em>
+  </h2>
 
-    <article class="hb-itinerario__hito" data-hb-hito>
-      <span class="hb-itinerario__hoja" aria-hidden="true"></span>
-      <time class="hb-itinerario__hora" datetime="18:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">18:00 h</time>
-      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
-        <h3 class="hb-itinerario__momento">Recepción</h3>
-        <p class="hb-itinerario__detalle">Bienvenida en el jardín con música ambiental.</p>
-      </div>
-    </article>
+  <article class="hb-itinerario2__hito">
+    <span class="hb-itinerario2__num" aria-hidden="true">I</span>
+    <time class="hb-itinerario2__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00 h</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
+      <h3 class="hb-itinerario2__momento">Recolección</h3>
+      <p class="hb-itinerario2__detalle">Recepción de invitados entre aromas de campo.</p>
+    </div>
+  </article>
 
-    <article class="hb-itinerario__hito" data-hb-hito>
-      <span class="hb-itinerario__hoja" aria-hidden="true"></span>
-      <time class="hb-itinerario__hora" datetime="20:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">20:00 h</time>
-      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
-        <h3 class="hb-itinerario__momento">Comida</h3>
-        <p class="hb-itinerario__detalle">Servicio de banquete y momentos especiales.</p>
-      </div>
-    </article>
+  <article class="hb-itinerario2__hito">
+    <span class="hb-itinerario2__num" aria-hidden="true">II</span>
+    <time class="hb-itinerario2__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00 h</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
+      <h3 class="hb-itinerario2__momento">Ceremonia</h3>
+      <p class="hb-itinerario2__detalle">El voto principal bajo el arco botánico.</p>
+    </div>
+  </article>
 
-    <article class="hb-itinerario__hito" data-hb-hito>
-      <span class="hb-itinerario__hoja" aria-hidden="true"></span>
-      <time class="hb-itinerario__hora" datetime="22:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">22:00 h</time>
-      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
-        <h3 class="hb-itinerario__momento">Fiesta</h3>
-        <p class="hb-itinerario__detalle">Apertura de la pista y celebración hasta el final.</p>
-      </div>
-    </article>
-  </div>
+  <article class="hb-itinerario2__hito">
+    <span class="hb-itinerario2__num" aria-hidden="true">III</span>
+    <time class="hb-itinerario2__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00 h</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
+      <h3 class="hb-itinerario2__momento">Prensa de flores</h3>
+      <p class="hb-itinerario2__detalle">Cena larga con discursos entre láminas.</p>
+    </div>
+  </article>
 
-  <script>
-    (function () {
-      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.hb-itinerario');
-      if (!root) return;
-      root.classList.add('hb-js');
-      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
-
-      var riel = root.querySelector('[data-hb-riel]');
-      var hitos = Array.prototype.slice.call(root.querySelectorAll('[data-hb-hito]'));
-      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      var revealIO = ('IntersectionObserver' in window) && !reduce ? new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('esta-visto');
-            revealIO.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.3 }) : null;
-
-      hitos.forEach(function (hito) {
-        if (revealIO) revealIO.observe(hito);
-        else hito.classList.add('esta-visto');
-      });
-
-      function alHacerScroll() {
-        if (!riel) return;
-        var rect = root.getBoundingClientRect();
-        var total = rect.height + window.innerHeight * 0.4;
-        var pasado = Math.min(Math.max(window.innerHeight * 0.75 - rect.top, 0), total);
-        riel.style.height = ((pasado / total) * 100).toFixed(2) + '%';
-      }
-      if (!reduce) {
-        window.addEventListener('scroll', alHacerScroll, { passive: true });
-        window.addEventListener('resize', alHacerScroll);
-        alHacerScroll();
-      } else if (riel) {
-        riel.style.height = '100%';
-      }
-    })();
-  </script>
+  <article class="hb-itinerario2__hito">
+    <span class="hb-itinerario2__num" aria-hidden="true">IV</span>
+    <time class="hb-itinerario2__hora" datetime="22:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">22:00 h</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
+      <h3 class="hb-itinerario2__momento">Polen y baile</h3>
+      <p class="hb-itinerario2__detalle">Pista abierta hasta que se acaben las especies.</p>
+    </div>
+  </article>
 
   <script>
     var moduleMetadata = {
       module_type: 'itinerario',
       module_name: 'itinerario-agenda',
-      style_name: 'Herbario de Línea — Itinerario',
-      descripcion: 'Línea de tiempo vertical con riel que se dibuja al hacer scroll, hitos en tarjetas con hoja marcadora y horas en time.',
-      tags: ['itinerario', 'timeline', 'agenda', 'scroll', 'horarios', 'botanico', 'editorial'],
+      style_name: 'Herbario — Cinta Desenrrollada',
+      descripcion: 'Cinta de herbario cruzando en diagonal con cintas adhesivas, hitos rotados que la superponen, numerales romanos en medallones y especímenes sueltos.',
+      tags: ['itinerario', 'cinta', 'diagonal', 'rotado', 'herbario', 'caos controlado'],
       tipo: 'itinerario'
     };
   </script>

@@ -1,238 +1,59 @@
-<section
-  class="ma-countdown"
-  data-gemini-id="countdown-marea-tiempo"
-  path="placeholder"
-  memory_source="generated"
-  memory_type="background"
-  memory_usage="protected"
-  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
->
-  <style>
-    .ma-countdown {
-      position: relative;
-      isolation: isolate;
-      overflow: hidden;
-      box-sizing: border-box;
-      min-height: 660px;
-      display: grid;
-      place-items: center;
-      padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 5vw, 3rem);
-      background-color: var(--bg-color, #0e1b22);
-      background-image: url('https://loremflickr.com/1600/900/deep,sea');
-      background-size: cover;
-      background-position: center;
-      color: var(--text-color, #e8f2f4);
-      text-align: center;
-    }
-    .ma-countdown *,
-    .ma-countdown *::before,
-    .ma-countdown *::after { box-sizing: border-box; }
-
-    .ma-countdown::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      background: linear-gradient(180deg, color-mix(in srgb, var(--bg-color, #0e1b22) 60%, transparent), color-mix(in srgb, var(--bg-color, #0e1b22) 94%, transparent));
-    }
-
-    .ma-countdown__contenido { width: min(100%, 760px); position: relative; z-index: 2; }
-
-    .ma-countdown__etiqueta {
-      margin: 0 0 0.55rem;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
-      letter-spacing: 0.44em;
-      text-transform: uppercase;
-      color: var(--accent-color, #5fc4cf);
-    }
-    .ma-countdown__titulo {
-      margin: 0 0 0.4rem;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-weight: 400;
-      font-size: clamp(1.75rem, 4vw, 2.7rem);
-      color: var(--primary-color, #e8f2f4);
-    }
-    .ma-countdown__fecha {
-      display: block;
-      margin-bottom: clamp(1.5rem, 3.6vw, 2.2rem);
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.76rem, 1.5vw, 0.88rem);
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--secondary-color, #9dbcc4);
-    }
-
-    .ma-countdown__reloj-marea {
-      position: relative;
-      width: clamp(190px, 28vw, 250px);
-      margin: 0 auto clamp(1.4rem, 3.4vw, 2rem);
-    }
-    .ma-countdown__reloj-marea svg { display: block; width: 100%; height: auto; }
-    .ma-countdown__esfera { fill: color-mix(in srgb, var(--surface-color, #14232b) 92%, transparent); stroke: var(--surface-border-color, rgba(232, 242, 244, 0.16)); stroke-width: 1.5; }
-    .ma-countdown__marcas { stroke: color-mix(in srgb, var(--secondary-color, #9dbcc4) 55%, transparent); stroke-width: 1.4; }
-    .ma-countdown__ola-arco {
-      fill: none;
-      stroke: var(--accent-color, #5fc4cf);
-      stroke-width: 5;
-      stroke-linecap: round;
-      transform: rotate(-90deg);
-      transform-origin: 115px 115px;
-      transition: stroke-dashoffset 0.5s linear;
-      filter: drop-shadow(0 0 8px color-mix(in srgb, var(--accent-color, #5fc4cf) 70%, transparent));
-    }
-    .ma-countdown__ola-centro {
-      position: absolute;
-      inset: 22%;
-      display: grid;
-      place-items: center;
-      border-radius: 46% 54% 52% 48% / 52% 46% 54% 48%;
-      background: color-mix(in srgb, var(--surface-color, #14232b) 95%, transparent);
-      border: 1px solid var(--surface-border-color, rgba(232, 242, 244, 0.16));
-      font-family: 'Courier New', monospace;
-      font-size: clamp(1.5rem, 3.4vw, 2.1rem);
-      font-variant-numeric: tabular-nums;
-      color: var(--primary-color, #e8f2f4);
-      animation: maCountdownRespira 5s ease-in-out infinite;
-    }
-    @keyframes maCountdownRespira {
-      0%, 100% { border-radius: 46% 54% 52% 48% / 52% 46% 54% 48%; }
-      50% { border-radius: 54% 46% 48% 52% / 46% 54% 48% 52%; }
-    }
-
-    .ma-countdown__unidades {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: clamp(0.6rem, 1.8vw, 1rem);
-      max-width: 620px;
-      margin: 0 auto;
-    }
-    .ma-countdown__unidad {
-      padding: clamp(0.9rem, 2.2vw, 1.3rem) 0.3rem;
-      background: color-mix(in srgb, var(--surface-color, #14232b) 90%, transparent);
-      border: 1px solid var(--surface-border-color, rgba(232, 242, 244, 0.16));
-      border-radius: 18px 18px 8px 8px;
-    }
-    .ma-countdown__numero {
-      display: block;
-      font-family: 'Courier New', monospace;
-      font-size: clamp(1.5rem, 4vw, 2.4rem);
-      font-variant-numeric: tabular-nums;
-      line-height: 1;
-      color: var(--primary-color, #e8f2f4);
-    }
-    .ma-countdown__rotulo {
-      display: block;
-      margin-top: 0.45rem;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.54rem, 1.05vw, 0.62rem);
-      letter-spacing: 0.34em;
-      text-transform: uppercase;
-      color: var(--secondary-color, #9dbcc4);
-    }
-
-    @media (max-width: 560px) {
-      .ma-countdown__unidades { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .ma-countdown { min-height: 600px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .ma-countdown__ola-arco { transition: none; }
-      .ma-countdown__ola-centro { animation: none; }
-    }
-  </style>
-
-  <div class="ma-countdown__contenido">
-    <p class="ma-countdown__etiqueta" memory_type="text" memory_usage="custom" memory_key="countdown-etiqueta">La marea sube</p>
-    <h2 class="ma-countdown__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Cuenta regresiva</h2>
-    <time class="ma-countdown__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
-
-    <div class="ma-countdown__reloj-marea" aria-hidden="true">
-      <svg viewBox="0 0 230 230">
-        <circle class="ma-countdown__esfera" cx="115" cy="115" r="108"/>
-        <g class="ma-countdown__marcas">
-          <path d="M115 12 V24 M115 206 V218 M12 115 H24 M206 115 H218"/>
-          <path d="M43 43 L51 51 M187 187 L179 179 M187 43 L179 51 M43 187 L51 179"/>
-        </g>
-        <circle class="ma-countdown__ola-arco" data-ma-arco cx="115" cy="115" r="92" stroke-dasharray="578.1" stroke-dashoffset="0"/>
-      </svg>
-      <div class="ma-countdown__ola-centro" data-ma-segundos>00</div>
-    </div>
-
-    <div class="ma-countdown__unidades" aria-label="Cuenta regresiva">
-      <div class="ma-countdown__unidad"><span class="ma-countdown__numero" data-countdown-unit="days">--</span><span class="ma-countdown__rotulo">Días</span></div>
-      <div class="ma-countdown__unidad"><span class="ma-countdown__numero" data-countdown-unit="hours">--</span><span class="ma-countdown__rotulo">Horas</span></div>
-      <div class="ma-countdown__unidad"><span class="ma-countdown__numero" data-countdown-unit="minutes">--</span><span class="ma-countdown__rotulo">Min</span></div>
-      <div class="ma-countdown__unidad"><span class="ma-countdown__numero" data-countdown-unit="seconds">--</span><span class="ma-countdown__rotulo">Seg</span></div>
-    </div>
+<section class="ma-cd2" data-gemini-id="countdown-sonar-profundo" path="placeholder" memory_source="generated" memory_type="background" memory_usage="protected" data-countdown-target="YYYY-MM-DDTHH:MM:SS">
+<style>
+.ma-cd2 { --primary-color:#e8f2f4; --secondary-color:#9dbcc4; --accent-color:#5fc4cf; --bg-color:#0e1b22; --surface-color:#14232b; --surface-border-color:rgba(232,242,244,.16); --text-color:#e8f2f4;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:700px; display:grid; place-items:center; padding:clamp(3rem,7vw,5rem) clamp(1rem,5vw,3rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/sonar,deep'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.ma-cd2 *, .ma-cd2 *::before, .ma-cd2 *::after { box-sizing:border-box; }
+.ma-cd2::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 82%, transparent); }
+/* pantalla de sonar circular con anillos de ping expandiéndose desde el centro */
+.ma-cd2__sonar { position:relative; width:clamp(280px,56vw,520px); aspect-ratio:1/1; margin:0 auto; border-radius:50%; border:1px solid color-mix(in srgb, var(--accent-color) 40%, transparent); display:grid; place-items:center; overflow:hidden; }
+.ma-cd2__sonar::before, .ma-cd2__sonar::after { content:''; position:absolute; width:12px; height:12px; border-radius:50%; background:var(--accent-color); box-shadow:0 0 18px var(--accent-color); animation:maCd2Ping 3s ease-out infinite; }
+.ma-cd2__sonar::after { animation-delay:1.5s; }
+@keyframes maCd2Ping { 0% { opacity:1; box-shadow:0 0 0 0 color-mix(in srgb, var(--accent-color) 55%, transparent);} 100% { opacity:0; box-shadow:0 0 0 130px transparent; } }
+.ma-cd2__cifra { position:relative; z-index:2; font-family:'Courier New',monospace; font-size:clamp(3.4rem,10vw,6rem); font-variant-numeric:tabular-nums; color:var(--primary-color); text-shadow:0 0 24px color-mix(in srgb, var(--accent-color) 55%, transparent); }
+.ma-cd2__cifra small { display:block; font-size:.22em; letter-spacing:.5em; text-transform:uppercase; color:var(--accent-color); margin-top:.5rem; }
+.ma-cd2__titulo { margin:0 0 1rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.7rem,4vw,2.6rem); color:var(--primary-color); }
+.ma-cd2__fecha { display:block; margin-bottom:clamp(1.6rem,4vw,2.4rem); font-family:'Courier New',monospace; font-size:clamp(.74rem,1.5vw,.88rem); letter-spacing:.3em; text-transform:uppercase; color:var(--secondary-color); }
+.ma-cd2__fila { display:flex; justify-content:center; flex-wrap:wrap; gap:clamp(.5rem,1.6vw,1rem); margin-top:clamp(1.6rem,4vw,2.4rem); }
+.ma-cd2__unidad { min-width:clamp(70px,14vw,110px); padding:clamp(.6rem,1.6vw,1rem) .4rem; border:1px solid var(--surface-border-color); border-radius:0 0 16px 16px; background:color-mix(in srgb, var(--surface-color) 85%, transparent); }
+.ma-cd2__numero { display:block; font-family:'Courier New',monospace; font-size:clamp(1.4rem,3.8vw,2.2rem); font-variant-numeric:tabular-nums; color:var(--primary-color); }
+.ma-cd2__rotulo { display:block; margin-top:.3rem; font-size:clamp(.5rem,1vw,.58rem); letter-spacing:.32em; text-transform:uppercase; color:var(--secondary-color); }
+@media (prefers-reduced-motion:reduce){ .ma-cd2__sonar::before, .ma-cd2__sonar::after { animation:none; opacity:.6; } }
+</style>
+<div>
+  <h2 class="ma-cd2__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Sonar de la boda</h2>
+  <time class="ma-cd2__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+  <div class="ma-cd2__sonar" aria-hidden="true">
+    <span class="ma-cd2__cifra"><span data-ci-cifra>00</span><small>seg</small></span>
   </div>
-
-  <script>
-    (function () {
-      var el = null;
-      try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
-      if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
-      if (!el) return;
-
-      var arco = el.querySelector('[data-ma-arco]');
-      var centro = el.querySelector('[data-ma-segundos]');
-      var LONGITUD = arco ? 2 * Math.PI * 92 : 0;
-      var target = NaN;
-      var attr = el.getAttribute('data-countdown-target');
-      if (attr && attr.indexOf('YYYY') === -1) { var p = new Date(attr); if (!isNaN(p.getTime())) target = p.getTime(); }
-      if (isNaN(target) && window.__countdownTarget) { var p1 = new Date(window.__countdownTarget); if (!isNaN(p1.getTime())) target = p1.getTime(); }
-      if (isNaN(target) && window.countdown_target) { var p2 = new Date(window.countdown_target); if (!isNaN(p2.getTime())) target = p2.getTime(); }
-
-      var intervalId = null;
-      (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
-      window.__countdownIntervals = [];
-
-      function pad2(n) { return n < 10 ? '0' + n : '' + n; }
-      function setUnit(unit, value) {
-        var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
-        if (node) node.textContent = value;
-      }
-      function tick() {
-        if (!Number.isFinite(target)) return;
-        var diff = Math.max(target - Date.now(), 0);
-        setUnit('days', Math.floor(diff / 86400000));
-        setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
-        setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
-        var s = Math.floor((diff % 60000) / 1000);
-        setUnit('seconds', pad2(s));
-        if (centro) centro.textContent = pad2(s);
-        if (arco) arco.setAttribute('stroke-dashoffset', (LONGITUD * (1 - s / 60)).toFixed(2));
-        if (diff === 0 && intervalId !== null) {
-          clearInterval(intervalId);
-          intervalId = null;
-          window.__countdownIntervals = [];
-        }
-      }
-      function start(newTarget) {
-        if (newTarget) { var p = new Date(newTarget); if (!isNaN(p.getTime())) target = p.getTime(); }
-        (window.__countdownIntervals || []).forEach(clearInterval);
-        window.__countdownIntervals = [];
-        intervalId = null;
-        if (!Number.isFinite(target)) return;
-        tick();
-        if (target > Date.now()) {
-          intervalId = setInterval(tick, 1000);
-          window.__countdownIntervals.push(intervalId);
-        }
-      }
-      start();
-      window.updateCountdown = start;
-    })();
-  </script>
-
-  <script>
-    var moduleMetadata = {
-      module_type: 'countdown',
-      module_name: 'countdown-marea-tiempo',
-      style_name: 'Reloj de Marea',
-      descripcion: 'Esfera abisal con arco luminoso de marea, centro orgánico que respira contorneando blob y unidades en peceras.',
-      tags: ['countdown', 'cuenta regresiva', 'marea', 'abisal', 'blob', 'marino'],
-      tipo: 'countdown'
-    };
-  </script>
+  <div class="ma-cd2__fila" aria-label="Cuenta regresiva">
+    <div class="ma-cd2__unidad"><span class="ma-cd2__numero" data-countdown-unit="days">--</span><span class="ma-cd2__rotulo">Días</span></div>
+    <div class="ma-cd2__unidad"><span class="ma-cd2__numero" data-countdown-unit="hours">--</span><span class="ma-cd2__rotulo">Horas</span></div>
+    <div class="ma-cd2__unidad"><span class="ma-cd2__numero" data-countdown-unit="minutes">--</span><span class="ma-cd2__rotulo">Min</span></div>
+    <div class="ma-cd2__unidad"><span class="ma-cd2__numero" data-countdown-unit="seconds">--</span><span class="ma-cd2__rotulo">Seg</span></div>
+  </div>
+</div>
+<script>
+(function(){ var el=null; try{ el=document.currentScript.closest('[data-gemini-id^="countdown"]'); }catch(e){} if(!el) el=document.querySelector('[data-gemini-id^="countdown"]'); if(!el) return;
+  var cifra=el.querySelector('[data-ci-cifra]');
+  var target=NaN; var attr=el.getAttribute('data-countdown-target');
+  if(attr&&attr.indexOf('YYYY')===-1){ var p=new Date(attr); if(!isNaN(p.getTime())) target=p.getTime(); }
+  if(isNaN(target)&&window.__countdownTarget){ var p1=new Date(window.__countdownTarget); if(!isNaN(p1.getTime())) target=p1.getTime(); }
+  if(isNaN(target)&&window.countdown_target){ var p2=new Date(window.countdown_target); if(!isNaN(p2.getTime())) target=p2.getTime(); }
+  var intervalId=null; (window.__countdownIntervals=window.__countdownIntervals||[]).forEach(clearInterval); window.__countdownIntervals=[];
+  function pad2(n){ return n<10?'0'+n:''+n; }
+  function setUnit(u,v){ var n=el.querySelector('[data-countdown-unit="'+u+'"]'); if(n) n.textContent=v; }
+  function tick(){ if(!Number.isFinite(target)) return; var d=Math.max(target-Date.now(),0);
+    setUnit('days',Math.floor(d/86400000)); setUnit('hours',pad2(Math.floor((d%86400000)/3600000))); setUnit('minutes',pad2(Math.floor((d%3600000)/60000)));
+    var s=Math.floor((d%60000)/1000); setUnit('seconds',pad2(s)); if(cifra) cifra.textContent=pad2(s);
+    if(d===0&&intervalId!==null){ clearInterval(intervalId); intervalId=null; window.__countdownIntervals=[]; } }
+  function start(nt){ if(nt){ var p=new Date(nt); if(!isNaN(p.getTime())) target=p.getTime(); }
+    (window.__countdownIntervals||[]).forEach(clearInterval); window.__countdownIntervals=[]; intervalId=null;
+    if(!Number.isFinite(target)) return; tick(); if(target>Date.now()){ intervalId=setInterval(tick,1000); window.__countdownIntervals.push(intervalId); } }
+  start(); window.updateCountdown=start;
+})();
+</script>
+<script>
+var moduleMetadata = { module_type:'countdown', module_name:'countdown-sonar-profundo', style_name:'Sonar Abisal', descripcion:'Pantalla de sonar circular con pings dobles expandiéndose desde el centro, cifra gigante con halo y unidades como sondas colgantes.', tags:['countdown','sonar','ping','abisal','marino'], tipo:'countdown' };
+</script>
 </section>

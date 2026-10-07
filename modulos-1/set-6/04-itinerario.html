@@ -1,213 +1,65 @@
-<section
-  class="bh-itinerario"
-  data-gemini-id="itinerario-agenda"
-  memory_type="background"
-  memory_usage="protected"
-  memory_source="generated"
-  path="placeholder"
->
-  <style>
-    .bh-itinerario {
-      --primary-color: #22242a;
-      --secondary-color: #6d7078;
-      --accent-color: #e2543e;
-      --bg-color: #f3f1ec;
-      --surface-color: #fbfaf7;
-      --surface-border-color: rgba(34, 36, 42, 0.18);
-      --text-color: #22242a;
-
-      position: relative;
-      isolation: isolate;
-      box-sizing: border-box;
-      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
-      background-color: var(--bg-color);
-      background-image: url('https://loremflickr.com/1600/900/stairs,minimal');
-      background-size: cover;
-      background-position: center;
-      color: var(--text-color);
-    }
-    .bh-itinerario *,
-    .bh-itinerario *::before,
-    .bh-itinerario *::after { box-sizing: border-box; }
-
-    .bh-itinerario::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      background: color-mix(in srgb, var(--bg-color) 93%, transparent);
-    }
-
-    .bh-itinerario__cabecera {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 1rem;
-      width: min(100%, 860px);
-      margin: 0 auto clamp(2rem, 5vw, 3rem);
-    }
-    .bh-itinerario__titulo {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      font-weight: 700;
-      font-size: clamp(1.5rem, 3.4vw, 2.2rem);
-      text-transform: uppercase;
-      color: var(--primary-color);
-    }
-    .bh-itinerario__nota {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.6rem, 1.1vw, 0.68rem);
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--secondary-color);
-    }
-
-    .bh-itinerario__escalera {
-      width: min(100%, 860px);
-      margin: 0 auto;
-    }
-
-    .bh-itinerario__peldano {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: clamp(1rem, 3vw, 1.8rem);
-      align-items: center;
-      margin-bottom: clamp(1.1rem, 3vw, 1.7rem);
-      padding: clamp(1.1rem, 2.6vw, 1.6rem) clamp(1.2rem, 3vw, 1.8rem);
-      background: var(--surface-color);
-      border: 1px solid var(--surface-border-color);
-      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
-    }
-    .bh-itinerario.bh-js .bh-itinerario__peldano { opacity: 0; transform: translateY(18px); }
-    .bh-itinerario .bh-itinerario__peldano.esta-visto { opacity: 1; transform: none; }
-    .bh-itinerario__peldano:nth-child(2) { margin-left: clamp(0rem, 6vw, 90px); }
-    .bh-itinerario__peldano:nth-child(3) { margin-left: clamp(0rem, 12vw, 180px); }
-    .bh-itinerario__peldano:nth-child(4) { margin-left: clamp(0rem, 18vw, 270px); }
-
-    .bh-itinerario__chip {
-      display: grid;
-      place-items: center;
-      width: clamp(58px, 8vw, 74px);
-      aspect-ratio: 1 / 1;
-      font-family: Arial, Helvetica, sans-serif;
-      font-weight: 700;
-      font-size: clamp(0.66rem, 1.3vw, 0.78rem);
-      letter-spacing: 0.08em;
-      color: var(--bg-color);
-      background: var(--primary-color);
-    }
-    .bh-itinerario__peldano:nth-child(2) .bh-itinerario__chip { border-radius: 50%; background: var(--secondary-color); }
-    .bh-itinerario__peldano:nth-child(3) .bh-itinerario__chip { border-radius: 0 50% 50% 50%; background: var(--accent-color); }
-    .bh-itinerario__peldano:nth-child(4) .bh-itinerario__chip { clip-path: polygon(0 0, 100% 0, 100% 74%, 50% 100%, 0 74%); background: var(--primary-color); color: var(--bg-color); }
-
-    .bh-itinerario__momento {
-      margin: 0 0 0.25rem;
-      font-family: Arial, Helvetica, sans-serif;
-      font-weight: 700;
-      font-size: clamp(1rem, 2vw, 1.22rem);
-      text-transform: uppercase;
-      color: var(--primary-color);
-    }
-    .bh-itinerario__detalle {
-      margin: 0 0 0.3rem;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
-      line-height: 1.6;
-      color: var(--secondary-color);
-    }
-    .bh-itinerario__hora {
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
-      letter-spacing: 0.26em;
-      color: var(--accent-color);
-    }
-
-    @media (max-width: 640px) {
-      .bh-itinerario__peldano:nth-child(n) { margin-left: 0; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .bh-itinerario * { transition: none !important; }
-      .bh-itinerario__peldano { opacity: 1 !important; transform: none !important; }
-    }
-  </style>
-
-  <header class="bh-itinerario__cabecera" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">
-    <h2 class="bh-itinerario__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Escalera al gran día</h2>
-    <span class="bh-itinerario__nota" memory_type="text" memory_usage="custom" memory_key="itinerario-nota">Paso a paso</span>
-  </header>
-
-  <div class="bh-itinerario__escalera">
-    <article class="bh-itinerario__peldano" data-bh-paso>
-      <span class="bh-itinerario__chip" aria-hidden="true">16:00</span>
-      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
-        <h3 class="bh-itinerario__momento">Primer peldaño</h3>
-        <p class="bh-itinerario__detalle">Recepción de invitados en la entrada principal.</p>
-        <time class="bh-itinerario__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00 H</time>
-      </div>
-    </article>
-
-    <article class="bh-itinerario__peldano" data-bh-paso>
-      <span class="bh-itinerario__chip" aria-hidden="true">17:00</span>
-      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
-        <h3 class="bh-itinerario__momento">Segundo peldaño</h3>
-        <p class="bh-itinerario__detalle">Ceremonia frente al muro de formas.</p>
-        <time class="bh-itinerario__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00 H</time>
-      </div>
-    </article>
-
-    <article class="bh-itinerario__peldano" data-bh-paso>
-      <span class="bh-itinerario__chip" aria-hidden="true">19:00</span>
-      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
-        <h3 class="bh-itinerario__momento">Tercer peldaño</h3>
-        <p class="bh-itinerario__detalle">Comida y brindis con los anfitriones.</p>
-        <time class="bh-itinerario__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00 H</time>
-      </div>
-    </article>
-
-    <article class="bh-itinerario__peldano" data-bh-paso>
-      <span class="bh-itinerario__chip" aria-hidden="true">21:30</span>
-      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
-        <h3 class="bh-itinerario__momento">La cima</h3>
-        <p class="bh-itinerario__detalle">Baile de apertura y fiesta hasta el final.</p>
-        <time class="bh-itinerario__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:30 H</time>
-      </div>
-    </article>
-  </div>
-
-  <script>
-    (function () {
-      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.bh-itinerario');
-      if (!root) return;
-      root.classList.add('bh-js');
-      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
-      var pasos = Array.prototype.slice.call(root.querySelectorAll('[data-bh-paso]'));
-      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduce || !('IntersectionObserver' in window)) {
-        pasos.forEach(function (p) { p.classList.add('esta-visto'); });
-        return;
-      }
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          var i = pasos.indexOf(entry.target);
-          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.13).toFixed(2) + 's';
-          entry.target.classList.add('esta-visto');
-          io.unobserve(entry.target);
-        });
-      }, { threshold: 0.25 });
-      pasos.forEach(function (p) { io.observe(p); });
-    })();
-  </script>
-
-  <script>
-    var moduleMetadata = {
-      module_type: 'itinerario',
-      module_name: 'itinerario-agenda',
-      style_name: 'Bauhaus Geométrico — Itinerario',
-      descripcion: 'Escalera descendente de peldaños con chips de formas distintas (cuadro, círculo, gota, triángulo) y horas dentro de cada figura.',
-      tags: ['itinerario', 'timeline', 'bauhaus', 'escalera', 'formas', 'horarios'],
-      tipo: 'itinerario'
-    };
-  </script>
+<section class="bh-itin2" data-gemini-id="itinerario-agenda" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.bh-itin2 { --primary-color:#22242a; --secondary-color:#6d7078; --accent-color:#e2543e; --bg-color:#f3f1ec; --surface-color:#fbfaf7; --surface-border-color:rgba(34,36,42,.18); --text-color:#22242a;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/bauhaus,poster'); background-size:cover; background-position:center; color:var(--text-color); }
+.bh-itin2 *, .bh-itin2 *::before, .bh-itin2 *::after { box-sizing:border-box; }
+.bh-itin2::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 93%, transparent); }
+.bh-itin2__titulo { margin:0 0 1rem; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(2rem,5.5vw,3.6rem); line-height:.95; text-transform:uppercase; letter-spacing:-.02em; color:var(--primary-color); }
+.bh-itin2__titulo em { display:block; font-style:normal; font-size:.45em; letter-spacing:.4em; color:var(--accent-color); margin-top:.6rem; transform:translateX(clamp(.4rem,3vw,2rem)); }
+/* composición chocante: bloques primarios gigantes en diagonal + hitos cruzándolos */
+.bh-itin2__escena { position:relative; width:min(100%,900px); margin:0 auto; }
+.bh-itin2__circulo { position:absolute; z-index:0; top:-8%; right:-10%; width:clamp(160px,32vw,380px); aspect-ratio:1/1; border-radius:50%; background:color-mix(in srgb, var(--accent-color) 24%, transparent); }
+.bh-itin2__barra { position:absolute; z-index:0; bottom:6%; left:-8%; width:clamp(180px,40vw,460px); height:clamp(16px,3vw,28px); background:var(--primary-color); transform:rotate(-18deg); }
+.bh-itin2__hito { position:relative; z-index:2; display:grid; grid-template-columns:auto 1fr; gap:clamp(.8rem,2.4vw,1.4rem); align-items:center; width:min(88%,540px); margin:0 0 clamp(-.6rem,-1.2vw,-.2rem); padding:clamp(1rem,2.4vw,1.4rem) clamp(1.1rem,2.7vw,1.6rem); background:var(--surface-color); border:1px solid var(--surface-border-color); box-shadow:10px 10px 0 rgba(34,36,42,.16); }
+.bh-itin2__hito:nth-child(2) { transform:rotate(1.8deg) translateX(clamp(2rem,10vw,8rem)); }
+.bh-itin2__hito:nth-child(3) { transform:rotate(-1.4deg) translateX(clamp(.6rem,4vw,3rem)); }
+.bh-itin2__hito:nth-child(4) { transform:rotate(2.4deg) translateX(clamp(3rem,14vw,11rem)); }
+.bh-itin2__figura {
+  width:clamp(48px,8vw,64px); aspect-ratio:1/1; display:grid; place-items:center; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(1rem,2.2vw,1.4rem); color:var(--bg-color); }
+.bh-itin2__hito:nth-child(1) .bh-itin2__figura { background:var(--accent-color); border-radius:50%; }
+.bh-itin2__hito:nth-child(2) .bh-itin2__figura { background:var(--primary-color); }
+.bh-itin2__hito:nth-child(3) .bh-itin2__figura { background:var(--secondary-color); border-radius:50% 50% 0 0; }
+.bh-itin2__hito:nth-child(4) .bh-itin2__figura { background:color-mix(in srgb, var(--accent-color) 50%, var(--bg-color)); transform:rotate(45deg); }
+.bh-itin2__hora { font-family:'Courier New',monospace; font-size:clamp(.64rem,1.25vw,.74rem); letter-spacing:.22em; color:var(--accent-color); }
+.bh-itin2__momento { margin:.15rem 0 .2rem; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(1rem,2vw,1.24rem); text-transform:uppercase; color:var(--primary-color); }
+.bh-itin2__detalle { margin:0; font-family:Arial,sans-serif; font-size:clamp(.76rem,1.35vw,.86rem); line-height:1.55; color:var(--secondary-color); }
+@media (max-width:560px){ .bh-itin2__hito, .bh-itin2__hito:nth-child(n) { width:100%; transform:none; margin-left:0; } }
+</style>
+<h2 class="bh-itin2__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Composición N.º 3 <em>El día en cuatro formas</em></h2>
+<div class="bh-itin2__escena">
+  <span class="bh-itin2__circulo" aria-hidden="true"></span>
+  <span class="bh-itin2__barra" aria-hidden="true"></span>
+  <article class="bh-itin2__hito">
+    <span class="bh-itin2__figura" aria-hidden="true">16</span>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
+      <time class="bh-itin2__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00 H</time>
+      <h3 class="bh-itin2__momento">Círculo</h3><p class="bh-itin2__detalle">Recepción circular: todos visibles, nadie al margen.</p>
+    </div>
+  </article>
+  <article class="bh-itin2__hito">
+    <span class="bh-itin2__figura" aria-hidden="true">17</span>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
+      <time class="bh-itin2__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00 H</time>
+      <h3 class="bh-itin2__momento">Cuadrado</h3><p class="bh-itin2__detalle">Ceremonia con estructura y ángulos rectos.</p>
+    </div>
+  </article>
+  <article class="bh-itin2__hito">
+    <span class="bh-itin2__figura" aria-hidden="true">19</span>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
+      <time class="bh-itin2__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00 H</time>
+      <h3 class="bh-itin2__momento">Medialuna</h3><p class="bh-itin2__detalle">Cena a media luz, abrazo de formas.</p>
+    </div>
+  </article>
+  <article class="bh-itin2__hito">
+    <span class="bh-itin2__figura" aria-hidden="true">21</span>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
+      <time class="bh-itin2__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:30 H</time>
+      <h3 class="bh-itin2__momento">Rombo</h3><p class="bh-itin2__detalle">La pista gira 45 grados y todo baila.</p>
+    </div>
+  </article>
+</div>
+<script>
+var moduleMetadata = { module_type:'itinerario', module_name:'itinerario-agenda', style_name:'Bauhaus — Cuatro Formas', descripcion:'Hitos cruzando formas primarias gigantes (círculo y barra de fondo), cada tarjeta con figura distinta, rotaciones y sombras duras.', tags:['itinerario','bauhaus','formas','diagonal','sombras duras'], tipo:'itinerario' };
+</script>
 </section>

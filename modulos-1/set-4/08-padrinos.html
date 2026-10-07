@@ -1,228 +1,74 @@
-<section
-  class="gl-padrinos"
-  data-gemini-id="padrinos-cristal-repisas"
-  memory_type="background"
-  memory_usage="protected"
-  memory_source="generated"
-  path="placeholder"
->
-  <style>
-    .gl-padrinos {
-      --primary-color: #223038;
-      --secondary-color: #5d7078;
-      --accent-color: #8fb6c9;
-      --bg-color: #eef4f7;
-      --surface-color: rgba(255, 255, 255, 0.55);
-      --surface-border-color: rgba(255, 255, 255, 0.75);
-      --text-color: #223038;
-
-      position: relative;
-      isolation: isolate;
-      box-sizing: border-box;
-      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
-      background-color: var(--bg-color);
-      background-image: url('https://loremflickr.com/1600/900/glass,light');
-      background-size: cover;
-      background-position: center;
-      color: var(--text-color);
-      text-align: center;
-    }
-    .gl-padrinos *,
-    .gl-padrinos *::before,
-    .gl-padrinos *::after { box-sizing: border-box; }
-
-    .gl-padrinos::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      background: color-mix(in srgb, var(--bg-color) 72%, transparent);
-    }
-
-    .gl-padrinos__titulo {
-      margin: 0 0 0.5rem;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-weight: 400;
-      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
-      color: var(--primary-color);
-    }
-    .gl-padrinos__intro {
-      margin: 0 auto clamp(2rem, 5vw, 3rem);
-      max-width: 50ch;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
-      line-height: 1.7;
-      color: var(--secondary-color);
-    }
-
-    .gl-padrinos__repisas {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: clamp(1.2rem, 3.4vw, 2.2rem);
-      width: min(100%, 860px);
-      margin: 0 auto;
-    }
-
-    .gl-padrinos__repisa {
-      position: relative;
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: clamp(0.9rem, 2.4vw, 1.4rem);
-      align-items: center;
-      padding: clamp(1.1rem, 2.8vw, 1.6rem);
-      text-align: left;
-      background: var(--surface-color);
-      border: 1px solid var(--surface-border-color);
-      border-radius: 18px 18px 6px 6px;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 18px 40px rgba(34, 48, 56, 0.15);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
-    }
-    .gl-padrinos.gl-js .gl-padrinos__repisa { opacity: 0; transform: translateY(26px); }
-    .gl-padrinos .gl-padrinos__repisa.esta-visto { opacity: 1; transform: none; }
-    .gl-padrinos__repisa::after {
-      content: '';
-      position: absolute;
-      left: 8%;
-      right: 8%;
-      bottom: -9px;
-      height: 8px;
-      border-radius: 0 0 8px 8px;
-      background: color-mix(in srgb, var(--accent-color) 45%, rgba(255, 255, 255, 0.4));
-      box-shadow: 0 10px 18px rgba(34, 48, 56, 0.2);
-    }
-
-    .gl-padrinos__retrato {
-      width: clamp(76px, 11vw, 100px);
-      margin: 0;
-      padding: 5px;
-      background: rgba(255, 255, 255, 0.55);
-      border: 1px solid var(--surface-border-color);
-      border-radius: 50%;
-      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-color) 25%, transparent);
-    }
-    .gl-padrinos__retrato img {
-      color: transparent;
-      display: block;
-      width: 100%;
-      height: auto;
-      aspect-ratio: 1 / 1;
-      border-radius: 50%;
-      object-fit: cover;
-      filter: saturate(0.9);
-    }
-
-    .gl-padrinos__rol {
-      margin: 0 0 0.25rem;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.56rem, 1.05vw, 0.64rem);
-      letter-spacing: 0.38em;
-      text-transform: uppercase;
-      color: var(--accent-color);
-    }
-    .gl-padrinos__nombre {
-      margin: 0;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(0.96rem, 1.9vw, 1.16rem);
-      line-height: 1.3;
-      color: var(--primary-color);
-    }
-
-    @media (max-width: 720px) {
-      .gl-padrinos__repisas { grid-template-columns: 1fr; max-width: 400px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .gl-padrinos * { transition: none !important; }
-      .gl-padrinos__repisa { opacity: 1 !important; transform: none !important; }
-    }
-  </style>
-
-  <header memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
-    <h2 class="gl-padrinos__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Repisas de honor</h2>
-    <p class="gl-padrinos__intro" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Nuestros padrinos, piezas de colección sobre estantes de cristal.</p>
-  </header>
-
-  <div class="gl-padrinos__repisas">
-    <article class="gl-padrinos__repisa" data-gl-repisa>
-      <figure class="gl-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
-        <img src="https://loremflickr.com/280/280/portrait,glass" alt="Retrato de padrino" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-        <figcaption hidden>Padrino uno</figcaption>
-      </figure>
-      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
-        <p class="gl-padrinos__rol">Padrinos de alianzas</p>
-        <h3 class="gl-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
-      </div>
-    </article>
-
-    <article class="gl-padrinos__repisa" data-gl-repisa>
-      <figure class="gl-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
-        <img src="https://loremflickr.com/280/280/portrait,clear" alt="Retrato de madrina" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-        <figcaption hidden>Madrina dos</figcaption>
-      </figure>
-      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
-        <p class="gl-padrinos__rol">Padrinos de velo</p>
-        <h3 class="gl-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
-      </div>
-    </article>
-
-    <article class="gl-padrinos__repisa" data-gl-repisa>
-      <figure class="gl-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
-        <img src="https://loremflickr.com/280/280/portrait,soft" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-        <figcaption hidden>Padrino tres</figcaption>
-      </figure>
-      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
-        <p class="gl-padrinos__rol">Padrinos de arras</p>
-        <h3 class="gl-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
-      </div>
-    </article>
-
-    <article class="gl-padrinos__repisa" data-gl-repisa>
-      <figure class="gl-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
-        <img src="https://loremflickr.com/280/280/portrait,bright" alt="Retrato de madrinas" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-        <figcaption hidden>Madrina cuatro</figcaption>
-      </figure>
-      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
-        <p class="gl-padrinos__rol">Padrinos de lazos</p>
-        <h3 class="gl-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
-      </div>
-    </article>
-  </div>
-
-  <script>
-    (function () {
-      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.gl-padrinos');
-      if (!root) return;
-      root.classList.add('gl-js');
-      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
-      var repisas = Array.prototype.slice.call(root.querySelectorAll('[data-gl-repisa]'));
-      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduce || !('IntersectionObserver' in window)) {
-        repisas.forEach(function (r) { r.classList.add('esta-visto'); });
-        return;
-      }
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          var i = repisas.indexOf(entry.target);
-          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.1).toFixed(2) + 's';
-          entry.target.classList.add('esta-visto');
-          io.unobserve(entry.target);
-        });
-      }, { threshold: 0.25 });
-      repisas.forEach(function (r) { io.observe(r); });
-    })();
-  </script>
-
-  <script>
-    var moduleMetadata = {
-      module_type: 'padrinos',
-      module_name: 'padrinos-cristal-repisas',
-      style_name: 'Vidrio Esmerilado — Padrinos',
-      descripcion: 'Repisas de cristal con base luminosa, retratos circulares con halo y ascenso escalonado desde abajo al entrar en pantalla.',
-      tags: ['padrinos', 'repisas', 'cristal', 'retratos', 'stagger', 'glassmorphism'],
-      tipo: 'padrinos'
-    };
-  </script>
+<section class="gl-padrinos2" data-gemini-id="padrinos-cristal-abanico" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.gl-padrinos2 { --primary-color:#223038; --secondary-color:#5d7078; --accent-color:#8fb6c9; --bg-color:#eef4f7; --surface-color:rgba(255,255,255,.55); --surface-border-color:rgba(255,255,255,.75); --text-color:#223038;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/glass,light'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; perspective:1200px; }
+.gl-padrinos2 *, .gl-padrinos2 *::before, .gl-padrinos2 *::after { box-sizing:border-box; }
+.gl-padrinos2::before { content:''; position:absolute; inset:0; z-index:-1; background:linear-gradient(180deg, color-mix(in srgb, var(--bg-color) 66%, transparent), color-mix(in srgb, var(--accent-color) 22%, transparent)); }
+.gl-padrinos2__titulo { margin:0 0 .5rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.8rem); color:var(--primary-color); }
+.gl-padrinos2__intro { margin:0 auto clamp(2.4rem,6vw,3.6rem); max-width:46ch; font-family:Arial,sans-serif; font-size:clamp(.84rem,1.5vw,.94rem); line-height:1.7; color:var(--secondary-color); }
+/* abanico de paneles de vidrio girados alrededor de un eje común */
+.gl-padrinos2__abanico { display:flex; justify-content:center; align-items:center; width:min(100%,1020px); margin:0 auto; transform-style:preserve-3d; }
+.gl-padrinos2__panel { width:clamp(190px,27vw,250px); margin:0 clamp(-.5rem,-1vw,-.2rem); padding:clamp(1.2rem,2.8vw,1.7rem) clamp(1rem,2.4vw,1.4rem) clamp(1.4rem,3vw,1.9rem); background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:16px; box-shadow:inset 0 1px 0 rgba(255,255,255,.9), 0 24px 52px rgba(34,48,56,.2); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); transform:rotateY(var(--ry)) translateZ(var(--tz)) rotate(var(--g)); transition:transform .5s cubic-bezier(.22,.8,.3,1); }
+.gl-padrinos2__panel:hover { transform:rotateY(0) translateZ(60px) rotate(0); z-index:5; }
+.gl-padrinos2__panel:nth-child(1){ --ry:22deg; --tz:-40px; --g:-3deg; }
+.gl-padrinos2__panel:nth-child(2){ --ry:8deg; --tz:10px; --g:1.6deg; }
+.gl-padrinos2__panel:nth-child(3){ --ry:-8deg; --tz:10px; --g:-1.2deg; }
+.gl-padrinos2__panel:nth-child(4){ --ry:-22deg; --tz:-40px; --g:3deg; }
+.gl-padrinos2__retrato { width:clamp(84px,12vw,108px); margin:0 auto .8rem; padding:5px; border:1px solid var(--surface-border-color); border-radius:50%; background:rgba(255,255,255,.5); box-shadow:0 0 0 5px color-mix(in srgb, var(--accent-color) 26%, transparent); }
+.gl-padrinos2__retrato img { display:block; width:100%; height:auto; aspect-ratio:1/1; border-radius:50%; object-fit:cover; filter:saturate(.9); }
+.gl-padrinos2__rol { margin:0 0 .3rem; font-family:Arial,sans-serif; font-size:clamp(.56rem,1.05vw,.64rem); letter-spacing:.36em; text-transform:uppercase; color:var(--accent-color); }
+.gl-padrinos2__nombre { margin:0; font-family:Georgia,serif; font-size:clamp(.94rem,1.9vw,1.14rem); line-height:1.3; color:var(--primary-color); }
+@media (max-width:760px){ .gl-padrinos2__abanico { flex-direction:column; } .gl-padrinos2__panel { transform:none !important; width:min(100%,320px); margin:0 0 1rem; } }
+@media (prefers-reduced-motion:reduce){ .gl-padrinos2 * { transition:none !important; } }
+</style>
+<header memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
+  <h2 class="gl-padrinos2__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Abanico de cristal</h2>
+  <p class="gl-padrinos2__intro" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Cuatro paneles esmerilados giran alrededor del mismo eje: los nombres que sostienen todo.</p>
+</header>
+<div class="gl-padrinos2__abanico">
+  <article class="gl-padrinos2__panel">
+    <figure class="gl-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
+      <img src="https://loremflickr.com/300/300/portrait,frost" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+      <figcaption hidden>Padrinos uno</figcaption>
+    </figure>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
+      <p class="gl-padrinos2__rol">Padrinos de alianzas</p>
+      <h3 class="gl-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+    </div>
+  </article>
+  <article class="gl-padrinos2__panel">
+    <figure class="gl-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
+      <img src="https://loremflickr.com/300/300/portrait,clear" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+      <figcaption hidden>Padrinos dos</figcaption>
+    </figure>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
+      <p class="gl-padrinos2__rol">Padrinos de velo</p>
+      <h3 class="gl-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+    </div>
+  </article>
+  <article class="gl-padrinos2__panel">
+    <figure class="gl-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
+      <img src="https://loremflickr.com/300/300/portrait,prism" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+      <figcaption hidden>Padrinos tres</figcaption>
+    </figure>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
+      <p class="gl-padrinos2__rol">Padrinos de arras</p>
+      <h3 class="gl-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+    </div>
+  </article>
+  <article class="gl-padrinos2__panel">
+    <figure class="gl-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
+      <img src="https://loremflickr.com/300/300/portrait,dew" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+      <figcaption hidden>Padrinos cuatro</figcaption>
+    </figure>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
+      <p class="gl-padrinos2__rol">Padrinos de lazos</p>
+      <h3 class="gl-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+    </div>
+  </article>
+</div>
+<script>
+var moduleMetadata = { module_type:'padrinos', module_name:'padrinos-cristal-abanico', style_name:'Cristal — Abanico 3D', descripcion:'Abanico 3D de paneles esmerilados girados sobre eje común con translateZ distinto; hover endereza y acerca el panel.', tags:['padrinos','abanico','3d','cristal','rotatey'], tipo:'padrinos' };
+</script>
 </section>

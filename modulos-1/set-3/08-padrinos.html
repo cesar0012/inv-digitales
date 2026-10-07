@@ -1,236 +1,88 @@
-<section
-  class="pl-padrinos"
-  data-gemini-id="padrinos-plegado-estrellas"
-  memory_type="background"
-  memory_usage="protected"
-  memory_source="generated"
-  path="placeholder"
->
-  <style>
-    .pl-padrinos {
-      --primary-color: #1c2340;
-      --secondary-color: #6b7395;
-      --accent-color: #9aa7d0;
-      --bg-color: #eef0f8;
-      --surface-color: #ffffff;
-      --surface-border-color: rgba(28, 35, 64, 0.2);
-      --text-color: #1c2340;
-
-      position: relative;
-      isolation: isolate;
-      box-sizing: border-box;
-      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
-      background-color: var(--bg-color);
-      background-image: url('https://loremflickr.com/1600/900/clouds,sky');
-      background-size: cover;
-      background-position: center;
-      color: var(--text-color);
-      text-align: center;
-    }
-    .pl-padrinos *,
-    .pl-padrinos *::before,
-    .pl-padrinos *::after { box-sizing: border-box; }
-
-    .pl-padrinos::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      background: color-mix(in srgb, var(--bg-color) 88%, transparent);
-    }
-
-    .pl-padrinos__titulo {
-      margin: 0 0 0.5rem;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-weight: 400;
-      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
-      color: var(--primary-color);
-    }
-    .pl-padrinos__intro {
-      margin: 0 auto clamp(2rem, 5vw, 3rem);
-      max-width: 50ch;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
-      line-height: 1.7;
-      color: var(--secondary-color);
-    }
-
-    .pl-padrinos__banderines {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: clamp(1.5rem, 4.5vw, 3rem) clamp(1.2rem, 4vw, 2.6rem);
-      width: min(100%, 840px);
-      margin: 0 auto;
-    }
-
-    .pl-padrinos__banderin {
-      position: relative;
-      margin: 0 auto;
-      width: min(100%, 330px);
-      padding: clamp(1.5rem, 3.5vw, 2rem) clamp(1.2rem, 3vw, 1.7rem) clamp(2rem, 4.5vw, 2.6rem);
-      background: color-mix(in srgb, var(--surface-color) 96%, transparent);
-      border: 1px solid var(--surface-border-color);
-      box-shadow: 0 16px 38px rgba(28, 35, 64, 0.14);
-      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 26px), 50% 100%, 0 calc(100% - 26px));
-      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
-    }
-    .pl-padrinos.pl-js .pl-padrinos__banderin { opacity: 0; transform: translateY(-16px); }
-    .pl-padrinos.esta-visto .pl-padrinos__banderin { opacity: 1; transform: none; }
-
-    .pl-padrinos__cordel {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: color-mix(in srgb, var(--accent-color) 70%, transparent);
-    }
-
-    .pl-padrinos__retrato {
-      width: clamp(92px, 14vw, 122px);
-      margin: 0 auto 1rem;
-      padding: 5px;
-      background: var(--bg-color);
-      border: 1px solid var(--surface-border-color);
-      border-radius: 50%;
-      position: relative;
-    }
-    .pl-padrinos__retrato::after {
-      content: '';
-      position: absolute;
-      top: -9px;
-      right: -6px;
-      width: 20px;
-      height: 20px;
-      background: var(--accent-color);
-      clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
-    }
-    .pl-padrinos__retrato img {
-      color: transparent;
-      display: block;
-      width: 100%;
-      height: auto;
-      aspect-ratio: 1 / 1;
-      border-radius: 50%;
-      object-fit: cover;
-      filter: saturate(0.9);
-    }
-
-    .pl-padrinos__rol {
-      margin: 0 0 0.3rem;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.56rem, 1.05vw, 0.64rem);
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: var(--accent-color);
-    }
-    .pl-padrinos__nombre {
-      margin: 0;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(1rem, 2vw, 1.22rem);
-      line-height: 1.3;
-      color: var(--primary-color);
-    }
-
-    @media (max-width: 700px) {
-      .pl-padrinos__banderines { grid-template-columns: 1fr; max-width: 360px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .pl-padrinos * { transition: none !important; }
-      .pl-padrinos__banderin { opacity: 1; transform: none; }
-    }
-  </style>
-
-  <header memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
-    <h2 class="pl-padrinos__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Nuestros guías</h2>
-    <p class="pl-padrinos__intro" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Banderines de papel para quienes sostienen nuestra historia con cariño.</p>
-  </header>
-
-  <div class="pl-padrinos__banderines">
-    <article class="pl-padrinos__banderin" data-pl-banderin>
-      <span class="pl-padrinos__cordel" aria-hidden="true"></span>
-      <figure class="pl-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
-        <img src="https://loremflickr.com/300/300/portrait,night" alt="Retrato de padrino" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-        <figcaption hidden>Padrino uno</figcaption>
+<section class="pl-padrinos2" data-gemini-id="padrinos-grullas-mensajeras" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.pl-padrinos2 { --primary-color:#1c2340; --secondary-color:#6b7395; --accent-color:#9aa7d0; --bg-color:#eef0f8; --surface-color:#ffffff; --surface-border-color:rgba(28,35,64,.2); --text-color:#1c2340;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/origami,sky'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.pl-padrinos2 *, .pl-padrinos2 *::before, .pl-padrinos2 *::after { box-sizing:border-box; }
+.pl-padrinos2::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 88%, transparent); }
+.pl-padrinos2__titulo { margin:0 0 .5rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.8rem); color:var(--primary-color); }
+.pl-padrinos2__intro { margin:0 auto clamp(2.4rem,6vw,3.6rem); max-width:46ch; font-size:clamp(.84rem,1.5vw,.94rem); line-height:1.7; color:var(--secondary-color); }
+/* grullas mensajeras llevando cartas a distintos ángulos y alturas */
+.pl-padrinos2__vuelo { position:relative; display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(1rem,3vw,2rem); width:min(100%,980px); margin:0 auto; }
+.pl-padrinos2__grulla { width:clamp(190px,27vw,250px); transform:rotate(var(--g)) translateY(var(--y)); transition:transform .5s cubic-bezier(.22,.8,.3,1); }
+.pl-padrinos2__grulla:hover { transform:rotate(0) translateY(calc(var(--y) - 10px)); z-index:3; }
+.pl-padrinos2__grulla:nth-child(1){ --g:-5deg; --y:16px; }
+.pl-padrinos2__grulla:nth-child(2){ --g:3.4deg; --y:-10px; }
+.pl-padrinos2__grulla:nth-child(3){ --g:-2.2deg; --y:24px; }
+.pl-padrinos2__grulla:nth-child(4){ --g:5deg; --y:0px; }
+.pl-padrinos2__carta { position:relative; padding:clamp(1.1rem,2.6vw,1.6rem) clamp(1rem,2.4vw,1.4rem) clamp(1.3rem,3vw,1.8rem); background:var(--surface-color); border:1px solid var(--surface-border-color); box-shadow:0 18px 40px rgba(28,35,64,.18); clip-path:polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%); }
+.pl-padrinos2__carta::before { content:''; position:absolute; top:0; right:0; width:24px; height:24px; background:linear-gradient(225deg, var(--bg-color) 0 49%, color-mix(in srgb, var(--accent-color) 55%, var(--bg-color)) 49% 100%); clip-path:polygon(100% 0, 0 0, 100% 100%); }
+.pl-padrinos2__grulla-svg { width:40px; margin:0 auto .5rem; color:var(--accent-color); }
+.pl-padrinos2__retrato { width:clamp(76px,11vw,96px); margin:0 auto .7rem; padding:4px; border:1px dashed var(--accent-color); border-radius:50%; }
+.pl-padrinos2__retrato img { display:block; width:100%; height:auto; aspect-ratio:1/1; border-radius:50%; object-fit:cover; filter:saturate(.9); }
+.pl-padrinos2__rol { margin:0 0 .25rem; font-family:'Courier New',monospace; font-size:clamp(.54rem,1vw,.62rem); letter-spacing:.32em; text-transform:uppercase; color:var(--accent-color); }
+.pl-padrinos2__nombre { margin:0; font-family:Georgia,serif; font-size:clamp(.92rem,1.85vw,1.12rem); line-height:1.3; color:var(--primary-color); }
+@media (max-width:700px){ .pl-padrinos2__vuelo { flex-direction:column; align-items:center; } .pl-padrinos2__grulla { width:min(100%,300px); transform:rotate(0); } }
+</style>
+<header memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
+  <h2 class="pl-padrinos2__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Grullas mensajeras</h2>
+  <p class="pl-padrinos2__intro" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Cuatro grullas cruzan el cielo llevando los nombres que sostienen este día.</p>
+</header>
+<div class="pl-padrinos2__vuelo">
+  <article class="pl-padrinos2__grulla">
+    <div class="pl-padrinos2__carta">
+      <svg class="pl-padrinos2__grulla-svg" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M8 30 L24 10 L30 22 L40 16 L32 30 L24 26 L14 40 Z" stroke="currentColor" stroke-width="1.5"/></svg>
+      <figure class="pl-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
+        <img src="https://loremflickr.com/280/280/portrait,indigo" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrinos uno</figcaption>
       </figure>
       <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
-        <p class="pl-padrinos__rol">Padrinos de velas</p>
-        <h3 class="pl-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+        <p class="pl-padrinos2__rol">Padrinos de alianzas</p>
+        <h3 class="pl-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
       </div>
-    </article>
-
-    <article class="pl-padrinos__banderin" data-pl-banderin>
-      <span class="pl-padrinos__cordel" aria-hidden="true"></span>
-      <figure class="pl-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
-        <img src="https://loremflickr.com/300/300/portrait,stars" alt="Retrato de madrina" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-        <figcaption hidden>Madrina dos</figcaption>
+    </div>
+  </article>
+  <article class="pl-padrinos2__grulla">
+    <div class="pl-padrinos2__carta">
+      <svg class="pl-padrinos2__grulla-svg" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M6 26 C16 16, 26 30, 42 14" stroke="currentColor" stroke-width="1.5"/><circle cx="42" cy="14" r="3" fill="currentColor"/></svg>
+      <figure class="pl-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
+        <img src="https://loremflickr.com/280/280/portrait,dusk" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrinos dos</figcaption>
       </figure>
       <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
-        <p class="pl-padrinos__rol">Padrinos de anillos</p>
-        <h3 class="pl-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+        <p class="pl-padrinos2__rol">Padrinos de velo</p>
+        <h3 class="pl-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
       </div>
-    </article>
-
-    <article class="pl-padrinos__banderin" data-pl-banderin>
-      <span class="pl-padrinos__cordel" aria-hidden="true"></span>
-      <figure class="pl-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
-        <img src="https://loremflickr.com/300/300/portrait,evening" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-        <figcaption hidden>Padrino tres</figcaption>
+    </div>
+  </article>
+  <article class="pl-padrinos2__grulla">
+    <div class="pl-padrinos2__carta">
+      <svg class="pl-padrinos2__grulla-svg" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M10 34 L24 8 L38 34 M14 26 H34" stroke="currentColor" stroke-width="1.5"/></svg>
+      <figure class="pl-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
+        <img src="https://loremflickr.com/280/280/portrait,star" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrinos tres</figcaption>
       </figure>
       <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
-        <p class="pl-padrinos__rol">Padrinos de lazo</p>
-        <h3 class="pl-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+        <p class="pl-padrinos2__rol">Padrinos de arras</p>
+        <h3 class="pl-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
       </div>
-    </article>
-
-    <article class="pl-padrinos__banderin" data-pl-banderin>
-      <span class="pl-padrinos__cordel" aria-hidden="true"></span>
-      <figure class="pl-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
-        <img src="https://loremflickr.com/300/300/portrait,gentle" alt="Retrato de madrinas" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-        <figcaption hidden>Madrina cuatro</figcaption>
+    </div>
+  </article>
+  <article class="pl-padrinos2__grulla">
+    <div class="pl-padrinos2__carta">
+      <svg class="pl-padrinos2__grulla-svg" viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="16" stroke="currentColor" stroke-width="1.5"/><path d="M24 12 V36 M12 24 H36" stroke="currentColor" stroke-width="1"/></svg>
+      <figure class="pl-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
+        <img src="https://loremflickr.com/280/280/portrait,cloud" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrinos cuatro</figcaption>
       </figure>
       <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
-        <p class="pl-padrinos__rol">Padrinos de arras</p>
-        <h3 class="pl-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+        <p class="pl-padrinos2__rol">Padrinos de lazos</p>
+        <h3 class="pl-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
       </div>
-    </article>
-  </div>
-
-  <script>
-    (function () {
-      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.pl-padrinos');
-      if (!root) return;
-      root.classList.add('pl-js');
-      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
-      var piezas = Array.prototype.slice.call(root.querySelectorAll('[data-pl-banderin]'));
-      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduce || !('IntersectionObserver' in window)) {
-        piezas.forEach(function (p) { p.style.opacity = 1; p.style.transform = 'none'; });
-        return;
-      }
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          var i = piezas.indexOf(entry.target);
-          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.11).toFixed(2) + 's';
-          entry.target.style.opacity = 1;
-          entry.target.style.transform = 'none';
-          io.unobserve(entry.target);
-        });
-      }, { threshold: 0.25 });
-      piezas.forEach(function (p) { io.observe(p); });
-    })();
-  </script>
-
-  <script>
-    var moduleMetadata = {
-      module_type: 'padrinos',
-      module_name: 'padrinos-plegado-estrellas',
-      style_name: 'Plegado Celeste — Padrinos',
-      descripcion: 'Banderines de papel con punta diagonal, cordel celeste, retratos circulares con estrella y caída escalonada desde arriba.',
-      tags: ['padrinos', 'banderines', 'origami', 'retratos', 'stagger', 'celestial'],
-      tipo: 'padrinos'
-    };
-  </script>
+    </div>
+  </article>
+</div>
+<script>
+var moduleMetadata = { module_type:'padrinos', module_name:'padrinos-grullas-mensajeras', style_name:'Origami — Grullas Mensajeras', descripcion:'Grullas de papel en vuelo inclinado cargando cartas plegadas con retratos punteados; cada grulla a un ángulo y altura distinta.', tags:['padrinos','grullas','cartas','angulos','origami'], tipo:'padrinos' };
+</script>
 </section>

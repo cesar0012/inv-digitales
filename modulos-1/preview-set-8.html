@@ -720,251 +720,51 @@
   </script>
 </section>
 
-<section
-  class="tc-itinerario"
-  data-gemini-id="itinerario-agenda"
-  memory_type="background"
-  memory_usage="protected"
-  memory_source="generated"
-  path="placeholder"
->
-  <style>
-    .tc-itinerario {
-      --primary-color: #3d2b22;
-      --secondary-color: #8a6f5c;
-      --accent-color: #c26a4a;
-      --bg-color: #f6efe6;
-      --surface-color: #fdf8f1;
-      --surface-border-color: rgba(61, 43, 34, 0.18);
-      --text-color: #3d2b22;
-
-      position: relative;
-      isolation: isolate;
-      box-sizing: border-box;
-      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
-      background-color: var(--bg-color);
-      background-image: url('https://loremflickr.com/1600/900/olive,grove');
-      background-size: cover;
-      background-position: center;
-      color: var(--text-color);
-    }
-    .tc-itinerario *,
-    .tc-itinerario *::before,
-    .tc-itinerario *::after { box-sizing: border-box; }
-
-    .tc-itinerario::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
-    }
-
-    .tc-itinerario__cabecera { text-align: center; margin-bottom: clamp(2rem, 5vw, 3rem); }
-    .tc-itinerario__titulo {
-      margin: 0 0 0.6rem;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-weight: 400;
-      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
-      color: var(--primary-color);
-    }
-    .tc-itinerario__intro {
-      margin: 0 auto;
-      max-width: 48ch;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-style: italic;
-      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
-      line-height: 1.7;
-      color: var(--secondary-color);
-    }
-
-    .tc-itinerario__camino {
-      position: relative;
-      width: min(100%, 620px);
-      margin: 0 auto;
-      padding-left: clamp(2.4rem, 6vw, 3.2rem);
-    }
-    .tc-itinerario__sendero {
-      position: absolute;
-      top: 8px;
-      bottom: 8px;
-      left: 12px;
-      width: 3px;
-      background-image: linear-gradient(var(--accent-color) 60%, transparent 60%);
-      background-size: 3px 14px;
-      opacity: 0.7;
-    }
-    .tc-itinerario__tinta {
-      position: absolute;
-      top: 8px;
-      left: 12px;
-      width: 3px;
-      height: 0%;
-      background: var(--accent-color);
-      border-radius: 999px;
-    }
-
-    .tc-itinerario__hito {
-      position: relative;
-      margin: 0 0 clamp(1.5rem, 4vw, 2.2rem);
-      padding: clamp(1.1rem, 2.7vw, 1.6rem) clamp(1.2rem, 3vw, 1.8rem);
-      background: var(--surface-color);
-      border: 1px solid var(--surface-border-color);
-      border-radius: clamp(12px, 2vw, 16px);
-      box-shadow: 0 14px 32px rgba(61, 43, 34, 0.12);
-      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
-    }
-    .tc-itinerario.tc-js .tc-itinerario__hito { opacity: 0; transform: translateX(-16px); }
-    .tc-itinerario .tc-itinerario__hito.esta-visto { opacity: 1; transform: none; }
-
-    .tc-itinerario__teja {
-      position: absolute;
-      top: 50%;
-      left: calc(-1 * clamp(2.4rem, 6vw, 3.2rem) + 2px);
-      transform: translate(-50%, -50%);
-      width: 15px;
-      height: 15px;
-      background: var(--accent-color);
-      border-radius: 50% 50% 0 50%;
-      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-color) 25%, transparent);
-    }
-
-    .tc-itinerario__hora {
-      display: inline-block;
-      margin-bottom: 0.4rem;
-      padding: 0.16rem 0.75rem;
-      border-radius: 999px 999px 4px 4px;
-      background: var(--bg-color);
-      border: 1px solid var(--surface-border-color);
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
-      letter-spacing: 0.22em;
-      color: var(--primary-color);
-    }
-    .tc-itinerario__momento {
-      margin: 0 0 0.3rem;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(1.02rem, 2.1vw, 1.28rem);
-      color: var(--primary-color);
-    }
-    .tc-itinerario__detalle {
-      margin: 0;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-style: italic;
-      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
-      line-height: 1.65;
-      color: var(--secondary-color);
-    }
-
-    @media (max-width: 560px) {
-      .tc-itinerario__camino { padding-left: 2rem; }
-      .tc-itinerario__teja { left: -1.6rem; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .tc-itinerario * { transition: none !important; }
-      .tc-itinerario__hito { opacity: 1 !important; transform: none !important; }
-    }
-  </style>
-
-  <header class="tc-itinerario__cabecera" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">
-    <h2 class="tc-itinerario__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">El camino de teja</h2>
-    <p class="tc-itinerario__intro" memory_type="text" memory_usage="custom" memory_key="itinerario-texto">Cada hito, una teja en el sendero que lleva a la celebración.</p>
-  </header>
-
-  <div class="tc-itinerario__camino">
-    <span class="tc-itinerario__sendero" aria-hidden="true"></span>
-    <span class="tc-itinerario__tinta" aria-hidden="true" data-tc-tinta></span>
-
-    <article class="tc-itinerario__hito" data-tc-hito>
-      <span class="tc-itinerario__teja" aria-hidden="true"></span>
-      <time class="tc-itinerario__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00 h</time>
-      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
-        <h3 class="tc-itinerario__momento">Bienvenida al patio</h3>
-        <p class="tc-itinerario__detalle">Limonada de temporada y sombra de las parrales.</p>
-      </div>
-    </article>
-
-    <article class="tc-itinerario__hito" data-tc-hito>
-      <span class="tc-itinerario__teja" aria-hidden="true"></span>
-      <time class="tc-itinerario__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00 h</time>
-      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
-        <h3 class="tc-itinerario__momento">Ceremonia bajo el arco</h3>
-        <p class="tc-itinerario__detalle">El voto principal, frente al muro de cal.</p>
-      </div>
-    </article>
-
-    <article class="tc-itinerario__hito" data-tc-hito>
-      <span class="tc-itinerario__teja" aria-hidden="true"></span>
-      <time class="tc-itinerario__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00 h</time>
-      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
-        <h3 class="tc-itinerario__momento">Mesa larga</h3>
-        <p class="tc-itinerario__detalle">Cena compartida bajo las luces de cuerda.</p>
-      </div>
-    </article>
-
-    <article class="tc-itinerario__hito" data-tc-hito>
-      <span class="tc-itinerario__teja" aria-hidden="true"></span>
-      <time class="tc-itinerario__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:30 h</time>
-      <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
-        <h3 class="tc-itinerario__momento">Verbena final</h3>
-        <p class="tc-itinerario__detalle">Baile, guitarras y despedida con estrellas.</p>
-      </div>
-    </article>
-  </div>
-
-  <script>
-    (function () {
-      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.tc-itinerario');
-      if (!root) return;
-      root.classList.add('tc-js');
-      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
-
-      var tinta = root.querySelector('[data-tc-tinta]');
-      var hitos = Array.prototype.slice.call(root.querySelectorAll('[data-tc-hito]'));
-      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      var revealIO = ('IntersectionObserver' in window) && !reduce ? new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('esta-visto');
-            revealIO.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.3 }) : null;
-
-      hitos.forEach(function (hito) {
-        if (revealIO) revealIO.observe(hito);
-        else hito.classList.add('esta-visto');
-      });
-
-      function alTrazar() {
-        if (!tinta) return;
-        var rect = root.getBoundingClientRect();
-        var total = rect.height + window.innerHeight * 0.35;
-        var pasado = Math.min(Math.max(window.innerHeight * 0.7 - rect.top, 0), total);
-        tinta.style.height = ((pasado / total) * 100).toFixed(2) + '%';
-      }
-      if (!reduce) {
-        window.addEventListener('scroll', alTrazar, { passive: true });
-        window.addEventListener('resize', alTrazar);
-        alTrazar();
-      } else if (tinta) {
-        tinta.style.height = '100%';
-      }
-    })();
-  </script>
-
-  <script>
-    var moduleMetadata = {
-      module_type: 'itinerario',
-      module_name: 'itinerario-agenda',
-      style_name: 'Terracota Mediterránea — Itinerario',
-      descripcion: 'Sendero punteado de tejas con tinta que avanza al scroll, hitos en tarjetas cálidas y horas en cápsulas de arco.',
-      tags: ['itinerario', 'timeline', 'mediterraneo', 'tejas', 'sendero', 'scroll'],
-      tipo: 'itinerario'
-    };
-  </script>
+<section class="tc-itin2" data-gemini-id="itinerario-agenda" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.tc-itin2 { --primary-color:#3d2b22; --secondary-color:#8a6f5c; --accent-color:#c26a4a; --bg-color:#f6efe6; --surface-color:#fdf8f1; --surface-border-color:rgba(61,43,34,.18); --text-color:#3d2b22;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/ceramic,table'); background-size:cover; background-position:center; color:var(--text-color); }
+.tc-itin2 *, .tc-itin2 *::before, .tc-itin2 *::after { box-sizing:border-box; }
+.tc-itin2::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 90%, transparent); }
+.tc-itin2__titulo { position:relative; z-index:2; margin:0 0 2.2rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.9rem,4.4vw,3rem); color:var(--primary-color); transform:rotate(-1deg); }
+.tc-itin2__titulo em { font-style:italic; color:var(--accent-color); }
+/* platos de barro rotos esparcidos sobre la mesa, cada uno rotado y montado sobre el anterior */
+.tc-itin2__mesa { position:relative; z-index:2; display:flex; flex-wrap:wrap; justify-content:center; width:min(100%,960px); margin:0 auto; }
+.tc-itin2__plato { position:relative; width:clamp(230px,32vw,320px); margin:clamp(-.4rem,-.9vw,-.2rem) clamp(-.3rem,-.6vw,-.1rem); padding:clamp(1.2rem,2.8vw,1.7rem) clamp(1.2rem,3vw,1.8rem); background:var(--surface-color); border-radius:10px 10px 40px 10px; border:1px solid var(--surface-border-color); box-shadow:0 20px 44px rgba(61,43,34,.2); transform:rotate(var(--g)) translateY(var(--y)); transition:transform .5s cubic-bezier(.22,.8,.3,1), z-index 0s; z-index:var(--z,1); }
+.tc-itin2__plato:hover { transform:rotate(0) translateY(-8px); z-index:8; }
+.tc-itin2__plato:nth-child(1){ --g:-4deg; --y:12px; --z:2; }
+.tc-itin2__plato:nth-child(2){ --g:3deg; --y:-6px; --z:3; }
+.tc-itin2__plato:nth-child(3){ --g:-2deg; --y:18px; --z:1; }
+.tc-itin2__plato:nth-child(4){ --g:4.5deg; --y:0px; --z:4; }
+.tc-itin2__plato::before { content:''; position:absolute; top:8px; left:10px; right:40%; height:5px; border-radius:999px; background:color-mix(in srgb, var(--accent-color) 42%, transparent); }
+.tc-itin2__hora { display:inline-block; margin-bottom:.3rem; padding:.14rem .7rem; border-radius:8px 8px 22px 8px; background:var(--accent-color); color:var(--surface-color); font-family:Georgia,serif; font-size:clamp(.66rem,1.3vw,.76rem); letter-spacing:.2em; }
+.tc-itin2__momento { margin:0 0 .25rem; font-family:Georgia,serif; font-size:clamp(1.04rem,2.1vw,1.3rem); color:var(--primary-color); }
+.tc-itin2__detalle { margin:0; font-style:italic; font-size:clamp(.78rem,1.4vw,.88rem); line-height:1.6; color:var(--secondary-color); }
+@media (max-width:640px){ .tc-itin2__plato { width:100%; transform:rotate(0); margin:0 0 1rem; } }
+</style>
+<h2 class="tc-itin2__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">La mesa de <em>barro</em></h2>
+<div class="tc-itin2__mesa">
+  <article class="tc-itin2__plato">
+    <time class="tc-itin2__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00 H</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1"><h3 class="tc-itin2__momento">Bienvenida al patio</h3><p class="tc-itin2__detalle">Limonada de temporada bajo las parras.</p></div>
+  </article>
+  <article class="tc-itin2__plato">
+    <time class="tc-itin2__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00 H</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2"><h3 class="tc-itin2__momento">Ceremonia al fondo</h3><p class="tc-itin2__detalle">El voto frente al muro encalado.</p></div>
+  </article>
+  <article class="tc-itin2__plato">
+    <time class="tc-itin2__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00 H</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3"><h3 class="tc-itin2__momento">Mesa larga</h3><p class="tc-itin2__detalle">Cena compartida con luces de cuerda.</p></div>
+  </article>
+  <article class="tc-itin2__plato">
+    <time class="tc-itin2__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:30 H</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4"><h3 class="tc-itin2__momento">Verbena final</h3><p class="tc-itin2__detalle">Guitarras, baile y estrellas grandes.</p></div>
+  </article>
+</div>
+<script>
+var moduleMetadata = { module_type:'itinerario', module_name:'itinerario-agenda', style_name:'Terracota — Mesa de Platos', descripcion:'Platos de barro rotos esparcidos sobre la mesa, montados unos sobre otros con rotaciones y solapes; horas selladas en placa de terracota.', tags:['itinerario','platos','barro','esparcido','terracota'], tipo:'itinerario' };
+</script>
 </section>
 
 <section
@@ -1347,453 +1147,159 @@
   </script>
 </section>
 
-<section
-  class="tc-countdown"
-  data-gemini-id="countdown-cantaro-tiempo"
-  path="placeholder"
-  memory_source="generated"
-  memory_type="background"
-  memory_usage="protected"
-  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
->
-  <style>
-    .tc-countdown {
-      position: relative;
-      isolation: isolate;
-      overflow: hidden;
-      box-sizing: border-box;
-      min-height: 640px;
-      display: grid;
-      place-items: center;
-      padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 5vw, 3rem);
-      background-color: var(--bg-color, #f6efe6);
-      background-image: url('https://loremflickr.com/1600/900/pottery,warm');
-      background-size: cover;
-      background-position: center;
-      color: var(--text-color, #3d2b22);
-      text-align: center;
-    }
-    .tc-countdown *,
-    .tc-countdown *::before,
-    .tc-countdown *::after { box-sizing: border-box; }
-
-    .tc-countdown::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      background: color-mix(in srgb, var(--bg-color, #f6efe6) 90%, transparent);
-    }
-
-    .tc-countdown__etiqueta {
-      margin: 0 0 0.55rem;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
-      letter-spacing: 0.44em;
-      text-transform: uppercase;
-      color: var(--accent-color, #c26a4a);
-    }
-    .tc-countdown__titulo {
-      margin: 0 0 0.4rem;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-weight: 400;
-      font-size: clamp(1.75rem, 4vw, 2.6rem);
-      color: var(--primary-color, #3d2b22);
-    }
-    .tc-countdown__fecha {
-      display: block;
-      margin-bottom: clamp(1.5rem, 3.6vw, 2.2rem);
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(0.76rem, 1.5vw, 0.88rem);
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--secondary-color, #8a6f5c);
-    }
-
-    .tc-countdown__cantaro {
-      position: relative;
-      width: clamp(180px, 27vw, 240px);
-      margin: 0 auto clamp(1.4rem, 3.4vw, 2rem);
-    }
-    .tc-countdown__cantaro svg { display: block; width: 100%; height: auto; }
-    .tc-countdown__asas { fill: none; stroke: color-mix(in srgb, var(--secondary-color, #8a6f5c) 55%, transparent); stroke-width: 2; }
-    .tc-countdown__nivel-fondo { fill: none; stroke: color-mix(in srgb, var(--accent-color, #c26a4a) 28%, transparent); stroke-width: 8; }
-    .tc-countdown__nivel {
-      fill: none;
-      stroke: var(--accent-color, #c26a4a);
-      stroke-width: 8;
-      stroke-linecap: round;
-      transform: rotate(-90deg);
-      transform-origin: 110px 110px;
-      transition: stroke-dashoffset 0.5s linear;
-    }
-    .tc-countdown__agua {
-      position: absolute;
-      inset: 26%;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: var(--surface-color, #fdf8f1);
-      border: 1px solid var(--surface-border-color, rgba(61, 43, 34, 0.18));
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(1.4rem, 3.2vw, 2rem);
-      font-variant-numeric: tabular-nums;
-      color: var(--primary-color, #3d2b22);
-    }
-
-    .tc-countdown__unidades {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: clamp(0.6rem, 1.8vw, 1rem);
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    .tc-countdown__unidad {
-      padding: clamp(0.9rem, 2.2vw, 1.3rem) 0.3rem;
-      background: var(--surface-color, #fdf8f1);
-      border: 1px solid var(--surface-border-color, rgba(61, 43, 34, 0.18));
-      border-radius: 10px 10px 22px 22px;
-    }
-    .tc-countdown__numero {
-      display: block;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(1.5rem, 4vw, 2.4rem);
-      font-variant-numeric: tabular-nums;
-      line-height: 1;
-      color: var(--primary-color, #3d2b22);
-    }
-    .tc-countdown__rotulo {
-      display: block;
-      margin-top: 0.45rem;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(0.54rem, 1.05vw, 0.62rem);
-      letter-spacing: 0.32em;
-      text-transform: uppercase;
-      color: var(--secondary-color, #8a6f5c);
-    }
-
-    @media (max-width: 560px) {
-      .tc-countdown__unidades { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .tc-countdown { min-height: 580px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .tc-countdown__nivel { transition: none; }
-    }
-  </style>
-
-  <div class="tc-countdown__contenido">
-    <p class="tc-countdown__etiqueta" memory_type="text" memory_usage="custom" memory_key="countdown-etiqueta">El cántaro se llena</p>
-    <h2 class="tc-countdown__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Cuenta regresiva</h2>
-    <time class="tc-countdown__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
-
-    <div class="tc-countdown__cantaro" aria-hidden="true">
-      <svg viewBox="0 0 220 220">
-        <path class="tc-countdown__asas" d="M26 110 C6 110, 6 78, 30 72 M194 110 C214 110, 214 78, 190 72"/>
-        <circle class="tc-countdown__nivel-fondo" cx="110" cy="110" r="88" stroke-dasharray="50 50" />
-        <circle class="tc-countdown__nivel" data-tc-nivel cx="110" cy="110" r="88" stroke-dasharray="552.9" stroke-dashoffset="0" />
-      </svg>
-      <div class="tc-countdown__agua" data-tc-segundos>00</div>
-    </div>
-
-    <div class="tc-countdown__unidades" aria-label="Cuenta regresiva">
-      <div class="tc-countdown__unidad"><span class="tc-countdown__numero" data-countdown-unit="days">--</span><span class="tc-countdown__rotulo">Días</span></div>
-      <div class="tc-countdown__unidad"><span class="tc-countdown__numero" data-countdown-unit="hours">--</span><span class="tc-countdown__rotulo">Horas</span></div>
-      <div class="tc-countdown__unidad"><span class="tc-countdown__numero" data-countdown-unit="minutes">--</span><span class="tc-countdown__rotulo">Min</span></div>
-      <div class="tc-countdown__unidad"><span class="tc-countdown__numero" data-countdown-unit="seconds">--</span><span class="tc-countdown__rotulo">Seg</span></div>
-    </div>
+<section class="tc-cd2" data-gemini-id="countdown-azulejos-colgados" path="placeholder" memory_source="generated" memory_type="background" memory_usage="protected" data-countdown-target="YYYY-MM-DDTHH:MM:SS">
+<style>
+.tc-cd2 { --primary-color:#3d2b22; --secondary-color:#8a6f5c; --accent-color:#c26a4a; --bg-color:#f6efe6; --surface-color:#fdf8f1; --surface-border-color:rgba(61,43,34,.18); --text-color:#3d2b22;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:640px; display:grid; place-items:center; padding:clamp(3rem,7vw,5rem) clamp(1rem,5vw,3rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/tiles,ceramic'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.tc-cd2 *, .tc-cd2 *::before, .tc-cd2 *::after { box-sizing:border-box; }
+.tc-cd2::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 89%, transparent); }
+.tc-cd2__titulo { margin:0 0 1rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.7rem,4vw,2.6rem); color:var(--primary-color); }
+.tc-cd2__fecha { display:block; margin-top:2.6rem; font-family:Georgia,serif; font-size:clamp(.76rem,1.5vw,.88rem); letter-spacing:.28em; text-transform:uppercase; color:var(--secondary-color); }
+/* azulejos colgados de cuerdas a distintas alturas, meciéndose suave */
+.tc-cd2__colgadero { display:flex; justify-content:center; align-items:flex-start; gap:clamp(.8rem,2.6vw,1.8rem); }
+.tc-cd2__azulejo { width:clamp(88px,17vw,136px); transform-origin:top center; animation:tcCd2Cuna var(--d,4s) ease-in-out infinite; animation-delay:var(--dl,0s); }
+.tc-cd2__azulejo:nth-child(1){ --g:-3deg; --d:4.2s; }
+.tc-cd2__azulejo:nth-child(2){ --g:2.4deg; --d:5s; --dl:.4s; }
+.tc-cd2__azulejo:nth-child(3){ --g:-2deg; --d:4.6s; --dl:.8s; }
+.tc-cd2__azulejo:nth-child(4){ --g:3.4deg; --d:5.4s; --dl:1.2s; }
+@keyframes tcCd2Cuna { 0%,100% { transform:rotate(var(--g)); } 50% { transform:rotate(calc(var(--g) * -0.6)); } }
+.tc-cd2__cuerda { width:2px; height:clamp(20px,4vw,38px); margin:0 auto; background:var(--secondary-color); }
+.tc-cd2__losa { position:relative; aspect-ratio:4/5; display:grid; place-items:center; background:
+  radial-gradient(circle at 30% 22%, rgba(255,255,255,.4), transparent 42%),
+  var(--accent-color); border-radius:6px 6px 26px 6px; border:1px solid var(--surface-border-color); box-shadow:0 16px 30px rgba(61,43,34,.28), inset 0 0 0 4px rgba(253,248,241,.35); }
+.tc-cd2__azulejo:nth-child(even) .tc-cd2__losa { background:radial-gradient(circle at 30% 22%, rgba(255,255,255,.35), transparent 42%), var(--secondary-color); }
+.tc-cd2__numero { font-family:Georgia,serif; font-size:clamp(1.9rem,5.2vw,3.2rem); font-variant-numeric:tabular-nums; color:var(--surface-color); text-shadow:0 2px 10px rgba(61,43,34,.4); }
+.tc-cd2__rotulo { display:block; font-size:clamp(.5rem,1vw,.58rem); letter-spacing:.34em; text-transform:uppercase; color:var(--surface-color); opacity:.9; margin-top:.35rem; }
+@media (max-width:520px){ .tc-cd2__colgadero { flex-wrap:wrap; align-items:center; } .tc-cd2__azulejo { margin-top:1rem !important; } }
+@media (prefers-reduced-motion:reduce){ .tc-cd2__azulejo { animation:none; } }
+</style>
+<div>
+  <h2 class="tc-cd2__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Azulejos que cuentan</h2>
+  <div class="tc-cd2__colgadero" aria-label="Cuenta regresiva">
+    <div class="tc-cd2__azulejo"><span class="tc-cd2__cuerda" aria-hidden="true"></span><div class="tc-cd2__losa"><span><span class="tc-cd2__numero" data-countdown-unit="days">--</span><span class="tc-cd2__rotulo">Días</span></span></div></div>
+    <div class="tc-cd2__azulejo"><span class="tc-cd2__cuerda" aria-hidden="true"></span><div class="tc-cd2__losa"><span><span class="tc-cd2__numero" data-countdown-unit="hours">--</span><span class="tc-cd2__rotulo">Horas</span></span></div></div>
+    <div class="tc-cd2__azulejo"><span class="tc-cd2__cuerda" aria-hidden="true"></span><div class="tc-cd2__losa"><span><span class="tc-cd2__numero" data-countdown-unit="minutes">--</span><span class="tc-cd2__rotulo">Min</span></span></div></div>
+    <div class="tc-cd2__azulejo"><span class="tc-cd2__cuerda" aria-hidden="true"></span><div class="tc-cd2__losa"><span><span class="tc-cd2__numero" data-countdown-unit="seconds">--</span><span class="tc-cd2__rotulo">Seg</span></span></div></div>
   </div>
-
-  <script>
-    (function () {
-      var el = null;
-      try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
-      if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
-      if (!el) return;
-
-      var nivel = el.querySelector('[data-tc-nivel]');
-      var agua = el.querySelector('[data-tc-segundos]');
-      var LONGITUD = nivel ? 2 * Math.PI * 88 : 0;
-      var target = NaN;
-      var attr = el.getAttribute('data-countdown-target');
-      if (attr && attr.indexOf('YYYY') === -1) { var p = new Date(attr); if (!isNaN(p.getTime())) target = p.getTime(); }
-      if (isNaN(target) && window.__countdownTarget) { var p1 = new Date(window.__countdownTarget); if (!isNaN(p1.getTime())) target = p1.getTime(); }
-      if (isNaN(target) && window.countdown_target) { var p2 = new Date(window.countdown_target); if (!isNaN(p2.getTime())) target = p2.getTime(); }
-
-      var intervalId = null;
-      (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
-      window.__countdownIntervals = [];
-
-      function pad2(n) { return n < 10 ? '0' + n : '' + n; }
-      function setUnit(unit, value) {
-        var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
-        if (node) node.textContent = value;
-      }
-      function tick() {
-        if (!Number.isFinite(target)) return;
-        var diff = Math.max(target - Date.now(), 0);
-        setUnit('days', Math.floor(diff / 86400000));
-        setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
-        setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
-        var s = Math.floor((diff % 60000) / 1000);
-        setUnit('seconds', pad2(s));
-        if (agua) agua.textContent = pad2(s);
-        if (nivel) nivel.setAttribute('stroke-dashoffset', (LONGITUD * (1 - s / 60)).toFixed(2));
-        if (diff === 0 && intervalId !== null) {
-          clearInterval(intervalId);
-          intervalId = null;
-          window.__countdownIntervals = [];
-        }
-      }
-      function start(newTarget) {
-        if (newTarget) { var p = new Date(newTarget); if (!isNaN(p.getTime())) target = p.getTime(); }
-        (window.__countdownIntervals || []).forEach(clearInterval);
-        window.__countdownIntervals = [];
-        intervalId = null;
-        if (!Number.isFinite(target)) return;
-        tick();
-        if (target > Date.now()) {
-          intervalId = setInterval(tick, 1000);
-          window.__countdownIntervals.push(intervalId);
-        }
-      }
-      start();
-      window.updateCountdown = start;
-    })();
-  </script>
-
-  <script>
-    var moduleMetadata = {
-      module_type: 'countdown',
-      module_name: 'countdown-cantaro-tiempo',
-      style_name: 'Cántaro de Tiempo',
-      descripcion: 'Cántaro de barro con asas y anillo nivel que se vacía como el agua cada minuto, sobre cuatro tinajas de unidades.',
-      tags: ['countdown', 'cuenta regresiva', 'cantaro', 'barro', 'mediterraneo', 'agua'],
-      tipo: 'countdown'
-    };
-  </script>
+  <time class="tc-cd2__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+</div>
+<script>
+(function(){ var el=null; try{ el=document.currentScript.closest('[data-gemini-id^="countdown"]'); }catch(e){} if(!el) el=document.querySelector('[data-gemini-id^="countdown"]'); if(!el) return;
+  var target=NaN; var attr=el.getAttribute('data-countdown-target');
+  if(attr&&attr.indexOf('YYYY')===-1){ var p=new Date(attr); if(!isNaN(p.getTime())) target=p.getTime(); }
+  if(isNaN(target)&&window.__countdownTarget){ var p1=new Date(window.__countdownTarget); if(!isNaN(p1.getTime())) target=p1.getTime(); }
+  if(isNaN(target)&&window.countdown_target){ var p2=new Date(window.countdown_target); if(!isNaN(p2.getTime())) target=p2.getTime(); }
+  var intervalId=null; (window.__countdownIntervals=window.__countdownIntervals||[]).forEach(clearInterval); window.__countdownIntervals=[];
+  function pad2(n){ return n<10?'0'+n:''+n; }
+  function setUnit(u,v){ var n=el.querySelector('[data-countdown-unit="'+u+'"]'); if(n) n.textContent=v; }
+  function tick(){ if(!Number.isFinite(target)) return; var d=Math.max(target-Date.now(),0);
+    setUnit('days',Math.floor(d/86400000)); setUnit('hours',pad2(Math.floor((d%86400000)/3600000))); setUnit('minutes',pad2(Math.floor((d%3600000)/60000))); setUnit('seconds',pad2(Math.floor((d%60000)/1000)));
+    if(d===0&&intervalId!==null){ clearInterval(intervalId); intervalId=null; window.__countdownIntervals=[]; } }
+  function start(nt){ if(nt){ var p=new Date(nt); if(!isNaN(p.getTime())) target=p.getTime(); }
+    (window.__countdownIntervals||[]).forEach(clearInterval); window.__countdownIntervals=[]; intervalId=null;
+    if(!Number.isFinite(target)) return; tick(); if(target>Date.now()){ intervalId=setInterval(tick,1000); window.__countdownIntervals.push(intervalId); } }
+  start(); window.updateCountdown=start;
+})();
+</script>
+<script>
+var moduleMetadata = { module_type:'countdown', module_name:'countdown-azulejos-colgados', style_name:'Azulejos Colgados', descripcion:'Azulejos de esmalte colgados de cuerdas a distintas alturas, meciéndose con retardo escalonado; glaze brillante con marco interior.', tags:['countdown','azulejos','colgados','cuna','ceramica'], tipo:'countdown' };
+</script>
 </section>
 
-<section
-  class="tc-padrinos"
-  data-gemini-id="padrinos-terraza-faroles"
-  memory_type="background"
-  memory_usage="protected"
-  memory_source="generated"
-  path="placeholder"
->
-  <style>
-    .tc-padrinos {
-      --primary-color: #3d2b22;
-      --secondary-color: #8a6f5c;
-      --accent-color: #c26a4a;
-      --bg-color: #f6efe6;
-      --surface-color: #fdf8f1;
-      --surface-border-color: rgba(61, 43, 34, 0.18);
-      --text-color: #3d2b22;
-
-      position: relative;
-      isolation: isolate;
-      box-sizing: border-box;
-      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
-      background-color: var(--bg-color);
-      background-image: url('https://loremflickr.com/1600/900/terrace,warm');
-      background-size: cover;
-      background-position: center;
-      color: var(--text-color);
-      text-align: center;
-    }
-    .tc-padrinos *,
-    .tc-padrinos *::before,
-    .tc-padrinos *::after { box-sizing: border-box; }
-
-    .tc-padrinos::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      background: color-mix(in srgb, var(--bg-color) 91%, transparent);
-    }
-
-    .tc-padrinos__titulo {
-      margin: 0 0 0.5rem;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-weight: 400;
-      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
-      color: var(--primary-color);
-    }
-    .tc-padrinos__intro {
-      margin: 0 auto clamp(2.2rem, 5vw, 3.2rem);
-      max-width: 50ch;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-style: italic;
-      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
-      line-height: 1.7;
-      color: var(--secondary-color);
-    }
-
-    .tc-padrinos__terraza {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: clamp(1.4rem, 4vw, 2.8rem);
-      width: min(100%, 840px);
-      margin: 0 auto;
-    }
-
-    .tc-padrinos__farol {
-      position: relative;
-      padding: clamp(1.6rem, 3.8vw, 2.3rem) clamp(1.2rem, 3vw, 1.8rem) clamp(1.8rem, 4vw, 2.4rem);
-      background: var(--surface-color);
-      border: 1px solid var(--surface-border-color);
-      border-radius: 14px;
-      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
-    }
-    .tc-padrinos.tc-js .tc-padrinos__farol { opacity: 0; transform: translateY(20px); }
-    .tc-padrinos .tc-padrinos__farol.esta-visto { opacity: 1; transform: none; }
-    .tc-padrinos__farol::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: 56px;
-      height: 5px;
-      transform: translateX(-50%);
-      background: var(--accent-color);
-      border-radius: 0 0 6px 6px;
-    }
-
-    .tc-padrinos__aro {
-      width: clamp(88px, 12.5vw, 112px);
-      margin: 0 auto 0.9rem;
-      padding: 5px;
-      border: 1px solid var(--surface-border-color);
-      border-radius: 50%;
-      background: var(--bg-color);
-      box-shadow: inset 0 0 0 4px color-mix(in srgb, var(--accent-color) 30%, transparent);
-    }
-    .tc-padrinos__aro img {
-      color: transparent;
-      display: block;
-      width: 100%;
-      height: auto;
-      aspect-ratio: 1 / 1;
-      border-radius: 50%;
-      object-fit: cover;
-      filter: saturate(0.92);
-    }
-
-    .tc-padrinos__rol {
-      margin: 0 0 0.3rem;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(0.56rem, 1.05vw, 0.64rem);
-      letter-spacing: 0.36em;
-      text-transform: uppercase;
-      color: var(--accent-color);
-    }
-    .tc-padrinos__nombre {
-      margin: 0;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(0.98rem, 1.95vw, 1.18rem);
-      line-height: 1.3;
-      color: var(--primary-color);
-    }
-
-    @media (max-width: 680px) {
-      .tc-padrinos__terraza { grid-template-columns: 1fr; max-width: 350px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .tc-padrinos * { transition: none !important; }
-      .tc-padrinos__farol { opacity: 1 !important; transform: none !important; }
-    }
-  </style>
-
-  <header memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
-    <h2 class="tc-padrinos__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Faroles de la terraza</h2>
-    <p class="tc-padrinos__intro" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Quienes alumbraron el camino, honrados como faroles de la entrada.</p>
-  </header>
-
-  <div class="tc-padrinos__terraza">
-    <article class="tc-padrinos__farol" data-tc-farol>
-      <figure class="tc-padrinos__aro" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
-        <img src="https://loremflickr.com/300/300/portrait,warm" alt="Retrato de padrino" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-        <figcaption hidden>Padrino uno</figcaption>
+<section class="tc-padrinos2" data-gemini-id="padrinos-terracota-platos" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.tc-padrinos2 { --primary-color:#3d2b22; --secondary-color:#8a6f5c; --accent-color:#c26a4a; --bg-color:#f6efe6; --surface-color:#fdf8f1; --surface-border-color:rgba(61,43,34,.18); --text-color:#3d2b22;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/plates,ceramic'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.tc-padrinos2 *, .tc-padrinos2 *::before, .tc-padrinos2 *::after { box-sizing:border-box; }
+.tc-padrinos2::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 89%, transparent); }
+.tc-padrinos2__titulo { margin:0 0 .5rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.8rem); color:var(--primary-color); }
+.tc-padrinos2__intro { margin:0 auto clamp(2.4rem,6vw,3.6rem); max-width:46ch; font-style:italic; font-size:clamp(.86rem,1.55vw,.98rem); line-height:1.7; color:var(--secondary-color); }
+/* platos de pared colgados de clavos, cada uno torcido y montado sobre el siguiente */
+.tc-padrinos2__pared { display:flex; flex-wrap:wrap; justify-content:center; width:min(100%,1000px); margin:0 auto; }
+.tc-padrinos2__plato { position:relative; width:clamp(200px,28vw,260px); margin:clamp(-.4rem,-.8vw,-.2rem) clamp(-.3rem,-.5vw,-.1rem); transition:transform .5s cubic-bezier(.22,.8,.3,1); transform:rotate(var(--g)); z-index:var(--z,1); }
+.tc-padrinos2__plato:hover { transform:rotate(0) scale(1.05); z-index:9; }
+.tc-padrinos2__plato:nth-child(1){ --g:-4.6deg; --z:1; }
+.tc-padrinos2__plato:nth-child(2){ --g:2.8deg; --z:2; }
+.tc-padrinos2__plato:nth-child(3){ --g:-2.2deg; --z:3; }
+.tc-padrinos2__plato:nth-child(4){ --g:4deg; --z:4; }
+.tc-padrinos2__clavo { width:9px; height:9px; border-radius:50%; background:var(--primary-color); margin:0 auto 8px; box-shadow:0 2px 4px rgba(61,43,34,.4); }
+.tc-padrinos2__disco { position:relative; aspect-ratio:1/1; border-radius:50%; background:
+  radial-gradient(circle at 50% 50%, var(--surface-color) 0 58%, color-mix(in srgb, var(--accent-color) 68%, transparent) 58% 74%, transparent 74%),
+  var(--surface-color);
+  border:1px solid var(--surface-border-color); box-shadow:0 18px 38px rgba(61,43,34,.24), inset 0 0 0 3px rgba(253,248,241,.5); display:grid; place-items:center; }
+.tc-padrinos2__disco::before { content:''; position:absolute; width:56%; aspect-ratio:1/1; border-radius:50%; border:1px dashed var(--accent-color); }
+.tc-padrinos2__plato:nth-child(even) .tc-padrinos2__disco { background:
+  radial-gradient(circle at 50% 50%, var(--bg-color) 0 58%, color-mix(in srgb, var(--secondary-color) 55%, transparent) 58% 74%, transparent 74%),
+  var(--bg-color); }
+.tc-padrinos2__retrato { position:relative; z-index:1; width:46%; aspect-ratio:1/1; border-radius:50%; overflow:hidden; }
+.tc-padrinos2__retrato img { display:block; width:100%; height:100%; object-fit:cover; filter:saturate(.9); }
+.tc-padrinos2__rol { display:block; margin:.8rem 0 .2rem; font-family:Georgia,serif; font-size:clamp(.54rem,1vw,.62rem); letter-spacing:.3em; text-transform:uppercase; color:var(--accent-color); }
+.tc-padrinos2__nombre { font-family:Georgia,serif; font-size:clamp(.9rem,1.8vw,1.08rem); line-height:1.3; color:var(--primary-color); }
+@media (max-width:700px){ .tc-padrinos2__pared { flex-direction:column; align-items:center; } .tc-padrinos2__plato { width:min(100%,280px); transform:rotate(0); margin:0; } }
+</style>
+<header memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
+  <h2 class="tc-padrinos2__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Platos de la colección</h2>
+  <p class="tc-padrinos2__intro" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Piezas únicas esmaltadas a mano, colgadas de un clavo como en las cocinas de la abuela.</p>
+</header>
+<div class="tc-padrinos2__pared">
+  <article class="tc-padrinos2__plato">
+    <span class="tc-padrinos2__clavo" aria-hidden="true"></span>
+    <div class="tc-padrinos2__disco">
+      <figure class="tc-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
+        <img src="https://loremflickr.com/240/240/portrait,clay" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrinos uno</figcaption>
       </figure>
-      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
-        <p class="tc-padrinos__rol">Padrinos de alianzas</p>
-        <h3 class="tc-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
-      </div>
-    </article>
-
-    <article class="tc-padrinos__farol" data-tc-farol>
-      <figure class="tc-padrinos__aro" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
-        <img src="https://loremflickr.com/300/300/portrait,sunset" alt="Retrato de madrina" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-        <figcaption hidden>Madrina dos</figcaption>
+    </div>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
+      <span class="tc-padrinos2__rol">Padrinos de alianzas</span>
+      <span class="tc-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</span>
+    </div>
+  </article>
+  <article class="tc-padrinos2__plato">
+    <span class="tc-padrinos2__clavo" aria-hidden="true"></span>
+    <div class="tc-padrinos2__disco">
+      <figure class="tc-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
+        <img src="https://loremflickr.com/240/240/portrait,glaze" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrinos dos</figcaption>
       </figure>
-      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
-        <p class="tc-padrinos__rol">Padrinos de velo</p>
-        <h3 class="tc-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
-      </div>
-    </article>
-
-    <article class="tc-padrinos__farol" data-tc-farol>
-      <figure class="tc-padrinos__aro" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
-        <img src="https://loremflickr.com/300/300/portrait,olive" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-        <figcaption hidden>Padrino tres</figcaption>
+    </div>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
+      <span class="tc-padrinos2__rol">Padrinos de velo</span>
+      <span class="tc-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</span>
+    </div>
+  </article>
+  <article class="tc-padrinos2__plato">
+    <span class="tc-padrinos2__clavo" aria-hidden="true"></span>
+    <div class="tc-padrinos2__disco">
+      <figure class="tc-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
+        <img src="https://loremflickr.com/240/240/portrait,sienna" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrinos tres</figcaption>
       </figure>
-      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
-        <p class="tc-padrinos__rol">Padrinos de arras</p>
-        <h3 class="tc-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
-      </div>
-    </article>
-
-    <article class="tc-padrinos__farol" data-tc-farol>
-      <figure class="tc-padrinos__aro" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
-        <img src="https://loremflickr.com/300/300/portrait,clay" alt="Retrato de madrinas" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-        <figcaption hidden>Madrina cuatro</figcaption>
+    </div>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
+      <span class="tc-padrinos2__rol">Padrinos de arras</span>
+      <span class="tc-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</span>
+    </div>
+  </article>
+  <article class="tc-padrinos2__plato">
+    <span class="tc-padrinos2__clavo" aria-hidden="true"></span>
+    <div class="tc-padrinos2__disco">
+      <figure class="tc-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
+        <img src="https://loremflickr.com/240/240/portrait,ochre" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrinos cuatro</figcaption>
       </figure>
-      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
-        <p class="tc-padrinos__rol">Padrinos de lazos</p>
-        <h3 class="tc-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
-      </div>
-    </article>
-  </div>
-
-  <script>
-    (function () {
-      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.tc-padrinos');
-      if (!root) return;
-      root.classList.add('tc-js');
-      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
-      var faroles = Array.prototype.slice.call(root.querySelectorAll('[data-tc-farol]'));
-      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduce || !('IntersectionObserver' in window)) {
-        faroles.forEach(function (f) { f.classList.add('esta-visto'); });
-        return;
-      }
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          var i = faroles.indexOf(entry.target);
-          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.12).toFixed(2) + 's';
-          entry.target.classList.add('esta-visto');
-          io.unobserve(entry.target);
-        });
-      }, { threshold: 0.25 });
-      faroles.forEach(function (f) { io.observe(f); });
-    })();
-  </script>
-
-  <script>
-    var moduleMetadata = {
-      module_type: 'padrinos',
-      module_name: 'padrinos-terraza-faroles',
-      style_name: 'Terracota Mediterránea — Padrinos',
-      descripcion: 'Faroles de terraza con gancho de barro, retratos de aro con halo interior y encendido escalonado al entrar en pantalla.',
-      tags: ['padrinos', 'faroles', 'mediterraneo', 'retratos', 'stagger', 'terracota'],
-      tipo: 'padrinos'
-    };
-  </script>
+    </div>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
+      <span class="tc-padrinos2__rol">Padrinos de lazos</span>
+      <span class="tc-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</span>
+    </div>
+  </article>
+</div>
+<script>
+var moduleMetadata = { module_type:'padrinos', module_name:'padrinos-terracota-platos', style_name:'Terracota — Platos de Pared', descripcion:'Platos de cerámica colgados de clavos, cada uno torcido y montado sobre el siguiente; anillo de esmalte, aro punteado y retrato circular al centro.', tags:['padrinos','platos','colgados','ceramica','terracota'], tipo:'padrinos' };
+</script>
 </section>
 
 <section

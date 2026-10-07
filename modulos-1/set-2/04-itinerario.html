@@ -1,266 +1,55 @@
-<section
-  class="dc-itinerario"
-  data-gemini-id="itinerario-agenda"
-  memory_type="background"
-  memory_usage="protected"
-  memory_source="generated"
-  path="placeholder"
->
-  <style>
-    .dc-itinerario {
-      --primary-color: #1f1a17;
-      --secondary-color: #6e6257;
-      --accent-color: #b08d57;
-      --bg-color: #f4efe6;
-      --surface-color: #fbf7ee;
-      --surface-border-color: rgba(31, 26, 23, 0.25);
-      --text-color: #1f1a17;
-
-      position: relative;
-      isolation: isolate;
-      box-sizing: border-box;
-      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
-      background-color: var(--bg-color);
-      background-image: url('https://loremflickr.com/1600/900/ballroom,chandelier');
-      background-size: cover;
-      background-position: center;
-      color: var(--text-color);
-      text-align: center;
-    }
-    .dc-itinerario *,
-    .dc-itinerario *::before,
-    .dc-itinerario *::after { box-sizing: border-box; }
-
-    .dc-itinerario::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      background: color-mix(in srgb, var(--bg-color) 89%, transparent);
-    }
-
-    .dc-itinerario__titulo {
-      margin: 0 0 0.5rem;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-weight: 400;
-      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
-      color: var(--primary-color);
-    }
-    .dc-itinerario__intro {
-      margin: 0 auto clamp(2rem, 5vw, 3rem);
-      max-width: 50ch;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
-      line-height: 1.7;
-      color: var(--secondary-color);
-    }
-
-    .dc-itinerario__espina {
-      position: relative;
-      width: min(100%, 860px);
-      margin: 0 auto;
-      padding: 0.5rem 0;
-    }
-    .dc-itinerario__riel {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 50%;
-      width: 1px;
-      background: color-mix(in srgb, var(--primary-color) 25%, transparent);
-    }
-    .dc-itinerario__avance {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: 3px;
-      height: 0%;
-      transform: translateX(-1px);
-      background: linear-gradient(var(--accent-color), color-mix(in srgb, var(--accent-color) 40%, transparent));
-    }
-
-    .dc-itinerario__hito {
-      position: relative;
-      width: calc(50% - clamp(1.4rem, 4vw, 2.8rem));
-      margin-bottom: clamp(1.4rem, 3.5vw, 2.2rem);
-      text-align: left;
-      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
-    }
-    .dc-itinerario.dc-js .dc-itinerario__hito { opacity: 0; transform: translateY(16px); }
-    .dc-itinerario .dc-itinerario__hito.esta-visto { opacity: 1; transform: none; }
-    .dc-itinerario__hito--der { margin-left: auto; }
-    .dc-itinerario__hito--izq { text-align: right; }
-
-    .dc-itinerario__medallon {
-      position: absolute;
-      top: 0.9rem;
-      width: 30px;
-      height: 30px;
-      display: grid;
-      place-items: center;
-      background: var(--bg-color);
-      border: 1px solid var(--accent-color);
-      border-radius: 50%;
-      box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-color) 25%, transparent);
-    }
-    .dc-itinerario__hito--der .dc-itinerario__medallon { left: calc(-1 * clamp(1.4rem, 4vw, 2.8rem) - 15px); }
-    .dc-itinerario__hito--izq .dc-itinerario__medallon { right: calc(-1 * clamp(1.4rem, 4vw, 2.8rem) - 15px); }
-    .dc-itinerario__medallon svg { width: 14px; color: var(--accent-color); }
-
-    .dc-itinerario__tarjeta {
-      padding: clamp(1.1rem, 2.6vw, 1.5rem) clamp(1.2rem, 3vw, 1.7rem);
-      background: color-mix(in srgb, var(--surface-color) 96%, transparent);
-      border: 1px solid var(--surface-border-color);
-      box-shadow: 0 14px 34px rgba(31, 26, 23, 0.12);
-    }
-
-    .dc-itinerario__hora {
-      display: inline-block;
-      margin-bottom: 0.4rem;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(0.78rem, 1.5vw, 0.9rem);
-      letter-spacing: 0.18em;
-      color: var(--accent-color);
-    }
-    .dc-itinerario__momento {
-      margin: 0 0 0.3rem;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(1rem, 2.1vw, 1.25rem);
-      color: var(--primary-color);
-    }
-    .dc-itinerario__detalle {
-      margin: 0;
-      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
-      line-height: 1.65;
-      color: var(--secondary-color);
-    }
-
-    @media (max-width: 720px) {
-      .dc-itinerario__riel, .dc-itinerario__avance { left: 15px; }
-      .dc-itinerario__hito,
-      .dc-itinerario__hito--izq { width: auto; margin-left: 46px; text-align: left; }
-      .dc-itinerario__hito--der .dc-itinerario__medallon,
-      .dc-itinerario__hito--izq .dc-itinerario__medallon { left: -46px; right: auto; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .dc-itinerario * { transition: none !important; }
-      .dc-itinerario__hito { opacity: 1; transform: none; }
-    }
-  </style>
-
-  <header memory_type="text" memory_usage="custom" memory_key="itinerario-intro">
-    <h2 class="dc-itinerario__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Programa solemne</h2>
-    <p class="dc-itinerario__intro" memory_type="text" memory_usage="custom" memory_key="itinerario-texto">Cada momento en su justa medida, como movimientos de una misma obra.</p>
-  </header>
-
-  <div class="dc-itinerario__espina">
-    <span class="dc-itinerario__riel" aria-hidden="true"></span>
-    <span class="dc-itinerario__avance" aria-hidden="true" data-dc-avance></span>
-
-    <article class="dc-itinerario__hito dc-itinerario__hito--izq" data-dc-hito>
-      <span class="dc-itinerario__medallon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3 L14 10 L21 12 L14 14 L12 21 L10 14 L3 12 L10 10 Z" stroke="currentColor" stroke-width="1.3"/></svg>
-      </span>
-      <div class="dc-itinerario__tarjeta">
-        <time class="dc-itinerario__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00 h</time>
-        <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
-          <h3 class="dc-itinerario__momento">Ceremonia</h3>
-          <p class="dc-itinerario__detalle">Palabras de bienvenida y comienzo del acto principal.</p>
-        </div>
-      </div>
-    </article>
-
-    <article class="dc-itinerario__hito dc-itinerario__hito--der" data-dc-hito>
-      <span class="dc-itinerario__medallon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3 L14 10 L21 12 L14 14 L12 21 L10 14 L3 12 L10 10 Z" stroke="currentColor" stroke-width="1.3"/></svg>
-      </span>
-      <div class="dc-itinerario__tarjeta">
-        <time class="dc-itinerario__hora" datetime="17:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:30 h</time>
-        <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
-          <h3 class="dc-itinerario__momento">Cóctel</h3>
-          <p class="dc-itinerario__detalle">Brindis de recepción en el vestíbulo principal.</p>
-        </div>
-      </div>
-    </article>
-
-    <article class="dc-itinerario__hito dc-itinerario__hito--izq" data-dc-hito>
-      <span class="dc-itinerario__medallon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3 L14 10 L21 12 L14 14 L12 21 L10 14 L3 12 L10 10 Z" stroke="currentColor" stroke-width="1.3"/></svg>
-      </span>
-      <div class="dc-itinerario__tarjeta">
-        <time class="dc-itinerario__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00 h</time>
-        <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
-          <h3 class="dc-itinerario__momento">Banquete</h3>
-          <p class="dc-itinerario__detalle">Servicio de mesa y brindis con los anfitriones.</p>
-        </div>
-      </div>
-    </article>
-
-    <article class="dc-itinerario__hito dc-itinerario__hito--der" data-dc-hito>
-      <span class="dc-itinerario__medallon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3 L14 10 L21 12 L14 14 L12 21 L10 14 L3 12 L10 10 Z" stroke="currentColor" stroke-width="1.3"/></svg>
-      </span>
-      <div class="dc-itinerario__tarjeta">
-        <time class="dc-itinerario__hora" datetime="21:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:00 h</time>
-        <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
-          <h3 class="dc-itinerario__momento">Gran final</h3>
-          <p class="dc-itinerario__detalle">Apertura de pista y cierre con alias especial.</p>
-        </div>
-      </div>
-    </article>
-  </div>
-
-  <script>
-    (function () {
-      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.dc-itinerario');
-      if (!root) return;
-      root.classList.add('dc-js');
-      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
-
-      var avance = root.querySelector('[data-dc-avance]');
-      var hitos = Array.prototype.slice.call(root.querySelectorAll('[data-dc-hito]'));
-      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      var revealIO = ('IntersectionObserver' in window) && !reduce ? new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('esta-visto');
-            revealIO.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.3 }) : null;
-
-      hitos.forEach(function (hito) {
-        if (revealIO) revealIO.observe(hito);
-        else hito.classList.add('esta-visto');
-      });
-
-      function alAvanzar() {
-        if (!avance) return;
-        var rect = root.getBoundingClientRect();
-        var total = rect.height + window.innerHeight * 0.35;
-        var pasado = Math.min(Math.max(window.innerHeight * 0.7 - rect.top, 0), total);
-        avance.style.height = ((pasado / total) * 100).toFixed(2) + '%';
-      }
-      if (!reduce) {
-        window.addEventListener('scroll', alAvanzar, { passive: true });
-        window.addEventListener('resize', alAvanzar);
-        alAvanzar();
-      } else if (avance) {
-        avance.style.height = '100%';
-      }
-    })();
-  </script>
-
-  <script>
-    var moduleMetadata = {
-      module_type: 'itinerario',
-      module_name: 'itinerario-agenda',
-      style_name: 'Salón Déco — Itinerario',
-      descripcion: 'Espina central simétrica con medallones estrella, tarjetas alternadas y línea de avance que se dibuja con el scroll.',
-      tags: ['itinerario', 'timeline', 'simetria', 'medallones', 'scroll', 'deco'],
-      tipo: 'itinerario'
-    };
-  </script>
+<section class="dc-itin2" data-gemini-id="itinerario-agenda" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.dc-itin2 { --primary-color:#1f1a17; --secondary-color:#6e6257; --accent-color:#b08d57; --bg-color:#f4efe6; --surface-color:#fbf7ee; --surface-border-color:rgba(31,26,23,.25); --text-color:#1f1a17;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/deco,gold'); background-size:cover; background-position:center; color:var(--text-color); }
+.dc-itin2 *, .dc-itin2 *::before, .dc-itin2 *::after { box-sizing:border-box; }
+.dc-itin2::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 88%, transparent); }
+/* numerales gigantes escenográficos detrás */
+.dc-itin2__num-fondo { position:absolute; z-index:0; font-family:Georgia,serif; font-weight:700; font-size:clamp(9rem,28vw,24rem); line-height:.8; color:transparent; -webkit-text-stroke:1.5px color-mix(in srgb, var(--accent-color) 45%, transparent); pointer-events:none; }
+.dc-itin2__num-fondo--a { top:-2%; right:-3%; }
+.dc-itin2__num-fondo--b { bottom:-6%; left:-4%; }
+.dc-itin2__titulo { position:relative; z-index:2; margin:0 0 2.4rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.9rem,4.4vw,3rem); color:var(--primary-color); transform:rotate(-1deg); }
+.dc-itin2__titulo em { font-style:italic; color:var(--accent-color); }
+.dc-itin2__zigzag { position:relative; z-index:2; width:min(100%,880px); margin:0 auto; }
+.dc-itin2__hito { position:relative; width:min(70%,440px); padding:clamp(1.1rem,2.6vw,1.6rem) clamp(1.2rem,3vw,1.9rem); background:var(--surface-color); border:1px solid var(--surface-border-color); box-shadow:8px 8px 0 color-mix(in srgb, var(--accent-color) 40%, transparent); margin-bottom:clamp(1.2rem,3vw,2rem); }
+.dc-itin2__hito:nth-child(odd) { transform:rotate(-1.6deg) translateX(-4%); }
+.dc-itin2__hito:nth-child(even) { transform:rotate(1.4deg) translateX(38%); box-shadow:-8px 8px 0 color-mix(in srgb, var(--accent-color) 40%, transparent); }
+.dc-itin2__romano { position:absolute; top:-1.1em; font-family:Georgia,serif; font-size:clamp(2.2rem,5.5vw,3.4rem); line-height:1; color:var(--accent-color); text-shadow:3px 3px 0 color-mix(in srgb, var(--primary-color) 22%, transparent); }
+.dc-itin2__hito:nth-child(odd) .dc-itin2__romano { right:.6rem; }
+.dc-itin2__hito:nth-child(even) .dc-itin2__romano { left:.6rem; }
+.dc-itin2__hora { display:inline-block; margin-bottom:.3rem; font-family:'Courier New',monospace; font-size:clamp(.68rem,1.3vw,.78rem); letter-spacing:.3em; color:var(--accent-color); }
+.dc-itin2__momento { margin:0 0 .25rem; font-family:Georgia,serif; font-size:clamp(1.05rem,2.2vw,1.3rem); color:var(--primary-color); }
+.dc-itin2__detalle { margin:0; font-size:clamp(.78rem,1.4vw,.88rem); line-height:1.6; color:var(--secondary-color); }
+@media (max-width:640px){ .dc-itin2__hito, .dc-itin2__hito:nth-child(even) { width:100%; transform:rotate(0); margin-left:0; } }
+@media (prefers-reduced-motion:reduce){ .dc-itin2 * { transition:none !important; } }
+</style>
+<span class="dc-itin2__num-fondo dc-itin2__num-fondo--a" aria-hidden="true">IV</span>
+<span class="dc-itin2__num-fondo dc-itin2__num-fondo--b" aria-hidden="true">I</span>
+<h2 class="dc-itin2__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">El programa <em>solemne</em></h2>
+<div class="dc-itin2__zigzag">
+  <article class="dc-itin2__hito">
+    <span class="dc-itin2__romano" aria-hidden="true">I</span>
+    <time class="dc-itin2__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00 H</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1"><h3 class="dc-itin2__momento">Apertura de puertas</h3><p class="dc-itin2__detalle">Los invitados cruzan el vestíbulo de columnas.</p></div>
+  </article>
+  <article class="dc-itin2__hito">
+    <span class="dc-itin2__romano" aria-hidden="true">II</span>
+    <time class="dc-itin2__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00 H</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2"><h3 class="dc-itin2__momento">Ceremonia</h3><p class="dc-itin2__detalle">El acto central bajo el gran sol de laboreo.</p></div>
+  </article>
+  <article class="dc-itin2__hito">
+    <span class="dc-itin2__romano" aria-hidden="true">III</span>
+    <time class="dc-itin2__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00 H</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3"><h3 class="dc-itin2__momento">Banquete</h3><p class="dc-itin2__detalle">Mesa imperial, copas altas y brindis largo.</p></div>
+  </article>
+  <article class="dc-itin2__hito">
+    <span class="dc-itin2__romano" aria-hidden="true">IV</span>
+    <time class="dc-itin2__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:30 H</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4"><h3 class="dc-itin2__momento">Gran final</h3><p class="dc-itin2__detalle">La pista se abre; el cierre con fanfarria.</p></div>
+  </article>
+</div>
+<script>
+var moduleMetadata = { module_type:'itinerario', module_name:'itinerario-agenda', style_name:'Déco — Zigzag Escenográfico', descripcion:'Zigzag con hitos rotados y sombras duras, numerales romanos gigantes en trazo detrás y al frente, composición escenográfica no lineal.', tags:['itinerario','zigzag','numerales gigantes','rotado','deco'], tipo:'itinerario' };
+</script>
 </section>

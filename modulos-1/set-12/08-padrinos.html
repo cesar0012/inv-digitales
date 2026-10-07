@@ -1,227 +1,86 @@
-<section
-  class="fe-padrinos"
-  data-gemini-id="padrinos-feria-banderines"
-  memory_type="background"
-  memory_usage="protected"
-  memory_source="generated"
-  path="placeholder"
->
-  <style>
-    .fe-padrinos {
-      --primary-color: #f5e9d7;
-      --secondary-color: #b39a7d;
-      --accent-color: #ffb347;
-      --bg-color: #1a1410;
-      --surface-color: #241c15;
-      --surface-border-color: rgba(245, 233, 215, 0.16);
-      --text-color: #f5e9d7;
-
-      position: relative;
-      isolation: isolate;
-      box-sizing: border-box;
-      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
-      background-color: var(--bg-color);
-      background-image: url('https://loremflickr.com/1600/900/pennant,night');
-      background-size: cover;
-      background-position: center;
-      color: var(--text-color);
-      text-align: center;
-    }
-    .fe-padrinos *,
-    .fe-padrinos *::before,
-    .fe-padrinos *::after { box-sizing: border-box; }
-
-    .fe-padrinos::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
-    }
-
-    .fe-padrinos__titulo {
-      margin: 0 0 0.5rem;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-weight: 400;
-      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
-      color: var(--primary-color);
-    }
-    .fe-padrinos__intro {
-      margin: 0 auto clamp(2.2rem, 5vw, 3.2rem);
-      max-width: 50ch;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
-      line-height: 1.7;
-      color: var(--secondary-color);
-    }
-
-    .fe-padrinos__cuerda {
-      position: relative;
-      width: min(100%, 940px);
-      margin: 0 auto;
-    }
-    .fe-padrinos__cable {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: var(--secondary-color);
-      opacity: 0.7;
-    }
-
-    .fe-padrinos__banderines {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: clamp(1rem, 2.8vw, 1.9rem);
-    }
-
-    .fe-padrinos__banderin {
-      position: relative;
-      padding: clamp(1.5rem, 3.2vw, 2rem) clamp(0.9rem, 2vw, 1.3rem) clamp(1.8rem, 3.6vw, 2.4rem);
-      background: var(--surface-color);
-      border: 1px solid var(--surface-border-color);
-      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 30px), 50% 100%, 0 calc(100% - 30px));
-      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
-      transform-origin: top center;
-    }
-    .fe-padrinos.fe-js .fe-padrinos__banderin { opacity: 0; transform: rotate(-6deg); }
-    .fe-padrinos .fe-padrinos__banderin.esta-visto { opacity: 1; transform: none; }
-
-    .fe-padrinos__retrato {
-      margin: 0 0 0.8rem;
-      padding: 4px;
-      border: 1px dashed var(--accent-color);
-      border-radius: 50%;
-      background: var(--bg-color);
-    }
-    .fe-padrinos__retrato img {
-      color: transparent;
-      display: block;
-      width: 100%;
-      height: auto;
-      aspect-ratio: 1 / 1;
-      border-radius: 50%;
-      object-fit: cover;
-      filter: saturate(1.03);
-    }
-
-    .fe-padrinos__rol {
-      margin: 0 0 0.25rem;
-      font-family: 'Courier New', monospace;
-      font-size: clamp(0.54rem, 1vw, 0.62rem);
-      letter-spacing: 0.32em;
-      text-transform: uppercase;
-      color: var(--accent-color);
-    }
-    .fe-padrinos__nombre {
-      margin: 0;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(0.9rem, 1.8vw, 1.1rem);
-      line-height: 1.3;
-      color: var(--primary-color);
-    }
-
-    @media (max-width: 860px) {
-      .fe-padrinos__banderines { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-    @media (max-width: 440px) {
-      .fe-padrinos__banderines { grid-template-columns: 1fr; max-width: 260px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .fe-padrinos * { transition: none !important; }
-      .fe-padrinos__banderin { opacity: 1 !important; transform: none !important; }
-    }
-  </style>
-
-  <header memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
-    <h2 class="fe-padrinos__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Banderines de honor</h2>
-    <p class="fe-padrinos__intro" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Nuestros padrinos, izados en la cuerda principal de la feria.</p>
-  </header>
-
-  <div class="fe-padrinos__cuerda">
-    <span class="fe-padrinos__cable" aria-hidden="true"></span>
-    <div class="fe-padrinos__banderines">
-      <article class="fe-padrinos__banderin" data-fe-bandera>
-        <figure class="fe-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
-          <img src="https://loremflickr.com/300/300/portrait,fair" alt="Retrato de padrino" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-          <figcaption hidden>Padrino uno</figcaption>
-        </figure>
-        <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
-          <p class="fe-padrinos__rol">Padrinos de alianzas</p>
-          <h3 class="fe-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
-        </div>
-      </article>
-
-      <article class="fe-padrinos__banderin" data-fe-bandera>
-        <figure class="fe-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
-          <img src="https://loremflickr.com/300/300/portrait,carnival" alt="Retrato de madrina" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-          <figcaption hidden>Madrina dos</figcaption>
-        </figure>
-        <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
-          <p class="fe-padrinos__rol">Padrinos de velo</p>
-          <h3 class="fe-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
-        </div>
-      </article>
-
-      <article class="fe-padrinos__banderin" data-fe-bandera>
-        <figure class="fe-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
-          <img src="https://loremflickr.com/300/300/portrait,festival" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-          <figcaption hidden>Padrino tres</figcaption>
-        </figure>
-        <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
-          <p class="fe-padrinos__rol">Padrinos de arras</p>
-          <h3 class="fe-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
-        </div>
-      </article>
-
-      <article class="fe-padrinos__banderin" data-fe-bandera>
-        <figure class="fe-padrinos__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
-          <img src="https://loremflickr.com/300/300/portrait,amber" alt="Retrato de madrinas" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
-          <figcaption hidden>Madrina cuatro</figcaption>
-        </figure>
-        <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
-          <p class="fe-padrinos__rol">Padrinos de lazos</p>
-          <h3 class="fe-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
-        </div>
-      </article>
+<section class="fe-padrinos2" data-gemini-id="padrinos-feria-premiados" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.fe-padrinos2 { --primary-color:#f5e9d7; --secondary-color:#b39a7d; --accent-color:#ffb347; --bg-color:#1a1410; --surface-color:#241c15; --surface-border-color:rgba(245,233,215,.16); --text-color:#f5e9d7;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/ribbons,prize'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.fe-padrinos2 *, .fe-padrinos2 *::before, .fe-padrinos2 *::after { box-sizing:border-box; }
+.fe-padrinos2::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 89%, transparent); }
+.fe-padrinos2__titulo { margin:0 0 .5rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.8rem); color:var(--primary-color); }
+.fe-padrinos2__intro { margin:0 auto clamp(2.4rem,6vw,3.6rem); max-width:46ch; font-family:Arial,sans-serif; font-size:clamp(.84rem,1.5vw,.94rem); line-height:1.7; color:var(--secondary-color); }
+/* rosetas premiadas a distintos altos y giros, colgadas de cintas */
+.fe-padrinos2__premiados { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(1rem,3vw,2.2rem); width:min(100%,960px); margin:0 auto; }
+.fe-padrinos2__premiado { width:clamp(190px,27vw,240px); transform:rotate(var(--g)) translateY(var(--y)); transition:transform .5s cubic-bezier(.22,.8,.3,1); }
+.fe-padrinos2__premiado:hover { transform:rotate(0) translateY(calc(var(--y) - 8px)); }
+.fe-padrinos2__premiado:nth-child(1){ --g:-3.2deg; --y:14px; }
+.fe-padrinos2__premiado:nth-child(2){ --g:2.2deg; --y:-6px; }
+.fe-padrinos2__premiado:nth-child(3){ --g:-1.8deg; --y:22px; }
+.fe-padrinos2__premiado:nth-child(4){ --g:3.6deg; --y:0px; }
+.fe-padrinos2__roseta { position:relative; width:clamp(120px,20vw,160px); aspect-ratio:1/1; margin:0 auto .9rem; border-radius:50%; display:grid; place-items:center;
+  background:repeating-conic-gradient(var(--accent-color) 0 14deg, color-mix(in srgb, var(--accent-color) 40%, var(--bg-color)) 14deg 28deg);
+  box-shadow:0 16px 34px rgba(0,0,0,.5), inset 0 0 0 5px var(--bg-color); }
+.fe-padrinos2__roseta::before { content:''; position:absolute; inset:18%; border-radius:50%; background:var(--surface-color); box-shadow:inset 0 0 0 2px var(--accent-color); }
+.fe-padrinos2__roseta::after { content:''; position:absolute; inset:auto 30% -12px 30%; height:22px; background:
+  linear-gradient(45deg, transparent 42%, var(--accent-color) 42% 58%, transparent 58%) 0 0 / 14px 100% repeat-x; clip-path:polygon(0 0, 100% 0, 78% 100%, 22% 100%); }
+.fe-padrinos2__retrato { position:relative; z-index:2; width:58%; aspect-ratio:1/1; border-radius:50%; overflow:hidden; }
+.fe-padrinos2__retrato img { display:block; width:100%; height:100%; object-fit:cover; filter:saturate(1.05); }
+.fe-padrinos2__rol { margin:0 0 .25rem; font-family:'Courier New',monospace; font-size:clamp(.54rem,1vw,.62rem); letter-spacing:.32em; text-transform:uppercase; color:var(--accent-color); }
+.fe-padrinos2__nombre { margin:0; font-family:Georgia,serif; font-size:clamp(.94rem,1.9vw,1.14rem); line-height:1.3; color:var(--primary-color); }
+</style>
+<header memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
+  <h2 class="fe-padrinos2__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Rosetas premiadas</h2>
+  <p class="fe-padrinos2__intro" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">El jurado de la feria otorga las cuatro rosetas mayores a nombre de ellos.</p>
+</header>
+<div class="fe-padrinos2__premiados">
+  <article class="fe-padrinos2__premiado">
+    <div class="fe-padrinos2__roseta">
+      <figure class="fe-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
+        <img src="https://loremflickr.com/240/240/portrait,amber" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrinos uno</figcaption>
+      </figure>
     </div>
-  </div>
-
-  <script>
-    (function () {
-      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.fe-padrinos');
-      if (!root) return;
-      root.classList.add('fe-js');
-      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
-      var banderas = Array.prototype.slice.call(root.querySelectorAll('[data-fe-bandera]'));
-      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduce || !('IntersectionObserver' in window)) {
-        banderas.forEach(function (b) { b.classList.add('esta-visto'); });
-        return;
-      }
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          var i = banderas.indexOf(entry.target);
-          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.11).toFixed(2) + 's';
-          entry.target.classList.add('esta-visto');
-          io.unobserve(entry.target);
-        });
-      }, { threshold: 0.2 });
-      banderas.forEach(function (b) { io.observe(b); });
-    })();
-  </script>
-
-  <script>
-    var moduleMetadata = {
-      module_type: 'padrinos',
-      module_name: 'padrinos-feria-banderines',
-      style_name: 'Feria Nocturna — Padrinos',
-      descripcion: 'Banderines triangulares colgados de un cable, retratos circulares punteados y despliegue con balanceo desde la cuerda.',
-      tags: ['padrinos', 'banderines', 'feria', 'cuerda', 'retratos', 'stagger'],
-      tipo: 'padrinos'
-    };
-  </script>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
+      <p class="fe-padrinos2__rol">Padrinos de alianzas</p>
+      <h3 class="fe-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+    </div>
+  </article>
+  <article class="fe-padrinos2__premiado">
+    <div class="fe-padrinos2__roseta">
+      <figure class="fe-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
+        <img src="https://loremflickr.com/240/240/portrait,gold" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrinos dos</figcaption>
+      </figure>
+    </div>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
+      <p class="fe-padrinos2__rol">Padrinos de velo</p>
+      <h3 class="fe-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+    </div>
+  </article>
+  <article class="fe-padrinos2__premiado">
+    <div class="fe-padrinos2__roseta">
+      <figure class="fe-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
+        <img src="https://loremflickr.com/240/240/portrait,spark" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrinos tres</figcaption>
+      </figure>
+    </div>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
+      <p class="fe-padrinos2__rol">Padrinos de arras</p>
+      <h3 class="fe-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+    </div>
+  </article>
+  <article class="fe-padrinos2__premiado">
+    <div class="fe-padrinos2__roseta">
+      <figure class="fe-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
+        <img src="https://loremflickr.com/240/240/portrait,warm" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrinos cuatro</figcaption>
+      </figure>
+    </div>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
+      <p class="fe-padrinos2__rol">Padrinos de lazos</p>
+      <h3 class="fe-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+    </div>
+  </article>
+</div>
+<script>
+var moduleMetadata = { module_type:'padrinos', module_name:'padrinos-feria-premiados', style_name:'Feria — Rosetas Premiadas', descripcion:'Rosetas de jurado en conic-gradient con picos, colgadas a distintos altos y giros; retrato circular al centro de cada galardón.', tags:['padrinos','rosetas','premiados','conic','feria'], tipo:'padrinos' };
+</script>
 </section>
