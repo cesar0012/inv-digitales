@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { Heart, Pencil, Save, Home, Image as ImageIcon, Link as LinkIcon, Type, MousePointer2, ChevronDown, ChevronRight, AlignLeft, AlignCenter, AlignRight, AlignJustify, Map, Upload, Eye, EyeOff, Loader2, Calendar, Clock } from 'lucide-react';
+import { ClipboardList, Palette, Heart, Pencil, Save, Home, Image as ImageIcon, Link as LinkIcon, Type, MousePointer2, ChevronDown, ChevronRight, AlignLeft, AlignCenter, AlignRight, AlignJustify, Map, Upload, Eye, EyeOff, Loader2, Calendar, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { compressImage, SUPPORTED_IMAGE_TYPES, SUPPORTED_FORMATS_LABEL } from '../services/imageCompressionService';
 import { GOOGLE_FONT_OPTIONS, GOOGLE_HEADING_FONT_OPTIONS } from '../constants';
@@ -792,8 +792,52 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility }: { 
                     />
                   </div>
                 </div>
+
+                {/* Color del texto */}
+                <div className="flex items-center gap-2">
+                  <input
+                    type="color"
+                    value={/^#[0-9a-fA-F]{6}$/.test(styles.color || '') ? (styles.color as string) : '#333333'}
+                    onChange={(e) => handleStyleChange('color', e.target.value)}
+                    className="w-8 h-8 rounded cursor-pointer border border-gray-200 flex-shrink-0"
+                    title="Color del texto"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <label className="text-[10px] text-gray-500 uppercase">Color del texto</label>
+                    <input
+                      type="text"
+                      placeholder="hex o var(--primary-color)"
+                      value={styles.color || ''}
+                      onChange={(e) => setStyles({ ...styles, color: e.target.value })}
+                      onBlur={() => triggerUpdate()}
+                      className="w-full bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
+                    />
+                  </div>
+                </div>
               </>
             )}
+
+            {/* Color de fondo (todos los elementos) */}
+            <div className="flex items-center gap-2">
+              <input
+                type="color"
+                value={/^#[0-9a-fA-F]{6}$/.test(styles.backgroundColor || '') ? (styles.backgroundColor as string) : '#ffffff'}
+                onChange={(e) => handleStyleChange('backgroundColor', e.target.value)}
+                className="w-8 h-8 rounded cursor-pointer border border-gray-200 flex-shrink-0"
+                title="Color de fondo"
+              />
+              <div className="flex-1 min-w-0">
+                <label className="text-[10px] text-gray-500 uppercase">Color de fondo</label>
+                <input
+                  type="text"
+                  placeholder="hex, transparent o var(...)"
+                  value={styles.backgroundColor || ''}
+                  onChange={(e) => setStyles({ ...styles, backgroundColor: e.target.value })}
+                  onBlur={() => triggerUpdate()}
+                  className="w-full bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
+                />
+              </div>
+            </div>
 
             {(isImage || isIframe) && (
               <div className="space-y-3">
@@ -927,6 +971,9 @@ interface EditorSidebarProps {
   fontBase?: string;
   fontHeading?: string;
   onFontChange?: (which: 'base' | 'heading', value: string) => void;
+  colorVars?: Record<string, string>;
+  onUpdateColorVars?: (key: string, value: string) => void;
+  onOpenEventData?: () => void;
 }
 
 // ============================================================
@@ -1135,7 +1182,10 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
   onClearModuleSelection,
   fontBase,
   fontHeading,
-  onFontChange
+  onFontChange,
+  colorVars = {},
+  onUpdateColorVars,
+  onOpenEventData
 }) => {
   const navigate = useNavigate();
   const elements = useMemo(() => parseEditableElements(code), [code]);
@@ -1213,6 +1263,68 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
       {/* Body */}
       <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
         {/* Selector de tipografía: SIEMPRE visible al inicio de la barra lateral */}
+        {onOpenEventData && (
+          <div className="px-3 pt-4">
+            <button
+              onClick={onOpenEventData}
+              className="w-full flex items-center gap-2 px-3 py-2.5 bg-white border border-pink-200 rounded-xl text-sm font-medium text-pink-600 hover:bg-pink-50 transition-colors"
+            >
+              <ClipboardList className="w-4 h-4" />
+              Completar datos del evento
+            </button>
+          </div>
+        )}
+
+        {onUpdateColorVars && (
+          <div className="px-3 pt-4">
+            <div className="bg-white border border-gray-200 rounded-xl p-3 space-y-2">
+              <div className="flex items-center gap-2">
+                <Palette className="w-4 h-4 text-pink-500" />
+                <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Colores globales</h4>
+              </div>
+              <p className="text-[10px] text-gray-400 leading-snug">Recolorean toda la invitación (módulos con variables).</p>
+              {
+                [
+                  { key: 'primary', label: 'Primario' },
+                  { key: 'accent', label: 'Acento' },
+                  { key: 'text', label: 'Texto' },
+                  { key: 'bg', label: 'Fondo' },
+                  { key: 'secondary', label: 'Secundario' },
+                  { key: 'surface', label: 'Superficie' },
+                ].map(({ key, label }) => (
+                  <div key={key} className="flex items-center gap-2">
+                    <input
+                      type="color"
+                      value={/^#[0-9a-fA-F]{6}$/.test(colorVars[key] || '') ? (colorVars[key] as string) : '#888888'}
+                      onChange={(e) => onUpdateColorVars(key, e.target.value)}
+                      className="w-8 h-8 rounded cursor-pointer border border-gray-200 flex-shrink-0"
+                      title={label}
+                    />
+                    <div className="flex-1 min-w-0">
+                      <label className="block text-[10px] text-gray-500 uppercase">{label}</label>
+                      <input
+                        type="text"
+                        value={colorVars[key] || ''}
+                        placeholder="var o hex"
+                        onChange={(e) => onUpdateColorVars(key, e.target.value)}
+                        className="w-full bg-gray-50 border border-gray-200 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
+                      />
+                    </div>
+                  </div>
+                ))
+              }
+              {Object.keys(colorVars).length > 0 && (
+                <button
+                  onClick={() => Object.keys(colorVars).forEach((k) => onUpdateColorVars(k, ''))}
+                  className="w-full py-1.5 text-xs text-gray-500 hover:text-gray-700 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors"
+                >
+                  Restablecer colores originales
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
         <TypographyCard
           fontBase={fontBase}
           fontHeading={fontHeading}

@@ -6,23 +6,22 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
     :root {
-      --primary-color: #ffffff;
-      --text-color: #b5a280;
-      --accent-color: #b89a63;
-      --background-color: #ffffff;
-    }
+  --primary-color: #ffffff;
+  --text-color: #b5a280;
+  --accent-color: #b89a63;
+  --bg-color: #ffffff;
+  --background-color: #ffffff;
+  --secondary-color: color-mix(in srgb, var(--text-color) 72%, var(--bg-color));
+  --font-base: 'Playfair Display', sans-serif;}
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: system-ui, -apple-system, sans-serif; }
+    body { font-family: var(--font-base); }
   </style>
-</head>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" data-theme-font="1" rel="stylesheet"></head>
 <body>
   <section class="module-portada-castillo-fotos" data-gemini-id="portada-nombre" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder" aria-labelledby="portada-castillo-title">
   <style>
     .module-portada-castillo-fotos {
-      --primary-color: #1f1f1f;
-      --text-color: #2f2f2f;
       --muted-color: rgba(47, 47, 47, 0.68);
-      --accent-color: #b89a63;
       --background-overlay: rgba(246, 241, 225, 0.34);
       --photo-shadow: 0 28px 70px rgba(0, 0, 0, 0.24);
       --soft-shadow: 0 18px 42px rgba(0, 0, 0, 0.16);
@@ -90,7 +89,7 @@
 
     .portada-castillo__title {
       margin: 0;
-      font-family: "Georgia", "Times New Roman", serif;
+      font-family: var(--font-base);
       font-size: clamp(3.5rem, 8vw, 6.7rem);
       font-weight: 400;
       line-height: 0.9;
@@ -102,7 +101,7 @@
     .portada-castillo__date {
       display: block;
       margin-top: clamp(0.5rem, 1vw, 1rem);
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: var(--font-base);
       font-size: clamp(1rem, 1.8vw, 1.4rem);
       letter-spacing: 0.02em;
       color: var(--text-color);
@@ -121,7 +120,7 @@
       position: absolute;
       z-index: 5;
       margin: 0;
-      font-family: "Georgia", "Times New Roman", serif;
+      font-family: var(--font-base);
       font-size: clamp(2.5rem, 5vw, 5.2rem);
       font-weight: 400;
       line-height: 1;
@@ -188,7 +187,7 @@
       top: 42%;
       z-index: 6;
       transform: translate(-50%, -50%);
-      font-family: "Georgia", "Times New Roman", serif;
+      font-family: var(--font-base);
       font-size: clamp(6rem, 13vw, 12rem);
       line-height: 1;
       color: rgba(55, 64, 70, 0.17);
@@ -484,21 +483,18 @@
 <section class="module-padres-universal" data-gemini-id="padres-universal" memory_type="image" memory_usage="protected" memory_source="library" path="placeholder">
   <style>
     .module-padres-universal {
-      --primary-color: #1f1f1f;
-      --text-color: #2f2f2f;
       --muted-color: rgba(47, 47, 47, 0.68);
-      --accent-color: #b89a63;
       --soft-shadow: 0 18px 42px rgba(0, 0, 0, 0.16);
       position: relative;
       width: 100%;
       padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 4vw, 4rem);
       box-sizing: border-box;
-      background: #faf8f3;
+      background: var(--bg-color);
       color: var(--text-color);
     }
     .padres-universal__title {
       text-align: center;
-      font-family: "Georgia", serif;
+      font-family: var(--font-base);
       font-size: clamp(2rem, 4vw, 3rem);
       margin: 0 0 2rem;
       color: var(--primary-color);
@@ -513,7 +509,7 @@
     .padres-universal__card {
       text-align: center;
       padding: 1.5rem;
-      background: #fff;
+      background: var(--bg-color);
       border-radius: 12px;
       box-shadow: var(--soft-shadow);
     }
@@ -526,7 +522,7 @@
       filter: grayscale(20%);
     }
     .padres-universal__name {
-      font-family: "Georgia", serif;
+      font-family: var(--font-base);
       font-size: 1.25rem;
       margin: 0 0 0.25rem;
       color: var(--primary-color);
@@ -582,10 +578,7 @@
 <section class="module-countdown-universal" data-gemini-id="countdown-universal" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
   <style>
     .module-countdown-universal {
-      --primary-color: #1f1f1f;
-      --text-color: #2f2f2f;
       --muted-color: rgba(47, 47, 47, 0.68);
-      --accent-color: #b89a63;
       --background-overlay: rgba(246, 241, 225, 0.34);
       position: relative;
       width: 100%;
@@ -609,7 +602,7 @@
     .countdown-universal__title {
       position: relative;
       text-align: center;
-      font-family: "Georgia", serif;
+      font-family: var(--font-base);
       font-size: clamp(1.8rem, 3.5vw, 2.5rem);
       margin: 0 0 2rem;
       color: var(--primary-color);
@@ -633,7 +626,7 @@
       border-radius: 12px;
     }
     .countdown-universal__num {
-      font-family: "Georgia", serif;
+      font-family: var(--font-base);
       font-size: clamp(2rem, 5vw, 3.5rem);
       line-height: 1;
       color: var(--primary-color);
@@ -700,20 +693,17 @@
 <section class="module-itinerario-universal" data-gemini-id="itinerario-universal" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
   <style>
     .module-itinerario-universal {
-      --primary-color: #1f1f1f;
-      --text-color: #2f2f2f;
       --muted-color: rgba(47, 47, 47, 0.68);
-      --accent-color: #b89a63;
       position: relative;
       width: 100%;
       padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 4vw, 4rem);
       box-sizing: border-box;
-      background: #faf8f3;
+      background: var(--bg-color);
       color: var(--text-color);
     }
     .itinerario-universal__title {
       text-align: center;
-      font-family: "Georgia", serif;
+      font-family: var(--font-base);
       font-size: clamp(2rem, 4vw, 3rem);
       margin: 0 0 2rem;
       color: var(--primary-color);
@@ -747,7 +737,7 @@
       height: 16px;
       border-radius: 50%;
       background: var(--accent-color);
-      border: 3px solid #faf8f3;
+      border: 3px solid var(--primary-color);
     }
     .itinerario-universal__time {
       font-size: 0.85rem;
@@ -757,7 +747,7 @@
       margin: 0 0 0.25rem;
     }
     .itinerario-universal__label {
-      font-family: "Georgia", serif;
+      font-family: var(--font-base);
       font-size: 1.15rem;
       margin: 0 0 0.25rem;
       color: var(--primary-color);
@@ -805,20 +795,17 @@
 <section class="module-ubicacion-universal" data-gemini-id="ubicacion-universal" memory_type="image" memory_usage="protected" memory_source="library" path="placeholder">
   <style>
     .module-ubicacion-universal {
-      --primary-color: #1f1f1f;
-      --text-color: #2f2f2f;
       --muted-color: rgba(47, 47, 47, 0.68);
-      --accent-color: #b89a63;
       position: relative;
       width: 100%;
       padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 4vw, 4rem);
       box-sizing: border-box;
-      background: #faf8f3;
+      background: var(--bg-color);
       color: var(--text-color);
     }
     .ubicacion-universal__title {
       text-align: center;
-      font-family: "Georgia", serif;
+      font-family: var(--font-base);
       font-size: clamp(2rem, 4vw, 3rem);
       margin: 0 0 1.5rem;
       color: var(--primary-color);
@@ -836,7 +823,7 @@
     }
     .ubicacion-universal__info { padding: 1.5rem; }
     .ubicacion-universal__venue {
-      font-family: "Georgia", serif;
+      font-family: var(--font-base);
       font-size: 1.5rem;
       color: var(--primary-color);
       margin: 0 0 0.5rem;
@@ -887,21 +874,18 @@
 <section class="module-padrinos-universal" data-gemini-id="padrinos-universal" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
   <style>
     .module-padrinos-universal {
-      --primary-color: #1f1f1f;
-      --text-color: #2f2f2f;
       --muted-color: rgba(47, 47, 47, 0.68);
-      --accent-color: #b89a63;
       --soft-shadow: 0 18px 42px rgba(0, 0, 0, 0.16);
       position: relative;
       width: 100%;
       padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 4vw, 4rem);
       box-sizing: border-box;
-      background: #faf8f3;
+      background: var(--bg-color);
       color: var(--text-color);
     }
     .padrinos-universal__title {
       text-align: center;
-      font-family: "Georgia", serif;
+      font-family: var(--font-base);
       font-size: clamp(2rem, 4vw, 3rem);
       margin: 0 0 0.5rem;
       color: var(--primary-color);
@@ -924,13 +908,13 @@
     .padrinos-universal__card {
       text-align: center;
       padding: 1.5rem 1rem;
-      background: #fff;
+      background: var(--bg-color);
       border-radius: 12px;
       box-shadow: var(--soft-shadow);
       border-top: 3px solid var(--accent-color);
     }
     .padrinos-universal__name {
-      font-family: "Georgia", serif;
+      font-family: var(--font-base);
       font-size: 1.15rem;
       margin: 0 0 0.25rem;
       color: var(--primary-color);
@@ -975,20 +959,17 @@
 <section class="module-confirmacion-universal" data-gemini-id="confirmacion-universal" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
   <style>
     .module-confirmacion-universal {
-      --primary-color: #1f1f1f;
-      --text-color: #2f2f2f;
       --muted-color: rgba(47, 47, 47, 0.68);
-      --accent-color: #b89a63;
       position: relative;
       width: 100%;
       padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 4vw, 4rem);
       box-sizing: border-box;
-      background: #faf8f3;
+      background: var(--bg-color);
       color: var(--text-color);
       text-align: center;
     }
     .confirmacion-universal__title {
-      font-family: "Georgia", serif;
+      font-family: var(--font-base);
       font-size: clamp(2rem, 4vw, 3rem);
       margin: 0 0 1rem;
       color: var(--primary-color);
@@ -1003,7 +984,7 @@
     .confirmacion-universal__btn {
       display: inline-block;
       padding: 0.9rem 2.4rem;
-      font-family: "Georgia", serif;
+      font-family: var(--font-base);
       font-size: 1.05rem;
       letter-spacing: 0.06em;
       color: #fff;
@@ -1048,20 +1029,17 @@
 <section class="module-detalles-universal" data-gemini-id="detalles-universal" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
   <style>
     .module-detalles-universal {
-      --primary-color: #1f1f1f;
-      --text-color: #2f2f2f;
       --muted-color: rgba(47, 47, 47, 0.68);
-      --accent-color: #b89a63;
       position: relative;
       width: 100%;
       padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 4vw, 4rem);
       box-sizing: border-box;
-      background: #faf8f3;
+      background: var(--bg-color);
       color: var(--text-color);
     }
     .detalles-universal__title {
       text-align: center;
-      font-family: "Georgia", serif;
+      font-family: var(--font-base);
       font-size: clamp(2rem, 4vw, 3rem);
       margin: 0 0 2rem;
       color: var(--primary-color);
@@ -1079,12 +1057,12 @@
     .detalles-universal__card {
       padding: 2rem;
       text-align: center;
-      background: #fff;
+      background: var(--bg-color);
       border-radius: 12px;
       box-shadow: 0 18px 42px rgba(0,0,0,0.16);
     }
     .detalles-universal__card h3 {
-      font-family: "Georgia", serif;
+      font-family: var(--font-base);
       font-size: 1.3rem;
       color: var(--primary-color);
       margin: 0 0 0.75rem;
@@ -1133,7 +1111,7 @@
       version: '2.0-modular',
       eventType: 'Boda Tradicional',
       theme: 'Floral - palacio blanco',
-      assembledAt: '2026-07-29T02:42:27.377Z',
+      assembledAt: '2026-10-06T22:53:44.149Z',
       modules: [{"module_id":"portada-nombre","module_type":"portada"},{"module_id":"padres-universal","module_type":"padres"},{"module_id":"countdown-universal","module_type":"countdown"},{"module_id":"itinerario-universal","module_type":"itinerario"},{"module_id":"ubicacion-universal","module_type":"ubicacion"},{"module_id":"padrinos-universal","module_type":"padrinos"},{"module_id":"confirmacion-universal","module_type":"confirmacion"},{"module_id":"detalles-universal","module_type":"detalles"}]
     };
     

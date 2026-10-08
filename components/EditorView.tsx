@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
-import { CheckCircle2, Loader2, ClipboardList } from 'lucide-react';
+import { CheckCircle2, Loader2, ClipboardList, Palette, X } from 'lucide-react';
 import { EditorSidebar } from './EditorSidebar';
 import { PreviewPane, PreviewPaneHandle } from './PreviewPane';
 import { InitialView } from './InitialView';
@@ -114,8 +114,11 @@ export const EditorView: React.FC = () => {
     eventDate: '',
     eventTime: ''
   });
-  const dataSchema = editorConfig.eventType ? resolveSchema(editorConfig.eventType) : null;
-  const missingFields = dataSchema ? missingRequired(dataSchema, eventData) : [];
+  const dataSchema = resolveSchema(editorConfig.eventType || 'Otro');
+  const missingFields = missingRequired(dataSchema, eventData);
+  const [showEventDataModal, setShowEventDataModal] = useState(false);
+  const [applyingModalData, setApplyingModalData] = useState(false);
+  const [colorVars, setColorVars] = useState<Record<string, string>>({});
   
   const [existingMetadata, setExistingMetadata] = useState<InvitationMetadata | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -245,6 +248,17 @@ export const EditorView: React.FC = () => {
       const decodedFilename = decodeURIComponent(filename);
       const htmlContent = await getInvitationContent(decodedFilename, userId, token);
       
+      // recuperar paleta previa si el archivo trae el bloque de overrides
+      try {
+        const dd = new DOMParser().parseFromString(htmlContent, 'text/html');
+        const ov = dd.querySelector('style[data-editor-color-vars]');
+        if (ov) {
+          const vars: Record<string, string> = {};
+          const re = /--([a-z-]+)-color:\s*([^;!]+)!?important?;/gi;
+          let mm; while ((mm = re.exec(ov.textContent || ''))) vars[mm[1].replace(/-color$/, '').replace(/-color$/, '')] = mm[2].trim();
+          setColorVars(vars);
+        }
+      } catch { /* noop */ }
       const metadata = extractMetadata(htmlContent);
       if (metadata) {
         setExistingMetadata(metadata);
@@ -362,6 +376,62 @@ export const EditorView: React.FC = () => {
       pendingCodeRef.current = '';
       setIsGenerating(false);
     }
+  };
+
+  /** Omite el gate: entra al editor sin datos (podrá llenarlos después). */
+  const skipEventData = () => {
+    const raw = pendingCodeRef.current;
+    if (raw) {
+      const newPage: ProjectPage = {
+        id: 'home-' + Date.now(),
+        name: 'Inicio',
+        path: 'index.html',
+        code: normalizeEditableIds(raw),
+        isCreated: true
+      };
+      setPages([newPage]);
+      setActivePageId(newPage.id);
+      setExistingMetadata(null);
+      setHasUnsavedChanges(true);
+    }
+    setGenerationFinished(false);
+    pendingCodeRef.current = '';
+    setIsGenerating(false);
+  };
+
+  /** Modal del editor: aplica los datos sobre el código actual. */
+  const handleApplyModalData = async () => {
+    if (!activePage || applyingModalData) return;
+    setApplyingModalData(true);
+    try {
+      const injected = await applyEventDataPipeline(activePage.code);
+      setPages(prev => prev.map(pg => pg.id === activePage.id ? { ...pg, code: normalizeEditableIds(injected) } : pg));
+      setHasUnsavedChanges(true);
+      setShowEventDataModal(false);
+    } finally {
+      setApplyingModalData(false);
+    }
+  };
+
+  /** Paleta global: inyecta/reemplaza el bloque de overrides de variables. */
+  const handleUpdateColorVars = (key: string, value: string) => {
+    if (!activePage) return;
+    const next = { ...colorVars, [key]: value };
+    setColorVars(next);
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(activePage.code, 'text/html');
+    let styleEl = doc.querySelector('style[data-editor-color-vars]') as HTMLStyleElement | null;
+    if (!styleEl) {
+      styleEl = doc.createElement('style');
+      styleEl.setAttribute('data-editor-color-vars', 'true');
+      doc.head.appendChild(styleEl);
+    }
+    const entries = Object.entries(next).filter(([, v]) => v);
+    const cssVars = entries.map(([k, v]) => `  --${k}-color: ${v} !important;`).join('\n');
+    styleEl.textContent = `/* Paleta del editor */\n:root, [data-gemini-id] {\n${cssVars}\n}`;
+    const updatedCode = '<!DOCTYPE html>' + doc.documentElement.outerHTML;
+    setPages(prev => prev.map(pg => pg.id === activePage.id ? { ...pg, code: updatedCode } : pg));
+    setHasUnsavedChanges(true);
   };
 
   /** Botón del formulario de datos (visible durante Y después de generar). */
@@ -933,6 +1003,15 @@ export const EditorView: React.FC = () => {
                           ? 'Datos listos: aplicar automáticamente al terminar'
                           : 'Guardar datos (se aplicarán al terminar)')}
                 </button>
+                <button
+                  onClick={skipEventData}
+                  disabled={applyingData}
+                  className="mt-2 w-full py-2.5 rounded-xl border border-gray-300 text-gray-600 text-sm font-medium hover:bg-gray-50 disabled:opacity-50 transition-all"
+                >
+                  {generationFinished
+                    ? 'Entrar sin datos (podré llenarlos después en el editor)'
+                    : 'Omitir: llenaré los datos después en el editor'}
+                </button>
               </div>
             )}
           </div>
@@ -966,7 +1045,53 @@ export const EditorView: React.FC = () => {
           fontBase={editorConfig.fontBase}
           fontHeading={editorConfig.fontHeading}
           onFontChange={handleUpdateFont}
+          colorVars={colorVars}
+          onUpdateColorVars={handleUpdateColorVars}
+          onOpenEventData={() => setShowEventDataModal(true)}
         />
+      )}
+
+      {showEventDataModal && dataSchema && (
+        <div className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm overflow-y-auto flex items-start justify-center p-4">
+          <div className="w-full max-w-2xl bg-white rounded-2xl shadow-2xl my-8 p-6">
+            <div className="flex items-start justify-between mb-1">
+              <div className="flex items-center gap-2">
+                <ClipboardList className="w-5 h-5 text-pink-500" />
+                <h3 className="text-lg font-bold text-gray-800">Completar datos del evento</h3>
+              </div>
+              <button onClick={() => setShowEventDataModal(false)} className="text-gray-400 hover:text-gray-600"><X size={18} /></button>
+            </div>
+            <p className="text-xs text-gray-500 mb-4">
+              Estos datos se colocarán automáticamente en su lugar dentro de la invitación. Los campos vacíos se dejan como están.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {dataSchema.fields.map((f) => {
+                const value = eventData[f.key] || '';
+                return (
+                  <div key={f.key} className={`flex flex-col gap-1 ${f.type === 'textarea' ? 'md:col-span-2' : ''}`}>
+                    <label className="text-xs font-semibold text-gray-700 uppercase tracking-wide">{f.label}</label>
+                    {f.type === 'textarea' ? (
+                      <textarea value={value} onChange={(e) => handleEventDataChange(f.key, e.target.value)} placeholder={f.placeholder || ''} rows={3}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-200" />
+                    ) : (
+                      <input type={f.type === 'date' ? 'date' : f.type === 'time' ? 'time' : 'text'} value={value}
+                        onChange={(e) => handleEventDataChange(f.key, e.target.value)} placeholder={f.placeholder || ''}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-200" />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            <button
+              onClick={handleApplyModalData}
+              disabled={applyingModalData}
+              className="mt-4 w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold hover:from-pink-600 hover:to-rose-600 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+            >
+              {applyingModalData && <Loader2 className="w-4 h-4 animate-spin" />}
+              {applyingModalData ? 'Colocando datos...' : 'Aplicar datos a la invitación'}
+            </button>
+          </div>
+        </div>
       )}
 
       <PreviewPane 
