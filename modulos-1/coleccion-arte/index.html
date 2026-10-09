@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colección Arte — 20 módulos</title>
+<style>body{margin:0;background:#111;} .barra-indice{position:sticky;top:0;z-index:99;background:#000;color:#fff;padding:10px clamp(1rem,4vw,3rem);font-family:'Courier New',monospace;font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;border-bottom:1px solid #444;}</style>
+</head>
+<body>
+<div class="barra-indice">Colección Arte — 20 módulos · usa el scroll para recorrerlos</div>
+<div style="position:relative; z-index:5; background:#111; color:#eee; padding:14px clamp(1rem,5vw,4rem); font-family:'Courier New',monospace; letter-spacing:.3em; text-transform:uppercase; font-size:.7rem; border-top:1px solid #333; border-bottom:1px solid #333;">01 / 20 — Art Nouveau — Mucha</div>
+<section
+  class="mucha-portada"
+  data-gemini-id="portada-nombre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="mucha-titulo"
+>
+  <style>
+    .mucha-portada {
+      --primary-color: #14343b;
+      --secondary-color: #7ba3a9;
+      --accent-color: #c9a227;
+      --bg-color: #0d262c;
+      --surface-color: #11333a;
+      --surface-border-color: rgba(201, 162, 39, 0.5);
+      --text-color: #f3ecd8;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(2rem, 6vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/1000/mucha,ornament');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .mucha-portada *,
+    .mucha-portada *::before,
+    .mucha-portada *::after { box-sizing: border-box; }
+
+    .mucha-portada::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 90% 60% at 50% 30%, color-mix(in srgb, var(--accent-color) 20%, transparent), transparent 65%),
+        color-mix(in srgb, var(--bg-color) 92%, transparent);
+    }
+
+    /* halo muchiano girando: rayos + arabescos */
+    .mucha-portada__halo {
+      position: absolute;
+      z-index: 0;
+      top: 50%;
+      left: 50%;
+      width: min(120vw, 900px);
+      transform: translate(-50%, -54%);
+      opacity: 0.5;
+      animation: muchaHalo 90s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes muchaHalo { to { transform: translate(-50%, -54%) rotate(360deg); } }
+
+    /* arco de vitral con la foto grande dentro */
+    .mucha-portada__arco {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 560px);
+      margin: 0 auto clamp(1.4rem, 3vw, 2rem);
+      border-radius: 999px 999px 14px 14px;
+      padding: 14px;
+      background:
+        linear-gradient(160deg, var(--accent-color), color-mix(in srgb, var(--accent-color) 40%, var(--surface-color)) 45%, var(--accent-color));
+      box-shadow: 0 34px 80px rgba(0, 0, 0, 0.55), inset 0 0 0 2px rgba(243, 236, 216, 0.55);
+    }
+    .mucha-portada__arco img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5.2;
+      object-fit: cover;
+      border-radius: 999px 999px 8px 8px;
+      filter: saturate(1.08) contrast(1.04);
+    }
+    .mucha-portada__arco figcaption {
+      position: absolute;
+      inset: 14px;
+      border-radius: 999px 999px 8px 8px;
+      box-shadow: inset 0 0 0 3px rgba(243, 236, 216, 0.5), inset 0 -60px 80px rgba(13, 38, 44, 0.35);
+      pointer-events: none;
+    }
+
+    .mucha-portada__panel {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 640px);
+      padding: clamp(1.6rem, 4vw, 2.6rem) clamp(1.4rem, 4vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 94%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 40% 40% 12px 12px / 18% 18% 12px 12px;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+    }
+    .mucha-portada__panel::before,
+    .mucha-portada__panel::after {
+      content: '';
+      position: absolute;
+      width: 54px;
+      height: 54px;
+      border: 2px solid var(--accent-color);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+    .mucha-portada__panel::before {
+      top: -20px; left: -20px; border-radius: 0 0 100% 0; border-top: 0; border-left: 0;
+    }
+    .mucha-portada__panel::after {
+      bottom: -20px; right: -20px; border-radius: 100% 0 0 0; border-bottom: 0; border-right: 0;
+    }
+
+    .mucha-portada__lema {
+      margin: 0 0 0.7rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.74rem);
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .mucha-portada__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(2.4rem, 7vw, 4.8rem);
+      line-height: 1;
+      color: var(--primary-color);
+      text-shadow: 0 2px 0 color-mix(in srgb, var(--accent-color) 60%, transparent), 0 0 40px rgba(201, 162, 39, 0.35);
+    }
+    .mucha-portada__titulo span {
+      display: block;
+      overflow: hidden;
+    }
+    .mucha-portada__titulo span i {
+      display: block;
+      font-style: normal;
+      animation: muchaSube 0.9s cubic-bezier(0.19, 1, 0.22, 1) both;
+    }
+    .mucha-portada__titulo span:nth-child(2) i { animation-delay: 0.18s; color: var(--text-color); }
+    .mucha-portada__titulo span:nth-child(3) i { animation-delay: 0.34s; }
+    @keyframes muchaSube { from { transform: translateY(110%); } }
+
+    .mucha-portada__whiplash {
+      width: min(260px, 70%);
+      margin: clamp(1rem, 2.6vw, 1.5rem) auto;
+      color: var(--accent-color);
+    }
+    .mucha-portada__whiplash path {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-dasharray: 600;
+      stroke-dashoffset: 600;
+      animation: muchaTrazo 1.4s ease 0.5s forwards;
+    }
+    @keyframes muchaTrazo { to { stroke-dashoffset: 0; } }
+
+    .mucha-portada__fecha {
+      display: inline-block;
+      padding: 0.6rem 1.8rem;
+      border-top: 1px solid var(--surface-border-color);
+      border-bottom: 1px solid var(--surface-border-color);
+      font-family: Georgia, serif;
+      font-size: clamp(0.76rem, 1.5vw, 0.9rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--text-color);
+    }
+
+    @media (max-width: 560px) {
+      .mucha-portada__arco { width: min(100%, 420px); }
+      .mucha-portada__panel { padding: 1.6rem 1.2rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .mucha-portada * { animation: none !important; }
+      .mucha-portada__whiplash path { stroke-dashoffset: 0; }
+    }
+  </style>
+
+  <svg class="mucha-portada__halo" viewBox="0 0 600 600" fill="none" aria-hidden="true">
+    <circle cx="300" cy="300" r="290" stroke="var(--accent-color)" stroke-width="1.2" stroke-dasharray="4 10"/>
+    <circle cx="300" cy="300" r="240" stroke="var(--accent-color)" stroke-width="1"/>
+    <g stroke="var(--accent-color)" stroke-width="1.4">
+      <path d="M300 60 C 320 90, 320 110, 300 130 C 280 110, 280 90, 300 60 Z" fill="var(--accent-color)" opacity=".55"/>
+      <path d="M300 540 C 320 510, 320 490, 300 470 C 280 490, 280 510, 300 540 Z" fill="var(--accent-color)" opacity=".55"/>
+      <path d="M60 300 C 90 280, 110 280, 130 300 C 110 320, 90 320, 60 300 Z" fill="var(--accent-color)" opacity=".55"/>
+      <path d="M540 300 C 510 280, 490 280, 470 300 C 490 320, 510 320, 540 300 Z" fill="var(--accent-color)" opacity=".55"/>
+      <circle cx="300" cy="300" r="195" stroke-dasharray="1 7"/>
+    </g>
+  </svg>
+
+  <div class="mucha-portada__panel">
+    <figure class="mucha-portada__arco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="portada-foto">
+      <img
+        src="https://loremflickr.com/800/1000/art,nouveau,couple"
+        alt="Retrato de los novios en arco ornamentado"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="foto-pareja"
+        loading="lazy"
+      />
+      <figcaption aria-hidden="true"></figcaption>
+    </figure>
+
+    <p class="mucha-portada__lema" memory_type="text" memory_usage="custom" memory_key="portada-lema">Un cuento ilustrado por el tiempo</p>
+
+    <div memory_type="text" memory_usage="custom" memory_key="portada-nombres">
+      <h1 id="mucha-titulo" class="mucha-portada__titulo">
+        <span><i>Nombre de</i></span>
+        <span><i>la Novia</i></span>
+        <span><i>&amp; del Novio</i></span>
+      </h1>
+    </div>
+
+    <svg class="mucha-portada__whiplash" viewBox="0 0 260 40" aria-hidden="true">
+      <path d="M6 20 C 60 -8, 96 48, 130 20 S 200 -8, 254 20 M 18 26 C 70 44, 190 44, 242 26" />
+    </svg>
+
+    <time class="mucha-portada__fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="portada-fecha">Fecha del evento</time>
+  </div>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Art Nouveau — Mucha',
+      descripcion: 'Portada Art Nouveau: halo ornamentado giratorio, retrato en arco dorado con doble filo, titulares que emergen por línea, whiplash que se traza.',
+      tags: ['portada', 'art nouveau', 'mucha', 'arco', 'halo', 'ornamental', 'dorado'],
+      tipo: 'portada'
+    };
+  </script>
+</section>
+
+<div style="position:relative; z-index:5; background:#111; color:#eee; padding:14px clamp(1rem,5vw,4rem); font-family:'Courier New',monospace; letter-spacing:.3em; text-transform:uppercase; font-size:.7rem; border-top:1px solid #333; border-bottom:1px solid #333;">02 / 20 — Impresionismo — Sala de Óleos</div>
+<section
+  class="oleo-galeria"
+  data-gemini-id="galeria-oleo-impresionista"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .oleo-galeria {
+      --primary-color: #2c3550;
+      --secondary-color: #8a93b8;
+      --accent-color: #e8b04b;
+      --bg-color: #e9e4d8;
+      --surface-color: #f7f3ea;
+      --surface-border-color: #8a6d3b;
+      --text-color: #2c3550;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image:
+        radial-gradient(circle at 20% 10%, rgba(232, 176, 75, 0.16), transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(44, 53, 80, 0.12), transparent 45%),
+        url('https://loremflickr.com/1600/900/oil,painting');
+      background-size: auto, auto, cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .oleo-galeria *,
+    .oleo-galeria *::before,
+    .oleo-galeria *::after { box-sizing: border-box; }
+
+    .oleo-galeria__cabecera { text-align: center; margin-bottom: clamp(2rem, 5vw, 3rem); }
+    .oleo-galeria__titulo {
+      margin: 0 0 0.4rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      color: var(--primary-color);
+      text-shadow: 1px 2px 0 rgba(232, 176, 75, 0.4);
+    }
+    .oleo-galeria__firma {
+      display: inline-block;
+      font-family: Georgia, serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--secondary-color);
+      border-bottom: 2px solid var(--accent-color);
+      padding-bottom: 0.2rem;
+    }
+
+    /* sala de óleos: marcos dorados con pinceladas, colgados torcidos */
+    .oleo-galeria__sala {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+      gap: clamp(1.6rem, 4vw, 3rem);
+      width: min(100%, 1080px);
+      margin: 0 auto;
+      perspective: 1200px;
+    }
+    .oleo-galeria__oleo {
+      position: relative;
+      margin: 0;
+      background: var(--surface-color);
+      padding: 12px;
+      border: 10px solid var(--accent-color);
+      outline: 2px solid #6d5527;
+      box-shadow:
+        inset 0 0 0 3px var(--surface-color),
+        0 30px 60px rgba(44, 53, 80, 0.3);
+      transform: rotate(var(--g)) translateY(var(--y));
+      transition: transform 0.6s cubic-bezier(0.22, 0.8, 0.3, 1), box-shadow 0.6s ease;
+      transform-style: preserve-3d;
+    }
+    .oleo-galeria__oleo:nth-child(1) { --g: -2.4deg; --y: 14px; }
+    .oleo-galeria__oleo:nth-child(2) { --g: 1.8deg; --y: -10px; }
+    .oleo-galeria__oleo:nth-child(3) { --g: -1.2deg; --y: 26px; }
+    .oleo-galeria__oleo:nth-child(4) { --g: 2.6deg; --y: 0px; }
+    .oleo-galeria__oleo:nth-child(5) { --g: -1.6deg; --y: 8px; }
+    .oleo-galeria__oleo:nth-child(6) { --g: 1.2deg; --y: 20px; }
+    .oleo-galeria__oleo:hover {
+      transform: rotate(0) translateY(-8px) scale(1.03);
+      box-shadow:
+        inset 0 0 0 3px var(--surface-color),
+        0 44px 80px rgba(44, 53, 80, 0.4);
+      z-index: 4;
+    }
+
+    /* las fotos con filtro de óleo: pinceladas via filtro + trama */
+    .oleo-galeria__oleo img,
+    .oleo-galeria__oleo .ph {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      filter: saturate(1.35) contrast(1.12) brightness(1.02);
+    }
+    .oleo-galeria__oleo .oleo-trama {
+      position: absolute;
+      inset: 12px;
+      pointer-events: none;
+      mix-blend-mode: soft-light;
+      opacity: 0.55;
+      background:
+        repeating-conic-gradient(from 0deg at 30% 40%, rgba(232, 176, 75, 0.5) 0 14deg, transparent 14deg 34deg),
+        repeating-conic-gradient(from 90deg at 70% 65%, rgba(138, 147, 184, 0.5) 0 18deg, transparent 18deg 40deg);
+      filter: blur(1px);
+    }
+    .oleo-galeria__rotulo {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-top: 10px;
+      font-family: Georgia, serif;
+      font-style: italic;
+      font-size: 0.82rem;
+      color: var(--primary-color);
+    }
+    .oleo-galeria__rotulo span:last-child { font-size: 0.68rem; color: var(--secondary-color); letter-spacing: 0.14em; }
+  </style>
+
+  <header class="oleo-galeria__cabecera" memory_type="text" memory_usage="custom" memory_key="galeria-cabecera">
+    <h2 class="oleo-galeria__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Sala de óleos</h2>
+    <span class="oleo-galeria__firma" memory_type="text" memory_usage="custom" memory_key="galeria-firma">pintado por la memoria · óleo sobre recuerdo</span>
+  </header>
+
+  <div class="oleo-galeria__sala">
+    <figure class="oleo-galeria__oleo" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-1">
+      <div class="oleo-trama" aria-hidden="true"></div>
+      <img src="https://loremflickr.com/800/600/impressionist,garden" alt="Óleo uno" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption class="oleo-galeria__rotulo"><span>Jardín al sol</span><span>46 × 35</span></figcaption>
+    </figure>
+    <figure class="oleo-galeria__oleo" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-2">
+      <div class="oleo-trama" aria-hidden="true"></div>
+      <img src="https://loremflickr.com/800/600/water,lilies" alt="Óleo dos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption class="oleo-galeria__rotulo"><span>Nenúfares</span><span>50 × 38</span></figcaption>
+    </figure>
+    <figure class="oleo-galeria__oleo" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-3">
+      <div class="oleo-trama" aria-hidden="true"></div>
+      <img src="https://loremflickr.com/800/600/dance,couple" alt="Óleo tres" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption class="oleo-galeria__rotulo"><span>El vals</span><span>55 × 42</span></figcaption>
+    </figure>
+    <figure class="oleo-galeria__oleo" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-4">
+      <div class="oleo-trama" aria-hidden="true"></div>
+      <img src="https://loremflickr.com/800/600/cathedral,light" alt="Óleo cuatro" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption class="oleo-galeria__rotulo"><span>Catedral de luz</span><span>48 × 36</span></figcaption>
+    </figure>
+    <figure class="oleo-galeria__oleo" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-5">
+      <div class="oleo-trama" aria-hidden="true"></div>
+      <img src="https://loremflickr.com/800/600/countryside,walk" alt="Óleo cinco" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption class="oleo-galeria__rotulo"><span>Paseo de tarde</span><span>52 × 40</span></figcaption>
+    </figure>
+    <figure class="oleo-galeria__oleo" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-6">
+      <div class="oleo-trama" aria-hidden="true"></div>
+      <img src="https://loremflickr.com/800/600/still,life,flowers" alt="Óleo seis" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption class="oleo-galeria__rotulo"><span>Bodegón floral</span><span>44 × 33</span></figcaption>
+    </figure>
+  </div>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-oleo-impresionista',
+      style_name: 'Impresionismo — Sala de Óleos',
+      descripcion: 'Sala de impresionismo: marcos dorados gruesos colgados torcidos, fotos con filtro de óleo y trama de pinceladas soft-light, rotulación de museo.',
+      tags: ['galeria', 'impresionismo', 'oleo', 'marcos dorados', 'museo', 'pinceladas'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>
+
+<div style="position:relative; z-index:5; background:#111; color:#eee; padding:14px clamp(1rem,5vw,4rem); font-family:'Courier New',monospace; letter-spacing:.3em; text-transform:uppercase; font-size:.7rem; border-top:1px solid #333; border-bottom:1px solid #333;">03 / 20 — Cubismo — Retrato Fragmentado</div>
+<section
+  class="cubismo-padres"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .cubismo-padres {
+      --primary-color: #1c1b33;
+      --secondary-color: #b3543f;
+      --accent-color: #e0a458;
+      --extra-color: #3f7d6f;
+      --bg-color: #ece5d8;
+      --surface-color: #f6f1e7;
+      --surface-border-color: #1c1b33;
+      --text-color: #1c1b33;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/cubism,paper');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .cubismo-padres *,
+    .cubismo-padres *::before,
+    .cubismo-padres *::after { box-sizing: border-box; }
+    .cubismo-padres::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 88%, transparent);
+    }
+
+    .cubismo-padres__titulo {
+      margin: 0 0 .4rem;
+      font-family: Arial, sans-serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 5.6vw, 3.6rem);
+      line-height: .92;
+      text-transform: uppercase;
+      letter-spacing: -.02em;
+      color: var(--primary-color);
+    }
+    .cubismo-padres__titulo em {
+      display: inline-block;
+      font-style: normal;
+      background: var(--secondary-color);
+      color: var(--surface-color);
+      padding: 0 .3em;
+      transform: rotate(-2deg);
+    }
+    .cubismo-padres__sub {
+      margin: 0 0 clamp(2rem, 5vw, 3rem);
+      font-family: Arial, sans-serif;
+      font-size: clamp(.84rem, 1.5vw, .96rem);
+      color: var(--secondary-color);
+      max-width: 52ch;
+    }
+
+    /* retratos fragmentados: la foto se rompe en shards superpuestos */
+    .cubismo-padres__fragmentos {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(2rem, 6vw, 4.5rem);
+      width: min(100%, 940px);
+      margin: 0 auto;
+    }
+    .cubismo-padres__fragmento { position: relative; }
+    .cubismo-padres__escena {
+      position: relative;
+      aspect-ratio: 4 / 4.6;
+      margin: 0;
+    }
+    .cubismo-padres__shard {
+      position: absolute;
+      inset: 0;
+    }
+    .cubismo-padres__shard img {
+      position: absolute;
+      width: 130%;
+      height: 130%;
+      object-fit: cover;
+      max-width: none;
+    }
+    .cubismo-padres__shard--a { clip-path: polygon(0 0, 62% 0, 34% 58%, 0 74%); }
+    .cubismo-padres__shard--a img { left: 0; top: 0; filter: saturate(1.3) contrast(1.1); }
+    .cubismo-padres__shard--b { clip-path: polygon(62% 0, 100% 0, 100% 52%, 34% 58%); }
+    .cubismo-padres__shard--b img { right: 0; top: 0; transform: scaleX(-1); filter: hue-rotate(-18deg) saturate(1.2); }
+    .cubismo-padres__shard--c { clip-path: polygon(0 74%, 34% 58%, 68% 100%, 0 100%); }
+    .cubismo-padres__shard--c img { left: 0; bottom: 0; filter: sepia(.4) saturate(1.4); }
+    .cubismo-padres__shard--d { clip-path: polygon(34% 58%, 100% 52%, 100% 100%, 68% 100%); }
+    .cubismo-padres__shard--d img { right: 0; bottom: 0; transform: scaleX(-1) rotate(2deg); filter: saturate(1.5) hue-rotate(14deg); }
+    .cubismo-padres__plano {
+      position: absolute;
+      z-index: 5;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+    .cubismo-padres__plano--a { top: 6%; left: -8%; width: 44%; height: 30%; background: var(--accent-color); transform: rotate(-7deg); }
+    .cubismo-padres__plano--b { bottom: 10%; right: -6%; width: 38%; height: 36%; background: var(--extra-color); transform: rotate(9deg); opacity: .8; }
+    .cubismo-padres__plano--c { top: 40%; right: 20%; width: 20%; aspect-ratio: 1; border-radius: 50%; background: var(--secondary-color); opacity: .75; }
+
+    .cubismo-padres__placa {
+      position: relative;
+      z-index: 6;
+      margin: -1.4rem auto 0;
+      width: fit-content;
+      max-width: 92%;
+      padding: .7rem 1.1rem;
+      background: var(--surface-color);
+      border: 2px solid var(--surface-border-color);
+      box-shadow: 6px 6px 0 var(--accent-color);
+    }
+    .cubismo-padres__placa:nth-child(odd) { transform: rotate(-1.4deg); }
+    .cubismo-padres__rol {
+      margin: 0 0 .2rem;
+      font-family: Arial, sans-serif;
+      font-size: clamp(.58rem, 1.1vw, .68rem);
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .cubismo-padres__nombres {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1rem, 2.1vw, 1.28rem);
+      line-height: 1.25;
+      color: var(--primary-color);
+    }
+    @media (max-width: 700px) {
+      .cubismo-padres__fragmentos { grid-template-columns: 1fr; gap: 2.6rem; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="padres-intro">
+    <h2 class="cubismo-padres__titulo" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Retrato de <em>dos casas</em></h2>
+    <p class="cubismo-padres__sub" memory_type="text" memory_usage="custom" memory_key="padres-texto">Dos familias vistas desde todos los ángulos a la vez: así nos ven quienes nos formaron.</p>
+  </header>
+
+  <div class="cubismo-padres__fragmentos">
+    <article class="cubismo-padres__fragmento">
+      <figure class="cubismo-padres__escena" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-uno">
+        <span class="cubismo-padres__shard cubismo-padres__shard--a"><img src="https://loremflickr.com/640/760/family,portrait" alt="" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" /></span>
+        <span class="cubismo-padres__shard cubismo-padres__shard--b"><img src="https://loremflickr.com/640/760/family,portrait" alt="" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" /></span>
+        <span class="cubismo-padres__shard cubismo-padres__shard--c"><img src="https://loremflickr.com/640/760/family,portrait" alt="" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" /></span>
+        <span class="cubismo-padres__shard cubismo-padres__shard--d"><img src="https://loremflickr.com/640/760/family,portrait" alt="" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" /></span>
+        <span class="cubismo-padres__plano cubismo-padres__plano--a" aria-hidden="true"></span>
+        <span class="cubismo-padres__plano cubismo-padres__plano--b" aria-hidden="true"></span>
+        <span class="cubismo-padres__plano cubismo-padres__plano--c" aria-hidden="true"></span>
+        <figcaption hidden>Retrato cubista familia uno</figcaption>
+      </figure>
+      <div class="cubismo-padres__placa" memory_type="text" memory_usage="custom" memory_key="padres-bloque-uno">
+        <p class="cubismo-padres__rol">Familia de la novia</p>
+        <h3 class="cubismo-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+      </div>
+    </article>
+
+    <article class="cubismo-padres__fragmento">
+      <figure class="cubismo-padres__escena" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-dos">
+        <span class="cubismo-padres__shard cubismo-padres__shard--a"><img src="https://loremflickr.com/640/760/parents,home" alt="" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" /></span>
+        <span class="cubismo-padres__shard cubismo-padres__shard--b"><img src="https://loremflickr.com/640/760/parents,home" alt="" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" /></span>
+        <span class="cubismo-padres__shard cubismo-padres__shard--c"><img src="https://loremflickr.com/640/760/parents,home" alt="" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" /></span>
+        <span class="cubismo-padres__shard cubismo-padres__shard--d"><img src="https://loremflickr.com/640/760/parents,home" alt="" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" /></span>
+        <span class="cubismo-padres__plano cubismo-padres__plano--b" style="left:auto; right:-8%;" aria-hidden="true"></span>
+        <span class="cubismo-padres__plano cubismo-padres__plano--a" style="top:auto; bottom:4%; left:10%;" aria-hidden="true"></span>
+        <figcaption hidden>Retrato cubista familia dos</figcaption>
+      </figure>
+      <div class="cubismo-padres__placa" memory_type="text" memory_usage="custom" memory_key="padres-bloque-dos">
+        <p class="cubismo-padres__rol">Familia del novio</p>
+        <h3 class="cubismo-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Cubismo — Retrato Fragmentado',
+      descripcion: 'Retrato cubista: cada foto familiar rota en cuatro shards con clip-path (espejados, teñidos y girados), planos de color en multiply y placas de museo.',
+      tags: ['padres', 'cubismo', 'fragmentado', 'shards', 'clip-path', 'visto desde todos los ángulos'],
+      tipo: 'padres'
+    };
+  </script>
+</section>
+
+<div style="position:relative; z-index:5; background:#111; color:#eee; padding:14px clamp(1rem,5vw,4rem); font-family:'Courier New',monospace; letter-spacing:.3em; text-transform:uppercase; font-size:.7rem; border-top:1px solid #333; border-bottom:1px solid #333;">04 / 20 — Brutalismo — Crónica Sin Filtro</div>
+<section class="bru-itin" data-gemini-id="itinerario-agenda" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.bru-itin { --primary-color:#111111; --accent-color:#f5d90a; --hot-color:#ff2e2e; --bg-color:#e8e4dc; --surface-color:#f4f1ea; --text-color:#111;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(2.4rem,6vw,4.5rem) clamp(1rem,4vw,3rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/concrete,raw'); background-size:cover; background-position:center; color:var(--text-color); }
+.bru-itin *, .bru-itin *::before, .bru-itin *::after { box-sizing:border-box; }
+.bru-itin::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 92%, transparent); }
+.bru-itin__titulo { margin:0 0 .3rem; font-family:Impact,'Arial Black',sans-serif; font-size:clamp(2.6rem,9vw,6.5rem); line-height:.85; text-transform:uppercase; letter-spacing:-.03em; color:var(--primary-color); }
+.bru-itin__titulo span { color:var(--hot-color); }
+.bru-itin__sub { margin:0 0 2rem; font-family:'Courier New',monospace; font-size:clamp(.72rem,1.4vw,.85rem); letter-spacing:.2em; text-transform:uppercase; }
+/* banda marquesina de advertencia */
+.bru-itin__banda { overflow:hidden; border-top:3px solid var(--primary-color); border-bottom:3px solid var(--primary-color); background:var(--accent-color); margin-bottom:2.4rem; }
+.bru-itin__banda-inner { display:flex; width:max-content; animation:bruMarcha 22s linear infinite; }
+.bru-itin__banda:hover .bru-itin__banda-inner { animation-play-state:paused; }
+.bru-itin__banda-inner span { padding:.5rem 1.4rem; font-family:Impact,sans-serif; font-size:clamp(.9rem,2vw,1.3rem); text-transform:uppercase; letter-spacing:.06em; white-space:nowrap; }
+@keyframes bruMarcha { to { transform:translateX(-50%); } }
+/* cronograma: números brutales colosales que sangran, fichas montadas */
+.bru-itin__lista { position:relative; }
+.bru-itin__hito { position:relative; display:grid; grid-template-columns:auto 1fr; column-gap:clamp(.8rem,3vw,1.6rem); align-items:center; padding:clamp(1rem,2.6vw,1.5rem) clamp(.9rem,2.2vw,1.4rem); background:var(--surface-color); border:3px solid var(--primary-color); box-shadow:9px 9px 0 var(--primary-color); margin-bottom:1.6rem; }
+.bru-itin__hito:nth-child(even) { box-shadow:-9px 9px 0 var(--hot-color); }
+.bru-itin__hito:nth-child(even) { transform:rotate(1.1deg); }
+.bru-itin__hito:nth-child(odd) { transform:rotate(-1.2deg); }
+.bru-itin__hito:hover { transform:rotate(0) translate(-3px,-3px); box-shadow:12px 12px 0 var(--primary-color); }
+.bru-itin__num { font-family:Impact,sans-serif; font-size:clamp(3.4rem,9vw,6rem); line-height:.8; color:var(--hot-color); -webkit-text-stroke:2px var(--primary-color); }
+.bru-itin__hora { display:inline-block; padding:.2rem .6rem; background:var(--primary-color); color:var(--accent-color); font-family:'Courier New',monospace; font-size:clamp(.68rem,1.3vw,.8rem); letter-spacing:.2em; }
+.bru-itin__momento { margin:.25rem 0 .15rem; font-family:Impact,sans-serif; font-size:clamp(1.15rem,2.6vw,1.7rem); text-transform:uppercase; color:var(--primary-color); }
+.bru-itin__detalle { margin:0; font-family:Arial,sans-serif; font-size:clamp(.78rem,1.4vw,.88rem); line-height:1.5; color:#333; }
+@media (prefers-reduced-motion:reduce){ .bru-itin__banda-inner { animation:none; } }
+</style>
+<h2 class="bru-itin__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Crónica <span>sin filtro</span></h2>
+<p class="bru-itin__sub" memory_type="text" memory_usage="custom" memory_key="itinerario-sub">Programa oficial · ediciones limitadas · no se aceptan devoluciones</p>
+<div class="bru-itin__banda" aria-hidden="true">
+  <div class="bru-itin__banda-inner">
+    <span>★ EL DÍA ★ HORA OFICIAL ★ NO TARDES ★</span>
+    <span>★ EL DÍA ★ HORA OFICIAL ★ NO TARDES ★</span>
+    <span>★ EL DÍA ★ HORA OFICIAL ★ NO TARDES ★</span>
+    <span>★ EL DÍA ★ HORA OFICIAL ★ NO TARDES ★</span>
+  </div>
+</div>
+<div class="bru-itin__lista">
+  <article class="bru-itin__hito">
+    <span class="bru-itin__num" aria-hidden="true">1</span>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
+      <time class="bru-itin__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00 EN PUNTO</time>
+      <h3 class="bru-itin__momento" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-1">Puertas</h3>
+      <p class="bru-itin__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-1">Recepción brutal: abrazos fuertes y bebida fría.</p>
+    </div>
+  </article>
+  <article class="bru-itin__hito">
+    <span class="bru-itin__num" aria-hidden="true">2</span>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
+      <time class="bru-itin__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00 EN PUNTO</time>
+      <h3 class="bru-itin__momento" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-2">El acto</h3>
+      <p class="bru-itin__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-2">Ceremonia sin adornos: solo ustedes y el ruido.</p>
+    </div>
+  </article>
+  <article class="bru-itin__hito">
+    <span class="bru-itin__num" aria-hidden="true">3</span>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
+      <time class="bru-itin__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00 EN PUNTO</time>
+      <h3 class="bru-itin__momento" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-3">Mesa y golpes</h3>
+      <p class="bru-itin__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-3">Cena contundente, copas que chocan fuerte.</p>
+    </div>
+  </article>
+  <article class="bru-itin__hito">
+    <span class="bru-itin__num" aria-hidden="true">4</span>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
+      <time class="bru-itin__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:30 EN PUNTO</time>
+      <h3 class="bru-itin__momento" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-4">Ruido final</h3>
+      <p class="bru-itin__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-4">La pista sufre. Así será.</p>
+    </div>
+  </article>
+</div>
+<script>
+var moduleMetadata = { module_type:'itinerario', module_name:'itinerario-agenda', style_name:'Brutalismo — Crónica Sin Filtro', descripcion:'Cronograma brutalista: titulares Impact, números colosales con contorno, fichas con borde grueso y sombra dura rotadas, marquesina amarilla de advertencia.', tags:['itinerario','brutalismo','impact','sombras duras','marquesina','crudo'], tipo:'itinerario' };
+</script>
+</section>
+
+<div style="position:relative; z-index:5; background:#111; color:#eee; padding:14px clamp(1rem,5vw,4rem); font-family:'Courier New',monospace; letter-spacing:.3em; text-transform:uppercase; font-size:.7rem; border-top:1px solid #333; border-bottom:1px solid #333;">05 / 20 — Y2K — Cromo Líquido</div>
+<section class="y2k-cd" data-gemini-id="countdown-cromo-liquido" path="placeholder" memory_source="generated" memory_type="background" memory_usage="protected" data-countdown-target="YYYY-MM-DDTHH:MM:SS">
+<style>
+.y2k-cd { --primary-color:#1a1030; --secondary-color:#b8a8e8; --accent-color:#66f0e2; --bg-color:#120b24; --surface-color:#1d1338; --surface-border-color:rgba(184,168,232,.3); --text-color:#f4efff;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:100svh; display:grid; place-items:center; padding:clamp(3rem,7vw,5rem) clamp(1rem,5vw,3rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/1000/y2k,chrome'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.y2k-cd *, .y2k-cd *::before, .y2k-cd *::after { box-sizing:border-box; }
+.y2k-cd::before { content:''; position:absolute; inset:0; z-index:-2; background:radial-gradient(ellipse 80% 55% at 70% 20%, color-mix(in srgb, var(--accent-color) 26%, transparent), transparent 60%), radial-gradient(ellipse 70% 50% at 15% 80%, color-mix(in srgb, #ff8ad8 22%, transparent), transparent 60%), color-mix(in srgb, var(--bg-color) 88%, transparent); }
+/* orbes metálicos flotantes */
+.y2k-cd__orbe { position:absolute; border-radius:50%; background:radial-gradient(circle at 32% 28%, #ffffff 0%, var(--accent-color) 22%, #b06ef5 48%, #35156b 78%, #0c0620 100%); filter:saturate(1.2); animation:y2kFlota var(--d) ease-in-out infinite alternate; pointer-events:none; }
+.y2k-cd__orbe--a { width:clamp(70px,12vw,130px); top:8%; left:6%; --d:7s; }
+.y2k-cd__orbe--b { width:clamp(44px,8vw,90px); top:14%; right:10%; --d:9s; animation-delay:-3s; }
+.y2k-cd__orbe--c { width:clamp(90px,16vw,170px); bottom:6%; right:14%; --d:8s; animation-delay:-5s; opacity:.9; }
+@keyframes y2kFlota { from { transform:translateY(-16px) rotate(-4deg); } to { transform:translateY(16px) rotate(5deg); } }
+.y2k-cd__titulo { margin:0 0 .3rem; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(.72rem,1.5vw,.9rem); letter-spacing:.6em; text-transform:uppercase; color:var(--accent-color); }
+.y2k-cd__lema { margin:0 0 clamp(1.6rem,4vw,2.4rem); font-family:Georgia,serif; font-style:italic; font-size:clamp(1rem,2.4vw,1.5rem); color:var(--secondary-color); }
+/* cifras de cromo líquido: degradado recortado al texto + brillo superior */
+.y2k-cd__flip { display:flex; justify-content:center; align-items:stretch; gap:clamp(.4rem,1.4vw,.9rem); }
+.y2k-cd__pastilla { position:relative; width:clamp(80px,17vw,150px); padding:clamp(1rem,3vw,1.8rem) .2rem clamp(.9rem,2.6vw,1.5rem); border-radius:20px; background:linear-gradient(165deg, rgba(255,255,255,.16), rgba(255,255,255,.03) 45%, rgba(255,255,255,.12)); border:1px solid var(--surface-border-color); box-shadow:inset 0 1px 0 rgba(255,255,255,.5), 0 24px 50px rgba(0,0,0,.45); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
+.y2k-cd__numero { display:block; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(2.4rem,7vw,4.6rem); line-height:1; font-variant-numeric:tabular-nums;
+  background:linear-gradient(180deg, #ffffff 8%, var(--accent-color) 34%, #b06ef5 62%, #ffffff 88%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  filter:drop-shadow(0 3px 0 rgba(12,6,32,.85)) drop-shadow(0 0 18px rgba(102,240,226,.35)); }
+.y2k-cd__rotulo { display:block; margin-top:.45rem; font-family:'Courier New',monospace; font-size:clamp(.54rem,1.1vw,.64rem); letter-spacing:.4em; text-transform:uppercase; color:var(--secondary-color); }
+.y2k-cd__fecha { position:relative; z-index:2; display:inline-block; margin-top:clamp(1.6rem,4vw,2.4rem); padding:.6rem 1.8rem; border-radius:999px; border:1px solid var(--surface-border-color); background:rgba(255,255,255,.07); font-family:'Courier New',monospace; font-size:clamp(.7rem,1.4vw,.85rem); letter-spacing:.3em; text-transform:uppercase; color:var(--text-color); }
+@media (max-width:560px){ .y2k-cd__flip { flex-wrap:wrap; } }
+@media (prefers-reduced-motion:reduce){ .y2k-cd__orbe { animation:none; } }
+</style>
+<span class="y2k-cd__orbe y2k-cd__orbe--a" aria-hidden="true"></span>
+<span class="y2k-cd__orbe y2k-cd__orbe--b" aria-hidden="true"></span>
+<span class="y2k-cd__orbe y2k-cd__orbe--c" aria-hidden="true"></span>
+<div>
+  <p class="y2k-cd__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Cargando el futuro</p>
+  <p class="y2k-cd__lema" memory_type="text" memory_usage="custom" memory_key="countdown-lema">nuestro amor en alta definición desde el año 2000</p>
+  <div class="y2k-cd__flip" aria-label="Cuenta regresiva">
+    <div class="y2k-cd__pastilla"><span class="y2k-cd__numero" data-countdown-unit="days">--</span><span class="y2k-cd__rotulo">Días</span></div>
+    <div class="y2k-cd__pastilla"><span class="y2k-cd__numero" data-countdown-unit="hours">--</span><span class="y2k-cd__rotulo">Horas</span></div>
+    <div class="y2k-cd__pastilla"><span class="y2k-cd__numero" data-countdown-unit="minutes">--</span><span class="y2k-cd__rotulo">Min</span></div>
+    <div class="y2k-cd__pastilla"><span class="y2k-cd__numero" data-countdown-unit="seconds">--</span><span class="y2k-cd__rotulo">Seg</span></div>
+  </div>
+  <time class="y2k-cd__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+</div>
+<script>
+var moduleMetadata = { module_type:'countdown', module_name:'countdown-cromo-liquido', style_name:'Y2K — Cromo Líquido', descripcion:'Countdown Y2K: orbes de cromo flotantes, cifras con degradado metálico recortado al texto, pastillas de vidrio esmerilado y halo rosa-morado.', tags:['countdown','y2k','cromo','orbes','vidrio','futurista'], tipo:'countdown' };
+</script>
+</section>
+
+<div style="position:relative; z-index:5; background:#111; color:#eee; padding:14px clamp(1rem,5vw,4rem); font-family:'Courier New',monospace; letter-spacing:.3em; text-transform:uppercase; font-size:.7rem; border-top:1px solid #333; border-bottom:1px solid #333;">06 / 20 — Synthwave — Zona del Evento</div>
+<section class="sw-ubi" data-gemini-id="ubicacion-ceremonia" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.sw-ubi { --primary-color:#f8e7ff; --secondary-color:#b967ff; --accent-color:#01cdfe; --bg-color:#12002b; --surface-color:#1d0a3d; --surface-border-color:rgba(1,205,254,.4); --text-color:#f8e7ff;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/1000/synthwave,sunset'); background-size:cover; background-position:center; color:var(--text-color); }
+.sw-ubi *, .sw-ubi *::before, .sw-ubi *::after { box-sizing:border-box; }
+.sw-ubi::before { content:''; position:absolute; inset:0; z-index:-1; background:linear-gradient(180deg, color-mix(in srgb, var(--bg-color) 40%, transparent), color-mix(in srgb, var(--bg-color) 92%, transparent)); }
+/* sol synthwave con rayas */
+.sw-ubi__sol { position:absolute; z-index:0; top:6%; left:50%; width:clamp(180px,34vw,380px); aspect-ratio:1/1; transform:translateX(-50%); border-radius:50%; background:linear-gradient(180deg, #ff71ce, #fffb96 55%, #01cdfe); -webkit-mask:linear-gradient(#000 0 0) top/100% 55% no-repeat, repeating-linear-gradient(180deg, #000 0 14px, transparent 14px 26px) bottom/100% 100% no-repeat; mask:linear-gradient(#000 0 0) top/100% 55% no-repeat, repeating-linear-gradient(180deg, #000 0 14px, transparent 14px 26px) bottom/100% 100% no-repeat; opacity:.85; pointer-events:none; }
+/* suelo de rejilla en perspectiva animada */
+.sw-ubi__rejilla { position:absolute; z-index:0; left:-30%; right:-30%; bottom:0; height:34%; background:
+  repeating-linear-gradient(90deg, var(--accent-color) 0 2px, transparent 2px 80px) bottom/100% 100%,
+  repeating-linear-gradient(0deg, var(--accent-color) 0 2px, transparent 2px 60px) bottom/100% 200%;
+  transform:perspective(320px) rotateX(58deg); transform-origin:top; opacity:.5; animation:swRejilla 3.2s linear infinite; pointer-events:none; }
+@keyframes swRejilla { to { background-position: 0 0, 0 60px; } }
+.sw-ubi__titulo { position:relative; z-index:2; margin:0 0 .6rem; text-align:center; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(2rem,6.4vw,4.4rem); line-height:1; text-transform:uppercase; letter-spacing:.04em; color:transparent; background:linear-gradient(180deg, #fff 20%, var(--secondary-color) 55%, var(--accent-color)); -webkit-background-clip:text; background-clip:text; filter:drop-shadow(0 0 22px rgba(185,103,255,.55)) drop-shadow(3px 3px 0 #b967ff33); }
+.sw-ubi__sub { position:relative; z-index:2; margin:0 auto clamp(2rem,5vw,3rem); max-width:46ch; text-align:center; font-family:'Courier New',monospace; font-size:clamp(.78rem,1.5vw,.92rem); letter-spacing:.12em; color:var(--secondary-color); }
+.sw-ubi__grid { position:relative; z-index:2; display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:clamp(1.4rem,4vw,2.8rem); width:min(100%,960px); margin:0 auto; align-items:stretch; }
+.sw-ubi__datos { padding:clamp(1.4rem,3.4vw,2.2rem); background:color-mix(in srgb, var(--surface-color) 80%, transparent); border:1px solid var(--surface-border-color); box-shadow:0 0 30px rgba(1,205,254,.15), inset 0 0 26px rgba(185,103,255,.12); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
+.sw-ubi__fila { display:grid; grid-template-columns:auto 1fr; gap:.8rem; align-items:baseline; padding:.55rem 0; border-bottom:1px dashed var(--surface-border-color); font-family:'Courier New',monospace; }
+.sw-ubi__rotulo { font-size:clamp(.6rem,1.15vw,.7rem); letter-spacing:.3em; text-transform:uppercase; color:var(--accent-color); }
+.sw-ubi__dato { font-size:clamp(.86rem,1.6vw,1rem); color:var(--text-color); }
+.sw-ubi__boton { display:inline-block; margin-top:1.2rem; padding:.75rem 1.8rem; font-family:'Courier New',monospace; font-size:clamp(.68rem,1.3vw,.8rem); letter-spacing:.3em; text-transform:uppercase; text-decoration:none; color:var(--bg-color); background:linear-gradient(90deg, var(--accent-color), var(--secondary-color)); box-shadow:0 0 22px color-mix(in srgb, var(--accent-color) 55%, transparent); transition:box-shadow .4s ease, transform .4s ease; }
+.sw-ubi__boton:hover { transform:translateY(-2px); box-shadow:0 0 40px var(--accent-color); }
+.sw-ubi__marco { position:relative; margin:0; border:1px solid var(--surface-border-color); padding:8px; background:color-mix(in srgb, var(--surface-color) 85%, transparent); box-shadow:0 0 34px rgba(185,103,255,.25); }
+.sw-ubi__mapa { overflow:hidden; }
+.sw-ubi__mapa iframe { display:block; width:100%; aspect-ratio:16/10; border:0; filter:hue-rotate(160deg) saturate(1.4) contrast(1.1) brightness(.9); }
+.sw-ubi__cartel { position:absolute; z-index:3; top:-14px; right:14px; padding:.3rem .8rem; background:var(--accent-color); color:var(--bg-color); font-family:'Courier New',monospace; font-size:clamp(.6rem,1.15vw,.7rem); letter-spacing:.3em; text-transform:uppercase; box-shadow:0 0 18px var(--accent-color); }
+@media (max-width:760px){ .sw-ubi__grid { grid-template-columns:1fr; } }
+@media (prefers-reduced-motion:reduce){ .sw-ubi__rejilla { animation:none; } }
+</style>
+<span class="sw-ubi__sol" aria-hidden="true"></span>
+<span class="sw-ubi__rejilla" aria-hidden="true"></span>
+<h2 class="sw-ubi__titulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Zona del evento</h2>
+<p class="sw-ubi__sub" memory_type="text" memory_usage="custom" memory_key="ubicacion-sub">// transmisión en vivo desde las coordenadas de la celebración_</p>
+<div class="sw-ubi__grid">
+  <div class="sw-ubi__datos">
+    <div class="sw-ubi__fila"><span class="sw-ubi__rotulo">Sede</span><span class="sw-ubi__dato" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar">Nombre del lugar</span></div>
+    <div class="sw-ubi__fila"><span class="sw-ubi__rotulo">Dirección</span><span class="sw-ubi__dato" memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion">Boulevard Neón 777, Ciudad</span></div>
+    <div class="sw-ubi__fila"><span class="sw-ubi__rotulo">Hora local</span><time class="sw-ubi__dato" datetime="20:00" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora">20:00 h</time></div>
+    <div class="sw-ubi__fila" style="border-bottom:0;"><span class="sw-ubi__rotulo">Dress code</span><span class="sw-ubi__dato" memory_type="text" memory_usage="custom" memory_key="ubicacion-dress">Neón Permitido</span></div>
+    <figure class="sw-ubi__holo" memory_type="image" memory_usage="custom" memory_source="library" memory_key="ubicacion-foto" style="margin:1.2rem 0 0; border:1px solid var(--surface-border-color); padding:6px; background:rgba(255,255,255,.05); box-shadow:0 0 26px rgba(1,205,254,.3);">
+      <img src="https://loremflickr.com/800/460/neon,venue" alt="Vista del lugar del evento" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" style="display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;filter:hue-rotate(160deg) saturate(1.3) contrast(1.1);" />
+      <figcaption hidden>Vista del lugar</figcaption>
+    </figure>
+    <a class="sw-ubi__boton" href="https://www.google.com/maps?q=Ubicacion+del+evento" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Trazar ruta ▸</a>
+  </div>
+  <figure class="sw-ubi__marco">
+    <span class="sw-ubi__cartel" aria-hidden="true">● LIVE</span>
+    <div class="sw-ubi__mapa" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url">
+      <iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen></iframe>
+    </div>
+    <figcaption hidden>Mapa de la ubicación</figcaption>
+  </figure>
+</div>
+<script>
+var moduleMetadata = { module_type:'ubicacion', module_name:'ubicacion-ceremonia', style_name:'Synthwave — Zona del Evento', descripcion:'Synthwave: sol de rayas, rejilla en perspectiva infinita, titulares cromo con glow, panel de datos monoespaciado y mapa en tinte magenta.', tags:['ubicacion','synthwave','sol','rejilla','neon','retro-futurista'], tipo:'ubicacion' };
+</script>
+</section>
+
+<div style="position:relative; z-index:5; background:#111; color:#eee; padding:14px clamp(1rem,5vw,4rem); font-family:'Courier New',monospace; letter-spacing:.3em; text-transform:uppercase; font-size:.7rem; border-top:1px solid #333; border-bottom:1px solid #333;">07 / 20 — Ukiyoe — Ola de Gratitud</div>
+<section class="uk-gracias" data-gemini-id="gracias-ola" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.uk-gracias { --primary-color:#1b2a4a; --secondary-color:#c9705c; --accent-color:#e8d5b5; --bg-color:#f0e6d2; --surface-color:#f7efdd; --surface-border-color:#1b2a4a; --text-color:#1b2a4a;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:80svh; display:grid; place-items:center; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem) clamp(8rem,18vw,12rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/1000/ukiyoe,wave'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.uk-gracias *, .uk-gracias *::before, .uk-gracias *::after { box-sizing:border-box; }
+.uk-gracias::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 90%, transparent); }
+/* sello hanko rojo girando lento */
+.uk-gracias__hanko { position:absolute; top:clamp(1.2rem,4vw,2.4rem); right:clamp(1.2rem,4vw,2.6rem); width:clamp(54px,8vw,74px); aspect-ratio:1/1; display:grid; place-items:center; border-radius:8px; background:#c9705c; color:var(--surface-color); font-family:Georgia,serif; font-size:clamp(1.1rem,2.4vw,1.6rem); font-weight:700; box-shadow:inset 0 0 0 3px var(--surface-color), 0 6px 14px rgba(27,42,74,.3); transform:rotate(6deg); animation:ukSello 14s ease-in-out infinite; }
+@keyframes ukSello { 0%,100% { transform:rotate(6deg);} 50% { transform:rotate(-4deg);} }
+.uk-gracias__kana { font-family:'Courier New',monospace; letter-spacing:.7em; font-size:clamp(.66rem,1.3vw,.8rem); color:var(--secondary-color); margin-bottom:.6rem; text-indent:.7em; }
+.uk-gracias__titulo { margin:0 0 1rem; font-family:Georgia,'Times New Roman',serif; font-weight:400; font-size:clamp(2.4rem,7vw,4.8rem); line-height:1.04; color:var(--primary-color); }
+.uk-gracias__titulo span { display:block; }
+.uk-gracias__titulo span:nth-child(2) { font-size:.52em; font-style:italic; color:var(--secondary-color); margin-top:.35em; }
+.uk-gracias__texto { margin:0 auto 1.6rem; max-width:44ch; font-family:Georgia,serif; font-size:clamp(.92rem,1.8vw,1.08rem); line-height:1.9; color:var(--text-color); }
+/* tres capas de ola ukiyoe apiladas con parallax al scroll */
+.uk-gracias__olas { position:absolute; left:-4%; right:-4%; bottom:-6px; z-index:1; pointer-events:none; }
+.uk-gracias__olas svg { display:block; width:110%; margin-left:-5%; }
+.uk-gracias__ola-cresta { fill:var(--surface-color); stroke:var(--primary-color); stroke-width:2; }
+.uk-gracias__ola-agua { fill:var(--primary-color); }
+.uk-gracias__espuma { fill:var(--accent-color); }
+/* tarjetas de nombres flotando sobre las olas */
+.uk-gracias__nombres { position:relative; z-index:3; display:flex; flex-wrap:wrap; justify-content:center; gap:.8rem 1.6rem; }
+.uk-gracias__nombre { padding:.5rem 1.3rem; background:var(--surface-color); border:1.5px solid var(--primary-color); border-radius:4px; box-shadow:4px 4px 0 rgba(27,42,74,.85); font-family:Georgia,serif; font-size:clamp(.85rem,1.7vw,1rem); transform:rotate(var(--r)); }
+.uk-gracias__nombre:nth-child(1){ --r:-2deg; } .uk-gracias__nombre:nth-child(2){ --r:1.6deg; } .uk-gracias__nombre:nth-child(3){ --r:-1deg; }
+@media (prefers-reduced-motion:reduce){ .uk-gracias__hanko { animation:none; } }
+</style>
+<span class="uk-gracias__hanko" aria-hidden="true">感謝</span>
+<div>
+  <p class="uk-gracias__kana" memory_type="text" memory_usage="custom" memory_key="gracias-kana">カンシャ · KANSHA</p>
+  <h2 class="uk-gracias__titulo" memory_type="text" memory_usage="custom" memory_key="gracias-titulo">
+    <span>Gracias por</span>
+    <span>acompañarnos en esta ola</span>
+  </h2>
+  <p class="uk-gracias__texto" memory_type="text" memory_usage="custom" memory_key="gracias-texto">
+    Como la ola que regresa siempre al mismo puerto, nuestra gratitud vuelve a ustedes una y otra vez. Gracias por ser parte de esta estampa.
+  </p>
+  <div class="uk-gracias__nombres" memory_type="text" memory_usage="custom" memory_key="gracias-nombres">
+    <span class="uk-gracias__nombre">Nombre de la Familia Uno</span>
+    <span class="uk-gracias__nombre">Nombre de los Novios</span>
+    <span class="uk-gracias__nombre">Nombre de la Familia Dos</span>
+  </div>
+</div>
+<div class="uk-gracias__olas" aria-hidden="true">
+  <svg viewBox="0 0 1440 240" preserveAspectRatio="none">
+    <path class="uk-gracias__ola-cresta" d="M0 90 C 120 30, 240 150, 360 90 S 600 30, 720 90 S 960 150, 1080 90 S 1320 30, 1440 90 V240 H0 Z"/>
+    <path class="uk-gracias__espuma" d="M0 90 C 120 30, 240 150, 360 90 S 600 30, 720 90 S 960 150, 1080 90 S 1320 30, 1440 90" fill="none" stroke="var(--accent-color)" stroke-width="5" stroke-dasharray="2 12"/>
+    <path class="uk-gracias__ola-agua" d="M0 140 C 180 90, 320 190, 480 140 S 780 90, 940 140 S 1280 190, 1440 140 V240 H0 Z"/>
+  </svg>
+</div>
+<script>
+var moduleMetadata = { module_type:'gracias', module_name:'gracias-ola', style_name:'Ukiyoe — Ola de Gratitud', descripcion:'Agradecimiento ukiyoe: sello hanko rojo, kana espaciado, texto serif y triple ola de madera con crestas espumadas al pie.', tags:['gracias','ukiyoe','ola','hanko','woodblock','japones'], tipo:'gracias' };
+</script>
+</section>
+
+<div style="position:relative; z-index:5; background:#111; color:#eee; padding:14px clamp(1rem,5vw,4rem); font-family:'Courier New',monospace; letter-spacing:.3em; text-transform:uppercase; font-size:.7rem; border-top:1px solid #333; border-bottom:1px solid #333;">08 / 20 — Vitral Gótico — Rosetón</div>
+<section class="vit-conf" data-gemini-id="confirmacion-texto" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.vit-conf { --primary-color:#0d1b4c; --secondary-color:#7a4fbf; --accent-color:#e8b04b; --bg-color:#060b24; --surface-color:#0e1a44; --surface-border-color:#e8b04b; --text-color:#f5f1e6;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:88svh; display:grid; place-items:center; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/1000/cathedral,stained'); background-size:cover; background-position:center; color:var(--text-color); }
+.vit-conf *, .vit-conf *::before, .vit-conf *::after { box-sizing:border-box; }
+.vit-conf::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 72%, transparent); }
+/* rayos de luz que barren el vitral */
+.vit-conf__rayos { position:absolute; z-index:0; top:-20%; left:50%; width:150%; height:120%; transform:translateX(-50%); background:repeating-conic-gradient(from 200deg at 50% 0%, rgba(232,176,75,.14) 0 6deg, transparent 6deg 18deg); animation:vitLuz 16s ease-in-out infinite alternate; pointer-events:none; }
+@keyframes vitLuz { from { opacity:.5; transform:translateX(-54%);} to { opacity:1; transform:translateX(-46%);} }
+/* rosetón de vitral SVG con plomos */
+.vit-conf__roseton { position:relative; z-index:2; width:clamp(190px,32vw,280px); margin:0 auto clamp(1.2rem,3vw,1.8rem); filter:drop-shadow(0 0 26px rgba(232,176,75,.4)); animation:vitFlota 9s ease-in-out infinite; }
+@keyframes vitFlota { 0%,100% { transform:translateY(0);} 50% { transform:translateY(-10px);} }
+.vit-conf__roseton circle, .vit-conf__roseton path { stroke:#060b24; stroke-width:3; }
+.vit-conf__panel {
+  position:relative; z-index:2; width:min(100%,660px); padding:clamp(2.2rem,5.5vw,3.6rem) clamp(1.6rem,5vw,3.4rem);
+  background:
+    linear-gradient(135deg, rgba(232,176,75,.2) 0 12%, transparent 12% 26%, rgba(122,79,191,.22) 26% 38%, transparent 38% 52%, rgba(13,27,76,.5) 52% 64%, rgba(232,176,75,.16) 64% 78%, transparent 78%),
+    linear-gradient(45deg, rgba(122,79,191,.14) 0 10%, transparent 10% 24%, rgba(232,176,75,.18) 24% 36%, transparent 36% 50%, rgba(13,27,76,.45) 50% 62%, rgba(232,176,75,.14) 62% 76%, transparent 76%),
+    var(--surface-color);
+  border:6px solid var(--primary-color);
+  outline:2px solid var(--accent-color);
+  outline-offset:-14px;
+  box-shadow:0 40px 90px rgba(0,0,0,.6), inset 0 0 60px rgba(6,11,36,.6);
+  text-align:center;
+}
+.vit-conf__plomo { display:flex; align-items:center; gap:.9rem; margin:0 0 1rem; color:var(--accent-color); }
+.vit-conf__plomo::before, .vit-conf__plomo::after { content:''; flex:1; height:2px; background:linear-gradient(90deg, transparent, var(--accent-color)); }
+.vit-conf__plomo::after { background:linear-gradient(90deg, var(--accent-color), transparent); }
+.vit-conf__etiqueta { margin:0 0 .8rem; font-family:Georgia,serif; font-size:clamp(.62rem,1.2vw,.74rem); letter-spacing:.5em; text-transform:uppercase; color:var(--accent-color); text-indent:.5em; }
+.vit-conf__titulo {
+  margin:0 0 1.1rem;
+  font-family:Georgia,'Times New Roman',serif;
+  font-size:clamp(1.9rem,4.8vw,3rem);
+  line-height:1.12;
+  color:var(--text-color);
+  text-shadow:0 0 26px rgba(232,176,75,.35);
+}
+.vit-conf__titulo b { color:var(--accent-color); font-weight:400; }
+.vit-conf__texto { margin:0 auto 1.5rem; max-width:48ch; font-family:Georgia,serif; font-size:clamp(.94rem,1.8vw,1.08rem); line-height:1.95; color:var(--text-color); }
+.vit-conf__texto b { color:var(--accent-color); font-weight:400; border-bottom:1px solid var(--accent-color); }
+@media (prefers-reduced-motion:reduce){ .vit-conf__rayos, .vit-conf__roseton { animation:none; } }
+</style>
+<div>
+  <svg class="vit-conf__roseton" viewBox="0 0 200 200" aria-hidden="true">
+    <circle cx="100" cy="100" r="94" fill="#7a4fbf" opacity=".85"/>
+    <circle cx="100" cy="100" r="72" fill="#e8b04b" opacity=".8"/>
+    <circle cx="100" cy="100" r="46" fill="#0d1b4c"/>
+    <path d="M100 10 A90 90 0 0 1 190 100 L100 100 Z" fill="#3f7d6f" opacity=".7"/>
+    <path d="M190 100 A90 90 0 0 1 100 190 L100 100 Z" fill="#b3543f" opacity=".7"/>
+    <path d="M100 190 A90 90 0 0 1 10 100 L100 100 Z" fill="#e8b04b" opacity=".65"/>
+    <path d="M10 100 A90 90 0 0 1 100 10 L100 100 Z" fill="#12205c" opacity=".8"/>
+    <circle cx="100" cy="100" r="24" fill="#e8b04b"/>
+    <circle cx="100" cy="100" r="94" fill="none" stroke="#060b24" stroke-width="6"/>
+  </svg>
+  <div class="vit-conf__panel">
+    <p class="vit-conf__plomo" aria-hidden="true">✦</p>
+    <p class="vit-conf__etiqueta" memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta">Confirmación de asistencia</p>
+    <h2 class="vit-conf__titulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">
+      Tu lugar en el <b>vitral</b> espera ser iluminado
+    </h2>
+    <p class="vit-conf__texto" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">
+      Cada confirmación enciende una pieza de este vitral. Revisa el <b>enlace único</b> que llegó
+      a tu correo, SMS o WhatsApp y deja que tu luz se sume a la obra antes del <b>cierre del altar</b>.
+    </p>
+    <p class="vit-conf__plomo" aria-hidden="true">✦</p>
+  </div>
+</div>
+<script>
+var moduleMetadata = { module_type:'confirmacion', module_name:'confirmacion-texto', style_name:'Vitral Gótico — Rosetón', descripcion:'RSVP como vitral gótico: rosetón SVG flotante, rayos que barren, panel con mulliones de color, plomos dorados y llamada en acento.', tags:['confirmacion','rsvp','vitral','gotico','roseton','luz'], tipo:'confirmacion' };
+</script>
+</section>
+
+<div style="position:relative; z-index:5; background:#111; color:#eee; padding:14px clamp(1rem,5vw,4rem); font-family:'Courier New',monospace; letter-spacing:.3em; text-transform:uppercase; font-size:.7rem; border-top:1px solid #333; border-bottom:1px solid #333;">09 / 20 — Papercraft — Cinco Capas</div>
+<section class="pp-portada" data-gemini-id="portada-novia" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder" aria-labelledby="pp-titulo">
+<style>
+.pp-portada { --primary-color:#2f4739; --secondary-color:#d98e5f; --accent-color:#f4ede0; --bg-color:#87a896; --surface-color:#f4ede0; --text-color:#2f4739;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:100svh; display:grid; place-items:end center; padding:clamp(4rem,10vw,7rem) 0 0;
+  background-color:#cfe0d4; background-image:url('https://loremflickr.com/1600/1000/forest,paper'); background-size:cover; background-position:center; box-shadow:inset 0 0 0 100vmax rgba(207,224,212,.72); color:var(--text-color); text-align:center; }
+.pp-portada *, .pp-portada *::before, .pp-portada *::after { box-sizing:border-box; }
+/* sol papel */
+.pp-portada__sol { position:absolute; z-index:0; top:clamp(2rem,7vw,4.5rem); left:50%; width:clamp(120px,22vw,240px); aspect-ratio:1/1; transform:translateX(-50%); border-radius:50%; background:var(--secondary-color); box-shadow:0 0 0 14px color-mix(in srgb, var(--surface-color) 65%, transparent), 0 0 0 28px color-mix(in srgb, var(--surface-color) 35%, transparent); }
+/* capas de papel que se apilan con sombra entre ellas (5 profundidades) */
+.pp-portada__capas { position:absolute; left:-4%; right:-4%; bottom:0; }
+.pp-portada__capa { position:absolute; left:0; right:0; bottom:0; }
+.pp-portada__capa svg { display:block; width:100%; }
+.pp-portada__capa--1 { bottom:0; z-index:1; filter:drop-shadow(0 -6px 12px rgba(47,71,57,.28)); }
+.pp-portada__capa--2 { bottom:34px; z-index:2; filter:drop-shadow(0 -6px 12px rgba(47,71,57,.22)); }
+.pp-portada__capa--3 { bottom:78px; z-index:3; filter:drop-shadow(0 -6px 12px rgba(47,71,57,.2)); }
+.pp-portada__capa--4 { bottom:132px; z-index:4; filter:drop-shadow(0 -6px 14px rgba(47,71,57,.2)); }
+.pp-portada__capa--5 { bottom:196px; z-index:5; filter:drop-shadow(0 -8px 16px rgba(47,71,57,.22)); }
+.pp-portada__capa path { fill:var(--fc, var(--surface-color)); }
+.pp-portada__carta {
+  position:relative; z-index:10; width:min(100%,620px); margin-bottom:clamp(9rem,20vw,13rem); padding:clamp(1.8rem,4.5vw,3rem) clamp(1.4rem,4vw,2.8rem);
+  background:var(--surface-color); border-radius:6px;
+  box-shadow:0 1px 0 rgba(255,255,255,.6) inset, 0 26px 50px rgba(23,42,33,.4);
+  animation:ppFlota 8s ease-in-out infinite;
+}
+@keyframes ppFlota { 0%,100% { transform:translateY(0) rotate(-.5deg);} 50% { transform:translateY(-8px) rotate(.5deg);} }
+.pp-portada__dos { display:flex; align-items:center; justify-content:center; gap:.9rem; margin-bottom:.7rem; }
+.pp-portada__dos i { width:26px; height:2px; background:var(--secondary-color); }
+.pp-portada__dos b { width:9px; height:9px; transform:rotate(45deg); background:var(--secondary-color); }
+.pp-portada__etiqueta { font-family:Arial,sans-serif; font-size:clamp(.6rem,1.2vw,.7rem); letter-spacing:.44em; text-transform:uppercase; color:var(--secondary-color); }
+.pp-portada__titulo { margin:.5rem 0 .4rem; font-family:Georgia,'Times New Roman',serif; font-weight:400; font-size:clamp(2.3rem,6.6vw,4.4rem); line-height:1; color:var(--primary-color); }
+.pp-portada__titulo em { display:block; font-size:.42em; font-style:italic; color:var(--secondary-color); margin-top:.5em; letter-spacing:.28em; text-transform:uppercase; }
+.pp-portada__foto { margin:1.2rem auto 1.4rem; width:min(100%,340px); aspect-ratio:16/10; overflow:hidden; border-radius:4px; transform:rotate(1.6deg); box-shadow:0 14px 30px rgba(23,42,33,.3); }
+.pp-portada__foto img { display:block; width:100%; height:100%; object-fit:cover; }
+@media (prefers-reduced-motion:reduce){ .pp-portada__carta { animation:none; } }
+</style>
+<span class="pp-portada__sol" aria-hidden="true"></span>
+
+<div class="pp-portada__carta">
+  <div class="pp-portada__dos" aria-hidden="true"><i></i><b></b><i></i></div>
+  <p class="pp-portada__etiqueta" memory_type="text" memory_usage="custom" memory_key="portada-etiqueta">Cortada a mano · capa por capa</p>
+  <h1 id="pp-titulo" class="pp-portada__titulo" memory_type="text" memory_usage="custom" memory_key="portada-nombres">
+    Nombre de la Novia
+    <em>&amp; Nombre del Novio</em>
+  </h1>
+  <figure class="pp-portada__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="portada-foto">
+    <img src="https://loremflickr.com/720/450/paper,craft,forest" alt="Paisaje de papel en capas" path="placeholder" data-library-category="bodas" data-asset-type="foto-pareja" loading="lazy" />
+    <figcaption hidden>Paisaje de papel</figcaption>
+  </figure>
+  <time datetime="YYYY-MM-DD" style="font-family:'Courier New',monospace; font-size:clamp(.72rem,1.4vw,.86rem); letter-spacing:.3em; text-transform:uppercase; color:var(--secondary-color);" memory_type="text" memory_usage="custom" memory_key="portada-fecha">Fecha del evento</time>
+</div>
+
+<div class="pp-portada__capas" aria-hidden="true">
+  <div class="pp-portada__capa pp-portada__capa--5"><svg viewBox="0 0 1440 180" preserveAspectRatio="none"><path style="--fc:#dfe9df" d="M0 120 C 240 40, 480 170, 720 100 S 1200 20, 1440 110 V180 H0 Z"/></svg></div>
+  <div class="pp-portada__capa pp-portada__capa--4"><svg viewBox="0 0 1440 200" preserveAspectRatio="none"><path style="--fc:#c2d6c4" d="M0 130 C 260 60, 520 180, 780 110 S 1240 40, 1440 130 V200 H0 Z"/></svg></div>
+  <div class="pp-portada__capa pp-portada__capa--3"><svg viewBox="0 0 1440 220" preserveAspectRatio="none"><path style="--fc:#a5c0a8" d="M0 140 C 240 70, 520 200, 760 130 S 1220 60, 1440 140 V220 H0 Z"/></svg></div>
+  <div class="pp-portada__capa pp-portada__capa--2"><svg viewBox="0 0 1440 240" preserveAspectRatio="none"><path style="--fc:#87a896" d="M0 150 C 280 80, 540 210, 800 140 S 1240 70, 1440 150 V240 H0 Z"/></svg></div>
+  <div class="pp-portada__capa pp-portada__capa--1"><svg viewBox="0 0 1440 260" preserveAspectRatio="none"><path style="--fc:#6e8f7d" d="M0 160 C 300 90, 560 220, 820 150 S 1260 80, 1440 160 V260 H0 Z"/></svg></div>
+</div>
+<script>
+var moduleMetadata = { module_type:'portada', module_name:'portada-novia', style_name:'Papercraft — Cinco Capas', descripcion:'Portada papercraft: sol de papel, carta flotante y cinco capas de sierras recortadas con sombra entre capas para profundidad real.', tags:['portada','papercraft','capas','recorte','sombras','papel'], tipo:'portada' };
+</script>
+</section>
+
+<div style="position:relative; z-index:5; background:#111; color:#eee; padding:14px clamp(1rem,5vw,4rem); font-family:'Courier New',monospace; letter-spacing:.3em; text-transform:uppercase; font-size:.7rem; border-top:1px solid #333; border-bottom:1px solid #333;">10 / 20 — Surrealismo — Detalles Flotantes</div>
+<section class="sur-det" data-gemini-id="detalles-vestimenta" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.sur-det { --primary-color:#2b1d3a; --secondary-color:#c9497c; --accent-color:#5fc2ba; --bg-color:#efe9f4; --surface-color:#faf7fc; --surface-border-color:#2b1d3a; --text-color:#2b1d3a;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.4rem,9vw,7rem) clamp(1rem,5vw,4rem);
+  background:linear-gradient(180deg, #d9c9ec 0%, var(--bg-color) 40%, #cbb9e0 100%); color:var(--text-color); }
+.sur-det *, .sur-det *::before, .sur-det *::after { box-sizing:border-box; }
+/* nubes imposibles flotando */
+.sur-det__nube { position:absolute; z-index:0; width:clamp(120px,22vw,260px); aspect-ratio:2/1; background:var(--surface-color); border-radius:999px; filter:drop-shadow(0 18px 26px rgba(43,29,58,.25)); animation:surNube var(--d) ease-in-out infinite alternate; pointer-events:none; }
+.sur-det__nube::before, .sur-det__nube::after { content:''; position:absolute; background:inherit; border-radius:50%; }
+.sur-det__nube::before { width:55%; height:120%; top:-45%; left:14%; }
+.sur-det__nube::after { width:40%; height:90%; top:-30%; right:12%; }
+.sur-det__nube--a { top:6%; left:5%; --d:9s; }
+.sur-det__nube--b { top:14%; right:6%; --d:11s; transform:scale(.7); animation-delay:-4s; }
+@keyframes surNube { from { transform:translateX(-12px) translateY(0) var(--extra, ''); } to { transform:translateX(14px) translateY(-10px); } }
+.sur-det__titulo {
+  position:relative; z-index:2; margin:0 auto 1rem; max-width:14ch;
+  font-family:Georgia,'Times New Roman',serif; font-weight:400;
+  font-size:clamp(2.2rem,6vw,4.2rem); line-height:1.02; text-align:center;
+  color:var(--primary-color);
+}
+.sur-det__titulo em { color:var(--secondary-color); }
+.sur-det__linea { text-align:center; margin:0 auto clamp(2.2rem,5vw,3rem); max-width:52ch; font-family:Georgia,serif; font-style:italic; font-size:clamp(.9rem,1.8vw,1.05rem); line-height:1.8; color:var(--primary-color); opacity:.8; }
+/* objetos imposibles: tarjetas colgando de lluvia invertida */
+.sur-det__objeto-zona { position:relative; z-index:2; display:grid; grid-template-columns:repeat(auto-fit, minmax(min(240px,100%),1fr)); gap:clamp(1.6rem,4vw,3rem); width:min(100%,980px); margin:0 auto; perspective:1100px; }
+.sur-det__objeto { position:relative; padding:clamp(1.4rem,3.2vw,2rem); background:var(--surface-color); border:1.5px solid var(--primary-color); border-radius:2px 18px 4px 20px; box-shadow:10px 12px 0 var(--accent-color); transform:rotate(var(--g)) translateY(var(--y)); transition:transform .6s cubic-bezier(.22,.8,.3,1); }
+.sur-det__objeto:hover { transform:rotate(0) translateY(calc(var(--y) - 10px)); box-shadow:14px 16px 0 var(--secondary-color); }
+.sur-det__objeto:nth-child(1){ --g:-2.2deg; --y:10px; }
+.sur-det__objeto:nth-child(2){ --g:1.8deg; --y:34px; }
+.sur-det__objeto:nth-child(3){ --g:-1.4deg; --y:0px; }
+.sur-det__objeto-num { position:absolute; top:-18px; left:-12px; width:44px; height:44px; display:grid; place-items:center; border-radius:50%; background:var(--secondary-color); color:var(--surface-color); font-family:Georgia,serif; font-style:italic; }
+.sur-det__icono { width:46px; margin-bottom:.7rem; color:var(--secondary-color); }
+.sur-det__rotulo { margin:0 0 .3rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.66rem); letter-spacing:.34em; text-transform:uppercase; color:var(--accent-color); }
+.sur-det__titulo-card { margin:0 0 .35rem; font-family:Georgia,serif; font-size:clamp(1.05rem,2.2vw,1.3rem); color:var(--primary-color); }
+.sur-det__texto { margin:0; font-family:Georgia,serif; font-size:clamp(.82rem,1.5vw,.92rem); line-height:1.7; color:var(--primary-color); opacity:.82; }
+</style>
+<span class="sur-det__nube sur-det__nube--a" aria-hidden="true"></span>
+<span class="sur-det__nube sur-det__nube--b" aria-hidden="true"></span>
+<h2 class="sur-det__titulo" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Detalles que flotan <em>en otro cielo</em></h2>
+    <figure class="sur-det__flotante" memory_type="image" memory_usage="custom" memory_source="library" memory_key="detalles-foto" style="position:relative; z-index:2; width:min(100%,420px); margin:0 auto clamp(2.2rem,5vw,3rem); padding:10px; background:var(--surface-color); border:1.5px solid var(--primary-color); box-shadow:12px 14px 0 var(--accent-color); transform:rotate(2.2deg); animation:surFlota 8s ease-in-out infinite;">
+      <img src="https://loremflickr.com/720/500/surreal,dream" alt="Escenario surrealista del evento" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" style="display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;" />
+      <figcaption hidden>Escenario flotante</figcaption>
+    </figure>
+    <style>@keyframes surFlota { 0%,100% { transform:rotate(2.2deg) translateY(0);} 50% { transform:rotate(1deg) translateY(-12px);} }</style>
+    <p class="sur-det__linea" memory_type="text" memory_usage="custom" memory_key="detalles-intro">Lo esencial, suspendido: tres objetos que cayeron del sueño y quedaron colgados para ti.</p>
+<div class="sur-det__objeto-zona">
+  <article class="sur-det__objeto" style="--g:-2.4deg; --y:12px;">
+    <span class="sur-det__objeto-num" aria-hidden="true">i</span>
+    <svg class="sur-det__icono" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M14 6 L10 30 L38 30 L34 6 Z M10 30 A14 14 0 0 0 38 30" stroke="currentColor" stroke-width="1.6"/><path d="M18 36 C22 40 26 40 30 36" stroke="currentColor" stroke-width="1.4"/></svg>
+    <p class="sur-det__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-1">El vestido flotante</p>
+    <h3 class="sur-det__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Vestimenta etérea</h3>
+    <p class="sur-det__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Telas ligeras que caminan sobre el pasto sin tocarlo. Formal, pero soñando despierto.</p>
+  </article>
+  <article class="sur-det__objeto" style="--g:1.6deg; --y:38px;">
+    <span class="sur-det__objeto-num" aria-hidden="true">ii</span>
+    <svg class="sur-det__icono" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="8" y="14" width="32" height="24" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 14 L24 4 L40 14" stroke="currentColor" stroke-width="1.6"/><path d="M14 26 H34 M14 32 H28" stroke="currentColor" stroke-width="1.2"/></svg>
+    <p class="sur-det__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-2">La lluvia de sobres</p>
+    <h3 class="sur-det__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Lluvia de sobres</h3>
+    <p class="sur-det__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">Si el cielo regala sobres, recíbelos con las dos manos: llueven cariño envuelto.</p>
+  </article>
+  <article class="sur-det__objeto" style="--g:-1.2deg; --y:0px;">
+    <span class="sur-det__objeto-num" aria-hidden="true">iii</span>
+    <svg class="sur-det__icono" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M24 4 V18 M24 30 V44 M10 24 H38" stroke="currentColor" stroke-width="1.4"/><circle cx="24" cy="24" r="9" stroke="currentColor" stroke-width="1.6"/></svg>
+    <p class="sur-det__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-3">La hora doblada</p>
+    <h3 class="sur-det__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Hora sin reloj</h3>
+    <p class="sur-det__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">El tiempo se dobla a las seis y media. Llega antes de que el reloj cambie de idea.</p>
+  </article>
+</div>
+<script>
+var moduleMetadata = { module_type:'detalles', module_name:'detalles-vestimenta', style_name:'Surrealismo — Detalles Flotantes', descripcion:'Surrealismo onírico: nubes imposibles flotando, tarjetas colgantes con sombras duras de acento, numerales romanos y metaforas de vestimenta.', tags:['detalles','surrealismo','nubes','flotantes','onirico'], tipo:'detalles' };
+</script>
+</section>
+
+<div style="position:relative; z-index:5; background:#111; color:#eee; padding:14px clamp(1rem,5vw,4rem); font-family:'Courier New',monospace; letter-spacing:.3em; text-transform:uppercase; font-size:.7rem; border-top:1px solid #333; border-bottom:1px solid #333;">11 / 20 — Talavera — Loza de los Deseos</div>
+<section class="tlv-regalos" data-gemini-id="regalos-talavera" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.tlv-regalos { --primary-color:#1d3a8f; --secondary-color:#c9a227; --accent-color:#2e6fdb; --bg-color:#f5f2ea; --surface-color:#ffffff; --surface-border-color:#1d3a8f; --text-color:#1d3a8f;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/talavera,tiles'); background-size:cover; background-position:center; color:var(--text-color); }
+.tlv-regalos *, .tlv-regalos *::before, .tlv-regalos *::after { box-sizing:border-box; }
+/* cenefa talavera continua arriba y abajo */
+.tlv-regalos::before, .tlv-regalos::after { content:''; position:absolute; left:0; right:0; height:26px; z-index:2; background:repeating-conic-gradient(from 45deg at 50% 50%, var(--accent-color) 0 90deg, #fff 90deg 180deg, var(--primary-color) 180deg 270deg, var(--secondary-color) 270deg 360deg) 0 0/26px 26px; }
+.tlv-regalos::before { top:0; } .tlv-regalos::after { bottom:0; transform:scaleY(-1); }
+.tlv-regalos::before { box-shadow:inset 0 -3px 0 var(--primary-color); } .tlv-regalos::after { box-shadow:inset 0 3px 0 var(--primary-color); }
+.tlv-regalos__titulo { position:relative; z-index:2; margin:0 0 .5rem; text-align:center; font-family:Georgia,serif; font-weight:400; font-size:clamp(2rem,5vw,3.2rem); color:var(--primary-color); }
+.tlv-regalos__titulo em { font-style:italic; color:var(--accent-color); }
+.tlv-regalos__intro { position:relative; z-index:2; margin:0 auto clamp(2rem,5vw,3rem); max-width:46ch; text-align:center; font-size:clamp(.86rem,1.6vw,1rem); line-height:1.75; color:#33417e; }
+/* tarjetas loza: blanco cobalto con medallón central */
+.tlv-regalos__loza { position:relative; z-index:2; display:grid; grid-template-columns:repeat(auto-fit, minmax(min(250px,100%),1fr)); gap:clamp(1.4rem,3.6vw,2.4rem); width:min(100%,940px); margin:0 auto; }
+.tlv-regalos__pieza { position:relative; background:var(--surface-color); border:2px solid var(--primary-color); border-radius:14px; padding:clamp(1.4rem,3vw,1.9rem) clamp(1.2rem,2.8vw,1.7rem); box-shadow:0 20px 44px rgba(29,58,143,.22); overflow:hidden; transition:transform .5s cubic-bezier(.22,.8,.3,1), box-shadow .5s ease; }
+.tlv-regalos__pieza:hover { transform:translateY(-8px) rotate(-1deg); box-shadow:0 30px 60px rgba(29,58,143,.3); }
+.tlv-regalos__pieza::before { content:''; position:absolute; inset:6px; border:1px dashed color-mix(in srgb, var(--accent-color) 60%, transparent); border-radius:9px; pointer-events:none; }
+.tlv-regalos__medallon { position:relative; width:52px; aspect-ratio:1/1; margin:0 auto .8rem; border-radius:50%; background:radial-gradient(circle at 34% 30%, #fff 0 18%, var(--accent-color) 20% 55%, var(--primary-color) 58% 100%); box-shadow:inset 0 0 0 3px #fff; }
+.tlv-regalos__rol { text-align:center; margin:0 0 .3rem; font-family:'Courier New',monospace; font-size:clamp(.56rem,1.05vw,.64rem); letter-spacing:.32em; text-transform:uppercase; color:var(--accent-color); }
+.tlv-regalos__nombre { text-align:center; margin:0; font-family:Georgia,serif; font-size:clamp(1rem,2vw,1.22rem); color:var(--primary-color); }
+.tlv-regalos__nota { text-align:center; margin:.45rem 0 0; font-size:clamp(.78rem,1.45vw,.88rem); line-height:1.6; color:#33417e; }
+</style>
+<h2 class="tlv-regalos__titulo" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Loza de los <em>deseos</em></h2>
+<p class="tlv-regalos__intro" memory_type="text" memory_usage="custom" memory_key="regalos-texto">Cada pieza fue pintada a mano para nosotros. Si quieres sumar la tuya, aquí está el catálogo.</p>
+<div class="tlv-regalos__loza">
+  <article class="tlv-regalos__pieza">
+    <span class="tlv-regalos__medallon" aria-hidden="true"></span>
+    <p class="tlv-regalos__rol" memory_type="text" memory_usage="custom" memory_key="regalos-rol-1">Pieza I</p>
+    <h3 class="tlv-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-nombre-1">Vajilla azul</h3>
+    <p class="tlv-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota-1">Disponible en tienda departamental.</p>
+  </article>
+  <article class="tlv-regalos__pieza">
+    <span class="tlv-regalos__medallon" aria-hidden="true"></span>
+    <p class="tlv-regalos__rol" memory_type="text" memory_usage="custom" memory_key="regalos-rol-2">Pieza II</p>
+    <h3 class="tlv-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-nombre-2">Fondo de luna de miel</h3>
+    <p class="tlv-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota-2">Sobre dorado en la mesa de regalos.</p>
+  </article>
+  <article class="tlv-regalos__pieza">
+    <span class="tlv-regalos__medallon" aria-hidden="true"></span>
+    <p class="tlv-regalos__rol" memory_type="text" memory_usage="custom" memory_key="regalos-rol-3">Pieza III</p>
+    <h3 class="tlv-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-nombre-3">Experiencia para dos</h3>
+    <p class="tlv-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota-3">Cualquier aventura cuenta doble.</p>
+  </article>
+</div>
+<script>
+var moduleMetadata = { module_type:'regalos', module_name:'regalos-talavera', style_name:'Talavera — Loza de los Deseos', descripcion:'Talavera maximalista: cenefas de grecas en conic-gradient, tarjetas loza con medallon radial y doble filo punteado.', tags:['regalos','talavera','loza','cobalto','maximalista','artesania'], tipo:'regalos' };
+</script>
+</section>
+
+<div style="position:relative; z-index:5; background:#111; color:#eee; padding:14px clamp(1rem,5vw,4rem); font-family:'Courier New',monospace; letter-spacing:.3em; text-transform:uppercase; font-size:.7rem; border-top:1px solid #333; border-bottom:1px solid #333;">12 / 20 — Fairycore — Guardianes del Bosque</div>
+<section class="fc-padrinos" data-gemini-id="padrinos-fairycore" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.fc-padrinos { --primary-color:#3d2c5a; --secondary-color:#b892d9; --accent-color:#9fe8d1; --bg-color:#1a1029; --surface-color:#241838; --surface-border-color:rgba(184,146,217,.35); --text-color:#efe6fa;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/1000/fairy,forest'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.fc-padrinos *, .fc-padrinos *::before, .fc-padrinos *::after { box-sizing:border-box; }
+.fc-padrinos::before { content:''; position:absolute; inset:0; z-index:-1; background:radial-gradient(ellipse 70% 50% at 50% 20%, color-mix(in srgb, var(--secondary-color) 24%, transparent), transparent 65%), color-mix(in srgb, var(--bg-color) 82%, transparent); }
+/* luciérnagas (chispas JS) */
+.fc-padrinos__chispa { position:absolute; width:5px; height:5px; border-radius:50%; background:var(--accent-color); box-shadow:0 0 10px 3px color-mix(in srgb, var(--accent-color) 70%, transparent); animation:fcVuela var(--d) ease-in-out infinite alternate; pointer-events:none; }
+@keyframes fcVuela { from { transform:translate(0,0); opacity:.9;} to { transform:translate(var(--dx), var(--dy)); opacity:.25;} }
+.fc-padrinos__titulo { position:relative; z-index:2; margin:0 0 .5rem; font-family:Georgia,serif; font-weight:400; font-style:italic; font-size:clamp(2rem,5.2vw,3.4rem); color:var(--primary-color); text-shadow:0 0 34px color-mix(in srgb, var(--secondary-color) 60%, transparent); }
+.fc-padrinos2-intro, .fc-padrinos__intro { margin:0 auto clamp(2.4rem,6vw,3.6rem); max-width:46ch; font-size:clamp(.86rem,1.6vw,1rem); line-height:1.8; color:var(--secondary-color); }
+/* portal iridiscente por padrino */
+.fc-padrinos__portales { position:relative; z-index:2; display:grid; grid-template-columns:repeat(auto-fit, minmax(min(230px,100%),1fr)); gap:clamp(1.4rem,3.6vw,2.4rem); width:min(100%,1000px); margin:0 auto; }
+.fc-padrinos__portal { position:relative; padding:clamp(1.4rem,3.2vw,2rem) clamp(1rem,2.6vw,1.5rem) clamp(1.6rem,3.4vw,2.2rem); background:linear-gradient(180deg, color-mix(in srgb, var(--secondary-color) 20%, var(--surface-color)), var(--surface-color)); border:1px solid var(--surface-border-color); border-radius:999px 999px 22px 22px; box-shadow:0 0 40px color-mix(in srgb, var(--secondary-color) 22%, transparent), inset 0 0 30px rgba(0,0,0,.3); transition:transform .6s cubic-bezier(.22,.8,.3,1), box-shadow .6s ease; }
+.fc-padrinos__portal:hover { transform:translateY(-10px) scale(1.03); box-shadow:0 0 60px color-mix(in srgb, var(--accent-color) 30%, transparent), inset 0 0 34px rgba(0,0,0,.3); }
+.fc-padrinos__portal::before { content:''; position:absolute; inset:9px; border:1px solid color-mix(in srgb, var(--accent-color) 45%, transparent); border-radius:999px 999px 16px 16px; pointer-events:none; }
+.fc-padrinos__iris { width:clamp(84px,13vw,112px); aspect-ratio:1/1; margin:0 auto .9rem; border-radius:50%; overflow:hidden; border:2px solid var(--accent-color); box-shadow:0 0 22px color-mix(in srgb, var(--accent-color) 45%, transparent); background:conic-gradient(from 0deg, #9fe8d1, #b892d9, #ff9ad5, #9fe8d1); animation:fcIris 8s linear infinite; }
+@keyframes fcIris { to { filter:hue-rotate(360deg); } }
+.fc-padrinos__iris img { display:block; width:100%; height:100%; object-fit:cover; mix-blend-mode:luminosity; opacity:.9; }
+.fc-padrinos__rol { margin:0 0 .25rem; font-family:'Courier New',monospace; font-size:clamp(.54rem,1vw,.62rem); letter-spacing:.36em; text-transform:uppercase; color:var(--accent-color); }
+.fc-padrinos__nombre { margin:0; font-family:Georgia,serif; font-size:clamp(.94rem,1.9vw,1.16rem); line-height:1.35; color:var(--primary-color); }
+@media (prefers-reduced-motion:reduce){ .fc-padrinos__chispa, .fc-padrinos__iris { animation:none; } }
+</style>
+<h2 class="fc-padrinos2-titulo fc-padrinos__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Guardianes del bosque</h2>
+<p class="fc-padrinos__intro" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Cuatro portales iridiscentes: detrás de cada luz viven quienes cuidan este día.</p>
+<div class="fc-padrinos__portales">
+  <article class="fc-padrinos__portal">
+    <div class="fc-padrinos__iris" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
+      <img src="https://loremflickr.com/240/240/fairy,forest" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+    </div>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
+      <p class="fc-padrinos__rol">Guardianes de alianzas</p>
+      <h3 class="fc-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+    </div>
+  </article>
+  <article class="fc-padrinos__portal">
+    <div class="fc-padrinos__iris" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
+      <img src="https://loremflickr.com/240/240/portrait,ethereal" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+    </div>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
+      <p class="fc-padrinos__rol">Guardianes de velo</p>
+      <h3 class="fc-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+    </div>
+  </article>
+  <article class="fc-padrinos__portal">
+    <div class="fc-padrinos__iris" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
+      <img src="https://loremflickr.com/240/240/portrait,mystic" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+    </div>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
+      <p class="fc-padrinos__rol">Guardianes de arras</p>
+      <h3 class="fc-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+    </div>
+  </article>
+  <article class="fc-padrinos__portal">
+    <div class="fc-padrinos__iris" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
+      <img src="https://loremflickr.com/240/240/portrait,dream" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+    </div>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
+      <p class="fc-padrinos__rol">Guardianes de lazos</p>
+      <h3 class="fc-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+    </div>
+  </article>
+</div>
+<script>
+(function(){
+  var root = document.currentScript.closest('section');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !root || root.querySelector('.fc-padrinos__chispa')) return;
+  for (var i = 0; i < 16; i++) {
+    var s = document.createElement('span');
+    s.className = 'fc-padrinos__chispa';
+    s.style.left = (3 + Math.random() * 94) + '%';
+    s.style.top = (8 + Math.random() * 84) + '%';
+    s.style.setProperty('--dx', ((Math.random() - .5) * 120).toFixed(0) + 'px');
+    s.style.setProperty('--dy', (-40 - Math.random() * 70).toFixed(0) + 'px');
+    s.style.setProperty('--d', (5 + Math.random() * 6).toFixed(1) + 's');
+    s.style.animationDelay = (Math.random() * 6).toFixed(1) + 's';
+    root.appendChild(s);
+  }
+})();
+</script>
+<script>
+var moduleMetadata = { module_type:'padrinos', module_name:'padrinos-fairycore', style_name:'Fairycore — Guardianes del Bosque', descripcion:'Fairycore: portales iridiscentes con retrato en luminosidad, 16 luciérnagas JS volando y arcos de guardián con glow.', tags:['padrinos','fairycore','luciernagas','iridiscente','bosque','portal'], tipo:'padrinos' };
+</script>
+</section>
+
+<div style="position:relative; z-index:5; background:#111; color:#eee; padding:14px clamp(1rem,5vw,4rem); font-family:'Courier New',monospace; letter-spacing:.3em; text-transform:uppercase; font-size:.7rem; border-top:1px solid #333; border-bottom:1px solid #333;">13 / 20 — Constructivismo — Diagonal Roja</div>
+<section class="kon-padrinos" data-gemini-id="padrinos-constructivistas" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.kon-padrinos { --primary-color:#c8102e; --secondary-color:#111; --accent-color:#e8e4dc; --bg-color:#e8e4dc; --text-color:#111;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(2.4rem,6vw,4rem) clamp(1rem,4vw,3rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/constructivist,red'); background-size:cover; background-position:center; color:var(--text-color); }
+.kon-padrinos *, .kon-padrinos *::before, .kon-padrinos *::after { box-sizing:border-box; }
+.kon-padrinos::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 90%, transparent); }
+.kon-padrinos__diagonal { position:absolute; z-index:0; top:-20%; left:-25%; width:160%; height:70%; background:var(--primary-color); transform:rotate(-9deg); }
+.kon-padrinos__titulo { position:relative; z-index:2; font-family:Impact,'Arial Black',sans-serif; font-size:clamp(2.2rem,7vw,5rem); line-height:.9; text-transform:uppercase; color:var(--secondary-color); transform:rotate(-4deg); margin:0 0 2.4rem; }
+.kon-padrinos__titulo em { display:block; font-style:normal; color:var(--accent-color); background:var(--primary-color); padding:.05em .3em; transform:rotate(1.5deg); width:fit-content; }
+.kon-padrinos__fila { position:relative; z-index:2; display:grid; grid-template-columns:auto 1fr; gap:clamp(1rem,3vw,1.8rem); align-items:center; margin-bottom:1.6rem; }
+.kon-padrinos__cuadrado { width:clamp(70px,12vw,100px); aspect-ratio:1/1; display:grid; place-items:center; font-family:Impact,sans-serif; font-size:clamp(1.6rem,4vw,2.6rem); color:var(--accent-color); background:var(--secondary-color); transform:rotate(var(--r,0deg)); }
+.kon-padrinos__fila:nth-child(2) .kon-padrinos__cuadrado { --r:-7deg; background:var(--primary-color); }
+.kon-padrinos__fila:nth-child(3) .kon-padrinos__cuadrado { --r:5deg; }
+.kon-padrinos__fila:nth-child(4) .kon-padrinos__cuadrado { --r:-3deg; background:var(--primary-color); }
+.kon-padrinos__rol { margin:0 0 .15rem; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(.62rem,1.2vw,.74rem); letter-spacing:.28em; text-transform:uppercase; color:var(--primary-color); }
+.kon-padrinos__nombre { margin:0; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(1.05rem,2.3vw,1.5rem); text-transform:uppercase; color:var(--text-color); }
+</style>
+<span class="kon-padrinos__diagonal" aria-hidden="true"></span>
+<h2 class="kon-padrinos__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Padrinos del <em>constructo</em></h2>
+  <figure class="kon-padrinos__corte" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-foto" style="position:relative; z-index:2; width:min(100%,560px); margin:0 auto 2.4rem; transform:rotate(-4deg); box-shadow:12px 12px 0 var(--secondary-color);">
+    <img src="https://loremflickr.com/760/480/constructivist,couple" alt="Los novios en composición constructivista" path="placeholder" data-library-category="bodas" data-asset-type="foto-pareja" loading="lazy" style="display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;filter:grayscale(1) contrast(1.25);" />
+    <span aria-hidden="true" style="position:absolute; inset:0; background:color-mix(in srgb, var(--primary-color) 22%, transparent); mix-blend-mode:multiply; clip-path:polygon(0 0, 55% 0, 30% 100%, 0 100%);"></span>
+    <figcaption hidden>Foto de los novios</figcaption>
+  </figure>
+  <div class="kon-padrinos__fila">
+  <span class="kon-padrinos__cuadrado" aria-hidden="true">01</span>
+  <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1"><p class="kon-padrinos__rol">Alianzas</p><h3 class="kon-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3></div>
+</div>
+<div class="kon-padrinos__fila">
+  <span class="kon-padrinos__cuadrado" aria-hidden="true">02</span>
+  <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2"><p class="kon-padrinos__rol">Velo</p><h3 class="kon-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3></div>
+</div>
+<div class="kon-padrinos__fila">
+  <span class="kon-padrinos__cuadrado" aria-hidden="true">03</span>
+  <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3"><p class="kon-padrinos__rol">Arras</p><h3 class="kon-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3></div>
+</div>
+<div class="kon-padrinos__fila">
+  <span class="kon-padrinos__cuadrado" aria-hidden="true">04</span>
+  <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4"><p class="kon-padrinos__rol">Lazos</p><h3 class="kon-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3></div>
+</div>
+<script>var moduleMetadata={module_type:'padrinos',module_name:'padrinos-constructivistas',style_name:'Constructivismo — Diagonal Roja',descripcion:'Constructivismo ruso: diagonal roja de fondo, cuadrados rotados como sellos y tipografía Impact en mayusculas.',tags:[padrinos,constructivismo,diagonal,rojo,tipografia],tipo:'padrinos'};</script>
+</section>
+<div style="position:relative; z-index:5; background:#111; color:#eee; padding:14px clamp(1rem,5vw,4rem); font-family:'Courier New',monospace; letter-spacing:.3em; text-transform:uppercase; font-size:.7rem; border-top:1px solid #333; border-bottom:1px solid #333;">14 / 20 — Risograph — Overprint</div>
+<section class="ris-galeria" data-gemini-id="galeria-riso-overprint" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.ris-galeria { --primary-color:#ff4d6d; --secondary-color:#2e5bff; --bg-color:#f6f1e6; --text-color:#1d1d1d;
+  position:relative; isolation:isolate; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/paper,grain'); background-size:cover; background-position:center; color:var(--text-color); }
+.ris-galeria *, .ris-galeria *::before, .ris-galeria *::after { box-sizing:border-box; }
+.ris-galeria__titulo { margin:0 0 2rem; font-family:'Courier New',monospace; font-weight:700; font-size:clamp(1.9rem,5vw,3.4rem); text-transform:uppercase; color:var(--secondary-color); }
+.ris-galeria__titulo em { font-style:normal; color:var(--primary-color); }
+.ris-galeria__muro { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(240px,100%),1fr)); gap:clamp(1.4rem,3.6vw,2.6rem); width:min(100%,1040px); margin:0 auto; }
+.ris-galeria__print { position:relative; margin:0; background:#fff; border:1.5px solid var(--text-color); padding:10px; }
+.ris-galeria__print:hover .ris-a { transform:translate(-5px,-5px); }
+.ris-galeria__print:hover .ris-b { transform:translate(5px,5px); }
+.ris-a, .ris-b { position:relative; grid-area:1/1; }
+.ris-a, .ris-b { width:100%; aspect-ratio:4/3; object-fit:cover; display:block; transition:transform .4s cubic-bezier(.22,.8,.3,1); }
+.ris-a { mix-blend-mode:multiply; filter:grayscale(1) contrast(1.25); }
+.ris-b { position:absolute; inset:10px; mix-blend-mode:multiply; filter:grayscale(1); opacity:0; background:var(--primary-color); }
+.ris-galeria__print .ris-wrap { position:relative; display:grid; }
+.ris-wrap { position:relative; display:grid; }
+.ris-wrap img.ris-color { grid-area:1/1; width:100%; aspect-ratio:4/3; object-fit:cover; mix-blend-mode:multiply; filter:saturate(1.4) contrast(1.1); }
+.ris-galeria__print .ris-pie { display:flex; justify-content:space-between; padding-top:8px; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.1vw,.7rem); letter-spacing:.14em; text-transform:uppercase; }
+.ris-galeria__print .ris-pie b { color:var(--primary-color); }
+</style>
+<h2 class="ris-galeria__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Impresiones <em>riso</em></h2>
+<div class="ris-galeria__muro">
+  <figure class="ris-galeria__print" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-1"><div class="ris-wrap"><img class="ris-color" src="https://loremflickr.com/600/450/risograph,couple" alt="Print uno" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" /></div><span class="ris-galeria__print" hidden></span><figcaption class="ris-galeria__pie"><span>ED. 1/20</span><b>TINTA ROSA</b></figcaption></figure>
+  <figure class="ris-galeria__print" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-2"><div class="ris-wrap"><img class="ris-color" src="https://loremflickr.com/600/450/risograph,party" alt="Print dos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" /></div><figcaption class="ris-galeria__pie"><span>ED. 2/20</span><b>AZUL</b></figcaption></figure>
+  <figure class="ris-galeria__print" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-3"><div class="ris-wrap"><img class="ris-color" src="https://loremflickr.com/600/450/riso,flowers" alt="Print tres" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" /></div><figcaption class="ris-galeria__pie"><span>ED. 3/20</span><b>DOS TINTAS</b></figcaption></figure>
+  <figure class="ris-galeria__print" memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-4"><div class="ris-wrap"><img class="ris-color" src="https://loremflickr.com/600/450/riso,dance" alt="Print cuatro" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" /></div><figcaption class="ris-galeria__pie"><span>ED. 4/20</span><b>ROSA</b></figcaption></figure>
+</div>
+<script>
+var moduleMetadata = { module_type:'galeria', module_name:'galeria-riso-overprint', style_name:'Risograph — Overprint', descripcion:'Galeria risograph: prints con borde de tinta, saturación exagerada tipo sobreimpresión y pies de edición numerados.', tags:['galeria','risograph','overprint','edicion','duotono'], tipo:'galeria' };
+</script>
+</section>
+<div style="position:relative; z-index:5; background:#111; color:#eee; padding:14px clamp(1rem,5vw,4rem); font-family:'Courier New',monospace; letter-spacing:.3em; text-transform:uppercase; font-size:.7rem; border-top:1px solid #333; border-bottom:1px solid #333;">15 / 20 — Tropical Maximalista</div>
+<section class="tr-ubi" data-gemini-id="ubicacion-recepcion" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.tr-ubi { --primary-color:#0b6e4f; --secondary-color:#ff8552; --accent-color:#ffd23f; --bg-color:#fdf6ec; --surface-color:#fff; --surface-border-color:#0b6e4f; --text-color:#123c2b;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/1000/tropical,paradise'); background-size:cover; background-position:center; color:var(--text-color); }
+.tr-ubi *, .tr-ubi *::before, .tr-ubi *::after { box-sizing:border-box; }
+.tr-ubi::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 86%, transparent); }
+.tr-ubi__hoja { position:absolute; z-index:0; width:clamp(140px,26vw,320px); opacity:.9; pointer-events:none; }
+.tr-ubi__hoja--a { top:-40px; left:-50px; transform:rotate(24deg); color:var(--primary-color); }
+.tr-ubi__hoja--b { bottom:-30px; right:-60px; transform:rotate(-160deg) scaleX(-1); color:var(--secondary-color); opacity:.8; }
+.tr-ubi__titulo { position:relative; z-index:2; text-align:center; margin:0 0 .5rem; font-family:Georgia,serif; font-size:clamp(2.1rem,5.6vw,3.8rem); color:var(--primary-color); }
+.tr-ubi__titulo em { display:block; font-style:italic; font-size:.55em; color:var(--secondary-color); }
+.tr-ubi__tarjetas { position:relative; z-index:2; display:grid; grid-template-columns:repeat(auto-fit, minmax(min(260px,100%),1fr)); gap:clamp(1.2rem,3.4vw,2.2rem); width:min(100%,960px); margin:0 auto 2rem; }
+.tr-ubi__tarjeta { position:relative; background:var(--surface-color); border:2px solid var(--primary-color); border-radius:18px 18px 60px 18px; padding:clamp(1.3rem,3vw,1.8rem); box-shadow:8px 10px 0 var(--secondary-color); transform:rotate(var(--g)); }
+.tr-ubi__tarjeta:nth-child(1){ --g:-1.6deg; } .tr-ubi__tarjeta:nth-child(2){ --g:1.2deg; }
+.tr-ubi__rotulo { margin:0 0 .25rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.66rem); letter-spacing:.3em; text-transform:uppercase; color:var(--secondary-color); }
+.tr-ubi__nombre { margin:0 0 .2rem; font-family:Georgia,serif; font-size:clamp(1.1rem,2.3vw,1.4rem); color:var(--primary-color); }
+.tr-ubi__dato { margin:0; font-size:clamp(.82rem,1.5vw,.92rem); line-height:1.6; color:var(--text-color); }
+.tr-ubi__mapa-zona { position:relative; z-index:2; width:min(100%,860px); margin:0 auto; border-radius:24px 24px 80px 24px; overflow:hidden; border:2px solid var(--primary-color); box-shadow:10px 12px 0 var(--accent-color); }
+.tr-ubi__mapa iframe { display:block; width:100%; aspect-ratio:16/8; border:0; filter:saturate(1.3); }
+</style>
+<svg class="tr-ubi__hoja tr-ubi__hoja--a" viewBox="0 0 200 200" fill="none" aria-hidden="true"><path d="M100 10 C 40 40, 20 120, 100 190 C 180 120, 160 40, 100 10 Z" fill="currentColor"/><path d="M100 30 V170 M100 60 L60 90 M100 60 L140 90 M100 100 L50 130 M100 100 L150 130" stroke="#fdf6ec" stroke-width="3"/></svg>
+<svg class="tr-ubi__hoja tr-ubi__hoja--b" viewBox="0 0 200 200" fill="none" aria-hidden="true"><path d="M100 10 C 40 40, 20 120, 100 190 C 180 120, 160 40, 100 10 Z" fill="currentColor"/><path d="M100 30 V170" stroke="#fdf6ec" stroke-width="3"/></svg>
+<h2 class="tr-ubi__titulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">El paraíso <em>tiene coordenadas</em></h2>
+<div class="tr-ubi__tarjetas">
+  <article class="tr-ubi__tarjeta">
+    <p class="tr-ubi__rotulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-rotulo-c">Ceremonia al atardecer</p>
+    <h3 class="tr-ubi__nombre" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar-c">Playa Escondida</h3>
+    <p class="tr-ubi__dato" memory_type="text" memory_usage="custom" memory_key="ubicacion-dato-c">Barefoot sobre la arena · 17:00</p>
+  </article>
+  <article class="tr-ubi__tarjeta">
+    <p class="tr-ubi__rotulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-rotulo-r">Recepción bajo las palmeras</p>
+    <h3 class="tr-ubi__nombre" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar-r">Palapa Real</h3>
+    <p class="tr-ubi__dato" memory_type="text" memory_usage="custom" memory_key="ubicacion-dato-r">Cena, banda en vivo y fogata · 19:00</p>
+  </article>
+</div>
+  <figure class="tr-ubi__postal" memory_type="image" memory_usage="custom" memory_source="library" memory_key="ubicacion-foto" style="position:relative; z-index:2; width:min(100%,860px); margin:0 auto clamp(1.6rem,4vw,2.4rem); border:2px solid var(--primary-color); border-radius:18px 18px 70px 18px; overflow:hidden; box-shadow:8px 10px 0 var(--secondary-color);">
+    <img src="https://loremflickr.com/900/500/tropical,resort" alt="Vista de la playa del evento" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" style="display:block;width:100%;height:auto;aspect-ratio:16/7;object-fit:cover;filter:saturate(1.2);" />
+    <figcaption hidden>Vista del paraíso</figcaption>
+  </figure>
+  <div class="tr-ubi__mapa-zona" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url">
+  <iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen></iframe>
+</div>
+<script>
+var moduleMetadata = { module_type:'ubicacion', module_name:'ubicacion-recepcion', style_name:'Tropical Maximalista', descripcion:'Tropical maximalista: hojas gigantes en las esquinas, tarjetas con doble sombra y mapa redondeado con sombra de acento.', tags:['ubicacion','tropical','maximalista','hojas','paraiso'], tipo:'ubicacion' };
+</script>
+</section>
+<div style="position:relative; z-index:5; background:#111; color:#eee; padding:14px clamp(1rem,5vw,4rem); font-family:'Courier New',monospace; letter-spacing:.3em; text-transform:uppercase; font-size:.7rem; border-top:1px solid #333; border-bottom:1px solid #333;">16 / 20 — Barroco Cósmico — Eclipse</div>
+<section class="cx-cd" data-gemini-id="countdown-cosmico-barroco" path="placeholder" memory_source="generated" memory_type="background" memory_usage="protected" data-countdown-target="YYYY-MM-DDTHH:MM:SS">
+<style>
+.cx-cd { --primary-color:#f0e6d2; --secondary-color:#c9a227; --accent-color:#8ecae6; --bg-color:#070b1a; --surface-color:#0d1330; --surface-border-color:rgba(201,162,39,.5); --text-color:#f0e6d2;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:100svh; display:grid; place-items:center; padding:clamp(3rem,7vw,5rem) clamp(1rem,5vw,3rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/1000/cosmic,stars'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.cx-cd *, .cx-cd *::before, .cx-cd *::after { box-sizing:border-box; }
+.cx-cd::before { content:''; position:absolute; inset:0; z-index:-1; background:radial-gradient(ellipse 60% 45% at 50% 45%, color-mix(in srgb, var(--secondary-color) 18%, transparent), transparent 70%), color-mix(in srgb, var(--bg-color) 80%, transparent); }
+.cx-cd__marco { position:absolute; z-index:0; inset:clamp(10px,3vw,26px); border:2px solid var(--surface-border-color); border-radius:50%; pointer-events:none; }
+.cx-cd__marco::before { content:''; position:absolute; inset:14px; border:1px solid color-mix(in srgb, var(--accent-color) 40%, transparent); border-radius:50%; }
+/* planetas orbitando */
+.cx-cd__orbita { position:absolute; z-index:1; top:50%; left:50%; border:1px dashed color-mix(in srgb, var(--accent-color) 35%, transparent); border-radius:50%; transform:translate(-50%,-50%); animation:cxOrbita linear infinite; }
+.cx-cd__orbita--a { width:clamp(300px,70vw,640px); aspect-ratio:1/1; animation-duration:40s; }
+.cx-cd__orbita--b { width:clamp(200px,46vw,420px); aspect-ratio:1/1; animation-duration:26s; animation-direction:reverse; }
+.cx-cd__orbita--a::before, .cx-cd2__orbita--a::before { content:''; }
+.cx-cd__orbita--a::before { content:''; position:absolute; top:-9px; left:50%; width:18px; height:18px; border-radius:50%; background:radial-gradient(circle at 34% 30%, #fff, var(--accent-color) 55%, #6d5527); box-shadow:0 0 16px var(--accent-color); }
+.cx-cd2__orbita--b::before {}
+.cx-cd__orbita--b::before { content:''; position:absolute; bottom:-7px; left:50%; width:14px; height:14px; border-radius:50%; background:radial-gradient(circle at 34% 30%, #fff, var(--accent-color) 60%, #35507a); box-shadow:0 0 12px var(--accent-color); }
+@keyframes cxOrbita { to { transform:translate(-50%,-50%) rotate(360deg); } }
+.cx-cd__titulo { position:relative; z-index:2; margin:0 0 .4rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1rem,2.4vw,1.4rem); letter-spacing:.5em; text-transform:uppercase; color:var(--secondary-color); text-indent:.5em; }
+.cx-cd__cifra { position:relative; z-index:2; font-family:Georgia,serif; font-size:clamp(4.6rem,16vw,11rem); line-height:1; font-variant-numeric:tabular-nums; color:var(--primary-color); text-shadow:0 0 50px color-mix(in srgb, var(--accent-color) 50%, transparent); }
+.cx-cd__cifra small { display:block; font-size:.16em; letter-spacing:.6em; text-transform:uppercase; color:var(--accent-color); margin-top:1rem; text-indent:.6em; }
+.cx-cd__fila { position:relative; z-index:2; display:flex; justify-content:center; flex-wrap:wrap; gap:clamp(.5rem,1.8vw,1rem); margin-top:clamp(1.6rem,4vw,2.4rem); }
+.cx-cd__unidad { min-width:clamp(66px,13vw,100px); padding:clamp(.5rem,1.4vw,.85rem) .3rem; background:color-mix(in srgb, var(--surface-color) 85%, transparent); border:1px solid var(--surface-border-color); border-radius:4px; }
+.cx-cd__numero { display:block; font-family:Georgia,serif; font-size:clamp(1.3rem,3.4vw,2rem); font-variant-numeric:tabular-nums; color:var(--primary-color); }
+.cx-cd__rotulo { display:block; font-size:clamp(.5rem,1vw,.58rem); letter-spacing:.3em; text-transform:uppercase; color:var(--secondary-color); margin-top:.25rem; }
+@media (prefers-reduced-motion:reduce){ .cx-cd__orbita { animation:none; } }
+</style>
+<span class="cx-cd__marco" aria-hidden="true"></span>
+<span class="cx-cd__orbita cx-cd__orbita--a" aria-hidden="true"></span>
+<span class="cx-cd__orbita cx-cd__orbita--b" aria-hidden="true"></span>
+<div>
+  <h2 class="cx-cd__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Alineación de los astros</h2>
+  <div class="cx-cd__cifra" aria-hidden="true"><span data-ci-cifra>00</span><small>segundos para el eclipse</small></div>
+  <div class="cx-cd__fila" aria-label="Cuenta regresiva">
+    <div class="cx-cd__unidad"><span class="cx-cd__numero" data-countdown-unit="days">--</span><span class="cx-cd__rotulo">Días</span></div>
+    <div class="cx-cd__unidad"><span class="cx-cd__numero" data-countdown-unit="hours">--</span><span class="cx-cd__rotulo">Horas</span></div>
+    <div class="cx-cd__unidad"><span class="cx-cd__numero" data-countdown-unit="minutes">--</span><span class="cx-cd__rotulo">Min</span></div>
+    <div class="cx-cd__unidad"><span class="cx-cd__numero" data-countdown-unit="seconds">--</span><span class="cx-cd__rotulo">Seg</span></div>
+  </div>
+</div>
+<script>
+(function(){ var el=null; try{ el=document.currentScript.closest('[data-gemini-id^="countdown"]'); }catch(e){} if(!el) el=document.querySelector('[data-gemini-id^="countdown"]'); if(!el) return;
+  var cifra=el.querySelector('[data-ci-cifra]');
+  var target=NaN; var attr=el.getAttribute('data-countdown-target');
+  if(attr&&attr.indexOf('YYYY')===-1){ var p=new Date(attr); if(!isNaN(p.getTime())) target=p.getTime(); }
+  if(isNaN(target)&&window.__countdownTarget){ var p1=new Date(window.__countdownTarget); if(!isNaN(p1.getTime())) target=p1.getTime(); }
+  if(isNaN(target)&&window.countdown_target){ var p2=new Date(window.countdown_target); if(!isNaN(p2.getTime())) target=p2.getTime(); }
+  var intervalId=null; (window.__countdownIntervals=window.__countdownIntervals||[]).forEach(clearInterval); window.__countdownIntervals=[];
+  function pad2(n){ return n<10?'0'+n:''+n; }
+  function setUnit(u,v){ var n=el.querySelector('[data-countdown-unit="'+u+'"]'); if(n) n.textContent=v; }
+  function tick(){ if(!Number.isFinite(target)) return; var d=Math.max(target-Date.now(),0);
+    setUnit('days',Math.floor(d/86400000)); setUnit('hours',pad2(Math.floor((d%86400000)/3600000))); setUnit('minutes',pad2(Math.floor((d%3600000)/60000)));
+    var s=Math.floor((d%60000)/1000); setUnit('seconds',pad2(s)); if(cifra) cifra.textContent=pad2(s);
+    if(d===0&&intervalId!==null){ clearInterval(intervalId); intervalId=null; window.__countdownIntervals=[]; } }
+  function start(nt){ if(nt){ var p=new Date(nt); if(!isNaN(p.getTime())) target=p.getTime(); }
+    (window.__countdownIntervals||[]).forEach(clearInterval); window.__countdownIntervals=[]; intervalId=null;
+    if(!Number.isFinite(target)) return; tick(); if(target>Date.now()){ intervalId=setInterval(tick,1000); window.__countdownIntervals.push(intervalId); } }
+  start(); window.updateCountdown=start;
+})();
+</script>
+<script>var moduleMetadata={module_type:'countdown',module_name:'countdown-cosmico-barroco',style_name:'Barroco Cósmico — Eclipse',descripcion:'Eclipse barroco: marco circular dorado, dos orbitas con planetas girando en sentidos opuestos y cifra gigante con halo.',tags:[countdown,cosmico,barroco,orbitas,eclipse],tipo:'countdown'};</script>
+</section>
+<div style="position:relative; z-index:5; background:#111; color:#eee; padding:14px clamp(1rem,5vw,4rem); font-family:'Courier New',monospace; letter-spacing:.3em; text-transform:uppercase; font-size:.7rem; border-top:1px solid #333; border-bottom:1px solid #333;">17 / 20 — Claymorphism — Esferas 3D</div>
+<section class="cl-vest" data-gemini-id="vestimenta-claymorphism" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.cl-vest { --primary-color:#6c5ce7; --secondary-color:#ff7675; --accent-color:#55efc4; --bg-color:#dfe6f0; --surface-color:#f5f3ff; --text-color:#2d3436;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:70svh; display:grid; place-items:center; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/1000/pastel,3d'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.cl-vest *, .cl-vest *::before, .cl-vest *::after { box-sizing:border-box; }
+/* formas clay 3D flotantes */
+.cl-vest__blob { position:absolute; border-radius:42% 58% 62% 38% / 55% 43% 57% 45%; background:linear-gradient(145deg, #a29bfe, #6c5ce7); box-shadow:inset 10px 10px 24px rgba(255,255,255,.5), inset -12px -12px 24px rgba(0,0,0,.14), 0 24px 40px rgba(108,92,231,.3); animation:clFlota var(--d) ease-in-out infinite alternate; pointer-events:none; }
+.cl-vest__blob--a { width:clamp(90px,16vw,180px); aspect-ratio:1/1; top:8%; left:6%; --d:6s; }
+.cl-vest__blob--b { width:clamp(60px,11vw,120px); aspect-ratio:1/1; bottom:10%; right:8%; background:linear-gradient(145deg, #ffeaa7, #fd79a8); box-shadow:inset 10px 10px 24px rgba(255,255,255,.55), inset -12px -12px 24px rgba(0,0,0,.12), 0 24px 40px rgba(253,121,168,.3); --d:8s; animation-delay:-3s; }
+@keyframes clFlota { from { transform:translateY(-12px) rotate(-4deg); border-radius:42% 58% 62% 38% / 55% 43% 57% 45%; } to { transform:translateY(14px) rotate(5deg); border-radius:58% 42% 38% 62% / 43% 57% 45% 55%; } }
+.cl-vest__titulo { position:relative; z-index:2; margin:0 0 .6rem; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(1.9rem,4.8vw,3.2rem); color:var(--primary-color); }
+.cl-vest__sub { position:relative; z-index:2; margin:0 auto clamp(2rem,5vw,2.8rem); max-width:44ch; font-family:Arial,sans-serif; font-size:clamp(.88rem,1.6vw,1rem); line-height:1.7; color:#5b5b6e; }
+/* tarjetas clay con esferas de color por dress code */
+.cl-vest__tarjetas { position:relative; z-index:2; display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(1.2rem,3.4vw,2.2rem); }
+.cl-vest__tarjeta { width:clamp(180px,25vw,230px); padding:clamp(1.4rem,3.2vw,2rem) clamp(1.1rem,2.6vw,1.6rem); background:var(--surface-color); border-radius:34px; box-shadow:inset 8px 8px 18px rgba(255,255,255,.85), inset -10px -10px 20px rgba(108,92,231,.12), 0 26px 46px rgba(45,52,54,.18); transform:rotate(var(--g)); transition:transform .5s cubic-bezier(.22,.8,.3,1); }
+.cl-vest__tarjeta:hover { transform:rotate(0) translateY(-10px) scale(1.03); }
+.cl-vest__tarjeta:nth-child(1){ --g:-2.4deg; } .cl-vest__tarjeta:nth-child(2){ --g:1.8deg; } .cl-vest__tarjeta:nth-child(3){ --g:-1.2deg; }
+.cl-vest__esfera { width:56px; aspect-ratio:1/1; margin:0 auto .9rem; border-radius:50%; background:var(--c,#6c5ce7); box-shadow:inset 8px 8px 14px rgba(255,255,255,.6), inset -8px -8px 14px rgba(0,0,0,.18), 0 14px 26px color-mix(in srgb, var(--c,#6c5ce7) 45%, transparent); }
+.cl-vest__nombre { margin:0 0 .25rem; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(1rem,2vw,1.2rem); color:var(--primary-color); }
+.cl-vest__nota { margin:0; font-family:Arial,sans-serif; font-size:clamp(.78rem,1.4vw,.88rem); line-height:1.55; color:#636e72; }
+</style>
+<span class="cl-vest__blob cl-vest__blob--a" aria-hidden="true"></span>
+<span class="cl-vest__blob cl-vest__blob--b" aria-hidden="true"></span>
+<div>
+  <h2 class="cl-vest__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Vestimenta en 3D</h2>
+  <p class="cl-vest__sub" memory_type="text" memory_usage="custom" memory_key="vestimenta-sub">Tres esferas de color, tres estados de ánimo. Elige tu Clay-favorito para la celebración.</p>
+  <div class="cl-vest__tarjetas">
+    <article class="cl-vest__tarjeta">
+      <span class="cl-vest__esfera" style="--c:#6c5ce7;" aria-hidden="true"></span>
+      <h3 class="cl-vest__nombre" memory_type="text" memory_usage="custom" memory_key="vestimenta-nombre-1">Lavanda nocturna</h3>
+      <p class="cl-vest__nota" memory_type="text" memory_usage="custom" memory_key="vestimenta-nota-1">Para los que bailan hasta tarde.</p>
+    </article>
+    <article class="cl-vest__tarjeta">
+      <span class="cl-vest__esfera" style="--c:#fd79a8;" aria-hidden="true"></span>
+      <h3 class="cl-vest__nombre" memory_type="text" memory_usage="custom" memory_key="vestimenta-nombre-2">Chicle romántico</h3>
+      <p class="cl-vest__nota" memory_type="text" memory_usage="custom" memory_key="vestimenta-nota-2">Suave, dulce, fotogénico.</p>
+    </article>
+    <article class="cl-vest__tarjeta">
+      <span class="cl-vest__esfera" style="--c:#55efc4;" aria-hidden="true"></span>
+      <h3 class="cl-vest__nombre" memory_type="text" memory_usage="custom" memory_key="vestimenta-nombre-3">Menta fresca</h3>
+      <p class="cl-vest__nota" memory_type="text" memory_usage="custom" memory_key="vestimenta-nota-3">Para los que llegan renovados.</p>
+    </article>
+  </div>
+</div>
+<script>var moduleMetadata={module_type:'vestimenta',module_name:'vestimenta-claymorphism',style_name:'Claymorphism — Esferas 3D',descripcion:'Claymorphism: blobs 3D flotantes con degradado y sombras internas, tarjetas puffy con esferas de dress code y colores pastel.',tags:[vestimenta,claymorphism,3d,pastel,esferas],tipo:'vestimenta'};</script>
+</section>
+<div style="position:relative; z-index:5; background:#111; color:#eee; padding:14px clamp(1rem,5vw,4rem); font-family:'Courier New',monospace; letter-spacing:.3em; text-transform:uppercase; font-size:.7rem; border-top:1px solid #333; border-bottom:1px solid #333;">18 / 20 — Dark Academia — Capítulos</div>
+<section class="da-itin" data-gemini-id="itinerario-agenda" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.da-itin { --primary-color:#1a1611; --secondary-color:#8a7340; --accent-color:#b3261e; --bg-color:#241f17; --surface-color:#2e2820; --surface-border-color:rgba(179,38,30,.4); --text-color:#e8dcc0;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/1000/dark,academia,library'); background-size:cover; background-position:center; color:var(--text-color); }
+.da-itin *, .da-itin *::before, .da-itin *::after { box-sizing:border-box; }
+.da-itin::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 82%, transparent); }
+.da-itin__titulo { margin:0 0 .4rem; text-align:center; font-family:Georgia,'Times New Roman',serif; font-size:clamp(2rem,5.4vw,3.6rem); color:var(--text-color); }
+.da-itin__sub { margin:0 auto 2.4rem; max-width:44ch; text-align:center; font-family:Georgia,serif; font-style:italic; font-size:clamp(.88rem,1.7vw,1.02rem); line-height:1.8; color:var(--secondary-color); }
+/* capítulos de libro: arcos góticos con lacre */
+.da-itin__capitulos { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(250px,100%),1fr)); gap:clamp(1.4rem,3.6vw,2.4rem); width:min(100%,1020px); margin:0 auto; }
+.da-itin__capitulo { position:relative; padding:clamp(1.5rem,3.4vw,2.1rem) clamp(1.2rem,2.8vw,1.7rem) clamp(1.4rem,3vw,1.8rem); background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:130px 130px 4px 4px; box-shadow:0 26px 50px rgba(0,0,0,.5), inset 0 0 40px rgba(0,0,0,.35); text-align:center; }
+.da-itin__capitulo::before { content:''; position:absolute; top:14px; left:50%; width:20px; height:20px; transform:translateX(-50%) rotate(45deg); background:var(--accent-color); box-shadow:inset 0 0 0 2px var(--surface-color), 0 0 12px rgba(179,38,30,.7); }
+.da-itin__cap { font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.66rem); letter-spacing:.4em; text-transform:uppercase; color:var(--secondary-color); display:block; margin:1.4rem 0 .3rem; }
+.da-itin__hora { display:block; font-family:Georgia,serif; font-size:clamp(1.5rem,3.4vw,2.1rem); color:var(--text-color); margin-bottom:.35rem; }
+.da-itin__momento { margin:0 0 .35rem; font-family:Georgia,serif; font-style:italic; font-size:clamp(1rem,2vw,1.2rem); color:var(--secondary-color); }
+.da-itin__detalle { margin:0; font-size:clamp(.78rem,1.45vw,.88rem); line-height:1.7; color:var(--text-color); opacity:.85; }
+</style>
+<h2 class="da-itin__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Capítulos de la velada</h2>
+<p class="da-itin__sub" memory_type="text" memory_usage="custom" memory_key="itinerario-sub">Leídos a la luz de las velas, en el ala antigua de la biblioteca.</p>
+<div class="da-itin__capitulos">
+  <article class="da-itin__capitulo">
+    <span class="da-itin__cap" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">Capítulo I</span>
+    <time class="da-itin__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1b">16:00</time>
+    <h3 class="da-itin__momento" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-1">La llegada</h3>
+    <p class="da-itin__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-1" memory_type="text" memory_usage="custom" memory_key="itinerario-det-1">Té de las cinco y nombres en el libro de visitas.</p>
+  </article>
+  <article class="da-itin__capitulo">
+    <span class="da-itin__cap" aria-hidden="true">Capítulo II</span>
+    <time class="da-itin__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00</time>
+    <h3 class="da-itin__momento" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-2">El juramento</h3>
+    <p class="da-itin__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-2">Ceremonia bajo el arco de la capilla.</p>
+  </article>
+  <article class="da-itin__capitulo">
+    <span class="da-itin__cap" aria-hidden="true">Capítulo III</span>
+    <time class="da-itin__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00</time>
+    <h3 class="da-itin__momento" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-3">El banquete</h3>
+    <p class="da-itin__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-3">Vino añejo entre estantes milenarios.</p>
+  </article>
+  <article class="da-itin__capitulo">
+    <span class="da-itin__cap" aria-hidden="true">Capítulo IV</span>
+    <time class="da-itin__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:30</time>
+    <h3 class="da-itin__momento" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-4">El epílogo</h3>
+    <p class="da-itin__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-4">Valse de cierre a la luz de las velas.</p>
+  </article>
+</div>
+<script>var moduleMetadata={module_type:'itinerario',module_name:'itinerario-agenda',style_name:'Dark Academia — Capítulos',descripcion:'Dark academia: capitulos de libro en arcos goticos con sello de lacre, serif clasica y paleta vela/biblioteca.',tags:[itinerario,dark academia,capitulos,arco,lacre],tipo:'itinerario'};</script>
+</section>
+<div style="position:relative; z-index:5; background:#111; color:#eee; padding:14px clamp(1rem,5vw,4rem); font-family:'Courier New',monospace; letter-spacing:.3em; text-transform:uppercase; font-size:.7rem; border-top:1px solid #333; border-bottom:1px solid #333;">19 / 20 — Candy Pop — Lluvia de Confeti</div>
+<section class="candy-gracias" data-gemini-id="gracias-candy" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.candy-gracias { --primary-color:#ff5da2; --secondary-color:#5ce1e6; --accent-color:#ffd166; --bg-color:#fff0f5; --surface-color:#ffffff; --text-color:#3d2c4e;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:88svh; display:grid; place-items:center; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/1000/candy,pink'); background-size:cover; background-position:center; box-shadow:inset 0 0 0 100vmax rgba(255,224,238,.8); color:var(--text-color); text-align:center; }
+.candy-gracias *, .candy-gracias *::before, .candy-gracias *::after { box-sizing:border-box; }
+.candy-gracias__confeti { position:absolute; width:16px; height:16px; clip-path:polygon(0 0, 100% 0, 100% 100%, 0 100%); animation:candyCae var(--d) linear infinite; opacity:.85; }
+@keyframes candyCae { from { transform:translateY(-40px) rotate(0);} to { transform:translateY(110svh) rotate(540deg);} }
+.candy-gracias__gracias {
+  position:relative; z-index:2; margin:0 0 .4rem;
+  font-family:Arial,sans-serif; font-weight:700;
+  font-size:clamp(3.6rem,13vw,9.5rem); line-height:.95; letter-spacing:-.04em; text-transform:uppercase;
+  background:linear-gradient(120deg, var(--primary-color) 20%, var(--secondary-color) 55%, var(--accent-color) 90%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  filter:drop-shadow(4px 6px 0 rgba(255,255,255,.9)) drop-shadow(0 14px 26px rgba(255,93,162,.35));
+}
+.candy-gracias__sub { position:relative; z-index:2; margin:0 auto 1.6rem; max-width:44ch; font-family:Arial,sans-serif; font-size:clamp(.92rem,1.8vw,1.1rem); line-height:1.75; color:var(--text-color); }
+.candy-gracias__chispas { position:relative; z-index:2; display:flex; flex-wrap:wrap; justify-content:center; gap:.7rem 1.1rem; }
+.candy-gracias__chispa { padding:.5rem 1.2rem; background:var(--surface-color); border-radius:999px; box-shadow:0 8px 18px rgba(61,44,78,.18), inset 0 0 0 2px var(--c,#5ce1e6); font-family:Arial,sans-serif; font-weight:700; font-size:clamp(.78rem,1.5vw,.92rem); color:var(--text-color); transform:rotate(var(--r)); }
+.candy-gracias__chispa:nth-child(odd){ --r:-2deg; } .candy-gracias__chispa:nth-child(even){ --r:2deg; }
+</style>
+<div>
+  <h2 class="candy-gracias__gracias" memory_type="text" memory_usage="custom" memory_key="gracias-titulo">Gracias!</h2>
+  <p class="candy-gracias__sub" memory_type="text" memory_usage="custom" memory_key="gracias-texto">Ustedes son la chispa de esta historia. Nos vemos en la fiesta con los bolsillos llenos de confeti.</p>
+  <div class="candy-gracias__chispas" memory_type="text" memory_usage="custom" memory_key="gracias-nombres">
+    <span class="candy-gracias__chispa" style="--c:#5ce1e6;">Nombre de los Novios</span>
+    <span class="candy-gracias__chispa" style="--c:#ffd166;">Con amor, la familia</span>
+    <span class="candy-gracias__chispa" style="--c:#ff5da2;">Hasta la fiesta</span>
+  </div>
+</div>
+<script>
+(function(){
+  var root = document.currentScript.closest('section');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !root || root.querySelector('.candy-gracias__confeti')) return;
+  var colores = ['#ff5da2','#5ce1e6','#ffd166','#6c5ce7'];
+  for (var i = 0; i < 22; i++) {
+    var f = document.createElement('span');
+    f.className = 'candy-gracias__confeti';
+    f.style.left = (Math.random() * 100) + '%';
+    f.style.background = colores[i % colores.length];
+    f.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
+    f.style.setProperty('--d', (6 + Math.random() * 7).toFixed(1) + 's');
+    f.style.animationDelay = (-Math.random() * 10).toFixed(1) + 's';
+    root.appendChild(f);
+  }
+})();
+</script>
+<script>var moduleMetadata={module_type:'gracias',module_name:'gracias-candy',style_name:'Candy Pop — Lluvia de Confeti',descripcion:'Candy pop: GRACIAS en degradado tricolor con doble sombra, confeti cayendo generado por JS y chispas de nombres en pastillas.',tags:[gracias,candy,confeti,pop,degradado],tipo:'gracias'};</script>
+</section>
+<div style="position:relative; z-index:5; background:#111; color:#eee; padding:14px clamp(1rem,5vw,4rem); font-family:'Courier New',monospace; letter-spacing:.3em; text-transform:uppercase; font-size:.7rem; border-top:1px solid #333; border-bottom:1px solid #333;">20 / 20 — Vinilo Retro — Lado A</div>
+<section class="vin-music" data-gemini-id="music-vinilo" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.vin-music { --primary-color:#f7f3e9; --secondary-color:#e0533d; --accent-color:#2b9348; --bg-color:#14100d; --surface-color:#211a14; --surface-border-color:rgba(247,243,233,.2); --text-color:#f7f3e9;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/1000/vinyl,retro'); background-size:cover; background-position:center; color:var(--text-color); }
+.vin-music *, .vin-music *::before, .vin-music *::after { box-sizing:border-box; }
+.vin-music::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 84%, transparent); }
+.vin-music__escena { display:grid; grid-template-columns:minmax(0,5fr) minmax(0,6fr); gap:clamp(1.6rem,4.6vw,3.6rem); align-items:center; width:min(100%,980px); margin:0 auto; }
+/* vinilo girando con surcos y etiqueta */
+.vin-music__vinilo { position:relative; width:min(100%,340px); aspect-ratio:1/1; margin:0 auto; border-radius:50%;
+  background:repeating-radial-gradient(circle at 50% 50%, #0c0a08 0 3px, #1c1712 3px 6px);
+  box-shadow:0 24px 50px rgba(0,0,0,.6), inset 0 0 40px rgba(0,0,0,.7);
+  animation:vinGiro 8s linear infinite; display:grid; place-items:center; }
+@keyframes vinGiro { to { transform:rotate(360deg); } }
+.vin-music__etiqueta { width:38%; aspect-ratio:1/1; border-radius:50%; background:radial-gradient(circle at 34% 30%, var(--accent-color), var(--secondary-color) 70%); display:grid; place-items:center; box-shadow:0 0 0 4px rgba(247,243,233,.15); }
+.vin-music__etiqueta span { font-family:'Courier New',monospace; font-size:clamp(.56rem,1.1vw,.68rem); letter-spacing:.18em; text-transform:uppercase; color:var(--bg-color); text-align:center; padding:.2rem; }
+.vin-music__centro { position:absolute; width:9%; aspect-ratio:1/1; border-radius:50%; background:var(--bg-color); }
+.vin-music__titulo { margin:0 0 .4rem; font-family:Georgia,serif; font-size:clamp(1.8rem,4.4vw,2.9rem); color:var(--primary-color); }
+.vin-music__titulo em { font-style:italic; color:var(--secondary-color); }
+.vin-music__lista { display:grid; gap:0; margin:1rem 0 1.2rem; border-top:1px solid var(--surface-border-color); }
+.vin-music__track { display:grid; grid-template-columns:auto 1fr auto; gap:.9rem; align-items:baseline; padding:.65rem .2rem; border-bottom:1px solid var(--surface-border-color); font-family:'Courier New',monospace; }
+.vin-music__track-n { color:var(--secondary-color); font-size:clamp(.72rem,1.4vw,.84rem); }
+.vin-music__track-nombre { font-family:Arial,sans-serif; font-size:clamp(.86rem,1.6vw,.98rem); color:var(--text-color); }
+.vin-music__track-dur { color:var(--secondary-color); font-size:clamp(.68rem,1.3vw,.78rem); }
+.vin-music__nota { font-size:clamp(.78rem,1.45vw,.88rem); line-height:1.65; color:var(--secondary-color); font-style:italic; }
+@media (max-width:760px){ .vin-music__escena { grid-template-columns:1fr; } .vin-music__vinilo { width:min(100%,260px); } }
+@media (prefers-reduced-motion:reduce){ .vin-music__vinilo { animation:none; } }
+</style>
+<div class="vin-music__escena">
+  <div class="vin-music__vinilo" aria-hidden="true">
+    <div class="vin-music__etiqueta"><span> Side A · Nuestra Lista</span></div>
+    <span class="vin-music__centro"></span>
+  </div>
+  <div>
+    <figure class="vin-music__funda" memory_type="image" memory_usage="custom" memory_source="library" memory_key="music-foto" style="margin:0 0 1.4rem; border:1px solid var(--surface-border-color); padding:8px; background:var(--surface-color); box-shadow:0 20px 44px rgba(0,0,0,.5); transform:rotate(-1.4deg);">
+      <img src="https://loremflickr.com/700/500/vinyl,records" alt="Fundas de vinilo de la banda sonora" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" style="display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;filter:saturate(1.05);" />
+      <figcaption hidden>Fundas de vinilo</figcaption>
+    </figure>
+    <h2 class="vin-music__titulo" memory_type="text" memory_usage="custom" memory_key="music-titulo">La banda <em>sonora</em> de nuestra vida</h2>
+    <div class="vin-music__lista" memory_type="text" memory_usage="custom" memory_key="music-lista">
+      <div class="vin-music__track"><span class="vin-music__track-n">A1</span><span class="vin-music__track-nombre" memory_type="text" memory_usage="custom" memory_key="music-track-1">Primera canción que bailamos</span><span class="vin-music__track-dur">3:45</span></div>
+      <div class="vin-music__track"><span class="vin-music__track-n">A2</span><span class="vin-music__track-nombre" memory_type="text" memory_usage="custom" memory_key="music-track-2">La del carrete de fotos</span><span class="vin-music__track-dur">4:12</span></div>
+      <div class="vin-music__track"><span class="vin-music__track-n">B1</span><span class="vin-music__track-nombre" memory_type="text" memory_usage="custom" memory_key="music-track-3">Grito de la pista</span><span class="vin-music__track-dur">2:58</span></div>
+      <div class="vin-music__track"><span class="vin-music__track-n">B2</span><span class="vin-music__track-nombre" memory_type="text" memory_usage="custom" memory_key="music-track-4">Epílogo lento</span><span class="vin-music__track-dur">5:20</span></div>
+    </div>
+    <p class="vin-music__nota" memory_type="text" memory_usage="custom" memory_key="music-nota">Dedícanos una canción: la mesa de peticiones abre al caer el sol.</p>
+  </div>
+</div>
+<script>var moduleMetadata={module_type:'music',module_name:'music-vinilo',style_name:'Vinilo Retro — Lado A',descripcion:'Vinilo 33rpm girando con surcos reales y etiqueta de color; lista de pistas B/A con duraciones y nota dedicatoria.',tags:[music,vinilo,retro,toca discos,lista],tipo:'music'};</script>
+</section>
+
+</body>
+</html>

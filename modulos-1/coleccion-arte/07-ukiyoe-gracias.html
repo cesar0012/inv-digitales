@@ -1,0 +1,54 @@
+<section class="uk-gracias" data-gemini-id="gracias-ola" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.uk-gracias { --primary-color:#1b2a4a; --secondary-color:#c9705c; --accent-color:#e8d5b5; --bg-color:#f0e6d2; --surface-color:#f7efdd; --surface-border-color:#1b2a4a; --text-color:#1b2a4a;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:80svh; display:grid; place-items:center; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem) clamp(8rem,18vw,12rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/1000/ukiyoe,wave'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.uk-gracias *, .uk-gracias *::before, .uk-gracias *::after { box-sizing:border-box; }
+.uk-gracias::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 90%, transparent); }
+/* sello hanko rojo girando lento */
+.uk-gracias__hanko { position:absolute; top:clamp(1.2rem,4vw,2.4rem); right:clamp(1.2rem,4vw,2.6rem); width:clamp(54px,8vw,74px); aspect-ratio:1/1; display:grid; place-items:center; border-radius:8px; background:#c9705c; color:var(--surface-color); font-family:Georgia,serif; font-size:clamp(1.1rem,2.4vw,1.6rem); font-weight:700; box-shadow:inset 0 0 0 3px var(--surface-color), 0 6px 14px rgba(27,42,74,.3); transform:rotate(6deg); animation:ukSello 14s ease-in-out infinite; }
+@keyframes ukSello { 0%,100% { transform:rotate(6deg);} 50% { transform:rotate(-4deg);} }
+.uk-gracias__kana { font-family:'Courier New',monospace; letter-spacing:.7em; font-size:clamp(.66rem,1.3vw,.8rem); color:var(--secondary-color); margin-bottom:.6rem; text-indent:.7em; }
+.uk-gracias__titulo { margin:0 0 1rem; font-family:Georgia,'Times New Roman',serif; font-weight:400; font-size:clamp(2.4rem,7vw,4.8rem); line-height:1.04; color:var(--primary-color); }
+.uk-gracias__titulo span { display:block; }
+.uk-gracias__titulo span:nth-child(2) { font-size:.52em; font-style:italic; color:var(--secondary-color); margin-top:.35em; }
+.uk-gracias__texto { margin:0 auto 1.6rem; max-width:44ch; font-family:Georgia,serif; font-size:clamp(.92rem,1.8vw,1.08rem); line-height:1.9; color:var(--text-color); }
+/* tres capas de ola ukiyoe apiladas con parallax al scroll */
+.uk-gracias__olas { position:absolute; left:-4%; right:-4%; bottom:-6px; z-index:1; pointer-events:none; }
+.uk-gracias__olas svg { display:block; width:110%; margin-left:-5%; }
+.uk-gracias__ola-cresta { fill:var(--surface-color); stroke:var(--primary-color); stroke-width:2; }
+.uk-gracias__ola-agua { fill:var(--primary-color); }
+.uk-gracias__espuma { fill:var(--accent-color); }
+/* tarjetas de nombres flotando sobre las olas */
+.uk-gracias__nombres { position:relative; z-index:3; display:flex; flex-wrap:wrap; justify-content:center; gap:.8rem 1.6rem; }
+.uk-gracias__nombre { padding:.5rem 1.3rem; background:var(--surface-color); border:1.5px solid var(--primary-color); border-radius:4px; box-shadow:4px 4px 0 rgba(27,42,74,.85); font-family:Georgia,serif; font-size:clamp(.85rem,1.7vw,1rem); transform:rotate(var(--r)); }
+.uk-gracias__nombre:nth-child(1){ --r:-2deg; } .uk-gracias__nombre:nth-child(2){ --r:1.6deg; } .uk-gracias__nombre:nth-child(3){ --r:-1deg; }
+@media (prefers-reduced-motion:reduce){ .uk-gracias__hanko { animation:none; } }
+</style>
+<span class="uk-gracias__hanko" aria-hidden="true">感謝</span>
+<div>
+  <p class="uk-gracias__kana" memory_type="text" memory_usage="custom" memory_key="gracias-kana">カンシャ · KANSHA</p>
+  <h2 class="uk-gracias__titulo" memory_type="text" memory_usage="custom" memory_key="gracias-titulo">
+    <span>Gracias por</span>
+    <span>acompañarnos en esta ola</span>
+  </h2>
+  <p class="uk-gracias__texto" memory_type="text" memory_usage="custom" memory_key="gracias-texto">
+    Como la ola que regresa siempre al mismo puerto, nuestra gratitud vuelve a ustedes una y otra vez. Gracias por ser parte de esta estampa.
+  </p>
+  <div class="uk-gracias__nombres" memory_type="text" memory_usage="custom" memory_key="gracias-nombres">
+    <span class="uk-gracias__nombre">Nombre de la Familia Uno</span>
+    <span class="uk-gracias__nombre">Nombre de los Novios</span>
+    <span class="uk-gracias__nombre">Nombre de la Familia Dos</span>
+  </div>
+</div>
+<div class="uk-gracias__olas" aria-hidden="true">
+  <svg viewBox="0 0 1440 240" preserveAspectRatio="none">
+    <path class="uk-gracias__ola-cresta" d="M0 90 C 120 30, 240 150, 360 90 S 600 30, 720 90 S 960 150, 1080 90 S 1320 30, 1440 90 V240 H0 Z"/>
+    <path class="uk-gracias__espuma" d="M0 90 C 120 30, 240 150, 360 90 S 600 30, 720 90 S 960 150, 1080 90 S 1320 30, 1440 90" fill="none" stroke="var(--accent-color)" stroke-width="5" stroke-dasharray="2 12"/>
+    <path class="uk-gracias__ola-agua" d="M0 140 C 180 90, 320 190, 480 140 S 780 90, 940 140 S 1280 190, 1440 140 V240 H0 Z"/>
+  </svg>
+</div>
+<script>
+var moduleMetadata = { module_type:'gracias', module_name:'gracias-ola', style_name:'Ukiyoe — Ola de Gratitud', descripcion:'Agradecimiento ukiyoe: sello hanko rojo, kana espaciado, texto serif y triple ola de madera con crestas espumadas al pie.', tags:['gracias','ukiyoe','ola','hanko','woodblock','japones'], tipo:'gracias' };
+</script>
+</section>

@@ -1,0 +1,71 @@
+<section class="sur-det" data-gemini-id="detalles-vestimenta" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.sur-det { --primary-color:#2b1d3a; --secondary-color:#c9497c; --accent-color:#5fc2ba; --bg-color:#efe9f4; --surface-color:#faf7fc; --surface-border-color:#2b1d3a; --text-color:#2b1d3a;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.4rem,9vw,7rem) clamp(1rem,5vw,4rem);
+  background:linear-gradient(180deg, #d9c9ec 0%, var(--bg-color) 40%, #cbb9e0 100%); color:var(--text-color); }
+.sur-det *, .sur-det *::before, .sur-det *::after { box-sizing:border-box; }
+/* nubes imposibles flotando */
+.sur-det__nube { position:absolute; z-index:0; width:clamp(120px,22vw,260px); aspect-ratio:2/1; background:var(--surface-color); border-radius:999px; filter:drop-shadow(0 18px 26px rgba(43,29,58,.25)); animation:surNube var(--d) ease-in-out infinite alternate; pointer-events:none; }
+.sur-det__nube::before, .sur-det__nube::after { content:''; position:absolute; background:inherit; border-radius:50%; }
+.sur-det__nube::before { width:55%; height:120%; top:-45%; left:14%; }
+.sur-det__nube::after { width:40%; height:90%; top:-30%; right:12%; }
+.sur-det__nube--a { top:6%; left:5%; --d:9s; }
+.sur-det__nube--b { top:14%; right:6%; --d:11s; transform:scale(.7); animation-delay:-4s; }
+@keyframes surNube { from { transform:translateX(-12px) translateY(0) var(--extra, ''); } to { transform:translateX(14px) translateY(-10px); } }
+.sur-det__titulo {
+  position:relative; z-index:2; margin:0 auto 1rem; max-width:14ch;
+  font-family:Georgia,'Times New Roman',serif; font-weight:400;
+  font-size:clamp(2.2rem,6vw,4.2rem); line-height:1.02; text-align:center;
+  color:var(--primary-color);
+}
+.sur-det__titulo em { color:var(--secondary-color); }
+.sur-det__linea { text-align:center; margin:0 auto clamp(2.2rem,5vw,3rem); max-width:52ch; font-family:Georgia,serif; font-style:italic; font-size:clamp(.9rem,1.8vw,1.05rem); line-height:1.8; color:var(--primary-color); opacity:.8; }
+/* objetos imposibles: tarjetas colgando de lluvia invertida */
+.sur-det__objeto-zona { position:relative; z-index:2; display:grid; grid-template-columns:repeat(auto-fit, minmax(min(240px,100%),1fr)); gap:clamp(1.6rem,4vw,3rem); width:min(100%,980px); margin:0 auto; perspective:1100px; }
+.sur-det__objeto { position:relative; padding:clamp(1.4rem,3.2vw,2rem); background:var(--surface-color); border:1.5px solid var(--primary-color); border-radius:2px 18px 4px 20px; box-shadow:10px 12px 0 var(--accent-color); transform:rotate(var(--g)) translateY(var(--y)); transition:transform .6s cubic-bezier(.22,.8,.3,1); }
+.sur-det__objeto:hover { transform:rotate(0) translateY(calc(var(--y) - 10px)); box-shadow:14px 16px 0 var(--secondary-color); }
+.sur-det__objeto:nth-child(1){ --g:-2.2deg; --y:10px; }
+.sur-det__objeto:nth-child(2){ --g:1.8deg; --y:34px; }
+.sur-det__objeto:nth-child(3){ --g:-1.4deg; --y:0px; }
+.sur-det__objeto-num { position:absolute; top:-18px; left:-12px; width:44px; height:44px; display:grid; place-items:center; border-radius:50%; background:var(--secondary-color); color:var(--surface-color); font-family:Georgia,serif; font-style:italic; }
+.sur-det__icono { width:46px; margin-bottom:.7rem; color:var(--secondary-color); }
+.sur-det__rotulo { margin:0 0 .3rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.66rem); letter-spacing:.34em; text-transform:uppercase; color:var(--accent-color); }
+.sur-det__titulo-card { margin:0 0 .35rem; font-family:Georgia,serif; font-size:clamp(1.05rem,2.2vw,1.3rem); color:var(--primary-color); }
+.sur-det__texto { margin:0; font-family:Georgia,serif; font-size:clamp(.82rem,1.5vw,.92rem); line-height:1.7; color:var(--primary-color); opacity:.82; }
+</style>
+<span class="sur-det__nube sur-det__nube--a" aria-hidden="true"></span>
+<span class="sur-det__nube sur-det__nube--b" aria-hidden="true"></span>
+<h2 class="sur-det__titulo" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Detalles que flotan <em>en otro cielo</em></h2>
+    <figure class="sur-det__flotante" memory_type="image" memory_usage="custom" memory_source="library" memory_key="detalles-foto" style="position:relative; z-index:2; width:min(100%,420px); margin:0 auto clamp(2.2rem,5vw,3rem); padding:10px; background:var(--surface-color); border:1.5px solid var(--primary-color); box-shadow:12px 14px 0 var(--accent-color); transform:rotate(2.2deg); animation:surFlota 8s ease-in-out infinite;">
+      <img src="https://loremflickr.com/720/500/surreal,dream" alt="Escenario surrealista del evento" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" style="display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;" />
+      <figcaption hidden>Escenario flotante</figcaption>
+    </figure>
+    <style>@keyframes surFlota { 0%,100% { transform:rotate(2.2deg) translateY(0);} 50% { transform:rotate(1deg) translateY(-12px);} }</style>
+    <p class="sur-det__linea" memory_type="text" memory_usage="custom" memory_key="detalles-intro">Lo esencial, suspendido: tres objetos que cayeron del sueño y quedaron colgados para ti.</p>
+<div class="sur-det__objeto-zona">
+  <article class="sur-det__objeto" style="--g:-2.4deg; --y:12px;">
+    <span class="sur-det__objeto-num" aria-hidden="true">i</span>
+    <svg class="sur-det__icono" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M14 6 L10 30 L38 30 L34 6 Z M10 30 A14 14 0 0 0 38 30" stroke="currentColor" stroke-width="1.6"/><path d="M18 36 C22 40 26 40 30 36" stroke="currentColor" stroke-width="1.4"/></svg>
+    <p class="sur-det__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-1">El vestido flotante</p>
+    <h3 class="sur-det__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Vestimenta etérea</h3>
+    <p class="sur-det__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Telas ligeras que caminan sobre el pasto sin tocarlo. Formal, pero soñando despierto.</p>
+  </article>
+  <article class="sur-det__objeto" style="--g:1.6deg; --y:38px;">
+    <span class="sur-det__objeto-num" aria-hidden="true">ii</span>
+    <svg class="sur-det__icono" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="8" y="14" width="32" height="24" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 14 L24 4 L40 14" stroke="currentColor" stroke-width="1.6"/><path d="M14 26 H34 M14 32 H28" stroke="currentColor" stroke-width="1.2"/></svg>
+    <p class="sur-det__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-2">La lluvia de sobres</p>
+    <h3 class="sur-det__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Lluvia de sobres</h3>
+    <p class="sur-det__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">Si el cielo regala sobres, recíbelos con las dos manos: llueven cariño envuelto.</p>
+  </article>
+  <article class="sur-det__objeto" style="--g:-1.2deg; --y:0px;">
+    <span class="sur-det__objeto-num" aria-hidden="true">iii</span>
+    <svg class="sur-det__icono" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M24 4 V18 M24 30 V44 M10 24 H38" stroke="currentColor" stroke-width="1.4"/><circle cx="24" cy="24" r="9" stroke="currentColor" stroke-width="1.6"/></svg>
+    <p class="sur-det__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-3">La hora doblada</p>
+    <h3 class="sur-det__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Hora sin reloj</h3>
+    <p class="sur-det__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">El tiempo se dobla a las seis y media. Llega antes de que el reloj cambie de idea.</p>
+  </article>
+</div>
+<script>
+var moduleMetadata = { module_type:'detalles', module_name:'detalles-vestimenta', style_name:'Surrealismo — Detalles Flotantes', descripcion:'Surrealismo onírico: nubes imposibles flotando, tarjetas colgantes con sombras duras de acento, numerales romanos y metaforas de vestimenta.', tags:['detalles','surrealismo','nubes','flotantes','onirico'], tipo:'detalles' };
+</script>
+</section>

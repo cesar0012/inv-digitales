@@ -1,0 +1,240 @@
+<section
+  class="mucha-portada"
+  data-gemini-id="portada-nombre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="mucha-titulo"
+>
+  <style>
+    .mucha-portada {
+      --primary-color: #14343b;
+      --secondary-color: #7ba3a9;
+      --accent-color: #c9a227;
+      --bg-color: #0d262c;
+      --surface-color: #11333a;
+      --surface-border-color: rgba(201, 162, 39, 0.5);
+      --text-color: #f3ecd8;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(2rem, 6vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/1000/mucha,ornament');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .mucha-portada *,
+    .mucha-portada *::before,
+    .mucha-portada *::after { box-sizing: border-box; }
+
+    .mucha-portada::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 90% 60% at 50% 30%, color-mix(in srgb, var(--accent-color) 20%, transparent), transparent 65%),
+        color-mix(in srgb, var(--bg-color) 92%, transparent);
+    }
+
+    /* halo muchiano girando: rayos + arabescos */
+    .mucha-portada__halo {
+      position: absolute;
+      z-index: 0;
+      top: 50%;
+      left: 50%;
+      width: min(120vw, 900px);
+      transform: translate(-50%, -54%);
+      opacity: 0.5;
+      animation: muchaHalo 90s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes muchaHalo { to { transform: translate(-50%, -54%) rotate(360deg); } }
+
+    /* arco de vitral con la foto grande dentro */
+    .mucha-portada__arco {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 560px);
+      margin: 0 auto clamp(1.4rem, 3vw, 2rem);
+      border-radius: 999px 999px 14px 14px;
+      padding: 14px;
+      background:
+        linear-gradient(160deg, var(--accent-color), color-mix(in srgb, var(--accent-color) 40%, var(--surface-color)) 45%, var(--accent-color));
+      box-shadow: 0 34px 80px rgba(0, 0, 0, 0.55), inset 0 0 0 2px rgba(243, 236, 216, 0.55);
+    }
+    .mucha-portada__arco img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5.2;
+      object-fit: cover;
+      border-radius: 999px 999px 8px 8px;
+      filter: saturate(1.08) contrast(1.04);
+    }
+    .mucha-portada__arco figcaption {
+      position: absolute;
+      inset: 14px;
+      border-radius: 999px 999px 8px 8px;
+      box-shadow: inset 0 0 0 3px rgba(243, 236, 216, 0.5), inset 0 -60px 80px rgba(13, 38, 44, 0.35);
+      pointer-events: none;
+    }
+
+    .mucha-portada__panel {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 640px);
+      padding: clamp(1.6rem, 4vw, 2.6rem) clamp(1.4rem, 4vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 94%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 40% 40% 12px 12px / 18% 18% 12px 12px;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+    }
+    .mucha-portada__panel::before,
+    .mucha-portada__panel::after {
+      content: '';
+      position: absolute;
+      width: 54px;
+      height: 54px;
+      border: 2px solid var(--accent-color);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+    .mucha-portada__panel::before {
+      top: -20px; left: -20px; border-radius: 0 0 100% 0; border-top: 0; border-left: 0;
+    }
+    .mucha-portada__panel::after {
+      bottom: -20px; right: -20px; border-radius: 100% 0 0 0; border-bottom: 0; border-right: 0;
+    }
+
+    .mucha-portada__lema {
+      margin: 0 0 0.7rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.74rem);
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .mucha-portada__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(2.4rem, 7vw, 4.8rem);
+      line-height: 1;
+      color: var(--primary-color);
+      text-shadow: 0 2px 0 color-mix(in srgb, var(--accent-color) 60%, transparent), 0 0 40px rgba(201, 162, 39, 0.35);
+    }
+    .mucha-portada__titulo span {
+      display: block;
+      overflow: hidden;
+    }
+    .mucha-portada__titulo span i {
+      display: block;
+      font-style: normal;
+      animation: muchaSube 0.9s cubic-bezier(0.19, 1, 0.22, 1) both;
+    }
+    .mucha-portada__titulo span:nth-child(2) i { animation-delay: 0.18s; color: var(--text-color); }
+    .mucha-portada__titulo span:nth-child(3) i { animation-delay: 0.34s; }
+    @keyframes muchaSube { from { transform: translateY(110%); } }
+
+    .mucha-portada__whiplash {
+      width: min(260px, 70%);
+      margin: clamp(1rem, 2.6vw, 1.5rem) auto;
+      color: var(--accent-color);
+    }
+    .mucha-portada__whiplash path {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-dasharray: 600;
+      stroke-dashoffset: 600;
+      animation: muchaTrazo 1.4s ease 0.5s forwards;
+    }
+    @keyframes muchaTrazo { to { stroke-dashoffset: 0; } }
+
+    .mucha-portada__fecha {
+      display: inline-block;
+      padding: 0.6rem 1.8rem;
+      border-top: 1px solid var(--surface-border-color);
+      border-bottom: 1px solid var(--surface-border-color);
+      font-family: Georgia, serif;
+      font-size: clamp(0.76rem, 1.5vw, 0.9rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--text-color);
+    }
+
+    @media (max-width: 560px) {
+      .mucha-portada__arco { width: min(100%, 420px); }
+      .mucha-portada__panel { padding: 1.6rem 1.2rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .mucha-portada * { animation: none !important; }
+      .mucha-portada__whiplash path { stroke-dashoffset: 0; }
+    }
+  </style>
+
+  <svg class="mucha-portada__halo" viewBox="0 0 600 600" fill="none" aria-hidden="true">
+    <circle cx="300" cy="300" r="290" stroke="var(--accent-color)" stroke-width="1.2" stroke-dasharray="4 10"/>
+    <circle cx="300" cy="300" r="240" stroke="var(--accent-color)" stroke-width="1"/>
+    <g stroke="var(--accent-color)" stroke-width="1.4">
+      <path d="M300 60 C 320 90, 320 110, 300 130 C 280 110, 280 90, 300 60 Z" fill="var(--accent-color)" opacity=".55"/>
+      <path d="M300 540 C 320 510, 320 490, 300 470 C 280 490, 280 510, 300 540 Z" fill="var(--accent-color)" opacity=".55"/>
+      <path d="M60 300 C 90 280, 110 280, 130 300 C 110 320, 90 320, 60 300 Z" fill="var(--accent-color)" opacity=".55"/>
+      <path d="M540 300 C 510 280, 490 280, 470 300 C 490 320, 510 320, 540 300 Z" fill="var(--accent-color)" opacity=".55"/>
+      <circle cx="300" cy="300" r="195" stroke-dasharray="1 7"/>
+    </g>
+  </svg>
+
+  <div class="mucha-portada__panel">
+    <figure class="mucha-portada__arco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="portada-foto">
+      <img
+        src="https://loremflickr.com/800/1000/art,nouveau,couple"
+        alt="Retrato de los novios en arco ornamentado"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="foto-pareja"
+        loading="lazy"
+      />
+      <figcaption aria-hidden="true"></figcaption>
+    </figure>
+
+    <p class="mucha-portada__lema" memory_type="text" memory_usage="custom" memory_key="portada-lema">Un cuento ilustrado por el tiempo</p>
+
+    <div memory_type="text" memory_usage="custom" memory_key="portada-nombres">
+      <h1 id="mucha-titulo" class="mucha-portada__titulo">
+        <span><i>Nombre de</i></span>
+        <span><i>la Novia</i></span>
+        <span><i>&amp; del Novio</i></span>
+      </h1>
+    </div>
+
+    <svg class="mucha-portada__whiplash" viewBox="0 0 260 40" aria-hidden="true">
+      <path d="M6 20 C 60 -8, 96 48, 130 20 S 200 -8, 254 20 M 18 26 C 70 44, 190 44, 242 26" />
+    </svg>
+
+    <time class="mucha-portada__fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="portada-fecha">Fecha del evento</time>
+  </div>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Art Nouveau — Mucha',
+      descripcion: 'Portada Art Nouveau: halo ornamentado giratorio, retrato en arco dorado con doble filo, titulares que emergen por línea, whiplash que se traza.',
+      tags: ['portada', 'art nouveau', 'mucha', 'arco', 'halo', 'ornamental', 'dorado'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

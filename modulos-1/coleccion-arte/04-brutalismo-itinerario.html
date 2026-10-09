@@ -1,0 +1,77 @@
+<section class="bru-itin" data-gemini-id="itinerario-agenda" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.bru-itin { --primary-color:#111111; --accent-color:#f5d90a; --hot-color:#ff2e2e; --bg-color:#e8e4dc; --surface-color:#f4f1ea; --text-color:#111;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(2.4rem,6vw,4.5rem) clamp(1rem,4vw,3rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/concrete,raw'); background-size:cover; background-position:center; color:var(--text-color); }
+.bru-itin *, .bru-itin *::before, .bru-itin *::after { box-sizing:border-box; }
+.bru-itin::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 92%, transparent); }
+.bru-itin__titulo { margin:0 0 .3rem; font-family:Impact,'Arial Black',sans-serif; font-size:clamp(2.6rem,9vw,6.5rem); line-height:.85; text-transform:uppercase; letter-spacing:-.03em; color:var(--primary-color); }
+.bru-itin__titulo span { color:var(--hot-color); }
+.bru-itin__sub { margin:0 0 2rem; font-family:'Courier New',monospace; font-size:clamp(.72rem,1.4vw,.85rem); letter-spacing:.2em; text-transform:uppercase; }
+/* banda marquesina de advertencia */
+.bru-itin__banda { overflow:hidden; border-top:3px solid var(--primary-color); border-bottom:3px solid var(--primary-color); background:var(--accent-color); margin-bottom:2.4rem; }
+.bru-itin__banda-inner { display:flex; width:max-content; animation:bruMarcha 22s linear infinite; }
+.bru-itin__banda:hover .bru-itin__banda-inner { animation-play-state:paused; }
+.bru-itin__banda-inner span { padding:.5rem 1.4rem; font-family:Impact,sans-serif; font-size:clamp(.9rem,2vw,1.3rem); text-transform:uppercase; letter-spacing:.06em; white-space:nowrap; }
+@keyframes bruMarcha { to { transform:translateX(-50%); } }
+/* cronograma: números brutales colosales que sangran, fichas montadas */
+.bru-itin__lista { position:relative; }
+.bru-itin__hito { position:relative; display:grid; grid-template-columns:auto 1fr; column-gap:clamp(.8rem,3vw,1.6rem); align-items:center; padding:clamp(1rem,2.6vw,1.5rem) clamp(.9rem,2.2vw,1.4rem); background:var(--surface-color); border:3px solid var(--primary-color); box-shadow:9px 9px 0 var(--primary-color); margin-bottom:1.6rem; }
+.bru-itin__hito:nth-child(even) { box-shadow:-9px 9px 0 var(--hot-color); }
+.bru-itin__hito:nth-child(even) { transform:rotate(1.1deg); }
+.bru-itin__hito:nth-child(odd) { transform:rotate(-1.2deg); }
+.bru-itin__hito:hover { transform:rotate(0) translate(-3px,-3px); box-shadow:12px 12px 0 var(--primary-color); }
+.bru-itin__num { font-family:Impact,sans-serif; font-size:clamp(3.4rem,9vw,6rem); line-height:.8; color:var(--hot-color); -webkit-text-stroke:2px var(--primary-color); }
+.bru-itin__hora { display:inline-block; padding:.2rem .6rem; background:var(--primary-color); color:var(--accent-color); font-family:'Courier New',monospace; font-size:clamp(.68rem,1.3vw,.8rem); letter-spacing:.2em; }
+.bru-itin__momento { margin:.25rem 0 .15rem; font-family:Impact,sans-serif; font-size:clamp(1.15rem,2.6vw,1.7rem); text-transform:uppercase; color:var(--primary-color); }
+.bru-itin__detalle { margin:0; font-family:Arial,sans-serif; font-size:clamp(.78rem,1.4vw,.88rem); line-height:1.5; color:#333; }
+@media (prefers-reduced-motion:reduce){ .bru-itin__banda-inner { animation:none; } }
+</style>
+<h2 class="bru-itin__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Crónica <span>sin filtro</span></h2>
+<p class="bru-itin__sub" memory_type="text" memory_usage="custom" memory_key="itinerario-sub">Programa oficial · ediciones limitadas · no se aceptan devoluciones</p>
+<div class="bru-itin__banda" aria-hidden="true">
+  <div class="bru-itin__banda-inner">
+    <span>★ EL DÍA ★ HORA OFICIAL ★ NO TARDES ★</span>
+    <span>★ EL DÍA ★ HORA OFICIAL ★ NO TARDES ★</span>
+    <span>★ EL DÍA ★ HORA OFICIAL ★ NO TARDES ★</span>
+    <span>★ EL DÍA ★ HORA OFICIAL ★ NO TARDES ★</span>
+  </div>
+</div>
+<div class="bru-itin__lista">
+  <article class="bru-itin__hito">
+    <span class="bru-itin__num" aria-hidden="true">1</span>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
+      <time class="bru-itin__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00 EN PUNTO</time>
+      <h3 class="bru-itin__momento" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-1">Puertas</h3>
+      <p class="bru-itin__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-1">Recepción brutal: abrazos fuertes y bebida fría.</p>
+    </div>
+  </article>
+  <article class="bru-itin__hito">
+    <span class="bru-itin__num" aria-hidden="true">2</span>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
+      <time class="bru-itin__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00 EN PUNTO</time>
+      <h3 class="bru-itin__momento" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-2">El acto</h3>
+      <p class="bru-itin__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-2">Ceremonia sin adornos: solo ustedes y el ruido.</p>
+    </div>
+  </article>
+  <article class="bru-itin__hito">
+    <span class="bru-itin__num" aria-hidden="true">3</span>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
+      <time class="bru-itin__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00 EN PUNTO</time>
+      <h3 class="bru-itin__momento" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-3">Mesa y golpes</h3>
+      <p class="bru-itin__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-3">Cena contundente, copas que chocan fuerte.</p>
+    </div>
+  </article>
+  <article class="bru-itin__hito">
+    <span class="bru-itin__num" aria-hidden="true">4</span>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
+      <time class="bru-itin__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:30 EN PUNTO</time>
+      <h3 class="bru-itin__momento" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-4">Ruido final</h3>
+      <p class="bru-itin__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-4">La pista sufre. Así será.</p>
+    </div>
+  </article>
+</div>
+<script>
+var moduleMetadata = { module_type:'itinerario', module_name:'itinerario-agenda', style_name:'Brutalismo — Crónica Sin Filtro', descripcion:'Cronograma brutalista: titulares Impact, números colosales con contorno, fichas con borde grueso y sombra dura rotadas, marquesina amarilla de advertencia.', tags:['itinerario','brutalismo','impact','sombras duras','marquesina','crudo'], tipo:'itinerario' };
+</script>
+</section>

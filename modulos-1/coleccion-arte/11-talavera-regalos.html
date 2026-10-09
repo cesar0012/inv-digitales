@@ -1,0 +1,49 @@
+<section class="tlv-regalos" data-gemini-id="regalos-talavera" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.tlv-regalos { --primary-color:#1d3a8f; --secondary-color:#c9a227; --accent-color:#2e6fdb; --bg-color:#f5f2ea; --surface-color:#ffffff; --surface-border-color:#1d3a8f; --text-color:#1d3a8f;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/talavera,tiles'); background-size:cover; background-position:center; color:var(--text-color); }
+.tlv-regalos *, .tlv-regalos *::before, .tlv-regalos *::after { box-sizing:border-box; }
+/* cenefa talavera continua arriba y abajo */
+.tlv-regalos::before, .tlv-regalos::after { content:''; position:absolute; left:0; right:0; height:26px; z-index:2; background:repeating-conic-gradient(from 45deg at 50% 50%, var(--accent-color) 0 90deg, #fff 90deg 180deg, var(--primary-color) 180deg 270deg, var(--secondary-color) 270deg 360deg) 0 0/26px 26px; }
+.tlv-regalos::before { top:0; } .tlv-regalos::after { bottom:0; transform:scaleY(-1); }
+.tlv-regalos::before { box-shadow:inset 0 -3px 0 var(--primary-color); } .tlv-regalos::after { box-shadow:inset 0 3px 0 var(--primary-color); }
+.tlv-regalos__titulo { position:relative; z-index:2; margin:0 0 .5rem; text-align:center; font-family:Georgia,serif; font-weight:400; font-size:clamp(2rem,5vw,3.2rem); color:var(--primary-color); }
+.tlv-regalos__titulo em { font-style:italic; color:var(--accent-color); }
+.tlv-regalos__intro { position:relative; z-index:2; margin:0 auto clamp(2rem,5vw,3rem); max-width:46ch; text-align:center; font-size:clamp(.86rem,1.6vw,1rem); line-height:1.75; color:#33417e; }
+/* tarjetas loza: blanco cobalto con medallón central */
+.tlv-regalos__loza { position:relative; z-index:2; display:grid; grid-template-columns:repeat(auto-fit, minmax(min(250px,100%),1fr)); gap:clamp(1.4rem,3.6vw,2.4rem); width:min(100%,940px); margin:0 auto; }
+.tlv-regalos__pieza { position:relative; background:var(--surface-color); border:2px solid var(--primary-color); border-radius:14px; padding:clamp(1.4rem,3vw,1.9rem) clamp(1.2rem,2.8vw,1.7rem); box-shadow:0 20px 44px rgba(29,58,143,.22); overflow:hidden; transition:transform .5s cubic-bezier(.22,.8,.3,1), box-shadow .5s ease; }
+.tlv-regalos__pieza:hover { transform:translateY(-8px) rotate(-1deg); box-shadow:0 30px 60px rgba(29,58,143,.3); }
+.tlv-regalos__pieza::before { content:''; position:absolute; inset:6px; border:1px dashed color-mix(in srgb, var(--accent-color) 60%, transparent); border-radius:9px; pointer-events:none; }
+.tlv-regalos__medallon { position:relative; width:52px; aspect-ratio:1/1; margin:0 auto .8rem; border-radius:50%; background:radial-gradient(circle at 34% 30%, #fff 0 18%, var(--accent-color) 20% 55%, var(--primary-color) 58% 100%); box-shadow:inset 0 0 0 3px #fff; }
+.tlv-regalos__rol { text-align:center; margin:0 0 .3rem; font-family:'Courier New',monospace; font-size:clamp(.56rem,1.05vw,.64rem); letter-spacing:.32em; text-transform:uppercase; color:var(--accent-color); }
+.tlv-regalos__nombre { text-align:center; margin:0; font-family:Georgia,serif; font-size:clamp(1rem,2vw,1.22rem); color:var(--primary-color); }
+.tlv-regalos__nota { text-align:center; margin:.45rem 0 0; font-size:clamp(.78rem,1.45vw,.88rem); line-height:1.6; color:#33417e; }
+</style>
+<h2 class="tlv-regalos__titulo" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Loza de los <em>deseos</em></h2>
+<p class="tlv-regalos__intro" memory_type="text" memory_usage="custom" memory_key="regalos-texto">Cada pieza fue pintada a mano para nosotros. Si quieres sumar la tuya, aquí está el catálogo.</p>
+<div class="tlv-regalos__loza">
+  <article class="tlv-regalos__pieza">
+    <span class="tlv-regalos__medallon" aria-hidden="true"></span>
+    <p class="tlv-regalos__rol" memory_type="text" memory_usage="custom" memory_key="regalos-rol-1">Pieza I</p>
+    <h3 class="tlv-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-nombre-1">Vajilla azul</h3>
+    <p class="tlv-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota-1">Disponible en tienda departamental.</p>
+  </article>
+  <article class="tlv-regalos__pieza">
+    <span class="tlv-regalos__medallon" aria-hidden="true"></span>
+    <p class="tlv-regalos__rol" memory_type="text" memory_usage="custom" memory_key="regalos-rol-2">Pieza II</p>
+    <h3 class="tlv-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-nombre-2">Fondo de luna de miel</h3>
+    <p class="tlv-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota-2">Sobre dorado en la mesa de regalos.</p>
+  </article>
+  <article class="tlv-regalos__pieza">
+    <span class="tlv-regalos__medallon" aria-hidden="true"></span>
+    <p class="tlv-regalos__rol" memory_type="text" memory_usage="custom" memory_key="regalos-rol-3">Pieza III</p>
+    <h3 class="tlv-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-nombre-3">Experiencia para dos</h3>
+    <p class="tlv-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota-3">Cualquier aventura cuenta doble.</p>
+  </article>
+</div>
+<script>
+var moduleMetadata = { module_type:'regalos', module_name:'regalos-talavera', style_name:'Talavera — Loza de los Deseos', descripcion:'Talavera maximalista: cenefas de grecas en conic-gradient, tarjetas loza con medallon radial y doble filo punteado.', tags:['regalos','talavera','loza','cobalto','maximalista','artesania'], tipo:'regalos' };
+</script>
+</section>

@@ -1,0 +1,72 @@
+<section class="vit-conf" data-gemini-id="confirmacion-texto" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.vit-conf { --primary-color:#0d1b4c; --secondary-color:#7a4fbf; --accent-color:#e8b04b; --bg-color:#060b24; --surface-color:#0e1a44; --surface-border-color:#e8b04b; --text-color:#f5f1e6;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:88svh; display:grid; place-items:center; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/1000/cathedral,stained'); background-size:cover; background-position:center; color:var(--text-color); }
+.vit-conf *, .vit-conf *::before, .vit-conf *::after { box-sizing:border-box; }
+.vit-conf::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 72%, transparent); }
+/* rayos de luz que barren el vitral */
+.vit-conf__rayos { position:absolute; z-index:0; top:-20%; left:50%; width:150%; height:120%; transform:translateX(-50%); background:repeating-conic-gradient(from 200deg at 50% 0%, rgba(232,176,75,.14) 0 6deg, transparent 6deg 18deg); animation:vitLuz 16s ease-in-out infinite alternate; pointer-events:none; }
+@keyframes vitLuz { from { opacity:.5; transform:translateX(-54%);} to { opacity:1; transform:translateX(-46%);} }
+/* rosetón de vitral SVG con plomos */
+.vit-conf__roseton { position:relative; z-index:2; width:clamp(190px,32vw,280px); margin:0 auto clamp(1.2rem,3vw,1.8rem); filter:drop-shadow(0 0 26px rgba(232,176,75,.4)); animation:vitFlota 9s ease-in-out infinite; }
+@keyframes vitFlota { 0%,100% { transform:translateY(0);} 50% { transform:translateY(-10px);} }
+.vit-conf__roseton circle, .vit-conf__roseton path { stroke:#060b24; stroke-width:3; }
+.vit-conf__panel {
+  position:relative; z-index:2; width:min(100%,660px); padding:clamp(2.2rem,5.5vw,3.6rem) clamp(1.6rem,5vw,3.4rem);
+  background:
+    linear-gradient(135deg, rgba(232,176,75,.2) 0 12%, transparent 12% 26%, rgba(122,79,191,.22) 26% 38%, transparent 38% 52%, rgba(13,27,76,.5) 52% 64%, rgba(232,176,75,.16) 64% 78%, transparent 78%),
+    linear-gradient(45deg, rgba(122,79,191,.14) 0 10%, transparent 10% 24%, rgba(232,176,75,.18) 24% 36%, transparent 36% 50%, rgba(13,27,76,.45) 50% 62%, rgba(232,176,75,.14) 62% 76%, transparent 76%),
+    var(--surface-color);
+  border:6px solid var(--primary-color);
+  outline:2px solid var(--accent-color);
+  outline-offset:-14px;
+  box-shadow:0 40px 90px rgba(0,0,0,.6), inset 0 0 60px rgba(6,11,36,.6);
+  text-align:center;
+}
+.vit-conf__plomo { display:flex; align-items:center; gap:.9rem; margin:0 0 1rem; color:var(--accent-color); }
+.vit-conf__plomo::before, .vit-conf__plomo::after { content:''; flex:1; height:2px; background:linear-gradient(90deg, transparent, var(--accent-color)); }
+.vit-conf__plomo::after { background:linear-gradient(90deg, var(--accent-color), transparent); }
+.vit-conf__etiqueta { margin:0 0 .8rem; font-family:Georgia,serif; font-size:clamp(.62rem,1.2vw,.74rem); letter-spacing:.5em; text-transform:uppercase; color:var(--accent-color); text-indent:.5em; }
+.vit-conf__titulo {
+  margin:0 0 1.1rem;
+  font-family:Georgia,'Times New Roman',serif;
+  font-size:clamp(1.9rem,4.8vw,3rem);
+  line-height:1.12;
+  color:var(--text-color);
+  text-shadow:0 0 26px rgba(232,176,75,.35);
+}
+.vit-conf__titulo b { color:var(--accent-color); font-weight:400; }
+.vit-conf__texto { margin:0 auto 1.5rem; max-width:48ch; font-family:Georgia,serif; font-size:clamp(.94rem,1.8vw,1.08rem); line-height:1.95; color:var(--text-color); }
+.vit-conf__texto b { color:var(--accent-color); font-weight:400; border-bottom:1px solid var(--accent-color); }
+@media (prefers-reduced-motion:reduce){ .vit-conf__rayos, .vit-conf__roseton { animation:none; } }
+</style>
+<div>
+  <svg class="vit-conf__roseton" viewBox="0 0 200 200" aria-hidden="true">
+    <circle cx="100" cy="100" r="94" fill="#7a4fbf" opacity=".85"/>
+    <circle cx="100" cy="100" r="72" fill="#e8b04b" opacity=".8"/>
+    <circle cx="100" cy="100" r="46" fill="#0d1b4c"/>
+    <path d="M100 10 A90 90 0 0 1 190 100 L100 100 Z" fill="#3f7d6f" opacity=".7"/>
+    <path d="M190 100 A90 90 0 0 1 100 190 L100 100 Z" fill="#b3543f" opacity=".7"/>
+    <path d="M100 190 A90 90 0 0 1 10 100 L100 100 Z" fill="#e8b04b" opacity=".65"/>
+    <path d="M10 100 A90 90 0 0 1 100 10 L100 100 Z" fill="#12205c" opacity=".8"/>
+    <circle cx="100" cy="100" r="24" fill="#e8b04b"/>
+    <circle cx="100" cy="100" r="94" fill="none" stroke="#060b24" stroke-width="6"/>
+  </svg>
+  <div class="vit-conf__panel">
+    <p class="vit-conf__plomo" aria-hidden="true">✦</p>
+    <p class="vit-conf__etiqueta" memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta">Confirmación de asistencia</p>
+    <h2 class="vit-conf__titulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">
+      Tu lugar en el <b>vitral</b> espera ser iluminado
+    </h2>
+    <p class="vit-conf__texto" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">
+      Cada confirmación enciende una pieza de este vitral. Revisa el <b>enlace único</b> que llegó
+      a tu correo, SMS o WhatsApp y deja que tu luz se sume a la obra antes del <b>cierre del altar</b>.
+    </p>
+    <p class="vit-conf__plomo" aria-hidden="true">✦</p>
+  </div>
+</div>
+<script>
+var moduleMetadata = { module_type:'confirmacion', module_name:'confirmacion-texto', style_name:'Vitral Gótico — Rosetón', descripcion:'RSVP como vitral gótico: rosetón SVG flotante, rayos que barren, panel con mulliones de color, plomos dorados y llamada en acento.', tags:['confirmacion','rsvp','vitral','gotico','roseton','luz'], tipo:'confirmacion' };
+</script>
+</section>

@@ -1,0 +1,86 @@
+<section class="fc-padrinos" data-gemini-id="padrinos-fairycore" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.fc-padrinos { --primary-color:#3d2c5a; --secondary-color:#b892d9; --accent-color:#9fe8d1; --bg-color:#1a1029; --surface-color:#241838; --surface-border-color:rgba(184,146,217,.35); --text-color:#efe6fa;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/1000/fairy,forest'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.fc-padrinos *, .fc-padrinos *::before, .fc-padrinos *::after { box-sizing:border-box; }
+.fc-padrinos::before { content:''; position:absolute; inset:0; z-index:-1; background:radial-gradient(ellipse 70% 50% at 50% 20%, color-mix(in srgb, var(--secondary-color) 24%, transparent), transparent 65%), color-mix(in srgb, var(--bg-color) 82%, transparent); }
+/* luciérnagas (chispas JS) */
+.fc-padrinos__chispa { position:absolute; width:5px; height:5px; border-radius:50%; background:var(--accent-color); box-shadow:0 0 10px 3px color-mix(in srgb, var(--accent-color) 70%, transparent); animation:fcVuela var(--d) ease-in-out infinite alternate; pointer-events:none; }
+@keyframes fcVuela { from { transform:translate(0,0); opacity:.9;} to { transform:translate(var(--dx), var(--dy)); opacity:.25;} }
+.fc-padrinos__titulo { position:relative; z-index:2; margin:0 0 .5rem; font-family:Georgia,serif; font-weight:400; font-style:italic; font-size:clamp(2rem,5.2vw,3.4rem); color:var(--primary-color); text-shadow:0 0 34px color-mix(in srgb, var(--secondary-color) 60%, transparent); }
+.fc-padrinos2-intro, .fc-padrinos__intro { margin:0 auto clamp(2.4rem,6vw,3.6rem); max-width:46ch; font-size:clamp(.86rem,1.6vw,1rem); line-height:1.8; color:var(--secondary-color); }
+/* portal iridiscente por padrino */
+.fc-padrinos__portales { position:relative; z-index:2; display:grid; grid-template-columns:repeat(auto-fit, minmax(min(230px,100%),1fr)); gap:clamp(1.4rem,3.6vw,2.4rem); width:min(100%,1000px); margin:0 auto; }
+.fc-padrinos__portal { position:relative; padding:clamp(1.4rem,3.2vw,2rem) clamp(1rem,2.6vw,1.5rem) clamp(1.6rem,3.4vw,2.2rem); background:linear-gradient(180deg, color-mix(in srgb, var(--secondary-color) 20%, var(--surface-color)), var(--surface-color)); border:1px solid var(--surface-border-color); border-radius:999px 999px 22px 22px; box-shadow:0 0 40px color-mix(in srgb, var(--secondary-color) 22%, transparent), inset 0 0 30px rgba(0,0,0,.3); transition:transform .6s cubic-bezier(.22,.8,.3,1), box-shadow .6s ease; }
+.fc-padrinos__portal:hover { transform:translateY(-10px) scale(1.03); box-shadow:0 0 60px color-mix(in srgb, var(--accent-color) 30%, transparent), inset 0 0 34px rgba(0,0,0,.3); }
+.fc-padrinos__portal::before { content:''; position:absolute; inset:9px; border:1px solid color-mix(in srgb, var(--accent-color) 45%, transparent); border-radius:999px 999px 16px 16px; pointer-events:none; }
+.fc-padrinos__iris { width:clamp(84px,13vw,112px); aspect-ratio:1/1; margin:0 auto .9rem; border-radius:50%; overflow:hidden; border:2px solid var(--accent-color); box-shadow:0 0 22px color-mix(in srgb, var(--accent-color) 45%, transparent); background:conic-gradient(from 0deg, #9fe8d1, #b892d9, #ff9ad5, #9fe8d1); animation:fcIris 8s linear infinite; }
+@keyframes fcIris { to { filter:hue-rotate(360deg); } }
+.fc-padrinos__iris img { display:block; width:100%; height:100%; object-fit:cover; mix-blend-mode:luminosity; opacity:.9; }
+.fc-padrinos__rol { margin:0 0 .25rem; font-family:'Courier New',monospace; font-size:clamp(.54rem,1vw,.62rem); letter-spacing:.36em; text-transform:uppercase; color:var(--accent-color); }
+.fc-padrinos__nombre { margin:0; font-family:Georgia,serif; font-size:clamp(.94rem,1.9vw,1.16rem); line-height:1.35; color:var(--primary-color); }
+@media (prefers-reduced-motion:reduce){ .fc-padrinos__chispa, .fc-padrinos__iris { animation:none; } }
+</style>
+<h2 class="fc-padrinos2-titulo fc-padrinos__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Guardianes del bosque</h2>
+<p class="fc-padrinos__intro" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Cuatro portales iridiscentes: detrás de cada luz viven quienes cuidan este día.</p>
+<div class="fc-padrinos__portales">
+  <article class="fc-padrinos__portal">
+    <div class="fc-padrinos__iris" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
+      <img src="https://loremflickr.com/240/240/fairy,forest" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+    </div>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
+      <p class="fc-padrinos__rol">Guardianes de alianzas</p>
+      <h3 class="fc-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+    </div>
+  </article>
+  <article class="fc-padrinos__portal">
+    <div class="fc-padrinos__iris" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
+      <img src="https://loremflickr.com/240/240/portrait,ethereal" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+    </div>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
+      <p class="fc-padrinos__rol">Guardianes de velo</p>
+      <h3 class="fc-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+    </div>
+  </article>
+  <article class="fc-padrinos__portal">
+    <div class="fc-padrinos__iris" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
+      <img src="https://loremflickr.com/240/240/portrait,mystic" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+    </div>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
+      <p class="fc-padrinos__rol">Guardianes de arras</p>
+      <h3 class="fc-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+    </div>
+  </article>
+  <article class="fc-padrinos__portal">
+    <div class="fc-padrinos__iris" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
+      <img src="https://loremflickr.com/240/240/portrait,dream" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+    </div>
+    <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
+      <p class="fc-padrinos__rol">Guardianes de lazos</p>
+      <h3 class="fc-padrinos__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+    </div>
+  </article>
+</div>
+<script>
+(function(){
+  var root = document.currentScript.closest('section');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !root || root.querySelector('.fc-padrinos__chispa')) return;
+  for (var i = 0; i < 16; i++) {
+    var s = document.createElement('span');
+    s.className = 'fc-padrinos__chispa';
+    s.style.left = (3 + Math.random() * 94) + '%';
+    s.style.top = (8 + Math.random() * 84) + '%';
+    s.style.setProperty('--dx', ((Math.random() - .5) * 120).toFixed(0) + 'px');
+    s.style.setProperty('--dy', (-40 - Math.random() * 70).toFixed(0) + 'px');
+    s.style.setProperty('--d', (5 + Math.random() * 6).toFixed(1) + 's');
+    s.style.animationDelay = (Math.random() * 6).toFixed(1) + 's';
+    root.appendChild(s);
+  }
+})();
+</script>
+<script>
+var moduleMetadata = { module_type:'padrinos', module_name:'padrinos-fairycore', style_name:'Fairycore — Guardianes del Bosque', descripcion:'Fairycore: portales iridiscentes con retrato en luminosidad, 16 luciérnagas JS volando y arcos de guardián con glow.', tags:['padrinos','fairycore','luciernagas','iridiscente','bosque','portal'], tipo:'padrinos' };
+</script>
+</section>
