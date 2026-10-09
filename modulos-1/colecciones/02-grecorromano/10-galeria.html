@@ -1,0 +1,112 @@
+<section class="mq2-g" data-gemini-id="galeria-mosaico" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.mq2-g { --primary-color:#8a6a2f; --secondary-color:#a3552f; --accent-color:#b08d3e; --bg-color:#f6f1e7; --surface-color:#fdfbf5; --surface-border-color:rgba(138,106,47,.32); --text-color:#332c22;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.6rem,9vw,7rem) clamp(1rem,4vw,3rem); background:linear-gradient(180deg, color-mix(in srgb, var(--bg-color) 93%, transparent), color-mix(in srgb, var(--bg-color) 88%, transparent)), url('https://loremflickr.com/1600/1000/corridor,columns') center/cover; background-color:var(--bg-color); color:var(--text-color); }
+.mq2-g *, .mq2-g *::before, .mq2-g *::after { box-sizing:border-box; }
+.mq2-g__cabecera { text-align:center; margin-bottom:clamp(2.6rem,6.5vw,3.6rem); }
+.mq2-g__rotulo { margin:0 0 .5rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.54em; text-transform:uppercase; color:var(--primary-color); }
+.mq2-g__titulo { margin:0; font-family:Georgia,'Times New Roman',serif; font-weight:400; font-size:clamp(1.9rem,4.6vw,3rem); letter-spacing:.05em; text-transform:uppercase; }
+.mq2-g__ayuda { margin:.8rem 0 0; font-family:Georgia,serif; font-style:italic; font-size:clamp(.8rem,1.5vw,.9rem); color:var(--secondary-color); }
+.mq2-g__pasillo { display:grid; grid-template-columns:1fr; gap:clamp(2rem,5vw,3.2rem); width:min(100%,900px); margin:0 auto; }
+@media (min-width:760px){ .mq2-g__pasillo { grid-template-columns:1fr 1fr; } }
+.mq2-g__obra { position:relative; cursor:zoom-in; }
+.mq2-g__marco { position:relative; margin:0; background:var(--surface-color); border:1px solid var(--surface-border-color); box-shadow:0 26px 52px color-mix(in srgb, #8a6a2f 18%, transparent); padding:10px; }
+.mq2-g__marco::before { content:''; position:absolute; inset:5px; border:1px solid color-mix(in srgb, var(--accent-color) 60%, transparent); pointer-events:none; z-index:2; }
+.mq2-g__marco img { display:block; width:100%; height:auto; aspect-ratio:3/4; object-fit:cover; }
+.mq2-g__pie { display:block; text-align:center; padding:.8rem 0 .2rem; font-family:'Courier New',monospace; font-size:clamp(.54rem,1vw,.64rem); letter-spacing:.38em; text-transform:uppercase; color:var(--secondary-color); }
+.mq2-g__arco { position:absolute; inset:0; z-index:3; display:flex; overflow:hidden; }
+.mq2-g__hoja { position:relative; flex:1; background:linear-gradient(90deg, #efe7d4, #f9f4ea 48%, #e7dcc2); transition:transform 1.25s cubic-bezier(.72,0,.2,1); }
+.mq2-g__hoja::before { content:''; position:absolute; inset:8px; border:1px solid color-mix(in srgb, var(--accent-color) 55%, transparent); }
+.mq2-g__hoja--d { border-left:1px solid var(--surface-border-color); }
+.mq2-g__js .mq2-g__obra .mq2-g__hoja--i { transform:translateX(0); }
+.mq2-g__js .mq2-g__obra .mq2-g__hoja--d { transform:translateX(0); }
+.mq2-g__obra.abierto .mq2-g__hoja--i { transform:translateX(-101%); }
+.mq2-g__obra.abierto .mq2-g__hoja--d { transform:translateX(101%); }
+.mq2-g__lb { position:fixed; inset:0; z-index:9999; display:none; place-items:center; background:color-mix(in srgb, var(--bg-color) 92%, transparent); cursor:zoom-out; }
+.mq2-g__lb.abierto { display:grid; }
+.mq2-g__lb img { max-width:min(92vw,940px); max-height:86vh; border:6px solid var(--surface-color); box-shadow:0 30px 80px rgba(51,44,34,.4); }
+@media (prefers-reduced-motion:reduce){ .mq2-g * { transition:none !important; } .mq2-g__obra .mq2-g__hoja--i, .mq2-g__obra .mq2-g__hoja--d { transform:translateX(-101%) !important; } .mq2-g__obra .mq2-g__hoja--d { transform:translateX(101%) !important; } }
+</style>
+<header class="mq2-g__cabecera" memory_type="text" memory_usage="custom" memory_key="galeria-intro">
+  <p class="mq2-g__rotulo">Galería del palacio</p>
+  <h2 class="mq2-g__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Corredor de frescos</h2>
+  <p class="mq2-g__ayuda" memory_type="text" memory_usage="custom" memory_key="galeria-texto">Cada puerta se abre al llegar a ella; toca la obra para verla de cerca.</p>
+</header>
+<div class="mq2-g__pasillo">
+  <figure class="mq2-g__obra mq2-rev">
+    <span class="mq2-g__marco">
+      <img src="https://loremflickr.com/600/800/statue,marble" alt="Fresco 1" path="placeholder" data-library-category="eventos" data-asset-type="galeria" loading="lazy" />
+      <figcaption class="mq2-g__pie">La estatua</figcaption>
+    </span>
+    <span class="mq2-g__arco" aria-hidden="true"><span class="mq2-g__hoja mq2-g__hoja--i"></span><span class="mq2-g__hoja mq2-g__hoja--d"></span></span>
+  </figure>
+  <figure class="mq2-g__obra mq2-rev">
+    <span class="mq2-g__marco">
+      <img src="https://loremflickr.com/600/800/columns,gold" alt="Fresco 2" path="placeholder" data-library-category="eventos" data-asset-type="galeria" loading="lazy" />
+      <figcaption class="mq2-g__pie">La columnata</figcaption>
+    </span>
+    <span class="mq2-g__arco" aria-hidden="true"><span class="mq2-g__hoja mq2-g__hoja--i"></span><span class="mq2-g__hoja mq2-g__hoja--d"></span></span>
+  </figure>
+  <figure class="mq2-g__obra mq2-rev">
+    <span class="mq2-g__marco">
+      <img src="https://loremflickr.com/600/800/amphora,pottery" alt="Fresco 3" path="placeholder" data-library-category="eventos" data-asset-type="galeria" loading="lazy" />
+      <figcaption class="mq2-g__pie">El ánfora</figcaption>
+    </span>
+    <span class="mq2-g__arco" aria-hidden="true"><span class="mq2-g__hoja mq2-g__hoja--i"></span><span class="mq2-g__hoja mq2-g__hoja--d"></span></span>
+  </figure>
+  <figure class="mq2-g__obra mq2-rev">
+    <span class="mq2-g__marco">
+      <img src="https://loremflickr.com/600/800/garden,fountain" alt="Fresco 4" path="placeholder" data-library-category="eventos" data-asset-type="galeria" loading="lazy" />
+      <figcaption class="mq2-g__pie">La fuente</figcaption>
+    </span>
+    <span class="mq2-g__arco" aria-hidden="true"><span class="mq2-g__hoja mq2-g__hoja--i"></span><span class="mq2-g__hoja mq2-g__hoja--d"></span></span>
+  </figure>
+  <figure class="mq2-g__obra mq2-rev">
+    <span class="mq2-g__marco">
+      <img src="https://loremflickr.com/600/800/candles,dinner" alt="Fresco 5" path="placeholder" data-library-category="eventos" data-asset-type="galeria" loading="lazy" />
+      <figcaption class="mq2-g__pie">El banquete</figcaption>
+    </span>
+    <span class="mq2-g__arco" aria-hidden="true"><span class="mq2-g__hoja mq2-g__hoja--i"></span><span class="mq2-g__hoja mq2-g__hoja--d"></span></span>
+  </figure>
+  <figure class="mq2-g__obra mq2-rev">
+    <span class="mq2-g__marco">
+      <img src="https://loremflickr.com/600/800/stars,night" alt="Fresco 6" path="placeholder" data-library-category="eventos" data-asset-type="galeria" loading="lazy" />
+      <figcaption class="mq2-g__pie">Los dioses</figcaption>
+    </span>
+    <span class="mq2-g__arco" aria-hidden="true"><span class="mq2-g__hoja mq2-g__hoja--i"></span><span class="mq2-g__hoja mq2-g__hoja--d"></span></span>
+  </figure>
+</div>
+<div class="mq2-g__lb" role="dialog" aria-label="Obra ampliada" hidden>
+  <img src="" alt="Obra ampliada" />
+</div>
+<script>
+  (function () {
+    var scope = null;
+    try { scope = document.currentScript.closest('[data-gemini-id^="galeria"]'); } catch (e) {}
+    if (!scope) scope = document.querySelector('[data-gemini-id^="galeria"]');
+    if (!scope) return;
+    scope.classList.add('mq2-js');
+    var obras = scope.querySelectorAll('.mq2-g__obra');
+    var abrir = function (el) { el.classList.add('abierto', 'visto'); };
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.isIntersecting) { abrir(en.target); io.unobserve(en.target); } });
+      }, { threshold: .3 });
+      obras.forEach(function (el) { io.observe(el); });
+    } else obras.forEach(abrir);
+    setTimeout(function () { obras.forEach(abrir); }, 2500);
+    var lb = scope.querySelector('.mq2-g__lb');
+    if (!lb) return;
+    var lbImg = lb.querySelector('img');
+    scope.addEventListener('click', function (ev) {
+      var obra = ev.target.closest && ev.target.closest('.mq2-g__obra');
+      var img = obra && obra.querySelector('img');
+      if (!img) { if (ev.target === lb) { lb.classList.remove('abierto'); lb.hidden = true; } return; }
+      lbImg.src = img.currentSrc || img.src;
+      lb.hidden = false;
+      lb.classList.add('abierto');
+    });
+  })();
+</script>
+<script>var moduleMetadata = { module_type: 'galeria', module_name: 'galeria-mq2-corredor', style_name: 'Grecorromano — Corredor de Puertas', descripcion: 'Galería como corredor de palacio: cada obra está tras hojas de mármol que se abren al llegar, con lightbox.', tags: ['galeria', 'corredor', 'puertas', 'lightbox'], tipo: 'galeria' };</script>
+</section>

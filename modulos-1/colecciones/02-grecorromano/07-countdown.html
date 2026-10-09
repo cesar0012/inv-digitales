@@ -1,0 +1,111 @@
+<section class="mq2-cd" data-gemini-id="countdown-mq2-horologium" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder" data-countdown-target="YYYY-MM-DDTHH:MM:SS">
+<style>
+.mq2-cd { --primary-color:#8a6a2f; --secondary-color:#a3552f; --accent-color:#b08d3e; --bg-color:#f6f1e7; --surface-color:#fdfbf5; --surface-border-color:rgba(138,106,47,.32); --text-color:#332c22;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.6rem,9vw,6.8rem) clamp(1rem,5vw,4rem); background:linear-gradient(180deg, color-mix(in srgb, var(--bg-color) 92%, transparent), color-mix(in srgb, var(--bg-color) 88%, transparent)), url('https://loremflickr.com/1600/1000/sundial,stone') center/cover; background-color:var(--bg-color); color:var(--text-color); text-align:center; }
+.mq2-cd *, .mq2-cd *::before, .mq2-cd *::after { box-sizing:border-box; }
+.mq2-cd__rotulo { margin:0 0 .5rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.54em; text-transform:uppercase; color:var(--primary-color); }
+.mq2-cd__titulo { margin:0 0 clamp(1.8rem,4vw,2.6rem); font-family:Georgia,'Times New Roman',serif; font-weight:400; font-size:clamp(1.8rem,4.4vw,2.9rem); letter-spacing:.05em; text-transform:uppercase; }
+.mq2-cd__escena { position:relative; width:min(100%,440px); margin:0 auto; }
+.mq2-cd__horologium { display:block; width:100%; height:auto; }
+.mq2-cd__sombra { transform-origin:160px 168px; animation:mq2-sombra 60s linear infinite; }
+@keyframes mq2-sombra { to { transform:rotate(360deg); } }
+.mq2-cd__rayo { animation:mq2-brillo 5s ease-in-out infinite; }
+@keyframes mq2-brillo { 0%,100% { opacity:.35; } 50% { opacity:.85; } }
+.mq2-cd__unidades { list-style:none; margin:clamp(1.8rem,4vw,2.4rem) auto 0; padding:0; width:min(100%,580px); display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:clamp(.7rem,2vw,1.2rem); }
+.mq2-cd__unidad { position:relative; padding:clamp(.9rem,2vw,1.25rem) .4rem; background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:50% 50% 8px 8px; box-shadow:0 16px 34px color-mix(in srgb, #8a6a2f 18%, transparent); }
+.mq2-cd__unidad::before { content:''; position:absolute; inset:5px; border-radius:inherit; border:1px dashed color-mix(in srgb, var(--accent-color) 70%, transparent); pointer-events:none; }
+.mq2-cd__num { display:block; font-family:Georgia,serif; font-size:clamp(1.5rem,4.4vw,2.6rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; }
+.mq2-cd__etq { display:block; margin-top:.45rem; font-family:'Courier New',monospace; font-size:clamp(.5rem,1vw,.6rem); letter-spacing:.3em; text-transform:uppercase; color:var(--secondary-color); }
+.mq2-cd__fecha { margin:1.5rem 0 0; font-family:Georgia,serif; font-style:italic; font-size:clamp(.86rem,1.7vw,1rem); color:var(--text-color); }
+@media (max-width:520px){ .mq2-cd__unidades { grid-template-columns:repeat(2,minmax(0,1fr)); } .mq2-cd__unidad { border-radius:22px; } .mq2-cd__unidad::before { border-radius:18px; } }
+@media (prefers-reduced-motion:reduce){ .mq2-cd * { animation:none !important; } }
+</style>
+<p class="mq2-cd__rotulo" memory_type="text" memory_usage="custom" memory_key="countdown-rotulo">Horologium</p>
+<h2 class="mq2-cd__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">El reloj de sol</h2>
+<div class="mq2-cd__escena mq2-rev">
+  <svg class="mq2-cd__horologium" viewBox="0 0 320 320" role="img" aria-label="Reloj de sol con numerales romanos">
+    <circle cx="160" cy="160" r="150" fill="var(--surface-color)" stroke="var(--accent-color)" stroke-width="2.5"/>
+    <circle cx="160" cy="160" r="136" fill="none" stroke="var(--surface-border-color)" stroke-width="1"/>
+    <circle cx="160" cy="160" r="126" fill="none" stroke="var(--accent-color)" stroke-width="1" stroke-dasharray="1 8"/>
+    <g font-family="Georgia, serif" font-size="24" fill="var(--primary-color)" text-anchor="middle">
+      <text x="160" y="56">XII</text>
+      <text x="274" y="169">III</text>
+      <text x="160" y="288">VI</text>
+      <text x="46" y="169">IX</text>
+    </g>
+    <g font-family="Georgia, serif" font-size="13" fill="var(--secondary-color)" text-anchor="middle">
+      <text x="228" y="94">I</text><text x="270" y="132">II</text><text x="270" y="200">IV</text><text x="228" y="232">V</text>
+      <text x="92" y="232">VII</text><text x="50" y="200">VIII</text><text x="50" y="132">X</text><text x="92" y="94">XI</text>
+    </g>
+    <g class="mq2-cd__rayo">
+      <g stroke="var(--accent-color)" stroke-width="2" opacity=".7">
+        <line x1="160" y1="26" x2="160" y2="40"/><line x1="160" y1="280" x2="160" y2="294"/>
+        <line x1="26" y1="160" x2="40" y2="160"/><line x1="280" y1="160" x2="294" y2="160"/>
+      </g>
+    </g>
+    <g transform="translate(160 168)">
+      <circle r="98" fill="none" stroke="var(--surface-border-color)" stroke-width="1"/>
+      <g class="mq2-cd__sombra">
+        <path d="M0 0 L86 0 L92 8 L0 6 Z" fill="color-mix(in srgb, var(--primary-color) 55%, transparent)"/>
+      </g>
+      <path d="M-7 26 L0 -30 L7 26 Z" fill="none" stroke="var(--secondary-color)" stroke-width="2.4" stroke-linejoin="round"/>
+      <circle r="6" fill="var(--accent-color)"/>
+    </g>
+  </svg>
+</div>
+<ul class="mq2-cd__unidades" aria-label="Cuenta regresiva">
+  <li class="mq2-cd__unidad"><span class="mq2-cd__num" data-countdown-unit="days">--</span><span class="mq2-cd__etq">Días</span></li>
+  <li class="mq2-cd__unidad"><span class="mq2-cd__num" data-countdown-unit="hours">--</span><span class="mq2-cd__etq">Horas</span></li>
+  <li class="mq2-cd__unidad"><span class="mq2-cd__num" data-countdown-unit="minutes">--</span><span class="mq2-cd__etq">Min</span></li>
+  <li class="mq2-cd__unidad"><span class="mq2-cd__num" data-countdown-unit="seconds">--</span><span class="mq2-cd__etq">Seg</span></li>
+</ul>
+<time class="mq2-cd__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Sábado 14 de marzo, 2026 — 17:00 h</time>
+<script>
+  (function () {
+    var el = null;
+    try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
+    if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+    if (!el) return;
+    el.classList.add('mq2-js');
+    var targetAttr = el.getAttribute('data-countdown-target');
+    var target = NaN;
+    if (targetAttr && targetAttr.indexOf('YYYY') === -1) {
+      var parsed = new Date(targetAttr);
+      if (!isNaN(parsed.getTime())) target = parsed.getTime();
+    }
+    if (isNaN(target)) {
+      if (window.__countdownTarget) { var _p = new Date(window.__countdownTarget); if (!isNaN(_p.getTime())) target = _p.getTime(); }
+      else if (window.countdown_target) { var _p2 = new Date(window.countdown_target); if (!isNaN(_p2.getTime())) target = _p2.getTime(); }
+    }
+    var intervalId = null;
+    (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+    window.__countdownIntervals = [];
+    function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+    function setUnit(unit, value) { var node = el.querySelector('[data-countdown-unit="' + unit + '"]'); if (node) node.textContent = value; }
+    function tick() {
+      var diff = target - Date.now();
+      if (diff < 0) diff = 0;
+      setUnit('days', Math.floor(diff / 86400000));
+      setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
+      setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
+      setUnit('seconds', pad2(Math.floor((diff % 60000) / 1000)));
+      if (diff === 0 && intervalId !== null) { clearInterval(intervalId); intervalId = null; window.__countdownIntervals = []; }
+    }
+    function start(newTarget) {
+      if (newTarget) target = new Date(newTarget).getTime();
+      (window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+      intervalId = null;
+      if (!Number.isFinite(target)) return;
+      tick();
+      if (target > Date.now()) { intervalId = setInterval(tick, 1000); window.__countdownIntervals.push(intervalId); }
+    }
+    start();
+    window.updateCountdown = start;
+    var revs = el.querySelectorAll('.mq2-rev');
+    setTimeout(function () { revs.forEach(function (n) { n.classList.add('visto'); }); }, 2500);
+    setTimeout(function () { revs.forEach(function (n) { n.classList.add('visto'); }); }, 400);
+  })();
+</script>
+<script>var moduleMetadata = { module_type: 'countdown', module_name: 'countdown-mq2-horologium', style_name: 'Grecorromano — Horologium', descripcion: 'Cuenta regresiva con reloj de sol romano: numerales, gnomon y sombra animada; unidades en placas de bronce.', tags: ['countdown', 'reloj-sol', 'horologium', 'romano'], tipo: 'countdown' };</script>
+</section>

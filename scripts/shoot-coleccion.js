@@ -49,7 +49,8 @@ async function shootModule(browser, url, { width, dpr }, outPath) {
       if (imgs.length && imgs.every((i) => i.complete)) break;
       await new Promise((r) => setTimeout(r, 200));
     }
-    await new Promise((r) => setTimeout(r, 400));
+    // Espera generosa: revelados IO con red de seguridad a 2.5s + transiciones (~1.5s).
+    await new Promise((r) => setTimeout(r, 4800));
   });
   await page.screenshot({ path: outPath, fullPage: true, captureBeyondViewport: true });
   await page.close();
@@ -67,7 +68,7 @@ async function shootModule(browser, url, { width, dpr }, outPath) {
       for (let i = 0; i < TYPES.length; i++) {
         const f = path.join(ROOT, col, String(i + 1).padStart(2, '0') + '-' + TYPES[i] + '.html');
         const docPath = path.join(TMP, `${col}-${TYPES[i]}-doc.html`);
-        writeFileSync(docPath, '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>body{margin:0;}</style></head><body>' + readFileSync(f, 'utf-8') + '</body></html>', 'utf-8');
+        writeFileSync(docPath, '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>body{margin:0;}</style></head><body>' + readFileSync(f, 'utf-8').replace(/loading="lazy"/g, 'loading="eager"') + '</body></html>', 'utf-8');
         const png = path.join(TMP, `${col}-${TYPES[i]}-${label}.png`);
         await shootModule(browser, 'file:///' + docPath.split(path.sep).join('/'), { width, dpr }, png);
         parts.push(png);
