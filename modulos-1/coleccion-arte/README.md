@@ -1,36 +1,69 @@
-# Colección Arte — 20 módulos espectaculares
+# Colección Arte — 20 sets completos (240 módulos)
 
-20 módulos individuales, cada uno con un movimiento artístico o tendencia visual distinta.
-Ninguno se parece a otro ni a los sets 1-12. Todos pasan `validateGeneratedModule`
-(contrato RAG completo: `memory_*`, placeholders loremflickr, variables genéricas).
+20 sets completos de módulos de invitación, cada uno con un movimiento artístico
+o tendencia visual distinta. Cada set contiene los 12 módulos del contrato
+(`portada, padres, ubicacion, itinerario, confirmacion, detalles, countdown,
+padrinos, corte, galeria, regalos, vestimenta`). Ningún set se parece a otro ni
+a los sets 1-12 de `modulos-1/`. Todos pasan `validateGeneratedModule`
+(contrato RAG completo: `memory_*`, placeholders loremflickr, variables genéricas,
+countdown con contrato completo, galería con lightbox).
 
-**Abre `index.html` en el navegador para verlos apilados en orden.**
+**Abre `index.html` en el navegador para los 240 módulos apilados por set.**
+Capturas de referencia en `shots-coleccion-arte/` (desktop 1280px + móvil 390px).
 
-| # | Archivo | Tipo | Estilo / Gancho visual |
-|---|---|---|---|
-| 01 | `01-artnouveau-portada.html` | portada | Art Nouveau (Mucha): halo ornamentado giratorio, retrato en arco dorado, titulares por línea, whiplash que se traza |
-| 02 | `02-impresionismo-galeria.html` | galeria | Impresionismo: marcos dorados colgados torcidos, filtro de óleo + trama de pinceladas soft-light, rotulación de museo |
-| 03 | `03-cubismo-padres.html` | padres | Cubismo: fotos rotas en 4 shards con clip-path (espejados/teñidos), planos de color en multiply |
-| 04 | `04-brutalismo-itinerario.html` | itinerario | Brutalismo tipográfico: titulares Impact, números colosales, marquesina amarilla de advertencia |
-| 05 | `05-y2k-countdown.html` | countdown | Y2K cromo líquido: orbes metálicos flotantes, cifras con degradado recortado al texto, pastillas de vidrio |
-| 06 | `06-synthwave-ubicacion.html` | ubicacion | Synthwave: sol de rayas, rejilla en perspectiva infinita, mapa en tinte magenta, holograma con foto |
-| 07 | `07-ukiyoe-gracias.html` | gracias | Ukiyo-e: sello hanko rojo, kana espaciado, triple ola de madera con crestas espumadas |
-| 08 | `08-vitral-confirmacion.html` | confirmacion | Vitral gótico: rosetón SVG flotante, rayos que barren, panel de mulliones con plomos dorados |
-| 09 | `09-papercraft-portada.html` | portada | Papercraft: sol de papel + 5 capas de sierras recortadas con sombra entre capas, carta flotante |
-| 10 | `10-surrealismo-detalles.html` | detalles | Surrealismo: nubes imposibles, retrato flotante en marco dorado, objetos con sombras de acento |
-| 11 | `11-talavera-regalos.html` | regalos | Talavera: cenefas de grecas, tarjetas loza con medallón radial y doble filo punteado |
-| 12 | `12-fairycore-padrinos.html` | padrinos | Fairycore: 16 luciérnagas JS, portales iridiscentes con retrato en luminosidad, glow morado |
-| 13 | `13-constructivismo-padrinos.html` | padrinos | Constructivismo: diagonal roja, foto B/N con plano multiply, cuadrados rotados como sellos |
-| 14 | `14-risograph-galeria.html` | galeria | Risograph: prints con borde de tinta, saturación de sobreimpresión, pies de edición numerados |
-| 15 | `15-tropical-ubicacion.html` | ubicacion | Tropical maximalista: hojas gigantes, tarjetas con doble sombra, postal + mapa redondeados |
-| 16 | `16-cosmico-countdown.html` | countdown | Barroco cósmico: marco circular dorado, dos órbitas con planetas en sentidos opuestos, cifra gigante |
-| 17 | `17-claymorphism-vestimenta.html` | vestimenta | Claymorphism: blobs 3D flotantes, tarjetas puffy con esferas de dress code |
-| 18 | `18-darkacademia-itinerario.html` | itinerario | Dark academia: capítulos de libro en arcos góticos con sello de lacre |
-| 19 | `19-candy-gracias.html` | gracias | Candy pop: GRACIAS en degradado tricolor, confeti JS cayendo, chispas de nombres |
-| 20 | `20-vinilo-music.html` | music | Vinilo retro: disco 33rpm girando con surcos reales, lista de pistas lado A/B |
+## Estructura
 
-## Contrato
+```
+coleccion-arte/
+  set-01-mucha/01-portada.html … 12-vestimenta.html
+  set-02-oleo/…
+  …
+  set-20-vinilo/…
+  gen/            ← generador (styles.cjs + plantillas + run.cjs)
+  index.html      ← preview global con los 240 módulos
+  _referencia/    ← los 20 módulos individuales originales (concepto)
+```
+
+## Los 20 sets
+
+| Set | Estilo | Gancho visual |
+|---|---|---|
+| 01 | Art Nouveau — Mucha | Halo ornamentado, marcos dorados, serif clásica |
+| 02 | Impresionismo — Óleo | Marcos dorados gruesos, manchas de óleo, titles rotados |
+| 03 | Cubismo — Fragmentos | Planos de color, sombras duras desplazadas, tipografía geo |
+| 04 | Brutalismo — Crónica | Impact, sombras offset duras, banner de advertencia |
+| 05 | Y2K — Cromo Líquido | Orbes cromados, vidrio esmerilado, degradados neón |
+| 06 | Synthwave — Zona Neón | Sol de rayas, rejilla, glow cian/magenta, mono total |
+| 07 | Ukiyo-e — Ola | Washi crema, sello hanko, tintas planas |
+| 08 | Vitral Gótico | Rosetón, plomos dorados, navy profundo |
+| 09 | Papercraft — Capas | Sol y sierras de papel, sombras entre capas |
+| 10 | Surrealismo — Ensueño | Lavanda imposible, marcos flotantes, sombras largas |
+| 11 | Talavera | Cenefa de grecas, loza azul/amarillo |
+| 12 | Fairycore | Glow iridiscente, arcos pastel, brillos |
+| 13 | Constructivismo | Diagonal roja, bloques, tipografía de cartel |
+| 14 | Risograph | Sobreimpresión, tramas de puntos, tintas planas |
+| 15 | Tropical | Hojas gigantes, verdes profundos, postal |
+| 16 | Cósmico | Órbitas doradas, navy estelar, cifras gigantes |
+| 17 | Claymorphism | Blobs puffy 3D, sombras internas, pastel vivo |
+| 18 | Dark Academia | Lacre, serifs de libro, marrones y vino |
+| 19 | Candy Pop | Confeti, rosa chicle, círculos felices |
+| 20 | Vinilo Retro | Franjas de surco, crema/naranja retro, mono |
+
+## Generador
+
+Los 240 archivos se emiten desde `gen/` (tokens por estilo en `styles.cjs`,
+plantillas por módulo en `tpl-a/b/c.cjs`, orquestador `run.cjs` que aplica
+además correcciones automáticas de legibilidad WCAG sobre los tokens).
+Regenerar: `node modulos-1/coleccion-arte/gen/run.cjs`
+
+## Contrato y verificación
 
 Todos cumplen `validateGeneratedModule`: atributos `memory_*`, `path="placeholder"`,
 imágenes loremflickr grandes, variables CSS genéricas, responsive con `clamp()`,
-`moduleMetadata` con `tipo` válido. Verificación: `node scripts/test-coleccion-arte.js`.
+`moduleMetadata` con `tipo` válido, countdown con `data-countdown-target` +
+`window.updateCountdown` + limpieza de `__countdownIntervals`.
+
+- Validación: `node scripts/test-coleccion-arte.js` → 240/240
+- Capturas: `node scripts/shoot-coleccion-arte.js` (placeholder local para
+  loremflickr porque responde 401 desde este entorno; en producción el proceso
+  agéntico reemplaza todos los placeholders).

@@ -1,0 +1,75 @@
+<section class="brutal-ga" data-gemini-id="galeria-mosaico" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.brutal-ga { --primary-color:#111111; --secondary-color:#333333; --accent-color:#877806; --bg-color:#e8e4dc; --surface-color:#f4f1ea; --surface-border-color:#111111; --text-color:#111111;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background:url('https://loremflickr.com/1600/1000/concrete,raw') center/cover; background-size:cover; background-position:center; color:var(--text-color); }
+.brutal-ga *, .brutal-ga *::before, .brutal-ga *::after { box-sizing:border-box; }
+.brutal-ga::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 82%, transparent); }
+.brutal-ga__titulo { margin:0 0 .5rem; text-align:center; font-family:Impact,'Arial Black',sans-serif; font-weight:700; font-size:clamp(1.9rem,4.4vw,2.9rem); color:var(--primary-color); }
+.brutal-ga__sub { margin:0 auto clamp(2rem,5vw,3rem); max-width:44ch; text-align:center; font-family:Arial,sans-serif; font-size:clamp(.84rem,1.55vw,.96rem); line-height:1.75; color:var(--secondary-color); }
+.brutal-ga__mosaico { width:min(100%,980px); margin:0 auto; columns:3; column-gap:clamp(.6rem,1.6vw,1.1rem); }
+.brutal-ga__foto { margin:0; overflow:hidden; border:2px solid var(--surface-border-color); cursor:zoom-in;  }
+.brutal-ga__foto:nth-child(odd){ --r:-1.6deg; } .brutal-ga__foto:nth-child(even){ --r:1.8deg; }
+.brutal-ga__foto:hover { transform:rotate(0) scale(1.02); z-index:3; }
+.brutal-ga__foto img { display:block; width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
+.brutal-ga__foto:hover img { transform:scale(1.06); }
+.brutal-ga__lb { position:fixed; inset:0; z-index:9999; display:none; place-items:center; background:color-mix(in srgb, var(--bg-color) 92%, transparent); cursor:zoom-out; }
+.brutal-ga__lb.abierto { display:grid; }
+.brutal-ga__lb img { max-width:min(92vw,1000px); max-height:88vh; border:2px solid var(--accent-color); }
+@media (max-width:640px){ .brutal-ga__mosaico { grid-template-columns:repeat(2,1fr) !important; columns:2 !important; } .brutal-ga__foto[style] { grid-column:auto !important; grid-row:auto !important; } }
+@media (prefers-reduced-motion:reduce){ .brutal-ga * { transition:none !important; } }
+</style>
+<header memory_type="text" memory_usage="custom" memory_key="galeria-intro">
+  <h2 class="brutal-ga__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Galería</h2>
+  <p class="brutal-ga__sub" memory_type="text" memory_usage="custom" memory_key="galeria-texto">Un vistazo a los momentos que viviremos juntos. Toca cualquier foto para verla en grande.</p>
+</header>
+<div class="brutal-ga__mosaico">
+    <figure class="brutal-ga__foto">
+      <img src="https://loremflickr.com/640/520/concrete,raw,couple" alt="Momento de la celebración 1" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Momento 1</figcaption>
+    </figure>
+    <figure class="brutal-ga__foto">
+      <img src="https://loremflickr.com/640/800/concrete,raw,party" alt="Momento de la celebración 2" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Momento 2</figcaption>
+    </figure>
+    <figure class="brutal-ga__foto">
+      <img src="https://loremflickr.com/640/520/concrete,raw,flowers" alt="Momento de la celebración 3" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Momento 3</figcaption>
+    </figure>
+    <figure class="brutal-ga__foto">
+      <img src="https://loremflickr.com/640/800/concrete,raw,dress" alt="Momento de la celebración 4" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Momento 4</figcaption>
+    </figure>
+    <figure class="brutal-ga__foto">
+      <img src="https://loremflickr.com/640/520/concrete,raw,cake" alt="Momento de la celebración 5" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Momento 5</figcaption>
+    </figure>
+    <figure class="brutal-ga__foto">
+      <img src="https://loremflickr.com/640/800/concrete,raw,dance" alt="Momento de la celebración 6" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Momento 6</figcaption>
+    </figure>
+</div>
+<div class="brutal-ga__lb" role="dialog" aria-label="Foto ampliada" hidden>
+  <img src="" alt="Foto ampliada" />
+</div>
+<script>
+  (function () {
+    var scope = null;
+    try { scope = document.currentScript.closest('[data-gemini-id^="galeria"]'); } catch (e) {}
+    if (!scope) scope = document.querySelector('[data-gemini-id^="galeria"]');
+    if (!scope) return;
+    var lb = scope.querySelector('.brutal-ga__lb');
+    if (!lb) return;
+    var lbImg = lb.querySelector('img');
+    scope.addEventListener('click', function (ev) {
+      var fig = ev.target.closest && ev.target.closest('figure');
+      var img = fig && fig.querySelector('img');
+      if (!img) { if (ev.target === lb) { lb.classList.remove('abierto'); lb.hidden = true; } return; }
+      lbImg.src = img.currentSrc || img.src;
+      lb.hidden = false;
+      lb.classList.add('abierto');
+    });
+  })();
+</script>
+<script>var moduleMetadata = { module_type: "galeria", module_name: "galeria-mosaico", style_name: "Brutalismo — Crónica — Galeria", descripcion: "Galeria brutalismo con mosaico de al menos seis fotos y lightbox al tocar.", tags: ["galeria","mosaico","lightbox","brutal","brutalismo"], tipo: "galeria" };</script>
+</section>

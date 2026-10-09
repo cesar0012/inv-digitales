@@ -1,0 +1,75 @@
+<section class="surreal-ga" data-gemini-id="galeria-mosaico" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.surreal-ga { --primary-color:#2b1d3a; --secondary-color:#c9497c; --accent-color:#40827d; --bg-color:#efe9f4; --surface-color:#faf7fc; --surface-border-color:#2b1d3a; --text-color:#2b1d3a;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background:linear-gradient(180deg, #d9c9ec 0%, #efe9f4 40%, #cbb9e0 100%), url('https://loremflickr.com/1600/1000/surreal,sky') center/cover; background-size:cover; background-position:center; color:var(--text-color); }
+.surreal-ga *, .surreal-ga *::before, .surreal-ga *::after { box-sizing:border-box; }
+.surreal-ga::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 82%, transparent); }
+.surreal-ga__titulo { margin:0 0 .5rem; text-align:center; font-family:Georgia,'Times New Roman',serif; font-weight:700; font-size:clamp(1.9rem,4.4vw,2.9rem); color:var(--primary-color); }
+.surreal-ga__sub { margin:0 auto clamp(2rem,5vw,3rem); max-width:44ch; text-align:center; font-family:Georgia,'Times New Roman',serif; font-size:clamp(.84rem,1.55vw,.96rem); line-height:1.75; color:var(--secondary-color); }
+.surreal-ga__mosaico { width:min(100%,980px); margin:0 auto; columns:3; column-gap:clamp(.6rem,1.6vw,1.1rem); }
+.surreal-ga__foto { margin:0; overflow:hidden; border:2px solid var(--surface-border-color); cursor:zoom-in;  }
+.surreal-ga__foto:nth-child(odd){ --r:-1.6deg; } .surreal-ga__foto:nth-child(even){ --r:1.8deg; }
+.surreal-ga__foto:hover { transform:rotate(0) scale(1.02); z-index:3; }
+.surreal-ga__foto img { display:block; width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
+.surreal-ga__foto:hover img { transform:scale(1.06); }
+.surreal-ga__lb { position:fixed; inset:0; z-index:9999; display:none; place-items:center; background:color-mix(in srgb, var(--bg-color) 92%, transparent); cursor:zoom-out; }
+.surreal-ga__lb.abierto { display:grid; }
+.surreal-ga__lb img { max-width:min(92vw,1000px); max-height:88vh; border:2px solid var(--accent-color); }
+@media (max-width:640px){ .surreal-ga__mosaico { grid-template-columns:repeat(2,1fr) !important; columns:2 !important; } .surreal-ga__foto[style] { grid-column:auto !important; grid-row:auto !important; } }
+@media (prefers-reduced-motion:reduce){ .surreal-ga * { transition:none !important; } }
+</style>
+<header memory_type="text" memory_usage="custom" memory_key="galeria-intro">
+  <h2 class="surreal-ga__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Galería</h2>
+  <p class="surreal-ga__sub" memory_type="text" memory_usage="custom" memory_key="galeria-texto">Un vistazo a los momentos que viviremos juntos. Toca cualquier foto para verla en grande.</p>
+</header>
+<div class="surreal-ga__mosaico">
+    <figure class="surreal-ga__foto">
+      <img src="https://loremflickr.com/640/520/surreal,sky,couple" alt="Momento de la celebración 1" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Momento 1</figcaption>
+    </figure>
+    <figure class="surreal-ga__foto">
+      <img src="https://loremflickr.com/640/800/surreal,sky,party" alt="Momento de la celebración 2" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Momento 2</figcaption>
+    </figure>
+    <figure class="surreal-ga__foto">
+      <img src="https://loremflickr.com/640/520/surreal,sky,flowers" alt="Momento de la celebración 3" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Momento 3</figcaption>
+    </figure>
+    <figure class="surreal-ga__foto">
+      <img src="https://loremflickr.com/640/800/surreal,sky,dress" alt="Momento de la celebración 4" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Momento 4</figcaption>
+    </figure>
+    <figure class="surreal-ga__foto">
+      <img src="https://loremflickr.com/640/520/surreal,sky,cake" alt="Momento de la celebración 5" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Momento 5</figcaption>
+    </figure>
+    <figure class="surreal-ga__foto">
+      <img src="https://loremflickr.com/640/800/surreal,sky,dance" alt="Momento de la celebración 6" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Momento 6</figcaption>
+    </figure>
+</div>
+<div class="surreal-ga__lb" role="dialog" aria-label="Foto ampliada" hidden>
+  <img src="" alt="Foto ampliada" />
+</div>
+<script>
+  (function () {
+    var scope = null;
+    try { scope = document.currentScript.closest('[data-gemini-id^="galeria"]'); } catch (e) {}
+    if (!scope) scope = document.querySelector('[data-gemini-id^="galeria"]');
+    if (!scope) return;
+    var lb = scope.querySelector('.surreal-ga__lb');
+    if (!lb) return;
+    var lbImg = lb.querySelector('img');
+    scope.addEventListener('click', function (ev) {
+      var fig = ev.target.closest && ev.target.closest('figure');
+      var img = fig && fig.querySelector('img');
+      if (!img) { if (ev.target === lb) { lb.classList.remove('abierto'); lb.hidden = true; } return; }
+      lbImg.src = img.currentSrc || img.src;
+      lb.hidden = false;
+      lb.classList.add('abierto');
+    });
+  })();
+</script>
+<script>var moduleMetadata = { module_type: "galeria", module_name: "galeria-mosaico", style_name: "Surrealismo — Onírico — Galeria", descripcion: "Galeria surrealismo con mosaico de al menos seis fotos y lightbox al tocar.", tags: ["galeria","mosaico","lightbox","surreal","surrealismo"], tipo: "galeria" };</script>
+</section>
