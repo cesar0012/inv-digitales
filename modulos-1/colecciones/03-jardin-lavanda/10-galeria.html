@@ -1,0 +1,95 @@
+<section class="mq3-g" data-gemini-id="galeria-mosaico" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.mq3-g { --primary-color:#7d4f9e; --secondary-color:#9a6dc2; --accent-color:#c9bede; --bg-color:#faf8fc; --surface-color:#ffffff; --surface-border-color:rgba(148,109,194,.28); --text-color:#4a3d59;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.6rem,9vw,7rem) clamp(1rem,4vw,3rem); background:linear-gradient(180deg, color-mix(in srgb, var(--bg-color) 93%, transparent), color-mix(in srgb, var(--bg-color) 88%, transparent)), url('https://loremflickr.com/1600/1000/lilac,bloom') center/cover; background-color:var(--bg-color); color:var(--text-color); }
+.mq3-g *, .mq3-g *::before, .mq3-g *::after { box-sizing:border-box; }
+.mq3-g__cabecera { text-align:center; margin-bottom:clamp(2.6rem,6.5vw,3.6rem); }
+.mq3-g__rotulo { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.mq3-g__titulo { margin:0; font-family:'Segoe Script','Brush Script MT',cursive; font-weight:400; font-size:clamp(1.9rem,4.8vw,3rem); color:var(--primary-color); }
+.mq3-g__ayuda { margin:.8rem 0 0; font-family:Georgia,serif; font-style:italic; font-size:clamp(.8rem,1.5vw,.9rem); color:var(--secondary-color); }
+.mq3-g__mosaico { display:grid; grid-template-columns:1fr; gap:clamp(1.6rem,4vw,2.6rem); width:min(100%,880px); margin:0 auto; }
+@media (min-width:720px){ .mq3-g__mosaico { grid-template-columns:1fr 1fr; } .mq3-g__obra:nth-child(even) { transform:translateY(clamp(1.4rem,3vw,2.6rem)); } }
+.mq3-g__obra { position:relative; margin:0; cursor:zoom-in; border-radius:24px; overflow:hidden; border:1px solid var(--surface-border-color); box-shadow:0 24px 50px rgba(125,79,158,.18); background:var(--surface-color); }
+.mq3-g__obra::before { content:''; position:absolute; inset:0; z-index:2; border-radius:inherit; border:1px solid rgba(255,255,255,.5); pointer-events:none; }
+.mq3-g__obra img { display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover; transition:transform .9s cubic-bezier(.16,1,.3,1); }
+.mq3-g__obra:hover img { transform:scale(1.06); }
+.mq3-g__pie { position:absolute; left:12px; bottom:12px; z-index:3; padding:.4rem 1rem; border-radius:999px; font-family:'Courier New',monospace; font-size:clamp(.52rem,1vw,.62rem); letter-spacing:.34em; text-transform:uppercase; color:var(--primary-color); background:color-mix(in srgb, var(--surface-color) 82%, transparent); backdrop-filter:blur(8px); border:1px solid var(--surface-border-color); }
+.mq3-g__lb { position:fixed; inset:0; z-index:9999; display:none; place-items:center; background:color-mix(in srgb, var(--bg-color) 90%, transparent); backdrop-filter:blur(6px); cursor:zoom-out; }
+.mq3-g__lb.abierto { display:grid; }
+.mq3-g__lb img { max-width:min(92vw,940px); max-height:86vh; border-radius:22px; border:6px solid var(--surface-color); box-shadow:0 30px 80px rgba(74,61,89,.4); }
+.mq3-js .mq3-g__obra.mq3-rev { opacity:0; transform:translateY(34px) scale(.97); filter:blur(10px); }
+.mq3-g__obra.mq3-rev.visto { opacity:1; transform:none; filter:blur(0); transition:opacity 1.1s cubic-bezier(.16,1,.3,1), transform 1.1s cubic-bezier(.16,1,.3,1), filter 1.1s ease; }
+.mq3-js .mq3-g__obra.mq3-rev.visto { opacity:1; transform:none; filter:blur(0); }
+@media (min-width:720px){ .mq3-g__obra:nth-child(even).mq3-rev.visto { transform:translateY(clamp(1.4rem,3vw,2.6rem)); } }
+.mq3-g__obra:nth-child(3).mq3-rev { transition-delay:.1s; }
+.mq3-g__obra:nth-child(4).mq3-rev { transition-delay:.2s; }
+.mq3-g__obra:nth-child(5).mq3-rev { transition-delay:.1s; }
+.mq3-g__obra:nth-child(6).mq3-rev { transition-delay:.2s; }
+@media (max-width:640px){ .mq3-g__obra.mq3-rev.visto { transform:none !important; } }
+@media (prefers-reduced-motion:reduce){ .mq3-g * { transition:none !important; } .mq3-js .mq3-g__obra.mq3-rev { opacity:1 !important; transform:none !important; filter:none !important; } }
+</style>
+<header class="mq3-g__cabecera" memory_type="text" memory_usage="custom" memory_key="galeria-intro">
+  <p class="mq3-g__rotulo">Entre flores</p>
+  <h2 class="mq3-g__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Nuestros recuerdos</h2>
+  <p class="mq3-g__ayuda" memory_type="text" memory_usage="custom" memory_key="galeria-texto">Toca una foto para verla de cerca.</p>
+</header>
+<div class="mq3-g__mosaico">
+  <figure class="mq3-g__obra mq3-rev">
+    <img src="https://loremflickr.com/600/750/lavender,field" alt="Recuerdo 1" path="placeholder" data-library-category="eventos" data-asset-type="galeria" loading="lazy" />
+    <figcaption class="mq3-g__pie">La lavanda</figcaption>
+  </figure>
+  <figure class="mq3-g__obra mq3-rev">
+    <img src="https://loremflickr.com/600/750/roses,purple" alt="Recuerdo 2" path="placeholder" data-library-category="eventos" data-asset-type="galeria" loading="lazy" />
+    <figcaption class="mq3-g__pie">Las rosas</figcaption>
+  </figure>
+  <figure class="mq3-g__obra mq3-rev">
+    <img src="https://loremflickr.com/600/750/butterfly,flower" alt="Recuerdo 3" path="placeholder" data-library-category="eventos" data-asset-type="galeria" loading="lazy" />
+    <figcaption class="mq3-g__pie">Las mariposas</figcaption>
+  </figure>
+  <figure class="mq3-g__obra mq3-rev">
+    <img src="https://loremflickr.com/600/750/dress,elegant" alt="Recuerdo 4" path="placeholder" data-library-category="eventos" data-asset-type="galeria" loading="lazy" />
+    <figcaption class="mq3-g__pie">El vestido</figcaption>
+  </figure>
+  <figure class="mq3-g__obra mq3-rev">
+    <img src="https://loremflickr.com/600/750/cake,flowers" alt="Recuerdo 5" path="placeholder" data-library-category="eventos" data-asset-type="galeria" loading="lazy" />
+    <figcaption class="mq3-g__pie">El pastel</figcaption>
+  </figure>
+  <figure class="mq3-g__obra mq3-rev">
+    <img src="https://loremflickr.com/600/750/party,lights" alt="Recuerdo 6" path="placeholder" data-library-category="eventos" data-asset-type="galeria" loading="lazy" />
+    <figcaption class="mq3-g__pie">La noche</figcaption>
+  </figure>
+</div>
+<div class="mq3-g__lb" role="dialog" aria-label="Foto ampliada" hidden>
+  <img src="" alt="Foto ampliada" />
+</div>
+<script>
+  (function () {
+    var scope = null;
+    try { scope = document.currentScript.closest('[data-gemini-id^="galeria"]'); } catch (e) {}
+    if (!scope) scope = document.querySelector('[data-gemini-id^="galeria"]');
+    if (!scope) return;
+    scope.classList.add('mq3-js');
+    var obras = scope.querySelectorAll('.mq3-g__obra');
+    var ver = function (el) { el.classList.add('visto'); };
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.isIntersecting) { ver(en.target); io.unobserve(en.target); } });
+      }, { threshold: .15 });
+      obras.forEach(function (el) { io.observe(el); });
+    } else obras.forEach(ver);
+    setTimeout(function () { obras.forEach(ver); }, 2500);
+    var lb = scope.querySelector('.mq3-g__lb');
+    if (!lb) return;
+    var lbImg = lb.querySelector('img');
+    scope.addEventListener('click', function (ev) {
+      var obra = ev.target.closest && ev.target.closest('.mq3-g__obra');
+      var img = obra && obra.querySelector('img');
+      if (!img) { if (ev.target === lb) { lb.classList.remove('abierto'); lb.hidden = true; } return; }
+      lbImg.src = img.currentSrc || img.src;
+      lb.hidden = false;
+      lb.classList.add('abierto');
+    });
+  })();
+</script>
+<script>var moduleMetadata = { module_type: 'galeria', module_name: 'galeria-mq3-cristal', style_name: 'Jardín de Lavanda — Mosaico de Cristal', descripcion: 'Galería en mosaico escalonado de tarjetas de cristal con pies en píldora; revelan con desenfoque y zoom al tocar.', tags: ['galeria', 'mosaico', 'cristal', 'lightbox'], tipo: 'galeria' };</script>
+</section>
