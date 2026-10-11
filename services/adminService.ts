@@ -1234,3 +1234,160 @@ export const uploadRAGModulesBulk = async (files: File[], module_type?: string):
 
   return aggregated;
 };
+
+// ============================================================
+// RAG VISUAL (rack de imágenes) — proceso alterno de generación
+// ============================================================
+
+export interface VisualRackConfig {
+  enabled: boolean;
+  provider: 'gemini' | 'openai';
+  geminiModel: string;
+  openaiBaseUrl: string;
+  openaiModel: string;
+  hasOpenaiApiKey: boolean;
+  visionVerified: boolean;
+  visionMatchesConfig: boolean;
+  itemCount: number;
+  suitableCount: number;
+  generationCount: number;
+}
+
+export interface VisualRagItem {
+  id: number;
+  filename: string;
+  url: string;
+  mimeType: string;
+  descripcion: string;
+  styleName: string;
+  tags: string[];
+  palette: string[];
+  eventTypes: string[];
+  suitable: boolean;
+  analysisNotes: string;
+  analysisSource: string;
+  isActive: boolean;
+  createdAt: string;
+}
+
+export interface VisualGeneration {
+  dir: string;
+  createdAt: string;
+  userId: number | null;
+  eventType: string;
+  theme: string;
+  provider: string;
+  model: string;
+  moduleCount: number;
+  modules: Array<{ tipo: string; file: string; valid: boolean; attempts: number }>;
+}
+
+export const getVisualRackConfig = async (): Promise<VisualRackConfig> => {
+  const response = await fetch(`${API_BASE}/admin/visual-rack/config`, { headers: getAdminHeaders() });
+  if (!response.ok) throw new Error('Error al obtener config RAG Visual');
+  return response.json();
+};
+
+export const testVisualRackModel = async (payload: {
+  provider: 'gemini' | 'openai';
+  baseUrl?: string;
+  apiKey?: string;
+  model?: string;
+}): Promise<{ ok: boolean; answer?: string; expected?: string; error?: string }> => {
+  const response = await fetch(`${API_BASE}/admin/visual-rack/test-model`, {
+    method: 'POST',
+    headers: { ...getAdminHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  return response.json();
+};
+
+export const saveVisualRackConfig = async (payload: {
+  provider: 'gemini' | 'openai';
+  geminiModel?: string;
+  openaiBaseUrl?: string;
+  openaiApiKey?: string;
+  openaiModel?: string;
+  enabled: 0 | 1;
+}): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/visual-rack/config`, {
+    method: 'POST',
+    headers: { ...getAdminHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ error: `Error ${response.status}` }));
+    throw new Error(error.error || 'Error al guardar');
+  }
+};
+
+export const getVisualRackItems = async (): Promise<VisualRagItem[]> => {
+  const response = await fetch(`${API_BASE}/admin/visual-rack/items`, { headers: getAdminHeaders() });
+  if (!response.ok) throw new Error('Error al obtener la biblioteca visual');
+  const data = await response.json();
+  return data.items || [];
+};
+
+export const uploadVisualRackItem = async (file: File): Promise<{ item: VisualRagItem; analysisSource: string }> => {
+  const formData = new FormData();
+  formData.append('imageFile', file);
+  const token = localStorage.getItem('admin_token');
+  const response = await fetch(`${API_BASE}/admin/visual-rack/items`, {
+    method: 'POST',
+    headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+    body: formData
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ error: `Error ${response.status}` }));
+    throw new Error(error.error || 'Error al subir la imagen');
+  }
+  return response.json();
+};
+
+export const updateVisualRackItem = async (
+  id: number,
+  patch: Partial<Pick<VisualRagItem, 'descripcion' | 'styleName' | 'tags' | 'palette' | 'eventTypes' | 'suitable' | 'isActive' | 'analysisNotes'>>
+): Promise<VisualRagItem> => {
+  const response = await fetch(`${API_BASE}/admin/visual-rack/items/${id}`, {
+    method: 'PUT',
+    headers: { ...getAdminHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify(patch)
+  });
+  if (!response.ok) throw new Error('Error al actualizar');
+  const data = await response.json();
+  return data.item;
+};
+
+export const deleteVisualRackItem = async (id: number): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/visual-rack/items/${id}`, {
+    method: 'DELETE',
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) throw new Error('Error al eliminar');
+};
+
+export const getVisualGenerations = async (): Promise<VisualGeneration[]> => {
+  const response = await fetch(`${API_BASE}/admin/visual-rack/generations`, { headers: getAdminHeaders() });
+  if (!response.ok) throw new Error('Error al obtener generaciones');
+  const data = await response.json();
+  return data.generations || [];
+};
+
+export const downloadVisualGenerationsZip = async (): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/visual-rack/generations/download`, {
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ error: `Error ${response.status}` }));
+    throw new Error(error.error || 'Error al descargar');
+  }
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `rag-visual-generaciones-${new Date().toISOString().slice(0, 10)}.zip`;
+  document.body.appendChild(a);
+  a.click();
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+};

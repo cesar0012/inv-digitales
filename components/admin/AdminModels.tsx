@@ -7,6 +7,10 @@ import { getAdminConfig, saveAdminConfig } from '../../services/adminService';
 type Section = 'html' | 'images' | 'general';
 
 const GEMINI_MODELS = [
+  // Generación HTML — modelos actuales (los de imágenes NO se tocan aquí).
+  { id: 'gemini-3.8-flash', name: 'Gemini Flash 3.8', provider: 'Google' },
+  { id: 'gemini-3.8-pro', name: 'Gemini 3.8 Pro', provider: 'Google' },
+  { id: 'gemini-3.8-flash-lite', name: 'Gemini Flash 3.8 Lite', provider: 'Google' },
   { id: 'gemini-3.1-pro-preview', name: 'Gemini 3.1 Pro', provider: 'Google' },
   { id: 'gemini-3-flash-preview', name: 'Gemini 3 Flash', provider: 'Google' },
   { id: 'gemini-3.1-flash-lite-preview', name: 'Gemini 3.1 Flash Lite', provider: 'Google' },

@@ -500,7 +500,9 @@ export const EditorView: React.FC = () => {
       eventTime: config.eventTime,
       eventDetails: config.eventDetails,
       visualStyle: config.visualStyle,
-      mood: config.mood
+      mood: config.mood,
+      // RAG Visual: id de la imagen de referencia elegida (si el método está activo).
+      visualReferenceId: config.visualReferenceId ?? null
     } : undefined;
 
     const folder = getEventFolder(eventType);

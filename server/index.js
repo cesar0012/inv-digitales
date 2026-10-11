@@ -12,6 +12,9 @@ import db from './database.js';
 import { analyzeTemplate, validateTemplate, REQUIRED_TAGS } from './ragValidator.js';
 import { DEFAULT_PUBLIC_URL } from './ssr/catalogo-ssr.js';
 import { startBatch, getBatchStatus, requestStop } from './moduleGeneratorBatch.js';
+// RAG Visual (rack de imágenes): proceso ALTERNO al RAG Modular. Import estático:
+// el servicio solo lee admin_config/visual_rag_items y aísla su almacenamiento.
+import * as visualRack from './visualRackService.js';
 
 // URL pública canónica del generador: env PUBLIC_URL o el subdominio nativo.
 // SEO (canonical, og:url, sitemap, robots) siempre emite URLs absolutas de
@@ -61,6 +64,16 @@ const ragUpload = multer({
     }
   },
   limits: { fileSize: 2 * 1024 * 1024 }
+});
+
+// RAG Visual: imágenes de referencia para el rack visual (solo imágenes, 8 MB).
+const visualImageUpload = multer({
+  storage: multer.memoryStorage(),
+  fileFilter: (req, file, cb) => {
+    if (/^image\//.test(file.mimetype)) cb(null, true);
+    else cb(new Error('Solo se permiten imágenes'));
+  },
+  limits: { fileSize: 8 * 1024 * 1024 }
 });
 
 const generateInternalToken = (userId) => {
@@ -205,6 +218,8 @@ const storagePath = join(__dirname, 'storage', 'users');
 const historicoPath = join(__dirname, 'storage', 'historico');
 app.use('/storage', express.static(storagePath));
 app.use('/storage/historico', express.static(historicoPath));
+// RAG Visual: biblioteca de imágenes de referencia (público para el rack del cliente).
+app.use('/storage/visual-rag', express.static(join(__dirname, 'storage', 'visual-rag')));
 
 const ensureUserFolder = (userId) => {
   const userFolder = join(storagePath, userId);
@@ -2542,6 +2557,180 @@ use_rag_templates: true,
   });
 });
 
+// ============================================================
+// RAG VISUAL — rack de imágenes: config con test de visión,
+// biblioteca de referencias, archivo de generaciones y rack público.
+// Proceso INDEPENDIENTE del RAG Modular (no lo toca en nada).
+// ============================================================
+
+// GET /api/admin/visual-rack/config — configuración (API key enmascarada).
+app.get('/api/admin/visual-rack/config', adminMiddleware, (req, res) => {
+  try {
+    const {
+      getVisualConfig, listVisualItems, listGenerations, providerSignature, resolveProviderConfig
+    } = visualRack;
+    const cfg = getVisualConfig();
+    const provider = resolveProviderConfig();
+    const items = listVisualItems();
+    const generations = listGenerations();
+    res.json({
+      enabled: cfg.enabled,
+      provider: cfg.provider,
+      geminiModel: cfg.geminiModel,
+      openaiBaseUrl: cfg.openaiBaseUrl,
+      openaiModel: cfg.openaiModel,
+      hasOpenaiApiKey: !!cfg.openaiApiKey,
+      visionVerified: cfg.visionVerified,
+      visionMatchesConfig: cfg.visionVerified && cfg.visionSig === providerSignature(provider),
+      itemCount: items.length,
+      suitableCount: items.filter((i) => i.isActive && i.suitable).length,
+      generationCount: generations.length
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// POST /api/admin/visual-rack/test-model — test de visión con imagen diminuta
+// conocida (cuadrado rojo). Guardar exige que este test pase para la config actual.
+app.post('/api/admin/visual-rack/test-model', adminMiddleware, async (req, res) => {
+  try {
+    const { provider, baseUrl, apiKey, model } = req.body || {};
+    const result = await visualRack.runVisionTest({ provider, baseUrl, apiKey, model });
+    res.json(result);
+  } catch (e) {
+    res.json({ ok: false, error: e.message });
+  }
+});
+
+// POST /api/admin/visual-rack/config — guardar config. Exige test de visión
+// aprobado para la MISMA firma provider|baseUrl|model|key que se guarda.
+app.post('/api/admin/visual-rack/config', adminMiddleware, async (req, res) => {
+  try {
+    const {
+      provider, geminiModel, openaiBaseUrl, openaiApiKey, openaiModel, enabled
+    } = req.body || {};
+
+    const cfgNow = visualRack.getVisualConfig();
+    const nextProvider = provider === 'openai' ? 'openai' : 'gemini';
+    const nextBaseUrl = (openaiBaseUrl ?? (cfgNow.openaiBaseUrl || '')).trim();
+    // apiKey vacío = conservar la guardada.
+    const nextApiKey = (openaiApiKey && openaiApiKey.trim()) || cfgNow.openaiApiKey;
+    const nextOpenaiModel = (openaiModel ?? (cfgNow.openaiModel || '')).trim();
+    const nextGeminiModel = (geminiModel ?? (cfgNow.geminiModel || 'gemini-3.8-flash')).trim();
+
+    // Firma de lo que se va a guardar (para verificar el test aprobado).
+    const effective = nextProvider === 'openai'
+      ? { provider: 'openai', baseUrl: nextBaseUrl, apiKey: nextApiKey, model: nextOpenaiModel }
+      : { provider: 'gemini', baseUrl: '', apiKey: cfgNow.googleApiKey, model: nextGeminiModel };
+    const sig = visualRack.providerSignature(effective);
+
+    if (enabled === 1) {
+      const cfg = visualRack.getVisualConfig();
+      if (!(cfg.visionVerified && cfg.visionSig === sig)) {
+        return res.status(400).json({ error: 'Debes pasar el test de visión con esta configuración antes de activarla.' });
+      }
+      const items = visualRack.listVisualItems({ onlyActive: true, onlySuitable: true });
+      if (items.length === 0) {
+        return res.status(400).json({ error: 'Sube al menos una imagen APTA a la biblioteca RAG Visual antes de activar el método.' });
+      }
+    }
+
+    db.prepare(`
+      UPDATE admin_config SET
+        visual_rack_provider = ?,
+        visual_rack_gemini_model = ?,
+        visual_rack_openai_base_url = ?,
+        visual_rack_openai_model = ?,
+        visual_rack_openai_api_key = ?,
+        visual_rack_enabled = ?
+      WHERE id = 1
+    `).run(
+      nextProvider,
+      nextGeminiModel,
+      nextBaseUrl,
+      nextOpenaiModel,
+      nextApiKey || '',
+      enabled === 1 ? 1 : 0
+    );
+    res.json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// GET /api/admin/visual-rack/items — biblioteca de imágenes de referencia.
+app.get('/api/admin/visual-rack/items', adminMiddleware, (req, res) => {
+  res.json({ items: visualRack.listVisualItems() });
+});
+
+// POST /api/admin/visual-rack/items — subir imagen + análisis IA automático.
+app.post('/api/admin/visual-rack/items', adminMiddleware, visualImageUpload.single('imageFile'), async (req, res) => {
+  try {
+    if (!req.file) return res.status(400).json({ error: 'Imagen requerida (campo imageFile)' });
+    const provider = visualRack.resolveProviderConfig();
+    const item = await visualRack.createVisualItem({
+      buffer: req.file.buffer,
+      mimeType: req.file.mimetype,
+      providerCfg: provider
+    });
+    res.json({ item, analysisSource: item.analysisSource });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// PUT /api/admin/visual-rack/items/:id — editar metadatos / activar.
+app.put('/api/admin/visual-rack/items/:id', adminMiddleware, (req, res) => {
+  const item = visualRack.updateVisualItem(Number(req.params.id), req.body || {});
+  if (!item) return res.status(404).json({ error: 'No encontrado' });
+  res.json({ item });
+});
+
+// DELETE /api/admin/visual-rack/items/:id
+app.delete('/api/admin/visual-rack/items/:id', adminMiddleware, (req, res) => {
+  res.json({ ok: visualRack.deleteVisualItem(Number(req.params.id)) });
+});
+
+// GET /api/admin/visual-rack/generations — archivo de generaciones (manifests).
+app.get('/api/admin/visual-rack/generations', adminMiddleware, (req, res) => {
+  res.json({ generations: visualRack.listGenerations() });
+});
+
+// GET /api/admin/visual-rack/generations/download — ZIP con TODO lo generado
+// (módulos HTML sueltos, listos para importar al RAG Modular vía carga masiva).
+app.get('/api/admin/visual-rack/generations/download', adminMiddleware, (req, res) => {
+  try {
+    const entries = visualRack.buildGenerationZipEntries();
+    if (entries.length === 0) {
+      return res.status(404).json({ error: 'Aún no hay generaciones archivadas' });
+    }
+    const zipBuffer = buildZip(entries);
+    res.set({
+      'Content-Type': 'application/zip',
+      'Content-Disposition': `attachment; filename="rag-visual-generaciones-${Date.now()}.zip"`
+    });
+    res.send(zipBuffer);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// GET /api/visual-rack/public — rack público para el cliente (sin datos sensibles).
+app.get('/api/visual-rack/public', (req, res) => {
+  try {
+    const cfg = visualRack.getVisualConfig();
+    const ready = cfg.enabled && cfg.visionVerified;
+    const items = ready
+      ? visualRack.listVisualItems({ onlyActive: true, onlySuitable: true })
+          .map((i) => ({ id: i.id, url: i.url, styleName: i.styleName, descripcion: i.descripcion, palette: i.palette }))
+      : [];
+    res.json({ active: ready, items });
+  } catch (e) {
+    res.json({ active: false, items: [] });
+  }
+});
+
 // GET /api/config/public - Obtener configuración pública (sin API keys)
 app.get('/api/config/public', (req, res) => {
   const stmt = db.prepare('SELECT login_page_url FROM admin_config WHERE id = 1');
@@ -3876,6 +4065,38 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
     console.log('\ud83e\ud916 Agent Orchestrator:', useAgentOrchestrator ? 'ACTIVADO' : 'DESACTIVADO');
     console.log('\ud83d\udcc4 RAG Templates:', useRagTemplates ? 'ACTIVADO' : 'DESACTIVADO');
 
+    // ===== RAG VISUAL (rack de imágenes) — método ALTERNO del administrador =====
+    // Solo actúa si el admin lo activó Y el modelo pasó el test de visión.
+    // Si la imagen de referencia no se resuelve o la generación falla, se cae
+    // al flujo modular/orchestrator existente SIN interrumpir al usuario.
+    if (config.visual_rack_enabled === 1 && config.visual_rack_vision_verified === 1) {
+      try {
+        const reference = await visualRack.resolveVisualReference({
+          referenceId: editorConfig?.visualReferenceId || null,
+          attachments: Array.isArray(attachments) ? attachments : []
+        });
+        if (reference) {
+          console.log('\ud83d\udcf7 [VISUAL] RAG Visual ACTIVO: generando desde imagen de referencia...');
+          const visualResult = await visualRack.generateVisualInvitation({
+            config,
+            editorConfig: editorConfig || {},
+            prompt,
+            reference,
+            userId,
+            hasRsvp
+          });
+          if (visualResult?.html) {
+            htmlResult = visualResult.html;
+          }
+        } else {
+          console.log('\u26a0\ufe0f [VISUAL] Sin imagen de referencia disponible; usando flujo modular.');
+        }
+      } catch (visualError) {
+        console.error('\u26a0\ufe0f [VISUAL] RAG Visual fall\u00f3, cayendo al flujo modular:', visualError.message);
+        htmlResult = '';
+      }
+    }
+
     // DEBUG: Ver qué API key se usa realmente
     console.log('===== DEBUG API KEY =====');
     console.log('Config from DB:', config.html_google_api_key ? `Preset: ${config.html_google_api_key.substring(0, 10)}...` : 'NO HAY');
@@ -3909,12 +4130,13 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
 
       const attachmentsForGemini = Array.isArray(attachments) ? attachments : [];
 
-      // Flujo de generación con prioridad: Modular RAG > Agent Orchestrator > generateWithGemini directo
+      // Flujo de generación con prioridad: RAG Visual (si produjo HTML) > Modular RAG > Agent Orchestrator > generateWithGemini directo
+      // - RAG Visual: ya se ejecutó arriba si el admin lo activó; si falló, htmlResult viene vacío.
       // - Modular RAG: orquestación modular (select/adapt/assemble de módulos) - runModularOrchestration
       //   tiene fallback interno a runOrchestration si no encuentra módulos en la KB.
       // - Agent Orchestrator: orquestación tradicional.
       // - generateWithGemini: generación directa sin orquestación.
-      if (useModularRAG) {
+      if (!htmlResult && useModularRAG) {
         try {
           console.log('\ud83e\udde9 [MODULAR] Iniciando runModularOrchestration...');
           const { runModularOrchestration } = await import('./agentOrchestrator.js');
@@ -3992,7 +4214,8 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
           attachmentsForGemini
         );
       }
-    } else {
+    } else if (!htmlResult) {
+      // Sin key de Google y sin HTML del RAG Visual: no hay forma de generar.
       db.prepare('UPDATE user_plans SET generation_used = generation_used - 1 WHERE user_id = ? AND purchase_id = ?').run(userId, purchaseId);
       res.status(500).json({ error: 'No hay API key de Google configurada. Configúrala en el panel de admin.' });
       return;

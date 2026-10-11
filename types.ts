@@ -95,6 +95,8 @@ export interface EditorConfig {
   mood?: string;
   fontBase?: string;
   fontHeading?: string;
+  /** RAG Visual: id de la imagen de referencia elegida en el rack visual. */
+  visualReferenceId?: number | null;
 }
 
 export interface InvitationFile {

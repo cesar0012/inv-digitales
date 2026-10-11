@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Home, Settings, Users, History, Star, CreditCard, BookOpen, Layers, Wand2 } from 'lucide-react';
+import { Home, Settings, Users, History, Star, CreditCard, BookOpen, Layers, Wand2, Image } from 'lucide-react';
 import { AdminModels } from './admin/AdminModels';
 import { AdminUsers } from './admin/AdminUsers';
 import { AdminHistory } from './admin/AdminHistory';
@@ -8,8 +8,9 @@ import { AdminPlans } from './admin/AdminPlans';
 import { AdminRAGTemplates } from './admin/AdminRAGTemplates';
 import { AdminRAGModules } from './admin/AdminRAGModules';
 import { AdminModuleGenerator } from './admin/AdminModuleGenerator';
+import { AdminVisualRack } from './admin/AdminVisualRack';
 
-type AdminTab = 'models' | 'users' | 'plans' | 'rag' | 'rag-modules' | 'module-generator' | 'history';
+type AdminTab = 'models' | 'users' | 'plans' | 'rag' | 'rag-modules' | 'module-generator' | 'rag-visual' | 'history';
 
 export const AdminView: React.FC = () => {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ export const AdminView: React.FC = () => {
     { id: 'plans' as const, label: 'Planes', icon: CreditCard },
     { id: 'rag' as const, label: 'RAG (Legacy)', icon: BookOpen },
     { id: 'rag-modules' as const, label: 'RAG Modular', icon: Layers },
+    { id: 'rag-visual' as const, label: 'RAG Visual', icon: Image },
     { id: 'module-generator' as const, label: 'Generador de Módulos', icon: Wand2 },
     { id: 'history' as const, label: 'Historial', icon: History },
   ];
@@ -80,6 +82,7 @@ export const AdminView: React.FC = () => {
           {activeTab === 'plans' && <AdminPlans />}
           {activeTab === 'rag' && <AdminRAGTemplates />}
           {activeTab === 'rag-modules' && <AdminRAGModules />}
+          {activeTab === 'rag-visual' && <AdminVisualRack />}
           {activeTab === 'module-generator' && <AdminModuleGenerator />}
           {activeTab === 'history' && <AdminHistory />}
         </div>

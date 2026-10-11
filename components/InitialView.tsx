@@ -1,9 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Image as ImageIcon, Settings, Heart, X, ImagePlus, Palette, Type, ChevronDown, Save, Home, AlertCircle, FileText, Calendar, Clock } from 'lucide-react';
+import { Send, Image as ImageIcon, Settings, Heart, X, ImagePlus, Palette, Type, ChevronDown, Save, Home, AlertCircle, FileText, Calendar, Clock, Sparkles, Check } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Attachment, EditorConfig } from '../types';
 import { compressImage, SUPPORTED_IMAGE_TYPES, SUPPORTED_FORMATS_LABEL, readFileAsDataURL } from '../services/imageCompressionService';
 import { EVENT_TYPES, EVENT_DEFAULT_COLORS, VISUAL_STYLES, MOODS, EVENT_STYLE_SUGGESTIONS } from '../constants';
+
+interface VisualRackItemPublic {
+  id: number;
+  url: string;
+  styleName: string;
+  descripcion: string;
+  palette: string[];
+}
 
 interface InitialViewProps {
   onGenerate: (prompt: string, attachments: Attachment[], config: EditorConfig) => void;
@@ -51,6 +59,25 @@ export const InitialView: React.FC<InitialViewProps> = ({
   const eventTypeRef = useRef<HTMLDivElement>(null);
   const visualStyleRef = useRef<HTMLDivElement>(null);
   const moodRef = useRef<HTMLDivElement>(null);
+
+  // RAG Visual: rack de diseños por imagen (solo si el admin activó el método).
+  const [visualRackItems, setVisualRackItems] = useState<VisualRackItemPublic[]>([]);
+  const [visualReferenceId, setVisualReferenceId] = useState<number | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const apiBase = window.location.origin.replace(':3000', ':3001');
+        const resp = await fetch(`${apiBase}/api/visual-rack/public`);
+        if (!resp.ok) return;
+        const data = await resp.json();
+        if (!cancelled && data?.active && Array.isArray(data.items)) {
+          setVisualRackItems(data.items);
+        }
+      } catch { /* método visual desactivado o servidor no disponible */ }
+    })();
+    return () => { cancelled = true; };
+  }, []);
 
   useEffect(() => {
     if (initialEventType) setEventType(initialEventType);
@@ -126,7 +153,8 @@ export const InitialView: React.FC<InitialViewProps> = ({
       eventDate: eventDate || undefined,
       eventTime: eventTime || undefined,
       visualStyle: visualStyle || undefined,
-      mood: mood || undefined
+      mood: mood || undefined,
+      visualReferenceId: visualReferenceId ?? null
     };
 
     onGenerate(prompt, attachments, config);
@@ -558,6 +586,42 @@ export const InitialView: React.FC<InitialViewProps> = ({
               </div>
             )}
           </div>
+
+          {visualRackItems.length > 0 && (
+            <div className="rounded-2xl border border-fuchsia-200/70 bg-gradient-to-br from-fuchsia-50/80 to-pink-50/50 p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <Sparkles className="w-4 h-4 text-fuchsia-500" />
+                <p className="text-sm font-semibold text-gray-700">Elige el diseño de tus sueños</p>
+                <span className="text-[11px] text-gray-400">— tu invitación se creará inspirada en esa imagen</span>
+              </div>
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
+                {visualRackItems.map((item) => {
+                  const selected = visualReferenceId === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => setVisualReferenceId(selected ? null : item.id)}
+                      title={item.descripcion || item.styleName}
+                      className={`relative rounded-xl overflow-hidden border-2 transition-all group text-left ${
+                        selected ? 'border-fuchsia-500 ring-2 ring-fuchsia-300 scale-[1.02]' : 'border-transparent hover:border-fuchsia-300'
+                      }`}
+                    >
+                      <img src={item.url} alt={item.styleName} className="w-full aspect-[3/4] object-cover" loading="lazy" />
+                      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent px-2 py-1.5">
+                        <p className="text-[11px] font-medium text-white truncate">{item.styleName || 'Diseño'}</p>
+                      </div>
+                      {selected && (
+                        <span className="absolute top-2 right-2 bg-fuchsia-500 rounded-full p-1 shadow-md">
+                          <Check className="w-3.5 h-3.5 text-white" />
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           <div className="flex flex-col sm:flex-row items-center justify-end gap-4 pt-2">
             <button 

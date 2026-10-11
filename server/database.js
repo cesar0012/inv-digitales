@@ -600,6 +600,48 @@ try {
   console.log('✅ Columna use_modular_rag agregada a admin_config');
 } catch (e) {}
 
+// ===== RAG VISUAL (rack de imágenes) — método de generación alternativo =====
+// No toca el flujo modular: son columnas propias leídas solo por visualRackService.
+const VISUAL_RACK_COLUMNS = [
+  ['visual_rack_enabled', 'INTEGER DEFAULT 0'],
+  ['visual_rack_provider', "TEXT DEFAULT 'gemini'"],
+  ['visual_rack_gemini_model', "TEXT DEFAULT 'gemini-3.8-flash'"],
+  ['visual_rack_openai_base_url', "TEXT DEFAULT ''"],
+  ['visual_rack_openai_api_key', "TEXT DEFAULT ''"],
+  ['visual_rack_openai_model', "TEXT DEFAULT ''"],
+  // Firma (sha1 de provider|baseUrl|model|key) del último modelo que PASÓ el
+  // test de visión. Guardar la config exige que la firma actual coincida.
+  ['visual_rack_vision_sig', "TEXT DEFAULT ''"],
+  ['visual_rack_vision_verified', 'INTEGER DEFAULT 0']
+];
+for (const [col, def] of VISUAL_RACK_COLUMNS) {
+  try {
+    db.exec(`ALTER TABLE admin_config ADD COLUMN ${col} ${def}`);
+    console.log(`✅ Columna ${col} agregada a admin_config`);
+  } catch (e) {}
+}
+
+// Biblioteca de imágenes de referencia del RAG Visual. Los bytes viven en
+// server/storage/visual-rag/<filename>; aquí solo metadatos (análisis IA).
+db.exec(`
+  CREATE TABLE IF NOT EXISTS visual_rag_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    filename TEXT NOT NULL UNIQUE,
+    mime_type TEXT NOT NULL,
+    descripcion TEXT DEFAULT '',
+    style_name TEXT DEFAULT '',
+    tags TEXT DEFAULT '[]',
+    palette TEXT DEFAULT '[]',
+    event_types TEXT DEFAULT '[]',
+    suitable INTEGER DEFAULT 1,
+    analysis_notes TEXT DEFAULT '',
+    analysis_source TEXT DEFAULT 'ia',
+    is_active INTEGER DEFAULT 1,
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT
+  )
+`);
+
 ensureUserExists('test_user_001');
 ensureAllUsersHaveData();
 
