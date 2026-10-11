@@ -52,7 +52,9 @@ async function shootModule(browser, url, { width, dpr }, outPath) {
     // Espera generosa: revelados IO con red de seguridad a 2.5s + transiciones (~1.5s).
     await new Promise((r) => setTimeout(r, 4800));
   });
-  await page.screenshot({ path: outPath, fullPage: true, captureBeyondViewport: true });
+  // Recorte a la altura real del contenido: evita bandas del body en fullPage.
+  const alto = await page.evaluate(() => Math.ceil(document.body.scrollHeight));
+  await page.screenshot({ path: outPath, clip: { x: 0, y: 0, width, height: Math.min(alto, 20000) }, captureBeyondViewport: true });
   await page.close();
 }
 
