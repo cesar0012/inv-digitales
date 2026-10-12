@@ -1,0 +1,65 @@
+<section class="sf4" data-gemini-id="itinerario-agenda" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.sf4 { --primary-color:#2f5d8a; --secondary-color:#7fb3d5; --accent-color:#d9b44a; --bg-color:#eef4f9; --surface-color:#ffffff; --surface-border-color:rgba(47,93,138,.22); --text-color:#253549;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.6rem,9vw,6.8rem) clamp(1rem,4vw,3rem); background:radial-gradient(ellipse 46% 36% at 12% 16%, rgba(127,179,213,.4), transparent 70%), url('https://loremflickr.com/1600/1000/blue,gold,wave') center/cover; background-color:var(--bg-color); color:var(--text-color); }
+.sf4 *, .sf4 *::before, .sf4 *::after { box-sizing:border-box; }
+.sf4::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 74%, transparent); }
+.sf4 > * { position:relative; z-index:1; }
+.sf-orn-wrap { display:flex; justify-content:center; margin:0 auto clamp(1.6rem,4vw,2.4rem); color:var(--primary-color); }
+.sf-orn-wrap svg { width:min(240px,60%); height:auto; }
+.sf4__cabecera { text-align:center; margin-bottom:clamp(2.4rem,6vw,3.4rem); }
+.sf4__rotulo { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.sf4__titulo { margin:0; font-family:Georgia,serif; font-weight:400; font-size:clamp(2rem,5vw,3.2rem); color:var(--primary-color); }
+.sf4__hora { font-family:'Courier New',monospace; font-size:clamp(.64rem,1.28vw,.78rem); letter-spacing:.32em; text-transform:uppercase; color:var(--secondary-color); }
+.sf4__nombre { margin:.35rem 0 .25rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.1rem,2.3vw,1.4rem); color:var(--primary-color); }
+.sf4__detalle { margin:0; font-family:Georgia,serif; font-size:clamp(.76rem,1.4vw,.86rem); line-height:1.6; color:var(--text-color); }
+.sf4__lista { list-style:none; margin:0 auto; padding:0; width:min(100%,1000px); display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(1.4rem,3.4vw,2.4rem); }
+.sf4__lista::before { content:''; position:absolute; left:4%; right:4%; top:32px; border-top:2px dashed color-mix(in srgb, var(--accent-color) 65%, transparent); }
+.sf4__col { position:relative; width:clamp(180px,21vw,220px); text-align:center; }
+.sf4__bola { position:relative; width:56px; height:56px; margin:0 auto .8rem; border-radius:50%; border:1px solid var(--primary-color); background:var(--surface-color); display:grid; place-items:center; }
+.sf4__bola b { font-family:Georgia,serif; font-weight:400; color:var(--primary-color); }
+.sf4__col:nth-child(even) { transform:translateY(18px); }
+@media (max-width:640px){ .sf4__lista::before { display:none; } .sf4__col, .sf4__boleto, .sf4__escal { transform:none !important; } }
+@media (prefers-reduced-motion:reduce){ .sf4 * { transition:none !important; } }
+</style>
+<header class="sf4__cabecera" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">
+  <p class="sf4__rotulo" memory_type="text" memory_usage="custom" memory_key="itinerario-rotulo">Agenda</p>
+  <h2 class="sf4__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Itinerario</h2>
+  <span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M0 12 q 25 -10 50 0 t 50 0 t 50 0 t 50 0 t 50 0 t 50 0"/></svg></span>
+</header>
+<ol class="sf4__lista">
+  <li class="sf4__col">
+    <span class="sf4__bola" aria-hidden="true"><b>1</b></span>
+    <time class="sf4__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">5:00 pm</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
+      <h3 class="sf4__nombre" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-1">Recepción</h3>
+      <p class="sf4__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-1">Bienvenida y copas</p>
+    </div>
+  </li>
+  <li class="sf4__col">
+    <span class="sf4__bola" aria-hidden="true"><b>2</b></span>
+    <time class="sf4__hora" datetime="18:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">6:30 pm</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
+      <h3 class="sf4__nombre" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-2">Ceremonia</h3>
+      <p class="sf4__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-2">El gran momento</p>
+    </div>
+  </li>
+  <li class="sf4__col">
+    <span class="sf4__bola" aria-hidden="true"><b>3</b></span>
+    <time class="sf4__hora" datetime="20:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">8:30 pm</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
+      <h3 class="sf4__nombre" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-3">Banquete</h3>
+      <p class="sf4__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-3">Cena y brindis</p>
+    </div>
+  </li>
+  <li class="sf4__col">
+    <span class="sf4__bola" aria-hidden="true"><b>4</b></span>
+    <time class="sf4__hora" datetime="22:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">10:00 pm</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
+      <h3 class="sf4__nombre" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-4">Baile</h3>
+      <p class="sf4__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-4">La pista se enciende</p>
+    </div>
+  </li>
+</ol>
+<script>var moduleMetadata = { module_type: "itinerario", module_name: "itinerario-sf17", style_name: "Griega Azul y Oro", descripcion: "Itinerario griega variante 2 con ornamento olas y jerarquía tipográfica del estilo.", tags: ["itinerario","olas","griega","variante2"], tipo: "itinerario" };</script>
+</section>
