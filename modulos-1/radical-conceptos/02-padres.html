@@ -1,0 +1,77 @@
+<section class="rc2" data-gemini-id="padres-padre" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.rc2 { --primary-color:#c9a45c; --secondary-color:#8ea6c8; --accent-color:#e6d3a3; --bg-color:#101a2e; --surface-color:#16233d; --surface-border-color:rgba(201,164,92,.4); --text-color:#eef2f8;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.6rem,9vw,7rem) clamp(1rem,5vw,4rem); background:
+  radial-gradient(ellipse 90% 70% at 50% -10%, color-mix(in srgb, var(--secondary-color) 24%, transparent), transparent 70%),
+  url('https://loremflickr.com/1600/1000/navy,texture') center/cover; background-color:var(--bg-color); color:var(--text-color); text-align:center; }
+.rc2 *, .rc2 *::before, .rc2 *::after { box-sizing:border-box; }
+.rc2::before { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 80%, transparent); pointer-events:none; }
+.rc2__rotulo { margin:0 0 .5rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.rc2__titulo { margin:0 auto clamp(2.4rem,6vw,3.2rem); font-family:Georgia,serif; font-weight:400; font-size:clamp(1.9rem,4.6vw,3rem); letter-spacing:.1em; text-transform:uppercase; color:var(--primary-color); }
+/* Puertas laser-cut: perforadas y se abren al cargar */
+.rc2__escena { position:relative; width:min(100%,900px); margin:0 auto; }
+.rc2__hoja { position:absolute; top:0; bottom:0; width:50.5%; z-index:3; background:
+  radial-gradient(circle at 8px 8px, transparent 2.6px, var(--surface-color) 3px) 0 0/16px 16px,
+  linear-gradient(180deg, var(--surface-color), color-mix(in srgb, var(--bg-color) 82%, var(--surface-color)));
+  border:1px solid var(--surface-border-color); box-shadow:0 20px 50px rgba(0,0,0,.5); transition:transform 1.6s cubic-bezier(.72,0,.2,1) .5s; }
+.rc2__hoja::after { content:''; position:absolute; inset:12px; border:1px dashed color-mix(in srgb, var(--primary-color) 45%, transparent); }
+.rc2__hoja--i { left:0; border-right:2px solid var(--primary-color); }
+.rc2__hoja--d { right:0; border-left:2px solid var(--primary-color); }
+.rc2-js.abierto .rc2__hoja--i { transform:translateX(-104%); }
+.rc2-js.abierto .rc2__hoja--d { transform:translateX(104%); }
+/* Retratos hexagonales */
+.rc2__dupla { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(2.4rem,7vw,5.5rem); padding:clamp(1rem,3vw,2rem) 0; }
+.rc2__casa { perspective:800px; }
+.rc2__hexa { width:clamp(180px,24vw,236px); aspect-ratio:1/1.08; clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%); background:linear-gradient(160deg, var(--surface-color), var(--bg-color)); border:1px solid var(--surface-border-color); padding:10px; transition:transform .6s cubic-bezier(.16,1,.3,1), filter .6s ease; transform-style:preserve-3d; }
+.rc2__casa:hover .rc2__hexa { transform:rotateX(9deg) rotateY(-9deg) translateY(-6px); filter:drop-shadow(0 22px 34px rgba(201,164,92,.28)); }
+.rc2__hexa img { display:block; width:100%; height:86%; object-fit:cover; clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%); }
+.mq2-pd__rol, .rc2__rol { display:block; margin:.9rem 0 .2rem; font-family:'Courier New',monospace; font-size:clamp(.54rem,1.02vw,.64rem); letter-spacing:.44em; text-transform:uppercase; color:var(--secondary-color); }
+.rc2__nombres { margin:0; font-family:Georgia,serif; font-size:clamp(1rem,2.1vw,1.24rem); letter-spacing:.05em; color:var(--accent-color); }
+.rc2__nota { margin:clamp(2rem,5vw,2.8rem) auto 0; max-width:46ch; font-family:Georgia,serif; font-style:italic; font-size:clamp(.86rem,1.6vw,1rem); line-height:1.8; color:var(--text-color); }
+@media (prefers-reduced-motion:reduce){ .rc2 * { transition:none !important; animation:none !important; } .rc2-js .rc2__hoja--i, .rc2-js .rc2__hoja--d { transform:translateX(-104%) !important; } .rc2-js .rc2__hoja--d { transform:translateX(104%) !important; } }
+</style>
+<header memory_type="text" memory_usage="custom" memory_key="padres-intro">
+  <p class="rc2__rotulo">Familias</p>
+  <h2 class="rc2__titulo" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Nuestros padres</h2>
+</header>
+<div class="rc2__escena">
+  <div class="rc2__dupla">
+    <article class="rc2__casa">
+      <figure class="rc2__hexa" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/520/560/family,portrait" alt="Retrato de los padres de la novia" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" />
+        <figcaption hidden>Familia uno</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-1">
+        <span class="rc2__rol">Papás de la novia</span>
+        <h3 class="rc2__nombres" memory_type="text" memory_usage="custom" memory_key="padres-nombre-1">Nombre Papa &amp; Nombre Mama</h3>
+      </div>
+    </article>
+    <article class="rc2__casa">
+      <figure class="rc2__hexa" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/520/560/family,smile" alt="Retrato de los padres del novio" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" />
+        <figcaption hidden>Familia dos</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-2">
+        <span class="rc2__rol">Papás del novio</span>
+        <h3 class="rc2__nombres" memory_type="text" memory_usage="custom" memory_key="padres-nombre-2">Nombre Papa &amp; Nombre Mama</h3>
+      </div>
+    </article>
+  </div>
+  <span class="rc2__hoja rc2__hoja--i" aria-hidden="true"></span>
+  <span class="rc2__hoja rc2__hoja--d" aria-hidden="true"></span>
+</div>
+<p class="rc2__nota" memory_type="text" memory_usage="custom" memory_key="padres-texto">Tras estas puertas caladas guardamos lo más valioso: la familia que nos vio crecer.</p>
+<script>
+  (function () {
+    var root = null;
+    try { root = document.currentScript.closest('[data-gemini-id^="padres"]'); } catch (e) {}
+    if (!root) return;
+    root.classList.add('rc2-js');
+    var abrir = function () { root.classList.add('abierto'); };
+    if (document.readyState === 'complete') setTimeout(abrir, 500);
+    else window.addEventListener('load', function () { setTimeout(abrir, 500); });
+    setTimeout(abrir, 2500);
+  })();
+</script>
+<script>var moduleMetadata = { module_type: 'padres', module_name: 'padres-rc2-lasercut', style_name: 'Laser Navy — Puertas Caladas', descripcion: 'Familias tras puertas perforadas estilo laser-cut que se abren; retratos hexagonales con tilt 3D al pasar.', tags: ['padres', 'laser', 'navy', 'hexagono'], tipo: 'padres' };</script>
+</section>

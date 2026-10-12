@@ -1,0 +1,51 @@
+<section class="rc1" data-gemini-id="portada-nombre" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.rc1 { --primary-color:#e8c15a; --secondary-color:#b98fd4; --accent-color:#f6e7b2; --bg-color:#241436; --surface-color:#2f1a47; --surface-border-color:rgba(232,193,90,.4); --text-color:#f7f1e6;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:100svh; display:grid; place-items:center; background:
+  radial-gradient(ellipse 80% 60% at 50% 110%, color-mix(in srgb, var(--secondary-color) 30%, transparent), transparent 70%),
+  url('https://loremflickr.com/1600/1000/purple,night,sky') center/cover; background-color:var(--bg-color); color:var(--text-color); text-align:center; }
+.rc1 *, .rc1 *::before, .rc1 *::after { box-sizing:border-box; }
+.rc1::before { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 70%, transparent); pointer-events:none; }
+.rc1__rayos { position:absolute; inset:-50%; z-index:0; background:conic-gradient(from 0deg, transparent 0 8deg, color-mix(in srgb, var(--primary-color) 9%, transparent) 8deg 9deg, transparent 9deg 16deg); animation:rc1-giro 40s linear infinite; }
+@keyframes rc1-giro { to { transform:rotate(360deg); } }
+.rc1__arco { position:absolute; z-index:1; width:min(76vw,560px); top:8%; left:50%; transform:translateX(-50%); }
+.rc1__arco path { fill:none; stroke:url(#rc1-oro); stroke-width:3; stroke-dasharray:1600; stroke-dashoffset:1600; animation:rc1-traza 2.6s cubic-bezier(.16,1,.3,1) .4s forwards; filter:drop-shadow(0 0 14px rgba(232,193,90,.5)); }
+@keyframes rc1-traza { to { stroke-dashoffset:0; } }
+.rc1__tiara { position:absolute; z-index:2; top:clamp(10%,12vw,14%); left:50%; transform:translateX(-50%); width:clamp(90px,15vw,150px); color:var(--primary-color); animation:rc1-cae 1.2s cubic-bezier(.2,1.4,.3,1) 1.4s both; filter:drop-shadow(0 6px 18px rgba(232,193,90,.45)); }
+@keyframes rc1-cae { from { transform:translate(-50%,-90px) rotate(-14deg); opacity:0; } to { transform:translate(-50%,0) rotate(0); opacity:1; } }
+.rc1__retrato { position:relative; z-index:2; width:clamp(200px,36vw,320px); aspect-ratio:4/5.2; margin:clamp(120px,24vw,220px) auto 0; border-radius:999px 999px 18px 18px; overflow:hidden; border:3px solid; border-image:linear-gradient(160deg,#f6e7b2,#c99a3f) 1; box-shadow:0 0 0 1px var(--surface-border-color), 0 0 70px rgba(232,193,90,.3); }
+.rc1__retrato img { display:block; width:100%; height:100%; object-fit:cover; }
+.rc1__panel { position:relative; z-index:3; margin-top:clamp(1.2rem,3vw,1.8rem); padding:0 clamp(1rem,5vw,3rem); }
+.rc1__rotulo { margin:0 0 .8rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.3vw,.76rem); letter-spacing:.64em; text-transform:uppercase; color:var(--secondary-color); }
+.rc1__nombre { margin:0; font-family:Georgia,'Times New Roman',serif; font-weight:400; font-size:clamp(3rem,9.4vw,6.8rem); line-height:1; letter-spacing:.06em; background:linear-gradient(100deg, #f6e7b2, #e8c15a 40%, #fff6d8 55%, #c99a3f 75%, #f6e7b2); background-size:280% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:rc1-oro 6s linear infinite; text-shadow:0 0 60px rgba(232,193,90,.25); }
+@keyframes rc1-oro { to { background-position:280% 0; } }
+.rc1__lema { margin:.9rem auto 0; max-width:44ch; font-family:Georgia,serif; font-style:italic; font-size:clamp(.9rem,1.9vw,1.12rem); color:var(--text-color); }
+.rc1__fecha { display:inline-block; margin-top:clamp(1.3rem,3.2vw,2rem); padding:.8rem 2.2rem; border:1px solid var(--surface-border-color); transform:skewX(-8deg); }
+.rc1__fecha > * { display:inline-block; transform:skewX(8deg); font-family:'Courier New',monospace; font-size:clamp(.64rem,1.35vw,.8rem); letter-spacing:.42em; text-transform:uppercase; }
+.rc1__brillos { position:absolute; inset:0; z-index:2; pointer-events:none; }
+.rc1__brillos i { position:absolute; width:6px; height:6px; background:var(--accent-color); clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%); animation:rc1-twinkle 2.8s ease-in-out infinite; }
+.rc1__brillos i:nth-child(1){ top:18%; left:14%; } .rc1__brillos i:nth-child(2){ top:64%; left:8%; animation-delay:.7s; }
+.rc1__brillos i:nth-child(3){ top:24%; right:12%; animation-delay:1.1s; } .rc1__brillos i:nth-child(4){ bottom:20%; right:20%; animation-delay:1.8s; }
+.rc1__brillos i:nth-child(5){ bottom:12%; left:28%; animation-delay:2.3s; }
+@keyframes rc1-twinkle { 0%,100% { opacity:.15; transform:scale(.6) rotate(0); } 50% { opacity:1; transform:scale(1.3) rotate(45deg); } }
+@media (prefers-reduced-motion:reduce){ .rc1 * { animation:none !important; } .rc1__arco path { stroke-dashoffset:0; } }
+</style>
+<svg width="0" height="0" style="position:absolute"><defs><linearGradient id="rc1-oro" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6e7b2"/><stop offset=".5" stop-color="#e8c15a"/><stop offset="1" stop-color="#c99a3f"/></linearGradient></defs></svg>
+<div class="rc1__rayos" aria-hidden="true"></div>
+<svg class="rc1__arco" viewBox="0 0 400 520" aria-hidden="true"><path d="M40 510 L40 220 C 40 90, 140 20, 200 20 C 260 20, 360 90, 360 220 L360 510"/><path d="M70 510 L70 230 C 70 116, 156 52, 200 52 C 244 52, 330 116, 330 230 L330 510" opacity=".55"/></svg>
+<svg class="rc1__tiara" viewBox="0 0 150 48" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 40 C 36 26, 60 21, 75 21 C 90 21, 114 26, 138 40"/><path d="M75 21 L75 4 M75 8 L64 18 M75 8 L86 18"/><circle cx="75" cy="40" r="3" fill="currentColor" stroke="none"/><circle cx="40" cy="30" r="2.4" fill="currentColor" stroke="none"/><circle cx="110" cy="30" r="2.4" fill="currentColor" stroke="none"/></svg>
+<span class="rc1__brillos" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+<figure class="rc1__retrato" memory_type="image" memory_usage="custom" memory_source="library">
+  <img src="https://loremflickr.com/640/840/quinceanera,dress" alt="Retrato de la quinceañera" path="placeholder" data-library-category="xv" data-asset-type="retrato-principal" loading="eager" />
+  <figcaption hidden>La quinceañera</figcaption>
+</figure>
+<div class="rc1__panel">
+  <p class="rc1__rotulo" memory_type="text" memory_usage="custom" memory_key="portada-lema">Mis XV años</p>
+  <div memory_type="text" memory_usage="custom" memory_key="portada-nombre">
+    <h1 class="rc1__nombre" memory_type="text" memory_usage="custom" memory_key="portada-titulo">Valentina</h1>
+  </div>
+  <p class="rc1__lema" memory_type="text" memory_usage="custom" memory_key="portada-frase">Una noche de realeza: el reino se ilumina para ti</p>
+  <p class="rc1__fecha" memory_type="text" memory_usage="custom" memory_key="portada-fecha"><span><time datetime="YYYY-MM-DD">Sábado 14 de marzo, 2026 · 8:00 pm</time></span></p>
+</div>
+<script>var moduleMetadata = { module_type: 'portada', module_name: 'portada-rc1-imperial', style_name: 'Imperial Nocturna — Rayos y Tiara', descripcion: 'Portada XV con rayos dorados giratorios, arco que se traza, tiara que cae, confeti de destellos y nombre de oro líquido.', tags: ['portada', 'imperial', 'tiara', 'rayos', 'oro'], tipo: 'portada' };</script>
+</section>

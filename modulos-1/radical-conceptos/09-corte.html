@@ -1,0 +1,74 @@
+<section class="rc9" data-gemini-id="corte-rc9-polaroid" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.rc9 { --primary-color:#d4506e; --secondary-color:#f2a3b3; --accent-color:#7fae7c; --bg-color:#fff6f4; --surface-color:#ffffff; --surface-border-color:rgba(212,80,110,.2); --text-color:#43272f;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(4rem,10vw,7.5rem) clamp(1rem,5vw,4rem) clamp(5rem,11vw,8.5rem); background:
+  radial-gradient(circle 300px at 8% 12%, color-mix(in srgb, var(--secondary-color) 30%, transparent), transparent 70%),
+  radial-gradient(circle 260px at 94% 88%, color-mix(in srgb, var(--accent-color) 26%, transparent), transparent 70%),
+  url('https://loremflickr.com/1600/1000/pink,pastel') center/cover; background-color:var(--bg-color); color:var(--text-color); }
+.rc9 *, .rc9 *::before, .rc9 *::after { box-sizing:border-box; }
+.rc9::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 84%, transparent); }
+.rc9__cabecera, .rc9__tira { position:relative; z-index:1; }
+.rc9__cabecera { text-align:center; margin-bottom:clamp(3rem,7vw,4.4rem); }
+.rc9__rotulo { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.6em; text-transform:uppercase; color:var(--primary-color); }
+.rc9__titulo { margin:0; font-family:Georgia,serif; font-weight:400; font-size:clamp(2rem,5vw,3.2rem); color:var(--text-color); }
+.rc9__titulo em { color:var(--primary-color); }
+.rc9__tira { position:relative; display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(2.4rem,6vw,4.6rem); padding-top:clamp(1.4rem,4vw,2.6rem); }
+.rc9__cuerda { position:absolute; top:6px; left:6%; right:6%; height:2px; background:repeating-linear-gradient(90deg, var(--primary-color) 0 8px, transparent 8px 14px); opacity:.5; }
+.rc9__polaroid { position:relative; width:clamp(200px,26vw,264px); padding:12px 12px 3.2rem; background:var(--surface-color); border:1px solid var(--surface-border-color); box-shadow:0 22px 44px rgba(212,80,110,.24); transform-origin:top center; animation:rc9-columpio 4.5s ease-in-out infinite; transition:transform .4s ease; }
+.rc9__polaroid:nth-child(2) { animation-delay:.6s; } .rc9__polaroid:nth-child(3) { animation-delay:1.2s; }
+.rc9__polaroid:hover { animation-play-state:paused; transform:rotate(0) scale(1.05); z-index:3; }
+.rc9__polaroid:nth-child(1) { --sw:-3deg; } .rc9__polaroid:nth-child(2) { --sw:2.5deg; } .rc9__polaroid:nth-child(3) { --sw:-2deg; }
+@keyframes rc9-columpio { 0%,100% { transform:rotate(calc(var(--sw) - 1.4deg)); } 50% { transform:rotate(calc(var(--sw) + 1.4deg)); } }
+.rc9__pin { position:absolute; top:-14px; left:50%; transform:translateX(-50%); width:16px; height:22px; border-radius:8px 8px 4px 4px; background:linear-gradient(180deg, var(--primary-color), #a13a52); box-shadow:0 4px 8px rgba(0,0,0,.25); z-index:2; }
+.rc9__polaroid img { display:block; width:100%; height:auto; aspect-ratio:1/1; object-fit:cover; filter:saturate(1.1); }
+.mq5-co__nombre, .rc9__nombre { margin:.9rem 0 .2rem; font-family:'Segoe Script','Brush Script MT',cursive; font-weight:400; font-size:clamp(1.14rem,2.4vw,1.4rem); color:var(--primary-color); }
+.rc9__detalle { margin:0 0 .5rem; font-family:'Segoe UI',Arial,sans-serif; font-size:clamp(.76rem,1.4vw,.86rem); line-height:1.6; color:var(--text-color); }
+.mq5-co__hora, .rc9__hora { display:inline-block; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.68rem); letter-spacing:.34em; text-transform:uppercase; color:var(--secondary-color); }
+@media (max-width:640px){ .rc9__polaroid { animation:none !important; transform:rotate(var(--sw)); } .rc9__cuerda { display:none; } }
+@media (prefers-reduced-motion:reduce){ .rc9 * { animation:none !important; } .rc9__polaroid { transform:rotate(var(--sw)); } }
+</style>
+<header class="rc9__cabecera" memory_type="text" memory_usage="custom" memory_key="corte-intro">
+  <p class="rc9__rotulo">Recortados de la noche</p>
+  <h2 class="rc9__titulo" memory_type="text" memory_usage="custom" memory_key="corte-encabezado">Tres momentos <em>para el álbum</em></h2>
+</header>
+<div class="rc9__tira">
+  <span class="rc9__cuerda" aria-hidden="true"></span>
+  <article class="rc9__polaroid">
+    <span class="rc9__pin" aria-hidden="true"></span>
+    <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0;">
+      <img src="https://loremflickr.com/480/480/dance,couple" alt="El vals" path="placeholder" data-library-category="xv" data-asset-type="momento" loading="lazy" />
+      <figcaption hidden>El vals</figcaption>
+    </figure>
+    <div memory_type="text" memory_usage="custom" memory_key="corte-momento-1">
+      <h3 class="rc9__nombre" memory_type="text" memory_usage="custom" memory_key="corte-titulo-1">El vals</h3>
+      <p class="rc9__detalle" memory_type="text" memory_usage="custom" memory_key="corte-det-1">El giro que todos esperan</p>
+    </div>
+    <time class="rc9__hora" datetime="21:00" memory_type="text" memory_usage="custom" memory_key="corte-hora-1">9:00 pm</time>
+  </article>
+  <article class="rc9__polaroid">
+    <span class="rc9__pin" aria-hidden="true"></span>
+    <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0;">
+      <img src="https://loremflickr.com/480/480/cake,candles" alt="Las mañanitas" path="placeholder" data-library-category="xv" data-asset-type="momento" loading="lazy" />
+      <figcaption hidden>Las mañanitas</figcaption>
+    </figure>
+    <div memory_type="text" memory_usage="custom" memory_key="corte-momento-2">
+      <h3 class="rc9__nombre" memory_type="text" memory_usage="custom" memory_key="corte-titulo-2">Las mañanitas</h3>
+      <p class="rc9__detalle" memory_type="text" memory_usage="custom" memory_key="corte-det-2">Velitas y un deseo susurrado</p>
+    </div>
+    <time class="rc9__hora" datetime="22:00" memory_type="text" memory_usage="custom" memory_key="corte-hora-2">10:00 pm</time>
+  </article>
+  <article class="rc9__polaroid">
+    <span class="rc9__pin" aria-hidden="true"></span>
+    <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0;">
+      <img src="https://loremflickr.com/480/480/champagne,toast" alt="El brindis" path="placeholder" data-library-category="xv" data-asset-type="momento" loading="lazy" />
+      <figcaption hidden>El brindis</figcaption>
+    </figure>
+    <div memory_type="text" memory_usage="custom" memory_key="corte-momento-3">
+      <h3 class="rc9__nombre" memory_type="text" memory_usage="custom" memory_key="corte-titulo-3">El brindis</h3>
+      <p class="rc9__detalle" memory_type="text" memory_usage="custom" memory_key="corte-det-3">Copas en alto por la quinceañera</p>
+    </div>
+    <time class="rc9__hora" datetime="23:00" memory_type="text" memory_usage="custom" memory_key="corte-hora-3">11:00 pm</time>
+  </article>
+</div>
+<script>var moduleMetadata = { module_type: 'corte', module_name: 'corte-rc9-polaroid', style_name: 'Polaroids Colgantes', descripcion: 'Tres momentos como polaroids colgando de una cuerda con pinzas, columpiándose suavemente; se enderezan al pasar.', tags: ['corte', 'polaroid', 'colgante', 'rosa'], tipo: 'corte' };</script>
+</section>

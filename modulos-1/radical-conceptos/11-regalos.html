@@ -1,0 +1,53 @@
+<section class="rcr" data-gemini-id="regalos-rc9-vuelo" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.rcr { --primary-color:#c2455a; --secondary-color:#e8938f; --accent-color:#f7d6b8; --bg-color:#fdf0ec; --surface-color:#ffffff; --surface-border-color:rgba(194,69,90,.22); --text-color:#46282e;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.8rem,9.5vw,7rem) clamp(1rem,5vw,4rem); background:
+  radial-gradient(ellipse 60% 46% at 8% 6%, color-mix(in srgb, var(--secondary-color) 30%, transparent), transparent 68%),
+  url('https://loremflickr.com/1600/1000/pastel,envelope') center/cover; background-color:var(--bg-color); color:var(--text-color); }
+.rcr *, .rcr *::before, .rcr *::after { box-sizing:border-box; }
+.rcr::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 84%, transparent); }
+.rcr__vuelo { z-index:1; }
+.rcr__tarjeta { z-index:2; }
+/* Sobres que cruzan el cielo en bucle */
+.rcr__vuelo { position:absolute; z-index:0; width:clamp(48px,7vw,84px); opacity:.85; animation:rcr-vuela linear infinite; }
+.rcr__vuelo svg { display:block; width:100%; filter:drop-shadow(0 8px 14px rgba(194,69,90,.3)); }
+.rcr__vuelo--1 { top:10%; left:-90px; animation-duration:15s; }
+.rcr__vuelo--2 { top:56%; left:-90px; animation-duration:19s; animation-delay:6s; width:clamp(38px,5vw,60px); }
+.rcr__vuelo--3 { top:76%; left:-90px; animation-duration:23s; animation-delay:12s; }
+@keyframes rcr-vuela { 0% { transform:translate(0,0) rotate(-8deg); } 45% { transform:translate(56vw,-40px) rotate(6deg); } 100% { transform:translate(118vw,10px) rotate(-4deg); } }
+.mq3-rg__rotulo, .rcr__rotulo { margin:0 0 .5rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.6em; text-transform:uppercase; color:var(--primary-color); }
+.rcr__tarjeta { position:relative; z-index:1; width:min(100%,600px); margin:0 auto; padding:clamp(2.8rem,6vw,3.8rem) clamp(1.4rem,4vw,3rem) clamp(2rem,4.4vw,2.8rem); background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:4px 26px 4px 26px; box-shadow:14px 14px 0 var(--accent-color), 0 30px 60px rgba(194,69,90,.2); text-align:center; }
+.mq3-rg__titulo, .rcr__titulo { margin:0 0 .6rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.9rem,4.6vw,2.8rem); color:var(--primary-color); }
+.rcr__texto { margin:0 auto 1.5rem; max-width:44ch; font-family:'Segoe UI',Arial,sans-serif; font-size:clamp(.86rem,1.6vw,.98rem); line-height:1.8; color:var(--text-color); }
+.rcr__datos { display:grid; grid-template-columns:1fr; gap:.9rem; max-width:420px; margin:0 auto; }
+@media (min-width:560px){ .rcr__datos { grid-template-columns:1fr 1fr; } }
+.rcr__dato { padding:1rem .8rem; border:2px solid var(--accent-color); border-radius:18px 4px 18px 4px; background:color-mix(in srgb, var(--bg-color) 60%, transparent); }
+.rcr__dato b { display:block; margin-bottom:.3rem; font-family:'Courier New',monospace; font-weight:400; font-size:clamp(.54rem,1vw,.62rem); letter-spacing:.3em; text-transform:uppercase; color:var(--secondary-color); }
+.rcr__dato a, .rcr__dato span { font-family:'Courier New',monospace; font-size:clamp(.68rem,1.3vw,.8rem); letter-spacing:.1em; color:var(--text-color); text-decoration:none; }
+.rcr__dato a { border-bottom:1px dashed var(--primary-color); padding-bottom:.15rem; }
+.rcr__dato a:hover { color:var(--primary-color); }
+.mq3-rg__btn, .rcr__btn { display:inline-block; margin-top:1.5rem; padding:.95rem 2.3rem; font-family:'Courier New',monospace; font-size:clamp(.64rem,1.25vw,.78rem); letter-spacing:.32em; text-transform:uppercase; text-decoration:none; color:#fff; background:var(--primary-color); border-radius:999px 6px 999px 6px; box-shadow:6px 6px 0 var(--accent-color); transition:transform .35s ease, box-shadow .35s ease; }
+.rcr__btn:hover { transform:translate(-2px,-2px); box-shadow:10px 10px 0 var(--accent-color); }
+@media (prefers-reduced-motion:reduce){ .rcr__vuelo { display:none; } .rcr * { transition:none !important; } }
+</style>
+<svg class="rcr__vuelo rcr__vuelo--1" viewBox="0 0 84 62" aria-hidden="true"><rect x="3" y="3" width="78" height="56" rx="6" fill="#fff" stroke="var(--primary-color)" stroke-width="2.4"/><path d="M6 8 L42 36 L78 8" fill="none" stroke="var(--primary-color)" stroke-width="2.4"/><path d="M8 55 L32 32" stroke="var(--secondary-color)" stroke-width="2"/></svg>
+<svg class="rcr__vuelo rcr__vuelo--2" viewBox="0 0 84 62" aria-hidden="true"><rect x="3" y="3" width="78" height="56" rx="6" fill="#fff" stroke="var(--secondary-color)" stroke-width="2.4"/><path d="M6 8 L42 36 L78 8" fill="none" stroke="var(--secondary-color)" stroke-width="2.4"/></svg>
+<svg class="rcr__vuelo rcr__vuelo--3" viewBox="0 0 84 62" aria-hidden="true"><rect x="3" y="3" width="78" height="56" rx="6" fill="#fff" stroke="var(--primary-color)" stroke-width="2.4"/><path d="M6 8 L42 36 L78 8" fill="none" stroke="var(--primary-color)" stroke-width="2.4"/></svg>
+<div class="rcr__tarjeta">
+  <p class="rcr__rotulo" memory_type="text" memory_usage="custom" memory_key="regalos-rotulo">Lluvia de sobres</p>
+  <h2 class="rcr__titulo" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Mesa de regalos</h2>
+  <p class="rcr__texto" memory_type="text" memory_usage="custom" memory_key="regalos-texto">Que vuelen los sobres: tu presencia es el regalo principal, pero si quieres tener un detalle, aquí va la pista.</p>
+  <div class="rcr__datos" memory_type="text" memory_usage="custom" memory_key="regalos-datos">
+    <div class="rcr__dato">
+      <b>Mesa en línea</b>
+      <a href="https://mesaderegalos.com/ejemplo" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="regalos-link">mesaderegalos.com</a>
+    </div>
+    <div class="rcr__dato">
+      <b>Sobre digital</b>
+      <span memory_type="text" memory_usage="custom" memory_key="regalos-clabe">CLABE 0000 0000 0000</span>
+    </div>
+  </div>
+  <a class="rcr__btn" href="https://wa.me/5210000000000" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="regalos-boton">Escríbenos por WhatsApp</a>
+</div>
+<script>var moduleMetadata = { module_type: 'regalos', module_name: 'regalos-rc9-vuelo', style_name: 'Sobres en Vuelo — Sombra Dura', descripcion: 'Mesa de regalos con sobres que cruzan la pantalla en vuelo infinito, tarjeta de sombra dura y botón de esquinas opuestas.', tags: ['regalos', 'sobres', 'vuelo', 'jugueton'], tipo: 'regalos' };</script>
+</section>
