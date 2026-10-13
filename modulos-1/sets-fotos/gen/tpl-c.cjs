@@ -2,7 +2,7 @@
 const { meta, orn, ORN_CSS, V } = require('./tpl-a.cjs');
 
 function corte(S) {
-  const Vv = S.num % 4;
+  const Vv = S.num % 6;
   const momentos = [['6:00 pm', '18:00', 'El vals', 'El giro esperado'], ['8:00 pm', '20:00', 'El pastel', 'Dulce celebración'], ['10:00 pm', '22:00', 'El brindis', 'Copas en alto']];
   const layout = Vv === 0
     ? `.sf9__tira { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(1.6rem,4vw,2.6rem); width:min(100%,1000px); margin:0 auto; }
@@ -22,11 +22,24 @@ function corte(S) {
 .sf9__tarjeta:nth-child(2) { padding-left:clamp(2rem,6vw,4rem); }
 .sf9__tarjeta:nth-child(3) { padding-left:clamp(4rem,10vw,7rem); }
 .sf9__num { font-family:Georgia,serif; font-style:italic; font-size:clamp(2.4rem,6vw,3.6rem); color:var(--accent-color); line-height:1; }`
-        : `.sf9__tira { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(1.6rem,4vw,2.6rem); width:min(100%,980px); margin:0 auto; }
+        : Vv === 3
+        ? `.sf9__tira { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(1.6rem,4vw,2.6rem); width:min(100%,980px); margin:0 auto; }
 .sf9__tarjeta { position:relative; width:clamp(250px,30vw,312px); padding:clamp(1.7rem,3.8vw,2.3rem) clamp(1.4rem,3.2vw,2rem); background:var(--primary-color); color:var(--bg-color); clip-path:polygon(0 0, 92% 0, 100% 18%, 100% 100%, 8% 100%, 0 82%); text-align:center; }
 .sf9__tarjeta time { display:inline-block; margin-bottom:.5rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.34em; opacity:.85; }
 .sf9__nombre { color:#fff; }
-.sf9__detalle { color:color-mix(in srgb, var(--bg-color) 70%, #fff); }`;
+.sf9__detalle { color:color-mix(in srgb, var(--bg-color) 70%, #fff); }`
+        : Vv === 4
+        ? `.sf9__escala { display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:0; width:min(100%,940px); margin:0 auto; position:relative; }
+.sf9__escala::before { content:''; position:absolute; left:6%; right:6%; top:34px; border-top:2px dashed color-mix(in srgb, var(--primary-color) 55%, transparent); }
+.sf9__tarjeta { position:relative; width:clamp(190px,24vw,240px); text-align:center; padding:0 .6rem; }
+.sf9__tarjeta:not(:first-child) { margin-left:clamp(-1rem,-2vw,-.4rem); }
+.sf9__tarjeta time { display:grid; place-items:center; width:68px; height:68px; margin:0 auto .9rem; border-radius:50%; border:2px solid var(--primary-color); background:var(--surface-color); font-family:${S.disp}; font-size:clamp(.78rem,1.6vw,.95rem); color:var(--primary-color); box-shadow:0 10px 22px rgba(0,0,0,.16); }
+.sf9__tarjeta:nth-child(even) { transform:translateY(clamp(1.6rem,4vw,2.6rem)); }`
+        : `.sf9__escala { width:min(100%,820px); margin:0 auto; display:grid; gap:1rem; }
+.sf9__tarjeta { position:relative; display:grid; grid-template-columns:auto 1fr; align-items:center; gap:clamp(1.4rem,3.6vw,2.2rem); padding:clamp(1.2rem,3vw,1.7rem) clamp(1.2rem,3vw,1.8rem) clamp(1.2rem,3vw,1.7rem) clamp(2.6rem,6vw,3.6rem); background:var(--surface-color); border:1px solid var(--surface-border-color); box-shadow:0 16px 32px rgba(0,0,0,.16); }
+.sf9__tarjeta::before { content:''; position:absolute; left:clamp(1rem,2.4vw,1.4rem); top:16%; bottom:16%; border-left:2px dotted var(--primary-color); }
+.sf9__tarjeta::after { content:''; position:absolute; left:calc(clamp(1rem,2.4vw,1.4rem) - 7px); top:50%; transform:translateY(-50%); width:14px; height:14px; border-radius:50%; background:var(--bg-color); border:2px solid var(--primary-color); }
+.sf9__tarjeta time { display:block; font-family:'Courier New',monospace; font-size:clamp(.72rem,1.5vw,.88rem); letter-spacing:.3em; color:var(--primary-color); margin-bottom:.3rem; }`;
   const items = momentos.map(([hr, dt, t, d], i) => {
     if (Vv === 0) return `  <article class="sf9__tarjeta">
     <time class="sf4__hora" datetime="${dt}" memory_type="text" memory_usage="custom" memory_key="corte-hora-${i + 1}">${hr}</time>
@@ -91,7 +104,7 @@ ${meta('corte', 'corte-sf' + S.num, S, 'Corte ' + S.theme + ' variante ' + (Vv +
 }
 
 function galeria(S) {
-  const Vv = S.num % 4;
+  const Vv = S.num % 6;
   const KW = [S.kw + ',moment', S.kw + ',party', S.kw + ',detail', S.kw + ',smile', S.kw + ',decor', S.kw + ',dance'];
   const grid = Vv === 0
     ? `.sf10__mosaico { display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(.8rem,2.2vw,1.5rem); width:min(100%,920px); margin:0 auto; }
@@ -109,11 +122,26 @@ function galeria(S) {
 .rcg__obra, .sf10__obra { transform:rotateY(calc(var(--ry) * 1deg)); transition:transform .6s cubic-bezier(.16,1,.3,1); }
 .sf10__obra:nth-child(3n+1) { --ry:-10; } .sf10__obra:nth-child(3n+2) { --ry:0; } .sf10__obra:nth-child(3n) { --ry:10; }
 .sf10__obra:hover { transform:rotateY(0) translateY(-5px); z-index:2; }`
-        : `.sf10__mosaico { display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(.7rem,2vw,1.2rem); width:min(100%,880px); margin:0 auto; }
+        : Vv === 3
+        ? `.sf10__mosaico { display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(.7rem,2vw,1.2rem); width:min(100%,880px); margin:0 auto; }
 @media (max-width:640px){ .sf10__mosaico { grid-template-columns:repeat(2,1fr); } }
 .sf10__obra { clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%); transition:transform .45s; }
 .sf10__obra:hover { transform:scale(1.05); z-index:2; }
-.sf10__obra img { aspect-ratio:3/3.4; }`;
+.sf10__obra img { aspect-ratio:3/3.4; }`
+        : Vv === 4
+        ? `.sf10__mosaico { display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(.7rem,2vw,1.2rem); width:min(100%,880px); margin:0 auto; align-items:start; }
+@media (max-width:640px){ .sf10__mosaico { grid-template-columns:repeat(2,1fr); } }
+.sf10__obra { padding:7px; background:var(--surface-color); border:1px solid var(--surface-border-color); transition:transform .4s; }
+.sf10__obra:nth-child(2) { transform:translateY(clamp(1.4rem,4vw,2.6rem)); }
+.sf10__obra:nth-child(3) { transform:translateY(clamp(2.8rem,8vw,5.2rem)); }
+.sf10__obra:nth-child(5) { transform:translateY(clamp(1.4rem,4vw,2.6rem)); }
+.sf10__obra:hover { transform:translateY(-6px) scale(1.03); z-index:2; }
+.sf10__obra img { aspect-ratio:4/4.6; }`
+        : `.sf10__mosaico { display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(1rem,3vw,1.8rem); width:min(100%,860px); margin:0 auto; }
+@media (max-width:640px){ .sf10__mosaico { grid-template-columns:repeat(2,1fr); } }
+.sf10__obra { border-radius:50% 50% 10px 10px / 34% 34% 4px 4px; overflow:hidden; outline:1px solid var(--surface-border-color); outline-offset:4px; transition:transform .45s; }
+.sf10__obra:hover { transform:translateY(-6px); z-index:2; }
+.sf10__obra img { aspect-ratio:3/3.8; }`;
   const imgs = KW.map((k, i) => `  <figure class="sf10__obra"><img src="https://loremflickr.com/600/760/${k}" alt="Recuerdo ${i + 1}" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" /><figcaption hidden>Recuerdo ${i + 1}</figcaption></figure>`).join('\n');
   return `<section class="sf10" data-gemini-id="galeria-sf${S.num}" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
 <style>
@@ -163,7 +191,7 @@ ${meta('galeria', 'galeria-sf' + S.num, S, 'Galería ' + S.theme + ' variante ' 
 }
 
 function regalos(S) {
-  const Vv = S.num % 4;
+  const Vv = S.num % 6;
   const layout = Vv === 0
     ? `.sf11__tarjeta { width:min(100%,600px); margin:0 auto; padding:clamp(2.6rem,6vw,3.6rem) clamp(1.4rem,4vw,2.8rem); background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:18px; text-align:center; box-shadow:0 26px 52px rgba(0,0,0,.14); }`
     : Vv === 1
@@ -173,8 +201,19 @@ function regalos(S) {
 .sf11__mitad:last-child { border-left:2px dashed var(--accent-color); }`
       : Vv === 2
         ? `.sf11__tarjeta { position:relative; width:min(100%,620px); margin:0 auto; padding:clamp(2.8rem,6.5vw,3.8rem) clamp(1.4rem,4vw,3rem) clamp(2rem,4.4vw,2.8rem); background:var(--surface-color); border:1px solid var(--surface-border-color); clip-path:polygon(0 4%, 50% 0, 100% 4%, 100% 96%, 50% 100%, 0 96%); text-align:center; }`
-        : `.sf11__tarjeta { width:min(100%,600px); margin:0 auto; padding:clamp(2.2rem,5.4vw,3rem) clamp(1.4rem,4vw,2.8rem); background:var(--surface-color); border:1px solid var(--surface-border-color); transform:skewX(-6deg); }
-.sf11__tarjeta > * { transform:skewX(6deg); }`;
+        : Vv === 3
+        ? `.sf11__tarjeta { width:min(100%,600px); margin:0 auto; padding:clamp(2.2rem,5.4vw,3rem) clamp(1.4rem,4vw,2.8rem); background:var(--surface-color); border:1px solid var(--surface-border-color); transform:skewX(-6deg); }
+.sf11__tarjeta > * { transform:skewX(6deg); }`
+        : Vv === 4
+        ? `.sf11__tarjeta { position:relative; width:min(100%,560px); margin:0 auto; padding:clamp(2.4rem,5.6vw,3.2rem) clamp(1.6rem,4.4vw,3rem); background:var(--surface-color); text-align:center;
+  mask:radial-gradient(circle 12px at 12px 50%, transparent 97%, #000) left / 51% 100% no-repeat, radial-gradient(circle 12px at calc(100% - 12px) 50%, transparent 97%, #000) right / 51% 100% no-repeat;
+  filter:drop-shadow(0 18px 36px rgba(0,0,0,.16)); }
+.sf11__tarjeta::before { content:'VALE DE REGALO'; display:block; margin:0 0 .6rem; font-family:'Courier New',monospace; font-size:.62rem; letter-spacing:.5em; color:var(--secondary-color); }
+.sf11__tarjeta::after { content:''; position:absolute; left:10%; right:10%; bottom:14px; height:1px; background:repeating-linear-gradient(90deg, var(--accent-color) 0 9px, transparent 9px 16px); }`
+        : `.sf11__tarjeta { position:relative; width:min(100%,560px); margin:clamp(2.6rem,6vw,3.6rem) auto 0; padding:clamp(2.2rem,5.2vw,3rem) clamp(1.4rem,4vw,2.6rem) clamp(1.8rem,4vw,2.4rem); background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:14px; text-align:center; transform:rotate(-1.8deg); box-shadow:0 20px 40px rgba(0,0,0,.16); }
+.sf11__tarjeta::before { content:''; position:absolute; top:-14px; left:50%; transform:translateX(-50%); width:12px; height:12px; border-radius:50%; border:2px solid var(--primary-color); background:var(--bg-color); }
+.sf11__tarjeta::after { content:''; position:absolute; top:-14px; left:50%; width:1.5px; height:34px; background:repeating-linear-gradient(var(--accent-color) 0 5px, transparent 5px 9px); transform:translateX(-50%) rotate(14deg); transform-origin:top center; }
+.sf11__tarjeta:hover { transform:rotate(0); }`;
   return `<section class="sf11" data-gemini-id="regalos-sf${S.num}" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
 <style>
 .sf11 { ${V(S)};
@@ -219,13 +258,12 @@ ${Vv === 1 ? `<div class="sf11__tarjeta">
   </div>
   <a class="sf11__btn" href="https://wa.me/5210000000000" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="regalos-boton">Escríbenos</a>
 </div>`}
-${layout}
 ${meta('regalos', 'regalos-sf' + S.num, S, 'Mesa de regalos ' + S.theme + ' variante ' + (Vv + 1) + '.', ['variante' + (Vv + 1)])}
 </section>`;
 }
 
 function vestimenta(S) {
-  const Vv = S.num % 4;
+  const Vv = S.num % 6;
   const layout = Vv === 0
     ? `.sf12__tarjeta { width:min(100%,600px); margin:0 auto; padding:clamp(2.4rem,6vw,3.4rem) clamp(1.4rem,4vw,2.8rem); background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:22px; text-align:center; }
 .sf12__paleta { display:flex; justify-content:center; gap:.8rem; margin:1.4rem 0; }
@@ -244,16 +282,27 @@ function vestimenta(S) {
 .rcv__etiqueta:nth-child(5){ left:83%; --sw:-3deg; animation-delay:.6s; }
 .rcv__etiqueta i { display:block; width:100%; height:clamp(44px,6vw,58px); border-radius:8px; }
 @keyframes sf-columpio { 0%,100% { transform:rotate(var(--sw)); } 50% { transform:rotate(calc(var(--sw) * -.5)); } }`
-        : `.sf12__tarjeta { width:min(100%,880px); margin:0 auto; display:grid; grid-template-columns:1fr; background:var(--surface-color); border:1px solid var(--surface-border-color); }
+        : Vv === 3
+        ? `.sf12__tarjeta { width:min(100%,880px); margin:0 auto; display:grid; grid-template-columns:1fr; background:var(--surface-color); border:1px solid var(--surface-border-color); }
 @media (min-width:760px){ .sf12__tarjeta { grid-template-columns:5fr 6fr; } }
 .sf12__foto { margin:0; }
 .sf12__foto img { display:block; width:100%; height:100%; min-height:280px; object-fit:cover; }
-.sf12__info { padding:clamp(1.8rem,4.4vw,2.8rem) clamp(1.3rem,3.4vw,2.2rem); display:grid; align-content:center; }`;
+.sf12__info { padding:clamp(1.8rem,4.4vw,2.8rem) clamp(1.3rem,3.4vw,2.2rem); display:grid; align-content:center; }`
+        : Vv === 4
+        ? `.sf12__tarjeta { width:min(100%,620px); margin:0 auto; padding:clamp(2.4rem,6vw,3.4rem) clamp(1.4rem,4vw,2.8rem); background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:18px; text-align:center; }
+.sf12__paleta { display:flex; justify-content:center; gap:0; margin:clamp(2.2rem,5vw,3rem) 0 1.8rem; }
+.sf12__muestra { width:52px; height:80px; border-radius:8px 8px 50% 50%/8px 8px 22% 22%; border:1px solid var(--accent-color); transform-origin:50% 120%; transform:rotate(calc((var(--i) - 2.5) * 11deg)); margin:0 -7px; box-shadow:0 8px 18px rgba(0,0,0,.14); transition:transform .4s cubic-bezier(.16,1,.3,1); }
+.sf12__muestra:hover { transform:rotate(calc((var(--i) - 2.5) * 11deg)) translateY(-10px); z-index:2; }`
+        : `.sf12__tarjeta { width:min(100%,720px); margin:0 auto; display:grid; grid-template-columns:1fr; background:var(--surface-color); border:1px solid var(--surface-border-color); overflow:hidden; }
+.sf12__foto { margin:0; border-bottom:6px double var(--primary-color); }
+.sf12__foto img { display:block; width:100%; height:100%; min-height:240px; max-height:300px; object-fit:cover; }
+.sf12__info { padding:clamp(1.8rem,4.4vw,2.6rem) clamp(1.4rem,3.6vw,2.4rem); display:grid; align-content:center; justify-items:center; text-align:center; }
+@media (min-width:760px){ .sf12__tarjeta { grid-template-columns:6fr 5fr; } .sf12__foto { border-bottom:none; border-right:6px double var(--primary-color); } }`;
   const paleta = `<div class="sf12__paleta" aria-label="Paleta sugerida">
-    <span class="sf12__muestra" style="background:var(--primary-color);"></span>
-    <span class="sf12__muestra" style="background:var(--secondary-color);"></span>
-    <span class="sf12__muestra" data-prohibida="true" style="background:var(--accent-color);"></span>
-    <span class="sf12__muestra" style="background:var(--text-color);"></span>
+    <span class="sf12__muestra" style="background:var(--primary-color); --i:1;"></span>
+    <span class="sf12__muestra" style="background:var(--secondary-color); --i:2;"></span>
+    <span class="sf12__muestra" data-prohibida="true" style="background:var(--accent-color); --i:3;"></span>
+    <span class="sf12__muestra" style="background:var(--text-color); --i:4;"></span>
   </div>`;
   return `<section class="sf12" data-gemini-id="vestimenta-sf${S.num}" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
 <style>
@@ -302,7 +351,12 @@ ${Vv === 0 ? `<div class="sf12__tarjeta">${paleta}
 <p class="sf12__nota" style="text-align:center;" memory_type="text" memory_usage="custom" memory_key="vestimenta-nota">El color tachado es de los anfitriones</p>
 <ul class="sf12__lista" memory_type="text" memory_usage="custom" memory_key="vestimenta-tips">
   <li>Vestido fluido</li><li>Traje claro</li><li>Calzado cómodo</li>
-</ul>` : `<div class="sf12__tarjeta">
+</ul>` : Vv === 4 ? `<div class="sf12__tarjeta">${paleta}
+  <p class="sf12__nota" memory_type="text" memory_usage="custom" memory_key="vestimenta-nota">El color tachado es de los anfitriones</p>
+  <ul class="sf12__lista" memory_type="text" memory_usage="custom" memory_key="vestimenta-tips">
+    <li>Vestido de gala</li><li>Esmoquin</li><li>Toque de color</li>
+  </ul>
+</div>` : `<div class="sf12__tarjeta">
   <figure class="sf12__foto" memory_type="image" memory_usage="custom" memory_source="library">
     <img src="https://loremflickr.com/700/860/${S.kw},fabric" alt="Inspiración de vestimenta" path="placeholder" data-library-category="bodas" data-asset-type="vestimenta" loading="lazy" />
     <figcaption hidden>Inspiración</figcaption>

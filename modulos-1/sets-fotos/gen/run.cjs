@@ -5,13 +5,23 @@ const styles = require('./styles.cjs');
 const A = require('./tpl-a.cjs');
 const B = require('./tpl-b.cjs');
 const C = require('./tpl-c.cjs');
+/* Countdowns: UN concepto único por set (reloj de sol, mariposas, split-flap,
+ * arena, arcoíris, estación, calendario, vela, brújula, ascensor, corona,
+ * péndulo, bloques, peonía, rama, boya, meandro, bordado, campanas, espejo,
+ * cine, listón, copas, globos). Nada se repite. */
+const { countdown: cdUnico } = require('./countdowns.cjs');
+/* Shaper: 3 ejes estructurales (cabecera × espejo × reveal) que combinados
+ * con las 4 variantes dan 24 composiciones distintas por tipo. */
+const { shape } = require('./shaper.cjs');
 
 const base = __dirname + '/..';
 const builders = [
   ['portada', A.portada], ['padres', A.padres], ['ubicacion', A.ubicacion], ['itinerario', A.itinerario],
-  ['confirmacion', B.confirmacion], ['detalles', B.detalles], ['countdown', B.countdown], ['padrinos', B.padrinos],
+  ['confirmacion', B.confirmacion], ['detalles', B.detalles], ['countdown', cdUnico], ['padrinos', B.padrinos],
   ['corte', C.corte], ['galeria', C.galeria], ['regalos', C.regalos], ['vestimenta', C.vestimenta]
 ];
+/* El countdown ya es único por concepto; el resto pasa por el shaper. */
+const build = (name, fn, S) => (name === 'countdown' ? fn(S) : shape(S, fn(S)));
 
 const list = Object.values(styles);
 let written = 0;
@@ -20,7 +30,7 @@ for (const S of list) {
   const dir = join(base, folder);
   mkdirSync(dir, { recursive: true });
   builders.forEach(([name, fn], i) => {
-    writeFileSync(join(dir, `${String(i + 1).padStart(2, '0')}-${name}.html`), fn(S), 'utf-8');
+    writeFileSync(join(dir, `${String(i + 1).padStart(2, '0')}-${name}.html`), build(name, fn, S), 'utf-8');
     written++;
   });
   console.log(`✓ ${folder}`);

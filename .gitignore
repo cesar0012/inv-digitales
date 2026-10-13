@@ -155,3 +155,11 @@ invitaciones/template-5/invitacion.html
 # Test local de proveedores de imágenes gratuitas
 scripts/test-free-images-output/
 server-test.log
+
+# Artefactos de diagnóstico y verificación de sets-fotos
+scripts/diag-vela*.cjs
+shots-sets-fotos/chk-*.png
+shots-sets-fotos/v2-*.png
+shots-sets-fotos/v3-*.png
+shots-sets-fotos/tmp/
+server-test.log

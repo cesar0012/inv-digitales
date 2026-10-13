@@ -1,4 +1,4 @@
-<section class="sf-p" data-gemini-id="portada-nombre" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<section class="sf-p rv-fade" data-gemini-id="portada-nombre" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder"><i class="sf-dress sf-dress--corners" aria-hidden="true"></i>
 <style>
 .sf-p { --primary-color:#d4718f; --secondary-color:#9db787; --accent-color:#f4d8e0; --bg-color:#fdf8f6; --surface-color:#ffffff; --surface-border-color:rgba(212,113,143,.24); --text-color:#4d3a40;
   position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:100svh; display:grid; place-items:center; padding:clamp(2.6rem,7vw,5rem) clamp(1rem,5vw,3.4rem); background:radial-gradient(ellipse 60% 50% at 10% 10%, rgba(157,183,135,.3), transparent 70%), url('https://loremflickr.com/1600/1000/watercolor,floral') center/cover; background-color:var(--bg-color); color:var(--text-color); text-align:center; }
@@ -14,27 +14,59 @@
 .rcA__nombre { margin:0; font-family:Georgia,serif; font-weight:400; font-size:clamp(2.8rem,9vw,6.4rem); line-height:1.02; color:var(--primary-color); }
 .sf-p__v3 .rcA__nombre { text-align:left; }
 .rcA__fecha { margin:0; font-family:'Courier New',monospace; font-size:clamp(.64rem,1.35vw,.8rem); letter-spacing:.4em; text-transform:uppercase; color:var(--text-color); }
-.rcA__split { position:relative; z-index:2; display:grid; grid-template-columns:1fr; width:min(100%,880px); margin:0 auto; }
-@media (min-width:800px){ .rcA__split { grid-template-columns:1fr 1fr; } }
-.rcA__mitad { padding:clamp(1.6rem,4vw,2.6rem); }
-.rcA__mitad--foto { clip-path:polygon(0 0, 100% 0, 78% 100%, 0 100%); }
-.rcA__mitad--foto img { display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover; }
-.rcA__mitad--txt { display:grid; align-content:center; justify-items:center; text-align:center; }
+.rcA__sello { position:relative; z-index:2; width:min(100%,620px); margin:0 auto; padding:clamp(2.2rem,5.4vw,3.4rem) clamp(1.2rem,4vw,2.4rem); transform:rotate(-2deg); }
+.rcA__sello::before { content:''; position:absolute; inset:0; border:2px solid var(--primary-color); transform:rotate(1.6deg); }
+.rcA__sello::after { content:''; position:absolute; inset:10px; border:1px dashed var(--accent-color); transform:rotate(-1deg); }
+.rcA__fantasma { position:absolute; right:2%; bottom:-6%; z-index:-1; font-family:Georgia,serif; font-size:clamp(8rem,22vw,15rem); line-height:1; color:color-mix(in srgb, var(--primary-color) 12%, transparent); }
+.rcA__foto { width:clamp(110px,16vw,150px); aspect-ratio:1/1; margin:0 auto clamp(1rem,2.6vw,1.5rem); clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%); overflow:hidden; }
+.rcA__foto img { display:block; width:100%; height:100%; object-fit:cover; }
 .sf-orn-wrap { display:flex; justify-content:center; margin:0 auto clamp(1.6rem,4vw,2.4rem); color:var(--primary-color); }
 .sf-orn-wrap svg { width:min(240px,60%); height:auto; }
 @media (prefers-reduced-motion:reduce){ .sf-p * { animation:none !important; } }
-</style>
+
+[data-gemini-id] .rv-fade > *:not(style):not(script), [data-gemini-id] .rv-slide > *:not(style):not(script),
+[data-gemini-id] .rv-zoom > *:not(style):not(script), [data-gemini-id] .rv-blur > *:not(style):not(script) {
+  opacity:0; transition:opacity .7s ease, transform .7s cubic-bezier(.16,1,.3,1), filter .7s ease;
+}
+[data-gemini-id] .rv-fade > .sf-orn-wrap { opacity:1; transform:none; filter:none; }
+.rv-fade.enVista > *:not(style):not(script) { opacity:1; transform:none; }
+.rv-slide.enVista > *:not(style):not(script) { opacity:1; transform:none; }
+.rv-zoom.enVista > *:not(style):not(script) { opacity:1; transform:none; }
+.rv-blur.enVista > *:not(style):not(script) { opacity:1; filter:none; transform:none; }
+.rv-slide > *:not(style):not(script) { transform:translateX(-34px); }
+.rv-zoom  > *:not(style):not(script) { transform:scale(.86); }
+.rv-blur  > *:not(style):not(script) { filter:blur(10px); transform:translateY(16px); }
+.enVista > *:not(style):not(script):nth-child(2) { transition-delay:.12s; }
+.enVista > *:not(style):not(script):nth-child(3) { transition-delay:.24s; }
+.enVista > *:not(style):not(script):nth-child(4) { transition-delay:.36s; }
+.enVista > *:not(style):not(script):nth-child(5) { transition-delay:.48s; }
+@media (prefers-reduced-motion:reduce){
+  [data-gemini-id] .rv-fade > *, [data-gemini-id] .rv-slide > *, [data-gemini-id] .rv-zoom > *, [data-gemini-id] .rv-blur > * { opacity:1 !important; transform:none !important; filter:none !important; transition:none !important; }
+}
+.rv-fade .sf-orn-wrap svg { animation:sfOrnFlota 6s ease-in-out infinite alternate; }
+@keyframes sfOrnFlota { to { transform:translateY(-5px); } }
+@keyframes sfOrnGira { to { transform:rotate(4deg) translateY(-4px); } }
+.sf-dress--corners { position:absolute; inset:clamp(10px,2vw,18px); pointer-events:none; z-index:1;
+  background:
+    linear-gradient(var(--primary-color), var(--primary-color)) top left / 34px 3px,
+    linear-gradient(var(--primary-color), var(--primary-color)) top left / 3px 34px,
+    linear-gradient(var(--primary-color), var(--primary-color)) top right / 34px 3px,
+    linear-gradient(var(--primary-color), var(--primary-color)) top right / 3px 34px,
+    linear-gradient(var(--primary-color), var(--primary-color)) bottom left / 34px 3px,
+    linear-gradient(var(--primary-color), var(--primary-color)) bottom left / 3px 34px,
+    linear-gradient(var(--primary-color), var(--primary-color)) bottom right / 34px 3px,
+    linear-gradient(var(--primary-color), var(--primary-color)) bottom right / 3px 34px;
+  background-repeat:no-repeat; opacity:.85; }</style>
 <div class="sf-p__rayos" aria-hidden="true"></div>
 <div class="sf-particulas" aria-hidden="true"></div>
-<div class="rcA__split">
-    <figure class="rcA__mitad rcA__mitad--foto" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/700/860/watercolor,flowers" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" /><figcaption hidden>Retrato</figcaption></figure>
-    <div class="rcA__mitad rcA__mitad--txt">
-      <p class="rcA__rotulo" memory_type="text" memory_usage="custom" memory_key="portada-lema">acuarela</p>
-      <div memory_type="text" memory_usage="custom" memory_key="portada-nombre"><h1 class="rcA__nombre" memory_type="text" memory_usage="custom" memory_key="portada-titulo">Nombre &amp; Nombre</h1></div>
-      <p class="rcA__fecha" memory_type="text" memory_usage="custom" memory_key="portada-fecha"><time datetime="YYYY-MM-DD">Fecha del evento</time></p>
-    </div>
+<div class="rcA__sello">
+    <span class="rcA__fantasma" aria-hidden="true">&amp;</span>
+    <figure class="rcA__foto" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/440/440/watercolor,flowers,detail" alt="Detalle" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager"><figcaption hidden>Detalle</figcaption></figure>
+    <p class="rcA__rotulo" memory_type="text" memory_usage="custom" memory_key="portada-lema">acuarela</p>
+    <div memory_type="text" memory_usage="custom" memory_key="portada-nombre"><h1 class="rcA__nombre" memory_type="text" memory_usage="custom" memory_key="portada-titulo">Nombre &amp; Nombre</h1></div>
+    <p class="rcA__fecha" memory_type="text" memory_usage="custom" memory_key="portada-fecha"><time datetime="YYYY-MM-DD">Fecha del evento</time></p>
   </div>
-<span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 26" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M20 22 C 80 4, 220 4, 280 22"/><path d="M50 18 q -6 -8 2 -12 q 8 4 -2 12 Z M150 8 q -4 -9 3 -11 q 7 5 -3 11 Z M250 18 q 6 -8 -2 -12 q -8 4 2 12 Z" fill="color-mix(in srgb, currentColor 25%, transparent)"/></svg></span>
+<span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 26" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M20 22 C 80 4, 220 4, 280 22" /><path d="M50 18 q -6 -8 2 -12 q 8 4 -2 12 Z M150 8 q -4 -9 3 -11 q 7 5 -3 11 Z M250 18 q 6 -8 -2 -12 q -8 4 2 12 Z" fill="color-mix(in srgb, currentColor 25%, transparent)" /></svg></span>
 <script>
   (function () {
     var root = null;
@@ -51,5 +83,19 @@
       holder.appendChild(s);
     }
   })();</script>
-<script>var moduleMetadata = { module_type: "portada", module_name: "portada-sf5", style_name: "Arco Floral Acuarela", descripcion: "Portada acuarela con variante 2 de composición, partículas flotantes y ornamento arco.", tags: ["portada","arco","acuarela","variante2"], tipo: "portada" };</script>
-</section>
+<script>var moduleMetadata = { module_type: "portada", module_name: "portada-sf5", style_name: "Arco Floral Acuarela", descripcion: "Portada acuarela con variante 6 de composición, partículas flotantes y ornamento arco.", tags: ["portada","arco","acuarela","variante6"], tipo: "portada" };</script>
+
+<script>
+(function () {
+  var el = null;
+  try { el = document.currentScript.closest('[data-gemini-id]'); } catch (e) {}
+  if (!el) return;
+  var mostra = function () { el.classList.add('enVista'); };
+  if (!('IntersectionObserver' in window)) { mostra(); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { if (en.isIntersecting) { mostra(); io.disconnect(); } });
+  }, { threshold: 0.18 });
+  io.observe(el);
+  setTimeout(mostra, 2600);
+})();
+</script></section>

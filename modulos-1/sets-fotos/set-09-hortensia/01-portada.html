@@ -1,4 +1,4 @@
-<section class="sf-p" data-gemini-id="portada-nombre" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<section class="sf-p rv-slide" data-gemini-id="portada-nombre" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder"><i class="sf-dress sf-dress--rail" aria-hidden="true"></i>
 <style>
 .sf-p { --primary-color:#5b7d9e; --secondary-color:#a3b8cc; --accent-color:#c8a878; --bg-color:#f6f3ec; --surface-color:#ffffff; --surface-border-color:rgba(91,125,158,.24); --text-color:#33404d;
   position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:100svh; display:grid; place-items:center; padding:clamp(2.6rem,7vw,5rem) clamp(1rem,5vw,3.4rem); background:radial-gradient(ellipse 60% 46% at 10% 90%, rgba(163,184,204,.35), transparent 70%), url('https://loremflickr.com/1600/1000/hydrangea,kraft') center/cover; background-color:var(--bg-color); color:var(--text-color); text-align:center; }
@@ -14,27 +14,50 @@
 .rcA__nombre { margin:0; font-family:Georgia,serif; font-weight:400; font-size:clamp(2.8rem,9vw,6.4rem); line-height:1.02; color:var(--primary-color); }
 .sf-p__v3 .rcA__nombre { text-align:left; }
 .rcA__fecha { margin:0; font-family:'Courier New',monospace; font-size:clamp(.64rem,1.35vw,.8rem); letter-spacing:.4em; text-transform:uppercase; color:var(--text-color); }
-.rcA__split { position:relative; z-index:2; display:grid; grid-template-columns:1fr; width:min(100%,880px); margin:0 auto; }
-@media (min-width:800px){ .rcA__split { grid-template-columns:1fr 1fr; } }
-.rcA__mitad { padding:clamp(1.6rem,4vw,2.6rem); }
-.rcA__mitad--foto { clip-path:polygon(0 0, 100% 0, 78% 100%, 0 100%); }
-.rcA__mitad--foto img { display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover; }
-.rcA__mitad--txt { display:grid; align-content:center; justify-items:center; text-align:center; }
+.rcA__foto { position:absolute; inset:0; z-index:0; margin:0; }
+.rcA__foto img { display:block; width:100%; height:100%; object-fit:cover; opacity:.42; }
+.rcA__velo { position:absolute; inset:0; z-index:1; background:linear-gradient(160deg, color-mix(in srgb, var(--bg-color) 88%, transparent) 20%, color-mix(in srgb, var(--bg-color) 55%, transparent)); }
+.rcA__panel { position:relative; z-index:2; width:min(100%,700px); text-align:left; margin:0 auto; padding:clamp(3rem,8vw,5rem) clamp(1rem,4vw,2rem); }
+.rcA__panel > * { text-align:left; }
 .sf-orn-wrap { display:flex; justify-content:center; margin:0 auto clamp(1.6rem,4vw,2.4rem); color:var(--primary-color); }
 .sf-orn-wrap svg { width:min(240px,60%); height:auto; }
 @media (prefers-reduced-motion:reduce){ .sf-p * { animation:none !important; } }
-</style>
+
+[data-gemini-id] .rv-fade > *:not(style):not(script), [data-gemini-id] .rv-slide > *:not(style):not(script),
+[data-gemini-id] .rv-zoom > *:not(style):not(script), [data-gemini-id] .rv-blur > *:not(style):not(script) {
+  opacity:0; transition:opacity .7s ease, transform .7s cubic-bezier(.16,1,.3,1), filter .7s ease;
+}
+[data-gemini-id] .rv-fade > .sf-orn-wrap { opacity:1; transform:none; filter:none; }
+.rv-fade.enVista > *:not(style):not(script) { opacity:1; transform:none; }
+.rv-slide.enVista > *:not(style):not(script) { opacity:1; transform:none; }
+.rv-zoom.enVista > *:not(style):not(script) { opacity:1; transform:none; }
+.rv-blur.enVista > *:not(style):not(script) { opacity:1; filter:none; transform:none; }
+.rv-slide > *:not(style):not(script) { transform:translateX(-34px); }
+.rv-zoom  > *:not(style):not(script) { transform:scale(.86); }
+.rv-blur  > *:not(style):not(script) { filter:blur(10px); transform:translateY(16px); }
+.enVista > *:not(style):not(script):nth-child(2) { transition-delay:.12s; }
+.enVista > *:not(style):not(script):nth-child(3) { transition-delay:.24s; }
+.enVista > *:not(style):not(script):nth-child(4) { transition-delay:.36s; }
+.enVista > *:not(style):not(script):nth-child(5) { transition-delay:.48s; }
+@media (prefers-reduced-motion:reduce){
+  [data-gemini-id] .rv-fade > *, [data-gemini-id] .rv-slide > *, [data-gemini-id] .rv-zoom > *, [data-gemini-id] .rv-blur > * { opacity:1 !important; transform:none !important; filter:none !important; transition:none !important; }
+}
+.rv-slide .sf-orn-wrap svg { animation:sfOrnGira 9s linear infinite; }
+@keyframes sfOrnFlota { to { transform:translateY(-5px); } }
+@keyframes sfOrnGira { to { transform:rotate(4deg) translateY(-4px); } }
+.sf-dress--rail { position:absolute; left:clamp(8px,1.6vw,16px); top:12%; bottom:12%; width:6px; pointer-events:none; z-index:1;
+  background:repeating-linear-gradient(180deg, var(--primary-color) 0 12px, transparent 12px 26px); opacity:.6; }
+section.sf-dress--rail-pad { padding-left:clamp(1.6rem,4.5vw,3.2rem) !important; }</style>
 <div class="sf-p__rayos" aria-hidden="true"></div>
 <div class="sf-particulas" aria-hidden="true"></div>
-<div class="rcA__split">
-    <figure class="rcA__mitad rcA__mitad--foto" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/700/860/hydrangea,blue" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" /><figcaption hidden>Retrato</figcaption></figure>
-    <div class="rcA__mitad rcA__mitad--txt">
-      <p class="rcA__rotulo" memory_type="text" memory_usage="custom" memory_key="portada-lema">hortensia</p>
-      <div memory_type="text" memory_usage="custom" memory_key="portada-nombre"><h1 class="rcA__nombre" memory_type="text" memory_usage="custom" memory_key="portada-titulo">Nombre &amp; Nombre</h1></div>
-      <p class="rcA__fecha" memory_type="text" memory_usage="custom" memory_key="portada-fecha"><time datetime="YYYY-MM-DD">Fecha del evento</time></p>
-    </div>
+<figure class="rcA__foto" memory_type="image" memory_usage="custom" memory_source="generated"><img src="https://loremflickr.com/1200/800/hydrangea,blue" alt="Escena" path="placeholder" data-asset-type="escena-principal" loading="eager"><figcaption hidden>Escena</figcaption></figure>
+  <div class="rcA__velo" aria-hidden="true"></div>
+  <div class="rcA__panel">
+    <p class="rcA__rotulo" memory_type="text" memory_usage="custom" memory_key="portada-lema">hortensia</p>
+    <div memory_type="text" memory_usage="custom" memory_key="portada-nombre"><h1 class="rcA__nombre" memory_type="text" memory_usage="custom" memory_key="portada-titulo">Nombre &amp; Nombre</h1></div>
+    <p class="rcA__fecha" memory_type="text" memory_usage="custom" memory_key="portada-fecha"><time datetime="YYYY-MM-DD">Fecha del evento · Lugar</time></p>
   </div>
-<span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 14" width="220"><defs><pattern id="sf-kr-9" width="16" height="14" patternUnits="userSpaceOnUse"><path d="M2 7 H14" stroke="currentColor" stroke-width="1.6" stroke-dasharray="3 2"/></pattern></defs><rect width="300" height="14" fill="url(#sf-kr-9)"/></svg></span>
+<span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 14" width="220"><defs><pattern id="sf-kr-9" width="16" height="14" patternUnits="userSpaceOnUse"><path d="M2 7 H14" stroke="currentColor" stroke-width="1.6" stroke-dasharray="3 2" /></pattern></defs><rect width="300" height="14" fill="url(#sf-kr-9)" /></svg></span>
 <script>
   (function () {
     var root = null;
@@ -51,5 +74,19 @@
       holder.appendChild(s);
     }
   })();</script>
-<script>var moduleMetadata = { module_type: "portada", module_name: "portada-sf9", style_name: "Hortensias y Kraft", descripcion: "Portada hortensia con variante 2 de composición, partículas flotantes y ornamento kraft.", tags: ["portada","kraft","hortensia","variante2"], tipo: "portada" };</script>
-</section>
+<script>var moduleMetadata = { module_type: "portada", module_name: "portada-sf9", style_name: "Hortensias y Kraft", descripcion: "Portada hortensia con variante 4 de composición, partículas flotantes y ornamento kraft.", tags: ["portada","kraft","hortensia","variante4"], tipo: "portada" };</script>
+
+<script>
+(function () {
+  var el = null;
+  try { el = document.currentScript.closest('[data-gemini-id]'); } catch (e) {}
+  if (!el) return;
+  var mostra = function () { el.classList.add('enVista'); };
+  if (!('IntersectionObserver' in window)) { mostra(); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { if (en.isIntersecting) { mostra(); io.disconnect(); } });
+  }, { threshold: 0.18 });
+  io.observe(el);
+  setTimeout(mostra, 2600);
+})();
+</script></section>

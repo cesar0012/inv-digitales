@@ -2,7 +2,7 @@
 const { meta, orn, ORN_CSS, V } = require('./tpl-a.cjs');
 
 function confirmacion(S) {
-  const Vv = S.num % 4;
+  const Vv = S.num % 6;
   const layout = Vv === 0
     ? `.sf5__panel { width:min(100%,580px); margin:0 auto; padding:clamp(2.6rem,6vw,3.8rem) clamp(1.4rem,4vw,2.8rem); background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:22px; box-shadow:0 26px 54px rgba(0,0,0,.14); text-align:center; }
 .sf5__sello { position:absolute; top:-28px; left:50%; transform:translateX(-50%) rotate(-7deg); padding:.55rem 1.4rem; background:var(--primary-color); color:var(--bg-color); font-family:'Courier New',monospace; font-size:.66rem; letter-spacing:.34em; text-transform:uppercase; }`
@@ -11,15 +11,25 @@ function confirmacion(S) {
 @media (min-width:720px){ .sf5__panel { grid-template-columns:1fr 1fr; } }
 .sf5__mitad { padding:clamp(2rem,4.6vw,3rem) clamp(1.3rem,3.4vw,2.2rem); text-align:center; }
 .sf5__mitad:last-child { background:color-mix(in srgb, var(--accent-color) 22%, var(--surface-color)); }`
-      : Vv === 2
-        ? `.sf5__panel { position:relative; width:min(100%,520px); margin:0 auto; padding:clamp(3rem,7vw,4rem) clamp(1.4rem,4vw,2.8rem) clamp(2rem,4.6vw,2.6rem); background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:50% 50% 24px 24px; text-align:center; }`
-        : `.sf5__cintas { width:min(100%,640px); margin:0 auto; }
+        : Vv === 2
+          ? `.sf5__panel { position:relative; width:min(100%,520px); margin:0 auto; padding:clamp(3rem,7vw,4rem) clamp(1.4rem,4vw,2.8rem) clamp(2rem,4.6vw,2.6rem); background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:50% 50% 24px 24px; text-align:center; }`
+          : Vv === 3
+            ? `.sf5__cintas { width:min(100%,640px); margin:0 auto; }
 .sf5__cinta { padding:clamp(1rem,2.6vw,1.4rem) clamp(1.2rem,3.4vw,2rem); transform:skewX(-9deg); margin-bottom:.9rem; }
 .sf5__cinta > * { transform:skewX(9deg); }
 .sf5__cinta--a { background:var(--primary-color); color:var(--bg-color); text-align:left; }
 .sf5__cinta--b { background:var(--surface-color); border:1px solid var(--surface-border-color); text-align:center; }
 .sf5__cinta--c { background:var(--surface-color); border:1px solid var(--surface-border-color); text-align:right; }
-.sf5__cintas .sf5__acciones { transform:none; }`;
+.sf5__cintas .sf5__acciones { transform:none; }`
+            : Vv === 4
+              ? `.sf5__panel { position:relative; width:min(100%,560px); margin:clamp(2.4rem,6vw,3.4rem) auto 0; padding:clamp(2.8rem,6.6vw,3.8rem) clamp(1.4rem,4vw,2.6rem) clamp(2.2rem,5vw,3rem); background:var(--surface-color); border:1px solid var(--surface-border-color); text-align:center; }
+.sf5__panel::before { content:''; position:absolute; left:0; right:0; top:-26px; height:26px; background:color-mix(in srgb, var(--primary-color) 26%, var(--surface-color)); clip-path:polygon(0 100%, 50% 0, 100% 100%); border:1px solid var(--surface-border-color); border-bottom:none; }
+.sf5__panel::after { content:''; position:absolute; left:12%; right:12%; bottom:10px; height:1px; background:repeating-linear-gradient(90deg, var(--accent-color) 0 10px, transparent 10px 18px); }
+.sf5__sobre { display:inline-block; padding:.4rem 1.1rem; border:1px dashed var(--primary-color); border-radius:99px; font-family:'Courier New',monospace; font-size:.6rem; letter-spacing:.4em; text-transform:uppercase; color:var(--primary-color); margin-bottom:1rem; }`
+              : `.sf5__panel { position:relative; width:min(100%,760px); margin:0 auto; padding:clamp(2.4rem,6vw,3.4rem) clamp(3.4rem,9vw,5.4rem); background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:16px; text-align:center; }
+.sf5__panel::before, .sf5__panel::after { content:''; position:absolute; top:50%; width:34px; height:34px; border-radius:50%; background:var(--bg-color); border:1px solid var(--surface-border-color); transform:translateY(-50%); }
+.sf5__panel::before { left:-18px; } .sf5__panel::after { right:-18px; }
+.sf5__limite { letter-spacing:.2em; }`;
   const texto = `<h2 class="sf5__titulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">¿Cuentas con nosotros?</h2>
     <p class="sf5__texto" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">Tu presencia es lo más importante. Confirma tu asistencia antes de la fecha límite.</p>`;
   return `<section class="sf5" data-gemini-id="confirmacion-texto" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
@@ -40,7 +50,7 @@ ${ORN_CSS}
 .sf5__btn--no:hover { transform:translateY(-3px); }
 .sf5__limite { margin:1.4rem 0 0; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.68rem); letter-spacing:.3em; text-transform:uppercase; color:var(--secondary-color); }
 ${layout}
-@media (max-width:640px){ .sf5__cinta { transform:none !important; text-align:center !important; } }
+@media (max-width:640px){ .sf5__cinta { transform:none !important; text-align:center !important; } .sf5__panel::before, .sf5__panel::after { display:none; } .sf5__panel { padding-left:clamp(1.4rem,4vw,2.6rem); padding-right:clamp(1.4rem,4vw,2.6rem); } }
 </style>
 ${Vv === 0 ? `<div class="sf5__panel"><span class="sf5__sello" memory_type="text" memory_usage="custom" memory_key="confirmacion-sello">Confirma</span>${texto}
   <div class="sf5__acciones" memory_type="text" memory_usage="custom" memory_key="confirmacion-acciones">
@@ -57,13 +67,7 @@ ${Vv === 0 ? `<div class="sf5__panel"><span class="sf5__sello" memory_type="text
     </div>
     <p class="sf5__limite" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha-limite">Antes del 1 de junio</p>
   </div>
-</div>` : Vv === 2 ? `<div class="sf5__panel">${texto}
-  <div class="sf5__acciones" memory_type="text" memory_usage="custom" memory_key="confirmacion-acciones">
-    <a class="sf5__btn sf5__btn--si" href="https://wa.me/5210000000000?text=%C2%A1Confirmo!" target="_blank" rel="noopener">Ahí estaré</a>
-    <a class="sf5__btn sf5__btn--no" href="https://wa.me/5210000000000?text=No%20podr%C3%A9" target="_blank" rel="noopener">No podré ir</a>
-  </div>
-  <p class="sf5__limite" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha-limite">Antes del 1 de junio</p>
-</div>` : `<div class="sf5__cintas">
+</div>` : Vv === 3 ? `<div class="sf5__cintas">
   <div class="sf5__cinta sf5__cinta--a" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo"><h2 class="sf5__titulo" style="margin:0; color:inherit;">¿Cuentas con nosotros?</h2></div>
   <div class="sf5__cinta sf5__cinta--b" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto"><p class="sf5__texto" style="margin:0;">Confirma tu asistencia antes de la fecha límite.</p></div>
   <div class="sf5__cinta sf5__cinta--c">
@@ -72,13 +76,19 @@ ${Vv === 0 ? `<div class="sf5__panel"><span class="sf5__sello" memory_type="text
       <a class="sf5__btn sf5__btn--no" href="https://wa.me/5210000000000?text=No%20podr%C3%A9" target="_blank" rel="noopener">No podré</a>
     </div>
   </div>
+</div>` : `<div class="sf5__panel">${Vv === 4 ? '<span class="sf5__sobre" memory_type="text" memory_usage="custom" memory_key="confirmacion-sobre">Ábrelo</span>' : ''}${texto}
+  <div class="sf5__acciones" memory_type="text" memory_usage="custom" memory_key="confirmacion-acciones">
+    <a class="sf5__btn sf5__btn--si" href="https://wa.me/5210000000000?text=%C2%A1Confirmo!" target="_blank" rel="noopener">Ahí estaré</a>
+    <a class="sf5__btn sf5__btn--no" href="https://wa.me/5210000000000?text=No%20podr%C3%A9" target="_blank" rel="noopener">No podré ir</a>
+  </div>
+  <p class="sf5__limite" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha-limite">Confirma antes del 1 de junio</p>
 </div>`}
 ${meta('confirmacion', 'confirmacion-sf' + S.num, S, 'Confirmación ' + S.theme + ' variante ' + (Vv + 1) + ' con botones WhatsApp y ornamento ' + S.motif + '.', ['variante' + (Vv + 1)])}
 </section>`;
 }
 
 function detalles(S) {
-  const Vv = S.num % 4;
+  const Vv = S.num % 6;
   const layout = Vv === 0
     ? `.sf6__par { display:grid; grid-template-columns:1fr; gap:clamp(1.6rem,4vw,2.6rem); width:min(100%,940px); margin:0 auto; }
 @media (min-width:820px){ .sf6__par { grid-template-columns:1fr 1fr; } }
@@ -88,16 +98,28 @@ function detalles(S) {
       ? `.sf6__panel { width:min(100%,860px); margin:0 auto; padding:clamp(2rem,4.6vw,3rem) clamp(1.4rem,4vw,2.8rem); background:var(--surface-color); border:1px solid var(--surface-border-color); }
 .sf6__rejilla { display:grid; grid-template-columns:1fr; gap:clamp(1.4rem,3.6vw,2.2rem); margin-top:1.4rem; }
 @media (min-width:720px){ .sf6__rejilla { grid-template-columns:1fr 1fr; } }`
-      : Vv === 2
+        : Vv === 2
         ? `.sf6__editorial { width:min(100%,720px); margin:0 auto; }
 .sf6__fila { display:grid; grid-template-columns:auto minmax(0,1fr); gap:clamp(1rem,3vw,1.8rem); align-items:start; padding:clamp(1rem,2.6vw,1.5rem) 0; border-bottom:1px solid var(--surface-border-color); }
 .sf6__fila > div { min-width:0; overflow-wrap:anywhere; }
 .sf6__fila:first-child { border-top:1px solid var(--surface-border-color); }
 .sf6__num { font-family:Georgia,serif; font-style:italic; font-size:clamp(1.8rem,4vw,2.6rem); color:var(--accent-color); line-height:1; }`
-        : `.sf6__par { display:grid; grid-template-columns:1fr; gap:clamp(1.6rem,4vw,2.6rem); width:min(100%,900px); margin:0 auto; align-items:center; }
+        : Vv === 3
+        ? `.sf6__par { display:grid; grid-template-columns:1fr; gap:clamp(1.6rem,4vw,2.6rem); width:min(100%,900px); margin:0 auto; align-items:center; }
 @media (min-width:820px){ .sf6__par { grid-template-columns:5fr 6fr; } }
 .sf6__circular { margin:0 auto; width:min(100%,280px); aspect-ratio:1/1; border-radius:50%; overflow:hidden; border:2px solid var(--accent-color); }
-.sf6__circular img { display:block; width:100%; height:100%; object-fit:cover; }`;
+.sf6__circular img { display:block; width:100%; height:100%; object-fit:cover; }`
+        : Vv === 4
+        ? `.sf6__par { display:grid; grid-template-columns:1fr; gap:clamp(1.8rem,4vw,2.4rem); width:min(100%,880px); margin:0 auto; }
+@media (min-width:800px){ .sf6__par { grid-template-columns:1fr 1fr; } }
+.sf6__panel { position:relative; padding:clamp(1.9rem,4.2vw,2.6rem) clamp(1.4rem,3.6vw,2.2rem) clamp(1.6rem,3.6vw,2.2rem); background:var(--surface-color); border:1px solid var(--surface-border-color); clip-path:polygon(0 0, calc(100% - 34px) 0, 100% 34px, 100% 100%, 0 100%); text-align:center; }
+.sf6__panel::after { content:attr(data-ficha); position:absolute; top:.7rem; left:1rem; font-family:'Courier New',monospace; font-size:.6rem; letter-spacing:.3em; color:var(--secondary-color); }
+.sf6__panel:nth-child(2)::after { content:attr(data-ficha); top:auto; bottom:.7rem; right:1rem; left:auto; }`
+        : `.sf6__par { display:grid; grid-template-columns:1fr; gap:clamp(1.8rem,5vw,2.8rem); width:min(100%,760px); margin:0 auto; }
+@media (min-width:800px){ .sf6__par { grid-template-columns:1fr 1fr; align-items:start; } .sf6__panel:last-child { transform:translateY(clamp(1.4rem,4vw,2.6rem)); } }
+.sf6__panel { position:relative; padding:clamp(2rem,4.4vw,2.6rem) clamp(1.3rem,3.4vw,2rem) clamp(1.7rem,3.8vw,2.3rem); background:color-mix(in srgb, var(--surface-color) 94%, var(--accent-color)); border:1px solid var(--surface-border-color); box-shadow:0 16px 30px rgba(0,0,0,.14); text-align:center; }
+.sf6__panel::before { content:''; position:absolute; top:-9px; left:50%; transform:translateX(-50%); width:16px; height:16px; border-radius:50%; background:var(--primary-color); box-shadow:0 3px 6px rgba(0,0,0,.3); }
+.sf6__panel:first-child { transform:rotate(-1.8deg); } .sf6__panel:last-child { transform:rotate(1.4deg); }`;
   const foto = `<figure ${Vv === 3 ? 'class="sf6__circular"' : 'class="sf6__foto" style="margin:0 auto 1.2rem; width:min(100%,300px); border-radius:14px; overflow:hidden; border:1px solid var(--surface-border-color);"'} memory_type="image" memory_usage="custom" memory_source="library">
         <img src="https://loremflickr.com/800/${Vv === 3 ? '800' : '500'}/${S.kw},dress" alt="Inspiración de vestimenta" path="placeholder" data-library-category="bodas" data-asset-type="vestimenta" loading="lazy" />
         <figcaption hidden>Inspiración</figcaption>
@@ -178,7 +200,7 @@ ${Vv === 0 ? `<div class="sf6__par">
       <a class="sf6__dato" href="https://mesaderegalos.com/ejemplo" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="detalles-regalo-link">mesaderegalos.com</a>
     </div>
   </div>
-</div>` : `<div class="sf6__par">
+</div>` : Vv === 3 ? `<div class="sf6__par">
   <figure class="sf6__circular" memory_type="image" memory_usage="custom" memory_source="library">
     <img src="https://loremflickr.com/560/560/${S.kw},dress" alt="Inspiración" path="placeholder" data-library-category="bodas" data-asset-type="vestimenta" loading="lazy" />
     <figcaption hidden>Inspiración</figcaption>
@@ -190,6 +212,20 @@ ${Vv === 0 ? `<div class="sf6__par">
     <div class="sf6__paleta" style="justify-content:flex-start;"><span class="sf6__muestra" style="background:var(--primary-color);"></span><span class="sf6__muestra" style="background:var(--secondary-color);"></span><span class="sf6__muestra" style="background:var(--accent-color);"></span></div>
     <a class="sf6__dato" href="https://mesaderegalos.com/ejemplo" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="detalles-regalo-link">mesaderegalos.com</a>
   </div>
+</div>` : `<div class="sf6__par">
+  <article class="sf6__panel" data-ficha="FICHA A">${foto}
+    <p class="sf6__rotulito" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo">Código de vestimenta</p>
+    <h3 class="sf6__subtitulo" memory_type="text" memory_usage="custom" memory_key="detalles-vestimenta">Formal</h3>
+    <p class="sf6__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto">Paleta ${S.theme}; el blanco queda reservado de los anfitriones.</p>
+    <div class="sf6__paleta"><span class="sf6__muestra" style="background:var(--primary-color);"></span><span class="sf6__muestra" style="background:var(--secondary-color);"></span><span class="sf6__muestra" style="background:var(--accent-color);"></span><span class="sf6__muestra" style="background:var(--text-color);"></span></div>
+  </article>
+  <article class="sf6__panel" data-ficha="FICHA B">
+    <p class="sf6__rotulito" memory_type="text" memory_usage="custom" memory_key="detalles-regalo-rotulo">Mesa de regalos</p>
+    <h3 class="sf6__subtitulo" memory_type="text" memory_usage="custom" memory_key="detalles-regalo-titulo">Tu presencia, nuestro regalo</h3>
+    <p class="sf6__texto" memory_type="text" memory_usage="custom" memory_key="detalles-regalo-texto">Si deseas tener un detalle, aquí van algunas ideas.</p>
+    <a class="sf6__dato" href="https://mesaderegalos.com/ejemplo" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="detalles-regalo-link">mesaderegalos.com</a><br />
+    <span class="sf6__dato" memory_type="text" memory_usage="custom" memory_key="detalles-regalo-dato">CLABE: 0000 0000 0000</span>
+  </article>
 </div>`}
 ${meta('detalles', 'detalles-sf' + S.num, S, 'Detalles ' + S.theme + ' variante ' + (Vv + 1) + ': vestimenta con paleta y mesa de regalos.', ['variante' + (Vv + 1)])}
 </section>`;
@@ -301,7 +337,7 @@ ${meta('countdown', 'countdown-sf' + S.num, S, 'Cuenta regresiva ' + S.theme + '
 }
 
 function padrinos(S) {
-  const Vv = S.num % 4;
+  const Vv = S.num % 6;
   const layout = Vv === 0
     ? `.sf8__fila { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(2.4rem,7vw,6rem); }
 .sf8__casa { width:clamp(210px,28vw,262px); }
@@ -325,10 +361,23 @@ function padrinos(S) {
 .sf8__marco { margin:0; border:5px solid var(--surface-color); outline:1px solid var(--primary-color); box-shadow:0 20px 44px rgba(0,0,0,.22); }
 .sf8__marco img { display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover; }
 .sf8__casa:nth-child(2) { margin-top:clamp(2rem,6vw,4rem); }`
-        : `.sf8__fila { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(2.2rem,6vw,4.6rem); }
+        : Vv === 3
+        ? `.sf8__fila { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(2.2rem,6vw,4.6rem); }
 .sf8__casa { width:clamp(210px,27vw,260px); }
 .sf8__marco { margin:0 auto; width:clamp(180px,23vw,222px); aspect-ratio:3/4; clip-path:polygon(0 12%, 50% 0, 100% 12%, 100% 100%, 0 100%); background:var(--surface-color); border:1px solid var(--primary-color); display:grid; align-items:end; }
-.sf8__marco img { display:block; width:100%; height:80%; object-fit:cover; }`;
+.sf8__marco img { display:block; width:100%; height:80%; object-fit:cover; }`
+        : Vv === 4
+        ? `.sf8__fila { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(2.4rem,6vw,4.4rem); }
+.sf8__casa { width:clamp(200px,26vw,248px); position:relative; }
+.sf8__casa::before { content:''; position:absolute; left:-8%; right:-8%; top:38%; height:clamp(56px,9vw,74px); background:repeating-linear-gradient(45deg, color-mix(in srgb, var(--primary-color) 30%, transparent) 0 10px, color-mix(in srgb, var(--secondary-color) 30%, transparent) 10px 20px); z-index:0; }
+.sf8__marco { position:relative; z-index:1; margin:0 auto; width:clamp(168px,21vw,206px); aspect-ratio:1/1; border-radius:50%; padding:8px; background:var(--surface-color); border:2px solid var(--primary-color); box-shadow:0 18px 36px rgba(0,0,0,.24); }
+.sf8__marco img { display:block; width:100%; height:100%; object-fit:cover; border-radius:50%; }`
+        : `.sf8__fila { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(2.6rem,7vw,5.4rem); }
+.sf8__casa { width:clamp(190px,24vw,232px); }
+.sf8__casa:nth-child(2) { transform:translateY(clamp(1.6rem,5vw,3.2rem)); }
+.sf8__marco { margin:0 auto; width:clamp(170px,21vw,208px); aspect-ratio:1/1.15; clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%); background:var(--surface-color); padding:12px; transition:transform .5s cubic-bezier(.16,1,.3,1); }
+.sf8__casa:hover .sf8__marco { transform:rotate(90deg); }
+.sf8__marco img { display:block; width:100%; height:100%; object-fit:cover; clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%); }`;
   return `<section class="sf8" data-gemini-id="padrinos-sf${S.num}" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
 <style>
 .sf8 { ${V(S)};

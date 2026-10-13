@@ -1,4 +1,4 @@
-<section class="sf12" data-gemini-id="vestimenta-sf24" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<section class="sf12 rv-blur" data-gemini-id="vestimenta-sf24" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder"><i class="sf-dress sf-dress--arches" aria-hidden="true"></i>
 <style>
 .sf12 { --primary-color:#e8b341; --secondary-color:#d98e4a; --accent-color:#fff3cf; --bg-color:#2a1a33; --surface-color:#3a2447; --surface-border-color:rgba(232,179,65,.4); --text-color:#fbf4e4;
   position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.8rem,9.5vw,7rem) clamp(1rem,5vw,4rem); background:radial-gradient(ellipse 76% 56% at 50% -10%, rgba(217,142,74,.3), transparent 70%), url('https://loremflickr.com/1600/1000/confetti,gold') center/cover; background-color:var(--bg-color); color:var(--text-color); }
@@ -22,22 +22,65 @@
 .sf12__muestra { width:44px; height:44px; border-radius:50%; border:1px solid var(--accent-color); }
 @media (max-width:640px){ .sf12__cuerda { height:auto; padding-top:20px; display:grid; grid-template-columns:repeat(2,1fr); gap:2rem 1rem; justify-items:center; } .rcv__etiqueta { position:static; animation:none !important; transform:rotate(var(--sw)); } }
 @media (prefers-reduced-motion:reduce){ .sf12 * { animation:none !important; } .rcv__etiqueta { transform:rotate(var(--sw)); } }
-</style>
-<header class="sf12__cabecera" memory_type="text" memory_usage="custom" memory_key="vestimenta-intro">
-  <p class="sf12__rotulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-rotulo">Código de vestimenta</p>
-  <h2 class="sf12__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-codigo">Formal</h2>
-  <p class="sf12__texto" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">Paleta confeti; el color acento queda reservado de los anfitriones.</p>
-</header>
+
+[data-gemini-id] .rv-fade > *:not(style):not(script), [data-gemini-id] .rv-slide > *:not(style):not(script),
+[data-gemini-id] .rv-zoom > *:not(style):not(script), [data-gemini-id] .rv-blur > *:not(style):not(script) {
+  opacity:0; transition:opacity .7s ease, transform .7s cubic-bezier(.16,1,.3,1), filter .7s ease;
+}
+[data-gemini-id] .rv-fade > .sf-orn-wrap { opacity:1; transform:none; filter:none; }
+.rv-fade.enVista > *:not(style):not(script) { opacity:1; transform:none; }
+.rv-slide.enVista > *:not(style):not(script) { opacity:1; transform:none; }
+.rv-zoom.enVista > *:not(style):not(script) { opacity:1; transform:none; }
+.rv-blur.enVista > *:not(style):not(script) { opacity:1; filter:none; transform:none; }
+.rv-slide > *:not(style):not(script) { transform:translateX(-34px); }
+.rv-zoom  > *:not(style):not(script) { transform:scale(.86); }
+.rv-blur  > *:not(style):not(script) { filter:blur(10px); transform:translateY(16px); }
+.enVista > *:not(style):not(script):nth-child(2) { transition-delay:.12s; }
+.enVista > *:not(style):not(script):nth-child(3) { transition-delay:.24s; }
+.enVista > *:not(style):not(script):nth-child(4) { transition-delay:.36s; }
+.enVista > *:not(style):not(script):nth-child(5) { transition-delay:.48s; }
+@media (prefers-reduced-motion:reduce){
+  [data-gemini-id] .rv-fade > *, [data-gemini-id] .rv-slide > *, [data-gemini-id] .rv-zoom > *, [data-gemini-id] .rv-blur > * { opacity:1 !important; transform:none !important; filter:none !important; transition:none !important; }
+}
+.rv-blur .sf-orn-wrap svg { animation:sfOrnFlota 6s ease-in-out infinite alternate; }
+@keyframes sfOrnFlota { to { transform:translateY(-5px); } }
+@keyframes sfOrnGira { to { transform:rotate(4deg) translateY(-4px); } }
+.sf-dress--arches { position:absolute; inset:0; pointer-events:none; z-index:1; opacity:.55;
+  background:
+    radial-gradient(circle at top left, transparent 68px, var(--primary-color) 69px, transparent 71px) top left / 120px 120px,
+    radial-gradient(circle at top right, transparent 68px, var(--primary-color) 69px, transparent 71px) top right / 120px 120px,
+    radial-gradient(circle at bottom left, transparent 68px, var(--primary-color) 69px, transparent 71px) bottom left / 120px 120px,
+    radial-gradient(circle at bottom right, transparent 68px, var(--primary-color) 69px, transparent 71px) bottom right / 120px 120px;
+  background-repeat:no-repeat; }</style>
+
+
+<script>var moduleMetadata = { module_type: "vestimenta", module_name: "vestimenta-sf24", style_name: "Confeti Dorado 25", descripcion: "Vestimenta confeti variante 1 con paleta y color reservado tachado.", tags: ["vestimenta","confeti","confeti","variante1"], tipo: "vestimenta" };</script>
 <div class="sf12__tarjeta"><div class="sf12__paleta" aria-label="Paleta sugerida">
-    <span class="sf12__muestra" style="background:var(--primary-color);"></span>
-    <span class="sf12__muestra" style="background:var(--secondary-color);"></span>
-    <span class="sf12__muestra" data-prohibida="true" style="background:var(--accent-color);"></span>
-    <span class="sf12__muestra" style="background:var(--text-color);"></span>
+    <span class="sf12__muestra" style="background:var(--primary-color); --i:1;"></span>
+    <span class="sf12__muestra" style="background:var(--secondary-color); --i:2;"></span>
+    <span class="sf12__muestra" data-prohibida="true" style="background:var(--accent-color); --i:3;"></span>
+    <span class="sf12__muestra" style="background:var(--text-color); --i:4;"></span>
   </div>
   <p class="sf12__nota" memory_type="text" memory_usage="custom" memory_key="vestimenta-nota">El color tachado es de los anfitriones</p>
   <ul class="sf12__lista" memory_type="text" memory_usage="custom" memory_key="vestimenta-tips">
     <li>Vestido formal</li><li>Traje oscuro</li><li>Accesorios discretos</li>
   </ul>
-</div>
-<script>var moduleMetadata = { module_type: "vestimenta", module_name: "vestimenta-sf24", style_name: "Confeti Dorado 25", descripcion: "Vestimenta confeti variante 1 con paleta y color reservado tachado.", tags: ["vestimenta","confeti","confeti","variante1"], tipo: "vestimenta" };</script>
-</section>
+</div><header class="sf12__cabecera" memory_type="text" memory_usage="custom" memory_key="vestimenta-intro">
+  <p class="sf12__rotulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-rotulo">Código de vestimenta</p>
+  <h2 class="sf12__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-codigo">Formal</h2>
+  <p class="sf12__texto" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">Paleta confeti; el color acento queda reservado de los anfitriones.</p>
+</header>
+<script>
+(function () {
+  var el = null;
+  try { el = document.currentScript.closest('[data-gemini-id]'); } catch (e) {}
+  if (!el) return;
+  var mostra = function () { el.classList.add('enVista'); };
+  if (!('IntersectionObserver' in window)) { mostra(); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { if (en.isIntersecting) { mostra(); io.disconnect(); } });
+  }, { threshold: 0.18 });
+  io.observe(el);
+  setTimeout(mostra, 2600);
+})();
+</script></section>

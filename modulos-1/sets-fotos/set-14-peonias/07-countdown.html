@@ -1,35 +1,60 @@
-<section class="sf7" data-gemini-id="countdown-sf14" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder" data-countdown-target="YYYY-MM-DDTHH:MM:SS">
+<section class="cd14" data-gemini-id="countdown-peonia-florece" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder" data-countdown-target="YYYY-MM-DDTHH:MM:SS">
 <style>
-.sf7 { --primary-color:#c2455a; --secondary-color:#e8938f; --accent-color:#f7d6b8; --bg-color:#fdf0ec; --surface-color:#ffffff; --surface-border-color:rgba(194,69,90,.22); --text-color:#46282e;
-  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.6rem,9vw,6.8rem) clamp(1rem,5vw,4rem); background:radial-gradient(ellipse 60% 46% at 8% 6%, rgba(232,147,143,.34), transparent 68%), url('https://loremflickr.com/1600/1000/red,peonies') center/cover; background-color:var(--bg-color); color:var(--text-color); text-align:center; }
-.sf7 *, .sf7 *::before, .sf7 *::after { box-sizing:border-box; }
-.sf7::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 74%, transparent); }
-.sf7 > * { position:relative; z-index:1; }
+.cd14 { --primary-color:#c2455a; --secondary-color:#e8938f; --accent-color:#f7d6b8; --bg-color:#fdf0ec; --surface-color:#ffffff; --surface-border-color:rgba(194,69,90,.22); --text-color:#46282e;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.4rem,8vw,6.4rem) clamp(1rem,5vw,4rem); background:radial-gradient(ellipse 60% 46% at 8% 6%, rgba(232,147,143,.34), transparent 68%), url('https://loremflickr.com/1600/1000/red,peonies') center/cover; background-color:var(--bg-color); color:var(--text-color); }
+.cd14 *, .cd14 *::before, .cd14 *::after { box-sizing:border-box; }
+.cd14::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 78%, transparent); }
+.cd14 > * { position:relative; z-index:1; }
 .sf-orn-wrap { display:flex; justify-content:center; margin:0 auto clamp(1.6rem,4vw,2.4rem); color:var(--primary-color); }
 .sf-orn-wrap svg { width:min(240px,60%); height:auto; }
-.sf7__rotulo { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
-.sf7__titulo { margin:0 auto 1rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.9rem,4.6vw,3rem); color:var(--primary-color); }
-.sf7__marca { width:min(100%,860px); margin:0 auto; border-top:2px solid var(--primary-color); border-bottom:2px solid var(--primary-color); padding:clamp(1rem,3vw,1.7rem) 0; overflow:hidden; }
-.sf7__unidades { list-style:none; margin:0; padding:0; display:flex; justify-content:center; gap:clamp(1.6rem,5vw,4rem); }
-.sf7__unidad { text-align:center; position:relative; padding:0 clamp(.6rem,2vw,1.4rem); }
-.sf7__unidad + .sf7__unidad::before { content:''; position:absolute; left:calc(-1 * clamp(.8rem,2.5vw,2rem)); top:10%; bottom:10%; width:1px; background:var(--surface-border-color); }
-.sf7__num { display:block; font-family:Georgia,serif; font-size:clamp(2.2rem,7vw,4.4rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; animation:sf-late 1.9s ease-in-out infinite; }
-@keyframes sf-late { 50% { opacity:.55; } }
-.sf7__etq { display:block; margin-top:.5rem; font-family:'Courier New',monospace; font-size:clamp(.52rem,1.05vw,.64rem); letter-spacing:.4em; text-transform:uppercase; color:var(--text-color); }
-.sf7__fecha { margin:clamp(1.6rem,4vw,2.2rem) 0 0; font-family:'Segoe UI',Arial,sans-serif; font-style:italic; font-size:clamp(.86rem,1.7vw,1rem); color:var(--text-color); }
-@media (max-width:560px){ .sf7__unidades { gap:1.2rem; } .sf7__unidad { width:clamp(104px,38vw,150px); } }
-@media (prefers-reduced-motion:reduce){ .sf7 * { animation:none !important; } }
+
+.cd14 { text-align:center; }
+.cd14__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.cd14__tit { margin:0 0 clamp(1rem,2.6vw,1.5rem); font-family:Georgia,serif; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
+.cd14__jardin { position:relative; width:clamp(190px,32vw,260px); margin:0 auto clamp(.9rem,2.2vw,1.3rem); }
+.cd14__flor { position:relative; width:100%; aspect-ratio:1; animation:cd14-respira 4.2s ease-in-out infinite; }
+@keyframes cd14-respira { 50% { transform:scale(1.05); } }
+.cd14__corazon { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:38%; aspect-ratio:1; border-radius:50%; background:radial-gradient(circle at 40% 34%, color-mix(in srgb, var(--accent-color) 90%, #fff), var(--accent-color)); display:grid; place-items:center; text-align:center; box-shadow:0 0 0 6px color-mix(in srgb, var(--primary-color) 22%, transparent); z-index:3; }
+.cd14__num--cor { font-family:Georgia,serif; font-size:clamp(1.1rem,3vw,1.6rem); color:var(--primary-color); font-variant-numeric:tabular-nums; }
+.cd14__etq--cor { display:block; font-family:'Courier New',monospace; font-size:clamp(.38rem,.76vw,.5rem); letter-spacing:.22em; text-transform:uppercase; color:var(--primary-color); }
+.cd14__anillo { position:absolute; inset:0; border-radius:50%; }
+.cd14__petalo { position:absolute; left:50%; top:50%; width:30%; height:48%; margin:-48% 0 0 -15%; border-radius:50% 50% 46% 46%/64% 64% 36% 36%; transform-origin:50% 100%; border:1px solid color-mix(in srgb, var(--primary-color) 55%, transparent); }
+.cd14__anillo--ext .cd14__petalo { background:color-mix(in srgb, var(--primary-color) 20%, transparent); }
+.cd14__anillo--med { inset:16%; } .cd14__anillo--med .cd14__petalo { background:color-mix(in srgb, var(--primary-color) 38%, transparent); }
+.cd14__anillo--int { inset:32%; } .cd14__anillo--int .cd14__petalo { background:color-mix(in srgb, var(--primary-color) 58%, transparent); }
+.cd14__tallo { width:2px; height:clamp(26px,5vw,44px); margin:0 auto; background:var(--secondary-color); }
+.cd14__maceta { display:flex; justify-content:center; gap:clamp(.7rem,2.2vw,1.4rem); flex-wrap:wrap; margin-top:.6rem; }
+.cd14__suelto { display:grid; justify-items:center; gap:.3rem; padding:.6rem .9rem .7rem; border-radius:50% 50% 46% 46%/64% 64% 36% 36%; background:color-mix(in srgb, var(--primary-color) 12%, var(--surface-color)); border:1px solid var(--surface-border-color); animation:cd14-flota 3s ease-in-out infinite; }
+.cd14__suelto:nth-child(2){ animation-delay:.4s; } .cd14__suelto:nth-child(3){ animation-delay:.8s; }
+@keyframes cd14-flota { 50% { transform:translateY(-7px) rotate(2deg); } }
+.cd14__num { font-family:Georgia,serif; font-size:clamp(1.2rem,3.2vw,1.7rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; }
+.cd14__etq { font-family:'Courier New',monospace; font-size:clamp(.42rem,.84vw,.54rem); letter-spacing:.26em; text-transform:uppercase; color:var(--text-color); }
+.cd14__fecha { display:block; margin:clamp(1.3rem,3vw,1.9rem) 0 0; font-family:'Segoe UI',Arial,sans-serif; font-style:italic; font-size:clamp(.85rem,1.6vw,.98rem); color:var(--text-color); }
+@media (max-width:560px){ .cd14__maceta { gap:.6rem; } }
+
+@media (prefers-reduced-motion:reduce){ .cd14 * { animation:none !important; transition:none !important; } }
 </style>
-<p class="sf7__rotulo" memory_type="text" memory_usage="custom" memory_key="countdown-rotulo">Cuenta regresiva</p>
-<h2 class="sf7__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Falta poco</h2>
-<span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M120 18 L136 6 L152 18 L168 6 L184 18"/><path d="M0 12 H112 M188 12 H300"/></svg></span>
-<ul class="sf7__unidades" aria-label="Cuenta regresiva">
-  <li class="sf7__unidad"><span class="sf7__interior"><span class="sf7__num" data-countdown-unit="days">--</span><span class="sf7__etq">Días</span></span></li>
-  <li class="sf7__unidad"><span class="sf7__interior"><span class="sf7__num" data-countdown-unit="hours">--</span><span class="sf7__etq">Horas</span></span></li>
-  <li class="sf7__unidad"><span class="sf7__interior"><span class="sf7__num" data-countdown-unit="minutes">--</span><span class="sf7__etq">Min</span></span></li>
-  <li class="sf7__unidad"><span class="sf7__interior"><span class="sf7__num" data-countdown-unit="seconds">--</span><span class="sf7__etq">Seg</span></span></li>
-</ul>
-<time class="sf7__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento · hora por confirmar</time>
+<header memory_type="text" memory_usage="custom" memory_key="countdown-intro">
+  <p class="cd14__rot" memory_type="text" memory_usage="custom" memory_key="countdown-rotulo">Capa a capa</p>
+  <h2 class="cd14__tit" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">La peonía abre al gran día</h2>
+</header>
+<div class="cd14__jardin">
+  <div class="cd14__flor" aria-hidden="true">
+    <div class="cd14__anillo cd14__anillo--ext"><i class="cd14__petalo" style="transform:rotate(0deg);"></i><i class="cd14__petalo" style="transform:rotate(45deg);"></i><i class="cd14__petalo" style="transform:rotate(90deg);"></i><i class="cd14__petalo" style="transform:rotate(135deg);"></i><i class="cd14__petalo" style="transform:rotate(180deg);"></i><i class="cd14__petalo" style="transform:rotate(225deg);"></i><i class="cd14__petalo" style="transform:rotate(270deg);"></i><i class="cd14__petalo" style="transform:rotate(315deg);"></i></div>
+    <div class="cd14__anillo cd14__anillo--med"><i class="cd14__petalo" style="transform:rotate(22deg);"></i><i class="cd14__petalo" style="transform:rotate(82deg);"></i><i class="cd14__petalo" style="transform:rotate(142deg);"></i><i class="cd14__petalo" style="transform:rotate(202deg);"></i><i class="cd14__petalo" style="transform:rotate(262deg);"></i><i class="cd14__petalo" style="transform:rotate(322deg);"></i></div>
+    <div class="cd14__anillo cd14__anillo--int"><i class="cd14__petalo" style="transform:rotate(40deg);"></i><i class="cd14__petalo" style="transform:rotate(112deg);"></i><i class="cd14__petalo" style="transform:rotate(184deg);"></i><i class="cd14__petalo" style="transform:rotate(256deg);"></i><i class="cd14__petalo" style="transform:rotate(328deg);"></i></div>
+  </div>
+  <div class="cd14__corazon" aria-label="Días restantes">
+    <span><b class="cd14__num--cor" data-countdown-unit="days">--</b><span class="cd14__etq--cor">Días</span></span>
+  </div>
+</div>
+<i class="cd14__tallo" aria-hidden="true"></i>
+<div class="cd14__maceta" aria-label="Horas, minutos y segundos">
+<span class="cd14__suelto"><b class="cd14__num" data-countdown-unit="hours">--</b><span class="cd14__etq">Horas</span></span>
+<span class="cd14__suelto"><b class="cd14__num" data-countdown-unit="minutes">--</b><span class="cd14__etq">Min</span></span>
+<span class="cd14__suelto"><b class="cd14__num" data-countdown-unit="seconds">--</b><span class="cd14__etq">Seg</span></span>
+</div>
+<time class="cd14__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento · hora por confirmar</time>
 
 <script>
   (function () {
@@ -74,5 +99,5 @@
     window.updateCountdown = start;
   })();
 </script>
-<script>var moduleMetadata = { module_type: "countdown", module_name: "countdown-sf14", style_name: "Peonías Rosas", descripcion: "Cuenta regresiva peonias variante 3 con contrato completo de countdown.", tags: ["countdown","acordeon","peonias","variante3"], tipo: "countdown" };</script>
+<script>var moduleMetadata = { module_type: "countdown", module_name: "countdown-peonia-florece", style_name: "Peonías Rosas", descripcion: "Peonía de tres anillos de pétalos que respira; los días laten en el corazón de la flor y el resto flota en pétalos sueltos.", tags: ["countdown","acordeon","peonias","peonía","pétalos","florece"], tipo: "countdown" };</script>
 </section>

@@ -49,7 +49,7 @@ function particlesJS(S, n) {
 }
 
 function portada(S) {
-  const Vv = S.num % 4;
+  const Vv = S.num % 6;
   const extra = Vv === 0
     ? `.rcA__cinta { position:relative; z-index:3; margin:clamp(1.4rem,3.4vw,2rem) auto 0; width:min(100%,560px); overflow:hidden; border-top:1px solid var(--surface-border-color); border-bottom:1px solid var(--surface-border-color); padding:.55rem 0; }
 .rcA__cinta p { margin:0; white-space:nowrap; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.5em; text-transform:uppercase; color:var(--secondary-color); animation:rcA-marca 14s linear infinite; }
@@ -67,11 +67,24 @@ function portada(S) {
         ? `.rcA__marco { position:relative; z-index:2; width:min(100%,560px); margin:0 auto; border:1px solid var(--primary-color); outline:1px solid var(--surface-border-color); outline-offset:8px; padding:clamp(2rem,5vw,3rem) clamp(1.2rem,3.6vw,2.4rem); }
 .rcA__foto { width:clamp(150px,24vw,210px); aspect-ratio:1/1; margin:0 auto clamp(1.2rem,3vw,1.8rem); clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%); overflow:hidden; }
 .rcA__foto img { display:block; width:100%; height:100%; object-fit:cover; }`
-        : `.rcA__foto { position:absolute; inset:0; z-index:0; margin:0; }
+        : Vv === 3
+        ? `.rcA__foto { position:absolute; inset:0; z-index:0; margin:0; }
 .rcA__foto img { display:block; width:100%; height:100%; object-fit:cover; opacity:.42; }
 .rcA__velo { position:absolute; inset:0; z-index:1; background:linear-gradient(160deg, color-mix(in srgb, var(--bg-color) 88%, transparent) 20%, color-mix(in srgb, var(--bg-color) 55%, transparent)); }
 .rcA__panel { position:relative; z-index:2; width:min(100%,700px); text-align:left; margin:0 auto; padding:clamp(3rem,8vw,5rem) clamp(1rem,4vw,2rem); }
-.rcA__panel > * { text-align:left; }`;
+.rcA__panel > * { text-align:left; }`
+        : Vv === 4
+        ? `.rcA__banda { position:relative; z-index:2; width:min(100%,880px); margin:0 auto; padding:clamp(1.8rem,4.4vw,2.8rem) clamp(1rem,4vw,2.4rem); border-top:3px solid var(--primary-color); border-bottom:3px solid var(--primary-color); background:color-mix(in srgb, var(--surface-color) 62%, transparent); }
+.rcA__banda::before, .rcA__banda::after { content:''; position:absolute; left:0; right:0; height:7px; background:repeating-linear-gradient(90deg, var(--primary-color) 0 14px, transparent 14px 24px); }
+.rcA__banda::before { top:7px; } .rcA__banda::after { bottom:7px; }
+.rcA__foto { width:clamp(120px,18vw,168px); aspect-ratio:1/1; margin:0 auto clamp(1rem,2.6vw,1.6rem); border-radius:50%; overflow:hidden; border:2px solid var(--primary-color); }
+.rcA__foto img { display:block; width:100%; height:100%; object-fit:cover; }`
+        : `.rcA__sello { position:relative; z-index:2; width:min(100%,620px); margin:0 auto; padding:clamp(2.2rem,5.4vw,3.4rem) clamp(1.2rem,4vw,2.4rem); transform:rotate(-2deg); }
+.rcA__sello::before { content:''; position:absolute; inset:0; border:2px solid var(--primary-color); transform:rotate(1.6deg); }
+.rcA__sello::after { content:''; position:absolute; inset:10px; border:1px dashed var(--accent-color); transform:rotate(-1deg); }
+.rcA__fantasma { position:absolute; right:2%; bottom:-6%; z-index:-1; font-family:${S.disp}; font-size:clamp(8rem,22vw,15rem); line-height:1; color:color-mix(in srgb, var(--primary-color) 12%, transparent); }
+.rcA__foto { width:clamp(110px,16vw,150px); aspect-ratio:1/1; margin:0 auto clamp(1rem,2.6vw,1.5rem); clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%); overflow:hidden; }
+.rcA__foto img { display:block; width:100%; height:100%; object-fit:cover; }`;
   const bodyInner = Vv === 0
     ? `<figure class="rcA__foto" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/600/600/${S.kw},couple" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" /><figcaption hidden>Retrato</figcaption></figure>
   <p class="rcA__rotulo" memory_type="text" memory_usage="custom" memory_key="portada-lema">${S.theme}</p>
@@ -93,12 +106,27 @@ function portada(S) {
     <div memory_type="text" memory_usage="custom" memory_key="portada-nombre"><h1 class="rcA__nombre" memory_type="text" memory_usage="custom" memory_key="portada-titulo">Nombre &amp; Nombre</h1></div>
     <p class="rcA__fecha" memory_type="text" memory_usage="custom" memory_key="portada-fecha"><time datetime="YYYY-MM-DD">Fecha del evento · Lugar</time></p>
   </div>`
-        : `<figure class="rcA__foto" memory_type="image" memory_usage="custom" memory_source="generated"><img src="https://loremflickr.com/1200/800/${S.kw}" alt="Escena" path="placeholder" data-asset-type="escena-principal" loading="eager" /><figcaption hidden>Escena</figcaption></figure>
+        : Vv === 3
+        ? `<figure class="rcA__foto" memory_type="image" memory_usage="custom" memory_source="generated"><img src="https://loremflickr.com/1200/800/${S.kw}" alt="Escena" path="placeholder" data-asset-type="escena-principal" loading="eager" /><figcaption hidden>Escena</figcaption></figure>
   <div class="rcA__velo" aria-hidden="true"></div>
   <div class="rcA__panel">
     <p class="rcA__rotulo" memory_type="text" memory_usage="custom" memory_key="portada-lema">${S.theme}</p>
     <div memory_type="text" memory_usage="custom" memory_key="portada-nombre"><h1 class="rcA__nombre" memory_type="text" memory_usage="custom" memory_key="portada-titulo">Nombre &amp; Nombre</h1></div>
     <p class="rcA__fecha" memory_type="text" memory_usage="custom" memory_key="portada-fecha"><time datetime="YYYY-MM-DD">Fecha del evento · Lugar</time></p>
+  </div>`
+        : Vv === 4
+        ? `<div class="rcA__banda">
+    <figure class="rcA__foto" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/480/480/${S.kw},portrait" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" /><figcaption hidden>Retrato</figcaption></figure>
+    <p class="rcA__rotulo" memory_type="text" memory_usage="custom" memory_key="portada-lema">${S.theme}</p>
+    <div memory_type="text" memory_usage="custom" memory_key="portada-nombre"><h1 class="rcA__nombre" memory_type="text" memory_usage="custom" memory_key="portada-titulo">Nombre &amp; Nombre</h1></div>
+    <p class="rcA__fecha" memory_type="text" memory_usage="custom" memory_key="portada-fecha"><time datetime="YYYY-MM-DD">Fecha del evento · Hora</time></p>
+  </div>`
+        : `<div class="rcA__sello">
+    <span class="rcA__fantasma" aria-hidden="true">&amp;</span>
+    <figure class="rcA__foto" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/440/440/${S.kw},detail" alt="Detalle" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" /><figcaption hidden>Detalle</figcaption></figure>
+    <p class="rcA__rotulo" memory_type="text" memory_usage="custom" memory_key="portada-lema">${S.theme}</p>
+    <div memory_type="text" memory_usage="custom" memory_key="portada-nombre"><h1 class="rcA__nombre" memory_type="text" memory_usage="custom" memory_key="portada-titulo">Nombre &amp; Nombre</h1></div>
+    <p class="rcA__fecha" memory_type="text" memory_usage="custom" memory_key="portada-fecha"><time datetime="YYYY-MM-DD">Fecha del evento</time></p>
   </div>`;
 
   return `<section class="sf-p" data-gemini-id="portada-nombre" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
@@ -131,7 +159,7 @@ ${meta('portada', 'portada-sf' + S.num, S, 'Portada ' + S.theme + ' con variante
 }
 
 function padres(S) {
-  const Vv = S.num % 4;
+  const Vv = S.num % 6;
   const frame = Vv === 0
     ? `.sf2__marco { width:clamp(200px,26vw,258px); padding:14px; background:var(--surface-color); border:1px solid var(--surface-border-color); transform:skewX(-5deg); transition:transform .5s cubic-bezier(.16,1,.3,1); }
 .sf2__marco:nth-child(2) { transform:skewX(5deg); }
@@ -148,9 +176,19 @@ function padres(S) {
 .sf2__casa:nth-child(1) .sf2__marco { transform:rotate(-3deg) translateX(14px); }
 .sf2__casa:nth-child(2) .sf2__marco { transform:rotate(3deg) translateX(-14px); }
 .sf2__marco img { display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover; }`
-        : `.sf2__marco { width:clamp(190px,24vw,234px); aspect-ratio:1/1.06; clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%); background:var(--surface-color); padding:9px; transition:transform .5s cubic-bezier(.16,1,.3,1); }
+        : Vv === 3
+        ? `.sf2__marco { width:clamp(190px,24vw,234px); aspect-ratio:1/1.06; clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%); background:var(--surface-color); padding:9px; transition:transform .5s cubic-bezier(.16,1,.3,1); }
 .sf2__casa:hover .sf2__marco { transform:translateY(-6px) rotate(2deg); }
-.sf2__marco img { display:block; width:100%; height:100%; object-fit:cover; clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%); }`;
+.sf2__marco img { display:block; width:100%; height:100%; object-fit:cover; clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%); }`
+        : Vv === 4
+        ? `.sf2__marco { width:clamp(185px,23vw,228px); aspect-ratio:10/13; background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:50% 50% 8px 8px; padding:12px 12px 0; position:relative; }
+.sf2__marco::before { content:''; position:absolute; left:10%; right:10%; bottom:0; height:14px; background:var(--primary-color); border-radius:0 0 8px 8px; }
+.sf2__marco img { display:block; width:100%; height:calc(100% - 14px); object-fit:cover; border-radius:50% 50% 0 0; }
+.sf2__casa:nth-child(2) { transform:translateY(clamp(1.4rem,4vw,2.6rem)); }`
+        : `.sf2__marco { width:clamp(175px,22vw,215px); aspect-ratio:3/4.6; background:var(--surface-color); border-top:8px solid var(--primary-color); border-bottom:2px solid var(--primary-color); border-left:1px solid var(--surface-border-color); border-right:1px solid var(--surface-border-color); padding:10px 8px; transition:transform .5s cubic-bezier(.16,1,.3,1); }
+.sf2__marco::after { content:''; display:block; width:100%; height:5px; margin-top:8px; background:repeating-linear-gradient(90deg, var(--primary-color) 0 8px, transparent 8px 14px); }
+.sf2__marco img { display:block; width:100%; height:calc(100% - 13px); object-fit:cover; filter:saturate(.92); }
+.sf2__casa:nth-child(1) .sf2__marco:hover, .sf2__casa:nth-child(2) .sf2__marco:hover { transform:translateY(-6px); }`;
   return `<section class="sf2" data-gemini-id="padres-padre" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
 <style>
 .sf2 { ${V(S)};
@@ -202,7 +240,7 @@ ${meta('padres', 'padres-sf' + S.num, S, 'Padres en marcos ' + S.motif + ' con v
 }
 
 function ubicacion(S) {
-  const Vv = S.num % 4;
+  const Vv = S.num % 6;
   const layout = Vv === 0
     ? `.sf3__par > * { min-width:0; max-width:100%; }
 .sf3__par { display:grid; grid-template-columns:1fr; gap:clamp(1.6rem,4vw,2.6rem); width:min(100%,960px); margin:0 auto; align-items:stretch; }
@@ -222,11 +260,25 @@ function ubicacion(S) {
 .sf3__mapa { margin:0; clip-path:polygon(0 0, 100% 0, 86% 100%, 0 100%); overflow:hidden; }
 .sf3__mapa iframe { display:block; width:100%; height:100%; min-height:360px; border:0; }
 .sf3__info { padding:clamp(1.6rem,4vw,2.6rem) clamp(1.2rem,3.4vw,2rem); display:grid; align-content:center; gap:.5rem; }`
-        : `.sf3__lienzo { position:relative; width:min(100%,860px); margin:0 auto; }
+        : Vv === 3
+        ? `.sf3__lienzo { position:relative; width:min(100%,860px); margin:0 auto; }
 .sf3__mapa { margin:0; border:1px solid var(--surface-border-color); overflow:hidden; }
 .sf3__mapa iframe { display:block; width:100%; height:min(56vw,420px); border:0; }
 .sf3__barra { position:relative; margin-top:-72px; z-index:2; width:min(100%,86%); margin-left:auto; background:var(--surface-color); border:1px solid var(--surface-border-color); padding:clamp(1.1rem,2.8vw,1.6rem) clamp(1.2rem,3.4vw,2rem); transform:skewX(-7deg); }
-.sf3__barra > * { transform:skewX(7deg); }`;
+.sf3__barra > * { transform:skewX(7deg); }`
+        : Vv === 4
+        ? `.sf3__lienzo { position:relative; width:min(100%,880px); margin:0 auto; }
+.sf3__mapa { margin:0; border:1px solid var(--surface-border-color); overflow:hidden; border-radius:20px; box-shadow:0 24px 48px rgba(0,0,0,.22); }
+.sf3__mapa iframe { display:block; width:100%; height:min(60vw,460px); border:0; }
+.sf3__barra { position:relative; z-index:2; width:min(92%,620px); margin:clamp(-6rem,-12vw,-4rem) auto 0; background:color-mix(in srgb, var(--surface-color) 88%, transparent); backdrop-filter:blur(7px); border:1px solid var(--surface-border-color); border-radius:16px; padding:clamp(1.6rem,4vw,2.4rem); text-align:center; }
+.sf3__barra::before { content:''; position:absolute; left:50%; top:-9px; transform:translateX(-50%); width:18px; height:18px; border-radius:50%; background:var(--primary-color); box-shadow:0 4px 10px rgba(0,0,0,.3); }`
+        : `.sf3__lienzo { position:relative; width:min(100%,760px); margin:0 auto; transform:rotate(-1.6deg); }
+.sf3__mapa { margin:0; border:10px solid var(--surface-color); outline:1px solid var(--primary-color); overflow:hidden; box-shadow:0 26px 50px rgba(0,0,0,.24); }
+.sf3__mapa iframe { display:block; width:100%; height:min(52vw,380px); border:0; }
+.sf3__barra { position:relative; margin-top:1.4rem; background:var(--surface-color); border:1px solid var(--surface-border-color); padding:clamp(1.4rem,3.4vw,2rem); }
+.sf3__barra::before { content:''; position:absolute; left:14px; top:14px; width:34px; height:34px; border-top:2px dashed var(--primary-color); border-left:2px dashed var(--primary-color); }
+.sf3__barra::after { content:''; position:absolute; right:14px; bottom:14px; width:34px; height:34px; border-bottom:2px dashed var(--primary-color); border-right:2px dashed var(--primary-color); }
+@media (max-width:700px){ .sf3__lienzo { transform:none; } }`;
   const datosInner = Vv === 0
     ? `<p class="sf3__lugar" memory_type="text" memory_usage="custom" memory_key="ubicacion-nombre">Nombre del lugar</p>
       <address class="sf3__dato" memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion">Calle Principal 214, Ciudad</address>
@@ -284,7 +336,7 @@ ${meta('ubicacion', 'ubicacion-sf' + S.num, S, 'Ubicación ' + S.theme + ' varia
 }
 
 function itinerario(S) {
-  const Vv = S.num % 4;
+  const Vv = S.num % 6;
   const hitos = [['5:00 pm', '17:00', 'Recepción', 'Bienvenida y copas'], ['6:30 pm', '18:30', 'Ceremonia', 'El gran momento'], ['8:30 pm', '20:30', 'Banquete', 'Cena y brindis'], ['10:00 pm', '22:00', 'Baile', 'La pista se enciende']];
   const items = hitos.map(([hr, dt, t, d], i) => {
     if (Vv === 0) return `  <li class="sf4__hito">
@@ -345,11 +397,23 @@ function itinerario(S) {
 .sf4__pica { position:absolute; left:24px; top:14%; bottom:14%; border-left:2px dashed color-mix(in srgb, var(--accent-color) 60%, transparent); }
 .sf4__fila { display:flex; align-items:baseline; gap:.7rem; }
 .sf4__num { font-family:Georgia,serif; font-style:italic; font-size:1.3rem; color:var(--accent-color); }`
-        : `.sf4__lista { list-style:none; margin:0 auto; padding:0; width:min(100%,720px); }
+        : Vv === 3
+        ? `.sf4__lista { list-style:none; margin:0 auto; padding:0; width:min(100%,720px); }
 .sf4__escal { display:grid; grid-template-columns:auto 1fr; align-items:center; gap:clamp(1.2rem,3.4vw,2rem); padding:clamp(.9rem,2.2vw,1.3rem) 0; border-bottom:1px solid var(--surface-border-color); }
 .sf4__escal:first-child { border-top:1px solid var(--surface-border-color); }
 .sf4__escal:nth-child(even) { padding-left:clamp(2rem,6vw,4rem); }
-.sf4__numbig { font-family:Georgia,serif; font-style:italic; font-size:clamp(2.2rem,6vw,3.4rem); line-height:1; color:var(--accent-color); }`;
+.sf4__numbig { font-family:Georgia,serif; font-style:italic; font-size:clamp(2.2rem,6vw,3.4rem); line-height:1; color:var(--accent-color); }`
+        : Vv === 4
+        ? `.sf4__lista { list-style:none; margin:0 auto; padding:0; width:min(100%,880px); display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:clamp(1.2rem,3vw,2rem); }
+.sf4__escal { position:relative; display:grid; gap:.4rem; justify-items:center; text-align:center; padding:clamp(1.6rem,3.6vw,2.2rem) 1.2rem; background:var(--surface-color); border:1px dashed var(--primary-color); }
+.sf4__escal::after { content:''; position:absolute; right:-7px; bottom:-7px; width:22px; height:22px; border-radius:50%; border:1.5px solid var(--primary-color); background:color-mix(in srgb, var(--bg-color) 70%, var(--surface-color)); }
+.sf4__numbig { font-family:'Courier New',monospace; font-style:normal; font-size:clamp(1.4rem,3.4vw,2rem); line-height:1; color:var(--primary-color); border:1.5px solid var(--primary-color); border-radius:50%; width:2.4em; height:2.4em; display:grid; place-items:center; transform:rotate(-8deg); }
+.sf4__escal:nth-child(even) .sf4__numbig { transform:rotate(7deg); }`
+        : `.sf4__lista { list-style:none; margin:0 auto; padding:0; width:min(100%,680px); counter-reset:sello; }
+.sf4__escal { position:relative; display:grid; grid-template-columns:auto 1fr; align-items:center; gap:clamp(1.4rem,3.6vw,2.2rem); padding:clamp(1rem,2.4vw,1.4rem) 0 clamp(1rem,2.4vw,1.4rem) clamp(3.2rem,7vw,4.2rem); }
+.sf4__escal::before { counter-increment:sello; content:counter(sello); position:absolute; left:0; top:50%; transform:translateY(-50%); width:clamp(40px,5vw,50px); height:clamp(40px,5vw,50px); display:grid; place-items:center; border-radius:38% 62% 55% 45%/48% 42% 58% 52%; background:color-mix(in srgb, var(--primary-color) 30%, var(--surface-color)); border:1.5px solid var(--primary-color); font-family:Georgia,serif; font-style:italic; font-size:clamp(1.1rem,2.4vw,1.5rem); color:var(--primary-color); box-shadow:inset 0 0 0 4px color-mix(in srgb, var(--primary-color) 12%, transparent); }
+.sf4__escal:not(:last-child)::after { content:''; position:absolute; left:clamp(19px,2.4vw,24px); bottom:-14px; height:26px; width:1.5px; background:repeating-linear-gradient(var(--accent-color) 0 4px, transparent 4px 8px); }
+.sf4__numbig { display:none; }`;
   return `<section class="sf4" data-gemini-id="itinerario-agenda" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
 <style>
 .sf4 { ${V(S)};

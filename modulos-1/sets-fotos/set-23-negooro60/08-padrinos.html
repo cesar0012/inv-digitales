@@ -1,4 +1,4 @@
-<section class="sf8" data-gemini-id="padrinos-sf23" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<section class="sf8 rv-blur" data-gemini-id="padrinos-sf23" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder"><i class="sf-dress sf-dress--arches" aria-hidden="true"></i>
 <style>
 .sf8 { --primary-color:#d4af5f; --secondary-color:#a8873f; --accent-color:#f0d998; --bg-color:#12100c; --surface-color:#1d1812; --surface-border-color:rgba(212,175,95,.4); --text-color:#f0e8d8;
   position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.6rem,9vw,7rem) clamp(1rem,5vw,4rem); background:radial-gradient(ellipse 70% 55% at 50% 110%, rgba(212,175,95,.16), transparent 70%), url('https://loremflickr.com/1600/1000/black,gold') center/cover; background-color:var(--bg-color); color:var(--text-color); text-align:center; }
@@ -9,24 +9,54 @@
 .sf-orn-wrap svg { width:min(240px,60%); height:auto; }
 .rc2__rotulo { margin:0 0 .5rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
 .rc2__titulo { margin:0 auto 1rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.9rem,4.6vw,3rem); color:var(--primary-color); }
-.sf8__fila { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(2.2rem,6vw,4.6rem); }
-.sf8__casa { width:clamp(210px,27vw,260px); }
-.sf8__marco { margin:0 auto; width:clamp(180px,23vw,222px); aspect-ratio:3/4; clip-path:polygon(0 12%, 50% 0, 100% 12%, 100% 100%, 0 100%); background:var(--surface-color); border:1px solid var(--primary-color); display:grid; align-items:end; }
-.sf8__marco img { display:block; width:100%; height:80%; object-fit:cover; }
+.sf8__fila { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(2.6rem,7vw,5.4rem); }
+.sf8__casa { width:clamp(190px,24vw,232px); }
+.sf8__casa:nth-child(2) { transform:translateY(clamp(1.6rem,5vw,3.2rem)); }
+.sf8__marco { margin:0 auto; width:clamp(170px,21vw,208px); aspect-ratio:1/1.15; clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%); background:var(--surface-color); padding:12px; transition:transform .5s cubic-bezier(.16,1,.3,1); }
+.sf8__casa:hover .sf8__marco { transform:rotate(90deg); }
+.sf8__marco img { display:block; width:100%; height:100%; object-fit:cover; clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%); }
 .sf8__rol { display:block; margin:1.1rem 0 .2rem; font-family:'Courier New',monospace; font-size:clamp(.54rem,1.02vw,.64rem); letter-spacing:.44em; text-transform:uppercase; color:var(--secondary-color); }
 .sf8__nombre { margin:0; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.02rem,2.1vw,1.26rem); color:var(--primary-color); }
 .sf8__nota { margin:clamp(2.2rem,5vw,3rem) auto 0; max-width:44ch; font-family:'Segoe UI',Arial,sans-serif; font-style:italic; font-size:clamp(.86rem,1.6vw,1rem); line-height:1.8; color:var(--text-color); }
 @media (max-width:640px){ .sf8__casa:nth-child(2) { margin-left:0; margin-top:0; } .sf8__casa { transform:none !important; } }
-</style>
-<header memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
-  <p class="rc2__rotulo" memory_type="text" memory_usage="custom" memory_key="padrinos-rotulo">Testigos</p>
-  <h2 class="rc2__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Madrina &amp; Padrino</h2>
-  <span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 24" fill="none" stroke="currentColor"><path d="M0 12 H120 M180 12 H300"/><path d="M132 12 L146 4 L160 12 L146 20 Z M154 13 L168 5 L182 13 L168 21 Z" fill="none"/></svg></span>
-</header>
-<div class="sf8__fila">
+
+[data-gemini-id] .rv-fade > *:not(style):not(script), [data-gemini-id] .rv-slide > *:not(style):not(script),
+[data-gemini-id] .rv-zoom > *:not(style):not(script), [data-gemini-id] .rv-blur > *:not(style):not(script) {
+  opacity:0; transition:opacity .7s ease, transform .7s cubic-bezier(.16,1,.3,1), filter .7s ease;
+}
+[data-gemini-id] .rv-fade > .sf-orn-wrap { opacity:1; transform:none; filter:none; }
+.rv-fade.enVista > *:not(style):not(script) { opacity:1; transform:none; }
+.rv-slide.enVista > *:not(style):not(script) { opacity:1; transform:none; }
+.rv-zoom.enVista > *:not(style):not(script) { opacity:1; transform:none; }
+.rv-blur.enVista > *:not(style):not(script) { opacity:1; filter:none; transform:none; }
+.rv-slide > *:not(style):not(script) { transform:translateX(-34px); }
+.rv-zoom  > *:not(style):not(script) { transform:scale(.86); }
+.rv-blur  > *:not(style):not(script) { filter:blur(10px); transform:translateY(16px); }
+.enVista > *:not(style):not(script):nth-child(2) { transition-delay:.12s; }
+.enVista > *:not(style):not(script):nth-child(3) { transition-delay:.24s; }
+.enVista > *:not(style):not(script):nth-child(4) { transition-delay:.36s; }
+.enVista > *:not(style):not(script):nth-child(5) { transition-delay:.48s; }
+@media (prefers-reduced-motion:reduce){
+  [data-gemini-id] .rv-fade > *, [data-gemini-id] .rv-slide > *, [data-gemini-id] .rv-zoom > *, [data-gemini-id] .rv-blur > * { opacity:1 !important; transform:none !important; filter:none !important; transition:none !important; }
+}
+.rv-blur .sf-orn-wrap svg { animation:sfOrnFlota 6s ease-in-out infinite alternate; }
+@keyframes sfOrnFlota { to { transform:translateY(-5px); } }
+@keyframes sfOrnGira { to { transform:rotate(4deg) translateY(-4px); } }
+.sf-dress--arches { position:absolute; inset:0; pointer-events:none; z-index:1; opacity:.55;
+  background:
+    radial-gradient(circle at top left, transparent 68px, var(--primary-color) 69px, transparent 71px) top left / 120px 120px,
+    radial-gradient(circle at top right, transparent 68px, var(--primary-color) 69px, transparent 71px) top right / 120px 120px,
+    radial-gradient(circle at bottom left, transparent 68px, var(--primary-color) 69px, transparent 71px) bottom left / 120px 120px,
+    radial-gradient(circle at bottom right, transparent 68px, var(--primary-color) 69px, transparent 71px) bottom right / 120px 120px;
+  background-repeat:no-repeat; }</style>
+
+
+
+<script>var moduleMetadata = { module_type: "padrinos", module_name: "padrinos-sf23", style_name: "Negro y Oro 60", descripcion: "Padrinos negroro variante 6 con marcos rayos.", tags: ["padrinos","rayos","negroro","variante6"], tipo: "padrinos" };</script>
+<footer><h2 class="rc2__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Madrina &amp; Padrino</h2><span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 24" fill="none" stroke="currentColor"><path d="M0 12 H120 M180 12 H300" /><path d="M132 12 L146 4 L160 12 L146 20 Z M154 13 L168 5 L182 13 L168 21 Z" fill="none" /></svg></span></footer><p class="sf8__nota" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Gracias por acompañarnos en este día tan importante.</p><div class="sf8__fila">
   <figure class="sf8__casa">
     <span class="sf8__marco" memory_type="image" memory_usage="custom" memory_source="library">
-      <img src="https://loremflickr.com/460/560/black,gold,woman" alt="Retrato de la madrina" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+      <img src="https://loremflickr.com/460/560/black,gold,woman" alt="Retrato de la madrina" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy">
     </span>
     <figcaption memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
       <span class="sf8__rol">Madrina</span>
@@ -35,14 +65,25 @@
   </figure>
   <figure class="sf8__casa">
     <span class="sf8__marco" memory_type="image" memory_usage="custom" memory_source="library">
-      <img src="https://loremflickr.com/460/560/black,gold,man" alt="Retrato del padrino" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+      <img src="https://loremflickr.com/460/560/black,gold,man" alt="Retrato del padrino" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy">
     </span>
     <figcaption memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
       <span class="sf8__rol">Padrino</span>
       <h3 class="sf8__nombre" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-2">Nombre Padrino</h3>
     </figcaption>
   </figure>
-</div>
-<p class="sf8__nota" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Gracias por acompañarnos en este día tan importante.</p>
-<script>var moduleMetadata = { module_type: "padrinos", module_name: "padrinos-sf23", style_name: "Negro y Oro 60", descripcion: "Padrinos negroro variante 4 con marcos rayos.", tags: ["padrinos","rayos","negroro","variante4"], tipo: "padrinos" };</script>
-</section>
+</div><header memory_type="text" memory_usage="custom" memory_key="padrinos-intro"><p class="rc2__rotulo" memory_type="text" memory_usage="custom" memory_key="padrinos-rotulo">Testigos</p></header>
+<script>
+(function () {
+  var el = null;
+  try { el = document.currentScript.closest('[data-gemini-id]'); } catch (e) {}
+  if (!el) return;
+  var mostra = function () { el.classList.add('enVista'); };
+  if (!('IntersectionObserver' in window)) { mostra(); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { if (en.isIntersecting) { mostra(); io.disconnect(); } });
+  }, { threshold: 0.18 });
+  io.observe(el);
+  setTimeout(mostra, 2600);
+})();
+</script></section>

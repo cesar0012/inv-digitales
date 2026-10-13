@@ -1,4 +1,4 @@
-<section class="sf-p" data-gemini-id="portada-nombre" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<section class="sf-p rv-zoom" data-gemini-id="portada-nombre" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder"><i class="sf-dress sf-dress--ribbons" aria-hidden="true"></i>
 <style>
 .sf-p { --primary-color:#8a7a94; --secondary-color:#c0b4cc; --accent-color:#efe9f2; --bg-color:#faf7fa; --surface-color:#ffffff; --surface-border-color:rgba(138,122,148,.24); --text-color:#3f3844;
   position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:100svh; display:grid; place-items:center; padding:clamp(2.6rem,7vw,5rem) clamp(1rem,5vw,3.4rem); background:radial-gradient(ellipse 66% 50% at 50% 110%, rgba(192,180,204,.36), transparent 72%), url('https://loremflickr.com/1600/1000/lace,white') center/cover; background-color:var(--bg-color); color:var(--text-color); text-align:center; }
@@ -14,22 +14,49 @@
 .rcA__nombre { margin:0; font-family:Georgia,serif; font-weight:400; font-size:clamp(2.8rem,9vw,6.4rem); line-height:1.02; color:var(--primary-color); }
 .sf-p__v3 .rcA__nombre { text-align:left; }
 .rcA__fecha { margin:0; font-family:'Courier New',monospace; font-size:clamp(.64rem,1.35vw,.8rem); letter-spacing:.4em; text-transform:uppercase; color:var(--text-color); }
-.rcA__marco { position:relative; z-index:2; width:min(100%,560px); margin:0 auto; border:1px solid var(--primary-color); outline:1px solid var(--surface-border-color); outline-offset:8px; padding:clamp(2rem,5vw,3rem) clamp(1.2rem,3.6vw,2.4rem); }
-.rcA__foto { width:clamp(150px,24vw,210px); aspect-ratio:1/1; margin:0 auto clamp(1.2rem,3vw,1.8rem); clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%); overflow:hidden; }
-.rcA__foto img { display:block; width:100%; height:100%; object-fit:cover; }
+.rcA__cinta { position:relative; z-index:3; margin:clamp(1.4rem,3.4vw,2rem) auto 0; width:min(100%,560px); overflow:hidden; border-top:1px solid var(--surface-border-color); border-bottom:1px solid var(--surface-border-color); padding:.55rem 0; }
+.rcA__cinta p { margin:0; white-space:nowrap; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.5em; text-transform:uppercase; color:var(--secondary-color); animation:rcA-marca 14s linear infinite; }
+@keyframes rcA-marca { to { transform:translateX(-50%); } }
+.rcA__foto { position:relative; z-index:3; width:clamp(170px,26vw,240px); aspect-ratio:1/1; margin:0 auto clamp(1.2rem,3vw,1.8rem); border-radius:50%; padding:6px; border:1px solid var(--primary-color); }
+.rcA__foto img { display:block; width:100%; height:100%; object-fit:cover; border-radius:50%; }
 .sf-orn-wrap { display:flex; justify-content:center; margin:0 auto clamp(1.6rem,4vw,2.4rem); color:var(--primary-color); }
 .sf-orn-wrap svg { width:min(240px,60%); height:auto; }
 @media (prefers-reduced-motion:reduce){ .sf-p * { animation:none !important; } }
-</style>
-<div class="sf-p__rayos" aria-hidden="true"></div>
-<div class="sf-particulas" aria-hidden="true"></div>
-<div class="rcA__marco">
-    <figure class="rcA__foto" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/560/560/lace,wreath" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" /><figcaption hidden>Retrato</figcaption></figure>
-    <p class="rcA__rotulo" memory_type="text" memory_usage="custom" memory_key="portada-lema">encaje</p>
-    <div memory_type="text" memory_usage="custom" memory_key="portada-nombre"><h1 class="rcA__nombre" memory_type="text" memory_usage="custom" memory_key="portada-titulo">Nombre &amp; Nombre</h1></div>
-    <p class="rcA__fecha" memory_type="text" memory_usage="custom" memory_key="portada-fecha"><time datetime="YYYY-MM-DD">Fecha del evento · Lugar</time></p>
-  </div>
-<span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 26" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M30 20 C 80 4, 220 4, 270 20"/><path d="M90 12 q -5 -9 3 -11 q 7 5 -3 11 Z M150 6 q -3 -9 4 -10 q 6 5 -4 10 Z M210 12 q 5 -9 -3 -11 q -7 5 3 11 Z" fill="color-mix(in srgb, currentColor 22%, transparent)"/></svg></span>
+
+[data-gemini-id] .rv-fade > *:not(style):not(script), [data-gemini-id] .rv-slide > *:not(style):not(script),
+[data-gemini-id] .rv-zoom > *:not(style):not(script), [data-gemini-id] .rv-blur > *:not(style):not(script) {
+  opacity:0; transition:opacity .7s ease, transform .7s cubic-bezier(.16,1,.3,1), filter .7s ease;
+}
+[data-gemini-id] .rv-fade > .sf-orn-wrap { opacity:1; transform:none; filter:none; }
+.rv-fade.enVista > *:not(style):not(script) { opacity:1; transform:none; }
+.rv-slide.enVista > *:not(style):not(script) { opacity:1; transform:none; }
+.rv-zoom.enVista > *:not(style):not(script) { opacity:1; transform:none; }
+.rv-blur.enVista > *:not(style):not(script) { opacity:1; filter:none; transform:none; }
+.rv-slide > *:not(style):not(script) { transform:translateX(-34px); }
+.rv-zoom  > *:not(style):not(script) { transform:scale(.86); }
+.rv-blur  > *:not(style):not(script) { filter:blur(10px); transform:translateY(16px); }
+.enVista > *:not(style):not(script):nth-child(2) { transition-delay:.12s; }
+.enVista > *:not(style):not(script):nth-child(3) { transition-delay:.24s; }
+.enVista > *:not(style):not(script):nth-child(4) { transition-delay:.36s; }
+.enVista > *:not(style):not(script):nth-child(5) { transition-delay:.48s; }
+@media (prefers-reduced-motion:reduce){
+  [data-gemini-id] .rv-fade > *, [data-gemini-id] .rv-slide > *, [data-gemini-id] .rv-zoom > *, [data-gemini-id] .rv-blur > * { opacity:1 !important; transform:none !important; filter:none !important; transition:none !important; }
+}
+.rv-zoom .sf-orn-wrap svg { animation:sfOrnFlota 5s ease-in-out infinite alternate; }
+@keyframes sfOrnFlota { to { transform:translateY(-5px); } }
+@keyframes sfOrnGira { to { transform:rotate(4deg) translateY(-4px); } }
+.sf-dress--ribbons { position:absolute; inset:0; pointer-events:none; z-index:1; opacity:.8;
+  background:
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--primary-color) 34%, transparent) 0 16px, transparent 16px 30px) top / 100% 5px,
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--secondary-color) 30%, transparent) 0 16px, transparent 16px 30px) bottom / 100% 5px;
+  background-repeat:no-repeat; }</style>
+
+
+
+  
+  
+  
+
 <script>
   (function () {
     var root = null;
@@ -46,5 +73,19 @@
       holder.appendChild(s);
     }
   })();</script>
-<script>var moduleMetadata = { module_type: "portada", module_name: "portada-sf18", style_name: "Corona sobre Encaje", descripcion: "Portada encaje con variante 3 de composición, partículas flotantes y ornamento corona.", tags: ["portada","corona","encaje","variante3"], tipo: "portada" };</script>
-</section>
+<script>var moduleMetadata = { module_type: "portada", module_name: "portada-sf18", style_name: "Corona sobre Encaje", descripcion: "Portada encaje con variante 1 de composición, partículas flotantes y ornamento corona.", tags: ["portada","corona","encaje","variante1"], tipo: "portada" };</script>
+<span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 26" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M30 20 C 80 4, 220 4, 270 20" /><path d="M90 12 q -5 -9 3 -11 q 7 5 -3 11 Z M150 6 q -3 -9 4 -10 q 6 5 -4 10 Z M210 12 q 5 -9 -3 -11 q -7 5 3 11 Z" fill="color-mix(in srgb, currentColor 22%, transparent)" /></svg></span><div class="rcA__cinta" memory_type="text" memory_usage="custom" memory_key="portada-fecha"><p><span>Fecha del evento · Hora · Lugar&#160;&#160;·&#160;&#160;</span><span>Fecha del evento · Hora · Lugar&#160;&#160;·&#160;&#160;</span></p></div><div memory_type="text" memory_usage="custom" memory_key="portada-nombre"><h1 class="rcA__nombre" memory_type="text" memory_usage="custom" memory_key="portada-titulo">Nombre &amp; Nombre</h1></div><p class="rcA__rotulo" memory_type="text" memory_usage="custom" memory_key="portada-lema">encaje</p><figure class="rcA__foto" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/600/600/lace,wreath,couple" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager"><figcaption hidden>Retrato</figcaption></figure><div class="sf-particulas" aria-hidden="true"></div><div class="sf-p__rayos" aria-hidden="true"></div>
+<script>
+(function () {
+  var el = null;
+  try { el = document.currentScript.closest('[data-gemini-id]'); } catch (e) {}
+  if (!el) return;
+  var mostra = function () { el.classList.add('enVista'); };
+  if (!('IntersectionObserver' in window)) { mostra(); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { if (en.isIntersecting) { mostra(); io.disconnect(); } });
+  }, { threshold: 0.18 });
+  io.observe(el);
+  setTimeout(mostra, 2600);
+})();
+</script></section>

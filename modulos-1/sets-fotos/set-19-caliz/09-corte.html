@@ -1,4 +1,4 @@
-<section class="sf9" data-gemini-id="corte-sf19" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<section class="sf9 rv-blur" data-gemini-id="corte-sf19" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder"><i class="sf-dress sf-dress--ribbons" aria-hidden="true"></i>
 <style>
 .sf9 { --primary-color:#a8863d; --secondary-color:#c9b06a; --accent-color:#f3ecd4; --bg-color:#faf7ee; --surface-color:#ffffff; --surface-border-color:rgba(168,134,61,.28); --text-color:#43391f;
   position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.6rem,9vw,7rem) clamp(1rem,5vw,4rem); background:radial-gradient(ellipse 56% 42% at 50% 0%, rgba(201,176,106,.3), transparent 70%), url('https://loremflickr.com/1600/1000/gold,chalice') center/cover; background-color:var(--bg-color); color:var(--text-color); }
@@ -13,41 +13,83 @@
 .sf4__hora { font-family:'Courier New',monospace; font-size:clamp(.62rem,1.24vw,.74rem); letter-spacing:.32em; text-transform:uppercase; color:var(--secondary-color); }
 .sf4__nombre { margin:.35rem 0 .25rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.1rem,2.3vw,1.4rem); color:var(--primary-color); }
 .sf4__detalle { margin:0; font-family:Georgia,serif; font-size:clamp(.76rem,1.4vw,.86rem); line-height:1.6; color:var(--text-color); }
-.sf9__tira { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(1.6rem,4vw,2.6rem); width:min(100%,980px); margin:0 auto; }
-.sf9__tarjeta { position:relative; width:clamp(250px,30vw,312px); padding:clamp(1.7rem,3.8vw,2.3rem) clamp(1.4rem,3.2vw,2rem); background:var(--primary-color); color:var(--bg-color); clip-path:polygon(0 0, 92% 0, 100% 18%, 100% 100%, 8% 100%, 0 82%); text-align:center; }
-.sf9__tarjeta time { display:inline-block; margin-bottom:.5rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.34em; opacity:.85; }
-.sf9__nombre { color:#fff; }
-.sf9__detalle { color:color-mix(in srgb, var(--bg-color) 70%, #fff); }
+.sf9__tira { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(2rem,5vw,3.4rem); width:min(100%,960px); margin:0 auto; }
+.sf9__tarjeta { width:clamp(220px,26vw,268px); text-align:center; }
+.sf9__medallon { width:clamp(150px,19vw,190px); aspect-ratio:1/1; margin:0 auto 1rem; border-radius:50%; border:2px solid var(--primary-color); display:grid; place-items:center; position:relative; }
+.sf9__medallon::after { content:''; position:absolute; inset:-10px; border-radius:50%; border:1px dashed var(--accent-color); animation:sf-girar 26s linear infinite; }
+@keyframes sf-girar { to { transform:rotate(360deg); } }
+.sf9__medallon time { font-family:Georgia,serif; font-size:clamp(1.3rem,3vw,1.7rem); color:var(--primary-color); }
 @media (max-width:640px){ .sf9__tarjeta { transform:none !important; margin-top:0 !important; padding-left:0 !important; } }
 @media (prefers-reduced-motion:reduce){ .sf9 * { animation:none !important; transition:none !important; } }
-</style>
+
+[data-gemini-id] .rv-fade > *:not(style):not(script), [data-gemini-id] .rv-slide > *:not(style):not(script),
+[data-gemini-id] .rv-zoom > *:not(style):not(script), [data-gemini-id] .rv-blur > *:not(style):not(script) {
+  opacity:0; transition:opacity .7s ease, transform .7s cubic-bezier(.16,1,.3,1), filter .7s ease;
+}
+[data-gemini-id] .rv-fade > .sf-orn-wrap { opacity:1; transform:none; filter:none; }
+.rv-fade.enVista > *:not(style):not(script) { opacity:1; transform:none; }
+.rv-slide.enVista > *:not(style):not(script) { opacity:1; transform:none; }
+.rv-zoom.enVista > *:not(style):not(script) { opacity:1; transform:none; }
+.rv-blur.enVista > *:not(style):not(script) { opacity:1; filter:none; transform:none; }
+.rv-slide > *:not(style):not(script) { transform:translateX(-34px); }
+.rv-zoom  > *:not(style):not(script) { transform:scale(.86); }
+.rv-blur  > *:not(style):not(script) { filter:blur(10px); transform:translateY(16px); }
+.enVista > *:not(style):not(script):nth-child(2) { transition-delay:.12s; }
+.enVista > *:not(style):not(script):nth-child(3) { transition-delay:.24s; }
+.enVista > *:not(style):not(script):nth-child(4) { transition-delay:.36s; }
+.enVista > *:not(style):not(script):nth-child(5) { transition-delay:.48s; }
+@media (prefers-reduced-motion:reduce){
+  [data-gemini-id] .rv-fade > *, [data-gemini-id] .rv-slide > *, [data-gemini-id] .rv-zoom > *, [data-gemini-id] .rv-blur > * { opacity:1 !important; transform:none !important; filter:none !important; transition:none !important; }
+}
+.rv-blur .sf-orn-wrap svg { animation:sfOrnFlota 6s ease-in-out infinite alternate; }
+@keyframes sfOrnFlota { to { transform:translateY(-5px); } }
+@keyframes sfOrnGira { to { transform:rotate(4deg) translateY(-4px); } }
+.sf-dress--ribbons { position:absolute; inset:0; pointer-events:none; z-index:1; opacity:.8;
+  background:
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--primary-color) 34%, transparent) 0 16px, transparent 16px 30px) top / 100% 5px,
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--secondary-color) 30%, transparent) 0 16px, transparent 16px 30px) bottom / 100% 5px;
+  background-repeat:no-repeat; }</style>
+
+
+<script>var moduleMetadata = { module_type: "corte", module_name: "corte-sf19", style_name: "Cáliz Dorado", descripcion: "Corte comunion variante 2 con momentos y ornamento caliz.", tags: ["corte","caliz","comunion","variante2"], tipo: "corte" };</script>
 <header class="sf4__cabecera" memory_type="text" memory_usage="custom" memory_key="corte-intro">
   <p class="sf4__rotulo" memory_type="text" memory_usage="custom" memory_key="corte-rotulo">Momentos clave</p>
   <h2 class="sf4__titulo" memory_type="text" memory_usage="custom" memory_key="corte-encabezado">Corte de la noche</h2>
-  <span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 26" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M0 13 H120 M180 13 H300"/><path d="M138 5 H162 C 162 15, 154 20, 150 20 C 146 20, 138 15, 138 5 Z M150 20 V25"/></svg></span>
-</header>
-<div class="sf9__tira">
+  <span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 26" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M0 13 H120 M180 13 H300" /><path d="M138 5 H162 C 162 15, 154 20, 150 20 C 146 20, 138 15, 138 5 Z M150 20 V25" /></svg></span>
+</header><div class="sf9__tira">
   <article class="sf9__tarjeta">
-    <time datetime="18:00" memory_type="text" memory_usage="custom" memory_key="corte-hora-1">6:00 pm</time>
+    <span class="sf9__medallon"><time datetime="18:00" memory_type="text" memory_usage="custom" memory_key="corte-hora-1">6:00 pm</time></span>
     <div memory_type="text" memory_usage="custom" memory_key="corte-momento-1">
-      <h3 class="sf4__nombre sf9__nombre" memory_type="text" memory_usage="custom" memory_key="corte-titulo-1">El vals</h3>
-      <p class="sf4__detalle sf9__detalle" memory_type="text" memory_usage="custom" memory_key="corte-det-1">El giro esperado</p>
+      <h3 class="sf4__nombre" memory_type="text" memory_usage="custom" memory_key="corte-titulo-1">El vals</h3>
+      <p class="sf4__detalle" memory_type="text" memory_usage="custom" memory_key="corte-det-1">El giro esperado</p>
     </div>
   </article>
   <article class="sf9__tarjeta">
-    <time datetime="20:00" memory_type="text" memory_usage="custom" memory_key="corte-hora-2">8:00 pm</time>
+    <span class="sf9__medallon"><time datetime="20:00" memory_type="text" memory_usage="custom" memory_key="corte-hora-2">8:00 pm</time></span>
     <div memory_type="text" memory_usage="custom" memory_key="corte-momento-2">
-      <h3 class="sf4__nombre sf9__nombre" memory_type="text" memory_usage="custom" memory_key="corte-titulo-2">El pastel</h3>
-      <p class="sf4__detalle sf9__detalle" memory_type="text" memory_usage="custom" memory_key="corte-det-2">Dulce celebración</p>
+      <h3 class="sf4__nombre" memory_type="text" memory_usage="custom" memory_key="corte-titulo-2">El pastel</h3>
+      <p class="sf4__detalle" memory_type="text" memory_usage="custom" memory_key="corte-det-2">Dulce celebración</p>
     </div>
   </article>
   <article class="sf9__tarjeta">
-    <time datetime="22:00" memory_type="text" memory_usage="custom" memory_key="corte-hora-3">10:00 pm</time>
+    <span class="sf9__medallon"><time datetime="22:00" memory_type="text" memory_usage="custom" memory_key="corte-hora-3">10:00 pm</time></span>
     <div memory_type="text" memory_usage="custom" memory_key="corte-momento-3">
-      <h3 class="sf4__nombre sf9__nombre" memory_type="text" memory_usage="custom" memory_key="corte-titulo-3">El brindis</h3>
-      <p class="sf4__detalle sf9__detalle" memory_type="text" memory_usage="custom" memory_key="corte-det-3">Copas en alto</p>
+      <h3 class="sf4__nombre" memory_type="text" memory_usage="custom" memory_key="corte-titulo-3">El brindis</h3>
+      <p class="sf4__detalle" memory_type="text" memory_usage="custom" memory_key="corte-det-3">Copas en alto</p>
     </div>
   </article>
 </div>
-<script>var moduleMetadata = { module_type: "corte", module_name: "corte-sf19", style_name: "Cáliz Dorado", descripcion: "Corte comunion variante 4 con momentos y ornamento caliz.", tags: ["corte","caliz","comunion","variante4"], tipo: "corte" };</script>
-</section>
+<script>
+(function () {
+  var el = null;
+  try { el = document.currentScript.closest('[data-gemini-id]'); } catch (e) {}
+  if (!el) return;
+  var mostra = function () { el.classList.add('enVista'); };
+  if (!('IntersectionObserver' in window)) { mostra(); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { if (en.isIntersecting) { mostra(); io.disconnect(); } });
+  }, { threshold: 0.18 });
+  io.observe(el);
+  setTimeout(mostra, 2600);
+})();
+</script></section>

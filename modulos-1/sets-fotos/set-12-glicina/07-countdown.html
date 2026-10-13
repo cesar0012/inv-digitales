@@ -1,34 +1,57 @@
-<section class="sf7" data-gemini-id="countdown-sf12" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder" data-countdown-target="YYYY-MM-DDTHH:MM:SS">
+<section class="cd12" data-gemini-id="countdown-pendulo-glicina" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder" data-countdown-target="YYYY-MM-DDTHH:MM:SS">
 <style>
-.sf7 { --primary-color:#7b6ea6; --secondary-color:#a89ac9; --accent-color:#d9d0ea; --bg-color:#f5f2f9; --surface-color:#ffffff; --surface-border-color:rgba(123,110,166,.24); --text-color:#3d3649;
-  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.6rem,9vw,6.8rem) clamp(1rem,5vw,4rem); background:radial-gradient(ellipse 60% 50% at 14% 8%, rgba(168,154,201,.32), transparent 70%), url('https://loremflickr.com/1600/1000/wisteria,wood') center/cover; background-color:var(--bg-color); color:var(--text-color); text-align:center; }
-.sf7 *, .sf7 *::before, .sf7 *::after { box-sizing:border-box; }
-.sf7::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 74%, transparent); }
-.sf7 > * { position:relative; z-index:1; }
+.cd12 { --primary-color:#7b6ea6; --secondary-color:#a89ac9; --accent-color:#d9d0ea; --bg-color:#f5f2f9; --surface-color:#ffffff; --surface-border-color:rgba(123,110,166,.24); --text-color:#3d3649;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.4rem,8vw,6.4rem) clamp(1rem,5vw,4rem); background:radial-gradient(ellipse 60% 50% at 14% 8%, rgba(168,154,201,.32), transparent 70%), url('https://loremflickr.com/1600/1000/wisteria,wood') center/cover; background-color:var(--bg-color); color:var(--text-color); }
+.cd12 *, .cd12 *::before, .cd12 *::after { box-sizing:border-box; }
+.cd12::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 78%, transparent); }
+.cd12 > * { position:relative; z-index:1; }
 .sf-orn-wrap { display:flex; justify-content:center; margin:0 auto clamp(1.6rem,4vw,2.4rem); color:var(--primary-color); }
 .sf-orn-wrap svg { width:min(240px,60%); height:auto; }
-.sf7__rotulo { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
-.sf7__titulo { margin:0 auto 1rem; font-family:'Segoe Script','Brush Script MT',cursive; font-weight:400; font-size:clamp(1.9rem,4.6vw,3rem); color:var(--primary-color); }
-.sf7__unidades { list-style:none; margin:0 auto; padding:clamp(1rem,3vw,1.6rem); width:min(100%,760px); display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(1.4rem,4.4vw,3rem); }
-.sf7__unidad { width:clamp(120px,17vw,160px); aspect-ratio:1/1; transform:rotate(45deg); background:var(--surface-color); border:1.5px solid var(--primary-color); display:grid; place-items:center; box-shadow:0 0 30px color-mix(in srgb, var(--primary-color) 25%, transparent); }
-.sf7__unidad::before { content:''; position:absolute; inset:6px; border:1px dashed color-mix(in srgb, var(--accent-color) 60%, transparent); }
-.sf7__interior { transform:rotate(-45deg); text-align:center; }
-.sf7__num { display:block; font-family:'Segoe Script','Brush Script MT',cursive; font-size:clamp(1.7rem,4.6vw,2.8rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; }
-.sf7__etq { display:block; margin-top:.45rem; font-family:'Courier New',monospace; font-size:clamp(.5rem,1vw,.62rem); letter-spacing:.34em; text-transform:uppercase; color:var(--text-color); }
-.sf7__fecha { margin:clamp(1.6rem,4vw,2.2rem) 0 0; font-family:Georgia,serif; font-style:italic; font-size:clamp(.86rem,1.7vw,1rem); color:var(--text-color); }
-@media (max-width:560px){ .sf7__unidades { gap:1.2rem; } .sf7__unidad { width:clamp(104px,38vw,150px); } }
-@media (prefers-reduced-motion:reduce){ .sf7 * { animation:none !important; } }
+
+.cd12 { text-align:center; }
+.cd12__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.cd12__tit { margin:0 0 clamp(1.2rem,3vw,1.8rem); font-family:'Segoe Script','Brush Script MT',cursive; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
+.cd12__casona { position:relative; width:min(100%,300px); margin:0 auto clamp(1.4rem,3vw,2rem); background:var(--surface-color); border:2px solid var(--primary-color); border-radius:120px 120px 10px 10px; padding:1rem 1rem 1.6rem; box-shadow:0 24px 44px rgba(0,0,0,.22); }
+.cd12__esfera { width:clamp(120px,22vw,160px); aspect-ratio:1; margin:0 auto; border-radius:50%; border:3px solid var(--primary-color); background:color-mix(in srgb, var(--accent-color) 26%, var(--surface-color)); position:relative; }
+.cd12__esfera i { position:absolute; left:50%; top:5px; width:2px; height:8%; margin-left:-1px; background:var(--primary-color); transform-origin:50% 1000%; }
+.cd12__manecilla { position:absolute; left:50%; bottom:50%; transform-origin:50% 100%; background:var(--primary-color); border-radius:2px; }
+.cd12__manecilla--g { width:4px; height:24%; margin-left:-2px; animation:cd12-giro 90s linear infinite; }
+.cd12__manecilla--p { width:3px; height:34%; margin-left:-1.5px; animation:cd12-giro 12s linear infinite; }
+@keyframes cd12-giro { to { transform:rotate(360deg); } }
+.cd12__ojo { position:absolute; left:50%; top:50%; width:10px; height:10px; transform:translate(-50%,-50%); border-radius:50%; background:var(--primary-color); }
+.cd12__cajaPend { position:relative; height:clamp(120px,20vw,160px); margin-top:1rem; display:grid; justify-items:center; overflow:hidden; }
+.cd12__varilla { position:absolute; top:0; width:2.5px; height:72%; background:var(--secondary-color); transform-origin:50% 0; animation:cd12-pendulo 2s cubic-bezier(.45,0,.55,1) infinite alternate; }
+@keyframes cd12-pendulo { from { transform:rotate(11deg); } to { transform:rotate(-11deg); } }
+.cd12__bola { position:absolute; top:68%; left:50%; width:clamp(34px,6vw,46px); height:clamp(34px,6vw,46px); margin-left:calc(clamp(34px,6vw,46px) / -2); border-radius:50%; background:radial-gradient(circle at 34% 30%, color-mix(in srgb, var(--primary-color) 72%, #fff), var(--primary-color)); box-shadow:0 8px 18px rgba(0,0,0,.3); animation:cd12-pendulo 2s cubic-bezier(.45,0,.55,1) infinite alternate; }
+.cd12__balancin { display:flex; justify-content:center; align-items:flex-start; gap:clamp(.8rem,2.6vw,1.8rem); flex-wrap:wrap; }
+.cd12__etiq { display:grid; justify-items:center; }
+.cd12__etiq:nth-child(2){ padding-top:clamp(1.2rem,4vw,2.4rem); } .cd12__etiq:nth-child(4){ padding-top:clamp(1.2rem,4vw,2.4rem); }
+.cd12__cuerda { width:1.5px; height:clamp(16px,4vw,34px); background:var(--accent-color); }
+.cd12__madera { padding:.7rem 1rem .85rem; background:color-mix(in srgb, var(--accent-color) 34%, var(--surface-color)); border:1.5px solid var(--primary-color); border-radius:8px 8px 3px 3px; box-shadow:0 10px 20px rgba(0,0,0,.16); transform-origin:top center; animation:cd12-vaiven 3.4s ease-in-out infinite alternate; }
+.cd12__etiq:nth-child(3) .cd12__madera { animation-delay:.6s; } .cd12__etiq:nth-child(4) .cd12__madera { animation-delay:1.1s; }
+@keyframes cd12-vaiven { from { transform:rotate(-2.5deg); } to { transform:rotate(2.5deg); } }
+.cd12__num { display:block; font-family:'Segoe Script','Brush Script MT',cursive; font-size:clamp(1.35rem,3.6vw,2rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; }
+.cd12__etq { display:block; font-family:'Courier New',monospace; font-size:clamp(.44rem,.86vw,.56rem); letter-spacing:.3em; text-transform:uppercase; color:var(--text-color); }
+.cd12__fecha { display:block; margin:clamp(1.4rem,3vw,2rem) 0 0; font-family:Georgia,serif; font-style:italic; font-size:clamp(.85rem,1.6vw,.98rem); color:var(--text-color); }
+@media (max-width:560px){ .cd12__etiq:nth-child(n){ padding-top:0; } .cd12__balancin { gap:.8rem; } }
+
+@media (prefers-reduced-motion:reduce){ .cd12 * { animation:none !important; transition:none !important; } }
 </style>
-<p class="sf7__rotulo" memory_type="text" memory_usage="custom" memory_key="countdown-rotulo">Cuenta regresiva</p>
-<h2 class="sf7__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Falta poco</h2>
-<span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 26" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M0 13 H112 M188 13 H300"/><circle cx="132" cy="9" r="4"/><circle cx="146" cy="14" r="4"/><circle cx="160" cy="8" r="4"/><circle cx="172" cy="13" r="4"/></svg></span>
-<ul class="sf7__unidades" aria-label="Cuenta regresiva">
-  <li class="sf7__unidad"><span class="sf7__interior"><span class="sf7__num" data-countdown-unit="days">--</span><span class="sf7__etq">Días</span></span></li>
-  <li class="sf7__unidad"><span class="sf7__interior"><span class="sf7__num" data-countdown-unit="hours">--</span><span class="sf7__etq">Horas</span></span></li>
-  <li class="sf7__unidad"><span class="sf7__interior"><span class="sf7__num" data-countdown-unit="minutes">--</span><span class="sf7__etq">Min</span></span></li>
-  <li class="sf7__unidad"><span class="sf7__interior"><span class="sf7__num" data-countdown-unit="seconds">--</span><span class="sf7__etq">Seg</span></span></li>
-</ul>
-<time class="sf7__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento · hora por confirmar</time>
+<header memory_type="text" memory_usage="custom" memory_key="countdown-intro">
+  <p class="cd12__rot" memory_type="text" memory_usage="custom" memory_key="countdown-rotulo">Tic… tac…</p>
+  <h2 class="cd12__tit" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">La casona cuenta</h2>
+</header>
+<div class="cd12__casona" aria-hidden="true">
+  <div class="cd12__esfera"><i style="transform:rotate(0deg);"></i><i style="transform:rotate(30deg);"></i><i style="transform:rotate(60deg);"></i><i style="transform:rotate(90deg);"></i><i style="transform:rotate(120deg);"></i><i style="transform:rotate(150deg);"></i><i style="transform:rotate(180deg);"></i><i style="transform:rotate(210deg);"></i><i style="transform:rotate(240deg);"></i><i style="transform:rotate(270deg);"></i><i style="transform:rotate(300deg);"></i><i style="transform:rotate(330deg);"></i><i class="cd12__manecilla cd12__manecilla--g"></i><i class="cd12__manecilla cd12__manecilla--p"></i><i class="cd12__ojo"></i></div>
+  <div class="cd12__cajaPend"><i class="cd12__varilla"></i><i class="cd12__bola"></i></div>
+</div>
+<div class="cd12__balancin" aria-label="Cuenta regresiva">
+<div class="cd12__etiq"><i class="cd12__cuerda" aria-hidden="true"></i><span class="cd12__madera"><b class="cd12__num" data-countdown-unit="days">--</b><span class="cd12__etq">Días</span></span></div>
+<div class="cd12__etiq"><i class="cd12__cuerda" aria-hidden="true"></i><span class="cd12__madera"><b class="cd12__num" data-countdown-unit="hours">--</b><span class="cd12__etq">Horas</span></span></div>
+<div class="cd12__etiq"><i class="cd12__cuerda" aria-hidden="true"></i><span class="cd12__madera"><b class="cd12__num" data-countdown-unit="minutes">--</b><span class="cd12__etq">Min</span></span></div>
+<div class="cd12__etiq"><i class="cd12__cuerda" aria-hidden="true"></i><span class="cd12__madera"><b class="cd12__num" data-countdown-unit="seconds">--</b><span class="cd12__etq">Seg</span></span></div>
+</div>
+<time class="cd12__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento · hora por confirmar</time>
 
 <script>
   (function () {
@@ -73,5 +96,5 @@
     window.updateCountdown = start;
   })();
 </script>
-<script>var moduleMetadata = { module_type: "countdown", module_name: "countdown-sf12", style_name: "Glicina sobre Madera", descripcion: "Cuenta regresiva glicina variante 1 con contrato completo de countdown.", tags: ["countdown","racimo","glicina","variante1"], tipo: "countdown" };</script>
+<script>var moduleMetadata = { module_type: "countdown", module_name: "countdown-pendulo-glicina", style_name: "Glicina sobre Madera", descripcion: "Relj de péndulo de casona con esfera viva y balancín dorado; las unidades cuelgan de etiquetas de madera que se mecen.", tags: ["countdown","racimo","glicina","pendulo","casona","vintage"], tipo: "countdown" };</script>
 </section>
