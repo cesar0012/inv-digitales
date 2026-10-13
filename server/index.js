@@ -15,6 +15,7 @@ import { startBatch, getBatchStatus, requestStop } from './moduleGeneratorBatch.
 // RAG Visual (rack de imágenes): proceso ALTERNO al RAG Modular. Import estático:
 // el servicio solo lee admin_config/visual_rag_items y aísla su almacenamiento.
 import * as visualRack from './visualRackService.js';
+import * as freeImageService from './freeImageService.js';
 
 // URL pública canónica del generador: env PUBLIC_URL o el subdominio nativo.
 // SEO (canonical, og:url, sitemap, robots) siempre emite URLs absolutas de
@@ -2659,6 +2660,61 @@ app.post('/api/admin/visual-rack/config', adminMiddleware, async (req, res) => {
   }
 });
 
+// ============================================================================
+// PROVEEDORES DE IMÁGENES GRATUITOS (alternativa a Nano Banana) — endpoints
+// propios del proceso independiente gestionado por freeImageService.
+// ============================================================================
+app.get('/api/admin/free-images/config', adminMiddleware, (req, res) => {
+  try {
+    const { getFreeImageConfig, FREE_IMAGE_PROVIDERS } = freeImageService;
+    const cfg = getFreeImageConfig();
+    res.json({
+      provider: cfg.provider,
+      agentic: cfg.agentic,
+      hasPexelsKey: Boolean(cfg.pexelsKey),
+      hasPollinationsToken: Boolean(cfg.pollinationsToken),
+      providers: FREE_IMAGE_PROVIDERS
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.post('/api/admin/free-images/config', adminMiddleware, async (req, res) => {
+  try {
+    const { provider, pexels_key, pollinations_token, agentic } = req.body || {};
+    const result = freeImageService.saveFreeImageConfig({ provider, pexels_key, pollinations_token, agentic });
+    res.json({ ok: true, provider: result.provider });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// Test en vivo: genera UNA imagen de muestra con el proveedor elegido y
+// devuelve data URI + latencia + prompt usado (para el preview del admin).
+app.post('/api/admin/free-images/test', adminMiddleware, async (req, res) => {
+  try {
+    const { provider, keywords, eventType, theme } = req.body || {};
+    const row = db.prepare(
+      'SELECT html_google_api_key, html_google_model, free_image_pexels_key, free_image_pollinations_token, free_image_agentic FROM admin_config WHERE id = 1'
+    ).get() || {};
+    const result = await freeImageService.testFreeImageProvider(provider, {
+      keywords,
+      eventType,
+      theme,
+      geminiKey: row.html_google_api_key,
+      geminiModel: row.html_google_model,
+      pexelsKey: row.free_image_pexels_key,
+      pollinationsToken: row.free_image_pollinations_token,
+      agentic: row.free_image_agentic !== 0
+    });
+    res.json(result);
+  } catch (e) {
+    res.status(400).json({ ok: false, error: e.message });
+  }
+});
+// ===== FIN proveedores de imágenes gratuitos =====
+
 // GET /api/admin/visual-rack/items — biblioteca de imágenes de referencia.
 app.get('/api/admin/visual-rack/items', adminMiddleware, (req, res) => {
   res.json({ items: visualRack.listVisualItems() });
@@ -4102,6 +4158,18 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
     console.log('Config from DB:', config.html_google_api_key ? `Preset: ${config.html_google_api_key.substring(0, 10)}...` : 'NO HAY');
     console.log('======================');
 
+    // ===== PROVEEDORES DE IMÁGENES GRATUITOS (proceso independiente) =====
+    // Si el admin activó un proveedor gratuito, la orquestación corre en modo
+    // loremflickr (Nano Banana NUNCA se invoca) y las imágenes las resuelve
+    // freeImageService tras la generación. Con 'none' este bloque es un no-op
+    // y el flujo original queda byte a byte igual.
+    const freeImageCfg = config.free_image_provider && config.free_image_provider !== 'none' ? {
+      provider: config.free_image_provider,
+      agentic: config.free_image_agentic !== 0,
+      pexelsKey: config.free_image_pexels_key || '',
+      pollinationsToken: config.free_image_pollinations_token || ''
+    } : null;
+
     if (config.html_google_api_key) {
 	const geminiOptions = {
         eventType: editorConfig?.eventType,
@@ -4122,7 +4190,10 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
         promptInstruction: (promptInstruction || '') + rsvpInstruction,
         imageApiKey: config.image_api_key || '',
         imageModel: config.image_model || 'gemini-3.1-flash-image-preview',
-        imageProvider: config.image_provider || 'gemini',
+        // Con proveedor gratuito activo la orquestación corre en modo loremflickr:
+        // resolvePlaceholders/ensureRequiredImages devuelven sin tocar Nano Banana
+        // y los placeholders quedan como URLs loremflickr para freeImageService.
+        imageProvider: freeImageCfg ? 'loremflickr' : (config.image_provider || 'gemini'),
         userId: userId, // Pasar userId para tracking de uso RAG
         useRagTemplates: useRagTemplates,
         hasRsvp: hasRsvp
@@ -4221,10 +4292,42 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
       return;
     }
     
+// ===== Proceso agéntico de imágenes gratuitas (alternativa a Nano Banana) =====
+    // Solo se activa si el admin seleccionó un proveedor gratuito. Sustituye
+    // las URLs loremflickr por imágenes del proveedor (base64, autocontenidas),
+    // con prompts redactados por el modelo HTML de Gemini (paso agéntico) y
+    // caché en disco. El flujo Nano Banana original no se modifica.
+    if (freeImageCfg) {
+      try {
+        const { processHtmlWithFreeImages } = await import('./freeImageService.js');
+        const freeResult = await processHtmlWithFreeImages(htmlResult, {
+          provider: freeImageCfg.provider,
+          eventType: editorConfig?.eventType,
+          theme: editorConfig?.theme,
+          geminiKey: config.html_google_api_key,
+          geminiModel: config.html_google_model || 'gemini-3.1-pro-preview',
+          pexelsKey: freeImageCfg.pexelsKey,
+          pollinationsToken: freeImageCfg.pollinationsToken,
+          agentic: freeImageCfg.agentic
+        });
+        htmlResult = freeResult.html;
+        console.log(
+          `[FREE-IMAGES] ✅ Proveedor "${freeImageCfg.provider}": ${freeResult.replaced}/${freeResult.total} imágenes` +
+          ` (prompts ${freeResult.promptMode}, ${freeResult.cached} cacheadas, ${(freeResult.ms / 1000).toFixed(1)}s)` +
+          (freeResult.failed ? ` — ⚠ ${freeResult.failed} conservadas como loremflickr` : '')
+        );
+      } catch (freeError) {
+        console.error('[FREE-IMAGES] ⚠ Proveedor gratuito falló; se conservan las URLs loremflickr:', freeError.message);
+      }
+    }
+
 // Compilar TODAS las imágenes a base64 (locales + AI generadas)
     // Esto asegura que la invitación sea completamente autocontenida
     const { compileAllImagesToBase64 } = await import('./imageToBase64.js');
-    htmlResult = await compileAllImagesToBase64(htmlResult, config.image_api_key, config.image_model, config.image_provider || 'gemini');
+    // Con proveedor gratuito activo se pasa 'loremflickr' para que este paso
+    // JAMÁS invoque Nano Banana: solo incrusta las imágenes locales /img/ y
+    // barre los restos según el modo loremflickr existente.
+    htmlResult = await compileAllImagesToBase64(htmlResult, config.image_api_key, config.image_model, freeImageCfg ? 'loremflickr' : (config.image_provider || 'gemini'));
     
     const historicoPath = join(__dirname, 'storage', 'historico');
     if (!existsSync(historicoPath)) {

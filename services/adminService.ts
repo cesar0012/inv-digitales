@@ -1288,6 +1288,71 @@ export const getVisualRackConfig = async (): Promise<VisualRackConfig> => {
   return response.json();
 };
 
+// ===== Proveedores de imágenes gratuitos (alternativa a Nano Banana) =====
+export interface FreeImageProviderInfo {
+  id: string;
+  label: string;
+  desc: string;
+  needsKey: boolean;
+  recommended?: boolean;
+}
+
+export interface FreeImagesConfig {
+  provider: string;
+  agentic: boolean;
+  hasPexelsKey: boolean;
+  hasPollinationsToken: boolean;
+  providers: FreeImageProviderInfo[];
+}
+
+export const getFreeImagesConfig = async (): Promise<FreeImagesConfig> => {
+  const response = await fetch(`${API_BASE}/admin/free-images/config`, { headers: getAdminHeaders() });
+  if (!response.ok) throw new Error('Error al obtener config de imágenes gratuitas');
+  return response.json();
+};
+
+export const saveFreeImagesConfig = async (payload: {
+  provider: string;
+  pexels_key?: string;
+  pollinations_token?: string;
+  agentic: boolean;
+}): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/free-images/config`, {
+    method: 'POST',
+    headers: { ...getAdminHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ error: `Error ${response.status}` }));
+    throw new Error(error.error || 'Error al guardar');
+  }
+};
+
+export const testFreeImageProvider = async (payload: {
+  provider: string;
+  keywords?: string;
+  eventType?: string;
+  theme?: string;
+}): Promise<{
+  ok: boolean;
+  provider: string;
+  promptMode: string;
+  prompt: string;
+  cached: boolean;
+  fallback?: boolean;
+  latencyMs: number;
+  bytes: number;
+  dataUri: string;
+  error?: string;
+}> => {
+  const response = await fetch(`${API_BASE}/admin/free-images/test`, {
+    method: 'POST',
+    headers: { ...getAdminHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  return response.json();
+};
+
 export const testVisualRackModel = async (payload: {
   provider: 'gemini' | 'openai';
   baseUrl?: string;

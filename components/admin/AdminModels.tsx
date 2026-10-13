@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Save, Key, Cpu, MessageSquare, Image, Loader2, Bot, Settings, Type } from 'lucide-react';
+import { Save, Key, Cpu, MessageSquare, Image, Loader2, Bot, Settings, Type, Sparkles } from 'lucide-react';
 import { AI_MODELS, GOOGLE_FONT_OPTIONS, GOOGLE_HEADING_FONT_OPTIONS } from '../../constants';
 import { AIModel } from '../../types';
-import { getAdminConfig, saveAdminConfig } from '../../services/adminService';
+import { getAdminConfig, saveAdminConfig, getFreeImagesConfig, saveFreeImagesConfig, testFreeImageProvider as testFreeImageProviderApi } from '../../services/adminService';
 
 type Section = 'html' | 'images' | 'general';
 
@@ -163,15 +163,20 @@ const loadConfig = async () => {
             setUseRagTemplates={setUseRagTemplates}
             hasGoogleApiKey={hasGoogleApiKey}
           />}
-          {activeSection === 'images' && <ImageGeneratorConfig 
-            selectedModel={imageModel}
-            setSelectedModel={setImageModel}
-            apiKey={imageApiKey}
-            setApiKey={setImageApiKey}
-            loginPageUrl={loginPageUrl}
-            imageProvider={imageProvider}
-            setImageProvider={setImageProvider}
-          />}
+          {activeSection === 'images' && (
+            <>
+              <ImageGeneratorConfig 
+                selectedModel={imageModel}
+                setSelectedModel={setImageModel}
+                apiKey={imageApiKey}
+                setApiKey={setImageApiKey}
+                loginPageUrl={loginPageUrl}
+                imageProvider={imageProvider}
+                setImageProvider={setImageProvider}
+              />
+              <FreeImageProvidersConfig />
+            </>
+          )}
         </>
       )}
     </div>
@@ -546,6 +551,273 @@ const ImageGeneratorConfig: React.FC<ImageGeneratorProps> = ({
       >
         {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
         {saved ? '¡Configuración guardada!' : 'Guardar Configuración'}
+      </button>
+    </div>
+  );
+};
+
+/**
+ * Proveedores de imágenes GRATUITOS — proceso independiente con condicional
+ * propia. Cuando se activa uno, la generación deja de consumir tokens de
+ * Nano Banana: la orquestación corre en modo loremflickr y freeImageService
+ * resuelve las imágenes (con prompts del agente Gemini + caché en disco).
+ * El proceso Nano Banana original no se modifica.
+ */
+const FreeImageProvidersConfig: React.FC = () => {
+  const [provider, setProvider] = useState('none');
+  const [agentic, setAgentic] = useState(true);
+  const [pexelsKey, setPexelsKey] = useState('');
+  const [hasPexelsKey, setHasPexelsKey] = useState(false);
+  const [pollinationsToken, setPollinationsToken] = useState('');
+  const [hasPollinationsToken, setHasPollinationsToken] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [testing, setTesting] = useState<string | null>(null);
+  const [testResults, setTestResults] = useState<Record<string, { ok: boolean; latencyMs?: number; dataUri?: string; promptMode?: string; bytes?: number; fallback?: boolean; error?: string }>>({});
+
+  useEffect(() => {
+    getFreeImagesConfig()
+      .then((cfg) => {
+        setProvider(cfg.provider || 'none');
+        setAgentic(cfg.agentic !== false);
+        setHasPexelsKey(Boolean(cfg.hasPexelsKey));
+        setHasPollinationsToken(Boolean(cfg.hasPollinationsToken));
+      })
+      .catch((e) => console.error('Error cargando config de imágenes gratuitas:', e));
+  }, []);
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      await saveFreeImagesConfig({
+        provider,
+        agentic,
+        ...(provider === 'pexels' && pexelsKey.trim() ? { pexels_key: pexelsKey.trim() } : {}),
+        ...(['pollinations-flux', 'pollinations-turbo'].includes(provider) && pollinationsToken.trim()
+          ? { pollinations_token: pollinationsToken.trim() }
+          : {})
+      });
+      if (provider === 'pexels' && pexelsKey.trim()) {
+        setHasPexelsKey(true);
+        setPexelsKey('');
+      }
+      if (['pollinations-flux', 'pollinations-turbo'].includes(provider) && pollinationsToken.trim()) {
+        setHasPollinationsToken(true);
+        setPollinationsToken('');
+      }
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2500);
+    } catch (error) {
+      console.error('Error guardando imágenes gratuitas:', error);
+      alert(`Error al guardar: ${error instanceof Error ? error.message : error}`);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleTest = async (prov: string) => {
+    setTesting(prov);
+    try {
+      const result = await testFreeImageProviderApi({
+        provider: prov,
+        keywords: 'elegant wedding flowers, romantic table decoration',
+        eventType: 'boda',
+        theme: 'elegante clásico'
+      });
+      setTestResults((prev) => ({ ...prev, [prov]: result }));
+    } catch (e) {
+      setTestResults((prev) => ({ ...prev, [prov]: { ok: false, error: e instanceof Error ? e.message : String(e) } }));
+    } finally {
+      setTesting(null);
+    }
+  };
+
+  const providerCards = [
+    { id: 'pexels', label: 'Pexels (banco premium)', desc: 'Fotos reales premium SIEMPRE a tema (keywords del agente). Sin marca de agua, ~1s/imagen, 200/hora gratis ≈ 13 invitaciones/hora. Solo necesitas una API key gratuita de pexels.com/api.', recommended: true, needsKey: true },
+    { id: 'pollinations-flux', label: 'Pollinations · Flux (IA)', desc: 'IA generativa gratuita con prompts del agente Gemini — la única que genera imágenes personalizadas sin pagar. Sin token: marca de agua pequeña + 1 img/15s; con token gratuito de auth.pollinations.ai: sin marca y 1 img/5s.', recommended: false, needsKey: false },
+    { id: 'pollinations-turbo', label: 'Pollinations · Turbo (IA)', desc: 'IA gratuita más rápida, calidad menor que Flux. Mismo comportamiento de token/límites que Flux.', recommended: false, needsKey: false },
+    { id: 'picsum', label: 'Picsum (fotografía real)', desc: 'Fotografía real curada de alta calidad, ~1s por imagen y sin límites. Ojo: contenido aleatorio (no sigue las keywords) — ideal como respaldo.', recommended: false, needsKey: false },
+    { id: 'local-stock', label: 'Biblioteca local (img/)', desc: 'Fotos curadas por tipo de evento en el servidor. Cero red, instantáneo y sin límites.', recommended: false, needsKey: false }
+  ];
+
+  return (
+    <div className="space-y-4 pt-6 border-t-2 border-dashed border-gray-200 mt-6">
+      <div className="flex items-center justify-between">
+        <h3 className="text-base font-semibold text-gray-800 flex items-center gap-2">
+          <Sparkles className="w-5 h-5 text-emerald-500" />
+          Imágenes gratuitas (alternativa a Nano Banana)
+        </h3>
+        {provider !== 'none' && (
+          <span className="px-3 py-1 bg-emerald-500 text-white text-xs font-medium rounded-full">
+            Activo — no consume tokens de Nano Banana
+          </span>
+        )}
+      </div>
+
+      <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+        <p className="text-sm text-emerald-800">
+          Proceso <strong>independiente</strong>: al seleccionar un proveedor, la generación corre por un flujo
+          distinto que <strong>jamás invoca Nano Banana</strong>. El agente de Gemini (modelo HTML ya configurado)
+          redacta los prompts de cada imagen y el proveedor gratuito la genera o la busca. Con{' '}
+          <strong>"Proceso actual"</strong> seleccionado, todo queda exactamente como hasta ahora.
+        </p>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-3">Proveedor de fotos para nuevas invitaciones</label>
+        <div className="space-y-2">
+          <label
+            className={`flex items-center gap-3 p-4 rounded-xl border cursor-pointer transition-all ${
+              provider === 'none'
+                ? 'border-gray-500 bg-gray-50'
+                : 'border-gray-200 hover:border-gray-300'
+            }`}
+          >
+            <input
+              type="radio"
+              name="freeImageProvider"
+              value="none"
+              checked={provider === 'none'}
+              onChange={() => setProvider('none')}
+              className="w-4 h-4 text-gray-600 focus:ring-gray-400"
+            />
+            <div className="flex-1">
+              <p className="font-medium text-gray-700 flex items-center gap-2">
+                <Image className="w-4 h-4 text-gray-500" />
+                Proceso actual (Nano Banana / Lorem Flickr)
+              </p>
+              <p className="text-xs text-gray-500">Sin cambios: usa el proveedor configurado arriba y sus tokens.</p>
+            </div>
+          </label>
+
+          {providerCards.map((p) => (
+            <label
+              key={p.id}
+              className={`flex items-center gap-3 p-4 rounded-xl border cursor-pointer transition-all ${
+                provider === p.id
+                  ? 'border-emerald-500 bg-emerald-50'
+                  : 'border-gray-200 hover:border-emerald-300 hover:bg-emerald-50/40'
+              }`}
+            >
+              <input
+                type="radio"
+                name="freeImageProvider"
+                value={p.id}
+                checked={provider === p.id}
+                onChange={() => setProvider(p.id)}
+                className="w-4 h-4 text-emerald-500 focus:ring-emerald-400"
+              />
+              <div className="flex-1">
+                <p className="font-medium text-gray-800 flex items-center gap-2 flex-wrap">
+                  <Sparkles className="w-4 h-4 text-emerald-500" />
+                  {p.label}
+                  {p.recommended && (
+                    <span className="px-2 py-0.5 bg-emerald-500 text-white text-[10px] font-semibold rounded-full uppercase tracking-wide">
+                      Recomendado
+                    </span>
+                  )}
+                  {p.needsKey && !hasPexelsKey && provider === p.id && (
+                    <span className="px-2 py-0.5 bg-amber-100 text-amber-700 text-[10px] font-semibold rounded-full">
+                      falta API key
+                    </span>
+                  )}
+                </p>
+                <p className="text-xs text-gray-500">{p.desc}</p>
+                {p.id === 'pexels' && provider === 'pexels' && (
+                  <div className="mt-2" onClick={(e) => e.preventDefault()}>
+                    <input
+                      type="password"
+                      value={pexelsKey}
+                      onChange={(e) => setPexelsKey(e.target.value)}
+                      placeholder={hasPexelsKey ? 'API key guardada (vacío = conservar)' : 'Pega tu API key gratuita de pexels.com/api'}
+                      className="w-full px-3 py-2 border border-emerald-200 rounded-lg text-sm font-mono"
+                    />
+                  </div>
+                )}
+                {['pollinations-flux', 'pollinations-turbo'].includes(p.id) && provider === p.id && (
+                  <div className="mt-2" onClick={(e) => e.preventDefault()}>
+                    <input
+                      type="password"
+                      value={pollinationsToken}
+                      onChange={(e) => setPollinationsToken(e.target.value)}
+                      placeholder={hasPollinationsToken ? 'Token guardado (vacío = conservar)' : 'Token opcional de auth.pollinations.ai — quita la marca de agua y sube el límite'}
+                      className="w-full px-3 py-2 border border-emerald-200 rounded-lg text-sm font-mono"
+                    />
+                    <p className="text-[11px] text-gray-400 mt-1">
+                      {hasPollinationsToken ? '✓ Token guardado: imágenes sin marca de agua a 1/5s.' : 'Sin token funciona igual, pero con marca de agua pequeña y 1 imagen cada 15s.'}
+                    </p>
+                  </div>
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleTest(p.id);
+                }}
+                disabled={testing === p.id}
+                className="px-3 py-1.5 text-xs font-medium rounded-lg border border-emerald-300 text-emerald-700 hover:bg-emerald-100 disabled:opacity-50 whitespace-nowrap"
+              >
+                {testing === p.id ? <Loader2 className="w-3.5 h-3.5 animate-spin inline" /> : 'Probar'}
+              </button>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {(Object.keys(testResults).length > 0) && (
+        <div className="grid gap-3">
+          {Object.entries(testResults).map(([provId, r]) => {
+            const meta = providerCards.find((p) => p.id === provId);
+            return (
+              <div key={provId} className={`rounded-xl border p-3 flex gap-3 items-start ${r.ok ? 'border-emerald-200 bg-emerald-50/50' : 'border-red-200 bg-red-50'}`}>
+                {r.ok && r.dataUri ? (
+                  <img src={r.dataUri} alt={`Test ${provId}`} className="w-36 h-24 object-cover rounded-lg border border-emerald-200" />
+                ) : (
+                  <div className="w-36 h-24 rounded-lg bg-red-100 flex items-center justify-center text-red-500 text-xs text-center px-2">Sin imagen</div>
+                )}
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-800">{meta?.label || provId}</p>
+                  {r.ok ? (
+                    <p className="text-xs text-gray-600">
+                      ✅ Generada en <strong>{((r.latencyMs || 0) / 1000).toFixed(1)}s</strong>
+                      {' '}· {((r.bytes || 0) / 1024).toFixed(0)} KB · prompts: <strong>{r.promptMode === 'agentic' ? 'agente Gemini' : 'heurístico'}</strong>
+                      {r.fallback && <span className="text-amber-600"> · ⚠ el proveedor falló y se sirvió por fallback picsum</span>}
+                    </p>
+                  ) : (
+                    <p className="text-xs text-red-600">❌ {r.error || 'Falló'}</p>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      <div className="flex items-center gap-3">
+        <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={agentic}
+            onChange={(e) => setAgentic(e.target.checked)}
+            className="w-4 h-4 text-emerald-500 focus:ring-emerald-400"
+            disabled={provider === 'none'}
+          />
+          Usar el agente Gemini para redactar los prompts de cada imagen (recomendado)
+        </label>
+      </div>
+
+      <button
+        onClick={handleSave}
+        disabled={saving}
+        className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all disabled:opacity-50 ${
+          saved
+            ? 'bg-green-500 text-white'
+            : 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:from-emerald-600 hover:to-teal-600 shadow-lg shadow-emerald-500/25'
+        }`}
+      >
+        {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+        {saved ? '¡Guardado!' : 'Guardar proveedor gratuito'}
       </button>
     </div>
   );

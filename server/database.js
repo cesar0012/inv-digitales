@@ -621,6 +621,22 @@ for (const [col, def] of VISUAL_RACK_COLUMNS) {
   } catch (e) {}
 }
 
+// ===== Proveedores de imágenes gratuitos (alternativa a Nano Banana) =====
+// Proceso independiente: solo freeImageService lee estas columnas. Con
+// free_image_provider = 'none' (default) el flujo Nano Banana queda intacto.
+const FREE_IMAGE_COLUMNS = [
+  ['free_image_provider', "TEXT DEFAULT 'none'"],
+  ['free_image_pexels_key', "TEXT DEFAULT ''"],
+  ['free_image_pollinations_token', "TEXT DEFAULT ''"],
+  ['free_image_agentic', 'INTEGER DEFAULT 1']
+];
+for (const [col, def] of FREE_IMAGE_COLUMNS) {
+  try {
+    db.exec(`ALTER TABLE admin_config ADD COLUMN ${col} ${def}`);
+    console.log(`✅ Columna ${col} agregada a admin_config`);
+  } catch (e) {}
+}
+
 // Biblioteca de imágenes de referencia del RAG Visual. Los bytes viven en
 // server/storage/visual-rag/<filename>; aquí solo metadatos (análisis IA).
 db.exec(`
