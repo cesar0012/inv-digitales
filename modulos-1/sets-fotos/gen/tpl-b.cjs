@@ -100,10 +100,11 @@ function detalles(S) {
 @media (min-width:720px){ .sf6__rejilla { grid-template-columns:1fr 1fr; } }`
         : Vv === 2
         ? `.sf6__editorial { width:min(100%,720px); margin:0 auto; }
-.sf6__fila { display:grid; grid-template-columns:auto minmax(0,1fr); gap:clamp(1rem,3vw,1.8rem); align-items:start; padding:clamp(1rem,2.6vw,1.5rem) 0; border-bottom:1px solid var(--surface-border-color); }
+.sf6__fila { display:grid; grid-template-columns:minmax(0,1fr); gap:clamp(.6rem,2vw,1rem); align-items:start; padding:clamp(1rem,2.6vw,1.5rem) 0; border-bottom:1px solid var(--surface-border-color); position:relative; padding-left:clamp(1.4rem,4vw,2rem); }
 .sf6__fila > div { min-width:0; overflow-wrap:anywhere; }
 .sf6__fila:first-child { border-top:1px solid var(--surface-border-color); }
-.sf6__num { font-family:Georgia,serif; font-style:italic; font-size:clamp(1.8rem,4vw,2.6rem); color:var(--accent-color); line-height:1; }`
+.sf6__fila::before { content:''; position:absolute; left:0; top:clamp(1.2rem,3vw,1.8rem); width:7px; height:7px; border-radius:0 100% 0 100%; background:var(--secondary-color); }
+.sf6__fila + .sf6__fila::before { background:var(--primary-color); }`
         : Vv === 3
         ? `.sf6__par { display:grid; grid-template-columns:1fr; gap:clamp(1.6rem,4vw,2.6rem); width:min(100%,900px); margin:0 auto; align-items:center; }
 @media (min-width:820px){ .sf6__par { grid-template-columns:5fr 6fr; } }
@@ -113,7 +114,6 @@ function detalles(S) {
         ? `.sf6__par { display:grid; grid-template-columns:1fr; gap:clamp(1.8rem,4vw,2.4rem); width:min(100%,880px); margin:0 auto; }
 @media (min-width:800px){ .sf6__par { grid-template-columns:1fr 1fr; } }
 .sf6__panel { position:relative; padding:clamp(1.9rem,4.2vw,2.6rem) clamp(1.4rem,3.6vw,2.2rem) clamp(1.6rem,3.6vw,2.2rem); background:var(--surface-color); border:1px solid var(--surface-border-color); clip-path:polygon(0 0, calc(100% - 34px) 0, 100% 34px, 100% 100%, 0 100%); text-align:center; }
-.sf6__panel::after { content:attr(data-ficha); position:absolute; top:.7rem; left:1rem; font-family:'Courier New',monospace; font-size:.6rem; letter-spacing:.3em; color:var(--secondary-color); }
 .sf6__panel:nth-child(2)::after { content:attr(data-ficha); top:auto; bottom:.7rem; right:1rem; left:auto; }`
         : `.sf6__par { display:grid; grid-template-columns:1fr; gap:clamp(1.8rem,5vw,2.8rem); width:min(100%,760px); margin:0 auto; }
 @media (min-width:800px){ .sf6__par { grid-template-columns:1fr 1fr; align-items:start; } .sf6__panel:last-child { transform:translateY(clamp(1.4rem,4vw,2.6rem)); } }
@@ -181,7 +181,6 @@ ${Vv === 0 ? `<div class="sf6__par">
   </div>
 </div>` : Vv === 2 ? `<div class="sf6__editorial">
   <div class="sf6__fila">
-    <span class="sf6__num" aria-hidden="true">a.</span>
     <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-1">
       <h3 class="sf6__subtitulo" memory_type="text" memory_usage="custom" memory_key="detalles-vestimenta">Formal</h3>
       <p class="sf6__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto">Tonos ${S.theme}; blanco reservado.</p>
@@ -193,7 +192,6 @@ ${Vv === 0 ? `<div class="sf6__par">
     </div>
   </div>
   <div class="sf6__fila">
-    <span class="sf6__num" aria-hidden="true">b.</span>
     <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-2">
       <h3 class="sf6__subtitulo" memory_type="text" memory_usage="custom" memory_key="detalles-regalo-titulo">Mesa de regalos</h3>
       <p class="sf6__texto" memory_type="text" memory_usage="custom" memory_key="detalles-regalo-texto">Si deseas tener un detalle con nosotros.</p>
@@ -213,13 +211,13 @@ ${Vv === 0 ? `<div class="sf6__par">
     <a class="sf6__dato" href="https://mesaderegalos.com/ejemplo" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="detalles-regalo-link">mesaderegalos.com</a>
   </div>
 </div>` : `<div class="sf6__par">
-  <article class="sf6__panel" data-ficha="FICHA A">${foto}
+  <article class="sf6__panel">${foto}
     <p class="sf6__rotulito" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo">Código de vestimenta</p>
     <h3 class="sf6__subtitulo" memory_type="text" memory_usage="custom" memory_key="detalles-vestimenta">Formal</h3>
     <p class="sf6__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto">Paleta ${S.theme}; el blanco queda reservado de los anfitriones.</p>
     <div class="sf6__paleta"><span class="sf6__muestra" style="background:var(--primary-color);"></span><span class="sf6__muestra" style="background:var(--secondary-color);"></span><span class="sf6__muestra" style="background:var(--accent-color);"></span><span class="sf6__muestra" style="background:var(--text-color);"></span></div>
   </article>
-  <article class="sf6__panel" data-ficha="FICHA B">
+  <article class="sf6__panel">
     <p class="sf6__rotulito" memory_type="text" memory_usage="custom" memory_key="detalles-regalo-rotulo">Mesa de regalos</p>
     <h3 class="sf6__subtitulo" memory_type="text" memory_usage="custom" memory_key="detalles-regalo-titulo">Tu presencia, nuestro regalo</h3>
     <p class="sf6__texto" memory_type="text" memory_usage="custom" memory_key="detalles-regalo-texto">Si deseas tener un detalle, aquí van algunas ideas.</p>
@@ -368,10 +366,11 @@ function padrinos(S) {
 .sf8__marco img { display:block; width:100%; height:80%; object-fit:cover; }`
         : Vv === 4
         ? `.sf8__fila { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(2.4rem,6vw,4.4rem); }
-.sf8__casa { width:clamp(200px,26vw,248px); position:relative; }
-.sf8__casa::before { content:''; position:absolute; left:-8%; right:-8%; top:38%; height:clamp(56px,9vw,74px); background:repeating-linear-gradient(45deg, color-mix(in srgb, var(--primary-color) 30%, transparent) 0 10px, color-mix(in srgb, var(--secondary-color) 30%, transparent) 10px 20px); z-index:0; }
-.sf8__marco { position:relative; z-index:1; margin:0 auto; width:clamp(168px,21vw,206px); aspect-ratio:1/1; border-radius:50%; padding:8px; background:var(--surface-color); border:2px solid var(--primary-color); box-shadow:0 18px 36px rgba(0,0,0,.24); }
-.sf8__marco img { display:block; width:100%; height:100%; object-fit:cover; border-radius:50%; }`
+.sf8__casa { width:clamp(200px,26vw,248px); position:relative; padding:clamp(3rem,7vw,4.2rem) clamp(.6rem,2vw,1rem) 0; }
+.sf8__casa::before { content:''; position:absolute; left:-10%; right:-10%; top:clamp(4.4rem,9vw,5.6rem); height:clamp(48px,8vw,64px); background:repeating-linear-gradient(45deg, color-mix(in srgb, var(--primary-color) 30%, transparent) 0 10px, color-mix(in srgb, var(--secondary-color) 30%, transparent) 10px 20px); z-index:0; border-radius:4px; }
+.sf8__marco { position:relative; z-index:1; margin:0 auto; width:clamp(168px,21vw,206px); aspect-ratio:1/1; border-radius:50%; padding:8px; background:var(--surface-color); border:2px solid var(--primary-color); box-shadow:0 18px 36px color-mix(in srgb, var(--text-color) 20%, transparent); }
+.sf8__marco img { display:block; width:100%; height:100%; object-fit:cover; object-position:top; border-radius:50%; }
+@media (max-width:560px){ .sf8__fila { gap:1.4rem; } .sf8__casa { width:min(100%,230px); padding-top:2.6rem; } .sf8__casa::before { top:3.4rem; height:44px; } }`
         : `.sf8__fila { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(2.6rem,7vw,5.4rem); }
 .sf8__casa { width:clamp(190px,24vw,232px); }
 .sf8__casa:nth-child(2) { transform:translateY(clamp(1.6rem,5vw,3.2rem)); }

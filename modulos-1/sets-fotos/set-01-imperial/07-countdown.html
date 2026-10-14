@@ -12,20 +12,24 @@
 .cd1__cab { margin-bottom:clamp(1.4rem,3vw,2rem); }
 .cd1__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
 .cd1__tit { margin:0; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.9rem,4.4vw,2.9rem); color:var(--primary-color); }
-.cd1__dial { position:relative; width:min(100%,620px); height:min(46vw,240px); margin:0 auto clamp(1.2rem,3vw,2rem); border-radius:min(46vw,240px) min(46vw,240px) 0 0; border:2px solid var(--primary-color); border-bottom:none; overflow:hidden; background:color-mix(in srgb, var(--surface-color) 55%, transparent); }
+.cd1__dial { position:relative; width:min(100%,620px); height:clamp(170px,34vw,260px); margin:0 auto clamp(1.6rem,4vw,2.4rem); border-radius:min(46vw,260px) min(46vw,260px) 0 0; border:2px solid var(--primary-color); border-bottom:none; overflow:hidden; background:color-mix(in srgb, var(--surface-color) 55%, transparent); }
 .cd1__dial::before { content:''; position:absolute; inset:10px; border-radius:inherit; border:1px dashed color-mix(in srgb, var(--accent-color) 55%, transparent); }
-.cd1__tick { position:absolute; bottom:0; width:1.5px; height:14%; background:var(--accent-color); transform-origin:bottom center; }
-.cd1__gnomon { position:absolute; left:50%; bottom:0; width:0; height:0; transform:translateX(-50%); border-left:14px solid transparent; border-right:14px solid transparent; border-bottom:min(30vw,150px) solid color-mix(in srgb, var(--primary-color) 30%, transparent); }
-.cd1__sombra { position:absolute; left:50%; bottom:0; width:min(34vw,180px); height:3px; background:linear-gradient(90deg, color-mix(in srgb, var(--primary-color) 85%, transparent), transparent); transform-origin:left center; animation:cd1-sombra 9s ease-in-out infinite alternate; }
-@keyframes cd1-sombra { from { transform:rotate(-52deg); } to { transform:rotate(52deg); } }
+.cd1__sol { position:absolute; top:-6px; left:50%; transform:translateX(-50%); width:14px; height:14px; border-radius:50%; background:var(--accent-color); box-shadow:0 0 0 4px color-mix(in srgb, var(--accent-color) 25%, transparent), 0 0 18px color-mix(in srgb, var(--accent-color) 60%, transparent); }
+.cd1__tick { position:absolute; bottom:0; left:50%; width:1.5px; height:13%; background:var(--accent-color); transform-origin:50% 100%; }
+.cd1__tick--mayor { height:20%; width:2px; background:var(--primary-color); }
+.cd1__numRoman { position:absolute; bottom:6%; font-family:Georgia,serif; font-size:clamp(.6rem,1.4vw,.8rem); color:var(--primary-color); opacity:.8; }
+.cd1__gnomon { position:absolute; left:50%; bottom:0; width:clamp(18px,3.4vw,26px); height:56%; transform:translateX(-50%); clip-path:polygon(50% 0, 100% 100%, 0 100%); background:linear-gradient(180deg, var(--primary-color), color-mix(in srgb, var(--primary-color) 45%, var(--bg-color))); filter:drop-shadow(0 3px 4px color-mix(in srgb, var(--text-color) 22%, transparent)); }
+.cd1__gnomon::after { content:''; position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:34px; height:5px; border-radius:3px; background:var(--primary-color); }
+.cd1__sombra { position:absolute; left:50%; bottom:0; width:44%; height:clamp(16px,3.4vw,24px); transform-origin:left center; background:linear-gradient(90deg, color-mix(in srgb, var(--primary-color) 52%, transparent), transparent 94%); clip-path:polygon(0 38%, 100% 0, 100% 100%); animation:cd1-sombra 9s ease-in-out infinite alternate; filter:blur(.4px); }
+@keyframes cd1-sombra { from { transform:rotate(-54deg); } to { transform:rotate(54deg); } }
 .cd1__fila { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(1rem,3.4vw,2.4rem); }
-.cd1__med { width:clamp(96px,20vw,132px); padding:clamp(.9rem,2vw,1.2rem) .6rem clamp(1.6rem,3vw,2rem); background:var(--surface-color); border:1px solid var(--primary-color); border-radius:10px 10px 50% 50%; position:relative; box-shadow:0 14px 26px color-mix(in srgb, var(--text-color) 18%, transparent); }
+.cd1__med { width:clamp(96px,20vw,132px); padding:clamp(.9rem,2vw,1.2rem) .6rem clamp(1.6rem,3vw,2rem); background:var(--surface-color); border:1px solid var(--primary-color); border-radius:10px 10px 50% 50%; position:relative; box-shadow:0 14px 26px color-mix(in srgb, var(--text-color) 16%, transparent); }
 .cd1__med::before { content:''; position:absolute; top:-26px; left:50%; width:1px; height:26px; background:var(--accent-color); }
 .cd1__med::after { content:''; position:absolute; top:-32px; left:50%; transform:translateX(-50%); width:8px; height:8px; border-radius:50%; border:1px solid var(--primary-color); }
 .cd1__num { display:block; font-family:Georgia,serif; font-size:clamp(1.6rem,4.2vw,2.5rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; }
 .cd1__etq { display:block; margin-top:.4rem; font-family:'Courier New',monospace; font-size:clamp(.48rem,.95vw,.6rem); letter-spacing:.34em; text-transform:uppercase; color:var(--text-color); }
 .cd1__fecha { display:block; margin-top:clamp(1.4rem,3vw,2rem); font-family:Georgia,serif; font-style:italic; font-size:clamp(.85rem,1.6vw,.98rem); color:var(--text-color); }
-@media (max-width:560px){ .cd1__fila { gap:.9rem; } .cd1__med { width:min(44%,150px); } }
+@media (max-width:560px){ .cd1__fila { gap:.9rem; } .cd1__med { width:min(44%,150px); } .cd1__med:nth-child(n+3) { margin-top:1.6rem; } }
 
 @media (prefers-reduced-motion:reduce){ .cd1 * { animation:none !important; transition:none !important; } }
 </style>
@@ -33,7 +37,7 @@
   <p class="cd1__rot" memory_type="text" memory_usage="custom" memory_key="countdown-rotulo">Hora solar</p>
   <h2 class="cd1__tit" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">El gran día se acerca</h2>
 </header>
-<div class="cd1__dial" aria-hidden="true"><i class="cd1__tick" style="left:50%; bottom:0; transform-origin:50% 100%; transform:rotate(-90deg) translateY(-2px); height:20%;"></i><i class="cd1__tick" style="left:50%; bottom:0; transform-origin:50% 100%; transform:rotate(-60deg) translateY(-2px); height:13%;"></i><i class="cd1__tick" style="left:50%; bottom:0; transform-origin:50% 100%; transform:rotate(-30deg) translateY(-2px); height:13%;"></i><i class="cd1__tick" style="left:50%; bottom:0; transform-origin:50% 100%; transform:rotate(0deg) translateY(-2px); height:20%;"></i><i class="cd1__tick" style="left:50%; bottom:0; transform-origin:50% 100%; transform:rotate(30deg) translateY(-2px); height:13%;"></i><i class="cd1__tick" style="left:50%; bottom:0; transform-origin:50% 100%; transform:rotate(60deg) translateY(-2px); height:13%;"></i><i class="cd1__tick" style="left:50%; bottom:0; transform-origin:50% 100%; transform:rotate(90deg) translateY(-2px); height:20%;"></i><span class="cd1__gnomon"></span><span class="cd1__sombra"></span></div>
+<div class="cd1__dial" aria-hidden="true"><i class="cd1__sol"></i><i class="cd1__tick cd1__tick--mayor" style="transform-origin:50% 100%; transform:translateX(-50%) rotate(-90deg);"></i><i class="cd1__tick " style="transform-origin:50% 100%; transform:translateX(-50%) rotate(-60deg);"></i><i class="cd1__tick " style="transform-origin:50% 100%; transform:translateX(-50%) rotate(-30deg);"></i><i class="cd1__tick cd1__tick--mayor" style="transform-origin:50% 100%; transform:translateX(-50%) rotate(0deg);"></i><i class="cd1__tick " style="transform-origin:50% 100%; transform:translateX(-50%) rotate(30deg);"></i><i class="cd1__tick " style="transform-origin:50% 100%; transform:translateX(-50%) rotate(60deg);"></i><i class="cd1__tick cd1__tick--mayor" style="transform-origin:50% 100%; transform:translateX(-50%) rotate(90deg);"></i><span class="cd1__numRoman" style="left:5%; transform:translateX(-50%);">XII</span><span class="cd1__numRoman" style="left:18%; transform:translateX(-50%);">IX</span><span class="cd1__numRoman" style="left:50%; transform:translateX(-50%);">VI</span><span class="cd1__numRoman" style="left:82%; transform:translateX(-50%);">III</span><span class="cd1__sombra"></span><span class="cd1__gnomon"></span></div>
 <ul class="cd1__fila" aria-label="Cuenta regresiva" style="list-style:none;margin:0;padding:0;">
   <li class="cd1__med"><b class="cd1__num" data-countdown-unit="days">--</b><span class="cd1__etq">Días</span></li>
   <li class="cd1__med"><b class="cd1__num" data-countdown-unit="hours">--</b><span class="cd1__etq">Horas</span></li>
@@ -85,5 +89,5 @@
     window.updateCountdown = start;
   })();
 </script>
-<script>var moduleMetadata = { module_type: "countdown", module_name: "countdown-solar-imperial", style_name: "Imperial Dorado", descripcion: "Reloj de sol imperial: la sombra del gnomon barre un arco romano y las unidades cuelgan como medallones dorados.", tags: ["countdown","rayos","imperial","sundial","arco","medallones","romano"], tipo: "countdown" };</script>
+<script>var moduleMetadata = { module_type: "countdown", module_name: "countdown-solar-imperial", style_name: "Imperial Dorado", descripcion: "Reloj de sol imperial: la somra en cuña del gnomon de bronce barre un arco con numerales romanos; las unidades cuelgan como medallones.", tags: ["countdown","rayos","imperial","sundial","arco","medallones","romano"], tipo: "countdown" };</script>
 </section>

@@ -18,7 +18,9 @@
 @media (min-width:800px){ .rcA__split { grid-template-columns:1fr 1fr; } }
 .rcA__mitad { padding:clamp(1.6rem,4vw,2.6rem); }
 .rcA__mitad--foto { clip-path:polygon(0 0, 100% 0, 78% 100%, 0 100%); }
+@media (max-width:799px){ .rcA__mitad--foto { clip-path:none; padding-top:0; } }
 .rcA__mitad--foto img { display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover; }
+@media (max-width:799px){ .rcA__mitad--foto img { aspect-ratio:1/1; } }
 .rcA__mitad--txt { display:grid; align-content:center; justify-items:center; text-align:center; }
 .sf-orn-wrap { display:flex; justify-content:center; margin:0 auto clamp(1.6rem,4vw,2.4rem); color:var(--primary-color); }
 .sf-orn-wrap svg { width:min(240px,60%); height:auto; }

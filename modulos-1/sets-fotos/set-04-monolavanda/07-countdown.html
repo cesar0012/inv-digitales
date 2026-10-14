@@ -12,23 +12,26 @@
 .cd4__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
 .cd4__tit { margin:0 0 clamp(1.4rem,3vw,2rem); font-family:Georgia,serif; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
 .cd4__mesa { display:flex; align-items:center; justify-content:center; gap:clamp(1.4rem,5vw,4rem); flex-wrap:wrap; }
-.cd4__reloj { position:relative; width:clamp(120px,22vw,168px); height:clamp(180px,32vw,244px); }
-.cd4__tapa { position:absolute; left:0; right:0; height:14px; background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:4px; }
+.cd4__reloj { position:relative; width:clamp(130px,26vw,175px); height:clamp(200px,38vw,265px); flex:none; }
+.cd4__tapa { position:absolute; left:0; right:0; height:15px; background:var(--surface-color); border:1.5px solid var(--primary-color); border-radius:4px; z-index:3; }
 .cd4__tapa--s { top:0; } .cd4__tapa--i { bottom:0; }
-.cd4__vidrio { position:absolute; top:14px; bottom:14px; left:50%; transform:translateX(-50%); width:62%; clip-path:polygon(0 0, 100% 0, 58% 48%, 100% 100%, 0 100%, 42% 48%); background:color-mix(in srgb, var(--accent-color) 18%, transparent); border:1.5px solid var(--primary-color); }
-.cd4__arenaSup { position:absolute; top:12%; left:50%; transform:translateX(-50%); width:44%; height:26%; clip-path:polygon(0 100%, 100% 100%, 58% 8%, 42% 8%); background:color-mix(in srgb, var(--secondary-color) 70%, var(--accent-color)); animation:cd4-vaciado 7s ease-in-out infinite alternate; }
-@keyframes cd4-vaciado { to { height:12%; } }
-.cd4__chorro { position:absolute; top:46%; left:50%; transform:translateX(-50%); width:2.5px; height:26%; background:repeating-linear-gradient(var(--secondary-color) 0 5px, transparent 5px 9px); animation:cd4-chorro 0.7s linear infinite; }
+.cd4__poste { position:absolute; top:14px; bottom:14px; width:5px; border-radius:3px; background:color-mix(in srgb, var(--primary-color) 60%, var(--surface-color)); z-index:3; }
+.cd4__poste--i { left:-2px; } .cd4__poste--d { right:-2px; }
+.cd4__vidrio { position:absolute; top:15px; bottom:15px; left:50%; transform:translateX(-50%); width:60%; background:color-mix(in srgb, var(--accent-color) 16%, transparent); border:1.5px solid var(--primary-color); border-radius:14px; clip-path:polygon(0 0, 100% 0, 63% 46%, 63% 54%, 100% 100%, 0 100%, 37% 54%, 37% 46%); }
+.cd4__arena { position:absolute; left:50%; transform:translateX(-50%); width:52%; background:color-mix(in srgb, var(--secondary-color) 75%, var(--accent-color)); }
+.cd4__arena--sup { top:16%; height:24%; clip-path:polygon(0 100%, 100% 100%, 62% 14%, 38% 14%); animation:cd4-vaciado 7s ease-in-out infinite alternate; transform-origin:top center; }
+@keyframes cd4-vaciado { to { height:9%; } }
+.cd4__chorro { position:absolute; top:46%; left:50%; transform:translateX(-50%); width:2.5px; height:14%; background:repeating-linear-gradient(var(--secondary-color) 0 5px, transparent 5px 9px); animation:cd4-chorro 0.7s linear infinite; }
 @keyframes cd4-chorro { to { background-position:0 9px; } }
-.cd4__monton { position:absolute; bottom:12%; left:50%; transform:translateX(-50%); width:46%; height:12%; border-radius:50% 50% 0 0; background:color-mix(in srgb, var(--secondary-color) 70%, var(--accent-color)); animation:cd4-llenado 7s ease-in-out infinite alternate; }
-@keyframes cd4-llenado { to { height:26%; width:56%; } }
-.cd4__placas { display:grid; gap:.7rem; }
-.cd4__placa { display:flex; align-items:baseline; justify-content:space-between; gap:1rem; min-width:clamp(120px,20vw,150px); padding:.55rem .9rem; background:var(--surface-color); border:1px solid var(--surface-border-color); border-left:4px solid var(--primary-color); }
+.cd4__arena--inf { bottom:16%; height:10%; width:44%; border-radius:50% 50% 6% 6%/80% 80% 20% 20%; animation:cd4-llenado 7s ease-in-out infinite alternate; }
+@keyframes cd4-llenado { to { height:22%; width:54%; } }
+.cd4__placas { display:grid; gap:.7rem; min-width:clamp(230px,44vw,320px); }
+.cd4__placa { display:flex; align-items:baseline; justify-content:space-between; gap:1rem; padding:.55rem .9rem; background:var(--surface-color); border:1px solid var(--surface-border-color); border-left:4px solid var(--primary-color); }
 .cd4__placa--par { border-left:none; border-right:4px solid var(--primary-color); flex-direction:row-reverse; text-align:right; }
 .cd4__num { font-family:Georgia,serif; font-size:clamp(1.3rem,3.4vw,1.9rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; }
 .cd4__etq { font-family:'Courier New',monospace; font-size:clamp(.48rem,.92vw,.58rem); letter-spacing:.3em; text-transform:uppercase; color:var(--text-color); }
 .cd4__fecha { display:block; margin:clamp(1.4rem,3vw,2rem) 0 0; font-family:'Segoe UI',Arial,sans-serif; font-style:italic; font-size:clamp(.85rem,1.6vw,.98rem); color:var(--text-color); }
-@media (max-width:560px){ .cd4__mesa { flex-direction:column; } .cd4__placas { grid-template-columns:1fr 1fr; width:100%; } }
+@media (max-width:560px){ .cd4__mesa { flex-direction:column; } .cd4__placas { grid-template-columns:1fr 1fr; width:100%; min-width:0; } .cd4__reloj { width:clamp(120px,38vw,160px); height:clamp(185px,54vw,235px); } }
 
 @media (prefers-reduced-motion:reduce){ .cd4 * { animation:none !important; transition:none !important; } }
 </style>
@@ -38,8 +41,10 @@
 </header>
 <div class="cd4__mesa">
   <div class="cd4__reloj" aria-hidden="true">
+    <i class="cd4__poste cd4__poste--i"></i><i class="cd4__poste cd4__poste--d"></i>
     <i class="cd4__tapa cd4__tapa--s"></i><i class="cd4__tapa cd4__tapa--i"></i>
-    <span class="cd4__vidrio"></span><span class="cd4__arenaSup"></span><span class="cd4__chorro"></span><span class="cd4__monton"></span>
+    <span class="cd4__vidrio"></span>
+    <span class="cd4__arena cd4__arena--sup"></span><span class="cd4__chorro"></span><span class="cd4__arena cd4__arena--inf"></span>
   </div>
   <div class="cd4__placas">
 <div class="cd4__placa "><b class="cd4__num" data-countdown-unit="days">--</b><span class="cd4__etq">Días</span></div>
@@ -93,5 +98,5 @@
     window.updateCountdown = start;
   })();
 </script>
-<script>var moduleMetadata = { module_type: "countdown", module_name: "countdown-arena-lavanda", style_name: "Moño Lavanda sobre Mármol", descripcion: "Reloj de arena sobre mármol: la arena cae en loop mientras las unidades aparecen grabadas en placas del marco.", tags: ["countdown","lazo","lavanda","hourglass","arena","marmol"], tipo: "countdown" };</script>
+<script>var moduleMetadata = { module_type: "countdown", module_name: "countdown-arena-lavanda", style_name: "Moño Lavanda sobre Mármol", descripcion: "Reloj de arena sobre mármol con postes de madera: la arena cae en loop mientras las unidades aparecen grabadas en placas del marco.", tags: ["countdown","lazo","lavanda","hourglass","arena","marmol"], tipo: "countdown" };</script>
 </section>

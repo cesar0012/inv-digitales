@@ -2,8 +2,8 @@
  * módulo countdown con concepto/layout/animación ÚNICOS. */
 const { wrap, head, fecha } = require('./core.cjs');
 
-/* 1 · IMPERIAL — Reloj de sol romano: arco semicircular con gnomon cuya
- * sombra barre la escala; medallones colgantes con las unidades. */
+/* 1 · IMPERIAL — Reloj de sol romano: arco semicircular con gnomon de bronce
+ * cuya SOMBRA (cuña) barre la escala; medallones colgantes con las unidades. */
 function cd_imperial(S) {
   const C = 'cd1';
   const css = `
@@ -11,25 +11,31 @@ function cd_imperial(S) {
 .${C}__cab { margin-bottom:clamp(1.4rem,3vw,2rem); }
 .${C}__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
 .${C}__tit { margin:0; font-family:${S.disp}; font-weight:400; font-size:clamp(1.9rem,4.4vw,2.9rem); color:var(--primary-color); }
-.${C}__dial { position:relative; width:min(100%,620px); height:min(46vw,240px); margin:0 auto clamp(1.2rem,3vw,2rem); border-radius:min(46vw,240px) min(46vw,240px) 0 0; border:2px solid var(--primary-color); border-bottom:none; overflow:hidden; background:color-mix(in srgb, var(--surface-color) 55%, transparent); }
+.${C}__dial { position:relative; width:min(100%,620px); height:clamp(170px,34vw,260px); margin:0 auto clamp(1.6rem,4vw,2.4rem); border-radius:min(46vw,260px) min(46vw,260px) 0 0; border:2px solid var(--primary-color); border-bottom:none; overflow:hidden; background:color-mix(in srgb, var(--surface-color) 55%, transparent); }
 .${C}__dial::before { content:''; position:absolute; inset:10px; border-radius:inherit; border:1px dashed color-mix(in srgb, var(--accent-color) 55%, transparent); }
-.${C}__tick { position:absolute; bottom:0; width:1.5px; height:14%; background:var(--accent-color); transform-origin:bottom center; }
-.${C}__gnomon { position:absolute; left:50%; bottom:0; width:0; height:0; transform:translateX(-50%); border-left:14px solid transparent; border-right:14px solid transparent; border-bottom:min(30vw,150px) solid color-mix(in srgb, var(--primary-color) 30%, transparent); }
-.${C}__sombra { position:absolute; left:50%; bottom:0; width:min(34vw,180px); height:3px; background:linear-gradient(90deg, color-mix(in srgb, var(--primary-color) 85%, transparent), transparent); transform-origin:left center; animation:${C}-sombra 9s ease-in-out infinite alternate; }
-@keyframes ${C}-sombra { from { transform:rotate(-52deg); } to { transform:rotate(52deg); } }
+.${C}__sol { position:absolute; top:-6px; left:50%; transform:translateX(-50%); width:14px; height:14px; border-radius:50%; background:var(--accent-color); box-shadow:0 0 0 4px color-mix(in srgb, var(--accent-color) 25%, transparent), 0 0 18px color-mix(in srgb, var(--accent-color) 60%, transparent); }
+.${C}__tick { position:absolute; bottom:0; left:50%; width:1.5px; height:13%; background:var(--accent-color); transform-origin:50% 100%; }
+.${C}__tick--mayor { height:20%; width:2px; background:var(--primary-color); }
+.${C}__numRoman { position:absolute; bottom:6%; font-family:${S.disp}; font-size:clamp(.6rem,1.4vw,.8rem); color:var(--primary-color); opacity:.8; }
+.${C}__gnomon { position:absolute; left:50%; bottom:0; width:clamp(18px,3.4vw,26px); height:56%; transform:translateX(-50%); clip-path:polygon(50% 0, 100% 100%, 0 100%); background:linear-gradient(180deg, var(--primary-color), color-mix(in srgb, var(--primary-color) 45%, var(--bg-color))); filter:drop-shadow(0 3px 4px color-mix(in srgb, var(--text-color) 22%, transparent)); }
+.${C}__gnomon::after { content:''; position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:34px; height:5px; border-radius:3px; background:var(--primary-color); }
+.${C}__sombra { position:absolute; left:50%; bottom:0; width:44%; height:clamp(16px,3.4vw,24px); transform-origin:left center; background:linear-gradient(90deg, color-mix(in srgb, var(--primary-color) 52%, transparent), transparent 94%); clip-path:polygon(0 38%, 100% 0, 100% 100%); animation:${C}-sombra 9s ease-in-out infinite alternate; filter:blur(.4px); }
+@keyframes ${C}-sombra { from { transform:rotate(-54deg); } to { transform:rotate(54deg); } }
 .${C}__fila { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(1rem,3.4vw,2.4rem); }
-.${C}__med { width:clamp(96px,20vw,132px); padding:clamp(.9rem,2vw,1.2rem) .6rem clamp(1.6rem,3vw,2rem); background:var(--surface-color); border:1px solid var(--primary-color); border-radius:10px 10px 50% 50%; position:relative; box-shadow:0 14px 26px rgba(0,0,0,.18); }
+.${C}__med { width:clamp(96px,20vw,132px); padding:clamp(.9rem,2vw,1.2rem) .6rem clamp(1.6rem,3vw,2rem); background:var(--surface-color); border:1px solid var(--primary-color); border-radius:10px 10px 50% 50%; position:relative; box-shadow:0 14px 26px color-mix(in srgb, var(--text-color) 16%, transparent); }
 .${C}__med::before { content:''; position:absolute; top:-26px; left:50%; width:1px; height:26px; background:var(--accent-color); }
 .${C}__med::after { content:''; position:absolute; top:-32px; left:50%; transform:translateX(-50%); width:8px; height:8px; border-radius:50%; border:1px solid var(--primary-color); }
 .${C}__num { display:block; font-family:${S.disp}; font-size:clamp(1.6rem,4.2vw,2.5rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; }
 .${C}__etq { display:block; margin-top:.4rem; font-family:'Courier New',monospace; font-size:clamp(.48rem,.95vw,.6rem); letter-spacing:.34em; text-transform:uppercase; color:var(--text-color); }
 .${C}__fecha { display:block; margin-top:clamp(1.4rem,3vw,2rem); font-family:${S.body}; font-style:italic; font-size:clamp(.85rem,1.6vw,.98rem); color:var(--text-color); }
-@media (max-width:560px){ .${C}__fila { gap:.9rem; } .${C}__med { width:min(44%,150px); } }
+@media (max-width:560px){ .${C}__fila { gap:.9rem; } .${C}__med { width:min(44%,150px); } .${C}__med:nth-child(n+3) { margin-top:1.6rem; } }
 `;
   const ticks = [0, 30, 60, 90, 120, 150, 180].map((deg) =>
-    `<i class="${C}__tick" style="left:50%; bottom:0; transform-origin:50% 100%; transform:rotate(${deg - 90}deg) translateY(-2px); height:${deg % 90 === 0 ? '20%' : '13%'};"></i>`).join('');
+    `<i class="${C}__tick ${deg % 90 === 0 ? C + '__tick--mayor' : ''}" style="transform-origin:50% 100%; transform:translateX(-50%) rotate(${deg - 90}deg);"></i>`).join('');
+  const romanos = [['XII', '5%'], ['IX', '18%'], ['VI', '50%'], ['III', '82%']]
+    .map(([n, l]) => `<span class="${C}__numRoman" style="left:${l}; transform:translateX(-50%);">${n}</span>`).join('');
   const body = `${head(C, 'Hora solar', 'El gran día se acerca')}
-<div class="${C}__dial" aria-hidden="true">${ticks}<span class="${C}__gnomon"></span><span class="${C}__sombra"></span></div>
+<div class="${C}__dial" aria-hidden="true"><i class="${C}__sol"></i>${ticks}${romanos}<span class="${C}__sombra"></span><span class="${C}__gnomon"></span></div>
 <ul class="${C}__fila" aria-label="Cuenta regresiva" style="list-style:none;margin:0;padding:0;">
   <li class="${C}__med"><b class="${C}__num" data-countdown-unit="days">--</b><span class="${C}__etq">Días</span></li>
   <li class="${C}__med"><b class="${C}__num" data-countdown-unit="hours">--</b><span class="${C}__etq">Horas</span></li>
@@ -37,7 +43,7 @@ function cd_imperial(S) {
   <li class="${C}__med"><b class="${C}__num" data-countdown-unit="seconds">--</b><span class="${C}__etq">Seg</span></li>
 </ul>
 ${fecha(C, 'Solsticio · Fecha del evento · hora por confirmar')}`;
-  return wrap(S, { id: 'countdown-solar-imperial', cls: C, css, body, desc: 'Reloj de sol imperial: la sombra del gnomon barre un arco romano y las unidades cuelgan como medallones dorados.', tags: ['sundial', 'arco', 'medallones', 'romano'] });
+  return wrap(S, { id: 'countdown-solar-imperial', cls: C, css, body, desc: 'Reloj de sol imperial: la somra en cuña del gnomon de bronce barre un arco con numerales romanos; las unidades cuelgan como medallones.', tags: ['sundial', 'arco', 'medallones', 'romano'] });
 }
 
 /* 2 · MARIPOSAS — Vuelo ascendente: cuatro mariposas CSS revolotean llevando
@@ -135,7 +141,8 @@ ${fecha(C, 'Fecha del evento · hora por confirmar')}`;
 }
 
 /* 4 · MONOLAVANDA — Reloj de arena de mármol: la arena cae mientras las
- * unidades graban el marco de madera. */
+ * unidades graban el marco de madera. Geometría 100% porcentual (robusta
+ * en desktop y móvil). */
 function cd_monolavanda(S) {
   const C = 'cd4';
   const css = `
@@ -143,23 +150,26 @@ function cd_monolavanda(S) {
 .${C}__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
 .${C}__tit { margin:0 0 clamp(1.4rem,3vw,2rem); font-family:${S.disp}; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
 .${C}__mesa { display:flex; align-items:center; justify-content:center; gap:clamp(1.4rem,5vw,4rem); flex-wrap:wrap; }
-.${C}__reloj { position:relative; width:clamp(120px,22vw,168px); height:clamp(180px,32vw,244px); }
-.${C}__tapa { position:absolute; left:0; right:0; height:14px; background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:4px; }
+.${C}__reloj { position:relative; width:clamp(130px,26vw,175px); height:clamp(200px,38vw,265px); flex:none; }
+.${C}__tapa { position:absolute; left:0; right:0; height:15px; background:var(--surface-color); border:1.5px solid var(--primary-color); border-radius:4px; z-index:3; }
 .${C}__tapa--s { top:0; } .${C}__tapa--i { bottom:0; }
-.${C}__vidrio { position:absolute; top:14px; bottom:14px; left:50%; transform:translateX(-50%); width:62%; clip-path:polygon(0 0, 100% 0, 58% 48%, 100% 100%, 0 100%, 42% 48%); background:color-mix(in srgb, var(--accent-color) 18%, transparent); border:1.5px solid var(--primary-color); }
-.${C}__arenaSup { position:absolute; top:12%; left:50%; transform:translateX(-50%); width:44%; height:26%; clip-path:polygon(0 100%, 100% 100%, 58% 8%, 42% 8%); background:color-mix(in srgb, var(--secondary-color) 70%, var(--accent-color)); animation:${C}-vaciado 7s ease-in-out infinite alternate; }
-@keyframes ${C}-vaciado { to { height:12%; } }
-.${C}__chorro { position:absolute; top:46%; left:50%; transform:translateX(-50%); width:2.5px; height:26%; background:repeating-linear-gradient(var(--secondary-color) 0 5px, transparent 5px 9px); animation:${C}-chorro 0.7s linear infinite; }
+.${C}__poste { position:absolute; top:14px; bottom:14px; width:5px; border-radius:3px; background:color-mix(in srgb, var(--primary-color) 60%, var(--surface-color)); z-index:3; }
+.${C}__poste--i { left:-2px; } .${C}__poste--d { right:-2px; }
+.${C}__vidrio { position:absolute; top:15px; bottom:15px; left:50%; transform:translateX(-50%); width:60%; background:color-mix(in srgb, var(--accent-color) 16%, transparent); border:1.5px solid var(--primary-color); border-radius:14px; clip-path:polygon(0 0, 100% 0, 63% 46%, 63% 54%, 100% 100%, 0 100%, 37% 54%, 37% 46%); }
+.${C}__arena { position:absolute; left:50%; transform:translateX(-50%); width:52%; background:color-mix(in srgb, var(--secondary-color) 75%, var(--accent-color)); }
+.${C}__arena--sup { top:16%; height:24%; clip-path:polygon(0 100%, 100% 100%, 62% 14%, 38% 14%); animation:${C}-vaciado 7s ease-in-out infinite alternate; transform-origin:top center; }
+@keyframes ${C}-vaciado { to { height:9%; } }
+.${C}__chorro { position:absolute; top:46%; left:50%; transform:translateX(-50%); width:2.5px; height:14%; background:repeating-linear-gradient(var(--secondary-color) 0 5px, transparent 5px 9px); animation:${C}-chorro 0.7s linear infinite; }
 @keyframes ${C}-chorro { to { background-position:0 9px; } }
-.${C}__monton { position:absolute; bottom:12%; left:50%; transform:translateX(-50%); width:46%; height:12%; border-radius:50% 50% 0 0; background:color-mix(in srgb, var(--secondary-color) 70%, var(--accent-color)); animation:${C}-llenado 7s ease-in-out infinite alternate; }
-@keyframes ${C}-llenado { to { height:26%; width:56%; } }
-.${C}__placas { display:grid; gap:.7rem; }
-.${C}__placa { display:flex; align-items:baseline; justify-content:space-between; gap:1rem; min-width:clamp(120px,20vw,150px); padding:.55rem .9rem; background:var(--surface-color); border:1px solid var(--surface-border-color); border-left:4px solid var(--primary-color); }
+.${C}__arena--inf { bottom:16%; height:10%; width:44%; border-radius:50% 50% 6% 6%/80% 80% 20% 20%; animation:${C}-llenado 7s ease-in-out infinite alternate; }
+@keyframes ${C}-llenado { to { height:22%; width:54%; } }
+.${C}__placas { display:grid; gap:.7rem; min-width:clamp(230px,44vw,320px); }
+.${C}__placa { display:flex; align-items:baseline; justify-content:space-between; gap:1rem; padding:.55rem .9rem; background:var(--surface-color); border:1px solid var(--surface-border-color); border-left:4px solid var(--primary-color); }
 .${C}__placa--par { border-left:none; border-right:4px solid var(--primary-color); flex-direction:row-reverse; text-align:right; }
 .${C}__num { font-family:${S.disp}; font-size:clamp(1.3rem,3.4vw,1.9rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; }
 .${C}__etq { font-family:'Courier New',monospace; font-size:clamp(.48rem,.92vw,.58rem); letter-spacing:.3em; text-transform:uppercase; color:var(--text-color); }
 .${C}__fecha { display:block; margin:clamp(1.4rem,3vw,2rem) 0 0; font-family:${S.body}; font-style:italic; font-size:clamp(.85rem,1.6vw,.98rem); color:var(--text-color); }
-@media (max-width:560px){ .${C}__mesa { flex-direction:column; } .${C}__placas { grid-template-columns:1fr 1fr; width:100%; } }
+@media (max-width:560px){ .${C}__mesa { flex-direction:column; } .${C}__placas { grid-template-columns:1fr 1fr; width:100%; min-width:0; } .${C}__reloj { width:clamp(120px,38vw,160px); height:clamp(185px,54vw,235px); } }
 `;
   const placas = [['days', 'Días'], ['hours', 'Horas'], ['minutes', 'Min'], ['seconds', 'Seg']]
     .map(([u, l], i) => `<div class="${C}__placa ${i % 2 ? C + '__placa--par' : ''}"><b class="${C}__num" data-countdown-unit="${u}">--</b><span class="${C}__etq">${l}</span></div>`).join('\n');
@@ -169,15 +179,17 @@ function cd_monolavanda(S) {
 </header>
 <div class="${C}__mesa">
   <div class="${C}__reloj" aria-hidden="true">
+    <i class="${C}__poste ${C}__poste--i"></i><i class="${C}__poste ${C}__poste--d"></i>
     <i class="${C}__tapa ${C}__tapa--s"></i><i class="${C}__tapa ${C}__tapa--i"></i>
-    <span class="${C}__vidrio"></span><span class="${C}__arenaSup"></span><span class="${C}__chorro"></span><span class="${C}__monton"></span>
+    <span class="${C}__vidrio"></span>
+    <span class="${C}__arena ${C}__arena--sup"></span><span class="${C}__chorro"></span><span class="${C}__arena ${C}__arena--inf"></span>
   </div>
   <div class="${C}__placas">
 ${placas}
   </div>
 </div>
 ${fecha(C, 'Fecha del evento · hora por confirmar')}`;
-  return wrap(S, { id: 'countdown-arena-lavanda', cls: C, css, body, desc: 'Reloj de arena sobre mármol: la arena cae en loop mientras las unidades aparecen grabadas en placas del marco.', tags: ['hourglass', 'arena', 'marmol'] });
+  return wrap(S, { id: 'countdown-arena-lavanda', cls: C, css, body, desc: 'Reloj de arena sobre mármol con postes de madera: la arena cae en loop mientras las unidades aparecen grabadas en placas del marco.', tags: ['hourglass', 'arena', 'marmol'] });
 }
 
 /* 5 · ARCOACUARELA — Arcoíris de acuarela con gotas que gotean las unidades. */
@@ -324,7 +336,7 @@ function cd_rosabeige(S) {
 <div class="${C}__mesa">
   <div class="${C}__hoja" aria-hidden="true">
     <div class="${C}__anilla"><i></i><i></i><i></i></div>
-    <div class="${C}__mes"><b memory_type="text" memory_usage="custom" memory_key="countdown-mes">Mes del evento</b><span style="font-family:'Courier New',monospace;font-size:.62rem;letter-spacing:.2em;color:var(--secondary-color);">2026</span></div>
+    <div class="${C}__mes"><b memory_type="text" memory_usage="custom" memory_key="countdown-mes">Mes del evento</b><span style="font-family:'Courier New',monospace;font-size:.62rem;letter-spacing:.2em;color:var(--secondary-color);">Año del evento</span></div>
     <div class="${C}__diasem">${diasSem}</div>
     <div class="${C}__dias">${dias}</div>
   </div>

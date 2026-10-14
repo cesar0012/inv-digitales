@@ -17,7 +17,9 @@
 .sf3__slant { display:grid; grid-template-columns:1fr; width:min(100%,940px); margin:0 auto; }
 @media (min-width:860px){ .sf3__slant { grid-template-columns:7fr 5fr; } }
 .sf3__mapa { margin:0; clip-path:polygon(0 0, 100% 0, 86% 100%, 0 100%); overflow:hidden; }
-.sf3__mapa iframe { display:block; width:100%; height:100%; min-height:360px; border:0; }
+@media (max-width:859px){ .sf3__mapa { clip-path:none; border:1px solid var(--surface-border-color); } }
+.sf3__mapa iframe { display:block; width:100%; height:100%; min-height:280px; border:0; }
+@media (max-width:859px){ .sf3__mapa iframe { min-height:240px; } }
 .sf3__info { padding:clamp(1.6rem,4vw,2.6rem) clamp(1.2rem,3.4vw,2rem); display:grid; align-content:center; gap:.5rem; }
 
 [data-gemini-id] .rv-fade > *:not(style):not(script), [data-gemini-id] .rv-slide > *:not(style):not(script),

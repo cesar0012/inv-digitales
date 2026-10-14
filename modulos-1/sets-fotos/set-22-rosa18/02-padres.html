@@ -11,10 +11,11 @@
 .rc2__titulo { margin:0 auto 1rem; font-family:'Segoe Script','Brush Script MT',cursive; font-weight:400; font-size:clamp(1.9rem,4.6vw,3rem); color:var(--primary-color); }
 .rc2__dupla { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(2.2rem,6vw,4.8rem); }
 .rc2__casa { width:min(100%,280px); }
-.sf2__marco { width:clamp(185px,23vw,228px); aspect-ratio:10/13; background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:50% 50% 8px 8px; padding:12px 12px 0; position:relative; }
-.sf2__marco::before { content:''; position:absolute; left:10%; right:10%; bottom:0; height:14px; background:var(--primary-color); border-radius:0 0 8px 8px; }
-.sf2__marco img { display:block; width:100%; height:calc(100% - 14px); object-fit:cover; border-radius:50% 50% 0 0; }
-.sf2__casa:nth-child(2) { transform:translateY(clamp(1.4rem,4vw,2.6rem)); }
+.sf2__marco { width:clamp(185px,23vw,228px); aspect-ratio:10/13; background:var(--surface-color); border:1.5px solid var(--surface-border-color); border-radius:50% 50% 10px 10px; padding:12px 12px 16px; position:relative; }
+.sf2__marco::before { content:''; position:absolute; left:10%; right:10%; bottom:0; height:14px; background:var(--primary-color); border-radius:0 0 10px 10px; }
+.sf2__marco img { display:block; width:100%; height:calc(100% - 14px); object-fit:cover; object-position:top; border-radius:50% 50% 0 0; }
+.sf2__casa:nth-child(2) { margin-top:clamp(1.6rem,5vw,2.8rem); }
+@media (max-width:560px){ .sf2__dupla { gap:1.6rem; } .sf2__casa { width:min(100%,240px); } .sf2__casa:nth-child(2) { margin-top:0; } .sf2__marco { width:min(100%,210px); aspect-ratio:9/12; } }
 .sf2__rol { display:block; margin:1.2rem 0 .2rem; font-family:'Courier New',monospace; font-size:clamp(.54rem,1.02vw,.64rem); letter-spacing:.44em; text-transform:uppercase; color:var(--secondary-color); }
 .sf2__nombres { margin:0; font-family:'Segoe UI',Arial,sans-serif; font-size:clamp(1rem,2.1vw,1.24rem); color:var(--primary-color); }
 .sf2__nota { margin:clamp(2.2rem,5vw,3rem) auto 0; max-width:46ch; font-family:'Segoe UI',Arial,sans-serif; font-style:italic; font-size:clamp(.86rem,1.6vw,1rem); line-height:1.8; color:var(--text-color); }
