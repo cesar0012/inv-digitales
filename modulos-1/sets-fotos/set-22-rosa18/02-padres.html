@@ -10,6 +10,7 @@
 .rc2__rotulo { margin:0 0 .5rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
 .rc2__titulo { margin:0 auto 1rem; font-family:'Segoe Script','Brush Script MT',cursive; font-weight:400; font-size:clamp(1.9rem,4.6vw,3rem); color:var(--primary-color); }
 .rc2__dupla { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(2.2rem,6vw,4.8rem); }
+.sf2__marco { margin:0 auto; } /* reset margen UA de <figure>: sin esto suma 40px por lado */
 .rc2__casa { width:min(100%,280px); }
 .sf2__marco { width:clamp(185px,23vw,228px); aspect-ratio:10/13; background:var(--surface-color); border:1.5px solid var(--surface-border-color); border-radius:50% 50% 10px 10px; padding:12px 12px 16px; position:relative; }
 .sf2__marco::before { content:''; position:absolute; left:10%; right:10%; bottom:0; height:14px; background:var(--primary-color); border-radius:0 0 10px 10px; }

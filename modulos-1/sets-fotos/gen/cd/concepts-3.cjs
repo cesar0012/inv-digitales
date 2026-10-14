@@ -212,9 +212,9 @@ function cd_fabuloso(S) {
 .${C}__cruzH { top:50%; left:6%; right:6%; height:1.5px; margin-top:-.75px; }
 .${C}__barrido { position:absolute; inset:0; border-radius:50%; background:conic-gradient(color-mix(in srgb, var(--primary-color) 30%, transparent) 0 26deg, transparent 26deg); animation:${C}-gira 3.2s linear infinite; }
 @keyframes ${C}-gira { to { transform:rotate(360deg); } }
-.${C}__dias { position:absolute; inset:0; display:grid; place-items:center; }
+.${C}__dias { position:absolute; inset:0 0 22%; display:grid; place-items:center; }
 .${C}__num { font-family:${S.mono}; font-weight:700; font-size:clamp(3rem,10vw,5.4rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; text-shadow:0 3px 0 rgba(0,0,0,.35); }
-.${C}__etqDias { position:absolute; bottom:16%; left:0; right:0; font-family:'Courier New',monospace; font-size:clamp(.5rem,1vw,.62rem); letter-spacing:.5em; text-transform:uppercase; color:var(--text-color); }
+.${C}__etqDias { position:absolute; bottom:7%; left:0; right:0; text-align:center; font-family:'Courier New',monospace; font-size:clamp(.5rem,1vw,.62rem); letter-spacing:.5em; text-transform:uppercase; color:var(--text-color); }
 .${C}__cinta { position:relative; display:flex; justify-content:center; gap:clamp(.8rem,2.6vw,1.6rem); flex-wrap:wrap; padding:14px 0; }
 .${C}__cinta::before, .${C}__cinta::after { content:''; position:absolute; left:-4%; right:-4%; height:8px; background:repeating-linear-gradient(90deg, color-mix(in srgb, var(--bg-color) 80%, #000) 0 10px, transparent 10px 16px, color-mix(in srgb, var(--bg-color) 80%, #000) 16px 26px, transparent 26px 32px); }
 .${C}__cinta::before { top:0; } .${C}__cinta::after { bottom:0; }

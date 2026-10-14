@@ -209,6 +209,7 @@ ${ORN_CSS}
 .rc2__rotulo { margin:0 0 .5rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
 .rc2__titulo { margin:0 auto 1rem; font-family:${S.disp}; font-weight:400; font-size:clamp(1.9rem,4.6vw,3rem); color:var(--primary-color); }
 .rc2__dupla { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(2.2rem,6vw,4.8rem); }
+.sf2__marco { margin:0 auto; } /* reset margen UA de <figure>: sin esto suma 40px por lado */
 .rc2__casa { width:min(100%,280px); }
 ${frame}
 .sf2__rol { display:block; margin:1.2rem 0 .2rem; font-family:'Courier New',monospace; font-size:clamp(.54rem,1.02vw,.64rem); letter-spacing:.44em; text-transform:uppercase; color:var(--secondary-color); }
@@ -253,7 +254,7 @@ function ubicacion(S) {
   const layout = Vv === 0
     ? `.sf3__par > * { min-width:0; max-width:100%; }
 .sf3__par { display:grid; grid-template-columns:1fr; gap:clamp(1.6rem,4vw,2.6rem); width:min(100%,960px); margin:0 auto; align-items:stretch; }
-@media (min-width:860px){ .sf3__par { grid-template-columns:5fr 7fr; } }
+@media (min-width:860px){ .sf3__par { grid-template-columns:minmax(0,5fr) minmax(0,7fr); } }
 .sf3__ticket { position:relative; padding:clamp(2rem,4.4vw,2.8rem) clamp(1.4rem,3.6vw,2.4rem) clamp(1.8rem,3.8vw,2.4rem) clamp(3.2rem,6vw,4rem); background:var(--surface-color); border:1px solid var(--surface-border-color); text-align:left; }
 .sf3__ticket::before { content:''; position:absolute; left:18px; top:12%; bottom:12%; border-left:2px dashed var(--accent-color); }
 .sf3__mapa { margin:0; border:1px solid var(--surface-border-color); overflow:hidden; }
@@ -265,7 +266,7 @@ function ubicacion(S) {
 .sf3__lista { text-align:center; }`
       : Vv === 2
         ? `.sf3__slant { display:grid; grid-template-columns:1fr; width:min(100%,940px); margin:0 auto; }
-@media (min-width:860px){ .sf3__slant { grid-template-columns:7fr 5fr; } }
+@media (min-width:860px){ .sf3__slant { grid-template-columns:minmax(0,7fr) minmax(0,5fr); } }
 .sf3__mapa { margin:0; clip-path:polygon(0 0, 100% 0, 86% 100%, 0 100%); overflow:hidden; }
 @media (max-width:859px){ .sf3__mapa { clip-path:none; border:1px solid var(--surface-border-color); } }
 .sf3__mapa iframe { display:block; width:100%; height:100%; min-height:280px; border:0; }
@@ -324,6 +325,9 @@ ${ORN_CSS}
 .sf3__dato { display:block; margin:0 0 .55rem; font-family:'Courier New',monospace; font-size:clamp(.76rem,1.5vw,.9rem); line-height:1.7; font-style:normal; color:var(--text-color); }
 .sf3__boton { display:inline-block; padding:.85rem 2rem; font-family:'Courier New',monospace; font-size:clamp(.64rem,1.25vw,.76rem); letter-spacing:.3em; text-transform:uppercase; text-decoration:none; color:var(--bg-color); background:var(--primary-color); transition:transform .35s ease, box-shadow .35s ease; }
 .sf3__boton:hover { transform:translateY(-2px); box-shadow:0 12px 26px color-mix(in srgb, var(--primary-color) 40%, transparent); }
+.sf3__par > *, .sf3__slant > *, .sf3__lienzo > * { min-width:0; }
+.sf3__foto { width:min(100%,340px); }
+.sf3__foto img { display:block; width:100%; height:auto; }
 ${layout}
 </style>
 <header class="sf3__cabecera" memory_type="text" memory_usage="custom" memory_key="ubicacion-intro">

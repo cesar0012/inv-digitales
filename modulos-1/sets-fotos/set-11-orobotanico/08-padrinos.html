@@ -9,12 +9,14 @@
 .sf-orn-wrap svg { width:min(240px,60%); height:auto; }
 .rc2__rotulo { margin:0 0 .5rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
 .rc2__titulo { margin:0 auto 1rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.9rem,4.6vw,3rem); color:var(--primary-color); }
-.sf8__fila { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(2.6rem,7vw,5.4rem); }
+.sf8__fila { display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:clamp(2.6rem,7vw,5.4rem) clamp(1.2rem,5vw,4rem); padding-bottom:clamp(1.6rem,5vw,3.2rem); }
 .sf8__casa { width:clamp(190px,24vw,232px); }
-.sf8__casa:nth-child(2) { transform:translateY(clamp(1.6rem,5vw,3.2rem)); }
-.sf8__marco { margin:0 auto; width:clamp(170px,21vw,208px); aspect-ratio:1/1.15; clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%); background:var(--surface-color); padding:12px; transition:transform .5s cubic-bezier(.16,1,.3,1); }
+.sf8__casa:nth-child(2) .sf8__marco { margin-top:clamp(1.6rem,5vw,3.2rem); }
+@media (max-width:560px){ .sf8__fila { flex-direction:column; align-items:center; gap:1.8rem; padding-bottom:0; } .sf8__casa:nth-child(2) .sf8__marco { margin-top:0; } }
+.sf8__marco { display:block; margin:0 auto; width:clamp(170px,21vw,208px); aspect-ratio:1/1.15; clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%); background:var(--surface-color); padding:12px; transition:transform .5s cubic-bezier(.16,1,.3,1); }
 .sf8__casa:hover .sf8__marco { transform:rotate(90deg); }
 .sf8__marco img { display:block; width:100%; height:100%; object-fit:cover; clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%); }
+.sf8__casa { margin:0 auto; } /* reset margen UA de <figure> */
 .sf8__rol { display:block; margin:1.1rem 0 .2rem; font-family:'Courier New',monospace; font-size:clamp(.54rem,1.02vw,.64rem); letter-spacing:.44em; text-transform:uppercase; color:var(--secondary-color); }
 .sf8__nombre { margin:0; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.02rem,2.1vw,1.26rem); color:var(--primary-color); }
 .sf8__nota { margin:clamp(2.2rem,5vw,3rem) auto 0; max-width:44ch; font-family:'Segoe UI',Arial,sans-serif; font-style:italic; font-size:clamp(.86rem,1.6vw,1rem); line-height:1.8; color:var(--text-color); }
