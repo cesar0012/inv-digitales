@@ -11,6 +11,18 @@ const ROOT = path.resolve(__dirname, '..', 'modulos-1', 'sets-fotos');
 const OUT = path.resolve(__dirname, '..', 'shots-sets-fotos');
 const TMP = path.join(OUT, 'tmp');
 mkdirSync(TMP, { recursive: true });
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+/* Paleta de PREVIEW: los módulos viajan sin colores; el wrapper de captura
+ * inyecta la paleta del set como :root para poder revisarlos con color. */
+const styles = require(path.resolve(__dirname, '..', 'modulos-1', 'sets-fotos', 'gen', 'styles.cjs'));
+const previewPaletteCss = (setDir) => {
+  const S = styles[setDir.replace(/^set-d+-/, '')];
+  if (!S) return '';
+  const vars = Object.entries(S.v).map(([k, v]) => k + ':' + v + ';').join('');
+  return '<style>:root{' + vars + '}</style>';
+};
 
 function placeholderSvg(url) {
   const m = String(url).match(/loremflickr\.com\/(\d+)\/(\d+)\/([^')?]+)/);
@@ -34,7 +46,7 @@ function placeholderSvg(url) {
   for (const set of sets) {
     const f = path.join(ROOT, set, '07-countdown.html');
     const docPath = path.join(TMP, `${set}-cd-doc.html`);
-    writeFileSync(docPath, '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><style>html,body{background:transparent;margin:0;}</style><script>window.__countdownTarget = "2026-12-24T20:00:00";</script></head><body>' + readFileSync(f, 'utf-8').replace(/loading="lazy"/g, 'loading="eager"') + '</body></html>', 'utf-8');
+    writeFileSync(docPath, '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width">' + previewPaletteCss(set) + '<style>html,body{background:transparent;margin:0;}</style><script>window.__countdownTarget = "2026-12-24T20:00:00";</script></head><body>' + readFileSync(f, 'utf-8').replace(/loading="lazy"/g, 'loading="eager"') + '</body></html>', 'utf-8');
     const png = path.join(TMP, `${set}-cd.png`);
     await page.setViewport({ width: 640, height: 700, deviceScaleFactor: 1 });
     await page.goto('file:///' + docPath.split(path.sep).join('/'), { waitUntil: 'networkidle2', timeout: 60000 });

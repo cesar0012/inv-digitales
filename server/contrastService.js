@@ -120,8 +120,7 @@ export function analyzeBackground(base64Png) {
  * color del cliente con contraste cómodo > blanco/negro (el de mayor ratio).
  * @returns {{hex: string, source: 'client'|'white'|'black', ratio: number}}
  */
-export function pickTextColorForLuminance(bgLuminance, clientColor, clientLabel = 'accent') {
-  const candidates = [];
+export function pickTextColorForLuminance(bgLuminance, clientColor, clientLabel = 'accent') {  const candidates = [];
   const clientRgb = clientColor ? parseHexColor(clientColor) : null;
   if (clientRgb) {
     candidates.push({ hex: clientColor.toLowerCase(), lum: relativeLuminance(...clientRgb), source: 'client', label: clientLabel });
@@ -215,4 +214,68 @@ export async function applyTextContrast(html, colors = {}) {
 
   if (fixes.length === 0) return { html, fixes };
   return { html: document.toString(), fixes };
+}
+
+// ----------------------------------------------------------------------------
+// Regla de contraste de PALETA (antes del theming: fondo plano de sección)
+// ----------------------------------------------------------------------------
+/**
+ * Regla de producto: si el cliente eligió una paleta clara/pastel, el texto
+ * sale en negro; si eligió un fondo oscuro, el texto sale claro. Aplica ANTES
+ * de construir el themeRequest:
+ *  - text: sin elección explícita → automático (negro/blanco según luminancia
+ *    del fondo, el de mayor ratio). Con elección explícita se respeta, salvo
+ *    que no alcance contraste mínimo (3:1) → cae al automático.
+ *  - primary: los títulos de los módulos usan var(--primary-color) como color
+ *    de texto; si el primario del cliente casi no se lee sobre el fondo
+ *    (<2.2:1) se mezcla hacia el texto automático conservando su tono.
+ * @param {{primary?:string, text?:string, accent?:string, background: string}} palette
+ * @returns {{palette: {primary:string,text:string,accent:string,background:string}, adjustments: string[]}}
+ */
+export function resolveContrastAwarePalette(palette) {
+  const background = palette.background || '#ffffff';
+  const bgRgb = parseHexColor(background) || [255, 255, 255];
+  const bgLum = relativeLuminance(...bgRgb);
+  const auto = pickTextColorForLuminance(bgLum, null);
+  const adjustments = [];
+
+  let text = (palette.text || '').trim();
+  if (!text) {
+    text = auto.hex;
+    adjustments.push(`text automático (${auto.source}) para fondo ${background}`);
+  } else {
+    const tRgb = parseHexColor(text);
+    if (tRgb) {
+      const ratio = contrastRatio(relativeLuminance(...tRgb), bgLum);
+      if (ratio < 3) {
+        adjustments.push(`text ${text} sin contraste (${ratio.toFixed(1)}:1) sobre ${background} → ${auto.hex}`);
+        text = auto.hex;
+      }
+    }
+  }
+
+  let primary = (palette.primary || '#1f1f1f').trim();
+  const pRgb = parseHexColor(primary);
+  if (pRgb) {
+    const ratio = contrastRatio(relativeLuminance(...pRgb), bgLum);
+    if (ratio < 2.2) {
+      // Mezcla numérica hacia el texto automático (hex concreto: el contrato
+      // de tematización valida los colores del request como literales).
+      const base = parseHexColor(auto.hex) || [17, 17, 17];
+      const mixed = pRgb.map((v, i) => Math.round(v * 0.55 + base[i] * 0.45));
+      const hex = '#' + mixed.map((v) => v.toString(16).padStart(2, '0')).join('');
+      adjustments.push(`primary ${primary} poco legible (${ratio.toFixed(1)}:1) sobre ${background} → mezclado hacia ${auto.hex} (${hex})`);
+      primary = hex;
+    }
+  }
+
+  return {
+    palette: {
+      primary,
+      text,
+      accent: (palette.accent || '#b89a63').trim(),
+      background
+    },
+    adjustments
+  };
 }

@@ -2788,12 +2788,23 @@ export const runModularOrchestration = async (prompt, apiKey, model = 'gemini-3.
   let themedHtml;
   try {
     const DEFAULT_THEME_FONT = 'Playfair Display';
+    // REGLA DE CONTRASTE DE PALETA: paleta clara del cliente → texto negro;
+    // paleta oscura → texto claro. El textColor explícito se respeta salvo
+    // que no alcance contraste (≥3:1). El primario casi ilegible se mezcla
+    // hacia el texto automático (los títulos usan --primary-color).
+    const { resolveContrastAwarePalette } = await import('./contrastService.js');
+    const contrastAware = resolveContrastAwarePalette({
+      primary: primaryColor || '#1f1f1f',
+      text: options.textColor || '',
+      accent: options.accentColor || '#b89a63',
+      background: options.bgColor || '#ffffff'
+    });
+    if (contrastAware.adjustments.length > 0) {
+      console.log(`[CONTRAST-PALETA] ${contrastAware.adjustments.join(' | ')}`);
+    }
     const themeRequest = {
       colors: {
-        primary: primaryColor || '#1f1f1f',
-        text: options.textColor || secondaryColor || '#2f2f2f',
-        accent: options.accentColor || '#b89a63',
-        background: options.bgColor || '#ffffff',
+        ...contrastAware.palette,
         ...(options.surfaceColor ? { surface: options.surfaceColor } : {}),
         ...(options.borderColor ? { border: options.borderColor } : {})
       },

@@ -23,6 +23,46 @@ const builders = [
 /* El countdown ya es único por concepto; el resto pasa por el shaper. */
 const build = (name, fn, S) => (name === 'countdown' ? fn(S) : shape(S, fn(S)));
 
+/* ---------------------------------------------------------------------------
+ * SANITIZADOR DE COLORES — ningún módulo sale con un literal de color.
+ * Los restos (sombras rgba, #fff de gradientes, rgb sueltos) se convierten a
+ * color-mix/var sobre las variables temáticas usando la paleta del set SOLO
+ * como referencia para elegir la variable adecuada (text/bg para neutros,
+ * la variable más cercana para tonos). El color final lo decide el cliente.
+ * ------------------------------------------------------------------------- */
+const hexToRgb = (h) => {
+  const f = h.length === 4 ? h.slice(1).split('').map((c) => c + c).join('') : h.slice(1);
+  return [parseInt(f.slice(0, 2), 16), parseInt(f.slice(2, 4), 16), parseInt(f.slice(4, 6), 16)];
+};
+const dist = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
+
+function sanitizeCss(css, S) {
+  const varsRef = Object.entries(S.v)
+    .filter(([k]) => /--(primary|secondary|accent|text|bg)-color/.test(k))
+    .map(([k, hex]) => [k, hexToRgb(hex)]);
+  const varPara = (rgb) => {
+    const neutral = Math.abs(rgb[0] - rgb[1]) < 12 && Math.abs(rgb[1] - rgb[2]) < 12;
+    if (neutral) return rgb[0] < 128 ? '--text-color' : '--bg-color';
+    let mejor = varsRef[0];
+    for (const v of varsRef) if (dist(v[1], rgb) < dist(mejor[1], rgb)) mejor = v;
+    return mejor[0];
+  };
+  return css
+    .replace(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*([\d.]+)\s*)?\)/g, (m, r, g, b, a) => {
+      const pct = a === undefined ? 100 : Math.round(parseFloat(a) * 100);
+      const v = varPara([+r, +g, +b]);
+      return pct >= 100 ? `var(${v})` : `color-mix(in srgb, var(${v}) ${pct}%, transparent)`;
+    })
+    .replace(/#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\b/g, (m) => `var(${varPara(hexToRgb(m))})`);
+}
+
+function sanitizeColors(html, S) {
+  // Solo <style>...</style> y style="...": el resto del HTML no lleva colores.
+  return html
+    .replace(/<style>([\s\S]*?)<\/style>/g, (full, css) => `<style>${sanitizeCss(css, S)}</style>`)
+    .replace(/style="([^"]*)"/g, (full, css) => `style="${sanitizeCss(css, S)}"`);
+}
+
 const list = Object.values(styles);
 let written = 0;
 for (const S of list) {
@@ -30,7 +70,7 @@ for (const S of list) {
   const dir = join(base, folder);
   mkdirSync(dir, { recursive: true });
   builders.forEach(([name, fn], i) => {
-    writeFileSync(join(dir, `${String(i + 1).padStart(2, '0')}-${name}.html`), build(name, fn, S), 'utf-8');
+    writeFileSync(join(dir, `${String(i + 1).padStart(2, '0')}-${name}.html`), sanitizeColors(build(name, fn, S), S), 'utf-8');
     written++;
   });
   console.log(`✓ ${folder}`);
@@ -61,6 +101,7 @@ writeFileSync(join(base, 'index.html'), `<!DOCTYPE html>
   body { margin:0; font-family:Georgia,serif; background:#18141c; color:#f2eef8; }
   header { position:sticky; top:0; z-index:10; background:rgba(24,20,28,.95); padding:1rem 1.4rem; border-bottom:1px solid rgba(232,193,90,.3); }
   h1 { margin:0 0 .6rem; font-size:1.15rem; color:#e8c15a; }
+  .nota { margin:.6rem 0 0; font-size:.72rem; color:#b9a8d6; }
   nav { display:flex; flex-wrap:wrap; gap:.4rem .9rem; font-size:.76rem; }
   nav a { color:#cbb8e0; text-decoration:none; }
   nav a:hover { text-decoration:underline; }
@@ -76,6 +117,7 @@ writeFileSync(join(base, 'index.html'), `<!DOCTYPE html>
 <body>
 <header>
   <h1> Sets por Foto — ${list.length} sets × ${builders.length} módulos (${written} archivos)</h1>
+  <p class="nota">⚠️ Los módulos viajan SIN paleta (cero colores hardcodeados): se ven "alambre" aquí a propósito. La paleta real la asigna el sistema desde el request del cliente al generar (theming/apply-theme + regla de contraste automático).</p>
   <nav>
 ${nav}
   </nav>

@@ -10,6 +10,18 @@ const ROOT = path.resolve(__dirname, '..', 'modulos-1', 'sets-fotos');
 const OUT = path.resolve(__dirname, '..', 'shots-sets-fotos');
 const TMP = path.join(OUT, 'tmp');
 mkdirSync(TMP, { recursive: true });
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+
+/* Paleta de PREVIEW: los módulos viajan sin colores (los asigna el cliente
+ * al generar); para las capturas se inyecta la paleta del set como :root. */
+const styles = require(path.resolve(__dirname, '..', 'modulos-1', 'sets-fotos', 'gen', 'styles.cjs'));
+const previewPaletteCss = (setDir) => {
+  const S = styles[setDir.replace(/^set-d+-/, '')];
+  if (!S) return '';
+  const vars = Object.entries(S.v).map(([k, v]) => k + ':' + v + ';').join('');
+  return '<style>:root{' + vars + '}</style>';
+};
 
 const TYPES = ['portada', 'padres', 'ubicacion', 'itinerario', 'confirmacion', 'detalles',
   'countdown', 'padrinos', 'corte', 'galeria', 'regalos', 'vestimenta'];
@@ -58,7 +70,7 @@ async function shootModule(browser, url, { width, dpr }, outPath) {
       for (let i = 0; i < TYPES.length; i++) {
         const f = path.join(ROOT, set, String(i + 1).padStart(2, '0') + '-' + TYPES[i] + '.html');
         const docPath = path.join(TMP, `${set}-${TYPES[i]}-doc.html`);
-        writeFileSync(docPath, '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>html,body{background:transparent;}</style></head><body>' + readFileSync(f, 'utf-8').replace(/loading="lazy"/g, 'loading="eager"') + '</body></html>', 'utf-8');
+        writeFileSync(docPath, '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">' + previewPaletteCss(set) + '<style>html,body{background:transparent;}</style></head><body>' + readFileSync(f, 'utf-8').replace(/loading="lazy"/g, 'loading="eager"') + '</body></html>', 'utf-8');
         const png = path.join(TMP, `${set}-${TYPES[i]}-${label}.png`);
         await shootModule(browser, 'file:///' + docPath.split(path.sep).join('/'), { width, dpr }, png);
         parts.push(png);

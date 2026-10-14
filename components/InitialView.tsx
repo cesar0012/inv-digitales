@@ -42,6 +42,7 @@ export const InitialView: React.FC<InitialViewProps> = ({
   const [eventType, setEventType] = useState(initialEventType || '');
   const [theme, setTheme] = useState(initialTheme);
   const [primaryColor, setPrimaryColor] = useState(initialPrimaryColor);
+  const [bgColor, setBgColor] = useState('#ffffff');
   const [secondaryColor, setSecondaryColor] = useState(initialSecondaryColor);
   const [eventDetails, setEventDetails] = useState(initialEventDetails);
   const [eventDate, setEventDate] = useState(initialEventDate || '');

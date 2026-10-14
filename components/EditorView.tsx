@@ -516,17 +516,13 @@ export const EditorView: React.FC = () => {
       const generatedCode = await generateWebProject(enhancedPrompt, imageSource, attachments, editorConfigForApi, imageFilesForApi, purchaseId);
       pendingCodeRef.current = generatedCode;
 
-      // GATE: si el cliente ya llenó los datos requeridos, se aplican y se
-      // entra directo. Si no, el overlay permanece: la invitación ya está
-      // generada por detrás, pero no se le deja entrar hasta dar los datos.
-      const schemaNow = resolveSchema(editorConfigForApi?.eventType || config?.eventType || '');
-      const missing = missingRequired(schemaNow, {
-        fecha: editorConfigForApi?.eventDate || '',
-        hora: editorConfigForApi?.eventTime || '',
-        ...eventDataRef.current
-      });
-
-      if (missing.length === 0 || autoApplyRef.current) {
+      // GATE: al terminar la generación NUNCA se interrumpe al usuario mientras
+      // escribe. Se le avisa que la invitación está lista y se le dejan dos
+      // opciones: ENVIAR (procesa los datos que llenó) o SALTAR (entra tal
+      // cual, los datos de la invitación se quedan como están). Solo se aplica
+      // automáticamente si el propio usuario pulsó "aplicar al terminar"
+      // mientras esperaba (autoApplyRef).
+      if (autoApplyRef.current) {
         await finishGeneration(generatedCode);
       } else {
         setGenerationFinished(true);
@@ -928,10 +924,11 @@ export const EditorView: React.FC = () => {
             ) : (
               <div className="flex flex-col items-center text-center mb-5 mt-2">
                 <CheckCircle2 className="w-14 h-14 text-green-500 mb-2" />
-                <p className="text-2xl font-bold text-gray-800">¡Tu invitación ya está generada!</p>
+                <p className="text-2xl font-bold text-gray-800">✅ ¡Tu invitación ya está generada!</p>
                 <p className="text-sm text-gray-600 mt-2 max-w-md">
-                  Terminamos por detrás, pero <span className="font-semibold text-gray-800">no podemos dejarte entrar hasta que nos des los datos</span> del
-                  evento: los colocaremos automáticamente en su lugar exacto.
+                  Puedes seguir llenando tus datos con calma — <span className="font-semibold text-gray-800">nada se va a cortar</span>.
+                  Cuando termines, pulsa <span className="font-semibold text-pink-600">Enviar</span> y los colocaremos automáticamente
+                  en su lugar exacto, o <span className="font-semibold text-gray-700">Saltar</span> para entrar ahora y editarlos después.
                 </p>
               </div>
             )}
@@ -945,8 +942,8 @@ export const EditorView: React.FC = () => {
                 </div>
                 <p className="text-xs text-gray-500 mb-4">
                   {generationFinished
-                    ? 'Estos datos se colocarán automáticamente en su lugar dentro de la invitación.'
-                    : 'Llénalos mientras generamos: se aplicarán automáticamente al terminar. La fecha y hora vienen del paso anterior.'}
+                    ? 'Enviar: colocaremos estos datos automáticamente en su lugar dentro de la invitación. Saltar: la invitación se queda como está y podrás llenarlos en el editor.'
+                    : 'Llénalos mientras generamos: nada se cortará. Al terminar te pediremos Enviar o Saltar. La fecha y hora vienen del paso anterior.'}
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -987,7 +984,7 @@ export const EditorView: React.FC = () => {
 
                 {generationFinished && missingFields.length > 0 && (
                   <p className="text-xs text-red-500 mt-3">
-                    Faltan campos requeridos ({missingFields.length}) para entrar a tu invitación.
+                    Faltan campos requeridos ({missingFields.length}) para enviar los datos. También puedes saltar este paso.
                   </p>
                 )}
 
@@ -1000,7 +997,7 @@ export const EditorView: React.FC = () => {
                   {applyingData
                     ? 'Colocando datos...'
                     : generationFinished
-                      ? (missingFields.length > 0 ? 'Completa los campos requeridos' : 'Aplicar datos y ver mi invitación')
+                      ? (missingFields.length > 0 ? 'Completa los campos requeridos para enviar' : '✉️ Enviar datos y ver mi invitación')
                       : (missingFields.length === 0
                           ? 'Datos listos: aplicar automáticamente al terminar'
                           : 'Guardar datos (se aplicarán al terminar)')}
@@ -1011,7 +1008,7 @@ export const EditorView: React.FC = () => {
                   className="mt-2 w-full py-2.5 rounded-xl border border-gray-300 text-gray-600 text-sm font-medium hover:bg-gray-50 disabled:opacity-50 transition-all"
                 >
                   {generationFinished
-                    ? 'Entrar sin datos (podré llenarlos después en el editor)'
+                    ? '⏭️ Saltar: entrar ahora (los datos se quedan como están)'
                     : 'Omitir: llenaré los datos después en el editor'}
                 </button>
               </div>

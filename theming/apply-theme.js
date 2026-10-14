@@ -728,13 +728,18 @@ export function buildThemeVariables(colors, fontResolution) {
     // Texto secundario/atenuado derivado del cliente: los módulos KB usan
     // var(--secondary-color) como "texto gris"; así hereda la paleta del
     // cliente en lugar del gris original del wireframe.
-    '--secondary-color': 'color-mix(in srgb, var(--text-color) 72%, var(--bg-color))'
+    '--secondary-color': 'color-mix(in srgb, var(--text-color) 72%, var(--bg-color))',
+    // Superficie y borde SIEMPRE definidos (derivados de la paleta cuando el
+    // cliente no los elige): permite que los módulos de la KB viajen sin
+    // NINGÚN color hardcodeado — sus definiciones locales se rebindan y el
+    // override global siempre resuelve un valor coherente.
+    //   surface: fondo de tarjetas/paneles — versión "tintada" del fondo con
+    //   un toque del color de texto (clara en paletas claras, oscura en oscuras).
+    //   border: líneas/marcos — el primario del cliente con transparencia.
+    '--surface-color': colors.surface || 'color-mix(in srgb, var(--bg-color) 88%, var(--text-color))',
+    '--border-color': colors.border || 'color-mix(in srgb, var(--primary-color) 38%, transparent)',
+    '--surface-border-color': colors.border || 'color-mix(in srgb, var(--primary-color) 38%, transparent)'
   };
-  if (colors.surface) vars['--surface-color'] = colors.surface;
-  if (colors.border) {
-    vars['--border-color'] = colors.border;
-    vars['--surface-border-color'] = colors.border;
-  }
   if (fontResolution?.base) {
     vars['--font-base'] = buildFontStack(fontResolution.base.family, 'sans-serif');
     if (fontResolution.heading) vars['--font-heading'] = buildFontStack(fontResolution.heading.family, 'serif');

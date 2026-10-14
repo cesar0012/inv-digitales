@@ -1,5 +1,9 @@
-/* Plantillas A: portada, padres, ubicacion, itinerario — 4 variantes c/u por estilo. */
-const V = (S) => Object.entries(S.v).map(([k, v]) => k + ':' + v).join('; ');
+/* Plantillas A: portada, padres, ubicacion, itinerario — 6 variantes c/u. */
+/* CONTRATO DE TEMATIZACIÓN: los módulos NO definen ningún color. Toda la
+ * paleta llega por las variables temáticas (var(--primary-color)...) que el
+ * sistema asigna desde el request del cliente (theming/apply-theme.js).
+ * S.v es SOLO la paleta de preview (scripts/shoot-*); no se emite. */
+const V = () => '';
 const meta = (tipo, geminiId, S, desc, extraTags) =>
   `<script>var moduleMetadata = { module_type: ${JSON.stringify(tipo)}, module_name: ${JSON.stringify(geminiId)}, style_name: ${JSON.stringify(S.name)}, descripcion: ${JSON.stringify(desc.slice(0, 240))}, tags: ${JSON.stringify([tipo, S.motif, S.theme, ...extraTags])}, tipo: ${JSON.stringify(tipo)} };</script>`;
 
