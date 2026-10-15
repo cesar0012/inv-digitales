@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@google/genai": "^1.32.0",
+    "adm-zip": "^0.6.1",
     "better-sqlite3": "^11.0.0",
     "browser-image-compression": "^2.0.2",
     "cookie-parser": "^1.4.7",

@@ -21,7 +21,14 @@
  */
 import db from './database.js';
 import { createHash } from 'crypto';
+import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync, rmSync } from 'fs';
+import { dirname, join, resolve, sep } from 'path';
+import { fileURLToPath } from 'url';
+import AdmZip from 'adm-zip';
 import { getFreeImageConfig, processHtmlWithFreeImages } from './freeImageService.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const PROJECT_ROOT = resolve(__dirname, '..');
 
 // ---------------------------------------------------------------------------
 // Paletas de demo (copiadas de modulos-1/sets-fotos/gen/styles.cjs — solo los
@@ -256,4 +263,170 @@ export async function buildDemoSet({ files, paletteId, provider }) {
       ms: Date.now() - t0
     }
   };
+}
+
+// ---------------------------------------------------------------------------
+// LOTE: muchas colecciones a la vez (ZIP subido o carpeta del repo)
+// ---------------------------------------------------------------------------
+// Un archivo cuenta como módulo de colección si su contenido recortado
+// EMPIEZA con <section (los módulos son fragmentos sección-raíz; los
+// previews/index del catálogo empiezan con <!DOCTYPE y quedan fuera).
+const esModuloDeColeccion = (name, content) =>
+  /\.html?$/i.test(name) &&
+  !/^index\.html?$/i.test(name.split(/[\\/]/).pop() || '') &&
+  typeof content === 'string' &&
+  content.trimStart().toLowerCase().startsWith('<section');
+
+const sanitizeName = (s) =>
+  (s || 'set')
+    .replace(/[\\/]+/g, '-')
+    .replace(/[^a-zA-Z0-9\-_.]/g, '')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 80) || 'set';
+
+/**
+ * Agrupa entradas [{ path, buffer }] por carpeta contenedora.
+ * Devuelve [{ folder, name, files: [{ originalname, buffer }] }]
+ */
+export function collectGroupsFromEntries(entries) {
+  const byFolder = new Map();
+  for (const e of entries) {
+    if (!esModuloDeColeccion(e.path, e.content)) continue;
+    const norm = e.path.replace(/\\/g, '/');
+    const slash = norm.lastIndexOf('/');
+    const folderPath = slash === -1 ? '' : norm.slice(0, slash);
+    if (!byFolder.has(folderPath)) byFolder.set(folderPath, []);
+    byFolder.get(folderPath).push({ originalname: norm.split('/').pop(), buffer: Buffer.from(e.content, 'utf8') });
+  }
+  const groups = [];
+  const usedNames = new Map();
+  for (const [folderPath, files] of [...byFolder.entries()].sort(([a], [b]) => a.localeCompare(b))) {
+    const base = sanitizeName(folderPath.split('/').pop() || 'raiz');
+    const n = (usedNames.get(base) || 0) + 1;
+    usedNames.set(base, n);
+    const name = n === 1 ? base : `${base}-${n}`;
+    // originalname lleva "carpeta/archivo" para que la detección de paleta por
+    // nombre (set-NN-key) siga funcionando en modo lote.
+    groups.push({ folder: folderPath || name, name, files: files.map((f) => ({ ...f, originalname: `${folderPath ? folderPath.split('/').pop() + '/' : ''}${f.originalname}` })) });
+  }
+  return groups;
+}
+
+/** Grupos a partir de un ZIP subido (en memoria). */
+export function groupsFromZipBuffer(zipBuffer) {
+  const zip = new AdmZip(zipBuffer);
+  const entries = zip
+    .getEntries()
+    .filter((e) => !e.isDirectory)
+    .map((e) => ({ path: e.entryName, content: e.getData().toString('utf8') }));
+  return collectGroupsFromEntries(entries);
+}
+
+const SKIP_DIRS = new Set(['node_modules', '.git', 'dist', 'gen', '_referencia', 'storage']);
+
+function walkHtmlFiles(dir, root, out) {
+  for (const name of readdirSync(dir)) {
+    const full = join(dir, name);
+    let st;
+    try { st = statSync(full); } catch { continue; }
+    if (st.isDirectory()) {
+      if (SKIP_DIRS.has(name)) continue;
+      walkHtmlFiles(full, root, out);
+    } else if (/\.html?$/i.test(name)) {
+      out.push({ path: full.slice(root.length + 1), content: readFileSync(full, 'utf8') });
+    }
+  }
+}
+
+/**
+ * Grupos a partir de una carpeta DEL SERVIDOR (relativa a la raíz del
+ * proyecto, p.ej. "modulos-1" o "modulos-1/sets-fotos"). Recorre en
+ * profundidad y agrupa por carpeta contenedora. Rechaza rutas absolutas
+ * o que escapen de la raíz del proyecto.
+ */
+export function groupsFromServerFolder(relDir) {
+  const target = resolve(PROJECT_ROOT, relDir || '');
+  if (!target.startsWith(PROJECT_ROOT + sep) && target !== PROJECT_ROOT) {
+    throw new Error('La carpeta debe vivir dentro del proyecto');
+  }
+  if (!existsSync(target) || !statSync(target).isDirectory()) {
+    throw new Error(`La carpeta "${relDir}" no existe en el servidor`);
+  }
+  const out = [];
+  walkHtmlFiles(target, target, out);
+  const groups = collectGroupsFromEntries(out);
+  if (!groups.length) throw new Error(`No se encontraron módulos HTML (secciones) dentro de "${relDir}"`);
+  return groups;
+}
+
+/** Ensambla un demo por grupo, secuencialmente (amable con el proveedor). */
+export async function buildDemoSetBatch({ groups, paletteId, provider }) {
+  const results = [];
+  for (const g of groups) {
+    const t0 = Date.now();
+    try {
+      const r = await buildDemoSet({ files: g.files, paletteId, provider });
+      results.push({
+        ok: true,
+        folder: g.folder,
+        name: g.name,
+        filename: `demo-${g.name}.html`,
+        html: r.html,
+        stats: r.stats,
+        ms: Date.now() - t0
+      });
+      console.log(`[DEMO-SET] ▸ ${g.name}: ${r.stats.modulos} módulos, ${r.stats.imagenes.reemplazadas}/${r.stats.imagenes.total} imgs, ${(r.stats.bytes / 1048576).toFixed(2)} MB`);
+    } catch (e) {
+      results.push({ ok: false, folder: g.folder, name: g.name, filename: `demo-${g.name}.html`, error: e.message, ms: Date.now() - t0 });
+      console.log(`[DEMO-SET] ▸ ${g.name}: FALLO (${e.message})`);
+    }
+  }
+  return results;
+}
+
+// ---------------------------------------------------------------------------
+// Persistencia de lotes (server/storage/demo-sets) + limpieza de antiguos
+// ---------------------------------------------------------------------------
+export const BATCH_DIR = join(__dirname, 'storage', 'demo-sets');
+
+export function saveBatch(results) {
+  const batchId = `lote-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
+  const dir = join(BATCH_DIR, batchId);
+  mkdirSync(dir, { recursive: true });
+  const zip = new AdmZip();
+  const manifest = [];
+  for (const r of results) {
+    if (r.ok) {
+      writeFileSync(join(dir, r.filename), r.html);
+      zip.addFile(r.filename, Buffer.from(r.html, 'utf8'));
+    }
+    manifest.push({
+      id: r.name,
+      folder: r.folder,
+      filename: r.filename,
+      ok: r.ok,
+      error: r.error || null,
+      modulos: r.stats ? r.stats.modulos : 0,
+      paleta: r.stats ? r.stats.paleta : null,
+      imagenes: r.stats ? r.stats.imagenes : null,
+      bytes: r.stats ? r.stats.bytes : 0,
+      ms: r.ms || 0
+    });
+  }
+  writeFileSync(join(dir, 'manifiesto.json'), JSON.stringify(manifest, null, 1));
+  zip.addFile('manifiesto.json', Buffer.from(JSON.stringify(manifest, null, 1), 'utf8'));
+  const zipBuffer = zip.toBuffer();
+  writeFileSync(join(dir, 'todos-los-demos.zip'), zipBuffer);
+
+  // Limpieza: lotes con más de 24h
+  try {
+    for (const d of readdirSync(BATCH_DIR)) {
+      const p = join(BATCH_DIR, d);
+      try {
+        if (statSync(p).isDirectory() && Date.now() - statSync(p).mtimeMs > 24 * 3600 * 1000) rmSync(p, { recursive: true, force: true });
+      } catch { /* ignorar */ }
+    }
+  } catch { /* ignorar */ }
+
+  return { batchId, manifest, zipBytes: zipBuffer.length, dir };
 }
