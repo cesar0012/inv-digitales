@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Home, Settings, Users, History, Star, CreditCard, BookOpen, Layers, Wand2, Image } from 'lucide-react';
+import { Home, Settings, Users, History, Star, CreditCard, BookOpen, Layers, Wand2, Image, Package } from 'lucide-react';
 import { AdminModels } from './admin/AdminModels';
 import { AdminUsers } from './admin/AdminUsers';
 import { AdminHistory } from './admin/AdminHistory';
@@ -9,8 +9,9 @@ import { AdminRAGTemplates } from './admin/AdminRAGTemplates';
 import { AdminRAGModules } from './admin/AdminRAGModules';
 import { AdminModuleGenerator } from './admin/AdminModuleGenerator';
 import { AdminVisualRack } from './admin/AdminVisualRack';
+import { AdminDemoSets } from './admin/AdminDemoSets';
 
-type AdminTab = 'models' | 'users' | 'plans' | 'rag' | 'rag-modules' | 'module-generator' | 'rag-visual' | 'history';
+type AdminTab = 'models' | 'users' | 'plans' | 'rag' | 'rag-modules' | 'module-generator' | 'rag-visual' | 'demo-sets' | 'history';
 
 export const AdminView: React.FC = () => {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ export const AdminView: React.FC = () => {
     { id: 'rag-modules' as const, label: 'RAG Modular', icon: Layers },
     { id: 'rag-visual' as const, label: 'RAG Visual', icon: Image },
     { id: 'module-generator' as const, label: 'Generador de Módulos', icon: Wand2 },
+    { id: 'demo-sets' as const, label: 'Demo de Sets', icon: Package },
     { id: 'history' as const, label: 'Historial', icon: History },
   ];
 
@@ -84,6 +86,7 @@ export const AdminView: React.FC = () => {
           {activeTab === 'rag-modules' && <AdminRAGModules />}
           {activeTab === 'rag-visual' && <AdminVisualRack />}
           {activeTab === 'module-generator' && <AdminModuleGenerator />}
+          {activeTab === 'demo-sets' && <AdminDemoSets />}
           {activeTab === 'history' && <AdminHistory />}
         </div>
       </div>

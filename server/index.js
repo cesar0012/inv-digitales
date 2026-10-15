@@ -12,6 +12,7 @@ import db from './database.js';
 import { analyzeTemplate, validateTemplate, REQUIRED_TAGS } from './ragValidator.js';
 import { DEFAULT_PUBLIC_URL } from './ssr/catalogo-ssr.js';
 import { startBatch, getBatchStatus, requestStop } from './moduleGeneratorBatch.js';
+import demoSetRoutes from './demoSetRoutes.js'; // Demo de sets sin IA (proceso independiente)
 // RAG Visual (rack de imágenes): proceso ALTERNO al RAG Modular. Import estático:
 // el servicio solo lee admin_config/visual_rag_items y aísla su almacenamiento.
 import * as visualRack from './visualRackService.js';
@@ -221,6 +222,9 @@ app.use('/storage', express.static(storagePath));
 app.use('/storage/historico', express.static(historicoPath));
 // RAG Visual: biblioteca de imágenes de referencia (público para el rack del cliente).
 app.use('/storage/visual-rag', express.static(join(__dirname, 'storage', 'visual-rag')));
+
+// Demo de sets: generación demo SIN IA, proceso aparte que no toca el flujo agéntico.
+app.use('/api/demo-set', demoSetRoutes);
 
 const ensureUserFolder = (userId) => {
   const userFolder = join(storagePath, userId);
