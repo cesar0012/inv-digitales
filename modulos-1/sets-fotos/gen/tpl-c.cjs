@@ -25,7 +25,7 @@ function corte(S) {
         : Vv === 3
         ? `.sf9__tira { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(1.6rem,4vw,2.6rem); width:min(100%,980px); margin:0 auto; }
 .sf9__tarjeta { position:relative; width:clamp(250px,30vw,312px); padding:clamp(1.7rem,3.8vw,2.3rem) clamp(1.4rem,3.2vw,2rem); background:var(--primary-color); color:var(--bg-color); clip-path:polygon(0 0, 92% 0, 100% 18%, 100% 100%, 8% 100%, 0 82%); text-align:center; }
-.sf9__tarjeta time { display:inline-block; margin-bottom:.5rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.34em; opacity:.85; }
+.sf9__tarjeta time { display:inline-block; margin-bottom:.5rem; font-family:${S.mono}; font-size:clamp(.68rem,1.35vw,.82rem); letter-spacing:.3em; opacity:.9; }
 .sf9__nombre { color:#fff; }
 .sf9__detalle { color:color-mix(in srgb, var(--bg-color) 70%, #fff); }`
         : Vv === 4
@@ -39,7 +39,7 @@ function corte(S) {
 .sf9__tarjeta { position:relative; display:grid; grid-template-columns:auto 1fr; align-items:center; gap:clamp(1.4rem,3.6vw,2.2rem); padding:clamp(1.2rem,3vw,1.7rem) clamp(1.2rem,3vw,1.8rem) clamp(1.2rem,3vw,1.7rem) clamp(2.6rem,6vw,3.6rem); background:var(--surface-color); border:1px solid var(--surface-border-color); box-shadow:0 16px 32px rgba(0,0,0,.16); }
 .sf9__tarjeta::before { content:''; position:absolute; left:clamp(1rem,2.4vw,1.4rem); top:16%; bottom:16%; border-left:2px dotted var(--primary-color); }
 .sf9__tarjeta::after { content:''; position:absolute; left:calc(clamp(1rem,2.4vw,1.4rem) - 7px); top:50%; transform:translateY(-50%); width:14px; height:14px; border-radius:50%; background:var(--bg-color); border:2px solid var(--primary-color); }
-.sf9__tarjeta time { display:block; font-family:'Courier New',monospace; font-size:clamp(.72rem,1.5vw,.88rem); letter-spacing:.3em; color:var(--primary-color); margin-bottom:.3rem; }`;
+.sf9__tarjeta time { display:block; font-family:${S.mono}; font-size:clamp(.72rem,1.5vw,.88rem); letter-spacing:.3em; color:var(--primary-color); margin-bottom:.3rem; }`;
   const items = momentos.map(([hr, dt, t, d], i) => {
     if (Vv === 0) return `  <article class="sf9__tarjeta">
     <time class="sf4__hora" datetime="${dt}" memory_type="text" memory_usage="custom" memory_key="corte-hora-${i + 1}">${hr}</time>
@@ -80,10 +80,10 @@ function corte(S) {
 .sf9 > * { position:relative; z-index:1; }
 ${ORN_CSS}
 .sf4__cabecera { text-align:center; margin-bottom:clamp(2.4rem,6vw,3.4rem); }
-.sf4__rotulo { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.sf4__rotulo { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .sf4__titulo { margin:0; font-family:${S.disp}; font-weight:400; font-size:clamp(2rem,5vw,3.2rem); color:var(--primary-color); }
 .sf9__lead { margin:.5rem auto 0; max-width:52ch; font-family:${S.body}; font-style:italic; font-size:clamp(.82rem,1.5vw,.94rem); color:color-mix(in srgb, var(--secondary-color) 45%, var(--text-color)); }
-.sf4__hora { font-family:'Courier New',monospace; font-size:clamp(.7rem,1.35vw,.84rem); letter-spacing:.28em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.sf4__hora { font-family:${S.mono}; font-size:clamp(.7rem,1.35vw,.84rem); letter-spacing:.28em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .sf4__nombre { margin:.35rem 0 .25rem; font-family:${S.disp}; font-weight:400; font-size:clamp(1.1rem,2.3vw,1.4rem); color:var(--primary-color); }
 .sf4__detalle { margin:0; font-family:${S.body}; font-size:clamp(.76rem,1.4vw,.86rem); line-height:1.6; color:var(--text-color); }
 ${layout}
@@ -153,12 +153,12 @@ function galeria(S) {
 .sf10::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 74%, transparent); }
 .sf10 > * { position:relative; z-index:1; }
 ${ORN_CSS}
-.sf10__rotulo { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.sf10__rotulo { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .sf10__titulo { margin:0 auto clamp(2.2rem,5.5vw,3.2rem); font-family:${S.disp}; font-weight:400; font-size:clamp(2rem,5vw,3.2rem); color:var(--primary-color); }
 ${grid}
 .sf10__obra { margin:0; cursor:zoom-in; }
 .sf10__obra img { display:block; width:100%; height:auto; aspect-ratio:3/4; object-fit:cover; }
-.sf10__hint { margin:.9rem 0 0; font-family:'Courier New',monospace; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.3em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); animation:sf10-latido 2.4s ease-in-out infinite; }
+.sf10__hint { margin:.9rem 0 0; font-family:${S.mono}; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.3em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); animation:sf10-latido 2.4s ease-in-out infinite; }
 @keyframes sf10-latido { 50% { opacity:.5; } }
 .sf10__lb { position:fixed; inset:0; z-index:9999; display:none; place-items:center; background:color-mix(in srgb, var(--bg-color) 92%, transparent); cursor:zoom-out; }
 .sf10__lb.abierto { display:grid; }
@@ -213,7 +213,7 @@ function regalos(S) {
         ? `.sf11__tarjeta { position:relative; width:min(100%,560px); margin:0 auto; padding:clamp(2.4rem,5.6vw,3.2rem) clamp(1.6rem,4.4vw,3rem); background:var(--surface-color); text-align:center;
   mask:radial-gradient(circle 12px at 12px 50%, transparent 97%, #000) left / 51% 100% no-repeat, radial-gradient(circle 12px at calc(100% - 12px) 50%, transparent 97%, #000) right / 51% 100% no-repeat;
   filter:drop-shadow(0 18px 36px rgba(0,0,0,.16)); }
-.sf11__tarjeta::before { content:'VALE DE REGALO'; display:block; margin:0 0 .6rem; font-family:'Courier New',monospace; font-size:.62rem; letter-spacing:.5em; color:var(--secondary-color); }
+.sf11__tarjeta::before { content:'VALE DE REGALO'; display:block; margin:0 0 .6rem; font-family:${S.mono}; font-size:.62rem; letter-spacing:.5em; color:var(--secondary-color); }
 .sf11__tarjeta::after { content:''; position:absolute; left:10%; right:10%; bottom:14px; height:1px; background:repeating-linear-gradient(90deg, var(--accent-color) 0 9px, transparent 9px 16px); }`
         : `.sf11__tarjeta { position:relative; width:min(100%,560px); margin:clamp(2.6rem,6vw,3.6rem) auto 0; padding:clamp(2.2rem,5.2vw,3rem) clamp(1.4rem,4vw,2.6rem) clamp(1.8rem,4vw,2.4rem); background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:14px; text-align:center; transform:rotate(-1.8deg); box-shadow:0 20px 40px rgba(0,0,0,.16); }
 .sf11__tarjeta::before { content:''; position:absolute; top:-14px; left:50%; transform:translateX(-50%); width:12px; height:12px; border-radius:50%; border:2px solid var(--primary-color); background:var(--bg-color); }
@@ -227,17 +227,17 @@ function regalos(S) {
 .sf11::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 76%, transparent); }
 .sf11 > * { position:relative; z-index:1; }
 ${ORN_CSS}
-.sf11__rotulo { margin:0 0 .5rem; font-family:'Courier New',monospace; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.sf11__rotulo { margin:0 0 .5rem; font-family:${S.mono}; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .sf11__titulo { margin:0 0 .6rem; font-family:${S.disp}; font-weight:400; font-size:clamp(1.9rem,4.6vw,2.8rem); color:var(--primary-color); }
 .sf11__texto { margin:0 auto 1.5rem; max-width:44ch; font-family:${S.body}; font-size:clamp(.86rem,1.6vw,.98rem); line-height:1.8; color:var(--text-color); }
 .sf11__datos { display:grid; grid-template-columns:1fr; gap:.9rem; max-width:420px; margin:0 auto; }
 @media (min-width:560px){ .sf11__datos { grid-template-columns:1fr 1fr; } }
 .sf11__dato { padding:1rem .8rem; border:1px solid var(--surface-border-color); border-radius:12px; }
-.sf11__dato b { display:block; margin-bottom:.3rem; font-family:'Courier New',monospace; font-weight:400; font-size:clamp(.54rem,1vw,.62rem); letter-spacing:.3em; text-transform:uppercase; color:var(--secondary-color); }
-.sf11__dato a, .sf11__dato span { font-family:'Courier New',monospace; font-size:clamp(.68rem,1.3vw,.8rem); letter-spacing:.1em; color:var(--text-color); text-decoration:none; }
+.sf11__dato b { display:block; margin-bottom:.3rem; font-family:${S.mono}; font-weight:400; font-size:clamp(.64rem,1.15vw,.74rem); letter-spacing:.26em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.sf11__dato a, .sf11__dato span { font-family:${S.mono}; font-size:clamp(.68rem,1.3vw,.8rem); letter-spacing:.1em; color:var(--text-color); text-decoration:none; }
 .sf11__dato a { border-bottom:1px dashed var(--primary-color); padding-bottom:.15rem; }
 .sf11__dato a:hover { color:var(--primary-color); }
-.sf11__btn { display:inline-flex; align-items:center; justify-content:center; min-height:48px; margin-top:1.5rem; padding:.95rem 2.2rem; font-family:'Courier New',monospace; font-size:clamp(.64rem,1.25vw,.78rem); letter-spacing:.32em; text-transform:uppercase; text-decoration:none; color:var(--bg-color); background:var(--primary-color); transition:transform .35s ease; }
+.sf11__btn { display:inline-flex; align-items:center; justify-content:center; min-height:48px; margin-top:1.5rem; padding:.95rem 2.2rem; font-family:${S.mono}; font-size:clamp(.64rem,1.25vw,.78rem); letter-spacing:.32em; text-transform:uppercase; text-decoration:none; color:var(--bg-color); background:var(--primary-color); transition:transform .35s ease; }
 .sf11__btn:hover { transform:translateY(-2px); }
 ${layout}
 @media (max-width:560px){ .sf11__tarjeta { transform:none !important; } .sf11__tarjeta > * { transform:none !important; } }
@@ -320,10 +320,10 @@ function vestimenta(S) {
 .sf12 > * { position:relative; z-index:1; }
 ${ORN_CSS}
 .sf12__cabecera { text-align:center; margin-bottom:clamp(2rem,5vw,2.8rem); }
-.sf12__rotulo { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.sf12__rotulo { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .sf12__titulo { margin:0; font-family:${S.disp}; font-weight:400; font-size:clamp(2rem,5vw,3.2rem); color:var(--primary-color); }
 .sf12__texto { margin:.7rem auto 0; max-width:46ch; text-align:center; font-family:${S.body}; font-size:clamp(.86rem,1.6vw,.98rem); line-height:1.8; color:var(--text-color); }
-.sf12__nota { margin:1.4rem 0 0; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.15vw,.72rem); letter-spacing:.3em; text-transform:uppercase; color:var(--secondary-color); }
+.sf12__nota { margin:1.4rem 0 0; font-family:${S.mono}; font-size:clamp(.6rem,1.15vw,.72rem); letter-spacing:.3em; text-transform:uppercase; color:var(--secondary-color); }
 .sf12__lista { list-style:none; margin:1.2rem auto 0; padding:0; display:flex; flex-wrap:wrap; justify-content:center; gap:.6rem 1.8rem; }
 .sf12__lista li { font-family:${S.body}; font-style:italic; font-size:clamp(.82rem,1.5vw,.94rem); color:var(--text-color); }
 .sf12__lista li::before { content:'—'; color:var(--accent-color); margin-right:.45rem; font-style:normal; }
