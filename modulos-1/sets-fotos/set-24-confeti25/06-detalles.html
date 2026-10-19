@@ -8,13 +8,13 @@
 .sf-orn-wrap { display:flex; justify-content:center; margin:0 auto clamp(1.6rem,4vw,2.4rem); color:var(--primary-color); }
 .sf-orn-wrap svg { width:min(240px,60%); height:auto; }
 .sf6__cabecera { text-align:center; margin-bottom:clamp(2.2rem,5.5vw,3.2rem); }
-.sf6__rotulo { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.sf6__rotulo { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .sf6__titulo { margin:0; font-family:Georgia,serif; font-weight:400; font-size:clamp(2rem,5vw,3.2rem); color:var(--primary-color); }
 .sf6__rotulito { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.54rem,1.02vw,.64rem); letter-spacing:.46em; text-transform:uppercase; color:var(--secondary-color); }
 .sf6__subtitulo { margin:0 0 .8rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.22rem,2.6vw,1.56rem); color:var(--primary-color); }
 .sf6__texto { margin:0 auto 1rem; max-width:38ch; font-family:'Segoe UI',Arial,sans-serif; font-size:clamp(.82rem,1.5vw,.92rem); line-height:1.75; color:var(--text-color); }
 .sf6__paleta { display:flex; justify-content:center; gap:.7rem; margin:.3rem 0 1rem; }
-.sf6__muestra { width:38px; height:38px; border-radius:62% 38% 55% 45% / 55% 48% 52% 45%; border:1px solid var(--accent-color); }
+.sf6__muestra { width:46px; height:46px; border-radius:62% 38% 55% 45% / 55% 48% 52% 45%; border:1px solid var(--accent-color); }
 .sf6__dato { display:inline-block; margin:.3rem auto 0; font-family:'Courier New',monospace; font-size:clamp(.68rem,1.3vw,.8rem); letter-spacing:.12em; color:var(--text-color); text-decoration:none; border-bottom:1px dashed var(--accent-color); padding-bottom:.2rem; }
 .sf6__dato:hover { color:var(--primary-color); }
 .sf6 img { max-width:100%; }
@@ -55,9 +55,11 @@
     radial-gradient(circle at bottom left, transparent 68px, var(--primary-color) 69px, transparent 71px) bottom left / 120px 120px,
     radial-gradient(circle at bottom right, transparent 68px, var(--primary-color) 69px, transparent 71px) bottom right / 120px 120px;
   background-repeat:no-repeat; }</style>
-
-
-<script>var moduleMetadata = { module_type: "detalles", module_name: "detalles-sf24", style_name: "Confeti Dorado 25", descripcion: "Detalles confeti variante 1: vestimenta con paleta y mesa de regalos.", tags: ["detalles","confeti","confeti","variante1"], tipo: "detalles" };</script>
+<header class="sf6__cabecera" memory_type="text" memory_usage="custom" memory_key="detalles-intro">
+  <p class="sf6__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo">Vestimenta y regalos</p>
+  <h2 class="sf6__titulo" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Detalles</h2>
+  <span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M0 12 H112 M188 12 H300" /><rect x="128" y="6" width="7" height="11" transform="rotate(18 131 11)" /><circle cx="152" cy="12" r="4" /><rect x="166" y="6" width="7" height="11" transform="rotate(-16 169 11)" /></svg></span>
+</header>
 <div class="sf6__par">
   <article class="sf6__panel"><figure class="sf6__foto" style="margin:0 auto 1.2rem; width:min(100%,300px); border-radius:14px; overflow:hidden; border:1px solid var(--surface-border-color);" memory_type="image" memory_usage="custom" memory_source="library">
         <img src="https://loremflickr.com/800/500/confetti,gold,dress" alt="Inspiración de vestimenta" path="placeholder" data-library-category="bodas" data-asset-type="vestimenta" loading="lazy">
@@ -75,11 +77,9 @@
     <a class="sf6__dato" href="https://mesaderegalos.com/ejemplo" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="detalles-regalo-link">mesaderegalos.com</a><br>
     <span class="sf6__dato" memory_type="text" memory_usage="custom" memory_key="detalles-regalo-dato">CLABE: 0000 0000 0000</span>
   </article>
-</div><header class="sf6__cabecera" memory_type="text" memory_usage="custom" memory_key="detalles-intro">
-  <p class="sf6__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo">Vestimenta y regalos</p>
-  <h2 class="sf6__titulo" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Detalles</h2>
-  <span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M0 12 H112 M188 12 H300" /><rect x="128" y="6" width="7" height="11" transform="rotate(18 131 11)" /><circle cx="152" cy="12" r="4" /><rect x="166" y="6" width="7" height="11" transform="rotate(-16 169 11)" /></svg></span>
-</header>
+</div>
+<script>var moduleMetadata = { module_type: "detalles", module_name: "detalles-sf24", style_name: "Confeti Dorado 25", descripcion: "Detalles confeti variante 1: vestimenta con paleta y mesa de regalos.", tags: ["detalles","confeti","confeti","variante1"], tipo: "detalles" };</script>
+
 <script>
 (function () {
   var el = null;

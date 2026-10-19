@@ -9,7 +9,7 @@
 .sf-orn-wrap svg { width:min(240px,60%); height:auto; }
 
 .cd3 { text-align:center; }
-.cd3__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.cd3__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .cd3__tit { margin:0 0 clamp(1.4rem,3vw,2rem); font-family:Georgia,serif; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
 .cd3__tablero { width:min(100%,760px); margin:0 auto; padding:clamp(1rem,3vw,1.8rem) clamp(.6rem,2vw,1.4rem); background:var(--surface-color); border:1px solid var(--primary-color); border-radius:14px; box-shadow:0 24px 48px color-mix(in srgb, var(--text-color) 28%, transparent); position:relative; }
 .cd3__tablero::before { content:''; position:absolute; inset:6px; border:1px dashed color-mix(in srgb, var(--accent-color) 45%, transparent); border-radius:9px; pointer-events:none; }
@@ -20,11 +20,12 @@
 .cd3__rem { position:absolute; top:8px; bottom:8px; width:5px; border-radius:3px; background:var(--primary-color); opacity:.8; z-index:4; }
 .cd3__rem--i { left:4px; } .cd3__rem--d { right:4px; }
 .cd3__hoja { position:absolute; inset:0; display:grid; place-items:center; }
-.cd3__hoja--sup { top:0; height:50%; transform-origin:bottom center; background:color-mix(in srgb, var(--surface-color) 88%, var(--bg-color) 6%); animation:cd3-golpe 2.4s cubic-bezier(.6,0,.3,1) infinite; }
-@keyframes cd3-golpe { 0%, 58% { transform:rotateX(0); } 74% { transform:rotateX(-88deg); } 76%, 100% { transform:rotateX(0); } }
+.cd3__hoja--sup { top:0; height:50%; transform-origin:bottom center; background:color-mix(in srgb, var(--surface-color) 88%, var(--bg-color) 6%); }
+.cd3__casete.vuelta .cd3__hoja--sup { animation:cd3-golpe .5s cubic-bezier(.55,0,.3,1); }
+@keyframes cd3-golpe { 0% { transform:rotateX(0); } 100% { transform:rotateX(-92deg); } }
 .cd3__num { font-family:'Courier New',monospace; font-weight:700; font-size:clamp(2rem,5.4vw,3.2rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; text-shadow:0 2px 0 color-mix(in srgb, var(--text-color) 40%, transparent); }
 .cd3__hoja--sup .cd3__num { transform:translateY(38%); }
-.cd3__etq { display:block; margin:.55rem 0 0; text-align:center; font-family:'Courier New',monospace; font-size:clamp(.5rem,.95vw,.62rem); letter-spacing:.4em; text-transform:uppercase; color:var(--text-color); }
+.cd3__etq { display:block; margin:.55rem 0 0; text-align:center; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.1vw,.72rem); letter-spacing:.4em; text-transform:uppercase; color:var(--text-color); }
 .cd3__pies { display:flex; justify-content:space-between; width:min(100%,760px); margin:.8rem auto 0; }
 .cd3__pie { width:26%; height:8px; background:var(--surface-border-color); border-radius:0 0 6px 6px; }
 .cd3__fecha { display:block; margin:clamp(1.3rem,3vw,1.9rem) 0 0; font-family:'Segoe UI',Arial,sans-serif; font-style:italic; font-size:clamp(.85rem,1.6vw,.98rem); color:var(--text-color); }
@@ -41,34 +42,58 @@
 <li class="cd3__celda" style="list-style:none;">
   <div class="cd3__casete"><i class="cd3__rem cd3__rem--i"></i><i class="cd3__rem cd3__rem--d"></i>
     <span class="cd3__hoja cd3__hoja--inf"><b class="cd3__num" data-countdown-unit="days">--</b></span>
-    <span class="cd3__hoja cd3__hoja--sup" aria-hidden="true"><b class="cd3__num" style="visibility:hidden;">00</b></span>
+    <span class="cd3__hoja cd3__hoja--sup" aria-hidden="true"><b class="cd3__num cd3__eco">00</b></span>
   </div>
   <span class="cd3__etq">Días</span>
 </li>
 <li class="cd3__celda" style="list-style:none;">
   <div class="cd3__casete"><i class="cd3__rem cd3__rem--i"></i><i class="cd3__rem cd3__rem--d"></i>
     <span class="cd3__hoja cd3__hoja--inf"><b class="cd3__num" data-countdown-unit="hours">--</b></span>
-    <span class="cd3__hoja cd3__hoja--sup" aria-hidden="true"><b class="cd3__num" style="visibility:hidden;">00</b></span>
+    <span class="cd3__hoja cd3__hoja--sup" aria-hidden="true"><b class="cd3__num cd3__eco">00</b></span>
   </div>
   <span class="cd3__etq">Horas</span>
 </li>
 <li class="cd3__celda" style="list-style:none;">
   <div class="cd3__casete"><i class="cd3__rem cd3__rem--i"></i><i class="cd3__rem cd3__rem--d"></i>
     <span class="cd3__hoja cd3__hoja--inf"><b class="cd3__num" data-countdown-unit="minutes">--</b></span>
-    <span class="cd3__hoja cd3__hoja--sup" aria-hidden="true"><b class="cd3__num" style="visibility:hidden;">00</b></span>
+    <span class="cd3__hoja cd3__hoja--sup" aria-hidden="true"><b class="cd3__num cd3__eco">00</b></span>
   </div>
   <span class="cd3__etq">Min</span>
 </li>
 <li class="cd3__celda" style="list-style:none;">
   <div class="cd3__casete"><i class="cd3__rem cd3__rem--i"></i><i class="cd3__rem cd3__rem--d"></i>
     <span class="cd3__hoja cd3__hoja--inf"><b class="cd3__num" data-countdown-unit="seconds">--</b></span>
-    <span class="cd3__hoja cd3__hoja--sup" aria-hidden="true"><b class="cd3__num" style="visibility:hidden;">00</b></span>
+    <span class="cd3__hoja cd3__hoja--sup" aria-hidden="true"><b class="cd3__num cd3__eco">00</b></span>
   </div>
   <span class="cd3__etq">Seg</span>
 </li>
   </ul>
 </div>
 <div class="cd3__pies" aria-hidden="true"><i class="cd3__pie"></i><i class="cd3__pie"></i></div>
+<script>
+(function () {
+  var root = null;
+  try { root = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
+  if (!root) return;
+  root.querySelectorAll('[data-countdown-unit]').forEach(function (num) {
+    var casete = num.closest('.cd3__casete');
+    var eco = casete && casete.querySelector('.cd3__eco');
+    if (!casete || !eco) return;
+    eco.textContent = num.textContent;
+    var ultimo = num.textContent;
+    new MutationObserver(function () {
+      if (num.textContent === ultimo) return;
+      var previo = ultimo;
+      ultimo = num.textContent;
+      eco.textContent = previo;
+      casete.classList.remove('vuelta');
+      void casete.offsetWidth;
+      casete.classList.add('vuelta');
+      setTimeout(function () { eco.textContent = ultimo; }, 470);
+    }).observe(num, { childList: true, characterData: true, subtree: true });
+  });
+})();
+</script>
 <time class="cd3__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento · hora por confirmar</time>
 
 <script>

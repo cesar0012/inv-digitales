@@ -9,7 +9,7 @@
 .sf-orn-wrap svg { width:min(240px,60%); height:auto; }
 
 .cd7 { text-align:center; }
-.cd7__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.cd7__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .cd7__tit { margin:0 0 clamp(1.4rem,3vw,2rem); font-family:Georgia,serif; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
 .cd7__mesa { display:flex; justify-content:center; align-items:stretch; gap:clamp(1rem,3vw,2rem); }
 .cd7__hoja { position:relative; width:min(100%,420px); background:var(--surface-color); border:1px solid var(--surface-border-color); box-shadow:0 18px 36px color-mix(in srgb, var(--text-color) 14%, transparent); padding:1rem 1.1rem 1.3rem; text-align:left; transform:rotate(-1deg); animation:cd7-hoja 6s ease-in-out infinite alternate; }
@@ -30,15 +30,15 @@
 .cd7__pestana { display:flex; align-items:baseline; justify-content:space-between; gap:.9rem; padding:.6rem 1rem; background:var(--surface-color); border:1px solid var(--surface-border-color); clip-path:polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%); margin-left:-10px; }
 .cd7__pestana:nth-child(2){ margin-left:0; margin-right:-10px; clip-path:polygon(12px 0, 100% 0, 100% 100%, 12px 100%, 0 50%); }
 .cd7__num { font-family:Georgia,serif; font-size:clamp(1.3rem,3.2vw,1.8rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; }
-.cd7__etq { font-family:'Courier New',monospace; font-size:clamp(.46rem,.9vw,.58rem); letter-spacing:.3em; text-transform:uppercase; color:var(--text-color); }
+.cd7__etq { font-family:'Courier New',monospace; font-size:clamp(.56rem,1.05vw,.68rem); letter-spacing:.3em; text-transform:uppercase; color:var(--text-color); }
 .cd7__fecha { display:block; margin:clamp(1.3rem,3vw,1.9rem) 0 0; font-family:'Segoe UI',Arial,sans-serif; font-style:italic; font-size:clamp(.85rem,1.6vw,.98rem); color:var(--text-color); }
 @media (max-width:640px){ .cd7__mesa { flex-direction:column; align-items:center; } .cd7__lateral { width:100%; grid-template-columns:1fr 1fr; } .cd7__pestana, .cd7__pestana:nth-child(2) { margin:0; clip-path:none; border-left:4px solid var(--primary-color); } }
 
 @media (prefers-reduced-motion:reduce){ .cd7 * { animation:none !important; transition:none !important; } }
 </style>
 <header memory_type="text" memory_usage="custom" memory_key="countdown-intro">
-  <p class="cd7__rot" memory_type="text" memory_usage="custom" memory_key="countdown-rotulo">Días subrayados</p>
-  <h2 class="cd7__tit" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Tachando el almanaque</h2>
+  <p class="cd7__rot" memory_type="text" memory_usage="custom" memory_key="countdown-rotulo">Cuenta regresiva</p>
+  <h2 class="cd7__tit" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Faltan pocos días</h2>
 </header>
 <div class="cd7__mesa">
   <div class="cd7__hoja" aria-hidden="true">

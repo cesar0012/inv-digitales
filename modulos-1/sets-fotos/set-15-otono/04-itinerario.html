@@ -8,11 +8,11 @@
 .sf-orn-wrap { display:flex; justify-content:center; margin:0 auto clamp(1.6rem,4vw,2.4rem); color:var(--primary-color); }
 .sf-orn-wrap svg { width:min(240px,60%); height:auto; }
 .sf4__cabecera { text-align:center; margin-bottom:clamp(2.4rem,6vw,3.4rem); }
-.sf4__rotulo { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.sf4__rotulo { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .sf4__titulo { margin:0; font-family:Georgia,serif; font-weight:400; font-size:clamp(2rem,5vw,3.2rem); color:var(--primary-color); }
-.sf4__hora { font-family:'Courier New',monospace; font-size:clamp(.64rem,1.28vw,.78rem); letter-spacing:.32em; text-transform:uppercase; color:var(--secondary-color); }
+.sf4__hora { font-family:'Courier New',monospace; font-size:clamp(.7rem,1.4vw,.84rem); letter-spacing:.28em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .sf4__nombre { margin:.35rem 0 .25rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.1rem,2.3vw,1.4rem); color:var(--primary-color); }
-.sf4__detalle { margin:0; font-family:'Segoe UI',Arial,sans-serif; font-size:clamp(.76rem,1.4vw,.86rem); line-height:1.6; color:var(--text-color); }
+.sf4__detalle { margin:0; font-family:'Segoe UI',Arial,sans-serif; font-size:clamp(.8rem,1.5vw,.9rem); line-height:1.6; color:var(--text-color); }
 .sf4__lista { list-style:none; margin:0 auto; padding:0; width:min(100%,720px); }
 .sf4__escal { display:grid; grid-template-columns:auto 1fr; align-items:center; gap:clamp(1.2rem,3.4vw,2rem); padding:clamp(.9rem,2.2vw,1.3rem) 0; border-bottom:1px solid var(--surface-border-color); }
 .sf4__escal:first-child { border-top:1px solid var(--surface-border-color); }
@@ -45,9 +45,11 @@
 @keyframes sfOrnGira { to { transform:rotate(4deg) translateY(-4px); } }
 .sf-dress--vignette { position:absolute; inset:0; pointer-events:none; z-index:1;
   box-shadow:inset 0 0 0 2px color-mix(in srgb, var(--primary-color) 55%, transparent), inset 0 0 0 8px color-mix(in srgb, var(--bg-color) 40%, transparent), inset 0 0 60px color-mix(in srgb, var(--bg-color) 60%, transparent); }</style>
-
-
-<script>var moduleMetadata = { module_type: "itinerario", module_name: "itinerario-sf15", style_name: "Otoño con Moño", descripcion: "Itinerario otono variante 4 con ornamento hojas y jerarquía tipográfica del estilo.", tags: ["itinerario","hojas","otono","variante4"], tipo: "itinerario" };</script>
+<header class="sf4__cabecera" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">
+  <p class="sf4__rotulo" memory_type="text" memory_usage="custom" memory_key="itinerario-rotulo">Agenda</p>
+  <h2 class="sf4__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Itinerario</h2>
+  <span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M0 12 H108 M192 12 H300" /><path d="M128 12 q 5 -8 12 -4 M150 8 q 0 -8 8 -6 M172 12 q -5 -8 -12 -4" /></svg></span>
+</header>
 <ol class="sf4__lista">
   <li class="sf4__escal">
     <span class="sf4__numbig" aria-hidden="true">01</span>
@@ -81,11 +83,9 @@
       <p class="sf4__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-4">La pista se enciende</p>
     </div>
   </li>
-</ol><header class="sf4__cabecera" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">
-  <p class="sf4__rotulo" memory_type="text" memory_usage="custom" memory_key="itinerario-rotulo">Agenda</p>
-  <h2 class="sf4__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Itinerario</h2>
-  <span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M0 12 H108 M192 12 H300" /><path d="M128 12 q 5 -8 12 -4 M150 8 q 0 -8 8 -6 M172 12 q -5 -8 -12 -4" /></svg></span>
-</header>
+</ol>
+<script>var moduleMetadata = { module_type: "itinerario", module_name: "itinerario-sf15", style_name: "Otoño con Moño", descripcion: "Itinerario otono variante 4 con ornamento hojas y jerarquía tipográfica del estilo.", tags: ["itinerario","hojas","otono","variante4"], tipo: "itinerario" };</script>
+
 <script>
 (function () {
   var el = null;

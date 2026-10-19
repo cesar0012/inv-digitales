@@ -1,11 +1,12 @@
 /* Shaper estructural: garantiza que ningún set comparta composición con otro
- * dentro del mismo tipo de módulo. Tres ejes por set:
- *   ord    = num % 3            → colocación de la cabecera (arriba / abajo /
- *                                 dividida: rótulo arriba, título abajo)
- *   espejo = floor((num-1)/12)  → invierte el orden de los bloques de contenido
- *   rv     = num % 4            → coreografía de entrada (fade-up/slide/zoom/blur)
- * 4 variantes base × 3 ords × 2 espejos = 24 composiciones por tipo.
- * Los cambios son de DOM y CSS reales (no cosméticos). */
+ * dentro del mismo tipo de módulo. Ejes por set:
+ *   ord    = num % 3  → estilo de cabecera (centrada / lateral flex / barra lateral)
+ *   rv     = num % 4  → coreografía de entrada (fade-up/slide/zoom/blur)
+ *   dress  = 6 tratamientos de marco decorativo
+ * 6 variantes base × 3 ords × 4 rvs × 6 dresses = composiciones únicas por tipo.
+ * Nota de revisión: la cabecera SIEMPRE queda arriba del contenido y el orden
+ * de los bloques nunca se invierte (los títulos al fondo y las secciones
+ * invertidas confundían la lectura de la invitación). */
 const { parseHTML } = require('linkedom');
 
 const RV_CLASS = ['rv-fade', 'rv-slide', 'rv-zoom', 'rv-blur'];
@@ -99,41 +100,26 @@ function shape(S, html) {
     if (!section) return html;
 
     const ord = S.num % 3;
-    const espejo = Math.floor((S.num - 1) / 12) === 1;
     /* rv y dress usan índices descorrelacionados del layout (num%6) para que
      * dos sets con el mismo layout nunca compartan vestimenta ni coreografía. */
     const rv = RV_CLASS[Math.floor((S.num - 1) / 6) % 4];
 
-    // Los hijos "de contenido": todo menos <style> y <script>.
-    const isContent = (n) => n.nodeType === 1 && n.tagName !== 'STYLE' && n.tagName !== 'SCRIPT';
-    const content = Array.from(section.childNodes).filter(isContent);
-    const header = content.find((n) => n.tagName === 'HEADER');
-
-    /* Eje ORD — recolocación real de la cabecera. */
-    if (ord === 1 && header) {
-      // Cabecera al final (antes del primer script).
-      const firstScript = Array.from(section.childNodes).find((n) => n.nodeType === 1 && n.tagName === 'SCRIPT');
-      if (firstScript) section.insertBefore(header, firstScript);
-      else section.appendChild(header);
-    } else if (ord === 2 && header) {
-      // Cabecera dividida: el rótulo queda arriba; título y ornamento bajan.
-      const children = Array.from(header.childNodes).filter((n) => n.nodeType === 1);
-      const rotulo = children.find((n) => n.tagName === 'P');
-      const cola = document.createElement('footer');
-      cola.setAttribute('class', header.getAttribute('class'));
-      for (const c of children) { if (c !== rotulo) cola.appendChild(c); }
-      while (header.childNodes.length) header.removeChild(header.firstChild);
-      if (rotulo) header.appendChild(rotulo);
-      const firstScript = Array.from(section.childNodes).find((n) => n.nodeType === 1 && n.tagName === 'SCRIPT');
-      if (firstScript) section.insertBefore(cola, firstScript);
-      else section.appendChild(cola);
-    }
-
-    /* Eje ESPEJO — invierte el orden de los bloques de contenido. */
-    if (espejo && content.length > 1) {
-      const reales = Array.from(section.childNodes).filter(isContent);
-      const reves = reales.slice().reverse();
-      for (const nodo of reves) section.appendChild(nodo);
+    /* Eje ORD — estilo de cabecera SIN moverla del alto: la revisión del
+     * equipo pidió títulos siempre arriba y centrados (nada de headers al
+     * fondo ni órdenes invertidos), así que el eje ahora solo cambia la
+     * alineación visual del header. */
+    const ORD_CSS = [
+      '',
+      `.sf-ordA > header { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.6rem 1.4rem; text-align:left; margin-bottom:clamp(2rem,5vw,3rem); }
+.sf-ordA > header > p { margin:0; }
+.sf-ordA > header .sf-orn-wrap { margin:0; flex:0 0 auto; }`,
+      `.sf-ordB > header { text-align:left; border-left:3px solid var(--primary-color); padding-left:clamp(1rem,3vw,1.8rem); margin-bottom:clamp(2rem,5vw,3rem); }
+.sf-ordB > header .sf-orn-wrap { justify-content:flex-start; margin-left:0; }`
+    ];
+    if (ord > 0) {
+      section.classList.add(ord === 1 ? 'sf-ordA' : 'sf-ordB');
+      const styleEl0 = section.querySelector('style');
+      if (styleEl0) styleEl0.textContent += '\n' + ORD_CSS[ord];
     }
 
     /* Eje RV — coreografía de entrada + micro-flotación del ornamento. */

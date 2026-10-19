@@ -7,17 +7,17 @@
 .sf2 > * { position:relative; z-index:1; }
 .sf-orn-wrap { display:flex; justify-content:center; margin:0 auto clamp(1.6rem,4vw,2.4rem); color:var(--primary-color); }
 .sf-orn-wrap svg { width:min(240px,60%); height:auto; }
-.rc2__rotulo { margin:0 0 .5rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.rc2__rotulo { margin:0 0 .5rem; font-family:'Courier New',monospace; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .rc2__titulo { margin:0 auto 1rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.9rem,4.6vw,3rem); color:var(--primary-color); }
 .rc2__dupla { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(2.2rem,6vw,4.8rem); }
 .sf2__marco { margin:0 auto; } /* reset margen UA de <figure>: sin esto suma 40px por lado */
-.rc2__casa { width:min(100%,280px); }
-.sf2__marco { width:clamp(200px,26vw,258px); padding:14px; background:var(--surface-color); border:1px solid var(--surface-border-color); transform:skewX(-5deg); transition:transform .5s cubic-bezier(.16,1,.3,1); }
+.rc2__casa { width:min(100%,300px); }
+.sf2__marco { width:clamp(220px,29vw,292px); padding:14px; background:var(--surface-color); border:1px solid var(--surface-border-color); transform:skewX(-5deg); transition:transform .5s cubic-bezier(.16,1,.3,1); }
 .sf2__marco:nth-child(2) { transform:skewX(5deg); }
 .sf2__marco:hover { transform:skewX(0) translateY(-6px); }
 .sf2__marco img { display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover; transform:skewX(5deg); }
 .sf2__marco:nth-child(2) img { transform:skewX(-5deg); }
-.sf2__rol { display:block; margin:1.2rem 0 .2rem; font-family:'Courier New',monospace; font-size:clamp(.54rem,1.02vw,.64rem); letter-spacing:.44em; text-transform:uppercase; color:var(--secondary-color); }
+.sf2__rol { display:block; margin:1.2rem 0 .2rem; font-family:'Courier New',monospace; font-size:clamp(.64rem,1.18vw,.74rem); letter-spacing:.4em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .sf2__nombres { margin:0; font-family:'Segoe UI',Arial,sans-serif; font-size:clamp(1rem,2.1vw,1.24rem); color:var(--primary-color); }
 .sf2__nota { margin:clamp(2.2rem,5vw,3rem) auto 0; max-width:46ch; font-family:'Segoe UI',Arial,sans-serif; font-style:italic; font-size:clamp(.86rem,1.6vw,1rem); line-height:1.8; color:var(--text-color); }
 @media (prefers-reduced-motion:reduce){ .sf2 * { animation:none !important; transition:none !important; } }
@@ -51,11 +51,12 @@
     radial-gradient(circle at bottom left, transparent 68px, var(--primary-color) 69px, transparent 71px) bottom left / 120px 120px,
     radial-gradient(circle at bottom right, transparent 68px, var(--primary-color) 69px, transparent 71px) bottom right / 120px 120px;
   background-repeat:no-repeat; }</style>
-
-
-
-<script>var moduleMetadata = { module_type: "padres", module_name: "padres-sf24", style_name: "Confeti Dorado 25", descripcion: "Padres en marcos confeti con variante 1 y retratos confetti,gold.", tags: ["padres","confeti","confeti","variante1"], tipo: "padres" };</script>
-<p class="sf2__nota" memory_type="text" memory_usage="custom" memory_key="padres-texto">Dos familias, una misma celebración: gracias por traernos hasta aquí.</p><div class="rc2__dupla">
+<header memory_type="text" memory_usage="custom" memory_key="padres-intro">
+  <p class="rc2__rotulo" memory_type="text" memory_usage="custom" memory_key="padres-rotulo">Familias</p>
+  <h2 class="rc2__titulo" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Nuestros padres</h2>
+  <span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M0 12 H112 M188 12 H300" /><rect x="128" y="6" width="7" height="11" transform="rotate(18 131 11)" /><circle cx="152" cy="12" r="4" /><rect x="166" y="6" width="7" height="11" transform="rotate(-16 169 11)" /></svg></span>
+</header>
+<div class="rc2__dupla">
   <article class="sf2__casa">
     <figure class="sf2__marco" memory_type="image" memory_usage="custom" memory_source="library">
       <img src="https://loremflickr.com/520/640/confetti,gold,family" alt="Retrato de los padres de ella" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy">
@@ -76,11 +77,10 @@
       <h3 class="sf2__nombres" memory_type="text" memory_usage="custom" memory_key="padres-nombre-2">Nombre Papa &amp; Nombre Mama</h3>
     </div>
   </article>
-</div><header memory_type="text" memory_usage="custom" memory_key="padres-intro">
-  <p class="rc2__rotulo" memory_type="text" memory_usage="custom" memory_key="padres-rotulo">Familias</p>
-  <h2 class="rc2__titulo" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Nuestros padres</h2>
-  <span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M0 12 H112 M188 12 H300" /><rect x="128" y="6" width="7" height="11" transform="rotate(18 131 11)" /><circle cx="152" cy="12" r="4" /><rect x="166" y="6" width="7" height="11" transform="rotate(-16 169 11)" /></svg></span>
-</header>
+</div>
+<p class="sf2__nota" memory_type="text" memory_usage="custom" memory_key="padres-texto">Dos familias, una misma celebración: gracias por traernos hasta aquí.</p>
+<script>var moduleMetadata = { module_type: "padres", module_name: "padres-sf24", style_name: "Confeti Dorado 25", descripcion: "Padres en marcos confeti con variante 1 y retratos confetti,gold.", tags: ["padres","confeti","confeti","variante1"], tipo: "padres" };</script>
+
 <script>
 (function () {
   var el = null;

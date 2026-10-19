@@ -9,7 +9,7 @@
 .sf-orn-wrap svg { width:min(240px,60%); height:auto; }
 
 .cd8 { text-align:center; }
-.cd8__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.cd8__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .cd8__tit { margin:0 0 clamp(1.6rem,3vw,2.2rem); font-family:Georgia,serif; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
 .cd8__altar { display:flex; justify-content:center; align-items:flex-end; gap:clamp(1.2rem,4vw,3rem); flex-wrap:wrap; }
 .cd8__vela { position:relative; width:clamp(72px,13vw,96px); height:clamp(190px,32vw,260px); background:repeating-linear-gradient(173deg, color-mix(in srgb, var(--surface-color) 96%, var(--bg-color)) 0 12px, color-mix(in srgb, var(--accent-color) 45%, var(--surface-color)) 12px 17px); border:2px solid color-mix(in srgb, var(--text-color) 55%, var(--primary-color)); border-radius:10px 10px 6px 6px; box-shadow:inset -8px 0 14px color-mix(in srgb, var(--text-color) 10%, transparent), 0 16px 30px color-mix(in srgb, var(--text-color) 18%, transparent); }
@@ -26,7 +26,7 @@
 .cd8__plato { display:flex; align-items:center; gap:.9rem; padding:.55rem 1.1rem .55rem .7rem; }
 .cd8__goteron { position:relative; width:34px; height:34px; flex:none; background:color-mix(in srgb, var(--accent-color) 45%, var(--surface-color)); clip-path:polygon(50% 100%, 0 30%, 12% 0, 88% 0, 100% 30%); }
 .cd8__num { font-family:Georgia,serif; font-size:clamp(1.35rem,3.4vw,1.9rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; }
-.cd8__etq { font-family:'Courier New',monospace; font-size:clamp(.46rem,.9vw,.58rem); letter-spacing:.3em; text-transform:uppercase; color:var(--text-color); }
+.cd8__etq { font-family:'Courier New',monospace; font-size:clamp(.56rem,1.05vw,.68rem); letter-spacing:.3em; text-transform:uppercase; color:var(--text-color); }
 .cd8__base { width:min(100%,420px); height:12px; margin:clamp(1rem,2.6vw,1.5rem) auto 0; background:color-mix(in srgb, var(--surface-color) 80%, transparent); border:1px solid var(--surface-border-color); border-radius:4px; box-shadow:0 8px 18px color-mix(in srgb, var(--text-color) 10%, transparent); }
 .cd8__fecha { display:block; margin:clamp(1.2rem,3vw,1.8rem) 0 0; font-family:'Segoe UI',Arial,sans-serif; font-style:italic; font-size:clamp(.85rem,1.6vw,.98rem); color:var(--text-color); }
 @media (max-width:560px){ .cd8__altar { flex-direction:column; align-items:center; } .cd8__platos { grid-template-columns:1fr 1fr; width:100%; } }
@@ -34,8 +34,8 @@
 @media (prefers-reduced-motion:reduce){ .cd8 * { animation:none !important; transition:none !important; } }
 </style>
 <header memory_type="text" memory_usage="custom" memory_key="countdown-intro">
-  <p class="cd8__rot" memory_type="text" memory_usage="custom" memory_key="countdown-rotulo">Luz que espera</p>
-  <h2 class="cd8__tit" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Una vela encendida</h2>
+  <p class="cd8__rot" memory_type="text" memory_usage="custom" memory_key="countdown-rotulo">Cuenta regresiva</p>
+  <h2 class="cd8__tit" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Esperando el gran día</h2>
 </header>
 <div class="cd8__altar">
   <div class="cd8__vela" aria-hidden="true"><i class="cd8__halo"></i><i class="cd8__llama"></i><i class="cd8__pabilo"></i><i class="cd8__cera"></i><i class="cd8__gotaCera cd8__gotaCera--a"></i><i class="cd8__gotaCera cd8__gotaCera--b"></i><i class="cd8__gotaCera cd8__gotaCera--c"></i></div>

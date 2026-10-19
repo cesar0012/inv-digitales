@@ -8,9 +8,10 @@
 .sf-orn-wrap { display:flex; justify-content:center; margin:0 auto clamp(1.6rem,4vw,2.4rem); color:var(--primary-color); }
 .sf-orn-wrap svg { width:min(240px,60%); height:auto; }
 .sf4__cabecera { text-align:center; margin-bottom:clamp(2.4rem,6vw,3.4rem); }
-.sf4__rotulo { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.sf4__rotulo { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .sf4__titulo { margin:0; font-family:Georgia,serif; font-weight:400; font-size:clamp(2rem,5vw,3.2rem); color:var(--primary-color); }
-.sf4__hora { font-family:'Courier New',monospace; font-size:clamp(.62rem,1.24vw,.74rem); letter-spacing:.32em; text-transform:uppercase; color:var(--secondary-color); }
+.sf9__lead { margin:.5rem auto 0; max-width:52ch; font-family:'Segoe UI',Arial,sans-serif; font-style:italic; font-size:clamp(.82rem,1.5vw,.94rem); color:color-mix(in srgb, var(--secondary-color) 45%, var(--text-color)); }
+.sf4__hora { font-family:'Courier New',monospace; font-size:clamp(.7rem,1.35vw,.84rem); letter-spacing:.28em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .sf4__nombre { margin:.35rem 0 .25rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.1rem,2.3vw,1.4rem); color:var(--primary-color); }
 .sf4__detalle { margin:0; font-family:'Segoe UI',Arial,sans-serif; font-size:clamp(.76rem,1.4vw,.86rem); line-height:1.6; color:var(--text-color); }
 .sf9__tira { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(1.6rem,4vw,2.6rem); width:min(100%,980px); margin:0 auto; }
@@ -18,7 +19,7 @@
 .sf9__tarjeta time { display:inline-block; margin-bottom:.5rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.34em; opacity:.85; }
 .sf9__nombre { color:var(--bg-color); }
 .sf9__detalle { color:color-mix(in srgb, var(--bg-color) 70%, var(--bg-color)); }
-@media (max-width:640px){ .sf9__tarjeta { transform:none !important; margin-top:0 !important; padding-left:0 !important; } }
+@media (max-width:640px){ .sf9__tarjeta { transform:none !important; margin-top:0 !important; padding-left:0 !important; } .sf9__escala::before { display:none; } }
 @media (prefers-reduced-motion:reduce){ .sf9 * { animation:none !important; transition:none !important; } }
 
 [data-gemini-id] .rv-fade > *:not(style):not(script), [data-gemini-id] .rv-slide > *:not(style):not(script),
@@ -46,6 +47,7 @@
 <header class="sf4__cabecera" memory_type="text" memory_usage="custom" memory_key="corte-intro">
   <p class="sf4__rotulo" memory_type="text" memory_usage="custom" memory_key="corte-rotulo">Momentos clave</p>
   <h2 class="sf4__titulo" memory_type="text" memory_usage="custom" memory_key="corte-encabezado">Corte de la noche</h2>
+  <p class="sf9__lead" memory_type="text" memory_usage="custom" memory_key="corte-lead">Los tres momentos que darán vida a la noche</p>
   <span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 14" width="220"><defs><pattern id="sf-laser-3" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="7" cy="7" r="2" fill="currentColor" /></pattern></defs><rect width="300" height="14" fill="url(#sf-laser-3)" /></svg></span>
 </header>
 <div class="sf9__tira">

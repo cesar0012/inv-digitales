@@ -4,16 +4,17 @@
   position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:100svh; display:grid; place-items:center; padding:clamp(2.6rem,7vw,5rem) clamp(1rem,5vw,3.4rem); background:radial-gradient(ellipse 70% 55% at 50% 0%, color-mix(in srgb, var(--secondary-color) 20%, transparent), transparent 70%), url('https://loremflickr.com/1600/1000/gold,table') center/cover; background-color:var(--bg-color); color:var(--text-color); text-align:center; }
 .sf-p *, .sf-p *::before, .sf-p *::after { box-sizing:border-box; }
 .sf-p::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 62%, transparent); pointer-events:none; }
-.sf-p__rayos { position:absolute; inset:-50%; z-index:0; background:conic-gradient(from 0deg, transparent 0 10deg, color-mix(in srgb, var(--primary-color) 7%, transparent) 10deg 11deg, transparent 11deg 20deg); animation:sf-giro 46s linear infinite; }
+.sf-p__rayos { position:absolute; inset:-50%; z-index:0; background:conic-gradient(from 0deg, transparent 0 10deg, color-mix(in srgb, var(--primary-color) 5%, transparent) 10deg 11deg, transparent 11deg 20deg); animation:sf-giro 70s linear infinite; }
 @keyframes sf-giro { to { transform:rotate(360deg); } }
 .sf-particulas { position:absolute; inset:0; z-index:1; pointer-events:none; }
-.sf-particulas i { position:absolute; top:-3%; width:8px; height:12px; background:var(--primary-color); opacity:.8; animation:sf-cae linear infinite; border-radius:2px; }
+.sf-particulas i { position:absolute; top:-3%; width:8px; height:12px; background:var(--primary-color); opacity:.55; animation:sf-cae linear infinite; border-radius:2px; }
 @keyframes sf-cae { to { transform:translateY(108vh) rotate(480deg); } }
 .sf-orn-wrap { position:relative; z-index:2; }
 .rcA__rotulo { margin:0 0 .7rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.25vw,.74rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
 .rcA__nombre { margin:0; font-family:Georgia,serif; font-weight:400; font-size:clamp(2.8rem,9vw,6.4rem); line-height:1.02; color:var(--primary-color); }
+@media (max-width:560px){ .rcA__nombre { font-size:clamp(2.2rem,10.5vw,3.4rem); } }
 .sf-p__v3 .rcA__nombre { text-align:left; }
-.rcA__fecha { margin:0; font-family:'Courier New',monospace; font-size:clamp(.64rem,1.35vw,.8rem); letter-spacing:.4em; text-transform:uppercase; color:var(--text-color); }
+.rcA__fecha { margin:0; font-family:'Courier New',monospace; font-size:clamp(.74rem,1.6vw,.95rem); letter-spacing:.3em; text-transform:uppercase; color:var(--text-color); }
 .rcA__foto { position:absolute; inset:0; z-index:0; margin:0; }
 .rcA__foto img { display:block; width:100%; height:100%; object-fit:cover; opacity:.42; }
 .rcA__velo { position:absolute; inset:0; z-index:1; background:linear-gradient(160deg, color-mix(in srgb, var(--bg-color) 88%, transparent) 20%, color-mix(in srgb, var(--bg-color) 55%, transparent)); }
@@ -52,12 +53,16 @@
     radial-gradient(circle at bottom left, transparent 68px, var(--primary-color) 69px, transparent 71px) bottom left / 120px 120px,
     radial-gradient(circle at bottom right, transparent 68px, var(--primary-color) 69px, transparent 71px) bottom right / 120px 120px;
   background-repeat:no-repeat; }</style>
-
-
-
-  
-  
-
+<div class="sf-p__rayos" aria-hidden="true"></div>
+<div class="sf-particulas" aria-hidden="true"></div>
+<figure class="rcA__foto" memory_type="image" memory_usage="custom" memory_source="generated"><img src="https://loremflickr.com/1200/800/gold,celebration" alt="Escena" path="placeholder" data-asset-type="escena-principal" loading="eager"><figcaption hidden>Escena</figcaption></figure>
+  <div class="rcA__velo" aria-hidden="true"></div>
+  <div class="rcA__panel">
+    <p class="rcA__rotulo" memory_type="text" memory_usage="custom" memory_key="portada-lema">fabuloso</p>
+    <div memory_type="text" memory_usage="custom" memory_key="portada-nombre"><h1 class="rcA__nombre" memory_type="text" memory_usage="custom" memory_key="portada-titulo">Nombre &amp; Nombre</h1></div>
+    <p class="rcA__fecha" memory_type="text" memory_usage="custom" memory_key="portada-fecha"><time datetime="YYYY-MM-DD">Fecha del evento · Lugar</time></p>
+  </div>
+<span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M0 12 H112 M188 12 H300" /><rect x="128" y="6" width="7" height="11" transform="rotate(18 131 11)" /><circle cx="152" cy="12" r="4" /><rect x="166" y="6" width="7" height="11" transform="rotate(-16 169 11)" /></svg></span>
 <script>
   (function () {
     var root = null;
@@ -65,7 +70,7 @@
     if (!root) return;
     var holder = root.querySelector('.sf-particulas');
     if (!holder) return;
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 8; i++) {
       var s = document.createElement('i');
       s.style.left = (Math.random() * 100) + '%';
       s.style.animationDelay = (Math.random() * 6).toFixed(2) + 's';
@@ -75,11 +80,7 @@
     }
   })();</script>
 <script>var moduleMetadata = { module_type: "portada", module_name: "portada-sf21", style_name: "Fabuloso Dorado", descripcion: "Portada fabuloso con variante 4 de composición, partículas flotantes y ornamento confeti.", tags: ["portada","confeti","fabuloso","variante4"], tipo: "portada" };</script>
-<span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M0 12 H112 M188 12 H300" /><rect x="128" y="6" width="7" height="11" transform="rotate(18 131 11)" /><circle cx="152" cy="12" r="4" /><rect x="166" y="6" width="7" height="11" transform="rotate(-16 169 11)" /></svg></span><div class="rcA__panel">
-    <p class="rcA__rotulo" memory_type="text" memory_usage="custom" memory_key="portada-lema">fabuloso</p>
-    <div memory_type="text" memory_usage="custom" memory_key="portada-nombre"><h1 class="rcA__nombre" memory_type="text" memory_usage="custom" memory_key="portada-titulo">Nombre &amp; Nombre</h1></div>
-    <p class="rcA__fecha" memory_type="text" memory_usage="custom" memory_key="portada-fecha"><time datetime="YYYY-MM-DD">Fecha del evento · Lugar</time></p>
-  </div><div class="rcA__velo" aria-hidden="true"></div><figure class="rcA__foto" memory_type="image" memory_usage="custom" memory_source="generated"><img src="https://loremflickr.com/1200/800/gold,celebration" alt="Escena" path="placeholder" data-asset-type="escena-principal" loading="eager"><figcaption hidden>Escena</figcaption></figure><div class="sf-particulas" aria-hidden="true"></div><div class="sf-p__rayos" aria-hidden="true"></div>
+
 <script>
 (function () {
   var el = null;

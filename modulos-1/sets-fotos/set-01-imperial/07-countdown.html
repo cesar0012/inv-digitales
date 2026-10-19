@@ -10,7 +10,7 @@
 
 .cd1 { text-align:center; }
 .cd1__cab { margin-bottom:clamp(1.4rem,3vw,2rem); }
-.cd1__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.cd1__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .cd1__tit { margin:0; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.9rem,4.4vw,2.9rem); color:var(--primary-color); }
 .cd1__dial { position:relative; width:min(100%,620px); height:clamp(170px,34vw,260px); margin:0 auto clamp(1.6rem,4vw,2.4rem); border-radius:min(46vw,260px) min(46vw,260px) 0 0; border:2px solid var(--primary-color); border-bottom:none; overflow:hidden; background:color-mix(in srgb, var(--surface-color) 55%, transparent); }
 .cd1__dial::before { content:''; position:absolute; inset:10px; border-radius:inherit; border:1px dashed color-mix(in srgb, var(--accent-color) 55%, transparent); }
@@ -27,7 +27,7 @@
 .cd1__med::before { content:''; position:absolute; top:-26px; left:50%; width:1px; height:26px; background:var(--accent-color); }
 .cd1__med::after { content:''; position:absolute; top:-32px; left:50%; transform:translateX(-50%); width:8px; height:8px; border-radius:50%; border:1px solid var(--primary-color); }
 .cd1__num { display:block; font-family:Georgia,serif; font-size:clamp(1.6rem,4.2vw,2.5rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; }
-.cd1__etq { display:block; margin-top:.4rem; font-family:'Courier New',monospace; font-size:clamp(.48rem,.95vw,.6rem); letter-spacing:.34em; text-transform:uppercase; color:var(--text-color); }
+.cd1__etq { display:block; margin-top:.4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.34em; text-transform:uppercase; color:var(--text-color); }
 .cd1__fecha { display:block; margin-top:clamp(1.4rem,3vw,2rem); font-family:Georgia,serif; font-style:italic; font-size:clamp(.85rem,1.6vw,.98rem); color:var(--text-color); }
 @media (max-width:560px){ .cd1__fila { gap:.9rem; } .cd1__med { width:min(44%,150px); } .cd1__med:nth-child(n+3) { margin-top:1.6rem; } }
 

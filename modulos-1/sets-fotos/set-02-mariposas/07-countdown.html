@@ -10,8 +10,8 @@
 
 .cd2 { text-align:center; }
 .cd2__cab { margin-bottom:clamp(1.2rem,3vw,2rem); }
-.cd2__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
-.cd2__tit { margin:0; font-family:'Segoe Script','Brush Script MT',cursive; font-weight:400; font-size:clamp(1.9rem,4.4vw,2.9rem); color:var(--primary-color); }
+.cd2__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.cd2__tit { margin:0; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.9rem,4.4vw,2.9rem); color:var(--primary-color); }
 .cd2__cielo { position:relative; width:min(100%,860px); margin:0 auto; padding:clamp(.6rem,2vw,1.4rem) 0 clamp(1rem,3vw,2rem); }
 .cd2__ruta { position:absolute; left:6%; right:6%; top:38%; height:2px; background:repeating-linear-gradient(90deg, var(--secondary-color) 0 8px, transparent 8px 18px); opacity:.55; transform:rotate(-3deg); }
 .cd2__fila { position:relative; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:clamp(.8rem,2.6vw,1.6rem); }
@@ -26,8 +26,8 @@
 @keyframes cd2-revolotear { 50% { transform:translateY(-12px) rotate(2deg); } }
 .cd2__cuerpo { position:absolute; left:50%; top:12%; width:3px; height:72%; background:var(--primary-color); transform:translateX(-50%); border-radius:2px; }
 .cd2__posta { margin-top:.7rem; padding:.65rem .8rem .8rem; background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:16px 16px 4px 4px; box-shadow:0 10px 20px color-mix(in srgb, var(--text-color) 12%, transparent); }
-.cd2__num { display:block; font-family:'Segoe Script','Brush Script MT',cursive; font-size:clamp(1.5rem,4vw,2.3rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; }
-.cd2__etq { display:block; margin-top:.3rem; font-family:'Courier New',monospace; font-size:clamp(.46rem,.9vw,.58rem); letter-spacing:.3em; text-transform:uppercase; color:var(--text-color); }
+.cd2__num { display:block; font-family:Georgia,serif; font-size:clamp(1.5rem,4vw,2.3rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; }
+.cd2__etq { display:block; margin-top:.3rem; font-family:'Courier New',monospace; font-size:clamp(.56rem,1.05vw,.68rem); letter-spacing:.3em; text-transform:uppercase; color:var(--text-color); }
 .cd2__fecha { display:block; margin-top:clamp(1.2rem,3vw,1.8rem); font-family:Georgia,serif; font-style:italic; font-size:clamp(.85rem,1.6vw,.98rem); color:var(--text-color); }
 @media (max-width:560px){ .cd2__fila { justify-content:center; gap:1rem; } .cd2__vuelo { flex:1 1 40%; } .cd2__vuelo:nth-child(n){ padding-top:.4rem; } }
 

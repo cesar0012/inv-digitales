@@ -7,17 +7,17 @@
 .sf8 > * { position:relative; z-index:1; }
 .sf-orn-wrap { display:flex; justify-content:center; margin:0 auto clamp(1.6rem,4vw,2.4rem); color:var(--primary-color); }
 .sf-orn-wrap svg { width:min(240px,60%); height:auto; }
-.rc2__rotulo { margin:0 0 .5rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.rc2__rotulo { margin:0 0 .5rem; font-family:'Courier New',monospace; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .rc2__titulo { margin:0 auto 1rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.9rem,4.6vw,3rem); color:var(--primary-color); }
 .sf8__fila { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(2.4rem,7vw,6rem); }
-.sf8__casa { width:clamp(210px,28vw,262px); }
-.sf8__marco { position:relative; margin:0 auto; width:clamp(180px,23vw,222px); aspect-ratio:1/1.1; background:var(--surface-color); border:1px solid var(--primary-color); display:grid; align-items:end; }
+.sf8__casa { width:clamp(235px,31vw,295px); }
+.sf8__marco { position:relative; margin:0 auto; width:clamp(205px,26vw,252px); aspect-ratio:1/1.1; background:var(--surface-color); border:1px solid var(--primary-color); display:grid; align-items:end; }
 .sf8__marco::before { content:''; position:absolute; inset:8px; border:1px solid color-mix(in srgb, var(--accent-color) 55%, transparent); }
-.sf8__marco img { display:block; width:100%; height:82%; object-fit:cover; }
+.sf8__marco img { display:block; width:100%; height:100%; object-fit:cover; }
 .sf8__marco figcaption { padding:.8rem 0 .6rem; }
 .sf8__casa { margin:0 auto; } /* reset margen UA de <figure> */
-.sf8__rol { display:block; margin:1.1rem 0 .2rem; font-family:'Courier New',monospace; font-size:clamp(.54rem,1.02vw,.64rem); letter-spacing:.44em; text-transform:uppercase; color:var(--secondary-color); }
-.sf8__nombre { margin:0; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.02rem,2.1vw,1.26rem); color:var(--primary-color); }
+.sf8__rol { display:block; margin:1.1rem 0 .2rem; font-family:'Courier New',monospace; font-size:clamp(.64rem,1.18vw,.74rem); letter-spacing:.4em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.sf8__nombre { margin:0; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.08rem,2.25vw,1.36rem); color:var(--primary-color); }
 .sf8__nota { margin:clamp(2.2rem,5vw,3rem) auto 0; max-width:44ch; font-family:'Segoe UI',Arial,sans-serif; font-style:italic; font-size:clamp(.86rem,1.6vw,1rem); line-height:1.8; color:var(--text-color); }
 @media (max-width:640px){ .sf8__casa:nth-child(2) { margin-left:0; margin-top:0; } .sf8__casa { transform:none !important; } }
 
@@ -48,11 +48,12 @@
     repeating-linear-gradient(90deg, color-mix(in srgb, var(--primary-color) 34%, transparent) 0 16px, transparent 16px 30px) top / 100% 5px,
     repeating-linear-gradient(90deg, color-mix(in srgb, var(--secondary-color) 30%, transparent) 0 16px, transparent 16px 30px) bottom / 100% 5px;
   background-repeat:no-repeat; }</style>
-
-
-
-<script>var moduleMetadata = { module_type: "padrinos", module_name: "padrinos-sf18", style_name: "Corona sobre Encaje", descripcion: "Padrinos encaje variante 1 con marcos corona.", tags: ["padrinos","corona","encaje","variante1"], tipo: "padrinos" };</script>
-<p class="sf8__nota" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Gracias por acompañarnos en este día tan importante.</p><div class="sf8__fila">
+<header memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
+  <p class="rc2__rotulo" memory_type="text" memory_usage="custom" memory_key="padrinos-rotulo">Testigos</p>
+  <h2 class="rc2__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Madrina &amp; Padrino</h2>
+  <span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 26" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M30 20 C 80 4, 220 4, 270 20" /><path d="M90 12 q -5 -9 3 -11 q 7 5 -3 11 Z M150 6 q -3 -9 4 -10 q 6 5 -4 10 Z M210 12 q 5 -9 -3 -11 q -7 5 3 11 Z" fill="color-mix(in srgb, currentColor 22%, transparent)" /></svg></span>
+</header>
+<div class="sf8__fila">
   <figure class="sf8__casa">
     <span class="sf8__marco" memory_type="image" memory_usage="custom" memory_source="library">
       <img src="https://loremflickr.com/460/560/lace,wreath,woman" alt="Retrato de la madrina" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy">
@@ -71,11 +72,10 @@
       <h3 class="sf8__nombre" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-2">Nombre Padrino</h3>
     </figcaption>
   </figure>
-</div><header memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
-  <p class="rc2__rotulo" memory_type="text" memory_usage="custom" memory_key="padrinos-rotulo">Testigos</p>
-  <h2 class="rc2__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Madrina &amp; Padrino</h2>
-  <span class="sf-orn-wrap" aria-hidden="true"><svg class="sf-orn" viewBox="0 0 300 26" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M30 20 C 80 4, 220 4, 270 20" /><path d="M90 12 q -5 -9 3 -11 q 7 5 -3 11 Z M150 6 q -3 -9 4 -10 q 6 5 -4 10 Z M210 12 q 5 -9 -3 -11 q -7 5 3 11 Z" fill="color-mix(in srgb, currentColor 22%, transparent)" /></svg></span>
-</header>
+</div>
+<p class="sf8__nota" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Gracias por acompañarnos en este día tan importante.</p>
+<script>var moduleMetadata = { module_type: "padrinos", module_name: "padrinos-sf18", style_name: "Corona sobre Encaje", descripcion: "Padrinos encaje variante 1 con marcos corona.", tags: ["padrinos","corona","encaje","variante1"], tipo: "padrinos" };</script>
+
 <script>
 (function () {
   var el = null;

@@ -116,6 +116,8 @@ const TIPO_ORDER = [
 
 function moduleOrderKey(originalname) {
   const name = (originalname || '').toLowerCase();
+  // El RSVP cierra la invitación (sugerencia del equipo de revisión).
+  if (name.includes('confirmacion')) return { n: 90, kind: 'tipo' };
   const num = name.match(/(\d{1,2})[-_.]/);
   if (num) return { n: parseInt(num[1], 10), kind: 'num' };
   const ti = TIPO_ORDER.findIndex((t) => name.includes(t));

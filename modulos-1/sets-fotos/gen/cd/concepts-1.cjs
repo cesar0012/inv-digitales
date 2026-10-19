@@ -9,7 +9,7 @@ function cd_imperial(S) {
   const css = `
 .${C} { text-align:center; }
 .${C}__cab { margin-bottom:clamp(1.4rem,3vw,2rem); }
-.${C}__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.${C}__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .${C}__tit { margin:0; font-family:${S.disp}; font-weight:400; font-size:clamp(1.9rem,4.4vw,2.9rem); color:var(--primary-color); }
 .${C}__dial { position:relative; width:min(100%,620px); height:clamp(170px,34vw,260px); margin:0 auto clamp(1.6rem,4vw,2.4rem); border-radius:min(46vw,260px) min(46vw,260px) 0 0; border:2px solid var(--primary-color); border-bottom:none; overflow:hidden; background:color-mix(in srgb, var(--surface-color) 55%, transparent); }
 .${C}__dial::before { content:''; position:absolute; inset:10px; border-radius:inherit; border:1px dashed color-mix(in srgb, var(--accent-color) 55%, transparent); }
@@ -26,7 +26,7 @@ function cd_imperial(S) {
 .${C}__med::before { content:''; position:absolute; top:-26px; left:50%; width:1px; height:26px; background:var(--accent-color); }
 .${C}__med::after { content:''; position:absolute; top:-32px; left:50%; transform:translateX(-50%); width:8px; height:8px; border-radius:50%; border:1px solid var(--primary-color); }
 .${C}__num { display:block; font-family:${S.disp}; font-size:clamp(1.6rem,4.2vw,2.5rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; }
-.${C}__etq { display:block; margin-top:.4rem; font-family:'Courier New',monospace; font-size:clamp(.48rem,.95vw,.6rem); letter-spacing:.34em; text-transform:uppercase; color:var(--text-color); }
+.${C}__etq { display:block; margin-top:.4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.34em; text-transform:uppercase; color:var(--text-color); }
 .${C}__fecha { display:block; margin-top:clamp(1.4rem,3vw,2rem); font-family:${S.body}; font-style:italic; font-size:clamp(.85rem,1.6vw,.98rem); color:var(--text-color); }
 @media (max-width:560px){ .${C}__fila { gap:.9rem; } .${C}__med { width:min(44%,150px); } .${C}__med:nth-child(n+3) { margin-top:1.6rem; } }
 `;
@@ -53,7 +53,7 @@ function cd_mariposas(S) {
   const css = `
 .${C} { text-align:center; }
 .${C}__cab { margin-bottom:clamp(1.2rem,3vw,2rem); }
-.${C}__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.${C}__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .${C}__tit { margin:0; font-family:${S.disp}; font-weight:400; font-size:clamp(1.9rem,4.4vw,2.9rem); color:var(--primary-color); }
 .${C}__cielo { position:relative; width:min(100%,860px); margin:0 auto; padding:clamp(.6rem,2vw,1.4rem) 0 clamp(1rem,3vw,2rem); }
 .${C}__ruta { position:absolute; left:6%; right:6%; top:38%; height:2px; background:repeating-linear-gradient(90deg, var(--secondary-color) 0 8px, transparent 8px 18px); opacity:.55; transform:rotate(-3deg); }
@@ -70,7 +70,7 @@ function cd_mariposas(S) {
 .${C}__cuerpo { position:absolute; left:50%; top:12%; width:3px; height:72%; background:var(--primary-color); transform:translateX(-50%); border-radius:2px; }
 .${C}__posta { margin-top:.7rem; padding:.65rem .8rem .8rem; background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:16px 16px 4px 4px; box-shadow:0 10px 20px rgba(0,0,0,.12); }
 .${C}__num { display:block; font-family:${S.disp}; font-size:clamp(1.5rem,4vw,2.3rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; }
-.${C}__etq { display:block; margin-top:.3rem; font-family:'Courier New',monospace; font-size:clamp(.46rem,.9vw,.58rem); letter-spacing:.3em; text-transform:uppercase; color:var(--text-color); }
+.${C}__etq { display:block; margin-top:.3rem; font-family:'Courier New',monospace; font-size:clamp(.56rem,1.05vw,.68rem); letter-spacing:.3em; text-transform:uppercase; color:var(--text-color); }
 .${C}__fecha { display:block; margin-top:clamp(1.2rem,3vw,1.8rem); font-family:${S.body}; font-style:italic; font-size:clamp(.85rem,1.6vw,.98rem); color:var(--text-color); }
 @media (max-width:560px){ .${C}__fila { justify-content:center; gap:1rem; } .${C}__vuelo { flex:1 1 40%; } .${C}__vuelo:nth-child(n){ padding-top:.4rem; } }
 `;
@@ -97,7 +97,7 @@ function cd_glitter(S) {
   const C = 'cd3';
   const css = `
 .${C} { text-align:center; }
-.${C}__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.${C}__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .${C}__tit { margin:0 0 clamp(1.4rem,3vw,2rem); font-family:${S.disp}; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
 .${C}__tablero { width:min(100%,760px); margin:0 auto; padding:clamp(1rem,3vw,1.8rem) clamp(.6rem,2vw,1.4rem); background:var(--surface-color); border:1px solid var(--primary-color); border-radius:14px; box-shadow:0 24px 48px rgba(0,0,0,.28); position:relative; }
 .${C}__tablero::before { content:''; position:absolute; inset:6px; border:1px dashed color-mix(in srgb, var(--accent-color) 45%, transparent); border-radius:9px; pointer-events:none; }
@@ -108,11 +108,12 @@ function cd_glitter(S) {
 .${C}__rem { position:absolute; top:8px; bottom:8px; width:5px; border-radius:3px; background:var(--primary-color); opacity:.8; z-index:4; }
 .${C}__rem--i { left:4px; } .${C}__rem--d { right:4px; }
 .${C}__hoja { position:absolute; inset:0; display:grid; place-items:center; }
-.${C}__hoja--sup { top:0; height:50%; transform-origin:bottom center; background:color-mix(in srgb, var(--surface-color) 88%, #fff 6%); animation:${C}-golpe 2.4s cubic-bezier(.6,0,.3,1) infinite; }
-@keyframes ${C}-golpe { 0%, 58% { transform:rotateX(0); } 74% { transform:rotateX(-88deg); } 76%, 100% { transform:rotateX(0); } }
+.${C}__hoja--sup { top:0; height:50%; transform-origin:bottom center; background:color-mix(in srgb, var(--surface-color) 88%, #fff 6%); }
+.${C}__casete.vuelta .${C}__hoja--sup { animation:${C}-golpe .5s cubic-bezier(.55,0,.3,1); }
+@keyframes ${C}-golpe { 0% { transform:rotateX(0); } 100% { transform:rotateX(-92deg); } }
 .${C}__num { font-family:${S.mono}; font-weight:700; font-size:clamp(2rem,5.4vw,3.2rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; text-shadow:0 2px 0 rgba(0,0,0,.4); }
 .${C}__hoja--sup .${C}__num { transform:translateY(38%); }
-.${C}__etq { display:block; margin:.55rem 0 0; text-align:center; font-family:'Courier New',monospace; font-size:clamp(.5rem,.95vw,.62rem); letter-spacing:.4em; text-transform:uppercase; color:var(--text-color); }
+.${C}__etq { display:block; margin:.55rem 0 0; text-align:center; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.1vw,.72rem); letter-spacing:.4em; text-transform:uppercase; color:var(--text-color); }
 .${C}__pies { display:flex; justify-content:space-between; width:min(100%,760px); margin:.8rem auto 0; }
 .${C}__pie { width:26%; height:8px; background:var(--surface-border-color); border-radius:0 0 6px 6px; }
 .${C}__fecha { display:block; margin:clamp(1.3rem,3vw,1.9rem) 0 0; font-family:${S.body}; font-style:italic; font-size:clamp(.85rem,1.6vw,.98rem); color:var(--text-color); }
@@ -122,7 +123,7 @@ function cd_glitter(S) {
     .map(([u, l]) => `<li class="${C}__celda" style="list-style:none;">
   <div class="${C}__casete"><i class="${C}__rem ${C}__rem--i"></i><i class="${C}__rem ${C}__rem--d"></i>
     <span class="${C}__hoja ${C}__hoja--inf"><b class="${C}__num" data-countdown-unit="${u}">--</b></span>
-    <span class="${C}__hoja ${C}__hoja--sup" aria-hidden="true"><b class="${C}__num" style="visibility:hidden;">00</b></span>
+    <span class="${C}__hoja ${C}__hoja--sup" aria-hidden="true"><b class="${C}__num ${C}__eco">00</b></span>
   </div>
   <span class="${C}__etq">${l}</span>
 </li>`).join('\n');
@@ -136,6 +137,30 @@ ${celdas}
   </ul>
 </div>
 <div class="${C}__pies" aria-hidden="true"><i class="${C}__pie"></i><i class="${C}__pie"></i></div>
+<script>
+(function () {
+  var root = null;
+  try { root = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
+  if (!root) return;
+  root.querySelectorAll('[data-countdown-unit]').forEach(function (num) {
+    var casete = num.closest('.cd3__casete');
+    var eco = casete && casete.querySelector('.cd3__eco');
+    if (!casete || !eco) return;
+    eco.textContent = num.textContent;
+    var ultimo = num.textContent;
+    new MutationObserver(function () {
+      if (num.textContent === ultimo) return;
+      var previo = ultimo;
+      ultimo = num.textContent;
+      eco.textContent = previo;
+      casete.classList.remove('vuelta');
+      void casete.offsetWidth;
+      casete.classList.add('vuelta');
+      setTimeout(function () { eco.textContent = ultimo; }, 470);
+    }).observe(num, { childList: true, characterData: true, subtree: true });
+  });
+})();
+</script>
 ${fecha(C, 'Fecha del evento · hora por confirmar')}`;
   return wrap(S, { id: 'countdown-splitflap-laser', cls: C, css, body, desc: 'Tablero split-flap estilo aeropuerto: casetes mecánicos con hoja superior que gira sobre su bisagra al ritmo del conteo.', tags: ['split-flap', 'aeropuerto', 'mecanico'] });
 }
@@ -147,7 +172,7 @@ function cd_monolavanda(S) {
   const C = 'cd4';
   const css = `
 .${C} { text-align:center; }
-.${C}__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.${C}__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .${C}__tit { margin:0 0 clamp(1.4rem,3vw,2rem); font-family:${S.disp}; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
 .${C}__mesa { display:flex; align-items:center; justify-content:center; gap:clamp(1.4rem,5vw,4rem); flex-wrap:wrap; }
 .${C}__reloj { position:relative; width:clamp(130px,26vw,175px); height:clamp(200px,38vw,265px); flex:none; }
@@ -197,7 +222,7 @@ function cd_arcoacuarela(S) {
   const C = 'cd5';
   const css = `
 .${C} { text-align:center; }
-.${C}__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.${C}__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .${C}__tit { margin:0 0 clamp(.6rem,2vw,1rem); font-family:${S.disp}; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
 .${C}__lienzo { position:relative; width:min(100%,760px); height:clamp(180px,34vw,280px); margin:0 auto; }
 .${C}__arco { position:absolute; inset:0; border-radius:0 0 50% 50% / 0 0 100% 100%; overflow:hidden; filter:blur(7px); opacity:.8; }
@@ -218,7 +243,7 @@ function cd_arcoacuarela(S) {
 .${C}__colgante:nth-child(2) .${C}__gota { animation-delay:.4s; } .${C}__colgante:nth-child(3) .${C}__gota { animation-delay:.9s; } .${C}__colgante:nth-child(4) .${C}__gota { animation-delay:1.3s; }
 @keyframes ${C}-gotea { 50% { transform:translateY(7px) scale(1.03); } }
 .${C}__num { font-family:${S.disp}; font-size:clamp(1.4rem,3.8vw,2.1rem); line-height:1.05; color:var(--primary-color); font-variant-numeric:tabular-nums; }
-.${C}__etq { display:block; margin-top:.25rem; font-family:'Courier New',monospace; font-size:clamp(.44rem,.86vw,.56rem); letter-spacing:.28em; text-transform:uppercase; color:var(--text-color); }
+.${C}__etq { display:block; margin-top:.25rem; font-family:'Courier New',monospace; font-size:clamp(.56rem,1.02vw,.66rem); letter-spacing:.28em; text-transform:uppercase; color:var(--text-color); }
 .${C}__fecha { display:block; margin:clamp(1.3rem,3vw,1.9rem) 0 0; font-family:${S.body}; font-style:italic; font-size:clamp(.85rem,1.6vw,.98rem); color:var(--text-color); }
 @media (max-width:560px){ .${C}__lienzo { height:clamp(200px,60vw,300px); } .${C}__goteadero { flex-wrap:wrap; } .${C}__colgante { flex:1 1 40%; } }
 `;
@@ -248,7 +273,7 @@ function cd_azulfloral(S) {
   const C = 'cd6';
   const css = `
 .${C} { text-align:center; }
-.${C}__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.${C}__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .${C}__tit { margin:0 0 clamp(1.2rem,3vw,1.8rem); font-family:${S.disp}; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
 .${C}__estacion { display:flex; align-items:center; justify-content:center; gap:clamp(1.4rem,4vw,3rem); flex-wrap:wrap; }
 .${C}__esfera { position:relative; width:clamp(180px,30vw,250px); aspect-ratio:1; border-radius:50%; background:var(--surface-color); border:2px solid var(--primary-color); box-shadow:0 18px 40px rgba(0,0,0,.16), inset 0 0 0 8px color-mix(in srgb, var(--accent-color) 24%, transparent); flex:none; }
@@ -267,7 +292,7 @@ function cd_azulfloral(S) {
 .${C}__ventanilla { display:flex; align-items:center; gap:.8rem; min-width:clamp(150px,22vw,190px); padding:.6rem .9rem .7rem; background:color-mix(in srgb, var(--bg-color) 68%, var(--surface-color)); border:1px solid var(--primary-color); border-radius:6px; box-shadow:inset 0 3px 8px rgba(0,0,0,.3); }
 .${C}__ventanilla:nth-child(2){ margin-left:clamp(.5rem,2vw,1.2rem); } .${C}__ventanilla:nth-child(3){ margin-left:0; margin-right:clamp(.5rem,2vw,1.2rem); } .${C}__ventanilla:nth-child(4){ margin-left:clamp(1rem,3vw,1.8rem); }
 .${C}__num { font-family:${S.mono}; font-weight:700; font-size:clamp(1.5rem,4vw,2.2rem); line-height:1; color:var(--accent-color); text-shadow:0 0 12px color-mix(in srgb, var(--accent-color) 60%, transparent); font-variant-numeric:tabular-nums; min-width:2.6ch; text-align:center; }
-.${C}__etq { font-family:'Courier New',monospace; font-size:clamp(.46rem,.9vw,.58rem); letter-spacing:.34em; text-transform:uppercase; color:var(--text-color); }
+.${C}__etq { font-family:'Courier New',monospace; font-size:clamp(.56rem,1.05vw,.68rem); letter-spacing:.34em; text-transform:uppercase; color:var(--text-color); }
 .${C}__fecha { display:block; margin-top:clamp(1.2rem,3vw,1.8rem); font-family:${S.body}; font-style:italic; font-size:clamp(.85rem,1.6vw,.98rem); color:var(--text-color); }
 @media (max-width:560px){ .${C}__ventanilla { min-width:40%; } }
 `;
@@ -276,7 +301,7 @@ function cd_azulfloral(S) {
   const ventanillas = [['days', 'Días'], ['hours', 'Horas'], ['minutes', 'Min'], ['seconds', 'Seg']]
     .map(([u, l]) => `<div class="${C}__ventanilla"><b class="${C}__num" data-countdown-unit="${u}">--</b><span class="${C}__etq">${l}</span></div>`).join('\n');  const body = `<header memory_type="text" memory_usage="custom" memory_key="countdown-intro">
   <p class="${C}__rot" memory_type="text" memory_usage="custom" memory_key="countdown-rotulo">Andén floral</p>
-  <h2 class="${C}__tit" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">El tren del gran día</h2>
+  <h2 class="${C}__tit" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">La hora del encuentro</h2>
 </header>
 <div class="${C}__estacion">
   <div class="${C}__esfera" aria-hidden="true">${minutos}<span class="${C}__flor">${petalos}<i class="${C}__centro"></i></span>
@@ -296,7 +321,7 @@ function cd_rosabeige(S) {
   const C = 'cd7';
   const css = `
 .${C} { text-align:center; }
-.${C}__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.${C}__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .${C}__tit { margin:0 0 clamp(1.4rem,3vw,2rem); font-family:${S.disp}; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
 .${C}__mesa { display:flex; justify-content:center; align-items:stretch; gap:clamp(1rem,3vw,2rem); }
 .${C}__hoja { position:relative; width:min(100%,420px); background:var(--surface-color); border:1px solid var(--surface-border-color); box-shadow:0 18px 36px rgba(0,0,0,.14); padding:1rem 1.1rem 1.3rem; text-align:left; transform:rotate(-1deg); animation:${C}-hoja 6s ease-in-out infinite alternate; }
@@ -317,7 +342,7 @@ function cd_rosabeige(S) {
 .${C}__pestana { display:flex; align-items:baseline; justify-content:space-between; gap:.9rem; padding:.6rem 1rem; background:var(--surface-color); border:1px solid var(--surface-border-color); clip-path:polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%); margin-left:-10px; }
 .${C}__pestana:nth-child(2){ margin-left:0; margin-right:-10px; clip-path:polygon(12px 0, 100% 0, 100% 100%, 12px 100%, 0 50%); }
 .${C}__num { font-family:${S.disp}; font-size:clamp(1.3rem,3.2vw,1.8rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; }
-.${C}__etq { font-family:'Courier New',monospace; font-size:clamp(.46rem,.9vw,.58rem); letter-spacing:.3em; text-transform:uppercase; color:var(--text-color); }
+.${C}__etq { font-family:'Courier New',monospace; font-size:clamp(.56rem,1.05vw,.68rem); letter-spacing:.3em; text-transform:uppercase; color:var(--text-color); }
 .${C}__fecha { display:block; margin:clamp(1.3rem,3vw,1.9rem) 0 0; font-family:${S.body}; font-style:italic; font-size:clamp(.85rem,1.6vw,.98rem); color:var(--text-color); }
 @media (max-width:640px){ .${C}__mesa { flex-direction:column; align-items:center; } .${C}__lateral { width:100%; grid-template-columns:1fr 1fr; } .${C}__pestana, .${C}__pestana:nth-child(2) { margin:0; clip-path:none; border-left:4px solid var(--primary-color); } }
 `;
@@ -330,8 +355,8 @@ function cd_rosabeige(S) {
   const pestanas = [['days', 'Días'], ['hours', 'Horas'], ['minutes', 'Min'], ['seconds', 'Seg']]
     .map(([u, l]) => `<div class="${C}__pestana"><b class="${C}__num" data-countdown-unit="${u}">--</b><span class="${C}__etq">${l}</span></div>`).join('\n');
   const body = `<header memory_type="text" memory_usage="custom" memory_key="countdown-intro">
-  <p class="${C}__rot" memory_type="text" memory_usage="custom" memory_key="countdown-rotulo">Días subrayados</p>
-  <h2 class="${C}__tit" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Tachando el almanaque</h2>
+  <p class="${C}__rot" memory_type="text" memory_usage="custom" memory_key="countdown-rotulo">Cuenta regresiva</p>
+  <h2 class="${C}__tit" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Faltan pocos días</h2>
 </header>
 <div class="${C}__mesa">
   <div class="${C}__hoja" aria-hidden="true">
@@ -354,7 +379,7 @@ function cd_telablanca(S) {
   const C = 'cd8';
   const css = `
 .${C} { text-align:center; }
-.${C}__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.${C}__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .${C}__tit { margin:0 0 clamp(1.6rem,3vw,2.2rem); font-family:${S.disp}; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
 .${C}__altar { display:flex; justify-content:center; align-items:flex-end; gap:clamp(1.2rem,4vw,3rem); flex-wrap:wrap; }
 .${C}__vela { position:relative; width:clamp(72px,13vw,96px); height:clamp(190px,32vw,260px); background:repeating-linear-gradient(173deg, color-mix(in srgb, var(--surface-color) 96%, #fff) 0 12px, color-mix(in srgb, var(--accent-color) 45%, var(--surface-color)) 12px 17px); border:2px solid color-mix(in srgb, var(--text-color) 55%, var(--primary-color)); border-radius:10px 10px 6px 6px; box-shadow:inset -8px 0 14px rgba(0,0,0,.1), 0 16px 30px rgba(0,0,0,.18); }
@@ -371,7 +396,7 @@ function cd_telablanca(S) {
 .${C}__plato { display:flex; align-items:center; gap:.9rem; padding:.55rem 1.1rem .55rem .7rem; }
 .${C}__goteron { position:relative; width:34px; height:34px; flex:none; background:color-mix(in srgb, var(--accent-color) 45%, var(--surface-color)); clip-path:polygon(50% 100%, 0 30%, 12% 0, 88% 0, 100% 30%); }
 .${C}__num { font-family:${S.disp}; font-size:clamp(1.35rem,3.4vw,1.9rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; }
-.${C}__etq { font-family:'Courier New',monospace; font-size:clamp(.46rem,.9vw,.58rem); letter-spacing:.3em; text-transform:uppercase; color:var(--text-color); }
+.${C}__etq { font-family:'Courier New',monospace; font-size:clamp(.56rem,1.05vw,.68rem); letter-spacing:.3em; text-transform:uppercase; color:var(--text-color); }
 .${C}__base { width:min(100%,420px); height:12px; margin:clamp(1rem,2.6vw,1.5rem) auto 0; background:color-mix(in srgb, var(--surface-color) 80%, transparent); border:1px solid var(--surface-border-color); border-radius:4px; box-shadow:0 8px 18px rgba(0,0,0,.1); }
 .${C}__fecha { display:block; margin:clamp(1.2rem,3vw,1.8rem) 0 0; font-family:${S.body}; font-style:italic; font-size:clamp(.85rem,1.6vw,.98rem); color:var(--text-color); }
 @media (max-width:560px){ .${C}__altar { flex-direction:column; align-items:center; } .${C}__platos { grid-template-columns:1fr 1fr; width:100%; } }
@@ -379,8 +404,8 @@ function cd_telablanca(S) {
   const platos = [['days', 'Días'], ['hours', 'Horas'], ['minutes', 'Min'], ['seconds', 'Seg']]
     .map(([u, l]) => `<div class="${C}__plato"><i class="${C}__goteron" aria-hidden="true"></i><b class="${C}__num" data-countdown-unit="${u}">--</b><span class="${C}__etq">${l}</span></div>`).join('\n');
   const body = `<header memory_type="text" memory_usage="custom" memory_key="countdown-intro">
-  <p class="${C}__rot" memory_type="text" memory_usage="custom" memory_key="countdown-rotulo">Luz que espera</p>
-  <h2 class="${C}__tit" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Una vela encendida</h2>
+  <p class="${C}__rot" memory_type="text" memory_usage="custom" memory_key="countdown-rotulo">Cuenta regresiva</p>
+  <h2 class="${C}__tit" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Esperando el gran día</h2>
 </header>
 <div class="${C}__altar">
   <div class="${C}__vela" aria-hidden="true"><i class="${C}__halo"></i><i class="${C}__llama"></i><i class="${C}__pabilo"></i><i class="${C}__cera"></i><i class="${C}__gotaCera ${C}__gotaCera--a"></i><i class="${C}__gotaCera ${C}__gotaCera--b"></i><i class="${C}__gotaCera ${C}__gotaCera--c"></i></div>

@@ -9,7 +9,7 @@
 .sf-orn-wrap svg { width:min(240px,60%); height:auto; }
 
 .cd15 { text-align:center; }
-.cd15__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.7rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.cd15__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .cd15__tit { margin:0 0 clamp(1.6rem,3vw,2.2rem); font-family:Georgia,serif; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
 .cd15__arbol { position:relative; width:min(100%,720px); margin:0 auto clamp(1rem,2.6vw,1.6rem); padding-top:1.6rem; }
 .cd15__rama { position:absolute; top:0; left:0; right:0; height:22px; }
@@ -22,7 +22,7 @@
 @keyframes cd15-mece { from { transform:rotate(-4deg); } to { transform:rotate(4deg); } }
 .cd15__venas { width:60%; height:1.5px; background:color-mix(in srgb, var(--primary-color) 55%, transparent); }
 .cd15__num { font-family:Georgia,serif; font-size:clamp(1.35rem,3.6vw,2rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; }
-.cd15__etq { font-family:'Courier New',monospace; font-size:clamp(.44rem,.86vw,.56rem); letter-spacing:.28em; text-transform:uppercase; color:var(--text-color); }
+.cd15__etq { font-family:'Courier New',monospace; font-size:clamp(.56rem,1.02vw,.66rem); letter-spacing:.28em; text-transform:uppercase; color:var(--text-color); }
 .cd15__cayendo { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
 .cd15__cae { position:absolute; width:16px; height:22px; clip-path:polygon(50% 100%, 0 30%, 18% 0, 82% 0, 100% 30%); background:color-mix(in srgb, var(--primary-color) 55%, transparent); opacity:.6; animation:cd15-cae linear infinite; }
 @keyframes cd15-cae { 0% { transform:translateY(-10%) rotate(0); } 100% { transform:translateY(760%) rotate(300deg); } }

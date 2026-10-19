@@ -8,18 +8,18 @@
 .sf-orn-wrap { display:flex; justify-content:center; margin:0 auto clamp(1.6rem,4vw,2.4rem); color:var(--primary-color); }
 .sf-orn-wrap svg { width:min(240px,60%); height:auto; }
 .sf12__cabecera { text-align:center; margin-bottom:clamp(2rem,5vw,2.8rem); }
-.sf12__rotulo { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.sf12__rotulo { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
 .sf12__titulo { margin:0; font-family:Georgia,serif; font-weight:400; font-size:clamp(2rem,5vw,3.2rem); color:var(--primary-color); }
 .sf12__texto { margin:.7rem auto 0; max-width:46ch; text-align:center; font-family:'Segoe UI',Arial,sans-serif; font-size:clamp(.86rem,1.6vw,.98rem); line-height:1.8; color:var(--text-color); }
 .sf12__nota { margin:1.4rem 0 0; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.15vw,.72rem); letter-spacing:.3em; text-transform:uppercase; color:var(--secondary-color); }
 .sf12__lista { list-style:none; margin:1.2rem auto 0; padding:0; display:flex; flex-wrap:wrap; justify-content:center; gap:.6rem 1.8rem; }
 .sf12__lista li { font-family:'Segoe UI',Arial,sans-serif; font-style:italic; font-size:clamp(.82rem,1.5vw,.94rem); color:var(--text-color); }
 .sf12__lista li::before { content:'—'; color:var(--accent-color); margin-right:.45rem; font-style:normal; }
-.sf12__muestra[data-prohibida]::after { content:'✕'; position:absolute; inset:0; display:grid; place-items:center; color:var(--bg-color); font-size:1.2rem; text-shadow:0 1px 8px color-mix(in srgb, var(--text-color) 55%, transparent); }
+.sf12__muestra[data-prohibida]::after { content:'✕'; position:absolute; inset:0; display:grid; place-items:center; color:color-mix(in srgb, var(--surface-color) 88%, var(--text-color)); font-size:1.25rem; text-shadow:0 1px 8px color-mix(in srgb, var(--text-color) 55%, transparent); }
 .sf12__muestra { position:relative; }
 .sf12__tarjeta { width:min(100%,600px); margin:0 auto; padding:clamp(2.4rem,6vw,3.4rem) clamp(1.4rem,4vw,2.8rem); background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:22px; text-align:center; }
 .sf12__paleta { display:flex; justify-content:center; gap:.8rem; margin:1.4rem 0; }
-.sf12__muestra { width:44px; height:44px; border-radius:50%; border:1px solid var(--accent-color); }
+.sf12__muestra { width:56px; height:56px; border-radius:50%; border:1px solid var(--accent-color); box-shadow:0 4px 12px color-mix(in srgb, var(--text-color) 18%, transparent); }
 @media (max-width:640px){ .sf12__cuerda { height:auto; padding-top:20px; display:grid; grid-template-columns:repeat(2,1fr); gap:2rem 1rem; justify-items:center; } .rcv__etiqueta { position:static; animation:none !important; transform:rotate(var(--sw)); } }
 @media (prefers-reduced-motion:reduce){ .sf12 * { animation:none !important; } .rcv__etiqueta { transform:rotate(var(--sw)); } }
 
@@ -50,9 +50,11 @@
     repeating-linear-gradient(90deg, color-mix(in srgb, var(--primary-color) 34%, transparent) 0 16px, transparent 16px 30px) top / 100% 5px,
     repeating-linear-gradient(90deg, color-mix(in srgb, var(--secondary-color) 30%, transparent) 0 16px, transparent 16px 30px) bottom / 100% 5px;
   background-repeat:no-repeat; }</style>
-
-
-<script>var moduleMetadata = { module_type: "vestimenta", module_name: "vestimenta-sf18", style_name: "Corona sobre Encaje", descripcion: "Vestimenta encaje variante 1 con paleta y color reservado tachado.", tags: ["vestimenta","corona","encaje","variante1"], tipo: "vestimenta" };</script>
+<header class="sf12__cabecera" memory_type="text" memory_usage="custom" memory_key="vestimenta-intro">
+  <p class="sf12__rotulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-rotulo">Código de vestimenta</p>
+  <h2 class="sf12__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-codigo">Formal</h2>
+  <p class="sf12__texto" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">Paleta encaje; el color acento queda reservado de los anfitriones.</p>
+</header>
 <div class="sf12__tarjeta"><div class="sf12__paleta" aria-label="Paleta sugerida">
     <span class="sf12__muestra" style="background:var(--primary-color); --i:1;"></span>
     <span class="sf12__muestra" style="background:var(--secondary-color); --i:2;"></span>
@@ -63,11 +65,9 @@
   <ul class="sf12__lista" memory_type="text" memory_usage="custom" memory_key="vestimenta-tips">
     <li>Vestido formal</li><li>Traje oscuro</li><li>Accesorios discretos</li>
   </ul>
-</div><header class="sf12__cabecera" memory_type="text" memory_usage="custom" memory_key="vestimenta-intro">
-  <p class="sf12__rotulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-rotulo">Código de vestimenta</p>
-  <h2 class="sf12__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-codigo">Formal</h2>
-  <p class="sf12__texto" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">Paleta encaje; el color acento queda reservado de los anfitriones.</p>
-</header>
+</div>
+<script>var moduleMetadata = { module_type: "vestimenta", module_name: "vestimenta-sf18", style_name: "Corona sobre Encaje", descripcion: "Vestimenta encaje variante 1 con paleta y color reservado tachado.", tags: ["vestimenta","corona","encaje","variante1"], tipo: "vestimenta" };</script>
+
 <script>
 (function () {
   var el = null;
