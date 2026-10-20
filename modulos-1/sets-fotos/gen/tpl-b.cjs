@@ -37,7 +37,7 @@ function confirmacion(S) {
 .sf5 { ${V(S)};
   position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(4rem,10vw,7rem) clamp(1rem,5vw,4rem); background:${S.bg}; background-color:var(--bg-color); color:var(--text-color); }
 .sf5 *, .sf5 *::before, .sf5 *::after { box-sizing:border-box; }
-.sf5::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 76%, transparent); }
+.sf5::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 88%, transparent); }
 .sf5 > * { position:relative; z-index:1; }
 ${ORN_CSS}
 .sf5__titulo { margin:0 0 .5rem; font-family:${S.disp}; font-weight:400; font-size:clamp(1.7rem,4vw,2.4rem); color:var(--primary-color); }
@@ -48,7 +48,7 @@ ${ORN_CSS}
 .sf5__btn--si:hover { transform:translateY(-3px); }
 .sf5__btn--no { color:var(--text-color); border:1px solid var(--surface-border-color); }
 .sf5__btn--no:hover { transform:translateY(-3px); }
-.sf5__limite { margin:1.4rem 0 0; font-family:${S.mono}; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.26em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.sf5__limite { margin:1.4rem 0 0; font-family:${S.mono}; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.26em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 42%, var(--text-color)); }
 ${layout}
 @media (max-width:640px){ .sf5__cinta { transform:none !important; text-align:center !important; } .sf5__panel::before, .sf5__panel::after { display:none; } .sf5__panel { padding-left:clamp(1.4rem,4vw,2.6rem); padding-right:clamp(1.4rem,4vw,2.6rem); } }
 </style>
@@ -99,7 +99,9 @@ function detalles(S) {
 .sf6__rejilla { display:grid; grid-template-columns:1fr; gap:clamp(1.4rem,3.6vw,2.2rem); margin-top:1.4rem; }
 @media (min-width:720px){ .sf6__rejilla { grid-template-columns:1fr 1fr; } }`
         : Vv === 2
-        ? `.sf6__editorial { width:min(100%,720px); margin:0 auto; }
+        ? `.sf6__editorial { width:min(100%,860px); margin:0 auto; }
+.sf6__fila--principal { display:grid; grid-template-columns:minmax(0,1fr); gap:clamp(1.4rem,3.4vw,2.4rem); align-items:center; }
+@media (min-width:820px){ .sf6__fila--principal { grid-template-columns:minmax(0,1fr) minmax(0,340px); } }
 .sf6__fila { display:grid; grid-template-columns:minmax(0,1fr); gap:clamp(.6rem,2vw,1rem); align-items:start; padding:clamp(1rem,2.6vw,1.5rem) 0; border-bottom:1px solid var(--surface-border-color); position:relative; padding-left:clamp(1.4rem,4vw,2rem); }
 .sf6__fila > div { min-width:0; overflow-wrap:anywhere; }
 .sf6__fila:first-child { border-top:1px solid var(--surface-border-color); }
@@ -129,13 +131,13 @@ function detalles(S) {
 .sf6 { ${V(S)};
   position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.6rem,9vw,6.8rem) clamp(1rem,5vw,4rem); background:${S.bg}; background-color:var(--bg-color); color:var(--text-color); }
 .sf6 *, .sf6 *::before, .sf6 *::after { box-sizing:border-box; }
-.sf6::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 74%, transparent); }
+.sf6::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 87%, transparent); }
 .sf6 > * { position:relative; z-index:1; }
 ${ORN_CSS}
 .sf6__cabecera { text-align:center; margin-bottom:clamp(2.2rem,5.5vw,3.2rem); }
-.sf6__rotulo { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.sf6__rotulo { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 42%, var(--text-color)); }
 .sf6__titulo { margin:0; font-family:${S.disp}; font-weight:400; font-size:clamp(2rem,5vw,3.2rem); color:var(--primary-color); }
-.sf6__rotulito { margin:0 0 .55rem; font-family:${S.mono}; font-size:clamp(.64rem,1.18vw,.74rem); letter-spacing:.4em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.sf6__rotulito { margin:0 0 .55rem; font-family:${S.mono}; font-size:clamp(.64rem,1.18vw,.74rem); letter-spacing:.4em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 42%, var(--text-color)); }
 .sf6__subtitulo { margin:0 0 .8rem; font-family:${S.disp}; font-weight:400; font-size:clamp(1.22rem,2.6vw,1.56rem); color:var(--primary-color); }
 .sf6__texto { margin:0 auto 1rem; max-width:38ch; font-family:${S.body}; font-size:clamp(.82rem,1.5vw,.92rem); line-height:1.75; color:var(--text-color); }
 .sf6__paleta { display:flex; justify-content:center; gap:.7rem; margin:.3rem 0 1rem; }
@@ -183,16 +185,16 @@ ${Vv === 0 ? `<div class="sf6__par">
     </div>
   </div>
 </div>` : Vv === 2 ? `<div class="sf6__editorial">
-  <div class="sf6__fila">
+  <div class="sf6__fila sf6__fila--principal">
     <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-1">
       <h3 class="sf6__subtitulo" memory_type="text" memory_usage="custom" memory_key="detalles-vestimenta">Formal</h3>
       <p class="sf6__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto">Tonos ${S.theme}; blanco reservado.</p>
-            <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 0 1rem; width:min(100%,300px); border-radius:120px 120px 14px 14px; overflow:hidden; border:1px solid var(--surface-border-color);">
-        <img src="https://loremflickr.com/600/700/' + S.kw + ',dress" alt="Inspiración de vestimenta" path="placeholder" data-library-category="bodas" data-asset-type="vestimenta" loading="lazy" />
-        <figcaption hidden>Inspiración</figcaption>
-      </figure>
-<div class="sf6__paleta" style="justify-content:flex-start;"><span class="sf6__muestra" style="background:var(--primary-color);"></span><span class="sf6__muestra" style="background:var(--secondary-color);"></span><span class="sf6__muestra" style="background:var(--accent-color);"></span></div>
+      <div class="sf6__paleta" style="justify-content:flex-start;"><span class="sf6__muestra" style="background:var(--primary-color);"></span><span class="sf6__muestra" style="background:var(--secondary-color);"></span><span class="sf6__muestra" style="background:var(--accent-color);"></span></div>
     </div>
+    <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0; width:min(100%,340px); border-radius:120px 120px 14px 14px; overflow:hidden; border:1px solid var(--surface-border-color); justify-self:center;">
+      <img src="https://loremflickr.com/600/700/' + S.kw + ',dress" alt="Inspiración de vestimenta" path="placeholder" data-library-category="bodas" data-asset-type="vestimenta" loading="lazy" />
+      <figcaption hidden>Inspiración</figcaption>
+    </figure>
   </div>
   <div class="sf6__fila">
     <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-2">
@@ -315,10 +317,10 @@ function countdown(S) {
 .sf7 { ${V(S)};
   position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.6rem,9vw,6.8rem) clamp(1rem,5vw,4rem); background:${S.bg}; background-color:var(--bg-color); color:var(--text-color); text-align:center; }
 .sf7 *, .sf7 *::before, .sf7 *::after { box-sizing:border-box; }
-.sf7::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 74%, transparent); }
+.sf7::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 87%, transparent); }
 .sf7 > * { position:relative; z-index:1; }
 ${ORN_CSS}
-.sf7__rotulo { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.sf7__rotulo { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 42%, var(--text-color)); }
 .sf7__titulo { margin:0 auto 1rem; font-family:${S.disp}; font-weight:400; font-size:clamp(1.9rem,4.6vw,3rem); color:var(--primary-color); }
 ${layout}
 .sf7__fecha { margin:clamp(1.6rem,4vw,2.2rem) 0 0; font-family:${S.body}; font-style:italic; font-size:clamp(.86rem,1.7vw,1rem); color:var(--text-color); }
@@ -359,15 +361,15 @@ function padrinos(S) {
 .sf8__marco { margin:0 0 1rem; }
 .sf8__marco img { display:block; width:100%; height:auto; aspect-ratio:3/4; object-fit:cover; }`
       : Vv === 2
-        ? `.sf8__fila { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:clamp(2.2rem,6vw,4.4rem); }
-.sf8__casa { width:clamp(220px,28vw,276px); }
-.sf8__marco { margin:0; border:5px solid var(--surface-color); outline:1px solid var(--primary-color); box-shadow:0 20px 44px rgba(0,0,0,.22); }
+        ? `.sf8__fila { display:flex; flex-wrap:wrap; justify-content:center; align-items:stretch; gap:clamp(2.2rem,6vw,4.4rem); }
+.sf8__casa { width:clamp(230px,28vw,284px); display:grid; align-content:start; }
+.sf8__marco { margin:0; border:6px solid var(--surface-color); outline:1px solid var(--primary-color); box-shadow:0 20px 44px color-mix(in srgb, var(--text-color) 22%, transparent); }
 .sf8__marco img { display:block; width:100%; height:auto; aspect-ratio:4/5; object-fit:cover; }
 @media (max-width:560px){ .sf8__casa { width:100%; } .sf8__marco img { aspect-ratio:1/1; } }`
         : Vv === 3
         ? `.sf8__fila { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(2.2rem,6vw,4.6rem); }
-.sf8__casa { width:clamp(235px,30vw,292px); }
-.sf8__marco { margin:0 auto; width:clamp(205px,26vw,252px); aspect-ratio:3/4; clip-path:polygon(0 12%, 50% 0, 100% 12%, 100% 100%, 0 100%); background:var(--surface-color); border:1px solid var(--primary-color); display:grid; align-items:end; }
+.sf8__casa { width:clamp(250px,32vw,312px); }
+.sf8__marco { margin:0 auto; width:clamp(225px,28vw,278px); aspect-ratio:3/4; clip-path:polygon(0 12%, 50% 0, 100% 12%, 100% 100%, 0 100%); background:var(--surface-color); border:1px solid var(--primary-color); display:grid; align-items:end; }
 .sf8__marco img { display:block; width:100%; height:80%; object-fit:cover; }`
         : Vv === 4
         ? `.sf8__fila { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(2.4rem,6vw,4.4rem); }
@@ -388,14 +390,14 @@ function padrinos(S) {
 .sf8 { ${V(S)};
   position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.6rem,9vw,7rem) clamp(1rem,5vw,4rem); background:${S.bg}; background-color:var(--bg-color); color:var(--text-color); text-align:center; }
 .sf8 *, .sf8 *::before, .sf8 *::after { box-sizing:border-box; }
-.sf8::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 74%, transparent); }
+.sf8::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 87%, transparent); }
 .sf8 > * { position:relative; z-index:1; }
 ${ORN_CSS}
-.rc2__rotulo { margin:0 0 .5rem; font-family:${S.mono}; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.rc2__rotulo { margin:0 0 .5rem; font-family:${S.mono}; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 42%, var(--text-color)); }
 .rc2__titulo { margin:0 auto 1rem; font-family:${S.disp}; font-weight:400; font-size:clamp(1.9rem,4.6vw,3rem); color:var(--primary-color); }
 ${layout}
 .sf8__casa { margin:0 auto; } /* reset margen UA de <figure> */
-.sf8__rol { display:block; margin:1.1rem 0 .2rem; font-family:${S.mono}; font-size:clamp(.64rem,1.18vw,.74rem); letter-spacing:.4em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.sf8__rol { display:block; margin:1.1rem 0 .2rem; font-family:${S.mono}; font-size:clamp(.64rem,1.18vw,.74rem); letter-spacing:.4em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 42%, var(--text-color)); }
 .sf8__nombre { margin:0; font-family:${S.disp}; font-weight:400; font-size:clamp(1.08rem,2.25vw,1.36rem); color:var(--primary-color); }
 .sf8__nota { margin:clamp(2.2rem,5vw,3rem) auto 0; max-width:44ch; font-family:${S.body}; font-style:italic; font-size:clamp(.86rem,1.6vw,1rem); line-height:1.8; color:var(--text-color); }
 @media (max-width:640px){ .sf8__casa:nth-child(2) { margin-left:0; margin-top:0; } .sf8__casa { transform:none !important; } }

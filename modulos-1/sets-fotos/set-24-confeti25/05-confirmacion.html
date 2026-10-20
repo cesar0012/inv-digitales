@@ -3,7 +3,7 @@
 .sf5 { ;
   position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(4rem,10vw,7rem) clamp(1rem,5vw,4rem); background:radial-gradient(ellipse 76% 56% at 50% -10%, color-mix(in srgb, var(--secondary-color) 30%, transparent), transparent 70%), url('https://loremflickr.com/1600/1000/confetti,gold') center/cover; background-color:var(--bg-color); color:var(--text-color); }
 .sf5 *, .sf5 *::before, .sf5 *::after { box-sizing:border-box; }
-.sf5::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 76%, transparent); }
+.sf5::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 88%, transparent); }
 .sf5 > * { position:relative; z-index:1; }
 .sf-orn-wrap { display:flex; justify-content:center; margin:0 auto clamp(1.6rem,4vw,2.4rem); color:var(--primary-color); }
 .sf-orn-wrap svg { width:min(240px,60%); height:auto; }
@@ -15,7 +15,7 @@
 .sf5__btn--si:hover { transform:translateY(-3px); }
 .sf5__btn--no { color:var(--text-color); border:1px solid var(--surface-border-color); }
 .sf5__btn--no:hover { transform:translateY(-3px); }
-.sf5__limite { margin:1.4rem 0 0; font-family:'Segoe UI',Arial,sans-serif; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.26em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.sf5__limite { margin:1.4rem 0 0; font-family:'Segoe UI',Arial,sans-serif; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.26em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 42%, var(--text-color)); }
 .sf5__panel { width:min(100%,580px); margin:0 auto; padding:clamp(2.6rem,6vw,3.8rem) clamp(1.4rem,4vw,2.8rem); background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:22px; box-shadow:0 26px 54px color-mix(in srgb, var(--text-color) 14%, transparent); text-align:center; }
 .sf5__sello { position:absolute; top:-28px; left:50%; transform:translateX(-50%) rotate(-7deg); padding:.55rem 1.4rem; background:var(--primary-color); color:var(--bg-color); font-family:'Segoe UI',Arial,sans-serif; font-size:.66rem; letter-spacing:.34em; text-transform:uppercase; }
 @media (max-width:640px){ .sf5__cinta { transform:none !important; text-align:center !important; } .sf5__panel::before, .sf5__panel::after { display:none; } .sf5__panel { padding-left:clamp(1.4rem,4vw,2.6rem); padding-right:clamp(1.4rem,4vw,2.6rem); } }

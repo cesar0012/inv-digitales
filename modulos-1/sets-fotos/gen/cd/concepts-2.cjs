@@ -7,7 +7,7 @@ function cd_hortensia(S) {
   const C = 'cd9';
   const css = `
 .${C} { text-align:center; }
-.${C}__rot { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.${C}__rot { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 42%, var(--text-color)); }
 .${C}__tit { margin:0 0 clamp(1.2rem,3vw,1.8rem); font-family:${S.disp}; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
 .${C}__marco { position:relative; width:min(100%,520px); aspect-ratio:1; margin:0 auto; }
 .${C}__anillo { position:absolute; inset:0; border-radius:50%; border:2px solid var(--primary-color); background:color-mix(in srgb, var(--surface-color) 72%, transparent); box-shadow:0 16px 34px rgba(0,0,0,.14); }
@@ -65,7 +65,7 @@ function cd_navylaser(S) {
   const C = 'cd10';
   const css = `
 .${C} { text-align:center; }
-.${C}__rot { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.${C}__rot { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 42%, var(--text-color)); }
 .${C}__tit { margin:0 0 clamp(1.2rem,3vw,1.8rem); font-family:${S.disp}; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
 .${C}__cabina { display:inline-grid; grid-template-columns:auto auto; gap:clamp(1.2rem,3.4vw,2.2rem); padding:clamp(1.2rem,3vw,1.8rem) clamp(1.4rem,4vw,2.4rem); background:var(--surface-color); border:2px solid var(--primary-color); border-radius:18px 18px 8px 8px; box-shadow:0 22px 44px rgba(0,0,0,.3); position:relative; }
 .${C}__cabina::before { content:''; position:absolute; left:14px; right:14px; top:-12px; height:12px; background:repeating-linear-gradient(90deg, var(--primary-color) 0 10px, transparent 10px 20px); border-radius:6px 6px 0 0; }
@@ -112,7 +112,7 @@ function cd_orobotanico(S) {
   const C = 'cd11';
   const css = `
 .${C} { text-align:center; }
-.${C}__rot { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.${C}__rot { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 42%, var(--text-color)); }
 .${C}__tit { margin:0 0 clamp(1.2rem,3vw,1.8rem); font-family:${S.disp}; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
 .${C}__corona { position:relative; width:min(100%,440px); aspect-ratio:1; margin:0 auto clamp(1.4rem,3vw,2rem); border-radius:50%; border:2px dashed color-mix(in srgb, var(--primary-color) 65%, transparent); display:grid; place-items:center; }
 .${C}__hojaOrn { position:absolute; width:20px; height:34px; border-radius:0 100% 0 100%; border:1.5px solid var(--secondary-color); background:color-mix(in srgb, var(--secondary-color) 22%, transparent); top:50%; left:50%; margin:-17px 0 0 -10px; }
@@ -149,7 +149,7 @@ function cd_glicina(S) {
   const C = 'cd12';
   const css = `
 .${C} { text-align:center; }
-.${C}__rot { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.${C}__rot { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 42%, var(--text-color)); }
 .${C}__tit { margin:0 0 clamp(1.2rem,3vw,1.8rem); font-family:${S.disp}; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
 .${C}__casona { position:relative; width:min(100%,380px); margin:0 auto clamp(1.4rem,3vw,2rem); background:var(--surface-color); border:2px solid var(--primary-color); border-radius:120px 120px 10px 10px; padding:1rem 1rem 1.6rem; box-shadow:0 24px 44px rgba(0,0,0,.22); }
 .${C}__esfera { width:clamp(120px,22vw,160px); aspect-ratio:1; margin:0 auto; border-radius:50%; border:3px solid var(--primary-color); background:color-mix(in srgb, var(--accent-color) 26%, var(--surface-color)); position:relative; }
@@ -199,7 +199,7 @@ function cd_apiladas(S) {
   const C = 'cd13';
   const css = `
 .${C} { text-align:center; }
-.${C}__rot { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.${C}__rot { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 42%, var(--text-color)); }
 .${C}__tit { margin:0 0 clamp(1.4rem,3vw,2rem); font-family:${S.disp}; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
 .${C}__escena { display:flex; justify-content:center; align-items:flex-end; gap:clamp(1.2rem,4vw,3rem); flex-wrap:wrap; }
 .${C}__torre { display:grid; justify-items:center; width:min(100%,400px); }
@@ -250,7 +250,7 @@ function cd_peonias(S) {
   const C = 'cd14';
   const css = `
 .${C} { text-align:center; }
-.${C}__rot { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.${C}__rot { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 42%, var(--text-color)); }
 .${C}__tit { margin:0 0 clamp(1rem,2.6vw,1.5rem); font-family:${S.disp}; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
 .${C}__jardin { position:relative; width:clamp(190px,32vw,260px); margin:0 auto clamp(.9rem,2.2vw,1.3rem); }
 .${C}__flor { position:relative; width:100%; aspect-ratio:1; animation:${C}-respira 4.2s ease-in-out infinite; }
@@ -304,7 +304,7 @@ function cd_otono(S) {
   const C = 'cd15';
   const css = `
 .${C} { text-align:center; }
-.${C}__rot { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.${C}__rot { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 42%, var(--text-color)); }
 .${C}__tit { margin:0 0 clamp(1.6rem,3vw,2.2rem); font-family:${S.disp}; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
 .${C}__arbol { position:relative; width:min(100%,720px); margin:0 auto clamp(1rem,2.6vw,1.6rem); padding-top:1.6rem; }
 .${C}__rama { position:absolute; top:0; left:0; right:0; height:22px; }
@@ -353,7 +353,7 @@ function cd_navyfloral(S) {
   const C = 'cd16';
   const css = `
 .${C} { text-align:center; }
-.${C}__rot { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.${C}__rot { margin:0 0 .4rem; font-family:${S.mono}; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 42%, var(--text-color)); }
 .${C}__tit { margin:0 0 clamp(1.2rem,3vw,1.8rem); font-family:${S.disp}; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
 .${C}__mar { position:relative; width:min(100%,720px); margin:0 auto; height:clamp(230px,38vw,300px); }
 .${C}__boya { position:absolute; left:50%; top:14%; transform:translateX(-50%); width:clamp(140px,24vw,180px); aspect-ratio:1; border-radius:50%; border:6px solid var(--surface-color); outline:2.5px solid var(--primary-color); background:conic-gradient(var(--primary-color) 0 25%, var(--surface-color) 25% 50%, var(--primary-color) 50% 75%, var(--surface-color) 75%); display:grid; place-items:center; animation:${C}-boga 3.2s ease-in-out infinite; box-shadow:0 16px 30px rgba(0,0,0,.22); }

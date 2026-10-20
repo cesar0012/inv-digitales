@@ -110,11 +110,12 @@ function shape(S, html) {
      * alineación visual del header. */
     const ORD_CSS = [
       '',
-      `.sf-ordA > header { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.6rem 1.4rem; text-align:left; margin-bottom:clamp(2rem,5vw,3rem); }
-.sf-ordA > header > p { margin:0; }
-.sf-ordA > header .sf-orn-wrap { margin:0; flex:0 0 auto; }`,
-      `.sf-ordB > header { text-align:left; border-left:3px solid var(--primary-color); padding-left:clamp(1rem,3vw,1.8rem); margin-bottom:clamp(2rem,5vw,3rem); }
-.sf-ordB > header .sf-orn-wrap { justify-content:flex-start; margin-left:0; }`
+      `.sf-ordA > header { display:grid; justify-items:center; }
+.sf-ordA > header > p { display:flex; align-items:center; gap:.9rem; }
+.sf-ordA > header > p::before, .sf-ordA > header > p::after { content:''; width:38px; height:1px; background:color-mix(in srgb, var(--primary-color) 55%, transparent); }`,
+      `.sf-ordB > header { display:grid; justify-items:center; }
+.sf-ordB > header > p { border:1px solid color-mix(in srgb, var(--primary-color) 45%, transparent); border-radius:999px; padding:.34rem 1.15rem .34rem 1.35rem; }
+.sf-ordB > header .sf-orn-wrap { margin-top:.2rem; }`
     ];
     if (ord > 0) {
       section.classList.add(ord === 1 ? 'sf-ordA' : 'sf-ordB');

@@ -3,19 +3,20 @@
 .sf9 { ;
   position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.6rem,9vw,7rem) clamp(1rem,5vw,4rem); background:radial-gradient(ellipse 60% 46% at 10% 90%, color-mix(in srgb, var(--secondary-color) 35%, transparent), transparent 70%), url('https://loremflickr.com/1600/1000/hydrangea,kraft') center/cover; background-color:var(--bg-color); color:var(--text-color); }
 .sf9 *, .sf9 *::before, .sf9 *::after { box-sizing:border-box; }
-.sf9::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 74%, transparent); }
+.sf9::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 87%, transparent); }
 .sf9 > * { position:relative; z-index:1; }
 .sf-orn-wrap { display:flex; justify-content:center; margin:0 auto clamp(1.6rem,4vw,2.4rem); color:var(--primary-color); }
 .sf-orn-wrap svg { width:min(240px,60%); height:auto; }
 .sf4__cabecera { text-align:center; margin-bottom:clamp(2.4rem,6vw,3.4rem); }
-.sf4__rotulo { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.sf4__rotulo { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.68rem,1.35vw,.8rem); letter-spacing:.52em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 42%, var(--text-color)); }
 .sf4__titulo { margin:0; font-family:Georgia,serif; font-weight:400; font-size:clamp(2rem,5vw,3.2rem); color:var(--primary-color); }
 .sf9__lead { margin:.5rem auto 0; max-width:52ch; font-family:'Segoe UI',Arial,sans-serif; font-style:italic; font-size:clamp(.82rem,1.5vw,.94rem); color:color-mix(in srgb, var(--secondary-color) 45%, var(--text-color)); }
-.sf4__hora { font-family:'Courier New',monospace; font-size:clamp(.7rem,1.35vw,.84rem); letter-spacing:.28em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 55%, var(--text-color)); }
+.sf4__hora { font-family:'Courier New',monospace; font-size:clamp(.7rem,1.35vw,.84rem); letter-spacing:.28em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 42%, var(--text-color)); }
 .sf4__nombre { margin:.35rem 0 .25rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.1rem,2.3vw,1.4rem); color:var(--primary-color); }
 .sf4__detalle { margin:0; font-family:'Segoe UI',Arial,sans-serif; font-size:clamp(.76rem,1.4vw,.86rem); line-height:1.6; color:var(--text-color); }
-.sf9__tira { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(1.6rem,4vw,2.6rem); width:min(100%,980px); margin:0 auto; }
-.sf9__tarjeta { position:relative; width:clamp(250px,30vw,312px); padding:clamp(1.7rem,3.8vw,2.3rem) clamp(1.4rem,3.2vw,2rem); background:var(--primary-color); color:var(--bg-color); clip-path:polygon(0 0, 92% 0, 100% 18%, 100% 100%, 8% 100%, 0 82%); text-align:center; }
+.sf9__tira { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(1.2rem,3vw,2.2rem); width:min(100%,1020px); margin:0 auto; }
+@media (max-width:760px){ .sf9__tira { grid-template-columns:1fr; width:min(100%,380px); } }
+.sf9__tarjeta { position:relative; width:auto; max-width:312px; margin:0 auto; width:100%; padding:clamp(1.7rem,3.8vw,2.3rem) clamp(1.4rem,3.2vw,2rem); background:var(--primary-color); color:var(--bg-color); clip-path:polygon(0 0, 92% 0, 100% 18%, 100% 100%, 8% 100%, 0 82%); text-align:center; }
 .sf9__tarjeta time { display:inline-block; margin-bottom:.5rem; font-family:'Courier New',monospace; font-size:clamp(.68rem,1.35vw,.82rem); letter-spacing:.3em; opacity:.9; }
 .sf9__nombre { color:var(--bg-color); }
 .sf9__detalle { color:color-mix(in srgb, var(--bg-color) 70%, var(--bg-color)); }
