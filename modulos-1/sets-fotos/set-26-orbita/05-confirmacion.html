@@ -1,0 +1,77 @@
+<section class="ob5" data-gemini-id="confirmacion-texto" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.ob5{--p:var(--primary-color,#2f2f2f);--s:var(--secondary-color,#8c8c8c);--a:var(--accent-color,#555);--bg:var(--bg-color,#f2f2f2);--tx:var(--text-color,#1f1f1f);--line:color-mix(in srgb,var(--tx) 22%,transparent);position:relative;isolation:isolate;overflow:hidden;box-sizing:border-box;padding:clamp(3.5rem,9vw,7rem) clamp(1rem,5vw,4rem);color:var(--tx);text-align:center;font-family:Georgia,serif;background:radial-gradient(ellipse at 50% 100%,color-mix(in srgb,var(--p) 14%,transparent),transparent 60%),linear-gradient(color-mix(in srgb,var(--bg) 80%,transparent),color-mix(in srgb,var(--bg) 93%,transparent)),url('https://loremflickr.com/1600/1000/horizon,sunset') center/cover;background-color:var(--bg)}
+.ob5 *,.ob5 *::before,.ob5 *::after{box-sizing:border-box}
+.ob5__kicker{margin:0 0 .6rem;font:600 clamp(.68rem,1.4vw,.8rem)/1 'Segoe UI',Arial,sans-serif;letter-spacing:.5em;text-transform:uppercase;color:var(--a)}
+.ob5__title{margin:0 0 .8rem;font-weight:400;font-size:clamp(2rem,5.4vw,3.6rem);color:var(--p)}
+.ob5__lead{margin:0 auto clamp(1.6rem,4vw,2.4rem);max-width:44ch;font:clamp(.9rem,1.6vw,1.02rem)/1.7 'Segoe UI',Arial,sans-serif;opacity:.85}
+.ob5__form{position:relative;width:min(100%,34rem);margin:0 auto;padding:clamp(1.3rem,4vw,2.1rem);border:1px solid var(--line);border-radius:1.8rem;background:color-mix(in srgb,var(--bg) 74%,transparent);backdrop-filter:blur(16px);text-align:left;box-shadow:0 40px 60px -40px color-mix(in srgb,var(--tx) 55%,transparent)}
+.ob5__steps{position:relative;display:flex;justify-content:space-between;margin:0 0 1.8rem;padding:0 .5rem;list-style:none}
+.ob5__steps::before,.ob5__steps::after{content:'';position:absolute;left:1.6rem;right:1.6rem;top:1.15rem;height:2px;background:var(--line)}
+.ob5__steps::after{background:linear-gradient(90deg,var(--p),var(--a));transform-origin:left;transform:scaleX(var(--pr,0));transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.ob5__steps li{position:relative;z-index:1;display:grid;justify-items:center;gap:.4rem;font:600 .6rem 'Segoe UI',Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase;opacity:.6;transition:opacity .4s ease}
+.ob5__steps b{display:grid;place-items:center;width:2.3rem;height:2.3rem;border:2px solid var(--line);border-radius:50%;background:var(--bg);font:700 .85rem 'Segoe UI',Arial,sans-serif;transition:background .4s ease,border-color .4s ease,color .4s ease,transform .4s cubic-bezier(.34,1.56,.64,1)}
+.ob5__steps li.act,.ob5__steps li.dn{opacity:1}
+.ob5__steps li.dn b{background:var(--p);border-color:var(--p);color:var(--bg)}
+.ob5__steps li.act b{border-color:var(--p);color:var(--p);transform:scale(1.18);box-shadow:0 0 0 5px color-mix(in srgb,var(--p) 20%,transparent)}
+.ob5__stack{display:grid}
+.ob5__st{grid-area:1/1;display:grid;gap:1rem;align-content:start;border:0;margin:0;padding:0;min-width:0;opacity:0;visibility:hidden;transform:perspective(900px) rotateY(18deg) translateX(30px);transition:opacity .4s ease,transform .5s cubic-bezier(.16,1,.3,1),visibility 0s .5s}
+.ob5__st.act{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.ob5__st.out{transform:perspective(900px) rotateY(-18deg) translateX(-30px)}
+.ob5__f{position:relative}
+.ob5__f input,.ob5__f textarea{width:100%;padding:1.35rem 1rem .5rem;border:1px solid var(--line);border-radius:.9rem;background:color-mix(in srgb,var(--bg) 60%,transparent);color:var(--tx);font:1rem 'Segoe UI',Arial,sans-serif;outline:none;transition:border-color .3s ease,box-shadow .3s ease}
+.ob5__f textarea{resize:vertical;min-height:4.6rem}
+.ob5__f label{position:absolute;left:1rem;top:1rem;pointer-events:none;font:.92rem 'Segoe UI',Arial,sans-serif;opacity:.65;transform-origin:0 0;transition:transform .3s cubic-bezier(.16,1,.3,1),opacity .3s ease}
+.ob5__f input:focus,.ob5__f textarea:focus{border-color:var(--p);box-shadow:0 0 0 4px color-mix(in srgb,var(--p) 18%,transparent)}
+.ob5__f input:focus+label,.ob5__f input:not(:placeholder-shown)+label,.ob5__f textarea:focus+label,.ob5__f textarea:not(:placeholder-shown)+label{transform:translateY(-.62rem) scale(.74);opacity:1;color:var(--p)}
+.ob5__opts{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.ob5__opt{position:relative}.ob5__opt input{position:absolute;opacity:0}
+.ob5__opt label{display:grid;justify-items:center;gap:.5rem;padding:1.1rem .6rem;border:1px solid var(--line);border-radius:1.1rem;cursor:pointer;font:600 .7rem 'Segoe UI',Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;text-align:center;transition:border-color .3s ease,background .3s ease,transform .3s cubic-bezier(.34,1.56,.64,1)}
+.ob5__opt label::before{content:'';width:1.8rem;height:1.8rem;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,var(--s));transition:background .3s ease,box-shadow .3s ease}
+.ob5__opt input:checked+label{border-color:var(--p);background:color-mix(in srgb,var(--p) 12%,transparent);transform:translateY(-3px)}
+.ob5__opt input:checked+label::before{background:radial-gradient(circle at 35% 30%,#fff,var(--p));box-shadow:0 0 18px var(--p)}
+.ob5__opt input:focus-visible+label{outline:2px solid var(--a);outline-offset:2px}
+.ob5__sum{margin:0;display:grid;gap:.5rem;font:.92rem 'Segoe UI',Arial,sans-serif}
+.ob5__sum div{display:flex;justify-content:space-between;gap:1rem;padding:.7rem 1rem;border:1px dashed var(--line);border-radius:.8rem}
+.ob5__sum dt{opacity:.65;letter-spacing:.14em;text-transform:uppercase;font-size:.68rem}.ob5__sum dd{margin:0;color:var(--p);font-weight:600;text-align:right}
+.ob5__nav{display:flex;justify-content:space-between;gap:.8rem;margin-top:1.4rem}
+.ob5__b{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:.6rem;min-height:3rem;padding:.8rem 1.6rem;overflow:hidden;border:1px solid var(--p);border-radius:99px;background:transparent;color:var(--p);cursor:pointer;font:700 .72rem 'Segoe UI',Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase;transition:transform .25s ease,background .3s ease,color .3s ease}
+.ob5__b:hover{transform:translateY(-2px)}.ob5__b:active{transform:scale(.95)}
+.ob5__b--p{background:var(--p);color:var(--bg);margin-left:auto}
+.ob5__b[hidden]{display:none}
+.ob5__pl{width:1.1rem;height:1.1rem;transition:transform .5s cubic-bezier(.55,0,.8,.3),opacity .5s ease}
+.ob5__b.sent .ob5__pl{transform:translate(2.4rem,-2.4rem) rotate(8deg);opacity:0}
+.ob5__form.shake{animation:ob5Sh .4s ease}
+@keyframes ob5Sh{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.ob5 .r{opacity:0;transform:translateY(26px);transition:opacity .5s ease,transform .5s cubic-bezier(.16,1,.3,1);transition-delay:calc(var(--i,0)*110ms)}
+.ob5.on .r{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.ob5 *,.ob5 *::before,.ob5 *::after{animation:none!important;transition:none!important}.ob5 .r{opacity:1!important;transform:none!important}}
+</style>
+<header class="r">
+  <p class="ob5__kicker" memory_type="text" memory_usage="custom" memory_key="confirmacion-rotulo">RSVP</p>
+  <h2 class="ob5__title" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">Confirma tu asistencia</h2>
+  <p class="ob5__lead" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">Solo te tomará un minuto. Tu confirmación nos ayuda a preparar todo.</p>
+</header>
+<form class="ob5__form r" style="--i:2" novalidate>
+  <ol class="ob5__steps" aria-hidden="true"><li class="act"><b>1</b>Datos</li><li><b>2</b>Asistencia</li><li><b>3</b>Enviar</li></ol>
+  <div class="ob5__stack">
+    <fieldset class="ob5__st act"><div class="ob5__f"><input id="ob5-n" name="nombre" type="text" placeholder=" " autocomplete="off"><label for="ob5-n">Nombre completo</label></div><div class="ob5__f"><input id="ob5-c" name="contacto" type="text" placeholder=" " autocomplete="off"><label for="ob5-c">Correo o teléfono</label></div></fieldset>
+    <fieldset class="ob5__st"><div class="ob5__opts"><div class="ob5__opt"><input type="radio" name="asistencia" id="ob5-si" value="Sí asistiré" checked><label for="ob5-si">Sí, ahí estaré</label></div><div class="ob5__opt"><input type="radio" name="asistencia" id="ob5-no" value="No podré asistir"><label for="ob5-no">No podré asistir</label></div></div><div class="ob5__f"><input id="ob5-g" name="invitados" type="number" min="1" max="10" value="1" placeholder=" "><label for="ob5-g">Número de invitados</label></div><div class="ob5__f"><textarea id="ob5-m" name="mensaje" placeholder=" "></textarea><label for="ob5-m">Mensaje (opcional)</label></div></fieldset>
+    <fieldset class="ob5__st"><dl class="ob5__sum"><div><dt>Nombre</dt><dd data-s="nombre">—</dd></div><div><dt>Respuesta</dt><dd data-s="asistencia">—</dd></div><div><dt>Invitados</dt><dd data-s="invitados">—</dd></div></dl></fieldset>
+  </div>
+  <div class="ob5__nav"><button class="ob5__b" type="button" data-a="prev" hidden>Atrás</button><button class="ob5__b ob5__b--p" type="button" data-a="next"><span>Siguiente</span></button><button class="ob5__b ob5__b--p" type="submit" hidden><svg class="ob5__pl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg><span class="ob5__bt" memory_type="text" memory_usage="custom" memory_key="confirmacion-boton">Enviar confirmación</span></button></div>
+</form>
+<script>
+(function(){var el;try{el=document.currentScript.closest('[data-gemini-id]')}catch(e){}if(!el)return;
+var rm=matchMedia('(prefers-reduced-motion:reduce)').matches,go=function(){el.classList.add('on')};
+if(rm||!('IntersectionObserver'in window)){go()}else{var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){go();io.disconnect()}},{threshold:.15});io.observe(el);setTimeout(go,3000)}
+var f=el.querySelector('form'),sts=[].slice.call(el.querySelectorAll('.ob5__st')),lis=[].slice.call(el.querySelectorAll('.ob5__steps li')),prev=f.querySelector('[data-a=prev]'),next=f.querySelector('[data-a=next]'),sub=f.querySelector('[type=submit]'),k=0,done=false;
+function show(n){sts[k].classList.remove('act');sts[k].classList.toggle('out',n>k);k=n;sts.forEach(function(s,i){if(i!==k)s.classList.toggle('out',i<k)});sts[k].classList.remove('out');sts[k].classList.add('act');lis.forEach(function(l,i){l.classList.toggle('act',i===k);l.classList.toggle('dn',i<k)});f.style.setProperty('--pr',k/2);prev.hidden=k===0;next.hidden=k===2;sub.hidden=k!==2;
+if(k===2){f.querySelector('[data-s=nombre]').textContent=f.nombre.value||'—';f.querySelector('[data-s=asistencia]').textContent=f.asistencia.value;f.querySelector('[data-s=invitados]').textContent=f.invitados.value||'1'}}
+next.addEventListener('click',function(){if(k===0&&!f.nombre.value.trim()){f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake');f.nombre.focus();return}show(k+1)});
+prev.addEventListener('click',function(){show(k-1)});
+f.addEventListener('submit',function(e){e.preventDefault();if(done)return;done=true;var t=sub.querySelector('.ob5__bt');sub.classList.add('sent');t.textContent='Enviando…';setTimeout(function(){t.textContent='¡Recibido!';setTimeout(function(){done=false;sub.classList.remove('sent');t.textContent='Enviar confirmación'},3500)},rm?200:900)});
+})();
+</script>
+<script>var moduleMetadata={module_type:'confirmacion',module_name:'confirmacion-ob26',style_name:'Órbita',descripcion:'RSVP en 3 pasos con progreso orbital, transición 3D entre pasos, opciones tipo planeta, resumen final y botón con avión de papel animado.',tags:['confirmación','rsvp','formulario','pasos','wizard','micro-interacción'],tipo:'confirmacion'};</script>
+</section>

@@ -73,12 +73,31 @@ const CHECK_JS = () => {
     if ((r.right > vw + 4 || r.left < -4) && !dentroDeContenedorHorizontal(img)) { problemas.push(`img sale del viewport (right=${Math.round(r.right)})`); break; }
   }
   // solape de textos hermanos con rectángulos que se cruzan >30%
+  // (se ignoran las caras 3D giradas de flip-cards: comparten rectángulo
+  //  con la cara frontal pero están ocultas por backface-visibility)
+  const enCaraOculta = (el) => {
+    let n = el;
+    while (n && n !== document.body) {
+      const cs = getComputedStyle(n);
+      if (cs.backfaceVisibility === 'hidden' && /matrix3d/.test(cs.transform)) return true;
+      n = n.parentElement;
+    }
+    return false;
+  };
+  const opacidadEfectiva = (el) => {
+    let o = 1, n = el;
+    while (n && n !== document.body) { o *= parseFloat(getComputedStyle(n).opacity); if (o < 0.05) return 0; n = n.parentElement; }
+    return o;
+  };
   const vis = textos.filter((el) => {
     if (el.closest('[aria-hidden="true"]')) return false;
     const t = (el.textContent || '').trim();
     if (!t || t.length < 2) return false;
     const cs = getComputedStyle(el);
-    if (cs.display === 'none' || cs.visibility === 'hidden' || parseFloat(cs.opacity) < 0.05) return false;
+    // opacidad < .6 = elemento recedido por diseño (flip-cards, coverflow)
+    if (cs.display === 'none' || cs.visibility === 'hidden') return false;
+    if (opacidadEfectiva(el) < 0.6) return false;
+    if (enCaraOculta(el)) return false;
     const r = el.getBoundingClientRect();
     return r.width > 10 && r.height > 8;
   }).slice(0, 90);

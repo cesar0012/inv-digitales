@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
-import { CheckCircle2, Loader2, ClipboardList, Palette, X } from 'lucide-react';
+import { CheckCircle2, Loader2, ClipboardList, Palette, X, Send, SkipForward } from 'lucide-react';
 import { EditorSidebar } from './EditorSidebar';
 import { PreviewPane, PreviewPaneHandle } from './PreviewPane';
 import { InitialView } from './InitialView';
@@ -97,6 +97,14 @@ export const EditorView: React.FC = () => {
   const [applyingData, setApplyingData] = useState(false);
   const pendingCodeRef = useRef<string>('');
   const autoApplyRef = useRef(false);
+  // El formulario de datos SOLO existe durante la generación de una invitación.
+  // isGenInvitation distingue ese loading de los demás (guardar, tipografía,
+  // iterar módulos), que muestran el spinner pero jamás el formulario.
+  const [isGenInvitation, setIsGenInvitation] = useState(false);
+  // El usuario saltó o envió el formulario mientras la generación corría:
+  // el formulario desaparece, la generación sigue y al terminar entra directo.
+  const [formHidden, setFormHidden] = useState(false);
+  const formHiddenRef = useRef(false);
   const eventDataKey = `event_data_${purchaseId || 'nuevo'}`;
   
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -345,6 +353,26 @@ export const EditorView: React.FC = () => {
     }
   };
 
+  /** Carga el HTML tal cual en el editor (sin inyección de datos). */
+  const loadRawIntoEditor = (rawCode: string) => {
+    const newPage: ProjectPage = {
+      id: 'home-' + Date.now(),
+      name: 'Inicio',
+      path: 'index.html',
+      code: normalizeEditableIds(rawCode),
+      isCreated: true
+    };
+    setPages([newPage]);
+    setActivePageId(newPage.id);
+    setExistingMetadata(null);
+    setHasUnsavedChanges(true);
+    setEditorConfig(prev => ({
+      ...prev,
+      fontBase: prev.fontBase || globalFontsRef.current.fontBase,
+      fontHeading: prev.fontHeading || ''
+    }));
+  };
+
   /** Termina la generación: inyecta datos y carga la invitación en el editor. */
   const finishGeneration = async (rawCode: string) => {
     setApplyingData(true);
@@ -353,50 +381,33 @@ export const EditorView: React.FC = () => {
     try {
       finalCode = await applyEventDataPipeline(rawCode);
     } finally {
-      const newPage: ProjectPage = {
-        id: 'home-' + Date.now(),
-        name: 'Inicio',
-        path: 'index.html',
-        code: normalizeEditableIds(finalCode),
-        isCreated: true
-      };
-      setPages([newPage]);
-      setActivePageId(newPage.id);
-      setExistingMetadata(null);
-      setHasUnsavedChanges(true);
-      setEditorConfig(prev => ({
-        ...prev,
-        fontBase: prev.fontBase || globalFontsRef.current.fontBase,
-        fontHeading: prev.fontHeading || ''
-      }));
+      loadRawIntoEditor(finalCode);
       setGenerationFinished(false);
       setApplyingData(false);
       setGeneratingMessage('');
       try { sessionStorage.removeItem(eventDataKey); } catch { /* noop */ }
       pendingCodeRef.current = '';
+      setIsGenInvitation(false);
       setIsGenerating(false);
     }
   };
 
-  /** Omite el gate: entra al editor sin datos (podrá llenarlos después). */
+  /** Omite el gate: entra al editor sin datos (podrá llenarlos después).
+   *  Si la generación aún corre, solo oculta el formulario y espera: al
+   *  terminar entrará directamente a la invitación sin aplicar datos. */
   const skipEventData = () => {
-    const raw = pendingCodeRef.current;
-    if (raw) {
-      const newPage: ProjectPage = {
-        id: 'home-' + Date.now(),
-        name: 'Inicio',
-        path: 'index.html',
-        code: normalizeEditableIds(raw),
-        isCreated: true
-      };
-      setPages([newPage]);
-      setActivePageId(newPage.id);
-      setExistingMetadata(null);
-      setHasUnsavedChanges(true);
+    if (pendingCodeRef.current) {
+      loadRawIntoEditor(pendingCodeRef.current);
+      setGenerationFinished(false);
+      pendingCodeRef.current = '';
+      setIsGenInvitation(false);
+      setIsGenerating(false);
+    } else {
+      // Generación en curso: fuera formulario, el loading sigue su curso.
+      formHiddenRef.current = true;
+      setFormHidden(true);
+      setGeneratingMessage('');
     }
-    setGenerationFinished(false);
-    pendingCodeRef.current = '';
-    setIsGenerating(false);
   };
 
   /** Modal del editor: aplica los datos sobre el código actual. */
@@ -438,9 +449,11 @@ export const EditorView: React.FC = () => {
   const handleSubmitEventData = async () => {
     if (missingFields.length > 0 || applyingData) return;
     if (!pendingCodeRef.current) {
-      // La generación aún corre: los datos se aplicarán automáticamente
-      // en cuanto termine.
+      // La generación aún corre: el formulario desaparece, los datos se
+      // aplicarán automáticamente en cuanto termine.
       autoApplyRef.current = true;
+      formHiddenRef.current = true;
+      setFormHidden(true);
       setGeneratingMessage('Datos listos. Se aplicarán al terminar la generación...');
       return;
     }
@@ -453,6 +466,9 @@ export const EditorView: React.FC = () => {
     setGenerationFinished(false);
     autoApplyRef.current = false;
     pendingCodeRef.current = '';
+    setIsGenInvitation(true);
+    formHiddenRef.current = false;
+    setFormHidden(false);
 
     setHasStarted(true);
 
@@ -524,6 +540,13 @@ export const EditorView: React.FC = () => {
       // mientras esperaba (autoApplyRef).
       if (autoApplyRef.current) {
         await finishGeneration(generatedCode);
+      } else if (formHiddenRef.current) {
+        // El usuario saltó (o envió y ya se aplicó) mientras generaba:
+        // entra directo, sin gate.
+        loadRawIntoEditor(generatedCode);
+        pendingCodeRef.current = '';
+        setIsGenInvitation(false);
+        setIsGenerating(false);
       } else {
         setGenerationFinished(true);
         setGeneratingMessage('');
@@ -533,6 +556,9 @@ export const EditorView: React.FC = () => {
       console.error(error);
       alert(`Error al generar la invitación: ${error.message}`);
       setHasStarted(false);
+      setIsGenInvitation(false);
+      formHiddenRef.current = false;
+      setFormHidden(false);
       setIsGenerating(false);
     }
   };
@@ -904,7 +930,7 @@ export const EditorView: React.FC = () => {
           <div className="min-h-full flex flex-col items-center py-8 px-4">
 
             {/* Estado del proceso */}
-            {!generationFinished ? (
+            {!generationFinished || applyingData ? (
               <div className="flex flex-col items-center mb-6">
                 <div className="w-16 h-16 border-4 border-pink-200 border-t-pink-500 rounded-full animate-spin mb-4" />
                 <p className="text-pink-600 font-medium text-lg mb-3 text-center transition-all duration-500">
@@ -924,7 +950,7 @@ export const EditorView: React.FC = () => {
             ) : (
               <div className="flex flex-col items-center text-center mb-5 mt-2">
                 <CheckCircle2 className="w-14 h-14 text-green-500 mb-2" />
-                <p className="text-2xl font-bold text-gray-800">✅ ¡Tu invitación ya está generada!</p>
+                <p className="text-2xl font-bold text-gray-800">¡Tu invitación ya está generada!</p>
                 <p className="text-sm text-gray-600 mt-2 max-w-md">
                   Puedes seguir llenando tus datos con calma — <span className="font-semibold text-gray-800">nada se va a cortar</span>.
                   Cuando termines, pulsa <span className="font-semibold text-pink-600">Enviar</span> y los colocaremos automáticamente
@@ -933,8 +959,10 @@ export const EditorView: React.FC = () => {
               </div>
             )}
 
-            {/* Formulario de datos del evento (aparece con el tipo de evento) */}
-            {dataSchema && (
+            {/* Formulario de datos del evento: SOLO durante la generación de una
+                invitación (nunca en guardar/iterar/tipografía) y mientras el
+                usuario no lo haya enviado o saltado. */}
+            {isGenInvitation && !formHidden && !applyingData && dataSchema && (
               <div className="w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-pink-100 p-5 md:p-6">
                 <div className="flex items-center gap-2 mb-1">
                   <ClipboardList className="w-5 h-5 text-pink-500" />
@@ -994,10 +1022,11 @@ export const EditorView: React.FC = () => {
                   className="mt-4 w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 text-white font-semibold hover:from-pink-600 hover:to-rose-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
                 >
                   {applyingData && <Loader2 className="w-4 h-4 animate-spin" />}
+                  {!applyingData && generationFinished && missingFields.length === 0 && <Send className="w-4 h-4" />}
                   {applyingData
                     ? 'Colocando datos...'
                     : generationFinished
-                      ? (missingFields.length > 0 ? 'Completa los campos requeridos para enviar' : '✉️ Enviar datos y ver mi invitación')
+                      ? (missingFields.length > 0 ? 'Completa los campos requeridos para enviar' : 'Enviar datos y ver mi invitación')
                       : (missingFields.length === 0
                           ? 'Datos listos: aplicar automáticamente al terminar'
                           : 'Guardar datos (se aplicarán al terminar)')}
@@ -1005,10 +1034,11 @@ export const EditorView: React.FC = () => {
                 <button
                   onClick={skipEventData}
                   disabled={applyingData}
-                  className="mt-2 w-full py-2.5 rounded-xl border border-gray-300 text-gray-600 text-sm font-medium hover:bg-gray-50 disabled:opacity-50 transition-all"
+                  className="mt-2 w-full py-2.5 rounded-xl border border-gray-300 text-gray-600 text-sm font-medium hover:bg-gray-50 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
                 >
+                  <SkipForward className="w-4 h-4" />
                   {generationFinished
-                    ? '⏭️ Saltar: entrar ahora (los datos se quedan como están)'
+                    ? 'Saltar: entrar ahora (los datos se quedan como están)'
                     : 'Omitir: llenaré los datos después en el editor'}
                 </button>
               </div>

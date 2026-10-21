@@ -1,0 +1,472 @@
+<section
+  class="mm-rsvp"
+  data-gemini-id="confirmacion-texto"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Pinyon+Script&display=swap');
+
+    .mm-rsvp, .mm-rsvp *, .mm-rsvp *::before, .mm-rsvp *::after { box-sizing: border-box; }
+    .mm-rsvp {
+      --mm-bg: var(--bg-color, #1a0e26);
+      --mm-tx: var(--text-color, #faf2fb);
+      --mm-p: var(--primary-color, #f2a9cf);
+      --mm-s: var(--secondary-color, #8fd0f5);
+      --mm-a: var(--accent-color, #e5c07e);
+      --mm-script: var(--font-script, 'Pinyon Script', 'Great Vibes', cursive);
+      --mm-serif: var(--font-heading, 'Cormorant Garamond', 'Cormorant', Georgia, serif);
+      --panel: color-mix(in srgb, var(--mm-bg) 85%, transparent);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--mm-bg);
+      background-image: url('https://loremflickr.com/1600/1000/flowers,butterfly?lock=2705');
+      background-size: cover;
+      background-position: center;
+      color: var(--mm-tx);
+      text-align: center;
+      font-family: var(--mm-serif);
+    }
+    .mm-rsvp::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(45% 40% at 50% 30%, color-mix(in srgb, var(--mm-p) 18%, transparent), transparent 70%),
+        radial-gradient(40% 40% at 50% 100%, color-mix(in srgb, var(--mm-s) 14%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--mm-bg) 84%, transparent), color-mix(in srgb, var(--mm-bg) 93%, transparent));
+    }
+    .mm-rsvp__burst { position: absolute; inset: 0; z-index: 5; width: 100%; height: 100%; pointer-events: none; }
+
+    .mm-rsvp__card {
+      position: relative;
+      width: min(100%, 34rem);
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.3rem, 5vw, 3rem);
+      border-radius: 2rem;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--mm-bg) 62%, transparent), color-mix(in srgb, var(--mm-bg) 78%, transparent));
+      -webkit-backdrop-filter: blur(16px) saturate(140%);
+      backdrop-filter: blur(16px) saturate(140%);
+      box-shadow: 0 40px 80px -30px color-mix(in srgb, #000 75%, transparent), inset 0 1px 0 color-mix(in srgb, var(--mm-tx) 12%, transparent);
+    }
+    .mm-rsvp__card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      padding: 1.2px;
+      border-radius: inherit;
+      background: conic-gradient(from var(--mm-rot, 0deg), var(--mm-s), var(--mm-p), var(--mm-a), color-mix(in srgb, var(--mm-a) 20%, transparent), var(--mm-s));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+      pointer-events: none;
+    }
+    .mm-rsvp__title {
+      margin: 0 0 .5rem;
+      font-weight: 300;
+      font-size: clamp(2.1rem, 5vw, 3.2rem);
+      line-height: 1.08;
+    }
+    .mm-rsvp__lead {
+      margin: 0 auto 2rem;
+      max-width: 32ch;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      line-height: 1.5;
+      color: color-mix(in srgb, var(--mm-tx) 82%, transparent);
+    }
+    .mm-rsvp__form { display: grid; gap: 1.4rem; text-align: left; }
+
+    /* Campo con etiqueta flotante */
+    .mm-rsvp__field { position: relative; }
+    .mm-rsvp__input {
+      display: block;
+      width: 100%;
+      min-height: 3.2rem;
+      padding: 1.25rem .2rem .45rem;
+      border: 0;
+      border-bottom: 1px solid color-mix(in srgb, var(--mm-tx) 30%, transparent);
+      border-radius: 0;
+      background: transparent;
+      color: var(--mm-tx);
+      font: 400 1.2rem/1.3 var(--mm-serif);
+      outline: none;
+      resize: vertical;
+      transition: border-color .3s ease;
+    }
+    textarea.mm-rsvp__input { min-height: 5.2rem; }
+    .mm-rsvp__label {
+      position: absolute;
+      left: .2rem;
+      top: 1.1rem;
+      font-size: 1.15rem;
+      font-style: italic;
+      color: color-mix(in srgb, var(--mm-tx) 62%, transparent);
+      pointer-events: none;
+      transform-origin: 0 0;
+      transition: transform .3s cubic-bezier(.2, .8, .2, 1), color .3s ease;
+    }
+    .mm-rsvp__input:focus + .mm-rsvp__label,
+    .mm-rsvp__input:not(:placeholder-shown) + .mm-rsvp__label { transform: translateY(-1.05rem) scale(.78); color: var(--mm-a); }
+    .mm-rsvp__field::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--mm-s), var(--mm-p), var(--mm-a));
+      transform: scaleX(0);
+      transition: transform .4s cubic-bezier(.2, .8, .2, 1);
+    }
+    .mm-rsvp__field:focus-within::after { transform: scaleX(1); }
+    .mm-rsvp__field.is-error { animation: mmRsvpShake .42s ease; }
+    .mm-rsvp__field.is-error .mm-rsvp__input { border-bottom-color: var(--mm-p); }
+    @keyframes mmRsvpShake { 20% { transform: translateX(-8px); } 40% { transform: translateX(7px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(3px); } }
+
+    /* Asistencia: dos alas */
+    .mm-rsvp__set { margin: 0; padding: 0; border: 0; }
+    .mm-rsvp__legend { margin-bottom: .7rem; padding: 0; font-style: italic; font-size: 1.1rem; color: color-mix(in srgb, var(--mm-tx) 70%, transparent); }
+    .mm-rsvp__choices { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+    .mm-rsvp__choice { position: relative; display: block; cursor: pointer; }
+    .mm-rsvp__choice input { position: absolute; opacity: 0; pointer-events: none; }
+    .mm-rsvp__pill {
+      display: grid;
+      justify-items: center;
+      gap: .35rem;
+      min-height: 100%;
+      padding: .95rem .6rem .85rem;
+      border-radius: 1.1rem;
+      border: 1px solid color-mix(in srgb, var(--mm-tx) 22%, transparent);
+      background: color-mix(in srgb, var(--mm-bg) 40%, transparent);
+      font-size: 1.12rem;
+      line-height: 1.2;
+      text-align: center;
+      transition: background .35s ease, border-color .35s ease, color .35s ease, transform .3s cubic-bezier(.3, 1.5, .5, 1);
+    }
+    .mm-rsvp__choice:hover .mm-rsvp__pill { transform: translateY(-2px); border-color: color-mix(in srgb, var(--mm-a) 60%, transparent); }
+    .mm-rsvp__choice input:focus-visible + .mm-rsvp__pill { outline: 2px solid var(--mm-a); outline-offset: 3px; }
+    .mm-rsvp__choice input:checked + .mm-rsvp__pill {
+      color: var(--mm-bg);
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--mm-s), var(--mm-p) 55%, var(--mm-a));
+      box-shadow: 0 12px 30px -12px color-mix(in srgb, var(--mm-p) 80%, transparent);
+    }
+    .mm-rsvp__mini {
+      position: relative;
+      width: 2.2rem;
+      height: 1.4rem;
+      transform-style: preserve-3d;
+      transform: perspective(200px) rotateX(45deg);
+    }
+    .mm-rsvp__mini i { position: absolute; top: 0; left: 50%; width: 50%; transform-origin: 0 50%; transform: rotateY(30deg); }
+    .mm-rsvp__mini i + i { transform: rotateY(150deg); }
+    .mm-rsvp__mini svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .mm-rsvp__mini path { fill: currentColor; fill-opacity: .25; stroke: currentColor; stroke-width: 4; }
+    .mm-rsvp__choice--no .mm-rsvp__mini { transform: perspective(200px) rotateX(45deg) scale(.85); opacity: .7; }
+    .mm-rsvp__choice input:checked + .mm-rsvp__pill .mm-rsvp__mini i { animation: mmRsvpFlapR .22s ease-in-out 2 alternate; }
+    .mm-rsvp__choice input:checked + .mm-rsvp__pill .mm-rsvp__mini i + i { animation-name: mmRsvpFlapL; }
+    @keyframes mmRsvpFlapR { to { transform: rotateY(78deg); } }
+    @keyframes mmRsvpFlapL { to { transform: rotateY(102deg); } }
+
+    /* Acompañantes */
+    .mm-rsvp__row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-bottom: .9rem; border-bottom: 1px solid color-mix(in srgb, var(--mm-tx) 30%, transparent); }
+    .mm-rsvp__rowlabel { font-style: italic; font-size: 1.15rem; color: color-mix(in srgb, var(--mm-tx) 70%, transparent); }
+    .mm-rsvp__stepper { display: flex; align-items: center; gap: .3rem; }
+    .mm-rsvp__step {
+      display: grid;
+      place-items: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      border: 1px solid color-mix(in srgb, var(--mm-a) 55%, transparent);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--mm-tx);
+      font: 400 1.4rem/1 var(--mm-serif);
+      cursor: pointer;
+      transition: transform .2s ease, background .3s ease;
+    }
+    .mm-rsvp__step:hover { background: color-mix(in srgb, var(--mm-a) 18%, transparent); }
+    .mm-rsvp__step:active { transform: scale(.9); }
+    .mm-rsvp__step:focus-visible { outline: 2px solid var(--mm-a); outline-offset: 2px; }
+    .mm-rsvp__count { position: relative; display: block; width: 2.6rem; height: 2.2rem; overflow: hidden; text-align: center; }
+    .mm-rsvp__count output { display: block; font-size: 1.75rem; line-height: 2.2rem; font-variant-numeric: lining-nums; transition: transform .25s cubic-bezier(.3, 1.4, .5, 1), opacity .25s ease; }
+    .mm-rsvp__count output.is-up { transform: translateY(-60%); opacity: 0; transition: none; }
+    .mm-rsvp__count output.is-down { transform: translateY(60%); opacity: 0; transition: none; }
+
+    /* Botón */
+    .mm-rsvp__submitwrap { display: grid; place-items: center; min-height: 3.6rem; margin-top: .4rem; }
+    .mm-rsvp__submit {
+      position: relative;
+      display: grid;
+      place-items: center;
+      justify-content: center;
+      align-content: center;
+      white-space: nowrap;
+      width: min(100%, 20rem);
+      height: 3.6rem;
+      padding: 0 1.6rem;
+      border: 0;
+      border-radius: 999px;
+      overflow: hidden;
+      color: var(--mm-bg);
+      background: linear-gradient(110deg, var(--mm-a), color-mix(in srgb, var(--mm-a) 40%, #fff) 45%, var(--mm-p));
+      box-shadow: 0 14px 34px -14px color-mix(in srgb, var(--mm-a) 80%, transparent);
+      font: 500 1.2rem/1 var(--mm-serif);
+      letter-spacing: .03em;
+      cursor: pointer;
+      transition: width .45s cubic-bezier(.6, 0, .2, 1), transform .25s ease, box-shadow .3s ease;
+    }
+    .mm-rsvp__submit:hover { transform: translateY(-2px); box-shadow: 0 18px 40px -14px color-mix(in srgb, var(--mm-a) 90%, transparent); }
+    .mm-rsvp__submit:focus-visible { outline: 2px solid var(--mm-tx); outline-offset: 3px; }
+    .mm-rsvp__submit > * { grid-area: 1 / 1; transition: opacity .25s ease, transform .3s cubic-bezier(.3, 1.4, .5, 1); }
+    .mm-rsvp__spin, .mm-rsvp__check { opacity: 0; transform: scale(.5); }
+    .mm-rsvp__spin { position: relative; width: 2.2rem; height: 1.4rem; transform-style: preserve-3d; }
+    .mm-rsvp__spin i { position: absolute; top: 0; left: 50%; width: 50%; transform-origin: 0 50%; animation: mmRsvpFlapR .2s ease-in-out infinite alternate; }
+    .mm-rsvp__spin i + i { animation-name: mmRsvpFlapL; }
+    .mm-rsvp__spin svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .mm-rsvp__spin path { fill: var(--mm-bg); fill-opacity: .8; }
+    .mm-rsvp__check { width: 1.6rem; height: 1.6rem; fill: none; stroke: var(--mm-bg); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+    .mm-rsvp__check path { stroke-dasharray: 30; stroke-dashoffset: 30; transition: stroke-dashoffset .45s ease .1s; }
+    .mm-rsvp__submit.is-loading, .mm-rsvp__submit.is-done { width: 3.6rem; padding: 0; pointer-events: none; }
+    .mm-rsvp__submit.is-loading .mm-rsvp__txt, .mm-rsvp__submit.is-done .mm-rsvp__txt { opacity: 0; transform: scale(.7); }
+    .mm-rsvp__submit.is-loading .mm-rsvp__spin { opacity: 1; transform: perspective(200px) rotateX(40deg); }
+    .mm-rsvp__submit.is-done .mm-rsvp__check { opacity: 1; transform: none; }
+    .mm-rsvp__submit.is-done .mm-rsvp__check path { stroke-dashoffset: 0; }
+    .mm-rsvp__msg {
+      min-height: 1.5em;
+      margin: .9rem 0 0;
+      font-style: italic;
+      font-size: 1.12rem;
+      text-align: center;
+      color: color-mix(in srgb, var(--mm-a) 80%, var(--mm-tx));
+    }
+
+    @media (max-width: 420px) { .mm-rsvp__choices { grid-template-columns: 1fr; } }
+    @media (prefers-reduced-motion: reduce) {
+      .mm-rsvp *, .mm-rsvp *::before, .mm-rsvp *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <canvas class="mm-rsvp__burst" data-mm-burst aria-hidden="true"></canvas>
+
+  <div class="mm-rsvp__card">
+    <h2 class="mm-rsvp__title" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">Confirma tu asistencia</h2>
+    <p class="mm-rsvp__lead" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">Me encantaría contar contigo. Por favor confirma antes del 30 de abril.</p>
+
+    <form class="mm-rsvp__form" data-mm-form novalidate>
+      <div class="mm-rsvp__field" data-mm-namefield>
+        <input class="mm-rsvp__input" id="mm-rsvp-nombre" name="nombre" type="text" placeholder=" " autocomplete="name" />
+        <label class="mm-rsvp__label" for="mm-rsvp-nombre" memory_type="text" memory_usage="custom" memory_key="confirmacion-campo-nombre">Nombre completo</label>
+      </div>
+
+      <fieldset class="mm-rsvp__set" data-mm-attend>
+        <legend class="mm-rsvp__legend" memory_type="text" memory_usage="custom" memory_key="confirmacion-pregunta">¿Nos acompañarás?</legend>
+        <div class="mm-rsvp__choices">
+          <label class="mm-rsvp__choice">
+            <input type="radio" name="asistencia" value="si" />
+            <span class="mm-rsvp__pill">
+              <span class="mm-rsvp__mini" aria-hidden="true"><i><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/></svg></i><i><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/></svg></i></span>
+              <span memory_type="text" memory_usage="custom" memory_key="confirmacion-opcion-si">Sí, ahí estaré</span>
+            </span>
+          </label>
+          <label class="mm-rsvp__choice mm-rsvp__choice--no">
+            <input type="radio" name="asistencia" value="no" />
+            <span class="mm-rsvp__pill">
+              <span class="mm-rsvp__mini" aria-hidden="true"><i><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/></svg></i><i><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/></svg></i></span>
+              <span memory_type="text" memory_usage="custom" memory_key="confirmacion-opcion-no">No podré asistir</span>
+            </span>
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="mm-rsvp__row" data-mm-guests>
+        <span class="mm-rsvp__rowlabel" id="mm-rsvp-acomp" memory_type="text" memory_usage="custom" memory_key="confirmacion-campo-acompanantes">Acompañantes</span>
+        <div class="mm-rsvp__stepper" role="group" aria-labelledby="mm-rsvp-acomp">
+          <button class="mm-rsvp__step" type="button" data-mm-step="-1" aria-label="Quitar acompañante">−</button>
+          <span class="mm-rsvp__count"><output data-mm-count name="acompanantes" aria-live="polite">0</output></span>
+          <button class="mm-rsvp__step" type="button" data-mm-step="1" aria-label="Agregar acompañante">+</button>
+        </div>
+      </div>
+
+      <div class="mm-rsvp__field">
+        <textarea class="mm-rsvp__input" id="mm-rsvp-mensaje" name="mensaje" rows="2" placeholder=" "></textarea>
+        <label class="mm-rsvp__label" for="mm-rsvp-mensaje" memory_type="text" memory_usage="custom" memory_key="confirmacion-campo-mensaje">Un mensaje para la festejada (opcional)</label>
+      </div>
+
+      <div class="mm-rsvp__submitwrap">
+        <button class="mm-rsvp__submit" type="submit" data-mm-submit>
+          <span class="mm-rsvp__txt" memory_type="text" memory_usage="custom" memory_key="confirmacion-boton">Enviar confirmación</span>
+          <span class="mm-rsvp__spin" aria-hidden="true"><i><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/></svg></i><i><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/></svg></i></span>
+          <svg class="mm-rsvp__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+        </button>
+      </div>
+      <p class="mm-rsvp__msg" data-mm-msg role="status" aria-live="polite"></p>
+    </form>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="confirmacion-texto"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__mmInit) return;
+      root.__mmInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      var form = root.querySelector('[data-mm-form]');
+      var nameField = root.querySelector('[data-mm-namefield]');
+      var nameInput = nameField && nameField.querySelector('input');
+      var attend = root.querySelector('[data-mm-attend]');
+      var countEl = root.querySelector('[data-mm-count]');
+      var btn = root.querySelector('[data-mm-submit]');
+      var msg = root.querySelector('[data-mm-msg]');
+      var card = root.querySelector('.mm-rsvp__card');
+      var cv = root.querySelector('[data-mm-burst]');
+      var cx = cv.getContext('2d');
+
+      /* ---- Acompañantes ---- */
+      var count = 0;
+      [].forEach.call(root.querySelectorAll('[data-mm-step]'), function (b) {
+        b.addEventListener('click', function () {
+          var d = +b.getAttribute('data-mm-step'), n = Math.max(0, Math.min(10, count + d));
+          if (n === count) return;
+          count = n;
+          countEl.classList.add(d > 0 ? 'is-down' : 'is-up');
+          countEl.textContent = n;
+          void countEl.offsetWidth;
+          countEl.classList.remove('is-down', 'is-up');
+        });
+      });
+
+      /* ---- Mariposas en canvas (ráfaga) ---- */
+      var cs = getComputedStyle(root);
+      function cssv(n, fb) { var v = cs.getPropertyValue(n).trim(); return v || fb; }
+      function rgb(c) {
+        cx.fillStyle = '#000'; cx.fillStyle = c; var v = String(cx.fillStyle);
+        if (v.charAt(0) === '#') return [parseInt(v.substr(1, 2), 16), parseInt(v.substr(3, 2), 16), parseInt(v.substr(5, 2), 16)];
+        var m = v.match(/-?[\d.]+/g) || [0, 0, 0], r = [+m[0], +m[1], +m[2]];
+        if (v.indexOf('color(') === 0) r = r.map(function (x) { return Math.round(x * 255); });
+        return r;
+      }
+      function rgba(c, a) { return 'rgba(' + (c[0] | 0) + ',' + (c[1] | 0) + ',' + (c[2] | 0) + ',' + a + ')'; }
+      function mixc(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
+      var P = rgb(cssv('--mm-p', '#f2a9cf')), S = rgb(cssv('--mm-s', '#8fd0f5')), A = rgb(cssv('--mm-a', '#e5c07e')), T = rgb(cssv('--mm-tx', '#faf2fb')), BG = rgb(cssv('--mm-bg', '#1a0e26'));
+      var pF = new Path2D('M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z');
+      var pH = new Path2D('M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z');
+      function wing(c1, c2, c3) {
+        var w = document.createElement('canvas'); w.width = 208; w.height = 248;
+        var g = w.getContext('2d'); g.scale(2, 2); g.translate(2, 2);
+        var gr = g.createRadialGradient(0, 54, 2, 0, 54, 104);
+        gr.addColorStop(0, rgba(c1, 1)); gr.addColorStop(.5, rgba(c2, 1)); gr.addColorStop(1, rgba(c3, 1));
+        [pF, pH].forEach(function (p) {
+          g.save(); g.fillStyle = gr; g.fill(p); g.clip(p);
+          g.strokeStyle = rgba(T, .22); g.lineWidth = .7;
+          for (var i = 0; i < 8; i++) { var a = -1.3 + i * .4; g.beginPath(); g.moveTo(0, 54); g.quadraticCurveTo(40 * Math.cos(a + .18), 54 + 40 * Math.sin(a + .18), 112 * Math.cos(a), 54 + 112 * Math.sin(a)); g.stroke(); }
+          g.lineWidth = 8; g.strokeStyle = rgba(BG, .2); g.stroke(p); g.restore();
+        });
+        g.lineWidth = 1.6; g.strokeStyle = rgba(A, .95); g.stroke(pF); g.stroke(pH);
+        g.fillStyle = rgba(T, .9);
+        [[84, 14, 2], [90, 24, 1.6], [91, 34, 1.4], [76, 8, 1.5], [60, 104, 1.6]].forEach(function (d) { g.beginPath(); g.arc(d[0], d[1], d[2], 0, 6.2832); g.fill(); });
+        return w;
+      }
+      var pairs = [[wing(mixc(A, P, .25), P, S), wing(P, S, mixc(S, T, .35))], [wing(mixc(P, S, .5), S, mixc(S, T, .3)), wing(S, mixc(P, S, .5), P)], [wing(A, mixc(A, P, .5), P), wing(mixc(A, T, .3), A, mixc(P, A, .4))]];
+      var bodyCol = rgba(mixc(BG, A, .35), 1), antCol = rgba(A, .9);
+      function bfly(c, x, y, s, rot, open, pair, alpha) {
+        var k = s / 200; c.save(); c.translate(x, y); c.rotate(rot); c.scale(k, k);
+        for (var d = -1; d <= 1; d += 2) {
+          c.save(); c.scale(d * Math.max(.06, open), 1); c.translate(0, -56);
+          c.globalAlpha = alpha * (.15 + .85 * open); c.drawImage(pair[0], -2, -2, 104, 124);
+          c.globalAlpha = alpha * (1 - open); c.drawImage(pair[1], -2, -2, 104, 124);
+          c.restore();
+        }
+        c.globalAlpha = alpha; c.fillStyle = bodyCol; c.beginPath(); c.ellipse(0, 0, 3.4, 24, 0, 0, 6.2832); c.fill();
+        c.strokeStyle = antCol; c.lineWidth = 1.6; c.beginPath(); c.moveTo(-1, -20); c.quadraticCurveTo(-7, -38, -15, -44); c.moveTo(1, -20); c.quadraticCurveTo(7, -38, 15, -44); c.stroke();
+        c.restore();
+      }
+      var flock = [], raf = 0, last = 0, W = 1, H = 1, DPR = 1;
+      function size() {
+        var r = root.getBoundingClientRect(); W = r.width; H = r.height; DPR = Math.min(2, window.devicePixelRatio || 1);
+        cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+      }
+      function burst() {
+        size();
+        var rr = root.getBoundingClientRect(), br = btn.getBoundingClientRect();
+        var ox = br.left - rr.left + br.width / 2, oy = br.top - rr.top + br.height / 2;
+        for (var i = 0; i < 18; i++) {
+          var a = -Math.PI / 2 + (Math.random() - .5) * 2.6, v = 160 + Math.random() * 260;
+          flock.push({ x: ox, y: oy, vx: Math.cos(a) * v, vy: Math.sin(a) * v, ph: Math.random() * 6.28, fr: 9 + Math.random() * 5, s: 30 + Math.random() * 34, life: 1, dec: 1 / (2.6 + Math.random() * 1.4), pair: pairs[i % 3], rot: 0, wob: Math.random() * 6.28 });
+        }
+        if (!raf) { last = 0; raf = requestAnimationFrame(loop); }
+      }
+      function loop(now) {
+        var dt = last ? Math.min(.05, (now - last) / 1000) : .016; last = now;
+        cx.setTransform(DPR, 0, 0, DPR, 0, 0); cx.clearRect(0, 0, W, H);
+        for (var i = flock.length - 1; i >= 0; i--) {
+          var b = flock[i];
+          b.life -= dt * b.dec; if (b.life <= 0) { flock.splice(i, 1); continue; }
+          b.vx = b.vx * .975 + Math.sin(now / 300 + b.wob) * 8; b.vy = b.vy * .975 - 30 * dt;
+          b.x += b.vx * dt; b.y += b.vy * dt; b.ph += dt * b.fr;
+          var tr = Math.max(-.8, Math.min(.8, Math.atan2(b.vy, b.vx) + Math.PI / 2)); b.rot += (tr - b.rot) * .1;
+          var open = .08 + .92 * Math.pow(.5 + .5 * Math.cos(b.ph), 1.3);
+          bfly(cx, b.x, b.y, b.s, b.rot, open, b.pair, Math.min(1, b.life * 1.8));
+        }
+        if (flock.length) raf = requestAnimationFrame(loop);
+        else { raf = 0; cx.clearRect(0, 0, W, H); }
+      }
+
+      /* ---- Borde iridiscente giratorio ---- */
+      if (!RM && card) {
+        var vis = false, t0 = 0, rr = 0;
+        var spin = function (now) {
+          rr = 0; if (!vis) return;
+          card.style.setProperty('--mm-rot', ((now / 40) % 360).toFixed(1) + 'deg');
+          rr = requestAnimationFrame(spin);
+        };
+        if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { vis = en[0].isIntersecting; if (vis && !rr) rr = requestAnimationFrame(spin); }).observe(root);
+      }
+
+      /* ---- Envío simulado ---- */
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (btn.classList.contains('is-loading') || btn.classList.contains('is-done')) return;
+        var chosen = form.querySelector('input[name="asistencia"]:checked');
+        if (!nameInput.value.trim()) {
+          msg.textContent = 'Escribe tu nombre para confirmar.';
+          nameField.classList.remove('is-error'); void nameField.offsetWidth; nameField.classList.add('is-error');
+          nameInput.focus(); return;
+        }
+        if (!chosen) { msg.textContent = 'Elige si nos acompañarás.'; attend.querySelector('input').focus(); return; }
+        msg.textContent = '';
+        btn.classList.add('is-loading');
+        btn.setAttribute('aria-busy', 'true');
+        setTimeout(function () {
+          btn.classList.remove('is-loading');
+          btn.classList.add('is-done');
+          btn.removeAttribute('aria-busy');
+          msg.textContent = chosen.value === 'si' ? '¡Gracias! Tu asistencia quedó confirmada.' : 'Gracias por avisarnos. Te extrañaremos.';
+          if (!RM && chosen.value === 'si') burst();
+        }, RM ? 200 : 1500);
+      });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Metamorfosis Crisálida',
+      descripcion: 'RSVP con borde iridiscente giratorio: nombre, asistencia sí/no con alas, acompañantes y mensaje. El botón se pliega en una crisálida que aletea y libera una ráfaga de mariposas al confirmar.',
+      tags: ['confirmación', 'rsvp', 'formulario', 'quinceañera', 'xv años', 'mariposas', 'metamorfosis', 'micro-interacción', 'canvas', 'iridiscente', 'asistencia', 'premium'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>

@@ -1,0 +1,595 @@
+<section
+  class="mm-portada"
+  data-gemini-id="portada-nombre"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Pinyon+Script&display=swap');
+
+    .mm-portada, .mm-portada *, .mm-portada *::before, .mm-portada *::after { box-sizing: border-box; }
+    .mm-portada {
+      --mm-bg: var(--bg-color, #1a0e26);
+      --mm-tx: var(--text-color, #faf2fb);
+      --mm-p: var(--primary-color, #f2a9cf);
+      --mm-s: var(--secondary-color, #8fd0f5);
+      --mm-a: var(--accent-color, #e5c07e);
+      --mm-script: var(--font-script, 'Pinyon Script', 'Great Vibes', cursive);
+      --mm-serif: var(--font-heading, 'Cormorant Garamond', 'Cormorant', Georgia, serif);
+      --panel: color-mix(in srgb, var(--mm-bg) 85%, transparent);
+      position: relative;
+      isolation: isolate;
+      min-height: 100vh;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(5rem, 12vh, 8rem) clamp(1rem, 5vw, 4rem) clamp(6.5rem, 15vh, 9rem);
+      overflow: hidden;
+      background-color: var(--mm-bg);
+      background-image: url('https://loremflickr.com/1920/1080/butterfly,garden?lock=2701');
+      background-size: cover;
+      background-position: center;
+      color: var(--mm-tx);
+      text-align: center;
+      font-family: var(--mm-serif);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .mm-portada::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(55% 42% at 50% 50%, color-mix(in srgb, var(--mm-p) 18%, transparent), transparent 70%),
+        radial-gradient(70% 55% at 10% 100%, color-mix(in srgb, var(--mm-s) 16%, transparent), transparent 70%),
+        radial-gradient(60% 45% at 92% 0%, color-mix(in srgb, var(--mm-a) 12%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--mm-bg) 80%, transparent), color-mix(in srgb, var(--mm-bg) 93%, transparent) 72%, var(--mm-bg));
+    }
+    .mm-portada__canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .mm-portada__canvas--front { z-index: 3; }
+
+    .mm-portada__content {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 60rem);
+      display: grid;
+      justify-items: center;
+      gap: clamp(.55rem, 1.6vh, 1rem);
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+    .mm-portada__eyebrow {
+      margin: 0;
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+      letter-spacing: .05em;
+      color: color-mix(in srgb, var(--mm-p) 70%, var(--mm-tx));
+    }
+    .mm-portada__name {
+      margin: 0;
+      padding: .06em .3em .2em;
+      font-family: var(--mm-script);
+      font-weight: 400;
+      font-size: clamp(3.6rem, 12vw, 9.5rem);
+      line-height: 1.02;
+      background-image: linear-gradient(100deg,
+        var(--mm-a) 0%,
+        color-mix(in srgb, var(--mm-a) 35%, #fff) 18%,
+        var(--mm-a) 30%,
+        color-mix(in srgb, var(--mm-p) 55%, var(--mm-a)) 55%,
+        var(--mm-a) 72%,
+        color-mix(in srgb, var(--mm-a) 30%, #fff) 86%,
+        var(--mm-a) 100%);
+      background-size: 240% 100%;
+      background-position: 100% 0;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 0 .28em color-mix(in srgb, var(--mm-bg) 92%, transparent)) drop-shadow(0 0 1px color-mix(in srgb, var(--mm-a) 55%, transparent));
+      transition: background-position .5s cubic-bezier(.4, 0, .2, 1);
+    }
+    .mm-portada__content.is-glint .mm-portada__name { background-position: 0 0; }
+
+    .mm-portada__rule {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .9rem;
+      width: min(100%, 26rem);
+    }
+    .mm-portada__line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--mm-a) 80%, transparent));
+      transform-origin: right center;
+      transition: transform .5s cubic-bezier(.2, .8, .2, 1);
+    }
+    .mm-portada__line + .mm-portada__bf + .mm-portada__line,
+    .mm-portada__bf ~ .mm-portada__line {
+      background: linear-gradient(270deg, transparent, color-mix(in srgb, var(--mm-a) 80%, transparent));
+      transform-origin: left center;
+    }
+
+    /* Mariposa 3D miniatura (CSS preserve-3d) */
+    .mm-portada__bf {
+      position: relative;
+      flex: none;
+      width: 2.6rem;
+      height: 1.7rem;
+      transform-style: preserve-3d;
+      transform: perspective(240px) rotateX(48deg);
+    }
+    .mm-portada__bf i {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 50%;
+      transform-origin: 0 50%;
+      transform-style: preserve-3d;
+      animation: mmPortadaFlapR .34s ease-in-out infinite alternate;
+    }
+    .mm-portada__bf i + i { animation-name: mmPortadaFlapL; }
+    .mm-portada__bf svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .mm-portada__bf path { stroke: var(--mm-a); stroke-width: 3; }
+    .mm-portada__bf path:first-child { fill: var(--mm-p); }
+    .mm-portada__bf path:last-child { fill: var(--mm-s); }
+    @keyframes mmPortadaFlapR { from { transform: rotateY(8deg); } to { transform: rotateY(66deg); } }
+    @keyframes mmPortadaFlapL { from { transform: rotateY(172deg); } to { transform: rotateY(114deg); } }
+
+    .mm-portada__lead {
+      margin: 0;
+      max-width: 34ch;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1.12rem, 2.2vw, 1.45rem);
+      line-height: 1.5;
+      color: color-mix(in srgb, var(--mm-tx) 88%, transparent);
+      text-wrap: balance;
+    }
+    .mm-portada__date {
+      display: inline-block;
+      margin-top: .35rem;
+      padding: .6em 1.5em .65em;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background:
+        linear-gradient(color-mix(in srgb, var(--mm-bg) 70%, transparent), color-mix(in srgb, var(--mm-bg) 70%, transparent)) padding-box,
+        linear-gradient(90deg, var(--mm-s), var(--mm-p), var(--mm-a)) border-box;
+      font-weight: 500;
+      font-size: clamp(1rem, 2vw, 1.22rem);
+      letter-spacing: .08em;
+      font-variant: small-caps;
+      color: var(--mm-tx);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+    }
+    .mm-portada__cue {
+      position: absolute;
+      left: 50%;
+      bottom: clamp(1.2rem, 4vh, 2.4rem);
+      z-index: 2;
+      width: 1px;
+      height: 3.2rem;
+      margin-left: -.5px;
+      background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--mm-tx) 45%, transparent));
+    }
+    .mm-portada__cue span {
+      position: absolute;
+      left: -2.5px;
+      top: 0;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--mm-a);
+      box-shadow: 0 0 10px var(--mm-a);
+    }
+
+    /* Estados de entrada (solo cuando JS está activo) — cada transición ≤ 0.5s */
+    .mm-portada--anim [data-mm-step] {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1), clip-path .5s cubic-bezier(.6, 0, .2, 1);
+    }
+    .mm-portada--anim [data-mm-step].is-on { opacity: 1; transform: none; }
+    .mm-portada--anim .mm-portada__name[data-mm-step] { transform: none; clip-path: inset(0 50% 0 50%); }
+    .mm-portada--anim .mm-portada__name[data-mm-step].is-on { clip-path: inset(-25% -8% -25% -8%); }
+    .mm-portada--anim .mm-portada__rule[data-mm-step] { transform: none; }
+    .mm-portada--anim .mm-portada__rule[data-mm-step] .mm-portada__line { transform: scaleX(0); }
+    .mm-portada--anim .mm-portada__rule[data-mm-step].is-on .mm-portada__line { transform: scaleX(1); }
+
+    .mm-portada :focus-visible { outline: 2px solid var(--mm-a); outline-offset: 4px; }
+
+    @media (max-width: 640px) {
+      .mm-portada__name { font-size: clamp(3.2rem, 17vw, 5rem); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .mm-portada *, .mm-portada *::before, .mm-portada *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <canvas class="mm-portada__canvas" data-mm-layer="back" aria-hidden="true"></canvas>
+
+  <header class="mm-portada__content" data-mm-tilt>
+    <p class="mm-portada__eyebrow" data-mm-step memory_type="text" memory_usage="custom" memory_key="portada-subtitulo">Mis XV años</p>
+    <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,3vw,1.6rem);width:clamp(150px,22vw,220px);"><img src="https://loremflickr.com/480/480/butterfly,flowers,portrait" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:2px solid var(--primary-color,#9b9b9b);box-shadow:0 14px 30px rgba(0,0,0,.18);" /><figcaption hidden>Retrato</figcaption></figure>
+<h1 class="mm-portada__name" data-mm-step memory_type="text" memory_usage="custom" memory_key="portada-nombre">Nombre Apellido</h1>
+    <div class="mm-portada__rule" data-mm-step aria-hidden="true">
+      <span class="mm-portada__line"></span>
+      <span class="mm-portada__bf">
+        <i><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z"/><path d="M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/></svg></i>
+        <i><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z"/><path d="M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/></svg></i>
+      </span>
+      <span class="mm-portada__line"></span>
+    </div>
+    <p class="mm-portada__lead" data-mm-step memory_type="text" memory_usage="custom" memory_key="portada-texto">Hay sueños que tardan quince años en desplegar sus alas. Acompáñame a celebrar el mío.</p>
+    <time class="mm-portada__date" data-mm-step datetime="2027-05-15T19:00:00" memory_type="text" memory_usage="custom" memory_key="portada-fecha">Sábado 15 de mayo de 2027</time>
+  </header>
+
+  <canvas class="mm-portada__canvas mm-portada__canvas--front" data-mm-layer="front" aria-hidden="true"></canvas>
+  <div class="mm-portada__cue" data-mm-step aria-hidden="true"><span data-mm-cue></span></div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="portada-nombre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__mmInit) return;
+      root.__mmInit = true;
+
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var back = root.querySelector('[data-mm-layer="back"]');
+      var front = root.querySelector('[data-mm-layer="front"]');
+      var tilt = root.querySelector('[data-mm-tilt]');
+      var cue = root.querySelector('[data-mm-cue]');
+      var steps = [].slice.call(root.querySelectorAll('[data-mm-step]'));
+      if (!back || !back.getContext) return;
+      var bx = back.getContext('2d');
+      var fx = front.getContext('2d');
+
+      /* ---------- Color: lee variables CSS del tema ---------- */
+      var cs = getComputedStyle(root);
+      function cssv(n, fb) { var v = cs.getPropertyValue(n).trim(); return v || fb; }
+      function rgb(c) {
+        bx.fillStyle = '#000'; bx.fillStyle = c;
+        var v = String(bx.fillStyle);
+        if (v.charAt(0) === '#') return [parseInt(v.substr(1, 2), 16), parseInt(v.substr(3, 2), 16), parseInt(v.substr(5, 2), 16)];
+        var m = v.match(/-?[\d.]+/g) || [0, 0, 0];
+        var r = [+m[0], +m[1], +m[2]];
+        if (v.indexOf('color(') === 0) r = r.map(function (x) { return Math.round(x * 255); });
+        return r;
+      }
+      function rgba(c, a) { return 'rgba(' + (c[0] | 0) + ',' + (c[1] | 0) + ',' + (c[2] | 0) + ',' + a + ')'; }
+      function mixc(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
+      var P = rgb(cssv('--mm-p', '#f2a9cf')), S = rgb(cssv('--mm-s', '#8fd0f5')), A = rgb(cssv('--mm-a', '#e5c07e'));
+      var T = rgb(cssv('--mm-tx', '#faf2fb')), BG = rgb(cssv('--mm-bg', '#1a0e26'));
+
+      /* ---------- Sprites de alas (pre-renderizados, iridiscencia A/B) ---------- */
+      var pF = new Path2D('M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z');
+      var pH = new Path2D('M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z');
+      function wing(c1, c2, c3) {
+        var cv = document.createElement('canvas'), k = 2;
+        cv.width = 104 * k; cv.height = 124 * k;
+        var g = cv.getContext('2d');
+        g.scale(k, k); g.translate(2, 2);
+        var gr = g.createRadialGradient(0, 54, 2, 0, 54, 104);
+        gr.addColorStop(0, rgba(c1, 1)); gr.addColorStop(.5, rgba(c2, 1)); gr.addColorStop(1, rgba(c3, 1));
+        [pF, pH].forEach(function (p) {
+          g.save(); g.fillStyle = gr; g.fill(p); g.clip(p);
+          var sh = g.createRadialGradient(0, 54, 0, 0, 54, 44);
+          sh.addColorStop(0, rgba(BG, .32)); sh.addColorStop(1, rgba(BG, 0));
+          g.fillStyle = sh; g.fillRect(0, 0, 100, 120);
+          g.strokeStyle = rgba(T, .22); g.lineWidth = .7;
+          for (var i = 0; i < 8; i++) {
+            var a = -1.3 + i * .4;
+            g.beginPath(); g.moveTo(0, 54);
+            g.quadraticCurveTo(40 * Math.cos(a + .18), 54 + 40 * Math.sin(a + .18), 112 * Math.cos(a), 54 + 112 * Math.sin(a));
+            g.stroke();
+          }
+          g.lineWidth = 8; g.strokeStyle = rgba(BG, .2); g.stroke(p);
+          g.restore();
+        });
+        g.lineWidth = 1.6; g.strokeStyle = rgba(A, .95); g.stroke(pF); g.stroke(pH);
+        g.fillStyle = rgba(T, .9);
+        [[84, 14, 2], [90, 24, 1.6], [91, 34, 1.4], [76, 8, 1.5], [60, 104, 1.6], [48, 108, 1.3]].forEach(function (d) {
+          g.beginPath(); g.arc(d[0], d[1], d[2], 0, 6.2832); g.fill();
+        });
+        var e = g.createRadialGradient(42, 90, 0, 42, 90, 9);
+        e.addColorStop(0, rgba(T, .95)); e.addColorStop(.35, rgba(A, .9)); e.addColorStop(1, rgba(A, 0));
+        g.fillStyle = e; g.beginPath(); g.arc(42, 90, 9, 0, 6.2832); g.fill();
+        return cv;
+      }
+      function glow(c, r) {
+        var cv = document.createElement('canvas'); cv.width = cv.height = r * 2;
+        var g = cv.getContext('2d'), gr = g.createRadialGradient(r, r, 0, r, r, r);
+        gr.addColorStop(0, rgba(c, 1)); gr.addColorStop(.22, rgba(c, .5)); gr.addColorStop(1, rgba(c, 0));
+        g.fillStyle = gr; g.fillRect(0, 0, r * 2, r * 2);
+        return cv;
+      }
+      var pairs = [
+        [wing(mixc(A, P, .25), P, S), wing(P, S, mixc(S, T, .35))],
+        [wing(mixc(P, S, .5), S, mixc(S, T, .3)), wing(S, mixc(P, S, .5), P)],
+        [wing(A, mixc(A, P, .5), P), wing(mixc(A, T, .3), A, mixc(P, A, .4))]
+      ];
+      var dots = [glow(P, 16), glow(S, 16), glow(A, 16), glow(T, 16)];
+      var halo = glow(mixc(P, A, .3), 80);
+      var bodyCol = rgba(mixc(BG, A, .35), 1), antCol = rgba(A, .9);
+
+      function bfly(c, x, y, s, rot, open, yaw, pair, alpha) {
+        var k = s / 200;
+        c.save(); c.translate(x, y); c.rotate(rot); c.scale(k, k);
+        var mix = 1 - open;
+        for (var d = -1; d <= 1; d += 2) {
+          var sx = Math.max(.06, open * (1 + d * yaw * .6));
+          c.save(); c.scale(d * sx, 1); c.translate(0, -56);
+          c.globalAlpha = alpha * (1 - mix * .85); c.drawImage(pair[0], -2, -2, 104, 124);
+          if (mix > .02) { c.globalAlpha = alpha * mix; c.drawImage(pair[1], -2, -2, 104, 124); }
+          c.restore();
+        }
+        c.globalAlpha = alpha; c.fillStyle = bodyCol;
+        c.beginPath(); c.ellipse(0, 0, 3.4, 24, 0, 0, 6.2832); c.fill();
+        c.strokeStyle = antCol; c.lineWidth = 1.6;
+        c.beginPath(); c.moveTo(-1, -20); c.quadraticCurveTo(-7, -38, -15, -44); c.moveTo(1, -20); c.quadraticCurveTo(7, -38, 15, -44); c.stroke();
+        c.restore();
+      }
+
+      /* ---------- Estado ---------- */
+      var W = 1, H = 1, DPR = 1, scale = 1, cx = 0, cy = 0;
+      var pts = [], dust = [], flock = [], bursts = [], bokeh = [];
+      var clock = 0, last = 0, running = false, raf = 0, started = false;
+      var yaw = 0, pitch = 0, tyaw = 0, tpitch = 0, glintAt = 3.4, touchLike = !window.matchMedia || window.matchMedia('(hover: none)').matches;
+      function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+      function ease(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+      function eout(t) { return 1 - Math.pow(1 - t, 3); }
+
+      function size() {
+        var r = root.getBoundingClientRect();
+        W = Math.max(1, r.width); H = Math.max(1, r.height);
+        DPR = Math.min(2, window.devicePixelRatio || 1);
+        [back, front].forEach(function (cv) { cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR); });
+        scale = W < 640 ? Math.min(W * 1.12 / 5.8, H * .62 / 4.94) : Math.min(W * .92 / 5.8, H * .8 / 4.94);
+        cx = W / 2; cy = H / 2 + .62 * scale;
+      }
+      function newB(f) {
+        return {
+          ox: (Math.random() * 2 - 1) * .9, oy: (Math.random() * 2 - 1) * .75, oz: Math.random() * .85,
+          ax: .12 + Math.random() * .28, ay: .08 + Math.random() * .2, az: .15,
+          w1: .05 + Math.random() * .07, w2: .07 + Math.random() * .08, w3: .04 + Math.random() * .05,
+          p1: Math.random() * 6.28, p2: Math.random() * 6.28, p3: Math.random() * 6.28,
+          ph: Math.random() * 6.28, fr: 6.5 + Math.random() * 3, pair: pairs[(Math.random() * 3) | 0],
+          born: 2.0 + f * 1.6, rot: 0, px: cx, py: cy, z: .5, x: cx, y: cy
+        };
+      }
+      function build() {
+        var n = W < 640 ? 950 : 1700;
+        pts = [];
+        for (var i = 0; i < n; i++) {
+          var t = i / n * 12 * Math.PI;
+          var e = Math.exp(Math.cos(t)) - 2 * Math.cos(4 * t) - Math.pow(Math.sin(t / 12), 5);
+          var j = (Math.random() - .5) * .05;
+          pts.push({
+            tx: Math.sin(t) * e + j, ty: -Math.cos(t) * e + j,
+            sx: Math.random() * W, sy: Math.random() * H, d: i / n * .95,
+            c: i % 4 === 0 ? 2 : (Math.sin(t * .5) > 0 ? 0 : 1), r: .6 + Math.random() * 1.3, tw: Math.random() * 6.28
+          });
+        }
+        dust = [];
+        for (var k = 0; k < (W < 640 ? 50 : 110); k++) dust.push({ x: Math.random(), y: Math.random(), z: .3 + Math.random() * .7, v: .004 + Math.random() * .012, tw: Math.random() * 6.28, c: k % 4 });
+        flock = [];
+        var m = W < 640 ? 8 : 14;
+        for (var b = 0; b < m; b++) flock.push(newB(b / m));
+        bokeh = [{ p: 0, sp: 1 / 22, y: .28, pair: pairs[0] }, { p: .55, sp: 1 / 27, y: .74, pair: pairs[1] }];
+      }
+
+      function drawFiligree(time, mul) {
+        var fl = .3 * (.5 + .5 * Math.sin(time * 1.2));
+        var ca = Math.cos(fl), sa = Math.sin(fl), cyw = Math.cos(yaw), syw = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+        bx.globalCompositeOperation = 'lighter';
+        for (var i = 0; i < pts.length; i++) {
+          var p = pts[i];
+          var x3 = p.tx * ca, z3 = -Math.abs(p.tx) * sa;
+          var x4 = x3 * cyw + z3 * syw, z4 = -x3 * syw + z3 * cyw;
+          var y4 = p.ty * cp - z4 * sp, z5 = p.ty * sp + z4 * cp;
+          var f = 7 / (7 + z5);
+          var X = cx + x4 * scale * f, Y = cy + y4 * scale * f;
+          var e = ease(clamp((time - .2 - p.d) / 1.1, 0, 1));
+          var sw = (1 - e) * e * 140;
+          var px = p.sx + (X - p.sx) * e + Math.sin(p.tw + time * 3) * sw;
+          var py = p.sy + (Y - p.sy) * e + Math.cos(p.tw + time * 3) * sw;
+          var a = (.3 + .7 * e) * (.55 + .45 * Math.sin(p.tw + time * 2.2)) * mul;
+          var r = p.r * 6 * f;
+          bx.globalAlpha = a;
+          bx.drawImage(dots[p.c], px - r, py - r, r * 2, r * 2);
+        }
+        bx.globalCompositeOperation = 'source-over';
+        bx.globalAlpha = 1;
+      }
+      function drawDust(time, dt) {
+        bx.globalCompositeOperation = 'lighter';
+        for (var i = 0; i < dust.length; i++) {
+          var d = dust[i];
+          d.y -= d.v * dt * (1 - d.z * .5); if (d.y < -.05) { d.y = 1.05; d.x = Math.random(); }
+          var x = d.x * W + Math.sin(time * .4 + d.tw) * 18 * d.z + yaw * 40 * d.z, y = d.y * H;
+          var r = 5 + 9 * d.z;
+          bx.globalAlpha = (.25 + .35 * Math.sin(time * 1.7 + d.tw)) * d.z;
+          bx.drawImage(dots[d.c], x - r, y - r, r * 2, r * 2);
+        }
+        bx.globalCompositeOperation = 'source-over';
+        bx.globalAlpha = 1;
+      }
+      function stepBfly(b, time, dt, tx, ty) {
+        var dx = tx - b.px, dy = ty - b.py;
+        b.px = tx; b.py = ty;
+        var tr = clamp(Math.atan2(dy, dx) + Math.PI / 2, -.75, .75);
+        if (Math.abs(dx) + Math.abs(dy) > .05) b.rot += (tr - b.rot) * .06;
+        var glide = .5 + .5 * Math.sin(time * .6 + b.p1);
+        b.ph += dt * b.fr * (.45 + .55 * glide);
+        var flap = .08 + .92 * Math.pow(.5 + .5 * Math.cos(b.ph), 1.3);
+        b.open = flap + (.85 - flap) * (1 - glide) * .55;
+        b.yaw = clamp(dx * .08, -.5, .5);
+      }
+      function drawFlock(time, dt) {
+        var base = clamp(W * .056, 40, 86);
+        for (var i = 0; i < flock.length; i++) {
+          var b = flock[i];
+          var X = b.ox + b.ax * Math.sin(time * b.w1 * 6.283 + b.p1) + .08 * Math.sin(time * 1.3 + b.p3);
+          var Y = b.oy + b.ay * Math.sin(time * b.w2 * 6.283 + b.p2) + .05 * Math.cos(time * 1.7 + b.p1);
+          b.z = clamp(b.oz + b.az * Math.sin(time * b.w3 * 6.283 + b.p3), 0, 1);
+          var sx = W / 2 + X * W * .48 + yaw * 70 * (1.1 - b.z);
+          var sy = H / 2 + Y * H * .46 - pitch * 50 * (1.1 - b.z);
+          var e = eout(clamp((time - b.born) / 1.8, 0, 1));
+          b.x = cx + (sx - cx) * e; b.y = cy - scale * .2 + (sy - cy + scale * .2) * e;
+          b.vis = e;
+        }
+        flock.sort(function (a, b) { return b.z - a.z; });
+        for (var j = 0; j < flock.length; j++) {
+          var f = flock[j];
+          if (f.vis <= 0) continue;
+          stepBfly(f, time, dt, f.x, f.y);
+          var depth = 1.25 - f.z * .7;
+          bfly(bx, f.x, f.y, base * depth * (.25 + .75 * f.vis), f.rot, f.open, f.yaw, f.pair, (.45 + .55 * (1 - f.z)) * Math.min(1, f.vis * 2));
+        }
+      }
+      function drawBursts(time, dt) {
+        for (var i = bursts.length - 1; i >= 0; i--) {
+          var b = bursts[i];
+          b.life -= dt / 3.2;
+          if (b.life <= 0) { bursts.splice(i, 1); continue; }
+          b.vx *= .985; b.vy = b.vy * .985 - 26 * dt;
+          b.x += b.vx * dt; b.y += b.vy * dt;
+          b.ph += dt * 11;
+          var flap = .08 + .92 * Math.pow(.5 + .5 * Math.cos(b.ph), 1.3);
+          var rot = clamp(Math.atan2(b.vy, b.vx) + Math.PI / 2, -.8, .8);
+          bfly(bx, b.x, b.y, b.s * (1 - (1 - b.life) * .3), rot, flap, clamp(b.vx * .004, -.5, .5), b.pair, Math.min(1, b.life * 1.6));
+        }
+      }
+      function drawFront(time) {
+        fx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        fx.clearRect(0, 0, W, H);
+        if (time < 3.2) return;
+        var big = clamp(W * .26, 160, 360);
+        var canBlur = 'filter' in fx;
+        if (canBlur) fx.filter = 'blur(' + Math.round(big / 64) + 'px)';
+        for (var i = 0; i < bokeh.length; i++) {
+          var k = bokeh[i];
+          var u = (k.p + (time - 3.2) * k.sp) % 1;
+          var x = -big + u * (W + big * 2), y = H * k.y + Math.sin(u * 9 + i) * H * .06;
+          var flap = .15 + .85 * Math.pow(.5 + .5 * Math.cos(time * 4.2 + i * 2), 1.4);
+          var a = Math.sin(u * Math.PI) * (canBlur ? .24 : .14);
+          bfly(fx, x, y, big, .35 + Math.sin(time * .5 + i) * .15, flap, .2, k.pair, a);
+        }
+        if (canBlur) fx.filter = 'none';
+      }
+
+      function frame(now) {
+        raf = 0;
+        if (!running) return;
+        var dt = last ? Math.min(.05, (now - last) / 1000) : .016;
+        last = now; clock += dt;
+        var time = clock;
+        var auto = touchLike ? Math.sin(time * .32) * .22 : 0;
+        yaw += (tyaw + auto - yaw) * .05; pitch += (tpitch - pitch) * .05;
+
+        bx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        bx.clearRect(0, 0, W, H);
+        var hs = scale * 2.6;
+        bx.globalCompositeOperation = 'lighter';
+        bx.globalAlpha = .22 * eout(clamp(time / 2, 0, 1)) * (.85 + .15 * Math.sin(time * 1.2));
+        bx.drawImage(halo, cx - hs, cy - scale * 1.1 - hs * .7, hs * 2, hs * 1.4);
+        bx.globalCompositeOperation = 'source-over'; bx.globalAlpha = 1;
+        drawDust(time, dt);
+        drawFiligree(time, time < 2.6 ? 1 : Math.max(.58, 1 - (time - 2.6) * .3));
+        drawFlock(time, dt);
+        drawBursts(time, dt);
+        drawFront(time);
+
+        if (tilt) tilt.style.transform = 'perspective(1000px) rotateY(' + (yaw * 7).toFixed(2) + 'deg) rotateX(' + (pitch * 7).toFixed(2) + 'deg)';
+        if (cue) cue.style.transform = 'translateY(' + ((Math.sin(time * 1.6) * .5 + .5) * 46).toFixed(1) + 'px)';
+        if (time > glintAt && tilt) {
+          glintAt = time + 6.5;
+          tilt.classList.toggle('is-glint');
+        }
+        raf = requestAnimationFrame(frame);
+      }
+      function play() { if (running || RM) return; running = true; last = 0; raf = requestAnimationFrame(frame); }
+      function pause() { running = false; if (raf) cancelAnimationFrame(raf); raf = 0; }
+
+      function revealSequence() {
+        root.classList.add('mm-portada--anim');
+        var at = [1000, 1250, 1600, 1850, 2050, 2500];
+        steps.forEach(function (el, i) { setTimeout(function () { el.classList.add('is-on'); }, at[Math.min(i, at.length - 1)]); });
+        setTimeout(function () {
+          root.classList.remove('mm-portada--anim');
+          steps.forEach(function (el) { el.classList.remove('is-on'); });
+        }, 3400);
+      }
+
+      function staticFrame() {
+        bx.setTransform(DPR, 0, 0, DPR, 0, 0); bx.clearRect(0, 0, W, H);
+        drawFiligree(10, .8);
+        var base = clamp(W * .05, 30, 66);
+        flock.slice(0, 6).forEach(function (b, i) {
+          var x = W / 2 + b.ox * W * .46, y = H / 2 + b.oy * H * .44;
+          bfly(bx, x, y, base * (1.2 - b.oz * .6), (i % 2 ? .3 : -.3), .9, 0, b.pair, .7);
+        });
+      }
+
+      size(); build();
+      if (RM) {
+        staticFrame();
+      } else {
+        revealSequence();
+        root.addEventListener('pointermove', function (e) {
+          var r = root.getBoundingClientRect();
+          tyaw = ((e.clientX - r.left) / r.width - .5) * .7;
+          tpitch = ((e.clientY - r.top) / r.height - .5) * -.4;
+        }, { passive: true });
+        root.addEventListener('pointerleave', function () { tyaw = 0; tpitch = 0; }, { passive: true });
+        root.addEventListener('pointerdown', function (e) {
+          var r = root.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+          for (var i = 0; i < 5 && bursts.length < 30; i++) {
+            var a = -Math.PI / 2 + (i - 2) * .45 + (Math.random() - .5) * .3, v = 120 + Math.random() * 90;
+            bursts.push({ x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1, ph: Math.random() * 6, s: clamp(W * .04, 26, 46), pair: pairs[i % 3] });
+          }
+        }, { passive: true });
+      }
+
+      if ('ResizeObserver' in window) {
+        var rw = 0, rh = 0;
+        new ResizeObserver(function () {
+          var r = root.getBoundingClientRect();
+          if (Math.abs(r.width - rw) < 2 && Math.abs(r.height - rh) < 60) return;
+          rw = r.width; rh = r.height; size();
+          if (RM) { build(); staticFrame(); }
+        }).observe(root);
+      }
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (en) {
+          en.forEach(function (x) { if (x.isIntersecting) { started = true; play(); } else pause(); });
+        }, { threshold: 0 }).observe(root);
+      } else play();
+      document.addEventListener('visibilitychange', function () { if (document.hidden) pause(); else if (started) play(); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Metamorfosis Filigrana de Luz',
+      descripcion: 'Portada XV años: miles de partículas bordan en 3D una mariposa matemática de luz; de ella emergen mariposas que vuelan en profundidad. Nombre en caligrafía con revelado de alas y fecha.',
+      tags: ['portada', 'hero', 'quinceañera', 'xv años', 'mariposas', 'metamorfosis', 'partículas', '3d', 'canvas', 'iridiscente', 'nombre', 'fecha', 'interactivo', 'premium'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

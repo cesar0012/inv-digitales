@@ -1,0 +1,339 @@
+<section
+  class="mm-cd"
+  data-gemini-id="countdown-metamorfosis"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="2027-05-15T19:00:00"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Pinyon+Script&display=swap');
+
+    .mm-cd, .mm-cd *, .mm-cd *::before, .mm-cd *::after { box-sizing: border-box; }
+    .mm-cd {
+      --mm-bg: var(--bg-color, #1a0e26);
+      --mm-tx: var(--text-color, #faf2fb);
+      --mm-p: var(--primary-color, #f2a9cf);
+      --mm-s: var(--secondary-color, #8fd0f5);
+      --mm-a: var(--accent-color, #e5c07e);
+      --mm-script: var(--font-script, 'Pinyon Script', 'Great Vibes', cursive);
+      --mm-serif: var(--font-heading, 'Cormorant Garamond', 'Cormorant', Georgia, serif);
+      --panel: color-mix(in srgb, var(--mm-bg) 82%, transparent);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 62vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--mm-bg);
+      background-image: url('https://loremflickr.com/1600/900/butterfly,night?lock=2707');
+      background-position: center;
+      background-size: cover;
+      color: var(--mm-tx);
+      text-align: center;
+      font-family: var(--mm-serif);
+    }
+    .mm-cd::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(38% 46% at 50% 42%, color-mix(in srgb, var(--mm-p) 20%, transparent), transparent 70%),
+        radial-gradient(60% 50% at 50% 110%, color-mix(in srgb, var(--mm-s) 16%, transparent), transparent 70%),
+        linear-gradient(180deg, var(--panel), color-mix(in srgb, var(--mm-bg) 94%, transparent));
+    }
+    .mm-cd__dust { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; }
+    .mm-cd__content { width: min(100%, 62rem); }
+    .mm-cd__heading {
+      margin: 0;
+      font-family: var(--mm-script);
+      font-weight: 400;
+      font-size: clamp(2.6rem, 7vw, 4.6rem);
+      line-height: 1.1;
+      color: var(--mm-tx);
+      text-shadow: 0 0 24px color-mix(in srgb, var(--mm-p) 45%, transparent);
+    }
+    .mm-cd__date {
+      display: block;
+      margin: .2rem 0 clamp(1.4rem, 4vw, 2.4rem);
+      font-style: italic;
+      font-size: clamp(1.05rem, 2vw, 1.3rem);
+      color: color-mix(in srgb, var(--mm-a) 85%, var(--mm-tx));
+    }
+
+    .mm-cd__timer {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(.6rem, 2.5vw, 1.4rem);
+      width: min(100%, 34rem);
+      margin: 0 auto;
+      perspective: 700px;
+    }
+
+    /* Anillo de crisálida con días al centro */
+    .mm-cd__unit--days {
+      position: relative;
+      grid-column: 1 / -1;
+      justify-self: center;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      width: clamp(13rem, 42vw, 19rem);
+      aspect-ratio: 1 / 1;
+      margin-bottom: clamp(.4rem, 2vw, 1rem);
+    }
+    .mm-cd__ring { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; transform: rotate(-90deg); }
+    .mm-cd__ring circle { fill: none; }
+    .mm-cd__track { stroke: color-mix(in srgb, var(--mm-tx) 12%, transparent); stroke-width: 1.5; }
+    .mm-cd__arc { stroke: var(--mm-a); stroke-width: 3; stroke-linecap: round; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--mm-p) 80%, transparent)); }
+    .mm-cd__ticks line { stroke: color-mix(in srgb, var(--mm-tx) 22%, transparent); stroke-width: 1.4; stroke-linecap: round; transition: stroke .3s ease; }
+    .mm-cd__ticks line.is-on { stroke: var(--mm-p); }
+    .mm-cd__glass {
+      position: absolute;
+      inset: 11%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--mm-tx) 10%, transparent), color-mix(in srgb, var(--mm-bg) 55%, transparent) 60%);
+      box-shadow: inset 0 0 40px color-mix(in srgb, var(--mm-p) 18%, transparent), 0 0 0 1px color-mix(in srgb, var(--mm-a) 25%, transparent);
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+    }
+    .mm-cd__unit--days .mm-cd__number {
+      position: relative;
+      font-size: clamp(4rem, 13vw, 6.4rem);
+      font-weight: 300;
+      background: linear-gradient(170deg, color-mix(in srgb, var(--mm-a) 35%, #fff), var(--mm-a) 55%, var(--mm-p));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .mm-cd__unit--days .mm-cd__label { position: relative; margin-top: .1rem; font-size: 1.15rem; }
+
+    .mm-cd__rider {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 3.6rem;
+      height: 2.4rem;
+      margin: -1.2rem 0 0 -1.8rem;
+      transform-style: preserve-3d;
+      pointer-events: none;
+      will-change: transform;
+    }
+    .mm-cd__bf { position: absolute; inset: 0; transform-style: preserve-3d; transform: perspective(240px) rotateX(38deg); }
+    .mm-cd__bf i { position: absolute; top: 0; left: 50%; width: 50%; transform-origin: 0 50%; animation: mmCdFlapR .26s ease-in-out infinite alternate; }
+    .mm-cd__bf i + i { animation-name: mmCdFlapL; }
+    .mm-cd__bf svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .mm-cd__bf path { stroke: var(--mm-a); stroke-width: 3; }
+    .mm-cd__bf path:first-child { fill: var(--mm-p); }
+    .mm-cd__bf path:last-child { fill: var(--mm-s); }
+    @keyframes mmCdFlapR { from { transform: rotateY(8deg); } to { transform: rotateY(72deg); } }
+    @keyframes mmCdFlapL { from { transform: rotateY(172deg); } to { transform: rotateY(108deg); } }
+
+    /* Horas / minutos / segundos */
+    .mm-cd__unit {
+      display: grid;
+      justify-items: center;
+      gap: .25rem;
+      padding: clamp(.8rem, 2.5vw, 1.2rem) .4rem;
+      border-radius: 1.3rem;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--mm-bg) 55%, transparent), color-mix(in srgb, var(--mm-bg) 75%, transparent));
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--mm-tx) 14%, transparent), 0 20px 40px -24px color-mix(in srgb, #000 80%, transparent);
+      transform-style: preserve-3d;
+    }
+    .mm-cd__unit--days { padding: 0; border-radius: 50%; background: none; box-shadow: none; }
+    .mm-cd__number {
+      display: block;
+      font-size: clamp(2rem, 7vw, 3.4rem);
+      font-weight: 400;
+      line-height: .95;
+      font-variant-numeric: lining-nums tabular-nums;
+      color: var(--mm-tx);
+      transform-origin: 50% 100%;
+      backface-visibility: hidden;
+    }
+    .mm-cd__number.is-tick { animation: mmCdTick .45s cubic-bezier(.2, .9, .3, 1); }
+    @keyframes mmCdTick { from { transform: rotateX(-85deg); opacity: .15; } to { transform: none; opacity: 1; } }
+    .mm-cd__label { font-style: italic; font-size: clamp(.95rem, 1.8vw, 1.1rem); color: color-mix(in srgb, var(--mm-tx) 68%, transparent); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mm-cd *, .mm-cd *::before, .mm-cd *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <canvas class="mm-cd__dust" data-mm-dust aria-hidden="true"></canvas>
+
+  <div class="mm-cd__content">
+    <h2 class="mm-cd__heading" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Falta muy poco</h2>
+    <time class="mm-cd__date" datetime="2027-05-15T19:00:00" memory_type="text" memory_usage="custom" memory_key="countdown-event-date">Sábado 15 de mayo de 2027</time>
+
+    <div class="mm-cd__timer" aria-label="Cuenta regresiva">
+      <div class="mm-cd__unit mm-cd__unit--days">
+        <svg class="mm-cd__ring" viewBox="0 0 200 200" aria-hidden="true">
+          <g class="mm-cd__ticks" data-mm-ticks></g>
+          <circle class="mm-cd__track" cx="100" cy="100" r="88" />
+          <circle class="mm-cd__arc" cx="100" cy="100" r="88" data-mm-arc />
+        </svg>
+        <span class="mm-cd__glass" aria-hidden="true"></span>
+        <span class="mm-cd__rider" data-mm-rider aria-hidden="true">
+          <span class="mm-cd__bf">
+            <i><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z"/><path d="M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/></svg></i>
+            <i><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z"/><path d="M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/></svg></i>
+          </span>
+        </span>
+        <span class="mm-cd__number" data-countdown-unit="days">--</span>
+        <span class="mm-cd__label">Días</span>
+      </div>
+      <div class="mm-cd__unit"><span class="mm-cd__number" data-countdown-unit="hours">--</span><span class="mm-cd__label">Horas</span></div>
+      <div class="mm-cd__unit"><span class="mm-cd__number" data-countdown-unit="minutes">--</span><span class="mm-cd__label">Minutos</span></div>
+      <div class="mm-cd__unit"><span class="mm-cd__number" data-countdown-unit="seconds">--</span><span class="mm-cd__label">Segundos</span></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var el = null;
+      try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
+      if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+      if (!el) return;
+      var targetAttr = el.getAttribute('data-countdown-target');
+      var target = NaN;
+      if (targetAttr && targetAttr.indexOf('YYYY') === -1) {
+        var parsed = new Date(targetAttr);
+        if (!isNaN(parsed.getTime())) target = parsed.getTime();
+      }
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+      function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+      function setUnit(u, v) {
+        var n = el.querySelector('[data-countdown-unit="' + u + '"]');
+        if (!n) return;
+        v = '' + v;
+        if (n.textContent === v) return;
+        var first = n.textContent === '--';
+        n.textContent = v;
+        if (!RM && !first) { n.classList.remove('is-tick'); void n.offsetWidth; n.classList.add('is-tick'); }
+      }
+      function tick() {
+        var diff = target - Date.now(); if (diff < 0) diff = 0;
+        setUnit('days', Math.floor(diff / 86400000));
+        setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
+        setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
+        setUnit('seconds', pad2(Math.floor((diff % 60000) / 1000)));
+      }
+      function start() {
+        (window.__countdownIntervals || []).forEach(clearInterval);
+        window.__countdownIntervals = [];
+        var a = el.getAttribute('data-countdown-target');
+        if (a && a.indexOf('YYYY') === -1) { var p = new Date(a); if (!isNaN(p.getTime())) target = p.getTime(); }
+        if (!Number.isFinite(target)) return;
+        tick();
+        if (target > Date.now()) { var id = setInterval(tick, 1000); window.__countdownIntervals.push(id); }
+      }
+      start();
+      window.updateCountdown = start;
+    })();
+  </script>
+  <script>
+    (function () {
+      /* Anillo de segundos con mariposa + polvo luminoso (decorativo) */
+      var root = null;
+      try { root = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
+      if (!root) root = document.querySelector('[data-gemini-id="countdown-metamorfosis"]');
+      if (!root || root.__mmRing) return;
+      root.__mmRing = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var NS = 'http://www.w3.org/2000/svg';
+      var arc = root.querySelector('[data-mm-arc]');
+      var ticksG = root.querySelector('[data-mm-ticks]');
+      var rider = root.querySelector('[data-mm-rider]');
+      var C = 2 * Math.PI * 88, ticks = [];
+      if (ticksG && !ticksG.childNodes.length) {
+        for (var i = 0; i < 60; i++) {
+          var a = i / 60 * Math.PI * 2, l = document.createElementNS(NS, 'line'), r1 = 95, r2 = i % 5 ? 98.5 : 101;
+          l.setAttribute('x1', 100 + Math.cos(a) * r1); l.setAttribute('y1', 100 + Math.sin(a) * r1);
+          l.setAttribute('x2', 100 + Math.cos(a) * r2); l.setAttribute('y2', 100 + Math.sin(a) * r2);
+          ticksG.appendChild(l);
+        }
+      }
+      ticks = [].slice.call(ticksG.querySelectorAll('line'));
+      arc.style.strokeDasharray = C.toFixed(2) + ' ' + C.toFixed(2);
+      function target() { var t = new Date(root.getAttribute('data-countdown-target') || '').getTime(); return isNaN(t) ? NaN : t; }
+      var lastLit = -1;
+      function draw() {
+        var T = target(), diff = Math.max(0, (T || 0) - Date.now());
+        var frac = isNaN(T) ? 0 : (diff % 60000) / 60000;
+        arc.style.strokeDashoffset = (C * (1 - frac)).toFixed(2);
+        var lit = Math.ceil(frac * 60);
+        if (lit !== lastLit) { lastLit = lit; ticks.forEach(function (t, i) { t.classList.toggle('is-on', i < lit); }); }
+        var box = rider.parentNode.clientWidth, R = box / 2 * (88 / 100);
+        var ang = -Math.PI / 2 + frac * Math.PI * 2;
+        var x = Math.cos(ang) * R, y = Math.sin(ang) * R;
+        rider.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) rotate(' + (ang * 180 / Math.PI).toFixed(1) + 'deg)';
+      }
+
+      var cv = root.querySelector('[data-mm-dust]');
+      var cx = cv && cv.getContext ? cv.getContext('2d') : null;
+      var dots = [], W = 1, H = 1, DPR = 1, sprites = [];
+      if (cx) {
+        var cs = getComputedStyle(root);
+        ['--mm-p', '--mm-s', '--mm-a'].forEach(function (n) {
+          var c = document.createElement('canvas'); c.width = c.height = 32;
+          var g = c.getContext('2d'), gr = g.createRadialGradient(16, 16, 0, 16, 16, 16);
+          var col = cs.getPropertyValue(n).trim() || '#f2a9cf';
+          gr.addColorStop(0, col); gr.addColorStop(.25, col); gr.addColorStop(1, 'transparent');
+          g.globalAlpha = 1; g.fillStyle = gr; g.fillRect(0, 0, 32, 32);
+          sprites.push(c);
+        });
+      }
+      function size() {
+        if (!cx) return;
+        var r = root.getBoundingClientRect(); W = r.width; H = r.height; DPR = Math.min(2, window.devicePixelRatio || 1);
+        cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+        dots = [];
+        for (var i = 0; i < (W < 640 ? 40 : 80); i++) dots.push({ x: Math.random(), y: Math.random(), z: .3 + Math.random() * .7, v: .006 + Math.random() * .016, p: Math.random() * 6.28, s: sprites[i % sprites.length] });
+      }
+      function dust(time, dt) {
+        if (!cx) return;
+        cx.setTransform(DPR, 0, 0, DPR, 0, 0); cx.clearRect(0, 0, W, H);
+        cx.globalCompositeOperation = 'lighter';
+        dots.forEach(function (d) {
+          d.y -= d.v * dt; if (d.y < -.05) { d.y = 1.05; d.x = Math.random(); }
+          var r = 4 + 8 * d.z;
+          cx.globalAlpha = (.25 + .35 * Math.sin(time * 1.6 + d.p)) * d.z;
+          cx.drawImage(d.s, d.x * W + Math.sin(time * .5 + d.p) * 16 - r, d.y * H - r, r * 2, r * 2);
+        });
+        cx.globalCompositeOperation = 'source-over'; cx.globalAlpha = 1;
+      }
+
+      size(); draw();
+      if (RM) { dust(0, 0); setInterval(draw, 1000); return; }
+      var running = false, raf = 0, last = 0, time = 0;
+      function frame(now) {
+        raf = 0; if (!running) return;
+        var dt = last ? Math.min(.05, (now - last) / 1000) : .016; last = now; time += dt;
+        draw(); dust(time, dt);
+        raf = requestAnimationFrame(frame);
+      }
+      function play() { if (running) return; running = true; last = 0; raf = requestAnimationFrame(frame); }
+      function pause() { running = false; if (raf) cancelAnimationFrame(raf); raf = 0; }
+      if ('ResizeObserver' in window) new ResizeObserver(size).observe(root);
+      if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { if (en[0].isIntersecting) play(); else pause(); }).observe(root);
+      else play();
+      document.addEventListener('visibilitychange', function () { if (document.hidden) pause(); });
+    })();
+  </script>
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-metamorfosis',
+      style_name: 'Metamorfosis Crisálida del Tiempo',
+      descripcion: 'Cuenta regresiva: los días dentro de un anillo de cristal donde una mariposa recorre los segundos; horas, minutos y segundos giran en 3D al cambiar. Fecha editable y polvo luminoso.',
+      tags: ['countdown', 'cuenta regresiva', 'timer', 'quinceañera', 'xv años', 'mariposas', 'metamorfosis', 'anillo', 'svg', 'flip 3d', 'evento', 'premium'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>

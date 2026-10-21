@@ -1,0 +1,80 @@
+<section class="px5" data-gemini-id="confirmacion-texto" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.px5{--p:var(--primary-color,#2f2f2f);--s:var(--secondary-color,#8c8c8c);--a:var(--accent-color,#555);--bg:var(--bg-color,#f2f2f2);--tx:var(--text-color,#1f1f1f);--line:color-mix(in srgb,var(--tx) 20%,transparent);position:relative;isolation:isolate;overflow:hidden;box-sizing:border-box;padding:clamp(3.5rem,9vw,7rem) clamp(1rem,5vw,4rem);color:var(--tx);text-align:center;font-family:Georgia,serif;perspective:1200px;background:linear-gradient(color-mix(in srgb,var(--bg) 78%,transparent),color-mix(in srgb,var(--bg) 92%,transparent)),url('https://loremflickr.com/1600/1000/flowers') center/cover;background-color:var(--bg)}
+.px5 *,.px5 *::before,.px5 *::after{box-sizing:border-box}
+.px5__fx{position:absolute;inset:0;width:100%;height:100%;z-index:4;pointer-events:none;color:var(--p)}
+.px5__kicker{margin:0 0 .6rem;font:600 clamp(.68rem,1.4vw,.8rem)/1 'Segoe UI',Arial,sans-serif;letter-spacing:.5em;text-transform:uppercase;color:var(--a)}
+.px5__title{margin:0 0 .8rem;font-weight:400;font-size:clamp(2rem,5.4vw,3.6rem);color:var(--p)}
+.px5__lead{margin:0 auto clamp(1.6rem,4vw,2.6rem);max-width:44ch;font:clamp(.9rem,1.6vw,1.02rem)/1.7 'Segoe UI',Arial,sans-serif;opacity:.85}
+.px5__wrap{position:relative;width:min(100%,34rem);margin:0 auto;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease;transform-style:preserve-3d}
+.px5__wrap::before{content:'';position:absolute;inset:-3px;z-index:-1;border-radius:1.9rem;background:conic-gradient(from var(--ang,0deg),var(--p),transparent 25%,var(--a),transparent 60%,var(--p));filter:blur(14px);opacity:.6;animation:px5Spin 6s linear infinite}
+@property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
+@keyframes px5Spin{to{--ang:360deg}}
+.px5__form{display:grid;gap:1.1rem;padding:clamp(1.4rem,4vw,2.2rem);border:1px solid var(--line);border-radius:1.7rem;background:color-mix(in srgb,var(--bg) 78%,transparent);backdrop-filter:blur(18px);text-align:left}
+.px5__f{position:relative}
+.px5__f input,.px5__f textarea{width:100%;padding:1.35rem 1rem .5rem;border:1px solid var(--line);border-radius:.9rem;background:color-mix(in srgb,var(--bg) 60%,transparent);color:var(--tx);font:1rem 'Segoe UI',Arial,sans-serif;outline:none;transition:border-color .3s ease,box-shadow .3s ease}
+.px5__f textarea{resize:vertical;min-height:5rem}
+.px5__f label{position:absolute;left:1rem;top:1rem;pointer-events:none;font:.92rem 'Segoe UI',Arial,sans-serif;opacity:.65;transform-origin:0 0;transition:transform .3s cubic-bezier(.16,1,.3,1),opacity .3s ease}
+.px5__f input:focus,.px5__f textarea:focus{border-color:var(--p);box-shadow:0 0 0 4px color-mix(in srgb,var(--p) 18%,transparent)}
+.px5__f input:focus+label,.px5__f input:not(:placeholder-shown)+label,.px5__f textarea:focus+label,.px5__f textarea:not(:placeholder-shown)+label{transform:translateY(-.62rem) scale(.74);opacity:1;color:var(--p)}
+.px5__row{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between}
+.px5__seg{position:relative;display:inline-grid;grid-template-columns:1fr 1fr;padding:.3rem;border:1px solid var(--line);border-radius:99px;background:color-mix(in srgb,var(--bg) 55%,transparent)}
+.px5__seg input{position:absolute;opacity:0;pointer-events:none}
+.px5__seg label{position:relative;z-index:1;padding:.6rem 1.5rem;text-align:center;cursor:pointer;font:600 .78rem 'Segoe UI',Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;transition:color .3s ease}
+.px5__thumb{position:absolute;left:.3rem;top:.3rem;bottom:.3rem;width:calc(50% - .3rem);border-radius:99px;background:var(--p);transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+#px5-no:checked~.px5__thumb{transform:translateX(100%)}
+#px5-si:checked~label[for=px5-si],#px5-no:checked~label[for=px5-no]{color:var(--bg)}
+.px5__seg input:focus-visible~.px5__thumb{outline:2px solid var(--a);outline-offset:2px}
+.px5__step{display:inline-flex;align-items:center;gap:.4rem;font:600 .78rem 'Segoe UI',Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase}
+.px5__step button{width:2.3rem;height:2.3rem;border:1px solid var(--line);border-radius:50%;background:transparent;color:var(--tx);font-size:1.2rem;cursor:pointer;transition:transform .2s ease,background .2s ease}
+.px5__step button:hover{background:var(--p);color:var(--bg);transform:scale(1.1)}
+.px5__step output{min-width:2rem;text-align:center;font-size:1.3rem;color:var(--p)}
+.px5__btn{position:relative;display:flex;align-items:center;justify-content:center;gap:.7rem;width:100%;min-height:3.4rem;overflow:hidden;border:0;border-radius:99px;background:linear-gradient(110deg,var(--p),var(--a));color:var(--bg);cursor:pointer;font:700 .8rem 'Segoe UI',Arial,sans-serif;letter-spacing:.24em;text-transform:uppercase;transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s ease}
+.px5__btn:hover{transform:translateY(-3px);box-shadow:0 16px 28px -12px color-mix(in srgb,var(--p) 75%,transparent)}
+.px5__btn:active{transform:scale(.97)}
+.px5__sp{display:none;width:1.2rem;height:1.2rem;border:2.5px solid currentColor;border-top-color:transparent;border-radius:50%;animation:px5Rot .6s linear infinite}
+@keyframes px5Rot{to{transform:rotate(1turn)}}
+.px5__ck{display:none;width:1.3rem;height:1.3rem}.px5__ck path{stroke-dasharray:24;stroke-dashoffset:24;animation:px5Ck .4s ease forwards}
+@keyframes px5Ck{to{stroke-dashoffset:0}}
+.px5__btn.load .px5__sp{display:block}.px5__btn.load .px5__tx{opacity:.6}
+.px5__btn.ok{background:var(--a)}.px5__btn.ok .px5__ck{display:block}
+.px5__form.shake{animation:px5Sh .4s ease}
+@keyframes px5Sh{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.px5 .r{opacity:0;transform:translateY(26px);transition:opacity .5s ease,transform .5s cubic-bezier(.16,1,.3,1);transition-delay:calc(var(--i,0)*110ms)}
+.px5.on .r{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.px5 *,.px5 *::before,.px5 *::after{animation:none!important;transition:none!important}.px5 .r{opacity:1!important;transform:none!important}}
+</style>
+<canvas class="px5__fx" aria-hidden="true"></canvas>
+<header class="r">
+  <p class="px5__kicker" memory_type="text" memory_usage="custom" memory_key="confirmacion-rotulo">RSVP</p>
+  <h2 class="px5__title" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">Confirma tu asistencia</h2>
+  <p class="px5__lead" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">Tu presencia es lo más importante. Cuéntanos si nos acompañarás.</p>
+</header>
+<div class="px5__wrap r" style="--i:2">
+<form class="px5__form" novalidate>
+  <div class="px5__f"><input id="px5-n" name="nombre" type="text" placeholder=" " required autocomplete="off"><label for="px5-n">Nombre completo</label></div>
+  <div class="px5__f"><input id="px5-c" name="contacto" type="text" placeholder=" " autocomplete="off"><label for="px5-c">Correo o teléfono</label></div>
+  <div class="px5__row">
+    <div class="px5__seg" role="radiogroup" aria-label="Asistencia"><input type="radio" name="asistencia" id="px5-si" value="si" checked><input type="radio" name="asistencia" id="px5-no" value="no"><i class="px5__thumb" aria-hidden="true"></i><label for="px5-si">Sí asisto</label><label for="px5-no">No puedo</label></div>
+    <div class="px5__step" aria-label="Número de invitados"><button type="button" data-d="-1" aria-label="Menos">−</button><output>1</output><button type="button" data-d="1" aria-label="Más">+</button></div>
+  </div>
+  <div class="px5__f"><textarea id="px5-m" name="mensaje" placeholder=" "></textarea><label for="px5-m">Mensaje (opcional)</label></div>
+  <button class="px5__btn" type="submit"><i class="px5__sp"></i><svg class="px5__ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12l5 5L20 6"/></svg><span class="px5__tx" memory_type="text" memory_usage="custom" memory_key="confirmacion-boton">Enviar confirmación</span></button>
+</form>
+</div>
+<script>
+(function(){var el;try{el=document.currentScript.closest('[data-gemini-id]')}catch(e){}if(!el)return;
+var rm=matchMedia('(prefers-reduced-motion:reduce)').matches,go=function(){el.classList.add('on')};
+if(rm||!('IntersectionObserver'in window)){go()}else{var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){go();io.disconnect()}},{threshold:.15});io.observe(el);setTimeout(go,3000)}
+var f=el.querySelector('form'),b=el.querySelector('.px5__btn'),tx=el.querySelector('.px5__tx'),out=el.querySelector('output'),n=1,w=el.querySelector('.px5__wrap'),cv=el.querySelector('canvas'),cx=cv.getContext('2d'),P=[],run=false,orig=tx.textContent;
+el.querySelectorAll('.px5__step button').forEach(function(x){x.addEventListener('click',function(){n=Math.max(1,Math.min(10,n+(+x.dataset.d)));out.textContent=n})});
+if(!rm){w.addEventListener('pointermove',function(e){var r=w.getBoundingClientRect();w.style.setProperty('--ry',(((e.clientX-r.left)/r.width-.5)*7).toFixed(1)+'deg');w.style.setProperty('--rx',((.5-(e.clientY-r.top)/r.height)*7).toFixed(1)+'deg')});w.addEventListener('pointerleave',function(){w.style.setProperty('--rx','0deg');w.style.setProperty('--ry','0deg')})}
+function burst(){if(rm)return;var s=el.getBoundingClientRect(),r=b.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);cv.width=s.width*d;cv.height=s.height*d;var ox=(r.left+r.width/2-s.left)*d,oy=(r.top+r.height/2-s.top)*d;cx.fillStyle=getComputedStyle(cv).color;P=[];for(var i=0;i<54;i++){var a=Math.random()*6.283,v=(Math.random()*7+3)*d;P.push({x:ox,y:oy,vx:Math.cos(a)*v,vy:Math.sin(a)*v-4*d,s:(Math.random()*4+2)*d,l:1,r:Math.random()*6})}if(!run){run=true;(function t(){cx.clearRect(0,0,cv.width,cv.height);P.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.vy+=.28*(devicePixelRatio||1);p.vx*=.985;p.l-=.016;p.r+=.2;if(p.l>0){cx.globalAlpha=p.l;cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);cx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);cx.restore()}});P=P.filter(function(p){return p.l>0});if(P.length)requestAnimationFrame(t);else{run=false;cx.clearRect(0,0,cv.width,cv.height)}})()}}
+f.addEventListener('submit',function(e){e.preventDefault();if(b.classList.contains('load')||b.classList.contains('ok'))return;
+if(!f.nombre.value.trim()){f.classList.remove('shake');void f.offsetWidth;f.classList.add('shake');f.nombre.focus();return}
+b.classList.add('load');tx.textContent='Enviando…';
+setTimeout(function(){b.classList.remove('load');b.classList.add('ok');tx.textContent='¡Confirmado!';burst();setTimeout(function(){b.classList.remove('ok');tx.textContent=orig},3800)},1300)});
+})();
+</script>
+<script>var moduleMetadata={module_type:'confirmacion',module_name:'confirmacion-px25',style_name:'Prisma 3D',descripcion:'Formulario RSVP de cristal con etiquetas flotantes, selector sí/no deslizante, contador de invitados y botón con carga, check animado y confeti.',tags:['confirmación','rsvp','formulario','3d','confeti','micro-interacción'],tipo:'confirmacion'};</script>
+</section>

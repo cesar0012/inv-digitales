@@ -222,25 +222,36 @@ export const DETERMINISTIC_RULES = [
   { key: 'nombre_homenajeada', scope: 'portada', match: R('nombre de la quinceañera|nombre del festejad|nombre del bebe|nombre de la mamá|nombre del pequeno|nombre del anfitrión|nombre de la quinceañera') },
   { key: 'nombre_homenajeada', scope: 'corte', match: R('nombre de la quinceañera|nombre del festejad|nombre del bebe|nombre del aniversariado') },
   {
+    // Portada del catálogo sets-fotos: un único nodo "Nombre & Nombre".
+    // Con dos valores (novia+novio) se rellena "Ana & Luis"; con uno (XV,
+    // cumpleaños, bautizo…) solo el nombre del festejado.
+    key: '__portada_nombres', scope: 'portada',
+    match: R('^nombre\\s*&\\s*nombre$|^nombres de los festejados$'),
+    values: ['nombres_novia', 'nombres_novio', 'nombre_homenajeada'],
+    joinPair: true
+  },
+  {
     key: '__padres_pair', scope: 'padres',
-    match: R('nombre papá\\s*&\\s*nombre mamá|papá & mamá|mamá & papá|nombre papá y nombre mamá'),
+    match: R('nombre papá\\s*&\\s*nombre mamá|nombre papa\\s*&\\s*nombre mama|papá & mamá|mamá & papá|papá y mamá'),
     values: ['padres_novia', 'padres_novio', 'padres']
   },
   {
     key: '__padrinos', scope: 'padrinos',
-    match: R('nombre padrino\\s*&\\s*(nombre )?madrina|padrino & madrina'),
+    match: R('nombre padrino\\s*&\\s*(nombre )?madrina|nombre padrino\\s*&\\s*nombre madrina|padrino & madrina'),
     values: ['padrinos']
   },
   { key: 'lugar_ceremonia', scope: 'ubicacion', match: R('nombre del lugar|nombre de la iglesia|nombre de la parroquia') },
-  { key: 'direccion_ceremonia', scope: 'ubicacion', match: R('calle principal 123|camino principal|calle, número, colonia') },
+  { key: 'direccion_ceremonia', scope: 'ubicacion', match: R('calle principal \\d+|calle principal 123|camino principal|calle, número, colonia') },
   {
     key: '__recepcion', scope: 'ubicacion',
     match: R('nombre del salón|avenida central|salón de la fiesta|nombre del lugar de la recepción'),
     values: ['lugar_recepcion']
   },
+  // Hora textual de la ubicación ("5:00 de la tarde" en el catálogo).
+  { key: 'hora', scope: 'ubicacion', match: R('\\d{1,2}:\\d{2}\\s*(de la (mañana|tarde|noche)|hrs?\\.?|horas)?\\b') },
   { key: 'codigo_vestimenta', scope: 'detalles', match: R('vestimenta formal|código de vestimenta|black tie|traje de gala|formal nocturno|vestimenta formal nocturna') },
   { key: 'codigo_vestimenta', scope: 'vestimenta', match: R('formal ·|formal:|black tie|vestimenta sugerida|código de vestimenta') },
-  { key: 'fecha_limite', scope: 'confirmacion', match: R('^dd de mes|^dd\\.?\\s?de|^dd\\.mm|^dd de$') },
+  { key: 'fecha_limite', scope: 'confirmacion', match: R('^dd de mes|^dd\\.?\\s?de|^dd\\.mm|^dd de$|antes del \\d+ de [a-zá-ú]+|antes del dd de mes') },
   { key: 'mesa_regalos', scope: 'regalos', match: R('artículos para el hogar|piezas para el hogar|cristalería para el hogar|básicos para el hogar|menaje de barro|equipo para la casa nueva') },
   { key: 'mesa_regalos', scope: 'regalos', match: R('fondo de (viaje|luna de miel)|aporte para la luna de miel|fondo de hogar|aventuras de luna de miel') }
 ];
@@ -323,32 +334,50 @@ export function applyDeterministicData(doc, schema, data) {
       const matches = [];
       for (const root of roots) {
         for (const el of root.querySelectorAll('*')) {
-          for (const node of textNodesIn(el)) {
-            const txt = norm(node.textContent);
-            if (!txt || txt.length > 120) continue;
-            if (rule.match.test(txt)) matches.push({ node, txt });
-          }
+          // El texto directo de un elemento puede llegar partido en varios
+          // nodos (p.ej. "Nombre ", "&", " Nombre" al decodificar &amp; en
+          // linkedom): se combina para poder casar el placeholder completo.
+          const nodes = textNodesIn(el);
+          if (nodes.length === 0) continue;
+          const txt = norm(nodes.map((n) => n.textContent).join(''));
+          if (!txt || txt.length > 120) continue;
+          if (rule.match.test(txt)) matches.push({ nodes, txt });
         }
       }
+      // Escribe un valor sobre el grupo de nodos de texto del match: el
+      // primero recibe el texto final y el resto queda vacío.
+      const writeMatch = (m, value) => {
+        m.nodes.forEach((n, i) => {
+          const v = i === 0 ? value : '';
+          if (typeof n.data === 'string') n.data = v; else n.textContent = v;
+        });
+      };
 
       if (rule.values) {
         // COLA: el nodo ES el placeholder completo → valores en orden de documento
         // (ej. dos bloques "Nombre Papá & Nombre Mamá" → padres de ella / de él).
-        for (let i = 0; i < matches.length && i < pending.length; i++) {
-          const n = matches[i].node;
-          if (typeof n.data === 'string') n.data = pending[i].v; else n.textContent = pending[i].v;
-          applied.add(pending[i].k);
+        if (rule.joinPair && matches.length === 1 && pending.length === 2) {
+          // Portada con un solo "Nombre & Nombre" y dos nombres (boda):
+          // se unen en "Nombre 1 & Nombre 2".
+          writeMatch(matches[0], pending[0].v + ' & ' + pending[1].v);
+          applied.add(pending[0].k);
+          applied.add(pending[1].k);
+        } else {
+          for (let i = 0; i < matches.length && i < pending.length; i++) {
+            writeMatch(matches[i], pending[i].v);
+            applied.add(pending[i].k);
+          }
         }
       } else {
         // FRAGMENTO: sustituye solo el placeholder dentro del nodo (un nodo
         // puede contener varios: "Nombre de la Novia & Nombre del Novio").
-        for (const { node, txt } of matches) {
-          let next = txt;
+        for (const m of matches) {
+          let next = m.txt;
           for (const p of pending) {
             next = next.replace(new RegExp(rule.match.source, 'gi'), p.v);
           }
-          if (next !== txt) {
-            if (typeof node.data === 'string') node.data = next; else node.textContent = next;
+          if (next !== m.txt) {
+            writeMatch(m, next);
             for (const p of pending) applied.add(p.k);
           }
         }
