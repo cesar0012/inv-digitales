@@ -1,0 +1,231 @@
+<section
+  class="pv-ubic"
+  data-gemini-id="ubicacion-ceremonia"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+    .pv-ubic, .pv-ubic *, .pv-ubic *::before, .pv-ubic *::after { box-sizing: border-box; }
+    .pv-ubic {
+      --bg: var(--bg-color, #16233b);
+      --tx: var(--text-color, #f6f1e7);
+      --p: var(--primary-color, #f4a259);
+      --s: var(--secondary-color, #8fbfdd);
+      --a: var(--accent-color, #e07a5f);
+      --script: var(--font-heading, 'Great Vibes', cursive);
+      --sans: 'Jost', 'Segoe UI', Arial, sans-serif;
+      --panel: color-mix(in srgb, var(--bg) 85%, transparent);
+      --line: color-mix(in srgb, var(--p) 30%, transparent);
+      position: relative; isolation: isolate; overflow: hidden;
+      padding: clamp(4rem, 10vw, 7rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg);
+      background-image: url('https://loremflickr.com/1920/1080/canyon,river?lock=2806');
+      background-size: cover; background-position: center;
+      color: var(--tx); text-align: center; font-family: var(--sans);
+    }
+    /* Carta aeronáutica: retícula de meridianos */
+    .pv-ubic::before {
+      content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        repeating-linear-gradient(90deg, color-mix(in srgb, var(--s) 8%, transparent) 0 1px, transparent 1px clamp(64px, 9vw, 120px)),
+        repeating-linear-gradient(0deg, color-mix(in srgb, var(--s) 8%, transparent) 0 1px, transparent 1px clamp(64px, 9vw, 120px)),
+        radial-gradient(60% 40% at 15% 10%, color-mix(in srgb, var(--s) 12%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--bg) 88%, transparent), color-mix(in srgb, var(--bg) 94%, transparent) 55%, var(--bg));
+    }
+    .pv-ubic > * { position: relative; z-index: 1; }
+
+    .pv-ubic__kick {
+      margin: 0 0 .7rem; font-weight: 500;
+      font-size: clamp(.72rem, 1.35vw, .85rem); letter-spacing: .46em; text-transform: uppercase;
+      color: color-mix(in srgb, var(--s) 60%, var(--tx));
+    }
+    .pv-ubic__title {
+      margin: 0 0 clamp(2rem, 5vw, 3rem); font-weight: 300;
+      font-size: clamp(1.9rem, 4.6vw, 3rem); letter-spacing: .16em; text-transform: uppercase;
+    }
+    .pv-ubic__title em {
+      display: block; font-family: var(--script); font-style: normal; text-transform: none;
+      font-size: 1.5em; letter-spacing: 0; line-height: .9; margin-top: .18em; color: var(--p);
+    }
+
+    .pv-ubic__carta {
+      display: grid; gap: clamp(1.4rem, 3.5vw, 2.4rem);
+      width: min(100%, 980px); margin: 0 auto;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      align-items: center;
+    }
+
+    /* --- Traza de vuelo animada (ruta con avión) --- */
+    .pv-ubic__traza { position: relative; width: 100%; }
+    .pv-ubic__traza svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .pv-ubic__traza .ruta {
+      fill: none; stroke: color-mix(in srgb, var(--p) 75%, transparent);
+      stroke-width: 2; stroke-dasharray: 7 9; stroke-linecap: round;
+      animation: pvUbRuta 2.6s linear infinite;
+    }
+    @keyframes pvUbRuta { to { stroke-dashoffset: -64; } }
+    .pv-ubic__traza .aerodromo { fill: color-mix(in srgb, var(--s) 70%, transparent); }
+    .pv-ubic__traza .pin { fill: var(--a); }
+    .pv-ubic__traza .halo {
+      fill: none; stroke: color-mix(in srgb, var(--a) 65%, transparent); stroke-width: 1.5;
+      animation: pvUbHalo 2.4s ease-out infinite;
+      transform-origin: center;
+    }
+    @keyframes pvUbHalo { from { transform: scale(.4); opacity: 1; } to { transform: scale(1.6); opacity: 0; } }
+    .pv-ubic__traza .avion {
+      fill: var(--p);
+      offset-path: path('M28 96 C 120 20, 250 10, 342 66');
+      offset-rotate: auto;
+      animation: pvUbVuelo 7s cubic-bezier(.45,.05,.55,.95) infinite alternate;
+    }
+    @keyframes pvUbVuelo { from { offset-distance: 4%; } to { offset-distance: 96%; } }
+    .pv-ubic__coords {
+      margin: .8rem 0 0; font-size: clamp(.62rem, 1.1vw, .74rem);
+      letter-spacing: .32em; text-transform: uppercase;
+      color: color-mix(in srgb, var(--s) 55%, var(--tx));
+    }
+
+    /* --- Ojo de buey con el mapa + ticket del destino --- */
+    .pv-ubic__destino { display: grid; gap: clamp(1rem, 2.4vw, 1.5rem); justify-items: center; }
+    .pv-ubic__ojo {
+      position: relative; width: min(100%, 430px); aspect-ratio: 16/9.6;
+      border-radius: 24px; padding: 10px;
+      background: linear-gradient(160deg, color-mix(in srgb, var(--p) 60%, var(--tx) 8%), color-mix(in srgb, var(--a) 60%, var(--p)) 60%, color-mix(in srgb, var(--p) 55%, var(--s) 10%));
+      box-shadow: 0 26px 50px color-mix(in srgb, var(--bg) 55%, transparent);
+    }
+    .pv-ubic__ojo iframe {
+      display: block; width: 100%; height: 100%; border: 0; border-radius: 16px;
+      background: color-mix(in srgb, var(--s) 25%, var(--bg));
+    }
+    .pv-ubic__ojo::after {
+      content: ''; position: absolute; inset: 0; border-radius: 24px; pointer-events: none;
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tx) 22%, transparent), inset 0 -22px 44px color-mix(in srgb, var(--bg) 38%, transparent);
+    }
+    .pv-ubic__remaches { position: absolute; inset: 8px; pointer-events: none; }
+    .pv-ubic__remaches i {
+      position: absolute; width: 7px; height: 7px; border-radius: 50%;
+      background: color-mix(in srgb, var(--tx) 55%, var(--p));
+      box-shadow: 0 1px 3px color-mix(in srgb, var(--bg) 60%, transparent);
+    }
+    .pv-ubic__remaches i:nth-child(1) { top: 6px; left: 10px; } .pv-ubic__remaches i:nth-child(2) { top: 6px; right: 10px; }
+    .pv-ubic__remaches i:nth-child(3) { bottom: 6px; left: 10px; } .pv-ubic__remaches i:nth-child(4) { bottom: 6px; right: 10px; }
+
+    .pv-ubic__ticket {
+      position: relative; width: min(100%, 430px);
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: 16px; padding: clamp(1.2rem, 3vw, 1.6rem);
+      text-align: left; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    }
+    .pv-ubic__ticket::before {
+      content: ''; position: absolute; left: 14px; right: 14px; top: 10px; height: 1px;
+      background: repeating-linear-gradient(90deg, var(--line) 0 8px, transparent 8px 14px);
+    }
+    .pv-ubic__lugar {
+      margin: .8rem 0 .4rem; font-weight: 500;
+      font-size: clamp(1.15rem, 2.6vw, 1.5rem); letter-spacing: .04em; color: var(--p);
+    }
+    .pv-ubic__dato {
+      display: block; margin: 0 0 .5rem; font-weight: 300;
+      font-size: clamp(.86rem, 1.6vw, 1rem); line-height: 1.65; color: var(--tx);
+    }
+    .pv-ubic__foto {
+      width: min(100%, 300px); border-radius: 10px; overflow: hidden;
+      border: 1px solid var(--line); margin: .6rem auto .2rem;
+      transform: rotate(-1.6deg);
+      box-shadow: 0 14px 28px color-mix(in srgb, var(--bg) 50%, transparent);
+    }
+    .pv-ubic__foto img { display: block; width: 100%; height: auto; }
+    .pv-ubic__btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: .6em;
+      min-height: 48px; margin-top: 1rem; padding: .8rem 2rem;
+      border-radius: 999px; text-decoration: none;
+      font-weight: 500; font-size: clamp(.72rem, 1.35vw, .84rem);
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--bg);
+      background: linear-gradient(90deg, var(--p), var(--a));
+      box-shadow: 0 14px 30px color-mix(in srgb, var(--p) 35%, transparent);
+      transition: transform .35s ease, box-shadow .35s ease, filter .35s ease;
+    }
+    .pv-ubic__btn:hover { transform: translateY(-3px); filter: brightness(1.06); box-shadow: 0 20px 38px color-mix(in srgb, var(--p) 45%, transparent); }
+    .pv-ubic__btn::before { content: ''; width: 1.1em; height: 1.1em; flex: none;
+      background: currentColor;
+      clip-path: polygon(0 78%, 62% 68%, 100% 12%, 84% 82%, 40% 88%, 24% 100%, 14% 84%);
+    }
+
+    .pv-ubic--anim [data-pv-step] { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s cubic-bezier(.2, .8, .2, 1); }
+    .pv-ubic--anim [data-pv-step].is-on { opacity: 1; transform: none; }
+    .pv-ubic :focus-visible { outline: 2px solid var(--p); outline-offset: 4px; }
+
+    @media (max-width: 860px) {
+      .pv-ubic__carta { grid-template-columns: 1fr; }
+      .pv-ubic__traza { max-width: 430px; margin: 0 auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .pv-ubic *, .pv-ubic *::before, .pv-ubic *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <header>
+    <p class="pv-ubic__kick" data-pv-step memory_type="text" memory_usage="custom" memory_key="ubicacion-rotulo">El destino</p>
+    <h2 class="pv-ubic__title" data-pv-step memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">¿Dónde y <em>cuándo?</em></h2>
+  </header>
+
+  <div class="pv-ubic__carta">
+    <div class="pv-ubic__traza" data-pv-step aria-hidden="true">
+      <svg viewBox="0 0 370 130">
+        <circle class="aerodromo" cx="28" cy="96" r="7"></circle>
+        <circle class="aerodromo" cx="28" cy="96" r="13" fill="none" stroke="color-mix(in srgb, var(--s) 45%, transparent)" stroke-width="1"></circle>
+        <path class="ruta" d="M28 96 C 120 20, 250 10, 342 66"></path>
+        <circle class="pin" cx="342" cy="66" r="6"></circle>
+        <circle class="halo" cx="342" cy="66" r="12"></circle>
+        <path class="avion" d="M0 78 L58 68 L92 22 L78 82 L34 88 L16 100 L6 84 Z" transform="translate(-14,-10) scale(.34)"></path>
+      </svg>
+      <p class="pv-ubic__coords">Carta de aproximación · N 19° 26′ · W 99° 07′</p>
+    </div>
+
+    <div class="pv-ubic__destino" data-pv-step>
+      <figure class="pv-ubic__ojo" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url">
+        <iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen></iframe>
+        <span class="pv-ubic__remaches" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      </figure>
+
+      <div class="pv-ubic__ticket" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar">
+        <p class="pv-ubic__lugar" memory_type="text" memory_usage="custom" memory_key="ubicacion-nombre">Nombre del lugar</p>
+        <address class="pv-ubic__dato" memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion">Calle Principal 214, Ciudad</address>
+        <time class="pv-ubic__dato" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora">5:00 de la tarde</time>
+        <figure class="pv-ubic__foto" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/700/420/canyon,venue?lock=2807" alt="Vista del lugar" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" />
+          <figcaption hidden>Vista del lugar</figcaption>
+        </figure>
+        <a class="pv-ubic__btn" href="https://www.google.com/maps?q=Lugar+del+evento" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Trazar ruta</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = null;
+      try { root = document.currentScript.closest('[data-gemini-id^="ubicacion"]'); } catch (e) {}
+      if (!root) root = document.querySelector('[data-gemini-id^="ubicacion"]');
+      if (!root || root.__pvInit) return;
+      root.__pvInit = true;
+      var steps = [].slice.call(root.querySelectorAll('[data-pv-step]'));
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      function entra() {
+        root.classList.add('pv-ubic--anim');
+        steps.forEach(function (el, i) { setTimeout(function () { el.classList.add('is-on'); }, RM ? 0 : 120 + i * 160); });
+      }
+      if (RM) entra();
+      else if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { io.disconnect(); entra(); } }, { threshold: 0.18 });
+        io.observe(root);
+        setTimeout(function () { io.disconnect(); entra(); }, 2600);
+      } else entra();
+    })();
+  </script>
+  <script>var moduleMetadata = { module_type: 'ubicacion', module_name: 'ubicacion-premium', style_name: 'Vuelo · Paisajes del Cielo', descripcion: 'Ubicación como carta de aproximación aeronáutica: retícula de navegación, ruta punteada animada con avión de papel recorriéndola, mapa en ojo de buey con remaches y ticket del destino.', tags: ['ubicacion', 'premium', 'vuelo', 'carta', 'navegacion', 'mapa', 'animado'], tipo: 'ubicacion' };</script>
+</section>

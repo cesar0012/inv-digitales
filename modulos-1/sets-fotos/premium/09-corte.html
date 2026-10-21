@@ -1,0 +1,206 @@
+<section
+  class="pv-corte"
+  data-gemini-id="corte-ruta"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+    .pv-corte, .pv-corte *, .pv-corte *::before, .pv-corte *::after { box-sizing: border-box; }
+    .pv-corte {
+      --bg: var(--bg-color, #16233b);
+      --tx: var(--text-color, #f6f1e7);
+      --p: var(--primary-color, #f4a259);
+      --s: var(--secondary-color, #8fbfdd);
+      --a: var(--accent-color, #e07a5f);
+      --script: var(--font-heading, 'Great Vibes', cursive);
+      --sans: 'Jost', 'Segoe UI', Arial, sans-serif;
+      --panel: color-mix(in srgb, var(--bg) 85%, transparent);
+      --line: color-mix(in srgb, var(--p) 30%, transparent);
+      position: relative; isolation: isolate; overflow: hidden;
+      padding: clamp(4rem, 10vw, 7rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg);
+      background-image: url('https://loremflickr.com/1920/1080/night,ridge?lock=2816');
+      background-size: cover; background-position: center;
+      color: var(--tx); text-align: center; font-family: var(--sans);
+    }
+    .pv-corte::before {
+      content: ''; position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(60% 30% at 50% 4%, color-mix(in srgb, var(--s) 12%, transparent), transparent 72%),
+        linear-gradient(180deg, color-mix(in srgb, var(--bg) 85%, transparent), color-mix(in srgb, var(--bg) 93%, transparent) 55%, var(--bg));
+    }
+    .pv-corte > * { position: relative; z-index: 1; }
+
+    .pv-corte__kick {
+      margin: 0 0 .7rem; font-weight: 500;
+      font-size: clamp(.72rem, 1.35vw, .85rem); letter-spacing: .46em; text-transform: uppercase;
+      color: color-mix(in srgb, var(--s) 60%, var(--tx));
+    }
+    .pv-corte__title {
+      margin: 0 0 clamp(1.6rem, 4vw, 2.4rem); font-weight: 300;
+      font-size: clamp(1.9rem, 4.6vw, 3rem); letter-spacing: .16em; text-transform: uppercase;
+    }
+    .pv-corte__title em {
+      display: block; font-family: var(--script); font-style: normal; text-transform: none;
+      font-size: 1.5em; letter-spacing: 0; line-height: .9; margin-top: .18em; color: var(--p);
+    }
+    .pv-corte__lead {
+      margin: 0 auto clamp(2rem, 5vw, 3rem); max-width: 52ch; font-style: italic; font-weight: 300;
+      font-size: clamp(.9rem, 1.6vw, 1.02rem); line-height: 1.7;
+      color: color-mix(in srgb, var(--tx) 82%, transparent);
+    }
+
+    /* Franja de paisaje nocturno con balizas */
+    .pv-corte__mapa {
+      position: relative; width: min(100%, 900px); margin: 0 auto clamp(1.6rem, 4vw, 2.4rem);
+      height: clamp(120px, 18vw, 170px);
+      border-radius: 18px; overflow: hidden;
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--bg) 40%, var(--s) 8%), var(--bg) 78%),
+        repeating-linear-gradient(90deg, color-mix(in srgb, var(--s) 6%, transparent) 0 1px, transparent 1px 56px);
+      box-shadow: inset 0 -30px 50px color-mix(in srgb, var(--bg) 60%, transparent);
+    }
+    .pv-corte__luna {
+      position: absolute; top: 14%; right: 12%;
+      width: clamp(30px, 4.4vw, 44px); aspect-ratio: 1; border-radius: 50%;
+      background: radial-gradient(circle at 40% 38%, color-mix(in srgb, var(--tx) 92%, var(--s) 8%), color-mix(in srgb, var(--tx) 70%, var(--s)) 70%);
+      box-shadow: 0 0 26px color-mix(in srgb, var(--s) 45%, transparent);
+      animation: pvCorteLuna 8s ease-in-out infinite alternate;
+    }
+    @keyframes pvCorteLuna { to { transform: translateX(-10px); } }
+    .pv-corte__cerros {
+      position: absolute; inset: auto 0 0 0; height: 62%;
+      background: var(--bg);
+      clip-path: polygon(0 68%, 10% 44%, 20% 60%, 32% 30%, 44% 58%, 56% 24%, 68% 55%, 80% 36%, 92% 60%, 100% 46%, 100% 100%, 0 100%);
+      opacity: .96;
+    }
+    .pv-corte__cerros::before {
+      content: ''; position: absolute; inset: 0;
+      background: color-mix(in srgb, var(--s) 12%, transparent);
+      clip-path: polygon(0 78%, 14% 58%, 28% 74%, 42% 50%, 58% 72%, 72% 54%, 86% 76%, 100% 62%, 100% 100%, 0 100%);
+    }
+    .pv-corte__arco {
+      position: absolute; inset: 0;
+      stroke-dasharray: 6 8;
+      animation: pvCorteArco 2.8s linear infinite;
+    }
+    @keyframes pvCorteArco { to { stroke-dashoffset: -56; } }
+    .pv-corte__baliza {
+      position: absolute; bottom: 44%; width: 12px; height: 12px; border-radius: 50%;
+      background: var(--p);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--bg) 75%, transparent), 0 0 18px color-mix(in srgb, var(--p) 75%, transparent);
+      animation: pvCorteBaliza 2.6s ease-in-out infinite;
+    }
+    .pv-corte__baliza--1 { left: 16%; }
+    .pv-corte__baliza--2 { left: 50%; animation-delay: .85s; background: var(--a); box-shadow: 0 0 0 4px color-mix(in srgb, var(--bg) 75%, transparent), 0 0 18px color-mix(in srgb, var(--a) 75%, transparent); }
+    .pv-corte__baliza--3 { left: 84%; animation-delay: 1.7s; }
+    @keyframes pvCorteBaliza { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+
+    .pv-corte__cartas {
+      display: grid; gap: clamp(1.1rem, 3vw, 1.8rem);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      width: min(100%, 940px); margin: 0 auto;
+    }
+    .pv-corte__carta {
+      position: relative; padding: clamp(1.1rem, 2.6vw, 1.5rem) 1.1rem clamp(1rem, 2.4vw, 1.3rem);
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: 14px;
+      -webkit-backdrop-filter: blur(9px); backdrop-filter: blur(9px);
+      transition: transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease;
+    }
+    .pv-corte__carta::before {
+      content: ''; position: absolute; top: 10px; bottom: 10px; right: 8px; width: 1px;
+      background: repeating-linear-gradient(180deg, var(--line) 0 5px, transparent 5px 9px);
+    }
+    .pv-corte__carta:hover { transform: translateY(-5px); box-shadow: 0 20px 40px color-mix(in srgb, var(--bg) 50%, transparent); }
+    .pv-corte__hora {
+      display: inline-block; margin-bottom: .4rem; padding: .26em .8em .3em;
+      border: 1px solid color-mix(in srgb, var(--p) 45%, transparent); border-radius: 999px;
+      font-weight: 500; font-size: clamp(.68rem, 1.25vw, .8rem);
+      letter-spacing: .24em; text-transform: uppercase; font-variant-numeric: tabular-nums; color: var(--p);
+    }
+    .pv-corte__nombre { margin: .1rem 0 .2rem; font-weight: 400; font-size: clamp(1.1rem, 2.3vw, 1.4rem); letter-spacing: .06em; }
+    .pv-corte__detalle { margin: 0; font-weight: 300; font-size: clamp(.82rem, 1.5vw, .92rem); line-height: 1.55; color: color-mix(in srgb, var(--tx) 82%, transparent); }
+
+    .pv-corte--anim [data-pv-step] { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s cubic-bezier(.2, .8, .2, 1); }
+    .pv-corte--anim [data-pv-step].is-on { opacity: 1; transform: none; }
+    .pv-corte :focus-visible { outline: 2px solid var(--p); outline-offset: 4px; }
+
+    @media (max-width: 760px) {
+      .pv-corte__cartas { grid-template-columns: 1fr; width: min(100%, 400px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .pv-corte *, .pv-corte *::before, .pv-corte *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <header>
+    <p class="pv-corte__kick" data-pv-step memory_type="text" memory_usage="custom" memory_key="corte-rotulo">Momentos clave</p>
+    <h2 class="pv-corte__title" data-pv-step memory_type="text" memory_usage="custom" memory_key="corte-encabezado">Corte de la <em>noche</em></h2>
+    <p class="pv-corte__lead" data-pv-step memory_type="text" memory_usage="custom" memory_key="corte-lead">Los tres momentos que encenderán la ruta</p>
+  </header>
+
+  <div class="pv-corte__mapa" data-pv-step aria-hidden="true">
+    <span class="pv-corte__luna"></span>
+    <svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 900 170" preserveAspectRatio="none">
+      <path class="pv-corte__arco" d="M150 95 C 280 10, 420 10, 450 95 S 640 180, 756 95"
+        fill="none" stroke="color-mix(in srgb, var(--p) 65%, transparent)" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <span class="pv-corte__cerros"></span>
+    <span class="pv-corte__baliza pv-corte__baliza--1"></span>
+    <span class="pv-corte__baliza pv-corte__baliza--2"></span>
+    <span class="pv-corte__baliza pv-corte__baliza--3"></span>
+  </div>
+
+  <div class="pv-corte__cartas">
+    <article class="pv-corte__carta" data-pv-step>
+      <div memory_type="text" memory_usage="custom" memory_key="corte-momento-1">
+        <time class="pv-corte__hora" datetime="18:00" memory_type="text" memory_usage="custom" memory_key="corte-hora-1">6:00 pm</time>
+        <h3 class="pv-corte__nombre" memory_type="text" memory_usage="custom" memory_key="corte-titulo-1">El vals</h3>
+        <p class="pv-corte__detalle" memory_type="text" memory_usage="custom" memory_key="corte-det-1">El giro esperado</p>
+      </div>
+    </article>
+    <article class="pv-corte__carta" data-pv-step>
+      <div memory_type="text" memory_usage="custom" memory_key="corte-momento-2">
+        <time class="pv-corte__hora" datetime="20:00" memory_type="text" memory_usage="custom" memory_key="corte-hora-2">8:00 pm</time>
+        <h3 class="pv-corte__nombre" memory_type="text" memory_usage="custom" memory_key="corte-titulo-2">El pastel</h3>
+        <p class="pv-corte__detalle" memory_type="text" memory_usage="custom" memory_key="corte-det-2">Dulce celebración</p>
+      </div>
+    </article>
+    <article class="pv-corte__carta" data-pv-step>
+      <div memory_type="text" memory_usage="custom" memory_key="corte-momento-3">
+        <time class="pv-corte__hora" datetime="22:00" memory_type="text" memory_usage="custom" memory_key="corte-hora-3">10:00 pm</time>
+        <h3 class="pv-corte__nombre" memory_type="text" memory_usage="custom" memory_key="corte-titulo-3">El brindis</h3>
+        <p class="pv-corte__detalle" memory_type="text" memory_usage="custom" memory_key="corte-det-3">Copas en alto</p>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = null;
+      try { root = document.currentScript.closest('[data-gemini-id^="corte"]'); } catch (e) {}
+      if (!root) root = document.querySelector('[data-gemini-id^="corte"]');
+      if (!root || root.__pvInit) return;
+      root.__pvInit = true;
+      var steps = [].slice.call(root.querySelectorAll('[data-pv-step]'));
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      function entra() {
+        root.classList.add('pv-corte--anim');
+        steps.forEach(function (el, i) { setTimeout(function () { el.classList.add('is-on'); }, RM ? 0 : 120 + i * 150); });
+      }
+      if (RM) entra();
+      else if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { io.disconnect(); entra(); } }, { threshold: 0.18 });
+        io.observe(root);
+        setTimeout(function () { io.disconnect(); entra(); }, 2600);
+      } else entra();
+    })();
+  </script>
+  <script>var moduleMetadata = { module_type: 'corte', module_name: 'corte-premium', style_name: 'Vuelo · Paisajes del Cielo', descripcion: 'Corte de la noche como ruta nocturna: franja de paisaje con luna, cerros en silueta, arco de vuelo punteado animado y balizas que se encienden en secuencia sobre los momentos clave.', tags: ['corte', 'premium', 'vuelo', 'ruta', 'balizas', 'noche', 'animado'], tipo: 'corte' };</script>
+</section>

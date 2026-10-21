@@ -1,0 +1,237 @@
+<section
+  class="pv-reg"
+  data-gemini-id="regalos-paracaidas"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+    .pv-reg, .pv-reg *, .pv-reg *::before, .pv-reg *::after { box-sizing: border-box; }
+    .pv-reg {
+      --bg: var(--bg-color, #16233b);
+      --tx: var(--text-color, #f6f1e7);
+      --p: var(--primary-color, #f4a259);
+      --s: var(--secondary-color, #8fbfdd);
+      --a: var(--accent-color, #e07a5f);
+      --script: var(--font-heading, 'Great Vibes', cursive);
+      --sans: 'Jost', 'Segoe UI', Arial, sans-serif;
+      --panel: color-mix(in srgb, var(--bg) 85%, transparent);
+      --line: color-mix(in srgb, var(--p) 30%, transparent);
+      position: relative; isolation: isolate; overflow: hidden;
+      padding: clamp(4rem, 10vw, 7rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg);
+      background-image: url('https://loremflickr.com/1920/1080/sunset,fields?lock=2824');
+      background-size: cover; background-position: center;
+      color: var(--tx); text-align: center; font-family: var(--sans);
+    }
+    .pv-reg::before {
+      content: ''; position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(52% 34% at 78% 6%, color-mix(in srgb, var(--a) 14%, transparent), transparent 72%),
+        linear-gradient(180deg, color-mix(in srgb, var(--bg) 87%, transparent), color-mix(in srgb, var(--bg) 93%, transparent) 55%, var(--bg));
+    }
+    .pv-reg > * { position: relative; z-index: 1; }
+
+    .pv-reg__nube {
+      position: absolute; z-index: 0; pointer-events: none;
+      height: clamp(38px, 6vw, 64px); border-radius: 999px;
+      background: color-mix(in srgb, var(--tx) 11%, transparent); filter: blur(15px);
+    }
+    .pv-reg__nube--a { width: 28%; top: 14%; left: -32%; animation: pvRegDrift 62s linear infinite; }
+    .pv-reg__nube--b { width: 20%; top: 30%; left: -24%; animation: pvRegDrift 84s linear infinite 9s; opacity: .7; }
+    @keyframes pvRegDrift { to { transform: translateX(162vw); } }
+
+    /* Caja de regalo descendiendo en paracaídas */
+    .pv-reg__caida {
+      position: relative; height: clamp(150px, 22vw, 210px);
+      width: clamp(150px, 22vw, 210px); margin: 0 auto clamp(.8rem, 2vw, 1.4rem);
+      animation: pvRegDesciende 8s ease-in-out infinite alternate;
+    }
+    @keyframes pvRegDesciende { from { transform: translateY(-16px) rotate(-2deg); } to { transform: translateY(14px) rotate(2deg); } }
+    .pv-reg__copa {
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 100%; aspect-ratio: 1.9/1;
+      border-radius: 50% 50% 8px 8px / 100% 100% 8px 8px;
+      background:
+        radial-gradient(circle at 26% 30%, color-mix(in srgb, #fff 20%, transparent), transparent 40%),
+        repeating-conic-gradient(from 8deg,
+          var(--s) 0deg 30deg,
+          color-mix(in srgb, var(--s) 42%, var(--bg)) 30deg 60deg);
+      box-shadow: inset 0 -10px 18px color-mix(in srgb, var(--bg) 45%, transparent), 0 14px 30px color-mix(in srgb, var(--bg) 40%, transparent);
+    }
+    .pv-reg__tiras {
+      position: absolute; top: 46%; left: 50%; width: 74%; height: 38%;
+      transform: translateX(-50%);
+      background:
+        linear-gradient(76deg, transparent 48.8%, color-mix(in srgb, var(--tx) 48%, transparent) 50% 51%, transparent 52.2%),
+        linear-gradient(104deg, transparent 48.8%, color-mix(in srgb, var(--tx) 48%, transparent) 50% 51%, transparent 52.2%),
+        linear-gradient(90deg, transparent 49.3%, color-mix(in srgb, var(--tx) 48%, transparent) 50.5%, transparent 51.7%);
+    }
+    .pv-reg__caja {
+      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 34%; aspect-ratio: 1/0.86;
+      border-radius: 8px;
+      background:
+        linear-gradient(90deg, transparent 47%, color-mix(in srgb, var(--tx) 60%, var(--p)) 48% 52%, transparent 53%),
+        linear-gradient(0deg, transparent 44%, color-mix(in srgb, var(--tx) 60%, var(--p)) 45% 48%, transparent 49%),
+        linear-gradient(160deg, var(--p), color-mix(in srgb, var(--a) 65%, var(--p)));
+      box-shadow: 0 16px 30px color-mix(in srgb, var(--bg) 55%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--tx) 16%, transparent);
+    }
+    .pv-reg__lazo {
+      position: absolute; bottom: calc(34% * .86 + 6px); left: 50%;
+      width: 20%; aspect-ratio: 2/0.7; transform: translateX(-50%);
+    }
+    .pv-reg__lazo::before, .pv-reg__lazo::after {
+      content: ''; position: absolute; top: 0; width: 46%; height: 100%;
+      border: 3px solid color-mix(in srgb, var(--tx) 70%, var(--p));
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    }
+    .pv-reg__lazo::before { left: 2%; transform: rotate(-14deg); }
+    .pv-reg__lazo::after { right: 2%; transform: rotate(14deg); }
+
+    .pv-reg__kick {
+      margin: 0 0 .7rem; font-weight: 500;
+      font-size: clamp(.72rem, 1.35vw, .85rem); letter-spacing: .46em; text-transform: uppercase;
+      color: color-mix(in srgb, var(--s) 60%, var(--tx));
+    }
+    .pv-reg__title {
+      margin: 0 0 .8rem; font-weight: 300;
+      font-size: clamp(1.9rem, 4.6vw, 3rem); letter-spacing: .16em; text-transform: uppercase;
+    }
+    .pv-reg__title em {
+      display: block; font-family: var(--script); font-style: normal; text-transform: none;
+      font-size: 1.5em; letter-spacing: 0; line-height: .9; margin-top: .18em; color: var(--p);
+    }
+    .pv-reg__texto {
+      margin: 0 auto 1.8rem; max-width: 44ch; font-weight: 300;
+      font-size: clamp(.95rem, 1.7vw, 1.06rem); line-height: 1.75;
+      color: color-mix(in srgb, var(--tx) 86%, transparent);
+    }
+
+    /* Formato declaración de carga */
+    .pv-reg__declaracion {
+      position: relative; width: min(100%, 560px); margin: 0 auto;
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: 18px; padding: clamp(1.4rem, 3.4vw, 2rem);
+      text-align: left; -webkit-backdrop-filter: blur(11px); backdrop-filter: blur(11px);
+      box-shadow: 0 26px 52px color-mix(in srgb, var(--bg) 52%, transparent);
+    }
+    .pv-reg__declaracion::before {
+      content: ''; position: absolute; top: 10px; bottom: 10px; left: 10px; width: 3px; border-radius: 3px;
+      background: repeating-linear-gradient(180deg, color-mix(in srgb, var(--a) 60%, transparent) 0 10px, transparent 10px 18px);
+    }
+    .pv-reg__cab {
+      display: flex; align-items: baseline; gap: .8rem; flex-wrap: wrap;
+      margin: 0 0 1rem .4rem;
+    }
+    .pv-reg__selloChico {
+      display: inline-block; padding: .2em .7em .25em; border-radius: 999px;
+      border: 1.5px dashed color-mix(in srgb, var(--a) 70%, transparent);
+      font-weight: 600; font-size: clamp(.58rem, 1.05vw, .7rem);
+      letter-spacing: .28em; text-transform: uppercase; color: var(--a);
+      transform: rotate(-4deg);
+    }
+    .pv-reg__forma {
+      font-weight: 400; font-size: clamp(.68rem, 1.2vw, .8rem);
+      letter-spacing: .3em; text-transform: uppercase;
+      color: color-mix(in srgb, var(--s) 60%, var(--tx));
+    }
+    .pv-reg__datos { display: grid; gap: .8rem; margin-left: .4rem; }
+    .pv-reg__dato {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+      padding: .8rem 1rem; border-radius: 12px;
+      border: 1px dashed color-mix(in srgb, var(--p) 40%, transparent);
+    }
+    .pv-reg__dato b {
+      font-weight: 500; font-size: clamp(.62rem, 1.1vw, .74rem);
+      letter-spacing: .3em; text-transform: uppercase;
+      color: color-mix(in srgb, var(--s) 62%, var(--tx));
+    }
+    .pv-reg__dato a, .pv-reg__dato span {
+      font-weight: 400; font-size: clamp(.84rem, 1.55vw, .96rem);
+      letter-spacing: .06em; text-decoration: none; color: var(--tx);
+      font-variant-numeric: tabular-nums;
+    }
+    .pv-reg__dato a { border-bottom: 1px dashed color-mix(in srgb, var(--p) 60%, transparent); padding-bottom: .12rem; }
+    .pv-reg__dato a:hover { color: var(--p); }
+
+    .pv-reg__btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: .6em;
+      min-height: 48px; margin: 1.5rem 0 0; padding: .85rem 2.2rem;
+      border-radius: 999px; text-decoration: none;
+      font-weight: 500; font-size: clamp(.74rem, 1.35vw, .86rem);
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--bg); background: linear-gradient(90deg, var(--p), var(--a));
+      box-shadow: 0 14px 32px color-mix(in srgb, var(--p) 35%, transparent);
+      transition: transform .35s ease, box-shadow .35s ease, filter .35s ease;
+    }
+    .pv-reg__btn:hover { transform: translateY(-3px); filter: brightness(1.06); }
+    .pv-reg__btn::before { content: ''; width: 1.05em; height: 1.05em; flex: none; background: currentColor;
+      clip-path: polygon(0 78%, 62% 68%, 100% 12%, 84% 82%, 40% 88%, 24% 100%, 14% 84%); }
+
+    .pv-reg--anim [data-pv-step] { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s cubic-bezier(.2, .8, .2, 1); }
+    .pv-reg--anim [data-pv-step].is-on { opacity: 1; transform: none; }
+    .pv-reg :focus-visible { outline: 2px solid var(--p); outline-offset: 4px; }
+
+    @media (max-width: 560px) {
+      .pv-reg__dato { flex-direction: column; gap: .3rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .pv-reg *, .pv-reg *::before, .pv-reg *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="pv-reg__nube pv-reg__nube--a" aria-hidden="true"></div>
+  <div class="pv-reg__nube pv-reg__nube--b" aria-hidden="true"></div>
+
+  <div class="pv-reg__caida" data-pv-step aria-hidden="true">
+    <span class="pv-reg__copa"></span>
+    <span class="pv-reg__tiras"></span>
+    <span class="pv-reg__lazo"></span>
+    <span class="pv-reg__caja"></span>
+  </div>
+
+  <header>
+    <p class="pv-reg__kick" data-pv-step memory_type="text" memory_usage="custom" memory_key="regalos-rotulo">Lluvia de sobres</p>
+    <h2 class="pv-reg__title" data-pv-step memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Carga de <em>amor</em></h2>
+    <p class="pv-reg__texto" data-pv-step memory_type="text" memory_usage="custom" memory_key="regalos-texto">Tu presencia es lo más valioso; si quieres tener un detalle con nosotros, aquí van algunas ideas.</p>
+  </header>
+
+  <div class="pv-reg__declaracion" data-pv-step>
+    <div class="pv-reg__cab" aria-hidden="true">
+      <span class="pv-reg__selloChico">Aéreo</span>
+      <span class="pv-reg__forma">Declaración de regalos</span>
+    </div>
+    <div class="pv-reg__datos" memory_type="text" memory_usage="custom" memory_key="regalos-datos">
+      <div class="pv-reg__dato"><b>Mesa en línea</b><a href="https://mesaderegalos.com/ejemplo" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="regalos-link">mesaderegalos.com</a></div>
+      <div class="pv-reg__dato"><b>Sobre digital</b><span memory_type="text" memory_usage="custom" memory_key="regalos-clabe">CLABE 0000 0000 0000</span></div>
+    </div>
+    <a class="pv-reg__btn" href="https://wa.me/5210000000000" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="regalos-boton">Escríbenos</a>
+  </div>
+
+  <script>
+    (function () {
+      var root = null;
+      try { root = document.currentScript.closest('[data-gemini-id^="regalos"]'); } catch (e) {}
+      if (!root) root = document.querySelector('[data-gemini-id^="regalos"]');
+      if (!root || root.__pvInit) return;
+      root.__pvInit = true;
+      var steps = [].slice.call(root.querySelectorAll('[data-pv-step]'));
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      function entra() {
+        root.classList.add('pv-reg--anim');
+        steps.forEach(function (el, i) { setTimeout(function () { el.classList.add('is-on'); }, RM ? 0 : 120 + i * 160); });
+      }
+      if (RM) entra();
+      else if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { io.disconnect(); entra(); } }, { threshold: 0.18 });
+        io.observe(root);
+        setTimeout(function () { io.disconnect(); entra(); }, 2600);
+      } else entra();
+    })();
+  </script>
+  <script>var moduleMetadata = { module_type: 'regalos', module_name: 'regalos-premium', style_name: 'Vuelo · Paisajes del Cielo', descripcion: 'Mesa de regalos como carga aérea: caja con lazo descendiendo en paracaídas a rayas sobre campos al atardecer y tarjeta de declaración de regalos con sello aéreo.', tags: ['regalos', 'premium', 'vuelo', 'paracaidas', 'carga', 'animado'], tipo: 'regalos' };</script>
+</section>

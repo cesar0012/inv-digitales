@@ -121,7 +121,7 @@ const CHECK_JS = () => {
 
 (async () => {
   const filtro = process.argv.includes('--solo') ? process.argv[process.argv.indexOf('--solo') + 1].split(',') : null;
-  const sets = readdirSync(ROOT).filter((d) => /^set-\d+-/.test(d)).sort()
+  const sets = readdirSync(ROOT).filter((d) => /^(set-\d+-|premium$)/.test(d)).sort()
     .filter((s) => !filtro || filtro.some((f) => s.includes(f)));
   const browser = await puppeteer.launch({ headless: 'new', args: ['--no-sandbox'] });
   const page = await browser.newPage();

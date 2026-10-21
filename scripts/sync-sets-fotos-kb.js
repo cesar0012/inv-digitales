@@ -31,7 +31,7 @@ const parseMeta = (html) => {
   } catch { return {}; }
 };
 
-const sets = readdirSync(ROOT).filter((d) => /^set-\d+-/.test(d)).sort();
+const sets = readdirSync(ROOT).filter((d) => /^(set-\d+-|premium$)/.test(d)).sort();
 const filas = [];
 for (const setDir of sets) {
   const key = setDir.replace(/^set-\d+-/, '');

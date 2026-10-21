@@ -59,6 +59,7 @@ export const DEMO_PALETTES = [
   { id: 'rosa18', label: 'Rosa 18', vars: { '--primary-color': '#d16a8a', '--secondary-color': '#eda7bc', '--accent-color': '#fbe3ec', '--bg-color': '#fdf3f6', '--surface-color': '#ffffff', '--surface-border-color': 'rgba(209,106,138,.24)', '--text-color': '#4d3038' } },
   { id: 'negooro60', label: 'Negro y Oro 60', vars: { '--primary-color': '#d4af5f', '--secondary-color': '#a8873f', '--accent-color': '#f0d998', '--bg-color': '#12100c', '--surface-color': '#1d1812', '--surface-border-color': 'rgba(212,175,95,.4)', '--text-color': '#f0e8d8' } },
   { id: 'confeti25', label: 'Confeti Dorado 25', vars: { '--primary-color': '#e8b341', '--secondary-color': '#d98e4a', '--accent-color': '#fff3cf', '--bg-color': '#2a1a33', '--surface-color': '#3a2447', '--surface-border-color': 'rgba(232,179,65,.4)', '--text-color': '#fbf4e4' } },
+  { id: 'premium', label: 'Vuelo · Paisajes del Cielo', vars: { '--primary-color': '#f4a259', '--secondary-color': '#8fbfdd', '--accent-color': '#e07a5f', '--bg-color': '#16233b', '--surface-color': '#1e2f4d', '--surface-border-color': 'rgba(244,162,89,.35)', '--text-color': '#f6f1e7' } },
   { id: 'neutra', label: 'Neutra (marfil y oro)', vars: { '--primary-color': '#a08a5a', '--secondary-color': '#8a8a8a', '--accent-color': '#efe9dc', '--bg-color': '#faf8f3', '--surface-color': '#ffffff', '--surface-border-color': 'rgba(160,138,90,.25)', '--text-color': '#33302a' } }
 ];
 

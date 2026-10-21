@@ -1,0 +1,191 @@
+<section
+  class="pv-vest"
+  data-gemini-id="vestimenta-cabina"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+    .pv-vest, .pv-vest *, .pv-vest *::before, .pv-vest *::after { box-sizing: border-box; }
+    .pv-vest {
+      --bg: var(--bg-color, #16233b);
+      --tx: var(--text-color, #f6f1e7);
+      --p: var(--primary-color, #f4a259);
+      --s: var(--secondary-color, #8fbfdd);
+      --a: var(--accent-color, #e07a5f);
+      --script: var(--font-heading, 'Great Vibes', cursive);
+      --sans: 'Jost', 'Segoe UI', Arial, sans-serif;
+      --panel: color-mix(in srgb, var(--bg) 85%, transparent);
+      --line: color-mix(in srgb, var(--p) 30%, transparent);
+      position: relative; isolation: isolate; overflow: hidden;
+      padding: clamp(4rem, 10vw, 7rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg);
+      background-image: url('https://loremflickr.com/1920/1080/dawn,mountains?lock=2825');
+      background-size: cover; background-position: center;
+      color: var(--tx); text-align: center; font-family: var(--sans);
+    }
+    .pv-vest::before {
+      content: ''; position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(50% 32% at 50% 0%, color-mix(in srgb, var(--p) 14%, transparent), transparent 72%),
+        linear-gradient(180deg, color-mix(in srgb, var(--bg) 87%, transparent), color-mix(in srgb, var(--bg) 93%, transparent) 55%, var(--bg));
+    }
+    .pv-vest > * { position: relative; z-index: 1; }
+
+    .pv-vest__viento {
+      position: absolute; z-index: 0; pointer-events: none; height: 1.5px; border-radius: 2px;
+      background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--tx) 24%, transparent) 0 15px, transparent 15px 28px);
+      animation: pvVestViento 5.5s linear infinite; opacity: .75;
+    }
+    .pv-vest__viento--a { width: 24%; top: 16%; left: -28%; }
+    .pv-vest__viento--b { width: 16%; top: 26%; left: -20%; animation-duration: 7.2s; animation-delay: 1.2s; }
+    @keyframes pvVestViento { to { transform: translateX(158vw); } }
+
+    .pv-vest__kick {
+      margin: 0 0 .7rem; font-weight: 500;
+      font-size: clamp(.72rem, 1.35vw, .85rem); letter-spacing: .46em; text-transform: uppercase;
+      color: color-mix(in srgb, var(--s) 60%, var(--tx));
+    }
+    .pv-vest__title {
+      margin: 0 0 .6rem; font-weight: 300;
+      font-size: clamp(1.9rem, 4.6vw, 3rem); letter-spacing: .16em; text-transform: uppercase;
+    }
+    .pv-vest__title em {
+      display: block; font-family: var(--script); font-style: normal; text-transform: none;
+      font-size: 1.5em; letter-spacing: 0; line-height: .9; margin-top: .18em; color: var(--p);
+    }
+    .pv-vest__texto {
+      margin: 0 auto 1.7rem; max-width: 46ch; font-weight: 300;
+      font-size: clamp(.92rem, 1.65vw, 1.04rem); line-height: 1.75;
+      color: color-mix(in srgb, var(--tx) 86%, transparent);
+    }
+
+    /* Franjas de altitud: la paleta como cielo con montañas */
+    .pv-vest__franjaz {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: clamp(.9rem, 2.4vw, 1.4rem);
+      width: min(100%, 760px); margin: 0 auto 1.4rem;
+    }
+    .pv-vest__franja {
+      position: relative; height: clamp(96px, 14vw, 130px);
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid color-mix(in srgb, var(--tx) 22%, transparent);
+      box-shadow: 0 16px 32px color-mix(in srgb, var(--bg) 50%, transparent);
+      transition: transform .45s cubic-bezier(.2,.8,.2,1);
+    }
+    .pv-vest__franja:hover { transform: translateY(-6px); }
+    .pv-vest__franja::after {
+      content: ''; position: absolute; inset: auto 0 0 0; height: 42%;
+      background: var(--bg);
+      clip-path: polygon(0 72%, 14% 40%, 27% 62%, 41% 26%, 55% 58%, 69% 34%, 83% 60%, 100% 44%, 100% 100%, 0 100%);
+      opacity: .88;
+    }
+    .pv-vest__franja--alba { background: linear-gradient(180deg, color-mix(in srgb, var(--s) 50%, var(--bg)), var(--p)); }
+    .pv-vest__franja--dia { background: linear-gradient(180deg, var(--s), color-mix(in srgb, var(--s) 55%, var(--tx))); }
+    .pv-vest__franja--ocaso { background: linear-gradient(180deg, var(--p), var(--a)); }
+    .pv-vest__franja--noche { background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 65%, var(--s)), var(--bg)); }
+    .pv-vest__franjaNombre {
+      position: absolute; left: 10px; bottom: 8px; z-index: 1;
+      font-weight: 500; font-size: clamp(.6rem, 1.05vw, .72rem);
+      letter-spacing: .32em; text-transform: uppercase;
+      color: var(--tx); text-shadow: 0 1px 6px color-mix(in srgb, var(--bg) 80%, transparent);
+    }
+
+    /* Color reservado (tachado) */
+    .pv-vest__franja[data-prohibida]::before {
+      content: '✕'; position: absolute; inset: 0; z-index: 2;
+      display: grid; place-items: center;
+      font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 300;
+      color: color-mix(in srgb, var(--surface-color, #fff) 88%, var(--tx));
+      text-shadow: 0 2px 10px color-mix(in srgb, var(--text-color, #333) 55%, transparent);
+    }
+    .pv-vest__franja[data-prohibida] {
+      border-style: dashed;
+      border-color: color-mix(in srgb, var(--a) 60%, transparent);
+    }
+
+    .pv-vest__nota {
+      margin: 0 0 1.6rem; font-weight: 400;
+      font-size: clamp(.7rem, 1.28vw, .84rem); letter-spacing: .28em; text-transform: uppercase;
+      color: color-mix(in srgb, var(--s) 60%, var(--tx));
+    }
+
+    /* Lista de empacar */
+    .pv-vest__lista {
+      list-style: none; margin: 0 auto; padding: 0;
+      display: flex; flex-wrap: wrap; justify-content: center; gap: .7rem 1.6rem;
+      width: min(100%, 560px);
+    }
+    .pv-vest__lista li {
+      position: relative; padding-left: 1.55em;
+      font-weight: 300; font-size: clamp(.88rem, 1.55vw, 1rem);
+      color: color-mix(in srgb, var(--tx) 88%, transparent);
+    }
+    .pv-vest__lista li::before {
+      content: ''; position: absolute; left: 0; top: .18em;
+      width: 1.05em; height: .55em;
+      border-bottom: 2px solid color-mix(in srgb, var(--tx) 70%, transparent);
+      border-radius: 0 0 100% 100% / 0 0 100% 100%;
+      animation: pvVestAla .8s ease-in-out infinite alternate;
+    }
+    @keyframes pvVestAla { from { transform: scaleX(.8); } to { transform: scaleX(1.15); } }
+
+    .pv-vest--anim [data-pv-step] { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s cubic-bezier(.2, .8, .2, 1); }
+    .pv-vest--anim [data-pv-step].is-on { opacity: 1; transform: none; }
+    .pv-vest :focus-visible { outline: 2px solid var(--p); outline-offset: 4px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pv-vest *, .pv-vest *::before, .pv-vest *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <span class="pv-vest__viento pv-vest__viento--a" aria-hidden="true"></span>
+  <span class="pv-vest__viento pv-vest__viento--b" aria-hidden="true"></span>
+
+  <header>
+    <p class="pv-vest__kick" data-pv-step memory_type="text" memory_usage="custom" memory_key="vestimenta-rotulo">Código de vestimenta</p>
+    <h2 class="pv-vest__title" data-pv-step memory_type="text" memory_usage="custom" memory_key="vestimenta-codigo">Formal</h2>
+    <p class="pv-vest__texto" data-pv-step memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">Empaca con la paleta del cielo; el color acento queda reservado de los anfitriones.</p>
+  </header>
+
+  <div class="pv-vest__franjaz" data-pv-step aria-label="Paleta sugerida">
+    <div class="pv-vest__franja pv-vest__franja--alba"><span class="pv-vest__franjaNombre">Alba</span></div>
+    <div class="pv-vest__franja pv-vest__franja--dia"><span class="pv-vest__franjaNombre">Día</span></div>
+    <div class="pv-vest__franja pv-vest__franja--ocaso" data-prohibida="true"><span class="pv-vest__franjaNombre">Ocaso</span></div>
+    <div class="pv-vest__franja pv-vest__franja--noche"><span class="pv-vest__franjaNombre">Noche</span></div>
+  </div>
+
+  <p class="pv-vest__nota" data-pv-step memory_type="text" memory_usage="custom" memory_key="vestimenta-nota">El color tachado es de los anfitriones</p>
+
+  <ul class="pv-vest__lista" data-pv-step memory_type="text" memory_usage="custom" memory_key="vestimenta-tips">
+    <li>Vestido formal</li>
+    <li>Traje oscuro</li>
+    <li>Accesorios discretos</li>
+  </ul>
+
+  <script>
+    (function () {
+      var root = null;
+      try { root = document.currentScript.closest('[data-gemini-id^="vestimenta"]'); } catch (e) {}
+      if (!root) root = document.querySelector('[data-gemini-id^="vestimenta"]');
+      if (!root || root.__pvInit) return;
+      root.__pvInit = true;
+      var steps = [].slice.call(root.querySelectorAll('[data-pv-step]'));
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      function entra() {
+        root.classList.add('pv-vest--anim');
+        steps.forEach(function (el, i) { setTimeout(function () { el.classList.add('is-on'); }, RM ? 0 : 120 + i * 150); });
+      }
+      if (RM) entra();
+      else if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { io.disconnect(); entra(); } }, { threshold: 0.18 });
+        io.observe(root);
+        setTimeout(function () { io.disconnect(); entra(); }, 2600);
+      } else entra();
+    })();
+  </script>
+  <script>var moduleMetadata = { module_type: 'vestimenta', module_name: 'vestimenta-premium', style_name: 'Vuelo · Paisajes del Cielo', descripcion: 'Código de vestimenta como franjas de altitud: la paleta son cuatro cielos con silueta de montaña (el color reservado aparece tachado), lista de empacar con alas que aletean y viento cruzando la escena.', tags: ['vestimenta', 'premium', 'vuelo', 'paleta', 'altitud', 'animado'], tipo: 'vestimenta' };</script>
+</section>

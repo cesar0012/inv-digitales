@@ -1,0 +1,189 @@
+<section
+  class="pv-padr"
+  data-gemini-id="padrinos-tripulacion"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+    .pv-padr, .pv-padr *, .pv-padr *::before, .pv-padr *::after { box-sizing: border-box; }
+    .pv-padr {
+      --bg: var(--bg-color, #16233b);
+      --tx: var(--text-color, #f6f1e7);
+      --p: var(--primary-color, #f4a259);
+      --s: var(--secondary-color, #8fbfdd);
+      --a: var(--accent-color, #e07a5f);
+      --script: var(--font-heading, 'Great Vibes', cursive);
+      --sans: 'Jost', 'Segoe UI', Arial, sans-serif;
+      --panel: color-mix(in srgb, var(--bg) 85%, transparent);
+      --line: color-mix(in srgb, var(--p) 30%, transparent);
+      position: relative; isolation: isolate; overflow: hidden;
+      padding: clamp(4rem, 10vw, 7rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg);
+      background-image: url('https://loremflickr.com/1920/1080/golden,hills?lock=2813');
+      background-size: cover; background-position: center;
+      color: var(--tx); text-align: center; font-family: var(--sans);
+    }
+    .pv-padr::before {
+      content: ''; position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(50% 36% at 50% 0%, color-mix(in srgb, var(--p) 13%, transparent), transparent 72%),
+        linear-gradient(180deg, color-mix(in srgb, var(--bg) 86%, transparent), color-mix(in srgb, var(--bg) 93%, transparent) 55%, var(--bg));
+    }
+    .pv-padr > * { position: relative; z-index: 1; }
+
+    .pv-padr__kick {
+      margin: 0 0 .7rem; font-weight: 500;
+      font-size: clamp(.72rem, 1.35vw, .85rem); letter-spacing: .46em; text-transform: uppercase;
+      color: color-mix(in srgb, var(--s) 60%, var(--tx));
+    }
+    .pv-padr__title {
+      margin: 0 0 clamp(2.2rem, 6vw, 3.4rem); font-weight: 300;
+      font-size: clamp(1.9rem, 4.6vw, 3rem); letter-spacing: .16em; text-transform: uppercase;
+    }
+    .pv-padr__title em {
+      display: block; font-family: var(--script); font-style: normal; text-transform: none;
+      font-size: 1.5em; letter-spacing: 0; line-height: .9; margin-top: .18em; color: var(--p);
+    }
+
+    .pv-padr__fila {
+      display: flex; flex-wrap: wrap; justify-content: center; align-items: stretch;
+      gap: clamp(2rem, 6vw, 5rem);
+    }
+    .pv-padr__piloto { width: min(100%, 280px); display: grid; justify-items: center; }
+
+    .pv-padr__alas {
+      position: relative; width: clamp(96px, 13vw, 128px); height: clamp(26px, 3.6vw, 36px);
+      margin-bottom: .9rem;
+      filter: drop-shadow(0 4px 10px color-mix(in srgb, var(--bg) 55%, transparent));
+      animation: pvPadrVuelo 5.5s ease-in-out infinite alternate;
+    }
+    @keyframes pvPadrVuelo { from { transform: translateY(-4px); } to { transform: translateY(5px); } }
+    .pv-padr__alas::before, .pv-padr__alas::after {
+      content: ''; position: absolute; top: 0; width: 48%; height: 100%;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--p) 85%, var(--tx) 15%), color-mix(in srgb, var(--p) 55%, var(--a)));
+      clip-path: polygon(100% 34%, 74% 22%, 46% 26%, 20% 42%, 0 78%, 18% 74%, 12% 96%, 36% 78%, 62% 66%, 86% 52%, 100% 62%);
+    }
+    .pv-padr__alas::before { left: 0; }
+    .pv-padr__alas::after { right: 0; transform: scaleX(-1); }
+    .pv-padr__alas i {
+      position: absolute; left: 50%; top: 34%; transform: translateX(-50%);
+      width: 16%; height: 62%; border-radius: 4px;
+      background: linear-gradient(180deg, var(--tx), var(--p));
+      clip-path: polygon(50% 0, 100% 26%, 82% 100%, 50% 78%, 18% 100%, 0 26%);
+    }
+
+    .pv-padr__marco {
+      position: relative; width: min(100%, 232px); padding: 11px;
+      border-radius: 50% 50% 16px 16px / 30% 30% 6% 6%;
+      background: linear-gradient(165deg, color-mix(in srgb, var(--p) 70%, var(--tx) 10%), color-mix(in srgb, var(--a) 65%, var(--p)) 60%, color-mix(in srgb, var(--p) 60%, var(--s) 12%));
+      box-shadow: 0 22px 44px color-mix(in srgb, var(--bg) 55%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--tx) 16%, transparent);
+      transition: transform .45s cubic-bezier(.2, .8, .2, 1), box-shadow .45s ease;
+    }
+    .pv-padr__marco img {
+      display: block; width: 100%; aspect-ratio: 1/1.16; object-fit: cover;
+      border-radius: 46% 46% 10px 10px / 28% 28% 5% 5%;
+    }
+    .pv-padr__piloto:hover .pv-padr__marco {
+      transform: translateY(-6px);
+      box-shadow: 0 30px 54px color-mix(in srgb, var(--bg) 60%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--tx) 22%, transparent);
+    }
+
+    /* Charreteras de capitán */
+    .pv-padr__charry { display: flex; gap: 6px; margin-top: 1.05rem; }
+    .pv-padr__charry i {
+      width: clamp(20px, 3vw, 28px); height: 5px; border-radius: 3px;
+      background: linear-gradient(90deg, var(--p), color-mix(in srgb, var(--p) 55%, var(--a)));
+      box-shadow: 0 1px 4px color-mix(in srgb, var(--bg) 50%, transparent);
+    }
+
+    .pv-padr__rol {
+      display: block; margin: .55rem 0 .25rem; font-weight: 500;
+      font-size: clamp(.66rem, 1.2vw, .78rem); letter-spacing: .4em; text-transform: uppercase;
+      color: color-mix(in srgb, var(--s) 60%, var(--tx));
+    }
+    .pv-padr__nombre {
+      margin: 0; font-family: var(--script); font-weight: 400;
+      font-size: clamp(1.75rem, 3.6vw, 2.35rem); line-height: 1.12; color: var(--p);
+    }
+
+    .pv-padr__nota {
+      margin: clamp(2.2rem, 5vw, 3rem) auto 0; max-width: 44ch;
+      font-style: italic; font-weight: 300;
+      font-size: clamp(.95rem, 1.7vw, 1.06rem); line-height: 1.75;
+      color: color-mix(in srgb, var(--tx) 85%, transparent);
+    }
+
+    .pv-padr--anim [data-pv-step] { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s cubic-bezier(.2, .8, .2, 1); }
+    .pv-padr--anim [data-pv-step].is-on { opacity: 1; transform: none; }
+    .pv-padr :focus-visible { outline: 2px solid var(--p); outline-offset: 4px; }
+
+    @media (max-width: 640px) {
+      .pv-padr__fila { flex-direction: column; align-items: center; gap: 2.2rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .pv-padr *, .pv-padr *::before, .pv-padr *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <header>
+    <p class="pv-padr__kick" data-pv-step memory_type="text" memory_usage="custom" memory_key="padrinos-rotulo">Testigos</p>
+    <h2 class="pv-padr__title" data-pv-step memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Alas de <em>honor</em></h2>
+  </header>
+
+  <div class="pv-padr__fila">
+    <article class="pv-padr__piloto" data-pv-step>
+      <span class="pv-padr__alas" aria-hidden="true"><i></i></span>
+      <figure class="pv-padr__marco" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/460/560/golden,hills,woman?lock=2814" alt="Retrato de la madrina" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Madrina</figcaption>
+      </figure>
+      <figcaption memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
+        <span class="pv-padr__charry" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="pv-padr__rol">Madrina</span>
+        <h3 class="pv-padr__nombre" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-1">Nombre Madrina</h3>
+      </figcaption>
+    </article>
+
+    <article class="pv-padr__piloto" data-pv-step>
+      <span class="pv-padr__alas" aria-hidden="true"><i></i></span>
+      <figure class="pv-padr__marco" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/460/560/golden,hills,man?lock=2815" alt="Retrato del padrino" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrino</figcaption>
+      </figure>
+      <figcaption memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
+        <span class="pv-padr__charry" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="pv-padr__rol">Padrino</span>
+        <h3 class="pv-padr__nombre" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-2">Nombre Padrino</h3>
+      </figcaption>
+    </article>
+  </div>
+
+  <p class="pv-padr__nota" data-pv-step memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Gracias por escoltar este vuelo y acompañarnos en el despegue más importante de nuestras vidas.</p>
+
+  <script>
+    (function () {
+      var root = null;
+      try { root = document.currentScript.closest('[data-gemini-id^="padrinos"]'); } catch (e) {}
+      if (!root) root = document.querySelector('[data-gemini-id^="padrinos"]');
+      if (!root || root.__pvInit) return;
+      root.__pvInit = true;
+      var steps = [].slice.call(root.querySelectorAll('[data-pv-step]'));
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      function entra() {
+        root.classList.add('pv-padr--anim');
+        steps.forEach(function (el, i) { setTimeout(function () { el.classList.add('is-on'); }, RM ? 0 : 120 + i * 160); });
+      }
+      if (RM) entra();
+      else if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { io.disconnect(); entra(); } }, { threshold: 0.18 });
+        io.observe(root);
+        setTimeout(function () { io.disconnect(); entra(); }, 2600);
+      } else entra();
+    })();
+  </script>
+  <script>var moduleMetadata = { module_type: 'padrinos', module_name: 'padrinos-premium', style_name: 'Vuelo · Paisajes del Cielo', descripcion: 'Padrinos como tripulación de honor: alas de capitán doradas que sobrevuelan cada retrato ovalado, charreteras de cuatro barras y nombres en caligrafía dorada.', tags: ['padrinos', 'premium', 'vuelo', 'alas', 'capitan', 'honor'], tipo: 'padrinos' };</script>
+</section>

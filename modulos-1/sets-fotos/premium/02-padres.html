@@ -1,0 +1,195 @@
+<section
+  class="pv-padres"
+  data-gemini-id="padres-padre"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+    .pv-padres, .pv-padres *, .pv-padres *::before, .pv-padres *::after { box-sizing: border-box; }
+    .pv-padres {
+      --bg: var(--bg-color, #16233b);
+      --tx: var(--text-color, #f6f1e7);
+      --p: var(--primary-color, #f4a259);
+      --s: var(--secondary-color, #8fbfdd);
+      --a: var(--accent-color, #e07a5f);
+      --script: var(--font-heading, 'Great Vibes', cursive);
+      --sans: 'Jost', 'Segoe UI', Arial, sans-serif;
+      --panel: color-mix(in srgb, var(--bg) 84%, transparent);
+      position: relative; isolation: isolate; overflow: hidden;
+      padding: clamp(4rem, 10vw, 7rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg);
+      background-image: url('https://loremflickr.com/1920/1080/valley,mist?lock=2803');
+      background-size: cover; background-position: center;
+      color: var(--tx); text-align: center; font-family: var(--sans);
+    }
+    .pv-padres::before {
+      content: ''; position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(60% 40% at 85% 8%, color-mix(in srgb, var(--s) 14%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--bg) 86%, transparent), color-mix(in srgb, var(--bg) 93%, transparent) 60%, var(--bg));
+    }
+    .pv-padres > * { position: relative; z-index: 1; }
+
+    .pv-padres__nube {
+      position: absolute; z-index: 0; pointer-events: none;
+      height: clamp(40px, 6vw, 70px); border-radius: 999px;
+      background: color-mix(in srgb, var(--tx) 12%, transparent); filter: blur(16px);
+    }
+    .pv-padres__nube--a { width: 30%; top: 12%; left: -32%; animation: pvPadDrift 52s linear infinite; }
+    .pv-padres__nube--b { width: 20%; top: 24%; left: -22%; animation: pvPadDrift 74s linear infinite 10s; opacity: .7; }
+    @keyframes pvPadDrift { to { transform: translateX(165vw); } }
+
+    .pv-padres__kick {
+      margin: 0 0 .7rem; font-weight: 500;
+      font-size: clamp(.72rem, 1.35vw, .85rem); letter-spacing: .46em; text-transform: uppercase;
+      color: color-mix(in srgb, var(--s) 60%, var(--tx));
+    }
+    .pv-padres__title {
+      margin: 0 0 clamp(2.2rem, 6vw, 3.6rem);
+      font-weight: 300; font-size: clamp(1.9rem, 4.6vw, 3rem);
+      letter-spacing: .16em; text-transform: uppercase; color: var(--tx);
+    }
+    .pv-padres__title em {
+      display: block; font-family: var(--script); font-style: normal; text-transform: none;
+      font-size: 1.5em; letter-spacing: 0; line-height: .9; margin-top: .18em;
+      color: var(--p);
+    }
+
+    .pv-padres__fila {
+      display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start;
+      gap: clamp(2rem, 7vw, 6rem);
+    }
+    .pv-padres__gondola { width: min(100%, 300px); display: grid; justify-items: center; }
+
+    /* Dosel-globo del que cuelgan las fotos */
+    .pv-padres__dosel {
+      position: relative; width: clamp(120px, 16vw, 160px); aspect-ratio: 1/0.62;
+      border-radius: 50% 50% 45% 45% / 80% 80% 20% 20%;
+      background:
+        radial-gradient(circle at 30% 22%, color-mix(in srgb, #fff 18%, transparent), transparent 44%),
+        repeating-linear-gradient(95deg, var(--s) 0 18%, color-mix(in srgb, var(--s) 40%, var(--p)) 18% 34%, var(--p) 34% 48%);
+      box-shadow: inset -8px -10px 18px color-mix(in srgb, var(--bg) 50%, transparent), 0 10px 26px color-mix(in srgb, var(--bg) 45%, transparent);
+    }
+    .pv-padres__gondola:nth-child(2) .pv-padres__dosel {
+      background:
+        radial-gradient(circle at 30% 22%, color-mix(in srgb, #fff 18%, transparent), transparent 44%),
+        repeating-linear-gradient(85deg, var(--p) 0 18%, color-mix(in srgb, var(--a) 35%, var(--p)) 18% 34%, var(--a) 34% 48%);
+    }
+
+    .pv-padres__cuerda {
+      width: 58%; height: clamp(26px, 4.5vw, 44px);
+      background:
+        linear-gradient(80deg, transparent 47%, color-mix(in srgb, var(--tx) 50%, transparent) 49% 51%, transparent 53%),
+        linear-gradient(100deg, transparent 47%, color-mix(in srgb, var(--tx) 50%, transparent) 49% 51%, transparent 53%);
+    }
+
+    .pv-padres__marco {
+      position: relative; width: min(100%, 250px); padding: 12px;
+      border-radius: 50% 50% 22px 22px / 34% 34% 8% 8%;
+      background: linear-gradient(160deg, color-mix(in srgb, var(--p) 65%, var(--tx) 10%), color-mix(in srgb, var(--a) 70%, var(--p)) 55%, color-mix(in srgb, var(--p) 60%, var(--s) 12%));
+      box-shadow: 0 22px 44px color-mix(in srgb, var(--bg) 55%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--tx) 18%, transparent);
+    }
+    .pv-padres__marco img {
+      display: block; width: 100%; aspect-ratio: 4/4.6; object-fit: cover;
+      border-radius: 46% 46% 14px 14px / 30% 30% 6% 6%;
+      filter: saturate(.95);
+    }
+    .pv-padres__gondola { transform-origin: 50% -60px; }
+    .pv-padres__gondola--i { animation: pvPadVaivenI 5.5s ease-in-out infinite alternate; }
+    .pv-padres__gondola--d { animation: pvPadVaivenD 6.5s ease-in-out infinite alternate; }
+    @keyframes pvPadVaivenI { from { transform: rotate(-2.4deg); } to { transform: rotate(2.2deg); } }
+    @keyframes pvPadVaivenD { from { transform: rotate(2.2deg); } to { transform: rotate(-2.4deg); } }
+
+    .pv-padres__rol {
+      display: block; margin: 1.3rem 0 .3rem; font-weight: 500;
+      font-size: clamp(.68rem, 1.25vw, .8rem); letter-spacing: .4em; text-transform: uppercase;
+      color: color-mix(in srgb, var(--s) 60%, var(--tx));
+    }
+    .pv-padres__nombres {
+      margin: 0; font-family: var(--script); font-weight: 400;
+      font-size: clamp(1.7rem, 3.6vw, 2.4rem); line-height: 1.15; color: var(--p);
+    }
+    .pv-padres__nota {
+      margin: clamp(2.2rem, 5vw, 3rem) auto 0; max-width: 46ch;
+      font-style: italic; font-weight: 300;
+      font-size: clamp(.95rem, 1.7vw, 1.08rem); line-height: 1.75;
+      color: color-mix(in srgb, var(--tx) 85%, transparent);
+    }
+
+    .pv-padres--anim [data-pv-step] { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s cubic-bezier(.2, .8, .2, 1); }
+    .pv-padres--anim [data-pv-step].is-on { opacity: 1; transform: none; }
+    .pv-padres :focus-visible { outline: 2px solid var(--p); outline-offset: 4px; }
+
+    @media (max-width: 640px) {
+      .pv-padres__fila { flex-direction: column; align-items: center; gap: 2.4rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .pv-padres *, .pv-padres *::before, .pv-padres *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="pv-padres__nube pv-padres__nube--a" aria-hidden="true"></div>
+  <div class="pv-padres__nube pv-padres__nube--b" aria-hidden="true"></div>
+
+  <header>
+    <p class="pv-padres__kick" data-pv-step memory_type="text" memory_usage="custom" memory_key="padres-rotulo">Familias</p>
+    <h2 class="pv-padres__title" data-pv-step memory_type="text" memory_usage="custom" memory_key="padres-titulo">Los que nos dieron <em>alas</em></h2>
+  </header>
+
+  <div class="pv-padres__fila">
+    <article class="pv-padres__gondola pv-padres__gondola--i" data-pv-step>
+      <span class="pv-padres__dosel" aria-hidden="true"></span>
+      <span class="pv-padres__cuerda" aria-hidden="true"></span>
+      <figure class="pv-padres__marco" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/520/600/valley,family?lock=2804" alt="Retrato de los padres de ella" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" />
+        <figcaption hidden>Familia uno</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-1">
+        <span class="pv-padres__rol">Papás de la novia</span>
+        <h3 class="pv-padres__nombres" memory_type="text" memory_usage="custom" memory_key="padres-nombre-1">Nombre Papa &amp; Nombre Mama</h3>
+      </div>
+    </article>
+
+    <article class="pv-padres__gondola pv-padres__gondola--d" data-pv-step>
+      <span class="pv-padres__dosel" aria-hidden="true"></span>
+      <span class="pv-padres__cuerda" aria-hidden="true"></span>
+      <figure class="pv-padres__marco" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/520/600/hills,family?lock=2805" alt="Retrato de los padres de él" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" />
+        <figcaption hidden>Familia dos</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-2">
+        <span class="pv-padres__rol">Papás del novio</span>
+        <h3 class="pv-padres__nombres" memory_type="text" memory_usage="custom" memory_key="padres-nombre-2">Nombre Papa &amp; Nombre Mama</h3>
+      </div>
+    </article>
+  </div>
+
+  <p class="pv-padres__nota" data-pv-step memory_type="text" memory_usage="custom" memory_key="padres-texto">Dos familias que nos enseñaron a mirar alto. Gracias por elevarnos hasta aquí.</p>
+
+  <script>
+    (function () {
+      var root = null;
+      try { root = document.currentScript.closest('[data-gemini-id^="padres"]'); } catch (e) {}
+      if (!root) root = document.querySelector('[data-gemini-id^="padres"]');
+      if (!root || root.__pvInit) return;
+      root.__pvInit = true;
+      var steps = [].slice.call(root.querySelectorAll('[data-pv-step]'));
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      function entra() {
+        root.classList.add('pv-padres--anim');
+        steps.forEach(function (el, i) { setTimeout(function () { el.classList.add('is-on'); }, RM ? 0 : 120 + i * 160); });
+      }
+      if (RM) entra();
+      else if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { io.disconnect(); entra(); } }, { threshold: 0.18 });
+        io.observe(root);
+        setTimeout(function () { io.disconnect(); entra(); }, 2600);
+      } else entra();
+    })();
+  </script>
+  <script>var moduleMetadata = { module_type: 'padres', module_name: 'padres-premium', style_name: 'Vuelo · Paisajes del Cielo', descripcion: 'Padres en góndolas: cada retrato cuelga de un dosel de globo aerostático con cuerdas, meciéndose suavemente sobre un valle con neblina.', tags: ['padres', 'premium', 'vuelo', 'globo', 'gondola', 'animado'], tipo: 'padres' };</script>
+</section>

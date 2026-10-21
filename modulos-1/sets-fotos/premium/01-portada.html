@@ -1,0 +1,327 @@
+<section
+  class="pv-portada"
+  data-gemini-id="portada-nombre"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+    .pv-portada, .pv-portada *, .pv-portada *::before, .pv-portada *::after { box-sizing: border-box; }
+    .pv-portada {
+      --bg: var(--bg-color, #16233b);
+      --tx: var(--text-color, #f6f1e7);
+      --p: var(--primary-color, #f4a259);
+      --s: var(--secondary-color, #8fbfdd);
+      --a: var(--accent-color, #e07a5f);
+      --script: var(--font-heading, 'Great Vibes', cursive);
+      --sans: 'Jost', 'Segoe UI', Arial, sans-serif;
+      position: relative;
+      isolation: isolate;
+      min-height: 100vh;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(4.5rem, 11vh, 7rem) clamp(1rem, 5vw, 4rem) clamp(6rem, 14vh, 8.5rem);
+      overflow: hidden;
+      background-color: var(--bg);
+      background-image: url('https://loremflickr.com/1920/1080/mountain,sunrise?lock=2801');
+      background-size: cover;
+      background-position: center;
+      color: var(--tx);
+      text-align: center;
+      font-family: var(--sans);
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* Velo horizontal: cielo legible arriba, paisaje abajo */
+    .pv-portada::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(52% 36% at 50% 30%, color-mix(in srgb, var(--p) 16%, transparent), transparent 72%),
+        linear-gradient(180deg, color-mix(in srgb, var(--bg) 84%, transparent), color-mix(in srgb, var(--bg) 90%, transparent) 55%, color-mix(in srgb, var(--bg) 78%, transparent));
+    }
+    .pv-portada > * { position: relative; z-index: 2; }
+
+    /* ---------- Cielo: estrellas, nubes, sol ---------- */
+    .pv-portada__stars {
+      position: absolute; inset: 0 0 46% 0; z-index: 0; pointer-events: none;
+      background-image:
+        radial-gradient(1.6px 1.6px at 12% 22%, color-mix(in srgb, var(--tx) 85%, transparent) 50%, transparent 51%),
+        radial-gradient(1.2px 1.2px at 28% 10%, color-mix(in srgb, var(--tx) 70%, transparent) 50%, transparent 51%),
+        radial-gradient(1.8px 1.8px at 44% 26%, color-mix(in srgb, var(--tx) 90%, transparent) 50%, transparent 51%),
+        radial-gradient(1.2px 1.2px at 63% 12%, color-mix(in srgb, var(--tx) 65%, transparent) 50%, transparent 51%),
+        radial-gradient(1.6px 1.6px at 78% 24%, color-mix(in srgb, var(--tx) 80%, transparent) 50%, transparent 51%),
+        radial-gradient(1.1px 1.1px at 90% 8%, color-mix(in srgb, var(--tx) 60%, transparent) 50%, transparent 51%),
+        radial-gradient(1.4px 1.4px at 8% 40%, color-mix(in srgb, var(--tx) 70%, transparent) 50%, transparent 51%),
+        radial-gradient(1.3px 1.3px at 55% 38%, color-mix(in srgb, var(--tx) 60%, transparent) 50%, transparent 51%);
+      animation: pvPortTwinkle 4.5s ease-in-out infinite alternate;
+    }
+    @keyframes pvPortTwinkle { from { opacity: .45; } to { opacity: 1; } }
+
+    .pv-portada__sol {
+      position: absolute; left: 50%; top: 16%; z-index: 0; pointer-events: none;
+      width: clamp(120px, 20vw, 200px); aspect-ratio: 1; margin-left: calc(clamp(120px, 20vw, 200px) / -2);
+      border-radius: 50%;
+      background: radial-gradient(circle at 46% 42%, color-mix(in srgb, var(--p) 88%, #fff 12%), var(--p) 58%, color-mix(in srgb, var(--p) 40%, transparent) 100%);
+      box-shadow: 0 0 60px color-mix(in srgb, var(--p) 55%, transparent), 0 0 140px color-mix(in srgb, var(--a) 30%, transparent);
+      animation: pvPortSol 7s ease-in-out infinite alternate;
+    }
+    @keyframes pvPortSol { from { transform: translateY(-8px); } to { transform: translateY(10px); } }
+
+    .pv-portada__nube {
+      position: absolute; z-index: 0; pointer-events: none;
+      height: clamp(46px, 7vw, 84px); border-radius: 999px;
+      background: color-mix(in srgb, var(--tx) 13%, transparent);
+      filter: blur(16px);
+    }
+    .pv-portada__nube--a { width: 34%; top: 24%; left: -36%; animation: pvPortDrift 46s linear infinite; }
+    .pv-portada__nube--b { width: 24%; top: 38%; left: -26%; animation: pvPortDrift 64s linear infinite 8s; opacity: .8; }
+    .pv-portada__nube--c { width: 18%; top: 14%; left: -20%; animation: pvPortDrift 82s linear infinite 20s; opacity: .6; }
+    @keyframes pvPortDrift { to { transform: translateX(170vw); } }
+
+    /* ---------- Montañas en 3 capas con paralaje ---------- */
+    .pv-portada__paisaje { position: absolute; inset: auto 0 0 0; z-index: 1; height: 46%; pointer-events: none; }
+    .pv-portada__mtn { position: absolute; left: -6%; right: -6%; bottom: -2%; }
+    .pv-portada__mtn--lejos {
+      height: 78%;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--s) 34%, var(--bg)), color-mix(in srgb, var(--s) 12%, var(--bg)));
+      clip-path: polygon(0 62%, 9% 46%, 17% 56%, 26% 34%, 35% 52%, 44% 26%, 53% 50%, 62% 36%, 71% 54%, 80% 30%, 89% 52%, 100% 40%, 100% 100%, 0 100%);
+      opacity: .8;
+    }
+    .pv-portada__mtn--medio {
+      height: 58%;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 55%, var(--s)), color-mix(in srgb, var(--bg) 82%, var(--s)));
+      clip-path: polygon(0 70%, 12% 48%, 22% 62%, 33% 38%, 45% 60%, 57% 30%, 68% 58%, 79% 42%, 90% 64%, 100% 50%, 100% 100%, 0 100%);
+    }
+    .pv-portada__mtn--cerca {
+      height: 38%;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 82%, var(--s) 18%), var(--bg) 92%);
+      clip-path: polygon(0 82%, 14% 58%, 27% 74%, 41% 48%, 56% 72%, 70% 52%, 84% 76%, 100% 60%, 100% 100%, 0 100%);
+    }
+    .pv-portada__bruma {
+      position: absolute; left: 0; right: 0; bottom: 24%; height: 16%;
+      background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--tx) 10%, transparent) 50%, transparent);
+      filter: blur(10px);
+      animation: pvPortBruma 9s ease-in-out infinite alternate;
+    }
+    @keyframes pvPortBruma { to { transform: translateY(-14px); } }
+
+    /* ---------- Bandada (dos capas anidadas: avance + aleteo-vuelo) ---------- */
+    .pv-portada__bandada {
+      position: absolute; top: 26%; left: -12%; z-index: 1;
+      display: flex; gap: clamp(14px, 3vw, 30px); align-items: flex-end;
+      pointer-events: none;
+      animation: pvPortCruza 26s linear infinite;
+    }
+    .pv-portada__ave { position: relative; width: clamp(14px, 2vw, 20px); height: clamp(6px, 1vw, 9px); }
+    .pv-portada__ave::before, .pv-portada__ave::after {
+      content: ''; position: absolute; bottom: 0; width: 58%; height: 100%;
+      border-bottom: 2px solid color-mix(in srgb, var(--tx) 75%, transparent);
+      border-radius: 0 0 100% 100% / 0 0 100% 100%;
+    }
+    .pv-portada__ave::before { left: 0; transform-origin: right bottom; animation: pvPortAlaI 0.5s ease-in-out infinite alternate; }
+    .pv-portada__ave::after { right: 0; transform: scaleX(-1); transform-origin: left bottom; animation: pvPortAlaD 0.5s ease-in-out infinite alternate; }
+    @keyframes pvPortAlaI { from { transform: rotate(14deg); } to { transform: rotate(-16deg); } }
+    @keyframes pvPortAlaD { from { transform: scaleX(-1) rotate(14deg); } to { transform: scaleX(-1) rotate(-16deg); } }
+    .pv-portada__ave:nth-child(2) { margin-bottom: 14px; animation: pvPortBob 1.6s ease-in-out infinite alternate; }
+    .pv-portada__ave:nth-child(3) { margin-bottom: 5px; animation: pvPortBob 1.9s ease-in-out infinite alternate-reverse; }
+    .pv-portada__ave:nth-child(4) { margin-bottom: 20px; animation: pvPortBob 2.2s ease-in-out infinite alternate; }
+    @keyframes pvPortBob { to { transform: translateY(-7px); } }
+    @keyframes pvPortCruza { to { transform: translateX(126vw) translateY(24px); } }
+
+    /* ---------- Globo aerostático ---------- */
+    .pv-portada__globo {
+      position: absolute; right: clamp(4%, 10vw, 14%); bottom: 34%; z-index: 1;
+      width: clamp(74px, 10vw, 118px); pointer-events: none;
+      animation: pvPortFlota 6.5s ease-in-out infinite alternate;
+    }
+    .pv-portada__globo .env {
+      display: block; width: 100%; aspect-ratio: 1/1.12;
+      border-radius: 50% 50% 46% 46% / 58% 58% 42% 42%;
+      background:
+        radial-gradient(circle at 32% 26%, color-mix(in srgb, #fff 22%, transparent), transparent 46%),
+        repeating-linear-gradient(100deg, var(--p) 0 16%, color-mix(in srgb, var(--p) 45%, var(--a)) 16% 32%, var(--a) 32% 46%, color-mix(in srgb, var(--p) 55%, var(--s)) 46% 60%);
+      box-shadow: inset -10px -14px 26px color-mix(in srgb, var(--bg) 55%, transparent), 0 16px 40px color-mix(in srgb, var(--bg) 45%, transparent);
+    }
+    .pv-portada__globo .cuerdas {
+      display: block; width: 62%; height: clamp(20px, 3vw, 32px); margin: 0 auto;
+      background:
+        linear-gradient(78deg, transparent 48.6%, color-mix(in srgb, var(--tx) 55%, transparent) 48.8% 51.2%, transparent 51.4%),
+        linear-gradient(102deg, transparent 48.6%, color-mix(in srgb, var(--tx) 55%, transparent) 48.8% 51.2%, transparent 51.4%);
+    }
+    .pv-portada__globo .cesta {
+      display: block; width: 30%; height: clamp(14px, 2.2vw, 22px); margin: 0 auto;
+      border-radius: 3px;
+      background: repeating-linear-gradient(90deg, var(--a) 0 5px, color-mix(in srgb, var(--a) 55%, var(--bg)) 5px 9px);
+      box-shadow: 0 6px 12px color-mix(in srgb, var(--bg) 60%, transparent);
+    }
+    @keyframes pvPortFlota { from { transform: translateY(-10px) rotate(-2deg); } to { transform: translateY(12px) rotate(2deg); } }
+
+    /* ---------- Contenido ---------- */
+    .pv-portada__content {
+      display: grid; justify-items: center; gap: clamp(.5rem, 1.6vh, 1rem);
+      width: min(100%, 58rem);
+    }
+    .pv-portada__eyebrow {
+      margin: 0; font-weight: 400; font-style: italic;
+      font-size: clamp(1.05rem, 2.3vw, 1.5rem); letter-spacing: .1em;
+      color: color-mix(in srgb, var(--s) 65%, var(--tx));
+    }
+    .pv-portada__name {
+      margin: 0; padding: .04em .25em .18em;
+      font-family: var(--script); font-weight: 400;
+      font-size: clamp(3.4rem, 11.5vw, 9rem); line-height: 1.04;
+      background-image: linear-gradient(100deg,
+        var(--p) 0%, color-mix(in srgb, var(--p) 38%, #fff) 20%, var(--p) 34%,
+        color-mix(in srgb, var(--a) 55%, var(--p)) 60%, var(--p) 78%,
+        color-mix(in srgb, var(--p) 34%, #fff) 92%, var(--p) 100%);
+      background-size: 240% 100%; background-position: 100% 0;
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      filter: drop-shadow(0 .24em .3em color-mix(in srgb, var(--bg) 90%, transparent));
+      transition: background-position .6s ease;
+    }
+    .pv-portada__content:hover .pv-portada__name { background-position: 0 0; }
+
+    .pv-portada__rule { display: flex; align-items: center; gap: .9rem; width: min(100%, 26rem); }
+    .pv-portada__line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--p) 85%, transparent)); }
+    .pv-portada__line + .pv-portada__plane + .pv-portada__line {
+      background: linear-gradient(270deg, transparent, color-mix(in srgb, var(--p) 85%, transparent));
+    }
+    .pv-portada__plane { position: relative; width: 2.2rem; height: 1.2rem; flex: none; }
+    .pv-portada__plane::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(120deg, var(--s) 40%, color-mix(in srgb, var(--p) 60%, var(--s)));
+      clip-path: polygon(0 78%, 62% 68%, 100% 12%, 84% 82%, 40% 88%, 24% 100%, 14% 84%);
+      filter: drop-shadow(0 2px 4px color-mix(in srgb, var(--bg) 60%, transparent));
+      animation: pvPortPlaneo 3.4s ease-in-out infinite alternate;
+    }
+    @keyframes pvPortPlaneo { from { transform: translate(0, 0) rotate(0deg); } to { transform: translate(4px, -5px) rotate(4deg); } }
+
+    .pv-portada__lead {
+      margin: 0; max-width: 36ch;
+      font-weight: 300; font-style: italic;
+      font-size: clamp(1.05rem, 2.1vw, 1.35rem); line-height: 1.55;
+      color: color-mix(in srgb, var(--tx) 88%, transparent);
+      text-wrap: balance;
+    }
+    .pv-portada__fecha {
+      display: inline-flex; align-items: center; gap: .8em;
+      margin-top: .4rem; padding: .66em 1.6em .7em;
+      border: 1px solid transparent; border-radius: 999px;
+      background:
+        linear-gradient(color-mix(in srgb, var(--bg) 72%, transparent), color-mix(in srgb, var(--bg) 72%, transparent)) padding-box,
+        linear-gradient(90deg, var(--s), var(--p), var(--a)) border-box;
+      font-weight: 500; font-size: clamp(.98rem, 1.9vw, 1.18rem);
+      letter-spacing: .16em; text-transform: uppercase;
+      font-variant-numeric: tabular-nums;
+      -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    }
+    .pv-portada__fecha i {
+      width: .5em; height: .5em; border-radius: 50%; flex: none;
+      background: var(--a); box-shadow: 0 0 10px color-mix(in srgb, var(--a) 80%, transparent);
+      animation: pvPortBeacon 2.2s ease-in-out infinite;
+    }
+    @keyframes pvPortBeacon { 50% { opacity: .35; } }
+
+    .pv-portada__cue {
+      position: absolute; left: 50%; bottom: clamp(1.2rem, 4vh, 2.2rem); z-index: 2;
+      width: 1px; height: 3rem; margin-left: -.5px;
+      background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--tx) 45%, transparent));
+      animation: pvPortCue 2.4s ease-in-out infinite;
+    }
+    @keyframes pvPortCue { 0%, 100% { transform: scaleY(.55); transform-origin: top; } 50% { transform: scaleY(1); } }
+
+    /* Estados de entrada */
+    .pv-portada--anim [data-pv-step] {
+      opacity: 0; transform: translateY(16px);
+      transition: opacity .55s ease, transform .55s cubic-bezier(.2, .8, .2, 1);
+    }
+    .pv-portada--anim [data-pv-step].is-on { opacity: 1; transform: none; }
+    .pv-portada--anim .pv-portada__name[data-pv-step] { transform: none; clip-path: inset(0 46% 0 46%); transition: opacity .55s ease, clip-path .6s cubic-bezier(.6, 0, .2, 1); }
+    .pv-portada--anim .pv-portada__name[data-pv-step].is-on { clip-path: inset(-30% -8% -30% -8%); }
+
+    .pv-portada :focus-visible { outline: 2px solid var(--p); outline-offset: 4px; }
+
+    @media (max-width: 640px) {
+      .pv-portada__name { font-size: clamp(3rem, 16.5vw, 4.6rem); }
+      .pv-portada__bandada { top: 19%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .pv-portada *, .pv-portada *::before, .pv-portada *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="pv-portada__stars" aria-hidden="true"></div>
+  <div class="pv-portada__sol" aria-hidden="true"></div>
+  <div class="pv-portada__nube pv-portada__nube--a" aria-hidden="true"></div>
+  <div class="pv-portada__nube pv-portada__nube--b" aria-hidden="true"></div>
+  <div class="pv-portada__nube pv-portada__nube--c" aria-hidden="true"></div>
+
+  <div class="pv-portada__bandada" aria-hidden="true">
+    <span class="pv-portada__ave"></span>
+    <span class="pv-portada__ave"></span>
+    <span class="pv-portada__ave"></span>
+    <span class="pv-portada__ave"></span>
+  </div>
+
+  <div class="pv-portada__globo" aria-hidden="true">
+    <span class="env"></span>
+    <span class="cuerdas"></span>
+    <span class="cesta"></span>
+  </div>
+
+  <div class="pv-portada__paisaje" aria-hidden="true">
+    <div class="pv-portada__mtn pv-portada__mtn--lejos"></div>
+    <div class="pv-portada__bruma"></div>
+    <div class="pv-portada__mtn pv-portada__mtn--medio"></div>
+    <div class="pv-portada__mtn pv-portada__mtn--cerca"></div>
+  </div>
+
+  <header class="pv-portada__content">
+    <p class="pv-portada__eyebrow" data-pv-step memory_type="text" memory_usage="custom" memory_key="portada-subtitulo">Nuestra celebración</p>
+    <figure memory_type="image" memory_usage="custom" memory_source="library" data-pv-step style="margin:0 auto clamp(1rem,3vw,1.6rem);width:clamp(150px,22vw,220px);">
+      <img src="https://loremflickr.com/480/480/mountain,sky,couple?lock=2802" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:2px solid var(--p);box-shadow:0 0 0 6px color-mix(in srgb, var(--bg) 70%, transparent),0 18px 36px color-mix(in srgb, var(--bg) 60%, transparent);" />
+      <figcaption hidden>Retrato</figcaption>
+    </figure>
+    <h1 class="pv-portada__name" data-pv-step memory_type="text" memory_usage="custom" memory_key="portada-nombres">Nombre &amp; Nombre</h1>
+    <div class="pv-portada__rule" data-pv-step aria-hidden="true">
+      <span class="pv-portada__line"></span>
+      <span class="pv-portada__plane"></span>
+      <span class="pv-portada__line"></span>
+    </div>
+    <p class="pv-portada__lead" data-pv-step memory_type="text" memory_usage="custom" memory_key="portada-texto">Hay historias que se escriben mirando el horizonte. Acompáñanos a despegar hacia la nuestra.</p>
+    <time class="pv-portada__fecha" data-pv-step datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="portada-fecha"><i aria-hidden="true"></i>Fecha del evento · Lugar</time>
+  </header>
+
+  <div class="pv-portada__cue" aria-hidden="true"></div>
+
+  <script>
+    (function () {
+      var root = null;
+      try { root = document.currentScript.closest('[data-gemini-id="portada-nombre"]'); } catch (e) {}
+      if (!root) root = document.querySelector('[data-gemini-id="portada-nombre"]');
+      if (!root || root.__pvInit) return;
+      root.__pvInit = true;
+      var steps = [].slice.call(root.querySelectorAll('[data-pv-step]'));
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      function entra() {
+        root.classList.add('pv-portada--anim');
+        steps.forEach(function (el, i) { setTimeout(function () { el.classList.add('is-on'); }, RM ? 0 : 120 + i * 150); });
+      }
+      if (RM) entra();
+      else if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (en) {
+          if (en[0].isIntersecting) { io.disconnect(); entra(); }
+        }, { threshold: 0.2 });
+        io.observe(root);
+        setTimeout(function () { io.disconnect(); entra(); }, 2600);
+      } else entra();
+    })();
+  </script>
+  <script>var moduleMetadata = { module_type: 'portada', module_name: 'portada-premium', style_name: 'Vuelo · Paisajes del Cielo', descripcion: 'Portada amanecer en las montañas: sol radiante, estrellas, nubes a la deriva, bandada aleteando, globo aerostático flotando y nombres con degradado dorado que brilla al pasar el cursor.', tags: ['portada', 'premium', 'vuelo', 'paisaje', 'amanecer', 'globo', 'animado'], tipo: 'portada' };</script>
+</section>
