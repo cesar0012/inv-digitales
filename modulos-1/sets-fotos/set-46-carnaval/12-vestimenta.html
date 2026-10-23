@@ -1,0 +1,253 @@
+<section
+  class="cv-ve"
+  data-gemini-id="vestimenta-carnaval"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Monsieur+La+Doulaise&display=swap');
+
+    .cv-ve, .cv-ve *, .cv-ve *::before, .cv-ve *::after { box-sizing: border-box; }
+    .cv-ve {
+      --t-bg: var(--bg-color, #14060f);
+      --t-tx: var(--text-color, #f3e4c8);
+      --t-p: var(--primary-color, #9b1028);
+      --t-s: var(--secondary-color, #4b1a6e);
+      --t-a: var(--accent-color, #b8862e);
+      --t-display: var(--font-script, 'Monsieur La Doulaise', cursive);
+      --t-text: var(--font-heading, 'IM Fell English', Georgia, serif);
+      --gold: linear-gradient(115deg, color-mix(in srgb, var(--t-a) 60%, #000) 0%, color-mix(in srgb, var(--t-a) 55%, #fff) 42%, var(--t-a) 58%, color-mix(in srgb, var(--t-a) 65%, #000) 100%);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(32rem, 60vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/ballgown,velvet,masquerade?lock=3621');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .cv-ve::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 87%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent));
+    }
+    .cv-ve__content {
+      width: min(100%, 64rem);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+      gap: clamp(2rem, 5vw, 4rem);
+      align-items: center;
+    }
+    .cv-ve__stage {
+      --dye: var(--t-p);
+      --wave: var(--t-p);
+      position: relative;
+      aspect-ratio: 4 / 5;
+      border-radius: 50% 50% 10px 10px / 26% 26% 10px 10px;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 0 6px color-mix(in srgb, var(--t-bg) 70%, transparent), 0 0 0 7px var(--t-a), 0 30px 70px rgba(0, 0, 0, .6);
+    }
+    .cv-ve__dye, .cv-ve__wave {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 50% 30%, color-mix(in srgb, #fff 14%, transparent), transparent 60%),
+        linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, .5)),
+        repeating-linear-gradient(90deg, color-mix(in srgb, var(--c) 45%, #000) 0, var(--c) 16px, color-mix(in srgb, var(--c) 78%, #fff) 24px, var(--c) 32px, color-mix(in srgb, var(--c) 45%, #000) 48px);
+    }
+    .cv-ve__dye { --c: var(--dye); }
+    .cv-ve__wave { --c: var(--wave); clip-path: circle(0 at var(--wx, 50%) var(--wy, 50%)); }
+    .cv-ve__wave[data-go] { clip-path: circle(150% at var(--wx, 50%) var(--wy, 50%)); transition: clip-path .5s cubic-bezier(.6, 0, .3, 1); }
+    .cv-ve__mask { position: relative; z-index: 1; width: 78%; height: auto; filter: drop-shadow(0 14px 18px rgba(0, 0, 0, .55)); transition: transform .45s cubic-bezier(.3, 1.4, .5, 1); }
+    .cv-ve__stage[data-bump] .cv-ve__mask { transform: rotate(-4deg) scale(1.04); }
+    .cv-ve__chip {
+      position: absolute;
+      z-index: 2;
+      left: 50%;
+      bottom: 1.2rem;
+      transform: translateX(-50%);
+      padding: .35rem 1.1rem;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--t-bg) 70%, transparent);
+      border: 1px solid color-mix(in srgb, var(--t-a) 60%, transparent);
+      font-style: italic;
+      white-space: nowrap;
+    }
+
+    .cv-ve__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3rem, 6.5vw, 4.8rem);
+      line-height: 1.1;
+      padding-right: .3em;
+      background: var(--gold);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .cv-ve__code { margin: .2rem 0 0; font-size: clamp(1.4rem, 2.8vw, 1.8rem); color: var(--t-a); }
+    .cv-ve__text { margin: .8rem 0 0; line-height: 1.6; opacity: .9; }
+    .cv-ve__aside { margin: .6rem 0 0; font-style: italic; opacity: .8; line-height: 1.55; }
+    .cv-ve__label { margin: 1.8rem 0 .8rem; font-style: italic; color: color-mix(in srgb, var(--t-tx) 70%, var(--t-a)); }
+    .cv-ve__swatches { display: flex; flex-wrap: wrap; gap: .8rem; }
+    .cv-ve__sw {
+      position: relative;
+      width: 3.6rem;
+      height: 4.6rem;
+      padding: 0;
+      border: 0;
+      border-radius: 6px 6px 50% 50% / 6px 6px 22% 22%;
+      cursor: pointer;
+      background:
+        linear-gradient(180deg, color-mix(in srgb, #fff 18%, transparent), transparent 45%, rgba(0, 0, 0, .35)),
+        repeating-linear-gradient(90deg, color-mix(in srgb, var(--c) 55%, #000) 0, var(--c) 6px, color-mix(in srgb, var(--c) 80%, #fff) 9px, color-mix(in srgb, var(--c) 55%, #000) 14px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, .45), inset 0 3px 0 var(--t-a);
+      transition: transform .3s cubic-bezier(.3, 1.5, .5, 1), box-shadow .3s ease;
+    }
+    .cv-ve__sw:hover { transform: translateY(-4px) rotate(-3deg); }
+    .cv-ve__sw:focus-visible { outline: 2px solid var(--t-tx); outline-offset: 3px; }
+    .cv-ve__sw[aria-pressed="true"] { transform: translateY(-6px); box-shadow: 0 10px 20px rgba(0, 0, 0, .5), inset 0 3px 0 var(--t-a), 0 0 0 2px var(--t-a); }
+
+    .cv-ve--anim .cv-ve__sw { opacity: 0; transform: translateY(14px) scale(.9); }
+    .cv-ve--anim .cv-ve__sw[data-on] { opacity: 1; transform: none; }
+
+    @media (max-width: 760px) {
+      .cv-ve__content { grid-template-columns: 1fr; }
+      .cv-ve__stage { width: min(78%, 20rem); justify-self: center; }
+      .cv-ve__side { text-align: center; }
+      .cv-ve__swatches { justify-content: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cv-ve *, .cv-ve *::before, .cv-ve *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="cv-ve__content">
+    <div class="cv-ve__stage" data-cv-stage aria-hidden="true">
+      <span class="cv-ve__dye"></span>
+      <span class="cv-ve__wave" data-cv-wave></span>
+      <svg class="cv-ve__mask" viewBox="0 -20 260 220">
+        <g style="fill: color-mix(in srgb, var(--t-bg) 55%, transparent)">
+          <path d="M60 128C30 90 22 40 34 -6C46 34 58 80 74 122Z" />
+          <path d="M70 124C56 80 58 30 76 -14C80 32 82 78 86 122Z" />
+          <path d="M82 122C80 84 88 44 108 10C104 50 98 88 96 124Z" />
+        </g>
+        <path d="M60 128C30 90 22 40 34 -6M70 124C56 80 58 30 76 -14M82 122C80 84 88 44 108 10" fill="none" style="stroke: var(--t-a)" stroke-width="1.4" />
+        <path fill-rule="evenodd" style="fill: color-mix(in srgb, var(--t-bg) 70%, transparent); stroke: var(--t-a)" stroke-width="3" d="M130 140C116 124 84 112 50 120C30 125 20 140 28 156C38 176 70 186 94 178C110 173 122 166 130 168C138 166 150 173 166 178C190 186 222 176 232 156C240 140 230 125 210 120C176 112 144 124 130 140ZM54 150C66 136 92 136 104 152C92 162 66 164 54 150ZM206 150C194 136 168 136 156 152C168 162 194 164 206 150Z" />
+        <path fill="none" style="stroke: var(--t-a)" stroke-width="1.6" stroke-linecap="round" d="M66 129C82 120 104 124 115 137M194 129C178 120 156 124 145 137M110 166C118 160 124 158 130 158C136 158 142 160 150 166" />
+        <circle cx="130" cy="142" r="6" style="fill: var(--t-a)" />
+      </svg>
+      <span class="cv-ve__chip" data-cv-chip></span>
+    </div>
+
+    <div class="cv-ve__side">
+      <h2 class="cv-ve__title" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Código de Vestimenta</h2>
+      <p class="cv-ve__code" memory_type="text" memory_usage="custom" memory_key="vestimenta-codigo">Etiqueta rigurosa con máscara</p>
+      <p class="cv-ve__text" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">Damas en vestido largo; caballeros en traje oscuro o smoking. La máscara veneciana completa el atuendo.</p>
+      <p class="cv-ve__aside" memory_type="text" memory_usage="custom" memory_key="vestimenta-nota">Reservamos el color rosa pastel para la quinceañera.</p>
+      <p class="cv-ve__label" memory_type="text" memory_usage="custom" memory_key="vestimenta-paleta">Toca un color de la paleta sugerida:</p>
+      <div class="cv-ve__swatches" data-cv-swatches></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="vestimenta-carnaval"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* Swatches are generated from the live theme variables, so a recolored invitation stays in sync */
+      var cs = getComputedStyle(root);
+      function v(n, f) { var x = cs.getPropertyValue(n).trim(); return x || f; }
+      var palette = [
+        { name: 'Rubí', c: v('--t-p', '#9b1028') },
+        { name: 'Oro viejo', c: v('--t-a', '#b8862e') },
+        { name: 'Morado real', c: v('--t-s', '#4b1a6e') },
+        { name: 'Noche', c: 'color-mix(in srgb, ' + v('--t-bg', '#14060f') + ' 70%, #2a2a2a)' },
+        { name: 'Champaña', c: 'color-mix(in srgb, ' + v('--t-tx', '#f3e4c8') + ' 80%, ' + v('--t-a', '#b8862e') + ')' }
+      ];
+      var wrap = root.querySelector('[data-cv-swatches]'), stage = root.querySelector('[data-cv-stage]');
+      var wave = root.querySelector('[data-cv-wave]'), chip = root.querySelector('[data-cv-chip]');
+      var btns = [], busy = false;
+      chip.textContent = palette[0].name;
+
+      function pick(i, ev) {
+        btns.forEach(function (b, j) { b.setAttribute('aria-pressed', j === i ? 'true' : 'false'); });
+        var col = palette[i].c;
+        chip.textContent = palette[i].name;
+        if (RM || busy) { stage.style.setProperty('--dye', col); return; }
+        busy = true;
+        var sr = stage.getBoundingClientRect(), x = 50, y = 100;
+        if (ev && ev.clientX) {
+          x = Math.max(0, Math.min(100, (ev.clientX - sr.left) / sr.width * 100));
+          y = Math.max(0, Math.min(100, (ev.clientY - sr.top) / sr.height * 100));
+        }
+        stage.style.setProperty('--wx', x + '%'); stage.style.setProperty('--wy', y + '%');
+        stage.style.setProperty('--wave', col);
+        stage.setAttribute('data-bump', '');
+        requestAnimationFrame(function () { requestAnimationFrame(function () { wave.setAttribute('data-go', ''); }); });
+        setTimeout(function () {
+          stage.style.setProperty('--dye', col);
+          wave.removeAttribute('data-go');
+          stage.removeAttribute('data-bump');
+          busy = false;
+        }, 520);
+      }
+      palette.forEach(function (p, i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'cv-ve__sw';
+        b.style.setProperty('--c', p.c);
+        b.setAttribute('aria-label', p.name);
+        b.setAttribute('title', p.name);
+        b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+        b.setAttribute('data-cv-sw', '');
+        b.addEventListener('click', function (e) { pick(i, e); });
+        wrap.appendChild(b); btns.push(b);
+      });
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+      root.classList.add('cv-ve--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (!en[0].isIntersecting || en[0].intersectionRatio < .3) return;
+        io.disconnect();
+        btns.forEach(function (b, i) {
+          b.style.transition = 'opacity .4s ease ' + (i * .09) + 's, transform .45s cubic-bezier(.3, 1.5, .5, 1) ' + (i * .09) + 's';
+          b.setAttribute('data-on', '');
+        });
+        setTimeout(function () {
+          root.classList.remove('cv-ve--anim');
+          btns.forEach(function (b) { b.removeAttribute('data-on'); b.style.removeProperty('transition'); });
+        }, 1200);
+      }, { threshold: [0, .3, .6] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-carnaval',
+      style_name: 'Carnaval Veneciano Telas de Gala',
+      descripcion: 'Código de vestimenta de carnaval veneciano: muestras de tela generadas desde la paleta del tema; al elegir una, el telón tras la máscara con plumas se tiñe con una onda circular de color en menos de medio segundo.',
+      tags: ['vestimenta', 'quinceañera', 'carnaval', 'veneciano', 'paleta', 'terciopelo', 'mascara'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

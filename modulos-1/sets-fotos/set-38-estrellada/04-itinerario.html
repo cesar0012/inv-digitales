@@ -1,0 +1,336 @@
+<section
+  class="ne-it"
+  data-gemini-id="itinerario-agenda"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400%3B0,500%3B0,600%3B1,400%3B1,500&family=Great+Vibes&display=swap');
+
+    .ne-it, .ne-it *, .ne-it *::before, .ne-it *::after { box-sizing: border-box; }
+    .ne-it {
+      --t-bg: var(--bg-color, #0a1535);
+      --t-tx: var(--text-color, #f3f6fd);
+      --t-p: var(--primary-color, #c4ccda);
+      --t-s: var(--secondary-color, #1d3170);
+      --t-a: var(--accent-color, #eef3ff);
+      --t-display: var(--font-script, 'Great Vibes', cursive);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      --t-soft: color-mix(in srgb, var(--t-tx) 80%, transparent);
+      --t-line: color-mix(in srgb, var(--t-p) 45%, transparent);
+      --axis: 50%;
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/night,sky,milkyway?lock=3305');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .ne-it::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 92%, transparent), color-mix(in srgb, var(--t-bg) 84%, transparent) 50%, color-mix(in srgb, var(--t-bg) 95%, transparent));
+    }
+    .ne-it__sky { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    .ne-it__content { position: relative; z-index: 1; width: min(100%, 58rem); }
+
+    .ne-it__head { margin-bottom: clamp(2.5rem, 6vw, 4rem); }
+    .ne-it__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.6rem, 6.5vw, 4.4rem); line-height: 1.1; color: var(--t-a); }
+    .ne-it__intro { margin: .4rem auto 0; max-width: 30rem; font-style: italic; font-size: clamp(1.1rem, 2.2vw, 1.3rem); color: var(--t-soft); }
+
+    .ne-it__timeline { position: relative; }
+    .ne-it__rail { position: absolute; top: .6rem; bottom: .6rem; left: var(--axis); width: 1px; translate: -50% 0; background: var(--t-line); }
+    .ne-it__fill {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, var(--t-p), var(--t-a));
+      box-shadow: 0 0 8px var(--t-a);
+      transform-origin: top;
+      transform: scaleY(var(--prog, 1));
+    }
+    .ne-it__head-star {
+      position: absolute;
+      left: 50%;
+      top: calc(var(--prog, 1) * 100%);
+      width: 1.3rem; height: 1.3rem;
+      translate: -50% -50%;
+      background: var(--t-a);
+      clip-path: polygon(50% 0, 58% 42%, 100% 50%, 58% 58%, 50% 100%, 42% 58%, 0 50%, 42% 42%);
+      filter: drop-shadow(0 0 6px var(--t-a));
+    }
+
+    .ne-it__list { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(1.6rem, 4vw, 2.6rem); }
+    .ne-it__item { position: relative; display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
+    .ne-it__node {
+      position: absolute;
+      left: var(--axis);
+      top: 50%;
+      width: 1.05rem; height: 1.05rem;
+      translate: -50% -50%;
+      border: 1px solid var(--t-p);
+      border-radius: 50%;
+      background: var(--t-bg);
+      transition: background-color .4s ease, box-shadow .4s ease, scale .4s cubic-bezier(.2, .9, .3, 1.4);
+    }
+    .ne-it__item[data-lit] .ne-it__node { background: var(--t-a); scale: 1.25; box-shadow: 0 0 0 5px color-mix(in srgb, var(--t-a) 18%, transparent), 0 0 18px var(--t-a); }
+
+    .ne-it__card {
+      grid-column: 1;
+      margin-right: clamp(1.6rem, 4vw, 3rem);
+      padding: 1.1rem 1.4rem 1.2rem;
+      border-radius: 1.2rem;
+      border: 1px solid color-mix(in srgb, var(--t-p) 22%, transparent);
+      background: linear-gradient(160deg, color-mix(in srgb, var(--t-s) 45%, transparent), color-mix(in srgb, var(--t-bg) 60%, transparent));
+      text-align: right;
+      transition: border-color .4s ease, box-shadow .4s ease;
+    }
+    .ne-it__item:nth-child(even) .ne-it__card { grid-column: 2; margin: 0 0 0 clamp(1.6rem, 4vw, 3rem); text-align: left; }
+    .ne-it__item[data-lit] .ne-it__card { border-color: color-mix(in srgb, var(--t-a) 55%, transparent); box-shadow: 0 0 30px color-mix(in srgb, var(--t-a) 12%, transparent); }
+    .ne-it__time { display: block; font-style: italic; font-size: 1.15rem; color: var(--t-p); }
+    .ne-it__name { margin: .1rem 0 .25rem; font-size: clamp(1.35rem, 2.6vw, 1.65rem); font-weight: 500; line-height: 1.2; }
+    .ne-it__text { margin: 0; font-size: 1.06rem; line-height: 1.5; color: var(--t-soft); }
+
+    /* Each milestone slides in from its own side when it first appears */
+    .ne-it--anim .ne-it__head { opacity: 0; filter: blur(8px); transition: opacity .5s ease, filter .5s ease; }
+    .ne-it--anim .ne-it__item .ne-it__card { opacity: 0; translate: -26px 0; transition: opacity .45s ease, translate .5s cubic-bezier(.2, .8, .2, 1), border-color .4s ease, box-shadow .4s ease; }
+    .ne-it--anim .ne-it__item:nth-child(even) .ne-it__card { translate: 26px 0; }
+    .ne-it--anim.is-in .ne-it__head { opacity: 1; filter: none; }
+    .ne-it--anim .ne-it__item[data-seen]:nth-child(n) .ne-it__card { opacity: 1; translate: 0 0; }
+
+    @media (max-width: 700px) {
+      .ne-it { --axis: .55rem; text-align: left; }
+      .ne-it__head { text-align: center; }
+      .ne-it__item { grid-template-columns: 1fr; }
+      .ne-it__card, .ne-it__item:nth-child(even) .ne-it__card { grid-column: 1; margin: 0 0 0 2rem; text-align: left; }
+      .ne-it--anim .ne-it__item .ne-it__card, .ne-it--anim .ne-it__item:nth-child(even) .ne-it__card { translate: 22px 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ne-it *, .ne-it *::before, .ne-it *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <canvas class="ne-it__sky" data-ne-sky aria-hidden="true"></canvas>
+
+  <div class="ne-it__content">
+    <header class="ne-it__head">
+      <h2 class="ne-it__title" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Itinerario de la noche</h2>
+      <p class="ne-it__intro" memory_type="text" memory_usage="custom" memory_key="itinerario-texto">Cada momento, una estrella que se enciende en nuestro cielo.</p>
+    </header>
+
+    <div class="ne-it__timeline" data-ne-track>
+      <div class="ne-it__rail" aria-hidden="true">
+        <div class="ne-it__fill" data-ne-fill></div>
+        <div class="ne-it__head-star" data-ne-head></div>
+      </div>
+      <ol class="ne-it__list">
+        <li class="ne-it__item" data-ne-step>
+          <span class="ne-it__node" aria-hidden="true"></span>
+          <div class="ne-it__card">
+            <time class="ne-it__time" datetime="18:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">6:00 p. m.</time>
+            <h3 class="ne-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-1">Misa de acción de gracias</h3>
+            <p class="ne-it__text" memory_type="text" memory_usage="custom" memory_key="itinerario-detalle-1">Damos gracias por quince años de bendiciones.</p>
+          </div>
+        </li>
+        <li class="ne-it__item" data-ne-step>
+          <span class="ne-it__node" aria-hidden="true"></span>
+          <div class="ne-it__card">
+            <time class="ne-it__time" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">7:00 p. m.</time>
+            <h3 class="ne-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-2">Recepción</h3>
+            <p class="ne-it__text" memory_type="text" memory_usage="custom" memory_key="itinerario-detalle-2">Cóctel de bienvenida entre luces plateadas.</p>
+          </div>
+        </li>
+        <li class="ne-it__item" data-ne-step>
+          <span class="ne-it__node" aria-hidden="true"></span>
+          <div class="ne-it__card">
+            <time class="ne-it__time" datetime="20:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">8:00 p. m.</time>
+            <h3 class="ne-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-3">Entrada de la quinceañera</h3>
+            <p class="ne-it__text" memory_type="text" memory_usage="custom" memory_key="itinerario-detalle-3">El momento en que la luna sale a brillar.</p>
+          </div>
+        </li>
+        <li class="ne-it__item" data-ne-step>
+          <span class="ne-it__node" aria-hidden="true"></span>
+          <div class="ne-it__card">
+            <time class="ne-it__time" datetime="20:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">8:30 p. m.</time>
+            <h3 class="ne-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-4">Vals</h3>
+            <p class="ne-it__text" memory_type="text" memory_usage="custom" memory_key="itinerario-detalle-4">Un baile bajo un cielo lleno de estrellas.</p>
+          </div>
+        </li>
+        <li class="ne-it__item" data-ne-step>
+          <span class="ne-it__node" aria-hidden="true"></span>
+          <div class="ne-it__card">
+            <time class="ne-it__time" datetime="21:15" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-5">9:15 p. m.</time>
+            <h3 class="ne-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-5">Cena</h3>
+            <p class="ne-it__text" memory_type="text" memory_usage="custom" memory_key="itinerario-detalle-5">Compartimos la mesa a la luz de las velas.</p>
+          </div>
+        </li>
+        <li class="ne-it__item" data-ne-step>
+          <span class="ne-it__node" aria-hidden="true"></span>
+          <div class="ne-it__card">
+            <time class="ne-it__time" datetime="22:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-6">10:00 p. m.</time>
+            <h3 class="ne-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-6">Baile y fiesta</h3>
+            <p class="ne-it__text" memory_type="text" memory_usage="custom" memory_key="itinerario-detalle-6">A bailar hasta que se apague la última estrella.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="itinerario-agenda"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* Shared night-sky layer: twinkling stars, silver glitter sparkles and occasional shooting stars */
+      function neSky(cv, host, o) {
+        o = o || {};
+        var ctx = cv && cv.getContext ? cv.getContext('2d') : null;
+        var api = { start: function () {}, stop: function () {}, draw: function () {} };
+        if (!ctx) return api;
+        var dpr = Math.min(window.devicePixelRatio || 1, 2), W = 1, H = 1, pts = [], shots = [], next = 0, raf = 0, on = false;
+        var cs = getComputedStyle(host);
+        var cA = cs.getPropertyValue('--t-a').trim() || '#eef3ff';
+        var cP = cs.getPropertyValue('--t-p').trim() || '#c4ccda';
+        function seed() {
+          pts = [];
+          var n = Math.min(o.max || 200, Math.round(W * H / (o.area || 6500)));
+          for (var i = 0; i < n; i++) {
+            pts.push({ x: Math.random() * W, y: Math.random() * H, r: .35 + Math.random() * 1.05, ph: Math.random() * 6.283, sp: .5 + Math.random() * 1.6, g: Math.random() < (o.glitter || .1) });
+          }
+        }
+        function size() {
+          var r = cv.getBoundingClientRect();
+          W = Math.max(1, r.width); H = Math.max(1, r.height);
+          cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          seed();
+        }
+        function sparkle(x, y, s, a) {
+          ctx.globalAlpha = Math.max(0, Math.min(1, a)); ctx.fillStyle = cA;
+          ctx.beginPath(); ctx.moveTo(x, y - s);
+          ctx.quadraticCurveTo(x + s * .14, y - s * .14, x + s, y);
+          ctx.quadraticCurveTo(x + s * .14, y + s * .14, x, y + s);
+          ctx.quadraticCurveTo(x - s * .14, y + s * .14, x - s, y);
+          ctx.quadraticCurveTo(x - s * .14, y - s * .14, x, y - s);
+          ctx.fill();
+        }
+        function spawn(now) {
+          var th = (.42 + Math.random() * .2);
+          shots.push({ x: W * (.35 + Math.random() * .7), y: -10 + Math.random() * H * .4, dx: -Math.cos(th), dy: Math.sin(th), dist: (W + H) * (.25 + Math.random() * .15), len: 90 + Math.random() * 110, born: now, life: 950 + Math.random() * 450 });
+        }
+        function draw(now) {
+          ctx.clearRect(0, 0, W, H);
+          var t = now / 1000;
+          for (var i = 0; i < pts.length; i++) {
+            var p = pts[i], tw = .55 + .45 * Math.sin(t * p.sp + p.ph);
+            if (p.g) { sparkle(p.x, p.y, p.r * 3.4 * tw + .6, .3 + .7 * tw); }
+            else { ctx.globalAlpha = .22 + .6 * tw; ctx.fillStyle = cP; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill(); }
+          }
+          if (o.shoot) {
+            if (!next) next = now + 900 + Math.random() * 2200;
+            if (now > next) { spawn(now); next = now + (o.every || 5200) + Math.random() * 4000; }
+            for (var j = shots.length - 1; j >= 0; j--) {
+              var s = shots[j], k = (now - s.born) / s.life;
+              if (k >= 1 || k < 0) { shots.splice(j, 1); continue; }
+              var hx = s.x + s.dx * k * s.dist, hy = s.y + s.dy * k * s.dist, tl = s.len * Math.min(1, k * 3);
+              var g = ctx.createLinearGradient(hx, hy, hx - s.dx * tl, hy - s.dy * tl);
+              g.addColorStop(0, cA); g.addColorStop(1, 'rgba(255,255,255,0)');
+              ctx.globalAlpha = Math.sin(k * Math.PI); ctx.strokeStyle = g; ctx.lineWidth = 1.5; ctx.lineCap = 'round';
+              ctx.beginPath(); ctx.moveTo(hx, hy); ctx.lineTo(hx - s.dx * tl, hy - s.dy * tl); ctx.stroke();
+              sparkle(hx, hy, 4, Math.sin(k * Math.PI));
+            }
+          }
+          ctx.globalAlpha = 1;
+        }
+        function loop(now) { raf = 0; if (!on) return; draw(now); raf = requestAnimationFrame(loop); }
+        api.start = function () { if (on) return; on = true; raf = requestAnimationFrame(loop); };
+        api.stop = function () { on = false; if (raf) cancelAnimationFrame(raf); raf = 0; };
+        api.draw = draw;
+        size();
+        if ('ResizeObserver' in window) new ResizeObserver(function () { size(); if (!on) draw(1000); }).observe(cv);
+        return api;
+      }
+      /* Runs a start/stop controller only while the module is on screen and the tab is visible */
+      function neWhenVisible(el, ctl) {
+        var vis = false;
+        function upd() { if (vis && !document.hidden) ctl.start(); else ctl.stop(); }
+        if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { vis = en[0].isIntersecting; upd(); }).observe(el);
+        else { vis = true; upd(); }
+        document.addEventListener('visibilitychange', upd);
+      }
+
+      var track = root.querySelector('[data-ne-track]');
+      var steps = root.querySelectorAll('[data-ne-step]');
+      var sky = neSky(root.querySelector('[data-ne-sky]'), root, { shoot: !RM, area: 8000 });
+
+      if (RM || !('IntersectionObserver' in window)) {  /* static final state: line drawn, every star lit */
+        sky.draw(1000);
+        for (var s = 0; s < steps.length; s++) steps[s].setAttribute('data-lit', '');
+        return;
+      }
+
+      /* Progress line follows the scroll; each star ignites as the line reaches it */
+      var pending = false;
+      function measure() {
+        pending = false;
+        var vh = window.innerHeight || 800, mark = vh * .62;
+        var r = track.getBoundingClientRect();
+        var p = Math.max(0, Math.min(1, (mark - r.top) / Math.max(1, r.height)));
+        track.style.setProperty('--prog', p.toFixed(4));
+        for (var i = 0; i < steps.length; i++) {
+          var b = steps[i].getBoundingClientRect();
+          if (b.top + b.height / 2 < mark) steps[i].setAttribute('data-lit', ''); else steps[i].removeAttribute('data-lit');
+        }
+      }
+      function onScroll() { if (!pending) { pending = true; requestAnimationFrame(measure); } }
+      var listening = false;
+      neWhenVisible(root, {
+        start: function () { sky.start(); if (!listening) { listening = true; window.addEventListener('scroll', onScroll, { passive: true }); window.addEventListener('resize', onScroll); } onScroll(); },
+        stop: function () { sky.stop(); if (listening) { listening = false; window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); } }
+      });
+      measure();
+
+      root.classList.add('ne-it--anim');
+      var seen = 0;
+      var io = new IntersectionObserver(function (en) {
+        en.forEach(function (e) {
+          if (e.isIntersecting && !e.target.hasAttribute('data-seen')) {
+            e.target.setAttribute('data-seen', ''); io.unobserve(e.target); seen++;
+            if (seen === steps.length) setTimeout(function () { root.classList.remove('ne-it--anim', 'is-in'); }, 900);
+          }
+        });
+      }, { threshold: .35 });
+      for (var j = 0; j < steps.length; j++) io.observe(steps[j]);
+      var ioHead = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting) { ioHead.disconnect(); root.classList.add('is-in'); }
+      }, { threshold: .1 });
+      ioHead.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Noche Estrellada Itinerario Constelación',
+      descripcion: 'Itinerario de XV años como constelación vertical: la línea plateada se dibuja con el scroll y cada estrella se enciende al llegar a su momento; tarjetas alternadas con hora, título y detalle.',
+      tags: ['itinerario', 'quinceañera', 'noche estrellada', 'timeline', 'constelación', 'plateado', 'azul marino'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>

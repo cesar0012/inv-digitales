@@ -1,0 +1,177 @@
+<section
+  class="ch35-ve"
+  data-gemini-id="vestimenta-charra"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
+    .ch35-ve, .ch35-ve *, .ch35-ve *::before, .ch35-ve *::after { box-sizing: border-box; }
+    .ch35-ve {
+      --t-bg: var(--bg-color, #0F2A1D);
+      --t-tx: var(--text-color, #F6F1E7);
+      --t-p: var(--primary-color, #B3122E);
+      --t-s: var(--secondary-color, #C3C8CE);
+      --t-a: var(--accent-color, #C9A44C);
+      --t-display: var(--font-script, 'Cinzel Decorative', serif);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      --ve-pick: var(--t-p);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/embroidery,thread,mexico?lock=3621');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .ch35-ve::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 90%, transparent), color-mix(in srgb, var(--t-bg) 96%, transparent));
+    }
+    .ch35-ve__content { width: min(100%, 62rem); display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(1.6rem, 5vw, 4rem); align-items: center; }
+
+    .ch35-ve__jacket { position: relative; width: min(100%, 24rem); justify-self: center; }
+    .ch35-ve__jacket svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .ch35-ve__cloth { fill: var(--ve-pick); stroke: color-mix(in srgb, var(--ve-pick) 60%, #000); stroke-width: 1.5; transition: fill .45s ease, stroke .45s ease; }
+    .ch35-ve__emb { fill: none; stroke: var(--t-a); stroke-width: 1.6; stroke-linecap: round; }
+    .ch35-ve__btn-s { fill: var(--t-s); stroke: color-mix(in srgb, var(--t-s) 50%, #000); stroke-width: .6; }
+    .ch35-ve__bow { fill: var(--t-p); }
+    .ch35-ve__ripple { position: absolute; left: 50%; top: 50%; width: 14rem; height: 14rem; margin: -7rem 0 0 -7rem; border-radius: 50%; border: 2px solid var(--ve-pick); pointer-events: none; animation: ch35-ve-ring .5s ease-out forwards; }
+    @keyframes ch35-ve-ring { from { transform: scale(.3); opacity: .9; } to { transform: scale(1.25); opacity: 0; } }
+
+    .ch35-ve__copy { text-align: left; }
+    .ch35-ve__title { margin: 0; font-family: var(--t-display); font-weight: 700; font-size: clamp(2rem, 4.6vw, 3.1rem); line-height: 1.08; }
+    .ch35-ve__code { margin: .5rem 0 0; font-size: clamp(1.35rem, 2.6vw, 1.7rem); font-style: italic; color: var(--t-a); }
+    .ch35-ve__text { margin: .9rem 0 1.6rem; font-size: clamp(1.1rem, 2vw, 1.22rem); line-height: 1.55; color: color-mix(in srgb, var(--t-tx) 84%, var(--t-bg)); }
+    .ch35-ve__pal-t { margin: 0 0 .7rem; font-size: 1.15rem; font-weight: 600; }
+
+    .ch35-ve__spools { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .9rem; }
+    .ch35-ve__spool { display: grid; justify-items: center; gap: .35rem; padding: .35rem .2rem; border: 0; background: none; color: inherit; font: inherit; cursor: pointer; }
+    .ch35-ve__reel { position: relative; width: 2.6rem; height: 3.4rem; transition: transform .35s cubic-bezier(.3, 1.5, .5, 1); }
+    .ch35-ve__reel::before, .ch35-ve__reel::after { content: ''; position: absolute; left: -3px; right: -3px; height: 7px; border-radius: 3px; background: linear-gradient(90deg, color-mix(in srgb, var(--t-s) 50%, #000), var(--t-s) 40%, #fff 55%, color-mix(in srgb, var(--t-s) 60%, #000)); }
+    .ch35-ve__reel::before { top: 0; }
+    .ch35-ve__reel::after { bottom: 0; }
+    .ch35-ve__wind { position: absolute; left: 2px; right: 2px; top: 7px; bottom: 7px; background: repeating-linear-gradient(170deg, var(--sw) 0 2px, color-mix(in srgb, var(--sw) 70%, #000) 2px 3px); box-shadow: inset -6px 0 8px color-mix(in srgb, #000 30%, transparent), inset 5px 0 6px color-mix(in srgb, #fff 25%, transparent); }
+    .ch35-ve__name { font-size: .98rem; font-style: italic; }
+    .ch35-ve__spool:hover .ch35-ve__reel { transform: translateY(-4px) rotate(-6deg); }
+    .ch35-ve__spool[aria-pressed="true"] .ch35-ve__reel { transform: translateY(-6px) scale(1.08); }
+    .ch35-ve__spool[aria-pressed="true"] .ch35-ve__name { color: var(--t-a); }
+    .ch35-ve__spool:focus-visible { outline: 2px solid var(--t-a); outline-offset: 3px; }
+    .ch35-ve__note { margin: 1.2rem 0 0; font-size: 1.02rem; font-style: italic; color: color-mix(in srgb, var(--t-tx) 68%, var(--t-bg)); }
+
+    .ch35-ve--anim .ch35-ve__jacket { opacity: 0; transform: translateY(-20px) rotate(-4deg); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .ch35-ve--anim .ch35-ve__copy { opacity: 0; transition: opacity .5s ease; transition-delay: .25s; }
+    .ch35-ve--anim.is-in .ch35-ve__jacket { opacity: 1; transform: none; }
+    .ch35-ve--anim.is-in .ch35-ve__copy { opacity: 1; }
+
+    @media (max-width: 760px) {
+      .ch35-ve__content { grid-template-columns: 1fr; }
+      .ch35-ve__jacket { width: min(80%, 18rem); }
+      .ch35-ve__copy { text-align: center; }
+      .ch35-ve__spools { justify-content: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ch35-ve *, .ch35-ve *::before, .ch35-ve *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="ch35-ve__content">
+    <div class="ch35-ve__jacket" data-ch-jacket aria-hidden="true">
+      <svg viewBox="0 0 200 190">
+        <path class="ch35-ve__cloth" d="M66 22l34 18 34-18 34 12c8 3 13 9 15 17l13 76c1 5-3 9-8 9h-16c-4 0-7-3-8-7l-8-48-2 70c0 5-4 9-9 9h-24l-21-82-21 82H55c-5 0-9-4-9-9l-2-70-8 48c-1 4-4 7-8 7H12c-5 0-9-4-8-9l13-76c2-8 7-14 15-17z"/>
+        <path class="ch35-ve__emb" d="M100 40l-14 22c-6 10-6 22 0 30M100 40l14 22c6 10 6 22 0 30M58 130c6-6 6-14 0-18s-12 2-8 8M142 130c-6-6-6-14 0-18s12 2 8 8M80 160c4-8 12-8 14-2M120 160c-4-8-12-8-14-2"/>
+        <path class="ch35-ve__emb" d="M38 48c10 4 16 12 18 24M162 48c-10 4-16 12-18 24" opacity=".7"/>
+        <circle class="ch35-ve__btn-s" cx="24" cy="98" r="3"/><circle class="ch35-ve__btn-s" cx="22" cy="110" r="3"/><circle class="ch35-ve__btn-s" cx="20" cy="122" r="3"/>
+        <circle class="ch35-ve__btn-s" cx="176" cy="98" r="3"/><circle class="ch35-ve__btn-s" cx="178" cy="110" r="3"/><circle class="ch35-ve__btn-s" cx="180" cy="122" r="3"/>
+        <circle class="ch35-ve__btn-s" cx="76" cy="100" r="3.4"/><circle class="ch35-ve__btn-s" cx="124" cy="100" r="3.4"/>
+        <path class="ch35-ve__bow" d="M100 36l-18-10v20zM100 36l18-10v20z"/>
+        <circle class="ch35-ve__bow" cx="100" cy="36" r="4"/>
+      </svg>
+    </div>
+
+    <div class="ch35-ve__copy">
+      <h2 class="ch35-ve__title" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Código de Vestimenta</h2>
+      <p class="ch35-ve__code" memory_type="text" memory_usage="custom" memory_key="vestimenta-codigo">Formal · Gala charra</p>
+      <p class="ch35-ve__text" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">Te invitamos a vestir con la elegancia de nuestra tradición: traje oscuro o charro de gala para caballeros y vestido largo para damas.</p>
+      <h3 class="ch35-ve__pal-t" memory_type="text" memory_usage="custom" memory_key="vestimenta-paleta-titulo">Hilos de la noche</h3>
+      <ul class="ch35-ve__spools" data-ch-spools></ul>
+      <p class="ch35-ve__note" memory_type="text" memory_usage="custom" memory_key="vestimenta-nota">El blanco perla está reservado para la quinceañera.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="vestimenta-charra"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* Palette generated from the theme variables, so a recolored set keeps matching swatches */
+      var list = root.querySelector('[data-ch-spools]'), jacket = root.querySelector('[data-ch-jacket]');
+      var PAL = [
+        { n: 'Rojo charro', v: 'var(--t-p)' },
+        { n: 'Verde hacienda', v: 'color-mix(in srgb, var(--t-bg) 70%, #3c7a52)' },
+        { n: 'Negro gala', v: '#1b1b1d' },
+        { n: 'Plata', v: 'var(--t-s)' },
+        { n: 'Oro', v: 'var(--t-a)' }
+      ];
+      var btns = [];
+      PAL.forEach(function (c, i) {
+        var li = document.createElement('li');
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'ch35-ve__spool'; b.setAttribute('data-ch-color', c.v);
+        b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+        b.style.setProperty('--sw', c.v);
+        b.innerHTML = '<span class="ch35-ve__reel" aria-hidden="true"><span class="ch35-ve__wind"></span></span><span class="ch35-ve__name"></span>';
+        b.lastChild.textContent = c.n;
+        b.addEventListener('click', function () {
+          for (var k = 0; k < btns.length; k++) btns[k].setAttribute('aria-pressed', btns[k] === b ? 'true' : 'false');
+          root.style.setProperty('--ve-pick', c.v);
+          if (RM || !jacket) return;
+          var rp = document.createElement('span');
+          rp.className = 'ch35-ve__ripple';
+          jacket.appendChild(rp);
+          setTimeout(function () { rp.remove(); }, 560);
+        });
+        li.appendChild(b); list.appendChild(li); btns.push(b);
+      });
+
+      if (RM || !('IntersectionObserver' in window)) return;
+      root.classList.add('ch35-ve--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('ch35-ve--anim', 'is-in'); }, 1300);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-charra',
+      style_name: 'Charra Mexicana Vestimenta Carretes',
+      descripcion: 'Código de vestimenta con paleta de carretes de hilo generada en JS; al elegir un color, la chaquetilla charra bordada se tiñe con una onda de color.',
+      tags: ['vestimenta', 'charra', 'quinceañera', 'mexicana', 'paleta', 'dress code'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

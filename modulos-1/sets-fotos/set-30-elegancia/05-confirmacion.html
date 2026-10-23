@@ -1,0 +1,322 @@
+<section
+  class="em-rsvp"
+  data-gemini-id="confirmacion-texto"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,200;0,300;0,400;1,200;1,300&family=Manrope:wght@200;300;400;500&display=swap');
+
+    .em-rsvp, .em-rsvp *, .em-rsvp *::before, .em-rsvp *::after { box-sizing: border-box; }
+    .em-rsvp {
+      --t-bg: var(--bg-color, #ffffff);
+      --t-tx: var(--text-color, #2b2b2b);
+      --t-p: var(--primary-color, #b76e79);
+      --t-s: var(--secondary-color, #8a837f);
+      --t-a: var(--accent-color, #e4c6ba);
+      --t-display: var(--font-script, 'Jost', 'Helvetica Neue', Arial, sans-serif);
+      --t-text: var(--font-heading, 'Manrope', 'Helvetica Neue', Arial, sans-serif);
+      --line: color-mix(in srgb, var(--t-tx) 22%, transparent);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 64vw, 50rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(5rem, 10vw, 8rem) clamp(1.25rem, 6vw, 5rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/wedding,stationery,white?lock=3051');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .em-rsvp::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 95%, transparent), color-mix(in srgb, var(--t-bg) 97%, transparent));
+    }
+    .em-rsvp__paper { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mix-blend-mode: multiply; opacity: .36; }
+    .em-rsvp__inner {
+      width: min(100%, 64rem);
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(0, 1.3fr);
+      gap: clamp(3rem, 8vw, 7rem);
+      align-items: start;
+    }
+    .em-rsvp__head { display: grid; gap: 1.1rem; }
+    .em-rsvp__eyebrow {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      font-family: var(--t-display);
+      font-style: italic;
+      font-weight: 300;
+      font-size: 1.05rem;
+      color: var(--t-s);
+    }
+    .em-rsvp__eyebrow::before { content: ''; width: 2.2rem; height: 1px; background: var(--t-p); }
+    .em-rsvp__title { margin: 0; font-family: var(--t-display); font-weight: 200; font-size: clamp(2.3rem, 4.6vw, 3.6rem); line-height: 1.04; letter-spacing: -.02em; }
+    .em-rsvp__lead { margin: 0; max-width: 22rem; font-weight: 300; line-height: 1.75; color: var(--t-s); }
+    .em-rsvp__deadline { margin: .4rem 0 0; font-family: var(--t-display); font-weight: 300; font-size: 1.05rem; color: var(--t-p); }
+
+    .em-rsvp__form { display: grid; gap: 2.2rem; }
+    .em-rsvp__row { display: grid; grid-template-columns: 1fr 9rem; gap: 2rem; }
+    .em-rsvp__field { position: relative; display: grid; gap: .4rem; }
+    .em-rsvp__label { font-weight: 400; font-size: .82rem; color: var(--t-s); }
+    .em-rsvp__input {
+      width: 100%;
+      min-height: 2.6rem;
+      padding: .4rem 0;
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      border-radius: 0;
+      background: transparent;
+      color: var(--t-tx);
+      font-family: var(--t-display);
+      font-weight: 300;
+      font-size: 1.15rem;
+      outline: none;
+      resize: vertical;
+    }
+    .em-rsvp__input::placeholder { color: color-mix(in srgb, var(--t-s) 60%, transparent); }
+    .em-rsvp__bar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 1px;
+      background: var(--t-p);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .4s cubic-bezier(.6, 0, .2, 1);
+      pointer-events: none;
+    }
+    .em-rsvp__input:focus + .em-rsvp__bar { transform: none; }
+
+    .em-rsvp__choice { border: 0; margin: 0; padding: 0; display: grid; gap: .9rem; }
+    .em-rsvp__legend { padding: 0; margin-bottom: .9rem; font-weight: 400; font-size: .82rem; color: var(--t-s); }
+    .em-rsvp__opts { display: flex; flex-wrap: wrap; gap: 1rem 2.4rem; }
+    .em-rsvp__opt { position: relative; display: inline-flex; align-items: center; gap: .8rem; cursor: pointer; font-family: var(--t-display); font-weight: 300; font-size: 1.12rem; }
+    .em-rsvp__radio { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .em-rsvp__circle {
+      position: relative;
+      flex: none;
+      width: 1.15rem;
+      height: 1.15rem;
+      border-radius: 50%;
+      border: 1px solid var(--t-tx);
+      transition: border-color .3s ease;
+    }
+    .em-rsvp__circle::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border-radius: 50%;
+      background: var(--t-p);
+      transform: scale(0);
+      transition: transform .3s cubic-bezier(.2, .8, .2, 1.4);
+    }
+    .em-rsvp__radio:checked + .em-rsvp__circle { border-color: var(--t-p); }
+    .em-rsvp__radio:checked + .em-rsvp__circle::after { transform: none; }
+    .em-rsvp__radio:focus-visible + .em-rsvp__circle { outline: 1px solid var(--t-p); outline-offset: 3px; }
+
+    .em-rsvp__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.4rem 2rem; }
+    .em-rsvp__btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .8rem;
+      min-height: 3.2rem;
+      min-width: 15rem;
+      padding: 0 1.8rem;
+      border: 1px solid var(--t-tx);
+      background: var(--t-tx);
+      color: var(--t-bg);
+      font-family: var(--t-text);
+      font-weight: 400;
+      font-size: .92rem;
+      cursor: pointer;
+      transition: background-color .35s ease, color .35s ease, border-color .35s ease, transform .2s ease;
+    }
+    .em-rsvp__btn:hover { background: transparent; color: var(--t-tx); }
+    .em-rsvp__btn:active { transform: scale(.98); }
+    .em-rsvp__btn:focus-visible { outline: 1px solid var(--t-p); outline-offset: 4px; }
+    .em-rsvp__state { display: none; align-items: center; gap: .7rem; }
+    .em-rsvp__btn[data-state="idle"] .em-rsvp__state--idle,
+    .em-rsvp__btn[data-state="loading"] .em-rsvp__state--loading,
+    .em-rsvp__btn[data-state="done"] .em-rsvp__state--done { display: inline-flex; }
+    .em-rsvp__btn[data-state="loading"],
+    .em-rsvp__btn[data-state="done"] { background: transparent; color: var(--t-tx); border-color: var(--t-p); cursor: default; }
+    .em-rsvp__spin { width: 1.1rem; height: 1.1rem; animation: em-rsvp-spin .5s linear infinite; }
+    .em-rsvp__spin circle { fill: none; stroke: var(--t-p); stroke-width: 2; stroke-dasharray: 40 100; stroke-linecap: round; }
+    .em-rsvp__check { width: 1.15rem; height: 1.15rem; }
+    .em-rsvp__check circle, .em-rsvp__check path { fill: none; stroke: var(--t-p); stroke-width: 1.4; }
+    .em-rsvp__check circle { stroke-dasharray: 64; stroke-dashoffset: 64; animation: em-rsvp-draw .5s ease forwards; }
+    .em-rsvp__check path { stroke-dasharray: 14; stroke-dashoffset: 14; animation: em-rsvp-draw .3s ease .35s forwards; }
+    @keyframes em-rsvp-spin { to { transform: rotate(360deg); } }
+    @keyframes em-rsvp-draw { to { stroke-dashoffset: 0; } }
+    .em-rsvp__thanks {
+      margin: 0;
+      font-family: var(--t-display);
+      font-style: italic;
+      font-weight: 300;
+      font-size: 1.05rem;
+      color: var(--t-p);
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: opacity .4s ease, transform .4s ease;
+    }
+    .em-rsvp__form[data-sent] .em-rsvp__thanks { opacity: 1; transform: none; }
+
+    @media (max-width: 860px) {
+      .em-rsvp__inner { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .em-rsvp__row { grid-template-columns: 1fr; }
+      .em-rsvp__btn { width: 100%; min-width: 0; }
+    }
+
+    /* Entrance: fields draw their underline one after another. Each transition <= .5s */
+    .em-rsvp--anim .em-rsvp__step { opacity: 0; clip-path: inset(0 100% 0 0); }
+    .em-rsvp--anim.is-in .em-rsvp__step { opacity: 1; clip-path: inset(0 0 0 0); transition: opacity .3s ease var(--d, 0s), clip-path .5s cubic-bezier(.6, 0, .2, 1) var(--d, 0s); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .em-rsvp *, .em-rsvp *::before, .em-rsvp *::after { animation: none !important; transition: none !important; }
+      .em-rsvp__check circle, .em-rsvp__check path { stroke-dashoffset: 0 !important; }
+    }
+  </style>
+
+  <svg class="em-rsvp__paper" aria-hidden="true" focusable="false">
+    <filter id="em30-paper-rsvp" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="4" seed="51" result="n" />
+      <feDiffuseLighting in="n" lighting-color="#ffffff" surfaceScale="1.3"><feDistantLight azimuth="45" elevation="58" /></feDiffuseLighting>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#em30-paper-rsvp)" />
+  </svg>
+
+  <div class="em-rsvp__inner">
+    <header class="em-rsvp__head">
+      <p class="em-rsvp__eyebrow" memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta">Confirmación</p>
+      <h2 class="em-rsvp__title" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">¿Nos acompañas?</h2>
+      <p class="em-rsvp__lead" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">Tu presencia es el mejor regalo. Ayúdanos a preparar cada detalle confirmando tu asistencia.</p>
+      <p class="em-rsvp__deadline" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha-limite">Antes del 15 de abril de 2027</p>
+    </header>
+
+    <form class="em-rsvp__form" data-em-form novalidate>
+      <div class="em-rsvp__row em-rsvp__step" data-em-step>
+        <label class="em-rsvp__field">
+          <span class="em-rsvp__label" memory_type="text" memory_usage="custom" memory_key="confirmacion-campo-nombre">Nombre completo</span>
+          <input class="em-rsvp__input" type="text" name="nombre" autocomplete="name" placeholder="Nombre Apellido" required />
+          <span class="em-rsvp__bar" aria-hidden="true"></span>
+        </label>
+        <label class="em-rsvp__field">
+          <span class="em-rsvp__label" memory_type="text" memory_usage="custom" memory_key="confirmacion-campo-personas">Personas</span>
+          <input class="em-rsvp__input" type="number" name="personas" min="1" max="6" value="1" inputmode="numeric" />
+          <span class="em-rsvp__bar" aria-hidden="true"></span>
+        </label>
+      </div>
+
+      <fieldset class="em-rsvp__choice em-rsvp__step" data-em-step>
+        <legend class="em-rsvp__legend" memory_type="text" memory_usage="custom" memory_key="confirmacion-pregunta">¿Asistirás?</legend>
+        <div class="em-rsvp__opts">
+          <label class="em-rsvp__opt">
+            <input class="em-rsvp__radio" type="radio" name="asistencia" value="si" checked />
+            <span class="em-rsvp__circle" aria-hidden="true"></span>
+            <span memory_type="text" memory_usage="custom" memory_key="confirmacion-opcion-si">Con gusto asistiré</span>
+          </label>
+          <label class="em-rsvp__opt">
+            <input class="em-rsvp__radio" type="radio" name="asistencia" value="no" />
+            <span class="em-rsvp__circle" aria-hidden="true"></span>
+            <span memory_type="text" memory_usage="custom" memory_key="confirmacion-opcion-no">No podré asistir</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <label class="em-rsvp__field em-rsvp__step" data-em-step>
+        <span class="em-rsvp__label" memory_type="text" memory_usage="custom" memory_key="confirmacion-campo-mensaje">Mensaje para los novios (opcional)</span>
+        <textarea class="em-rsvp__input" name="mensaje" rows="2" placeholder="Escribe unas palabras…"></textarea>
+        <span class="em-rsvp__bar" aria-hidden="true"></span>
+      </label>
+
+      <div class="em-rsvp__actions em-rsvp__step" data-em-step>
+        <button class="em-rsvp__btn" type="submit" data-state="idle" data-em-submit>
+          <span class="em-rsvp__state em-rsvp__state--idle" memory_type="text" memory_usage="custom" memory_key="confirmacion-boton">Confirmar asistencia</span>
+          <span class="em-rsvp__state em-rsvp__state--loading" aria-hidden="true">
+            <svg class="em-rsvp__spin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" pathLength="100" /></svg>
+            <span>Enviando</span>
+          </span>
+          <span class="em-rsvp__state em-rsvp__state--done" aria-hidden="true">
+            <svg class="em-rsvp__check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M7.5 12.3l3 3 6-6.3" /></svg>
+            <span>Confirmado</span>
+          </span>
+        </button>
+        <p class="em-rsvp__thanks" aria-live="polite" memory_type="text" memory_usage="custom" memory_key="confirmacion-gracias">Gracias, te esperamos con mucho cariño.</p>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="confirmacion-texto"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* Simulated submit: idle -> loading -> done (labels swap via data-state, text never rewritten) */
+      var form = root.querySelector('[data-em-form]');
+      var btn = root.querySelector('[data-em-submit]');
+      if (form && btn) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          if (btn.getAttribute('data-state') !== 'idle') return;
+          var name = form.querySelector('input[name="nombre"]');
+          if (name && !name.value.trim()) { name.focus(); return; }
+          btn.setAttribute('data-state', 'loading');
+          btn.setAttribute('aria-busy', 'true');
+          setTimeout(function () {
+            btn.setAttribute('data-state', 'done');
+            btn.removeAttribute('aria-busy');
+            form.setAttribute('data-sent', '');
+          }, RM ? 300 : 1400);
+        });
+      }
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      var steps = root.querySelectorAll('[data-em-step]');
+      for (var i = 0; i < steps.length; i++) steps[i].style.setProperty('--d', (0.15 + i * 0.12) + 's');
+      root.classList.add('em-rsvp--anim');
+      void root.offsetWidth;
+      var io = new IntersectionObserver(function (en) {
+        if (!(en[0].isIntersecting && en[0].intersectionRatio > .25)) return;
+        io.disconnect();
+        root.classList.add('is-in');
+        setTimeout(function () {
+          root.classList.remove('em-rsvp--anim', 'is-in');
+          for (var k = 0; k < steps.length; k++) steps[k].style.removeProperty('--d');
+        }, 1500);
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Elegancia Minimalista Anillo',
+      descripcion: 'Formulario RSVP minimalista: campos de línea fina que se subrayan en oro rosado, opciones circulares de asistencia y botón con estados de carga y confirmación animados.',
+      tags: ['confirmación', 'rsvp', 'boda', 'minimalista', 'oro rosado'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>

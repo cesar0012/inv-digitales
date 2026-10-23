@@ -1,0 +1,198 @@
+<section
+  class="cnc-cd"
+  data-gemini-id="countdown-cenicienta"
+  data-countdown-target="2027-04-17T19:00:00"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&family=Marcellus&display=swap');
+
+    .cnc-cd, .cnc-cd *, .cnc-cd *::before, .cnc-cd *::after { box-sizing: border-box; }
+    .cnc-cd {
+      --t-bg: var(--bg-color, #e6f0fa);
+      --t-tx: var(--text-color, #213a5c);
+      --t-p: var(--primary-color, #8db6dc);
+      --t-s: var(--secondary-color, #fdfcf8);
+      --t-a: var(--accent-color, #c4a052);
+      --t-display: var(--font-script, 'Monsieur La Doulaise', cursive);
+      --t-text: var(--font-heading, 'Marcellus', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(36rem, 66vw, 50rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 6.5rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/clock,tower?lock=3571');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .cnc-cd::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 50% 42%, color-mix(in srgb, var(--t-s) 92%, transparent) 0, color-mix(in srgb, var(--t-bg) 90%, transparent) 45%, color-mix(in srgb, var(--t-p) 70%, var(--t-bg)) 100%);
+    }
+    .cnc-cd__content { width: min(100%, 52rem); display: grid; justify-items: center; gap: clamp(1rem, 3vw, 1.6rem); }
+    .cnc-cd__kicker { margin: 0; font-size: 1.05rem; color: color-mix(in srgb, var(--t-tx) 75%, var(--t-a)); }
+    .cnc-cd__title { margin: 0; padding-top: .2em; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.9rem, 7.5vw, 4.8rem); line-height: 1.2; }
+
+    .cnc-cd__clock { width: clamp(13rem, 34vw, 19rem); height: auto; overflow: visible; filter: drop-shadow(0 22px 26px color-mix(in srgb, var(--t-tx) 28%, transparent)); }
+    .cnc-cd__hand { transform-origin: 120px 128px; transition: transform .3s cubic-bezier(.3, 1.4, .5, 1); }
+
+    .cnc-cd__units { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(.6rem, 2vw, 1.2rem); }
+    .cnc-cd__unit {
+      display: grid;
+      justify-items: center;
+      gap: .1rem;
+      min-width: clamp(4.6rem, 12vw, 6.4rem);
+      padding: 1.1rem .6rem .8rem;
+      border-radius: 999px 999px .8rem .8rem;
+      background: linear-gradient(180deg, var(--t-s), color-mix(in srgb, var(--t-s) 70%, var(--t-bg)));
+      border: 1px solid color-mix(in srgb, var(--t-a) 70%, transparent);
+      box-shadow: inset 0 0 0 4px var(--t-s), inset 0 0 0 5px color-mix(in srgb, var(--t-a) 35%, transparent);
+    }
+    .cnc-cd__num { display: block; font-size: clamp(1.9rem, 5vw, 2.7rem); line-height: 1.1; font-variant-numeric: tabular-nums; color: var(--t-tx); }
+    .cnc-cd__num[data-cnc-tick] { animation: cnc-cd-tick .35s cubic-bezier(.2, .8, .2, 1); }
+    .cnc-cd__lbl { margin: 0; font-size: .95rem; color: color-mix(in srgb, var(--t-tx) 72%, var(--t-a)); }
+    .cnc-cd__note { margin: 0; max-width: 30rem; font-size: 1.02rem; line-height: 1.55; text-wrap: balance; }
+    @keyframes cnc-cd-tick { from { opacity: .2; transform: translateY(-40%); } to { opacity: 1; transform: none; } }
+
+    .cnc-cd--anim .cnc-cd__clock { opacity: 0; transform: scale(.9) rotate(-6deg); transition: opacity .5s ease, transform .5s cubic-bezier(.3, 1.3, .5, 1); }
+    .cnc-cd--anim .cnc-cd__unit { opacity: 0; transform: translateY(14px); transition: opacity .4s ease, transform .45s cubic-bezier(.2, .8, .2, 1); }
+    .cnc-cd--anim .cnc-cd__unit:nth-child(2) { transition-delay: .1s; }
+    .cnc-cd--anim .cnc-cd__unit:nth-child(3) { transition-delay: .2s; }
+    .cnc-cd--anim .cnc-cd__unit:nth-child(4) { transition-delay: .3s; }
+    .cnc-cd--anim.is-in .cnc-cd__clock, .cnc-cd--anim.is-in .cnc-cd__unit { opacity: 1; transform: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cnc-cd *, .cnc-cd *::before, .cnc-cd *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="cnc-cd__content">
+    <p class="cnc-cd__kicker" memory_type="text" memory_usage="custom" memory_key="countdown-intro">El reloj ya avanza hacia el gran baile</p>
+    <h2 class="cnc-cd__title" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Antes de la Medianoche</h2>
+
+    <svg class="cnc-cd__clock" viewBox="0 0 240 256" aria-hidden="true">
+      <defs>
+        <linearGradient id="cnc-cd-gold" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" style="stop-color: color-mix(in srgb, var(--t-a) 45%, var(--t-s))" />
+          <stop offset=".5" style="stop-color: var(--t-a)" />
+          <stop offset="1" style="stop-color: color-mix(in srgb, var(--t-a) 70%, var(--t-tx))" />
+        </linearGradient>
+        <radialGradient id="cnc-cd-face" cx=".45" cy=".4" r=".7">
+          <stop offset="0" style="stop-color: var(--t-s)" />
+          <stop offset="1" style="stop-color: color-mix(in srgb, var(--t-p) 40%, var(--t-s))" />
+        </radialGradient>
+      </defs>
+      <path d="M96 22 Q120 4 144 22 L139 14 Q130 4 126 13 Q122 0 120 10 Q118 0 114 13 Q110 4 101 14 Z" fill="url(#cnc-cd-gold)" />
+      <circle cx="120" cy="128" r="110" fill="url(#cnc-cd-gold)" />
+      <circle cx="120" cy="128" r="101" style="fill: var(--t-s)" />
+      <circle cx="120" cy="128" r="97" fill="url(#cnc-cd-face)" style="stroke: var(--t-a)" stroke-width="1" />
+      <g data-cnc-ticks style="stroke: color-mix(in srgb, var(--t-tx) 70%, var(--t-a))"></g>
+      <g style="fill: var(--t-tx); font-family: var(--t-text)" font-size="17" text-anchor="middle">
+        <text x="120" y="56">XII</text><text x="190" y="134">III</text><text x="120" y="212">VI</text><text x="50" y="134">IX</text>
+      </g>
+      <g class="cnc-cd__hand" data-cnc-hand="h"><path d="M120 128 L116 104 Q120 80 124 104 Z" style="fill: var(--t-tx)" /><circle cx="120" cy="88" r="4" fill="none" style="stroke: var(--t-tx)" stroke-width="2" /></g>
+      <g class="cnc-cd__hand" data-cnc-hand="m"><path d="M120 136 L117.5 96 L120 48 L122.5 96 Z" style="fill: var(--t-tx)" /></g>
+      <g class="cnc-cd__hand" data-cnc-hand="s"><path d="M120 146 V40" style="stroke: var(--t-a)" stroke-width="1.6" /><path d="M120 150 l3 -5 -3 -5 -3 5 z" style="fill: var(--t-a)" /></g>
+      <circle cx="120" cy="128" r="6" fill="url(#cnc-cd-gold)" style="stroke: var(--t-s)" stroke-width="1.5" />
+    </svg>
+
+    <ul class="cnc-cd__units" role="timer" aria-live="off">
+      <li class="cnc-cd__unit"><span class="cnc-cd__num" data-countdown-unit="days">000</span><p class="cnc-cd__lbl" memory_type="text" memory_usage="custom" memory_key="countdown-label-dias">Días</p></li>
+      <li class="cnc-cd__unit"><span class="cnc-cd__num" data-countdown-unit="hours">00</span><p class="cnc-cd__lbl" memory_type="text" memory_usage="custom" memory_key="countdown-label-horas">Horas</p></li>
+      <li class="cnc-cd__unit"><span class="cnc-cd__num" data-countdown-unit="minutes">00</span><p class="cnc-cd__lbl" memory_type="text" memory_usage="custom" memory_key="countdown-label-minutos">Minutos</p></li>
+      <li class="cnc-cd__unit"><span class="cnc-cd__num" data-countdown-unit="seconds">00</span><p class="cnc-cd__lbl" memory_type="text" memory_usage="custom" memory_key="countdown-label-segundos">Segundos</p></li>
+    </ul>
+    <p class="cnc-cd__note" memory_type="text" memory_usage="custom" memory_key="countdown-nota">Sábado 17 de abril de 2027 · cuando las agujas se junten, comenzará la magia.</p>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="countdown-cenicienta"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      var ticks = root.querySelector('[data-cnc-ticks]');
+      if (ticks && !ticks.childNodes.length) {
+        var ns = 'http://www.w3.org/2000/svg';
+        for (var i = 0; i < 60; i++) {
+          if (i % 15 === 0) continue;
+          var a = i * Math.PI / 30, big = i % 5 === 0, r1 = big ? 84 : 89, r2 = 93;
+          var ln = document.createElementNS(ns, 'line');
+          ln.setAttribute('x1', (120 + Math.sin(a) * r1).toFixed(2)); ln.setAttribute('y1', (128 - Math.cos(a) * r1).toFixed(2));
+          ln.setAttribute('x2', (120 + Math.sin(a) * r2).toFixed(2)); ln.setAttribute('y2', (128 - Math.cos(a) * r2).toFixed(2));
+          ln.setAttribute('stroke-width', big ? '2' : '.8');
+          ticks.appendChild(ln);
+        }
+      }
+
+      var units = {};
+      ['days', 'hours', 'minutes', 'seconds'].forEach(function (u) { units[u] = root.querySelector('[data-countdown-unit="' + u + '"]'); });
+      var hands = { h: root.querySelector('[data-cnc-hand="h"]'), m: root.querySelector('[data-cnc-hand="m"]'), s: root.querySelector('[data-cnc-hand="s"]') };
+      function pad(n, l) { n = String(n); while (n.length < l) n = '0' + n; return n; }
+      function set(el, v) {
+        if (!el || el.textContent === v) return;
+        el.textContent = v;
+        if (!RM) { el.removeAttribute('data-cnc-tick'); void el.offsetWidth; el.setAttribute('data-cnc-tick', ''); }
+      }
+
+      function updateCountdown() {
+        var target = new Date(root.getAttribute('data-countdown-target')).getTime();
+        var diff = Math.max(0, target - Date.now());
+        var total = Math.floor(diff / 1000);
+        var d = Math.floor(total / 86400), h = Math.floor(total % 86400 / 3600), m = Math.floor(total % 3600 / 60), s = total % 60;
+        set(units.days, pad(d, d > 99 ? 3 : 2));
+        set(units.hours, pad(h, 2));
+        set(units.minutes, pad(m, 2));
+        set(units.seconds, pad(s, 2));
+        /* Hands close in on XII as the date approaches: they all meet at midnight when the countdown ends */
+        if (hands.s) hands.s.style.transform = 'rotate(' + (-total * 6) + 'deg)';
+        if (hands.m) hands.m.style.transform = 'rotate(' + (-total / 10) + 'deg)';
+        if (hands.h) hands.h.style.transform = 'rotate(' + (-total / 120) + 'deg)';
+      }
+      window.updateCountdown = updateCountdown;
+      window.__countdownIntervals = window.__countdownIntervals || [];
+      window.__countdownIntervals.forEach(function (id) { clearInterval(id); });
+      window.__countdownIntervals = [];
+      updateCountdown();
+      window.__countdownIntervals.push(setInterval(updateCountdown, 1000));
+
+      if (RM || !('IntersectionObserver' in window)) return;
+      root.classList.add('cnc-cd--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('cnc-cd--anim', 'is-in'); }, 1300);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-cenicienta',
+      style_name: 'Cenicienta Medianoche Real',
+      descripcion: 'Cuenta regresiva con gran reloj dorado de palacio: sus agujas se acercan a las doce conforme llega el día. Días, horas, minutos y segundos en ventanas arqueadas azul, blanco y dorado.',
+      tags: ['countdown', 'cuenta regresiva', 'quinceañera', 'cenicienta', 'reloj', 'medianoche'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>

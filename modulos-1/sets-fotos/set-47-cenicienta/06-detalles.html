@@ -1,0 +1,150 @@
+<section
+  class="cnc-det"
+  data-gemini-id="detalles-vestimenta"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&family=Marcellus&display=swap');
+
+    .cnc-det, .cnc-det *, .cnc-det *::before, .cnc-det *::after { box-sizing: border-box; }
+    .cnc-det {
+      --t-bg: var(--bg-color, #e6f0fa);
+      --t-tx: var(--text-color, #213a5c);
+      --t-p: var(--primary-color, #8db6dc);
+      --t-s: var(--secondary-color, #fdfcf8);
+      --t-a: var(--accent-color, #c4a052);
+      --t-display: var(--font-script, 'Monsieur La Doulaise', cursive);
+      --t-text: var(--font-heading, 'Marcellus', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(32rem, 60vw, 46rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1.25rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: linear-gradient(160deg, var(--t-s) 0%, var(--t-bg) 55%, color-mix(in srgb, var(--t-p) 35%, var(--t-bg)) 100%);
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .cnc-det__content { width: min(100%, 62rem); display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+    .cnc-det__figure {
+      position: relative;
+      margin: 0;
+      padding: .7rem;
+      border-radius: 50% 50% 1rem 1rem / clamp(6rem, 13vw, 10rem) clamp(6rem, 13vw, 10rem) 1rem 1rem;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-a) 45%, var(--t-s)), var(--t-a));
+      box-shadow: 0 28px 50px -30px color-mix(in srgb, var(--t-tx) 70%, transparent);
+    }
+    .cnc-det__figure img { display: block; color: transparent; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 50% 50% .65rem .65rem / clamp(5.6rem, 12.4vw, 9.6rem) clamp(5.6rem, 12.4vw, 9.6rem) .65rem .65rem; background: radial-gradient(ellipse at 50% 30%, var(--t-s), var(--t-p)); }
+    .cnc-det__side { display: grid; gap: 1.3rem; }
+    .cnc-det__head { display: grid; gap: .2rem; }
+    .cnc-det__kicker { margin: 0; font-size: 1.05rem; color: color-mix(in srgb, var(--t-tx) 75%, var(--t-a)); }
+    .cnc-det__title { margin: 0; padding-top: .2em; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.8rem, 6.5vw, 4.4rem); line-height: 1.2; }
+
+    .cnc-det__pages { list-style: none; margin: 0; padding: 0; display: grid; gap: .9rem; perspective: 1100px; }
+    .cnc-det__page {
+      position: relative;
+      display: grid;
+      grid-template-columns: 3.2rem minmax(0, 1fr);
+      gap: .2rem 1rem;
+      align-items: center;
+      padding: 1rem 1.2rem 1rem 1rem;
+      border-radius: .35rem 1.1rem 1.1rem .35rem;
+      background: linear-gradient(90deg, color-mix(in srgb, var(--t-p) 18%, var(--t-s)) 0, var(--t-s) 1.2rem);
+      border: 1px solid color-mix(in srgb, var(--t-a) 45%, transparent);
+      border-left: 3px solid var(--t-a);
+      box-shadow: 6px 10px 22px -16px color-mix(in srgb, var(--t-tx) 55%, transparent);
+      transform-origin: left center;
+      transition: transform .4s cubic-bezier(.2, .8, .2, 1), box-shadow .4s ease;
+    }
+    .cnc-det__page:nth-child(2) { margin-left: clamp(0rem, 2vw, 1.4rem); }
+    .cnc-det__page:nth-child(3) { margin-left: clamp(0rem, 4vw, 2.8rem); }
+    .cnc-det__page:hover { transform: rotateY(-9deg) translateX(4px); box-shadow: 16px 14px 26px -16px color-mix(in srgb, var(--t-tx) 55%, transparent); }
+    .cnc-det__icon { grid-row: span 2; width: 3.2rem; height: 3.2rem; padding: .55rem; border-radius: 50%; background: color-mix(in srgb, var(--t-a) 20%, var(--t-s)); border: 1px solid color-mix(in srgb, var(--t-a) 60%, transparent); color: color-mix(in srgb, var(--t-a) 70%, var(--t-tx)); }
+    .cnc-det__name { margin: 0; font-size: clamp(1.15rem, 2.4vw, 1.35rem); line-height: 1.25; }
+    .cnc-det__text { margin: 0; font-size: 1rem; line-height: 1.5; color: color-mix(in srgb, var(--t-tx) 85%, var(--t-bg)); }
+
+    .cnc-det--anim .cnc-det__figure { opacity: 0; transform: scale(.95); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .cnc-det--anim .cnc-det__head { opacity: 0; transition: opacity .5s ease .1s; }
+    .cnc-det--anim .cnc-det__page { opacity: 0; transform: rotateY(-96deg); transition: opacity .3s ease, transform .5s cubic-bezier(.3, .9, .3, 1); }
+    .cnc-det--anim .cnc-det__page:nth-child(1) { transition-delay: .35s; }
+    .cnc-det--anim .cnc-det__page:nth-child(2) { transition-delay: .55s; }
+    .cnc-det--anim .cnc-det__page:nth-child(3) { transition-delay: .75s; }
+    .cnc-det--anim.is-in .cnc-det__figure, .cnc-det--anim.is-in .cnc-det__head, .cnc-det--anim.is-in .cnc-det__page { opacity: 1; transform: none; }
+
+    @media (max-width: 760px) {
+      .cnc-det__content { grid-template-columns: 1fr; max-width: 30rem; }
+      .cnc-det__figure { width: min(76%, 18rem); justify-self: center; }
+      .cnc-det__head { text-align: center; }
+      .cnc-det__page:nth-child(2), .cnc-det__page:nth-child(3) { margin-left: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cnc-det *, .cnc-det *::before, .cnc-det *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="cnc-det__content">
+    <figure class="cnc-det__figure" memory_type="image" memory_usage="custom" memory_source="library">
+      <img src="https://loremflickr.com/800/1000/ballgown,blue?lock=3561" alt="Vestido de gala azul cielo" path="placeholder" data-library-category="vestimenta" data-asset-type="vestido" loading="lazy" />
+    </figure>
+
+    <div class="cnc-det__side">
+      <header class="cnc-det__head">
+        <p class="cnc-det__kicker" memory_type="text" memory_usage="custom" memory_key="detalles-intro">Para lucir como en un cuento</p>
+        <h2 class="cnc-det__title" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Detalles del Baile</h2>
+      </header>
+      <ul class="cnc-det__pages">
+        <li class="cnc-det__page">
+          <svg class="cnc-det__icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4 l2 3 -2 3 -2 -3 z M8 28 Q16 14 24 28 Z M13 18 l3 -6 3 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" /></svg>
+          <h3 class="cnc-det__name" memory_type="text" memory_usage="custom" memory_key="detalles-tarjeta-1-titulo">Etiqueta rigurosa</h3>
+          <p class="cnc-det__text" memory_type="text" memory_usage="custom" memory_key="detalles-tarjeta-1-texto">Vestido largo para ellas, traje oscuro para ellos.</p>
+        </li>
+        <li class="cnc-det__page">
+          <svg class="cnc-det__icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 24 Q4 20 10 19 Q16 18 19 20 Q22 16 25 12 Q28 9 30 12 L29 15 L28 27 L26.5 27 L26 18 Q22 23 17 24 Q10 26 7 25.6 Q5 25.4 5 24 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" /></svg>
+          <h3 class="cnc-det__name" memory_type="text" memory_usage="custom" memory_key="detalles-tarjeta-2-titulo">Color reservado</h3>
+          <p class="cnc-det__text" memory_type="text" memory_usage="custom" memory_key="detalles-tarjeta-2-texto">El azul cielo es exclusivo de la quinceañera esa noche.</p>
+        </li>
+        <li class="cnc-det__page">
+          <svg class="cnc-det__icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M4 22 Q16 18 28 22 L27 19 Q24 12 21 18 Q19 9 16 16 Q13 9 11 18 Q8 12 5 19 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" /><circle cx="16" cy="8" r="1.4" fill="currentColor" /></svg>
+          <h3 class="cnc-det__name" memory_type="text" memory_usage="custom" memory_key="detalles-tarjeta-3-titulo">Un toque dorado</h3>
+          <p class="cnc-det__text" memory_type="text" memory_usage="custom" memory_key="detalles-tarjeta-3-texto">Te invitamos a lucir un accesorio en dorado o perla.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="detalles-vestimenta"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      root.classList.add('cnc-det--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('cnc-det--anim', 'is-in'); }, 1600);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-vestimenta',
+      style_name: 'Cenicienta Medianoche Real',
+      descripcion: 'Detalles del baile como páginas de libro de cuentos que se abren al entrar: etiqueta, color reservado y toque dorado, junto a un vestido en espejo de palacio. Azul claro, blanco y dorado.',
+      tags: ['detalles', 'vestimenta', 'quinceañera', 'cenicienta', 'libro de cuentos', 'etiqueta'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>

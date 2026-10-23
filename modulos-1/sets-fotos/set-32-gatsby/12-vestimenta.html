@@ -1,0 +1,252 @@
+<section
+  class="gzvs"
+  data-gemini-id="vestimenta-gatsby"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poiret+One&family=Josefin+Sans:wght@300;400;600&display=swap');
+
+    .gzvs, .gzvs *, .gzvs *::before, .gzvs *::after { box-sizing: border-box; }
+    .gzvs {
+      --t-bg: var(--bg-color, #07080a);
+      --t-tx: var(--text-color, #f4ecd8);
+      --t-p: var(--primary-color, #d4af37);
+      --t-s: var(--secondary-color, #f1d98a);
+      --t-a: var(--accent-color, #0e7a57);
+      --t-display: var(--font-script, 'Poiret One', 'Didot', serif);
+      --t-text: var(--font-heading, 'Josefin Sans', 'Futura', sans-serif);
+      --gzvs-foil: linear-gradient(100deg, color-mix(in srgb, var(--t-p) 55%, #000), var(--t-p) 25%, var(--t-s) 45%, var(--t-p) 65%, color-mix(in srgb, var(--t-p) 55%, #000));
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 60vw, 46rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/vintage,fashion,1920s?lock=3221');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .gzvs::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 86%, transparent), color-mix(in srgb, var(--t-bg) 96%, transparent));
+    }
+    .gzvs__glow {
+      position: absolute;
+      left: 50%;
+      top: 55%;
+      z-index: -1;
+      width: min(130vw, 70rem);
+      aspect-ratio: 1.6;
+      transform: translate(-50%, -50%);
+      background-color: var(--t-a);
+      opacity: .32;
+      -webkit-mask-image: radial-gradient(ellipse closest-side, #000, transparent);
+      mask-image: radial-gradient(ellipse closest-side, #000, transparent);
+      transition: background-color .45s ease;
+      pointer-events: none;
+    }
+    .gzvs__content { width: min(100%, 66rem); display: grid; gap: clamp(1.6rem, 4vw, 2.6rem); }
+    .gzvs__head { display: grid; gap: .6rem; justify-items: center; }
+    .gzvs__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(2.3rem, 5.4vw, 3.8rem);
+      line-height: 1.05;
+      color: var(--t-p);
+      background: var(--gzvs-foil);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .gzvs__code { margin: 0; font-size: clamp(1.1rem, 2.3vw, 1.35rem); font-weight: 600; color: var(--t-s); padding-bottom: .5rem; border-bottom: 2px solid var(--gzvs-pick, var(--t-p)); transition: border-color .45s ease; }
+
+    .gzvs__row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: clamp(1.4rem, 4vw, 3rem); }
+    .gzvs__who { display: grid; gap: .5rem; }
+    .gzvs__who h3 { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(1.7rem, 3.2vw, 2.3rem); color: var(--t-p); }
+    .gzvs__who p { margin: 0; font-weight: 300; line-height: 1.6; }
+    .gzvs__who--l { text-align: right; }
+    .gzvs__who--r { text-align: left; }
+
+    .gzvs__palette { display: grid; justify-items: center; gap: .9rem; }
+    .gzvs__fan { position: relative; width: clamp(16rem, 32vw, 22rem); aspect-ratio: 2 / 1.12; }
+    .gzvs__pivot {
+      position: absolute;
+      left: 50%;
+      bottom: -9px;
+      z-index: 3;
+      width: 18px;
+      height: 18px;
+      transform: translateX(-50%) rotate(45deg);
+      background: var(--gzvs-foil);
+      border: 1px solid var(--t-bg);
+    }
+    .gzvs__blade {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 16%;
+      height: 96%;
+      margin-left: -8%;
+      padding: 0;
+      border: 0;
+      cursor: pointer;
+      transform-origin: 50% 100%;
+      transform: rotate(var(--gzvs-r, 0deg));
+      clip-path: polygon(38% 100%, 62% 100%, 100% 9%, 50% 0, 0 9%);
+      background: var(--t-p);
+      transition: transform .5s cubic-bezier(.3, 1.25, .5, 1), filter .3s ease;
+    }
+    .gzvs__blade::before {
+      content: '';
+      position: absolute;
+      inset: 3px 3px 0;
+      clip-path: polygon(38% 100%, 62% 100%, 100% 9%, 50% 0, 0 9%);
+      background: var(--gzvs-c, var(--t-bg));
+    }
+    .gzvs__blade::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 14%;
+      width: 1px;
+      height: 70%;
+      background: color-mix(in srgb, var(--t-p) 70%, transparent);
+    }
+    .gzvs__blade:hover, .gzvs__blade:focus-visible { filter: brightness(1.2); outline: none; }
+    .gzvs__blade[aria-pressed="true"] { transform: rotate(var(--gzvs-r, 0deg)) translateY(-9%); filter: drop-shadow(0 0 10px var(--t-s)); }
+    .gzvs__name { min-height: 1.6em; font-family: var(--t-display); font-size: clamp(1.3rem, 2.6vw, 1.7rem); color: var(--t-s); }
+    .gzvs__hint { margin: 0; font-size: .95rem; font-weight: 300; opacity: .85; }
+    .gzvs__note { margin: 0 auto; max-width: 36rem; font-weight: 400; line-height: 1.6; padding: .9rem 1.4rem; border: 1px solid color-mix(in srgb, var(--t-p) 50%, transparent); background: color-mix(in srgb, var(--t-bg) 60%, transparent); }
+
+    /* Entrance: the fan opens blade by blade; side texts rise from the fan's axis */
+    .gzvs--anim .gzvs__blade { transform: rotate(0deg); }
+    .gzvs--anim.is-in .gzvs__blade { transform: rotate(var(--gzvs-r, 0deg)); }
+    .gzvs--anim .gzvs__who--l { opacity: 0; transform: translateX(30px); transition: opacity .4s ease .3s, transform .5s cubic-bezier(.2, .8, .2, 1) .3s; }
+    .gzvs--anim .gzvs__who--r { opacity: 0; transform: translateX(-30px); transition: opacity .4s ease .3s, transform .5s cubic-bezier(.2, .8, .2, 1) .3s; }
+    .gzvs--anim.is-in .gzvs__who--l, .gzvs--anim.is-in .gzvs__who--r { opacity: 1; transform: none; }
+
+    @media (max-width: 760px) {
+      .gzvs__row { grid-template-columns: 1fr; }
+      .gzvs__palette { order: -1; }
+      .gzvs__who--l, .gzvs__who--r { text-align: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .gzvs *, .gzvs *::before, .gzvs *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <span class="gzvs__glow" data-gzvs-glow aria-hidden="true"></span>
+
+  <div class="gzvs__content">
+    <header class="gzvs__head" data-gzvs-head>
+      <h2 class="gzvs__title" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Código de vestimenta</h2>
+      <p class="gzvs__code" memory_type="text" memory_usage="custom" memory_key="vestimenta-codigo">Etiqueta rigurosa · Gala de los años veinte</p>
+    </header>
+
+    <div class="gzvs__row">
+      <div class="gzvs__who gzvs__who--l">
+        <h3 memory_type="text" memory_usage="custom" memory_key="vestimenta-ellas-titulo">Ellas</h3>
+        <p memory_type="text" memory_usage="custom" memory_key="vestimenta-ellas-texto">Vestido largo o de cóctel con pedrería, flecos o lentejuelas; perlas y tocados son bienvenidos.</p>
+      </div>
+
+      <div class="gzvs__palette">
+        <div class="gzvs__fan" data-gzvs-fan role="group" aria-label="Paleta de colores sugerida"
+             data-gzvs-colors="var(--t-bg)|Negro ónix;var(--t-a)|Esmeralda;var(--t-p)|Oro;var(--t-s)|Champaña;#6d1a28|Borgoña;#b8b8c2|Plata">
+          <span class="gzvs__pivot" aria-hidden="true"></span>
+        </div>
+        <span class="gzvs__name" data-gzvs-name aria-live="polite"></span>
+        <p class="gzvs__hint" memory_type="text" memory_usage="custom" memory_key="vestimenta-paleta">Toca un color de la paleta sugerida</p>
+      </div>
+
+      <div class="gzvs__who gzvs__who--r">
+        <h3 memory_type="text" memory_usage="custom" memory_key="vestimenta-ellos-titulo">Ellos</h3>
+        <p memory_type="text" memory_usage="custom" memory_key="vestimenta-ellos-texto">Smoking negro o traje oscuro, moño o corbata de seda; un pañuelo de bolsillo dorado o esmeralda.</p>
+      </div>
+    </div>
+
+    <p class="gzvs__note" memory_type="text" memory_usage="custom" memory_key="vestimenta-nota">Con cariño te pedimos evitar el blanco y los tonos pastel.</p>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="vestimenta-gatsby"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      var fan = root.querySelector('[data-gzvs-fan]');
+      var glow = root.querySelector('[data-gzvs-glow]');
+      var nameEl = root.querySelector('[data-gzvs-name]');
+      var head = root.querySelector('[data-gzvs-head]');
+      if (!fan) return;
+      var list = (fan.getAttribute('data-gzvs-colors') || '').split(';').map(function (s) {
+        var p = s.split('|'); return { c: (p[0] || '').trim(), n: (p[1] || '').trim() };
+      }).filter(function (x) { return x.c; });
+
+      /* Swatches generated in JS as fan blades */
+      var blades = [], n = list.length, spread = 124;
+      list.forEach(function (it, i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'gzvs__blade';
+        b.setAttribute('aria-pressed', 'false');
+        b.setAttribute('aria-label', it.n || it.c);
+        b.style.setProperty('--gzvs-c', it.c);
+        var ang = n > 1 ? -spread / 2 + i * spread / (n - 1) : 0;
+        b.style.setProperty('--gzvs-r', ang.toFixed(1) + 'deg');
+        b.style.zIndex = String(1 + Math.round(n / 2 - Math.abs(i - (n - 1) / 2)));
+        b.addEventListener('click', function () { pick(i); });
+        fan.insertBefore(b, fan.firstChild);
+        blades.push(b);
+      });
+      function pick(i) {
+        blades.forEach(function (b, j) { b.setAttribute('aria-pressed', j === i ? 'true' : 'false'); });
+        var it = list[i];
+        if (glow) glow.style.backgroundColor = it.c;
+        if (head) head.style.setProperty('--gzvs-pick', it.c);
+        if (nameEl) nameEl.textContent = it.n;
+      }
+      pick(Math.min(1, n - 1));
+
+      if (RM || !('IntersectionObserver' in window)) return;
+      blades.forEach(function (b, i) { b.style.transitionDelay = (i * 0.06).toFixed(2) + 's'; });
+      root.classList.add('gzvs--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .3) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () {
+            root.classList.remove('gzvs--anim', 'is-in');
+            blades.forEach(function (b) { b.style.transitionDelay = ''; });
+          }, 1400);
+        }
+      }, { threshold: [0, .3, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-gatsby',
+      style_name: 'Gatsby Art Deco Vestimenta',
+      descripcion: 'Código de vestimenta Art Deco: paleta sugerida generada en JS como abanico de varillas doradas que se abre; al tocar un color, el resplandor del fondo cambia de tono. Indicaciones para ellas y ellos en simetría.',
+      tags: ['vestimenta', 'dress code', 'boda', 'art deco', 'gatsby', 'paleta', 'dorado'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

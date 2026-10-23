@@ -1,0 +1,229 @@
+<section
+  class="be-pad"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+<i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:url('https://loremflickr.com/1920/1080/forest,pines?lock=418') center/cover;"></i><i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:color-mix(in srgb, var(--bg-color,#1d1a24) 88%, transparent);"></i>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Ballet&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .be-pad, .be-pad *, .be-pad *::before, .be-pad *::after { box-sizing: border-box; }
+    .be-pad {
+      --t-bg: var(--bg-color, #F3F5EA);
+      --t-tx: var(--text-color, #24483B);
+      --t-p: var(--primary-color, #2F7A5A);
+      --t-s: var(--secondary-color, #7D9A58);
+      --t-a: var(--accent-color, #C9A447);
+      --t-l: var(--lilac-color, #B8A2DA);
+      --t-display: var(--font-script, 'Ballet', cursive);
+      --t-text: var(--font-heading, 'EB Garamond', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      padding: clamp(6.5rem, 12vw, 9rem) clamp(1rem, 5vw, 4rem) clamp(4rem, 8vw, 6rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image:
+        radial-gradient(circle at 12% 30%, color-mix(in srgb, var(--t-l) 26%, transparent), transparent 38%),
+        radial-gradient(circle at 88% 78%, color-mix(in srgb, var(--t-a) 20%, transparent), transparent 42%),
+        linear-gradient(180deg, var(--t-bg), color-mix(in srgb, var(--t-bg) 88%, var(--t-s)));
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .be-pad__garland { position: absolute; top: 0; left: 0; width: 100%; height: clamp(4.5rem, 9vw, 7rem); overflow: visible; pointer-events: none; }
+    .be-pad-stem { fill: none; stroke: var(--t-p); stroke-width: 1.5; stroke-linecap: round; }
+    .be-pad-tendril { fill: none; stroke: var(--t-s); stroke-width: 1; }
+    .be-pad-lf { fill: var(--t-s); }
+    .be-pad-lf2 { fill: var(--t-p); }
+    .be-pad-wire { stroke: color-mix(in srgb, var(--t-a) 70%, transparent); stroke-width: .8; }
+    .be-pad-bulb { fill: color-mix(in srgb, var(--t-a) 70%, #fff8dc); }
+
+    .be-pad__head { position: relative; max-width: 38rem; margin: 0 auto clamp(2.5rem, 6vw, 4rem); }
+    .be-pad__kicker { margin: 0; font-style: italic; font-size: 1.15rem; color: var(--t-p); }
+    .be-pad__title {
+      margin: .05em 0 .15em;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3rem, 7vw, 4.8rem);
+      line-height: 1.3;
+      color: var(--t-p);
+    }
+    .be-pad__text { margin: 0 auto; max-width: 32rem; font-size: clamp(1.05rem, 1.8vw, 1.18rem); line-height: 1.6; }
+
+    .be-pad__grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(2.5rem, 6vw, 5rem);
+      max-width: 52rem;
+      margin: 0 auto;
+      align-items: start;
+    }
+    .be-pad__person { display: flex; flex-direction: column; align-items: center; }
+    .be-pad__person:nth-child(2) { margin-top: clamp(0rem, 7vw, 5rem); }
+    .be-pad__portrait { position: relative; width: min(15rem, 70vw); aspect-ratio: 1; }
+    .be-pad__figure {
+      position: absolute;
+      inset: 9.5%;
+      margin: 0;
+      border-radius: 50%;
+      overflow: hidden;
+      background: color-mix(in srgb, var(--t-s) 30%, var(--t-bg));
+      box-shadow: 0 0 0 5px color-mix(in srgb, var(--t-bg) 80%, transparent), 0 22px 50px -24px color-mix(in srgb, var(--t-p) 70%, transparent), 0 0 40px color-mix(in srgb, var(--t-a) 25%, transparent);
+    }
+    .be-pad__figure img { display: block; color: transparent; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
+    .be-pad__wreath { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+    .be-pad__person:nth-child(2) .be-pad__wreath { transform: scaleX(-1); }
+    .be-pad__name {
+      margin: 1.1rem 0 .1rem;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(2rem, 4vw, 2.6rem);
+      line-height: 1.35;
+      color: var(--t-tx);
+    }
+    .be-pad__role { margin: 0; font-style: italic; font-size: 1.1rem; color: var(--t-p); }
+    .be-pad__role::before, .be-pad__role::after { content: '✦'; font-style: normal; font-size: .7em; color: var(--t-a); margin: 0 .55em; vertical-align: .15em; }
+
+    .be-pad__rest { position: absolute; left: 50%; top: 38%; width: 58px; height: 48px; transform: translateX(-50%) rotate(14deg); pointer-events: none; }
+    .be-pad__bfly { position: relative; display: block; width: 100%; height: 100%; transform-style: preserve-3d; transform: rotateX(40deg); }
+    .be-pad__wing { position: absolute; top: 0; width: 50%; height: 100%; }
+    .be-pad__wing svg { display: block; width: 100%; height: 100%; overflow: visible; }
+    .be-pad__wing--l { left: 0; transform-origin: 100% 50%; transform: rotateY(30deg); }
+    .be-pad__wing--r { right: 0; transform-origin: 0 50%; transform: rotateY(-30deg); }
+    .be-pad__wing--r svg { transform: scaleX(-1); }
+    .be-pad-wing-f, .be-pad-wing-h { stroke: color-mix(in srgb, var(--t-a) 75%, #fff); stroke-width: .8; }
+    .be-pad-wing-v { fill: none; stroke: rgba(255, 255, 255, .55); stroke-width: .6; }
+    .be-pad__thorax { position: absolute; left: 50%; top: 22%; width: 3px; height: 58%; margin-left: -1.5px; border-radius: 3px; background: color-mix(in srgb, var(--t-p) 70%, var(--t-a)); }
+
+    /* Entrance */
+    .be-pad--anim .be-pad__head { opacity: 0; transform: translateY(12px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .be-pad--anim.is-in .be-pad__head { opacity: 1; transform: none; }
+    .be-pad--anim .be-pad__figure { opacity: 0; transform: scale(.88); transition: opacity .45s ease, transform .5s cubic-bezier(.3, 1.3, .5, 1); }
+    .be-pad--anim .be-pad__name, .be-pad--anim .be-pad__role { opacity: 0; transform: translateY(10px); transition: opacity .45s ease, transform .45s ease; }
+    .be-pad--anim .be-pad__person[data-be-in] .be-pad__figure { opacity: 1; transform: none; }
+    .be-pad--anim .be-pad__person[data-be-in] .be-pad__name { opacity: 1; transform: none; transition-delay: .35s; }
+    .be-pad--anim .be-pad__person[data-be-in] .be-pad__role { opacity: 1; transform: none; transition-delay: .45s; }
+    .be-pad--anim .be-pad-lf, .be-pad--anim .be-pad-lf2 { transform: scale(0); transition: transform .4s cubic-bezier(.3, 1.5, .5, 1); transition-delay: calc(var(--i) * 55ms + .2s); }
+    .be-pad--anim [data-be-in] .be-pad-lf, .be-pad--anim [data-be-in] .be-pad-lf2, .be-pad--anim.is-in .be-pad__garland .be-pad-lf, .be-pad--anim.is-in .be-pad__garland .be-pad-lf2 { transform: none; }
+
+    @media (max-width: 640px) {
+      .be-pad__grid { grid-template-columns: minmax(0, 1fr); }
+      .be-pad__person:nth-child(2) { margin-top: 0; }
+      .be-pad__rest { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .be-pad *, .be-pad *::before, .be-pad *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><g id="be-pad-leaf"><path d="M0 0 C 5 -6.8 15 -7.4 23 0 C 15 7.4 5 6.8 0 0 Z"/><path d="M1.5 0 Q 11 -.8 20 0" fill="none" stroke="rgba(255,255,255,.5)" stroke-width=".7"/></g><filter id="be-pad-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><linearGradient id="be-pad-wg" x1="1" y1=".5" x2="0" y2=".2"><stop offset="0" style="stop-color: var(--t-l); stop-opacity: .92"/><stop offset=".55" style="stop-color: var(--t-l); stop-opacity: .62"/><stop offset="1" style="stop-color: var(--t-a); stop-opacity: .5"/></linearGradient></defs></svg>
+  <svg class="be-pad__garland" viewBox="0 0 1200 90" preserveAspectRatio="xMidYMin slice" aria-hidden="true" focusable="false"><path class="be-pad-stem" d="M0.0 8.0 C260.0 70.0 420.0 74.0 600.0 26.0 C780.0 74.0 940.0 70.0 1200.0 8.0" data-be-stem/><g transform="translate(493.4 48.5) rotate(61) scale(1 1)"><path class="be-pad-tendril" d="M0 0 c 6 -5 14 -3 13 4 c -1 5 -8 6 -8 1 c 0 -3 3 -3.5 4 -2"/></g><g transform="translate(91.3 28.2) rotate(71) scale(1.07)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:0"/></g><g transform="translate(152.4 39.6) rotate(-33) scale(0.86)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:1"/></g><g transform="translate(188.5 45.3) rotate(45) scale(0.84)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:2"/></g><g transform="translate(204.9 47.6) rotate(-51) scale(1.07)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:3"/></g><g transform="translate(252.0 53.1) rotate(48) scale(0.96)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:4"/></g><g transform="translate(283.0 55.8) rotate(-46) scale(0.88)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:5"/></g><g transform="translate(335.7 58.4) rotate(39) scale(0.85)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:6"/></g><g transform="translate(365.3 58.6) rotate(-37) scale(0.76)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:7"/></g><g transform="translate(408.1 57.3) rotate(37) scale(0.80)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:8"/></g><g transform="translate(418.6 56.7) rotate(-54) scale(0.85)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:9"/></g><g transform="translate(452.3 53.8) rotate(40) scale(0.74)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:10"/></g><g transform="translate(484.1 49.9) rotate(-60) scale(0.95)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:11"/></g><g transform="translate(518.2 44.4) rotate(28) scale(0.96)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:12"/></g><g transform="translate(562.2 35.4) rotate(-56) scale(0.70)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:13"/></g><g transform="translate(593.3 27.8) rotate(26) scale(0.90)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:14"/></g><g transform="translate(632.9 34.2) rotate(-39) scale(0.90)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:15"/></g><g transform="translate(672.3 42.6) rotate(64) scale(0.90)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:16"/></g><g transform="translate(697.8 47.1) rotate(-29) scale(0.80)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:17"/></g><g transform="translate(714.8 49.7) rotate(67) scale(0.71)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:18"/></g><g transform="translate(756.7 54.7) rotate(-48) scale(0.85)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:19"/></g><g transform="translate(795.2 57.5) rotate(52) scale(0.87)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:20"/></g><g transform="translate(821.1 58.4) rotate(-52) scale(0.83)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:21"/></g><g transform="translate(866.5 58.3) rotate(42) scale(0.73)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:22"/></g><g transform="translate(895.2 57.2) rotate(-44) scale(0.67)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:23"/></g><g transform="translate(922.5 55.4) rotate(55) scale(0.74)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:24"/></g><g transform="translate(967.0 51.1) rotate(-45) scale(0.69)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:25"/></g><g transform="translate(1015.9 44.6) rotate(38) scale(0.77)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:26"/></g><g transform="translate(1054.9 38.3) rotate(-55) scale(0.67)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:27"/></g><g transform="translate(1083.1 33.2) rotate(30) scale(0.74)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:28"/></g><g transform="translate(1119.6 26.0) rotate(-60) scale(0.78)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:29"/></g><g transform="translate(89.5 27.8)"><line class="be-pad-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-pad-bulb" data-be-bulb style="--j:0" cx="0" cy="8.6" r="2.6" filter="url(#be-pad-glow)"/></g><g transform="translate(184.6 44.7)"><line class="be-pad-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-pad-bulb" data-be-bulb style="--j:1" cx="0" cy="8.6" r="2.6" filter="url(#be-pad-glow)"/></g><g transform="translate(271.7 54.9)"><line class="be-pad-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-pad-bulb" data-be-bulb style="--j:2" cx="0" cy="8.6" r="2.6" filter="url(#be-pad-glow)"/></g><g transform="translate(352.6 58.6)"><line class="be-pad-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-pad-bulb" data-be-bulb style="--j:3" cx="0" cy="8.6" r="2.6" filter="url(#be-pad-glow)"/></g><g transform="translate(429.4 55.9)"><line class="be-pad-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-pad-bulb" data-be-bulb style="--j:4" cx="0" cy="8.6" r="2.6" filter="url(#be-pad-glow)"/></g><g transform="translate(504.0 46.8)"><line class="be-pad-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-pad-bulb" data-be-bulb style="--j:5" cx="0" cy="8.6" r="2.6" filter="url(#be-pad-glow)"/></g><g transform="translate(600.0 26.0)"><line class="be-pad-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-pad-bulb" data-be-bulb style="--j:6" cx="0" cy="8.6" r="2.6" filter="url(#be-pad-glow)"/></g><g transform="translate(696.0 46.8)"><line class="be-pad-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-pad-bulb" data-be-bulb style="--j:7" cx="0" cy="8.6" r="2.6" filter="url(#be-pad-glow)"/></g><g transform="translate(770.6 55.9)"><line class="be-pad-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-pad-bulb" data-be-bulb style="--j:8" cx="0" cy="8.6" r="2.6" filter="url(#be-pad-glow)"/></g><g transform="translate(847.4 58.6)"><line class="be-pad-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-pad-bulb" data-be-bulb style="--j:9" cx="0" cy="8.6" r="2.6" filter="url(#be-pad-glow)"/></g><g transform="translate(928.3 54.9)"><line class="be-pad-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-pad-bulb" data-be-bulb style="--j:10" cx="0" cy="8.6" r="2.6" filter="url(#be-pad-glow)"/></g><g transform="translate(1015.4 44.7)"><line class="be-pad-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-pad-bulb" data-be-bulb style="--j:11" cx="0" cy="8.6" r="2.6" filter="url(#be-pad-glow)"/></g><g transform="translate(1110.5 27.8)"><line class="be-pad-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-pad-bulb" data-be-bulb style="--j:12" cx="0" cy="8.6" r="2.6" filter="url(#be-pad-glow)"/></g></svg>
+
+  <header class="be-pad__head">
+    <p class="be-pad__kicker" memory_type="text" memory_usage="custom" memory_key="padres-intro">Con la bendición de</p>
+    <h2 class="be-pad__title" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Mis padres</h2>
+    <p class="be-pad__text" memory_type="text" memory_usage="custom" memory_key="padres-texto">Ellos sembraron las raíces de mi historia y hoy caminan conmigo hasta el claro donde empieza mi nuevo capítulo.</p>
+  </header>
+
+  <div class="be-pad__grid">
+    <article class="be-pad__person" data-be-person>
+      <div class="be-pad__portrait">
+        <figure class="be-pad__figure" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/600/600/mother,portrait,garden?lock=3321" alt="Retrato de la mamá" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+        </figure>
+        <svg class="be-pad__wreath" viewBox="-12 -12 244 244" aria-hidden="true" focusable="false"><path class="be-pad-stem" d="M110.0 206.0 C54.8 206.0 14.0 165.2 14.0 110.0 C14.0 54.8 54.8 14.0 110.0 14.0 C165.2 14.0 206.0 54.8 206.0 110.0" data-be-stem/><g transform="translate(18.7 78.8) rotate(-2) scale(1 1)"><path class="be-pad-tendril" d="M0 0 c 6 -5 14 -3 13 4 c -1 5 -8 6 -8 1 c 0 -3 3 -3.5 4 -2"/></g><g transform="translate(70.5 198.3) rotate(-112) scale(0.91)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:0"/></g><g transform="translate(58.4 192.1) rotate(-199) scale(1.21)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:1"/></g><g transform="translate(40.9 178.3) rotate(-89) scale(0.96)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:2"/></g><g transform="translate(27.5 160.9) rotate(-170) scale(1.19)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:3"/></g><g transform="translate(16.8 134.4) rotate(-66) scale(1.04)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:4"/></g><g transform="translate(14.1 114.4) rotate(-142) scale(0.87)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:5"/></g><g transform="translate(16.7 86.3) rotate(-27) scale(1.00)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:6"/></g><g transform="translate(22.5 68.8) rotate(-116) scale(0.86)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:7"/></g><g transform="translate(38.2 44.6) rotate(2) scale(0.98)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:8"/></g><g transform="translate(53.4 31.1) rotate(-90) scale(0.92)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:9"/></g><g transform="translate(71.7 21.2) rotate(20) scale(0.81)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:10"/></g><g transform="translate(91.3 15.6) rotate(-53) scale(0.89)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:11"/></g><g transform="translate(120.3 14.5) rotate(56) scale(0.75)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:12"/></g><g transform="translate(140.6 18.5) rotate(-27) scale(0.99)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:13"/></g><g transform="translate(168.4 32.5) rotate(74) scale(0.85)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:14"/></g><g transform="translate(183.6 46.6) rotate(5) scale(0.78)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:15"/></g><g transform="translate(195.8 65.1) rotate(101) scale(0.70)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:16"/></g><g transform="translate(203.2 85.8) rotate(39) scale(0.85)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:17"/></g><g transform="translate(15.2 126.1)"><line class="be-pad-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-pad-bulb" data-be-bulb style="--j:0" cx="0" cy="8.6" r="2.6" filter="url(#be-pad-glow)"/></g><g transform="translate(87.7 16.3)"><line class="be-pad-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-pad-bulb" data-be-bulb style="--j:1" cx="0" cy="8.6" r="2.6" filter="url(#be-pad-glow)"/></g></svg>
+      </div>
+      <h3 class="be-pad__name" memory_type="text" memory_usage="custom" memory_key="padres-nombre-1">Nombre Apellido</h3>
+      <p class="be-pad__role" memory_type="text" memory_usage="custom" memory_key="padres-rol-1">Mamá</p>
+    </article>
+
+    <article class="be-pad__person" data-be-person>
+      <div class="be-pad__portrait">
+        <figure class="be-pad__figure" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/600/600/father,portrait,garden?lock=3322" alt="Retrato del papá" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+        </figure>
+        <svg class="be-pad__wreath" viewBox="-12 -12 244 244" aria-hidden="true" focusable="false"><path class="be-pad-stem" d="M110.0 206.0 C54.8 206.0 14.0 165.2 14.0 110.0 C14.0 54.8 54.8 14.0 110.0 14.0 C165.2 14.0 206.0 54.8 206.0 110.0" data-be-stem/><g transform="translate(18.7 78.8) rotate(-2) scale(1 1)"><path class="be-pad-tendril" d="M0 0 c 6 -5 14 -3 13 4 c -1 5 -8 6 -8 1 c 0 -3 3 -3.5 4 -2"/></g><g transform="translate(73.8 199.6) rotate(-117) scale(0.97)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:0"/></g><g transform="translate(56.2 190.7) rotate(-194) scale(1.10)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:1"/></g><g transform="translate(35.0 171.7) rotate(-76) scale(1.12)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:2"/></g><g transform="translate(23.1 152.6) rotate(-174) scale(1.00)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:3"/></g><g transform="translate(18.3 140.1) rotate(-68) scale(1.14)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:4"/></g><g transform="translate(14.2 116.2) rotate(-146) scale(1.09)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:5"/></g><g transform="translate(17.7 82.2) rotate(-34) scale(0.88)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:6"/></g><g transform="translate(26.2 61.3) rotate(-115) scale(1.09)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:7"/></g><g transform="translate(35.6 47.5) rotate(-13) scale(1.01)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:8"/></g><g transform="translate(52.4 31.9) rotate(-93) scale(1.03)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:9"/></g><g transform="translate(70.5 21.7) rotate(31) scale(1.02)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:10"/></g><g transform="translate(90.4 15.8) rotate(-65) scale(0.81)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:11"/></g><g transform="translate(118.9 14.4) rotate(62) scale(0.77)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:12"/></g><g transform="translate(144.1 19.6) rotate(-30) scale(0.87)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:13"/></g><g transform="translate(160.6 27.3) rotate(71) scale(0.92)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:14"/></g><g transform="translate(178.8 41.4) rotate(-13) scale(0.89)"><use href="#be-pad-leaf" class="be-pad-lf" data-be-leaf style="--i:15"/></g><g transform="translate(193.1 60.2) rotate(112) scale(0.90)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:16"/></g><g transform="translate(203.3 86.3) rotate(27) scale(0.67)"><use href="#be-pad-leaf" class="be-pad-lf2" data-be-leaf style="--i:17"/></g><g transform="translate(18.7 78.8)"><line class="be-pad-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-pad-bulb" data-be-bulb style="--j:0" cx="0" cy="8.6" r="2.6" filter="url(#be-pad-glow)"/></g><g transform="translate(148.3 21.2)"><line class="be-pad-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-pad-bulb" data-be-bulb style="--j:1" cx="0" cy="8.6" r="2.6" filter="url(#be-pad-glow)"/></g></svg>
+      </div>
+      <h3 class="be-pad__name" memory_type="text" memory_usage="custom" memory_key="padres-nombre-2">Nombre Apellido</h3>
+      <p class="be-pad__role" memory_type="text" memory_usage="custom" memory_key="padres-rol-2">Papá</p>
+    </article>
+
+    <div class="be-pad__rest" aria-hidden="true"><span class="be-pad__bfly " data-be-bfly aria-hidden="true"><span class="be-pad__wing be-pad__wing--l" data-be-wing="l"><svg viewBox="0 0 60 72" aria-hidden="true" focusable="false"><path class="be-pad-wing-f" d="M60 33 C 46 5, 12 -3, 4 13 C -1 27, 24 38, 60 37 Z" fill="url(#be-pad-wg)"/><path class="be-pad-wing-h" d="M60 39 C 38 41, 13 51, 21 64 C 29 73, 52 61, 60 43 Z" fill="url(#be-pad-wg)"/><path class="be-pad-wing-v" d="M58 34 C 40 24, 22 14, 10 14 M58 35 C 40 32, 24 30, 14 28 M58 41 C 44 48, 32 56, 25 62"/></svg></span><span class="be-pad__wing be-pad__wing--r" data-be-wing="r"><svg viewBox="0 0 60 72" aria-hidden="true" focusable="false"><path class="be-pad-wing-f" d="M60 33 C 46 5, 12 -3, 4 13 C -1 27, 24 38, 60 37 Z" fill="url(#be-pad-wg)"/><path class="be-pad-wing-h" d="M60 39 C 38 41, 13 51, 21 64 C 29 73, 52 61, 60 43 Z" fill="url(#be-pad-wg)"/><path class="be-pad-wing-v" d="M58 34 C 40 24, 22 14, 10 14 M58 35 C 40 32, 24 30, 14 28 M58 41 C 44 48, 32 56, 25 62"/></svg></span><span class="be-pad__thorax"></span></span></div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="padres-padre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      var people = [].slice.call(root.querySelectorAll('[data-be-person]'));
+      var bulbs = [].slice.call(root.querySelectorAll('[data-be-bulb]'));
+      var wl = root.querySelector('[data-be-wing="l"]'), wr = root.querySelector('[data-be-wing="r"]');
+
+      /* vine stems draw themselves (rAF, not CSS) */
+      function draw(stem, delay, dur) {
+        var len = stem.getTotalLength ? stem.getTotalLength() : 0; if (!len) return;
+        stem.style.strokeDasharray = len; stem.style.strokeDashoffset = len;
+        var t0 = performance.now() + delay;
+        (function step(now) {
+          var k = Math.min(1, Math.max(0, (now - t0) / dur));
+          stem.style.strokeDashoffset = (len * (1 - (1 - Math.pow(1 - k, 3)))).toFixed(1);
+          if (k < 1) requestAnimationFrame(step); else { stem.style.strokeDasharray = ''; stem.style.strokeDashoffset = ''; }
+        })(performance.now());
+      }
+      [].slice.call(root.querySelectorAll('[data-be-stem]')).forEach(function (s) {
+        var len = s.getTotalLength ? s.getTotalLength() : 0; if (len) { s.style.strokeDasharray = len; s.style.strokeDashoffset = len; }
+      });
+
+      root.classList.add('be-pad--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          io.disconnect();
+          root.classList.add('is-in');
+          draw(root.querySelector('.be-pad__garland [data-be-stem]'), 0, 1100);
+          people.forEach(function (p, i) {
+            setTimeout(function () { p.setAttribute('data-be-in', ''); }, 250 + i * 320);
+            draw(p.querySelector('[data-be-stem]'), 250 + i * 320, 1000);
+          });
+          setTimeout(function () {
+            root.classList.remove('be-pad--anim', 'is-in');
+            people.forEach(function (p) { p.removeAttribute('data-be-in'); });
+          }, 2600);
+        }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+
+      /* resting butterfly breathes its wings, garland bulbs twinkle — paused off-screen */
+      var vis = false, running = false;
+      new IntersectionObserver(function (en) { vis = en[0].isIntersecting; go(); }).observe(root);
+      document.addEventListener('visibilitychange', go);
+      function go() { if (!running && vis && !document.hidden) { running = true; requestAnimationFrame(loop); } }
+      function loop(t) {
+        if (!vis || document.hidden) { running = false; return; }
+        var a = 22 + 38 * Math.pow(.5 + .5 * Math.sin(t * .0021), 2);
+        if (wl) { wl.style.transform = 'rotateY(' + a.toFixed(1) + 'deg)'; wr.style.transform = 'rotateY(' + (-a).toFixed(1) + 'deg)'; }
+        for (var i = 0; i < bulbs.length; i++) bulbs[i].style.opacity = (.5 + .5 * Math.sin(t * .0028 + i * 1.7)).toFixed(2);
+        requestAnimationFrame(loop);
+      }
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Bosque Encantado Coronas de Enredadera',
+      descripcion: 'Padres de la quinceañera en retratos circulares rodeados de enredaderas que se dibujan solas, bajo una guirnalda de luces y con una mariposa translúcida en reposo.',
+      tags: ['padres', 'bosque encantado', 'quinceañera', 'enredaderas', 'retratos'],
+      tipo: 'padres'
+    };
+  </script>
+</section>

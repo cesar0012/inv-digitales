@@ -24,8 +24,8 @@ if (!existsSync(ROOT)) {
 }
 
 const sets = readdirSync(ROOT).filter((d) => /^(set-\d+-|premium$)/.test(d) && statSync(join(ROOT, d)).isDirectory()).sort();
-if (sets.length !== 28) {
-  const ESPERADOS = 28;
+if (sets.length !== 50) {
+  const ESPERADOS = 50;
   console.error(`✗ Se esperaban ${ESPERADOS} sets, encontrados: ${sets.length}`);
   process.exit(1);
 }

@@ -1,0 +1,270 @@
+<section
+  class="be-gal"
+  data-gemini-id="galeria-bosque"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Ballet&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .be-gal, .be-gal *, .be-gal *::before, .be-gal *::after { box-sizing: border-box; }
+    .be-gal {
+      --t-bg: var(--bg-color, #F3F5EA);
+      --t-tx: var(--text-color, #24483B);
+      --t-p: var(--primary-color, #2F7A5A);
+      --t-s: var(--secondary-color, #7D9A58);
+      --t-a: var(--accent-color, #C9A447);
+      --t-l: var(--lilac-color, #B8A2DA);
+      --t-display: var(--font-script, 'Ballet', cursive);
+      --t-text: var(--font-heading, 'EB Garamond', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image:
+        radial-gradient(ellipse 70% 40% at 50% 0%, color-mix(in srgb, var(--t-a) 14%, transparent), transparent),
+        linear-gradient(180deg, var(--t-bg), color-mix(in srgb, var(--t-bg) 90%, var(--t-s)));
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .be-gal__head { text-align: center; max-width: 36rem; margin: 0 auto clamp(2rem, 5vw, 3rem); }
+    .be-gal__kicker { margin: 0 0 .3rem; font-style: italic; font-size: 1.15rem; color: var(--t-p); }
+    .be-gal__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(3rem, 7vw, 4.6rem); line-height: 1.3; color: var(--t-p); }
+    .be-gal__text { margin: .3rem 0 0; font-size: 1.1rem; }
+
+    .be-gal__grid {
+      list-style: none;
+      margin: 0 auto;
+      padding: 0;
+      max-width: 66rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+      grid-auto-rows: clamp(10rem, 19vw, 15rem);
+      grid-auto-flow: dense;
+      gap: clamp(.6rem, 1.6vw, 1rem);
+    }
+    .be-gal__tile { position: relative; min-width: 0; }
+    .be-gal__tile--tall { grid-row: span 2; }
+    .be-gal__tile--wide { grid-column: span 2; }
+    .be-gal__figure {
+      position: relative;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      border-radius: 1.3rem;
+      background: color-mix(in srgb, var(--t-s) 28%, var(--t-bg));
+      cursor: zoom-in;
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-a) 25%, transparent), 0 18px 30px -24px color-mix(in srgb, var(--t-p) 80%, transparent);
+      transition: box-shadow .35s ease, transform .35s cubic-bezier(.2, .8, .2, 1);
+    }
+    .be-gal__tile--tall .be-gal__figure { border-radius: 999px 999px 1.3rem 1.3rem; }
+    .be-gal__tile:nth-child(5) .be-gal__figure { border-radius: 1.3rem 1.3rem 999px 999px; }
+    .be-gal__figure img { display: block; width: 100%; height: auto; min-height: 100%; aspect-ratio: 1; object-fit: cover; color: transparent; transition: transform .5s cubic-bezier(.2, .8, .2, 1), filter .5s ease; }
+    .be-gal__figure::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 60%, color-mix(in srgb, var(--t-bg) 70%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent));
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .5s ease;
+    }
+    .be-gal__figure:hover, .be-gal__figure:focus-visible { outline: none; transform: translateY(-3px); box-shadow: inset 0 0 0 1.5px var(--t-a), 0 0 30px -6px color-mix(in srgb, var(--t-a) 60%, transparent), 0 22px 34px -24px color-mix(in srgb, var(--t-p) 80%, transparent); }
+    .be-gal__figure:hover img, .be-gal__figure:focus-visible img { transform: scale(1.05); }
+
+    /* mist veil clears from each tile as it enters */
+    .be-gal--anim .be-gal__tile:not([data-be-in]) .be-gal__figure::after { opacity: 1; }
+    .be-gal--anim .be-gal__tile:not([data-be-in]) img { filter: blur(10px) saturate(.6); transform: scale(1.08); }
+
+    .be-gal__dialog {
+      width: min(94vw, 64rem);
+      max-width: none;
+      max-height: 92vh;
+      padding: 0;
+      border: 0;
+      border-radius: 1.6rem;
+      background: transparent;
+      color: var(--t-tx);
+      overflow: visible;
+    }
+    .be-gal__dialog[open] { animation: be-gal-pop .4s cubic-bezier(.2, .8, .2, 1); }
+    .be-gal__dialog::backdrop { background: color-mix(in srgb, var(--bg-color, #F3F5EA) 84%, transparent); backdrop-filter: blur(8px); }
+    @keyframes be-gal-pop { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: none; } }
+    .be-gal__frame {
+      position: relative;
+      margin: 0;
+      border-radius: 1.6rem;
+      overflow: hidden;
+      background: color-mix(in srgb, var(--t-s) 30%, var(--t-bg));
+      box-shadow: 0 0 0 6px color-mix(in srgb, var(--t-bg) 90%, transparent), 0 0 0 7px color-mix(in srgb, var(--t-a) 55%, transparent), 0 40px 80px -30px color-mix(in srgb, var(--t-p) 60%, transparent);
+    }
+    .be-gal__big { display: block; width: 100%; height: auto; max-height: 80vh; aspect-ratio: 3 / 2; object-fit: contain; color: transparent; transition: opacity .3s ease; }
+    .be-gal__ctrl {
+      position: absolute;
+      top: 50%;
+      width: 3rem;
+      height: 3rem;
+      margin-top: -1.5rem;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      justify-content: center;
+      border: 0;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--t-bg) 88%, transparent);
+      color: var(--t-p);
+      cursor: pointer;
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-a) 55%, transparent), 0 8px 20px -10px color-mix(in srgb, var(--t-p) 70%, transparent);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .be-gal__ctrl:hover, .be-gal__ctrl:focus-visible { outline: none; transform: scale(1.08); box-shadow: inset 0 0 0 1.5px var(--t-a), 0 0 20px color-mix(in srgb, var(--t-a) 55%, transparent); }
+    .be-gal__ctrl svg { width: 1.2rem; height: 1.2rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .be-gal__ctrl--prev { left: -1.2rem; }
+    .be-gal__ctrl--next { right: -1.2rem; }
+    .be-gal__ctrl--close { top: -1.2rem; right: -1.2rem; margin-top: 0; }
+    .be-gal__count { position: absolute; left: 50%; bottom: -2.4rem; transform: translateX(-50%); font-style: italic; font-size: 1.05rem; color: var(--t-p); }
+
+    @media (max-width: 560px) {
+      .be-gal__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: clamp(8.5rem, 38vw, 11rem); }
+      .be-gal__ctrl--prev { left: .4rem; }
+      .be-gal__ctrl--next { right: .4rem; }
+      .be-gal__ctrl--close { right: .4rem; top: .4rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .be-gal *, .be-gal *::before, .be-gal *::after { animation: none !important; transition: none !important; }
+      .be-gal__dialog[open] { animation: none !important; }
+    }
+  </style>
+
+  <header class="be-gal__head">
+    <p class="be-gal__kicker" memory_type="text" memory_usage="custom" memory_key="galeria-intro">Recuerdos que florecen</p>
+    <h2 class="be-gal__title" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Galería</h2>
+    <p class="be-gal__text" memory_type="text" memory_usage="custom" memory_key="galeria-texto">Pequeños destellos de mi historia antes de entrar al bosque.</p>
+  </header>
+
+  <ul class="be-gal__grid" role="list">
+    <li class="be-gal__tile be-gal__tile--tall" data-be-tile>
+      <figure class="be-gal__figure" tabindex="0" role="button" aria-label="Ver foto 1" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/800/1100/quinceanera,portrait,forest?lock=3401" alt="Retrato en el bosque" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+      </figure>
+    </li>
+    <li class="be-gal__tile" data-be-tile>
+      <figure class="be-gal__figure" tabindex="0" role="button" aria-label="Ver foto 2" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/800/800/butterfly,garden?lock=3402" alt="Mariposa en el jardín" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+      </figure>
+    </li>
+    <li class="be-gal__tile be-gal__tile--wide" data-be-tile>
+      <figure class="be-gal__figure" tabindex="0" role="button" aria-label="Ver foto 3" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/1200/700/fairy,lights,trees?lock=3403" alt="Árboles con luces" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+      </figure>
+    </li>
+    <li class="be-gal__tile" data-be-tile>
+      <figure class="be-gal__figure" tabindex="0" role="button" aria-label="Ver foto 4" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/800/800/quinceanera,dress?lock=3404" alt="Detalle del vestido" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+      </figure>
+    </li>
+    <li class="be-gal__tile be-gal__tile--tall" data-be-tile>
+      <figure class="be-gal__figure" tabindex="0" role="button" aria-label="Ver foto 5" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/800/1100/forest,sunbeam?lock=3405" alt="Rayos de sol en el bosque" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+      </figure>
+    </li>
+    <li class="be-gal__tile" data-be-tile>
+      <figure class="be-gal__figure" tabindex="0" role="button" aria-label="Ver foto 6" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/800/800/moss,flowers?lock=3406" alt="Flores y musgo" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+      </figure>
+    </li>
+    <li class="be-gal__tile be-gal__tile--wide" data-be-tile>
+      <figure class="be-gal__figure" tabindex="0" role="button" aria-label="Ver foto 7" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/1200/700/quinceanera,friends,celebration?lock=3407" alt="Celebración con amigos" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+      </figure>
+    </li>
+    <li class="be-gal__tile" data-be-tile>
+      <figure class="be-gal__figure" tabindex="0" role="button" aria-label="Ver foto 8" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/800/800/tiara,celebration?lock=3408" alt="Tiara de quinceañera" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+      </figure>
+    </li>
+  </ul>
+
+  <dialog class="be-gal__dialog" data-be-dialog aria-label="Foto ampliada">
+    <div class="be-gal__frame">
+      <img class="be-gal__big" data-mm-big alt="" />
+    </div>
+    <button class="be-gal__ctrl be-gal__ctrl--prev" type="button" data-be-prev aria-label="Foto anterior"><svg viewBox="0 0 24 24"><path d="M15 5 L8 12 L15 19"/></svg></button>
+    <button class="be-gal__ctrl be-gal__ctrl--next" type="button" data-be-next aria-label="Foto siguiente"><svg viewBox="0 0 24 24"><path d="M9 5 L16 12 L9 19"/></svg></button>
+    <button class="be-gal__ctrl be-gal__ctrl--close" type="button" data-be-close aria-label="Cerrar"><svg viewBox="0 0 24 24"><path d="M6 6 L18 18 M18 6 L6 18"/></svg></button>
+    <span class="be-gal__count" data-be-count aria-live="polite"></span>
+  </dialog>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="galeria-bosque"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* ---- own lightbox (dialog + showModal escapes stacking contexts) ---- */
+      var tiles = [].slice.call(root.querySelectorAll('[data-be-tile]'));
+      var dlg = root.querySelector('[data-be-dialog]');
+      var big = root.querySelector('[data-mm-big]');
+      var count = root.querySelector('[data-be-count]');
+      var idx = 0;
+      function show(i) {
+        idx = (i + tiles.length) % tiles.length;
+        var img = tiles[idx].querySelector('img');
+        big.src = img.currentSrc || img.src; big.alt = img.alt || '';
+        count.textContent = (idx + 1) + ' / ' + tiles.length;
+      }
+      function open(i) {
+        show(i);
+        if (dlg.showModal) { if (!dlg.open) dlg.showModal(); } else dlg.setAttribute('open', '');
+      }
+      tiles.forEach(function (t, i) {
+        var fig = t.querySelector('figure');
+        fig.addEventListener('click', function () { open(i); });
+        fig.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); } });
+      });
+      root.querySelector('[data-be-prev]').addEventListener('click', function () { show(idx - 1); });
+      root.querySelector('[data-be-next]').addEventListener('click', function () { show(idx + 1); });
+      root.querySelector('[data-be-close]').addEventListener('click', function () { dlg.close ? dlg.close() : dlg.removeAttribute('open'); });
+      dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+      dlg.addEventListener('keydown', function (e) { if (e.key === 'ArrowLeft') show(idx - 1); if (e.key === 'ArrowRight') show(idx + 1); });
+      var sx = 0;
+      dlg.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
+      dlg.addEventListener('touchend', function (e) { var dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) show(idx + (dx < 0 ? 1 : -1)); });
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      /* ---- each tile clears its mist veil as it enters ---- */
+      root.classList.add('be-gal--anim');
+      var pending = tiles.length;
+      var io = new IntersectionObserver(function (en) {
+        en.forEach(function (e) {
+          if (e.isIntersecting) {
+            io.unobserve(e.target);
+            var i = tiles.indexOf(e.target);
+            setTimeout(function () {
+              e.target.setAttribute('data-be-in', '');
+              if (--pending === 0) setTimeout(function () { root.classList.remove('be-gal--anim'); tiles.forEach(function (t) { t.removeAttribute('data-be-in'); }); }, 700);
+            }, (i % 4) * 110);
+          }
+        });
+      }, { threshold: .2 });
+      tiles.forEach(function (t) { io.observe(t); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-bosque',
+      style_name: 'Bosque Encantado Velo de Bruma',
+      descripcion: 'Galería en mosaico con piezas en arco que disipan un velo de bruma al aparecer y un visor propio con navegación, teclado y gesto de deslizar.',
+      tags: ['galeria', 'bosque encantado', 'quinceañera', 'mosaico', 'lightbox'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

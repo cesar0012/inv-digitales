@@ -1,0 +1,249 @@
+<section
+  class="np-de"
+  data-gemini-id="detalles-regalo"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Parisienne&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .np-de, .np-de *, .np-de *::before, .np-de *::after { box-sizing: border-box; }
+    .np-de {
+      --t-bg: var(--bg-color, #0d0b10);
+      --t-tx: var(--text-color, #f8eee8);
+      --t-p: var(--primary-color, #f0c4c0);
+      --t-s: var(--secondary-color, #8a6e78);
+      --t-a: var(--accent-color, #d4af6a);
+      --t-display: var(--font-script, 'Parisienne', 'Snell Roundhand', cursive);
+      --t-text: var(--font-heading, 'Bodoni Moda', 'Didot', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(36rem, 64vw, 48rem);
+      display: grid;
+      justify-items: center;
+      align-content: center;
+      padding: clamp(4rem, 8vw, 6.5rem) clamp(1.25rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image:
+        radial-gradient(45% 55% at 12% 30%, color-mix(in srgb, var(--t-p) 11%, transparent), transparent 70%),
+        radial-gradient(40% 50% at 90% 85%, color-mix(in srgb, var(--t-a) 9%, transparent), transparent 70%);
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .np-de__wrap {
+      width: min(100%, 64rem);
+      display: grid;
+      grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+      gap: clamp(2rem, 5vw, 4.5rem);
+      align-items: center;
+    }
+    .np-de__photo { position: relative; margin: 0; transform: rotate(-3deg); }
+    .np-de__photo-frame {
+      padding: .8rem .8rem 3.2rem;
+      background: color-mix(in srgb, var(--t-tx) 92%, var(--t-p));
+      box-shadow: 0 30px 60px -25px #000, 0 0 0 1px color-mix(in srgb, var(--t-a) 40%, transparent);
+    }
+    .np-de__photo-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      overflow: hidden;
+      background: color-mix(in srgb, var(--t-s) 50%, var(--t-bg));
+      filter: saturate(.85) contrast(1.05);
+    }
+    .np-de__clip {
+      position: absolute;
+      top: -1.1rem;
+      left: 50%;
+      width: 1.3rem;
+      height: 3rem;
+      margin-left: -.65rem;
+      border: 2px solid var(--t-a);
+      border-radius: .7rem;
+      border-bottom-color: transparent;
+      pointer-events: none;
+    }
+    .np-de__postmark {
+      position: absolute;
+      right: -1.4rem;
+      bottom: 1.4rem;
+      width: 7rem;
+      height: 7rem;
+      color: var(--t-a);
+      transform: rotate(14deg);
+      opacity: .85;
+      pointer-events: none;
+    }
+    .np-de__side { display: grid; gap: 1rem; }
+    .np-de__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(2.8rem, 6vw, 4.4rem);
+      line-height: 1.05;
+    }
+    .np-de__lead { margin: -.2rem 0 .6rem; font-style: italic; color: var(--t-p); }
+    .np-de__cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+    .np-de__card { perspective: 900px; }
+    .np-de__card:nth-child(2) { margin-left: clamp(0rem, 3vw, 2rem); }
+    .np-de__card:nth-child(3) { margin-left: clamp(0rem, 1.2vw, .8rem); }
+    .np-de__inner {
+      position: relative;
+      display: grid;
+      transform-style: preserve-3d;
+      transition: transform .5s cubic-bezier(.3, .7, .2, 1);
+    }
+    .np-de__card:hover .np-de__inner { transform: rotateX(4deg) rotateY(-6deg); }
+    .np-de__face {
+      grid-area: 1 / 1;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border: 1px solid color-mix(in srgb, var(--t-a) 50%, transparent);
+    }
+    .np-de__front {
+      position: relative;
+      padding: 1.1rem 4.6rem 1.15rem 1.3rem;
+      background: linear-gradient(135deg, color-mix(in srgb, var(--t-bg) 70%, var(--t-s)), var(--t-bg));
+    }
+    .np-de__stamp {
+      position: absolute;
+      top: .8rem;
+      right: .8rem;
+      width: 2.8rem;
+      height: 3.3rem;
+      display: grid;
+      place-items: center;
+      border: 2px dotted color-mix(in srgb, var(--t-a) 70%, transparent);
+      color: var(--t-a);
+      background: color-mix(in srgb, var(--t-p) 10%, transparent);
+    }
+    .np-de__stamp svg { width: 1.4rem; height: 2rem; }
+    .np-de__name {
+      margin: 0 0 .2rem;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(1.8rem, 3vw, 2.2rem);
+      line-height: 1.1;
+      color: var(--t-tx);
+    }
+    .np-de__text { margin: 0; line-height: 1.55; font-size: .98rem; color: color-mix(in srgb, var(--t-tx) 82%, var(--t-p)); }
+    .np-de__back {
+      transform: rotateY(180deg);
+      display: grid;
+      place-items: center;
+      background:
+        repeating-linear-gradient(-45deg, color-mix(in srgb, var(--t-p) 30%, transparent) 0 6px, transparent 6px 12px) top / 100% 6px no-repeat,
+        repeating-linear-gradient(-45deg, color-mix(in srgb, var(--t-a) 40%, transparent) 0 6px, transparent 6px 12px) bottom / 100% 6px no-repeat,
+        color-mix(in srgb, var(--t-bg) 80%, var(--t-p));
+      color: var(--t-a);
+    }
+    .np-de__back svg { width: 5rem; height: 5rem; opacity: .9; }
+
+    /* Entrance: postcards arrive face-down and turn over (<= .5s each, staggered) */
+    .np-de--anim .np-de__inner { transform: rotateY(180deg); }
+    .np-de--anim.is-in .np-de__inner { transform: none; }
+    .np-de--anim.is-in .np-de__card:nth-child(2) .np-de__inner { transition-delay: .18s; }
+    .np-de--anim.is-in .np-de__card:nth-child(3) .np-de__inner { transition-delay: .36s; }
+    .np-de--anim .np-de__photo { opacity: 0; transform: rotate(-9deg) translateY(20px); transition: opacity .45s ease, transform .5s cubic-bezier(.34, 1.4, .64, 1); }
+    .np-de--anim.is-in .np-de__photo { opacity: 1; transform: rotate(-3deg); }
+
+    @media (max-width: 780px) {
+      .np-de__wrap { grid-template-columns: 1fr; }
+      .np-de__photo { width: min(82%, 20rem); justify-self: center; }
+      .np-de__side { text-align: center; }
+      .np-de__card:nth-child(n) { margin-left: 0; }
+      .np-de__front { text-align: left; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .np-de *, .np-de *::before, .np-de *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="np-de__wrap">
+    <figure class="np-de__photo" memory_type="image" memory_usage="custom" memory_source="library">
+      <div class="np-de__photo-frame">
+        <img src="https://loremflickr.com/900/1100/paris,eiffel?lock=2806" alt="Fotografía de París de noche" path="placeholder" data-library-category="lugares" data-asset-type="fotografia" loading="lazy" />
+      </div>
+      <span class="np-de__clip" aria-hidden="true"></span>
+      <svg class="np-de__postmark" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+        <circle cx="50" cy="50" r="44" fill="none" stroke="currentColor" stroke-width="1.4" />
+        <circle cx="50" cy="50" r="34" fill="none" stroke="currentColor" stroke-width=".8" />
+        <path d="M44 66 L50 30 L56 66 M46 54 H54 M47.5 44 H52.5 M44 66 Q50 58 56 66" fill="none" stroke="currentColor" stroke-width="1.2" />
+        <path d="M2 50 H14 M86 50 H98" stroke="currentColor" stroke-width="1" />
+      </svg>
+    </figure>
+
+    <div class="np-de__side">
+      <h2 class="np-de__title" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Detalles</h2>
+      <p class="np-de__lead" memory_type="text" memory_usage="custom" memory_key="detalles-subtitulo">Pequeñas notas para una gran noche</p>
+      <ul class="np-de__cards">
+        <li class="np-de__card">
+          <div class="np-de__inner">
+            <article class="np-de__face np-de__front">
+              <span class="np-de__stamp" aria-hidden="true"><svg viewBox="0 0 20 30" focusable="false"><path d="M4 28 L10 2 L16 28 M6 20 H14 M7.5 13 H12.5" fill="none" stroke="currentColor" stroke-width="1.3" /></svg></span>
+              <h3 class="np-de__name" memory_type="text" memory_usage="custom" memory_key="detalles-card-1-titulo">Lluvia de sobres</h3>
+              <p class="np-de__text" memory_type="text" memory_usage="custom" memory_key="detalles-card-1-texto">Tu cariño es el mejor regalo. Habrá un buzón parisino en la recepción.</p>
+            </article>
+            <div class="np-de__face np-de__back" aria-hidden="true"><svg viewBox="0 0 60 60" focusable="false"><circle cx="30" cy="30" r="26" fill="none" stroke="currentColor" /><path d="M24 46 L30 12 L36 46 M26 36 H34 M27.5 26 H32.5" fill="none" stroke="currentColor" stroke-width="1.2" /></svg></div>
+          </div>
+        </li>
+        <li class="np-de__card">
+          <div class="np-de__inner">
+            <article class="np-de__face np-de__front">
+              <span class="np-de__stamp" aria-hidden="true"><svg viewBox="0 0 20 30" focusable="false"><path d="M3 18 H17 V27 H3 Z M3 18 L10 13 L17 18 M10 13 C 6 8, 6 4, 10 6 C 14 4, 14 8, 10 13" fill="none" stroke="currentColor" stroke-width="1.3" /></svg></span>
+              <h3 class="np-de__name" memory_type="text" memory_usage="custom" memory_key="detalles-card-2-titulo">Mesa de regalos</h3>
+              <p class="np-de__text" memory_type="text" memory_usage="custom" memory_key="detalles-card-2-texto">Tienda departamental · Evento 00000000, a nombre de la quinceañera.</p>
+            </article>
+            <div class="np-de__face np-de__back" aria-hidden="true"><svg viewBox="0 0 60 60" focusable="false"><circle cx="30" cy="30" r="26" fill="none" stroke="currentColor" /><path d="M18 34 H42 V46 H18 Z M18 34 L30 26 L42 34" fill="none" stroke="currentColor" stroke-width="1.2" /></svg></div>
+          </div>
+        </li>
+        <li class="np-de__card">
+          <div class="np-de__inner">
+            <article class="np-de__face np-de__front">
+              <span class="np-de__stamp" aria-hidden="true"><svg viewBox="0 0 20 30" focusable="false"><path d="M10 26 C 2 19, 2 10, 7 9 C 9 9, 10 11, 10 12 C 10 11, 11 9, 13 9 C 18 10, 18 19, 10 26 Z" fill="none" stroke="currentColor" stroke-width="1.3" /></svg></span>
+              <h3 class="np-de__name" memory_type="text" memory_usage="custom" memory_key="detalles-card-3-titulo">Una petición</h3>
+              <p class="np-de__text" memory_type="text" memory_usage="custom" memory_key="detalles-card-3-texto">Celebraremos solo con adultos. Gracias por hacer de esta noche algo especial.</p>
+            </article>
+            <div class="np-de__face np-de__back" aria-hidden="true"><svg viewBox="0 0 60 60" focusable="false"><circle cx="30" cy="30" r="26" fill="none" stroke="currentColor" /><path d="M30 44 C 18 34, 18 20, 25 19 C 28 19, 30 22, 30 24 C 30 22, 32 19, 35 19 C 42 20, 42 34, 30 44 Z" fill="none" stroke="currentColor" stroke-width="1.2" /></svg></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="detalles-regalo"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* static final state: info side up */
+
+      root.classList.add('np-de--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .3) {
+          io.disconnect();
+          setTimeout(function () { root.classList.add('is-in'); }, 150);
+          setTimeout(function () { root.classList.remove('np-de--anim', 'is-in'); }, 1500);
+        }
+      }, { threshold: [0, .3, .6] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-regalo',
+      style_name: 'Noche en París Detalles',
+      descripcion: 'Detalles como postales parisinas con estampilla dorada que llegan boca abajo y se voltean en 3D al entrar en pantalla, junto a una fotografía de París sujeta con clip y matasellos.',
+      tags: ['detalles', 'regalo', 'paris', 'postal', 'quinceañera', 'elegante'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>

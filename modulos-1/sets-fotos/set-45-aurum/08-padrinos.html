@@ -1,0 +1,236 @@
+<section
+  class="au-pd"
+  data-gemini-id="padrinos-aurum"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+<i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:url('https://loremflickr.com/1920/1080/gold,marble?lock=435') center/cover;"></i><i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:color-mix(in srgb, var(--bg-color,#1d1a24) 88%, transparent);"></i>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Jost:wght@300;400;500&display=swap');
+
+    .au-pd, .au-pd *, .au-pd *::before, .au-pd *::after { box-sizing: border-box; }
+    .au-pd {
+      --t-bg: var(--bg-color, #0b0a0d);
+      --t-tx: var(--text-color, #f3eee4);
+      --t-p: var(--primary-color, #d2aa58);
+      --t-s: var(--secondary-color, #7a5c2a);
+      --t-a: var(--accent-color, #f2e3b4);
+      --t-display: var(--font-script, 'Cormorant Garamond', 'Times New Roman', serif);
+      --t-text: var(--font-heading, 'Jost', 'Helvetica Neue', Arial, sans-serif);
+      --au-line: color-mix(in srgb, var(--t-p) 45%, transparent);
+      --au-mx: 50%;
+      --au-my: 50%;
+      --au-glow: 0;
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 75vw, 48rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1.25rem, 6vw, 5rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image:
+        radial-gradient(ellipse 50% 60% at 15% 20%, color-mix(in srgb, var(--t-s) 22%, transparent), transparent 70%),
+        radial-gradient(ellipse 45% 45% at 90% 90%, color-mix(in srgb, var(--t-s) 18%, transparent), transparent 70%);
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    /* pointer spotlight that sweeps the whole grid */
+    .au-pd::before {
+      content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background: radial-gradient(circle 22rem at var(--au-mx) var(--au-my), color-mix(in srgb, var(--t-p) 16%, transparent), transparent 70%);
+      opacity: var(--au-glow);
+      transition: opacity .45s ease;
+    }
+    .au-pd__wrap { position: relative; z-index: 1; width: min(100%, 64rem); display: grid; gap: clamp(2.5rem, 6vw, 4.5rem); }
+    .au-pd__head { display: grid; gap: .45rem; justify-items: end; text-align: right; margin-left: auto; max-width: 32rem; }
+    .au-pd__kicker { margin: 0; font-family: var(--t-display); font-style: italic; font-size: clamp(1.1rem, 2.4vw, 1.45rem); color: var(--t-a); }
+    .au-pd__title { margin: 0; font-family: var(--t-display); font-weight: 500; font-style: italic; font-size: clamp(2.8rem, 7vw, 4.8rem); line-height: .95; letter-spacing: -.01em; }
+    .au-pd__intro { margin: .4rem 0 0; font-weight: 300; font-size: clamp(1rem, 2vw, 1.1rem); line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 72%, transparent); }
+    .au-pd__rule { width: 4rem; height: 1px; background: linear-gradient(270deg, var(--t-p), transparent); margin-top: .4rem; }
+
+    .au-pd__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.8rem, 5vw, 3.5rem) clamp(1.5rem, 6vw, 5rem); }
+    .au-pd__item { position: relative; display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 1.2rem 1.4rem; padding: 1rem 1.2rem 1rem 1rem; }
+    .au-pd__item:nth-child(even) { margin-top: clamp(0rem, 6vw, 3.5rem); }
+    .au-pd__item::before { content: ''; position: absolute; inset: 0; border: 1px solid color-mix(in srgb, var(--t-a) 10%, transparent); background: linear-gradient(160deg, color-mix(in srgb, var(--t-bg) 30%, transparent), color-mix(in srgb, var(--t-bg) 60%, transparent)); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); transition: border-color .45s ease, transform .45s cubic-bezier(.2, .8, .2, 1); z-index: -1; }
+    .au-pd__item:hover::before { border-color: var(--au-line); transform: translate(-.3rem, -.3rem); }
+    .au-pd__item::after { content: ''; position: absolute; right: -1px; bottom: -1px; width: 1.2rem; height: 1.2rem; border-right: 1px solid var(--t-p); border-bottom: 1px solid var(--t-p); transition: width .45s cubic-bezier(.2, .8, .2, 1), height .45s cubic-bezier(.2, .8, .2, 1); }
+    .au-pd__item:hover::after { width: 100%; height: 100%; }
+
+    .au-pd__orbit { position: relative; width: clamp(5.6rem, 14vw, 8rem); aspect-ratio: 1; }
+    .au-pd__ring { position: absolute; inset: -.55rem; width: calc(100% + 1.1rem); height: calc(100% + 1.1rem); transform: rotate(-90deg); }
+    .au-pd__ring circle { fill: none; stroke-width: 1.2; }
+    .au-pd__ring circle:nth-child(1) { stroke: color-mix(in srgb, var(--t-p) 22%, transparent); }
+    .au-pd__ring circle:nth-child(2) { stroke: var(--t-p); stroke-dasharray: 302; stroke-dashoffset: 0; transition: stroke-dashoffset .5s cubic-bezier(.2, .8, .2, 1); }
+    .au-pd__photo { margin: 0; position: absolute; inset: 0; border-radius: 50%; overflow: hidden; background: var(--t-bg); box-shadow: 0 16px 30px -14px #000, inset 0 0 0 1px color-mix(in srgb, var(--t-a) 25%, transparent); }
+    .au-pd__photo img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 50%; filter: saturate(.85); transition: transform .5s cubic-bezier(.2, .8, .2, 1), filter .4s ease; }
+    .au-pd__item:hover .au-pd__photo img { transform: scale(1.07); filter: saturate(1); }
+    .au-pd__badge { position: absolute; right: -.35rem; bottom: -.35rem; width: 1.5rem; height: 1.5rem; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, var(--t-a), var(--t-p) 60%, var(--t-s)); color: var(--t-bg); font-size: .7rem; box-shadow: 0 0 0 .2rem var(--t-bg), 0 0 14px color-mix(in srgb, var(--t-p) 60%, transparent); }
+
+    .au-pd__text { display: grid; gap: .2rem; min-width: 0; }
+    .au-pd__role { margin: 0; font-weight: 400; font-size: .82rem; letter-spacing: .14em; color: var(--t-p); }
+    .au-pd__name { margin: .1rem 0 0; font-family: var(--t-display); font-style: italic; font-weight: 500; font-size: clamp(1.45rem, 2.8vw, 1.9rem); line-height: 1.08; color: var(--t-tx); overflow-wrap: anywhere; }
+    .au-pd__note { margin: .2rem 0 0; font-weight: 300; font-size: .9rem; line-height: 1.5; color: color-mix(in srgb, var(--t-tx) 66%, transparent); }
+
+    /* Entrance (only while JS adds .au-pd--anim); rings draw themselves, items slide diagonally; each transition <= .5s */
+    .au-pd--anim .au-pd__head > * { opacity: 0; transform: translateX(24px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .au-pd--anim .au-pd__head > :nth-child(2) { transition-delay: .1s; }
+    .au-pd--anim .au-pd__head > :nth-child(3) { transition-delay: .2s; }
+    .au-pd--anim .au-pd__head > :nth-child(4) { transition-delay: .3s; }
+    .au-pd--anim.is-in .au-pd__head > * { opacity: 1; transform: none; }
+    .au-pd--anim .au-pd__item { opacity: 0; transform: translate(-22px, 22px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .au-pd--anim .au-pd__item:nth-child(2) { transition-delay: .14s; }
+    .au-pd--anim .au-pd__item:nth-child(3) { transition-delay: .28s; }
+    .au-pd--anim .au-pd__item:nth-child(4) { transition-delay: .42s; }
+    .au-pd--anim .au-pd__ring circle:nth-child(2) { stroke-dashoffset: 302; }
+    .au-pd--anim .au-pd__item:nth-child(1) .au-pd__ring circle:nth-child(2) { transition-delay: .3s; }
+    .au-pd--anim .au-pd__item:nth-child(2) .au-pd__ring circle:nth-child(2) { transition-delay: .44s; }
+    .au-pd--anim .au-pd__item:nth-child(3) .au-pd__ring circle:nth-child(2) { transition-delay: .58s; }
+    .au-pd--anim .au-pd__item:nth-child(4) .au-pd__ring circle:nth-child(2) { transition-delay: .72s; }
+    .au-pd--anim .au-pd__photo img { transform: scale(.6); transition: transform .5s cubic-bezier(.2, .8, .2, 1) .25s; }
+    .au-pd--anim.is-in .au-pd__item { opacity: 1; transform: none; }
+    .au-pd--anim.is-in .au-pd__ring circle:nth-child(2) { stroke-dashoffset: 0; }
+    .au-pd--anim.is-in .au-pd__photo img { transform: none; }
+
+    @media (max-width: 700px) {
+      .au-pd__grid { grid-template-columns: 1fr; }
+      .au-pd__item:nth-child(even) { margin-top: 0; margin-left: 1.2rem; }
+      .au-pd__item:nth-child(odd) { margin-right: 1.2rem; }
+      .au-pd__head { justify-items: start; text-align: left; margin-left: 0; }
+      .au-pd__rule { background: linear-gradient(90deg, var(--t-p), transparent); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .au-pd *, .au-pd *::before, .au-pd *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="au-pd__wrap">
+    <header class="au-pd__head">
+      <p class="au-pd__kicker" memory_type="text" memory_usage="custom" memory_key="padrinos-kicker">Con el apoyo y cariño de</p>
+      <h2 class="au-pd__title" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Mis padrinos</h2>
+      <p class="au-pd__intro" memory_type="text" memory_usage="custom" memory_key="padrinos-intro">Personas que han estado presentes en cada paso y hoy me acompañan en este nuevo capítulo.</p>
+      <span class="au-pd__rule" aria-hidden="true"></span>
+    </header>
+
+    <ul class="au-pd__grid">
+      <li class="au-pd__item">
+        <div class="au-pd__orbit">
+          <svg class="au-pd__ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48"></circle><circle cx="50" cy="50" r="48"></circle></svg>
+          <figure class="au-pd__photo" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/500/500/portrait,couple,elegant?lock=3509" alt="Padrinos de velación" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+          </figure>
+          <span class="au-pd__badge" aria-hidden="true">✦</span>
+        </div>
+        <div class="au-pd__text">
+          <p class="au-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-1-rol">Padrinos de velación</p>
+          <h3 class="au-pd__name" memory_type="text" memory_usage="custom" memory_key="padrinos-1-nombre">Nombre Apellido y Nombre Apellido</h3>
+          <p class="au-pd__note" memory_type="text" memory_usage="custom" memory_key="padrinos-1-nota">Mis segundos padres, guías de fe y de vida.</p>
+        </div>
+      </li>
+      <li class="au-pd__item">
+        <div class="au-pd__orbit">
+          <svg class="au-pd__ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48"></circle><circle cx="50" cy="50" r="48"></circle></svg>
+          <figure class="au-pd__photo" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/500/500/portrait,woman,smile?lock=3510" alt="Madrina de ramo" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+          </figure>
+          <span class="au-pd__badge" aria-hidden="true">✦</span>
+        </div>
+        <div class="au-pd__text">
+          <p class="au-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-2-rol">Madrina de ramo</p>
+          <h3 class="au-pd__name" memory_type="text" memory_usage="custom" memory_key="padrinos-2-nombre">Nombre Apellido</h3>
+          <p class="au-pd__note" memory_type="text" memory_usage="custom" memory_key="padrinos-2-nota">Mi tía y confidente de toda la vida.</p>
+        </div>
+      </li>
+      <li class="au-pd__item">
+        <div class="au-pd__orbit">
+          <svg class="au-pd__ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48"></circle><circle cx="50" cy="50" r="48"></circle></svg>
+          <figure class="au-pd__photo" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/500/500/portrait,man,suit?lock=3511" alt="Padrino de brindis" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+          </figure>
+          <span class="au-pd__badge" aria-hidden="true">✦</span>
+        </div>
+        <div class="au-pd__text">
+          <p class="au-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-3-rol">Padrino de brindis</p>
+          <h3 class="au-pd__name" memory_type="text" memory_usage="custom" memory_key="padrinos-3-nombre">Nombre Apellido</h3>
+          <p class="au-pd__note" memory_type="text" memory_usage="custom" memory_key="padrinos-3-nota">Mi tío, el alma de cada celebración familiar.</p>
+        </div>
+      </li>
+      <li class="au-pd__item">
+        <div class="au-pd__orbit">
+          <svg class="au-pd__ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48"></circle><circle cx="50" cy="50" r="48"></circle></svg>
+          <figure class="au-pd__photo" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/500/500/portrait,woman,elegant?lock=3512" alt="Madrina de última muñeca" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+          </figure>
+          <span class="au-pd__badge" aria-hidden="true">✦</span>
+        </div>
+        <div class="au-pd__text">
+          <p class="au-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-4-rol">Madrina de última muñeca</p>
+          <h3 class="au-pd__name" memory_type="text" memory_usage="custom" memory_key="padrinos-4-nombre">Nombre Apellido</h3>
+          <p class="au-pd__note" memory_type="text" memory_usage="custom" memory_key="padrinos-4-nota">Mi abuela, el corazón de nuestra familia.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="padrinos-aurum"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      root.classList.add('au-pd--anim');
+
+      /* spotlight follows the pointer (lerped in rAF), fades out when the pointer leaves; paused off-screen */
+      var mx = 50, my = 50, tx = 50, ty = 50, glow = 0, tglow = 0, drift = 0;
+      root.addEventListener('pointermove', function (e) {
+        if (e.pointerType === 'touch') return;
+        var r = root.getBoundingClientRect();
+        tx = (e.clientX - r.left) / r.width * 100; ty = (e.clientY - r.top) / r.height * 100; tglow = 1;
+      });
+      root.addEventListener('pointerleave', function () { tglow = .35; });
+      var last = 0, running = false, visible = false;
+      function frame(now) {
+        if (!running) return;
+        var dt = Math.min(.05, (now - last) / 1000 || .016); last = now;
+        drift += dt;
+        if (tglow < 1) { tx = 50 + Math.sin(drift * .4) * 30; ty = 50 + Math.cos(drift * .3) * 25; }
+        mx += (tx - mx) * .08; my += (ty - my) * .08; glow += (tglow - glow) * .05;
+        root.style.setProperty('--au-mx', mx.toFixed(1) + '%');
+        root.style.setProperty('--au-my', my.toFixed(1) + '%');
+        root.style.setProperty('--au-glow', glow.toFixed(3));
+        requestAnimationFrame(frame);
+      }
+      function run() { if (running || !visible || document.hidden) return; running = true; last = performance.now(); requestAnimationFrame(frame); }
+      function stop() { running = false; }
+
+      var entered = false;
+      var io = new IntersectionObserver(function (en) {
+        var e = en[0]; visible = e.isIntersecting;
+        if (visible) {
+          if (!entered && e.intersectionRatio > .2) {
+            entered = true; root.classList.add('is-in'); tglow = .35;
+            setTimeout(function () { root.classList.remove('au-pd--anim', 'is-in'); }, 1700);
+          }
+          run();
+        } else { stop(); }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+      document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else run(); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'padrinos',
+      module_name: 'padrinos-aurum',
+      style_name: 'Aurum Obsidiana Lujo',
+      descripcion: 'Padrinos en fichas de cristal escalonadas: retratos circulares cuyo anillo de oro se dibuja al entrar, esquina dorada que recorre la ficha al pasar el cursor y un foco de luz que sigue al puntero por toda la cuadrícula.',
+      tags: ['padrinos', 'lujo', 'oro', 'retratos', 'premium', 'quinceañera', 'boda'],
+      tipo: 'padrinos'
+    };
+  </script>
+</section>

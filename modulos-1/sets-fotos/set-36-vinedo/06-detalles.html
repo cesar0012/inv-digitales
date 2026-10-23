@@ -1,0 +1,182 @@
+<section
+  class="vc-de"
+  data-gemini-id="detalles-regalo"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Italianno&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .vc-de, .vc-de *, .vc-de *::before, .vc-de *::after { box-sizing: border-box; }
+    .vc-de {
+      --t-bg: var(--bg-color, #F3E9D2);
+      --t-tx: var(--text-color, #2E1B1C);
+      --t-p: var(--primary-color, #6E1F2F);
+      --t-s: var(--secondary-color, #6B6E3A);
+      --t-a: var(--accent-color, #A8834A);
+      --t-display: var(--font-script, 'Italianno', cursive);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 60vw, 46rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image:
+        radial-gradient(60% 50% at 100% 0%, color-mix(in srgb, var(--t-p) 9%, transparent), transparent 70%),
+        radial-gradient(50% 60% at 0% 100%, color-mix(in srgb, var(--t-s) 13%, transparent), transparent 70%);
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .vc-de__grain { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mix-blend-mode: multiply; }
+    .vc-de__content { width: min(100%, 66rem); display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+    .vc-de__head { grid-column: 1 / -1; text-align: center; }
+    .vc-de__kicker { margin: 0; font-style: italic; font-size: clamp(1.05rem, 2.3vw, 1.2rem); color: var(--t-s); }
+    .vc-de__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(3.4rem, 8vw, 5.2rem); line-height: .95; color: var(--t-p); }
+
+    .vc-de__figure {
+      position: relative;
+      margin: 0;
+      padding: 12px;
+      border-radius: 50% 50% 10px 10px / 34% 34% 10px 10px;
+      background: var(--t-bg);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--t-a) 75%, transparent), 0 0 0 7px var(--t-bg), 0 0 0 8px color-mix(in srgb, var(--t-a) 35%, transparent), 0 30px 50px -30px color-mix(in srgb, var(--t-p) 70%, transparent);
+    }
+    .vc-de__figure img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 50% 50% 4px 4px / 32% 32% 4px 4px; filter: sepia(.15); }
+
+    .vc-de__cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2.4vw, 1.6rem); perspective: 1200px; }
+    .vc-de__card { position: relative; display: grid; transform-style: preserve-3d; transition: transform .5s cubic-bezier(.3, .9, .3, 1), translate .3s ease; }
+    .vc-de__card:nth-child(even) { margin-top: 2.4rem; }
+    .vc-de__card:hover { translate: 0 -4px; }
+    .vc-de__face { grid-area: 1 / 1; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 6px; }
+    .vc-de__front {
+      padding: 1.4rem 1.3rem 1.5rem;
+      background: color-mix(in srgb, var(--t-bg) 92%, var(--t-a));
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-a) 55%, transparent), inset 0 0 0 5px color-mix(in srgb, var(--t-bg) 92%, var(--t-a)), inset 0 0 0 6px color-mix(in srgb, var(--t-a) 30%, transparent), 0 18px 30px -24px color-mix(in srgb, var(--t-p) 80%, transparent);
+    }
+    .vc-de__back {
+      display: grid;
+      place-items: center;
+      transform: rotateY(180deg);
+      background: var(--t-p);
+      box-shadow: inset 0 0 0 6px var(--t-p), inset 0 0 0 7px color-mix(in srgb, var(--t-a) 80%, transparent);
+    }
+    .vc-de__back svg { width: 3.4rem; height: auto; }
+    .vc-de__back circle, .vc-de__back path { fill: none; stroke: var(--t-a); stroke-width: 1; vector-effect: non-scaling-stroke; }
+    .vc-de__icon { display: block; width: 2.6rem; height: 2.6rem; margin-bottom: .7rem; }
+    .vc-de__icon path, .vc-de__icon circle, .vc-de__icon rect { fill: none; stroke: var(--t-p); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+    .vc-de__icon [data-l="fill"] { fill: color-mix(in srgb, var(--t-p) 85%, transparent); }
+    .vc-de__icon [data-l="leaf"] { stroke: var(--t-s); fill: color-mix(in srgb, var(--t-s) 15%, transparent); }
+    .vc-de__name { margin: 0 0 .35rem; font-weight: 600; font-size: clamp(1.25rem, 2.4vw, 1.4rem); line-height: 1.15; }
+    .vc-de__text { margin: 0; font-size: clamp(1rem, 2vw, 1.08rem); line-height: 1.45; color: color-mix(in srgb, var(--t-tx) 80%, transparent); }
+
+    .vc-de--anim .vc-de__head, .vc-de--anim .vc-de__figure { opacity: 0; translate: 0 14px; transition: opacity .45s ease, translate .5s cubic-bezier(.2, .8, .2, 1); }
+    .vc-de--anim.is-in .vc-de__head, .vc-de--anim.is-in .vc-de__figure { opacity: 1; translate: 0 0; }
+    .vc-de--anim .vc-de__card { transform: rotateY(-180deg); }
+    .vc-de--anim .vc-de__card[data-flip] { transform: rotateY(0deg); }
+
+    @media (max-width: 760px) {
+      .vc-de__content { grid-template-columns: 1fr; }
+      .vc-de__figure { width: min(100%, 22rem); justify-self: center; }
+    }
+    @media (max-width: 520px) {
+      .vc-de__cards { grid-template-columns: 1fr; }
+      .vc-de__card:nth-child(even) { margin-top: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .vc-de *, .vc-de *::before, .vc-de *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="vc-de__grain" aria-hidden="true">
+    <filter id="vc-de-noise"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .42  0 0 0 0 .3  0 0 0 0 .18  0 0 0 .16 0"/></filter>
+    <rect width="100%" height="100%" filter="url(#vc-de-noise)"/>
+  </svg>
+
+  <div class="vc-de__content">
+    <header class="vc-de__head">
+      <p class="vc-de__kicker" memory_type="text" memory_usage="custom" memory_key="detalles-intro">Para que todo madure a la perfección</p>
+      <h2 class="vc-de__title" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Detalles</h2>
+    </header>
+
+    <figure class="vc-de__figure" memory_type="image" memory_usage="custom" memory_source="library">
+      <img src="https://loremflickr.com/800/1000/wedding,table,wine?lock=3261" alt="Mesa de banquete entre viñedos" path="placeholder" data-library-category="decoracion" data-asset-type="mesa" loading="lazy" />
+    </figure>
+
+    <div class="vc-de__cards">
+      <article class="vc-de__card" data-vc-card>
+        <div class="vc-de__face vc-de__front">
+          <svg class="vc-de__icon" viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="10" width="30" height="21" rx="1.5"/><path d="M5.5 11 L20 22 L34.5 11"/><circle data-l="fill" cx="20" cy="22" r="3.6"/></svg>
+          <h3 class="vc-de__name" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Lluvia de sobres</h3>
+          <p class="vc-de__text" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Su presencia es nuestro mejor regalo; habrá un cofre para sobres en la recepción.</p>
+        </div>
+        <div class="vc-de__face vc-de__back" aria-hidden="true"><svg viewBox="0 0 60 64"><circle cx="12" cy="20" r="6"/><circle cx="24" cy="20" r="6"/><circle cx="36" cy="20" r="6"/><circle cx="48" cy="20" r="6"/><circle cx="18" cy="31" r="6"/><circle cx="30" cy="31" r="6"/><circle cx="42" cy="31" r="6"/><circle cx="24" cy="42" r="6"/><circle cx="36" cy="42" r="6"/><circle cx="30" cy="53" r="6"/><path d="M30 14 C30 8 33 4 38 1"/></svg></div>
+      </article>
+      <article class="vc-de__card" data-vc-card>
+        <div class="vc-de__face vc-de__front">
+          <svg class="vc-de__icon" viewBox="0 0 40 40" aria-hidden="true"><path d="M8 36 C14 28 10 20 18 14 C24 9 30 10 34 4"/><path d="M14 36 C19 29 17 23 23 18 C28 14 33 15 36 10"/><path data-l="leaf" d="M24 14 C22 9 24 5 29 4 C30 9 28 12 24 14 Z"/></svg>
+          <h3 class="vc-de__name" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Calzado cómodo</h3>
+          <p class="vc-de__text" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">La ceremonia es sobre césped y senderos entre viñas; sugerimos tacón ancho.</p>
+        </div>
+        <div class="vc-de__face vc-de__back" aria-hidden="true"><svg viewBox="0 0 60 64"><circle cx="12" cy="20" r="6"/><circle cx="24" cy="20" r="6"/><circle cx="36" cy="20" r="6"/><circle cx="48" cy="20" r="6"/><circle cx="18" cy="31" r="6"/><circle cx="30" cy="31" r="6"/><circle cx="42" cy="31" r="6"/><circle cx="24" cy="42" r="6"/><circle cx="36" cy="42" r="6"/><circle cx="30" cy="53" r="6"/><path d="M30 14 C30 8 33 4 38 1"/></svg></div>
+      </article>
+      <article class="vc-de__card" data-vc-card>
+        <div class="vc-de__face vc-de__front">
+          <svg class="vc-de__icon" viewBox="0 0 40 40" aria-hidden="true"><path d="M9 5 C8.5 14 10.5 19 15 20 C19.5 19 21.5 14 21 5 Z M15 20 V32 M10.5 34 H19.5"/><path d="M21 9 C20.5 18 22.5 23 27 24 C31.5 23 33.5 18 33 9 Z M27 24 V33 M22.5 35 H31.5"/><path data-l="fill" d="M9.4 11 C9.8 16 11.5 18.6 15 19 C18.5 18.6 20.2 16 20.6 11 Z"/><path data-l="fill" d="M21.4 15 C21.8 20 23.5 22.6 27 23 C30.5 22.6 32.2 20 32.6 15 Z"/></svg>
+          <h3 class="vc-de__name" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Celebración para adultos</h3>
+          <p class="vc-de__text" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">Con mucho cariño, hemos pensado esta velada solo para adultos.</p>
+        </div>
+        <div class="vc-de__face vc-de__back" aria-hidden="true"><svg viewBox="0 0 60 64"><circle cx="12" cy="20" r="6"/><circle cx="24" cy="20" r="6"/><circle cx="36" cy="20" r="6"/><circle cx="48" cy="20" r="6"/><circle cx="18" cy="31" r="6"/><circle cx="30" cy="31" r="6"/><circle cx="42" cy="31" r="6"/><circle cx="24" cy="42" r="6"/><circle cx="36" cy="42" r="6"/><circle cx="30" cy="53" r="6"/><path d="M30 14 C30 8 33 4 38 1"/></svg></div>
+      </article>
+      <article class="vc-de__card" data-vc-card>
+        <div class="vc-de__face vc-de__front">
+          <svg class="vc-de__icon" viewBox="0 0 40 40" aria-hidden="true"><path d="M24 6 A14 14 0 1 0 34 26 A11 11 0 0 1 24 6 Z"/><path d="M10 8 V12 M8 10 H12 M31 6 V9 M29.5 7.5 H32.5"/></svg>
+          <h3 class="vc-de__name" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-4">Noche fresca en el valle</h3>
+          <p class="vc-de__text" memory_type="text" memory_usage="custom" memory_key="detalles-texto-4">Al caer el sol refresca entre los viñedos; lleve un chal o saco ligero.</p>
+        </div>
+        <div class="vc-de__face vc-de__back" aria-hidden="true"><svg viewBox="0 0 60 64"><circle cx="12" cy="20" r="6"/><circle cx="24" cy="20" r="6"/><circle cx="36" cy="20" r="6"/><circle cx="48" cy="20" r="6"/><circle cx="18" cy="31" r="6"/><circle cx="30" cy="31" r="6"/><circle cx="42" cy="31" r="6"/><circle cx="24" cy="42" r="6"/><circle cx="36" cy="42" r="6"/><circle cx="30" cy="53" r="6"/><path d="M30 14 C30 8 33 4 38 1"/></svg></div>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="detalles-regalo"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      /* Cards start turned to their wine-label back and flip to the front one by one */
+      var cards = [].slice.call(root.querySelectorAll('[data-vc-card]'));
+      root.classList.add('vc-de--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          io.disconnect();
+          root.classList.add('is-in');
+          cards.forEach(function (c, i) { setTimeout(function () { c.setAttribute('data-flip', ''); }, 350 + i * 180); });
+          setTimeout(function () {
+            root.classList.remove('vc-de--anim', 'is-in');
+            cards.forEach(function (c) { c.removeAttribute('data-flip'); });
+          }, 350 + cards.length * 180 + 700);
+        }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-regalo',
+      style_name: 'Viñedo Clásico Etiquetas que Giran',
+      descripcion: 'Detalles del evento en tarjetas tipo etiqueta que giran en 3D desde un reverso borgoña con uvas grabadas, junto a una imagen en marco de arco. Sobres, calzado, solo adultos y clima.',
+      tags: ['detalles', 'boda', 'viñedo', 'vino', 'información', 'flip'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>

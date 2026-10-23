@@ -1,0 +1,185 @@
+<section
+  class="vq-det"
+  data-gemini-id="detalles-vestimenta"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Rye&family=IM+Fell+English:ital@0;1&display=swap');
+
+    .vq-det, .vq-det *, .vq-det *::before, .vq-det *::after { box-sizing: border-box; }
+    .vq-det {
+      --t-bg: var(--bg-color, #24140c);
+      --t-tx: var(--text-color, #f4e7cf);
+      --t-p: var(--primary-color, #c99a3e);
+      --t-s: var(--secondary-color, #7a4a2a);
+      --t-a: var(--accent-color, #a3302a);
+      --t-display: var(--font-script, 'Rye', serif);
+      --t-text: var(--font-heading, 'IM Fell English', Georgia, serif);
+      --rope-a: color-mix(in srgb, var(--t-p) 70%, var(--t-tx));
+      --rope-b: color-mix(in srgb, var(--t-p) 50%, var(--t-bg));
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image:
+        radial-gradient(50% 60% at 100% 30%, color-mix(in srgb, var(--t-s) 45%, transparent), transparent 70%),
+        radial-gradient(40% 50% at 0% 90%, color-mix(in srgb, var(--t-a) 14%, transparent), transparent 70%);
+      color: var(--t-tx);
+      text-align: left;
+      font-family: var(--t-text);
+    }
+    .vq-det__content { width: min(100%, 64rem); display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+    .vq-det__eyebrow { margin: 0; font-style: italic; color: var(--t-p); font-size: clamp(1.1rem, 2.2vw, 1.35rem); }
+    .vq-det__title { margin: .2rem 0 1.4rem; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.05; }
+
+    .vq-det__photo { position: relative; padding: 10px; background: repeating-linear-gradient(45deg, var(--rope-a) 0 4px, var(--rope-b) 4px 8px); transform: rotate(-2deg); box-shadow: 0 26px 50px -20px color-mix(in srgb, var(--t-bg) 95%, transparent); }
+    .vq-det__figure { margin: 0; overflow: hidden; background: linear-gradient(150deg, var(--t-s), color-mix(in srgb, var(--t-s) 40%, var(--t-bg))); }
+    .vq-det__figure img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; color: transparent; filter: sepia(.3) contrast(1.05); transition: transform .5s ease, filter .5s ease; }
+    .vq-det__photo:hover img { transform: scale(1.04); filter: sepia(0); }
+    .vq-det__badge { position: absolute; right: -1.2rem; bottom: 1.4rem; width: 5.4rem; height: auto; transform: rotate(12deg); filter: drop-shadow(0 6px 8px color-mix(in srgb, var(--t-bg) 80%, transparent)); }
+
+    .vq-det__cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.1rem; }
+    .vq-det__card { perspective: 900px; }
+    .vq-det__card:nth-child(1) { width: 92%; }
+    .vq-det__card:nth-child(2) { width: 84%; justify-self: end; }
+    .vq-det__card:nth-child(3) { width: 96%; margin-left: 4%; }
+    .vq-det__flip { position: relative; transform-style: preserve-3d; transition: transform .5s cubic-bezier(.3, 1.2, .5, 1); }
+    .vq-det__card:nth-child(1) .vq-det__flip { transform: rotate(-1.2deg); }
+    .vq-det__card:nth-child(2) .vq-det__flip { transform: rotate(1.4deg); }
+    .vq-det__card:nth-child(3) .vq-det__flip { transform: rotate(-.6deg); }
+    .vq-det__card:hover .vq-det__flip { transform: rotate(0deg) translateY(-3px); }
+    .vq-det__face {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      padding: 1.2rem 1.3rem 1.2rem 3.4rem;
+      background: color-mix(in srgb, var(--t-s) 92%, var(--t-bg));
+      background-image: radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--t-tx) 10%, transparent), transparent 60%);
+      border-radius: 4px 18px 18px 4px;
+      box-shadow: 0 16px 30px -18px color-mix(in srgb, var(--t-bg) 95%, transparent);
+    }
+    .vq-det__face::before { content: ''; position: absolute; inset: 6px; border: 1.5px dashed color-mix(in srgb, var(--t-p) 70%, transparent); border-radius: 2px 14px 14px 2px; pointer-events: none; }
+    .vq-det__face::after { content: ''; position: absolute; left: 1.2rem; top: 50%; width: .9rem; height: .9rem; margin-top: -.45rem; border-radius: 50%; background: var(--t-bg); box-shadow: 0 0 0 3px var(--t-p); }
+    .vq-det__front { position: relative; }
+    .vq-det__back { position: absolute; inset: 0; transform: rotateY(180deg); display: grid; place-items: center; padding-left: 1.3rem; background: color-mix(in srgb, var(--t-s) 70%, var(--t-bg)); }
+    .vq-det__back svg { width: 3rem; height: auto; opacity: .8; }
+    .vq-det__name { margin: 0 0 .3rem; font-family: var(--t-display); font-weight: 400; font-size: clamp(1.15rem, 2.4vw, 1.4rem); color: var(--t-p); }
+    .vq-det__text { margin: 0; font-size: 1.05rem; line-height: 1.5; }
+
+    .vq-det--anim .vq-det__head, .vq-det--anim .vq-det__photo { opacity: 0; transition: opacity .45s ease, transform .5s ease; }
+    .vq-det--anim .vq-det__photo { transform: rotate(-9deg) scale(.92); }
+    .vq-det--anim .vq-det__card .vq-det__flip { transform: rotateY(180deg); }
+    .vq-det--anim .vq-det__card:nth-child(1) .vq-det__flip { transition-delay: .35s; }
+    .vq-det--anim .vq-det__card:nth-child(2) .vq-det__flip { transition-delay: .55s; }
+    .vq-det--anim .vq-det__card:nth-child(3) .vq-det__flip { transition-delay: .75s; }
+    .vq-det--anim.is-in .vq-det__head, .vq-det--anim.is-in .vq-det__photo { opacity: 1; }
+    .vq-det--anim.is-in .vq-det__photo { transform: rotate(-2deg); }
+    .vq-det--anim.is-in .vq-det__card:nth-child(1) .vq-det__flip { transform: rotate(-1.2deg); }
+    .vq-det--anim.is-in .vq-det__card:nth-child(2) .vq-det__flip { transform: rotate(1.4deg); }
+    .vq-det--anim.is-in .vq-det__card:nth-child(3) .vq-det__flip { transform: rotate(-.6deg); }
+
+    @media (max-width: 760px) {
+      .vq-det__content { grid-template-columns: 1fr; }
+      .vq-det__photo { width: min(100%, 22rem); justify-self: center; }
+      .vq-det__badge { right: -.6rem; width: 4.4rem; }
+      .vq-det__card:nth-child(n) { width: 100%; margin-left: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .vq-det *, .vq-det *::before, .vq-det *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="vq-det__content">
+    <div class="vq-det__photo">
+      <figure class="vq-det__figure" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/800/1000/cowboy,boots?lock=2961" alt="Botas vaqueras" path="placeholder" data-library-category="vaquero" data-asset-type="decoracion" loading="lazy" />
+      </figure>
+      <svg class="vq-det__badge" viewBox="0 0 80 80" aria-hidden="true">
+        <circle cx="40" cy="40" r="36" style="fill: var(--t-a)" />
+        <circle cx="40" cy="40" r="31" fill="none" style="stroke: var(--t-p)" stroke-width="1.5" stroke-dasharray="3 3" />
+        <path d="M30 22 C 20 34, 21 56, 40 58 C 59 56, 60 34, 50 22" fill="none" style="stroke: var(--t-p)" stroke-width="7" />
+        <g style="fill: var(--t-a)"><circle cx="27" cy="34" r="1.3" /><circle cx="29" cy="47" r="1.3" /><circle cx="53" cy="34" r="1.3" /><circle cx="51" cy="47" r="1.3" /></g>
+      </svg>
+    </div>
+
+    <div>
+      <header class="vq-det__head">
+        <p class="vq-det__eyebrow" memory_type="text" memory_usage="custom" memory_key="detalles-intro">Para que no se te pase nada</p>
+        <h2 class="vq-det__title" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Detalles de la noche</h2>
+      </header>
+      <ul class="vq-det__cards">
+        <li class="vq-det__card">
+          <div class="vq-det__flip">
+            <div class="vq-det__face vq-det__front">
+              <h3 class="vq-det__name" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Botas y sombrero</h3>
+              <p class="vq-det__text" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Ven con tus mejores botas: la pista será de rancho y de zapateado.</p>
+            </div>
+            <div class="vq-det__face vq-det__back" aria-hidden="true">
+              <svg viewBox="0 0 40 40"><path d="M11 5 C 4 15, 5 34, 20 35 C 35 34, 36 15, 29 5" fill="none" style="stroke: var(--t-p)" stroke-width="6" /></svg>
+            </div>
+          </div>
+        </li>
+        <li class="vq-det__card">
+          <div class="vq-det__flip">
+            <div class="vq-det__face vq-det__front">
+              <h3 class="vq-det__name" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Mi entrada a caballo</h3>
+              <p class="vq-det__text" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">Llega puntual: a las 8:00 p. m. haré mi entrada por el patio del rancho.</p>
+            </div>
+            <div class="vq-det__face vq-det__back" aria-hidden="true">
+              <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="15" fill="none" style="stroke: var(--t-p)" stroke-width="3" /><path d="M20 5 V 35 M5 20 H 35 M9.4 9.4 L 30.6 30.6 M9.4 30.6 L 30.6 9.4" style="stroke: var(--t-p)" stroke-width="2" /><circle cx="20" cy="20" r="4" style="fill: var(--t-p)" /></svg>
+            </div>
+          </div>
+        </li>
+        <li class="vq-det__card">
+          <div class="vq-det__flip">
+            <div class="vq-det__face vq-det__front">
+              <h3 class="vq-det__name" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Baúl de buenos deseos</h3>
+              <p class="vq-det__text" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">A la entrada habrá un baúl para tus sobres y mensajes con cariño.</p>
+            </div>
+            <div class="vq-det__face vq-det__back" aria-hidden="true">
+              <svg viewBox="0 0 40 48"><path d="M9 4 C 4 18, 4 30, 9 44 L 31 44 C 36 30, 36 18, 31 4 Z" fill="none" style="stroke: var(--t-p)" stroke-width="2" /><path d="M6.5 13 H 33.5 M5.6 35 H 34.4" style="stroke: var(--t-p)" stroke-width="3" /></svg>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="detalles-vestimenta"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      /* Leather tags flip from their branded back to the details on viewport entry */
+      root.classList.add('vq-det--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('vq-det--anim', 'is-in'); }, 1500);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-vestimenta',
+      style_name: 'Vaquera Rancho Romántico',
+      descripcion: 'Detalles vaqueros: foto con marco de soga y sello de herradura, más etiquetas de piel cosida que giran desde su reverso marcado a fuego para revelar cada indicación de la noche.',
+      tags: ['detalles', 'vaquera', 'piel', 'herradura', 'botas', 'flip', 'vintage'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>

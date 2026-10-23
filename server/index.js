@@ -4487,22 +4487,31 @@ TAREA: decide en qué nodo va cada dato. Reglas:
 Responde SOLO con JSON válido, sin markdown:
 {"items":[{"i":<número del nodo>,"t":"<texto final exacto para ese nodo>"}]}`;
 
-    const model = (config.html_google_model || 'gemini-3.1-flash').includes('pro')
-      ? 'gemini-3.1-flash'
-      : (config.html_google_model || 'gemini-3.1-flash');
+    const model = (config.html_google_model || 'gemini-flash-latest').trim();
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-goog-api-key': apiKey
-      },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.1, maxOutputTokens: 8192 }
-      })
-    });
+    const llamar = async (modelo) => {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent`;
+      return fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': apiKey
+        },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { temperature: 0.1, maxOutputTokens: 8192 }
+        })
+      });
+    };
+
+    let response = await llamar(model);
+    // El modelo configurado puede no existir en esta key: un reintento con
+    // el alias estable antes de rendirse (el pase IA coloca datos en las
+    // invitaciones sin placeholders canónicos).
+    if (!response.ok && (response.status === 404 || response.status === 400)) {
+      console.warn('[EVENT-DATA AI-FILL] modelo', model, response.status, '→ reintento con gemini-flash-latest');
+      response = await llamar('gemini-flash-latest');
+    }
 
     if (!response.ok) {
       const detail = await response.text().catch(() => '');

@@ -1,0 +1,224 @@
+<section
+  class="cv-cd"
+  data-gemini-id="countdown-carnaval"
+  data-countdown-target="2027-02-13T19:00:00"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Monsieur+La+Doulaise&display=swap');
+
+    .cv-cd, .cv-cd *, .cv-cd *::before, .cv-cd *::after { box-sizing: border-box; }
+    .cv-cd {
+      --t-bg: var(--bg-color, #14060f);
+      --t-tx: var(--text-color, #f3e4c8);
+      --t-p: var(--primary-color, #9b1028);
+      --t-s: var(--secondary-color, #4b1a6e);
+      --t-a: var(--accent-color, #b8862e);
+      --t-display: var(--font-script, 'Monsieur La Doulaise', cursive);
+      --t-text: var(--font-heading, 'IM Fell English', Georgia, serif);
+      --gold: linear-gradient(115deg, color-mix(in srgb, var(--t-a) 60%, #000) 0%, color-mix(in srgb, var(--t-a) 55%, #fff) 42%, var(--t-a) 58%, color-mix(in srgb, var(--t-a) 65%, #000) 100%);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 56vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/opera,theatre,boxes?lock=3571');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .cv-cd::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 55% 50% at 50% 60%, color-mix(in srgb, var(--t-p) 28%, transparent), transparent 75%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 86%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent));
+    }
+    .cv-cd__content { width: min(100%, 54rem); display: grid; justify-items: center; }
+    .cv-cd__dial { width: min(100%, 30rem); height: auto; margin-bottom: -2.4rem; overflow: visible; }
+    .cv-cd__arc { transition: stroke-dashoffset .45s cubic-bezier(.2, .8, .2, 1); }
+    .cv-cd__marker { transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
+    .cv-cd__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(2.8rem, 6.5vw, 4.6rem);
+      line-height: 1.1;
+      padding: 0 .3em;
+      background: var(--gold);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .cv-cd__date { margin: .2rem 0 clamp(2rem, 5vw, 3rem); font-style: italic; font-size: 1.12rem; opacity: .88; }
+
+    .cv-cd__boxes { width: 100%; margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(.8rem, 2.5vw, 1.6rem); }
+    .cv-cd__box {
+      position: relative;
+      flex: 0 1 10.5rem;
+      min-width: 7.4rem;
+      padding: 1.9rem .6rem 1rem;
+      border-radius: 999px 999px 10px 10px;
+      background:
+        radial-gradient(ellipse at 50% 20%, color-mix(in srgb, var(--t-s) 50%, transparent), transparent 70%),
+        color-mix(in srgb, var(--t-bg) 82%, #000);
+      box-shadow: inset 0 0 0 1px var(--t-a), inset 0 0 0 6px color-mix(in srgb, var(--t-p) 55%, #000), inset 0 0 0 7px color-mix(in srgb, var(--t-a) 45%, transparent), 0 16px 36px rgba(0, 0, 0, .55);
+      overflow: hidden;
+    }
+    .cv-cd__box::before, .cv-cd__box::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      width: 30%;
+      height: 62%;
+      background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--t-p) 45%, #000) 0, var(--t-p) 5px, color-mix(in srgb, var(--t-p) 75%, var(--t-a)) 8px, color-mix(in srgb, var(--t-p) 45%, #000) 12px);
+      opacity: .9;
+    }
+    .cv-cd__box::before { left: 0; clip-path: polygon(0 0, 100% 0, 30% 100%, 0 100%); }
+    .cv-cd__box::after { right: 0; clip-path: polygon(0 0, 100% 0, 100% 100%, 70% 100%); }
+    .cv-cd__num {
+      position: relative;
+      z-index: 1;
+      display: block;
+      font-size: clamp(2.6rem, 6vw, 3.8rem);
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+      background: var(--gold);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .cv-cd__box[data-tick] .cv-cd__num { animation: cv-cd-flick .4s cubic-bezier(.2, .8, .2, 1); }
+    .cv-cd__unit { position: relative; z-index: 1; display: block; margin-top: .2rem; font-family: var(--t-display); font-size: clamp(1.7rem, 3vw, 2.1rem); line-height: 1.1; }
+    .cv-cd__note { margin: 1.8rem 0 0; font-style: italic; opacity: .78; max-width: 30rem; }
+    @keyframes cv-cd-flick { 0% { transform: translateY(-40%); opacity: 0; } 100% { transform: none; opacity: 1; } }
+
+    .cv-cd--anim .cv-cd__box { opacity: 0; transform: translateY(18px) scale(.96); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .cv-cd--anim .cv-cd__box:nth-child(2) { transition-delay: .1s; }
+    .cv-cd--anim .cv-cd__box:nth-child(3) { transition-delay: .2s; }
+    .cv-cd--anim .cv-cd__box:nth-child(4) { transition-delay: .3s; }
+    .cv-cd--anim.is-in .cv-cd__box { opacity: 1; transform: none; }
+
+    @media (max-width: 520px) {
+      .cv-cd__box { flex-basis: calc(50% - .5rem); }
+      .cv-cd__dial { margin-bottom: -1.4rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cv-cd *, .cv-cd *::before, .cv-cd *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="cv-cd__content">
+    <svg class="cv-cd__dial" viewBox="0 0 400 210" aria-hidden="true">
+      <path d="M30 200A170 170 0 0 1 370 200" fill="none" style="stroke: color-mix(in srgb, var(--t-a) 25%, transparent)" stroke-width="2" stroke-dasharray="1 9" stroke-linecap="round" />
+      <path class="cv-cd__arc" data-cv-arc d="M30 200A170 170 0 0 1 370 200" fill="none" style="stroke: var(--t-a)" stroke-width="3" stroke-linecap="round" stroke-dasharray="534.1" stroke-dashoffset="0" />
+      <g class="cv-cd__marker" data-cv-marker style="transform: translate(370px, 200px)">
+        <path fill-rule="evenodd" transform="translate(-20 -11) scale(.34)" style="fill: var(--t-a)" d="M60 24C52 14 38 10 22 14C12 16 8 24 12 32C16 42 32 46 44 42C52 39 56 36 60 36C64 36 68 39 76 42C88 46 104 42 108 32C112 24 108 16 98 14C82 10 68 14 60 24ZM24 28C30 22 40 22 46 30C40 34 30 35 24 28ZM96 28C90 22 80 22 74 30C80 34 90 35 96 28Z" />
+      </g>
+      <path d="M200 18l6 10-6 8-6-8z" style="fill: var(--t-p); stroke: var(--t-a)" stroke-width="1.5" />
+    </svg>
+    <h2 class="cv-cd__title" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Se levanta el telón en</h2>
+    <p class="cv-cd__date"><time datetime="2027-02-13T19:00" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">13 de febrero de 2027 · 7:00 p.m.</time></p>
+
+    <ul class="cv-cd__boxes">
+      <li class="cv-cd__box" data-cv-box>
+        <span class="cv-cd__num" data-countdown-unit="days">00</span>
+        <span class="cv-cd__unit" memory_type="text" memory_usage="custom" memory_key="countdown-dias">Días</span>
+      </li>
+      <li class="cv-cd__box" data-cv-box>
+        <span class="cv-cd__num" data-countdown-unit="hours">00</span>
+        <span class="cv-cd__unit" memory_type="text" memory_usage="custom" memory_key="countdown-horas">Horas</span>
+      </li>
+      <li class="cv-cd__box" data-cv-box>
+        <span class="cv-cd__num" data-countdown-unit="minutes">00</span>
+        <span class="cv-cd__unit" memory_type="text" memory_usage="custom" memory_key="countdown-minutos">Minutos</span>
+      </li>
+      <li class="cv-cd__box" data-cv-box>
+        <span class="cv-cd__num" data-countdown-unit="seconds">00</span>
+        <span class="cv-cd__unit" memory_type="text" memory_usage="custom" memory_key="countdown-segundos">Segundos</span>
+      </li>
+    </ul>
+    <p class="cv-cd__note" memory_type="text" memory_usage="custom" memory_key="countdown-nota">Cada segundo nos acerca a la noche de las máscaras.</p>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="countdown-carnaval"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      var units = {
+        days: root.querySelector('[data-countdown-unit="days"]'),
+        hours: root.querySelector('[data-countdown-unit="hours"]'),
+        minutes: root.querySelector('[data-countdown-unit="minutes"]'),
+        seconds: root.querySelector('[data-countdown-unit="seconds"]')
+      };
+      var arc = root.querySelector('[data-cv-arc]'), marker = root.querySelector('[data-cv-marker]');
+      var LEN = 534.1;
+      function pad(n) { return n < 10 ? '0' + n : '' + n; }
+      function set(el, v) {
+        if (!el || el.textContent === v) return;
+        el.textContent = v;
+        if (RM) return;
+        var box = el.closest('[data-cv-box]');
+        box.removeAttribute('data-tick'); void box.offsetWidth; box.setAttribute('data-tick', '');
+      }
+      /* Seconds sweep the gilded arch; the little mask rides its tip */
+      function dial(s) {
+        var f = s / 60, th = f * Math.PI;
+        arc.setAttribute('stroke-dashoffset', (LEN * (1 - f)).toFixed(1));
+        marker.style.transform = 'translate(' + (200 - 170 * Math.cos(th)).toFixed(1) + 'px,' + (200 - 170 * Math.sin(th)).toFixed(1) + 'px)';
+      }
+      function update() {
+        var target = new Date(root.getAttribute('data-countdown-target')).getTime();
+        var diff = Math.max(0, Math.floor((target - Date.now()) / 1000));
+        if (isNaN(diff)) diff = 0;
+        var d = Math.floor(diff / 86400), h = Math.floor(diff % 86400 / 3600), m = Math.floor(diff % 3600 / 60), s = diff % 60;
+        set(units.days, pad(d)); set(units.hours, pad(h)); set(units.minutes, pad(m)); set(units.seconds, pad(s));
+        dial(s);
+      }
+      window.updateCountdown = update;
+      window.__countdownIntervals = window.__countdownIntervals || [];
+      for (var i = 0; i < window.__countdownIntervals.length; i++) clearInterval(window.__countdownIntervals[i]);
+      window.__countdownIntervals.length = 0;
+      update();
+      window.__countdownIntervals.push(setInterval(update, 1000));
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+      root.classList.add('cv-cd--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('cv-cd--anim', 'is-in'); }, 1200);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-carnaval',
+      style_name: 'Carnaval Veneciano Palcos de Ópera',
+      descripcion: 'Cuenta regresiva de carnaval veneciano: días, horas, minutos y segundos en palcos de ópera con cortinas de terciopelo; un arco dorado marca los segundos y una pequeña máscara recorre su punta.',
+      tags: ['countdown', 'quinceañera', 'carnaval', 'veneciano', 'opera', 'terciopelo', 'mascara'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>

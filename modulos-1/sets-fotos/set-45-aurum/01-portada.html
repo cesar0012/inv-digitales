@@ -1,0 +1,328 @@
+<section
+  class="au-po"
+  data-gemini-id="portada-nombre"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Jost:wght@300;400;500&display=swap');
+
+    .au-po, .au-po *, .au-po *::before, .au-po *::after { box-sizing: border-box; }
+    .au-po {
+      --t-bg: var(--bg-color, #0b0a0d);
+      --t-tx: var(--text-color, #f3eee4);
+      --t-p: var(--primary-color, #d2aa58);
+      --t-s: var(--secondary-color, #7a5c2a);
+      --t-a: var(--accent-color, #f2e3b4);
+      --t-display: var(--font-script, 'Cormorant Garamond', 'Times New Roman', serif);
+      --t-text: var(--font-heading, 'Jost', 'Helvetica Neue', Arial, sans-serif);
+      --au-gold: linear-gradient(100deg, var(--t-s) 0%, var(--t-p) 28%, var(--t-a) 50%, var(--t-p) 72%, var(--t-s) 100%);
+      --au-line: color-mix(in srgb, var(--t-p) 55%, transparent);
+      --au-shine: 0%;
+      --au-reveal: 125%;
+      --au-cue: 0px;
+      position: relative;
+      isolation: isolate;
+      min-height: 100vh;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1.25rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/gold,luxury,night?lock=3501');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .au-po::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 55%, color-mix(in srgb, var(--t-s) 22%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 84%, transparent), color-mix(in srgb, var(--t-bg) 93%, transparent));
+    }
+    .au-po__defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .au-po__sky { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
+    .au-po__grain {
+      position: absolute; inset: -10%; z-index: 0; pointer-events: none;
+      opacity: .11; mix-blend-mode: overlay;
+      filter: url(#au-po-grain);
+      background: color-mix(in srgb, var(--t-a) 40%, transparent);
+    }
+
+    .au-po__stage { position: relative; z-index: 1; width: min(100%, 46rem); perspective: 1400px; }
+    .au-po__tilt { transform-style: preserve-3d; will-change: transform; }
+    .au-po__card {
+      position: relative;
+      transform-style: preserve-3d;
+      padding: clamp(2.6rem, 7vw, 4.5rem) clamp(1.1rem, 5vw, 3.5rem);
+      background: linear-gradient(160deg, color-mix(in srgb, var(--t-bg) 62%, transparent), color-mix(in srgb, var(--t-bg) 40%, transparent));
+      -webkit-backdrop-filter: blur(14px) saturate(130%);
+      backdrop-filter: blur(14px) saturate(130%);
+      box-shadow: 0 40px 90px -30px color-mix(in srgb, #000 70%, transparent), inset 0 1px 0 color-mix(in srgb, var(--t-a) 22%, transparent);
+    }
+    .au-po__card::before {
+      content: '';
+      position: absolute; inset: 10% 5%;
+      z-index: -1;
+      transform: translateZ(-90px);
+      background: radial-gradient(ellipse at 50% 50%, color-mix(in srgb, var(--t-p) 36%, transparent), transparent 68%);
+      filter: blur(30px);
+      pointer-events: none;
+    }
+    .au-po__line { position: absolute; pointer-events: none; border: 1px solid var(--au-line); }
+    .au-po__line--outer { inset: -.9rem; transform: translateZ(-46px); border-color: color-mix(in srgb, var(--t-p) 30%, transparent); }
+    .au-po__line--inner { inset: .7rem; transform: translateZ(22px); }
+    .au-po__corner {
+      position: absolute; width: 1.6rem; height: 1.6rem; pointer-events: none;
+      transform: translateZ(64px);
+      border-style: solid; border-color: var(--t-p); border-width: 0;
+    }
+    .au-po__corner--tl { top: 1.4rem; left: 1.4rem; border-top-width: 1px; border-left-width: 1px; }
+    .au-po__corner--tr { top: 1.4rem; right: 1.4rem; border-top-width: 1px; border-right-width: 1px; }
+    .au-po__corner--bl { bottom: 1.4rem; left: 1.4rem; border-bottom-width: 1px; border-left-width: 1px; }
+    .au-po__corner--br { bottom: 1.4rem; right: 1.4rem; border-bottom-width: 1px; border-right-width: 1px; }
+
+    .au-po__header { position: relative; transform: translateZ(36px); display: grid; gap: .9rem; justify-items: center; }
+    .au-po__eyebrow { margin: 0; font-family: var(--t-display); font-style: italic; font-weight: 400; font-size: clamp(1.1rem, 2.4vw, 1.45rem); color: color-mix(in srgb, var(--t-tx) 78%, var(--t-a)); }
+    .au-po__title {
+      margin: .1em 0 0;
+      max-width: 100%;
+      font-family: var(--t-display);
+      font-weight: 500;
+      font-style: italic;
+      font-size: clamp(3.1rem, 13vw, 7.4rem);
+      line-height: .95;
+      letter-spacing: -.012em;
+      overflow-wrap: anywhere;
+      color: var(--t-p);
+      background: var(--au-gold);
+      background-size: 260% 100%;
+      background-position: var(--au-shine) 50%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      padding: 0 .08em .06em;
+    }
+    .au-po__sub { margin: 0; font-weight: 300; font-size: clamp(1rem, 2.2vw, 1.3rem); letter-spacing: .14em; color: var(--t-tx); }
+    .au-po__orn { display: block; width: min(60%, 16rem); height: 1px; margin: .6rem 0 .2rem; position: relative; background: linear-gradient(90deg, transparent, var(--t-p), transparent); }
+    .au-po__orn::after { content: ''; position: absolute; left: 50%; top: 50%; width: .5rem; height: .5rem; transform: translate(-50%, -50%) rotate(45deg); background: var(--t-a); box-shadow: 0 0 12px var(--t-p); }
+    .au-po__date { margin: 0; font-family: var(--t-display); font-size: clamp(1.4rem, 3.4vw, 2.1rem); font-weight: 500; color: var(--t-a); }
+    .au-po__place { margin: 0; font-weight: 300; font-size: clamp(.95rem, 2vw, 1.1rem); color: color-mix(in srgb, var(--t-tx) 72%, transparent); }
+
+    .au-po__cue { position: absolute; left: 50%; bottom: 1.2rem; z-index: 1; width: 1px; height: 3.2rem; transform: translateX(-50%); background: linear-gradient(180deg, transparent, var(--au-line)); pointer-events: none; }
+    .au-po__cue::after { content: ''; position: absolute; left: 50%; top: 0; width: 5px; height: 5px; border-radius: 50%; background: var(--t-a); box-shadow: 0 0 10px var(--t-p); transform: translate(-50%, var(--au-cue)); }
+
+    /* Entrance: only while JS adds .au-po--anim. Every transition <= .5s; the long title sweep is driven by JS. */
+    .au-po--anim .au-po__stage { opacity: 0; transform: scale(1.05); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .au-po--anim.is-in .au-po__stage { opacity: 1; transform: none; }
+    .au-po--anim .au-po__header > * { opacity: 0; transform: translateY(14px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .au-po--anim .au-po__header > :nth-child(1) { transition-delay: .35s; }
+    .au-po--anim .au-po__header > :nth-child(2) { transition-delay: .5s; }
+    .au-po--anim .au-po__header > :nth-child(3) { transition-delay: 1.2s; }
+    .au-po--anim .au-po__header > :nth-child(4) { transition-delay: 1.35s; }
+    .au-po--anim .au-po__header > :nth-child(5) { transition-delay: 1.5s; }
+    .au-po--anim .au-po__header > :nth-child(6) { transition-delay: 1.65s; }
+    .au-po--anim.is-in .au-po__header > * { opacity: 1; transform: none; }
+    .au-po--anim .au-po__title {
+      -webkit-mask-image: linear-gradient(100deg, #000 calc(var(--au-reveal) - 16%), transparent var(--au-reveal));
+      mask-image: linear-gradient(100deg, #000 calc(var(--au-reveal) - 16%), transparent var(--au-reveal));
+    }
+    .au-po--anim .au-po__corner { opacity: 0; transition: opacity .4s ease .9s; }
+    .au-po--anim.is-in .au-po__corner { opacity: 1; }
+
+    @media (max-width: 640px) {
+      .au-po__line--outer { inset: -.6rem; }
+      .au-po__corner { width: 1.1rem; height: 1.1rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .au-po *, .au-po *::before, .au-po *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="au-po__defs" aria-hidden="true" focusable="false">
+    <filter id="au-po-grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"></feTurbulence>
+      <feColorMatrix type="saturate" values="0"></feColorMatrix>
+    </filter>
+  </svg>
+
+  <canvas class="au-po__sky" data-au-sky aria-hidden="true"></canvas>
+  <div class="au-po__grain" aria-hidden="true"></div>
+
+  <div class="au-po__stage">
+    <div class="au-po__tilt" data-au-tilt>
+      <div class="au-po__card">
+        <i class="au-po__line au-po__line--outer" aria-hidden="true"></i>
+        <i class="au-po__line au-po__line--inner" aria-hidden="true"></i>
+        <i class="au-po__corner au-po__corner--tl" aria-hidden="true"></i>
+        <i class="au-po__corner au-po__corner--tr" aria-hidden="true"></i>
+        <i class="au-po__corner au-po__corner--bl" aria-hidden="true"></i>
+        <i class="au-po__corner au-po__corner--br" aria-hidden="true"></i>
+
+        <header class="au-po__header">
+          <p class="au-po__eyebrow" memory_type="text" memory_usage="custom" memory_key="portada-eyebrow">Con el corazón lleno de alegría, te invitamos a celebrar</p>
+          <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,3vw,1.6rem);width:clamp(150px,22vw,220px);"><img src="https://loremflickr.com/480/480/gold,marble,portrait?lock=317" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:2px solid var(--primary-color,#9b9b9b);box-shadow:0 14px 30px rgba(0,0,0,.18);" /><figcaption hidden>Retrato</figcaption></figure>
+<h1 class="au-po__title" memory_type="text" memory_usage="custom" memory_key="portada-titulo">Nombre Apellido</h1>
+          <p class="au-po__sub" memory_type="text" memory_usage="custom" memory_key="portada-subtitulo">Mis quince años</p>
+          <span class="au-po__orn" aria-hidden="true"></span>
+          <p class="au-po__date"><time datetime="2027-05-15T19:00:00" memory_type="text" memory_usage="custom" memory_key="portada-fecha">Sábado 15 de mayo de 2027</time></p>
+          <p class="au-po__place" memory_type="text" memory_usage="custom" memory_key="portada-lugar">Hacienda Los Olivos · Ciudad de México</p>
+        </header>
+      </div>
+    </div>
+  </div>
+
+  <span class="au-po__cue" aria-hidden="true"></span>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="portada-nombre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      var canvas = root.querySelector('[data-au-sky]');
+      var tilt = root.querySelector('[data-au-tilt]');
+      var ctx = canvas && canvas.getContext ? canvas.getContext('2d') : null;
+
+      root.classList.add('au-po--anim');
+      root.style.setProperty('--au-reveal', '-4%');
+
+      /* ---------- 3D gold motes: manual perspective projection on canvas ---------- */
+      var W = 0, H = 0, DPR = 1, motes = [], bokeh = [], visible = false, running = false, last = 0, t = 0;
+      var FOCAL = 1.1, NEAR = .18, FAR = 1.6;
+      function rand(a, b) { return a + Math.random() * (b - a); }
+      function spawn(m, far) {
+        m.x = rand(-1.4, 1.4); m.y = rand(-1, 1);
+        m.z = far ? rand(1.2, FAR) : rand(NEAR + .1, FAR);
+        m.r = rand(.8, 2.1); m.v = rand(.05, .14); m.w = rand(0, 6.28); m.f = rand(.8, 1.6);
+        return m;
+      }
+      function resize() {
+        DPR = Math.min(2, window.devicePixelRatio || 1);
+        W = root.clientWidth; H = root.clientHeight;
+        canvas.width = Math.max(1, Math.round(W * DPR)); canvas.height = Math.max(1, Math.round(H * DPR));
+        var n = Math.max(60, Math.min(170, Math.round(W * H / 9000)));
+        motes.length = 0; bokeh.length = 0;
+        for (var i = 0; i < n; i++) motes.push(spawn({}, false));
+        for (var j = 0; j < 7; j++) bokeh.push(spawn({}, false));
+      }
+      function gold(a) { return 'rgba(221,182,96,' + a + ')'; }
+      function pale(a) { return 'rgba(248,232,190,' + a + ')'; }
+      function draw(dt) {
+        t += dt;
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        ctx.clearRect(0, 0, W, H);
+        var cx = W / 2, cy = H / 2, half = Math.max(W, H) / 2;
+        /* roaming light sweep */
+        var lx = cx + Math.sin(t * .23) * W * .28, ly = cy + Math.cos(t * .17) * H * .22;
+        var g = ctx.createRadialGradient(lx, ly, 0, lx, ly, half * .9);
+        g.addColorStop(0, gold(.16)); g.addColorStop(.45, gold(.05)); g.addColorStop(1, gold(0));
+        ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+        ctx.globalCompositeOperation = 'lighter';
+        /* bokeh discs (deep layer) */
+        for (var k = 0; k < bokeh.length; k++) {
+          var b = bokeh[k]; b.z -= b.v * dt * .35; if (b.z < NEAR) spawn(b, true);
+          var sb = FOCAL / b.z, bx = cx + b.x * half * sb, by = cy + b.y * half * sb, br = 18 * sb;
+          var bg = ctx.createRadialGradient(bx, by, 0, bx, by, br);
+          var ba = Math.min(.14, (FAR - b.z) / FAR * .14);
+          bg.addColorStop(0, gold(ba)); bg.addColorStop(1, gold(0));
+          ctx.fillStyle = bg; ctx.beginPath(); ctx.arc(bx, by, br, 0, 6.283); ctx.fill();
+        }
+        /* motes drifting toward the camera */
+        for (var i = 0; i < motes.length; i++) {
+          var m = motes[i];
+          m.z -= m.v * dt; m.w += dt * m.f;
+          m.x += Math.sin(m.w) * .00035; m.y += Math.cos(m.w * .7) * .0003;
+          if (m.z < NEAR) spawn(m, true);
+          var s = FOCAL / m.z;
+          var x = cx + m.x * half * s, y = cy + m.y * half * s;
+          if (x < -10 || x > W + 10 || y < -10 || y > H + 10) continue;
+          var depth = Math.max(0, Math.min(1, (FAR - m.z) / (FAR - NEAR)));
+          var a = depth * depth * (.55 + .45 * Math.sin(m.w * 2)) * 1.25;
+          var r = m.r * s * .9;
+          ctx.fillStyle = depth > .7 ? pale(a) : gold(a);
+          ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283); ctx.fill();
+        }
+        ctx.globalCompositeOperation = 'source-over';
+      }
+
+      /* ---------- pointer tilt (preserve-3d parallax) ---------- */
+      var rx = 0, ry = 0, trx = 0, try_ = 0, pointerOn = false;
+      root.addEventListener('pointermove', function (e) {
+        if (e.pointerType === 'touch') return;
+        var r = root.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - .5, py = (e.clientY - r.top) / r.height - .5;
+        try_ = px * 9; trx = -py * 7; pointerOn = true;
+      });
+      root.addEventListener('pointerleave', function () { pointerOn = false; });
+
+      /* ---------- title sweep (JS-driven so it can be slower than .5s) ---------- */
+      var revealStart = 0, revealDone = false, shine = 0, cue = 0;
+      function easeOut(p) { return 1 - Math.pow(1 - p, 3); }
+
+      function frame(now) {
+        if (!running) return;
+        var dt = Math.min(.05, (now - last) / 1000 || .016); last = now;
+        if (ctx) draw(dt);
+        if (!pointerOn) { try_ = Math.sin(t * .5) * 2.2; trx = Math.cos(t * .37) * 1.6; }
+        rx += (trx - rx) * .06; ry += (try_ - ry) * .06;
+        if (tilt) tilt.style.transform = 'rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg)';
+        shine = (shine + dt * 9) % 100;
+        root.style.setProperty('--au-shine', shine.toFixed(1) + '%');
+        cue = (cue + dt * 1.4) % 1;
+        root.style.setProperty('--au-cue', (cue * 44).toFixed(1) + 'px');
+        if (!revealDone && revealStart) {
+          var p = Math.min(1, (now - revealStart) / 1500);
+          root.style.setProperty('--au-reveal', (-4 + 132 * easeOut(p)).toFixed(1) + '%');
+          if (p >= 1) revealDone = true;
+        }
+        requestAnimationFrame(frame);
+      }
+      function run() { if (running || !visible || document.hidden) return; running = true; last = performance.now(); requestAnimationFrame(frame); }
+      function stop() { running = false; }
+
+      var entered = false;
+      function enter(now) {
+        if (entered) return; entered = true;
+        root.classList.add('is-in');
+        revealStart = now + 380;
+        setTimeout(function () {
+          root.classList.remove('au-po--anim', 'is-in');
+          root.style.removeProperty('--au-reveal');
+        }, 2400);
+      }
+
+      if (ctx) { resize(); window.addEventListener('resize', resize); }
+      var io = new IntersectionObserver(function (en) {
+        var e = en[0];
+        visible = e.isIntersecting;
+        if (visible) { if (e.intersectionRatio > .2) enter(performance.now()); run(); } else { stop(); }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+      document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else run(); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Aurum Obsidiana Lujo',
+      descripcion: 'Portada premium: tarjeta de cristal negro con marco 3D que reacciona al cursor, motas de oro proyectadas en perspectiva sobre canvas y título dorado que se revela con un barrido de luz.',
+      tags: ['portada', 'lujo', 'oro', 'cristal', '3d', 'premium', 'quinceañera', 'boda'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

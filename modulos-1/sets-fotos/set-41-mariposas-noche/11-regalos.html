@@ -1,0 +1,229 @@
+<section
+  class="jmre"
+  data-gemini-id="regalos-mariposas"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Parisienne&family=Quicksand:wght@400;500;600;700&display=swap');
+
+    .jmre, .jmre *, .jmre *::before, .jmre *::after { box-sizing: border-box; }
+
+    .jmre {
+      --t-bg: var(--bg-color, #FFF4F8);
+      --t-tx: var(--text-color, #4B1D40);
+      --t-p: var(--primary-color, #D6237A);
+      --t-s: var(--secondary-color, #B79BE4);
+      --t-a: var(--accent-color, #F6BCD3);
+      --t-w: var(--surface-color, #FFFFFF);
+      --t-leaf: var(--leaf-color, #A7C3A1);
+      --t-ink: color-mix(in srgb, var(--t-tx) 78%, #12040e);
+      --t-display: var(--font-script, 'Parisienne', cursive);
+      --t-text: var(--font-heading, 'Quicksand', 'Trebuchet MS', sans-serif);
+      position: relative; isolation: isolate; min-height: clamp(28rem, 60vw, 44rem);
+      display: grid; place-items: center; padding: clamp(4.5rem, 8vw, 6.5rem) clamp(1rem, 5vw, 4rem); overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/gift,pink,roses?lock=3311');
+      background-size: cover; background-position: center; color: var(--t-tx); font-family: var(--t-text);
+    }
+    .jmre::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, color-mix(in srgb, var(--t-a) 55%, var(--t-bg)) 0%, color-mix(in srgb, var(--t-bg) 94%, transparent) 55%); }
+    .jmre__burst { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
+    .jmre__wrap { width: min(100%, 62rem); display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(1.8rem, 5vw, 4rem); align-items: center; }
+    .jmre__gift { position: relative; width: min(100%, 19rem); justify-self: center; aspect-ratio: 1 / 1.08; }
+    .jmre__box { position: absolute; left: 12%; right: 12%; bottom: 14%; height: 52%; }
+    .jmre__base { position: absolute; inset: 18% 0 0; border-radius: .6rem; background: linear-gradient(160deg, var(--t-w), color-mix(in srgb, var(--t-a) 55%, var(--t-w)));
+      box-shadow: 0 1.2rem 2rem color-mix(in srgb, var(--t-ink) 18%, transparent), inset 0 -8px 16px color-mix(in srgb, var(--t-a) 50%, transparent); }
+    .jmre__base::after { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 16%; margin-left: -8%; background: linear-gradient(90deg, color-mix(in srgb, var(--t-p) 80%, #3a0620), var(--t-p), color-mix(in srgb, var(--t-p) 80%, #3a0620)); }
+    .jmre__lid { position: absolute; left: -5%; right: -5%; top: 0; height: 26%; border-radius: .5rem; transform-origin: 8% 100%;
+      background: linear-gradient(160deg, var(--t-w), color-mix(in srgb, var(--t-a) 40%, var(--t-w))); box-shadow: 0 .4rem .8rem color-mix(in srgb, var(--t-ink) 18%, transparent);
+      transition: transform .45s cubic-bezier(.3, 1.5, .5, 1); }
+    .jmre__lid::after { content: ''; position: absolute; top: 0; bottom: 0; left: 50%; width: 15%; margin-left: -7.5%; background: var(--t-p); }
+    .jmre__lid .jmre-bf { --bw: 62%; left: 19%; bottom: 18%; }
+    .jmre[data-opened] .jmre__lid { transform: translateY(-38%) rotate(-16deg); }
+    .jmre__gift .jmre-rosesvg { position: absolute; width: 74%; left: -14%; bottom: 0; }
+    .jmre__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.3rem, 5.5vw, 3.5rem); color: var(--t-p); line-height: 1.15; }
+    .jmre__intro { margin: .5rem 0 0; line-height: 1.65; max-width: 32rem; }
+    .jmre__list { list-style: none; margin: 1.3rem 0 0; padding: 0; display: grid; gap: .8rem; }
+    .jmre__opt { display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: start; padding: .9rem 1.1rem; border-radius: 1.2rem; background: color-mix(in srgb, var(--t-w) 85%, transparent);
+      box-shadow: 0 .5rem 1.2rem color-mix(in srgb, var(--t-ink) 8%, transparent); transition: transform .3s ease; }
+    .jmre__opt:hover { transform: translateX(4px); }
+    .jmre__mk { width: 2.4rem; aspect-ratio: 1; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: radial-gradient(circle at 60% 40%, #fff, var(--t-a) 50%, var(--t-p)); box-shadow: 0 .2rem .4rem color-mix(in srgb, var(--t-ink) 20%, transparent); }
+    .jmre__opt:nth-child(2) .jmre__mk { background: radial-gradient(circle at 60% 40%, #fff, var(--t-s) 55%, color-mix(in srgb, var(--t-s) 60%, #2a1660)); }
+    .jmre__oh { margin: 0; font-size: 1.1rem; font-weight: 700; }
+    .jmre__od { margin: .15rem 0 0; line-height: 1.5; font-size: .97rem; }
+    .jmre__btn { position: relative; display: inline-grid; margin-top: 1.4rem; min-height: 3.3rem; padding: .8rem 2rem; border: 0; border-radius: 999px; cursor: pointer; overflow: hidden;
+      font: inherit; font-weight: 700; font-size: 1.05rem; color: var(--t-w); background: linear-gradient(135deg, var(--t-p), color-mix(in srgb, var(--t-p) 55%, var(--t-s)));
+      box-shadow: 0 .6rem 1.4rem color-mix(in srgb, var(--t-p) 35%, transparent); transition: transform .25s cubic-bezier(.3, 1.5, .5, 1), background-color .3s ease; }
+    .jmre__btn:hover { transform: translateY(-2px) scale(1.02); }
+    .jmre__btn:focus-visible { outline: 3px solid var(--t-s); outline-offset: 3px; }
+    .jmre__btn-a, .jmre__btn-b { grid-area: 1 / 1; display: block; transition: transform .4s cubic-bezier(.3, 1.4, .5, 1), visibility 0s; }
+    .jmre__btn-b { visibility: hidden; transform: translateY(160%); }
+    .jmre__btn[data-state="loading"] .jmre__btn-a { animation: jmre-pulse .45s ease-in-out infinite alternate; }
+    @keyframes jmre-pulse { from { transform: scale(1); } to { transform: scale(.94); } }
+    .jmre__btn[data-state="done"] { cursor: default; background: linear-gradient(135deg, color-mix(in srgb, var(--t-s) 80%, var(--t-p)), var(--t-s)); }
+    .jmre__btn[data-state="done"] .jmre__btn-a { visibility: hidden; transform: translateY(-160%); }
+    .jmre__btn[data-state="done"] .jmre__btn-b { visibility: visible; transform: none; }
+    @media (max-width: 760px) { .jmre__wrap { grid-template-columns: 1fr; } .jmre__gift { width: min(80%, 15rem); } }
+    .jmre--anim .jmre__gift { transform: translateY(3rem) rotate(-6deg) scale(.85); opacity: 0; transition: transform .5s cubic-bezier(.3, 1.4, .5, 1), opacity .35s ease; }
+    .jmre--anim .jmre__opt { clip-path: inset(0 100% 0 0 round 1.2rem); transition: clip-path .45s ease calc(var(--i) * .12s + .3s); }
+    .jmre--anim.is-in .jmre__gift { transform: none; opacity: 1; }
+    .jmre--anim.is-in .jmre__opt { clip-path: inset(0 0 0 0 round 1.2rem); }
+
+    .jmre-bf { position: absolute; width: var(--bw, 6rem); aspect-ratio: 10 / 7; perspective: 34em; pointer-events: none; z-index: 2; }
+    .jmre-bf__in { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateZ(var(--rz, 0deg)) rotateX(var(--rx, 38deg)) rotateY(var(--ry, 0deg)); }
+    .jmre-bf__w { position: absolute; top: 0; width: 50%; height: 100%; }
+    .jmre-bf__w--l { left: 0; transform-origin: 100% 50%; transform: rotateY(calc(var(--f, 24) * 1deg)); }
+    .jmre-bf__w--r { right: 0; transform-origin: 0% 50%; transform: rotateY(calc(var(--f, 24) * -1deg)); }
+    .jmre-bf__w svg { display: block; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 .3em .35em color-mix(in srgb, var(--t-ink) 28%, transparent)); }
+    .jmre-bf__body { position: absolute; left: 50%; top: 28%; width: 5%; height: 48%; margin-left: -2.5%; border-radius: 999px; background: linear-gradient(90deg, #26091f, #7a4a6c 48%, #26091f); transform: translateZ(2px); }
+    .jmre-bf__body::before { content: ''; position: absolute; left: 50%; top: -18%; width: 170%; aspect-ratio: 1; margin-left: -85%; border-radius: 50%; background: #2c0d24; }
+    .jmre-bf__body::after { content: ''; position: absolute; left: 50%; bottom: 112%; width: 560%; height: 40%; margin-left: -280%; background: linear-gradient(to top right, transparent calc(50% - .8px), #2c0d24 calc(50% - .8px), #2c0d24 calc(50% + .8px), transparent calc(50% + .8px)) left / 50% 100% no-repeat, linear-gradient(to top left, transparent calc(50% - .8px), #2c0d24 calc(50% - .8px), #2c0d24 calc(50% + .8px), transparent calc(50% + .8px)) right / 50% 100% no-repeat; }
+    .jmre-sh { fill: color-mix(in srgb, var(--t-ink) 38%, transparent); }
+    .jmre-fm { fill: url(#jmre-gm); }
+    .jmre-fb { fill: url(#jmre-gb); }
+    .jmre-vein { fill: none; stroke: var(--t-ink); stroke-width: 1.3; stroke-linecap: round; opacity: .85; }
+    .jmre-vein--b { opacity: .28; stroke-width: 1; }
+    .jmre-edge { fill: none; stroke: var(--t-ink); stroke-width: 9; stroke-linejoin: round; }
+    .jmre-edge--b { stroke-width: 6; }
+    .jmre-dot { fill: var(--t-w); }
+    .jmre-sheen { fill: url(#jmre-gsh); opacity: var(--s, .35); }
+    .jmre-hl { fill: none; stroke: #fff; stroke-width: 1.4; stroke-linecap: round; opacity: .75; }
+    .jmre-sp { fill: none; stroke-width: 1.3; stroke-linecap: round; }
+    .jmre-sp-p { stroke: color-mix(in srgb, var(--t-p) 62%, #3a0620); }
+    .jmre-sp-a { stroke: color-mix(in srgb, var(--t-p) 55%, var(--t-a)); }
+    .jmre-sp-w { stroke: color-mix(in srgb, var(--t-a) 75%, var(--t-p)); }
+    .jmre-sp-s { stroke: color-mix(in srgb, var(--t-s) 58%, #2a1660); }
+    .jmre-hi { fill: none; stroke: #fff; stroke-width: .7; opacity: .6; }
+    .jmre-leaf { fill: url(#jmre-lf); }
+    .jmre-rib { fill: none; stroke: color-mix(in srgb, var(--t-leaf) 55%, #183018); stroke-width: .8; opacity: .6; }
+    .jmre-rosesvg { display: block; width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 .4rem .6rem color-mix(in srgb, var(--t-ink) 20%, transparent)); }
+    @media (prefers-reduced-motion: reduce) {
+      .jmre *, .jmre *::before, .jmre *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="jmre-defs" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><defs><linearGradient id="jmre-gm" x1="1" y1=".4" x2="0" y2=".6"><stop offset="0" style="stop-color: color-mix(in srgb, var(--t-p) 78%, #2b0a1f)"/><stop offset="0.35" style="stop-color: var(--t-p)"/><stop offset="0.75" style="stop-color: color-mix(in srgb, var(--t-p) 45%, var(--t-a))"/><stop offset="1" style="stop-color: var(--t-a)"/></linearGradient><radialGradient id="jmre-gb" cx=".9" cy=".45" r=".95"><stop offset="0" style="stop-color: color-mix(in srgb, var(--t-s) 35%, white)"/><stop offset="0.45" style="stop-color: var(--t-s)"/><stop offset="0.85" style="stop-color: color-mix(in srgb, var(--t-s) 62%, #2a1660)"/><stop offset="1" style="stop-color: color-mix(in srgb, var(--t-s) 40%, #160b33)"/></radialGradient><linearGradient id="jmre-gsh" x1="0" y1="0" x2=".7" y2="1"><stop offset="0" style="stop-color: #fff; stop-opacity: 0.85"/><stop offset="0.45" style="stop-color: #fff; stop-opacity: 0.08"/><stop offset="1" style="stop-color: #fff; stop-opacity: 0"/></linearGradient><g id="jmre-wm"><path class="jmre-sh" d="M100 66 C84 70 58 76 44 92 C34 106 40 126 58 130 C76 132 92 116 100 96 Z" transform="translate(2.5 3.5)"/><path class="jmre-sh" d="M100 52 C86 30 60 8 18 6 C8 6 2 14 6 24 C14 46 30 62 52 70 C70 74 88 68 100 62 Z" transform="translate(2.5 3.5)"/><path class="jmre-fm" d="M100 66 C84 70 58 76 44 92 C34 106 40 126 58 130 C76 132 92 116 100 96 Z"/><path class="jmre-fm" d="M100 52 C86 30 60 8 18 6 C8 6 2 14 6 24 C14 46 30 62 52 70 C70 74 88 68 100 62 Z"/><path class="jmre-vein" d="M98 56 Q62 28 22 11 M98 57 Q56 36 12 22 M98 58 Q62 46 26 48 M98 60 Q74 66 50 68 M66 34 Q58 46 50 58 M98 70 Q72 78 50 96 M98 72 Q74 96 58 124 M98 74 Q90 100 80 124 M98 71 Q62 88 44 110"/><path class="jmre-edge" d="M100 66 C84 70 58 76 44 92 C34 106 40 126 58 130 C76 132 92 116 100 96 Z"/><path class="jmre-edge" d="M100 52 C86 30 60 8 18 6 C8 6 2 14 6 24 C14 46 30 62 52 70 C70 74 88 68 100 62 Z"/><path class="jmre-dot" d="M59.32 18.16a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM50.04 13.97a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM39.61 10.54a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM28.03 8.13a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM14.63 7.38a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM9.03 9.95a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM5.77 14.66a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM5.40 20.94a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM9.52 31.50a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM13.58 38.68a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM18.29 45.23a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM23.62 51.11a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM29.52 56.32a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM35.95 60.87a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM55.09 18.09a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM45.97 14.14a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM35.46 10.96a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM23.63 8.87a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM13.61 9.62a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM9.23 13.14a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM7.44 18.51a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM8.82 25.15a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM13.90 35.41a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM18.30 41.93a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM23.27 47.75a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM28.73 52.86a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM34.60 57.29a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM40.83 61.14a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM63.09 79.27a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM55.44 83.58a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM48.45 88.68a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM42.01 96.58a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM39.73 105.32a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM40.86 113.99a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM45.23 121.55a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM52.66 126.93a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM62.11 128.53a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM70.98 126.28a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM79.07 121.36a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM60.35 83.29a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM53.74 87.44a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM47.61 92.39a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM42.89 100.82a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM42.21 109.02a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM44.69 116.73a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM50.19 122.89a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM58.47 126.49a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM67.00 125.67a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM74.81 122.13a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM81.75 116.51a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM27.70 17.00a2.3 2.3 0 1 0 4.6 0a2.3 2.3 0 1 0 -4.6 0ZM35.10 15.50a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM23.00 23.00a2 2 0 1 0 4 0a2 2 0 1 0 -4 0ZM32.40 23.00a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0ZM41.70 20.00a1.3 1.3 0 1 0 2.6 0a1.3 1.3 0 1 0 -2.6 0Z"/><path class="jmre-sheen" d="M100 66 C84 70 58 76 44 92 C34 106 40 126 58 130 C76 132 92 116 100 96 Z"/><path class="jmre-sheen" d="M100 52 C86 30 60 8 18 6 C8 6 2 14 6 24 C14 46 30 62 52 70 C70 74 88 68 100 62 Z"/><path class="jmre-hl" d="M98 51 C86 30 60 9 19 7"/></g><radialGradient id="jmre-rp" cx=".42" cy=".38" r=".7"><stop offset="0" style="stop-color: color-mix(in srgb, var(--t-p) 50%, white)"/><stop offset="0.6" style="stop-color: var(--t-p)"/><stop offset="1" style="stop-color: color-mix(in srgb, var(--t-p) 72%, #3a0620)"/></radialGradient><radialGradient id="jmre-ra" cx=".42" cy=".38" r=".7"><stop offset="0" style="stop-color: #fff"/><stop offset="0.55" style="stop-color: var(--t-a)"/><stop offset="1" style="stop-color: color-mix(in srgb, var(--t-a) 65%, var(--t-p))"/></radialGradient><radialGradient id="jmre-rw" cx=".42" cy=".38" r=".7"><stop offset="0" style="stop-color: #fff"/><stop offset="0.7" style="stop-color: color-mix(in srgb, var(--t-w) 90%, var(--t-a))"/><stop offset="1" style="stop-color: color-mix(in srgb, var(--t-a) 60%, white)"/></radialGradient><radialGradient id="jmre-rs" cx=".42" cy=".38" r=".7"><stop offset="0" style="stop-color: color-mix(in srgb, var(--t-s) 40%, white)"/><stop offset="0.6" style="stop-color: var(--t-s)"/><stop offset="1" style="stop-color: color-mix(in srgb, var(--t-s) 70%, #3a2370)"/></radialGradient><linearGradient id="jmre-lf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color: color-mix(in srgb, var(--t-leaf) 70%, white)"/><stop offset="1" style="stop-color: color-mix(in srgb, var(--t-leaf) 72%, #1f3a22)"/></linearGradient></defs></svg>
+  <canvas class="jmre__burst" data-burst aria-hidden="true"></canvas>
+  <div class="jmre__wrap">
+    <div class="jmre__gift" aria-hidden="true">
+      <div class="jmre__box" data-box><span class="jmre__base"></span><span class="jmre__lid"><div class="jmre-bf " data-bf="m" data-sp="0.6" data-base="36" data-amp="26" style="--rx:58deg" aria-hidden="true"><div class="jmre-bf__in"><div class="jmre-bf__w jmre-bf__w--l"><svg viewBox="0 0 100 140" focusable="false"><use href="#jmre-wm"/></svg></div><div class="jmre-bf__w jmre-bf__w--r"><svg viewBox="0 0 100 140" focusable="false"><g transform="matrix(-1 0 0 1 100 0)"><use href="#jmre-wm"/></g></svg></div><span class="jmre-bf__body"></span></div></div></span></div>
+      <svg class="jmre-rosesvg " viewBox="0 0 120 60" aria-hidden="true" focusable="false"><g><g transform="translate(10 40) rotate(-20) scale(1.333)"><path class="jmre-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmre-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(60 46) rotate(10) scale(1.200)"><path class="jmre-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmre-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(100 30) rotate(-40) scale(1.133)"><path class="jmre-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmre-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(36 20) rotate(-150) scale(1.000)"><path class="jmre-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmre-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(96 22) rotate(30) scale(1)"><path class="jmre-leaf" d="M0 6C-5 3 -6 -2 -2 -4L0 2 2 -4C6 -2 5 3 0 6Z"/><path fill="url(#jmre-rs)" d="M0 3C-6 0 -5 -8 0 -13C5 -8 6 0 0 3Z"/><path class="jmre-sp jmre-sp-s" d="M0 2C-2 -3 -1 -8 1 -11"/></g><g transform="translate(40 38) rotate(0) scale(0.900)"><circle cx="12.2" cy="4.4" r="9.5" fill="url(#jmre-ra)"/><circle cx="-0.5" cy="13.0" r="9.5" fill="url(#jmre-ra)"/><circle cx="-12.5" cy="3.6" r="9.5" fill="url(#jmre-ra)"/><circle cx="-7.3" cy="-10.8" r="9.5" fill="url(#jmre-ra)"/><circle cx="8.0" cy="-10.2" r="9.5" fill="url(#jmre-ra)"/><circle r="15.5" fill="url(#jmre-ra)"/><path class="jmre-sp jmre-sp-a" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmre-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmre-sp jmre-sp-a" d="M-15 5 Q0 17 15 5"/></g><g transform="translate(72 30) rotate(30) scale(0.700)"><circle cx="8.4" cy="10.0" r="9.5" fill="url(#jmre-rp)"/><circle cx="-6.9" cy="11.0" r="9.5" fill="url(#jmre-rp)"/><circle cx="-12.6" cy="-3.1" r="9.5" fill="url(#jmre-rp)"/><circle cx="-0.9" cy="-13.0" r="9.5" fill="url(#jmre-rp)"/><circle cx="12.1" cy="-4.9" r="9.5" fill="url(#jmre-rp)"/><circle r="15.5" fill="url(#jmre-rp)"/><path class="jmre-sp jmre-sp-p" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmre-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmre-sp jmre-sp-p" d="M-15 5 Q0 17 15 5"/></g><g transform="translate(20 22) rotate(60) scale(0.550)"><circle cx="2.3" cy="12.8" r="9.5" fill="url(#jmre-rw)"/><circle cx="-11.5" cy="6.1" r="9.5" fill="url(#jmre-rw)"/><circle cx="-9.4" cy="-9.0" r="9.5" fill="url(#jmre-rw)"/><circle cx="5.7" cy="-11.7" r="9.5" fill="url(#jmre-rw)"/><circle cx="12.9" cy="1.8" r="9.5" fill="url(#jmre-rw)"/><circle r="15.5" fill="url(#jmre-rw)"/><path class="jmre-sp jmre-sp-w" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmre-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmre-sp jmre-sp-w" d="M-15 5 Q0 17 15 5"/></g></g></svg>
+    </div>
+    <div>
+      <h2 class="jmre__title" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Mesa de regalos</h2>
+      <p class="jmre__intro" memory_type="text" memory_usage="custom" memory_key="regalos-texto">Tu compañía es mi mejor regalo. Si deseas tener un detalle conmigo, aquí tienes algunas opciones.</p>
+      <ul class="jmre__list">
+        <li class="jmre__opt" style="--i:0"><span class="jmre__mk" aria-hidden="true"></span><div><h3 class="jmre__oh" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-1">Lluvia de sobres</h3><p class="jmre__od" memory_type="text" memory_usage="custom" memory_key="regalos-detalle-1">Tendremos un buzón decorado con rosas el día de la fiesta.</p></div></li>
+        <li class="jmre__opt" style="--i:1"><span class="jmre__mk" aria-hidden="true"></span><div><h3 class="jmre__oh" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-2">Mesa de regalos</h3><p class="jmre__od" memory_type="text" memory_usage="custom" memory_key="regalos-detalle-2">Tienda departamental · Evento 00000000</p></div></li>
+        <li class="jmre__opt" style="--i:2"><span class="jmre__mk" aria-hidden="true"></span><div><h3 class="jmre__oh" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-3">Transferencia</h3><p class="jmre__od" memory_type="text" memory_usage="custom" memory_key="regalos-detalle-3">Te compartiremos los datos al confirmar tu asistencia.</p></div></li>
+      </ul>
+      <button class="jmre__btn" type="button" data-gift aria-live="polite"><span class="jmre__btn-a" memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span><span class="jmre__btn-b" memory_type="text" memory_usage="custom" memory_key="regalos-confirmado">¡Regalo agendado, gracias!</span></button>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="regalos-mariposas"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var IO = 'IntersectionObserver' in window;
+      var bfs = [].slice.call(root.querySelectorAll('[data-bf]'));
+      /* Wing flap: data-* driven, writes only CSS custom properties */
+      function flap(t) {
+        for (var i = 0; i < bfs.length; i++) {
+          var b = bfs[i], sp = +(b.getAttribute('data-sp') || 1), base = +(b.getAttribute('data-base') || 24), amp = +(b.getAttribute('data-amp') || 40);
+          var ph = t * 0.006 * sp + i * 1.9;
+          b.style.setProperty('--f', (base + amp * Math.sin(ph)).toFixed(1));
+          b.style.setProperty('--s', (0.2 + 0.55 * Math.abs(Math.cos(ph))).toFixed(2));
+        }
+      }
+      /* Continuous motion: one rAF loop, paused off-screen and on hidden tabs */
+      function loop(fn) {
+        if (!IO) return;
+        var vis = false, raf = 0;
+        function tick(t) { raf = 0; if (!vis || document.hidden) return; fn(t); raf = requestAnimationFrame(tick); }
+        function go() { if (!raf && vis && !document.hidden) raf = requestAnimationFrame(tick); }
+        new IntersectionObserver(function (en) { vis = en[0].isIntersecting; go(); }).observe(root);
+        document.addEventListener('visibilitychange', go);
+      }
+      var btn = root.querySelector('[data-gift]'), box = root.querySelector('[data-box]'), cv = root.querySelector('[data-burst]');
+      var ctx = cv && cv.getContext ? cv.getContext('2d') : null;
+      var FWp = { m: new Path2D('M100 52 C86 30 60 8 18 6 C8 6 2 14 6 24 C14 46 30 62 52 70 C70 74 88 68 100 62 Z'), b: new Path2D('M100 50 C80 22 46 4 14 10 C4 12 0 26 8 36 C20 56 52 70 100 64 Z') };
+      var HWp = { m: new Path2D('M100 66 C84 70 58 76 44 92 C34 106 40 126 58 130 C76 132 92 116 100 96 Z'), b: new Path2D('M100 66 C74 68 40 80 30 100 C24 116 40 134 62 132 C82 130 96 110 100 94 Z') };
+      /* Canvas butterfly: same wing geometry as the SVG ones, foreshortened by the flap angle */
+      function drawBf(ctx, C, k, x, y, s, ang, flp, alpha) {
+        var q = .12 + .88 * Math.abs(Math.cos(flp));
+        ctx.save(); ctx.translate(x, y); ctx.rotate(ang); ctx.scale(s, s);
+        for (var side = -1; side <= 1; side += 2) {
+          ctx.save(); ctx.scale(side < 0 ? q : -q, 1); ctx.translate(-100, -74);
+          ctx.globalAlpha = alpha; ctx.fillStyle = k === 'm' ? C.p : C.s; ctx.fill(HWp[k]); ctx.fill(FWp[k]);
+          ctx.save(); ctx.translate(100, 70); ctx.scale(.6, .6); ctx.translate(-100, -70);
+          ctx.globalAlpha = alpha * (k === 'm' ? .55 : .4); ctx.fillStyle = k === 'm' ? C.a : C.w; ctx.fill(HWp[k]); ctx.fill(FWp[k]); ctx.restore();
+          ctx.globalAlpha = alpha; ctx.lineWidth = k === 'm' ? 8 : 6; ctx.lineJoin = 'round'; ctx.strokeStyle = C.tx; ctx.stroke(HWp[k]); ctx.stroke(FWp[k]);
+          ctx.restore();
+        }
+        ctx.globalAlpha = alpha; ctx.fillStyle = C.tx; ctx.beginPath(); ctx.ellipse(0, 0, 4.5, 27, 0, 0, 6.2832); ctx.fill();
+        ctx.restore();
+      }
+      function cssv(n, d) { var v = getComputedStyle(root).getPropertyValue(n).trim(); return v || d; }
+      /* Confirmation state: butterflies burst out of the gift box (canvas, rAF, ~2s) */
+      function burst() {
+        if (!ctx || !box) return;
+        var R = root.getBoundingClientRect(), B = box.getBoundingClientRect(), DPR = Math.min(2, window.devicePixelRatio || 1);
+        cv.width = Math.round(R.width * DPR); cv.height = Math.round(R.height * DPR);
+        var C = { p: cssv('--t-p', '#D6237A'), s: cssv('--t-s', '#B79BE4'), a: cssv('--t-a', '#F6BCD3'), w: cssv('--t-w', '#FFFFFF'), tx: cssv('--t-tx', '#4B1D40') };
+        var ox = B.left - R.left + B.width / 2, oy = B.top - R.top + B.height * .15, parts = [];
+        for (var i = 0; i < 16; i++) {
+          var ang = -Math.PI / 2 + (Math.random() - .5) * 2.2, sp = .18 + Math.random() * .22;
+          parts.push({ k: i % 3 ? 'm' : 'b', vx: Math.cos(ang) * sp, vy: Math.sin(ang) * sp, s: .1 + Math.random() * .12, ph: Math.random() * 6, fs: .03 + Math.random() * .02, a: ang + Math.PI / 2, wob: Math.random() * 6 });
+        }
+        var t0 = performance.now();
+        (function step(t) {
+          var e = t - t0, p = e / 2200;
+          ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.clearRect(0, 0, R.width, R.height);
+          if (p >= 1) return;
+          parts.forEach(function (q) {
+            var x = ox + q.vx * e + Math.sin(e * .004 + q.wob) * 18, y = oy + q.vy * e - e * e * .00002;
+            drawBf(ctx, C, q.k, x, y, q.s * (1 + p * .6), q.a + Math.sin(e * .003 + q.wob) * .3, e * q.fs + q.ph, Math.min(1, (1 - p) * 1.6));
+          });
+          requestAnimationFrame(step);
+        })(t0);
+      }
+      if (btn) btn.addEventListener('click', function () {
+        if (btn.getAttribute('data-state')) return;
+        btn.setAttribute('data-state', 'loading');
+        setTimeout(function () {
+          btn.setAttribute('data-state', 'done'); btn.setAttribute('aria-disabled', 'true');
+          root.setAttribute('data-opened', '');
+          if (!RM) burst();
+        }, 900);
+      });
+      if (RM || !IO) return;   /* reduced motion = static final state */
+      root.classList.add('jmre--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect(); root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('jmre--anim', 'is-in'); }, 1300);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+      loop(flap);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-mariposas',
+      style_name: 'Jardín de Mariposas',
+      descripcion: 'Mesa de regalos con caja de obsequio cuyo moño es una mariposa monarca en 3D; al agendar regalo la tapa se abre y un enjambre de mariposas sale volando en canvas.',
+      tags: ['regalos', 'mesa de regalos', 'quinceañera', 'mariposas', 'rosas'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>

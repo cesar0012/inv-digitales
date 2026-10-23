@@ -1,0 +1,308 @@
+<section
+  class="be-ves"
+  data-gemini-id="vestimenta-bosque"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Ballet&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .be-ves, .be-ves *, .be-ves *::before, .be-ves *::after { box-sizing: border-box; }
+    .be-ves {
+      --t-bg: var(--bg-color, #F3F5EA);
+      --t-tx: var(--text-color, #24483B);
+      --t-p: var(--primary-color, #2F7A5A);
+      --t-s: var(--secondary-color, #7D9A58);
+      --t-a: var(--accent-color, #C9A447);
+      --t-l: var(--lilac-color, #B8A2DA);
+      --t-display: var(--font-script, 'Ballet', cursive);
+      --t-text: var(--font-heading, 'EB Garamond', Georgia, serif);
+      --be-dress: var(--t-p);
+      --be-next: var(--t-p);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/forest,garden,elegant?lock=3421');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .be-ves::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 40% 55% at 28% 55%, color-mix(in srgb, var(--t-a) 16%, transparent), transparent),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 90%, transparent), color-mix(in srgb, color-mix(in srgb, var(--t-bg) 86%, var(--t-s)) 94%, transparent));
+    }
+    .be-ves__wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: clamp(2rem, 6vw, 5rem);
+      align-items: center;
+      width: min(100%, 62rem);
+    }
+
+    .be-ves__mirror {
+      position: relative;
+      justify-self: center;
+      width: min(100%, 24rem);
+      aspect-ratio: 4 / 5;
+      border-radius: 999px 999px 1.4rem 1.4rem;
+      background: radial-gradient(ellipse 70% 60% at 50% 40%, color-mix(in srgb, var(--t-bg) 70%, #fff), color-mix(in srgb, var(--t-bg) 82%, var(--t-s)));
+      box-shadow: 0 0 0 7px color-mix(in srgb, var(--t-bg) 70%, transparent), 0 0 0 8px color-mix(in srgb, var(--t-a) 50%, transparent), 0 40px 70px -40px color-mix(in srgb, var(--t-p) 80%, transparent);
+    }
+    .be-ves__figs { position: absolute; inset: 8% 6% 4%; }
+    .be-ves__figs svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+    .be-ves__bloom { position: absolute; inset: 0; clip-path: circle(0% at 50% 100%); }
+    .be-ves__bloom[data-be-on] { clip-path: circle(150% at 50% 100%); transition: clip-path .5s cubic-bezier(.5, 0, .3, 1); }
+    .be-ves-gown { fill: var(--be-dress); }
+    .be-ves__bloom .be-ves-gown { fill: var(--be-next); }
+    .be-ves-gown-hi { fill: rgba(255, 255, 255, .22); }
+    .be-ves-line { fill: none; stroke: color-mix(in srgb, var(--t-tx) 55%, transparent); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+    .be-ves-suit { fill: color-mix(in srgb, var(--t-bg) 55%, var(--t-s)); }
+    .be-ves-shirt { fill: color-mix(in srgb, var(--t-bg) 85%, #fff); }
+    .be-ves-skin { fill: color-mix(in srgb, var(--t-bg) 60%, var(--t-a)); }
+    .be-ves-tiara { fill: var(--t-a); }
+    .be-ves__tag {
+      position: absolute;
+      left: 50%;
+      bottom: -1.1rem;
+      transform: translateX(-50%);
+      padding: .3rem 1rem;
+      border-radius: 999px;
+      background: var(--t-bg);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-a) 55%, transparent);
+      font-style: italic;
+      font-size: 1rem;
+      white-space: nowrap;
+      color: var(--t-p);
+    }
+
+    .be-ves__kicker { margin: 0 0 .3rem; font-style: italic; font-size: 1.15rem; color: var(--t-p); }
+    .be-ves__title { margin: 0 0 .4rem; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.8rem, 5.2vw, 3.9rem); line-height: 1.22; color: var(--t-p); }
+    .be-ves__code { margin: 0 0 .6rem; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 500; line-height: 1.2; }
+    .be-ves__desc { margin: 0 0 1.4rem; font-size: 1.1rem; line-height: 1.6; max-width: 30rem; }
+    .be-ves__hint { margin: 0 0 .7rem; font-style: italic; font-size: 1rem; color: var(--t-p); }
+    .be-ves__swatches { display: flex; flex-wrap: wrap; gap: .8rem; margin: 0 0 1.4rem; padding: 0; list-style: none; }
+    .be-ves__drop {
+      position: relative;
+      width: 3.3rem;
+      height: 3.3rem;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      justify-content: center;
+      border: 0;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      background: var(--sw);
+      cursor: pointer;
+      box-shadow: inset -4px 4px 8px rgba(255, 255, 255, .35), inset 3px -3px 8px rgba(0, 0, 0, .08), 0 8px 16px -10px color-mix(in srgb, var(--t-p) 80%, transparent);
+      transition: transform .35s cubic-bezier(.3, 1.5, .5, 1), box-shadow .3s ease;
+    }
+    .be-ves__drop::after {
+      content: '';
+      position: absolute;
+      left: 26%;
+      top: 22%;
+      width: 22%;
+      height: 22%;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .7);
+    }
+    .be-ves__drop:hover, .be-ves__drop:focus-visible { outline: none; transform: rotate(-45deg) scale(1.1); }
+    .be-ves__drop[aria-pressed="true"] { transform: rotate(-45deg) scale(1.12); box-shadow: 0 0 0 3px var(--t-bg), 0 0 0 4.5px var(--t-a), 0 0 18px color-mix(in srgb, var(--t-a) 60%, transparent); }
+    .be-ves__drop[data-be-reserved] { cursor: not-allowed; }
+    .be-ves__drop[data-be-reserved]::before {
+      content: '';
+      position: absolute;
+      inset: 46% -8%;
+      background: var(--t-bg);
+      transform: rotate(90deg);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--t-a) 60%, transparent);
+    }
+    .be-ves__notes { display: grid; gap: .55rem; margin: 0; padding: 0; list-style: none; }
+    .be-ves__notes li { padding-left: 1.6rem; position: relative; font-size: 1.06rem; line-height: 1.45; }
+    .be-ves__notes li::before { content: '✦'; position: absolute; left: 0; top: .05em; color: var(--t-a); }
+
+    .be-ves--anim .be-ves__mirror { opacity: 0; transform: scale(.95); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .be-ves--anim.is-in .be-ves__mirror { opacity: 1; transform: none; }
+    .be-ves--anim .be-ves__drop { opacity: 0; transform: rotate(-45deg) scale(0); }
+    .be-ves--anim.is-in .be-ves__drop { opacity: 1; transform: rotate(-45deg); transition-delay: calc(var(--k) * 70ms + .3s); }
+    .be-ves--anim .be-ves__text > :not(.be-ves__swatches) { opacity: 0; transition: opacity .45s ease; }
+    .be-ves--anim.is-in .be-ves__text > :not(.be-ves__swatches) { opacity: 1; transition-delay: .15s; }
+
+    @media (max-width: 780px) {
+      .be-ves__wrap { grid-template-columns: minmax(0, 1fr); }
+      .be-ves__mirror { width: min(100%, 18rem); }
+      .be-ves__text { text-align: center; }
+      .be-ves__desc { margin-left: auto; margin-right: auto; }
+      .be-ves__swatches { justify-content: center; }
+      .be-ves__notes { text-align: left; max-width: 24rem; margin: 0 auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .be-ves *, .be-ves *::before, .be-ves *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="be-ves__wrap">
+    <div class="be-ves__mirror" data-be-mirror>
+      <div class="be-ves__figs" aria-hidden="true">
+        <svg viewBox="0 0 300 360" data-be-base focusable="false">
+          <g transform="translate(18 0)">
+            <circle class="be-ves-skin" cx="88" cy="58" r="17"/>
+            <path class="be-ves-tiara" d="M74 42 L78 33 L83 40 L88 30 L93 40 L98 33 L102 42 Z"/>
+            <path class="be-ves-gown" d="M76 82 C 80 76 96 76 100 82 L 104 128 C 140 190 170 280 176 350 L 0 350 C 6 280 36 190 72 128 Z"/>
+            <path class="be-ves-gown-hi" d="M84 130 C 70 200 56 280 52 348 L 74 348 C 78 280 84 200 90 130 Z"/>
+            <path class="be-ves-line" d="M72 128 C 82 136 94 136 104 128 M40 250 C 70 262 110 262 140 250"/>
+          </g>
+          <g transform="translate(176 0)">
+            <circle class="be-ves-skin" cx="62" cy="52" r="16"/>
+            <path class="be-ves-suit" d="M30 84 C 40 74 84 74 94 84 L 104 200 L 96 350 L 70 350 L 64 230 L 60 230 L 54 350 L 28 350 L 20 200 Z"/>
+            <path class="be-ves-shirt" d="M50 78 L 62 120 L 74 78 Z"/>
+            <path class="be-ves-gown" d="M58 86 L 66 86 L 68 118 L 62 128 L 56 118 Z"/>
+            <path class="be-ves-gown" d="M80 110 L 92 108 L 92 116 L 80 118 Z"/>
+            <path class="be-ves-line" d="M50 78 L 62 150 L 74 78 M62 150 L 62 220"/>
+          </g>
+        </svg>
+        <div class="be-ves__bloom" data-be-bloom>
+          <svg viewBox="0 0 300 360" focusable="false">
+            <g transform="translate(18 0)">
+              <circle class="be-ves-skin" cx="88" cy="58" r="17"/>
+              <path class="be-ves-tiara" d="M74 42 L78 33 L83 40 L88 30 L93 40 L98 33 L102 42 Z"/>
+              <path class="be-ves-gown" d="M76 82 C 80 76 96 76 100 82 L 104 128 C 140 190 170 280 176 350 L 0 350 C 6 280 36 190 72 128 Z"/>
+              <path class="be-ves-gown-hi" d="M84 130 C 70 200 56 280 52 348 L 74 348 C 78 280 84 200 90 130 Z"/>
+              <path class="be-ves-line" d="M72 128 C 82 136 94 136 104 128 M40 250 C 70 262 110 262 140 250"/>
+            </g>
+            <g transform="translate(176 0)">
+              <circle class="be-ves-skin" cx="62" cy="52" r="16"/>
+              <path class="be-ves-suit" d="M30 84 C 40 74 84 74 94 84 L 104 200 L 96 350 L 70 350 L 64 230 L 60 230 L 54 350 L 28 350 L 20 200 Z"/>
+              <path class="be-ves-shirt" d="M50 78 L 62 120 L 74 78 Z"/>
+              <path class="be-ves-gown" d="M58 86 L 66 86 L 68 118 L 62 128 L 56 118 Z"/>
+              <path class="be-ves-gown" d="M80 110 L 92 108 L 92 116 L 80 118 Z"/>
+              <path class="be-ves-line" d="M50 78 L 62 150 L 74 78 M62 150 L 62 220"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <span class="be-ves__tag" data-be-tag aria-live="polite">Esmeralda</span>
+    </div>
+
+    <div class="be-ves__text">
+      <p class="be-ves__kicker" memory_type="text" memory_usage="custom" memory_key="vestimenta-intro">Viste los colores del bosque</p>
+      <h2 class="be-ves__title" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Código de vestimenta</h2>
+      <p class="be-ves__code" memory_type="text" memory_usage="custom" memory_key="vestimenta-codigo">Formal de jardín</p>
+      <p class="be-ves__desc" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">Inspírate en esmeraldas, musgos y destellos dorados. Toca una gota de rocío para ver cada tono.</p>
+      <p class="be-ves__hint" memory_type="text" memory_usage="custom" memory_key="vestimenta-paleta">Paleta sugerida</p>
+      <ul class="be-ves__swatches" data-be-swatches
+          data-be-palette='[{"n":"Esmeralda","v":"--t-p"},{"n":"Musgo","v":"--t-s"},{"n":"Oro de hada","v":"--t-a"},{"n":"Salvia","c":"#A9BFA0"},{"n":"Champán","c":"#E4D6B2"},{"n":"Lila, reservado para la quinceañera","v":"--t-l","r":1}]'></ul>
+      <ul class="be-ves__notes">
+        <li memory_type="text" memory_usage="custom" memory_key="vestimenta-ellas">Ellas: vestido largo o midi en telas ligeras.</li>
+        <li memory_type="text" memory_usage="custom" memory_key="vestimenta-ellos">Ellos: traje claro con corbata en tonos de bosque.</li>
+        <li memory_type="text" memory_usage="custom" memory_key="vestimenta-reservado">El lila brilla solo en la quinceañera esa noche.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="vestimenta-bosque"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* ---- swatches are generated from data-be-palette (theme variables or fixed colours) ---- */
+      var list = root.querySelector('[data-be-swatches]');
+      var bloom = root.querySelector('[data-be-bloom]');
+      var tag = root.querySelector('[data-be-tag]');
+      var pal = [];
+      try { pal = JSON.parse(list.getAttribute('data-be-palette') || '[]'); } catch (e) { pal = []; }
+      var cs = getComputedStyle(root);
+      var btns = [];
+      pal.forEach(function (sw, k) {
+        var col = sw.v ? (cs.getPropertyValue(sw.v).trim() || '#2F7A5A') : sw.c;
+        var li = document.createElement('li');
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'be-ves__drop';
+        b.style.setProperty('--sw', col);
+        b.style.setProperty('--k', k);
+        b.setAttribute('aria-label', sw.n);
+        b.setAttribute('title', sw.n);
+        if (sw.r) { b.setAttribute('data-be-reserved', ''); b.setAttribute('aria-disabled', 'true'); }
+        else b.setAttribute('aria-pressed', k === 0 ? 'true' : 'false');
+        b.addEventListener('click', function () { if (!sw.r) pick(b, col, sw.n); else flash(sw.n); });
+        li.appendChild(b); list.appendChild(li); btns.push(b);
+      });
+
+      /* ---- radial bloom: new colour grows from the hem upward (≤ .5s), then becomes the base ---- */
+      var busy = false, tagTimer = 0, lastName = pal.length ? pal[0].n : '';
+      function pick(b, col, name) {
+        if (busy) return;
+        btns.forEach(function (x) { if (!x.hasAttribute('data-be-reserved')) x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+        tag.textContent = name; lastName = name;
+        if (RM) { root.style.setProperty('--be-dress', col); return; }
+        busy = true;
+        root.style.setProperty('--be-next', col);
+        bloom.setAttribute('data-be-on', '');
+        setTimeout(function () {
+          root.style.setProperty('--be-dress', col);
+          bloom.removeAttribute('data-be-on');
+          busy = false;
+        }, 520);
+      }
+      function flash(name) {
+        clearTimeout(tagTimer);
+        tag.textContent = name;
+        tagTimer = setTimeout(function () { tag.textContent = lastName; }, 1800);
+      }
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      root.classList.add('be-ves--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('be-ves--anim', 'is-in'); }, 1500);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+
+      /* the gown sways gently in the mirror — rAF, paused off-screen */
+      var figs = root.querySelector('.be-ves__figs');
+      var vis = false, running = false;
+      new IntersectionObserver(function (en) { vis = en[0].isIntersecting; go(); }).observe(root);
+      document.addEventListener('visibilitychange', go);
+      function go() { if (!running && vis && !document.hidden) { running = true; requestAnimationFrame(loop); } }
+      function loop(t) {
+        if (!vis || document.hidden) { running = false; return; }
+        figs.style.transform = 'translateY(' + (Math.sin(t * .0012) * 3).toFixed(2) + 'px) rotate(' + (Math.sin(t * .0009) * .6).toFixed(2) + 'deg)';
+        requestAnimationFrame(loop);
+      }
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-bosque',
+      style_name: 'Bosque Encantado Gotas de Color',
+      descripcion: 'Código de vestimenta formal de jardín con paleta en gotas de rocío generadas en JS; al tocar una, el color florece sobre las siluetas del espejo en arco.',
+      tags: ['vestimenta', 'bosque encantado', 'quinceañera', 'paleta', 'dress code'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

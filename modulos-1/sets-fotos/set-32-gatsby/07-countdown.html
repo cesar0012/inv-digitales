@@ -1,0 +1,289 @@
+<section
+  class="gzcd"
+  data-gemini-id="countdown-gatsby"
+  data-countdown-target="2027-05-15T19:00:00"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poiret+One&family=Josefin+Sans:wght@300;400;600&display=swap');
+
+    .gzcd, .gzcd *, .gzcd *::before, .gzcd *::after { box-sizing: border-box; }
+    .gzcd {
+      --t-bg: var(--bg-color, #07080a);
+      --t-tx: var(--text-color, #f4ecd8);
+      --t-p: var(--primary-color, #d4af37);
+      --t-s: var(--secondary-color, #f1d98a);
+      --t-a: var(--accent-color, #0e7a57);
+      --t-display: var(--font-script, 'Poiret One', 'Didot', serif);
+      --t-text: var(--font-heading, 'Josefin Sans', 'Futura', sans-serif);
+      --gzcd-foil: linear-gradient(180deg, var(--t-s), var(--t-p) 50%, color-mix(in srgb, var(--t-p) 55%, #000));
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 55vw, 42rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4.5rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/theater,marquee,lights?lock=3171');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .gzcd::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        repeating-conic-gradient(from -90deg at 50% 110%, color-mix(in srgb, var(--t-p) 8%, transparent) 0deg .8deg, transparent .8deg 6deg),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 84%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent));
+    }
+    .gzcd__sign { position: relative; width: min(100%, 58rem); padding-top: 2.6rem; }
+    /* Stepped crown above the sign */
+    .gzcd__crown {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: min(60%, 22rem);
+      height: 2.8rem;
+      transform: translateX(-50%);
+      background: var(--gzcd-foil);
+      clip-path: polygon(0 100%, 0 70%, 12% 70%, 12% 45%, 24% 45%, 24% 22%, 38% 22%, 38% 0, 62% 0, 62% 22%, 76% 22%, 76% 45%, 88% 45%, 88% 70%, 100% 70%, 100% 100%);
+    }
+    .gzcd__crown::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 30%;
+      width: 14px;
+      height: 14px;
+      transform: translate(-50%, 0) rotate(45deg);
+      background: var(--t-a);
+    }
+    .gzcd__marquee {
+      position: relative;
+      padding: clamp(2.6rem, 5vw, 3.6rem) clamp(1.4rem, 5vw, 3.6rem);
+      background: linear-gradient(180deg, #0b0b0d, var(--t-bg));
+      border: 3px solid var(--t-p);
+      box-shadow:
+        inset 0 0 0 12px color-mix(in srgb, var(--t-p) 18%, var(--t-bg)),
+        inset 0 0 0 13px var(--t-p),
+        0 0 0 6px var(--t-bg), 0 0 0 7px color-mix(in srgb, var(--t-p) 60%, transparent),
+        0 30px 80px rgba(0, 0, 0, .6);
+    }
+    .gzcd__bulbs { position: absolute; inset: 0; pointer-events: none; }
+    .gzcd__bulb {
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      margin: -4.5px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fffbe8, var(--t-s) 45%, var(--t-p));
+      box-shadow: 0 0 8px 2px color-mix(in srgb, var(--t-s) 75%, transparent);
+      transition: opacity .12s linear;
+    }
+    .gzcd__bulb.is-off { opacity: .22; box-shadow: none; }
+
+    .gzcd__inner { position: relative; display: grid; gap: clamp(1.2rem, 3vw, 2rem); justify-items: center; }
+    .gzcd__kicker { margin: 0; font-weight: 300; font-size: clamp(1rem, 2vw, 1.2rem); color: var(--t-s); }
+    .gzcd__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(2.1rem, 5vw, 3.4rem);
+      line-height: 1.05;
+      color: var(--t-p);
+      background: var(--gzcd-foil);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .gzcd__units { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: clamp(.4rem, 1.6vw, 1.2rem); }
+    .gzcd__unit {
+      position: relative;
+      display: grid;
+      gap: .4rem;
+      min-width: clamp(4.6rem, 12vw, 7.6rem);
+      padding: 1rem .6rem .8rem;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-a) 25%, var(--t-bg)), var(--t-bg));
+      border: 1px solid color-mix(in srgb, var(--t-p) 70%, transparent);
+      clip-path: polygon(10px 0, calc(100% - 10px) 0, calc(100% - 10px) 6px, 100% 6px, 100% calc(100% - 6px), calc(100% - 10px) calc(100% - 6px), calc(100% - 10px) 100%, 10px 100%, 10px calc(100% - 6px), 0 calc(100% - 6px), 0 6px, 10px 6px);
+      perspective: 400px;
+    }
+    .gzcd__num {
+      display: block;
+      font-family: var(--t-display);
+      font-size: clamp(2.4rem, 6.4vw, 4.4rem);
+      line-height: 1;
+      color: var(--t-p);
+      background: var(--gzcd-foil);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transform-origin: 50% 50%;
+      font-variant-numeric: tabular-nums;
+    }
+    .gzcd__num[data-gzcd-flip] { animation: gzcd-flip .4s cubic-bezier(.3, 1.4, .5, 1); }
+    .gzcd__label { font-size: clamp(.85rem, 1.6vw, 1rem); font-weight: 400; color: var(--t-tx); }
+    .gzcd__sep { width: 8px; height: 8px; transform: rotate(45deg); background: var(--t-p); flex: none; }
+    .gzcd__date { font-family: var(--t-display); font-size: clamp(1.3rem, 2.8vw, 1.8rem); color: var(--t-s); }
+
+    @keyframes gzcd-flip {
+      0% { transform: rotateX(-90deg); opacity: .2; }
+      100% { transform: rotateX(0deg); opacity: 1; }
+    }
+
+    /* Entrance: the sign powers on from the center line */
+    .gzcd--anim .gzcd__marquee { transform: scaleY(.04); transition: transform .5s cubic-bezier(.65, 0, .25, 1); }
+    .gzcd--anim .gzcd__inner { opacity: 0; transition: opacity .4s ease .4s; }
+    .gzcd--anim .gzcd__crown { transform: translate(-50%, 2.6rem) scaleY(0); transition: transform .45s cubic-bezier(.2, .8, .2, 1) .35s; }
+    .gzcd--anim.is-in .gzcd__marquee { transform: none; }
+    .gzcd--anim.is-in .gzcd__inner { opacity: 1; }
+    .gzcd--anim.is-in .gzcd__crown { transform: translateX(-50%); }
+
+    @media (max-width: 560px) {
+      .gzcd__sep { display: none; }
+      .gzcd__units { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .gzcd *, .gzcd *::before, .gzcd *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="gzcd__sign">
+    <span class="gzcd__crown" aria-hidden="true"></span>
+    <div class="gzcd__marquee">
+      <span class="gzcd__bulbs" data-gzcd-bulbs aria-hidden="true"></span>
+      <div class="gzcd__inner">
+        <p class="gzcd__kicker" memory_type="text" memory_usage="custom" memory_key="countdown-intro">Esta noche, en función de gala</p>
+        <h2 class="gzcd__title" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Falta poco para el gran baile</h2>
+        <div class="gzcd__units" role="timer" aria-live="off">
+          <div class="gzcd__unit">
+            <span class="gzcd__num" data-countdown-unit="days">000</span>
+            <span class="gzcd__label" memory_type="text" memory_usage="custom" memory_key="countdown-label-dias">Días</span>
+          </div>
+          <span class="gzcd__sep" aria-hidden="true"></span>
+          <div class="gzcd__unit">
+            <span class="gzcd__num" data-countdown-unit="hours">00</span>
+            <span class="gzcd__label" memory_type="text" memory_usage="custom" memory_key="countdown-label-horas">Horas</span>
+          </div>
+          <span class="gzcd__sep" aria-hidden="true"></span>
+          <div class="gzcd__unit">
+            <span class="gzcd__num" data-countdown-unit="minutes">00</span>
+            <span class="gzcd__label" memory_type="text" memory_usage="custom" memory_key="countdown-label-minutos">Minutos</span>
+          </div>
+          <span class="gzcd__sep" aria-hidden="true"></span>
+          <div class="gzcd__unit">
+            <span class="gzcd__num" data-countdown-unit="seconds">00</span>
+            <span class="gzcd__label" memory_type="text" memory_usage="custom" memory_key="countdown-label-segundos">Segundos</span>
+          </div>
+        </div>
+        <time class="gzcd__date" datetime="2027-05-15T19:00" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Sábado 15 de mayo de 2027 · 7:00 p. m.</time>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="countdown-gatsby"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* ---- Countdown (required contract) ---- */
+      var units = {};
+      ['days', 'hours', 'minutes', 'seconds'].forEach(function (u) { units[u] = root.querySelector('[data-countdown-unit="' + u + '"]'); });
+      function pad(n) { return n < 10 ? '0' + n : String(n); }
+      function setUnit(el, val) {
+        if (!el || el.textContent === val) return;
+        el.textContent = val;
+        if (!RM) { el.removeAttribute('data-gzcd-flip'); void el.offsetWidth; el.setAttribute('data-gzcd-flip', ''); }
+      }
+      function updateCountdown() {
+        var target = new Date(root.getAttribute('data-countdown-target')).getTime();
+        var diff = Math.max(0, (isNaN(target) ? 0 : target) - Date.now());
+        var d = Math.floor(diff / 86400000);
+        var h = Math.floor(diff % 86400000 / 3600000);
+        var m = Math.floor(diff % 3600000 / 60000);
+        var s = Math.floor(diff % 60000 / 1000);
+        setUnit(units.days, d < 100 ? pad(d) : String(d));
+        setUnit(units.hours, pad(h));
+        setUnit(units.minutes, pad(m));
+        setUnit(units.seconds, pad(s));
+      }
+      window.updateCountdown = updateCountdown;
+      if (window.__countdownIntervals) { window.__countdownIntervals.forEach(function (id) { clearInterval(id); }); }
+      window.__countdownIntervals = [];
+      updateCountdown();
+      window.__countdownIntervals.push(setInterval(updateCountdown, 1000));
+
+      /* ---- Marquee bulbs around the sign ---- */
+      var box = root.querySelector('[data-gzcd-bulbs]');
+      var bulbs = [];
+      function layout() {
+        if (!box) return;
+        var w = box.clientWidth, h = box.clientHeight;
+        if (!w || !h) return;
+        var inset = 6, gap = w < 500 ? 26 : 32;
+        var W = w - inset * 2, H = h - inset * 2, per = 2 * (W + H), n = Math.max(12, Math.round(per / gap));
+        while (bulbs.length < n) { var b = document.createElement('span'); b.className = 'gzcd__bulb'; box.appendChild(b); bulbs.push(b); }
+        while (bulbs.length > n) bulbs.pop().remove();
+        for (var i = 0; i < n; i++) {
+          var d = i / n * per, x, y;
+          if (d < W) { x = d; y = 0; }
+          else if (d < W + H) { x = W; y = d - W; }
+          else if (d < 2 * W + H) { x = W - (d - W - H); y = H; }
+          else { x = 0; y = H - (d - 2 * W - H); }
+          bulbs[i].style.left = (x + inset) + 'px';
+          bulbs[i].style.top = (y + inset) + 'px';
+        }
+      }
+      layout();
+      if ('ResizeObserver' in window && box) new ResizeObserver(layout).observe(box);
+      else window.addEventListener('resize', layout);
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      var visible = false, raf = 0, last = 0, step = 0;
+      function chase(t) {
+        raf = 0;
+        if (!visible || document.hidden) return;
+        if (t - last > 150) {
+          last = t; step++;
+          for (var i = 0; i < bulbs.length; i++) bulbs[i].classList.toggle('is-off', (i + step) % 4 === 0);
+        }
+        raf = requestAnimationFrame(chase);
+      }
+      new IntersectionObserver(function (en) { visible = en[0].isIntersecting; if (visible && !raf) raf = requestAnimationFrame(chase); }).observe(root);
+      document.addEventListener('visibilitychange', function () { if (!raf) raf = requestAnimationFrame(chase); });
+
+      root.classList.add('gzcd--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .3) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('gzcd--anim', 'is-in'); layout(); }, 1200);
+        }
+      }, { threshold: [0, .3, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-gatsby',
+      style_name: 'Gatsby Art Deco Countdown',
+      descripcion: 'Cuenta regresiva Art Deco como marquesina de teatro: focos dorados que corren alrededor del letrero, corona escalonada, dígitos en dorado foil que giran al cambiar y fecha de la gala.',
+      tags: ['countdown', 'cuenta regresiva', 'boda', 'art deco', 'gatsby', 'marquesina', 'dorado'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>

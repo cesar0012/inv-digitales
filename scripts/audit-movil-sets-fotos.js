@@ -84,6 +84,19 @@ const CHECK_JS = () => {
     }
     return false;
   };
+  const recortadoPorAncestro = (el) => {
+    let n = el.parentElement;
+    while (n && n !== document.body) {
+      const cs2 = getComputedStyle(n);
+      if (cs2.overflow !== "visible") {
+        const c = n.getBoundingClientRect();
+        const r0 = el.getBoundingClientRect();
+        if (r0.top >= c.bottom - 1 || r0.bottom <= c.top + 1 || r0.left >= c.right - 1 || r0.right <= c.left + 1) return true;
+      }
+      n = n.parentElement;
+    }
+    return false;
+  };
   const opacidadEfectiva = (el) => {
     let o = 1, n = el;
     while (n && n !== document.body) { o *= parseFloat(getComputedStyle(n).opacity); if (o < 0.05) return 0; n = n.parentElement; }
@@ -98,12 +111,15 @@ const CHECK_JS = () => {
     if (cs.display === 'none' || cs.visibility === 'hidden') return false;
     if (opacidadEfectiva(el) < 0.6) return false;
     if (enCaraOculta(el)) return false;
+    if (recortadoPorAncestro(el)) return false;
     const r = el.getBoundingClientRect();
     return r.width > 10 && r.height > 8;
   }).slice(0, 90);
   for (let i = 0; i < vis.length && problemas.length <= 6; i++) {
     for (let j = i + 1; j < vis.length; j++) {
       if (vis[i].contains(vis[j]) || vis[j].contains(vis[i])) continue;
+      // inline hermanos en el mismo padre fluyen en renglones: sus rects se cruzan sin solaparse visualmente
+      if (vis[i].parentElement === vis[j].parentElement && getComputedStyle(vis[i]).display === "inline" && getComputedStyle(vis[j]).display === "inline") continue;
       const a = vis[i].getBoundingClientRect(), b = vis[j].getBoundingClientRect();
       const ix = Math.min(a.right, b.right) - Math.max(a.left, b.left);
       const iy = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);

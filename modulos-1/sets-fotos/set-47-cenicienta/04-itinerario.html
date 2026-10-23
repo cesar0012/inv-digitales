@@ -1,0 +1,194 @@
+<section
+  class="cnc-iti"
+  data-gemini-id="itinerario-agenda"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&family=Marcellus&display=swap');
+
+    .cnc-iti, .cnc-iti *, .cnc-iti *::before, .cnc-iti *::after { box-sizing: border-box; }
+    .cnc-iti {
+      --t-bg: var(--bg-color, #e6f0fa);
+      --t-tx: var(--text-color, #213a5c);
+      --t-p: var(--primary-color, #8db6dc);
+      --t-s: var(--secondary-color, #fdfcf8);
+      --t-a: var(--accent-color, #c4a052);
+      --t-display: var(--font-script, 'Monsieur La Doulaise', cursive);
+      --t-text: var(--font-heading, 'Marcellus', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 70vw, 52rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1.25rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/ballroom,chandelier?lock=3541');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .cnc-iti::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 90%, transparent), color-mix(in srgb, var(--t-s) 92%, transparent) 50%, color-mix(in srgb, var(--t-bg) 90%, transparent));
+    }
+    .cnc-iti__content { width: min(100%, 58rem); display: grid; gap: clamp(2rem, 5vw, 3.5rem); }
+    .cnc-iti__head { display: grid; gap: .3rem; justify-items: center; }
+    .cnc-iti__kicker { margin: 0; font-size: 1.05rem; color: color-mix(in srgb, var(--t-tx) 75%, var(--t-a)); }
+    .cnc-iti__title { margin: 0; padding-top: .2em; font-family: var(--t-display); font-weight: 400; font-size: clamp(3rem, 7.5vw, 5rem); line-height: 1.2; }
+
+    .cnc-iti__track { --cnc-prog: 1; position: relative; padding: 1rem 0 2.5rem; }
+    .cnc-iti__list { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(1.75rem, 4vw, 2.75rem); }
+    .cnc-iti__rail, .cnc-iti__fill { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; margin-left: -1px; }
+    .cnc-iti__rail { background: repeating-linear-gradient(180deg, color-mix(in srgb, var(--t-a) 55%, transparent) 0 6px, transparent 6px 12px); }
+    .cnc-iti__fill { background: linear-gradient(180deg, color-mix(in srgb, var(--t-a) 60%, var(--t-s)), var(--t-a)); transform-origin: top; transform: scaleY(var(--cnc-prog)); box-shadow: 0 0 10px color-mix(in srgb, var(--t-a) 60%, transparent); }
+    .cnc-iti__coach { position: absolute; left: 50%; top: 0; z-index: 2; width: clamp(4.2rem, 8vw, 5.6rem); height: auto; margin-left: calc(clamp(4.2rem, 8vw, 5.6rem) / -2); transform: translateY(calc(var(--cnc-prog) * var(--cnc-h, 0px) - 50%)); filter: drop-shadow(0 8px 10px color-mix(in srgb, var(--t-tx) 30%, transparent)); pointer-events: none; }
+
+    .cnc-iti__item { position: relative; width: 50%; padding: 0 clamp(2.5rem, 6vw, 4.5rem) 0 0; text-align: right; display: grid; gap: .25rem; }
+    .cnc-iti__item:nth-child(even) { margin-left: 50%; padding: 0 0 0 clamp(2.5rem, 6vw, 4.5rem); text-align: left; }
+    .cnc-iti__dot { position: absolute; top: .55rem; right: -.55rem; width: 1.1rem; height: 1.1rem; border-radius: 50%; border: 2px solid var(--t-a); background: var(--t-s); transition: background-color .4s ease, transform .4s cubic-bezier(.2, .8, .2, 1); }
+    .cnc-iti__item:nth-child(even) .cnc-iti__dot { right: auto; left: -.55rem; }
+    .cnc-iti__item[data-cnc-reached] .cnc-iti__dot { background: var(--t-a); transform: scale(1.25); }
+    .cnc-iti__time { margin: 0; font-size: clamp(1.15rem, 2.4vw, 1.4rem); color: color-mix(in srgb, var(--t-a) 65%, var(--t-tx)); }
+    .cnc-iti__name { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(2rem, 4.6vw, 2.9rem); line-height: 1.2; }
+    .cnc-iti__desc { margin: 0; font-size: 1.02rem; line-height: 1.55; color: color-mix(in srgb, var(--t-tx) 85%, var(--t-bg)); }
+
+    .cnc-iti--anim .cnc-iti__item { opacity: .35; transition: opacity .45s ease; }
+    .cnc-iti--anim .cnc-iti__item[data-cnc-reached] { opacity: 1; }
+
+    @media (max-width: 680px) {
+      .cnc-iti__rail, .cnc-iti__fill { left: 1.6rem; }
+      .cnc-iti__coach { left: 1.6rem; width: 3.4rem; margin-left: -1.7rem; }
+      .cnc-iti__item, .cnc-iti__item:nth-child(even) { width: 100%; margin-left: 0; padding: 0 0 0 3.8rem; text-align: left; }
+      .cnc-iti__dot, .cnc-iti__item:nth-child(even) .cnc-iti__dot { left: 1.05rem; right: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cnc-iti *, .cnc-iti *::before, .cnc-iti *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="cnc-iti__content">
+    <header class="cnc-iti__head">
+      <p class="cnc-iti__kicker" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">Así transcurrirá la noche</p>
+      <h2 class="cnc-iti__title" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Camino al Palacio</h2>
+    </header>
+
+    <div class="cnc-iti__track" data-cnc-list>
+      <span class="cnc-iti__rail" aria-hidden="true"></span>
+      <span class="cnc-iti__fill" aria-hidden="true"></span>
+      <svg class="cnc-iti__coach" viewBox="0 0 124 104" aria-hidden="true">
+        <defs>
+          <radialGradient id="cnc-iti-shell" cx=".4" cy=".35" r=".7">
+            <stop offset="0" style="stop-color: var(--t-s)" />
+            <stop offset="1" style="stop-color: color-mix(in srgb, var(--t-p) 60%, var(--t-s))" />
+          </radialGradient>
+        </defs>
+        <g fill="none" style="stroke: var(--t-a)" stroke-width="2.4">
+          <circle cx="30" cy="84" r="15" /><circle cx="94" cy="84" r="15" />
+          <path d="M30 69 V99 M15 84 H45 M19.4 73.4 L40.6 94.6 M40.6 73.4 L19.4 94.6 M94 69 V99 M79 84 H109 M83.4 73.4 L104.6 94.6 M104.6 73.4 L83.4 94.6" stroke-width="1.2" />
+        </g>
+        <ellipse cx="62" cy="52" rx="42" ry="33" fill="url(#cnc-iti-shell)" style="stroke: var(--t-a)" stroke-width="2" />
+        <g fill="none" style="stroke: var(--t-a)" stroke-width="1.3">
+          <ellipse cx="62" cy="52" rx="24" ry="33" /><ellipse cx="62" cy="52" rx="9" ry="33" />
+          <path d="M22 74 Q62 92 102 74" stroke-width="2.2" />
+          <path d="M62 19 c0 -8 7 -11 11 -6" stroke-width="2" />
+        </g>
+        <path d="M52 56 v-12 a10 10 0 0 1 20 0 v12 z" style="fill: var(--t-p); stroke: var(--t-a)" stroke-width="1.6" />
+        <path d="M53 19 l3 -7 3 4 3 -7 3 7 3 -4 3 7 z" style="fill: var(--t-a)" />
+      </svg>
+
+      <ol class="cnc-iti__list">
+      <li class="cnc-iti__item" data-cnc-step>
+        <span class="cnc-iti__dot" aria-hidden="true"></span>
+        <p class="cnc-iti__time"><time datetime="2027-04-17T18:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">6:00 p.m.</time></p>
+        <h3 class="cnc-iti__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-1">Misa de Acción de Gracias</h3>
+        <p class="cnc-iti__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-1">Una bendición para comenzar este cuento.</p>
+      </li>
+      <li class="cnc-iti__item" data-cnc-step>
+        <span class="cnc-iti__dot" aria-hidden="true"></span>
+        <p class="cnc-iti__time"><time datetime="2027-04-17T20:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">8:00 p.m.</time></p>
+        <h3 class="cnc-iti__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-2">Llegada al Palacio</h3>
+        <p class="cnc-iti__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-2">Recepción de invitados y cóctel de bienvenida.</p>
+      </li>
+      <li class="cnc-iti__item" data-cnc-step>
+        <span class="cnc-iti__dot" aria-hidden="true"></span>
+        <p class="cnc-iti__time"><time datetime="2027-04-17T21:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">9:00 p.m.</time></p>
+        <h3 class="cnc-iti__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-3">El Vals Real</h3>
+        <p class="cnc-iti__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-3">El primer baile de la quinceañera bajo los candelabros.</p>
+      </li>
+      <li class="cnc-iti__item" data-cnc-step>
+        <span class="cnc-iti__dot" aria-hidden="true"></span>
+        <p class="cnc-iti__time"><time datetime="2027-04-17T22:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">10:00 p.m.</time></p>
+        <h3 class="cnc-iti__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-4">Cena de Gala</h3>
+        <p class="cnc-iti__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-4">Un banquete digno de la realeza.</p>
+      </li>
+      <li class="cnc-iti__item" data-cnc-step>
+        <span class="cnc-iti__dot" aria-hidden="true"></span>
+        <p class="cnc-iti__time"><time datetime="2027-04-18T00:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-5">12:00 a.m.</time></p>
+        <h3 class="cnc-iti__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-5">Medianoche Mágica</h3>
+        <p class="cnc-iti__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-5">Brindis y sorpresa antes de que el reloj marque las doce.</p>
+      </li>
+      </ol>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="itinerario-agenda"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var list = root.querySelector('[data-cnc-list]');
+      var steps = root.querySelectorAll('[data-cnc-step]');
+      function measure() { list.style.setProperty('--cnc-h', list.offsetHeight + 'px'); }
+      measure();
+      window.addEventListener('resize', measure);
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      root.classList.add('cnc-iti--anim');
+      var onScreen = false, raf = 0, done = false;
+      function update() {
+        raf = 0;
+        var r = list.getBoundingClientRect();
+        var vh = window.innerHeight || 800;
+        var p = Math.max(0, Math.min(1, (vh * .62 - r.top) / r.height));
+        list.style.setProperty('--cnc-prog', p.toFixed(4));
+        var all = true;
+        for (var i = 0; i < steps.length; i++) {
+          var at = (steps[i].offsetTop + 10) / list.offsetHeight;
+          if (p >= at) steps[i].setAttribute('data-cnc-reached', ''); else { steps[i].removeAttribute('data-cnc-reached'); all = false; }
+        }
+        if (all && p >= .999 && !done) {
+          done = true;
+          setTimeout(function () { root.classList.remove('cnc-iti--anim'); }, 600);
+        }
+      }
+      function req() { if (!raf && onScreen) raf = requestAnimationFrame(update); }
+      list.style.setProperty('--cnc-prog', '0');
+      var io = new IntersectionObserver(function (en) { onScreen = en[0].isIntersecting; req(); }, { threshold: [0, .1] });
+      io.observe(root);
+      window.addEventListener('scroll', req, { passive: true });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Cenicienta Medianoche Real',
+      descripcion: 'Itinerario de XV años en línea de tiempo vertical dorada: un carruaje de calabaza recorre el camino al palacio mientras haces scroll e ilumina cada momento de la noche hasta la medianoche.',
+      tags: ['itinerario', 'quinceañera', 'cenicienta', 'carruaje', 'calabaza', 'línea de tiempo'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>

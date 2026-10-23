@@ -1,0 +1,169 @@
+<section
+  class="vq-crt"
+  data-gemini-id="corte-vaquera"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Rye&family=IM+Fell+English:ital@0;1&display=swap');
+
+    .vq-crt, .vq-crt *, .vq-crt *::before, .vq-crt *::after { box-sizing: border-box; }
+    .vq-crt {
+      --t-bg: var(--bg-color, #24140c);
+      --t-tx: var(--text-color, #f4e7cf);
+      --t-p: var(--primary-color, #c99a3e);
+      --t-s: var(--secondary-color, #7a4a2a);
+      --t-a: var(--accent-color, #a3302a);
+      --t-display: var(--font-script, 'Rye', serif);
+      --t-text: var(--font-heading, 'IM Fell English', Georgia, serif);
+      --rope-a: color-mix(in srgb, var(--t-p) 70%, var(--t-tx));
+      --rope-b: color-mix(in srgb, var(--t-p) 50%, var(--t-bg));
+      --barn: color-mix(in srgb, var(--t-a) 78%, var(--t-bg));
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image:
+        radial-gradient(55% 70% at 25% 50%, color-mix(in srgb, var(--t-s) 45%, transparent), transparent 70%),
+        radial-gradient(30% 40% at 100% 0%, color-mix(in srgb, var(--t-p) 12%, transparent), transparent 70%);
+      color: var(--t-tx);
+      text-align: left;
+      font-family: var(--t-text);
+    }
+    .vq-crt__content { width: min(100%, 66rem); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+
+    .vq-crt__barn { position: relative; width: min(100%, 27rem); justify-self: center; }
+    .vq-crt__gable { display: block; width: 100%; height: auto; margin-bottom: -2px; }
+    .vq-crt__stage { position: relative; padding: 12px; background: var(--barn); perspective: 1200px; box-shadow: 0 30px 60px -24px color-mix(in srgb, var(--t-bg) 95%, transparent); }
+    .vq-crt__figure { margin: 0; overflow: hidden; background: linear-gradient(150deg, var(--t-s), color-mix(in srgb, var(--t-s) 40%, var(--t-bg))); }
+    .vq-crt__figure img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; color: transparent; }
+    .vq-crt__door {
+      position: absolute;
+      top: 12px;
+      bottom: 12px;
+      width: calc(50% - 12px);
+      background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--barn) 92%, var(--t-tx)) 0 2px, var(--barn) 2px 24%, color-mix(in srgb, var(--barn) 80%, var(--t-bg)) 24% calc(24% + 2px));
+      transition: transform .5s cubic-bezier(.4, 0, .2, 1);
+      backface-visibility: hidden;
+    }
+    .vq-crt__door svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .vq-crt__door--l { left: 12px; transform-origin: left center; transform: rotateY(-102deg); }
+    .vq-crt__door--r { right: 12px; transform-origin: right center; transform: rotateY(102deg); }
+
+    .vq-crt__eyebrow { margin: 0; font-style: italic; color: var(--t-p); font-size: clamp(1.1rem, 2.2vw, 1.35rem); }
+    .vq-crt__title { margin: .2rem 0 .8rem; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1.05; }
+    .vq-crt__lead { margin: 0 0 1.6rem; font-size: 1.1rem; line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 82%, var(--t-p)); }
+    .vq-crt__groups { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+    .vq-crt__group h3 { margin: 0 0 .5rem; padding-bottom: .4rem; font-family: var(--t-display); font-weight: 400; font-size: 1.3rem; color: var(--t-p); border-bottom: 4px solid transparent; border-image: repeating-linear-gradient(60deg, var(--rope-a) 0 3px, var(--rope-b) 3px 6px) 4; }
+    .vq-crt__group ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .35rem; }
+    .vq-crt__group li { font-size: 1.08rem; line-height: 1.35; padding-left: 1.3rem; position: relative; }
+    .vq-crt__group li::before { content: ''; position: absolute; left: 0; top: .5em; width: .55rem; height: .55rem; border-radius: 50%; background: var(--t-a); box-shadow: 0 0 0 2px color-mix(in srgb, var(--t-a) 35%, transparent); }
+
+    /* Curtain reveal: barn doors start closed and swing open on viewport entry */
+    .vq-crt--anim .vq-crt__door--l, .vq-crt--anim .vq-crt__door--r { transform: none; }
+    .vq-crt--anim .vq-crt__door--l { transition-delay: .35s; }
+    .vq-crt--anim .vq-crt__door--r { transition-delay: .45s; }
+    .vq-crt--anim .vq-crt__text > * { opacity: 0; transform: translateX(16px); transition: opacity .4s ease, transform .45s ease; }
+    .vq-crt--anim .vq-crt__text > :nth-child(2) { transition-delay: .1s; }
+    .vq-crt--anim .vq-crt__text > :nth-child(3) { transition-delay: .2s; }
+    .vq-crt--anim .vq-crt__text > :nth-child(4) { transition-delay: .35s; }
+    .vq-crt--anim.is-in .vq-crt__door--l { transform: rotateY(-102deg); }
+    .vq-crt--anim.is-in .vq-crt__door--r { transform: rotateY(102deg); }
+    .vq-crt--anim.is-in .vq-crt__text > * { opacity: 1; transform: none; }
+
+    @media (max-width: 760px) {
+      .vq-crt__content { grid-template-columns: 1fr; }
+      .vq-crt__barn { width: min(100%, 20rem); }
+      .vq-crt { text-align: center; }
+      .vq-crt__group li { padding-left: 0; }
+      .vq-crt__group li::before { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .vq-crt *, .vq-crt *::before, .vq-crt *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="vq-crt__content">
+    <div class="vq-crt__barn">
+      <svg class="vq-crt__gable" viewBox="0 0 300 70" aria-hidden="true">
+        <path d="M0 70 L 150 4 L 300 70 Z" style="fill: var(--barn)" />
+        <path d="M18 66 L 150 10 L 282 66" fill="none" style="stroke: color-mix(in srgb, var(--t-tx) 70%, transparent)" stroke-width="3" />
+        <path d="M140 30 C 134 40, 135 56, 150 57 C 165 56, 166 40, 160 30" fill="none" style="stroke: var(--t-p)" stroke-width="5" />
+      </svg>
+      <div class="vq-crt__stage">
+        <figure class="vq-crt__figure" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/800/1000/horse,girl,dress?lock=2991" alt="La quinceañera con su caballo" path="placeholder" data-library-category="quinceanera" data-asset-type="retrato" loading="lazy" />
+        </figure>
+        <div class="vq-crt__door vq-crt__door--l" aria-hidden="true">
+          <svg viewBox="0 0 100 200" preserveAspectRatio="none"><path d="M4 4 H 96 V 196 H 4 Z M6 190 L 94 10" fill="none" style="stroke: color-mix(in srgb, var(--t-tx) 72%, transparent)" stroke-width="5" vector-effect="non-scaling-stroke" /></svg>
+        </div>
+        <div class="vq-crt__door vq-crt__door--r" aria-hidden="true">
+          <svg viewBox="0 0 100 200" preserveAspectRatio="none"><path d="M4 4 H 96 V 196 H 4 Z M94 190 L 6 10" fill="none" style="stroke: color-mix(in srgb, var(--t-tx) 72%, transparent)" stroke-width="5" vector-effect="non-scaling-stroke" /></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="vq-crt__text">
+      <p class="vq-crt__eyebrow" memory_type="text" memory_usage="custom" memory_key="corte-intro">Abran las puertas del granero</p>
+      <h2 class="vq-crt__title" memory_type="text" memory_usage="custom" memory_key="corte-titulo">Mi corte de honor</h2>
+      <p class="vq-crt__lead" memory_type="text" memory_usage="custom" memory_key="corte-texto">Amigos de toda la vida que bailarán conmigo esta noche de rancho.</p>
+      <div class="vq-crt__groups">
+        <div class="vq-crt__group">
+          <h3 memory_type="text" memory_usage="custom" memory_key="corte-grupo-1">Damas</h3>
+          <ul>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-1">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-2">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-3">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-4">Nombre Apellido</li>
+          </ul>
+        </div>
+        <div class="vq-crt__group">
+          <h3 memory_type="text" memory_usage="custom" memory_key="corte-grupo-2">Chambelanes</h3>
+          <ul>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-1">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-2">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-3">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-4">Nombre Apellido</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="corte-vaquera"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      root.classList.add('vq-crt--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .3) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('vq-crt--anim', 'is-in'); }, 1300);
+        }
+      }, { threshold: [0, .3, .6] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-vaquera',
+      style_name: 'Vaquera Rancho Romántico',
+      descripcion: 'Corte de honor vaquero: la foto destacada aparece cuando se abren en 3D las puertas de un granero rojo con herradura en el frontón; al lado, damas y chambelanes con separadores de soga.',
+      tags: ['corte', 'vaquera', 'granero', 'herradura', 'soga', 'reveal', 'vintage'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

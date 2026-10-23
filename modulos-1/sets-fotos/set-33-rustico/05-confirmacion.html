@@ -1,0 +1,326 @@
+<section
+  class="rr-cf"
+  data-gemini-id="confirmacion-texto"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Allura&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .rr-cf, .rr-cf *, .rr-cf *::before, .rr-cf *::after { box-sizing: border-box; }
+    .rr-cf {
+      --t-bg: var(--bg-color, #F3EDE1);
+      --t-tx: var(--text-color, #3A2B1F);
+      --t-p: var(--primary-color, #8B9E7C);
+      --t-s: var(--secondary-color, #9A7350);
+      --t-a: var(--accent-color, #EDBC68);
+      --t-display: var(--font-script, 'Allura', cursive);
+      --t-text: var(--font-heading, 'EB Garamond', Georgia, serif);
+      --t-wood: color-mix(in srgb, var(--t-s) 82%, #2b1c11);
+      --t-wood-d: color-mix(in srgb, var(--t-s) 34%, #170f09);
+      --t-sage-d: color-mix(in srgb, var(--t-p) 58%, #1d261a);
+      --t-sage-l: color-mix(in srgb, var(--t-p) 55%, var(--t-bg));
+      --t-ivory: color-mix(in srgb, var(--t-bg) 70%, #ffffff);
+      --t-twine: color-mix(in srgb, var(--t-s) 50%, #dcc7a4);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(7.5rem, 11vw, 9rem) clamp(1.25rem, 5vw, 4rem) clamp(4rem, 8vw, 6rem);
+      overflow: hidden;
+      background-color: var(--t-wood);
+      background-image: url('https://loremflickr.com/1600/1000/rustic,wood,table?lock=3051');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .rr-cf::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 55% 45% at 50% 50%, color-mix(in srgb, var(--t-a) 16%, transparent), transparent 70%),
+        repeating-linear-gradient(90deg, transparent 0 calc(9rem - 3px), rgba(0,0,0,.42) calc(9rem - 3px) calc(9rem - 1px), rgba(255,236,210,.08) calc(9rem - 1px) 9rem), repeating-linear-gradient(90deg, rgba(0,0,0,0) 0 9rem, rgba(0,0,0,.12) 9rem calc(9rem * 2), rgba(255,240,220,.05) calc(9rem * 2) calc(9rem * 3)), linear-gradient(180deg, color-mix(in srgb, var(--t-wood) 80%, transparent), color-mix(in srgb, var(--t-wood-d) 92%, transparent));
+    }
+    .rr-cf__lights { position: absolute; left: 0; top: 0; width: 100%; height: var(--lights-h, 8rem); z-index: 0; pointer-events: none; overflow: visible; }
+    .rr-cf__wire { fill: none; stroke: color-mix(in srgb, var(--t-wood-d) 75%, #000000); stroke-width: 1.3; opacity: .9; }
+    .rr-cf__halo { mix-blend-mode: screen; }
+    .rr-cf__cap { fill: color-mix(in srgb, var(--t-s) 35%, #2f261e); }
+    .rr-cf__bulb { fill: color-mix(in srgb, var(--t-a) 35%, #fffaf0); }
+    .rr-cf__grain { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mix-blend-mode: multiply; opacity: .55; will-change: transform; }
+    .rr-cf__grain { opacity: .6; }
+    .rr-cf__lights { --lights-h: 8rem; }
+
+    .rr-cf__card {
+      position: relative;
+      width: min(100%, 36rem);
+      padding: clamp(2.2rem, 6vw, 3.2rem) clamp(1.4rem, 5vw, 3rem) clamp(2rem, 5vw, 2.8rem);
+      text-align: left;
+      background: radial-gradient(ellipse at 25% 8%, rgba(255, 255, 255, .6), transparent 55%), repeating-linear-gradient(0deg, color-mix(in srgb, var(--t-s) 7%, transparent) 0 1px, transparent 1px 4px), repeating-linear-gradient(90deg, color-mix(in srgb, var(--t-s) 6%, transparent) 0 1px, transparent 1px 5px), var(--t-ivory);
+      border-radius: 4px;
+      transform: rotate(.7deg);
+      box-shadow: 0 2.2rem 3.6rem rgba(0, 0, 0, .5), 0 .3rem .6rem rgba(0, 0, 0, .2);
+    }
+    .rr-cf__card::before { content: ''; position: absolute; inset: .6rem; border: 1.5px dashed color-mix(in srgb, var(--t-s) 42%, transparent); border-radius: 3px; pointer-events: none; }
+    .rr-cf__euca { position: absolute; height: auto; pointer-events: none; filter: drop-shadow(0 .4rem .5rem rgba(0, 0, 0, .3)); }
+    .rr-cf__euca--a { width: clamp(4.6rem, 11vw, 7.5rem); left: clamp(-5.6rem, -6vw, -1.6rem); top: clamp(-6rem, -6vw, -3.6rem); transform: rotate(-36deg); }
+    .rr-cf__euca--b { width: clamp(4rem, 9vw, 6rem); right: clamp(-2.6rem, -4vw, -1rem); bottom: -2.6rem; transform: rotate(150deg); }
+
+    .rr-cf__title { margin: 0 0 .4rem; text-align: center; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.7rem, 7vw, 3.8rem); line-height: 1.05; color: var(--t-sage-d); }
+    .rr-cf__intro { margin: 0 auto 1.4rem; max-width: 26rem; text-align: center; font-style: italic; line-height: 1.55; color: color-mix(in srgb, var(--t-tx) 80%, transparent); }
+    .rr-cf__field { display: grid; gap: .3rem; margin: 0 0 1.1rem; }
+    .rr-cf__label, .rr-cf__legend { font-size: 1rem; font-weight: 600; color: color-mix(in srgb, var(--t-tx) 88%, transparent); }
+    .rr-cf__input {
+      width: 100%;
+      min-height: 2.8rem;
+      padding: .45rem .15rem;
+      font: inherit;
+      font-size: 1.1rem;
+      color: var(--t-tx);
+      background: linear-gradient(var(--t-p), var(--t-p)) no-repeat left bottom / 0% 2px, transparent;
+      border: 0;
+      border-bottom: 1px solid color-mix(in srgb, var(--t-tx) 28%, transparent);
+      border-radius: 0;
+      transition: background-size .4s ease;
+    }
+    .rr-cf__input::placeholder { color: color-mix(in srgb, var(--t-tx) 42%, transparent); font-style: italic; }
+    .rr-cf__input:focus { outline: none; background-size: 100% 2px, auto; }
+    textarea.rr-cf__input { min-height: 4.6rem; resize: vertical; line-height: 1.5; }
+    .rr-cf__choice { margin: .4rem 0 1.2rem; padding: 0; border: 0; min-width: 0; }
+    .rr-cf__legend { padding: 0; margin-bottom: .55rem; }
+    .rr-cf__opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: .7rem; }
+    .rr-cf__opt { position: relative; display: block; cursor: pointer; }
+    .rr-cf__opt input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+    .rr-cf__face {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      min-height: 3.3rem;
+      padding: .55rem .9rem;
+      font-size: 1.06rem;
+      border-radius: 3px;
+      border: 1px solid color-mix(in srgb, var(--t-s) 38%, transparent);
+      background: color-mix(in srgb, var(--t-ivory) 55%, transparent);
+      transition: background-color .3s ease, color .3s ease, border-color .3s ease, box-shadow .3s ease, transform .3s ease;
+    }
+    .rr-cf__leafic { flex: none; width: 1.35rem; height: 1.35rem; opacity: .35; transform: scale(.6) rotate(-40deg); transition: transform .35s cubic-bezier(.3, 1.6, .5, 1), opacity .3s ease; }
+    .rr-cf__opt:hover .rr-cf__face { border-color: color-mix(in srgb, var(--t-s) 70%, transparent); }
+    .rr-cf__opt input:checked + .rr-cf__face {
+      color: var(--t-ivory);
+      border-color: transparent;
+      background: repeating-linear-gradient(90deg, transparent 0 calc(3.2rem - 3px), rgba(0,0,0,.42) calc(3.2rem - 3px) calc(3.2rem - 1px), rgba(255,236,210,.08) calc(3.2rem - 1px) 3.2rem), repeating-linear-gradient(90deg, rgba(0,0,0,0) 0 3.2rem, rgba(0,0,0,.12) 3.2rem calc(3.2rem * 2), rgba(255,240,220,.05) calc(3.2rem * 2) calc(3.2rem * 3)), linear-gradient(90deg, var(--t-wood), var(--t-wood-d));
+      box-shadow: 0 .5rem 1rem rgba(58, 43, 31, .3);
+      animation: rr-cf-pick .35s cubic-bezier(.3, 1.6, .5, 1);
+    }
+    .rr-cf__opt input:checked + .rr-cf__face .rr-cf__leafic { opacity: 1; transform: none; }
+    .rr-cf__opt input:focus-visible + .rr-cf__face { outline: 2px solid var(--t-p); outline-offset: 2px; }
+
+    .rr-cf__btn {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .7rem;
+      min-height: 3.4rem;
+      margin-top: .4rem;
+      padding: .75rem 1.4rem;
+      border: 0;
+      border-radius: 3px;
+      font: inherit;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--t-ivory);
+      background: linear-gradient(180deg, var(--t-sage-d), color-mix(in srgb, var(--t-sage-d) 78%, #000000));
+      cursor: pointer;
+      transition: transform .25s ease, box-shadow .3s ease;
+    }
+    .rr-cf__btn:hover, .rr-cf__btn:focus-visible { transform: translateY(-2px); box-shadow: 0 .8rem 1.6rem color-mix(in srgb, var(--t-sage-d) 45%, transparent); outline: none; }
+    .rr-cf__bulb { width: 1.25rem; height: auto; flex: none; transition: filter .5s ease; }
+    .rr-cf__glass { fill: rgba(255, 255, 255, .14); stroke: rgba(255, 255, 255, .55); stroke-width: 1; transition: fill .5s ease; }
+    .rr-cf__fil { stroke: rgba(255, 255, 255, .6); transition: stroke .5s ease; }
+    .rr-cf__btn[data-state="loading"] .rr-cf__glass, .rr-cf__btn[data-state="done"] .rr-cf__glass { fill: color-mix(in srgb, var(--t-a) 70%, #fff7e2); }
+    .rr-cf__btn[data-state="loading"] .rr-cf__fil, .rr-cf__btn[data-state="done"] .rr-cf__fil { stroke: #b0641f; }
+    .rr-cf__btn[data-state="loading"] .rr-cf__bulb, .rr-cf__btn[data-state="done"] .rr-cf__bulb { filter: drop-shadow(0 0 6px var(--t-a)) drop-shadow(0 0 14px var(--t-a)); }
+    .rr-cf__btn[data-state="loading"]::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(100deg, transparent 30%, color-mix(in srgb, var(--t-a) 35%, transparent) 50%, transparent 70%);
+      animation: rr-cf-sweep .5s linear infinite;
+    }
+    .rr-cf__btn[data-state] { cursor: default; transform: none; }
+    .rr-cf__status { min-height: 1.4em; margin: .6rem 0 0; text-align: center; font-style: italic; font-size: .98rem; color: color-mix(in srgb, var(--t-tx) 70%, transparent); }
+    .rr-cf__thanks { display: flex; align-items: center; gap: .8rem; margin-top: .6rem; padding: .9rem 1rem; border-radius: 3px; background: color-mix(in srgb, var(--t-p) 20%, transparent); animation: rr-cf-pop .45s cubic-bezier(.3, 1.5, .5, 1); }
+    .rr-cf__thanks[hidden] { display: none; }
+    .rr-cf__thanks .rr-cf__leafic { width: 1.8rem; height: 1.8rem; opacity: 1; transform: none; }
+    .rr-cf__thanks p { margin: 0; font-size: 1.1rem; line-height: 1.45; }
+    .rr-cf__spark { position: absolute; width: .7rem; height: .5rem; border-radius: 50%; background: var(--t-p); pointer-events: none; transform: translate(0, 0) rotate(0deg); opacity: 1; transition: transform .5s cubic-bezier(.2, .7, .3, 1), opacity .5s ease; }
+
+    @keyframes rr-cf-sweep { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+    @keyframes rr-cf-pick { 0% { transform: scale(.94); } 60% { transform: scale(1.03); } 100% { transform: none; } }
+    @keyframes rr-cf-pop { from { opacity: 0; transform: translateY(8px) scale(.96); } to { opacity: 1; transform: none; } }
+
+    .rr-cf--anim .rr-cf__card { transition: opacity .45s ease, transform .5s cubic-bezier(.3, 1.3, .5, 1); }
+    .rr-cf--anim:not(.is-in) .rr-cf__card { opacity: 0; transform: translateY(1.6rem) rotate(-3deg); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .rr-cf *, .rr-cf *::before, .rr-cf *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="rr-cf__grain" aria-hidden="true" focusable="false"><filter id="rr-cf-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.07 0.004" numOctaves="4" seed="27"></feTurbulence><feColorMatrix type="matrix" values="0 0 0 0 0.17  0 0 0 0 0.10  0 0 0 0 0.05  2.6 0 0 0 -1.05"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#rr-cf-grain)"></rect></svg>
+  <svg class="rr-cf__lights" aria-hidden="true" focusable="false" data-rr-lights><defs><radialGradient id="rr-cf-glow"><stop offset="0" style="stop-color: var(--t-a); stop-opacity: 1"></stop><stop offset=".28" style="stop-color: var(--t-a); stop-opacity: .55"></stop><stop offset="1" style="stop-color: var(--t-a); stop-opacity: 0"></stop></radialGradient></defs><g data-rr-g></g></svg>
+  <div class="rr-cf__card">
+    <svg class="rr-cf__euca rr-cf__euca--a" viewBox="0 0 120 260" aria-hidden="true" focusable="false"><path d="M60.0,256.0 Q94.3,130.0 52.1,12.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 2; fill: none; stroke-linecap: round"></path><path d="M68.1,220.9 L72.0,221.6" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="89.6" cy="224.9" rx="19.8" ry="17.1" transform="rotate(11 89.6 224.9)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M75.0,222.2 L103.2,227.5" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M71.8,197.6 L66.9,201.1" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="51.2" cy="194.9" rx="18.8" ry="16.2" transform="rotate(-159 51.2 194.9)" style="fill: color-mix(in srgb, var(--t-p) 76%, #b9c7c2)"></ellipse><path d="M64.3,200.0 L38.9,190.1" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M74.3,174.5 L78.6,172.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="94.1" cy="176.0" rx="17.8" ry="15.3" transform="rotate(15 94.1 176.0)" style="fill: color-mix(in srgb, var(--t-p) 76%, #b9c7c2)"></ellipse><path d="M81.2,172.7 L106.2,179.2" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M75.3,151.6 L71.2,153.5" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="53.5" cy="151.2" rx="19.8" ry="17.0" transform="rotate(-173 53.5 151.2)" style="fill: color-mix(in srgb, var(--t-p) 76%, #b9c7c2)"></ellipse><path d="M68.2,153.1 L39.7,149.4" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M75.1,128.7 L79.0,129.8" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="94.0" cy="128.0" rx="16.8" ry="14.5" transform="rotate(-7 94.0 128.0)" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></ellipse><path d="M81.5,129.5 L105.7,126.6" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M73.5,106.1 L69.5,105.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="56.1" cy="107.8" rx="15.2" ry="13.1" transform="rotate(168 56.1 107.8)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M67.3,105.4 L45.7,110.0" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M70.5,83.5 L75.2,86.1" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="88.2" cy="80.7" rx="15.7" ry="13.5" transform="rotate(-22 88.2 80.7)" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></ellipse><path d="M77.3,85.2 L98.4,76.5" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M66.3,61.1 L62.9,62.8" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="52.3" cy="64.2" rx="11.9" ry="10.2" transform="rotate(172 52.3 64.2)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M61.2,63.0 L44.1,65.3" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M60.7,38.8 L64.5,38.9" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="74.4" cy="35.0" rx="11.8" ry="10.2" transform="rotate(-21 74.4 35.0)" style="fill: var(--t-p)"></ellipse><path d="M66.1,38.2 L82.1,32.0" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M53.7,16.7 L50.8,20.1" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="40.2" cy="21.4" rx="11.9" ry="10.3" transform="rotate(173 40.2 21.4)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M49.1,20.3 L31.9,22.4" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><ellipse cx="52.1" cy="9.0" rx="3.2" ry="5" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse></svg>
+    <svg class="rr-cf__euca rr-cf__euca--b" viewBox="0 0 120 260" aria-hidden="true" focusable="false"><path d="M60.0,256.0 Q28.8,130.0 67.2,12.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 2; fill: none; stroke-linecap: round"></path><path d="M52.6,220.9 L56.4,216.5" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="75.9" cy="216.9" rx="21.7" ry="18.7" transform="rotate(1 75.9 216.9)" style="fill: var(--t-p)"></ellipse><path d="M59.6,216.5 L91.1,217.2" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M48.0,186.1 L44.0,186.3" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="26.6" cy="188.1" rx="19.5" ry="16.8" transform="rotate(174 26.6 188.1)" style="fill: color-mix(in srgb, var(--t-p) 76%, #b9c7c2)"></ellipse><path d="M41.1,186.6 L13.0,189.5" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M46.1,151.6 L49.9,151.9" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="65.4" cy="151.3" rx="17.2" ry="14.8" transform="rotate(-2 65.4 151.3)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M52.5,151.8 L77.5,150.8" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M46.9,117.4 L42.8,113.6" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="27.3" cy="116.1" rx="17.5" ry="15.1" transform="rotate(-189 27.3 116.1)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M40.2,114.0 L15.1,118.1" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M50.4,83.5 L54.1,85.2" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="68.6" cy="86.2" rx="16.2" ry="13.9" transform="rotate(4 68.6 86.2)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M56.5,85.3 L79.9,86.9" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M56.7,50.0 L52.8,50.4" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="42.6" cy="46.7" rx="12.1" ry="10.4" transform="rotate(-160 42.6 46.7)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M51.1,49.8 L34.6,43.9" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M65.7,16.7 L68.8,18.9" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="77.6" cy="20.4" rx="10.0" ry="8.6" transform="rotate(10 77.6 20.4)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M70.2,19.2 L84.5,21.6" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><ellipse cx="67.2" cy="9.0" rx="3.2" ry="5" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse></svg>
+    <form class="rr-cf__form" data-rr-form novalidate>
+      <h2 class="rr-cf__title" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">Confirma tu asistencia</h2>
+      <p class="rr-cf__intro" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">Nos encantará compartir este día contigo. Por favor responde antes del 15 de abril de 2027.</p>
+      <div class="rr-cf__field">
+        <label class="rr-cf__label" for="rr-cf-nombre" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-nombre">Nombre completo</label>
+        <input class="rr-cf__input" id="rr-cf-nombre" name="nombre" type="text" placeholder="Tu nombre y apellido" autocomplete="name" />
+      </div>
+      <div class="rr-cf__field">
+        <label class="rr-cf__label" for="rr-cf-invitados" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-invitados">Número de invitados</label>
+        <input class="rr-cf__input" id="rr-cf-invitados" name="invitados" type="number" min="1" max="6" value="1" inputmode="numeric" />
+      </div>
+      <fieldset class="rr-cf__choice">
+        <legend class="rr-cf__legend" memory_type="text" memory_usage="custom" memory_key="confirmacion-pregunta">¿Nos acompañarás?</legend>
+        <div class="rr-cf__opts">
+          <label class="rr-cf__opt"><input type="radio" name="asistencia" value="si" checked /><span class="rr-cf__face"><svg class="rr-cf__leafic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><ellipse cx="12" cy="12" rx="9" ry="7.4" transform="rotate(-35 12 12)" style="fill: var(--t-p)"></ellipse><path d="M5 18 L18 6" style="stroke: rgba(255,255,255,.55); stroke-width: 1.1"></path></svg><span memory_type="text" memory_usage="custom" memory_key="confirmacion-si">Con gusto asistiré</span></span></label>
+          <label class="rr-cf__opt"><input type="radio" name="asistencia" value="no" /><span class="rr-cf__face"><svg class="rr-cf__leafic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><ellipse cx="12" cy="12" rx="9" ry="7.4" transform="rotate(-35 12 12)" style="fill: var(--t-p)"></ellipse><path d="M5 18 L18 6" style="stroke: rgba(255,255,255,.55); stroke-width: 1.1"></path></svg><span memory_type="text" memory_usage="custom" memory_key="confirmacion-no">Lo siento, no podré</span></span></label>
+        </div>
+      </fieldset>
+      <div class="rr-cf__field">
+        <label class="rr-cf__label" for="rr-cf-mensaje" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-mensaje">Mensaje para los novios</label>
+        <textarea class="rr-cf__input" id="rr-cf-mensaje" name="mensaje" rows="3" placeholder="Unas palabras, una canción para la pista…"></textarea>
+      </div>
+      <button class="rr-cf__btn" type="submit" data-rr-submit><svg class="rr-cf__bulb" viewBox="0 0 24 38" aria-hidden="true" focusable="false"><rect x="8.5" y="0" width="7" height="8" rx="1.2" style="fill: color-mix(in srgb, var(--t-s) 40%, #3b3026)"></rect><path d="M8.5 3h7M8.5 5.5h7" style="stroke: rgba(255,255,255,.25); stroke-width: .8"></path><path class="rr-cf__glass" d="M9 8 L15 8 C15 12 21 15 21 23 A9 9 0 0 1 3 23 C3 15 9 12 9 8 Z"></path><path class="rr-cf__fil" d="M10 13 L10.5 21 Q12 25 13.5 21 L14 13" style="fill: none; stroke-width: 1.1; stroke-linecap: round"></path></svg><span memory_type="text" memory_usage="custom" memory_key="confirmacion-boton">Enviar confirmación</span></button>
+      <p class="rr-cf__status" aria-live="polite" data-rr-status></p>
+      <div class="rr-cf__thanks" data-rr-thanks hidden><svg class="rr-cf__leafic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><ellipse cx="12" cy="12" rx="9" ry="7.4" transform="rotate(-35 12 12)" style="fill: var(--t-p)"></ellipse><path d="M5 18 L18 6" style="stroke: rgba(255,255,255,.55); stroke-width: 1.1"></path></svg><p memory_type="text" memory_usage="custom" memory_key="confirmacion-gracias">¡Gracias por confirmar! Te esperamos con mucho cariño.</p></div>
+    </form>
+  </div>
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="confirmacion-texto"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var HAS_IO = 'IntersectionObserver' in window;
+
+      function rrLights(svg, o) {
+        var NS = 'http://www.w3.org/2000/svg', g = svg.querySelector('[data-rr-g]'), bulbs = [], lastW = 0;
+        function mk(tag, at) { var e = document.createElementNS(NS, tag); for (var k in at) e.setAttribute(k, at[k]); g.appendChild(e); return e; }
+        function build() {
+          var r = svg.getBoundingClientRect(), w = Math.round(r.width), h = Math.round(r.height);
+          if (!w || !h || w === lastW) return;
+          lastW = w;
+          svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+          while (g.firstChild) g.removeChild(g.firstChild);
+          bulbs = [];
+          o.strands.forEach(function (s) {
+            var spans = Math.max(1, Math.round(w / (s.span || 460))), sw = w / spans, off = (s.off || 0) * sw;
+            for (var k = -1; k <= spans; k++) {
+              var x0 = k * sw + off, x1 = x0 + sw, y0 = s.y * h;
+              if (x1 < -10 || x0 > w + 10) continue;
+              var p = mk('path', { d: 'M' + x0 + ',' + y0 + ' Q' + (x0 + x1) / 2 + ',' + (y0 + 2 * s.sag * h) + ' ' + x1 + ',' + y0, 'class': o.cls + '__wire' });
+              var len = p.getTotalLength(), n = Math.max(2, Math.round(len / (s.gap || 46)));
+              for (var i = 1; i < n; i++) {
+                var pt = p.getPointAtLength(len * i / n);
+                if (pt.x < -20 || pt.x > w + 20) continue;
+                var hl = mk('circle', { cx: pt.x, cy: pt.y + 6, r: s.halo || 14, fill: 'url(#' + o.glow + ')', 'class': o.cls + '__halo' });
+                mk('rect', { x: pt.x - 1.7, y: pt.y - 1, width: 3.4, height: 4.2, rx: .8, 'class': o.cls + '__cap' });
+                mk('circle', { cx: pt.x, cy: pt.y + 6, r: s.bulb || 2.8, 'class': o.cls + '__bulb' });
+                bulbs.push({ el: hl, ph: Math.random() * 6.283, sp: .5 + Math.random() * 1.6 });
+              }
+            }
+          });
+        }
+        build();
+        if ('ResizeObserver' in window) new ResizeObserver(function () { build(); }).observe(svg);
+        return { tick: function (t) {
+          for (var i = 0; i < bulbs.length; i++) { var b = bulbs[i], v = Math.sin(t * .001 * b.sp + b.ph) * .5 + .5; b.el.style.opacity = (.42 + .58 * v * v).toFixed(3); }
+        } };
+      }
+      function rrLoop(el, fn) {
+        var raf = 0, vis = false;
+        function f(t) { fn(t); raf = requestAnimationFrame(f); }
+        function upd() { var on = vis && !document.hidden; if (on && !raf) raf = requestAnimationFrame(f); if (!on && raf) { cancelAnimationFrame(raf); raf = 0; } }
+        new IntersectionObserver(function (e) { vis = e[0].isIntersecting; upd(); }).observe(el);
+        document.addEventListener('visibilitychange', upd);
+      }
+      var L = rrLights(root.querySelector('[data-rr-lights]'), { cls: 'rr-cf', glow: 'rr-cf-glow', strands: [{ y: .06, sag: .2, span: 420, gap: 44 }, { y: .2, sag: .12, span: 560, gap: 52, off: .5, halo: 10, bulb: 2.2 }] });
+      var form = root.querySelector('[data-rr-form]'), btn = root.querySelector('[data-rr-submit]');
+      var status = root.querySelector('[data-rr-status]'), thanks = root.querySelector('[data-rr-thanks]');
+
+      function burst() {
+        var host = btn.parentNode, br = btn.getBoundingClientRect(), hr = host.getBoundingClientRect();
+        var cx = br.left - hr.left + br.width / 2, cy = br.top - hr.top + br.height / 2;
+        for (var i = 0; i < 12; i++) {
+          var s = document.createElement('span'), a = (i / 12) * 6.283 + Math.random() * .4, d = 50 + Math.random() * 70;
+          s.className = 'rr-cf__spark';
+          s.setAttribute('aria-hidden', 'true');
+          s.style.left = cx + 'px'; s.style.top = cy + 'px';
+          s.style.background = i % 3 ? 'var(--t-p)' : 'var(--t-a)';
+          host.appendChild(s);
+          (function (el, a, d) {
+            requestAnimationFrame(function () { requestAnimationFrame(function () {
+              el.style.transform = 'translate(' + Math.cos(a) * d + 'px,' + Math.sin(a) * d * .7 + 'px) rotate(' + (a * 57) + 'deg)';
+              el.style.opacity = '0';
+            }); });
+            setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 650);
+          })(s, a, d);
+        }
+      }
+      /* Simulated send: bulb warms up while "loading", then a confirmation note appears */
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (btn.hasAttribute('data-state')) return;
+        btn.setAttribute('data-state', 'loading');
+        btn.setAttribute('aria-busy', 'true');
+        status.textContent = 'Enviando tu respuesta…';
+        setTimeout(function () {
+          btn.setAttribute('data-state', 'done');
+          btn.removeAttribute('aria-busy');
+          status.textContent = '';
+          thanks.hidden = false;
+          if (!RM) burst();
+        }, RM ? 400 : 1700);
+      });
+
+      if (RM || !HAS_IO) return;   /* reduced motion: static card and lights */
+      rrLoop(root, L.tick);
+      root.classList.add('rr-cf--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('rr-cf--anim', 'is-in'); }, 1100);
+        }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Romance Rústico Confirmación',
+      descripcion: 'RSVP rústico en tarjeta de lino sobre madera: campos de nombre, invitados y mensaje, opciones de asistencia en madera y botón con foco que se enciende al enviar.',
+      tags: ['confirmacion', 'rsvp', 'boda', 'rustico', 'formulario'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>

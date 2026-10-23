@@ -1,0 +1,168 @@
+<section
+  class="dn-co"
+  data-gemini-id="corte-neon"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Neonderthaw&family=Tilt+Neon&display=swap');
+
+    .dn-co, .dn-co *, .dn-co *::before, .dn-co *::after { box-sizing: border-box; }
+    .dn-co {
+      --t-bg: var(--bg-color, #07060c);
+      --t-tx: var(--text-color, #fbf4ff);
+      --t-p: var(--primary-color, #ff2bd6);
+      --t-s: var(--secondary-color, #19f0ff);
+      --t-a: var(--accent-color, #f4ff2b);
+      --t-display: var(--font-script, 'Neonderthaw', cursive);
+      --t-text: var(--font-heading, 'Tilt Neon', system-ui, sans-serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .dn-co::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(45% 60% at 28% 50%, color-mix(in srgb, var(--t-p) 13%, transparent), transparent 70%),
+        repeating-linear-gradient(90deg, transparent 0 60px, color-mix(in srgb, var(--t-tx) 2.5%, transparent) 60px 62px);
+    }
+    .dn-co__content { width: min(100%, 66rem); display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+    .dn-co__frame {
+      position: relative;
+      padding: .6rem;
+      border-radius: 1.8rem;
+      border: 3px solid color-mix(in srgb, var(--t-p) 55%, #fff);
+      box-shadow: 0 0 5px var(--t-p), 0 0 26px var(--t-p), inset 0 0 16px color-mix(in srgb, var(--t-p) 40%, transparent);
+      transform: rotate(-2deg);
+    }
+    .dn-co__figure { margin: 0; }
+    .dn-co__figure img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 1.3rem; background: color-mix(in srgb, var(--t-p) 14%, var(--t-bg)); }
+    .dn-co__bars { display: none; position: absolute; inset: .6rem; border-radius: 1.3rem; overflow: hidden; pointer-events: none; }
+    .dn-co__bars span {
+      flex: 1;
+      background: var(--t-p);
+      box-shadow: inset 0 0 18px #fff8;
+      transition: transform .5s cubic-bezier(.7, 0, .2, 1);
+      transition-delay: calc(var(--i, 0) * .08s + .15s);
+    }
+    .dn-co__bars span:nth-child(3n+2) { background: var(--t-s); }
+    .dn-co__bars span:nth-child(3n) { background: var(--t-a); }
+    .dn-co--anim .dn-co__bars { display: flex; }
+    .dn-co--anim.is-in .dn-co__bars span { transform: translateY(-101%); }
+    .dn-co--anim.is-in .dn-co__bars span:nth-child(even) { transform: translateY(101%); }
+
+    .dn-co__title {
+      --g: var(--t-p);
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3.2rem, 8vw, 5.6rem);
+      line-height: 1;
+      color: color-mix(in srgb, var(--g) 28%, #fff);
+      text-shadow: 0 0 .02em #fff, 0 0 .1em var(--g), 0 0 .3em var(--g);
+    }
+    .dn-co__lead { margin: .8rem 0 1.8rem; font-size: clamp(1.05rem, 2.2vw, 1.25rem); line-height: 1.5; color: color-mix(in srgb, var(--t-tx) 80%, transparent); }
+    .dn-co__groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6rem; }
+    .dn-co__group { --g: var(--t-a); }
+    .dn-co__group:nth-child(2) { --g: var(--t-s); }
+    .dn-co__group h3 {
+      display: inline-block;
+      margin: 0 0 .7rem;
+      padding-bottom: .3rem;
+      font-weight: 400;
+      font-size: clamp(1.3rem, 2.6vw, 1.6rem);
+      color: color-mix(in srgb, var(--g) 30%, #fff);
+      text-shadow: 0 0 8px var(--g), 0 0 20px var(--g);
+      border-bottom: 2px solid var(--g);
+      box-shadow: 0 6px 10px -6px var(--g);
+    }
+    .dn-co__group ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; }
+    .dn-co__group li { font-size: 1.08rem; }
+
+    @media (max-width: 760px) {
+      .dn-co__content { grid-template-columns: 1fr; }
+      .dn-co__frame { width: min(86%, 22rem); justify-self: center; }
+      .dn-co__text { text-align: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .dn-co *, .dn-co *::before, .dn-co *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="dn-co__content">
+    <div class="dn-co__frame">
+      <figure class="dn-co__figure" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/800/1000/friends,party,neon?lock=3513" alt="Corte de honor de la quinceañera" path="placeholder" data-library-category="personas" data-asset-type="grupo" loading="lazy" />
+      </figure>
+      <div class="dn-co__bars" aria-hidden="true">
+        <span style="--i: 0"></span><span style="--i: 1"></span><span style="--i: 2"></span><span style="--i: 3"></span><span style="--i: 4"></span><span style="--i: 5"></span>
+      </div>
+    </div>
+    <div class="dn-co__text">
+      <h2 class="dn-co__title" memory_type="text" memory_usage="custom" memory_key="corte-titulo">Mi corte de honor</h2>
+      <p class="dn-co__lead" memory_type="text" memory_usage="custom" memory_key="corte-texto">Los que van a encender la pista conmigo desde el primer baile.</p>
+      <div class="dn-co__groups">
+        <div class="dn-co__group">
+          <h3 memory_type="text" memory_usage="custom" memory_key="corte-damas-titulo">Damas</h3>
+          <ul>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-1">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-2">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-3">Nombre Apellido</li>
+          </ul>
+        </div>
+        <div class="dn-co__group">
+          <h3 memory_type="text" memory_usage="custom" memory_key="corte-chambelanes-titulo">Chambelanes</h3>
+          <ul>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-1">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-2">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-3">Nombre Apellido</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="corte-neon"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      /* Curtain reveal: neon bars retract up and down when the photo enters */
+      root.classList.add('dn-co--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .3) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('dn-co--anim', 'is-in'); }, 1300);
+        }
+      }, { threshold: [0, .3, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-neon',
+      style_name: 'Dulce Neón Cortina',
+      descripcion: 'Corte de honor: foto destacada en marco de tubo rosa que se revela al retirarse barras de neón hacia arriba y abajo, con listas de damas y chambelanes al lado.',
+      tags: ['corte', 'neon', 'damas', 'chambelanes', 'quinceañera'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

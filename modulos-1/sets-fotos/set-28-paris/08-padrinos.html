@@ -1,0 +1,222 @@
+<section
+  class="np-pd"
+  data-gemini-id="padrinos-paris"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+<i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:url('https://loremflickr.com/1920/1080/paris,night?lock=401') center/cover;"></i><i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:color-mix(in srgb, var(--bg-color,#1d1a24) 88%, transparent);"></i>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Parisienne&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .np-pd, .np-pd *, .np-pd *::before, .np-pd *::after { box-sizing: border-box; }
+    .np-pd {
+      --t-bg: var(--bg-color, #0d0b10);
+      --t-tx: var(--text-color, #f8eee8);
+      --t-p: var(--primary-color, #f0c4c0);
+      --t-s: var(--secondary-color, #8a6e78);
+      --t-a: var(--accent-color, #d4af6a);
+      --t-display: var(--font-script, 'Parisienne', 'Snell Roundhand', cursive);
+      --t-text: var(--font-heading, 'Bodoni Moda', 'Didot', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(40rem, 80vw, 60rem);
+      display: grid;
+      justify-items: center;
+      align-content: start;
+      padding: clamp(4rem, 8vw, 6.5rem) clamp(1.25rem, 5vw, 4rem) clamp(5rem, 10vw, 8rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image:
+        linear-gradient(90deg, color-mix(in srgb, var(--t-a) 6%, transparent) 1px, transparent 1px),
+        radial-gradient(70% 45% at 50% 0%, color-mix(in srgb, var(--t-p) 10%, transparent), transparent 70%);
+      background-size: 9rem 100%, 100% 100%;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .np-pd__head { width: min(100%, 40rem); margin-bottom: clamp(2.5rem, 6vw, 4rem); }
+    .np-pd__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(2.8rem, 6vw, 4.4rem);
+      line-height: 1.05;
+    }
+    .np-pd__lead { margin: .5rem auto 0; max-width: 30rem; font-style: italic; line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 80%, var(--t-p)); }
+    .np-pd__grid {
+      width: min(100%, 50rem);
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: clamp(1.2rem, 4vw, 3rem);
+      row-gap: clamp(1.6rem, 4vw, 2.6rem);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .np-pd__item:nth-child(even) { transform: translateY(clamp(0rem, 6vw, 4rem)); }
+    .np-pd__window {
+      position: relative;
+      display: grid;
+      justify-items: center;
+      gap: .25rem;
+      padding: clamp(2.6rem, 6vw, 4rem) 1.2rem 0;
+      border: 1px solid color-mix(in srgb, var(--t-a) 55%, transparent);
+      border-bottom: 0;
+      border-radius: 14rem 14rem 0 0;
+      background: color-mix(in srgb, var(--t-bg) 86%, var(--t-s));
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .np-pd__window::before {
+      content: '';
+      position: absolute;
+      inset: .45rem .45rem 0;
+      border: 1px solid color-mix(in srgb, var(--t-a) 25%, transparent);
+      border-bottom: 0;
+      border-radius: inherit;
+      pointer-events: none;
+    }
+    .np-pd__glow {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(70% 55% at 50% 38%, color-mix(in srgb, var(--t-p) 34%, transparent), color-mix(in srgb, var(--t-a) 10%, transparent) 55%, transparent 80%);
+      transition: opacity .45s ease;
+    }
+    .np-pd__item:hover .np-pd__glow { opacity: .55; }
+    .np-pd__figure {
+      width: clamp(7.5rem, 16vw, 10rem);
+      margin: 0 0 .7rem;
+      border-radius: 50%;
+      padding: .3rem;
+      border: 1px solid var(--t-a);
+      box-shadow: 0 0 0 .3rem color-mix(in srgb, var(--t-bg) 70%, transparent), 0 0 0 calc(.3rem + 1px) color-mix(in srgb, var(--t-a) 40%, transparent);
+    }
+    .np-pd__figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      overflow: hidden;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--t-s) 50%, var(--t-bg));
+    }
+    .np-pd__role { margin: 0; font-style: italic; color: var(--t-a); font-size: 1rem; }
+    .np-pd__name {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3vw, 2.15rem);
+      line-height: 1.15;
+    }
+    .np-pd__balcony { display: block; width: calc(100% + 2.4rem); height: auto; margin-top: .9rem; color: var(--t-a); }
+
+    .np-pd--anim .np-pd__head { opacity: 0; transform: translateY(10px); transition: opacity .45s ease, transform .45s ease; }
+    .np-pd--anim .np-pd__window { opacity: 0; transform: translateY(26px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .np-pd--anim .np-pd__glow { opacity: 0; }
+    .np-pd--anim.is-in .np-pd__head { opacity: 1; transform: none; }
+    .np-pd--anim.is-in .np-pd__window { opacity: 1; transform: none; }
+    .np-pd--anim.is-in .np-pd__glow { opacity: 1; transition-delay: .4s; }
+    .np-pd--anim.is-in .np-pd__item:nth-child(2) .np-pd__window { transition-delay: .12s; }
+    .np-pd--anim.is-in .np-pd__item:nth-child(3) .np-pd__window { transition-delay: .24s; }
+    .np-pd--anim.is-in .np-pd__item:nth-child(4) .np-pd__window { transition-delay: .36s; }
+    .np-pd--anim.is-in .np-pd__item:nth-child(2) .np-pd__glow { transition-delay: .55s; }
+    .np-pd--anim.is-in .np-pd__item:nth-child(3) .np-pd__glow { transition-delay: .7s; }
+    .np-pd--anim.is-in .np-pd__item:nth-child(4) .np-pd__glow { transition-delay: .85s; }
+
+    @media (max-width: 620px) {
+      .np-pd__grid { grid-template-columns: 1fr; width: min(100%, 21rem); }
+      .np-pd__item:nth-child(even) { transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .np-pd *, .np-pd *::before, .np-pd *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <header class="np-pd__head">
+    <h2 class="np-pd__title" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Mis padrinos</h2>
+    <p class="np-pd__lead" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Las ventanas que iluminan mi camino. Gracias por acompañarme en esta noche tan especial.</p>
+  </header>
+
+  <ul class="np-pd__grid">
+    <li class="np-pd__item">
+      <article class="np-pd__window">
+        <span class="np-pd__glow" aria-hidden="true"></span>
+        <figure class="np-pd__figure" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/500/500/couple,elegant?lock=2821" alt="Retrato de los padrinos" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+        </figure>
+        <p class="np-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-1">Padrinos de vestido</p>
+        <h3 class="np-pd__name" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-1">Nombre y Nombre Apellido</h3>
+        <svg class="np-pd__balcony" viewBox="0 0 300 40" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 4 H300 M0 38 H300 M0 9 H300" fill="none" stroke="currentColor" stroke-width="1.2" /><path d="M20 9 V38 M50 9 V38 M80 9 V38 M110 9 V38 M140 9 V38 M170 9 V38 M200 9 V38 M230 9 V38 M260 9 V38 M290 9 V38 M20 24 C 30 12, 40 12, 50 24 C 60 36, 70 36, 80 24 C 90 12, 100 12, 110 24 C 120 36, 130 36, 140 24 C 150 12, 160 12, 170 24 C 180 36, 190 36, 200 24 C 210 12, 220 12, 230 24 C 240 36, 250 36, 260 24 C 270 12, 280 12, 290 24" fill="none" stroke="currentColor" stroke-width=".8" stroke-opacity=".8" /></svg>
+      </article>
+    </li>
+    <li class="np-pd__item">
+      <article class="np-pd__window">
+        <span class="np-pd__glow" aria-hidden="true"></span>
+        <figure class="np-pd__figure" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/500/500/couple,portrait?lock=2822" alt="Retrato de los padrinos" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+        </figure>
+        <p class="np-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-2">Padrinos de anillo</p>
+        <h3 class="np-pd__name" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-2">Nombre y Nombre Apellido</h3>
+        <svg class="np-pd__balcony" viewBox="0 0 300 40" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 4 H300 M0 38 H300 M0 9 H300" fill="none" stroke="currentColor" stroke-width="1.2" /><path d="M20 9 V38 M50 9 V38 M80 9 V38 M110 9 V38 M140 9 V38 M170 9 V38 M200 9 V38 M230 9 V38 M260 9 V38 M290 9 V38 M20 24 C 30 12, 40 12, 50 24 C 60 36, 70 36, 80 24 C 90 12, 100 12, 110 24 C 120 36, 130 36, 140 24 C 150 12, 160 12, 170 24 C 180 36, 190 36, 200 24 C 210 12, 220 12, 230 24 C 240 36, 250 36, 260 24 C 270 12, 280 12, 290 24" fill="none" stroke="currentColor" stroke-width=".8" stroke-opacity=".8" /></svg>
+      </article>
+    </li>
+    <li class="np-pd__item">
+      <article class="np-pd__window">
+        <span class="np-pd__glow" aria-hidden="true"></span>
+        <figure class="np-pd__figure" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/500/500/couple,smile?lock=2823" alt="Retrato de los padrinos" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+        </figure>
+        <p class="np-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-3">Padrinos de pastel</p>
+        <h3 class="np-pd__name" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-3">Nombre y Nombre Apellido</h3>
+        <svg class="np-pd__balcony" viewBox="0 0 300 40" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 4 H300 M0 38 H300 M0 9 H300" fill="none" stroke="currentColor" stroke-width="1.2" /><path d="M20 9 V38 M50 9 V38 M80 9 V38 M110 9 V38 M140 9 V38 M170 9 V38 M200 9 V38 M230 9 V38 M260 9 V38 M290 9 V38 M20 24 C 30 12, 40 12, 50 24 C 60 36, 70 36, 80 24 C 90 12, 100 12, 110 24 C 120 36, 130 36, 140 24 C 150 12, 160 12, 170 24 C 180 36, 190 36, 200 24 C 210 12, 220 12, 230 24 C 240 36, 250 36, 260 24 C 270 12, 280 12, 290 24" fill="none" stroke="currentColor" stroke-width=".8" stroke-opacity=".8" /></svg>
+      </article>
+    </li>
+    <li class="np-pd__item">
+      <article class="np-pd__window">
+        <span class="np-pd__glow" aria-hidden="true"></span>
+        <figure class="np-pd__figure" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/500/500/couple,happy?lock=2824" alt="Retrato de los padrinos" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+        </figure>
+        <p class="np-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-4">Padrinos de brindis</p>
+        <h3 class="np-pd__name" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-4">Nombre y Nombre Apellido</h3>
+        <svg class="np-pd__balcony" viewBox="0 0 300 40" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 4 H300 M0 38 H300 M0 9 H300" fill="none" stroke="currentColor" stroke-width="1.2" /><path d="M20 9 V38 M50 9 V38 M80 9 V38 M110 9 V38 M140 9 V38 M170 9 V38 M200 9 V38 M230 9 V38 M260 9 V38 M290 9 V38 M20 24 C 30 12, 40 12, 50 24 C 60 36, 70 36, 80 24 C 90 12, 100 12, 110 24 C 120 36, 130 36, 140 24 C 150 12, 160 12, 170 24 C 180 36, 190 36, 200 24 C 210 12, 220 12, 230 24 C 240 36, 250 36, 260 24 C 270 12, 280 12, 290 24" fill="none" stroke="currentColor" stroke-width=".8" stroke-opacity=".8" /></svg>
+      </article>
+    </li>
+  </ul>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="padrinos-paris"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      /* Windows light up one after another (stagger via IntersectionObserver) */
+      root.classList.add('np-pd--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .15) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('np-pd--anim', 'is-in'); }, 1800);
+        }
+      }, { threshold: [0, .15, .4] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'padrinos',
+      module_name: 'padrinos-paris',
+      style_name: 'Noche en París Padrinos',
+      descripcion: 'Padrinos en ventanas haussmannianas con arco y balcón de herrería dorada; retratos circulares y ventanas que se encienden en tono rosa una tras otra al aparecer.',
+      tags: ['padrinos', 'paris', 'ventanas', 'balcón', 'quinceañera', 'elegante'],
+      tipo: 'padrinos'
+    };
+  </script>
+</section>

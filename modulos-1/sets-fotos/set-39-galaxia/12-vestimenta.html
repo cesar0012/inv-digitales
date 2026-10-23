@@ -1,0 +1,257 @@
+<section
+  class="gx-ve"
+  data-gemini-id="vestimenta-galaxia"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .gx-ve, .gx-ve *, .gx-ve *::before, .gx-ve *::after { box-sizing: border-box; }
+    .gx-ve {
+      /* Theme defaults live ONLY in fallbacks, so the RAG can override the 4 standard variables */
+      --t-bg: var(--bg-color, #0b1030);
+      --t-tx: var(--text-color, #efeaf8);
+      --t-p: var(--primary-color, #d9b86c);
+      --t-s: var(--secondary-color, #6c4fa3);
+      --t-a: var(--accent-color, #c7cedb);
+      --t-display: var(--font-script, 'Cinzel Decorative', serif);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      --panel: color-mix(in srgb, var(--t-bg) 85%, transparent);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/night,sky,watercolor?lock=3331');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    /* Tint over the generated background so text stays legible with any image */
+    .gx-ve::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 85%, transparent), color-mix(in srgb, var(--t-bg) 94%, transparent));
+    }
+    .gx-ve__content { width: min(100%, 64rem); }
+    .gx-ve__title { margin: 0; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.05; }
+
+    /* Entrance states apply ONLY when JS adds .gx-ve--anim (no-JS editors still show content). Each transition <= .5s */
+
+    .gx-ve--anim .gx-ve__sw { opacity: 0; transform: translateY(14px) scale(.7); transition: opacity .4s ease, transform .5s cubic-bezier(.3, 1.5, .5, 1); transition-delay: calc(.25s + var(--i) * .09s); }
+    .gx-ve--anim .gx-ve__head, .gx-ve--anim .gx-ve__dress, .gx-ve--anim .gx-ve__note { opacity: 0; transition: opacity .5s ease; }
+    .gx-ve--anim.is-in .gx-ve__sw { opacity: 1; transform: none; }
+    .gx-ve--anim.is-in .gx-ve__head { opacity: 1; }
+    .gx-ve--anim.is-in .gx-ve__dress { opacity: 1; transition-delay: .9s; }
+    .gx-ve--anim.is-in .gx-ve__note { opacity: 1; transition-delay: 1.1s; }
+
+
+    /* ---- Galaxia Celestial: shared sky, gold foil type, fine lunar phases ---- */
+    .gx-ve { font-size: clamp(1.05rem, 1.25vw, 1.2rem); line-height: 1.55; }
+    .gx-ve__sky { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+    .gx-ve__wash { position: absolute; inset: -16%; background: radial-gradient(35% 62% at 20% 88%, color-mix(in srgb, #2878a8 36%, var(--t-bg) 40%), transparent 78%), radial-gradient(41% 42% at 34% 39%, color-mix(in srgb, var(--t-s) 50%, var(--t-a) 18%), transparent 78%), radial-gradient(31% 50% at 81% 27%, color-mix(in srgb, #a2509a 42%, var(--t-s) 40%), transparent 78%), radial-gradient(47% 61% at 60% 95%, color-mix(in srgb, var(--t-s) 78%, transparent), transparent 78%), radial-gradient(31% 58% at 7% 80%, color-mix(in srgb, #4b3a9c 60%, transparent), transparent 78%), radial-gradient(38% 49% at 58% 29%, color-mix(in srgb, var(--t-s) 40%, #3157c8 42%), transparent 78%); filter: url(#gx-ve-wc); opacity: .9; mix-blend-mode: screen; }
+    .gx-ve__stars { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    .gx-ve__defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .gx-ve__title { font-family: var(--t-display); font-weight: 400; letter-spacing: .01em; }
+    .gx-ve__gold { background-image: linear-gradient(105deg, color-mix(in srgb, var(--t-p) 60%, #3a2408) 0%, var(--t-p) 20%, color-mix(in srgb, var(--t-p) 28%, #fffbea) 36%, var(--t-p) 48%, color-mix(in srgb, var(--t-a) 82%, #ffffff) 61%, var(--t-p) 74%, color-mix(in srgb, var(--t-p) 60%, #3a2408) 100%); background-size: 260% 100%; background-position: calc(var(--sh, 50) * 1%) 50%; -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 .4em color-mix(in srgb, var(--t-p) 26%, transparent)); }
+    .gx-ve__lead { max-width: 34rem; margin: .9rem auto 0; color: color-mix(in srgb, var(--t-tx) 86%, var(--t-a)); }
+    .gx-ve__kicker { margin: 0 0 .6rem; font-style: italic; font-size: 1.1em; color: var(--t-a); }
+    .gx-ve__moon { width: 1em; height: 1em; overflow: visible; display: inline-block; vertical-align: middle; flex: none; }
+    .gx-ve__moon circle { fill: color-mix(in srgb, var(--t-bg) 55%, transparent); stroke: color-mix(in srgb, var(--t-a) 78%, transparent); stroke-width: .7; }
+    .gx-ve__moon path { fill: var(--t-p); }
+    .gx-ve__phases { display: flex; justify-content: center; align-items: center; gap: clamp(.55rem, 1.6vw, 1rem); font-size: clamp(.8rem, 1.2vw, 1rem); margin: 1.2rem auto; }
+    .gx-ve__phases .gx-ve__moon { filter: drop-shadow(0 0 4px color-mix(in srgb, var(--t-p) 45%, transparent)); }
+    .gx-ve__phases .gx-ve__moon:nth-child(4) { font-size: 1.35em; }
+
+    .gx-ve { min-height: auto; }
+    .gx-ve__content { width: min(100%, 52rem); }
+    .gx-ve__veils { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+    .gx-ve__veil { position: absolute; inset: 0; opacity: .5; background: radial-gradient(70% 70% at var(--vx, 50%) var(--vy, 50%), var(--vc, transparent), color-mix(in srgb, var(--vc, transparent) 35%, transparent) 55%, transparent 100%); clip-path: circle(0 at var(--vx, 50%) var(--vy, 50%)); transition: clip-path .5s cubic-bezier(.6, 0, .2, 1); }
+    .gx-ve__veil[data-open] { clip-path: circle(150% at var(--vx, 50%) var(--vy, 50%)); }
+    .gx-ve__title { margin: 0; font-size: clamp(2.3rem, 5vw, 3.6rem); line-height: 1.06; }
+    .gx-ve__palette { list-style: none; margin: clamp(2rem, 5vw, 2.8rem) auto 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(.8rem, 2.4vw, 1.6rem); }
+    .gx-ve__sw { display: grid; justify-items: center; gap: .55rem; padding: .3rem; border: 0; background: none; color: var(--t-tx); font: inherit; cursor: pointer; border-radius: 1rem; }
+    .gx-ve__sw:focus-visible { outline: 1px solid var(--t-p); outline-offset: 4px; }
+    .gx-ve__orb { position: relative; display: block; width: clamp(3.3rem, 8vw, 4.6rem); aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: radial-gradient(circle at 34% 30%, color-mix(in srgb, var(--c) 50%, #ffffff), var(--c) 45%, color-mix(in srgb, var(--c) 55%, #000000)); box-shadow: 0 0 0 1px color-mix(in srgb, var(--t-a) 45%, transparent), 0 12px 30px -12px color-mix(in srgb, var(--c) 80%, transparent); transition: transform .4s cubic-bezier(.3, 1.5, .5, 1), box-shadow .4s ease; }
+    .gx-ve__orb::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle at 76% 46%, transparent 55%, color-mix(in srgb, #050716 62%, transparent) 57%); transition: transform .5s ease; }
+    .gx-ve__swname { font-style: italic; font-size: 1rem; color: var(--t-a); transition: color .3s ease; }
+    .gx-ve__sw:hover .gx-ve__orb { transform: translateY(-4px) scale(1.05); }
+    .gx-ve__sw:hover .gx-ve__orb::after { transform: translateX(-12%); }
+    .gx-ve__sw[aria-pressed="true"] .gx-ve__orb { box-shadow: 0 0 0 2px var(--t-p), 0 0 0 6px color-mix(in srgb, var(--t-p) 18%, transparent), 0 0 30px color-mix(in srgb, var(--t-p) 45%, transparent); }
+    .gx-ve__sw[aria-pressed="true"] .gx-ve__swname { color: var(--t-p); }
+    .gx-ve__picked { min-height: 1.6em; margin: 1rem 0 0; font-family: var(--t-display); color: var(--t-p); }
+    .gx-ve__dress { display: grid; grid-template-columns: 1fr auto 1fr; gap: clamp(1rem, 4vw, 2.6rem); align-items: start; margin-top: clamp(1.6rem, 4vw, 2.4rem); }
+    .gx-ve__dress > div:not(.gx-ve__sep) { display: grid; gap: .3rem; }
+    .gx-ve__dress > div:first-child { text-align: right; }
+    .gx-ve__dress > div:last-child { text-align: left; }
+    .gx-ve__who { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: 1.3rem; }
+    .gx-ve__dtxt { margin: 0; color: color-mix(in srgb, var(--t-tx) 84%, var(--t-a)); }
+    .gx-ve__sep { font-size: 1.4rem; align-self: center; }
+    .gx-ve__note { margin: clamp(1.6rem, 4vw, 2.2rem) auto 0; max-width: 30rem; font-style: italic; color: var(--t-a); }
+    @media (max-width: 40rem) {
+      .gx-ve__dress { grid-template-columns: 1fr; }
+      .gx-ve__dress > div:first-child, .gx-ve__dress > div:last-child { text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .gx-ve *, .gx-ve *::before, .gx-ve *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="gx-ve__defs" aria-hidden="true" focusable="false"><filter id="gx-ve-wc" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.008" numOctaves="4" seed="22"/><feDisplacementMap in="SourceGraphic" scale="110" xChannelSelector="R" yChannelSelector="G"/><feGaussianBlur stdDeviation="7"/></filter></svg>
+  <div class="gx-ve__sky" aria-hidden="true"><div class="gx-ve__wash"></div><canvas class="gx-ve__stars" data-gx-stars></canvas></div>
+
+  <div class="gx-ve__veils" aria-hidden="true"><div class="gx-ve__veil" data-gx-veil></div><div class="gx-ve__veil" data-gx-veil></div></div>
+  <div class="gx-ve__content">
+    <header class="gx-ve__head">
+      <p class="gx-ve__kicker" memory_type="text" memory_usage="custom" memory_key="vestimenta-etiqueta">Código de vestimenta</p>
+      <h2 class="gx-ve__title gx-ve__gold" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Formal de noche</h2>
+      <p class="gx-ve__lead" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">Inspírate en una noche estrellada: azul medianoche, morado profundo, plata y destellos dorados.</p>
+    </header>
+    <ul class="gx-ve__palette" data-gx-palette aria-label="Paleta sugerida"></ul>
+    <p class="gx-ve__picked" data-gx-picked aria-live="polite"></p>
+    <div class="gx-ve__dress">
+      <div><h3 class="gx-ve__who gx-ve__gold" memory_type="text" memory_usage="custom" memory_key="vestimenta-ellas-titulo">Ellas</h3><p class="gx-ve__dtxt" memory_type="text" memory_usage="custom" memory_key="vestimenta-ellas">Vestido largo o de cóctel elegante, telas con caída y brillo sutil.</p></div>
+      <div class="gx-ve__sep" aria-hidden="true"><svg class="gx-ve__moon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="8.6"/><path d="M10,1.4A8.6,8.6 0 0 1 10,18.6A8.6,8.6 0 0 1 10,1.4Z"/></svg></div>
+      <div><h3 class="gx-ve__who gx-ve__gold" memory_type="text" memory_usage="custom" memory_key="vestimenta-ellos-titulo">Ellos</h3><p class="gx-ve__dtxt" memory_type="text" memory_usage="custom" memory_key="vestimenta-ellos">Traje oscuro o esmoquin; corbata en azul noche, morado o plata.</p></div>
+    </div>
+    <p class="gx-ve__note" memory_type="text" memory_usage="custom" memory_key="vestimenta-nota">Reservamos el blanco y el marfil para la novia.</p>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="vestimenta-galaxia"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* ---- Celestial sky: twinkling silver/gold stars + drifting stardust on canvas ---- */
+      var STARN = 300, DUSTN = 50;
+      var sky = root.querySelector('[data-gx-stars]'), cx = sky && sky.getContext ? sky.getContext('2d') : null;
+      var W = 0, H = 0, T = 0, raf = 0, last = 0, vis = true, stars = [], dust = [], bursts = [], hooks = [];
+      function tv(n, f) { var v = getComputedStyle(root).getPropertyValue(n).trim(); return v || f; }
+      var GOLD = tv('--t-p', '#d9b86c'), SILV = tv('--t-a', '#c7cedb');
+      function rnd(a, b) { return a + Math.random() * (b - a); }
+      function seed() {
+        if (!cx) return;
+        var r = sky.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+        W = Math.max(1, r.width); H = Math.max(1, r.height);
+        sky.width = Math.round(W * dpr); sky.height = Math.round(H * dpr); cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        var n = Math.min(STARN, Math.round(W * H / 2600)); stars = []; dust = [];
+        for (var i = 0; i < n; i++) stars.push({ x: rnd(0, W), y: rnd(0, H), r: Math.pow(Math.random(), 3) * 1.5 + .25, a: rnd(.25, .95), sp: rnd(.0006, .0024), ph: rnd(0, 6.28), g: Math.random() < .28 });
+        for (i = 0; i < Math.min(DUSTN, Math.round(W * H / 14000)); i++) dust.push({ x: rnd(0, W), y: rnd(0, H), r: rnd(.4, 1.3), v: rnd(.004, .016), d: rnd(-.006, .006), a: rnd(.15, .55) });
+      }
+      function dot(x, y, r, c, a) {
+        cx.globalAlpha = Math.max(0, a); cx.fillStyle = c; cx.beginPath(); cx.arc(x, y, r, 0, 6.2832); cx.fill();
+        if (r > 1.25) { cx.globalAlpha = Math.max(0, a) * .45; cx.fillRect(x - r * 4, y - .3, r * 8, .6); cx.fillRect(x - .3, y - r * 4, .6, r * 8); }
+      }
+      function paint(t, dt) {
+        if (cx) {
+          cx.clearRect(0, 0, W, H);
+          for (var i = 0; i < stars.length; i++) { var s = stars[i]; dot(s.x, s.y, s.r, s.g ? GOLD : SILV, s.a * (.55 + .45 * Math.sin(t * s.sp + s.ph))); }
+          for (i = 0; i < dust.length; i++) { var d = dust[i]; d.y -= d.v * dt; d.x += d.d * dt; if (d.y < -4) { d.y = H + 4; d.x = rnd(0, W); } dot(d.x, d.y, d.r, GOLD, d.a); }
+          for (i = bursts.length - 1; i >= 0; i--) { var b = bursts[i]; b.l -= dt; if (b.l <= 0) { bursts.splice(i, 1); continue; } b.x += b.vx * dt; b.y += b.vy * dt; b.vy += .00035 * dt; dot(b.x, b.y, b.r, b.c, Math.min(1, b.l / 450)); }
+        }
+        for (var k = 0; k < hooks.length; k++) hooks[k](t, dt);
+        if (cx) cx.globalAlpha = 1;
+      }
+      function burst(x, y, n) { for (var i = 0; i < (n || 50); i++) { var a = rnd(0, 6.2832), v = rnd(.04, .3); bursts.push({ x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - .07, r: rnd(.6, 2.1), c: Math.random() < .7 ? GOLD : SILV, l: rnd(600, 1400) }); } }
+      function moonPath(p, c, r) {
+        p = ((p % 1) + 1) % 1; if (p < .02 || p > .98) return '';
+        var t = c - r, b = c + r, rx = (Math.abs(Math.cos(p * 6.2832)) * r).toFixed(2), A = 'M' + c + ',' + t + 'A' + r + ',' + r + ' 0 0 ';
+        if (Math.abs(p - .5) < .02) return A + '1 ' + c + ',' + b + 'A' + r + ',' + r + ' 0 0 1 ' + c + ',' + t + 'Z';
+        if (p < .5) return A + '1 ' + c + ',' + b + 'A' + rx + ',' + r + ' 0 0 ' + (p < .25 ? 0 : 1) + ' ' + c + ',' + t + 'Z';
+        return A + '0 ' + c + ',' + b + 'A' + rx + ',' + r + ' 0 0 ' + (p > .75 ? 1 : 0) + ' ' + c + ',' + t + 'Z';
+      }
+
+      /* palette swatches generated from the theme variables, so recoloring the module recolors the palette */
+      var PAL = [['Azul noche', 'var(--t-bg)'], ['Zafiro', 'color-mix(in srgb, var(--t-bg) 45%, #4d6fe0)'], ['Morado', 'var(--t-s)'],
+                 ['Lavanda', 'color-mix(in srgb, var(--t-s) 45%, #f1e9ff)'], ['Plata', 'var(--t-a)'], ['Oro', 'var(--t-p)']];
+      var pal = root.querySelector('[data-gx-palette]'), picked = root.querySelector('[data-gx-picked]'), veils = root.querySelectorAll('[data-gx-veil]'), vi = 0, top = null, btns = [];
+      function pick(i, wipe) {
+        btns.forEach(function (b, j) { b.setAttribute('aria-pressed', j === i ? 'true' : 'false'); });
+        if (picked) picked.textContent = PAL[i][0];
+        if (!wipe || veils.length < 2) return;
+        var b = btns[i].querySelector('span').getBoundingClientRect(), r = root.getBoundingClientRect(), v = veils[vi % 2], o = veils[(vi + 1) % 2]; vi++;
+        v.style.setProperty('--vx', (b.left - r.left + b.width / 2).toFixed(0) + 'px'); v.style.setProperty('--vy', (b.top - r.top + b.height / 2).toFixed(0) + 'px'); v.style.setProperty('--vc', PAL[i][1]);
+        o.style.zIndex = 1; v.style.zIndex = 2; v.removeAttribute('data-open'); void v.offsetWidth; v.setAttribute('data-open', ''); top = v;
+        setTimeout(function () { if (top === v) o.removeAttribute('data-open'); }, 520);
+      }
+      if (pal) PAL.forEach(function (c, i) {
+        var li = document.createElement('li'), b = document.createElement('button');
+        b.type = 'button'; b.className = 'gx-ve__sw'; b.setAttribute('data-gx-sw', ''); b.setAttribute('aria-pressed', 'false');
+        b.style.setProperty('--c', c[1]); b.style.setProperty('--i', i);
+        b.innerHTML = '<span class="gx-ve__orb" aria-hidden="true"></span><span class="gx-ve__swname">' + c[0] + '</span>';
+        b.addEventListener('click', function () { pick(i, true); });
+        li.appendChild(b); pal.appendChild(li); btns.push(b);
+      });
+      if (btns.length) pick(2, false);
+
+      seed(); paint(0, 0);
+      if ('ResizeObserver' in window) new ResizeObserver(function () { seed(); if (!raf) paint(T, 0); }).observe(root);
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      /* JS hooks use data-* attributes, never classes */
+      root.classList.add('gx-ve--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && (en[0].intersectionRatio > .25 || en[0].intersectionRect.height > window.innerHeight * .4)) {
+          io.disconnect();
+          root.classList.add('is-in');
+          /* Clean up so a serialized DOM is left in its normal visible state */
+          setTimeout(function () { root.classList.remove('gx-ve--anim', 'is-in'); }, 2000);
+        }
+      }, { threshold: [0, .1, .25, .5] });
+      io.observe(root);
+
+
+      /* rAF loop: only while on-screen and the tab is visible */
+      function loop(t) {
+        raf = 0; var dt = last ? Math.min(48, t - last) : 16; last = t; T = t;
+        root.style.setProperty('--sh', (50 + 50 * Math.sin(t / 2400)).toFixed(1));
+        paint(t, dt);
+        if (vis && !document.hidden) raf = requestAnimationFrame(loop); else last = 0;
+      }
+      function kick() { if (!RM && !raf && vis && !document.hidden) raf = requestAnimationFrame(loop); }
+      new IntersectionObserver(function (en) { vis = en[0].isIntersecting; kick(); }, { rootMargin: '80px' }).observe(root);
+      document.addEventListener('visibilitychange', kick);
+      kick();
+      /* per-item entrance (IntersectionObserver) for long modules; class removed once every item is in */
+      function stagger(sel, cls) {
+        var els = root.querySelectorAll(sel), left = els.length; if (!left) return;
+        root.classList.add(cls);
+        var io2 = new IntersectionObserver(function (en) {
+          en.forEach(function (e) {
+            if (!e.isIntersecting) return;
+            e.target.setAttribute('data-in', ''); io2.unobserve(e.target);
+            if (--left === 0) setTimeout(function () { root.classList.remove(cls); }, 1100);
+          });
+        }, { threshold: .18, rootMargin: '0px 0px -6% 0px' });
+        [].forEach.call(els, function (el) { io2.observe(el); });
+      }
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-galaxia',
+      style_name: 'Galaxia Celestial',
+      descripcion: 'Vestimenta Galaxia Celestial: paleta generada en JS como lunas teñidas de azul noche, morado, plata y oro; al elegir un tono el cielo cambia con un barrido de eclipse de 0.5s.',
+      tags: ['vestimenta', 'código de vestimenta', 'paleta', 'galaxia', 'celestial', 'boda'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

@@ -1,0 +1,189 @@
+<section
+  class="em-det"
+  data-gemini-id="detalles-regalo"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,200;0,300;0,400;1,200;1,300&family=Manrope:wght@200;300;400;500&display=swap');
+
+    .em-det, .em-det *, .em-det *::before, .em-det *::after { box-sizing: border-box; }
+    .em-det {
+      --t-bg: var(--bg-color, #ffffff);
+      --t-tx: var(--text-color, #2b2b2b);
+      --t-p: var(--primary-color, #b76e79);
+      --t-s: var(--secondary-color, #8a837f);
+      --t-a: var(--accent-color, #e4c6ba);
+      --t-display: var(--font-script, 'Jost', 'Helvetica Neue', Arial, sans-serif);
+      --t-text: var(--font-heading, 'Manrope', 'Helvetica Neue', Arial, sans-serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(32rem, 62vw, 48rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(5rem, 10vw, 8rem) clamp(1.25rem, 6vw, 5rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .em-det__paper { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mix-blend-mode: multiply; opacity: .36; }
+    .em-det__inner {
+      width: min(100%, 66rem);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+      gap: clamp(3rem, 8vw, 7rem);
+      align-items: center;
+    }
+    .em-det__figure {
+      margin: 0;
+      width: min(100%, 26rem);
+      justify-self: center;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      overflow: hidden;
+      background: color-mix(in srgb, var(--t-a) 45%, var(--t-bg));
+    }
+    .em-det__figure img { color: transparent; display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
+    .em-det__text { display: grid; gap: 1.1rem; }
+    .em-det__eyebrow {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      font-family: var(--t-display);
+      font-style: italic;
+      font-weight: 300;
+      font-size: 1.05rem;
+      color: var(--t-s);
+    }
+    .em-det__eyebrow::before { content: ''; width: 2.2rem; height: 1px; background: var(--t-p); }
+    .em-det__title { margin: 0; font-family: var(--t-display); font-weight: 200; font-size: clamp(2.3rem, 4.6vw, 3.6rem); line-height: 1.04; letter-spacing: -.02em; }
+    .em-det__list { list-style: none; margin: 1.2rem 0 0; padding: 0; display: grid; }
+    .em-det__item {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(8rem, .7fr) 1fr;
+      gap: .4rem 2rem;
+      padding: 1.5rem 0;
+    }
+    .em-det__item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 1px;
+      background: color-mix(in srgb, var(--t-tx) 16%, transparent);
+      transform-origin: left;
+    }
+    .em-det__item::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 2.2rem;
+      height: 1px;
+      background: var(--t-p);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .4s cubic-bezier(.6, 0, .2, 1);
+    }
+    .em-det__item:hover::after { transform: none; }
+    .em-det__name { margin: 0; font-family: var(--t-display); font-weight: 300; font-size: 1.25rem; }
+    .em-det__desc { margin: 0; font-weight: 300; font-size: .96rem; line-height: 1.7; color: var(--t-s); }
+
+    @media (max-width: 860px) {
+      .em-det__inner { grid-template-columns: 1fr; }
+      .em-det__figure { width: min(72%, 20rem); }
+    }
+    @media (max-width: 520px) {
+      .em-det__item { grid-template-columns: 1fr; }
+    }
+
+    /* Entrance: image opens as a growing circle, rows reveal from their hairline. Each transition <= .5s */
+    .em-det--anim .em-det__figure img { color: transparent; clip-path: circle(0% at 50% 50%); transform: scale(1.12); }
+    .em-det--anim .em-det__item::before { transform: scaleX(0); }
+    .em-det--anim .em-det__name,
+    .em-det--anim .em-det__desc { opacity: 0; clip-path: inset(0 0 100% 0); }
+    .em-det--anim.is-in .em-det__figure img { color: transparent; clip-path: circle(72% at 50% 50%); transform: none; transition: clip-path .5s cubic-bezier(.6, 0, .2, 1), transform .5s ease; }
+    .em-det--anim.is-in .em-det__item::before { transform: none; transition: transform .45s cubic-bezier(.6, 0, .2, 1) var(--d, 0s); }
+    .em-det--anim.is-in .em-det__name,
+    .em-det--anim.is-in .em-det__desc { opacity: 1; clip-path: inset(0 0 0 0); transition: opacity .3s ease calc(var(--d, 0s) + .3s), clip-path .45s cubic-bezier(.6, 0, .2, 1) calc(var(--d, 0s) + .3s); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .em-det *, .em-det *::before, .em-det *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="em-det__paper" aria-hidden="true" focusable="false">
+    <filter id="em30-paper-det" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="4" seed="61" result="n" />
+      <feDiffuseLighting in="n" lighting-color="#ffffff" surfaceScale="1.3"><feDistantLight azimuth="45" elevation="58" /></feDiffuseLighting>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#em30-paper-det)" />
+  </svg>
+
+  <div class="em-det__inner">
+    <figure class="em-det__figure" memory_type="image" memory_usage="custom" memory_source="library">
+      <img src="https://loremflickr.com/800/800/wedding,rings,minimal?lock=3061" alt="Detalle de la boda" path="placeholder" data-library-category="eventos" data-asset-type="detalle" loading="lazy" />
+    </figure>
+
+    <div class="em-det__text">
+      <p class="em-det__eyebrow" memory_type="text" memory_usage="custom" memory_key="detalles-etiqueta">Para tenerlo presente</p>
+      <h2 class="em-det__title" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Detalles importantes</h2>
+      <ul class="em-det__list">
+        <li class="em-det__item" data-em-row>
+          <h3 class="em-det__name" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Lluvia de sobres</h3>
+          <p class="em-det__desc" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Si deseas tener un detalle con nosotros, habrá un buzón a la entrada de la recepción.</p>
+        </li>
+        <li class="em-det__item" data-em-row>
+          <h3 class="em-det__name" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Solo adultos</h3>
+          <p class="em-det__desc" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">Amamos a sus pequeños, pero esta noche será una celebración para adultos.</p>
+        </li>
+        <li class="em-det__item" data-em-row>
+          <h3 class="em-det__name" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Ceremonia desconectada</h3>
+          <p class="em-det__desc" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">Durante la ceremonia te pedimos guardar el teléfono; nuestro fotógrafo lo capturará todo.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="detalles-regalo"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      var rows = root.querySelectorAll('[data-em-row]');
+      for (var i = 0; i < rows.length; i++) rows[i].style.setProperty('--d', (0.25 + i * 0.18) + 's');
+      root.classList.add('em-det--anim');
+      void root.offsetWidth;
+      var io = new IntersectionObserver(function (en) {
+        if (!(en[0].isIntersecting && en[0].intersectionRatio > .25)) return;
+        io.disconnect();
+        root.classList.add('is-in');
+        setTimeout(function () {
+          root.classList.remove('em-det--anim', 'is-in');
+          for (var k = 0; k < rows.length; k++) rows[k].style.removeProperty('--d');
+        }, 1700);
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-regalo',
+      style_name: 'Elegancia Minimalista Anillo',
+      descripcion: 'Detalles del evento en filas editoriales separadas por líneas finas que se dibujan al entrar, junto a una imagen circular que se abre como un anillo; acentos de oro rosado.',
+      tags: ['detalles', 'boda', 'minimalista', 'oro rosado', 'lluvia de sobres'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>

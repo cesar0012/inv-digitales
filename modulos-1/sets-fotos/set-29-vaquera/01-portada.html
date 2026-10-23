@@ -1,0 +1,335 @@
+<section
+  class="vq-por"
+  data-gemini-id="portada-nombre"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Rye&family=IM+Fell+English:ital@0;1&display=swap');
+
+    .vq-por, .vq-por *, .vq-por *::before, .vq-por *::after { box-sizing: border-box; }
+    .vq-por {
+      --t-bg: var(--bg-color, #24140c);
+      --t-tx: var(--text-color, #f4e7cf);
+      --t-p: var(--primary-color, #c99a3e);
+      --t-s: var(--secondary-color, #7a4a2a);
+      --t-a: var(--accent-color, #a3302a);
+      --t-display: var(--font-script, 'Rye', serif);
+      --t-text: var(--font-heading, 'IM Fell English', Georgia, serif);
+      --rope-a: color-mix(in srgb, var(--t-p) 70%, var(--t-tx));
+      --rope-b: color-mix(in srgb, var(--t-p) 55%, var(--t-bg));
+      position: relative;
+      isolation: isolate;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/ranch,horse,sunset?lock=2901');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+      perspective: 1100px;
+    }
+    .vq-por::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(70% 60% at 50% 45%, color-mix(in srgb, var(--t-s) 55%, transparent), transparent 75%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 78%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent));
+    }
+    .vq-por::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: radial-gradient(120% 90% at 50% 50%, transparent 55%, color-mix(in srgb, var(--t-bg) 85%, transparent));
+    }
+    .vq-por__wheel { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+
+    .vq-por__card {
+      position: relative;
+      width: min(100%, 42rem);
+      padding: clamp(2.4rem, 6vw, 3.8rem) clamp(1.2rem, 5vw, 3.2rem) clamp(2.2rem, 5vw, 3.2rem);
+      transform-style: preserve-3d;
+      transform: rotateX(var(--vq-rx, 0deg)) rotateY(var(--vq-ry, 0deg));
+      transition: transform .35s cubic-bezier(.2, .8, .2, 1);
+    }
+    .vq-por__frame {
+      position: absolute;
+      inset: 0;
+      border: 7px solid var(--t-p);
+      border-image: repeating-linear-gradient(45deg, var(--rope-a) 0 4px, var(--rope-b) 4px 8px) 7;
+      background: linear-gradient(160deg, color-mix(in srgb, var(--t-bg) 72%, transparent), color-mix(in srgb, var(--t-s) 40%, transparent));
+      box-shadow: 0 30px 60px -20px color-mix(in srgb, var(--t-bg) 90%, transparent);
+      transform: translateZ(-30px);
+    }
+    .vq-por__frame::before {
+      content: '';
+      position: absolute;
+      inset: 10px;
+      border: 1px dashed color-mix(in srgb, var(--t-p) 55%, transparent);
+    }
+    .vq-por__inner { position: relative; transform: translateZ(40px); display: grid; justify-items: center; gap: .6rem; }
+
+    .vq-por__crest { width: clamp(4.6rem, 12vw, 6.4rem); height: auto; display: block; transform: translateZ(30px); filter: drop-shadow(0 6px 8px color-mix(in srgb, var(--t-bg) 70%, transparent)); }
+    .vq-por__eyebrow { margin: .2rem 0 0; font-style: italic; font-size: clamp(1.2rem, 2.6vw, 1.6rem); color: var(--t-p); }
+    .vq-por__namewrap { position: relative; padding: .6rem clamp(.6rem, 4vw, 2.4rem); margin: .2rem 0; }
+    .vq-por__reveal { display: block; }
+    .vq-por__name {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(2.6rem, 8.4vw, 5.6rem);
+      line-height: 1.02;
+      color: var(--t-tx);
+      text-shadow: 0 2px 0 color-mix(in srgb, var(--t-a) 70%, var(--t-bg)), 0 10px 30px color-mix(in srgb, var(--t-bg) 80%, transparent);
+    }
+    .vq-por__lasso { position: absolute; inset: -14% -6% -22% -6%; width: 112%; height: 136%; pointer-events: none; overflow: visible; }
+
+    .vq-por__divider { display: flex; align-items: center; gap: .8rem; width: min(100%, 22rem); margin: .4rem 0; }
+    .vq-por__rope { flex: 1; height: 5px; border-radius: 3px; background: repeating-linear-gradient(60deg, var(--rope-a) 0 3px, var(--rope-b) 3px 6px); }
+    .vq-por__rose { width: 1.8rem; height: 1.8rem; flex: none; }
+
+    .vq-por__date { margin: 0; font-size: clamp(1.15rem, 2.4vw, 1.45rem); }
+    .vq-por__date time { color: var(--t-tx); }
+    .vq-por__tagline { margin: .2rem 0 0; max-width: 30rem; font-style: italic; font-size: clamp(1rem, 2vw, 1.15rem); color: color-mix(in srgb, var(--t-tx) 82%, var(--t-p)); line-height: 1.5; }
+
+    /* Entrance (only with JS) */
+    .vq-por--anim .vq-por__crest { opacity: 0; transform: translateZ(30px) rotateY(-180deg) scale(.7); transition: opacity .4s ease, transform .5s cubic-bezier(.2, .9, .3, 1.2); }
+    .vq-por--anim .vq-por__eyebrow { opacity: 0; transition: opacity .45s ease .25s; }
+    .vq-por--anim .vq-por__rope { transform: scaleX(0); transition: transform .5s cubic-bezier(.2, .8, .2, 1); transition-delay: .9s; }
+    .vq-por--anim .vq-por__rope:first-child { transform-origin: right; }
+    .vq-por--anim .vq-por__rope:last-child { transform-origin: left; }
+    .vq-por--anim .vq-por__rose { opacity: 0; transform: scale(.3) rotate(-90deg); transition: opacity .3s ease, transform .45s cubic-bezier(.3, 1.4, .5, 1); transition-delay: 1s; }
+    .vq-por--anim .vq-por__date, .vq-por--anim .vq-por__tagline { opacity: 0; transition: opacity .5s ease 1.15s; }
+    .vq-por--anim .vq-por__tagline { transition-delay: 1.3s; }
+    .vq-por--anim.is-in .vq-por__crest { opacity: 1; transform: translateZ(30px); }
+    .vq-por--anim.is-in .vq-por__eyebrow,
+    .vq-por--anim.is-in .vq-por__date,
+    .vq-por--anim.is-in .vq-por__tagline { opacity: 1; }
+    .vq-por--anim.is-in .vq-por__rope { transform: none; }
+    .vq-por--anim.is-in .vq-por__rose { opacity: 1; transform: none; }
+
+    @media (max-width: 600px) {
+      .vq-por__frame { transform: none; }
+      .vq-por__inner { transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .vq-por *, .vq-por *::before, .vq-por *::after { animation: none !important; transition: none !important; }
+      .vq-por__card { transform: none !important; }
+    }
+  </style>
+
+  <canvas class="vq-por__wheel" data-vq-wheel aria-hidden="true"></canvas>
+
+  <header class="vq-por__card" data-vq-card>
+    <div class="vq-por__frame" aria-hidden="true"></div>
+    <div class="vq-por__inner">
+      <svg class="vq-por__crest" viewBox="0 0 120 120" aria-hidden="true">
+        <defs>
+          <linearGradient id="vq-por-gold" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" style="stop-color: var(--rope-a)" />
+            <stop offset=".55" style="stop-color: var(--t-p)" />
+            <stop offset="1" style="stop-color: var(--rope-b)" />
+          </linearGradient>
+        </defs>
+        <path d="M34 18 C 18 44, 20 98, 60 102 C 100 98, 102 44, 86 18" fill="none" stroke="url(#vq-por-gold)" stroke-width="14" stroke-linecap="square" />
+        <g style="fill: var(--t-bg)">
+          <circle cx="28" cy="40" r="2.3" /><circle cx="27" cy="60" r="2.3" /><circle cx="34" cy="80" r="2.3" />
+          <circle cx="92" cy="40" r="2.3" /><circle cx="93" cy="60" r="2.3" /><circle cx="86" cy="80" r="2.3" />
+        </g>
+        <g transform="translate(37 26) scale(.5)" style="fill: var(--t-tx)">
+          <path d="M72 98 C 74 78, 76 58, 68 38 C 66 30, 64 22, 66 4 L 57 15 C 55 12, 52 8, 47 4 L 47 18 C 38 26, 24 42, 14 56 C 8 64, 6 70, 10 75 C 14 79, 22 79, 29 75 C 35 71, 39 67, 45 67 C 47 77, 45 88, 41 98 Z" />
+          <path d="M66 6 C 74 16, 84 30, 86 46 C 88 62, 84 80, 80 98 L 74 98 C 78 78, 80 58, 72 36 C 70 28, 68 18, 66 6 Z" style="fill: var(--t-p)" />
+          <circle cx="45" cy="33" r="3" style="fill: var(--t-bg)" />
+          <circle cx="15" cy="67" r="2" style="fill: var(--t-bg)" />
+        </g>
+      </svg>
+
+      <p class="vq-por__eyebrow" memory_type="text" memory_usage="custom" memory_key="portada-subtitulo">Mis XV años</p>
+
+      <div class="vq-por__namewrap">
+        <div class="vq-por__reveal" data-vq-reveal>
+          <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,3vw,1.6rem);width:clamp(150px,22vw,220px);"><img src="https://loremflickr.com/480/480/ranch,desert,portrait?lock=301" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:2px solid var(--primary-color,#9b9b9b);box-shadow:0 14px 30px rgba(0,0,0,.18);" /><figcaption hidden>Retrato</figcaption></figure>
+<h1 class="vq-por__name" memory_type="text" memory_usage="custom" memory_key="portada-nombre">Nombre Apellido</h1>
+        </div>
+        <svg class="vq-por__lasso" viewBox="0 0 400 160" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <mask id="vq-por-lasso-mask" maskUnits="userSpaceOnUse" x="-20" y="-20" width="440" height="200">
+              <path data-vq-lasso d="M392 150 C 340 150, 330 140, 300 140 C 220 152, 40 150, 14 104 C -10 60, 90 14, 210 12 C 330 10, 400 40, 388 84 C 378 120, 300 140, 220 142" pathLength="1" fill="none" stroke="#fff" stroke-width="12" stroke-dasharray="1" stroke-dashoffset="0" />
+            </mask>
+          </defs>
+          <g mask="url(#vq-por-lasso-mask)" fill="none" stroke-linecap="round">
+            <path d="M392 150 C 340 150, 330 140, 300 140 C 220 152, 40 150, 14 104 C -10 60, 90 14, 210 12 C 330 10, 400 40, 388 84 C 378 120, 300 140, 220 142" style="stroke: var(--rope-b)" stroke-width="4.5" />
+            <path d="M392 150 C 340 150, 330 140, 300 140 C 220 152, 40 150, 14 104 C -10 60, 90 14, 210 12 C 330 10, 400 40, 388 84 C 378 120, 300 140, 220 142" style="stroke: var(--rope-a)" stroke-width="4.5" stroke-dasharray="3 3" stroke-linecap="butt" />
+          </g>
+        </svg>
+      </div>
+
+      <div class="vq-por__divider" aria-hidden="true">
+        <span class="vq-por__rope"></span>
+        <svg class="vq-por__rose" viewBox="0 0 40 40">
+          <path d="M8 30 C 4 24, 8 20, 14 22 M32 30 C 36 24, 32 20, 26 22" style="stroke: var(--t-p)" stroke-width="2.5" fill="none" stroke-linecap="round" />
+          <circle cx="20" cy="18" r="11" style="fill: var(--t-a)" />
+          <path d="M20 18 m -2 0 a 2 2 0 1 1 4 0 a 4 4 0 1 1 -8 0 a 6 6 0 1 1 12 0 a 8 8 0 1 1 -16 0" fill="none" style="stroke: color-mix(in srgb, var(--t-a) 55%, var(--t-bg))" stroke-width="1.4" />
+        </svg>
+        <span class="vq-por__rope"></span>
+      </div>
+
+      <p class="vq-por__date"><time datetime="2027-04-17T18:00" memory_type="text" memory_usage="custom" memory_key="portada-fecha">Sábado 17 de abril de 2027</time></p>
+      <p class="vq-por__tagline" memory_type="text" memory_usage="custom" memory_key="portada-frase">Entre rosas, botas y estrellas de rancho, te espero para celebrar mis quince.</p>
+    </div>
+  </header>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="portada-nombre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* ---- 3D wagon wheel on canvas (manual perspective projection) ---- */
+      var cv = root.querySelector('[data-vq-wheel]');
+      var ctx = cv && cv.getContext ? cv.getContext('2d') : null;
+      var W = 0, H = 0;
+      var gold = (getComputedStyle(root).getPropertyValue('--t-p') || '#c99a3e').trim() || '#c99a3e';
+      var cream = (getComputedStyle(root).getPropertyValue('--t-tx') || '#f4e7cf').trim() || '#f4e7cf';
+      var dust = [];
+      for (var i = 0; i < 80; i++) dust.push({ x: Math.random() * 2 - 1, y: Math.random() * 2 - 1, z: Math.random() * 2 - 1, s: .6 + Math.random() * 1.4, v: .4 + Math.random() * .8, ph: Math.random() * 6.28 });
+
+      function resize() {
+        if (!ctx) return;
+        var r = root.getBoundingClientRect();
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
+        W = r.width; H = r.height;
+        cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function draw(t) {
+        if (!ctx || !W) return;
+        ctx.clearRect(0, 0, W, H);
+        var R = Math.min(W, H) * (W < 700 ? .5 : .42);
+        var cx = W / 2, cy = H * .5, fov = R * 3.4;
+        var spin = t * .00011, ry = .62 + Math.sin(t * .00028) * .24, rx = -.28;
+        var cs = Math.cos(spin), sn = Math.sin(spin), cY = Math.cos(ry), sY = Math.sin(ry), cX = Math.cos(rx), sX = Math.sin(rx);
+        function P(x, y, z, noSpin) {
+          var x1 = noSpin ? x : x * cs - y * sn, y1 = noSpin ? y : x * sn + y * cs;
+          var x2 = x1 * cY + z * sY, z2 = -x1 * sY + z * cY;
+          var y3 = y1 * cX - z2 * sX, z3 = y1 * sX + z2 * cX;
+          var f = fov / (fov + z3);
+          return [cx + x2 * f, cy + y3 * f, f];
+        }
+        function ring(r, z, w, a) {
+          ctx.beginPath();
+          for (var k = 0; k <= 64; k++) {
+            var an = k / 64 * Math.PI * 2, p = P(Math.cos(an) * r, Math.sin(an) * r, z);
+            if (k) ctx.lineTo(p[0], p[1]); else ctx.moveTo(p[0], p[1]);
+          }
+          ctx.globalAlpha = a; ctx.lineWidth = w; ctx.stroke();
+        }
+        ctx.strokeStyle = gold; ctx.lineCap = 'round';
+        var d = R * .07;
+        ring(R, -d, 2.4, .55); ring(R, d, 2, .32); ring(R * .88, -d, 1.4, .38); ring(R * .88, d, 1.1, .22);
+        for (var k = 0; k < 32; k++) {
+          var an = k / 32 * Math.PI * 2, a1 = P(Math.cos(an) * R, Math.sin(an) * R, -d), a2 = P(Math.cos(an) * R, Math.sin(an) * R, d);
+          ctx.globalAlpha = .28; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(a1[0], a1[1]); ctx.lineTo(a2[0], a2[1]); ctx.stroke();
+        }
+        for (var s = 0; s < 12; s++) {
+          var sa = s / 12 * Math.PI * 2, p1 = P(Math.cos(sa) * R * .15, Math.sin(sa) * R * .15, 0), p2 = P(Math.cos(sa) * R * .88, Math.sin(sa) * R * .88, 0);
+          ctx.globalAlpha = .5; ctx.lineWidth = 4.5 * p1[2]; ctx.beginPath(); ctx.moveTo(p1[0], p1[1]); ctx.lineTo(p2[0], p2[1]); ctx.stroke();
+        }
+        ring(R * .15, -d * 1.8, 2.4, .6); ring(R * .15, d * 1.8, 2, .4); ring(R * .07, -d * 2.4, 1.8, .55);
+        /* gold dust drifting upward through the scene */
+        ctx.fillStyle = cream;
+        for (var j = 0; j < dust.length; j++) {
+          var q = dust[j];
+          var yy = ((q.y - t * .00004 * q.v + 3) % 2) - 1;
+          var pp = P(q.x * R * 1.7 + Math.sin(t * .0005 + q.ph) * 8, yy * R * 1.3, q.z * R, true);
+          ctx.globalAlpha = .25 + .35 * Math.abs(Math.sin(t * .001 + q.ph));
+          ctx.beginPath(); ctx.arc(pp[0], pp[1], q.s * pp[2], 0, 6.283); ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      resize();
+      if (RM) { draw(4000); window.addEventListener('resize', function () { resize(); draw(4000); }); return; }   /* reduced motion = static final state */
+      window.addEventListener('resize', resize);
+
+      var visible = true, raf = 0;
+      function loop(t) { raf = 0; if (!visible || document.hidden) return; draw(t); raf = requestAnimationFrame(loop); }
+      function start() { if (!raf) raf = requestAnimationFrame(loop); }
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (en) { visible = en[0].isIntersecting; if (visible) start(); }).observe(root);
+      }
+      document.addEventListener('visibilitychange', function () { if (!document.hidden) start(); });
+      start();
+
+      /* ---- 3D tilt of the card (preserve-3d layers) ---- */
+      var card = root.querySelector('[data-vq-card]');
+      if (card && window.matchMedia('(pointer: fine)').matches) {
+        root.addEventListener('pointermove', function (e) {
+          var r = root.getBoundingClientRect();
+          var px = (e.clientX - r.left) / r.width - .5, py = (e.clientY - r.top) / r.height - .5;
+          card.style.setProperty('--vq-ry', (px * 12).toFixed(2) + 'deg');
+          card.style.setProperty('--vq-rx', (-py * 9).toFixed(2) + 'deg');
+        });
+        root.addEventListener('pointerleave', function () { card.style.setProperty('--vq-ry', '0deg'); card.style.setProperty('--vq-rx', '0deg'); });
+      }
+
+      if (!('IntersectionObserver' in window)) return;
+
+      /* ---- Progressive title reveal + lasso throw (JS-driven, never rewrites text) ---- */
+      var reveal = root.querySelector('[data-vq-reveal]');
+      var lasso = root.querySelector('[data-vq-lasso]');
+      root.classList.add('vq-por--anim');
+      if (reveal) reveal.style.clipPath = 'inset(-20% 100% -20% 0)';
+      if (lasso) lasso.style.strokeDashoffset = '1';
+      function ease(x) { return 1 - Math.pow(1 - x, 3); }
+      function play() {
+        var t0 = performance.now();
+        function step(now) {
+          var e = now - t0;
+          var a = Math.min(1, Math.max(0, (e - 250) / 900));
+          var b = Math.min(1, Math.max(0, (e - 700) / 1000));
+          if (reveal) reveal.style.clipPath = 'inset(-20% ' + ((1 - ease(a)) * 100).toFixed(2) + '% -20% 0)';
+          if (lasso) lasso.style.strokeDashoffset = (1 - ease(b)).toFixed(4);
+          if (a < 1 || b < 1) requestAnimationFrame(step);
+          else { if (reveal) reveal.style.clipPath = ''; if (lasso) lasso.style.strokeDashoffset = '0'; }
+        }
+        requestAnimationFrame(step);
+      }
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          play();
+          setTimeout(function () { root.classList.remove('vq-por--anim', 'is-in'); }, 2000);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Vaquera Rancho Romántico',
+      descripcion: 'Portada vaquera vintage: rueda de carreta 3D en canvas con polvo dorado, tarjeta con marco de soga en 3D, escudo de herradura con caballo y lazo que enlaza el nombre al revelarse.',
+      tags: ['portada', 'vaquera', 'quinceañera', 'rancho', 'vintage', 'romántico', 'caballo', 'herradura', 'soga', '3d'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

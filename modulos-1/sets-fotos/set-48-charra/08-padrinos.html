@@ -1,0 +1,187 @@
+<section
+  class="ch35-pd"
+  data-gemini-id="padrinos-charra"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+<i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:url('https://loremflickr.com/1920/1080/charro,rodeo?lock=441') center/cover;"></i><i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:color-mix(in srgb, var(--bg-color,#1d1a24) 88%, transparent);"></i>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
+    .ch35-pd, .ch35-pd *, .ch35-pd *::before, .ch35-pd *::after { box-sizing: border-box; }
+    .ch35-pd {
+      --t-bg: var(--bg-color, #0F2A1D);
+      --t-tx: var(--text-color, #F6F1E7);
+      --t-p: var(--primary-color, #B3122E);
+      --t-s: var(--secondary-color, #C3C8CE);
+      --t-a: var(--accent-color, #C9A44C);
+      --t-display: var(--font-script, 'Cinzel Decorative', serif);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(28rem, 60vw, 42rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      /* Embroidered greca: tiny gold diamonds woven into the felt */
+      background-image:
+        linear-gradient(45deg, color-mix(in srgb, var(--t-a) 7%, transparent) 25%, transparent 25% 75%, color-mix(in srgb, var(--t-a) 7%, transparent) 75%),
+        linear-gradient(45deg, color-mix(in srgb, var(--t-a) 7%, transparent) 25%, transparent 25% 75%, color-mix(in srgb, var(--t-a) 7%, transparent) 75%);
+      background-size: 28px 28px;
+      background-position: 0 0, 14px 14px;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .ch35-pd__content { width: min(100%, 60rem); }
+    .ch35-pd__ribbon { position: relative; display: inline-block; padding: .55rem 3.2rem .7rem; background: var(--t-p); color: var(--t-tx); clip-path: polygon(0 0, 100% 0, calc(100% - 1.2rem) 50%, 100% 100%, 0 100%, 1.2rem 50%); }
+    .ch35-pd__title { margin: 0; font-family: var(--t-display); font-weight: 700; font-size: clamp(1.8rem, 4.4vw, 3rem); line-height: 1.1; }
+    .ch35-pd__sub { margin: 1rem auto clamp(2.2rem, 5vw, 3.2rem); max-width: 32rem; font-style: italic; font-size: 1.2rem; color: var(--t-a); }
+
+    .ch35-pd__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(2rem, 6vw, 4.5rem); row-gap: 1.4rem; text-align: left; }
+    .ch35-pd__item { position: relative; display: grid; grid-template-columns: auto 1fr; gap: 1.1rem; align-items: center; padding-bottom: 1.3rem; }
+    .ch35-pd__item::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 6px;
+      background:
+        radial-gradient(circle, var(--t-s) 0 1.8px, transparent 2.3px) 0 center / 16px 6px repeat-x,
+        linear-gradient(90deg, var(--t-a), transparent) center / 100% 1px no-repeat;
+      transform-origin: left;
+      transition: transform .5s cubic-bezier(.6, 0, .2, 1);
+    }
+    .ch35-pd__figure { margin: 0; width: clamp(4.4rem, 9vw, 5.6rem); border-radius: 50%; padding: 3px; background: conic-gradient(var(--t-a), var(--t-s), var(--t-a), var(--t-s), var(--t-a)); transition: transform .45s cubic-bezier(.3, 1.4, .5, 1); }
+    .ch35-pd__figure img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; border: 2px solid var(--t-bg); background: color-mix(in srgb, var(--t-tx) 14%, var(--t-bg)); }
+    .ch35-pd__role { margin: 0; font-style: italic; font-size: 1.08rem; color: var(--t-a); }
+    .ch35-pd__name { margin: .1rem 0 0; font-size: clamp(1.25rem, 2.3vw, 1.5rem); font-weight: 600; line-height: 1.2; }
+    .ch35-pd__item:hover .ch35-pd__figure { transform: rotate(-8deg) scale(1.06); }
+
+    .ch35-pd--anim .ch35-pd__ribbon { clip-path: polygon(50% 0, 50% 0, 50% 50%, 50% 100%, 50% 100%, 50% 50%); transition: clip-path .5s cubic-bezier(.6, 0, .2, 1); }
+    .ch35-pd--anim.is-in .ch35-pd__ribbon { clip-path: polygon(0 0, 100% 0, calc(100% - 1.2rem) 50%, 100% 100%, 0 100%, 1.2rem 50%); }
+    .ch35-pd--anim .ch35-pd__item::after { transform: scaleX(0); }
+    .ch35-pd--anim .ch35-pd__figure { transform: scale(0); }
+    .ch35-pd--anim .ch35-pd__item > div { opacity: 0; transition: opacity .4s ease .15s; }
+    .ch35-pd--anim .ch35-pd__item[data-in]::after { transform: none; }
+    .ch35-pd--anim .ch35-pd__item[data-in] .ch35-pd__figure { transform: none; }
+    .ch35-pd--anim .ch35-pd__item[data-in] > div { opacity: 1; }
+
+    @media (max-width: 680px) {
+      .ch35-pd__list { grid-template-columns: 1fr; }
+      .ch35-pd__ribbon { padding-inline: 2.2rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ch35-pd *, .ch35-pd *::before, .ch35-pd *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="ch35-pd__content">
+    <header>
+      <div class="ch35-pd__ribbon">
+        <h2 class="ch35-pd__title" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Mis Padrinos</h2>
+      </div>
+      <p class="ch35-pd__sub" memory_type="text" memory_usage="custom" memory_key="padrinos-sub">Gracias por bordar conmigo cada detalle de este día</p>
+    </header>
+
+    <ul class="ch35-pd__list">
+      <li class="ch35-pd__item" data-ch-item>
+        <figure class="ch35-pd__figure" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/300/300/couple,portrait?lock=3581" alt="Padrinos de velación" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+        </figure>
+        <div>
+          <p class="ch35-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-1">Padrinos de Velación</p>
+          <h3 class="ch35-pd__name" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-1">Nombre y Nombre Apellido</h3>
+        </div>
+      </li>
+      <li class="ch35-pd__item" data-ch-item>
+        <figure class="ch35-pd__figure" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/300/300/couple,elegant?lock=3582" alt="Padrinos de corona" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+        </figure>
+        <div>
+          <p class="ch35-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-2">Padrinos de Corona</p>
+          <h3 class="ch35-pd__name" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-2">Nombre y Nombre Apellido</h3>
+        </div>
+      </li>
+      <li class="ch35-pd__item" data-ch-item>
+        <figure class="ch35-pd__figure" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/300/300/couple,smile?lock=3583" alt="Padrinos de anillo" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+        </figure>
+        <div>
+          <p class="ch35-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-3">Padrinos de Anillo</p>
+          <h3 class="ch35-pd__name" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-3">Nombre y Nombre Apellido</h3>
+        </div>
+      </li>
+      <li class="ch35-pd__item" data-ch-item>
+        <figure class="ch35-pd__figure" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/300/300/couple,family?lock=3584" alt="Padrinos de sombrero charro" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+        </figure>
+        <div>
+          <p class="ch35-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-4">Padrinos de Sombrero</p>
+          <h3 class="ch35-pd__name" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-4">Nombre y Nombre Apellido</h3>
+        </div>
+      </li>
+      <li class="ch35-pd__item" data-ch-item>
+        <figure class="ch35-pd__figure" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/300/300/couple,wedding?lock=3585" alt="Padrinos de ramo" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+        </figure>
+        <div>
+          <p class="ch35-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-5">Padrinos de Ramo de Rosas</p>
+          <h3 class="ch35-pd__name" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-5">Nombre y Nombre Apellido</h3>
+        </div>
+      </li>
+      <li class="ch35-pd__item" data-ch-item>
+        <figure class="ch35-pd__figure" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/300/300/couple,party?lock=3586" alt="Padrinos de brindis" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+        </figure>
+        <div>
+          <p class="ch35-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-6">Padrinos de Brindis</p>
+          <h3 class="ch35-pd__name" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-6">Nombre y Nombre Apellido</h3>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="padrinos-charra"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      root.classList.add('ch35-pd--anim');
+      var items = root.querySelectorAll('[data-ch-item]');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .15) {
+          io.disconnect();
+          root.classList.add('is-in');
+          for (var i = 0; i < items.length; i++) (function (el, d) {
+            setTimeout(function () { el.setAttribute('data-in', ''); }, 300 + d * 140);
+          })(items[i], i);
+          setTimeout(function () {
+            root.classList.remove('ch35-pd--anim', 'is-in');
+            for (var k = 0; k < items.length; k++) items[k].removeAttribute('data-in');
+          }, 300 + items.length * 140 + 800);
+        }
+      }, { threshold: [0, .15, .4] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'padrinos',
+      module_name: 'padrinos-charra',
+      style_name: 'Charra Mexicana Padrinos Liston',
+      descripcion: 'Padrinos en dos columnas con retratos circulares de marco oro y plata, listón rojo como encabezado y costuras de botonadura que se cosen al aparecer.',
+      tags: ['padrinos', 'charra', 'quinceañera', 'mexicana', 'botonadura', 'listón'],
+      tipo: 'padrinos'
+    };
+  </script>
+</section>

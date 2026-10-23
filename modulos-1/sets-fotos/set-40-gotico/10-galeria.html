@@ -1,0 +1,296 @@
+<section
+  class="gg-ga"
+  data-gemini-id="galeria-gotico"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Grenze+Gotisch:wght@400;500;600;700&display=swap');
+
+    .gg-ga, .gg-ga *, .gg-ga *::before, .gg-ga *::after { box-sizing: border-box; }
+    .gg-ga {
+      --t-bg: var(--bg-color, #0d0809);
+      --t-tx: var(--text-color, #eee5dd);
+      --t-p: var(--primary-color, #7d0f1f);
+      --t-s: var(--secondary-color, #1f0b10);
+      --t-a: var(--accent-color, #a3a1aa);
+      --t-display: var(--font-script, 'Grenze Gotisch', 'Cormorant Garamond', serif);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: 36rem;
+      display: grid;
+      place-items: center;
+      padding: clamp(4.5rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image:
+        radial-gradient(60% 40% at 50% 100%, color-mix(in srgb, var(--t-p) 18%, transparent), transparent 75%),
+        linear-gradient(180deg, var(--t-bg), var(--t-s) 50%, var(--t-bg));
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .gg-ga__wrap { width: min(100%, 72rem); display: grid; gap: clamp(2rem, 5vw, 3rem); }
+    .gg-ga__head { text-align: center; display: grid; gap: .5rem; justify-items: center; }
+    .gg-ga__title { margin: 0; font-family: var(--t-display); font-weight: 600; font-size: clamp(2.3rem, 5.4vw, 3.6rem); line-height: 1; }
+    .gg-ga__lead { margin: 0; font-style: italic; font-size: clamp(1.05rem, 2.2vw, 1.2rem); color: color-mix(in srgb, var(--t-a) 80%, var(--t-tx)); }
+
+    .gg-ga__grid {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-auto-flow: dense;
+      grid-auto-rows: clamp(10rem, 17vw, 14rem);
+      gap: clamp(.7rem, 1.6vw, 1.1rem);
+    }
+    .gg-ga__tile { position: relative; }
+    .gg-ga__tile--tall { grid-row: span 2; }
+    .gg-ga__tile--wide { grid-column: span 2; }
+    .gg-ga__btn {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 5px;
+      border: 1px solid color-mix(in srgb, var(--t-a) 55%, transparent);
+      background: var(--t-bg);
+      cursor: zoom-in;
+      overflow: hidden;
+      --mx: 50%;
+      --my: 50%;
+    }
+    .gg-ga__tile--arch .gg-ga__btn { border-radius: 50% 50% 3px 3px / 18% 18% 3px 3px; }
+    .gg-ga__tile--arch .gg-ga__figure img { border-radius: 50% 50% 1px 1px / 17% 17% 1px 1px; }
+    .gg-ga__figure { margin: 0; height: 100%; }
+    .gg-ga__figure img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(.7) brightness(.85);
+      transition: transform .5s cubic-bezier(.2, .8, .2, 1), filter .4s ease;
+    }
+    .gg-ga__btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--mx) var(--my), rgba(255, 225, 190, .22), color-mix(in srgb, var(--t-p) 18%, transparent) 25%, transparent 55%);
+      opacity: 0;
+      transition: opacity .35s ease;
+      pointer-events: none;
+    }
+    .gg-ga__btn:hover::after, .gg-ga__btn:focus-visible::after { opacity: 1; }
+    .gg-ga__btn:hover .gg-ga__figure img, .gg-ga__btn:focus-visible .gg-ga__figure img { transform: scale(1.05); filter: saturate(1) brightness(1); }
+    .gg-ga__btn:focus-visible { outline: 1px solid var(--t-a); outline-offset: 3px; }
+
+    /* Lightbox */
+    .gg-ga__dlg {
+      width: min(94vw, 62rem);
+      max-height: 92vh;
+      padding: 0;
+      border: 1px solid color-mix(in srgb, var(--t-a) 60%, transparent);
+      background: var(--t-bg);
+      color: var(--t-tx);
+      overflow: hidden;
+    }
+    .gg-ga__dlg::backdrop { background: color-mix(in srgb, var(--t-bg) 88%, transparent); }
+    .gg-ga__dlg[open] { animation: gg-ga-in .35s cubic-bezier(.2, .8, .2, 1); }
+    .gg-ga__dlg-inner { position: relative; display: grid; }
+    .gg-ga__big { display: block; width: 100%; height: auto; max-height: 80vh; object-fit: contain; background: #000; }
+    .gg-ga__cap { margin: 0; padding: .8rem 1rem; text-align: center; font-style: italic; font-size: 1.1rem; color: color-mix(in srgb, var(--t-a) 85%, var(--t-tx)); }
+    .gg-ga__ctrl {
+      position: absolute;
+      top: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.8rem;
+      height: 2.8rem;
+      margin-top: -1.4rem;
+      padding: 0;
+      border: 1px solid color-mix(in srgb, var(--t-a) 60%, transparent);
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--t-bg) 75%, transparent);
+      color: var(--t-tx);
+      font: 1.4rem/1 var(--t-text);
+      cursor: pointer;
+      transition: background-color .3s ease, transform .3s ease;
+    }
+    .gg-ga__ctrl:hover { background: var(--t-p); transform: scale(1.06); }
+    .gg-ga__ctrl--prev { left: .8rem; }
+    .gg-ga__ctrl--next { right: .8rem; }
+    .gg-ga__ctrl--close { top: 1.6rem; right: .8rem; }
+
+    .gg-ga--anim .gg-ga__tile { opacity: 0; transform: translateY(16px) scale(.97); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .gg-ga--anim .gg-ga__tile[data-gg-in] { opacity: 1; transform: none; }
+
+    @keyframes gg-ga-in { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: none; } }
+
+    @media (max-width: 900px) {
+      .gg-ga__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 560px) {
+      .gg-ga__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 9.5rem; }
+      .gg-ga__tile--wide { grid-column: span 2; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .gg-ga *, .gg-ga *::before, .gg-ga *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="gg-ga__wrap">
+    <header class="gg-ga__head">
+      <h2 class="gg-ga__title" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Retratos a la luz de las velas</h2>
+      <p class="gg-ga__lead" memory_type="text" memory_usage="custom" memory_key="galeria-texto">Instantes guardados entre sombra y terciopelo.</p>
+    </header>
+
+    <ul class="gg-ga__grid">
+      <li class="gg-ga__tile gg-ga__tile--tall gg-ga__tile--arch" data-gg-tile>
+        <button class="gg-ga__btn" type="button" data-gg-open="0" aria-label="Ampliar foto 1">
+          <figure class="gg-ga__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/600/1200/bride,dark,elegant?lock=3401" alt="Novia en vestido de encaje" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+          </figure>
+        </button>
+      </li>
+      <li class="gg-ga__tile" data-gg-tile>
+        <button class="gg-ga__btn" type="button" data-gg-open="1" aria-label="Ampliar foto 2">
+          <figure class="gg-ga__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/600/600/red,roses,bouquet?lock=3402" alt="Ramo de rosas rojas oscuras" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+          </figure>
+        </button>
+      </li>
+      <li class="gg-ga__tile" data-gg-tile>
+        <button class="gg-ga__btn" type="button" data-gg-open="2" aria-label="Ampliar foto 3">
+          <figure class="gg-ga__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/600/600/candelabra,candles?lock=3403" alt="Candelabro encendido" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+          </figure>
+        </button>
+      </li>
+      <li class="gg-ga__tile gg-ga__tile--wide" data-gg-tile>
+        <button class="gg-ga__btn" type="button" data-gg-open="3" aria-label="Ampliar foto 4">
+          <figure class="gg-ga__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/1200/600/wedding,couple,night?lock=3404" alt="Pareja bajo arcos de piedra" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+          </figure>
+        </button>
+      </li>
+      <li class="gg-ga__tile gg-ga__tile--tall gg-ga__tile--arch" data-gg-tile>
+        <button class="gg-ga__btn" type="button" data-gg-open="4" aria-label="Ampliar foto 5">
+          <figure class="gg-ga__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/600/1200/cathedral,gothic?lock=3405" alt="Nave de una catedral gótica" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+          </figure>
+        </button>
+      </li>
+      <li class="gg-ga__tile" data-gg-tile>
+        <button class="gg-ga__btn" type="button" data-gg-open="5" aria-label="Ampliar foto 6">
+          <figure class="gg-ga__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/600/600/wedding,rings,dark?lock=3406" alt="Anillos sobre terciopelo" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+          </figure>
+        </button>
+      </li>
+      <li class="gg-ga__tile" data-gg-tile>
+        <button class="gg-ga__btn" type="button" data-gg-open="6" aria-label="Ampliar foto 7">
+          <figure class="gg-ga__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/600/600/black,lace?lock=3407" alt="Detalle de encaje negro" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+          </figure>
+        </button>
+      </li>
+      <li class="gg-ga__tile gg-ga__tile--wide" data-gg-tile>
+        <button class="gg-ga__btn" type="button" data-gg-open="7" aria-label="Ampliar foto 8">
+          <figure class="gg-ga__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/1200/600/wine,glasses,candles?lock=3408" alt="Brindis con copas de vino tinto" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+          </figure>
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <dialog class="gg-ga__dlg" data-gg-dlg aria-label="Galería ampliada">
+    <div class="gg-ga__dlg-inner">
+      <img class="gg-ga__big" data-mm-big alt="" />
+      <p class="gg-ga__cap" data-gg-cap></p>
+      <button class="gg-ga__ctrl gg-ga__ctrl--prev" type="button" data-gg-nav="-1" aria-label="Anterior">&#8249;</button>
+      <button class="gg-ga__ctrl gg-ga__ctrl--next" type="button" data-gg-nav="1" aria-label="Siguiente">&#8250;</button>
+      <button class="gg-ga__ctrl gg-ga__ctrl--close" type="button" data-gg-close aria-label="Cerrar">&#215;</button>
+    </div>
+  </dialog>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="galeria-gotico"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* Lightbox (dialog + showModal) — reads current img src/alt each time so RAG swaps are respected */
+      var openers = [].slice.call(root.querySelectorAll('[data-gg-open]'));
+      var dlg = root.querySelector('[data-gg-dlg]');
+      var big = root.querySelector('[data-mm-big]');
+      var cap = root.querySelector('[data-gg-cap]');
+      var cur = 0;
+      function show(i) {
+        cur = (i + openers.length) % openers.length;
+        var img = openers[cur].querySelector('img');
+        if (!img) return;
+        big.src = img.currentSrc || img.src;
+        big.alt = img.alt || '';
+        cap.textContent = img.alt || '';
+      }
+      openers.forEach(function (b, i) {
+        b.addEventListener('click', function () {
+          show(i);
+          if (dlg && dlg.showModal) { if (!dlg.open) dlg.showModal(); }
+        });
+        b.addEventListener('pointermove', function (e) {
+          var r = b.getBoundingClientRect();
+          b.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+          b.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+        });
+      });
+      if (dlg) {
+        root.querySelectorAll('[data-gg-nav]').forEach(function (n) { n.addEventListener('click', function () { show(cur + +n.getAttribute('data-gg-nav')); }); });
+        var cl = root.querySelector('[data-gg-close]');
+        if (cl) cl.addEventListener('click', function () { dlg.close(); });
+        dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+        dlg.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') show(cur + 1); if (e.key === 'ArrowLeft') show(cur - 1); });
+      }
+
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      /* Entrance per tile as it reaches the viewport */
+      var tiles = [].slice.call(root.querySelectorAll('[data-gg-tile]'));
+      root.classList.add('gg-ga--anim');
+      var left = tiles.length;
+      var io = new IntersectionObserver(function (en) {
+        var batch = 0;
+        en.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          io.unobserve(e.target);
+          var el = e.target;
+          setTimeout(function () {
+            el.setAttribute('data-gg-in', '');
+            if (--left === 0) setTimeout(function () {
+              root.classList.remove('gg-ga--anim');
+              tiles.forEach(function (t) { t.removeAttribute('data-gg-in'); });
+            }, 700);
+          }, batch++ * 90);
+        });
+      }, { threshold: .15 });
+      tiles.forEach(function (t) { io.observe(t); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-gotico',
+      style_name: 'Glamour Gótico Galería de Arcos',
+      descripcion: 'Galería en mosaico responsivo con arcos ojivales y marcos plateados, resplandor de vela que sigue el cursor, entrada por mosaico y lightbox propio con dialog, flechas y teclado.',
+      tags: ['galeria', 'boda', 'gotico', 'glamour', 'mosaico', 'lightbox'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

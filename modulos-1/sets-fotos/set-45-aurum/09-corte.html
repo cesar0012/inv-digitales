@@ -1,0 +1,200 @@
+<section
+  class="au-ct"
+  data-gemini-id="corte-aurum"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Jost:wght@300;400;500&display=swap');
+
+    .au-ct, .au-ct *, .au-ct *::before, .au-ct *::after { box-sizing: border-box; }
+    .au-ct {
+      --t-bg: var(--bg-color, #0b0a0d);
+      --t-tx: var(--text-color, #f3eee4);
+      --t-p: var(--primary-color, #d2aa58);
+      --t-s: var(--secondary-color, #7a5c2a);
+      --t-a: var(--accent-color, #f2e3b4);
+      --t-display: var(--font-script, 'Cormorant Garamond', 'Times New Roman', serif);
+      --t-text: var(--font-heading, 'Jost', 'Helvetica Neue', Arial, sans-serif);
+      --au-line: color-mix(in srgb, var(--t-p) 45%, transparent);
+      --au-px: 0px;
+      --au-py: 0px;
+      --au-sheen: -30%;
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 75vw, 48rem);
+      display: grid;
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: radial-gradient(ellipse 50% 60% at 10% 30%, color-mix(in srgb, var(--t-s) 22%, transparent), transparent 70%);
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .au-ct__wrap { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); align-items: stretch; min-height: inherit; }
+
+    .au-ct__text { display: grid; align-content: center; gap: 1.4rem; padding: clamp(4rem, 9vw, 7rem) clamp(1.25rem, 6vw, 5rem); }
+    .au-ct__head { display: grid; gap: .45rem; justify-items: start; }
+    .au-ct__kicker { margin: 0; font-family: var(--t-display); font-style: italic; font-size: clamp(1.1rem, 2.4vw, 1.45rem); color: var(--t-a); }
+    .au-ct__title { margin: 0; font-family: var(--t-display); font-weight: 500; font-style: italic; font-size: clamp(2.6rem, 6.5vw, 4.4rem); line-height: .95; letter-spacing: -.01em; }
+    .au-ct__intro { margin: .4rem 0 0; max-width: 30rem; font-weight: 300; font-size: clamp(1rem, 2vw, 1.08rem); line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 72%, transparent); }
+    .au-ct__cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 2rem; max-width: 34rem; }
+    .au-ct__group { display: grid; gap: .5rem; align-content: start; padding-top: .9rem; border-top: 1px solid var(--au-line); position: relative; }
+    .au-ct__group::before { content: ''; position: absolute; left: 0; top: -1px; width: 2rem; height: 1px; background: var(--t-a); box-shadow: 0 0 10px var(--t-p); }
+    .au-ct__gtitle { margin: 0 0 .2rem; font-family: var(--t-display); font-style: italic; font-weight: 600; font-size: 1.5rem; color: var(--t-p); }
+    .au-ct__list { list-style: none; margin: 0; padding: 0; display: grid; gap: .3rem; }
+    .au-ct__list li { position: relative; padding-left: 1.1rem; font-weight: 300; font-size: 1rem; line-height: 1.5; }
+    .au-ct__list li::before { content: ''; position: absolute; left: 0; top: .72em; width: .32rem; height: .32rem; transform: rotate(45deg); background: var(--t-p); transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease; }
+    .au-ct__list li:hover::before { transform: rotate(45deg) scale(1.5); box-shadow: 0 0 10px var(--t-p); }
+    .au-ct__list li span { transition: color .3s ease; }
+    .au-ct__list li:hover span { color: var(--t-a); }
+
+    .au-ct__stage { position: relative; overflow: hidden; min-height: 24rem; }
+    .au-ct__figure { margin: 0; position: absolute; inset: 0; overflow: hidden; }
+    .au-ct__figure img { display: block; width: 100%; height: 100%; min-height: 100%; aspect-ratio: 4 / 5; object-fit: cover; transform: translate(var(--au-px), var(--au-py)) scale(1.08); filter: saturate(.85) contrast(1.05); transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .au-ct__figure::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--t-bg), transparent 28%), linear-gradient(0deg, color-mix(in srgb, var(--t-bg) 70%, transparent), transparent 45%); pointer-events: none; }
+    .au-ct__sheen { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(105deg, transparent calc(var(--au-sheen) - 16%), color-mix(in srgb, var(--t-a) 16%, transparent) var(--au-sheen), transparent calc(var(--au-sheen) + 16%)); mix-blend-mode: screen; }
+    .au-ct__frame { position: absolute; inset: 1.1rem; border: 1px solid color-mix(in srgb, var(--t-a) 28%, transparent); pointer-events: none; z-index: 3; }
+    .au-ct__frame::before, .au-ct__frame::after { content: ''; position: absolute; width: 1.6rem; height: 1.6rem; border-color: var(--t-a); border-style: solid; border-width: 0; }
+    .au-ct__frame::before { right: -1px; top: -1px; border-top-width: 1px; border-right-width: 1px; }
+    .au-ct__frame::after { left: -1px; bottom: -1px; border-bottom-width: 1px; border-left-width: 1px; }
+    .au-ct__vert { position: absolute; z-index: 3; right: 2.1rem; top: 2.2rem; margin: 0; writing-mode: vertical-rl; font-family: var(--t-display); font-style: italic; font-size: 1.15rem; letter-spacing: .08em; color: var(--t-a); text-shadow: 0 2px 10px #000; }
+    .au-ct__curtain { position: absolute; top: 0; bottom: 0; width: 51%; z-index: 4; pointer-events: none; background: linear-gradient(180deg, var(--t-s), var(--t-p) 50%, var(--t-s)); transition: transform .5s cubic-bezier(.6, 0, .3, 1); }
+    .au-ct__curtain::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0 1.2rem, color-mix(in srgb, #000 18%, transparent) 1.2rem 2.4rem); }
+    .au-ct__curtain--l { left: 0; transform: translateX(-102%); }
+    .au-ct__curtain--r { right: 0; transform: translateX(102%); }
+
+    /* Entrance: gold curtains cover the stage only while JS adds .au-ct--anim, then slide apart; each transition <= .5s */
+    .au-ct--anim .au-ct__curtain--l, .au-ct--anim .au-ct__curtain--r { transform: none; transition: none; }
+    .au-ct--anim.is-in .au-ct__curtain { transition: transform .5s cubic-bezier(.6, 0, .3, 1); }
+    .au-ct--anim.is-in .au-ct__curtain--l { transform: translateX(-102%); }
+    .au-ct--anim.is-in .au-ct__curtain--r { transform: translateX(102%); }
+    .au-ct--anim .au-ct__figure img { transform: scale(1.22); }
+    .au-ct--anim.is-in .au-ct__figure img { transform: translate(var(--au-px), var(--au-py)) scale(1.08); transition: transform .5s cubic-bezier(.2, .8, .2, 1) .2s; }
+    .au-ct--anim .au-ct__vert, .au-ct--anim .au-ct__frame { opacity: 0; transition: opacity .45s ease .45s; }
+    .au-ct--anim.is-in .au-ct__vert, .au-ct--anim.is-in .au-ct__frame { opacity: 1; }
+    .au-ct--anim .au-ct__head > *, .au-ct--anim .au-ct__group { opacity: 0; transform: translateX(-24px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .au-ct--anim .au-ct__head > :nth-child(2) { transition-delay: .1s; }
+    .au-ct--anim .au-ct__head > :nth-child(3) { transition-delay: .2s; }
+    .au-ct--anim .au-ct__group:nth-child(1) { transition-delay: .3s; }
+    .au-ct--anim .au-ct__group:nth-child(2) { transition-delay: .42s; }
+    .au-ct--anim.is-in .au-ct__head > *, .au-ct--anim.is-in .au-ct__group { opacity: 1; transform: none; }
+
+    @media (max-width: 760px) {
+      .au-ct__wrap { grid-template-columns: 1fr; }
+      .au-ct__stage { order: -1; min-height: 0; aspect-ratio: 4 / 3; }
+      .au-ct__figure img { aspect-ratio: 4 / 3; }
+      .au-ct__figure::after { background: linear-gradient(0deg, var(--t-bg), transparent 35%); }
+      .au-ct__text { padding-top: 2rem; }
+      .au-ct__cols { grid-template-columns: 1fr 1fr; gap: 1.2rem 1.2rem; }
+    }
+    @media (max-width: 460px) { .au-ct__cols { grid-template-columns: 1fr; } }
+    @media (prefers-reduced-motion: reduce) {
+      .au-ct *, .au-ct *::before, .au-ct *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="au-ct__wrap">
+    <div class="au-ct__text">
+      <header class="au-ct__head">
+        <p class="au-ct__kicker" memory_type="text" memory_usage="custom" memory_key="corte-kicker">Quienes caminan a mi lado</p>
+        <h2 class="au-ct__title" memory_type="text" memory_usage="custom" memory_key="corte-titulo">Mi corte de honor</h2>
+        <p class="au-ct__intro" memory_type="text" memory_usage="custom" memory_key="corte-intro">Amigas y amigos de toda la vida que compartirán conmigo el vals y cada baile de la noche.</p>
+      </header>
+      <div class="au-ct__cols">
+        <div class="au-ct__group">
+          <h3 class="au-ct__gtitle" memory_type="text" memory_usage="custom" memory_key="corte-damas-titulo">Damas</h3>
+          <ul class="au-ct__list">
+            <li><span memory_type="text" memory_usage="custom" memory_key="corte-dama-1">Nombre Apellido</span></li>
+            <li><span memory_type="text" memory_usage="custom" memory_key="corte-dama-2">Nombre Apellido</span></li>
+            <li><span memory_type="text" memory_usage="custom" memory_key="corte-dama-3">Nombre Apellido</span></li>
+            <li><span memory_type="text" memory_usage="custom" memory_key="corte-dama-4">Nombre Apellido</span></li>
+          </ul>
+        </div>
+        <div class="au-ct__group">
+          <h3 class="au-ct__gtitle" memory_type="text" memory_usage="custom" memory_key="corte-chambelanes-titulo">Chambelanes</h3>
+          <ul class="au-ct__list">
+            <li><span memory_type="text" memory_usage="custom" memory_key="corte-chambelan-1">Nombre Apellido</span></li>
+            <li><span memory_type="text" memory_usage="custom" memory_key="corte-chambelan-2">Nombre Apellido</span></li>
+            <li><span memory_type="text" memory_usage="custom" memory_key="corte-chambelan-3">Nombre Apellido</span></li>
+            <li><span memory_type="text" memory_usage="custom" memory_key="corte-chambelan-4">Nombre Apellido</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="au-ct__stage" data-au-stage>
+      <figure class="au-ct__figure" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/900/1100/friends,elegant,party?lock=3513" alt="Corte de honor" path="placeholder" data-library-category="personas" data-asset-type="grupo" loading="lazy" />
+      </figure>
+      <span class="au-ct__sheen" aria-hidden="true"></span>
+      <span class="au-ct__frame" aria-hidden="true"></span>
+      <p class="au-ct__vert" memory_type="text" memory_usage="custom" memory_key="corte-etiqueta">Corte de honor · 2027</p>
+      <span class="au-ct__curtain au-ct__curtain--l" aria-hidden="true"></span>
+      <span class="au-ct__curtain au-ct__curtain--r" aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="corte-aurum"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state (curtains open) */
+
+      var stage = root.querySelector('[data-au-stage]');
+      root.classList.add('au-ct--anim');
+
+      if (stage) {
+        stage.addEventListener('pointermove', function (e) {
+          if (e.pointerType === 'touch') return;
+          var r = stage.getBoundingClientRect();
+          var px = (e.clientX - r.left) / r.width - .5, py = (e.clientY - r.top) / r.height - .5;
+          root.style.setProperty('--au-px', (-px * 18).toFixed(1) + 'px');
+          root.style.setProperty('--au-py', (-py * 18).toFixed(1) + 'px');
+        });
+        stage.addEventListener('pointerleave', function () { root.style.setProperty('--au-px', '0px'); root.style.setProperty('--au-py', '0px'); });
+      }
+
+      /* rAF: slow light sheen across the photo; paused off-screen */
+      var sheen = -30, last = 0, running = false, visible = false;
+      function frame(now) {
+        if (!running) return;
+        var dt = Math.min(.05, (now - last) / 1000 || .016); last = now;
+        sheen += dt * 20; if (sheen > 150) sheen = -70;
+        root.style.setProperty('--au-sheen', sheen.toFixed(1) + '%');
+        requestAnimationFrame(frame);
+      }
+      function run() { if (running || !visible || document.hidden) return; running = true; last = performance.now(); requestAnimationFrame(frame); }
+      function stop() { running = false; }
+
+      var entered = false;
+      var io = new IntersectionObserver(function (en) {
+        var e = en[0]; visible = e.isIntersecting;
+        if (visible) {
+          if (!entered && e.intersectionRatio > .2) {
+            entered = true;
+            requestAnimationFrame(function () { root.classList.add('is-in'); });
+            setTimeout(function () { root.classList.remove('au-ct--anim', 'is-in'); }, 1500);
+          }
+          run();
+        } else { stop(); }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+      document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else run(); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-aurum',
+      style_name: 'Aurum Obsidiana Lujo',
+      descripcion: 'Corte de honor con foto a media pantalla que se descubre al abrirse dos cortinas de oro plisado; parallax con el cursor, barrido de luz, etiqueta vertical dorada y listas de damas y chambelanes en dos columnas.',
+      tags: ['corte', 'damas', 'chambelanes', 'lujo', 'oro', 'cortina', 'premium', 'quinceañera'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

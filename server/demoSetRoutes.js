@@ -14,10 +14,36 @@
 import { Router } from 'express';
 import multer from 'multer';
 import db from './database.js';
-import { listDemoPalettes, buildDemoSet, buildDemoSetBatch, groupsFromZipBuffer, groupsFromServerFolder, saveBatch, BATCH_DIR } from './demoSetService.js';
+import { listDemoPalettes, buildDemoSet, buildDemoSetBatch, groupsFromZipBuffer, groupsFromServerFolder, saveBatch, BATCH_DIR, PROJECT_ROOT } from './demoSetService.js';
 import { getFreeImageConfig, FREE_IMAGE_PROVIDERS } from './freeImageService.js';
-import { existsSync, statSync } from 'fs';
+import { existsSync, statSync, readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
+
+const INSERT_MODULO = db.prepare(`
+  INSERT INTO knowledge_base_modules (
+    module_id, module_type, style_name, description, tags, descripcion_larga,
+    theme_tags, color_palette, css_variables, has_memory_attributes, memory_sources,
+    html_content, category, is_active, filename, html_size
+  ) VALUES (
+    @module_id, @module_type, @style_name, @description, @tags, @descripcion_larga,
+    @theme_tags, @color_palette, @css_variables, @has_memory_attributes, @memory_sources,
+    @html_content, 'general', 1, @filename, @html_size
+  )
+`);
+
+function parseMeta(html) {
+  const m = html.match(/moduleMetadata\s*=\s*\{([\s\S]*?)\}\s*;?/);
+  const out = {};
+  if (!m) return out;
+  const s = m[1];
+  const grab = (k) => { const mm = s.match(new RegExp(k + "\\s*:\\s*['\\\"]([^'\\\"]*)['\\\"]")); return mm ? mm[1] : ''; };
+  out.descripcion = grab('descripcion');
+  try {
+    const tags = s.match(/tags\s*:\s*\[([^\]]*)\]/);
+    if (tags) out.tags = tags[1].split(',').map((t) => t.trim().replace(/^['"]|['"]$/g, '')).filter(Boolean);
+  } catch { /* sin tags */ }
+  return out;
+}
 
 const router = Router();
 
@@ -166,6 +192,80 @@ router.get('/descargar/:batchId/:file', requireAdmin, (req, res) => {
   res.setHeader('Content-Type', file.endsWith('.zip') ? 'application/zip' : 'text/html; charset=utf-8');
   res.setHeader('Content-Disposition', `attachment; filename="${file}"`);
   res.sendFile(full);
+});
+
+// ---------------------------------------------------------------------------
+// POST /importar-rack — sube los módulos de sets del servidor directamente al
+// rack modular (knowledge_base_modules), sin pasar por el generador.
+// Body: { carpeta: 'modulos-1/sets-fotos' } (toda la raíz) o un set suelto
+// ('modulos-1/sets-fotos/premium').
+// ---------------------------------------------------------------------------
+router.post('/importar-rack', requireAdmin, async (req, res) => {
+  try {
+    const TIPOS = ['portada', 'padres', 'ubicacion', 'itinerario', 'confirmacion', 'detalles', 'countdown', 'padrinos', 'corte', 'galeria', 'regalos', 'vestimenta'];
+    const ROOT = join(PROJECT_ROOT, 'modulos-1', 'sets-fotos');
+    const carpeta = String(req.body.carpeta || 'modulos-1/sets-fotos').trim();
+    const target = join(PROJECT_ROOT, carpeta);
+    if (!target.startsWith(PROJECT_ROOT)) return res.status(400).json({ error: 'Carpeta fuera del proyecto' });
+
+    // ¿La carpeta apunta directo a UN set (contiene 01-portada.html)? Si no,
+    // es una raíz de colección: cada subcarpeta con módulos es un set.
+    const esSet = (dir) => TIPOS.every((t) => readdirSync(dir).some((f) => f.endsWith('-' + t + '.html')));
+    const setDirs = [];
+    if (existsSync(target) && statSync(target).isDirectory()) {
+      if (esSet(target)) setDirs.push(carpeta.split('/').pop());
+      else for (const d of readdirSync(target).sort()) {
+        const p = join(target, d);
+        if (statSync(p).isDirectory() && /^(set-\d+-|premium)$/.test(d) && esSet(p)) setDirs.push(d);
+      }
+    }
+    if (!setDirs.length) return res.status(400).json({ error: 'No se encontraron sets completos en "' + carpeta + '"' });
+
+    const filas = [];
+    const keys = [];
+    for (const setDir of setDirs) {
+      const key = setDir.replace(/^set-\d+-/, '');
+      keys.push(key);
+      const dir = setDir === carpeta.split('/').pop() && esSet(target) ? target : join(ROOT, setDir);
+      const files = readdirSync(dir).filter((f) => f.endsWith('.html'));
+      for (const tipo of TIPOS) {
+        const f = files.find((x) => x.endsWith('-' + tipo + '.html'));
+        if (!f) continue;
+        const html = readFileSync(join(dir, f), 'utf-8');
+        const meta = parseMeta(html);
+        filas.push({
+          module_id: `sf-${key}-${tipo}`,
+          module_type: tipo,
+          style_name: `${key} · ${tipo}`,
+          description: (meta.descripcion || `Módulo ${tipo} del set ${key}`).slice(0, 240),
+          tags: JSON.stringify(meta.tags || [tipo]),
+          descripcion_larga: (meta.descripcion || '').slice(0, 900),
+          theme_tags: JSON.stringify([key, 'sets-fotos']),
+          color_palette: '',
+          css_variables: '',
+          has_memory_attributes: /memory_type=/.test(html) ? 1 : 0,
+          memory_sources: html.includes('memory_source="library"') ? 'generated,library' : 'generated',
+          html_content: html,
+          filename: `sets-fotos/${setDir}/${f}`,
+          html_size: Buffer.byteLength(html)
+        });
+      }
+    }
+    let reemplazadas = 0;
+    const tx = db.transaction(() => {
+      for (const key of keys) {
+        reemplazadas += db.prepare("DELETE FROM knowledge_base_modules WHERE module_id LIKE ?").run('sf-' + key + '-%').changes;
+      }
+      for (const fila of filas) INSERT_MODULO.run(fila);
+    });
+    tx();
+    const total = db.prepare("SELECT COUNT(*) c FROM knowledge_base_modules WHERE module_id LIKE 'sf-%'").get().c;
+    console.log(`[DEMO-SET] 📥 Rack: ${filas.length} módulos importados (${keys.length} sets) desde "${carpeta}" · sf-* total: ${total}`);
+    res.json({ ok: true, importados: filas.length, sets: keys.length, reemplazados: reemplazadas, totalSf: total });
+  } catch (e) {
+    console.error('[DEMO-SET] ❌ importar-rack:', e.message);
+    res.status(500).json({ error: e.message });
+  }
 });
 
 export default router;

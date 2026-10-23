@@ -1,0 +1,202 @@
+<section
+  class="rr-vs"
+  data-gemini-id="vestimenta-rustico"
+  data-rr-palette='[["Salvia","#9CAF88"],["Oliva","#6E7A4F"],["Terracota","#B86B4B"],["Arena","#D8C3A0"],["Azul polvo","#8EA3B0"],["Nogal","#6B4A33"],["Champaña","#E2CFAE"]]'
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Allura&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .rr-vs, .rr-vs *, .rr-vs *::before, .rr-vs *::after { box-sizing: border-box; }
+    .rr-vs {
+      --t-bg: var(--bg-color, #F3EDE1);
+      --t-tx: var(--text-color, #3A2B1F);
+      --t-p: var(--primary-color, #8B9E7C);
+      --t-s: var(--secondary-color, #9A7350);
+      --t-a: var(--accent-color, #EDBC68);
+      --t-display: var(--font-script, 'Allura', cursive);
+      --t-text: var(--font-heading, 'EB Garamond', Georgia, serif);
+      --t-wood: color-mix(in srgb, var(--t-s) 82%, #2b1c11);
+      --t-wood-d: color-mix(in srgb, var(--t-s) 34%, #170f09);
+      --t-sage-d: color-mix(in srgb, var(--t-p) 58%, #1d261a);
+      --t-sage-l: color-mix(in srgb, var(--t-p) 55%, var(--t-bg));
+      --t-ivory: color-mix(in srgb, var(--t-bg) 70%, #ffffff);
+      --t-twine: color-mix(in srgb, var(--t-s) 50%, #dcc7a4);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      padding: clamp(5rem, 9vw, 7rem) clamp(1.25rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/linen,fabric?lock=3121');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .rr-vs::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: repeating-linear-gradient(0deg, color-mix(in srgb, var(--t-s) 7%, transparent) 0 1px, transparent 1px 4px), repeating-linear-gradient(90deg, color-mix(in srgb, var(--t-s) 6%, transparent) 0 1px, transparent 1px 5px), linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 90%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent));
+    }
+    .rr-vs__wash { position: absolute; inset: 0; z-index: -1; pointer-events: none; background-color: color-mix(in srgb, var(--rr-tint, var(--t-p)) 14%, transparent); transition: background-color .45s ease; }
+    .rr-vs__ripple { position: absolute; inset: 0; z-index: -1; pointer-events: none; background: color-mix(in srgb, var(--rr-ripple, var(--t-p)) 26%, transparent); clip-path: circle(0 at var(--x, 50%) var(--y, 50%)); }
+    .rr-vs__ripple[data-go] { clip-path: circle(150% at var(--x, 50%) var(--y, 50%)); transition: clip-path .5s ease-out; }
+    .rr-vs__deco { position: absolute; width: clamp(5.5rem, 12vw, 9rem); height: auto; pointer-events: none; }
+    .rr-vs__deco--a { left: clamp(-2.4rem, -2vw, -1rem); bottom: -1.6rem; transform: rotate(40deg); }
+    .rr-vs__deco--b { right: clamp(-2.4rem, -2vw, -1rem); top: -1.4rem; transform: rotate(-150deg); }
+
+    .rr-vs__head { max-width: 40rem; margin: 0 auto; }
+    .rr-vs__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.8rem, 7vw, 4.4rem); line-height: 1.05; color: var(--t-sage-d); }
+    .rr-vs__code { margin: .2rem 0 .7rem; font-size: clamp(1.4rem, 3vw, 1.75rem); font-weight: 500; font-style: italic; }
+    .rr-vs__intro { margin: 0; font-size: clamp(1.05rem, 2.3vw, 1.18rem); line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 82%, transparent); }
+
+    .rr-vs__rail { position: relative; max-width: 50rem; margin: clamp(2.2rem, 5vw, 3rem) auto 0; padding-top: .8rem; }
+    .rr-vs__rod { position: absolute; top: 0; left: 0; right: 0; height: .8rem; border-radius: .4rem; background: linear-gradient(180deg, color-mix(in srgb, var(--t-s) 50%, #f0dcbc), var(--t-wood) 60%, var(--t-wood-d)); box-shadow: 0 .4rem .7rem rgba(58, 43, 31, .3); }
+    .rr-vs__swatches { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: .4rem clamp(.8rem, 2.4vw, 1.6rem); min-height: 8rem; }
+    .rr-vs__sw { position: relative; width: clamp(3.8rem, 9vw, 5.2rem); padding: var(--len, 2rem) 0 0; border: 0; background: none; cursor: pointer; transform-origin: 50% 0; transform: rotate(var(--tilt, 0deg)); transition: transform .35s cubic-bezier(.3, 1.6, .5, 1); }
+    .rr-vs__sw::before { content: ''; position: absolute; top: 0; left: 50%; width: 2px; height: var(--len, 2rem); margin-left: -1px; background: repeating-linear-gradient(60deg, var(--t-twine) 0 2px, color-mix(in srgb, var(--t-twine) 62%, #4d3a28) 2px 3.5px); }
+    .rr-vs__fabric {
+      display: block;
+      aspect-ratio: 3 / 4;
+      background:
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, .09) 0 1px, transparent 1px 3px),
+        repeating-linear-gradient(90deg, rgba(0, 0, 0, .07) 0 1px, transparent 1px 3px),
+        linear-gradient(160deg, rgba(255, 255, 255, .22), rgba(0, 0, 0, .14)),
+        var(--c, #999999);
+      clip-path: polygon(0 0, 100% 0, 100% 92%, 93.75% 100%, 87.50% 92%, 81.25% 100%, 75.00% 92%, 68.75% 100%, 62.50% 92%, 56.25% 100%, 50.00% 92%, 43.75% 100%, 37.50% 92%, 31.25% 100%, 25.00% 92%, 18.75% 100%, 12.50% 92%, 6.25% 100%, 0.00% 92%);
+      transition: transform .35s ease;
+    }
+    .rr-vs__swwrap { display: block; filter: drop-shadow(0 .5rem .6rem rgba(58, 43, 31, .3)); }
+    .rr-vs__sw:hover, .rr-vs__sw:focus-visible { transform: rotate(0deg) translateY(4px); outline: none; }
+    .rr-vs__sw:focus-visible .rr-vs__swwrap { filter: drop-shadow(0 0 0 var(--t-sage-d)) drop-shadow(0 0 3px var(--t-sage-d)); }
+    .rr-vs__sw[aria-pressed="true"] { transform: rotate(0deg) translateY(10px); }
+    .rr-vs__sw[aria-pressed="true"] .rr-vs__fabric { transform: scale(1.06); }
+    .rr-vs__chosen { min-height: 2.6rem; margin: 1.2rem 0 0; font-family: var(--t-display); font-size: 2.2rem; line-height: 1.2; color: var(--t-sage-d); }
+
+    .rr-vs__looks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 4vw, 3rem); max-width: 42rem; margin: clamp(1.8rem, 4vw, 2.6rem) auto 0; }
+    .rr-vs__lookcard { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: .9rem; text-align: left; }
+    .rr-vs__look { width: 3rem; height: auto; color: var(--t-sage-d); }
+    .rr-vs__lookcard h4 { margin: 0; font-size: 1.15rem; font-weight: 600; color: var(--t-sage-d); }
+    .rr-vs__lookcard p { margin: .15rem 0 0; line-height: 1.45; }
+    .rr-vs__note { margin: clamp(1.8rem, 4vw, 2.4rem) auto 0; max-width: 32rem; font-style: italic; color: color-mix(in srgb, var(--t-tx) 78%, transparent); }
+
+    @media (max-width: 36rem) {
+      .rr-vs__looks { grid-template-columns: minmax(0, 1fr); }
+      .rr-vs__deco { display: none; }
+      .rr-vs__swatches { flex-wrap: nowrap; gap: .45rem; }
+      .rr-vs__sw { width: clamp(2.3rem, 11vw, 3rem); }
+    }
+
+    .rr-vs--anim .rr-vs__sw { transition: opacity .4s ease, transform .5s cubic-bezier(.3, 1.6, .5, 1); }
+    .rr-vs--anim .rr-vs__sw:not([data-in]) { opacity: 0; transform: translateY(-1.4rem) rotate(12deg); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .rr-vs *, .rr-vs *::before, .rr-vs *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <span class="rr-vs__wash" aria-hidden="true" data-rr-wash></span>
+  <span class="rr-vs__ripple" aria-hidden="true" data-rr-ripple></span>
+  <svg class="rr-vs__deco rr-vs__deco--a" viewBox="0 0 120 260" aria-hidden="true" focusable="false"><path d="M60.0,256.0 Q94.3,130.0 52.1,12.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 2; fill: none; stroke-linecap: round"></path><path d="M68.1,220.9 L72.1,220.9" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="88.8" cy="224.8" rx="19.0" ry="16.4" transform="rotate(13 88.8 224.8)" style="fill: var(--t-p)"></ellipse><path d="M74.9,221.6 L101.8,227.8" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M72.2,194.7 L68.4,191.3" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="49.9" cy="191.9" rx="20.5" ry="17.6" transform="rotate(-182 49.9 191.9)" style="fill: color-mix(in srgb, var(--t-p) 76%, #b9c7c2)"></ellipse><path d="M65.3,191.4 L35.6,192.4" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M74.6,168.8 L78.5,170.3" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="94.0" cy="170.0" rx="17.2" ry="14.8" transform="rotate(-1 94.0 170.0)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M81.1,170.2 L106.0,169.7" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M75.4,143.0 L71.4,142.4" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="54.5" cy="143.1" rx="18.9" ry="16.2" transform="rotate(178 54.5 143.1)" style="fill: color-mix(in srgb, var(--t-p) 76%, #b9c7c2)"></ellipse><path d="M68.6,142.5 L41.3,143.6" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M74.4,117.4 L78.6,119.7" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="92.5" cy="116.1" rx="15.9" ry="13.7" transform="rotate(-14 92.5 116.1)" style="fill: var(--t-p)"></ellipse><path d="M80.9,119.1 L103.3,113.4" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M71.8,92.0 L68.2,94.8" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="55.0" cy="94.3" rx="14.7" ry="12.6" transform="rotate(182 55.0 94.3)" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></ellipse><path d="M66.0,94.7 L44.8,93.9" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M67.5,66.7 L71.5,67.5" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="83.0" cy="63.5" rx="13.5" ry="11.6" transform="rotate(-19 83.0 63.5)" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></ellipse><path d="M73.4,66.8 L91.9,60.4" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M61.4,41.6 L58.3,44.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="48.0" cy="45.3" rx="11.5" ry="9.9" transform="rotate(173 48.0 45.3)" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></ellipse><path d="M56.6,44.2 L40.1,46.3" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M53.7,16.7 L56.9,14.8" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="67.7" cy="11.9" rx="12.4" ry="10.6" transform="rotate(-15 67.7 11.9)" style="fill: color-mix(in srgb, var(--t-p) 76%, #b9c7c2)"></ellipse><path d="M58.7,14.3 L76.0,9.7" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><ellipse cx="52.1" cy="9.0" rx="3.2" ry="5" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse></svg>
+  <svg class="rr-vs__deco rr-vs__deco--b" viewBox="0 0 120 260" aria-hidden="true" focusable="false"><path d="M60.0,256.0 Q28.8,130.0 67.2,12.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 2; fill: none; stroke-linecap: round"></path><path d="M52.6,220.9 L57.4,223.5" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="73.3" cy="217.3" rx="18.9" ry="16.2" transform="rotate(-21 73.3 217.3)" style="fill: var(--t-p)"></ellipse><path d="M60.1,222.5 L85.6,212.5" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M48.5,191.0 L44.6,194.2" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="27.9" cy="193.2" rx="18.6" ry="16.0" transform="rotate(183 27.9 193.2)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M41.8,194.0 L14.9,192.4" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M46.3,161.4 L50.2,160.8" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="66.2" cy="160.6" rx="17.8" ry="15.3" transform="rotate(-0 66.2 160.6)" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></ellipse><path d="M52.9,160.7 L78.6,160.5" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M46.2,132.0 L42.1,129.2" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="25.8" cy="131.4" rx="18.3" ry="15.7" transform="rotate(-188 25.8 131.4)" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></ellipse><path d="M39.4,129.5 L13.1,133.1" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M48.1,102.8 L52.0,101.8" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="65.9" cy="104.6" rx="15.7" ry="13.5" transform="rotate(11 65.9 104.6)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M54.3,102.3 L76.6,106.7" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M51.9,73.9 L48.4,73.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="37.4" cy="71.4" rx="12.3" ry="10.6" transform="rotate(-172 37.4 71.4)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M46.6,72.7 L28.8,70.3" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M57.8,45.2 L61.2,46.8" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="73.4" cy="49.0" rx="13.7" ry="11.8" transform="rotate(10 73.4 49.0)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M63.3,47.1 L82.9,50.6" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M65.7,16.7 L62.4,15.4" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="53.1" cy="12.8" rx="10.7" ry="9.2" transform="rotate(-164 53.1 12.8)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M60.8,15.0 L45.9,10.7" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><ellipse cx="67.2" cy="9.0" rx="3.2" ry="5" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse></svg>
+  <header class="rr-vs__head">
+    <h2 class="rr-vs__title" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Código de vestimenta</h2>
+    <h3 class="rr-vs__code" memory_type="text" memory_usage="custom" memory_key="vestimenta-codigo">Formal campestre</h3>
+    <p class="rr-vs__intro" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">Inspírate en los tonos del campo: verdes suaves, tierra y madera. Telas ligeras y calzado cómodo para el jardín.</p>
+  </header>
+  <div class="rr-vs__rail">
+    <span class="rr-vs__rod" aria-hidden="true"></span>
+    <div class="rr-vs__swatches" data-rr-swatches role="group" aria-label="Paleta sugerida"></div>
+  </div>
+  <p class="rr-vs__chosen" aria-live="polite" data-rr-name></p>
+  <div class="rr-vs__looks">
+    <div class="rr-vs__lookcard"><svg class="rr-vs__look" viewBox="0 0 40 48" aria-hidden="true" focusable="false"><path d="M16 3 L24 3 L25 11 L30 19 L34 45 L6 45 L10 19 L15 11 Z M15 11 L25 11 M10 19 C16 22 24 22 30 19" style="fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linejoin: round"></path></svg><div><h4 memory_type="text" memory_usage="custom" memory_key="vestimenta-ellas-titulo">Ellas</h4><p memory_type="text" memory_usage="custom" memory_key="vestimenta-ellas">Vestido largo o midi en telas vaporosas.</p></div></div>
+    <div class="rr-vs__lookcard"><svg class="rr-vs__look" viewBox="0 0 40 48" aria-hidden="true" focusable="false"><path d="M8 45 L8 14 L15 8 L20 17 L25 8 L32 14 L32 45 Z M20 17 L20 45 M15 8 L18 24 L20 17 M25 8 L22 24 L20 17 M23 30 h1 M23 36 h1" style="fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linejoin: round"></path></svg><div><h4 memory_type="text" memory_usage="custom" memory_key="vestimenta-ellos-titulo">Ellos</h4><p memory_type="text" memory_usage="custom" memory_key="vestimenta-ellos">Traje en tonos tierra o guayabera de lino.</p></div></div>
+  </div>
+  <p class="rr-vs__note" memory_type="text" memory_usage="custom" memory_key="vestimenta-nota">Con cariño, reservamos el blanco y el marfil para la novia.</p>
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="vestimenta-rustico"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var HAS_IO = 'IntersectionObserver' in window;
+
+      var box = root.querySelector('[data-rr-swatches]'), nameEl = root.querySelector('[data-rr-name]');
+      var wash = root.querySelector('[data-rr-wash]'), ripple = root.querySelector('[data-rr-ripple]');
+      var pal;
+      try { pal = JSON.parse(root.getAttribute('data-rr-palette')); } catch (e) {}
+      if (!pal || !pal.length) pal = [['Salvia', '#9CAF88'], ['Terracota', '#B86B4B'], ['Arena', '#D8C3A0']];
+      var tilts = [-3, 2, -1.5, 3, -2.5, 1.5, -1], lens = [2.2, 3.4, 1.6, 2.8, 2, 3.6, 2.4];
+
+      /* Fabric swatches are generated from the palette data */
+      var btns = pal.map(function (p, i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'rr-vs__sw';
+        b.setAttribute('data-rr-sw', '');
+        b.setAttribute('aria-label', p[0]);
+        b.setAttribute('aria-pressed', 'false');
+        b.style.setProperty('--c', p[1]);
+        b.style.setProperty('--tilt', tilts[i % tilts.length] + 'deg');
+        b.style.setProperty('--len', lens[i % lens.length] + 'rem');
+        var w = document.createElement('span'); w.className = 'rr-vs__swwrap';
+        var f = document.createElement('span'); f.className = 'rr-vs__fabric';
+        w.appendChild(f); b.appendChild(w); box.appendChild(b);
+        b.addEventListener('click', function () { pick(i, b); });
+        b.addEventListener('mouseenter', function () { if (!b.hasAttribute('data-touched')) pick(i, b); });
+        return b;
+      });
+      var timer = 0;
+      function pick(i, b) {
+        var c = pal[i][1];
+        btns.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+        nameEl.textContent = pal[i][0];
+        /* dye ripple spreading from the swatch, then the wash settles on the new tint */
+        if (!RM) {
+          var r = root.getBoundingClientRect(), br = b.getBoundingClientRect();
+          ripple.style.setProperty('--x', (br.left - r.left + br.width / 2) + 'px');
+          ripple.style.setProperty('--y', (br.top - r.top + br.height / 2) + 'px');
+          ripple.style.setProperty('--rr-ripple', c);
+          ripple.removeAttribute('data-go'); void ripple.offsetWidth; ripple.setAttribute('data-go', '');
+          clearTimeout(timer);
+          timer = setTimeout(function () { ripple.removeAttribute('data-go'); }, 520);
+        }
+        wash.style.setProperty('--rr-tint', c);
+      }
+      btns.forEach(function (b) { b.addEventListener('touchstart', function () { b.setAttribute('data-touched', ''); }, { passive: true }); });
+
+      if (RM || !HAS_IO) return;   /* reduced motion: swatches hang still */
+      root.classList.add('rr-vs--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          btns.forEach(function (b, i) { setTimeout(function () { b.setAttribute('data-in', ''); }, 120 + i * 90); });
+          setTimeout(function () { root.classList.remove('rr-vs--anim'); btns.forEach(function (b) { b.removeAttribute('data-in'); }); }, 120 + btns.length * 90 + 800);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-rustico',
+      style_name: 'Romance Rústico Vestimenta',
+      descripcion: 'Código de vestimenta rústico: retazos de tela generados desde la paleta cuelgan con yute de una vara de madera; al elegir uno, un tinte se expande por el fondo. Sugerencias para ellas y ellos.',
+      tags: ['vestimenta', 'boda', 'rustico', 'paleta', 'lino'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

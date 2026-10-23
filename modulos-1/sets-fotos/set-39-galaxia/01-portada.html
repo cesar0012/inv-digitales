@@ -1,0 +1,275 @@
+<section
+  class="gx-po"
+  data-gemini-id="portada-nombre"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .gx-po, .gx-po *, .gx-po *::before, .gx-po *::after { box-sizing: border-box; }
+    .gx-po {
+      /* Theme defaults live ONLY in fallbacks, so the RAG can override the 4 standard variables */
+      --t-bg: var(--bg-color, #0b1030);
+      --t-tx: var(--text-color, #efeaf8);
+      --t-p: var(--primary-color, #d9b86c);
+      --t-s: var(--secondary-color, #6c4fa3);
+      --t-a: var(--accent-color, #c7cedb);
+      --t-display: var(--font-script, 'Cinzel Decorative', serif);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      --panel: color-mix(in srgb, var(--t-bg) 85%, transparent);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/nebula,stars?lock=3301');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    /* Tint over the generated background so text stays legible with any image */
+    .gx-po::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 85%, transparent), color-mix(in srgb, var(--t-bg) 94%, transparent));
+    }
+    .gx-po__content { width: min(100%, 64rem); }
+    .gx-po__title { margin: 0; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.05; }
+
+    /* Entrance states apply ONLY when JS adds .gx-po--anim (no-JS editors still show content). Each transition <= .5s */
+
+    .gx-po--anim .gx-po__pre, .gx-po--anim .gx-po__date, .gx-po--anim .gx-po__place, .gx-po--anim .gx-po__invite, .gx-po--anim .gx-po__hint { opacity: 0; filter: blur(8px); transition: opacity .5s ease, filter .5s ease; }
+    .gx-po--anim .gx-po__phases .gx-po__moon { opacity: 0; transform: scale(.3); transition: opacity .4s ease, transform .45s cubic-bezier(.3, 1.5, .5, 1); transition-delay: calc(1.25s + var(--i) * .09s); }
+    .gx-po--anim .gx-po__names { -webkit-mask-image: linear-gradient(100deg, #000 calc(var(--rev, 0) * 1% - 16%), transparent calc(var(--rev, 0) * 1%)); mask-image: linear-gradient(100deg, #000 calc(var(--rev, 0) * 1% - 16%), transparent calc(var(--rev, 0) * 1%)); }
+    .gx-po--anim.is-in .gx-po__pre { opacity: 1; filter: none; }
+    .gx-po--anim.is-in .gx-po__phases .gx-po__moon { opacity: 1; transform: none; }
+    .gx-po--anim.is-in .gx-po__date { opacity: 1; filter: none; transition-delay: 1.55s; }
+    .gx-po--anim.is-in .gx-po__place { opacity: 1; filter: none; transition-delay: 1.7s; }
+    .gx-po--anim.is-in .gx-po__invite { opacity: 1; filter: none; transition-delay: 1.9s; }
+    .gx-po--anim.is-in .gx-po__hint { opacity: 1; filter: none; transition-delay: 2.2s; }
+
+
+    /* ---- Galaxia Celestial: shared sky, gold foil type, fine lunar phases ---- */
+    .gx-po { font-size: clamp(1.05rem, 1.25vw, 1.2rem); line-height: 1.55; }
+    .gx-po__sky { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+    .gx-po__wash { position: absolute; inset: -16%; background: radial-gradient(35% 56% at 65% 85%, color-mix(in srgb, #a2509a 42%, var(--t-s) 40%), transparent 78%), radial-gradient(35% 43% at 62% 43%, color-mix(in srgb, var(--t-s) 78%, transparent), transparent 78%), radial-gradient(34% 42% at 73% 93%, color-mix(in srgb, var(--t-s) 40%, #3157c8 42%), transparent 78%), radial-gradient(31% 59% at 55% 62%, color-mix(in srgb, #4b3a9c 60%, transparent), transparent 78%), radial-gradient(35% 59% at 6% 72%, color-mix(in srgb, var(--t-s) 50%, var(--t-a) 18%), transparent 78%), radial-gradient(32% 41% at 9% 29%, color-mix(in srgb, #2878a8 36%, var(--t-bg) 40%), transparent 78%); filter: url(#gx-po-wc); opacity: .9; mix-blend-mode: screen; }
+    .gx-po__stars { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+    .gx-po__defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .gx-po__title { font-family: var(--t-display); font-weight: 400; letter-spacing: .01em; }
+    .gx-po__gold { background-image: linear-gradient(105deg, color-mix(in srgb, var(--t-p) 60%, #3a2408) 0%, var(--t-p) 20%, color-mix(in srgb, var(--t-p) 28%, #fffbea) 36%, var(--t-p) 48%, color-mix(in srgb, var(--t-a) 82%, #ffffff) 61%, var(--t-p) 74%, color-mix(in srgb, var(--t-p) 60%, #3a2408) 100%); background-size: 260% 100%; background-position: calc(var(--sh, 50) * 1%) 50%; -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 .4em color-mix(in srgb, var(--t-p) 26%, transparent)); }
+    .gx-po__lead { max-width: 34rem; margin: .9rem auto 0; color: color-mix(in srgb, var(--t-tx) 86%, var(--t-a)); }
+    .gx-po__kicker { margin: 0 0 .6rem; font-style: italic; font-size: 1.1em; color: var(--t-a); }
+    .gx-po__moon { width: 1em; height: 1em; overflow: visible; display: inline-block; vertical-align: middle; flex: none; }
+    .gx-po__moon circle { fill: color-mix(in srgb, var(--t-bg) 55%, transparent); stroke: color-mix(in srgb, var(--t-a) 78%, transparent); stroke-width: .7; }
+    .gx-po__moon path { fill: var(--t-p); }
+    .gx-po__phases { display: flex; justify-content: center; align-items: center; gap: clamp(.55rem, 1.6vw, 1rem); font-size: clamp(.8rem, 1.2vw, 1rem); margin: 1.2rem auto; }
+    .gx-po__phases .gx-po__moon { filter: drop-shadow(0 0 4px color-mix(in srgb, var(--t-p) 45%, transparent)); }
+    .gx-po__phases .gx-po__moon:nth-child(4) { font-size: 1.35em; }
+
+    .gx-po { min-height: max(38rem, 100svh); }
+    .gx-po__orbit { position: absolute; left: 50%; top: 52%; width: min(96vw, 54rem); aspect-ratio: 1; transform: translate(-50%, -50%); perspective: 1100px; pointer-events: none; z-index: 0; }
+    .gx-po__ring { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(74deg); }
+    .gx-po__ellipse { position: absolute; inset: 0; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--t-p) 40%, transparent); box-shadow: inset 0 0 40px color-mix(in srgb, var(--t-s) 45%, transparent), 0 0 30px color-mix(in srgb, var(--t-s) 30%, transparent); }
+    .gx-po__ellipse::after { content: ''; position: absolute; inset: 7%; border-radius: 50%; border: 1px dashed color-mix(in srgb, var(--t-a) 26%, transparent); }
+    .gx-po__om { position: absolute; left: 50%; top: 50%; width: clamp(18px, 2.3vw, 28px); aspect-ratio: 1; transform-style: preserve-3d; font-size: clamp(18px, 2.3vw, 28px); }
+    .gx-po__om .gx-po__moon { position: relative; width: 100%; height: 100%; display: block; }
+    .gx-po__om::before { content: ''; position: absolute; inset: -45%; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--t-p) 38%, transparent), transparent 62%); }
+    .gx-po__content { position: relative; z-index: 1; width: min(100%, 60rem); }
+    .gx-po__pre { margin: 0 0 1.4rem; font-style: italic; font-size: clamp(1.1rem, 2.2vw, 1.45rem); color: var(--t-a); }
+    .gx-po__names { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(3rem, 9.4vw, 7rem); line-height: .98; display: flex; flex-direction: column; align-items: center; gap: .04em; }
+    .gx-po__name { display: block; padding: 0 .08em .06em; }
+    .gx-po__amp { font-family: var(--t-text); font-style: italic; font-size: .4em; line-height: 1.1; color: var(--t-a); }
+    .gx-po__phases { font-size: clamp(.9rem, 1.6vw, 1.15rem); margin: 1.7rem auto 1.1rem; }
+    .gx-po__date { margin: 0; font-size: clamp(1.3rem, 2.7vw, 1.8rem); font-weight: 500; letter-spacing: .02em; }
+    .gx-po__place { margin: .2rem 0 0; font-style: italic; color: color-mix(in srgb, var(--t-tx) 80%, var(--t-a)); }
+    .gx-po__invite { max-width: 30rem; margin: 1.5rem auto 0; font-size: clamp(1.05rem, 1.6vw, 1.2rem); color: color-mix(in srgb, var(--t-tx) 88%, var(--t-a)); }
+    .gx-po__hint { position: absolute; left: 50%; bottom: clamp(1.2rem, 4vh, 2.4rem); width: 1px; height: 3.2rem; transform: translateX(-50%); background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--t-p) 70%, transparent)); }
+    .gx-po__hint::after { content: ''; position: absolute; left: 50%; bottom: -3px; width: 5px; height: 5px; border-radius: 50%; transform: translateX(-50%); background: var(--t-p); box-shadow: 0 0 10px var(--t-p); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .gx-po *, .gx-po *::before, .gx-po *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="gx-po__defs" aria-hidden="true" focusable="false"><filter id="gx-po-wc" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.008" numOctaves="4" seed="11"/><feDisplacementMap in="SourceGraphic" scale="110" xChannelSelector="R" yChannelSelector="G"/><feGaussianBlur stdDeviation="7"/></filter></svg>
+  <div class="gx-po__sky" aria-hidden="true"><div class="gx-po__wash"></div><canvas class="gx-po__stars" data-gx-stars></canvas></div>
+
+  <div class="gx-po__orbit" aria-hidden="true"><div class="gx-po__ring" data-gx-ring><span class="gx-po__ellipse"></span><span class="gx-po__om" data-gx-om><svg class="gx-po__moon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="8.6"/><path d="M10,1.4A8.6,8.6 0 0 1 10,18.6A7.95,8.6 0 0 0 10,1.4Z"/></svg></span><span class="gx-po__om" data-gx-om><svg class="gx-po__moon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="8.6"/><path d="M10,1.4A8.6,8.6 0 0 1 10,18.6A3.29,8.6 0 0 0 10,1.4Z"/></svg></span><span class="gx-po__om" data-gx-om><svg class="gx-po__moon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="8.6"/><path d="M10,1.4A8.6,8.6 0 0 1 10,18.6A3.29,8.6 0 0 1 10,1.4Z"/></svg></span><span class="gx-po__om" data-gx-om><svg class="gx-po__moon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="8.6"/><path d="M10,1.4A8.6,8.6 0 0 1 10,18.6A7.95,8.6 0 0 1 10,1.4Z"/></svg></span><span class="gx-po__om" data-gx-om><svg class="gx-po__moon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="8.6"/><path d="M10,1.4A8.6,8.6 0 0 0 10,18.6A7.95,8.6 0 0 0 10,1.4Z"/></svg></span><span class="gx-po__om" data-gx-om><svg class="gx-po__moon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="8.6"/><path d="M10,1.4A8.6,8.6 0 0 0 10,18.6A3.29,8.6 0 0 0 10,1.4Z"/></svg></span><span class="gx-po__om" data-gx-om><svg class="gx-po__moon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="8.6"/><path d="M10,1.4A8.6,8.6 0 0 0 10,18.6A3.29,8.6 0 0 1 10,1.4Z"/></svg></span><span class="gx-po__om" data-gx-om><svg class="gx-po__moon" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="8.6"/><path d="M10,1.4A8.6,8.6 0 0 0 10,18.6A7.95,8.6 0 0 1 10,1.4Z"/></svg></span></div></div>
+  <header class="gx-po__content">
+    <p class="gx-po__pre" memory_type="text" memory_usage="custom" memory_key="portada-frase">Escrito en las estrellas</p>
+    <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,3vw,1.6rem);width:clamp(150px,22vw,220px);"><img src="https://loremflickr.com/480/480/galaxy,nebula,portrait?lock=311" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:2px solid var(--primary-color,#9b9b9b);box-shadow:0 14px 30px rgba(0,0,0,.18);" /><figcaption hidden>Retrato</figcaption></figure>
+<h1 class="gx-po__names" data-gx-reveal>
+      <span class="gx-po__name gx-po__gold" memory_type="text" memory_usage="custom" memory_key="portada-novia">Nombre</span>
+      <span class="gx-po__amp" aria-hidden="true">&amp;</span>
+      <span class="gx-po__name gx-po__gold" memory_type="text" memory_usage="custom" memory_key="portada-novio">Nombre</span>
+    </h1>
+    <div class="gx-po__phases " aria-hidden="true"><svg class="gx-po__moon" viewBox="0 0 20 20" aria-hidden="true" focusable="false" style="--i:0"><circle cx="10" cy="10" r="8.6"/><path d="M10,1.4A8.6,8.6 0 0 1 10,18.6A6.27,8.6 0 0 0 10,1.4Z"/></svg><svg class="gx-po__moon" viewBox="0 0 20 20" aria-hidden="true" focusable="false" style="--i:1"><circle cx="10" cy="10" r="8.6"/><path d="M10,1.4A8.6,8.6 0 0 1 10,18.6A0.00,8.6 0 0 1 10,1.4Z"/></svg><svg class="gx-po__moon" viewBox="0 0 20 20" aria-hidden="true" focusable="false" style="--i:2"><circle cx="10" cy="10" r="8.6"/><path d="M10,1.4A8.6,8.6 0 0 1 10,18.6A5.89,8.6 0 0 1 10,1.4Z"/></svg><svg class="gx-po__moon" viewBox="0 0 20 20" aria-hidden="true" focusable="false" style="--i:3"><circle cx="10" cy="10" r="8.6"/><path d="M10,1.4A8.6,8.6 0 0 1 10,18.6A8.6,8.6 0 0 1 10,1.4Z"/></svg><svg class="gx-po__moon" viewBox="0 0 20 20" aria-hidden="true" focusable="false" style="--i:4"><circle cx="10" cy="10" r="8.6"/><path d="M10,1.4A8.6,8.6 0 0 0 10,18.6A5.89,8.6 0 0 0 10,1.4Z"/></svg><svg class="gx-po__moon" viewBox="0 0 20 20" aria-hidden="true" focusable="false" style="--i:5"><circle cx="10" cy="10" r="8.6"/><path d="M10,1.4A8.6,8.6 0 0 0 10,18.6A0.00,8.6 0 0 0 10,1.4Z"/></svg><svg class="gx-po__moon" viewBox="0 0 20 20" aria-hidden="true" focusable="false" style="--i:6"><circle cx="10" cy="10" r="8.6"/><path d="M10,1.4A8.6,8.6 0 0 0 10,18.6A6.27,8.6 0 0 1 10,1.4Z"/></svg></div>
+    <p class="gx-po__date"><time datetime="2027-03-20T18:00"><span memory_type="text" memory_usage="custom" memory_key="portada-fecha">Sábado 20 de marzo de 2027</span></time></p>
+    <p class="gx-po__place" memory_type="text" memory_usage="custom" memory_key="portada-lugar">San Miguel de Allende, Guanajuato</p>
+    <p class="gx-po__invite" memory_type="text" memory_usage="custom" memory_key="portada-invitacion">Bajo un cielo infinito, te invitamos a celebrar el día en que nuestras estrellas se encuentran.</p>
+  </header>
+  <span class="gx-po__hint" aria-hidden="true"></span>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="portada-nombre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* ---- Celestial sky: twinkling silver/gold stars + drifting stardust on canvas ---- */
+      var STARN = 0, DUSTN = 70;
+      var sky = root.querySelector('[data-gx-stars]'), cx = sky && sky.getContext ? sky.getContext('2d') : null;
+      var W = 0, H = 0, T = 0, raf = 0, last = 0, vis = true, stars = [], dust = [], bursts = [], hooks = [];
+      function tv(n, f) { var v = getComputedStyle(root).getPropertyValue(n).trim(); return v || f; }
+      var GOLD = tv('--t-p', '#d9b86c'), SILV = tv('--t-a', '#c7cedb');
+      function rnd(a, b) { return a + Math.random() * (b - a); }
+      function seed() {
+        if (!cx) return;
+        var r = sky.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+        W = Math.max(1, r.width); H = Math.max(1, r.height);
+        sky.width = Math.round(W * dpr); sky.height = Math.round(H * dpr); cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        var n = Math.min(STARN, Math.round(W * H / 2600)); stars = []; dust = [];
+        for (var i = 0; i < n; i++) stars.push({ x: rnd(0, W), y: rnd(0, H), r: Math.pow(Math.random(), 3) * 1.5 + .25, a: rnd(.25, .95), sp: rnd(.0006, .0024), ph: rnd(0, 6.28), g: Math.random() < .28 });
+        for (i = 0; i < Math.min(DUSTN, Math.round(W * H / 14000)); i++) dust.push({ x: rnd(0, W), y: rnd(0, H), r: rnd(.4, 1.3), v: rnd(.004, .016), d: rnd(-.006, .006), a: rnd(.15, .55) });
+      }
+      function dot(x, y, r, c, a) {
+        cx.globalAlpha = Math.max(0, a); cx.fillStyle = c; cx.beginPath(); cx.arc(x, y, r, 0, 6.2832); cx.fill();
+        if (r > 1.25) { cx.globalAlpha = Math.max(0, a) * .45; cx.fillRect(x - r * 4, y - .3, r * 8, .6); cx.fillRect(x - .3, y - r * 4, .6, r * 8); }
+      }
+      function paint(t, dt) {
+        if (cx) {
+          cx.clearRect(0, 0, W, H);
+          for (var i = 0; i < stars.length; i++) { var s = stars[i]; dot(s.x, s.y, s.r, s.g ? GOLD : SILV, s.a * (.55 + .45 * Math.sin(t * s.sp + s.ph))); }
+          for (i = 0; i < dust.length; i++) { var d = dust[i]; d.y -= d.v * dt; d.x += d.d * dt; if (d.y < -4) { d.y = H + 4; d.x = rnd(0, W); } dot(d.x, d.y, d.r, GOLD, d.a); }
+          for (i = bursts.length - 1; i >= 0; i--) { var b = bursts[i]; b.l -= dt; if (b.l <= 0) { bursts.splice(i, 1); continue; } b.x += b.vx * dt; b.y += b.vy * dt; b.vy += .00035 * dt; dot(b.x, b.y, b.r, b.c, Math.min(1, b.l / 450)); }
+        }
+        for (var k = 0; k < hooks.length; k++) hooks[k](t, dt);
+        if (cx) cx.globalAlpha = 1;
+      }
+      function burst(x, y, n) { for (var i = 0; i < (n || 50); i++) { var a = rnd(0, 6.2832), v = rnd(.04, .3); bursts.push({ x: x, y: y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - .07, r: rnd(.6, 2.1), c: Math.random() < .7 ? GOLD : SILV, l: rnd(600, 1400) }); } }
+      function moonPath(p, c, r) {
+        p = ((p % 1) + 1) % 1; if (p < .02 || p > .98) return '';
+        var t = c - r, b = c + r, rx = (Math.abs(Math.cos(p * 6.2832)) * r).toFixed(2), A = 'M' + c + ',' + t + 'A' + r + ',' + r + ' 0 0 ';
+        if (Math.abs(p - .5) < .02) return A + '1 ' + c + ',' + b + 'A' + r + ',' + r + ' 0 0 1 ' + c + ',' + t + 'Z';
+        if (p < .5) return A + '1 ' + c + ',' + b + 'A' + rx + ',' + r + ' 0 0 ' + (p < .25 ? 0 : 1) + ' ' + c + ',' + t + 'Z';
+        return A + '0 ' + c + ',' + b + 'A' + rx + ',' + r + ' 0 0 ' + (p > .75 ? 1 : 0) + ' ' + c + ',' + t + 'Z';
+      }
+
+      /* 3D celestial sphere: points on a unit sphere, rotated and projected with manual perspective */
+      var SPH = [], F = 1, ROT = 0, conT = RM ? -1e9 : null;
+      for (var i = 0; i < 1300; i++) { var u = Math.random() * 2 - 1, th = Math.random() * 6.2832, q = Math.sqrt(1 - u * u); SPH.push([q * Math.cos(th), u, q * Math.sin(th), Math.pow(Math.random(), 2.8) * 1.6 + .3, Math.random() < .3 ? 1 : 0, Math.random() * 6.28]); }
+      for (i = 0; i < 1500; i++) { /* milky-way band: a tilted great circle with gaussian spread */
+        var a = Math.random() * 6.2832, o = (Math.random() + Math.random() + Math.random() - 1.5) * .17, bx = Math.cos(a), by = o, bz = Math.sin(a), ca = Math.cos(.62), sa = Math.sin(.62);
+        var X = bx * ca - by * sa, Y = bx * sa + by * ca, L = Math.sqrt(X * X + Y * Y + bz * bz); SPH.push([X / L, Y / L, bz / L, Math.random() * .7 + .25, 2, Math.random() * 6.28]); }
+      function sp(lon, lat) { lon *= Math.PI / 180; lat *= Math.PI / 180; return [Math.cos(lat) * Math.sin(lon), Math.sin(lat), Math.cos(lat) * Math.cos(lon)]; }
+      var CON = [[sp(-28, 19), sp(-23, 27), sp(-17, 24), sp(-12, 30), sp(-8, 21), sp(-15, 16)],
+                 [sp(9, 18), sp(14, 26), sp(19, 22), sp(25, 29), sp(23, 15), sp(17, 12)]];
+      function proj(v) {
+        var c = Math.cos(ROT), s = Math.sin(ROT), x = v[0] * c + v[2] * s, z = -v[0] * s + v[2] * c, y = v[1], ct = Math.cos(.12), st = Math.sin(.12), Y = y * ct - z * st, Z = y * st + z * ct;
+        if (Z < .08) return null; return [W / 2 + x / Z * F, H * .48 - Y / Z * F, Z];
+      }
+      hooks.push(function (t) {
+        if (!cx) return;
+        F = Math.min(Math.hypot(W, H) * .45, W * .9); ROT = t * .0000032;
+        for (var i = 0; i < SPH.length; i++) {
+          var s = SPH[i], p = proj(s); if (!p || p[0] < -4 || p[0] > W + 4 || p[1] < -4 || p[1] > H + 4) continue;
+          if (s[4] === 2) dot(p[0], p[1], s[3] * .6, SILV, .13 + .08 * Math.sin(t * .001 + s[5]));
+          else dot(p[0], p[1], s[3], s[4] ? GOLD : SILV, (.5 + .42 * Math.sin(t * .0016 + s[5])) * Math.min(1, p[2] * 1.3));
+        }
+        /* two constellations draw themselves, then a dotted line unites them */
+        var k = conT === null ? 0 : Math.max(0, (t - conT) / 2600);
+        cx.lineWidth = .85; cx.strokeStyle = GOLD;
+        for (var c = 0; c < 2; c++) {
+          var pts = CON[c].map(proj), kk = Math.min(1, Math.max(0, (k - c * .3) * 1.4)) * (pts.length - 1);
+          cx.globalAlpha = .48; cx.beginPath();
+          for (var j = 0; j < pts.length - 1 && j < kk; j++) { var A = pts[j], B = pts[j + 1]; if (!A || !B) continue; var f = Math.min(1, kk - j); cx.moveTo(A[0], A[1]); cx.lineTo(A[0] + (B[0] - A[0]) * f, A[1] + (B[1] - A[1]) * f); }
+          cx.stroke();
+          for (j = 0; j < pts.length; j++) if (pts[j] && j <= kk + .01 && kk > 0) dot(pts[j][0], pts[j][1], j === 3 ? 2.4 : 1.7, GOLD, .95);
+        }
+        var un = Math.min(1, Math.max(0, (k - 1.1) * 1.5));
+        if (un > 0) { var P = proj(CON[0][3]), Q = proj(CON[1][1]); if (P && Q) { cx.setLineDash([2, 6]); cx.globalAlpha = .55 * un; cx.beginPath(); cx.moveTo(P[0], P[1]); cx.lineTo(P[0] + (Q[0] - P[0]) * un, P[1] + (Q[1] - P[1]) * un); cx.stroke(); cx.setLineDash([]); } }
+      });
+      /* CSS preserve-3d orbit of fine moon phases; each moon counter-rotates to face the viewer */
+      var ring = root.querySelector('[data-gx-ring]'), oms = root.querySelectorAll('[data-gx-om]');
+      function orbit(deg) {
+        if (!ring) return; var R = ring.offsetWidth / 2;
+        ring.style.transform = 'rotateX(74deg) rotateZ(' + deg.toFixed(2) + 'deg)';
+        for (var i = 0; i < oms.length; i++) { var a = i * 360 / oms.length; oms[i].style.transform = 'translate(-50%,-50%) rotateZ(' + a + 'deg) translateX(' + R.toFixed(1) + 'px) rotateZ(' + (-a - deg).toFixed(2) + 'deg) rotateX(-74deg)'; }
+      }
+      hooks.push(function (t) { orbit(t * .004 % 360); });
+      var names = root.querySelector('[data-gx-reveal]');
+
+      seed(); paint(0, 0);
+      if ('ResizeObserver' in window) new ResizeObserver(function () { seed(); if (!raf) paint(T, 0); }).observe(root);
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      /* JS hooks use data-* attributes, never classes */
+      root.classList.add('gx-po--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && (en[0].intersectionRatio > .25 || en[0].intersectionRect.height > window.innerHeight * .4)) {
+          io.disconnect();
+          root.classList.add('is-in');
+          conT = performance.now();
+          (function (t0) { (function rv(t) { var k = Math.min(1, (t - t0) / 1700); if (names) names.style.setProperty('--rev', (k * 120).toFixed(1)); if (k < 1) requestAnimationFrame(rv); })(t0); })(performance.now());
+          setTimeout(function () { if (names) names.style.removeProperty('--rev'); }, 2800);
+          /* Clean up so a serialized DOM is left in its normal visible state */
+          setTimeout(function () { root.classList.remove('gx-po--anim', 'is-in'); }, 2700);
+        }
+      }, { threshold: [0, .1, .25, .5] });
+      io.observe(root);
+
+
+      /* rAF loop: only while on-screen and the tab is visible */
+      function loop(t) {
+        raf = 0; var dt = last ? Math.min(48, t - last) : 16; last = t; T = t;
+        root.style.setProperty('--sh', (50 + 50 * Math.sin(t / 2400)).toFixed(1));
+        paint(t, dt);
+        if (vis && !document.hidden) raf = requestAnimationFrame(loop); else last = 0;
+      }
+      function kick() { if (!RM && !raf && vis && !document.hidden) raf = requestAnimationFrame(loop); }
+      new IntersectionObserver(function (en) { vis = en[0].isIntersecting; kick(); }, { rootMargin: '80px' }).observe(root);
+      document.addEventListener('visibilitychange', kick);
+      kick();
+      /* per-item entrance (IntersectionObserver) for long modules; class removed once every item is in */
+      function stagger(sel, cls) {
+        var els = root.querySelectorAll(sel), left = els.length; if (!left) return;
+        root.classList.add(cls);
+        var io2 = new IntersectionObserver(function (en) {
+          en.forEach(function (e) {
+            if (!e.isIntersecting) return;
+            e.target.setAttribute('data-in', ''); io2.unobserve(e.target);
+            if (--left === 0) setTimeout(function () { root.classList.remove(cls); }, 1100);
+          });
+        }, { threshold: .18, rootMargin: '0px 0px -6% 0px' });
+        [].forEach.call(els, function (el) { io2.observe(el); });
+      }
+
+      if (names) names.style.setProperty('--rev', '0');
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Galaxia Celestial',
+      descripcion: 'Portada Galaxia Celestial: esfera celeste 3D en canvas con dos constelaciones que se unen, órbita 3D de fases lunares, nombres en oro y plata revelados progresivamente y fecha.',
+      tags: ['portada', 'galaxia', 'celestial', 'constelaciones', 'fases lunares', 'boda', 'místico'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

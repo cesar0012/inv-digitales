@@ -1,0 +1,174 @@
+<section
+  class="rr-co"
+  data-gemini-id="corte-rustico"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Allura&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .rr-co, .rr-co *, .rr-co *::before, .rr-co *::after { box-sizing: border-box; }
+    .rr-co {
+      --t-bg: var(--bg-color, #F3EDE1);
+      --t-tx: var(--text-color, #3A2B1F);
+      --t-p: var(--primary-color, #8B9E7C);
+      --t-s: var(--secondary-color, #9A7350);
+      --t-a: var(--accent-color, #EDBC68);
+      --t-display: var(--font-script, 'Allura', cursive);
+      --t-text: var(--font-heading, 'EB Garamond', Georgia, serif);
+      --t-wood: color-mix(in srgb, var(--t-s) 82%, #2b1c11);
+      --t-wood-d: color-mix(in srgb, var(--t-s) 34%, #170f09);
+      --t-sage-d: color-mix(in srgb, var(--t-p) 58%, #1d261a);
+      --t-sage-l: color-mix(in srgb, var(--t-p) 55%, var(--t-bg));
+      --t-ivory: color-mix(in srgb, var(--t-bg) 70%, #ffffff);
+      --t-twine: color-mix(in srgb, var(--t-s) 50%, #dcc7a4);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(5rem, 9vw, 7rem) clamp(1.25rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-wood-d);
+      background-image:
+        radial-gradient(ellipse 50% 60% at 30% 50%, color-mix(in srgb, var(--t-a) 14%, transparent), transparent 70%),
+        repeating-linear-gradient(90deg, transparent 0 calc(7rem - 3px), rgba(0,0,0,.42) calc(7rem - 3px) calc(7rem - 1px), rgba(255,236,210,.08) calc(7rem - 1px) 7rem), repeating-linear-gradient(90deg, rgba(0,0,0,0) 0 7rem, rgba(0,0,0,.12) 7rem calc(7rem * 2), rgba(255,240,220,.05) calc(7rem * 2) calc(7rem * 3)), linear-gradient(90deg, var(--t-wood), var(--t-wood-d));
+      color: var(--t-bg);
+      text-align: left;
+      font-family: var(--t-text);
+    }
+    .rr-co__grain { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mix-blend-mode: multiply; opacity: .55; will-change: transform; }
+    .rr-co__grain { opacity: .7; }
+    .rr-co__wrap { width: min(100%, 64rem); display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(2.5rem, 6vw, 5rem); align-items: center; }
+
+    .rr-co__window {
+      position: relative;
+      padding: clamp(.7rem, 1.6vw, 1rem);
+      border-radius: 50% 50% 6px 6px / 30% 30% 6px 6px;
+      background:
+        repeating-linear-gradient(90deg, rgba(0, 0, 0, .07) 0 1px, transparent 1px 6px),
+        linear-gradient(135deg, color-mix(in srgb, var(--t-s) 75%, #f1dcbc), var(--t-wood) 45%, var(--t-wood-d));
+      box-shadow: 0 2rem 3.2rem rgba(0, 0, 0, .55), inset 0 0 0 2px rgba(255, 255, 255, .08);
+    }
+    .rr-co__pane { position: relative; overflow: hidden; isolation: isolate; border-radius: 50% 50% 3px 3px / 28% 28% 3px 3px; background: color-mix(in srgb, var(--t-p) 30%, var(--t-bg)); }
+    .rr-co__photo { margin: 0; }
+    .rr-co__photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; transition: transform .5s ease; }
+    .rr-co__curtain {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      z-index: 2;
+      width: 52%;
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, .12), transparent 18%),
+        repeating-linear-gradient(90deg, var(--t-ivory) 0 .8rem, color-mix(in srgb, var(--t-ivory) 78%, var(--t-s)) .8rem 1.3rem, var(--t-ivory) 1.3rem 1.9rem),
+        var(--t-ivory);
+      box-shadow: 0 0 1rem rgba(0, 0, 0, .25);
+      transform: scaleX(.16);
+      transition: transform .5s cubic-bezier(.6, .05, .3, 1);
+    }
+    .rr-co__curtain::after { content: ''; position: absolute; left: -10%; right: -10%; top: 58%; height: .55rem; background: repeating-linear-gradient(60deg, var(--t-twine) 0 2px, color-mix(in srgb, var(--t-twine) 62%, #4d3a28) 2px 3.5px); border-radius: 3px; }
+    .rr-co__curtain--l { left: 0; transform-origin: 0 50%; }
+    .rr-co__curtain--r { right: 0; transform-origin: 100% 50%; }
+    .rr-co__garland { position: absolute; top: clamp(-2.4rem, -4vw, -1.4rem); width: clamp(5rem, 11vw, 8rem); height: auto; pointer-events: none; z-index: 3; filter: drop-shadow(0 .4rem .5rem rgba(0, 0, 0, .4)); }
+    .rr-co__garland--l { left: 14%; transform: rotate(-70deg); }
+    .rr-co__garland--r { right: 14%; transform: rotate(70deg) scaleX(-1); }
+
+    .rr-co__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(3rem, 7vw, 4.8rem); line-height: 1; color: var(--t-sage-l); }
+    .rr-co__intro { margin: .7rem 0 2rem; max-width: 28rem; font-style: italic; font-size: clamp(1.05rem, 2.3vw, 1.2rem); line-height: 1.55; color: color-mix(in srgb, var(--t-bg) 80%, transparent); }
+    .rr-co__groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6rem clamp(1.4rem, 4vw, 3rem); }
+    .rr-co__group-title { margin: 0 0 .6rem; padding-bottom: .4rem; font-size: 1.3rem; font-weight: 600; border-bottom: 1px solid color-mix(in srgb, var(--t-a) 45%, transparent); color: var(--t-a); }
+    .rr-co__list { list-style: none; margin: 0; padding: 0; }
+    .rr-co__list li { position: relative; padding: .28rem 0 .28rem 1.5rem; font-size: 1.12rem; }
+    .rr-co__list li::before { content: ''; position: absolute; left: 0; top: .72rem; width: .75rem; height: .5rem; border-radius: 50% 0 50% 0; background: var(--t-p); transform: rotate(-20deg); }
+
+    @media (max-width: 50rem) {
+      .rr-co__wrap { grid-template-columns: minmax(0, 1fr); }
+      .rr-co__window { width: min(100%, 22rem); margin: 0 auto; }
+    }
+    @media (max-width: 28rem) {
+      .rr-co__groups { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    /* Viewport entry: the linen curtains part and gather at both sides */
+    .rr-co--anim:not(.is-in) .rr-co__curtain { transform: scaleX(1.02); }
+    .rr-co--anim:not(.is-in) .rr-co__photo img { transform: scale(1.08); }
+    .rr-co--anim .rr-co__list li { transition: opacity .4s ease, transform .4s ease; transition-delay: calc(var(--i, 0) * 70ms + 300ms); }
+    .rr-co--anim:not(.is-in) .rr-co__list li { opacity: .3; transform: translateX(-.4rem); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .rr-co *, .rr-co *::before, .rr-co *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="rr-co__grain" aria-hidden="true" focusable="false"><filter id="rr-co-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.075 0.0035" numOctaves="4" seed="19"></feTurbulence><feColorMatrix type="matrix" values="0 0 0 0 0.17  0 0 0 0 0.10  0 0 0 0 0.05  2.6 0 0 0 -1.05"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#rr-co-grain)"></rect></svg>
+  <div class="rr-co__wrap">
+    <div class="rr-co__window">
+      <div class="rr-co__pane">
+        <figure class="rr-co__photo" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/800/1000/bridesmaids,wedding?lock=3091" alt="Corte de honor de la boda" path="placeholder" data-library-category="bodas" data-asset-type="grupo" loading="lazy" /></figure>
+        <span class="rr-co__curtain rr-co__curtain--l" aria-hidden="true"></span>
+        <span class="rr-co__curtain rr-co__curtain--r" aria-hidden="true"></span>
+      </div>
+      <svg class="rr-co__garland rr-co__garland--l" viewBox="0 0 120 260" aria-hidden="true" focusable="false"><path d="M60.0,256.0 Q94.3,130.0 52.1,12.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 2; fill: none; stroke-linecap: round"></path><path d="M68.1,220.9 L71.7,224.3" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="88.8" cy="224.8" rx="19.0" ry="16.4" transform="rotate(2 88.8 224.8)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M74.6,224.4 L102.1,225.1" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M72.2,194.7 L68.3,193.9" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="50.9" cy="192.1" rx="19.4" ry="16.7" transform="rotate(-174 50.9 192.1)" style="fill: var(--t-p)"></ellipse><path d="M65.4,193.6 L37.4,190.6" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M74.6,168.8 L78.9,166.4" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="95.2" cy="170.0" rx="18.5" ry="15.9" transform="rotate(13 95.2 170.0)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M81.6,167.0 L107.8,172.9" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M75.4,143.0 L71.4,145.4" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="57.1" cy="143.1" rx="16.1" ry="13.8" transform="rotate(189 57.1 143.1)" style="fill: var(--t-p)"></ellipse><path d="M69.0,145.0 L46.0,141.3" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M74.4,117.4 L78.2,115.2" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="91.7" cy="116.2" rx="15.1" ry="13.0" transform="rotate(4 91.7 116.2)" style="fill: var(--t-p)"></ellipse><path d="M80.4,115.4 L102.2,116.9" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M71.8,92.0 L68.2,94.3" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="53.9" cy="94.4" rx="15.8" ry="13.6" transform="rotate(180 53.9 94.4)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M65.8,94.3 L42.8,94.5" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M67.5,66.7 L70.9,64.8" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="84.0" cy="63.3" rx="14.7" ry="12.6" transform="rotate(-7 84.0 63.3)" style="fill: color-mix(in srgb, var(--t-p) 76%, #b9c7c2)"></ellipse><path d="M73.1,64.5 L94.2,62.1" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M61.4,41.6 L57.7,42.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="46.8" cy="45.7" rx="12.9" ry="11.1" transform="rotate(161 46.8 45.7)" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></ellipse><path d="M55.9,42.6 L38.2,48.5" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M53.7,16.7 L56.6,13.3" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="66.3" cy="12.4" rx="10.8" ry="9.3" transform="rotate(-6 66.3 12.4)" style="fill: color-mix(in srgb, var(--t-p) 76%, #b9c7c2)"></ellipse><path d="M58.2,13.2 L73.9,11.6" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><ellipse cx="52.1" cy="9.0" rx="3.2" ry="5" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse></svg>
+      <svg class="rr-co__garland rr-co__garland--r" viewBox="0 0 120 260" aria-hidden="true" focusable="false"><path d="M60.0,256.0 Q94.3,130.0 52.1,12.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 2; fill: none; stroke-linecap: round"></path><path d="M68.1,220.9 L72.2,221.7" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="92.7" cy="225.5" rx="23.2" ry="20.0" transform="rotate(11 92.7 225.5)" style="fill: color-mix(in srgb, var(--t-p) 76%, #b9c7c2)"></ellipse><path d="M75.6,222.3 L108.7,228.5" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M72.2,194.7 L67.4,197.7" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="49.5" cy="191.9" rx="21.0" ry="18.0" transform="rotate(-162 49.5 191.9)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M64.4,196.7 L35.5,187.4" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M74.6,168.8 L78.6,171.6" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="94.7" cy="170.0" rx="18.0" ry="15.5" transform="rotate(-6 94.7 170.0)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M81.3,171.3 L107.3,168.8" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M75.4,143.0 L71.4,143.7" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="54.7" cy="143.1" rx="18.6" ry="16.0" transform="rotate(182 54.7 143.1)" style="fill: color-mix(in srgb, var(--t-p) 76%, #b9c7c2)"></ellipse><path d="M68.7,143.6 L41.7,142.6" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M74.4,117.4 L78.7,119.8" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="92.9" cy="116.1" rx="16.4" ry="14.1" transform="rotate(-15 92.9 116.1)" style="fill: color-mix(in srgb, var(--t-p) 76%, #b9c7c2)"></ellipse><path d="M81.1,119.2 L104.0,113.2" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M71.8,92.0 L67.9,91.8" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="53.6" cy="94.5" rx="16.1" ry="13.9" transform="rotate(169 53.6 94.5)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M65.5,92.2 L42.6,96.5" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M67.5,66.7 L70.9,64.3" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="83.6" cy="63.4" rx="14.2" ry="12.2" transform="rotate(-4 83.6 63.4)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M73.0,64.1 L93.5,62.7" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M61.4,41.6 L58.3,45.1" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="46.5" cy="45.7" rx="13.2" ry="11.3" transform="rotate(177 46.5 45.7)" style="fill: var(--t-p)"></ellipse><path d="M56.3,45.2 L37.3,46.2" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M53.7,16.7 L57.4,16.4" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="65.8" cy="12.6" rx="10.3" ry="8.8" transform="rotate(-25 65.8 12.6)" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></ellipse><path d="M58.8,15.8 L72.3,9.6" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><ellipse cx="52.1" cy="9.0" rx="3.2" ry="5" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse></svg>
+    </div>
+    <div class="rr-co__text">
+      <h2 class="rr-co__title" memory_type="text" memory_usage="custom" memory_key="corte-titulo">Corte de honor</h2>
+      <p class="rr-co__intro" memory_type="text" memory_usage="custom" memory_key="corte-intro">Nuestras personas favoritas, a nuestro lado en el altar, bajo la luz cálida de la tarde.</p>
+      <div class="rr-co__groups">
+        <div class="rr-co__group">
+          <h3 class="rr-co__group-title" memory_type="text" memory_usage="custom" memory_key="corte-titulo-damas">Damas</h3>
+          <ul class="rr-co__list">
+          <li style="--i: 0"><span memory_type="text" memory_usage="custom" memory_key="corte-damas-1">Nombre Apellido</span></li>
+          <li style="--i: 1"><span memory_type="text" memory_usage="custom" memory_key="corte-damas-2">Nombre Apellido</span></li>
+          <li style="--i: 2"><span memory_type="text" memory_usage="custom" memory_key="corte-damas-3">Nombre Apellido</span></li>
+          <li style="--i: 3"><span memory_type="text" memory_usage="custom" memory_key="corte-damas-4">Nombre Apellido</span></li>
+          </ul>
+        </div>
+        <div class="rr-co__group">
+          <h3 class="rr-co__group-title" memory_type="text" memory_usage="custom" memory_key="corte-titulo-caballeros">Caballeros</h3>
+          <ul class="rr-co__list">
+          <li style="--i: 0"><span memory_type="text" memory_usage="custom" memory_key="corte-caballeros-1">Nombre Apellido</span></li>
+          <li style="--i: 1"><span memory_type="text" memory_usage="custom" memory_key="corte-caballeros-2">Nombre Apellido</span></li>
+          <li style="--i: 2"><span memory_type="text" memory_usage="custom" memory_key="corte-caballeros-3">Nombre Apellido</span></li>
+          <li style="--i: 3"><span memory_type="text" memory_usage="custom" memory_key="corte-caballeros-4">Nombre Apellido</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="corte-rustico"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var HAS_IO = 'IntersectionObserver' in window;
+
+      if (RM || !HAS_IO) return;   /* reduced motion: curtains already gathered */
+      root.classList.add('rr-co--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .3) {
+          io.disconnect();
+          setTimeout(function () { root.classList.add('is-in'); }, 200);
+          setTimeout(function () { root.classList.remove('rr-co--anim', 'is-in'); }, 1900);
+        }
+      }, { threshold: [0, .3, .6] });
+      io.observe(root);
+
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-rustico',
+      style_name: 'Romance Rústico Corte',
+      descripcion: 'Corte de honor rústica: foto destacada en una ventana de madera en arco cuyas cortinas de lino se abren al entrar en pantalla, con guirnalda de eucalipto y lista de damas y caballeros.',
+      tags: ['corte', 'boda', 'rustico', 'madera', 'eucalipto'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

@@ -1,0 +1,206 @@
+<section
+  class="jmde"
+  data-gemini-id="detalles-vestimenta"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Parisienne&family=Quicksand:wght@400;500;600;700&display=swap');
+
+    .jmde, .jmde *, .jmde *::before, .jmde *::after { box-sizing: border-box; }
+
+    .jmde {
+      --t-bg: var(--bg-color, #FFF4F8);
+      --t-tx: var(--text-color, #4B1D40);
+      --t-p: var(--primary-color, #D6237A);
+      --t-s: var(--secondary-color, #B79BE4);
+      --t-a: var(--accent-color, #F6BCD3);
+      --t-w: var(--surface-color, #FFFFFF);
+      --t-leaf: var(--leaf-color, #A7C3A1);
+      --t-ink: color-mix(in srgb, var(--t-tx) 78%, #12040e);
+      --t-display: var(--font-script, 'Parisienne', cursive);
+      --t-text: var(--font-heading, 'Quicksand', 'Trebuchet MS', sans-serif);
+      position: relative; isolation: isolate; min-height: clamp(28rem, 60vw, 44rem);
+      display: grid; place-items: center; padding: clamp(4rem, 8vw, 6.5rem) clamp(1rem, 5vw, 4rem); overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: linear-gradient(160deg, color-mix(in srgb, var(--t-a) 35%, transparent), transparent 45%), radial-gradient(circle at 90% 10%, color-mix(in srgb, var(--t-s) 30%, transparent), transparent 35%);
+      color: var(--t-tx); font-family: var(--t-text);
+    }
+    .jmde__wrap { width: min(100%, 64rem); display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: clamp(1.8rem, 5vw, 3.5rem); align-items: center; }
+    .jmde__frame { position: relative; padding: 12px; border-radius: 999px 999px 1.6rem 1.6rem; background: var(--t-w); box-shadow: 0 1.2rem 2.4rem color-mix(in srgb, var(--t-ink) 16%, transparent); }
+    .jmde__fig { margin: 0; border-radius: 999px 999px 1.1rem 1.1rem; overflow: hidden; background: linear-gradient(160deg, var(--t-a), var(--t-s)); }
+    .jmde__fig img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; color: transparent; }
+    .jmde__frame .jmde-lace { position: absolute; left: 0; width: 100%; height: 36px; bottom: -30px; }
+    .jmde__frame .jmde-bf { --bw: 34%; left: -10%; top: 30%; }
+    .jmde__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.3rem, 5.5vw, 3.4rem); color: var(--t-p); line-height: 1.15; }
+    .jmde__intro { margin: .5rem 0 0; line-height: 1.6; max-width: 32rem; }
+    .jmde__cards { list-style: none; margin: 1.6rem 0 0; padding: 0; display: grid; gap: 1rem; }
+    .jmde__card { position: relative; perspective: 70rem; transition: transform .3s ease; }
+    .jmde__card:hover { transform: translateX(4px); }
+    .jmde__inner { display: grid; grid-template-columns: auto 1fr; gap: .2rem 1rem; align-items: start; align-content: start; min-height: 6.8rem; padding: 1.1rem 1.3rem; border-radius: 1.4rem;
+      background: color-mix(in srgb, var(--t-w) 92%, transparent); box-shadow: 0 .6rem 1.4rem color-mix(in srgb, var(--t-ink) 10%, transparent);
+      border-left: 4px solid color-mix(in srgb, var(--t-p) 60%, var(--t-a)); }
+    .jmde__card:nth-child(2) .jmde__inner { border-left-color: var(--t-s); }
+    .jmde__ico { grid-row: span 2; width: 2.8rem; aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; background: color-mix(in srgb, var(--t-a) 45%, var(--t-w)); color: var(--t-p); }
+    .jmde__ico svg { width: 1.5rem; height: 1.5rem; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+    .jmde__h { margin: 0; font-size: 1.15rem; font-weight: 700; }
+    .jmde__p { margin: .2rem 0 0; line-height: 1.55; font-size: .97rem; }
+    /* Signature: each card is covered by butterfly wings that open on viewport entry (only with JS) */
+    .jmde__cover { display: none; }
+    .jmde[data-js] .jmde__cover { display: block; position: absolute; inset: 0; transform-style: preserve-3d; pointer-events: none; }
+    .jmde__wing { position: absolute; top: 0; width: 50%; height: 100%; transition: transform .5s cubic-bezier(.5, 0, .3, 1), visibility 0s linear .5s; }
+    .jmde__wing svg { display: block; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 .3rem .4rem color-mix(in srgb, var(--t-ink) 25%, transparent)); }
+    .jmde__wing--l { left: 0; transform-origin: 100% 50%; transform: rotateY(calc(var(--f, 0) * 1deg)); }
+    .jmde__wing--r { right: 0; transform-origin: 0% 50%; transform: rotateY(calc(var(--f, 0) * -1deg)); }
+    .jmde__cbody { position: absolute; left: 50%; top: 18%; width: .5rem; height: 64%; margin-left: -.25rem; border-radius: 999px; background: linear-gradient(90deg, #26091f, #7a4a6c, #26091f); transition: opacity .2s ease .3s; }
+    .jmde__card[data-open] .jmde__wing--l { transform: rotateY(100deg); visibility: hidden; }
+    .jmde__card[data-open] .jmde__wing--r { transform: rotateY(-100deg); visibility: hidden; }
+    .jmde__card[data-open] .jmde__cbody { opacity: 0; }
+    @media (max-width: 760px) { .jmde__wrap { grid-template-columns: 1fr; } .jmde__frame { max-width: 20rem; justify-self: center; width: 100%; margin-bottom: 2rem; } }
+    .jmde--anim .jmde__frame { clip-path: inset(100% 0 0 0 round 999px 999px 1.6rem 1.6rem); transition: clip-path .5s cubic-bezier(.5, 0, .2, 1); }
+    .jmde--anim.is-in .jmde__frame { clip-path: inset(-20% -20% -40% -20%); }
+
+    .jmde-bf { position: absolute; width: var(--bw, 6rem); aspect-ratio: 10 / 7; perspective: 34em; pointer-events: none; z-index: 2; }
+    .jmde-bf__in { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateZ(var(--rz, 0deg)) rotateX(var(--rx, 38deg)) rotateY(var(--ry, 0deg)); }
+    .jmde-bf__w { position: absolute; top: 0; width: 50%; height: 100%; }
+    .jmde-bf__w--l { left: 0; transform-origin: 100% 50%; transform: rotateY(calc(var(--f, 24) * 1deg)); }
+    .jmde-bf__w--r { right: 0; transform-origin: 0% 50%; transform: rotateY(calc(var(--f, 24) * -1deg)); }
+    .jmde-bf__w svg { display: block; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 .3em .35em color-mix(in srgb, var(--t-ink) 28%, transparent)); }
+    .jmde-bf__body { position: absolute; left: 50%; top: 28%; width: 5%; height: 48%; margin-left: -2.5%; border-radius: 999px; background: linear-gradient(90deg, #26091f, #7a4a6c 48%, #26091f); transform: translateZ(2px); }
+    .jmde-bf__body::before { content: ''; position: absolute; left: 50%; top: -18%; width: 170%; aspect-ratio: 1; margin-left: -85%; border-radius: 50%; background: #2c0d24; }
+    .jmde-bf__body::after { content: ''; position: absolute; left: 50%; bottom: 112%; width: 560%; height: 40%; margin-left: -280%; background: linear-gradient(to top right, transparent calc(50% - .8px), #2c0d24 calc(50% - .8px), #2c0d24 calc(50% + .8px), transparent calc(50% + .8px)) left / 50% 100% no-repeat, linear-gradient(to top left, transparent calc(50% - .8px), #2c0d24 calc(50% - .8px), #2c0d24 calc(50% + .8px), transparent calc(50% + .8px)) right / 50% 100% no-repeat; }
+    .jmde-sh { fill: color-mix(in srgb, var(--t-ink) 38%, transparent); }
+    .jmde-fm { fill: url(#jmde-gm); }
+    .jmde-fb { fill: url(#jmde-gb); }
+    .jmde-vein { fill: none; stroke: var(--t-ink); stroke-width: 1.3; stroke-linecap: round; opacity: .85; }
+    .jmde-vein--b { opacity: .28; stroke-width: 1; }
+    .jmde-edge { fill: none; stroke: var(--t-ink); stroke-width: 9; stroke-linejoin: round; }
+    .jmde-edge--b { stroke-width: 6; }
+    .jmde-dot { fill: var(--t-w); }
+    .jmde-sheen { fill: url(#jmde-gsh); opacity: var(--s, .35); }
+    .jmde-hl { fill: none; stroke: #fff; stroke-width: 1.4; stroke-linecap: round; opacity: .75; }
+    .jmde-lace { position: absolute; left: 0; width: 100%; height: 48px; pointer-events: none; z-index: 4; filter: drop-shadow(0 2px 2px color-mix(in srgb, var(--t-ink) 16%, transparent)); }
+    .jmde-lace--top { top: 0; }
+    .jmde-lace--bot { bottom: 0; transform: scaleY(-1); }
+    .jmde-lace-b { fill: var(--t-w); }
+    .jmde-lace-f { fill: color-mix(in srgb, var(--t-p) 50%, var(--t-a)); }
+    .jmde-lace-t { fill: none; stroke: color-mix(in srgb, var(--t-p) 40%, var(--t-a)); stroke-width: .8; stroke-dasharray: 1.6 2; }
+    @media (prefers-reduced-motion: reduce) {
+      .jmde *, .jmde *::before, .jmde *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="jmde-defs" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><defs><linearGradient id="jmde-gm" x1="1" y1=".4" x2="0" y2=".6"><stop offset="0" style="stop-color: color-mix(in srgb, var(--t-p) 78%, #2b0a1f)"/><stop offset="0.35" style="stop-color: var(--t-p)"/><stop offset="0.75" style="stop-color: color-mix(in srgb, var(--t-p) 45%, var(--t-a))"/><stop offset="1" style="stop-color: var(--t-a)"/></linearGradient><radialGradient id="jmde-gb" cx=".9" cy=".45" r=".95"><stop offset="0" style="stop-color: color-mix(in srgb, var(--t-s) 35%, white)"/><stop offset="0.45" style="stop-color: var(--t-s)"/><stop offset="0.85" style="stop-color: color-mix(in srgb, var(--t-s) 62%, #2a1660)"/><stop offset="1" style="stop-color: color-mix(in srgb, var(--t-s) 40%, #160b33)"/></radialGradient><linearGradient id="jmde-gsh" x1="0" y1="0" x2=".7" y2="1"><stop offset="0" style="stop-color: #fff; stop-opacity: 0.85"/><stop offset="0.45" style="stop-color: #fff; stop-opacity: 0.08"/><stop offset="1" style="stop-color: #fff; stop-opacity: 0"/></linearGradient><g id="jmde-wm"><path class="jmde-sh" d="M100 66 C84 70 58 76 44 92 C34 106 40 126 58 130 C76 132 92 116 100 96 Z" transform="translate(2.5 3.5)"/><path class="jmde-sh" d="M100 52 C86 30 60 8 18 6 C8 6 2 14 6 24 C14 46 30 62 52 70 C70 74 88 68 100 62 Z" transform="translate(2.5 3.5)"/><path class="jmde-fm" d="M100 66 C84 70 58 76 44 92 C34 106 40 126 58 130 C76 132 92 116 100 96 Z"/><path class="jmde-fm" d="M100 52 C86 30 60 8 18 6 C8 6 2 14 6 24 C14 46 30 62 52 70 C70 74 88 68 100 62 Z"/><path class="jmde-vein" d="M98 56 Q62 28 22 11 M98 57 Q56 36 12 22 M98 58 Q62 46 26 48 M98 60 Q74 66 50 68 M66 34 Q58 46 50 58 M98 70 Q72 78 50 96 M98 72 Q74 96 58 124 M98 74 Q90 100 80 124 M98 71 Q62 88 44 110"/><path class="jmde-edge" d="M100 66 C84 70 58 76 44 92 C34 106 40 126 58 130 C76 132 92 116 100 96 Z"/><path class="jmde-edge" d="M100 52 C86 30 60 8 18 6 C8 6 2 14 6 24 C14 46 30 62 52 70 C70 74 88 68 100 62 Z"/><path class="jmde-dot" d="M59.32 18.16a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM50.04 13.97a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM39.61 10.54a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM28.03 8.13a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM14.63 7.38a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM9.03 9.95a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM5.77 14.66a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM5.40 20.94a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM9.52 31.50a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM13.58 38.68a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM18.29 45.23a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM23.62 51.11a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM29.52 56.32a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM35.95 60.87a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM55.09 18.09a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM45.97 14.14a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM35.46 10.96a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM23.63 8.87a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM13.61 9.62a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM9.23 13.14a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM7.44 18.51a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM8.82 25.15a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM13.90 35.41a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM18.30 41.93a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM23.27 47.75a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM28.73 52.86a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM34.60 57.29a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM40.83 61.14a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM63.09 79.27a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM55.44 83.58a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM48.45 88.68a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM42.01 96.58a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM39.73 105.32a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM40.86 113.99a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM45.23 121.55a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM52.66 126.93a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM62.11 128.53a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM70.98 126.28a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM79.07 121.36a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM60.35 83.29a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM53.74 87.44a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM47.61 92.39a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM42.89 100.82a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM42.21 109.02a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM44.69 116.73a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM50.19 122.89a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM58.47 126.49a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM67.00 125.67a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM74.81 122.13a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM81.75 116.51a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM27.70 17.00a2.3 2.3 0 1 0 4.6 0a2.3 2.3 0 1 0 -4.6 0ZM35.10 15.50a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM23.00 23.00a2 2 0 1 0 4 0a2 2 0 1 0 -4 0ZM32.40 23.00a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0ZM41.70 20.00a1.3 1.3 0 1 0 2.6 0a1.3 1.3 0 1 0 -2.6 0Z"/><path class="jmde-sheen" d="M100 66 C84 70 58 76 44 92 C34 106 40 126 58 130 C76 132 92 116 100 96 Z"/><path class="jmde-sheen" d="M100 52 C86 30 60 8 18 6 C8 6 2 14 6 24 C14 46 30 62 52 70 C70 74 88 68 100 62 Z"/><path class="jmde-hl" d="M98 51 C86 30 60 9 19 7"/></g><g id="jmde-wb"><path class="jmde-sh" d="M100 66 C74 68 40 80 30 100 C24 116 40 134 62 132 C82 130 96 110 100 94 Z" transform="translate(2.5 3.5)"/><path class="jmde-sh" d="M100 50 C80 22 46 4 14 10 C4 12 0 26 8 36 C20 56 52 70 100 64 Z" transform="translate(2.5 3.5)"/><path class="jmde-fb" d="M100 66 C74 68 40 80 30 100 C24 116 40 134 62 132 C82 130 96 110 100 94 Z"/><path class="jmde-fb" d="M100 50 C80 22 46 4 14 10 C4 12 0 26 8 36 C20 56 52 70 100 64 Z"/><path class="jmde-vein jmde-vein--b" d="M98 55 Q60 26 18 14 M98 57 Q54 38 8 30 M98 59 Q66 54 34 52 M98 70 Q70 80 40 100 M98 72 Q70 100 52 128 M98 74 Q88 104 80 128"/><path class="jmde-edge jmde-edge--b" d="M100 66 C74 68 40 80 30 100 C24 116 40 134 62 132 C82 130 96 110 100 94 Z"/><path class="jmde-edge jmde-edge--b" d="M100 50 C80 22 46 4 14 10 C4 12 0 26 8 36 C20 56 52 70 100 64 Z"/><path class="jmde-dot" d="M46.11 12.75a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM34.65 10.30a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM22.93 9.75a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM9.77 12.52a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM4.58 20.40a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM5.36 30.91a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM10.88 39.63a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM17.20 46.26a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM25.27 52.04a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM34.96 56.79a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM44.77 84.94a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM34.06 94.51a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM29.14 105.93a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM31.99 117.21a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM40.71 126.16a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM53.77 130.77a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM68.36 129.25a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM80.31 122.31a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0Z"/><path class="jmde-sheen" d="M100 66 C74 68 40 80 30 100 C24 116 40 134 62 132 C82 130 96 110 100 94 Z"/><path class="jmde-sheen" d="M100 50 C80 22 46 4 14 10 C4 12 0 26 8 36 C20 56 52 70 100 64 Z"/><path class="jmde-hl" d="M98 49 C80 22 46 5 15 11"/></g><pattern id="jmde-lp" width="48" height="48" patternUnits="userSpaceOnUse"><path class="jmde-lace-b" fill-rule="evenodd" d="M0 0H48V14A24 24 0 0 1 0 14ZM19.00 22.00a5 5 0 1 0 10 0a5 5 0 1 0 -10 0ZM7.80 19.00a2.2 2.2 0 1 0 4.4 0a2.2 2.2 0 1 0 -4.4 0ZM35.80 19.00a2.2 2.2 0 1 0 4.4 0a2.2 2.2 0 1 0 -4.4 0ZM22.00 32.50a2 2 0 1 0 4 0a2 2 0 1 0 -4 0ZM-1.60 4.00a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0ZM46.40 4.00a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0Z"/><path class="jmde-lace-b" d="M45.97 19.95a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM42.00 28.46a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM35.14 34.86a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM26.37 38.23a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM17.83 38.23a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM9.06 34.86a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM2.20 28.46a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM-1.77 19.95a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0Z"/><path class="jmde-lace-f" d="M22.30 4.40a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0ZM24.77 6.20a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0ZM23.83 9.10a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0ZM20.77 9.10a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0ZM19.83 6.20a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0ZM11.10 8.00a0.9 0.9 0 1 0 1.8 0a0.9 0.9 0 1 0 -1.8 0ZM35.10 8.00a0.9 0.9 0 1 0 1.8 0a0.9 0.9 0 1 0 -1.8 0Z"/><path class="jmde-lace-t" d="M4 14 A20 20 0 0 0 44 14"/><path class="jmde-lace-t" d="M0 1.5H48"/></pattern></defs></svg>
+  <div class="jmde__wrap">
+    <div class="jmde__frame">
+      <figure class="jmde__fig" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/800/1000/roses,bouquet,pink?lock=3306" alt="Arreglo de rosas rosas y blancas" path="placeholder" data-library-category="decoracion" data-asset-type="arreglo-floral" loading="lazy" /></figure>
+      <svg class="jmde-lace jmde-lace--bot " aria-hidden="true" focusable="false"><rect width="100%" height="100%" fill="url(#jmde-lp)"/></svg>
+      <div class="jmde-bf " data-bf="b" data-sp="0.5" data-base="34" data-amp="28" style="--rx:40deg;--rz:-30deg" aria-hidden="true"><div class="jmde-bf__in"><div class="jmde-bf__w jmde-bf__w--l"><svg viewBox="0 0 100 140" focusable="false"><use href="#jmde-wb"/></svg></div><div class="jmde-bf__w jmde-bf__w--r"><svg viewBox="0 0 100 140" focusable="false"><g transform="matrix(-1 0 0 1 100 0)"><use href="#jmde-wb"/></g></svg></div><span class="jmde-bf__body"></span></div></div>
+    </div>
+    <div>
+      <h2 class="jmde__title" memory_type="text" memory_usage="custom" memory_key="detalles-encabezado">Detalles importantes</h2>
+      <p class="jmde__intro" memory_type="text" memory_usage="custom" memory_key="detalles-intro">Pequeñas notas para que disfrutes cada momento de esta celebración primaveral.</p>
+      <ul class="jmde__cards">
+        <li class="jmde__card" data-card style="--i:0">
+          <div class="jmde__inner">
+            <span class="jmde__ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M9 3l3 3 3-3M9 3c0 3 1 5 3 6 2-1 3-3 3-6M12 9l-6 12h12z"/></svg></span>
+            <h3 class="jmde__h" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Código de vestimenta</h3>
+            <p class="jmde__p" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Formal. Te pedimos reservar el rosa y el fucsia para la quinceañera.</p>
+          </div>
+          <div class="jmde__cover" data-bf="m" data-sp=".5" data-base="0" data-amp="7" aria-hidden="true">
+            <span class="jmde__wing jmde__wing--l"><svg viewBox="0 0 100 140" preserveAspectRatio="none" focusable="false"><use href="#jmde-wm"/></svg></span>
+            <span class="jmde__wing jmde__wing--r"><svg viewBox="0 0 100 140" preserveAspectRatio="none" focusable="false"><g transform="matrix(-1 0 0 1 100 0)"><use href="#jmde-wm"/></g></svg></span>
+            <span class="jmde__cbody"></span>
+          </div>
+        </li>
+        <li class="jmde__card" data-card style="--i:1">
+          <div class="jmde__inner">
+            <span class="jmde__ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
+            <h3 class="jmde__h" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Puntualidad</h3>
+            <p class="jmde__p" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">La misa inicia a las 5:00 p. m.; te esperamos quince minutos antes.</p>
+          </div>
+          <div class="jmde__cover" data-bf="b" data-sp=".5" data-base="0" data-amp="7" aria-hidden="true">
+            <span class="jmde__wing jmde__wing--l"><svg viewBox="0 0 100 140" preserveAspectRatio="none" focusable="false"><use href="#jmde-wb"/></svg></span>
+            <span class="jmde__wing jmde__wing--r"><svg viewBox="0 0 100 140" preserveAspectRatio="none" focusable="false"><g transform="matrix(-1 0 0 1 100 0)"><use href="#jmde-wb"/></g></svg></span>
+            <span class="jmde__cbody"></span>
+          </div>
+        </li>
+        <li class="jmde__card" data-card style="--i:2">
+          <div class="jmde__inner">
+            <span class="jmde__ico" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M4 15l1.6-5A2 2 0 0 1 7.5 8.6h9a2 2 0 0 1 1.9 1.4L20 15v4h-2.5M4 15v4h2.5M4 15h16"/><circle cx="7.5" cy="18.5" r="1.6"/><circle cx="16.5" cy="18.5" r="1.6"/></svg></span>
+            <h3 class="jmde__h" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Estacionamiento</h3>
+            <p class="jmde__p" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">El jardín cuenta con estacionamiento y servicio de valet.</p>
+          </div>
+          <div class="jmde__cover" data-bf="m" data-sp=".5" data-base="0" data-amp="7" aria-hidden="true">
+            <span class="jmde__wing jmde__wing--l"><svg viewBox="0 0 100 140" preserveAspectRatio="none" focusable="false"><use href="#jmde-wm"/></svg></span>
+            <span class="jmde__wing jmde__wing--r"><svg viewBox="0 0 100 140" preserveAspectRatio="none" focusable="false"><g transform="matrix(-1 0 0 1 100 0)"><use href="#jmde-wm"/></g></svg></span>
+            <span class="jmde__cbody"></span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="detalles-vestimenta"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var IO = 'IntersectionObserver' in window;
+      var bfs = [].slice.call(root.querySelectorAll('[data-bf]'));
+      /* Wing flap: data-* driven, writes only CSS custom properties */
+      function flap(t) {
+        for (var i = 0; i < bfs.length; i++) {
+          var b = bfs[i], sp = +(b.getAttribute('data-sp') || 1), base = +(b.getAttribute('data-base') || 24), amp = +(b.getAttribute('data-amp') || 40);
+          var ph = t * 0.006 * sp + i * 1.9;
+          b.style.setProperty('--f', (base + amp * Math.sin(ph)).toFixed(1));
+          b.style.setProperty('--s', (0.2 + 0.55 * Math.abs(Math.cos(ph))).toFixed(2));
+        }
+      }
+      /* Continuous motion: one rAF loop, paused off-screen and on hidden tabs */
+      function loop(fn) {
+        if (!IO) return;
+        var vis = false, raf = 0;
+        function tick(t) { raf = 0; if (!vis || document.hidden) return; fn(t); raf = requestAnimationFrame(tick); }
+        function go() { if (!raf && vis && !document.hidden) raf = requestAnimationFrame(tick); }
+        new IntersectionObserver(function (en) { vis = en[0].isIntersecting; go(); }).observe(root);
+        document.addEventListener('visibilitychange', go);
+      }
+      if (RM || !IO) return;   /* reduced motion = static final state (no covers) */
+      root.setAttribute('data-js', '');
+      root.classList.add('jmde--anim');
+      var io0 = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          io0.disconnect(); root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('jmde--anim', 'is-in'); }, 1000);
+        }
+      }, { threshold: [0, .2, .5] });
+      io0.observe(root);
+      var cards = [].slice.call(root.querySelectorAll('[data-card]'));
+      var io = new IntersectionObserver(function (en) {
+        en.forEach(function (e) {
+          if (e.isIntersecting && e.intersectionRatio > .5) {
+            var c = e.target; io.unobserve(c);
+            setTimeout(function () { c.setAttribute('data-open', ''); }, 350 + cards.indexOf(c) * 260);
+          }
+        });
+      }, { threshold: [0, .5, .8] });
+      cards.forEach(function (c) { io.observe(c); });
+      loop(flap);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-vestimenta',
+      style_name: 'Jardín de Mariposas',
+      descripcion: 'Detalles del evento en tarjetas cubiertas por alas de mariposa que se abren al entrar en pantalla, junto a una imagen de rosas en marco de arco con encaje floral.',
+      tags: ['detalles', 'vestimenta', 'quinceañera', 'mariposas', 'tarjetas'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>

@@ -1,0 +1,343 @@
+<section
+  class="ne-ga"
+  data-gemini-id="galeria-estrellada"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400%3B0,500%3B0,600%3B1,400%3B1,500&family=Great+Vibes&display=swap');
+
+    .ne-ga, .ne-ga *, .ne-ga *::before, .ne-ga *::after { box-sizing: border-box; }
+    .ne-ga {
+      --t-bg: var(--bg-color, #0a1535);
+      --t-tx: var(--text-color, #f3f6fd);
+      --t-p: var(--primary-color, #c4ccda);
+      --t-s: var(--secondary-color, #1d3170);
+      --t-a: var(--accent-color, #eef3ff);
+      --t-display: var(--font-script, 'Great Vibes', cursive);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      --t-soft: color-mix(in srgb, var(--t-tx) 80%, transparent);
+      --t-line: color-mix(in srgb, var(--t-p) 45%, transparent);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image:
+        radial-gradient(ellipse 60% 40% at 80% 10%, color-mix(in srgb, var(--t-s) 70%, transparent), transparent 70%),
+        radial-gradient(ellipse 50% 40% at 10% 90%, color-mix(in srgb, var(--t-s) 50%, transparent), transparent 70%),
+        linear-gradient(180deg, var(--t-bg), color-mix(in srgb, var(--t-bg) 75%, black));
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .ne-ga__sky { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    .ne-ga__content { position: relative; z-index: 1; width: min(100%, 66rem); }
+
+    .ne-ga__head { margin-bottom: clamp(2rem, 5vw, 3rem); }
+    .ne-ga__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.6rem, 6.5vw, 4.4rem); line-height: 1.1; color: var(--t-a); }
+    .ne-ga__intro { margin: .3rem auto 0; max-width: 30rem; font-style: italic; font-size: clamp(1.1rem, 2.2vw, 1.3rem); color: var(--t-soft); }
+
+    .ne-ga__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr));
+      grid-auto-flow: dense;
+      gap: clamp(.6rem, 1.6vw, 1rem);
+    }
+    .ne-ga__tile {
+      position: relative;
+      margin: 0;
+      aspect-ratio: 4 / 5;
+      border-radius: 1rem;
+      overflow: hidden;
+      cursor: zoom-in;
+      background: var(--t-s);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--t-p) 20%, transparent);
+      transition: box-shadow .35s ease;
+    }
+    .ne-ga__tile img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; transition: scale .5s ease, filter .4s ease; }
+    .ne-ga__tile::after {
+      content: '';
+      position: absolute;
+      top: .7rem; right: .7rem;
+      width: 1.1rem; height: 1.1rem;
+      background: var(--t-a);
+      clip-path: polygon(50% 0, 58% 42%, 100% 50%, 58% 58%, 50% 100%, 42% 58%, 0 50%, 42% 42%);
+      opacity: 0;
+      scale: .3;
+      filter: drop-shadow(0 0 6px var(--t-a));
+      transition: opacity .3s ease, scale .4s cubic-bezier(.3, 1.6, .5, 1), rotate .5s ease;
+    }
+    .ne-ga__tile:hover, .ne-ga__tile:focus-visible { box-shadow: 0 0 0 1px var(--t-a), 0 0 30px color-mix(in srgb, var(--t-a) 30%, transparent); outline: none; }
+    .ne-ga__tile:hover img, .ne-ga__tile:focus-visible img { scale: 1.06; filter: brightness(1.08) saturate(1.05); }
+    .ne-ga__tile:hover::after, .ne-ga__tile:focus-visible::after { opacity: 1; scale: 1; rotate: 90deg; }
+
+    .ne-ga__tile--hero { grid-column: 1 / -1; aspect-ratio: 4 / 3; border-radius: 50% 50% 1rem 1rem / 38% 38% 1rem 1rem; }
+    .ne-ga__tile--hero img { position: absolute; inset: 0; height: 100%; aspect-ratio: auto; }
+    @media (min-width: 700px) {
+      .ne-ga__grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
+      .ne-ga__tile--hero { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; border-radius: 999px 999px 1rem 1rem; }
+    }
+
+    /* Lightbox */
+    .ne-ga__dialog {
+      width: min(92vw, 60rem);
+      max-height: 92vh;
+      padding: 0;
+      border: 1px solid var(--t-line);
+      border-radius: 1.4rem;
+      background: var(--t-bg);
+      color: var(--t-tx);
+      overflow: hidden;
+      font-family: var(--t-text);
+    }
+    .ne-ga__dialog::backdrop { background: color-mix(in srgb, var(--t-bg) 82%, transparent); backdrop-filter: blur(6px); }
+    .ne-ga__dialog[open] .ne-ga__big { animation: ne-ga-pop .4s cubic-bezier(.2, .8, .2, 1); }
+    .ne-ga__big { display: block; width: 100%; height: auto; max-height: 78vh; object-fit: contain; background: color-mix(in srgb, var(--t-s) 40%, black); }
+    .ne-ga__bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .7rem 1rem; }
+    .ne-ga__cap { margin: 0; font-style: italic; font-size: 1.05rem; color: var(--t-soft); text-align: left; }
+    .ne-ga__ctrls { display: flex; gap: .5rem; }
+    .ne-ga__btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.6rem; height: 2.6rem;
+      padding: 0;
+      border: 1px solid var(--t-line);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--t-tx);
+      font: inherit;
+      font-size: 1.3rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: background-color .3s ease, color .3s ease, border-color .3s ease;
+    }
+    .ne-ga__btn:hover, .ne-ga__btn:focus-visible { background: var(--t-p); color: var(--t-bg); border-color: var(--t-a); outline: none; }
+
+    /* Twinkle-in per tile */
+    .ne-ga--anim .ne-ga__head { opacity: 0; filter: blur(8px); transition: opacity .5s ease, filter .5s ease; }
+    .ne-ga--anim.is-in .ne-ga__head { opacity: 1; filter: none; }
+    .ne-ga--anim .ne-ga__tile { opacity: 0; scale: .9; filter: brightness(2.4) blur(4px); transition: opacity .45s ease, scale .5s cubic-bezier(.2, .9, .3, 1.2), filter .5s ease; }
+    .ne-ga--anim .ne-ga__tile[data-on] { opacity: 1; scale: 1; filter: none; }
+
+    @keyframes ne-ga-pop { from { opacity: 0; scale: .94; } to { opacity: 1; scale: 1; } }
+    @media (prefers-reduced-motion: reduce) {
+      .ne-ga *, .ne-ga *::before, .ne-ga *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <canvas class="ne-ga__sky" data-ne-sky aria-hidden="true"></canvas>
+
+  <div class="ne-ga__content">
+    <header class="ne-ga__head">
+      <h2 class="ne-ga__title" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Momentos bajo las estrellas</h2>
+      <p class="ne-ga__intro" memory_type="text" memory_usage="custom" memory_key="galeria-texto">Un pequeño cielo de recuerdos antes de mi gran noche.</p>
+    </header>
+
+    <div class="ne-ga__grid">
+      <figure class="ne-ga__tile ne-ga__tile--hero" data-ne-tile tabindex="0" role="button" aria-label="Ver foto 1" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/900/1100/quinceanera,portrait?lock=3314" alt="Retrato de la quinceañera" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+      </figure>
+      <figure class="ne-ga__tile" data-ne-tile tabindex="0" role="button" aria-label="Ver foto 2" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/600/750/dress,gown,blue?lock=3315" alt="Vestido de gala" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+      </figure>
+      <figure class="ne-ga__tile" data-ne-tile tabindex="0" role="button" aria-label="Ver foto 3" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/600/750/night,stars?lock=3316" alt="Cielo estrellado" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+      </figure>
+      <figure class="ne-ga__tile" data-ne-tile tabindex="0" role="button" aria-label="Ver foto 4" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/600/750/tiara,crown?lock=3317" alt="Tiara de quinceañera" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+      </figure>
+      <figure class="ne-ga__tile" data-ne-tile tabindex="0" role="button" aria-label="Ver foto 5" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/600/750/girl,portrait,elegant?lock=3318" alt="Sesión de fotos" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+      </figure>
+      <figure class="ne-ga__tile" data-ne-tile tabindex="0" role="button" aria-label="Ver foto 6" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/600/750/moon,night?lock=3319" alt="Luna en el cielo" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+      </figure>
+      <figure class="ne-ga__tile" data-ne-tile tabindex="0" role="button" aria-label="Ver foto 7" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/600/750/family,celebration?lock=3320" alt="Celebración en familia" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+      </figure>
+      <figure class="ne-ga__tile" data-ne-tile tabindex="0" role="button" aria-label="Ver foto 8" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/600/750/sparkle,lights?lock=3321" alt="Luces plateadas" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+      </figure>
+      <figure class="ne-ga__tile" data-ne-tile tabindex="0" role="button" aria-label="Ver foto 9" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/600/750/dance,party,night?lock=3322" alt="Baile de la noche" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" />
+      </figure>
+    </div>
+  </div>
+
+  <dialog class="ne-ga__dialog" data-ne-dialog aria-label="Galería ampliada">
+    <img class="ne-ga__big" data-mm-big alt="" />
+    <div class="ne-ga__bar">
+      <p class="ne-ga__cap" data-ne-cap></p>
+      <div class="ne-ga__ctrls">
+        <button class="ne-ga__btn" type="button" data-ne-prev aria-label="Foto anterior">‹</button>
+        <button class="ne-ga__btn" type="button" data-ne-next aria-label="Foto siguiente">›</button>
+        <button class="ne-ga__btn" type="button" data-ne-close aria-label="Cerrar">×</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="galeria-estrellada"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* Shared night-sky layer: twinkling stars, silver glitter sparkles and occasional shooting stars */
+      function neSky(cv, host, o) {
+        o = o || {};
+        var ctx = cv && cv.getContext ? cv.getContext('2d') : null;
+        var api = { start: function () {}, stop: function () {}, draw: function () {} };
+        if (!ctx) return api;
+        var dpr = Math.min(window.devicePixelRatio || 1, 2), W = 1, H = 1, pts = [], shots = [], next = 0, raf = 0, on = false;
+        var cs = getComputedStyle(host);
+        var cA = cs.getPropertyValue('--t-a').trim() || '#eef3ff';
+        var cP = cs.getPropertyValue('--t-p').trim() || '#c4ccda';
+        function seed() {
+          pts = [];
+          var n = Math.min(o.max || 200, Math.round(W * H / (o.area || 6500)));
+          for (var i = 0; i < n; i++) {
+            pts.push({ x: Math.random() * W, y: Math.random() * H, r: .35 + Math.random() * 1.05, ph: Math.random() * 6.283, sp: .5 + Math.random() * 1.6, g: Math.random() < (o.glitter || .1) });
+          }
+        }
+        function size() {
+          var r = cv.getBoundingClientRect();
+          W = Math.max(1, r.width); H = Math.max(1, r.height);
+          cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          seed();
+        }
+        function sparkle(x, y, s, a) {
+          ctx.globalAlpha = Math.max(0, Math.min(1, a)); ctx.fillStyle = cA;
+          ctx.beginPath(); ctx.moveTo(x, y - s);
+          ctx.quadraticCurveTo(x + s * .14, y - s * .14, x + s, y);
+          ctx.quadraticCurveTo(x + s * .14, y + s * .14, x, y + s);
+          ctx.quadraticCurveTo(x - s * .14, y + s * .14, x - s, y);
+          ctx.quadraticCurveTo(x - s * .14, y - s * .14, x, y - s);
+          ctx.fill();
+        }
+        function spawn(now) {
+          var th = (.42 + Math.random() * .2);
+          shots.push({ x: W * (.35 + Math.random() * .7), y: -10 + Math.random() * H * .4, dx: -Math.cos(th), dy: Math.sin(th), dist: (W + H) * (.25 + Math.random() * .15), len: 90 + Math.random() * 110, born: now, life: 950 + Math.random() * 450 });
+        }
+        function draw(now) {
+          ctx.clearRect(0, 0, W, H);
+          var t = now / 1000;
+          for (var i = 0; i < pts.length; i++) {
+            var p = pts[i], tw = .55 + .45 * Math.sin(t * p.sp + p.ph);
+            if (p.g) { sparkle(p.x, p.y, p.r * 3.4 * tw + .6, .3 + .7 * tw); }
+            else { ctx.globalAlpha = .22 + .6 * tw; ctx.fillStyle = cP; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill(); }
+          }
+          if (o.shoot) {
+            if (!next) next = now + 900 + Math.random() * 2200;
+            if (now > next) { spawn(now); next = now + (o.every || 5200) + Math.random() * 4000; }
+            for (var j = shots.length - 1; j >= 0; j--) {
+              var s = shots[j], k = (now - s.born) / s.life;
+              if (k >= 1 || k < 0) { shots.splice(j, 1); continue; }
+              var hx = s.x + s.dx * k * s.dist, hy = s.y + s.dy * k * s.dist, tl = s.len * Math.min(1, k * 3);
+              var g = ctx.createLinearGradient(hx, hy, hx - s.dx * tl, hy - s.dy * tl);
+              g.addColorStop(0, cA); g.addColorStop(1, 'rgba(255,255,255,0)');
+              ctx.globalAlpha = Math.sin(k * Math.PI); ctx.strokeStyle = g; ctx.lineWidth = 1.5; ctx.lineCap = 'round';
+              ctx.beginPath(); ctx.moveTo(hx, hy); ctx.lineTo(hx - s.dx * tl, hy - s.dy * tl); ctx.stroke();
+              sparkle(hx, hy, 4, Math.sin(k * Math.PI));
+            }
+          }
+          ctx.globalAlpha = 1;
+        }
+        function loop(now) { raf = 0; if (!on) return; draw(now); raf = requestAnimationFrame(loop); }
+        api.start = function () { if (on) return; on = true; raf = requestAnimationFrame(loop); };
+        api.stop = function () { on = false; if (raf) cancelAnimationFrame(raf); raf = 0; };
+        api.draw = draw;
+        size();
+        if ('ResizeObserver' in window) new ResizeObserver(function () { size(); if (!on) draw(1000); }).observe(cv);
+        return api;
+      }
+      /* Runs a start/stop controller only while the module is on screen and the tab is visible */
+      function neWhenVisible(el, ctl) {
+        var vis = false;
+        function upd() { if (vis && !document.hidden) ctl.start(); else ctl.stop(); }
+        if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { vis = en[0].isIntersecting; upd(); }).observe(el);
+        else { vis = true; upd(); }
+        document.addEventListener('visibilitychange', upd);
+      }
+
+      /* Lightbox in a <dialog> (escapes stacking contexts) */
+      var tiles = root.querySelectorAll('[data-ne-tile]');
+      var dlg = root.querySelector('[data-ne-dialog]');
+      var big = root.querySelector('[data-mm-big]');
+      var cap = root.querySelector('[data-ne-cap]');
+      var cur = 0;
+      function show(i) {
+        cur = (i + tiles.length) % tiles.length;
+        var img = tiles[cur].querySelector('img');
+        if (!img || !big) return;
+        big.src = img.currentSrc || img.src; big.alt = img.alt || '';
+        if (cap) cap.textContent = img.alt || '';
+        big.style.animation = 'none'; void big.offsetWidth; big.style.animation = '';
+      }
+      function open(i) {
+        show(i);
+        if (dlg && dlg.showModal) { if (!dlg.open) dlg.showModal(); }
+        else { var img = tiles[cur].querySelector('img'); if (img) window.open(img.src, '_blank'); }
+      }
+      for (var t = 0; t < tiles.length; t++) {
+        (function (i) {
+          tiles[i].addEventListener('click', function () { open(i); });
+          tiles[i].addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); } });
+        })(t);
+      }
+      if (dlg) {
+        dlg.querySelector('[data-ne-prev]').addEventListener('click', function () { show(cur - 1); });
+        dlg.querySelector('[data-ne-next]').addEventListener('click', function () { show(cur + 1); });
+        dlg.querySelector('[data-ne-close]').addEventListener('click', function () { dlg.close(); });
+        dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+        dlg.addEventListener('keydown', function (e) { if (e.key === 'ArrowLeft') show(cur - 1); if (e.key === 'ArrowRight') show(cur + 1); });
+      }
+
+      var sky = neSky(root.querySelector('[data-ne-sky]'), root, { shoot: !RM, area: 8000 });
+      if (RM) { sky.draw(1000); return; }
+      neWhenVisible(root, sky);
+
+      if (!('IntersectionObserver' in window)) return;
+      root.classList.add('ne-ga--anim');
+      var shown = 0;
+      var io = new IntersectionObserver(function (en) {
+        en.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          io.unobserve(e.target);
+          var idx = Array.prototype.indexOf.call(tiles, e.target);
+          setTimeout(function () {
+            e.target.setAttribute('data-on', '');
+            if (++shown === tiles.length) setTimeout(function () {
+              root.classList.remove('ne-ga--anim', 'is-in');
+              for (var j = 0; j < tiles.length; j++) tiles[j].removeAttribute('data-on');
+            }, 800);
+          }, (idx % 4) * 110 + 60);
+        });
+      }, { threshold: .2 });
+      for (var k = 0; k < tiles.length; k++) io.observe(tiles[k]);
+      var ioHead = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting) { ioHead.disconnect(); root.classList.add('is-in'); }
+      }, { threshold: [0, .05] });
+      ioHead.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-estrellada',
+      style_name: 'Noche Estrellada Galería Destellos',
+      descripcion: 'Galería de XV años en mosaico adaptable con foto principal en arco, mosaicos que aparecen con destello plateado, estrella al pasar el cursor y lightbox propio en diálogo con navegación.',
+      tags: ['galeria', 'fotos', 'quinceañera', 'noche estrellada', 'lightbox', 'plateado', 'azul marino'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

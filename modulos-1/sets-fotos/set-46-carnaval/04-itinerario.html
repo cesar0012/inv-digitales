@@ -1,0 +1,259 @@
+<section
+  class="cv-it"
+  data-gemini-id="itinerario-agenda"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Monsieur+La+Doulaise&display=swap');
+
+    .cv-it, .cv-it *, .cv-it *::before, .cv-it *::after { box-sizing: border-box; }
+    .cv-it {
+      --t-bg: var(--bg-color, #14060f);
+      --t-tx: var(--text-color, #f3e4c8);
+      --t-p: var(--primary-color, #9b1028);
+      --t-s: var(--secondary-color, #4b1a6e);
+      --t-a: var(--accent-color, #b8862e);
+      --t-display: var(--font-script, 'Monsieur La Doulaise', cursive);
+      --t-text: var(--font-heading, 'IM Fell English', Georgia, serif);
+      --gold: linear-gradient(115deg, color-mix(in srgb, var(--t-a) 60%, #000) 0%, color-mix(in srgb, var(--t-a) 55%, #fff) 42%, var(--t-a) 58%, color-mix(in srgb, var(--t-a) 65%, #000) 100%);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/ballroom,chandelier,palace?lock=3531');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .cv-it::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 40% 80% at 50% 50%, color-mix(in srgb, var(--t-p) 18%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 88%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent));
+    }
+    .cv-it__content { width: min(100%, 58rem); }
+    .cv-it__head { text-align: center; margin-bottom: clamp(2.5rem, 6vw, 4rem); }
+    .cv-it__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3.2rem, 7.5vw, 5.4rem);
+      line-height: 1.1;
+      padding: 0 .3em;
+      background: var(--gold);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .cv-it__intro { margin: .3rem auto 0; max-width: 30rem; font-style: italic; opacity: .85; font-size: 1.08rem; }
+
+    .cv-it__list {
+      --prog: 1;
+      position: relative;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: clamp(1.6rem, 4vw, 2.6rem);
+    }
+    .cv-it__cord, .cv-it__fill {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 3px;
+      margin-left: -1.5px;
+      border-radius: 3px;
+    }
+    .cv-it__cord { background: repeating-linear-gradient(180deg, color-mix(in srgb, var(--t-a) 55%, transparent) 0 6px, color-mix(in srgb, var(--t-a) 25%, transparent) 6px 9px); }
+    .cv-it__fill {
+      transform-origin: top;
+      transform: scaleY(var(--prog));
+      background: linear-gradient(180deg, var(--t-a), var(--t-p));
+      box-shadow: 0 0 12px var(--t-p), 0 0 4px var(--t-a);
+    }
+    .cv-it__rider {
+      position: absolute;
+      left: 50%;
+      top: calc(var(--prog) * 100%);
+      width: 4.4rem;
+      transform: translate(-50%, -50%);
+      filter: drop-shadow(0 0 8px color-mix(in srgb, var(--t-a) 70%, transparent));
+      z-index: 2;
+    }
+
+    .cv-it__item {
+      position: relative;
+      width: 50%;
+      padding-right: clamp(2rem, 5vw, 3.4rem);
+      text-align: right;
+      transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1);
+    }
+    .cv-it__item:nth-child(even) { margin-left: 50%; padding-right: 0; padding-left: clamp(2rem, 5vw, 3.4rem); text-align: left; }
+    .cv-it__item::before {
+      content: '';
+      position: absolute;
+      top: .95rem;
+      right: -9px;
+      width: 18px;
+      height: 18px;
+      transform: rotate(45deg);
+      border: 2px solid var(--t-a);
+      background: var(--t-p);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--t-bg) 80%, transparent), 0 0 18px var(--t-a);
+      transition: background-color .4s ease, box-shadow .4s ease;
+    }
+    .cv-it__item:nth-child(even)::before { right: auto; left: -9px; }
+    .cv-it__time {
+      display: block;
+      font-family: var(--t-display);
+      font-size: clamp(2rem, 4vw, 2.6rem);
+      line-height: 1.1;
+      color: var(--t-a);
+    }
+    .cv-it__name { margin: .15rem 0 .3rem; font-weight: 400; font-size: clamp(1.3rem, 2.5vw, 1.6rem); }
+    .cv-it__desc { margin: 0; font-style: italic; opacity: .82; line-height: 1.55; }
+
+    .cv-it--anim .cv-it__item:not([data-lit]) { opacity: .35; transform: translateX(-14px); }
+    .cv-it--anim .cv-it__item:nth-child(even):not([data-lit]) { transform: translateX(14px); }
+    .cv-it--anim .cv-it__item:not([data-lit])::before { background: var(--t-bg); box-shadow: 0 0 0 4px color-mix(in srgb, var(--t-bg) 80%, transparent); }
+
+    @media (max-width: 680px) {
+      .cv-it__cord, .cv-it__fill, .cv-it__rider { left: 1.1rem; }
+      .cv-it__rider { width: 3rem; }
+      .cv-it__item, .cv-it__item:nth-child(even) { width: auto; margin-left: 0; padding: 0 0 0 3.2rem; text-align: left; }
+      .cv-it__item::before, .cv-it__item:nth-child(even)::before { left: calc(1.1rem - 9px); right: auto; }
+      .cv-it--anim .cv-it__item:not([data-lit]), .cv-it--anim .cv-it__item:nth-child(even):not([data-lit]) { transform: translateX(14px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cv-it *, .cv-it *::before, .cv-it *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="cv-it__content">
+    <header class="cv-it__head">
+      <h2 class="cv-it__title" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">El Programa</h2>
+      <p class="cv-it__intro" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">Una noche en varios actos, del primer brindis a la última máscara.</p>
+    </header>
+
+    <ol class="cv-it__list" data-cv-list>
+      <li class="cv-it__cord" aria-hidden="true"></li>
+      <li class="cv-it__fill" aria-hidden="true"></li>
+      <li class="cv-it__rider" aria-hidden="true">
+        <svg viewBox="0 0 120 60">
+          <path fill-rule="evenodd" style="fill: var(--t-a)" d="M60 24C52 14 38 10 22 14C12 16 8 24 12 32C16 42 32 46 44 42C52 39 56 36 60 36C64 36 68 39 76 42C88 46 104 42 108 32C112 24 108 16 98 14C82 10 68 14 60 24ZM24 28C30 22 40 22 46 30C40 34 30 35 24 28ZM96 28C90 22 80 22 74 30C80 34 90 35 96 28Z" />
+          <path d="M22 14C14 4 16 -4 22 -10C22 0 26 6 28 13Z" style="fill: var(--t-s)" />
+        </svg>
+      </li>
+      <li class="cv-it__item" data-cv-step>
+        <time class="cv-it__time" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">7:00 p.m.</time>
+        <h3 class="cv-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-1">Recepción</h3>
+        <p class="cv-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-1">Entrega de máscaras y copa de bienvenida bajo los candelabros.</p>
+      </li>
+      <li class="cv-it__item" data-cv-step>
+        <time class="cv-it__time" datetime="20:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">8:00 p.m.</time>
+        <h3 class="cv-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-2">Entrada de la quinceañera</h3>
+        <p class="cv-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-2">Se abre el telón y la noche tiene protagonista.</p>
+      </li>
+      <li class="cv-it__item" data-cv-step>
+        <time class="cv-it__time" datetime="20:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">8:30 p.m.</time>
+        <h3 class="cv-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-3">Vals y brindis</h3>
+        <p class="cv-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-3">El primer baile con papá y un brindis por los quince.</p>
+      </li>
+      <li class="cv-it__item" data-cv-step>
+        <time class="cv-it__time" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">9:30 p.m.</time>
+        <h3 class="cv-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-4">Cena de gala</h3>
+        <p class="cv-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-4">Banquete servido entre damasco y luz de velas.</p>
+      </li>
+      <li class="cv-it__item" data-cv-step>
+        <time class="cv-it__time" datetime="22:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-5">10:30 p.m.</time>
+        <h3 class="cv-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-5">Baile de máscaras</h3>
+        <p class="cv-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-5">La pista se llena de plumas, misterio y música.</p>
+      </li>
+      <li class="cv-it__item" data-cv-step>
+        <time class="cv-it__time" datetime="00:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-6">12:00 a.m.</time>
+        <h3 class="cv-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-6">Medianoche sin máscaras</h3>
+        <p class="cv-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-6">Al sonar las doce, todos revelamos quién se escondía detrás.</p>
+      </li>
+    </ol>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="itinerario-agenda"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      var list = root.querySelector('[data-cv-list]');
+      var items = root.querySelectorAll('[data-cv-step]');
+      var shown = 0, target = 0, raf = 0, vis = false, done = false;
+      root.classList.add('cv-it--anim');
+      list.style.setProperty('--prog', '0');
+
+      function measure() {
+        var r = list.getBoundingClientRect(), vh = window.innerHeight || 800;
+        target = Math.max(0, Math.min(1, (vh * .62 - r.top) / r.height));
+      }
+      /* Progress line eases toward the scroll position; nodes light as the head passes them */
+      function tick() {
+        raf = 0;
+        if (done || !vis || document.hidden) return;
+        measure();
+        shown += (target - shown) * .12;
+        if (Math.abs(target - shown) < .001) shown = target;
+        list.style.setProperty('--prog', shown.toFixed(4));
+        var lr = list.getBoundingClientRect(), head = lr.top + lr.height * shown, lit = 0;
+        for (var i = 0; i < items.length; i++) {
+          var ir = items[i].getBoundingClientRect();
+          if (ir.top + 20 <= head) { items[i].setAttribute('data-lit', ''); lit++; }
+          else items[i].removeAttribute('data-lit');
+        }
+        if (shown >= .999 && lit === items.length) { finish(600); return; }
+        raf = requestAnimationFrame(tick);
+      }
+      function finish(ms) {
+        done = true;
+        setTimeout(function () {
+          root.classList.remove('cv-it--anim');
+          list.style.removeProperty('--prog');
+          for (var j = 0; j < items.length; j++) items[j].removeAttribute('data-lit');
+        }, ms);
+      }
+      function go() { if (!raf && vis && !done && !document.hidden) raf = requestAnimationFrame(tick); }
+      new IntersectionObserver(function (en) {
+        vis = en[0].isIntersecting;
+        /* Scrolled past the whole timeline: settle in the final, fully lit state */
+        if (!vis && !done && en[0].boundingClientRect.bottom < 0) finish(0);
+        go();
+      }).observe(root);
+      document.addEventListener('visibilitychange', go);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Carnaval Veneciano Cordón Dorado',
+      descripcion: 'Itinerario de XV años estilo carnaval veneciano: cordón dorado vertical que se ilumina en rubí al hacer scroll, con una máscara que viaja por la línea y faroles de rombo que se encienden en cada momento.',
+      tags: ['itinerario', 'quinceañera', 'carnaval', 'veneciano', 'timeline', 'mascara', 'oro'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>

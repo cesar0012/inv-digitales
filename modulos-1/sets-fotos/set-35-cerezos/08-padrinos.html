@@ -1,0 +1,392 @@
+<section
+  class="ck-pdr"
+  data-gemini-id="padrinos-cerezos"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+<i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:url('https://loremflickr.com/1920/1080/cherry,blossom?lock=415') center/cover;"></i><i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:color-mix(in srgb, var(--bg-color,#1d1a24) 88%, transparent);"></i>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap');
+
+    .ck-pdr, .ck-pdr *, .ck-pdr *::before, .ck-pdr *::after { box-sizing: border-box; }
+    .ck-pdr {
+      --t-bg: var(--bg-color, #FAF5F0);
+      --t-tx: var(--text-color, #5A4640);
+      --t-p: var(--primary-color, #E7B3BD);
+      --t-s: var(--secondary-color, #8E6E60);
+      --t-a: var(--accent-color, #AEB3BC);
+      --t-display: var(--font-script, 'Shippori Mincho', 'Times New Roman', serif);
+      --t-text: var(--font-heading, 'Zen Kaku Gothic New', 'Helvetica Neue', sans-serif);
+      --ck-ink: color-mix(in srgb, var(--t-tx) 88%, var(--t-p));
+      --ck-blush-ink: color-mix(in srgb, var(--t-p) 58%, var(--t-s));
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      padding: clamp(4.5rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem) clamp(5rem, 10vw, 8rem);
+      overflow: hidden;
+      background:
+        radial-gradient(60% 45% at 50% 0%, color-mix(in srgb, var(--t-p) 16%, transparent), transparent 70%),
+        var(--t-bg);
+      color: var(--t-tx);
+      font-family: var(--t-text);
+      font-weight: 300;
+    }
+    .ck-pdr__paper { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: .5; mix-blend-mode: multiply; }
+    .ck-pdr__boughs { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; display: block; }
+    .ck-pdr__inner { position: relative; z-index: 1; width: min(100%, 58rem); margin: 0 auto; }
+    .ck-pdr__head { text-align: center; max-width: 32rem; margin: 0 auto clamp(3rem, 6vw, 4.5rem); }
+    .ck-pdr__title { margin: 0; font-family: var(--t-display); font-weight: 500; font-size: clamp(2rem, 4.6vw, 3.1rem); color: var(--ck-ink); }
+    .ck-pdr__lead { margin: .9rem 0 0; line-height: 1.8; color: color-mix(in srgb, var(--t-tx) 80%, transparent); }
+
+    .ck-pdr__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(2.2rem, 5vw, 3.4rem) clamp(2rem, 6vw, 5rem); }
+    .ck-pdr__item { display: grid; grid-template-columns: auto 1fr; gap: 1.4rem; align-items: center; }
+    .ck-pdr__item:nth-child(even) { transform: translateY(clamp(0rem, 4vw, 3rem)); }
+    .ck-pdr__portrait { position: relative; width: 8.4rem; aspect-ratio: 1; display: grid; place-items: center; }
+    .ck-pdr__ring { position: absolute; inset: -14%; width: 128%; height: 128%; overflow: visible; pointer-events: none; }
+    .ck-pdr__ring circle { fill: none; stroke: color-mix(in srgb, var(--t-a) 70%, transparent); stroke-width: .5; }
+    .ck-pdr__b { transform-box: fill-box; transform-origin: center; transition: transform .45s cubic-bezier(.3, 1.4, .5, 1), opacity .3s ease; transition-delay: calc(var(--i, 0) * 70ms); }
+    .ck-pdr__fig { position: relative; width: 100%; margin: 0; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 4px color-mix(in srgb, var(--t-bg) 85%, #ffffff), 0 0 0 5px color-mix(in srgb, var(--t-a) 75%, transparent), 0 18px 30px -18px color-mix(in srgb, var(--t-s) 75%, transparent); }
+    .ck-pdr__fig img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; background: color-mix(in srgb, var(--t-p) 30%, var(--t-bg)); transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .ck-pdr__item:hover .ck-pdr__fig img { transform: scale(1.06); }
+    .ck-pdr__role { margin: 0 0 .45rem; font-size: .95rem; font-weight: 400; color: var(--ck-blush-ink); }
+    .ck-pdr__names { margin: 0; font-family: var(--t-display); font-weight: 500; font-size: clamp(1.15rem, 2.2vw, 1.3rem); line-height: 1.45; color: var(--ck-ink); }
+
+    /* Entrance: portrait rises into its ring, blossoms open one by one */
+    .ck-pdr--anim .ck-pdr__b { transform: scale(0) rotate(-60deg); opacity: 0; }
+    .ck-pdr--anim .ck-pdr__fig { opacity: 0; transform: scale(.85); }
+    .ck-pdr--anim .ck-pdr__item > div:last-child { opacity: 0; transform: translateX(-10px); }
+    .ck-pdr--anim .ck-pdr__item[data-ck-in] .ck-pdr__b { transform: none; opacity: 1; }
+    .ck-pdr--anim .ck-pdr__item[data-ck-in] .ck-pdr__fig { opacity: 1; transform: none; transition: opacity .4s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .ck-pdr--anim .ck-pdr__item[data-ck-in] > div:last-child { opacity: 1; transform: none; transition: opacity .45s ease, transform .45s ease; transition-delay: .2s; }
+
+    @media (max-width: 720px) {
+      .ck-pdr__grid { grid-template-columns: 1fr; }
+      .ck-pdr__item:nth-child(even) { transform: none; }
+      .ck-pdr__portrait { width: 6.8rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ck-pdr *, .ck-pdr *::before, .ck-pdr *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="ck-pdr__paper" aria-hidden="true" focusable="false" preserveAspectRatio="none"><filter id="ck-pdr-fib" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.011 0.02" numOctaves="4" seed="7" /><feColorMatrix values="0 0 0 0 0.55  0 0 0 0 0.44  0 0 0 0 0.4  0.7 0 0 0 -0.3" /></filter><filter id="ck-pdr-grain" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="3" /><feColorMatrix values="0 0 0 0 0.5  0 0 0 0 0.42  0 0 0 0 0.38  2 0 0 0 -0.92" /></filter><rect width="100%" height="100%" filter="url(#ck-pdr-fib)" /><rect width="100%" height="100%" filter="url(#ck-pdr-grain)" opacity=".55" /></svg>
+  <canvas class="ck-pdr__boughs" data-ck-boughs aria-hidden="true"></canvas>
+  <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+    <defs>
+      <g id="ck-pdr-bl">
+        <path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" style="fill: var(--t-p)" />
+        <path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(72)" style="fill: var(--t-p)" />
+        <path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(144)" style="fill: var(--t-p)" />
+        <path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(216)" style="fill: var(--t-p)" />
+        <path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(288)" style="fill: var(--t-p)" />
+        <circle r="1.8" style="fill: var(--t-a)" />
+      </g>
+    </defs>
+  </svg>
+  <div class="ck-pdr__inner">
+    <header class="ck-pdr__head">
+      <h2 class="ck-pdr__title" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Nuestros padrinos</h2>
+      <p class="ck-pdr__lead" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Personas que han cuidado nuestro amor como se cuida un jardín en primavera.</p>
+    </header>
+
+    <ul class="ck-pdr__grid">
+      <li class="ck-pdr__item" data-ck-item>
+        <div class="ck-pdr__portrait">
+          <svg class="ck-pdr__ring" viewBox="-70 -70 140 140" data-ck-ring aria-hidden="true" focusable="false"><circle r="58" /></svg>
+          <figure class="ck-pdr__fig" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/500/500/couple,portrait?lock=3281" alt="Padrinos de velación" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <div>
+          <h3 class="ck-pdr__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-1">Padrinos de velación</h3>
+          <p class="ck-pdr__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-1">Nombre Apellido &amp; Nombre Apellido</p>
+        </div>
+      </li>
+      <li class="ck-pdr__item" data-ck-item>
+        <div class="ck-pdr__portrait">
+          <svg class="ck-pdr__ring" viewBox="-70 -70 140 140" data-ck-ring aria-hidden="true" focusable="false"><circle r="58" /></svg>
+          <figure class="ck-pdr__fig" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/500/500/couple,smile?lock=3282" alt="Padrinos de anillos" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <div>
+          <h3 class="ck-pdr__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-2">Padrinos de anillos</h3>
+          <p class="ck-pdr__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-2">Nombre Apellido &amp; Nombre Apellido</p>
+        </div>
+      </li>
+      <li class="ck-pdr__item" data-ck-item>
+        <div class="ck-pdr__portrait">
+          <svg class="ck-pdr__ring" viewBox="-70 -70 140 140" data-ck-ring aria-hidden="true" focusable="false"><circle r="58" /></svg>
+          <figure class="ck-pdr__fig" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/500/500/friends,portrait?lock=3283" alt="Padrinos de arras" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <div>
+          <h3 class="ck-pdr__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-3">Padrinos de arras</h3>
+          <p class="ck-pdr__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-3">Nombre Apellido &amp; Nombre Apellido</p>
+        </div>
+      </li>
+      <li class="ck-pdr__item" data-ck-item>
+        <div class="ck-pdr__portrait">
+          <svg class="ck-pdr__ring" viewBox="-70 -70 140 140" data-ck-ring aria-hidden="true" focusable="false"><circle r="58" /></svg>
+          <figure class="ck-pdr__fig" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/500/500/wedding,guests?lock=3284" alt="Padrinos de lazo" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <div>
+          <h3 class="ck-pdr__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-4">Padrinos de lazo</h3>
+          <p class="ck-pdr__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-4">Nombre Apellido &amp; Nombre Apellido</p>
+        </div>
+      </li>
+      <li class="ck-pdr__item" data-ck-item>
+        <div class="ck-pdr__portrait">
+          <svg class="ck-pdr__ring" viewBox="-70 -70 140 140" data-ck-ring aria-hidden="true" focusable="false"><circle r="58" /></svg>
+          <figure class="ck-pdr__fig" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/500/500/couple,garden?lock=3285" alt="Padrinos de biblia y rosario" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <div>
+          <h3 class="ck-pdr__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-5">Padrinos de biblia y rosario</h3>
+          <p class="ck-pdr__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-5">Nombre Apellido &amp; Nombre Apellido</p>
+        </div>
+      </li>
+      <li class="ck-pdr__item" data-ck-item>
+        <div class="ck-pdr__portrait">
+          <svg class="ck-pdr__ring" viewBox="-70 -70 140 140" data-ck-ring aria-hidden="true" focusable="false"><circle r="58" /></svg>
+          <figure class="ck-pdr__fig" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/500/500/bouquet,couple?lock=3286" alt="Padrinos de ramo" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <div>
+          <h3 class="ck-pdr__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-6">Padrinos de ramo</h3>
+          <p class="ck-pdr__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-6">Nombre Apellido &amp; Nombre Apellido</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="padrinos-cerezos"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* ── Cerezos kit: seeded rng, theme colors, blossom sprites, weeping-branch scene ── */
+      function ckRng(seed) { return function () { seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+      function ckRGB(el, v, fb) {
+        var s = document.createElement('span'); s.setAttribute('aria-hidden', 'true'); s.style.display = 'none'; s.style.color = 'var(' + v + ')';
+        el.appendChild(s); var c = getComputedStyle(s).color; el.removeChild(s);
+        var m = c && c.match(/[\d.]+/g); return m && m.length >= 3 ? [+m[0], +m[1], +m[2]] : fb;
+      }
+      function ckMix(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
+      function ckCss(c, a) { return 'rgba(' + (c[0] | 0) + ',' + (c[1] | 0) + ',' + (c[2] | 0) + ',' + (a == null ? 1 : a) + ')'; }
+      function ckPal(el) { return { p: ckRGB(el, '--t-p', [231, 179, 189]), s: ckRGB(el, '--t-s', [142, 110, 96]), a: ckRGB(el, '--t-a', [174, 179, 188]), bg: ckRGB(el, '--t-bg', [250, 245, 240]) }; }
+      function ckPetalPath(g, L) {
+        g.beginPath(); g.moveTo(0, 0);
+        g.bezierCurveTo(-.56 * L, -.2 * L, -.52 * L, -.84 * L, -.15 * L, -L);
+        g.lineTo(0, -.86 * L); g.lineTo(.15 * L, -L);
+        g.bezierCurveTo(.52 * L, -.84 * L, .56 * L, -.2 * L, 0, 0); g.closePath();
+      }
+      function ckSprite(kind, R, pal, sil) {
+        var F = 2, S = Math.ceil(R * 2.5 * F), c = document.createElement('canvas'); c.width = c.height = S;
+        var g = c.getContext('2d'); g.translate(S / 2, S / 2); g.scale(F, F);
+        var white = [255, 255, 255], light = ckMix(pal.p, white, .62), deep = ckMix(pal.p, pal.s, .2), edge = ckMix(pal.p, pal.s, .45);
+        var silC = ckCss(pal.s, 1);
+        function petal(L, rot, sy) {
+          g.save(); g.rotate(rot); if (sy) g.scale(1, sy); ckPetalPath(g, L);
+          if (sil) { g.fillStyle = silC; g.fill(); g.restore(); return; }
+          var gr = g.createLinearGradient(0, 0, 0, -L);
+          gr.addColorStop(0, ckCss(deep, 1)); gr.addColorStop(.4, ckCss(pal.p, 1)); gr.addColorStop(1, ckCss(light, 1));
+          g.fillStyle = gr; g.fill(); g.strokeStyle = ckCss(edge, .3); g.lineWidth = Math.max(.35, L * .035); g.stroke();
+          g.beginPath(); g.moveTo(0, -L * .12); g.lineTo(0, -L * .62); g.strokeStyle = ckCss(deep, .22); g.lineWidth = Math.max(.3, L * .025); g.stroke();
+          g.restore();
+        }
+        function stamens(r) {
+          if (sil) return;
+          for (var i = 0; i < 12; i++) {
+            var a = i / 12 * Math.PI * 2 + .2, l = r * (.32 + (i % 3) * .06);
+            g.beginPath(); g.moveTo(0, 0); g.lineTo(Math.cos(a) * l, Math.sin(a) * l); g.strokeStyle = ckCss(deep, .75); g.lineWidth = Math.max(.3, r * .03); g.stroke();
+            g.beginPath(); g.arc(Math.cos(a) * l, Math.sin(a) * l, Math.max(.45, r * .045), 0, 7); g.fillStyle = ckCss(ckMix(pal.a, pal.s, .35), .95); g.fill();
+          }
+          g.beginPath(); g.arc(0, 0, r * .1, 0, 7); g.fillStyle = ckCss(ckMix(pal.p, pal.s, .55), 1); g.fill();
+        }
+        if (kind === 'open') { for (var i = 0; i < 5; i++) petal(R, i * 1.2566 + .3); stamens(R); }
+        else if (kind === 'half') { g.translate(0, R * .35); petal(R * .9, -.75, .9); petal(R * .9, .75, .9); petal(R, 0); g.beginPath(); g.ellipse(0, R * .05, R * .18, R * .26, 0, 0, 7); g.fillStyle = sil ? silC : ckCss(ckMix(pal.s, pal.p, .2), .9); g.fill(); }
+        else if (kind === 'bud') { g.beginPath(); g.ellipse(0, -R * .2, R * .55, R * .85, 0, 0, 7); g.fillStyle = sil ? silC : ckCss(ckMix(pal.p, pal.s, .25), 1); g.fill(); g.beginPath(); g.ellipse(0, R * .5, R * .32, R * .3, 0, 0, 7); g.fillStyle = sil ? silC : ckCss(ckMix(pal.s, [120, 140, 100], .2), .9); g.fill(); }
+        else { g.translate(0, R * .5); petal(R, 0); }
+        c.__w = S / F; return c;
+      }
+      function ckDraw(g, D, img, x, y, r, s, sx) {
+        var c = Math.cos(r), n = Math.sin(r), k = sx == null ? 1 : sx, w = img.__w * s;
+        g.setTransform(D * c * k, D * n * k, -D * n, D * c, D * x, D * y); g.drawImage(img, -w / 2, -w / 2, w, w);
+      }
+      function ckWind(t) { return Math.sin(t * .23) * .6 + Math.sin(t * .71 + 1) * .4; }
+      /* Weeping-branch scene. o: {anchors:['tl','tr'], reach, y, hang, maxHang, petals, seed, scale, sil, density, strandAlpha} */
+      function ckScene(root, cv, o) {
+        o = o || {};
+        var g = cv.getContext && cv.getContext('2d'); if (!g) return null;
+        var RMs = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+        var W = 0, H = 0, D = Math.min(window.devicePixelRatio || 1, 2), pal, spr, layer, strands = [], petals = [], raf = 0, vis = false, T = 0, last = 0, dead = false;
+        function setup() {
+          pal = ckPal(root); var k = o.scale || 1;
+          spr = { open: ckSprite('open', 12 * k, pal, o.sil), half: ckSprite('half', 10 * k, pal, o.sil), bud: ckSprite('bud', 5 * k, pal, o.sil), pet: ckSprite('petal', 7 * k, pal, o.sil) };
+        }
+        function build() {
+          var rng = ckRng(o.seed || 11), limbs = [], tips = [], narrow = W < 640;
+          var LIM = narrow ? (o.mLim || 70) : (o.yLim || Math.min(H * .42, 260));
+          strands = [];
+          function grow(x, y, a, len, w, depth) {
+            var n = Math.max(5, Math.round(len / 16)), st = len / n, pts = [[x, y, w, a]];
+            for (var i = 1; i <= n; i++) {
+              x += Math.cos(a) * st; y += Math.sin(a) * st;
+              if (y > LIM && i > 2) { n = i - 1; break; }
+              a += (rng() - .5) * .34 + (Math.PI / 2 - a) * (o.droop || .03);
+              pts.push([x, y, Math.max(.8, w * (1 - i / n * .86)), a]);
+            }
+            limbs.push(pts);
+            tips.push([x, y, depth]);
+            if (depth < 2) {
+              var kids = depth ? 2 : 4;
+              for (var j = 0; j < kids; j++) {
+                var p = pts[Math.floor((.18 + rng() * .7) * n)], side = rng() < .5 ? -1 : 1;
+                grow(p[0], p[1], p[3] + side * (.35 + rng() * .55), len * (.25 + rng() * .3), p[2] * .55, depth + 1);
+              }
+            }
+          }
+          var anchors = o.anchors || ['tl'];
+          for (var i = 0; i < anchors.length; i++) {
+            var an = anchors[i], left = an === 'tl', reach = W * (o.reach || .6) + 60, y0 = H * (o.y == null ? .02 : o.y) + (o.yPx || 0);
+            grow(left ? -30 : W + 30, y0, left ? .16 : Math.PI - .16, reach, Math.max(7, Math.min(16, W * .012)) * (o.thick || 1), 0);
+          }
+          var maxH = Math.min(H * (o.hang || .5), o.maxHang || 380), dens = o.density || .7;
+          if (narrow) { maxH = Math.min(maxH, o.mHang || 80); dens *= .7; }
+          for (var l = 0; l < limbs.length; l++) {
+            var pts = limbs[l];
+            for (var q = 1; q < pts.length; q += 2) {
+              var P = pts[q];
+              if (P[0] < -10 || P[0] > W + 10 || rng() > .62 * dens) continue;
+              var len = maxH * (.25 + rng() * .75), bl = [], nb = Math.round(len / 21);
+              for (var b = 0; b < nb; b++) {
+                var t = Math.pow((b + rng() * .8) / nb, .85), r = rng();
+                bl.push({ t: t, k: t > .93 ? 'bud' : r < .55 ? 'open' : r < .85 ? 'half' : 'bud', dx: (b % 2 ? 1 : -1) * (2 + rng() * 4), r: (rng() - .5) * 1.6, s: .6 + rng() * .5 * (1 - t * .4) });
+              }
+              strands.push({ x: P[0], y: P[1], len: len, b: bl, amp: 4 + rng() * 9, w: .5 + rng() * .6, ph: rng() * 6.28, cv: (rng() - .5) * 10 });
+            }
+          }
+          /* static layer: boughs + clustered blossoms on the wood */
+          layer = document.createElement('canvas'); layer.width = Math.max(1, W * D); layer.height = Math.max(1, H * D);
+          var lg = layer.getContext('2d'); lg.lineCap = 'round'; lg.lineJoin = 'round';
+          var bark = o.sil ? ckCss(pal.s, 1) : ckCss(pal.s, .92), hi = ckCss(ckMix(pal.s, [255, 255, 255], .35), .5);
+          for (var m = 0; m < limbs.length; m++) {
+            var L = limbs[m];
+            for (var z = 0; z < L.length - 1; z++) {
+              lg.setTransform(D, 0, 0, D, 0, 0);
+              lg.beginPath(); lg.moveTo(L[z][0], L[z][1]); lg.lineTo(L[z + 1][0], L[z + 1][1]); lg.strokeStyle = bark; lg.lineWidth = L[z][2]; lg.stroke();
+              if (!o.sil && L[z][2] > 3) { lg.beginPath(); lg.moveTo(L[z][0], L[z][1] - L[z][2] * .25); lg.lineTo(L[z + 1][0], L[z + 1][1] - L[z][2] * .25); lg.strokeStyle = hi; lg.lineWidth = L[z][2] * .18; lg.stroke(); }
+            }
+            for (var z2 = 2; z2 < L.length; z2 += 3) if (rng() < .7 * dens) ckDraw(lg, D, spr[rng() < .6 ? 'open' : 'half'], L[z2][0] + (rng() - .5) * 8, L[z2][1] + (rng() - .5) * 8, rng() * 6, .7 + rng() * .5);
+          }
+          for (var tp = 0; tp < tips.length; tp++) for (var c2 = 0; c2 < 4; c2++) ckDraw(lg, D, spr[c2 ? 'open' : 'bud'], tips[tp][0] + (rng() - .5) * 18, tips[tp][1] + (rng() - .5) * 14, rng() * 6, .7 + rng() * .45);
+          lg.setTransform(1, 0, 0, 1, 0, 0);
+          var n = o.petals == null ? 18 : o.petals; petals = [];
+          for (var pi = 0; pi < n; pi++) petals.push(spawn(rng() * W, rng() * H, rng));
+        }
+        function spawn(x, y, rng) {
+          rng = rng || Math.random;
+          return { x: x, y: y, vy: 0, bx: 0, by: 0, r: rng() * 6.28, vr: (rng() - .5) * 2, f: rng() * 6.28, vf: 1.5 + rng() * 2.5, s: .55 + rng() * .65, al: .55 + rng() * .45, ph: rng() * 6.28, w: .6 + rng(), once: false };
+        }
+        function frame(now) {
+          var dt = last ? Math.min(.05, (now - last) / 1000) : .016; last = now; T += dt;
+          g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, cv.width, cv.height);
+          if (layer) g.drawImage(layer, 0, 0);
+          var wind = ckWind(T), sa = o.strandAlpha || .55;
+          for (var i = 0; i < strands.length; i++) {
+            var s = strands[i]; g.setTransform(D, 0, 0, D, 0, 0); g.beginPath();
+            for (var k = 0; k <= 10; k++) { var tt = k / 10, ox = (s.amp * Math.sin(T * s.w + s.ph - tt * 1.6) + wind * 7 + s.cv) * tt * tt; if (k) g.lineTo(s.x + ox, s.y + tt * s.len); else g.moveTo(s.x, s.y); }
+            g.strokeStyle = ckCss(pal.s, sa); g.lineWidth = .9; g.stroke();
+            for (var b = 0; b < s.b.length; b++) {
+              var B = s.b[b], t2 = B.t, ox2 = (s.amp * Math.sin(T * s.w + s.ph - t2 * 1.6) + wind * 7 + s.cv) * t2 * t2;
+              ckDraw(g, D, spr[B.k], s.x + ox2 + B.dx, s.y + t2 * s.len, B.r + Math.sin(T * s.w + s.ph) * .08, B.s);
+            }
+          }
+          for (var p = petals.length - 1; p >= 0; p--) {
+            var P = petals[p];
+            P.vy += ((22 + 18 * P.s) - P.vy) * Math.min(1, dt * 1.5);
+            P.bx *= Math.exp(-2.6 * dt); P.by *= Math.exp(-2.6 * dt);
+            P.x += (wind * 26 + Math.sin(T * P.w + P.ph) * 14 + P.bx) * dt; P.y += (P.vy + P.by) * dt;
+            P.r += P.vr * dt; P.f += P.vf * dt;
+            if (P.y > H + 24 || P.x > W + 40 || P.x < -40) { if (P.once) { petals.splice(p, 1); continue; } var q = spawn(Math.random() * W * 1.1 - W * .05, -20 - Math.random() * 60); petals[p] = q; P = q; }
+            var sx = Math.cos(P.f); g.globalAlpha = P.al * (.5 + .5 * Math.abs(sx));
+            ckDraw(g, D, spr.pet, P.x, P.y, P.r, P.s, sx);
+          }
+          g.globalAlpha = 1; g.setTransform(1, 0, 0, 1, 0, 0);
+        }
+        function loop(now) { raf = 0; frame(now); if (vis && !dead && !document.hidden && !RMs) raf = requestAnimationFrame(loop); }
+        function kick() { if (!raf && vis && !dead && !document.hidden && !RMs) { last = 0; raf = requestAnimationFrame(loop); } }
+        function resize() {
+          var r = cv.getBoundingClientRect(), nw = Math.round(r.width), nh = Math.round(r.height);
+          if (!nw || !nh || (nw === W && nh === H)) return;
+          W = nw; H = nh; cv.width = W * D; cv.height = H * D; build(); frame(performance.now());
+        }
+        setup(); resize();
+        if ('ResizeObserver' in window) new ResizeObserver(resize).observe(cv); else window.addEventListener('resize', resize);
+        if (!RMs && 'IntersectionObserver' in window) {
+          new IntersectionObserver(function (en) { vis = en[0].isIntersecting; kick(); }).observe(root);
+          document.addEventListener('visibilitychange', kick);
+        }
+        return {
+          stop: function () { dead = true; },
+          burst: function (x, y, n) {
+            if (RMs) return;
+            for (var i = 0; i < n; i++) { var a = Math.random() * 6.28, v = 90 + Math.random() * 160, q = spawn(x, y); q.bx = Math.cos(a) * v; q.by = Math.sin(a) * v - 60; q.once = true; q.s *= 1.1; petals.push(q); }
+            kick();
+          }
+        };
+      }
+
+      ckScene(root, root.querySelector('[data-ck-boughs]'), { anchors: ['tl'], reach: .36, hang: .16, maxHang: 220, petals: 14, seed: 808, density: .5 });
+
+      /* Decorative ring of small blossoms around each portrait (generated, never touches memory text) */
+      var NS = 'http://www.w3.org/2000/svg';
+      [].forEach.call(root.querySelectorAll('[data-ck-ring]'), function (svg, k) {
+        var n = 9, off = k * .4;
+        for (var i = 0; i < n; i++) {
+          var a = off + i / n * Math.PI * 1.25 - Math.PI * .95, g = document.createElementNS(NS, 'g'), u = document.createElementNS(NS, 'use');
+          g.setAttribute('transform', 'translate(' + (Math.cos(a) * 58).toFixed(1) + ' ' + (Math.sin(a) * 58).toFixed(1) + ') scale(' + (.42 + (i % 3) * .14).toFixed(2) + ')');
+          u.setAttribute('href', '#ck-pdr-bl'); u.setAttribute('class', 'ck-pdr__b'); u.style.setProperty('--i', i);
+          g.appendChild(u); svg.appendChild(g);
+        }
+      });
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+      var items = [].slice.call(root.querySelectorAll('[data-ck-item]')), done = 0;
+      root.classList.add('ck-pdr--anim');
+      var io = new IntersectionObserver(function (en) {
+        en.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          io.unobserve(e.target);
+          var i = items.indexOf(e.target) % 2;
+          setTimeout(function () {
+            e.target.setAttribute('data-ck-in', '');
+            if (++done === items.length) setTimeout(function () { root.classList.remove('ck-pdr--anim'); items.forEach(function (it) { it.removeAttribute('data-ck-in'); }); }, 1400);
+          }, i * 160);
+        });
+      }, { threshold: .35 });
+      items.forEach(function (it) { io.observe(it); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'padrinos',
+      module_name: 'padrinos-cerezos',
+      style_name: 'Cerezos en Flor Washi Sakura',
+      descripcion: 'Padrinos en retratos circulares con anillo plateado y pequeñas flores de cerezo que se abren en secuencia, dos columnas con ritmo escalonado sobre papel de arroz.',
+      tags: ['padrinos', 'boda', 'cerezos', 'sakura', 'retratos', 'washi'],
+      tipo: 'padrinos'
+    };
+  </script>
+</section>

@@ -1,0 +1,205 @@
+<section
+  class="gzco"
+  data-gemini-id="corte-gatsby"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poiret+One&family=Josefin+Sans:wght@300;400;600&display=swap');
+
+    .gzco, .gzco *, .gzco *::before, .gzco *::after { box-sizing: border-box; }
+    .gzco {
+      --t-bg: var(--bg-color, #07080a);
+      --t-tx: var(--text-color, #f4ecd8);
+      --t-p: var(--primary-color, #d4af37);
+      --t-s: var(--secondary-color, #f1d98a);
+      --t-a: var(--accent-color, #0e7a57);
+      --t-display: var(--font-script, 'Poiret One', 'Didot', serif);
+      --t-text: var(--font-heading, 'Josefin Sans', 'Futura', sans-serif);
+      --gzco-foil: linear-gradient(100deg, color-mix(in srgb, var(--t-p) 55%, #000), var(--t-p) 25%, var(--t-s) 45%, var(--t-p) 65%, color-mix(in srgb, var(--t-p) 55%, #000));
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 60vw, 48rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image:
+        radial-gradient(ellipse 40% 60% at 30% 50%, color-mix(in srgb, var(--t-p) 12%, transparent), transparent 70%),
+        linear-gradient(90deg, transparent 49.9%, color-mix(in srgb, var(--t-p) 10%, transparent) 50%, transparent 50.1%);
+      color: var(--t-tx);
+      text-align: left;
+      font-family: var(--t-text);
+    }
+    .gzco__content { width: min(100%, 66rem); display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+
+    .gzco__stage { position: relative; padding-top: 2.2rem; }
+    .gzco__valance {
+      position: absolute;
+      top: 0;
+      left: 8%;
+      right: 8%;
+      height: 2.2rem;
+      background:
+        linear-gradient(90deg, transparent calc(50% - 1px), var(--t-bg) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)),
+        linear-gradient(180deg, var(--t-s), var(--t-p) 60%, color-mix(in srgb, var(--t-p) 55%, #000));
+      clip-path: polygon(0 0, 100% 0, 100% 55%, 92% 55%, 92% 80%, 80% 80%, 80% 100%, 20% 100%, 20% 80%, 8% 80%, 8% 55%, 0 55%);
+    }
+    .gzco__frame {
+      position: relative;
+      overflow: hidden;
+      border-radius: 999px 999px 4px 4px;
+      border: 2px solid var(--t-p);
+      box-shadow: 0 0 0 6px var(--t-bg), 0 0 0 7px color-mix(in srgb, var(--t-p) 60%, transparent), 0 30px 70px rgba(0, 0, 0, .65), 0 0 60px color-mix(in srgb, var(--t-p) 15%, transparent);
+      background: radial-gradient(circle at 50% 35%, color-mix(in srgb, var(--t-a) 45%, var(--t-bg)), var(--t-bg));
+    }
+    .gzco__figure { margin: 0; }
+    .gzco__figure img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; filter: sepia(.2) contrast(1.05); }
+    .gzco__curtain {
+      display: none;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 50.5%;
+      z-index: 2;
+      background:
+        repeating-linear-gradient(90deg, rgba(0, 0, 0, .35) 0 10px, transparent 10px 22px),
+        repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in srgb, var(--t-p) 45%, transparent) 14px 15px),
+        repeating-linear-gradient(45deg, transparent 0 14px, color-mix(in srgb, var(--t-p) 45%, transparent) 14px 15px),
+        linear-gradient(180deg, #121214, var(--t-bg));
+      transition: transform .5s cubic-bezier(.7, 0, .2, 1);
+    }
+    .gzco__curtain--l { left: 0; border-right: 2px solid var(--t-p); }
+    .gzco__curtain--r { right: 0; border-left: 2px solid var(--t-p); }
+
+    .gzco__text { display: grid; gap: 1.2rem; }
+    .gzco__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(2.3rem, 5vw, 3.6rem);
+      line-height: 1.05;
+      color: var(--t-p);
+      background: var(--gzco-foil);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .gzco__lead { margin: 0; font-weight: 300; line-height: 1.65; font-size: clamp(1rem, 2vw, 1.12rem); max-width: 34rem; }
+    .gzco__rule { width: 10rem; height: auto; color: var(--t-p); }
+    .gzco__lists { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.4rem; }
+    .gzco__group h3 { margin: 0 0 .7rem; font-family: var(--t-display); font-weight: 400; font-size: clamp(1.3rem, 2vw, 1.55rem); color: var(--t-s); }
+    .gzco__group ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .55rem; }
+    .gzco__group li { position: relative; padding-left: 1.3rem; line-height: 1.4; }
+    .gzco__group li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: .42em;
+      width: 7px;
+      height: 7px;
+      transform: rotate(45deg);
+      background: var(--t-a);
+      border: 1px solid var(--t-p);
+    }
+
+    /* Entrance: the curtain parts on the portrait, the list follows line by line */
+    .gzco--anim .gzco__curtain { display: block; }
+    .gzco--anim.is-in .gzco__curtain--l { transform: translateX(-101%); }
+    .gzco--anim.is-in .gzco__curtain--r { transform: translateX(101%); }
+    .gzco--anim .gzco__group li { opacity: 0; transform: translateX(-12px); transition: opacity .35s ease, transform .4s ease; }
+    .gzco--anim.is-in .gzco__group li { opacity: 1; transform: none; }
+    .gzco--anim.is-in .gzco__group li:nth-child(2) { transition-delay: .08s; }
+    .gzco--anim.is-in .gzco__group li:nth-child(3) { transition-delay: .16s; }
+    .gzco--anim.is-in .gzco__group li:nth-child(4) { transition-delay: .24s; }
+    .gzco--anim.is-in .gzco__group + .gzco__group li { transition-delay: .3s; }
+
+    @media (max-width: 760px) {
+      .gzco { text-align: center; }
+      .gzco__content { grid-template-columns: 1fr; }
+      .gzco__stage { width: min(100%, 20rem); margin: 0 auto; }
+      .gzco__rule, .gzco__lead { justify-self: center; }
+      .gzco__lists { text-align: left; }
+    }
+    @media (max-width: 420px) {
+      .gzco__lists { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .gzco *, .gzco *::before, .gzco *::after { animation: none !important; transition: none !important; }
+      .gzco__curtain { display: none !important; }
+    }
+  </style>
+
+  <div class="gzco__content">
+    <div class="gzco__stage">
+      <span class="gzco__valance" aria-hidden="true"></span>
+      <div class="gzco__frame">
+        <figure class="gzco__figure" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/900/1200/bridesmaids,wedding?lock=3191" alt="Corte de honor" path="placeholder" data-library-category="boda" data-asset-type="grupo" loading="lazy" />
+        </figure>
+        <span class="gzco__curtain gzco__curtain--l" aria-hidden="true"></span>
+        <span class="gzco__curtain gzco__curtain--r" aria-hidden="true"></span>
+      </div>
+    </div>
+
+    <div class="gzco__text">
+      <svg class="gzco__rule" viewBox="0 0 160 14" aria-hidden="true"><g fill="none" stroke="currentColor"><line x1="0" y1="7" x2="62" y2="7"/><line x1="98" y1="7" x2="160" y2="7"/><path d="M80 1 86 7 80 13 74 7Z" fill="currentColor"/><path d="M68 7h2M90 7h2"/></g></svg>
+      <h2 class="gzco__title" memory_type="text" memory_usage="custom" memory_key="corte-titulo">Nuestra corte de honor</h2>
+      <p class="gzco__lead" memory_type="text" memory_usage="custom" memory_key="corte-texto">Amigos de toda la vida que, con su elegancia y alegría, abrirán la pista en esta noche de gala.</p>
+      <div class="gzco__lists">
+        <div class="gzco__group">
+          <h3 memory_type="text" memory_usage="custom" memory_key="corte-damas-titulo">Damas de honor</h3>
+          <ul>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-1">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-2">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-3">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-4">Nombre Apellido</li>
+          </ul>
+        </div>
+        <div class="gzco__group">
+          <h3 memory_type="text" memory_usage="custom" memory_key="corte-caballeros-titulo">Caballeros de honor</h3>
+          <ul>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-caballero-1">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-caballero-2">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-caballero-3">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-caballero-4">Nombre Apellido</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="corte-gatsby"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      root.classList.add('gzco--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .3) {
+          io.disconnect();
+          setTimeout(function () { root.classList.add('is-in'); }, 150);
+          setTimeout(function () { root.classList.remove('gzco--anim', 'is-in'); }, 1500);
+        }
+      }, { threshold: [0, .3, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-gatsby',
+      style_name: 'Gatsby Art Deco Corte',
+      descripcion: 'Corte de honor Art Deco: retrato en arco con marco dorado y cenefa escalonada, cortina de chevrones dorados que se abre al entrar en pantalla y listas de damas y caballeros con rombos esmeralda.',
+      tags: ['corte', 'damas', 'caballeros', 'boda', 'art deco', 'gatsby', 'dorado'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

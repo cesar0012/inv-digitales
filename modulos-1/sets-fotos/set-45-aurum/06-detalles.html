@@ -1,0 +1,239 @@
+<section
+  class="au-de"
+  data-gemini-id="detalles-regalo"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Jost:wght@300;400;500&display=swap');
+
+    .au-de, .au-de *, .au-de *::before, .au-de *::after { box-sizing: border-box; }
+    .au-de {
+      --t-bg: var(--bg-color, #0b0a0d);
+      --t-tx: var(--text-color, #f3eee4);
+      --t-p: var(--primary-color, #d2aa58);
+      --t-s: var(--secondary-color, #7a5c2a);
+      --t-a: var(--accent-color, #f2e3b4);
+      --t-display: var(--font-script, 'Cormorant Garamond', 'Times New Roman', serif);
+      --t-text: var(--font-heading, 'Jost', 'Helvetica Neue', Arial, sans-serif);
+      --au-line: color-mix(in srgb, var(--t-p) 45%, transparent);
+      --au-sheen: -40%;
+      --au-px: 0px;
+      --au-py: 0px;
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 75vw, 48rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1.25rem, 6vw, 5rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image:
+        radial-gradient(ellipse 45% 55% at 85% 15%, color-mix(in srgb, var(--t-s) 24%, transparent), transparent 70%),
+        radial-gradient(ellipse 40% 40% at 10% 85%, color-mix(in srgb, var(--t-s) 16%, transparent), transparent 70%);
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .au-de::before {
+      content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+      background: repeating-linear-gradient(0deg, transparent 0 6rem, color-mix(in srgb, var(--t-a) 5%, transparent) 6rem calc(6rem + 1px));
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 40%, #000 60%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 40%, #000 60%, transparent);
+    }
+    .au-de__wrap { width: min(100%, 68rem); display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+
+    .au-de__plate { position: relative; width: 100%; max-width: 26rem; justify-self: center; }
+    .au-de__plate::before { content: ''; position: absolute; inset: 0; transform: translate(.9rem, .9rem); border: 1px solid var(--au-line); pointer-events: none; z-index: 0; }
+    .au-de__plate::after { content: ''; position: absolute; inset: 0; transform: translate(-.6rem, -.6rem); border: 1px solid color-mix(in srgb, var(--t-p) 22%, transparent); pointer-events: none; z-index: 0; }
+    .au-de__figure { position: relative; margin: 0; overflow: hidden; z-index: 1; box-shadow: 0 50px 90px -40px #000; background: color-mix(in srgb, var(--t-bg) 80%, transparent); }
+    .au-de__figure img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; transform: translate(var(--au-px), var(--au-py)) scale(1.08); filter: saturate(.85) contrast(1.05); transition: filter .45s ease; }
+    .au-de__plate:hover .au-de__figure img { filter: saturate(1.05) contrast(1.05); }
+    .au-de__sheen { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: linear-gradient(115deg, transparent calc(var(--au-sheen) - 18%), color-mix(in srgb, var(--t-a) 22%, transparent) var(--au-sheen), transparent calc(var(--au-sheen) + 18%)); mix-blend-mode: screen; }
+    .au-de__corner { position: absolute; z-index: 3; width: 1.4rem; height: 1.4rem; border-color: var(--t-a); border-style: solid; border-width: 0; pointer-events: none; }
+    .au-de__corner--tl { left: .7rem; top: .7rem; border-top-width: 1px; border-left-width: 1px; }
+    .au-de__corner--br { right: .7rem; bottom: .7rem; border-bottom-width: 1px; border-right-width: 1px; }
+    .au-de__caption { position: absolute; z-index: 3; left: 1.1rem; bottom: 1rem; margin: 0; font-family: var(--t-display); font-style: italic; font-size: 1.15rem; color: var(--t-a); text-shadow: 0 2px 12px #000; }
+
+    .au-de__content { display: grid; gap: 1.2rem; }
+    .au-de__head { display: grid; gap: .45rem; justify-items: start; margin-bottom: .4rem; }
+    .au-de__kicker { margin: 0; font-family: var(--t-display); font-style: italic; font-size: clamp(1.1rem, 2.4vw, 1.45rem); color: var(--t-a); }
+    .au-de__title { margin: 0; font-family: var(--t-display); font-weight: 500; font-style: italic; font-size: clamp(2.6rem, 6.5vw, 4.4rem); line-height: .95; letter-spacing: -.01em; }
+    .au-de__intro { margin: .3rem 0 0; max-width: 34rem; font-weight: 300; font-size: clamp(1rem, 2vw, 1.08rem); line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 72%, transparent); }
+
+    .au-de__cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .au-de__card { perspective: 1200px; min-height: 11rem; }
+    .au-de__card:first-child { grid-column: span 2; min-height: 9.5rem; }
+    .au-de__inner { position: relative; min-height: inherit; transform-style: preserve-3d; transition: transform .5s cubic-bezier(.2, .8, .2, 1), box-shadow .4s ease; }
+    .au-de__card:hover .au-de__inner { transform: rotateY(-5deg) rotateX(3deg) translateZ(6px); }
+    .au-de__face { -webkit-backface-visibility: hidden; backface-visibility: hidden; display: grid; }
+    .au-de__front { position: relative; min-height: inherit; }
+    .au-de__back { position: absolute; inset: 0; }
+    .au-de__front {
+      align-content: start; gap: .55rem; padding: 1.3rem 1.4rem;
+      background: linear-gradient(160deg, color-mix(in srgb, var(--t-bg) 55%, transparent), color-mix(in srgb, var(--t-bg) 80%, transparent));
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-a) 16%, transparent), 0 30px 60px -36px #000;
+      border-top: 1px solid var(--au-line);
+    }
+    .au-de__front::after { content: ''; position: absolute; right: 1.1rem; top: 1.1rem; width: .45rem; height: .45rem; transform: rotate(45deg); background: var(--t-p); box-shadow: 0 0 10px var(--t-p); }
+    .au-de__icon { width: 1.5rem; height: 1.5rem; color: var(--t-p); }
+    .au-de__icon svg { width: 100%; height: 100%; }
+    .au-de__name { margin: .1rem 0 0; font-family: var(--t-display); font-style: italic; font-weight: 600; font-size: 1.45rem; line-height: 1.1; color: var(--t-tx); }
+    .au-de__text { margin: 0; font-weight: 300; font-size: .95rem; line-height: 1.55; color: color-mix(in srgb, var(--t-tx) 72%, transparent); }
+    .au-de__back {
+      transform: rotateY(180deg); place-items: center;
+      background: linear-gradient(135deg, var(--t-s), var(--t-p) 40%, var(--t-a) 50%, var(--t-p) 60%, var(--t-s));
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-bg) 30%, transparent);
+    }
+    .au-de__back::before { content: ''; position: absolute; inset: .5rem; border: 1px solid color-mix(in srgb, var(--t-bg) 35%, transparent); }
+    .au-de__glyph { font-family: var(--t-display); font-style: italic; font-size: 3rem; color: var(--t-bg); line-height: 1; }
+
+    /* Entrance: cards start on their gold back and flip to the front one by one (only while JS adds .au-de--anim) */
+    .au-de--anim .au-de__head > * { opacity: 0; transform: translateY(12px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .au-de--anim .au-de__head > :nth-child(2) { transition-delay: .1s; }
+    .au-de--anim .au-de__head > :nth-child(3) { transition-delay: .2s; }
+    .au-de--anim.is-in .au-de__head > * { opacity: 1; transform: none; }
+    .au-de--anim .au-de__plate { opacity: 0; transform: translateX(-30px); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .au-de--anim .au-de__figure img { clip-path: inset(0 100% 0 0); transition: clip-path .5s cubic-bezier(.2, .8, .2, 1) .2s; }
+    .au-de--anim.is-in .au-de__plate { opacity: 1; transform: none; }
+    .au-de--anim.is-in .au-de__figure img { clip-path: inset(0 0 0 0); }
+    .au-de--anim .au-de__card:not([data-au-in]) .au-de__inner { transform: rotateY(180deg); }
+    .au-de--anim .au-de__card:nth-child(2) .au-de__inner { transition-delay: .15s; }
+    .au-de--anim .au-de__card:nth-child(3) .au-de__inner { transition-delay: .3s; }
+
+    @media (max-width: 760px) {
+      .au-de__wrap { grid-template-columns: 1fr; }
+      .au-de__plate { max-width: 100%; }
+      .au-de__figure img { aspect-ratio: 4 / 3; }
+      .au-de__cards { grid-template-columns: 1fr; }
+      .au-de__card:first-child { grid-column: auto; }
+      .au-de__card { min-height: 9rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .au-de *, .au-de *::before, .au-de *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="au-de__wrap">
+    <div class="au-de__plate" data-au-plate>
+      <figure class="au-de__figure" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/800/1000/elegant,table,gold?lock=3507" alt="Detalle de la decoración del evento" path="placeholder" data-library-category="eventos" data-asset-type="decoracion" loading="lazy" />
+        <span class="au-de__sheen" aria-hidden="true"></span>
+        <i class="au-de__corner au-de__corner--tl" aria-hidden="true"></i>
+        <i class="au-de__corner au-de__corner--br" aria-hidden="true"></i>
+        <figcaption class="au-de__caption" memory_type="text" memory_usage="custom" memory_key="detalles-pie-foto">Cada detalle cuenta</figcaption>
+      </figure>
+    </div>
+
+    <div class="au-de__content">
+      <header class="au-de__head">
+        <p class="au-de__kicker" memory_type="text" memory_usage="custom" memory_key="detalles-kicker">Lo que debes saber</p>
+        <h2 class="au-de__title" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Detalles</h2>
+        <p class="au-de__intro" memory_type="text" memory_usage="custom" memory_key="detalles-intro">Algunas notas para que disfrutes la celebración sin preocupaciones.</p>
+      </header>
+
+      <ul class="au-de__cards">
+        <li class="au-de__card" data-au-card>
+          <div class="au-de__inner">
+            <div class="au-de__face au-de__front">
+              <span class="au-de__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="1"></rect><path d="M3 12h18M12 8v13M12 8c-2-3-6-3-6-1s4 1 6 1zm0 0c2-3 6-3 6-1s-4 1-6 1z"></path></svg></span>
+              <h3 class="au-de__name" memory_type="text" memory_usage="custom" memory_key="detalles-1-titulo">Mesa de regalos</h3>
+              <p class="au-de__text" memory_type="text" memory_usage="custom" memory_key="detalles-1-texto">Liverpool, evento 51234567. Si prefieres, también puedes acompañarnos con un sobre el día de la fiesta.</p>
+            </div>
+            <div class="au-de__face au-de__back" aria-hidden="true"><span class="au-de__glyph">✦</span></div>
+          </div>
+        </li>
+        <li class="au-de__card" data-au-card>
+          <div class="au-de__inner">
+            <div class="au-de__face au-de__front">
+              <span class="au-de__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V8l9-5 9 5v13M9 21v-6h6v6"></path></svg></span>
+              <h3 class="au-de__name" memory_type="text" memory_usage="custom" memory_key="detalles-2-titulo">Hospedaje</h3>
+              <p class="au-de__text" memory_type="text" memory_usage="custom" memory_key="detalles-2-texto">Hotel Casa Real ofrece tarifa preferencial con el código QUINCE27.</p>
+            </div>
+            <div class="au-de__face au-de__back" aria-hidden="true"><span class="au-de__glyph">✦</span></div>
+          </div>
+        </li>
+        <li class="au-de__card" data-au-card>
+          <div class="au-de__inner">
+            <div class="au-de__face au-de__front">
+              <span class="au-de__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span>
+              <h3 class="au-de__name" memory_type="text" memory_usage="custom" memory_key="detalles-3-titulo">Consideraciones</h3>
+              <p class="au-de__text" memory_type="text" memory_usage="custom" memory_key="detalles-3-texto">Evento para adultos. Te pedimos puntualidad: la ceremonia comienza en punto.</p>
+            </div>
+            <div class="au-de__face au-de__back" aria-hidden="true"><span class="au-de__glyph">✦</span></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="detalles-regalo"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      var plate = root.querySelector('[data-au-plate]');
+      var cards = Array.prototype.slice.call(root.querySelectorAll('[data-au-card]'));
+      root.classList.add('au-de--anim');
+
+      /* pointer parallax on the featured photo */
+      if (plate) {
+        plate.addEventListener('pointermove', function (e) {
+          if (e.pointerType === 'touch') return;
+          var r = plate.getBoundingClientRect();
+          var px = (e.clientX - r.left) / r.width - .5, py = (e.clientY - r.top) / r.height - .5;
+          root.style.setProperty('--au-px', (-px * 14).toFixed(1) + 'px');
+          root.style.setProperty('--au-py', (-py * 14).toFixed(1) + 'px');
+        });
+        plate.addEventListener('pointerleave', function () { root.style.setProperty('--au-px', '0px'); root.style.setProperty('--au-py', '0px'); });
+      }
+
+      /* rAF: light sheen sweeping across the photo, paused off-screen */
+      var sheen = -40, last = 0, running = false, visible = false;
+      function frame(now) {
+        if (!running) return;
+        var dt = Math.min(.05, (now - last) / 1000 || .016); last = now;
+        sheen += dt * 28; if (sheen > 160) sheen = -60;
+        root.style.setProperty('--au-sheen', sheen.toFixed(1) + '%');
+        requestAnimationFrame(frame);
+      }
+      function run() { if (running || !visible || document.hidden) return; running = true; last = performance.now(); requestAnimationFrame(frame); }
+      function stop() { running = false; }
+
+      var entered = false;
+      var io = new IntersectionObserver(function (en) {
+        var e = en[0]; visible = e.isIntersecting;
+        if (visible) {
+          if (!entered && e.intersectionRatio > .2) {
+            entered = true;
+            root.classList.add('is-in');
+            cards.forEach(function (c, i) { setTimeout(function () { c.setAttribute('data-au-in', ''); }, 500 + i * 160); });
+            setTimeout(function () {
+              root.classList.remove('au-de--anim', 'is-in');
+              cards.forEach(function (c) { c.removeAttribute('data-au-in'); });
+            }, 2200);
+          }
+          run();
+        } else { stop(); }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+      document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else run(); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-regalo',
+      style_name: 'Aurum Obsidiana Lujo',
+      descripcion: 'Detalles con foto enmarcada en doble filete dorado con parallax y barrido de luz, y tarjetas de cristal que entran giradas en 3D mostrando su reverso de lámina de oro antes de revelar la información.',
+      tags: ['detalles', 'regalos', 'hospedaje', 'lujo', 'oro', '3d', 'premium', 'quinceañera', 'boda'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>

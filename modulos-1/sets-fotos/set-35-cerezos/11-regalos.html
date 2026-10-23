@@ -1,0 +1,464 @@
+<section
+  class="ck-reg"
+  data-gemini-id="regalos-cerezos"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap');
+
+    .ck-reg, .ck-reg *, .ck-reg *::before, .ck-reg *::after { box-sizing: border-box; }
+    .ck-reg {
+      --t-bg: var(--bg-color, #FAF5F0);
+      --t-tx: var(--text-color, #5A4640);
+      --t-p: var(--primary-color, #E7B3BD);
+      --t-s: var(--secondary-color, #8E6E60);
+      --t-a: var(--accent-color, #AEB3BC);
+      --t-display: var(--font-script, 'Shippori Mincho', 'Times New Roman', serif);
+      --t-text: var(--font-heading, 'Zen Kaku Gothic New', 'Helvetica Neue', sans-serif);
+      --ck-ink: color-mix(in srgb, var(--t-tx) 88%, var(--t-p));
+      --ck-blush-ink: color-mix(in srgb, var(--t-p) 58%, var(--t-s));
+      --ck-silver: linear-gradient(115deg, var(--t-a), color-mix(in srgb, var(--t-a) 35%, #ffffff) 45%, var(--t-a) 70%, color-mix(in srgb, var(--t-a) 60%, #ffffff));
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      padding: clamp(4.5rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/paper,blossom?lock=3211');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+      font-weight: 300;
+    }
+    .ck-reg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 86%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent));
+    }
+    .ck-reg__paper { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: .5; mix-blend-mode: multiply; }
+    .ck-reg__boughs { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; display: block; }
+    .ck-reg__inner { position: relative; z-index: 1; width: min(100%, 62rem); margin: 0 auto; }
+    .ck-reg__title { margin: 0; font-family: var(--t-display); font-weight: 500; font-size: clamp(2rem, 4.6vw, 3.1rem); color: var(--ck-ink); }
+    .ck-reg__lead { margin: .9rem auto 0; max-width: 32rem; line-height: 1.85; color: color-mix(in srgb, var(--t-tx) 80%, transparent); }
+
+    .ck-reg__line { position: relative; margin-top: clamp(2.6rem, 5vw, 3.6rem); }
+    .ck-reg__cord { position: absolute; left: -4%; top: 0; width: 108%; height: 2.4rem; overflow: visible; }
+    .ck-reg__cord path { fill: none; stroke: var(--t-s); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+    .ck-reg__list { list-style: none; margin: 0; padding: 1rem 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 1.4rem; }
+    .ck-reg__opt { position: relative; flex: 1 1 12.5rem; max-width: 14rem; padding-top: var(--ck-drop, 1rem); }
+    .ck-reg__opt:nth-child(1) { --ck-drop: 1.6rem; }
+    .ck-reg__opt:nth-child(2) { --ck-drop: 2.4rem; }
+    .ck-reg__opt:nth-child(3) { --ck-drop: 2.1rem; }
+    .ck-reg__opt:nth-child(4) { --ck-drop: 1.2rem; }
+    .ck-reg__opt::before { content: ''; position: absolute; left: 50%; top: 0; width: 1px; height: calc(var(--ck-drop) + .5rem); background: color-mix(in srgb, var(--t-s) 80%, transparent); }
+    .ck-reg__strip {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 19rem;
+      padding: 2.2rem 1.2rem 1.4rem;
+      transform-origin: 50% calc(var(--ck-drop) * -1);
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--ck-tint) 55%, transparent), transparent 40%),
+        color-mix(in srgb, var(--t-bg) 78%, #ffffff);
+      --ck-tint: color-mix(in srgb, var(--t-p) 45%, var(--t-bg));
+      box-shadow: 0 22px 34px -26px color-mix(in srgb, var(--t-s) 80%, transparent);
+      transition: background-color .4s ease, box-shadow .35s ease;
+    }
+    .ck-reg__opt:nth-child(even) .ck-reg__strip { --ck-tint: color-mix(in srgb, var(--t-a) 45%, var(--t-bg)); }
+    .ck-reg__strip::before { content: ''; position: absolute; top: .6rem; left: 50%; width: .5rem; height: .5rem; margin-left: -.25rem; border-radius: 50%; background: var(--t-bg); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-s) 60%, transparent); }
+    .ck-reg__icon { width: 2.6rem; height: 2.6rem; margin: .4rem 0 1rem; fill: none; stroke: color-mix(in srgb, var(--t-s) 85%, var(--t-tx)); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+    .ck-reg__name { margin: 0 0 .6rem; font-family: var(--t-display); font-weight: 500; font-size: 1.3rem; color: var(--ck-ink); }
+    .ck-reg__desc { margin: 0 0 .6rem; font-size: .93rem; line-height: 1.7; color: color-mix(in srgb, var(--t-tx) 80%, transparent); }
+    .ck-reg__code { margin: 0 0 1.2rem; font-size: .88rem; color: var(--ck-blush-ink); word-break: break-word; }
+    .ck-reg__pick {
+      margin-top: auto;
+      display: inline-grid;
+      place-items: center;
+      min-height: 2.5rem;
+      min-width: 7.5rem;
+      padding: .4rem 1rem;
+      border-radius: 999px;
+      border: 1px solid color-mix(in srgb, var(--t-a) 85%, transparent);
+      background: transparent;
+      color: var(--t-tx);
+      font: inherit;
+      font-size: .9rem;
+      font-weight: 400;
+      cursor: pointer;
+      transition: background-color .3s ease, border-color .3s ease;
+    }
+    .ck-reg__pick > span { grid-area: 1 / 1; transition: opacity .25s ease; }
+    .ck-reg__pick:hover { border-color: var(--t-s); }
+    .ck-reg__pick:focus-visible { outline: 2px solid var(--t-s); outline-offset: 2px; }
+    .ck-reg__pick [data-on] { opacity: 0; }
+    .ck-reg__pick[aria-pressed="true"] { background: color-mix(in srgb, var(--t-p) 70%, var(--t-bg)); border-color: transparent; }
+    .ck-reg__pick[aria-pressed="true"] [data-off] { opacity: 0; }
+    .ck-reg__pick[aria-pressed="true"] [data-on] { opacity: 1; }
+    .ck-reg__opt[data-ck-sel] .ck-reg__strip { box-shadow: 0 0 0 1px color-mix(in srgb, var(--t-p) 85%, var(--t-s)), 0 26px 40px -24px color-mix(in srgb, var(--t-s) 85%, transparent); }
+
+    .ck-reg__foot { margin-top: clamp(2.4rem, 5vw, 3.4rem); display: grid; justify-items: center; gap: .9rem; }
+    .ck-reg__btn {
+      position: relative;
+      display: inline-grid;
+      place-items: center;
+      min-height: 3.2rem;
+      min-width: 14rem;
+      padding: .7rem 1.8rem;
+      border: 0;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--t-p) 85%, var(--t-bg));
+      color: color-mix(in srgb, var(--t-tx) 92%, var(--t-s));
+      font: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 12px 26px -16px color-mix(in srgb, var(--t-s) 80%, transparent);
+      transition: transform .3s cubic-bezier(.2, .8, .2, 1), background-color .35s ease;
+    }
+    .ck-reg__btn > * { grid-area: 1 / 1; transition: opacity .3s ease, transform .35s ease; }
+    .ck-reg__btn:hover { transform: translateY(-2px); }
+    .ck-reg__btn:focus-visible { outline: 2px solid var(--t-s); outline-offset: 3px; }
+    .ck-reg__spin, .ck-reg__ok { opacity: 0; transform: scale(.6); pointer-events: none; }
+    .ck-reg__spin { width: 1.9rem; height: 1.9rem; }
+    .ck-reg__spinbl { display: block; width: 100%; height: 100%; }
+    .ck-reg__ok { width: 1.6rem; height: 1.6rem; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    .ck-reg__btn[data-state="loading"] .ck-reg__btnlabel, .ck-reg__btn[data-state="done"] .ck-reg__btnlabel { opacity: 0; transform: translateY(-8px); }
+    .ck-reg__btn[data-state="loading"] .ck-reg__spin { opacity: 1; transform: none; }
+    .ck-reg__btn[data-state="loading"] .ck-reg__spinbl { animation: ck-reg-turn .5s linear infinite; }
+    .ck-reg__btn[data-state="done"] { background: color-mix(in srgb, var(--t-a) 45%, var(--t-bg)); }
+    .ck-reg__btn[data-state="done"] .ck-reg__ok { opacity: 1; transform: none; }
+    .ck-reg__status { margin: 0; min-height: 1.5em; font-family: var(--t-display); color: var(--ck-blush-ink); }
+    @keyframes ck-reg-turn { from { transform: rotate(0deg); } to { transform: rotate(72deg); } }
+
+    /* Entrance: strips drop onto the cord one by one */
+    .ck-reg--anim .ck-reg__cord path { stroke-dasharray: 1; stroke-dashoffset: 1; }
+    .ck-reg--anim .ck-reg__opt { opacity: 0; transform: translateY(-26px); }
+    .ck-reg--anim.is-in .ck-reg__cord path { stroke-dashoffset: 0; transition: stroke-dashoffset .5s ease; }
+    .ck-reg--anim.is-in .ck-reg__opt { opacity: 1; transform: none; transition: opacity .35s ease, transform .5s cubic-bezier(.3, 1.35, .5, 1); }
+    .ck-reg--anim.is-in .ck-reg__opt:nth-child(1) { transition-delay: .25s; }
+    .ck-reg--anim.is-in .ck-reg__opt:nth-child(2) { transition-delay: .35s; }
+    .ck-reg--anim.is-in .ck-reg__opt:nth-child(3) { transition-delay: .45s; }
+    .ck-reg--anim.is-in .ck-reg__opt:nth-child(4) { transition-delay: .55s; }
+
+    @media (max-width: 620px) {
+      .ck-reg__cord { display: none; }
+      .ck-reg__list { padding-top: 0; }
+      .ck-reg__opt { flex-basis: 100%; max-width: 20rem; --ck-drop: 1.4rem; }
+      .ck-reg__opt:nth-child(n) { --ck-drop: 1.4rem; }
+      .ck-reg__strip { min-height: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ck-reg *, .ck-reg *::before, .ck-reg *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="ck-reg__paper" aria-hidden="true" focusable="false" preserveAspectRatio="none"><filter id="ck-reg-fib" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.011 0.02" numOctaves="4" seed="7" /><feColorMatrix values="0 0 0 0 0.55  0 0 0 0 0.44  0 0 0 0 0.4  0.7 0 0 0 -0.3" /></filter><filter id="ck-reg-grain" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="3" /><feColorMatrix values="0 0 0 0 0.5  0 0 0 0 0.42  0 0 0 0 0.38  2 0 0 0 -0.92" /></filter><rect width="100%" height="100%" filter="url(#ck-reg-fib)" /><rect width="100%" height="100%" filter="url(#ck-reg-grain)" opacity=".55" /></svg>
+  <canvas class="ck-reg__boughs" data-ck-boughs aria-hidden="true"></canvas>
+  <div class="ck-reg__inner">
+    <h2 class="ck-reg__title" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Mesa de regalos</h2>
+    <p class="ck-reg__lead" memory_type="text" memory_usage="custom" memory_key="regalos-texto">Tu presencia es nuestro mayor regalo. Si deseas obsequiarnos algo, cuelga tu deseo en una de estas tiras de papel.</p>
+
+    <div class="ck-reg__line">
+      <svg class="ck-reg__cord" viewBox="0 0 1000 40" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path pathLength="1" d="M0 6 Q 250 34 500 22 T 1000 8" /></svg>
+      <ul class="ck-reg__list">
+        <li class="ck-reg__opt" data-ck-opt>
+          <div class="ck-reg__strip" data-ck-strip>
+            <svg class="ck-reg__icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="5" y="12" width="22" height="15" rx="1.5" /><path d="M3.5 12h25v-4h-25zM16 8v19M16 8c-3-5-8-3-6 0M16 8c3-5 8-3 6 0" /></svg>
+            <h3 class="ck-reg__name" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-1">Mesa de regalos</h3>
+            <p class="ck-reg__desc" memory_type="text" memory_usage="custom" memory_key="regalos-desc-1">Tienda departamental, a nombre de los novios.</p>
+            <p class="ck-reg__code" memory_type="text" memory_usage="custom" memory_key="regalos-dato-1">Evento 000000</p>
+            <button class="ck-reg__pick" type="button" data-ck-pick aria-pressed="false"><span data-off>Elegir</span><span data-on>Elegido</span></button>
+          </div>
+        </li>
+        <li class="ck-reg__opt" data-ck-opt>
+          <div class="ck-reg__strip" data-ck-strip>
+            <svg class="ck-reg__icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect x="4" y="8" width="24" height="17" rx="1.5" /><path d="M4.5 9l11.5 9 11.5-9" /></svg>
+            <h3 class="ck-reg__name" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-2">Lluvia de sobres</h3>
+            <p class="ck-reg__desc" memory_type="text" memory_usage="custom" memory_key="regalos-desc-2">Habrá un buzón de papel junto a la entrada el día del evento.</p>
+            <p class="ck-reg__code" memory_type="text" memory_usage="custom" memory_key="regalos-dato-2">Día de la boda</p>
+            <button class="ck-reg__pick" type="button" data-ck-pick aria-pressed="false"><span data-off>Elegir</span><span data-on>Elegido</span></button>
+          </div>
+        </li>
+        <li class="ck-reg__opt" data-ck-opt>
+          <div class="ck-reg__strip" data-ck-strip>
+            <svg class="ck-reg__icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M4 13l12-7 12 7M6 13v11M11 13v11M16 13v11M21 13v11M26 13v11M3.5 26h25" /></svg>
+            <h3 class="ck-reg__name" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-3">Transferencia</h3>
+            <p class="ck-reg__desc" memory_type="text" memory_usage="custom" memory_key="regalos-desc-3">Banco Nombre · a nombre de Nombre Apellido.</p>
+            <p class="ck-reg__code" memory_type="text" memory_usage="custom" memory_key="regalos-dato-3">Cuenta 0000 0000 0000</p>
+            <button class="ck-reg__pick" type="button" data-ck-pick aria-pressed="false"><span data-off>Elegir</span><span data-on>Elegido</span></button>
+          </div>
+        </li>
+        <li class="ck-reg__opt" data-ck-opt>
+          <div class="ck-reg__strip" data-ck-strip>
+            <svg class="ck-reg__icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M3 18l9-2 9-9c1.5-1.5 4-2 4.5-1.5S25.5 8.5 24 10l-9 9-2 9-2.5-1 .5-6-6 .5z" /></svg>
+            <h3 class="ck-reg__name" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-4">Luna de miel</h3>
+            <p class="ck-reg__desc" memory_type="text" memory_usage="custom" memory_key="regalos-desc-4">Un fondo para nuestro viaje a ver los cerezos en flor.</p>
+            <p class="ck-reg__code" memory_type="text" memory_usage="custom" memory_key="regalos-dato-4">Fondo de viaje</p>
+            <button class="ck-reg__pick" type="button" data-ck-pick aria-pressed="false"><span data-off>Elegir</span><span data-on>Elegido</span></button>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="ck-reg__foot">
+      <button class="ck-reg__btn" type="button" data-ck-book data-state="idle">
+        <span class="ck-reg__btnlabel" memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span>
+        <span class="ck-reg__spin" aria-hidden="true"><svg class="ck-reg__spinbl" viewBox="-12 -12 24 24" aria-hidden="true" focusable="false"><g style="fill: var(--t-p)"><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(0)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(72)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(144)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(216)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(288)" /></g><circle r="1.8" style="fill: var(--t-a)" /></svg></span>
+        <svg class="ck-reg__ok" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" /></svg>
+      </button>
+      <p class="ck-reg__status" data-ck-status role="status" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="regalos-cerezos"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* ── Cerezos kit: seeded rng, theme colors, blossom sprites, weeping-branch scene ── */
+      function ckRng(seed) { return function () { seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+      function ckRGB(el, v, fb) {
+        var s = document.createElement('span'); s.setAttribute('aria-hidden', 'true'); s.style.display = 'none'; s.style.color = 'var(' + v + ')';
+        el.appendChild(s); var c = getComputedStyle(s).color; el.removeChild(s);
+        var m = c && c.match(/[\d.]+/g); return m && m.length >= 3 ? [+m[0], +m[1], +m[2]] : fb;
+      }
+      function ckMix(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
+      function ckCss(c, a) { return 'rgba(' + (c[0] | 0) + ',' + (c[1] | 0) + ',' + (c[2] | 0) + ',' + (a == null ? 1 : a) + ')'; }
+      function ckPal(el) { return { p: ckRGB(el, '--t-p', [231, 179, 189]), s: ckRGB(el, '--t-s', [142, 110, 96]), a: ckRGB(el, '--t-a', [174, 179, 188]), bg: ckRGB(el, '--t-bg', [250, 245, 240]) }; }
+      function ckPetalPath(g, L) {
+        g.beginPath(); g.moveTo(0, 0);
+        g.bezierCurveTo(-.56 * L, -.2 * L, -.52 * L, -.84 * L, -.15 * L, -L);
+        g.lineTo(0, -.86 * L); g.lineTo(.15 * L, -L);
+        g.bezierCurveTo(.52 * L, -.84 * L, .56 * L, -.2 * L, 0, 0); g.closePath();
+      }
+      function ckSprite(kind, R, pal, sil) {
+        var F = 2, S = Math.ceil(R * 2.5 * F), c = document.createElement('canvas'); c.width = c.height = S;
+        var g = c.getContext('2d'); g.translate(S / 2, S / 2); g.scale(F, F);
+        var white = [255, 255, 255], light = ckMix(pal.p, white, .62), deep = ckMix(pal.p, pal.s, .2), edge = ckMix(pal.p, pal.s, .45);
+        var silC = ckCss(pal.s, 1);
+        function petal(L, rot, sy) {
+          g.save(); g.rotate(rot); if (sy) g.scale(1, sy); ckPetalPath(g, L);
+          if (sil) { g.fillStyle = silC; g.fill(); g.restore(); return; }
+          var gr = g.createLinearGradient(0, 0, 0, -L);
+          gr.addColorStop(0, ckCss(deep, 1)); gr.addColorStop(.4, ckCss(pal.p, 1)); gr.addColorStop(1, ckCss(light, 1));
+          g.fillStyle = gr; g.fill(); g.strokeStyle = ckCss(edge, .3); g.lineWidth = Math.max(.35, L * .035); g.stroke();
+          g.beginPath(); g.moveTo(0, -L * .12); g.lineTo(0, -L * .62); g.strokeStyle = ckCss(deep, .22); g.lineWidth = Math.max(.3, L * .025); g.stroke();
+          g.restore();
+        }
+        function stamens(r) {
+          if (sil) return;
+          for (var i = 0; i < 12; i++) {
+            var a = i / 12 * Math.PI * 2 + .2, l = r * (.32 + (i % 3) * .06);
+            g.beginPath(); g.moveTo(0, 0); g.lineTo(Math.cos(a) * l, Math.sin(a) * l); g.strokeStyle = ckCss(deep, .75); g.lineWidth = Math.max(.3, r * .03); g.stroke();
+            g.beginPath(); g.arc(Math.cos(a) * l, Math.sin(a) * l, Math.max(.45, r * .045), 0, 7); g.fillStyle = ckCss(ckMix(pal.a, pal.s, .35), .95); g.fill();
+          }
+          g.beginPath(); g.arc(0, 0, r * .1, 0, 7); g.fillStyle = ckCss(ckMix(pal.p, pal.s, .55), 1); g.fill();
+        }
+        if (kind === 'open') { for (var i = 0; i < 5; i++) petal(R, i * 1.2566 + .3); stamens(R); }
+        else if (kind === 'half') { g.translate(0, R * .35); petal(R * .9, -.75, .9); petal(R * .9, .75, .9); petal(R, 0); g.beginPath(); g.ellipse(0, R * .05, R * .18, R * .26, 0, 0, 7); g.fillStyle = sil ? silC : ckCss(ckMix(pal.s, pal.p, .2), .9); g.fill(); }
+        else if (kind === 'bud') { g.beginPath(); g.ellipse(0, -R * .2, R * .55, R * .85, 0, 0, 7); g.fillStyle = sil ? silC : ckCss(ckMix(pal.p, pal.s, .25), 1); g.fill(); g.beginPath(); g.ellipse(0, R * .5, R * .32, R * .3, 0, 0, 7); g.fillStyle = sil ? silC : ckCss(ckMix(pal.s, [120, 140, 100], .2), .9); g.fill(); }
+        else { g.translate(0, R * .5); petal(R, 0); }
+        c.__w = S / F; return c;
+      }
+      function ckDraw(g, D, img, x, y, r, s, sx) {
+        var c = Math.cos(r), n = Math.sin(r), k = sx == null ? 1 : sx, w = img.__w * s;
+        g.setTransform(D * c * k, D * n * k, -D * n, D * c, D * x, D * y); g.drawImage(img, -w / 2, -w / 2, w, w);
+      }
+      function ckWind(t) { return Math.sin(t * .23) * .6 + Math.sin(t * .71 + 1) * .4; }
+      /* Weeping-branch scene. o: {anchors:['tl','tr'], reach, y, hang, maxHang, petals, seed, scale, sil, density, strandAlpha} */
+      function ckScene(root, cv, o) {
+        o = o || {};
+        var g = cv.getContext && cv.getContext('2d'); if (!g) return null;
+        var RMs = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+        var W = 0, H = 0, D = Math.min(window.devicePixelRatio || 1, 2), pal, spr, layer, strands = [], petals = [], raf = 0, vis = false, T = 0, last = 0, dead = false;
+        function setup() {
+          pal = ckPal(root); var k = o.scale || 1;
+          spr = { open: ckSprite('open', 12 * k, pal, o.sil), half: ckSprite('half', 10 * k, pal, o.sil), bud: ckSprite('bud', 5 * k, pal, o.sil), pet: ckSprite('petal', 7 * k, pal, o.sil) };
+        }
+        function build() {
+          var rng = ckRng(o.seed || 11), limbs = [], tips = [], narrow = W < 640;
+          var LIM = narrow ? (o.mLim || 70) : (o.yLim || Math.min(H * .42, 260));
+          strands = [];
+          function grow(x, y, a, len, w, depth) {
+            var n = Math.max(5, Math.round(len / 16)), st = len / n, pts = [[x, y, w, a]];
+            for (var i = 1; i <= n; i++) {
+              x += Math.cos(a) * st; y += Math.sin(a) * st;
+              if (y > LIM && i > 2) { n = i - 1; break; }
+              a += (rng() - .5) * .34 + (Math.PI / 2 - a) * (o.droop || .03);
+              pts.push([x, y, Math.max(.8, w * (1 - i / n * .86)), a]);
+            }
+            limbs.push(pts);
+            tips.push([x, y, depth]);
+            if (depth < 2) {
+              var kids = depth ? 2 : 4;
+              for (var j = 0; j < kids; j++) {
+                var p = pts[Math.floor((.18 + rng() * .7) * n)], side = rng() < .5 ? -1 : 1;
+                grow(p[0], p[1], p[3] + side * (.35 + rng() * .55), len * (.25 + rng() * .3), p[2] * .55, depth + 1);
+              }
+            }
+          }
+          var anchors = o.anchors || ['tl'];
+          for (var i = 0; i < anchors.length; i++) {
+            var an = anchors[i], left = an === 'tl', reach = W * (o.reach || .6) + 60, y0 = H * (o.y == null ? .02 : o.y) + (o.yPx || 0);
+            grow(left ? -30 : W + 30, y0, left ? .16 : Math.PI - .16, reach, Math.max(7, Math.min(16, W * .012)) * (o.thick || 1), 0);
+          }
+          var maxH = Math.min(H * (o.hang || .5), o.maxHang || 380), dens = o.density || .7;
+          if (narrow) { maxH = Math.min(maxH, o.mHang || 80); dens *= .7; }
+          for (var l = 0; l < limbs.length; l++) {
+            var pts = limbs[l];
+            for (var q = 1; q < pts.length; q += 2) {
+              var P = pts[q];
+              if (P[0] < -10 || P[0] > W + 10 || rng() > .62 * dens) continue;
+              var len = maxH * (.25 + rng() * .75), bl = [], nb = Math.round(len / 21);
+              for (var b = 0; b < nb; b++) {
+                var t = Math.pow((b + rng() * .8) / nb, .85), r = rng();
+                bl.push({ t: t, k: t > .93 ? 'bud' : r < .55 ? 'open' : r < .85 ? 'half' : 'bud', dx: (b % 2 ? 1 : -1) * (2 + rng() * 4), r: (rng() - .5) * 1.6, s: .6 + rng() * .5 * (1 - t * .4) });
+              }
+              strands.push({ x: P[0], y: P[1], len: len, b: bl, amp: 4 + rng() * 9, w: .5 + rng() * .6, ph: rng() * 6.28, cv: (rng() - .5) * 10 });
+            }
+          }
+          /* static layer: boughs + clustered blossoms on the wood */
+          layer = document.createElement('canvas'); layer.width = Math.max(1, W * D); layer.height = Math.max(1, H * D);
+          var lg = layer.getContext('2d'); lg.lineCap = 'round'; lg.lineJoin = 'round';
+          var bark = o.sil ? ckCss(pal.s, 1) : ckCss(pal.s, .92), hi = ckCss(ckMix(pal.s, [255, 255, 255], .35), .5);
+          for (var m = 0; m < limbs.length; m++) {
+            var L = limbs[m];
+            for (var z = 0; z < L.length - 1; z++) {
+              lg.setTransform(D, 0, 0, D, 0, 0);
+              lg.beginPath(); lg.moveTo(L[z][0], L[z][1]); lg.lineTo(L[z + 1][0], L[z + 1][1]); lg.strokeStyle = bark; lg.lineWidth = L[z][2]; lg.stroke();
+              if (!o.sil && L[z][2] > 3) { lg.beginPath(); lg.moveTo(L[z][0], L[z][1] - L[z][2] * .25); lg.lineTo(L[z + 1][0], L[z + 1][1] - L[z][2] * .25); lg.strokeStyle = hi; lg.lineWidth = L[z][2] * .18; lg.stroke(); }
+            }
+            for (var z2 = 2; z2 < L.length; z2 += 3) if (rng() < .7 * dens) ckDraw(lg, D, spr[rng() < .6 ? 'open' : 'half'], L[z2][0] + (rng() - .5) * 8, L[z2][1] + (rng() - .5) * 8, rng() * 6, .7 + rng() * .5);
+          }
+          for (var tp = 0; tp < tips.length; tp++) for (var c2 = 0; c2 < 4; c2++) ckDraw(lg, D, spr[c2 ? 'open' : 'bud'], tips[tp][0] + (rng() - .5) * 18, tips[tp][1] + (rng() - .5) * 14, rng() * 6, .7 + rng() * .45);
+          lg.setTransform(1, 0, 0, 1, 0, 0);
+          var n = o.petals == null ? 18 : o.petals; petals = [];
+          for (var pi = 0; pi < n; pi++) petals.push(spawn(rng() * W, rng() * H, rng));
+        }
+        function spawn(x, y, rng) {
+          rng = rng || Math.random;
+          return { x: x, y: y, vy: 0, bx: 0, by: 0, r: rng() * 6.28, vr: (rng() - .5) * 2, f: rng() * 6.28, vf: 1.5 + rng() * 2.5, s: .55 + rng() * .65, al: .55 + rng() * .45, ph: rng() * 6.28, w: .6 + rng(), once: false };
+        }
+        function frame(now) {
+          var dt = last ? Math.min(.05, (now - last) / 1000) : .016; last = now; T += dt;
+          g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, cv.width, cv.height);
+          if (layer) g.drawImage(layer, 0, 0);
+          var wind = ckWind(T), sa = o.strandAlpha || .55;
+          for (var i = 0; i < strands.length; i++) {
+            var s = strands[i]; g.setTransform(D, 0, 0, D, 0, 0); g.beginPath();
+            for (var k = 0; k <= 10; k++) { var tt = k / 10, ox = (s.amp * Math.sin(T * s.w + s.ph - tt * 1.6) + wind * 7 + s.cv) * tt * tt; if (k) g.lineTo(s.x + ox, s.y + tt * s.len); else g.moveTo(s.x, s.y); }
+            g.strokeStyle = ckCss(pal.s, sa); g.lineWidth = .9; g.stroke();
+            for (var b = 0; b < s.b.length; b++) {
+              var B = s.b[b], t2 = B.t, ox2 = (s.amp * Math.sin(T * s.w + s.ph - t2 * 1.6) + wind * 7 + s.cv) * t2 * t2;
+              ckDraw(g, D, spr[B.k], s.x + ox2 + B.dx, s.y + t2 * s.len, B.r + Math.sin(T * s.w + s.ph) * .08, B.s);
+            }
+          }
+          for (var p = petals.length - 1; p >= 0; p--) {
+            var P = petals[p];
+            P.vy += ((22 + 18 * P.s) - P.vy) * Math.min(1, dt * 1.5);
+            P.bx *= Math.exp(-2.6 * dt); P.by *= Math.exp(-2.6 * dt);
+            P.x += (wind * 26 + Math.sin(T * P.w + P.ph) * 14 + P.bx) * dt; P.y += (P.vy + P.by) * dt;
+            P.r += P.vr * dt; P.f += P.vf * dt;
+            if (P.y > H + 24 || P.x > W + 40 || P.x < -40) { if (P.once) { petals.splice(p, 1); continue; } var q = spawn(Math.random() * W * 1.1 - W * .05, -20 - Math.random() * 60); petals[p] = q; P = q; }
+            var sx = Math.cos(P.f); g.globalAlpha = P.al * (.5 + .5 * Math.abs(sx));
+            ckDraw(g, D, spr.pet, P.x, P.y, P.r, P.s, sx);
+          }
+          g.globalAlpha = 1; g.setTransform(1, 0, 0, 1, 0, 0);
+        }
+        function loop(now) { raf = 0; frame(now); if (vis && !dead && !document.hidden && !RMs) raf = requestAnimationFrame(loop); }
+        function kick() { if (!raf && vis && !dead && !document.hidden && !RMs) { last = 0; raf = requestAnimationFrame(loop); } }
+        function resize() {
+          var r = cv.getBoundingClientRect(), nw = Math.round(r.width), nh = Math.round(r.height);
+          if (!nw || !nh || (nw === W && nh === H)) return;
+          W = nw; H = nh; cv.width = W * D; cv.height = H * D; build(); frame(performance.now());
+        }
+        setup(); resize();
+        if ('ResizeObserver' in window) new ResizeObserver(resize).observe(cv); else window.addEventListener('resize', resize);
+        if (!RMs && 'IntersectionObserver' in window) {
+          new IntersectionObserver(function (en) { vis = en[0].isIntersecting; kick(); }).observe(root);
+          document.addEventListener('visibilitychange', kick);
+        }
+        return {
+          stop: function () { dead = true; },
+          burst: function (x, y, n) {
+            if (RMs) return;
+            for (var i = 0; i < n; i++) { var a = Math.random() * 6.28, v = 90 + Math.random() * 160, q = spawn(x, y); q.bx = Math.cos(a) * v; q.by = Math.sin(a) * v - 60; q.once = true; q.s *= 1.1; petals.push(q); }
+            kick();
+          }
+        };
+      }
+
+      var cv = root.querySelector('[data-ck-boughs]');
+      var scene = ckScene(root, cv, { anchors: ['tl'], reach: .28, hang: .08, maxHang: 90, petals: 10, seed: 1111, density: .45 });
+
+      /* Selection + simulated scheduling. Status lines are non-memory; memory texts are only read */
+      var opts = [].slice.call(root.querySelectorAll('[data-ck-opt]')), sel = -1;
+      var btn = root.querySelector('[data-ck-book]'), status = root.querySelector('[data-ck-status]');
+      opts.forEach(function (o, i) {
+        o.querySelector('[data-ck-pick]').addEventListener('click', function () {
+          sel = sel === i ? -1 : i;
+          opts.forEach(function (x, j) { var on = j === sel; x.querySelector('[data-ck-pick]').setAttribute('aria-pressed', on ? 'true' : 'false'); if (on) x.setAttribute('data-ck-sel', ''); else x.removeAttribute('data-ck-sel'); });
+          if (btn.getAttribute('data-state') === 'done') btn.setAttribute('data-state', 'idle');
+          status.textContent = '';
+        });
+      });
+      btn.addEventListener('click', function () {
+        if (btn.getAttribute('data-state') === 'loading') return;
+        if (sel < 0) { status.textContent = 'Elige una opción para agendar tu regalo.'; return; }
+        var name = opts[sel].querySelector('.ck-reg__name').textContent.trim();
+        btn.setAttribute('data-state', 'loading'); btn.setAttribute('aria-busy', 'true'); status.textContent = 'Agendando…';
+        setTimeout(function () {
+          btn.setAttribute('data-state', 'done'); btn.removeAttribute('aria-busy');
+          status.textContent = 'Regalo agendado: ' + name + '. ¡Gracias de corazón!';
+          if (scene) { var c = cv.getBoundingClientRect(), b = btn.getBoundingClientRect(); scene.burst(b.left - c.left + b.width / 2, b.top - c.top + b.height / 2, 26); }
+        }, RM ? 200 : 1200);
+      });
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      /* Strips sway on the cord (requestAnimationFrame, paused off-screen) */
+      var strips = [].slice.call(root.querySelectorAll('[data-ck-strip]')), vis = false, raf = 0, T = 0, last = 0;
+      function loop(now) {
+        raf = 0; var dt = last ? Math.min(.05, (now - last) / 1000) : .016; last = now; T += dt;
+        var w = ckWind(T);
+        strips.forEach(function (s, i) { s.style.transform = 'rotate(' + (Math.sin(T * (.9 + i * .17) + i * 1.7) * 1.1 + w * .9).toFixed(3) + 'deg)'; });
+        if (vis && !document.hidden) raf = requestAnimationFrame(loop);
+      }
+      function kick() { if (!raf && vis && !document.hidden) { last = 0; raf = requestAnimationFrame(loop); } }
+      root.classList.add('ck-reg--anim');
+      var io = new IntersectionObserver(function (en) {
+        vis = en[0].isIntersecting;
+        if (vis && en[0].intersectionRatio > .2 && !root.__ckIn) {
+          root.__ckIn = true; root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('ck-reg--anim', 'is-in'); }, 1500);
+        }
+        kick();
+      }, { threshold: [0, .2, .4] });
+      io.observe(root);
+      document.addEventListener('visibilitychange', kick);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-cerezos',
+      style_name: 'Cerezos en Flor Washi Sakura',
+      descripcion: 'Mesa de regalos como tiras de papel tanzaku que se mecen colgadas de un cordón; cada opción se elige y el botón Agendar regalo confirma con giro y lluvia de pétalos.',
+      tags: ['regalos', 'boda', 'cerezos', 'sakura', 'tanzaku', 'washi'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>

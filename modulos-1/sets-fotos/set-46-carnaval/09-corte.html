@@ -1,0 +1,213 @@
+<section
+  class="cv-co"
+  data-gemini-id="corte-carnaval"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Monsieur+La+Doulaise&display=swap');
+
+    .cv-co, .cv-co *, .cv-co *::before, .cv-co *::after { box-sizing: border-box; }
+    .cv-co {
+      --t-bg: var(--bg-color, #14060f);
+      --t-tx: var(--text-color, #f3e4c8);
+      --t-p: var(--primary-color, #9b1028);
+      --t-s: var(--secondary-color, #4b1a6e);
+      --t-a: var(--accent-color, #b8862e);
+      --t-display: var(--font-script, 'Monsieur La Doulaise', cursive);
+      --t-text: var(--font-heading, 'IM Fell English', Georgia, serif);
+      --gold: linear-gradient(115deg, color-mix(in srgb, var(--t-a) 60%, #000) 0%, color-mix(in srgb, var(--t-a) 55%, #fff) 42%, var(--t-a) 58%, color-mix(in srgb, var(--t-a) 65%, #000) 100%);
+      --velvet: repeating-linear-gradient(90deg, color-mix(in srgb, var(--t-p) 42%, #000) 0, var(--t-p) 14px, color-mix(in srgb, var(--t-p) 78%, var(--t-a)) 21px, var(--t-p) 28px, color-mix(in srgb, var(--t-p) 42%, #000) 42px);
+      --open: 1;
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 60vw, 46rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background: linear-gradient(200deg, color-mix(in srgb, var(--t-s) 45%, var(--t-bg)), var(--t-bg) 65%);
+      background-color: var(--t-bg);
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .cv-co__content {
+      width: min(100%, 66rem);
+      display: grid;
+      grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+      gap: clamp(2rem, 6vw, 5rem);
+      align-items: center;
+    }
+    .cv-co__stage {
+      position: relative;
+      padding: 10px;
+      border-radius: 6px;
+      background: var(--gold);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--t-a) 40%, transparent), 0 30px 70px rgba(0, 0, 0, .65);
+    }
+    .cv-co__stage::before {
+      content: '';
+      position: absolute;
+      z-index: 3;
+      left: -14px;
+      right: -14px;
+      top: -18px;
+      height: 3.2rem;
+      border-radius: 6px 6px 0 0;
+      background: radial-gradient(ellipse 50% 100% at 50% 0, var(--t-p) 0 80%, var(--t-a) 83% 93%, transparent 95%) 0 100% / 3rem 1.4rem round no-repeat, linear-gradient(180deg, color-mix(in srgb, var(--t-p) 40%, #000), var(--t-p)) 0 0 / 100% 1.8rem no-repeat;
+      filter: drop-shadow(0 5px 6px rgba(0, 0, 0, .5));
+    }
+    .cv-co__window { position: relative; overflow: hidden; border-radius: 2px; }
+    .cv-co__figure { margin: 0; }
+    .cv-co__figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      color: transparent;
+      background: color-mix(in srgb, var(--t-s) 55%, #000);
+    }
+    .cv-co__curtain {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 51%;
+      z-index: 2;
+      transform-origin: left center;
+      transform: scaleX(calc(1 - .86 * var(--open)));
+      background: linear-gradient(180deg, transparent 60%, rgba(0, 0, 0, .45)), var(--velvet);
+      box-shadow: 0 0 22px rgba(0, 0, 0, .6);
+      pointer-events: none;
+    }
+    .cv-co__curtain[data-side="r"] { left: auto; right: 0; transform-origin: right center; }
+
+    .cv-co__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3rem, 6.5vw, 4.8rem);
+      line-height: 1.1;
+      padding-right: .3em;
+      background: var(--gold);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .cv-co__intro { margin: .3rem 0 1.8rem; font-style: italic; opacity: .85; line-height: 1.55; }
+    .cv-co__cast { margin: 0; padding: 0; list-style: none; display: grid; gap: 1.05rem; }
+    .cv-co__row { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
+    .cv-co__role { font-family: var(--t-display); font-size: clamp(1.8rem, 3vw, 2.2rem); line-height: 1.1; color: var(--t-a); }
+    .cv-co__dots { flex: 1 1 2rem; min-width: 2rem; border-bottom: 2px dotted color-mix(in srgb, var(--t-a) 55%, transparent); transform: translateY(-.35em); }
+    .cv-co__who { font-size: clamp(1.08rem, 1.9vw, 1.22rem); line-height: 1.45; }
+    .cv-co__note { margin: 1.8rem 0 0; font-style: italic; opacity: .72; }
+
+    .cv-co--anim .cv-co__side > * { opacity: 0; transform: translateX(16px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .cv-co--anim [data-on] > * { opacity: 1; transform: none; }
+    .cv-co--anim [data-on] > :nth-child(2) { transition-delay: .12s; }
+    .cv-co--anim [data-on] > :nth-child(3) { transition-delay: .24s; }
+    .cv-co--anim [data-on] > :nth-child(4) { transition-delay: .36s; }
+
+    @media (max-width: 760px) {
+      .cv-co__content { grid-template-columns: 1fr; }
+      .cv-co__stage { width: min(84%, 22rem); justify-self: center; }
+      .cv-co__side { text-align: center; }
+      .cv-co__row { justify-content: center; }
+      .cv-co__dots { display: none; }
+      .cv-co__row { flex-direction: column; align-items: center; gap: .1rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cv-co *, .cv-co *::before, .cv-co *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="cv-co__content">
+    <div class="cv-co__stage">
+      <div class="cv-co__window">
+        <figure class="cv-co__figure" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/800/1000/quinceanera,dress,court?lock=3591" alt="La quinceañera con su corte de honor" path="placeholder" data-library-category="eventos" data-asset-type="foto" loading="lazy" />
+        </figure>
+        <span class="cv-co__curtain" data-side="l" aria-hidden="true"></span>
+        <span class="cv-co__curtain" data-side="r" aria-hidden="true"></span>
+      </div>
+    </div>
+
+    <div class="cv-co__side" data-cv-side>
+      <h2 class="cv-co__title" memory_type="text" memory_usage="custom" memory_key="corte-titulo">Mi Corte de Honor</h2>
+      <p class="cv-co__intro" memory_type="text" memory_usage="custom" memory_key="corte-intro">El elenco que me acompaña en el escenario de esta noche.</p>
+      <ul class="cv-co__cast">
+        <li class="cv-co__row">
+          <span class="cv-co__role" memory_type="text" memory_usage="custom" memory_key="corte-rol-1">Chambelán de honor</span>
+          <span class="cv-co__dots" aria-hidden="true"></span>
+          <span class="cv-co__who" memory_type="text" memory_usage="custom" memory_key="corte-nombre-1">Nombre Apellido</span>
+        </li>
+        <li class="cv-co__row">
+          <span class="cv-co__role" memory_type="text" memory_usage="custom" memory_key="corte-rol-2">Dama de honor</span>
+          <span class="cv-co__dots" aria-hidden="true"></span>
+          <span class="cv-co__who" memory_type="text" memory_usage="custom" memory_key="corte-nombre-2">Nombre Apellido</span>
+        </li>
+        <li class="cv-co__row">
+          <span class="cv-co__role" memory_type="text" memory_usage="custom" memory_key="corte-rol-3">Chambelanes</span>
+          <span class="cv-co__dots" aria-hidden="true"></span>
+          <span class="cv-co__who" memory_type="text" memory_usage="custom" memory_key="corte-nombre-3">Nombre Apellido · Nombre Apellido · Nombre Apellido</span>
+        </li>
+        <li class="cv-co__row">
+          <span class="cv-co__role" memory_type="text" memory_usage="custom" memory_key="corte-rol-4">Damas</span>
+          <span class="cv-co__dots" aria-hidden="true"></span>
+          <span class="cv-co__who" memory_type="text" memory_usage="custom" memory_key="corte-nombre-4">Nombre Apellido · Nombre Apellido · Nombre Apellido</span>
+        </li>
+      </ul>
+      <p class="cv-co__note" memory_type="text" memory_usage="custom" memory_key="corte-nota">Bajo cada máscara, una amistad que brilla.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="corte-carnaval"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      var side = root.querySelector('[data-cv-side]');
+      root.classList.add('cv-co--anim');
+      root.style.setProperty('--open', '0');
+      /* Curtain reveal: velvet halves gather to the sides with a theatrical ease (rAF), then the cast list enters */
+      function open() {
+        var t0 = 0;
+        function tick(t) {
+          if (!t0) t0 = t;
+          var k = Math.min(1, (t - t0) / 1500), e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+          root.style.setProperty('--open', e.toFixed(3));
+          if (k > .45) side.setAttribute('data-on', '');
+          if (k < 1) requestAnimationFrame(tick);
+          else setTimeout(function () {
+            root.classList.remove('cv-co--anim');
+            root.style.removeProperty('--open');
+            side.removeAttribute('data-on');
+          }, 900);
+        }
+        requestAnimationFrame(tick);
+      }
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .35) { io.disconnect(); setTimeout(open, 200); }
+      }, { threshold: [0, .35, .6] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-carnaval',
+      style_name: 'Carnaval Veneciano Reparto de Honor',
+      descripcion: 'Corte de honor de XV años estilo carnaval veneciano: foto destacada en marco dorado con cenefa, telón de terciopelo que se abre al entrar en pantalla y nombres de damas y chambelanes como reparto de teatro.',
+      tags: ['corte', 'quinceañera', 'carnaval', 'veneciano', 'telon', 'terciopelo', 'damas', 'chambelanes'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

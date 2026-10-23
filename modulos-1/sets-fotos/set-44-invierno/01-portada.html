@@ -1,0 +1,432 @@
+<section
+  class="inv-por"
+  data-gemini-id="portada-nombre"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Jost:wght@300;400;500&display=swap');
+
+    .inv-por, .inv-por *, .inv-por *::before, .inv-por *::after { box-sizing: border-box; }
+    .inv-por {
+      --t-bg: var(--bg-color, #eef5fb);
+      --t-tx: var(--text-color, #163450);
+      --t-p: var(--primary-color, #8ecdee);
+      --t-s: var(--secondary-color, #3c7eae);
+      --t-a: var(--accent-color, #b9c4cf);
+      --t-display: var(--font-script, 'Bodoni Moda', 'Didot', serif);
+      --t-text: var(--font-heading, 'Jost', 'Helvetica Neue', sans-serif);
+      --night: color-mix(in srgb, var(--t-tx) 58%, #020812);
+      --snow: color-mix(in srgb, var(--t-bg) 55%, #ffffff);
+      --ice: color-mix(in srgb, var(--t-p) 65%, #ffffff);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(38rem, 100svh, 62rem);
+      display: grid;
+      place-items: start center;
+      padding: clamp(4rem, 9vh, 6.5rem) clamp(1rem, 5vw, 4rem) clamp(16rem, 42vh, 24rem);
+      overflow: hidden;
+      background-color: var(--night);
+      background-image: url('https://loremflickr.com/1600/1000/ice,castle?lock=3401');
+      background-size: cover;
+      background-position: center;
+      color: var(--snow);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .inv-por::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -4;
+      background:
+        radial-gradient(90% 60% at 50% 8%, color-mix(in srgb, var(--t-s) 40%, transparent), transparent 62%),
+        linear-gradient(180deg, color-mix(in srgb, var(--night) 90%, transparent), color-mix(in srgb, var(--night) 70%, transparent) 50%, color-mix(in srgb, var(--night) 86%, transparent));
+    }
+
+    /* 3D scene — separate layers at distinct depths, compensated scale */
+    .inv-por__stage { position: absolute; inset: 0; z-index: -3; perspective: 900px; perspective-origin: 50% 42%; pointer-events: none; }
+    .inv-por__scene { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(var(--inv-rx, 0deg)) rotateY(var(--inv-ry, 0deg)); }
+    .inv-por__glow {
+      position: absolute; inset: 0;
+      transform: translateZ(-420px) scale(1.47);
+      background: radial-gradient(38% 42% at 50% 64%, color-mix(in srgb, var(--t-p) 50%, transparent), transparent 72%);
+    }
+    .inv-por__castle {
+      position: absolute; left: 50%; bottom: 1%;
+      width: min(76%, 40rem); min-width: 28rem; height: auto;
+      opacity: .86;
+      transform: translateX(-50%) translateZ(-240px) scale(1.27);
+      transform-origin: 50% 100%;
+      overflow: visible;
+    }
+    .inv-por__trees {
+      position: absolute; left: -2%; right: -2%; bottom: 3%;
+      display: flex; justify-content: space-between; align-items: flex-end;
+      transform: translateZ(70px) scale(.93);
+      z-index: 1;
+      transform-origin: 50% 100%;
+    }
+    .inv-por__grove { width: clamp(9rem, 30vw, 25rem); height: auto; }
+    .inv-por__grove--r { transform: scaleX(-1); }
+    .inv-por__bank {
+      position: absolute; left: -10%; right: -10%; bottom: 0; min-height: 22%;
+      transform: translateZ(40px) scale(.96);
+      transform-origin: 50% 100%;
+      background:
+        radial-gradient(55% 70% at 18% 100%, var(--snow) 55%, transparent 56%),
+        radial-gradient(60% 75% at 72% 100%, color-mix(in srgb, var(--snow) 92%, var(--t-p)) 52%, transparent 53%),
+        radial-gradient(40% 60% at 48% 100%, var(--snow) 60%, transparent 61%);
+      filter: drop-shadow(0 -6px 14px color-mix(in srgb, var(--t-p) 35%, transparent));
+    }
+    .inv-por__snow { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; }
+
+    /* Content */
+    .inv-por__content { position: relative; width: min(100%, 74rem); display: grid; justify-items: center; gap: clamp(.55rem, 1.4vw, .95rem); }
+    .inv-por__content::before {
+      content: ''; position: absolute; inset: -12% -8%; z-index: -1; pointer-events: none;
+      background: radial-gradient(50% 55% at 50% 48%, color-mix(in srgb, var(--night) 55%, transparent), transparent 72%);
+    }
+    .inv-por__eyebrow {
+      margin: 0;
+      font-family: var(--t-display);
+      font-style: italic;
+      font-size: clamp(1.15rem, 2.4vw, 1.65rem);
+      color: var(--ice);
+      text-shadow: 0 0 18px color-mix(in srgb, var(--t-p) 60%, transparent);
+    }
+    .inv-por__name {
+      margin: 0;
+      padding: .06em .12em .14em;
+      font-family: var(--t-display);
+      font-weight: 500;
+      font-size: clamp(3rem, 10vw, 7rem);
+      line-height: .95;
+      letter-spacing: -.012em;
+      background-image: linear-gradient(112deg,
+        #eaf7ff 0 12%, #ffffff 12% 19%, var(--t-a) 19% 29%, var(--ice) 29% 41%,
+        #ffffff 41% 45%, var(--t-p) 45% 55%, #f3fbff 55% 67%, var(--t-a) 67% 78%,
+        #ffffff 78% 86%, var(--ice) 86% 100%);
+      background-size: 230% 100%;
+      background-position: calc(var(--inv-sheen, 34) * 1%) 50%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-stroke: 1px color-mix(in srgb, #ffffff 40%, transparent);
+      filter: drop-shadow(0 0 1px rgba(255, 255, 255, .75)) drop-shadow(0 10px 30px color-mix(in srgb, var(--t-p) 50%, transparent));
+    }
+    .inv-por__xv {
+      margin: 0;
+      font-weight: 300;
+      font-size: clamp(1.05rem, 2.2vw, 1.4rem);
+      letter-spacing: .05em;
+      color: var(--snow);
+    }
+    .inv-por__flake { width: clamp(2.6rem, 5vw, 3.4rem); height: auto; color: var(--ice); filter: drop-shadow(0 0 8px color-mix(in srgb, var(--t-p) 70%, transparent)); }
+    .inv-por__plaque {
+      display: grid; gap: .35rem; justify-items: center;
+      padding: clamp(.9rem, 2vw, 1.2rem) clamp(1.4rem, 4vw, 2.6rem);
+      clip-path: polygon(14px 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 14px 100%, 0 50%);
+      background: linear-gradient(135deg, color-mix(in srgb, #ffffff 16%, transparent), color-mix(in srgb, var(--t-p) 14%, transparent));
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+    }
+    .inv-por__date { font-family: var(--t-display); font-style: italic; font-size: clamp(1.2rem, 2.6vw, 1.75rem); color: #ffffff; }
+    .inv-por__line { margin: 0; max-width: 34rem; text-shadow: 0 1px 14px var(--night); font-weight: 300; font-size: clamp(.98rem, 1.8vw, 1.12rem); line-height: 1.6; color: color-mix(in srgb, var(--snow) 88%, var(--t-p)); }
+
+    /* Entrance (JS adds --anim). Title crystallises via --inv-rev driven by rAF; CSS transitions <= .5s */
+    .inv-por--anim .inv-por__name {
+      -webkit-mask-image: linear-gradient(100deg, #000 calc(var(--inv-rev, 1) * 150% - 50%), transparent calc(var(--inv-rev, 1) * 150% - 18%));
+      mask-image: linear-gradient(100deg, #000 calc(var(--inv-rev, 1) * 150% - 50%), transparent calc(var(--inv-rev, 1) * 150% - 18%));
+    }
+    .inv-por--anim [data-inv-rise] { opacity: 0; transform: translateY(12px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .inv-por--anim.is-in [data-inv-rise] { opacity: 1; transform: none; }
+    .inv-por--anim.is-in [data-inv-rise="2"] { transition-delay: .9s; }
+    .inv-por--anim.is-in [data-inv-rise="3"] { transition-delay: 1.2s; }
+    .inv-por--anim.is-in [data-inv-rise="4"] { transition-delay: 1.45s; }
+
+    @media (max-width: 560px) {
+      .inv-por__castle { bottom: 7%; min-width: 26rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .inv-por *, .inv-por *::before, .inv-por *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="inv-por__stage" aria-hidden="true">
+    <div class="inv-por__scene" data-inv-scene>
+      <div class="inv-por__glow"></div>
+
+      <svg class="inv-por__castle" viewBox="0 0 1000 430" role="presentation" focusable="false">
+        <defs>
+          <linearGradient id="inv-por-ice" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" style="stop-color: #ffffff; stop-opacity: .95" />
+            <stop offset=".45" style="stop-color: var(--t-p); stop-opacity: .85" />
+            <stop offset="1" style="stop-color: var(--t-s); stop-opacity: .9" />
+          </linearGradient>
+          <linearGradient id="inv-por-shade" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" style="stop-color: var(--t-a); stop-opacity: .8" />
+            <stop offset="1" style="stop-color: var(--t-s); stop-opacity: .95" />
+          </linearGradient>
+          <radialGradient id="inv-por-win" cx=".5" cy=".5" r=".5">
+            <stop offset="0" style="stop-color: #ffffff" />
+            <stop offset="1" style="stop-color: var(--t-p)" />
+          </radialGradient>
+        </defs>
+        <!-- far shards -->
+        <path d="M120 430 L150 250 L178 430 Z M822 430 L850 250 L880 430 Z" fill="url(#inv-por-shade)" opacity=".55" />
+        <!-- curtain wall with ice-shard parapet -->
+        <path d="M170 430 V316 l14 -22 l12 22 l14 -30 l13 30 l15 -20 l12 20 l16 -26 l14 26 V430 Z M710 430 V316 l14 -26 l16 26 l12 -20 l15 20 l13 -30 l14 30 l12 -22 l14 22 V430 Z" fill="url(#inv-por-ice)" />
+        <!-- outer towers -->
+        <rect x="222" y="232" width="44" height="198" fill="url(#inv-por-ice)" />
+        <rect x="246" y="232" width="20" height="198" fill="url(#inv-por-shade)" opacity=".55" />
+        <path d="M214 234 L244 136 L244 234 Z" fill="#ffffff" opacity=".9" />
+        <path d="M244 136 L274 234 L244 234 Z" fill="url(#inv-por-shade)" />
+        <rect x="734" y="232" width="44" height="198" fill="url(#inv-por-ice)" />
+        <rect x="758" y="232" width="20" height="198" fill="url(#inv-por-shade)" opacity=".55" />
+        <path d="M726 234 L756 136 L756 234 Z" fill="#ffffff" opacity=".9" />
+        <path d="M756 136 L786 234 L756 234 Z" fill="url(#inv-por-shade)" />
+        <!-- middle towers -->
+        <rect x="318" y="164" width="64" height="266" fill="url(#inv-por-ice)" />
+        <rect x="352" y="164" width="30" height="266" fill="url(#inv-por-shade)" opacity=".5" />
+        <path d="M308 166 L350 44 L350 166 Z" fill="#ffffff" opacity=".92" />
+        <path d="M350 44 L392 166 L350 166 Z" fill="url(#inv-por-shade)" />
+        <rect x="618" y="164" width="64" height="266" fill="url(#inv-por-ice)" />
+        <rect x="652" y="164" width="30" height="266" fill="url(#inv-por-shade)" opacity=".5" />
+        <path d="M608 166 L650 44 L650 166 Z" fill="#ffffff" opacity=".92" />
+        <path d="M650 44 L692 166 L650 166 Z" fill="url(#inv-por-shade)" />
+        <!-- keep -->
+        <path d="M402 430 V214 l22 -18 l22 18 l22 -26 l32 -10 l32 10 l22 26 l22 -18 l22 18 V430 Z" fill="url(#inv-por-ice)" />
+        <path d="M500 178 l32 10 l22 26 l22 -18 l22 18 V430 H500 Z" fill="url(#inv-por-shade)" opacity=".45" />
+        <!-- central spire -->
+        <rect x="462" y="92" width="76" height="104" fill="url(#inv-por-ice)" />
+        <rect x="500" y="92" width="38" height="104" fill="url(#inv-por-shade)" opacity=".5" />
+        <path d="M450 94 L500 -6 L500 94 Z" fill="#ffffff" />
+        <path d="M500 -6 L550 94 L500 94 Z" fill="url(#inv-por-shade)" />
+        <!-- gate + windows -->
+        <path d="M468 430 V360 Q500 318 532 360 V430 Z" fill="url(#inv-por-win)" opacity=".75" />
+        <g fill="url(#inv-por-win)" opacity=".85">
+          <path d="M490 150 v-22 q10 -14 20 0 v22 Z" />
+          <path d="M340 236 v-24 q10 -14 20 0 v24 Z M340 312 v-24 q10 -14 20 0 v24 Z" />
+          <path d="M640 236 v-24 q10 -14 20 0 v24 Z M640 312 v-24 q10 -14 20 0 v24 Z" />
+          <path d="M236 290 v-18 q8 -11 16 0 v18 Z M748 290 v-18 q8 -11 16 0 v18 Z" />
+          <path d="M430 270 v-20 q9 -12 18 0 v20 Z M552 270 v-20 q9 -12 18 0 v20 Z" />
+        </g>
+      </svg>
+
+      <div class="inv-por__trees">
+        <svg class="inv-por__grove" viewBox="0 0 300 260" role="presentation" focusable="false">
+          <defs>
+            <symbol id="inv-por-tree" viewBox="0 0 100 200">
+              <path d="M50 0 L30 50 L40 48 L18 100 L32 97 L6 160 L24 156 L0 200 H100 L76 156 L94 160 L68 97 L82 100 L60 48 L70 50 Z" fill="#ffffff" />
+              <path d="M50 0 L70 50 L60 48 L82 100 L68 97 L94 160 L76 156 L100 200 H50 Z" style="fill: var(--t-s)" opacity=".32" />
+              <path d="M30 50 L40 48 L36 58 Z M18 100 L32 97 L27 108 Z M6 160 L24 156 L18 168 Z" style="fill: var(--t-p)" opacity=".7" />
+            </symbol>
+          </defs>
+          <use href="#inv-por-tree" x="150" y="40" width="110" height="220" opacity=".7" />
+          <use href="#inv-por-tree" x="0" y="0" width="130" height="260" />
+          <use href="#inv-por-tree" x="96" y="96" width="82" height="164" opacity=".92" />
+        </svg>
+        <svg class="inv-por__grove inv-por__grove--r" viewBox="0 0 300 260" role="presentation" focusable="false">
+          <use href="#inv-por-tree" x="150" y="60" width="100" height="200" opacity=".7" />
+          <use href="#inv-por-tree" x="10" y="14" width="124" height="246" />
+          <use href="#inv-por-tree" x="104" y="110" width="74" height="150" opacity=".92" />
+        </svg>
+      </div>
+
+      <div class="inv-por__bank"></div>
+    </div>
+  </div>
+
+  <canvas class="inv-por__snow" data-inv-snow aria-hidden="true"></canvas>
+
+  <header class="inv-por__content">
+    <p class="inv-por__eyebrow" data-inv-rise="1" memory_type="text" memory_usage="custom" memory_key="portada-tema">Baile de Invierno</p>
+    <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,3vw,1.6rem);width:clamp(150px,22vw,220px);"><img src="https://loremflickr.com/480/480/winter,snow,portrait?lock=316" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:2px solid var(--primary-color,#9b9b9b);box-shadow:0 14px 30px rgba(0,0,0,.18);" /><figcaption hidden>Retrato</figcaption></figure>
+<h1 class="inv-por__name" memory_type="text" memory_usage="custom" memory_key="portada-nombre">Nombre Apellido</h1>
+    <p class="inv-por__xv" data-inv-rise="2" memory_type="text" memory_usage="custom" memory_key="portada-subtitulo">Mis XV Años</p>
+    <svg class="inv-por__flake" data-inv-rise="2" viewBox="-50 -50 100 100" aria-hidden="true" focusable="false">
+      <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+        <g id="inv-por-arm"><path d="M0 0 V-44 M0 -16 l-9 -9 M0 -16 l9 -9 M0 -30 l-7 -7 M0 -30 l7 -7" /></g>
+        <use href="#inv-por-arm" transform="rotate(60)" /><use href="#inv-por-arm" transform="rotate(120)" />
+        <use href="#inv-por-arm" transform="rotate(180)" /><use href="#inv-por-arm" transform="rotate(240)" />
+        <use href="#inv-por-arm" transform="rotate(300)" />
+      </g>
+    </svg>
+    <div class="inv-por__plaque" data-inv-rise="3">
+      <time class="inv-por__date" datetime="2027-01-16T19:00" memory_type="text" memory_usage="custom" memory_key="portada-fecha">Sábado 16 de enero de 2027</time>
+    </div>
+    <p class="inv-por__line" data-inv-rise="4" memory_type="text" memory_usage="custom" memory_key="portada-invitacion">Te invito a celebrar conmigo una noche de cristal, nieve y luz de luna.</p>
+  </header>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="portada-nombre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      var cv = root.querySelector('[data-inv-snow]');
+      var ctx = cv && cv.getContext ? cv.getContext('2d') : null;
+      var scene = root.querySelector('[data-inv-scene]');
+      var W = 0, H = 0, DPR = 1, S = 1, flakes = [], dust = [];
+
+      /* Six-fold crystal geometry in local unit space: [x1,y1,x2,y2] segments */
+      function arms(full) {
+        var seg = [], k, th, c, s, t, bl, j, sg;
+        for (k = 0; k < 6; k++) {
+          th = k * Math.PI / 3; c = Math.cos(th); s = Math.sin(th);
+          seg.push([0, 0, c, s]);
+          if (!full) continue;
+          var br = [[.42, .3], [.7, .2]];
+          for (j = 0; j < br.length; j++) {
+            t = br[j][0]; bl = br[j][1];
+            for (sg = -1; sg <= 1; sg += 2) {
+              var a2 = th + sg * Math.PI / 3;
+              seg.push([c * t, s * t, c * t + Math.cos(a2) * bl, s * t + Math.sin(a2) * bl]);
+            }
+          }
+        }
+        return seg;
+      }
+      var GEO = [arms(false), arms(true)];
+
+      function size() {
+        var r = root.getBoundingClientRect();
+        DPR = Math.min(window.devicePixelRatio || 1, 2);
+        W = Math.max(1, r.width); H = Math.max(1, r.height);
+        if (cv) { cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR); }
+        S = Math.max(W, H) * .8;
+      }
+      function spawn(f, anywhere) {
+        f.z = .7 + Math.random() * 1.6;
+        var hw = (W / 2) * f.z / S * 1.15, hh = (H / 2 + 40) * f.z / S;
+        f.x = (Math.random() * 2 - 1) * hw;
+        f.y = anywhere ? (Math.random() * 2 - 1) * hh : -hh - Math.random() * hh * .3;
+        f.r = .012 + Math.random() * .022;
+        f.a = Math.random() * 6.28; f.b = Math.random() * 6.28;
+        f.va = (Math.random() - .5) * .7; f.vb = (Math.random() - .5) * 1.1;
+        f.vy = .025 + Math.random() * .035; f.ph = Math.random() * 6.28;
+        f.g = Math.random() < .4 ? 0 : 1;
+        return f;
+      }
+      function build() {
+        var n = W < 640 ? 46 : 92;
+        flakes = []; dust = [];
+        for (var i = 0; i < n; i++) flakes.push(spawn({}, true));
+        for (var d = 0; d < n; d++) dust.push({ x: Math.random(), y: Math.random(), r: .4 + Math.random() * 1.2, v: .01 + Math.random() * .02, ph: Math.random() * 6.28 });
+      }
+
+      var camX = 0, camY = 0, tx = 0, ty = 0, mx = 0, my = 0;
+      function proj(x, y, z) { return [W / 2 + (x - camX) * S / z, H / 2 + (y - camY) * S / z]; }
+
+      function draw(t, dt) {
+        if (!ctx) return;
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        ctx.clearRect(0, 0, W, H);
+        ctx.globalCompositeOperation = 'lighter';
+        var i, f, d;
+        for (i = 0; i < dust.length; i++) {
+          d = dust[i];
+          d.y += d.v * dt; if (d.y > 1.02) { d.y = -.02; d.x = Math.random(); }
+          ctx.fillStyle = 'rgba(230,244,255,' + (.25 + .2 * Math.sin(t * 1.3 + d.ph)) + ')';
+          ctx.beginPath(); ctx.arc(d.x * W + Math.sin(t * .4 + d.ph) * 8, d.y * H, d.r, 0, 6.283); ctx.fill();
+        }
+        ctx.lineCap = 'round';
+        for (i = 0; i < flakes.length; i++) {
+          f = flakes[i];
+          f.y += f.vy * dt; f.x += Math.sin(t * .5 + f.ph) * .006 * dt;
+          f.a += f.va * dt; f.b += f.vb * dt;
+          if (f.y > (H / 2 + 50) * f.z / S + camY) spawn(f, false);
+          var ca = Math.cos(f.a), sa = Math.sin(f.a), cb = Math.cos(f.b), sb = Math.sin(f.b);
+          var geo = GEO[f.g], al = Math.max(.14, Math.min(.95, 1.15 - f.z / 2.1));
+          ctx.strokeStyle = 'rgba(236,248,255,' + al.toFixed(3) + ')';
+          ctx.lineWidth = Math.max(.55, 1.5 / f.z);
+          ctx.beginPath();
+          for (var k = 0; k < geo.length; k++) {
+            var g = geo[k];
+            /* spin around local z, tumble around x, then perspective-project each endpoint */
+            var x1 = g[0] * ca - g[1] * sa, y1 = g[0] * sa + g[1] * ca;
+            var x2 = g[2] * ca - g[3] * sa, y2 = g[2] * sa + g[3] * ca;
+            var p1 = proj(f.x + x1 * f.r, f.y + y1 * cb * f.r, f.z + y1 * sb * f.r);
+            var p2 = proj(f.x + x2 * f.r, f.y + y2 * cb * f.r, f.z + y2 * sb * f.r);
+            ctx.moveTo(p1[0], p1[1]); ctx.lineTo(p2[0], p2[1]);
+          }
+          ctx.stroke();
+          var gl = Math.sin(t * 1.7 + f.ph);
+          if (gl > .93 && f.z < 1.3) {
+            var c = proj(f.x, f.y, f.z), rr = (gl - .93) * 120 / f.z;
+            ctx.fillStyle = 'rgba(255,255,255,' + ((gl - .93) * 9).toFixed(3) + ')';
+            ctx.beginPath(); ctx.moveTo(c[0] - rr, c[1]); ctx.lineTo(c[0], c[1] - rr * .18); ctx.lineTo(c[0] + rr, c[1]); ctx.lineTo(c[0], c[1] + rr * .18); ctx.closePath(); ctx.fill();
+          }
+        }
+        ctx.globalCompositeOperation = 'source-over';
+      }
+
+      size(); build();
+      if (RM || !window.requestAnimationFrame) { draw(0, 0); return; }   /* static final state */
+
+      /* Entrance: title crystallises left to right (CSS var on root; memory text untouched) */
+      root.classList.add('inv-por--anim');
+      root.style.setProperty('--inv-rev', '0');
+      var t0 = 0, revealing = true;
+      requestAnimationFrame(function () { root.classList.add('is-in'); });
+      setTimeout(function () {
+        revealing = false;
+        root.classList.remove('inv-por--anim', 'is-in');
+        root.style.removeProperty('--inv-rev');
+      }, 2600);
+
+      root.addEventListener('pointermove', function (e) {
+        var r = root.getBoundingClientRect();
+        tx = ((e.clientX - r.left) / r.width - .5) * 2;
+        ty = ((e.clientY - r.top) / r.height - .5) * 2;
+      });
+      root.addEventListener('pointerleave', function () { tx = 0; ty = 0; });
+      window.addEventListener('resize', function () { size(); build(); });
+
+      var visible = true, raf = 0, last = 0;
+      function loop(now) {
+        raf = 0;
+        if (!visible || document.hidden) return;
+        if (!t0) t0 = now;
+        var dt = last ? Math.min(.05, (now - last) / 1000) : .016; last = now;
+        var t = (now - t0) / 1000;
+        if (revealing) {
+          var p = Math.min(1, t / 1.9), e = 1 - Math.pow(1 - p, 3);
+          root.style.setProperty('--inv-rev', e.toFixed(3));
+        }
+        mx += (tx - mx) * .05; my += (ty - my) * .05;
+        camX = mx * .06; camY = my * .04;
+        if (scene) {
+          root.style.setProperty('--inv-ry', (mx * 4 + Math.sin(t * .28) * 1.1).toFixed(2) + 'deg');
+          root.style.setProperty('--inv-rx', (-my * 2.5).toFixed(2) + 'deg');
+        }
+        root.style.setProperty('--inv-sheen', (50 + Math.sin(t * .35) * 42).toFixed(1));
+        draw(t, dt);
+        raf = requestAnimationFrame(loop);
+      }
+      function kick() { if (!raf && visible && !document.hidden) { last = 0; raf = requestAnimationFrame(loop); } }
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (en) { visible = en[0].isIntersecting; kick(); }, { threshold: 0 }).observe(root);
+      }
+      document.addEventListener('visibilitychange', kick);
+      kick();
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Invierno Castillo de Cristal',
+      descripcion: 'Portada de XV años Baile de Invierno: castillo de hielo en 3D con parallax, árboles escarchados, copos de cristal proyectados en canvas y nombre que se cristaliza con brillo facetado.',
+      tags: ['portada', 'quinceanera', 'invierno', 'hielo', 'castillo', '3d', 'copos de nieve'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

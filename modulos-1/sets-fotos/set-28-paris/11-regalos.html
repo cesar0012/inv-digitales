@@ -1,0 +1,348 @@
+<section
+  class="np-rg"
+  data-gemini-id="regalos-paris"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Parisienne&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .np-rg, .np-rg *, .np-rg *::before, .np-rg *::after { box-sizing: border-box; }
+    .np-rg {
+      --t-bg: var(--bg-color, #0d0b10);
+      --t-tx: var(--text-color, #f8eee8);
+      --t-p: var(--primary-color, #f0c4c0);
+      --t-s: var(--secondary-color, #8a6e78);
+      --t-a: var(--accent-color, #d4af6a);
+      --t-display: var(--font-script, 'Parisienne', 'Snell Roundhand', cursive);
+      --t-text: var(--font-heading, 'Bodoni Moda', 'Didot', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(36rem, 62vw, 48rem);
+      display: grid;
+      justify-items: center;
+      align-content: center;
+      padding: clamp(4rem, 8vw, 6.5rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/paris,boutique?lock=2811');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .np-rg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(60% 50% at 50% 55%, color-mix(in srgb, var(--t-p) 10%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 92%, transparent), color-mix(in srgb, var(--t-bg) 86%, transparent));
+    }
+    .np-rg__head { width: min(100%, 40rem); }
+    .np-rg__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(2.8rem, 6vw, 4.4rem);
+      line-height: 1.05;
+    }
+    .np-rg__lead { margin: .5rem auto 0; max-width: 32rem; font-style: italic; line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 80%, var(--t-p)); }
+
+    .np-rg__form { width: min(100%, 62rem); display: grid; justify-items: center; }
+    .np-rg__rack { position: relative; width: 100%; margin-top: clamp(2rem, 5vw, 3rem); padding-top: 2.4rem; border: 0; padding-bottom: 0; }
+    .np-rg__rod {
+      position: absolute;
+      left: 2%;
+      right: 2%;
+      top: .4rem;
+      height: .35rem;
+      border-radius: 1rem;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-tx) 55%, var(--t-a)), var(--t-a) 45%, color-mix(in srgb, var(--t-a) 55%, var(--t-bg)));
+      box-shadow: 0 4px 10px #0008;
+    }
+    .np-rg__rod::before, .np-rg__rod::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: .9rem;
+      height: .9rem;
+      margin-top: -.45rem;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, var(--t-tx), var(--t-a) 60%);
+    }
+    .np-rg__rod::before { left: -.5rem; }
+    .np-rg__rod::after { right: -.5rem; }
+    .np-rg__tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(1rem, 2.5vw, 1.8rem);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .np-rg__tag {
+      --np-string: 2rem;
+      position: relative;
+      flex: 0 1 13.5rem;
+      transform-origin: 50% calc(-1 * var(--np-string));
+    }
+    .np-rg__tag:nth-child(even) { --np-string: 3.2rem; margin-top: 1.2rem; }
+    .np-rg__tag::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% - 1.25rem);
+      width: 1px;
+      height: calc(var(--np-string) + 1.25rem);
+      background: color-mix(in srgb, var(--t-a) 80%, transparent);
+    }
+    .np-rg__opt { position: relative; display: block; cursor: pointer; }
+    .np-rg__opt input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; }
+    .np-rg__card {
+      position: relative;
+      display: grid;
+      justify-items: center;
+      gap: .35rem;
+      min-height: 13rem;
+      padding: 2.4rem 1.1rem 1.3rem;
+      transition: transform .35s cubic-bezier(.34, 1.56, .64, 1);
+    }
+    .np-rg__shape { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; overflow: visible; }
+    .np-rg__shape path { fill: color-mix(in srgb, var(--t-bg) 86%, var(--t-s)); stroke: color-mix(in srgb, var(--t-a) 70%, transparent); stroke-width: 1; transition: fill .35s ease, stroke .35s ease; }
+    .np-rg__hole {
+      position: absolute;
+      top: .85rem;
+      left: 50%;
+      width: .8rem;
+      height: .8rem;
+      margin-left: -.4rem;
+      border-radius: 50%;
+      border: 1px solid var(--t-a);
+      background: var(--t-bg);
+    }
+    .np-rg__name { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: 1.9rem; line-height: 1.1; }
+    .np-rg__desc { margin: 0; font-size: .95rem; line-height: 1.5; color: color-mix(in srgb, var(--t-tx) 80%, var(--t-p)); }
+    .np-rg__mark {
+      margin-top: auto;
+      width: 1.6rem;
+      height: 1.6rem;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 1px solid color-mix(in srgb, var(--t-a) 60%, transparent);
+      color: var(--t-bg);
+      transition: background-color .3s ease, transform .3s cubic-bezier(.34, 1.56, .64, 1);
+    }
+    .np-rg__mark svg { width: .9rem; height: .9rem; opacity: 0; transition: opacity .25s ease; }
+    .np-rg__opt:hover .np-rg__card { transform: translateY(-4px) rotate(-1.5deg); }
+    .np-rg__opt input:checked ~ .np-rg__card .np-rg__shape path { fill: color-mix(in srgb, var(--t-a) 16%, var(--t-bg)); stroke: var(--t-a); stroke-width: 1.6; }
+    .np-rg__opt input:checked ~ .np-rg__card .np-rg__mark { background: var(--t-a); transform: scale(1.12); }
+    .np-rg__opt input:checked ~ .np-rg__card .np-rg__mark svg { opacity: 1; }
+    .np-rg__opt input:focus-visible ~ .np-rg__card { outline: 2px solid var(--t-p); outline-offset: 4px; }
+
+    .np-rg__action { display: grid; justify-items: center; gap: .9rem; margin-top: clamp(2rem, 5vw, 3rem); }
+    .np-rg__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .7rem;
+      min-height: 3.3rem;
+      padding: .6rem 1.8rem;
+      border: 1px solid var(--t-a);
+      border-radius: 999px;
+      background: var(--t-a);
+      color: var(--t-bg);
+      font: inherit;
+      font-weight: 500;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: transform .3s ease, box-shadow .3s ease, background-color .3s ease, color .3s ease;
+    }
+    .np-rg__btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px -12px color-mix(in srgb, var(--t-a) 90%, transparent); }
+    .np-rg__btn:focus-visible { outline: 2px solid var(--t-p); outline-offset: 3px; }
+    .np-rg__btn[disabled] { cursor: default; }
+    .np-rg__spinner { display: none; width: 1rem; height: 1rem; border-radius: 50%; border: 2px solid color-mix(in srgb, var(--t-bg) 30%, transparent); border-top-color: var(--t-bg); }
+    .np-rg__form[data-np-state="loading"] .np-rg__spinner { display: inline-block; animation: np-rg-spin .5s linear infinite; }
+    .np-rg__form[data-np-state="done"] .np-rg__btn { background: transparent; color: var(--t-tx); }
+    .np-rg__label-busy, .np-rg__label-done { display: none; }
+    .np-rg__form[data-np-state="loading"] .np-rg__label-idle, .np-rg__form[data-np-state="done"] .np-rg__label-idle { display: none; }
+    .np-rg__form[data-np-state="loading"] .np-rg__label-busy { display: inline; }
+    .np-rg__form[data-np-state="done"] .np-rg__label-done { display: inline; }
+    .np-rg__bow { width: 5.5rem; height: auto; color: var(--t-a); overflow: visible; }
+    .np-rg__bow path { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 160; stroke-dashoffset: 0; animation: np-rg-tie .5s ease both; }
+    .np-rg__bow path:nth-child(2) { animation-delay: .12s; }
+    .np-rg__bow path:nth-child(3) { animation-delay: .24s; }
+    .np-rg__bow path:nth-child(4) { animation-delay: .32s; }
+    .np-rg__thanks { margin: 0; font-style: italic; color: var(--t-p); animation: np-rg-pop .45s cubic-bezier(.2, .8, .2, 1); }
+    @keyframes np-rg-spin { to { transform: rotate(360deg); } }
+    @keyframes np-rg-tie { from { stroke-dashoffset: 160; } to { stroke-dashoffset: 0; } }
+    @keyframes np-rg-pop { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+    .np-rg--anim .np-rg__tag { opacity: 0; transform: translateY(-30px); transition: opacity .4s ease, transform .5s cubic-bezier(.34, 1.56, .64, 1); }
+    .np-rg--anim.is-in .np-rg__tag { opacity: 1; transform: none; }
+    .np-rg--anim.is-in .np-rg__tag:nth-child(2) { transition-delay: .1s; }
+    .np-rg--anim.is-in .np-rg__tag:nth-child(3) { transition-delay: .2s; }
+    .np-rg--anim.is-in .np-rg__tag:nth-child(4) { transition-delay: .3s; }
+
+    @media (max-width: 620px) {
+      .np-rg__rod { display: none; }
+      .np-rg__rack { padding-top: 0; }
+      .np-rg__tags { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1.2rem; padding-top: 0; }
+      .np-rg__tag, .np-rg__tag:nth-child(even) { --np-string: 1.4rem; margin-top: 0; }
+      .np-rg__tag::before { display: none; }
+      .np-rg__card { min-height: 12rem; padding: 2.3rem .7rem 1.1rem; }
+      .np-rg__name { font-size: 1.6rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .np-rg *, .np-rg *::before, .np-rg *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <header class="np-rg__head">
+    <h2 class="np-rg__title" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Mesa de regalos</h2>
+    <p class="np-rg__lead" memory_type="text" memory_usage="custom" memory_key="regalos-texto">Tu presencia es mi mejor regalo. Si deseas tener un detalle conmigo, elige una opción y agéndalo.</p>
+  </header>
+
+  <form class="np-rg__form" data-np-form>
+    <fieldset class="np-rg__rack">
+      <legend class="np-rg__legend" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">Opciones de regalo</legend>
+      <span class="np-rg__rod" aria-hidden="true"></span>
+      <ul class="np-rg__tags">
+        <li class="np-rg__tag" data-np-sway>
+          <label class="np-rg__opt">
+            <input type="radio" name="regalo" value="sobres" checked />
+            <span class="np-rg__card">
+              <svg class="np-rg__shape" viewBox="0 0 100 160" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M22 1 H78 L99 22 V159 H1 V22 Z" vector-effect="non-scaling-stroke" /></svg>
+              <span class="np-rg__hole" aria-hidden="true"></span>
+              <span class="np-rg__name" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-1">Lluvia de sobres</span>
+              <span class="np-rg__desc" memory_type="text" memory_usage="custom" memory_key="regalos-desc-1">Un buzón parisino te esperará en la recepción.</span>
+              <span class="np-rg__mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 12.5 10 17 19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+            </span>
+          </label>
+        </li>
+        <li class="np-rg__tag" data-np-sway>
+          <label class="np-rg__opt">
+            <input type="radio" name="regalo" value="mesa" />
+            <span class="np-rg__card">
+              <svg class="np-rg__shape" viewBox="0 0 100 160" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M22 1 H78 L99 22 V159 H1 V22 Z" vector-effect="non-scaling-stroke" /></svg>
+              <span class="np-rg__hole" aria-hidden="true"></span>
+              <span class="np-rg__name" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-2">Tienda departamental</span>
+              <span class="np-rg__desc" memory_type="text" memory_usage="custom" memory_key="regalos-desc-2">Evento 00000000 a nombre de la quinceañera.</span>
+              <span class="np-rg__mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 12.5 10 17 19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+            </span>
+          </label>
+        </li>
+        <li class="np-rg__tag" data-np-sway>
+          <label class="np-rg__opt">
+            <input type="radio" name="regalo" value="viaje" />
+            <span class="np-rg__card">
+              <svg class="np-rg__shape" viewBox="0 0 100 160" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M22 1 H78 L99 22 V159 H1 V22 Z" vector-effect="non-scaling-stroke" /></svg>
+              <span class="np-rg__hole" aria-hidden="true"></span>
+              <span class="np-rg__name" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-3">Mi viaje a París</span>
+              <span class="np-rg__desc" memory_type="text" memory_usage="custom" memory_key="regalos-desc-3">Una aportación para conocer la ciudad de mis sueños.</span>
+              <span class="np-rg__mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 12.5 10 17 19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+            </span>
+          </label>
+        </li>
+        <li class="np-rg__tag" data-np-sway>
+          <label class="np-rg__opt">
+            <input type="radio" name="regalo" value="detalle" />
+            <span class="np-rg__card">
+              <svg class="np-rg__shape" viewBox="0 0 100 160" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M22 1 H78 L99 22 V159 H1 V22 Z" vector-effect="non-scaling-stroke" /></svg>
+              <span class="np-rg__hole" aria-hidden="true"></span>
+              <span class="np-rg__name" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-4">Un detalle especial</span>
+              <span class="np-rg__desc" memory_type="text" memory_usage="custom" memory_key="regalos-desc-4">Lo que tu corazón elija será perfecto.</span>
+              <span class="np-rg__mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 12.5 10 17 19 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+            </span>
+          </label>
+        </li>
+      </ul>
+    </fieldset>
+
+    <div class="np-rg__action">
+      <button class="np-rg__btn" type="submit" data-np-submit>
+        <span class="np-rg__spinner" aria-hidden="true"></span>
+        <span class="np-rg__label-idle" memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span>
+        <span class="np-rg__label-busy" memory_type="text" memory_usage="custom" memory_key="regalos-boton-cargando">Envolviendo…</span>
+        <span class="np-rg__label-done" memory_type="text" memory_usage="custom" memory_key="regalos-boton-listo">¡Regalo agendado!</span>
+      </button>
+      <div data-np-done hidden role="status">
+        <svg class="np-rg__bow" viewBox="0 0 120 70" aria-hidden="true" focusable="false">
+          <path d="M60 34 C 44 14, 18 10, 16 26 C 14 42, 40 42, 60 34" />
+          <path d="M60 34 C 76 14, 102 10, 104 26 C 106 42, 80 42, 60 34" />
+          <path d="M60 34 L 44 66" />
+          <path d="M60 34 L 78 66" />
+        </svg>
+        <p class="np-rg__thanks" memory_type="text" memory_usage="custom" memory_key="regalos-gracias">Merci beaucoup. Tu detalle quedó agendado con mucho cariño.</p>
+      </div>
+    </div>
+  </form>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="regalos-paris"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* "Agendar regalo": loading, then a ribbon bow ties itself. Copy is only shown/hidden, never rewritten */
+      var form = root.querySelector('[data-np-form]');
+      var btn = root.querySelector('[data-np-submit]');
+      var done = root.querySelector('[data-np-done]');
+      if (form) form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (form.getAttribute('data-np-state')) return;
+        form.setAttribute('data-np-state', 'loading');
+        if (btn) { btn.disabled = true; btn.setAttribute('aria-busy', 'true'); }
+        setTimeout(function () {
+          form.setAttribute('data-np-state', 'done');
+          if (btn) btn.removeAttribute('aria-busy');
+          if (done) done.hidden = false;
+        }, RM ? 250 : 1200);
+      });
+
+      if (RM || !('IntersectionObserver' in window)) return;
+      root.classList.add('np-rg--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('np-rg--anim', 'is-in'); }, 1300);
+        }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+
+      /* Tags sway on their strings (rAF, paused off-screen) */
+      var tags = [].slice.call(root.querySelectorAll('[data-np-sway]'));
+      var vis = false, raf = 0, started = 0;
+      function loop(t) {
+        raf = 0;
+        if (!vis || document.hidden) return;
+        if (!started) started = t;
+        if (t - started > 1300) tags.forEach(function (g, i) { g.style.transform = 'rotate(' + (Math.sin(t * .001 + i * 1.7) * 1.4).toFixed(3) + 'deg)'; });
+        raf = requestAnimationFrame(loop);
+      }
+      function kick() { if (!raf && vis && !document.hidden) raf = requestAnimationFrame(loop); }
+      new IntersectionObserver(function (en) { vis = en[0].isIntersecting; kick(); }).observe(root);
+      document.addEventListener('visibilitychange', kick);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-paris',
+      style_name: 'Noche en París Regalos',
+      descripcion: 'Regalos como etiquetas de boutique parisina colgadas de una barra dorada que se mecen; se elige una opción y el botón Agendar regalo muestra carga y un moño que se ata solo.',
+      tags: ['regalos', 'paris', 'boutique', 'etiquetas', 'quinceañera', 'elegante'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>

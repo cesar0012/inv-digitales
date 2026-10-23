@@ -1,0 +1,231 @@
+<section
+  class="ch35-cd"
+  data-gemini-id="countdown-charra"
+  data-countdown-target="2027-04-17T17:00:00"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
+    .ch35-cd, .ch35-cd *, .ch35-cd *::before, .ch35-cd *::after { box-sizing: border-box; }
+    .ch35-cd {
+      --t-bg: var(--bg-color, #0F2A1D);
+      --t-tx: var(--text-color, #F6F1E7);
+      --t-p: var(--primary-color, #B3122E);
+      --t-s: var(--secondary-color, #C3C8CE);
+      --t-a: var(--accent-color, #C9A44C);
+      --t-display: var(--font-script, 'Cinzel Decorative', serif);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(26rem, 55vw, 38rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/charro,mexico,horse?lock=3571');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .ch35-cd::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(ellipse at 50% 55%, color-mix(in srgb, var(--t-bg) 78%, transparent), color-mix(in srgb, var(--t-bg) 95%, #000) 75%);
+    }
+    .ch35-cd__content { width: min(100%, 64rem); }
+    .ch35-cd__kicker { margin: 0; font-style: italic; font-size: clamp(1.2rem, 2.4vw, 1.5rem); color: var(--t-a); }
+    .ch35-cd__title { margin: .2rem 0 0; font-family: var(--t-display); font-weight: 700; font-size: clamp(2rem, 4.8vw, 3.3rem); line-height: 1.08; }
+
+    .ch35-cd__row { list-style: none; margin: clamp(2rem, 5vw, 3.4rem) 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(1.2rem, 4vw, 3rem); }
+    .ch35-cd__unit { display: flex; flex-direction: column; align-items: center; gap: .9rem; }
+    .ch35-cd__concho { position: relative; width: clamp(7rem, 15vw, 9.6rem); aspect-ratio: 1; display: grid; place-items: center; }
+    .ch35-cd__studs { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+    .ch35-cd__studs circle { fill: color-mix(in srgb, var(--t-s) 30%, var(--t-bg)); transition: fill .3s ease; }
+    .ch35-cd__studs circle[data-on] { fill: var(--t-s); }
+    .ch35-cd__studs circle[data-big] { fill: var(--t-a); }
+    .ch35-cd__disc {
+      position: absolute;
+      inset: 11%;
+      border-radius: 50%;
+      border: 2px solid var(--t-a);
+      background:
+        repeating-conic-gradient(from 0deg, color-mix(in srgb, #fff 18%, transparent) 0 2deg, transparent 2deg 15deg),
+        radial-gradient(circle at 36% 30%, #fff 0 6%, var(--t-s) 26% 58%, color-mix(in srgb, var(--t-s) 45%, #000) 92%);
+      box-shadow: inset 0 0 0 6px color-mix(in srgb, var(--t-s) 70%, #fff), inset 0 0 0 7px color-mix(in srgb, var(--t-a) 80%, transparent), 0 12px 30px color-mix(in srgb, #000 45%, transparent);
+      transition: transform .45s cubic-bezier(.3, 1.4, .5, 1);
+    }
+    .ch35-cd__unit[data-tick] .ch35-cd__disc { transform: rotate(15deg); }
+    .ch35-cd__num {
+      position: relative;
+      font-family: var(--t-display);
+      font-weight: 700;
+      font-size: clamp(1.9rem, 4.2vw, 2.8rem);
+      line-height: 1;
+      color: var(--t-bg);
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 1px 0 color-mix(in srgb, #fff 60%, transparent);
+    }
+    .ch35-cd__label { font-size: 1.2rem; font-style: italic; color: var(--t-tx); }
+    .ch35-cd__date { margin: clamp(2rem, 4vw, 2.8rem) 0 0; font-size: 1.2rem; color: color-mix(in srgb, var(--t-tx) 78%, var(--t-a)); }
+    .ch35-cd__date time { color: var(--t-tx); font-weight: 600; }
+
+    .ch35-cd--anim .ch35-cd__unit { opacity: 0; transform: rotate(-90deg) scale(.6); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .9, .3, 1.2); }
+    .ch35-cd--anim .ch35-cd__unit[data-in] { opacity: 1; transform: none; }
+
+    @media (max-width: 560px) {
+      .ch35-cd__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); justify-items: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ch35-cd *, .ch35-cd *::before, .ch35-cd *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="ch35-cd__content">
+    <p class="ch35-cd__kicker" memory_type="text" memory_usage="custom" memory_key="countdown-kicker">Ya se escucha el mariachi…</p>
+    <h2 class="ch35-cd__title" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Faltan para mis XV</h2>
+
+    <ul class="ch35-cd__row">
+      <li class="ch35-cd__unit" data-ch-unit>
+        <div class="ch35-cd__concho">
+          <svg class="ch35-cd__studs" viewBox="0 0 100 100" data-ch-studs="24" aria-hidden="true"></svg>
+          <span class="ch35-cd__disc" aria-hidden="true"></span>
+          <span class="ch35-cd__num" data-countdown-unit="days">00</span>
+        </div>
+        <span class="ch35-cd__label" memory_type="text" memory_usage="custom" memory_key="countdown-dias">Días</span>
+      </li>
+      <li class="ch35-cd__unit" data-ch-unit>
+        <div class="ch35-cd__concho">
+          <svg class="ch35-cd__studs" viewBox="0 0 100 100" data-ch-studs="24" aria-hidden="true"></svg>
+          <span class="ch35-cd__disc" aria-hidden="true"></span>
+          <span class="ch35-cd__num" data-countdown-unit="hours">00</span>
+        </div>
+        <span class="ch35-cd__label" memory_type="text" memory_usage="custom" memory_key="countdown-horas">Horas</span>
+      </li>
+      <li class="ch35-cd__unit" data-ch-unit>
+        <div class="ch35-cd__concho">
+          <svg class="ch35-cd__studs" viewBox="0 0 100 100" data-ch-studs="24" aria-hidden="true"></svg>
+          <span class="ch35-cd__disc" aria-hidden="true"></span>
+          <span class="ch35-cd__num" data-countdown-unit="minutes">00</span>
+        </div>
+        <span class="ch35-cd__label" memory_type="text" memory_usage="custom" memory_key="countdown-minutos">Minutos</span>
+      </li>
+      <li class="ch35-cd__unit" data-ch-unit>
+        <div class="ch35-cd__concho">
+          <svg class="ch35-cd__studs" viewBox="0 0 100 100" data-ch-studs="60" data-ch-sec aria-hidden="true"></svg>
+          <span class="ch35-cd__disc" aria-hidden="true"></span>
+          <span class="ch35-cd__num" data-countdown-unit="seconds">00</span>
+        </div>
+        <span class="ch35-cd__label" memory_type="text" memory_usage="custom" memory_key="countdown-segundos">Segundos</span>
+      </li>
+    </ul>
+    <p class="ch35-cd__date"><span memory_type="text" memory_usage="custom" memory_key="countdown-fecha-intro">Nos vemos el</span> <time datetime="2027-04-17T17:00" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">sábado 17 de abril de 2027</time></p>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="countdown-charra"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var NS = 'http://www.w3.org/2000/svg';
+
+      /* Botonadura rings around each concho */
+      var rings = root.querySelectorAll('[data-ch-studs]');
+      for (var r = 0; r < rings.length; r++) {
+        var n = +rings[r].getAttribute('data-ch-studs'), sec = rings[r].hasAttribute('data-ch-sec');
+        for (var i = 0; i < n; i++) {
+          var a = i / n * Math.PI * 2 - Math.PI / 2, c = document.createElementNS(NS, 'circle');
+          c.setAttribute('cx', (50 + Math.cos(a) * 47).toFixed(2)); c.setAttribute('cy', (50 + Math.sin(a) * 47).toFixed(2));
+          var big = sec ? i % 15 === 0 : i % 6 === 0;
+          c.setAttribute('r', big ? 2.4 : sec ? 1.1 : 1.5);
+          if (big) c.setAttribute('data-big', '');
+          if (!sec) c.setAttribute('data-on', '');
+          rings[r].appendChild(c);
+        }
+      }
+      var secStuds = root.querySelectorAll('[data-ch-sec] circle');
+      var unitEls = {
+        days: root.querySelector('[data-countdown-unit="days"]'),
+        hours: root.querySelector('[data-countdown-unit="hours"]'),
+        minutes: root.querySelector('[data-countdown-unit="minutes"]'),
+        seconds: root.querySelector('[data-countdown-unit="seconds"]')
+      };
+      var units = root.querySelectorAll('[data-ch-unit]');
+      var prev = {};
+      function pad(v) { return v < 10 ? '0' + v : '' + v; }
+
+      window.updateCountdown = function () {
+        var target = new Date(root.getAttribute('data-countdown-target')).getTime();
+        var diff = Math.max(0, target - Date.now());
+        var v = {
+          days: Math.floor(diff / 86400000),
+          hours: Math.floor(diff / 3600000) % 24,
+          minutes: Math.floor(diff / 60000) % 60,
+          seconds: Math.floor(diff / 1000) % 60
+        };
+        var keys = ['days', 'hours', 'minutes', 'seconds'];
+        for (var k = 0; k < keys.length; k++) {
+          var key = keys[k], el = unitEls[key];
+          if (!el) continue;
+          var txt = pad(v[key]);
+          if (el.textContent !== txt) {
+            el.textContent = txt;
+            if (!RM && prev[key] !== undefined) (function (u) {
+              u.setAttribute('data-tick', '');
+              setTimeout(function () { u.removeAttribute('data-tick'); }, 460);
+            })(units[k]);
+            prev[key] = txt;
+          }
+        }
+        for (var s = 0; s < secStuds.length; s++) {
+          if (s < 60 - v.seconds || v.seconds === 0) secStuds[s].setAttribute('data-on', ''); else secStuds[s].removeAttribute('data-on');
+        }
+      };
+
+      if (window.__countdownIntervals) {
+        for (var q = 0; q < window.__countdownIntervals.length; q++) clearInterval(window.__countdownIntervals[q]);
+      }
+      window.__countdownIntervals = [];
+      window.updateCountdown();
+      window.__countdownIntervals.push(setInterval(window.updateCountdown, 1000));
+
+      if (RM || !('IntersectionObserver' in window)) return;
+      root.classList.add('ch35-cd--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          for (var j = 0; j < units.length; j++) (function (u, d) {
+            setTimeout(function () { u.setAttribute('data-in', ''); }, 120 + d * 150);
+          })(units[j], j);
+          setTimeout(function () {
+            root.classList.remove('ch35-cd--anim');
+            for (var m = 0; m < units.length; m++) units[m].removeAttribute('data-in');
+          }, 1600);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-charra',
+      style_name: 'Charra Mexicana Countdown Conchos',
+      descripcion: 'Cuenta regresiva en conchos de plata grabados con anillo de botonadura; el concho de segundos enciende sus 60 botones mientras avanza el tiempo.',
+      tags: ['countdown', 'charra', 'quinceañera', 'mexicana', 'conchos', 'botonadura'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>

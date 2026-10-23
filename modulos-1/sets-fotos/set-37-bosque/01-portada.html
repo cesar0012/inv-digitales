@@ -1,0 +1,507 @@
+<section
+  class="be-port"
+  data-gemini-id="portada-nombre"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Ballet&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .be-port, .be-port *, .be-port *::before, .be-port *::after { box-sizing: border-box; }
+    .be-port {
+      --t-bg: var(--bg-color, #F3F5EA);
+      --t-tx: var(--text-color, #24483B);
+      --t-p: var(--primary-color, #2F7A5A);
+      --t-s: var(--secondary-color, #7D9A58);
+      --t-a: var(--accent-color, #C9A447);
+      --t-l: var(--lilac-color, #B8A2DA);
+      --t-display: var(--font-script, 'Ballet', cursive);
+      --t-text: var(--font-heading, 'EB Garamond', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: max(40rem, 100svh);
+      display: grid;
+      place-items: center;
+      padding: clamp(4.5rem, 9vw, 6rem) clamp(1rem, 4vw, 3rem) clamp(5rem, 9vw, 7rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/enchanted,forest,lights?lock=3301');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    /* Misty clearing tint: luminous center, soft emerald edges (never dark) */
+    .be-port::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(ellipse 58% 52% at 50% 44%, color-mix(in srgb, var(--t-bg) 92%, transparent) 0%, color-mix(in srgb, var(--t-bg) 55%, transparent) 55%, transparent 80%),
+        linear-gradient(180deg,
+          color-mix(in srgb, color-mix(in srgb, var(--t-bg) 86%, var(--t-a)) 90%, transparent) 0%,
+          color-mix(in srgb, color-mix(in srgb, var(--t-bg) 70%, var(--t-s)) 90%, transparent) 55%,
+          color-mix(in srgb, color-mix(in srgb, var(--t-bg) 50%, var(--t-p)) 92%, transparent) 100%);
+    }
+    .be-port__forest {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      display: block;
+      pointer-events: none;
+    }
+
+    .be-port__stage {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 35rem);
+      perspective: 1100px;
+      margin-top: clamp(2.5rem, 6vw, 3.5rem);
+    }
+    .be-port__arch {
+      position: relative;
+      transform-style: preserve-3d;
+      padding: clamp(5rem, 12vw, 7rem) clamp(1.25rem, 5vw, 3rem) clamp(2.4rem, 5vw, 3.2rem);
+      border-radius: 999px 999px 1.75rem 1.75rem;
+    }
+    .be-port__glass {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 62%, transparent), color-mix(in srgb, var(--t-bg) 84%, transparent));
+      border: 1px solid color-mix(in srgb, var(--t-a) 60%, transparent);
+      box-shadow:
+        0 0 0 7px color-mix(in srgb, var(--t-bg) 32%, transparent),
+        0 0 0 8px color-mix(in srgb, var(--t-a) 30%, transparent),
+        0 40px 90px -40px color-mix(in srgb, var(--t-p) 70%, transparent),
+        inset 0 0 70px color-mix(in srgb, var(--t-a) 20%, transparent);
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+      transform: translateZ(-10px);
+    }
+    .be-port__inner { position: relative; transform: translateZ(12px); }
+
+    .be-port__crown {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 107%;
+      height: auto;
+      margin-top: calc(-6% - .45rem);
+      transform: translateX(-50%) translateZ(18px);
+      overflow: visible;
+      pointer-events: none;
+    }
+    .be-port__climb {
+      position: absolute;
+      bottom: -1.2rem;
+      width: clamp(4.5rem, 14vw, 7rem);
+      height: auto;
+      overflow: visible;
+      transform: translateZ(16px);
+      pointer-events: none;
+    }
+    .be-port__climb--l { left: clamp(-2.6rem, -5vw, -1.4rem); }
+    .be-port__climb--r { right: clamp(-2.6rem, -5vw, -1.4rem); transform: translateZ(16px) scaleX(-1); }
+
+    .be-port-stem { fill: none; stroke: var(--t-p); stroke-width: 1.6; stroke-linecap: round; }
+    .be-port-tendril { fill: none; stroke: var(--t-s); stroke-width: 1.1; stroke-linecap: round; }
+    .be-port-lf { fill: var(--t-s); }
+    .be-port-lf2 { fill: var(--t-p); }
+    .be-port-wire { stroke: color-mix(in srgb, var(--t-a) 70%, transparent); stroke-width: .8; }
+    .be-port-bulb { fill: color-mix(in srgb, var(--t-a) 70%, #fff8dc); }
+
+    .be-port__kicker {
+      margin: 0;
+      font-style: italic;
+      font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+      color: var(--t-p);
+    }
+    .be-port__spark { color: var(--t-a); font-style: normal; padding: 0 .45em; }
+    .be-port__name {
+      margin: .15em 0 .1em;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3.1rem, 9vw, 6.2rem);
+      line-height: 1.32;
+      background: linear-gradient(100deg, var(--t-p) 18%, color-mix(in srgb, var(--t-a) 85%, var(--t-p)) 48%, var(--t-p) 78%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 0 14px color-mix(in srgb, var(--t-a) 40%, transparent));
+      overflow-wrap: anywhere;
+    }
+    .be-port__divider { display: block; width: min(13rem, 70%); height: auto; margin: .4rem auto 1rem; overflow: visible; }
+    .be-port__msg {
+      margin: 0 auto 1.4rem;
+      max-width: 26rem;
+      font-size: clamp(1.05rem, 2vw, 1.2rem);
+      line-height: 1.55;
+    }
+    .be-port__date {
+      display: inline-block;
+      font-size: clamp(1.2rem, 2.6vw, 1.5rem);
+      font-weight: 500;
+      color: var(--t-p);
+      padding: .35rem 1.1rem;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--t-a) 16%, transparent);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-a) 45%, transparent);
+    }
+    .be-port__place { margin: .9rem 0 0; font-style: italic; font-size: 1.05rem; opacity: .85; }
+
+    .be-port__flutter { position: absolute; inset: 0; z-index: 2; pointer-events: none; perspective: 900px; }
+    .be-port__bfly {
+      position: absolute;
+      width: 88px;
+      height: 72px;
+      transform-style: preserve-3d;
+      transform: rotate(-18deg) rotateX(48deg);
+    }
+    .be-port__bfly--1 { left: 12%; top: 26%; }
+    .be-port__bfly--2 { left: 80%; top: 58%; width: 66px; height: 54px; }
+    .be-port__bfly--3 { left: 72%; top: 14%; width: 50px; height: 41px; }
+    .be-port__wing { position: absolute; top: 0; width: 50%; height: 100%; }
+    .be-port__wing svg { display: block; width: 100%; height: 100%; overflow: visible; }
+    .be-port__wing--l { left: 0; transform-origin: 100% 50%; transform: rotateY(28deg); }
+    .be-port__wing--r { right: 0; transform-origin: 0 50%; transform: rotateY(-28deg); }
+    .be-port__wing--r svg { transform: scaleX(-1); }
+    .be-port-wing-f, .be-port-wing-h { stroke: color-mix(in srgb, var(--t-a) 75%, #fff); stroke-width: .8; }
+    .be-port-wing-v { fill: none; stroke: rgba(255, 255, 255, .55); stroke-width: .6; }
+    .be-port__thorax {
+      position: absolute;
+      left: 50%;
+      top: 22%;
+      width: 3px;
+      height: 58%;
+      margin-left: -1.5px;
+      border-radius: 3px;
+      background: color-mix(in srgb, var(--t-p) 70%, var(--t-a));
+    }
+
+    .be-port__cue {
+      position: absolute;
+      z-index: 1;
+      left: 50%;
+      bottom: clamp(1.2rem, 3vw, 2rem);
+      transform: translateX(-50%);
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .35rem;
+      font-style: italic;
+      font-size: .98rem;
+      color: var(--t-p);
+    }
+    .be-port__cue-leaf { width: 22px; height: 22px; display: block; }
+    .be-port__cue-leaf path { fill: var(--t-a); }
+
+    /* Entrance (JS adds --anim; content stays visible without JS). Every transition <= .5s */
+    .be-port--anim .be-port__stage { opacity: 0; transform: translateY(18px) scale(.97); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .be-port--anim.is-in .be-port__stage { opacity: 1; transform: none; }
+    .be-port--anim .be-port__name { -webkit-mask-image: linear-gradient(95deg, #000 0, #000 calc(var(--be-rev, 0) * 1% - 14%), transparent calc(var(--be-rev, 0) * 1%)); mask-image: linear-gradient(95deg, #000 0, #000 calc(var(--be-rev, 0) * 1% - 14%), transparent calc(var(--be-rev, 0) * 1%)); }
+    .be-port--anim .be-port__kicker,
+    .be-port--anim .be-port__divider,
+    .be-port--anim .be-port__msg,
+    .be-port--anim .be-port__date,
+    .be-port--anim .be-port__place,
+    .be-port--anim .be-port__cue { opacity: 0; transition: opacity .45s ease, transform .45s ease; }
+    .be-port--anim .be-port__msg, .be-port--anim .be-port__date, .be-port--anim .be-port__place { transform: translateY(8px); }
+    .be-port--anim.is-in .be-port__kicker { opacity: 1; transition-delay: .3s; }
+    .be-port--anim.is-named .be-port__divider { opacity: 1; }
+    .be-port--anim.is-named .be-port__msg { opacity: 1; transform: none; transition-delay: .1s; }
+    .be-port--anim.is-named .be-port__date { opacity: 1; transform: none; transition-delay: .22s; }
+    .be-port--anim.is-named .be-port__place { opacity: 1; transform: none; transition-delay: .34s; }
+    .be-port--anim.is-named .be-port__cue { opacity: 1; transition-delay: .5s; }
+    .be-port--anim .be-port-lf, .be-port--anim .be-port-lf2 { transform: scale(0); transition: transform .4s cubic-bezier(.3, 1.5, .5, 1); transition-delay: calc(var(--i) * 45ms + .35s); }
+    .be-port--anim.is-in .be-port-lf, .be-port--anim.is-in .be-port-lf2 { transform: none; }
+
+    @media (max-width: 560px) {
+      .be-port__bfly--2 { left: 74%; top: 70%; }
+      .be-port__bfly--3 { left: 78%; top: 9%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .be-port *, .be-port *::before, .be-port *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <canvas class="be-port__forest" data-be-forest aria-hidden="true"></canvas>
+
+  <div class="be-port__flutter" data-be-flutter><span class="be-port__bfly be-port__bfly--1" data-be-bfly aria-hidden="true"><span class="be-port__wing be-port__wing--l" data-be-wing="l"><svg viewBox="0 0 60 72" aria-hidden="true" focusable="false"><path class="be-port-wing-f" d="M60 33 C 46 5, 12 -3, 4 13 C -1 27, 24 38, 60 37 Z" fill="url(#be-port-wg)"/><path class="be-port-wing-h" d="M60 39 C 38 41, 13 51, 21 64 C 29 73, 52 61, 60 43 Z" fill="url(#be-port-wg)"/><path class="be-port-wing-v" d="M58 34 C 40 24, 22 14, 10 14 M58 35 C 40 32, 24 30, 14 28 M58 41 C 44 48, 32 56, 25 62"/></svg></span><span class="be-port__wing be-port__wing--r" data-be-wing="r"><svg viewBox="0 0 60 72" aria-hidden="true" focusable="false"><path class="be-port-wing-f" d="M60 33 C 46 5, 12 -3, 4 13 C -1 27, 24 38, 60 37 Z" fill="url(#be-port-wg)"/><path class="be-port-wing-h" d="M60 39 C 38 41, 13 51, 21 64 C 29 73, 52 61, 60 43 Z" fill="url(#be-port-wg)"/><path class="be-port-wing-v" d="M58 34 C 40 24, 22 14, 10 14 M58 35 C 40 32, 24 30, 14 28 M58 41 C 44 48, 32 56, 25 62"/></svg></span><span class="be-port__thorax"></span></span><span class="be-port__bfly be-port__bfly--2" data-be-bfly aria-hidden="true"><span class="be-port__wing be-port__wing--l" data-be-wing="l"><svg viewBox="0 0 60 72" aria-hidden="true" focusable="false"><path class="be-port-wing-f" d="M60 33 C 46 5, 12 -3, 4 13 C -1 27, 24 38, 60 37 Z" fill="url(#be-port-wg)"/><path class="be-port-wing-h" d="M60 39 C 38 41, 13 51, 21 64 C 29 73, 52 61, 60 43 Z" fill="url(#be-port-wg)"/><path class="be-port-wing-v" d="M58 34 C 40 24, 22 14, 10 14 M58 35 C 40 32, 24 30, 14 28 M58 41 C 44 48, 32 56, 25 62"/></svg></span><span class="be-port__wing be-port__wing--r" data-be-wing="r"><svg viewBox="0 0 60 72" aria-hidden="true" focusable="false"><path class="be-port-wing-f" d="M60 33 C 46 5, 12 -3, 4 13 C -1 27, 24 38, 60 37 Z" fill="url(#be-port-wg)"/><path class="be-port-wing-h" d="M60 39 C 38 41, 13 51, 21 64 C 29 73, 52 61, 60 43 Z" fill="url(#be-port-wg)"/><path class="be-port-wing-v" d="M58 34 C 40 24, 22 14, 10 14 M58 35 C 40 32, 24 30, 14 28 M58 41 C 44 48, 32 56, 25 62"/></svg></span><span class="be-port__thorax"></span></span><span class="be-port__bfly be-port__bfly--3" data-be-bfly aria-hidden="true"><span class="be-port__wing be-port__wing--l" data-be-wing="l"><svg viewBox="0 0 60 72" aria-hidden="true" focusable="false"><path class="be-port-wing-f" d="M60 33 C 46 5, 12 -3, 4 13 C -1 27, 24 38, 60 37 Z" fill="url(#be-port-wg)"/><path class="be-port-wing-h" d="M60 39 C 38 41, 13 51, 21 64 C 29 73, 52 61, 60 43 Z" fill="url(#be-port-wg)"/><path class="be-port-wing-v" d="M58 34 C 40 24, 22 14, 10 14 M58 35 C 40 32, 24 30, 14 28 M58 41 C 44 48, 32 56, 25 62"/></svg></span><span class="be-port__wing be-port__wing--r" data-be-wing="r"><svg viewBox="0 0 60 72" aria-hidden="true" focusable="false"><path class="be-port-wing-f" d="M60 33 C 46 5, 12 -3, 4 13 C -1 27, 24 38, 60 37 Z" fill="url(#be-port-wg)"/><path class="be-port-wing-h" d="M60 39 C 38 41, 13 51, 21 64 C 29 73, 52 61, 60 43 Z" fill="url(#be-port-wg)"/><path class="be-port-wing-v" d="M58 34 C 40 24, 22 14, 10 14 M58 35 C 40 32, 24 30, 14 28 M58 41 C 44 48, 32 56, 25 62"/></svg></span><span class="be-port__thorax"></span></span></div>
+
+  <header class="be-port__stage" data-be-stage>
+    <div class="be-port__arch" data-be-arch>
+      <div class="be-port__glass" aria-hidden="true"></div>
+      <svg class="be-port__crown" viewBox="-10 -6 340 200" aria-hidden="true" focusable="false"><defs><g id="be-port-leaf"><path d="M0 0 C 5 -6.8 15 -7.4 23 0 C 15 7.4 5 6.8 0 0 Z"/><path d="M1.5 0 Q 11 -.8 20 0" fill="none" stroke="rgba(255,255,255,.5)" stroke-width=".7"/></g><filter id="be-port-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><linearGradient id="be-port-wg" x1="1" y1=".5" x2="0" y2=".2"><stop offset="0" style="stop-color: var(--t-l); stop-opacity: .92"/><stop offset=".55" style="stop-color: var(--t-l); stop-opacity: .62"/><stop offset="1" style="stop-color: var(--t-a); stop-opacity: .5"/></linearGradient></defs><path class="be-port-stem" d="M4.0 175.0 C4.0 88.8 73.8 19.0 160.0 19.0 C246.2 19.0 316.0 88.8 316.0 175.0" data-be-stem/><g transform="translate(28.6 90.8) rotate(-127) scale(1 -1)"><path class="be-port-tendril" d="M0 0 c 6 -5 14 -3 13 4 c -1 5 -8 6 -8 1 c 0 -3 3 -3.5 4 -2"/></g><g transform="translate(134.7 21.0) rotate(-79) scale(1 -1)"><path class="be-port-tendril" d="M0 0 c 6 -5 14 -3 13 4 c -1 5 -8 6 -8 1 c 0 -3 3 -3.5 4 -2"/></g><g transform="translate(285.9 82.8) rotate(124) scale(1 1)"><path class="be-port-tendril" d="M0 0 c 6 -5 14 -3 13 4 c -1 5 -8 6 -8 1 c 0 -3 3 -3.5 4 -2"/></g><g transform="translate(5.9 150.5) rotate(-34) scale(0.94)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:0"/></g><g transform="translate(9.8 132.6) rotate(-122) scale(0.93)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:1"/></g><g transform="translate(14.9 117.6) rotate(-19) scale(0.93)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:2"/></g><g transform="translate(23.2 99.9) rotate(-103) scale(0.81)"><use href="#be-port-leaf" class="be-port-lf2" data-be-leaf style="--i:3"/></g><g transform="translate(29.6 89.4) rotate(-20) scale(1.00)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:4"/></g><g transform="translate(44.4 70.2) rotate(-85) scale(1.00)"><use href="#be-port-leaf" class="be-port-lf2" data-be-leaf style="--i:5"/></g><g transform="translate(51.2 63.2) rotate(6) scale(1.04)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:6"/></g><g transform="translate(69.3 48.0) rotate(-82) scale(0.98)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:7"/></g><g transform="translate(86.1 37.5) rotate(11) scale(0.87)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:8"/></g><g transform="translate(97.3 32.1) rotate(-66) scale(0.96)"><use href="#be-port-leaf" class="be-port-lf2" data-be-leaf style="--i:9"/></g><g transform="translate(118.3 24.6) rotate(31) scale(1.01)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:10"/></g><g transform="translate(132.4 21.4) rotate(-56) scale(0.83)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:11"/></g><g transform="translate(155.6 19.1) rotate(35) scale(0.85)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:12"/></g><g transform="translate(171.9 19.4) rotate(-48) scale(0.86)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:13"/></g><g transform="translate(188.8 21.7) rotate(49) scale(0.96)"><use href="#be-port-leaf" class="be-port-lf2" data-be-leaf style="--i:14"/></g><g transform="translate(211.2 27.6) rotate(-23) scale(0.80)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:15"/></g><g transform="translate(224.1 32.7) rotate(72) scale(0.86)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:16"/></g><g transform="translate(242.5 42.5) rotate(-5) scale(0.89)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:17"/></g><g transform="translate(249.8 47.4) rotate(86) scale(0.99)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:18"/></g><g transform="translate(267.6 62.0) rotate(-6) scale(1.04)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:19"/></g><g transform="translate(277.1 71.9) rotate(85) scale(0.76)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:20"/></g><g transform="translate(290.0 88.6) rotate(-2) scale(1.06)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:21"/></g><g transform="translate(297.5 101.2) rotate(114) scale(1.06)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:22"/></g><g transform="translate(305.5 118.5) rotate(29) scale(1.02)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:23"/></g><g transform="translate(312.4 141.6) rotate(123) scale(1.02)"><use href="#be-port-leaf" class="be-port-lf2" data-be-leaf style="--i:24"/></g><g transform="translate(314.1 150.7) rotate(22) scale(1.01)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:25"/></g><g transform="translate(11.9 125.7)"><line class="be-port-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-port-bulb" data-be-bulb style="--j:0" cx="0" cy="8.6" r="2.6" filter="url(#be-port-glow)"/></g><g transform="translate(46.3 68.1)"><line class="be-port-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-port-bulb" data-be-bulb style="--j:1" cx="0" cy="8.6" r="2.6" filter="url(#be-port-glow)"/></g><g transform="translate(101.5 30.3)"><line class="be-port-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-port-bulb" data-be-bulb style="--j:2" cx="0" cy="8.6" r="2.6" filter="url(#be-port-glow)"/></g><g transform="translate(160.0 19.0)"><line class="be-port-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-port-bulb" data-be-bulb style="--j:3" cx="0" cy="8.6" r="2.6" filter="url(#be-port-glow)"/></g><g transform="translate(218.5 30.3)"><line class="be-port-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-port-bulb" data-be-bulb style="--j:4" cx="0" cy="8.6" r="2.6" filter="url(#be-port-glow)"/></g><g transform="translate(273.7 68.1)"><line class="be-port-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-port-bulb" data-be-bulb style="--j:5" cx="0" cy="8.6" r="2.6" filter="url(#be-port-glow)"/></g><g transform="translate(308.1 125.7)"><line class="be-port-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-port-bulb" data-be-bulb style="--j:6" cx="0" cy="8.6" r="2.6" filter="url(#be-port-glow)"/></g></svg>
+      <svg class="be-port__climb be-port__climb--l" viewBox="0 0 120 320" aria-hidden="true" focusable="false"><path class="be-port-stem" d="M36.0 314.0 C10.7 276.7 103.4 244.7 77.4 207.3 C51.0 170.0 67.1 138.0 41.1 100.7 C16.1 63.3 104.1 31.3 78.1 -6.0" data-be-stem/><g transform="translate(59.1 154.0) rotate(-28) scale(1 1)"><path class="be-port-tendril" d="M0 0 c 6 -5 14 -3 13 4 c -1 5 -8 6 -8 1 c 0 -3 3 -3.5 4 -2"/></g><g transform="translate(35.4 287.0) rotate(-13) scale(0.93)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:0"/></g><g transform="translate(60.1 257.5) rotate(-94) scale(1.00)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:1"/></g><g transform="translate(78.4 234.4) rotate(-21) scale(0.78)"><use href="#be-port-leaf" class="be-port-lf2" data-be-leaf style="--i:2"/></g><g transform="translate(78.2 208.5) rotate(-167) scale(0.86)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:3"/></g><g transform="translate(66.4 186.5) rotate(-70) scale(0.89)"><use href="#be-port-leaf" class="be-port-lf2" data-be-leaf style="--i:4"/></g><g transform="translate(60.2 161.5) rotate(-154) scale(0.75)"><use href="#be-port-leaf" class="be-port-lf2" data-be-leaf style="--i:5"/></g><g transform="translate(56.2 136.5) rotate(-50) scale(0.76)"><use href="#be-port-leaf" class="be-port-lf2" data-be-leaf style="--i:6"/></g><g transform="translate(49.3 115.0) rotate(-161) scale(0.86)"><use href="#be-port-leaf" class="be-port-lf2" data-be-leaf style="--i:7"/></g><g transform="translate(36.7 88.8) rotate(-38) scale(0.81)"><use href="#be-port-leaf" class="be-port-lf2" data-be-leaf style="--i:8"/></g><g transform="translate(47.7 61.6) rotate(-101) scale(0.77)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:9"/></g><g transform="translate(66.7 39.8) rotate(3) scale(0.74)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:10"/></g><g transform="translate(81.8 16.1) rotate(-125) scale(0.62)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:11"/></g><g transform="translate(73.8 201.8)"><line class="be-port-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-port-bulb" data-be-bulb style="--j:0" cx="0" cy="8.6" r="2.6" filter="url(#be-port-glow)"/></g><g transform="translate(36.8 89.6)"><line class="be-port-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-port-bulb" data-be-bulb style="--j:1" cx="0" cy="8.6" r="2.6" filter="url(#be-port-glow)"/></g></svg>
+      <svg class="be-port__climb be-port__climb--r" viewBox="0 0 120 320" aria-hidden="true" focusable="false"><path class="be-port-stem" d="M36.0 314.0 C12.3 276.7 100.0 244.7 74.0 207.3 C47.7 170.0 63.6 138.0 37.6 100.7 C15.1 63.3 100.6 31.3 74.6 -6.0" data-be-stem/><g transform="translate(78.6 218.4) rotate(-169) scale(1 -1)"><path class="be-port-tendril" d="M0 0 c 6 -5 14 -3 13 4 c -1 5 -8 6 -8 1 c 0 -3 3 -3.5 4 -2"/></g><g transform="translate(35.4 287.2) rotate(-13) scale(0.97)"><use href="#be-port-leaf" class="be-port-lf2" data-be-leaf style="--i:0"/></g><g transform="translate(57.0 259.4) rotate(-105) scale(1.05)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:1"/></g><g transform="translate(73.3 238.9) rotate(-22) scale(1.09)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:2"/></g><g transform="translate(76.6 211.9) rotate(-168) scale(0.89)"><use href="#be-port-leaf" class="be-port-lf2" data-be-leaf style="--i:3"/></g><g transform="translate(63.0 186.5) rotate(-74) scale(0.82)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:4"/></g><g transform="translate(57.5 165.2) rotate(-139) scale(0.88)"><use href="#be-port-leaf" class="be-port-lf2" data-be-leaf style="--i:5"/></g><g transform="translate(52.5 135.2) rotate(-44) scale(0.72)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:6"/></g><g transform="translate(46.2 115.7) rotate(-154) scale(0.79)"><use href="#be-port-leaf" class="be-port-lf2" data-be-leaf style="--i:7"/></g><g transform="translate(33.9 86.2) rotate(-28) scale(0.80)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:8"/></g><g transform="translate(41.9 66.3) rotate(-108) scale(0.76)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:9"/></g><g transform="translate(65.8 37.6) rotate(-5) scale(0.68)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:10"/></g><g transform="translate(79.1 13.4) rotate(-125) scale(0.83)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:11"/></g><g transform="translate(55.7 154.0)"><line class="be-port-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-port-bulb" data-be-bulb style="--j:0" cx="0" cy="8.6" r="2.6" filter="url(#be-port-glow)"/></g><g transform="translate(62.0 42.1)"><line class="be-port-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-port-bulb" data-be-bulb style="--j:1" cx="0" cy="8.6" r="2.6" filter="url(#be-port-glow)"/></g></svg>
+      <div class="be-port__inner">
+        <p class="be-port__kicker"><span class="be-port__spark" aria-hidden="true">✦</span><span memory_type="text" memory_usage="custom" memory_key="portada-intro">Mis XV años</span><span class="be-port__spark" aria-hidden="true">✦</span></p>
+        <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,3vw,1.6rem);width:clamp(150px,22vw,220px);"><img src="https://loremflickr.com/480/480/forest,pines,portrait?lock=309" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:2px solid var(--primary-color,#9b9b9b);box-shadow:0 14px 30px rgba(0,0,0,.18);" /><figcaption hidden>Retrato</figcaption></figure>
+<h1 class="be-port__name" data-be-name memory_type="text" memory_usage="custom" memory_key="portada-nombre">Nombre Apellido</h1>
+        <svg class="be-port__divider" viewBox="0 0 220 30" aria-hidden="true" focusable="false"><path class="be-port-stem" d="M6.0 18.0 C60.0 2.0 100.0 30.0 110.0 15.0" data-be-stem/><g transform="translate(28.6 13.6) rotate(48) scale(0.63)"><use href="#be-port-leaf" class="be-port-lf2" data-be-leaf style="--i:0"/></g><g transform="translate(54.5 13.4) rotate(-53) scale(0.49)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:1"/></g><g transform="translate(76.7 16.5) rotate(62) scale(0.65)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:2"/></g><g transform="translate(92.8 19.2) rotate(-35) scale(0.58)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:3"/></g><g transform="translate(104.4 18.9) rotate(25) scale(0.53)"><use href="#be-port-leaf" class="be-port-lf2" data-be-leaf style="--i:4"/></g><path class="be-port-stem" d="M214.0 18.0 C160.0 2.0 120.0 30.0 110.0 15.0" data-be-stem/><g transform="translate(190.8 13.5) rotate(-119) scale(0.57)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:0"/></g><g transform="translate(167.8 13.2) rotate(124) scale(0.57)"><use href="#be-port-leaf" class="be-port-lf2" data-be-leaf style="--i:1"/></g><g transform="translate(144.8 16.3) rotate(225) scale(0.53)"><use href="#be-port-leaf" class="be-port-lf2" data-be-leaf style="--i:2"/></g><g transform="translate(126.7 19.2) rotate(128) scale(0.58)"><use href="#be-port-leaf" class="be-port-lf2" data-be-leaf style="--i:3"/></g><g transform="translate(115.4 18.9) rotate(-114) scale(0.63)"><use href="#be-port-leaf" class="be-port-lf" data-be-leaf style="--i:4"/></g><circle class="be-port-bulb" data-be-bulb cx="110" cy="15" r="3.2" filter="url(#be-port-glow)"/></svg>
+        <p class="be-port__msg" memory_type="text" memory_usage="custom" memory_key="portada-mensaje">Entre árboles de luz y alas de cristal, te invito a celebrar el capítulo más mágico de mi cuento.</p>
+        <time class="be-port__date" datetime="2027-06-19T19:00" memory_type="text" memory_usage="custom" memory_key="portada-fecha">Sábado 19 de junio de 2027</time>
+        <p class="be-port__place" memory_type="text" memory_usage="custom" memory_key="portada-lugar">Jardín Nombre del Lugar · 7:00 p. m.</p>
+      </div>
+    </div>
+  </header>
+
+  <p class="be-port__cue">
+    <span memory_type="text" memory_usage="custom" memory_key="portada-cue">Entra al bosque</span>
+    <svg class="be-port__cue-leaf" data-be-cue viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2 C 4 8, 4 16, 12 22 C 20 16, 20 8, 12 2 Z"/></svg>
+  </p>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="portada-nombre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      var cv = root.querySelector('[data-be-forest]');
+      var ctx = cv.getContext && cv.getContext('2d');
+      if (!ctx) return;
+      var arch = root.querySelector('[data-be-arch]');
+      var nameEl = root.querySelector('[data-be-name]');
+      var cue = root.querySelector('[data-be-cue]');
+      var bulbs = [].slice.call(root.querySelectorAll('[data-be-bulb]'));
+      var flies = [].slice.call(root.querySelectorAll('[data-be-bfly]')).map(function (el, i) {
+        return { el: el, l: el.querySelector('[data-be-wing="l"]'), r: el.querySelector('[data-be-wing="r"]'),
+          bx: [.14, .82, .74][i], by: [.3, .62, .16][i], ax: [.09, .07, .05][i], ay: [.08, .1, .05][i],
+          fx: [.00021, .00017, .00026][i], fy: [.00033, .00027, .00038][i], ph: i * 2.1, h: 0, px: 0, py: 0 };
+      });
+
+      /* Theme colours come from the (recolourable) CSS variables */
+      function col(name, fb) {
+        var v = getComputedStyle(root).getPropertyValue(name).trim() || fb;
+        ctx.fillStyle = fb; ctx.fillStyle = v; var s = ctx.fillStyle;
+        if (s.charAt(0) === '#') return [parseInt(s.substr(1, 2), 16), parseInt(s.substr(3, 2), 16), parseInt(s.substr(5, 2), 16)];
+        var m = s.match(/[\d.]+/g) || [0, 0, 0]; return [+m[0], +m[1], +m[2]];
+      }
+      function mix(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
+      function rgba(c, al) { return 'rgba(' + (c[0] | 0) + ',' + (c[1] | 0) + ',' + (c[2] | 0) + ',' + al + ')'; }
+      var C = { bg: col('--t-bg', '#F3F5EA'), p: col('--t-p', '#2F7A5A'), s: col('--t-s', '#7D9A58'), a: col('--t-a', '#C9A447'), l: col('--t-l', '#B8A2DA') };
+
+      function sprite(c) {
+        var s = document.createElement('canvas'); s.width = s.height = 64;
+        var g = s.getContext('2d'), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+        gr.addColorStop(0, 'rgba(255,255,245,1)'); gr.addColorStop(.14, rgba(mix(c, [255, 255, 240], .4), .95));
+        gr.addColorStop(.4, rgba(c, .28)); gr.addColorStop(1, rgba(c, 0));
+        g.fillStyle = gr; g.fillRect(0, 0, 64, 64); return s;
+      }
+      var SP = [sprite(C.a), sprite(C.l), sprite(mix(C.a, [255, 255, 255], .6))];
+
+      /* Seeded world: trees on both sides of a central clearing, garlands of fairy lights, fairy dust */
+      var seed = 33;
+      function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+      var items = [], dust = [], trail = [];
+      var trees = [];
+      for (var i = 0; i < 34; i++) {
+        var z = 2.6 + rnd() * 24, side = i % 2 ? 1 : -1;
+        var x = side * (1.05 + z * .2 + rnd() * (2.2 + z * .45));
+        var blobs = [];
+        for (var b = 0; b < 5; b++) blobs.push({ dx: (rnd() - .5) * 1.8, dy: -3.4 - rnd() * 3.2, r: .55 + rnd() * .9, t: rnd() });
+        var t0 = { type: 0, x: x, z: z, w: .09 + rnd() * .14, top: -5.8 - rnd() * 3, lean: (rnd() - .5) * .6, blobs: blobs, tone: rnd() };
+        trees.push(t0); items.push(t0);
+      }
+      var gl = 0;
+      for (var a1 = 0; a1 < trees.length && gl < 20; a1++) {
+        for (var a2 = a1 + 1; a2 < trees.length && gl < 20; a2++) {
+          var A = trees[a1], B = trees[a2], dx = Math.abs(A.x - B.x);
+          if (Math.abs(A.z - B.z) < 2.6 && dx > 1.4 && dx < 6.5) {
+            var ya = -2.1 - rnd() * 1.8, yb = -2.1 - rnd() * 1.8, n = Math.round(dx * 2.4) + 4, pts = [];
+            for (var k = 0; k <= n; k++) { var u = k / n; pts.push({ x: A.x + (B.x - A.x) * u, y: ya + (yb - ya) * u + (.45 + dx * .1) * 4 * u * (1 - u), z: A.z + (B.z - A.z) * u, ph: rnd() * 6.28, c: rnd() < .78 ? 0 : 2 }); }
+            items.push({ type: 1, z: (A.z + B.z) / 2 + .01, pts: pts }); gl++;
+          }
+        }
+      }
+      items.sort(function (p, q) { return q.z - p.z; });
+      for (var d = 0; d < 150; d++) dust.push({ x: (rnd() - .5) * 16, y: -6 + rnd() * 8, z: 1 + rnd() * 23, v: .004 + rnd() * .01, ph: rnd() * 6.28, c: rnd() < .55 ? 0 : (rnd() < .5 ? 1 : 2), s: .05 + rnd() * .06 });
+
+      var W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var camX = 0, camY = 0, tcx = 0, tcy = 0, rx = 0, ry = 0, last = 0;
+      function size() {
+        W = cv.clientWidth; H = cv.clientHeight;
+        cv.width = Math.max(1, Math.round(W * dpr)); cv.height = Math.max(1, Math.round(H * dpr));
+        if (RM) frame(0, 0);
+      }
+
+      function frame(t, dt) {
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.clearRect(0, 0, W, H);
+        camX += (tcx + Math.sin(t * .00011) * .4 - camX) * .035 * dt;
+        camY += (tcy - camY) * .035 * dt;
+        var f = Math.min(H * .8, Math.max(W * .62, 300)), cx = W / 2, cy = H * .44, camZ = Math.sin(t * .00008) * .7;
+
+        /* sun shafts through the canopy */
+        for (var r = 0; r < 4; r++) {
+          var off = (r - 1.5) * W * .12, al = .07 + .04 * Math.sin(t * .0004 + r * 1.7);
+          var g = ctx.createLinearGradient(0, 0, 0, H);
+          g.addColorStop(0, rgba(mix(C.a, [255, 255, 240], .5), al)); g.addColorStop(1, rgba(C.a, 0));
+          ctx.fillStyle = g; ctx.beginPath();
+          ctx.moveTo(cx + off - W * .02, -10); ctx.lineTo(cx + off + W * .03, -10);
+          ctx.lineTo(cx + off * 2.6 + W * .09, H); ctx.lineTo(cx + off * 2.6 - W * .05, H); ctx.fill();
+        }
+
+        for (var i = 0; i < items.length; i++) {
+          var it = items[i];
+          if (it.type === 0) {
+            var dz = it.z - camZ, s = f / dz, px = cx + (it.x - camX) * s;
+            if (px < -W * .4 || px > W * 1.4) continue;
+            var fog = Math.min(1, Math.max(0, (dz - 2) / 24));
+            var base = mix(mix(C.p, C.s, it.tone * .6), C.bg, .12 + .72 * fog);
+            var gy = cy + (1.7 - camY) * s, ty = cy + (it.top - camY) * s, lp = it.lean * s, w = it.w * s;
+            ctx.fillStyle = rgba(base, .96);
+            ctx.beginPath(); ctx.moveTo(px - w * 1.6, gy); ctx.quadraticCurveTo(px - w, gy - s * .4, px - w, gy - s * .8);
+            ctx.lineTo(px + lp - w * .3, ty); ctx.lineTo(px + lp + w * .3, ty); ctx.lineTo(px + w, gy - s * .8);
+            ctx.quadraticCurveTo(px + w, gy - s * .4, px + w * 1.6, gy); ctx.fill();
+            for (var b = 0; b < it.blobs.length; b++) {
+              var bl = it.blobs[b], by = cy + (bl.dy - camY) * s;
+              ctx.fillStyle = rgba(mix(base, mix(C.s, C.bg, .3 + fog * .5), bl.t * .7), .5 - fog * .12);
+              ctx.beginPath(); ctx.arc(px + (bl.dx + it.lean * (-bl.dy / 7)) * s, by, bl.r * s, 0, 6.283); ctx.fill();
+            }
+          } else {
+            var pts = it.pts, fz = Math.min(1, Math.max(0, (it.z - camZ - 2) / 24));
+            ctx.strokeStyle = rgba(mix(C.a, C.bg, .3 + fz * .4), .5 - fz * .25);
+            ctx.lineWidth = Math.max(.5, 1.3 - fz); ctx.beginPath();
+            for (var k = 0; k < pts.length; k++) {
+              var q = pts[k], s2 = f / (q.z - camZ);
+              q.sx = cx + (q.x - camX) * s2; q.sy = cy + (q.y - camY) * s2; q.ss = s2;
+              if (k) ctx.lineTo(q.sx, q.sy); else ctx.moveTo(q.sx, q.sy);
+            }
+            ctx.stroke();
+            ctx.globalCompositeOperation = 'lighter';
+            for (var k2 = 0; k2 < pts.length; k2++) {
+              var q2 = pts[k2], tw = .5 + .5 * Math.sin(t * .003 + q2.ph), sz = Math.max(5, q2.ss * .42) * (.75 + .45 * tw);
+              ctx.globalAlpha = (.45 + .5 * tw) * (1 - fz * .55);
+              ctx.drawImage(SP[q2.c], q2.sx - sz / 2, q2.sy - sz / 2, sz, sz);
+            }
+            ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+          }
+        }
+
+        /* ground mist */
+        var mg = ctx.createLinearGradient(0, H * .62, 0, H);
+        mg.addColorStop(0, rgba(C.bg, 0)); mg.addColorStop(1, rgba(C.bg, .55));
+        ctx.fillStyle = mg; ctx.fillRect(0, H * .62, W, H * .38);
+
+        /* fairy dust drifting toward the viewer */
+        ctx.globalCompositeOperation = 'lighter';
+        for (var j = 0; j < dust.length; j++) {
+          var m = dust[j];
+          if (dt) { m.z -= m.v * dt; m.y -= m.v * .35 * dt; m.x += Math.sin(t * .0007 + m.ph) * .004 * dt; }
+          if (m.z < .9) { m.z = 24; m.y = -6 + rnd() * 8; m.x = (rnd() - .5) * 16; }
+          if (m.y < -7) m.y = 2;
+          var dz2 = m.z - camZ; if (dz2 < .5) continue;
+          var s3 = f / dz2, sx = cx + (m.x - camX) * s3, sy = cy + (m.y - camY) * s3;
+          var tw2 = .5 + .5 * Math.sin(t * .004 + m.ph), sz2 = Math.max(3, m.s * s3) * (.7 + .6 * tw2);
+          ctx.globalAlpha = (.35 + .6 * tw2) * Math.min(1, (24 - m.z) / 4);
+          ctx.drawImage(SP[m.c], sx - sz2 / 2, sy - sz2 / 2, sz2, sz2);
+        }
+        /* wand trail from the name reveal */
+        for (var n = trail.length - 1; n >= 0; n--) {
+          var p = trail[n]; p.life -= .018 * dt; if (p.life <= 0) { trail.splice(n, 1); continue; }
+          p.x += p.vx * dt; p.y += p.vy * dt; p.vy += .035 * dt;
+          ctx.globalAlpha = p.life; var ps = p.size * (.4 + p.life * .8);
+          ctx.drawImage(SP[p.c], p.x - ps / 2, p.y - ps / 2, ps, ps);
+        }
+        ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+      }
+
+      function flutter(t) {
+        for (var i = 0; i < flies.length; i++) {
+          var b = flies[i];
+          var x = (b.bx + b.ax * Math.sin(t * b.fx + b.ph)) * W, y = (b.by + b.ay * Math.sin(t * b.fy + b.ph * 1.3) + .015 * Math.sin(t * .006 + i)) * H;
+          var vx = x - b.px, vy = y - b.py; b.px = x; b.py = y;
+          if (Math.abs(vx) + Math.abs(vy) > .05) { var hd = Math.atan2(vy, vx) * 57.3 + 90, dh = ((hd - b.h + 540) % 360) - 180; b.h += dh * .05; }
+          var flap = 14 + 58 * (.5 + .5 * Math.sin(t * .019 + b.ph));
+          b.el.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) rotate(' + b.h.toFixed(1) + 'deg) rotateX(52deg)';
+          b.l.style.transform = 'rotateY(' + flap.toFixed(1) + 'deg)';
+          b.r.style.transform = 'rotateY(' + (-flap).toFixed(1) + 'deg)';
+        }
+      }
+
+      if ('ResizeObserver' in window) new ResizeObserver(size).observe(cv); else window.addEventListener('resize', size);
+      size();
+      if (RM || !('IntersectionObserver' in window)) { frame(0, 0); return; }   /* reduced motion = one still frame */
+
+      /* pointer parallax: camera + arch tilt */
+      root.addEventListener('pointermove', function (e) {
+        var r = root.getBoundingClientRect();
+        var nx = (e.clientX - r.left) / r.width - .5, ny = (e.clientY - r.top) / r.height - .5;
+        tcx = nx * 1.2; tcy = ny * .5;
+      });
+      root.addEventListener('pointerleave', function () { tcx = 0; tcy = 0; });
+
+      for (var fi = 0; fi < flies.length; fi++) { flies[fi].el.style.left = '0'; flies[fi].el.style.top = '0'; }
+
+      /* entrance: arch appears, then a fairy wand writes the name */
+      var revStart = 0, named = false, entered = false;
+      root.classList.add('be-port--anim');
+      root.style.setProperty('--be-rev', '0');
+      var io = new IntersectionObserver(function (en) {
+        if (!entered && en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          entered = true; root.classList.add('is-in'); revStart = performance.now() + 520;
+          setTimeout(function () { if (!named) finishReveal(); }, 2400);   /* completes even if scrolled away mid-reveal */
+        }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+
+      function finishReveal() {
+        if (named) return;
+        named = true; root.style.setProperty('--be-rev', '120'); root.classList.add('is-named'); io.disconnect();
+        setTimeout(function () { root.classList.remove('be-port--anim', 'is-in', 'is-named'); root.style.removeProperty('--be-rev'); }, 1600);
+      }
+      function reveal(now) {
+        if (!entered || named) return;
+        var k = (now - revStart) / 1700;
+        if (k < 0) return;
+        if (k >= 1) { finishReveal(); return; }
+        var e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+        root.style.setProperty('--be-rev', (e * 118).toFixed(2));
+        var rr = root.getBoundingClientRect(), nr = nameEl.getBoundingClientRect();
+        var hx = nr.left - rr.left + nr.width * Math.min(1, e * 1.02), hy = nr.top - rr.top + nr.height * (.5 + .18 * Math.sin(k * 18));
+        for (var q = 0; q < 3; q++) trail.push({ x: hx, y: hy, vx: (Math.random() - .5) * 1.6, vy: -Math.random() * 1.6, life: 1, size: 8 + Math.random() * 14, c: Math.random() < .7 ? 0 : 1 });
+      }
+
+      var vis = true, running = false;
+      var vio = new IntersectionObserver(function (en) { vis = en[0].isIntersecting; if (vis) start(); });
+      vio.observe(root);
+      document.addEventListener('visibilitychange', start);
+      function start() { if (!running && vis && !document.hidden) { running = true; last = performance.now(); requestAnimationFrame(loop); } }
+      function loop(t) {
+        if (!vis || document.hidden) { running = false; return; }
+        var dt = Math.min(3, (t - last) / 16.67); last = t;
+        frame(t, dt); flutter(t); reveal(t);
+        rx += ((-tcy * 7) - rx) * .06 * dt; ry += ((tcx * 9) - ry) * .06 * dt;
+        arch.style.transform = 'rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg)';
+        for (var bi = 0; bi < bulbs.length; bi++) bulbs[bi].style.opacity = (.55 + .45 * Math.sin(t * .0032 + bi * 1.9)).toFixed(2);
+        if (cue) cue.style.transform = 'translateY(' + (Math.sin(t * .003) * 4).toFixed(1) + 'px) rotate(' + (Math.sin(t * .0021) * 12).toFixed(1) + 'deg)';
+        requestAnimationFrame(loop);
+      }
+      start();
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Bosque Encantado Claro de Luz',
+      descripcion: 'Portada de quinceañera en un bosque encantado 3D: árboles con guirnaldas de luces, polvo de hadas, mariposas translúcidas y nombre escrito por una varita mágica.',
+      tags: ['portada', 'bosque encantado', 'quinceañera', 'hadas', 'mariposas', '3d'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

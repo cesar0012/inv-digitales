@@ -1,0 +1,223 @@
+<section
+  class="dn-ub"
+  data-gemini-id="ubicacion-mapa"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Neonderthaw&family=Tilt+Neon&display=swap');
+
+    .dn-ub, .dn-ub *, .dn-ub *::before, .dn-ub *::after { box-sizing: border-box; }
+    .dn-ub {
+      --t-bg: var(--bg-color, #07060c);
+      --t-tx: var(--text-color, #fbf4ff);
+      --t-p: var(--primary-color, #ff2bd6);
+      --t-s: var(--secondary-color, #19f0ff);
+      --t-a: var(--accent-color, #f4ff2b);
+      --t-display: var(--font-script, 'Neonderthaw', cursive);
+      --t-text: var(--font-heading, 'Tilt Neon', system-ui, sans-serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/neon,city,night?lock=3504');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .dn-ub::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 86%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent));
+    }
+    .dn-ub__content {
+      width: min(100%, 64rem);
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: clamp(2rem, 6vw, 5rem);
+      align-items: center;
+    }
+    .dn-ub__map {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      border-radius: 2rem;
+      border: 3px solid color-mix(in srgb, var(--t-s) 55%, #fff);
+      box-shadow: 0 0 5px var(--t-s), 0 0 22px var(--t-s), inset 0 0 22px color-mix(in srgb, var(--t-s) 40%, transparent);
+      background: color-mix(in srgb, var(--t-bg) 70%, transparent);
+      overflow: hidden;
+      transform: rotate(-2deg);
+    }
+    .dn-ub__cv { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .dn-ub__pin {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 22%;
+      transform: translate(-50%, -88%) scale(var(--bump, 1));
+      transform-origin: 50% 100%;
+      filter: drop-shadow(0 0 4px var(--t-p)) drop-shadow(0 0 14px var(--t-p));
+    }
+    .dn-ub__pin path, .dn-ub__pin circle { fill: none; stroke: color-mix(in srgb, var(--t-p) 35%, #fff); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+    .dn-ub__title {
+      --g: var(--t-p);
+      margin: 0;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.4rem);
+      color: color-mix(in srgb, var(--g) 25%, #fff);
+      text-shadow: 0 0 2px #fff, 0 0 10px var(--g), 0 0 26px var(--g);
+    }
+    .dn-ub__venue {
+      --g: var(--t-s);
+      margin: .4rem 0 .8rem;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3.4rem, 8vw, 5.4rem);
+      line-height: 1;
+      color: color-mix(in srgb, var(--g) 25%, #fff);
+      text-shadow: 0 0 .02em #fff, 0 0 .1em var(--g), 0 0 .3em var(--g);
+    }
+    .dn-ub__addr { font-style: normal; font-size: clamp(1.05rem, 2.2vw, 1.25rem); line-height: 1.5; color: color-mix(in srgb, var(--t-tx) 85%, transparent); }
+    .dn-ub__time { display: inline-block; margin: 1rem 0 1.6rem; font-size: 1.15rem; color: var(--t-a); text-shadow: 0 0 10px color-mix(in srgb, var(--t-a) 70%, transparent); }
+    .dn-ub__btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
+      min-height: 3.2rem;
+      padding: .6rem 1.8rem;
+      border-radius: 999px;
+      border: 2px solid var(--t-a);
+      color: var(--t-tx);
+      text-decoration: none;
+      font-size: 1.1rem;
+      box-shadow: 0 0 10px color-mix(in srgb, var(--t-a) 70%, transparent), inset 0 0 10px color-mix(in srgb, var(--t-a) 40%, transparent);
+      transition: background-color .3s ease, color .3s ease, box-shadow .3s ease;
+    }
+    .dn-ub__btn:hover, .dn-ub__btn:focus-visible { background-color: var(--t-a); color: var(--t-bg); box-shadow: 0 0 16px var(--t-a), 0 0 40px var(--t-a); outline: none; }
+
+    .dn-ub--anim .dn-ub__map { opacity: 0; }
+    .dn-ub--anim.is-in .dn-ub__map { animation: dnUbOn .5s linear both; }
+    @keyframes dnUbOn { 0% { opacity: 0; } 15% { opacity: 1; } 25% { opacity: .15; } 40% { opacity: 1; } 55% { opacity: .4; } 70%, 100% { opacity: 1; } }
+
+    @media (max-width: 760px) {
+      .dn-ub__content { grid-template-columns: 1fr; text-align: center; }
+      .dn-ub__map { width: min(100%, 22rem); justify-self: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .dn-ub *, .dn-ub *::before, .dn-ub *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="dn-ub__content">
+    <div class="dn-ub__map" aria-hidden="true">
+      <canvas class="dn-ub__cv" data-dn-cv></canvas>
+      <svg class="dn-ub__pin" data-dn-pin viewBox="0 0 60 80"><path d="M30 76C30 76 6 48 6 30a24 24 0 0 1 48 0c0 18-24 46-24 46Z"/><circle cx="30" cy="30" r="9"/></svg>
+    </div>
+    <div>
+      <h2 class="dn-ub__title" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">¿Dónde nos vemos?</h2>
+<figure class="vmap-embed" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,640px);"><iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen style="display:block;width:100%;height:clamp(210px,38vw,330px);border:1px solid var(--primary-color,#9b9b9b);border-radius:12px;"></iframe></figure>
+<figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,340px);"><img src="https://loremflickr.com/700/420/neon,venue" alt="Vista del lugar" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" style="display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--primary-color,#9b9b9b);" /><figcaption hidden>Vista del lugar</figcaption></figure>
+      <h3 class="dn-ub__venue" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar">Salón Eclipse</h3>
+      <address class="dn-ub__addr" memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion">Av. Ejemplo 123, Col. Centro<br />Ciudad, Estado, C.P. 00000</address>
+      <time class="dn-ub__time" datetime="2027-03-20T19:00" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora">Sábado 20 de marzo · 7:00 PM</time>
+      <div>
+        <a class="dn-ub__btn" href="#" data-dn-map-link>
+          <span memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Cómo llegar</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="ubicacion-mapa"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var cv = root.querySelector('[data-dn-cv]'), ctx = cv && cv.getContext && cv.getContext('2d');
+      var pin = root.querySelector('[data-dn-pin]');
+      var link = root.querySelector('[data-dn-map-link]');
+      if (link) link.addEventListener('click', function (e) { if (link.getAttribute('href') === '#') e.preventDefault(); });
+      if (!ctx) return;
+      var cs = getComputedStyle(root);
+      var C = { p: cs.getPropertyValue('--t-p').trim(), s: cs.getPropertyValue('--t-s').trim(), a: cs.getPropertyValue('--t-a').trim() };
+      var S = 0, DPR = Math.min(window.devicePixelRatio || 1, 2), rings = [];
+      function size() { S = cv.clientWidth; cv.width = cv.height = S * DPR; ctx.setTransform(DPR, 0, 0, DPR, 0, 0); }
+      function streets() {
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = C.s; ctx.globalAlpha = .22; ctx.lineWidth = 2;
+        for (var i = 1; i < 6; i++) {
+          ctx.beginPath(); ctx.moveTo(0, S * i / 6 + S * .05); ctx.lineTo(S, S * i / 6 - S * .05); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(S * i / 6 - S * .04, 0); ctx.lineTo(S * i / 6 + S * .04, S); ctx.stroke();
+        }
+        ctx.globalAlpha = .55; ctx.strokeStyle = C.p; ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.moveTo(0, S * .8); ctx.quadraticCurveTo(S * .45, S * .6, S, S * .15); ctx.stroke();
+        ctx.globalAlpha = 1;
+      }
+      function draw(dt) {
+        ctx.clearRect(0, 0, S, S); streets();
+        var cx = S / 2, cy = S / 2;
+        ctx.strokeStyle = C.a; ctx.lineWidth = 2.5;
+        for (var i = rings.length - 1; i >= 0; i--) {
+          var r = rings[i]; r.age += dt;
+          if (r.age > 1.6) { rings.splice(i, 1); continue; }
+          ctx.globalAlpha = Math.max(0, 1 - r.age / 1.6) * .9;
+          ctx.beginPath(); ctx.arc(cx, cy, 8 + r.age * S * .28, 0, 6.283); ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+      }
+      size();
+      if (RM || !('IntersectionObserver' in window)) { rings = [{ age: .3 }, { age: .8 }, { age: 1.3 }]; draw(0); return; }
+
+      root.classList.add('dn-ub--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('dn-ub--anim', 'is-in'); }, 1200);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+
+      /* Pulse: a ring is emitted every 0.5s and the pin beats with it (rAF, paused off-screen) */
+      var vis = false, raf = 0, last = 0, acc = .5, beat = 1;
+      function loop(t) {
+        raf = 0;
+        if (!vis || document.hidden) return;
+        var dt = last ? Math.min(.05, (t - last) / 1000) : 0; last = t;
+        acc += dt; beat = Math.max(0, beat - dt * 4);
+        if (acc >= .5) { acc = 0; rings.push({ age: 0 }); beat = 1; }
+        draw(dt);
+        pin.style.setProperty('--bump', (1 + beat * beat * .1).toFixed(3));
+        raf = requestAnimationFrame(loop);
+      }
+      function start() { if (!raf) { last = 0; raf = requestAnimationFrame(loop); } }
+      new IntersectionObserver(function (en) { vis = en[0].isIntersecting; if (vis) start(); }).observe(root);
+      document.addEventListener('visibilitychange', start);
+      window.addEventListener('resize', size);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-mapa',
+      style_name: 'Dulce Neón Radar',
+      descripcion: 'Ubicación con mapa de calles en neón dibujado en canvas, pin de tubo rosa que late y anillos amarillos de radar cada medio segundo; dirección, hora y botón Cómo llegar.',
+      tags: ['ubicación', 'neon', 'mapa', 'quinceañera', 'glow'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>

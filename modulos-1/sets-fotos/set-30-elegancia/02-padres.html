@@ -1,0 +1,217 @@
+<section
+  class="em-pad"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+<i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:url('https://loremflickr.com/1920/1080/elegant,ring?lock=404') center/cover;"></i><i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:color-mix(in srgb, var(--bg-color,#1d1a24) 88%, transparent);"></i>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,200;0,300;0,400;1,200;1,300&family=Manrope:wght@200;300;400;500&display=swap');
+
+    .em-pad, .em-pad *, .em-pad *::before, .em-pad *::after { box-sizing: border-box; }
+    .em-pad {
+      --t-bg: var(--bg-color, #ffffff);
+      --t-tx: var(--text-color, #2b2b2b);
+      --t-p: var(--primary-color, #b76e79);
+      --t-s: var(--secondary-color, #8a837f);
+      --t-a: var(--accent-color, #e4c6ba);
+      --t-display: var(--font-script, 'Jost', 'Helvetica Neue', Arial, sans-serif);
+      --t-text: var(--font-heading, 'Manrope', 'Helvetica Neue', Arial, sans-serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 46rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(5rem, 10vw, 9rem) clamp(1.25rem, 6vw, 5rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .em-pad__paper { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mix-blend-mode: multiply; opacity: .36; }
+    .em-pad__inner {
+      width: min(100%, 68rem);
+      display: grid;
+      grid-template-columns: minmax(0, .8fr) minmax(0, 1.6fr);
+      gap: clamp(3rem, 7vw, 6rem);
+      align-items: start;
+    }
+    .em-pad__head { display: grid; gap: 1.1rem; position: sticky; top: 2rem; }
+    .em-pad__eyebrow {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      font-family: var(--t-display);
+      font-style: italic;
+      font-weight: 300;
+      font-size: 1.05rem;
+      color: var(--t-s);
+    }
+    .em-pad__eyebrow::before { content: ''; width: 2.2rem; height: 1px; background: var(--t-p); }
+    .em-pad__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 200;
+      font-size: clamp(2.3rem, 4.6vw, 3.6rem);
+      line-height: 1.04;
+      letter-spacing: -.02em;
+    }
+    .em-pad__lead { margin: 0; max-width: 24rem; font-weight: 300; font-size: 1rem; line-height: 1.75; color: var(--t-s); }
+    .em-pad__grid {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(2.5rem, 5vw, 4.5rem);
+      align-items: start;
+    }
+    .em-pad__card { display: grid; justify-items: center; align-content: start; text-align: center; gap: 1.6rem; }
+    .em-pad__card:nth-child(2) { margin-top: clamp(0rem, 6vw, 5rem); }
+    .em-pad__photo { position: relative; width: min(100%, 15rem); }
+    .em-pad__figure {
+      margin: 0;
+      border-radius: 50%;
+      overflow: hidden;
+      aspect-ratio: 1;
+      background: color-mix(in srgb, var(--t-a) 45%, var(--t-bg));
+    }
+    .em-pad__figure img { color: transparent; display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; filter: grayscale(.25); }
+    .em-pad__ring { position: absolute; inset: -12px; width: calc(100% + 24px); height: calc(100% + 24px); overflow: visible; pointer-events: none; }
+    .em-pad__ring circle { fill: none; stroke: var(--t-p); stroke-width: .35; stroke-dasharray: 100; stroke-dashoffset: 0; }
+    .em-pad__role {
+      margin: 0;
+      font-family: var(--t-display);
+      font-style: italic;
+      font-weight: 300;
+      font-size: 1rem;
+      color: var(--t-p);
+    }
+    .em-pad__names { margin: 0; display: grid; gap: .3rem; }
+    .em-pad__name {
+      font-family: var(--t-display);
+      font-weight: 300;
+      font-size: clamp(1.35rem, 2.2vw, 1.65rem);
+      letter-spacing: -.01em;
+    }
+    .em-pad__and { font-weight: 300; font-size: .85rem; color: var(--t-s); }
+
+    @media (max-width: 860px) {
+      .em-pad__inner { grid-template-columns: 1fr; }
+      .em-pad__head { position: static; text-align: center; justify-items: center; }
+      .em-pad__lead { max-width: 30rem; }
+    }
+    @media (max-width: 560px) {
+      .em-pad__grid { grid-template-columns: 1fr; }
+      .em-pad__card:nth-child(2) { margin-top: 0; }
+    }
+
+    /* Entrance: ring draws, photo settles, names appear — staggered per card. Each transition <= .5s */
+    .em-pad--anim .em-pad__ring circle { stroke-dashoffset: 100; }
+    .em-pad--anim .em-pad__figure { opacity: 0; transform: scale(.94); }
+    .em-pad--anim .em-pad__text { opacity: 0; transform: translateY(8px); }
+    .em-pad--anim .em-pad__card.is-in .em-pad__ring circle { stroke-dashoffset: 0; transition: stroke-dashoffset .5s cubic-bezier(.6, 0, .2, 1) calc(var(--d, 0s) + .15s); }
+    .em-pad--anim .em-pad__card.is-in .em-pad__figure { opacity: 1; transform: none; transition: opacity .45s ease var(--d, 0s), transform .5s cubic-bezier(.2, .8, .2, 1) var(--d, 0s); }
+    .em-pad--anim .em-pad__card.is-in .em-pad__text { opacity: 1; transform: none; transition: opacity .4s ease calc(var(--d, 0s) + .45s), transform .45s ease calc(var(--d, 0s) + .45s); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .em-pad *, .em-pad *::before, .em-pad *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="em-pad__paper" aria-hidden="true" focusable="false">
+    <filter id="em30-paper-pad" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="4" seed="21" result="n" />
+      <feDiffuseLighting in="n" lighting-color="#ffffff" surfaceScale="1.3"><feDistantLight azimuth="45" elevation="58" /></feDiffuseLighting>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#em30-paper-pad)" />
+  </svg>
+
+  <div class="em-pad__inner">
+    <header class="em-pad__head">
+      <p class="em-pad__eyebrow" memory_type="text" memory_usage="custom" memory_key="padres-etiqueta">Con amor y gratitud</p>
+      <h2 class="em-pad__title" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Nuestros padres</h2>
+      <p class="em-pad__lead" memory_type="text" memory_usage="custom" memory_key="padres-texto">Gracias por enseñarnos que el amor se construye con paciencia, en los detalles más sencillos.</p>
+    </header>
+
+    <ul class="em-pad__grid">
+      <li class="em-pad__card" data-em-card>
+        <div class="em-pad__photo">
+          <figure class="em-pad__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/600/600/parents,portrait,couple?lock=3021" alt="Padres de la novia" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+          </figure>
+          <svg class="em-pad__ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="49" pathLength="100" transform="rotate(-90 50 50)" /></svg>
+        </div>
+        <div class="em-pad__text">
+          <h3 class="em-pad__role" memory_type="text" memory_usage="custom" memory_key="padres-novia-rol">Padres de la novia</h3>
+          <p class="em-pad__names">
+            <span class="em-pad__name" memory_type="text" memory_usage="custom" memory_key="padres-novia-padre">Nombre Apellido</span>
+            <span class="em-pad__and" aria-hidden="true">y</span>
+            <span class="em-pad__name" memory_type="text" memory_usage="custom" memory_key="padres-novia-madre">Nombre Apellido</span>
+          </p>
+        </div>
+      </li>
+      <li class="em-pad__card" data-em-card>
+        <div class="em-pad__photo">
+          <figure class="em-pad__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/600/600/parents,portrait,family?lock=3022" alt="Padres del novio" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+          </figure>
+          <svg class="em-pad__ring" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="49" pathLength="100" transform="rotate(-90 50 50)" /></svg>
+        </div>
+        <div class="em-pad__text">
+          <h3 class="em-pad__role" memory_type="text" memory_usage="custom" memory_key="padres-novio-rol">Padres del novio</h3>
+          <p class="em-pad__names">
+            <span class="em-pad__name" memory_type="text" memory_usage="custom" memory_key="padres-novio-padre">Nombre Apellido</span>
+            <span class="em-pad__and" aria-hidden="true">y</span>
+            <span class="em-pad__name" memory_type="text" memory_usage="custom" memory_key="padres-novio-madre">Nombre Apellido</span>
+          </p>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="padres-padre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      var cards = root.querySelectorAll('[data-em-card]');
+      root.classList.add('em-pad--anim');
+      void root.offsetWidth;
+      var left = cards.length;
+      var io = new IntersectionObserver(function (en) {
+        en.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          io.unobserve(e.target);
+          var i = Array.prototype.indexOf.call(cards, e.target);
+          e.target.style.setProperty('--d', (i * 0.22) + 's');
+          e.target.classList.add('is-in');
+          if (--left === 0) {
+            setTimeout(function () {
+              root.classList.remove('em-pad--anim');
+              for (var k = 0; k < cards.length; k++) { cards[k].classList.remove('is-in'); cards[k].style.removeProperty('--d'); }
+            }, 1800);
+          }
+        });
+      }, { threshold: .3 });
+      for (var i = 0; i < cards.length; i++) io.observe(cards[i]);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Elegancia Minimalista Anillo',
+      descripcion: 'Padres de los novios en composición editorial asimétrica: retratos circulares con un fino anillo de oro rosado que se dibuja al entrar, nombres en sans-serif fina sobre papel acuarela.',
+      tags: ['padres', 'boda', 'minimalista', 'oro rosado', 'retratos'],
+      tipo: 'padres'
+    };
+  </script>
+</section>

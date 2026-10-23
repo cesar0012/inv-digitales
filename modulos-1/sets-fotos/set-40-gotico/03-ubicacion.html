@@ -1,0 +1,244 @@
+<section
+  class="gg-ub"
+  data-gemini-id="ubicacion-mapa"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Grenze+Gotisch:wght@400;500;600;700&display=swap');
+
+    .gg-ub, .gg-ub *, .gg-ub *::before, .gg-ub *::after { box-sizing: border-box; }
+    .gg-ub {
+      --t-bg: var(--bg-color, #0d0809);
+      --t-tx: var(--text-color, #eee5dd);
+      --t-p: var(--primary-color, #7d0f1f);
+      --t-s: var(--secondary-color, #1f0b10);
+      --t-a: var(--accent-color, #a3a1aa);
+      --t-display: var(--font-script, 'Grenze Gotisch', 'Cormorant Garamond', serif);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 55vw, 42rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4.5rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/gothic,castle,night?lock=3331');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .gg-ub::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(70% 60% at 30% 50%, color-mix(in srgb, var(--t-p) 20%, transparent), transparent 70%),
+        linear-gradient(100deg, color-mix(in srgb, var(--t-bg) 95%, transparent), color-mix(in srgb, var(--t-bg) 84%, transparent));
+    }
+    .gg-ub__wrap {
+      width: min(100%, 66rem);
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+      gap: clamp(2rem, 5vw, 4.5rem);
+      align-items: center;
+    }
+
+    /* Map in a pointed window */
+    .gg-ub__window {
+      position: relative;
+      aspect-ratio: 4 / 4.6;
+      clip-path: polygon(0 26%, 2% 19%, 8% 13%, 18% 7.5%, 32% 3.2%, 50% 0, 68% 3.2%, 82% 7.5%, 92% 13%, 98% 19%, 100% 26%, 100% 100%, 0 100%);
+      background:
+        radial-gradient(circle at 62% 58%, color-mix(in srgb, var(--t-p) 22%, transparent), transparent 45%),
+        linear-gradient(160deg, var(--t-s), var(--t-bg));
+    }
+    .gg-ub__frame { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+    .gg-ub__frame path { vector-effect: non-scaling-stroke; fill: none; }
+    .gg-ub__map { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .gg-ub__streets path { fill: none; stroke: color-mix(in srgb, var(--t-a) 34%, transparent); stroke-linecap: round; }
+    .gg-ub__route { fill: none; stroke: var(--t-a); stroke-width: 2; stroke-dasharray: 6 7; stroke-linecap: round; }
+    .gg-ub__ring { fill: none; stroke: var(--t-p); }
+    .gg-ub__compass { opacity: .8; }
+
+    .gg-ub__info { display: grid; gap: 1rem; text-align: left; }
+    .gg-ub__kicker { margin: 0; font-style: italic; font-size: clamp(1.05rem, 2.2vw, 1.2rem); color: color-mix(in srgb, var(--t-a) 80%, var(--t-tx)); }
+    .gg-ub__title { margin: 0; font-family: var(--t-display); font-weight: 600; font-size: clamp(2.3rem, 5.4vw, 3.6rem); line-height: 1; text-wrap: balance; }
+    .gg-ub__venue {
+      margin: .4rem 0 0;
+      font-size: clamp(1.35rem, 3vw, 1.7rem);
+      font-weight: 600;
+      color: color-mix(in srgb, var(--t-p) 45%, var(--t-tx));
+    }
+    .gg-ub__addr { font-style: normal; font-size: clamp(1.08rem, 2.2vw, 1.22rem); line-height: 1.5; color: color-mix(in srgb, var(--t-tx) 85%, transparent); }
+    .gg-ub__addr span { display: block; }
+    .gg-ub__time {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      font-size: 1.1rem;
+      color: var(--t-tx);
+    }
+    .gg-ub__time::before { content: ''; width: 2.2rem; height: 1px; background: var(--t-a); }
+    .gg-ub__btn {
+      justify-self: start;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: .7rem;
+      min-height: 3rem;
+      margin-top: .6rem;
+      padding: .7rem 1.6rem;
+      border: 1px solid color-mix(in srgb, var(--t-a) 70%, transparent);
+      border-radius: 2rem 2rem .3rem .3rem;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-p) 80%, var(--t-bg)), color-mix(in srgb, var(--t-p) 45%, var(--t-bg)));
+      color: var(--t-tx);
+      font: 600 1.1rem/1 var(--t-text);
+      text-decoration: none;
+      overflow: hidden;
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .gg-ub__btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(110deg, transparent 30%, color-mix(in srgb, var(--t-a) 45%, transparent) 50%, transparent 70%);
+      transform: translateX(-120%);
+      transition: transform .5s ease;
+    }
+    .gg-ub__btn:hover, .gg-ub__btn:focus-visible { transform: translateY(-2px); box-shadow: 0 .6rem 1.6rem -.6rem color-mix(in srgb, var(--t-p) 80%, transparent); }
+    .gg-ub__btn:hover::after, .gg-ub__btn:focus-visible::after { transform: translateX(120%); }
+    .gg-ub__btn svg { width: 1.1rem; height: 1.1rem; }
+
+    .gg-ub--anim .gg-ub__window { opacity: 0; transform: scale(.96); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .gg-ub--anim .gg-ub__info > * { opacity: 0; transform: translateX(18px); transition: opacity .4s ease, transform .45s cubic-bezier(.2, .8, .2, 1); }
+    .gg-ub--anim.is-in .gg-ub__window, .gg-ub--anim.is-in .gg-ub__info > * { opacity: 1; transform: none; }
+    .gg-ub--anim.is-in .gg-ub__info > *:nth-child(2) { transition-delay: .1s; }
+    .gg-ub--anim.is-in .gg-ub__info > *:nth-child(3) { transition-delay: .2s; }
+    .gg-ub--anim.is-in .gg-ub__info > *:nth-child(4) { transition-delay: .3s; }
+    .gg-ub--anim.is-in .gg-ub__info > *:nth-child(5) { transition-delay: .4s; }
+    .gg-ub--anim.is-in .gg-ub__info > *:nth-child(6) { transition-delay: .5s; }
+
+    @media (max-width: 760px) {
+      .gg-ub__wrap { grid-template-columns: 1fr; }
+      .gg-ub__window { width: min(100%, 24rem); justify-self: center; }
+      .gg-ub__info { text-align: center; justify-items: center; }
+      .gg-ub__btn { justify-self: center; }
+      .gg-ub__time::before { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .gg-ub *, .gg-ub *::before, .gg-ub *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="gg-ub__wrap">
+    <div class="gg-ub__window" aria-hidden="true">
+      <svg class="gg-ub__map" viewBox="0 0 400 460" preserveAspectRatio="xMidYMid slice">
+        <g class="gg-ub__streets">
+          <path d="M-10 300 C80 280 150 330 230 300 S360 250 420 270" style="stroke: color-mix(in srgb, var(--t-p) 45%, transparent); stroke-width: 16" />
+          <path d="M40 120 L370 160 M20 210 L390 230 M0 380 L410 360 M90 90 L120 470 M200 100 L240 470 M310 120 L330 470" style="stroke-width: 2.2" />
+          <path d="M60 160 L180 175 M260 190 L360 200 M140 230 L160 340 M270 230 L285 420 M30 330 L380 320" style="stroke-width: 1.1" />
+          <path d="M60 420 L170 410 M100 260 L210 270" style="stroke-width: 1" />
+        </g>
+        <path class="gg-ub__route" data-gg-route d="M70 440 C90 380 110 330 160 310 S240 280 250 256" />
+        <g transform="translate(250 252)">
+          <circle class="gg-ub__ring" data-gg-ring r="14" style="stroke-width: 1.6" />
+          <circle class="gg-ub__ring" data-gg-ring r="14" style="stroke-width: 1.6" />
+          <circle class="gg-ub__ring" data-gg-ring r="14" style="stroke-width: 1.6" />
+          <g data-gg-flame>
+            <rect x="-4" y="0" width="8" height="18" rx="1.5" style="fill: var(--t-tx)" />
+            <path d="M0 -24 C7 -14 7 -6 0 -1 C-7 -6 -7 -14 0 -24 Z" style="fill: color-mix(in srgb, var(--t-p) 30%, #ffd9b0)" />
+            <path d="M0 -17 C3 -11 3 -7 0 -4 C-3 -7 -3 -11 0 -17 Z" style="fill: #fff6ea" />
+          </g>
+        </g>
+        <g class="gg-ub__compass" transform="translate(330 400)">
+          <circle r="26" style="fill: none; stroke: var(--t-a); stroke-width: .8" />
+          <path d="M0 -32 L5 0 L0 32 L-5 0 Z" style="fill: color-mix(in srgb, var(--t-a) 70%, transparent)" />
+          <path d="M-32 0 L0 -4 L32 0 L0 4 Z" style="fill: color-mix(in srgb, var(--t-a) 40%, transparent)" />
+          <path d="M0 -32 L5 0 L-5 0 Z" style="fill: var(--t-p)" />
+        </g>
+      </svg>
+      <svg class="gg-ub__frame" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path d="M0 100 V26 C0 14 30 5 50 0 C70 5 100 14 100 26 V100 Z" style="stroke: var(--t-a); stroke-width: 2.4px" />
+        <path d="M3 97 V27 C3 17 32 8 50 3.5 C68 8 97 17 97 27 V97 Z" style="stroke: var(--t-a); stroke-width: .8px; opacity: .55" />
+      </svg>
+    </div>
+
+    <div class="gg-ub__info">
+      <p class="gg-ub__kicker" memory_type="text" memory_usage="custom" memory_key="ubicacion-kicker">La ceremonia y la velada</p>
+      <h2 class="gg-ub__title" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Donde arderán las velas</h2>
+<figure class="vmap-embed" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,640px);"><iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen style="display:block;width:100%;height:clamp(210px,38vw,330px);border:1px solid var(--primary-color,#9b9b9b);border-radius:12px;"></iframe></figure>
+<figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,340px);"><img src="https://loremflickr.com/700/420/gothic,venue" alt="Vista del lugar" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" style="display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--primary-color,#9b9b9b);" /><figcaption hidden>Vista del lugar</figcaption></figure>
+      <h3 class="gg-ub__venue" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar">Capilla de San Nombre</h3>
+      <address class="gg-ub__addr">
+        <span memory_type="text" memory_usage="custom" memory_key="ubicacion-calle">Calle de las Rosas 1890, Centro Histórico</span>
+        <span memory_type="text" memory_usage="custom" memory_key="ubicacion-ciudad">Ciudad, Estado, C.P. 00000</span>
+      </address>
+      <p class="gg-ub__time"><time datetime="2027-10-30T19:00" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora">Sábado 30 de octubre · 7:00 p.m.</time></p>
+      <a class="gg-ub__btn" href="#" data-gg-directions>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 C17 8 17 13 12 16 C7 13 7 8 12 2 Z M12 16 V22" style="fill: none; stroke: currentColor; stroke-width: 1.6" /></svg>
+        <span memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Cómo llegar</span>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="ubicacion-mapa"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var btn = root.querySelector('[data-gg-directions]');
+      if (btn) btn.addEventListener('click', function (e) { if (btn.getAttribute('href') === '#') e.preventDefault(); });
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      /* Marker pulse + flame flicker + marching route: rAF, paused off-screen */
+      var rings = [].slice.call(root.querySelectorAll('[data-gg-ring]'));
+      var flame = root.querySelector('[data-gg-flame]');
+      var route = root.querySelector('[data-gg-route]');
+      var on = false, raf = 0, seen = false, t0 = performance.now();
+      function tick(now) {
+        var t = (now - t0) / 1000;
+        rings.forEach(function (r, i) {
+          var k = ((t * .55) + i / rings.length) % 1;
+          r.setAttribute('r', (14 + k * 46).toFixed(1));
+          r.style.opacity = (1 - k) * .85;
+        });
+        if (flame) flame.setAttribute('transform', 'scale(' + (1 + .06 * Math.sin(t * 12) + .03 * Math.sin(t * 27)).toFixed(3) + ' ' + (1 + .08 * Math.sin(t * 9)).toFixed(3) + ')');
+        if (route) route.style.strokeDashoffset = (-t * 18).toFixed(1);
+        if (on) raf = requestAnimationFrame(tick);
+      }
+      function go(v) { if (v && !on && !document.hidden) { on = true; raf = requestAnimationFrame(tick); } else if (!v) { on = false; cancelAnimationFrame(raf); } }
+      new IntersectionObserver(function (en) { seen = en[0].isIntersecting; go(seen); }).observe(root);
+      document.addEventListener('visibilitychange', function () { go(!document.hidden && seen); });
+
+      root.classList.add('gg-ub--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('gg-ub--anim', 'is-in'); }, 1500);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-mapa',
+      style_name: 'Glamour Gótico Ventana Ojival',
+      descripcion: 'Ubicación en ventana ojival plateada con mapa grabado, ruta punteada en marcha y vela marcadora con pulsos rojos en rAF; dirección semántica y botón Cómo llegar con destello plateado.',
+      tags: ['ubicación', 'boda', 'gotico', 'glamour', 'mapa', 'velas'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>

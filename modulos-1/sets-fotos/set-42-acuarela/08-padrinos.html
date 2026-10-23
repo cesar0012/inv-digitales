@@ -1,0 +1,193 @@
+<section
+  class="wa-pd"
+  data-gemini-id="padrinos-acuarela"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+<i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:url('https://loremflickr.com/1920/1080/watercolor,flowers?lock=429') center/cover;"></i><i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:color-mix(in srgb, var(--bg-color,#1d1a24) 88%, transparent);"></i>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+        .wa-pd, .wa-pd *, .wa-pd *::before, .wa-pd *::after { box-sizing: border-box; }
+    .wa-pd {
+      --t-bg: var(--bg-color, #fbf6f0);
+      --t-tx: var(--text-color, #4a3d4f);
+      --t-p: var(--primary-color, #eba48d);
+      --t-s: var(--secondary-color, #b8a6d9);
+      --t-a: var(--accent-color, #c49a45);
+      --t-m: var(--tertiary-color, #a4d4bf);
+      --t-display: var(--font-script, 'Pinyon Script', 'Great Vibes', cursive);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Garamond, Georgia, serif);
+      --t-ink: color-mix(in srgb, var(--t-tx) 76%, var(--t-bg));
+      --t-paper: color-mix(in srgb, var(--t-bg) 62%, #ffffff);
+      --t-shadow: 0 1.4rem 3rem -1.6rem color-mix(in srgb, var(--t-tx) 42%, transparent), 0 .2rem .7rem -.3rem color-mix(in srgb, var(--t-tx) 18%, transparent);
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background-color: var(--t-bg);
+      color: var(--t-tx);
+      font-family: var(--t-text);
+      font-size: clamp(1.05rem, .35vw + 1rem, 1.22rem);
+      line-height: 1.55;
+    }
+    .wa-pd__flora { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; display: block; }
+    .wa-pd__eyebrow { margin: 0 0 .35rem; font-style: italic; font-size: clamp(1.1rem, 1.3vw, 1.32rem); color: var(--t-ink); }
+    .wa-pd__title { margin: 0; padding: 0 .25em .08em; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.7rem, 5.6vw, 4.3rem); line-height: 1.08; color: var(--t-tx); }
+    .wa-pd__lede { margin: .7rem auto 0; max-width: 34rem; color: var(--t-ink); }
+    .wa-pd { padding: clamp(4.5rem, 9vw, 7.5rem) clamp(1.1rem, 5vw, 4rem) clamp(5.5rem, 10vw, 8.5rem); }
+    .wa-pd__head { position: relative; z-index: 1; text-align: center; max-width: 38rem; margin: 0 auto clamp(2.8rem, 5vw, 4rem); }
+    .wa-pd__grid { position: relative; z-index: 1; list-style: none; margin: 0 auto; padding: 0; max-width: 58rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.8rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4.5rem); }
+    .wa-pd__item { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: clamp(1rem, 2.4vw, 1.6rem); }
+    .wa-pd__item:nth-child(even) { transform: translateY(2.6rem); }
+    .wa-pd__halo { position: relative; width: clamp(6.4rem, 12vw, 8.4rem); aspect-ratio: 1; display: grid; place-items: center; }
+    .wa-pd__halo canvas { position: absolute; inset: -32%; width: 164%; height: 164%; display: block; pointer-events: none; }
+    .wa-pd__figure { position: relative; z-index: 1; margin: 0; width: 84%; border-radius: 50%; overflow: hidden; box-shadow: 0 .9rem 1.6rem -1rem color-mix(in srgb, var(--t-tx) 55%, transparent); }
+    .wa-pd__figure img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
+    .wa-pd__role { margin: 0; font-style: italic; color: var(--t-ink); }
+    .wa-pd__names { margin: .05rem 0 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(1.7rem, 2.7vw, 2.15rem); line-height: 1.18; }
+
+    .wa-pd--anim .wa-pd__title {
+      -webkit-mask-image: linear-gradient(105deg, #000 calc(var(--wa-rv, 125) * 1% - 24%), transparent calc(var(--wa-rv, 125) * 1%));
+      mask-image: linear-gradient(105deg, #000 calc(var(--wa-rv, 125) * 1% - 24%), transparent calc(var(--wa-rv, 125) * 1%));
+    }
+    .wa-pd--anim .wa-pd__figure { opacity: 0; transform: scale(.7) rotate(-8deg); filter: blur(4px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .9, .25, 1.2), filter .45s ease; }
+    .wa-pd--anim .wa-pd__txt { opacity: 0; filter: blur(6px); transform: translateX(-8px); transition: opacity .45s ease .2s, filter .45s ease .2s, transform .45s ease .2s; }
+    .wa-pd--anim [data-wa-on] .wa-pd__figure, .wa-pd--anim [data-wa-on] .wa-pd__txt { opacity: 1; transform: none; filter: none; }
+
+    @media (max-width: 720px) {
+      .wa-pd__grid { grid-template-columns: 1fr; max-width: 26rem; }
+      .wa-pd__item:nth-child(even) { transform: none; grid-template-columns: minmax(0, 1fr) auto; text-align: right; }
+      .wa-pd__item:nth-child(even) .wa-pd__halo { order: 2; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .wa-pd *, .wa-pd *::before, .wa-pd *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <canvas class="wa-pd__flora" data-wa-flora aria-hidden="true"></canvas>
+  <header class="wa-pd__head">
+    <p class="wa-pd__eyebrow" memory_type="text" memory_usage="custom" memory_key="padrinos-antetitulo">Quienes nos acompañan de cerca</p>
+    <h2 class="wa-pd__title" data-wa-ink memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Nuestros padrinos</h2>
+    <p class="wa-pd__lede" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Gracias por ser parte de cada detalle y por caminar a nuestro lado.</p>
+  </header>
+
+  <ul class="wa-pd__grid" role="list">
+    <li class="wa-pd__item" data-wa-item>
+      <div class="wa-pd__halo"><canvas data-wa-halo aria-hidden="true"></canvas>
+        <figure class="wa-pd__figure" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/500/500/couple,portrait?lock=3381" alt="Padrinos de velación" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" /></figure>
+      </div>
+      <div>
+        <p class="wa-pd__role wa-pd__txt" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-1">Padrinos de velación</p>
+        <h3 class="wa-pd__names wa-pd__txt" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-1">Nombre Apellido y Nombre Apellido</h3>
+      </div>
+    </li>
+    <li class="wa-pd__item" data-wa-item>
+      <div class="wa-pd__halo"><canvas data-wa-halo aria-hidden="true"></canvas>
+        <figure class="wa-pd__figure" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/500/500/couple,smile?lock=3382" alt="Padrinos de anillos" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" /></figure>
+      </div>
+      <div>
+        <p class="wa-pd__role wa-pd__txt" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-2">Padrinos de anillos</p>
+        <h3 class="wa-pd__names wa-pd__txt" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-2">Nombre Apellido y Nombre Apellido</h3>
+      </div>
+    </li>
+    <li class="wa-pd__item" data-wa-item>
+      <div class="wa-pd__halo"><canvas data-wa-halo aria-hidden="true"></canvas>
+        <figure class="wa-pd__figure" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/500/500/couple,garden?lock=3383" alt="Padrinos de lazo" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" /></figure>
+      </div>
+      <div>
+        <p class="wa-pd__role wa-pd__txt" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-3">Padrinos de lazo</p>
+        <h3 class="wa-pd__names wa-pd__txt" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-3">Nombre Apellido y Nombre Apellido</h3>
+      </div>
+    </li>
+    <li class="wa-pd__item" data-wa-item>
+      <div class="wa-pd__halo"><canvas data-wa-halo aria-hidden="true"></canvas>
+        <figure class="wa-pd__figure" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/500/500/couple,elegant?lock=3384" alt="Padrinos de arras" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" /></figure>
+      </div>
+      <div>
+        <p class="wa-pd__role wa-pd__txt" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-4">Padrinos de arras</p>
+        <h3 class="wa-pd__names wa-pd__txt" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-4">Nombre Apellido y Nombre Apellido</h3>
+      </div>
+    </li>
+    <li class="wa-pd__item" data-wa-item>
+      <div class="wa-pd__halo"><canvas data-wa-halo aria-hidden="true"></canvas>
+        <figure class="wa-pd__figure" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/500/500/woman,flowers?lock=3385" alt="Madrina de ramo" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" /></figure>
+      </div>
+      <div>
+        <p class="wa-pd__role wa-pd__txt" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-5">Madrina de ramo</p>
+        <h3 class="wa-pd__names wa-pd__txt" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-5">Nombre Apellido</h3>
+      </div>
+    </li>
+    <li class="wa-pd__item" data-wa-item>
+      <div class="wa-pd__halo"><canvas data-wa-halo aria-hidden="true"></canvas>
+        <figure class="wa-pd__figure" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/500/500/couple,toast?lock=3386" alt="Padrinos de brindis" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" /></figure>
+      </div>
+      <div>
+        <p class="wa-pd__role wa-pd__txt" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-6">Padrinos de brindis</p>
+        <h3 class="wa-pd__names wa-pd__txt" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-6">Nombre Apellido y Nombre Apellido</h3>
+      </div>
+    </li>
+  </ul>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="padrinos-acuarela"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      /* Acuarela watercolor engine (minified) */ var WC=function(){function t(t){return t=t>>>0||1,function(){t=t+1831565813|0;var i=Math.imul(t^t>>>15,1|t);return(((i=i+Math.imul(i^i>>>7,61|i)^i)^i>>>14)>>>0)/4294967296}}var i=null;function s(t){i||(i=document.createElement("canvas").getContext("2d")),i.fillStyle="#000",i.fillStyle=String(t||"").trim()||"#000";var s=i.fillStyle;if("#"===s.charAt(0))return[parseInt(s.slice(1,3),16),parseInt(s.slice(3,5),16),parseInt(s.slice(5,7),16)];var n=s.match(/[\d.]+/g);return n?[+n[0],+n[1],+n[2]]:[0,0,0]}function n(t,i,s){return[t[0]+(i[0]-t[0])*s,t[1]+(i[1]-t[1])*s,t[2]+(i[2]-t[2])*s]}function a(t,i){return"rgba("+(0|t[0])+","+(0|t[1])+","+(0|t[2])+","+(+i).toFixed(3)+")"}function e(t){var i=getComputedStyle(t);function e(t,n){var a=i.getPropertyValue(t);return s(a&&a.trim()?a:n)}var r=e("--t-p","#eba48d"),h=e("--t-s","#b8a6d9"),o=e("--t-a","#c49a45"),l=e("--t-m","#a4d4bf"),c=e("--t-bg","#fbf6f0"),u=e("--t-tx","#4a3d4f");return{p:r,s:h,a:o,m:l,bg:c,tx:u,blooms:[r,h,n(r,c,.3),n(h,r,.45),n(r,o,.25),n(r,h,.2)],leaf:[l,n(l,u,.22),n(l,h,.3),n(l,o,.22)],gh:a(n(o,[255,255,255],.65),.96),gm:a(o,.94),gs:a(n(o,u,.4),.9)}}function r(i,s){this.r=t(i),this.ops=[],this.pl=s,this.unit=1}var h=r.prototype;function o(t,i,s){if(1===i.t){var n,e=i.p;for(t.globalCompositeOperation="multiply",t.beginPath(),t.moveTo(e[0],e[1]),n=2;n<e.length;n+=2)t.lineTo(e[n],e[n+1]);if(t.closePath(),i.g){var r=t.createRadialGradient(i.g[0],i.g[1],0,i.g[0],i.g[1],i.g[2]);r.addColorStop(0,a(i.c,i.a)),r.addColorStop(1,a(i.c,i.a2)),t.fillStyle=r}else t.fillStyle=a(i.c,i.a);t.fill()}else if(2===i.t){t.globalCompositeOperation="source-over",t.save(),t.translate(i.x,i.y),t.rotate(i.r),t.scale(1,i.e);var h=t.createRadialGradient(.35*-i.s,.35*-i.s,0,0,0,i.s);h.addColorStop(0,s.gh),h.addColorStop(.55,s.gm),h.addColorStop(1,s.gs),t.fillStyle=h,t.beginPath(),t.arc(0,0,i.s,0,6.2832),t.fill(),t.restore()}else if(4===i.t){t.globalCompositeOperation="destination-out";var o=t.createRadialGradient(i.x,i.y,0,i.x,i.y,i.s);o.addColorStop(0,"rgba(0,0,0,.92)"),o.addColorStop(.62,"rgba(0,0,0,.8)"),o.addColorStop(1,"rgba(0,0,0,0)"),t.fillStyle=o,t.beginPath(),t.arc(i.x,i.y,i.s,0,6.2832),t.fill()}else t.globalCompositeOperation="multiply",t.fillStyle=a(i.c,i.a),t.beginPath(),t.arc(i.x,i.y,i.s,0,6.2832),t.fill()}return h.g=function(){for(var t=this.r,i=0;!i;)i=t();return Math.sqrt(-2*Math.log(i))*Math.cos(6.2832*t())},h.pick=function(t){return t[this.r()*t.length|0]},h.def=function(t,i,s){for(var n=0;n<i;n++){for(var a=[],e=0;e<t.length;e++){var r=t[e],h=t[(e+1)%t.length],o=Math.hypot(h[0]-r[0],h[1]-r[1]),l=.5*(r[2]+h[2]);a.push(r,[.5*(r[0]+h[0])+this.g()*o*l*s,.5*(r[1]+h[1])+this.g()*o*l*s,l*(.5+.4*this.r())])}t=a}return t},h.shape=function(t,i,s){for(var n=s.n||6,a=s.a||.05,e=0;e<n;e++){for(var r=this.def(t,s.d||2,s.m||1.3),h=new Float32Array(2*r.length),o=0;o<r.length;o++)h[2*o]=r[o][0],h[2*o+1]=r[o][1];this.ops.push({t:1,p:h,c:i,a:a,g:s.g||null,a2:null==s.a2?.3*a:s.a2})}},h.ell=function(t,i,s,n,a,e,r){var h=[],o=Math.cos(a),l=Math.sin(a);r=r||10;for(var c=0;c<r;c++){var u=c/r*6.2832,f=Math.cos(u)*s,p=Math.sin(u)*n;h.push([t+f*o-p*l,i+f*l+p*o,null==e?.3:e])}return this.def(h,2,1)},h.petal=function(t,i,s,n,a){for(var e=[],r=Math.cos(a),h=Math.sin(a),o=0;o<12;o++){var l=o/12*6.2832,c=(Math.cos(l)+1)*s*.5,u=Math.sin(l)*n*.5*(.55+.45*(Math.cos(l)+1)*.5);e.push([t+c*r-u*h,i+c*h+u*r,.26])}return this.def(e,2,1)},h.pet=function(t,i,s,a,e,r,h,o){var l=this.petal(t,i,s,a,e),c=t+Math.cos(e)*s*.55,u=i+Math.sin(e)*s*.55;this.shape(l,r,{n:5,a:h,g:o,a2:.28*h}),this.shape(l,n(r,this.pl.tx,.14),{n:2,a:.08*h,g:[c,u,.6*s],a2:1.15*h,m:.7})},h.strip=function(t,i,s,n,a){for(var e=[],r=[],h=[],o=null==a.v?.12:a.v,l=0;l<=s;l++){var c=l/s,u=t(c),f=t(Math.min(1,c+.01)),p=t(Math.max(0,c-.01)),v=f[0]-p[0],g=f[1]-p[1],m=Math.hypot(v,g)||1,M=-g/m,d=v/m,b=i(c);e.push([u[0]+M*b,u[1]+d*b,o]),r.push([u[0]-M*b,u[1]-d*b,o]),h.push([u[0],u[1],.4*o])}return this.shape(this.def(e.concat(r.slice().reverse()),1,1),n,a),{L:e,R:r,C:h}},h.stem=function(t,i,s,a,e,r,h){var o=(t+s)/2-(a-i)*e,l=(i+a)/2+(s-t)*e;function c(n){var e=1-n;return[e*e*t+2*e*n*o+n*n*s,e*e*i+2*e*n*l+n*n*a]}return this.strip(c,function(t){return r*(1-.55*t)+.2},10,n(h,this.pl.bg,.2),{n:4,a:.085,v:.06,m:1}),c},h.leaf=function(t,i,s,a,e,r,h){var o=.3*this.g(),l=Math.cos(s),c=Math.sin(s),u=this.pl;var f=this.strip(function(s){var n=s*a,e=Math.sin(s*Math.PI)*a*o*.22;return[t+n*l-e*c,i+n*c+e*l]},function(t){return e*Math.pow(Math.sin(Math.PI*Math.pow(t,.8)),.85)},12,r,{n:6,a:.08,g:[t,i,1.15*a],a2:.035,v:.1,m:1.1});h&&this.shape(this.def(f.L.concat(f.C.slice().reverse()),1,1),n(r,u.tx,.12),{n:4,a:.07,g:[t,i,a],a2:.02,m:.9})},h.peony=function(t,i,s,a){var e,r,h,o=this.r,l=this.pl,c=6.28*o(),u=n(a,l.bg,.22),f=n(a,l.tx,.2);for(this.knock(t,i,1.02*s),r=7+(3*o()|0),e=0;e<r;e++)h=c+e/r*6.2832+.18*this.g(),this.pet(t+Math.cos(h)*s*.1,i+Math.sin(h)*s*.1,s*(.85+.22*o()),s*(.66+.2*o()),h,u,.095,[t,i,1.05*s]);for(e=0;e<6;e++)h=c+.5+e/6*6.2832+.2*this.g(),this.pet(t+Math.cos(h)*s*.05,i+Math.sin(h)*s*.05,s*(.58+.12*o()),s*(.52+.12*o()),h,a,.1,[t,i,.75*s]);for(e=0;e<4;e++)h=c+1+e/4*6.2832,this.pet(t,i,.32*s,.32*s,h,f,.11,[t,i,.4*s]);this.shape(this.ell(t,i,.1*s,.08*s,c,.3,8),n(f,l.tx,.25),{n:4,a:.12}),this.speck(t,i,.75*s,14,f,.2)},h.rose=function(t,i,s,a){var e,r,h=this.r,o=this.pl,l=6.28*h(),c=n(a,o.bg,.22),u=n(a,o.tx,.2);for(this.knock(t,i,1.02*s),e=0;e<5;e++)r=l+e/5*6.2832+.15*this.g(),this.pet(t,i,s*(.92+.15*h()),s*(.85+.15*h()),r,c,.09,[t,i,s]);for(e=0;e<8;e++){r=l+2.2*e;var f=s*(.34-.03*e),p=e/8;this.shape(this.ell(t+Math.cos(r)*f*.6,i+Math.sin(r)*f*.6,s*(.46-.04*e),s*(.13-.006*e),r+1.5708,.22,10),n(a,u,p),{n:4,a:.1,m:1})}this.shape(this.ell(t,i,.08*s,.06*s,l,.3,8),u,{n:4,a:.13})},h.anem=function(t,i,s,a){var e,r,h=this.r,o=this.pl,l=6.28*h(),c=5+(2*h()|0),u=n(o.s,o.tx,.5);for(this.knock(t,i,1.05*s),e=0;e<c;e++)r=l+e/c*6.2832+.12*this.g(),this.pet(t,i,s*(.95+.15*h()),s*(.72+.15*h()),r,n(a,o.bg,.1),.095,[t,i,1.05*s]);for(this.shape(this.ell(t,i,.2*s,.18*s,l,.3,9),u,{n:5,a:.1}),this.speck(t,i,.3*s,10,n(u,o.tx,.4),.3),e=0;e<9;e++)r=e/9*6.2832+.3*h(),this.ops.push({t:2,x:t+Math.cos(r)*s*.27,y:i+Math.sin(r)*s*.27,s:this.unit*(.7+.6*h()),e:1,r:0})},h.bud=function(t,i,s,a,e){var r=t+Math.cos(s)*a,h=i+Math.sin(s)*a,o=this.pl,l=this.pick(o.leaf);this.stem(t,i,r,h,.12*this.g(),1.3*this.unit,n(l,o.tx,.15)),this.knock(r+Math.cos(s)*a*.15,h+Math.sin(s)*a*.15,.17*a),this.shape(this.petal(r,h,.3*a,.2*a,s),e,{n:6,a:.09,g:[r,h,.3*a],a2:.03}),this.leaf(r,h,s+2.6,.16*a,.05*a,l,!1),this.leaf(r,h,s-2.6,.16*a,.05*a,l,!1)},h.sprig=function(t,i,s,a,e){for(var r=this.r,h=this.pl,o=t+Math.cos(s)*a,l=i+Math.sin(s)*a,c=this.stem(t,i,o,l,.1*this.g(),1.1*this.unit,n(h.m,h.tx,.25)),u=0;u<13;u++){var f=.45+u/13*.55,p=c(f),v=u%2?1:-1,g=.05*a*(1.2-.7*f),m=s+.6*v;this.shape(this.ell(p[0]+Math.cos(m+1.2*v)*g*.6,p[1]+Math.sin(m+1.2*v)*g*.6,g,.65*g,m,.25,8),n(e,h.bg,.3*r()),{n:4,a:.1,m:1})}},h.euca=function(t,i,s,a){for(var e=this.r,r=this.pl,h=n(r.m,r.s,.35),o=t+Math.cos(s)*a,l=i+Math.sin(s)*a,c=this.stem(t,i,o,l,.15*this.g(),1.2*this.unit,n(h,r.tx,.3)),u=0;u<9;u++){var f=.15+u/9*.85,p=c(f),v=.075*a*(1.15-.5*f),g=s+1.5708*(u%2?1:-1);this.shape(this.ell(p[0]+Math.cos(g)*v*.95,p[1]+Math.sin(g)*v*.95,v,.9*v,g,.22,9),n(h,r.bg,.25*e()),{n:5,a:.085,g:[p[0],p[1],2.2*v],a2:.03})}},h.knock=function(t,i,s){this.ops.push({t:4,x:t,y:i,s:s})},h.speck=function(t,i,s,n,a,e){for(var r=0;r<n;r++){var h=6.2832*this.r(),o=Math.sqrt(this.r())*s;this.ops.push({t:3,x:t+Math.cos(h)*o,y:i+Math.sin(h)*o,s:this.unit*(.4+.9*this.r()),c:a,a:e||.15})}},h.filler=function(t,i,s){var a=this.pl;this.speck(t,i,s,22,n(a.p,a.bg,.1),.35),this.speck(t,i,.8*s,12,a.s,.3)},h.gold=function(t,i,s,n,a){for(var e=this.r,r=this.unit,h=0;h<n;h++){var o=Math.abs(this.g())*s*.5,l=null==a?6.2832*e():a+.45*this.g(),c=r*(.5+3.4*Math.pow(e(),3))*(1-Math.min(.6,o/s*.7));this.ops.push({t:2,x:t+Math.cos(l)*o,y:i+Math.sin(l)*o,s:c,e:null==a?.72+.28*e():.4+.35*e(),r:l})}},h.wash=function(t,i,s,n,a){a=a||.025;var e=this.ell(t,i,s,s*(.6+.3*this.r()),3*this.r(),.45,12);this.shape(e,n,{n:5,a:a,d:3,m:1.25}),this.shape(this.def(e,1,.6).map(function(s){return[t+.7*(s[0]-t),i+.7*(s[1]-i),s[2]]}),n,{n:3,a:.8*a,d:3,m:1.4})},h.bouquet=function(t,i,s,a,e){e=e||{};var r,h,o,l,c=this.r,u=this.pl,f=e.spread||1.2,p=e.leaves||9,v=a+.8+.2*c(),g=a-.8-.2*c();for(this.euca(t,i,a+f*(.5+.3*c()),s*(.85+.2*c())),e.lite||this.euca(t,i,a-f*(.55+.3*c()),s*(.75+.2*c())),r=0;r<(e.lite?1:2);r++)this.sprig(t,i,a+(c()-.5)*f*1.3,s*(.8+.25*c()),n(u.s,u.tx,.25*c()));for(r=0;r<p;r++)h=a+2*(r/(p-1)-.5)*f+.12*this.g(),l=s*(.16+.12*c()),o=s*(.3+.24*c()),this.leaf(t+Math.cos(h)*l,i+Math.sin(h)*l,h+.2*this.g(),o,o*(.22+.08*c()),this.pick(u.leaf),c()<.6);for(r=0;r<3;r++)h=a+(c()-.5)*f*1.5,l=.3*s,this.bud(t+Math.cos(h)*l,i+Math.sin(h)*l,h,s*(.2+.14*c()),this.pick(u.blooms));this.rose(t+Math.cos(v)*s*.3,i+Math.sin(v)*s*.3,s*(.19+.03*c()),this.pick(u.blooms)),e.lite||this.anem(t+Math.cos(g)*s*.32,i+Math.sin(g)*s*.32,s*(.16+.03*c()),this.pick(u.blooms)),this.peony(t,i,s*(.26+.03*c()),e.main||this.pick(u.blooms)),e.lite||this.rose(t+Math.cos(a)*s*.48,i+Math.sin(a)*s*.48,.11*s,this.pick(u.blooms)),this.filler(t+Math.cos(a)*s*.42,i+Math.sin(a)*s*.42,.24*s),!1!==e.gold&&this.gold(t+Math.cos(a)*s*.55,i+Math.sin(a)*s*.55,.45*s,e.goldN||28)},h.garland=function(t,i,s,a){a=a||{};var e,r=this.r,h=this.pl,o=this.strip(t,function(){return.03*s+.3},24,n(h.m,h.tx,.25),{n:4,a:.08,v:.05,m:1});for(e=0;e<=i;e++){var l=e/i,c=t(l),u=t(Math.min(1,l+.02)),f=t(Math.max(0,l-.02)),p=Math.atan2(u[1]-f[1],u[0]-f[0]),v=e%2?1:-1,g=s*(.55+.45*r());this.leaf(c[0],c[1],p+v*(.55+.5*r())*(a.flip||1),g,g*(.2+.06*r()),this.pick(h.leaf),r()<.5)}var m=a.blooms||[];for(e=0;e<m.length;e++){var M=m[e],d=t(M[0]),b=M[1],y=s*(M[2]||.45),x=M[3]||this.pick(h.blooms);"p"===b?this.peony(d[0],d[1],y,x):"r"===b?this.rose(d[0],d[1],y,x):"a"===b?this.anem(d[0],d[1],y,x):this.speck(d[0],d[1],y,16,x,.3)}return o},{rng:t,col:s,mix:n,rgba:a,pal:e,Pt:r,drawOp:o,mount:function(t,i,s,n){n=n||{};var a,h=t.getContext("2d"),l=1,c=0,u=0,f=[],p=0,v=0,g=!1;function m(t,i){h.setTransform(l,0,0,l,0,0);for(var s=t;s<i;s++)o(h,f[s],a);h.globalCompositeOperation="source-over"}function M(){p=0,v=2,g||(g=!0,n.onDone&&n.onDone())}var d={paint:function(o){if(p&&cancelAnimationFrame(p),function(){var h=t.getBoundingClientRect();if(c=h.width,u=h.height,c<2||u<2)return!1;l=Math.min(window.devicePixelRatio||1,2),t.width=Math.round(c*l),t.height=Math.round(u*l),a=e(i);var o=new r(n.seed||7,a);return o.unit=Math.max(.8,Math.min(2.2,Math.min(c,u)/360)),o.W=c,o.H=u,s(o,c,u,a),f=o.ops,!0}()){if(h.setTransform(1,0,0,1,0,0),h.clearRect(0,0,t.width,t.height),!o)return m(0,f.length),void M();v=1;var g=0,d=0,b=n.dur||2400;p=requestAnimationFrame(function t(i){g||(g=i);var s=Math.min(1,(i-g)/b),n=Math.floor((1-Math.pow(1-s,1.7))*f.length);m(d,n),d=n,s<1?p=requestAnimationFrame(t):M()})}},state:function(){return v}};if("ResizeObserver"in window){var b=-1,y=-1,x=0;new ResizeObserver(function(){var i=t.getBoundingClientRect();Math.abs(i.width-b)<2&&Math.abs(i.height-y)<2||(b=i.width,y=i.height,0!==v&&(clearTimeout(x),x=setTimeout(function(){d.paint(!1)},160)))}).observe(t)}return d},sprite:function(t,i,s,n){var a=document.createElement("canvas"),h=e(s),l=new r(i,h),c=a.getContext("2d");a.width=a.height=t,l.unit=t/120,n(l,t,h);for(var u=0;u<l.ops.length;u++)o(c,l.ops[u],h);return a},onView:function(t,i,s){if("IntersectionObserver"in window){var n=new IntersectionObserver(function(t){for(var a=0;a<t.length;a++)if(t[a].isIntersecting&&t[a].intersectionRatio>=(s||.2))return n.disconnect(),void i()},{threshold:[0,.1,.2,.3,.5]});n.observe(t)}else i()},ink:function(t,i,s,n){t.style.setProperty("--wa-rv","0"),setTimeout(function(){var s=0;requestAnimationFrame(function a(e){s||(s=e);var r=Math.min(1,(e-s)/i),h=r<.5?2*r*r:1-Math.pow(-2*r+2,2)/2;t.style.setProperty("--wa-rv",(125*h).toFixed(1)),r<1?requestAnimationFrame(a):(t.style.removeProperty("--wa-rv"),n&&n())})},s||0)},loop:function(t,i){var s=!1,n=!0,a=0,e=0;function r(t){if(a=0,s&&n){var h=e?Math.min(50,t-e):16;e=t,i(t,h),a=requestAnimationFrame(r)}}function h(){s&&n&&!a&&(e=0,a=requestAnimationFrame(r))}"IntersectionObserver"in window?new IntersectionObserver(function(t){s=t[0].isIntersecting,h()}).observe(t):(s=!0,h()),document.addEventListener("visibilitychange",function(){n=!document.hidden,h()})}}}();
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var flora = WC.mount(root.querySelector('[data-wa-flora]'), root, function (p, W, H, pl) {
+        var mob = W < 720, s = Math.min(W * (mob ? .5 : .3), 380);
+        p.wash(W * .2, H * .3, W * .3, pl.p, .015);
+        p.wash(W * .8, H * .7, W * .32, pl.s, .015);
+        p.bouquet(W + s * .04, -s * .03, s, Math.PI - .8, { main: pl.s, lite: mob });
+        p.bouquet(-s * .04, H + s * .03, s * .85, -.8, { main: pl.p, lite: true });
+        p.gold(W * .12, H * .12, s * .3, 12);
+      }, { seed: 3380, dur: 2400 });
+      var items = root.querySelectorAll('[data-wa-item]'), halos = [];
+      for (var i = 0; i < items.length; i++) (function (i) {
+        halos.push(WC.mount(items[i].querySelector('[data-wa-halo]'), root, function (p, W, H, pl) {
+          var cx = W / 2, cy = H / 2, R = W * .3, c = pl.blooms[i % 6], a = [-.7, 3.6, .6, 2.5, -1.9, 4.1][i];
+          var b = p.ell(cx, cy, R, R * .95, i, .3, 12);
+          p.shape(b, WC.mix(c, pl.bg, .2), { n: 7, a: .065, g: [cx, cy, R * 1.1], a2: .025 });
+          p.shape(b, WC.mix(c, pl.tx, .12), { n: 2, a: .005, g: [cx, cy, R], a2: .07, m: .7 });
+          p.leaf(cx + Math.cos(a) * R * .9, cy + Math.sin(a) * R * .9, a + .3, W * .22, W * .06, p.pick(pl.leaf), true);
+          p.leaf(cx + Math.cos(a) * R * .9, cy + Math.sin(a) * R * .9, a - .5, W * .17, W * .05, p.pick(pl.leaf), false);
+          p.sprig(cx + Math.cos(a) * R * .9, cy + Math.sin(a) * R * .9, a + .9, W * .22, pl.s);
+          if (i % 2) p.anem(cx + Math.cos(a) * R * .95, cy + Math.sin(a) * R * .95, W * .07, pl.blooms[(i + 3) % 6]); else p.rose(cx + Math.cos(a) * R * .95, cy + Math.sin(a) * R * .95, W * .065, pl.blooms[(i + 3) % 6]);
+          p.gold(cx + Math.cos(a + Math.PI) * R, cy + Math.sin(a + Math.PI) * R, W * .14, 10);
+        }, { seed: 3381 + i * 4, dur: 1200 }));
+      })(i);
+
+      if (RM) { flora.paint(false); halos.forEach(function (h) { h.paint(false); }); return; }
+
+      var title = root.querySelector('[data-wa-ink]'), left = items.length;
+      root.classList.add('wa-pd--anim');
+      title.style.setProperty('--wa-rv', '0');
+      WC.onView(root, function () { flora.paint(true); WC.ink(title, 1400, 150); }, .08);
+      for (var j = 0; j < items.length; j++) (function (j) {
+        WC.onView(items[j], function () {
+          setTimeout(function () {
+            halos[j].paint(true);
+            setTimeout(function () { items[j].setAttribute('data-wa-on', ''); }, 260);
+            if (--left === 0) setTimeout(function () {
+              root.classList.remove('wa-pd--anim');
+              root.querySelectorAll('[data-wa-on]').forEach(function (el) { el.removeAttribute('data-wa-on'); });
+            }, 1800);
+          }, (j % 2) * 200 + 80);
+        }, .4);
+      })(j);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'padrinos',
+      module_name: 'padrinos-acuarela',
+      style_name: 'Acuarela Floral Padrinos',
+      descripcion: 'Padrinos en dos columnas desfasadas, cada retrato circular sobre un halo de acuarela pastel con hojas, flor y oro que se pinta al entrar; nombres en caligrafía clásica.',
+      tags: ['padrinos', 'boda', 'acuarela', 'retratos', 'floral', 'pastel'],
+      tipo: 'padrinos'
+    };
+  </script>
+</section>

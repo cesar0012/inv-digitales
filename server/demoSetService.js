@@ -28,7 +28,7 @@ import AdmZip from 'adm-zip';
 import { getFreeImageConfig, processHtmlWithFreeImages } from './freeImageService.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const PROJECT_ROOT = resolve(__dirname, '..');
+export const PROJECT_ROOT = resolve(__dirname, '..');
 
 // ---------------------------------------------------------------------------
 // Paletas de demo (copiadas de modulos-1/sets-fotos/gen/styles.cjs — solo los

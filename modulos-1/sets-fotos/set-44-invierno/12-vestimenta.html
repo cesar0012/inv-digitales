@@ -1,0 +1,198 @@
+<section
+  class="inv-ves"
+  data-gemini-id="vestimenta-invierno"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Jost:wght@300;400;500&display=swap');
+
+    .inv-ves, .inv-ves *, .inv-ves *::before, .inv-ves *::after { box-sizing: border-box; }
+    .inv-ves {
+      --t-bg: var(--bg-color, #eef5fb);
+      --t-tx: var(--text-color, #163450);
+      --t-p: var(--primary-color, #8ecdee);
+      --t-s: var(--secondary-color, #3c7eae);
+      --t-a: var(--accent-color, #b9c4cf);
+      --t-display: var(--font-script, 'Bodoni Moda', 'Didot', serif);
+      --t-text: var(--font-heading, 'Jost', 'Helvetica Neue', sans-serif);
+      --inv-tint: var(--t-a);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 62vw, 48rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/ballroom,silver,winter?lock=3521');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .inv-ves::before {
+      content: ''; position: absolute; inset: 0; z-index: -2;
+      background-color: color-mix(in srgb, var(--t-bg) 80%, var(--inv-tint));
+      opacity: .93;
+      transition: background-color .5s ease;
+    }
+    /* colour wave spreading like frost from the picked gem */
+    .inv-ves__wave {
+      position: absolute; z-index: -1; left: var(--inv-x, 50%); top: var(--inv-y, 50%);
+      width: 160vmax; height: 160vmax; margin: -80vmax 0 0 -80vmax;
+      clip-path: polygon(50% 0, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+      background: radial-gradient(circle, color-mix(in srgb, var(--inv-tint) 45%, transparent), transparent 60%);
+      opacity: 0; transform: scale(0);
+      pointer-events: none;
+    }
+    .inv-ves[data-inv-wave] .inv-ves__wave { animation: inv-ves-wave .5s ease-out; }
+    @keyframes inv-ves-wave { 0% { opacity: .9; transform: scale(0) rotate(0deg); } 100% { opacity: 0; transform: scale(1) rotate(30deg); } }
+
+    .inv-ves__content { width: min(100%, 56rem); display: grid; justify-items: center; gap: clamp(1rem, 2.4vw, 1.5rem); }
+    .inv-ves__eyebrow { margin: 0; font-family: var(--t-display); font-style: italic; font-size: clamp(1.05rem, 2vw, 1.25rem); color: var(--t-s); }
+    .inv-ves__title {
+      margin: 0; padding: 0 .1em .08em;
+      font-family: var(--t-display); font-weight: 500;
+      font-size: clamp(2.4rem, 5.6vw, 4rem); line-height: 1.02;
+      background-image: linear-gradient(112deg, var(--t-tx) 0 22%, var(--t-s) 22% 42%, var(--t-p) 42% 44%, var(--t-s) 44% 62%, var(--t-tx) 62% 100%);
+      background-size: 240% 100%; background-position: 30% 50%;
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      filter: drop-shadow(0 2px 0 #ffffff);
+    }
+    .inv-ves__code {
+      margin: 0;
+      padding: .5rem 1.6rem;
+      clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 12px 100%, 0 50%);
+      background: linear-gradient(135deg, var(--t-s), color-mix(in srgb, var(--t-s) 65%, var(--t-tx)));
+      color: #ffffff; font-family: var(--t-display); font-style: italic; font-size: clamp(1.2rem, 2.6vw, 1.55rem);
+    }
+    .inv-ves__text { margin: 0; max-width: 38rem; font-weight: 300; font-size: clamp(1rem, 1.8vw, 1.1rem); line-height: 1.65; color: color-mix(in srgb, var(--t-tx) 85%, var(--t-s)); }
+
+    .inv-ves__swatches { list-style: none; margin: .4rem 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem .2rem; }
+    .inv-ves__gem {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: clamp(3.6rem, 8vw, 4.6rem); aspect-ratio: .866;
+      padding: 0; border: 0; cursor: pointer;
+      clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+      background:
+        linear-gradient(90deg, color-mix(in srgb, #ffffff 30%, transparent) 0 50%, color-mix(in srgb, #000000 12%, transparent) 50% 100%),
+        var(--c);
+      transition: transform .35s cubic-bezier(.3, 1.4, .5, 1), filter .3s ease;
+    }
+    .inv-ves__swatches li { filter: drop-shadow(0 6px 10px color-mix(in srgb, var(--t-tx) 22%, transparent)); }
+    .inv-ves__swatches li:nth-child(even) { margin-top: clamp(1.4rem, 3vw, 1.9rem); }
+    .inv-ves__gem:hover { transform: translateY(-4px) scale(1.06); }
+    .inv-ves__gem[aria-pressed="true"] { transform: scale(1.14); filter: drop-shadow(0 0 0 #ffffff) brightness(1.06); }
+    .inv-ves__gem:focus-visible { outline: 3px solid var(--t-s); outline-offset: 2px; }
+    .inv-ves__picked { min-height: 1.6em; margin: 0; font-family: var(--t-display); font-style: italic; font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--t-s); }
+
+    .inv-ves__guides { width: min(100%, 40rem); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: .4rem; }
+    .inv-ves__guide { display: grid; gap: .25rem; padding: .9rem 1rem; background: color-mix(in srgb, #ffffff 70%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-p) 45%, transparent); }
+    .inv-ves__guide-title { margin: 0; font-family: var(--t-display); font-weight: 500; font-size: clamp(1.1rem, 2vw, 1.25rem); color: var(--t-s); }
+    .inv-ves__guide-text { margin: 0; font-size: clamp(.96rem, 1.7vw, 1.04rem); color: var(--t-tx); }
+
+    .inv-ves--anim [data-inv-in] { opacity: 0; transform: translateY(14px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .inv-ves--anim.is-in [data-inv-in] { opacity: 1; transform: none; }
+    .inv-ves--anim .inv-ves__gem { transform: scale(0) rotate(-60deg); }
+    .inv-ves--anim.is-in .inv-ves__gem { transform: none; transition: transform .45s cubic-bezier(.3, 1.4, .5, 1); transition-delay: calc(var(--i, 0) * .07s + .2s); }
+
+    @media (max-width: 480px) {
+      .inv-ves__guides { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .inv-ves *, .inv-ves *::before, .inv-ves *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <span class="inv-ves__wave" aria-hidden="true"></span>
+
+  <div class="inv-ves__content">
+    <p class="inv-ves__eyebrow" data-inv-in memory_type="text" memory_usage="custom" memory_key="vestimenta-eyebrow">Para el baile de invierno</p>
+    <h2 class="inv-ves__title" data-inv-in memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Código de Vestimenta</h2>
+    <p class="inv-ves__code" data-inv-in memory_type="text" memory_usage="custom" memory_key="vestimenta-codigo">Formal de gala</p>
+    <p class="inv-ves__text" data-inv-in memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">Te sugerimos tonos plateados, grises y azules profundos. El blanco nieve y el azul hielo están reservados para la quinceañera.</p>
+
+    <ul class="inv-ves__swatches" data-inv-swatches aria-label="Paleta sugerida"
+        data-inv-palette='[["Plata","#c3cad3"],["Azul medianoche","#1f3552"],["Gris perla","#dde1e7"],["Azul acero","#5b7896"],["Lavanda helada","#c8c3e4"],["Grafito","#3b4048"],["Azul pizarra","#7e93ad"]]'></ul>
+    <p class="inv-ves__picked" data-inv-picked aria-live="polite"></p>
+
+    <div class="inv-ves__guides" data-inv-in>
+      <div class="inv-ves__guide">
+        <h3 class="inv-ves__guide-title" memory_type="text" memory_usage="custom" memory_key="vestimenta-damas-titulo">Damas</h3>
+        <p class="inv-ves__guide-text" memory_type="text" memory_usage="custom" memory_key="vestimenta-damas-texto">Vestido largo de noche</p>
+      </div>
+      <div class="inv-ves__guide">
+        <h3 class="inv-ves__guide-title" memory_type="text" memory_usage="custom" memory_key="vestimenta-caballeros-titulo">Caballeros</h3>
+        <p class="inv-ves__guide-text" memory_type="text" memory_usage="custom" memory_key="vestimenta-caballeros-texto">Traje oscuro o smoking</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="vestimenta-invierno"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* Swatches generated from data-inv-palette (editable list of [name, hex]) */
+      var list = root.querySelector('[data-inv-swatches]');
+      var picked = root.querySelector('[data-inv-picked]');
+      var palette = [];
+      try { palette = JSON.parse(list.getAttribute('data-inv-palette') || '[]'); } catch (e) { palette = []; }
+      var gems = [];
+      palette.forEach(function (c, i) {
+        var li = document.createElement('li');
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'inv-ves__gem';
+        b.style.setProperty('--c', c[1]);
+        b.style.setProperty('--i', i);
+        b.setAttribute('aria-label', c[0]);
+        b.setAttribute('aria-pressed', 'false');
+        b.setAttribute('data-inv-gem', String(i));
+        b.addEventListener('click', function () { pick(i, b); });
+        li.appendChild(b); list.appendChild(li); gems.push(b);
+      });
+      function pick(i, b) {
+        gems.forEach(function (g) { g.setAttribute('aria-pressed', g === b ? 'true' : 'false'); });
+        root.style.setProperty('--inv-tint', palette[i][1]);
+        if (picked) picked.textContent = palette[i][0];
+        if (RM) return;
+        var r = root.getBoundingClientRect(), gr = b.getBoundingClientRect();
+        root.style.setProperty('--inv-x', (gr.left + gr.width / 2 - r.left) + 'px');
+        root.style.setProperty('--inv-y', (gr.top + gr.height / 2 - r.top) + 'px');
+        root.removeAttribute('data-inv-wave'); void root.offsetWidth; root.setAttribute('data-inv-wave', '');
+      }
+      if (gems[0]) { gems[0].setAttribute('aria-pressed', 'true'); if (picked) picked.textContent = palette[0][0]; }
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+      root.classList.add('inv-ves--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('inv-ves--anim', 'is-in'); }, 1400);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-invierno',
+      style_name: 'Invierno Gemas de Hielo',
+      descripcion: 'Código de vestimenta formal de gala con paleta de gemas hexagonales generada en JS; al elegir un tono, una onda de color se expande como escarcha y tiñe el fondo. Guía para damas y caballeros.',
+      tags: ['vestimenta', 'dress code', 'paleta', 'quinceanera', 'invierno', 'hielo'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

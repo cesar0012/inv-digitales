@@ -1,0 +1,189 @@
+<section
+  class="dn-cd"
+  data-gemini-id="countdown-neon"
+  data-countdown-target="2027-03-20T19:00:00"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Neonderthaw&family=Tilt+Neon&display=swap');
+
+    .dn-cd, .dn-cd *, .dn-cd *::before, .dn-cd *::after { box-sizing: border-box; }
+    .dn-cd {
+      --t-bg: var(--bg-color, #07060c);
+      --t-tx: var(--text-color, #fbf4ff);
+      --t-p: var(--primary-color, #ff2bd6);
+      --t-s: var(--secondary-color, #19f0ff);
+      --t-a: var(--accent-color, #f4ff2b);
+      --t-display: var(--font-script, 'Neonderthaw', cursive);
+      --t-text: var(--font-heading, 'Tilt Neon', system-ui, sans-serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/neon,sign,night?lock=3508');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .dn-cd::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(60% 40% at 50% 100%, color-mix(in srgb, var(--t-p) 18%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 88%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent));
+    }
+    .dn-cd__content { width: min(100%, 64rem); }
+    .dn-cd__title {
+      --g: var(--t-a);
+      margin: 0 0 clamp(2rem, 5vw, 3rem);
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3rem, 8vw, 5.6rem);
+      line-height: 1;
+      color: color-mix(in srgb, var(--g) 30%, #fff);
+      text-shadow: 0 0 .02em #fff, 0 0 .1em var(--g), 0 0 .3em var(--g);
+    }
+    .dn-cd__board { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: clamp(.4rem, 1.5vw, 1rem); }
+    .dn-cd__unit { --g: var(--t-p); display: grid; justify-items: center; gap: .6rem; }
+    .dn-cd__unit:nth-of-type(2) { --g: var(--t-s); }
+    .dn-cd__unit:nth-of-type(3) { --g: var(--t-a); }
+    .dn-cd__unit:nth-of-type(4) { --g: var(--t-p); }
+    .dn-cd__box {
+      display: grid;
+      place-items: center;
+      min-width: clamp(5.4rem, 15vw, 9.5rem);
+      min-height: clamp(5.4rem, 14vw, 9rem);
+      padding: .4rem 1rem;
+      border-radius: 1.4rem;
+      border: 3px solid color-mix(in srgb, var(--g) 55%, #fff);
+      background: color-mix(in srgb, var(--t-bg) 72%, transparent);
+      box-shadow: 0 0 5px var(--g), 0 0 22px var(--g), inset 0 0 18px color-mix(in srgb, var(--g) 35%, transparent);
+    }
+    .dn-cd__num {
+      font-size: clamp(2.8rem, 8vw, 5.2rem);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      color: color-mix(in srgb, var(--g) 25%, #fff);
+      text-shadow: 0 0 2px #fff, 0 0 10px var(--g), 0 0 28px var(--g);
+    }
+    .dn-cd__num[data-tick] { animation: dnCdTick .3s linear; }
+    .dn-cd__label { font-size: clamp(1rem, 2vw, 1.2rem); color: color-mix(in srgb, var(--t-tx) 80%, transparent); }
+    .dn-cd__colon {
+      align-self: center;
+      margin-top: -2rem;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      color: color-mix(in srgb, var(--t-p) 30%, #fff);
+      text-shadow: 0 0 10px var(--t-p), 0 0 24px var(--t-p);
+      transition: opacity .2s linear;
+    }
+    .dn-cd[data-blink] .dn-cd__colon { opacity: .2; }
+    .dn-cd__date { display: inline-block; margin-top: clamp(2rem, 5vw, 3rem); font-size: clamp(1.05rem, 2.2vw, 1.3rem); color: color-mix(in srgb, var(--t-tx) 85%, transparent); }
+    @keyframes dnCdTick { 0% { opacity: .35; } 30% { opacity: 1; } 50% { opacity: .6; } 100% { opacity: 1; } }
+
+    .dn-cd--anim .dn-cd__box { opacity: 0; }
+    .dn-cd--anim.is-in .dn-cd__box { animation: dnCdOn .5s linear calc(var(--i, 0) * .15s) both; }
+    @keyframes dnCdOn { 0% { opacity: 0; } 15% { opacity: 1; } 25% { opacity: .15; } 42% { opacity: 1; } 55% { opacity: .35; } 70%, 100% { opacity: 1; } }
+
+    @media (max-width: 640px) {
+      .dn-cd__board { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.4rem 1rem; }
+      .dn-cd__colon { display: none; }
+      .dn-cd__box { min-width: 0; width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .dn-cd *, .dn-cd *::before, .dn-cd *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="dn-cd__content">
+    <h2 class="dn-cd__title" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Falta poco para encender la pista</h2>
+    <div class="dn-cd__board" role="timer" aria-live="off">
+      <div class="dn-cd__unit" style="--i: 0">
+        <div class="dn-cd__box"><span class="dn-cd__num" data-countdown-unit="days">150</span></div>
+        <span class="dn-cd__label" memory_type="text" memory_usage="custom" memory_key="countdown-dias">días</span>
+      </div>
+      <span class="dn-cd__colon" aria-hidden="true">:</span>
+      <div class="dn-cd__unit" style="--i: 1">
+        <div class="dn-cd__box"><span class="dn-cd__num" data-countdown-unit="hours">08</span></div>
+        <span class="dn-cd__label" memory_type="text" memory_usage="custom" memory_key="countdown-horas">horas</span>
+      </div>
+      <span class="dn-cd__colon" aria-hidden="true">:</span>
+      <div class="dn-cd__unit" style="--i: 2">
+        <div class="dn-cd__box"><span class="dn-cd__num" data-countdown-unit="minutes">30</span></div>
+        <span class="dn-cd__label" memory_type="text" memory_usage="custom" memory_key="countdown-minutos">minutos</span>
+      </div>
+      <span class="dn-cd__colon" aria-hidden="true">:</span>
+      <div class="dn-cd__unit" style="--i: 3">
+        <div class="dn-cd__box"><span class="dn-cd__num" data-countdown-unit="seconds">00</span></div>
+        <span class="dn-cd__label" memory_type="text" memory_usage="custom" memory_key="countdown-segundos">segundos</span>
+      </div>
+    </div>
+    <time class="dn-cd__date" datetime="2027-03-20T19:00" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Sábado 20 de marzo de 2027 · 7:00 PM</time>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="countdown-neon"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var U = {};
+      [].forEach.call(root.querySelectorAll('[data-countdown-unit]'), function (el) { U[el.getAttribute('data-countdown-unit')] = el; });
+      function pad(n) { return n < 10 ? '0' + n : String(n); }
+      function put(el, v) {
+        if (!el || el.textContent === v) return;
+        el.textContent = v;
+        if (!RM) { el.removeAttribute('data-tick'); void el.offsetWidth; el.setAttribute('data-tick', ''); }
+      }
+      function updateCountdown() {
+        var target = new Date(root.getAttribute('data-countdown-target')).getTime();
+        var s = Math.max(0, Math.floor((target - Date.now()) / 1000));
+        put(U.days, String(Math.floor(s / 86400)));
+        put(U.hours, pad(Math.floor(s % 86400 / 3600)));
+        put(U.minutes, pad(Math.floor(s % 3600 / 60)));
+        put(U.seconds, pad(s % 60));
+        if (!RM) { if (root.hasAttribute('data-blink')) root.removeAttribute('data-blink'); else root.setAttribute('data-blink', ''); }
+      }
+      window.updateCountdown = updateCountdown;
+      window.__countdownIntervals = window.__countdownIntervals || [];
+      window.__countdownIntervals.forEach(function (id) { clearInterval(id); });
+      window.__countdownIntervals.length = 0;
+      updateCountdown();
+      window.__countdownIntervals.push(setInterval(updateCountdown, 1000));
+
+      if (RM || !('IntersectionObserver' in window)) return;
+      root.classList.add('dn-cd--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('dn-cd--anim', 'is-in'); }, 1300);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-neon',
+      style_name: 'Dulce Neón Marcador',
+      descripcion: 'Cuenta regresiva tipo marcador de neón: cuatro cajas de tubo rosa, cian y amarillo que se encienden al entrar; cada dígito parpadea al cambiar y los dos puntos laten cada segundo.',
+      tags: ['countdown', 'neon', 'cuenta regresiva', 'quinceañera', 'glow'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>

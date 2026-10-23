@@ -1,0 +1,254 @@
+<section
+  class="au-ga"
+  data-gemini-id="galeria-aurum"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Jost:wght@300;400;500&display=swap');
+
+    .au-ga, .au-ga *, .au-ga *::before, .au-ga *::after { box-sizing: border-box; }
+    .au-ga {
+      --t-bg: var(--bg-color, #0b0a0d);
+      --t-tx: var(--text-color, #f3eee4);
+      --t-p: var(--primary-color, #d2aa58);
+      --t-s: var(--secondary-color, #7a5c2a);
+      --t-a: var(--accent-color, #f2e3b4);
+      --t-display: var(--font-script, 'Cormorant Garamond', 'Times New Roman', serif);
+      --t-text: var(--font-heading, 'Jost', 'Helvetica Neue', Arial, sans-serif);
+      --au-line: color-mix(in srgb, var(--t-p) 45%, transparent);
+      --au-sheen: -30%;
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 75vw, 50rem);
+      padding: clamp(4rem, 9vw, 7rem) clamp(1.25rem, 6vw, 5rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: radial-gradient(ellipse 60% 40% at 50% 100%, color-mix(in srgb, var(--t-s) 24%, transparent), transparent 70%);
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .au-ga__wrap { width: min(100%, 68rem); margin: 0 auto; display: grid; gap: clamp(2rem, 5vw, 3.5rem); }
+    .au-ga__head { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 1rem 2rem; }
+    .au-ga__kicker { margin: 0; font-family: var(--t-display); font-style: italic; font-size: clamp(1.1rem, 2.4vw, 1.45rem); color: var(--t-a); }
+    .au-ga__title { margin: .2rem 0 0; font-family: var(--t-display); font-weight: 500; font-style: italic; font-size: clamp(2.8rem, 7vw, 4.8rem); line-height: .95; letter-spacing: -.01em; }
+    .au-ga__intro { margin: 0; max-width: 24rem; text-align: right; font-weight: 300; font-size: clamp(.95rem, 2vw, 1.05rem); line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 70%, transparent); }
+
+    .au-ga__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); grid-auto-flow: dense; gap: .8rem; }
+    .au-ga__tile { position: relative; margin: 0; overflow: hidden; cursor: zoom-in; background: linear-gradient(160deg, color-mix(in srgb, var(--t-a) 9%, var(--t-bg)), color-mix(in srgb, var(--t-s) 26%, var(--t-bg))); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-a) 12%, transparent); }
+    .au-ga__tile--big { grid-column: span 2; grid-row: span 2; }
+    .au-ga__tile--wide { grid-column: span 2; }
+    .au-ga__tile img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; filter: saturate(.8) contrast(1.05); transition: transform .5s cubic-bezier(.2, .8, .2, 1), filter .4s ease; }
+    .au-ga__tile--wide img { aspect-ratio: 2.09 / 1; }
+    .au-ga__tile:hover img { transform: scale(1.06); filter: saturate(1) contrast(1.05); }
+    /* gold hairline that draws itself around the tile on hover */
+    .au-ga__tile::before { content: ''; position: absolute; inset: .5rem; z-index: 2; pointer-events: none; border: 1px solid var(--t-a); clip-path: inset(0 100% 100% 0); transition: clip-path .45s cubic-bezier(.2, .8, .2, 1); }
+    .au-ga__tile:hover::before { clip-path: inset(0 0 0 0); }
+    .au-ga__tile::after { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(0deg, color-mix(in srgb, var(--t-bg) 75%, transparent), transparent 55%); opacity: 0; transition: opacity .4s ease; }
+    .au-ga__tile:hover::after { opacity: 1; }
+    .au-ga__cap { position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; margin: 0; padding: .9rem 1.1rem; font-family: var(--t-display); font-style: italic; font-size: 1.1rem; color: var(--t-a); transform: translateY(110%); transition: transform .45s cubic-bezier(.2, .8, .2, 1); pointer-events: none; }
+    .au-ga__tile:hover .au-ga__cap { transform: none; }
+    .au-ga__mark { position: absolute; right: .9rem; top: .9rem; z-index: 3; width: 1.7rem; height: 1.7rem; border-radius: 50%; display: grid; place-items: center; background: color-mix(in srgb, var(--t-bg) 70%, transparent); border: 1px solid var(--au-line); color: var(--t-a); font-size: .8rem; transform: scale(0); transition: transform .35s cubic-bezier(.2, .9, .3, 1.3); }
+    .au-ga__tile:hover .au-ga__mark { transform: scale(1); }
+
+    /* Entrance per tile (only while JS adds .au-ga--anim): gold wipe from the left; each transition <= .5s */
+    .au-ga--anim .au-ga__head > * { opacity: 0; transform: translateY(12px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .au-ga--anim .au-ga__head > :nth-child(2) { transition-delay: .12s; }
+    .au-ga--anim.is-in .au-ga__head > * { opacity: 1; transform: none; }
+    .au-ga--anim .au-ga__tile { clip-path: inset(0 100% 0 0); transition: clip-path .5s cubic-bezier(.6, 0, .3, 1); }
+    .au-ga--anim .au-ga__tile img { transform: scale(1.18); transition: transform .5s cubic-bezier(.2, .8, .2, 1) .15s; }
+    .au-ga--anim .au-ga__tile:nth-child(2) { transition-delay: .1s; }
+    .au-ga--anim .au-ga__tile:nth-child(3) { transition-delay: .2s; }
+    .au-ga--anim .au-ga__tile:nth-child(4) { transition-delay: .3s; }
+    .au-ga--anim .au-ga__tile:nth-child(5) { transition-delay: .4s; }
+    .au-ga--anim .au-ga__tile:nth-child(6) { transition-delay: .5s; }
+    .au-ga--anim .au-ga__tile:nth-child(7) { transition-delay: .6s; }
+    .au-ga--anim .au-ga__tile:nth-child(8) { transition-delay: .7s; }
+    .au-ga--anim.is-in .au-ga__tile { clip-path: inset(0 0 0 0); }
+    .au-ga--anim.is-in .au-ga__tile img { transform: none; }
+
+    /* Lightbox: native dialog in the top layer */
+    .au-ga__dialog { padding: 0; border: 0; background: transparent; color: var(--t-tx); max-width: min(96vw, 72rem); width: fit-content; min-width: min(90vw, 20rem); margin: auto; font-family: var(--t-text); }
+    .au-ga__dialog::backdrop { background: color-mix(in srgb, #06050a 86%, transparent); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+    .au-ga__lb { position: relative; display: grid; justify-items: center; gap: .9rem; padding: 1.2rem; transform: scale(.94) translateY(10px); transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
+    .au-ga__dialog[data-au-open] .au-ga__lb { transform: none; }
+    .au-ga__big { position: relative; margin: 0; padding: .6rem; background: linear-gradient(135deg, var(--t-s), var(--t-p) 45%, var(--t-a) 50%, var(--t-p) 55%, var(--t-s)); box-shadow: 0 60px 120px -40px #000; }
+    .au-ga__big img { display: block; max-width: min(90vw, 64rem); max-height: 74vh; width: auto; height: auto; object-fit: contain; background: var(--t-bg); }
+    .au-ga__lbcap { margin: 0; font-family: var(--t-display); font-style: italic; font-size: 1.25rem; color: var(--t-a); text-align: center; }
+    .au-ga__nav { position: absolute; top: 50%; width: 3rem; height: 3rem; margin-top: -1.5rem; border-radius: 50%; border: 1px solid var(--au-line); background: color-mix(in srgb, var(--t-bg) 70%, transparent); color: var(--t-a); cursor: pointer; display: grid; place-items: center; transition: background .3s ease, transform .3s cubic-bezier(.2, .8, .2, 1); }
+    .au-ga__nav:hover { background: var(--t-p); color: var(--t-bg); transform: scale(1.08); }
+    .au-ga__nav--prev { left: -.4rem; }
+    .au-ga__nav--next { right: -.4rem; }
+    .au-ga__nav svg { width: 1.1rem; height: 1.1rem; }
+    .au-ga__close { position: absolute; right: .6rem; top: -.4rem; width: 2.6rem; height: 2.6rem; border-radius: 50%; border: 1px solid var(--au-line); background: color-mix(in srgb, var(--t-bg) 70%, transparent); color: var(--t-a); cursor: pointer; font-size: 1.3rem; line-height: 1; display: grid; place-items: center; transition: background .3s ease, color .3s ease; }
+    .au-ga__close:hover { background: var(--t-p); color: var(--t-bg); }
+
+    @media (min-width: 900px) { .au-ga__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    @media (max-width: 640px) {
+      .au-ga__head { grid-template-columns: 1fr; }
+      .au-ga__intro { text-align: left; }
+      .au-ga__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; }
+      .au-ga__nav { width: 2.4rem; height: 2.4rem; margin-top: -1.2rem; }
+      .au-ga__nav--prev { left: .2rem; }
+      .au-ga__nav--next { right: .2rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .au-ga *, .au-ga *::before, .au-ga *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="au-ga__wrap">
+    <header class="au-ga__head">
+      <div>
+        <p class="au-ga__kicker" memory_type="text" memory_usage="custom" memory_key="galeria-kicker">Momentos que brillan</p>
+        <h2 class="au-ga__title" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Galería</h2>
+      </div>
+      <p class="au-ga__intro" memory_type="text" memory_usage="custom" memory_key="galeria-intro">Un adelanto de la sesión y de los lugares que harán inolvidable esta noche.</p>
+    </header>
+
+    <ul class="au-ga__grid" data-au-grid>
+      <li class="au-ga__tile au-ga__tile--big">
+        <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0">
+          <img src="https://loremflickr.com/900/900/quinceanera,dress,elegant?lock=3514" alt="Sesión previa en el jardín" path="placeholder" data-library-category="eventos" data-asset-type="sesion" loading="lazy" />
+        </figure>
+        <span class="au-ga__mark" aria-hidden="true">✦</span>
+        <p class="au-ga__cap" data-au-cap memory_type="text" memory_usage="custom" memory_key="galeria-1-pie">Sesión previa en el jardín</p>
+      </li>
+      <li class="au-ga__tile">
+        <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0">
+          <img src="https://loremflickr.com/600/600/gold,shoes,elegant?lock=3515" alt="Detalles dorados" path="placeholder" data-library-category="eventos" data-asset-type="decoracion" loading="lazy" />
+        </figure>
+        <span class="au-ga__mark" aria-hidden="true">✦</span>
+        <p class="au-ga__cap" data-au-cap memory_type="text" memory_usage="custom" memory_key="galeria-2-pie">Detalles dorados</p>
+      </li>
+      <li class="au-ga__tile">
+        <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0">
+          <img src="https://loremflickr.com/600/600/ballroom,chandelier?lock=3516" alt="El salón" path="placeholder" data-library-category="lugares" data-asset-type="salon" loading="lazy" />
+        </figure>
+        <span class="au-ga__mark" aria-hidden="true">✦</span>
+        <p class="au-ga__cap" data-au-cap memory_type="text" memory_usage="custom" memory_key="galeria-3-pie">El salón</p>
+      </li>
+      <li class="au-ga__tile au-ga__tile--wide">
+        <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0">
+          <img src="https://loremflickr.com/1000/480/banquet,table,candles?lock=3517" alt="La mesa de honor" path="placeholder" data-library-category="eventos" data-asset-type="decoracion" loading="lazy" />
+        </figure>
+        <span class="au-ga__mark" aria-hidden="true">✦</span>
+        <p class="au-ga__cap" data-au-cap memory_type="text" memory_usage="custom" memory_key="galeria-4-pie">La mesa de honor</p>
+      </li>
+      <li class="au-ga__tile">
+        <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0">
+          <img src="https://loremflickr.com/600/600/cake,gold,elegant?lock=3518" alt="El pastel" path="placeholder" data-library-category="eventos" data-asset-type="pastel" loading="lazy" />
+        </figure>
+        <span class="au-ga__mark" aria-hidden="true">✦</span>
+        <p class="au-ga__cap" data-au-cap memory_type="text" memory_usage="custom" memory_key="galeria-5-pie">El pastel</p>
+      </li>
+      <li class="au-ga__tile">
+        <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0">
+          <img src="https://loremflickr.com/600/600/bouquet,flowers,gold?lock=3519" alt="El ramo" path="placeholder" data-library-category="eventos" data-asset-type="flores" loading="lazy" />
+        </figure>
+        <span class="au-ga__mark" aria-hidden="true">✦</span>
+        <p class="au-ga__cap" data-au-cap memory_type="text" memory_usage="custom" memory_key="galeria-6-pie">El ramo</p>
+      </li>
+      <li class="au-ga__tile">
+        <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0">
+          <img src="https://loremflickr.com/600/600/church,wedding,interior?lock=3520" alt="La capilla" path="placeholder" data-library-category="lugares" data-asset-type="iglesia" loading="lazy" />
+        </figure>
+        <span class="au-ga__mark" aria-hidden="true">✦</span>
+        <p class="au-ga__cap" data-au-cap memory_type="text" memory_usage="custom" memory_key="galeria-7-pie">La capilla</p>
+      </li>
+      <li class="au-ga__tile">
+        <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0">
+          <img src="https://loremflickr.com/600/600/dance,party,lights?lock=3521" alt="La pista de baile" path="placeholder" data-library-category="eventos" data-asset-type="fiesta" loading="lazy" />
+        </figure>
+        <span class="au-ga__mark" aria-hidden="true">✦</span>
+        <p class="au-ga__cap" data-au-cap memory_type="text" memory_usage="custom" memory_key="galeria-8-pie">La pista de baile</p>
+      </li>
+    </ul>
+  </div>
+
+  <dialog class="au-ga__dialog" data-au-dialog aria-label="Imagen ampliada">
+    <div class="au-ga__lb">
+      <button type="button" class="au-ga__close" data-au-close aria-label="Cerrar">×</button>
+      <figure class="au-ga__big">
+        <img data-mm-big src="" alt="" />
+      </figure>
+      <p class="au-ga__lbcap" data-au-lbcap></p>
+      <button type="button" class="au-ga__nav au-ga__nav--prev" data-au-prev aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
+      <button type="button" class="au-ga__nav au-ga__nav--next" data-au-next aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg></button>
+    </div>
+  </dialog>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="galeria-aurum"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* ---------- lightbox (own JS, native <dialog>) ---------- */
+      var grid = root.querySelector('[data-au-grid]');
+      var dialog = root.querySelector('[data-au-dialog]');
+      var big = dialog ? dialog.querySelector('[data-mm-big]') : null;
+      var cap = root.querySelector('[data-au-lbcap]');
+      var tiles = grid ? Array.prototype.slice.call(grid.children) : [];
+      var current = 0;
+      function show(i) {
+        if (!tiles.length) return;
+        current = (i + tiles.length) % tiles.length;
+        var img = tiles[current].querySelector('img');
+        var c = tiles[current].querySelector('[data-au-cap]');
+        if (img && big) { big.src = img.getAttribute('src'); big.alt = img.getAttribute('alt') || ''; }
+        if (cap) cap.textContent = c ? c.textContent : '';
+      }
+      function open(i) {
+        if (!dialog || typeof dialog.showModal !== 'function') return;
+        show(i);
+        dialog.showModal();
+        requestAnimationFrame(function () { dialog.setAttribute('data-au-open', ''); });
+      }
+      function close() { if (dialog && dialog.open) dialog.close(); }
+      if (grid) {
+        grid.addEventListener('click', function (e) {
+          var tile = e.target.closest('li');
+          if (!tile || tile.parentNode !== grid) return;
+          open(tiles.indexOf(tile));
+        });
+        tiles.forEach(function (t) { t.setAttribute('tabindex', '0'); t.setAttribute('role', 'button'); t.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(tiles.indexOf(t)); } }); });
+      }
+      if (dialog) {
+        dialog.addEventListener('close', function () { dialog.removeAttribute('data-au-open'); if (big) big.removeAttribute('src'); });
+        dialog.addEventListener('click', function (e) { if (e.target === dialog) close(); });
+        var bClose = dialog.querySelector('[data-au-close]'), bPrev = dialog.querySelector('[data-au-prev]'), bNext = dialog.querySelector('[data-au-next]');
+        if (bClose) bClose.addEventListener('click', close);
+        if (bPrev) bPrev.addEventListener('click', function () { show(current - 1); });
+        if (bNext) bNext.addEventListener('click', function () { show(current + 1); });
+        dialog.addEventListener('keydown', function (e) { if (e.key === 'ArrowLeft') show(current - 1); if (e.key === 'ArrowRight') show(current + 1); });
+      }
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+      root.classList.add('au-ga--anim');
+      var entered = false;
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .15 && !entered) {
+          entered = true; io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('au-ga--anim', 'is-in'); }, 1900);
+        }
+      }, { threshold: [0, .15, .4] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-aurum',
+      style_name: 'Aurum Obsidiana Lujo',
+      descripcion: 'Galería en mosaico editorial con piezas de distinto tamaño: cada foto se descubre con un barrido lateral, al pasar el cursor se dibuja un filete dorado, y el lightbox nativo abre la imagen en un marco de oro con navegación.',
+      tags: ['galeria', 'fotos', 'mosaico', 'lightbox', 'lujo', 'oro', 'premium', 'quinceañera', 'boda'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

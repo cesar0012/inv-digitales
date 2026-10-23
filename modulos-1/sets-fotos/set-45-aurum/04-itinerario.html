@@ -1,0 +1,269 @@
+<section
+  class="au-it"
+  data-gemini-id="itinerario-agenda"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Jost:wght@300;400;500&display=swap');
+
+    .au-it, .au-it *, .au-it *::before, .au-it *::after { box-sizing: border-box; }
+    .au-it {
+      --t-bg: var(--bg-color, #0b0a0d);
+      --t-tx: var(--text-color, #f3eee4);
+      --t-p: var(--primary-color, #d2aa58);
+      --t-s: var(--secondary-color, #7a5c2a);
+      --t-a: var(--accent-color, #f2e3b4);
+      --t-display: var(--font-script, 'Cormorant Garamond', 'Times New Roman', serif);
+      --t-text: var(--font-heading, 'Jost', 'Helvetica Neue', Arial, sans-serif);
+      --au-line: color-mix(in srgb, var(--t-p) 45%, transparent);
+      --au-glass: color-mix(in srgb, var(--t-bg) 58%, transparent);
+      --au-prog: 1;
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 80vw, 52rem);
+      padding: clamp(4rem, 9vw, 7rem) clamp(1.25rem, 6vw, 5rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/chandelier,ballroom,luxury?lock=3505');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .au-it::before {
+      content: '';
+      position: absolute; inset: 0; z-index: -1;
+      background:
+        radial-gradient(ellipse 60% 40% at 50% 0%, color-mix(in srgb, var(--t-s) 24%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 86%, transparent), color-mix(in srgb, var(--t-bg) 94%, transparent));
+    }
+    .au-it__wrap { width: min(100%, 62rem); margin: 0 auto; }
+    .au-it__head { text-align: center; display: grid; justify-items: center; gap: .5rem; margin-bottom: clamp(2.5rem, 6vw, 4.5rem); }
+    .au-it__kicker { margin: 0; font-family: var(--t-display); font-style: italic; font-size: clamp(1.1rem, 2.4vw, 1.45rem); color: var(--t-a); }
+    .au-it__title { margin: 0; font-family: var(--t-display); font-weight: 500; font-style: italic; font-size: clamp(2.8rem, 7vw, 4.8rem); line-height: .95; letter-spacing: -.01em; }
+    .au-it__intro { margin: .5rem 0 0; max-width: 34rem; font-weight: 300; font-size: clamp(1rem, 2vw, 1.1rem); line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 72%, transparent); }
+
+    .au-it__track { position: relative; }
+    .au-it__line { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-50%); background: color-mix(in srgb, var(--t-a) 14%, transparent); pointer-events: none; }
+    .au-it__fill { position: absolute; left: 0; top: 0; width: 100%; height: 100%; transform-origin: 50% 0; transform: scaleY(var(--au-prog)); background: linear-gradient(180deg, var(--t-a), var(--t-p) 50%, var(--t-s)); box-shadow: 0 0 10px var(--t-p); }
+    .au-it__bead {
+      position: absolute; left: 50%; top: calc(var(--au-prog) * 100%); width: .9rem; height: .9rem; border-radius: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle at 35% 35%, var(--t-a), var(--t-p) 60%, var(--t-s));
+      box-shadow: 0 0 0 .35rem color-mix(in srgb, var(--t-bg) 65%, transparent), 0 0 22px var(--t-p);
+    }
+
+    .au-it__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: clamp(3rem, 8vw, 6rem); row-gap: clamp(1.2rem, 3vw, 2rem); }
+    .au-it__item { position: relative; }
+    .au-it__item:nth-child(odd) { grid-column: 1; text-align: right; justify-self: end; }
+    .au-it__item:nth-child(even) { grid-column: 2; text-align: left; justify-self: start; margin-top: clamp(1.5rem, 5vw, 3.5rem); }
+    .au-it__item:nth-child(odd):not(:first-child) { margin-top: calc(clamp(1.5rem, 5vw, 3.5rem) * -1); }
+
+    .au-it__node {
+      position: absolute; top: 1.6rem; width: .85rem; height: .85rem;
+      transform: rotate(45deg);
+      border: 1px solid var(--t-p);
+      background: var(--t-a);
+      box-shadow: 0 0 18px var(--t-p);
+      transition: background .4s ease, box-shadow .4s ease, transform .45s cubic-bezier(.2, .8, .2, 1);
+    }
+    .au-it__item:nth-child(odd) .au-it__node { right: calc(clamp(3rem, 8vw, 6rem) / -2); transform: translateX(50%) rotate(45deg); }
+    .au-it__item:nth-child(even) .au-it__node { left: calc(clamp(3rem, 8vw, 6rem) / -2); transform: translateX(-50%) rotate(45deg); }
+    .au-it__item::after { content: ''; position: absolute; top: calc(1.6rem + .42rem); height: 1px; width: calc(clamp(3rem, 8vw, 6rem) / 2 - .6rem); background: linear-gradient(90deg, var(--au-line), color-mix(in srgb, var(--t-p) 20%, transparent)); pointer-events: none; }
+    .au-it__item:nth-child(odd)::after { right: calc(.6rem - clamp(3rem, 8vw, 6rem) / 2); }
+    .au-it__item:nth-child(even)::after { left: calc(.6rem - clamp(3rem, 8vw, 6rem) / 2); background: linear-gradient(270deg, var(--au-line), color-mix(in srgb, var(--t-p) 20%, transparent)); }
+
+    .au-it__card {
+      position: relative; display: inline-grid; gap: .3rem; max-width: 24rem;
+      padding: 1.3rem 1.5rem 1.4rem;
+      background: linear-gradient(160deg, var(--au-glass), color-mix(in srgb, var(--t-bg) 78%, transparent));
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-a) 14%, transparent), 0 30px 60px -36px #000;
+      transition: box-shadow .45s ease, transform .45s cubic-bezier(.2, .8, .2, 1);
+    }
+    .au-it__item:nth-child(odd) .au-it__card { border-right: 1px solid var(--au-line); }
+    .au-it__item:nth-child(even) .au-it__card { border-left: 1px solid var(--au-line); }
+    .au-it__card:hover { transform: translateY(-3px); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-a) 30%, transparent), 0 34px 60px -30px color-mix(in srgb, var(--t-p) 40%, transparent); }
+    .au-it__time { display: block; font-family: var(--t-display); font-style: italic; font-weight: 500; font-size: clamp(1.9rem, 4vw, 2.6rem); line-height: 1; color: var(--t-p); }
+    .au-it__name { margin: .25rem 0 0; font-family: var(--t-text); font-weight: 500; font-size: 1.05rem; letter-spacing: .04em; color: var(--t-tx); }
+    .au-it__desc { margin: 0; font-weight: 300; font-size: .95rem; line-height: 1.55; color: color-mix(in srgb, var(--t-tx) 70%, transparent); }
+
+    /* Live scroll mode (JS): unlit nodes until the gold reaches them */
+    .au-it--live .au-it__item:not([data-au-on]) .au-it__node { background: var(--t-bg); box-shadow: none; }
+    .au-it--live .au-it__item:not([data-au-on]) .au-it__time { color: color-mix(in srgb, var(--t-tx) 55%, transparent); }
+    .au-it--live .au-it__time { transition: color .4s ease; }
+    .au-it--live .au-it__item[data-au-on] .au-it__node { transform: translateX(50%) rotate(45deg) scale(1.25); }
+    .au-it--live .au-it__item:nth-child(even)[data-au-on] .au-it__node { transform: translateX(-50%) rotate(45deg) scale(1.25); }
+
+    /* Entrance per item (only while JS adds .au-it--anim); each transition <= .5s */
+    .au-it--anim .au-it__head > * { opacity: 0; transform: translateY(12px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .au-it--anim .au-it__head > :nth-child(2) { transition-delay: .1s; }
+    .au-it--anim .au-it__head > :nth-child(3) { transition-delay: .2s; }
+    .au-it--anim.is-in .au-it__head > * { opacity: 1; transform: none; }
+    .au-it--anim .au-it__item:not([data-au-in]) .au-it__card { opacity: 0; transform: translateX(-34px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .au-it--anim .au-it__item:nth-child(even):not([data-au-in]) .au-it__card { transform: translateX(34px); }
+    .au-it--anim .au-it__item:not([data-au-in]) .au-it__node { opacity: 0; transition: opacity .4s ease; }
+    .au-it--anim .au-it__item[data-au-in] .au-it__card { transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+
+    @media (max-width: 720px) {
+      .au-it__line { left: .7rem; }
+      .au-it__list { grid-template-columns: 1fr; padding-left: 2.6rem; row-gap: 1.4rem; }
+      .au-it__item:nth-child(odd), .au-it__item:nth-child(even) { grid-column: 1; text-align: left; justify-self: stretch; margin-top: 0; }
+      .au-it__item:nth-child(odd) .au-it__node, .au-it__item:nth-child(even) .au-it__node { left: -2.6rem; right: auto; transform: translateX(calc(-50% + .7rem)) rotate(45deg); }
+      .au-it--live .au-it__item[data-au-on] .au-it__node, .au-it--live .au-it__item:nth-child(even)[data-au-on] .au-it__node { transform: translateX(calc(-50% + .7rem)) rotate(45deg) scale(1.25); }
+      .au-it__item::after { display: none; }
+      .au-it__item:nth-child(odd) .au-it__card { border-right: 0; border-left: 1px solid var(--au-line); }
+      .au-it__card { max-width: none; display: grid; }
+      .au-it--anim .au-it__item:not([data-au-in]) .au-it__card, .au-it--anim .au-it__item:nth-child(even):not([data-au-in]) .au-it__card { transform: translateX(26px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .au-it *, .au-it *::before, .au-it *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="au-it__wrap">
+    <header class="au-it__head">
+      <p class="au-it__kicker" memory_type="text" memory_usage="custom" memory_key="itinerario-kicker">Así viviremos el día</p>
+      <h2 class="au-it__title" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Itinerario</h2>
+      <p class="au-it__intro" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">Cada momento ha sido preparado con cariño para compartirlo contigo.</p>
+    </header>
+
+    <div class="au-it__track" data-au-track>
+      <div class="au-it__line" aria-hidden="true" data-au-line>
+        <span class="au-it__fill"></span>
+        <span class="au-it__bead"></span>
+      </div>
+      <ol class="au-it__list">
+        <li class="au-it__item" data-au-item>
+          <span class="au-it__node" aria-hidden="true"></span>
+          <div class="au-it__card">
+            <time class="au-it__time" datetime="2027-05-15T17:00:00" memory_type="text" memory_usage="custom" memory_key="itinerario-1-hora">17:00</time>
+            <h3 class="au-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-1-titulo">Ceremonia religiosa</h3>
+            <p class="au-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-1-texto">Parroquia de San Miguel Arcángel. Te pedimos llegar con quince minutos de anticipación.</p>
+          </div>
+        </li>
+        <li class="au-it__item" data-au-item>
+          <span class="au-it__node" aria-hidden="true"></span>
+          <div class="au-it__card">
+            <time class="au-it__time" datetime="2027-05-15T19:00:00" memory_type="text" memory_usage="custom" memory_key="itinerario-2-hora">19:00</time>
+            <h3 class="au-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-2-titulo">Recepción</h3>
+            <p class="au-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-2-texto">Bienvenida con cóctel en los jardines de Hacienda Los Olivos.</p>
+          </div>
+        </li>
+        <li class="au-it__item" data-au-item>
+          <span class="au-it__node" aria-hidden="true"></span>
+          <div class="au-it__card">
+            <time class="au-it__time" datetime="2027-05-15T20:30:00" memory_type="text" memory_usage="custom" memory_key="itinerario-3-hora">20:30</time>
+            <h3 class="au-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-3-titulo">Cena de gala</h3>
+            <p class="au-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-3-texto">Menú de tres tiempos y brindis en honor a la festejada.</p>
+          </div>
+        </li>
+        <li class="au-it__item" data-au-item>
+          <span class="au-it__node" aria-hidden="true"></span>
+          <div class="au-it__card">
+            <time class="au-it__time" datetime="2027-05-15T21:30:00" memory_type="text" memory_usage="custom" memory_key="itinerario-4-hora">21:30</time>
+            <h3 class="au-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-4-titulo">Vals y protocolo</h3>
+            <p class="au-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-4-texto">Primer vals con los padres y entrega de la última muñeca.</p>
+          </div>
+        </li>
+        <li class="au-it__item" data-au-item>
+          <span class="au-it__node" aria-hidden="true"></span>
+          <div class="au-it__card">
+            <time class="au-it__time" datetime="2027-05-15T22:00:00" memory_type="text" memory_usage="custom" memory_key="itinerario-5-hora">22:00</time>
+            <h3 class="au-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-5-titulo">Fiesta</h3>
+            <p class="au-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-5-texto">Pista abierta, barra libre y hora loca hasta las tres de la mañana.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="itinerario-agenda"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state (line full, nodes lit) */
+
+      var line = root.querySelector('[data-au-line]');
+      var items = Array.prototype.slice.call(root.querySelectorAll('[data-au-item]'));
+      root.classList.add('au-it--anim', 'au-it--live');
+      root.style.setProperty('--au-prog', '0');
+
+      /* header entrance */
+      var headIn = false;
+      var ioRoot = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .1 && !headIn) {
+          headIn = true; root.classList.add('is-in');
+        }
+        visible = en[0].isIntersecting;
+        if (visible) run(); else stop();
+      }, { threshold: [0, .1, .3] });
+      ioRoot.observe(root);
+
+      /* per-milestone entrance (staggered as each one reaches the viewport) */
+      var inCount = 0;
+      var ioItems = new IntersectionObserver(function (en) {
+        en.forEach(function (e) {
+          if (e.isIntersecting && !e.target.hasAttribute('data-au-in')) {
+            e.target.setAttribute('data-au-in', '');
+            inCount++;
+            if (inCount === items.length) setTimeout(cleanup, 800);
+          }
+        });
+      }, { threshold: .25, rootMargin: '0px 0px -8% 0px' });
+      items.forEach(function (li) { ioItems.observe(li); });
+      var cleaned = false;
+      function cleanup() {
+        if (cleaned) return; cleaned = true;
+        ioItems.disconnect();
+        root.classList.remove('au-it--anim', 'is-in');
+        items.forEach(function (li) { li.removeAttribute('data-au-in'); });
+      }
+      setTimeout(cleanup, 12000);
+
+      /* liquid gold progress: follows the viewport centre along the track, lerped in rAF; paused off-screen */
+      var cur = 0, target = 0, running = false, visible = false, last = 0;
+      function measure() {
+        if (!line) return;
+        var r = line.getBoundingClientRect();
+        var mid = window.innerHeight * .55;
+        target = Math.max(0, Math.min(1, (mid - r.top) / Math.max(1, r.height)));
+        var y = target * r.height;
+        for (var i = 0; i < items.length; i++) {
+          var n = items[i].getBoundingClientRect();
+          var ny = (n.top - r.top) + Math.min(n.height, 24) + 12;
+          if (y >= ny) items[i].setAttribute('data-au-on', ''); else items[i].removeAttribute('data-au-on');
+        }
+      }
+      function frame(now) {
+        if (!running) return;
+        var dt = Math.min(.05, (now - last) / 1000 || .016); last = now;
+        measure();
+        cur += (target - cur) * Math.min(1, dt * 7);
+        root.style.setProperty('--au-prog', cur.toFixed(4));
+        requestAnimationFrame(frame);
+      }
+      function run() { if (running || !visible || document.hidden) return; running = true; last = performance.now(); requestAnimationFrame(frame); }
+      function stop() { running = false; }
+      document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else run(); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Aurum Obsidiana Lujo',
+      descripcion: 'Itinerario en zigzag con línea de oro líquido que se llena al hacer scroll: una perla dorada recorre el eje, enciende cada hito al pasar y las tarjetas de cristal entran desde su lado con hora en time.',
+      tags: ['itinerario', 'agenda', 'lujo', 'oro', 'timeline', 'premium', 'quinceañera', 'boda'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>

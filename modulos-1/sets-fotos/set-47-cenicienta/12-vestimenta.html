@@ -1,0 +1,208 @@
+<section
+  class="cnc-ves"
+  data-gemini-id="vestimenta-cenicienta"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&family=Marcellus&display=swap');
+
+    .cnc-ves, .cnc-ves *, .cnc-ves *::before, .cnc-ves *::after { box-sizing: border-box; }
+    .cnc-ves {
+      --t-bg: var(--bg-color, #e6f0fa);
+      --t-tx: var(--text-color, #213a5c);
+      --t-p: var(--primary-color, #8db6dc);
+      --t-s: var(--secondary-color, #fdfcf8);
+      --t-a: var(--accent-color, #c4a052);
+      --t-display: var(--font-script, 'Monsieur La Doulaise', cursive);
+      --t-text: var(--font-heading, 'Marcellus', Georgia, serif);
+      --cnc-pick: color-mix(in srgb, var(--t-p) 45%, var(--t-s));
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 60vw, 46rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1.25rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/ballgown,elegant?lock=3621');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .cnc-ves::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(90deg, color-mix(in srgb, var(--t-s) 92%, transparent), color-mix(in srgb, var(--t-bg) 88%, transparent));
+    }
+    .cnc-ves__content { width: min(100%, 62rem); display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+
+    .cnc-ves__mirror {
+      position: relative;
+      display: grid;
+      place-items: center;
+      aspect-ratio: 4 / 5;
+      padding: 6%;
+      border-radius: 50% 50% 1.2rem 1.2rem / clamp(7rem, 16vw, 12rem) clamp(7rem, 16vw, 12rem) 1.2rem 1.2rem;
+      border: 1px solid var(--t-a);
+      outline: 1px solid color-mix(in srgb, var(--t-a) 45%, transparent);
+      outline-offset: -9px;
+      background: radial-gradient(ellipse at 50% 40%, var(--t-s), color-mix(in srgb, var(--cnc-pick) 35%, var(--t-bg)) 80%);
+      box-shadow: 0 30px 50px -34px color-mix(in srgb, var(--t-tx) 70%, transparent);
+      transition: background-color .45s ease;
+    }
+    .cnc-ves__ripple { position: absolute; left: 50%; top: 52%; width: 70%; aspect-ratio: 1; margin-left: -35%; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--cnc-pick) 70%, transparent), transparent 70%); transform: translateY(-50%) scale(0); opacity: 0; pointer-events: none; }
+    .cnc-ves__ripple[data-cnc-go] { animation: cnc-ves-ripple .5s ease-out; }
+    .cnc-ves__shoe { position: relative; width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 16px 14px color-mix(in srgb, var(--t-tx) 22%, transparent)); }
+    .cnc-ves__body { fill: var(--cnc-pick); transition: fill .45s ease; }
+    .cnc-ves__bow { fill: var(--cnc-pick); transition: fill .45s ease .08s; }
+    @keyframes cnc-ves-ripple { from { opacity: .9; transform: translateY(-50%) scale(.2); } to { opacity: 0; transform: translateY(-50%) scale(1.25); } }
+
+    .cnc-ves__text { display: grid; gap: 1rem; }
+    .cnc-ves__kicker { margin: 0; font-size: 1.05rem; color: color-mix(in srgb, var(--t-tx) 75%, var(--t-a)); }
+    .cnc-ves__title { margin: 0; padding-top: .2em; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.9rem, 7vw, 4.6rem); line-height: 1.2; }
+    .cnc-ves__code { margin: 0; font-size: clamp(1.25rem, 2.6vw, 1.5rem); color: color-mix(in srgb, var(--t-a) 55%, var(--t-tx)); }
+    .cnc-ves__para { margin: 0; font-size: 1.05rem; line-height: 1.6; }
+    .cnc-ves__plabel { margin: .3rem 0 0; font-size: 1rem; }
+    .cnc-ves__palette { list-style: none; margin: 0; padding: .4rem 0 0; display: flex; flex-wrap: wrap; gap: .9rem 1rem; }
+    .cnc-ves__sw { display: grid; justify-items: center; gap: 1rem; min-width: 3.8rem; padding-top: .35rem; }
+    .cnc-ves__gem {
+      display: block;
+      width: 2.9rem;
+      height: 2.9rem;
+      padding: 0;
+      border: 2px solid var(--t-s);
+      border-radius: .55rem;
+      transform: rotate(45deg);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--t-a) 80%, transparent), 0 8px 14px -8px color-mix(in srgb, var(--t-tx) 60%, transparent), inset 6px 6px 10px -6px color-mix(in srgb, var(--t-s) 90%, transparent);
+      cursor: pointer;
+      transition: transform .3s cubic-bezier(.3, 1.5, .5, 1), box-shadow .3s ease;
+    }
+    .cnc-ves__gem:hover { transform: rotate(45deg) scale(1.1); }
+    .cnc-ves__gem[aria-pressed="true"] { transform: rotate(45deg) scale(1.16); box-shadow: 0 0 0 2px var(--t-a), 0 0 0 5px color-mix(in srgb, var(--t-a) 30%, transparent), inset 6px 6px 10px -6px var(--t-s); }
+    .cnc-ves__gem:focus-visible { outline: 2px solid var(--t-tx); outline-offset: 4px; }
+    .cnc-ves__swname { font-size: .85rem; color: color-mix(in srgb, var(--t-tx) 80%, var(--t-bg)); }
+    .cnc-ves__note { margin: .2rem 0 0; font-size: .98rem; line-height: 1.5; color: color-mix(in srgb, var(--t-tx) 80%, var(--t-bg)); }
+
+    .cnc-ves--anim .cnc-ves__mirror { opacity: 0; transform: translateY(16px); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .cnc-ves--anim .cnc-ves__text { opacity: 0; transition: opacity .5s ease .2s; }
+    .cnc-ves--anim .cnc-ves__sw { opacity: 0; transform: scale(.5); transition: opacity .3s ease, transform .4s cubic-bezier(.3, 1.6, .5, 1); }
+    .cnc-ves--anim.is-in .cnc-ves__mirror, .cnc-ves--anim.is-in .cnc-ves__text, .cnc-ves--anim.is-in .cnc-ves__sw { opacity: 1; transform: none; }
+
+    @media (max-width: 780px) {
+      .cnc-ves__content { grid-template-columns: 1fr; max-width: 30rem; }
+      .cnc-ves__mirror { width: min(80%, 18rem); justify-self: center; }
+      .cnc-ves__text { text-align: center; justify-items: center; }
+      .cnc-ves__palette { justify-content: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cnc-ves *, .cnc-ves *::before, .cnc-ves *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="cnc-ves__content">
+    <div class="cnc-ves__mirror" aria-hidden="true">
+      <span class="cnc-ves__ripple" data-cnc-ripple></span>
+      <svg class="cnc-ves__shoe" viewBox="0 0 200 124">
+        <path class="cnc-ves__body" d="M12 96 Q10 80 34 76 Q66 70 92 78 Q118 60 140 40 Q156 28 172 36 Q182 44 178 58 L176 64 L170 112 L162 112 L160 72 Q132 96 96 102 Q50 108 22 104 Q12 102 12 96 Z" style="stroke: var(--t-a)" stroke-width="1.8" />
+        <path d="M34 76 Q62 64 92 78" fill="none" style="stroke: var(--t-a)" stroke-width="1.4" />
+        <path d="M30 88 Q70 78 100 90 M122 64 Q140 46 160 42" fill="none" style="stroke: var(--t-s)" stroke-width="3" stroke-linecap="round" opacity=".9" />
+        <path class="cnc-ves__bow" d="M40 78 q-10 -12 -2 -14 q6 0 8 10 q2 -10 8 -10 q8 2 -2 14 z" style="stroke: var(--t-a)" stroke-width="1.2" />
+        <circle cx="46" cy="76" r="2.6" style="fill: var(--t-a)" />
+      </svg>
+    </div>
+
+    <div class="cnc-ves__text">
+      <header>
+        <p class="cnc-ves__kicker" memory_type="text" memory_usage="custom" memory_key="vestimenta-intro">Para el gran baile</p>
+        <h2 class="cnc-ves__title" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Código de Vestimenta</h2>
+      </header>
+      <p class="cnc-ves__code" memory_type="text" memory_usage="custom" memory_key="vestimenta-codigo">Formal · Etiqueta</p>
+      <p class="cnc-ves__para" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">Damas: vestido largo. Caballeros: traje oscuro y corbata.</p>
+      <p class="cnc-ves__plabel" memory_type="text" memory_usage="custom" memory_key="vestimenta-paleta-titulo">Colores sugeridos</p>
+      <ul class="cnc-ves__palette" data-cnc-palette data-cnc-names="Azul hielo|Perla|Champaña|Oro|Plata|Azul real"></ul>
+      <p class="cnc-ves__note" memory_type="text" memory_usage="custom" memory_key="vestimenta-nota">El azul cielo está reservado para la quinceañera.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="vestimenta-cenicienta"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* Swatches are generated from the theme variables, so a RAG recolor flows into the palette */
+      var COLORS = [
+        'color-mix(in srgb, var(--t-p) 45%, var(--t-s))',
+        'var(--t-s)',
+        'color-mix(in srgb, var(--t-a) 40%, var(--t-s))',
+        'var(--t-a)',
+        'color-mix(in srgb, var(--t-tx) 18%, var(--t-s))',
+        'var(--t-tx)'
+      ];
+      var list = root.querySelector('[data-cnc-palette]');
+      var ripple = root.querySelector('[data-cnc-ripple]');
+      var names = (list.getAttribute('data-cnc-names') || '').split('|');
+      if (!list.children.length) {
+        COLORS.forEach(function (c, i) {
+          var li = document.createElement('li');
+          li.className = 'cnc-ves__sw';
+          li.setAttribute('data-cnc-sw', '');
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'cnc-ves__gem';
+          b.style.background = c;
+          b.setAttribute('data-cnc-color', c);
+          b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+          b.setAttribute('aria-label', names[i] || ('Color ' + (i + 1)));
+          var n = document.createElement('span');
+          n.className = 'cnc-ves__swname';
+          n.textContent = names[i] || '';
+          li.appendChild(b); li.appendChild(n); list.appendChild(li);
+        });
+      }
+      list.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-cnc-color]');
+        if (!b) return;
+        Array.prototype.forEach.call(list.querySelectorAll('[data-cnc-color]'), function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+        root.style.setProperty('--cnc-pick', b.getAttribute('data-cnc-color'));
+        if (!RM && ripple) { ripple.removeAttribute('data-cnc-go'); void ripple.offsetWidth; ripple.setAttribute('data-cnc-go', ''); }
+      });
+
+      if (RM || !('IntersectionObserver' in window)) return;
+      var sws = list.querySelectorAll('[data-cnc-sw]');
+      Array.prototype.forEach.call(sws, function (s, i) { s.style.transitionDelay = (.35 + i * .08) + 's'; });
+      root.classList.add('cnc-ves--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () {
+            root.classList.remove('cnc-ves--anim', 'is-in');
+            Array.prototype.forEach.call(sws, function (s) { s.style.removeProperty('transition-delay'); });
+          }, 1700);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-cenicienta',
+      style_name: 'Cenicienta Medianoche Real',
+      descripcion: 'Código de vestimenta con paleta de gemas generada desde los colores del tema; al elegir una, la zapatilla de cristal en el espejo de palacio cambia de color con un destello. Azul, blanco y dorado.',
+      tags: ['vestimenta', 'dress code', 'quinceañera', 'cenicienta', 'paleta', 'zapatilla de cristal'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

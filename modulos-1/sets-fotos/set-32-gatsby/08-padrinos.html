@@ -1,0 +1,257 @@
+<section
+  class="gzpd"
+  data-gemini-id="padrinos-gatsby"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+<i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:url('https://loremflickr.com/1920/1080/gatsby,artdeco?lock=409') center/cover;"></i><i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:color-mix(in srgb, var(--bg-color,#1d1a24) 88%, transparent);"></i>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poiret+One&family=Josefin+Sans:wght@300;400;600&display=swap');
+
+    .gzpd, .gzpd *, .gzpd *::before, .gzpd *::after { box-sizing: border-box; }
+    .gzpd {
+      --t-bg: var(--bg-color, #07080a);
+      --t-tx: var(--text-color, #f4ecd8);
+      --t-p: var(--primary-color, #d4af37);
+      --t-s: var(--secondary-color, #f1d98a);
+      --t-a: var(--accent-color, #0e7a57);
+      --t-display: var(--font-script, 'Poiret One', 'Didot', serif);
+      --t-text: var(--font-heading, 'Josefin Sans', 'Futura', sans-serif);
+      --gzpd-foil: linear-gradient(100deg, color-mix(in srgb, var(--t-p) 55%, #000), var(--t-p) 25%, var(--t-s) 45%, var(--t-p) 65%, color-mix(in srgb, var(--t-p) 55%, #000));
+      --gzpd-chev: repeating-linear-gradient(135deg, transparent 0 8px, var(--t-p) 8px 9px), repeating-linear-gradient(45deg, transparent 0 8px, var(--t-p) 8px 9px);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(32rem, 60vw, 46rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(5rem, 10vw, 8rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: radial-gradient(ellipse 50% 70% at 50% 50%, color-mix(in srgb, var(--t-a) 16%, transparent), transparent 75%);
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    /* Chevron friezes, top and bottom */
+    .gzpd::before, .gzpd::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 18px;
+      opacity: .45;
+      background: var(--gzpd-chev);
+      background-size: 24px 18px;
+    }
+    .gzpd::before { top: clamp(1.4rem, 3vw, 2.2rem); }
+    .gzpd::after { bottom: clamp(1.4rem, 3vw, 2.2rem); }
+
+    .gzpd__content { width: min(100%, 64rem); display: grid; gap: clamp(2.2rem, 5vw, 3.4rem); }
+    .gzpd__head { display: grid; gap: .7rem; justify-items: center; }
+    .gzpd__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(2.3rem, 5.4vw, 3.8rem);
+      line-height: 1.05;
+      color: var(--t-p);
+      background: var(--gzpd-foil);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .gzpd__lead { margin: 0; max-width: 34rem; font-weight: 300; line-height: 1.6; font-size: clamp(1rem, 2vw, 1.12rem); }
+
+    .gzpd__grid { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.8rem, 4vw, 2.6rem) clamp(2.5rem, 7vw, 6rem); }
+    .gzpd__grid::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: repeating-linear-gradient(180deg, var(--t-p) 0 10px, transparent 10px 18px);
+      opacity: .6;
+    }
+    .gzpd__item { display: flex; align-items: center; gap: clamp(1rem, 2.5vw, 1.6rem); }
+    .gzpd__item:nth-child(odd) { flex-direction: row-reverse; text-align: right; }
+    .gzpd__item:nth-child(even) { text-align: left; }
+
+    .gzpd__portrait { position: relative; flex: none; width: clamp(6.4rem, 12vw, 8.4rem); padding-top: 1.4rem; }
+    .gzpd__crest { position: absolute; top: 0; left: 50%; width: 70%; height: auto; transform: translateX(-50%); color: var(--t-p); }
+    .gzpd__figure {
+      position: relative;
+      margin: 0;
+      width: 100%;
+      border-radius: 50%;
+      border: 1px solid var(--t-p);
+      padding: 5px;
+      background: var(--t-bg);
+      box-shadow: 0 0 0 1px var(--t-bg), 0 0 0 3px color-mix(in srgb, var(--t-p) 45%, transparent), 0 10px 30px rgba(0, 0, 0, .5);
+    }
+    .gzpd__figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 50%;
+      filter: sepia(.25) contrast(1.05);
+      background: radial-gradient(circle, color-mix(in srgb, var(--t-a) 45%, var(--t-bg)), var(--t-bg));
+      clip-path: circle(50% at 50% 50%);
+      transition: clip-path .5s cubic-bezier(.65, 0, .25, 1);
+    }
+    .gzpd__text { display: grid; gap: .35rem; min-width: 0; }
+    .gzpd__role { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(1.35rem, 2.6vw, 1.8rem); color: var(--t-s); line-height: 1.1; }
+    .gzpd__names { margin: 0; font-weight: 400; line-height: 1.5; }
+
+    /* Entrance: portraits iris open, crest and names follow toward the axis */
+    .gzpd--anim .gzpd__figure img { clip-path: circle(0% at 50% 50%); }
+    .gzpd--anim .gzpd__crest { opacity: 0; transform: translate(-50%, 10px) scale(.4); transition: opacity .35s ease .25s, transform .45s cubic-bezier(.3, 1.5, .5, 1) .25s; }
+    .gzpd--anim .gzpd__item:nth-child(odd) .gzpd__text { opacity: 0; transform: translateX(-24px); transition: opacity .4s ease .2s, transform .5s cubic-bezier(.2, .8, .2, 1) .2s; }
+    .gzpd--anim .gzpd__item:nth-child(even) .gzpd__text { opacity: 0; transform: translateX(24px); transition: opacity .4s ease .2s, transform .5s cubic-bezier(.2, .8, .2, 1) .2s; }
+    .gzpd--anim .gzpd__item.is-in .gzpd__figure img { clip-path: circle(50% at 50% 50%); }
+    .gzpd--anim .gzpd__item.is-in .gzpd__crest { opacity: 1; transform: translateX(-50%); }
+    .gzpd--anim .gzpd__item.is-in .gzpd__text { opacity: 1; transform: none; }
+
+    @media (max-width: 720px) {
+      .gzpd__grid { grid-template-columns: 1fr; }
+      .gzpd__grid::before { display: none; }
+      .gzpd__item:nth-child(odd) { flex-direction: row; text-align: left; }
+      .gzpd--anim .gzpd__item:nth-child(odd) .gzpd__text { transform: translateX(24px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .gzpd *, .gzpd *::before, .gzpd *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="gzpd__content">
+    <header class="gzpd__head">
+      <h2 class="gzpd__title" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Nuestros padrinos</h2>
+      <p class="gzpd__lead" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Las personas que hacen brillar nuestra historia y nos acompañan en esta gran noche.</p>
+    </header>
+
+    <div class="gzpd__grid">
+      <article class="gzpd__item" data-gzpd-item>
+        <div class="gzpd__portrait">
+          <svg class="gzpd__crest" viewBox="0 0 80 30" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2"><path d="M8 28a32 32 0 0 1 64 0"/><path d="M20 28a20 20 0 0 1 40 0"/><line x1="40" y1="28" x2="40" y2="2"/><line x1="40" y1="28" x2="20" y2="8"/><line x1="40" y1="28" x2="60" y2="8"/></g></svg>
+          <figure class="gzpd__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/400/400/couple,elegant?lock=3181" alt="Padrinos de velación" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <div class="gzpd__text">
+          <h3 class="gzpd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-1">Padrinos de velación</h3>
+          <p class="gzpd__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-1">Nombre Apellido y Nombre Apellido</p>
+        </div>
+      </article>
+      <article class="gzpd__item" data-gzpd-item>
+        <div class="gzpd__portrait">
+          <svg class="gzpd__crest" viewBox="0 0 80 30" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2"><path d="M8 28a32 32 0 0 1 64 0"/><path d="M20 28a20 20 0 0 1 40 0"/><line x1="40" y1="28" x2="40" y2="2"/><line x1="40" y1="28" x2="20" y2="8"/><line x1="40" y1="28" x2="60" y2="8"/></g></svg>
+          <figure class="gzpd__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/400/400/couple,wedding?lock=3182" alt="Padrinos de anillos" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <div class="gzpd__text">
+          <h3 class="gzpd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-2">Padrinos de anillos</h3>
+          <p class="gzpd__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-2">Nombre Apellido y Nombre Apellido</p>
+        </div>
+      </article>
+      <article class="gzpd__item" data-gzpd-item>
+        <div class="gzpd__portrait">
+          <svg class="gzpd__crest" viewBox="0 0 80 30" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2"><path d="M8 28a32 32 0 0 1 64 0"/><path d="M20 28a20 20 0 0 1 40 0"/><line x1="40" y1="28" x2="40" y2="2"/><line x1="40" y1="28" x2="20" y2="8"/><line x1="40" y1="28" x2="60" y2="8"/></g></svg>
+          <figure class="gzpd__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/400/400/couple,portrait?lock=3183" alt="Padrinos de arras" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <div class="gzpd__text">
+          <h3 class="gzpd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-3">Padrinos de arras</h3>
+          <p class="gzpd__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-3">Nombre Apellido y Nombre Apellido</p>
+        </div>
+      </article>
+      <article class="gzpd__item" data-gzpd-item>
+        <div class="gzpd__portrait">
+          <svg class="gzpd__crest" viewBox="0 0 80 30" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2"><path d="M8 28a32 32 0 0 1 64 0"/><path d="M20 28a20 20 0 0 1 40 0"/><line x1="40" y1="28" x2="40" y2="2"/><line x1="40" y1="28" x2="20" y2="8"/><line x1="40" y1="28" x2="60" y2="8"/></g></svg>
+          <figure class="gzpd__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/400/400/couple,smile?lock=3184" alt="Padrinos de lazo" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <div class="gzpd__text">
+          <h3 class="gzpd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-4">Padrinos de lazo</h3>
+          <p class="gzpd__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-4">Nombre Apellido y Nombre Apellido</p>
+        </div>
+      </article>
+      <article class="gzpd__item" data-gzpd-item>
+        <div class="gzpd__portrait">
+          <svg class="gzpd__crest" viewBox="0 0 80 30" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2"><path d="M8 28a32 32 0 0 1 64 0"/><path d="M20 28a20 20 0 0 1 40 0"/><line x1="40" y1="28" x2="40" y2="2"/><line x1="40" y1="28" x2="20" y2="8"/><line x1="40" y1="28" x2="60" y2="8"/></g></svg>
+          <figure class="gzpd__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/400/400/friends,party?lock=3185" alt="Padrinos de copas" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <div class="gzpd__text">
+          <h3 class="gzpd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-5">Padrinos de copas</h3>
+          <p class="gzpd__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-5">Nombre Apellido y Nombre Apellido</p>
+        </div>
+      </article>
+      <article class="gzpd__item" data-gzpd-item>
+        <div class="gzpd__portrait">
+          <svg class="gzpd__crest" viewBox="0 0 80 30" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2"><path d="M8 28a32 32 0 0 1 64 0"/><path d="M20 28a20 20 0 0 1 40 0"/><line x1="40" y1="28" x2="40" y2="2"/><line x1="40" y1="28" x2="20" y2="8"/><line x1="40" y1="28" x2="60" y2="8"/></g></svg>
+          <figure class="gzpd__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/400/400/couple,dance?lock=3186" alt="Padrinos de pastel" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <div class="gzpd__text">
+          <h3 class="gzpd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-6">Padrinos de pastel</h3>
+          <p class="gzpd__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-6">Nombre Apellido y Nombre Apellido</p>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="padrinos-gatsby"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      var items = [].slice.call(root.querySelectorAll('[data-gzpd-item]'));
+      root.classList.add('gzpd--anim');
+      var queue = [], timer = 0, done = 0;
+      function flush() {
+        timer = 0;
+        var el = queue.shift();
+        if (!el) return;
+        el.classList.add('is-in');
+        if (++done === items.length) setTimeout(function () {
+          root.classList.remove('gzpd--anim');
+          items.forEach(function (i) { i.classList.remove('is-in'); });
+        }, 1000);
+        if (queue.length) timer = setTimeout(flush, 160);
+      }
+      var io = new IntersectionObserver(function (en) {
+        en.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          io.unobserve(e.target);
+          queue.push(e.target);
+        });
+        queue.sort(function (a, b) { return items.indexOf(a) - items.indexOf(b); });
+        if (!timer) flush();
+      }, { threshold: .35 });
+      items.forEach(function (i) { io.observe(i); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'padrinos',
+      module_name: 'padrinos-gatsby',
+      style_name: 'Gatsby Art Deco Padrinos',
+      descripcion: 'Padrinos en galería de retratos Art Deco: fotos circulares con marco dorado y abanico de cresta que se abren en iris, roles en tipografía de época y nombres en espejo alrededor de un eje dorado.',
+      tags: ['padrinos', 'boda', 'art deco', 'gatsby', 'retratos', 'dorado', 'esmeralda'],
+      tipo: 'padrinos'
+    };
+  </script>
+</section>

@@ -1,0 +1,184 @@
+<section
+  class="gg-co"
+  data-gemini-id="corte-gotico"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Grenze+Gotisch:wght@400;500;600;700&display=swap');
+
+    .gg-co, .gg-co *, .gg-co *::before, .gg-co *::after { box-sizing: border-box; }
+    .gg-co {
+      --t-bg: var(--bg-color, #0d0809);
+      --t-tx: var(--text-color, #eee5dd);
+      --t-p: var(--primary-color, #7d0f1f);
+      --t-s: var(--secondary-color, #1f0b10);
+      --t-a: var(--accent-color, #a3a1aa);
+      --t-display: var(--font-script, 'Grenze Gotisch', 'Cormorant Garamond', serif);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      --vel-d: color-mix(in srgb, var(--t-p) 45%, #000);
+      --vel-l: color-mix(in srgb, var(--t-p) 88%, #fff 4%);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 58vw, 46rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4.5rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image:
+        radial-gradient(45% 60% at 25% 50%, color-mix(in srgb, var(--t-p) 20%, transparent), transparent 75%),
+        linear-gradient(90deg, var(--t-bg), var(--t-s));
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .gg-co__wrap {
+      width: min(100%, 68rem);
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: clamp(2rem, 5vw, 4.5rem);
+      align-items: center;
+    }
+
+    /* Stage with velvet curtains */
+    .gg-co__stage {
+      position: relative;
+      padding: 10px;
+      border: 1px solid color-mix(in srgb, var(--t-a) 70%, transparent);
+      box-shadow: 0 0 0 5px var(--t-bg), 0 0 0 6px color-mix(in srgb, var(--t-a) 35%, transparent), 0 2rem 3.4rem -1.4rem #000;
+    }
+    .gg-co__view { position: relative; overflow: hidden; }
+    .gg-co__figure { margin: 0; }
+    .gg-co__figure img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; filter: saturate(.85) contrast(1.05); }
+    .gg-co__curtain {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 51%;
+      z-index: 2;
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, .25), transparent 20%, transparent 80%, rgba(0, 0, 0, .45)),
+        repeating-linear-gradient(90deg, var(--vel-d) 0, var(--vel-l) 1.1rem, var(--t-p) 1.6rem, var(--vel-d) 2.6rem);
+      transition: transform .5s cubic-bezier(.65, 0, .35, 1);
+      pointer-events: none;
+    }
+    .gg-co__curtain--l { left: 0; transform: translateX(-102%); transform-origin: 0 0; }
+    .gg-co__curtain--r { right: 0; transform: translateX(102%); transform-origin: 100% 0; }
+    .gg-co--anim .gg-co__curtain { transform: none; transition: none; }
+    .gg-co--anim.is-in .gg-co__curtain { transition: transform .5s cubic-bezier(.65, 0, .35, 1) .25s; }
+    .gg-co--anim.is-in .gg-co__curtain--l { transform: translateX(-102%) skewY(4deg); }
+    .gg-co--anim.is-in .gg-co__curtain--r { transform: translateX(102%) skewY(-4deg); }
+    .gg-co__valance {
+      position: absolute;
+      left: -1px;
+      right: -1px;
+      top: 0;
+      z-index: 3;
+      height: 2.2rem;
+      background:
+        radial-gradient(circle at 50% 0, var(--t-p) 1.45rem, var(--vel-d) 1.55rem, transparent 1.65rem) 0 0 / 2.5rem 2.2rem repeat-x;
+      filter: drop-shadow(0 .3rem .3rem rgba(0, 0, 0, .5));
+      pointer-events: none;
+    }
+    .gg-co__tassel { position: absolute; top: 46%; z-index: 4; width: 1.4rem; height: auto; pointer-events: none; }
+    .gg-co__tassel--l { left: -.55rem; }
+    .gg-co__tassel--r { right: -.55rem; transform: scaleX(-1); }
+
+    .gg-co__text { display: grid; gap: 1.1rem; }
+    .gg-co__kicker { margin: 0; font-style: italic; font-size: 1.15rem; color: color-mix(in srgb, var(--t-a) 80%, var(--t-tx)); }
+    .gg-co__title { margin: 0; font-family: var(--t-display); font-weight: 600; font-size: clamp(2.4rem, 5.6vw, 3.8rem); line-height: 1; }
+    .gg-co__desc { margin: 0; font-size: clamp(1.08rem, 2.2vw, 1.22rem); line-height: 1.55; color: color-mix(in srgb, var(--t-tx) 82%, transparent); }
+    .gg-co__groups { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; margin-top: .4rem; }
+    .gg-co__group h3 { margin: 0 0 .5rem; font-family: var(--t-display); font-weight: 500; font-size: 1.4rem; color: color-mix(in srgb, var(--t-p) 45%, var(--t-tx)); }
+    .gg-co__group ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .3rem; }
+    .gg-co__group li { font-size: 1.1rem; padding-left: 1.1rem; position: relative; }
+    .gg-co__group li::before { content: ''; position: absolute; left: 0; top: .62em; width: .4rem; height: .4rem; background: var(--t-a); transform: rotate(45deg); opacity: .7; }
+
+    .gg-co--anim .gg-co__text > * { opacity: 0; transform: translateY(12px); transition: opacity .4s ease, transform .45s ease; }
+    .gg-co--anim.is-in .gg-co__text > * { opacity: 1; transform: none; transition-delay: calc(.55s + var(--i, 0) * .1s); }
+
+    @media (max-width: 820px) {
+      .gg-co__wrap { grid-template-columns: 1fr; }
+      .gg-co__stage { width: min(100%, 26rem); justify-self: center; }
+      .gg-co__text { text-align: center; }
+      .gg-co__group li { padding-left: 0; }
+      .gg-co__group li::before { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .gg-co *, .gg-co *::before, .gg-co *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="gg-co__wrap">
+    <div class="gg-co__stage">
+      <div class="gg-co__view">
+        <figure class="gg-co__figure" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/800/1000/bridesmaids,elegant?lock=3391" alt="Corte de honor" path="placeholder" data-library-category="corte" data-asset-type="grupo" loading="lazy" />
+        </figure>
+        <span class="gg-co__curtain gg-co__curtain--l" aria-hidden="true"></span>
+        <span class="gg-co__curtain gg-co__curtain--r" aria-hidden="true"></span>
+        <span class="gg-co__valance" aria-hidden="true"></span>
+      </div>
+      <svg class="gg-co__tassel gg-co__tassel--l" viewBox="0 0 20 60" aria-hidden="true"><path d="M10 0 V14" style="stroke: var(--t-a); stroke-width: 1.4" /><circle cx="10" cy="18" r="5" style="fill: var(--t-a)" /><path d="M5 22 L3 56 H17 L15 22 Z" style="fill: color-mix(in srgb, var(--t-a) 70%, var(--t-bg))" /><path d="M7 26 V54 M10 26 V55 M13 26 V54" style="stroke: var(--t-bg); stroke-width: .6; opacity: .6" /></svg>
+      <svg class="gg-co__tassel gg-co__tassel--r" viewBox="0 0 20 60" aria-hidden="true"><path d="M10 0 V14" style="stroke: var(--t-a); stroke-width: 1.4" /><circle cx="10" cy="18" r="5" style="fill: var(--t-a)" /><path d="M5 22 L3 56 H17 L15 22 Z" style="fill: color-mix(in srgb, var(--t-a) 70%, var(--t-bg))" /><path d="M7 26 V54 M10 26 V55 M13 26 V54" style="stroke: var(--t-bg); stroke-width: .6; opacity: .6" /></svg>
+    </div>
+
+    <div class="gg-co__text">
+      <p class="gg-co__kicker" style="--i: 0" memory_type="text" memory_usage="custom" memory_key="corte-kicker">Telón arriba</p>
+      <h2 class="gg-co__title" style="--i: 1" memory_type="text" memory_usage="custom" memory_key="corte-titulo">Nuestra corte de honor</h2>
+      <p class="gg-co__desc" style="--i: 2" memory_type="text" memory_usage="custom" memory_key="corte-texto">Vestidas de terciopelo y plata, las personas que nos acompañan custodiarán cada momento de esta noche.</p>
+      <div class="gg-co__groups" style="--i: 3">
+        <div class="gg-co__group">
+          <h3 memory_type="text" memory_usage="custom" memory_key="corte-damas-titulo">Damas</h3>
+          <ul>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-1">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-2">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-3">Nombre Apellido</li>
+          </ul>
+        </div>
+        <div class="gg-co__group">
+          <h3 memory_type="text" memory_usage="custom" memory_key="corte-caballeros-titulo">Caballeros</h3>
+          <ul>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-caballero-1">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-caballero-2">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-caballero-3">Nombre Apellido</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="corte-gotico"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      /* Curtain reveal on viewport entry */
+      root.classList.add('gg-co--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .35) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('gg-co--anim', 'is-in'); }, 1600);
+        }
+      }, { threshold: [0, .35, .6] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-gotico',
+      style_name: 'Glamour Gótico Telón de Terciopelo',
+      descripcion: 'Corte de honor con imagen destacada tras un telón de terciopelo rojo que se abre al aparecer, cenefa festoneada y borlas plateadas; texto al lado con damas y caballeros.',
+      tags: ['corte', 'boda', 'gotico', 'glamour', 'telon', 'terciopelo'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

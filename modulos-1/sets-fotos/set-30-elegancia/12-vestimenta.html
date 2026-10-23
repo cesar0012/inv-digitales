@@ -1,0 +1,271 @@
+<section
+  class="em-ves"
+  data-gemini-id="vestimenta-elegancia"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,200;0,300;0,400;1,200;1,300&family=Manrope:wght@200;300;400;500&display=swap');
+
+    .em-ves, .em-ves *, .em-ves *::before, .em-ves *::after { box-sizing: border-box; }
+    .em-ves {
+      --t-bg: var(--bg-color, #ffffff);
+      --t-tx: var(--text-color, #2b2b2b);
+      --t-p: var(--primary-color, #b76e79);
+      --t-s: var(--secondary-color, #8a837f);
+      --t-a: var(--accent-color, #e4c6ba);
+      --t-display: var(--font-script, 'Jost', 'Helvetica Neue', Arial, sans-serif);
+      --t-text: var(--font-heading, 'Manrope', 'Helvetica Neue', Arial, sans-serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 64vw, 50rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(5rem, 10vw, 8rem) clamp(1.25rem, 6vw, 5rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/suit,dress,elegant?lock=3121');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .em-ves::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 95%, transparent), color-mix(in srgb, var(--t-bg) 97%, transparent));
+    }
+    .em-ves__paper { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mix-blend-mode: multiply; opacity: .36; }
+    .em-ves__inner {
+      width: min(100%, 66rem);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+      gap: clamp(3rem, 8vw, 7rem);
+      align-items: center;
+    }
+    .em-ves__visual { display: grid; justify-items: center; gap: 1.4rem; }
+    .em-ves__disc {
+      position: relative;
+      width: min(100%, 22rem);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      overflow: hidden;
+      background: var(--em-base, #2b2b2b);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--t-tx) 10%, transparent);
+    }
+    .em-ves__disc-wrap { position: relative; width: min(100%, 22rem); }
+    .em-ves__disc-wrap::after {
+      content: '';
+      position: absolute;
+      inset: -14px;
+      border-radius: 50%;
+      border: 1px solid var(--t-p);
+      pointer-events: none;
+    }
+    .em-ves__layer {
+      position: absolute;
+      inset: 0;
+      clip-path: circle(0% at var(--x, 50%) var(--y, 50%));
+      transition: clip-path .5s cubic-bezier(.6, 0, .2, 1);
+    }
+    .em-ves__layer[data-em-on] { clip-path: circle(102% at var(--x, 50%) var(--y, 50%)); }
+    .em-ves__name { margin: 0; min-height: 1.6em; font-family: var(--t-display); font-weight: 300; font-size: 1.15rem; color: var(--t-tx); }
+    .em-ves__name[data-em-flash] { animation: em-ves-name .4s ease; }
+    @keyframes em-ves-name { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+
+    .em-ves__text { display: grid; gap: 1.1rem; }
+    .em-ves__eyebrow {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      font-family: var(--t-display);
+      font-style: italic;
+      font-weight: 300;
+      font-size: 1.05rem;
+      color: var(--t-s);
+    }
+    .em-ves__eyebrow::before { content: ''; width: 2.2rem; height: 1px; background: var(--t-p); }
+    .em-ves__title { margin: 0; font-family: var(--t-display); font-weight: 200; font-size: clamp(2.6rem, 5.4vw, 4.2rem); line-height: 1; letter-spacing: -.02em; }
+    .em-ves__lead { margin: 0; max-width: 28rem; font-weight: 300; line-height: 1.75; color: var(--t-s); }
+    .em-ves__rows { display: grid; margin-top: .6rem; border-top: 1px solid color-mix(in srgb, var(--t-tx) 14%, transparent); }
+    .em-ves__row { display: grid; grid-template-columns: 6rem 1fr; gap: 1.4rem; padding: 1.1rem 0; border-bottom: 1px solid color-mix(in srgb, var(--t-tx) 14%, transparent); }
+    .em-ves__who { margin: 0; font-family: var(--t-display); font-style: italic; font-weight: 300; color: var(--t-p); }
+    .em-ves__what { margin: 0; font-weight: 300; line-height: 1.6; }
+    .em-ves__swatches { display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 1rem; }
+    .em-ves__sw {
+      width: 2.4rem;
+      height: 2.4rem;
+      padding: 0;
+      border-radius: 50%;
+      border: 1px solid color-mix(in srgb, var(--t-tx) 16%, transparent);
+      background: var(--c, #2b2b2b);
+      cursor: pointer;
+      outline: 1px solid transparent;
+      outline-offset: 4px;
+      transition: transform .3s cubic-bezier(.2, .8, .2, 1.4), outline-color .3s ease, outline-offset .3s ease;
+    }
+    .em-ves__sw:hover { transform: scale(1.08); }
+    .em-ves__sw[aria-pressed="true"] { outline-color: var(--t-p); outline-offset: 3px; }
+    .em-ves__sw:focus-visible { outline-color: var(--t-p); }
+    .em-ves__note { margin: .6rem 0 0; font-size: .9rem; font-weight: 300; color: var(--t-s); }
+
+    @media (max-width: 860px) {
+      .em-ves__inner { grid-template-columns: 1fr; }
+      .em-ves__disc-wrap { width: min(70%, 17rem); }
+    }
+    @media (max-width: 420px) {
+      .em-ves__row { grid-template-columns: 1fr; gap: .2rem; }
+    }
+
+    /* Entrance: disc grows as a circle, text block wipes in. Each transition <= .5s */
+    .em-ves--anim .em-ves__disc { clip-path: circle(0% at 50% 50%); }
+    .em-ves--anim .em-ves__text { opacity: 0; clip-path: inset(0 0 100% 0); }
+    .em-ves--anim.is-in .em-ves__disc { clip-path: circle(71% at 50% 50%); transition: clip-path .5s cubic-bezier(.6, 0, .2, 1); }
+    .em-ves--anim.is-in .em-ves__text { opacity: 1; clip-path: inset(0 0 0 0); transition: opacity .3s ease .25s, clip-path .5s cubic-bezier(.6, 0, .2, 1) .25s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .em-ves *, .em-ves *::before, .em-ves *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="em-ves__paper" aria-hidden="true" focusable="false">
+    <filter id="em30-paper-ves" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="4" seed="121" result="n" />
+      <feDiffuseLighting in="n" lighting-color="#ffffff" surfaceScale="1.3"><feDistantLight azimuth="45" elevation="58" /></feDiffuseLighting>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#em30-paper-ves)" />
+  </svg>
+
+  <div class="em-ves__inner">
+    <div class="em-ves__visual">
+      <div class="em-ves__disc-wrap">
+        <div class="em-ves__disc" data-em-disc aria-hidden="true"></div>
+      </div>
+      <p class="em-ves__name" data-em-name aria-live="polite"></p>
+    </div>
+
+    <div class="em-ves__text">
+      <p class="em-ves__eyebrow" memory_type="text" memory_usage="custom" memory_key="vestimenta-etiqueta">Código de vestimenta</p>
+      <h2 class="em-ves__title" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Formal</h2>
+      <p class="em-ves__lead" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">Te sugerimos tonos neutros y profundos que acompañen la sobriedad de la noche.</p>
+      <div class="em-ves__rows">
+        <div class="em-ves__row">
+          <h3 class="em-ves__who" memory_type="text" memory_usage="custom" memory_key="vestimenta-ellas-titulo">Ellas</h3>
+          <p class="em-ves__what" memory_type="text" memory_usage="custom" memory_key="vestimenta-ellas-texto">Vestido largo o midi elegante.</p>
+        </div>
+        <div class="em-ves__row">
+          <h3 class="em-ves__who" memory_type="text" memory_usage="custom" memory_key="vestimenta-ellos-titulo">Ellos</h3>
+          <p class="em-ves__what" memory_type="text" memory_usage="custom" memory_key="vestimenta-ellos-texto">Traje oscuro, corbata opcional.</p>
+        </div>
+      </div>
+      <div class="em-ves__swatches" data-em-swatches role="group" aria-label="Paleta sugerida"
+        data-em-palette="#2b2b2b:Negro carbón,#55565c:Grafito,#8b7d77:Topo,#cdb9a8:Arena,#d6a9a4:Palo de rosa,#b76e79:Oro rosado"></div>
+      <p class="em-ves__note" memory_type="text" memory_usage="custom" memory_key="vestimenta-nota">El blanco y el marfil están reservados para la novia.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="vestimenta-elegancia"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* Swatches generated from data-em-palette ("#hex:Nombre,...") */
+      var box = root.querySelector('[data-em-swatches]');
+      var disc = root.querySelector('[data-em-disc]');
+      var label = root.querySelector('[data-em-name]');
+      var pal = (box.getAttribute('data-em-palette') || '').split(',').map(function (s) {
+        var p = s.split(':'); return { c: (p[0] || '').trim(), n: (p[1] || '').trim() };
+      }).filter(function (x) { return x.c; });
+      var btns = [], cur = -1, touched = false;
+      pal.forEach(function (it, i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'em-ves__sw';
+        b.style.setProperty('--c', it.c);
+        b.setAttribute('aria-label', it.n);
+        b.setAttribute('aria-pressed', 'false');
+        b.title = it.n;
+        b.addEventListener('click', function (e) {
+          touched = true;
+          var r = disc.getBoundingClientRect(), br = b.getBoundingClientRect();
+          /* color enters from the disc edge facing the chosen swatch */
+          var a = Math.atan2(br.top + br.height / 2 - (r.top + r.height / 2), br.left + br.width / 2 - (r.left + r.width / 2));
+          pick(i, 50 + 50 * Math.cos(a), 50 + 50 * Math.sin(a));
+        });
+        box.appendChild(b);
+        btns.push(b);
+      });
+
+      /* Color transition: a new circle of color grows over the disc (clip-path, .5s) */
+      function pick(i, x, y) {
+        if (i === cur || !pal[i]) return;
+        cur = i;
+        btns.forEach(function (b, k) { b.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+        label.textContent = pal[i].n;
+        if (!RM) { label.removeAttribute('data-em-flash'); void label.offsetWidth; label.setAttribute('data-em-flash', ''); }
+        if (RM) { disc.style.setProperty('--em-base', pal[i].c); return; }
+        var l = document.createElement('span');
+        l.className = 'em-ves__layer';
+        l.setAttribute('data-em-layer', '');
+        l.style.background = pal[i].c;
+        l.style.setProperty('--x', (x == null ? 50 : x) + '%');
+        l.style.setProperty('--y', (y == null ? 50 : y) + '%');
+        disc.appendChild(l);
+        void l.offsetWidth;
+        l.setAttribute('data-em-on', '');
+        setTimeout(function () {
+          disc.style.setProperty('--em-base', pal[i].c);
+          var ls = disc.querySelectorAll('[data-em-layer]');
+          for (var k = 0; k < ls.length - 1; k++) ls[k].remove();
+          if (ls.length && cur === i) ls[ls.length - 1].remove();
+        }, 560);
+      }
+      pick(0);
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      /* Gentle auto-cycle while visible, until the guest picks a color (rAF clock, paused off-screen) */
+      var visible = false, raf = 0, lastT = 0;
+      function loop(t) {
+        raf = 0;
+        if (!visible || document.hidden || touched) return;
+        if (!lastT) lastT = t;
+        if (t - lastT > 2600) { lastT = t; pick((cur + 1) % pal.length, 50, 100); }
+        raf = requestAnimationFrame(loop);
+      }
+      function start() { if (!raf && !touched) { lastT = 0; raf = requestAnimationFrame(loop); } }
+      document.addEventListener('visibilitychange', function () { if (!document.hidden) start(); });
+      new IntersectionObserver(function (en) { visible = en[0].isIntersecting; if (visible) start(); }, { threshold: .3 }).observe(root);
+
+      root.classList.add('em-ves--anim');
+      void root.offsetWidth;
+      var io = new IntersectionObserver(function (en) {
+        if (!(en[0].isIntersecting && en[0].intersectionRatio > .25)) return;
+        io.disconnect();
+        root.classList.add('is-in');
+        setTimeout(function () { root.classList.remove('em-ves--anim', 'is-in'); }, 1300);
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-elegancia',
+      style_name: 'Elegancia Minimalista Anillo',
+      descripcion: 'Código de vestimenta formal con paleta sugerida generada en JS: al elegir un tono, un círculo de color crece sobre el disco principal enmarcado por un anillo de oro rosado.',
+      tags: ['vestimenta', 'dress code', 'boda', 'minimalista', 'oro rosado'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

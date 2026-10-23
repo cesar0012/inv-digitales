@@ -1,0 +1,269 @@
+<section
+  class="cv-re"
+  data-gemini-id="regalos-carnaval"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Monsieur+La+Doulaise&display=swap');
+
+    .cv-re, .cv-re *, .cv-re *::before, .cv-re *::after { box-sizing: border-box; }
+    .cv-re {
+      --t-bg: var(--bg-color, #14060f);
+      --t-tx: var(--text-color, #f3e4c8);
+      --t-p: var(--primary-color, #9b1028);
+      --t-s: var(--secondary-color, #4b1a6e);
+      --t-a: var(--accent-color, #b8862e);
+      --t-display: var(--font-script, 'Monsieur La Doulaise', cursive);
+      --t-text: var(--font-heading, 'IM Fell English', Georgia, serif);
+      --gold: linear-gradient(115deg, color-mix(in srgb, var(--t-a) 60%, #000) 0%, color-mix(in srgb, var(--t-a) 55%, #fff) 42%, var(--t-a) 58%, color-mix(in srgb, var(--t-a) 65%, #000) 100%);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(32rem, 60vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/gift,gold,ribbon?lock=3611');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .cv-re::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 50% 50% at 50% 50%, color-mix(in srgb, var(--t-s) 30%, transparent), transparent 80%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 87%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent));
+    }
+    .cv-re__content { width: min(100%, 46rem); }
+    .cv-re__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3rem, 7vw, 5rem);
+      line-height: 1.1;
+      padding: 0 .3em;
+      background: var(--gold);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .cv-re__intro { margin: .3rem auto clamp(2rem, 5vw, 2.8rem); max-width: 32rem; font-style: italic; opacity: .86; line-height: 1.55; }
+
+    .cv-re__list { margin: 0; padding: 0; list-style: none; display: grid; gap: 1.2rem; text-align: left; }
+    .cv-re__item {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 1.1rem;
+      min-height: 5.4rem;
+      padding: .9rem 3.4rem .9rem .9rem;
+      filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .45));
+      transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1);
+    }
+    .cv-re__item::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(180deg, color-mix(in srgb, #fff 10%, transparent), transparent 40%, rgba(0, 0, 0, .25)),
+        linear-gradient(90deg, color-mix(in srgb, var(--t-p) 90%, #000), var(--t-p) 60%, color-mix(in srgb, var(--t-p) 70%, #000));
+      clip-path: polygon(0 0, 100% 0, calc(100% - 1.6rem) 50%, 100% 100%, 0 100%);
+      border-top: 2px solid var(--t-a);
+    }
+    .cv-re__item::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 1.6rem;
+      top: 6px;
+      bottom: 6px;
+      z-index: -1;
+      border-top: 1px solid color-mix(in srgb, var(--t-a) 55%, transparent);
+      border-bottom: 1px solid color-mix(in srgb, var(--t-a) 55%, transparent);
+    }
+    .cv-re__item:nth-child(2) { margin-left: clamp(0rem, 4vw, 2.4rem); }
+    .cv-re__medal {
+      width: 3.6rem;
+      height: 3.6rem;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--gold);
+      color: color-mix(in srgb, var(--t-p) 70%, #000);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--t-bg) 60%, transparent);
+    }
+    .cv-re__medal svg { width: 1.9rem; height: 1.9rem; }
+    .cv-re__name { margin: 0; font-weight: 400; font-size: clamp(1.25rem, 2.4vw, 1.5rem); }
+    .cv-re__text { margin: .1rem 0 0; font-style: italic; opacity: .86; line-height: 1.45; }
+
+    .cv-re__actions { position: relative; margin-top: clamp(2rem, 5vw, 2.8rem); display: grid; justify-items: center; gap: .8rem; }
+    .cv-re__btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .7rem;
+      min-height: 3.3rem;
+      padding: .6rem 1.8rem;
+      border: 0;
+      border-radius: 999px;
+      background: var(--gold);
+      color: color-mix(in srgb, var(--t-bg) 90%, var(--t-p));
+      font: inherit;
+      font-size: 1.15rem;
+      cursor: pointer;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, .5);
+      transition: transform .3s ease, box-shadow .3s ease, background-color .4s ease;
+    }
+    .cv-re__btn:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 14px 30px color-mix(in srgb, var(--t-a) 40%, transparent); }
+    .cv-re__btn:focus-visible { outline: 2px solid var(--t-tx); outline-offset: 3px; }
+    .cv-re__btn svg { width: 1.4rem; height: 1.4rem; }
+    .cv-re__ico[data-ico="ok"] { display: none; }
+    .cv-re__btn[data-state="done"] { pointer-events: none; background: var(--t-p); color: var(--t-tx); box-shadow: inset 0 0 0 1px var(--t-a), 0 0 30px color-mix(in srgb, var(--t-a) 45%, transparent); animation: cv-re-pop .45s cubic-bezier(.3, 1.6, .5, 1); }
+    .cv-re__btn[data-state="done"] .cv-re__ico[data-ico="gift"] { display: none; }
+    .cv-re__btn[data-state="done"] .cv-re__ico[data-ico="ok"] { display: block; }
+    .cv-re__ico[data-ico="ok"] path { stroke-dasharray: 24; stroke-dashoffset: 24; transition: stroke-dashoffset .45s ease .1s; }
+    .cv-re__btn[data-state="done"] .cv-re__ico[data-ico="ok"] path { stroke-dashoffset: 0; }
+    .cv-re__thanks { margin: 0; font-style: italic; color: var(--t-a); }
+    .cv-re__done[hidden] { display: none; }
+    .cv-re__spark {
+      position: absolute;
+      left: 50%;
+      top: 1.6rem;
+      width: 8px;
+      height: 14px;
+      margin: -7px 0 0 -4px;
+      background: var(--t-a);
+      clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+      pointer-events: none;
+      transition: transform .5s cubic-bezier(.1, .8, .3, 1), opacity .5s ease;
+    }
+    @keyframes cv-re-pop { 0% { transform: scale(.9); } 100% { transform: none; } }
+
+    .cv-re--anim .cv-re__item { opacity: 0; transform: translateX(-30px); }
+    .cv-re--anim .cv-re__item[data-on] { opacity: 1; transform: none; }
+
+    @media (max-width: 560px) {
+      .cv-re__item { padding-right: 2.4rem; }
+      .cv-re__item:nth-child(2) { margin-left: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cv-re *, .cv-re *::before, .cv-re *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="cv-re__content">
+    <h2 class="cv-re__title" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Mesa de Regalos</h2>
+    <p class="cv-re__intro" memory_type="text" memory_usage="custom" memory_key="regalos-intro">Tu presencia es el mejor regalo. Si deseas tener un detalle conmigo, aquí tienes algunas opciones.</p>
+
+    <ul class="cv-re__list">
+      <li class="cv-re__item" data-cv-item>
+        <span class="cv-re__medal" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7h18v12H3z M3 7l9 7 9-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" /></svg></span>
+        <div>
+          <h3 class="cv-re__name" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-1">Lluvia de sobres</h3>
+          <p class="cv-re__text" memory_type="text" memory_usage="custom" memory_key="regalos-detalle-1">Habrá un cofre dorado en la recepción para tus sobres.</p>
+        </div>
+      </li>
+      <li class="cv-re__item" data-cv-item>
+        <span class="cv-re__medal" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 10h16v10H4z M3 7h18v3H3z M12 7v13 M12 7C10 3 6 3 7 6c.5 1 3 1 5 1c2 0 4.5 0 5-1c1-3-3-3-5 1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" /></svg></span>
+        <div>
+          <h3 class="cv-re__name" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-2">Mesa de regalos</h3>
+          <p class="cv-re__text" memory_type="text" memory_usage="custom" memory_key="regalos-detalle-2">Tienda departamental · Número de evento 000000</p>
+        </div>
+      </li>
+      <li class="cv-re__item" data-cv-item>
+        <span class="cv-re__medal" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 10l9-6 9 6z M5 10v8 M9.5 10v8 M14.5 10v8 M19 10v8 M3 20h18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" /></svg></span>
+        <div>
+          <h3 class="cv-re__name" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-3">Transferencia</h3>
+          <p class="cv-re__text" memory_type="text" memory_usage="custom" memory_key="regalos-detalle-3">Datos bancarios a nombre de Nombre Apellido, disponibles con mis papás.</p>
+        </div>
+      </li>
+    </ul>
+
+    <div class="cv-re__actions" data-cv-actions>
+      <button class="cv-re__btn" type="button" data-cv-gift data-state="idle">
+        <svg class="cv-re__ico" data-ico="gift" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h16v10H4z M3 7h18v3H3z M12 7v13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" /></svg>
+        <svg class="cv-re__ico" data-ico="ok" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5L20 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        <span memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span>
+      </button>
+      <div class="cv-re__done" data-cv-done hidden role="status">
+        <p class="cv-re__thanks" memory_type="text" memory_usage="custom" memory_key="regalos-confirmacion">¡Tu detalle quedó agendado! Gracias por tanto cariño.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="regalos-carnaval"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* Gift scheduling: state on data-state, confirmation revealed; a burst of gold diamonds (decorative spans) */
+      var btn = root.querySelector('[data-cv-gift]'), done = root.querySelector('[data-cv-done]'), box = root.querySelector('[data-cv-actions]');
+      btn.addEventListener('click', function () {
+        if (btn.getAttribute('data-state') === 'done') return;
+        btn.setAttribute('data-state', 'done');
+        done.hidden = false;
+        if (RM) return;
+        for (var i = 0; i < 18; i++) (function (i) {
+          var s = document.createElement('span');
+          s.className = 'cv-re__spark';
+          s.setAttribute('aria-hidden', 'true');
+          box.appendChild(s);
+          var a = (i / 18) * Math.PI * 2, r = 70 + Math.random() * 60;
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              s.style.transform = 'translate(' + (Math.cos(a) * r).toFixed(1) + 'px,' + (Math.sin(a) * r * .6).toFixed(1) + 'px) rotate(' + (a * 57) + 'deg) scale(.6)';
+              s.style.opacity = '0';
+            });
+          });
+          setTimeout(function () { if (s.parentNode) s.parentNode.removeChild(s); }, 700);
+        })(i);
+      });
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+      var items = root.querySelectorAll('[data-cv-item]'), q = 0, n = 0;
+      root.classList.add('cv-re--anim');
+      var io = new IntersectionObserver(function (en) {
+        en.forEach(function (e) {
+          if (!e.isIntersecting || e.intersectionRatio < .5) return;
+          io.unobserve(e.target);
+          setTimeout(function () {
+            e.target.setAttribute('data-on', '');
+            if (++n === items.length) setTimeout(function () {
+              root.classList.remove('cv-re--anim');
+              for (var i = 0; i < items.length; i++) items[i].removeAttribute('data-on');
+            }, 700);
+          }, (q++) * 180);
+        });
+      }, { threshold: [0, .5, .8] });
+      for (var i = 0; i < items.length; i++) io.observe(items[i]);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-carnaval',
+      style_name: 'Carnaval Veneciano Listones de Terciopelo',
+      descripcion: 'Regalos de XV años estilo carnaval veneciano: opciones sobre listones de terciopelo rubí con medallas doradas que entran escalonadas y botón Agendar regalo con confirmación animada y destello de rombos dorados.',
+      tags: ['regalos', 'quinceañera', 'carnaval', 'veneciano', 'terciopelo', 'oro', 'mesa de regalos'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>

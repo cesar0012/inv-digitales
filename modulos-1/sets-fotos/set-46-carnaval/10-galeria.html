@@ -1,0 +1,266 @@
+<section
+  class="cv-ga"
+  data-gemini-id="galeria-carnaval"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Monsieur+La+Doulaise&display=swap');
+
+    .cv-ga, .cv-ga *, .cv-ga *::before, .cv-ga *::after { box-sizing: border-box; }
+    .cv-ga {
+      --t-bg: var(--bg-color, #14060f);
+      --t-tx: var(--text-color, #f3e4c8);
+      --t-p: var(--primary-color, #9b1028);
+      --t-s: var(--secondary-color, #4b1a6e);
+      --t-a: var(--accent-color, #b8862e);
+      --t-display: var(--font-script, 'Monsieur La Doulaise', cursive);
+      --t-text: var(--font-heading, 'IM Fell English', Georgia, serif);
+      --gold: linear-gradient(115deg, color-mix(in srgb, var(--t-a) 60%, #000) 0%, color-mix(in srgb, var(--t-a) 55%, #fff) 42%, var(--t-a) 58%, color-mix(in srgb, var(--t-a) 65%, #000) 100%);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 60% 40% at 50% 0, color-mix(in srgb, var(--t-p) 35%, transparent), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 50% 100%, color-mix(in srgb, var(--t-s) 45%, transparent), transparent 70%);
+      background-color: var(--t-bg);
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .cv-ga__content { width: min(100%, 66rem); }
+    .cv-ga__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3.2rem, 7.5vw, 5.4rem);
+      line-height: 1.1;
+      padding: 0 .3em;
+      background: var(--gold);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .cv-ga__intro { margin: .3rem auto clamp(2rem, 5vw, 3rem); max-width: 30rem; font-style: italic; opacity: .85; }
+
+    .cv-ga__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(44%, 13rem), 1fr));
+      grid-auto-flow: dense;
+      gap: clamp(.6rem, 1.6vw, 1rem);
+    }
+    .cv-ga__tile {
+      position: relative;
+      margin: 0;
+      padding: 4px;
+      border-radius: 6px;
+      background: var(--gold);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, .5);
+      cursor: zoom-in;
+      overflow: hidden;
+      transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease;
+    }
+    .cv-ga__tile:hover, .cv-ga__tile:focus-visible { transform: translateY(-3px); box-shadow: 0 18px 36px rgba(0, 0, 0, .6), 0 0 22px color-mix(in srgb, var(--t-a) 30%, transparent); outline: none; }
+    .cv-ga__tile:focus-visible { box-shadow: 0 0 0 3px var(--t-tx); }
+    .cv-ga__tile img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 3px;
+      color: transparent;
+      background: color-mix(in srgb, var(--t-s) 50%, #000);
+      transition: transform .45s cubic-bezier(.2, .8, .2, 1), clip-path .5s cubic-bezier(.6, 0, .2, 1);
+    }
+    .cv-ga__tile:hover img { transform: scale(1.05); }
+    .cv-ga__tile::after {
+      content: '+';
+      position: absolute;
+      right: .8rem;
+      bottom: .8rem;
+      width: 2.4rem;
+      height: 2.4rem;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 1px solid var(--t-a);
+      background: color-mix(in srgb, var(--t-p) 80%, transparent);
+      color: var(--t-tx);
+      font-size: 1.5rem;
+      line-height: 1;
+      opacity: 0;
+      transform: scale(.7) rotate(-45deg);
+      transition: opacity .3s ease, transform .35s cubic-bezier(.3, 1.5, .5, 1);
+      pointer-events: none;
+    }
+    .cv-ga__tile:hover::after, .cv-ga__tile:focus-visible::after { opacity: 1; transform: none; }
+    .cv-ga__tile[data-shape="big"], .cv-ga__tile[data-shape="wide"] { grid-column: span 2; }
+    .cv-ga__tile[data-shape="wide"] img { aspect-ratio: 2.05; }
+    @media (min-width: 760px) {
+      .cv-ga__tile[data-shape="big"], .cv-ga__tile[data-shape="tall"] { grid-row: span 2; }
+      .cv-ga__tile[data-shape="big"] img, .cv-ga__tile[data-shape="tall"] img { height: 100%; aspect-ratio: auto; }
+    }
+
+    .cv-ga__lb {
+      width: min(92vw, 60rem);
+      max-height: 92vh;
+      padding: 8px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--gold);
+      color: var(--t-tx);
+      overflow: visible;
+    }
+    .cv-ga__lb::backdrop { background: color-mix(in srgb, var(--t-bg) 88%, var(--t-p)); }
+    .cv-ga__lb img { display: block; width: 100%; height: auto; max-height: calc(92vh - 16px); object-fit: contain; border-radius: 4px; background: var(--t-bg); }
+    .cv-ga__lb[open] { animation: cv-ga-in .4s cubic-bezier(.2, .8, .2, 1); }
+    .cv-ga__close {
+      position: absolute;
+      top: -1rem;
+      right: -1rem;
+      width: 2.6rem;
+      height: 2.6rem;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--t-a);
+      border-radius: 50%;
+      background: var(--t-p);
+      color: var(--t-tx);
+      font: inherit;
+      font-size: 1.5rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .cv-ga__nav {
+      position: absolute;
+      top: 50%;
+      width: 2.8rem;
+      height: 2.8rem;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      margin-top: -1.4rem;
+      border: 1px solid var(--t-a);
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--t-bg) 70%, transparent);
+      color: var(--t-a);
+      font: inherit;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+    .cv-ga__nav[data-dir="-1"] { left: .8rem; }
+    .cv-ga__nav[data-dir="1"] { right: .8rem; }
+    @keyframes cv-ga-in { 0% { opacity: 0; transform: scale(.94); } 100% { opacity: 1; transform: none; } }
+
+    .cv-ga--anim .cv-ga__tile:not([data-on]) img { clip-path: polygon(50% 45%, 55% 50%, 50% 55%, 45% 50%); }
+    .cv-ga--anim .cv-ga__tile img { clip-path: polygon(50% -50%, 150% 50%, 50% 150%, -50% 50%); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cv-ga *, .cv-ga *::before, .cv-ga *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="cv-ga__content">
+    <h2 class="cv-ga__title" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Galería de Máscaras</h2>
+    <p class="cv-ga__intro" memory_type="text" memory_usage="custom" memory_key="galeria-intro">Instantes que guardan el misterio de quince años.</p>
+
+    <div class="cv-ga__grid" data-cv-grid>
+      <figure class="cv-ga__tile" data-shape="big" data-cv-tile tabindex="0" role="button" aria-label="Ver foto" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/900/900/quinceanera,portrait,gown?lock=3601" alt="La quinceañera con su vestido de gala" path="placeholder" data-library-category="eventos" data-asset-type="foto" loading="lazy" />
+      </figure>
+      <figure class="cv-ga__tile" data-cv-tile tabindex="0" role="button" aria-label="Ver foto" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/500/500/venetian,mask?lock=3602" alt="Máscara veneciana con plumas" path="placeholder" data-library-category="eventos" data-asset-type="foto" loading="lazy" />
+      </figure>
+      <figure class="cv-ga__tile" data-shape="tall" data-cv-tile tabindex="0" role="button" aria-label="Ver foto" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/500/1000/ballgown,elegant?lock=3603" alt="Detalle del vestido" path="placeholder" data-library-category="eventos" data-asset-type="foto" loading="lazy" />
+      </figure>
+      <figure class="cv-ga__tile" data-cv-tile tabindex="0" role="button" aria-label="Ver foto" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/500/500/chandelier,ballroom?lock=3604" alt="Candelabros del salón" path="placeholder" data-library-category="eventos" data-asset-type="foto" loading="lazy" />
+      </figure>
+      <figure class="cv-ga__tile" data-shape="wide" data-cv-tile tabindex="0" role="button" aria-label="Ver foto" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/1000/500/venice,carnival?lock=3605" alt="Escena de carnaval veneciano" path="placeholder" data-library-category="eventos" data-asset-type="foto" loading="lazy" />
+      </figure>
+      <figure class="cv-ga__tile" data-cv-tile tabindex="0" role="button" aria-label="Ver foto" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/500/500/masquerade,party?lock=3606" alt="Invitados en el baile de máscaras" path="placeholder" data-library-category="eventos" data-asset-type="foto" loading="lazy" />
+      </figure>
+      <figure class="cv-ga__tile" data-cv-tile tabindex="0" role="button" aria-label="Ver foto" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/500/500/roses,gold,candles?lock=3607" alt="Centro de mesa con rosas y velas" path="placeholder" data-library-category="eventos" data-asset-type="foto" loading="lazy" />
+      </figure>
+    </div>
+  </div>
+
+  <dialog class="cv-ga__lb" data-cv-lb aria-label="Foto ampliada">
+    <img data-mm-big alt="" />
+    <button class="cv-ga__nav" type="button" data-dir="-1" aria-label="Foto anterior">‹</button>
+    <button class="cv-ga__nav" type="button" data-dir="1" aria-label="Foto siguiente">›</button>
+    <button class="cv-ga__close" type="button" data-cv-close aria-label="Cerrar">×</button>
+  </dialog>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="galeria-carnaval"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var tiles = Array.prototype.slice.call(root.querySelectorAll('[data-cv-tile]'));
+      var lb = root.querySelector('[data-cv-lb]'), big = lb.querySelector('[data-mm-big]'), cur = 0;
+
+      /* Own lightbox on <dialog> + showModal (escapes stacking contexts) */
+      function show(i) {
+        cur = (i + tiles.length) % tiles.length;
+        var im = tiles[cur].querySelector('img');
+        big.src = im.currentSrc || im.src; big.alt = im.alt;
+      }
+      function openAt(i) {
+        show(i);
+        if (lb.showModal) { if (!lb.open) lb.showModal(); } else lb.setAttribute('open', '');
+      }
+      tiles.forEach(function (t, i) {
+        t.addEventListener('click', function () { openAt(i); });
+        t.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openAt(i); } });
+      });
+      lb.querySelector('[data-cv-close]').addEventListener('click', function () { lb.close ? lb.close() : lb.removeAttribute('open'); });
+      lb.querySelectorAll('[data-dir]').forEach(function (b) { b.addEventListener('click', function () { show(cur + (+b.getAttribute('data-dir'))); }); });
+      lb.addEventListener('click', function (e) { if (e.target === lb) lb.close(); });
+      lb.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') show(cur + 1); if (e.key === 'ArrowLeft') show(cur - 1); });
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+      /* Entrance: each tile opens from a small diamond iris as it enters */
+      var q = 0, n = 0;
+      root.classList.add('cv-ga--anim');
+      var io = new IntersectionObserver(function (en) {
+        en.forEach(function (e) {
+          if (!e.isIntersecting || e.intersectionRatio < .3) return;
+          io.unobserve(e.target);
+          setTimeout(function () {
+            e.target.setAttribute('data-on', '');
+            if (++n === tiles.length) setTimeout(function () {
+              root.classList.remove('cv-ga--anim');
+              tiles.forEach(function (t) { t.removeAttribute('data-on'); });
+            }, 700);
+          }, (q++) * 110);
+        });
+      }, { threshold: [0, .3, .6] });
+      tiles.forEach(function (t) { io.observe(t); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-carnaval',
+      style_name: 'Carnaval Veneciano Mosaico Dorado',
+      descripcion: 'Galería de XV años estilo carnaval veneciano: mosaico responsivo con marcos dorados, cada foto se abre desde un rombo al aparecer, lupa dorada al pasar el cursor y lightbox propio con navegación.',
+      tags: ['galeria', 'quinceañera', 'carnaval', 'veneciano', 'mosaico', 'lightbox', 'oro'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

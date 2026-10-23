@@ -1,0 +1,327 @@
+<section
+  class="bjm-cf"
+  data-gemini-id="confirmacion-texto"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Ephesis&family=Marcellus&display=swap');
+
+    .bjm-cf, .bjm-cf *, .bjm-cf *::before, .bjm-cf *::after { box-sizing: border-box; }
+    .bjm-cf {
+      --t-bg: var(--bg-color, #04182b);
+      --t-tx: var(--text-color, #f4eee6);
+      --t-p: var(--primary-color, #4fd1c5);
+      --t-s: var(--secondary-color, #1a5f8f);
+      --t-a: var(--accent-color, #ff8a70);
+      --t-pearl: var(--pearl-color, #efe8f3);
+      --t-display: var(--font-script, 'Ephesis', cursive);
+      --t-text: var(--font-heading, 'Marcellus', Georgia, serif);
+      --bjm-glint: 120%;
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 62vw, 46rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/underwater,bubbles?lock=3451');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: left;
+      font-family: var(--t-text);
+    }
+    .bjm-cf::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--t-p) 20%, transparent), transparent 45%),
+        radial-gradient(circle at 10% 90%, color-mix(in srgb, var(--t-a) 14%, transparent), transparent 40%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 84%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent));
+    }
+    .bjm-cf__content {
+      width: min(100%, 64rem);
+      display: grid;
+      grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+      gap: clamp(2rem, 5vw, 4.5rem);
+      align-items: center;
+    }
+    .bjm-cf__intro { display: grid; gap: 1rem; }
+    .bjm-cf__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(3rem, 7vw, 4.8rem); line-height: .95; text-shadow: 0 0 24px color-mix(in srgb, var(--t-p) 40%, transparent); }
+    .bjm-cf__text { margin: 0; font-size: clamp(1rem, 1.8vw, 1.12rem); line-height: 1.65; color: color-mix(in srgb, var(--t-tx) 82%, var(--t-p)); }
+    .bjm-cf__deadline { margin: 0; display: inline-flex; align-items: center; gap: .6rem; font-size: 1rem; color: var(--t-a); }
+    .bjm-cf__deadline::before { content: ''; width: .7rem; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff 0 15%, var(--t-pearl) 45%, var(--t-a)); box-shadow: 0 0 10px color-mix(in srgb, var(--t-a) 70%, transparent); }
+
+    .bjm-cf__panel {
+      position: relative;
+      padding: clamp(1.4rem, 4vw, 2.4rem);
+      border-radius: 2rem 2rem 2rem .6rem;
+      background: linear-gradient(150deg, color-mix(in srgb, var(--t-pearl) 12%, transparent), color-mix(in srgb, var(--t-s) 30%, transparent));
+      -webkit-backdrop-filter: blur(14px) saturate(1.2);
+      backdrop-filter: blur(14px) saturate(1.2);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-pearl) 28%, transparent), inset 0 1px 0 color-mix(in srgb, #fff 30%, transparent), 0 30px 70px color-mix(in srgb, #000 35%, transparent);
+      overflow: hidden;
+    }
+    .bjm-cf__panel::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 55%; height: 55%;
+      pointer-events: none;
+      background-image: radial-gradient(circle at 50% 0, transparent 60%, color-mix(in srgb, var(--t-pearl) 70%, transparent) 63%, transparent 71%);
+      background-size: 20px 14px;
+      opacity: .25;
+      -webkit-mask-image: radial-gradient(circle at 100% 0, #000, transparent 70%);
+      mask-image: radial-gradient(circle at 100% 0, #000, transparent 70%);
+    }
+    .bjm-cf__form { position: relative; display: grid; gap: 1.1rem; }
+    .bjm-cf__form[hidden] { display: none; }
+    .bjm-cf__field { display: grid; gap: .4rem; }
+    .bjm-cf__label { font-size: .98rem; color: color-mix(in srgb, var(--t-tx) 85%, var(--t-p)); }
+    .bjm-cf__input {
+      width: 100%;
+      min-height: 3rem;
+      padding: .75rem 1rem;
+      border: 0;
+      border-radius: .9rem;
+      font: inherit;
+      font-size: 1rem;
+      color: var(--t-tx);
+      background: color-mix(in srgb, var(--t-bg) 55%, transparent);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-pearl) 22%, transparent);
+      transition: box-shadow .3s ease, background-color .3s ease;
+    }
+    .bjm-cf__input::placeholder { color: color-mix(in srgb, var(--t-tx) 45%, transparent); }
+    .bjm-cf__input:focus { outline: none; box-shadow: inset 0 0 0 1.5px var(--t-p), 0 0 0 4px color-mix(in srgb, var(--t-p) 18%, transparent); background: color-mix(in srgb, var(--t-bg) 70%, transparent); }
+    .bjm-cf__input[data-bad] { box-shadow: inset 0 0 0 1.5px var(--t-a), 0 0 0 4px color-mix(in srgb, var(--t-a) 20%, transparent); animation: bjm-cf-shake .4s ease; }
+    textarea.bjm-cf__input { min-height: 5.5rem; resize: vertical; }
+    .bjm-cf__row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; }
+
+    .bjm-cf__choices { border: 0; margin: 0; padding: 0; display: grid; gap: .5rem; }
+    .bjm-cf__choices legend { padding: 0; margin-bottom: .5rem; }
+    .bjm-cf__opts { display: flex; flex-wrap: wrap; gap: .7rem; }
+    .bjm-cf__opt { position: relative; flex: 1 1 10rem; }
+    .bjm-cf__opt input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .bjm-cf__optbox {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      min-height: 3rem;
+      padding: .6rem 1rem;
+      border-radius: 999px;
+      cursor: pointer;
+      background: color-mix(in srgb, var(--t-bg) 45%, transparent);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-pearl) 22%, transparent);
+      transition: background-color .3s ease, box-shadow .3s ease, transform .3s cubic-bezier(.2, .8, .2, 1);
+    }
+    .bjm-cf__optbox svg { width: 1.6rem; height: 1.6rem; flex: none; transition: transform .4s cubic-bezier(.3, 1.6, .5, 1); }
+    .bjm-cf__opt input:checked + .bjm-cf__optbox { background: color-mix(in srgb, var(--t-p) 22%, transparent); box-shadow: inset 0 0 0 1.5px var(--t-p), 0 0 22px color-mix(in srgb, var(--t-p) 28%, transparent); }
+    .bjm-cf__opt input:checked + .bjm-cf__optbox svg { transform: rotate(-12deg) scale(1.15); }
+    .bjm-cf__opt input:focus-visible + .bjm-cf__optbox { outline: 2px solid var(--t-pearl); outline-offset: 3px; }
+    .bjm-cf__optbox:hover { transform: translateY(-2px); }
+
+    .bjm-cf__btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
+      min-height: 3.3rem;
+      padding: .8rem 1.8rem;
+      border: 0;
+      border-radius: 999px;
+      font: inherit;
+      font-size: 1.08rem;
+      color: var(--t-bg);
+      cursor: pointer;
+      background: linear-gradient(120deg, color-mix(in srgb, var(--t-pearl) 92%, var(--t-a)), var(--t-a));
+      box-shadow: 0 12px 32px color-mix(in srgb, var(--t-a) 32%, transparent), inset 0 1px 0 color-mix(in srgb, #fff 70%, transparent);
+      overflow: hidden;
+      transition: transform .3s cubic-bezier(.2, .8, .2, 1), box-shadow .3s ease, filter .3s ease;
+    }
+    .bjm-cf__btn:hover { transform: translateY(-2px); box-shadow: 0 16px 40px color-mix(in srgb, var(--t-a) 45%, transparent), inset 0 1px 0 color-mix(in srgb, #fff 70%, transparent); }
+    .bjm-cf__btn:active { transform: scale(.97); }
+    .bjm-cf__btn:focus-visible { outline: 2px solid var(--t-pearl); outline-offset: 3px; }
+    .bjm-cf__btnwait { display: none; align-items: center; gap: .35rem; }
+    .bjm-cf__btnwait i { width: .55rem; aspect-ratio: 1; border-radius: 50%; border: 1.5px solid var(--t-bg); animation: bjm-cf-bob .45s ease-in-out infinite alternate; }
+    .bjm-cf__btnwait i:nth-child(2) { animation-delay: .15s; }
+    .bjm-cf__btnwait i:nth-child(3) { animation-delay: .3s; }
+    .bjm-cf__btn[data-state="loading"] { filter: saturate(.85); cursor: progress; }
+    .bjm-cf__btn[data-state="loading"] .bjm-cf__btnlabel { display: none; }
+    .bjm-cf__btn[data-state="loading"] .bjm-cf__btnwait { display: inline-flex; }
+    .bjm-cf__bubble { position: absolute; bottom: -10px; width: var(--z, 8px); aspect-ratio: 1; border-radius: 50%; border: 1px solid color-mix(in srgb, #fff 80%, transparent); pointer-events: none; animation: bjm-cf-rise .5s ease-out forwards; }
+
+    .bjm-cf__done { display: grid; justify-items: center; gap: .8rem; text-align: center; padding: 1.5rem 0; }
+    .bjm-cf__done[hidden] { display: none; }
+    .bjm-cf__check {
+      width: 4.6rem;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--t-bg);
+      background: radial-gradient(circle at 35% 30%, #fff 0 12%, var(--t-pearl) 45%, color-mix(in srgb, var(--t-pearl) 60%, var(--t-p)));
+      box-shadow: 0 0 30px color-mix(in srgb, var(--t-p) 70%, transparent), 0 0 70px color-mix(in srgb, var(--t-pearl) 40%, transparent);
+      animation: bjm-cf-pop .45s cubic-bezier(.3, 1.6, .5, 1);
+    }
+    .bjm-cf__check svg { width: 50%; height: 50%; }
+    .bjm-cf__thanks { margin: 0; font-family: var(--t-display); font-size: clamp(2.4rem, 5vw, 3.2rem); line-height: 1; }
+    .bjm-cf__thanks-sub { margin: 0; color: color-mix(in srgb, var(--t-tx) 80%, var(--t-p)); line-height: 1.6; }
+
+    @keyframes bjm-cf-shake { 0%, 100% { transform: none; } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+    @keyframes bjm-cf-bob { from { transform: translateY(2px); } to { transform: translateY(-4px); } }
+    @keyframes bjm-cf-rise { from { transform: translateY(0) scale(.6); opacity: .9; } to { transform: translateY(-60px) scale(1.1); opacity: 0; } }
+    @keyframes bjm-cf-pop { from { transform: scale(.2); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    .bjm-cf--anim [data-bjm-up] { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); transition-delay: var(--dl, 0s); }
+    .bjm-cf--anim.is-in [data-bjm-up] { opacity: 1; transform: none; }
+
+    @media (max-width: 760px) {
+      .bjm-cf__content { grid-template-columns: 1fr; }
+      .bjm-cf__intro { text-align: center; justify-items: center; }
+      .bjm-cf__row { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .bjm-cf *, .bjm-cf *::before, .bjm-cf *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="bjm-cf__content">
+    <header class="bjm-cf__intro">
+      <h2 class="bjm-cf__title" data-bjm-up memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">¿Me acompañas?</h2>
+      <p class="bjm-cf__text" data-bjm-up style="--dl: .1s" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">Tu presencia es la perla más valiosa de esta noche. Confírmame tu asistencia para reservar tu lugar bajo el mar.</p>
+      <p class="bjm-cf__deadline" data-bjm-up style="--dl: .2s"><time datetime="2027-02-13" memory_type="text" memory_usage="custom" memory_key="confirmacion-limite">Antes del 13 de febrero de 2027</time></p>
+    </header>
+
+    <div class="bjm-cf__panel" data-bjm-up style="--dl: .15s">
+      <form class="bjm-cf__form" data-bjm-form novalidate>
+        <div class="bjm-cf__field">
+          <label class="bjm-cf__label" for="bjm-cf-nombre" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-nombre">Nombre completo</label>
+          <input class="bjm-cf__input" id="bjm-cf-nombre" name="nombre" type="text" autocomplete="name" placeholder="Nombre Apellido" data-bjm-name required />
+        </div>
+        <div class="bjm-cf__row">
+          <div class="bjm-cf__field">
+            <label class="bjm-cf__label" for="bjm-cf-pases" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-pases">Número de pases</label>
+            <input class="bjm-cf__input" id="bjm-cf-pases" name="pases" type="number" min="1" max="10" value="2" inputmode="numeric" />
+          </div>
+          <div class="bjm-cf__field">
+            <label class="bjm-cf__label" for="bjm-cf-tel" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-telefono">Teléfono</label>
+            <input class="bjm-cf__input" id="bjm-cf-tel" name="telefono" type="tel" autocomplete="tel" placeholder="000 000 0000" />
+          </div>
+        </div>
+        <fieldset class="bjm-cf__choices">
+          <legend class="bjm-cf__label" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-asistencia">¿Asistirás?</legend>
+          <div class="bjm-cf__opts">
+            <label class="bjm-cf__opt">
+              <input type="radio" name="asistencia" value="si" checked />
+              <span class="bjm-cf__optbox">
+                <svg viewBox="0 0 100 92" aria-hidden="true" focusable="false"><path d="M50 84 L10 40 Q12 26 23 22 Q29 11 40 13 Q50 2 60 13 Q71 11 77 22 Q88 26 90 40 Z" style="fill: var(--t-pearl)" /><path d="M50 84 L23 22 M50 84 L40 13 M50 84 L60 13 M50 84 L77 22" style="stroke: var(--t-s)" stroke-width="3" fill="none" /></svg>
+                <span memory_type="text" memory_usage="custom" memory_key="confirmacion-opcion-si">Sí, ahí estaré</span>
+              </span>
+            </label>
+            <label class="bjm-cf__opt">
+              <input type="radio" name="asistencia" value="no" />
+              <span class="bjm-cf__optbox">
+                <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false"><circle cx="50" cy="50" r="34" fill="none" style="stroke: var(--t-pearl)" stroke-width="5" /><circle cx="40" cy="40" r="8" style="fill: var(--t-pearl)" fill-opacity=".7" /></svg>
+                <span memory_type="text" memory_usage="custom" memory_key="confirmacion-opcion-no">No podré asistir</span>
+              </span>
+            </label>
+          </div>
+        </fieldset>
+        <div class="bjm-cf__field">
+          <label class="bjm-cf__label" for="bjm-cf-msg" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-mensaje">Un mensaje para la quinceañera</label>
+          <textarea class="bjm-cf__input" id="bjm-cf-msg" name="mensaje" rows="3" placeholder="Escribe aquí tus buenos deseos"></textarea>
+        </div>
+        <div>
+          <button class="bjm-cf__btn" type="submit" data-bjm-btn>
+            <span class="bjm-cf__btnlabel" memory_type="text" memory_usage="custom" memory_key="confirmacion-boton">Confirmar asistencia</span>
+            <span class="bjm-cf__btnwait" aria-hidden="true"><i></i><i></i><i></i></span>
+          </button>
+        </div>
+      </form>
+      <div class="bjm-cf__done" data-bjm-done hidden role="status">
+        <span class="bjm-cf__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" /></svg></span>
+        <p class="bjm-cf__thanks" memory_type="text" memory_usage="custom" memory_key="confirmacion-gracias">¡Gracias!</p>
+        <p class="bjm-cf__thanks-sub" memory_type="text" memory_usage="custom" memory_key="confirmacion-gracias-texto">Tu respuesta ya navega hacia mí. Nos vemos bajo el mar.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="confirmacion-texto"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* RSVP behaviour works with or without motion */
+      var form = root.querySelector('[data-bjm-form]');
+      var btn = root.querySelector('[data-bjm-btn]');
+      var done = root.querySelector('[data-bjm-done]');
+      var nameIn = root.querySelector('[data-bjm-name]');
+      var bubTimer = 0;
+      function bubble() {
+        var b = document.createElement('span');
+        b.className = 'bjm-cf__bubble';
+        b.setAttribute('aria-hidden', 'true');
+        b.style.left = (8 + Math.random() * 84) + '%';
+        b.style.setProperty('--z', (5 + Math.random() * 9).toFixed(1) + 'px');
+        btn.appendChild(b);
+        setTimeout(function () { if (b.parentNode) b.parentNode.removeChild(b); }, 520);
+      }
+      if (form && btn) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          if (btn.getAttribute('data-state') === 'loading') return;
+          if (nameIn && !nameIn.value.trim()) {
+            nameIn.removeAttribute('data-bad'); void nameIn.offsetWidth;
+            nameIn.setAttribute('data-bad', '');
+            nameIn.focus();
+            return;
+          }
+          btn.setAttribute('data-state', 'loading');
+          btn.setAttribute('aria-busy', 'true');
+          if (!RM) bubTimer = setInterval(bubble, 90);
+          setTimeout(function () {
+            clearInterval(bubTimer);
+            btn.removeAttribute('data-state');
+            btn.removeAttribute('aria-busy');
+            form.hidden = true;
+            if (done) done.hidden = false;
+          }, 1700);
+        });
+        if (nameIn) nameIn.addEventListener('input', function () { nameIn.removeAttribute('data-bad'); });
+      }
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+      root.classList.add('bjm-cf--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('bjm-cf--anim', 'is-in'); }, 1200);
+        }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Bajo el Mar Cristal Marino',
+      descripcion: 'Confirmación de asistencia en panel de cristal marino con escamas en foil: campos de texto, opciones sí o no con concha y perla, botón coral que se llena de burbujas al enviar y estado de gracias con perla.',
+      tags: ['confirmación', 'rsvp', 'quinceañera', 'bajo el mar', 'formulario'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>

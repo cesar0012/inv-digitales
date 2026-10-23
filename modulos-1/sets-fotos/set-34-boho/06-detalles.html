@@ -1,0 +1,200 @@
+<section
+  class="bh-de"
+  data-gemini-id="detalles-vestimenta"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&display=swap');
+
+    .bh-de, .bh-de *, .bh-de *::before, .bh-de *::after { box-sizing: border-box; }
+    .bh-de {
+      --t-bg: var(--bg-color, #F3E7D7);
+      --t-tx: var(--text-color, #4A2B1F);
+      --t-p: var(--primary-color, #C2653F);
+      --t-s: var(--secondary-color, #D7A49A);
+      --t-a: var(--accent-color, #D29E32);
+      --t-display: var(--font-script, 'Caveat', 'Segoe Print', cursive);
+      --t-text: var(--font-heading, 'Fraunces', Georgia, serif);
+      --t-sand: color-mix(in srgb, var(--t-bg) 60%, var(--t-a));
+      --t-cream: color-mix(in srgb, var(--t-bg) 72%, white);
+      --t-clay: color-mix(in srgb, var(--t-p) 74%, var(--t-tx));
+      --t-wood: color-mix(in srgb, var(--t-p) 40%, var(--t-tx));
+      --t-rosewood: color-mix(in srgb, var(--t-s) 68%, var(--t-p));
+      --t-taupe: color-mix(in srgb, var(--t-tx) 34%, var(--t-bg));
+      --t-soft: color-mix(in srgb, var(--t-tx) 76%, var(--t-bg));
+      --t-cord: color-mix(in srgb, var(--t-sand) 72%, var(--t-wood));
+      --panel: color-mix(in srgb, var(--t-bg) 86%, transparent);
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background-color: var(--t-bg);
+            color: var(--t-tx);
+      font-family: var(--t-text);
+      font-optical-sizing: auto;
+      
+    }
+    .bh-de .bhx-grain { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mix-blend-mode: multiply; opacity: .28; }
+    .bh-de svg { overflow: visible; }
+    .bh-de :where(p), .bh-de :where(h1), .bh-de :where(h2), .bh-de :where(h3), .bh-de :where(h4), .bh-de :where(figure), .bh-de :where(ul), .bh-de :where(ol) { margin: 0; }
+    .bh-de :where(h2[class$='__title']) { margin-bottom: .22em; }
+    .bh-de :where(img) { background: var(--t-sand); color: transparent; }
+
+    .bh-de {
+      padding: clamp(3.5rem, 8vw, 6.5rem) clamp(1rem, 5vw, 5rem);
+      background-image: radial-gradient(80% 60% at 100% 0%, color-mix(in srgb, var(--t-a) 16%, transparent), transparent 70%);
+    }
+    .bh-de__head { max-width: 34rem; margin: 0 0 clamp(2rem, 5vw, 3.5rem) auto; text-align: right; padding-right: clamp(0rem, 4vw, 4rem); }
+    .bh-de__title { font-family: var(--t-display); font-weight: 600; font-size: clamp(2.6rem, 5.4vw, 4.3rem); line-height: .92; color: var(--t-clay); transform: rotate(2deg); transform-origin: right; }
+    .bh-de__intro { margin-top: .9rem; line-height: 1.55; color: var(--t-soft); }
+    .bh-de__collage {
+      max-width: 66rem; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-rows: auto; gap: clamp(1rem, 2.5vw, 1.8rem);
+      align-items: start;
+    }
+    .bh-de__pic { grid-column: 1 / span 5; grid-row: 1 / span 3; position: relative; }
+    .bh-de__fig { border-radius: 999px 999px 1.4rem 1.4rem; overflow: hidden; box-shadow: 0 24px 40px -28px var(--t-wood); }
+    .bh-de__fig img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; }
+    .bh-de__spray { position: absolute; right: -14%; bottom: -8%; width: 58%; height: auto; pointer-events: none; }
+    .bh-de__card { position: relative; perspective: 900px; transition: transform .35s cubic-bezier(.3, 1.5, .5, 1); }
+    .bh-de__card:nth-of-type(1) { grid-column: 6 / span 4; grid-row: 1; margin-top: 1rem; }
+    .bh-de__card:nth-of-type(2) { grid-column: 9 / span 4; grid-row: 2; margin-top: -1.5rem; }
+    .bh-de__card:nth-of-type(3) { grid-column: 6 / span 5; grid-row: 3; margin-left: 1.5rem; }
+    .bh-de__card:hover { transform: translateY(-4px) rotate(-1deg); }
+    .bh-de__inner { position: relative; transform-style: preserve-3d; transition: transform .5s cubic-bezier(.3, 1.2, .5, 1); transition-delay: calc(var(--i) * 180ms + 120ms); }
+    .bh-de__face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+    .bh-de__front { position: relative; padding: 1.6rem 1.5rem 1.7rem; background: var(--t-cream); box-shadow: 0 18px 30px -24px var(--t-wood); }
+    .bh-de__card:nth-of-type(1) .bh-de__front { border-radius: 999px 999px 1.2rem 1.2rem; padding-top: 2.6rem; text-align: center; }
+    .bh-de__card:nth-of-type(2) .bh-de__front { border-radius: 2.6rem 1.2rem 2.8rem 1.4rem / 2rem 2.6rem 1.4rem 2.4rem; background: color-mix(in srgb, var(--t-s) 30%, var(--t-cream)); }
+    .bh-de__card:nth-of-type(3) .bh-de__front { border-radius: .6rem 2.4rem 2.4rem .6rem; background: color-mix(in srgb, var(--t-a) 22%, var(--t-cream)); padding-left: 2.6rem; }
+    .bh-de__card:nth-of-type(3) .bh-de__front::before { content: ''; position: absolute; left: 1rem; top: 50%; width: .8rem; height: .8rem; margin-top: -.4rem; border-radius: 50%; background: var(--t-bg); box-shadow: inset 0 0 0 1.5px var(--t-wood); }
+    .bh-de__back {
+      position: absolute; inset: 0; transform: rotateY(180deg); border-radius: inherit;
+      background: repeating-linear-gradient(45deg, var(--t-sand) 0 6px, var(--t-cream) 6px 12px), var(--t-sand);
+      border-radius: 1.6rem; display: grid; place-items: center;
+    }
+    .bh-de__back svg { width: 40%; height: auto; }
+    .bh-de__ico { width: 2.6rem; height: 2.6rem; color: var(--t-p); }
+    .bh-de__card:nth-of-type(1) .bh-de__ico { margin: 0 auto; }
+    .bh-de__ct { margin-top: .5rem; font-family: var(--t-display); font-size: clamp(1.6rem, 2.4vw, 2rem); line-height: 1; color: var(--t-clay); }
+    .bh-de__cx { margin-top: .5rem; line-height: 1.5; }
+
+    .bh-de--anim .bh-de__inner { transform: rotateY(-180deg); }
+    .bh-de--anim.is-in .bh-de__inner { transform: none; }
+
+    @media (max-width: 820px) {
+      .bh-de__head { text-align: left; margin-left: 0; padding-right: 0; }
+      .bh-de__title { transform-origin: left; }
+      .bh-de__collage { grid-template-columns: 1fr; }
+      .bh-de__pic { grid-column: 1; grid-row: auto; width: 78%; margin: 0 0 1rem; }
+      .bh-de__card:nth-of-type(n) { grid-column: 1; grid-row: auto; margin: 0; }
+      .bh-de__card:nth-of-type(2) { margin-left: 12%; }
+      .bh-de__card:nth-of-type(3) { margin-right: 8%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bh-de *, .bh-de *::before, .bh-de *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+  <svg class="bhx-grain" aria-hidden="true" focusable="false"><filter id="bh32-gr-de"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .32 0 0 0 0 .2 0 0 0 0 .12 0 0 0 .55 0"/></filter><rect width="100%" height="100%" filter="url(#bh32-gr-de)"/></svg>
+  <header class="bh-de__head">
+    <h2 class="bh-de__title" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Para que lo disfrutes todo</h2>
+    <p class="bh-de__intro" memory_type="text" memory_usage="custom" memory_key="detalles-intro">Unos detalles prácticos para que llegues cómodo y te quedes hasta la última canción.</p>
+  </header>
+  <div class="bh-de__collage">
+    <div class="bh-de__pic">
+      <figure class="bh-de__fig" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/900/1200/boho,wedding,table?lock=3261" alt="Mesa decorada con flores secas" path="placeholder" data-library-category="decoracion" data-asset-type="mesa" loading="lazy" /></figure>
+      <svg class="bh-de__spray" viewBox="0 0 200 220" aria-hidden="true" focusable="false"><g transform="translate(80 200) rotate(-30)"><path d="M0 0Q-0.3 -93.5 -2.7 -170" style="fill:none;stroke:var(--t-wood);stroke-width:1.5;stroke-linecap:round"/><path d="M-7.8 -75.4 L-11.4 -83.7 L-14.3 -91.9 L-16.4 -100 L-17.9 -108 L-18.6 -115.9 L-18.7 -123.8 L-18 -131.7 L-16.6 -139.4 L-14.6 -147.1 L-11.8 -154.8 L-8.3 -162.4 L-2.7 -170 L-3.1 -184 L-2.7 -170 L3.4 -162.7 L7.4 -155.3 L10.5 -147.8 L13 -140.1 L14.7 -132.4 L15.7 -124.6 L16 -116.6 L15.6 -108.6 L14.4 -100.5 L12.5 -92.3 L9.9 -84 L6.6 -75.6Z" style="fill:var(--t-sand);opacity:.62"/><path d="M-0.6 -76.7Q-6.9 -82.6 -8.5 -92.9M-0.7 -77.3Q4.9 -82.5 6.2 -91.4M-0.7 -77.9Q-5.9 -81.5 -7.3 -87.8M-0.7 -80.8Q6 -88.1 7.4 -100.4M-0.8 -84.5Q-9.8 -94.1 -12.1 -110.6M-0.9 -91.2Q-8.9 -97.8 -10.9 -109.3M-0.9 -92.3Q8.2 -102.1 10.2 -118.6M-0.9 -94.7Q-10.3 -104.5 -12.7 -121.7M-0.9 -96.4Q9.7 -106.7 12.1 -124.1M-1 -99.4Q-13 -109.4 -16.2 -126.9M-1 -101.2Q-13.1 -111.5 -16.2 -129.7M-1.1 -103.9Q8 -112.6 9.9 -127.2M-1.1 -105.7Q-10.4 -115.1 -12.9 -131.6M-1.2 -108Q11.2 -121.7 13.9 -144.7M-1.2 -110.3Q-14.7 -123.6 -18.3 -146.8M-1.2 -111.2Q10.5 -124.2 12.9 -146.3M-1.3 -114.8Q-15 -126 -18.6 -145.8M-1.3 -117.1Q-11.8 -128 -14.7 -146.9M-1.4 -118.1Q9.6 -127.1 12 -142.3M-1.5 -124Q7 -131.2 8.9 -143.3M-1.5 -125.5Q6.7 -135 8.3 -151.1M-1.5 -127.3Q-14.5 -136.3 -17.9 -152.1M-1.6 -131.8Q-14.3 -144.5 -17.8 -166.7M-1.7 -134.3Q10.9 -146.7 13.6 -167.6M-1.8 -136.4Q5.7 -144.4 7.2 -158M-1.8 -138.7Q-10.4 -147.1 -12.8 -161.9M-2 -144.8Q6.1 -151.9 7.8 -163.9M-2 -146.5Q-11.9 -154.9 -14.6 -169.6M-2.1 -149.2Q4.8 -154.7 6.3 -163.9M-2.2 -154.5Q-9.2 -159.6 -11.1 -168.6M-2.4 -159.3Q2.2 -164.8 3.1 -173.9M-2.4 -160Q-8.7 -166 -10.4 -176.4M-2.6 -166.3Q-5.2 -168.5 -6 -172.4M-2.7 -169.7Q-3.1 -170 -3.2 -170.5" style="fill:none;stroke:var(--t-sand);stroke-width:2;stroke-linecap:round"/><path d="M-0.8 -84.6Q5.8 -89.4 7.3 -97.5M-0.8 -88.6Q-7.5 -94.3 -9.3 -104.3M-0.8 -89.2Q6.6 -96.9 8.2 -109.9M-1 -101.9Q8.1 -109.4 10.1 -122.1M-1.3 -115Q9.5 -127.6 11.8 -148.7M-1.4 -122.1Q-10.8 -131.2 -13.3 -147.2M-1.5 -123.8Q-11.6 -133.5 -14.4 -150.5M-1.6 -130.1Q8.6 -140.1 10.8 -156.8M-1.8 -137.4Q-13.7 -148 -17 -166.6M-1.9 -143.2Q8.4 -154.9 10.5 -174.6M-1.9 -144.1Q-12.4 -152.3 -15.2 -166.6M-2.1 -150.4Q-10 -158.8 -12.3 -173.3M-2.2 -153.2Q3.1 -157.4 4.2 -164.5M-2.3 -156.2Q5.1 -164.3 6.6 -177.9M-2.3 -159Q-7.9 -164.4 -9.5 -174M-2.5 -163.3Q0.7 -166.1 1.4 -170.7M-2.5 -165.4Q0.8 -168.4 1.5 -173.3" style="fill:none;stroke:var(--t-cream);stroke-width:1.2;stroke-linecap:round;opacity:.9"/></g><g transform="translate(96 204) rotate(4)"><path d="M0 0Q-0.4 -82.5 -3.3 -150" style="fill:none;stroke:var(--t-wood);stroke-width:1.5;stroke-linecap:round"/><path d="M-6.9 -66.5 L-10.1 -73.8 L-12.6 -81 L-14.5 -88.1 L-15.8 -95.2 L-16.5 -102.2 L-16.6 -109.1 L-16.1 -116 L-15 -122.9 L-13.3 -129.7 L-11 -136.5 L-8.1 -143.2 L-3.3 -150 L-3.9 -162 L-3.3 -150 L1.9 -143.6 L5.4 -137.1 L8.2 -130.5 L10.4 -123.8 L11.9 -117 L12.9 -110 L13.2 -103 L12.9 -95.9 L11.9 -88.8 L10.4 -81.5 L8.2 -74.2 L5.4 -66.8Z" style="fill:var(--t-sand);opacity:.62"/><path d="M-0.8 -67.7Q-4.3 -70.7 -5.3 -75.9M-0.8 -67.8Q4 -72.1 5 -79.3M-0.8 -69.5Q-6.7 -73.6 -8.3 -80.6M-0.9 -74.3Q-8.2 -79.6 -10.2 -89.1M-1 -75.7Q5.9 -81.4 7.3 -91M-1.1 -81.6Q-8.6 -87.9 -10.7 -99M-1.2 -83.9Q6.3 -89.6 7.9 -99.2M-1.2 -85.9Q-8.5 -92.3 -10.5 -103.6M-1.2 -87.3Q7.7 -95.3 9.6 -108.7M-1.5 -96.4Q-10.4 -105.3 -12.9 -121.1M-1.6 -100.4Q6.3 -108 7.9 -120.8M-1.6 -100.9Q-10 -107.6 -12.3 -119.3M-1.7 -103.8Q9.7 -115.3 11.9 -134.4M-1.8 -108.2Q-9.6 -114.4 -11.7 -125.2M-1.9 -111.4Q5.2 -119.1 6.6 -131.9M-2 -114.4Q5.8 -120.9 7.4 -131.7M-2.1 -117Q6.3 -124.1 8 -135.9M-2.1 -119Q-11.4 -126 -14 -138.5M-2.3 -122.5Q-12.3 -129.9 -15.2 -143M-2.4 -125.8Q5 -132.5 6.4 -143.6M-2.5 -130.1Q5.9 -139.3 7.4 -154.6M-2.6 -131.9Q3.4 -138 4.5 -148M-2.7 -133.4Q-8 -136.9 -9.5 -143.1M-2.8 -136.3Q3.4 -143.4 4.5 -155.1M-2.9 -138.7Q-6.9 -141.3 -8 -146.1M-2.9 -139.5Q1.3 -144.3 2 -152.3M-3 -143.1Q0.6 -146.4 1.3 -152M-3.1 -145.2Q-0.9 -147.8 -0.5 -152.1M-3.3 -148.5Q-4.6 -149.7 -5 -151.9" style="fill:none;stroke:var(--t-sand);stroke-width:2;stroke-linecap:round"/><path d="M-0.9 -72.1Q3.4 -77.1 4.3 -85.5M-1 -79.1Q-8.1 -84 -9.9 -92.6M-1.1 -80Q7.8 -87.8 9.7 -100.8M-1.3 -89.3Q-8.1 -96.1 -10 -108.2M-1.3 -91.7Q9.3 -103.3 11.4 -122.9M-1.4 -93.7Q-11.6 -100.5 -14.3 -112.5M-1.5 -96Q7.6 -104.1 9.5 -117.6M-1.7 -104.3Q-13.4 -113.2 -16.6 -129M-1.7 -105.9Q8.7 -115 10.8 -130.2M-1.9 -111.5Q-12 -118.9 -14.8 -132M-2.1 -116.6Q-11.5 -126.4 -14.2 -143.6M-2.2 -121Q7.2 -128.3 9.1 -140.5M-2.4 -126Q-9.9 -131.6 -12 -141.7M-2.5 -129.5Q-11.1 -137.2 -13.5 -150.7M-3 -142.1Q-7.5 -146.6 -8.8 -154.5M-3.2 -146.1Q-6.2 -149.1 -7.2 -154.4" style="fill:none;stroke:var(--t-cream);stroke-width:1.2;stroke-linecap:round;opacity:.9"/></g><g transform="translate(70 160) rotate(-60)"><path d="M0 0L0 27.5" style="stroke:var(--t-wood);stroke-width:2.2;stroke-linecap:round"/><path d="M0 0L-39.4 -5.7L-40.1 -8.7L-38.5 -10.1ZM0 0L-42.8 -14.1L-43.5 -16.3L-40.9 -18.8ZM0 0L-37.4 -19L-37 -22.3L-35 -23ZM0 0L-34.7 -25.7L-34.1 -28.6L-31.6 -29.4ZM0 0L-33.9 -30.5L-32.9 -33.6L-30.3 -34.1ZM0 0L-27.7 -35.6L-27.1 -37.8L-23.5 -38.5ZM0 0L-22.3 -41.2L-20.4 -43.8L-17.6 -43.4ZM0 0L-17.4 -43.4L-15.4 -45.7L-12.4 -45.1ZM0 0L-8.1 -44.6L-6.6 -46.2L-3.1 -45.2ZM0 0L-3.1 -44.5L-1.3 -45.9L1.9 -44.5ZM0 0L6 -47L8.8 -48L11.2 -46ZM0 0L10.6 -45L12.9 -45.8L15.6 -43.5ZM0 0L16.5 -40.6L19 -41L20.9 -38.5ZM0 0L25 -41.9L28.6 -41.3L29.6 -38.8ZM0 0L30.6 -36.3L33.2 -36L34.5 -32.7ZM0 0L31.2 -28.7L33.9 -27.6L34.2 -25ZM0 0L36.9 -22.2L39.1 -21L39.2 -17.9ZM0 0L41.4 -19.9L44 -17.5L43.3 -15.2ZM0 0L42 -11.6L43.9 -9.3L43 -6.8Z" style="fill:var(--t-a);opacity:.9"/><circle r="4.5" style="fill:var(--t-wood)"/></g><g transform="translate(90 200) rotate(40)"><path d="M0 0Q10 -50 4 -100M1.3 -7.1q-2.8 -0.6 -5.7 -2.6M1.3 -7.1q2.8 -0.6 5.7 -2.6M2.5 -14.3q-4.4 -0.9 -8.8 -4M2.5 -14.3q4.4 -0.9 8.8 -4M3.6 -21.4q-5.8 -1.2 -11.5 -5.2M3.6 -21.4q5.8 -1.2 11.5 -5.2M4.4 -28.6q-7.8 -1.6 -15.7 -7.1M4.4 -28.6q7.8 -1.6 15.7 -7.1M5.1 -35.7q-9.6 -1.9 -19.1 -8.6M5.1 -35.7q9.6 -1.9 19.1 -8.6M5.6 -42.9q-10.4 -2.1 -20.8 -9.3M5.6 -42.9q10.4 -2.1 20.8 -9.3M6 -50q-10.1 -2 -20.2 -9.1M6 -50q10.1 -2 20.2 -9.1M6.2 -57.1q-10.8 -2.2 -21.7 -9.8M6.2 -57.1q10.8 -2.2 21.7 -9.8M6.2 -64.3q-10.6 -2.1 -21.3 -9.6M6.2 -64.3q10.6 -2.1 21.3 -9.6M6.1 -71.4q-10.3 -2.1 -20.6 -9.3M6.1 -71.4q10.3 -2.1 20.6 -9.3M5.8 -78.6q-9 -1.8 -17.9 -8.1M5.8 -78.6q9 -1.8 17.9 -8.1M5.4 -85.7q-8.6 -1.7 -17.3 -7.8M5.4 -85.7q8.6 -1.7 17.3 -7.8M4.8 -92.9q-6.4 -1.3 -12.7 -5.7M4.8 -92.9q6.4 -1.3 12.7 -5.7" style="fill:none;stroke:var(--t-clay);stroke-width:1.5;stroke-linecap:round"/></g><g transform="translate(84 160) rotate(20.9)"><path d="M0 0Q-2.3 -11.8 0.6 -19.3Q3 -11.6 0 0ZM0 0Q3 -12.5 9.2 -18.6Q8.1 -10 0 0ZM0 0Q9.5 -10.6 18.7 -13.3Q13.1 -5.5 0 0ZM0 0Q11.6 -5 20 -3.8Q12.6 0.4 0 0ZM0 0Q11.8 0.4 18.5 4.7Q10.5 5.4 0 0ZM0 0Q12.2 5.9 17.1 13.5Q8.5 10.5 0 0ZM0 0Q8.6 9.6 10.1 18.1Q3.7 12.3 0 0ZM0 0Q3.1 12.2 0.6 20.3Q-2.4 12.4 0 0ZM0 0Q-2.6 12.1 -8.3 18.2Q-7.5 9.9 0 0ZM0 0Q-7.9 10.5 -16.1 13.8Q-11.6 6.1 0 0ZM0 0Q-12.1 6.2 -21.3 5.5Q-13.6 0.4 0 0ZM0 0Q-13.4 0.5 -21.2 -4Q-12.3 -5.3 0 0ZM0 0Q-12.1 -5.6 -17.1 -13Q-8.6 -10.2 0 0ZM0 0Q-7.5 -9.7 -8.3 -17.9Q-2.6 -12 0 0Z" style="fill:var(--t-p)"/><path d="M0 0Q-0.1 -9.6 3.8 -15Q4.7 -8.4 0 0ZM0 0Q4.5 -7.9 10.3 -10.5Q7.8 -4.6 0 0ZM0 0Q8.9 -4.2 15.5 -2.8Q9.7 0.8 0 0ZM0 0Q9.3 1.1 14.1 5.6Q7.5 5.6 0 0ZM0 0Q7.2 6.6 8.4 13.3Q2.9 9.3 0 0ZM0 0Q2.8 9.3 0.4 15.7Q-2.2 9.5 0 0ZM0 0Q-2 8.9 -6.9 13Q-6.2 6.7 0 0ZM0 0Q-6.9 5.9 -13.1 6.3Q-8.9 1.7 0 0ZM0 0Q-9.8 1.4 -15.8 -1.9Q-9.2 -3.6 0 0ZM0 0Q-7.5 -3.6 -10.2 -8.8Q-4.7 -6.9 0 0ZM0 0Q-4.7 -7.8 -4.1 -14.1Q-0.2 -9.1 0 0Z" style="fill:var(--t-rosewood)"/><circle r="5.9" style="fill:var(--t-a)"/><circle r="2.9" style="fill:var(--t-wood);opacity:.55"/></g><g transform="translate(110 176) rotate(52.7)"><circle r="15" style="fill:var(--t-rosewood)"/><path d="M0 0 L0.2 0.1 L0.4 0.2 L0.5 0.4 L0.4 0.7 L0.3 1 L0 1.2 L-0.3 1.4 L-0.8 1.5 L-1.3 1.4 L-1.7 1.2 L-2.2 0.7 L-2.5 0.2 L-2.7 -0.5 L-2.6 -1.2 L-2.4 -2 L-1.9 -2.7 L-1.3 -3.3 L-0.4 -3.7 L0.6 -3.9 L1.6 -3.8 L2.7 -3.5 L3.6 -2.8 L4.4 -1.9 L4.9 -0.7 L5.2 0.6 L5.1 1.9 L4.6 3.3 L3.7 4.5 L2.6 5.5 L1.2 6.1 L-0.4 6.4 L-2.1 6.3 L-3.8 5.8 L-5.3 4.8 L-6.5 3.4 L-7.3 1.7 L-7.7 -0.2 L-7.6 -2.2 L-7 -4.2 L-5.8 -6 L-4.2 -7.4 L-2.3 -8.5 L0 -9 L2.3 -8.9 L4.5 -8.2 L6.6 -6.9 L8.3 -5.2 L9.6 -2.9 L10.2 -0.4 L10.2 2.2 L9.5 4.8 L8.1 7.2 L6.2 9.2 L3.7 10.6 L0.9 11.4 L-2 11.5 L-5 10.8 L-7.7 9.3 L-10 7.2" style="fill:none;stroke:var(--t-clay);stroke-width:1.3;opacity:.75"/><path d="M15 -0.5A15 15 0 0 1 5.6 13.9M5.6 13.9A15 15 0 0 1 -11.1 10M-12.7 8.1A15 15 0 0 1 -11.9 -9.1M-12.1 -8.9A15 15 0 0 1 4.2 -14.4M6.1 -13.7A15 15 0 0 1 15 1.1" style="fill:none;stroke:var(--t-clay);stroke-width:1.1;opacity:.6"/></g><g transform="translate(92 200) rotate(30)"><path d="M0 0Q5.4 -45 0 -65.5" style="fill:none;stroke:var(--t-taupe);stroke-width:1.4"/><ellipse cy="-74.7" rx="7.7" ry="15.3" style="fill:var(--t-cream)"/><path d="M7.6 -74.1l2.6 0.1M7.2 -69.4l2.9 1.1M6.3 -66.2l2.2 1.5M5.2 -63.5l2.5 2.7M3.3 -60.9l1.8 3.8M1.7 -59.8l0.6 2.6M-1.7 -59.8l-0.7 3M-3.3 -60.9l-1.5 3.2M-5.2 -63.5l-2.6 2.8M-6.4 -66.3l-3.4 2.2M-7.5 -71.8l-3.8 0.7M-7.6 -74.7l-2.6 0M-7.3 -79.2l-3.6 -1.1M-6.7 -82.2l-2.2 -1.2M-4.4 -87.2l-1.2 -1.7M-2.6 -89.1l-0.9 -2.6M-1.2 -89.8l-0.4 -2.5M1.5 -89.7l0.7 -3.4M3.8 -88l1.3 -2.3M5.3 -85.7l3 -3.1M6.8 -81.6l3.8 -2M7.1 -80.2l1.9 -0.7" style="stroke:var(--t-cream);stroke-width:1.2;stroke-linecap:round"/></g><g transform="translate(70 170)"><path d="M0 0L7.8 -10.9M0 0L-1.3 -12.9M0 0L9 -15.3M0 0L-11.8 -10.8M0 0L10.1 -18.4M0 0L14.4 -18.8M0 0L-9.3 -15.6M0 0L7.2 -21.3M0 0L-4.9 -16.1M0 0L9.8 -21.8M0 0L-15.6 -19.9M0 0L-0.6 -21.1M0 0L-1.7 -12.4M0 0L-3.3 -23" style="stroke:var(--t-taupe);stroke-width:.8;opacity:.7"/><g style="fill:var(--t-cream)"><circle cx="7.8" cy="-10.9" r="2.2"/><circle cx="-1.3" cy="-12.9" r="1.6"/><circle cx="9" cy="-15.3" r="2.8"/><circle cx="-11.8" cy="-10.8" r="2.5"/><circle cx="10.1" cy="-18.4" r="2.1"/><circle cx="14.4" cy="-18.8" r="2.9"/><circle cx="-9.3" cy="-15.6" r="1.9"/><circle cx="7.2" cy="-21.3" r="2.2"/><circle cx="-4.9" cy="-16.1" r="2.8"/><circle cx="9.8" cy="-21.8" r="2.6"/><circle cx="-15.6" cy="-19.9" r="1.8"/><circle cx="-0.6" cy="-21.1" r="2.7"/><circle cx="-1.7" cy="-12.4" r="2.7"/><circle cx="-3.3" cy="-23" r="2.7"/></g></g></svg>
+    </div>
+    <article class="bh-de__card" style="--i:0">
+      <div class="bh-de__inner">
+        <div class="bh-de__face bh-de__front">
+          <svg class="bh-de__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false" style="fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round"><path d="M3 17c3 0 5-2 7-5l3-6c1-2 4-1 4 1l-1 4c2 1 4 3 5 6v2H3zM14 18v-4"/></svg>
+          <h3 class="bh-de__ct" memory_type="text" memory_usage="custom" memory_key="detalles-card1-titulo">Pasto bajo tus pies</h3>
+          <p class="bh-de__cx" memory_type="text" memory_usage="custom" memory_key="detalles-card1-texto">La ceremonia es sobre el jardín: mejor tacón ancho, sandalia o botín.</p>
+        </div>
+        <div class="bh-de__face bh-de__back" aria-hidden="true"><svg viewBox="0 0 100 100" focusable="false"><g transform="translate(50 50) rotate(2.8)"><path d="M0 0Q-4.8 -18.5 -1 -30.8Q3.5 -18.8 0 0ZM0 0Q4.6 -16.8 13.2 -24.9Q11.3 -13.3 0 0ZM0 0Q9.6 -13 19.7 -17.1Q14.2 -7.7 0 0ZM0 0Q16.6 -7.8 28.9 -6.4Q18.3 0 0 0ZM0 0Q17.6 0.7 27.5 7.4Q15.7 8.2 0 0ZM0 0Q16.4 9.4 22.5 20.6Q10.8 15.5 0 0ZM0 0Q11.9 15.3 13.3 28.2Q4.2 18.9 0 0ZM0 0Q4.3 19 0 31.5Q-4.3 19 0 0ZM0 0Q-5 16.4 -13.7 24.1Q-11.6 12.7 0 0ZM0 0Q-10.6 12.2 -21 15.5Q-14.8 6.6 0 0ZM0 0Q-15.5 8.4 -27.3 7.7Q-17.6 1 0 0ZM0 0Q-16.4 0.8 -26.1 -4.5Q-15.2 -6.3 0 0ZM0 0Q-17 -8.2 -23.9 -18.8Q-11.9 -14.6 0 0ZM0 0Q-11.1 -13.8 -12.6 -25.6Q-4.2 -17.2 0 0Z" style="fill:var(--t-rosewood)"/><path d="M0 0Q-0.6 -12.5 4.2 -19.8Q5.7 -11.2 0 0ZM0 0Q5.9 -10.5 13.5 -13.9Q10.3 -6.2 0 0ZM0 0Q11.8 -5.4 20.7 -3.5Q12.9 1.2 0 0ZM0 0Q12.6 1.4 19 7.4Q10.2 7.5 0 0ZM0 0Q10.2 8.9 12.2 18.1Q4.4 12.8 0 0ZM0 0Q3.5 13.2 -0.1 22Q-3.6 13.2 0 0ZM0 0Q-3.1 12.2 -9.9 17.7Q-8.7 9 0 0ZM0 0Q-7.7 8.1 -15.4 9.5Q-10.8 3.2 0 0ZM0 0Q-12.5 3.1 -20.8 -0.4Q-12.4 -3.5 0 0ZM0 0Q-10.7 -4.2 -14.9 -11Q-7.2 -8.9 0 0ZM0 0Q-7.9 -10.5 -8 -19.6Q-1.7 -13 0 0Z" style="fill:var(--t-rosewood)"/><circle r="8.1" style="fill:var(--t-a)"/><circle r="3.9" style="fill:var(--t-wood);opacity:.55"/></g><g transform="translate(50 50)"><path d="M0 0L-7.2 -28.1M0 0L5 -22.6M0 0L-9 -19M0 0L13.3 -34.7M0 0L3.9 -31.6M0 0L-23.3 -29M0 0L-11.2 -12.8M0 0L-8.5 -21.6M0 0L20.3 -20.2M0 0L-21.6 -31.8M0 0L-17.8 -32.6M0 0L-12.2 -18.5M0 0L17.6 -25.1M0 0L10.9 -11.3" style="stroke:var(--t-taupe);stroke-width:.8;opacity:.7"/><g style="fill:var(--t-cream)"><circle cx="-7.2" cy="-28.1" r="1.7"/><circle cx="5" cy="-22.6" r="2.5"/><circle cx="-9" cy="-19" r="2.9"/><circle cx="13.3" cy="-34.7" r="2.3"/><circle cx="3.9" cy="-31.6" r="2.1"/><circle cx="-23.3" cy="-29" r="1.8"/><circle cx="-11.2" cy="-12.8" r="1.8"/><circle cx="-8.5" cy="-21.6" r="2.1"/><circle cx="20.3" cy="-20.2" r="1.8"/><circle cx="-21.6" cy="-31.8" r="3"/><circle cx="-17.8" cy="-32.6" r="2.5"/><circle cx="-12.2" cy="-18.5" r="2"/><circle cx="17.6" cy="-25.1" r="3"/><circle cx="10.9" cy="-11.3" r="1.6"/></g></g></svg></div>
+      </div>
+    </article>
+    <article class="bh-de__card" style="--i:1">
+      <div class="bh-de__inner">
+        <div class="bh-de__face bh-de__front">
+          <svg class="bh-de__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false" style="fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round"><path d="M4 6c3 2 13 2 16 0l-2 9c-4 3-8 3-12 0zM7 15l-1 5M12 16v5M17 15l1 5"/></svg>
+          <h3 class="bh-de__ct" memory_type="text" memory_usage="custom" memory_key="detalles-card2-titulo">La tarde refresca</h3>
+          <p class="bh-de__cx" memory_type="text" memory_usage="custom" memory_key="detalles-card2-texto">Al caer el sol baja la temperatura; trae un rebozo, chal o chaqueta ligera.</p>
+        </div>
+        <div class="bh-de__face bh-de__back" aria-hidden="true"><svg viewBox="0 0 100 100" focusable="false"><g transform="translate(50 50) rotate(2.8)"><path d="M0 0Q-4.8 -18.5 -1 -30.8Q3.5 -18.8 0 0ZM0 0Q4.6 -16.8 13.2 -24.9Q11.3 -13.3 0 0ZM0 0Q9.6 -13 19.7 -17.1Q14.2 -7.7 0 0ZM0 0Q16.6 -7.8 28.9 -6.4Q18.3 0 0 0ZM0 0Q17.6 0.7 27.5 7.4Q15.7 8.2 0 0ZM0 0Q16.4 9.4 22.5 20.6Q10.8 15.5 0 0ZM0 0Q11.9 15.3 13.3 28.2Q4.2 18.9 0 0ZM0 0Q4.3 19 0 31.5Q-4.3 19 0 0ZM0 0Q-5 16.4 -13.7 24.1Q-11.6 12.7 0 0ZM0 0Q-10.6 12.2 -21 15.5Q-14.8 6.6 0 0ZM0 0Q-15.5 8.4 -27.3 7.7Q-17.6 1 0 0ZM0 0Q-16.4 0.8 -26.1 -4.5Q-15.2 -6.3 0 0ZM0 0Q-17 -8.2 -23.9 -18.8Q-11.9 -14.6 0 0ZM0 0Q-11.1 -13.8 -12.6 -25.6Q-4.2 -17.2 0 0Z" style="fill:var(--t-rosewood)"/><path d="M0 0Q-0.6 -12.5 4.2 -19.8Q5.7 -11.2 0 0ZM0 0Q5.9 -10.5 13.5 -13.9Q10.3 -6.2 0 0ZM0 0Q11.8 -5.4 20.7 -3.5Q12.9 1.2 0 0ZM0 0Q12.6 1.4 19 7.4Q10.2 7.5 0 0ZM0 0Q10.2 8.9 12.2 18.1Q4.4 12.8 0 0ZM0 0Q3.5 13.2 -0.1 22Q-3.6 13.2 0 0ZM0 0Q-3.1 12.2 -9.9 17.7Q-8.7 9 0 0ZM0 0Q-7.7 8.1 -15.4 9.5Q-10.8 3.2 0 0ZM0 0Q-12.5 3.1 -20.8 -0.4Q-12.4 -3.5 0 0ZM0 0Q-10.7 -4.2 -14.9 -11Q-7.2 -8.9 0 0ZM0 0Q-7.9 -10.5 -8 -19.6Q-1.7 -13 0 0Z" style="fill:var(--t-rosewood)"/><circle r="8.1" style="fill:var(--t-a)"/><circle r="3.9" style="fill:var(--t-wood);opacity:.55"/></g><g transform="translate(50 50)"><path d="M0 0L-7.2 -28.1M0 0L5 -22.6M0 0L-9 -19M0 0L13.3 -34.7M0 0L3.9 -31.6M0 0L-23.3 -29M0 0L-11.2 -12.8M0 0L-8.5 -21.6M0 0L20.3 -20.2M0 0L-21.6 -31.8M0 0L-17.8 -32.6M0 0L-12.2 -18.5M0 0L17.6 -25.1M0 0L10.9 -11.3" style="stroke:var(--t-taupe);stroke-width:.8;opacity:.7"/><g style="fill:var(--t-cream)"><circle cx="-7.2" cy="-28.1" r="1.7"/><circle cx="5" cy="-22.6" r="2.5"/><circle cx="-9" cy="-19" r="2.9"/><circle cx="13.3" cy="-34.7" r="2.3"/><circle cx="3.9" cy="-31.6" r="2.1"/><circle cx="-23.3" cy="-29" r="1.8"/><circle cx="-11.2" cy="-12.8" r="1.8"/><circle cx="-8.5" cy="-21.6" r="2.1"/><circle cx="20.3" cy="-20.2" r="1.8"/><circle cx="-21.6" cy="-31.8" r="3"/><circle cx="-17.8" cy="-32.6" r="2.5"/><circle cx="-12.2" cy="-18.5" r="2"/><circle cx="17.6" cy="-25.1" r="3"/><circle cx="10.9" cy="-11.3" r="1.6"/></g></g></svg></div>
+      </div>
+    </article>
+    <article class="bh-de__card" style="--i:2">
+      <div class="bh-de__inner">
+        <div class="bh-de__face bh-de__front">
+          <svg class="bh-de__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false" style="fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round"><ellipse cx="12" cy="15" rx="10" ry="3.5"/><path d="M7 14c0-6 2-8 5-8s5 2 5 8M7 12.5c3 1 7 1 10 0"/></svg>
+          <h3 class="bh-de__ct" memory_type="text" memory_usage="custom" memory_key="detalles-card3-titulo">Sol de frente</h3>
+          <p class="bh-de__cx" memory_type="text" memory_usage="custom" memory_key="detalles-card3-texto">Sombrero y lentes de sol son muy buena idea para la ceremonia al aire libre.</p>
+        </div>
+        <div class="bh-de__face bh-de__back" aria-hidden="true"><svg viewBox="0 0 100 100" focusable="false"><g transform="translate(50 50) rotate(2.8)"><path d="M0 0Q-4.8 -18.5 -1 -30.8Q3.5 -18.8 0 0ZM0 0Q4.6 -16.8 13.2 -24.9Q11.3 -13.3 0 0ZM0 0Q9.6 -13 19.7 -17.1Q14.2 -7.7 0 0ZM0 0Q16.6 -7.8 28.9 -6.4Q18.3 0 0 0ZM0 0Q17.6 0.7 27.5 7.4Q15.7 8.2 0 0ZM0 0Q16.4 9.4 22.5 20.6Q10.8 15.5 0 0ZM0 0Q11.9 15.3 13.3 28.2Q4.2 18.9 0 0ZM0 0Q4.3 19 0 31.5Q-4.3 19 0 0ZM0 0Q-5 16.4 -13.7 24.1Q-11.6 12.7 0 0ZM0 0Q-10.6 12.2 -21 15.5Q-14.8 6.6 0 0ZM0 0Q-15.5 8.4 -27.3 7.7Q-17.6 1 0 0ZM0 0Q-16.4 0.8 -26.1 -4.5Q-15.2 -6.3 0 0ZM0 0Q-17 -8.2 -23.9 -18.8Q-11.9 -14.6 0 0ZM0 0Q-11.1 -13.8 -12.6 -25.6Q-4.2 -17.2 0 0Z" style="fill:var(--t-rosewood)"/><path d="M0 0Q-0.6 -12.5 4.2 -19.8Q5.7 -11.2 0 0ZM0 0Q5.9 -10.5 13.5 -13.9Q10.3 -6.2 0 0ZM0 0Q11.8 -5.4 20.7 -3.5Q12.9 1.2 0 0ZM0 0Q12.6 1.4 19 7.4Q10.2 7.5 0 0ZM0 0Q10.2 8.9 12.2 18.1Q4.4 12.8 0 0ZM0 0Q3.5 13.2 -0.1 22Q-3.6 13.2 0 0ZM0 0Q-3.1 12.2 -9.9 17.7Q-8.7 9 0 0ZM0 0Q-7.7 8.1 -15.4 9.5Q-10.8 3.2 0 0ZM0 0Q-12.5 3.1 -20.8 -0.4Q-12.4 -3.5 0 0ZM0 0Q-10.7 -4.2 -14.9 -11Q-7.2 -8.9 0 0ZM0 0Q-7.9 -10.5 -8 -19.6Q-1.7 -13 0 0Z" style="fill:var(--t-rosewood)"/><circle r="8.1" style="fill:var(--t-a)"/><circle r="3.9" style="fill:var(--t-wood);opacity:.55"/></g><g transform="translate(50 50)"><path d="M0 0L-7.2 -28.1M0 0L5 -22.6M0 0L-9 -19M0 0L13.3 -34.7M0 0L3.9 -31.6M0 0L-23.3 -29M0 0L-11.2 -12.8M0 0L-8.5 -21.6M0 0L20.3 -20.2M0 0L-21.6 -31.8M0 0L-17.8 -32.6M0 0L-12.2 -18.5M0 0L17.6 -25.1M0 0L10.9 -11.3" style="stroke:var(--t-taupe);stroke-width:.8;opacity:.7"/><g style="fill:var(--t-cream)"><circle cx="-7.2" cy="-28.1" r="1.7"/><circle cx="5" cy="-22.6" r="2.5"/><circle cx="-9" cy="-19" r="2.9"/><circle cx="13.3" cy="-34.7" r="2.3"/><circle cx="3.9" cy="-31.6" r="2.1"/><circle cx="-23.3" cy="-29" r="1.8"/><circle cx="-11.2" cy="-12.8" r="1.8"/><circle cx="-8.5" cy="-21.6" r="2.1"/><circle cx="20.3" cy="-20.2" r="1.8"/><circle cx="-21.6" cy="-31.8" r="3"/><circle cx="-17.8" cy="-32.6" r="2.5"/><circle cx="-12.2" cy="-18.5" r="2"/><circle cx="17.6" cy="-25.1" r="3"/><circle cx="10.9" cy="-11.3" r="1.6"/></g></g></svg></div>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="detalles-vestimenta"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var HAS_IO = 'IntersectionObserver' in window;
+      /* rAF loop that runs only while the module is on screen and the tab is visible */
+      function loop(el, draw) {
+        var on = false, vis = !HAS_IO, id = 0;
+        function tick(t) { if (!on) return; draw(t); id = requestAnimationFrame(tick); }
+        function sync() {
+          var want = vis && !document.hidden;
+          if (want && !on) { on = true; id = requestAnimationFrame(tick); }
+          else if (!want && on) { on = false; cancelAnimationFrame(id); }
+        }
+        if (HAS_IO) new IntersectionObserver(function (e) { vis = e[e.length - 1].isIntersecting; sync(); }).observe(el);
+        document.addEventListener('visibilitychange', sync);
+        sync();
+      }
+      /* Entrance: states exist only while the --anim class is on; removed afterwards */
+      function entrance(cls, o) {
+        o = o || {};
+        if (RM || !HAS_IO) { if (o.done) o.done(); return; }
+        root.classList.add(cls + '--anim');
+        var io = new IntersectionObserver(function (en) {
+          var e = en[en.length - 1];
+          if (e.isIntersecting && e.intersectionRatio >= (o.r || .18)) {
+            io.disconnect();
+            requestAnimationFrame(function () { root.classList.add('is-in'); if (o.on) o.on(); });
+            setTimeout(function () { root.classList.remove(cls + '--anim', 'is-in'); if (o.done) o.done(); }, o.ms || 1800);
+          }
+        }, { threshold: [0, .08, .12, .18, .25, .35, .5] });
+        io.observe(root);
+      }
+      function themeColor(expr) {
+        var s = document.createElement('span');
+        s.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden;color:' + expr;
+        root.appendChild(s);
+        var c = getComputedStyle(s).color; root.removeChild(s); return c;
+      }
+
+      entrance('bh-de', { r: .15, ms: 1600 });
+
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-vestimenta',
+      style_name: 'Boho Chic Detalles Collage Flip',
+      descripcion: 'Detalles prácticos en collage asimétrico: tarjetas de formas distintas que giran al entrar en pantalla, imagen en arco con ramo de pampas y flores secas.',
+      tags: ['detalles', 'boda', 'boho', 'vestimenta', 'consejos'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>

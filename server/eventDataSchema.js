@@ -257,6 +257,131 @@ export const DETERMINISTIC_RULES = [
 ];
 
 // ---------------------------------------------------------------------------
+// 2b. Colocación por data-gemini-id (el "selector" del sistema).
+// Las invitaciones del flujo clásico (templates antiguos) NO traen los
+// placeholders canónicos ni memory_key: sus nodos editables se identifican
+// por data-gemini-id (padres-papa, ubicacion-ceremonia-lugar, contador-*, …).
+// Este pase coloca los datos por id SIN tocar módulos y SOBRE texto
+// placeholder-ish (nunca encima de datos reales ya escritos).
+// ---------------------------------------------------------------------------
+const PLACEHOLDER_ISH = /^(nombre|nombres|pap[áa]s?|mam[áa]|madrina|padrino|padres|lugar|direcci[oó]n|calle|avenida|camino|hora|fecha|dd\b|c[oó]digo|formal|vestimenta|pendiente|por confirmar|tu presencia|escribe aqu[ií]|mis padres|mis padrinos)/i;
+const parecePlaceholder = (t) => {
+  const s = norm(t);
+  if (!s) return true;
+  if (s.length > 64) return false;
+  if (/^\d{1,2}:\d{2}\b/.test(s)) return true;      // horas (17:00 hrs)
+  if (/&/.test(s) && /nombre/i.test(s)) return true; // "Nombre & Nombre"
+  return PLACEHOLDER_ISH.test(s);
+};
+
+/** Divide "A & B" en dos partes (para nodos separados papa/mama). */
+const splitPair = (v) => {
+  const parts = String(v || '').split(/\s+[&y]\s+|\s*&\s*/).map((x) => x.trim()).filter(Boolean);
+  return parts.length >= 2 ? parts : null;
+};
+const primerPar = (data, keys) => {
+  for (const k of keys) { const p = splitPair(data[k]); if (p) return p; }
+  return null;
+};
+const primero = (data, keys) => {
+  for (const k of keys) if (norm(data[k])) return norm(data[k]);
+  return '';
+};
+
+export function applyDeterministicByIds(doc, schema, data) {
+  const aplicadas = new Set();
+  const campos = {};
+  for (const f of schema.fields) campos[f.key] = f;
+  const val = (k) => {
+    const f = campos[k];
+    const raw = norm(data[k]);
+    if (!raw) return '';
+    return f && f.type === 'date' ? formatFechaEs(raw) : raw;
+  };
+  const set = (id, texto) => {
+    const el = doc.querySelector('[data-gemini-id="' + id + '"]');
+    if (!el || !texto) return;
+    if (!parecePlaceholder(el.textContent)) return; // no pisar datos reales
+    el.textContent = texto;
+  };
+
+  // --- Portada: nombres (título o nodo de nombres) ---
+  const nombres2 = [val('nombres_novia'), val('nombres_novio')].filter(Boolean);
+  const nombre1 = val('nombre_homenajeada') || val('nombre_homenajeado');
+  const juntos = nombres2.length === 2 ? nombres2.join(' & ') : (nombre1 || nombres2[0] || '');
+  if (juntos) {
+    set('portada-nombres', juntos);
+    set('portada-nombre', juntos);
+    set('portada-titulo', juntos);
+  }
+  if (val('fecha')) {
+    const conHora = val('hora') ? val('fecha') + ' · ' + val('hora') : val('fecha');
+    set('portada-fecha', conHora);
+    set('portada-hora', val('hora'));
+  }
+
+  // --- Padres (flujo clásico: papa/mama separados; catálogo: nombre-1/2) ---
+  const parPadres = primerPar(data, ['padres_novia', 'padres', 'padres_novio']);
+  if (parPadres) {
+    set('padres-papa', parPadres[0]);
+    set('padres-mama', parPadres[1]);
+  }
+  const padresTxt = primero(data, ['padres_novia', 'padres', 'padres_novio']);
+  if (padresTxt) { set('padres-nombre-1', padresTxt); set('padres-nombre-2', padresTxt); set('padres-texto', padresTxt); }
+
+  // --- Padrinos (clásico separado / catálogo 1-2) ---
+  const parPadrinos = splitPair(primero(data, ['padrinos']));
+  if (parPadrinos) {
+    set('padrinos-padrino', parPadrinos[0]);
+    set('padrinos-madrina', parPadrinos[1]);
+    set('padrinos-nombre-1', parPadrinos[0]);
+    set('padrinos-nombre-2', parPadrinos[1]);
+  } else if (primero(data, ['padrinos'])) {
+    const p = primero(data, ['padrinos']);
+    set('padrinos-nombre-1', p);
+    set('padrinos-nombre-2', p);
+  }
+
+  // --- Ubicaciones (clásico: ceremonia/recepcion con subcampos) ---
+  if (val('lugar_ceremonia')) set('ubicacion-ceremonia-lugar', val('lugar_ceremonia'));
+  if (val('direccion_ceremonia')) set('ubicacion-ceremonia-direccion', val('direccion_ceremonia'));
+  if (val('hora')) { set('ubicacion-ceremonia-hora', val('hora') + ' hrs'); set('ubicacion-hora', val('hora')); }
+  if (val('lugar_ceremonia')) set('ubicacion-nombre', val('lugar_ceremonia'));
+  if (val('direccion_ceremonia')) set('ubicacion-direccion', val('direccion_ceremonia'));
+  if (val('lugar_recepcion')) {
+    set('ubicacion-recepcion-lugar', val('lugar_recepcion'));
+    set('ubicacion-lugar', val('lugar_recepcion'));
+  }
+  if (val('direccion_ceremonia')) set('ubicacion-recepcion-direccion', val('direccion_ceremonia'));
+
+  // --- Itinerario: líneas "HH:MM actividad" a los hitos ---
+  const lineas = String(data.itinerario || '').split('\n').map((l) => l.trim()).filter(Boolean);
+  lineas.slice(0, 6).forEach((linea, idx) => {
+    const m = linea.match(/^(\d{1,2}:\d{2})\s*[–—-]?\s*(.+)$/);
+    if (!m) return;
+    const [, hora, acto] = m;
+    const corte = acto.split(/[,.;:]/)[0].trim();
+    set('itinerario-hora-' + (idx + 1), hora);
+    set('itinerario-evento-' + (idx + 1), corte);
+    set('itinerario-momento-' + (idx + 1), corte);
+  });
+
+  // --- Vestimenta / mesa de regalos / límite ---
+  if (val('codigo_vestimenta')) { set('detalles-vestimenta-tipo', val('codigo_vestimenta')); set('vestimenta-codigo', val('codigo_vestimenta')); }
+  if (val('fecha_limite')) {
+    set('confirmacion-fecha-limite', 'Confirma antes del ' + val('fecha_limite'));
+  }
+  if (val('mesa_regalos')) set('detalles-regalos-desc', val('mesa_regalos'));
+
+  // claves contabilizadas (para el log del pipeline)
+  for (const k of Object.keys(data)) {
+    if (!norm(data[k])) continue;
+    if (['nombres_novia', 'nombres_novio', 'nombre_homenajeada', 'padres_novia', 'padres', 'padres_novio', 'padrinos', 'lugar_ceremonia', 'direccion_ceremonia', 'hora', 'lugar_recepcion', 'codigo_vestimenta', 'fecha_limite', 'mesa_regalos', 'fecha'].includes(k)) aplicadas.add(k);
+  }
+  return aplicadas;
+}
+
+// ---------------------------------------------------------------------------
 // 3. Utilidades DOM (funcionan con DOMParser del cliente y linkedom del server)
 // ---------------------------------------------------------------------------
 const norm = (s) => String(s || '').replace(/\s+/g, ' ').trim();
@@ -264,6 +389,11 @@ const unaccent = (s) => String(s || '').normalize('NFD').replace(/[\u0300-\u036f
 
 function moduleRoots(doc, scope) {
   if (!scope || scope === 'doc') return [doc.body || doc.documentElement || doc];
+  if (scope === 'countdown') {
+    // flujo catálogo (countdown-*) y clásico (contador-*)
+    const els = Array.from(doc.querySelectorAll('[data-gemini-id^="countdown"], [data-gemini-id^="contador"]'));
+    if (els.length) return els;
+  }
   return Array.from(doc.querySelectorAll('[data-gemini-id^="' + scope + '"]'));
 }
 
@@ -317,6 +447,11 @@ export function applyTextByIndex(doc, op) {
 export function applyDeterministicData(doc, schema, data) {
   const applied = new Set();
   try {
+    // Pase 0: colocación por data-gemini-id (flujos sin placeholders canónicos)
+    try {
+      for (const k of applyDeterministicByIds(doc, schema, data)) applied.add(k);
+    } catch (e) { /* el resto de pases continúa */ }
+
     const clean = {};
     for (const f of schema.fields) {
       const v = norm(data[f.key]);

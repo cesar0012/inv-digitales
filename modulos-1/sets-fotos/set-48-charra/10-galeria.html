@@ -1,0 +1,173 @@
+<section
+  class="ch35-ga"
+  data-gemini-id="galeria-charra"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
+    .ch35-ga, .ch35-ga *, .ch35-ga *::before, .ch35-ga *::after { box-sizing: border-box; }
+    .ch35-ga {
+      --t-bg: var(--text-color, #F6F1E7);
+      --t-tx: var(--bg-color, #0F2A1D);
+      --t-p: var(--primary-color, #B3122E);
+      --t-s: var(--secondary-color, #C3C8CE);
+      --t-a: var(--accent-color, #C9A44C);
+      --t-display: var(--font-script, 'Cinzel Decorative', serif);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      --stud: radial-gradient(circle at 40% 36%, #fff 0 1px, var(--t-s) 2px 4px, color-mix(in srgb, var(--t-s) 40%, #000) 5px, transparent 5.6px);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(28rem, 60vw, 42rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .ch35-ga__content { width: min(100%, 68rem); }
+    .ch35-ga__title { margin: 0; font-family: var(--t-display); font-weight: 700; font-size: clamp(2rem, 4.6vw, 3.2rem); line-height: 1.08; }
+    .ch35-ga__sub { margin: .6rem auto clamp(2rem, 5vw, 3rem); max-width: 30rem; font-style: italic; font-size: 1.2rem; color: var(--t-p); }
+
+    .ch35-ga__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); grid-auto-flow: dense; gap: clamp(.7rem, 1.6vw, 1.1rem); }
+    .ch35-ga__tile:nth-child(1) { grid-row: span 2; }
+    .ch35-ga__tile:nth-child(4) { grid-column: span 2; }
+    .ch35-ga__tile:nth-child(6) { grid-row: span 2; }
+    .ch35-ga__fig { margin: 0; height: 100%; }
+    .ch35-ga__btn {
+      position: relative;
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      border: 0;
+      background: var(--t-tx);
+      cursor: zoom-in;
+      overflow: hidden;
+      outline: 1px solid color-mix(in srgb, var(--t-a) 70%, transparent);
+      outline-offset: 4px;
+      transition: outline-offset .3s ease, clip-path .5s cubic-bezier(.4, 0, .2, 1);
+    }
+    /* Four silver studs fixed at the corners */
+    .ch35-ga__btn::after { content: ''; position: absolute; inset: 6px; background: var(--stud) 0 0 / 12px 12px no-repeat, var(--stud) 100% 0 / 12px 12px no-repeat, var(--stud) 0 100% / 12px 12px no-repeat, var(--stud) 100% 100% / 12px 12px no-repeat; pointer-events: none; }
+    .ch35-ga__btn::before { content: ''; position: absolute; inset: 0; z-index: 1; border: 0 solid color-mix(in srgb, var(--t-a) 85%, transparent); transition: border-width .3s ease; pointer-events: none; }
+    .ch35-ga__btn img { display: block; width: 100%; height: 100%; min-height: 12rem; aspect-ratio: 4 / 3; object-fit: cover; background: color-mix(in srgb, var(--t-tx) 16%, var(--t-bg)); transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .ch35-ga__tile:nth-child(1) .ch35-ga__btn img, .ch35-ga__tile:nth-child(6) .ch35-ga__btn img { aspect-ratio: 3 / 4; }
+    .ch35-ga__tile:nth-child(4) .ch35-ga__btn img { aspect-ratio: 16 / 7; }
+    .ch35-ga__btn:hover, .ch35-ga__btn:focus-visible { outline-offset: 7px; }
+    .ch35-ga__btn:hover::before, .ch35-ga__btn:focus-visible::before { border-width: 6px; }
+    .ch35-ga__btn:hover img { transform: scale(1.06); }
+
+    .ch35-ga--anim .ch35-ga__btn { clip-path: circle(0% at 50% 50%); }
+    .ch35-ga--anim .ch35-ga__tile[data-in] .ch35-ga__btn { clip-path: circle(80% at 50% 50%); }
+
+    .ch35-ga__dlg { width: min(92vw, 60rem); max-height: 92vh; padding: 0; border: 0; background: transparent; overflow: visible; }
+    .ch35-ga__dlg::backdrop { background: color-mix(in srgb, #000 82%, transparent); }
+    .ch35-ga__dlg[open] { animation: ch35-ga-pop .35s cubic-bezier(.2, .8, .2, 1); }
+    @keyframes ch35-ga-pop { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: none; } }
+    .ch35-ga__big { display: block; width: 100%; height: auto; max-height: 82vh; object-fit: contain; border: 8px solid var(--t-a); background: #000; }
+    .ch35-ga__ctl { display: flex; justify-content: center; gap: .8rem; margin-top: .9rem; }
+    .ch35-ga__cbtn { display: inline-flex; align-items: center; justify-content: center; width: 3rem; height: 3rem; padding: 0; border-radius: 50%; border: 2px solid var(--t-a); background: radial-gradient(circle at 36% 30%, #fff 0 6%, var(--t-s) 30% 60%, color-mix(in srgb, var(--t-s) 45%, #000) 95%); color: #1a1a1a; font: 700 1.3rem/1 var(--t-text); cursor: pointer; transition: transform .25s ease; }
+    .ch35-ga__cbtn:hover { transform: scale(1.1) rotate(12deg); }
+
+    @media (max-width: 520px) {
+      .ch35-ga__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .ch35-ga__btn img { min-height: 0; }
+      .ch35-ga__tile:nth-child(4) { grid-column: span 2; }
+      .ch35-ga__tile:nth-child(1), .ch35-ga__tile:nth-child(6) { grid-row: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ch35-ga *, .ch35-ga *::before, .ch35-ga *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="ch35-ga__content">
+    <h2 class="ch35-ga__title" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Mis Recuerdos</h2>
+    <p class="ch35-ga__sub" memory_type="text" memory_usage="custom" memory_key="galeria-sub">Quince años de orgullo, rosas y tradición</p>
+
+    <ul class="ch35-ga__grid" data-ch-grid>
+      <li class="ch35-ga__tile" data-ch-tile><figure class="ch35-ga__fig" memory_type="image" memory_usage="custom" memory_source="library"><button class="ch35-ga__btn" type="button" data-ch-open aria-label="Ampliar foto 1"><img src="https://loremflickr.com/600/800/quinceanera,dress?lock=3601" alt="Quinceañera con vestido de gala" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure></li>
+      <li class="ch35-ga__tile" data-ch-tile><figure class="ch35-ga__fig" memory_type="image" memory_usage="custom" memory_source="library"><button class="ch35-ga__btn" type="button" data-ch-open aria-label="Ampliar foto 2"><img src="https://loremflickr.com/800/600/red,roses?lock=3602" alt="Rosas rojas" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure></li>
+      <li class="ch35-ga__tile" data-ch-tile><figure class="ch35-ga__fig" memory_type="image" memory_usage="custom" memory_source="library"><button class="ch35-ga__btn" type="button" data-ch-open aria-label="Ampliar foto 3"><img src="https://loremflickr.com/800/600/mariachi?lock=3603" alt="Mariachi" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure></li>
+      <li class="ch35-ga__tile" data-ch-tile><figure class="ch35-ga__fig" memory_type="image" memory_usage="custom" memory_source="library"><button class="ch35-ga__btn" type="button" data-ch-open aria-label="Ampliar foto 4"><img src="https://loremflickr.com/1200/525/hacienda,mexico?lock=3604" alt="Hacienda mexicana" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure></li>
+      <li class="ch35-ga__tile" data-ch-tile><figure class="ch35-ga__fig" memory_type="image" memory_usage="custom" memory_source="library"><button class="ch35-ga__btn" type="button" data-ch-open aria-label="Ampliar foto 5"><img src="https://loremflickr.com/800/600/lace,detail?lock=3605" alt="Detalle de encaje" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure></li>
+      <li class="ch35-ga__tile" data-ch-tile><figure class="ch35-ga__fig" memory_type="image" memory_usage="custom" memory_source="library"><button class="ch35-ga__btn" type="button" data-ch-open aria-label="Ampliar foto 6"><img src="https://loremflickr.com/600/800/girl,portrait,flowers?lock=3606" alt="Retrato con flores" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure></li>
+      <li class="ch35-ga__tile" data-ch-tile><figure class="ch35-ga__fig" memory_type="image" memory_usage="custom" memory_source="library"><button class="ch35-ga__btn" type="button" data-ch-open aria-label="Ampliar foto 7"><img src="https://loremflickr.com/800/600/horse,mexico?lock=3607" alt="Caballo charro" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure></li>
+      <li class="ch35-ga__tile" data-ch-tile><figure class="ch35-ga__fig" memory_type="image" memory_usage="custom" memory_source="library"><button class="ch35-ga__btn" type="button" data-ch-open aria-label="Ampliar foto 8"><img src="https://loremflickr.com/800/600/celebration,family?lock=3608" alt="Familia celebrando" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure></li>
+    </ul>
+  </div>
+
+  <dialog class="ch35-ga__dlg" data-ch-dialog aria-label="Foto ampliada">
+    <img class="ch35-ga__big" data-mm-big alt="" />
+    <div class="ch35-ga__ctl">
+      <button class="ch35-ga__cbtn" type="button" data-ch-prev aria-label="Anterior">‹</button>
+      <button class="ch35-ga__cbtn" type="button" data-ch-close aria-label="Cerrar">×</button>
+      <button class="ch35-ga__cbtn" type="button" data-ch-next aria-label="Siguiente">›</button>
+    </div>
+  </dialog>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="galeria-charra"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* Lightbox in a <dialog> so it escapes any stacking context */
+      var dlg = root.querySelector('[data-ch-dialog]'), big = dlg && dlg.querySelector('[data-mm-big]');
+      var opens = root.querySelectorAll('[data-ch-open]'), idx = 0;
+      function show(i) {
+        idx = (i + opens.length) % opens.length;
+        var im = opens[idx].querySelector('img');
+        big.src = im.currentSrc || im.src; big.alt = im.alt;
+      }
+      if (dlg && dlg.showModal) {
+        for (var i = 0; i < opens.length; i++) (function (k) {
+          opens[k].addEventListener('click', function () { show(k); dlg.showModal(); });
+        })(i);
+        dlg.querySelector('[data-ch-close]').addEventListener('click', function () { dlg.close(); });
+        dlg.querySelector('[data-ch-prev]').addEventListener('click', function () { show(idx - 1); });
+        dlg.querySelector('[data-ch-next]').addEventListener('click', function () { show(idx + 1); });
+        dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
+        dlg.addEventListener('keydown', function (e) { if (e.key === 'ArrowLeft') show(idx - 1); if (e.key === 'ArrowRight') show(idx + 1); });
+        dlg.addEventListener('close', function () { big.removeAttribute('src'); });
+      }
+
+      if (RM || !('IntersectionObserver' in window)) return;
+      root.classList.add('ch35-ga--anim');
+      var tiles = root.querySelectorAll('[data-ch-tile]'), pending = tiles.length, n = 0;
+      var io = new IntersectionObserver(function (en) {
+        en.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          io.unobserve(e.target);
+          var t = e.target;
+          setTimeout(function () {
+            t.setAttribute('data-in', '');
+            if (--pending === 0) setTimeout(function () {
+              root.classList.remove('ch35-ga--anim');
+              for (var k = 0; k < tiles.length; k++) tiles[k].removeAttribute('data-in');
+            }, 700);
+          }, (n++ % 4) * 110);
+        });
+      }, { threshold: .2 });
+      for (var j = 0; j < tiles.length; j++) io.observe(tiles[j]);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-charra',
+      style_name: 'Charra Mexicana Galeria Botonadura',
+      descripcion: 'Galería en mosaico con marcos de oro y botones de plata en cada esquina, entrada circular por foto y lightbox propio con controles tipo concho.',
+      tags: ['galeria', 'charra', 'quinceañera', 'mexicana', 'mosaico', 'lightbox'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

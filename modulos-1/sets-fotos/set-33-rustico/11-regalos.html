@@ -1,0 +1,275 @@
+<section
+  class="rr-rg"
+  data-gemini-id="regalos-rustico"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Allura&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .rr-rg, .rr-rg *, .rr-rg *::before, .rr-rg *::after { box-sizing: border-box; }
+    .rr-rg {
+      --t-bg: var(--bg-color, #F3EDE1);
+      --t-tx: var(--text-color, #3A2B1F);
+      --t-p: var(--primary-color, #8B9E7C);
+      --t-s: var(--secondary-color, #9A7350);
+      --t-a: var(--accent-color, #EDBC68);
+      --t-display: var(--font-script, 'Allura', cursive);
+      --t-text: var(--font-heading, 'EB Garamond', Georgia, serif);
+      --t-wood: color-mix(in srgb, var(--t-s) 82%, #2b1c11);
+      --t-wood-d: color-mix(in srgb, var(--t-s) 34%, #170f09);
+      --t-sage-d: color-mix(in srgb, var(--t-p) 58%, #1d261a);
+      --t-sage-l: color-mix(in srgb, var(--t-p) 55%, var(--t-bg));
+      --t-ivory: color-mix(in srgb, var(--t-bg) 70%, #ffffff);
+      --t-twine: color-mix(in srgb, var(--t-s) 50%, #dcc7a4);
+      --kraft: color-mix(in srgb, var(--t-s) 38%, #d8bb8e);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      padding: clamp(7.5rem, 11vw, 9rem) clamp(1.25rem, 5vw, 4rem) clamp(4.5rem, 8vw, 6rem);
+      overflow: hidden;
+      background-color: var(--t-wood-d);
+      background-image: url('https://loremflickr.com/1600/1000/kraft,gift,rustic?lock=3111');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-bg);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .rr-rg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 55% 45% at 50% 55%, color-mix(in srgb, var(--t-a) 13%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-wood-d) 86%, transparent), color-mix(in srgb, var(--t-wood) 82%, transparent) 60%, color-mix(in srgb, var(--t-wood-d) 94%, transparent));
+    }
+    .rr-rg__lights { position: absolute; left: 0; top: 0; width: 100%; height: var(--lights-h, 8rem); z-index: 0; pointer-events: none; overflow: visible; }
+    .rr-rg__wire { fill: none; stroke: color-mix(in srgb, var(--t-wood-d) 75%, #000000); stroke-width: 1.3; opacity: .9; }
+    .rr-rg__halo { mix-blend-mode: screen; }
+    .rr-rg__cap { fill: color-mix(in srgb, var(--t-s) 35%, #2f261e); }
+    .rr-rg__bulb { fill: color-mix(in srgb, var(--t-a) 35%, #fffaf0); }
+    .rr-rg__grain { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mix-blend-mode: multiply; opacity: .55; will-change: transform; }
+    .rr-rg__grain { opacity: .5; }
+    .rr-rg__lights { --lights-h: 8.5rem; }
+    .rr-rg__head { position: relative; max-width: 38rem; margin: 0 auto; }
+    .rr-rg__title { margin: 0 0 .5rem; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.8rem, 7vw, 4.4rem); line-height: 1.05; color: var(--t-sage-l); }
+    .rr-rg__intro { margin: 0; font-style: italic; font-size: clamp(1.05rem, 2.3vw, 1.2rem); line-height: 1.6; color: color-mix(in srgb, var(--t-bg) 80%, transparent); }
+
+    .rr-rg__rack { position: relative; max-width: 62rem; margin: clamp(2.4rem, 5vw, 3.4rem) auto 0; padding-top: .9rem; }
+    .rr-rg__rod { position: absolute; top: 0; left: -2%; right: -2%; height: .9rem; border-radius: .45rem; background: linear-gradient(180deg, color-mix(in srgb, var(--t-s) 55%, #ecd6b4), var(--t-wood) 60%, var(--t-wood-d)); box-shadow: 0 .45rem .8rem rgba(0, 0, 0, .45); }
+    .rr-rg__tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: clamp(1.2rem, 3vw, 2.4rem); }
+    .rr-rg__tag { --drop: 2rem; position: relative; width: min(100%, 17.5rem); margin-top: var(--drop); transform-origin: 50% calc(-1 * var(--drop)); transform: rotate(var(--tilt, 0deg)); filter: drop-shadow(0 .9rem 1rem rgba(0, 0, 0, .45)); }
+    .rr-rg__tag::before { content: ''; position: absolute; left: 50%; bottom: calc(100% - 1.75rem); width: 2px; height: calc(var(--drop) + 2.7rem); margin-left: -1px; background: repeating-linear-gradient(60deg, var(--t-twine) 0 2px, color-mix(in srgb, var(--t-twine) 62%, #4d3a28) 2px 3.5px); }
+    .rr-rg__paper {
+      position: relative;
+      padding: 3.3rem 1.4rem 1.8rem;
+      color: var(--t-wood-d);
+      background:
+        radial-gradient(ellipse at 30% 8%, rgba(255, 255, 255, .28), transparent 60%),
+        repeating-linear-gradient(115deg, rgba(90, 60, 30, .05) 0 2px, transparent 2px 7px),
+        var(--kraft);
+      clip-path: polygon(20% 0, 80% 0, 100% 13%, 100% 100%, 0 100%, 0 13%);
+    }
+    .rr-rg__paper::before { content: ''; position: absolute; top: 1.3rem; left: 50%; width: .95rem; height: .95rem; margin-left: -.475rem; border-radius: 50%; background: var(--t-wood-d); box-shadow: 0 0 0 .3rem color-mix(in srgb, var(--kraft) 70%, #ffffff); }
+    .rr-rg__paper::after { content: ''; position: absolute; inset: auto .7rem .7rem; height: calc(100% - 3rem); border: 1px dashed color-mix(in srgb, var(--t-wood-d) 30%, transparent); pointer-events: none; }
+    .rr-rg__icon { width: 2.4rem; height: 2.4rem; color: var(--t-sage-d); }
+    .rr-rg__name { margin: .3rem 0 .5rem; font-family: var(--t-display); font-weight: 400; font-size: clamp(2rem, 4vw, 2.4rem); line-height: 1.1; color: var(--t-sage-d); }
+    .rr-rg__line { margin: .15rem 0; font-size: 1.04rem; line-height: 1.45; }
+
+    .rr-rg__cta { position: relative; display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-top: clamp(2.6rem, 5vw, 3.6rem); }
+    .rr-rg__btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .7rem;
+      min-height: 3.3rem;
+      padding: .75rem 1.8rem;
+      border: 0;
+      border-radius: 3px;
+      font: inherit;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--t-wood-d);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-a) 62%, #fff4dc), color-mix(in srgb, var(--t-a) 88%, var(--t-s)));
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .3), 0 .6rem 1.4rem rgba(0, 0, 0, .35), 0 0 1.6rem color-mix(in srgb, var(--t-a) 35%, transparent);
+      cursor: pointer;
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .rr-rg__btn:hover, .rr-rg__btn:focus-visible { transform: translateY(-2px); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .4), 0 .9rem 1.8rem rgba(0, 0, 0, .4), 0 0 2.8rem color-mix(in srgb, var(--t-a) 60%, transparent); outline: none; }
+    .rr-rg__btn[data-state] { cursor: default; transform: none; }
+    .rr-rg__spin { display: none; width: 1.2rem; height: 1.2rem; border-radius: 50%; border: 2px dashed var(--t-wood-d); }
+    .rr-rg__btn[data-state="busy"] .rr-rg__spin { display: inline-block; animation: rr-rg-spin .5s linear infinite; }
+    .rr-rg__done { display: flex; align-items: center; gap: 1rem; max-width: 30rem; text-align: left; }
+    .rr-rg__done[hidden] { display: none; }
+    .rr-rg__seal {
+      flex: none;
+      display: grid;
+      place-items: center;
+      width: 4.2rem;
+      height: 4.2rem;
+      border-radius: 50% 46% 52% 48%;
+      background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--t-p) 60%, #ffffff), var(--t-p) 45%, var(--t-sage-d));
+      box-shadow: inset 0 0 0 .32rem color-mix(in srgb, var(--t-sage-d) 45%, transparent), 0 .4rem .8rem rgba(0, 0, 0, .45);
+      animation: rr-rg-stamp .4s cubic-bezier(.3, 1.5, .5, 1);
+    }
+    .rr-rg__seal svg { width: 70%; height: auto; }
+    .rr-rg__done p { margin: 0; font-size: 1.12rem; line-height: 1.45; }
+    .rr-rg__done:not([hidden]) p { animation: rr-rg-fade .45s ease; }
+    @keyframes rr-rg-spin { to { transform: rotate(360deg); } }
+    @keyframes rr-rg-stamp { from { opacity: 0; transform: scale(1.9) rotate(-25deg); } to { opacity: 1; transform: none; } }
+    @keyframes rr-rg-fade { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: none; } }
+
+    @media (max-width: 62rem) {
+      .rr-rg__rod { display: none; }
+      .rr-rg__tag { --drop: 1.8rem; }
+      .rr-rg__tag::before { height: 3.4rem; }
+      .rr-rg__tag::after { content: ''; position: absolute; left: 50%; top: calc(-1 * var(--drop) - .1rem); width: .6rem; height: .6rem; margin-left: -.3rem; border-radius: 50%; background: color-mix(in srgb, var(--t-a) 50%, #6b5532); box-shadow: 0 1px 2px rgba(0, 0, 0, .5); }
+    }
+
+    .rr-rg--anim .rr-rg__tag { transition: opacity .4s ease, transform .5s cubic-bezier(.3, 1.5, .5, 1); }
+    .rr-rg--anim .rr-rg__tag:not([data-in]) { opacity: 0; transform: translateY(-1.6rem) rotate(9deg); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .rr-rg *, .rr-rg *::before, .rr-rg *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="rr-rg__grain" aria-hidden="true" focusable="false"><filter id="rr-rg-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.0035 0.075" numOctaves="4" seed="37"></feTurbulence><feColorMatrix type="matrix" values="0 0 0 0 0.17  0 0 0 0 0.10  0 0 0 0 0.05  2.6 0 0 0 -1.05"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#rr-rg-grain)"></rect></svg>
+  <svg class="rr-rg__lights" aria-hidden="true" focusable="false" data-rr-lights><defs><radialGradient id="rr-rg-glow"><stop offset="0" style="stop-color: var(--t-a); stop-opacity: 1"></stop><stop offset=".28" style="stop-color: var(--t-a); stop-opacity: .55"></stop><stop offset="1" style="stop-color: var(--t-a); stop-opacity: 0"></stop></radialGradient></defs><g data-rr-g></g></svg>
+  <header class="rr-rg__head">
+    <h2 class="rr-rg__title" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Tu presencia es nuestro regalo</h2>
+    <p class="rr-rg__intro" memory_type="text" memory_usage="custom" memory_key="regalos-intro">Si deseas tener un detalle con nosotros, aquí te dejamos algunas opciones con todo cariño.</p>
+  </header>
+  <div class="rr-rg__rack">
+    <span class="rr-rg__rod" aria-hidden="true"></span>
+    <ul class="rr-rg__tags">
+      <li class="rr-rg__tag" data-rr-tag style="--drop: 1.4rem; --tilt: -2deg">
+        <div class="rr-rg__paper">
+          <svg class="rr-rg__icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M5 13 H27 V27 H5 Z" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M3 9 H29 V13 H3 Z" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M16 9 V27" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M16 9 C12 3 7 5 10 9" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M16 9 C20 3 25 5 22 9" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path></svg>
+          <h3 class="rr-rg__name" memory_type="text" memory_usage="custom" memory_key="regalos-titulo-mesa">Mesa de regalos</h3>
+          <p class="rr-rg__line" memory_type="text" memory_usage="custom" memory_key="regalos-mesa-1">Tienda Departamental</p>
+          <p class="rr-rg__line" memory_type="text" memory_usage="custom" memory_key="regalos-mesa-2">Evento 00000000</p>
+        </div>
+      </li>
+      <li class="rr-rg__tag" data-rr-tag style="--drop: 3.6rem; --tilt: 1.5deg">
+        <div class="rr-rg__paper">
+          <svg class="rr-rg__icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M4 9 H28 V25 H4 Z" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M4 9 L16 18 L28 9" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M4 25 L13 16 M28 25 L19 16" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path></svg>
+          <h3 class="rr-rg__name" memory_type="text" memory_usage="custom" memory_key="regalos-titulo-sobres">Lluvia de sobres</h3>
+          <p class="rr-rg__line" memory_type="text" memory_usage="custom" memory_key="regalos-sobres-1">Un buzón de madera te esperará</p>
+          <p class="rr-rg__line" memory_type="text" memory_usage="custom" memory_key="regalos-sobres-2">a la entrada de la hacienda.</p>
+        </div>
+      </li>
+      <li class="rr-rg__tag" data-rr-tag style="--drop: 2.2rem; --tilt: -1deg">
+        <div class="rr-rg__paper">
+          <svg class="rr-rg__icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M4 13 L16 5 L28 13 Z" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M7 13 V23 M12 13 V23 M20 13 V23 M25 13 V23" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M4 27 H28" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M5 23 H27" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path></svg>
+          <h3 class="rr-rg__name" memory_type="text" memory_usage="custom" memory_key="regalos-titulo-transferencia">Transferencia</h3>
+          <p class="rr-rg__line" memory_type="text" memory_usage="custom" memory_key="regalos-transferencia-1">Banco Nombre · Nombre Apellido</p>
+          <p class="rr-rg__line" memory_type="text" memory_usage="custom" memory_key="regalos-transferencia-2">CLABE 000 000 00000000000 0</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="rr-rg__cta">
+    <button class="rr-rg__btn" type="button" data-rr-gift><span class="rr-rg__spin" aria-hidden="true"></span><span memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span></button>
+    <div class="rr-rg__done" data-rr-done hidden aria-live="polite">
+      <span class="rr-rg__seal" aria-hidden="true"><svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path d="M20 31 C20 22 22 15 28 9" style="fill: none; stroke: rgba(255,255,255,.55); stroke-width: 1.4; stroke-linecap: round"></path><ellipse cx="17" cy="20" rx="5" ry="4" transform="rotate(-30 17 20)" style="fill: rgba(255,255,255,.42)"></ellipse><ellipse cx="25" cy="15" rx="4.4" ry="3.5" transform="rotate(30 25 15)" style="fill: rgba(255,255,255,.42)"></ellipse><ellipse cx="22" cy="25" rx="4" ry="3.2" transform="rotate(25 22 25)" style="fill: rgba(255,255,255,.35)"></ellipse></svg></span>
+      <p memory_type="text" memory_usage="custom" memory_key="regalos-confirmacion">¡Gracias! Te enviaremos los detalles de tu regalo por mensaje.</p>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="regalos-rustico"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var HAS_IO = 'IntersectionObserver' in window;
+
+      function rrLights(svg, o) {
+        var NS = 'http://www.w3.org/2000/svg', g = svg.querySelector('[data-rr-g]'), bulbs = [], lastW = 0;
+        function mk(tag, at) { var e = document.createElementNS(NS, tag); for (var k in at) e.setAttribute(k, at[k]); g.appendChild(e); return e; }
+        function build() {
+          var r = svg.getBoundingClientRect(), w = Math.round(r.width), h = Math.round(r.height);
+          if (!w || !h || w === lastW) return;
+          lastW = w;
+          svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+          while (g.firstChild) g.removeChild(g.firstChild);
+          bulbs = [];
+          o.strands.forEach(function (s) {
+            var spans = Math.max(1, Math.round(w / (s.span || 460))), sw = w / spans, off = (s.off || 0) * sw;
+            for (var k = -1; k <= spans; k++) {
+              var x0 = k * sw + off, x1 = x0 + sw, y0 = s.y * h;
+              if (x1 < -10 || x0 > w + 10) continue;
+              var p = mk('path', { d: 'M' + x0 + ',' + y0 + ' Q' + (x0 + x1) / 2 + ',' + (y0 + 2 * s.sag * h) + ' ' + x1 + ',' + y0, 'class': o.cls + '__wire' });
+              var len = p.getTotalLength(), n = Math.max(2, Math.round(len / (s.gap || 46)));
+              for (var i = 1; i < n; i++) {
+                var pt = p.getPointAtLength(len * i / n);
+                if (pt.x < -20 || pt.x > w + 20) continue;
+                var hl = mk('circle', { cx: pt.x, cy: pt.y + 6, r: s.halo || 14, fill: 'url(#' + o.glow + ')', 'class': o.cls + '__halo' });
+                mk('rect', { x: pt.x - 1.7, y: pt.y - 1, width: 3.4, height: 4.2, rx: .8, 'class': o.cls + '__cap' });
+                mk('circle', { cx: pt.x, cy: pt.y + 6, r: s.bulb || 2.8, 'class': o.cls + '__bulb' });
+                bulbs.push({ el: hl, ph: Math.random() * 6.283, sp: .5 + Math.random() * 1.6 });
+              }
+            }
+          });
+        }
+        build();
+        if ('ResizeObserver' in window) new ResizeObserver(function () { build(); }).observe(svg);
+        return { tick: function (t) {
+          for (var i = 0; i < bulbs.length; i++) { var b = bulbs[i], v = Math.sin(t * .001 * b.sp + b.ph) * .5 + .5; b.el.style.opacity = (.42 + .58 * v * v).toFixed(3); }
+        } };
+      }
+      function rrLoop(el, fn) {
+        var raf = 0, vis = false;
+        function f(t) { fn(t); raf = requestAnimationFrame(f); }
+        function upd() { var on = vis && !document.hidden; if (on && !raf) raf = requestAnimationFrame(f); if (!on && raf) { cancelAnimationFrame(raf); raf = 0; } }
+        new IntersectionObserver(function (e) { vis = e[0].isIntersecting; upd(); }).observe(el);
+        document.addEventListener('visibilitychange', upd);
+      }
+      var L = rrLights(root.querySelector('[data-rr-lights]'), { cls: 'rr-rg', glow: 'rr-rg-glow', strands: [{ y: .05, sag: .22, span: 420, gap: 44 }, { y: .16, sag: .12, span: 560, gap: 52, off: .5, halo: 10, bulb: 2.2 }] });
+      var btn = root.querySelector('[data-rr-gift]'), done = root.querySelector('[data-rr-done]');
+      btn.addEventListener('click', function () {
+        if (btn.hasAttribute('data-state')) return;
+        btn.setAttribute('data-state', 'busy');
+        btn.setAttribute('aria-busy', 'true');
+        setTimeout(function () {
+          btn.setAttribute('data-state', 'done');
+          btn.removeAttribute('aria-busy');
+          btn.disabled = true;
+          done.hidden = false;
+        }, RM ? 300 : 1100);
+      });
+
+      if (RM || !HAS_IO) return;   /* reduced motion: static tags and lights */
+      rrLoop(root, L.tick);
+      var tags = [].slice.call(root.querySelectorAll('[data-rr-tag]'));
+      root.classList.add('rr-rg--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          io.disconnect();
+          tags.forEach(function (t, i) { setTimeout(function () { t.setAttribute('data-in', ''); }, 120 + i * 170); });
+          setTimeout(function () { root.classList.remove('rr-rg--anim'); tags.forEach(function (t) { t.removeAttribute('data-in'); }); }, 120 + tags.length * 170 + 800);
+        }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-rustico',
+      style_name: 'Romance Rústico Regalos',
+      descripcion: 'Mesa de regalos rústica: etiquetas de papel kraft colgadas con yute de una vara de madera bajo luces de cadena, y botón Agendar regalo que se confirma con un sello de lacre.',
+      tags: ['regalos', 'boda', 'rustico', 'kraft', 'luces'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>

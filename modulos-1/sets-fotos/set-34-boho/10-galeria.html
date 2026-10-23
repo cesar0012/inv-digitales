@@ -1,0 +1,212 @@
+<section
+  class="bh-ga"
+  data-gemini-id="galeria-boho"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&display=swap');
+
+    .bh-ga, .bh-ga *, .bh-ga *::before, .bh-ga *::after { box-sizing: border-box; }
+    .bh-ga {
+      --t-bg: var(--bg-color, #F3E7D7);
+      --t-tx: var(--text-color, #4A2B1F);
+      --t-p: var(--primary-color, #C2653F);
+      --t-s: var(--secondary-color, #D7A49A);
+      --t-a: var(--accent-color, #D29E32);
+      --t-display: var(--font-script, 'Caveat', 'Segoe Print', cursive);
+      --t-text: var(--font-heading, 'Fraunces', Georgia, serif);
+      --t-sand: color-mix(in srgb, var(--t-bg) 60%, var(--t-a));
+      --t-cream: color-mix(in srgb, var(--t-bg) 72%, white);
+      --t-clay: color-mix(in srgb, var(--t-p) 74%, var(--t-tx));
+      --t-wood: color-mix(in srgb, var(--t-p) 40%, var(--t-tx));
+      --t-rosewood: color-mix(in srgb, var(--t-s) 68%, var(--t-p));
+      --t-taupe: color-mix(in srgb, var(--t-tx) 34%, var(--t-bg));
+      --t-soft: color-mix(in srgb, var(--t-tx) 76%, var(--t-bg));
+      --t-cord: color-mix(in srgb, var(--t-sand) 72%, var(--t-wood));
+      --panel: color-mix(in srgb, var(--t-bg) 86%, transparent);
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background-color: var(--t-bg);
+            color: var(--t-tx);
+      font-family: var(--t-text);
+      font-optical-sizing: auto;
+      
+    }
+    .bh-ga .bhx-grain { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mix-blend-mode: multiply; opacity: .28; }
+    .bh-ga svg { overflow: visible; }
+    .bh-ga :where(p), .bh-ga :where(h1), .bh-ga :where(h2), .bh-ga :where(h3), .bh-ga :where(h4), .bh-ga :where(figure), .bh-ga :where(ul), .bh-ga :where(ol) { margin: 0; }
+    .bh-ga :where(h2[class$='__title']) { margin-bottom: .22em; }
+    .bh-ga :where(img) { background: var(--t-sand); color: transparent; }
+
+    .bh-ga { padding: clamp(3.5rem, 8vw, 6.5rem) clamp(1rem, 5vw, 5rem); }
+    .bh-ga__head { position: relative; display: flex; align-items: flex-end; gap: 1rem; max-width: 66rem; margin: 0 auto clamp(1.8rem, 4vw, 3rem); }
+    .bh-ga__head svg { width: 4.5rem; height: auto; flex: none; }
+    .bh-ga__title { font-family: var(--t-display); font-weight: 600; font-size: clamp(2.8rem, 6vw, 4.6rem); line-height: .9; color: var(--t-clay); }
+    .bh-ga__intro { margin-top: .4rem; color: var(--t-soft); }
+    .bh-ga__grid {
+      list-style: none; padding: 0; margin: 0 auto; max-width: 66rem;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+      grid-auto-rows: clamp(6.5rem, 10vw, 8.5rem); grid-auto-flow: dense; gap: clamp(.6rem, 1.5vw, 1rem);
+    }
+    .bh-ga__tile { position: relative; grid-row: span 2; cursor: zoom-in; transform: rotate(var(--r, 0deg)); transition: transform .35s cubic-bezier(.3, 1.5, .5, 1); outline: none; }
+    .bh-ga__tile[data-sz="tall"] { grid-row: span 3; }
+    .bh-ga__tile[data-sz="wide"] { grid-column: span 2; }
+    .bh-ga__tile:nth-child(3n) { --r: -1.2deg; }
+    .bh-ga__tile:nth-child(4n + 1) { --r: .9deg; }
+    .bh-ga__tile:hover, .bh-ga__tile:focus-visible { transform: rotate(0deg) scale(1.03); z-index: 2; }
+    .bh-ga__tile:focus-visible .bh-ga__fig { box-shadow: 0 0 0 3px var(--t-bg), 0 0 0 5px var(--t-p); }
+    .bh-ga__fig { height: 100%; overflow: hidden; border-radius: 1rem; background: var(--t-sand); box-shadow: 0 14px 24px -18px var(--t-wood); }
+    .bh-ga__tile[data-sz="tall"] .bh-ga__fig { border-radius: 999px 999px 1rem 1rem; }
+    .bh-ga__tile:nth-child(5n + 2) .bh-ga__fig { border-radius: 2.4rem .8rem 2.4rem .8rem; }
+    .bh-ga__tile:nth-child(7) .bh-ga__fig { border-radius: 50% 50% 46% 54% / 46% 54% 46% 54%; }
+    .bh-ga__fig img { display: block; width: 100%; height: auto; min-height: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: filter .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .bh-ga__box { border: 0; padding: 0; margin: auto; background: transparent; max-width: min(92vw, 68rem); max-height: 92vh; overflow: visible; color: var(--t-cream, white); }
+    .bh-ga__box::backdrop { background: color-mix(in srgb, var(--t-tx, rgb(43 26 18)) 82%, transparent); }
+    .bh-ga__boxin { position: relative; display: grid; place-items: center; }
+    .bh-ga__big { display: block; max-width: 100%; max-height: 84vh; width: auto; height: auto; border-radius: 1.2rem; object-fit: contain; opacity: 0; transform: scale(.94) rotate(-1deg); transition: opacity .35s ease, transform .45s cubic-bezier(.3, 1.4, .5, 1); background: var(--t-sand, tan); min-width: 12rem; min-height: 12rem; }
+    .bh-ga__box[data-show] .bh-ga__big { opacity: 1; transform: none; }
+    .bh-ga__nav { position: absolute; top: 50%; width: 3rem; height: 3rem; margin-top: -1.5rem; padding: 0; border: 0; border-radius: 50%; display: grid; place-items: center; justify-content: center; cursor: pointer; background: var(--t-cream, white); color: var(--t-clay, brown); transition: transform .3s ease; }
+    .bh-ga__nav:hover { transform: scale(1.08); }
+    .bh-ga__nav svg { width: 1.3rem; height: 1.3rem; }
+    .bh-ga__nav[data-dir="-1"] { left: -1.5rem; }
+    .bh-ga__nav[data-dir="1"] { right: -1.5rem; }
+    .bh-ga__close { position: absolute; top: -1.2rem; right: -1.2rem; width: 2.6rem; height: 2.6rem; padding: 0; border: 0; border-radius: 50%; display: grid; place-items: center; justify-content: center; cursor: pointer; background: var(--t-p, sienna); color: var(--t-cream, white); }
+    .bh-ga__close svg { width: 1.1rem; height: 1.1rem; }
+
+    .bh-ga--anim .bh-ga__fig img { filter: sepia(1) blur(8px) brightness(1.25); transform: scale(1.08); }
+    .bh-ga--anim .bh-ga__tile { opacity: 0; }
+    .bh-ga--anim.is-in .bh-ga__tile { opacity: 1; transition: opacity .4s ease, transform .35s cubic-bezier(.3, 1.5, .5, 1); transition-delay: calc(var(--i) * 90ms); }
+    .bh-ga--anim.is-in .bh-ga__fig img { filter: none; transform: none; transition-delay: calc(var(--i) * 90ms + 120ms); }
+
+    @media (max-width: 560px) {
+      .bh-ga__nav[data-dir="-1"] { left: .4rem; }
+      .bh-ga__nav[data-dir="1"] { right: .4rem; }
+      .bh-ga__close { right: .4rem; top: .4rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bh-ga *, .bh-ga *::before, .bh-ga *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+  <svg class="bhx-grain" aria-hidden="true" focusable="false"><filter id="bh32-gr-ga"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .32 0 0 0 0 .2 0 0 0 0 .12 0 0 0 .55 0"/></filter><rect width="100%" height="100%" filter="url(#bh32-gr-ga)"/></svg>
+  <header class="bh-ga__head">
+    <svg viewBox="0 0 80 115" aria-hidden="true" focusable="false"><g transform="translate(36 110) rotate(-8)"><path d="M0 0Q-0.6 -55 -4.7 -100" style="fill:none;stroke:var(--t-wood);stroke-width:1.5;stroke-linecap:round"/><path d="M-5.7 -44.2 L-8.2 -49 L-10.1 -53.8 L-11.7 -58.4 L-12.8 -63.1 L-13.4 -67.7 L-13.6 -72.4 L-13.4 -76.9 L-12.7 -81.5 L-11.6 -86.1 L-10.1 -90.7 L-8 -95.3 L-4.7 -100 L-5.5 -109 L-4.7 -100 L-0.5 -95.9 L2.2 -91.7 L4.5 -87.4 L6.3 -82.9 L7.6 -78.4 L8.5 -73.8 L8.8 -69.1 L8.7 -64.3 L8.1 -59.5 L7.1 -54.6 L5.5 -49.6 L3.5 -44.6Z" style="fill:var(--t-sand);opacity:.62"/><path d="M-1.4 -50.8Q4.5 -55.7 5.6 -63.5M-1.5 -52.7Q-6.5 -57.5 -8 -66.2M-1.6 -55.4Q-8.5 -61.5 -10.6 -72.3M-1.7 -57.7Q4.3 -62.6 5.4 -70.5M-1.8 -59Q-9.5 -66.2 -11.9 -79.1M-2 -63.1Q-9.4 -68.4 -11.6 -78M-2.1 -64.8Q5.4 -73.6 6.5 -87.9M-2.4 -69.7Q6 -80.1 7.1 -97.1M-2.7 -75.1Q-9.4 -79.9 -11.5 -88.6M-2.9 -77.6Q4.4 -84.5 5.5 -95.7M-3.1 -80.1Q1.9 -85.5 2.5 -94.3M-3.2 -82.7Q-9.2 -87.4 -11.2 -96.1M-3.4 -84.4Q3.2 -92.4 4 -105.2M-3.6 -87.5Q2.1 -93.9 2.7 -104.2M-3.8 -90Q-7.5 -92.3 -8.7 -96.8M-4 -92Q0.3 -97.5 0.7 -106.3M-4.2 -95.1Q-1.7 -98.4 -1.5 -103.6M-4.3 -96.1Q-7.1 -98 -8 -101.5" style="fill:none;stroke:var(--t-sand);stroke-width:2;stroke-linecap:round"/><path d="M-1.1 -45.2Q-4.5 -47.5 -5.5 -51.5M-1.2 -47.1Q3.3 -52.6 4.1 -61.6M-1.3 -49.1Q-5.7 -52.9 -7 -59.6M-1.5 -53.5Q5 -59.9 6.1 -70.4M-1.9 -61.1Q5 -68.6 6.1 -81M-2.2 -66.8Q-11.6 -76.1 -14.7 -92.9M-2.5 -71.6Q-10.9 -78.8 -13.6 -91.8M-2.6 -73.3Q4.4 -81.6 5.4 -95.2M-3 -79Q-10.8 -86.5 -13.4 -100M-3.4 -85Q-10.7 -89.7 -13.1 -98.4M-4 -92.2Q-8.2 -94.9 -9.6 -99.9M-4.5 -98Q-3.2 -99.6 -3.1 -102.2" style="fill:none;stroke:var(--t-cream);stroke-width:1.2;stroke-linecap:round;opacity:.9"/></g><g transform="translate(42 110) rotate(18)"><path d="M0 0Q-0.8 -46.2 -7 -84" style="fill:none;stroke:var(--t-wood);stroke-width:1.5;stroke-linecap:round"/><path d="M-5.5 -37 L-7.7 -41 L-9.4 -44.9 L-10.9 -48.8 L-12 -52.6 L-12.7 -56.5 L-13 -60.3 L-13 -64.2 L-12.7 -68 L-12 -71.9 L-11 -75.9 L-9.5 -79.8 L-7 -84 L-8.2 -91.4 L-7 -84 L-3.3 -80.8 L-0.8 -77.4 L1.3 -73.8 L3 -70.1 L4.4 -66.3 L5.3 -62.4 L5.8 -58.5 L5.9 -54.4 L5.6 -50.3 L4.9 -46.1 L3.7 -41.9 L2.2 -37.6Z" style="fill:var(--t-sand);opacity:.62"/><path d="M-1.8 -39.4Q1.3 -42.2 1.8 -46.7M-1.9 -41.2Q-6.8 -45.7 -8.5 -53.9M-2.3 -45.9Q-7 -49.8 -8.6 -57.1M-3 -53.5Q-8.4 -57.6 -10.3 -65.3M-3.8 -60.7Q-11.9 -66.6 -14.9 -77.8M-4.6 -67.2Q-11.8 -72.6 -14.7 -83.2M-5.2 -71.5Q-10.8 -75.3 -13.1 -82.8M-5.6 -74.9Q-9.3 -77.5 -10.8 -82.5M-5.8 -76.2Q-2.1 -80.3 -2 -86.6M-6.6 -81.1Q-5.4 -82.6 -5.4 -84.7M-6.8 -82.4Q-7.8 -83.2 -8.3 -84.7" style="fill:none;stroke:var(--t-sand);stroke-width:2;stroke-linecap:round"/><path d="M-1.7 -38.1Q-4.1 -40.2 -4.9 -44M-2.2 -44Q2.1 -47.8 2.7 -53.7M-2.4 -46.5Q2 -51.6 2.5 -59.8M-2.6 -48.4Q-6.8 -51.5 -8.3 -57.3M-2.8 -50.9Q1.6 -55.6 2 -63M-3.3 -55.6Q2.7 -61.3 3.3 -70.1M-3.4 -57.4Q-10.3 -62.6 -12.9 -72.6M-3.5 -57.9Q1 -62.9 1.3 -70.8M-3.9 -61.6Q1.3 -68.4 1.5 -79.1M-4.1 -63.4Q-10.2 -67.7 -12.6 -76.1M-4.4 -66Q-0.3 -71.8 -0.3 -80.9M-4.9 -69.6Q-1 -73.4 -0.7 -79.1M-5.5 -73.7Q-2 -77.3 -1.8 -82.6M-6.2 -78.8Q-9.6 -81.1 -11.1 -85.7" style="fill:none;stroke:var(--t-cream);stroke-width:1.2;stroke-linecap:round;opacity:.9"/></g><g transform="translate(38 84) rotate(29.9)"><path d="M0 0Q-1.1 -6.2 0.5 -10.2Q1.7 -6.1 0 0ZM0 0Q1.1 -5.9 3.8 -8.9Q3.5 -4.9 0 0ZM0 0Q4 -4.4 7.8 -5.5Q5.4 -2.3 0 0ZM0 0Q5.4 -2.7 9.5 -2.3Q6 -0.1 0 0ZM0 0Q6.3 -0.1 9.9 2.1Q5.7 2.6 0 0ZM0 0Q5.5 2.7 7.7 6.2Q3.8 4.8 0 0ZM0 0Q3.9 4.4 4.6 8.4Q1.6 5.7 0 0ZM0 0Q1.9 6.7 0.6 11.2Q-1.1 6.8 0 0ZM0 0Q-1.7 6.7 -5 9.9Q-4.4 5.3 0 0ZM0 0Q-4.2 5.7 -8.6 7.6Q-6.2 3.4 0 0ZM0 0Q-5.8 2.8 -10.1 2.3Q-6.4 0 0 0ZM0 0Q-6.3 -0.3 -9.8 -2.7Q-5.6 -3 0 0ZM0 0Q-5.7 -3.1 -7.8 -6.8Q-3.8 -5.2 0 0ZM0 0Q-4.6 -5.4 -5.3 -10.2Q-1.8 -6.9 0 0Z" style="fill:var(--t-p)"/><path d="M0 0Q0 -5 2.1 -7.7Q2.5 -4.3 0 0ZM0 0Q2 -3.8 4.7 -5Q3.6 -2.3 0 0ZM0 0Q4.2 -1.9 7.4 -1.2Q4.6 0.5 0 0ZM0 0Q4.5 0.3 6.9 2.3Q3.7 2.5 0 0ZM0 0Q3.2 2.6 4 5.4Q1.5 3.9 0 0ZM0 0Q1.6 4.4 0.6 7.5Q-0.8 4.6 0 0ZM0 0Q-1.3 4.3 -3.8 6.2Q-3.3 3.1 0 0ZM0 0Q-3.2 2.9 -6.2 3.2Q-4.2 0.9 0 0ZM0 0Q-4.5 0.7 -7.2 -0.8Q-4.2 -1.6 0 0ZM0 0Q-3.8 -1.5 -5.4 -4Q-2.6 -3.2 0 0ZM0 0Q-2.9 -3.9 -3 -7.3Q-0.6 -4.8 0 0Z" style="fill:var(--t-rosewood)"/><circle r="3" style="fill:var(--t-a)"/><circle r="1.4" style="fill:var(--t-wood);opacity:.55"/></g></svg>
+    <div>
+      <h2 class="bh-ga__title" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Momentos</h2>
+      <p class="bh-ga__intro" memory_type="text" memory_usage="custom" memory_key="galeria-intro">Un poco de nosotros antes del gran día. Toca una foto para verla grande.</p>
+    </div>
+  </header>
+  <ul class="bh-ga__grid" data-ga-grid>
+      <li class="bh-ga__tile" data-sz="tall" style="--i:0" tabindex="0" role="button" aria-label="Ver foto 1" data-ga-item><figure class="bh-ga__fig" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/600/900/boho,wedding?lock=3301" alt="Momento 1 de la pareja" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></figure></li>
+      <li class="bh-ga__tile" data-sz="wide" style="--i:1" tabindex="0" role="button" aria-label="Ver foto 2" data-ga-item><figure class="bh-ga__fig" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/900/600/boho,wedding?lock=3302" alt="Momento 2 de la pareja" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></figure></li>
+      <li class="bh-ga__tile" style="--i:2" tabindex="0" role="button" aria-label="Ver foto 3" data-ga-item><figure class="bh-ga__fig" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/700/700/boho,wedding?lock=3303" alt="Momento 3 de la pareja" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></figure></li>
+      <li class="bh-ga__tile" style="--i:3" tabindex="0" role="button" aria-label="Ver foto 4" data-ga-item><figure class="bh-ga__fig" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/700/700/boho,wedding?lock=3304" alt="Momento 4 de la pareja" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></figure></li>
+      <li class="bh-ga__tile" data-sz="tall" style="--i:4" tabindex="0" role="button" aria-label="Ver foto 5" data-ga-item><figure class="bh-ga__fig" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/600/900/boho,wedding?lock=3305" alt="Momento 5 de la pareja" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></figure></li>
+      <li class="bh-ga__tile" style="--i:5" tabindex="0" role="button" aria-label="Ver foto 6" data-ga-item><figure class="bh-ga__fig" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/700/700/boho,wedding?lock=3306" alt="Momento 6 de la pareja" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></figure></li>
+      <li class="bh-ga__tile" data-sz="wide" style="--i:6" tabindex="0" role="button" aria-label="Ver foto 7" data-ga-item><figure class="bh-ga__fig" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/900/600/boho,wedding?lock=3307" alt="Momento 7 de la pareja" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></figure></li>
+      <li class="bh-ga__tile" style="--i:7" tabindex="0" role="button" aria-label="Ver foto 8" data-ga-item><figure class="bh-ga__fig" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/700/700/boho,wedding?lock=3308" alt="Momento 8 de la pareja" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></figure></li>
+  </ul>
+  <dialog class="bh-ga__box" data-ga-box aria-label="Foto ampliada">
+    <div class="bh-ga__boxin">
+      <img class="bh-ga__big" data-ga-big data-mm-big alt="" />
+      <button class="bh-ga__nav" type="button" data-dir="-1" data-ga-nav aria-label="Foto anterior"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" style="fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"/></svg></button>
+      <button class="bh-ga__nav" type="button" data-dir="1" data-ga-nav aria-label="Foto siguiente"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" style="fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"/></svg></button>
+      <button class="bh-ga__close" type="button" data-ga-close aria-label="Cerrar"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" style="fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"/></svg></button>
+    </div>
+  </dialog>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="galeria-boho"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var HAS_IO = 'IntersectionObserver' in window;
+      /* rAF loop that runs only while the module is on screen and the tab is visible */
+      function loop(el, draw) {
+        var on = false, vis = !HAS_IO, id = 0;
+        function tick(t) { if (!on) return; draw(t); id = requestAnimationFrame(tick); }
+        function sync() {
+          var want = vis && !document.hidden;
+          if (want && !on) { on = true; id = requestAnimationFrame(tick); }
+          else if (!want && on) { on = false; cancelAnimationFrame(id); }
+        }
+        if (HAS_IO) new IntersectionObserver(function (e) { vis = e[e.length - 1].isIntersecting; sync(); }).observe(el);
+        document.addEventListener('visibilitychange', sync);
+        sync();
+      }
+      /* Entrance: states exist only while the --anim class is on; removed afterwards */
+      function entrance(cls, o) {
+        o = o || {};
+        if (RM || !HAS_IO) { if (o.done) o.done(); return; }
+        root.classList.add(cls + '--anim');
+        var io = new IntersectionObserver(function (en) {
+          var e = en[en.length - 1];
+          if (e.isIntersecting && e.intersectionRatio >= (o.r || .18)) {
+            io.disconnect();
+            requestAnimationFrame(function () { root.classList.add('is-in'); if (o.on) o.on(); });
+            setTimeout(function () { root.classList.remove(cls + '--anim', 'is-in'); if (o.done) o.done(); }, o.ms || 1800);
+          }
+        }, { threshold: [0, .08, .12, .18, .25, .35, .5] });
+        io.observe(root);
+      }
+      function themeColor(expr) {
+        var s = document.createElement('span');
+        s.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden;color:' + expr;
+        root.appendChild(s);
+        var c = getComputedStyle(s).color; root.removeChild(s); return c;
+      }
+
+      var tiles = [].slice.call(root.querySelectorAll('[data-ga-item]'));
+      var box = root.querySelector('[data-ga-box]');
+      var big = root.querySelector('[data-ga-big]');
+      var cur = 0;
+      function srcOf(i) { var im = tiles[i].querySelector('img'); return im ? (im.currentSrc || im.src) : ''; }
+      function show(i) {
+        cur = (i + tiles.length) % tiles.length;
+        box.removeAttribute('data-show');
+        big.src = srcOf(cur).replace(/\/(\d+)\/(\d+)\//, function (m, w, h) { return '/' + (w * 2) + '/' + (h * 2) + '/'; });
+        var im = tiles[cur].querySelector('img'); big.alt = im ? im.alt : '';
+        requestAnimationFrame(function () { requestAnimationFrame(function () { box.setAttribute('data-show', ''); }); });
+      }
+      function open(i) {
+        if (!box) return;
+        if (typeof box.showModal === 'function') { if (!box.open) box.showModal(); } else box.setAttribute('open', '');
+        show(i);
+      }
+      function close() { box.removeAttribute('data-show'); if (typeof box.close === 'function') box.close(); else box.removeAttribute('open'); }
+      tiles.forEach(function (t, i) {
+        t.addEventListener('click', function () { open(i); });
+        t.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); } });
+      });
+      [].slice.call(root.querySelectorAll('[data-ga-nav]')).forEach(function (b) {
+        b.addEventListener('click', function () { show(cur + (+b.getAttribute('data-dir'))); });
+      });
+      var cl = root.querySelector('[data-ga-close]'); if (cl) cl.addEventListener('click', close);
+      if (box) {
+        box.addEventListener('click', function (e) { if (e.target === box) close(); });
+        box.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') show(cur + 1); if (e.key === 'ArrowLeft') show(cur - 1); });
+        var sx = null;
+        box.addEventListener('pointerdown', function (e) { sx = e.clientX; });
+        box.addEventListener('pointerup', function (e) { if (sx !== null && Math.abs(e.clientX - sx) > 50) show(cur + (e.clientX < sx ? 1 : -1)); sx = null; });
+      }
+      entrance('bh-ga', { r: .12, ms: 2000 });
+
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-boho',
+      style_name: 'Boho Chic Galería Revelado',
+      descripcion: 'Galería en mosaico libre con formas de arco y orgánicas; las fotos se revelan como película al entrar y se abren en un visor propio con flechas y deslizamiento.',
+      tags: ['galeria', 'boda', 'boho', 'fotos', 'lightbox'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

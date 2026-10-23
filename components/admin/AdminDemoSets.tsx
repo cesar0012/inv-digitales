@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import {
   Package, Upload, Loader2, Download, ExternalLink, Trash2, AlertCircle, CheckCircle2,
-  Monitor, Smartphone, Image as ImageIcon, Palette, Zap, FileCode2, FolderOpen, FileArchive, Eye
+  Monitor, Smartphone, Image as ImageIcon, Palette, Zap, FileCode2, FolderOpen, FileArchive, Eye, Layers
 } from 'lucide-react';
 
 const API_BASE = `${window.location.origin.replace(':3000', ':3001')}/api`;
@@ -176,6 +176,29 @@ export const AdminDemoSets: React.FC = () => {
     try {
       descargarArchivo(await fetchBatchFile(lote.batchId, lote.zip.filename), lote.zip.filename);
     } catch (e) { setError((e as Error).message); }
+  };
+
+  const [importandoRack, setImportandoRack] = useState(false);
+  const [rackMsg, setRackMsg] = useState<string | null>(null);
+  const importarAlRack = async () => {
+    const carpetaBase = modo === 'carpeta' ? carpeta.trim() : 'modulos-1/sets-fotos';
+    setImportandoRack(true);
+    setRackMsg(null);
+    try {
+      const res = await fetch(`${API_BASE}/demo-set/importar-rack`, {
+        method: 'POST',
+        headers: { ...authHeaders(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ carpeta: carpetaBase })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+      setRackMsg(`${data.importados} módulos de ${data.sets} sets importados al rack modular (${data.totalSf} módulos sf-* en total).`);
+    } catch (e) {
+      setRackMsg(null);
+      setError((e as Error).message);
+    } finally {
+      setImportandoRack(false);
+    }
   };
 
   const descargarDemoLote = async (d: LoteDemo) => {
@@ -451,12 +474,27 @@ export const AdminDemoSets: React.FC = () => {
             </span>
           </div>
 
-          <button
-            onClick={descargarLoteZip}
-            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-medium rounded-xl shadow-lg shadow-pink-500/25 hover:from-pink-600 hover:to-rose-600 transition-all text-sm"
-          >
-            <Download className="w-4 h-4" /> Descargar ZIP con todos los demos
-          </button>
+          <div className="flex flex-wrap gap-3">
+            <button
+              onClick={descargarLoteZip}
+              className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-pink-500 to-rose-500 text-white font-medium rounded-xl shadow-lg shadow-pink-500/25 hover:from-pink-600 hover:to-rose-600 transition-all text-sm"
+            >
+              <Download className="w-4 h-4" /> Descargar ZIP con todos los demos
+            </button>
+            <button
+              onClick={importarAlRack}
+              disabled={importandoRack}
+              className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-violet-500 text-white font-medium rounded-xl shadow-lg shadow-indigo-500/25 hover:from-indigo-600 hover:to-violet-600 disabled:from-gray-300 disabled:to-gray-300 transition-all text-sm"
+            >
+              {importandoRack ? <Loader2 className="w-4 h-4 animate-spin" /> : <Layers className="w-4 h-4" />}
+              {importandoRack ? 'Importando al rack…' : 'Importar todos los sets al rack modular'}
+            </button>
+          </div>
+          {rackMsg && (
+            <div className="flex items-start gap-2 bg-indigo-50 border border-indigo-100 text-indigo-700 rounded-xl p-3 text-sm">
+              <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0" /> {rackMsg}
+            </div>
+          )}
 
           <div className="border border-gray-100 rounded-xl overflow-hidden">
             <table className="w-full text-sm">

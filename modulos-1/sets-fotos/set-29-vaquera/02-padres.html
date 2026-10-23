@@ -1,0 +1,186 @@
+<section
+  class="vq-pad"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+<i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:url('https://loremflickr.com/1920/1080/ranch,desert?lock=402') center/cover;"></i><i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:color-mix(in srgb, var(--bg-color,#1d1a24) 88%, transparent);"></i>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Rye&family=IM+Fell+English:ital@0;1&display=swap');
+
+    .vq-pad, .vq-pad *, .vq-pad *::before, .vq-pad *::after { box-sizing: border-box; }
+    .vq-pad {
+      --t-bg: var(--bg-color, #24140c);
+      --t-tx: var(--text-color, #f4e7cf);
+      --t-p: var(--primary-color, #c99a3e);
+      --t-s: var(--secondary-color, #7a4a2a);
+      --t-a: var(--accent-color, #a3302a);
+      --t-display: var(--font-script, 'Rye', serif);
+      --t-text: var(--font-heading, 'IM Fell English', Georgia, serif);
+      --rope-a: color-mix(in srgb, var(--t-p) 70%, var(--t-tx));
+      --rope-b: color-mix(in srgb, var(--t-p) 50%, var(--t-bg));
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image:
+        radial-gradient(60% 50% at 50% 0%, color-mix(in srgb, var(--t-s) 50%, transparent), transparent 70%),
+        radial-gradient(40% 40% at 0% 100%, color-mix(in srgb, var(--t-a) 16%, transparent), transparent 70%),
+        repeating-radial-gradient(circle at 50% 120%, transparent 0 22px, color-mix(in srgb, var(--t-p) 6%, transparent) 22px 23px);
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .vq-pad__corner { position: absolute; width: clamp(6rem, 16vw, 11rem); height: auto; opacity: .4; pointer-events: none; z-index: -1; }
+    .vq-pad__corner--tl { top: 1rem; left: 1rem; }
+    .vq-pad__corner--br { bottom: 1rem; right: 1rem; transform: rotate(180deg); }
+    .vq-pad__content { width: min(100%, 60rem); }
+    .vq-pad__eyebrow { margin: 0; font-style: italic; font-size: clamp(1.1rem, 2.4vw, 1.4rem); color: var(--t-p); }
+    .vq-pad__title { margin: .3rem 0 .8rem; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.05; }
+    .vq-pad__text { margin: 0 auto; max-width: 34rem; font-size: clamp(1.05rem, 2vw, 1.2rem); line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 85%, var(--t-p)); }
+
+    .vq-pad__grid { list-style: none; margin: clamp(2.5rem, 6vw, 4rem) 0 0; padding: 0; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: clamp(1.5rem, 4vw, 3rem); }
+    .vq-pad__person { display: grid; justify-items: center; gap: .5rem; }
+    .vq-pad__ring {
+      position: relative;
+      width: clamp(10rem, 22vw, 13.5rem);
+      padding: 9px;
+      border-radius: 50%;
+      background: repeating-conic-gradient(from 0deg, var(--rope-a) 0 5deg, var(--rope-b) 5deg 10deg);
+      box-shadow: 0 18px 40px -16px color-mix(in srgb, var(--t-bg) 95%, transparent);
+    }
+    .vq-pad__figure { margin: 0; border-radius: 50%; overflow: hidden; border: 4px solid var(--t-bg); background: linear-gradient(140deg, var(--t-s), color-mix(in srgb, var(--t-s) 40%, var(--t-bg))); }
+    .vq-pad__figure img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; color: transparent; filter: sepia(.25) saturate(1.05); }
+    .vq-pad__knot { position: absolute; left: 50%; bottom: -1.1rem; width: 2.6rem; height: auto; transform: translateX(-50%); filter: drop-shadow(0 3px 4px color-mix(in srgb, var(--t-bg) 80%, transparent)); }
+    .vq-pad__name { margin: 1.3rem 0 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(1.35rem, 2.8vw, 1.8rem); line-height: 1.15; }
+    .vq-pad__role { margin: 0; font-style: italic; font-size: 1.1rem; color: var(--t-p); }
+
+    .vq-pad__center { display: grid; justify-items: center; gap: .6rem; }
+    .vq-pad__vrope { width: 5px; height: clamp(4rem, 10vw, 7rem); border-radius: 3px; background: repeating-linear-gradient(30deg, var(--rope-a) 0 3px, var(--rope-b) 3px 6px); }
+    .vq-pad__rose { width: 2.4rem; height: 2.4rem; }
+
+    /* Entrance: the rope rings "tie" around each portrait */
+    .vq-pad--anim .vq-pad__head { opacity: 0; transition: opacity .45s ease; }
+    .vq-pad--anim .vq-pad__ring { opacity: 0; transform: rotate(-150deg) scale(.6); transition: opacity .35s ease, transform .5s cubic-bezier(.2, .9, .3, 1.15); }
+    .vq-pad--anim .vq-pad__figure { transform: rotate(150deg); transition: transform .5s cubic-bezier(.2, .9, .3, 1.15); }
+    .vq-pad--anim .vq-pad__name, .vq-pad--anim .vq-pad__role { opacity: 0; transform: translateX(var(--vq-dx, -18px)); transition: opacity .4s ease, transform .45s ease; }
+    .vq-pad--anim .vq-pad__person:last-child { --vq-dx: 18px; }
+    .vq-pad--anim .vq-pad__vrope { transform: scaleY(0); transition: transform .5s ease .35s; }
+    .vq-pad--anim .vq-pad__rose { opacity: 0; transform: scale(.2); transition: opacity .3s ease, transform .45s cubic-bezier(.3, 1.5, .5, 1); transition-delay: .7s; }
+    .vq-pad--anim .vq-pad__person:first-child .vq-pad__ring, .vq-pad--anim .vq-pad__person:first-child .vq-pad__figure { transition-delay: .2s; }
+    .vq-pad--anim .vq-pad__person:last-child .vq-pad__ring, .vq-pad--anim .vq-pad__person:last-child .vq-pad__figure { transition-delay: .45s; }
+    .vq-pad--anim .vq-pad__person:first-child .vq-pad__name, .vq-pad--anim .vq-pad__person:first-child .vq-pad__role { transition-delay: .55s; }
+    .vq-pad--anim .vq-pad__person:last-child .vq-pad__name, .vq-pad--anim .vq-pad__person:last-child .vq-pad__role { transition-delay: .8s; }
+    .vq-pad--anim.is-in .vq-pad__head, .vq-pad--anim.is-in .vq-pad__ring, .vq-pad--anim.is-in .vq-pad__name, .vq-pad--anim.is-in .vq-pad__role, .vq-pad--anim.is-in .vq-pad__rose { opacity: 1; }
+    .vq-pad--anim.is-in .vq-pad__ring, .vq-pad--anim.is-in .vq-pad__figure, .vq-pad--anim.is-in .vq-pad__name, .vq-pad--anim.is-in .vq-pad__role, .vq-pad--anim.is-in .vq-pad__vrope, .vq-pad--anim.is-in .vq-pad__rose { transform: none; }
+
+    @media (max-width: 720px) {
+      .vq-pad__grid { grid-template-columns: 1fr; }
+      .vq-pad__center { order: 0; grid-auto-flow: column; align-items: center; }
+      .vq-pad__vrope { width: clamp(3rem, 18vw, 5rem); height: 5px; }
+      .vq-pad--anim .vq-pad__vrope { transform: scaleX(0); }
+      .vq-pad--anim .vq-pad__person:last-child { --vq-dx: -18px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .vq-pad *, .vq-pad *::before, .vq-pad *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="vq-pad__corner vq-pad__corner--tl" viewBox="0 0 160 160" aria-hidden="true" fill="none" style="stroke: var(--t-p)" stroke-width="2" stroke-linecap="round">
+    <path d="M6 150 C 6 70, 40 20, 120 8" />
+    <path d="M18 120 C 30 96, 56 92, 64 108 C 70 122, 52 132, 44 120 C 38 110, 48 102, 54 108" />
+    <path d="M54 52 C 76 40, 100 50, 96 70 C 92 86, 70 82, 72 70 C 74 60, 86 62, 86 70" />
+    <path d="M110 8 C 130 10, 146 20, 150 34 M8 110 C 10 130, 20 146, 34 150" />
+  </svg>
+  <svg class="vq-pad__corner vq-pad__corner--br" viewBox="0 0 160 160" aria-hidden="true" fill="none" style="stroke: var(--t-p)" stroke-width="2" stroke-linecap="round">
+    <path d="M6 150 C 6 70, 40 20, 120 8" />
+    <path d="M18 120 C 30 96, 56 92, 64 108 C 70 122, 52 132, 44 120 C 38 110, 48 102, 54 108" />
+    <path d="M54 52 C 76 40, 100 50, 96 70 C 92 86, 70 82, 72 70 C 74 60, 86 62, 86 70" />
+    <path d="M110 8 C 130 10, 146 20, 150 34 M8 110 C 10 130, 20 146, 34 150" />
+  </svg>
+
+  <div class="vq-pad__content">
+    <header class="vq-pad__head">
+      <p class="vq-pad__eyebrow" memory_type="text" memory_usage="custom" memory_key="padres-intro">Con la bendición de Dios y de</p>
+      <h2 class="vq-pad__title" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Mis padres</h2>
+      <p class="vq-pad__text" memory_type="text" memory_usage="custom" memory_key="padres-texto">Gracias por enseñarme a montar la vida con valor, ternura y el corazón bien puesto.</p>
+    </header>
+
+    <ul class="vq-pad__grid">
+      <li class="vq-pad__person">
+        <div class="vq-pad__ring">
+          <figure class="vq-pad__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/600/600/man,portrait,hat?lock=2921" alt="Retrato del papá" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+          </figure>
+          <svg class="vq-pad__knot" viewBox="0 0 40 40" aria-hidden="true">
+            <path d="M11 6 C 4 16, 5 34, 20 35 C 35 34, 36 16, 29 6" fill="none" style="stroke: var(--t-p)" stroke-width="6.5" />
+            <g style="fill: var(--t-bg)"><circle cx="9" cy="18" r="1.2" /><circle cx="12" cy="28" r="1.2" /><circle cx="31" cy="18" r="1.2" /><circle cx="28" cy="28" r="1.2" /></g>
+          </svg>
+        </div>
+        <h3 class="vq-pad__name" memory_type="text" memory_usage="custom" memory_key="padres-nombre-1">Nombre Apellido</h3>
+        <p class="vq-pad__role" memory_type="text" memory_usage="custom" memory_key="padres-rol-1">Mi papá</p>
+      </li>
+
+      <li class="vq-pad__center" aria-hidden="true">
+        <span class="vq-pad__vrope"></span>
+        <svg class="vq-pad__rose" viewBox="0 0 40 40">
+          <path d="M8 30 C 4 24, 8 20, 14 22 M32 30 C 36 24, 32 20, 26 22" style="stroke: var(--t-p)" stroke-width="2.5" fill="none" stroke-linecap="round" />
+          <circle cx="20" cy="18" r="11" style="fill: var(--t-a)" />
+          <path d="M20 18 m -2 0 a 2 2 0 1 1 4 0 a 4 4 0 1 1 -8 0 a 6 6 0 1 1 12 0 a 8 8 0 1 1 -16 0" fill="none" style="stroke: color-mix(in srgb, var(--t-a) 55%, var(--t-bg))" stroke-width="1.4" />
+        </svg>
+        <span class="vq-pad__vrope"></span>
+      </li>
+
+      <li class="vq-pad__person">
+        <div class="vq-pad__ring">
+          <figure class="vq-pad__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/600/600/woman,portrait,flowers?lock=2922" alt="Retrato de la mamá" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+          </figure>
+          <svg class="vq-pad__knot" viewBox="0 0 40 40" aria-hidden="true">
+            <path d="M11 6 C 4 16, 5 34, 20 35 C 35 34, 36 16, 29 6" fill="none" style="stroke: var(--t-p)" stroke-width="6.5" />
+            <g style="fill: var(--t-bg)"><circle cx="9" cy="18" r="1.2" /><circle cx="12" cy="28" r="1.2" /><circle cx="31" cy="18" r="1.2" /><circle cx="28" cy="28" r="1.2" /></g>
+          </svg>
+        </div>
+        <h3 class="vq-pad__name" memory_type="text" memory_usage="custom" memory_key="padres-nombre-2">Nombre Apellido</h3>
+        <p class="vq-pad__role" memory_type="text" memory_usage="custom" memory_key="padres-rol-2">Mi mamá</p>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="padres-padre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      root.classList.add('vq-pad--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('vq-pad--anim', 'is-in'); }, 1700);
+        }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Vaquera Rancho Romántico',
+      descripcion: 'Padres en estilo vaquero vintage: retratos circulares dentro de anillos de soga trenzada que se amarran al entrar, herradura como nudo y rosa roja central sobre piel repujada.',
+      tags: ['padres', 'vaquera', 'quinceañera', 'soga', 'herradura', 'rosa', 'vintage'],
+      tipo: 'padres'
+    };
+  </script>
+</section>

@@ -1,0 +1,206 @@
+<section
+  class="jmub"
+  data-gemini-id="ubicacion-mapa"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Parisienne&family=Quicksand:wght@400;500;600;700&display=swap');
+
+    .jmub, .jmub *, .jmub *::before, .jmub *::after { box-sizing: border-box; }
+
+    .jmub {
+      --t-bg: var(--bg-color, #FFF4F8);
+      --t-tx: var(--text-color, #4B1D40);
+      --t-p: var(--primary-color, #D6237A);
+      --t-s: var(--secondary-color, #B79BE4);
+      --t-a: var(--accent-color, #F6BCD3);
+      --t-w: var(--surface-color, #FFFFFF);
+      --t-leaf: var(--leaf-color, #A7C3A1);
+      --t-ink: color-mix(in srgb, var(--t-tx) 78%, #12040e);
+      --t-display: var(--font-script, 'Parisienne', cursive);
+      --t-text: var(--font-heading, 'Quicksand', 'Trebuchet MS', sans-serif);
+      position: relative; isolation: isolate; min-height: clamp(26rem, 58vw, 40rem);
+      display: grid; place-items: center; padding: clamp(4.5rem, 8vw, 6.5rem) clamp(1rem, 5vw, 4rem); overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/garden,gazebo,flowers?lock=3303');
+      background-size: cover; background-position: center; color: var(--t-tx); font-family: var(--t-text);
+    }
+    .jmub::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(115deg, color-mix(in srgb, var(--t-bg) 94%, transparent) 30%, color-mix(in srgb, var(--t-s) 30%, var(--t-bg)) 100%); opacity: .95; }
+    .jmub__wrap { width: min(100%, 64rem); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr)); gap: clamp(1.5rem, 4vw, 3rem); align-items: center; }
+    .jmub__card { position: relative; padding: clamp(2.6rem, 5vw, 3.4rem) clamp(1.4rem, 4vw, 2.6rem) clamp(1.8rem, 4vw, 2.4rem); background: color-mix(in srgb, var(--t-w) 88%, transparent);
+      border-radius: 1.4rem 1.4rem 4rem 1.4rem; box-shadow: 0 1.2rem 2.4rem color-mix(in srgb, var(--t-ink) 14%, transparent); overflow: hidden; }
+    .jmub__card .jmub-lace { height: 30px; }
+    .jmub-lace-b { fill: color-mix(in srgb, var(--t-a) 45%, var(--t-w)); }
+    .jmub__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.2rem); line-height: 1.15; color: var(--t-p); }
+    .jmub__venue { margin: .6rem 0 0; font-size: clamp(1.2rem, 2.4vw, 1.45rem); font-weight: 700; }
+    .jmub__addr { margin: .6rem 0 0; font-style: normal; display: grid; gap: .15rem; line-height: 1.6; }
+    .jmub__when { margin: .9rem 0 0; font-weight: 600; color: color-mix(in srgb, var(--t-tx) 85%, var(--t-p)); }
+    .jmub__btn { margin-top: 1.4rem; display: inline-flex; align-items: center; gap: .6rem; min-height: 3rem; padding: .7rem 1.5rem; border-radius: 999px; text-decoration: none; font-weight: 700;
+      color: var(--t-w); background: linear-gradient(135deg, var(--t-p), color-mix(in srgb, var(--t-p) 60%, var(--t-s)));
+      box-shadow: 0 .5rem 1.2rem color-mix(in srgb, var(--t-p) 35%, transparent), inset 0 1px 0 color-mix(in srgb, white 45%, transparent);
+      transition: transform .25s cubic-bezier(.3, 1.5, .5, 1), box-shadow .25s ease; }
+    .jmub__btn svg { width: 1.1rem; height: 1.1rem; transition: transform .3s ease; }
+    .jmub__btn:hover { transform: translateY(-2px); box-shadow: 0 .8rem 1.6rem color-mix(in srgb, var(--t-p) 40%, transparent); }
+    .jmub__btn:hover svg { transform: translateX(4px); }
+    .jmub__btn:focus-visible { outline: 3px solid var(--t-s); outline-offset: 3px; }
+    .jmub__map { position: relative; width: 100%; max-width: 30rem; justify-self: center; aspect-ratio: 5 / 4; }
+    .jmub__plan { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 1rem 1.6rem color-mix(in srgb, var(--t-ink) 16%, transparent)); }
+    .jmub__ground { fill: color-mix(in srgb, var(--t-w) 92%, var(--t-a)); stroke: var(--t-w); stroke-width: 6; }
+    .jmub__hedge { fill: color-mix(in srgb, var(--t-leaf) 55%, var(--t-w)); }
+    .jmub__bed { fill: color-mix(in srgb, var(--t-s) 40%, var(--t-w)); }
+    .jmub__route { fill: none; stroke: color-mix(in srgb, var(--t-a) 70%, var(--t-w)); stroke-width: 10; stroke-linecap: round; }
+    .jmub__route--main { stroke: color-mix(in srgb, var(--t-p) 60%, var(--t-a)); stroke-width: 3; stroke-dasharray: .02 .02; }
+    .jmub__pond { fill: color-mix(in srgb, var(--t-s) 30%, #d9ecff); stroke: var(--t-w); stroke-width: 3; }
+    .jmub__pin { position: absolute; left: 63%; top: 42%; width: 0; height: 0; }
+    .jmub__ring { position: absolute; left: 0; top: 0; width: 3.4rem; aspect-ratio: 1; border-radius: 50%; border: 2px solid var(--t-p); transform: translate(-50%, -50%) scale(1.4); opacity: .35; }
+    .jmub__dot { position: absolute; left: 0; top: 0; width: 1rem; aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%);
+      background: radial-gradient(circle at 35% 35%, #fff, var(--t-p) 55%); box-shadow: 0 0 0 4px var(--t-w), 0 .3rem .6rem color-mix(in srgb, var(--t-ink) 30%, transparent); }
+    .jmub__pin .jmub-bf { --bw: clamp(4.2rem, 9vw, 5.6rem); left: 0; top: 0; transform: translate(-50%, calc(-115% + var(--bob, 0px))); }
+    .jmub__tag { position: absolute; left: 63%; top: 42%; transform: translate(-50%, 1.1rem); margin: 0; padding: .3rem .8rem; border-radius: .6rem; font-size: .85rem; font-weight: 700; background: var(--t-w); color: var(--t-p); white-space: nowrap; box-shadow: 0 .3rem .8rem color-mix(in srgb, var(--t-ink) 15%, transparent); }
+    .jmub--anim .jmub__card { opacity: 0; transform: translateX(-2rem) rotate(-2deg); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .jmub--anim .jmub__route { stroke-dashoffset: 1; transition: stroke-dashoffset .5s ease calc(var(--i) * .12s + .3s); }
+    .jmub--anim .jmub__route:not(.jmub__route--main) { stroke-dasharray: 1 1; }
+    .jmub--anim .jmub__hedge, .jmub--anim .jmub__bed { transform-box: fill-box; transform-origin: center; transform: scale(0); transition: transform .45s cubic-bezier(.3, 1.5, .5, 1) calc(var(--i) * .07s + .2s); }
+    .jmub--anim .jmub__pin { opacity: 0; transform: translateY(-3rem); transition: opacity .3s ease, transform .45s cubic-bezier(.3, 1.6, .5, 1); transition-delay: 1.1s; }
+    .jmub--anim.is-in .jmub__card, .jmub--anim.is-in .jmub__pin { opacity: 1; transform: none; }
+    .jmub--anim.is-in .jmub__route { stroke-dashoffset: 0; }
+    .jmub--anim.is-in .jmub__hedge, .jmub--anim.is-in .jmub__bed { transform: none; }
+
+    .jmub-bf { position: absolute; width: var(--bw, 6rem); aspect-ratio: 10 / 7; perspective: 34em; pointer-events: none; z-index: 2; }
+    .jmub-bf__in { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateZ(var(--rz, 0deg)) rotateX(var(--rx, 38deg)) rotateY(var(--ry, 0deg)); }
+    .jmub-bf__w { position: absolute; top: 0; width: 50%; height: 100%; }
+    .jmub-bf__w--l { left: 0; transform-origin: 100% 50%; transform: rotateY(calc(var(--f, 24) * 1deg)); }
+    .jmub-bf__w--r { right: 0; transform-origin: 0% 50%; transform: rotateY(calc(var(--f, 24) * -1deg)); }
+    .jmub-bf__w svg { display: block; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 .3em .35em color-mix(in srgb, var(--t-ink) 28%, transparent)); }
+    .jmub-bf__body { position: absolute; left: 50%; top: 28%; width: 5%; height: 48%; margin-left: -2.5%; border-radius: 999px; background: linear-gradient(90deg, #26091f, #7a4a6c 48%, #26091f); transform: translateZ(2px); }
+    .jmub-bf__body::before { content: ''; position: absolute; left: 50%; top: -18%; width: 170%; aspect-ratio: 1; margin-left: -85%; border-radius: 50%; background: #2c0d24; }
+    .jmub-bf__body::after { content: ''; position: absolute; left: 50%; bottom: 112%; width: 560%; height: 40%; margin-left: -280%; background: linear-gradient(to top right, transparent calc(50% - .8px), #2c0d24 calc(50% - .8px), #2c0d24 calc(50% + .8px), transparent calc(50% + .8px)) left / 50% 100% no-repeat, linear-gradient(to top left, transparent calc(50% - .8px), #2c0d24 calc(50% - .8px), #2c0d24 calc(50% + .8px), transparent calc(50% + .8px)) right / 50% 100% no-repeat; }
+    .jmub-sh { fill: color-mix(in srgb, var(--t-ink) 38%, transparent); }
+    .jmub-fm { fill: url(#jmub-gm); }
+    .jmub-fb { fill: url(#jmub-gb); }
+    .jmub-vein { fill: none; stroke: var(--t-ink); stroke-width: 1.3; stroke-linecap: round; opacity: .85; }
+    .jmub-vein--b { opacity: .28; stroke-width: 1; }
+    .jmub-edge { fill: none; stroke: var(--t-ink); stroke-width: 9; stroke-linejoin: round; }
+    .jmub-edge--b { stroke-width: 6; }
+    .jmub-dot { fill: var(--t-w); }
+    .jmub-sheen { fill: url(#jmub-gsh); opacity: var(--s, .35); }
+    .jmub-hl { fill: none; stroke: #fff; stroke-width: 1.4; stroke-linecap: round; opacity: .75; }
+    .jmub-sp { fill: none; stroke-width: 1.3; stroke-linecap: round; }
+    .jmub-sp-p { stroke: color-mix(in srgb, var(--t-p) 62%, #3a0620); }
+    .jmub-sp-a { stroke: color-mix(in srgb, var(--t-p) 55%, var(--t-a)); }
+    .jmub-sp-w { stroke: color-mix(in srgb, var(--t-a) 75%, var(--t-p)); }
+    .jmub-sp-s { stroke: color-mix(in srgb, var(--t-s) 58%, #2a1660); }
+    .jmub-hi { fill: none; stroke: #fff; stroke-width: .7; opacity: .6; }
+    .jmub-leaf { fill: url(#jmub-lf); }
+    .jmub-rib { fill: none; stroke: color-mix(in srgb, var(--t-leaf) 55%, #183018); stroke-width: .8; opacity: .6; }
+    .jmub-rosesvg { display: block; width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 .4rem .6rem color-mix(in srgb, var(--t-ink) 20%, transparent)); }
+    .jmub-lace { position: absolute; left: 0; width: 100%; height: 48px; pointer-events: none; z-index: 4; filter: drop-shadow(0 2px 2px color-mix(in srgb, var(--t-ink) 16%, transparent)); }
+    .jmub-lace--top { top: 0; }
+    .jmub-lace--bot { bottom: 0; transform: scaleY(-1); }
+    .jmub-lace-b { fill: var(--t-w); }
+    .jmub-lace-f { fill: color-mix(in srgb, var(--t-p) 50%, var(--t-a)); }
+    .jmub-lace-t { fill: none; stroke: color-mix(in srgb, var(--t-p) 40%, var(--t-a)); stroke-width: .8; stroke-dasharray: 1.6 2; }
+    @media (prefers-reduced-motion: reduce) {
+      .jmub *, .jmub *::before, .jmub *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="jmub-defs" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><defs><linearGradient id="jmub-gm" x1="1" y1=".4" x2="0" y2=".6"><stop offset="0" style="stop-color: color-mix(in srgb, var(--t-p) 78%, #2b0a1f)"/><stop offset="0.35" style="stop-color: var(--t-p)"/><stop offset="0.75" style="stop-color: color-mix(in srgb, var(--t-p) 45%, var(--t-a))"/><stop offset="1" style="stop-color: var(--t-a)"/></linearGradient><radialGradient id="jmub-gb" cx=".9" cy=".45" r=".95"><stop offset="0" style="stop-color: color-mix(in srgb, var(--t-s) 35%, white)"/><stop offset="0.45" style="stop-color: var(--t-s)"/><stop offset="0.85" style="stop-color: color-mix(in srgb, var(--t-s) 62%, #2a1660)"/><stop offset="1" style="stop-color: color-mix(in srgb, var(--t-s) 40%, #160b33)"/></radialGradient><linearGradient id="jmub-gsh" x1="0" y1="0" x2=".7" y2="1"><stop offset="0" style="stop-color: #fff; stop-opacity: 0.85"/><stop offset="0.45" style="stop-color: #fff; stop-opacity: 0.08"/><stop offset="1" style="stop-color: #fff; stop-opacity: 0"/></linearGradient><g id="jmub-wb"><path class="jmub-sh" d="M100 66 C74 68 40 80 30 100 C24 116 40 134 62 132 C82 130 96 110 100 94 Z" transform="translate(2.5 3.5)"/><path class="jmub-sh" d="M100 50 C80 22 46 4 14 10 C4 12 0 26 8 36 C20 56 52 70 100 64 Z" transform="translate(2.5 3.5)"/><path class="jmub-fb" d="M100 66 C74 68 40 80 30 100 C24 116 40 134 62 132 C82 130 96 110 100 94 Z"/><path class="jmub-fb" d="M100 50 C80 22 46 4 14 10 C4 12 0 26 8 36 C20 56 52 70 100 64 Z"/><path class="jmub-vein jmub-vein--b" d="M98 55 Q60 26 18 14 M98 57 Q54 38 8 30 M98 59 Q66 54 34 52 M98 70 Q70 80 40 100 M98 72 Q70 100 52 128 M98 74 Q88 104 80 128"/><path class="jmub-edge jmub-edge--b" d="M100 66 C74 68 40 80 30 100 C24 116 40 134 62 132 C82 130 96 110 100 94 Z"/><path class="jmub-edge jmub-edge--b" d="M100 50 C80 22 46 4 14 10 C4 12 0 26 8 36 C20 56 52 70 100 64 Z"/><path class="jmub-dot" d="M46.11 12.75a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM34.65 10.30a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM22.93 9.75a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM9.77 12.52a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM4.58 20.40a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM5.36 30.91a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM10.88 39.63a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM17.20 46.26a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM25.27 52.04a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM34.96 56.79a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM44.77 84.94a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM34.06 94.51a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM29.14 105.93a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM31.99 117.21a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM40.71 126.16a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM53.77 130.77a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM68.36 129.25a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM80.31 122.31a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0Z"/><path class="jmub-sheen" d="M100 66 C74 68 40 80 30 100 C24 116 40 134 62 132 C82 130 96 110 100 94 Z"/><path class="jmub-sheen" d="M100 50 C80 22 46 4 14 10 C4 12 0 26 8 36 C20 56 52 70 100 64 Z"/><path class="jmub-hl" d="M98 49 C80 22 46 5 15 11"/></g><radialGradient id="jmub-rp" cx=".42" cy=".38" r=".7"><stop offset="0" style="stop-color: color-mix(in srgb, var(--t-p) 50%, white)"/><stop offset="0.6" style="stop-color: var(--t-p)"/><stop offset="1" style="stop-color: color-mix(in srgb, var(--t-p) 72%, #3a0620)"/></radialGradient><radialGradient id="jmub-ra" cx=".42" cy=".38" r=".7"><stop offset="0" style="stop-color: #fff"/><stop offset="0.55" style="stop-color: var(--t-a)"/><stop offset="1" style="stop-color: color-mix(in srgb, var(--t-a) 65%, var(--t-p))"/></radialGradient><radialGradient id="jmub-rw" cx=".42" cy=".38" r=".7"><stop offset="0" style="stop-color: #fff"/><stop offset="0.7" style="stop-color: color-mix(in srgb, var(--t-w) 90%, var(--t-a))"/><stop offset="1" style="stop-color: color-mix(in srgb, var(--t-a) 60%, white)"/></radialGradient><radialGradient id="jmub-rs" cx=".42" cy=".38" r=".7"><stop offset="0" style="stop-color: color-mix(in srgb, var(--t-s) 40%, white)"/><stop offset="0.6" style="stop-color: var(--t-s)"/><stop offset="1" style="stop-color: color-mix(in srgb, var(--t-s) 70%, #3a2370)"/></radialGradient><linearGradient id="jmub-lf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color: color-mix(in srgb, var(--t-leaf) 70%, white)"/><stop offset="1" style="stop-color: color-mix(in srgb, var(--t-leaf) 72%, #1f3a22)"/></linearGradient><pattern id="jmub-lp" width="48" height="48" patternUnits="userSpaceOnUse"><path class="jmub-lace-b" fill-rule="evenodd" d="M0 0H48V14A24 24 0 0 1 0 14ZM19.00 22.00a5 5 0 1 0 10 0a5 5 0 1 0 -10 0ZM7.80 19.00a2.2 2.2 0 1 0 4.4 0a2.2 2.2 0 1 0 -4.4 0ZM35.80 19.00a2.2 2.2 0 1 0 4.4 0a2.2 2.2 0 1 0 -4.4 0ZM22.00 32.50a2 2 0 1 0 4 0a2 2 0 1 0 -4 0ZM-1.60 4.00a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0ZM46.40 4.00a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0Z"/><path class="jmub-lace-b" d="M45.97 19.95a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM42.00 28.46a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM35.14 34.86a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM26.37 38.23a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM17.83 38.23a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM9.06 34.86a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM2.20 28.46a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM-1.77 19.95a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0Z"/><path class="jmub-lace-f" d="M22.30 4.40a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0ZM24.77 6.20a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0ZM23.83 9.10a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0ZM20.77 9.10a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0ZM19.83 6.20a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0ZM11.10 8.00a0.9 0.9 0 1 0 1.8 0a0.9 0.9 0 1 0 -1.8 0ZM35.10 8.00a0.9 0.9 0 1 0 1.8 0a0.9 0.9 0 1 0 -1.8 0Z"/><path class="jmub-lace-t" d="M4 14 A20 20 0 0 0 44 14"/><path class="jmub-lace-t" d="M0 1.5H48"/></pattern></defs></svg>
+  <div class="jmub__wrap">
+    <div class="jmub__card">
+      <svg class="jmub-lace jmub-lace--top " aria-hidden="true" focusable="false"><rect width="100%" height="100%" fill="url(#jmub-lp)"/></svg>
+      <h2 class="jmub__title" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">¿Dónde será la fiesta?</h2>
+<figure class="vmap-embed" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,640px);"><iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen style="display:block;width:100%;height:clamp(210px,38vw,330px);border:1px solid var(--primary-color,#9b9b9b);border-radius:12px;"></iframe></figure>
+<figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,340px);"><img src="https://loremflickr.com/700/420/moth,night,venue" alt="Vista del lugar" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" style="display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--primary-color,#9b9b9b);" /><figcaption hidden>Vista del lugar</figcaption></figure>
+      <h3 class="jmub__venue" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar">Jardín Las Mariposas</h3>
+      <address class="jmub__addr">
+        <span memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion">Av. de las Rosas 1520, Col. Primavera</span>
+        <span memory_type="text" memory_usage="custom" memory_key="ubicacion-ciudad">Ciudad, Estado, C.P. 00000</span>
+      </address>
+      <p class="jmub__when"><time datetime="2027-04-17T19:00" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora">Sábado 17 de abril · 7:00 p. m.</time></p>
+      <a class="jmub__btn" href="#" data-directions role="button"><span memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Cómo llegar</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+    <div class="jmub__map" aria-hidden="true">
+      <svg class="jmub__plan" viewBox="0 0 400 320" aria-hidden="true" focusable="false">
+        <rect class="jmub__ground" x="6" y="6" width="388" height="308" rx="34"/>
+        <path class="jmub__route" pathLength="1" style="--i:0" d="M20 300 C90 250 120 190 190 170 S290 150 252 134"/>
+        <path class="jmub__route" pathLength="1" style="--i:1" d="M380 30 C330 80 300 110 252 134"/>
+        <path class="jmub__route" pathLength="1" style="--i:2" d="M20 120 C80 140 140 150 190 170"/>
+        <ellipse class="jmub__pond" cx="200" cy="248" rx="44" ry="24"/>
+        <ellipse class="jmub__hedge" cx="70" cy="70" rx="46" ry="26" style="--i:0"/><ellipse class="jmub__hedge" cx="330" cy="76" rx="40" ry="30" style="--i:1"/><ellipse class="jmub__hedge" cx="64" cy="250" rx="44" ry="30" style="--i:2"/><ellipse class="jmub__hedge" cx="300" cy="262" rx="56" ry="26" style="--i:3"/><ellipse class="jmub__hedge" cx="190" cy="40" rx="40" ry="16" style="--i:4"/><circle class="jmub__bed" cx="150" cy="118" r="14" style="--i:5"/><circle class="jmub__bed" cx="128" cy="210" r="12" style="--i:6"/><circle class="jmub__bed" cx="346" cy="180" r="13" style="--i:7"/><g transform="translate(70 64) rotate(0) scale(0.450)"><circle cx="12.2" cy="4.4" r="9.5" fill="url(#jmub-rp)"/><circle cx="-0.5" cy="13.0" r="9.5" fill="url(#jmub-rp)"/><circle cx="-12.5" cy="3.6" r="9.5" fill="url(#jmub-rp)"/><circle cx="-7.3" cy="-10.8" r="9.5" fill="url(#jmub-rp)"/><circle cx="8.0" cy="-10.2" r="9.5" fill="url(#jmub-rp)"/><circle r="15.5" fill="url(#jmub-rp)"/><path class="jmub-sp jmub-sp-p" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmub-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmub-sp jmub-sp-p" d="M-15 5 Q0 17 15 5"/></g><g transform="translate(88 78) rotate(0) scale(0.350)"><circle cx="12.2" cy="4.4" r="9.5" fill="url(#jmub-ra)"/><circle cx="-0.5" cy="13.0" r="9.5" fill="url(#jmub-ra)"/><circle cx="-12.5" cy="3.6" r="9.5" fill="url(#jmub-ra)"/><circle cx="-7.3" cy="-10.8" r="9.5" fill="url(#jmub-ra)"/><circle cx="8.0" cy="-10.2" r="9.5" fill="url(#jmub-ra)"/><circle r="15.5" fill="url(#jmub-ra)"/><path class="jmub-sp jmub-sp-a" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmub-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmub-sp jmub-sp-a" d="M-15 5 Q0 17 15 5"/></g><g transform="translate(318 70) rotate(0) scale(0.400)"><circle cx="12.2" cy="4.4" r="9.5" fill="url(#jmub-rw)"/><circle cx="-0.5" cy="13.0" r="9.5" fill="url(#jmub-rw)"/><circle cx="-12.5" cy="3.6" r="9.5" fill="url(#jmub-rw)"/><circle cx="-7.3" cy="-10.8" r="9.5" fill="url(#jmub-rw)"/><circle cx="8.0" cy="-10.2" r="9.5" fill="url(#jmub-rw)"/><circle r="15.5" fill="url(#jmub-rw)"/><path class="jmub-sp jmub-sp-w" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmub-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmub-sp jmub-sp-w" d="M-15 5 Q0 17 15 5"/></g><g transform="translate(300 256) rotate(0) scale(0.450)"><circle cx="12.2" cy="4.4" r="9.5" fill="url(#jmub-rs)"/><circle cx="-0.5" cy="13.0" r="9.5" fill="url(#jmub-rs)"/><circle cx="-12.5" cy="3.6" r="9.5" fill="url(#jmub-rs)"/><circle cx="-7.3" cy="-10.8" r="9.5" fill="url(#jmub-rs)"/><circle cx="8.0" cy="-10.2" r="9.5" fill="url(#jmub-rs)"/><circle r="15.5" fill="url(#jmub-rs)"/><path class="jmub-sp jmub-sp-s" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmub-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmub-sp jmub-sp-s" d="M-15 5 Q0 17 15 5"/></g><g transform="translate(320 268) rotate(0) scale(0.350)"><circle cx="12.2" cy="4.4" r="9.5" fill="url(#jmub-rp)"/><circle cx="-0.5" cy="13.0" r="9.5" fill="url(#jmub-rp)"/><circle cx="-12.5" cy="3.6" r="9.5" fill="url(#jmub-rp)"/><circle cx="-7.3" cy="-10.8" r="9.5" fill="url(#jmub-rp)"/><circle cx="8.0" cy="-10.2" r="9.5" fill="url(#jmub-rp)"/><circle r="15.5" fill="url(#jmub-rp)"/><path class="jmub-sp jmub-sp-p" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmub-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmub-sp jmub-sp-p" d="M-15 5 Q0 17 15 5"/></g><g transform="translate(58 246) rotate(0) scale(0.400)"><circle cx="12.2" cy="4.4" r="9.5" fill="url(#jmub-ra)"/><circle cx="-0.5" cy="13.0" r="9.5" fill="url(#jmub-ra)"/><circle cx="-12.5" cy="3.6" r="9.5" fill="url(#jmub-ra)"/><circle cx="-7.3" cy="-10.8" r="9.5" fill="url(#jmub-ra)"/><circle cx="8.0" cy="-10.2" r="9.5" fill="url(#jmub-ra)"/><circle r="15.5" fill="url(#jmub-ra)"/><path class="jmub-sp jmub-sp-a" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmub-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmub-sp jmub-sp-a" d="M-15 5 Q0 17 15 5"/></g>
+        <path class="jmub__route jmub__route--main" pathLength="1" style="--i:3" d="M20 300 C90 250 120 190 190 170 S290 150 252 134"/>
+      </svg>
+      <div class="jmub__pin" data-pin>
+        <span class="jmub__ring" data-ring></span><span class="jmub__ring" data-ring></span><span class="jmub__ring" data-ring></span>
+        <span class="jmub__dot"></span>
+        <div class="jmub-bf " data-bf="b" data-sp="1.6" data-base="28" data-amp="38" style="--rx:48deg;--rz:-8deg" aria-hidden="true"><div class="jmub-bf__in"><div class="jmub-bf__w jmub-bf__w--l"><svg viewBox="0 0 100 140" focusable="false"><use href="#jmub-wb"/></svg></div><div class="jmub-bf__w jmub-bf__w--r"><svg viewBox="0 0 100 140" focusable="false"><g transform="matrix(-1 0 0 1 100 0)"><use href="#jmub-wb"/></g></svg></div><span class="jmub-bf__body"></span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="ubicacion-mapa"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var IO = 'IntersectionObserver' in window;
+      var bfs = [].slice.call(root.querySelectorAll('[data-bf]'));
+      /* Wing flap: data-* driven, writes only CSS custom properties */
+      function flap(t) {
+        for (var i = 0; i < bfs.length; i++) {
+          var b = bfs[i], sp = +(b.getAttribute('data-sp') || 1), base = +(b.getAttribute('data-base') || 24), amp = +(b.getAttribute('data-amp') || 40);
+          var ph = t * 0.006 * sp + i * 1.9;
+          b.style.setProperty('--f', (base + amp * Math.sin(ph)).toFixed(1));
+          b.style.setProperty('--s', (0.2 + 0.55 * Math.abs(Math.cos(ph))).toFixed(2));
+        }
+      }
+      /* Continuous motion: one rAF loop, paused off-screen and on hidden tabs */
+      function loop(fn) {
+        if (!IO) return;
+        var vis = false, raf = 0;
+        function tick(t) { raf = 0; if (!vis || document.hidden) return; fn(t); raf = requestAnimationFrame(tick); }
+        function go() { if (!raf && vis && !document.hidden) raf = requestAnimationFrame(tick); }
+        new IntersectionObserver(function (en) { vis = en[0].isIntersecting; go(); }).observe(root);
+        document.addEventListener('visibilitychange', go);
+      }
+      var rings = [].slice.call(root.querySelectorAll('[data-ring]')), pin = root.querySelector('[data-pin]');
+      var dir = root.querySelector('[data-directions]');
+      if (dir) dir.addEventListener('click', function (e) { if (dir.getAttribute('href') === '#') e.preventDefault(); });
+      if (RM || !IO) return;   /* reduced motion = static final state */
+      root.classList.add('jmub--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect(); root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('jmub--anim', 'is-in'); }, 2000);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+      loop(function (t) {
+        flap(t);
+        for (var k = 0; k < rings.length; k++) {
+          var p = ((t / 1700) + k / rings.length) % 1;
+          rings[k].style.transform = 'translate(-50%, -50%) scale(' + (.35 + 2.3 * p).toFixed(3) + ')';
+          rings[k].style.opacity = ((1 - p) * .85).toFixed(3);
+        }
+        if (pin) pin.style.setProperty('--bob', (Math.sin(t * .0028) * 7).toFixed(1) + 'px');
+      });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-mapa',
+      style_name: 'Jardín de Mariposas',
+      descripcion: 'Ubicación con tarjeta de encaje y plano ilustrado de jardín: senderos que se dibujan, rosas y una mariposa morfo como marcador con pulso animado por requestAnimationFrame.',
+      tags: ['ubicación', 'mapa', 'quinceañera', 'mariposas', 'jardín'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>

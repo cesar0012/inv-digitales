@@ -1,0 +1,279 @@
+<section
+  class="bh-co"
+  data-gemini-id="confirmacion-texto"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&display=swap');
+
+    .bh-co, .bh-co *, .bh-co *::before, .bh-co *::after { box-sizing: border-box; }
+    .bh-co {
+      --t-bg: var(--bg-color, #F3E7D7);
+      --t-tx: var(--text-color, #4A2B1F);
+      --t-p: var(--primary-color, #C2653F);
+      --t-s: var(--secondary-color, #D7A49A);
+      --t-a: var(--accent-color, #D29E32);
+      --t-display: var(--font-script, 'Caveat', 'Segoe Print', cursive);
+      --t-text: var(--font-heading, 'Fraunces', Georgia, serif);
+      --t-sand: color-mix(in srgb, var(--t-bg) 60%, var(--t-a));
+      --t-cream: color-mix(in srgb, var(--t-bg) 72%, white);
+      --t-clay: color-mix(in srgb, var(--t-p) 74%, var(--t-tx));
+      --t-wood: color-mix(in srgb, var(--t-p) 40%, var(--t-tx));
+      --t-rosewood: color-mix(in srgb, var(--t-s) 68%, var(--t-p));
+      --t-taupe: color-mix(in srgb, var(--t-tx) 34%, var(--t-bg));
+      --t-soft: color-mix(in srgb, var(--t-tx) 76%, var(--t-bg));
+      --t-cord: color-mix(in srgb, var(--t-sand) 72%, var(--t-wood));
+      --panel: color-mix(in srgb, var(--t-bg) 86%, transparent);
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/dried,flowers?lock=3205');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+      font-optical-sizing: auto;
+      
+    }
+    .bh-co::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(170deg, color-mix(in srgb, var(--t-bg) 84%, transparent), color-mix(in srgb, var(--t-bg) 93%, transparent));
+    }
+    .bh-co .bhx-grain { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mix-blend-mode: multiply; opacity: .28; }
+    .bh-co svg { overflow: visible; }
+    .bh-co :where(p), .bh-co :where(h1), .bh-co :where(h2), .bh-co :where(h3), .bh-co :where(h4), .bh-co :where(figure), .bh-co :where(ul), .bh-co :where(ol) { margin: 0; }
+    .bh-co :where(h2[class$='__title']) { margin-bottom: .22em; }
+    .bh-co :where(img) { background: var(--t-sand); color: transparent; }
+
+    .bh-co {
+      padding: clamp(3.5rem, 8vw, 6.5rem) clamp(1rem, 5vw, 5rem);
+      display: grid;
+      grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+      gap: clamp(2rem, 5vw, 5rem);
+      align-items: center;
+    }
+    .bh-co__lead { max-width: 24rem; justify-self: end; }
+    .bh-co__title { font-family: var(--t-display); font-weight: 600; font-size: clamp(3rem, 6.4vw, 5rem); line-height: .88; color: var(--t-clay); transform: rotate(-4deg); }
+    .bh-co__intro { margin-top: 1.2rem; line-height: 1.55; color: var(--t-soft); }
+    .bh-co__limit { margin-top: 1rem; display: inline-block; padding: .35rem .9rem .4rem; border-radius: 1rem .4rem 1rem .4rem; background: color-mix(in srgb, var(--t-a) 26%, transparent); font-style: italic; }
+    .bh-co__cardwrap { position: relative; max-width: 36rem; filter: drop-shadow(0 26px 30px color-mix(in srgb, var(--t-wood) 32%, transparent)); }
+    .bh-co__card {
+      position: relative;
+      padding: clamp(1.8rem, 4vw, 2.8rem) clamp(1.3rem, 4vw, 2.6rem) clamp(2rem, 4vw, 2.8rem);
+      background: var(--t-cream);
+      clip-path: polygon(0 1.5%, 6% 0, 14% 1%, 24% 0, 37% 1.2%, 49% .2%, 61% 1%, 73% 0, 86% 1.3%, 100% 0, 99.2% 14%, 100% 31%, 99.3% 48%, 100% 66%, 99.4% 83%, 100% 99%, 87% 100%, 74% 98.8%, 60% 100%, 47% 99%, 33% 100%, 19% 98.9%, 7% 100%, 0 99%, .7% 82%, 0 64%, .8% 47%, 0 30%, .6% 14%);
+      transform: rotate(1.2deg);
+    }
+    .bh-co__stamp { position: absolute; right: -1.8rem; top: -2.6rem; width: 8.5rem; height: auto; z-index: 2; transform: rotate(14deg); pointer-events: none; }
+    .bh-co__tassel { position: absolute; left: -1.1rem; top: 1.6rem; width: 2.6rem; height: auto; z-index: 2; transform-origin: 50% 0; pointer-events: none; }
+    .bh-co__form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.3rem 1.2rem; text-align: left; }
+    .bh-co__field { display: grid; gap: .35rem; grid-column: 1 / -1; }
+    .bh-co__field[data-half] { grid-column: auto; }
+    .bh-co__lbl { font-family: var(--t-display); font-size: 1.45rem; line-height: 1; color: var(--t-clay); }
+    .bh-co__ctl { position: relative; }
+    .bh-co__in {
+      width: 100%; min-height: 2.8rem; padding: .55rem .2rem; border: 0; border-bottom: 1.5px solid var(--t-taupe);
+      background: transparent; color: var(--t-tx); font: inherit; font-size: 1.05rem; border-radius: 0;
+    }
+    textarea.bh-co__in { min-height: 4.6rem; resize: vertical; line-height: 1.5; }
+    .bh-co__in::placeholder { color: var(--t-taupe); font-style: italic; }
+    .bh-co__in:focus { outline: none; }
+    .bh-co__bar { position: absolute; left: 0; right: 0; bottom: 0; height: 2.5px; border-radius: 2px; background: var(--t-p); transform: scaleX(0); transform-origin: left; transition: transform .35s cubic-bezier(.6, 0, .2, 1); }
+    .bh-co__in:focus + .bh-co__bar { transform: scaleX(1); }
+    .bh-co__opts { display: flex; flex-wrap: wrap; gap: .7rem; border: 0; padding: 0; margin: 0; min-width: 0; }
+    .bh-co__opts legend { padding: 0; margin-bottom: .45rem; }
+    .bh-co__opt { position: relative; }
+    .bh-co__opt input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .bh-co__pill {
+      display: inline-flex; align-items: center; gap: .55rem; min-height: 2.7rem; padding: .5rem 1.1rem .5rem .8rem;
+      border-radius: 1.6rem .8rem 1.6rem .8rem; border: 1.5px solid var(--t-sand); cursor: pointer;
+      background: color-mix(in srgb, var(--t-bg) 70%, transparent);
+      transition: background-color .3s ease, border-color .3s ease, transform .3s cubic-bezier(.3, 1.6, .5, 1);
+    }
+    .bh-co__dot { width: 1rem; height: 1rem; border-radius: 50%; border: 1.5px solid var(--t-wood); position: relative; flex: none; }
+    .bh-co__dot::after { content: ''; position: absolute; inset: 2.5px; border-radius: 50%; background: var(--t-p); transform: scale(0); transition: transform .3s cubic-bezier(.3, 1.8, .5, 1); }
+    .bh-co__opt input:checked + .bh-co__pill { background: color-mix(in srgb, var(--t-s) 35%, var(--t-cream)); border-color: var(--t-p); transform: rotate(-1.5deg); }
+    .bh-co__opt input:checked + .bh-co__pill .bh-co__dot::after { transform: scale(1); }
+    .bh-co__opt input:focus-visible + .bh-co__pill { outline: 2px dashed var(--t-a); outline-offset: 3px; }
+    .bh-co__send {
+      grid-column: 1 / -1; justify-self: start; position: relative;
+      display: inline-flex; align-items: center; justify-content: center; gap: .7rem;
+      min-height: 3.2rem; min-width: 15rem; padding: .7rem 1.6rem; border: 0; cursor: pointer;
+      border-radius: 2.2rem 1.2rem 2.2rem 1rem; background: var(--t-p); color: var(--t-cream);
+      font-family: var(--t-display); font-size: 1.55rem; line-height: 1;
+      box-shadow: 0 12px 24px -16px var(--t-wood);
+      transition: transform .3s cubic-bezier(.3, 1.5, .5, 1), background-color .3s ease;
+    }
+    .bh-co__send:hover { transform: translateY(-2px) rotate(-1.5deg); background: var(--t-clay); }
+    .bh-co__send:active { transform: scale(.97); }
+    .bh-co__send:focus-visible { outline: 2px dashed var(--t-a); outline-offset: 4px; }
+    .bh-co__spin { display: none; width: 1.7rem; height: 1.7rem; }
+    .bh-co__ok { display: none; align-items: center; gap: .5rem; }
+    .bh-co__ok svg { width: 1.4rem; height: 1.4rem; }
+    .bh-co__form[data-state="loading"] .bh-co__label { display: none; }
+    .bh-co__form[data-state="loading"] .bh-co__spin { display: block; }
+    .bh-co__form[data-state="loading"] .bh-co__send { pointer-events: none; background: var(--t-clay); }
+    .bh-co__form[data-state="done"] .bh-co__label { display: none; }
+    .bh-co__form[data-state="done"] .bh-co__ok { display: inline-flex; }
+    .bh-co__form[data-state="done"] .bh-co__send { background: var(--t-a); color: var(--t-tx); pointer-events: none; }
+    .bh-co__check { stroke-dasharray: 30; stroke-dashoffset: 30; }
+    .bh-co__form[data-state="done"] .bh-co__check { stroke-dashoffset: 0; transition: stroke-dashoffset .45s ease .1s; }
+    .bh-co__petal { position: absolute; left: 50%; top: 50%; width: .7rem; height: .38rem; border-radius: 50%; pointer-events: none; opacity: 1; transition: transform .5s cubic-bezier(.1, .8, .3, 1), opacity .5s ease .1s; }
+
+    .bh-co--anim .bh-co__cardwrap { opacity: 0; transform: translate(30px, -20px) rotate(7deg) scale(1.05); }
+    .bh-co--anim.is-in .bh-co__cardwrap { opacity: 1; transform: none; transition: opacity .35s ease, transform .5s cubic-bezier(.3, 1.3, .5, 1); transition-delay: .2s; }
+    .bh-co--anim .bh-co__lead { clip-path: inset(0 100% 0 0); }
+    .bh-co--anim.is-in .bh-co__lead { clip-path: inset(0 0 0 0); transition: clip-path .5s cubic-bezier(.6, 0, .2, 1); }
+
+    @media (max-width: 860px) {
+      .bh-co { grid-template-columns: 1fr; }
+      .bh-co__lead { justify-self: start; }
+      .bh-co__stamp { right: -.6rem; width: 6.5rem; }
+    }
+    @media (max-width: 480px) {
+      .bh-co__form { grid-template-columns: 1fr; }
+      .bh-co__send { min-width: 0; width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bh-co *, .bh-co *::before, .bh-co *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+  <svg class="bhx-grain" aria-hidden="true" focusable="false"><filter id="bh32-gr-co"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .32 0 0 0 0 .2 0 0 0 0 .12 0 0 0 .55 0"/></filter><rect width="100%" height="100%" filter="url(#bh32-gr-co)"/></svg>
+  <header class="bh-co__lead">
+    <h2 class="bh-co__title" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">¿Nos acompañas?</h2>
+    <p class="bh-co__intro" memory_type="text" memory_usage="custom" memory_key="confirmacion-intro">Queremos preparar todo con cariño, así que nos ayuda mucho saber si vienes.</p>
+    <p class="bh-co__limit" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha-limite">Confirma antes del 15 de marzo de 2027</p>
+  </header>
+  <div class="bh-co__cardwrap">
+    <svg class="bh-co__stamp" viewBox="0 0 150 150" aria-hidden="true" focusable="false"><g transform="translate(70 120) rotate(-30)"><path d="M0 0Q9 -45 3.6 -90M1.4 -7.5q-3 -0.6 -6.1 -2.7M1.4 -7.5q3 -0.6 6.1 -2.7M2.6 -15q-4.7 -0.9 -9.4 -4.2M2.6 -15q4.7 -0.9 9.4 -4.2M3.6 -22.5q-5.8 -1.2 -11.6 -5.2M3.6 -22.5q5.8 -1.2 11.6 -5.2M4.4 -30q-8.3 -1.7 -16.6 -7.5M4.4 -30q8.3 -1.7 16.6 -7.5M5 -37.5q-9.5 -1.9 -18.9 -8.5M5 -37.5q9.5 -1.9 18.9 -8.5M5.4 -45q-9.2 -1.8 -18.4 -8.3M5.4 -45q9.2 -1.8 18.4 -8.3M5.6 -52.5q-9.7 -1.9 -19.5 -8.8M5.6 -52.5q9.7 -1.9 19.5 -8.8M5.6 -60q-10.2 -2 -20.4 -9.2M5.6 -60q10.2 -2 20.4 -9.2M5.4 -67.5q-9 -1.8 -18.1 -8.1M5.4 -67.5q9 -1.8 18.1 -8.1M5 -75q-7.2 -1.4 -14.5 -6.5M5 -75q7.2 -1.4 14.5 -6.5M4.4 -82.5q-7.2 -1.4 -14.3 -6.5M4.4 -82.5q7.2 -1.4 14.3 -6.5" style="fill:none;stroke:var(--t-clay);stroke-width:1.5;stroke-linecap:round"/></g><g transform="translate(76 122) rotate(26)"><path d="M0 0Q6.7 -42 0 -84" style="fill:none;stroke:var(--t-wood);stroke-width:1.3"/><path d="M-11.7 -18.8a6.6 5.4 0 1 0 13.2 0a6.6 5.4 0 1 0 -13.2 0M3.4 -35.4a6 4.9 0 1 0 12 0a6 4.9 0 1 0 -12 0M-7.7 -52a5.4 4.4 0 1 0 10.7 0a5.4 4.4 0 1 0 -10.7 0M2.5 -68.6a4.7 3.9 0 1 0 9.4 0a4.7 3.9 0 1 0 -9.4 0" style="fill:var(--t-taupe);opacity:.88"/></g><g transform="translate(64 70) rotate(15.7)"><path d="M0 0Q-2.2 -13.1 1.2 -21.4Q3.6 -12.8 0 0ZM0 0Q3.1 -14 9.8 -20.9Q8.8 -11.3 0 0ZM0 0Q7.6 -10.2 15.6 -13.4Q11.3 -6 0 0ZM0 0Q12.8 -6.1 22.3 -5Q14.2 0 0 0ZM0 0Q13.6 -0.1 21.5 4.7Q12.4 5.7 0 0ZM0 0Q11.5 6.1 15.9 13.6Q7.8 10.4 0 0ZM0 0Q8 10.9 8.8 19.9Q2.6 13.2 0 0ZM0 0Q2.9 12.2 0.4 20.2Q-2.5 12.3 0 0ZM0 0Q-2.5 11.6 -8 17.4Q-7.2 9.5 0 0ZM0 0Q-8.6 9.8 -17 12.4Q-12 5.2 0 0ZM0 0Q-10.9 5.3 -19.1 4.4Q-12.1 0.1 0 0ZM0 0Q-14.3 -0.2 -22.4 -5.4Q-12.8 -6.3 0 0ZM0 0Q-12.1 -5.5 -17.1 -12.9Q-8.6 -10.1 0 0ZM0 0Q-9.1 -10.8 -10.5 -20.3Q-3.6 -13.7 0 0Z" style="fill:var(--t-s)"/><path d="M0 0Q0.2 -9.9 4.4 -15.3Q5.1 -8.4 0 0ZM0 0Q4.7 -8.6 11 -11.5Q8.4 -5.1 0 0ZM0 0Q8.2 -3.6 14.3 -2.2Q8.9 1 0 0ZM0 0Q9 0.7 13.7 4.9Q7.4 5.1 0 0ZM0 0Q7.5 5.2 9.5 11.3Q3.9 8.3 0 0ZM0 0Q3.2 9 1.3 15.4Q-1.7 9.4 0 0ZM0 0Q-2 9.1 -6.9 13.3Q-6.3 6.9 0 0ZM0 0Q-6.1 6.3 -12.2 7.3Q-8.5 2.4 0 0ZM0 0Q-9.5 2 -15.6 -0.8Q-9.2 -3 0 0ZM0 0Q-8.1 -3.6 -11.2 -9Q-5.3 -7.2 0 0ZM0 0Q-5.4 -7.6 -5.3 -14.1Q-0.9 -9.3 0 0Z" style="fill:var(--t-rosewood)"/><circle r="5.9" style="fill:var(--t-a)"/><circle r="2.9" style="fill:var(--t-wood);opacity:.55"/></g><g transform="translate(92 88) rotate(11.6)"><path d="M0 0Q-1.8 -7.7 -0.2 -12.7Q1.6 -7.7 0 0ZM0 0Q1.3 -7.5 4.6 -11.3Q4.3 -6.2 0 0ZM0 0Q5.7 -6.7 11.3 -8.6Q8 -3.7 0 0ZM0 0Q8.3 -3.3 14.2 -2.3Q8.9 0.6 0 0ZM0 0Q7.6 -0.4 12.2 2.1Q7.1 2.9 0 0ZM0 0Q6.9 3.9 9.5 8.6Q4.6 6.5 0 0ZM0 0Q5.6 6.5 6.6 12.3Q2.3 8.3 0 0ZM0 0Q1.9 7.5 0.3 12.5Q-1.5 7.6 0 0ZM0 0Q-2.2 8.8 -6.6 13Q-5.8 7 0 0ZM0 0Q-5.4 6.3 -10.7 8Q-7.5 3.4 0 0ZM0 0Q-7.4 2.9 -12.7 2Q-7.9 -0.5 0 0ZM0 0Q-8.5 0.4 -13.4 -2.4Q-7.8 -3.3 0 0ZM0 0Q-8.3 -3.4 -11.9 -8.3Q-6.1 -6.6 0 0ZM0 0Q-4.8 -7 -5.2 -12.7Q-1.4 -8.4 0 0Z" style="fill:var(--t-a)"/><path d="M0 0Q0 -5.3 2.2 -8.3Q2.6 -4.7 0 0ZM0 0Q2.9 -4.8 6.5 -6.3Q4.9 -2.7 0 0ZM0 0Q5.7 -2.6 9.9 -1.6Q6.2 0.6 0 0ZM0 0Q5.8 0.8 8.7 3.7Q4.6 3.6 0 0ZM0 0Q4.7 4.1 5.7 8.4Q2.1 5.9 0 0ZM0 0Q1.5 5.5 0 9.2Q-1.5 5.5 0 0ZM0 0Q-1.2 5.7 -4.2 8.4Q-3.9 4.3 0 0ZM0 0Q-4.4 4.5 -8.7 5.1Q-6 1.7 0 0ZM0 0Q-5.8 1 -9.5 -0.9Q-5.5 -2.1 0 0ZM0 0Q-5.1 -2 -7 -5.3Q-3.4 -4.3 0 0ZM0 0Q-3 -4.8 -2.7 -8.7Q-0.2 -5.6 0 0Z" style="fill:var(--t-rosewood)"/><circle r="3.8" style="fill:var(--t-a)"/><circle r="1.8" style="fill:var(--t-wood);opacity:.55"/></g><g transform="translate(70 122) rotate(8)"><path d="M0 0Q4.2 -35 0 -51" style="fill:none;stroke:var(--t-taupe);stroke-width:1.4"/><ellipse cy="-58.1" rx="6" ry="11.9" style="fill:var(--t-cream)"/><path d="M5.9 -59l4.3 -0.3M5.8 -55.9l3 0.6M5.1 -52l2.3 1.3M3.6 -48.7l2.1 2.7M2.1 -47l0.9 2.4M1.3 -46.5l0.6 2.7M-1.2 -46.5l-0.8 3.8M-2 -46.9l-0.9 2.5M-3.7 -48.9l-2.5 3.1M-5.2 -52.3l-3.7 2.1M-5.5 -53.8l-2.4 0.9M-5.9 -58.7l-3.4 -0.2M-5.6 -61.9l-3.1 -1M-5.2 -63.9l-2.5 -1.4M-3.6 -67.6l-2.1 -2.8M-1.9 -69.4l-1.3 -3.7M-1.4 -69.7l-0.6 -2.3M1.1 -69.8l0.5 -2.7M2.3 -69l1 -2.3M3.9 -67.1l2.2 -2.5M5.1 -64.1l2.8 -1.6M5.8 -60.7l3.1 -0.7" style="stroke:var(--t-cream);stroke-width:1.2;stroke-linecap:round"/></g></svg>
+    <svg class="bh-co__tassel" viewBox="0 0 40 80" aria-hidden="true" focusable="false" data-co-tassel><path d="M20 0v18" style="stroke:var(--t-wood);stroke-width:2"/><rect x="10" y="16" width="20" height="10" rx="5" style="fill:var(--t-cream);stroke:var(--t-wood);stroke-width:1"/><path d="M12 26Q11.0 52 8.0 70" style="fill:none;stroke:var(--t-cord);stroke-width:1.6;stroke-linecap:round"/><path d="M14 26Q13.2 52 10.6 74" style="fill:none;stroke:var(--t-cord);stroke-width:1.6;stroke-linecap:round"/><path d="M16 26Q15.4 52 13.2 78" style="fill:none;stroke:var(--t-cord);stroke-width:1.6;stroke-linecap:round"/><path d="M18 26Q17.6 52 15.8 70" style="fill:none;stroke:var(--t-cord);stroke-width:1.6;stroke-linecap:round"/><path d="M20 26Q19.8 52 18.4 74" style="fill:none;stroke:var(--t-cord);stroke-width:1.6;stroke-linecap:round"/><path d="M22 26Q22.0 52 21.0 78" style="fill:none;stroke:var(--t-cord);stroke-width:1.6;stroke-linecap:round"/><path d="M24 26Q24.200000000000003 52 23.6 70" style="fill:none;stroke:var(--t-cord);stroke-width:1.6;stroke-linecap:round"/><path d="M26 26Q26.400000000000002 52 26.2 74" style="fill:none;stroke:var(--t-cord);stroke-width:1.6;stroke-linecap:round"/><path d="M28 26Q28.6 52 28.8 78" style="fill:none;stroke:var(--t-cord);stroke-width:1.6;stroke-linecap:round"/></svg>
+    <div class="bh-co__card">
+      <form class="bh-co__form" data-co-form data-state="idle" novalidate>
+        <label class="bh-co__field">
+          <span class="bh-co__lbl" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-nombre">Tu nombre completo</span>
+          <span class="bh-co__ctl"><input class="bh-co__in" type="text" name="nombre" autocomplete="name" placeholder="Nombre Apellido" required /><span class="bh-co__bar"></span></span>
+        </label>
+        <label class="bh-co__field" data-half>
+          <span class="bh-co__lbl" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-invitados">¿Cuántos vienen?</span>
+          <span class="bh-co__ctl"><input class="bh-co__in" type="number" name="invitados" min="1" max="6" inputmode="numeric" placeholder="1" /><span class="bh-co__bar"></span></span>
+        </label>
+        <fieldset class="bh-co__field bh-co__opts" data-half>
+          <legend><span class="bh-co__lbl" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-asistencia">¿Asistirás?</span></legend>
+          <label class="bh-co__opt"><input type="radio" name="asistencia" value="si" checked /><span class="bh-co__pill"><span class="bh-co__dot"></span><span memory_type="text" memory_usage="custom" memory_key="confirmacion-opcion-si">Sí, ahí estaré</span></span></label>
+          <label class="bh-co__opt"><input type="radio" name="asistencia" value="no" /><span class="bh-co__pill"><span class="bh-co__dot"></span><span memory_type="text" memory_usage="custom" memory_key="confirmacion-opcion-no">No podré ir</span></span></label>
+        </fieldset>
+        <label class="bh-co__field">
+          <span class="bh-co__lbl" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-mensaje">Unas palabras para nosotros</span>
+          <span class="bh-co__ctl"><textarea class="bh-co__in" name="mensaje" rows="3" placeholder="Opcional"></textarea><span class="bh-co__bar"></span></span>
+        </label>
+        <button class="bh-co__send" type="submit" data-co-send>
+          <span class="bh-co__label" memory_type="text" memory_usage="custom" memory_key="confirmacion-boton">Enviar confirmación</span>
+          <svg class="bh-co__spin" viewBox="-16 -16 32 32" aria-hidden="true" focusable="false" data-co-spin><g style="stroke:currentColor;stroke-width:2.4;stroke-linecap:round"><path d="M0 -9V-14" transform="rotate(0)"/><path d="M0 -9V-14" transform="rotate(45)"/><path d="M0 -9V-14" transform="rotate(90)"/><path d="M0 -9V-14" transform="rotate(135)"/><path d="M0 -9V-14" transform="rotate(180)"/><path d="M0 -9V-14" transform="rotate(225)"/><path d="M0 -9V-14" transform="rotate(270)"/><path d="M0 -9V-14" transform="rotate(315)"/></g><circle r="6" style="fill:currentColor"/></svg>
+          <span class="bh-co__ok"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path class="bh-co__check" d="M4 12.5l5 5L20 6" style="fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round"/></svg><span memory_type="text" memory_usage="custom" memory_key="confirmacion-gracias">¡Gracias! Te esperamos</span></span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="confirmacion-texto"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var HAS_IO = 'IntersectionObserver' in window;
+      /* rAF loop that runs only while the module is on screen and the tab is visible */
+      function loop(el, draw) {
+        var on = false, vis = !HAS_IO, id = 0;
+        function tick(t) { if (!on) return; draw(t); id = requestAnimationFrame(tick); }
+        function sync() {
+          var want = vis && !document.hidden;
+          if (want && !on) { on = true; id = requestAnimationFrame(tick); }
+          else if (!want && on) { on = false; cancelAnimationFrame(id); }
+        }
+        if (HAS_IO) new IntersectionObserver(function (e) { vis = e[e.length - 1].isIntersecting; sync(); }).observe(el);
+        document.addEventListener('visibilitychange', sync);
+        sync();
+      }
+      /* Entrance: states exist only while the --anim class is on; removed afterwards */
+      function entrance(cls, o) {
+        o = o || {};
+        if (RM || !HAS_IO) { if (o.done) o.done(); return; }
+        root.classList.add(cls + '--anim');
+        var io = new IntersectionObserver(function (en) {
+          var e = en[en.length - 1];
+          if (e.isIntersecting && e.intersectionRatio >= (o.r || .18)) {
+            io.disconnect();
+            requestAnimationFrame(function () { root.classList.add('is-in'); if (o.on) o.on(); });
+            setTimeout(function () { root.classList.remove(cls + '--anim', 'is-in'); if (o.done) o.done(); }, o.ms || 1800);
+          }
+        }, { threshold: [0, .08, .12, .18, .25, .35, .5] });
+        io.observe(root);
+      }
+      function themeColor(expr) {
+        var s = document.createElement('span');
+        s.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden;color:' + expr;
+        root.appendChild(s);
+        var c = getComputedStyle(s).color; root.removeChild(s); return c;
+      }
+
+      var form = root.querySelector('[data-co-form]');
+      var send = root.querySelector('[data-co-send]');
+      var spin = root.querySelector('[data-co-spin]');
+      var tassel = root.querySelector('[data-co-tassel]');
+      var spinning = false, t0 = 0;
+      function burst() {
+        if (RM) return;
+        var cols = ['var(--t-s)', 'var(--t-a)', 'var(--t-cream)', 'var(--t-rosewood)'];
+        for (var i = 0; i < 16; i++) {
+          var p = document.createElement('span');
+          p.className = 'bh-co__petal'; p.setAttribute('aria-hidden', 'true');
+          p.style.background = cols[i % cols.length];
+          send.appendChild(p);
+          (function (el, a, d) {
+            requestAnimationFrame(function () { requestAnimationFrame(function () {
+              el.style.transform = 'translate(' + (Math.cos(a) * d).toFixed(0) + 'px,' + (Math.sin(a) * d - 20).toFixed(0) + 'px) rotate(' + (a * 120).toFixed(0) + 'deg)';
+              el.style.opacity = '0';
+            }); });
+            setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 800);
+          })(p, (i / 16) * 6.283 + Math.random() * .3, 50 + Math.random() * 50);
+        }
+      }
+      if (form) form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (form.getAttribute('data-state') !== 'idle') return;
+        form.setAttribute('data-state', 'loading'); spinning = true; t0 = performance.now();
+        if (RM || !spin) { /* static spinner */ }
+        setTimeout(function () { spinning = false; form.setAttribute('data-state', 'done'); burst(); }, 1400);
+      });
+      if (RM) return;
+      entrance('bh-co', { r: .2, ms: 1300 });
+      loop(root, function (t) {
+        if (spinning && spin) spin.style.transform = 'rotate(' + (((t - t0) * .36) % 360).toFixed(1) + 'deg)';
+        if (tassel) tassel.style.transform = 'rotate(' + (Math.sin(t * .0013) * 4).toFixed(2) + 'deg)';
+      });
+
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Boho Chic Confirmación Tarjeta Prensada',
+      descripcion: 'Formulario RSVP en tarjeta de papel con bordes rústicos, flores prensadas y borla de macramé; opciones sí/no tejidas y botón con sol giratorio y lluvia de pétalos.',
+      tags: ['confirmacion', 'rsvp', 'boda', 'boho', 'formulario'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>

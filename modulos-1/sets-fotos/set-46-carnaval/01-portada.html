@@ -1,0 +1,380 @@
+<section
+  class="cv-po"
+  data-gemini-id="portada-nombre"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Monsieur+La+Doulaise&display=swap');
+
+    .cv-po, .cv-po *, .cv-po *::before, .cv-po *::after { box-sizing: border-box; }
+    .cv-po {
+      --t-bg: var(--bg-color, #14060f);
+      --t-tx: var(--text-color, #f3e4c8);
+      --t-p: var(--primary-color, #9b1028);
+      --t-s: var(--secondary-color, #4b1a6e);
+      --t-a: var(--accent-color, #b8862e);
+      --t-display: var(--font-script, 'Monsieur La Doulaise', cursive);
+      --t-text: var(--font-heading, 'IM Fell English', Georgia, serif);
+      --gold: linear-gradient(115deg, color-mix(in srgb, var(--t-a) 60%, #000) 0%, color-mix(in srgb, var(--t-a) 55%, #fff) 42%, var(--t-a) 58%, color-mix(in srgb, var(--t-a) 65%, #000) 100%);
+      --open: 1;
+      --gather: .8;
+      position: relative;
+      isolation: isolate;
+      min-height: max(100svh, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(7rem, 13vw, 10rem) clamp(1.5rem, 9vw, 8rem) clamp(4rem, 8vw, 6rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/venice,carnival,masquerade?lock=3501');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .cv-po::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(ellipse 60% 55% at 50% 48%, color-mix(in srgb, var(--t-s) 45%, transparent), transparent 75%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 86%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent));
+    }
+    .cv-po__damask { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; color: var(--t-a); opacity: .07; }
+    .cv-po__dust { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; pointer-events: none; }
+
+    .cv-po__arch {
+      position: absolute;
+      z-index: 0;
+      left: 50%;
+      bottom: 5%;
+      width: min(80%, 46rem);
+      height: 80%;
+      transform: translateX(-50%);
+      border-radius: 50% 50% 0 0 / 30% 30% 0 0;
+      border: 1px solid color-mix(in srgb, var(--t-a) 70%, transparent);
+      box-shadow:
+        inset 0 0 0 8px color-mix(in srgb, var(--t-bg) 50%, transparent),
+        inset 0 0 0 9px color-mix(in srgb, var(--t-a) 40%, transparent),
+        0 0 90px color-mix(in srgb, var(--t-s) 45%, transparent);
+      background: radial-gradient(ellipse at 50% 35%, color-mix(in srgb, var(--t-p) 22%, transparent), transparent 70%);
+    }
+
+    .cv-po__curtain {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 51%;
+      z-index: 3;
+      transform-origin: left center;
+      transform: scaleX(calc(1 - var(--gather) * var(--open)));
+      background:
+        linear-gradient(180deg, rgba(0, 0, 0, .35), transparent 28%, transparent 72%, rgba(0, 0, 0, .55)),
+        repeating-linear-gradient(90deg,
+          color-mix(in srgb, var(--t-p) 42%, #000) 0,
+          var(--t-p) 20px,
+          color-mix(in srgb, var(--t-p) 78%, var(--t-a)) 30px,
+          var(--t-p) 40px,
+          color-mix(in srgb, var(--t-p) 42%, #000) 62px);
+      box-shadow: 0 0 40px rgba(0, 0, 0, .6);
+    }
+    .cv-po__curtain[data-side="r"] { left: auto; right: 0; transform-origin: right center; }
+    .cv-po__curtain::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: 6px;
+      background: var(--gold);
+    }
+    .cv-po__curtain[data-side="r"]::after { right: auto; left: 0; }
+    .cv-po__curtain::before {
+      content: '';
+      position: absolute;
+      left: -4%;
+      right: -4%;
+      top: 60%;
+      height: 12px;
+      border-radius: 6px;
+      background: var(--gold);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, .5);
+      opacity: var(--open);
+    }
+
+    .cv-po__valance {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      z-index: 4;
+      height: clamp(3.4rem, 7vw, 5.6rem);
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--t-p) 40%, #000), var(--t-p) 85%);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, .55);
+    }
+    .cv-po__valance::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 7px;
+      background: repeating-linear-gradient(45deg, var(--t-a) 0 4px, color-mix(in srgb, var(--t-a) 55%, #000) 4px 8px);
+    }
+    .cv-po__valance::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      height: clamp(1.4rem, 3vw, 2.4rem);
+      background: radial-gradient(ellipse 50% 100% at 50% 0, var(--t-p) 0 84%, var(--t-a) 86% 96%, transparent 98%) 0 0 / clamp(3rem, 6.5vw, 5rem) 100% repeat-x;
+      filter: drop-shadow(0 6px 6px rgba(0, 0, 0, .45));
+    }
+
+    .cv-po__content {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 44rem);
+      display: grid;
+      justify-items: center;
+      gap: clamp(.4rem, 1.2vw, .8rem);
+      perspective: 900px;
+    }
+    .cv-po__mask3d {
+      position: relative;
+      width: clamp(11rem, 26vw, 16.5rem);
+      aspect-ratio: 26 / 25;
+      margin-bottom: -.6rem;
+      transform-style: preserve-3d;
+    }
+    .cv-po__layer { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+    .cv-po__layer[data-z="back"] { transform: translateZ(-40px); }
+    .cv-po__layer[data-z="face"] { filter: drop-shadow(0 10px 14px rgba(0, 0, 0, .55)); }
+    .cv-po__layer[data-z="gems"] { transform: translateZ(34px); }
+
+    .cv-po__eyebrow { margin: 0; font-style: italic; font-size: clamp(1.15rem, 2.4vw, 1.5rem); color: color-mix(in srgb, var(--t-tx) 78%, var(--t-a)); }
+    .cv-po__namewrap { filter: drop-shadow(0 4px 16px rgba(0, 0, 0, .7)); max-width: 100%; }
+    .cv-po__name {
+      margin: 0;
+      padding: .05em .35em .15em;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3.6rem, 10.5vw, 8.4rem);
+      line-height: 1.05;
+      background: var(--gold);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .cv-po__date {
+      margin: .2rem 0 0;
+      display: inline-flex;
+      align-items: center;
+      gap: .9rem;
+      font-size: clamp(1.1rem, 2.3vw, 1.45rem);
+    }
+    .cv-po__date::before, .cv-po__date::after {
+      content: '';
+      width: clamp(1.6rem, 5vw, 3.4rem);
+      height: 1px;
+      background: var(--gold);
+    }
+    .cv-po__phrase { margin: .4rem 0 0; max-width: 31rem; font-style: italic; font-size: clamp(1rem, 1.9vw, 1.2rem); line-height: 1.55; opacity: .88; }
+
+    .cv-po--anim .cv-po__namewrap {
+      -webkit-mask-image: linear-gradient(100deg, #000 calc(var(--cv-rv, 0%) - 14%), transparent var(--cv-rv, 0%));
+      mask-image: linear-gradient(100deg, #000 calc(var(--cv-rv, 0%) - 14%), transparent var(--cv-rv, 0%));
+    }
+    .cv-po--anim [data-cv-step] { opacity: 0; transform: translateY(10px); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .cv-po--anim [data-cv-step][data-on] { opacity: 1; transform: none; }
+
+    @media (max-width: 640px) {
+      .cv-po { --gather: .88; padding-inline: 2.4rem; }
+      .cv-po__arch { width: 88%; height: 74%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cv-po *, .cv-po *::before, .cv-po *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="cv-po__damask" aria-hidden="true">
+    <defs>
+      <path id="cvpo-fl" d="M0 -10C5 -4 5 4 0 10C-5 4 -5 -4 0 -10ZM-10 0C-4 -5 4 -5 10 0C4 5 -4 5 -10 0Z" />
+      <pattern id="cvpo-dm" width="80" height="110" patternUnits="userSpaceOnUse">
+        <path fill="currentColor" fill-rule="evenodd" d="M40 18C33 30 20 34 20 50C20 64 32 70 40 84C48 70 60 64 60 50C60 34 47 30 40 18ZM40 34C36 42 29 45 29 52C29 60 35 64 40 72C45 64 51 60 51 52C51 45 44 42 40 34ZM40 44C38 49 35 51 35 54C35 58 38 60 40 64C42 60 45 58 45 54C45 51 42 49 40 44ZM40 18C37 12 37 8 40 3C43 8 43 12 40 18ZM40 84C36 90 35 96 40 104C45 96 44 90 40 84Z" />
+        <path fill="none" stroke="currentColor" stroke-width="2" d="M20 50C12 48 8 40 12 34C15 30 20 32 19 37M60 50C68 48 72 40 68 34C65 30 60 32 61 37" />
+        <use href="#cvpo-fl" fill="currentColor" /><use href="#cvpo-fl" x="80" fill="currentColor" />
+        <use href="#cvpo-fl" y="110" fill="currentColor" /><use href="#cvpo-fl" x="80" y="110" fill="currentColor" />
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#cvpo-dm)" />
+  </svg>
+  <div class="cv-po__arch" aria-hidden="true"></div>
+  <canvas class="cv-po__dust" data-cv-dust aria-hidden="true"></canvas>
+  <div class="cv-po__curtain" data-side="l" aria-hidden="true"></div>
+  <div class="cv-po__curtain" data-side="r" aria-hidden="true"></div>
+  <div class="cv-po__valance" aria-hidden="true"></div>
+
+  <header class="cv-po__content">
+    <div class="cv-po__mask3d" data-cv-mask aria-hidden="true">
+      <svg class="cv-po__layer" data-z="back" viewBox="0 -20 260 250">
+        <defs>
+          <linearGradient id="cvpo-gd" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" style="stop-color: color-mix(in srgb, var(--t-a) 55%, #fff)" />
+            <stop offset=".5" style="stop-color: var(--t-a)" />
+            <stop offset="1" style="stop-color: color-mix(in srgb, var(--t-a) 55%, #000)" />
+          </linearGradient>
+          <linearGradient id="cvpo-fp" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0" style="stop-color: color-mix(in srgb, var(--t-s) 70%, #000)" />
+            <stop offset="1" style="stop-color: color-mix(in srgb, var(--t-s) 60%, #fff)" />
+          </linearGradient>
+          <linearGradient id="cvpo-fr" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0" style="stop-color: color-mix(in srgb, var(--t-p) 60%, #000)" />
+            <stop offset="1" style="stop-color: color-mix(in srgb, var(--t-p) 75%, #fff)" />
+          </linearGradient>
+          <linearGradient id="cvpo-fc" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" style="stop-color: color-mix(in srgb, var(--t-p) 85%, #fff)" />
+            <stop offset="1" style="stop-color: color-mix(in srgb, var(--t-p) 55%, #000)" />
+          </linearGradient>
+          <g id="cvpo-fe">
+            <path d="M0 0C-10 -30 -18 -70 -4 -112C2 -98 14 -70 10 -40C8 -24 4 -10 0 0Z" />
+            <path d="M0 0Q-3 -56 -4 -110M-2 -28l-10 -7M-3 -48l-11 -9M-3 -68l-10 -10M-1 -38l9 -10M-2 -58l10 -11M-3 -80l8 -11" fill="none" stroke="url(#cvpo-gd)" stroke-width="1.3" />
+          </g>
+        </defs>
+        <use href="#cvpo-fe" transform="translate(60 128) rotate(-44)" fill="url(#cvpo-fr)" />
+        <use href="#cvpo-fe" transform="translate(68 124) rotate(-24) scale(1.25)" fill="url(#cvpo-fp)" />
+        <use href="#cvpo-fe" transform="translate(78 122) rotate(-6) scale(1.08)" fill="url(#cvpo-fr)" />
+        <use href="#cvpo-fe" transform="translate(90 124) rotate(12) scale(.78)" fill="url(#cvpo-fp)" />
+        <use href="#cvpo-fe" transform="translate(204 126) rotate(32) scale(.62)" fill="url(#cvpo-fp)" />
+      </svg>
+      <svg class="cv-po__layer" data-z="face" viewBox="0 -20 260 250">
+        <path fill="url(#cvpo-fc)" fill-rule="evenodd" stroke="url(#cvpo-gd)" stroke-width="3" d="M130 140C116 124 84 112 50 120C30 125 20 140 28 156C38 176 70 186 94 178C110 173 122 166 130 168C138 166 150 173 166 178C190 186 222 176 232 156C240 140 230 125 210 120C176 112 144 124 130 140ZM54 150C66 136 92 136 104 152C92 162 66 164 54 150ZM206 150C194 136 168 136 156 152C168 162 194 164 206 150Z" />
+        <path fill="none" stroke="url(#cvpo-gd)" stroke-width="1.6" stroke-linecap="round" d="M66 129C82 120 104 124 115 137M194 129C178 120 156 124 145 137M44 140c-7 -2 -9 -11 -2 -13c5 -1 7 4 3 6M216 140c7 -2 9 -11 2 -13c-5 -1 -7 4 -3 6M110 166C118 160 124 158 130 158C136 158 142 160 150 166" />
+      </svg>
+      <svg class="cv-po__layer" data-z="gems" viewBox="0 -20 260 250">
+        <path d="M26 152C12 164 20 186 8 206M234 152C248 164 240 186 252 206" fill="none" stroke="url(#cvpo-fr)" stroke-width="3" stroke-linecap="round" />
+        <path d="M130 118l5 9-5 7-5-7z" fill="url(#cvpo-gd)" />
+        <circle cx="130" cy="142" r="7" fill="url(#cvpo-fr)" stroke="url(#cvpo-gd)" stroke-width="2.5" />
+        <path d="M79 166c-4 7-4 12 0 14c4-2 4-7 0-14z" fill="url(#cvpo-fp)" stroke="url(#cvpo-gd)" stroke-width="1.2" />
+        <g style="fill: color-mix(in srgb, var(--t-tx) 90%, var(--t-a))">
+          <circle cx="58" cy="172" r="2.4" /><circle cx="74" cy="178" r="2.4" /><circle cx="92" cy="180" r="2.4" />
+          <circle cx="168" cy="180" r="2.4" /><circle cx="186" cy="178" r="2.4" /><circle cx="202" cy="172" r="2.4" />
+        </g>
+      </svg>
+    </div>
+    <p class="cv-po__eyebrow" data-cv-step memory_type="text" memory_usage="custom" memory_key="portada-subtitulo">Mis XV Años · Baile de Máscaras</p>
+    <div class="cv-po__namewrap">
+      <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,3vw,1.6rem);width:clamp(150px,22vw,220px);"><img src="https://loremflickr.com/480/480/carnival,feathers,portrait?lock=318" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:2px solid var(--primary-color,#9b9b9b);box-shadow:0 14px 30px rgba(0,0,0,.18);" /><figcaption hidden>Retrato</figcaption></figure>
+<h1 class="cv-po__name" memory_type="text" memory_usage="custom" memory_key="portada-nombre">Nombre Apellido</h1>
+    </div>
+    <p class="cv-po__date" data-cv-step><time datetime="2027-02-13T19:00" memory_type="text" memory_usage="custom" memory_key="portada-fecha">Sábado 13 de febrero de 2027</time></p>
+    <p class="cv-po__phrase" data-cv-step memory_type="text" memory_usage="custom" memory_key="portada-frase">Tras el terciopelo se esconde una noche de misterio, oro y música. Ponte tu máscara: el telón está por abrirse.</p>
+  </header>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="portada-nombre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var cv = root.querySelector('[data-cv-dust]'), ctx = cv.getContext('2d');
+      var mask = root.querySelector('[data-cv-mask]');
+      var steps = root.querySelectorAll('[data-cv-step]');
+      var W = 0, H = 0, P = [], gold = '#b8862e';
+      function rnd(a, b) { return a + Math.random() * (b - a); }
+      for (var i = 0; i < 120; i++) P.push({ x: rnd(-1, 1), y: rnd(-1.1, 1.1), z: rnd(-1, 1), s: rnd(.6, 1.7), v: rnd(.012, .04), tw: rnd(0, 6.3) });
+      function size() {
+        var r = root.getBoundingClientRect(), d = Math.min(2, window.devicePixelRatio || 1);
+        W = r.width; H = r.height; cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0);
+        gold = getComputedStyle(root).getPropertyValue('--t-a').trim() || gold;
+      }
+      /* Manual perspective projection: rotate the dust field around Y, then scale by fov / (fov + z) */
+      function draw(t, dt) {
+        ctx.clearRect(0, 0, W, H);
+        var a = t * .00007, ca = Math.cos(a), sa = Math.sin(a), fov = 2.2;
+        ctx.fillStyle = gold;
+        for (var i = 0; i < P.length; i++) {
+          var p = P[i];
+          p.y += p.v * dt * .001; if (p.y > 1.15) p.y = -1.15;
+          var x = p.x * ca - p.z * sa, z = p.x * sa + p.z * ca, f = fov / (fov + z);
+          var sx = W / 2 + x * W * .55 * f, sy = H / 2 + p.y * H * .55 * f, s = p.s * f * 1.3;
+          ctx.globalAlpha = Math.max(.15, Math.min(.95, (f - .5) * .85)) * (.55 + .45 * Math.sin(t * .003 + p.tw));
+          ctx.beginPath(); ctx.moveTo(sx, sy - s * 2.2); ctx.lineTo(sx + s, sy); ctx.lineTo(sx, sy + s * 2.2); ctx.lineTo(sx - s, sy); ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+      }
+      size();
+      if ('ResizeObserver' in window) new ResizeObserver(size).observe(root);
+      if (RM || !('IntersectionObserver' in window)) { draw(0, 0); return; }   /* reduced motion = static final state */
+
+      root.classList.add('cv-po--anim');
+      root.style.setProperty('--open', '0');
+      var intro = true, t0 = -1, tx = 0, ty = 0, rx = 0, ry = 0;
+      var at = [1300, 2600, 2950];
+      root.addEventListener('pointermove', function (e) {
+        if (e.pointerType !== 'mouse') return;
+        var b = root.getBoundingClientRect();
+        ty = ((e.clientX - b.left) / b.width - .5) * 34; tx = -((e.clientY - b.top) / b.height - .5) * 22;
+      });
+      root.addEventListener('pointerleave', function () { tx = 0; ty = 0; });
+      function ease(k) { k = Math.max(0, Math.min(1, k)); return 1 - Math.pow(1 - k, 3); }
+
+      function finish() {
+        if (!intro) return;
+        intro = false;
+        root.classList.remove('cv-po--anim');
+        root.style.removeProperty('--open'); root.style.removeProperty('--cv-rv');
+        for (var j = 0; j < steps.length; j++) steps[j].removeAttribute('data-on');
+      }
+      var vis = false, raf = 0, last = 0;
+      function tick(t) {
+        raf = 0;
+        if (!vis || document.hidden) return;
+        var dt = last ? Math.min(50, t - last) : 16; last = t;
+        if (t0 < 0) t0 = t;
+        var e = t - t0, mk = 1, op = 1;
+        if (intro) {
+          root.style.setProperty('--open', ease((e - 300) / 1500).toFixed(3));
+          root.style.setProperty('--cv-rv', (ease((e - 1500) / 1300) * 116).toFixed(1) + '%');
+          for (var i = 0; i < steps.length; i++) if (e > at[i]) steps[i].setAttribute('data-on', '');
+          mk = ease((e - 800) / 1400); op = Math.min(1, Math.max(0, (e - 800) / 700));
+          if (e > 3700) finish();
+        }
+        rx += (tx - rx) * .06; ry += (ty - ry) * .06;
+        mask.style.opacity = op;
+        mask.style.transform = 'rotateX(' + (rx + Math.sin(t * .0007) * 4).toFixed(2) + 'deg) rotateY(' + (ry + Math.cos(t * .0005) * 9 + (1 - mk) * 75).toFixed(2) + 'deg) translateY(' + (Math.sin(t * .0011) * 6).toFixed(1) + 'px)';
+        draw(t, dt);
+        raf = requestAnimationFrame(tick);
+      }
+      function go() { if (!raf && vis && !document.hidden) { last = 0; raf = requestAnimationFrame(tick); } }
+      new IntersectionObserver(function (en) {
+        vis = en[0].isIntersecting;
+        if (!vis && t0 >= 0) { finish(); mask.style.opacity = 1; }   /* left mid-intro: settle in the final state */
+        go();
+      }).observe(root);
+      document.addEventListener('visibilitychange', go);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Carnaval Veneciano Telón de Rubí',
+      descripcion: 'Portada de XV años de carnaval veneciano: telón de terciopelo rubí que se abre, máscara con plumas en 3D que sigue el cursor, polvo de oro en perspectiva, damasco y nombre revelado en caligrafía dorada.',
+      tags: ['portada', 'quinceañera', 'carnaval', 'veneciano', 'mascara', 'terciopelo', 'damasco', '3d'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

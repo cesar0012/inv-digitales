@@ -1,0 +1,441 @@
+<section
+  class="gg-pt"
+  data-gemini-id="portada-nombre"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Grenze+Gotisch:wght@400;500;600;700&display=swap');
+
+    .gg-pt, .gg-pt *, .gg-pt *::before, .gg-pt *::after { box-sizing: border-box; }
+    .gg-pt {
+      --t-bg: var(--bg-color, #0d0809);
+      --t-tx: var(--text-color, #eee5dd);
+      --t-p: var(--primary-color, #7d0f1f);
+      --t-s: var(--secondary-color, #1f0b10);
+      --t-a: var(--accent-color, #a3a1aa);
+      --t-display: var(--font-script, 'Grenze Gotisch', 'Cormorant Garamond', serif);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      --gg-rv: 1;
+      --gg-spk: 0;
+      position: relative;
+      isolation: isolate;
+      min-height: max(100svh, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/gothic,cathedral,candles?lock=3301');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .gg-pt::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(120% 70% at 50% 110%, color-mix(in srgb, var(--t-p) 38%, transparent), transparent 60%),
+        radial-gradient(90% 80% at 50% 45%, color-mix(in srgb, var(--t-bg) 72%, transparent), color-mix(in srgb, var(--t-bg) 96%, transparent));
+    }
+    .gg-pt__scene {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    /* Pointed (ogive) arch frame */
+    .gg-pt__arch {
+      position: relative;
+      width: min(100%, 34rem);
+      min-height: min(46rem, 88svh);
+      display: grid;
+      align-content: end;
+      padding: clamp(9rem, 30vw, 12rem) clamp(1.4rem, 5vw, 3rem) clamp(2.4rem, 6vw, 3.4rem);
+      perspective: 1400px;
+    }
+    .gg-pt__frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      z-index: 0;
+    }
+    .gg-pt__frame path { vector-effect: non-scaling-stroke; fill: none; }
+    .gg-pt__frame .gg-pt__fill { fill: color-mix(in srgb, var(--t-bg) 74%, transparent); stroke: none; }
+    .gg-pt__inner { position: relative; z-index: 2; display: grid; gap: clamp(.7rem, 2vw, 1.1rem); justify-items: center; }
+
+    .gg-pt__crest { width: clamp(3.2rem, 9vw, 4.2rem); height: auto; margin-bottom: .2rem; }
+    .gg-pt__kicker {
+      margin: 0;
+      font-style: italic;
+      font-size: clamp(1.05rem, 2.4vw, 1.3rem);
+      color: color-mix(in srgb, var(--t-tx) 82%, var(--t-a));
+      max-width: 22rem;
+      line-height: 1.35;
+      text-wrap: balance;
+    }
+    .gg-pt__names {
+      position: relative;
+      margin: 0;
+      display: grid;
+      justify-items: center;
+      gap: .1em;
+      font-family: var(--t-display);
+      font-weight: 600;
+      font-size: clamp(3rem, 10vw, 5.4rem);
+      line-height: .95;
+      -webkit-mask-image: linear-gradient(90deg, #000 calc(var(--gg-rv) * 125% - 25%), transparent calc(var(--gg-rv) * 125%));
+      mask-image: linear-gradient(90deg, #000 calc(var(--gg-rv) * 125% - 25%), transparent calc(var(--gg-rv) * 125%));
+    }
+    .gg-pt__name {
+      background: linear-gradient(175deg, var(--t-tx) 20%, color-mix(in srgb, var(--t-a) 85%, var(--t-tx)) 55%, color-mix(in srgb, var(--t-a) 70%, var(--t-bg)) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 .5em color-mix(in srgb, var(--t-p) 25%, transparent);
+      padding: 0 .08em;
+    }
+    .gg-pt__amp {
+      font-family: var(--t-text);
+      font-style: italic;
+      font-weight: 400;
+      font-size: .55em;
+      color: var(--t-p);
+      filter: drop-shadow(0 0 .25em color-mix(in srgb, var(--t-p) 60%, transparent));
+    }
+    .gg-pt__spark {
+      position: absolute;
+      top: 50%;
+      left: calc(var(--gg-rv) * 100%);
+      width: 3.4rem;
+      height: 3.4rem;
+      margin: -1.7rem 0 0 -1.7rem;
+      border-radius: 50%;
+      background: radial-gradient(circle, color-mix(in srgb, var(--t-tx) 90%, transparent), color-mix(in srgb, var(--t-p) 45%, transparent) 35%, transparent 70%);
+      opacity: var(--gg-spk);
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+    .gg-pt__rule { width: min(16rem, 70%); height: 1px; background: linear-gradient(90deg, transparent, var(--t-a), transparent); }
+    .gg-pt__date {
+      display: block;
+      font-size: clamp(1.25rem, 3vw, 1.6rem);
+      font-weight: 500;
+      color: var(--t-tx);
+      letter-spacing: .02em;
+    }
+    .gg-pt__phrase { margin: 0; font-style: italic; font-size: clamp(1rem, 2.2vw, 1.18rem); color: color-mix(in srgb, var(--t-tx) 78%, transparent); max-width: 24rem; text-wrap: balance; }
+    .gg-pt__place { margin: 0; font-size: clamp(.95rem, 2vw, 1.05rem); color: color-mix(in srgb, var(--t-a) 90%, var(--t-tx)); }
+
+    /* Lace gates (CSS preserve-3d) — closed only while JS runs the entrance */
+    .gg-pt__gates {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      transform-style: preserve-3d;
+      pointer-events: none;
+    }
+    .gg-pt__gate {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 50%;
+      opacity: 0;
+      background:
+        radial-gradient(circle at 50% 50%, transparent 5px, color-mix(in srgb, var(--t-a) 26%, transparent) 5.5px 6.5px, transparent 7px) 0 0 / 22px 22px,
+        radial-gradient(circle at 0 0, color-mix(in srgb, var(--t-a) 22%, transparent) 1.4px, transparent 2px) 0 0 / 11px 11px,
+        linear-gradient(180deg, var(--t-s), var(--t-bg));
+      backface-visibility: hidden;
+      transition: transform .5s cubic-bezier(.6, .05, .3, 1), opacity .4s ease .25s;
+    }
+    .gg-pt__gate--l {
+      left: 0;
+      transform-origin: 0 50%;
+      transform: rotateY(-108deg);
+      clip-path: polygon(0 36%, 3.5% 29.4%, 12.8% 23.3%, 26.4% 17.8%, 42.5% 12.8%, 59.6% 8.4%, 75.9% 4.8%, 90% 2%, 100% 0, 100% 100%, 0 100%);
+    }
+    .gg-pt__gate--r {
+      right: 0;
+      transform-origin: 100% 50%;
+      transform: rotateY(108deg);
+      clip-path: polygon(100% 36%, 96.5% 29.4%, 87.2% 23.3%, 73.6% 17.8%, 57.5% 12.8%, 40.4% 8.4%, 24.1% 4.8%, 10% 2%, 0 0, 0 100%, 100% 100%);
+    }
+    .gg-pt--anim .gg-pt__gate { opacity: 1; transform: none; transition: none; }
+    .gg-pt--anim.is-in .gg-pt__gate { opacity: 0; transition: transform .5s cubic-bezier(.6, .05, .3, 1), opacity .4s ease .25s; }
+    .gg-pt--anim.is-in .gg-pt__gate--l { transform: rotateY(-108deg); }
+    .gg-pt--anim.is-in .gg-pt__gate--r { transform: rotateY(108deg); }
+
+    .gg-pt--anim .gg-pt__soft { opacity: 0; transform: translateY(10px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .gg-pt--anim.is-in .gg-pt__soft { opacity: 1; transform: none; }
+    .gg-pt--anim.is-in .gg-pt__soft:nth-child(5) { transition-delay: 1.3s; }
+    .gg-pt--anim.is-in .gg-pt__soft:nth-child(6) { transition-delay: 1.45s; }
+    .gg-pt--anim.is-in .gg-pt__soft:nth-child(7) { transition-delay: 1.6s; }
+    .gg-pt--anim.is-in .gg-pt__soft:nth-child(8) { transition-delay: 1.75s; }
+    .gg-pt--anim.is-in .gg-pt__soft:nth-child(1),
+    .gg-pt--anim.is-in .gg-pt__soft:nth-child(2) { transition-delay: .45s; }
+
+    .gg-pt__cue {
+      position: absolute;
+      left: 50%;
+      bottom: clamp(.8rem, 2.5vw, 1.4rem);
+      width: 1px;
+      height: 2.6rem;
+      background: linear-gradient(180deg, transparent, var(--t-a));
+      transform: translateX(-50%);
+      opacity: .7;
+    }
+
+    @media (max-width: 560px) {
+      .gg-pt__arch { padding-top: clamp(8rem, 38vw, 10rem); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .gg-pt *, .gg-pt *::before, .gg-pt *::after { animation: none !important; transition: none !important; }
+      .gg-pt__gate { display: none !important; }
+    }
+  </style>
+
+  <canvas class="gg-pt__scene" data-gg-scene aria-hidden="true"></canvas>
+
+  <header class="gg-pt__arch">
+    <svg class="gg-pt__frame" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <path class="gg-pt__fill" d="M0 100 V36 C0 18 40 4 50 0 C60 4 100 18 100 36 V100 Z" />
+      <path d="M0 100 V36 C0 18 40 4 50 0 C60 4 100 18 100 36 V100" style="stroke: var(--t-a); stroke-width: 1.4px; opacity: .85" />
+      <path d="M3 100 V37.5 C3 21 41 8 50 4 C59 8 97 21 97 37.5 V100" style="stroke: var(--t-a); stroke-width: .7px; opacity: .45" />
+      <path d="M50 4 V14 M38 9.5 C44 13 47 16 50 22 C53 16 56 13 62 9.5" style="stroke: var(--t-p); stroke-width: 1px; opacity: .8" />
+    </svg>
+
+    <div class="gg-pt__gates" aria-hidden="true">
+      <div class="gg-pt__gate gg-pt__gate--l"></div>
+      <div class="gg-pt__gate gg-pt__gate--r"></div>
+    </div>
+
+    <div class="gg-pt__inner">
+      <svg class="gg-pt__crest gg-pt__soft" viewBox="0 0 64 64" aria-hidden="true">
+        <defs>
+          <radialGradient id="gg-pt-rose" cx="50%" cy="45%" r="60%">
+            <stop offset="0%" style="stop-color: color-mix(in srgb, var(--t-p) 70%, #fff)" />
+            <stop offset="60%" style="stop-color: var(--t-p)" />
+            <stop offset="100%" style="stop-color: color-mix(in srgb, var(--t-p) 45%, #000)" />
+          </radialGradient>
+        </defs>
+        <path d="M32 50 C30 56 28 60 24 62 M32 50 C34 55 37 58 42 60" style="stroke: var(--t-a); fill: none; stroke-width: 1.2" />
+        <path d="M20 46 C14 44 12 40 14 36 C18 40 22 42 26 44 Z M44 46 C50 44 52 40 50 36 C46 40 42 42 38 44 Z" style="fill: color-mix(in srgb, var(--t-a) 50%, var(--t-bg))" />
+        <path d="M32 12 C44 12 50 22 48 32 C46 42 38 48 32 48 C26 48 18 42 16 32 C14 22 20 12 32 12 Z" fill="url(#gg-pt-rose)" />
+        <path d="M32 18 C40 19 43 26 41 32 C39 38 34 40 30 38 C26 36 25 30 28 26 C30 23 34 23 35 27" style="fill: none; stroke: color-mix(in srgb, var(--t-p) 40%, #000); stroke-width: 1.3" />
+        <path d="M20 26 C22 34 26 40 32 42 M44 26 C42 34 38 40 32 42" style="fill: none; stroke: color-mix(in srgb, var(--t-p) 40%, #000); stroke-width: 1.1" />
+      </svg>
+      <p class="gg-pt__kicker gg-pt__soft" memory_type="text" memory_usage="custom" memory_key="portada-invitacion">Bajo la luz de las velas, les invitamos a nuestra boda</p>
+      <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,3vw,1.6rem);width:clamp(150px,22vw,220px);"><img src="https://loremflickr.com/480/480/gothic,cathedral,portrait?lock=312" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:2px solid var(--primary-color,#9b9b9b);box-shadow:0 14px 30px rgba(0,0,0,.18);" /><figcaption hidden>Retrato</figcaption></figure>
+<h1 class="gg-pt__names">
+        <span class="gg-pt__name" memory_type="text" memory_usage="custom" memory_key="portada-novia">Nombre</span>
+        <span class="gg-pt__amp" aria-hidden="true">&amp;</span>
+        <span class="gg-pt__name" memory_type="text" memory_usage="custom" memory_key="portada-novio">Nombre</span>
+        <span class="gg-pt__spark" aria-hidden="true"></span>
+      </h1>
+      <span class="gg-pt__rule" aria-hidden="true"></span>
+      <time class="gg-pt__date gg-pt__soft" datetime="2027-10-30T19:00" memory_type="text" memory_usage="custom" memory_key="portada-fecha">Sábado 30 de octubre de 2027</time>
+      <p class="gg-pt__phrase gg-pt__soft" memory_type="text" memory_usage="custom" memory_key="portada-frase">Una noche de rosas oscuras y promesas eternas</p>
+      <p class="gg-pt__place gg-pt__soft" memory_type="text" memory_usage="custom" memory_key="portada-lugar">Capilla de San Nombre · Ciudad</p>
+    </div>
+  </header>
+  <span class="gg-pt__cue" aria-hidden="true"></span>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="portada-nombre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* ---------- 3D candelabra scene: canvas + manual perspective projection ---------- */
+      var cv = root.querySelector('[data-gg-scene]');
+      var ctx = cv && cv.getContext ? cv.getContext('2d') : null;
+      var W = 0, H = 0, F = 1, t0 = performance.now(), running = false, visible = true, raf = 0;
+      var cam = { x: 0, y: 0, tx: 0, ty: 0 };
+      var cs = getComputedStyle(root);
+      var cP = (cs.getPropertyValue('--t-p') || '#7d0f1f').trim();
+      var cA = (cs.getPropertyValue('--t-a') || '#a3a1aa').trim();
+      var cT = (cs.getPropertyValue('--t-tx') || '#eee5dd').trim();
+      var petals = [], motes = [];
+      function rnd(a, b) { return a + Math.random() * (b - a); }
+      for (var i = 0; i < 26; i++) petals.push({ x: rnd(-7, 7), y: rnd(-5, 4), z: rnd(3, 14), r: rnd(.09, .16), a: rnd(0, 6.28), b: rnd(0, 6.28), va: rnd(-.8, .8), vb: rnd(.6, 1.6), vy: rnd(.18, .38), sh: rnd(.55, .95) });
+      for (var j = 0; j < 34; j++) motes.push({ x: rnd(-10, 10), y: rnd(-5, 4), z: rnd(10, 26), ph: rnd(0, 6.28) });
+
+      function size() {
+        var r = root.getBoundingClientRect();
+        var d = Math.min(2, window.devicePixelRatio || 1);
+        W = r.width; H = r.height;
+        cv.width = Math.round(W * d); cv.height = Math.round(H * d);
+        ctx.setTransform(d, 0, 0, d, 0, 0);
+        F = Math.min(W, H * 1.1) * .95;
+      }
+      function P(x, y, z) { var s = F / z; return { x: W / 2 + (x - cam.x) * s, y: H * .54 + (y - cam.y) * s, s: s }; }
+
+      function flame(p, w, t, ph) {
+        var fl = .86 + .1 * Math.sin(t * 11 + ph) + .05 * Math.sin(t * 23 + ph * 2);
+        var h = w * 2.6 * fl, x = p.x + Math.sin(t * 3 + ph) * w * .12;
+        var g = ctx.createRadialGradient(x, p.y - h * .4, 0, x, p.y - h * .4, w * 9);
+        g.addColorStop(0, 'rgba(255,240,220,.55)'); g.addColorStop(.25, 'rgba(255,190,150,.16)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.globalAlpha = 1; ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, p.y - h * .4, w * 9, 0, 6.283); ctx.fill();
+        ctx.beginPath(); ctx.moveTo(x, p.y - h);
+        ctx.quadraticCurveTo(x + w, p.y - h * .25, x, p.y);
+        ctx.quadraticCurveTo(x - w, p.y - h * .25, x, p.y - h);
+        var fg = ctx.createLinearGradient(x, p.y - h, x, p.y);
+        fg.addColorStop(0, 'rgba(255,250,240,.95)'); fg.addColorStop(.6, 'rgba(255,214,170,.95)'); fg.addColorStop(1, cP);
+        ctx.fillStyle = fg; ctx.fill();
+      }
+
+      function candelabra(cx, cz, rot, t, seed) {
+        var foot = 2.35, top = -.35, arms = 5, R = .95;
+        ctx.lineCap = 'round';
+        /* foot */
+        ctx.strokeStyle = cA; ctx.globalAlpha = .75; ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        for (var k = 0; k <= 24; k++) { var a = k / 24 * 6.283; var q = P(cx + Math.cos(a) * .5, foot, cz + Math.sin(a) * .5); k ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y); }
+        ctx.stroke();
+        var b = P(cx, foot, cz), tp = P(cx, top, cz);
+        ctx.lineWidth = Math.max(1.5, b.s * .07); ctx.globalAlpha = .9;
+        ctx.beginPath(); ctx.moveTo(b.x, b.y); ctx.lineTo(tp.x, tp.y); ctx.stroke();
+        /* balusters */
+        [1.7, 1.0, .35].forEach(function (yy, n) {
+          var q = P(cx, yy, cz);
+          ctx.beginPath(); ctx.ellipse(q.x, q.y, q.s * (.13 - n * .02), q.s * .06, 0, 0, 6.283);
+          ctx.fillStyle = cA; ctx.globalAlpha = .8; ctx.fill();
+        });
+        /* arms sorted back-to-front */
+        var list = [];
+        for (var m = 0; m < arms; m++) { var an = rot + m / arms * 6.283; list.push({ a: an, d: Math.sin(an) }); }
+        list.sort(function (u, v) { return v.d - u.d; });
+        list.forEach(function (it, idx) {
+          var ex = cx + Math.cos(it.a) * R, ez = cz + Math.sin(it.a) * R;
+          var s0 = P(cx, .25, cz), c1 = P(cx + Math.cos(it.a) * R * 1.05, .65, cz + Math.sin(it.a) * R * 1.05), e = P(ex, -.45, ez);
+          var depth = .55 + .45 * (1 - (it.d + 1) / 2);
+          ctx.globalAlpha = depth; ctx.strokeStyle = cA; ctx.lineWidth = Math.max(1, e.s * .045);
+          ctx.beginPath(); ctx.moveTo(s0.x, s0.y); ctx.quadraticCurveTo(c1.x, c1.y, e.x, e.y); ctx.stroke();
+          /* cup + candle */
+          ctx.beginPath(); ctx.ellipse(e.x, e.y, e.s * .1, e.s * .035, 0, 0, 6.283); ctx.fillStyle = cA; ctx.fill();
+          var ct = P(ex, -1.15, ez);
+          ctx.strokeStyle = cT; ctx.lineWidth = Math.max(2, e.s * .08); ctx.globalAlpha = depth * .95;
+          ctx.beginPath(); ctx.moveTo(e.x, e.y); ctx.lineTo(ct.x, ct.y); ctx.stroke();
+          flame(ct, Math.max(2, ct.s * .055), t, seed + idx * 1.7);
+        });
+        /* center candle */
+        var cc0 = P(cx, top, cz), cc1 = P(cx, -1.55, cz);
+        ctx.strokeStyle = cT; ctx.lineWidth = Math.max(2.2, cc0.s * .09); ctx.globalAlpha = 1;
+        ctx.beginPath(); ctx.moveTo(cc0.x, cc0.y); ctx.lineTo(cc1.x, cc1.y); ctx.stroke();
+        flame(cc1, Math.max(2.2, cc1.s * .06), t, seed + 9);
+      }
+
+      function petal(p, r, a, b, sh) {
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(a);
+        ctx.scale(1, .25 + .75 * Math.abs(Math.cos(b)));
+        var rr = r * p.s;
+        ctx.beginPath(); ctx.moveTo(0, -rr);
+        ctx.bezierCurveTo(rr * .95, -rr * .8, rr * .8, rr * .55, 0, rr);
+        ctx.bezierCurveTo(-rr * .8, rr * .55, -rr * .95, -rr * .8, 0, -rr);
+        ctx.globalAlpha = sh; ctx.fillStyle = cP; ctx.fill();
+        ctx.globalAlpha = sh * .35; ctx.fillStyle = '#000';
+        ctx.beginPath(); ctx.ellipse(0, rr * .35, rr * .5, rr * .55, 0, 0, 6.283); ctx.fill();
+        ctx.restore();
+      }
+
+      function frame(now) {
+        var t = (now - t0) / 1000;
+        cam.x += (cam.tx + Math.sin(t * .23) * .35 - cam.x) * .04;
+        cam.y += (cam.ty - cam.y) * .04;
+        ctx.clearRect(0, 0, W, H);
+        /* far motes */
+        motes.forEach(function (m) {
+          var q = P(m.x, m.y + Math.sin(t * .4 + m.ph) * .3, m.z);
+          ctx.globalAlpha = .25 + .2 * Math.sin(t * 1.3 + m.ph);
+          ctx.fillStyle = cP; ctx.beginPath(); ctx.arc(q.x, q.y, Math.max(1, q.s * .05), 0, 6.283); ctx.fill();
+        });
+        var narrow = W < 640, off = narrow ? 2.05 : 3.4, z = narrow ? 6.4 : 7.2;
+        candelabra(-off, z, t * .35, t, 1);
+        candelabra(off, z, -t * .35 + 1.2, t, 4);
+        petals.forEach(function (pt) {
+          var dt = .016;
+          pt.y += pt.vy * dt * 2; pt.a += pt.va * dt; pt.b += pt.vb * dt;
+          pt.x += Math.sin(t * .5 + pt.b) * .004;
+          if (pt.y > 5) { pt.y = -5.5; pt.x = rnd(-7, 7); }
+          petal(P(pt.x, pt.y, pt.z), pt.r, pt.a, pt.b, pt.sh);
+        });
+        ctx.globalAlpha = 1;
+        if (running) raf = requestAnimationFrame(frame);
+      }
+      function start() { if (!running && visible && !document.hidden && !RM) { running = true; raf = requestAnimationFrame(frame); } }
+      function stop() { running = false; cancelAnimationFrame(raf); }
+
+      if (ctx) {
+        size();
+        if ('ResizeObserver' in window) new ResizeObserver(function () { size(); if (!running) frame(performance.now()); }).observe(root);
+        if (RM) { frame(t0 + 4000); }
+        else {
+          if ('IntersectionObserver' in window) {
+            new IntersectionObserver(function (en) { visible = en[0].isIntersecting; visible ? start() : stop(); }).observe(root);
+          }
+          document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+          root.addEventListener('pointermove', function (e) {
+            var r = root.getBoundingClientRect();
+            cam.tx = ((e.clientX - r.left) / r.width - .5) * 1.4;
+            cam.ty = ((e.clientY - r.top) / r.height - .5) * .6;
+          });
+          start();
+        }
+      }
+
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      /* ---------- Entrance: lace gates open, then progressive title reveal ---------- */
+      root.classList.add('gg-pt--anim');
+      root.style.setProperty('--gg-rv', '0');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          io.disconnect();
+          setTimeout(function () { root.classList.add('is-in'); }, 650);
+          var s = 0;
+          function reveal(now) {
+            if (!s) s = now;
+            var k = Math.min(1, (now - s - 950) / 1500);
+            if (k < 0) k = 0;
+            var e = 1 - Math.pow(1 - k, 3);
+            root.style.setProperty('--gg-rv', e.toFixed(4));
+            root.style.setProperty('--gg-spk', (k > 0 && k < 1 ? Math.sin(k * Math.PI) : 0).toFixed(3));
+            if (k < 1) requestAnimationFrame(reveal);
+            else {
+              root.style.removeProperty('--gg-rv');
+              root.style.removeProperty('--gg-spk');
+              setTimeout(function () { root.classList.remove('gg-pt--anim', 'is-in'); }, 900);
+            }
+          }
+          requestAnimationFrame(reveal);
+        }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Glamour Gótico Arco de Velas',
+      descripcion: 'Portada gótica: arco ojival con rejas de encaje que se abren en 3D, candelabros victorianos girando en canvas con velas y pétalos rojos, y nombres revelados a la luz de una chispa.',
+      tags: ['portada', 'boda', 'gotico', 'glamour', 'candelabros', 'rosas', 'encaje', '3d'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

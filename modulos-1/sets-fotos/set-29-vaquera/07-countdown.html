@@ -1,0 +1,233 @@
+<section
+  class="vq-cd"
+  data-gemini-id="countdown-vaquera"
+  data-countdown-target="2027-04-17T18:00:00"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Rye&family=IM+Fell+English:ital@0;1&display=swap');
+
+    .vq-cd, .vq-cd *, .vq-cd *::before, .vq-cd *::after { box-sizing: border-box; }
+    .vq-cd {
+      --t-bg: var(--bg-color, #24140c);
+      --t-tx: var(--text-color, #f4e7cf);
+      --t-p: var(--primary-color, #c99a3e);
+      --t-s: var(--secondary-color, #7a4a2a);
+      --t-a: var(--accent-color, #a3302a);
+      --t-display: var(--font-script, 'Rye', serif);
+      --t-text: var(--font-heading, 'IM Fell English', Georgia, serif);
+      --rope-a: color-mix(in srgb, var(--t-p) 70%, var(--t-tx));
+      --rope-b: color-mix(in srgb, var(--t-p) 50%, var(--t-bg));
+      --wood-a: color-mix(in srgb, var(--t-s) 85%, var(--t-tx));
+      --wood-b: var(--t-s);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/desert,night,stars?lock=2971');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .vq-cd::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(60% 60% at 25% 60%, color-mix(in srgb, var(--t-p) 14%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 80%, transparent), color-mix(in srgb, var(--t-bg) 94%, transparent));
+    }
+    .vq-cd__content { width: min(100%, 66rem); }
+    .vq-cd__eyebrow { margin: 0; font-style: italic; color: var(--t-p); font-size: clamp(1.1rem, 2.2vw, 1.35rem); }
+    .vq-cd__title { margin: .2rem 0 clamp(2rem, 5vw, 3.2rem); font-family: var(--t-display); font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.05; }
+
+    .vq-cd__stage { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: clamp(1.5rem, 5vw, 4rem); }
+    .vq-cd__wheelbox { position: relative; width: clamp(11rem, 26vw, 17rem); }
+    .vq-cd__wheel { display: block; width: 100%; height: auto; filter: drop-shadow(0 14px 18px color-mix(in srgb, var(--t-bg) 85%, transparent)); }
+    .vq-cd__ground { position: absolute; left: -15%; right: -15%; bottom: -6px; height: 6px; border-radius: 3px; background: repeating-linear-gradient(60deg, var(--rope-a) 0 3px, var(--rope-b) 3px 6px); }
+
+    .vq-cd__units { position: relative; list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; gap: clamp(.8rem, 2.4vw, 1.6rem); }
+    .vq-cd__units::before { content: ''; position: absolute; left: 4%; right: 4%; top: 42%; height: 5px; border-radius: 3px; background: repeating-linear-gradient(60deg, var(--rope-a) 0 3px, var(--rope-b) 3px 6px); z-index: -1; opacity: .8; }
+    .vq-cd__unit { display: grid; justify-items: center; gap: .55rem; }
+    .vq-cd__unit:nth-child(even) { transform: translateY(.9rem); }
+    .vq-cd__head {
+      display: grid;
+      place-items: center;
+      width: clamp(5.4rem, 11vw, 7.6rem);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: repeating-radial-gradient(circle at 46% 54%, var(--wood-a) 0 2px, var(--wood-b) 2px 7px);
+      border: 6px solid color-mix(in srgb, var(--t-p) 55%, var(--t-bg));
+      box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--t-bg) 60%, transparent), inset 0 -10px 20px color-mix(in srgb, var(--t-bg) 55%, transparent), 0 14px 24px -12px color-mix(in srgb, var(--t-bg) 90%, transparent);
+    }
+    .vq-cd__num { display: block; font-family: var(--t-display); font-size: clamp(1.9rem, 4.4vw, 2.9rem); line-height: 1; color: var(--t-tx); text-shadow: 0 2px 0 color-mix(in srgb, var(--t-bg) 80%, transparent); font-variant-numeric: tabular-nums; }
+    .vq-cd__num[data-tick] { animation: vq-cd-tick .35s cubic-bezier(.3, 1.6, .5, 1); }
+    @keyframes vq-cd-tick { from { transform: scale(.7) rotate(-8deg); opacity: .4; } to { transform: none; opacity: 1; } }
+    .vq-cd__lbl { margin: 0; font-style: italic; font-size: 1.1rem; color: var(--t-p); }
+    .vq-cd__note { margin: clamp(2.2rem, 5vw, 3rem) 0 0; font-style: italic; font-size: 1.1rem; color: color-mix(in srgb, var(--t-tx) 80%, var(--t-p)); }
+
+    .vq-cd--anim .vq-cd__wheelbox { opacity: 0; transform: translateX(-60px) rotate(-120deg); transition: opacity .4s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .vq-cd--anim .vq-cd__head { transform: scale(.3); opacity: 0; transition: transform .45s cubic-bezier(.3, 1.5, .5, 1), opacity .3s ease; }
+    .vq-cd--anim .vq-cd__unit:nth-child(2) .vq-cd__head { transition-delay: .1s; }
+    .vq-cd--anim .vq-cd__unit:nth-child(3) .vq-cd__head { transition-delay: .2s; }
+    .vq-cd--anim .vq-cd__unit:nth-child(4) .vq-cd__head { transition-delay: .3s; }
+    .vq-cd--anim.is-in .vq-cd__wheelbox { opacity: 1; transform: none; }
+    .vq-cd--anim.is-in .vq-cd__head { transform: none; opacity: 1; }
+
+    @media (max-width: 760px) {
+      .vq-cd__stage { grid-template-columns: 1fr; justify-items: center; }
+      .vq-cd__units { display: grid; grid-template-columns: repeat(2, auto); column-gap: 2rem; row-gap: 1.2rem; }
+      .vq-cd__units::before { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .vq-cd *, .vq-cd *::before, .vq-cd *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="vq-cd__content">
+    <header>
+      <p class="vq-cd__eyebrow" memory_type="text" memory_usage="custom" memory_key="countdown-intro">Ensillen, que ya casi</p>
+      <h2 class="vq-cd__title" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Cuenta regresiva</h2>
+    </header>
+
+    <div class="vq-cd__stage">
+      <div class="vq-cd__wheelbox" aria-hidden="true">
+        <svg class="vq-cd__wheel" viewBox="0 0 200 200">
+          <g data-vq-wheel transform="rotate(0 100 100)">
+            <circle cx="100" cy="100" r="88" fill="none" style="stroke: var(--wood-b)" stroke-width="14" />
+            <circle cx="100" cy="100" r="88" fill="none" style="stroke: var(--wood-a)" stroke-width="1" stroke-dasharray="14 10" opacity=".6" />
+            <circle cx="100" cy="100" r="96" fill="none" style="stroke: color-mix(in srgb, var(--t-p) 60%, var(--t-bg))" stroke-width="5" />
+            <g style="fill: color-mix(in srgb, var(--t-p) 80%, var(--t-tx))">
+              <circle cx="100" cy="4" r="2" /><circle cx="196" cy="100" r="2" /><circle cx="100" cy="196" r="2" /><circle cx="4" cy="100" r="2" />
+              <circle cx="168" cy="32" r="2" /><circle cx="168" cy="168" r="2" /><circle cx="32" cy="168" r="2" /><circle cx="32" cy="32" r="2" />
+            </g>
+            <g style="stroke: var(--wood-b)" stroke-width="7" stroke-linecap="round">
+              <path d="M100 80 V 14 M100 120 V 186 M80 100 H 14 M120 100 H 186" />
+              <path d="M110 82.7 L 143 25.5 M90 117.3 L 57 174.5 M117.3 110 L 174.5 143 M82.7 90 L 25.5 57" />
+              <path d="M117.3 90 L 174.5 57 M82.7 110 L 25.5 143 M110 117.3 L 143 174.5 M90 82.7 L 57 25.5" />
+            </g>
+            <circle cx="100" cy="100" r="22" style="fill: var(--wood-b); stroke: color-mix(in srgb, var(--t-p) 70%, var(--t-bg))" stroke-width="4" />
+            <circle cx="100" cy="100" r="9" style="fill: var(--t-p)" />
+            <circle cx="100" cy="100" r="3" style="fill: var(--t-bg)" />
+          </g>
+        </svg>
+        <span class="vq-cd__ground"></span>
+      </div>
+
+      <ul class="vq-cd__units">
+        <li class="vq-cd__unit">
+          <div class="vq-cd__head"><span class="vq-cd__num" data-countdown-unit="days">000</span></div>
+          <p class="vq-cd__lbl" memory_type="text" memory_usage="custom" memory_key="countdown-dias">Días</p>
+        </li>
+        <li class="vq-cd__unit">
+          <div class="vq-cd__head"><span class="vq-cd__num" data-countdown-unit="hours">00</span></div>
+          <p class="vq-cd__lbl" memory_type="text" memory_usage="custom" memory_key="countdown-horas">Horas</p>
+        </li>
+        <li class="vq-cd__unit">
+          <div class="vq-cd__head"><span class="vq-cd__num" data-countdown-unit="minutes">00</span></div>
+          <p class="vq-cd__lbl" memory_type="text" memory_usage="custom" memory_key="countdown-minutos">Minutos</p>
+        </li>
+        <li class="vq-cd__unit">
+          <div class="vq-cd__head"><span class="vq-cd__num" data-countdown-unit="seconds">00</span></div>
+          <p class="vq-cd__lbl" memory_type="text" memory_usage="custom" memory_key="countdown-segundos">Segundos</p>
+        </li>
+      </ul>
+    </div>
+
+    <p class="vq-cd__note" memory_type="text" memory_usage="custom" memory_key="countdown-nota">para la noche más esperada del rancho.</p>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="countdown-vaquera"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      var units = {
+        days: root.querySelector('[data-countdown-unit="days"]'),
+        hours: root.querySelector('[data-countdown-unit="hours"]'),
+        minutes: root.querySelector('[data-countdown-unit="minutes"]'),
+        seconds: root.querySelector('[data-countdown-unit="seconds"]')
+      };
+      function pad(n, l) { n = String(n); while (n.length < l) n = '0' + n; return n; }
+      function target() { var t = new Date(root.getAttribute('data-countdown-target') || '').getTime(); return isNaN(t) ? Date.now() : t; }
+      function set(el, v) {
+        if (!el || el.textContent === v) return;
+        el.textContent = v;
+        if (RM) return;
+        el.removeAttribute('data-tick'); void el.offsetWidth; el.setAttribute('data-tick', '');
+      }
+      function updateCountdown() {
+        var diff = Math.max(0, target() - Date.now());
+        var s = Math.floor(diff / 1000);
+        set(units.days, pad(Math.floor(s / 86400), 2));
+        set(units.hours, pad(Math.floor(s % 86400 / 3600), 2));
+        set(units.minutes, pad(Math.floor(s % 3600 / 60), 2));
+        set(units.seconds, pad(s % 60, 2));
+      }
+      window.updateCountdown = updateCountdown;
+      window.__countdownIntervals = window.__countdownIntervals || [];
+      for (var i = 0; i < window.__countdownIntervals.length; i++) clearInterval(window.__countdownIntervals[i]);
+      window.__countdownIntervals = [];
+      updateCountdown();
+      window.__countdownIntervals.push(setInterval(updateCountdown, 1000));
+
+      /* The wagon wheel turns one spoke (30deg) per second, eased over .4s, via rAF */
+      var wheel = root.querySelector('[data-vq-wheel]');
+      function wheelAngle() {
+        var diff = Math.max(0, target() - Date.now());
+        if (!diff) return 0;
+        var sec = diff / 1000, whole = Math.floor(sec), since = 1 - (sec - whole);
+        var k = Math.min(1, since / .4), e = 1 - Math.pow(1 - k, 3);
+        return (((-whole + e) * 30) % 360 + 360) % 360;
+      }
+      if (RM) return;   /* reduced motion = static wheel, numbers still update */
+
+      var visible = false, raf = 0;
+      function loop() {
+        raf = 0;
+        if (!visible || document.hidden) return;
+        if (wheel) wheel.setAttribute('transform', 'rotate(' + wheelAngle().toFixed(2) + ' 100 100)');
+        raf = requestAnimationFrame(loop);
+      }
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (en) { visible = en[0].isIntersecting; if (visible && !raf) raf = requestAnimationFrame(loop); }).observe(root);
+        document.addEventListener('visibilitychange', function () { if (!document.hidden && visible && !raf) raf = requestAnimationFrame(loop); });
+
+        root.classList.add('vq-cd--anim');
+        var io = new IntersectionObserver(function (en) {
+          if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+            io.disconnect();
+            root.classList.add('is-in');
+            setTimeout(function () { root.classList.remove('vq-cd--anim', 'is-in'); }, 1200);
+          }
+        }, { threshold: [0, .25, .5] });
+        io.observe(root);
+      }
+    })();
+  </script>
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-vaquera',
+      style_name: 'Vaquera Rancho Romántico',
+      descripcion: 'Cuenta regresiva vaquera: una rueda de carreta gira un rayo por segundo sobre una soga, y días, horas, minutos y segundos se marcan en tapas de barril de madera con aro dorado.',
+      tags: ['countdown', 'vaquera', 'rueda de carreta', 'barril', 'soga', 'vintage'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>

@@ -1,0 +1,277 @@
+<section
+  class="rr-it"
+  data-gemini-id="itinerario-agenda"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Allura&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .rr-it, .rr-it *, .rr-it *::before, .rr-it *::after { box-sizing: border-box; }
+    .rr-it {
+      --t-bg: var(--bg-color, #F3EDE1);
+      --t-tx: var(--text-color, #3A2B1F);
+      --t-p: var(--primary-color, #8B9E7C);
+      --t-s: var(--secondary-color, #9A7350);
+      --t-a: var(--accent-color, #EDBC68);
+      --t-display: var(--font-script, 'Allura', cursive);
+      --t-text: var(--font-heading, 'EB Garamond', Georgia, serif);
+      --t-wood: color-mix(in srgb, var(--t-s) 82%, #2b1c11);
+      --t-wood-d: color-mix(in srgb, var(--t-s) 34%, #170f09);
+      --t-sage-d: color-mix(in srgb, var(--t-p) 58%, #1d261a);
+      --t-sage-l: color-mix(in srgb, var(--t-p) 55%, var(--t-bg));
+      --t-ivory: color-mix(in srgb, var(--t-bg) 70%, #ffffff);
+      --t-twine: color-mix(in srgb, var(--t-s) 50%, #dcc7a4);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      padding: clamp(7rem, 11vw, 9rem) clamp(1.25rem, 5vw, 4rem) clamp(4rem, 8vw, 6rem);
+      overflow: hidden;
+      background-color: var(--t-wood-d);
+      background-image: url('https://loremflickr.com/1600/1000/forest,evening,lights?lock=3041');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-bg);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .rr-it::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 40% 70% at 50% 55%, color-mix(in srgb, var(--t-a) 10%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-wood-d) 88%, transparent), color-mix(in srgb, var(--t-wood-d) 95%, transparent));
+    }
+    .rr-it__lights { position: absolute; left: 0; top: 0; width: 100%; height: var(--lights-h, 8rem); z-index: 0; pointer-events: none; overflow: visible; }
+    .rr-it__wire { fill: none; stroke: color-mix(in srgb, var(--t-wood-d) 75%, #000000); stroke-width: 1.3; opacity: .9; }
+    .rr-it__halo { mix-blend-mode: screen; }
+    .rr-it__cap { fill: color-mix(in srgb, var(--t-s) 35%, #2f261e); }
+    .rr-it__bulb { fill: color-mix(in srgb, var(--t-a) 35%, #fffaf0); }
+    .rr-it__grain { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mix-blend-mode: multiply; opacity: .55; will-change: transform; }
+    .rr-it__grain { opacity: .45; }
+    .rr-it__lights { --lights-h: 9rem; }
+    .rr-it__head { position: relative; max-width: 38rem; margin: 0 auto; }
+    .rr-it__title { margin: 0 0 .5rem; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.9rem, 7vw, 4.6rem); line-height: 1.05; color: var(--t-sage-l); }
+    .rr-it__intro { margin: 0; font-style: italic; font-size: clamp(1.05rem, 2.3vw, 1.2rem); line-height: 1.6; color: color-mix(in srgb, var(--t-bg) 80%, transparent); }
+
+    .rr-it__list { --p: 1; position: relative; list-style: none; width: min(100%, 56rem); margin: clamp(2.8rem, 6vw, 4rem) auto 0; padding: 0; }
+    .rr-it__list::before, .rr-it__list::after { content: ''; position: absolute; top: .9rem; bottom: 2.6rem; left: 50%; width: 2px; margin-left: -1px; }
+    .rr-it__list::before { background: color-mix(in srgb, var(--t-bg) 20%, transparent); }
+    .rr-it__list::after {
+      background: linear-gradient(180deg, var(--t-a), color-mix(in srgb, var(--t-a) 55%, var(--t-p)));
+      transform-origin: 50% 0;
+      transform: scaleY(var(--p));
+      box-shadow: 0 0 12px color-mix(in srgb, var(--t-a) 60%, transparent);
+    }
+    .rr-it__step { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 4.5rem minmax(0, 1fr); align-items: start; padding-bottom: clamp(2.2rem, 5vw, 3.2rem); }
+    .rr-it__node { position: relative; z-index: 1; grid-column: 2; grid-row: 1; justify-self: center; width: 1.9rem; margin-top: -.2rem; }
+    .rr-it__node::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 62%;
+      width: 6rem;
+      height: 6rem;
+      margin: -3rem 0 0 -3rem;
+      border-radius: 50%;
+      background: radial-gradient(circle, color-mix(in srgb, var(--t-a) 55%, transparent), transparent 65%);
+      transition: opacity .4s ease;
+    }
+    .rr-it__bulb { position: relative; display: block; width: 100%; height: auto; }
+    .rr-it__glass { fill: color-mix(in srgb, var(--t-a) 50%, #fff7e2); stroke: color-mix(in srgb, var(--t-a) 70%, var(--t-s)); stroke-width: .8; transition: fill .4s ease; }
+    .rr-it__fil { stroke: color-mix(in srgb, var(--t-a) 30%, #b0641f); transition: stroke .4s ease; }
+    .rr-it__body { grid-row: 1; grid-column: 1; text-align: right; transition: opacity .45s ease; }
+    .rr-it__step:nth-child(even) .rr-it__body { grid-column: 3; text-align: left; }
+    .rr-it__time { display: inline-block; font-size: 1.08rem; font-style: italic; color: var(--t-a); }
+    .rr-it__name { margin: .1rem 0 .3rem; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.2rem, 4.6vw, 2.9rem); line-height: 1.05; }
+    .rr-it__text { max-width: 22rem; margin: 0 0 0 auto; line-height: 1.55; color: color-mix(in srgb, var(--t-bg) 80%, transparent); }
+    .rr-it__step:nth-child(even) .rr-it__text { margin: 0 auto 0 0; }
+    .rr-it__euca { position: absolute; width: clamp(5rem, 11vw, 8rem); height: auto; pointer-events: none; opacity: .9; }
+    .rr-it__euca--a { right: clamp(-1.6rem, -1vw, -.6rem); top: 32%; transform: rotate(-150deg); }
+    .rr-it__euca--b { left: clamp(-1.6rem, -1vw, -.6rem); bottom: 6%; transform: rotate(28deg); }
+
+    @media (max-width: 44rem) {
+      .rr-it__list::before, .rr-it__list::after { left: 1.45rem; }
+      .rr-it__step { grid-template-columns: 2.9rem minmax(0, 1fr); column-gap: .9rem; }
+      .rr-it__node { grid-column: 1; }
+      .rr-it__body, .rr-it__step:nth-child(even) .rr-it__body { grid-column: 2; text-align: left; }
+      .rr-it__text, .rr-it__step:nth-child(even) .rr-it__text { margin: 0; }
+      .rr-it__euca { display: none; }
+    }
+
+    /* Scroll-lit state (JS sets data-rr-armed while the visitor scrolls the timeline) */
+    .rr-it[data-rr-armed] .rr-it__step:not([data-lit]) .rr-it__node::before { opacity: 0; }
+    .rr-it[data-rr-armed] .rr-it__step:not([data-lit]) .rr-it__glass { fill: color-mix(in srgb, var(--t-bg) 14%, transparent); }
+    .rr-it[data-rr-armed] .rr-it__step:not([data-lit]) .rr-it__fil { stroke: color-mix(in srgb, var(--t-bg) 40%, transparent); }
+    .rr-it[data-rr-armed] .rr-it__step:not([data-lit]) .rr-it__body { opacity: .34; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .rr-it *, .rr-it *::before, .rr-it *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="rr-it__grain" aria-hidden="true" focusable="false"><filter id="rr-it-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.0035 0.075" numOctaves="4" seed="17"></feTurbulence><feColorMatrix type="matrix" values="0 0 0 0 0.17  0 0 0 0 0.10  0 0 0 0 0.05  2.6 0 0 0 -1.05"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#rr-it-grain)"></rect></svg>
+  <svg class="rr-it__lights" aria-hidden="true" focusable="false" data-rr-lights><defs><radialGradient id="rr-it-glow"><stop offset="0" style="stop-color: var(--t-a); stop-opacity: 1"></stop><stop offset=".28" style="stop-color: var(--t-a); stop-opacity: .55"></stop><stop offset="1" style="stop-color: var(--t-a); stop-opacity: 0"></stop></radialGradient></defs><g data-rr-g></g></svg>
+  <svg class="rr-it__euca rr-it__euca--a" viewBox="0 0 120 260" aria-hidden="true" focusable="false"><path d="M60.0,256.0 Q94.3,130.0 52.1,12.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 2; fill: none; stroke-linecap: round"></path><path d="M68.1,220.9 L71.8,224.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="90.2" cy="225.1" rx="20.5" ry="17.7" transform="rotate(3 90.2 225.1)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M74.8,224.2 L104.6,225.9" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M72.2,194.7 L68.3,193.1" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="48.7" cy="191.8" rx="21.8" ry="18.8" transform="rotate(-176 48.7 191.8)" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></ellipse><path d="M65.0,192.9 L33.4,190.7" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M74.6,168.8 L78.6,170.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="95.5" cy="170.1" rx="18.9" ry="16.2" transform="rotate(0 95.5 170.1)" style="fill: color-mix(in srgb, var(--t-p) 76%, #b9c7c2)"></ellipse><path d="M81.4,170.0 L108.8,170.1" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M75.4,143.0 L71.5,141.3" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="57.8" cy="143.1" rx="15.4" ry="13.2" transform="rotate(173 57.8 143.1)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M69.2,141.6 L47.1,144.4" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M74.4,117.4 L78.6,119.5" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="92.5" cy="116.1" rx="15.9" ry="13.7" transform="rotate(-14 92.5 116.1)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M80.9,118.9 L103.3,113.5" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M71.8,92.0 L67.8,91.2" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="53.2" cy="94.5" rx="16.6" ry="14.3" transform="rotate(167 53.2 94.5)" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></ellipse><path d="M65.3,91.7 L41.8,97.1" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M67.5,66.7 L71.0,65.2" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="83.6" cy="63.4" rx="14.2" ry="12.2" transform="rotate(-8 83.6 63.4)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M73.1,64.9 L93.4,62.0" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M61.4,41.6 L58.1,43.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="48.2" cy="45.3" rx="11.3" ry="9.7" transform="rotate(167 48.2 45.3)" style="fill: var(--t-p)"></ellipse><path d="M56.5,43.4 L40.5,47.0" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M53.7,16.7 L56.7,13.8" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="67.5" cy="12.0" rx="12.2" ry="10.5" transform="rotate(-9 67.5 12.0)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M58.5,13.5 L75.9,10.6" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><ellipse cx="52.1" cy="9.0" rx="3.2" ry="5" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse></svg>
+  <svg class="rr-it__euca rr-it__euca--b" viewBox="0 0 120 260" aria-hidden="true" focusable="false"><path d="M60.0,256.0 Q28.8,130.0 67.2,12.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 2; fill: none; stroke-linecap: round"></path><path d="M52.6,220.9 L56.3,218.6" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="73.2" cy="217.3" rx="18.8" ry="16.2" transform="rotate(-4 73.2 217.3)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M59.1,218.4 L86.3,216.4" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M48.5,191.0 L44.2,190.2" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="24.8" cy="193.5" rx="21.9" ry="18.8" transform="rotate(170 24.8 193.5)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M41.0,190.8 L9.7,196.1" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M46.3,161.4 L50.2,161.3" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="66.5" cy="160.6" rx="18.1" ry="15.6" transform="rotate(-2 66.5 160.6)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M53.0,161.2 L79.2,160.1" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M46.2,132.0 L42.3,132.5" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="27.1" cy="131.4" rx="16.9" ry="14.6" transform="rotate(-176 27.1 131.4)" style="fill: color-mix(in srgb, var(--t-p) 76%, #b9c7c2)"></ellipse><path d="M39.8,132.3 L15.3,130.6" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M48.1,102.8 L51.9,102.9" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="66.9" cy="104.7" rx="16.8" ry="14.4" transform="rotate(7 66.9 104.7)" style="fill: var(--t-p)"></ellipse><path d="M54.4,103.2 L78.5,106.1" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M51.9,73.9 L48.5,70.6" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="36.2" cy="71.2" rx="13.7" ry="11.8" transform="rotate(-183 36.2 71.2)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M46.4,70.7 L26.6,71.7" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M57.8,45.2 L61.2,46.8" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="73.3" cy="48.9" rx="13.6" ry="11.7" transform="rotate(10 73.3 48.9)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M63.2,47.1 L82.6,50.6" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M65.7,16.7 L61.8,17.1" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="53.5" cy="12.9" rx="10.3" ry="8.8" transform="rotate(-153 53.5 12.9)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M60.4,16.4 L47.1,9.7" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><ellipse cx="67.2" cy="9.0" rx="3.2" ry="5" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse></svg>
+  <header class="rr-it__head">
+    <h2 class="rr-it__title" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Así será nuestro día</h2>
+    <p class="rr-it__intro" memory_type="text" memory_usage="custom" memory_key="itinerario-intro">De la tarde a la noche, cada momento se irá encendiendo como una luz más en la cadena.</p>
+  </header>
+  <ol class="rr-it__list" data-rr-list>
+    <li class="rr-it__step" data-rr-step>
+      <span class="rr-it__node" data-rr-node aria-hidden="true"><svg class="rr-it__bulb" viewBox="0 0 24 38" aria-hidden="true" focusable="false"><rect x="8.5" y="0" width="7" height="8" rx="1.2" style="fill: color-mix(in srgb, var(--t-s) 40%, #3b3026)"></rect><path d="M8.5 3h7M8.5 5.5h7" style="stroke: rgba(255,255,255,.25); stroke-width: .8"></path><path class="rr-it__glass" d="M9 8 L15 8 C15 12 21 15 21 23 A9 9 0 0 1 3 23 C3 15 9 12 9 8 Z"></path><path class="rr-it__fil" d="M10 13 L10.5 21 Q12 25 13.5 21 L14 13" style="fill: none; stroke-width: 1.1; stroke-linecap: round"></path></svg></span>
+      <div class="rr-it__body">
+        <time class="rr-it__time" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">5:00 p.m.</time>
+        <h3 class="rr-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo-1">Ceremonia</h3>
+        <p class="rr-it__text" memory_type="text" memory_usage="custom" memory_key="itinerario-texto-1">Bajo el arco de madera y eucalipto, frente a nuestras familias.</p>
+      </div>
+    </li>
+    <li class="rr-it__step" data-rr-step>
+      <span class="rr-it__node" data-rr-node aria-hidden="true"><svg class="rr-it__bulb" viewBox="0 0 24 38" aria-hidden="true" focusable="false"><rect x="8.5" y="0" width="7" height="8" rx="1.2" style="fill: color-mix(in srgb, var(--t-s) 40%, #3b3026)"></rect><path d="M8.5 3h7M8.5 5.5h7" style="stroke: rgba(255,255,255,.25); stroke-width: .8"></path><path class="rr-it__glass" d="M9 8 L15 8 C15 12 21 15 21 23 A9 9 0 0 1 3 23 C3 15 9 12 9 8 Z"></path><path class="rr-it__fil" d="M10 13 L10.5 21 Q12 25 13.5 21 L14 13" style="fill: none; stroke-width: 1.1; stroke-linecap: round"></path></svg></span>
+      <div class="rr-it__body">
+        <time class="rr-it__time" datetime="18:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">6:00 p.m.</time>
+        <h3 class="rr-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo-2">Cóctel en el jardín</h3>
+        <p class="rr-it__text" memory_type="text" memory_usage="custom" memory_key="itinerario-texto-2">Bebidas de temporada, música acústica y la última luz del atardecer.</p>
+      </div>
+    </li>
+    <li class="rr-it__step" data-rr-step>
+      <span class="rr-it__node" data-rr-node aria-hidden="true"><svg class="rr-it__bulb" viewBox="0 0 24 38" aria-hidden="true" focusable="false"><rect x="8.5" y="0" width="7" height="8" rx="1.2" style="fill: color-mix(in srgb, var(--t-s) 40%, #3b3026)"></rect><path d="M8.5 3h7M8.5 5.5h7" style="stroke: rgba(255,255,255,.25); stroke-width: .8"></path><path class="rr-it__glass" d="M9 8 L15 8 C15 12 21 15 21 23 A9 9 0 0 1 3 23 C3 15 9 12 9 8 Z"></path><path class="rr-it__fil" d="M10 13 L10.5 21 Q12 25 13.5 21 L14 13" style="fill: none; stroke-width: 1.1; stroke-linecap: round"></path></svg></span>
+      <div class="rr-it__body">
+        <time class="rr-it__time" datetime="19:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">7:30 p.m.</time>
+        <h3 class="rr-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo-3">Cena campestre</h3>
+        <p class="rr-it__text" memory_type="text" memory_usage="custom" memory_key="itinerario-texto-3">Mesas largas de madera, velas encendidas y un menú para compartir.</p>
+      </div>
+    </li>
+    <li class="rr-it__step" data-rr-step>
+      <span class="rr-it__node" data-rr-node aria-hidden="true"><svg class="rr-it__bulb" viewBox="0 0 24 38" aria-hidden="true" focusable="false"><rect x="8.5" y="0" width="7" height="8" rx="1.2" style="fill: color-mix(in srgb, var(--t-s) 40%, #3b3026)"></rect><path d="M8.5 3h7M8.5 5.5h7" style="stroke: rgba(255,255,255,.25); stroke-width: .8"></path><path class="rr-it__glass" d="M9 8 L15 8 C15 12 21 15 21 23 A9 9 0 0 1 3 23 C3 15 9 12 9 8 Z"></path><path class="rr-it__fil" d="M10 13 L10.5 21 Q12 25 13.5 21 L14 13" style="fill: none; stroke-width: 1.1; stroke-linecap: round"></path></svg></span>
+      <div class="rr-it__body">
+        <time class="rr-it__time" datetime="21:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">9:00 p.m.</time>
+        <h3 class="rr-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo-4">Primer baile</h3>
+        <p class="rr-it__text" memory_type="text" memory_usage="custom" memory_key="itinerario-texto-4">Cuando se enciendan todas las luces, será nuestro momento.</p>
+      </div>
+    </li>
+    <li class="rr-it__step" data-rr-step>
+      <span class="rr-it__node" data-rr-node aria-hidden="true"><svg class="rr-it__bulb" viewBox="0 0 24 38" aria-hidden="true" focusable="false"><rect x="8.5" y="0" width="7" height="8" rx="1.2" style="fill: color-mix(in srgb, var(--t-s) 40%, #3b3026)"></rect><path d="M8.5 3h7M8.5 5.5h7" style="stroke: rgba(255,255,255,.25); stroke-width: .8"></path><path class="rr-it__glass" d="M9 8 L15 8 C15 12 21 15 21 23 A9 9 0 0 1 3 23 C3 15 9 12 9 8 Z"></path><path class="rr-it__fil" d="M10 13 L10.5 21 Q12 25 13.5 21 L14 13" style="fill: none; stroke-width: 1.1; stroke-linecap: round"></path></svg></span>
+      <div class="rr-it__body">
+        <time class="rr-it__time" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-5">9:30 p.m.</time>
+        <h3 class="rr-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo-5">Fiesta</h3>
+        <p class="rr-it__text" memory_type="text" memory_usage="custom" memory_key="itinerario-texto-5">A bailar entre el granero y la pista bajo el cielo abierto.</p>
+      </div>
+    </li>
+    <li class="rr-it__step" data-rr-step>
+      <span class="rr-it__node" data-rr-node aria-hidden="true"><svg class="rr-it__bulb" viewBox="0 0 24 38" aria-hidden="true" focusable="false"><rect x="8.5" y="0" width="7" height="8" rx="1.2" style="fill: color-mix(in srgb, var(--t-s) 40%, #3b3026)"></rect><path d="M8.5 3h7M8.5 5.5h7" style="stroke: rgba(255,255,255,.25); stroke-width: .8"></path><path class="rr-it__glass" d="M9 8 L15 8 C15 12 21 15 21 23 A9 9 0 0 1 3 23 C3 15 9 12 9 8 Z"></path><path class="rr-it__fil" d="M10 13 L10.5 21 Q12 25 13.5 21 L14 13" style="fill: none; stroke-width: 1.1; stroke-linecap: round"></path></svg></span>
+      <div class="rr-it__body">
+        <time class="rr-it__time" datetime="01:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-6">1:00 a.m.</time>
+        <h3 class="rr-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo-6">Despedida</h3>
+        <p class="rr-it__text" memory_type="text" memory_usage="custom" memory_key="itinerario-texto-6">Un camino de bengalas para cerrar la noche juntos.</p>
+      </div>
+    </li>
+  </ol>
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="itinerario-agenda"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var HAS_IO = 'IntersectionObserver' in window;
+
+      function rrLights(svg, o) {
+        var NS = 'http://www.w3.org/2000/svg', g = svg.querySelector('[data-rr-g]'), bulbs = [], lastW = 0;
+        function mk(tag, at) { var e = document.createElementNS(NS, tag); for (var k in at) e.setAttribute(k, at[k]); g.appendChild(e); return e; }
+        function build() {
+          var r = svg.getBoundingClientRect(), w = Math.round(r.width), h = Math.round(r.height);
+          if (!w || !h || w === lastW) return;
+          lastW = w;
+          svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+          while (g.firstChild) g.removeChild(g.firstChild);
+          bulbs = [];
+          o.strands.forEach(function (s) {
+            var spans = Math.max(1, Math.round(w / (s.span || 460))), sw = w / spans, off = (s.off || 0) * sw;
+            for (var k = -1; k <= spans; k++) {
+              var x0 = k * sw + off, x1 = x0 + sw, y0 = s.y * h;
+              if (x1 < -10 || x0 > w + 10) continue;
+              var p = mk('path', { d: 'M' + x0 + ',' + y0 + ' Q' + (x0 + x1) / 2 + ',' + (y0 + 2 * s.sag * h) + ' ' + x1 + ',' + y0, 'class': o.cls + '__wire' });
+              var len = p.getTotalLength(), n = Math.max(2, Math.round(len / (s.gap || 46)));
+              for (var i = 1; i < n; i++) {
+                var pt = p.getPointAtLength(len * i / n);
+                if (pt.x < -20 || pt.x > w + 20) continue;
+                var hl = mk('circle', { cx: pt.x, cy: pt.y + 6, r: s.halo || 14, fill: 'url(#' + o.glow + ')', 'class': o.cls + '__halo' });
+                mk('rect', { x: pt.x - 1.7, y: pt.y - 1, width: 3.4, height: 4.2, rx: .8, 'class': o.cls + '__cap' });
+                mk('circle', { cx: pt.x, cy: pt.y + 6, r: s.bulb || 2.8, 'class': o.cls + '__bulb' });
+                bulbs.push({ el: hl, ph: Math.random() * 6.283, sp: .5 + Math.random() * 1.6 });
+              }
+            }
+          });
+        }
+        build();
+        if ('ResizeObserver' in window) new ResizeObserver(function () { build(); }).observe(svg);
+        return { tick: function (t) {
+          for (var i = 0; i < bulbs.length; i++) { var b = bulbs[i], v = Math.sin(t * .001 * b.sp + b.ph) * .5 + .5; b.el.style.opacity = (.42 + .58 * v * v).toFixed(3); }
+        } };
+      }
+      function rrLoop(el, fn) {
+        var raf = 0, vis = false;
+        function f(t) { fn(t); raf = requestAnimationFrame(f); }
+        function upd() { var on = vis && !document.hidden; if (on && !raf) raf = requestAnimationFrame(f); if (!on && raf) { cancelAnimationFrame(raf); raf = 0; } }
+        new IntersectionObserver(function (e) { vis = e[0].isIntersecting; upd(); }).observe(el);
+        document.addEventListener('visibilitychange', upd);
+      }
+      var L = rrLights(root.querySelector('[data-rr-lights]'), { cls: 'rr-it', glow: 'rr-it-glow', strands: [{ y: .05, sag: .22, span: 380, gap: 42 }, { y: .12, sag: .14, span: 520, gap: 50, off: .4, halo: 10, bulb: 2.2 }] });
+      if (RM || !HAS_IO) return;   /* reduced motion: everything lit, full line */
+      rrLoop(root, L.tick);
+
+      /* Bulbs light up one by one as the guest scrolls the timeline */
+      var list = root.querySelector('[data-rr-list]'), steps = [].slice.call(root.querySelectorAll('[data-rr-step]'));
+      var nodes = steps.map(function (s) { return s.querySelector('[data-rr-node]'); });
+      var ticking = false, finished = false;
+      root.setAttribute('data-rr-armed', '');
+      function update() {
+        ticking = false;
+        if (finished) return;
+        var vh = window.innerHeight || 800, line = vh * .62, r = list.getBoundingClientRect();
+        var p = Math.max(0, Math.min(1, (line - r.top) / Math.max(1, r.height - 40)));
+        list.style.setProperty('--p', p.toFixed(4));
+        var lit = 0;
+        nodes.forEach(function (n, i) {
+          var nr = n.getBoundingClientRect();
+          if (nr.top + nr.height / 2 < line) { steps[i].setAttribute('data-lit', ''); lit++; }
+        });
+        if (lit === steps.length && p >= .999) finish();
+      }
+      function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+      function finish() {
+        finished = true;
+        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('resize', onScroll);
+        /* leave a clean, fully lit DOM */
+        setTimeout(function () {
+          root.removeAttribute('data-rr-armed');
+          list.style.removeProperty('--p');
+          steps.forEach(function (s) { s.removeAttribute('data-lit'); });
+        }, 600);
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      update();
+
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Romance Rústico Itinerario',
+      descripcion: 'Itinerario de boda rústica en línea vertical: un cable de luces se ilumina con el scroll y cada momento enciende su foco Edison; horarios con time y descripciones.',
+      tags: ['itinerario', 'boda', 'rustico', 'luces', 'timeline'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>

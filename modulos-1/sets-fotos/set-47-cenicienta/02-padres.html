@@ -1,0 +1,153 @@
+<section
+  class="cnc-pad"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+<i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:url('https://loremflickr.com/1920/1080/fairytale,castle?lock=438') center/cover;"></i><i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:color-mix(in srgb, var(--bg-color,#1d1a24) 88%, transparent);"></i>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&family=Marcellus&display=swap');
+
+    .cnc-pad, .cnc-pad *, .cnc-pad *::before, .cnc-pad *::after { box-sizing: border-box; }
+    .cnc-pad {
+      --t-bg: var(--bg-color, #e6f0fa);
+      --t-tx: var(--text-color, #213a5c);
+      --t-p: var(--primary-color, #8db6dc);
+      --t-s: var(--secondary-color, #fdfcf8);
+      --t-a: var(--accent-color, #c4a052);
+      --t-display: var(--font-script, 'Monsieur La Doulaise', cursive);
+      --t-text: var(--font-heading, 'Marcellus', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1.25rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image:
+        radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--t-s) 85%, transparent), transparent 60%),
+        radial-gradient(circle, color-mix(in srgb, var(--t-a) 22%, transparent) 1.2px, transparent 1.6px);
+      background-size: 100% 100%, 26px 26px;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .cnc-pad__content { width: min(100%, 60rem); display: grid; justify-items: center; gap: clamp(1.5rem, 4vw, 2.5rem); }
+    .cnc-pad__head { display: grid; gap: .35rem; justify-items: center; }
+    .cnc-pad__kicker { margin: 0; font-size: clamp(1rem, 2vw, 1.2rem); color: color-mix(in srgb, var(--t-tx) 78%, var(--t-a)); }
+    .cnc-pad__title { margin: 0; padding-top: .2em; font-family: var(--t-display); font-weight: 400; font-size: clamp(3rem, 8vw, 5.2rem); line-height: 1.2; }
+    .cnc-pad__orn { width: clamp(9rem, 22vw, 13rem); height: auto; color: var(--t-a); }
+
+    .cnc-pad__grid { list-style: none; margin: 0; padding: 0; width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.25rem, 4vw, 3rem); }
+    .cnc-pad__card {
+      position: relative;
+      display: grid;
+      justify-items: center;
+      align-content: start;
+      gap: .4rem;
+      padding: clamp(1.6rem, 4vw, 2.4rem) clamp(1rem, 3vw, 2rem) clamp(1.6rem, 4vw, 2.2rem);
+      border-radius: 50% 50% 1.25rem 1.25rem / clamp(7rem, 16vw, 12rem) clamp(7rem, 16vw, 12rem) 1.25rem 1.25rem;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-s) 92%, transparent), color-mix(in srgb, var(--t-s) 55%, var(--t-bg)));
+      border: 1px solid color-mix(in srgb, var(--t-a) 70%, transparent);
+      box-shadow: 0 18px 40px -24px color-mix(in srgb, var(--t-tx) 55%, transparent), inset 0 0 0 6px color-mix(in srgb, var(--t-s) 70%, transparent), inset 0 0 0 7px color-mix(in srgb, var(--t-a) 35%, transparent);
+    }
+    .cnc-pad__medal { position: relative; width: min(100%, 13rem); margin-bottom: .6rem; }
+    .cnc-pad__ring { position: absolute; inset: -9px; width: calc(100% + 18px); height: calc(100% + 18px); pointer-events: none; overflow: visible; }
+    .cnc-pad__ring circle { fill: none; stroke: var(--t-a); stroke-width: 1.6; }
+    .cnc-pad__ring circle + circle { stroke-width: .7; stroke-dasharray: 2 5; }
+    .cnc-pad__figure { margin: 0; border-radius: 50%; overflow: hidden; background: radial-gradient(circle at 35% 30%, var(--t-s), var(--t-p)); box-shadow: 0 0 0 4px var(--t-s); }
+    .cnc-pad__figure img { display: block; color: transparent; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
+    .cnc-pad__name { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.2rem, 5vw, 3rem); line-height: 1.25; }
+    .cnc-pad__role { margin: 0; font-size: 1.05rem; color: color-mix(in srgb, var(--t-tx) 72%, var(--t-a)); }
+    .cnc-pad__msg { margin: 0; max-width: 36rem; font-size: clamp(1.02rem, 2vw, 1.2rem); line-height: 1.6; text-wrap: balance; }
+
+    .cnc-pad--anim .cnc-pad__head, .cnc-pad--anim .cnc-pad__msg { opacity: 0; transition: opacity .5s ease; }
+    .cnc-pad--anim.is-in .cnc-pad__head { opacity: 1; }
+    .cnc-pad--anim.is-in .cnc-pad__msg { opacity: 1; transition-delay: .9s; }
+    .cnc-pad--anim .cnc-pad__card { opacity: 0; transform: translateY(18px) scale(.97); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .cnc-pad--anim .cnc-pad__card[data-cnc-lit] { opacity: 1; transform: none; }
+    .cnc-pad--anim .cnc-pad__ring circle:first-child { stroke-dasharray: 340; stroke-dashoffset: 340; transition: stroke-dashoffset .5s ease-out; transition-delay: .25s; }
+    .cnc-pad--anim .cnc-pad__card[data-cnc-lit] .cnc-pad__ring circle:first-child { stroke-dashoffset: 0; }
+
+    @media (max-width: 640px) {
+      .cnc-pad__grid { grid-template-columns: 1fr; max-width: 22rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cnc-pad *, .cnc-pad *::before, .cnc-pad *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="cnc-pad__content">
+    <header class="cnc-pad__head">
+      <p class="cnc-pad__kicker" memory_type="text" memory_usage="custom" memory_key="padres-intro">Con la bendición de quienes me dieron mi cuento</p>
+      <h2 class="cnc-pad__title" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Mis Padres</h2>
+      <svg class="cnc-pad__orn" viewBox="0 0 200 24" aria-hidden="true"><path d="M4 12 H76 M124 12 H196 M76 12 c6 -9 16 -9 18 -2 M124 12 c-6 -9 -16 -9 -18 -2 M88 14 Q100 2 112 14 L108 18 H92 Z" fill="none" stroke="currentColor" stroke-width="1.3" /><circle cx="100" cy="6" r="2.2" fill="currentColor" /></svg>
+    </header>
+
+    <ul class="cnc-pad__grid">
+      <li class="cnc-pad__card" data-cnc-card>
+        <div class="cnc-pad__medal">
+          <svg class="cnc-pad__ring" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="54" transform="rotate(-90 60 60)" /><circle cx="60" cy="60" r="58" /></svg>
+          <figure class="cnc-pad__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/600/600/portrait,woman,elegant?lock=3521" alt="Retrato de la mamá de la quinceañera" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <h3 class="cnc-pad__name" memory_type="text" memory_usage="custom" memory_key="padres-nombre-madre">Nombre Apellido</h3>
+        <p class="cnc-pad__role" memory_type="text" memory_usage="custom" memory_key="padres-rol-madre">Mi mamá</p>
+      </li>
+      <li class="cnc-pad__card" data-cnc-card>
+        <div class="cnc-pad__medal">
+          <svg class="cnc-pad__ring" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="54" transform="rotate(-90 60 60)" /><circle cx="60" cy="60" r="58" /></svg>
+          <figure class="cnc-pad__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/600/600/portrait,man,suit?lock=3522" alt="Retrato del papá de la quinceañera" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <h3 class="cnc-pad__name" memory_type="text" memory_usage="custom" memory_key="padres-nombre-padre">Nombre Apellido</h3>
+        <p class="cnc-pad__role" memory_type="text" memory_usage="custom" memory_key="padres-rol-padre">Mi papá</p>
+      </li>
+    </ul>
+
+    <p class="cnc-pad__msg" memory_type="text" memory_usage="custom" memory_key="padres-mensaje">Gracias por enseñarme que los sueños se cumplen cuando se tiene un corazón noble y valiente.</p>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="padres-padre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      var cards = root.querySelectorAll('[data-cnc-card]');
+      root.classList.add('cnc-pad--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          io.disconnect();
+          root.classList.add('is-in');
+          Array.prototype.forEach.call(cards, function (c, i) {
+            setTimeout(function () { c.setAttribute('data-cnc-lit', ''); }, 200 + i * 380);
+          });
+          setTimeout(function () {
+            root.classList.remove('cnc-pad--anim', 'is-in');
+            Array.prototype.forEach.call(cards, function (c) { c.removeAttribute('data-cnc-lit'); });
+          }, 2200);
+        }
+      }, { threshold: [0, .2, .4] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Cenicienta Medianoche Real',
+      descripcion: 'Padres de la quinceañera en ventanas de palacio con medallones circulares y aro dorado que se dibuja al entrar. Estilo cuento de hadas clásico en azul claro, blanco y dorado.',
+      tags: ['padres', 'quinceañera', 'cenicienta', 'cuento de hadas', 'medallón', 'dorado'],
+      tipo: 'padres'
+    };
+  </script>
+</section>

@@ -1,0 +1,233 @@
+<section
+  class="bjm-it"
+  data-gemini-id="itinerario-agenda"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Ephesis&family=Marcellus&display=swap');
+
+    .bjm-it, .bjm-it *, .bjm-it *::before, .bjm-it *::after { box-sizing: border-box; }
+    .bjm-it {
+      --t-bg: var(--bg-color, #04182b);
+      --t-tx: var(--text-color, #f4eee6);
+      --t-p: var(--primary-color, #4fd1c5);
+      --t-s: var(--secondary-color, #1a5f8f);
+      --t-a: var(--accent-color, #ff8a70);
+      --t-pearl: var(--pearl-color, #efe8f3);
+      --t-display: var(--font-script, 'Ephesis', cursive);
+      --t-text: var(--font-heading, 'Marcellus', Georgia, serif);
+      --bjm-prog: 1;
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 70vw, 48rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/deep,ocean,water?lock=3441');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .bjm-it::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-s) 82%, transparent) 0%, color-mix(in srgb, var(--t-bg) 90%, transparent) 40%, color-mix(in srgb, var(--t-bg) 97%, transparent) 100%);
+    }
+    /* the deeper you scroll, the darker the water */
+    .bjm-it::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, transparent 30%, color-mix(in srgb, var(--t-bg) 70%, #000));
+      opacity: calc(var(--bjm-prog) * .45);
+      pointer-events: none;
+    }
+    .bjm-it__content { width: min(100%, 60rem); display: grid; gap: clamp(2.5rem, 6vw, 4rem); }
+    .bjm-it__head { display: grid; gap: .5rem; justify-items: center; }
+    .bjm-it__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(3rem, 8vw, 5rem); line-height: 1; text-shadow: 0 0 26px color-mix(in srgb, var(--t-p) 45%, transparent); }
+    .bjm-it__lead { margin: 0; max-width: 32rem; font-size: clamp(1rem, 1.8vw, 1.12rem); line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 80%, var(--t-p)); }
+
+    .bjm-it__track { position: relative; }
+    .bjm-it__line {
+      position: absolute;
+      top: .5rem;
+      bottom: .5rem;
+      left: 50%;
+      width: 2px;
+      margin-left: -1px;
+      background: color-mix(in srgb, var(--t-pearl) 16%, transparent);
+    }
+    .bjm-it__fill {
+      position: absolute;
+      inset: 0;
+      transform-origin: 50% 0;
+      transform: scaleY(var(--bjm-prog));
+      background: linear-gradient(180deg, var(--t-pearl), var(--t-p) 60%, var(--t-a));
+      box-shadow: 0 0 12px color-mix(in srgb, var(--t-p) 70%, transparent);
+    }
+    .bjm-it__head-pearl {
+      position: absolute;
+      left: 50%;
+      top: calc(var(--bjm-prog) * 100%);
+      width: .9rem;
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #fff 0 15%, var(--t-pearl) 45%, var(--t-p));
+      box-shadow: 0 0 16px var(--t-p), 0 0 36px color-mix(in srgb, var(--t-p) 50%, transparent);
+    }
+    .bjm-it__list { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(1.6rem, 4vw, 2.6rem); }
+    .bjm-it__item {
+      position: relative;
+      width: 50%;
+      padding: 0 clamp(1.8rem, 4vw, 3rem) 0 0;
+      text-align: right;
+      display: grid;
+      gap: .3rem;
+    }
+    .bjm-it__item:nth-child(even) { margin-left: 50%; padding: 0 0 0 clamp(1.8rem, 4vw, 3rem); text-align: left; }
+    .bjm-it__node {
+      position: absolute;
+      top: .35rem;
+      right: -.55rem;
+      width: 1.1rem;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #fff 0 14%, var(--t-pearl) 45%, color-mix(in srgb, var(--t-pearl) 55%, var(--t-s)));
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--t-p) 18%, transparent), 0 0 18px color-mix(in srgb, var(--t-p) 70%, transparent);
+      transition: transform .4s cubic-bezier(.3, 1.6, .5, 1), box-shadow .4s ease, filter .4s ease;
+    }
+    .bjm-it__item:nth-child(even) .bjm-it__node { right: auto; left: -.55rem; }
+    .bjm-it__time { font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--t-a); }
+    .bjm-it__name { margin: 0; font-weight: 400; font-size: clamp(1.3rem, 2.6vw, 1.7rem); line-height: 1.2; }
+    .bjm-it__desc { margin: 0; font-size: .98rem; line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 75%, var(--t-p)); }
+
+    .bjm-it--anim .bjm-it__item { opacity: .32; transform: translateY(10px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .bjm-it--anim .bjm-it__node { transform: scale(.55); filter: grayscale(.8) brightness(.7); box-shadow: none; }
+    .bjm-it--anim .bjm-it__item[data-on] { opacity: 1; transform: none; }
+    .bjm-it--anim .bjm-it__item[data-on] .bjm-it__node { transform: scale(1); filter: none; box-shadow: 0 0 0 4px color-mix(in srgb, var(--t-p) 18%, transparent), 0 0 18px color-mix(in srgb, var(--t-p) 70%, transparent); }
+
+    @media (max-width: 700px) {
+      .bjm-it__line, .bjm-it__head-pearl { left: .6rem; }
+      .bjm-it__item, .bjm-it__item:nth-child(even) { width: 100%; margin-left: 0; padding: 0 0 0 2.4rem; text-align: left; }
+      .bjm-it__node, .bjm-it__item:nth-child(even) .bjm-it__node { right: auto; left: .05rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .bjm-it *, .bjm-it *::before, .bjm-it *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="bjm-it__content">
+    <header class="bjm-it__head">
+      <h2 class="bjm-it__title" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">El recorrido</h2>
+      <p class="bjm-it__lead" memory_type="text" memory_usage="custom" memory_key="itinerario-texto">Cada momento de la noche es una perla más en el collar. Así descenderemos juntos.</p>
+    </header>
+
+    <div class="bjm-it__track" data-bjm-track>
+      <div class="bjm-it__line" aria-hidden="true"><div class="bjm-it__fill"></div><span class="bjm-it__head-pearl"></span></div>
+      <ol class="bjm-it__list">
+        <li class="bjm-it__item" data-bjm-step>
+          <span class="bjm-it__node" aria-hidden="true"></span>
+          <time class="bjm-it__time" datetime="16:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">4:30 p. m.</time>
+          <h3 class="bjm-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-1">Misa de acción de gracias</h3>
+          <p class="bjm-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-1">Parroquia Nombre, para dar gracias por quince años de vida.</p>
+        </li>
+        <li class="bjm-it__item" data-bjm-step>
+          <span class="bjm-it__node" aria-hidden="true"></span>
+          <time class="bjm-it__time" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">7:00 p. m.</time>
+          <h3 class="bjm-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-2">Recepción</h3>
+          <p class="bjm-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-2">Bienvenida entre luces aguamarina y burbujas.</p>
+        </li>
+        <li class="bjm-it__item" data-bjm-step>
+          <span class="bjm-it__node" aria-hidden="true"></span>
+          <time class="bjm-it__time" datetime="20:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">8:30 p. m.</time>
+          <h3 class="bjm-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-3">Entrada y vals</h3>
+          <p class="bjm-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-3">Mi primer baile, como una ola que se abre a la luz.</p>
+        </li>
+        <li class="bjm-it__item" data-bjm-step>
+          <span class="bjm-it__node" aria-hidden="true"></span>
+          <time class="bjm-it__time" datetime="21:15" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">9:15 p. m.</time>
+          <h3 class="bjm-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-4">Cena</h3>
+          <p class="bjm-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-4">Un banquete servido en el fondo del mar.</p>
+        </li>
+        <li class="bjm-it__item" data-bjm-step>
+          <span class="bjm-it__node" aria-hidden="true"></span>
+          <time class="bjm-it__time" datetime="22:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-5">10:30 p. m.</time>
+          <h3 class="bjm-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-5">Baile sorpresa</h3>
+          <p class="bjm-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-5">Mi corte y yo con una coreografía especial.</p>
+        </li>
+        <li class="bjm-it__item" data-bjm-step>
+          <span class="bjm-it__node" aria-hidden="true"></span>
+          <time class="bjm-it__time" datetime="23:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-6">11:00 p. m.</time>
+          <h3 class="bjm-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-6">A la pista</h3>
+          <p class="bjm-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-6">Música y baile hasta que suba la marea.</p>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="itinerario-agenda"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      var track = root.querySelector('[data-bjm-track]');
+      var steps = root.querySelectorAll('[data-bjm-step]');
+      if (!track) return;
+      root.classList.add('bjm-it--anim');
+      root.style.setProperty('--bjm-prog', '0');
+
+      var pending = false, finished = false, vis = false;
+      function update() {
+        pending = false;
+        if (finished) return;
+        var r = track.getBoundingClientRect(), vh = window.innerHeight || 800;
+        var p = (vh * .62 - r.top) / Math.max(1, r.height);
+        p = Math.max(0, Math.min(1, p));
+        root.style.setProperty('--bjm-prog', p.toFixed(4));
+        for (var i = 0; i < steps.length; i++) {
+          var sr = steps[i].getBoundingClientRect();
+          if (sr.top < vh * .66) steps[i].setAttribute('data-on', '');
+        }
+        if (p >= 1) {
+          finished = true;
+          setTimeout(function () {
+            root.classList.remove('bjm-it--anim');
+            root.style.removeProperty('--bjm-prog');
+            for (var j = 0; j < steps.length; j++) steps[j].removeAttribute('data-on');
+          }, 900);
+        }
+      }
+      function onScroll() { if (vis && !pending) { pending = true; requestAnimationFrame(update); } }
+      new IntersectionObserver(function (en) { vis = en[0].isIntersecting; onScroll(); }).observe(root);
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Bajo el Mar Collar en Descenso',
+      descripcion: 'Itinerario vertical como un collar de perlas que desciende con el scroll; cada perla se ilumina al llegar a su momento y el agua se oscurece con la profundidad. Horas en time y descripción por evento.',
+      tags: ['itinerario', 'quinceañera', 'bajo el mar', 'timeline', 'perlas'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>
