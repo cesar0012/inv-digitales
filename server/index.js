@@ -4466,7 +4466,16 @@ app.post('/api/event-data/ai-fill', authMiddleware, async (req, res) => {
       .map((t) => `#${t.i} | módulo:${t.m || '?'} | id:${t.id || '-'} | key:${t.k || '-'} | texto: ${String(t.t || '').replace(/\s+/g, ' ').slice(0, 150)}`)
       .join('\n');
 
+    const dosFestejados = schema.fields.some((f) => f.key === 'nombres_novia') && schema.fields.some((f) => f.key === 'nombres_novio');
+    const contextoEvento = `Tipo de evento: ${eventType || 'evento'} — ${dosFestejados
+      ? 'DOS festejados (boda): cada nombre va en su slot (novia/novio, sus respectivos padres).'
+      : 'UN SOLO festejado (quinceañera/bautizo/cumpleaños/etc.): NO existe pareja ni segunda familia.'}`;
+
     const prompt = `Eres un colocador de datos para invitaciones digitales. Los módulos de la invitación fueron generados con placeholders genéricos y el usuario te da sus datos reales.
+
+===== CONTEXTO DEL EVENTO =====
+${contextoEvento}
+===== FIN CONTEXTO =====
 
 ===== DATOS REALES DEL CLIENTE =====
 ${datosBlock}
@@ -4479,13 +4488,18 @@ ${targetLines}
 TAREA: decide en qué nodo va cada dato. Reglas:
 1. Cada dato va al nodo cuyo texto actual es el placeholder equivalente (ej. "Nombre de la Novia" recibe el nombre de la novia; "Nombre Papá & Nombre Mamá" recibe los padres; direcciones, lugares, fechas límite, códigos de vestimenta, itinerarios y mensajes igual).
 2. NO inventes datos ni rellenes nodos sin correspondencia clara: si un dato no tiene nodo, omítelo.
-3. NO toques etiquetas de rol (ej. "Padres de la novia", "Padrinos de alianzas") ni títulos de sección: esos se quedan igual.
+3. NO toques etiquetas de rol (ej. "Padrinos de alianzas") ni títulos de sección: esos se quedan igual. EXCEPCIÓN en la regla 7.
 4. Si un nodo de itinerario/lista recibe varias líneas, inclúyelas con saltos de línea \\n.
-5. Conserva connctores naturales: para parejas usa " & " entre nombres si el placeholder lo usa.
+5. Conserva conectores naturales: para parejas usa " & " entre nombres si el placeholder lo usa.
 6. Itinerario: si el cliente dio líneas "HH:MM actividad", distribúyelas entre los nodos de hora/título/detalle de los hitos del itinerario cuando sea claro; si no, colócalas completas en el primer hito.
+7. COHERENCIA CON EL TIPO DE EVENTO (crítico):
+   - Si es de UN SOLO festejado y un nodo muestra un segundo nombre/cónyuge que NO existe en los datos (ej. "Nombre", "Nombre del esposo/esposa", "y Nombre"), devuelve "t": "" (cadena vacía) para LIMPIAR ese nodo.
+   - Si es de UN SOLO festejado y los rótulos hablan de pareja ("Padres de la novia" + "Padres del novio"): el primero se queda (o se reescribe como "Mis papás" si el texto actual aún es el placeholder) y el nodo de rótulo de la segunda familia se limpia con "t": "".
+   - En boda (dos festejados) NO apliques esta regla: ambos lados se quedan.
+8. Puedes devolver "t": "" (cadena vacía) para vaciar un nodo que no aplica. NUNCA dejes visible un placeholder "Nombre…" en el resultado final.
 
 Responde SOLO con JSON válido, sin markdown:
-{"items":[{"i":<número del nodo>,"t":"<texto final exacto para ese nodo>"}]}`;
+{"items":[{"i":<número del nodo>,"t":"<texto final exacto para ese nodo, o cadena vacía para limpiar>"}]}`;
 
     const model = (config.html_google_model || 'gemini-flash-latest').trim();
 

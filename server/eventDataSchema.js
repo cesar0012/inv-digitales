@@ -322,8 +322,10 @@ export function applyDeterministicByIds(doc, schema, data, opts = {}) {
       const fuente = c === 'padres-1' ? ['padres_novia', 'padres'] : ['padres_novio', 'padres'];
       return primero(data, fuente);
     }
-    if (c === 'padres-1a' || c === 'padres-2a') return parPadres ? parPadres[0] : primero(data, ['padres_novia', 'padres', 'padres_novio']);
-    if (c === 'padres-1b' || c === 'padres-2b') return parPadres ? parPadres[1] : primero(data, ['padres_novia', 'padres', 'padres_novio']);
+    if (c === 'padres-1a') { const par = primerPar(data, ['padres_novia', 'padres']); return par ? par[0] : primero(data, ['padres_novia', 'padres']); }
+    if (c === 'padres-1b') { const par = primerPar(data, ['padres_novia', 'padres']); return par ? par[1] : primero(data, ['padres_novia', 'padres']); }
+    if (c === 'padres-2a') { const par = primerPar(data, ['padres_novio']) || parPadres; return par ? par[0] : primero(data, ['padres_novio']); }
+    if (c === 'padres-2b') { const par = primerPar(data, ['padres_novio']) || parPadres; return par ? par[1] : primero(data, ['padres_novio']); }
     if (c === 'padrinos-1') return parPadrinos ? parPadrinos[0] : primero(data, ['padrinos']);
     if (c === 'padrinos-2') return parPadrinos ? parPadrinos[1] : primero(data, ['padrinos']);
     if (c === 'lugar') return val('lugar_ceremonia');
@@ -369,6 +371,9 @@ export function applyDeterministicByIds(doc, schema, data, opts = {}) {
     [/^portada-nombre-(1|2|uno|dos|novia|novio)$/, (m) => 'nombres-' + ({ uno: 1, dos: 2, novia: 1, novio: 2 }[m[1]] || m[1])],
     [/^portada-fecha$/, 'fecha'],
     [/^padres-nombre-(1a|1b|2a|2b|padre|madre|1|2)$/, (m) => 'padres-' + ({ padre: '1a', madre: '1b' }[m[1]] || m[1])],
+    [/^padres-(?:novia|1)-(?:padre|papa)$/, 'padres-1a'], [/^padres-(?:novia|1)-madre$/, 'padres-1b'],
+    [/^padres-(?:novio|2)-(?:padre|papa)$/, 'padres-2a'], [/^padres-(?:novio|2)-madre$/, 'padres-2b'],
+    [/^padres-(?:novia|1)-(?:nombres?|texto)$/, 'padres-1'], [/^padres-(?:novio|2)-(?:nombres?|texto)$/, 'padres-2'],
     [/^padrinos-nombres?-(1|2)$/, (m) => 'padrinos-' + m[1]],
     [/^ubicacion-(lugar|nombre)$/, 'lugar'],
     [/^ubicacion-direccion$/, 'direccion'],
@@ -483,6 +488,104 @@ export function applyDeterministicByIds(doc, schema, data, opts = {}) {
 }
 
 // ---------------------------------------------------------------------------
+// 2c. Adaptación CONTEXTUAL por tipo de evento (determinista, sin IA).
+// Los módulos son genéricos (boda) pero el evento puede ser de UN festejado
+// (XV, bautizo, cumpleaños…): se limpian los slots del segundo nombre, se
+// oculta la segunda familia de padres y se ajustan los rótulos ("Nuestros
+// padres" → "Mis papás"). La capa IA (ai-fill) refina los casos poéticos.
+// ---------------------------------------------------------------------------
+const esDosFestejados = (schema) =>
+  schema.fields.some((f) => f.key === 'nombres_novia') && schema.fields.some((f) => f.key === 'nombres_novio');
+
+const ocultarBloqueDe = (el, contieneOtraFamilia) => {
+  // Sube desde el ancla hasta el bloque repetidor: el primer ancestro cuyo
+  // PADRE ya contiene a la otra familia (el grid compartido) es el bloque.
+  let n = el;
+  let pasos = 0;
+  while (n.parentElement && pasos++ < 12) {
+    if (contieneOtraFamilia(n.parentElement)) { n.style.display = 'none'; return; }
+    n = n.parentElement;
+  }
+  el.style.display = 'none'; // sin frontera clara: ocultar solo el ancla
+};
+
+export function adaptContextoEvento(doc, schema, data = {}) {
+  const cambios = [];
+  if (esDosFestejados(schema)) return cambios; // boda: la estructura de dos aplica tal cual
+
+  /* ---------- 1) Portada: quitar el slot del segundo nombre ---------- */
+  doc.querySelectorAll('[data-event-field="nombres-2"], [memory_key*="nombre-dos"], [memory_key*="nombre-novio"]').forEach((el) => {
+    el.style.display = 'none';
+    cambios.push('portada: slot segundo nombre oculto');
+    // separador "&"/"y" previo: saltar espacios en blanco y limpiar el
+    // primero que sea un conector real (nodo de texto o <span>&</span>)
+    let sib = el.previousSibling;
+    while (sib) {
+      if (sib.nodeType === 3) {
+        const t = sib.textContent || '';
+        if (/[&y]/.test(t)) { sib.textContent = t.replace(/\s*[&y]\s*/g, ''); break; }
+        if (t.trim() === '') { sib = sib.previousSibling; continue; }
+        break;
+      }
+      if (sib.nodeType === 1) {
+        if (/^[&y]$/.test((sib.textContent || '').trim())) sib.style.display = 'none';
+        break;
+      }
+      sib = sib.previousSibling;
+    }
+  });
+  // restos "& Nombre" en el nodo principal ya escrito
+  doc.querySelectorAll('[data-event-field="nombres"], [data-event-field="nombres-1"]').forEach((el) => {
+    const t = norm(el.textContent);
+    const limpio = t.replace(/\s*[&y]\s*(?:Nombre|nombre)\b.*$/, '').replace(/\b(?:Nombre|nombre)\s*[&y]\s*/g, '').trim();
+    if (limpio && limpio !== t) { el.textContent = limpio; cambios.push('portada: resto del segundo nombre limpiado'); }
+  });
+
+  /* ---------- 2) Padres: una sola familia en eventos de un festejado ---------- */
+  const raicesPadres = moduleRoots(doc, 'padres');
+  const anclaFam1 = (root) => root.querySelector('[data-event-field^="padres-1"], [memory_key*="padres-novia-"], [memory_key^="padres-nombre-1"]');
+  const anclaFam2 = (root) => root.querySelector('[data-event-field^="padres-2"], [memory_key*="padres-novio-"], [memory_key^="padres-nombre-2"]');
+  for (const root of raicesPadres) {
+    // ocultar el bloque de la segunda familia
+    const fam2 = anclaFam2(root);
+    if (fam2) {
+      const contieneFam1 = (n) => !!(n.querySelector && (n.querySelector('[data-event-field^="padres-1"], [memory_key*="padres-novia-"], [memory_key^="padres-nombre-1"]')));
+      ocultarBloqueDe(fam2, contieneFam1);
+      cambios.push('padres: bloque de la segunda familia oculto');
+    }
+    const enBloqueOculto = (el) => { let n = el; while (n && n !== root) { if (n.style && n.style.display === 'none') return true; n = n.parentElement; } return false; };
+    // título "Nuestros padres" → "Mis papás"
+    let tituloCambiado = false;
+    root.querySelectorAll('[memory_key="padres-titulo"], h2, h3').forEach((el) => {
+      if (el.children.length || enBloqueOculto(el)) return;
+      if (/^nuestros\s+padres/i.test(norm(el.textContent))) { el.textContent = 'Mis papás'; tituloCambiado = true; cambios.push('padres: título → Mis papás'); }
+    });
+    // rótulo de la primera familia: si hubo título nuevo queda redundante → oculto;
+    // si no hay título, el rótulo ES el título → "Mis papás"
+    root.querySelectorAll('[memory_key*="-rol"], [memory_key*="etiqueta"], h3, h4, span, p, b, em').forEach((el) => {
+      if (el.children.length || enBloqueOculto(el)) return;
+      const t = norm(el.textContent);
+      if (/^(?:los\s+)?(?:padres|papás)\s+de\s+(?:la\s+)?(?:novia|ella|quinceañera|festejad[ao])$/i.test(t)) {
+        if (tituloCambiado) el.style.display = 'none';
+        else el.textContent = 'Mis papás';
+        cambios.push('padres: rótulo de la primera familia ajustado');
+      }
+    });
+  }
+
+  /* ---------- 3) Padrinos: ocultar pares 3+ sin datos (anillos/lazo/…) ---------- */
+  for (let n = 3; n <= 6; n++) {
+    doc.querySelectorAll('[data-event-field="padrinos-' + n + '"], [memory_key*="padrinos-nombres-' + n + '"], [memory_key*="padrinos-nombre-' + n + '"]').forEach((el) => {
+      if (!parecePlaceholder(el.textContent)) return;
+      const contienePar1 = (x) => !!(x.querySelector && x.querySelector('[data-event-field="padrinos-1"], [memory_key*="padrinos-nombres?-1"], [memory_key*="padrinos-nombre-1"]'));
+      ocultarBloqueDe(el, contienePar1);
+      cambios.push('padrinos: par ' + n + ' sin dato oculto');
+    });
+  }
+  return cambios;
+}
+
+// ---------------------------------------------------------------------------
 // 3. Utilidades DOM (funcionan con DOMParser del cliente y linkedom del server)
 // ---------------------------------------------------------------------------
 const norm = (s) => String(s || '').replace(/\s+/g, ' ').trim();
@@ -528,11 +631,14 @@ export function collectTextTargets(doc) {
   return targets.slice(0, 400);
 }
 
-/** Aplica un item devuelto por la IA: { i: <idx del target>, t: <nuevo texto> } */
+/** Aplica un item devuelto por la IA: { i: <idx del target>, t: <nuevo texto> }.
+ *  t:"" (cadena vacía explícita) LIMPIA el nodo — el agente la usa para
+ *  quitar slots que no aplican al tipo de evento (segundo nombre en un XV…). */
 export function applyTextByIndex(doc, op) {
   const idx = Number(op && op.i);
-  const text = String(op && op.t || '').trim();
-  if (Number.isNaN(idx) || !text) return false;
+  const vacio = op && typeof op.t === 'string' && op.t.trim() === '';
+  const text = String(op && op.t != null ? op.t : '').trim();
+  if (Number.isNaN(idx) || (!text && !vacio)) return false;
   const els = Array.from(doc.querySelectorAll('[data-gemini-id], [memory_type="text"], [memory_key]'));
   const granular = els.filter((el) => !els.some((other) => other !== el && el.contains(other)));
   const el = granular[idx];

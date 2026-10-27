@@ -7,7 +7,7 @@ import { InitialView } from './InitialView';
 import { SelectedElement, Attachment, ProjectPage, InvitationMetadata, EditorConfig, LocalImageFile } from '../types';
 import { IMAGE_SOURCES } from '../constants';
 import { generateWebProject, addModuleToProject, modifyProjectDesign, iterateModule, aiFillEventData } from '../services/aiService';
-import { resolveSchema, missingRequired, applyDeterministicData, collectTextTargets, applyTextByIndex } from '../server/eventDataSchema.js';
+import { resolveSchema, missingRequired, applyDeterministicData, adaptContextoEvento, collectTextTargets, applyTextByIndex } from '../server/eventDataSchema.js';
 import { consumeCredit, saveInvitation, updateInvitationContent, getInvitationContent, getDefaultFonts, applyInvitationFonts } from '../services/apiService';
 import { injectMetadata, extractMetadata, buildMetadataFromHTML } from '../services/metadataService';
 import { useAuth } from '../contexts/AuthContext';
@@ -336,6 +336,17 @@ export const EditorView: React.FC = () => {
       // el adaptador IA). En el modal del editor se respeta lo ya escrito.
       const deterministicApplied = applyDeterministicData(doc, schema, currentData, opts);
 
+      // Adaptación contextual por tipo de evento (XV/bautizo/cumpleaños = un
+      // festejado): quita el slot del segundo nombre, oculta la segunda familia
+      // de padres, ajusta rótulos ("Nuestros padres" → "Mis papás") y limpia
+      // pares de padrinos vacíos. Determinista — no consume IA.
+      let contextoCambios: string[] = [];
+      try {
+        contextoCambios = adaptContextoEvento(doc, schema, currentData);
+      } catch (err: any) {
+        console.warn('[EVENT-DATA] adaptación contextual omitida:', err?.message);
+      }
+
       let ops: { i: number; t: string }[] = [];
       try {
         const targets = collectTextTargets(doc);
@@ -348,7 +359,7 @@ export const EditorView: React.FC = () => {
       }
 
       for (const op of ops) applyTextByIndex(doc, op);
-      console.log('[EVENT-DATA] determinista:', deterministicApplied, '| colocaciones IA:', ops.length);
+      console.log('[EVENT-DATA] determinista:', deterministicApplied, '| contexto:', contextoCambios.length, contextoCambios, '| colocaciones IA:', ops.length);
       return '<!DOCTYPE html>' + doc.documentElement.outerHTML;
     } catch (err: any) {
       console.warn('[EVENT-DATA] inyección falló, la invitación continúa sin datos:', err?.message);
