@@ -335,6 +335,7 @@ export function applyDeterministicByIds(doc, schema, data, opts = {}) {
     if (c === 'vestimenta') return val('codigo_vestimenta');
     if (/^itin-hora-(\d)$/.test(c)) { const m = c.match(/^itin-hora-(\d)$/); const l = lineas[+m[1] - 1]; const mm = l && l.match(/^(\d{1,2}:\d{2})/); return mm ? mm[1] : ''; }
     if (/^itin-evento-(\d)$/.test(c)) { const m = c.match(/^itin-evento-(\d)$/); const l = lineas[+m[1] - 1]; const mm = l && l.match(/^\d{1,2}:\d{2}\s*[–—-]?\s*(.+)$/); return mm ? mm[1].split(/[,.;:]/)[0].trim() : ''; }
+    if (/^corte-nombre-(\d)$/.test(c)) { const m = c.match(/^corte-nombre-(\d)$/); const corte = String(data.chambelanes || '').split('\n').map((x) => x.trim()).filter(Boolean); return corte[+m[1] - 1] || ''; }
     return '';
   };
   for (const c of Object.keys(porCampo)) {
@@ -358,6 +359,7 @@ export function applyDeterministicByIds(doc, schema, data, opts = {}) {
     if (c === 'fecha-limite') return 'fecha_limite';
     if (c === 'vestimenta') return 'codigo_vestimenta';
     if (/^itin-/.test(c)) return 'itinerario';
+    if (/^corte-/.test(c)) return 'chambelanes';
     return c;
   }
 
@@ -375,7 +377,8 @@ export function applyDeterministicByIds(doc, schema, data, opts = {}) {
     [/^confirmacion-fecha-limite$/, 'fecha-limite'],
     [/^countdown-fecha$/, 'fecha-evento'],
     [/^itinerario-hora-(\d)$/, (m) => 'itin-hora-' + m[1]],
-    [/^itinerario-(evento|momento)-(\d)$/, (m) => 'itin-evento-' + m[2]]
+    [/^itinerario-(evento|momento)-(\d)$/, (m) => 'itin-evento-' + m[2]],
+    [/^corte-(?:dama|chambelan|nombre)-(\d)$/, (m) => 'corte-nombre-' + m[1]]
   ];
   doc.querySelectorAll('[memory_key]').forEach((el) => {
     if (el.closest('[data-event-field]') === el || el.hasAttribute('data-event-field')) return; // ya cubierto
