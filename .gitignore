@@ -57,6 +57,8 @@ PHP/
 # Documentation (except README)
 *.md
 !README.md
+!Plantillas-Prompt/
+!Plantillas-Prompt/**
 designs/CD-Luxury.html
 designs/Footer.html
 designs/H-Convideo.html
