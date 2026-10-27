@@ -323,7 +323,7 @@ export const EditorView: React.FC = () => {
    *    una lista de colocaciones que se aplican localmente.
    * Cualquier fallo se degrada con elegancia: se continúa con lo aplicado.
    */
-  const applyEventDataPipeline = async (rawCode: string): Promise<string> => {
+  const applyEventDataPipeline = async (rawCode: string, opts?: { force?: boolean }): Promise<string> => {
     try {
       const currentData = eventDataRef.current;
       const hasAny = Object.values(currentData).some(v => (v || '').toString().trim());
@@ -331,7 +331,10 @@ export const EditorView: React.FC = () => {
 
       const schema = resolveSchema(editorConfig.eventType);
       const doc = new DOMParser().parseFromString(rawCode, 'text/html');
-      const deterministicApplied = applyDeterministicData(doc, schema, currentData);
+      // force=true: al terminar la generación los datos del formulario son la
+      // verdad del usuario y GANAN sobre el texto (placeholder o inventado por
+      // el adaptador IA). En el modal del editor se respeta lo ya escrito.
+      const deterministicApplied = applyDeterministicData(doc, schema, currentData, opts);
 
       let ops: { i: number; t: string }[] = [];
       try {
@@ -379,7 +382,7 @@ export const EditorView: React.FC = () => {
     setGeneratingMessage('Colocando tus datos en la invitación...');
     let finalCode = rawCode;
     try {
-      finalCode = await applyEventDataPipeline(rawCode);
+      finalCode = await applyEventDataPipeline(rawCode, { force: true });
     } finally {
       loadRawIntoEditor(finalCode);
       setGenerationFinished(false);

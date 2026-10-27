@@ -288,7 +288,10 @@ const primero = (data, keys) => {
   return '';
 };
 
-export function applyDeterministicByIds(doc, schema, data) {
+export function applyDeterministicByIds(doc, schema, data, opts = {}) {
+  const force = !!opts.force; // true al terminar la generación: los datos del
+  // formulario SON la verdad del usuario y ganan sobre el texto (placeholder
+  // o inventado por el adaptador IA). false en el editor: solo placeholders.
   const aplicadas = new Set();
   const campos = {};
   for (const f of schema.fields) campos[f.key] = f;
@@ -298,16 +301,114 @@ export function applyDeterministicByIds(doc, schema, data) {
     if (!raw) return '';
     return f && f.type === 'date' ? formatFechaEs(raw) : raw;
   };
-  const set = (id, texto) => {
-    const el = doc.querySelector('[data-gemini-id="' + id + '"]');
-    if (!el || !texto) return;
-    if (!parecePlaceholder(el.textContent)) return; // no pisar datos reales
-    el.textContent = texto;
-  };
 
-  // --- Portada: nombres (título o nodo de nombres) ---
+  /* ---------- Pase 1: data-event-field (ancla semántica oficial) ---------- */
+  const porCampo = {};
+  doc.querySelectorAll('[data-event-field]').forEach((el) => {
+    const c = el.getAttribute('data-event-field');
+    (porCampo[c] = porCampo[c] || []).push(el);
+  });
   const nombres2 = [val('nombres_novia'), val('nombres_novio')].filter(Boolean);
   const nombre1 = val('nombre_homenajeada') || val('nombre_homenajeado');
+  const parPadres = primerPar(data, ['padres_novia', 'padres', 'padres_novio']);
+  const parPadrinos = splitPair(primero(data, ['padrinos']));
+  const lineas = String(data.itinerario || '').split('\n').map((l) => l.trim()).filter(Boolean);
+
+  const campoValor = (c) => {
+    if (c === 'nombres') return nombres2.length === 2 ? nombres2.join(' & ') : (nombre1 || nombres2[0] || '');
+    if (c === 'nombres-1') return val('nombres_novia') || nombre1 || nombres2[0] || '';
+    if (c === 'nombres-2') return val('nombres_novio') || nombres2[1] || '';
+    if (c === 'padres-1' || c === 'padres-2') {
+      const fuente = c === 'padres-1' ? ['padres_novia', 'padres'] : ['padres_novio', 'padres'];
+      return primero(data, fuente);
+    }
+    if (c === 'padres-1a' || c === 'padres-2a') return parPadres ? parPadres[0] : primero(data, ['padres_novia', 'padres', 'padres_novio']);
+    if (c === 'padres-1b' || c === 'padres-2b') return parPadres ? parPadres[1] : primero(data, ['padres_novia', 'padres', 'padres_novio']);
+    if (c === 'padrinos-1') return parPadrinos ? parPadrinos[0] : primero(data, ['padrinos']);
+    if (c === 'padrinos-2') return parPadrinos ? parPadrinos[1] : primero(data, ['padrinos']);
+    if (c === 'lugar') return val('lugar_ceremonia');
+    if (c === 'direccion') return val('direccion_ceremonia');
+    if (c === 'hora') return val('hora') ? (val('hora') + (/:/.test(val('hora')) && !/hrs/.test(val('hora')) ? ' hrs' : '')) : '';
+    if (c === 'fecha') return val('fecha') ? (val('hora') ? val('fecha') + ' · ' + val('hora') : val('fecha')) : '';
+    if (c === 'fecha-limite') return val('fecha_limite') ? 'Confirma antes del ' + val('fecha_limite') : '';
+    if (c === 'fecha-evento') return val('fecha') ? val('fecha') + (val('hora') ? ' · ' + val('hora') : '') : '';
+    if (c === 'vestimenta') return val('codigo_vestimenta');
+    if (/^itin-hora-(\d)$/.test(c)) { const m = c.match(/^itin-hora-(\d)$/); const l = lineas[+m[1] - 1]; const mm = l && l.match(/^(\d{1,2}:\d{2})/); return mm ? mm[1] : ''; }
+    if (/^itin-evento-(\d)$/.test(c)) { const m = c.match(/^itin-evento-(\d)$/); const l = lineas[+m[1] - 1]; const mm = l && l.match(/^\d{1,2}:\d{2}\s*[–—-]?\s*(.+)$/); return mm ? mm[1].split(/[,.;:]/)[0].trim() : ''; }
+    return '';
+  };
+  for (const c of Object.keys(porCampo)) {
+    const v = campoValor(c);
+    if (!v) continue;
+    for (const el of porCampo[c]) {
+      if (norm(el.textContent) === norm(v)) { aplicadas.add(campoClaveDe(c)); continue; }
+      if (!force && !parecePlaceholder(el.textContent)) continue;
+      el.textContent = v;
+      aplicadas.add(campoClaveDe(c));
+    }
+  }
+  function campoClaveDe(c) {
+    if (/nombres/.test(c)) return 'nombres_novia';
+    if (/padres/.test(c)) return 'padres';
+    if (/padrinos/.test(c)) return 'padrinos';
+    if (c === 'lugar') return 'lugar_ceremonia';
+    if (c === 'direccion') return 'direccion_ceremonia';
+    if (c === 'hora') return 'hora';
+    if (c === 'fecha' || c === 'fecha-evento') return 'fecha';
+    if (c === 'fecha-limite') return 'fecha_limite';
+    if (c === 'vestimenta') return 'codigo_vestimenta';
+    if (/^itin-/.test(c)) return 'itinerario';
+    return c;
+  }
+
+  /* ---------- Pase 2: memory_key (sets 25/26 y adaptados que lo conservan) -- */
+  const MKMAP = [
+    [/^portada-nombres?$/, 'nombres'],
+    [/^portada-nombre-(1|2|uno|dos|novia|novio)$/, (m) => 'nombres-' + ({ uno: 1, dos: 2, novia: 1, novio: 2 }[m[1]] || m[1])],
+    [/^portada-fecha$/, 'fecha'],
+    [/^padres-nombre-(1a|1b|2a|2b|padre|madre|1|2)$/, (m) => 'padres-' + ({ padre: '1a', madre: '1b' }[m[1]] || m[1])],
+    [/^padrinos-nombres?-(1|2)$/, (m) => 'padrinos-' + m[1]],
+    [/^ubicacion-(lugar|nombre)$/, 'lugar'],
+    [/^ubicacion-direccion$/, 'direccion'],
+    [/^ubicacion-hora$/, 'hora'],
+    [/^vestimenta-codigo$|^detalles-vestimenta-tipo$/, 'vestimenta'],
+    [/^confirmacion-fecha-limite$/, 'fecha-limite'],
+    [/^countdown-fecha$/, 'fecha-evento'],
+    [/^itinerario-hora-(\d)$/, (m) => 'itin-hora-' + m[1]],
+    [/^itinerario-(evento|momento)-(\d)$/, (m) => 'itin-evento-' + m[2]]
+  ];
+  doc.querySelectorAll('[memory_key]').forEach((el) => {
+    if (el.closest('[data-event-field]') === el || el.hasAttribute('data-event-field')) return; // ya cubierto
+    const mk = el.getAttribute('memory_key') || '';
+    for (const [re, out] of MKMAP) {
+      const m = mk.match(re);
+      if (!m) continue;
+      const c = typeof out === 'function' ? out(m) : out;
+      const v = campoValor(c);
+      if (!v) break;
+      if (norm(el.textContent) === norm(v)) { aplicadas.add(campoClaveDe(c)); break; }
+      if (!force && !parecePlaceholder(el.textContent)) break;
+      el.textContent = v;
+      aplicadas.add(campoClaveDe(c));
+      break;
+    }
+  });
+
+  const set = (id, texto) => {
+    let el = doc.querySelector('[data-gemini-id="' + id + '"]');
+    if (!el || !texto) return;
+    // El gemini-id puede vivir en la SECTION completa (portada-nombre en todo
+    // el catálogo): nunca escribir sobre un contenedor — bajar al heading hoja.
+    if (el.children && el.children.length) {
+      const h = el.querySelector('h1,h2,h3');
+      if (!h || h.children.length) return;
+      el = h;
+    }
+    if (norm(el.textContent) === norm(texto)) return;
+    if (!force && !parecePlaceholder(el.textContent)) return;
+    el.textContent = texto;
+  };
+  /* ---------- Pase 3: data-gemini-id (flujo clásico) ---------- */
   const juntos = nombres2.length === 2 ? nombres2.join(' & ') : (nombre1 || nombres2[0] || '');
   if (juntos) {
     set('portada-nombres', juntos);
@@ -321,7 +422,6 @@ export function applyDeterministicByIds(doc, schema, data) {
   }
 
   // --- Padres (flujo clásico: papa/mama separados; catálogo: nombre-1/2) ---
-  const parPadres = primerPar(data, ['padres_novia', 'padres', 'padres_novio']);
   if (parPadres) {
     set('padres-papa', parPadres[0]);
     set('padres-mama', parPadres[1]);
@@ -330,7 +430,6 @@ export function applyDeterministicByIds(doc, schema, data) {
   if (padresTxt) { set('padres-nombre-1', padresTxt); set('padres-nombre-2', padresTxt); set('padres-texto', padresTxt); }
 
   // --- Padrinos (clásico separado / catálogo 1-2) ---
-  const parPadrinos = splitPair(primero(data, ['padrinos']));
   if (parPadrinos) {
     set('padrinos-padrino', parPadrinos[0]);
     set('padrinos-madrina', parPadrinos[1]);
@@ -355,7 +454,6 @@ export function applyDeterministicByIds(doc, schema, data) {
   if (val('direccion_ceremonia')) set('ubicacion-recepcion-direccion', val('direccion_ceremonia'));
 
   // --- Itinerario: líneas "HH:MM actividad" a los hitos ---
-  const lineas = String(data.itinerario || '').split('\n').map((l) => l.trim()).filter(Boolean);
   lineas.slice(0, 6).forEach((linea, idx) => {
     const m = linea.match(/^(\d{1,2}:\d{2})\s*[–—-]?\s*(.+)$/);
     if (!m) return;
@@ -444,12 +542,14 @@ export function applyTextByIndex(doc, op) {
  * Pase determinista: coloca los datos donde casan los placeholders canónicos.
  * Devuelve la lista de llaves aplicadas. NUNCA lanza.
  */
-export function applyDeterministicData(doc, schema, data) {
+export function applyDeterministicData(doc, schema, data, opts = {}) {
   const applied = new Set();
   try {
-    // Pase 0: colocación por data-gemini-id (flujos sin placeholders canónicos)
+    // Pase 0: colocación por anclas semánticas (data-event-field → memory_key
+    // → data-gemini-id). En modo force (al terminar la generación) los datos
+    // del formulario ganan sobre el texto placeholder o inventado por IA.
     try {
-      for (const k of applyDeterministicByIds(doc, schema, data)) applied.add(k);
+      for (const k of applyDeterministicByIds(doc, schema, data, opts)) applied.add(k);
     } catch (e) { /* el resto de pases continúa */ }
 
     const clean = {};
