@@ -1,0 +1,73 @@
+<section class="surreal-cd" data-gemini-id="countdown-surreal-central" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder" data-countdown-target="YYYY-MM-DDTHH:MM:SS">
+<style>
+.surreal-cd { --primary-color:#2b1d3a; --secondary-color:#c9497c; --accent-color:#40827d; --bg-color:#efe9f4; --surface-color:#faf7fc; --surface-border-color:#2b1d3a; --text-color:#2b1d3a;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:clamp(26rem,60vw,42rem); display:grid; place-items:center;
+  padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background:linear-gradient(180deg, #d9c9ec 0%, #efe9f4 40%, #cbb9e0 100%), url('https://loremflickr.com/1600/1000/surreal,sky') center/cover; background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.surreal-cd *, .surreal-cd *::before, .surreal-cd *::after { box-sizing:border-box; }
+.surreal-cd::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 78%, transparent); }
+.surreal-cd__caja { width:min(100%,640px); padding:clamp(1.6rem,4vw,2.8rem) clamp(1.2rem,3.6vw,2.4rem); background:var(--surface-color); border:1.5px solid var(--primary-color); border-radius:2px 18px 4px 20px; box-shadow:10px 12px 0 var(--accent-color); }
+.surreal-cd__titulo { margin:0 0 .4rem; font-family:Georgia,'Times New Roman',serif; font-weight:700; font-size:clamp(1.9rem,4.6vw,3rem); color:var(--primary-color); transform:rotate(0deg); }
+.surreal-cd__fecha { display:block; margin-bottom:clamp(1.4rem,3.6vw,2.2rem); font-family:'Courier New',monospace; font-size:clamp(.68rem,1.3vw,.82rem); letter-spacing:.3em; text-transform:uppercase; color:var(--secondary-color); }
+.surreal-cd__timer { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(.8rem,2.4vw,1.6rem); }
+.surreal-cd__unidad { padding:clamp(.7rem,1.8vw,1.1rem) clamp(.5rem,1.4vw,.9rem); background:color-mix(in srgb, var(--bg-color) 85%, transparent); border:1px solid var(--surface-border-color); transform:rotate(2deg); }
+.surreal-cd__num { display:block; font-family:Georgia,'Times New Roman',serif; font-size:clamp(1.9rem,6.4vw,4.2rem); line-height:.95; font-variant-numeric:tabular-nums; color:var(--text-color); }
+.surreal-cd__etq { display:block; margin-top:.5rem; font-family:'Courier New',monospace; font-size:clamp(.56rem,1.2vw,.7rem); letter-spacing:.28em; text-transform:uppercase; color:var(--text-color); }
+@media (max-width:520px){ .surreal-cd__timer { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (prefers-reduced-motion:reduce){ .surreal-cd * { animation:none !important; } }
+</style>
+<div class="surreal-cd__caja">
+  <h2 class="surreal-cd__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Falta poco</h2>
+  <time class="surreal-cd__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+  <div class="surreal-cd__timer" aria-label="Cuenta regresiva">
+    <div class="surreal-cd__unidad"><span class="surreal-cd__num" data-countdown-unit="days">--</span><span class="surreal-cd__etq">Días</span></div>
+    <div class="surreal-cd__unidad"><span class="surreal-cd__num" data-countdown-unit="hours">--</span><span class="surreal-cd__etq">Horas</span></div>
+    <div class="surreal-cd__unidad"><span class="surreal-cd__num" data-countdown-unit="minutes">--</span><span class="surreal-cd__etq">Min</span></div>
+    <div class="surreal-cd__unidad"><span class="surreal-cd__num" data-countdown-unit="seconds">--</span><span class="surreal-cd__etq">Seg</span></div>
+  </div>
+</div>
+<script>
+  (function () {
+    var el = null;
+    try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch(e) {}
+    if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+    if (!el) return;
+    var targetAttr = el.getAttribute('data-countdown-target');
+    var target = NaN;
+    if (targetAttr && targetAttr.indexOf('YYYY') === -1) {
+      var parsed = new Date(targetAttr);
+      if (!isNaN(parsed.getTime())) target = parsed.getTime();
+    }
+    if (isNaN(target)) {
+      if (window.__countdownTarget) { var _p = new Date(window.__countdownTarget); if (!isNaN(_p.getTime())) target = _p.getTime(); }
+      else if (window.countdown_target) { var _p2 = new Date(window.countdown_target); if (!isNaN(_p2.getTime())) target = _p2.getTime(); }
+    }
+    var intervalId = null;
+    (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+    window.__countdownIntervals = [];
+    function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+    function setUnit(unit, value) { var node = el.querySelector('[data-countdown-unit="' + unit + '"]'); if (node) node.textContent = value; }
+    function tick() {
+      var diff = target - Date.now();
+      if (diff < 0) diff = 0;
+      setUnit('days', Math.floor(diff / 86400000));
+      setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
+      setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
+      setUnit('seconds', pad2(Math.floor((diff % 60000) / 1000)));
+      if (diff === 0 && intervalId !== null) { clearInterval(intervalId); intervalId = null; window.__countdownIntervals = []; }
+    }
+    function start(newTarget) {
+      if (newTarget) target = new Date(newTarget).getTime();
+      (window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+      intervalId = null;
+      if (!Number.isFinite(target)) return;
+      tick();
+      if (target > Date.now()) { intervalId = setInterval(tick, 1000); window.__countdownIntervals.push(intervalId); }
+    }
+    start();
+    window.updateCountdown = start;
+  })();
+</script>
+<script>var moduleMetadata = { module_type: "countdown", module_name: "countdown-surreal-central", style_name: "Surrealismo — Onírico — Countdown", descripcion: "Cuenta regresiva surrealismo con cuatro unidades enmarcadas y contrato de countdown completo.", tags: ["countdown","timer","surreal","surrealismo"], tipo: "countdown" };</script>
+</section>

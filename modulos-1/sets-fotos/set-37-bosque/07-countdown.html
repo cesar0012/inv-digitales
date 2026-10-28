@@ -1,0 +1,278 @@
+<section
+  class="be-cd"
+  data-gemini-id="countdown-bosque"
+  data-countdown-target="2027-06-19T19:00:00"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Ballet&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .be-cd, .be-cd *, .be-cd *::before, .be-cd *::after { box-sizing: border-box; }
+    .be-cd {
+      --t-bg: var(--bg-color, #F3F5EA);
+      --t-tx: var(--text-color, #24483B);
+      --t-p: var(--primary-color, #2F7A5A);
+      --t-s: var(--secondary-color, #7D9A58);
+      --t-a: var(--accent-color, #C9A447);
+      --t-l: var(--lilac-color, #B8A2DA);
+      --t-display: var(--font-script, 'Ballet', cursive);
+      --t-text: var(--font-heading, 'EB Garamond', Georgia, serif);
+      --orb: clamp(4.3rem, 15vw, 8.6rem);
+      --hang: 1.7rem;
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 42rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 6rem) clamp(.75rem, 4vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/forest,dew,morning?lock=3371');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .be-cd::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(ellipse 60% 45% at 50% 62%, color-mix(in srgb, var(--t-a) 16%, transparent), transparent),
+        linear-gradient(180deg, color-mix(in srgb, color-mix(in srgb, var(--t-bg) 84%, var(--t-s)) 92%, transparent), color-mix(in srgb, var(--t-bg) 90%, transparent) 55%, color-mix(in srgb, var(--t-bg) 94%, transparent));
+    }
+    .be-cd__sky { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; }
+    .be-cd__inner { width: min(100%, 58rem); }
+    .be-cd__kicker { margin: 0 0 .3rem; font-style: italic; font-size: 1.15rem; color: var(--t-p); }
+    .be-cd__title { margin: 0 0 clamp(1.5rem, 4vw, 2.5rem); font-family: var(--t-display); font-weight: 400; font-size: clamp(2.8rem, 7vw, 4.6rem); line-height: 1.3; color: var(--t-p); }
+
+    .be-cd__stage { position: relative; padding-bottom: 1rem; }
+    .be-cd__branch {
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      left: 50%;
+      width: max(100%, 64rem);
+      height: 3.6rem;
+      transform: translateX(-50%);
+      overflow: visible;
+      pointer-events: none;
+    }
+    .be-cd-stem { fill: none; stroke: color-mix(in srgb, var(--t-p) 85%, var(--t-tx)); stroke-width: 3.2; stroke-linecap: round; }
+    .be-cd-tendril { fill: none; stroke: var(--t-s); stroke-width: 1.2; }
+    .be-cd-lf { fill: var(--t-s); }
+    .be-cd-lf2 { fill: var(--t-p); }
+    .be-cd-wire { stroke: color-mix(in srgb, var(--t-a) 70%, transparent); stroke-width: .8; }
+    .be-cd-bulb { fill: color-mix(in srgb, var(--t-a) 70%, #fff8dc); }
+
+    .be-cd__drops { position: relative; z-index: 1; display: flex; justify-content: center; gap: clamp(.45rem, 3vw, 2.4rem); }
+    .be-cd__drop { position: relative; padding-top: var(--len, 4rem); transform-origin: 50% var(--hang); }
+    .be-cd__drop:nth-child(1) { --len: 4.2rem; }
+    .be-cd__drop:nth-child(2) { --len: 6.4rem; }
+    .be-cd__drop:nth-child(3) { --len: 3.4rem; }
+    .be-cd__drop:nth-child(4) { --len: 5.4rem; }
+    .be-cd__thread {
+      position: absolute;
+      left: 50%;
+      top: var(--hang);
+      height: calc(var(--len) - var(--hang) + .4rem);
+      width: 1px;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-p) 70%, transparent), color-mix(in srgb, var(--t-a) 80%, transparent));
+    }
+    .be-cd__orb {
+      position: relative;
+      width: var(--orb);
+      aspect-ratio: 1;
+      display: grid;
+      place-content: center;
+      gap: .1rem;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 32% 26%, rgba(255, 255, 255, .95) 0 6%, rgba(255, 255, 255, 0) 16%),
+        radial-gradient(circle at 70% 78%, color-mix(in srgb, var(--t-a) 35%, transparent), transparent 45%),
+        radial-gradient(circle at 50% 55%, color-mix(in srgb, var(--t-bg) 88%, #fff), color-mix(in srgb, var(--t-bg) 70%, var(--t-l)) 80%, color-mix(in srgb, var(--t-bg) 55%, var(--t-l)));
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-a) 55%, transparent), inset 0 -10px 24px color-mix(in srgb, var(--t-l) 40%, transparent), 0 18px 30px -18px color-mix(in srgb, var(--t-p) 80%, transparent), 0 0 34px color-mix(in srgb, var(--t-a) 28%, transparent);
+    }
+    .be-cd__num { display: block; font-size: clamp(1.45rem, 4.6vw, 3rem); font-weight: 600; line-height: 1; color: var(--t-p); font-variant-numeric: tabular-nums; }
+    .be-cd__unit { display: block; font-style: italic; font-size: clamp(.82rem, 2vw, 1.05rem); line-height: 1.2; }
+    .be-cd__date { margin: clamp(1.4rem, 4vw, 2.2rem) 0 0; font-size: clamp(1.1rem, 2.4vw, 1.3rem); font-weight: 500; color: var(--t-p); }
+    .be-cd__date::before, .be-cd__date::after { content: '❦'; color: var(--t-a); font-size: .9em; margin: 0 .6em; }
+
+    .be-cd--anim .be-cd__drop { opacity: 0; transform: translateY(-36px); transition: opacity .45s ease, transform .5s cubic-bezier(.3, 1.4, .5, 1); }
+    .be-cd--anim .be-cd__drop[data-be-in] { opacity: 1; transform: none; }
+    .be-cd--anim .be-cd__head, .be-cd--anim .be-cd__date { opacity: 0; transition: opacity .45s ease; }
+    .be-cd--anim.is-in .be-cd__head, .be-cd--anim.is-in .be-cd__date { opacity: 1; }
+    .be-cd--anim.is-in .be-cd__date { transition-delay: .5s; }
+
+    @media (max-width: 420px) {
+      .be-cd { --orb: 4.6rem; }
+      .be-cd__drops { gap: .35rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .be-cd *, .be-cd *::before, .be-cd *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <canvas class="be-cd__sky" data-be-sky aria-hidden="true"></canvas>
+
+  <div class="be-cd__inner">
+    <header class="be-cd__head">
+      <p class="be-cd__kicker" memory_type="text" memory_usage="custom" memory_key="countdown-intro">Cada gota de rocío cuenta el tiempo hasta</p>
+      <h2 class="be-cd__title" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">La noche encantada</h2>
+    </header>
+
+    <div class="be-cd__stage">
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><g id="be-cd-leaf"><path d="M0 0 C 5 -6.8 15 -7.4 23 0 C 15 7.4 5 6.8 0 0 Z"/><path d="M1.5 0 Q 11 -.8 20 0" fill="none" stroke="rgba(255,255,255,.5)" stroke-width=".7"/></g><filter id="be-cd-glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><linearGradient id="be-cd-wg" x1="1" y1=".5" x2="0" y2=".2"><stop offset="0" style="stop-color: var(--t-l); stop-opacity: .92"/><stop offset=".55" style="stop-color: var(--t-l); stop-opacity: .62"/><stop offset="1" style="stop-color: var(--t-a); stop-opacity: .5"/></linearGradient></defs></svg>
+      <svg class="be-cd__branch" viewBox="0 0 1240 60" preserveAspectRatio="xMidYMin slice" aria-hidden="true" focusable="false"><path class="be-cd-stem" d="M0.0 30.0 C250.0 6.0 420.0 52.0 640.0 26.0 C820.0 6.0 980.0 48.0 1240.0 22.0" data-be-stem/><g transform="translate(513.0 34.1) rotate(69) scale(1 1)"><path class="be-cd-tendril" d="M0 0 c 6 -5 14 -3 13 4 c -1 5 -8 6 -8 1 c 0 -3 3 -3.5 4 -2"/></g><g transform="translate(94.5 23.9) rotate(53) scale(1.08)"><use href="#be-cd-leaf" class="be-cd-lf" data-be-leaf style="--i:0"/></g><g transform="translate(144.3 22.8) rotate(-41) scale(1.00)"><use href="#be-cd-leaf" class="be-cd-lf" data-be-leaf style="--i:1"/></g><g transform="translate(179.7 23.0) rotate(49) scale(1.27)"><use href="#be-cd-leaf" class="be-cd-lf" data-be-leaf style="--i:2"/></g><g transform="translate(229.4 24.1) rotate(-45) scale(1.00)"><use href="#be-cd-leaf" class="be-cd-lf2" data-be-leaf style="--i:3"/></g><g transform="translate(241.0 24.5) rotate(53) scale(1.09)"><use href="#be-cd-leaf" class="be-cd-lf" data-be-leaf style="--i:4"/></g><g transform="translate(306.7 27.5) rotate(-41) scale(1.24)"><use href="#be-cd-leaf" class="be-cd-lf" data-be-leaf style="--i:5"/></g><g transform="translate(318.7 28.1) rotate(61) scale(0.94)"><use href="#be-cd-leaf" class="be-cd-lf" data-be-leaf style="--i:6"/></g><g transform="translate(357.6 30.1) rotate(-53) scale(1.24)"><use href="#be-cd-leaf" class="be-cd-lf" data-be-leaf style="--i:7"/></g><g transform="translate(406.8 32.4) rotate(44) scale(0.98)"><use href="#be-cd-leaf" class="be-cd-lf" data-be-leaf style="--i:8"/></g><g transform="translate(429.9 33.2) rotate(-37) scale(0.95)"><use href="#be-cd-leaf" class="be-cd-lf" data-be-leaf style="--i:9"/></g><g transform="translate(486.6 34.2) rotate(50) scale(1.01)"><use href="#be-cd-leaf" class="be-cd-lf2" data-be-leaf style="--i:10"/></g><g transform="translate(507.5 34.2) rotate(-52) scale(0.94)"><use href="#be-cd-leaf" class="be-cd-lf" data-be-leaf style="--i:11"/></g><g transform="translate(555.7 32.8) rotate(40) scale(1.10)"><use href="#be-cd-leaf" class="be-cd-lf2" data-be-leaf style="--i:12"/></g><g transform="translate(601.4 29.9) rotate(-47) scale(1.12)"><use href="#be-cd-leaf" class="be-cd-lf" data-be-leaf style="--i:13"/></g><g transform="translate(643.2 25.7) rotate(35) scale(0.96)"><use href="#be-cd-leaf" class="be-cd-lf2" data-be-leaf style="--i:14"/></g><g transform="translate(675.4 22.8) rotate(-61) scale(1.16)"><use href="#be-cd-leaf" class="be-cd-lf" data-be-leaf style="--i:15"/></g><g transform="translate(690.8 21.9) rotate(34) scale(1.02)"><use href="#be-cd-leaf" class="be-cd-lf" data-be-leaf style="--i:16"/></g><g transform="translate(742.9 20.4) rotate(-38) scale(1.15)"><use href="#be-cd-leaf" class="be-cd-lf" data-be-leaf style="--i:17"/></g><g transform="translate(773.2 20.6) rotate(47) scale(0.90)"><use href="#be-cd-leaf" class="be-cd-lf" data-be-leaf style="--i:18"/></g><g transform="translate(803.4 21.3) rotate(-49) scale(0.98)"><use href="#be-cd-leaf" class="be-cd-lf2" data-be-leaf style="--i:19"/></g><g transform="translate(817.9 21.9) rotate(59) scale(0.87)"><use href="#be-cd-leaf" class="be-cd-lf" data-be-leaf style="--i:20"/></g><g transform="translate(866.2 24.0) rotate(-57) scale(1.09)"><use href="#be-cd-leaf" class="be-cd-lf2" data-be-leaf style="--i:21"/></g><g transform="translate(886.5 25.1) rotate(49) scale(0.88)"><use href="#be-cd-leaf" class="be-cd-lf" data-be-leaf style="--i:22"/></g><g transform="translate(943.2 27.8) rotate(-37) scale(0.90)"><use href="#be-cd-leaf" class="be-cd-lf" data-be-leaf style="--i:23"/></g><g transform="translate(979.5 29.3) rotate(52) scale(0.77)"><use href="#be-cd-leaf" class="be-cd-lf" data-be-leaf style="--i:24"/></g><g transform="translate(1009.2 30.2) rotate(-52) scale(0.84)"><use href="#be-cd-leaf" class="be-cd-lf2" data-be-leaf style="--i:25"/></g><g transform="translate(1047.4 30.7) rotate(55) scale(0.95)"><use href="#be-cd-leaf" class="be-cd-lf2" data-be-leaf style="--i:26"/></g><g transform="translate(1096.7 30.4) rotate(-46) scale(0.85)"><use href="#be-cd-leaf" class="be-cd-lf2" data-be-leaf style="--i:27"/></g><g transform="translate(1123.4 29.8) rotate(48) scale(0.89)"><use href="#be-cd-leaf" class="be-cd-lf" data-be-leaf style="--i:28"/></g><g transform="translate(1156.9 28.3) rotate(-60) scale(0.86)"><use href="#be-cd-leaf" class="be-cd-lf" data-be-leaf style="--i:29"/></g><g transform="translate(245.0 24.7)"><line class="be-cd-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-cd-bulb" data-be-bulb style="--j:0" cx="0" cy="8.6" r="2.6" filter="url(#be-cd-glow)"/></g><g transform="translate(464.1 34.0)"><line class="be-cd-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-cd-bulb" data-be-bulb style="--j:1" cx="0" cy="8.6" r="2.6" filter="url(#be-cd-glow)"/></g><g transform="translate(767.8 20.5)"><line class="be-cd-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-cd-bulb" data-be-bulb style="--j:2" cx="0" cy="8.6" r="2.6" filter="url(#be-cd-glow)"/></g><g transform="translate(1017.2 30.3)"><line class="be-cd-wire" x1="0" y1="0" x2="0" y2="6"/><circle class="be-cd-bulb" data-be-bulb style="--j:3" cx="0" cy="8.6" r="2.6" filter="url(#be-cd-glow)"/></g></svg>
+      <div class="be-cd__drops">
+        <div class="be-cd__drop" data-be-drop>
+          <span class="be-cd__thread" aria-hidden="true"></span>
+          <div class="be-cd__orb">
+            <span class="be-cd__num" data-countdown-unit="days">238</span>
+            <span class="be-cd__unit" memory_type="text" memory_usage="custom" memory_key="countdown-dias">Días</span>
+          </div>
+        </div>
+        <div class="be-cd__drop" data-be-drop>
+          <span class="be-cd__thread" aria-hidden="true"></span>
+          <div class="be-cd__orb">
+            <span class="be-cd__num" data-countdown-unit="hours">12</span>
+            <span class="be-cd__unit" memory_type="text" memory_usage="custom" memory_key="countdown-horas">Horas</span>
+          </div>
+        </div>
+        <div class="be-cd__drop" data-be-drop>
+          <span class="be-cd__thread" aria-hidden="true"></span>
+          <div class="be-cd__orb">
+            <span class="be-cd__num" data-countdown-unit="minutes">45</span>
+            <span class="be-cd__unit" memory_type="text" memory_usage="custom" memory_key="countdown-minutos">Minutos</span>
+          </div>
+        </div>
+        <div class="be-cd__drop" data-be-drop data-be-seconds>
+          <span class="be-cd__thread" aria-hidden="true"></span>
+          <div class="be-cd__orb">
+            <span class="be-cd__num" data-countdown-unit="seconds">30</span>
+            <span class="be-cd__unit" memory_type="text" memory_usage="custom" memory_key="countdown-segundos">Segundos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="be-cd__date"><time datetime="2027-06-19T19:00" memory_type="text" memory_usage="custom" memory_key="countdown-fecha" data-event-field="fecha-evento">19 de junio de 2027 · 7:00 p. m.</time></p>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="countdown-bosque"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* ---- countdown core (required contract) ---- */
+      var units = {};
+      ['days', 'hours', 'minutes', 'seconds'].forEach(function (u) { units[u] = root.querySelector('[data-countdown-unit="' + u + '"]'); });
+      var lastSec = -1, tickBump = 0;
+      function pad(n) { return n < 10 ? '0' + n : '' + n; }
+      var updateCountdown = function () {
+        var target = new Date(root.getAttribute('data-countdown-target')).getTime();
+        var diff = isNaN(target) ? 0 : Math.max(0, target - Date.now());
+        var s = Math.floor(diff / 1000);
+        var d = Math.floor(s / 86400), h = Math.floor((s % 86400) / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+        if (units.days) units.days.textContent = d;
+        if (units.hours) units.hours.textContent = pad(h);
+        if (units.minutes) units.minutes.textContent = pad(m);
+        if (units.seconds) units.seconds.textContent = pad(sec);
+        if (sec !== lastSec) { if (lastSec !== -1) { tickBump = 1; sparkle(); } lastSec = sec; }
+      };
+      window.updateCountdown = updateCountdown;
+      if (window.__countdownIntervals && window.__countdownIntervals.length) {
+        for (var ci = 0; ci < window.__countdownIntervals.length; ci++) clearInterval(window.__countdownIntervals[ci]);
+      }
+      window.__countdownIntervals = [];
+      window.__countdownIntervals.push(setInterval(updateCountdown, 1000));
+
+      /* ---- ambience: fireflies + a sparkle shed by the seconds drop each tick ---- */
+      var cv = root.querySelector('[data-be-sky]'), ctx = cv.getContext && cv.getContext('2d');
+      var drops = [].slice.call(root.querySelectorAll('[data-be-drop]'));
+      var secDrop = root.querySelector('[data-be-seconds] .be-cd__orb');
+      var bulbs = [].slice.call(root.querySelectorAll('[data-be-bulb]'));
+      var W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2), sparks = [], flies = [];
+      var cs = getComputedStyle(root);
+      var gold = cs.getPropertyValue('--t-a').trim() || '#C9A447', lilac = cs.getPropertyValue('--t-l').trim() || '#B8A2DA';
+      for (var f = 0; f < 18; f++) flies.push({ x: Math.random(), y: Math.random(), ph: Math.random() * 6.28, sp: .00005 + Math.random() * .00008, c: f % 3 ? gold : lilac });
+      function size() { W = cv.clientWidth; H = cv.clientHeight; cv.width = Math.max(1, W * dpr); cv.height = Math.max(1, H * dpr); }
+      function sparkle() {
+        if (RM || !secDrop || !vis) return;
+        var rr = root.getBoundingClientRect(), r = secDrop.getBoundingClientRect();
+        var ox = r.left - rr.left + r.width / 2, oy = r.top - rr.top + r.height;
+        for (var i = 0; i < 14; i++) sparks.push({ x: ox + (Math.random() - .5) * r.width * .4, y: oy - 4, vx: (Math.random() - .5) * 1.4, vy: .4 + Math.random() * 1.6, life: 1, r: .8 + Math.random() * 2, c: i % 4 ? gold : lilac });
+      }
+      updateCountdown();
+      if (!ctx) return;
+      if ('ResizeObserver' in window) new ResizeObserver(size).observe(cv); else window.addEventListener('resize', size);
+      size();
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state (numbers still update) */
+
+      root.classList.add('be-cd--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          drops.forEach(function (d, i) { setTimeout(function () { d.setAttribute('data-be-in', ''); }, 200 + i * 140); });
+          setTimeout(function () { root.classList.remove('be-cd--anim', 'is-in'); drops.forEach(function (d) { d.removeAttribute('data-be-in'); }); swayOn = true; }, 1400);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+
+      var vis = false, running = false, swayOn = false, last = 0;
+      new IntersectionObserver(function (en) { vis = en[0].isIntersecting; go(); }).observe(root);
+      document.addEventListener('visibilitychange', go);
+      function go() { if (!running && vis && !document.hidden) { running = true; last = performance.now(); requestAnimationFrame(loop); } }
+      function loop(t) {
+        if (!vis || document.hidden) { running = false; return; }
+        var dt = Math.min(3, (t - last) / 16.67); last = t;
+        if (swayOn) {
+          tickBump *= Math.pow(.88, dt);
+          for (var i = 0; i < drops.length; i++) {
+            var a = Math.sin(t * .0011 + i * 1.3) * 2.6 + Math.sin(t * .0023 + i) * .8;
+            var sc = drops[i].hasAttribute('data-be-seconds') ? 1 + tickBump * .05 : 1;
+            drops[i].style.transform = 'rotate(' + a.toFixed(2) + 'deg) scale(' + sc.toFixed(3) + ')';
+          }
+        }
+        for (var b = 0; b < bulbs.length; b++) bulbs[b].style.opacity = (.5 + .5 * Math.sin(t * .003 + b * 2)).toFixed(2);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+        ctx.globalCompositeOperation = 'lighter';
+        for (var j = 0; j < flies.length; j++) {
+          var fl = flies[j], x = ((fl.x + Math.sin(t * fl.sp + fl.ph) * .08) % 1) * W, y = (fl.y + Math.cos(t * fl.sp * 1.3 + fl.ph) * .06) * H;
+          var tw = .5 + .5 * Math.sin(t * .003 + fl.ph);
+          ctx.globalAlpha = .25 + .55 * tw; ctx.fillStyle = fl.c; ctx.shadowColor = fl.c; ctx.shadowBlur = 10;
+          ctx.beginPath(); ctx.arc(x, y, 1.4 + tw * 1.6, 0, 6.283); ctx.fill();
+        }
+        for (var k = sparks.length - 1; k >= 0; k--) {
+          var p = sparks[k]; p.x += p.vx * dt; p.y += p.vy * dt; p.vy += .05 * dt; p.life -= .02 * dt;
+          if (p.life <= 0) { sparks.splice(k, 1); continue; }
+          ctx.globalAlpha = p.life; ctx.fillStyle = p.c; ctx.shadowColor = p.c; ctx.shadowBlur = 8;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill();
+        }
+        ctx.globalAlpha = 1; ctx.shadowBlur = 0; ctx.globalCompositeOperation = 'source-over';
+        requestAnimationFrame(loop);
+      }
+    })();
+  </script>
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-bosque',
+      style_name: 'Bosque Encantado Gotas de Rocío',
+      descripcion: 'Cuenta regresiva en cuatro gotas de rocío de cristal que cuelgan y se mecen de una rama con luces; cada segundo la gota suelta destellos de polvo de hadas.',
+      tags: ['countdown', 'bosque encantado', 'quinceañera', 'rocío', 'luciérnagas'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>

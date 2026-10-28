@@ -1,0 +1,211 @@
+<section
+  class="bh-regalos"
+  data-gemini-id="regalos-bauhaus-lista"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .bh-regalos {
+      --primary-color: #22242a;
+      --secondary-color: #6d7078;
+      --accent-color: #e2543e;
+      --bg-color: #f3f1ec;
+      --surface-color: #fbfaf7;
+      --surface-border-color: rgba(34, 36, 42, 0.18);
+      --text-color: #22242a;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/minimal,gift');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .bh-regalos *,
+    .bh-regalos *::before,
+    .bh-regalos *::after { box-sizing: border-box; }
+
+    .bh-regalos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 93%, transparent);
+    }
+
+    .bh-regalos__panel {
+      width: min(100%, 660px);
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: clamp(10px, 1.8vw, 18px) clamp(10px, 1.8vw, 18px) 0 color-mix(in srgb, var(--secondary-color) 40%, transparent);
+    }
+
+    .bh-regalos__titulo {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.5rem, 3.4vw, 2.2rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .bh-regalos__intro {
+      margin: 0 0 1.5rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .bh-regalos__lista { display: grid; gap: clamp(0.7rem, 2vw, 1rem); margin-bottom: 1.7rem; }
+    .bh-regalos__fila {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.95rem;
+      align-items: center;
+      padding: clamp(0.85rem, 2.2vw, 1.1rem) clamp(1rem, 2.4vw, 1.3rem);
+      background: var(--bg-color);
+      border: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .bh-regalos.bh-js .bh-regalos__fila { opacity: 0; transform: translateY(12px); }
+    .bh-regalos .bh-regalos__fila.esta-visto { opacity: 1; transform: none; }
+    .bh-regalos__bullet {
+      width: 18px;
+      height: 18px;
+      background: var(--accent-color);
+    }
+    .bh-regalos__fila:nth-child(2) .bh-regalos__bullet { border-radius: 50%; background: var(--primary-color); }
+    .bh-regalos__fila:nth-child(3) .bh-regalos__bullet { clip-path: polygon(50% 0, 100% 100%, 0 100%); background: var(--secondary-color); }
+    .bh-regalos__nombre {
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(0.9rem, 1.7vw, 1.02rem);
+      color: var(--primary-color);
+    }
+
+    .bh-regalos__zona-boton { display: grid; justify-items: center; gap: 0.8rem; }
+    .bh-regalos__boton {
+      position: relative;
+      min-width: 225px;
+      padding: 0.9rem 2rem;
+      border: 0;
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .bh-regalos__boton::after {
+      content: '';
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      width: 0;
+      height: 0;
+      transform: translateY(-50%);
+      border-left: 9px solid currentColor;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .bh-regalos__boton:hover { transform: translateY(-2px); box-shadow: 6px 6px 0 color-mix(in srgb, var(--accent-color) 60%, transparent); }
+    .bh-regalos__boton:hover::after { opacity: 1; }
+    .bh-regalos__boton.esta-listo { background: var(--accent-color); }
+    .bh-regalos__nota {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.7rem, 1.3vw, 0.78rem);
+      color: var(--secondary-color);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bh-regalos * { transition: none !important; }
+      .bh-regalos__fila { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="bh-regalos__panel">
+    <h2 class="bh-regalos__titulo" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Lista esencial</h2>
+    <p class="bh-regalos__intro" memory_type="text" memory_usage="custom" memory_key="regalos-texto">
+      Lo justo y necesario, reducido a tres formas puras. Elige la tuya y agéndala.
+    </p>
+
+    <div class="bh-regalos__lista" data-bh-lista>
+      <div class="bh-regalos__fila" data-bh-fila>
+        <span class="bh-regalos__bullet" aria-hidden="true"></span>
+        <span class="bh-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-1">Básicos para el hogar</span>
+      </div>
+      <div class="bh-regalos__fila" data-bh-fila>
+        <span class="bh-regalos__bullet" aria-hidden="true"></span>
+        <span class="bh-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-2">Fondo de viaje</span>
+      </div>
+      <div class="bh-regalos__fila" data-bh-fila>
+        <span class="bh-regalos__bullet" aria-hidden="true"></span>
+        <span class="bh-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-3">Una experiencia en pareja</span>
+      </div>
+    </div>
+
+    <div class="bh-regalos__zona-boton">
+      <button type="button" class="bh-regalos__boton" data-bh-boton>
+        <span data-bh-boton-texto memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span>
+      </button>
+      <p class="bh-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota">Se guarda en tu invitación digital.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.bh-regalos');
+      if (!root) return;
+      root.classList.add('bh-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var filas = Array.prototype.slice.call(root.querySelectorAll('[data-bh-fila]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            filas.forEach(function (fila, i) { fila.style.transitionDelay = (i * 0.11).toFixed(2) + 's'; });
+            filas.forEach(function (fila) { fila.classList.add('esta-visto'); });
+            io.disconnect();
+          });
+        }, { threshold: 0.3 });
+        io.observe(root.querySelector('[data-bh-lista]') || root);
+      } else {
+        filas.forEach(function (fila) { fila.classList.add('esta-visto'); });
+      }
+
+      var boton = root.querySelector('[data-bh-boton]');
+      var texto = root.querySelector('[data-bh-boton-texto]');
+      if (boton && texto) {
+        boton.addEventListener('click', function () {
+          var listo = boton.classList.toggle('esta-listo');
+          texto.textContent = listo ? 'Regalo agendado' : 'Agendar regalo';
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-bauhaus-lista',
+      style_name: 'Bauhaus Geométrico — Regalos',
+      descripcion: 'Lista esencial con viñetas de formas puras (cuadro, círculo, triángulo) y botón negro con flecha que aparece al hover.',
+      tags: ['regalos', 'lista', 'bauhaus', 'vignetas', 'boton', 'geometrico'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>

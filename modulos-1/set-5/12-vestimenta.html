@@ -1,0 +1,207 @@
+<section
+  class="ne-vestimenta"
+  data-gemini-id="vestimenta-neon-muestras"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ne-vestimenta {
+      --primary-color: #f2f4fa;
+      --secondary-color: #9aa3b8;
+      --accent-color: #ff4d7d;
+      --bg-color: #14161d;
+      --surface-color: #1b1e27;
+      --surface-border-color: rgba(255, 255, 255, 0.14);
+      --text-color: #f2f4fa;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      min-height: 64svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/dark,fabric');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ne-vestimenta *,
+    .ne-vestimenta *::before,
+    .ne-vestimenta *::after { box-sizing: border-box; }
+
+    .ne-vestimenta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .ne-vestimenta__panel {
+      width: min(100%, 660px);
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 92%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .ne-vestimenta__etiqueta {
+      margin: 0 0 0.8rem;
+      display: inline-block;
+      padding: 0.3rem 1rem;
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+    }
+    .ne-vestimenta__titulo {
+      margin: 0 0 0.8rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ne-vestimenta__texto {
+      margin: 0 auto 1.8rem;
+      max-width: 46ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .ne-vestimenta__muestras {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(0.8rem, 2.2vw, 1.2rem);
+      margin-bottom: 1.6rem;
+    }
+    .ne-vestimenta__muestra {
+      display: grid;
+      justify-items: center;
+      gap: 0.5rem;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ne-vestimenta.ne-js .ne-vestimenta__muestra { opacity: 0; transform: translateY(16px); }
+    .ne-vestimenta .ne-vestimenta__muestra.esta-visto { opacity: 1; transform: none; }
+    .ne-vestimenta__chip {
+      width: clamp(46px, 8vw, 60px);
+      height: clamp(46px, 8vw, 60px);
+      border: 1px solid var(--surface-border-color);
+      background: var(--surface-color);
+      box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--bg-color) 80%, transparent), 0 0 0 1px var(--accent-color), 0 0 16px color-mix(in srgb, var(--accent-color) 25%, transparent);
+      transition: background 0.5s ease, transform 0.5s ease;
+    }
+    .ne-vestimenta__muestra:hover .ne-vestimenta__chip { transform: translateY(-4px); }
+    .ne-vestimenta__codigo {
+      font-family: 'Courier New', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.2em;
+      color: var(--secondary-color);
+    }
+
+    .ne-vestimenta__leyenda {
+      display: inline-block;
+      padding: 0.55rem 1.6rem;
+      border-top: 1px solid var(--accent-color);
+      border-bottom: 1px solid var(--accent-color);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--text-color);
+    }
+
+    @media (max-width: 480px) {
+      .ne-vestimenta__chip { width: 40px; height: 40px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ne-vestimenta * { transition: none !important; }
+      .ne-vestimenta__muestra { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="ne-vestimenta__panel">
+    <p class="ne-vestimenta__etiqueta" memory_type="text" memory_usage="custom" memory_key="vestimenta-etiqueta">Dress code</p>
+    <h2 class="ne-vestimenta__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Muestras del editor</h2>
+    <p class="ne-vestimenta__texto" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">
+      Paleta de inspiración para tu look nocturno; elige tonos profundos y deja que las luces hagan el resto.
+    </p>
+
+    <div class="ne-vestimenta__muestras" data-ne-muestras aria-hidden="true"></div>
+
+    <p class="ne-vestimenta__leyenda" memory_type="text" memory_usage="custom" memory_key="vestimenta-leyenda">Formal · edición nocturna</p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ne-vestimenta');
+      if (!root) return;
+      root.classList.add('ne-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var muestras = root.querySelector('[data-ne-muestras]');
+      if (muestras && !muestras.children.length) {
+        var tonos = ['#ff4d7d', '#7d6bff', '#39d0c3', '#ffb84d', '#f2f4fa', '#8a94ad'];
+        for (var i = 0; i < tonos.length; i++) {
+          var muestra = document.createElement('span');
+          muestra.className = 'ne-vestimenta__muestra';
+          muestra.style.transitionDelay = (i * 0.08).toFixed(2) + 's, ' + (i * 0.08).toFixed(2) + 's';
+          var chip = document.createElement('span');
+          chip.className = 'ne-vestimenta__chip';
+          chip.setAttribute('data-ne-tono', tonos[i]);
+          var codigo = document.createElement('span');
+          codigo.className = 'ne-vestimenta__codigo';
+          codigo.textContent = '0' + (i + 1);
+          muestra.appendChild(chip);
+          muestra.appendChild(codigo);
+          muestras.appendChild(muestra);
+        }
+      }
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function colorear() {
+        root.querySelectorAll('[data-ne-tono]').forEach(function (c) {
+          c.style.background = c.getAttribute('data-ne-tono');
+        });
+      }
+      if (reduce || !('IntersectionObserver' in window)) {
+        root.querySelectorAll('.ne-vestimenta__muestra').forEach(function (m) { m.classList.add('esta-visto'); });
+        colorear();
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          root.querySelectorAll('.ne-vestimenta__muestra').forEach(function (m, i) {
+            m.style.transitionDelay = (i * 0.08).toFixed(2) + 's, ' + (i * 0.08).toFixed(2) + 's';
+            m.classList.add('esta-visto');
+          });
+          setTimeout(colorear, 240);
+          io.disconnect();
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-neon-muestras',
+      style_name: 'Neón Editorial — Vestimenta',
+      descripcion: 'Muestras de color con marco de neón numeradas que aparecen escalonadas y se colorean por JS al entrar en pantalla.',
+      tags: ['vestimenta', 'dress code', 'muestras', 'neon', 'paleta', 'nocturno'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

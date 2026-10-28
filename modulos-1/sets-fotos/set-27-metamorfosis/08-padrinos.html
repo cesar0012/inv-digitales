@@ -1,0 +1,258 @@
+<section
+  class="mm-padr"
+  data-gemini-id="padrinos-metamorfosis"
+  memory_type="background"
+  memory_usage="protected"
+
+  memory_source="generated"
+  path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Pinyon+Script&display=swap');
+
+    .mm-padr, .mm-padr *, .mm-padr *::before, .mm-padr *::after { box-sizing: border-box; }
+    .mm-padr {
+      --mm-bg: var(--bg-color, #1a0e26);
+      --mm-tx: var(--text-color, #faf2fb);
+      --mm-p: var(--primary-color, #f2a9cf);
+      --mm-s: var(--secondary-color, #8fd0f5);
+      --mm-a: var(--accent-color, #e5c07e);
+      --mm-script: var(--font-script, 'Pinyon Script', 'Great Vibes', cursive);
+      --mm-serif: var(--font-heading, 'Cormorant Garamond', 'Cormorant', Georgia, serif);
+      --panel: color-mix(in srgb, var(--mm-bg) 85%, transparent);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--mm-bg);
+      background-image:
+        radial-gradient(50% 35% at 50% 0%, color-mix(in srgb, var(--mm-p) 15%, transparent), transparent 70%),
+        radial-gradient(40% 40% at 0% 70%, color-mix(in srgb, var(--mm-s) 10%, transparent), transparent 70%),
+        radial-gradient(40% 40% at 100% 90%, color-mix(in srgb, var(--mm-a) 9%, transparent), transparent 70%),
+        linear-gradient(color-mix(in srgb, var(--mm-bg) 76%, transparent), color-mix(in srgb, var(--mm-bg) 76%, transparent)),
+        url('https://loremflickr.com/1600/1000/butterfly,flowers') center/cover;
+      color: var(--mm-tx);
+      text-align: center;
+      font-family: var(--mm-serif);
+    }
+    .mm-padr__content { width: min(100%, 66rem); }
+    .mm-padr__head { margin-bottom: clamp(2.4rem, 6vw, 4rem); }
+    .mm-padr__eyebrow { margin: 0 0 .35rem; font-style: italic; font-size: clamp(1.05rem, 2vw, 1.3rem); color: color-mix(in srgb, var(--mm-p) 70%, var(--mm-tx)); }
+    .mm-padr__title { margin: 0; font-weight: 300; font-size: clamp(2.3rem, 5.4vw, 3.8rem); line-height: 1.05; }
+    .mm-padr__lead { max-width: 40ch; margin: .8rem auto 0; font-style: italic; font-weight: 300; font-size: clamp(1.05rem, 1.9vw, 1.25rem); line-height: 1.5; color: color-mix(in srgb, var(--mm-tx) 78%, transparent); }
+
+    .mm-padr__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1.2rem, 3vw, 2rem) clamp(1.2rem, 4vw, 3rem);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .mm-padr__card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: clamp(1rem, 2.5vw, 1.6rem);
+      padding: 1rem clamp(1rem, 2.5vw, 1.6rem) 1rem .6rem;
+      border-radius: 999px 1.6rem 1.6rem 999px;
+      text-align: left;
+      background: linear-gradient(90deg, color-mix(in srgb, var(--mm-tx) 6%, transparent), transparent 80%);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--mm-tx) 9%, transparent);
+      transition: transform .35s cubic-bezier(.3, 1.4, .5, 1), background .35s ease;
+    }
+    .mm-padr__card:hover { transform: translateY(-3px); background: linear-gradient(90deg, color-mix(in srgb, var(--mm-p) 12%, transparent), transparent 85%); }
+
+    /* Retrato como cuerpo de mariposa */
+    .mm-padr__fly {
+      position: relative;
+      width: clamp(10.5rem, 17vw, 12rem);
+      aspect-ratio: 1.75 / 1;
+      display: grid;
+      place-items: center;
+    }
+    .mm-padr__wing {
+      position: absolute;
+      top: -16%;
+      left: 50%;
+      z-index: 1;
+      width: 50%;
+      transform-origin: 0 50%;
+      transform: perspective(520px) rotateY(var(--mm-w, 12deg));
+      transition: transform .5s cubic-bezier(.2, 1.3, .4, 1);
+      filter: drop-shadow(0 0 10px color-mix(in srgb, var(--mm-p) 40%, transparent));
+    }
+    .mm-padr__wing--l { --mm-w: 168deg; }
+    .mm-padr__wing svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .mm-padr__wing path { stroke: var(--mm-a); stroke-width: 2; fill-opacity: .6; }
+    .mm-padr__wing path:first-child { fill: var(--mm-p); }
+    .mm-padr__wing path:nth-child(2) { fill: var(--mm-s); }
+    .mm-padr__wing path.mm-padr__vein { fill: none; stroke: color-mix(in srgb, var(--mm-tx) 45%, transparent); stroke-width: 1.2; }
+    .mm-padr__wing circle { fill: var(--mm-tx); opacity: .85; }
+    .mm-padr__card:hover .mm-padr__wing--r { animation: mmPadrFlapR .3s ease-in-out 2 alternate; }
+    .mm-padr__card:hover .mm-padr__wing--l { animation: mmPadrFlapL .3s ease-in-out 2 alternate; }
+    @keyframes mmPadrFlapR { to { transform: perspective(520px) rotateY(70deg); } }
+    @keyframes mmPadrFlapL { to { transform: perspective(520px) rotateY(110deg); } }
+    .mm-padr__photo {
+      position: relative;
+      z-index: 2;
+      width: 46%;
+      aspect-ratio: 1 / 1;
+      margin: 0;
+      overflow: hidden;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--mm-tx) 8%, var(--mm-bg));
+      box-shadow: 0 0 0 2px var(--mm-bg), 0 0 0 3.5px color-mix(in srgb, var(--mm-a) 80%, transparent), 0 12px 30px -10px color-mix(in srgb, #000 80%, transparent);
+    }
+    .mm-padr__photo img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; }
+
+    .mm-padr__role { margin: 0 0 .25rem; font-style: italic; font-size: clamp(1rem, 1.8vw, 1.15rem); color: color-mix(in srgb, var(--mm-a) 85%, var(--mm-tx)); }
+    .mm-padr__names { margin: 0; font-weight: 500; font-size: clamp(1.2rem, 2.2vw, 1.45rem); line-height: 1.3; }
+
+    /* Entrada escalonada: las alas se despliegan (≤ 0.5s) */
+    .mm-padr--anim .mm-padr__card { opacity: 0; transform: translateY(22px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .mm-padr--anim .mm-padr__wing--r { transform: perspective(520px) rotateY(88deg); }
+    .mm-padr--anim .mm-padr__wing--l { transform: perspective(520px) rotateY(92deg); }
+    .mm-padr--anim .mm-padr__card.is-in { opacity: 1; transform: none; }
+    .mm-padr--anim .mm-padr__card.is-in .mm-padr__wing { transform: perspective(520px) rotateY(var(--mm-w, 12deg)); transition-delay: .18s; }
+
+    @media (max-width: 760px) {
+      .mm-padr__grid { grid-template-columns: 1fr; }
+      .mm-padr__fly { width: 8.8rem; }
+      .mm-padr__card { gap: .8rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .mm-padr *, .mm-padr *::before, .mm-padr *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="mm-padr__content">
+    <header class="mm-padr__head">
+      <p class="mm-padr__eyebrow" memory_type="text" memory_usage="custom" memory_key="padrinos-subtitulo">Quienes me acompañan</p>
+      <h2 class="mm-padr__title" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Mis padrinos</h2>
+      <p class="mm-padr__lead" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Gracias por ser parte de este sueño y ayudarme a desplegar mis alas.</p>
+    </header>
+    <ul class="mm-padr__grid">
+        <li class="mm-padr__card" data-mm-card>
+          <div class="mm-padr__fly">
+            <span class="mm-padr__wing mm-padr__wing--l" aria-hidden="true"><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z"/><path d="M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/><path class="mm-padr__vein" d="M2 50Q40 26 80 8M2 51Q46 38 92 28M2 52Q44 50 86 44M2 58Q34 72 58 102M2 59Q26 80 40 110"/><circle cx="84" cy="14" r="2.2"/><circle cx="90" cy="25" r="1.7"/><circle cx="60" cy="104" r="1.8"/></svg></span>
+            <span class="mm-padr__wing mm-padr__wing--r" aria-hidden="true"><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z"/><path d="M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/><path class="mm-padr__vein" d="M2 50Q40 26 80 8M2 51Q46 38 92 28M2 52Q44 50 86 44M2 58Q34 72 58 102M2 59Q26 80 40 110"/><circle cx="84" cy="14" r="2.2"/><circle cx="90" cy="25" r="1.7"/><circle cx="60" cy="104" r="1.8"/></svg></span>
+            <figure class="mm-padr__photo" memory_type="image" memory_usage="custom" memory_source="library">
+              <img src="https://loremflickr.com/500/500/couple,portrait?lock=2801" alt="Retrato de padrinos" path="placeholder" data-library-category="retratos" data-asset-type="foto-padrinos" loading="lazy" />
+            </figure>
+          </div>
+          <div class="mm-padr__text">
+            <p class="mm-padr__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-1">Padrinos de velación</p>
+            <h3 class="mm-padr__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-1" data-event-field="padrinos-1">Nombre Apellido y Nombre Apellido</h3>
+          </div>
+        </li>
+        <li class="mm-padr__card" data-mm-card>
+          <div class="mm-padr__fly">
+            <span class="mm-padr__wing mm-padr__wing--l" aria-hidden="true"><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z"/><path d="M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/><path class="mm-padr__vein" d="M2 50Q40 26 80 8M2 51Q46 38 92 28M2 52Q44 50 86 44M2 58Q34 72 58 102M2 59Q26 80 40 110"/><circle cx="84" cy="14" r="2.2"/><circle cx="90" cy="25" r="1.7"/><circle cx="60" cy="104" r="1.8"/></svg></span>
+            <span class="mm-padr__wing mm-padr__wing--r" aria-hidden="true"><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z"/><path d="M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/><path class="mm-padr__vein" d="M2 50Q40 26 80 8M2 51Q46 38 92 28M2 52Q44 50 86 44M2 58Q34 72 58 102M2 59Q26 80 40 110"/><circle cx="84" cy="14" r="2.2"/><circle cx="90" cy="25" r="1.7"/><circle cx="60" cy="104" r="1.8"/></svg></span>
+            <figure class="mm-padr__photo" memory_type="image" memory_usage="custom" memory_source="library">
+              <img src="https://loremflickr.com/500/500/couple,portrait?lock=2802" alt="Retrato de padrinos" path="placeholder" data-library-category="retratos" data-asset-type="foto-padrinos" loading="lazy" />
+            </figure>
+          </div>
+          <div class="mm-padr__text">
+            <p class="mm-padr__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-2">Padrinos de anillo</p>
+            <h3 class="mm-padr__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-2" data-event-field="padrinos-2">Nombre Apellido y Nombre Apellido</h3>
+          </div>
+        </li>
+        <li class="mm-padr__card" data-mm-card>
+          <div class="mm-padr__fly">
+            <span class="mm-padr__wing mm-padr__wing--l" aria-hidden="true"><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z"/><path d="M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/><path class="mm-padr__vein" d="M2 50Q40 26 80 8M2 51Q46 38 92 28M2 52Q44 50 86 44M2 58Q34 72 58 102M2 59Q26 80 40 110"/><circle cx="84" cy="14" r="2.2"/><circle cx="90" cy="25" r="1.7"/><circle cx="60" cy="104" r="1.8"/></svg></span>
+            <span class="mm-padr__wing mm-padr__wing--r" aria-hidden="true"><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z"/><path d="M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/><path class="mm-padr__vein" d="M2 50Q40 26 80 8M2 51Q46 38 92 28M2 52Q44 50 86 44M2 58Q34 72 58 102M2 59Q26 80 40 110"/><circle cx="84" cy="14" r="2.2"/><circle cx="90" cy="25" r="1.7"/><circle cx="60" cy="104" r="1.8"/></svg></span>
+            <figure class="mm-padr__photo" memory_type="image" memory_usage="custom" memory_source="library">
+              <img src="https://loremflickr.com/500/500/couple,portrait?lock=2803" alt="Retrato de padrinos" path="placeholder" data-library-category="retratos" data-asset-type="foto-padrinos" loading="lazy" />
+            </figure>
+          </div>
+          <div class="mm-padr__text">
+            <p class="mm-padr__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-3">Padrinos de corona</p>
+            <h3 class="mm-padr__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-3">Nombre Apellido y Nombre Apellido</h3>
+          </div>
+        </li>
+        <li class="mm-padr__card" data-mm-card>
+          <div class="mm-padr__fly">
+            <span class="mm-padr__wing mm-padr__wing--l" aria-hidden="true"><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z"/><path d="M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/><path class="mm-padr__vein" d="M2 50Q40 26 80 8M2 51Q46 38 92 28M2 52Q44 50 86 44M2 58Q34 72 58 102M2 59Q26 80 40 110"/><circle cx="84" cy="14" r="2.2"/><circle cx="90" cy="25" r="1.7"/><circle cx="60" cy="104" r="1.8"/></svg></span>
+            <span class="mm-padr__wing mm-padr__wing--r" aria-hidden="true"><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z"/><path d="M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/><path class="mm-padr__vein" d="M2 50Q40 26 80 8M2 51Q46 38 92 28M2 52Q44 50 86 44M2 58Q34 72 58 102M2 59Q26 80 40 110"/><circle cx="84" cy="14" r="2.2"/><circle cx="90" cy="25" r="1.7"/><circle cx="60" cy="104" r="1.8"/></svg></span>
+            <figure class="mm-padr__photo" memory_type="image" memory_usage="custom" memory_source="library">
+              <img src="https://loremflickr.com/500/500/couple,portrait?lock=2804" alt="Retrato de padrinos" path="placeholder" data-library-category="retratos" data-asset-type="foto-padrinos" loading="lazy" />
+            </figure>
+          </div>
+          <div class="mm-padr__text">
+            <p class="mm-padr__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-4">Padrinos de ramo</p>
+            <h3 class="mm-padr__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-4">Nombre Apellido y Nombre Apellido</h3>
+          </div>
+        </li>
+        <li class="mm-padr__card" data-mm-card>
+          <div class="mm-padr__fly">
+            <span class="mm-padr__wing mm-padr__wing--l" aria-hidden="true"><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z"/><path d="M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/><path class="mm-padr__vein" d="M2 50Q40 26 80 8M2 51Q46 38 92 28M2 52Q44 50 86 44M2 58Q34 72 58 102M2 59Q26 80 40 110"/><circle cx="84" cy="14" r="2.2"/><circle cx="90" cy="25" r="1.7"/><circle cx="60" cy="104" r="1.8"/></svg></span>
+            <span class="mm-padr__wing mm-padr__wing--r" aria-hidden="true"><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z"/><path d="M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/><path class="mm-padr__vein" d="M2 50Q40 26 80 8M2 51Q46 38 92 28M2 52Q44 50 86 44M2 58Q34 72 58 102M2 59Q26 80 40 110"/><circle cx="84" cy="14" r="2.2"/><circle cx="90" cy="25" r="1.7"/><circle cx="60" cy="104" r="1.8"/></svg></span>
+            <figure class="mm-padr__photo" memory_type="image" memory_usage="custom" memory_source="library">
+              <img src="https://loremflickr.com/500/500/couple,portrait?lock=2805" alt="Retrato de padrinos" path="placeholder" data-library-category="retratos" data-asset-type="foto-padrinos" loading="lazy" />
+            </figure>
+          </div>
+          <div class="mm-padr__text">
+            <p class="mm-padr__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-5">Padrinos de muñeca</p>
+            <h3 class="mm-padr__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-5">Nombre Apellido y Nombre Apellido</h3>
+          </div>
+        </li>
+        <li class="mm-padr__card" data-mm-card>
+          <div class="mm-padr__fly">
+            <span class="mm-padr__wing mm-padr__wing--l" aria-hidden="true"><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z"/><path d="M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/><path class="mm-padr__vein" d="M2 50Q40 26 80 8M2 51Q46 38 92 28M2 52Q44 50 86 44M2 58Q34 72 58 102M2 59Q26 80 40 110"/><circle cx="84" cy="14" r="2.2"/><circle cx="90" cy="25" r="1.7"/><circle cx="60" cy="104" r="1.8"/></svg></span>
+            <span class="mm-padr__wing mm-padr__wing--r" aria-hidden="true"><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z"/><path d="M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/><path class="mm-padr__vein" d="M2 50Q40 26 80 8M2 51Q46 38 92 28M2 52Q44 50 86 44M2 58Q34 72 58 102M2 59Q26 80 40 110"/><circle cx="84" cy="14" r="2.2"/><circle cx="90" cy="25" r="1.7"/><circle cx="60" cy="104" r="1.8"/></svg></span>
+            <figure class="mm-padr__photo" memory_type="image" memory_usage="custom" memory_source="library">
+              <img src="https://loremflickr.com/500/500/couple,portrait?lock=2806" alt="Retrato de padrinos" path="placeholder" data-library-category="retratos" data-asset-type="foto-padrinos" loading="lazy" />
+            </figure>
+          </div>
+          <div class="mm-padr__text">
+            <p class="mm-padr__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-6">Padrinos de brindis</p>
+            <h3 class="mm-padr__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-6">Nombre Apellido y Nombre Apellido</h3>
+          </div>
+        </li>
+    </ul>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="padrinos-metamorfosis"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__mmInit) return;
+      root.__mmInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;
+      var cards = [].slice.call(root.querySelectorAll('[data-mm-card]'));
+      root.classList.add('mm-padr--anim');
+      var queue = [], timer = 0, done = 0;
+      function flush() {
+        timer = 0;
+        var c = queue.shift(); if (!c) return;
+        c.classList.add('is-in');
+        if (++done === cards.length) setTimeout(function () { root.classList.remove('mm-padr--anim'); cards.forEach(function (k) { k.classList.remove('is-in'); }); }, 900);
+        if (queue.length) timer = setTimeout(flush, 110);
+      }
+      var io = new IntersectionObserver(function (en) {
+        en.filter(function (x) { return x.isIntersecting; })
+          .sort(function (a, b) { return cards.indexOf(a.target) - cards.indexOf(b.target); })
+          .forEach(function (x) { queue.push(x.target); io.unobserve(x.target); });
+        if (queue.length && !timer) flush();
+      }, { threshold: .3, rootMargin: '0px 0px -6% 0px' });
+      cards.forEach(function (c) { io.observe(c); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'padrinos',
+      module_name: 'padrinos-metamorfosis',
+      style_name: 'Metamorfosis Retratos Alados',
+      descripcion: 'Padrinos en grilla de 2 columnas (1 en móvil): cada retrato circular es el cuerpo de una mariposa cuyas alas 3D se despliegan en cascada al entrar y aletean al pasar el cursor.',
+      tags: ['padrinos', 'quinceañera', 'xv años', 'mariposas', 'metamorfosis', 'retratos', 'circular', 'grilla', 'stagger', '3d', 'alas', 'premium'],
+      tipo: 'padrinos'
+    };
+  </script>
+</section>

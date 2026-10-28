@@ -1,0 +1,524 @@
+<section
+  class="module-gift-table-evento"
+  data-gemini-id="mesa-regalos"
+  memory_type="background"
+  memory_usage="protected"
+  aria-labelledby="gift-table-title"
+>
+  <style>
+    .module-gift-table-evento {
+      --primary-color: #202326;
+      --secondary-color: #6f7478;
+      --accent-color: #9faf91;
+      --background-color: #f8f8f8;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(0, 0, 0, 0.08);
+      --button-text-color: #ffffff;
+      --text-color: #202326;
+
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+      color: var(--text-color);
+      background: var(--background-color);
+    }
+
+    .gift-table__decor {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.55;
+      z-index: 1;
+    }
+
+    .gift-table__decor--top-left {
+      left: 0;
+      top: 0;
+      width: clamp(120px, 16vw, 240px);
+      height: clamp(120px, 16vw, 240px);
+      background:
+        radial-gradient(circle at 20% 20%, rgba(159, 175, 145, 0.28) 0 12%, transparent 13%),
+        radial-gradient(circle at 45% 32%, rgba(159, 175, 145, 0.2) 0 10%, transparent 11%),
+        radial-gradient(circle at 28% 55%, rgba(159, 175, 145, 0.18) 0 9%, transparent 10%);
+    }
+
+    .gift-table__decor--bottom-right {
+      right: 0;
+      bottom: 0;
+      width: clamp(120px, 16vw, 240px);
+      height: clamp(120px, 16vw, 240px);
+      background:
+        radial-gradient(circle at 80% 80%, rgba(159, 175, 145, 0.28) 0 12%, transparent 13%),
+        radial-gradient(circle at 55% 68%, rgba(159, 175, 145, 0.2) 0 10%, transparent 11%),
+        radial-gradient(circle at 72% 45%, rgba(159, 175, 145, 0.18) 0 9%, transparent 10%);
+    }
+
+    .gift-table__inner {
+      position: relative;
+      z-index: 2;
+      width: min(1180px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(3rem, 6vw, 6rem) clamp(1.25rem, 5vw, 4rem);
+      box-sizing: border-box;
+      display: grid;
+      align-content: center;
+      gap: clamp(2.5rem, 5vw, 4rem);
+    }
+
+    .gift-table__header {
+      max-width: 820px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .gift-table__eyebrow {
+      margin: 0 0 clamp(0.8rem, 1.5vw, 1rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.72rem, 1vw, 0.86rem);
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .gift-table__title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3rem, 6vw, 5.8rem);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: var(--primary-color);
+    }
+
+    .gift-table__subtitle {
+      max-width: 680px;
+      margin: clamp(1rem, 2vw, 1.4rem) auto 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.95rem, 1.25vw, 1.08rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .gift-table__grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 1fr));
+      gap: clamp(1rem, 2vw, 1.5rem);
+    }
+
+    .gift-table__card {
+      position: relative;
+      min-height: 260px;
+      padding: clamp(1.5rem, 3vw, 2rem);
+      box-sizing: border-box;
+      display: grid;
+      align-content: space-between;
+      gap: 1.5rem;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.06);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .gift-table__card::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 10px;
+      background: linear-gradient(90deg, rgba(159, 175, 145, 0.28), rgba(159, 175, 145, 0.06));
+      pointer-events: none;
+    }
+
+    .gift-table__icon {
+      width: 62px;
+      height: 62px;
+      margin: 0 auto;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(159, 175, 145, 0.14);
+      color: var(--accent-color);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 2rem;
+      font-style: italic;
+      line-height: 1;
+    }
+
+    .gift-table__store-name {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.4rem, 2.2vw, 2rem);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--primary-color);
+    }
+
+    .gift-table__store-note {
+      margin: 0.75rem 0 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.9rem, 1.15vw, 1rem);
+      line-height: 1.6;
+      color: var(--secondary-color);
+    }
+
+    .gift-table__link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0.8rem 1.2rem;
+      box-sizing: border-box;
+      background: var(--accent-color);
+      color: var(--button-text-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition:
+        transform 0.25s ease,
+        opacity 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .gift-table__link:hover,
+    .gift-table__link:focus-visible {
+      transform: translateY(-2px);
+      opacity: 0.92;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.12);
+      outline: none;
+    }
+
+    .gift-table__note {
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1rem, 1.35vw, 1.18rem);
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--secondary-color);
+    }
+
+    .gift-table__motion {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: giftTableReveal 0.5s ease-out forwards;
+    }
+
+    .gift-table__header {
+      animation-delay: 0.04s;
+    }
+
+    .gift-table__card:nth-child(1) {
+      animation-delay: 0.1s;
+    }
+
+    .gift-table__card:nth-child(2) {
+      animation-delay: 0.16s;
+    }
+
+    .gift-table__card:nth-child(3) {
+      animation-delay: 0.22s;
+    }
+
+    .gift-table__card:nth-child(4) {
+      animation-delay: 0.28s;
+    }
+
+    @keyframes giftTableReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 1040px) {
+      .gift-table__grid {
+        grid-template-columns: repeat(2, minmax(220px, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .module-gift-table-evento,
+      .gift-table__inner {
+        min-height: 100svh;
+      }
+
+      .gift-table__inner {
+        padding: 3rem 1rem;
+      }
+
+      .gift-table__title {
+        font-size: clamp(2.8rem, 15vw, 4.5rem);
+      }
+
+      .gift-table__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gift-table__card {
+        min-height: auto;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .gift-table__motion,
+      .gift-table__link {
+        animation: none;
+        transition: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <div
+    class="gift-table__decor gift-table__decor--top-left"
+    memory_type="background"
+    memory_usage="protected"
+    memory_source="library"
+    path="placeholder"
+    data-library-category="eventos"
+    data-asset-type="decoracion-esquina"
+    aria-hidden="true"
+  ></div>
+
+  <div
+    class="gift-table__decor gift-table__decor--bottom-right"
+    memory_type="background"
+    memory_usage="protected"
+    memory_source="library"
+    path="placeholder"
+    data-library-category="eventos"
+    data-asset-type="decoracion-esquina"
+    aria-hidden="true"
+  ></div>
+
+  <div class="gift-table__inner">
+    <header
+      class="gift-table__header gift-table__motion"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="gift-table-header"
+    >
+      <p class="gift-table__eyebrow">
+        Gift Table
+      </p>
+
+      <h2 id="gift-table-title" class="gift-table__title">
+        Gift Options
+      </h2>
+
+      <p class="gift-table__subtitle">
+        Your presence is already the most meaningful gift. If you would like to
+        share something extra, here are a few gift options available online.
+      </p>
+    </header>
+
+    <div class="gift-table__grid">
+      <article
+        class="gift-table__card gift-table__motion"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="gift-store-1"
+      >
+        <div>
+          <div class="gift-table__icon" aria-hidden="true">
+            G
+          </div>
+
+          <h3 class="gift-table__store-name">
+            Amazon
+          </h3>
+
+          <p class="gift-table__store-note">
+            View the registry or selected gift ideas through our Amazon list.
+          </p>
+        </div>
+
+        <a
+          class="gift-table__link"
+          href="https://www.amazon.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="gift-store-1-link"
+        >
+          Visit Store
+        </a>
+      </article>
+
+      <article
+        class="gift-table__card gift-table__motion"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="gift-store-2"
+      >
+        <div>
+          <div class="gift-table__icon" aria-hidden="true">
+            G
+          </div>
+
+          <h3 class="gift-table__store-name">
+            Target
+          </h3>
+
+          <p class="gift-table__store-note">
+            Browse gift options, registry items, or event-related selections.
+          </p>
+        </div>
+
+        <a
+          class="gift-table__link"
+          href="https://www.target.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="gift-store-2-link"
+        >
+          Visit Store
+        </a>
+      </article>
+
+      <article
+        class="gift-table__card gift-table__motion"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="gift-store-3"
+      >
+        <div>
+          <div class="gift-table__icon" aria-hidden="true">
+            G
+          </div>
+
+          <h3 class="gift-table__store-name">
+            Walmart
+          </h3>
+
+          <p class="gift-table__store-note">
+            Find practical gifts, household items, baby gifts, or celebration items.
+          </p>
+        </div>
+
+        <a
+          class="gift-table__link"
+          href="https://www.walmart.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="gift-store-3-link"
+        >
+          Visit Store
+        </a>
+      </article>
+
+      <article
+        class="gift-table__card gift-table__motion"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="gift-store-4"
+      >
+        <div>
+          <div class="gift-table__icon" aria-hidden="true">
+            G
+          </div>
+
+          <h3 class="gift-table__store-name">
+            Custom Link
+          </h3>
+
+          <p class="gift-table__store-note">
+            Use this space for a registry, cash gift, honeymoon fund, wish list,
+            QR payment page, or any custom online store.
+          </p>
+        </div>
+
+        <a
+          class="gift-table__link"
+          href="#gift-custom-link"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="gift-store-4-link"
+        >
+          Visit Store
+        </a>
+      </article>
+    </div>
+
+    <p
+      class="gift-table__note gift-table__motion"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="gift-table-note"
+    >
+      Thank you for your love, support, and generosity. Celebrating together is
+      what matters most.
+    </p>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "regalos",
+        "mesa de regalos",
+        "gift table",
+        "gift registry",
+        "online stores",
+        "registry links",
+        "cash gift",
+        "wishing well",
+        "evento",
+        "modulo universal",
+        "boda",
+        "quinceanera",
+        "cumpleanos",
+        "baby shower",
+        "graduacion",
+        "despedida",
+        "aniversario",
+        "4 links",
+        "responsive"
+      ],
+      descripcion:
+        "Wireframe universal de mesa de regalos con cuatro enlaces a tiendas online o registros externos, adaptable a cualquier tipo de evento."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="mesa-regalos"]');
+      if (!module) return;
+
+      const cards = module.querySelectorAll(".gift-table__card");
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (prefersReducedMotion) return;
+
+      module.addEventListener("pointermove", function (event) {
+        const rect = module.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        cards.forEach(function (card, index) {
+          const depth = (index + 1) * 2.5;
+          card.style.transform = "translate(" + x * depth + "px, " + y * depth + "px)";
+        });
+      });
+
+      module.addEventListener("pointerleave", function () {
+        cards.forEach(function (card) {
+          card.style.transform = "translate(0, 0)";
+        });
+      });
+    })();
+  </script>
+</section>

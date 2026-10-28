@@ -1,0 +1,199 @@
+<section
+  class="gl-corte"
+  data-gemini-id="corte-cristal-escarcha"
+>
+  <style>
+    .gl-corte {
+      --primary-color: #223038;
+      --secondary-color: #5d7078;
+      --accent-color: #8fb6c9;
+      --bg-color: #eef4f7;
+      --surface-color: rgba(255, 255, 255, 0.55);
+      --surface-border-color: rgba(255, 255, 255, 0.75);
+      --text-color: #223038;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .gl-corte *,
+    .gl-corte *::before,
+    .gl-corte *::after { box-sizing: border-box; }
+
+    .gl-corte__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: clamp(1.8rem, 4.5vw, 3.4rem);
+      align-items: center;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .gl-corte__escarcha {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      border-radius: clamp(16px, 2.6vw, 24px);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 26px 58px rgba(34, 48, 56, 0.2);
+    }
+    .gl-corte__escarcha img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      filter: saturate(0.92);
+      transform: scale(1.06);
+      transition: transform 0.5s ease;
+    }
+    .gl-corte.esta-visto .gl-corte__escarcha img { transform: scale(1); }
+
+    .gl-corte__vapos {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: none;
+      pointer-events: none;
+    }
+    .gl-corte.gl-js .gl-corte__vapos { display: flex; }
+    .gl-corte__vapor {
+      flex: 1;
+      background: linear-gradient(120deg, rgba(255, 255, 255, 0.92), color-mix(in srgb, var(--accent-color) 40%, rgba(255, 255, 255, 0.75)));
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), opacity 0.45s ease;
+    }
+    .gl-corte.esta-visto .gl-corte__vapor--izq { transform: translateX(-102%); opacity: 0.4; }
+    .gl-corte.esta-visto .gl-corte__vapor--der { transform: translateX(102%); opacity: 0.4; }
+
+    .gl-corte__copo {
+      position: absolute;
+      z-index: 3;
+      top: 50%;
+      left: 50%;
+      width: 60px;
+      transform: translate(-50%, -50%);
+      color: var(--primary-color);
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 50%;
+      padding: 10px;
+      box-shadow: 0 12px 26px rgba(34, 48, 56, 0.22);
+      display: none;
+      animation: glCorteGira 16s linear infinite;
+    }
+    .gl-corte.gl-js .gl-corte__copo { display: block; }
+    @keyframes glCorteGira { to { transform: translate(-50%, -50%) rotate(360deg); } }
+    .gl-corte.esta-visto .gl-corte__copo { opacity: 0; transition: opacity 0.4s ease; }
+
+    .gl-corte__contenido { text-align: left; }
+    .gl-corte__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .gl-corte__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.85rem, 4.2vw, 2.7rem);
+      line-height: 1.1;
+      color: var(--primary-color);
+    }
+    .gl-corte__texto {
+      margin: 0 0 1.2rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .gl-corte__linea-luz {
+      width: 140px;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent-color), transparent);
+      box-shadow: 0 0 10px color-mix(in srgb, var(--accent-color) 80%, transparent);
+    }
+
+    @media (max-width: 880px) {
+      .gl-corte__grid { grid-template-columns: 1fr; }
+      .gl-corte__contenido { text-align: center; }
+      .gl-corte__linea-luz { margin: 0 auto; background: linear-gradient(90deg, transparent, var(--accent-color), transparent); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .gl-corte * { transition: none !important; animation: none !important; }
+      .gl-corte__vapos, .gl-corte__copo { display: none !important; }
+      .gl-corte__escarcha img { transform: none; }
+    }
+  </style>
+
+  <div class="gl-corte__grid">
+    <figure class="gl-corte__escarcha" memory_type="image" memory_usage="custom" memory_source="library" memory_key="corte-foto">
+      <img
+        src="https://loremflickr.com/960/600/celebration,frost"
+        alt="Momento del corte entre cristales"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="corte"
+        loading="lazy"
+      />
+      <span class="gl-corte__vapos" aria-hidden="true">
+        <span class="gl-corte__vapor gl-corte__vapor--izq"></span>
+        <span class="gl-corte__vapor gl-corte__vapor--der"></span>
+      </span>
+      <svg class="gl-corte__copo" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <path d="M24 4 V44 M4 24 H44 M9 9 L39 39 M39 9 L9 39" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="24" cy="24" r="6" stroke="currentColor" stroke-width="1.2"/>
+      </svg>
+      <figcaption hidden>Momento del corte</figcaption>
+    </figure>
+
+    <div class="gl-corte__contenido" memory_type="text" memory_usage="custom" memory_key="corte-texto">
+      <p class="gl-corte__etiqueta" memory_type="text" memory_usage="custom" memory_key="corte-etiqueta">Instante cristalino</p>
+      <h2 class="gl-corte__titulo" memory_type="text" memory_usage="custom" memory_key="corte-titulo">El corte del hielo</h2>
+      <p class="gl-corte__texto">
+        El vaho se aparta y aparece la escena más dulce de la noche. Brindemos por un
+        momento tan nítido que quedará grabado para siempre.
+      </p>
+      <div class="gl-corte__linea-luz" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.gl-corte');
+      if (!root) return;
+      root.classList.add('gl-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root.querySelector('.gl-corte__escarcha') || root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-cristal-escarcha',
+      style_name: 'Vidrio Esmerilado — Corte',
+      descripcion: 'Dos paneles de vaho esmerilado que se apartan al entrar en pantalla, copo giratorio que se desvanece y línea de luz final.',
+      tags: ['corte', 'escarcha', 'vaho', 'cristal', 'revelado', 'glassmorphism'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

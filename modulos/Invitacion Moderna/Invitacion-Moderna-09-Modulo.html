@@ -1,0 +1,435 @@
+<section
+  class="module-regalos-editorial-photo"
+  data-gemini-id="detalles-regalo"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="regalos-editorial-title"
+>
+  <style>
+    .module-regalos-editorial-photo {
+      --primary-color: #202326;
+      --secondary-color: #5f666b;
+      --accent-color: #b59b72;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(0, 0, 0, 0.12);
+      --overlay-color: rgba(0, 0, 0, 0.58);
+      --text-color: #202326;
+      --button-text-color: #ffffff;
+
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+      color: var(--text-color);
+      background-color: #eeeeee;
+      background-image: url("https://loremflickr.com/1920/1080/gift,celebration");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      isolation: isolate;
+    }
+
+    .module-regalos-editorial-photo::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.66),
+          rgba(0, 0, 0, 0.34),
+          rgba(0, 0, 0, 0.56)
+        ),
+        var(--overlay-color);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .regalos-editorial__inner {
+      width: min(1280px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 5rem);
+      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: minmax(320px, 500px) 1fr;
+      align-items: center;
+      gap: clamp(2rem, 6vw, 6rem);
+    }
+
+    .regalos-editorial__card {
+      position: relative;
+      z-index: 3;
+      width: min(500px, 100%);
+      padding: clamp(2rem, 4vw, 3.4rem);
+      box-sizing: border-box;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: clamp(8px, 1.2vw, 14px);
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.28);
+      overflow: hidden;
+    }
+
+    .regalos-editorial__card::before,
+    .regalos-editorial__card::after {
+      content: "";
+      position: absolute;
+      width: 72px;
+      height: 72px;
+      border-color: var(--accent-color);
+      border-style: solid;
+      opacity: 0.28;
+      pointer-events: none;
+    }
+
+    .regalos-editorial__card::before {
+      left: 1rem;
+      bottom: 1rem;
+      border-width: 0 0 1px 1px;
+    }
+
+    .regalos-editorial__card::after {
+      right: 1rem;
+      bottom: 1rem;
+      border-width: 0 1px 1px 0;
+    }
+
+    .regalos-editorial__eyebrow {
+      margin: 0 0 clamp(0.85rem, 1.5vw, 1.1rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.72rem, 1vw, 0.86rem);
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .regalos-editorial__title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.7rem, 3vw, 2.35rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    .regalos-editorial__divider {
+      width: 42px;
+      height: 4px;
+      margin: clamp(1rem, 2vw, 1.4rem) 0;
+      background: var(--accent-color);
+    }
+
+    .regalos-editorial__body {
+      display: grid;
+      gap: clamp(1rem, 2vw, 1.35rem);
+    }
+
+    .regalos-editorial__body p {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.95rem, 1.2vw, 1.08rem);
+      line-height: 1.75;
+      color: var(--primary-color);
+    }
+
+    .regalos-editorial__highlight {
+      margin: clamp(1.35rem, 2.6vw, 2rem) 0 0;
+      padding: 1rem 1.1rem;
+      border-left: 4px solid var(--accent-color);
+      background: rgba(181, 155, 114, 0.08);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.1rem, 1.7vw, 1.35rem);
+      font-style: italic;
+      line-height: 1.55;
+      color: var(--primary-color);
+    }
+
+    .regalos-editorial__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin-top: clamp(1.5rem, 3vw, 2rem);
+    }
+
+    .regalos-editorial__button,
+    .regalos-editorial__link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0.85rem 1.25rem;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    .regalos-editorial__button {
+      border: 1px solid var(--accent-color);
+      background: var(--accent-color);
+      color: var(--button-text-color);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+    }
+
+    .regalos-editorial__link {
+      color: var(--primary-color);
+      border-bottom: 1px solid var(--primary-color);
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .regalos-editorial__ornament {
+      width: min(120px, 38%);
+      height: 28px;
+      margin: clamp(1.5rem, 3vw, 2rem) auto 0;
+      position: relative;
+      color: var(--accent-color);
+    }
+
+    .regalos-editorial__ornament::before,
+    .regalos-editorial__ornament::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 46%;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.65;
+    }
+
+    .regalos-editorial__ornament::before {
+      left: 0;
+    }
+
+    .regalos-editorial__ornament::after {
+      right: 0;
+    }
+
+    .regalos-editorial__ornament span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 14px;
+      height: 14px;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--surface-color);
+    }
+
+    .regalos-editorial__visual-space {
+      min-height: 60vh;
+      pointer-events: none;
+    }
+
+    .regalos-editorial__motion {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: regalosEditorialReveal 0.5s ease-out forwards;
+    }
+
+    .regalos-editorial__card {
+      animation-delay: 0.08s;
+    }
+
+    @keyframes regalosEditorialReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .regalos-editorial__inner {
+        grid-template-columns: 1fr;
+        place-items: center;
+      }
+
+      .regalos-editorial__card {
+        width: min(540px, 94vw);
+      }
+
+      .regalos-editorial__visual-space {
+        display: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .module-regalos-editorial-photo {
+        min-height: 100svh;
+      }
+
+      .regalos-editorial__inner {
+        min-height: 100svh;
+        padding: 1.25rem;
+      }
+
+      .regalos-editorial__card {
+        width: 100%;
+        padding: 2.25rem 1.5rem;
+      }
+
+      .regalos-editorial__actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .regalos-editorial__button,
+      .regalos-editorial__link {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .regalos-editorial__motion,
+      .regalos-editorial__button,
+      .regalos-editorial__link {
+        animation: none;
+        transition: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <div class="regalos-editorial__inner">
+    <article
+      class="regalos-editorial__card regalos-editorial__motion"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="gift-content"
+    >
+      <header>
+        <p class="regalos-editorial__eyebrow">
+          Gift Details
+        </p>
+
+        <h2 id="regalos-editorial-title" class="regalos-editorial__title">
+          Gifts Are Optional
+        </h2>
+
+        <div class="regalos-editorial__divider" aria-hidden="true"></div>
+      </header>
+
+      <div class="regalos-editorial__body">
+        <p>
+          Your presence is already a meaningful gift. Please do not feel
+          obligated to bring anything beyond your love, support, and good wishes.
+        </p>
+
+        <p>
+          If you would still like to honor the celebration with a gift, a registry,
+          contribution link, wishing well, or gift table may be available for guests.
+        </p>
+      </div>
+
+      <p
+        class="regalos-editorial__highlight"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="gift-quote"
+      >
+        “The greatest gift is celebrating this moment together.”
+      </p>
+
+      <nav
+        class="regalos-editorial__actions"
+        aria-label="Gift information actions"
+      >
+        <a
+          class="regalos-editorial__button"
+          href="#gift-registry"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="gift-primary-action"
+        >
+          View Registry
+        </a>
+
+        <a
+          class="regalos-editorial__link"
+          href="#gift-note"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="gift-secondary-action"
+        >
+          Gift Note
+        </a>
+      </nav>
+
+      <div class="regalos-editorial__ornament" aria-hidden="true">
+        <span></span>
+      </div>
+    </article>
+
+    <div class="regalos-editorial__visual-space" aria-hidden="true"></div>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "regalos",
+        "gift details",
+        "mesa de regalos",
+        "registry",
+        "wishing well",
+        "cash gift",
+        "detalles",
+        "evento",
+        "modulo universal",
+        "boda",
+        "quinceanera",
+        "cumpleanos",
+        "baby shower",
+        "graduacion",
+        "despedida",
+        "tarjeta flotante",
+        "foto de fondo",
+        "overlay oscuro",
+        "responsive"
+      ],
+      descripcion:
+        "Wireframe universal de regalos con foto de fondo, overlay oscuro, tarjeta editorial, mensaje de regalos opcionales y enlaces de acción."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="detalles-regalo"]');
+
+      if (!module) return;
+
+      const card = module.querySelector(".regalos-editorial__card");
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (prefersReducedMotion) return;
+
+      module.addEventListener("pointermove", function (event) {
+        const rect = module.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        if (card) {
+          card.style.transform =
+            "translate(" + x * 6 + "px, " + y * 5 + "px)";
+        }
+      });
+
+      module.addEventListener("pointerleave", function () {
+        if (card) {
+          card.style.transform = "translate(0, 0)";
+        }
+      });
+    })();
+  </script>
+</section>

@@ -1,0 +1,212 @@
+<section
+  class="bh-detalles"
+  data-gemini-id="detalles-vestimenta"
+>
+  <style>
+    .bh-detalles {
+      --primary-color: #22242a;
+      --secondary-color: #6d7078;
+      --accent-color: #e2543e;
+      --bg-color: #f3f1ec;
+      --surface-color: #fbfaf7;
+      --surface-border-color: rgba(34, 36, 42, 0.18);
+      --text-color: #22242a;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+    }
+    .bh-detalles *,
+    .bh-detalles *::before,
+    .bh-detalles *::after { box-sizing: border-box; }
+
+    .bh-detalles__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.5rem, 3.4vw, 2.2rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .bh-detalles__intro {
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      max-width: 52ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .bh-detalles__composicion {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.6rem, 4vw, 3rem);
+      align-items: center;
+      width: min(100%, 1020px);
+      margin: 0 auto;
+    }
+
+    .bh-detalles__figura {
+      position: relative;
+      margin: 0;
+      padding: 10px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 10px 10px 0 color-mix(in srgb, var(--secondary-color) 40%, transparent);
+    }
+    .bh-detalles__figura img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      filter: saturate(0.85);
+    }
+    .bh-detalles__figura figcaption {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 8px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .bh-detalles__figura figcaption b { color: var(--accent-color); font-weight: 700; }
+
+    .bh-detalles__tarjetas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 2.6vw, 1.6rem); }
+
+    .bh-detalles__tarjeta {
+      padding: clamp(1.3rem, 3vw, 1.9rem) clamp(1rem, 2.4vw, 1.5rem);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), box-shadow 0.5s ease;
+    }
+    .bh-detalles.bh-js .bh-detalles__tarjeta { opacity: 0; transform: translateY(20px) scale(0.95); }
+    .bh-detalles .bh-detalles__tarjeta.esta-visto { opacity: 1; transform: none; }
+    .bh-detalles__tarjeta:hover { box-shadow: 8px 8px 0 color-mix(in srgb, var(--accent-color) 50%, transparent); }
+
+    .bh-detalles__forma { display: block; width: 44px; height: 44px; margin: 0 auto 1rem; }
+    .bh-detalles__tarjeta:nth-child(1) .bh-detalles__forma { border-radius: 50%; background: var(--accent-color); }
+    .bh-detalles__tarjeta:nth-child(2) .bh-detalles__forma { background: linear-gradient(180deg, var(--primary-color) 50%, transparent 50%); border: 1px solid var(--primary-color); }
+    .bh-detalles__tarjeta:nth-child(3) .bh-detalles__forma { background: conic-gradient(from 45deg, var(--secondary-color) 0 25%, transparent 25% 50%, var(--secondary-color) 50% 75%, transparent 75%); border: 1px solid var(--secondary-color); }
+
+    .bh-detalles__rotulo {
+      margin: 0 0 0.35rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.52rem, 0.95vw, 0.6rem);
+      letter-spacing: 0.24em;
+      word-break: break-word;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .bh-detalles__titulo-card {
+      margin: 0 0 0.4rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(0.94rem, 1.9vw, 1.12rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .bh-detalles__texto {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.76rem, 1.35vw, 0.86rem);
+      line-height: 1.6;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 880px) {
+      .bh-detalles__composicion { grid-template-columns: 1fr; }
+      .bh-detalles__figura { max-width: 360px; margin: 0 auto; }
+    }
+    @media (max-width: 640px) {
+      .bh-detalles__tarjetas { grid-template-columns: 1fr; max-width: 360px; margin: 0 auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bh-detalles * { transition: none !important; }
+      .bh-detalles__tarjeta { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="detalles-intro">
+    <h2 class="bh-detalles__titulo" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Elementos de la serie</h2>
+    <p class="bh-detalles__intro" memory_type="text" memory_usage="custom" memory_key="detalles-texto">Tres notas al pie para leer antes del gran cuadro.</p>
+  </header>
+
+  <div class="bh-detalles__composicion">
+    <figure class="bh-detalles__figura" memory_type="image" memory_usage="custom" memory_source="library" memory_key="detalles-foto">
+      <img src="https://loremflickr.com/520/520/minimal,fashion" alt="Composición minimal de la celebración" path="placeholder" data-library-category="bodas" data-asset-type="detalle" loading="lazy" />
+      <figcaption><span memory_type="text" memory_usage="custom" memory_key="detalles-foto-pie">Obra invitada</span> <b>N.º 07</b></figcaption>
+    </figure>
+
+    <div class="bh-detalles__tarjetas">
+      <article class="bh-detalles__tarjeta" data-bh-tarjeta>
+        <span class="bh-detalles__forma" aria-hidden="true"></span>
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-1">
+          <p class="bh-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-1">Vestimenta</p>
+          <h3 class="bh-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Forma libre</h3>
+          <p class="bh-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Elegancia sin corbata; color bienvenido.</p>
+        </div>
+      </article>
+      <article class="bh-detalles__tarjeta" data-bh-tarjeta>
+        <span class="bh-detalles__forma" aria-hidden="true"></span>
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-2">
+          <p class="bh-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-2">Horario</p>
+          <h3 class="bh-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Puntual suiza</h3>
+          <p class="bh-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">Comenzamos exactos a la hora citada.</p>
+        </div>
+      </article>
+      <article class="bh-detalles__tarjeta" data-bh-tarjeta>
+        <span class="bh-detalles__forma" aria-hidden="true"></span>
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-3">
+          <p class="bh-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-3">Parking</p>
+          <h3 class="bh-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Cajones marcados</h3>
+          <p class="bh-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">Sigue los círculos pintados hasta el acceso.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.bh-detalles');
+      if (!root) return;
+      root.classList.add('bh-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var tarjetas = Array.prototype.slice.call(root.querySelectorAll('[data-bh-tarjeta]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        tarjetas.forEach(function (t) { t.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = tarjetas.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.13).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      tarjetas.forEach(function (t) { io.observe(t); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-vestimenta',
+      style_name: 'Bauhaus Geométrico — Detalles',
+      descripcion: 'Obra enmarcada con sombra dura y pie numerado junto a tres tarjetas con formas distintivas (círculo, medio, molinete) y hover de acento.',
+      tags: ['detalles', 'bauhaus', 'formas', 'tarjetas', 'sombra dura', 'geometrico'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>

@@ -1,0 +1,54 @@
+<section class="mg4-g" data-gemini-id="galeria-mosaico" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.mg4-g { --primary-color:#d4af5f; --secondary-color:#b3965a; --accent-color:#8c6d2f; --bg-color:#12100c; --surface-color:#1d1812; --surface-border-color:rgba(212,175,95,.35); --text-color:#f0e8d8;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.6rem,9vw,7rem) clamp(1rem,4vw,3rem); background:linear-gradient(180deg, color-mix(in srgb, var(--bg-color) 90%, transparent), color-mix(in srgb, var(--bg-color) 84%, transparent)), url('https://loremflickr.com/1600/1000/gallery,dark') center/cover; background-color:var(--bg-color); color:var(--text-color); }
+.mg4-g *, .mg4-g *::before, .mg4-g *::after { box-sizing:border-box; }
+.mg4-g__cabecera { text-align:center; margin-bottom:clamp(2.6rem,6.5vw,3.6rem); }
+.mg4-g__rotulo { margin:0 0 .5rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.mg4-g__titulo { margin:0; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.9rem,4.6vw,3rem); letter-spacing:.08em; text-transform:uppercase; color:var(--primary-color); }
+.mg4-g__mosaico { display:grid; grid-template-columns:repeat(2,1fr); gap:clamp(1rem,2.6vw,1.8rem); width:min(100%,900px); margin:0 auto; }
+@media (min-width:760px){ .mg4-g__mosaico { grid-template-columns:repeat(3,1fr); } }
+.mg4-g__obra { position:relative; margin:0; padding:6px; background:color-mix(in srgb, var(--surface-color) 72%, transparent); border:1px solid var(--surface-border-color); cursor:zoom-in; }
+.mg4-g__obra img { display:block; width:100%; height:auto; aspect-ratio:3/4; object-fit:cover; }
+.mg4-g__obra::after { content:''; position:absolute; inset:10px; border:1px solid rgba(212,175,95,.28); pointer-events:none; }
+..mg4-g__lb { position:fixed; inset:0; z-index:9999; display:none; place-items:center; background:color-mix(in srgb, var(--bg-color) 92%, transparent); cursor:zoom-out; }
+.mg4-g__lb.abierto { display:grid; }
+.mg4-g__lb img { max-width:min(92vw,940px); max-height:86vh; border:1px solid var(--primary-color); padding:6px; background:var(--surface-color); }
+.mg4-g__lb img { max-width:min(92vw,940px); max-height:86vh; }
+</style>
+<header class="mg4-g__cabecera" memory_type="text" memory_usage="custom" memory_key="galeria-intro">
+  <p class="mg4-g__rotulo">Nuestros recuerdos</p>
+  <h2 class="mg4-g__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Galería</h2>
+</header>
+<div class="mg4-g__mosaico">
+  <figure class="mg4-g__obra"><img src="https://loremflickr.com/600/800/couple,elegant" alt="Recuerdo 1" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" /></figure>
+  <figure class="mg4-g__obra"><img src="https://loremflickr.com/600/800/rings,gold" alt="Recuerdo 2" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" /></figure>
+  <figure class="mg4-g__obra"><img src="https://loremflickr.com/600/800/flowers,dark" alt="Recuerdo 3" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" /></figure>
+  <figure class="mg4-g__obra"><img src="https://loremflickr.com/600/800/cake,luxury" alt="Recuerdo 4" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" /></figure>
+  <figure class="mg4-g__obra"><img src="https://loremflickr.com/600/800/dance,night" alt="Recuerdo 5" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" /></figure>
+  <figure class="mg4-g__obra"><img src="https://loremflickr.com/600/800/champagne,glasses" alt="Recuerdo 6" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" /></figure>
+</div>
+<div class="mg4-g__lb" role="dialog" aria-label="Foto ampliada" hidden>
+  <img src="" alt="Foto ampliada" />
+</div>
+<script>
+  (function () {
+    var scope = null;
+    try { scope = document.currentScript.closest('[data-gemini-id^="galeria"]'); } catch (e) {}
+    if (!scope) scope = document.querySelector('[data-gemini-id^="galeria"]');
+    if (!scope) return;
+    var lb = scope.querySelector('.mg4-g__lb');
+    if (!lb) return;
+    var lbImg = lb.querySelector('img');
+    scope.addEventListener('click', function (ev) {
+      var obra = ev.target.closest && ev.target.closest('.mg4-g__obra');
+      var img = obra && obra.querySelector('img');
+      if (!img) { if (ev.target === lb) { lb.classList.remove('abierto'); lb.hidden = true; } return; }
+      lbImg.src = img.currentSrc || img.src;
+      lb.hidden = false;
+      lb.classList.add('abierto');
+    });
+  })();
+</script>
+<script>var moduleMetadata = { module_type: 'galeria', module_name: 'galeria-mg4-noir', style_name: 'Noir & Or — Mosaico Enmarcado', descripcion: 'Galería en mosaico con paspartú oscuro y filo dorado; lightbox al tocar cada obra.', tags: ['galeria', 'mosaico', 'oro', 'lightbox'], tipo: 'galeria' };</script>
+</section>

@@ -1,0 +1,137 @@
+<section
+  class="fe-confirmacion"
+  data-gemini-id="confirmacion-texto"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .fe-confirmacion {
+      --primary-color: #f5e9d7;
+      --secondary-color: #b39a7d;
+      --accent-color: #ffb347;
+      --bg-color: #1a1410;
+      --surface-color: #241c15;
+      --surface-border-color: rgba(245, 233, 215, 0.16);
+      --text-color: #f5e9d7;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 72svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/carnival,lights');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .fe-confirmacion *,
+    .fe-confirmacion *::before,
+    .fe-confirmacion *::after { box-sizing: border-box; }
+
+    .fe-confirmacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 89%, transparent);
+    }
+
+    .fe-confirmacion__ticket {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 620px);
+      padding: clamp(2.2rem, 5.5vw, 3.5rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: var(--surface-color);
+      border: 1px dashed var(--secondary-color);
+      border-radius: 14px;
+      box-shadow: 0 30px 64px rgba(0, 0, 0, 0.55);
+      display: grid;
+      justify-items: center;
+    }
+    .fe-confirmacion__ticket::before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      bottom: 12px;
+      left: 50%;
+      width: 0;
+      border-left: 2px dashed var(--surface-border-color);
+    }
+
+    .fe-confirmacion__troquel {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.2rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.56rem, 1.05vw, 0.64rem);
+      letter-spacing: 0.3em;
+      color: var(--secondary-color);
+    }
+
+    .fe-confirmacion__titulo {
+      margin: 0 0 1rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+      text-shadow: 0 0 24px color-mix(in srgb, var(--accent-color) 35%, transparent);
+    }
+    .fe-confirmacion__texto {
+      margin: 0 auto 1.4rem;
+      max-width: 46ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .fe-confirmacion__limite {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.7rem, 1.35vw, 0.82rem);
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .fe-confirmacion__limite time { border-bottom: 1px dashed var(--accent-color); }
+
+    @media (max-width: 560px) {
+      .fe-confirmacion { min-height: 62svh; }
+      .fe-confirmacion__ticket { padding: 2.2rem 1.2rem; }
+      .fe-confirmacion__ticket::before { display: none; }
+    }
+  </style>
+
+  <div class="fe-confirmacion__ticket">
+    <div class="fe-confirmacion__troquel" aria-hidden="true">
+      <span>N.º 000251</span>
+      <span>ADMIT ONE</span>
+    </div>
+
+    <h2 class="fe-confirmacion__titulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">Reserva tu atracción</h2>
+    <p class="fe-confirmacion__texto" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">
+      Los pases para la gran noche son limitados. Confirma con el enlace de tu invitación
+      digital antes de la fecha; tu entrada queda canjeada al primer tupido de máquina.
+    </p>
+    <p class="fe-confirmacion__limite" memory_type="text" memory_usage="custom" memory_key="confirmacion-rotulo">
+      CANJEA ANTES DEL <time datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha">DD DE MES</time>
+    </p>
+  </div>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Feria Nocturna — Confirmación',
+      descripcion: 'Ticket troquelado con talón numerado, borde punteado de canje y fecha límite en monoespaciada ámbar; RSVP informativo.',
+      tags: ['confirmacion', 'rsvp', 'feria', 'ticket', 'troquel', 'canje'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>

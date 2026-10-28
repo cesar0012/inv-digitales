@@ -1,0 +1,197 @@
+<section
+  class="pv-itin"
+  data-gemini-id="itinerario-agenda"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+    .pv-itin, .pv-itin *, .pv-itin *::before, .pv-itin *::after { box-sizing: border-box; }
+    .pv-itin {
+      --bg: var(--bg-color, #16233b);
+      --tx: var(--text-color, #f6f1e7);
+      --p: var(--primary-color, #f4a259);
+      --s: var(--secondary-color, #8fbfdd);
+      --a: var(--accent-color, #e07a5f);
+      --script: var(--font-heading, 'Great Vibes', cursive);
+      --sans: 'Jost', 'Segoe UI', Arial, sans-serif;
+      --panel: color-mix(in srgb, var(--bg) 85%, transparent);
+      --line: color-mix(in srgb, var(--p) 30%, transparent);
+      position: relative; isolation: isolate; overflow: hidden;
+      padding: clamp(4rem, 10vw, 7rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg);
+      background-image: url('https://loremflickr.com/1920/1080/alps,lake?lock=2808');
+      background-size: cover; background-position: center;
+      color: var(--tx); text-align: center; font-family: var(--sans);
+    }
+    .pv-itin::before {
+      content: ''; position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(55% 40% at 88% 6%, color-mix(in srgb, var(--s) 13%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--bg) 87%, transparent), color-mix(in srgb, var(--bg) 94%, transparent) 55%, var(--bg));
+    }
+    .pv-itin > * { position: relative; z-index: 1; }
+
+    .pv-itin__kick {
+      margin: 0 0 .7rem; font-weight: 500;
+      font-size: clamp(.72rem, 1.35vw, .85rem); letter-spacing: .46em; text-transform: uppercase;
+      color: color-mix(in srgb, var(--s) 60%, var(--tx));
+    }
+    .pv-itin__title {
+      margin: 0 0 clamp(2.2rem, 6vw, 3.4rem); font-weight: 300;
+      font-size: clamp(1.9rem, 4.6vw, 3rem); letter-spacing: .16em; text-transform: uppercase;
+    }
+    .pv-itin__title em {
+      display: block; font-family: var(--script); font-style: normal; text-transform: none;
+      font-size: 1.5em; letter-spacing: 0; line-height: .9; margin-top: .18em; color: var(--p);
+    }
+
+    /* Corredor de vuelo: línea central punteada + avión descendiendo */
+    .pv-itin__corredor { position: relative; width: min(100%, 760px); margin: 0 auto; padding: 1.5rem 0; }
+    .pv-itin__rail {
+      position: absolute; top: 0; bottom: 0; left: 50%; width: 0;
+      border-left: 2px dashed color-mix(in srgb, var(--p) 55%, transparent);
+    }
+    .pv-itin__vuelo {
+      position: absolute; top: 0; left: 50%; width: 30px; height: 16px; margin-left: -15px;
+      background: var(--s);
+      clip-path: polygon(0 78%, 62% 68%, 100% 12%, 84% 82%, 40% 88%, 24% 100%, 14% 84%);
+      filter: drop-shadow(0 3px 8px color-mix(in srgb, var(--bg) 60%, transparent));
+      animation: pvItDesciende 8s ease-in-out infinite alternate;
+    }
+    @keyframes pvItDesciende { from { top: 2%; } to { top: 92%; } }
+
+    .pv-itin__lista { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(1.1rem, 3vw, 1.7rem); }
+    .pv-itin__hito { position: relative; display: grid; grid-template-columns: 1fr 68px 1fr; align-items: center; }
+    .pv-itin__farol {
+      grid-column: 2; justify-self: center;
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--p);
+      box-shadow: 0 0 0 5px color-mix(in srgb, var(--bg) 80%, transparent), 0 0 18px color-mix(in srgb, var(--p) 70%, transparent);
+      animation: pvItFarol 3s ease-in-out infinite;
+    }
+    .pv-itin__farol--tardio { animation-delay: 1s; background: var(--a); box-shadow: 0 0 0 5px color-mix(in srgb, var(--bg) 80%, transparent), 0 0 18px color-mix(in srgb, var(--a) 70%, transparent); }
+    @keyframes pvItFarol { 50% { opacity: .45; } }
+
+    .pv-itin__stub {
+      grid-column: 3;
+      position: relative; text-align: left;
+      padding: clamp(.9rem, 2.2vw, 1.2rem) clamp(1rem, 2.6vw, 1.5rem);
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: 14px;
+      -webkit-backdrop-filter: blur(9px); backdrop-filter: blur(9px);
+      transition: transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease;
+    }
+    .pv-itin__stub::before {
+      content: ''; position: absolute; top: 12px; bottom: 12px; left: 8px; width: 1px;
+      background: repeating-linear-gradient(180deg, var(--line) 0 5px, transparent 5px 9px);
+    }
+    .pv-itin__hito--par .pv-itin__stub { grid-column: 1; grid-row: 1; text-align: right; }
+    .pv-itin__hito--par .pv-itin__stub::before { left: auto; right: 8px; }
+    .pv-itin__stub:hover { transform: translateY(-4px); box-shadow: 0 18px 36px color-mix(in srgb, var(--bg) 50%, transparent); }
+
+    .pv-itin__hora {
+      display: inline-block; margin-bottom: .3rem; padding: .28em .8em .32em;
+      border: 1px solid color-mix(in srgb, var(--p) 45%, transparent); border-radius: 999px;
+      font-weight: 500; font-size: clamp(.7rem, 1.3vw, .82rem);
+      letter-spacing: .24em; text-transform: uppercase;
+      font-variant-numeric: tabular-nums; color: var(--p);
+    }
+    .pv-itin__nombre { margin: .1rem 0 .15rem; font-weight: 400; font-size: clamp(1.15rem, 2.4vw, 1.45rem); letter-spacing: .06em; }
+    .pv-itin__detalle { margin: 0; font-weight: 300; font-size: clamp(.84rem, 1.5vw, .94rem); line-height: 1.55; color: color-mix(in srgb, var(--tx) 82%, transparent); }
+
+    .pv-itin--anim [data-pv-step] { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s cubic-bezier(.2, .8, .2, 1); }
+    .pv-itin--anim [data-pv-step].is-on { opacity: 1; transform: none; }
+    .pv-itin :focus-visible { outline: 2px solid var(--p); outline-offset: 4px; }
+
+    @media (max-width: 720px) {
+      .pv-itin__hito, .pv-itin__hito--par { grid-template-columns: 34px 1fr; }
+      .pv-itin__rail { left: 17px; }
+      .pv-itin__vuelo { left: 17px; }
+      .pv-itin__farol { grid-column: 1; }
+      .pv-itin__stub, .pv-itin__hito--par .pv-itin__stub { grid-column: 2; grid-row: auto; text-align: left; }
+      .pv-itin__hito--par .pv-itin__stub::before { left: 8px; right: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .pv-itin *, .pv-itin *::before, .pv-itin *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <header>
+    <p class="pv-itin__kick" data-pv-step memory_type="text" memory_usage="custom" memory_key="itinerario-rotulo">Agenda</p>
+    <h2 class="pv-itin__title" data-pv-step memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Plan de <em>vuelo</em></h2>
+  </header>
+
+  <div class="pv-itin__corredor">
+    <span class="pv-itin__rail" aria-hidden="true"></span>
+    <span class="pv-itin__vuelo" aria-hidden="true"></span>
+    <ol class="pv-itin__lista">
+      <li class="pv-itin__hito" data-pv-step>
+        <span class="pv-itin__farol" aria-hidden="true"></span>
+        <div class="pv-itin__stub">
+          <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
+            <time class="pv-itin__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1" data-event-field="itin-hora-1">5:00 pm</time>
+            <h3 class="pv-itin__nombre" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-1" data-event-field="itin-evento-1">Recepción</h3>
+            <p class="pv-itin__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-1">Bienvenida y copas</p>
+          </div>
+        </div>
+      </li>
+      <li class="pv-itin__hito pv-itin__hito--par" data-pv-step>
+        <span class="pv-itin__farol pv-itin__farol--tardio" aria-hidden="true"></span>
+        <div class="pv-itin__stub">
+          <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
+            <time class="pv-itin__hora" datetime="18:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2" data-event-field="itin-hora-2">6:30 pm</time>
+            <h3 class="pv-itin__nombre" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-2" data-event-field="itin-evento-2">Ceremonia</h3>
+            <p class="pv-itin__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-2">El gran momento</p>
+          </div>
+        </div>
+      </li>
+      <li class="pv-itin__hito" data-pv-step>
+        <span class="pv-itin__farol pv-itin__farol--tardio" aria-hidden="true"></span>
+        <div class="pv-itin__stub">
+          <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
+            <time class="pv-itin__hora" datetime="20:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3" data-event-field="itin-hora-3">8:30 pm</time>
+            <h3 class="pv-itin__nombre" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-3" data-event-field="itin-evento-3">Banquete</h3>
+            <p class="pv-itin__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-3">Cena y brindis</p>
+          </div>
+        </div>
+      </li>
+      <li class="pv-itin__hito pv-itin__hito--par" data-pv-step>
+        <span class="pv-itin__farol pv-itin__farol--tardio" aria-hidden="true"></span>
+        <div class="pv-itin__stub">
+          <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
+            <time class="pv-itin__hora" datetime="22:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4" data-event-field="itin-hora-4">10:00 pm</time>
+            <h3 class="pv-itin__nombre" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-4" data-event-field="itin-evento-4">Baile</h3>
+            <p class="pv-itin__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-4">La pista se enciende</p>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </div>
+
+  <script>
+    (function () {
+      var root = null;
+      try { root = document.currentScript.closest('[data-gemini-id^="itinerario"]'); } catch (e) {}
+      if (!root) root = document.querySelector('[data-gemini-id^="itinerario"]');
+      if (!root || root.__pvInit) return;
+      root.__pvInit = true;
+      var steps = [].slice.call(root.querySelectorAll('[data-pv-step]'));
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      function entra() {
+        root.classList.add('pv-itin--anim');
+        steps.forEach(function (el, i) { setTimeout(function () { el.classList.add('is-on'); }, RM ? 0 : 120 + i * 150); });
+      }
+      if (RM) entra();
+      else if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { io.disconnect(); entra(); } }, { threshold: 0.18 });
+        io.observe(root);
+        setTimeout(function () { io.disconnect(); entra(); }, 2600);
+      } else entra();
+    })();
+  </script>
+  <script>var moduleMetadata = { module_type: 'itinerario', module_name: 'itinerario-premium', style_name: 'Vuelo · Paisajes del Cielo', descripcion: 'Itinerario como plan de vuelo: corredor punteado con avión de papel descendiendo en loop, faroles de pista que parpadean y talones de boleto perforados alternando lado.', tags: ['itinerario', 'premium', 'vuelo', 'plan', 'boleto', 'animado'], tipo: 'itinerario' };</script>
+</section>

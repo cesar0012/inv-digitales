@@ -1,0 +1,580 @@
+﻿<section
+  class="countdown-odometer-rings"
+  data-gemini-id="countdown-odometer-rings"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+>
+  <style>
+    .countdown-odometer-rings {
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(610px, 76vw, 760px);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: clamp(3rem, 7vw, 5.5rem) 1rem;
+      background-color: var(--bg-color, #111827);
+      background-image: url('https://loremflickr.com/1600/1000/celebration,elegant');
+      background-position: center;
+      background-size: cover;
+      color: var(--text-color, #f8fafc);
+      text-align: center;
+    }
+
+    .countdown-odometer-rings,
+    .countdown-odometer-rings * { box-sizing: border-box; }
+
+    .countdown-odometer-rings::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      background: color-mix(in srgb, var(--bg-color, #111827) 78%, transparent);
+    }
+
+    .countdown-odometer-rings::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background: radial-gradient(circle at center, transparent 0 18%, color-mix(in srgb, var(--bg-color, #111827) 22%, transparent) 72%);
+      pointer-events: none;
+    }
+
+    .countdown-odometer-rings__rings {
+      position: absolute;
+      z-index: -1;
+      left: 50%;
+      top: 50%;
+      width: min(1180px, 112vw);
+      height: clamp(420px, 64vw, 650px);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      opacity: .72;
+    }
+
+    .countdown-odometer-rings__ring {
+      --ring-size: clamp(250px, 27vw, 360px);
+      --ring-rotation: 0deg;
+      position: absolute;
+      left: var(--ring-x);
+      top: var(--ring-y);
+      width: var(--ring-size);
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%) rotate(var(--ring-tilt));
+      border-radius: 50%;
+      border: 1px solid color-mix(in srgb, var(--text-color, #f8fafc) 18%, transparent);
+      box-shadow:
+        0 0 0 clamp(5px, .7vw, 9px) color-mix(in srgb, var(--bg-color, #111827) 18%, transparent),
+        inset 0 0 42px color-mix(in srgb, var(--accent-color, #a7c7ff) 10%, transparent);
+      perspective: 900px;
+    }
+
+    .countdown-odometer-rings__ring::before,
+    .countdown-odometer-rings__ring::after {
+      content: '';
+      position: absolute;
+      inset: 7%;
+      border-radius: 50%;
+      border: 1px solid color-mix(in srgb, var(--accent-color, #a7c7ff) 20%, transparent);
+    }
+
+    .countdown-odometer-rings__ring::after {
+      inset: 48% -4% auto;
+      border: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent-color, #a7c7ff) 46%, transparent), transparent);
+    }
+
+    .countdown-odometer-rings__ring--days {
+      --ring-x: 16%;
+      --ring-y: 41%;
+      --ring-tilt: -15deg;
+      --ring-size: clamp(280px, 31vw, 390px);
+    }
+
+    .countdown-odometer-rings__ring--hours {
+      --ring-x: 39%;
+      --ring-y: 55%;
+      --ring-tilt: 9deg;
+      --ring-size: clamp(245px, 27vw, 350px);
+    }
+
+    .countdown-odometer-rings__ring--minutes {
+      --ring-x: 64%;
+      --ring-y: 43%;
+      --ring-tilt: -7deg;
+      --ring-size: clamp(270px, 29vw, 375px);
+    }
+
+    .countdown-odometer-rings__ring--seconds {
+      --ring-x: 87%;
+      --ring-y: 57%;
+      --ring-tilt: 14deg;
+      --ring-size: clamp(295px, 32vw, 410px);
+    }
+
+    .countdown-odometer-rings__wheel {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      transform: rotate(0deg);
+      transform-origin: 50% 50%;
+    }
+
+    .countdown-odometer-rings__wheel.is-turning {
+      transform: rotate(var(--odometer-step));
+      transition: transform 560ms cubic-bezier(.2, .72, .25, 1);
+    }
+
+    .countdown-odometer-rings__digit {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 3.2em;
+      color: var(--text-color, #f8fafc);
+      font-size: clamp(.72rem, 1.45vw, 1.12rem);
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .07em;
+      line-height: 1;
+      opacity: var(--digit-opacity, .34);
+      text-align: center;
+      text-shadow: 0 2px 15px color-mix(in srgb, var(--bg-color, #111827) 88%, transparent);
+      transform:
+        translate(-50%, -50%)
+        rotate(var(--digit-angle))
+        translateY(calc(var(--digit-radius) * -1))
+        rotate(calc(var(--digit-angle) * -1));
+      transform-origin: center;
+    }
+
+    .countdown-odometer-rings__digit.is-focus {
+      color: var(--accent-color, #a7c7ff);
+      font-size: clamp(1rem, 2vw, 1.45rem);
+      font-weight: 700;
+      opacity: .94;
+    }
+
+    .countdown-odometer-rings__ring-label {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--text-color, #f8fafc);
+      font-size: clamp(.52rem, .8vw, .7rem);
+      font-weight: 600;
+      letter-spacing: .22em;
+      opacity: .28;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .countdown-odometer-rings__content {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 910px);
+      margin: 0 auto;
+      padding: clamp(1.7rem, 4vw, 2.8rem) clamp(.75rem, 3vw, 2.2rem);
+    }
+
+    .countdown-odometer-rings__eyebrow {
+      margin: 0 0 .7rem;
+      color: var(--text-color, #f8fafc);
+      font-size: clamp(.62rem, 1.2vw, .78rem);
+      font-weight: 600;
+      letter-spacing: .25em;
+      opacity: .76;
+      text-transform: uppercase;
+    }
+
+    .countdown-odometer-rings__heading {
+      margin: 0 0 .55rem;
+      color: var(--primary-color, var(--text-color, #f8fafc));
+      font-size: clamp(1.65rem, 4vw, 2.8rem);
+      font-weight: 500;
+      line-height: 1.1;
+    }
+
+    .countdown-odometer-rings__date {
+      display: block;
+      margin: 0 0 clamp(2.2rem, 6vw, 4rem);
+      color: var(--text-color, #f8fafc);
+      font-size: clamp(.8rem, 1.6vw, 1rem);
+      opacity: .82;
+    }
+
+    .countdown-odometer-rings__timer {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: end;
+      width: min(100%, 760px);
+      margin: 0 auto;
+      padding: clamp(1rem, 2.8vw, 1.5rem) clamp(.25rem, 1.7vw, 1rem);
+      border-top: 1px solid color-mix(in srgb, var(--text-color, #f8fafc) 24%, transparent);
+      border-bottom: 1px solid color-mix(in srgb, var(--text-color, #f8fafc) 18%, transparent);
+      background: color-mix(in srgb, var(--bg-color, #111827) 32%, transparent);
+      backdrop-filter: blur(4px);
+    }
+
+    .countdown-odometer-rings__unit {
+      position: relative;
+      min-width: 0;
+      padding-inline: clamp(.15rem, 1.2vw, .75rem);
+    }
+
+    .countdown-odometer-rings__unit + .countdown-odometer-rings__unit::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 12%;
+      width: 1px;
+      height: 76%;
+      background: color-mix(in srgb, var(--text-color, #f8fafc) 24%, transparent);
+    }
+
+    .countdown-odometer-rings__number {
+      display: block;
+      min-height: 1em;
+      overflow: hidden;
+      color: var(--primary-color, var(--text-color, #f8fafc));
+      font-size: clamp(2.35rem, 7vw, 5.15rem);
+      font-weight: 300;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -.045em;
+      line-height: .9;
+      white-space: nowrap;
+      text-shadow: 0 4px 24px color-mix(in srgb, var(--bg-color, #111827) 70%, transparent);
+    }
+
+    .countdown-odometer-rings__label {
+      display: block;
+      margin-top: .72rem;
+      color: var(--text-color, #f8fafc);
+      font-size: clamp(.55rem, 1vw, .72rem);
+      font-weight: 600;
+      letter-spacing: .15em;
+      opacity: .72;
+      text-transform: uppercase;
+    }
+
+    .countdown-odometer-rings__caption {
+      margin: clamp(2rem, 5vw, 3.2rem) 0 0;
+      color: var(--text-color, #f8fafc);
+      font-size: clamp(.7rem, 1.3vw, .86rem);
+      letter-spacing: .08em;
+      opacity: .7;
+    }
+
+    .countdown-odometer-rings.is-preview .countdown-odometer-rings__ring--seconds .countdown-odometer-rings__wheel {
+      animation: countdown-odometer-preview-turn 9s linear infinite;
+    }
+
+    @keyframes countdown-odometer-preview-turn {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 720px) {
+      .countdown-odometer-rings {
+        min-height: 640px;
+        padding-inline: .5rem;
+      }
+
+      .countdown-odometer-rings__rings {
+        width: 760px;
+        height: 590px;
+        opacity: .58;
+      }
+
+      .countdown-odometer-rings__ring--days { --ring-x: 30%; --ring-y: 29%; }
+      .countdown-odometer-rings__ring--hours { --ring-x: 67%; --ring-y: 37%; }
+      .countdown-odometer-rings__ring--minutes { --ring-x: 34%; --ring-y: 73%; }
+      .countdown-odometer-rings__ring--seconds { --ring-x: 70%; --ring-y: 78%; }
+
+      .countdown-odometer-rings__date {
+        margin-bottom: 2.7rem;
+      }
+
+      .countdown-odometer-rings__timer {
+        padding-inline: 0;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .countdown-odometer-rings {
+        min-height: 590px;
+      }
+
+      .countdown-odometer-rings__content {
+        padding-inline: .25rem;
+      }
+
+      .countdown-odometer-rings__rings {
+        width: 640px;
+        height: 570px;
+      }
+
+      .countdown-odometer-rings__number {
+        font-size: clamp(2rem, 12.5vw, 3.3rem);
+      }
+
+      .countdown-odometer-rings__label {
+        font-size: .5rem;
+        letter-spacing: .08em;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .countdown-odometer-rings__wheel,
+      .countdown-odometer-rings__wheel.is-turning {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+
+  <div class="countdown-odometer-rings__rings" aria-hidden="true">
+    <div class="countdown-odometer-rings__ring countdown-odometer-rings__ring--days" data-odometer-ring="days">
+      <div class="countdown-odometer-rings__wheel" data-odometer-wheel></div>
+      <span class="countdown-odometer-rings__ring-label">Días</span>
+    </div>
+    <div class="countdown-odometer-rings__ring countdown-odometer-rings__ring--hours" data-odometer-ring="hours">
+      <div class="countdown-odometer-rings__wheel" data-odometer-wheel></div>
+      <span class="countdown-odometer-rings__ring-label">Horas</span>
+    </div>
+    <div class="countdown-odometer-rings__ring countdown-odometer-rings__ring--minutes" data-odometer-ring="minutes">
+      <div class="countdown-odometer-rings__wheel" data-odometer-wheel></div>
+      <span class="countdown-odometer-rings__ring-label">Minutos</span>
+    </div>
+    <div class="countdown-odometer-rings__ring countdown-odometer-rings__ring--seconds" data-odometer-ring="seconds">
+      <div class="countdown-odometer-rings__wheel" data-odometer-wheel></div>
+      <span class="countdown-odometer-rings__ring-label">Segundos</span>
+    </div>
+  </div>
+
+  <div class="countdown-odometer-rings__content">
+    <p class="countdown-odometer-rings__eyebrow">El tiempo está corriendo</p>
+    <h2
+      class="countdown-odometer-rings__heading"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="countdown-odometer-heading"
+    >Cada segundo nos acerca</h2>
+    <time
+      class="countdown-odometer-rings__date"
+      datetime="YYYY-MM-DDTHH:MM:SS"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="countdown-event-date"
+    >Fecha del evento</time>
+
+    <div class="countdown-odometer-rings__timer" aria-label="Cuenta regresiva">
+      <div class="countdown-odometer-rings__unit">
+        <span class="countdown-odometer-rings__number" data-countdown-unit="days">--</span>
+        <span class="countdown-odometer-rings__label">Días</span>
+      </div>
+      <div class="countdown-odometer-rings__unit">
+        <span class="countdown-odometer-rings__number" data-countdown-unit="hours">--</span>
+        <span class="countdown-odometer-rings__label">Horas</span>
+      </div>
+      <div class="countdown-odometer-rings__unit">
+        <span class="countdown-odometer-rings__number" data-countdown-unit="minutes">--</span>
+        <span class="countdown-odometer-rings__label">Min</span>
+      </div>
+      <div class="countdown-odometer-rings__unit">
+        <span class="countdown-odometer-rings__number" data-countdown-unit="seconds">--</span>
+        <span class="countdown-odometer-rings__label">Seg</span>
+      </div>
+    </div>
+
+    <p class="countdown-odometer-rings__caption">Cuatro anillos, un solo momento por llegar</p>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var el = null;
+    try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch(e) {}
+    if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+    if (!el) return;
+    console.log('[COUNTDOWN-MODULE] el encontrado=', !!el);
+
+    var targetAttr = el.getAttribute('data-countdown-target');
+    var target = NaN;
+    if (targetAttr && targetAttr.indexOf('YYYY') === -1) { var _parsed = new Date(targetAttr); if (!isNaN(_parsed.getTime())) target = _parsed.getTime(); }
+    if (isNaN(target)) { if (window.__countdownTarget) { var _p1 = new Date(window.__countdownTarget); if (!isNaN(_p1.getTime())) target = _p1.getTime(); } else if (window.countdown_target) { var _p2 = new Date(window.countdown_target); if (!isNaN(_p2.getTime())) target = _p2.getTime(); } }
+    console.log('[COUNTDOWN-MODULE] el encontrado=', !!el, 'target=', targetAttr, 'targetMs=', isNaN(target) ? 'NaN' : target);
+    var intervalId = null;
+    var ringItems = 16;
+    var stepAngle = 360 / ringItems;
+    var previous = { days: null, hours: null, minutes: null, seconds: null };
+    var transitionTimers = {};
+
+    (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+    window.__countdownIntervals = [];
+
+    function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function setUnit(unit, value) {
+      var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
+      if (node) node.textContent = value;
+    }
+
+    function normalizeValue(unit, value) {
+      if (unit === 'hours') return ((value % 24) + 24) % 24;
+      if (unit === 'minutes' || unit === 'seconds') return ((value % 60) + 60) % 60;
+      return Math.max(0, value);
+    }
+
+    function displayValue(unit, value) {
+      var normalized = normalizeValue(unit, value);
+      return unit === 'days' ? String(normalized) : pad2(normalized);
+    }
+
+    function paintRing(unit, centerValue) {
+      var ring = el.querySelector('[data-odometer-ring="' + unit + '"]');
+      if (!ring) return;
+      var wheel = ring.querySelector('[data-odometer-wheel]');
+      if (!wheel) return;
+
+      wheel.innerHTML = '';
+      var radius = Math.max(92, ring.clientWidth * .435);
+      var focusIndex = Math.floor(ringItems / 4);
+
+      for (var i = 0; i < ringItems; i++) {
+        var offset = i - focusIndex;
+        var angle = 90 + (offset * stepAngle);
+        var digit = document.createElement('span');
+        digit.className = 'countdown-odometer-rings__digit' + (offset === 0 ? ' is-focus' : '');
+        digit.textContent = displayValue(unit, centerValue + offset);
+        digit.style.setProperty('--digit-angle', angle + 'deg');
+        digit.style.setProperty('--digit-radius', radius + 'px');
+        digit.style.setProperty('--digit-opacity', offset === 0 ? '.94' : String(Math.max(.16, .42 - (Math.abs(offset) * .025))));
+        wheel.appendChild(digit);
+      }
+    }
+
+    function shouldStep(unit, oldValue, newValue) {
+      if (oldValue === null || oldValue === newValue) return false;
+      if (unit === 'days') return newValue === oldValue - 1;
+      var cycle = unit === 'hours' ? 24 : 60;
+      return newValue === ((oldValue - 1 + cycle) % cycle);
+    }
+
+    function updateRing(unit, value, immediate) {
+      var ring = el.querySelector('[data-odometer-ring="' + unit + '"]');
+      if (!ring) return;
+      var wheel = ring.querySelector('[data-odometer-wheel]');
+      if (!wheel) return;
+
+      clearTimeout(transitionTimers[unit]);
+
+      if (!immediate && shouldStep(unit, previous[unit], value)) {
+        wheel.style.setProperty('--odometer-step', stepAngle + 'deg');
+        wheel.classList.add('is-turning');
+        transitionTimers[unit] = setTimeout(function () {
+          wheel.classList.remove('is-turning');
+          wheel.style.transition = 'none';
+          wheel.style.transform = 'rotate(0deg)';
+          paintRing(unit, value);
+          void wheel.offsetWidth;
+          wheel.style.transition = '';
+          wheel.style.transform = '';
+        }, 570);
+      } else {
+        wheel.classList.remove('is-turning');
+        paintRing(unit, value);
+      }
+
+      previous[unit] = value;
+    }
+
+    function renderAllRings(d, h, m, s, immediate) {
+      updateRing('days', d, immediate);
+      updateRing('hours', h, immediate);
+      updateRing('minutes', m, immediate);
+      updateRing('seconds', s, immediate);
+    }
+
+    function showPreviewRings() {
+      el.classList.add('is-preview');
+      paintRing('days', 0);
+      paintRing('hours', 0);
+      paintRing('minutes', 0);
+      paintRing('seconds', 0);
+    }
+
+    function tick() {
+      if (!Number.isFinite(target)) {
+        setUnit('days', '--');
+        setUnit('hours', '--');
+        setUnit('minutes', '--');
+        setUnit('seconds', '--');
+        showPreviewRings();
+        return;
+      }
+
+      el.classList.remove('is-preview');
+      var diff = target - Date.now();
+      if (diff < 0) diff = 0;
+
+      var d = Math.floor(diff / 86400000);
+      var h = Math.floor((diff % 86400000) / 3600000);
+      var m = Math.floor((diff % 3600000) / 60000);
+      var s = Math.floor((diff % 60000) / 1000);
+
+      setUnit('days', d);
+      setUnit('hours', pad2(h));
+      setUnit('minutes', pad2(m));
+      setUnit('seconds', pad2(s));
+      renderAllRings(d, h, m, s, previous.seconds === null);
+
+      if (diff === 0 && intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    }
+
+    function startTimer() {
+      tick();
+      if (Number.isFinite(target) && target > Date.now()) {
+        intervalId = setInterval(tick, 1000);
+        window.__countdownIntervals.push(intervalId);
+      }
+    }
+
+    startTimer();
+
+    window.updateCountdown = function (newTarget) {
+      target = new Date(newTarget).getTime();
+      (window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+      Object.keys(transitionTimers).forEach(function (key) { clearTimeout(transitionTimers[key]); });
+      previous = { days: null, hours: null, minutes: null, seconds: null };
+      startTimer();
+    };
+
+    window.addEventListener('resize', function () {
+      if (previous.seconds === null) {
+        showPreviewRings();
+      } else {
+        renderAllRings(previous.days, previous.hours, previous.minutes, previous.seconds, true);
+      }
+    });
+  })();
+</script>
+
+<script>
+  var moduleMetadata = {
+    module_type: 'countdown',
+    module_name: 'countdown-odometer-rings',
+    style_name: 'Odómetro de cuatro anillos',
+    descripcion: 'Cuenta regresiva con cuatro anillos de números en movimiento para días, horas, minutos y segundos, inspirados en un odómetro y superpuestos al fondo del evento.',
+    tags: ['countdown', 'cuenta regresiva', 'timer', 'celebración', 'evento', 'elegante', 'moderno'],
+    tipo: 'countdown'
+  };
+</script>

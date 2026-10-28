@@ -1,0 +1,493 @@
+<section
+  class="np-pt"
+  data-gemini-id="portada-nombre"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Parisienne&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .np-pt, .np-pt *, .np-pt *::before, .np-pt *::after { box-sizing: border-box; }
+    .np-pt {
+      --t-bg: var(--bg-color, #0d0b10);
+      --t-tx: var(--text-color, #f8eee8);
+      --t-p: var(--primary-color, #f0c4c0);
+      --t-s: var(--secondary-color, #8a6e78);
+      --t-a: var(--accent-color, #d4af6a);
+      --t-display: var(--font-script, 'Parisienne', 'Snell Roundhand', cursive);
+      --t-text: var(--font-heading, 'Bodoni Moda', 'Didot', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: 100vh;
+      min-height: 100svh;
+      display: grid;
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/paris,night?lock=2801');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .np-pt::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(90% 60% at 72% 104%, color-mix(in srgb, var(--t-p) 20%, transparent), transparent 62%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 76%, transparent), color-mix(in srgb, var(--t-bg) 93%, transparent));
+    }
+    .np-pt::after {
+      content: '';
+      position: absolute;
+      inset: clamp(.6rem, 1.6vw, 1.2rem);
+      border: 1px solid color-mix(in srgb, var(--t-a) 38%, transparent);
+      pointer-events: none;
+      z-index: 3;
+    }
+    .np-pt__stage { position: relative; display: grid; min-height: inherit; perspective: 1200px; }
+    .np-pt__world {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+      align-items: center;
+      min-height: inherit;
+      padding: clamp(9rem, 22vh, 12rem) clamp(1.5rem, 7vw, 7rem) clamp(3.5rem, 9vh, 6rem);
+      transform-style: preserve-3d;
+    }
+    .np-pt__tower {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      z-index: 0;
+      transform: translateZ(-70px) scale(1.06);
+    }
+    .np-pt__lights {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: clamp(9rem, 26vh, 15rem);
+      z-index: 1;
+      color: var(--t-a);
+      overflow: visible;
+      pointer-events: none;
+      transform: translateZ(30px);
+    }
+    .np-pt__content {
+      position: relative;
+      z-index: 2;
+      max-width: 38rem;
+      text-align: left;
+      transform: translateZ(70px);
+    }
+    .np-pt__kicker {
+      display: flex;
+      align-items: center;
+      gap: .9rem;
+      margin: 0 0 .4rem;
+      font-style: italic;
+      font-size: clamp(1.02rem, 1.6vw, 1.3rem);
+      color: var(--t-p);
+    }
+    .np-pt__kicker::before {
+      content: '';
+      flex: 0 0 auto;
+      width: clamp(2rem, 5vw, 3.6rem);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--t-a));
+    }
+    .np-pt__xv {
+      margin: 0;
+      font-size: clamp(1.5rem, 3vw, 2.4rem);
+      font-weight: 500;
+      font-style: italic;
+      color: var(--t-a);
+      line-height: 1.1;
+    }
+    .np-pt__namewrap { position: relative; margin: .2rem 0 1.4rem; }
+    .np-pt__name {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3.6rem, 9.4vw, 8rem);
+      line-height: 1;
+      padding: .3em;
+      margin: -.3em;
+      color: var(--t-tx);
+      text-shadow: 0 0 32px color-mix(in srgb, var(--t-p) 45%, transparent);
+      -webkit-mask-image: linear-gradient(100deg, #000 calc(var(--np-rv, 1) * 130% - 30%), transparent calc(var(--np-rv, 1) * 130%));
+      mask-image: linear-gradient(100deg, #000 calc(var(--np-rv, 1) * 130% - 30%), transparent calc(var(--np-rv, 1) * 130%));
+    }
+    .np-pt__sheen {
+      position: absolute;
+      top: 0;
+      bottom: 8%;
+      left: calc(var(--np-rv, 1) * 100% - 4px);
+      width: 3px;
+      border-radius: 3px;
+      background: linear-gradient(180deg, transparent, var(--t-tx) 45%, var(--t-a) 60%, transparent);
+      box-shadow: 0 0 22px 6px color-mix(in srgb, var(--t-a) 55%, transparent);
+      opacity: var(--np-sheen, 0);
+      pointer-events: none;
+    }
+    .np-pt__meta {
+      display: grid;
+      gap: .35rem;
+      padding-left: 1.1rem;
+      border-left: 1px solid color-mix(in srgb, var(--t-a) 60%, transparent);
+    }
+    .np-pt__date { margin: 0; font-size: clamp(1.05rem, 1.7vw, 1.35rem); font-weight: 500; letter-spacing: .01em; }
+    .np-pt__date time { color: var(--t-tx); }
+    .np-pt__place { margin: 0; font-style: italic; color: color-mix(in srgb, var(--t-tx) 78%, var(--t-p)); font-size: clamp(.98rem, 1.4vw, 1.12rem); }
+
+    /* Entrance: only when JS adds .np-pt--anim (each transition <= .5s) */
+    .np-pt--anim .np-pt__kicker,
+    .np-pt--anim .np-pt__xv,
+    .np-pt--anim .np-pt__meta { opacity: 0; transform: translateY(12px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .np-pt--anim.is-in .np-pt__kicker { opacity: 1; transform: none; transition-delay: .15s; }
+    .np-pt--anim.is-in .np-pt__xv { opacity: 1; transform: none; transition-delay: .3s; }
+    .np-pt--anim.is-in .np-pt__meta { opacity: 1; transform: none; transition-delay: 1.9s; }
+
+    @media (max-width: 859px) {
+      .np-pt__world { grid-template-columns: 1fr; justify-items: center; padding-top: clamp(10rem, 26vh, 13rem); }
+      .np-pt__content { text-align: center; }
+      .np-pt__kicker { justify-content: center; }
+      .np-pt__kicker::after { content: ''; width: clamp(2rem, 8vw, 3rem); height: 1px; background: linear-gradient(90deg, var(--t-a), transparent); }
+      .np-pt__meta { padding: .9rem 0 0; border-left: 0; border-top: 1px solid color-mix(in srgb, var(--t-a) 50%, transparent); justify-items: center; }
+      .np-pt__tower { opacity: .42; }
+      .np-pt__content::before { content: ''; position: absolute; inset: -12% -18%; z-index: -1; background: radial-gradient(closest-side, color-mix(in srgb, var(--t-bg) 72%, transparent), transparent); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .np-pt *, .np-pt *::before, .np-pt *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="np-pt__stage">
+    <div class="np-pt__world" data-np-world>
+      <canvas class="np-pt__tower" data-np-tower aria-hidden="true"></canvas>
+      <svg class="np-pt__lights" data-np-lights aria-hidden="true" focusable="false">
+        <defs>
+          <radialGradient id="np28-pt-bulb">
+            <stop offset="0" style="stop-color: var(--t-tx); stop-opacity: .95" />
+            <stop offset=".28" style="stop-color: var(--t-a); stop-opacity: .5" />
+            <stop offset="1" style="stop-color: var(--t-a); stop-opacity: 0" />
+          </radialGradient>
+        </defs>
+      </svg>
+      <header class="np-pt__content">
+        <p class="np-pt__kicker" memory_type="text" memory_usage="custom" memory_key="portada-intro">Bajo las luces de París</p>
+        <p class="np-pt__xv" memory_type="text" memory_usage="custom" memory_key="portada-xv">Mis XV años</p>
+        <div class="np-pt__namewrap">
+          <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,3vw,1.6rem);width:clamp(150px,22vw,220px);"><img src="https://loremflickr.com/480/480/paris,night,portrait?lock=300" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:2px solid var(--primary-color,#9b9b9b);box-shadow:0 14px 30px rgba(0,0,0,.18);" /><figcaption hidden>Retrato</figcaption></figure>
+<h1 class="np-pt__name" memory_type="text" memory_usage="custom" memory_key="portada-nombre" data-event-field="nombres">Nombre Apellido</h1>
+          <span class="np-pt__sheen" aria-hidden="true"></span>
+        </div>
+        <div class="np-pt__meta">
+          <p class="np-pt__date"><time datetime="2027-06-12T19:00" memory_type="text" memory_usage="custom" memory_key="portada-fecha" data-event-field="fecha">Sábado 12 de junio de 2027 · 7:00 p. m.</time></p>
+          <p class="np-pt__place" memory_type="text" memory_usage="custom" memory_key="portada-lugar">Salón Le Jardin, Ciudad</p>
+        </div>
+      </header>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="portada-nombre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var HAS_IO = 'IntersectionObserver' in window;
+      var NS = 'http://www.w3.org/2000/svg';
+      var cv = root.querySelector('[data-np-tower]');
+      var svg = root.querySelector('[data-np-lights]');
+      var world = root.querySelector('[data-np-world]');
+      var ctx = cv && cv.getContext ? cv.getContext('2d') : null;
+
+      function cssv(n, f) { var v = getComputedStyle(root).getPropertyValue(n).trim(); return v || f; }
+      var GOLD = '#d4af6a', BLUSH = '#f0c4c0', IVORY = '#f8eee8';
+      function readColors() { GOLD = cssv('--t-a', GOLD); BLUSH = cssv('--t-p', BLUSH); IVORY = cssv('--t-tx', IVORY); }
+
+      /* ---------- String lights (decorative SVG, built here) ---------- */
+      function makeLights(el, strands, glowId) {
+        var L = [], W = 1, H = 1;
+        strands.forEach(function (s) {
+          var wire = document.createElementNS(NS, 'path');
+          wire.setAttribute('fill', 'none'); wire.setAttribute('stroke', 'currentColor');
+          wire.setAttribute('stroke-width', '1'); wire.setAttribute('stroke-opacity', '.55');
+          el.appendChild(wire);
+          var bs = [];
+          for (var i = 0; i < s.n; i++) {
+            var g = document.createElementNS(NS, 'g');
+            var halo = document.createElementNS(NS, 'circle');
+            halo.setAttribute('r', s.r * 5); halo.setAttribute('cy', s.r * 2.6); halo.setAttribute('fill', 'url(#' + glowId + ')');
+            var stem = document.createElementNS(NS, 'line');
+            stem.setAttribute('x1', 0); stem.setAttribute('y1', 0); stem.setAttribute('x2', 0); stem.setAttribute('y2', s.r * 1.7);
+            stem.setAttribute('stroke', 'currentColor'); stem.setAttribute('stroke-width', '1.6');
+            var core = document.createElementNS(NS, 'circle');
+            core.setAttribute('r', s.r); core.setAttribute('cy', s.r * 2.6); core.style.fill = 'var(--t-tx)';
+            g.appendChild(halo); g.appendChild(stem); g.appendChild(core); el.appendChild(g);
+            bs.push({ g: g, h: halo, ph: Math.random() * 6.283, sp: .5 + Math.random() });
+          }
+          L.push({ s: s, w: wire, b: bs });
+        });
+        function size() {
+          W = el.clientWidth || el.getBoundingClientRect().width || 1;
+          H = el.clientHeight || el.getBoundingClientRect().height || 1;
+          el.setAttribute('viewBox', '0 0 ' + W.toFixed(0) + ' ' + H.toFixed(0));
+        }
+        function draw(t, still) {
+          L.forEach(function (o, si) {
+            var s = o.s, x1 = s.x1 * W, y1 = s.y1 * H, x2 = s.x2 * W, y2 = s.y2 * H;
+            var sw = still ? 0 : Math.sin(t * .0006 + si * 1.9);
+            var cx = (x1 + x2) / 2 + sw * W * .012;
+            var cy = (y1 + y2) / 2 + 2 * s.sag * H * (1 + (still ? 0 : .06 * Math.sin(t * .0009 + si)));
+            o.w.setAttribute('d', 'M' + x1.toFixed(1) + ' ' + y1.toFixed(1) + ' Q' + cx.toFixed(1) + ' ' + cy.toFixed(1) + ' ' + x2.toFixed(1) + ' ' + y2.toFixed(1));
+            var n = o.b.length;
+            o.b.forEach(function (b, i) {
+              var u = (i + .5) / n, v = 1 - u;
+              var x = v * v * x1 + 2 * v * u * cx + u * u * x2, y = v * v * y1 + 2 * v * u * cy + u * u * y2;
+              var rot = still ? 0 : sw * 7 * Math.sin(u * Math.PI);
+              b.g.setAttribute('transform', 'translate(' + x.toFixed(1) + ' ' + y.toFixed(1) + ') rotate(' + rot.toFixed(2) + ')');
+              b.h.setAttribute('opacity', still ? '.8' : (.55 + .45 * Math.sin(t * .0021 * b.sp + b.ph)).toFixed(2));
+            });
+          });
+        }
+        return { size: size, draw: draw };
+      }
+      var lights = svg ? makeLights(svg, [
+        { x1: -.02, y1: .12, x2: .56, y2: .04, sag: .2, n: 11, r: 3.2 },
+        { x1: .44, y1: .03, x2: 1.02, y2: .14, sag: .22, n: 11, r: 3.2 },
+        { x1: -.02, y1: .34, x2: 1.02, y2: .28, sag: .22, n: 19, r: 2.5 }
+      ], 'np28-pt-bulb') : null;
+
+      /* ---------- 3D Eiffel Tower: wireframe model + manual perspective projection ---------- */
+      function buildTower() {
+        var S = [];
+        function hw(y) { return .011 + .182 * Math.exp(-3.35 * y); }
+        function lw(y) { return .052 - .17 * y; }
+        function seg(a, b) { S.push([a[0], a[1], a[2], b[0], b[1], b[2]]); }
+        function ring(y, h) {
+          var p = [[h, y, h], [-h, y, h], [-h, y, -h], [h, y, -h]];
+          for (var i = 0; i < 4; i++) seg(p[i], p[(i + 1) % 4]);
+        }
+        var P1 = .17, P2 = .35, P3 = .84, TOP = .9, i, k, c;
+        var corners = [[1, 1], [-1, 1], [-1, -1], [1, -1]];
+        /* four legs */
+        var nL = 7;
+        for (i = 0; i < nL; i++) {
+          var ya = P1 * i / nL, yb = P1 * (i + 1) / nL;
+          var oa = hw(ya), ob = hw(yb), ia = oa - lw(ya), ib = ob - lw(yb);
+          for (k = 0; k < 4; k++) {
+            c = corners[k];
+            var A = [[c[0] * oa, c[1] * oa], [c[0] * ia, c[1] * oa], [c[0] * oa, c[1] * ia], [c[0] * ia, c[1] * ia]];
+            var B = [[c[0] * ob, c[1] * ob], [c[0] * ib, c[1] * ob], [c[0] * ob, c[1] * ib], [c[0] * ib, c[1] * ib]];
+            for (var e = 0; e < 4; e++) seg([A[e][0], ya, A[e][1]], [B[e][0], yb, B[e][1]]);
+            seg([A[0][0], ya, A[0][1]], [B[1][0], yb, B[1][1]]);
+            seg([A[0][0], ya, A[0][1]], [B[2][0], yb, B[2][1]]);
+          }
+        }
+        /* base arches on each face */
+        var face = [[0, 1], [0, -1], [1, 0], [-1, 0]];
+        for (k = 0; k < 4; k++) {
+          var prev = null;
+          for (i = 0; i <= 16; i++) {
+            var u = i / 16, yy = .035 + .1 * Math.sin(Math.PI * u);
+            var hh = hw(yy), inn = hh - lw(yy), x = -inn + 2 * inn * u;
+            var p = face[k][0] === 0 ? [x, yy, face[k][1] * hh] : [face[k][0] * hh, yy, x];
+            if (prev) seg(prev, p);
+            prev = p;
+          }
+        }
+        /* lattice body */
+        var nB = 22;
+        for (i = 0; i < nB; i++) {
+          var y0 = P1 + (TOP - P1) * i / nB, y1 = P1 + (TOP - P1) * (i + 1) / nB, h0 = hw(y0), h1 = hw(y1);
+          for (k = 0; k < 4; k++) {
+            var a0 = corners[k], b0 = corners[(k + 1) % 4];
+            seg([a0[0] * h0, y0, a0[1] * h0], [a0[0] * h1, y1, a0[1] * h1]);
+            seg([a0[0] * h0, y0, a0[1] * h0], [b0[0] * h1, y1, b0[1] * h1]);
+            seg([b0[0] * h0, y0, b0[1] * h0], [a0[0] * h1, y1, a0[1] * h1]);
+          }
+        }
+        /* platforms */
+        [[P1, .02, .014], [P2, .014, .012], [P3, .008, .008]].forEach(function (q) {
+          var h = hw(q[0]) + q[1];
+          ring(q[0], h); ring(q[0] + q[2], h);
+          for (var j = 0; j < 4; j++) { var cc = corners[j]; seg([cc[0] * h, q[0], cc[1] * h], [cc[0] * h, q[0] + q[2], cc[1] * h]); }
+        });
+        /* crown and antenna */
+        var hc = hw(TOP);
+        ring(TOP, hc); ring(.94, hc * .7);
+        for (k = 0; k < 4; k++) { c = corners[k]; seg([c[0] * hc, TOP, c[1] * hc], [c[0] * hc * .7, .94, c[1] * hc * .7]); seg([c[0] * hc * .7, .94, c[1] * hc * .7], [0, .965, 0]); }
+        seg([0, .965, 0], [0, 1.02, 0]);
+        return S;
+      }
+      var SEGS = buildTower();
+      var SPARKS = [];
+      for (var si = 0; si < 240; si++) SPARKS.push({ i: Math.floor(Math.random() * SEGS.length), u: Math.random(), sp: .6 + Math.random() * .9, ph: Math.random() * 6.283 });
+      var STARS = [];
+      var W = 0, H = 0;
+
+      function resize() {
+        if (!ctx) return;
+        W = cv.offsetWidth || 1; H = cv.offsetHeight || 1;
+        var dpr = Math.min(2, window.devicePixelRatio || 1);
+        cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        STARS = [];
+        for (var i = 0; i < 46; i++) STARS.push({ x: Math.random() * W, y: Math.random() * H * .55, r: Math.random() * 1.3 + .4, a: .25 + Math.random() * .5, sp: .5 + Math.random(), ph: Math.random() * 6.283 });
+        if (lights) lights.size();
+      }
+
+      function render(t, build, ang, sparkle) {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, W, H);
+        var wide = W >= 860;
+        var Sz = wide ? H * .78 : Math.min(H * .7, W * 1.55);
+        var cx = wide ? W * .73 : W * .5, cy = H - Sz * .5 - H * .04, D = 3;
+        ctx.globalCompositeOperation = 'lighter';
+        /* stars */
+        ctx.fillStyle = IVORY;
+        for (var s = 0; s < STARS.length; s++) {
+          var st = STARS[s];
+          ctx.globalAlpha = st.a * (RM ? .7 : .45 + .55 * Math.sin(t * .0012 * st.sp + st.ph));
+          ctx.fillRect(st.x, st.y, st.r, st.r);
+        }
+        /* warm glow at the base */
+        var g = ctx.createRadialGradient(cx, cy + Sz * .5, 0, cx, cy + Sz * .5, Sz * .6);
+        g.addColorStop(0, BLUSH); g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.globalAlpha = .22 * build; ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+        /* projected wireframe in three depth buckets */
+        var ca = Math.cos(ang), sa = Math.sin(ang);
+        var paths = [new Path2D(), new Path2D(), new Path2D()];
+        for (var i = 0; i < SEGS.length; i++) {
+          var q = SEGS[i], ya = q[1], yb = q[4];
+          if (Math.min(ya, yb) > build) continue;
+          var x1 = q[0], z1 = q[2], x2 = q[3], z2 = q[5];
+          if (Math.max(ya, yb) > build) {
+            var f = (build - ya) / ((yb - ya) || 1e-6);
+            if (ya > yb) { f = (build - yb) / (ya - yb); x1 = q[3] + (q[0] - q[3]) * f; z1 = q[5] + (q[2] - q[5]) * f; ya = build; }
+            else { x2 = x1 + (q[3] - x1) * f; z2 = z1 + (q[5] - z1) * f; yb = build; }
+          }
+          var rx1 = x1 * ca - z1 * sa, rz1 = x1 * sa + z1 * ca, k1 = Sz * D / (D + rz1);
+          var rx2 = x2 * ca - z2 * sa, rz2 = x2 * sa + z2 * ca, k2 = Sz * D / (D + rz2);
+          var dz = (rz1 + rz2) / 2, b = dz > .03 ? 0 : (dz < -.03 ? 2 : 1);
+          paths[b].moveTo(cx + rx1 * k1, cy - (ya - .5) * k1);
+          paths[b].lineTo(cx + rx2 * k2, cy - (yb - .5) * k2);
+        }
+        ctx.strokeStyle = GOLD; ctx.lineCap = 'round';
+        var glowA = [.05, .08, .13], lineA = [.32, .58, .95];
+        for (var p = 0; p < 3; p++) {
+          ctx.lineWidth = 3; ctx.globalAlpha = glowA[p]; ctx.stroke(paths[p]);
+          ctx.lineWidth = 1; ctx.globalAlpha = lineA[p]; ctx.stroke(paths[p]);
+        }
+        /* rotating beacon */
+        if (build >= 1 && !RM) {
+          var bt = t * .0007, ex = Math.cos(bt) * 1.6, ez = Math.sin(bt) * 1.6;
+          var rex = ex * ca - ez * sa, rez = ex * sa + ez * ca, ke = Sz * D / (D + rez), k0 = Sz * D / D;
+          var tx = cx, ty = cy - .52 * k0, px = cx + rex * ke, py = cy - .48 * ke;
+          var spread = Sz * .05 * (1 + Math.abs(Math.sin(bt)));
+          var bg = ctx.createLinearGradient(tx, ty, px, py);
+          bg.addColorStop(0, IVORY); bg.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.globalAlpha = .16 + .12 * Math.max(0, -Math.sin(bt)); ctx.fillStyle = bg;
+          ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(px, py - spread); ctx.lineTo(px, py + spread); ctx.closePath(); ctx.fill();
+          ctx.globalAlpha = .9; ctx.fillStyle = IVORY; ctx.beginPath(); ctx.arc(tx, ty, 2.2, 0, 6.283); ctx.fill();
+        }
+        /* the hourly sparkle (scintillement) */
+        if (sparkle > 0) {
+          for (var j = 0; j < SPARKS.length; j++) {
+            var sp = SPARKS[j], qq = SEGS[sp.i];
+            var X = qq[0] + (qq[3] - qq[0]) * sp.u, Y = qq[1] + (qq[4] - qq[1]) * sp.u, Z = qq[2] + (qq[5] - qq[2]) * sp.u;
+            var I = Math.pow(Math.max(0, Math.sin(t * .012 * sp.sp + sp.ph)), 8) * sparkle;
+            if (I < .05) continue;
+            var rx = X * ca - Z * sa, rz = X * sa + Z * ca, kk = Sz * D / (D + rz);
+            var sx = cx + rx * kk, sy = cy - (Y - .5) * kk;
+            ctx.fillStyle = GOLD; ctx.globalAlpha = .28 * I; ctx.beginPath(); ctx.arc(sx, sy, 5, 0, 6.283); ctx.fill();
+            ctx.fillStyle = IVORY; ctx.globalAlpha = I; ctx.beginPath(); ctx.arc(sx, sy, 1.5, 0, 6.283); ctx.fill();
+          }
+        }
+        ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+      }
+
+      readColors(); resize();
+
+      if (RM || !HAS_IO) {
+        /* Reduced motion (or no observer): static final state */
+        if (lights) lights.draw(0, true);
+        render(0, 1.05, .55, 0);
+        window.addEventListener('resize', function () { resize(); if (lights) lights.draw(0, true); render(0, 1.05, .55, 0); });
+        return;
+      }
+
+      var ease = function (x) { return 1 - Math.pow(1 - x, 3); };
+      var vis = false, raf = 0, last = 0, ang = .45, buildStart = 0, revealing = false;
+      var tx = 0, ty = 0, cxT = 0, cyT = 0;
+
+      function loop(now) {
+        raf = 0;
+        if (!vis || document.hidden) { last = 0; return; }
+        var dt = last ? Math.min(50, now - last) : 16; last = now;
+        ang += dt * .00011;
+        var build = buildStart ? ease(Math.min(1, (now - buildStart) / 1900)) * 1.05 : 0;
+        var sparkle = 0;
+        if (buildStart && now - buildStart > 1700) {
+          var cyc = (now - buildStart - 1700) % 12000;
+          sparkle = cyc < 4200 ? Math.min(1, cyc / 300, (4200 - cyc) / 500) : 0;
+        }
+        if (revealing) {
+          var r = Math.max(0, Math.min(1, (now - buildStart - 350) / 1700));
+          root.style.setProperty('--np-rv', ease(r).toFixed(3));
+          root.style.setProperty('--np-sheen', r > 0 && r < 1 ? '1' : '0');
+          if (r >= 1) { revealing = false; root.style.removeProperty('--np-rv'); root.style.removeProperty('--np-sheen'); }
+        }
+        cxT += (tx - cxT) * .06; cyT += (ty - cyT) * .06;
+        var drift = Math.sin(now * .0004) * .8;
+        if (world) world.style.transform = 'rotateX(' + (cyT * -4).toFixed(2) + 'deg) rotateY(' + (cxT * 6 + drift).toFixed(2) + 'deg)';
+        if (lights) lights.draw(now, false);
+        render(now, build, ang, sparkle);
+        raf = requestAnimationFrame(loop);
+      }
+      function kick() { if (!raf && vis && !document.hidden) raf = requestAnimationFrame(loop); }
+
+      root.addEventListener('pointermove', function (e) {
+        var r = root.getBoundingClientRect();
+        tx = ((e.clientX - r.left) / r.width - .5) * 2; ty = ((e.clientY - r.top) / r.height - .5) * 2;
+      });
+      root.addEventListener('pointerleave', function () { tx = 0; ty = 0; });
+      document.addEventListener('visibilitychange', kick);
+      window.addEventListener('resize', function () { readColors(); resize(); });
+
+      root.classList.add('np-pt--anim');
+      root.style.setProperty('--np-rv', '0');
+      var started = false;
+      new IntersectionObserver(function (en) {
+        vis = en[0].isIntersecting;
+        if (vis && !started && en[0].intersectionRatio > .2) {
+          started = true; buildStart = performance.now(); revealing = true;
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('np-pt--anim', 'is-in'); }, 2600);
+        }
+        kick();
+      }, { threshold: [0, .2, .5] }).observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Noche en París Portada',
+      descripcion: 'Portada de XV años en una noche parisina: Torre Eiffel 3D en hilo de oro que gira y destella, guirnaldas de luces que se mecen y el nombre revelado con un barrido de luz.',
+      tags: ['portada', 'paris', 'torre eiffel', 'luces', 'quinceañera', 'elegante', 'romántico'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

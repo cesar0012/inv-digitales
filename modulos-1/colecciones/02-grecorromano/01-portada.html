@@ -1,0 +1,86 @@
+<section class="mq2-p" data-gemini-id="portada-nombre" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.mq2-p { --primary-color:#8a6a2f; --secondary-color:#a3552f; --accent-color:#b08d3e; --bg-color:#f6f1e7; --surface-color:#fdfbf5; --surface-border-color:rgba(138,106,47,.32); --text-color:#332c22;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:100svh; display:grid; align-items:end; justify-items:center; background:linear-gradient(180deg, color-mix(in srgb, var(--bg-color) 92%, transparent), color-mix(in srgb, var(--bg-color) 86%, transparent)), url('https://loremflickr.com/1600/1000/marble,texture') center/cover; background-color:var(--bg-color); color:var(--text-color); }
+.mq2-p *, .mq2-p *::before, .mq2-p *::after { box-sizing:border-box; }
+.mq2-p__fresco { position:absolute; inset:0; z-index:0; margin:0; }
+.mq2-p__fresco img { display:block; width:100%; height:100%; object-fit:cover; object-position:center 20%; }
+.mq2-p__velo { position:absolute; inset:0; z-index:1; background:linear-gradient(180deg, color-mix(in srgb, var(--bg-color) 30%, transparent) 0%, transparent 30%, color-mix(in srgb, var(--bg-color) 66%, transparent) 62%, color-mix(in srgb, var(--bg-color) 95%, transparent) 100%); }
+.mq2-p__panel { position:relative; z-index:2; width:min(100%,880px); text-align:center; padding:clamp(1.5rem,4vw,3rem) clamp(1.2rem,5vw,3rem) clamp(3.2rem,8vw,5.5rem); }
+.mq2-p__fronton { display:flex; justify-content:center; margin-bottom:.9rem; }
+.mq2-p__fronton svg { width:clamp(120px,22vw,200px); color:var(--accent-color); }
+.mq2-p__rotulo { margin:0 0 .9rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.25vw,.74rem); letter-spacing:.56em; text-transform:uppercase; color:var(--primary-color); }
+.mq2-p__rotulo span { display:inline-block; padding:.45rem 1.3rem; border-top:1px solid var(--accent-color); border-bottom:1px solid var(--accent-color); }
+.mq2-p__nombre { margin:0; font-family:Georgia,'Times New Roman',serif; font-weight:400; font-size:clamp(3.2rem,10.5vw,7.2rem); line-height:.98; letter-spacing:.06em; text-transform:uppercase; color:var(--primary-color); text-shadow:0 2px 34px color-mix(in srgb, var(--bg-color) 85%, transparent); }
+.mq2-p__lema { margin:1rem 0 0; font-family:Georgia,serif; font-style:italic; font-size:clamp(.95rem,2vw,1.2rem); color:var(--text-color); }
+.mq2-p__laurel { display:flex; justify-content:center; margin:clamp(1.3rem,3.2vw,2rem) 0; color:var(--accent-color); }
+.mq2-p__laurel svg { width:clamp(150px,26vw,230px); }
+.mq2-p__fecha { display:inline-flex; flex-direction:column; gap:.35rem; padding:.85rem 2.2rem; background:color-mix(in srgb, var(--surface-color) 90%, transparent); border:1px solid var(--surface-border-color); box-shadow:0 18px 44px color-mix(in srgb, #8a6a2f 22%, transparent); }
+.mq2-p__fecha time { font-family:'Courier New',monospace; font-size:clamp(.66rem,1.35vw,.8rem); letter-spacing:.42em; text-transform:uppercase; }
+.mq2-p__fecha small { font-family:Georgia,serif; font-style:italic; font-size:clamp(.72rem,1.5vw,.9rem); color:var(--secondary-color); }
+/* Puertas del templo: cerradas SOLO cuando hay JS (.mq2-js); se abren al cargar. */
+.mq2-p__hojas { position:absolute; inset:0; z-index:6; display:flex; pointer-events:none; }
+.mq2-p__hoja { position:relative; flex:1; background:linear-gradient(90deg, #efe7d6, #f9f4ea 46%, #e9dfc9); border-left:1px solid var(--surface-border-color); box-shadow:inset 0 0 90px rgba(138,106,47,.16); transition:transform 1.5s cubic-bezier(.72,0,.2,1); }
+.mq2-p__hoja::before { content:''; position:absolute; inset:16px; border:1px solid color-mix(in srgb, var(--accent-color) 60%, transparent); }
+.mq2-p__hoja::after { content:''; position:absolute; top:50%; width:34px; height:34px; border-radius:50%; border:5px solid var(--accent-color); }
+.mq2-p__hoja--i::after { right:26px; }
+.mq2-p__hoja--d::after { left:26px; }
+.mq2-p__hoja--d { border-left:1px solid var(--surface-border-color); }
+.mq2-p-js .mq2-p__hoja--i { transform:translateX(0); }
+.mq2-p-js .mq2-p__hoja--d { transform:translateX(0); }
+.mq2-p-js.abierta .mq2-p__hoja--i { transform:translateX(-101%); }
+.mq2-p-js.abierta .mq2-p__hoja--d { transform:translateX(101%); }
+.mq2-p__meandro { position:absolute; left:0; right:0; z-index:2; color:var(--accent-color); opacity:.9; }
+.mq2-p__meandro svg { display:block; width:100%; height:14px; }
+.mq2-p__meandro--sup { top:clamp(12px,2.5vw,26px); }
+.mq2-p__meandro--inf { bottom:clamp(12px,2.5vw,26px); }
+@media (prefers-reduced-motion:reduce){ .mq2-p * { transition:none !important; animation:none !important; } }
+</style>
+<figure class="mq2-p__fresco" memory_type="image" memory_usage="custom" memory_source="generated">
+  <img src="https://loremflickr.com/1200/1600/statue,greek" alt="Escena principal" path="placeholder" data-asset-type="escena-principal" loading="eager" />
+</figure>
+<div class="mq2-p__velo" aria-hidden="true"></div>
+<div class="mq2-p__meandro mq2-p__meandro--sup" aria-hidden="true">
+  <svg><defs><pattern id="meandro-p1" width="24" height="14" patternUnits="userSpaceOnUse"><path d="M1 13 V1 H23 V8 H9 V5 H16" fill="none" stroke="currentColor" stroke-width="1.6"/></pattern></defs><rect width="100%" height="14" fill="url(#meandro-p1)"/></svg>
+</div>
+<div class="mq2-p__meandro mq2-p__meandro--inf" aria-hidden="true">
+  <svg><defs><pattern id="meandro-p2" width="24" height="14" patternUnits="userSpaceOnUse"><path d="M1 13 V1 H23 V8 H9 V5 H16" fill="none" stroke="currentColor" stroke-width="1.6"/></pattern></defs><rect width="100%" height="14" fill="url(#meandro-p2)"/></svg>
+</div>
+<div class="mq2-p__panel">
+  <div class="mq2-p__fronton" aria-hidden="true">
+    <svg viewBox="0 0 200 34" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 30 L100 4 L196 30 Z"/><path d="M24 30 L100 11 L176 30"/><circle cx="100" cy="20" r="3.4"/></svg>
+  </div>
+  <p class="mq2-p__rotulo" memory_type="text" memory_usage="custom" memory_key="portada-lema"><span>Mis XV años</span></p>
+  <div memory_type="text" memory_usage="custom" memory_key="portada-nombre">
+    <h1 class="mq2-p__nombre" memory_type="text" memory_usage="custom" memory_key="portada-titulo">Valentina</h1>
+  </div>
+  <p class="mq2-p__lema" memory_type="text" memory_usage="custom" memory_key="portada-frase">Un mito que comienza: pasa por las puertas</p>
+  <div class="mq2-p__laurel" aria-hidden="true">
+    <svg viewBox="0 0 230 56" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M20 44 C 52 20, 90 10, 115 10 C 140 10, 178 20, 210 44"/>
+      <path d="M34 40 q -8 -8 -2 -14 q 8 2 2 14 Z M52 30 q -6 -10 2 -14 q 8 4 -2 14 Z M74 21 q -4 -10 4 -12 q 8 4 -4 12 Z M100 13 q -2 -10 6 -10 q 6 6 -6 10 Z M130 13 q 2 -10 -6 -10 q -6 6 6 10 Z M156 21 q 4 -10 -4 -12 q -8 4 4 12 Z M178 30 q 6 -10 -2 -14 q -8 4 2 14 Z M196 40 q 8 -8 2 -14 q -8 2 -2 14 Z"/>
+    </svg>
+  </div>
+  <p class="mq2-p__fecha" memory_type="text" memory_usage="custom" memory_key="portada-fecha">
+    <time datetime="YYYY-MM-DD">Sábado 14 de marzo, 2026</time>
+    <small>A las cinco, en el templo del jardín</small>
+  </p>
+</div>
+<div class="mq2-p__hojas" aria-hidden="true">
+  <span class="mq2-p__hoja mq2-p__hoja--i"></span>
+  <span class="mq2-p__hoja mq2-p__hoja--d"></span>
+</div>
+<script>
+  (function () {
+    var root = null;
+    try { root = document.currentScript.closest('[data-gemini-id^="portada"]'); } catch (e) {}
+    if (!root) return;
+    root.classList.add('mq2-js', 'mq2-p-js');
+    var abrir = function () { root.classList.add('abierta'); };
+    if (document.readyState === 'complete') setTimeout(abrir, 420);
+    else window.addEventListener('load', function () { setTimeout(abrir, 420); });
+    setTimeout(abrir, 2500);
+  })();
+</script>
+<script>var moduleMetadata = { module_type: 'portada', module_name: 'portada-mq2-puertas', style_name: 'Grecorromano — Puertas del Templo', descripcion: 'Portada con puertas de mármol que se abren al entrar, escena gigante detrás del título, frontón, laurel y meandros.', tags: ['portada', 'puertas', 'grecorromano', 'marmol', 'laurel'], tipo: 'portada' };</script>
+</section>

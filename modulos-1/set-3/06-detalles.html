@@ -1,0 +1,229 @@
+<section
+  class="pl-detalles"
+  data-gemini-id="detalles-vestimenta"
+>
+  <style>
+    .pl-detalles {
+      --primary-color: #1c2340;
+      --secondary-color: #6b7395;
+      --accent-color: #9aa7d0;
+      --bg-color: #eef0f8;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(28, 35, 64, 0.2);
+      --text-color: #1c2340;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+    }
+    .pl-detalles *,
+    .pl-detalles *::before,
+    .pl-detalles *::after { box-sizing: border-box; }
+
+    .pl-detalles__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .pl-detalles__intro {
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      max-width: 52ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .pl-detalles__escena {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.6rem, 4vw, 3rem);
+      align-items: center;
+      width: min(100%, 1040px);
+      margin: 0 auto;
+      perspective: 1000px;
+    }
+
+    .pl-detalles__figura {
+      position: relative;
+      margin: 0;
+      padding: 8px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 20px 46px rgba(28, 35, 64, 0.18);
+      clip-path: polygon(0 0, calc(100% - 34px) 0, 100% 34px, 100% 100%, 0 100%);
+      transform: rotate(2deg);
+    }
+    .pl-detalles__figura::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 34px;
+      height: 34px;
+      background: linear-gradient(225deg, var(--bg-color) 0 49%, color-mix(in srgb, var(--accent-color) 52%, var(--bg-color)) 49% 100%);
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+    }
+    .pl-detalles__figura img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      filter: saturate(0.9);
+    }
+    .pl-detalles__cinta {
+      position: absolute;
+      bottom: -9px;
+      right: 22%;
+      width: 74px;
+      height: 18px;
+      transform: rotate(-3deg);
+      background: color-mix(in srgb, var(--accent-color) 50%, transparent);
+      box-shadow: 0 3px 8px rgba(28, 35, 64, 0.2);
+    }
+
+    .pl-detalles__abanico {
+      display: grid;
+      gap: clamp(0.9rem, 2.4vw, 1.3rem);
+    }
+
+    .pl-detalles__solapa {
+      position: relative;
+      padding: clamp(1.2rem, 3vw, 1.7rem) clamp(1.2rem, 3vw, 1.8rem);
+      text-align: left;
+      background: color-mix(in srgb, var(--surface-color) 96%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 14px 32px rgba(28, 35, 64, 0.12);
+      clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);
+      transform-style: preserve-3d;
+      transform-origin: left center;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .pl-detalles.pl-js .pl-detalles__solapa { opacity: 0; transform: rotateY(-40deg) translateX(-14px); }
+    .pl-detalles.esta-visto .pl-detalles__solapa { opacity: 1; transform: none; }
+    .pl-detalles.esta-visto .pl-detalles__solapa:nth-child(2) { transition-delay: 0.13s; }
+    .pl-detalles.esta-visto .pl-detalles__solapa:nth-child(3) { transition-delay: 0.26s; }
+    .pl-detalles__solapa::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(225deg, var(--bg-color) 0 49%, color-mix(in srgb, var(--accent-color) 48%, var(--bg-color)) 49% 100%);
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+    }
+
+    .pl-detalles__rotulo {
+      margin: 0 0 0.3rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.56rem, 1.1vw, 0.64rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .pl-detalles__titulo-card {
+      margin: 0 0 0.4rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--primary-color);
+    }
+    .pl-detalles__texto {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
+      line-height: 1.65;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 880px) {
+      .pl-detalles__escena { grid-template-columns: 1fr; }
+      .pl-detalles__figura { max-width: 380px; margin: 0 auto; transform: rotate(0deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pl-detalles * { transition: none !important; }
+      .pl-detalles__solapa { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="detalles-intro">
+    <h2 class="pl-detalles__titulo" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Notas de la noche</h2>
+    <p class="pl-detalles__intro" memory_type="text" memory_usage="custom" memory_key="detalles-texto">Pequeños pliegues de información para que todo salga a la perfección.</p>
+  </header>
+
+  <div class="pl-detalles__escena">
+    <figure class="pl-detalles__figura" memory_type="image" memory_usage="custom" memory_source="library" memory_key="detalles-foto">
+      <img
+        src="https://loremflickr.com/500/620/night,fashion"
+        alt="Detalle de vestimenta nocturna"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="detalle"
+        loading="lazy"
+      />
+      <span class="pl-detalles__cinta" aria-hidden="true"></span>
+      <figcaption hidden>Detalle nocturno</figcaption>
+    </figure>
+
+    <div class="pl-detalles__abanico">
+      <article class="pl-detalles__solapa">
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-1">
+          <p class="pl-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-1">Vestimenta</p>
+          <h3 class="pl-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Formal nocturno</h3>
+          <p class="pl-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Tonos profundos y telas suaves acompañan la atmósfera estelar.</p>
+        </div>
+      </article>
+      <article class="pl-detalles__solapa">
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-2">
+          <p class="pl-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-2">Comodidad</p>
+          <h3 class="pl-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Noche fresca</h3>
+          <p class="pl-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">Un abrigo ligero será tu mejor compañero después del atardecer.</p>
+        </div>
+      </article>
+      <article class="pl-detalles__solapa">
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-3">
+          <p class="pl-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-3">Extra</p>
+          <h3 class="pl-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Estacionamiento</h3>
+          <p class="pl-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">Habrá valet parking disponible durante toda la celebración.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.pl-detalles');
+      if (!root) return;
+      root.classList.add('pl-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.22 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-vestimenta',
+      style_name: 'Plegado Celeste — Detalles',
+      descripcion: 'Foto plegada con cinta washi y solapas de papel que se despliegan con rotateY desde la izquierda al entrar en pantalla.',
+      tags: ['detalles', 'vestimenta', 'origami', 'solapas', 'revelado', 'celestial'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>

@@ -1,0 +1,287 @@
+<section
+  class="gg-rs"
+  data-gemini-id="confirmacion-texto"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Grenze+Gotisch:wght@400;500;600;700&display=swap');
+
+    .gg-rs, .gg-rs *, .gg-rs *::before, .gg-rs *::after { box-sizing: border-box; }
+    .gg-rs {
+      --t-bg: var(--bg-color, #0d0809);
+      --t-tx: var(--text-color, #eee5dd);
+      --t-p: var(--primary-color, #7d0f1f);
+      --t-s: var(--secondary-color, #1f0b10);
+      --t-a: var(--accent-color, #a3a1aa);
+      --t-display: var(--font-script, 'Grenze Gotisch', 'Cormorant Garamond', serif);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      --lace: color-mix(in srgb, var(--t-a) 32%, transparent);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 60vw, 46rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4.5rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/dark,red,roses?lock=3351');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .gg-rs::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(80% 70% at 50% 50%, color-mix(in srgb, var(--t-bg) 78%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent));
+    }
+    .gg-rs__card {
+      position: relative;
+      width: min(100%, 40rem);
+      padding: clamp(2.6rem, 6vw, 3.6rem) clamp(1.3rem, 5vw, 3.2rem) clamp(2.2rem, 5vw, 3rem);
+      background: linear-gradient(170deg, color-mix(in srgb, var(--t-s) 92%, transparent), color-mix(in srgb, var(--t-bg) 94%, transparent));
+      border: 1px solid color-mix(in srgb, var(--t-a) 45%, transparent);
+      box-shadow: 0 0 0 6px color-mix(in srgb, var(--t-bg) 60%, transparent), 0 0 0 7px color-mix(in srgb, var(--t-a) 22%, transparent), 0 2rem 4rem -1.5rem #000;
+    }
+    /* lace trims */
+    .gg-rs__card::before, .gg-rs__card::after {
+      content: '';
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      height: 14px;
+      background:
+        radial-gradient(circle at 50% 0, transparent 5px, var(--lace) 5.5px 6.5px, transparent 7px) 0 0 / 15px 14px,
+        radial-gradient(circle at 50% 10px, var(--lace) 1.1px, transparent 1.7px) 0 0 / 15px 14px;
+    }
+    .gg-rs__card::before { top: 8px; }
+    .gg-rs__card::after { bottom: 8px; transform: scaleY(-1); }
+    .gg-rs__head { text-align: center; display: grid; gap: .5rem; margin-bottom: 1.8rem; }
+    .gg-rs__title { margin: 0; font-family: var(--t-display); font-weight: 600; font-size: clamp(2.2rem, 5.2vw, 3.2rem); line-height: 1; }
+    .gg-rs__lead { margin: 0; font-size: 1.12rem; font-style: italic; color: color-mix(in srgb, var(--t-tx) 78%, transparent); }
+    .gg-rs__lead time { font-style: normal; color: color-mix(in srgb, var(--t-p) 40%, var(--t-tx)); font-weight: 600; }
+
+    .gg-rs__form { display: grid; gap: 1.25rem; }
+    .gg-rs__field { display: grid; gap: .35rem; position: relative; }
+    .gg-rs__label { font-size: 1.05rem; color: color-mix(in srgb, var(--t-a) 85%, var(--t-tx)); }
+    .gg-rs__input {
+      width: 100%;
+      min-height: 2.9rem;
+      padding: .6rem .2rem;
+      border: 0;
+      border-bottom: 1px solid color-mix(in srgb, var(--t-a) 45%, transparent);
+      background: transparent;
+      color: var(--t-tx);
+      font: 500 1.15rem/1.3 var(--t-text);
+      font-variant-numeric: lining-nums;
+      outline: none;
+      resize: vertical;
+    }
+    .gg-rs__input::placeholder { color: color-mix(in srgb, var(--t-tx) 38%, transparent); font-style: italic; }
+    .gg-rs__bar { height: 2px; margin-top: -2px; background: linear-gradient(90deg, var(--t-p), var(--t-a)); transform: scaleX(0); transform-origin: 0 50%; transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
+    .gg-rs__input:focus + .gg-rs__bar { transform: scaleX(1); }
+    .gg-rs__row { display: grid; grid-template-columns: 1fr 9rem; gap: 1.2rem; }
+    .gg-rs__select option { background: var(--t-bg); color: var(--t-tx); }
+
+    .gg-rs__choice { border: 0; margin: 0; padding: 0; display: grid; gap: .6rem; }
+    .gg-rs__choice legend { padding: 0; margin-bottom: .5rem; }
+    .gg-rs__opts { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+    .gg-rs__opt {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      min-height: 3.6rem;
+      padding: .6rem 1rem;
+      border: 1px solid color-mix(in srgb, var(--t-a) 30%, transparent);
+      background: color-mix(in srgb, var(--t-bg) 55%, transparent);
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: border-color .3s ease, background-color .3s ease;
+    }
+    .gg-rs__opt input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .gg-rs__candle { width: 1.3rem; height: 2.4rem; flex: none; }
+    .gg-rs__flame { opacity: 0; transform: scale(.3); transform-origin: 50% 90%; transform-box: fill-box; transition: opacity .3s ease, transform .4s cubic-bezier(.3, 1.5, .5, 1); }
+    .gg-rs__opt input:checked + .gg-rs__candle .gg-rs__flame { opacity: 1; transform: none; }
+    .gg-rs__opt:has(input:checked) { border-color: color-mix(in srgb, var(--t-p) 80%, var(--t-a)); background: color-mix(in srgb, var(--t-p) 22%, transparent); }
+    .gg-rs__opt input:focus-visible + .gg-rs__candle { outline: 1px dashed var(--t-a); outline-offset: 4px; }
+
+    .gg-rs__btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .7rem;
+      width: 100%;
+      min-height: 3.4rem;
+      margin-top: .4rem;
+      padding: .7rem 1.4rem;
+      border: 1px solid color-mix(in srgb, var(--t-a) 60%, transparent);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-p) 88%, #000), color-mix(in srgb, var(--t-p) 55%, var(--t-bg)));
+      color: var(--t-tx);
+      font: 600 1.18rem/1 var(--t-text);
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform .25s ease, box-shadow .3s ease, filter .3s ease;
+    }
+    .gg-rs__btn:hover { transform: translateY(-2px); box-shadow: 0 .8rem 1.8rem -.8rem color-mix(in srgb, var(--t-p) 90%, transparent); }
+    .gg-rs__btn:active { transform: translateY(0) scale(.99); }
+    .gg-rs__spin { display: none; width: 1.2rem; height: 1.2rem; border-radius: 50%; border: 2px solid color-mix(in srgb, var(--t-a) 35%, transparent); border-top-color: var(--t-tx); animation: gg-rs-spin .5s linear infinite; }
+    .gg-rs__btn[data-gg-state="loading"] { filter: saturate(.7); cursor: progress; }
+    .gg-rs__btn[data-gg-state="loading"] .gg-rs__spin { display: block; }
+    .gg-rs__btn[data-gg-state="done"] { background: linear-gradient(180deg, color-mix(in srgb, var(--t-a) 40%, var(--t-s)), var(--t-s)); }
+
+    .gg-rs__seal {
+      position: absolute;
+      right: clamp(.6rem, 3vw, 1.6rem);
+      top: clamp(-1.6rem, -3vw, -1.2rem);
+      width: clamp(4.4rem, 11vw, 5.4rem);
+      height: auto;
+      opacity: 0;
+      transform: scale(1.8) rotate(-25deg);
+      pointer-events: none;
+      transition: opacity .2s ease, transform .35s cubic-bezier(.5, 0, .7, 1.4);
+      filter: drop-shadow(0 .4rem .6rem rgba(0, 0, 0, .6));
+    }
+    .gg-rs__card[data-gg-sealed] .gg-rs__seal { opacity: 1; transform: rotate(-12deg); }
+    .gg-rs__thanks {
+      margin: 1.2rem 0 0;
+      text-align: center;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: color-mix(in srgb, var(--t-a) 70%, var(--t-tx));
+    }
+    .gg-rs__thanks[hidden] { display: none; }
+
+    .gg-rs--anim .gg-rs__card { opacity: 0; transform: translateY(18px) rotate(-.6deg); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .gg-rs--anim.is-in .gg-rs__card { opacity: 1; transform: none; }
+
+    @keyframes gg-rs-spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 520px) {
+      .gg-rs__row, .gg-rs__opts { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .gg-rs *, .gg-rs *::before, .gg-rs *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="gg-rs__card">
+    <svg class="gg-rs__seal" viewBox="0 0 100 100" aria-hidden="true">
+      <path d="M50 4 C60 6 64 2 72 8 C80 13 86 12 90 22 C95 31 98 36 96 48 C95 58 99 64 93 73 C87 82 84 88 74 92 C64 96 58 99 48 96 C37 94 31 97 23 90 C14 84 8 80 5 69 C2 58 1 52 4 42 C6 31 6 24 14 16 C22 8 30 7 40 5 C44 4 47 4 50 4 Z" style="fill: var(--t-p)" />
+      <circle cx="50" cy="50" r="33" style="fill: none; stroke: color-mix(in srgb, var(--t-p) 50%, #000); stroke-width: 2.5" />
+      <circle cx="50" cy="50" r="27" style="fill: none; stroke: color-mix(in srgb, var(--t-p) 60%, #fff); stroke-width: .8; opacity: .5" />
+      <path d="M50 30 C60 30 64 38 62 45 C60 53 54 56 50 56 C45 56 39 53 38 45 C36 38 40 30 50 30 Z M50 36 C55 36 57 40 56 44 C55 48 51 49 49 47 C47 45 48 42 50 42" style="fill: none; stroke: color-mix(in srgb, var(--t-p) 45%, #000); stroke-width: 2" />
+      <path d="M50 56 V72 M50 64 C45 62 42 60 42 57 M50 66 C55 64 58 62 58 59" style="fill: none; stroke: color-mix(in srgb, var(--t-p) 45%, #000); stroke-width: 2" />
+    </svg>
+
+    <header class="gg-rs__head">
+      <h2 class="gg-rs__title" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">Confirma tu asistencia</h2>
+      <p class="gg-rs__lead"><span memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">Guárdanos un lugar entre las velas antes del</span> <time datetime="2027-09-30" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha">30 de septiembre</time></p>
+    </header>
+
+    <form class="gg-rs__form" data-gg-form novalidate>
+      <div class="gg-rs__row">
+        <div class="gg-rs__field">
+          <label class="gg-rs__label" for="gg-rs-nombre"><span memory_type="text" memory_usage="custom" memory_key="confirmacion-label-nombre">Nombre completo</span></label>
+          <input class="gg-rs__input" id="gg-rs-nombre" name="nombre" type="text" placeholder="Nombre Apellido" autocomplete="name" />
+          <span class="gg-rs__bar" aria-hidden="true"></span>
+        </div>
+        <div class="gg-rs__field">
+          <label class="gg-rs__label" for="gg-rs-pases"><span memory_type="text" memory_usage="custom" memory_key="confirmacion-label-pases">Invitados</span></label>
+          <select class="gg-rs__input gg-rs__select" id="gg-rs-pases" name="pases">
+            <option>1</option><option>2</option><option>3</option><option>4</option>
+          </select>
+          <span class="gg-rs__bar" aria-hidden="true"></span>
+        </div>
+      </div>
+
+      <fieldset class="gg-rs__choice">
+        <legend class="gg-rs__label"><span memory_type="text" memory_usage="custom" memory_key="confirmacion-label-asistencia">¿Nos acompañarás?</span></legend>
+        <div class="gg-rs__opts">
+          <label class="gg-rs__opt">
+            <input type="radio" name="gg-rs-asistencia" value="si" checked />
+            <svg class="gg-rs__candle" viewBox="0 0 20 40" aria-hidden="true"><rect x="5" y="16" width="10" height="23" rx="1.5" style="fill: var(--t-tx)" /><path d="M10 16 V12" style="stroke: #333; stroke-width: 1" /><path class="gg-rs__flame" d="M10 1 C16 7 16 12 10 15 C4 12 4 7 10 1 Z" style="fill: color-mix(in srgb, var(--t-p) 25%, #ffd6a8)" /></svg>
+            <span memory_type="text" memory_usage="custom" memory_key="confirmacion-si">Asistiré con gusto</span>
+          </label>
+          <label class="gg-rs__opt">
+            <input type="radio" name="gg-rs-asistencia" value="no" />
+            <svg class="gg-rs__candle" viewBox="0 0 20 40" aria-hidden="true"><rect x="5" y="16" width="10" height="23" rx="1.5" style="fill: color-mix(in srgb, var(--t-a) 60%, var(--t-bg))" /><path d="M10 16 V12" style="stroke: #333; stroke-width: 1" /><path class="gg-rs__flame" d="M10 1 C16 7 16 12 10 15 C4 12 4 7 10 1 Z" style="fill: color-mix(in srgb, var(--t-a) 50%, #fff)" /></svg>
+            <span memory_type="text" memory_usage="custom" memory_key="confirmacion-no">No podré asistir</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <div class="gg-rs__field">
+        <label class="gg-rs__label" for="gg-rs-msg"><span memory_type="text" memory_usage="custom" memory_key="confirmacion-label-mensaje">Unas palabras para los novios</span></label>
+        <textarea class="gg-rs__input" id="gg-rs-msg" name="mensaje" rows="2" placeholder="Escribe tu mensaje…"></textarea>
+        <span class="gg-rs__bar" aria-hidden="true"></span>
+      </div>
+
+      <button class="gg-rs__btn" type="submit" data-gg-submit>
+        <span class="gg-rs__spin" aria-hidden="true"></span>
+        <span memory_type="text" memory_usage="custom" memory_key="confirmacion-boton">Sellar mi respuesta</span>
+      </button>
+      <p class="gg-rs__thanks" data-gg-thanks hidden role="status" memory_type="text" memory_usage="custom" memory_key="confirmacion-gracias">Gracias. Tu lugar junto a las velas ha quedado sellado.</p>
+    </form>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="confirmacion-texto"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* Simulated submit: loading -> wax seal stamp -> thanks */
+      var form = root.querySelector('[data-gg-form]');
+      var btn = root.querySelector('[data-gg-submit]');
+      var thanks = root.querySelector('[data-gg-thanks]');
+      var card = root.querySelector('.gg-rs__card');
+      if (form && btn) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          if (btn.getAttribute('data-gg-state')) return;
+          btn.setAttribute('data-gg-state', 'loading');
+          btn.setAttribute('aria-busy', 'true');
+          setTimeout(function () {
+            btn.setAttribute('data-gg-state', 'done');
+            btn.removeAttribute('aria-busy');
+            btn.disabled = true;
+            card.setAttribute('data-gg-sealed', '');
+            if (thanks) thanks.hidden = false;
+          }, RM ? 200 : 1400);
+        });
+      }
+
+      if (RM || !('IntersectionObserver' in window)) return;
+      root.classList.add('gg-rs--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('gg-rs--anim', 'is-in'); }, 1200);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Glamour Gótico Sello de Lacre',
+      descripcion: 'Confirmación en carta de terciopelo con bordes de encaje: campos con subrayado plateado, opciones sí/no como velas que se encienden y botón con carga que estampa un sello de lacre rojo.',
+      tags: ['confirmación', 'rsvp', 'boda', 'gotico', 'glamour', 'velas', 'lacre'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>

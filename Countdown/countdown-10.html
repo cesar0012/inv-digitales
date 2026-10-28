@@ -1,0 +1,338 @@
+﻿<section
+  class="countdown-background-days"
+  data-gemini-id="countdown-background-days"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+>
+  <style>
+    .countdown-background-days {
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(560px, 70vw, 760px);
+      display: flex;
+      align-items: stretch;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: clamp(2rem, 5vw, 4rem);
+      background-color: var(--bg-color, #151311);
+      background-image: url('https://loremflickr.com/1600/1000/celebration,elegant');
+      background-position: center;
+      background-size: cover;
+      color: var(--text-color, #f5f1ea);
+    }
+
+    .countdown-background-days,
+    .countdown-background-days * { box-sizing: border-box; }
+
+    .countdown-background-days::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(90deg,
+          color-mix(in srgb, var(--bg-color, #151311) 82%, transparent),
+          color-mix(in srgb, var(--bg-color, #151311) 36%, transparent) 56%,
+          color-mix(in srgb, var(--bg-color, #151311) 64%, transparent));
+    }
+
+    .countdown-background-days::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(0deg,
+        color-mix(in srgb, var(--bg-color, #151311) 76%, transparent),
+        transparent 52%);
+      pointer-events: none;
+    }
+
+    .countdown-background-days__day {
+      position: absolute;
+      z-index: 0;
+      top: clamp(-2.6rem, -4vw, -1rem);
+      right: clamp(-1.8rem, -2vw, -.25rem);
+      max-width: 78%;
+      overflow: hidden;
+      color: var(--primary-color, var(--text-color, #f5f1ea));
+      font-size: clamp(13rem, 43vw, 38rem);
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -.095em;
+      line-height: .78;
+      opacity: .18;
+      user-select: none;
+      pointer-events: none;
+      transition: opacity 460ms ease, transform 460ms cubic-bezier(.2,.72,.25,1);
+    }
+
+    .countdown-background-days__day.is-changing {
+      opacity: .05;
+      transform: translateY(-.08em);
+    }
+
+    .countdown-background-days__content {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 980px);
+      min-height: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: clamp(8rem, 26vw, 16rem);
+    }
+
+    .countdown-background-days__top {
+      width: min(62%, 510px);
+      padding-top: clamp(1rem, 4vw, 3rem);
+    }
+
+    .countdown-background-days__eyebrow {
+      margin: 0 0 .7rem;
+      color: var(--accent-color, var(--text-color, #f5f1ea));
+      font-size: clamp(.65rem, 1.4vw, .82rem);
+      font-weight: 700;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+    }
+
+    .countdown-background-days__heading {
+      margin: 0;
+      color: var(--primary-color, var(--text-color, #f5f1ea));
+      font-size: clamp(2rem, 5vw, 4.1rem);
+      font-weight: 400;
+      letter-spacing: -.035em;
+      line-height: 1.02;
+    }
+
+    .countdown-background-days__date {
+      display: block;
+      margin-top: 1.15rem;
+      color: var(--text-color, #f5f1ea);
+      font-size: clamp(.78rem, 1.5vw, .95rem);
+      letter-spacing: .08em;
+      opacity: .82;
+    }
+
+    .countdown-background-days__bottom {
+      align-self: flex-end;
+      width: min(100%, 610px);
+    }
+
+    .countdown-background-days__day-label {
+      margin: 0 0 .8rem;
+      color: var(--text-color, #f5f1ea);
+      font-size: clamp(.6rem, 1.2vw, .75rem);
+      font-weight: 700;
+      letter-spacing: .22em;
+      text-align: right;
+      text-transform: uppercase;
+      opacity: .72;
+    }
+
+    .countdown-background-days__timer {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-top: 1px solid color-mix(in srgb, var(--text-color, #f5f1ea) 32%, transparent);
+      border-bottom: 1px solid color-mix(in srgb, var(--text-color, #f5f1ea) 20%, transparent);
+      background: color-mix(in srgb, var(--bg-color, #151311) 34%, transparent);
+      backdrop-filter: blur(5px);
+    }
+
+    .countdown-background-days__unit {
+      position: relative;
+      padding: clamp(1rem, 2.6vw, 1.45rem) clamp(.4rem, 2vw, 1.2rem);
+      text-align: center;
+    }
+
+    .countdown-background-days__unit + .countdown-background-days__unit::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 20%;
+      width: 1px;
+      height: 60%;
+      background: color-mix(in srgb, var(--text-color, #f5f1ea) 24%, transparent);
+    }
+
+    .countdown-background-days__value {
+      display: block;
+      color: var(--primary-color, var(--text-color, #f5f1ea));
+      font-size: clamp(2.2rem, 7vw, 4.4rem);
+      font-weight: 300;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -.04em;
+      line-height: .9;
+    }
+
+    .countdown-background-days__label {
+      display: block;
+      margin-top: .72rem;
+      color: var(--text-color, #f5f1ea);
+      font-size: clamp(.52rem, 1vw, .68rem);
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      opacity: .7;
+    }
+
+    @media (max-width: 640px) {
+      .countdown-background-days {
+        min-height: 620px;
+        padding: 1.5rem;
+      }
+
+      .countdown-background-days__day {
+        top: 2.3rem;
+        right: -.08em;
+        max-width: 92%;
+        font-size: clamp(12rem, 62vw, 18rem);
+        opacity: .16;
+      }
+
+      .countdown-background-days__top { width: 72%; }
+
+      .countdown-background-days__content {
+        gap: 13rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .countdown-background-days__day { transition: none; }
+    }
+  </style>
+
+  <div
+    class="countdown-background-days__day"
+    data-countdown-unit="days"
+    aria-label="Días restantes"
+  >--</div>
+
+  <div class="countdown-background-days__content">
+    <div class="countdown-background-days__top">
+      <p class="countdown-background-days__eyebrow">Cuenta regresiva</p>
+      <h2 class="countdown-background-days__heading">Cada día estamos más cerca</h2>
+      <time
+        class="countdown-background-days__date"
+        datetime="YYYY-MM-DDTHH:MM:SS"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="countdown-event-date"
+      >Fecha del evento</time>
+    </div>
+
+    <div class="countdown-background-days__bottom">
+      <p class="countdown-background-days__day-label">Días para celebrar</p>
+      <div class="countdown-background-days__timer" aria-label="Tiempo restante">
+        <div class="countdown-background-days__unit">
+          <span class="countdown-background-days__value" data-countdown-unit="hours">--</span>
+          <span class="countdown-background-days__label">Horas</span>
+        </div>
+        <div class="countdown-background-days__unit">
+          <span class="countdown-background-days__value" data-countdown-unit="minutes">--</span>
+          <span class="countdown-background-days__label">Minutos</span>
+        </div>
+        <div class="countdown-background-days__unit">
+          <span class="countdown-background-days__value" data-countdown-unit="seconds">--</span>
+          <span class="countdown-background-days__label">Segundos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var el = null;
+    try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch(e) {}
+    if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+    if (!el) return;
+    console.log('[COUNTDOWN-MODULE] el encontrado=', !!el);
+
+    var targetAttr = el.getAttribute('data-countdown-target');
+    var target = NaN;
+    if (targetAttr && targetAttr.indexOf('YYYY') === -1) { var _parsed = new Date(targetAttr); if (!isNaN(_parsed.getTime())) target = _parsed.getTime(); }
+    if (isNaN(target)) { if (window.__countdownTarget) { var _p1 = new Date(window.__countdownTarget); if (!isNaN(_p1.getTime())) target = _p1.getTime(); } else if (window.countdown_target) { var _p2 = new Date(window.countdown_target); if (!isNaN(_p2.getTime())) target = _p2.getTime(); } }
+    console.log('[COUNTDOWN-MODULE] el encontrado=', !!el, 'target=', targetAttr, 'targetMs=', isNaN(target) ? 'NaN' : target);
+    var lastDay = null;
+
+    (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+    window.__countdownIntervals = [];
+
+    function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function setUnit(unit, value) {
+      var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
+      if (!node || node.textContent === String(value)) return;
+
+      if (unit === 'days' && lastDay !== null && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        node.classList.add('is-changing');
+        window.setTimeout(function () {
+          node.textContent = value;
+          node.classList.remove('is-changing');
+        }, 220);
+      } else {
+        node.textContent = value;
+      }
+    }
+
+    function tick() {
+      if (!Number.isFinite(target)) {
+        setUnit('days', '--');
+        setUnit('hours', '--');
+        setUnit('minutes', '--');
+        setUnit('seconds', '--');
+        return;
+      }
+
+      var diff = target - Date.now();
+      if (diff < 0) diff = 0;
+      var d = Math.floor(diff / 86400000);
+      var h = Math.floor((diff % 86400000) / 3600000);
+      var m = Math.floor((diff % 3600000) / 60000);
+      var s = Math.floor((diff % 60000) / 1000);
+
+      setUnit('days', d);
+      setUnit('hours', pad2(h));
+      setUnit('minutes', pad2(m));
+      setUnit('seconds', pad2(s));
+      lastDay = d;
+
+      if (diff === 0 && activeInterval) clearInterval(activeInterval);
+    }
+
+    var activeInterval = null;
+    tick();
+    if (Number.isFinite(target) && target > Date.now()) {
+      activeInterval = setInterval(tick, 1000);
+      window.__countdownIntervals.push(activeInterval);
+    }
+
+    window.updateCountdown = function (newTarget) {
+      target = new Date(newTarget).getTime();
+      lastDay = null;
+      (window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+      tick();
+      if (Number.isFinite(target) && target > Date.now()) {
+        activeInterval = setInterval(tick, 1000);
+        window.__countdownIntervals.push(activeInterval);
+      }
+    };
+  })();
+</script>
+
+<script>
+  var moduleMetadata = {
+    module_type: 'countdown',
+    module_name: 'countdown-background-days',
+    style_name: 'Días de Fondo',
+    descripcion: 'Cuenta regresiva con los días integrados a gran escala en el fondo y horas, minutos y segundos como lectura secundaria. El número principal cambia al avanzar cada día.',
+    tags: ['countdown', 'cuenta regresiva', 'timer', 'celebración', 'evento'],
+    tipo: 'countdown'
+  };
+</script>

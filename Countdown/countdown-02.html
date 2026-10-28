@@ -1,0 +1,126 @@
+<section
+  class="countdown-panel"
+  data-gemini-id="countdown-floating-panel"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+>
+  <style>
+    .countdown-panel {
+      position: relative;
+      min-height: clamp(30rem, 62vw, 45rem);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: clamp(2rem, 7vw, 6rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/celebration,flowers');
+      background-position: center;
+      background-size: cover;
+      color: var(--text-color);
+    }
+    .countdown-panel__card {
+      width: min(100%, 36rem);
+      padding: clamp(2rem, 5vw, 4rem);
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+      border: 1px solid color-mix(in srgb, var(--accent-color) 45%, transparent);
+      text-align: center;
+    }
+    .countdown-panel__heading {
+      margin: 0 0 .5rem;
+      font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+      color: var(--primary-color);
+    }
+    .countdown-panel__date { display: block; color: var(--text-color); font-size: clamp(.9rem, 2vw, 1.05rem); }
+    .countdown-panel__rule { width: 3rem; margin: 1.5rem auto; border: 0; border-top: 1px solid var(--accent-color); }
+    .countdown-panel__timer { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(.3rem, 1.2vw, .8rem); }
+    .countdown-panel__unit {
+      min-width: 0;
+      padding: clamp(.75rem, 2vw, 1.15rem) .25rem;
+      background: color-mix(in srgb, var(--accent-color) 10%, transparent);
+    }
+    .countdown-panel__number {
+      display: block;
+      font-size: clamp(1.7rem, 4.8vw, 3rem);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      color: var(--primary-color);
+    }
+    .countdown-panel__label {
+      display: block;
+      margin-top: .6rem;
+      font-size: clamp(.55rem, 1.4vw, .75rem);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text-color);
+    }
+    @media (max-width: 640px) {
+      .countdown-panel { justify-content: center; padding-inline: 1rem; }
+      .countdown-panel__card { padding-inline: clamp(1rem, 5vw, 2rem); }
+    }
+  </style>
+
+  <div class="countdown-panel__card">
+    <h2 class="countdown-panel__heading" memory_type="text" memory_usage="custom" memory_key="countdown-card-header">Nuestro día se acerca</h2>
+    <time class="countdown-panel__date" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-event-date">Fecha del evento</time>
+    <hr class="countdown-panel__rule">
+    <div class="countdown-panel__timer" aria-label="Cuenta regresiva">
+      <div class="countdown-panel__unit"><span class="countdown-panel__number" data-countdown-unit="days">--</span><span class="countdown-panel__label">Días</span></div>
+      <div class="countdown-panel__unit"><span class="countdown-panel__number" data-countdown-unit="hours">--</span><span class="countdown-panel__label">Horas</span></div>
+      <div class="countdown-panel__unit"><span class="countdown-panel__number" data-countdown-unit="minutes">--</span><span class="countdown-panel__label">Min</span></div>
+      <div class="countdown-panel__unit"><span class="countdown-panel__number" data-countdown-unit="seconds">--</span><span class="countdown-panel__label">Seg</span></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var el = null;
+    try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch(e) {}
+    if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+    if (!el) return;
+    var targetAttr = el.getAttribute('data-countdown-target');
+    var target = NaN;
+    if (targetAttr && targetAttr.indexOf('YYYY') === -1) {
+      var parsed = new Date(targetAttr);
+      if (!isNaN(parsed.getTime())) target = parsed.getTime();
+    }
+    if (isNaN(target)) {
+      if (window.__countdownTarget) { var _p = new Date(window.__countdownTarget); if (!isNaN(_p.getTime())) target = _p.getTime(); }
+      else if (window.countdown_target) { var _p2 = new Date(window.countdown_target); if (!isNaN(_p2.getTime())) target = _p2.getTime(); }
+    }
+    console.log('[COUNTDOWN-MODULE] el encontrado=', !!el, 'target=', targetAttr, 'targetMs=', isNaN(target) ? 'NaN' : target);
+    var intervalId = null;
+    var _t0 = false;
+    (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+    window.__countdownIntervals = [];
+    function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+    function setUnit(unit, value) { var node = el.querySelector('[data-countdown-unit="' + unit + '"]'); if (node) node.textContent = value; }
+    function tick() {
+      var diff = target - Date.now(); if (diff < 0) diff = 0;
+      if (!_t0) { console.log('[COUNTDOWN-MODULE] primer tick diff=', diff); _t0 = true; }
+      setUnit('days', Math.floor(diff / 86400000));
+      setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
+      setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
+      setUnit('seconds', pad2(Math.floor((diff % 60000) / 1000)));
+      if (diff === 0 && intervalId !== null) { clearInterval(intervalId); intervalId = null; window.__countdownIntervals = []; }
+    }
+    function start(newTarget) {
+      if (newTarget) target = new Date(newTarget).getTime();
+      (window.__countdownIntervals || []).forEach(clearInterval); window.__countdownIntervals = []; intervalId = null;
+      if (!Number.isFinite(target)) return;
+      tick();
+      if (target > Date.now()) { intervalId = setInterval(tick, 1000); window.__countdownIntervals.push(intervalId); }
+    }
+    start(); window.updateCountdown = start;
+  })();
+</script>
+<script>
+  var moduleMetadata = {
+    module_type: 'countdown', module_name: 'countdown-floating-panel', style_name: 'Panel Flotante',
+    descripcion: 'Cuenta regresiva en panel flotante sobre un fondo decorativo generado, pensada para mantener legibilidad cuando la imagen tiene mayor protagonismo.',
+    tags: ['countdown', 'cuenta regresiva', 'timer', 'celebración floral'], tipo: 'countdown'
+  };
+</script>

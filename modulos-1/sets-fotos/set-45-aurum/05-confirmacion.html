@@ -1,0 +1,325 @@
+<section
+  class="au-co"
+  data-gemini-id="confirmacion-texto"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Jost:wght@300;400;500&display=swap');
+
+    .au-co, .au-co *, .au-co *::before, .au-co *::after { box-sizing: border-box; }
+    .au-co {
+      --t-bg: var(--bg-color, #0b0a0d);
+      --t-tx: var(--text-color, #f3eee4);
+      --t-p: var(--primary-color, #d2aa58);
+      --t-s: var(--secondary-color, #7a5c2a);
+      --t-a: var(--accent-color, #f2e3b4);
+      --t-display: var(--font-script, 'Cormorant Garamond', 'Times New Roman', serif);
+      --t-text: var(--font-heading, 'Jost', 'Helvetica Neue', Arial, sans-serif);
+      --au-line: color-mix(in srgb, var(--t-p) 45%, transparent);
+      --au-soft: color-mix(in srgb, var(--t-tx) 60%, transparent);
+      --au-sheen: 0%;
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 75vw, 48rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1.25rem, 6vw, 5rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/champagne,glasses,celebration?lock=3506');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .au-co::before {
+      content: '';
+      position: absolute; inset: 0; z-index: -1;
+      background:
+        radial-gradient(ellipse 50% 70% at 20% 50%, color-mix(in srgb, var(--t-s) 22%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 86%, transparent), color-mix(in srgb, var(--t-bg) 94%, transparent));
+    }
+    .au-co__confetti { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; pointer-events: none; display: block; }
+    .au-co__wrap { position: relative; z-index: 1; width: min(100%, 66rem); display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+
+    .au-co__intro { display: grid; gap: .8rem; justify-items: start; }
+    .au-co__kicker { margin: 0; font-family: var(--t-display); font-style: italic; font-size: clamp(1.1rem, 2.4vw, 1.45rem); color: var(--t-a); }
+    .au-co__title { margin: 0; font-family: var(--t-display); font-weight: 500; font-style: italic; font-size: clamp(2.8rem, 7vw, 4.8rem); line-height: .95; letter-spacing: -.01em; }
+    .au-co__text { margin: .3rem 0 0; max-width: 30rem; font-weight: 300; font-size: clamp(1rem, 2vw, 1.1rem); line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 72%, transparent); }
+    .au-co__deadline { margin: .4rem 0 0; padding: .7rem 1rem; border-left: 1px solid var(--au-line); font-family: var(--t-display); font-style: italic; font-size: 1.15rem; color: var(--t-p); }
+
+    .au-co__card {
+      position: relative;
+      padding: clamp(1.5rem, 4vw, 2.6rem);
+      background: linear-gradient(160deg, color-mix(in srgb, var(--t-bg) 55%, transparent), color-mix(in srgb, var(--t-bg) 80%, transparent));
+      -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+      box-shadow: 0 50px 90px -40px #000, inset 0 0 0 1px color-mix(in srgb, var(--t-a) 18%, transparent);
+    }
+    .au-co__card::before { content: ''; position: absolute; inset: .55rem; border: 1px solid color-mix(in srgb, var(--t-p) 22%, transparent); pointer-events: none; }
+    .au-co__form { display: grid; gap: 1.35rem; }
+    .au-co__row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+
+    .au-co__field { position: relative; }
+    .au-co__field input, .au-co__field textarea {
+      width: 100%; min-height: 3.3rem; padding: 1.25rem .2rem .55rem;
+      font-family: var(--t-text); font-size: 1rem; font-weight: 300; color: var(--t-tx);
+      background: transparent; border: 0; border-bottom: 1px solid color-mix(in srgb, var(--t-a) 25%, transparent); border-radius: 0;
+      outline: none; resize: vertical;
+      transition: border-color .3s ease;
+    }
+    .au-co__field textarea { min-height: 5.2rem; }
+    .au-co__field input:focus, .au-co__field textarea:focus { border-bottom-color: var(--t-p); }
+    .au-co__field label {
+      position: absolute; left: .2rem; top: 1rem; pointer-events: none;
+      font-size: 1rem; font-weight: 300; color: var(--au-soft);
+      transform-origin: 0 0;
+      transition: transform .3s cubic-bezier(.2, .8, .2, 1), color .3s ease;
+    }
+    .au-co__field input:focus + label, .au-co__field input:not(:placeholder-shown) + label,
+    .au-co__field textarea:focus + label, .au-co__field textarea:not(:placeholder-shown) + label { transform: translateY(-.85rem) scale(.78); color: var(--t-p); }
+    .au-co__field::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: linear-gradient(90deg, var(--t-s), var(--t-p), var(--t-a)); transform: scaleX(0); transform-origin: 0 50%; transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
+    .au-co__field:focus-within::after { transform: scaleX(1); }
+
+    .au-co__seg { position: relative; margin: 0; padding: 0; border: 0; display: grid; gap: .6rem; }
+    .au-co__seg legend { padding: 0; margin-bottom: .2rem; font-size: .85rem; font-weight: 400; letter-spacing: .08em; color: var(--t-p); }
+    .au-co__track { position: relative; display: grid; grid-template-columns: 1fr 1fr; border: 1px solid color-mix(in srgb, var(--t-a) 22%, transparent); border-radius: 999px; padding: .25rem; }
+    .au-co__thumb { position: absolute; top: .25rem; bottom: .25rem; left: .25rem; width: calc(50% - .25rem); border-radius: 999px; background: linear-gradient(100deg, var(--t-s), var(--t-p) 45%, var(--t-a) 55%, var(--t-p) 70%, var(--t-s)); background-size: 220% 100%; background-position: var(--au-sheen) 50%; transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
+    .au-co__seg:has(input[value="no"]:checked) .au-co__thumb { transform: translateX(100%); }
+    .au-co__opt { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; min-height: 2.6rem; padding: .5rem .8rem; cursor: pointer; border-radius: 999px; }
+    .au-co__opt input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+    .au-co__opt span { font-size: .95rem; font-weight: 400; letter-spacing: .03em; color: var(--au-soft); transition: color .35s ease; }
+    .au-co__opt:has(input:checked) span { color: var(--t-bg); font-weight: 500; }
+    .au-co__opt:has(input:focus-visible) { outline: 1px solid var(--t-p); outline-offset: 2px; }
+
+    .au-co__btn {
+      position: relative; margin-top: .4rem; justify-self: start; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; gap: .7rem;
+      min-height: 3.3rem; padding: 1rem 2.2rem;
+      font-family: var(--t-text); font-weight: 500; font-size: .98rem; letter-spacing: .06em;
+      color: var(--t-bg);
+      background: linear-gradient(100deg, var(--t-s), var(--t-p) 35%, var(--t-a) 50%, var(--t-p) 65%, var(--t-s));
+      background-size: 220% 100%; background-position: var(--au-sheen) 50%;
+      border: 0; border-radius: 999px;
+      box-shadow: 0 16px 36px -14px color-mix(in srgb, var(--t-p) 70%, transparent);
+      transition: transform .3s cubic-bezier(.2, .8, .2, 1), box-shadow .3s ease;
+      overflow: hidden;
+    }
+    .au-co__btn:hover { box-shadow: 0 20px 40px -12px color-mix(in srgb, var(--t-p) 85%, transparent); }
+    .au-co__btn:active { transform: scale(.97); }
+    .au-co__btn span { position: relative; transition: transform .3s cubic-bezier(.2, .8, .2, 1); }
+    .au-co__spin { display: block; position: absolute; left: 50%; top: 50%; width: 1.35rem; height: 1.35rem; margin: -.675rem 0 0 -.675rem; transform: scale(0); transition: transform .3s cubic-bezier(.2, .8, .2, 1); }
+    .au-co__spin::before { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 2px solid color-mix(in srgb, var(--t-bg) 30%, transparent); border-top-color: var(--t-bg); transform: rotate(var(--au-rot, 0deg)); }
+    .au-co[data-au-state="loading"] .au-co__btn { pointer-events: none; }
+    .au-co[data-au-state="loading"] .au-co__btn span { transform: translateY(2.6rem); }
+    .au-co[data-au-state="loading"] .au-co__spin { transform: scale(1); transition: transform .3s cubic-bezier(.2, .8, .2, 1) .1s; }
+
+    .au-co__success { display: none; position: relative; text-align: center; padding: 1rem 0 .4rem; justify-items: center; gap: .6rem; }
+    .au-co[data-au-state="done"] .au-co__form { display: none; }
+    .au-co[data-au-state="done"] .au-co__success { display: grid; }
+    .au-co__seal { position: relative; width: 6.4rem; height: 6.4rem; margin-bottom: .6rem; border-radius: 50%; display: grid; place-items: center;
+      background: radial-gradient(circle at 35% 30%, var(--t-a), var(--t-p) 45%, var(--t-s) 100%);
+      box-shadow: 0 18px 40px -14px color-mix(in srgb, var(--t-p) 80%, transparent), inset 0 -4px 10px color-mix(in srgb, #000 35%, transparent), inset 0 4px 10px color-mix(in srgb, #fff 25%, transparent);
+      transition: transform .45s cubic-bezier(.2, .9, .3, 1.3); }
+    .au-co__seal::before { content: ''; position: absolute; inset: .55rem; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--t-bg) 55%, transparent); }
+    .au-co__seal::after { content: ''; position: absolute; inset: .95rem; border-radius: 50%; border: 1px dashed color-mix(in srgb, var(--t-bg) 40%, transparent); }
+    .au-co__seal svg { width: 2.2rem; height: 2.2rem; color: var(--t-bg); }
+    .au-co__success:not([data-au-shown]) .au-co__seal { transform: scale(1.7) rotate(-12deg); }
+    .au-co__success:not([data-au-shown]) .au-co__stitle, .au-co__success:not([data-au-shown]) .au-co__stext { transform: translateY(12px); clip-path: inset(0 0 100% 0); }
+    .au-co__stitle { margin: 0; font-family: var(--t-display); font-style: italic; font-weight: 500; font-size: clamp(1.9rem, 4vw, 2.6rem); line-height: 1.05; color: var(--t-a); transition: transform .45s cubic-bezier(.2, .8, .2, 1) .15s, clip-path .45s ease .15s; }
+    .au-co__stext { margin: 0; max-width: 26rem; font-weight: 300; line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 75%, transparent); transition: transform .45s cubic-bezier(.2, .8, .2, 1) .3s, clip-path .45s ease .3s; }
+
+    /* Entrance (only while JS adds .au-co--anim); each transition <= .5s */
+    .au-co--anim .au-co__intro > * { opacity: 0; transform: translateX(-26px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .au-co--anim .au-co__intro > :nth-child(2) { transition-delay: .08s; }
+    .au-co--anim .au-co__intro > :nth-child(3) { transition-delay: .16s; }
+    .au-co--anim .au-co__intro > :nth-child(4) { transition-delay: .24s; }
+    .au-co--anim .au-co__card { opacity: 0; transform: translateY(26px) scale(.98); transition: opacity .5s ease .15s, transform .5s cubic-bezier(.2, .8, .2, 1) .15s; }
+    .au-co--anim .au-co__form > * { opacity: 0; transform: translateY(10px); transition: opacity .4s ease, transform .45s cubic-bezier(.2, .8, .2, 1); }
+    .au-co--anim .au-co__form > :nth-child(1) { transition-delay: .35s; }
+    .au-co--anim .au-co__form > :nth-child(2) { transition-delay: .43s; }
+    .au-co--anim .au-co__form > :nth-child(3) { transition-delay: .51s; }
+    .au-co--anim .au-co__form > :nth-child(4) { transition-delay: .59s; }
+    .au-co--anim .au-co__form > :nth-child(5) { transition-delay: .67s; }
+    .au-co--anim.is-in .au-co__intro > *, .au-co--anim.is-in .au-co__card, .au-co--anim.is-in .au-co__form > * { opacity: 1; transform: none; }
+
+    @media (max-width: 760px) {
+      .au-co__wrap { grid-template-columns: 1fr; }
+      .au-co__row { grid-template-columns: 1fr; }
+      .au-co__btn { justify-self: stretch; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .au-co *, .au-co *::before, .au-co *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <canvas class="au-co__confetti" data-au-confetti aria-hidden="true"></canvas>
+
+  <div class="au-co__wrap">
+    <div class="au-co__intro">
+      <p class="au-co__kicker" memory_type="text" memory_usage="custom" memory_key="confirmacion-kicker">Tu presencia es el mejor regalo</p>
+      <h2 class="au-co__title" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">Confirma tu asistencia</h2>
+      <p class="au-co__text" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">Ayúdanos a preparar cada detalle. Cuéntanos si nos acompañarás y con cuántas personas llegarás.</p>
+      <p class="au-co__deadline" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha-limite" data-event-field="fecha-limite">Por favor confirma antes del 15 de abril de 2027</p>
+    </div>
+
+    <div class="au-co__card">
+      <form class="au-co__form" data-au-form novalidate>
+        <div class="au-co__field">
+          <input type="text" id="au-co-nombre" name="nombre" placeholder=" " autocomplete="name" required />
+          <label for="au-co-nombre" memory_type="text" memory_usage="custom" memory_key="confirmacion-campo-nombre">Nombre completo</label>
+        </div>
+        <div class="au-co__row">
+          <div class="au-co__field">
+            <input type="number" id="au-co-personas" name="personas" placeholder=" " min="1" max="6" inputmode="numeric" />
+            <label for="au-co-personas" memory_type="text" memory_usage="custom" memory_key="confirmacion-campo-personas">Número de personas</label>
+          </div>
+          <div class="au-co__field">
+            <input type="tel" id="au-co-telefono" name="telefono" placeholder=" " autocomplete="tel" />
+            <label for="au-co-telefono" memory_type="text" memory_usage="custom" memory_key="confirmacion-campo-telefono">Teléfono de contacto</label>
+          </div>
+        </div>
+        <fieldset class="au-co__seg">
+          <legend memory_type="text" memory_usage="custom" memory_key="confirmacion-pregunta">¿Nos acompañas?</legend>
+          <div class="au-co__track">
+            <i class="au-co__thumb" aria-hidden="true"></i>
+            <label class="au-co__opt"><input type="radio" name="au-co-asistencia" value="si" checked /><span memory_type="text" memory_usage="custom" memory_key="confirmacion-opcion-si">Sí, con gusto</span></label>
+            <label class="au-co__opt"><input type="radio" name="au-co-asistencia" value="no" /><span memory_type="text" memory_usage="custom" memory_key="confirmacion-opcion-no">No podré asistir</span></label>
+          </div>
+        </fieldset>
+        <div class="au-co__field">
+          <textarea id="au-co-mensaje" name="mensaje" placeholder=" " rows="2"></textarea>
+          <label for="au-co-mensaje" memory_type="text" memory_usage="custom" memory_key="confirmacion-campo-mensaje">Un mensaje para la festejada (opcional)</label>
+        </div>
+        <button type="submit" class="au-co__btn" data-au-submit>
+          <span memory_type="text" memory_usage="custom" memory_key="confirmacion-boton">Enviar confirmación</span>
+          <i class="au-co__spin" aria-hidden="true"></i>
+        </button>
+      </form>
+
+      <div class="au-co__success" data-au-success role="status" aria-live="polite">
+        <span class="au-co__seal" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.3 5.3 5.7.5-4.3 3.8 1.3 5.6L12 15.3 6.9 18.2l1.3-5.6L4 8.8l5.7-.5z"></path></svg>
+        </span>
+        <h3 class="au-co__stitle" memory_type="text" memory_usage="custom" memory_key="confirmacion-exito-titulo">¡Gracias por confirmar!</h3>
+        <p class="au-co__stext" memory_type="text" memory_usage="custom" memory_key="confirmacion-exito-texto">Hemos recibido tu respuesta. Nos hace muy felices saber que estarás con nosotros en este día tan especial.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="confirmacion-texto"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      var form = root.querySelector('[data-au-form]');
+      var btn = root.querySelector('[data-au-submit]');
+      var success = root.querySelector('[data-au-success]');
+      var canvas = root.querySelector('[data-au-confetti]');
+      var ctx = canvas && canvas.getContext ? canvas.getContext('2d') : null;
+
+      /* Simulated submit: loading -> done (wax seal + gold flecks). No network. */
+      var flecks = [], fleckRun = false, fleckLast = 0;
+      function burst() {
+        if (!ctx || RM) return;
+        var DPR = Math.min(2, window.devicePixelRatio || 1);
+        var W = root.clientWidth, H = root.clientHeight;
+        canvas.width = W * DPR; canvas.height = H * DPR; ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        var r = success.getBoundingClientRect(), rr = root.getBoundingClientRect();
+        var ox = r.left - rr.left + r.width / 2, oy = r.top - rr.top + Math.min(r.height, 90);
+        flecks.length = 0;
+        for (var i = 0; i < 90; i++) {
+          var a = Math.random() * Math.PI * 2, sp = 160 + Math.random() * 420;
+          flecks.push({ x: ox, y: oy, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 260, w: 3 + Math.random() * 5, h: 2 + Math.random() * 3, rot: Math.random() * 6.28, vr: (Math.random() - .5) * 12, life: 1.6 + Math.random() * 1.2, c: Math.random() < .5 ? '242,227,180' : '210,170,88' });
+        }
+        fleckLast = performance.now(); fleckRun = true; requestAnimationFrame(fleckFrame);
+      }
+      function fleckFrame(now) {
+        if (!fleckRun) return;
+        var dt = Math.min(.05, (now - fleckLast) / 1000 || .016); fleckLast = now;
+        var W = root.clientWidth, H = root.clientHeight, alive = 0;
+        ctx.clearRect(0, 0, W, H);
+        for (var i = 0; i < flecks.length; i++) {
+          var f = flecks[i]; if (f.life <= 0) continue; alive++;
+          f.life -= dt; f.vy += 900 * dt; f.vx *= .985; f.x += f.vx * dt; f.y += f.vy * dt; f.rot += f.vr * dt;
+          ctx.save(); ctx.translate(f.x, f.y); ctx.rotate(f.rot);
+          ctx.fillStyle = 'rgba(' + f.c + ',' + Math.min(1, f.life) + ')';
+          ctx.fillRect(-f.w / 2, -f.h / 2, f.w, f.h); ctx.restore();
+        }
+        if (alive && !document.hidden) requestAnimationFrame(fleckFrame); else { fleckRun = false; ctx.clearRect(0, 0, W, H); }
+      }
+
+      if (form) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          if (root.getAttribute('data-au-state')) return;
+          root.setAttribute('data-au-state', 'loading');
+          var delay = RM ? 0 : 1500;
+          setTimeout(function () {
+            root.setAttribute('data-au-state', 'done');
+            if (RM) { success.setAttribute('data-au-shown', ''); return; }
+            requestAnimationFrame(function () { requestAnimationFrame(function () { success.setAttribute('data-au-shown', ''); burst(); }); });
+          }, delay);
+        });
+      }
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+      root.classList.add('au-co--anim');
+
+      /* magnetic button */
+      if (btn) {
+        btn.addEventListener('pointermove', function (e) {
+          if (e.pointerType === 'touch') return;
+          var r = btn.getBoundingClientRect();
+          var dx = (e.clientX - r.left - r.width / 2) / r.width, dy = (e.clientY - r.top - r.height / 2) / r.height;
+          btn.style.transform = 'translate(' + (dx * 10).toFixed(1) + 'px,' + (dy * 8).toFixed(1) + 'px)';
+        });
+        btn.addEventListener('pointerleave', function () { btn.style.transform = ''; });
+      }
+
+      /* rAF: sheen on gold surfaces + spinner rotation; paused off-screen */
+      var sheen = 0, rot = 0, last = 0, running = false, visible = false;
+      function frame(now) {
+        if (!running) return;
+        var dt = Math.min(.05, (now - last) / 1000 || .016); last = now;
+        sheen = (sheen + dt * 22) % 100;
+        root.style.setProperty('--au-sheen', sheen.toFixed(1) + '%');
+        if (root.getAttribute('data-au-state') === 'loading') { rot = (rot + dt * 420) % 360; root.style.setProperty('--au-rot', rot.toFixed(0) + 'deg'); }
+        requestAnimationFrame(frame);
+      }
+      function run() { if (running || !visible || document.hidden) return; running = true; last = performance.now(); requestAnimationFrame(frame); }
+      function stop() { running = false; }
+
+      var entered = false;
+      var io = new IntersectionObserver(function (en) {
+        var e = en[0]; visible = e.isIntersecting;
+        if (visible) {
+          if (!entered && e.intersectionRatio > .2) {
+            entered = true; root.classList.add('is-in');
+            setTimeout(function () { root.classList.remove('au-co--anim', 'is-in'); }, 1600);
+          }
+          run();
+        } else { stop(); }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+      document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else run(); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Aurum Obsidiana Lujo',
+      descripcion: 'RSVP de cristal con etiquetas flotantes, selector de asistencia con deslizador dorado, botón magnético con brillo metálico y estado de carga; al enviar, sello de lacre dorado y lluvia de partículas de oro.',
+      tags: ['confirmación', 'rsvp', 'formulario', 'lujo', 'oro', 'premium', 'quinceañera', 'boda'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>

@@ -1,0 +1,185 @@
+<section
+  class="hb-vestimenta"
+  data-gemini-id="vestimenta-herbario-acuarela"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .hb-vestimenta {
+      --primary-color: #23301f;
+      --secondary-color: #5c6657;
+      --accent-color: #7d8f6e;
+      --bg-color: #f6f4ec;
+      --surface-color: #fffdf6;
+      --surface-border-color: rgba(35, 48, 31, 0.22);
+      --text-color: #23301f;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      min-height: 62svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/silk,pastel');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .hb-vestimenta *,
+    .hb-vestimenta *::before,
+    .hb-vestimenta *::after { box-sizing: border-box; }
+
+    .hb-vestimenta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 85%, transparent);
+    }
+
+    .hb-vestimenta__tarjeta {
+      width: min(100%, 660px);
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 94%, transparent);
+      border: 1px solid var(--surface-border-color);
+      outline: 1px solid var(--surface-border-color);
+      outline-offset: 6px;
+      box-shadow: 0 22px 50px rgba(35, 48, 31, 0.15);
+    }
+
+    .hb-vestimenta__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.64rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .hb-vestimenta__titulo {
+      margin: 0 0 0.8rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .hb-vestimenta__texto {
+      margin: 0 auto 1.6rem;
+      max-width: 46ch;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .hb-vestimenta__paleta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(0.7rem, 2vw, 1.1rem);
+      margin-bottom: 1.4rem;
+    }
+    .hb-vestimenta__chispa {
+      width: clamp(44px, 8vw, 58px);
+      height: clamp(44px, 8vw, 58px);
+      border-radius: 50% 50% 50% 4px;
+      border: 1px solid var(--surface-border-color);
+      box-shadow: inset 0 -8px 14px rgba(0, 0, 0, 0.08), 0 8px 18px rgba(35, 48, 31, 0.14);
+      background: var(--bg-color);
+      transition: background 0.5s ease, transform 0.5s ease;
+    }
+    .hb-vestimenta.hb-js .hb-vestimenta__chispa { opacity: 0; transform: scale(0.7); }
+    .hb-vestimenta.esta-visto .hb-vestimenta__chispa { opacity: 1; transform: none; }
+    .hb-vestimenta__chispa:hover { transform: translateY(-4px); }
+
+    .hb-vestimenta__leyenda {
+      display: inline-block;
+      padding: 0.5rem 1.4rem;
+      border-top: 1px solid var(--accent-color);
+      border-bottom: 1px solid var(--accent-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.7rem, 1.3vw, 0.8rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 480px) {
+      .hb-vestimenta__chispa { width: 40px; height: 40px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-vestimenta * { transition: none !important; }
+      .hb-vestimenta__chispa { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <div class="hb-vestimenta__tarjeta">
+    <p class="hb-vestimenta__etiqueta" memory_type="text" memory_usage="custom" memory_key="vestimenta-etiqueta">Código de vestimenta</p>
+    <h2 class="hb-vestimenta__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Vestimenta sugerida</h2>
+    <p class="hb-vestimenta__texto" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">
+      Nos encantaría verte cómodo y elegante. Estos tonos acompañan la atmósfera de la celebración;
+      siéntete libre de tomarlos como inspiración.
+    </p>
+
+    <div class="hb-vestimenta__paleta" data-hb-paleta aria-hidden="true"></div>
+
+    <p class="hb-vestimenta__leyenda" memory_type="text" memory_usage="custom" memory_key="vestimenta-leyenda">Formal · tonos suaves</p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.hb-vestimenta');
+      if (!root) return;
+      root.classList.add('hb-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var paleta = root.querySelector('[data-hb-paleta]');
+      if (paleta && !paleta.children.length) {
+        var tonos = ['#8a94a6', '#b7a98e', '#9aa98f', '#c4b5a5', '#7d8f8c', '#a68e9a'];
+        for (var i = 0; i < tonos.length; i++) {
+          var chispa = document.createElement('span');
+          chispa.className = 'hb-vestimenta__chispa';
+          chispa.style.transitionDelay = (i * 0.07).toFixed(2) + 's, ' + (i * 0.07).toFixed(2) + 's';
+          chispa.dataset.hbTono = tonos[i];
+          paleta.appendChild(chispa);
+        }
+      }
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function colorear() {
+        var chispas = root.querySelectorAll('[data-hb-tono]');
+        chispas.forEach(function (c) { c.style.background = c.getAttribute('data-hb-tono'); });
+      }
+      if (reduce || !('IntersectionObserver' in window)) {
+        root.classList.add('esta-visto');
+        colorear();
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          root.classList.add('esta-visto');
+          setTimeout(colorear, 220);
+          io.disconnect();
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-herbario-acuarela',
+      style_name: 'Herbario de Línea — Vestimenta',
+      descripcion: 'Código de vestimenta con paleta de gotas de acuarela generadas por JS que se colorean al entrar en pantalla y leyenda en filete.',
+      tags: ['vestimenta', 'dress code', 'paleta', 'swatches', 'color', 'botanico'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

@@ -1,0 +1,354 @@
+<section
+  class="be-rsvp"
+  data-gemini-id="confirmacion-texto"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Ballet&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .be-rsvp, .be-rsvp *, .be-rsvp *::before, .be-rsvp *::after { box-sizing: border-box; }
+    .be-rsvp {
+      --t-bg: var(--bg-color, #F3F5EA);
+      --t-tx: var(--text-color, #24483B);
+      --t-p: var(--primary-color, #2F7A5A);
+      --t-s: var(--secondary-color, #7D9A58);
+      --t-a: var(--accent-color, #C9A447);
+      --t-l: var(--lilac-color, #B8A2DA);
+      --t-display: var(--font-script, 'Ballet', cursive);
+      --t-text: var(--font-heading, 'EB Garamond', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/fairy,lights,garden?lock=3351');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .be-rsvp::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 80% 15%, color-mix(in srgb, var(--t-l) 24%, transparent), transparent 40%),
+        radial-gradient(circle at 15% 85%, color-mix(in srgb, var(--t-a) 18%, transparent), transparent 40%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 88%, transparent), color-mix(in srgb, color-mix(in srgb, var(--t-bg) 86%, var(--t-s)) 94%, transparent));
+    }
+    .be-rsvp__inner { width: min(100%, 42rem); }
+    .be-rsvp__head { text-align: center; margin-bottom: clamp(1.6rem, 4vw, 2.4rem); }
+    .be-rsvp__kicker { margin: 0 0 .3rem; font-style: italic; font-size: 1.15rem; color: var(--t-p); }
+    .be-rsvp__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.7rem, 6.5vw, 4.3rem); line-height: 1.3; color: var(--t-p); }
+    .be-rsvp__deadline { margin: .9rem 0 0; font-size: 1.08rem; }
+
+    .be-rsvp__card {
+      position: relative;
+      padding: clamp(1.6rem, 4vw, 2.6rem);
+      border-radius: 2.2rem .5rem 2.2rem .5rem;
+      background: linear-gradient(170deg, color-mix(in srgb, var(--t-bg) 80%, transparent), color-mix(in srgb, var(--t-bg) 92%, transparent));
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-a) 40%, transparent), 0 40px 80px -50px color-mix(in srgb, var(--t-p) 80%, transparent);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    .be-rsvp__dust { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; border-radius: inherit; }
+    .be-rsvp__form { display: grid; gap: 1.35rem; transition: opacity .45s ease, filter .45s ease; }
+    .be-rsvp__card[data-be-state="sent"] .be-rsvp__form { opacity: .07; filter: blur(3px); pointer-events: none; }
+
+    .be-rsvp__field { display: grid; gap: .3rem; }
+    .be-rsvp__label { font-size: 1.05rem; font-weight: 500; color: var(--t-p); }
+    .be-rsvp__control { position: relative; }
+    .be-rsvp__input {
+      width: 100%;
+      min-height: 2.9rem;
+      padding: .55rem .9rem;
+      border: 0;
+      border-radius: .8rem;
+      background: color-mix(in srgb, var(--t-bg) 70%, #fff);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-s) 45%, transparent);
+      color: var(--t-tx);
+      font: 400 1.1rem var(--t-text);
+      transition: box-shadow .3s ease, background-color .3s ease;
+    }
+    .be-rsvp__input::placeholder { color: color-mix(in srgb, var(--t-tx) 45%, transparent); font-style: italic; }
+    .be-rsvp__input:focus { outline: none; background: #fff; box-shadow: inset 0 0 0 1.5px var(--t-p), 0 0 0 4px color-mix(in srgb, var(--t-a) 25%, transparent); }
+    .be-rsvp__area { min-height: 6rem; resize: vertical; line-height: 1.45; }
+    .be-rsvp__row { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 1rem; }
+
+    .be-rsvp__choice { border: 0; margin: 0; padding: 0; min-width: 0; }
+    .be-rsvp__legend { padding: 0; margin-bottom: .6rem; font-size: 1.05rem; font-weight: 500; color: var(--t-p); }
+    .be-rsvp__lanterns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    .be-rsvp__opt { position: relative; display: block; cursor: pointer; }
+    .be-rsvp__radio { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .be-rsvp__lantern {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .45rem;
+      min-height: 100%;
+      padding: .9rem .8rem 1rem;
+      border-radius: 3.2rem 3.2rem 1.1rem 1.1rem;
+      background: color-mix(in srgb, var(--t-bg) 70%, transparent);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-s) 40%, transparent);
+      text-align: center;
+      transition: box-shadow .35s ease, background-color .35s ease, transform .35s cubic-bezier(.2, .8, .2, 1);
+    }
+    .be-rsvp__lantern svg { width: 3.2rem; height: 4.4rem; overflow: visible; }
+    .be-rsvp-cap, .be-rsvp-frame { fill: none; stroke: var(--t-p); stroke-width: 2; stroke-linejoin: round; }
+    .be-rsvp-glass { fill: color-mix(in srgb, var(--t-bg) 80%, var(--t-s)); transition: fill .35s ease; }
+    .be-rsvp-flame { fill: var(--t-a); opacity: .25; transition: opacity .35s ease; transform-origin: 32px 58px; }
+    .be-rsvp__opt-text { font-size: 1.08rem; line-height: 1.3; }
+    .be-rsvp__opt:hover .be-rsvp__lantern { transform: translateY(-3px); }
+    .be-rsvp__radio:focus-visible + .be-rsvp__lantern { box-shadow: inset 0 0 0 2px var(--t-p), 0 0 0 4px color-mix(in srgb, var(--t-a) 30%, transparent); }
+    .be-rsvp__radio:checked + .be-rsvp__lantern {
+      background: color-mix(in srgb, var(--t-a) 14%, var(--t-bg));
+      box-shadow: inset 0 0 0 1.5px var(--t-a), 0 0 36px -4px color-mix(in srgb, var(--t-a) 60%, transparent);
+    }
+    .be-rsvp__radio:checked + .be-rsvp__lantern .be-rsvp-glass { fill: color-mix(in srgb, var(--t-a) 30%, #fffbe8); }
+    .be-rsvp__radio:checked + .be-rsvp__lantern .be-rsvp-flame { opacity: 1; }
+    .be-rsvp__choice[data-be-shake] .be-rsvp__lanterns { animation: be-rsvp-shake .45s ease; }
+    @keyframes be-rsvp-shake { 0%, 100% { transform: none; } 20% { transform: translateX(-7px); } 45% { transform: translateX(6px); } 70% { transform: translateX(-4px); } }
+
+    .be-rsvp__submit {
+      position: relative;
+      justify-self: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
+      min-height: 3.3rem;
+      min-width: 15rem;
+      padding: .75rem 2rem;
+      border: 0;
+      border-radius: 999px;
+      background: linear-gradient(120deg, var(--t-p), color-mix(in srgb, var(--t-p) 70%, var(--t-s)));
+      color: var(--t-bg);
+      font: 500 1.15rem var(--t-text);
+      cursor: pointer;
+      overflow: visible;
+      box-shadow: 0 12px 28px -14px color-mix(in srgb, var(--t-p) 90%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--t-a) 55%, transparent);
+      transition: transform .3s cubic-bezier(.2, .8, .2, 1), box-shadow .3s ease;
+    }
+    .be-rsvp__submit:hover, .be-rsvp__submit:focus-visible { transform: translateY(-2px); box-shadow: 0 16px 32px -14px color-mix(in srgb, var(--t-p) 90%, transparent), 0 0 26px color-mix(in srgb, var(--t-a) 50%, transparent), inset 0 0 0 1px var(--t-a); outline: none; }
+    .be-rsvp__submit:active { transform: scale(.97); }
+    .be-rsvp__btn-label { transition: opacity .3s ease; }
+    .be-rsvp__orbit { position: absolute; left: 50%; top: 50%; width: 0; height: 0; opacity: 0; transition: opacity .3s ease; }
+    .be-rsvp__orbit span { position: absolute; left: -3px; top: -3px; width: 6px; height: 6px; border-radius: 50%; background: #fffbe6; box-shadow: 0 0 8px 2px var(--t-a); }
+    .be-rsvp__card[data-be-state="loading"] .be-rsvp__btn-label { opacity: .35; }
+    .be-rsvp__card[data-be-state="loading"] .be-rsvp__orbit { opacity: 1; }
+    .be-rsvp__card[data-be-state="loading"] .be-rsvp__submit { pointer-events: none; }
+
+    .be-rsvp__done {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: grid;
+      place-content: center;
+      gap: .4rem;
+      padding: 2rem;
+      text-align: center;
+      animation: be-rsvp-in .5s cubic-bezier(.2, .8, .2, 1);
+    }
+    .be-rsvp__done[hidden] { display: none; }
+    .be-rsvp__seal {
+      justify-self: center;
+      width: 4.6rem;
+      height: 4.6rem;
+      margin-bottom: .4rem;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--t-a) 50%, #fff7d6), var(--t-a));
+      box-shadow: 0 0 0 6px color-mix(in srgb, var(--t-a) 22%, transparent), 0 0 40px color-mix(in srgb, var(--t-a) 55%, transparent);
+    }
+    .be-rsvp__seal svg { width: 2.2rem; height: 2.2rem; }
+    .be-rsvp__seal path { fill: var(--t-p); }
+    .be-rsvp__done-title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.2rem, 5vw, 3rem); line-height: 1.3; color: var(--t-p); }
+    .be-rsvp__done-text { margin: 0; font-size: 1.12rem; }
+    @keyframes be-rsvp-in { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: none; } }
+
+    .be-rsvp--anim .be-rsvp__head, .be-rsvp--anim .be-rsvp__card { opacity: 0; transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .be-rsvp--anim .be-rsvp__card { transform: perspective(900px) rotateX(10deg) translateY(16px); transform-origin: 50% 0; }
+    .be-rsvp--anim.is-in .be-rsvp__head { opacity: 1; }
+    .be-rsvp--anim.is-in .be-rsvp__card { opacity: 1; transform: none; transition-delay: .15s; }
+
+    @media (max-width: 560px) {
+      .be-rsvp__row { grid-template-columns: minmax(0, 1fr); }
+      .be-rsvp__submit { min-width: 0; width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .be-rsvp *, .be-rsvp *::before, .be-rsvp *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="be-rsvp__inner">
+    <header class="be-rsvp__head">
+      <p class="be-rsvp__kicker" memory_type="text" memory_usage="custom" memory_key="confirmacion-intro">Tu presencia es la mejor magia</p>
+      <h2 class="be-rsvp__title" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">Confirma tu asistencia</h2>
+      <p class="be-rsvp__deadline" memory_type="text" memory_usage="custom" memory_key="confirmacion-limite">Por favor responde antes del 19 de mayo de 2027.</p>
+    </header>
+
+    <div class="be-rsvp__card" data-be-card>
+      <canvas class="be-rsvp__dust" data-be-dust aria-hidden="true"></canvas>
+      <form class="be-rsvp__form" data-be-form>
+        <div class="be-rsvp__row">
+          <div class="be-rsvp__field">
+            <label class="be-rsvp__label" for="be-rsvp-nombre" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-nombre">Nombre completo</label>
+            <input class="be-rsvp__input" id="be-rsvp-nombre" name="nombre" type="text" placeholder="Nombre Apellido" autocomplete="name" required />
+          </div>
+          <div class="be-rsvp__field">
+            <label class="be-rsvp__label" for="be-rsvp-personas" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-personas">Personas</label>
+            <input class="be-rsvp__input" id="be-rsvp-personas" name="personas" type="number" min="1" max="10" value="1" inputmode="numeric" />
+          </div>
+        </div>
+
+        <fieldset class="be-rsvp__choice" data-be-choice>
+          <legend class="be-rsvp__legend" memory_type="text" memory_usage="custom" memory_key="confirmacion-pregunta">¿Nos acompañarás en el bosque?</legend>
+          <div class="be-rsvp__lanterns">
+            <label class="be-rsvp__opt">
+              <input class="be-rsvp__radio" type="radio" name="asistencia" value="si" />
+              <span class="be-rsvp__lantern">
+                <svg viewBox="0 0 64 88" aria-hidden="true" focusable="false"><path class="be-rsvp-cap" d="M32 2 L32 10 M22 18 Q32 8 42 18 Z"/><path class="be-rsvp-glass" d="M20 22 H44 L48 70 H16 Z"/><path class="be-rsvp-frame" d="M20 22 H44 L48 70 H16 Z M18 18 H46 M14 74 H50 M32 22 V70"/><path class="be-rsvp-flame" data-be-flame d="M32 40 C 38 48 38 56 32 60 C 26 56 26 48 32 40 Z"/></svg>
+                <span class="be-rsvp__opt-text" memory_type="text" memory_usage="custom" memory_key="confirmacion-si">¡Sí, ahí estaré!</span>
+              </span>
+            </label>
+            <label class="be-rsvp__opt">
+              <input class="be-rsvp__radio" type="radio" name="asistencia" value="no" />
+              <span class="be-rsvp__lantern">
+                <svg viewBox="0 0 64 88" aria-hidden="true" focusable="false"><path class="be-rsvp-cap" d="M32 2 L32 10 M22 18 Q32 8 42 18 Z"/><path class="be-rsvp-glass" d="M20 22 H44 L48 70 H16 Z"/><path class="be-rsvp-frame" d="M20 22 H44 L48 70 H16 Z M18 18 H46 M14 74 H50 M32 22 V70"/><path class="be-rsvp-flame" data-be-flame d="M32 40 C 38 48 38 56 32 60 C 26 56 26 48 32 40 Z"/></svg>
+                <span class="be-rsvp__opt-text" memory_type="text" memory_usage="custom" memory_key="confirmacion-no">No podré asistir</span>
+              </span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="be-rsvp__field">
+          <label class="be-rsvp__label" for="be-rsvp-mensaje" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-mensaje">Un deseo para la quinceañera</label>
+          <textarea class="be-rsvp__input be-rsvp__area" id="be-rsvp-mensaje" name="mensaje" placeholder="Escribe aquí tus buenos deseos…"></textarea>
+        </div>
+
+        <button class="be-rsvp__submit" type="submit" data-be-submit>
+          <span class="be-rsvp__orbit" data-be-orbit aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></span>
+          <span class="be-rsvp__btn-label" memory_type="text" memory_usage="custom" memory_key="confirmacion-boton">Enviar confirmación</span>
+        </button>
+      </form>
+
+      <div class="be-rsvp__done" data-be-done role="status" hidden>
+        <span class="be-rsvp__seal" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2 C 5 7 5 15 12 22 C 19 15 19 7 12 2 Z M12 5 V20" /></svg></span>
+        <h3 class="be-rsvp__done-title" memory_type="text" memory_usage="custom" memory_key="confirmacion-gracias">¡Gracias por confirmar!</h3>
+        <p class="be-rsvp__done-text" memory_type="text" memory_usage="custom" memory_key="confirmacion-gracias-texto">Tu respuesta ya vuela entre las luciérnagas.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="confirmacion-texto"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      var card = root.querySelector('[data-be-card]');
+      var form = root.querySelector('[data-be-form]');
+      var choice = root.querySelector('[data-be-choice]');
+      var done = root.querySelector('[data-be-done]');
+      var submit = root.querySelector('[data-be-submit]');
+      var orbit = [].slice.call(root.querySelectorAll('[data-be-orbit] span'));
+      var flames = [].slice.call(root.querySelectorAll('[data-be-flame]'));
+      var cv = root.querySelector('[data-be-dust]'), ctx = cv.getContext && cv.getContext('2d');
+
+      /* simulated send: validate → loading (orbiting sparkles) → fairy-dust burst → thank-you seal */
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (card.getAttribute('data-be-state')) return;
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+        if (!form.querySelector('input[name="asistencia"]:checked')) {
+          choice.removeAttribute('data-be-shake'); void choice.offsetWidth; choice.setAttribute('data-be-shake', '');
+          setTimeout(function () { choice.removeAttribute('data-be-shake'); }, 500);
+          return;
+        }
+        card.setAttribute('data-be-state', 'loading');
+        setTimeout(function () {
+          card.setAttribute('data-be-state', 'sent');
+          done.hidden = false;
+          if (!RM) burst();
+        }, RM ? 300 : 1600);
+      });
+
+      var parts = [], bursting = false;
+      function burst() {
+        if (!ctx) return;
+        var cr = card.getBoundingClientRect(), br = submit.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+        cv.width = cr.width * dpr; cv.height = cr.height * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        var ox = br.left - cr.left + br.width / 2, oy = br.top - cr.top + br.height / 2;
+        var cs = getComputedStyle(root), cols = [cs.getPropertyValue('--t-a').trim() || '#C9A447', cs.getPropertyValue('--t-l').trim() || '#B8A2DA', '#fffbe6'];
+        for (var i = 0; i < 90; i++) { var a = Math.random() * 6.283, v = 1.5 + Math.random() * 6; parts.push({ x: ox, y: oy, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 2.5, r: 1 + Math.random() * 2.6, life: 1, c: cols[i % 3] }); }
+        if (!bursting) { bursting = true; requestAnimationFrame(step); }
+      }
+      function step() {
+        ctx.clearRect(0, 0, cv.width, cv.height);
+        for (var i = parts.length - 1; i >= 0; i--) {
+          var p = parts[i]; p.x += p.vx; p.y += p.vy; p.vx *= .965; p.vy = p.vy * .965 + .06; p.life -= .014;
+          if (p.life <= 0) { parts.splice(i, 1); continue; }
+          ctx.globalAlpha = p.life; ctx.fillStyle = p.c; ctx.shadowColor = p.c; ctx.shadowBlur = 8;
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill();
+        }
+        ctx.globalAlpha = 1; ctx.shadowBlur = 0;
+        if (parts.length) requestAnimationFrame(step); else { bursting = false; ctx.clearRect(0, 0, cv.width, cv.height); }
+      }
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      root.classList.add('be-rsvp--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('be-rsvp--anim', 'is-in'); }, 1200);
+        }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+
+      /* lantern flames flicker and loading sparkles orbit — rAF, paused off-screen */
+      var vis = false, running = false;
+      new IntersectionObserver(function (en) { vis = en[0].isIntersecting; go(); }).observe(root);
+      document.addEventListener('visibilitychange', go);
+      function go() { if (!running && vis && !document.hidden) { running = true; requestAnimationFrame(loop); } }
+      function loop(t) {
+        if (!vis || document.hidden) { running = false; return; }
+        for (var i = 0; i < flames.length; i++) {
+          var f = 1 + .08 * Math.sin(t * .021 + i * 3) + .05 * Math.sin(t * .037 + i);
+          flames[i].style.transform = 'scale(' + (2 - f).toFixed(3) + ',' + f.toFixed(3) + ')';
+        }
+        if (card.getAttribute('data-be-state') === 'loading') {
+          var w = submit.offsetWidth / 2 + 6, h = submit.offsetHeight / 2 + 6;
+          for (var j = 0; j < orbit.length; j++) {
+            var a = t * .004 + j * 1.047;
+            orbit[j].style.transform = 'translate(' + (Math.cos(a) * w).toFixed(1) + 'px,' + (Math.sin(a) * h).toFixed(1) + 'px) scale(' + (.6 + .5 * Math.abs(Math.sin(a * 1.5))).toFixed(2) + ')';
+          }
+        }
+        requestAnimationFrame(loop);
+      }
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Bosque Encantado Faroles de Respuesta',
+      descripcion: 'RSVP de bosque encantado: campos de nombre y personas, asistencia con dos faroles que se encienden, envío con chispas en órbita y explosión de polvo de hadas.',
+      tags: ['confirmación', 'bosque encantado', 'quinceañera', 'rsvp', 'faroles'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>

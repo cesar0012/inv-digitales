@@ -1,0 +1,221 @@
+<section
+  class="cv-pa"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+<i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:url('https://loremflickr.com/1920/1080/carnival,feathers?lock=436') center/cover;"></i><i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:color-mix(in srgb, var(--bg-color,#1d1a24) 88%, transparent);"></i>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Monsieur+La+Doulaise&display=swap');
+
+    .cv-pa, .cv-pa *, .cv-pa *::before, .cv-pa *::after { box-sizing: border-box; }
+    .cv-pa {
+      --t-bg: var(--bg-color, #14060f);
+      --t-tx: var(--text-color, #f3e4c8);
+      --t-p: var(--primary-color, #9b1028);
+      --t-s: var(--secondary-color, #4b1a6e);
+      --t-a: var(--accent-color, #b8862e);
+      --t-display: var(--font-script, 'Monsieur La Doulaise', cursive);
+      --t-text: var(--font-heading, 'IM Fell English', Georgia, serif);
+      --gold: linear-gradient(115deg, color-mix(in srgb, var(--t-a) 60%, #000) 0%, color-mix(in srgb, var(--t-a) 55%, #fff) 42%, var(--t-a) 58%, color-mix(in srgb, var(--t-a) 65%, #000) 100%);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 40%, color-mix(in srgb, var(--t-s) 70%, var(--t-bg)), var(--t-bg) 80%);
+      background-color: var(--t-bg);
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .cv-pa__damask { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; color: var(--t-a); opacity: .08; }
+    .cv-pa__content { width: min(100%, 60rem); }
+    .cv-pa__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3.2rem, 8vw, 5.6rem);
+      line-height: 1.1;
+      padding: 0 .3em;
+      background: var(--gold);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .cv-pa__intro { margin: .4rem auto 0; max-width: 34rem; font-style: italic; font-size: clamp(1.02rem, 1.9vw, 1.2rem); line-height: 1.6; opacity: .88; }
+
+    .cv-pa__grid {
+      margin: clamp(3.5rem, 7vw, 5rem) 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: start;
+      gap: clamp(1.5rem, 4vw, 3rem);
+    }
+    .cv-pa__rule {
+      align-self: stretch;
+      width: 1px;
+      margin-top: 2rem;
+      background: linear-gradient(180deg, transparent, var(--t-a) 30%, var(--t-a) 70%, transparent);
+      position: relative;
+    }
+    .cv-pa__rule::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 12px;
+      height: 12px;
+      background: var(--t-a);
+      transform: translate(-50%, -50%) rotate(45deg);
+      box-shadow: 0 0 14px var(--t-a);
+    }
+    .cv-pa__person { display: grid; justify-items: center; gap: .3rem; }
+    .cv-pa__frame { position: relative; width: clamp(11rem, 22vw, 15rem); margin-bottom: 1rem; }
+    .cv-pa__figure {
+      margin: 0;
+      padding: 7px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--t-a) 40%, transparent), 0 0 0 10px color-mix(in srgb, var(--t-p) 55%, transparent), 0 18px 40px rgba(0, 0, 0, .55);
+    }
+    .cv-pa__figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 50%;
+      color: transparent;
+      background: color-mix(in srgb, var(--t-s) 60%, #000);
+    }
+    .cv-pa__mask {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 76%;
+      transform: translate(-50%, -72%) rotate(-6deg) scale(.82);
+      transform-origin: 50% 70%;
+      filter: drop-shadow(0 6px 8px rgba(0, 0, 0, .5));
+      transition: transform .5s cubic-bezier(.3, 1.4, .5, 1), opacity .4s ease;
+    }
+    .cv-pa__person:nth-child(3) .cv-pa__mask { transform: translate(-50%, -72%) rotate(6deg) scale(.82); }
+    .cv-pa__name { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.3rem, 4.6vw, 3.1rem); line-height: 1.15; }
+    .cv-pa__role { margin: 0; font-style: italic; font-size: 1.08rem; color: color-mix(in srgb, var(--t-tx) 70%, var(--t-a)); }
+
+    .cv-pa--anim .cv-pa__figure { opacity: .25; filter: blur(2px) brightness(.6); transition: opacity .5s ease, filter .5s ease; }
+    .cv-pa--anim .cv-pa__mask { transform: translate(-50%, 34%) scale(1.25); }
+    .cv-pa--anim .cv-pa__person:nth-child(3) .cv-pa__mask { transform: translate(-50%, 34%) scale(1.25); }
+    .cv-pa--anim .cv-pa__name, .cv-pa--anim .cv-pa__role { opacity: 0; transform: translateY(8px); transition: opacity .45s ease .25s, transform .45s ease .25s; }
+    .cv-pa--anim [data-on] .cv-pa__figure { opacity: 1; filter: none; }
+    .cv-pa--anim [data-on] .cv-pa__mask { transform: translate(-50%, -72%) rotate(-6deg) scale(.82); }
+    .cv-pa--anim .cv-pa__person:nth-child(3)[data-on] .cv-pa__mask { transform: translate(-50%, -72%) rotate(6deg) scale(.82); }
+    .cv-pa--anim [data-on] .cv-pa__name, .cv-pa--anim [data-on] .cv-pa__role { opacity: 1; transform: none; }
+
+    @media (max-width: 640px) {
+      .cv-pa__grid { grid-template-columns: 1fr; gap: 3.2rem; }
+      .cv-pa__rule { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cv-pa *, .cv-pa *::before, .cv-pa *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="cv-pa__damask" aria-hidden="true">
+    <defs>
+      <path id="cvpa-fl" d="M0 -10C5 -4 5 4 0 10C-5 4 -5 -4 0 -10ZM-10 0C-4 -5 4 -5 10 0C4 5 -4 5 -10 0Z" />
+      <pattern id="cvpa-dm" width="80" height="110" patternUnits="userSpaceOnUse">
+        <path fill="currentColor" fill-rule="evenodd" d="M40 18C33 30 20 34 20 50C20 64 32 70 40 84C48 70 60 64 60 50C60 34 47 30 40 18ZM40 34C36 42 29 45 29 52C29 60 35 64 40 72C45 64 51 60 51 52C51 45 44 42 40 34ZM40 44C38 49 35 51 35 54C35 58 38 60 40 64C42 60 45 58 45 54C45 51 42 49 40 44ZM40 18C37 12 37 8 40 3C43 8 43 12 40 18ZM40 84C36 90 35 96 40 104C45 96 44 90 40 84Z" />
+        <path fill="none" stroke="currentColor" stroke-width="2" d="M20 50C12 48 8 40 12 34C15 30 20 32 19 37M60 50C68 48 72 40 68 34C65 30 60 32 61 37" />
+        <use href="#cvpa-fl" fill="currentColor" /><use href="#cvpa-fl" x="80" fill="currentColor" />
+        <use href="#cvpa-fl" y="110" fill="currentColor" /><use href="#cvpa-fl" x="80" y="110" fill="currentColor" />
+      </pattern>
+      <g id="cvpa-mk">
+        <path d="M60 52C50 30 40 14 26 2C30 22 40 40 52 56Z" style="fill: var(--t-s)" />
+        <path d="M66 50C62 28 58 12 50 -4C46 18 52 36 58 54Z" style="fill: color-mix(in srgb, var(--t-p) 85%, #fff)" />
+        <path fill-rule="evenodd" style="fill: var(--t-p); stroke: var(--t-a)" stroke-width="3" d="M130 70C116 54 84 42 50 50C30 55 20 70 28 86C38 106 70 116 94 108C110 103 122 96 130 98C138 96 150 103 166 108C190 116 222 106 232 86C240 70 230 55 210 50C176 42 144 54 130 70ZM54 80C66 66 92 66 104 82C92 92 66 94 54 80ZM206 80C194 66 168 66 156 82C168 92 194 94 206 80Z" />
+        <circle cx="130" cy="72" r="6" style="fill: var(--t-a)" />
+      </g>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#cvpa-dm)" />
+  </svg>
+
+  <div class="cv-pa__content">
+    <h2 class="cv-pa__title" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Mis Padres</h2>
+    <p class="cv-pa__intro" memory_type="text" memory_usage="custom" memory_key="padres-intro">Con el amor de quienes me dieron la vida y hoy me acompañan a cruzar el telón de esta noche tan esperada.</p>
+
+    <ul class="cv-pa__grid">
+      <li class="cv-pa__person" data-cv-person>
+        <div class="cv-pa__frame">
+          <figure class="cv-pa__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/600/600/portrait,woman,elegant?lock=3511" alt="Retrato de la madre de la quinceañera" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+          </figure>
+          <svg class="cv-pa__mask" viewBox="0 -10 260 130" aria-hidden="true"><use href="#cvpa-mk" /></svg>
+        </div>
+        <h3 class="cv-pa__name" memory_type="text" memory_usage="custom" memory_key="padres-madre-nombre">Nombre Apellido</h3>
+        <p class="cv-pa__role" memory_type="text" memory_usage="custom" memory_key="padres-madre-rol">Mi mamá</p>
+      </li>
+      <li class="cv-pa__rule" aria-hidden="true"></li>
+      <li class="cv-pa__person" data-cv-person>
+        <div class="cv-pa__frame">
+          <figure class="cv-pa__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/600/600/portrait,man,suit?lock=3512" alt="Retrato del padre de la quinceañera" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+          </figure>
+          <svg class="cv-pa__mask" viewBox="0 -10 260 130" aria-hidden="true"><use href="#cvpa-mk" /></svg>
+        </div>
+        <h3 class="cv-pa__name" memory_type="text" memory_usage="custom" memory_key="padres-padre-nombre">Nombre Apellido</h3>
+        <p class="cv-pa__role" memory_type="text" memory_usage="custom" memory_key="padres-padre-rol">Mi papá</p>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="padres-padre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      var people = root.querySelectorAll('[data-cv-person]');
+      var shown = 0;
+      root.classList.add('cv-pa--anim');
+      var io = new IntersectionObserver(function (en) {
+        en.forEach(function (e) {
+          if (!e.isIntersecting || e.intersectionRatio < .35) return;
+          io.unobserve(e.target);
+          var idx = Array.prototype.indexOf.call(people, e.target);
+          setTimeout(function () {
+            e.target.setAttribute('data-on', '');
+            if (++shown === people.length) {
+              setTimeout(function () {
+                root.classList.remove('cv-pa--anim');
+                for (var i = 0; i < people.length; i++) people[i].removeAttribute('data-on');
+              }, 900);
+            }
+          }, 250 + idx * 380);
+        });
+      }, { threshold: [0, .35, .6] });
+      for (var i = 0; i < people.length; i++) io.observe(people[i]);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Carnaval Veneciano Retratos Enmascarados',
+      descripcion: 'Padres de la quinceañera en retratos ovalados con marco dorado sobre damasco morado; una máscara veneciana se levanta de cada retrato y queda como corona, en entrada escalonada.',
+      tags: ['padres', 'quinceañera', 'carnaval', 'veneciano', 'mascara', 'damasco', 'retratos'],
+      tipo: 'padres'
+    };
+  </script>
+</section>

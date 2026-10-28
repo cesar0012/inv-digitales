@@ -1,0 +1,190 @@
+<section
+  class="pv-gal"
+  data-gemini-id="galeria-ventanilla"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Jost:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+    .pv-gal, .pv-gal *, .pv-gal *::before, .pv-gal *::after { box-sizing: border-box; }
+    .pv-gal {
+      --bg: var(--bg-color, #16233b);
+      --tx: var(--text-color, #f6f1e7);
+      --p: var(--primary-color, #f4a259);
+      --s: var(--secondary-color, #8fbfdd);
+      --a: var(--accent-color, #e07a5f);
+      --script: var(--font-heading, 'Great Vibes', cursive);
+      --sans: 'Jost', 'Segoe UI', Arial, sans-serif;
+      position: relative; isolation: isolate; overflow: hidden;
+      padding: clamp(4rem, 10vw, 7rem) clamp(1rem, 4vw, 3rem);
+      background-color: var(--bg);
+      background-image: url('https://loremflickr.com/1920/1080/sky,clouds?lock=2817');
+      background-size: cover; background-position: center;
+      color: var(--tx); text-align: center; font-family: var(--sans);
+    }
+    .pv-gal::before {
+      content: ''; position: absolute; inset: 0; z-index: 0;
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--bg) 86%, transparent), color-mix(in srgb, var(--bg) 93%, transparent) 55%, var(--bg));
+    }
+    .pv-gal > * { position: relative; z-index: 1; }
+
+    .pv-gal__nube {
+      position: absolute; z-index: 0; pointer-events: none;
+      height: clamp(40px, 6vw, 66px); border-radius: 999px;
+      background: color-mix(in srgb, var(--tx) 11%, transparent); filter: blur(15px);
+    }
+    .pv-gal__nube--a { width: 26%; top: 10%; left: -30%; animation: pvGalDrift 58s linear infinite; }
+    .pv-gal__nube--b { width: 18%; bottom: 12%; left: -22%; animation: pvGalDrift 80s linear infinite 14s; opacity: .7; }
+    @keyframes pvGalDrift { to { transform: translateX(160vw); } }
+
+    .pv-gal__kick {
+      margin: 0 0 .7rem; font-weight: 500;
+      font-size: clamp(.72rem, 1.35vw, .85rem); letter-spacing: .46em; text-transform: uppercase;
+      color: color-mix(in srgb, var(--s) 60%, var(--tx));
+    }
+    .pv-gal__title {
+      margin: 0 0 clamp(2rem, 5vw, 3rem); font-weight: 300;
+      font-size: clamp(1.9rem, 4.6vw, 3rem); letter-spacing: .16em; text-transform: uppercase;
+    }
+    .pv-gal__title em {
+      display: block; font-family: var(--script); font-style: normal; text-transform: none;
+      font-size: 1.5em; letter-spacing: 0; line-height: .9; margin-top: .18em; color: var(--p);
+    }
+    .pv-gal__hint {
+      margin: -1.4rem 0 1.8rem; font-weight: 400;
+      font-size: clamp(.68rem, 1.25vw, .8rem); letter-spacing: .3em; text-transform: uppercase;
+      color: color-mix(in srgb, var(--s) 58%, var(--tx));
+      animation: pvGalHint 2.6s ease-in-out infinite;
+    }
+    @keyframes pvGalHint { 50% { opacity: .5; } }
+
+    .pv-gal__cabina {
+      display: grid; gap: clamp(1rem, 2.6vw, 1.7rem);
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+      width: min(100%, 1020px); margin: 0 auto;
+    }
+
+    /* Ventanilla de cabina con persiana */
+    .pv-gal__ventana {
+      position: relative; border-radius: 34px; padding: 12px;
+      background: linear-gradient(165deg, color-mix(in srgb, var(--p) 58%, var(--tx) 8%), color-mix(in srgb, var(--a) 55%, var(--p)) 62%, color-mix(in srgb, var(--p) 52%, var(--s) 10%));
+      box-shadow: 0 24px 48px color-mix(in srgb, var(--bg) 55%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--tx) 18%, transparent);
+      transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s ease;
+    }
+    .pv-gal__ventana:hover { transform: translateY(-6px); box-shadow: 0 32px 60px color-mix(in srgb, var(--bg) 60%, transparent); }
+    .pv-gal__ventana img {
+      display: block; width: 100%; aspect-ratio: 1/1.06; object-fit: cover;
+      border-radius: 24px;
+      transition: transform .6s cubic-bezier(.2,.8,.2,1);
+    }
+    .pv-gal__ventana:hover img { transform: scale(1.05); }
+
+    /* Persiana: cubre parte de la vista y se abre al pasar el cursor/toque */
+    .pv-gal__persiana {
+      position: absolute; left: 12px; right: 12px; top: 12px; height: 58%;
+      border-radius: 24px 24px 0 0; overflow: hidden; pointer-events: none;
+      background: repeating-linear-gradient(90deg,
+        color-mix(in srgb, var(--s) 30%, var(--bg)) 0 10px,
+        color-mix(in srgb, var(--s) 14%, var(--bg)) 10px 20px);
+      box-shadow: 0 10px 18px color-mix(in srgb, var(--bg) 45%, transparent);
+      transform-origin: top center;
+      transition: transform .7s cubic-bezier(.6, 0, .2, 1);
+    }
+    .pv-gal__ventana:hover .pv-gal__persiana,
+    .pv-gal__ventana:focus-within .pv-gal__persiana { transform: scaleY(.06); }
+    .pv-gal__ventana:nth-child(2n) .pv-gal__persiana { height: 42%; transition-delay: .08s; }
+    .pv-gal__ventana:nth-child(3n) .pv-gal__persiana { height: 30%; transition-delay: .04s; }
+
+    .pv-gal__luz {
+      position: absolute; top: 18px; right: 22px;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--a); box-shadow: 0 0 10px color-mix(in srgb, var(--a) 80%, transparent);
+      animation: pvGalLuz 3s ease-in-out infinite;
+    }
+    @keyframes pvGalLuz { 50% { opacity: .35; } }
+
+    .pv-gal--anim [data-pv-step] { opacity: 0; transform: translateY(18px); transition: opacity .55s ease, transform .55s cubic-bezier(.2, .8, .2, 1); }
+    .pv-gal--anim [data-pv-step].is-on { opacity: 1; transform: none; }
+    .pv-gal :focus-visible { outline: 2px solid var(--p); outline-offset: 4px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pv-gal *, .pv-gal *::before, .pv-gal *::after { animation: none !important; transition: none !important; }
+      .pv-gal__persiana { display: none; }
+    }
+  </style>
+
+  <div class="pv-gal__nube pv-gal__nube--a" aria-hidden="true"></div>
+  <div class="pv-gal__nube pv-gal__nube--b" aria-hidden="true"></div>
+
+  <header>
+    <p class="pv-gal__kick" data-pv-step memory_type="text" memory_usage="custom" memory_key="galeria-rotulo">Galería</p>
+    <h2 class="pv-gal__title" data-pv-step memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Desde la <em>ventanilla</em></h2>
+    <p class="pv-gal__hint" data-pv-step aria-hidden="true">Pasa el cursor para abrir las persianas</p>
+  </header>
+
+  <div class="pv-gal__cabina">
+    <figure class="pv-gal__ventana" tabindex="0" data-pv-step>
+      <img src="https://loremflickr.com/600/760/mountain,couple?lock=2818" alt="Recuerdo 1" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="pv-gal__persiana" aria-hidden="true"></span>
+      <span class="pv-gal__luz" aria-hidden="true"></span>
+      <figcaption hidden>Recuerdo 1</figcaption>
+    </figure>
+    <figure class="pv-gal__ventana" tabindex="0" data-pv-step>
+      <img src="https://loremflickr.com/600/760/balloon,sky?lock=2819" alt="Recuerdo 2" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="pv-gal__persiana" aria-hidden="true"></span>
+      <span class="pv-gal__luz" aria-hidden="true"></span>
+      <figcaption hidden>Recuerdo 2</figcaption>
+    </figure>
+    <figure class="pv-gal__ventana" tabindex="0" data-pv-step>
+      <img src="https://loremflickr.com/600/760/hiking,landscape?lock=2820" alt="Recuerdo 3" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="pv-gal__persiana" aria-hidden="true"></span>
+      <span class="pv-gal__luz" aria-hidden="true"></span>
+      <figcaption hidden>Recuerdo 3</figcaption>
+    </figure>
+    <figure class="pv-gal__ventana" tabindex="0" data-pv-step>
+      <img src="https://loremflickr.com/600/760/sunset,hills?lock=2821" alt="Recuerdo 4" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="pv-gal__persiana" aria-hidden="true"></span>
+      <span class="pv-gal__luz" aria-hidden="true"></span>
+      <figcaption hidden>Recuerdo 4</figcaption>
+    </figure>
+    <figure class="pv-gal__ventana" tabindex="0" data-pv-step>
+      <img src="https://loremflickr.com/600/760/birds,travel?lock=2822" alt="Recuerdo 5" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="pv-gal__persiana" aria-hidden="true"></span>
+      <span class="pv-gal__luz" aria-hidden="true"></span>
+      <figcaption hidden>Recuerdo 5</figcaption>
+    </figure>
+    <figure class="pv-gal__ventana" tabindex="0" data-pv-step>
+      <img src="https://loremflickr.com/600/760/paragliding,sky?lock=2823" alt="Recuerdo 6" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="pv-gal__persiana" aria-hidden="true"></span>
+      <span class="pv-gal__luz" aria-hidden="true"></span>
+      <figcaption hidden>Recuerdo 6</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = null;
+      try { root = document.currentScript.closest('[data-gemini-id^="galeria"]'); } catch (e) {}
+      if (!root) root = document.querySelector('[data-gemini-id^="galeria"]');
+      if (!root || root.__pvInit) return;
+      root.__pvInit = true;
+      var steps = [].slice.call(root.querySelectorAll('[data-pv-step]'));
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      function entra() {
+        root.classList.add('pv-gal--anim');
+        steps.forEach(function (el, i) { setTimeout(function () { el.classList.add('is-on'); }, RM ? 0 : 100 + i * 120); });
+      }
+      if (RM) entra();
+      else if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (en) { if (en[0].isIntersecting) { io.disconnect(); entra(); } }, { threshold: 0.14 });
+        io.observe(root);
+        setTimeout(function () { io.disconnect(); entra(); }, 2600);
+      } else entra();
+    })();
+  </script>
+  <script>var moduleMetadata = { module_type: 'galeria', module_name: 'galeria-premium', style_name: 'Vuelo · Paisajes del Cielo', descripcion: 'Galería como ventanillas de cabina: marcos dorados de avión con luz de posición parpadeante y persianas que se abren al pasar el cursor mostrando paisajes y momentos de vuelo.', tags: ['galeria', 'premium', 'vuelo', 'ventanilla', 'persiana', 'interactivo'], tipo: 'galeria' };</script>
+</section>

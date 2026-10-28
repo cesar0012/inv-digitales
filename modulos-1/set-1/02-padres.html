@@ -1,0 +1,234 @@
+<section
+  class="hb-padres"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .hb-padres {
+      --primary-color: #23301f;
+      --secondary-color: #5c6657;
+      --accent-color: #7d8f6e;
+      --bg-color: #f6f4ec;
+      --surface-color: #fffdf6;
+      --surface-border-color: rgba(35, 48, 31, 0.22);
+      --text-color: #23301f;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/paper,texture');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .hb-padres *,
+    .hb-padres *::before,
+    .hb-padres *::after { box-sizing: border-box; }
+
+    .hb-padres::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 86%, transparent);
+    }
+
+    .hb-padres__cabecera {
+      width: min(100%, 640px);
+      margin: 0 auto clamp(2rem, 5vw, 3.2rem);
+      text-align: center;
+    }
+
+    .hb-padres__titulo {
+      margin: 0 0 0.8rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.4rem);
+      letter-spacing: 0.04em;
+      color: var(--primary-color);
+    }
+
+    .hb-padres__intro {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.9rem, 1.6vw, 1rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .hb-padres__filete {
+      width: min(160px, 40%);
+      height: 7px;
+      margin: 1.1rem auto 0;
+      border-top: 1px solid var(--accent-color);
+      border-bottom: 1px solid var(--accent-color);
+    }
+
+    .hb-padres__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1.2rem, 3.5vw, 2.4rem);
+      width: min(100%, 920px);
+      margin: 0 auto;
+    }
+
+    .hb-padres__tarjeta {
+      position: relative;
+      padding: clamp(1.6rem, 3.5vw, 2.4rem) clamp(1.2rem, 3vw, 2rem);
+      text-align: center;
+      background: color-mix(in srgb, var(--surface-color) 94%, transparent);
+      border: 1px solid var(--surface-border-color);
+      outline: 1px solid var(--surface-border-color);
+      outline-offset: 5px;
+      box-shadow: 0 16px 38px rgba(35, 48, 31, 0.12);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .hb-padres.hb-js .hb-padres__tarjeta { opacity: 0; transform: translateY(18px); }
+    .hb-padres.esta-visto .hb-padres__tarjeta { opacity: 1; transform: none; }
+    .hb-padres.esta-visto .hb-padres__tarjeta:nth-child(2) { transition-delay: 0.14s; }
+
+    .hb-padres__num {
+      position: absolute;
+      top: 0.8rem;
+      left: 1rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.3em;
+      color: var(--accent-color);
+    }
+
+    .hb-padres__retrato {
+      width: clamp(112px, 16vw, 148px);
+      margin: 0 auto 1.2rem;
+      padding: 6px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 50%;
+      box-shadow: 0 10px 24px rgba(35, 48, 31, 0.16);
+    }
+    .hb-padres__retrato img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      object-fit: cover;
+      filter: saturate(0.9);
+    }
+
+    .hb-padres__rol {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.66rem, 1.2vw, 0.74rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .hb-padres__nombres {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+      line-height: 1.3;
+      color: var(--primary-color);
+    }
+
+    .hb-padres__nota {
+      margin: 0.6rem 0 0;
+      font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+      line-height: 1.65;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 760px) {
+      .hb-padres__grid { grid-template-columns: 1fr; max-width: 420px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-padres * { transition: none !important; animation: none !important; }
+      .hb-padres__tarjeta { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <header class="hb-padres__cabecera" memory_type="text" memory_usage="custom" memory_key="padres-intro">
+    <h2 class="hb-padres__titulo">Con el amor de nuestros padres</h2>
+    <p class="hb-padres__intro">Dos familias que se unen para celebrar; su apoyo y su ejemplo hacen posible este día.</p>
+    <div class="hb-padres__filete" aria-hidden="true"></div>
+  </header>
+
+  <div class="hb-padres__grid">
+    <article class="hb-padres__tarjeta">
+      <span class="hb-padres__num" aria-hidden="true">I</span>
+      <figure class="hb-padres__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-uno">
+        <img
+          src="https://loremflickr.com/400/400/portrait,family"
+          alt="Retrato de la familia de los novios"
+          path="placeholder"
+          data-library-category="bodas"
+          data-asset-type="retrato-familia"
+          loading="lazy"
+        />
+        <figcaption hidden>Retrato familia uno</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-uno">
+        <p class="hb-padres__rol">Padres de la novia</p>
+        <h3 class="hb-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+        <p class="hb-padres__nota">Apellido Familiar</p>
+      </div>
+    </article>
+
+    <article class="hb-padres__tarjeta">
+      <span class="hb-padres__num" aria-hidden="true">II</span>
+      <figure class="hb-padres__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-dos">
+        <img
+          src="https://loremflickr.com/400/400/portrait,parents"
+          alt="Retrato de la familia del novio"
+          path="placeholder"
+          data-library-category="bodas"
+          data-asset-type="retrato-familia"
+          loading="lazy"
+        />
+        <figcaption hidden>Retrato familia dos</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-dos">
+        <p class="hb-padres__rol">Padres del novio</p>
+        <h3 class="hb-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+        <p class="hb-padres__nota">Apellido Familiar</p>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.hb-padres');
+      if (!root) return;
+      root.classList.add('hb-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.2 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Herbario de Línea — Padres',
+      descripcion: 'Dos láminas numeradas con retratos circulares enmarcados, roles en versalitas y entrada escalonada al entrar en pantalla.',
+      tags: ['padres', 'familias', 'retratos', 'circulo', 'stagger', 'botanico', 'editorial'],
+      tipo: 'padres'
+    };
+  </script>
+</section>

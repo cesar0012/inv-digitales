@@ -1,0 +1,217 @@
+<section
+  class="au-pa"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+<i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:url('https://loremflickr.com/1920/1080/gold,marble?lock=434') center/cover;"></i><i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:color-mix(in srgb, var(--bg-color,#1d1a24) 88%, transparent);"></i>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Jost:wght@300;400;500&display=swap');
+
+    .au-pa, .au-pa *, .au-pa *::before, .au-pa *::after { box-sizing: border-box; }
+    .au-pa {
+      --t-bg: var(--bg-color, #0b0a0d);
+      --t-tx: var(--text-color, #f3eee4);
+      --t-p: var(--primary-color, #d2aa58);
+      --t-s: var(--secondary-color, #7a5c2a);
+      --t-a: var(--accent-color, #f2e3b4);
+      --t-display: var(--font-script, 'Cormorant Garamond', 'Times New Roman', serif);
+      --t-text: var(--font-heading, 'Jost', 'Helvetica Neue', Arial, sans-serif);
+      --au-ang: 0deg;
+      --au-line: color-mix(in srgb, var(--t-p) 45%, transparent);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(28rem, 70vw, 46rem);
+      padding: clamp(4rem, 9vw, 7rem) clamp(1.25rem, 6vw, 5rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image:
+        radial-gradient(ellipse 60% 50% at 80% 20%, color-mix(in srgb, var(--t-s) 26%, transparent), transparent 70%),
+        radial-gradient(ellipse 50% 40% at 10% 90%, color-mix(in srgb, var(--t-s) 18%, transparent), transparent 70%);
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .au-pa::before {
+      content: '';
+      position: absolute; inset: 0; z-index: -1; pointer-events: none;
+      background: repeating-linear-gradient(90deg, transparent 0 7rem, color-mix(in srgb, var(--t-a) 5%, transparent) 7rem calc(7rem + 1px));
+      -webkit-mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent);
+      mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent);
+    }
+    .au-pa__wrap { position: relative; width: min(100%, 62rem); margin: 0 auto; }
+
+    .au-pa__head { display: grid; gap: .5rem; max-width: 34rem; margin-bottom: clamp(2.5rem, 6vw, 4.5rem); }
+    .au-pa__kicker { margin: 0; font-family: var(--t-display); font-style: italic; font-size: clamp(1.15rem, 2.4vw, 1.5rem); color: var(--t-a); }
+    .au-pa__title { margin: 0; font-family: var(--t-display); font-weight: 500; font-style: italic; font-size: clamp(2.8rem, 7vw, 4.8rem); line-height: .95; letter-spacing: -.01em; color: var(--t-tx); }
+    .au-pa__intro { margin: .6rem 0 0; font-weight: 300; font-size: clamp(1rem, 2vw, 1.12rem); line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 72%, transparent); }
+    .au-pa__rule { width: 4rem; height: 1px; background: linear-gradient(90deg, var(--t-p), transparent); margin-top: .4rem; }
+
+    .au-pa__grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(2.5rem, 6vw, 5rem) clamp(2rem, 8vw, 7rem);
+      list-style: none; margin: 0; padding: 0;
+    }
+    .au-pa__person { position: relative; display: grid; justify-items: center; text-align: center; }
+    .au-pa__person:nth-child(2) { margin-top: clamp(0rem, 7vw, 5rem); }
+
+    .au-pa__orbit { position: relative; width: min(62vw, 15.5rem); aspect-ratio: 1; }
+    .au-pa__orbit::before {
+      content: ''; position: absolute; inset: -16%; border-radius: 50%; z-index: -1;
+      background: radial-gradient(circle, color-mix(in srgb, var(--t-p) 30%, transparent), transparent 62%);
+      filter: blur(14px); transition: opacity .45s ease, transform .5s ease;
+    }
+    .au-pa__ring {
+      position: absolute; inset: 0; border-radius: 50%;
+      background: conic-gradient(from var(--au-ang), var(--t-s), var(--t-p), var(--t-a), var(--t-p), var(--t-s), var(--t-p), var(--t-a), var(--t-s));
+      -webkit-mask: radial-gradient(circle closest-side, transparent calc(100% - 3.5px), #000 calc(100% - 3px));
+      mask: radial-gradient(circle closest-side, transparent calc(100% - 3.5px), #000 calc(100% - 3px));
+      transition: transform .5s cubic-bezier(.2, .8, .2, 1);
+    }
+    .au-pa__ring--thin {
+      inset: -.75rem;
+      opacity: .45;
+      -webkit-mask: radial-gradient(circle closest-side, transparent calc(100% - 1.5px), #000 calc(100% - 1px));
+      mask: radial-gradient(circle closest-side, transparent calc(100% - 1.5px), #000 calc(100% - 1px));
+      background: conic-gradient(from calc(var(--au-ang) * -1), transparent 0 42%, var(--t-a) 50%, transparent 58% 100%);
+    }
+    .au-pa__photo { margin: 0; position: absolute; inset: .55rem; border-radius: 50%; overflow: hidden; background: var(--t-bg); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-a) 25%, transparent); }
+    .au-pa__photo img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 50%; transition: transform .5s cubic-bezier(.2, .8, .2, 1), filter .45s ease; filter: saturate(.85) contrast(1.05); }
+    .au-pa__person:hover .au-pa__photo img { transform: scale(1.06); filter: saturate(1) contrast(1.05); }
+    .au-pa__person:hover .au-pa__ring { transform: scale(1.04); }
+    .au-pa__person:hover .au-pa__orbit::before { transform: scale(1.12); }
+
+    .au-pa__name { margin: 1.4rem 0 .25rem; font-family: var(--t-display); font-style: italic; font-weight: 500; font-size: clamp(1.75rem, 3.6vw, 2.5rem); line-height: 1.05; color: var(--t-tx); }
+    .au-pa__role { margin: 0; font-weight: 400; font-size: .9rem; letter-spacing: .14em; color: var(--t-p); }
+    .au-pa__role::before { content: ''; display: block; width: 2.2rem; height: 1px; margin: 0 auto .6rem; background: var(--au-line); }
+
+    .au-pa__amp {
+      position: absolute; left: 50%; top: 42%; z-index: 1;
+      transform: translate(-50%, -50%);
+      margin: 0; font-family: var(--t-display); font-style: italic; font-weight: 400;
+      font-size: clamp(3rem, 7vw, 5.5rem); line-height: 1; color: var(--t-a);
+      text-shadow: 0 0 24px color-mix(in srgb, var(--t-p) 55%, transparent);
+      pointer-events: none;
+    }
+
+    /* Entrance (only while JS adds .au-pa--anim); each transition <= .5s */
+    .au-pa--anim .au-pa__head > * { opacity: 0; transform: translateY(12px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .au-pa--anim .au-pa__head > :nth-child(2) { transition-delay: .1s; }
+    .au-pa--anim .au-pa__head > :nth-child(3) { transition-delay: .2s; }
+    .au-pa--anim .au-pa__head > :nth-child(4) { transition-delay: .3s; }
+    .au-pa--anim .au-pa__person { opacity: 0; transform: translateX(-46px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .au-pa--anim .au-pa__person:nth-child(2) { transform: translateX(46px); transition-delay: .18s; }
+    .au-pa--anim .au-pa__photo img { clip-path: circle(0% at 50% 50%); transition: clip-path .5s cubic-bezier(.2, .8, .2, 1) .25s; }
+    .au-pa--anim .au-pa__person:nth-child(2) .au-pa__photo img { transition-delay: .45s; }
+    .au-pa--anim .au-pa__ring { transform: scale(.7); transition: transform .5s cubic-bezier(.2, .8, .2, 1) .2s; }
+    .au-pa--anim .au-pa__person:nth-child(2) .au-pa__ring { transition-delay: .38s; }
+    .au-pa--anim .au-pa__amp { opacity: 0; transform: translate(-50%, -50%) scale(.6); transition: opacity .4s ease, transform .5s cubic-bezier(.2, .8, .2, 1); transition-delay: .6s; }
+    .au-pa--anim.is-in .au-pa__head > * { opacity: 1; transform: none; }
+    .au-pa--anim.is-in .au-pa__person { opacity: 1; transform: none; }
+    .au-pa--anim.is-in .au-pa__photo img { clip-path: circle(75% at 50% 50%); }
+    .au-pa--anim.is-in .au-pa__ring { transform: none; }
+    .au-pa--anim.is-in .au-pa__amp { opacity: 1; transform: translate(-50%, -50%); }
+
+    @media (max-width: 719px) {
+      .au-pa__grid { grid-template-columns: 1fr; }
+      .au-pa__person:nth-child(2) { margin-top: 0; }
+      .au-pa__person:nth-child(1) { order: 1; }
+      .au-pa__person:nth-child(2) { order: 3; }
+      .au-pa__amp { position: static; order: 2; transform: none; grid-column: 1; text-align: center; font-size: 2.6rem; margin: -.5rem 0; }
+      .au-pa--anim .au-pa__amp { transform: scale(.6); }
+      .au-pa--anim.is-in .au-pa__amp { transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .au-pa *, .au-pa *::before, .au-pa *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="au-pa__wrap">
+    <header class="au-pa__head">
+      <p class="au-pa__kicker" memory_type="text" memory_usage="custom" memory_key="padres-kicker">Con la bendición de</p>
+      <h2 class="au-pa__title" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Mis padres</h2>
+      <p class="au-pa__intro" memory_type="text" memory_usage="custom" memory_key="padres-intro">Quienes me han dado la vida, el amor y el ejemplo para llegar hasta este día tan especial.</p>
+      <span class="au-pa__rule" aria-hidden="true"></span>
+    </header>
+
+    <ul class="au-pa__grid">
+      <li class="au-pa__person">
+        <div class="au-pa__orbit">
+          <span class="au-pa__ring au-pa__ring--thin" aria-hidden="true"></span>
+          <span class="au-pa__ring" aria-hidden="true"></span>
+          <figure class="au-pa__photo" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/700/700/portrait,woman,elegant?lock=3502" alt="Retrato de la madre" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <h3 class="au-pa__name" memory_type="text" memory_usage="custom" memory_key="padres-madre-nombre">Nombre Apellido</h3>
+        <p class="au-pa__role" memory_type="text" memory_usage="custom" memory_key="padres-madre-rol">Mi madre</p>
+      </li>
+      <li class="au-pa__person">
+        <div class="au-pa__orbit">
+          <span class="au-pa__ring au-pa__ring--thin" aria-hidden="true"></span>
+          <span class="au-pa__ring" aria-hidden="true"></span>
+          <figure class="au-pa__photo" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/700/700/portrait,man,elegant?lock=3503" alt="Retrato del padre" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <h3 class="au-pa__name" memory_type="text" memory_usage="custom" memory_key="padres-padre-nombre">Nombre Apellido</h3>
+        <p class="au-pa__role" memory_type="text" memory_usage="custom" memory_key="padres-padre-rol">Mi padre</p>
+      </li>
+      <li class="au-pa__amp" aria-hidden="true" role="presentation">&amp;</li>
+    </ul>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="padres-padre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      root.classList.add('au-pa--anim');
+
+      /* Rotating gold-foil rings: rAF updates one CSS variable on the root, paused off-screen */
+      var ang = 0, last = 0, running = false, visible = false;
+      function frame(now) {
+        if (!running) return;
+        var dt = Math.min(.05, (now - last) / 1000 || .016); last = now;
+        ang = (ang + dt * 38) % 360;
+        root.style.setProperty('--au-ang', ang.toFixed(1) + 'deg');
+        requestAnimationFrame(frame);
+      }
+      function run() { if (running || !visible || document.hidden) return; running = true; last = performance.now(); requestAnimationFrame(frame); }
+      function stop() { running = false; }
+
+      var entered = false;
+      var io = new IntersectionObserver(function (en) {
+        var e = en[0];
+        visible = e.isIntersecting;
+        if (visible) {
+          if (!entered && e.intersectionRatio > .2) {
+            entered = true;
+            root.classList.add('is-in');
+            setTimeout(function () { root.classList.remove('au-pa--anim', 'is-in'); }, 1500);
+          }
+          run();
+        } else { stop(); }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+      document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else run(); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Aurum Obsidiana Lujo',
+      descripcion: 'Padres en composición editorial: retratos circulares con anillo de lámina de oro que gira en continuo, revelado circular de la foto y entrada lateral escalonada; ampersand dorado al centro.',
+      tags: ['padres', 'lujo', 'oro', 'retratos', 'premium', 'quinceañera', 'boda'],
+      tipo: 'padres'
+    };
+  </script>
+</section>

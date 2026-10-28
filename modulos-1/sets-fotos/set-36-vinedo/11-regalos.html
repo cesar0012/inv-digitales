@@ -1,0 +1,268 @@
+<section
+  class="vc-rg"
+  data-gemini-id="regalos-vinedo"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Italianno&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .vc-rg, .vc-rg *, .vc-rg *::before, .vc-rg *::after { box-sizing: border-box; }
+    .vc-rg {
+      --t-bg: var(--bg-color, #F3E9D2);
+      --t-tx: var(--text-color, #2E1B1C);
+      --t-p: var(--primary-color, #6E1F2F);
+      --t-s: var(--secondary-color, #6B6E3A);
+      --t-a: var(--accent-color, #A8834A);
+      --t-display: var(--font-script, 'Italianno', cursive);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      --cellar: color-mix(in srgb, var(--t-s) 26%, #0f0b07);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(36rem, 66vw, 50rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--cellar);
+      background-image: url('https://loremflickr.com/1600/1000/wine,bottles,cellar?lock=3311');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .vc-rg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(50% 60% at 50% 50%, color-mix(in srgb, var(--t-a) 18%, transparent), transparent 75%),
+        linear-gradient(180deg, color-mix(in srgb, var(--cellar) 82%, transparent), color-mix(in srgb, var(--cellar) 92%, transparent));
+    }
+    .vc-rg__menu {
+      position: relative;
+      width: min(100%, 38rem);
+      padding: clamp(2.6rem, 6vw, 3.6rem) clamp(1.3rem, 5vw, 3rem) clamp(2.2rem, 5vw, 3rem);
+      border-radius: 14rem 14rem 6px 6px / 5rem 5rem 6px 6px;
+      background-color: var(--t-bg);
+      background-image:
+        radial-gradient(circle at 10% 8%, color-mix(in srgb, var(--t-a) 18%, transparent), transparent 35%),
+        radial-gradient(circle at 92% 95%, color-mix(in srgb, var(--t-a) 20%, transparent), transparent 40%);
+      box-shadow: 0 40px 80px -36px #000, inset 0 0 0 9px var(--t-bg), inset 0 0 0 10px color-mix(in srgb, var(--t-a) 70%, transparent);
+    }
+    .vc-rg__crest { display: block; width: 4.4rem; height: auto; margin: 0 auto .3rem; }
+    .vc-rg__crest circle { fill: color-mix(in srgb, var(--t-p) 16%, transparent); stroke: var(--t-p); stroke-width: .9; vector-effect: non-scaling-stroke; }
+    .vc-rg__crest path { fill: none; stroke: var(--t-s); stroke-width: .9; vector-effect: non-scaling-stroke; }
+    .vc-rg__kicker { margin: 0; font-style: italic; font-size: clamp(1.02rem, 2.2vw, 1.15rem); color: var(--t-s); }
+    .vc-rg__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(3.2rem, 8vw, 4.8rem); line-height: .95; color: var(--t-p); }
+    .vc-rg__lead { margin: .6rem auto 0; max-width: 28rem; font-size: clamp(1.05rem, 2.2vw, 1.16rem); line-height: 1.5; color: color-mix(in srgb, var(--t-tx) 80%, transparent); text-wrap: balance; }
+
+    .vc-rg__list { list-style: none; margin: 1.6rem 0 0; padding: 0; text-align: left; border-top: 1px solid color-mix(in srgb, var(--t-a) 55%, transparent); }
+    .vc-rg__row { border-bottom: 1px solid color-mix(in srgb, var(--t-a) 30%, transparent); }
+    .vc-rg__opt { position: relative; display: grid; grid-template-columns: 1.4rem minmax(0, 1fr); gap: .8rem; align-items: start; padding: .9rem .4rem; cursor: pointer; transition: background-color .3s ease; }
+    .vc-rg__opt:hover { background: color-mix(in srgb, var(--t-a) 9%, transparent); }
+    .vc-rg__radio { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .vc-rg__dot { width: 1.1rem; height: 1.1rem; margin-top: .3rem; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--t-p); transition: box-shadow .3s ease, background-color .3s ease; }
+    .vc-rg__opt:has(.vc-rg__radio:checked) .vc-rg__dot { background: var(--t-p); box-shadow: inset 0 0 0 1px var(--t-p), inset 0 0 0 3px var(--t-bg); }
+    .vc-rg__opt:has(.vc-rg__radio:focus-visible) { outline: 2px solid var(--t-a); outline-offset: -2px; }
+    .vc-rg__line { display: flex; align-items: baseline; gap: .5rem; }
+    .vc-rg__name { margin: 0; font-weight: 600; font-size: clamp(1.15rem, 2.4vw, 1.3rem); line-height: 1.2; }
+    .vc-rg__lead-dots { flex: 1 1 1.5rem; min-width: 1.5rem; border-bottom: 1.5px dotted color-mix(in srgb, var(--t-a) 80%, transparent); translate: 0 -.3em; }
+    .vc-rg__detail { flex: none; max-width: 55%; font-style: italic; font-size: clamp(.98rem, 2vw, 1.08rem); color: var(--t-p); text-align: right; }
+    .vc-rg__desc { display: block; margin: .2rem 0 0; font-size: clamp(.98rem, 2vw, 1.06rem); line-height: 1.45; color: color-mix(in srgb, var(--t-tx) 75%, transparent); }
+    .vc-rg__check { position: absolute; right: .3rem; top: .2rem; width: 1.6rem; height: 1.6rem; opacity: 0; scale: .4; transition: opacity .3s ease, scale .4s cubic-bezier(.3, 1.6, .5, 1); }
+    .vc-rg__check circle { fill: var(--t-s); }
+    .vc-rg__check path { fill: none; stroke: var(--t-bg); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .vc-rg__row[data-done] .vc-rg__check { opacity: 1; scale: 1; }
+
+    .vc-rg__actions { position: relative; display: grid; justify-items: center; margin-top: 1.6rem; }
+    .vc-rg__btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
+      min-width: min(100%, 15rem);
+      min-height: 3.2rem;
+      padding: .6rem 1.8rem;
+      border: 0;
+      border-radius: 999px;
+      background: var(--t-p);
+      color: var(--t-bg);
+      font-family: var(--t-text);
+      font-size: 1.15rem;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-a) 60%, transparent), 0 16px 28px -18px var(--t-p);
+      transition: transform .3s cubic-bezier(.2, .8, .2, 1), background-color .35s ease;
+    }
+    .vc-rg__btn:hover { transform: translateY(-2px); }
+    .vc-rg__btn:focus-visible { outline: 2px solid var(--t-a); outline-offset: 3px; }
+    .vc-rg__btn svg { width: 1.25rem; height: 1.25rem; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .vc-rg__btn[data-state="loading"] { cursor: progress; }
+    .vc-rg__btn[data-state="loading"] svg { animation: vc-rg-screw .45s linear infinite; }
+    .vc-rg__btn[data-state="done"] { background: var(--t-s); }
+    @keyframes vc-rg-screw { to { rotate: 360deg; } }
+    .vc-rg__cork { position: absolute; left: 50%; top: 0; width: 1.4rem; height: auto; margin-left: -.7rem; opacity: 0; pointer-events: none; }
+    .vc-rg__cork rect { fill: color-mix(in srgb, var(--t-a) 75%, #7a5530); stroke: color-mix(in srgb, var(--t-a) 40%, #2e1a0c); stroke-width: 1; }
+    .vc-rg__cork path { fill: none; stroke: color-mix(in srgb, var(--t-a) 40%, #2e1a0c); stroke-width: .8; }
+    .vc-rg__cork[data-pop] { animation: vc-rg-pop .5s cubic-bezier(.2, .7, .4, 1) forwards; }
+    @keyframes vc-rg-pop { 0% { opacity: 1; translate: 0 0; rotate: 0deg; } 70% { opacity: 1; translate: 1.6rem -4.2rem; rotate: 300deg; } 100% { opacity: 0; translate: 2.2rem -3.4rem; rotate: 400deg; } }
+    .vc-rg__done { margin: .9rem 0 0; font-style: italic; font-size: 1.12rem; color: var(--t-s); }
+    .vc-rg__done[hidden] { display: none; }
+
+    .vc-rg--anim .vc-rg__menu { opacity: 0; translate: 0 26px; transition: opacity .45s ease, translate .5s cubic-bezier(.2, .8, .2, 1); }
+    .vc-rg--anim.is-in .vc-rg__menu { opacity: 1; translate: 0 0; }
+    .vc-rg--anim .vc-rg__row { opacity: 0; translate: -10px 0; transition: opacity .4s ease, translate .45s cubic-bezier(.2, .8, .2, 1); }
+    .vc-rg--anim.is-in .vc-rg__row { opacity: 1; translate: 0 0; }
+    .vc-rg--anim.is-in .vc-rg__row:nth-child(1) { transition-delay: .3s; }
+    .vc-rg--anim.is-in .vc-rg__row:nth-child(2) { transition-delay: .4s; }
+    .vc-rg--anim.is-in .vc-rg__row:nth-child(3) { transition-delay: .5s; }
+    .vc-rg--anim.is-in .vc-rg__row:nth-child(4) { transition-delay: .6s; }
+
+    @media (max-width: 480px) {
+      .vc-rg__menu { border-radius: 9rem 9rem 6px 6px / 3.5rem 3.5rem 6px 6px; }
+      .vc-rg__line { flex-wrap: wrap; }
+      .vc-rg__lead-dots { display: none; }
+      .vc-rg__detail { flex-basis: 100%; max-width: none; text-align: left; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .vc-rg *, .vc-rg *::before, .vc-rg *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="vc-rg__menu">
+    <svg class="vc-rg__crest" viewBox="0 0 70 56" aria-hidden="true">
+      <path d="M35 10 C34 5 31 2 26 1 M36 8 C42 7 45 3 43 0"/>
+      <path d="M22 12 C12 6 4 10 2 18 C10 20 16 18 22 12 Z M48 12 C58 6 66 10 68 18 C60 20 54 18 48 12 Z"/>
+      <circle cx="23" cy="16" r="5"/><circle cx="33" cy="16" r="5"/><circle cx="43" cy="16" r="5"/>
+      <circle cx="28" cy="25" r="5"/><circle cx="38" cy="25" r="5"/><circle cx="33" cy="34" r="5"/>
+    </svg>
+    <p class="vc-rg__kicker" memory_type="text" memory_usage="custom" memory_key="regalos-intro">Si desea honrarnos con un detalle</p>
+    <h2 class="vc-rg__title" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Carta de Regalos</h2>
+    <p class="vc-rg__lead" memory_type="text" memory_usage="custom" memory_key="regalos-texto">Elija una opción de nuestra carta y agéndela para que podamos agradecerle personalmente.</p>
+
+    <ul class="vc-rg__list" role="radiogroup">
+      <li class="vc-rg__row" data-vc-row>
+        <label class="vc-rg__opt">
+          <input class="vc-rg__radio" type="radio" name="vc-rg-regalo" value="mesa" checked />
+          <span class="vc-rg__dot" aria-hidden="true"></span>
+          <span>
+            <span class="vc-rg__line"><span class="vc-rg__name" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-1">Mesa de regalos</span><span class="vc-rg__lead-dots" aria-hidden="true"></span><span class="vc-rg__detail" memory_type="text" memory_usage="custom" memory_key="regalos-detalle-1">Evento n.º 00000000</span></span>
+            <span class="vc-rg__desc" memory_type="text" memory_usage="custom" memory_key="regalos-desc-1">Tienda departamental; busque nuestros nombres en la mesa de novios.</span>
+          </span>
+          <svg class="vc-rg__check" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11"/><path d="M7 12.5 L10.5 16 L17 8.5"/></svg>
+        </label>
+      </li>
+      <li class="vc-rg__row" data-vc-row>
+        <label class="vc-rg__opt">
+          <input class="vc-rg__radio" type="radio" name="vc-rg-regalo" value="transferencia" />
+          <span class="vc-rg__dot" aria-hidden="true"></span>
+          <span>
+            <span class="vc-rg__line"><span class="vc-rg__name" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-2">Transferencia</span><span class="vc-rg__lead-dots" aria-hidden="true"></span><span class="vc-rg__detail" memory_type="text" memory_usage="custom" memory_key="regalos-detalle-2">Banco · CLABE 0000 0000 0000 0000 00</span></span>
+            <span class="vc-rg__desc" memory_type="text" memory_usage="custom" memory_key="regalos-desc-2">A nombre de Nombre Apellido.</span>
+          </span>
+          <svg class="vc-rg__check" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11"/><path d="M7 12.5 L10.5 16 L17 8.5"/></svg>
+        </label>
+      </li>
+      <li class="vc-rg__row" data-vc-row>
+        <label class="vc-rg__opt">
+          <input class="vc-rg__radio" type="radio" name="vc-rg-regalo" value="sobres" />
+          <span class="vc-rg__dot" aria-hidden="true"></span>
+          <span>
+            <span class="vc-rg__line"><span class="vc-rg__name" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-3">Lluvia de sobres</span><span class="vc-rg__lead-dots" aria-hidden="true"></span><span class="vc-rg__detail" memory_type="text" memory_usage="custom" memory_key="regalos-detalle-3">El día del evento</span></span>
+            <span class="vc-rg__desc" memory_type="text" memory_usage="custom" memory_key="regalos-desc-3">Habrá un cofre de madera junto a la mesa de bienvenida.</span>
+          </span>
+          <svg class="vc-rg__check" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11"/><path d="M7 12.5 L10.5 16 L17 8.5"/></svg>
+        </label>
+      </li>
+      <li class="vc-rg__row" data-vc-row>
+        <label class="vc-rg__opt">
+          <input class="vc-rg__radio" type="radio" name="vc-rg-regalo" value="viaje" />
+          <span class="vc-rg__dot" aria-hidden="true"></span>
+          <span>
+            <span class="vc-rg__line"><span class="vc-rg__name" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-4">Luna de miel</span><span class="vc-rg__lead-dots" aria-hidden="true"></span><span class="vc-rg__detail" memory_type="text" memory_usage="custom" memory_key="regalos-detalle-4">Viaje a la Toscana</span></span>
+            <span class="vc-rg__desc" memory_type="text" memory_usage="custom" memory_key="regalos-desc-4">Una aportación para recorrer juntos otros viñedos.</span>
+          </span>
+          <svg class="vc-rg__check" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11"/><path d="M7 12.5 L10.5 16 L17 8.5"/></svg>
+        </label>
+      </li>
+    </ul>
+
+    <div class="vc-rg__actions">
+      <svg class="vc-rg__cork" data-vc-cork viewBox="0 0 20 30" aria-hidden="true"><rect x="2" y="1" width="16" height="28" rx="3"/><path d="M5 7 H8 M11 12 H15 M5 18 H9 M12 23 H15"/></svg>
+      <button class="vc-rg__btn" type="button" data-vc-btn>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 V10 M6 3 H18 M12 10 C9 11 9 13 12 14 C15 15 15 17 12 18 C9 19 9 21 12 22"/></svg>
+        <span memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span>
+      </button>
+      <p class="vc-rg__done" data-vc-done hidden aria-live="polite" memory_type="text" memory_usage="custom" memory_key="regalos-confirmacion">¡Salud! Su detalle quedó agendado. Gracias por su cariño.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="regalos-vinedo"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* "Agendar regalo": corkscrew turns, the cork pops and the chosen row gets a check */
+      var btn = root.querySelector('[data-vc-btn]');
+      var cork = root.querySelector('[data-vc-cork]');
+      var done = root.querySelector('[data-vc-done]');
+      var rows = [].slice.call(root.querySelectorAll('[data-vc-row]'));
+      var busy = false;
+      rows.forEach(function (r) {
+        var input = r.querySelector('input');
+        input.addEventListener('change', function () {
+          if (btn.getAttribute('data-state') === 'done') { btn.removeAttribute('data-state'); done.hidden = true; }
+        });
+      });
+      btn.addEventListener('click', function () {
+        if (busy || btn.getAttribute('data-state') === 'done') return;
+        busy = true;
+        btn.setAttribute('data-state', 'loading');
+        btn.setAttribute('aria-busy', 'true');
+        setTimeout(function () {
+          btn.setAttribute('data-state', 'done');
+          btn.removeAttribute('aria-busy');
+          rows.forEach(function (r) {
+            if (r.querySelector('input').checked) r.setAttribute('data-done', ''); else r.removeAttribute('data-done');
+          });
+          if (!RM) { cork.removeAttribute('data-pop'); void cork.getBoundingClientRect(); cork.setAttribute('data-pop', ''); }
+          done.hidden = false;
+          busy = false;
+        }, RM ? 300 : 1100);
+      });
+      cork.addEventListener('animationend', function () { cork.removeAttribute('data-pop'); });
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+      root.classList.add('vc-rg--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('vc-rg--anim', 'is-in'); }, 1400);
+        }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-vinedo',
+      style_name: 'Viñedo Clásico Carta de Regalos',
+      descripcion: 'Opciones de regalo presentadas como carta de vinos con puntos guía sobre fondo de cava. Al agendar, el sacacorchos gira, salta el corcho y la opción elegida se marca con confirmación.',
+      tags: ['regalos', 'boda', 'viñedo', 'vino', 'mesa de regalos', 'cava'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>

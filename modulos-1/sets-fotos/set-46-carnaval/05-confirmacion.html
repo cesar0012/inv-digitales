@@ -1,0 +1,274 @@
+<section
+  class="cv-rs"
+  data-gemini-id="confirmacion-texto"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Monsieur+La+Doulaise&display=swap');
+
+    .cv-rs, .cv-rs *, .cv-rs *::before, .cv-rs *::after { box-sizing: border-box; }
+    .cv-rs {
+      --t-bg: var(--bg-color, #14060f);
+      --t-tx: var(--text-color, #f3e4c8);
+      --t-p: var(--primary-color, #9b1028);
+      --t-s: var(--secondary-color, #4b1a6e);
+      --t-a: var(--accent-color, #b8862e);
+      --t-display: var(--font-script, 'Monsieur La Doulaise', cursive);
+      --t-text: var(--font-heading, 'IM Fell English', Georgia, serif);
+      --gold: linear-gradient(115deg, color-mix(in srgb, var(--t-a) 60%, #000) 0%, color-mix(in srgb, var(--t-a) 55%, #fff) 42%, var(--t-a) 58%, color-mix(in srgb, var(--t-a) 65%, #000) 100%);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 60vw, 46rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/masquerade,ball,dance?lock=3541');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .cv-rs::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 82%, transparent), color-mix(in srgb, var(--t-bg) 94%, transparent));
+    }
+    .cv-rs__card {
+      position: relative;
+      width: min(100%, 40rem);
+      padding: clamp(2.6rem, 6vw, 3.6rem) clamp(1.3rem, 5vw, 3.2rem) clamp(2rem, 5vw, 3rem);
+      border-radius: 50% 50% 18px 18px / 9rem 9rem 18px 18px;
+      background:
+        radial-gradient(ellipse at 50% 0, color-mix(in srgb, var(--t-s) 55%, transparent), transparent 60%),
+        color-mix(in srgb, var(--t-bg) 88%, var(--t-p));
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-a) 70%, transparent), inset 0 0 0 8px color-mix(in srgb, var(--t-bg) 70%, transparent), inset 0 0 0 9px color-mix(in srgb, var(--t-a) 35%, transparent), 0 30px 70px rgba(0, 0, 0, .65);
+    }
+    .cv-rs__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3rem, 7vw, 4.8rem);
+      line-height: 1.1;
+      padding: 0 .3em;
+      background: var(--gold);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .cv-rs__intro { margin: .3rem auto 1.8rem; max-width: 28rem; font-style: italic; opacity: .86; line-height: 1.55; }
+
+    .cv-rs__form { display: grid; gap: 1.3rem; text-align: left; }
+    .cv-rs__field { display: grid; gap: .3rem; position: relative; }
+    .cv-rs__label { font-style: italic; font-size: 1.02rem; color: color-mix(in srgb, var(--t-tx) 70%, var(--t-a)); }
+    .cv-rs__input {
+      width: 100%;
+      min-height: 2.8rem;
+      padding: .5rem .2rem;
+      border: 0;
+      border-bottom: 1px solid color-mix(in srgb, var(--t-a) 45%, transparent);
+      border-radius: 0;
+      background: transparent;
+      color: var(--t-tx);
+      font: inherit;
+      font-size: 1.12rem;
+      outline: none;
+    }
+    textarea.cv-rs__input { resize: vertical; min-height: 4.2rem; }
+    .cv-rs__input::placeholder { color: color-mix(in srgb, var(--t-tx) 40%, transparent); }
+    .cv-rs__line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transition: transform .4s cubic-bezier(.2, .8, .2, 1);
+    }
+    .cv-rs__input:focus + .cv-rs__line { transform: scaleX(1); }
+
+    .cv-rs__choice { margin: 0; padding: 0; border: 0; display: grid; gap: .6rem; }
+    .cv-rs__choice legend { padding: 0; margin-bottom: .5rem; }
+    .cv-rs__opts { display: flex; flex-wrap: wrap; gap: .8rem; }
+    .cv-rs__opt { flex: 1 1 12rem; position: relative; cursor: pointer; }
+    .cv-rs__opt input { position: absolute; opacity: 0; pointer-events: none; }
+    .cv-rs__face {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      min-height: 3.6rem;
+      padding: .6rem 1rem;
+      border-radius: 999px;
+      border: 1px solid color-mix(in srgb, var(--t-a) 40%, transparent);
+      background: color-mix(in srgb, var(--t-bg) 60%, transparent);
+      transition: background-color .35s ease, border-color .35s ease, transform .3s ease, box-shadow .35s ease;
+    }
+    .cv-rs__face svg { width: 3rem; flex: none; transition: transform .4s cubic-bezier(.3, 1.5, .5, 1); }
+    .cv-rs__opt:hover .cv-rs__face { transform: translateY(-2px); }
+    .cv-rs__opt input:checked + .cv-rs__face { border-color: var(--t-a); background: color-mix(in srgb, var(--t-p) 55%, var(--t-bg)); box-shadow: 0 0 22px color-mix(in srgb, var(--t-a) 35%, transparent); }
+    .cv-rs__opt input:checked + .cv-rs__face svg { transform: rotate(-10deg) scale(1.15); }
+    .cv-rs__opt input:focus-visible + .cv-rs__face { outline: 2px solid var(--t-tx); outline-offset: 3px; }
+
+    .cv-rs__btn {
+      justify-self: center;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .7rem;
+      min-height: 3.3rem;
+      min-width: 15rem;
+      margin-top: .6rem;
+      padding: .6rem 2.9rem .6rem 1rem;
+      border: 0;
+      border-radius: 999px;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-p) 85%, #fff 10%), color-mix(in srgb, var(--t-p) 70%, #000));
+      color: var(--t-tx);
+      font: inherit;
+      font-size: 1.12rem;
+      cursor: pointer;
+      box-shadow: inset 0 0 0 1px var(--t-a), 0 10px 26px rgba(0, 0, 0, .5);
+      transition: transform .3s ease, box-shadow .3s ease, opacity .3s ease;
+    }
+    .cv-rs__btn:hover { transform: translateY(-2px); box-shadow: inset 0 0 0 1px var(--t-a), 0 14px 30px color-mix(in srgb, var(--t-p) 50%, transparent); }
+    .cv-rs__btn:focus-visible { outline: 2px solid var(--t-tx); outline-offset: 3px; }
+    .cv-rs__seal { width: 2.4rem; height: 2.4rem; flex: none; }
+    .cv-rs__btn[data-state="loading"] { pointer-events: none; }
+    .cv-rs__btn[data-state="loading"] .cv-rs__seal { animation: cv-rs-spin .5s linear infinite; }
+    .cv-rs__btn[data-state="loading"] [data-cv-label] { opacity: .55; }
+    .cv-rs__btn[data-state="done"] { pointer-events: none; background: var(--gold); color: var(--t-bg); }
+    .cv-rs__btn[data-state="done"] .cv-rs__seal { animation: cv-rs-stamp .45s cubic-bezier(.3, 1.6, .5, 1); }
+    .cv-rs__check { position: absolute; right: 1rem; width: 1.3rem; height: 1.3rem; opacity: 0; transition: opacity .3s ease; }
+    .cv-rs__check path { stroke-dasharray: 24; stroke-dashoffset: 24; transition: stroke-dashoffset .45s ease .1s; }
+    .cv-rs__btn[data-state="done"] .cv-rs__check { opacity: 1; }
+    .cv-rs__btn[data-state="done"] .cv-rs__check path { stroke-dashoffset: 0; }
+    .cv-rs__thanks { margin: .4rem 0 0; text-align: center; font-style: italic; color: var(--t-a); }
+    .cv-rs__thanks[hidden] { display: none; }
+    .cv-rs__note { margin: 1.2rem 0 0; font-size: .98rem; font-style: italic; opacity: .7; }
+    @keyframes cv-rs-spin { to { transform: rotate(360deg); } }
+    @keyframes cv-rs-stamp { 0% { transform: scale(1.7) rotate(-20deg); opacity: .3; } 100% { transform: none; opacity: 1; } }
+
+    .cv-rs--anim .cv-rs__card { opacity: 0; transform: translateY(24px) rotateX(10deg); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .cv-rs--anim.is-in .cv-rs__card { opacity: 1; transform: none; }
+
+    @media (max-width: 520px) {
+      .cv-rs__card { border-radius: 50% 50% 16px 16px / 5rem 5rem 16px 16px; }
+      .cv-rs__btn { min-width: 0; width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cv-rs *, .cv-rs *::before, .cv-rs *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="cv-rs__card">
+    <h2 class="cv-rs__title" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">Confirma tu asistencia</h2>
+    <p class="cv-rs__intro" memory_type="text" memory_usage="custom" memory_key="confirmacion-intro">Cada máscara tiene un lugar reservado. Dinos si nos acompañarás en esta noche de gala.</p>
+
+    <form class="cv-rs__form" data-cv-form novalidate>
+      <div class="cv-rs__field">
+        <label class="cv-rs__label" for="cvrs-nombre"><span memory_type="text" memory_usage="custom" memory_key="confirmacion-label-nombre">Tu nombre</span></label>
+        <input class="cv-rs__input" id="cvrs-nombre" name="nombre" type="text" placeholder="Nombre Apellido" autocomplete="name" required />
+        <span class="cv-rs__line" aria-hidden="true"></span>
+      </div>
+      <div class="cv-rs__field">
+        <label class="cv-rs__label" for="cvrs-pases"><span memory_type="text" memory_usage="custom" memory_key="confirmacion-label-pases">Número de invitados</span></label>
+        <input class="cv-rs__input" id="cvrs-pases" name="pases" type="number" min="1" max="10" value="1" inputmode="numeric" />
+        <span class="cv-rs__line" aria-hidden="true"></span>
+      </div>
+      <fieldset class="cv-rs__choice">
+        <legend class="cv-rs__label"><span memory_type="text" memory_usage="custom" memory_key="confirmacion-label-asistencia">¿Nos acompañas?</span></legend>
+        <div class="cv-rs__opts">
+          <label class="cv-rs__opt">
+            <input type="radio" name="asistencia" value="si" checked />
+            <span class="cv-rs__face">
+              <svg viewBox="0 0 120 60" aria-hidden="true"><path fill-rule="evenodd" style="fill: var(--t-a)" d="M60 24C52 14 38 10 22 14C12 16 8 24 12 32C16 42 32 46 44 42C52 39 56 36 60 36C64 36 68 39 76 42C88 46 104 42 108 32C112 24 108 16 98 14C82 10 68 14 60 24ZM24 28C30 22 40 22 46 30C40 34 30 35 24 28ZM96 28C90 22 80 22 74 30C80 34 90 35 96 28Z" /></svg>
+              <span memory_type="text" memory_usage="custom" memory_key="confirmacion-si">Asistiré con gusto</span>
+            </span>
+          </label>
+          <label class="cv-rs__opt">
+            <input type="radio" name="asistencia" value="no" />
+            <span class="cv-rs__face">
+              <svg viewBox="0 0 120 60" aria-hidden="true"><path fill-rule="evenodd" style="fill: color-mix(in srgb, var(--t-s) 60%, #fff)" d="M60 24C52 14 38 10 22 14C12 16 8 24 12 32C16 42 32 46 44 42C52 39 56 36 60 36C64 36 68 39 76 42C88 46 104 42 108 32C112 24 108 16 98 14C82 10 68 14 60 24ZM24 28C30 22 40 22 46 30C40 34 30 35 24 28ZM96 28C90 22 80 22 74 30C80 34 90 35 96 28Z" /></svg>
+              <span memory_type="text" memory_usage="custom" memory_key="confirmacion-no">No podré asistir</span>
+            </span>
+          </label>
+        </div>
+      </fieldset>
+      <div class="cv-rs__field">
+        <label class="cv-rs__label" for="cvrs-msg"><span memory_type="text" memory_usage="custom" memory_key="confirmacion-label-mensaje">Un mensaje para la quinceañera</span></label>
+        <textarea class="cv-rs__input" id="cvrs-msg" name="mensaje" rows="2" placeholder="Opcional"></textarea>
+        <span class="cv-rs__line" aria-hidden="true"></span>
+      </div>
+      <button class="cv-rs__btn" type="submit" data-cv-submit data-state="idle">
+        <svg class="cv-rs__seal" viewBox="0 0 40 40" aria-hidden="true">
+          <path d="M20 2l4 4 5-2 2 5 5 1-1 5 4 4-4 4 1 5-5 1-2 5-5-2-4 4-4-4-5 2-2-5-5-1 1-5-4-4 4-4-1-5 5-1 2-5 5 2z" style="fill: var(--t-a)" />
+          <circle cx="20" cy="20" r="10" style="fill: color-mix(in srgb, var(--t-p) 80%, #000)" />
+          <path d="M14 20c2-3 4-3 6 0c2-3 4-3 6 0" fill="none" style="stroke: var(--t-a)" stroke-width="1.6" stroke-linecap="round" />
+        </svg>
+        <span data-cv-label memory_type="text" memory_usage="custom" memory_key="confirmacion-boton">Sellar mi confirmación</span>
+        <svg class="cv-rs__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5L20 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </button>
+      <div data-cv-thanks hidden role="status">
+        <p class="cv-rs__thanks" memory_type="text" memory_usage="custom" memory_key="confirmacion-gracias">¡Tu lugar en el baile quedó sellado! Gracias por confirmar.</p>
+      </div>
+    </form>
+    <p class="cv-rs__note" memory_type="text" memory_usage="custom" memory_key="confirmacion-limite">Por favor confirma antes del 15 de enero de 2027.</p>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="confirmacion-texto"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* Simulated submit: loading -> done. Button label is never rewritten; state lives in data-state */
+      var form = root.querySelector('[data-cv-form]'), btn = root.querySelector('[data-cv-submit]'), thanks = root.querySelector('[data-cv-thanks]');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (btn.getAttribute('data-state') !== 'idle') return;
+        var name = form.querySelector('#cvrs-nombre');
+        if (!name.value.trim()) { name.focus(); name.setAttribute('aria-invalid', 'true'); return; }
+        name.removeAttribute('aria-invalid');
+        btn.setAttribute('data-state', 'loading');
+        setTimeout(function () {
+          btn.setAttribute('data-state', 'done');
+          thanks.hidden = false;
+        }, RM ? 0 : 1400);
+      });
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+      root.classList.add('cv-rs--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('cv-rs--anim', 'is-in'); }, 1100);
+        }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Carnaval Veneciano Carta Sellada',
+      descripcion: 'RSVP de carnaval veneciano: carta en arco dorado con campos de línea dorada, opción de asistencia con máscaras y botón de sello de lacre que gira al cargar y estampa la confirmación.',
+      tags: ['confirmación', 'rsvp', 'quinceañera', 'carnaval', 'veneciano', 'mascara', 'sello'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>

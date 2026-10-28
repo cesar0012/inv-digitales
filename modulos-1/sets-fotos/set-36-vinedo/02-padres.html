@@ -1,0 +1,183 @@
+<section
+  class="vc-pa"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+<i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:url('https://loremflickr.com/1920/1080/vineyard,grapes?lock=416') center/cover;"></i><i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:color-mix(in srgb, var(--bg-color,#1d1a24) 88%, transparent);"></i>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Italianno&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .vc-pa, .vc-pa *, .vc-pa *::before, .vc-pa *::after { box-sizing: border-box; }
+    .vc-pa {
+      --t-bg: var(--bg-color, #F3E9D2);
+      --t-tx: var(--text-color, #2E1B1C);
+      --t-p: var(--primary-color, #6E1F2F);
+      --t-s: var(--secondary-color, #6B6E3A);
+      --t-a: var(--accent-color, #A8834A);
+      --t-display: var(--font-script, 'Italianno', cursive);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image:
+        radial-gradient(70% 60% at 10% 0%, color-mix(in srgb, var(--t-a) 16%, transparent), transparent 70%),
+        radial-gradient(60% 60% at 100% 100%, color-mix(in srgb, var(--t-s) 14%, transparent), transparent 70%);
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .vc-pa__grain { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mix-blend-mode: multiply; }
+    .vc-pa__content { width: min(100%, 60rem); }
+    .vc-pa__kicker { margin: 0; font-style: italic; font-size: clamp(1.05rem, 2.4vw, 1.25rem); color: color-mix(in srgb, var(--t-tx) 72%, transparent); }
+    .vc-pa__title { margin: .1rem 0 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(3.2rem, 8vw, 5.2rem); line-height: 1; color: var(--t-p); }
+
+    .vc-pa__grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(2.5rem, 8vw, 7rem);
+      margin-top: clamp(2.2rem, 5vw, 3.4rem);
+    }
+    .vc-pa__vine { position: absolute; left: 50%; top: 4%; width: clamp(6rem, 13vw, 10rem); height: auto; translate: -50% 0; overflow: visible; pointer-events: none; }
+    .vc-pa__vine path { fill: none; stroke: var(--t-a); stroke-width: 1; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+    .vc-pa__vine [data-tone="leaf"] { stroke: var(--t-s); fill: color-mix(in srgb, var(--t-s) 16%, transparent); }
+    .vc-pa__vine circle { fill: color-mix(in srgb, var(--t-p) 20%, transparent); stroke: var(--t-p); stroke-width: .9; vector-effect: non-scaling-stroke; }
+
+    .vc-pa__card { position: relative; display: flex; flex-direction: column; align-items: center; }
+    .vc-pa__photo {
+      position: relative;
+      margin: 0 0 1.4rem;
+      width: min(15rem, 78%);
+      aspect-ratio: 1;
+      padding: 10px;
+      border-radius: 50%;
+      background: var(--t-bg);
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--t-a) 80%, transparent), 0 0 0 6px var(--t-bg), 0 0 0 7px color-mix(in srgb, var(--t-a) 45%, transparent), 0 24px 40px -22px color-mix(in srgb, var(--t-p) 70%, transparent);
+    }
+    .vc-pa__photo img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; filter: sepia(.18) saturate(.9); transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .vc-pa__card:hover .vc-pa__photo img { transform: scale(1.04); }
+    .vc-pa__seal { position: absolute; left: 50%; bottom: -.9rem; width: 3rem; height: auto; translate: -50% 0; }
+    .vc-pa__seal circle { fill: var(--t-p); }
+    .vc-pa__seal path { fill: none; stroke: color-mix(in srgb, var(--t-bg) 75%, transparent); stroke-width: 1; }
+    .vc-pa__role { margin: .4rem 0 .5rem; font-family: var(--t-text); font-style: italic; font-weight: 500; font-size: clamp(1.05rem, 2.2vw, 1.2rem); color: var(--t-s); }
+    .vc-pa__name { margin: 0; font-family: var(--t-display); font-size: clamp(2.2rem, 4.6vw, 2.9rem); line-height: 1.05; color: var(--t-tx); }
+    .vc-pa__amp { display: block; margin: .1rem 0; font-style: italic; color: var(--t-a); }
+    .vc-pa__note { max-width: 34rem; margin: clamp(2.4rem, 5vw, 3.4rem) auto 0; font-style: italic; font-size: clamp(1.08rem, 2.3vw, 1.25rem); line-height: 1.5; color: color-mix(in srgb, var(--t-tx) 82%, transparent); text-wrap: balance; }
+
+    /* Entrance (JS adds --anim) */
+    .vc-pa--anim .vc-pa__vine [data-ink] { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .5s ease-out; transition-delay: var(--d, 0s); }
+    .vc-pa--anim.is-in .vc-pa__vine [data-ink] { stroke-dashoffset: 0; }
+    .vc-pa--anim .vc-pa__vine circle { scale: 0; transform-origin: center; transform-box: fill-box; transition: scale .4s cubic-bezier(.3, 1.5, .5, 1); transition-delay: var(--d, 0s); }
+    .vc-pa--anim.is-in .vc-pa__vine circle { scale: 1; }
+    .vc-pa--anim .vc-pa__card { opacity: 0; translate: 0 18px; transition: opacity .45s ease, translate .5s cubic-bezier(.2, .8, .2, 1); }
+    .vc-pa--anim .vc-pa__card[data-shown] { opacity: 1; translate: 0 0; }
+    .vc-pa--anim .vc-pa__photo { scale: .9; transition: scale .5s cubic-bezier(.2, .8, .2, 1); }
+    .vc-pa--anim .vc-pa__card[data-shown] .vc-pa__photo { scale: 1; }
+    .vc-pa--anim .vc-pa__head, .vc-pa--anim .vc-pa__note { opacity: 0; transition: opacity .5s ease; }
+    .vc-pa--anim.is-in .vc-pa__head, .vc-pa--anim.is-in .vc-pa__note { opacity: 1; }
+    .vc-pa--anim.is-in .vc-pa__note { transition-delay: .9s; }
+
+    @media (max-width: 640px) {
+      .vc-pa__grid { grid-template-columns: 1fr; gap: 3rem; }
+      .vc-pa__vine { display: none; }
+      .vc-pa__photo { width: min(13rem, 70%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .vc-pa *, .vc-pa *::before, .vc-pa *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="vc-pa__grain" aria-hidden="true">
+    <filter id="vc-pa-noise"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .42  0 0 0 0 .3  0 0 0 0 .18  0 0 0 .16 0"/></filter>
+    <rect width="100%" height="100%" filter="url(#vc-pa-noise)"/>
+  </svg>
+
+  <div class="vc-pa__content">
+    <header class="vc-pa__head">
+      <p class="vc-pa__kicker" memory_type="text" memory_usage="custom" memory_key="padres-intro">Con la bendición de quienes sembraron nuestra historia</p>
+      <h2 class="vc-pa__title" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Nuestros Padres</h2>
+    </header>
+
+    <div class="vc-pa__grid">
+      <svg class="vc-pa__vine" viewBox="0 0 120 220" aria-hidden="true">
+        <path data-ink pathLength="1" d="M60 4 C20 40 100 70 60 110 C20 150 100 180 60 216"/>
+        <path data-ink pathLength="1" style="--d:.2s" d="M63 60 C78 52 82 40 74 34 C68 31 66 38 71 40"/>
+        <path data-ink pathLength="1" style="--d:.3s" d="M56 160 C42 152 38 140 46 134 C52 131 54 138 49 140"/>
+        <g transform="translate(70 76) rotate(30) scale(.34)"><path data-ink data-tone="leaf" pathLength="1" style="--d:.25s" d="M50 95 C48 80 46 72 40 66 C30 70 18 70 10 62 C18 58 22 52 20 44 C12 40 6 32 8 22 C18 24 26 28 30 34 C30 22 34 12 44 6 C46 16 48 24 50 30 C52 24 54 16 56 6 C66 12 70 22 70 34 C74 28 82 24 92 22 C94 32 88 40 80 44 C78 52 82 58 90 62 C82 70 70 70 60 66 C54 72 52 80 50 95 Z"/></g>
+        <g transform="translate(20 128) rotate(-40) scale(.3)"><path data-ink data-tone="leaf" pathLength="1" style="--d:.35s" d="M50 95 C48 80 46 72 40 66 C30 70 18 70 10 62 C18 58 22 52 20 44 C12 40 6 32 8 22 C18 24 26 28 30 34 C30 22 34 12 44 6 C46 16 48 24 50 30 C52 24 54 16 56 6 C66 12 70 22 70 34 C74 28 82 24 92 22 C94 32 88 40 80 44 C78 52 82 58 90 62 C82 70 70 70 60 66 C54 72 52 80 50 95 Z"/></g>
+        <g transform="translate(48 186)">
+          <circle style="--d:.4s" cx="8" cy="6" r="5"/><circle style="--d:.45s" cx="18" cy="6" r="5"/><circle style="--d:.5s" cx="28" cy="6" r="5"/>
+          <circle style="--d:.55s" cx="13" cy="15" r="5"/><circle style="--d:.6s" cx="23" cy="15" r="5"/><circle style="--d:.65s" cx="18" cy="24" r="5"/>
+        </g>
+      </svg>
+
+      <article class="vc-pa__card" data-vc-item>
+        <figure class="vc-pa__photo" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/600/600/elegant,couple,portrait?lock=3211" alt="Retrato de los padres de la novia" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+          <svg class="vc-pa__seal" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20"/><path d="M24 34 C23.6 29 23 27 21 25.6 C17.5 27 13.5 27 11 24.6 C13.5 23.4 14.5 21.6 14 19 C11 17.6 9.6 15 10.2 11.6 C13.5 12.4 16 13.8 17.4 15.6 C17.4 11.6 19 8.4 22 6.6 C22.8 10 23.4 12.4 24 14.6 C24.6 12.4 25.2 10 26 6.6 C29 8.4 30.6 11.6 30.6 15.6 C32 13.8 34.5 12.4 37.8 11.6 C38.4 15 37 17.6 34 19 C33.5 21.6 34.5 23.4 37 24.6 C34.5 27 30.5 27 27 25.6 C25 27 24.4 29 24 34 Z"/></svg>
+        </figure>
+        <h3 class="vc-pa__role" memory_type="text" memory_usage="custom" memory_key="padres-rol-novia">Padres de la novia</h3>
+        <p class="vc-pa__name" memory_type="text" memory_usage="custom" memory_key="padres-novia-padre">Nombre Apellido</p>
+        <span class="vc-pa__amp" aria-hidden="true">y</span>
+        <p class="vc-pa__name" memory_type="text" memory_usage="custom" memory_key="padres-novia-madre">Nombre Apellido</p>
+      </article>
+
+      <article class="vc-pa__card" data-vc-item>
+        <figure class="vc-pa__photo" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/600/600/elderly,couple,smiling?lock=3212" alt="Retrato de los padres del novio" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+          <svg class="vc-pa__seal" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="20"/><path d="M24 34 C23.6 29 23 27 21 25.6 C17.5 27 13.5 27 11 24.6 C13.5 23.4 14.5 21.6 14 19 C11 17.6 9.6 15 10.2 11.6 C13.5 12.4 16 13.8 17.4 15.6 C17.4 11.6 19 8.4 22 6.6 C22.8 10 23.4 12.4 24 14.6 C24.6 12.4 25.2 10 26 6.6 C29 8.4 30.6 11.6 30.6 15.6 C32 13.8 34.5 12.4 37.8 11.6 C38.4 15 37 17.6 34 19 C33.5 21.6 34.5 23.4 37 24.6 C34.5 27 30.5 27 27 25.6 C25 27 24.4 29 24 34 Z"/></svg>
+        </figure>
+        <h3 class="vc-pa__role" memory_type="text" memory_usage="custom" memory_key="padres-rol-novio">Padres del novio</h3>
+        <p class="vc-pa__name" memory_type="text" memory_usage="custom" memory_key="padres-novio-padre">Nombre Apellido</p>
+        <span class="vc-pa__amp" aria-hidden="true">y</span>
+        <p class="vc-pa__name" memory_type="text" memory_usage="custom" memory_key="padres-novio-madre">Nombre Apellido</p>
+      </article>
+    </div>
+
+    <p class="vc-pa__note" memory_type="text" memory_usage="custom" memory_key="padres-mensaje">Gracias por enseñarnos que el amor, como el buen vino, se cultiva con paciencia y mejora con los años.</p>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="padres-padre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      var items = [].slice.call(root.querySelectorAll('[data-vc-item]'));
+      root.classList.add('vc-pa--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          io.disconnect();
+          root.classList.add('is-in');
+          items.forEach(function (el, i) { setTimeout(function () { el.setAttribute('data-shown', ''); }, 150 + i * 220); });
+          setTimeout(function () {
+            root.classList.remove('vc-pa--anim', 'is-in');
+            items.forEach(function (el) { el.removeAttribute('data-shown'); });
+          }, 2200);
+        }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Viñedo Clásico Camafeos de Familia',
+      descripcion: 'Padres de los novios en camafeos circulares sobre pergamino, sello de lacre con hoja de vid y un zarcillo con uvas que se dibuja entre ambas familias al entrar en pantalla.',
+      tags: ['padres', 'boda', 'viñedo', 'vino', 'familia', 'romántico'],
+      tipo: 'padres'
+    };
+  </script>
+</section>

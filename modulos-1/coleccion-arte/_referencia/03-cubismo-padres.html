@@ -1,0 +1,194 @@
+<section
+  class="cubismo-padres"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .cubismo-padres {
+      --primary-color: #1c1b33;
+      --secondary-color: #b3543f;
+      --accent-color: #e0a458;
+      --extra-color: #3f7d6f;
+      --bg-color: #ece5d8;
+      --surface-color: #f6f1e7;
+      --surface-border-color: #1c1b33;
+      --text-color: #1c1b33;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/cubism,paper');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .cubismo-padres *,
+    .cubismo-padres *::before,
+    .cubismo-padres *::after { box-sizing: border-box; }
+    .cubismo-padres::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 88%, transparent);
+    }
+
+    .cubismo-padres__titulo {
+      margin: 0 0 .4rem;
+      font-family: Arial, sans-serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 5.6vw, 3.6rem);
+      line-height: .92;
+      text-transform: uppercase;
+      letter-spacing: -.02em;
+      color: var(--primary-color);
+    }
+    .cubismo-padres__titulo em {
+      display: inline-block;
+      font-style: normal;
+      background: var(--secondary-color);
+      color: var(--surface-color);
+      padding: 0 .3em;
+      transform: rotate(-2deg);
+    }
+    .cubismo-padres__sub {
+      margin: 0 0 clamp(2rem, 5vw, 3rem);
+      font-family: Arial, sans-serif;
+      font-size: clamp(.84rem, 1.5vw, .96rem);
+      color: var(--secondary-color);
+      max-width: 52ch;
+    }
+
+    /* retratos fragmentados: la foto se rompe en shards superpuestos */
+    .cubismo-padres__fragmentos {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(2rem, 6vw, 4.5rem);
+      width: min(100%, 940px);
+      margin: 0 auto;
+    }
+    .cubismo-padres__fragmento { position: relative; }
+    .cubismo-padres__escena {
+      position: relative;
+      aspect-ratio: 4 / 4.6;
+      margin: 0;
+    }
+    .cubismo-padres__shard {
+      position: absolute;
+      inset: 0;
+    }
+    .cubismo-padres__shard img {
+      position: absolute;
+      width: 130%;
+      height: 130%;
+      object-fit: cover;
+      max-width: none;
+    }
+    .cubismo-padres__shard--a { clip-path: polygon(0 0, 62% 0, 34% 58%, 0 74%); }
+    .cubismo-padres__shard--a img { left: 0; top: 0; filter: saturate(1.3) contrast(1.1); }
+    .cubismo-padres__shard--b { clip-path: polygon(62% 0, 100% 0, 100% 52%, 34% 58%); }
+    .cubismo-padres__shard--b img { right: 0; top: 0; transform: scaleX(-1); filter: hue-rotate(-18deg) saturate(1.2); }
+    .cubismo-padres__shard--c { clip-path: polygon(0 74%, 34% 58%, 68% 100%, 0 100%); }
+    .cubismo-padres__shard--c img { left: 0; bottom: 0; filter: sepia(.4) saturate(1.4); }
+    .cubismo-padres__shard--d { clip-path: polygon(34% 58%, 100% 52%, 100% 100%, 68% 100%); }
+    .cubismo-padres__shard--d img { right: 0; bottom: 0; transform: scaleX(-1) rotate(2deg); filter: saturate(1.5) hue-rotate(14deg); }
+    .cubismo-padres__plano {
+      position: absolute;
+      z-index: 5;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+    .cubismo-padres__plano--a { top: 6%; left: -8%; width: 44%; height: 30%; background: var(--accent-color); transform: rotate(-7deg); }
+    .cubismo-padres__plano--b { bottom: 10%; right: -6%; width: 38%; height: 36%; background: var(--extra-color); transform: rotate(9deg); opacity: .8; }
+    .cubismo-padres__plano--c { top: 40%; right: 20%; width: 20%; aspect-ratio: 1; border-radius: 50%; background: var(--secondary-color); opacity: .75; }
+
+    .cubismo-padres__placa {
+      position: relative;
+      z-index: 6;
+      margin: -1.4rem auto 0;
+      width: fit-content;
+      max-width: 92%;
+      padding: .7rem 1.1rem;
+      background: var(--surface-color);
+      border: 2px solid var(--surface-border-color);
+      box-shadow: 6px 6px 0 var(--accent-color);
+    }
+    .cubismo-padres__placa:nth-child(odd) { transform: rotate(-1.4deg); }
+    .cubismo-padres__rol {
+      margin: 0 0 .2rem;
+      font-family: Arial, sans-serif;
+      font-size: clamp(.58rem, 1.1vw, .68rem);
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .cubismo-padres__nombres {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1rem, 2.1vw, 1.28rem);
+      line-height: 1.25;
+      color: var(--primary-color);
+    }
+    @media (max-width: 700px) {
+      .cubismo-padres__fragmentos { grid-template-columns: 1fr; gap: 2.6rem; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="padres-intro">
+    <h2 class="cubismo-padres__titulo" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Retrato de <em>dos casas</em></h2>
+    <p class="cubismo-padres__sub" memory_type="text" memory_usage="custom" memory_key="padres-texto">Dos familias vistas desde todos los ángulos a la vez: así nos ven quienes nos formaron.</p>
+  </header>
+
+  <div class="cubismo-padres__fragmentos">
+    <article class="cubismo-padres__fragmento">
+      <figure class="cubismo-padres__escena" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-uno">
+        <span class="cubismo-padres__shard cubismo-padres__shard--a"><img src="https://loremflickr.com/640/760/family,portrait" alt="" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" /></span>
+        <span class="cubismo-padres__shard cubismo-padres__shard--b"><img src="https://loremflickr.com/640/760/family,portrait" alt="" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" /></span>
+        <span class="cubismo-padres__shard cubismo-padres__shard--c"><img src="https://loremflickr.com/640/760/family,portrait" alt="" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" /></span>
+        <span class="cubismo-padres__shard cubismo-padres__shard--d"><img src="https://loremflickr.com/640/760/family,portrait" alt="" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" /></span>
+        <span class="cubismo-padres__plano cubismo-padres__plano--a" aria-hidden="true"></span>
+        <span class="cubismo-padres__plano cubismo-padres__plano--b" aria-hidden="true"></span>
+        <span class="cubismo-padres__plano cubismo-padres__plano--c" aria-hidden="true"></span>
+        <figcaption hidden>Retrato cubista familia uno</figcaption>
+      </figure>
+      <div class="cubismo-padres__placa" memory_type="text" memory_usage="custom" memory_key="padres-bloque-uno">
+        <p class="cubismo-padres__rol">Familia de la novia</p>
+        <h3 class="cubismo-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+      </div>
+    </article>
+
+    <article class="cubismo-padres__fragmento">
+      <figure class="cubismo-padres__escena" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-dos">
+        <span class="cubismo-padres__shard cubismo-padres__shard--a"><img src="https://loremflickr.com/640/760/parents,home" alt="" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" /></span>
+        <span class="cubismo-padres__shard cubismo-padres__shard--b"><img src="https://loremflickr.com/640/760/parents,home" alt="" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" /></span>
+        <span class="cubismo-padres__shard cubismo-padres__shard--c"><img src="https://loremflickr.com/640/760/parents,home" alt="" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" /></span>
+        <span class="cubismo-padres__shard cubismo-padres__shard--d"><img src="https://loremflickr.com/640/760/parents,home" alt="" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" /></span>
+        <span class="cubismo-padres__plano cubismo-padres__plano--b" style="left:auto; right:-8%;" aria-hidden="true"></span>
+        <span class="cubismo-padres__plano cubismo-padres__plano--a" style="top:auto; bottom:4%; left:10%;" aria-hidden="true"></span>
+        <figcaption hidden>Retrato cubista familia dos</figcaption>
+      </figure>
+      <div class="cubismo-padres__placa" memory_type="text" memory_usage="custom" memory_key="padres-bloque-dos">
+        <p class="cubismo-padres__rol">Familia del novio</p>
+        <h3 class="cubismo-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Cubismo — Retrato Fragmentado',
+      descripcion: 'Retrato cubista: cada foto familiar rota en cuatro shards con clip-path (espejados, teñidos y girados), planos de color en multiply y placas de museo.',
+      tags: ['padres', 'cubismo', 'fragmentado', 'shards', 'clip-path', 'visto desde todos los ángulos'],
+      tipo: 'padres'
+    };
+  </script>
+</section>

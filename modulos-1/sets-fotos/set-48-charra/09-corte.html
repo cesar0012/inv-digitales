@@ -1,0 +1,160 @@
+<section
+  class="ch35-co"
+  data-gemini-id="corte-charra"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
+    .ch35-co, .ch35-co *, .ch35-co *::before, .ch35-co *::after { box-sizing: border-box; }
+    .ch35-co {
+      /* Red velvet field: primary becomes the ground, green becomes the accent thread */
+      --t-bg: var(--primary-color, #B3122E);
+      --t-tx: var(--text-color, #F6F1E7);
+      --t-p: var(--bg-color, #0F2A1D);
+      --t-s: var(--secondary-color, #C3C8CE);
+      --t-a: var(--accent-color, #C9A44C);
+      --t-display: var(--font-script, 'Cinzel Decorative', serif);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      --velvet: color-mix(in srgb, var(--t-bg) 70%, #000);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: radial-gradient(ellipse at 30% 40%, color-mix(in srgb, var(--t-bg) 90%, #fff), var(--velvet) 85%);
+      color: var(--t-tx);
+      text-align: left;
+      font-family: var(--t-text);
+    }
+    .ch35-co__content { width: min(100%, 66rem); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 6vw, 4.5rem); align-items: center; }
+
+    .ch35-co__stage { position: relative; padding: 10px; background: linear-gradient(150deg, var(--t-a), color-mix(in srgb, var(--t-a) 45%, #fff) 40%, color-mix(in srgb, var(--t-a) 65%, #000)); box-shadow: 0 30px 60px color-mix(in srgb, #000 45%, transparent); }
+    .ch35-co__window { position: relative; overflow: hidden; }
+    .ch35-co__figure { margin: 0; }
+    .ch35-co__figure img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; background: color-mix(in srgb, var(--t-tx) 22%, var(--velvet)); }
+    /* Velvet curtains with gold fringe and a row of studs at the hem */
+    .ch35-co__cur {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 51%;
+      background:
+        radial-gradient(circle at 42% 38%, #fff 0 .6px, var(--t-s) 1.3px 2.6px, transparent 3.2px) left 4px bottom 18px / 14px 8px repeat-x,
+        linear-gradient(180deg, transparent calc(100% - 14px), var(--t-a) calc(100% - 14px)),
+        repeating-linear-gradient(90deg, var(--velvet) 0 6px, color-mix(in srgb, var(--t-bg) 85%, #fff) 14px, var(--velvet) 22px 26px);
+      transition: transform .5s cubic-bezier(.7, 0, .2, 1);
+      transform-origin: left;
+      pointer-events: none;
+    }
+    .ch35-co__cur--l { left: 0; transform: translateX(-100%); }
+    .ch35-co__cur--r { right: 0; transform: translateX(100%); transform-origin: right; }
+    .ch35-co--anim .ch35-co__cur--l, .ch35-co--anim .ch35-co__cur--r { transform: none; }
+    .ch35-co--anim.is-in .ch35-co__cur--l { transform: translateX(-100%); }
+    .ch35-co--anim.is-in .ch35-co__cur--r { transform: translateX(100%); }
+    .ch35-co__seal { position: absolute; right: -18px; bottom: -18px; width: 4.2rem; height: 4.2rem; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle at 36% 30%, #fff 0 6%, var(--t-s) 26% 58%, color-mix(in srgb, var(--t-s) 45%, #000) 92%); border: 2px solid var(--t-a); box-shadow: 0 10px 20px color-mix(in srgb, #000 40%, transparent); }
+    .ch35-co__seal svg { width: 60%; height: auto; }
+    .ch35-co__seal path { fill: none; stroke: var(--velvet); stroke-width: 5; stroke-linecap: round; }
+
+    .ch35-co__kicker { margin: 0; font-style: italic; font-size: 1.25rem; color: var(--t-a); }
+    .ch35-co__title { margin: .2rem 0 0; font-family: var(--t-display); font-weight: 700; font-size: clamp(2rem, 4.6vw, 3.2rem); line-height: 1.08; }
+    .ch35-co__text { margin: 1rem 0 1.6rem; font-size: clamp(1.1rem, 2vw, 1.25rem); line-height: 1.55; color: color-mix(in srgb, var(--t-tx) 88%, var(--t-bg)); }
+    .ch35-co__groups { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+    .ch35-co__gt { margin: 0 0 .5rem; padding-bottom: .4rem; font-size: 1.3rem; font-weight: 600; border-bottom: 1px solid color-mix(in srgb, var(--t-a) 70%, transparent); }
+    .ch35-co__names { list-style: none; margin: 0; padding: 0; display: grid; gap: .3rem; font-size: 1.12rem; }
+    .ch35-co__names li::before { content: ''; display: inline-block; width: 6px; height: 6px; margin-right: .55rem; border-radius: 50%; background: var(--t-s); vertical-align: middle; }
+
+    .ch35-co--anim .ch35-co__copy { opacity: 0; transform: translateX(18px); transition: opacity .5s ease, transform .5s ease; transition-delay: .35s; }
+    .ch35-co--anim.is-in .ch35-co__copy { opacity: 1; transform: none; }
+
+    @media (max-width: 760px) {
+      .ch35-co__content { grid-template-columns: 1fr; }
+      .ch35-co__stage { width: min(88%, 22rem); justify-self: center; }
+      .ch35-co { text-align: center; }
+      .ch35-co__groups { text-align: left; }
+    }
+    @media (max-width: 400px) {
+      .ch35-co__groups { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ch35-co *, .ch35-co *::before, .ch35-co *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="ch35-co__content">
+    <div class="ch35-co__stage">
+      <div class="ch35-co__window">
+        <figure class="ch35-co__figure" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/800/1000/quinceanera,court,dance?lock=3591" alt="Corte de honor de la quinceañera" path="placeholder" data-library-category="eventos" data-asset-type="corte" loading="lazy" />
+        </figure>
+        <span class="ch35-co__cur ch35-co__cur--l" aria-hidden="true"></span>
+        <span class="ch35-co__cur ch35-co__cur--r" aria-hidden="true"></span>
+      </div>
+      <span class="ch35-co__seal" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M11 6v14a9 9 0 0 0 18 0V6"/></svg></span>
+    </div>
+
+    <div class="ch35-co__copy">
+      <p class="ch35-co__kicker" memory_type="text" memory_usage="custom" memory_key="corte-kicker">Al compás del mariachi</p>
+      <h2 class="ch35-co__title" memory_type="text" memory_usage="custom" memory_key="corte-titulo">Mi Corte de Honor</h2>
+      <p class="ch35-co__text" memory_type="text" memory_usage="custom" memory_key="corte-texto">Damas y chambelanes que, con elegancia charra, me acompañarán en el vals y en cada paso de esta noche.</p>
+      <div class="ch35-co__groups">
+        <div>
+          <h3 class="ch35-co__gt" memory_type="text" memory_usage="custom" memory_key="corte-damas-titulo">Damas</h3>
+          <ul class="ch35-co__names">
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-1" data-event-field="corte-nombre-1">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-2" data-event-field="corte-nombre-2">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-3" data-event-field="corte-nombre-3">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-4" data-event-field="corte-nombre-4">Nombre Apellido</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="ch35-co__gt" memory_type="text" memory_usage="custom" memory_key="corte-chambelanes-titulo">Chambelanes</h3>
+          <ul class="ch35-co__names">
+            <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-1" data-event-field="corte-nombre-1">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-2" data-event-field="corte-nombre-2">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-3" data-event-field="corte-nombre-3">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-4" data-event-field="corte-nombre-4">Nombre Apellido</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="corte-charra"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* static final state: curtains open */
+
+      root.classList.add('ch35-co--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .35) {
+          io.disconnect();
+          /* Brief pause with the curtain closed, then it parts */
+          setTimeout(function () { root.classList.add('is-in'); }, 350);
+          setTimeout(function () { root.classList.remove('ch35-co--anim', 'is-in'); }, 1700);
+        }
+      }, { threshold: [0, .35, .6] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-charra',
+      style_name: 'Charra Mexicana Corte Telon',
+      descripcion: 'Corte de honor sobre terciopelo rojo: foto destacada con telón de terciopelo, fleco de oro y botonadura que se abre al entrar, junto a damas y chambelanes.',
+      tags: ['corte', 'charra', 'quinceañera', 'mexicana', 'telón', 'chambelanes'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

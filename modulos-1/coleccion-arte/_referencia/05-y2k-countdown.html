@@ -1,0 +1,45 @@
+<section class="y2k-cd" data-gemini-id="countdown-cromo-liquido" path="placeholder" memory_source="generated" memory_type="background" memory_usage="protected" data-countdown-target="YYYY-MM-DDTHH:MM:SS">
+<style>
+.y2k-cd { --primary-color:#1a1030; --secondary-color:#b8a8e8; --accent-color:#66f0e2; --bg-color:#120b24; --surface-color:#1d1338; --surface-border-color:rgba(184,168,232,.3); --text-color:#f4efff;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:100svh; display:grid; place-items:center; padding:clamp(3rem,7vw,5rem) clamp(1rem,5vw,3rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/1000/y2k,chrome'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.y2k-cd *, .y2k-cd *::before, .y2k-cd *::after { box-sizing:border-box; }
+.y2k-cd::before { content:''; position:absolute; inset:0; z-index:-2; background:radial-gradient(ellipse 80% 55% at 70% 20%, color-mix(in srgb, var(--accent-color) 26%, transparent), transparent 60%), radial-gradient(ellipse 70% 50% at 15% 80%, color-mix(in srgb, #ff8ad8 22%, transparent), transparent 60%), color-mix(in srgb, var(--bg-color) 88%, transparent); }
+/* orbes metálicos flotantes */
+.y2k-cd__orbe { position:absolute; border-radius:50%; background:radial-gradient(circle at 32% 28%, #ffffff 0%, var(--accent-color) 22%, #b06ef5 48%, #35156b 78%, #0c0620 100%); filter:saturate(1.2); animation:y2kFlota var(--d) ease-in-out infinite alternate; pointer-events:none; }
+.y2k-cd__orbe--a { width:clamp(70px,12vw,130px); top:8%; left:6%; --d:7s; }
+.y2k-cd__orbe--b { width:clamp(44px,8vw,90px); top:14%; right:10%; --d:9s; animation-delay:-3s; }
+.y2k-cd__orbe--c { width:clamp(90px,16vw,170px); bottom:6%; right:14%; --d:8s; animation-delay:-5s; opacity:.9; }
+@keyframes y2kFlota { from { transform:translateY(-16px) rotate(-4deg); } to { transform:translateY(16px) rotate(5deg); } }
+.y2k-cd__titulo { margin:0 0 .3rem; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(.72rem,1.5vw,.9rem); letter-spacing:.6em; text-transform:uppercase; color:var(--accent-color); }
+.y2k-cd__lema { margin:0 0 clamp(1.6rem,4vw,2.4rem); font-family:Georgia,serif; font-style:italic; font-size:clamp(1rem,2.4vw,1.5rem); color:var(--secondary-color); }
+/* cifras de cromo líquido: degradado recortado al texto + brillo superior */
+.y2k-cd__flip { display:flex; justify-content:center; align-items:stretch; gap:clamp(.4rem,1.4vw,.9rem); }
+.y2k-cd__pastilla { position:relative; width:clamp(80px,17vw,150px); padding:clamp(1rem,3vw,1.8rem) .2rem clamp(.9rem,2.6vw,1.5rem); border-radius:20px; background:linear-gradient(165deg, rgba(255,255,255,.16), rgba(255,255,255,.03) 45%, rgba(255,255,255,.12)); border:1px solid var(--surface-border-color); box-shadow:inset 0 1px 0 rgba(255,255,255,.5), 0 24px 50px rgba(0,0,0,.45); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
+.y2k-cd__numero { display:block; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(2.4rem,7vw,4.6rem); line-height:1; font-variant-numeric:tabular-nums;
+  background:linear-gradient(180deg, #ffffff 8%, var(--accent-color) 34%, #b06ef5 62%, #ffffff 88%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  filter:drop-shadow(0 3px 0 rgba(12,6,32,.85)) drop-shadow(0 0 18px rgba(102,240,226,.35)); }
+.y2k-cd__rotulo { display:block; margin-top:.45rem; font-family:'Courier New',monospace; font-size:clamp(.54rem,1.1vw,.64rem); letter-spacing:.4em; text-transform:uppercase; color:var(--secondary-color); }
+.y2k-cd__fecha { position:relative; z-index:2; display:inline-block; margin-top:clamp(1.6rem,4vw,2.4rem); padding:.6rem 1.8rem; border-radius:999px; border:1px solid var(--surface-border-color); background:rgba(255,255,255,.07); font-family:'Courier New',monospace; font-size:clamp(.7rem,1.4vw,.85rem); letter-spacing:.3em; text-transform:uppercase; color:var(--text-color); }
+@media (max-width:560px){ .y2k-cd__flip { flex-wrap:wrap; } }
+@media (prefers-reduced-motion:reduce){ .y2k-cd__orbe { animation:none; } }
+</style>
+<span class="y2k-cd__orbe y2k-cd__orbe--a" aria-hidden="true"></span>
+<span class="y2k-cd__orbe y2k-cd__orbe--b" aria-hidden="true"></span>
+<span class="y2k-cd__orbe y2k-cd__orbe--c" aria-hidden="true"></span>
+<div>
+  <p class="y2k-cd__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Cargando el futuro</p>
+  <p class="y2k-cd__lema" memory_type="text" memory_usage="custom" memory_key="countdown-lema">nuestro amor en alta definición desde el año 2000</p>
+  <div class="y2k-cd__flip" aria-label="Cuenta regresiva">
+    <div class="y2k-cd__pastilla"><span class="y2k-cd__numero" data-countdown-unit="days">--</span><span class="y2k-cd__rotulo">Días</span></div>
+    <div class="y2k-cd__pastilla"><span class="y2k-cd__numero" data-countdown-unit="hours">--</span><span class="y2k-cd__rotulo">Horas</span></div>
+    <div class="y2k-cd__pastilla"><span class="y2k-cd__numero" data-countdown-unit="minutes">--</span><span class="y2k-cd__rotulo">Min</span></div>
+    <div class="y2k-cd__pastilla"><span class="y2k-cd__numero" data-countdown-unit="seconds">--</span><span class="y2k-cd__rotulo">Seg</span></div>
+  </div>
+  <time class="y2k-cd__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+</div>
+<script>
+var moduleMetadata = { module_type:'countdown', module_name:'countdown-cromo-liquido', style_name:'Y2K — Cromo Líquido', descripcion:'Countdown Y2K: orbes de cromo flotantes, cifras con degradado metálico recortado al texto, pastillas de vidrio esmerilado y halo rosa-morado.', tags:['countdown','y2k','cromo','orbes','vidrio','futurista'], tipo:'countdown' };
+</script>
+</section>

@@ -1,0 +1,2350 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>set-2</title><style>:root{--primary-color:#1f2937;--text-color:#1f2937;--accent-color:#b59b72;--bg-color:#f5f1e8;--secondary-color:#6b7280;--surface-color:#ffffff;--surface-border-color:rgba(0,0,0,.12);--font-base:Georgia,serif}body{margin:0}</style></head><body><section
+  class="dc-portada"
+  data-gemini-id="portada-nombre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="dc-portada-titulo"
+>
+  <style>
+    .dc-portada {
+      --primary-color: #1f1a17;
+      --secondary-color: #6e6257;
+      --accent-color: #b08d57;
+      --bg-color: #f4efe6;
+      --surface-color: #fbf7ee;
+      --surface-border-color: rgba(31, 26, 23, 0.25);
+      --text-color: #1f1a17;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/gold,elegant');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .dc-portada *,
+    .dc-portada *::before,
+    .dc-portada *::after { box-sizing: border-box; }
+
+    .dc-portada::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--bg-color) 90%, transparent), color-mix(in srgb, var(--bg-color) 80%, transparent));
+    }
+
+    .dc-portada__sol {
+      position: absolute;
+      z-index: 0;
+      top: 50%;
+      left: 50%;
+      width: min(130vw, 1080px);
+      transform: translate(-50%, -54%);
+      color: var(--accent-color);
+      opacity: 0.16;
+      pointer-events: none;
+      animation: dcPortadaGiro 80s linear infinite;
+    }
+    @keyframes dcPortadaGiro { to { transform: translate(-50%, -54%) rotate(360deg); } }
+
+    .dc-portada__escena {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 760px);
+      padding: clamp(2.4rem, 6vw, 4.2rem) clamp(1.3rem, 5vw, 3.6rem);
+      background: color-mix(in srgb, var(--surface-color) 93%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 30px 70px rgba(31, 26, 23, 0.22);
+    }
+    .dc-portada__escena::before {
+      content: '';
+      position: absolute;
+      inset: 10px;
+      border: 1px solid var(--accent-color);
+      pointer-events: none;
+    }
+    .dc-portada__escena::after {
+      content: '';
+      position: absolute;
+      inset: 16px;
+      border: 3px double var(--surface-border-color);
+      pointer-events: none;
+    }
+
+    .dc-portada__arco {
+      width: clamp(120px, 20vw, 170px);
+      margin: 0 auto clamp(1.2rem, 3vw, 1.8rem);
+      padding: 6px;
+      border: 1px solid var(--surface-border-color);
+      border-radius: 999px 999px 6px 6px;
+      background: var(--bg-color);
+      box-shadow: 0 14px 30px rgba(31, 26, 23, 0.18);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .dc-portada.dc-js .dc-portada__arco { opacity: 0; transform: translateY(14px); }
+    .dc-portada.esta-visto .dc-portada__arco { opacity: 1; transform: none; }
+    .dc-portada__arco img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border-radius: 999px 999px 4px 4px;
+      filter: saturate(0.92);
+    }
+
+    .dc-portada__eyebrow {
+      margin: 0 0 1rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .dc-portada__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(2rem, 6.4vw, 4.4rem);
+      line-height: 1.05;
+      letter-spacing: 0.03em;
+      color: var(--primary-color);
+      text-shadow: 0.03em 0.03em 0 color-mix(in srgb, var(--accent-color) 45%, transparent);
+    }
+    .dc-portada__titulo span {
+      display: inline-block;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .dc-portada.dc-js .dc-portada__titulo span { opacity: 0; transform: translateY(0.4em); }
+    .dc-portada.esta-visto .dc-portada__titulo span { opacity: 1; transform: none; }
+    .dc-portada.esta-visto .dc-portada__titulo span:nth-child(1) { transition-delay: 0.05s; }
+    .dc-portada.esta-visto .dc-portada__titulo span:nth-child(2) { transition-delay: 0.15s; }
+    .dc-portada.esta-visto .dc-portada__titulo span:nth-child(3) { transition-delay: 0.25s; }
+
+    .dc-portada__ampersand {
+      display: block;
+      margin: 0.2em 0;
+      font-style: italic;
+      color: var(--accent-color);
+    }
+
+    .dc-portada__chevron {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: clamp(1.2rem, 3vw, 1.8rem) 0;
+      color: var(--accent-color);
+    }
+    .dc-portada__chevron svg { width: 34px; }
+
+    .dc-portada__fecha {
+      display: inline-block;
+      padding: 0.55rem 1.6rem;
+      border-top: 1px solid var(--surface-border-color);
+      border-bottom: 1px solid var(--surface-border-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.74rem, 1.5vw, 0.88rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--text-color);
+    }
+
+    @media (max-width: 560px) {
+      .dc-portada { min-height: 100svh; }
+      .dc-portada__escena { padding: 2.2rem 1.1rem; }
+      .dc-portada__titulo span { display: block; }
+      .dc-portada__sol { opacity: 0.1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dc-portada * { animation: none !important; transition: none !important; }
+      .dc-portada__titulo span, .dc-portada__arco { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <svg class="dc-portada__sol" viewBox="0 0 400 400" fill="none" aria-hidden="true">
+    <g stroke="currentColor" stroke-width="1">
+      <path d="M200 200 L200 8 M200 200 L268 16 M200 200 L322 46 M200 200 L372 78 M200 200 L398 132 M200 200 L390 200 M200 200 L398 268 M200 200 L372 322 M200 200 L322 354 M200 200 L268 384 M200 200 L200 392 M200 200 L132 384 M200 200 L78 354 M200 200 L28 322 M200 200 L2 268 M200 200 L10 200 M200 200 L2 132 M200 200 L28 78 M200 200 L78 46 M200 200 L132 16"/>
+      <circle cx="200" cy="200" r="118" stroke-width="1.4"/>
+      <circle cx="200" cy="200" r="86"/>
+    </g>
+  </svg>
+
+  <div class="dc-portada__escena">
+    <figure class="dc-portada__arco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="portada-foto">
+      <img
+        src="https://loremflickr.com/420/520/couple,formal"
+        alt="Retrato de los anfitriones"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="foto-pareja"
+        loading="lazy"
+      />
+      <figcaption hidden>Retrato principal</figcaption>
+    </figure>
+
+    <p class="dc-portada__eyebrow" memory_type="text" memory_usage="custom" memory_key="portada-encabezado">Celebran su unión</p>
+
+    <div memory_type="text" memory_usage="custom" memory_key="portada-nombres">
+      <h1 id="dc-portada-titulo" class="dc-portada__titulo">
+        <span>Nombre de la Novia</span>
+        <span class="dc-portada__ampersand">&amp;</span>
+        <span>Nombre del Novio</span>
+      </h1>
+    </div>
+
+    <div class="dc-portada__chevron" aria-hidden="true">
+      <svg viewBox="0 0 34 12" fill="none"><path d="M2 2 L11 10 L17 4 L23 10 L32 2" stroke="currentColor" stroke-width="1.4"/></svg>
+      <svg viewBox="0 0 34 12" fill="none"><path d="M2 2 L11 10 L17 4 L23 10 L32 2" stroke="currentColor" stroke-width="1.4"/></svg>
+      <svg viewBox="0 0 34 12" fill="none"><path d="M2 2 L11 10 L17 4 L23 10 L32 2" stroke="currentColor" stroke-width="1.4"/></svg>
+    </div>
+
+    <time class="dc-portada__fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="portada-fecha">Fecha del evento</time>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.dc-portada');
+      if (!root) return;
+      root.classList.add('dc-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.22 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Salón Déco',
+      descripcion: 'Portada ceremonial con sunburst giratorio de fondo, retrato en arco, marco escalonado triple y nombres con sombra larga proyectada.',
+      tags: ['portada', 'hero', 'deco', 'sunburst', 'arco', 'simetria', 'solemne'],
+      tipo: 'portada'
+    };
+  </script>
+</section>
+
+<section
+  class="dc-padres"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .dc-padres {
+      --primary-color: #1f1a17;
+      --secondary-color: #6e6257;
+      --accent-color: #b08d57;
+      --bg-color: #f4efe6;
+      --surface-color: #fbf7ee;
+      --surface-border-color: rgba(31, 26, 23, 0.25);
+      --text-color: #1f1a17;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/marble,texture');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .dc-padres *,
+    .dc-padres *::before,
+    .dc-padres *::after { box-sizing: border-box; }
+
+    .dc-padres::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 88%, transparent);
+    }
+
+    .dc-padres__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.5rem);
+      letter-spacing: 0.04em;
+      color: var(--primary-color);
+    }
+    .dc-padres__intro {
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      max-width: 52ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
+      letter-spacing: 0.04em;
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+    .dc-padres__filete {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-top: 1rem;
+      color: var(--accent-color);
+    }
+    .dc-padres__filete::before,
+    .dc-padres__filete::after {
+      content: '';
+      width: min(120px, 26vw);
+      height: 1px;
+      background: var(--accent-color);
+    }
+
+    .dc-padres__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1.4rem, 4vw, 2.6rem);
+      width: min(100%, 880px);
+      margin: 0 auto;
+    }
+
+    .dc-padres__panel {
+      position: relative;
+      padding: clamp(2.6rem, 5vw, 3.4rem) clamp(1.2rem, 3vw, 2rem) clamp(1.6rem, 3.5vw, 2.2rem);
+      background: color-mix(in srgb, var(--surface-color) 95%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 999px 999px 0 0;
+      box-shadow: 0 20px 48px rgba(31, 26, 23, 0.16);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .dc-padres.dc-js .dc-padres__panel { opacity: 0; transform: translateY(20px); }
+    .dc-padres.esta-visto .dc-padres__panel { opacity: 1; transform: none; }
+    .dc-padres.esta-visto .dc-padres__panel:nth-child(2) { transition-delay: 0.14s; }
+    .dc-padres__panel::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid var(--surface-border-color);
+      border-radius: 999px 999px 0 0;
+      pointer-events: none;
+    }
+
+    .dc-padres__retrato {
+      width: clamp(104px, 15vw, 136px);
+      margin: 0 auto 1.1rem;
+      padding: 5px;
+      background: var(--bg-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 50%;
+      box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent-color) 30%, transparent), 0 12px 26px rgba(31, 26, 23, 0.18);
+    }
+    .dc-padres__retrato img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      object-fit: cover;
+      filter: saturate(0.9);
+    }
+
+    .dc-padres__rol {
+      margin: 0 0 0.4rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .dc-padres__nombres {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.1rem, 2.3vw, 1.45rem);
+      line-height: 1.3;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 760px) {
+      .dc-padres__grid { grid-template-columns: 1fr; max-width: 400px; }
+      .dc-padres__panel { border-radius: 999px 999px 0 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dc-padres * { transition: none !important; }
+      .dc-padres__panel { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="padres-intro">
+    <h2 class="dc-padres__titulo" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Nuestras familias</h2>
+    <p class="dc-padres__intro" memory_type="text" memory_usage="custom" memory_key="padres-texto">
+      La unión de dos casas y la guía de quienes nos formaron; este día también es suyo.
+    </p>
+    <div class="dc-padres__filete" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M12 2 L15 9 L22 12 L15 15 L12 22 L9 15 L2 12 L9 9 Z" stroke="currentColor" stroke-width="1.2"/></svg>
+    </div>
+  </header>
+
+  <div class="dc-padres__grid">
+    <article class="dc-padres__panel">
+      <figure class="dc-padres__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-uno">
+        <img
+          src="https://loremflickr.com/380/380/portrait,parents"
+          alt="Retrato de la familia de la novia"
+          path="placeholder"
+          data-library-category="bodas"
+          data-asset-type="retrato-familia"
+          loading="lazy"
+        />
+        <figcaption hidden>Familia uno</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-uno">
+        <p class="dc-padres__rol">Padres de la novia</p>
+        <h3 class="dc-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+      </div>
+    </article>
+
+    <article class="dc-padres__panel">
+      <figure class="dc-padres__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-dos">
+        <img
+          src="https://loremflickr.com/380/380/portrait,family"
+          alt="Retrato de la familia del novio"
+          path="placeholder"
+          data-library-category="bodas"
+          data-asset-type="retrato-familia"
+          loading="lazy"
+        />
+        <figcaption hidden>Familia dos</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padres-bloque-dos">
+        <p class="dc-padres__rol">Padres del novio</p>
+        <h3 class="dc-padres__nombres">Nombre Papá &amp; Nombre Mamá</h3>
+      </div>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.dc-padres');
+      if (!root) return;
+      root.classList.add('dc-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.2 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Salón Déco — Padres',
+      descripcion: 'Paneles ceremoniales en forma de arco con doble filete interior, retratos circulares con halo dorado y entrada escalonada.',
+      tags: ['padres', 'familias', 'arco', 'retratos', 'deco', 'stagger', 'solemne'],
+      tipo: 'padres'
+    };
+  </script>
+</section>
+
+<section
+  class="dc-ubicacion"
+  data-gemini-id="ubicacion-recepcion"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .dc-ubicacion {
+      --primary-color: #1f1a17;
+      --secondary-color: #6e6257;
+      --accent-color: #b08d57;
+      --bg-color: #f4efe6;
+      --surface-color: #fbf7ee;
+      --surface-border-color: rgba(31, 26, 23, 0.25);
+      --text-color: #1f1a17;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/architecture,elegant');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .dc-ubicacion *,
+    .dc-ubicacion *::before,
+    .dc-ubicacion *::after { box-sizing: border-box; }
+
+    .dc-ubicacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 88%, transparent);
+    }
+
+    .dc-ubicacion__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .dc-ubicacion__intro {
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      max-width: 52ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .dc-ubicacion__sedes {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1rem, 3vw, 1.8rem);
+      width: min(100%, 880px);
+      margin: 0 auto clamp(1.6rem, 4vw, 2.4rem);
+    }
+
+    .dc-ubicacion__sede {
+      position: relative;
+      padding: clamp(1.5rem, 3.5vw, 2.2rem) clamp(1.1rem, 3vw, 1.8rem);
+      background: color-mix(in srgb, var(--surface-color) 95%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 16px 38px rgba(31, 26, 23, 0.14);
+    }
+    .dc-ubicacion__sede::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 64px;
+      height: 3px;
+      transform: translateX(-50%);
+      background: var(--accent-color);
+    }
+
+    .dc-ubicacion__sede-rol {
+      margin: 0 0 0.5rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .dc-ubicacion__lugar {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+      color: var(--primary-color);
+    }
+    .dc-ubicacion__sede address {
+      margin: 0 0 0.5rem;
+      font-style: normal;
+      font-size: clamp(0.82rem, 1.5vw, 0.92rem);
+      line-height: 1.65;
+      color: var(--secondary-color);
+    }
+    .dc-ubicacion__hora {
+      display: inline-block;
+      padding: 0.2rem 0.9rem;
+      border: 1px solid var(--surface-border-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.72rem, 1.3vw, 0.8rem);
+      letter-spacing: 0.2em;
+      color: var(--primary-color);
+    }
+
+    .dc-ubicacion__marco {
+      position: relative;
+      width: min(100%, 920px);
+      margin: 0 auto;
+      padding: 10px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 26px 60px rgba(31, 26, 23, 0.2);
+    }
+    .dc-ubicacion__marco::before {
+      content: '';
+      position: absolute;
+      inset: 5px;
+      border: 1px solid var(--accent-color);
+      pointer-events: none;
+    }
+    .dc-ubicacion__mapa {
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--surface-border-color);
+    }
+    .dc-ubicacion__mapa iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 0;
+      filter: saturate(0.85);
+    }
+    .dc-ubicacion__figura {
+      position: absolute;
+      z-index: 2;
+      bottom: -18px;
+      left: clamp(1rem, 4vw, 2.4rem);
+      width: clamp(120px, 18vw, 170px);
+      margin: 0;
+      padding: 5px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 14px 30px rgba(31, 26, 23, 0.24);
+      transform: rotate(-2deg);
+    }
+    .dc-ubicacion__figura img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      filter: saturate(0.9);
+    }
+    .dc-ubicacion__marcador {
+      position: absolute;
+      z-index: 2;
+      top: 18px;
+      right: clamp(1.4rem, 4vw, 2.6rem);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.4rem 0.9rem;
+      background: color-mix(in srgb, var(--surface-color) 94%, transparent);
+      border: 1px solid var(--surface-border-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--text-color);
+    }
+    .dc-ubicacion__rombo {
+      position: relative;
+      width: 11px;
+      height: 11px;
+      transform: rotate(45deg);
+      background: var(--accent-color);
+    }
+    .dc-ubicacion__rombo::after {
+      content: '';
+      position: absolute;
+      inset: -7px;
+      border: 1.4px solid var(--accent-color);
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    .dc-ubicacion.esta-visto .dc-ubicacion__rombo::after { animation: dcUbicacionLatido 1.7s ease-out infinite; }
+    @keyframes dcUbicacionLatido {
+      0% { opacity: 0.9; transform: scale(0.4) rotate(0deg); }
+      75% { opacity: 0.1; transform: scale(1.3) rotate(45deg); }
+      100% { opacity: 0; transform: scale(1.4) rotate(45deg); }
+    }
+
+    .dc-ubicacion__acciones { margin-top: clamp(2.2rem, 5vw, 3rem); }
+    .dc-ubicacion__boton {
+      display: inline-block;
+      padding: 0.8rem 2.1rem;
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.7rem, 1.3vw, 0.8rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      text-decoration: none;
+      box-shadow: 5px 5px 0 color-mix(in srgb, var(--accent-color) 80%, transparent);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .dc-ubicacion__boton:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 color-mix(in srgb, var(--accent-color) 80%, transparent); }
+
+    @media (max-width: 760px) {
+      .dc-ubicacion__sedes { grid-template-columns: 1fr; }
+      .dc-ubicacion__figura { position: static; margin: 0.8rem auto 0; transform: rotate(0deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dc-ubicacion * { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="ubicacion-intro">
+    <h2 class="dc-ubicacion__titulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Los escenarios</h2>
+    <p class="dc-ubicacion__intro" memory_type="text" memory_usage="custom" memory_key="ubicacion-texto">Dos momentos, dos escenarios preparados con mimo para recibirte.</p>
+  </header>
+
+  <div class="dc-ubicacion__sedes">
+    <article class="dc-ubicacion__sede">
+      <p class="dc-ubicacion__sede-rol" memory_type="text" memory_usage="custom" memory_key="ubicacion-rol-ceremonia">Ceremonia</p>
+      <h3 class="dc-ubicacion__lugar" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar-ceremonia">Nombre del lugar</h3>
+      <address memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion-ceremonia">Calle Principal 123, Colonia Centro</address>
+      <time class="dc-ubicacion__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora-ceremonia">16:00 h</time>
+    </article>
+    <article class="dc-ubicacion__sede">
+      <p class="dc-ubicacion__sede-rol" memory_type="text" memory_usage="custom" memory_key="ubicacion-rol-recepcion">Recepción</p>
+      <h3 class="dc-ubicacion__lugar" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar-recepcion">Nombre del salón</h3>
+      <address memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion-recepcion">Avenida Central 456, Zona Dorada</address>
+      <time class="dc-ubicacion__hora" datetime="18:30" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora-recepcion">18:30 h</time>
+    </article>
+  </div>
+
+  <figure class="dc-ubicacion__marco">
+    <figcaption class="dc-ubicacion__marcador" aria-hidden="true">
+      <span class="dc-ubicacion__rombo"></span>
+      Estamos aquí
+    </figcaption>
+    <div class="dc-ubicacion__mapa" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url">
+      <iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen></iframe>
+    </div>
+    <figure class="dc-ubicacion__figura" memory_type="image" memory_usage="custom" memory_source="library" memory_key="ubicacion-foto">
+      <img
+        src="https://loremflickr.com/440/330/venue,elegant"
+        alt="Vista del lugar"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="lugar"
+        loading="lazy"
+      />
+      <figcaption hidden>El lugar</figcaption>
+    </figure>
+  </figure>
+
+  <div class="dc-ubicacion__acciones">
+    <a class="dc-ubicacion__boton" href="https://www.google.com/maps?q=Ubicacion+del+evento" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Cómo llegar</a>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.dc-ubicacion');
+      if (!root) return;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-recepcion',
+      style_name: 'Salón Déco — Ubicación',
+      descripcion: 'Dos sedes ceremoniales con hora en time, mapa enmarcado con filete dorado, marcador rombo con latido y foto del lugar superpuesta.',
+      tags: ['ubicacion', 'mapa', 'ceremonia', 'recepcion', 'marcador', 'deco'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>
+
+<section class="dc-itin2" data-gemini-id="itinerario-agenda" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.dc-itin2 { --primary-color:#1f1a17; --secondary-color:#6e6257; --accent-color:#b08d57; --bg-color:#f4efe6; --surface-color:#fbf7ee; --surface-border-color:rgba(31,26,23,.25); --text-color:#1f1a17;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/deco,gold'); background-size:cover; background-position:center; color:var(--text-color); }
+.dc-itin2 *, .dc-itin2 *::before, .dc-itin2 *::after { box-sizing:border-box; }
+.dc-itin2::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 88%, transparent); }
+/* numerales gigantes escenográficos detrás */
+.dc-itin2__num-fondo { position:absolute; z-index:0; font-family:Georgia,serif; font-weight:700; font-size:clamp(9rem,28vw,24rem); line-height:.8; color:transparent; -webkit-text-stroke:1.5px color-mix(in srgb, var(--accent-color) 45%, transparent); pointer-events:none; }
+.dc-itin2__num-fondo--a { top:-2%; right:-3%; }
+.dc-itin2__num-fondo--b { bottom:-6%; left:-4%; }
+.dc-itin2__titulo { position:relative; z-index:2; margin:0 0 2.4rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.9rem,4.4vw,3rem); color:var(--primary-color); transform:rotate(-1deg); }
+.dc-itin2__titulo em { font-style:italic; color:var(--accent-color); }
+.dc-itin2__zigzag { position:relative; z-index:2; width:min(100%,880px); margin:0 auto; }
+.dc-itin2__hito { position:relative; width:min(70%,440px); padding:clamp(1.1rem,2.6vw,1.6rem) clamp(1.2rem,3vw,1.9rem); background:var(--surface-color); border:1px solid var(--surface-border-color); box-shadow:8px 8px 0 color-mix(in srgb, var(--accent-color) 40%, transparent); margin-bottom:clamp(1.2rem,3vw,2rem); }
+.dc-itin2__hito:nth-child(odd) { transform:rotate(-1.6deg) translateX(-4%); }
+.dc-itin2__hito:nth-child(even) { transform:rotate(1.4deg) translateX(38%); box-shadow:-8px 8px 0 color-mix(in srgb, var(--accent-color) 40%, transparent); }
+.dc-itin2__romano { position:absolute; top:-1.1em; font-family:Georgia,serif; font-size:clamp(2.2rem,5.5vw,3.4rem); line-height:1; color:var(--accent-color); text-shadow:3px 3px 0 color-mix(in srgb, var(--primary-color) 22%, transparent); }
+.dc-itin2__hito:nth-child(odd) .dc-itin2__romano { right:.6rem; }
+.dc-itin2__hito:nth-child(even) .dc-itin2__romano { left:.6rem; }
+.dc-itin2__hora { display:inline-block; margin-bottom:.3rem; font-family:'Courier New',monospace; font-size:clamp(.68rem,1.3vw,.78rem); letter-spacing:.3em; color:var(--accent-color); }
+.dc-itin2__momento { margin:0 0 .25rem; font-family:Georgia,serif; font-size:clamp(1.05rem,2.2vw,1.3rem); color:var(--primary-color); }
+.dc-itin2__detalle { margin:0; font-size:clamp(.78rem,1.4vw,.88rem); line-height:1.6; color:var(--secondary-color); }
+@media (max-width:640px){ .dc-itin2__hito, .dc-itin2__hito:nth-child(even) { width:100%; transform:rotate(0); margin-left:0; } }
+@media (prefers-reduced-motion:reduce){ .dc-itin2 * { transition:none !important; } }
+</style>
+<span class="dc-itin2__num-fondo dc-itin2__num-fondo--a" aria-hidden="true">IV</span>
+<span class="dc-itin2__num-fondo dc-itin2__num-fondo--b" aria-hidden="true">I</span>
+<h2 class="dc-itin2__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">El programa <em>solemne</em></h2>
+<div class="dc-itin2__zigzag">
+  <article class="dc-itin2__hito">
+    <span class="dc-itin2__romano" aria-hidden="true">I</span>
+    <time class="dc-itin2__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00 H</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1"><h3 class="dc-itin2__momento">Apertura de puertas</h3><p class="dc-itin2__detalle">Los invitados cruzan el vestíbulo de columnas.</p></div>
+  </article>
+  <article class="dc-itin2__hito">
+    <span class="dc-itin2__romano" aria-hidden="true">II</span>
+    <time class="dc-itin2__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00 H</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2"><h3 class="dc-itin2__momento">Ceremonia</h3><p class="dc-itin2__detalle">El acto central bajo el gran sol de laboreo.</p></div>
+  </article>
+  <article class="dc-itin2__hito">
+    <span class="dc-itin2__romano" aria-hidden="true">III</span>
+    <time class="dc-itin2__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00 H</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3"><h3 class="dc-itin2__momento">Banquete</h3><p class="dc-itin2__detalle">Mesa imperial, copas altas y brindis largo.</p></div>
+  </article>
+  <article class="dc-itin2__hito">
+    <span class="dc-itin2__romano" aria-hidden="true">IV</span>
+    <time class="dc-itin2__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:30 H</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4"><h3 class="dc-itin2__momento">Gran final</h3><p class="dc-itin2__detalle">La pista se abre; el cierre con fanfarria.</p></div>
+  </article>
+</div>
+<script>
+var moduleMetadata = { module_type:'itinerario', module_name:'itinerario-agenda', style_name:'Déco — Zigzag Escenográfico', descripcion:'Zigzag con hitos rotados y sombras duras, numerales romanos gigantes en trazo detrás y al frente, composición escenográfica no lineal.', tags:['itinerario','zigzag','numerales gigantes','rotado','deco'], tipo:'itinerario' };
+</script>
+</section>
+
+<section
+  class="dc-confirmacion"
+  data-gemini-id="confirmacion-texto"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .dc-confirmacion {
+      --primary-color: #1f1a17;
+      --secondary-color: #6e6257;
+      --accent-color: #b08d57;
+      --bg-color: #f4efe6;
+      --surface-color: #fbf7ee;
+      --surface-border-color: rgba(31, 26, 23, 0.25);
+      --text-color: #1f1a17;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 74svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/velvet,gold');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .dc-confirmacion *,
+    .dc-confirmacion *::before,
+    .dc-confirmacion *::after { box-sizing: border-box; }
+
+    .dc-confirmacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 86%, transparent);
+    }
+
+    .dc-confirmacion__placa {
+      position: relative;
+      width: min(100%, 680px);
+      padding: clamp(2.4rem, 6vw, 3.8rem) clamp(1.4rem, 5vw, 3.2rem);
+      background: color-mix(in srgb, var(--surface-color) 95%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 30px 64px rgba(31, 26, 23, 0.2);
+    }
+    .dc-confirmacion__placa::before {
+      content: '';
+      position: absolute;
+      inset: 9px;
+      border: 3px double var(--accent-color);
+      pointer-events: none;
+    }
+    .dc-confirmacion__placa::after {
+      content: '';
+      position: absolute;
+      top: -7px;
+      left: 50%;
+      width: 90px;
+      height: 14px;
+      transform: translateX(-50%);
+      background:
+        linear-gradient(135deg, color-mix(in srgb, var(--accent-color) 70%, transparent) 25%, transparent 25%) 0 0 / 14px 14px,
+        linear-gradient(-135deg, color-mix(in srgb, var(--accent-color) 70%, transparent) 25%, transparent 25%) 0 0 / 14px 14px;
+      background-color: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 3px;
+    }
+
+    .dc-confirmacion__monograma {
+      width: clamp(74px, 11vw, 96px);
+      margin: 0 auto clamp(1rem, 2.6vw, 1.5rem);
+      display: grid;
+      place-items: center;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, color-mix(in srgb, var(--accent-color) 75%, transparent), color-mix(in srgb, var(--accent-color) 20%, transparent), color-mix(in srgb, var(--accent-color) 75%, transparent));
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+      font-style: italic;
+      color: var(--bg-color);
+      animation: dcConfirmacionGiro 26s linear infinite;
+    }
+    @keyframes dcConfirmacionGiro { to { transform: rotate(360deg); } }
+    .dc-confirmacion__monograma span { transform: rotate(-360deg); animation: dcConfirmacionGiroInverso 26s linear infinite; }
+    @keyframes dcConfirmacionGiroInverso { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+
+    .dc-confirmacion__etiqueta {
+      margin: 0 0 0.7rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .dc-confirmacion__titulo {
+      margin: 0 0 1rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .dc-confirmacion__texto {
+      margin: 0 auto 1.5rem;
+      max-width: 46ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.6vw, 0.96rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+
+    .dc-confirmacion__limite {
+      display: inline-grid;
+      gap: 0.3rem;
+      padding: 0.7rem 1.8rem;
+      border: 1px solid var(--surface-border-color);
+      background: var(--bg-color);
+    }
+    .dc-confirmacion__limite-rotulo {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .dc-confirmacion__limite-fecha {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.9rem, 1.7vw, 1.02rem);
+      letter-spacing: 0.1em;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 560px) {
+      .dc-confirmacion { min-height: 64svh; }
+      .dc-confirmacion__placa { padding: 2.4rem 1.2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dc-confirmacion * { animation: none !important; }
+    }
+  </style>
+
+  <div class="dc-confirmacion__placa">
+    <div class="dc-confirmacion__monograma" aria-hidden="true"><span>N&amp;N</span></div>
+
+    <p class="dc-confirmacion__etiqueta" memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta">Confirmación de asistencia</p>
+    <h2 class="dc-confirmacion__titulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">Su presencia es un honor</h2>
+    <p class="dc-confirmacion__texto" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">
+      Para nosotros es importante recibirte como mereces. Confirma tu asistencia desde el enlace
+      incluido en tu invitación digital antes de la fecha límite; así tendremos todo listo para recibirte.
+    </p>
+    <p class="dc-confirmacion__limite">
+      <span class="dc-confirmacion__limite-rotulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-rotulo">Confirma antes del</span>
+      <time class="dc-confirmacion__limite-fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha">DD de mes</time>
+    </p>
+  </div>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Salón Déco — Confirmación',
+      descripcion: 'Placa solemne con monograma cónico giratorio, doble filete interior y fecha límite de RSVP enmarcada; sin formularios.',
+      tags: ['confirmacion', 'rsvp', 'monograma', 'sello', 'deco', 'informativo'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>
+
+<section
+  class="dc-detalles"
+  data-gemini-id="detalles-regalo"
+>
+  <style>
+    .dc-detalles {
+      --primary-color: #1f1a17;
+      --secondary-color: #6e6257;
+      --accent-color: #b08d57;
+      --bg-color: #f4efe6;
+      --surface-color: #fbf7ee;
+      --surface-border-color: rgba(31, 26, 23, 0.25);
+      --text-color: #1f1a17;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+    }
+    .dc-detalles *,
+    .dc-detalles *::before,
+    .dc-detalles *::after { box-sizing: border-box; }
+
+    .dc-detalles__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .dc-detalles__intro {
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      max-width: 52ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.84rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .dc-detalles__escenario {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.6rem, 4vw, 3rem);
+      align-items: center;
+      width: min(100%, 1040px);
+      margin: 0 auto;
+      perspective: 1100px;
+    }
+
+    .dc-detalles__vitrina {
+      position: relative;
+      margin: 0;
+      padding: clamp(1.6rem, 4vw, 2.4rem) clamp(1.2rem, 3vw, 1.8rem);
+      background: color-mix(in srgb, var(--surface-color) 95%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 999px 999px 0 0;
+      box-shadow: 0 24px 54px rgba(31, 26, 23, 0.18);
+      transform-style: preserve-3d;
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .dc-detalles__vitrina::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid var(--surface-border-color);
+      border-radius: 999px 999px 0 0;
+      pointer-events: none;
+    }
+    .dc-detalles__vitrina img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border-radius: 999px 999px 0 0;
+      filter: saturate(0.92);
+      box-shadow: 0 16px 34px rgba(31, 26, 23, 0.22);
+    }
+
+    .dc-detalles__tarjetas {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: clamp(0.9rem, 2.4vw, 1.3rem);
+    }
+
+    .dc-detalles__tarjeta {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: clamp(0.9rem, 2.4vw, 1.3rem);
+      align-items: center;
+      padding: clamp(1.1rem, 2.8vw, 1.5rem);
+      text-align: left;
+      background: color-mix(in srgb, var(--surface-color) 96%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 14px 32px rgba(31, 26, 23, 0.12);
+      transform-style: preserve-3d;
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), box-shadow 0.5s ease, opacity 0.5s ease;
+    }
+    .dc-detalles.dc-js .dc-detalles__tarjeta { opacity: 0; transform: rotateX(24deg) translateY(14px); }
+    .dc-detalles.esta-visto .dc-detalles__tarjeta { opacity: 1; transform: none; }
+    .dc-detalles.esta-visto .dc-detalles__tarjeta:nth-child(2) { transition-delay: 0.12s; }
+    .dc-detalles.esta-visto .dc-detalles__tarjeta:nth-child(3) { transition-delay: 0.24s; }
+    .dc-detalles__tarjeta:hover { box-shadow: -10px 12px 0 color-mix(in srgb, var(--accent-color) 35%, transparent), 0 18px 40px rgba(31, 26, 23, 0.18); transform: translateZ(24px); }
+
+    .dc-detalles__glifo {
+      width: 44px;
+      height: 44px;
+      flex: none;
+      display: grid;
+      place-items: center;
+      color: var(--accent-color);
+      border: 1px solid var(--accent-color);
+      transform: rotate(45deg);
+    }
+    .dc-detalles__glifo svg { transform: rotate(-45deg); width: 22px; }
+
+    .dc-detalles__rotulo {
+      margin: 0 0 0.25rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .dc-detalles__titulo-card {
+      margin: 0 0 0.35rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.02rem, 2vw, 1.2rem);
+      color: var(--primary-color);
+    }
+    .dc-detalles__texto {
+      margin: 0;
+      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
+      line-height: 1.65;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 880px) {
+      .dc-detalles__escenario { grid-template-columns: 1fr; }
+      .dc-detalles__vitrina { max-width: 400px; margin: 0 auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dc-detalles * { transition: none !important; }
+      .dc-detalles__tarjeta { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="detalles-intro">
+    <h2 class="dc-detalles__titulo" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Indicaciones del salón</h2>
+    <p class="dc-detalles__intro" memory_type="text" memory_usage="custom" memory_key="detalles-texto">Pequeños detalles pensados para que cada instante sea perfecto.</p>
+  </header>
+
+  <div class="dc-detalles__escenario">
+    <figure class="dc-detalles__vitrina" data-dc-tilt memory_type="image" memory_usage="custom" memory_source="library" memory_key="detalles-foto">
+      <img
+        src="https://loremflickr.com/520/650/gold,jewelry"
+        alt="Detalle elegante de la celebración"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="detalle"
+        loading="lazy"
+      />
+      <figcaption hidden>Detalle elegante</figcaption>
+    </figure>
+
+    <div class="dc-detalles__tarjetas">
+      <article class="dc-detalles__tarjeta">
+        <span class="dc-detalles__glifo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 3 L5 9 L9 9 L8 3 Z M10 3 L9 9 L13 9 L12 3 Z M14 3 L13 9 L17 9 L16 3 Z" stroke="currentColor" stroke-width="1.1"/><path d="M5 9 H17 L11 21 Z" stroke="currentColor" stroke-width="1.2"/></svg>
+        </span>
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-1">
+          <p class="dc-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-1">Etiqueta</p>
+          <h3 class="dc-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Black tie opcional</h3>
+          <p class="dc-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Elegancia nocturna: esmoquin o vestido de gala.</p>
+        </div>
+      </article>
+
+      <article class="dc-detalles__tarjeta">
+        <span class="dc-detalles__glifo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.2"/><path d="M12 4 V20 M4 12 H20" stroke="currentColor" stroke-width="1"/></svg>
+        </span>
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-2">
+          <p class="dc-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-2">Horario</p>
+          <h3 class="dc-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Puntualidad ceremonial</h3>
+          <p class="dc-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">La recepción inicia puntual; llega con 15 minutos de margen.</p>
+        </div>
+      </article>
+
+      <article class="dc-detalles__tarjeta">
+        <span class="dc-detalles__glifo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 3 C9 7 5 9 5 13 A7 7 0 0 0 19 13 C19 9 15 7 12 3 Z" stroke="currentColor" stroke-width="1.2"/></svg>
+        </span>
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-3">
+          <p class="dc-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-3">Clima</p>
+          <h3 class="dc-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Salón climatizado</h3>
+          <p class="dc-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">Ambiente interior perfecto durante toda la velada.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.dc-detalles');
+      if (!root) return;
+      root.classList.add('dc-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); }
+      else {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+          });
+        }, { threshold: 0.22 });
+        io.observe(root);
+      }
+
+      var vitrina = root.querySelector('[data-dc-tilt]');
+      if (vitrina && !reduce) {
+        vitrina.addEventListener('pointermove', function (event) {
+          var rect = vitrina.getBoundingClientRect();
+          var x = (event.clientX - rect.left) / rect.width - 0.5;
+          var y = (event.clientY - rect.top) / rect.height - 0.5;
+          vitrina.style.transform = 'rotateY(' + (x * 7).toFixed(2) + 'deg) rotateX(' + (-y * 7).toFixed(2) + 'deg)';
+        });
+        vitrina.addEventListener('pointerleave', function () {
+          vitrina.style.transform = 'none';
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-regalo',
+      style_name: 'Salón Déco — Detalles',
+      descripcion: 'Vitrina en arco con tilt 3D que sigue el cursor y tarjetas con glifos en rombo que se revelan en perspectiva al entrar en pantalla.',
+      tags: ['detalles', 'tarjetas', 'tilt', '3d', 'vitrina', 'deco', 'revelado'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>
+
+<section class="dc-cd2" data-gemini-id="countdown-abanicod" path="placeholder" memory_source="generated" memory_type="background" memory_usage="protected" data-countdown-target="YYYY-MM-DDTHH:MM:SS">
+<style>
+.dc-cd2 { --primary-color:#1f1a17; --secondary-color:#6e6257; --accent-color:#b08d57; --bg-color:#f4efe6; --surface-color:#fbf7ee; --surface-border-color:rgba(31,26,23,.25); --text-color:#1f1a17;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:640px; display:grid; place-items:center; padding:clamp(3rem,7vw,5rem) clamp(1rem,5vw,3rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/deco,gold'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.dc-cd2 *, .dc-cd2 *::before, .dc-cd2 *::after { box-sizing:border-box; }
+.dc-cd2::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 88%, transparent); }
+/* abanico de rayos girando lento detrás de números escalonados */
+.dc-cd2__abanico { position:absolute; z-index:0; top:50%; left:50%; width:min(140vw,1100px); aspect-ratio:1/1; transform:translate(-50%,-50%); border-radius:50%; background:conic-gradient(from 0deg, color-mix(in srgb, var(--accent-color) 22%, transparent) 0 6deg, transparent 6deg 30deg); animation:dcCd2Gira 60s linear infinite; pointer-events:none; -webkit-mask:radial-gradient(circle, transparent 26%, black 27%); mask:radial-gradient(circle, transparent 26%, black 27%); }
+@keyframes dcCd2Gira { to { transform:translate(-50%,-50%) rotate(360deg); } }
+.dc-cd2__titulo { position:relative; z-index:2; margin:0 0 .4rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.7rem,4vw,2.6rem); color:var(--primary-color); }
+.dc-cd2__fecha { display:block; margin-bottom:clamp(1.4rem,3.4vw,2rem); font-family:'Courier New',monospace; font-size:clamp(.72rem,1.45vw,.86rem); letter-spacing:.32em; text-transform:uppercase; color:var(--secondary-color); }
+/* números escalonados en marcos escalonados que suben como escalinata */
+.dc-cd2__escalinata { position:relative; z-index:2; display:flex; justify-content:center; align-items:flex-end; gap:clamp(.4rem,1.4vw,.9rem); }
+.dc-cd2__peldano { padding:clamp(1rem,2.6vw,1.6rem) clamp(.5rem,1.6vw,1rem) clamp(.8rem,2vw,1.2rem); background:var(--surface-color); border:1px solid var(--surface-border-color); box-shadow:0 14px 30px rgba(31,26,23,.18); }
+.dc-cd2__peldano:nth-child(1) { transform:translateY(42px) rotate(-2deg); }
+.dc-cd2__peldano:nth-child(2) { transform:translateY(28px) rotate(1deg); }
+.dc-cd2__peldano:nth-child(3) { transform:translateY(14px) rotate(-1deg); }
+.dc-cd2__peldano:nth-child(4) { transform:translateY(0) rotate(2deg); border-color:var(--accent-color); }
+.dc-cd2__numero { display:block; font-family:Georgia,serif; font-size:clamp(2rem,6vw,3.8rem); font-variant-numeric:tabular-nums; line-height:1; color:var(--primary-color); }
+.dc-cd2__rotulo { display:block; margin-top:.4rem; font-family:'Courier New',monospace; font-size:clamp(.52rem,1vw,.6rem); letter-spacing:.36em; text-transform:uppercase; color:var(--accent-color); }
+.dc-cd2__peldano:nth-child(4) .dc-cd2__rotulo { color:var(--primary-color); }
+@media (max-width:560px){ .dc-cd2__escalinata { flex-wrap:wrap; } .dc-cd2__peldano { transform:none !important; } }
+@media (prefers-reduced-motion:reduce){ .dc-cd2__abanico { animation:none; } }
+</style>
+<div class="dc-cd2__abanico" aria-hidden="true"></div>
+<div>
+  <h2 class="dc-cd2__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">La cuenta del gran salón</h2>
+  <time class="dc-cd2__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+  <div class="dc-cd2__escalinata" aria-label="Cuenta regresiva">
+    <div class="dc-cd2__peldano"><span class="dc-cd2__numero" data-countdown-unit="days">--</span><span class="dc-cd2__rotulo">Días</span></div>
+    <div class="dc-cd2__peldano"><span class="dc-cd2__numero" data-countdown-unit="hours">--</span><span class="dc-cd2__rotulo">Horas</span></div>
+    <div class="dc-cd2__peldano"><span class="dc-cd2__numero" data-countdown-unit="minutes">--</span><span class="dc-cd2__rotulo">Min</span></div>
+    <div class="dc-cd2__peldano"><span class="dc-cd2__numero" data-countdown-unit="seconds">--</span><span class="dc-cd2__rotulo">Seg</span></div>
+  </div>
+</div>
+<script>
+(function(){
+  var el=null; try{ el=document.currentScript.closest('[data-gemini-id^="countdown"]'); }catch(e){}
+  if(!el) el=document.querySelector('[data-gemini-id^="countdown"]'); if(!el) return;
+  var target=NaN; var attr=el.getAttribute('data-countdown-target');
+  if(attr && attr.indexOf('YYYY')===-1){ var p=new Date(attr); if(!isNaN(p.getTime())) target=p.getTime(); }
+  if(isNaN(target)&&window.__countdownTarget){ var p1=new Date(window.__countdownTarget); if(!isNaN(p1.getTime())) target=p1.getTime(); }
+  if(isNaN(target)&&window.countdown_target){ var p2=new Date(window.countdown_target); if(!isNaN(p2.getTime())) target=p2.getTime(); }
+  var intervalId=null;
+  (window.__countdownIntervals=window.__countdownIntervals||[]).forEach(clearInterval); window.__countdownIntervals=[];
+  function pad2(n){ return n<10?'0'+n:''+n; }
+  function setUnit(u,v){ var n=el.querySelector('[data-countdown-unit="'+u+'"]'); if(n) n.textContent=v; }
+  function tick(){ if(!Number.isFinite(target)) return; var d=Math.max(target-Date.now(),0);
+    setUnit('days',Math.floor(d/86400000)); setUnit('hours',pad2(Math.floor((d%86400000)/3600000))); setUnit('minutes',pad2(Math.floor((d%3600000)/60000))); setUnit('seconds',pad2(Math.floor((d%60000)/1000)));
+    if(d===0&&intervalId!==null){ clearInterval(intervalId); intervalId=null; window.__countdownIntervals=[]; } }
+  function start(nt){ if(nt){ var p=new Date(nt); if(!isNaN(p.getTime())) target=p.getTime(); }
+    (window.__countdownIntervals||[]).forEach(clearInterval); window.__countdownIntervals=[]; intervalId=null;
+    if(!Number.isFinite(target)) return; tick(); if(target>Date.now()){ intervalId=setInterval(tick,1000); window.__countdownIntervals.push(intervalId); } }
+  start(); window.updateCountdown=start;
+})();
+</script>
+<script>
+var moduleMetadata = { module_type:'countdown', module_name:'countdown-abanicod', style_name:'Abanico Déco Escalonado', descripcion:'Abanico de rayos cónicos girando detrás de una escalinata de números rotados; el segundero corona la cima.', tags:['countdown','abanico','escalinata','rotado','deco'], tipo:'countdown' };
+</script>
+</section>
+
+<section class="dc-padrinos2" data-gemini-id="padrinos-deco-medallones" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.dc-padrinos2 { --primary-color:#1f1a17; --secondary-color:#6e6257; --accent-color:#b08d57; --bg-color:#f4efe6; --surface-color:#fbf7ee; --surface-border-color:rgba(31,26,23,.25); --text-color:#1f1a17;
+  position:relative; isolation:isolate; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/deco,velvet'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.dc-padrinos2 *, .dc-padrinos2 *::before, .dc-padrinos2 *::after { box-sizing:border-box; }
+.dc-padrinos2::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 88%, transparent); }
+.dc-padrinos2__titulo { margin:0 0 .5rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.8rem); color:var(--primary-color); }
+.dc-padrinos2__intro { margin:0 auto clamp(2.4rem,6vw,3.6rem); max-width:46ch; font-size:clamp(.84rem,1.5vw,.94rem); line-height:1.7; color:var(--secondary-color); }
+/* medalliones colgando de cintas a distinta altura, ligeramente girados */
+.dc-padrinos2__colgadura { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(1rem,3vw,2.2rem); width:min(100%,940px); margin:0 auto; }
+.dc-padrinos2__medallon { width:clamp(180px,26vw,240px); }
+.dc-padrinos2__cinta { width:10px; height:var(--largo,50px); margin:0 auto; background:repeating-linear-gradient(-45deg, var(--accent-color) 0 8px, color-mix(in srgb, var(--accent-color) 55%, var(--bg-color)) 8px 16px); }
+.dc-padrinos2__placa { position:relative; padding:clamp(1.2rem,2.8vw,1.7rem) clamp(.9rem,2.2vw,1.4rem); background:var(--surface-color); border:1px solid var(--surface-border-color); box-shadow:0 20px 44px rgba(31,26,23,.2); transform:rotate(var(--g)); }
+.dc-padrinos2__medallon:nth-child(1) { --largo:36px; --g:-2.4deg; }
+.dc-padrinos2__medallon:nth-child(2) { --largo:66px; --g:1.8deg; }
+.dc-padrinos2__medallon:nth-child(3) { --largo:48px; --g:-1.4deg; }
+.dc-padrinos2__medallon:nth-child(4) { --largo:74px; --g:2.6deg; }
+.dc-padrinos2__placa::before { content:''; position:absolute; inset:6px; border:1px solid color-mix(in srgb, var(--accent-color) 55%, transparent); pointer-events:none; }
+.dc-padrinos2__medallon:hover .dc-padrinos2__placa { transform:rotate(0) translateY(-4px); }
+.dc-padrinos2__placa { transition:transform .5s cubic-bezier(.22,.8,.3,1); }
+.dc-padrinos2__retrato { width:clamp(80px,12vw,104px); margin:0 auto .7rem; padding:4px; border:1px solid var(--surface-border-color); border-radius:50%; background:var(--bg-color); }
+.dc-padrinos2__retrato img { display:block; width:100%; height:auto; aspect-ratio:1/1; border-radius:50%; object-fit:cover; filter:saturate(.92); }
+.dc-padrinos2__rol { margin:0 0 .25rem; font-family:'Courier New',monospace; font-size:clamp(.54rem,1vw,.62rem); letter-spacing:.32em; text-transform:uppercase; color:var(--accent-color); }
+.dc-padrinos2__nombre { margin:0; font-family:Georgia,serif; font-size:clamp(.92rem,1.85vw,1.12rem); line-height:1.3; color:var(--primary-color); }
+@media (prefers-reduced-motion:reduce){ .dc-padrinos2 * { transition:none !important; } }
+</style>
+<header memory_type="text" memory_usage="custom" memory_key="padrinos-intro">
+  <h2 class="dc-padrinos2__titulo" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Medallones de honor</h2>
+  <p class="dc-padrinos2__intro" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Cuatro placas colgadas de cintas trenzadas, cada una a su altura.</p>
+</header>
+<div class="dc-padrinos2__colgadura">
+  <article class="dc-padrinos2__medallon">
+    <span class="dc-padrinos2__cinta" aria-hidden="true"></span>
+    <div class="dc-padrinos2__placa">
+      <figure class="dc-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-1">
+        <img src="https://loremflickr.com/280/280/portrait,deco" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrinos uno</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-1">
+        <p class="dc-padrinos2__rol">Padrinos de alianzas</p>
+        <h3 class="dc-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+      </div>
+    </div>
+  </article>
+  <article class="dc-padrinos2__medallon">
+    <span class="dc-padrinos2__cinta" aria-hidden="true"></span>
+    <div class="dc-padrinos2__placa">
+      <figure class="dc-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-2">
+        <img src="https://loremflickr.com/280/280/portrait,gold" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrinos dos</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-2">
+        <p class="dc-padrinos2__rol">Padrinos de velo</p>
+        <h3 class="dc-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+      </div>
+    </div>
+  </article>
+  <article class="dc-padrinos2__medallon">
+    <span class="dc-padrinos2__cinta" aria-hidden="true"></span>
+    <div class="dc-padrinos2__placa">
+      <figure class="dc-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-3">
+        <img src="https://loremflickr.com/280/280/portrait,bronze" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrinos tres</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-3">
+        <p class="dc-padrinos2__rol">Padrinos de arras</p>
+        <h3 class="dc-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+      </div>
+    </div>
+  </article>
+  <article class="dc-padrinos2__medallon">
+    <span class="dc-padrinos2__cinta" aria-hidden="true"></span>
+    <div class="dc-padrinos2__placa">
+      <figure class="dc-padrinos2__retrato" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padrinos-retrato-4">
+        <img src="https://loremflickr.com/280/280/portrait,champagne" alt="Retrato de padrinos" path="placeholder" data-library-category="bodas" data-asset-type="retrato-padrino" loading="lazy" />
+        <figcaption hidden>Padrinos cuatro</figcaption>
+      </figure>
+      <div memory_type="text" memory_usage="custom" memory_key="padrinos-bloque-4">
+        <p class="dc-padrinos2__rol">Padrinos de lazos</p>
+        <h3 class="dc-padrinos2__nombre">Nombre Padrino &amp; Nombre Madrina</h3>
+      </div>
+    </div>
+  </article>
+</div>
+<script>
+var moduleMetadata = { module_type:'padrinos', module_name:'padrinos-deco-medallones', style_name:'Déco — Medallones Colgantes', descripcion:'Medallones colgando de cintas trenzadas a distintas alturas y giros, con doble fileto interior y retratos circulares.', tags:['padrinos','medallones','colgantes','cintas','giros','deco'], tipo:'padrinos' };
+</script>
+</section>
+
+<section
+  class="dc-corte"
+  data-gemini-id="corte-salon-escenario"
+>
+  <style>
+    .dc-corte {
+      --primary-color: #1f1a17;
+      --secondary-color: #6e6257;
+      --accent-color: #b08d57;
+      --bg-color: #f4efe6;
+      --surface-color: #fbf7ee;
+      --surface-border-color: rgba(31, 26, 23, 0.25);
+      --text-color: #1f1a17;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .dc-corte *,
+    .dc-corte *::before,
+    .dc-corte *::after { box-sizing: border-box; }
+
+    .dc-corte__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+      gap: clamp(1.8rem, 4.5vw, 3.4rem);
+      align-items: center;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .dc-corte__escenario {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 28px 64px rgba(31, 26, 23, 0.22);
+    }
+    .dc-corte__escenario::after {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid color-mix(in srgb, var(--accent-color) 60%, transparent);
+      pointer-events: none;
+      z-index: 3;
+    }
+    .dc-corte__escenario img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 11;
+      object-fit: cover;
+      filter: saturate(0.92);
+      transform: scale(1.08);
+      transition: transform 0.5s ease;
+    }
+    .dc-corte.esta-visto .dc-corte__escenario img { transform: scale(1); }
+
+    .dc-corte__telon {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: none;
+      pointer-events: none;
+    }
+    .dc-corte.dc-js .dc-corte__telon { display: flex; }
+    .dc-corte__hoja {
+      flex: 1;
+      background:
+        repeating-linear-gradient(90deg,
+          color-mix(in srgb, var(--primary-color) 88%, var(--accent-color)) 0 18px,
+          color-mix(in srgb, var(--primary-color) 70%, var(--bg-color)) 18px 24px);
+      box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.35);
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .dc-corte.esta-visto .dc-corte__hoja--izq { transform: translateX(-101%); }
+    .dc-corte.esta-visto .dc-corte__hoja--der { transform: translateX(101%); }
+
+    .dc-corte__insignia {
+      position: absolute;
+      z-index: 3;
+      top: 50%;
+      left: 50%;
+      width: 74px;
+      transform: translate(-50%, -50%);
+      display: grid;
+      place-items: center;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      background: conic-gradient(from 180deg, var(--accent-color), color-mix(in srgb, var(--accent-color) 30%, var(--bg-color)), var(--accent-color));
+      color: var(--bg-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      text-align: center;
+      box-shadow: 0 14px 30px rgba(31, 26, 23, 0.35);
+      transition: opacity 0.4s ease, transform 0.5s ease;
+      animation: dcCortePulso 5s ease-in-out infinite;
+      display: none;
+    }
+    .dc-corte.dc-js .dc-corte__insignia { display: grid; }
+    @keyframes dcCortePulso {
+      0%, 100% { box-shadow: 0 14px 30px rgba(31, 26, 23, 0.35); }
+      50% { box-shadow: 0 14px 40px color-mix(in srgb, var(--accent-color) 60%, transparent); }
+    }
+    .dc-corte.esta-visto .dc-corte__insignia { opacity: 0; transform: translate(-50%, -50%) scale(1.35); }
+
+    .dc-corte__contenido { text-align: left; }
+    .dc-corte__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.46em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .dc-corte__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.9rem, 4.2vw, 2.8rem);
+      line-height: 1.1;
+      color: var(--primary-color);
+      text-shadow: 0.04em 0.04em 0 color-mix(in srgb, var(--accent-color) 40%, transparent);
+    }
+    .dc-corte__texto {
+      margin: 0 0 1.3rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .dc-corte__remate {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.86rem, 1.6vw, 0.98rem);
+      color: var(--primary-color);
+    }
+    .dc-corte__remate::before {
+      content: '';
+      width: 44px;
+      height: 1px;
+      background: var(--accent-color);
+    }
+
+    @media (max-width: 880px) {
+      .dc-corte__grid { grid-template-columns: 1fr; }
+      .dc-corte__contenido { text-align: center; }
+      .dc-corte__remate { justify-content: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dc-corte * { transition: none !important; animation: none !important; }
+      .dc-corte .dc-corte__telon, .dc-corte .dc-corte__insignia { display: none !important; }
+      .dc-corte__escenario img { transform: none; }
+    }
+  </style>
+
+  <div class="dc-corte__grid">
+    <figure class="dc-corte__escenario" memory_type="image" memory_usage="custom" memory_source="library" memory_key="corte-foto">
+      <img
+        src="https://loremflickr.com/960/660/champagne,toast"
+        alt="Escenario del brindis"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="corte"
+        loading="lazy"
+      />
+      <span class="dc-corte__telon" aria-hidden="true">
+        <span class="dc-corte__hoja dc-corte__hoja--izq"></span>
+        <span class="dc-corte__hoja dc-corte__hoja--der"></span>
+      </span>
+      <span class="dc-corte__insignia" aria-hidden="true">Gran<br />momento</span>
+      <figcaption hidden>Escenario del brindis</figcaption>
+    </figure>
+
+    <div class="dc-corte__contenido" memory_type="text" memory_usage="custom" memory_key="corte-texto">
+      <p class="dc-corte__etiqueta" memory_type="text" memory_usage="custom" memory_key="corte-etiqueta">Acto principal</p>
+      <h2 class="dc-corte__titulo" memory_type="text" memory_usage="custom" memory_key="corte-titulo">El gran brindis</h2>
+      <p class="dc-corte__texto">
+        Las cortinas se abren para el instante más esperado de la velada: el brindis por una
+        historia que comienza. Alzamos las copas con quienes nos acompañan esta noche.
+      </p>
+      <p class="dc-corte__remate" memory_type="text" memory_usage="custom" memory_key="corte-remate">Que el brindis sea el primero de mil.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.dc-corte');
+      if (!root) return;
+      root.classList.add('dc-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root.querySelector('.dc-corte__escenario') || root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-salon-escenario',
+      style_name: 'Salón Déco — Brindis',
+      descripcion: 'Escenario con telón de terciopelo a rayas que se abre al entrar en pantalla, insignia cónica que se disipa y título con sombra larga.',
+      tags: ['corte', 'brindis', 'telon', 'escenario', 'insignia', 'deco'],
+      tipo: 'corte'
+    };
+  </script>
+</section>
+
+<section
+  class="dc-galeria"
+  data-gemini-id="galeria-salon-escalonada"
+>
+  <style>
+    .dc-galeria {
+      --primary-color: #1f1a17;
+      --secondary-color: #6e6257;
+      --accent-color: #b08d57;
+      --bg-color: #f4efe6;
+      --surface-color: #fbf7ee;
+      --surface-border-color: rgba(31, 26, 23, 0.25);
+      --text-color: #1f1a17;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+    }
+    .dc-galeria *,
+    .dc-galeria *::before,
+    .dc-galeria *::after { box-sizing: border-box; }
+
+    .dc-galeria__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .dc-galeria__nota {
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.9rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .dc-galeria__nota::before,
+    .dc-galeria__nota::after {
+      content: '';
+      width: 52px;
+      height: 1px;
+      background: var(--accent-color);
+    }
+
+    .dc-galeria__mosaico {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
+      gap: clamp(1rem, 2.6vw, 1.6rem);
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .dc-galeria__pieza {
+      position: relative;
+      margin: 0;
+      padding: 8px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 16px 36px rgba(31, 26, 23, 0.15);
+      cursor: pointer;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), box-shadow 0.5s ease;
+    }
+    .dc-galeria.dc-js .dc-galeria__pieza { opacity: 0; transform: translateY(18px); }
+    .dc-galeria.esta-visto .dc-galeria__pieza { opacity: 1; transform: none; }
+    .dc-galeria__pieza::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      width: 26px;
+      height: 26px;
+      border-top: 2px solid var(--accent-color);
+      border-left: 2px solid var(--accent-color);
+      pointer-events: none;
+    }
+    .dc-galeria__pieza::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      right: -5px;
+      width: 26px;
+      height: 26px;
+      border-bottom: 2px solid var(--accent-color);
+      border-right: 2px solid var(--accent-color);
+      pointer-events: none;
+    }
+    .dc-galeria__pieza:hover { box-shadow: 0 24px 48px rgba(31, 26, 23, 0.24); }
+
+    .dc-galeria__pieza img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      filter: saturate(0.92);
+    }
+
+    .dc-galeria__lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      place-items: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      background: color-mix(in srgb, var(--primary-color) 82%, black);
+    }
+    .dc-galeria__lightbox.abierto { display: grid; }
+    .dc-galeria__lightbox img {
+      max-width: min(920px, 92vw);
+      max-height: 82svh;
+      width: auto;
+      height: auto;
+      border: 6px solid var(--surface-color);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    }
+    .dc-galeria__cerrar {
+      position: absolute;
+      top: clamp(0.8rem, 2.5vw, 1.6rem);
+      right: clamp(0.8rem, 2.5vw, 1.6rem);
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--surface-color);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--surface-color);
+      font-size: 1.2rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.4s ease, background 0.4s ease;
+    }
+    .dc-galeria__cerrar:hover { transform: rotate(90deg); background: color-mix(in srgb, var(--surface-color) 18%, transparent); }
+
+    @media (max-width: 560px) {
+      .dc-galeria__mosaico { grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr)); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dc-galeria * { transition: none !important; }
+      .dc-galeria__pieza { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="galeria-cabecera">
+    <h2 class="dc-galeria__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Galería del salón</h2>
+    <p class="dc-galeria__nota" memory_type="text" memory_usage="custom" memory_key="galeria-nota">Instantes elegidos</p>
+  </header>
+
+  <div class="dc-galeria__mosaico">
+    <figure class="dc-galeria__pieza" data-dc-pieza memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-1" tabindex="0" role="button" aria-label="Ampliar foto uno">
+      <img src="https://loremflickr.com/520/520/gala,elegant" alt="Instante uno" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Instante uno</figcaption>
+    </figure>
+    <figure class="dc-galeria__pieza" data-dc-pieza memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-2" tabindex="0" role="button" aria-label="Ampliar foto dos">
+      <img src="https://loremflickr.com/520/520/couple,dance" alt="Instante dos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Instante dos</figcaption>
+    </figure>
+    <figure class="dc-galeria__pieza" data-dc-pieza memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-3" tabindex="0" role="button" aria-label="Ampliar foto tres">
+      <img src="https://loremflickr.com/520/520/champagne,celebration" alt="Instante tres" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Instante tres</figcaption>
+    </figure>
+    <figure class="dc-galeria__pieza" data-dc-pieza memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-4" tabindex="0" role="button" aria-label="Ampliar foto cuatro">
+      <img src="https://loremflickr.com/520/520/ballroom,lights" alt="Instante cuatro" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Instante cuatro</figcaption>
+    </figure>
+    <figure class="dc-galeria__pieza" data-dc-pieza memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-5" tabindex="0" role="button" aria-label="Ampliar foto cinco">
+      <img src="https://loremflickr.com/520/520/wedding,dinner" alt="Instante cinco" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Instante cinco</figcaption>
+    </figure>
+    <figure class="dc-galeria__pieza" data-dc-pieza memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-6" tabindex="0" role="button" aria-label="Ampliar foto seis">
+      <img src="https://loremflickr.com/520/520/ceremony,elegant" alt="Instante seis" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <figcaption hidden>Instante seis</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.dc-galeria');
+      if (!root) return;
+      root.classList.add('dc-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var piezas = Array.prototype.slice.call(root.querySelectorAll('[data-dc-pieza]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var i = piezas.indexOf(entry.target);
+            entry.target.style.transitionDelay = (Math.min(i, 5) * 0.08).toFixed(2) + 's';
+            root.classList.add('esta-visto');
+            io.unobserve(entry.target);
+          });
+        }, { threshold: 0.18 });
+        piezas.forEach(function (p) { io.observe(p); });
+      } else {
+        root.classList.add('esta-visto');
+      }
+
+      var lightbox = document.createElement('div');
+      lightbox.className = 'dc-galeria__lightbox';
+      lightbox.setAttribute('role', 'dialog');
+      lightbox.setAttribute('aria-modal', 'true');
+      lightbox.setAttribute('aria-label', 'Vista ampliada');
+      lightbox.innerHTML =
+        '<img alt="" />' +
+        '<button type="button" class="dc-galeria__cerrar" aria-label="Cerrar">×</button>';
+      root.appendChild(lightbox);
+      var imgAmpliada = lightbox.querySelector('img');
+      var botonCerrar = lightbox.querySelector('.dc-galeria__cerrar');
+
+      function abrir(fig) {
+        var foto = fig.querySelector('img');
+        if (!foto) return;
+        imgAmpliada.src = foto.src;
+        imgAmpliada.alt = foto.alt;
+        lightbox.classList.add('abierto');
+      }
+      function cerrar() { lightbox.classList.remove('abierto'); }
+
+      piezas.forEach(function (fig) {
+        fig.addEventListener('click', function () { abrir(fig); });
+        fig.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(fig); }
+        });
+      });
+      botonCerrar.addEventListener('click', cerrar);
+      lightbox.addEventListener('click', function (e) { if (e.target === lightbox) cerrar(); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-salon-escalonada',
+      style_name: 'Salón Déco — Galería',
+      descripcion: 'Mosaico cuadrado con esquinas déco superpuestas, lightbox propio accesible por teclado y aparición escalonada de las piezas.',
+      tags: ['galeria', 'mosaico', 'lightbox', 'esquinas', 'deco', 'elegante'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>
+
+<section
+  class="dc-regalos"
+  data-gemini-id="regalos-salon-mesa"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .dc-regalos {
+      --primary-color: #1f1a17;
+      --secondary-color: #6e6257;
+      --accent-color: #b08d57;
+      --bg-color: #f4efe6;
+      --surface-color: #fbf7ee;
+      --surface-border-color: rgba(31, 26, 23, 0.25);
+      --text-color: #1f1a17;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/gold,silk');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .dc-regalos *,
+    .dc-regalos *::before,
+    .dc-regalos *::after { box-sizing: border-box; }
+
+    .dc-regalos::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 87%, transparent);
+    }
+
+    .dc-regalos__placa {
+      width: min(100%, 720px);
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      text-align: center;
+      background: color-mix(in srgb, var(--surface-color) 95%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 28px 60px rgba(31, 26, 23, 0.18);
+    }
+    .dc-regalos__placa::before {
+      content: '';
+      position: absolute;
+      inset: 9px;
+      border: 3px double var(--accent-color);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .dc-regalos__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.46em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .dc-regalos__titulo {
+      margin: 0 0 0.7rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .dc-regalos__intro {
+      margin: 0 auto 1.6rem;
+      max-width: 48ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .dc-regalos__opciones {
+      display: grid;
+      gap: clamp(0.7rem, 2vw, 1rem);
+      max-width: 520px;
+      margin: 0 auto 1.8rem;
+    }
+    .dc-regalos__opcion {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 0.9rem;
+      padding: clamp(0.8rem, 2.2vw, 1.1rem) clamp(0.9rem, 2.4vw, 1.3rem);
+      text-align: left;
+      background: var(--bg-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 3px 3px 0 color-mix(in srgb, var(--accent-color) 40%, transparent);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .dc-regalos.dc-js .dc-regalos__opcion { opacity: 0; transform: translateY(10px); }
+    .dc-regalos.esta-visto .dc-regalos__opcion { opacity: 1; transform: none; }
+    .dc-regalos__numeracion {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--accent-color);
+      border-radius: 50%;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.8rem;
+      color: var(--accent-color);
+    }
+    .dc-regalos__nombre {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.9rem, 1.7vw, 1.02rem);
+      color: var(--primary-color);
+    }
+    .dc-regalos__via {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .dc-regalos__boton {
+      position: relative;
+      min-width: 230px;
+      padding: 0.9rem 2.1rem;
+      border: 1px solid var(--primary-color);
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.7rem, 1.3vw, 0.8rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 5px 5px 0 color-mix(in srgb, var(--accent-color) 80%, transparent);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      overflow: hidden;
+    }
+    .dc-regalos__boton:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 color-mix(in srgb, var(--accent-color) 80%, transparent); }
+    .dc-regalos__boton.esta-listo { background: color-mix(in srgb, var(--accent-color) 85%, var(--primary-color)); border-color: var(--accent-color); }
+    .dc-regalos__check {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      transform: scale(0.5) rotate(-20deg);
+      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .dc-regalos__boton.esta-listo .dc-regalos__check { opacity: 1; transform: none; }
+    .dc-regalos__nota {
+      margin-top: 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.76rem, 1.4vw, 0.86rem);
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 520px) {
+      .dc-regalos__opcion { grid-template-columns: auto 1fr; }
+      .dc-regalos__via { grid-column: 2; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dc-regalos * { transition: none !important; }
+      .dc-regalos__opcion { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <div class="dc-regalos__placa">
+    <header memory_type="text" memory_usage="custom" memory_key="regalos-intro">
+      <p class="dc-regalos__etiqueta" memory_type="text" memory_usage="custom" memory_key="regalos-etiqueta">Mesa de regalos</p>
+      <h2 class="dc-regalos__titulo" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Un obsequio, mil gracias</h2>
+      <p class="dc-regalos__intro" memory_type="text" memory_usage="custom" memory_key="regalos-texto">
+        Si desean consentirnos, estas son las opciones que preparamos con cariño.
+      </p>
+    </header>
+
+    <div class="dc-regalos__opciones" data-dc-opciones>
+      <div class="dc-regalos__opcion">
+        <span class="dc-regalos__numeracion" aria-hidden="true">I</span>
+        <span class="dc-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-1">Artículos para el hogar</span>
+        <span class="dc-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-1">Tienda</span>
+      </div>
+      <div class="dc-regalos__opcion">
+        <span class="dc-regalos__numeracion" aria-hidden="true">II</span>
+        <span class="dc-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-2">Fondo de luna de miel</span>
+        <span class="dc-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-2">Sobre</span>
+      </div>
+      <div class="dc-regalos__opcion">
+        <span class="dc-regalos__numeracion" aria-hidden="true">III</span>
+        <span class="dc-regalos__nombre" memory_type="text" memory_usage="custom" memory_key="regalos-item-3">Experiencias para dos</span>
+        <span class="dc-regalos__via" memory_type="text" memory_usage="custom" memory_key="regalos-via-3">Digital</span>
+      </div>
+    </div>
+
+    <button type="button" class="dc-regalos__boton" data-dc-boton>
+      <span data-dc-boton-texto memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span>
+      <span class="dc-regalos__check" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M4 12.5 L10 18.5 L20 6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </button>
+    <p class="dc-regalos__nota" memory_type="text" memory_usage="custom" memory_key="regalos-nota">Tu elección se agendará en tu invitación digital.</p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.dc-regalos');
+      if (!root) return;
+      root.classList.add('dc-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var opciones = Array.prototype.slice.call(root.querySelectorAll('.dc-regalos__opcion'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            opciones.forEach(function (op, i) { op.style.transitionDelay = (i * 0.12).toFixed(2) + 's'; });
+            root.classList.add('esta-visto');
+            io.disconnect();
+          });
+        }, { threshold: 0.3 });
+        io.observe(root.querySelector('[data-dc-opciones]') || root);
+      } else {
+        root.classList.add('esta-visto');
+      }
+
+      var boton = root.querySelector('[data-dc-boton]');
+      var texto = root.querySelector('[data-dc-boton-texto]');
+      if (boton && texto) {
+        boton.addEventListener('click', function () {
+          var listo = boton.classList.toggle('esta-listo');
+          texto.textContent = listo ? 'Regalo agendado' : 'Agendar regalo';
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-salon-mesa',
+      style_name: 'Salón Déco — Regalos',
+      descripcion: 'Placa de doble filete con opciones numeradas en romanos, sombras duras doradas y botón agendar con confirmación animada.',
+      tags: ['regalos', 'mesa de regalos', 'opciones', 'boton', 'deco', 'micro-interaccion'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>
+
+<section
+  class="dc-vestimenta"
+  data-gemini-id="vestimenta-salon-joyeria"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .dc-vestimenta {
+      --primary-color: #1f1a17;
+      --secondary-color: #6e6257;
+      --accent-color: #b08d57;
+      --bg-color: #f4efe6;
+      --surface-color: #fbf7ee;
+      --surface-border-color: rgba(31, 26, 23, 0.25);
+      --text-color: #1f1a17;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      min-height: 64svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/velvet,elegant');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .dc-vestimenta *,
+    .dc-vestimenta *::before,
+    .dc-vestimenta *::after { box-sizing: border-box; }
+
+    .dc-vestimenta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 86%, transparent);
+    }
+
+    .dc-vestimenta__vitrina {
+      width: min(100%, 680px);
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 94%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 26px 58px rgba(31, 26, 23, 0.18);
+    }
+    .dc-vestimenta__vitrina::before {
+      content: '';
+      position: absolute;
+      inset: 9px;
+      border: 3px double var(--accent-color);
+      pointer-events: none;
+    }
+
+    .dc-vestimenta__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.46em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .dc-vestimenta__titulo {
+      margin: 0 0 0.8rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .dc-vestimenta__texto {
+      margin: 0 auto 1.8rem;
+      max-width: 46ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .dc-vestimenta__pedestales {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(0.9rem, 2.6vw, 1.5rem);
+      margin-bottom: 1.6rem;
+    }
+    .dc-vestimenta__joya {
+      display: grid;
+      justify-items: center;
+      gap: 0.55rem;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .dc-vestimenta.dc-js .dc-vestimenta__joya { opacity: 0; transform: translateY(14px); }
+    .dc-vestimenta.esta-visto .dc-vestimenta__joya { opacity: 1; transform: none; }
+    .dc-vestimenta__gema {
+      width: clamp(40px, 7vw, 52px);
+      height: clamp(40px, 7vw, 52px);
+      transform: rotate(45deg);
+      border: 1px solid var(--surface-border-color);
+      background: var(--bg-color);
+      box-shadow:
+        inset 4px 4px 0 color-mix(in srgb, white 35%, transparent),
+        inset -4px -4px 0 rgba(0, 0, 0, 0.14),
+        0 10px 20px rgba(31, 26, 23, 0.2);
+      transition: background 0.5s ease, transform 0.5s ease;
+    }
+    .dc-vestimenta__joya:hover .dc-vestimenta__gema { transform: rotate(45deg) translateY(-4px); }
+    .dc-vestimenta__base {
+      width: clamp(34px, 6vw, 44px);
+      height: 5px;
+      background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent-color) 70%, transparent), transparent);
+    }
+
+    .dc-vestimenta__leyenda {
+      display: inline-block;
+      padding: 0.55rem 1.7rem;
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 480px) {
+      .dc-vestimenta__gema { width: 38px; height: 38px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dc-vestimenta * { transition: none !important; }
+      .dc-vestimenta__joya { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <div class="dc-vestimenta__vitrina">
+    <p class="dc-vestimenta__etiqueta" memory_type="text" memory_usage="custom" memory_key="vestimenta-etiqueta">Etiqueta sugerida</p>
+    <h2 class="dc-vestimenta__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Paleta de la velada</h2>
+    <p class="dc-vestimenta__texto" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">
+      Inspiración de tonos para tu vestuario; cada pieza elegida con elegancia hará brillar la noche.
+    </p>
+
+    <div class="dc-vestimenta__pedestales" data-dc-pedestales aria-hidden="true"></div>
+
+    <p class="dc-vestimenta__leyenda" memory_type="text" memory_usage="custom" memory_key="vestimenta-leyenda">Black tie opcional</p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.dc-vestimenta');
+      if (!root) return;
+      root.classList.add('dc-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var pedestales = root.querySelector('[data-dc-pedestales]');
+      if (pedestales && !pedestales.children.length) {
+        var gemas = ['#5b6770', '#8f7f6a', '#a98d7a', '#6d7b6a', '#7a6d82', '#93856f'];
+        for (var i = 0; i < gemas.length; i++) {
+          var joya = document.createElement('span');
+          joya.className = 'dc-vestimenta__joya';
+          joya.style.transitionDelay = (i * 0.08).toFixed(2) + 's, ' + (i * 0.08).toFixed(2) + 's';
+          var gema = document.createElement('span');
+          gema.className = 'dc-vestimenta__gema';
+          gema.setAttribute('data-dc-gema', gemas[i]);
+          var base = document.createElement('span');
+          base.className = 'dc-vestimenta__base';
+          joya.appendChild(gema);
+          joya.appendChild(base);
+          pedestales.appendChild(joya);
+        }
+      }
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function colorear() {
+        root.querySelectorAll('[data-dc-gema]').forEach(function (g) {
+          g.style.background = g.getAttribute('data-dc-gema');
+        });
+      }
+      if (reduce || !('IntersectionObserver' in window)) {
+        root.classList.add('esta-visto');
+        colorear();
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          root.classList.add('esta-visto');
+          setTimeout(colorear, 240);
+          io.disconnect();
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-salon-joyeria',
+      style_name: 'Salón Déco — Vestimenta',
+      descripcion: 'Vitrina de joyería con gemas facetadas sobre pedestales que se colorean en JS al entrar en pantalla; etiqueta black tie.',
+      tags: ['vestimenta', 'dress code', 'gemas', 'paleta', 'swatches', 'deco'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>
+</body></html>

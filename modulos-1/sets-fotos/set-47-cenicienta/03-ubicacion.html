@@ -1,0 +1,193 @@
+<section
+  class="cnc-ubi"
+  data-gemini-id="ubicacion-mapa"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&family=Marcellus&display=swap');
+
+    .cnc-ubi, .cnc-ubi *, .cnc-ubi *::before, .cnc-ubi *::after { box-sizing: border-box; }
+    .cnc-ubi {
+      --t-bg: var(--bg-color, #e6f0fa);
+      --t-tx: var(--text-color, #213a5c);
+      --t-p: var(--primary-color, #8db6dc);
+      --t-s: var(--secondary-color, #fdfcf8);
+      --t-a: var(--accent-color, #c4a052);
+      --t-display: var(--font-script, 'Monsieur La Doulaise', cursive);
+      --t-text: var(--font-heading, 'Marcellus', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 56vw, 42rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 6.5rem) clamp(1.25rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/palace,garden?lock=3531');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .cnc-ubi::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(120deg, color-mix(in srgb, var(--t-bg) 88%, transparent), color-mix(in srgb, var(--t-s) 90%, transparent) 55%, color-mix(in srgb, var(--t-bg) 92%, transparent));
+    }
+    .cnc-ubi__content { width: min(100%, 64rem); display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+
+    .cnc-ubi__map {
+      position: relative;
+      margin: 0;
+      padding: clamp(.9rem, 2vw, 1.25rem);
+      border-radius: 50% 50% 1rem 1rem / 8rem 8rem 1rem 1rem;
+      background: color-mix(in srgb, var(--t-s) 82%, var(--t-p));
+      border: 1px solid color-mix(in srgb, var(--t-a) 75%, transparent);
+      box-shadow: 0 24px 50px -30px color-mix(in srgb, var(--t-tx) 60%, transparent);
+    }
+    .cnc-ubi__map svg { display: block; width: 100%; height: auto; border-radius: 50% 50% .6rem .6rem / 7rem 7rem .6rem .6rem; background: radial-gradient(ellipse at 50% 30%, var(--t-s), color-mix(in srgb, var(--t-p) 35%, var(--t-s))); }
+    .cnc-ubi__ink { fill: none; stroke: color-mix(in srgb, var(--t-tx) 55%, var(--t-a)); stroke-width: 1.4; stroke-linejoin: round; }
+    .cnc-ubi__road { fill: none; stroke: var(--t-a); stroke-width: 2.2; stroke-dasharray: 1 7; stroke-linecap: round; }
+    .cnc-ubi__tree { fill: color-mix(in srgb, var(--t-p) 55%, var(--t-s)); stroke: color-mix(in srgb, var(--t-tx) 40%, var(--t-p)); stroke-width: 1; }
+
+    .cnc-ubi__text { display: grid; gap: .9rem; justify-items: start; text-align: left; }
+    .cnc-ubi__kicker { margin: 0; font-size: 1.05rem; color: color-mix(in srgb, var(--t-tx) 75%, var(--t-a)); }
+    .cnc-ubi__title { margin: 0; padding-top: .2em; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.8rem, 6.5vw, 4.6rem); line-height: 1.2; }
+    .cnc-ubi__venue { margin: 0; font-size: clamp(1.3rem, 2.8vw, 1.7rem); line-height: 1.3; }
+    .cnc-ubi__addr { margin: 0; font-style: normal; font-size: 1.05rem; line-height: 1.6; padding-left: 1rem; border-left: 2px solid var(--t-a); }
+    .cnc-ubi__addr p { margin: 0; }
+    .cnc-ubi__time { margin: 0; font-size: 1.05rem; }
+    .cnc-ubi__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      min-height: 3rem;
+      margin-top: .4rem;
+      padding: .7rem 1.6rem;
+      border-radius: 999px;
+      border: 1px solid var(--t-a);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-a) 55%, var(--t-s)), var(--t-a));
+      color: var(--t-tx);
+      font: inherit;
+      font-size: 1.05rem;
+      text-decoration: none;
+      box-shadow: 0 10px 24px -14px color-mix(in srgb, var(--t-a) 90%, transparent), inset 0 1px 0 color-mix(in srgb, var(--t-s) 80%, transparent);
+      transition: transform .3s cubic-bezier(.2, .8, .2, 1), box-shadow .3s ease;
+    }
+    .cnc-ubi__btn:hover, .cnc-ubi__btn:focus-visible { transform: translateY(-2px); box-shadow: 0 16px 30px -14px color-mix(in srgb, var(--t-a) 95%, transparent), inset 0 1px 0 var(--t-s); }
+    .cnc-ubi__btn:focus-visible { outline: 2px solid var(--t-tx); outline-offset: 3px; }
+    .cnc-ubi__btn svg { width: 1.1rem; height: 1.1rem; }
+
+    .cnc-ubi--anim .cnc-ubi__map { opacity: 0; transform: scale(.96); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .cnc-ubi--anim .cnc-ubi__text { opacity: 0; transform: translateX(16px); transition: opacity .5s ease .25s, transform .5s cubic-bezier(.2, .8, .2, 1) .25s; }
+    .cnc-ubi--anim.is-in .cnc-ubi__map, .cnc-ubi--anim.is-in .cnc-ubi__text { opacity: 1; transform: none; }
+
+    @media (max-width: 760px) {
+      .cnc-ubi__content { grid-template-columns: 1fr; max-width: 28rem; }
+      .cnc-ubi__text { justify-items: center; text-align: center; }
+      .cnc-ubi__addr { padding-left: 0; border-left: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cnc-ubi *, .cnc-ubi *::before, .cnc-ubi *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="cnc-ubi__content">
+    <figure class="cnc-ubi__map" aria-hidden="true">
+      <svg viewBox="0 0 400 320">
+        <path class="cnc-ubi__road" d="M30 312 C80 270 40 240 110 230 S210 250 200 198" />
+        <g class="cnc-ubi__tree">
+          <path d="M60 236 c-14 0 -14 -22 0 -24 c-2 -14 20 -14 18 0 c14 2 12 24 -2 24 z" /><path d="M318 248 c-14 0 -14 -22 0 -24 c-2 -14 20 -14 18 0 c14 2 12 24 -2 24 z" />
+          <path d="M344 214 c-10 0 -10 -16 0 -18 c-2 -10 14 -10 13 0 c10 2 9 18 -1 18 z" /><path d="M30 196 c-10 0 -10 -16 0 -18 c-2 -10 14 -10 13 0 c10 2 9 18 -1 18 z" />
+        </g>
+        <g class="cnc-ubi__ink">
+          <path d="M20 200 Q200 170 380 200" />
+          <rect x="120" y="120" width="160" height="78" /><rect x="128" y="96" width="26" height="102" /><rect x="246" y="96" width="26" height="102" />
+          <rect x="172" y="70" width="56" height="128" /><rect x="188" y="34" width="24" height="44" />
+          <path d="M124 98 L141 60 L158 98 M242 98 L259 60 L276 98 M168 72 L200 30 L232 72 M184 36 L200 6 L216 36" />
+          <path d="M120 120 v-8 h10 v8 m10 0 v-8 h10 v8 m120 0 v-8 h10 v8 m-30 0 v-8 h10 v8" />
+          <path d="M188 198 v-22 a12 12 0 0 1 24 0 v22" />
+          <path d="M198 92 h4 v14 h-4 z M136 128 h10 v12 h-10 z M254 128 h10 v12 h-10 z M200 6 v-6 l14 4 -14 4" />
+        </g>
+        <g data-cnc-marker style="transform-origin: 200px 172px">
+          <circle data-cnc-pulse="1" cx="200" cy="172" r="12" fill="none" style="stroke: var(--t-a)" stroke-width="2" />
+          <circle data-cnc-pulse="2" cx="200" cy="172" r="12" fill="none" style="stroke: var(--t-a)" stroke-width="1.4" />
+          <path d="M200 156 l4.5 11 11.5 1 -8.8 7.4 2.8 11.4 -10 -6.2 -10 6.2 2.8 -11.4 -8.8 -7.4 11.5 -1 z" style="fill: var(--t-a); stroke: var(--t-s)" stroke-width="1.4" />
+        </g>
+      </svg>
+    </figure>
+
+    <div class="cnc-ubi__text">
+      <p class="cnc-ubi__kicker" memory_type="text" memory_usage="custom" memory_key="ubicacion-intro">El baile real será en</p>
+      <h2 class="cnc-ubi__title" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">El Palacio</h2>
+<figure class="vmap-embed" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,640px);"><iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen style="display:block;width:100%;height:clamp(210px,38vw,330px);border:1px solid var(--primary-color,#9b9b9b);border-radius:12px;"></iframe></figure>
+<figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,340px);"><img src="https://loremflickr.com/700/420/fairytale,venue" alt="Vista del lugar" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" style="display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--primary-color,#9b9b9b);" /><figcaption hidden>Vista del lugar</figcaption></figure>
+      <h3 class="cnc-ubi__venue" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar" data-event-field="lugar">Salón de Eventos Castillo Real</h3>
+      <address class="cnc-ubi__addr">
+        <p memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion" data-event-field="direccion">Av. de los Jardines 1234, Col. Centro</p>
+        <p memory_type="text" memory_usage="custom" memory_key="ubicacion-ciudad">Ciudad, Estado, C.P. 00000</p>
+      </address>
+      <p class="cnc-ubi__time"><time datetime="2027-04-17T20:00" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora" data-event-field="hora">Sábado 17 de abril · 8:00 p.m.</time></p>
+      <a class="cnc-ubi__btn" href="#" data-cnc-directions>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 C7.6 2 4.5 5.2 4.5 9.4 C4.5 14.6 12 22 12 22 S19.5 14.6 19.5 9.4 C19.5 5.2 16.4 2 12 2 Z M12 12.2 a2.8 2.8 0 1 1 0 -5.6 a2.8 2.8 0 0 1 0 5.6 Z" fill="currentColor" /></svg>
+        <span memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Cómo llegar</span>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="ubicacion-mapa"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var link = root.querySelector('[data-cnc-directions]');
+      if (link) link.addEventListener('click', function (e) { if (link.getAttribute('href') === '#') e.preventDefault(); });
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      var rings = root.querySelectorAll('[data-cnc-pulse]');
+      root.classList.add('cnc-ubi--anim');
+      var onScreen = false, raf = 0, t0 = 0;
+      function frame(t) {
+        raf = 0;
+        if (!t0) t0 = t;
+        for (var i = 0; i < rings.length; i++) {
+          var ph = ((t - t0) / 1600 + i * .5) % 1;
+          rings[i].setAttribute('r', (12 + ph * 30).toFixed(2));
+          rings[i].style.opacity = (1 - ph).toFixed(3);
+        }
+        if (onScreen && !document.hidden) raf = requestAnimationFrame(frame);
+      }
+      function go() { if (!raf && onScreen && !document.hidden) raf = requestAnimationFrame(frame); }
+      var io = new IntersectionObserver(function (en) {
+        onScreen = en[0].isIntersecting;
+        if (onScreen && en[0].intersectionRatio > .2 && !root.__in) {
+          root.__in = true;
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('cnc-ubi--anim', 'is-in'); }, 1300);
+        }
+        go();
+      }, { threshold: [0, .2, .4] });
+      io.observe(root);
+      document.addEventListener('visibilitychange', go);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-mapa',
+      style_name: 'Cenicienta Medianoche Real',
+      descripcion: 'Ubicación como mapa de cuento grabado: camino punteado hacia el castillo y estrella dorada que late sobre la entrada. Dirección, hora y botón Cómo llegar en azul, blanco y dorado.',
+      tags: ['ubicación', 'quinceañera', 'cenicienta', 'castillo', 'mapa', 'dorado'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>

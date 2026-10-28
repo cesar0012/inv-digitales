@@ -1,0 +1,248 @@
+<section
+  class="au-cd"
+  data-gemini-id="countdown-aurum"
+  data-countdown-target="2027-05-15T19:00:00"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Jost:wght@300;400;500&display=swap');
+
+    .au-cd, .au-cd *, .au-cd *::before, .au-cd *::after { box-sizing: border-box; }
+    .au-cd {
+      --t-bg: var(--bg-color, #0b0a0d);
+      --t-tx: var(--text-color, #f3eee4);
+      --t-p: var(--primary-color, #d2aa58);
+      --t-s: var(--secondary-color, #7a5c2a);
+      --t-a: var(--accent-color, #f2e3b4);
+      --t-display: var(--font-script, 'Cormorant Garamond', 'Times New Roman', serif);
+      --t-text: var(--font-heading, 'Jost', 'Helvetica Neue', Arial, sans-serif);
+      --au-line: color-mix(in srgb, var(--t-p) 45%, transparent);
+      --au-sheen: -30%;
+      --au-orb: 0deg;
+      --au-ry: 0deg;
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(28rem, 70vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1.25rem, 6vw, 5rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/gold,glitter,bokeh?lock=3508');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .au-cd::before {
+      content: '';
+      position: absolute; inset: 0; z-index: -1;
+      background:
+        radial-gradient(ellipse 60% 55% at 50% 60%, color-mix(in srgb, var(--t-s) 26%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 88%, transparent), color-mix(in srgb, var(--t-bg) 94%, transparent));
+    }
+    .au-cd__wrap { position: relative; width: min(100%, 60rem); display: grid; justify-items: center; gap: clamp(1.6rem, 4vw, 2.6rem); }
+    .au-cd__orbit {
+      position: absolute; left: 50%; top: 50%; width: min(120vw, 56rem); aspect-ratio: 1; border-radius: 50%; z-index: -1; pointer-events: none;
+      transform: translate(-50%, -50%) rotate(var(--au-orb)) scaleY(.42);
+      border: 1px solid color-mix(in srgb, var(--t-p) 18%, transparent);
+    }
+    .au-cd__orbit::before { content: ''; position: absolute; inset: -1px; border-radius: 50%; background: conic-gradient(from 0deg, transparent 0 70%, var(--t-p) 86%, var(--t-a) 90%, transparent 100%); -webkit-mask: radial-gradient(circle closest-side, transparent calc(100% - 2px), #000 calc(100% - 1px)); mask: radial-gradient(circle closest-side, transparent calc(100% - 2px), #000 calc(100% - 1px)); }
+    .au-cd__orbit::after { content: ''; position: absolute; left: 50%; top: 50%; width: .6rem; height: .6rem; margin: -.3rem; border-radius: 50%; background: var(--t-a); box-shadow: 0 0 14px var(--t-p); transform: rotate(0deg) translate(calc(min(120vw, 56rem) / 2 * .999)) ; }
+
+    .au-cd__head { display: grid; gap: .45rem; justify-items: center; }
+    .au-cd__kicker { margin: 0; font-family: var(--t-display); font-style: italic; font-size: clamp(1.1rem, 2.4vw, 1.45rem); color: var(--t-a); }
+    .au-cd__title { margin: 0; font-family: var(--t-display); font-weight: 500; font-style: italic; font-size: clamp(2.6rem, 6.5vw, 4.4rem); line-height: .95; letter-spacing: -.01em; }
+
+    .au-cd__units { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(.6rem, 2.2vw, 1.4rem); perspective: 1400px; }
+    .au-cd__unit { display: grid; justify-items: center; gap: .7rem; transform-style: preserve-3d; }
+    .au-cd__tile {
+      --au-base: 0deg;
+      position: relative; width: clamp(4.6rem, 18vw, 8.4rem); aspect-ratio: 1 / 1.12; display: grid; place-items: center;
+      transform: rotateY(calc(var(--au-ry) + var(--au-base))) translateZ(0);
+      background: linear-gradient(160deg, var(--t-a) 0%, var(--t-p) 38%, var(--t-s) 100%);
+      box-shadow:
+        inset 0 2px 0 color-mix(in srgb, #fff 45%, transparent),
+        inset 0 -3px 0 color-mix(in srgb, #000 35%, transparent),
+        inset 0 0 0 1px color-mix(in srgb, var(--t-s) 60%, transparent),
+        0 30px 50px -22px color-mix(in srgb, #000 80%, transparent);
+      transition: transform .5s cubic-bezier(.2, .8, .2, 1);
+    }
+    .au-cd__unit:nth-child(1) .au-cd__tile { --au-base: 16deg; }
+    .au-cd__unit:nth-child(2) .au-cd__tile { --au-base: 6deg; }
+    .au-cd__unit:nth-child(3) .au-cd__tile { --au-base: -6deg; }
+    .au-cd__unit:nth-child(4) .au-cd__tile { --au-base: -16deg; }
+    .au-cd__tile::before { content: ''; position: absolute; inset: .45rem; border: 1px solid color-mix(in srgb, var(--t-bg) 35%, transparent); pointer-events: none; }
+    .au-cd__tile::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(115deg, transparent calc(var(--au-sheen) - 14%), color-mix(in srgb, #fff 45%, transparent) var(--au-sheen), transparent calc(var(--au-sheen) + 14%)); mix-blend-mode: soft-light; }
+    .au-cd__num {
+      position: relative; display: block; overflow: hidden;
+      font-family: var(--t-display); font-weight: 600; font-variant-numeric: lining-nums tabular-nums;
+      font-size: clamp(2.3rem, 9vw, 4.2rem); line-height: 1; color: var(--t-bg);
+      transition: transform .3s cubic-bezier(.2, .8, .2, 1), opacity .25s ease, filter .25s ease;
+    }
+    .au-cd__tile[data-au-flip] .au-cd__num { transform: translateY(-.35em); opacity: 0; filter: blur(3px); transition: transform .2s ease-in, opacity .18s ease-in, filter .18s ease-in; }
+    .au-cd__tile[data-au-flip] { transform: rotateY(calc(var(--au-ry) + var(--au-base))) rotateX(-14deg) translateZ(0); transition: transform .2s ease-in; }
+    .au-cd__label { margin: 0; font-weight: 400; font-size: .85rem; letter-spacing: .14em; color: var(--t-a); }
+
+    .au-cd__foot { display: grid; gap: .3rem; justify-items: center; }
+    .au-cd__date { margin: 0; font-family: var(--t-display); font-style: italic; font-size: clamp(1.4rem, 3.4vw, 2rem); color: var(--t-p); }
+    .au-cd__note { margin: 0; font-weight: 300; font-size: .95rem; color: color-mix(in srgb, var(--t-tx) 68%, transparent); }
+    .au-cd__rule { width: 5rem; height: 1px; background: linear-gradient(90deg, transparent, var(--t-p), transparent); margin: .2rem 0 .5rem; }
+
+    /* Entrance (only while JS adds .au-cd--anim); each transition <= .5s */
+    .au-cd--anim .au-cd__head > * { opacity: 0; transform: translateY(12px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .au-cd--anim .au-cd__head > :nth-child(2) { transition-delay: .1s; }
+    .au-cd--anim.is-in .au-cd__head > * { opacity: 1; transform: none; }
+    .au-cd--anim .au-cd__unit { opacity: 0; transform: translateY(40px) rotateX(30deg); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .au-cd--anim .au-cd__unit:nth-child(2) { transition-delay: .12s; }
+    .au-cd--anim .au-cd__unit:nth-child(3) { transition-delay: .24s; }
+    .au-cd--anim .au-cd__unit:nth-child(4) { transition-delay: .36s; }
+    .au-cd--anim.is-in .au-cd__unit { opacity: 1; transform: none; }
+    .au-cd--anim .au-cd__foot > * { opacity: 0; transform: translateY(10px); transition: opacity .45s ease .5s, transform .5s cubic-bezier(.2, .8, .2, 1) .5s; }
+    .au-cd--anim.is-in .au-cd__foot > * { opacity: 1; transform: none; }
+    .au-cd--anim .au-cd__orbit { opacity: 0; transition: opacity .5s ease .4s; }
+    .au-cd--anim.is-in .au-cd__orbit { opacity: 1; }
+
+    @media (max-width: 520px) {
+      .au-cd__units { gap: .5rem; }
+      .au-cd__tile { width: clamp(4rem, 19vw, 5rem); }
+      .au-cd__label { font-size: .72rem; letter-spacing: .1em; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .au-cd *, .au-cd *::before, .au-cd *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="au-cd__wrap">
+    <span class="au-cd__orbit" aria-hidden="true"></span>
+    <header class="au-cd__head">
+      <p class="au-cd__kicker" memory_type="text" memory_usage="custom" memory_key="countdown-kicker">La cuenta regresiva ha comenzado</p>
+      <h2 class="au-cd__title" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Faltan</h2>
+    </header>
+
+    <ol class="au-cd__units" data-au-units>
+      <li class="au-cd__unit">
+        <div class="au-cd__tile" data-au-tile><span class="au-cd__num" data-countdown-unit="days">000</span></div>
+        <span class="au-cd__label" memory_type="text" memory_usage="custom" memory_key="countdown-dias">días</span>
+      </li>
+      <li class="au-cd__unit">
+        <div class="au-cd__tile" data-au-tile><span class="au-cd__num" data-countdown-unit="hours">00</span></div>
+        <span class="au-cd__label" memory_type="text" memory_usage="custom" memory_key="countdown-horas">horas</span>
+      </li>
+      <li class="au-cd__unit">
+        <div class="au-cd__tile" data-au-tile><span class="au-cd__num" data-countdown-unit="minutes">00</span></div>
+        <span class="au-cd__label" memory_type="text" memory_usage="custom" memory_key="countdown-minutos">minutos</span>
+      </li>
+      <li class="au-cd__unit">
+        <div class="au-cd__tile" data-au-tile><span class="au-cd__num" data-countdown-unit="seconds">00</span></div>
+        <span class="au-cd__label" memory_type="text" memory_usage="custom" memory_key="countdown-segundos">segundos</span>
+      </li>
+    </ol>
+
+    <div class="au-cd__foot">
+      <span class="au-cd__rule" aria-hidden="true"></span>
+      <p class="au-cd__date"><time datetime="2027-05-15T19:00:00" memory_type="text" memory_usage="custom" memory_key="countdown-fecha" data-event-field="fecha-evento">Sábado 15 de mayo de 2027</time></p>
+      <p class="au-cd__note" memory_type="text" memory_usage="custom" memory_key="countdown-nota">Guarda la fecha y acompáñanos a brillar.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="countdown-aurum"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* ---------- countdown core (required contract) ---------- */
+      var units = {};
+      ['days', 'hours', 'minutes', 'seconds'].forEach(function (u) { units[u] = root.querySelector('[data-countdown-unit="' + u + '"]'); });
+      var lastVals = {};
+      function pad(n, w) { var s = String(n); while (s.length < w) s = '0' + s; return s; }
+      function setVal(u, txt) {
+        var el = units[u]; if (!el || lastVals[u] === txt) return;
+        lastVals[u] = txt;
+        var tile = el.parentNode;
+        if (RM || !tile || !tile.hasAttribute('data-au-tile') || !root.__tLive) { el.textContent = txt; return; }
+        tile.setAttribute('data-au-flip', '');
+        setTimeout(function () { el.textContent = txt; tile.removeAttribute('data-au-flip'); }, 200);
+      }
+      function update() {
+        var raw = root.getAttribute('data-countdown-target') || '';
+        var target = new Date(raw).getTime();
+        if (isNaN(target)) target = Date.now();
+        var diff = Math.max(0, target - Date.now());
+        var d = Math.floor(diff / 86400000);
+        var h = Math.floor(diff / 3600000) % 24;
+        var m = Math.floor(diff / 60000) % 60;
+        var s = Math.floor(diff / 1000) % 60;
+        setVal('days', pad(d, 3)); setVal('hours', pad(h, 2)); setVal('minutes', pad(m, 2)); setVal('seconds', pad(s, 2));
+      }
+      window.__countdownIntervals = window.__countdownIntervals || [];
+      if (root.__tTimer) { clearInterval(root.__tTimer); }
+      window.__countdownIntervals = window.__countdownIntervals.filter(function (id) { if (id === root.__tTimer) { clearInterval(id); return false; } return true; });
+      update();
+      root.__tTimer = setInterval(update, 1000);
+      window.__countdownIntervals.push(root.__tTimer);
+      window.updateCountdown = update;
+
+      if (RM || !('IntersectionObserver' in window)) { root.__tLive = false; return; }   /* reduced motion = static final state, numbers still tick */
+      root.classList.add('au-cd--anim');
+
+      /* pointer sweep across the row of ingots */
+      var ry = 0, try_ = 0;
+      root.addEventListener('pointermove', function (e) {
+        if (e.pointerType === 'touch') return;
+        var r = root.getBoundingClientRect();
+        try_ = ((e.clientX - r.left) / r.width - .5) * -22;
+      });
+      root.addEventListener('pointerleave', function () { try_ = 0; });
+
+      /* rAF: sheen across the gold, orbit ring rotation, tilt lerp; paused off-screen */
+      var sheen = -30, orb = 0, last = 0, running = false, visible = false;
+      function frame(now) {
+        if (!running) return;
+        var dt = Math.min(.05, (now - last) / 1000 || .016); last = now;
+        sheen += dt * 34; if (sheen > 150) sheen = -60;
+        orb = (orb + dt * 14) % 360;
+        ry += (try_ - ry) * .06;
+        root.style.setProperty('--au-sheen', sheen.toFixed(1) + '%');
+        root.style.setProperty('--au-orb', orb.toFixed(1) + 'deg');
+        root.style.setProperty('--au-ry', ry.toFixed(2) + 'deg');
+        requestAnimationFrame(frame);
+      }
+      function run() { if (running || !visible || document.hidden) return; running = true; last = performance.now(); requestAnimationFrame(frame); }
+      function stop() { running = false; }
+
+      var entered = false;
+      var io = new IntersectionObserver(function (en) {
+        var e = en[0]; visible = e.isIntersecting;
+        if (visible) {
+          if (!entered && e.intersectionRatio > .2) {
+            entered = true; root.classList.add('is-in');
+            setTimeout(function () { root.classList.remove('au-cd--anim', 'is-in'); root.__tLive = true; }, 1500);
+          }
+          run();
+        } else { stop(); }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+      document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else run(); });
+    })();
+  </script>
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-aurum',
+      style_name: 'Aurum Obsidiana Lujo',
+      descripcion: 'Cuenta regresiva en lingotes de oro 3D que giran con el cursor: cada cambio de cifra hace un breve volteo con desenfoque, brillo metálico en movimiento y una órbita dorada que rodea el bloque.',
+      tags: ['countdown', 'cuenta regresiva', 'lujo', 'oro', '3d', 'premium', 'quinceañera', 'boda'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>

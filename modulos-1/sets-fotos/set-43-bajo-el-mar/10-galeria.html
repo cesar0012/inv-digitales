@@ -1,0 +1,261 @@
+<section
+  class="bjm-ga"
+  data-gemini-id="galeria-bajo-el-mar"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Ephesis&family=Marcellus&display=swap');
+
+    .bjm-ga, .bjm-ga *, .bjm-ga *::before, .bjm-ga *::after { box-sizing: border-box; }
+    .bjm-ga {
+      --t-bg: var(--bg-color, #04182b);
+      --t-tx: var(--text-color, #f4eee6);
+      --t-p: var(--primary-color, #4fd1c5);
+      --t-s: var(--secondary-color, #1a5f8f);
+      --t-a: var(--accent-color, #ff8a70);
+      --t-pearl: var(--pearl-color, #efe8f3);
+      --t-display: var(--font-script, 'Ephesis', cursive);
+      --t-text: var(--font-heading, 'Marcellus', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 70vw, 50rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .bjm-ga::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 60% 35% at 50% 0%, color-mix(in srgb, var(--t-p) 16%, transparent), transparent 70%),
+        radial-gradient(circle at 0% 60%, color-mix(in srgb, var(--t-s) 45%, transparent), transparent 40%),
+        radial-gradient(circle at 100% 90%, color-mix(in srgb, var(--t-a) 10%, transparent), transparent 35%),
+        var(--t-bg);
+    }
+    .bjm-ga__content { width: min(100%, 68rem); display: grid; gap: clamp(2rem, 5vw, 3.2rem); }
+    .bjm-ga__head { display: grid; gap: .5rem; justify-items: center; }
+    .bjm-ga__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(3rem, 8vw, 5rem); line-height: 1; text-shadow: 0 0 24px color-mix(in srgb, var(--t-p) 40%, transparent); }
+    .bjm-ga__lead { margin: 0; max-width: 30rem; font-size: clamp(1rem, 1.8vw, 1.12rem); line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 80%, var(--t-p)); }
+
+    .bjm-ga__grid {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 12.5rem), 1fr));
+      grid-auto-flow: dense;
+      gap: clamp(.6rem, 1.4vw, 1rem);
+    }
+    .bjm-ga__tile { position: relative; min-width: 0; }
+    .bjm-ga__tile[data-size="wide"] { grid-column: span 2; }
+    .bjm-ga__figure { margin: 0; height: 100%; border-radius: 1.1rem; overflow: hidden; background: color-mix(in srgb, var(--t-s) 45%, var(--t-bg)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-pearl) 18%, transparent); }
+    .bjm-ga__tile:nth-child(3n+2) .bjm-ga__figure { border-radius: 1.1rem 1.1rem 1.1rem 3.5rem; }
+    .bjm-ga__tile:nth-child(4n) .bjm-ga__figure { border-radius: 3.5rem 1.1rem 1.1rem 1.1rem; }
+    .bjm-ga__open {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      border: 0;
+      background: none;
+      cursor: zoom-in;
+      position: relative;
+    }
+    .bjm-ga__open:focus-visible { outline: 2px solid var(--t-p); outline-offset: 3px; border-radius: 1.1rem; }
+    .bjm-ga__open img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; transition: transform .5s cubic-bezier(.2, .8, .2, 1), filter .4s ease; }
+    .bjm-ga__tile[data-size="wide"] .bjm-ga__open img { aspect-ratio: 2.06 / 1; }
+    .bjm-ga__open::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% 120%, color-mix(in srgb, var(--t-p) 40%, transparent), transparent 60%), linear-gradient(120deg, transparent 40%, color-mix(in srgb, var(--t-pearl) 22%, transparent) 50%, transparent 60%);
+      background-size: 100% 100%, 260% 100%;
+      background-position: 0 0, 130% 0;
+      opacity: 0;
+      transition: opacity .35s ease, background-position .5s ease;
+    }
+    .bjm-ga__open:hover img, .bjm-ga__open:focus-visible img { transform: scale(1.06); }
+    .bjm-ga__open:hover::after, .bjm-ga__open:focus-visible::after { opacity: 1; background-position: 0 0, -30% 0; }
+
+    .bjm-ga--anim [data-bjm-tile] img { clip-path: circle(0% at 50% 65%); filter: blur(6px); transform: scale(1.1); transition: clip-path .5s cubic-bezier(.4, 0, .2, 1), filter .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); transition-delay: var(--dl, 0s); }
+    .bjm-ga--anim [data-bjm-tile][data-on] img { clip-path: circle(80% at 50% 65%); filter: none; transform: none; }
+
+    .bjm-ga__dlg {
+      width: min(92vw, 60rem);
+      max-height: 92vh;
+      padding: 0;
+      border: 0;
+      border-radius: 1.4rem;
+      color: var(--t-tx);
+      background: color-mix(in srgb, var(--t-bg) 94%, var(--t-s));
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--t-pearl) 25%, transparent), 0 40px 120px color-mix(in srgb, #000 60%, transparent), 0 0 60px color-mix(in srgb, var(--t-p) 20%, transparent);
+      overflow: hidden;
+    }
+    .bjm-ga__dlg::backdrop { background: color-mix(in srgb, var(--t-bg) 82%, transparent); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+    .bjm-ga__dlg[open] { animation: bjm-ga-in .35s cubic-bezier(.2, .8, .2, 1); }
+    .bjm-ga__big { display: block; width: 100%; height: auto; max-height: 78vh; aspect-ratio: 3 / 2; object-fit: cover; background: color-mix(in srgb, var(--t-s) 45%, var(--t-bg)); }
+    .bjm-ga__bar { display: flex; align-items: center; justify-content: space-between; gap: .8rem; padding: .7rem .9rem; }
+    .bjm-ga__count { font-size: .98rem; color: color-mix(in srgb, var(--t-tx) 75%, var(--t-p)); font-variant-numeric: tabular-nums; }
+    .bjm-ga__btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.8rem;
+      height: 2.8rem;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      color: var(--t-bg);
+      cursor: pointer;
+      background: radial-gradient(circle at 35% 30%, #fff 0 12%, var(--t-pearl) 45%, color-mix(in srgb, var(--t-pearl) 60%, var(--t-p)));
+      transition: transform .3s cubic-bezier(.3, 1.6, .5, 1);
+    }
+    .bjm-ga__btn:hover { transform: scale(1.1); }
+    .bjm-ga__btn:focus-visible { outline: 2px solid var(--t-p); outline-offset: 3px; }
+    .bjm-ga__btn svg { width: 1.2rem; height: 1.2rem; }
+    .bjm-ga__nav { display: flex; gap: .5rem; }
+
+    @keyframes bjm-ga-in { from { opacity: 0; transform: translateY(16px) scale(.96); } to { opacity: 1; transform: none; } }
+
+    @media (max-width: 520px) {
+      .bjm-ga__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .bjm-ga *, .bjm-ga *::before, .bjm-ga *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="bjm-ga__content">
+    <header class="bjm-ga__head">
+      <h2 class="bjm-ga__title" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Tesoros del fondo</h2>
+      <p class="bjm-ga__lead" memory_type="text" memory_usage="custom" memory_key="galeria-texto">Recuerdos que guardo como perlas. Toca cualquiera para verla de cerca.</p>
+    </header>
+
+    <ul class="bjm-ga__grid">
+      <li class="bjm-ga__tile" data-bjm-tile data-size="wide">
+        <figure class="bjm-ga__figure" memory_type="image" memory_usage="custom" memory_source="library"><button class="bjm-ga__open" type="button" data-bjm-open aria-label="Ampliar foto 1"><img src="https://loremflickr.com/1000/500/quinceanera,portrait?lock=3501" alt="Sesión de fotos de la quinceañera" path="placeholder" data-library-category="quinceanera" data-asset-type="galeria" loading="lazy" /></button></figure>
+      </li>
+      <li class="bjm-ga__tile" data-bjm-tile>
+        <figure class="bjm-ga__figure" memory_type="image" memory_usage="custom" memory_source="library"><button class="bjm-ga__open" type="button" data-bjm-open aria-label="Ampliar foto 2"><img src="https://loremflickr.com/600/600/pearls?lock=3502" alt="Detalle de perlas" path="placeholder" data-library-category="decoracion" data-asset-type="galeria" loading="lazy" /></button></figure>
+      </li>
+      <li class="bjm-ga__tile" data-bjm-tile>
+        <figure class="bjm-ga__figure" memory_type="image" memory_usage="custom" memory_source="library"><button class="bjm-ga__open" type="button" data-bjm-open aria-label="Ampliar foto 3"><img src="https://loremflickr.com/600/600/ballgown,dress?lock=3503" alt="Vestido de la quinceañera" path="placeholder" data-library-category="quinceanera" data-asset-type="galeria" loading="lazy" /></button></figure>
+      </li>
+      <li class="bjm-ga__tile" data-bjm-tile>
+        <figure class="bjm-ga__figure" memory_type="image" memory_usage="custom" memory_source="library"><button class="bjm-ga__open" type="button" data-bjm-open aria-label="Ampliar foto 4"><img src="https://loremflickr.com/600/600/seashell?lock=3504" alt="Concha marina" path="placeholder" data-library-category="decoracion" data-asset-type="galeria" loading="lazy" /></button></figure>
+      </li>
+      <li class="bjm-ga__tile" data-bjm-tile>
+        <figure class="bjm-ga__figure" memory_type="image" memory_usage="custom" memory_source="library"><button class="bjm-ga__open" type="button" data-bjm-open aria-label="Ampliar foto 5"><img src="https://loremflickr.com/600/600/girl,smile?lock=3505" alt="Retrato sonriente" path="placeholder" data-library-category="quinceanera" data-asset-type="galeria" loading="lazy" /></button></figure>
+      </li>
+      <li class="bjm-ga__tile" data-bjm-tile data-size="wide">
+        <figure class="bjm-ga__figure" memory_type="image" memory_usage="custom" memory_source="library"><button class="bjm-ga__open" type="button" data-bjm-open aria-label="Ampliar foto 6"><img src="https://loremflickr.com/1000/500/ocean,sunset?lock=3506" alt="Mar al atardecer" path="placeholder" data-library-category="paisaje" data-asset-type="galeria" loading="lazy" /></button></figure>
+      </li>
+      <li class="bjm-ga__tile" data-bjm-tile>
+        <figure class="bjm-ga__figure" memory_type="image" memory_usage="custom" memory_source="library"><button class="bjm-ga__open" type="button" data-bjm-open aria-label="Ampliar foto 7"><img src="https://loremflickr.com/600/600/tiara?lock=3507" alt="Tiara de la quinceañera" path="placeholder" data-library-category="quinceanera" data-asset-type="galeria" loading="lazy" /></button></figure>
+      </li>
+      <li class="bjm-ga__tile" data-bjm-tile>
+        <figure class="bjm-ga__figure" memory_type="image" memory_usage="custom" memory_source="library"><button class="bjm-ga__open" type="button" data-bjm-open aria-label="Ampliar foto 8"><img src="https://loremflickr.com/600/600/friends,party?lock=3508" alt="Amigas celebrando" path="placeholder" data-library-category="eventos" data-asset-type="galeria" loading="lazy" /></button></figure>
+      </li>
+    </ul>
+  </div>
+
+  <dialog class="bjm-ga__dlg" data-bjm-dlg aria-label="Foto ampliada">
+    <img class="bjm-ga__big" data-mm-big alt="" />
+    <div class="bjm-ga__bar">
+      <span class="bjm-ga__count" data-bjm-count>1 / 8</span>
+      <div class="bjm-ga__nav">
+        <button class="bjm-ga__btn" type="button" data-bjm-prev aria-label="Foto anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+        <button class="bjm-ga__btn" type="button" data-bjm-next aria-label="Foto siguiente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+        <button class="bjm-ga__btn" type="button" data-bjm-close aria-label="Cerrar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg></button>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="galeria-bajo-el-mar"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* ---- Lightbox (works in every mode) ---- */
+      var dlg = root.querySelector('[data-bjm-dlg]');
+      var big = dlg && dlg.querySelector('[data-mm-big]');
+      var count = dlg && dlg.querySelector('[data-bjm-count]');
+      var opens = root.querySelectorAll('[data-bjm-open]');
+      var cur = 0;
+      function show(i) {
+        if (!big) return;
+        cur = (i + opens.length) % opens.length;
+        var src = opens[cur].querySelector('img');
+        big.src = src ? (src.currentSrc || src.src) : '';
+        big.alt = src ? src.alt : '';
+        if (count) count.textContent = (cur + 1) + ' / ' + opens.length;
+      }
+      for (var i = 0; i < opens.length; i++) {
+        (function (k) {
+          opens[k].addEventListener('click', function () {
+            if (!dlg) return;
+            show(k);
+            if (typeof dlg.showModal === 'function') { if (!dlg.open) dlg.showModal(); } else dlg.setAttribute('open', '');
+          });
+        })(i);
+      }
+      if (dlg) {
+        var q = function (s) { return dlg.querySelector(s); };
+        q('[data-bjm-prev]').addEventListener('click', function () { show(cur - 1); });
+        q('[data-bjm-next]').addEventListener('click', function () { show(cur + 1); });
+        q('[data-bjm-close]').addEventListener('click', function () { if (dlg.close) dlg.close(); else dlg.removeAttribute('open'); });
+        dlg.addEventListener('click', function (e) { if (e.target === dlg && dlg.close) dlg.close(); });
+        dlg.addEventListener('keydown', function (e) {
+          if (e.key === 'ArrowLeft') show(cur - 1);
+          if (e.key === 'ArrowRight') show(cur + 1);
+        });
+      }
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      /* tiles surface like bubbles opening, one by one */
+      root.classList.add('bjm-ga--anim');
+      var tiles = root.querySelectorAll('[data-bjm-tile]'), left = tiles.length, order = 0, batch = 0;
+      var io = new IntersectionObserver(function (en) {
+        var now = performance.now();
+        if (now - batch > 300) { order = 0; batch = now; }
+        en.forEach(function (e) {
+          if (e.isIntersecting && !e.target.hasAttribute('data-on')) {
+            e.target.style.setProperty('--dl', (order++ * .07).toFixed(2) + 's');
+            e.target.setAttribute('data-on', '');
+            io.unobserve(e.target);
+            if (--left === 0) setTimeout(function () {
+              root.classList.remove('bjm-ga--anim');
+              for (var j = 0; j < tiles.length; j++) { tiles[j].removeAttribute('data-on'); tiles[j].style.removeProperty('--dl'); }
+            }, 1400);
+          }
+        });
+      }, { threshold: .2 });
+      for (var t = 0; t < tiles.length; t++) io.observe(tiles[t]);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-bajo-el-mar',
+      style_name: 'Bajo el Mar Tesoros',
+      descripcion: 'Galería en mosaico denso con esquinas de concha; cada foto emerge con una apertura circular como burbuja y brillo perlado al pasar. Lightbox propio con dialog, navegación y teclado.',
+      tags: ['galeria', 'fotos', 'quinceañera', 'bajo el mar', 'lightbox'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

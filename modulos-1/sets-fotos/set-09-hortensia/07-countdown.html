@@ -1,0 +1,109 @@
+<section class="cd9" data-gemini-id="countdown-brujula-kraft" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder" data-countdown-target="YYYY-MM-DDTHH:MM:SS">
+<style>
+.cd9 { ;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.4rem,8vw,6.4rem) clamp(1rem,5vw,4rem); background:radial-gradient(ellipse 60% 46% at 10% 90%, color-mix(in srgb, var(--secondary-color) 35%, transparent), transparent 70%), url('https://loremflickr.com/1600/1000/hydrangea,kraft') center/cover; background-color:var(--bg-color); color:var(--text-color); }
+.cd9 *, .cd9 *::before, .cd9 *::after { box-sizing:border-box; }
+.cd9::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 78%, transparent); }
+.cd9 > * { position:relative; z-index:1; }
+.sf-orn-wrap { display:flex; justify-content:center; margin:0 auto clamp(1.6rem,4vw,2.4rem); color:var(--primary-color); }
+.sf-orn-wrap svg { width:min(240px,60%); height:auto; }
+
+.cd9 { text-align:center; }
+.cd9__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 42%, var(--text-color)); }
+.cd9__tit { margin:0 0 clamp(1.2rem,3vw,1.8rem); font-family:Georgia,serif; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
+.cd9__marco { position:relative; width:min(100%,520px); aspect-ratio:1; margin:0 auto; }
+.cd9__anillo { position:absolute; inset:0; border-radius:50%; border:2px solid var(--primary-color); background:color-mix(in srgb, var(--surface-color) 72%, transparent); box-shadow:0 16px 34px color-mix(in srgb, var(--text-color) 14%, transparent); }
+.cd9__anillo::before { content:''; position:absolute; inset:10px; border-radius:50%; border:1px dashed color-mix(in srgb, var(--accent-color) 55%, transparent); }
+.cd9__grados i { position:absolute; left:50%; top:2px; width:1.5px; height:8px; margin-left:-.75px; background:var(--secondary-color); transform-origin:50% calc(50cqw - 2px); }
+.cd9__rosa { position:absolute; inset:26%; }
+.cd9__estrella { position:absolute; inset:0; background:color-mix(in srgb, var(--secondary-color) 26%, transparent); clip-path:polygon(50% 0, 56% 44%, 100% 50%, 56% 56%, 50% 100%, 44% 56%, 0 50%, 44% 44%); }
+.cd9__estrella--girada { transform:rotate(45deg) scale(.72); opacity:.7; }
+.cd9__aguja { position:absolute; left:50%; top:50%; width:6px; height:46%; margin:-46% 0 0 -3px; transform-origin:50% 100%; animation:cd9-tiembla 2.6s ease-in-out infinite; }
+@keyframes cd9-tiembla { 0%,100% { transform:rotate(-9deg); } 50% { transform:rotate(11deg); } }
+.cd9__aguja::before { content:''; position:absolute; inset:0 0 50% 0; background:var(--primary-color); clip-path:polygon(50% 0, 100% 100%, 0 100%); }
+.cd9__aguja::after { content:''; position:absolute; inset:50% 0 0 0; background:var(--secondary-color); clip-path:polygon(0 0, 100% 0, 50% 100%); }
+.cd9__broche { position:absolute; left:50%; top:50%; width:16px; height:16px; transform:translate(-50%,-50%); border-radius:50%; background:var(--primary-color); box-shadow:0 0 0 4px color-mix(in srgb, var(--primary-color) 25%, transparent); }
+.cd9__puntos { position:absolute; inset:0; }
+.cd9__punto { position:absolute; display:grid; justify-items:center; gap:.3rem; }
+.cd9__punto--n { top:-4%; left:50%; transform:translate(-50%,0); }
+.cd9__punto--e { right:-6%; top:50%; transform:translate(0,-50%); }
+.cd9__punto--s { bottom:-4%; left:50%; transform:translate(-50%,0); }
+.cd9__punto--o { left:-6%; top:50%; transform:translate(0,-50%); }
+.cd9__cordel { width:1.5px; height:16px; background:var(--accent-color); }
+.cd9__etiqueta { padding:.55rem .8rem .65rem; background:color-mix(in srgb, var(--accent-color) 30%, var(--surface-color)); border:1px solid var(--surface-border-color); border-radius:3px; box-shadow:0 6px 14px color-mix(in srgb, var(--text-color) 14%, transparent); }
+.cd9__num { display:block; font-family:Georgia,serif; font-size:clamp(1.25rem,3.2vw,1.8rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; }
+.cd9__etq { display:block; font-family:'Courier New',monospace; font-size:clamp(.62rem,1.15vw,.74rem); letter-spacing:.26em; text-transform:uppercase; color:var(--text-color); }
+.cd9__rumbo { position:absolute; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.05vw,.7rem); letter-spacing:.3em; color:var(--secondary-color); }
+.cd9__fecha { display:block; margin:clamp(2rem,4vw,2.6rem) 0 0; font-family:'Segoe UI',Arial,sans-serif; font-style:italic; font-size:clamp(.85rem,1.6vw,.98rem); color:var(--text-color); }
+@media (max-width:560px){ .cd9__marco { width:min(100%,360px); } .cd9__punto--e, .cd9__punto--o { display:none; } .cd9__extra { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; margin-top:1rem; justify-items:center; } }
+.cd9__extra { display:none; }
+
+@media (prefers-reduced-motion:reduce){ .cd9 * { animation:none !important; transition:none !important; } }
+</style>
+<header class="cd9__cab" memory_type="text" memory_usage="custom" memory_key="countdown-intro">
+  <p class="cd9__rot" memory_type="text" memory_usage="custom" memory_key="countdown-rotulo">Cuenta regresiva</p>
+  <h2 class="cd9__tit" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">La brújula del gran día</h2>
+</header>
+<div class="cd9__marco">
+  <div class="cd9__anillo" aria-hidden="true"><div class="cd9__grados" style="position:absolute;inset:0;"><i style="transform:rotate(0deg); height:12px; opacity:.9;"></i><i style="transform:rotate(15deg); height:7px; opacity:.5;"></i><i style="transform:rotate(30deg); height:7px; opacity:.5;"></i><i style="transform:rotate(45deg); height:7px; opacity:.5;"></i><i style="transform:rotate(60deg); height:7px; opacity:.5;"></i><i style="transform:rotate(75deg); height:7px; opacity:.5;"></i><i style="transform:rotate(90deg); height:12px; opacity:.9;"></i><i style="transform:rotate(105deg); height:7px; opacity:.5;"></i><i style="transform:rotate(120deg); height:7px; opacity:.5;"></i><i style="transform:rotate(135deg); height:7px; opacity:.5;"></i><i style="transform:rotate(150deg); height:7px; opacity:.5;"></i><i style="transform:rotate(165deg); height:7px; opacity:.5;"></i><i style="transform:rotate(180deg); height:12px; opacity:.9;"></i><i style="transform:rotate(195deg); height:7px; opacity:.5;"></i><i style="transform:rotate(210deg); height:7px; opacity:.5;"></i><i style="transform:rotate(225deg); height:7px; opacity:.5;"></i><i style="transform:rotate(240deg); height:7px; opacity:.5;"></i><i style="transform:rotate(255deg); height:7px; opacity:.5;"></i><i style="transform:rotate(270deg); height:12px; opacity:.9;"></i><i style="transform:rotate(285deg); height:7px; opacity:.5;"></i><i style="transform:rotate(300deg); height:7px; opacity:.5;"></i><i style="transform:rotate(315deg); height:7px; opacity:.5;"></i><i style="transform:rotate(330deg); height:7px; opacity:.5;"></i><i style="transform:rotate(345deg); height:7px; opacity:.5;"></i></div></div>
+  <div class="cd9__rosa" aria-hidden="true"><i class="cd9__estrella"></i><i class="cd9__estrella cd9__estrella--girada"></i></div>
+  <i class="cd9__aguja" aria-hidden="true"></i><i class="cd9__broche" aria-hidden="true"></i>
+  <span class="cd9__rumbo" style="top:8%; left:50%; transform:translateX(-50%);" aria-hidden="true">N</span>
+  <div class="cd9__puntos" aria-label="Cuenta regresiva">
+    <div class="cd9__punto cd9__punto--n"><i class="cd9__cordel" aria-hidden="true"></i><span class="cd9__etiqueta"><b class="cd9__num" data-countdown-unit="days">--</b><span class="cd9__etq">Días</span></span></div>
+    <div class="cd9__punto cd9__punto--e"><i class="cd9__cordel" aria-hidden="true"></i><span class="cd9__etiqueta"><b class="cd9__num" data-countdown-unit="hours">--</b><span class="cd9__etq">Horas</span></span></div>
+    <div class="cd9__punto cd9__punto--s"><i class="cd9__cordel" aria-hidden="true"></i><span class="cd9__etiqueta"><b class="cd9__num" data-countdown-unit="minutes">--</b><span class="cd9__etq">Min</span></span></div>
+    <div class="cd9__punto cd9__punto--o"><i class="cd9__cordel" aria-hidden="true"></i><span class="cd9__etiqueta"><b class="cd9__num" data-countdown-unit="seconds">--</b><span class="cd9__etq">Seg</span></span></div>
+  </div>
+</div>
+<div class="cd9__extra" aria-label="Unidades laterales">
+  <span class="cd9__etiqueta"><b class="cd9__num" data-countdown-unit="hours">--</b><span class="cd9__etq">Horas</span></span>
+  <span class="cd9__etiqueta"><b class="cd9__num" data-countdown-unit="seconds">--</b><span class="cd9__etq">Seg</span></span>
+</div>
+<time class="cd9__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Coordenadas del evento · hora por confirmar</time>
+
+<script>
+  (function () {
+    var el = null;
+    try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
+    if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+    if (!el) return;
+    var targetAttr = el.getAttribute('data-countdown-target');
+    var target = NaN;
+    if (targetAttr && targetAttr.indexOf('YYYY') === -1) {
+      var parsed = new Date(targetAttr);
+      if (!isNaN(parsed.getTime())) target = parsed.getTime();
+    }
+    if (isNaN(target)) {
+      if (window.__countdownTarget) { var _p = new Date(window.__countdownTarget); if (!isNaN(_p.getTime())) target = _p.getTime(); }
+      else if (window.countdown_target) { var _p2 = new Date(window.countdown_target); if (!isNaN(_p2.getTime())) target = _p2.getTime(); }
+    }
+    var intervalId = null;
+    (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+    window.__countdownIntervals = [];
+    function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+    function setUnit(unit, value) { var node = el.querySelector('[data-countdown-unit="' + unit + '"]'); if (node) node.textContent = value; }
+    function tick() {
+      var diff = target - Date.now();
+      if (diff < 0) diff = 0;
+      setUnit('days', Math.floor(diff / 86400000));
+      setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
+      setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
+      setUnit('seconds', pad2(Math.floor((diff % 60000) / 1000)));
+      if (diff === 0 && intervalId !== null) { clearInterval(intervalId); intervalId = null; window.__countdownIntervals = []; }
+    }
+    function start(newTarget) {
+      if (newTarget) target = new Date(newTarget).getTime();
+      (window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+      intervalId = null;
+      if (!Number.isFinite(target)) return;
+      tick();
+      if (target > Date.now()) { intervalId = setInterval(tick, 1000); window.__countdownIntervals.push(intervalId); }
+    }
+    start();
+    window.updateCountdown = start;
+  })();
+</script>
+<script>var moduleMetadata = { module_type: "countdown", module_name: "countdown-brujula-kraft", style_name: "Hortensias y Kraft", descripcion: "Brújula artesanal con aguja temblorosa y rosa de los vientos; las unidades cuelgan con cordel en los cuatro rumbos.", tags: ["countdown","kraft","hortensia","brujula","navegacion","kraft"], tipo: "countdown" };</script>
+</section>

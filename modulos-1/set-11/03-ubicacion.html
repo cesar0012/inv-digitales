@@ -1,0 +1,233 @@
+<section
+  class="su-ubicacion"
+  data-gemini-id="ubicacion-recepcion"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .su-ubicacion {
+      --primary-color: #17171a;
+      --secondary-color: #75757c;
+      --accent-color: #d43d2a;
+      --bg-color: #f2f2ef;
+      --surface-color: #fbfbf9;
+      --surface-border-color: rgba(23, 23, 26, 0.16);
+      --text-color: #17171a;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .su-ubicacion *,
+    .su-ubicacion *::before,
+    .su-ubicacion *::after { box-sizing: border-box; }
+
+    .su-ubicacion__cabecera {
+      width: min(100%, 940px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.8rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .su-ubicacion__titulo {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .su-ubicacion__coord {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.24em;
+      color: var(--secondary-color);
+    }
+
+    .su-ubicacion__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.4rem, 3.6vw, 2.6rem);
+      align-items: start;
+      width: min(100%, 940px);
+      margin: 0 auto;
+    }
+
+    .su-ubicacion__datos { display: grid; gap: 1rem; }
+    .su-ubicacion__fila-dato {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 0.9rem;
+      padding-bottom: 0.9rem;
+      border-bottom: 1px solid var(--surface-border-color);
+    }
+    .su-ubicacion__rotulo {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.56rem, 1vw, 0.64rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+      padding-top: 0.2rem;
+    }
+    .su-ubicacion__dato {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.88rem, 1.6vw, 1rem);
+      line-height: 1.6;
+      color: var(--primary-color);
+    }
+    .su-ubicacion__boton {
+      justify-self: start;
+      display: inline-block;
+      padding: 0.75rem 1.7rem;
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.66rem, 1.25vw, 0.76rem);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.4s ease;
+    }
+    .su-ubicacion__boton:hover { background: var(--accent-color); }
+
+    .su-ubicacion__marco {
+      position: relative;
+      margin: 0;
+    }
+    .su-ubicacion__marco img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.08);
+    }
+    .su-ubicacion__cruz {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      pointer-events: none;
+    }
+    .su-ubicacion__cruz::before,
+    .su-ubicacion__cruz::after {
+      content: '';
+      position: absolute;
+      background: var(--accent-color);
+    }
+    .su-ubicacion__cruz::before { left: 50%; top: 0; bottom: 0; width: 2px; transform: translateX(-50%); }
+    .su-ubicacion__cruz::after { top: 50%; left: 0; right: 0; height: 2px; transform: translateY(-50%); }
+    .su-ubicacion__circular {
+      position: absolute;
+      z-index: 2;
+      top: 50%;
+      left: 50%;
+      width: 84px;
+      height: 84px;
+      transform: translate(-50%, -50%);
+      border: 1.5px solid var(--accent-color);
+      border-radius: 50%;
+      animation: suUbicacionFija 3.2s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes suUbicacionFija {
+      0%, 100% { opacity: 0.9; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.4; transform: translate(-50%, -50%) scale(1.08); }
+    }
+    .su-ubicacion__mapa {
+      margin: 1rem 0 0;
+      overflow: hidden;
+      outline: 1px solid var(--surface-border-color);
+    }
+    .su-ubicacion__mapa iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 8;
+      border: 0;
+      filter: grayscale(1) contrast(1.05);
+    }
+
+    @media (max-width: 820px) {
+      .su-ubicacion__grid { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .su-ubicacion * { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <header class="su-ubicacion__cabecera" memory_type="text" memory_usage="custom" memory_key="ubicacion-intro">
+    <h2 class="su-ubicacion__titulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Fig. 02 — Ubicación</h2>
+    <span class="su-ubicacion__coord" memory_type="text" memory_usage="custom" memory_key="ubicacion-coord">LAT 0.000 / LON 0.000</span>
+  </header>
+
+  <div class="su-ubicacion__grid">
+    <div class="su-ubicacion__datos">
+      <div class="su-ubicacion__fila-dato">
+        <span class="su-ubicacion__rotulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-rotulo-lugar">Sede</span>
+        <span class="su-ubicacion__dato" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar">Nombre del lugar — Sala Norte</span>
+      </div>
+      <div class="su-ubicacion__fila-dato">
+        <span class="su-ubicacion__rotulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-rotulo-dir">Dirección</span>
+        <address class="su-ubicacion__dato" memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion" style="font-style: normal;">
+          Avenida de la Retícula 100<br />
+          Ciudad, Estado
+        </address>
+      </div>
+      <div class="su-ubicacion__fila-dato">
+        <span class="su-ubicacion__rotulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-rotulo-hora">Hora</span>
+        <time class="su-ubicacion__dato" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora">16:00 h puntual</time>
+      </div>
+      <a class="su-ubicacion__boton" href="https://www.google.com/maps?q=Ubicacion+del+evento" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Cómo llegar</a>
+    </div>
+
+    <figure class="su-ubicacion__marco" memory_type="image" memory_usage="custom" memory_source="library" memory_key="ubicacion-foto">
+      <span class="su-ubicacion__cruz" aria-hidden="true"></span>
+      <span class="su-ubicacion__circular" aria-hidden="true"></span>
+      <img src="https://loremflickr.com/560/420/map,minimal" alt="Plano de la zona del evento" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" />
+      <div class="su-ubicacion__mapa" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url">
+        <iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen></iframe>
+      </div>
+      <figcaption hidden>Plano y mapa</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.su-ubicacion');
+      if (!root) return;
+      root.classList.add('su-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-recepcion',
+      style_name: 'Suizo Tipográfico — Ubicación',
+      descripcion: 'Tabla de datos por filas rotuladas, plano con retícula de mira roja y mapa en escala de grises; botón sólido.',
+      tags: ['ubicacion', 'mapa', 'suizo', 'tabla', 'reticula', 'grises'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>

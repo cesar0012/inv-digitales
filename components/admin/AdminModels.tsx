@@ -1,0 +1,950 @@
+import React, { useState, useEffect } from 'react';
+import { Save, Key, Cpu, MessageSquare, Image, Loader2, Bot, Settings, Type, Sparkles } from 'lucide-react';
+import { AI_MODELS, GOOGLE_FONT_OPTIONS, GOOGLE_HEADING_FONT_OPTIONS } from '../../constants';
+import { AIModel } from '../../types';
+import { getAdminConfig, saveAdminConfig, getFreeImagesConfig, saveFreeImagesConfig, testFreeImageProvider as testFreeImageProviderApi } from '../../services/adminService';
+
+type Section = 'html' | 'images' | 'general';
+
+const GEMINI_MODELS = [
+  // Generación HTML — modelos actuales (los de imágenes NO se tocan aquí).
+  { id: 'gemini-3.8-flash', name: 'Gemini Flash 3.8', provider: 'Google' },
+  { id: 'gemini-3.8-pro', name: 'Gemini 3.8 Pro', provider: 'Google' },
+  { id: 'gemini-3.8-flash-lite', name: 'Gemini Flash 3.8 Lite', provider: 'Google' },
+  { id: 'gemini-3.1-pro-preview', name: 'Gemini 3.1 Pro', provider: 'Google' },
+  { id: 'gemini-3-flash-preview', name: 'Gemini 3 Flash', provider: 'Google' },
+  { id: 'gemini-3.1-flash-lite-preview', name: 'Gemini 3.1 Flash Lite', provider: 'Google' },
+];
+
+export const AdminModels: React.FC = () => {
+  const [activeSection, setActiveSection] = useState<Section>('html');
+  const [loading, setLoading] = useState(true);
+  
+  // HTML Config - solo Gemini
+  const [htmlGoogleApiKey, setHtmlGoogleApiKey] = useState('');
+  const [htmlGoogleModel, setHtmlGoogleModel] = useState('gemini-3.1-pro-preview');
+  
+  // Image Config
+  const [imageModel, setImageModel] = useState<AIModel['id']>('gemini-3.1-flash-image-preview');
+  const [imageApiKey, setImageApiKey] = useState('');
+  const [imageProvider, setImageProvider] = useState<string>('gemini');
+  
+// General Config
+  const [loginPageUrl, setLoginPageUrl] = useState('/admin-login');
+  const [useAgentOrchestrator, setUseAgentOrchestrator] = useState(false);
+  const [useRagTemplates, setUseRagTemplates] = useState(true);
+  const [hasGoogleApiKey, setHasGoogleApiKey] = useState(false);
+  const [defaultFontBase, setDefaultFontBase] = useState('Playfair Display');
+  const [defaultFontHeading, setDefaultFontHeading] = useState('');
+  
+  // Save states
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    loadConfig();
+  }, []);
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      await saveAdminConfig({
+        login_page_url: loginPageUrl,
+        default_font_base: defaultFontBase,
+        default_font_heading: defaultFontHeading
+      });
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
+    } catch (error) {
+      console.error('Error saving config:', error);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+const loadConfig = async () => {
+    try {
+      const config = await getAdminConfig();
+      setHtmlGoogleApiKey(config.html_google_api_key || '');
+      setHasGoogleApiKey(config.has_google_api_key || false);
+      setHtmlGoogleModel(config.html_google_model || 'gemini-3.1-pro-preview');
+      setImageModel(config.image_model);
+      setImageApiKey(config.image_api_key);
+      setImageProvider(config.image_provider || 'gemini');
+      setLoginPageUrl(config.login_page_url || '/admin-login');
+      setUseAgentOrchestrator(config.use_agent_orchestrator || false);
+      setUseRagTemplates(config.use_rag_templates !== false);
+      setDefaultFontBase(config.default_font_base || 'Playfair Display');
+      setDefaultFontHeading(config.default_font_heading || '');
+    } catch (error) {
+      console.error('Error loading config:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-10 h-10 bg-pink-100 rounded-xl flex items-center justify-center">
+          <Cpu className="w-5 h-5 text-pink-500" />
+        </div>
+        <div>
+          <h2 className="text-lg font-semibold text-gray-800">Configuración de Modelos AI</h2>
+          <p className="text-sm text-gray-500">Configura las APIs para generación de invitaciones e imágenes</p>
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="w-6 h-6 text-pink-500 animate-spin" />
+          <span className="ml-2 text-gray-500">Cargando configuración...</span>
+        </div>
+      ) : (
+        <>
+          <div className="flex gap-2 mb-4">
+            <button
+              onClick={() => setActiveSection('general')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                activeSection === 'general'
+                  ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/25'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              <Settings className="w-4 h-4" />
+              General
+            </button>
+            <button
+              onClick={() => setActiveSection('html')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                activeSection === 'html'
+                  ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/25'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              <MessageSquare className="w-4 h-4" />
+              Generador HTML
+            </button>
+            <button
+              onClick={() => setActiveSection('images')}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                activeSection === 'images'
+                  ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/25'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              <Image className="w-4 h-4" />
+              Imágenes IA
+            </button>
+          </div>
+
+          {activeSection === 'general' && (
+            <GeneralConfig
+              loginPageUrl={loginPageUrl}
+              onLoginPageUrlChange={setLoginPageUrl}
+              defaultFontBase={defaultFontBase}
+              onDefaultFontBaseChange={setDefaultFontBase}
+              defaultFontHeading={defaultFontHeading}
+              onDefaultFontHeadingChange={setDefaultFontHeading}
+              onSave={handleSave}
+              saving={saving}
+              saved={saved}
+            />
+          )}
+
+{activeSection === 'html' && <HTMLGeneratorConfig 
+            googleApiKey={htmlGoogleApiKey}
+            setGoogleApiKey={setHtmlGoogleApiKey}
+            googleModel={htmlGoogleModel}
+            setGoogleModel={setHtmlGoogleModel}
+            useAgentOrchestrator={useAgentOrchestrator}
+            setUseAgentOrchestrator={setUseAgentOrchestrator}
+            useRagTemplates={useRagTemplates}
+            setUseRagTemplates={setUseRagTemplates}
+            hasGoogleApiKey={hasGoogleApiKey}
+          />}
+          {activeSection === 'images' && (
+            <>
+              <ImageGeneratorConfig 
+                selectedModel={imageModel}
+                setSelectedModel={setImageModel}
+                apiKey={imageApiKey}
+                setApiKey={setImageApiKey}
+                loginPageUrl={loginPageUrl}
+                imageProvider={imageProvider}
+                setImageProvider={setImageProvider}
+              />
+              <FreeImageProvidersConfig />
+            </>
+          )}
+        </>
+      )}
+    </div>
+  );
+};
+
+interface HTMLGeneratorProps {
+  googleApiKey: string;
+  setGoogleApiKey: (value: string) => void;
+  googleModel: string;
+  setGoogleModel: (value: string) => void;
+  useAgentOrchestrator: boolean;
+  setUseAgentOrchestrator: (value: boolean) => void;
+  useRagTemplates: boolean;
+  setUseRagTemplates: (value: boolean) => void;
+  hasGoogleApiKey: boolean;
+}
+
+const HTMLGeneratorConfig: React.FC<HTMLGeneratorProps> = ({ 
+  googleApiKey, setGoogleApiKey,
+  googleModel, setGoogleModel,
+  useAgentOrchestrator, setUseAgentOrchestrator,
+  useRagTemplates, setUseRagTemplates,
+  hasGoogleApiKey
+}) => {
+  const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [customModel, setCustomModel] = useState('');
+  const [showCustomInput, setShowCustomInput] = useState(false);
+
+const handleSave = async () => {
+    setSaving(true);
+    try {
+      let finalModel = googleModel;
+      if (showCustomInput && customModel) {
+        finalModel = customModel;
+      }
+
+      const configData = {
+        html_provider: 'gemini',
+        html_base_url: 'https://generativelanguage.googleapis.com',
+        html_api_key: '',
+        html_model: 'gemini-3.1-pro-preview',
+        html_google_api_key: googleApiKey,
+        html_google_model: finalModel,
+        use_agent_orchestrator: useAgentOrchestrator,
+        use_rag_templates: useRagTemplates,
+      };
+
+      console.log('=== GUARDANDO DESDE FRONTEND ===');
+      console.log('googleApiKey input:', googleApiKey ? 'TIENE VALOR' : 'VACÍO');
+      console.log('configData a enviar:', JSON.stringify(configData));
+      console.log('use_agent_orchestrator:', useAgentOrchestrator);
+      console.log('=================================');
+
+      await saveAdminConfig(configData);
+
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
+    } catch (error) {
+      console.error('Error saving config:', error);
+      alert('Error al guardar la configuración.');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="bg-purple-50 border border-purple-200 rounded-xl p-4">
+        <p className="text-sm text-purple-700 flex items-center gap-2">
+          <Bot className="w-4 h-4" />
+          Proveedor activo: <strong>Google Gemini</strong>
+        </p>
+      </div>
+
+      {/* Agent Orchestrator Toggle */}
+      <div className="bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200 rounded-xl p-4">
+        <label className="flex items-center justify-between cursor-pointer">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
+              <Bot className="w-5 h-5 text-indigo-600" />
+            </div>
+            <div>
+              <p className="font-medium text-gray-800">Sistema de Agentes IA</p>
+              <p className="text-xs text-gray-500">Usa el orquestador de agentes para generar invitaciones más diversas y personalizadas</p>
+            </div>
+          </div>
+          <div className="relative">
+            <input
+              type="checkbox"
+              checked={useAgentOrchestrator}
+              onChange={(e) => setUseAgentOrchestrator(e.target.checked)}
+              className="sr-only peer"
+            />
+            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+          </div>
+        </label>
+      </div>
+
+      {/* RAG Templates Toggle */}
+      <div className="bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-xl p-4">
+        <label className="flex items-center justify-between cursor-pointer">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
+              <Settings className="w-5 h-5 text-emerald-600" />
+            </div>
+            <div>
+              <p className="font-medium text-gray-800">Plantillas RAG</p>
+              <p className="text-xs text-gray-500">Usa templates HTML existentes como base para adaptar y amplificar invitaciones automáticamente</p>
+            </div>
+          </div>
+          <div className="relative">
+            <input
+              type="checkbox"
+              checked={useRagTemplates}
+              onChange={(e) => setUseRagTemplates(e.target.checked)}
+              className="sr-only peer"
+            />
+            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+          </div>
+        </label>
+      </div>
+
+      <div className="space-y-4 bg-purple-50 border border-purple-200 rounded-xl p-4">
+        <p className="text-sm text-purple-700">
+          Configura Google AI Platform para usar modelos Gemini
+        </p>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+            <Key className="w-4 h-4 text-pink-500" />
+            Google AI Platform API Key
+          </label>
+          <input
+            type="password"
+            value={googleApiKey}
+            onChange={(e) => setGoogleApiKey(e.target.value)}
+            placeholder="AIza..."
+            className="w-full px-4 py-3 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 text-gray-800 font-mono text-sm"
+          />
+          {hasGoogleApiKey && !googleApiKey && (
+            <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
+              <Key className="w-3 h-3" />
+              API Key guardada (déjalo vacío para mantener la actual)
+            </p>
+          )}
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+            <Cpu className="w-4 h-4 text-pink-500" />
+            Modelo Gemini
+          </label>
+          <select
+            value={showCustomInput ? 'custom' : googleModel}
+            onChange={(e) => {
+              if (e.target.value === 'custom') {
+                setShowCustomInput(true);
+              } else {
+                setShowCustomInput(false);
+                setGoogleModel(e.target.value);
+              }
+            }}
+            className="w-full px-4 py-3 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 text-gray-800"
+          >
+            <optgroup label="Modelos Gemini">
+              {GEMINI_MODELS.map((m) => (
+                <option key={m.id} value={m.id}>{m.name}</option>
+              ))}
+            </optgroup>
+            <option value="custom">Otro modelo (escribir nombre)</option>
+          </select>
+          
+          {showCustomInput && (
+            <input
+              type="text"
+              value={customModel}
+              onChange={(e) => setCustomModel(e.target.value)}
+              placeholder="Escribe el nombre del modelo"
+              className="w-full px-4 py-3 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 text-gray-800 font-mono text-sm mt-2"
+            />
+          )}
+        </div>
+      </div>
+
+      <button
+        onClick={handleSave}
+        disabled={saving || (!googleApiKey && !hasGoogleApiKey)}
+        className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all disabled:opacity-50 ${
+          saved
+            ? 'bg-green-500 text-white'
+            : 'bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:from-pink-600 hover:to-rose-600 shadow-lg shadow-pink-500/25'
+        }`}
+      >
+        {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+        {saved ? '¡Configuración guardada!' : 'Guardar Configuración'}
+      </button>
+    </div>
+  );
+};
+
+interface ImageGeneratorProps {
+  selectedModel: AIModel['id'];
+  setSelectedModel: (value: AIModel['id']) => void;
+  apiKey: string;
+  setApiKey: (value: string) => void;
+  loginPageUrl: string;
+  imageProvider: string;
+  setImageProvider: (value: string) => void;
+}
+
+const ImageGeneratorConfig: React.FC<ImageGeneratorProps> = ({ 
+  selectedModel, setSelectedModel, 
+  apiKey, setApiKey,
+  loginPageUrl,
+  imageProvider, setImageProvider
+}) => {
+  const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      const payload: Record<string, unknown> = {
+        html_google_api_key: '', // Mantener actual
+        image_provider: imageProvider,
+        login_page_url: loginPageUrl
+      };
+      // Solo enviar model/apiKey cuando provider=gemini (loremflickr no los necesita
+      // y mantenerlos fuera del payload preserva los valores previos en la DB).
+      if (imageProvider === 'gemini') {
+        payload.image_model = selectedModel;
+        payload.image_api_key = apiKey;
+      }
+      await saveAdminConfig(payload);
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
+    } catch (error) {
+      console.error('Error saving config:', error);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="bg-purple-50 border border-purple-200 rounded-xl p-4">
+        <p className="text-sm text-purple-700">
+          Selecciona el proveedor de imágenes. <strong>Nano Banana</strong> genera imágenes temáticas con IA. <strong>Lorem Flickr</strong> usa imágenes placeholder genéricas (no consume IA).
+        </p>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-3">Proveedor de Imágenes</label>
+        <div className="space-y-2">
+          <label
+            className={`flex items-center gap-3 p-4 rounded-xl border cursor-pointer transition-all ${
+              imageProvider === 'gemini'
+                ? 'border-pink-500 bg-pink-50'
+                : 'border-gray-200 hover:border-pink-300 hover:bg-pink-50/50'
+            }`}
+          >
+            <input
+              type="radio"
+              name="imageProvider"
+              value="gemini"
+              checked={imageProvider === 'gemini'}
+              onChange={() => setImageProvider('gemini')}
+              className="w-4 h-4 text-pink-500 focus:ring-pink-500"
+            />
+            <div className="flex-1">
+              <p className="font-medium text-gray-800 flex items-center gap-2">
+                <Image className="w-4 h-4 text-pink-500" />
+                Nano Banana (Gemini)
+              </p>
+              <p className="text-xs text-gray-500">Genera imágenes temáticas con IA (consume API key)</p>
+            </div>
+            {imageProvider === 'gemini' && (
+              <span className="px-3 py-1 bg-pink-500 text-white text-xs font-medium rounded-full">Activo</span>
+            )}
+          </label>
+          <label
+            className={`flex items-center gap-3 p-4 rounded-xl border cursor-pointer transition-all ${
+              imageProvider === 'loremflickr'
+                ? 'border-pink-500 bg-pink-50'
+                : 'border-gray-200 hover:border-pink-300 hover:bg-pink-50/50'
+            }`}
+          >
+            <input
+              type="radio"
+              name="imageProvider"
+              value="loremflickr"
+              checked={imageProvider === 'loremflickr'}
+              onChange={() => setImageProvider('loremflickr')}
+              className="w-4 h-4 text-pink-500 focus:ring-pink-500"
+            />
+            <div className="flex-1">
+              <p className="font-medium text-gray-800 flex items-center gap-2">
+                <Image className="w-4 h-4 text-gray-500" />
+                Lorem Flickr (Placeholder)
+              </p>
+              <p className="text-xs text-gray-500">Usa imágenes placeholder genéricas. No consume IA.</p>
+            </div>
+            {imageProvider === 'loremflickr' && (
+              <span className="px-3 py-1 bg-pink-500 text-white text-xs font-medium rounded-full">Activo</span>
+            )}
+          </label>
+        </div>
+      </div>
+
+      {imageProvider === 'gemini' && (
+        <>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+              <Key className="w-4 h-4 text-pink-500" />
+              Google AI Platform API Key
+            </label>
+            <input
+              type="password"
+              value={apiKey}
+              onChange={(e) => setApiKey(e.target.value)}
+              placeholder="Ingresa tu API Key de Google AI Platform"
+              className="w-full px-4 py-3 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 text-gray-800 font-mono text-sm"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-3">Modelo de Generación de Imágenes</label>
+            <div className="space-y-2">
+              {AI_MODELS.map((model) => (
+                <label
+                  key={model.id}
+                  className={`flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all ${
+                    selectedModel === model.id
+                      ? 'border-pink-500 bg-pink-50'
+                      : 'border-gray-200 hover:border-pink-300 hover:bg-pink-50/50'
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="imageModel"
+                    value={model.id}
+                    checked={selectedModel === model.id}
+                    onChange={() => setSelectedModel(model.id)}
+                    className="w-4 h-4 text-pink-500 focus:ring-pink-500"
+                  />
+                  <div className="flex-1">
+                    <p className="font-medium text-gray-800">{model.name}</p>
+                    <p className="text-xs text-gray-500">{model.provider}</p>
+                  </div>
+                  {selectedModel === model.id && (
+                    <span className="px-3 py-1 bg-pink-500 text-white text-xs font-medium rounded-full">
+                      Activo
+                    </span>
+                  )}
+                </label>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+
+      <button
+        onClick={handleSave}
+        disabled={saving}
+        className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all disabled:opacity-50 ${
+          saved
+            ? 'bg-green-500 text-white'
+            : 'bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:from-pink-600 hover:to-rose-600 shadow-lg shadow-pink-500/25'
+        }`}
+      >
+        {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+        {saved ? '¡Configuración guardada!' : 'Guardar Configuración'}
+      </button>
+    </div>
+  );
+};
+
+/**
+ * Proveedores de imágenes GRATUITOS — proceso independiente con condicional
+ * propia. Cuando se activa uno, la generación deja de consumir tokens de
+ * Nano Banana: la orquestación corre en modo loremflickr y freeImageService
+ * resuelve las imágenes (con prompts del agente Gemini + caché en disco).
+ * El proceso Nano Banana original no se modifica.
+ */
+const FreeImageProvidersConfig: React.FC = () => {
+  const [provider, setProvider] = useState('none');
+  const [agentic, setAgentic] = useState(true);
+  const [pexelsKey, setPexelsKey] = useState('');
+  const [hasPexelsKey, setHasPexelsKey] = useState(false);
+  const [pollinationsToken, setPollinationsToken] = useState('');
+  const [hasPollinationsToken, setHasPollinationsToken] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [testing, setTesting] = useState<string | null>(null);
+  const [testResults, setTestResults] = useState<Record<string, { ok: boolean; latencyMs?: number; dataUri?: string; promptMode?: string; bytes?: number; fallback?: boolean; error?: string }>>({});
+
+  useEffect(() => {
+    getFreeImagesConfig()
+      .then((cfg) => {
+        setProvider(cfg.provider || 'none');
+        setAgentic(cfg.agentic !== false);
+        setHasPexelsKey(Boolean(cfg.hasPexelsKey));
+        setHasPollinationsToken(Boolean(cfg.hasPollinationsToken));
+      })
+      .catch((e) => console.error('Error cargando config de imágenes gratuitas:', e));
+  }, []);
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      await saveFreeImagesConfig({
+        provider,
+        agentic,
+        ...(provider === 'pexels' && pexelsKey.trim() ? { pexels_key: pexelsKey.trim() } : {}),
+        ...(['pollinations-flux', 'pollinations-turbo'].includes(provider) && pollinationsToken.trim()
+          ? { pollinations_token: pollinationsToken.trim() }
+          : {})
+      });
+      if (provider === 'pexels' && pexelsKey.trim()) {
+        setHasPexelsKey(true);
+        setPexelsKey('');
+      }
+      if (['pollinations-flux', 'pollinations-turbo'].includes(provider) && pollinationsToken.trim()) {
+        setHasPollinationsToken(true);
+        setPollinationsToken('');
+      }
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2500);
+    } catch (error) {
+      console.error('Error guardando imágenes gratuitas:', error);
+      alert(`Error al guardar: ${error instanceof Error ? error.message : error}`);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleTest = async (prov: string) => {
+    setTesting(prov);
+    try {
+      const result = await testFreeImageProviderApi({
+        provider: prov,
+        keywords: 'elegant wedding flowers, romantic table decoration',
+        eventType: 'boda',
+        theme: 'elegante clásico'
+      });
+      setTestResults((prev) => ({ ...prev, [prov]: result }));
+    } catch (e) {
+      setTestResults((prev) => ({ ...prev, [prov]: { ok: false, error: e instanceof Error ? e.message : String(e) } }));
+    } finally {
+      setTesting(null);
+    }
+  };
+
+  const providerCards = [
+    { id: 'pexels', label: 'Pexels (banco premium)', desc: 'Fotos reales premium SIEMPRE a tema (keywords del agente). Sin marca de agua, ~1s/imagen, 200/hora gratis ≈ 13 invitaciones/hora. Solo necesitas una API key gratuita de pexels.com/api.', recommended: true, needsKey: true },
+    { id: 'pollinations-flux', label: 'Pollinations · Flux (IA)', desc: 'IA generativa gratuita con prompts del agente Gemini — la única que genera imágenes personalizadas sin pagar. Sin token: marca de agua pequeña + 1 img/15s; con token gratuito de auth.pollinations.ai: sin marca y 1 img/5s.', recommended: false, needsKey: false },
+    { id: 'pollinations-turbo', label: 'Pollinations · Turbo (IA)', desc: 'IA gratuita más rápida, calidad menor que Flux. Mismo comportamiento de token/límites que Flux.', recommended: false, needsKey: false },
+    { id: 'picsum', label: 'Picsum (fotografía real)', desc: 'Fotografía real curada de alta calidad, ~1s por imagen y sin límites. Ojo: contenido aleatorio (no sigue las keywords) — ideal como respaldo.', recommended: false, needsKey: false },
+    { id: 'local-stock', label: 'Biblioteca local (img/)', desc: 'Fotos curadas por tipo de evento en el servidor. Cero red, instantáneo y sin límites.', recommended: false, needsKey: false }
+  ];
+
+  return (
+    <div className="space-y-4 pt-6 border-t-2 border-dashed border-gray-200 mt-6">
+      <div className="flex items-center justify-between">
+        <h3 className="text-base font-semibold text-gray-800 flex items-center gap-2">
+          <Sparkles className="w-5 h-5 text-emerald-500" />
+          Imágenes gratuitas (alternativa a Nano Banana)
+        </h3>
+        {provider !== 'none' && (
+          <span className="px-3 py-1 bg-emerald-500 text-white text-xs font-medium rounded-full">
+            Activo — no consume tokens de Nano Banana
+          </span>
+        )}
+      </div>
+
+      <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+        <p className="text-sm text-emerald-800">
+          Proceso <strong>independiente</strong>: al seleccionar un proveedor, la generación corre por un flujo
+          distinto que <strong>jamás invoca Nano Banana</strong>. El agente de Gemini (modelo HTML ya configurado)
+          redacta los prompts de cada imagen y el proveedor gratuito la genera o la busca. Con{' '}
+          <strong>"Proceso actual"</strong> seleccionado, todo queda exactamente como hasta ahora.
+        </p>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-3">Proveedor de fotos para nuevas invitaciones</label>
+        <div className="space-y-2">
+          <label
+            className={`flex items-center gap-3 p-4 rounded-xl border cursor-pointer transition-all ${
+              provider === 'none'
+                ? 'border-gray-500 bg-gray-50'
+                : 'border-gray-200 hover:border-gray-300'
+            }`}
+          >
+            <input
+              type="radio"
+              name="freeImageProvider"
+              value="none"
+              checked={provider === 'none'}
+              onChange={() => setProvider('none')}
+              className="w-4 h-4 text-gray-600 focus:ring-gray-400"
+            />
+            <div className="flex-1">
+              <p className="font-medium text-gray-700 flex items-center gap-2">
+                <Image className="w-4 h-4 text-gray-500" />
+                Proceso actual (Nano Banana / Lorem Flickr)
+              </p>
+              <p className="text-xs text-gray-500">Sin cambios: usa el proveedor configurado arriba y sus tokens.</p>
+            </div>
+          </label>
+
+          {providerCards.map((p) => (
+            <label
+              key={p.id}
+              className={`flex items-center gap-3 p-4 rounded-xl border cursor-pointer transition-all ${
+                provider === p.id
+                  ? 'border-emerald-500 bg-emerald-50'
+                  : 'border-gray-200 hover:border-emerald-300 hover:bg-emerald-50/40'
+              }`}
+            >
+              <input
+                type="radio"
+                name="freeImageProvider"
+                value={p.id}
+                checked={provider === p.id}
+                onChange={() => setProvider(p.id)}
+                className="w-4 h-4 text-emerald-500 focus:ring-emerald-400"
+              />
+              <div className="flex-1">
+                <p className="font-medium text-gray-800 flex items-center gap-2 flex-wrap">
+                  <Sparkles className="w-4 h-4 text-emerald-500" />
+                  {p.label}
+                  {p.recommended && (
+                    <span className="px-2 py-0.5 bg-emerald-500 text-white text-[10px] font-semibold rounded-full uppercase tracking-wide">
+                      Recomendado
+                    </span>
+                  )}
+                  {p.needsKey && !hasPexelsKey && provider === p.id && (
+                    <span className="px-2 py-0.5 bg-amber-100 text-amber-700 text-[10px] font-semibold rounded-full">
+                      falta API key
+                    </span>
+                  )}
+                </p>
+                <p className="text-xs text-gray-500">{p.desc}</p>
+                {p.id === 'pexels' && provider === 'pexels' && (
+                  <div className="mt-2" onClick={(e) => e.preventDefault()}>
+                    <input
+                      type="password"
+                      value={pexelsKey}
+                      onChange={(e) => setPexelsKey(e.target.value)}
+                      placeholder={hasPexelsKey ? 'API key guardada (vacío = conservar)' : 'Pega tu API key gratuita de pexels.com/api'}
+                      className="w-full px-3 py-2 border border-emerald-200 rounded-lg text-sm font-mono"
+                    />
+                  </div>
+                )}
+                {['pollinations-flux', 'pollinations-turbo'].includes(p.id) && provider === p.id && (
+                  <div className="mt-2" onClick={(e) => e.preventDefault()}>
+                    <input
+                      type="password"
+                      value={pollinationsToken}
+                      onChange={(e) => setPollinationsToken(e.target.value)}
+                      placeholder={hasPollinationsToken ? 'Token guardado (vacío = conservar)' : 'Token opcional de auth.pollinations.ai — quita la marca de agua y sube el límite'}
+                      className="w-full px-3 py-2 border border-emerald-200 rounded-lg text-sm font-mono"
+                    />
+                    <p className="text-[11px] text-gray-400 mt-1">
+                      {hasPollinationsToken ? '✓ Token guardado: imágenes sin marca de agua a 1/5s.' : 'Sin token funciona igual, pero con marca de agua pequeña y 1 imagen cada 15s.'}
+                    </p>
+                  </div>
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleTest(p.id);
+                }}
+                disabled={testing === p.id}
+                className="px-3 py-1.5 text-xs font-medium rounded-lg border border-emerald-300 text-emerald-700 hover:bg-emerald-100 disabled:opacity-50 whitespace-nowrap"
+              >
+                {testing === p.id ? <Loader2 className="w-3.5 h-3.5 animate-spin inline" /> : 'Probar'}
+              </button>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {(Object.keys(testResults).length > 0) && (
+        <div className="grid gap-3">
+          {Object.entries(testResults).map(([provId, r]) => {
+            const meta = providerCards.find((p) => p.id === provId);
+            return (
+              <div key={provId} className={`rounded-xl border p-3 flex gap-3 items-start ${r.ok ? 'border-emerald-200 bg-emerald-50/50' : 'border-red-200 bg-red-50'}`}>
+                {r.ok && r.dataUri ? (
+                  <img src={r.dataUri} alt={`Test ${provId}`} className="w-36 h-24 object-cover rounded-lg border border-emerald-200" />
+                ) : (
+                  <div className="w-36 h-24 rounded-lg bg-red-100 flex items-center justify-center text-red-500 text-xs text-center px-2">Sin imagen</div>
+                )}
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-800">{meta?.label || provId}</p>
+                  {r.ok ? (
+                    <p className="text-xs text-gray-600">
+                      ✅ Generada en <strong>{((r.latencyMs || 0) / 1000).toFixed(1)}s</strong>
+                      {' '}· {((r.bytes || 0) / 1024).toFixed(0)} KB · prompts: <strong>{r.promptMode === 'agentic' ? 'agente Gemini' : 'heurístico'}</strong>
+                      {r.fallback && <span className="text-amber-600"> · ⚠ el proveedor falló y se sirvió por fallback picsum</span>}
+                    </p>
+                  ) : (
+                    <p className="text-xs text-red-600">❌ {r.error || 'Falló'}</p>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      <div className="flex items-center gap-3">
+        <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={agentic}
+            onChange={(e) => setAgentic(e.target.checked)}
+            className="w-4 h-4 text-emerald-500 focus:ring-emerald-400"
+            disabled={provider === 'none'}
+          />
+          Usar el agente Gemini para redactar los prompts de cada imagen (recomendado)
+        </label>
+      </div>
+
+      <button
+        onClick={handleSave}
+        disabled={saving}
+        className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all disabled:opacity-50 ${
+          saved
+            ? 'bg-green-500 text-white'
+            : 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:from-emerald-600 hover:to-teal-600 shadow-lg shadow-emerald-500/25'
+        }`}
+      >
+        {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+        {saved ? '¡Guardado!' : 'Guardar proveedor gratuito'}
+      </button>
+    </div>
+  );
+};
+
+interface GeneralConfigProps {
+  loginPageUrl: string;
+  onLoginPageUrlChange: (url: string) => void;
+  defaultFontBase: string;
+  onDefaultFontBaseChange: (font: string) => void;
+  defaultFontHeading: string;
+  onDefaultFontHeadingChange: (font: string) => void;
+  onSave: () => void;
+  saving: boolean;
+  saved: boolean;
+}
+
+const GeneralConfig: React.FC<GeneralConfigProps> = ({
+  loginPageUrl,
+  onLoginPageUrlChange,
+  defaultFontBase,
+  onDefaultFontBaseChange,
+  defaultFontHeading,
+  onDefaultFontHeadingChange,
+  onSave,
+  saving,
+  saved
+}) => {
+  return (
+    <div className="space-y-6">
+      <div className="bg-gray-50 rounded-xl p-6 space-y-4">
+        <h3 className="font-semibold text-gray-800">Configuración General</h3>
+        
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Página de Login
+          </label>
+          <input
+            type="text"
+            value={loginPageUrl}
+            onChange={(e) => onLoginPageUrlChange(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+            placeholder="/admin-login"
+          />
+          <p className="text-xs text-gray-500 mt-1">
+            URL a la que se redireccionará cuando el usuario no esté autenticado
+          </p>
+        </div>
+      </div>
+
+      <div className="bg-pink-50 border border-pink-200 rounded-xl p-6 space-y-4">
+        <h3 className="font-semibold text-gray-800 flex items-center gap-2">
+          <Type className="w-5 h-5 text-pink-500" />
+          Tipografía Global (Google Fonts)
+        </h3>
+        <p className="text-xs text-gray-500 -mt-2">
+          Estas fuentes se aplican automáticamente a TODA invitación generada. El usuario final podrá cambiarlas desde el editor.
+        </p>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Fuente para textos (base)
+          </label>
+          <select
+            value={defaultFontBase}
+            onChange={(e) => {
+              onDefaultFontBaseChange(e.target.value);
+              // Si la fuente de títulos era "igual que la base", mantener coherencia visual
+              if (!defaultFontHeading) onDefaultFontHeadingChange('');
+            }}
+            style={{ fontFamily: `'${defaultFontBase}', sans-serif` }}
+            className="w-full px-4 py-3 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 text-gray-800 bg-white"
+          >
+            {GOOGLE_FONT_OPTIONS.map((f) => (
+              <option key={f.value} value={f.value} style={{ fontFamily: `'${f.value}', sans-serif` }}>
+                {f.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Fuente para títulos (opcional)
+          </label>
+          <select
+            value={defaultFontHeading}
+            onChange={(e) => onDefaultFontHeadingChange(e.target.value)}
+            style={{ fontFamily: `'${defaultFontHeading || defaultFontBase}', serif` }}
+            className="w-full px-4 py-3 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 text-gray-800 bg-white"
+          >
+            {GOOGLE_HEADING_FONT_OPTIONS.map((f) => (
+              <option key={f.value} value={f.value} style={{ fontFamily: `'${f.value || defaultFontBase}', serif` }}>
+                {f.value ? f.label : 'Igual que la fuente de textos'}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex items-center gap-3 pt-1 border-t border-pink-100">
+          <span
+            className="text-2xl leading-none text-gray-800"
+            style={{ fontFamily: `'${defaultFontHeading || defaultFontBase}', serif` }}
+          >
+            Aa
+          </span>
+          <span
+            className="text-base leading-none text-gray-600"
+            style={{ fontFamily: `'${defaultFontBase}', sans-serif` }}
+          >
+            Texto de ejemplo 123
+          </span>
+        </div>
+      </div>
+      
+      <button
+        onClick={onSave}
+        disabled={saving}
+        className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all disabled:opacity-50 ${
+          saved
+            ? 'bg-green-500 text-white'
+            : 'bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:from-pink-600 hover:to-rose-600 shadow-lg shadow-pink-500/25'
+        }`}
+      >
+        {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+        {saved ? '¡Configuración guardada!' : 'Guardar Configuración'}
+      </button>
+    </div>
+  );
+};

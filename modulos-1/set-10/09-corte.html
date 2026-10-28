@@ -1,0 +1,212 @@
+<section
+  class="ma-corte"
+  data-gemini-id="corte-marino-marea"
+>
+  <style>
+    .ma-corte {
+      --primary-color: #e8f2f4;
+      --secondary-color: #9dbcc4;
+      --accent-color: #5fc4cf;
+      --bg-color: #0e1b22;
+      --surface-color: #14232b;
+      --surface-border-color: rgba(232, 242, 244, 0.16);
+      --text-color: #e8f2f4;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .ma-corte *,
+    .ma-corte *::before,
+    .ma-corte *::after { box-sizing: border-box; }
+
+    .ma-corte__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: clamp(1.8rem, 4.5vw, 3.4rem);
+      align-items: center;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .ma-corte__acuario {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.5);
+    }
+    .ma-corte__acuario img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      filter: saturate(0.95);
+      transform: scale(1.07);
+      transition: transform 0.5s ease;
+    }
+    .ma-corte.esta-visto .ma-corte__acuario img { transform: scale(1); }
+
+    .ma-corte__marea {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: none;
+      pointer-events: none;
+    }
+    .ma-corte.ma-js .ma-corte__marea { display: block; }
+    .ma-corte__agua {
+      position: absolute;
+      left: -2%;
+      right: -2%;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--accent-color) 45%, var(--surface-color)), var(--surface-color));
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ma-corte__agua svg { display: block; width: 100%; }
+    .ma-corte__agua path { fill: color-mix(in srgb, var(--accent-color) 45%, var(--surface-color)); }
+    .ma-corte__agua--sup { top: -3%; height: 48%; }
+    .ma-corte__agua--sup svg { transform: rotate(180deg); }
+    .ma-corte__agua--inf { bottom: -3%; height: 48%; }
+    .ma-corte.esta-visto .ma-corte__agua--sup { transform: translateY(-104%); }
+    .ma-corte.esta-visto .ma-corte__agua--inf { transform: translateY(104%); }
+
+    .ma-corte__burbuja-sello {
+      position: absolute;
+      z-index: 3;
+      top: 50%;
+      left: 50%;
+      width: 58px;
+      height: 58px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 1.5px solid var(--accent-color);
+      background: radial-gradient(circle at 32% 30%, rgba(255, 255, 255, 0.25), transparent 55%);
+      display: none;
+      place-items: center;
+      color: var(--accent-color);
+      transition: opacity 0.4s ease;
+      animation: maCorteSube 4s ease-in-out infinite;
+    }
+    .ma-corte.ma-js .ma-corte__burbuja-sello { display: grid; }
+    @keyframes maCorteSube {
+      0%, 100% { transform: translate(-50%, -46%); }
+      50% { transform: translate(-50%, -54%); }
+    }
+    .ma-corte.esta-visto .ma-corte__burbuja-sello { opacity: 0; }
+
+    .ma-corte__contenido { text-align: left; }
+    .ma-corte__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .ma-corte__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.85rem, 4.2vw, 2.7rem);
+      line-height: 1.1;
+      color: var(--primary-color);
+    }
+    .ma-corte__texto {
+      margin: 0 0 1.2rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .ma-corte__espuma {
+      width: 130px;
+      height: 10px;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 20% 50%, var(--accent-color) 0 4px, transparent 5px) 0 0 / 26px 100% repeat-x,
+        linear-gradient(var(--accent-color), var(--accent-color)) 0 50% / 100% 1.5px no-repeat;
+      opacity: 0.85;
+    }
+
+    @media (max-width: 880px) {
+      .ma-corte__grid { grid-template-columns: 1fr; }
+      .ma-corte__contenido { text-align: center; }
+      .ma-corte__espuma { margin: 0 auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ma-corte * { transition: none !important; animation: none !important; }
+      .ma-corte__marea, .ma-corte__burbuja-sello { display: none !important; }
+      .ma-corte__acuario img { transform: none; }
+    }
+  </style>
+
+  <div class="ma-corte__grid">
+    <figure class="ma-corte__acuario" memory_type="image" memory_usage="custom" memory_source="library" memory_key="corte-foto">
+      <img
+        src="https://loremflickr.com/960/600/cake,ocean"
+        alt="Momento del corte frente al mar"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="corte"
+        loading="lazy"
+      />
+      <span class="ma-corte__marea" aria-hidden="true">
+        <span class="ma-corte__agua ma-corte__agua--sup">
+          <svg viewBox="0 0 600 40" preserveAspectRatio="none"><path d="M0 40 C 100 4, 200 40, 300 20 S 500 4, 600 28 V40 H0 Z"/></svg>
+        </span>
+        <span class="ma-corte__agua ma-corte__agua--inf">
+          <svg viewBox="0 0 600 40" preserveAspectRatio="none"><path d="M0 40 C 100 4, 200 40, 300 20 S 500 4, 600 28 V0 H600 V40 Z" transform="scale(1,-1) translate(0,-40)"/></svg>
+        </span>
+      </span>
+      <span class="ma-corte__burbuja-sello" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" fill="none"><path d="M12 4 C9 8, 5 10, 5 14 A7 7 0 0 0 19 14 C19 10, 15 8, 12 4 Z" stroke="currentColor" stroke-width="1.5"/></svg>
+      </span>
+      <figcaption hidden>Momento del corte</figcaption>
+    </figure>
+
+    <div class="ma-corte__contenido" memory_type="text" memory_usage="custom" memory_key="corte-texto">
+      <p class="ma-corte__etiqueta" memory_type="text" memory_usage="custom" memory_key="corte-etiqueta">Pleamar</p>
+      <h2 class="ma-corte__titulo" memory_type="text" memory_usage="custom" memory_key="corte-titulo">El corte con la marea</h2>
+      <p class="ma-corte__texto">
+        Cuando la marea sube, las aguas se separan y revelan la mesa dulce frente al horizonte.
+        El primer corte se hace con espuma en los pies.
+      </p>
+      <div class="ma-corte__espuma" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ma-corte');
+      if (!root) return;
+      root.classList.add('ma-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root.querySelector('.ma-corte__acuario') || root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-marino-marea',
+      style_name: 'Marino de Profundidad — Corte',
+      descripcion: 'Aguas con borde de ola que se retiran arriba y abajo revelando el acuario del pastel; burbuja de aire que se desvanece.',
+      tags: ['corte', 'marea', 'marino', 'ola', 'revelado', 'burbuja'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

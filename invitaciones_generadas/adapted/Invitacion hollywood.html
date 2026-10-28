@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Gran Velada — Invitación Privada</title>
+
+    <!-- Fuentes Art Déco -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Poiret+One&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: '#C9A84C',
+                        'gold-light': '#E8D48B',
+                        'gold-bright': '#F5E6B8',
+                        'gold-dark': '#8B7332',
+                        onyx: '#080808',
+                    },
+                    fontFamily: {
+                        deco: ['"Poiret One"', 'cursive'],
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- Variables de Diseño Art Déco --- */
+        :root {
+            --gold: #C9A84C;
+            --gold-light: #E8D48B;
+            --gold-bright: #F5E6B8;
+            --gold-dark: #8B7332;
+            --onyx: #080808;
+            --navy: #0A0E1A;
+        }
+
+        /* --- Reset y Base --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--onyx);
+            color: var(--gold);
+            font-family: 'Cormorant Garamond', serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            transition: background 2s ease;
+        }
+
+        ::selection {
+            background: rgba(201,168,76,0.3);
+            color: var(--gold-bright);
+        }
+
+        /* --- Cursor Revelador (Escritorio) --- */
+        .cursor-glow {
+            position: fixed;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(201,168,76,0.1) 0%, rgba(201,168,76,0.03) 40%, transparent 70%);
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: screen;
+        }
+
+        .cursor-dot {
+            position: fixed;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--gold);
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 6px var(--gold);
+        }
+
+        @media (max-width: 768px) {
+            .cursor-glow, .cursor-dot { display: none !important; }
+        }
+
+        /* --- Fondo: Rayos Solares Art Déco --- */
+        .sunburst-bg {
+            position: fixed;
+            inset: 0;
+            background: repeating-conic-gradient(
+                from 0deg at 50% 50%,
+                rgba(201,168,76,0.02) 0deg 1.5deg,
+                transparent 1.5deg 7.5deg
+            );
+            z-index: 0;
+            pointer-events: none;
+            animation: sunDrift 200s linear infinite;
+        }
+
+        @keyframes sunDrift {
+            to { transform: rotate(360deg); }
+        }
+
+        /* --- Fondo: Patrón Rombos --- */
+        .argyle-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.35;
+            background-image:
+                linear-gradient(45deg, rgba(201,168,76,0.02) 25%, transparent 25%),
+                linear-gradient(-45deg, rgba(201,168,76,0.02) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, rgba(201,168,76,0.02) 75%),
+                linear-gradient(-45deg, transparent 75%, rgba(201,168,76,0.02) 75%);
+            background-size: 80px 80px;
+            background-position: 0 0, 0 40px, 40px -40px, -40px 0;
+        }
+
+        /* --- Pantalla de Introducción (El Cofre) --- */
+        .intro-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: var(--onyx);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 2.5s cubic-bezier(0.16,1,0.3,1), visibility 2.5s;
+        }
+
+        .intro-screen.opened {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .intro-emblem {
+            width: 130px;
+            height: 130px;
+            cursor: pointer;
+            animation: emblemPulse 3s ease-in-out infinite;
+            transition: filter 0.3s;
+        }
+
+        .intro-emblem:hover {
+            filter: drop-shadow(0 0 18px rgba(201,168,76,0.5));
+        }
+
+        @keyframes emblemPulse {
+            0%, 100% { filter: drop-shadow(0 0 6px rgba(201,168,76,0.2)); transform: scale(1); }
+            50% { filter: drop-shadow(0 0 22px rgba(201,168,76,0.45)); transform: scale(1.05); }
+        }
+
+        .intro-screen.opened .intro-emblem {
+            animation: emblemBurst 1.5s ease-out forwards;
+        }
+
+        @keyframes emblemBurst {
+            0% { transform: scale(1); opacity: 1; }
+            40% { transform: scale(1.6); opacity: 0.5; }
+            100% { transform: scale(4); opacity: 0; }
+        }
+
+        .intro-hint {
+            margin-top: 2rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.3em;
+            color: rgba(201,168,76,0);
+            transition: color 1s ease;
+            animation: hintFlicker 2.5s ease-in-out infinite;
+        }
+
+        .intro-hint.show { color: rgba(201,168,76,0.35); }
+
+        @keyframes hintFlicker {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* --- Anillo de Carga del Cofre --- */
+        .unlock-ring {
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 1px solid transparent;
+            pointer-events: none;
+            transition: border-color 0.3s;
+        }
+
+        .unlock-ring.active {
+            border-color: rgba(201,168,76,0.15);
+        }
+
+        .unlock-progress {
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .unlock-progress svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .unlock-progress circle {
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-dasharray: 496;
+            stroke-dashoffset: 496;
+            transition: stroke-dashoffset 0.1s linear;
+        }
+
+        /* --- Sistema de Revelado Dorado --- */
+        .r { opacity: 0; transition: opacity 1.4s cubic-bezier(0.16,1,0.3,1); }
+        .r.dev { opacity: 1; }
+
+        .r-expand { transform: scale(0.7); filter: blur(10px); opacity: 0; transition: all 1.5s cubic-bezier(0.16,1,0.3,1); }
+        .r-expand.dev { transform: scale(1); filter: blur(0); opacity: 1; }
+
+        .r-iris { clip-path: inset(50% 50% 50% 50%); opacity: 0; transition: all 1.4s cubic-bezier(0.16,1,0.3,1); }
+        .r-iris.dev { clip-path: inset(0% 0% 0% 0%); opacity: 1; }
+
+        .r-letters { letter-spacing: 1.2em; filter: blur(6px); opacity: 0; transition: all 1.6s cubic-bezier(0.16,1,0.3,1); }
+        .r-letters.dev { letter-spacing: 0.2em; filter: blur(0); opacity: 1; }
+
+        .r-rise { transform: translateY(40px); opacity: 0; transition: all 1.2s cubic-bezier(0.16,1,0.3,1); }
+        .r-rise.dev { transform: translateY(0); opacity: 1; }
+
+        .r-draw { transform: scaleX(0); opacity: 0; transition: all 1s cubic-bezier(0.16,1,0.3,1); }
+        .r-draw.dev { transform: scaleX(1); opacity: 1; }
+
+        /* --- Marco Art Déco con Esquinas Escalonadas --- */
+        .deco-frame {
+            position: relative;
+            padding: 2rem 2.5rem;
+            border: 1px solid rgba(201,168,76,0.12);
+            background: rgba(201,168,76,0.01);
+        }
+
+        .dc { position: absolute; width: 28px; height: 28px; }
+        .dc::before, .dc::after { content: ''; position: absolute; background: var(--gold); }
+
+        .dc-tl { top: -1px; left: -1px; }
+        .dc-tl::before { top: 0; left: 0; width: 28px; height: 2px; }
+        .dc-tl::after { top: 0; left: 0; width: 2px; height: 28px; }
+
+        .dc-tr { top: -1px; right: -1px; }
+        .dc-tr::before { top: 0; right: 0; width: 28px; height: 2px; }
+        .dc-tr::after { top: 0; right: 0; width: 2px; height: 28px; }
+
+        .dc-bl { bottom: -1px; left: -1px; }
+        .dc-bl::before { bottom: 0; left: 0; width: 28px; height: 2px; }
+        .dc-bl::after { bottom: 0; left: 0; width: 2px; height: 28px; }
+
+        .dc-br { bottom: -1px; right: -1px; }
+        .dc-br::before { bottom: 0; right: 0; width: 28px; height: 2px; }
+        .dc-br::after { bottom: 0; right: 0; width: 2px; height: 28px; }
+
+        /* Escalones interiores */
+        .ds { position: absolute; width: 14px; height: 14px; }
+        .ds::before, .ds::after { content: ''; position: absolute; background: rgba(201,168,76,0.35); }
+
+        .ds-tl { top: 7px; left: 7px; }
+        .ds-tl::before { top: 0; left: 0; width: 10px; height: 1px; }
+        .ds-tl::after { top: 0; left: 0; width: 1px; height: 10px; }
+
+        .ds-tr { top: 7px; right: 7px; }
+        .ds-tr::before { top: 0; right: 0; width: 10px; height: 1px; }
+        .ds-tr::after { top: 0; right: 0; width: 1px; height: 10px; }
+
+        .ds-bl { bottom: 7px; left: 7px; }
+        .ds-bl::before { bottom: 0; left: 0; width: 10px; height: 1px; }
+        .ds-bl::after { bottom: 0; left: 0; width: 1px; height: 10px; }
+
+        .ds-br { bottom: 7px; right: 7px; }
+        .ds-br::before { bottom: 0; right: 0; width: 10px; height: 1px; }
+        .ds-br::after { bottom: 0; right: 0; width: 1px; height: 10px; }
+
+        /* --- Brillo Dorado en Texto --- */
+        .gold-shimmer {
+            background: linear-gradient(120deg, var(--gold-dark) 0%, var(--gold) 20%, var(--gold-bright) 40%, var(--gold) 60%, var(--gold-dark) 80%, var(--gold) 100%);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 5s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 100% 50%; }
+            100% { background-position: -100% 50%; }
+        }
+
+        /* --- Ornamento Zigurat (Pirámide Escalonada) --- */
+        .ziggurat {
+            width: 90px;
+            height: 32px;
+            margin: 0 auto;
+            background: var(--gold);
+            clip-path: polygon(
+                0% 100%, 0% 72%, 15% 72%, 15% 48%, 30% 48%, 30% 24%, 42% 24%,
+                42% 0%, 58% 0%, 58% 24%, 70% 24%, 70% 48%, 85% 48%, 85% 72%, 100% 72%,
+                100% 100%
+            );
+            opacity: 0.45;
+        }
+
+        /* --- Línea Decorativa --- */
+        .deco-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0.3;
+        }
+
+        .deco-line-bold {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-light), var(--gold), var(--gold-light), transparent);
+            opacity: 0.4;
+        }
+
+        /* --- Franja Decorativa Superior --- */
+        .top-stripe {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent 5%, var(--gold-dark) 20%, var(--gold) 40%, var(--gold-bright) 50%, var(--gold) 60%, var(--gold-dark) 80%, transparent 95%);
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 1.5s ease 0.5s;
+        }
+
+        .top-stripe.visible { opacity: 1; }
+
+        /* --- Sello RSVP --- */
+        .seal-wrap {
+            position: relative;
+            width: 210px;
+            height: 210px;
+            margin: 0 auto;
+        }
+
+        .seal-outer {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2.5px solid var(--gold);
+        }
+
+        .seal-mid {
+            position: absolute;
+            inset: 10px;
+            border-radius: 50%;
+            border: 1px dashed rgba(201,168,76,0.3);
+        }
+
+        .seal-inner {
+            position: absolute;
+            inset: 20px;
+            border-radius: 50%;
+            border: 1.5px solid var(--gold);
+            overflow: hidden;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            transition: box-shadow 0.3s;
+            background: rgba(201,168,76,0.01);
+        }
+
+        .seal-inner:hover {
+            box-shadow: 0 0 25px rgba(201,168,76,0.12);
+        }
+
+        .seal-fill {
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 100%;
+            height: 0%;
+            background: linear-gradient(to top, rgba(201,168,76,0.22), rgba(201,168,76,0.04));
+            transition: height 0.06s linear;
+        }
+
+        .seal-text {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        /* Diamantes en los puntos cardinales del sello */
+        .seal-dmd {
+            position: absolute;
+            width: 9px;
+            height: 9px;
+            background: var(--gold);
+            transform: rotate(45deg);
+        }
+        .seal-dmd-t { top: -4.5px; left: 50%; margin-left: -4.5px; }
+        .seal-dmd-b { bottom: -4.5px; left: 50%; margin-left: -4.5px; }
+        .seal-dmd-l { left: -4.5px; top: 50%; margin-top: -4.5px; }
+        .seal-dmd-r { right: -4.5px; top: 50%; margin-top: -4.5px; }
+
+        /* Animación del sello confirmado */
+        .seal-inner.stamped {
+            animation: stampHit 0.6s cubic-bezier(0.22,1.5,0.36,1);
+            background: rgba(201,168,76,0.1) !important;
+            box-shadow: 0 0 40px rgba(201,168,76,0.25);
+            cursor: default;
+        }
+
+        @keyframes stampHit {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.12); }
+            55% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+
+        .confirm-msg {
+            opacity: 0;
+            transform: translateY(15px) scale(0.9);
+            transition: all 1.2s cubic-bezier(0.16,1,0.3,1);
+            pointer-events: none;
+        }
+
+        .confirm-msg.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        /* --- Estado Confirmado Global --- */
+        body.confirmed { background: #0C0A04; }
+
+        body.confirmed .deco-frame {
+            border-color: rgba(201,168,76,0.28);
+            background: rgba(201,168,76,0.025);
+        }
+
+        body.confirmed .ziggurat { opacity: 0.7; }
+
+        .post-confirm {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 1.5s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        body.confirmed .post-confirm {
+            opacity: 1;
+            max-height: 300px;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .deco-frame { padding: 1.5rem 1.2rem; }
+            .seal-wrap { width: 180px; height: 180px; }
+        }
+
+        @media (max-width: 480px) {
+            .seal-wrap { width: 160px; height: 160px; }
+        }
+
+        /* --- Movimiento Reducido --- */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.2s !important;
+            }
+            .sunburst-bg { animation: none; }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Fondo Art Déco: Rayos Solares -->
+    <div class="sunburst-bg" aria-hidden="true"></div>
+    <!-- Fondo Art Déco: Patrón Rombos -->
+    <div class="argyle-bg" aria-hidden="true"></div>
+
+    <!-- Cursor Revelador (solo escritorio) -->
+    <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+    <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+    <!-- Franja Decorativa Superior -->
+    <div class="top-stripe" id="topStripe" aria-hidden="true"></div>
+
+    <!-- ==================== PANTALLA DE INTRODUCCIÓN ==================== -->
+    <div class="intro-screen" id="introScreen" role="dialog" aria-label="Pantalla de bienvenida">
+        <!-- Anillo de Progreso de Desbloqueo -->
+        <div class="unlock-ring" id="unlockRing"></div>
+        <div class="unlock-progress" id="unlockProgress">
+            <svg viewBox="0 0 160 160">
+                <circle id="progressCircle" cx="80" cy="80" r="79" />
+            </svg>
+        </div>
+
+        <!-- Emblema Central (Clic sostenido para desbloquear) -->
+        <div class="intro-emblem" id="introEmblem" role="button" aria-label="Mantén presionado para abrir la invitación" tabindex="0">
+            <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Diamante central -->
+                <path d="M60 15 L88 60 L60 105 L32 60 Z" stroke="#C9A84C" stroke-width="1.2" fill="rgba(201,168,76,0.04)" />
+                <path d="M60 28 L80 60 L60 92 L40 60 Z" stroke="#C9A84C" stroke-width="0.7" fill="none" />
+                <path d="M60 42 L72 60 L60 78 L48 60 Z" stroke="#C9A84C" stroke-width="0.5" fill="rgba(201,168,76,0.06)" />
+                <!-- Líneas radiantes superiores -->
+                <line x1="60" y1="2" x2="60" y2="14" stroke="#C9A84C" stroke-width="0.6" />
+                <line x1="85" y1="8" x2="75" y2="20" stroke="#C9A84C" stroke-width="0.5" />
+                <line x1="35" y1="8" x2="45" y2="20" stroke="#C9A84C" stroke-width="0.5" />
+                <line x1="100" y1="25" x2="88" y2="35" stroke="#C9A84C" stroke-width="0.4" />
+                <line x1="20" y1="25" x2="32" y2="35" stroke="#C9A84C" stroke-width="0.4" />
+                <!-- Líneas radiantes inferiores -->
+                <line x1="60" y1="106" x2="60" y2="118" stroke="#C9A84C" stroke-width="0.6" />
+                <line x1="85" y1="112" x2="75" y2="100" stroke="#C9A84C" stroke-width="0.5" />
+                <line x1="35" y1="112" x2="45" y2="100" stroke="#C9A84C" stroke-width="0.5" />
+                <!-- Puntos decorativos -->
+                <circle cx="60" cy="3" r="1.5" fill="#C9A84C" />
+                <circle cx="60" cy="117" r="1.5" fill="#C9A84C" />
+                <circle cx="101" cy="26" r="1.2" fill="#C9A84C" />
+                <circle cx="19" cy="26" r="1.2" fill="#C9A84C" />
+                <circle cx="86" cy="9" r="1" fill="#C9A84C" />
+                <circle cx="34" cy="9" r="1" fill="#C9A84C" />
+                <!-- Arcos laterales -->
+                <path d="M95 45 Q105 60 95 75" stroke="#C9A84C" stroke-width="0.5" fill="none" />
+                <path d="M25 45 Q15 60 25 75" stroke="#C9A84C" stroke-width="0.5" fill="none" />
+            </svg>
+        </div>
+
+        <!-- Indicación sutil -->
+        <p class="intro-hint" id="introHint">MANTEN PRESIONADO PARA ABRIR</p>
+    </div>
+
+    <!-- ==================== CONTENIDO PRINCIPAL ==================== -->
+    <main class="relative z-10" id="mainContent">
+
+        <!-- --- Sección Hero --- -->
+        <section id="inferred-portada-0" class="min-h-screen flex flex-col items-center justify-center px-5 py-20" aria-label="Encabezado de la invitación">
+            <div class="text-center max-w-2xl mx-auto">
+
+                <!-- Zigurat superior -->
+                <div class="ziggurat r r-iris" data-delay="0"></div>
+
+                <div class="h-10"></div>
+
+                <!-- Subtítulo -->
+                <p data-gemini-id="portada-texto-1" class="font-serif text-sm tracking-[0.35em] text-gold-dark r r-letters" data-delay="300" style="color: var(--gold-dark);">
+                    TIENE EL HONOR DE INVITARLE
+                </p>
+
+                <div class="h-8"></div>
+
+                <!-- Título Principal -->
+                <h1 data-gemini-id="portada-titulo-1" class="font-deco text-5xl md:text-7xl lg:text-8xl gold-shimmer r r-expand hero-title" data-delay="600">
+                    LA GRAN VELADA
+                </h1>
+
+                <div class="h-6"></div>
+
+                <!-- Línea decorativa -->
+                <div class="deco-line-bold w-48 mx-auto r r-draw" data-delay="900"></div>
+
+                <div class="h-6"></div>
+
+                <!-- Año y subtítulo -->
+                <p data-gemini-id="portada-texto-2" class="font-deco text-xl md:text-2xl tracking-[0.5em] r r-letters" data-delay="1100" style="color: var(--gold-light);">
+                    MMXXV
+                </p>
+
+                <div class="h-4"></div>
+
+                <p data-gemini-id="portada-texto-3" class="font-serif text-base italic r r-rise" data-delay="1300" style="color: var(--gold-dark);">
+                    Una noche donde el esplendor no conoce límites
+                </p>
+
+                <div class="h-10"></div>
+
+                <!-- Zigurat inferior -->
+                <div class="ziggurat r r-iris" data-delay="1500"></div>
+
+                <!-- Indicador de scroll -->
+                <div class="mt-16 r r-rise" data-delay="2200">
+                    <div class="flex flex-col items-center gap-2 opacity-30">
+                        <span data-gemini-id="portada-texto-4" class="font-serif text-xs tracking-[0.3em]">DESCUBRA</span>
+                        <i class="fa-solid fa-chevron-down text-xs animate-bounce"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- --- Sección Detalles del Evento --- -->
+        <section id="inferred-detalles-1" class="py-20 px-5" aria-label="Detalles del evento">
+            <div class="max-w-xl mx-auto">
+
+                <!-- Marco Art Déco -->
+                <div class="deco-frame r r-iris" data-delay="0">
+                    <!-- Esquinas escalonadas -->
+                    <div class="dc dc-tl"></div>
+                    <div class="dc dc-tr"></div>
+                    <div class="dc dc-bl"></div>
+                    <div class="dc dc-br"></div>
+                    <div class="ds ds-tl"></div>
+                    <div class="ds ds-tr"></div>
+                    <div class="ds ds-bl"></div>
+                    <div class="ds ds-br"></div>
+
+                    <div class="text-center py-6">
+
+                        <!-- Icono de cóctel Art Déco -->
+                        <div class="r r-expand" data-delay="200">
+                            <i class="fa-solid fa-martini-glass-citrus text-2xl mb-6" style="color: var(--gold-dark);"></i>
+                        </div>
+
+                        <!-- Fecha -->
+                        <div class="r r-letters" data-delay="400">
+                            <p data-gemini-id="detalles-texto-1" class="font-deco text-xs tracking-[0.4em] mb-1" style="color: var(--gold-dark);">SABADO</p>
+                            <p data-gemini-id="detalles-texto-2" class="font-deco text-5xl md:text-6xl gold-shimmer">31</p>
+                            <p data-gemini-id="detalles-texto-3" class="font-deco text-sm tracking-[0.3em]" style="color: var(--gold-light);">DE OCTUBRE</p>
+                            <p data-gemini-id="detalles-texto-4" class="font-deco text-xs tracking-[0.25em] mt-1" style="color: var(--gold-dark);">DEL MMXXV</p>
+                        </div>
+
+                        <div class="deco-line w-32 mx-auto my-8 r r-draw" data-delay="700"></div>
+
+                        <!-- Hora -->
+                        <div class="r r-rise" data-delay="800">
+                            <p data-gemini-id="detalles-texto-5" class="font-serif text-lg italic" style="color: var(--gold-light);">Nueve en punto de la noche</p>
+                            <p data-gemini-id="detalles-texto-6" class="font-deco text-xs tracking-[0.3em] mt-1" style="color: var(--gold-dark);">21:00 HORAS</p>
+                        </div>
+
+                        <div class="deco-line w-32 mx-auto my-8 r r-draw" data-delay="1000"></div>
+
+                        <!-- Lugar -->
+                        <div class="r r-expand" data-delay="1100">
+                            <p data-gemini-id="detalles-texto-7" class="font-deco text-xl tracking-[0.2em]" style="color: var(--gold);">HOTEL GRAND IMPERIAL</p>
+                            <p data-gemini-id="detalles-texto-8" class="font-serif text-sm italic mt-2" style="color: var(--gold-dark);">Salón de los Espejos</p>
+                            <p data-gemini-id="detalles-texto-9" class="font-serif text-xs mt-1" style="color: var(--gold-dark);">Avenida del Parque 1925, Nueva York</p>
+                        </div>
+
+                        <div class="deco-line w-32 mx-auto my-8 r r-draw" data-delay="1300"></div>
+
+                        <!-- Código de Vestimenta -->
+                        <div class="r r-rise" data-delay="1400">
+                            <p data-gemini-id="detalles-texto-10" class="font-deco text-xs tracking-[0.35em] mb-2" style="color: var(--gold-dark);">CODIGO DE VESTIMENTA</p>
+                            <p data-gemini-id="detalles-texto-11" class="font-deco text-lg tracking-[0.15em]" style="color: var(--gold-light);">ELEGANCIA ABSOLUTA</p>
+                            <p data-gemini-id="detalles-texto-12" class="font-serif text-xs italic mt-1" style="color: var(--gold-dark);">Se requiere máscara para la medianoche</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- --- Sección Programa de la Noche --- -->
+        <section id="inferred-itinerario-2" class="py-20 px-5" aria-label="Programa de la noche">
+            <div class="max-w-lg mx-auto text-center">
+
+                <div class="ziggurat r r-iris" data-delay="0"></div>
+
+                <div class="h-8"></div>
+
+                <h2 data-gemini-id="itinerario-titulo-1" class="font-deco text-2xl md:text-3xl tracking-[0.25em] gold-shimmer r r-letters" data-delay="200">
+                    EL PROGRAMA
+                </h2>
+
+                <div class="h-2"></div>
+
+                <p data-gemini-id="itinerario-texto-1" class="font-serif text-sm italic r r-rise" data-delay="350" style="color: var(--gold-dark);">
+                    Cada momento ha sido dispuesto para el asombro
+                </p>
+
+                <div class="h-10"></div>
+
+                <!-- Eventos del programa -->
+                <div class="space-y-8">
+                    <!-- Evento 1 -->
+                    <div class="r r-rise" data-delay="500">
+                        <div class="deco-line w-16 mx-auto mb-4"></div>
+                        <p data-gemini-id="itinerario-texto-2" class="font-deco text-xs tracking-[0.3em]" style="color: var(--gold-dark);">21:00</p>
+                        <p data-gemini-id="itinerario-texto-3" class="font-deco text-lg tracking-[0.15em]" style="color: var(--gold-light);">Recepcion y Apertura</p>
+                        <p data-gemini-id="itinerario-texto-4" class="font-serif text-xs italic" style="color: var(--gold-dark);">Champagne y jazz en la terraza</p>
+                    </div>
+
+                    <!-- Evento 2 -->
+                    <div class="r r-rise" data-delay="700">
+                        <div class="deco-line w-16 mx-auto mb-4"></div>
+                        <p data-gemini-id="itinerario-texto-5" class="font-deco text-xs tracking-[0.3em]" style="color: var(--gold-dark);">22:00</p>
+                        <p data-gemini-id="itinerario-texto-6" class="font-deco text-lg tracking-[0.15em]" style="color: var(--gold-light);">Cena de Gallo</p>
+                        <p data-gemini-id="itinerario-texto-7" class="font-serif text-xs italic" style="color: var(--gold-dark);">Ocho tiempos bajo candelabros de cristal</p>
+                    </div>
+
+                    <!-- Evento 3 -->
+                    <div class="r r-rise" data-delay="900">
+                        <div class="deco-line w-16 mx-auto mb-4"></div>
+                        <p data-gemini-id="itinerario-texto-8" class="font-deco text-xs tracking-[0.3em]" style="color: var(--gold-dark);">23:30</p>
+                        <p data-gemini-id="itinerario-texto-9" class="font-deco text-lg tracking-[0.15em]" style="color: var(--gold-light);">El Gran Baile</p>
+                        <p data-gemini-id="itinerario-texto-10" class="font-serif text-xs italic" style="color: var(--gold-dark);">Orquesta en vivo y pista de mármol</p>
+                    </div>
+
+                    <!-- Evento 4 -->
+                    <div class="r r-rise" data-delay="1100">
+                        <div class="deco-line w-16 mx-auto mb-4"></div>
+                        <p data-gemini-id="itinerario-texto-11" class="font-deco text-xs tracking-[0.3em]" style="color: var(--gold-dark);">00:00</p>
+                        <p data-gemini-id="itinerario-texto-12" class="font-deco text-lg tracking-[0.15em]" style="color: var(--gold-light);">La Mascarada</p>
+                        <p data-gemini-id="itinerario-texto-13" class="font-serif text-xs italic" style="color: var(--gold-dark);">Revelacion y misterio tras el antifaz</p>
+                    </div>
+
+                    <!-- Evento 5 -->
+                    <div class="r r-rise" data-delay="1300">
+                        <div class="deco-line w-16 mx-auto mb-4"></div>
+                        <p data-gemini-id="itinerario-texto-14" class="font-deco text-xs tracking-[0.3em]" style="color: var(--gold-dark);">02:00</p>
+                        <p data-gemini-id="itinerario-texto-15" class="font-deco text-lg tracking-[0.15em]" style="color: var(--gold-light);">Brindis Final</p>
+                        <p data-gemini-id="itinerario-texto-16" class="font-serif text-xs italic" style="color: var(--gold-dark);">Bajo las estrellas del amanecer</p>
+                    </div>
+                </div>
+
+                <div class="h-8"></div>
+                <div class="ziggurat r r-iris" data-delay="1500"></div>
+            </div>
+        </section>
+
+        <!-- --- Sección RSVP (El Sello) --- -->
+        <section id="inferred-confirmacion-3" class="py-20 px-5" aria-label="Confirmación de asistencia">
+            <div class="max-w-lg mx-auto text-center">
+
+                <p data-gemini-id="confirmacion-texto-1" class="font-deco text-xs tracking-[0.35em] r r-letters" data-delay="0" style="color: var(--gold-dark);">
+                    SU RESPUESTA ES REQUERIDA
+                </p>
+
+                <div class="h-10"></div>
+
+                <!-- Sello de Cera Interactivo -->
+                <div class="seal-wrap r r-expand" data-delay="300" id="sealWrap">
+                    <div class="seal-outer"></div>
+                    <div class="seal-mid"></div>
+                    <div class="seal-inner" id="sealInner" role="button" aria-label="Mantén presionado para confirmar su asistencia" tabindex="0">
+                        <div class="seal-fill" id="sealFill"></div>
+                        <div class="seal-text" id="sealText">
+                            <i class="fa-solid fa-stamp text-lg mb-2" style="color: var(--gold-dark);"></i>
+                            <p data-gemini-id="confirmacion-texto-2" class="font-deco text-xs tracking-[0.25em]" style="color: var(--gold);">CONFIRMAR</p>
+                            <p data-gemini-id="confirmacion-texto-3" class="font-serif text-[10px] italic mt-0.5" style="color: var(--gold-dark);">Mantenga presionado</p>
+                        </div>
+                    </div>
+                    <!-- Diamantes cardinales -->
+                    <div class="seal-dmd seal-dmd-t"></div>
+                    <div class="seal-dmd seal-dmd-b"></div>
+                    <div class="seal-dmd seal-dmd-l"></div>
+                    <div class="seal-dmd seal-dmd-r"></div>
+                </div>
+
+                <div class="h-8"></div>
+
+                <!-- Mensaje de Confirmación -->
+                <div class="confirm-msg" id="confirmMsg">
+                    <div class="ziggurat mb-6"></div>
+                    <h3 data-gemini-id="confirmacion-titulo-1" class="font-deco text-2xl md:text-3xl tracking-[0.2em] gold-shimmer">
+                        CONFIRMADO
+                    </h3>
+                    <p data-gemini-id="confirmacion-texto-4" class="font-serif text-sm italic mt-2" style="color: var(--gold-light);">
+                        Su presencia ha sido registrada en el libro de oro
+                    </p>
+                </div>
+
+                <!-- Contenido Post-Confirmación -->
+                <div class="post-confirm mt-8">
+                    <div class="deco-frame">
+                        <div class="dc dc-tl"></div>
+                        <div class="dc dc-tr"></div>
+                        <div class="dc dc-bl"></div>
+                        <div class="dc dc-br"></div>
+                        <div class="ds ds-tl"></div>
+                        <div class="ds ds-tr"></div>
+                        <div class="ds ds-bl"></div>
+                        <div class="ds ds-br"></div>
+
+                        <div class="text-center py-4">
+                            <p data-gemini-id="confirmacion-texto-5" class="font-deco text-xs tracking-[0.3em] mb-3" style="color: var(--gold-dark);">CLAVE DE ACCESO</p>
+                            <p data-gemini-id="confirmacion-texto-6" class="font-deco text-2xl tracking-[0.4em] gold-shimmer" id="accessCode"></p>
+                            <p data-gemini-id="confirmacion-texto-7" class="font-serif text-xs italic mt-3" style="color: var(--gold-dark);">
+                                Presente esta clave en la entrada del Grand Imperial
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- --- Footer --- -->
+        <footer class="py-12 px-5 text-center" aria-label="Cierre">
+            <div class="deco-line w-24 mx-auto mb-8"></div>
+            <p class="font-serif text-xs italic" style="color: var(--gold-dark);">
+                Los secretos de esta noche aguardan por usted
+            </p>
+            <div class="h-4"></div>
+            <div class="ziggurat" style="opacity:0.25;"></div>
+        </footer>
+    </main>
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+        // --- Variables Globales ---
+        const cursorGlow = document.getElementById('cursorGlow');
+        const cursorDot = document.getElementById('cursorDot');
+        const introScreen = document.getElementById('introScreen');
+        const introEmblem = document.getElementById('introEmblem');
+        const introHint = document.getElementById('introHint');
+        const unlockRing = document.getElementById('unlockRing');
+        const progressCircle = document.getElementById('progressCircle');
+        const topStripe = document.getElementById('topStripe');
+        const sealInner = document.getElementById('sealInner');
+        const sealFill = document.getElementById('sealFill');
+        const sealText = document.getElementById('sealText');
+        const confirmMsg = document.getElementById('confirmMsg');
+        const accessCodeEl = document.getElementById('accessCode');
+
+        let introOpened = false;
+        let rsvpConfirmed = false;
+        let mouseOnIntro = true;
+
+        // --- Cursor Revelador ---
+        let cx = window.innerWidth / 2;
+        let cy = window.innerHeight / 2;
+        let glowX = cx, glowY = cy;
+        let dotX = cx, dotY = cy;
+
+        // Posición real del mouse/touch
+        let rawX = cx, rawY = cy;
+
+        document.addEventListener('mousemove', function(e) {
+            rawX = e.clientX;
+            rawY = e.clientY;
+        });
+
+        document.addEventListener('touchmove', function(e) {
+            if (e.touches.length > 0) {
+                rawX = e.touches[0].clientX;
+                rawY = e.touches[0].clientY;
+            }
+        }, { passive: true });
+
+        // Animación suave del cursor con lerp
+        function animateCursor() {
+            // El glow sigue al mouse con retardo (efecto fluido)
+            glowX += (rawX - glowX) * 0.06;
+            glowY += (rawY - glowY) * 0.06;
+            dotX += (rawX - dotX) * 0.25;
+            dotY += (rawY - dotY) * 0.25;
+
+            if (cursorGlow) {
+                cursorGlow.style.left = glowX + 'px';
+                cursorGlow.style.top = glowY + 'px';
+            }
+            if (cursorDot) {
+                cursorDot.style.left = dotX + 'px';
+                cursorDot.style.top = dotY + 'px';
+            }
+
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // --- Mostrar Hint del Intro ---
+        setTimeout(function() {
+            if (!introOpened && introHint) {
+                introHint.classList.add('show');
+            }
+        }, 2000);
+
+        // --- Mecánica de Desbloqueo: Clic Sostenido ---
+        let holdStart = 0;
+        let holdTimer = null;
+        let progressTimer = null;
+        const HOLD_DURATION = 2000; // 2 segundos para desbloquear
+        const CIRCUMFERENCE = 2 * Math.PI * 79; // ~496
+
+        function startHold(e) {
+            if (introOpened) return;
+            e.preventDefault();
+
+            holdStart = Date.now();
+            unlockRing.classList.add('active');
+
+            // Animar el progreso del anillo
+            progressTimer = setInterval(function() {
+                var elapsed = Date.now() - holdStart;
+                var progress = Math.min(elapsed / HOLD_DURATION, 1);
+                var offset = CIRCUMFERENCE * (1 - progress);
+                progressCircle.style.strokeDashoffset = offset;
+
+                if (progress >= 1) {
+                    completeUnlock();
+                }
+            }, 16);
+        }
+
+        function endHold(e) {
+            if (introOpened) return;
+
+            // Resetear progreso si suelta antes de tiempo
+            clearInterval(progressTimer);
+            unlockRing.classList.remove('active');
+            progressCircle.style.strokeDashoffset = CIRCUMFERENCE;
+        }
+
+        // Eventos de mouse
+        introEmblem.addEventListener('mousedown', startHold);
+        document.addEventListener('mouseup', endHold);
+
+        // Eventos de touch
+        introEmblem.addEventListener('touchstart', startHold, { passive: false });
+        document.addEventListener('touchend', endHold);
+
+        // Accesibilidad: Enter/Space
+        introEmblem.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                // Simular hold completo con teclado
+                startHold(e);
+                setTimeout(function() {
+                    if (!introOpened) completeUnlock();
+                }, 300);
+            }
+        });
+
+        // --- Completar Desbloqueo ---
+        function completeUnlock() {
+            if (introOpened) return;
+            introOpened = true;
+            mouseOnIntro = false;
+
+            clearInterval(progressTimer);
+
+            // Asegurar que el progreso esté al 100%
+            progressCircle.style.strokeDashoffset = 0;
+
+            // Abrir la pantalla de intro
+            introScreen.classList.add('opened');
+
+            // Mostrar la franja superior
+            topStripe.classList.add('visible');
+
+            // Iniciar el revelado de la invitación
+            startRevealSequence();
+        }
+
+        // --- Sistema de Revelado Dorado ---
+        function startRevealSequence() {
+            var revealables = document.querySelectorAll('.r');
+
+            // Revelar cada elemento con su delay específico
+            revealables.forEach(function(el) {
+                var delay = parseInt(el.getAttribute('data-delay')) || 0;
+
+                setTimeout(function() {
+                    el.classList.add('dev');
+                }, delay + 300); // +300ms de margen tras la apertura
+            });
+        }
+
+        // --- Revelado por Scroll (IntersectionObserver) ---
+        // Elementos fuera de la vista inicial se revelan al hacer scroll
+        function setupScrollReveal() {
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        var el = entry.target;
+                        var delay = parseInt(el.getAttribute('data-delay')) || 0;
+                        setTimeout(function() {
+                            el.classList.add('dev');
+                        }, delay);
+                        observer.unobserve(el);
+                    }
+                });
+            }, {
+                threshold: 0.15,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            // Observar elementos en secciones inferiores
+            document.querySelectorAll('section:nth-child(n+2) .r').forEach(function(el) {
+                observer.observe(el);
+            });
+        }
+
+        // --- RSVP: Sello de Cera ---
+        let sealHoldStart = 0;
+        let sealProgressTimer = null;
+        const SEAL_HOLD_DURATION = 1800; // 1.8 segundos
+
+        function startSealHold(e) {
+            if (rsvpConfirmed) return;
+            e.preventDefault();
+
+            sealHoldStart = Date.now();
+
+            sealProgressTimer = setInterval(function() {
+                var elapsed = Date.now() - sealHoldStart;
+                var progress = Math.min(elapsed / SEAL_HOLD_DURATION, 1);
+                sealFill.style.height = (progress * 100) + '%';
+
+                if (progress >= 1) {
+                    completeRSVP();
+                }
+            }, 16);
+        }
+
+        function endSealHold(e) {
+            if (rsvpConfirmed) return;
+
+            clearInterval(sealProgressTimer);
+            // Retroceder el llenado suavemente
+            sealFill.style.transition = 'height 0.5s ease-out';
+            sealFill.style.height = '0%';
+            setTimeout(function() {
+                sealFill.style.transition = 'height 0.06s linear';
+            }, 500);
+        }
+
+        // Eventos de mouse para el sello
+        sealInner.addEventListener('mousedown', startSealHold);
+        document.addEventListener('mouseup', function() {
+            if (!rsvpConfirmed) endSealHold();
+        });
+
+        // Eventos de touch para el sello
+        sealInner.addEventListener('touchstart', startSealHold, { passive: false });
+        document.addEventListener('touchend', function() {
+            if (!rsvpConfirmed) endSealHold();
+        });
+
+        // Accesibilidad del sello
+        sealInner.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                if (!rsvpConfirmed) completeRSVP();
+            }
+        });
+
+        // --- Completar RSVP ---
+        function completeRSVP() {
+            if (rsvpConfirmed) return;
+            rsvpConfirmed = true;
+
+            clearInterval(sealProgressTimer);
+
+            // Llenar completamente
+            sealFill.style.height = '100%';
+
+            // Animación de impacto del sello
+            sealInner.classList.add('stamped');
+
+            // Cambiar texto del sello
+            sealText.innerHTML = '<i class="fa-solid fa-check text-lg mb-1" style="color: var(--gold);"></i>' +
+                '<p class="font-deco text-xs tracking-[0.25em]" style="color: var(--gold);">SELLADO</p>';
+
+            // Mostrar mensaje de confirmación
+            setTimeout(function() {
+                confirmMsg.classList.add('show');
+            }, 400);
+
+            // Transformar la página completa
+            setTimeout(function() {
+                document.body.classList.add('confirmed');
+            }, 800);
+
+            // Generar código de acceso
+            setTimeout(function() {
+                generateAccessCode();
+            }, 1200);
+        }
+
+        // --- Generar Código de Acceso Art Déco ---
+        function generateAccessCode() {
+            var letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+            var code = '';
+            // Formato: XX-1925-XX (homenaje al año de El Gran Gatsby)
+            code += letters[Math.floor(Math.random() * letters.length)];
+            code += letters[Math.floor(Math.random() * letters.length)];
+            code += '-1925-';
+            code += letters[Math.floor(Math.random() * letters.length)];
+            code += letters[Math.floor(Math.random() * letters.length)];
+
+            // Efecto de "teletipo" para revelar el código
+            var finalCode = code;
+            var current = '';
+            var i = 0;
+
+            function typeChar() {
+                if (i < finalCode.length) {
+                    current += finalCode[i];
+                    accessCodeEl.textContent = current;
+                    i++;
+                    setTimeout(typeChar, 80);
+                }
+            }
+            typeChar();
+        }
+
+        // --- Inicialización ---
+        function init() {
+            // Configurar el círculo de progreso SVG
+            if (progressCircle) {
+                progressCircle.style.strokeDasharray = CIRCUMFERENCE;
+                progressCircle.style.strokeDashoffset = CIRCUMFERENCE;
+            }
+
+            // Configurar revelado por scroll
+            setupScrollReveal();
+        }
+
+        // Ejecutar al cargar
+        init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<section
+  class="gzit"
+  data-gemini-id="itinerario-agenda"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poiret+One&family=Josefin+Sans:wght@300;400;600&display=swap');
+
+    .gzit, .gzit *, .gzit *::before, .gzit *::after { box-sizing: border-box; }
+    .gzit {
+      --t-bg: var(--bg-color, #07080a);
+      --t-tx: var(--text-color, #f4ecd8);
+      --t-p: var(--primary-color, #d4af37);
+      --t-s: var(--secondary-color, #f1d98a);
+      --t-a: var(--accent-color, #0e7a57);
+      --t-display: var(--font-script, 'Poiret One', 'Didot', serif);
+      --t-text: var(--font-heading, 'Josefin Sans', 'Futura', sans-serif);
+      --gzit-foil: linear-gradient(100deg, color-mix(in srgb, var(--t-p) 55%, #000), var(--t-p) 25%, var(--t-s) 45%, var(--t-p) 65%, color-mix(in srgb, var(--t-p) 55%, #000));
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/jazz,band?lock=3141');
+      background-size: cover;
+      background-position: center;
+      background-attachment: scroll;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .gzit::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(90deg, color-mix(in srgb, var(--t-bg) 70%, transparent), transparent 30%, transparent 70%, color-mix(in srgb, var(--t-bg) 70%, transparent)),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 88%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent));
+    }
+    .gzit__content { width: min(100%, 60rem); display: grid; gap: clamp(1.6rem, 4vw, 2.6rem); }
+    .gzit__head { display: grid; justify-items: center; gap: .6rem; }
+    .gzit__dial { width: clamp(11rem, 22vw, 14rem); height: auto; color: var(--t-p); overflow: visible; }
+    .gzit__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(2.3rem, 5.4vw, 3.8rem);
+      line-height: 1.05;
+      color: var(--t-p);
+      background: var(--gzit-foil);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .gzit__lead { margin: 0; max-width: 32rem; font-weight: 300; line-height: 1.6; font-size: clamp(1rem, 2vw, 1.12rem); }
+
+    .gzit__track { position: relative; }
+    .gzit__list { position: relative; list-style: none; margin: 0; padding: 1rem 0; display: grid; gap: clamp(1.2rem, 3vw, 2rem); }
+    .gzit__shaft {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 6px;
+      margin-left: -3px;
+      border-left: 1px solid color-mix(in srgb, var(--t-p) 45%, transparent);
+      border-right: 1px solid color-mix(in srgb, var(--t-p) 45%, transparent);
+    }
+    .gzit__fill {
+      position: absolute;
+      inset: 0 1px;
+      background: linear-gradient(180deg, var(--t-s), var(--t-p) 60%, color-mix(in srgb, var(--t-p) 60%, #000));
+      transform-origin: 50% 0;
+      transform: scaleY(var(--gzit-p, 1));
+      box-shadow: 0 0 10px color-mix(in srgb, var(--t-p) 70%, transparent);
+    }
+    .gzit__item { position: relative; display: grid; grid-template-columns: 1fr 3.5rem 1fr; align-items: center; }
+    .gzit__node {
+      grid-column: 2;
+      justify-self: center;
+      width: 1.1rem;
+      height: 1.1rem;
+      transform: rotate(45deg);
+      background: var(--t-a);
+      border: 1px solid var(--t-s);
+      box-shadow: 0 0 0 4px var(--t-bg), 0 0 0 5px color-mix(in srgb, var(--t-p) 70%, transparent), 0 0 18px color-mix(in srgb, var(--t-a) 90%, transparent);
+      transition: background-color .4s ease, box-shadow .4s ease;
+    }
+    .gzit__card {
+      grid-row: 1;
+      display: grid;
+      gap: .3rem;
+      padding: 1rem 1.3rem;
+      background: linear-gradient(90deg, color-mix(in srgb, var(--t-bg) 30%, transparent), color-mix(in srgb, var(--t-bg) 80%, transparent));
+      border-top: 1px solid color-mix(in srgb, var(--t-p) 55%, transparent);
+      border-bottom: 1px solid color-mix(in srgb, var(--t-p) 55%, transparent);
+      transition: clip-path .5s cubic-bezier(.65, 0, .25, 1);
+    }
+    .gzit__item:nth-child(odd) .gzit__card { grid-column: 1; text-align: right; }
+    .gzit__item:nth-child(even) .gzit__card { grid-column: 3; text-align: left; background: linear-gradient(270deg, color-mix(in srgb, var(--t-bg) 30%, transparent), color-mix(in srgb, var(--t-bg) 80%, transparent)); }
+    .gzit__time { font-family: var(--t-display); font-size: clamp(1.5rem, 3vw, 2rem); color: var(--t-s); line-height: 1; }
+    .gzit__name { margin: 0; font-size: clamp(1.1rem, 2.2vw, 1.3rem); font-weight: 600; color: var(--t-p); }
+    .gzit__desc { margin: 0; font-weight: 300; line-height: 1.5; }
+
+    /* Entrance: milestones unfold from the shaft as the gold fill reaches them */
+    .gzit--anim .gzit__item:nth-child(odd) .gzit__card { clip-path: inset(0 0 0 100%); }
+    .gzit--anim .gzit__item:nth-child(even) .gzit__card { clip-path: inset(0 100% 0 0); }
+    .gzit--anim .gzit__item.is-lit .gzit__card { clip-path: inset(0 0 0 0); }
+    .gzit--anim .gzit__item:not(.is-lit) .gzit__node { background-color: var(--t-bg); box-shadow: 0 0 0 4px var(--t-bg), 0 0 0 5px color-mix(in srgb, var(--t-p) 40%, transparent); }
+
+    @media (max-width: 680px) {
+      .gzit__shaft { left: 1rem; }
+      .gzit__item { grid-template-columns: 2rem 1fr; gap: .6rem; }
+      .gzit__node { grid-column: 1; }
+      .gzit__item:nth-child(odd) .gzit__card,
+      .gzit__item:nth-child(even) .gzit__card { grid-column: 2; text-align: left; background: linear-gradient(270deg, color-mix(in srgb, var(--t-bg) 30%, transparent), color-mix(in srgb, var(--t-bg) 80%, transparent)); }
+      .gzit--anim .gzit__item:nth-child(odd) .gzit__card { clip-path: inset(0 100% 0 0); }
+      .gzit--anim .gzit__item.is-lit:nth-child(odd) .gzit__card { clip-path: inset(0 0 0 0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .gzit *, .gzit *::before, .gzit *::after { animation: none !important; transition: none !important; }
+      .gzit__fill { transform: none !important; }
+    }
+  </style>
+
+  <div class="gzit__content">
+    <header class="gzit__head">
+      <svg class="gzit__dial" viewBox="0 0 240 136" aria-hidden="true">
+        <g fill="none" stroke="currentColor">
+          <path d="M14 132V96h8V74h10V58h14V46h20V38h108v8h20v12h14v16h10v22h8v36" stroke-width="1.4"/>
+          <path d="M40 120a80 80 0 0 1 160 0" stroke-width="1"/>
+          <path d="M56 120a64 64 0 0 1 128 0" stroke-width=".8" opacity=".6"/>
+          <line x1="10" y1="132" x2="230" y2="132" stroke-width="1.4"/>
+        </g>
+        <g data-gzit-ticks fill="currentColor"></g>
+        <g data-gzit-needle transform="rotate(78 120 120)">
+          <line x1="120" y1="120" x2="120" y2="50" stroke="currentColor" stroke-width="2"/>
+          <path d="M120 42 125 50 120 58 115 50Z" style="fill: var(--t-s)"/>
+        </g>
+        <circle cx="120" cy="120" r="7" style="fill: var(--t-a); stroke: var(--t-s)" stroke-width="1.5"/>
+      </svg>
+      <h2 class="gzit__title" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Programa de la velada</h2>
+      <p class="gzit__lead" memory_type="text" memory_usage="custom" memory_key="itinerario-texto">Una noche de jazz, champaña y baile, de principio a fin.</p>
+    </header>
+
+    <div class="gzit__track" data-gzit-list>
+    <span class="gzit__shaft" aria-hidden="true"><span class="gzit__fill"></span></span>
+    <ol class="gzit__list">
+      <li class="gzit__item" data-gzit-item>
+        <span class="gzit__node" aria-hidden="true"></span>
+        <div class="gzit__card">
+          <time class="gzit__time" datetime="2027-05-15T19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1" data-event-field="itin-hora-1">7:00 p. m.</time>
+          <h3 class="gzit__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-1" data-event-field="itin-evento-1">Ceremonia</h3>
+          <p class="gzit__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-1">Intercambio de votos bajo la cúpula dorada.</p>
+        </div>
+      </li>
+      <li class="gzit__item" data-gzit-item>
+        <span class="gzit__node" aria-hidden="true"></span>
+        <div class="gzit__card">
+          <time class="gzit__time" datetime="2027-05-15T20:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2" data-event-field="itin-hora-2">8:00 p. m.</time>
+          <h3 class="gzit__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-2" data-event-field="itin-evento-2">Cóctel de bienvenida</h3>
+          <p class="gzit__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-2">Champaña, jazz en vivo y bocadillos de época.</p>
+        </div>
+      </li>
+      <li class="gzit__item" data-gzit-item>
+        <span class="gzit__node" aria-hidden="true"></span>
+        <div class="gzit__card">
+          <time class="gzit__time" datetime="2027-05-15T21:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3" data-event-field="itin-hora-3">9:00 p. m.</time>
+          <h3 class="gzit__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-3" data-event-field="itin-evento-3">Cena de gala</h3>
+          <p class="gzit__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-3">Un menú de tres tiempos a la luz de las velas.</p>
+        </div>
+      </li>
+      <li class="gzit__item" data-gzit-item>
+        <span class="gzit__node" aria-hidden="true"></span>
+        <div class="gzit__card">
+          <time class="gzit__time" datetime="2027-05-15T22:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4" data-event-field="itin-hora-4">10:00 p. m.</time>
+          <h3 class="gzit__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-4" data-event-field="itin-evento-4">Primer baile</h3>
+          <p class="gzit__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-4">Abrimos la pista al ritmo de una orquesta de swing.</p>
+        </div>
+      </li>
+      <li class="gzit__item" data-gzit-item>
+        <span class="gzit__node" aria-hidden="true"></span>
+        <div class="gzit__card">
+          <time class="gzit__time" datetime="2027-05-15T23:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-5" data-event-field="itin-hora-5">11:30 p. m.</time>
+          <h3 class="gzit__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-5" data-event-field="itin-evento-5">Brindis y pastel</h3>
+          <p class="gzit__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-5">Alzamos las copas por el amor y la buena fortuna.</p>
+        </div>
+      </li>
+      <li class="gzit__item" data-gzit-item>
+        <span class="gzit__node" aria-hidden="true"></span>
+        <div class="gzit__card">
+          <time class="gzit__time" datetime="2027-05-16T01:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-6" data-event-field="itin-hora-6">1:00 a. m.</time>
+          <h3 class="gzit__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-6" data-event-field="itin-evento-6">Gran final</h3>
+          <p class="gzit__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-6">Despedida entre luces de bengala doradas.</p>
+        </div>
+      </li>
+    </ol>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="itinerario-agenda"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+
+      /* Dial ticks (decorative diamonds, no numbers) */
+      var ticks = root.querySelector('[data-gzit-ticks]');
+      if (ticks) {
+        var NS = 'http://www.w3.org/2000/svg';
+        for (var i = 0; i < 7; i++) {
+          var a = (-78 + i * 26) * Math.PI / 180;
+          var x = 120 + Math.sin(a) * 90, y = 120 - Math.cos(a) * 90;
+          var d = document.createElementNS(NS, 'rect');
+          d.setAttribute('x', (x - 2.5).toFixed(1)); d.setAttribute('y', (y - 2.5).toFixed(1));
+          d.setAttribute('width', '5'); d.setAttribute('height', '5');
+          d.setAttribute('transform', 'rotate(45 ' + x.toFixed(1) + ' ' + y.toFixed(1) + ')');
+          ticks.appendChild(d);
+        }
+      }
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM) return;
+
+      var list = root.querySelector('[data-gzit-list]');
+      var needle = root.querySelector('[data-gzit-needle]');
+      var items = [].slice.call(root.querySelectorAll('[data-gzit-item]'));
+      if (!list) return;
+      root.classList.add('gzit--anim');
+      list.style.setProperty('--gzit-p', '0');
+      if (needle) needle.setAttribute('transform', 'rotate(-78 120 120)');
+
+      var shown = 0, cur = 0, target = 0, raf = 0, visible = false, finished = false;
+      function measure() {
+        var r = list.getBoundingClientRect(), vh = window.innerHeight || 800;
+        target = Math.max(0, Math.min(1, (vh * .7 - r.top) / r.height));
+      }
+      function frame() {
+        raf = 0;
+        cur += (target - cur) * .14;
+        if (Math.abs(target - cur) < .001) cur = target;
+        list.style.setProperty('--gzit-p', cur.toFixed(4));
+        if (needle) needle.setAttribute('transform', 'rotate(' + (-78 + cur * 156).toFixed(2) + ' 120 120)');
+        var lh = list.offsetHeight || 1;
+        items.forEach(function (it) {
+          if (!it.classList.contains('is-lit') && (it.offsetTop + it.offsetHeight / 2) / lh <= cur + .02) { it.classList.add('is-lit'); shown++; }
+        });
+        if (!finished && shown === items.length) {
+          finished = true;
+          setTimeout(function () { root.classList.remove('gzit--anim'); }, 700);
+        }
+        if (cur !== target && visible && !document.hidden) raf = requestAnimationFrame(frame);
+      }
+      function kick() { measure(); if (!raf) raf = requestAnimationFrame(frame); }
+      window.addEventListener('scroll', function () { if (visible) kick(); }, { passive: true });
+      window.addEventListener('resize', kick);
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (en) { visible = en[0].isIntersecting; kick(); }).observe(root);
+      } else { visible = true; kick(); }
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Gatsby Art Deco Itinerario',
+      descripcion: 'Itinerario Art Deco con indicador de piso de elevador vintage cuya aguja sigue el scroll, eje dorado que se llena y momentos de la noche que se despliegan desde el eje con nodos esmeralda.',
+      tags: ['itinerario', 'boda', 'art deco', 'gatsby', 'timeline', 'dorado', 'esmeralda'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>

@@ -1,0 +1,49 @@
+<section class="su-cd2b" data-gemini-id="countdown-suizo-colosal-b" path="placeholder" memory_source="generated" memory_type="background" memory_usage="protected" data-countdown-target="YYYY-MM-DDTHH:MM:SS">
+<style>
+.su-cd2b { --primary-color:#17171a; --secondary-color:#75757c; --accent-color:#d43d2a; --bg-color:#f2f2ef; --surface-color:#fbfbf9; --surface-border-color:rgba(23,23,26,.16); --text-color:#17171a;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:100svh; display:grid; place-items:center; padding:clamp(2rem,6vw,4rem) clamp(1rem,5vw,3rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/swiss,typography'); background-size:cover; background-position:center; color:var(--text-color); }
+.su-cd2b *, .su-cd2b *::before, .su-cd2b *::after { box-sizing:border-box; }
+.su-cd2b__barra { position:absolute; left:0; right:0; height:clamp(60px,14vw,160px); background:var(--accent-color); top:calc(50% - clamp(30px,7vw,80px)); animation:suCd2bBarre 60s linear infinite; opacity:.92; }
+@keyframes suCd2bBarre { 0% { transform:translateY(0);} 50% { transform:translateY(clamp(60px,14vw,160px)); } 100% { transform:translateY(0);} }
+.su-cd2b__pila { position:relative; z-index:2; width:min(100%,900px); }
+.su-cd2b__fila { display:grid; grid-template-columns:1fr auto; align-items:baseline; gap:clamp(.6rem,3vw,2rem); border-bottom:2px solid var(--primary-color); padding:clamp(.6rem,2vw,1.1rem) 0; }
+.su-cd2b__etiqueta { font-family:Arial,sans-serif; font-weight:700; font-size:clamp(.8rem,2.2vw,1.4rem); text-transform:uppercase; letter-spacing:.06em; color:var(--primary-color); }
+.su-cd2b__digito { font-family:Arial,sans-serif; font-weight:700; font-size:clamp(3.4rem,13vw,9.5rem); line-height:.85; letter-spacing:-.04em; font-variant-numeric:tabular-nums; color:var(--primary-color); }
+.su-cd2b__fila--roja .su-cd2b__digito { color:var(--bg-color); }
+.su-cd2b__titulo { position:relative; z-index:2; margin:0 0 clamp(1rem,3vw,1.8rem); font-family:Arial,sans-serif; font-size:clamp(.7rem,1.6vw,.95rem); letter-spacing:.44em; text-transform:uppercase; color:var(--secondary-color); }
+.su-cd2b__fecha { position:relative; z-index:2; display:inline-block; margin-top:clamp(1rem,3vw,1.8rem); padding:.5rem 1.2rem; border:2px solid var(--primary-color); font-family:'Courier New',monospace; font-size:clamp(.7rem,1.4vw,.84rem); letter-spacing:.22em; color:var(--primary-color); }
+@media (prefers-reduced-motion:reduce){ .su-cd2b__barra { animation:none; } }
+</style>
+<div style="width:min(100%,900px);">
+  <p class="su-cd2b__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Cuenta regresiva — exacta</p>
+  <div class="su-cd2b__pila" aria-label="Cuenta regresiva">
+    <div class="su-cd2b__fila"><span class="su-cd2b__etiqueta">Días</span><span class="su-cd2b__digito" data-countdown-unit="days">--</span></div>
+    <div class="su-cd2b__fila su-cd2b__fila--roja"><span class="su-cd2b__etiqueta" style="color:var(--bg-color);">Horas</span><span class="su-cd2b__digito" data-countdown-unit="hours">--</span></div>
+    <div class="su-cd2b__fila"><span class="su-cd2b__etiqueta">Minutos</span><span class="su-cd2b__digito" data-countdown-unit="minutes">--</span></div>
+    <div class="su-cd2b__fila"><span class="su-cd2b__etiqueta">Segundos</span><span class="su-cd2b__digito" data-countdown-unit="seconds">--</span></div>
+  </div>
+  <time class="su-cd2b__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+</div>
+<script>
+(function(){ var el=null; try{ el=document.currentScript.closest('[data-gemini-id^="countdown"]'); }catch(e){} if(!el) el=document.querySelector('[data-gemini-id^="countdown"]'); if(!el) return;
+  var target=NaN; var attr=el.getAttribute('data-countdown-target');
+  if(attr&&attr.indexOf('YYYY')===-1){ var p=new Date(attr); if(!isNaN(p.getTime())) target=p.getTime(); }
+  if(isNaN(target)&&window.__countdownTarget){ var p1=new Date(window.__countdownTarget); if(!isNaN(p1.getTime())) target=p1.getTime(); }
+  if(isNaN(target)&&window.countdown_target){ var p2=new Date(window.countdown_target); if(!isNaN(p2.getTime())) target=p2.getTime(); }
+  var intervalId=null; (window.__countdownIntervals=window.__countdownIntervals||[]).forEach(clearInterval); window.__countdownIntervals=[];
+  function pad2(n){ return n<10?'0'+n:''+n; }
+  function setUnit(u,v){ var n=el.querySelector('[data-countdown-unit="'+u+'"]'); if(n) n.textContent=v; }
+  function tick(){ if(!Number.isFinite(target)) return; var d=Math.max(target-Date.now(),0);
+    setUnit('days',Math.floor(d/86400000)); setUnit('hours',pad2(Math.floor((d%86400000)/3600000))); setUnit('minutes',pad2(Math.floor((d%3600000)/60000))); setUnit('seconds',pad2(Math.floor((d%60000)/1000)));
+    if(d===0&&intervalId!==null){ clearInterval(intervalId); intervalId=null; window.__countdownIntervals=[]; } }
+  function start(nt){ if(nt){ var p=new Date(nt); if(!isNaN(p.getTime())) target=p.getTime(); }
+    (window.__countdownIntervals||[]).forEach(clearInterval); window.__countdownIntervals=[]; intervalId=null;
+    if(!Number.isFinite(target)) return; tick(); if(target>Date.now()){ intervalId=setInterval(tick,1000); window.__countdownIntervals.push(intervalId); } }
+  start(); window.updateCountdown=start;
+})();
+</script>
+<script>
+var moduleMetadata = { module_type:'countdown', module_name:'countdown-suizo-colosal-b', style_name:'Cifras Colosales (variant B)', descripcion:'Tipografía de programa: cifras colosales apiladas con reglas gruesas, la fila de horas montada sobre la banda roja que barre el fondo.', tags:['countdown','colosal','suizo','banda roja','tipografico'], tipo:'countdown' };
+</script>
+</section>

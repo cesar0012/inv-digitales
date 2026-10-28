@@ -1,0 +1,444 @@
+<section
+  class="ck-con"
+  data-gemini-id="confirmacion-texto"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap');
+
+    .ck-con, .ck-con *, .ck-con *::before, .ck-con *::after { box-sizing: border-box; }
+    .ck-con {
+      --t-bg: var(--bg-color, #FAF5F0);
+      --t-tx: var(--text-color, #5A4640);
+      --t-p: var(--primary-color, #E7B3BD);
+      --t-s: var(--secondary-color, #8E6E60);
+      --t-a: var(--accent-color, #AEB3BC);
+      --t-display: var(--font-script, 'Shippori Mincho', 'Times New Roman', serif);
+      --t-text: var(--font-heading, 'Zen Kaku Gothic New', 'Helvetica Neue', sans-serif);
+      --ck-ink: color-mix(in srgb, var(--t-tx) 88%, var(--t-p));
+      --ck-blush-ink: color-mix(in srgb, var(--t-p) 58%, var(--t-s));
+      --ck-silver: linear-gradient(115deg, var(--t-a), color-mix(in srgb, var(--t-a) 35%, #ffffff) 45%, var(--t-a) 70%, color-mix(in srgb, var(--t-a) 60%, #ffffff));
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4.5rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/sakura,petals?lock=3205');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+      font-weight: 300;
+    }
+    .ck-con::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(200deg, color-mix(in srgb, var(--t-bg) 82%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent) 55%);
+    }
+    .ck-con__paper { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: .5; mix-blend-mode: multiply; }
+    .ck-con__boughs { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; display: block; }
+    .ck-con__content { position: relative; z-index: 1; width: min(100%, 60rem); display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+    .ck-con__intro { padding-top: 1.5rem; }
+    .ck-con__title { margin: 0; font-family: var(--t-display); font-weight: 500; font-size: clamp(2rem, 4.6vw, 3.1rem); line-height: 1.12; color: var(--ck-ink); }
+    .ck-con__lead { margin: 1.1rem 0 0; line-height: 1.85; color: color-mix(in srgb, var(--t-tx) 82%, transparent); }
+    .ck-con__deadline { margin: 1.6rem 0 0; padding-top: 1.1rem; border-top: 1px solid color-mix(in srgb, var(--t-a) 60%, transparent); font-family: var(--t-display); font-size: 1.08rem; color: var(--ck-blush-ink); }
+
+    .ck-con__form {
+      position: relative;
+      display: grid;
+      gap: 1.5rem;
+      padding: clamp(1.6rem, 4vw, 2.6rem);
+      background: color-mix(in srgb, var(--t-bg) 80%, #ffffff);
+      box-shadow: 0 34px 60px -40px color-mix(in srgb, var(--t-s) 70%, transparent);
+    }
+    .ck-con__form::before { content: ''; position: absolute; inset: .55rem; border: 1px solid transparent; border-image: var(--ck-silver) 1; opacity: .7; pointer-events: none; }
+    .ck-con__field { position: relative; display: grid; gap: .45rem; font-size: .95rem; color: color-mix(in srgb, var(--t-tx) 85%, transparent); }
+    .ck-con__input {
+      width: 100%;
+      min-height: 2.8rem;
+      padding: .55rem .2rem;
+      border: 0;
+      border-bottom: 1px solid color-mix(in srgb, var(--t-a) 85%, transparent);
+      background: transparent;
+      color: var(--t-tx);
+      font: inherit;
+      font-size: 1.02rem;
+      font-weight: 400;
+      border-radius: 0;
+      outline: 0;
+      resize: vertical;
+    }
+    .ck-con__input::placeholder { color: color-mix(in srgb, var(--t-tx) 40%, transparent); }
+    .ck-con__line { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--t-p); transform: scaleX(0); transform-origin: 0 50%; transition: transform .4s cubic-bezier(.2, .8, .2, 1); }
+    .ck-con__input:focus + .ck-con__line { transform: scaleX(1); }
+    .ck-con__input[data-ck-err] { animation: ck-con-shake .4s ease; }
+    .ck-con__row { display: grid; grid-template-columns: minmax(0, 1fr) 7rem; gap: 1.2rem; }
+
+    .ck-con__attend { margin: 0; padding: 0; border: 0; display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+    .ck-con__legend { grid-column: 1 / -1; padding: 0; margin-bottom: .6rem; font-size: .95rem; color: color-mix(in srgb, var(--t-tx) 85%, transparent); }
+    .ck-con__opt {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      min-height: 3.4rem;
+      padding: .6rem .9rem;
+      border: 1px solid color-mix(in srgb, var(--t-a) 70%, transparent);
+      cursor: pointer;
+      font-weight: 400;
+      transition: background-color .35s ease, border-color .35s ease;
+    }
+    .ck-con__opt input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+    .ck-con__optbl { width: 1.7rem; height: 1.7rem; flex: none; filter: grayscale(1); opacity: .5; transform: scale(.55) rotate(-40deg); transition: transform .45s cubic-bezier(.3, 1.4, .5, 1), opacity .3s ease, filter .3s ease; }
+    .ck-con__opt:has(input:checked) { background: color-mix(in srgb, var(--t-p) 26%, transparent); border-color: color-mix(in srgb, var(--t-p) 80%, var(--t-s)); }
+    .ck-con__opt input:checked + .ck-con__optbl { filter: none; opacity: 1; transform: none; }
+    .ck-con__opt:has(input:focus-visible) { outline: 2px solid var(--t-s); outline-offset: 2px; }
+
+    .ck-con__btn {
+      position: relative;
+      display: inline-grid;
+      place-items: center;
+      justify-self: start;
+      min-height: 3.2rem;
+      min-width: 15rem;
+      padding: .7rem 1.8rem;
+      border: 0;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--t-p) 85%, var(--t-bg));
+      color: color-mix(in srgb, var(--t-tx) 92%, var(--t-s));
+      font: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      overflow: hidden;
+      box-shadow: 0 12px 26px -16px color-mix(in srgb, var(--t-s) 80%, transparent);
+      transition: transform .3s cubic-bezier(.2, .8, .2, 1), background-color .35s ease, box-shadow .35s ease;
+    }
+    .ck-con__btn > * { grid-area: 1 / 1; transition: opacity .3s ease, transform .35s ease; }
+    .ck-con__btn:hover { transform: translateY(-2px); box-shadow: 0 16px 30px -16px color-mix(in srgb, var(--t-s) 80%, transparent); }
+    .ck-con__btn:focus-visible { outline: 2px solid var(--t-s); outline-offset: 3px; }
+    .ck-con__spin, .ck-con__done { opacity: 0; transform: scale(.6); pointer-events: none; }
+    .ck-con__spin { width: 1.9rem; height: 1.9rem; }
+    .ck-con__done { width: 1.6rem; height: 1.6rem; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    .ck-con__btn[data-state="loading"] .ck-con__btnlabel, .ck-con__btn[data-state="done"] .ck-con__btnlabel { opacity: 0; transform: translateY(-8px); }
+    .ck-con__btn[data-state="loading"] .ck-con__spin { opacity: 1; transform: none; }
+    .ck-con__btn[data-state="loading"] .ck-con__spin svg { animation: ck-con-turn .5s linear infinite; }
+    .ck-con__btn[data-state="done"] { background: color-mix(in srgb, var(--t-a) 45%, var(--t-bg)); }
+    .ck-con__btn[data-state="done"] .ck-con__done { opacity: 1; transform: none; }
+    .ck-con__spin svg { display: block; width: 100%; height: 100%; }
+    .ck-con__status { margin: 0; min-height: 1.5em; font-family: var(--t-display); color: var(--ck-blush-ink); }
+
+    /* A five-fold blossom turned 72deg per loop reads as a slow, continuous spin */
+    @keyframes ck-con-turn { from { transform: rotate(0deg); } to { transform: rotate(72deg); } }
+    @keyframes ck-con-shake { 0%, 100% { transform: none; } 25% { transform: translateX(-6px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-3px); } }
+
+    /* Entrance: the form card slides in like a sheet placed on the table */
+    .ck-con--anim .ck-con__form { opacity: 0; transform: translateX(24px) rotate(1.5deg); }
+    .ck-con--anim .ck-con__intro { opacity: 0; }
+    .ck-con--anim.is-in .ck-con__form { opacity: 1; transform: none; transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); transition-delay: .15s; }
+    .ck-con--anim.is-in .ck-con__intro { opacity: 1; transition: opacity .5s ease; }
+
+    @media (max-width: 760px) {
+      .ck-con__content { grid-template-columns: 1fr; }
+      .ck-con__intro { text-align: center; padding-top: 0; }
+      .ck-con__btn { justify-self: stretch; min-width: 0; }
+    }
+    @media (max-width: 420px) {
+      .ck-con__attend { grid-template-columns: 1fr; }
+      .ck-con__row { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ck-con *, .ck-con *::before, .ck-con *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="ck-con__paper" aria-hidden="true" focusable="false" preserveAspectRatio="none"><filter id="ck-con-fib" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.011 0.02" numOctaves="4" seed="7" /><feColorMatrix values="0 0 0 0 0.55  0 0 0 0 0.44  0 0 0 0 0.4  0.7 0 0 0 -0.3" /></filter><filter id="ck-con-grain" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="3" /><feColorMatrix values="0 0 0 0 0.5  0 0 0 0 0.42  0 0 0 0 0.38  2 0 0 0 -0.92" /></filter><rect width="100%" height="100%" filter="url(#ck-con-fib)" /><rect width="100%" height="100%" filter="url(#ck-con-grain)" opacity=".55" /></svg>
+  <canvas class="ck-con__boughs" data-ck-boughs aria-hidden="true"></canvas>
+  <div class="ck-con__content">
+    <header class="ck-con__intro">
+      <h2 class="ck-con__title" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">¿Nos acompañas bajo los cerezos?</h2>
+      <p class="ck-con__lead" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">Tu presencia hará florecer este día. Ayúdanos a preparar cada detalle confirmando tu asistencia.</p>
+      <p class="ck-con__deadline" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha-limite" data-event-field="fecha-limite">Confirma antes del 1 de marzo de 2027</p>
+    </header>
+
+    <form class="ck-con__form" data-ck-form novalidate>
+      <div class="ck-con__row">
+        <label class="ck-con__field">
+          <span memory_type="text" memory_usage="custom" memory_key="confirmacion-label-nombre">Nombre completo</span>
+          <input class="ck-con__input" type="text" name="nombre" autocomplete="name" placeholder="Nombre Apellido" data-ck-name required />
+          <span class="ck-con__line" aria-hidden="true"></span>
+        </label>
+        <label class="ck-con__field">
+          <span memory_type="text" memory_usage="custom" memory_key="confirmacion-label-pases">Personas</span>
+          <input class="ck-con__input" type="number" name="personas" min="1" max="8" value="1" inputmode="numeric" />
+          <span class="ck-con__line" aria-hidden="true"></span>
+        </label>
+      </div>
+
+      <fieldset class="ck-con__attend">
+        <legend class="ck-con__legend"><span memory_type="text" memory_usage="custom" memory_key="confirmacion-label-asistencia">¿Asistirás?</span></legend>
+        <label class="ck-con__opt">
+          <input type="radio" name="asistencia" value="si" checked />
+          <svg class="ck-con__optbl" viewBox="-12 -12 24 24" aria-hidden="true" focusable="false"><g style="fill: var(--t-p)"><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(0)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(72)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(144)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(216)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(288)" /></g><circle r="1.8" style="fill: var(--t-a)" /></svg>
+          <span memory_type="text" memory_usage="custom" memory_key="confirmacion-si">Sí, con alegría</span>
+        </label>
+        <label class="ck-con__opt">
+          <input type="radio" name="asistencia" value="no" />
+          <svg class="ck-con__optbl" viewBox="-12 -12 24 24" aria-hidden="true" focusable="false"><g style="fill: var(--t-p)"><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(0)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(72)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(144)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(216)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(288)" /></g><circle r="1.8" style="fill: var(--t-a)" /></svg>
+          <span memory_type="text" memory_usage="custom" memory_key="confirmacion-no">No podré asistir</span>
+        </label>
+      </fieldset>
+
+      <label class="ck-con__field">
+        <span memory_type="text" memory_usage="custom" memory_key="confirmacion-label-mensaje">Un mensaje para los novios</span>
+        <textarea class="ck-con__input" name="mensaje" rows="3" placeholder="Escribe unas palabras…"></textarea>
+        <span class="ck-con__line" aria-hidden="true"></span>
+      </label>
+
+      <button class="ck-con__btn" type="submit" data-ck-btn data-state="idle">
+        <span class="ck-con__btnlabel" memory_type="text" memory_usage="custom" memory_key="confirmacion-boton">Confirmar asistencia</span>
+        <span class="ck-con__spin" aria-hidden="true"><svg class="ck-con__spinbl" viewBox="-12 -12 24 24" aria-hidden="true" focusable="false"><g style="fill: var(--t-p)"><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(0)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(72)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(144)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(216)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(288)" /></g><circle r="1.8" style="fill: var(--t-a)" /></svg></span>
+        <svg class="ck-con__done" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.2 4.2L19 7" /></svg>
+      </button>
+      <p class="ck-con__status" data-ck-status role="status" aria-live="polite"></p>
+    </form>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="confirmacion-texto"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* ── Cerezos kit: seeded rng, theme colors, blossom sprites, weeping-branch scene ── */
+      function ckRng(seed) { return function () { seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+      function ckRGB(el, v, fb) {
+        var s = document.createElement('span'); s.setAttribute('aria-hidden', 'true'); s.style.display = 'none'; s.style.color = 'var(' + v + ')';
+        el.appendChild(s); var c = getComputedStyle(s).color; el.removeChild(s);
+        var m = c && c.match(/[\d.]+/g); return m && m.length >= 3 ? [+m[0], +m[1], +m[2]] : fb;
+      }
+      function ckMix(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
+      function ckCss(c, a) { return 'rgba(' + (c[0] | 0) + ',' + (c[1] | 0) + ',' + (c[2] | 0) + ',' + (a == null ? 1 : a) + ')'; }
+      function ckPal(el) { return { p: ckRGB(el, '--t-p', [231, 179, 189]), s: ckRGB(el, '--t-s', [142, 110, 96]), a: ckRGB(el, '--t-a', [174, 179, 188]), bg: ckRGB(el, '--t-bg', [250, 245, 240]) }; }
+      function ckPetalPath(g, L) {
+        g.beginPath(); g.moveTo(0, 0);
+        g.bezierCurveTo(-.56 * L, -.2 * L, -.52 * L, -.84 * L, -.15 * L, -L);
+        g.lineTo(0, -.86 * L); g.lineTo(.15 * L, -L);
+        g.bezierCurveTo(.52 * L, -.84 * L, .56 * L, -.2 * L, 0, 0); g.closePath();
+      }
+      function ckSprite(kind, R, pal, sil) {
+        var F = 2, S = Math.ceil(R * 2.5 * F), c = document.createElement('canvas'); c.width = c.height = S;
+        var g = c.getContext('2d'); g.translate(S / 2, S / 2); g.scale(F, F);
+        var white = [255, 255, 255], light = ckMix(pal.p, white, .62), deep = ckMix(pal.p, pal.s, .2), edge = ckMix(pal.p, pal.s, .45);
+        var silC = ckCss(pal.s, 1);
+        function petal(L, rot, sy) {
+          g.save(); g.rotate(rot); if (sy) g.scale(1, sy); ckPetalPath(g, L);
+          if (sil) { g.fillStyle = silC; g.fill(); g.restore(); return; }
+          var gr = g.createLinearGradient(0, 0, 0, -L);
+          gr.addColorStop(0, ckCss(deep, 1)); gr.addColorStop(.4, ckCss(pal.p, 1)); gr.addColorStop(1, ckCss(light, 1));
+          g.fillStyle = gr; g.fill(); g.strokeStyle = ckCss(edge, .3); g.lineWidth = Math.max(.35, L * .035); g.stroke();
+          g.beginPath(); g.moveTo(0, -L * .12); g.lineTo(0, -L * .62); g.strokeStyle = ckCss(deep, .22); g.lineWidth = Math.max(.3, L * .025); g.stroke();
+          g.restore();
+        }
+        function stamens(r) {
+          if (sil) return;
+          for (var i = 0; i < 12; i++) {
+            var a = i / 12 * Math.PI * 2 + .2, l = r * (.32 + (i % 3) * .06);
+            g.beginPath(); g.moveTo(0, 0); g.lineTo(Math.cos(a) * l, Math.sin(a) * l); g.strokeStyle = ckCss(deep, .75); g.lineWidth = Math.max(.3, r * .03); g.stroke();
+            g.beginPath(); g.arc(Math.cos(a) * l, Math.sin(a) * l, Math.max(.45, r * .045), 0, 7); g.fillStyle = ckCss(ckMix(pal.a, pal.s, .35), .95); g.fill();
+          }
+          g.beginPath(); g.arc(0, 0, r * .1, 0, 7); g.fillStyle = ckCss(ckMix(pal.p, pal.s, .55), 1); g.fill();
+        }
+        if (kind === 'open') { for (var i = 0; i < 5; i++) petal(R, i * 1.2566 + .3); stamens(R); }
+        else if (kind === 'half') { g.translate(0, R * .35); petal(R * .9, -.75, .9); petal(R * .9, .75, .9); petal(R, 0); g.beginPath(); g.ellipse(0, R * .05, R * .18, R * .26, 0, 0, 7); g.fillStyle = sil ? silC : ckCss(ckMix(pal.s, pal.p, .2), .9); g.fill(); }
+        else if (kind === 'bud') { g.beginPath(); g.ellipse(0, -R * .2, R * .55, R * .85, 0, 0, 7); g.fillStyle = sil ? silC : ckCss(ckMix(pal.p, pal.s, .25), 1); g.fill(); g.beginPath(); g.ellipse(0, R * .5, R * .32, R * .3, 0, 0, 7); g.fillStyle = sil ? silC : ckCss(ckMix(pal.s, [120, 140, 100], .2), .9); g.fill(); }
+        else { g.translate(0, R * .5); petal(R, 0); }
+        c.__w = S / F; return c;
+      }
+      function ckDraw(g, D, img, x, y, r, s, sx) {
+        var c = Math.cos(r), n = Math.sin(r), k = sx == null ? 1 : sx, w = img.__w * s;
+        g.setTransform(D * c * k, D * n * k, -D * n, D * c, D * x, D * y); g.drawImage(img, -w / 2, -w / 2, w, w);
+      }
+      function ckWind(t) { return Math.sin(t * .23) * .6 + Math.sin(t * .71 + 1) * .4; }
+      /* Weeping-branch scene. o: {anchors:['tl','tr'], reach, y, hang, maxHang, petals, seed, scale, sil, density, strandAlpha} */
+      function ckScene(root, cv, o) {
+        o = o || {};
+        var g = cv.getContext && cv.getContext('2d'); if (!g) return null;
+        var RMs = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+        var W = 0, H = 0, D = Math.min(window.devicePixelRatio || 1, 2), pal, spr, layer, strands = [], petals = [], raf = 0, vis = false, T = 0, last = 0, dead = false;
+        function setup() {
+          pal = ckPal(root); var k = o.scale || 1;
+          spr = { open: ckSprite('open', 12 * k, pal, o.sil), half: ckSprite('half', 10 * k, pal, o.sil), bud: ckSprite('bud', 5 * k, pal, o.sil), pet: ckSprite('petal', 7 * k, pal, o.sil) };
+        }
+        function build() {
+          var rng = ckRng(o.seed || 11), limbs = [], tips = [], narrow = W < 640;
+          var LIM = narrow ? (o.mLim || 70) : (o.yLim || Math.min(H * .42, 260));
+          strands = [];
+          function grow(x, y, a, len, w, depth) {
+            var n = Math.max(5, Math.round(len / 16)), st = len / n, pts = [[x, y, w, a]];
+            for (var i = 1; i <= n; i++) {
+              x += Math.cos(a) * st; y += Math.sin(a) * st;
+              if (y > LIM && i > 2) { n = i - 1; break; }
+              a += (rng() - .5) * .34 + (Math.PI / 2 - a) * (o.droop || .03);
+              pts.push([x, y, Math.max(.8, w * (1 - i / n * .86)), a]);
+            }
+            limbs.push(pts);
+            tips.push([x, y, depth]);
+            if (depth < 2) {
+              var kids = depth ? 2 : 4;
+              for (var j = 0; j < kids; j++) {
+                var p = pts[Math.floor((.18 + rng() * .7) * n)], side = rng() < .5 ? -1 : 1;
+                grow(p[0], p[1], p[3] + side * (.35 + rng() * .55), len * (.25 + rng() * .3), p[2] * .55, depth + 1);
+              }
+            }
+          }
+          var anchors = o.anchors || ['tl'];
+          for (var i = 0; i < anchors.length; i++) {
+            var an = anchors[i], left = an === 'tl', reach = W * (o.reach || .6) + 60, y0 = H * (o.y == null ? .02 : o.y) + (o.yPx || 0);
+            grow(left ? -30 : W + 30, y0, left ? .16 : Math.PI - .16, reach, Math.max(7, Math.min(16, W * .012)) * (o.thick || 1), 0);
+          }
+          var maxH = Math.min(H * (o.hang || .5), o.maxHang || 380), dens = o.density || .7;
+          if (narrow) { maxH = Math.min(maxH, o.mHang || 80); dens *= .7; }
+          for (var l = 0; l < limbs.length; l++) {
+            var pts = limbs[l];
+            for (var q = 1; q < pts.length; q += 2) {
+              var P = pts[q];
+              if (P[0] < -10 || P[0] > W + 10 || rng() > .62 * dens) continue;
+              var len = maxH * (.25 + rng() * .75), bl = [], nb = Math.round(len / 21);
+              for (var b = 0; b < nb; b++) {
+                var t = Math.pow((b + rng() * .8) / nb, .85), r = rng();
+                bl.push({ t: t, k: t > .93 ? 'bud' : r < .55 ? 'open' : r < .85 ? 'half' : 'bud', dx: (b % 2 ? 1 : -1) * (2 + rng() * 4), r: (rng() - .5) * 1.6, s: .6 + rng() * .5 * (1 - t * .4) });
+              }
+              strands.push({ x: P[0], y: P[1], len: len, b: bl, amp: 4 + rng() * 9, w: .5 + rng() * .6, ph: rng() * 6.28, cv: (rng() - .5) * 10 });
+            }
+          }
+          /* static layer: boughs + clustered blossoms on the wood */
+          layer = document.createElement('canvas'); layer.width = Math.max(1, W * D); layer.height = Math.max(1, H * D);
+          var lg = layer.getContext('2d'); lg.lineCap = 'round'; lg.lineJoin = 'round';
+          var bark = o.sil ? ckCss(pal.s, 1) : ckCss(pal.s, .92), hi = ckCss(ckMix(pal.s, [255, 255, 255], .35), .5);
+          for (var m = 0; m < limbs.length; m++) {
+            var L = limbs[m];
+            for (var z = 0; z < L.length - 1; z++) {
+              lg.setTransform(D, 0, 0, D, 0, 0);
+              lg.beginPath(); lg.moveTo(L[z][0], L[z][1]); lg.lineTo(L[z + 1][0], L[z + 1][1]); lg.strokeStyle = bark; lg.lineWidth = L[z][2]; lg.stroke();
+              if (!o.sil && L[z][2] > 3) { lg.beginPath(); lg.moveTo(L[z][0], L[z][1] - L[z][2] * .25); lg.lineTo(L[z + 1][0], L[z + 1][1] - L[z][2] * .25); lg.strokeStyle = hi; lg.lineWidth = L[z][2] * .18; lg.stroke(); }
+            }
+            for (var z2 = 2; z2 < L.length; z2 += 3) if (rng() < .7 * dens) ckDraw(lg, D, spr[rng() < .6 ? 'open' : 'half'], L[z2][0] + (rng() - .5) * 8, L[z2][1] + (rng() - .5) * 8, rng() * 6, .7 + rng() * .5);
+          }
+          for (var tp = 0; tp < tips.length; tp++) for (var c2 = 0; c2 < 4; c2++) ckDraw(lg, D, spr[c2 ? 'open' : 'bud'], tips[tp][0] + (rng() - .5) * 18, tips[tp][1] + (rng() - .5) * 14, rng() * 6, .7 + rng() * .45);
+          lg.setTransform(1, 0, 0, 1, 0, 0);
+          var n = o.petals == null ? 18 : o.petals; petals = [];
+          for (var pi = 0; pi < n; pi++) petals.push(spawn(rng() * W, rng() * H, rng));
+        }
+        function spawn(x, y, rng) {
+          rng = rng || Math.random;
+          return { x: x, y: y, vy: 0, bx: 0, by: 0, r: rng() * 6.28, vr: (rng() - .5) * 2, f: rng() * 6.28, vf: 1.5 + rng() * 2.5, s: .55 + rng() * .65, al: .55 + rng() * .45, ph: rng() * 6.28, w: .6 + rng(), once: false };
+        }
+        function frame(now) {
+          var dt = last ? Math.min(.05, (now - last) / 1000) : .016; last = now; T += dt;
+          g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, cv.width, cv.height);
+          if (layer) g.drawImage(layer, 0, 0);
+          var wind = ckWind(T), sa = o.strandAlpha || .55;
+          for (var i = 0; i < strands.length; i++) {
+            var s = strands[i]; g.setTransform(D, 0, 0, D, 0, 0); g.beginPath();
+            for (var k = 0; k <= 10; k++) { var tt = k / 10, ox = (s.amp * Math.sin(T * s.w + s.ph - tt * 1.6) + wind * 7 + s.cv) * tt * tt; if (k) g.lineTo(s.x + ox, s.y + tt * s.len); else g.moveTo(s.x, s.y); }
+            g.strokeStyle = ckCss(pal.s, sa); g.lineWidth = .9; g.stroke();
+            for (var b = 0; b < s.b.length; b++) {
+              var B = s.b[b], t2 = B.t, ox2 = (s.amp * Math.sin(T * s.w + s.ph - t2 * 1.6) + wind * 7 + s.cv) * t2 * t2;
+              ckDraw(g, D, spr[B.k], s.x + ox2 + B.dx, s.y + t2 * s.len, B.r + Math.sin(T * s.w + s.ph) * .08, B.s);
+            }
+          }
+          for (var p = petals.length - 1; p >= 0; p--) {
+            var P = petals[p];
+            P.vy += ((22 + 18 * P.s) - P.vy) * Math.min(1, dt * 1.5);
+            P.bx *= Math.exp(-2.6 * dt); P.by *= Math.exp(-2.6 * dt);
+            P.x += (wind * 26 + Math.sin(T * P.w + P.ph) * 14 + P.bx) * dt; P.y += (P.vy + P.by) * dt;
+            P.r += P.vr * dt; P.f += P.vf * dt;
+            if (P.y > H + 24 || P.x > W + 40 || P.x < -40) { if (P.once) { petals.splice(p, 1); continue; } var q = spawn(Math.random() * W * 1.1 - W * .05, -20 - Math.random() * 60); petals[p] = q; P = q; }
+            var sx = Math.cos(P.f); g.globalAlpha = P.al * (.5 + .5 * Math.abs(sx));
+            ckDraw(g, D, spr.pet, P.x, P.y, P.r, P.s, sx);
+          }
+          g.globalAlpha = 1; g.setTransform(1, 0, 0, 1, 0, 0);
+        }
+        function loop(now) { raf = 0; frame(now); if (vis && !dead && !document.hidden && !RMs) raf = requestAnimationFrame(loop); }
+        function kick() { if (!raf && vis && !dead && !document.hidden && !RMs) { last = 0; raf = requestAnimationFrame(loop); } }
+        function resize() {
+          var r = cv.getBoundingClientRect(), nw = Math.round(r.width), nh = Math.round(r.height);
+          if (!nw || !nh || (nw === W && nh === H)) return;
+          W = nw; H = nh; cv.width = W * D; cv.height = H * D; build(); frame(performance.now());
+        }
+        setup(); resize();
+        if ('ResizeObserver' in window) new ResizeObserver(resize).observe(cv); else window.addEventListener('resize', resize);
+        if (!RMs && 'IntersectionObserver' in window) {
+          new IntersectionObserver(function (en) { vis = en[0].isIntersecting; kick(); }).observe(root);
+          document.addEventListener('visibilitychange', kick);
+        }
+        return {
+          stop: function () { dead = true; },
+          burst: function (x, y, n) {
+            if (RMs) return;
+            for (var i = 0; i < n; i++) { var a = Math.random() * 6.28, v = 90 + Math.random() * 160, q = spawn(x, y); q.bx = Math.cos(a) * v; q.by = Math.sin(a) * v - 60; q.once = true; q.s *= 1.1; petals.push(q); }
+            kick();
+          }
+        };
+      }
+
+      var cv = root.querySelector('[data-ck-boughs]');
+      var scene = ckScene(root, cv, { anchors: ['tr'], reach: .34, hang: .12, maxHang: 110, petals: 10, seed: 505, density: .5 });
+
+      /* Simulated RSVP: validation, petal spinner, success state + petal burst. Memory texts are never rewritten */
+      var form = root.querySelector('[data-ck-form]'), btn = root.querySelector('[data-ck-btn]'), status = root.querySelector('[data-ck-status]'), name = root.querySelector('[data-ck-name]');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (btn.getAttribute('data-state') !== 'idle') return;
+        if (!name.value.trim()) {
+          name.removeAttribute('data-ck-err'); void name.offsetWidth; name.setAttribute('data-ck-err', '');
+          status.textContent = 'Escribe tu nombre para confirmar.';
+          name.focus(); return;
+        }
+        var yes = form.querySelector('input[name="asistencia"]:checked').value === 'si';
+        btn.setAttribute('data-state', 'loading'); btn.setAttribute('aria-busy', 'true'); status.textContent = 'Enviando…';
+        setTimeout(function () {
+          btn.setAttribute('data-state', 'done'); btn.removeAttribute('aria-busy');
+          status.textContent = yes ? '¡Gracias! Tu lugar bajo los cerezos está reservado.' : 'Gracias por avisarnos; te llevaremos en el corazón.';
+          if (scene && yes) {
+            var c = cv.getBoundingClientRect(), b = btn.getBoundingClientRect();
+            scene.burst(b.left - c.left + b.width / 2, b.top - c.top + b.height / 2, 28);
+          }
+        }, RM ? 200 : 1400);
+      });
+      name.addEventListener('animationend', function () { name.removeAttribute('data-ck-err'); });
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+      root.classList.add('ck-con--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect(); root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('ck-con--anim', 'is-in'); }, 1200);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Cerezos en Flor Washi Sakura',
+      descripcion: 'Confirmación RSVP sobre papel de arroz: campos con línea rosa, asistencia sí/no como flores que se abren, botón con giro de pétalos al enviar y lluvia de pétalos al confirmar.',
+      tags: ['confirmación', 'boda', 'cerezos', 'sakura', 'rsvp', 'formulario'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>

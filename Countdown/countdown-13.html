@@ -1,0 +1,708 @@
+﻿<section
+  class="countdown-calendar-clock"
+  data-gemini-id="countdown-calendar-clock"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+>
+  <style>
+    .countdown-calendar-clock {
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(760px, 95vw, 980px);
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: clamp(2.2rem, 6vw, 5rem) clamp(1rem, 4vw, 3rem);
+      background-color: var(--bg-color, #f1ede5);
+      background-image: url('https://loremflickr.com/1600/1100/celebration,elegant,soft');
+      background-position: center;
+      background-size: cover;
+      color: var(--text-color, #27231f);
+    }
+
+    .countdown-calendar-clock,
+    .countdown-calendar-clock * {
+      box-sizing: border-box;
+    }
+
+    .countdown-calendar-clock::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background: color-mix(in srgb, var(--bg-color, #f1ede5) 88%, transparent);
+    }
+
+    .countdown-calendar-clock::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 50% 48%, color-mix(in srgb, var(--primary-color, #8a725a) 10%, transparent), transparent 42%),
+        linear-gradient(180deg, color-mix(in srgb, var(--bg-color, #f1ede5) 25%, transparent), color-mix(in srgb, var(--bg-color, #f1ede5) 66%, transparent));
+      pointer-events: none;
+    }
+
+    .countdown-calendar-clock__content {
+      width: min(100%, 900px);
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .countdown-calendar-clock__heading {
+      margin: 0;
+      color: var(--text-color, #27231f);
+      font-size: clamp(.68rem, 1.4vw, .84rem);
+      font-weight: 700;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      opacity: .72;
+    }
+
+    .countdown-calendar-clock__days-wrap {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: clamp(.65rem, 2vw, 1.1rem);
+      margin-top: clamp(.8rem, 2vw, 1.25rem);
+    }
+
+    .countdown-calendar-clock__days {
+      color: var(--primary-color, #8a725a);
+      font-size: clamp(5rem, 16vw, 10.5rem);
+      font-weight: 300;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -.08em;
+      line-height: .82;
+    }
+
+    .countdown-calendar-clock__days-label {
+      max-width: 9rem;
+      color: var(--text-color, #27231f);
+      font-size: clamp(.64rem, 1.4vw, .8rem);
+      font-weight: 700;
+      letter-spacing: .18em;
+      line-height: 1.55;
+      text-align: left;
+      text-transform: uppercase;
+      opacity: .68;
+    }
+
+    .countdown-calendar-clock__event-date {
+      display: block;
+      margin-top: .9rem;
+      color: var(--text-color, #27231f);
+      font-size: clamp(.78rem, 1.6vw, .96rem);
+      letter-spacing: .07em;
+      opacity: .7;
+    }
+
+    .countdown-calendar-clock__calendar {
+      position: relative;
+      width: min(100%, 780px);
+      margin: clamp(2.4rem, 6vw, 4.1rem) auto clamp(2.6rem, 6vw, 4.25rem);
+    }
+
+    .countdown-calendar-clock__calendar::before,
+    .countdown-calendar-clock__calendar::after {
+      content: '';
+      position: absolute;
+      z-index: 4;
+      top: 0;
+      bottom: 0;
+      width: clamp(1.4rem, 7vw, 5rem);
+      pointer-events: none;
+    }
+
+    .countdown-calendar-clock__calendar::before {
+      left: 0;
+      background: linear-gradient(90deg, var(--bg-color, #f1ede5), transparent);
+    }
+
+    .countdown-calendar-clock__calendar::after {
+      right: 0;
+      background: linear-gradient(270deg, var(--bg-color, #f1ede5), transparent);
+    }
+
+    .countdown-calendar-clock__month {
+      margin-bottom: 1rem;
+      color: var(--text-color, #27231f);
+      font-size: clamp(.72rem, 1.5vw, .88rem);
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      opacity: .74;
+    }
+
+    .countdown-calendar-clock__carousel-window {
+      overflow: hidden;
+      padding: .7rem .25rem 1rem;
+    }
+
+    .countdown-calendar-clock__track {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(92px, 1fr));
+      align-items: center;
+      gap: clamp(.45rem, 2vw, 1rem);
+      transition: transform 520ms cubic-bezier(.22, .8, .24, 1), opacity 220ms ease;
+    }
+
+    .countdown-calendar-clock__track.is-sliding {
+      transform: translateX(-3%);
+      opacity: .35;
+    }
+
+    .countdown-calendar-clock__date-card {
+      min-width: 0;
+      padding: clamp(.9rem, 2.5vw, 1.25rem) .35rem;
+      border: 1px solid color-mix(in srgb, var(--text-color, #27231f) 18%, transparent);
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--bg-color, #f1ede5) 62%, transparent);
+      color: var(--text-color, #27231f);
+      opacity: .42;
+      transform: scale(.88);
+      transition: transform 320ms ease, opacity 320ms ease, border-color 320ms ease, background 320ms ease;
+    }
+
+    .countdown-calendar-clock__date-card[data-offset="-1"],
+    .countdown-calendar-clock__date-card[data-offset="1"] {
+      opacity: .68;
+      transform: scale(.95);
+    }
+
+    .countdown-calendar-clock__date-card.is-today {
+      border-color: var(--primary-color, #8a725a);
+      background: var(--primary-color, #8a725a);
+      color: var(--bg-color, #f1ede5);
+      opacity: 1;
+      transform: scale(1.08);
+      box-shadow: 0 14px 34px color-mix(in srgb, var(--text-color, #27231f) 16%, transparent);
+    }
+
+    .countdown-calendar-clock__weekday,
+    .countdown-calendar-clock__carousel-day,
+    .countdown-calendar-clock__today-label {
+      display: block;
+    }
+
+    .countdown-calendar-clock__weekday {
+      min-height: 1em;
+      font-size: clamp(.52rem, 1.2vw, .66rem);
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      opacity: .72;
+    }
+
+    .countdown-calendar-clock__carousel-day {
+      margin: .24rem 0 .18rem;
+      font-size: clamp(1.7rem, 5vw, 2.75rem);
+      font-weight: 400;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .countdown-calendar-clock__today-label {
+      min-height: 1em;
+      font-size: clamp(.48rem, 1vw, .6rem);
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      opacity: .8;
+    }
+
+    .countdown-calendar-clock__clock-region {
+      display: grid;
+      grid-template-columns: minmax(260px, 410px) minmax(220px, 300px);
+      align-items: center;
+      justify-content: center;
+      gap: clamp(1.5rem, 6vw, 4rem);
+      width: min(100%, 790px);
+      margin: 0 auto;
+    }
+
+    .countdown-calendar-clock__clock-wrap {
+      position: relative;
+      width: min(100%, 410px);
+      aspect-ratio: 1;
+      margin: 0 auto;
+      color: var(--text-color, #27231f);
+    }
+
+    .countdown-calendar-clock__clock {
+      display: block;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      filter: drop-shadow(0 12px 18px color-mix(in srgb, var(--text-color, #27231f) 13%, transparent));
+    }
+
+    .countdown-calendar-clock__face {
+      fill: color-mix(in srgb, var(--bg-color, #f1ede5) 72%, transparent);
+      stroke: var(--text-color, #27231f);
+      stroke-width: 6;
+    }
+
+    .countdown-calendar-clock__inner-ring {
+      fill: none;
+      stroke: color-mix(in srgb, var(--text-color, #27231f) 14%, transparent);
+      stroke-width: 1;
+    }
+
+    .countdown-calendar-clock__tick {
+      stroke: var(--text-color, #27231f);
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      opacity: .5;
+    }
+
+    .countdown-calendar-clock__tick--major {
+      stroke-width: 4;
+      opacity: .85;
+    }
+
+    .countdown-calendar-clock__numeral {
+      fill: var(--text-color, #27231f);
+      font-family: inherit;
+      font-size: 22px;
+      font-weight: 500;
+      text-anchor: middle;
+      dominant-baseline: middle;
+      opacity: .82;
+    }
+
+    .countdown-calendar-clock__hand {
+      transform-origin: 150px 150px;
+      transition: transform 520ms cubic-bezier(.2, .75, .3, 1);
+      stroke-linecap: round;
+    }
+
+    .countdown-calendar-clock__hand--hour {
+      stroke: var(--primary-color, #8a725a);
+      stroke-width: 8;
+    }
+
+    .countdown-calendar-clock__hand--minute {
+      stroke: var(--text-color, #27231f);
+      stroke-width: 5;
+    }
+
+    .countdown-calendar-clock__hand--second {
+      stroke: var(--accent-color, var(--primary-color, #8a725a));
+      stroke-width: 2;
+      transition-timing-function: linear;
+    }
+
+    .countdown-calendar-clock__hub {
+      fill: var(--primary-color, #8a725a);
+    }
+
+    .countdown-calendar-clock__hub-center {
+      fill: var(--bg-color, #f1ede5);
+    }
+
+    .countdown-calendar-clock__clock-caption {
+      text-align: left;
+    }
+
+    .countdown-calendar-clock__clock-kicker {
+      margin: 0 0 .8rem;
+      color: var(--text-color, #27231f);
+      font-size: clamp(.62rem, 1.3vw, .74rem);
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      opacity: .64;
+    }
+
+    .countdown-calendar-clock__digital {
+      display: flex;
+      align-items: baseline;
+      gap: .24em;
+      color: var(--primary-color, #8a725a);
+      font-size: clamp(2.2rem, 6vw, 4.4rem);
+      font-weight: 300;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -.05em;
+      line-height: 1;
+    }
+
+    .countdown-calendar-clock__separator {
+      color: var(--text-color, #27231f);
+      font-size: .52em;
+      opacity: .45;
+      transform: translateY(-.15em);
+    }
+
+    .countdown-calendar-clock__digital-labels {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .5rem;
+      margin-top: .8rem;
+      color: var(--text-color, #27231f);
+      font-size: clamp(.5rem, 1.1vw, .64rem);
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      opacity: .58;
+    }
+
+    .countdown-calendar-clock__instruction {
+      margin: 1.3rem 0 0;
+      color: var(--text-color, #27231f);
+      font-size: clamp(.7rem, 1.4vw, .84rem);
+      line-height: 1.65;
+      opacity: .62;
+    }
+
+    @media (max-width: 720px) {
+      .countdown-calendar-clock {
+        min-height: 900px;
+      }
+
+      .countdown-calendar-clock__clock-region {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+      }
+
+      .countdown-calendar-clock__clock-wrap {
+        width: min(78vw, 350px);
+      }
+
+      .countdown-calendar-clock__clock-caption {
+        width: min(100%, 350px);
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .countdown-calendar-clock__digital {
+        justify-content: center;
+      }
+
+      .countdown-calendar-clock__days-wrap {
+        align-items: center;
+        flex-direction: column;
+        gap: .55rem;
+      }
+
+      .countdown-calendar-clock__days-label {
+        max-width: none;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .countdown-calendar-clock {
+        padding-inline: .9rem;
+      }
+
+      .countdown-calendar-clock__carousel-window {
+        margin-inline: -.2rem;
+      }
+
+      .countdown-calendar-clock__track {
+        grid-template-columns: repeat(5, minmax(70px, 1fr));
+        gap: .35rem;
+        width: 142%;
+        margin-left: -21%;
+      }
+
+      .countdown-calendar-clock__date-card {
+        padding-inline: .15rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .countdown-calendar-clock__track,
+      .countdown-calendar-clock__date-card,
+      .countdown-calendar-clock__hand {
+        transition: none;
+      }
+    }
+  </style>
+
+  <div class="countdown-calendar-clock__content">
+    <h2
+      class="countdown-calendar-clock__heading"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="countdown-strip-heading"
+    >Cada día estamos más cerca</h2>
+
+    <div class="countdown-calendar-clock__days-wrap" aria-label="Días restantes para el evento">
+      <span class="countdown-calendar-clock__days" data-countdown-unit="days">--</span>
+      <span class="countdown-calendar-clock__days-label">Días para celebrar</span>
+    </div>
+
+    <time
+      class="countdown-calendar-clock__event-date"
+      datetime="YYYY-MM-DDTHH:MM:SS"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="countdown-event-date"
+    >Fecha del evento</time>
+
+    <div class="countdown-calendar-clock__calendar" aria-label="Carrusel de fecha actual">
+      <div class="countdown-calendar-clock__month" data-calendar-month>Mes actual</div>
+      <div class="countdown-calendar-clock__carousel-window">
+        <div class="countdown-calendar-clock__track" data-calendar-track>
+          <div class="countdown-calendar-clock__date-card" data-offset="-2">
+            <span class="countdown-calendar-clock__weekday" data-weekday></span>
+            <span class="countdown-calendar-clock__carousel-day" data-day></span>
+            <span class="countdown-calendar-clock__today-label">&nbsp;</span>
+          </div>
+          <div class="countdown-calendar-clock__date-card" data-offset="-1">
+            <span class="countdown-calendar-clock__weekday" data-weekday></span>
+            <span class="countdown-calendar-clock__carousel-day" data-day></span>
+            <span class="countdown-calendar-clock__today-label">&nbsp;</span>
+          </div>
+          <div class="countdown-calendar-clock__date-card is-today" data-offset="0">
+            <span class="countdown-calendar-clock__weekday" data-weekday></span>
+            <span class="countdown-calendar-clock__carousel-day" data-day></span>
+            <span class="countdown-calendar-clock__today-label">Hoy</span>
+          </div>
+          <div class="countdown-calendar-clock__date-card" data-offset="1">
+            <span class="countdown-calendar-clock__weekday" data-weekday></span>
+            <span class="countdown-calendar-clock__carousel-day" data-day></span>
+            <span class="countdown-calendar-clock__today-label">&nbsp;</span>
+          </div>
+          <div class="countdown-calendar-clock__date-card" data-offset="2">
+            <span class="countdown-calendar-clock__weekday" data-weekday></span>
+            <span class="countdown-calendar-clock__carousel-day" data-day></span>
+            <span class="countdown-calendar-clock__today-label">&nbsp;</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="countdown-calendar-clock__clock-region">
+      <div class="countdown-calendar-clock__clock-wrap" aria-hidden="true">
+        <svg class="countdown-calendar-clock__clock" viewBox="0 0 300 300" role="img" aria-label="Reloj del tiempo restante">
+          <circle class="countdown-calendar-clock__face" cx="150" cy="150" r="143"></circle>
+          <circle class="countdown-calendar-clock__inner-ring" cx="150" cy="150" r="128"></circle>
+
+          <g data-clock-ticks></g>
+
+          <text class="countdown-calendar-clock__numeral" x="150" y="43">12</text>
+          <text class="countdown-calendar-clock__numeral" x="257" y="150">3</text>
+          <text class="countdown-calendar-clock__numeral" x="150" y="257">6</text>
+          <text class="countdown-calendar-clock__numeral" x="43" y="150">9</text>
+
+          <line class="countdown-calendar-clock__hand countdown-calendar-clock__hand--hour" data-clock-hand="hours" x1="150" y1="160" x2="150" y2="91"></line>
+          <line class="countdown-calendar-clock__hand countdown-calendar-clock__hand--minute" data-clock-hand="minutes" x1="150" y1="166" x2="150" y2="60"></line>
+          <line class="countdown-calendar-clock__hand countdown-calendar-clock__hand--second" data-clock-hand="seconds" x1="150" y1="177" x2="150" y2="38"></line>
+          <circle class="countdown-calendar-clock__hub" cx="150" cy="150" r="9"></circle>
+          <circle class="countdown-calendar-clock__hub-center" cx="150" cy="150" r="3"></circle>
+        </svg>
+      </div>
+
+      <div class="countdown-calendar-clock__clock-caption">
+        <p class="countdown-calendar-clock__clock-kicker">Tiempo restante hoy</p>
+        <div class="countdown-calendar-clock__digital" aria-label="Horas, minutos y segundos restantes">
+          <span data-countdown-unit="hours">--</span>
+          <span class="countdown-calendar-clock__separator" aria-hidden="true">:</span>
+          <span data-countdown-unit="minutes">--</span>
+          <span class="countdown-calendar-clock__separator" aria-hidden="true">:</span>
+          <span data-countdown-unit="seconds">--</span>
+        </div>
+        <div class="countdown-calendar-clock__digital-labels" aria-hidden="true">
+          <span>Horas</span>
+          <span>Min</span>
+          <span>Seg</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var el = null;
+    try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch(e) {}
+    if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+    if (!el) return;
+    console.log('[COUNTDOWN-MODULE] el encontrado=', !!el);
+
+    var countdown_target = 'YYYY-MM-DDTHH:MM:SS';
+    var targetAttr = el.getAttribute('data-countdown-target');
+    var targetCandidates = [targetAttr, window.countdown_target, window.__countdownTarget, countdown_target];
+    var target = NaN;
+    for (var targetIndex = 0; targetIndex < targetCandidates.length; targetIndex++) {
+      if (!targetCandidates[targetIndex]) continue;
+      var parsedTarget = new Date(targetCandidates[targetIndex]).getTime();
+      if (Number.isFinite(parsedTarget)) {
+        target = parsedTarget;
+        break;
+      }
+    }
+    var activeInterval = null;
+    var lastCalendarKey = '';
+
+    (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+    window.__countdownIntervals = [];
+
+    function pad2(n) {
+      return n < 10 ? '0' + n : '' + n;
+    }
+
+    function setUnit(unit, value) {
+      var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
+      if (node) node.textContent = value;
+    }
+
+    function setHand(unit, degrees) {
+      var hand = el.querySelector('[data-clock-hand="' + unit + '"]');
+      if (hand) hand.style.transform = 'rotate(' + degrees + 'deg)';
+    }
+
+    function buildClockTicks() {
+      var tickGroup = el.querySelector('[data-clock-ticks]');
+      if (!tickGroup || tickGroup.childNodes.length) return;
+      var svgNS = 'http://www.w3.org/2000/svg';
+
+      for (var i = 0; i < 60; i++) {
+        var angle = i * 6 * Math.PI / 180;
+        var major = i % 5 === 0;
+        var outer = 133;
+        var inner = major ? 120 : 125;
+        var line = document.createElementNS(svgNS, 'line');
+        line.setAttribute('x1', 150 + Math.sin(angle) * inner);
+        line.setAttribute('y1', 150 - Math.cos(angle) * inner);
+        line.setAttribute('x2', 150 + Math.sin(angle) * outer);
+        line.setAttribute('y2', 150 - Math.cos(angle) * outer);
+        line.setAttribute('class', 'countdown-calendar-clock__tick' + (major ? ' countdown-calendar-clock__tick--major' : ''));
+        tickGroup.appendChild(line);
+      }
+    }
+
+    function formatWeekday(date) {
+      try {
+        return new Intl.DateTimeFormat('es', { weekday: 'short' }).format(date).replace('.', '');
+      } catch (e) {
+        return ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'][date.getDay()];
+      }
+    }
+
+    function formatMonth(date) {
+      try {
+        return new Intl.DateTimeFormat('es', { month: 'long', year: 'numeric' }).format(date);
+      } catch (e) {
+        return (date.getMonth() + 1) + ' / ' + date.getFullYear();
+      }
+    }
+
+    function updateCalendar(force) {
+      var now = new Date();
+      var key = now.getFullYear() + '-' + now.getMonth() + '-' + now.getDate();
+      if (!force && key === lastCalendarKey) return;
+
+      var track = el.querySelector('[data-calendar-track]');
+      var monthNode = el.querySelector('[data-calendar-month]');
+      var cards = el.querySelectorAll('.countdown-calendar-clock__date-card');
+      var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function paint() {
+        if (monthNode) monthNode.textContent = formatMonth(now);
+
+        Array.prototype.forEach.call(cards, function (card) {
+          var offset = Number(card.getAttribute('data-offset')) || 0;
+          var date = new Date(now.getFullYear(), now.getMonth(), now.getDate() + offset);
+          var weekday = card.querySelector('[data-weekday]');
+          var day = card.querySelector('[data-day]');
+          if (weekday) weekday.textContent = formatWeekday(date);
+          if (day) day.textContent = date.getDate();
+        });
+
+        if (track) track.classList.remove('is-sliding');
+        lastCalendarKey = key;
+      }
+
+      if (track && lastCalendarKey && !reducedMotion) {
+        track.classList.add('is-sliding');
+        window.setTimeout(paint, 230);
+      } else {
+        paint();
+      }
+    }
+
+    function updateClockHands(h, m, s) {
+      var hourAngle = ((h % 12) + m / 60 + s / 3600) * 30;
+      var minuteAngle = (m + s / 60) * 6;
+      var secondAngle = s * 6;
+      setHand('hours', hourAngle);
+      setHand('minutes', minuteAngle);
+      setHand('seconds', secondAngle);
+    }
+
+    function resetPreview() {
+      setUnit('days', '--');
+      setUnit('hours', '--');
+      setUnit('minutes', '--');
+      setUnit('seconds', '--');
+      var now = new Date();
+      updateClockHands(now.getHours(), now.getMinutes(), now.getSeconds());
+    }
+
+    function tick() {
+      updateCalendar(false);
+
+      if (!Number.isFinite(target)) {
+        resetPreview();
+        return;
+      }
+
+      var diff = target - Date.now();
+      if (diff < 0) diff = 0;
+
+      var d = Math.floor(diff / 86400000);
+      var h = Math.floor((diff % 86400000) / 3600000);
+      var m = Math.floor((diff % 3600000) / 60000);
+      var s = Math.floor((diff % 60000) / 1000);
+
+      setUnit('days', d);
+      setUnit('hours', pad2(h));
+      setUnit('minutes', pad2(m));
+      setUnit('seconds', pad2(s));
+      updateClockHands(h, m, s);
+
+      if (diff === 0 && activeInterval !== null) {
+        clearInterval(activeInterval);
+        activeInterval = null;
+        window.__countdownIntervals = [];
+      }
+    }
+
+    function start(newTarget) {
+      if (newTarget) target = new Date(newTarget).getTime();
+      (window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+      activeInterval = null;
+      updateCalendar(true);
+      tick();
+
+      if (!Number.isFinite(target) || target > Date.now()) {
+        activeInterval = setInterval(tick, 1000);
+        window.__countdownIntervals.push(activeInterval);
+      }
+    }
+
+    buildClockTicks();
+    updateCalendar(true);
+    start();
+    window.updateCountdown = start;
+  })();
+</script>
+
+<script>
+  var moduleMetadata = {
+    module_type: 'countdown',
+    module_name: 'countdown-calendar-clock',
+    style_name: 'Calendario y Reloj',
+    descripcion: 'Cuenta regresiva con días restantes, carrusel centrado en la fecha actual y reloj analógico para horas, minutos y segundos. Incluye lectura numérica exacta y fecha editable.',
+    tags: ['countdown', 'cuenta regresiva', 'timer', 'celebración', 'evento'],
+    tipo: 'countdown'
+  };
+</script>

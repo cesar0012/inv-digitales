@@ -1,0 +1,234 @@
+
+export type ModelProvider = 'gemini' | 'chutes';
+
+export interface Message {
+  id: string;
+  role: 'user' | 'model' | 'system';
+  content: string;
+  timestamp: number;
+  attachments?: Attachment[];
+  associatedCode?: string; // Snapshot of the code at this point
+}
+
+export interface Attachment {
+  type: 'image' | 'url';
+  content: string; // Base64 for image, string for URL
+  mimeType?: string;
+}
+
+export interface GeneratedCode {
+  html: string;
+  css?: string;
+  js?: string;
+  framework?: 'react' | 'vue' | 'html' | 'wordpress';
+}
+
+export interface ImageSource {
+  id: string;
+  name: string;
+  type: 'ai' | 'stock' | 'wireframe' | 'local';
+  description: string;
+  warning?: string;
+  promptInstruction: string;
+}
+
+export interface LocalImageFile {
+  filename: string;
+  section: string;
+}
+
+export interface SelectedElement {
+  tagName: string;
+  id?: string;
+  geminiId?: string;
+  content: string;
+  fullHtml: string;
+  src?: string;
+  href?: string;
+}
+
+export interface ProjectPage {
+  id: string;
+  name: string; // e.g., "Home", "About Us"
+  path: string; // e.g., "index.html", "about.html"
+  code: string;
+  isCreated: boolean;
+}
+
+export interface LinkDefinition {
+  text: string;
+  href: string;
+  context: string; // The surrounding HTML or parent tag
+}
+
+export enum AppMode {
+  INITIAL = 'INITIAL',
+  ITERATING = 'ITERATING',
+}
+
+export interface InvitationMetadata {
+  version: number;
+  createdAt: string;
+  modifiedAt: string;
+  eventType: string;
+  theme: string;
+  primaryColor: string;
+  secondaryColor: string;
+  fontBase?: string;
+  fontHeading?: string;
+  hiddenModules: string[];
+  elementStyles: Record<string, {
+    styles: Record<string, string>;
+    animationClass: string;
+  }>;
+}
+
+export interface EditorConfig {
+  eventType: string;
+  theme: string;
+  primaryColor: string;
+  secondaryColor: string;
+  eventDetails: string;
+  eventDate?: string;
+  eventTime?: string;
+  visualStyle?: string;
+  mood?: string;
+  fontBase?: string;
+  fontHeading?: string;
+  /** RAG Visual: id de la imagen de referencia elegida en el rack visual. */
+  visualReferenceId?: number | null;
+}
+
+export interface InvitationFile {
+  filename: string;
+  slug: string;
+  publicUrl?: string;
+  previewUrl?: string;
+  event_type: string;
+  created_at: string;
+  size: number;
+  purchase_id?: string;
+  plan_slug?: string;
+  is_active?: number;
+  id?: number | string;
+  event_domain?: string | null;
+  event_date?: string | null;
+  event_time?: string | null;
+}
+
+export interface PlanInvitation {
+  id?: number;
+  filename: string;
+  slug: string;
+  public_url: string;
+  event_type: string;
+  event_domain?: string | null;
+  event_date?: string | null;
+  event_time?: string | null;
+}
+
+export interface UserPlan {
+  id: number;
+  purchase_id: string;
+  plan_slug: string;
+  plan_name: string;
+  invites_included: number;
+  invites_used: number;
+  generation_credits: number;
+  generation_used: number;
+  iteration_credits: number;
+  iteration_used: number;
+  generation_available: number;
+  iteration_available: number;
+  invites_available: number;
+  has_invitation: boolean;
+  active_invitation: PlanInvitation | null;
+  plan_invitations: InvitationFile[];
+}
+
+export interface SaveInvitationResponse {
+  success: boolean;
+  filename: string;
+  slug: string;
+  publicUrl: string;
+  purchase_id: string;
+  plan_slug: string;
+  generation_available: number;
+  invites_available: number;
+}
+
+export interface UserWithInvitations {
+  user_id: string;
+  name: string;
+  created_at: string;
+  plans: UserPlan[];
+  invitations: InvitationFile[];
+}
+
+export interface AllUsersResponse {
+  users: UserWithInvitations[];
+  total: number;
+}
+
+export interface AdminConfig {
+  html_provider: string;
+  html_base_url: string;
+  html_api_key: string;
+  html_model: string;
+  html_google_api_key: string;
+  html_google_model: string;
+  image_provider: string;
+  image_model: string;
+  image_api_key: string;
+  updated_at: string | null;
+  use_agent_orchestrator?: boolean;
+  login_page_url?: string;
+  default_font_base?: string;
+  default_font_heading?: string;
+}
+
+export interface AdminUserPlan {
+  purchase_id: number;
+  plan_slug: string;
+  plan_name: string;
+  invites_included: number;
+  invites_used: number;
+  generation_credits: number;
+  generation_used: number;
+  iteration_credits: number;
+  iteration_used: number;
+  invites_available: number;
+  generation_available: number;
+  iteration_available: number;
+  deployed_count: number;
+}
+
+export interface AdminUser {
+  user_id: string;
+  name: string | null;
+  invitations_count: number;
+  created_at: string;
+  plans: AdminUserPlan[];
+}
+
+export interface AdminInvitation {
+  id: string;
+  user_id: string;
+  filename: string;
+  slug: string;
+  publicUrl: string;
+  event_type: string;
+  created_at: string;
+  size: number;
+  starred: boolean;
+  title?: string;
+  theme?: string;
+  purchase_id?: string;
+  plan_slug?: string;
+}
+
+export interface AIModel {
+  id: string;
+  name: string;
+  provider: string;
+}

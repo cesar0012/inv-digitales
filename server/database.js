@@ -1,0 +1,664 @@
+import Database from 'better-sqlite3';
+import { createHash } from 'crypto';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const dbPath = join(__dirname, 'database.sqlite');
+const db = new Database(dbPath);
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS users (
+    user_id TEXT PRIMARY KEY,
+    name TEXT,
+    invitations_count INTEGER DEFAULT 0,
+    iteration_credits INTEGER DEFAULT 10,
+    max_invitations INTEGER DEFAULT 20,
+    max_iteration_credits INTEGER DEFAULT 10,
+    generation_credits INTEGER DEFAULT 10,
+    max_generation_credits INTEGER DEFAULT 10,
+    created_at TEXT DEFAULT (datetime('now'))
+  )
+`);
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS invitations (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id TEXT NOT NULL,
+    filename TEXT NOT NULL,
+    slug TEXT UNIQUE NOT NULL,
+    event_type TEXT,
+    starred INTEGER DEFAULT 0,
+    created_at TEXT DEFAULT (datetime('now')),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+  )
+`);
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS admin_config (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    html_provider TEXT DEFAULT 'openai',
+    html_base_url TEXT DEFAULT 'https://api.openai.com/v1',
+    html_api_key TEXT DEFAULT '',
+    html_model TEXT DEFAULT 'gpt-4o',
+    html_google_api_key TEXT DEFAULT '',
+    html_google_model TEXT DEFAULT 'gemini-3.1-pro-preview',
+    image_provider TEXT DEFAULT 'gemini',
+    image_model TEXT DEFAULT 'gemini-3.1-flash-image-preview',
+    image_api_key TEXT DEFAULT '',
+    login_page_url TEXT DEFAULT '/admin-login',
+    updated_at TEXT DEFAULT (datetime('now'))
+  )
+`);
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS catalogo (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    filename TEXT NOT NULL,
+    title TEXT,
+    event_type TEXT,
+    theme TEXT,
+    colors TEXT,
+    tags TEXT,
+    starred INTEGER DEFAULT 0,
+    created_at TEXT DEFAULT (datetime('now'))
+  )
+`);
+
+// safeAlter: aplica un ALTER TABLE y registra el resultado en consola.
+// Solo silencia el error "duplicate column" (columna ya existe en DBs
+// preexistentes). Cualquier otro error (sintaxis, constraint, etc.) se
+// loguea como fallo para que no quede oculto como antes con try/catch {} vacío.
+function safeAlter(sql, label) {
+  try {
+    db.exec(sql);
+    console.log('✅ Migración OK:', label);
+  } catch (e) {
+    if (/duplicate column/i.test(e.message)) {
+      console.log('ℹ️ Ya existe (ok):', label);
+    } else {
+      console.error('❌ Fallo migración:', label, '-', e.message);
+    }
+  }
+}
+
+// safeExec: variante para CREATE INDEX u otras sentencias idempotentes.
+function safeExec(sql, label) {
+  try {
+    db.exec(sql);
+    console.log('✅ OK:', label);
+  } catch (e) {
+    console.error('❌ Fallo:', label, '-', e.message);
+  }
+}
+
+safeAlter('ALTER TABLE catalogo ADD COLUMN starred INTEGER DEFAULT 0', 'catalogo.starred');
+safeAlter('ALTER TABLE catalogo ADD COLUMN primary_color TEXT', 'catalogo.primary_color');
+safeAlter('ALTER TABLE catalogo ADD COLUMN secondary_color TEXT', 'catalogo.secondary_color');
+safeAlter('ALTER TABLE catalogo ADD COLUMN event_domain TEXT', 'catalogo.event_domain');
+safeAlter('ALTER TABLE catalogo ADD COLUMN event_date TEXT', 'catalogo.event_date');
+safeAlter('ALTER TABLE catalogo ADD COLUMN event_time TEXT', 'catalogo.event_time');
+// slug sin UNIQUE: el endpoint generate-seo resuelve duplicados con sufijo y
+// idx_catalogo_slug ya crea el índice. Si la columna ya existe con UNIQUE de
+// un esquema previo, ALTER fallará con "duplicate column" safely.
+safeAlter('ALTER TABLE catalogo ADD COLUMN slug TEXT', 'catalogo.slug');
+safeAlter('ALTER TABLE catalogo ADD COLUMN seo_title TEXT', 'catalogo.seo_title');
+safeAlter('ALTER TABLE catalogo ADD COLUMN meta_description TEXT', 'catalogo.meta_description');
+safeAlter('ALTER TABLE catalogo ADD COLUMN h1 TEXT', 'catalogo.h1');
+safeAlter('ALTER TABLE catalogo ADD COLUMN seo_content_json TEXT', 'catalogo.seo_content_json');
+safeAlter('ALTER TABLE catalogo ADD COLUMN structured_data TEXT', 'catalogo.structured_data');
+safeAlter('ALTER TABLE catalogo ADD COLUMN user_data TEXT', 'catalogo.user_data');
+safeAlter('ALTER TABLE catalogo ADD COLUMN seo_card TEXT', 'catalogo.seo_card');
+// old_slug: slug anterior cuando generate-seo cambia la URL de una plantilla
+// (migración a slugs nativos). El SSR responde 301 desde el old_slug para no
+// romper enlaces ya indexados.
+safeAlter('ALTER TABLE catalogo ADD COLUMN old_slug TEXT', 'catalogo.old_slug');
+safeExec('CREATE INDEX IF NOT EXISTS idx_catalogo_slug ON catalogo(slug)', 'idx_catalogo_slug');
+safeExec('CREATE INDEX IF NOT EXISTS idx_catalogo_old_slug ON catalogo(old_slug)', 'idx_catalogo_old_slug');
+// Generador de módulos (independiente): API keys de OpenRouter/NVIDIA para el LLM rotator
+safeAlter('ALTER TABLE admin_config ADD COLUMN openrouter_api_key TEXT', 'admin_config.openrouter_api_key');
+safeAlter('ALTER TABLE admin_config ADD COLUMN nvidia_api_key TEXT', 'admin_config.nvidia_api_key');
+// Allowlist manual de modelos del rotator (JSON array de "provider::model").
+// Si está definida, el rotator SOLO usa esos modelos (elegidos por el admin).
+safeAlter('ALTER TABLE admin_config ADD COLUMN rotator_allowed_models TEXT', 'admin_config.rotator_allowed_models');
+// LLM Premium directo (OpenAI-compatible: base_url + api_key + modelo, ej. Z.ai GLM)
+safeAlter('ALTER TABLE admin_config ADD COLUMN premium_llm_enabled INTEGER DEFAULT 0', 'admin_config.premium_llm_enabled');
+safeAlter('ALTER TABLE admin_config ADD COLUMN premium_llm_base_url TEXT', 'admin_config.premium_llm_base_url');
+safeAlter('ALTER TABLE admin_config ADD COLUMN premium_llm_api_key TEXT', 'admin_config.premium_llm_api_key');
+safeAlter('ALTER TABLE admin_config ADD COLUMN premium_llm_model TEXT', 'admin_config.premium_llm_model');
+
+// Resultados del generador de módulos (lotes automáticos + revisión posterior)
+db.exec(`
+  CREATE TABLE IF NOT EXISTS module_generator_results (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    batch_id TEXT,
+    set_index INTEGER DEFAULT 0,
+    module_type TEXT,
+    style_name TEXT,
+    brief_json TEXT,
+    html TEXT,
+    critique_score INTEGER,
+    models_json TEXT,
+    attempts INTEGER DEFAULT 0,
+    valid INTEGER DEFAULT 0,
+    status TEXT DEFAULT 'generated',
+    imported_module_id TEXT,
+    created_at TEXT DEFAULT (datetime('now'))
+  )
+`);
+safeExec('CREATE INDEX IF NOT EXISTS idx_mgr_status ON module_generator_results(status)', 'idx_mgr_status');
+
+// Verificación post-migración: lista columnas faltantes para detectar
+// silenciosamente cualquier ALTER que no aplicó (p.ej. DB preexistente
+// con esquema parcial). Falla ruidosamente en logs de arranque.
+function verifyCatalogoColumns() {
+  const cols = db.prepare('PRAGMA table_info(catalogo)').all().map(c => c.name);
+  const required = [
+    'slug', 'seo_title', 'meta_description', 'h1', 'seo_content_json',
+    'structured_data', 'event_date', 'event_time', 'user_data', 'seo_card'
+  ];
+  const missing = required.filter(c => !cols.includes(c));
+  if (missing.length) {
+    console.error('❌ CATALOGO columnas faltantes:', missing.join(', '));
+  } else {
+    console.log('✅ Todas las columnas de catalogo presentes');
+  }
+}
+verifyCatalogoColumns();
+
+try {
+  db.exec(`ALTER TABLE users ADD COLUMN generation_credits INTEGER DEFAULT 10`);
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE users ADD COLUMN max_generation_credits INTEGER DEFAULT 10`);
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE invitations ADD COLUMN event_domain TEXT`);
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE invitations ADD COLUMN event_date TEXT`);
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE invitations ADD COLUMN event_time TEXT`);
+} catch (e) {}
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS admins (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,
+    name TEXT NOT NULL,
+    created_at TEXT DEFAULT (datetime('now'))
+  )
+`);
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS admin_sessions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    admin_id INTEGER NOT NULL,
+    token TEXT UNIQUE NOT NULL,
+    created_at TEXT DEFAULT (datetime('now')),
+    expires_at TEXT DEFAULT (datetime('now', '+24 hours'))
+  )
+`);
+
+// Tabla para usuarios locales (fallback cuando Laravel no está disponible)
+db.exec(`
+  CREATE TABLE IF NOT EXISTS local_users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id TEXT UNIQUE NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,
+    name TEXT NOT NULL,
+    role_name TEXT DEFAULT 'user',
+    created_at TEXT DEFAULT (datetime('now'))
+  )
+`);
+
+// Tabla para códigos SSO locales
+db.exec(`
+  CREATE TABLE IF NOT EXISTS local_sso_codes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id TEXT NOT NULL,
+    user_name TEXT,
+    access_token TEXT,
+    code_hash TEXT NOT NULL,
+    purpose TEXT DEFAULT 'editor',
+    expires_at TEXT NOT NULL,
+    used_at TEXT,
+    created_at TEXT DEFAULT (datetime('now'))
+  )
+`);
+
+try {
+  db.exec(`ALTER TABLE local_sso_codes ADD COLUMN access_token TEXT`);
+  console.log('✅ Columna access_token agregada a local_sso_codes');
+} catch (e) {}
+
+// 🆕 Tabla de configuración de planes (maestra)
+db.exec(`
+  CREATE TABLE IF NOT EXISTS plan_config (
+    plan_slug TEXT PRIMARY KEY,
+    plan_name TEXT NOT NULL,
+    invites_included INTEGER DEFAULT 10,
+    generation_credits INTEGER DEFAULT 10,
+    iteration_credits INTEGER DEFAULT 10,
+    has_rsvp INTEGER DEFAULT 0,
+    created_at TEXT DEFAULT (datetime('now'))
+  )
+`);
+
+const PLAN_DEFAULTS = [
+  { slug: 'premium', name: 'Plan Premium', invites: 1, gen: 10, iter: 20, rsvp: 0 },
+  { slug: 'catalogo', name: 'Plan Catálogo', invites: 1, gen: 5, iter: 10, rsvp: 0 },
+  { slug: 'creativa', name: 'Plan Creativa', invites: 1, gen: 7, iter: 14, rsvp: 0 },
+  { slug: 'basic', name: 'Plan Básico', invites: 1, gen: 3, iter: 6, rsvp: 0 },
+  { slug: 'standard', name: 'Plan Estándar', invites: 1, gen: 5, iter: 10, rsvp: 0 },
+];
+
+try {
+  const insertPlan = db.prepare(`
+    INSERT OR IGNORE INTO plan_config (plan_slug, plan_name, invites_included, generation_credits, iteration_credits, has_rsvp)
+    VALUES (?, ?, ?, ?, ?, ?)
+  `);
+  for (const p of PLAN_DEFAULTS) {
+    insertPlan.run(p.slug, p.name, p.invites, p.gen, p.iter, p.rsvp);
+  }
+  console.log('✅ Configuración de planes inicializada');
+} catch (e) { console.log('⚠️ Error inicializando planes:', e.message); }
+
+
+
+// 🆕 Tabla de planes de usuario
+db.exec(`
+  CREATE TABLE IF NOT EXISTS user_plans (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id TEXT NOT NULL,
+    purchase_id INTEGER NOT NULL,
+    plan_slug TEXT NOT NULL,
+    plan_name TEXT NOT NULL,
+    invites_included INTEGER NOT NULL,
+    invites_used INTEGER DEFAULT 0,
+    generation_credits INTEGER NOT NULL,
+    generation_used INTEGER DEFAULT 0,
+    iteration_credits INTEGER NOT NULL,
+    iteration_used INTEGER DEFAULT 0,
+    last_synced_at TEXT DEFAULT (datetime('now')),
+    UNIQUE(user_id, purchase_id)
+  )
+`);
+
+// 🆕 Columnas nuevas en invitations
+try {
+  db.exec(`ALTER TABLE invitations ADD COLUMN purchase_id INTEGER`);
+  console.log('✅ Columna purchase_id agregada');
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE invitations ADD COLUMN plan_slug TEXT`);
+  console.log('✅ Columna plan_slug agregada');
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE invitations ADD COLUMN is_active INTEGER DEFAULT 0`);
+  console.log('✅ Columna is_active agregada a invitations');
+} catch (e) {}
+
+try {
+  const orphanPlans = db.prepare(`
+    SELECT user_id, purchase_id, MIN(id) as first_id
+    FROM invitations
+    WHERE purchase_id IS NOT NULL AND is_active = 0
+    GROUP BY user_id, purchase_id
+  `).all();
+  let backfilled = 0;
+  for (const row of orphanPlans) {
+    const anyActive = db.prepare('SELECT 1 FROM invitations WHERE user_id = ? AND purchase_id = ? AND is_active = 1 LIMIT 1').get(row.user_id, row.purchase_id);
+    if (!anyActive) {
+      db.prepare('UPDATE invitations SET is_active = 1 WHERE id = ?').run(row.first_id);
+      backfilled++;
+    }
+  }
+  if (backfilled > 0) {
+    console.log(`✅ Backfill is_active: ${backfilled} invitación(es) marcada(s) como destacada(s)`);
+  }
+} catch (e) {
+  console.warn('Backfill is_active falló:', e.message);
+}
+
+try {
+  const result = db.prepare("UPDATE admin_config SET html_google_model = 'gemini-3.1-pro-preview' WHERE html_google_model IS NULL OR TRIM(html_google_model) = '' OR html_google_model = 'gemini-3.1-flash-preview'").run();
+  if (result.changes > 0) {
+    console.log(`✅ Migración html_google_model: ${result.changes} fila(s) corregida(s) a 'gemini-3.1-pro-preview'`);
+  }
+} catch (e) {
+  console.warn('Migración html_google_model falló:', e.message);
+}
+
+try {
+  db.exec(`ALTER TABLE admin_config ADD COLUMN use_agent_orchestrator INTEGER DEFAULT 0`);
+  console.log('✅ Columna use_agent_orchestrator agregada a admin_config');
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE admin_config ADD COLUMN use_rag_templates INTEGER DEFAULT 1`);
+  console.log('✅ Columna use_rag_templates agregada a admin_config');
+} catch (e) {}
+
+// Tipografía global (Google Fonts) configurada desde el admin:
+// una fuente para textos (base) y una para títulos (heading).
+try {
+  db.exec(`ALTER TABLE admin_config ADD COLUMN default_font_base TEXT DEFAULT 'Playfair Display'`);
+  console.log('✅ Columna default_font_base agregada a admin_config');
+} catch (e) {}
+try {
+  db.exec(`ALTER TABLE admin_config ADD COLUMN default_font_heading TEXT DEFAULT ''`);
+  console.log('✅ Columna default_font_heading agregada a admin_config');
+} catch (e) {}
+try {
+  const fontBackfill = db.prepare("UPDATE admin_config SET default_font_base = 'Playfair Display' WHERE default_font_base IS NULL OR TRIM(default_font_base) = ''").run();
+  if (fontBackfill.changes > 0) {
+    console.log(`✅ Backfill default_font_base: ${fontBackfill.changes} fila(s) actualizada(s)`);
+  }
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE plan_config ADD COLUMN has_rsvp INTEGER DEFAULT 0`);
+  console.log('✅ Columna has_rsvp agregada a plan_config');
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE plan_config ADD COLUMN is_active INTEGER DEFAULT 1`);
+  console.log('✅ Columna is_active agregada a plan_config');
+} catch (e) {}
+
+// Crear usuario de prueba si no existe
+const testUserEmail = 'arj1931126@gmail.com';
+const testUserPasswordHash = createHash('sha256').update('Jar123456').digest('hex');
+const testUserId = '135';
+
+const checkTestUser = db.prepare('SELECT id FROM local_users WHERE email = ?');
+const existingTestUser = checkTestUser.get(testUserEmail);
+
+if (!existingTestUser) {
+  const insertTestUser = db.prepare(
+    'INSERT INTO local_users (user_id, email, password_hash, name, role_name) VALUES (?, ?, ?, ?, ?)'
+  );
+  insertTestUser.run(testUserId, testUserEmail, testUserPasswordHash, 'Josué Alvarez Rodriguez', 'user');
+  console.log('✅ Usuario de prueba creado: arj1931126@gmail.com / Jar123456');
+}
+
+// Usuario de prueba fijo
+const fixedTestEmail = 'test@invitacionesmodernas.com';
+const fixedTestPasswordHash = createHash('sha256').update('invD2026!').digest('hex');
+const fixedTestUserId = 'test_user';
+
+const checkFixedTestUser = db.prepare('SELECT id FROM local_users WHERE email = ?');
+const existingFixedTestUser = checkFixedTestUser.get(fixedTestEmail);
+
+if (!existingFixedTestUser) {
+  const insertFixedTestUser = db.prepare(
+    'INSERT INTO local_users (user_id, email, password_hash, name, role_name) VALUES (?, ?, ?, ?, ?)'
+  );
+  insertFixedTestUser.run(fixedTestUserId, fixedTestEmail, fixedTestPasswordHash, 'Usuario Prueba', 'user');
+  console.log('✅ Usuario de prueba fijo creado: test@invitacionesmodernas.com / invD2026!');
+}
+
+const adminEmail = 'admin@linksocially.com';
+const adminPasswordHash = createHash('sha256').update('admin123').digest('hex');
+
+const checkAdmin = db.prepare('SELECT id FROM admins WHERE email = ?');
+const existingAdmin = checkAdmin.get(adminEmail);
+
+if (!existingAdmin) {
+  const insertAdmin = db.prepare('INSERT INTO admins (email, password_hash, name) VALUES (?, ?, ?)');
+  insertAdmin.run(adminEmail, adminPasswordHash, 'Administrador');
+  console.log('✅ Admin por defecto creado: admin@linksocially.com / admin123');
+}
+
+db.exec(`
+  CREATE INDEX IF NOT EXISTS idx_invitations_slug ON invitations(slug)
+`);
+
+db.exec(`
+  CREATE INDEX IF NOT EXISTS idx_invitations_user ON invitations(user_id)
+`);
+
+db.exec(`
+  CREATE INDEX IF NOT EXISTS idx_invitations_starred ON invitations(starred)
+`);
+
+const ensureUserExists = db.transaction((userId) => {
+  const stmt = db.prepare('SELECT * FROM users WHERE user_id = ?');
+  const user = stmt.get(userId);
+  
+  if (!user) {
+    const insertStmt = db.prepare(
+      'INSERT INTO users (user_id, invitations_count, iteration_credits, generation_credits) VALUES (?, ?, ?, ?)'
+    );
+    insertStmt.run(userId, 0, 10, 10);
+    console.log(`✅ Usuario ${userId} creado con valores por defecto`);
+    return true;
+  }
+  
+  const updates = [];
+  const values = [];
+  
+  if (user.invitations_count === null || user.invitations_count === undefined) {
+    updates.push('invitations_count = ?');
+    values.push(0);
+  }
+  
+  if (user.iteration_credits === null || user.iteration_credits === undefined) {
+    updates.push('iteration_credits = ?');
+    values.push(10);
+  }
+  
+  if (user.generation_credits === null || user.generation_credits === undefined) {
+    updates.push('generation_credits = ?');
+    values.push(10);
+  }
+  
+  if (user.max_generation_credits === null || user.max_generation_credits === undefined) {
+    updates.push('max_generation_credits = ?');
+    values.push(10);
+  }
+  
+  if (updates.length > 0) {
+    values.push(userId);
+    const updateStmt = db.prepare(`UPDATE users SET ${updates.join(', ')} WHERE user_id = ?`);
+    updateStmt.run(...values);
+    console.log(`✅ Usuario ${userId} actualizado con campos faltantes`);
+  }
+  
+  return false;
+});
+
+const ensureAllUsersHaveData = () => {
+  const usersStmt = db.prepare('SELECT user_id FROM users');
+  const users = usersStmt.all();
+  
+  users.forEach(user => {
+    ensureUserExists(user.user_id);
+  });
+  
+  console.log(`📊 Total usuarios verificados: ${users.length}`);
+};
+
+// === RAG KNOWLEDGE BASE TABLES (LEGACY - mantenida temporalmente para referencia) ===
+// NOTA: Este esquema legacy se conserva para consultas históricas pero NO se utiliza
+// en el nuevo flujo modular. El nuevo flujo usa knowledge_base_modules (más abajo).
+db.exec(`
+  CREATE TABLE IF NOT EXISTS knowledge_base (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    style_id TEXT UNIQUE NOT NULL,
+    style_name TEXT NOT NULL,
+    description TEXT,
+    category TEXT,
+    theme_tags TEXT,
+    color_palette TEXT,
+    typography_scale TEXT,
+    layout_rules TEXT,
+    modules_def TEXT,
+    base_cdns TEXT,
+    js_dependencies TEXT,
+    animation_rules TEXT,
+    variation_params TEXT,
+    html_content TEXT,
+    is_active INTEGER DEFAULT 1,
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT
+  )
+`);
+
+try { db.exec(`ALTER TABLE knowledge_base ADD COLUMN html_content TEXT`); } catch (e) { /* column already exists */ }
+try { db.exec(`ALTER TABLE knowledge_base ADD COLUMN filename TEXT`); } catch (e) {}
+try { db.exec(`ALTER TABLE knowledge_base ADD COLUMN ui_elements TEXT`); } catch (e) {}
+try { db.exec(`ALTER TABLE knowledge_base ADD COLUMN visual_elements TEXT`); } catch (e) {}
+try { db.exec(`ALTER TABLE knowledge_base ADD COLUMN colors TEXT`); } catch (e) {}
+try { db.exec(`ALTER TABLE knowledge_base ADD COLUMN visual_styles TEXT`); } catch (e) {}
+try { db.exec(`ALTER TABLE knowledge_base ADD COLUMN mood TEXT`); } catch (e) {}
+try { db.exec(`ALTER TABLE knowledge_base ADD COLUMN required_tags TEXT`); } catch (e) {}
+try { db.exec(`ALTER TABLE knowledge_base ADD COLUMN html_size INTEGER`); } catch (e) {}
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS knowledge_base_usage (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    template_id INTEGER,
+    user_id TEXT,
+    event_type TEXT,
+    used_at TEXT DEFAULT (datetime('now')),
+    FOREIGN KEY (template_id) REFERENCES knowledge_base(id)
+  )
+`);
+
+// === NUEVO ESQUEMA MODULAR: RAG por piezas / módulos individuales ===
+// Cada fila = una sección reusable (portada, padres, countdown, etc.)
+// con atributos memory_* y moduleMetadata {tags, descripcion} embebidos.
+db.exec(`
+  CREATE TABLE IF NOT EXISTS knowledge_base_modules (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    module_id TEXT UNIQUE NOT NULL,
+    module_type TEXT NOT NULL,
+    style_name TEXT NOT NULL,
+    description TEXT,
+    tags TEXT,
+    descripcion_larga TEXT,
+    theme_tags TEXT,
+    color_palette TEXT,
+    css_variables TEXT,
+    has_memory_attributes INTEGER DEFAULT 0,
+    memory_sources TEXT,
+    html_content TEXT NOT NULL,
+    is_active INTEGER DEFAULT 1,
+    category TEXT DEFAULT 'general',
+    filename TEXT,
+    html_size INTEGER,
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT
+  )
+`);
+
+try {
+  db.exec(`ALTER TABLE knowledge_base_modules ADD COLUMN filename TEXT`);
+  console.log('✅ Columna filename agregada a knowledge_base_modules');
+} catch (e) {}
+
+try {
+  db.exec(`ALTER TABLE knowledge_base_modules ADD COLUMN html_size INTEGER`);
+  console.log('✅ Columna html_size agregada a knowledge_base_modules');
+} catch (e) {}
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS knowledge_base_modules_usage (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    module_id INTEGER,
+    user_id TEXT,
+    event_type TEXT,
+    used_at TEXT DEFAULT (datetime('now')),
+    FOREIGN KEY (module_id) REFERENCES knowledge_base_modules(id)
+  )
+`);
+
+db.exec(`
+  CREATE INDEX IF NOT EXISTS idx_kb_modules_module_type ON knowledge_base_modules(module_type)
+`);
+
+db.exec(`
+  CREATE INDEX IF NOT EXISTS idx_kb_modules_is_active ON knowledge_base_modules(is_active)
+`);
+
+// Flag de transición a RAG modular (default 1 = usar nuevo flujo modular activado)
+try {
+  db.exec(`ALTER TABLE admin_config ADD COLUMN use_modular_rag INTEGER DEFAULT 1`);
+  console.log('✅ Columna use_modular_rag agregada a admin_config');
+} catch (e) {}
+
+// ===== RAG VISUAL (rack de imágenes) — método de generación alternativo =====
+// No toca el flujo modular: son columnas propias leídas solo por visualRackService.
+const VISUAL_RACK_COLUMNS = [
+  ['visual_rack_enabled', 'INTEGER DEFAULT 0'],
+  ['visual_rack_provider', "TEXT DEFAULT 'gemini'"],
+  ['visual_rack_gemini_model', "TEXT DEFAULT 'gemini-3.8-flash'"],
+  ['visual_rack_openai_base_url', "TEXT DEFAULT ''"],
+  ['visual_rack_openai_api_key', "TEXT DEFAULT ''"],
+  ['visual_rack_openai_model', "TEXT DEFAULT ''"],
+  // Firma (sha1 de provider|baseUrl|model|key) del último modelo que PASÓ el
+  // test de visión. Guardar la config exige que la firma actual coincida.
+  ['visual_rack_vision_sig', "TEXT DEFAULT ''"],
+  ['visual_rack_vision_verified', 'INTEGER DEFAULT 0']
+];
+for (const [col, def] of VISUAL_RACK_COLUMNS) {
+  try {
+    db.exec(`ALTER TABLE admin_config ADD COLUMN ${col} ${def}`);
+    console.log(`✅ Columna ${col} agregada a admin_config`);
+  } catch (e) {}
+}
+
+// ===== Proveedores de imágenes gratuitos (alternativa a Nano Banana) =====
+// Proceso independiente: solo freeImageService lee estas columnas. Con
+// free_image_provider = 'none' (default) el flujo Nano Banana queda intacto.
+const FREE_IMAGE_COLUMNS = [
+  ['free_image_provider', "TEXT DEFAULT 'none'"],
+  ['free_image_pexels_key', "TEXT DEFAULT ''"],
+  ['free_image_pollinations_token', "TEXT DEFAULT ''"],
+  ['free_image_agentic', 'INTEGER DEFAULT 1']
+];
+for (const [col, def] of FREE_IMAGE_COLUMNS) {
+  try {
+    db.exec(`ALTER TABLE admin_config ADD COLUMN ${col} ${def}`);
+    console.log(`✅ Columna ${col} agregada a admin_config`);
+  } catch (e) {}
+}
+
+// Biblioteca de imágenes de referencia del RAG Visual. Los bytes viven en
+// server/storage/visual-rag/<filename>; aquí solo metadatos (análisis IA).
+db.exec(`
+  CREATE TABLE IF NOT EXISTS visual_rag_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    filename TEXT NOT NULL UNIQUE,
+    mime_type TEXT NOT NULL,
+    descripcion TEXT DEFAULT '',
+    style_name TEXT DEFAULT '',
+    tags TEXT DEFAULT '[]',
+    palette TEXT DEFAULT '[]',
+    event_types TEXT DEFAULT '[]',
+    suitable INTEGER DEFAULT 1,
+    analysis_notes TEXT DEFAULT '',
+    analysis_source TEXT DEFAULT 'ia',
+    is_active INTEGER DEFAULT 1,
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT
+  )
+`);
+
+ensureUserExists('test_user_001');
+ensureAllUsersHaveData();
+
+export default db;

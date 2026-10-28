@@ -1,0 +1,211 @@
+import { UserWithInvitations, InvitationFile, SaveInvitationResponse, UserPlan } from '../types';
+
+const getApiBase = () => {
+  return window.location.origin;
+};
+
+const API_BASE = `${getApiBase()}/api`;
+const PUBLIC_BASE = import.meta.env.VITE_PUBLIC_URL || window.location.origin;
+
+const getAuthHeaders = (token?: string) => {
+  const headers: Record<string, string> = {
+    'Accept': 'application/json'
+  };
+  
+  if (token && token !== 'null' && token !== 'undefined') {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  
+  return headers;
+};
+
+export const getUser = async (userId: string, token: string): Promise<UserWithInvitations> => {
+  const response = await fetch(`${API_BASE}/get-user/${userId}`, {
+    credentials: 'include',
+    headers: getAuthHeaders(token)
+  });
+  return handleResponse(response);
+};
+
+export const consumeCredit = async (userId: string, token: string, purchaseId: string): Promise<{ success: boolean; iteration_credits: number; purchase_id: string }> => {
+  const response = await fetch(`${API_BASE}/user/${userId}/consume-credit`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      ...getAuthHeaders(token)
+    },
+    body: JSON.stringify({ purchaseId })
+  });
+  return handleResponse(response);
+};
+
+export const consumeGenerationCredit = async (userId: string, token: string, purchaseId: string): Promise<{ success: boolean; generation_credits: number; purchase_id: string }> => {
+  const response = await fetch(`${API_BASE}/user/${userId}/consume-generation-credit`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      ...getAuthHeaders(token)
+    },
+    body: JSON.stringify({ purchaseId })
+  });
+  return handleResponse(response);
+};
+
+export const saveInvitation = async (
+  htmlContent: string,
+  eventType: string | undefined,
+  purchaseId: string,
+  token?: string
+): Promise<SaveInvitationResponse> => {
+  const body: Record<string, unknown> = { htmlContent, eventType, purchaseId };
+
+  const response = await fetch(`${API_BASE}/invitations`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...getAuthHeaders(token)
+    },
+    credentials: 'include',
+    body: JSON.stringify(body)
+  });
+
+  return handleResponse(response);
+};
+
+export const activateInvitation = async (
+  token: string,
+  invitationId: number | string,
+): Promise<{ success: boolean; active_invitation: { id: number; filename: string; slug: string } }> => {
+  const response = await fetch(`${API_BASE}/invitations/${invitationId}/activate`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      ...getAuthHeaders(token)
+    },
+    credentials: 'include'
+  });
+  return handleResponse(response);
+};
+
+export const deleteInvitation = async (
+  token: string,
+  invitationId: number | string,
+): Promise<{ success: boolean }> => {
+  const response = await fetch(`${API_BASE}/invitations/${invitationId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      ...getAuthHeaders(token)
+    },
+    credentials: 'include'
+  });
+  return handleResponse(response);
+};
+
+export const updateInvitationContent = async (
+  userId: string,
+  filename: string,
+  htmlContent: string,
+  token?: string
+): Promise<{ success: boolean }> => {
+  const response = await fetch(`${API_BASE}/invitations/${userId}/${filename}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      ...getAuthHeaders(token)
+    },
+    credentials: 'include',
+    body: JSON.stringify({ htmlContent })
+  });
+  
+  return handleResponse(response);
+};
+
+export const getInvitations = async (userId: string, token: string): Promise<{ invitations: InvitationFile[] }> => {
+  const response = await fetch(`${API_BASE}/invitations/${userId}`, {
+    credentials: 'include',
+    headers: getAuthHeaders(token)
+  });
+  return handleResponse(response);
+};
+
+export const getInvitationContent = async (filename: string, userId: string, token: string): Promise<string> => {
+  const response = await fetch(`${API_BASE}/invitations/${userId}/${filename}`, {
+    credentials: 'include',
+    headers: getAuthHeaders(token)
+  });
+  
+  if (response.status === 401) {
+    redirectToLogin();
+    throw new Error('No autenticado');
+  }
+  
+  if (!response.ok) {
+    throw new Error('Error al obtener contenido de invitación');
+  }
+  
+  return response.text();
+};
+
+export const getPublicUrl = (slug: string): string => {
+  return `${PUBLIC_BASE}/i/${slug}`;
+};
+
+// Tipografía global configurada por el admin (Google Fonts base/heading).
+export const getDefaultFonts = async (): Promise<{ fontBase: string; fontHeading: string }> => {
+  const response = await fetch(`${API_BASE}/config/fonts`);
+  if (!response.ok) {
+    throw new Error('Error al obtener la tipografía global');
+  }
+  return response.json();
+};
+
+// Re-tematiza el HTML de la invitación con nuevas Google Fonts (textos y
+// títulos) usando el subsistema Post-RAG Theming del servidor.
+export const applyInvitationFonts = async (
+  html: string,
+  fontBase: string,
+  fontHeading: string,
+  token?: string
+): Promise<{ html: string }> => {
+  const response = await fetch(`${API_BASE}/theme/fonts`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...getAuthHeaders(token)
+    },
+    credentials: 'include',
+    body: JSON.stringify({ html, fontBase, fontHeading })
+  });
+  return handleResponse(response);
+};
+
+const redirectToLogin = async () => {
+  try {
+    const baseUrl = import.meta.env.VITE_PUBLIC_URL || window.location.origin;
+    const res = await fetch(`${baseUrl}/api/config/public`);
+    const config = await res.json();
+    window.location.href = config.login_page_url || '/admin-login';
+  } catch {
+    window.location.href = '/admin-login';
+  }
+};
+
+const handleResponse = async (response: Response) => {
+  if (response.status === 401) {
+    const error = await response.json();
+    if (error.code === 'NO_TOKEN' || error.code === 'INVALID_TOKEN') {
+      await redirectToLogin();
+    }
+    throw new Error('No autenticado');
+  }
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error en la solicitud');
+  }
+  
+  return response.json();
+};

@@ -1,0 +1,242 @@
+<section
+  class="ci-portada"
+  data-gemini-id="portada-nombre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="ci-portada-titulo"
+>
+  <style>
+    .ci-portada {
+      --primary-color: #f3ead8;
+      --secondary-color: #b3a488;
+      --accent-color: #e8a13c;
+      --bg-color: #191512;
+      --surface-color: #221d18;
+      --surface-border-color: rgba(243, 234, 216, 0.16);
+      --text-color: #f3ead8;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 7vw, 5.5rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/film,sepia');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ci-portada *,
+    .ci-portada *::before,
+    .ci-portada *::after { box-sizing: border-box; }
+
+    .ci-portada::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+    .ci-portada__fuga {
+      position: absolute;
+      z-index: 0;
+      top: -10%;
+      right: -8%;
+      width: clamp(220px, 40vw, 520px);
+      height: clamp(220px, 40vw, 520px);
+      background: radial-gradient(circle, color-mix(in srgb, var(--accent-color) 30%, transparent), transparent 65%);
+      filter: blur(10px);
+      pointer-events: none;
+      animation: ciPortadaParpadeo 6s ease-in-out infinite;
+    }
+    @keyframes ciPortadaParpadeo {
+      0%, 100% { opacity: 0.55; }
+      45% { opacity: 0.95; }
+      55% { opacity: 0.7; }
+    }
+
+    .ci-portada__pelicula {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 760px);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 34px 74px rgba(0, 0, 0, 0.6);
+    }
+    .ci-portada__perforaciones {
+      height: 22px;
+      background:
+        radial-gradient(circle, var(--bg-color) 0 5px, transparent 5.5px) 0 50% / 34px 100% repeat-x;
+      border-bottom: 1px solid var(--surface-border-color);
+    }
+    .ci-portada__perforaciones--abajo { border-bottom: 0; border-top: 1px solid var(--surface-border-color); }
+
+    .ci-portada__encuadre {
+      padding: clamp(2.2rem, 5.5vw, 3.8rem) clamp(1.4rem, 5vw, 3.2rem);
+      display: grid;
+      justify-items: center;
+      position: relative;
+    }
+    .ci-portada__encuadre::before,
+    .ci-portada__encuadre::after {
+      content: '';
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border: 1.5px solid var(--accent-color);
+      opacity: 0.8;
+    }
+    .ci-portada__encuadre::before { top: 12px; left: 12px; border-right: 0; border-bottom: 0; }
+    .ci-portada__encuadre::after { bottom: 12px; right: 12px; border-left: 0; border-top: 0; }
+
+    .ci-portada__claqueta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 1.1rem;
+      padding: 0.35rem 1rem;
+      background: repeating-linear-gradient(-45deg, var(--accent-color) 0 10px, var(--bg-color) 10px 20px);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.15vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--text-color);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+    }
+    .ci-portada__claqueta span {
+      background: color-mix(in srgb, var(--bg-color) 80%, transparent);
+      padding: 0.1rem 0.5rem;
+    }
+
+    .ci-portada__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(2rem, 6vw, 4.2rem);
+      line-height: 1.05;
+      color: var(--primary-color);
+      text-shadow: 0 2px 24px rgba(232, 161, 60, 0.25);
+    }
+    .ci-portada__titulo span {
+      display: inline-block;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), filter 0.5s ease;
+    }
+    .ci-portada.ci-js .ci-portada__titulo span { opacity: 0; transform: scale(1.15); filter: blur(10px); }
+    .ci-portada.esta-visto .ci-portada__titulo span { opacity: 1; transform: none; filter: blur(0); }
+    .ci-portada.esta-visto .ci-portada__titulo span:nth-child(1) { transition-delay: 0.1s; }
+    .ci-portada.esta-visto .ci-portada__titulo span:nth-child(2) { transition-delay: 0.2s; }
+    .ci-portada.esta-visto .ci-portada__titulo span:nth-child(3) { transition-delay: 0.3s; }
+
+    .ci-portada__ampersand {
+      display: block;
+      margin: 0.12em 0;
+      font-style: italic;
+      color: var(--accent-color);
+    }
+
+    .ci-portada__timecode {
+      display: inline-block;
+      margin-top: clamp(1.2rem, 3vw, 1.8rem);
+      padding: 0.45rem 1.3rem;
+      border: 1px solid var(--surface-border-color);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.68rem, 1.35vw, 0.82rem);
+      letter-spacing: 0.3em;
+      color: var(--accent-color);
+    }
+
+    .ci-portada__still {
+      position: absolute;
+      z-index: 3;
+      bottom: clamp(3.4rem, 7vw, 4.6rem);
+      right: clamp(0.6rem, 3.5vw, 2.4rem);
+      width: clamp(100px, 14vw, 148px);
+      margin: 0;
+      padding: 5px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55);
+      transform: rotate(4deg);
+      transition: transform 0.5s ease;
+    }
+    .ci-portada__still:hover { transform: rotate(0deg) translateY(-4px); }
+    .ci-portada__still img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      filter: sepia(0.25) saturate(1.05);
+    }
+
+    @media (max-width: 640px) {
+      .ci-portada__still { position: static; margin: 1.4rem auto 0; transform: rotate(-2deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ci-portada * { animation: none !important; transition: none !important; }
+      .ci-portada__titulo span { opacity: 1; transform: none; filter: none; }
+    }
+  </style>
+
+  <span class="ci-portada__fuga" aria-hidden="true"></span>
+
+  <div class="ci-portada__pelicula">
+    <div class="ci-portada__perforaciones" aria-hidden="true"></div>
+
+    <div class="ci-portada__encuadre">
+      <p class="ci-portada__claqueta" memory_type="text" memory_usage="custom" memory_key="portada-encabezado"><span>RODANDO</span> ESC. 01 · TOMA ÚNICA</p>
+
+      <div memory_type="text" memory_usage="custom" memory_key="portada-nombres">
+        <h1 id="ci-portada-titulo" class="ci-portada__titulo">
+          <span>Nombre de la Novia</span>
+          <span class="ci-portada__ampersand">&amp;</span>
+          <span>Nombre del Novio</span>
+        </h1>
+      </div>
+
+      <time class="ci-portada__timecode" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="portada-fecha">TC · FECHA DEL EVENTO</time>
+    </div>
+
+    <div class="ci-portada__perforaciones ci-portada__perforaciones--abajo" aria-hidden="true"></div>
+  </div>
+
+  <figure class="ci-portada__still" memory_type="image" memory_usage="custom" memory_source="library" memory_key="portada-foto">
+    <img src="https://loremflickr.com/420/320/couple,indie" alt="Fotograma de los anfitriones" path="placeholder" data-library-category="bodas" data-asset-type="foto-pareja" loading="lazy" />
+    <figcaption hidden>Fotograma principal</figcaption>
+  </figure>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ci-portada');
+      if (!root) return;
+      root.classList.add('ci-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.22 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Cine Indie',
+      descripcion: 'Franja de película con perforaciones, claqueta a rayas, títulos que aparecen desenfocando y fuga de luz ámbar que parpadea.',
+      tags: ['portada', 'hero', 'cine', 'pelicula', 'claqueta', 'sepia', 'indie'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

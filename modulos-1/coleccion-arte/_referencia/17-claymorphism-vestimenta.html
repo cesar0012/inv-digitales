@@ -1,0 +1,47 @@
+<section class="cl-vest" data-gemini-id="vestimenta-claymorphism" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.cl-vest { --primary-color:#6c5ce7; --secondary-color:#ff7675; --accent-color:#55efc4; --bg-color:#dfe6f0; --surface-color:#f5f3ff; --text-color:#2d3436;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:70svh; display:grid; place-items:center; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/1000/pastel,3d'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.cl-vest *, .cl-vest *::before, .cl-vest *::after { box-sizing:border-box; }
+/* formas clay 3D flotantes */
+.cl-vest__blob { position:absolute; border-radius:42% 58% 62% 38% / 55% 43% 57% 45%; background:linear-gradient(145deg, #a29bfe, #6c5ce7); box-shadow:inset 10px 10px 24px rgba(255,255,255,.5), inset -12px -12px 24px rgba(0,0,0,.14), 0 24px 40px rgba(108,92,231,.3); animation:clFlota var(--d) ease-in-out infinite alternate; pointer-events:none; }
+.cl-vest__blob--a { width:clamp(90px,16vw,180px); aspect-ratio:1/1; top:8%; left:6%; --d:6s; }
+.cl-vest__blob--b { width:clamp(60px,11vw,120px); aspect-ratio:1/1; bottom:10%; right:8%; background:linear-gradient(145deg, #ffeaa7, #fd79a8); box-shadow:inset 10px 10px 24px rgba(255,255,255,.55), inset -12px -12px 24px rgba(0,0,0,.12), 0 24px 40px rgba(253,121,168,.3); --d:8s; animation-delay:-3s; }
+@keyframes clFlota { from { transform:translateY(-12px) rotate(-4deg); border-radius:42% 58% 62% 38% / 55% 43% 57% 45%; } to { transform:translateY(14px) rotate(5deg); border-radius:58% 42% 38% 62% / 43% 57% 45% 55%; } }
+.cl-vest__titulo { position:relative; z-index:2; margin:0 0 .6rem; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(1.9rem,4.8vw,3.2rem); color:var(--primary-color); }
+.cl-vest__sub { position:relative; z-index:2; margin:0 auto clamp(2rem,5vw,2.8rem); max-width:44ch; font-family:Arial,sans-serif; font-size:clamp(.88rem,1.6vw,1rem); line-height:1.7; color:#5b5b6e; }
+/* tarjetas clay con esferas de color por dress code */
+.cl-vest__tarjetas { position:relative; z-index:2; display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(1.2rem,3.4vw,2.2rem); }
+.cl-vest__tarjeta { width:clamp(180px,25vw,230px); padding:clamp(1.4rem,3.2vw,2rem) clamp(1.1rem,2.6vw,1.6rem); background:var(--surface-color); border-radius:34px; box-shadow:inset 8px 8px 18px rgba(255,255,255,.85), inset -10px -10px 20px rgba(108,92,231,.12), 0 26px 46px rgba(45,52,54,.18); transform:rotate(var(--g)); transition:transform .5s cubic-bezier(.22,.8,.3,1); }
+.cl-vest__tarjeta:hover { transform:rotate(0) translateY(-10px) scale(1.03); }
+.cl-vest__tarjeta:nth-child(1){ --g:-2.4deg; } .cl-vest__tarjeta:nth-child(2){ --g:1.8deg; } .cl-vest__tarjeta:nth-child(3){ --g:-1.2deg; }
+.cl-vest__esfera { width:56px; aspect-ratio:1/1; margin:0 auto .9rem; border-radius:50%; background:var(--c,#6c5ce7); box-shadow:inset 8px 8px 14px rgba(255,255,255,.6), inset -8px -8px 14px rgba(0,0,0,.18), 0 14px 26px color-mix(in srgb, var(--c,#6c5ce7) 45%, transparent); }
+.cl-vest__nombre { margin:0 0 .25rem; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(1rem,2vw,1.2rem); color:var(--primary-color); }
+.cl-vest__nota { margin:0; font-family:Arial,sans-serif; font-size:clamp(.78rem,1.4vw,.88rem); line-height:1.55; color:#636e72; }
+</style>
+<span class="cl-vest__blob cl-vest__blob--a" aria-hidden="true"></span>
+<span class="cl-vest__blob cl-vest__blob--b" aria-hidden="true"></span>
+<div>
+  <h2 class="cl-vest__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Vestimenta en 3D</h2>
+  <p class="cl-vest__sub" memory_type="text" memory_usage="custom" memory_key="vestimenta-sub">Tres esferas de color, tres estados de ánimo. Elige tu Clay-favorito para la celebración.</p>
+  <div class="cl-vest__tarjetas">
+    <article class="cl-vest__tarjeta">
+      <span class="cl-vest__esfera" style="--c:#6c5ce7;" aria-hidden="true"></span>
+      <h3 class="cl-vest__nombre" memory_type="text" memory_usage="custom" memory_key="vestimenta-nombre-1">Lavanda nocturna</h3>
+      <p class="cl-vest__nota" memory_type="text" memory_usage="custom" memory_key="vestimenta-nota-1">Para los que bailan hasta tarde.</p>
+    </article>
+    <article class="cl-vest__tarjeta">
+      <span class="cl-vest__esfera" style="--c:#fd79a8;" aria-hidden="true"></span>
+      <h3 class="cl-vest__nombre" memory_type="text" memory_usage="custom" memory_key="vestimenta-nombre-2">Chicle romántico</h3>
+      <p class="cl-vest__nota" memory_type="text" memory_usage="custom" memory_key="vestimenta-nota-2">Suave, dulce, fotogénico.</p>
+    </article>
+    <article class="cl-vest__tarjeta">
+      <span class="cl-vest__esfera" style="--c:#55efc4;" aria-hidden="true"></span>
+      <h3 class="cl-vest__nombre" memory_type="text" memory_usage="custom" memory_key="vestimenta-nombre-3">Menta fresca</h3>
+      <p class="cl-vest__nota" memory_type="text" memory_usage="custom" memory_key="vestimenta-nota-3">Para los que llegan renovados.</p>
+    </article>
+  </div>
+</div>
+<script>var moduleMetadata={module_type:'vestimenta',module_name:'vestimenta-claymorphism',style_name:'Claymorphism — Esferas 3D',descripcion:'Claymorphism: blobs 3D flotantes con degradado y sombras internas, tarjetas puffy con esferas de dress code y colores pastel.',tags:[vestimenta,claymorphism,3d,pastel,esferas],tipo:'vestimenta'};</script>
+</section>

@@ -1,0 +1,212 @@
+<section
+  class="cv-de"
+  data-gemini-id="detalles-vestimenta"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Monsieur+La+Doulaise&display=swap');
+
+    .cv-de, .cv-de *, .cv-de *::before, .cv-de *::after { box-sizing: border-box; }
+    .cv-de {
+      --t-bg: var(--bg-color, #14060f);
+      --t-tx: var(--text-color, #f3e4c8);
+      --t-p: var(--primary-color, #9b1028);
+      --t-s: var(--secondary-color, #4b1a6e);
+      --t-a: var(--accent-color, #b8862e);
+      --t-display: var(--font-script, 'Monsieur La Doulaise', cursive);
+      --t-text: var(--font-heading, 'IM Fell English', Georgia, serif);
+      --gold: linear-gradient(115deg, color-mix(in srgb, var(--t-a) 60%, #000) 0%, color-mix(in srgb, var(--t-a) 55%, #fff) 42%, var(--t-a) 58%, color-mix(in srgb, var(--t-a) 65%, #000) 100%);
+      --velvet: repeating-linear-gradient(90deg, color-mix(in srgb, var(--t-p) 45%, #000) 0, var(--t-p) 12px, color-mix(in srgb, var(--t-p) 78%, var(--t-a)) 18px, var(--t-p) 24px, color-mix(in srgb, var(--t-p) 45%, #000) 36px);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(32rem, 60vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background: linear-gradient(160deg, color-mix(in srgb, var(--t-p) 30%, var(--t-bg)), var(--t-bg) 60%);
+      background-color: var(--t-bg);
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .cv-de__damask { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; color: var(--t-a); opacity: .06; }
+    .cv-de__content {
+      width: min(100%, 64rem);
+      display: grid;
+      grid-template-columns: .85fr 1.15fr;
+      gap: clamp(2rem, 5vw, 4rem);
+      align-items: center;
+    }
+    .cv-de__figure {
+      margin: 0;
+      padding: 8px;
+      border-radius: 50% 50% 10px 10px / 30% 30% 10px 10px;
+      background: var(--gold);
+      box-shadow: 0 0 0 10px color-mix(in srgb, var(--t-bg) 70%, transparent), 0 0 0 11px color-mix(in srgb, var(--t-a) 40%, transparent), 0 28px 60px rgba(0, 0, 0, .6);
+      transform: rotate(-2deg);
+    }
+    .cv-de__figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      border-radius: inherit;
+      color: transparent;
+      background: color-mix(in srgb, var(--t-s) 50%, #000);
+    }
+    .cv-de__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3rem, 6.5vw, 4.8rem);
+      line-height: 1.1;
+      padding-right: .3em;
+      background: var(--gold);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .cv-de__intro { margin: .2rem 0 1.6rem; font-style: italic; opacity: .85; line-height: 1.55; max-width: 32rem; }
+    .cv-de__list { margin: 0; padding: 0; list-style: none; display: grid; gap: 1rem; perspective: 900px; }
+    .cv-de__card {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: .3rem 1.1rem;
+      align-items: start;
+      padding: 1.5rem 1.4rem 1.2rem;
+      border-radius: 10px;
+      overflow: hidden;
+      background: color-mix(in srgb, var(--t-bg) 75%, var(--t-s));
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-a) 55%, transparent), 0 12px 28px rgba(0, 0, 0, .4);
+      transition: transform .4s cubic-bezier(.2, .8, .2, 1), box-shadow .4s ease;
+    }
+    .cv-de__card:nth-child(2) { margin-left: clamp(0rem, 3vw, 2rem); }
+    .cv-de__card:nth-child(3) { margin-right: clamp(0rem, 3vw, 2rem); }
+    .cv-de__card:hover { transform: rotateX(4deg) rotateY(-5deg) translateY(-3px); box-shadow: inset 0 0 0 1px var(--t-a), 0 18px 34px rgba(0, 0, 0, .55); }
+    .cv-de__icon { grid-row: span 2; width: 2.8rem; height: 2.8rem; color: var(--t-a); }
+    .cv-de__name { margin: 0; font-weight: 400; font-size: 1.35rem; }
+    .cv-de__text { margin: 0; grid-column: 2; font-style: italic; opacity: .82; line-height: 1.5; }
+    .cv-de__flap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 100%;
+      background: linear-gradient(180deg, transparent 70%, rgba(0, 0, 0, .45)), var(--velvet);
+      transform-origin: top;
+      transform: scaleY(.09);
+      box-shadow: 0 3px 0 var(--t-a), 0 6px 10px rgba(0, 0, 0, .4);
+      transition: transform .5s cubic-bezier(.6, 0, .2, 1);
+      pointer-events: none;
+    }
+
+    .cv-de--anim .cv-de__flap { transform: scaleY(1); }
+    .cv-de--anim [data-on] .cv-de__flap { transform: scaleY(.09); }
+    .cv-de--anim .cv-de__figure { opacity: 0; transform: rotate(-6deg) scale(.95); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .cv-de--anim.is-in .cv-de__figure { opacity: 1; transform: rotate(-2deg); }
+
+    @media (max-width: 760px) {
+      .cv-de__content { grid-template-columns: 1fr; }
+      .cv-de__figure { width: min(66%, 18rem); justify-self: center; }
+      .cv-de__head { text-align: center; }
+      .cv-de__intro { margin-inline: auto; }
+      .cv-de__card:nth-child(n) { margin: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cv-de *, .cv-de *::before, .cv-de *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="cv-de__damask" aria-hidden="true">
+    <defs>
+      <path id="cvde-fl" d="M0 -10C5 -4 5 4 0 10C-5 4 -5 -4 0 -10ZM-10 0C-4 -5 4 -5 10 0C4 5 -4 5 -10 0Z" />
+      <pattern id="cvde-dm" width="80" height="110" patternUnits="userSpaceOnUse">
+        <path fill="currentColor" fill-rule="evenodd" d="M40 18C33 30 20 34 20 50C20 64 32 70 40 84C48 70 60 64 60 50C60 34 47 30 40 18ZM40 34C36 42 29 45 29 52C29 60 35 64 40 72C45 64 51 60 51 52C51 45 44 42 40 34ZM40 44C38 49 35 51 35 54C35 58 38 60 40 64C42 60 45 58 45 54C45 51 42 49 40 44ZM40 18C37 12 37 8 40 3C43 8 43 12 40 18ZM40 84C36 90 35 96 40 104C45 96 44 90 40 84Z" />
+        <path fill="none" stroke="currentColor" stroke-width="2" d="M20 50C12 48 8 40 12 34C15 30 20 32 19 37M60 50C68 48 72 40 68 34C65 30 60 32 61 37" />
+        <use href="#cvde-fl" fill="currentColor" /><use href="#cvde-fl" x="80" fill="currentColor" />
+        <use href="#cvde-fl" y="110" fill="currentColor" /><use href="#cvde-fl" x="80" y="110" fill="currentColor" />
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#cvde-dm)" />
+  </svg>
+
+  <div class="cv-de__content">
+    <figure class="cv-de__figure" memory_type="image" memory_usage="custom" memory_source="library">
+      <img src="https://loremflickr.com/600/800/venetian,mask,carnival?lock=3561" alt="Máscaras venecianas sobre terciopelo" path="placeholder" data-library-category="eventos" data-asset-type="decoracion" loading="lazy" />
+    </figure>
+
+    <div class="cv-de__side">
+      <header class="cv-de__head">
+        <h2 class="cv-de__title" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Detalles de la noche</h2>
+        <p class="cv-de__intro" memory_type="text" memory_usage="custom" memory_key="detalles-intro">Pequeñas reglas del baile para que el misterio sea perfecto.</p>
+      </header>
+      <ul class="cv-de__list">
+        <li class="cv-de__card" data-cv-card>
+          <svg class="cv-de__icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M18 4h12l-2 8 6 6-4 4 10 22H8l10-22-4-4 6-6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /><path d="M14 30h20" stroke="currentColor" stroke-width="2" /></svg>
+          <h3 class="cv-de__name" memory_type="text" memory_usage="custom" memory_key="detalles-vestimenta-titulo">Etiqueta de gala</h3>
+          <p class="cv-de__text" memory_type="text" memory_usage="custom" memory_key="detalles-vestimenta-texto">Vestido largo y traje oscuro. Los tonos rubí, oro y morado son bienvenidos.</p>
+          <span class="cv-de__flap" aria-hidden="true"></span>
+        </li>
+        <li class="cv-de__card" data-cv-card>
+          <svg class="cv-de__icon" viewBox="0 0 48 48" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M24 22C21 18 15 16 9 18C5 19 3 23 5 27C7 31 13 33 18 31C21 30 22 29 24 29C26 29 27 30 30 31C35 33 41 31 43 27C45 23 43 19 39 18C33 16 27 18 24 22ZM10 24C12 21 16 21 19 25C16 27 12 27 10 24ZM38 24C36 21 32 21 29 25C32 27 36 27 38 24Z" /><path d="M10 18C6 12 8 6 12 2C12 8 14 12 15 17" fill="none" stroke="currentColor" stroke-width="1.6" /></svg>
+          <h3 class="cv-de__name" memory_type="text" memory_usage="custom" memory_key="detalles-mascara-titulo">Máscara obligatoria</h3>
+          <p class="cv-de__text" memory_type="text" memory_usage="custom" memory_key="detalles-mascara-texto">Trae la tuya o elige una en la recepción. Nadie la retira antes de medianoche.</p>
+          <span class="cv-de__flap" aria-hidden="true"></span>
+        </li>
+        <li class="cv-de__card" data-cv-card>
+          <svg class="cv-de__icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4c3 4 4 7 0 11c-4-4-3-7 0-11z" fill="currentColor" /><rect x="18" y="17" width="12" height="22" rx="2" fill="none" stroke="currentColor" stroke-width="2" /><path d="M12 44h24M24 39v5" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+          <h3 class="cv-de__name" memory_type="text" memory_usage="custom" memory_key="detalles-llegada-titulo">Llegada puntual</h3>
+          <p class="cv-de__text" memory_type="text" memory_usage="custom" memory_key="detalles-llegada-texto">Las puertas del salón se cierran a las 8:00 p.m. para la entrada de la quinceañera.</p>
+          <span class="cv-de__flap" aria-hidden="true"></span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="detalles-vestimenta"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      /* Velvet flaps roll up card by card as the list enters the viewport */
+      var cards = root.querySelectorAll('[data-cv-card]'), n = 0, q = 0;
+      root.classList.add('cv-de--anim');
+      var io = new IntersectionObserver(function (en) {
+        en.forEach(function (e) {
+          if (!e.isIntersecting || e.intersectionRatio < .5) return;
+          io.unobserve(e.target);
+          if (e.target === root) { root.classList.add('is-in'); return; }
+          setTimeout(function () {
+            e.target.setAttribute('data-on', '');
+            if (++n === cards.length) setTimeout(function () {
+              root.classList.remove('cv-de--anim', 'is-in');
+              for (var i = 0; i < cards.length; i++) cards[i].removeAttribute('data-on');
+            }, 800);
+          }, 200 + (q++) * 260);
+        });
+      }, { threshold: [0, .25, .5, .8] });
+      io.observe(root);
+      for (var i = 0; i < cards.length; i++) io.observe(cards[i]);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-vestimenta',
+      style_name: 'Carnaval Veneciano Cartel de Gala',
+      descripcion: 'Detalles del baile de máscaras: tarjetas tipo programa de teatro cubiertas por una solapa de terciopelo rubí que se enrolla al entrar en pantalla, inclinación 3D al pasar el cursor y foto en marco de arco dorado.',
+      tags: ['detalles', 'vestimenta', 'quinceañera', 'carnaval', 'veneciano', 'terciopelo', 'mascara'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>

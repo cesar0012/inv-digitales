@@ -1,0 +1,375 @@
+<section
+  class="rr-pt"
+  data-gemini-id="portada-nombre"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Allura&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .rr-pt, .rr-pt *, .rr-pt *::before, .rr-pt *::after { box-sizing: border-box; }
+    .rr-pt {
+      --t-bg: var(--bg-color, #F3EDE1);
+      --t-tx: var(--text-color, #3A2B1F);
+      --t-p: var(--primary-color, #8B9E7C);
+      --t-s: var(--secondary-color, #9A7350);
+      --t-a: var(--accent-color, #EDBC68);
+      --t-display: var(--font-script, 'Allura', cursive);
+      --t-text: var(--font-heading, 'EB Garamond', Georgia, serif);
+      --t-wood: color-mix(in srgb, var(--t-s) 82%, #2b1c11);
+      --t-wood-d: color-mix(in srgb, var(--t-s) 34%, #170f09);
+      --t-sage-d: color-mix(in srgb, var(--t-p) 58%, #1d261a);
+      --t-sage-l: color-mix(in srgb, var(--t-p) 55%, var(--t-bg));
+      --t-ivory: color-mix(in srgb, var(--t-bg) 70%, #ffffff);
+      --t-twine: color-mix(in srgb, var(--t-s) 50%, #dcc7a4);
+      position: relative;
+      isolation: isolate;
+      min-height: max(100svh, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(5.5rem, 10vw, 8rem) clamp(1.25rem, 5vw, 4rem) clamp(4rem, 8vw, 6rem);
+      overflow: hidden;
+      background-color: var(--t-wood-d);
+      background-image: url('https://loremflickr.com/1600/1000/rustic,wedding,lights?lock=3011');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-bg);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .rr-pt::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(ellipse 60% 48% at 50% 44%, color-mix(in srgb, var(--t-a) 16%, transparent), transparent 70%),
+        radial-gradient(ellipse 85% 75% at 50% 42%, transparent 30%, color-mix(in srgb, var(--t-wood-d) 88%, transparent) 95%),
+        repeating-linear-gradient(90deg, transparent 0 calc(8.5rem - 3px), rgba(0, 0, 0, .45) calc(8.5rem - 3px) calc(8.5rem - 1px), rgba(255, 236, 210, .06) calc(8.5rem - 1px) 8.5rem),
+        repeating-linear-gradient(90deg, rgba(0, 0, 0, 0) 0 8.5rem, rgba(0, 0, 0, .14) 8.5rem 17rem, rgba(255, 240, 220, .04) 17rem 25.5rem),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-wood-d) 70%, transparent), color-mix(in srgb, color-mix(in srgb, var(--t-wood) 45%, var(--t-wood-d)) 82%, transparent));
+    }
+    .rr-pt > .rr-pt__grain { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none; mix-blend-mode: multiply; opacity: .75; will-change: transform; }
+    .rr-pt__sky { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; display: block; }
+
+    .rr-pt__stage { position: relative; width: min(100%, 37rem); perspective: 1300px; padding-top: clamp(3.4rem, 7vw, 4.6rem); }
+    .rr-pt__swing { transform-style: preserve-3d; transform-origin: 50% -5rem; }
+    .rr-pt__sign { position: relative; transform-style: preserve-3d; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); }
+
+    .rr-pt__twine { position: absolute; bottom: calc(100% + 1rem); width: 3px; height: clamp(3.4rem, 7vw, 4.6rem); background: repeating-linear-gradient(60deg, var(--t-twine) 0 2px, color-mix(in srgb, var(--t-twine) 62%, #4d3a28) 2px 3.5px); transform: translateZ(-22px); }
+    .rr-pt__twine--l { left: 17%; }
+    .rr-pt__twine--r { right: 17%; }
+    .rr-pt__twine::after {
+      content: '';
+      position: absolute;
+      top: -7px;
+      left: 50%;
+      width: 10px;
+      height: 13px;
+      margin-left: -5px;
+      border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+      background: color-mix(in srgb, var(--t-a) 45%, #fffaf0);
+      box-shadow: 0 0 10px 4px color-mix(in srgb, var(--t-a) 75%, transparent), 0 0 34px 12px color-mix(in srgb, var(--t-a) 32%, transparent);
+    }
+
+    .rr-pt__board {
+      position: absolute;
+      inset: -1.05rem -1.3rem;
+      transform: translateZ(-22px);
+      border-radius: 6px;
+      background: repeating-linear-gradient(180deg, transparent 0 calc(3.3rem - 3px), rgba(0,0,0,.42) calc(3.3rem - 3px) calc(3.3rem - 1px), rgba(255,236,210,.08) calc(3.3rem - 1px) 3.3rem), repeating-linear-gradient(180deg, rgba(0,0,0,0) 0 3.3rem, rgba(0,0,0,.12) 3.3rem calc(3.3rem * 2), rgba(255,240,220,.05) calc(3.3rem * 2) calc(3.3rem * 3)), linear-gradient(180deg, var(--t-wood), var(--t-wood-d));
+      box-shadow: 0 2.6rem 4.4rem rgba(0, 0, 0, .6), inset 0 0 0 1px rgba(255, 255, 255, .07);
+      overflow: hidden;
+    }
+    .rr-pt__board .rr-pt__grain { position: absolute; inset: 0; width: 100%; height: 100%; mix-blend-mode: multiply; opacity: .6; }
+
+    .rr-pt__card {
+      position: relative;
+      padding: clamp(2.3rem, 6vw, 3.6rem) clamp(1.4rem, 5vw, 3.2rem) clamp(2.1rem, 5vw, 3rem);
+      color: var(--t-tx);
+      background:
+        radial-gradient(ellipse at 28% 12%, rgba(255, 255, 255, .6), transparent 55%),
+        radial-gradient(ellipse at 50% 120%, color-mix(in srgb, var(--t-s) 16%, transparent), transparent 60%),
+        repeating-linear-gradient(0deg, color-mix(in srgb, var(--t-s) 7%, transparent) 0 1px, transparent 1px 4px), repeating-linear-gradient(90deg, color-mix(in srgb, var(--t-s) 6%, transparent) 0 1px, transparent 1px 5px),
+        var(--t-ivory);
+      border-radius: 3px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 .7rem 1.4rem rgba(0, 0, 0, .28);
+    }
+    .rr-pt__card::before {
+      content: '';
+      position: absolute;
+      inset: .7rem;
+      border: 1px solid color-mix(in srgb, var(--t-p) 55%, transparent);
+      border-radius: 2px;
+      pointer-events: none;
+    }
+    .rr-pt__kicker { margin: 0; padding: 0 .6rem; font-style: italic; font-size: clamp(1rem, 2.3vw, 1.15rem); color: color-mix(in srgb, var(--t-tx) 74%, transparent); }
+    .rr-pt__ink { padding: .05em .25em .1em; }
+    .rr-pt__names {
+      margin: .12em 0 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3.5rem, 11vw, 6.6rem);
+      line-height: 1.02;
+      color: var(--t-sage-d);
+    }
+    .rr-pt__lead { margin: .5rem auto 1.4rem; max-width: 25rem; font-size: clamp(1.06rem, 2.4vw, 1.2rem); line-height: 1.5; }
+    .rr-pt__date { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .35rem .85rem; margin: 0; font-size: clamp(1.1rem, 2.6vw, 1.3rem); font-weight: 500; }
+    .rr-pt__sep { width: 2.4rem; height: auto; }
+    .rr-pt__place { margin: .7rem 0 0; font-style: italic; font-size: 1.05rem; color: color-mix(in srgb, var(--t-tx) 72%, transparent); }
+
+    .rr-pt__euca { position: absolute; pointer-events: none; width: clamp(5.4rem, 15vw, 9.2rem); height: auto; filter: drop-shadow(0 .6rem .6rem rgba(0, 0, 0, .38)); }
+    .rr-pt__euca--l { left: clamp(-4.8rem, -7vw, -2rem); bottom: clamp(-3.6rem, -5vw, -2.8rem); transform: translateZ(42px) rotate(-58deg); }
+    .rr-pt__euca--r { right: clamp(-3.4rem, -6vw, -1.5rem); top: -2rem; transform: translateZ(30px) rotate(146deg); }
+    .rr-pt__euca--s { left: clamp(-2.4rem, -4vw, -1.1rem); top: -1.4rem; width: clamp(3.6rem, 9vw, 5.6rem); transform: translateZ(18px) rotate(-120deg); }
+
+    @media (max-width: 34rem) {
+      .rr-pt__euca { width: clamp(4.4rem, 22vw, 5.4rem); }
+      .rr-pt__euca--l { left: -.6rem; bottom: -7.4rem; transform: translateZ(42px) rotate(-100deg); }
+      .rr-pt__euca--s { display: none; }
+      .rr-pt__euca--r { right: -1.6rem; top: -2.6rem; }
+    }
+    /* Entrance: only while JS adds the --anim class (each transition <= .5s) */
+    .rr-pt--anim .rr-pt__swing { opacity: 0; transform: translateY(-2.6rem) rotateX(-30deg); transition: opacity .45s ease, transform .5s cubic-bezier(.3, 1.35, .5, 1); }
+    .rr-pt--anim.is-in .rr-pt__swing { opacity: 1; transform: none; }
+    .rr-pt--anim .rr-pt__ink { -webkit-mask-image: linear-gradient(100deg, #000 var(--ink-a, -20%), transparent var(--ink-b, 0%)); mask-image: linear-gradient(100deg, #000 var(--ink-a, -20%), transparent var(--ink-b, 0%)); }
+    .rr-pt--anim .rr-pt__lead, .rr-pt--anim .rr-pt__date, .rr-pt--anim .rr-pt__place { opacity: 0; transform: translateY(6px); transition: opacity .5s ease, transform .5s ease; }
+    .rr-pt--anim.is-in .rr-pt__lead { opacity: 1; transform: none; transition-delay: 1.5s; }
+    .rr-pt--anim.is-in .rr-pt__date { opacity: 1; transform: none; transition-delay: 1.75s; }
+    .rr-pt--anim.is-in .rr-pt__place { opacity: 1; transform: none; transition-delay: 1.95s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .rr-pt *, .rr-pt *::before, .rr-pt *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="rr-pt__grain" aria-hidden="true" focusable="false"><filter id="rr-pt-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.06 0.0032" numOctaves="4" seed="4"></feTurbulence><feColorMatrix type="matrix" values="0 0 0 0 0.17  0 0 0 0 0.10  0 0 0 0 0.05  2.6 0 0 0 -1.05"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#rr-pt-grain)"></rect></svg>
+  <canvas class="rr-pt__sky" data-rr-sky aria-hidden="true"></canvas>
+  <header class="rr-pt__stage">
+    <div class="rr-pt__swing">
+      <div class="rr-pt__sign" data-rr-sign>
+        <span class="rr-pt__twine rr-pt__twine--l" aria-hidden="true"></span>
+        <span class="rr-pt__twine rr-pt__twine--r" aria-hidden="true"></span>
+        <div class="rr-pt__board" aria-hidden="true"><svg class="rr-pt__grain" aria-hidden="true" focusable="false"><filter id="rr-pt-b-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.004 0.09" numOctaves="4" seed="11"></feTurbulence><feColorMatrix type="matrix" values="0 0 0 0 0.17  0 0 0 0 0.10  0 0 0 0 0.05  2.6 0 0 0 -1.05"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#rr-pt-b-grain)"></rect></svg></div>
+        <div class="rr-pt__card">
+          <p class="rr-pt__kicker" memory_type="text" memory_usage="custom" memory_key="portada-bendicion">Con la bendición de Dios y de nuestras familias</p>
+          <div class="rr-pt__ink" data-rr-ink>
+            <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,3vw,1.6rem);width:clamp(150px,22vw,220px);"><img src="https://loremflickr.com/480/480/rustic,wood,portrait?lock=305" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:2px solid var(--primary-color,#9b9b9b);box-shadow:0 14px 30px rgba(0,0,0,.18);" /><figcaption hidden>Retrato</figcaption></figure>
+<h1 class="rr-pt__names" memory_type="text" memory_usage="custom" memory_key="portada-nombres" data-event-field="nombres">Nombre &amp; Nombre</h1>
+          </div>
+          <p class="rr-pt__lead" memory_type="text" memory_usage="custom" memory_key="portada-invitacion">Te invitamos a celebrar nuestra boda entre madera, eucalipto y luces cálidas.</p>
+          <p class="rr-pt__date">
+            <time datetime="2027-05-15T17:00" memory_type="text" memory_usage="custom" memory_key="portada-fecha" data-event-field="fecha">Sábado 15 de mayo de 2027</time>
+            <svg class="rr-pt__sep" viewBox="0 0 40 16" aria-hidden="true" focusable="false"><path d="M2 8 H38" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1"></path><ellipse cx="14" cy="8" rx="6" ry="4.2" transform="rotate(-25 14 8)" style="fill: var(--t-p)"></ellipse><ellipse cx="26" cy="8" rx="6" ry="4.2" transform="rotate(25 26 8)" style="fill: color-mix(in srgb, var(--t-p) 75%, #ffffff)"></ellipse></svg>
+            <span memory_type="text" memory_usage="custom" memory_key="portada-hora">5:00 de la tarde</span>
+          </p>
+          <p class="rr-pt__place" memory_type="text" memory_usage="custom" memory_key="portada-lugar">Hacienda Nombre · Ciudad, Estado</p>
+        </div>
+        <svg class="rr-pt__euca rr-pt__euca--l" viewBox="0 0 120 260" aria-hidden="true" focusable="false"><path d="M60.0,256.0 Q94.3,130.0 52.1,12.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 2; fill: none; stroke-linecap: round"></path><path d="M68.1,220.9 L72.7,219.4" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="91.4" cy="225.3" rx="21.8" ry="18.7" transform="rotate(17 91.4 225.3)" style="fill: color-mix(in srgb, var(--t-p) 76%, #b9c7c2)"></ellipse><path d="M75.8,220.4 L105.9,229.8" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M71.5,200.0 L67.7,199.2" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="51.7" cy="197.2" rx="17.9" ry="15.4" transform="rotate(-173 51.7 197.2)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M65.1,198.8 L39.3,195.7" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M73.9,179.1 L78.5,176.1" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="95.6" cy="181.0" rx="19.8" ry="17.1" transform="rotate(16 95.6 181.0)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M81.4,176.9 L109.0,184.9" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M75.1,158.4 L70.9,161.1" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="55.4" cy="157.8" rx="17.6" ry="15.1" transform="rotate(-168 55.4 157.8)" style="fill: var(--t-p)"></ellipse><path d="M68.3,160.6 L43.4,155.1" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M75.3,137.9 L79.2,137.2" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="94.8" cy="137.5" rx="17.3" ry="14.9" transform="rotate(1 94.8 137.5)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M81.8,137.3 L106.9,137.8" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M74.4,117.4 L70.5,117.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="55.3" cy="118.7" rx="17.1" ry="14.7" transform="rotate(173 55.3 118.7)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M68.0,117.3 L43.4,120.1" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M72.5,97.0 L76.1,94.6" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="91.2" cy="94.7" rx="16.7" ry="14.3" transform="rotate(0 91.2 94.7)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M78.6,94.6 L102.8,94.8" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M69.4,76.8 L64.9,74.7" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="52.4" cy="79.8" rx="15.1" ry="13.0" transform="rotate(158 52.4 79.8)" style="fill: color-mix(in srgb, var(--t-p) 76%, #b9c7c2)"></ellipse><path d="M62.8,75.6 L42.6,83.8" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M65.3,56.7 L69.5,57.9" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="80.7" cy="53.0" rx="13.5" ry="11.6" transform="rotate(-24 80.7 53.0)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M71.4,57.1 L89.4,49.3" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M60.0,36.6 L55.4,34.9" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="44.8" cy="41.0" rx="13.6" ry="11.7" transform="rotate(150 44.8 41.0)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M53.6,36.0 L36.6,45.8" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M53.7,16.7 L57.9,17.2" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="67.7" cy="11.9" rx="12.4" ry="10.7" transform="rotate(-28 67.7 11.9)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M59.5,16.3 L75.4,7.8" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><ellipse cx="52.1" cy="9.0" rx="3.2" ry="5" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse></svg>
+        <svg class="rr-pt__euca rr-pt__euca--r" viewBox="0 0 120 260" aria-hidden="true" focusable="false"><path d="M60.0,256.0 Q31.9,130.0 66.5,12.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 2; fill: none; stroke-linecap: round"></path><path d="M53.4,220.9 L57.1,216.3" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="74.9" cy="217.6" rx="19.8" ry="17.0" transform="rotate(4 74.9 217.6)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M60.1,216.5 L88.7,218.6" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M50.0,194.7 L45.3,191.5" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="29.6" cy="196.8" rx="18.4" ry="15.8" transform="rotate(161 29.6 196.8)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M42.7,192.4 L17.4,201.0" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M48.0,168.8 L52.2,164.8" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="67.6" cy="167.8" rx="17.5" ry="15.1" transform="rotate(11 67.6 167.8)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M54.7,165.3 L79.7,170.2" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M47.4,143.0 L43.2,139.5" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="28.3" cy="142.9" rx="17.0" ry="14.6" transform="rotate(-193 28.3 142.9)" style="fill: var(--t-p)"></ellipse><path d="M40.7,140.1 L16.7,145.6" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M48.2,117.4 L52.0,117.6" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="66.3" cy="118.4" rx="16.0" ry="13.7" transform="rotate(3 66.3 118.4)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M54.4,117.8 L77.5,119.0" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M50.4,92.0 L46.6,90.8" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="31.9" cy="89.9" rx="16.3" ry="14.1" transform="rotate(-176 31.9 89.9)" style="fill: var(--t-p)"></ellipse><path d="M44.2,90.7 L20.5,89.2" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M53.9,66.7 L57.4,70.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="68.8" cy="69.2" rx="12.8" ry="11.0" transform="rotate(-4 68.8 69.2)" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></ellipse><path d="M59.3,69.9 L77.8,68.6" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M58.8,41.6 L55.3,40.7" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="44.3" cy="38.4" rx="12.5" ry="10.7" transform="rotate(-168 44.3 38.4)" style="fill: var(--t-p)"></ellipse><path d="M53.5,40.3 L35.8,36.6" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M65.1,16.7 L68.8,16.9" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="78.8" cy="20.6" rx="11.8" ry="10.1" transform="rotate(20 78.8 20.6)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M70.5,17.5 L86.5,23.4" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><ellipse cx="66.5" cy="9.0" rx="3.2" ry="5" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse></svg>
+        <svg class="rr-pt__euca rr-pt__euca--s" viewBox="0 0 120 260" aria-hidden="true" focusable="false"><path d="M60.0,256.0 Q106.8,130.0 49.2,12.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 2; fill: none; stroke-linecap: round"></path><path d="M71.1,220.9 L75.4,220.3" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="92.3" cy="226.3" rx="19.9" ry="17.1" transform="rotate(20 92.3 226.3)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M78.2,221.3 L105.4,231.0" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M78.9,179.1 L74.7,180.1" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="57.2" cy="176.6" rx="19.8" ry="17.1" transform="rotate(-169 57.2 176.6)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M71.8,179.5 L43.6,173.8" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M80.9,137.9 L85.0,140.2" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="100.7" cy="137.4" rx="17.7" ry="15.3" transform="rotate(-10 100.7 137.4)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M87.6,139.7 L113.0,135.2" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M77.0,97.0 L72.8,95.8" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="59.7" cy="99.9" rx="15.3" ry="13.1" transform="rotate(162 59.7 99.9)" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></ellipse><path d="M70.6,96.5 L49.5,103.2" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M67.2,56.7 L71.3,57.3" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="80.6" cy="52.4" rx="11.7" ry="10.1" transform="rotate(-28 80.6 52.4)" style="fill: color-mix(in srgb, var(--t-p) 76%, #b9c7c2)"></ellipse><path d="M72.9,56.5 L87.8,48.5" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M51.5,16.7 L49.0,20.8" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="38.0" cy="23.1" rx="12.5" ry="10.8" transform="rotate(169 38.0 23.1)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M47.2,21.2 L29.4,24.8" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><ellipse cx="49.2" cy="9.0" rx="3.2" ry="5" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse></svg>
+      </div>
+    </div>
+  </header>
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="portada-nombre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var HAS_IO = 'IntersectionObserver' in window;
+
+      function rrLoop(el, fn) {
+        var raf = 0, vis = false;
+        function f(t) { fn(t); raf = requestAnimationFrame(f); }
+        function upd() { var on = vis && !document.hidden; if (on && !raf) raf = requestAnimationFrame(f); if (!on && raf) { cancelAnimationFrame(raf); raf = 0; } }
+        new IntersectionObserver(function (e) { vis = e[0].isIntersecting; upd(); }).observe(el);
+        document.addEventListener('visibilitychange', upd);
+      }
+      var sky = root.querySelector('[data-rr-sky]'), sign = root.querySelector('[data-rr-sign]'), ink = root.querySelector('[data-rr-ink]');
+      var ctx = sky.getContext && sky.getContext('2d');
+      if (!ctx) return;
+
+      /* Resolve theme colors (custom props may hold var()/color-mix) through a probe element */
+      function rgbOf(v) {
+        var s = document.createElement('span');
+        s.style.color = 'var(' + v + ')'; s.style.display = 'none';
+        root.appendChild(s);
+        var m = (getComputedStyle(s).color.match(/[\d.]+/g) || [237, 188, 104]).slice(0, 3).map(Number);
+        root.removeChild(s);
+        return m;
+      }
+      var CA = rgbOf('--t-a'), CP = rgbOf('--t-p'), CI = rgbOf('--t-bg');
+
+      var W = 0, H = 0, F = 1, CX = 0, CY = 0, strands = [], leaves = [], bokeh = [], sprite = null;
+      var camX = 0, camY = 0, tx = 0, ty = 0, rx = 0, ry = 0, last = 0;
+
+      function makeSprite() {
+        sprite = document.createElement('canvas'); sprite.width = sprite.height = 64;
+        var g = sprite.getContext('2d'), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32), a = CA.join(',');
+        gr.addColorStop(0, 'rgba(255,250,236,1)');
+        gr.addColorStop(.1, 'rgba(' + a + ',.95)');
+        gr.addColorStop(.38, 'rgba(' + a + ',.3)');
+        gr.addColorStop(1, 'rgba(' + a + ',0)');
+        g.fillStyle = gr; g.fillRect(0, 0, 64, 64);
+      }
+      function leaf(init) {
+        var z = 280 + Math.random() * 1700, t = Math.random() * .35;
+        return {
+          z: z,
+          x: (Math.random() * 1.3 - .65) * W * z / F,
+          y: (init ? (Math.random() * 1.2 - .6) : -.62 - Math.random() * .2) * H * z / F,
+          vy: 26 + Math.random() * 34, a: Math.random() * 6.28, va: .6 + Math.random() * 1.4,
+          tilt: Math.random() * 6.28, ph: Math.random() * 6.28, r: 8 + Math.random() * 7,
+          c: CP.map(function (v, i) { return Math.round(v + (CI[i] - v) * t); }).join(','), leaf: true
+        };
+      }
+      function build() {
+        /* [depth z, screen-y fraction of anchors, sag fraction, swags] */
+        var defs = [[300, .05, .11, 3], [460, .17, .07, 2], [700, .02, .08, 3], [980, .24, .05, 2], [1400, .09, .05, 3], [1900, .03, .04, 4], [2600, .2, .03, 3]];
+        strands = defs.map(function (d, si) {
+          var z = d[0], SB = Math.min(H, W * .75), y0 = (d[1] * SB + (H > W * 1.3 ? H * .07 : 0) - CY) * z / F, sag = d[2] * SB * z / F;
+          var x0 = (-.12 * W - CX) * z / F, x1 = (1.12 * W - CX) * z / F, span = (x1 - x0) / d[3];
+          var gap = 46 * z / F * (1 + si * .12) * (W < 700 ? .85 : 1), pts = [];
+          for (var s = 0; s < d[3]; s++) {
+            var n = Math.max(3, Math.round(span / gap));
+            for (var k = 0; k <= n; k++) {
+              var u = k / n;
+              pts.push({ x: x0 + s * span + u * span, y: y0 + sag * 4 * u * (1 - u), u: u, end: k === 0 || k === n, ph: Math.random() * 6.28, sp: .5 + Math.random() * 1.5 });
+            }
+          }
+          return { z: z, pts: pts, sw: Math.random() * 6.28 };
+        });
+        leaves = [];
+        for (var i = 0, n = W < 700 ? 13 : 24; i < n; i++) leaves.push(leaf(true));
+        bokeh = [];
+        for (var j = 0, m = W < 700 ? 16 : 30; j < m; j++) bokeh.push({ x: Math.random(), y: Math.random() * .8, r: 30 + Math.random() * 70, ph: Math.random() * 6.28 });
+      }
+      function resize() {
+        var r = root.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+        W = r.width; H = r.height; if (!W || !H) return;
+        sky.width = Math.round(W * dpr); sky.height = Math.round(H * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        F = Math.max(W, H * .9) * .8; CX = W / 2; CY = H * .42;
+        build();
+      }
+      function fog(z) { return Math.max(.22, Math.min(.95, 1.12 - z / 2600)); }
+
+      function draw(t, dt) {
+        ctx.clearRect(0, 0, W, H);
+        camX += (tx - camX) * .05; camY += (ty - camY) * .05;
+        /* far bokeh */
+        ctx.globalCompositeOperation = 'lighter';
+        for (var b = 0; b < bokeh.length; b++) {
+          var k = bokeh[b], s = k.r * (.85 + .15 * Math.sin(t * .0004 + k.ph));
+          ctx.globalAlpha = .07 + .05 * Math.sin(t * .0007 + k.ph);
+          ctx.drawImage(sprite, k.x * W - camX * .04 - s / 2, k.y * H - camY * .04 - s / 2, s, s);
+        }
+        /* depth-sorted strands + leaves */
+        var items = strands.concat(leaves).sort(function (a, c) { return c.z - a.z; });
+        for (var i = 0; i < items.length; i++) {
+          var it = items[i], z = it.z, sc = F / z, fa = fog(z);
+          if (it.leaf) {
+            it.y += it.vy * dt; it.a += it.va * dt;
+            var X = CX + (it.x + Math.sin(t * .0005 + it.ph) * 40 - camX) * sc, Y = CY + (it.y - camY) * sc;
+            if (Y > H + 60) { var nl = leaf(false); for (var key in nl) it[key] = nl[key]; continue; }
+            var rx_ = it.r * sc, ry_ = rx_ * (.12 + .74 * Math.abs(Math.cos(it.a)));
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.globalAlpha = fa;
+            ctx.save(); ctx.translate(X, Y); ctx.rotate(it.tilt + Math.sin(t * .0009 + it.ph) * .5);
+            ctx.fillStyle = 'rgb(' + it.c + ')';
+            ctx.beginPath(); ctx.ellipse(0, 0, rx_, ry_, 0, 0, 6.2832); ctx.fill();
+            ctx.strokeStyle = 'rgba(255,255,255,.28)'; ctx.lineWidth = Math.max(.5, rx_ * .06);
+            ctx.beginPath(); ctx.moveTo(-rx_ * .8, 0); ctx.lineTo(rx_ * .75, 0); ctx.stroke();
+            ctx.restore();
+          } else {
+            var sway = Math.sin(t * .0006 + it.sw) * 10, pts = it.pts, P = [];
+            for (var p = 0; p < pts.length; p++) {
+              var q = pts[p], d = sway * 4 * q.u * (1 - q.u);
+              P.push([CX + (q.x - camX) * sc, CY + (q.y + d - camY) * sc]);
+            }
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.globalAlpha = fa * .85;
+            ctx.strokeStyle = 'rgb(28,20,13)';
+            ctx.lineWidth = Math.max(.6, 2.4 * sc * .4);
+            ctx.beginPath();
+            for (var e = 0; e < P.length; e++) { if (pts[e].u === 0) ctx.moveTo(P[e][0], P[e][1]); else ctx.lineTo(P[e][0], P[e][1]); }
+            ctx.stroke();
+            ctx.globalCompositeOperation = 'lighter';
+            for (var g = 0; g < pts.length; g++) {
+              if (pts[g].end) continue;
+              var tw = Math.sin(t * .001 * pts[g].sp + pts[g].ph) * .5 + .5, sz = Math.max(7, 34 * sc * .55) * (.78 + .22 * tw);
+              ctx.globalAlpha = fa * (.5 + .5 * tw * tw);
+              ctx.drawImage(sprite, P[g][0] - sz / 2, P[g][1] - sz * .32, sz, sz);
+            }
+          }
+        }
+        ctx.globalAlpha = 1;
+        ctx.globalCompositeOperation = 'source-over';
+      }
+
+      makeSprite();
+      resize();
+      if ('ResizeObserver' in window) new ResizeObserver(function () { resize(); if (RM) draw(0, 0); }).observe(root);
+
+      if (RM || !HAS_IO) { draw(0, 0); return; }   /* reduced motion: one static frame, no title mask */
+
+      /* Pointer parallax for the canvas camera and the 3D sign */
+      var hover = false;
+      root.addEventListener('pointermove', function (e) {
+        var r = root.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width * 2 - 1, py = (e.clientY - r.top) / r.height * 2 - 1;
+        tx = px * 70; ty = py * 40; hover = true;
+      });
+      root.addEventListener('pointerleave', function () { tx = 0; ty = 0; hover = false; });
+
+      root.classList.add('rr-pt--anim');
+      var inkStart = 0, inkDone = false;
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          io.disconnect();
+          root.classList.add('is-in');
+          inkStart = performance.now() + 380;
+          setTimeout(function () {
+            root.classList.remove('rr-pt--anim', 'is-in');
+            ink.style.removeProperty('--ink-a'); ink.style.removeProperty('--ink-b');
+            inkDone = true;
+          }, 3400);
+        }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+
+      rrLoop(root, function (t) {
+        var dt = last ? Math.min(.05, (t - last) / 1000) : 0; last = t;
+        draw(t, dt);
+        /* 3D sign tilt (pointer on desktop, gentle idle sway on touch) */
+        var trx = hover ? -ty / 40 * 5 : Math.sin(t * .0004) * 1.6, try_ = hover ? tx / 70 * 7 : Math.sin(t * .00031) * 2.4;
+        rx += (trx - rx) * .06; ry += (try_ - ry) * .06;
+        sign.style.setProperty('--rx', rx.toFixed(2) + 'deg');
+        sign.style.setProperty('--ry', ry.toFixed(2) + 'deg');
+        /* Progressive calligraphy reveal of the names (mask sweep, never touches the text) */
+        if (inkStart && !inkDone) {
+          var p = Math.max(0, Math.min(1, (t - inkStart) / 2100)), ez = 1 - Math.pow(1 - p, 3), a = -20 + 128 * ez;
+          ink.style.setProperty('--ink-a', a.toFixed(1) + '%');
+          ink.style.setProperty('--ink-b', (a + 16).toFixed(1) + '%');
+        }
+      });
+
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Romance Rústico Portada',
+      descripcion: 'Portada de boda rústica: letrero de madera y lino en 3D, luces de cadena en profundidad con hojas de eucalipto cayendo y nombres que se escriben con caligrafía.',
+      tags: ['portada', 'boda', 'rustico', 'eucalipto', 'luces', 'madera'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

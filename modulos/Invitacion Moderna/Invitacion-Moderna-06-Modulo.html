@@ -1,0 +1,549 @@
+<section
+  class="module-galeria-evento-editorial"
+  data-gemini-id="galeria-fotos"
+  memory_type="background"
+  memory_usage="protected"
+  aria-labelledby="galeria-evento-title"
+>
+  <style>
+    .module-galeria-evento-editorial {
+      --primary-color: #202326;
+      --secondary-color: #6f7478;
+      --accent-color: #9a9a9a;
+      --background-color: #ffffff;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(0, 0, 0, 0.1);
+      --text-color: #202326;
+
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+      color: var(--text-color);
+      background: var(--background-color);
+    }
+
+    .galeria-evento__inner {
+      width: min(1220px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(3rem, 6vw, 6rem) clamp(1.25rem, 5vw, 4rem);
+      box-sizing: border-box;
+      display: grid;
+      align-content: center;
+      gap: clamp(3rem, 7vw, 5.5rem);
+    }
+
+    .galeria-evento__header {
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .galeria-evento__eyebrow {
+      margin: 0 0 clamp(0.75rem, 1.5vw, 1rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.7rem, 1vw, 0.85rem);
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .galeria-evento__title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.7rem, 3vw, 2.5rem);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    .galeria-evento__subtitle {
+      margin: clamp(0.75rem, 1.6vw, 1rem) 0 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.05rem, 2vw, 1.45rem);
+      font-style: italic;
+      line-height: 1.55;
+      color: var(--secondary-color);
+    }
+
+    .galeria-evento__ornament {
+      width: min(150px, 42%);
+      height: 34px;
+      margin: clamp(1.2rem, 2.4vw, 1.6rem) auto 0;
+      position: relative;
+      color: var(--accent-color);
+    }
+
+    .galeria-evento__ornament::before,
+    .galeria-evento__ornament::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 46%;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.6;
+    }
+
+    .galeria-evento__ornament::before {
+      left: 0;
+    }
+
+    .galeria-evento__ornament::after {
+      right: 0;
+    }
+
+    .galeria-evento__ornament span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 18px;
+      height: 18px;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--background-color);
+    }
+
+    .galeria-evento__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: clamp(150px, 16vw, 230px);
+      gap: clamp(0.75rem, 1.6vw, 1.25rem);
+    }
+
+    .galeria-evento__item {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
+    }
+
+    .galeria-evento__item--large-vertical {
+      grid-row: span 2;
+    }
+
+    .galeria-evento__item--large-horizontal {
+      grid-column: span 2;
+    }
+
+    .galeria-evento__item img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: contrast(0.96) saturate(0.96);
+      transition:
+        transform 0.5s ease,
+        filter 0.5s ease;
+    }
+
+    .galeria-evento__item:hover img {
+      transform: scale(1.04);
+      filter: contrast(1) saturate(1);
+    }
+
+    .galeria-evento__caption {
+      position: absolute;
+      left: 1rem;
+      right: 1rem;
+      bottom: 1rem;
+      display: inline-flex;
+      width: fit-content;
+      max-width: calc(100% - 2rem);
+      padding: 0.55rem 0.85rem;
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid var(--surface-border-color);
+      color: var(--primary-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(8px);
+      transition:
+        opacity 0.35s ease,
+        transform 0.35s ease;
+    }
+
+    .galeria-evento__item:hover .galeria-evento__caption,
+    .galeria-evento__item:focus-within .galeria-evento__caption {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .galeria-evento__navigation {
+      margin-top: clamp(1.5rem, 3vw, 2.5rem);
+      display: flex;
+      justify-content: center;
+      gap: clamp(0.75rem, 1.5vw, 1rem);
+      color: var(--accent-color);
+    }
+
+    .galeria-evento__nav-dot {
+      width: 26px;
+      height: 26px;
+      border: 2px solid currentColor;
+      border-radius: 50%;
+      background: transparent;
+      opacity: 0.75;
+    }
+
+    .galeria-evento__nav-dot--active {
+      background: currentColor;
+      box-shadow: inset 0 0 0 7px var(--background-color);
+    }
+
+    .galeria-evento__motion {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: galeriaEventoReveal 0.5s ease-out forwards;
+    }
+
+    .galeria-evento__header {
+      animation-delay: 0.04s;
+    }
+
+    .galeria-evento__item:nth-child(1) {
+      animation-delay: 0.08s;
+    }
+
+    .galeria-evento__item:nth-child(2) {
+      animation-delay: 0.12s;
+    }
+
+    .galeria-evento__item:nth-child(3) {
+      animation-delay: 0.16s;
+    }
+
+    .galeria-evento__item:nth-child(4) {
+      animation-delay: 0.2s;
+    }
+
+    .galeria-evento__item:nth-child(5) {
+      animation-delay: 0.24s;
+    }
+
+    .galeria-evento__item:nth-child(6) {
+      animation-delay: 0.28s;
+    }
+
+    .galeria-evento__item:nth-child(7) {
+      animation-delay: 0.32s;
+    }
+
+    @keyframes galeriaEventoReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 980px) {
+      .galeria-evento__grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: clamp(170px, 28vw, 260px);
+      }
+
+      .galeria-evento__item--large-vertical {
+        grid-row: span 1;
+      }
+
+      .galeria-evento__item--large-horizontal {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .module-galeria-evento-editorial {
+        min-height: 100svh;
+      }
+
+      .galeria-evento__inner {
+        min-height: 100svh;
+        padding: 3rem 1.25rem;
+      }
+
+      .galeria-evento__grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+      }
+
+      .galeria-evento__item,
+      .galeria-evento__item--large-vertical,
+      .galeria-evento__item--large-horizontal {
+        grid-column: auto;
+        grid-row: auto;
+        aspect-ratio: 4 / 3;
+      }
+
+      .galeria-evento__navigation {
+        gap: 0.65rem;
+      }
+
+      .galeria-evento__nav-dot {
+        width: 22px;
+        height: 22px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .galeria-evento__motion,
+      .galeria-evento__item img,
+      .galeria-evento__caption {
+        animation: none;
+        transition: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <div class="galeria-evento__inner">
+    <header
+      class="galeria-evento__header galeria-evento__motion"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="gallery-header"
+    >
+      <p class="galeria-evento__eyebrow">
+        Memories
+      </p>
+
+      <h2 id="galeria-evento-title" class="galeria-evento__title">
+        Photo Gallery
+      </h2>
+
+      <p class="galeria-evento__subtitle">
+        A collection of favorite moments from this special celebration.
+      </p>
+
+      <div class="galeria-evento__ornament" aria-hidden="true">
+        <span></span>
+      </div>
+    </header>
+
+    <div
+      class="galeria-evento__grid"
+      memory_type="image"
+      memory_usage="custom"
+      memory_source="library"
+      memory_key="event-photo-gallery"
+    >
+      <figure class="galeria-evento__item galeria-evento__item--large-vertical galeria-evento__motion">
+        <img
+          src="https://loremflickr.com/700/900/celebration,event"
+          alt="Featured event photo"
+          path="placeholder"
+          data-library-category="eventos"
+          data-asset-type="foto-galeria"
+        />
+        <figcaption
+          class="galeria-evento__caption"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="gallery-caption-1"
+        >
+          Favorite Moment
+        </figcaption>
+      </figure>
+
+      <figure class="galeria-evento__item galeria-evento__motion">
+        <img
+          src="https://loremflickr.com/700/520/party,event"
+          alt="Event gallery photo"
+          path="placeholder"
+          data-library-category="eventos"
+          data-asset-type="foto-galeria"
+        />
+        <figcaption
+          class="galeria-evento__caption"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="gallery-caption-2"
+        >
+          Shared Joy
+        </figcaption>
+      </figure>
+
+      <figure class="galeria-evento__item galeria-evento__item--large-vertical galeria-evento__motion">
+        <img
+          src="https://loremflickr.com/700/900/family,celebration"
+          alt="Vertical event gallery photo"
+          path="placeholder"
+          data-library-category="eventos"
+          data-asset-type="foto-galeria"
+        />
+        <figcaption
+          class="galeria-evento__caption"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="gallery-caption-3"
+        >
+          Together
+        </figcaption>
+      </figure>
+
+      <figure class="galeria-evento__item galeria-evento__motion">
+        <img
+          src="https://loremflickr.com/700/520/friends,event"
+          alt="Event memory photo"
+          path="placeholder"
+          data-library-category="eventos"
+          data-asset-type="foto-galeria"
+        />
+        <figcaption
+          class="galeria-evento__caption"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="gallery-caption-4"
+        >
+          Guest Smiles
+        </figcaption>
+      </figure>
+
+      <figure class="galeria-evento__item galeria-evento__motion">
+        <img
+          src="https://loremflickr.com/700/520/love,celebration"
+          alt="Event candid photo"
+          path="placeholder"
+          data-library-category="eventos"
+          data-asset-type="foto-galeria"
+        />
+        <figcaption
+          class="galeria-evento__caption"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="gallery-caption-5"
+        >
+          Candid Moment
+        </figcaption>
+      </figure>
+
+      <figure class="galeria-evento__item galeria-evento__motion">
+        <img
+          src="https://loremflickr.com/700/520/portrait,event"
+          alt="Portrait event photo"
+          path="placeholder"
+          data-library-category="eventos"
+          data-asset-type="foto-galeria"
+        />
+        <figcaption
+          class="galeria-evento__caption"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="gallery-caption-6"
+        >
+          Portrait
+        </figcaption>
+      </figure>
+
+      <figure class="galeria-evento__item galeria-evento__item--large-horizontal galeria-evento__motion">
+        <img
+          src="https://loremflickr.com/1000/520/celebration,people"
+          alt="Wide event gallery photo"
+          path="placeholder"
+          data-library-category="eventos"
+          data-asset-type="foto-galeria"
+        />
+        <figcaption
+          class="galeria-evento__caption"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="gallery-caption-7"
+        >
+          Celebration
+        </figcaption>
+      </figure>
+    </div>
+
+    <nav
+      class="galeria-evento__navigation"
+      aria-label="Gallery navigation"
+      memory_type="text"
+      memory_usage="protected"
+      memory_key="gallery-navigation"
+    >
+      <span class="galeria-evento__nav-dot galeria-evento__nav-dot--active" aria-hidden="true"></span>
+      <span class="galeria-evento__nav-dot" aria-hidden="true"></span>
+      <span class="galeria-evento__nav-dot" aria-hidden="true"></span>
+      <span class="galeria-evento__nav-dot" aria-hidden="true"></span>
+    </nav>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "galeria",
+        "fotos",
+        "photo gallery",
+        "memories",
+        "evento",
+        "modulo universal",
+        "boda",
+        "quinceanera",
+        "cumpleanos",
+        "baby shower",
+        "graduacion",
+        "despedida",
+        "aniversario",
+        "masonry",
+        "responsive"
+      ],
+      descripcion:
+        "Wireframe universal de galería fotográfica tipo masonry con encabezado, subtítulo, imágenes reemplazables, captions y navegación decorativa."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="galeria-fotos"]');
+
+      if (!module) return;
+
+      const items = module.querySelectorAll(".galeria-evento__item");
+      const dots = module.querySelectorAll(".galeria-evento__nav-dot");
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (prefersReducedMotion) return;
+
+      module.addEventListener("pointermove", function (event) {
+        const rect = module.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        items.forEach(function (item, index) {
+          const depth = ((index % 4) + 1) * 1.5;
+          item.style.transform =
+            "translate(" + x * depth + "px, " + y * depth + "px)";
+        });
+      });
+
+      module.addEventListener("pointerleave", function () {
+        items.forEach(function (item) {
+          item.style.transform = "translate(0, 0)";
+        });
+      });
+
+      dots.forEach(function (dot, index) {
+        dot.addEventListener("click", function () {
+          dots.forEach(function (item) {
+            item.classList.remove("galeria-evento__nav-dot--active");
+          });
+
+          dot.classList.add("galeria-evento__nav-dot--active");
+        });
+      });
+    })();
+  </script>
+</section>

@@ -1,0 +1,197 @@
+<section
+  class="dn-it"
+  data-gemini-id="itinerario-agenda"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Neonderthaw&family=Tilt+Neon&display=swap');
+
+    .dn-it, .dn-it *, .dn-it *::before, .dn-it *::after { box-sizing: border-box; }
+    .dn-it {
+      --t-bg: var(--bg-color, #07060c);
+      --t-tx: var(--text-color, #fbf4ff);
+      --t-p: var(--primary-color, #ff2bd6);
+      --t-s: var(--secondary-color, #19f0ff);
+      --t-a: var(--accent-color, #f4ff2b);
+      --t-display: var(--font-script, 'Neonderthaw', cursive);
+      --t-text: var(--font-heading, 'Tilt Neon', system-ui, sans-serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/neon,dance,party?lock=3505');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .dn-it::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 90%, transparent), color-mix(in srgb, var(--t-bg) 96%, transparent));
+    }
+    .dn-it__content { width: min(100%, 56rem); }
+    .dn-it__head { text-align: center; margin-bottom: clamp(2.5rem, 6vw, 4rem); }
+    .dn-it__title {
+      --g: var(--t-p);
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3.4rem, 9vw, 6rem);
+      line-height: 1;
+      color: color-mix(in srgb, var(--g) 28%, #fff);
+      text-shadow: 0 0 .02em #fff, 0 0 .1em var(--g), 0 0 .3em var(--g);
+    }
+    .dn-it__sub { margin: .4rem 0 0; font-size: clamp(1.05rem, 2.2vw, 1.3rem); color: color-mix(in srgb, var(--t-tx) 80%, transparent); }
+
+    .dn-it__track { position: relative; }
+    .dn-it__list { position: relative; list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(1.6rem, 4vw, 2.6rem); }
+    .dn-it__rail { position: absolute; top: 0; bottom: 0; left: 50%; width: 4px; margin-left: -2px; border-radius: 4px; background: color-mix(in srgb, var(--t-tx) 12%, transparent); }
+    .dn-it__rail::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(180deg, var(--t-p), var(--t-s) 55%, var(--t-a));
+      box-shadow: 0 0 8px var(--t-s), 0 0 20px color-mix(in srgb, var(--t-p) 60%, transparent);
+      transform: scaleY(var(--fill, 1));
+      transform-origin: top;
+    }
+    .dn-it__item { --g: var(--t-p); position: relative; width: 50%; padding-right: clamp(1.8rem, 4vw, 3rem); text-align: right; }
+    .dn-it__item:nth-of-type(3n+2) { --g: var(--t-s); }
+    .dn-it__item:nth-of-type(3n) { --g: var(--t-a); }
+    .dn-it__item:nth-of-type(even) { margin-left: 50%; padding-right: 0; padding-left: clamp(1.8rem, 4vw, 3rem); text-align: left; }
+    .dn-it__dot {
+      position: absolute;
+      top: .35rem;
+      right: -.7rem;
+      width: 1.4rem;
+      height: 1.4rem;
+      border-radius: 50%;
+      border: 3px solid color-mix(in srgb, var(--g) 55%, #fff);
+      background: var(--t-bg);
+      box-shadow: 0 0 6px var(--g), 0 0 18px var(--g);
+      transition: box-shadow .3s ease, background-color .3s ease, opacity .3s ease;
+    }
+    .dn-it__item:nth-of-type(even) .dn-it__dot { right: auto; left: -.7rem; }
+    .dn-it__time {
+      display: block;
+      font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+      color: color-mix(in srgb, var(--g) 30%, #fff);
+      text-shadow: 0 0 2px #fff, 0 0 10px var(--g), 0 0 24px var(--g);
+      transition: text-shadow .3s ease, color .3s ease;
+    }
+    .dn-it__name { margin: .15rem 0 .25rem; font-weight: 400; font-size: clamp(1.2rem, 2.6vw, 1.5rem); }
+    .dn-it__desc { margin: 0; line-height: 1.5; color: color-mix(in srgb, var(--t-tx) 75%, transparent); }
+
+    /* Live (JS) state: stops stay "unlit" until the tube light reaches them */
+    .dn-it--live .dn-it__item:not([data-on]) .dn-it__dot { box-shadow: none; opacity: .45; }
+    .dn-it--live .dn-it__item:not([data-on]) .dn-it__time { color: color-mix(in srgb, var(--t-tx) 45%, transparent); text-shadow: none; }
+    .dn-it__item[data-on] .dn-it__dot { background-color: color-mix(in srgb, var(--g) 70%, #fff); animation: dnItOn .4s linear both; }
+    @keyframes dnItOn { 0% { opacity: .3; } 20% { opacity: 1; } 35% { opacity: .4; } 60%, 100% { opacity: 1; } }
+
+    @media (max-width: 700px) {
+      .dn-it__rail { left: .7rem; }
+      .dn-it__item, .dn-it__item:nth-of-type(even) { width: 100%; margin-left: 0; padding: 0 0 0 2.6rem; text-align: left; }
+      .dn-it__dot, .dn-it__item:nth-of-type(even) .dn-it__dot { right: auto; left: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .dn-it *, .dn-it *::before, .dn-it *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="dn-it__content">
+    <header class="dn-it__head">
+      <h2 class="dn-it__title" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">La noche, paso a paso</h2>
+      <p class="dn-it__sub" memory_type="text" memory_usage="custom" memory_key="itinerario-subtitulo">Sigue la luz: cada momento se enciende</p>
+    </header>
+    <div class="dn-it__track">
+    <span class="dn-it__rail" aria-hidden="true" data-dn-rail></span>
+    <ol class="dn-it__list">
+      <li class="dn-it__item" data-dn-stop>
+        <span class="dn-it__dot" aria-hidden="true"></span>
+        <time class="dn-it__time" datetime="2027-03-20T17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1" data-event-field="itin-hora-1">5:00 PM</time>
+        <h3 class="dn-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-1" data-event-field="itin-evento-1">Misa de acción de gracias</h3>
+        <p class="dn-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-1">Parroquia de Ejemplo, a unos minutos del salón.</p>
+      </li>
+      <li class="dn-it__item" data-dn-stop>
+        <span class="dn-it__dot" aria-hidden="true"></span>
+        <time class="dn-it__time" datetime="2027-03-20T19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2" data-event-field="itin-hora-2">7:00 PM</time>
+        <h3 class="dn-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-2" data-event-field="itin-evento-2">Recepción y cóctel</h3>
+        <p class="dn-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-2">Bebidas fluorescentes y tu pulsera luminosa en la entrada.</p>
+      </li>
+      <li class="dn-it__item" data-dn-stop>
+        <span class="dn-it__dot" aria-hidden="true"></span>
+        <time class="dn-it__time" datetime="2027-03-20T20:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3" data-event-field="itin-hora-3">8:00 PM</time>
+        <h3 class="dn-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-3" data-event-field="itin-evento-3">Entrada y vals</h3>
+        <p class="dn-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-3">Se apagan las luces y la pista se ilumina.</p>
+      </li>
+      <li class="dn-it__item" data-dn-stop>
+        <span class="dn-it__dot" aria-hidden="true"></span>
+        <time class="dn-it__time" datetime="2027-03-20T21:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4" data-event-field="itin-hora-4">9:00 PM</time>
+        <h3 class="dn-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-4" data-event-field="itin-evento-4">Cena</h3>
+        <p class="dn-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-4">Recarga energía antes de lo mejor.</p>
+      </li>
+      <li class="dn-it__item" data-dn-stop>
+        <span class="dn-it__dot" aria-hidden="true"></span>
+        <time class="dn-it__time" datetime="2027-03-20T22:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-5" data-event-field="itin-hora-5">10:00 PM</time>
+        <h3 class="dn-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-5" data-event-field="itin-evento-5">Fiesta glow</h3>
+        <p class="dn-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-5">Pintura neón, luz negra y baile hasta que se apague el último tubo.</p>
+      </li>
+    </ol>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="itinerario-agenda"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* static: rail fully lit, every stop on */
+
+      var list = root.querySelector('ol'), rail = root.querySelector('[data-dn-rail]');
+      var stops = [].slice.call(root.querySelectorAll('[data-dn-stop]'));
+      root.classList.add('dn-it--live');
+      var vis = false, queued = 0;
+      function update() {
+        queued = 0;
+        var r = list.getBoundingClientRect(), vh = window.innerHeight || 800;
+        var p = Math.max(0, Math.min(1, (vh * .62 - r.top) / r.height));
+        rail.style.setProperty('--fill', p.toFixed(4));
+        stops.forEach(function (s) {
+          var at = (s.offsetTop + 14) / list.offsetHeight;
+          if (p >= at) { if (!s.hasAttribute('data-on')) s.setAttribute('data-on', ''); }
+          else s.removeAttribute('data-on');
+        });
+      }
+      function onScroll() { if (vis && !queued) queued = requestAnimationFrame(update); }
+      new IntersectionObserver(function (en) { vis = en[0].isIntersecting; if (vis) onScroll(); }).observe(root);
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      update();
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Dulce Neón Tubo de Luz',
+      descripcion: 'Itinerario en zigzag sobre un tubo de neón que se llena de luz al hacer scroll; cada momento se enciende cuando la luz lo alcanza. Hora, evento y descripción por parada.',
+      tags: ['itinerario', 'neon', 'timeline', 'quinceañera', 'scroll'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>

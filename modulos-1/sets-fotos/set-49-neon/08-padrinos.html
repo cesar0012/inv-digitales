@@ -1,0 +1,189 @@
+<section
+  class="dn-pd"
+  data-gemini-id="padrinos-neon"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+<i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:url('https://loremflickr.com/1920/1080/neon,city?lock=443') center/cover;"></i><i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:color-mix(in srgb, var(--bg-color,#1d1a24) 88%, transparent);"></i>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Neonderthaw&family=Tilt+Neon&display=swap');
+
+    .dn-pd, .dn-pd *, .dn-pd *::before, .dn-pd *::after { box-sizing: border-box; }
+    .dn-pd {
+      --t-bg: var(--bg-color, #07060c);
+      --t-tx: var(--text-color, #fbf4ff);
+      --t-p: var(--primary-color, #ff2bd6);
+      --t-s: var(--secondary-color, #19f0ff);
+      --t-a: var(--accent-color, #f4ff2b);
+      --t-display: var(--font-script, 'Neonderthaw', cursive);
+      --t-text: var(--font-heading, 'Tilt Neon', system-ui, sans-serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .dn-pd::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(50% 40% at 50% 0%, color-mix(in srgb, var(--t-s) 14%, transparent), transparent 70%),
+        radial-gradient(40% 40% at 10% 100%, color-mix(in srgb, var(--t-p) 12%, transparent), transparent 70%);
+    }
+    .dn-pd__splats { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; opacity: .35; pointer-events: none; }
+    .dn-pd__splats use { fill: currentColor; filter: drop-shadow(0 0 10px currentColor); }
+    .dn-pd__content { width: min(100%, 62rem); }
+    .dn-pd__lead { margin: 0; font-size: clamp(1.05rem, 2.2vw, 1.3rem); color: color-mix(in srgb, var(--t-tx) 80%, transparent); }
+    .dn-pd__title {
+      --g: var(--t-s);
+      margin: 0 0 clamp(2rem, 5vw, 3.2rem);
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3.6rem, 10vw, 6.4rem);
+      line-height: 1;
+      color: color-mix(in srgb, var(--g) 28%, #fff);
+      text-shadow: 0 0 .02em #fff, 0 0 .1em var(--g), 0 0 .3em var(--g);
+    }
+    .dn-pd__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.2rem, 3vw, 2rem) clamp(1.2rem, 4vw, 3rem); text-align: left; }
+    .dn-pd__item {
+      --g: var(--t-p);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 1.1rem;
+      padding: .55rem 1.6rem .55rem .55rem;
+      border-radius: 999px;
+      border: 2px solid color-mix(in srgb, var(--g) 50%, transparent);
+      background: color-mix(in srgb, var(--t-bg) 70%, transparent);
+      box-shadow: 0 0 14px color-mix(in srgb, var(--g) 40%, transparent), inset 0 0 14px color-mix(in srgb, var(--g) 20%, transparent);
+      transform: rotate(-1.2deg);
+    }
+    .dn-pd__item:nth-child(2) { --g: var(--t-a); transform: rotate(1.2deg) translateY(1rem); }
+    .dn-pd__item:nth-child(3) { --g: var(--t-s); transform: rotate(1deg); }
+    .dn-pd__item:nth-child(4) { --g: var(--t-p); transform: rotate(-1deg) translateY(1rem); }
+    .dn-pd__pic {
+      margin: 0;
+      width: clamp(4.8rem, 10vw, 6.2rem);
+      padding: .25rem;
+      border-radius: 50%;
+      border: 2px solid color-mix(in srgb, var(--g) 60%, #fff);
+      box-shadow: 0 0 6px var(--g), 0 0 18px var(--g);
+    }
+    .dn-pd__pic img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; background: color-mix(in srgb, var(--g) 18%, var(--t-bg)); }
+    .dn-pd__role {
+      margin: 0;
+      font-family: var(--t-display);
+      font-size: clamp(1.9rem, 3.6vw, 2.4rem);
+      line-height: 1.05;
+      color: color-mix(in srgb, var(--g) 30%, #fff);
+      text-shadow: 0 0 6px var(--g), 0 0 18px var(--g);
+    }
+    .dn-pd__names { margin: .15rem 0 0; font-weight: 400; font-size: clamp(1rem, 2vw, 1.15rem); line-height: 1.35; }
+
+    .dn-pd--anim .dn-pd__item { opacity: 0; }
+    .dn-pd--anim.is-in .dn-pd__item { animation: dnPdOn .5s linear calc(var(--i, 0) * .18s) both; }
+    @keyframes dnPdOn { 0% { opacity: 0; filter: brightness(.3); } 15% { opacity: 1; } 28% { opacity: .2; } 45% { opacity: 1; filter: brightness(1.6); } 60% { opacity: .5; } 75%, 100% { opacity: 1; filter: none; } }
+
+    @media (max-width: 700px) {
+      .dn-pd__grid { grid-template-columns: 1fr; }
+      .dn-pd__item:nth-child(n) { transform: rotate(0); }
+      .dn-pd__item:nth-child(odd) { margin-right: 1rem; }
+      .dn-pd__item:nth-child(even) { margin-left: 1rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .dn-pd *, .dn-pd *::before, .dn-pd *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="dn-pd__splats" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs><path id="dnPdS" d="M48 20C55 8 62 22 66 30C74 18 92 14 84 34C96 38 98 50 86 54C98 66 90 78 78 70C80 86 70 98 62 82C58 92 46 96 46 82C36 92 24 88 30 74C14 78 8 64 22 58C6 50 10 36 26 40C22 26 36 20 40 30C42 22 44 18 48 20ZM60 84C63 92 62 99 60 100C57 99 57 92 60 84ZM90 16a4 4 0 1 1-.1 0ZM12 80a3 3 0 1 1-.1 0ZM24 14a2.5 2.5 0 1 1-.1 0Z"/></defs>
+    <use href="#dnPdS" transform="translate(-50 -40) scale(1.7) rotate(20 50 50)" style="color: var(--t-a)"/>
+    <use href="#dnPdS" transform="translate(860 420) scale(1.8) rotate(200 50 50)" style="color: var(--t-s)"/>
+  </svg>
+
+  <div class="dn-pd__content">
+    <header>
+      <p class="dn-pd__lead" memory_type="text" memory_usage="custom" memory_key="padrinos-intro">Gracias por iluminar mi camino</p>
+      <h2 class="dn-pd__title" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Mis padrinos</h2>
+    </header>
+    <ul class="dn-pd__grid">
+      <li class="dn-pd__item" style="--i: 0">
+        <figure class="dn-pd__pic" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/400/400/couple,portrait?lock=3509" alt="Padrinos de velación" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+        </figure>
+        <div>
+          <p class="dn-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-1">De velación</p>
+          <h3 class="dn-pd__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-1" data-event-field="padrinos-1">Nombre Apellido y Nombre Apellido</h3>
+        </div>
+      </li>
+      <li class="dn-pd__item" style="--i: 1">
+        <figure class="dn-pd__pic" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/400/400/couple,smile?lock=3510" alt="Padrinos de anillo" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+        </figure>
+        <div>
+          <p class="dn-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-2">De anillo</p>
+          <h3 class="dn-pd__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-2" data-event-field="padrinos-2">Nombre Apellido y Nombre Apellido</h3>
+        </div>
+      </li>
+      <li class="dn-pd__item" style="--i: 2">
+        <figure class="dn-pd__pic" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/400/400/family,portrait?lock=3511" alt="Padrinos de corona" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+        </figure>
+        <div>
+          <p class="dn-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-3">De corona</p>
+          <h3 class="dn-pd__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-3">Nombre Apellido y Nombre Apellido</h3>
+        </div>
+      </li>
+      <li class="dn-pd__item" style="--i: 3">
+        <figure class="dn-pd__pic" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/400/400/people,party?lock=3512" alt="Padrinos de pastel" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+        </figure>
+        <div>
+          <p class="dn-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-4">De pastel</p>
+          <h3 class="dn-pd__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-4">Nombre Apellido y Nombre Apellido</h3>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="padrinos-neon"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      root.classList.add('dn-pd--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('dn-pd--anim', 'is-in'); }, 1400);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'padrinos',
+      module_name: 'padrinos-neon',
+      style_name: 'Dulce Neón Insignias',
+      descripcion: 'Padrinos en insignias de neón tipo píldora con foto circular, rol en letra de tubo y nombres; cada insignia tiene su color e inclinación y se enciende con parpadeo escalonado.',
+      tags: ['padrinos', 'neon', 'quinceañera', 'retrato', 'glow'],
+      tipo: 'padrinos'
+    };
+  </script>
+</section>

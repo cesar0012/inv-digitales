@@ -1,0 +1,245 @@
+<section
+  class="bh-galeria"
+  data-gemini-id="galeria-bauhaus-formas"
+>
+  <style>
+    .bh-galeria {
+      --primary-color: #22242a;
+      --secondary-color: #6d7078;
+      --accent-color: #e2543e;
+      --bg-color: #f3f1ec;
+      --surface-color: #fbfaf7;
+      --surface-border-color: rgba(34, 36, 42, 0.18);
+      --text-color: #22242a;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+    }
+    .bh-galeria *,
+    .bh-galeria *::before,
+    .bh-galeria *::after { box-sizing: border-box; }
+
+    .bh-galeria__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.5rem, 3.4vw, 2.2rem);
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .bh-galeria__nota {
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .bh-galeria__mosaico {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: clamp(1rem, 2.6vw, 1.6rem);
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .bh-galeria__figura {
+      position: relative;
+      margin: 0;
+      padding: 9px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      cursor: pointer;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), box-shadow 0.5s ease;
+    }
+    .bh-galeria.bh-js .bh-galeria__figura { opacity: 0; transform: translateY(18px); }
+    .bh-galeria .bh-galeria__figura.esta-visto { opacity: 1; transform: none; }
+    .bh-galeria__figura:hover { box-shadow: 8px 8px 0 color-mix(in srgb, var(--accent-color) 50%, transparent); }
+
+    .bh-galeria__figura img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      filter: saturate(0.88);
+    }
+    .bh-galeria__figura:nth-child(3n + 1) img { border-radius: 50%; }
+    .bh-galeria__figura:nth-child(3n + 2) img { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+    .bh-galeria__figura:nth-child(3n) img { border-radius: 50% 50% 0 0; }
+
+    .bh-galeria__pie {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 8px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .bh-galeria__pie i {
+      width: 10px;
+      height: 10px;
+      background: var(--accent-color);
+    }
+    .bh-galeria__figura:nth-child(3n + 1) .bh-galeria__pie i { border-radius: 50%; }
+    .bh-galeria__figura:nth-child(3n) .bh-galeria__pie i { border-radius: 50% 50% 0 0; }
+
+    .bh-galeria__lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      place-items: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      background: color-mix(in srgb, var(--primary-color) 88%, black);
+    }
+    .bh-galeria__lightbox.abierto { display: grid; }
+    .bh-galeria__lightbox img {
+      max-width: min(920px, 92vw);
+      max-height: 82svh;
+      width: auto;
+      height: auto;
+      background: var(--surface-color);
+      padding: 10px;
+      box-shadow: 10px 10px 0 var(--accent-color);
+    }
+    .bh-galeria__cerrar {
+      position: absolute;
+      top: clamp(0.8rem, 2.5vw, 1.6rem);
+      right: clamp(0.8rem, 2.5vw, 1.6rem);
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--surface-color);
+      background: transparent;
+      color: var(--surface-color);
+      font-size: 1.2rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.4s ease, background 0.4s ease;
+    }
+    .bh-galeria__cerrar:hover { transform: rotate(90deg); background: color-mix(in srgb, var(--accent-color) 70%, transparent); }
+
+    @media (max-width: 560px) {
+      .bh-galeria__mosaico { grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 0.8rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bh-galeria * { transition: none !important; }
+      .bh-galeria__figura { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="galeria-cabecera">
+    <h2 class="bh-galeria__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Serie de formas</h2>
+    <p class="bh-galeria__nota" memory_type="text" memory_usage="custom" memory_key="galeria-nota">Galería moderna</p>
+  </header>
+
+  <div class="bh-galeria__mosaico">
+    <figure class="bh-galeria__figura" data-bh-figura memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-1" tabindex="0" role="button" aria-label="Ampliar figura uno">
+      <img src="https://loremflickr.com/480/480/minimal,couple" alt="Figura uno" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="bh-galeria__pie"><span>N.º 01</span><i aria-hidden="true"></i></span>
+      <figcaption hidden>Figura uno</figcaption>
+    </figure>
+    <figure class="bh-galeria__figura" data-bh-figura memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-2" tabindex="0" role="button" aria-label="Ampliar figura dos">
+      <img src="https://loremflickr.com/480/480/geometric,party" alt="Figura dos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="bh-galeria__pie"><span>N.º 02</span><i aria-hidden="true"></i></span>
+      <figcaption hidden>Figura dos</figcaption>
+    </figure>
+    <figure class="bh-galeria__figura" data-bh-figura memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-3" tabindex="0" role="button" aria-label="Ampliar figura tres">
+      <img src="https://loremflickr.com/480/480/minimal,dinner" alt="Figura tres" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="bh-galeria__pie"><span>N.º 03</span><i aria-hidden="true"></i></span>
+      <figcaption hidden>Figura tres</figcaption>
+    </figure>
+    <figure class="bh-galeria__figura" data-bh-figura memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-4" tabindex="0" role="button" aria-label="Ampliar figura cuatro">
+      <img src="https://loremflickr.com/480/480/modern,dance" alt="Figura cuatro" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="bh-galeria__pie"><span>N.º 04</span><i aria-hidden="true"></i></span>
+      <figcaption hidden>Figura cuatro</figcaption>
+    </figure>
+    <figure class="bh-galeria__figura" data-bh-figura memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-5" tabindex="0" role="button" aria-label="Ampliar figura cinco">
+      <img src="https://loremflickr.com/480/480/clean,flowers" alt="Figura cinco" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="bh-galeria__pie"><span>N.º 05</span><i aria-hidden="true"></i></span>
+      <figcaption hidden>Figura cinco</figcaption>
+    </figure>
+    <figure class="bh-galeria__figura" data-bh-figura memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-6" tabindex="0" role="button" aria-label="Ampliar figura seis">
+      <img src="https://loremflickr.com/480/480/minimal,toast" alt="Figura seis" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="bh-galeria__pie"><span>N.º 06</span><i aria-hidden="true"></i></span>
+      <figcaption hidden>Figura seis</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.bh-galeria');
+      if (!root) return;
+      root.classList.add('bh-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var figuras = Array.prototype.slice.call(root.querySelectorAll('[data-bh-figura]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var i = figuras.indexOf(entry.target);
+            entry.target.style.transitionDelay = (Math.min(i, 5) * 0.08).toFixed(2) + 's';
+            entry.target.classList.add('esta-visto');
+            io.unobserve(entry.target);
+          });
+        }, { threshold: 0.18 });
+        figuras.forEach(function (f) { io.observe(f); });
+      } else {
+        figuras.forEach(function (f) { f.classList.add('esta-visto'); });
+      }
+
+      var lightbox = document.createElement('div');
+      lightbox.className = 'bh-galeria__lightbox';
+      lightbox.setAttribute('role', 'dialog');
+      lightbox.setAttribute('aria-modal', 'true');
+      lightbox.setAttribute('aria-label', 'Vista ampliada');
+      lightbox.innerHTML =
+        '<img alt="" />' +
+        '<button type="button" class="bh-galeria__cerrar" aria-label="Cerrar">×</button>';
+      root.appendChild(lightbox);
+      var imgAmpliada = lightbox.querySelector('img');
+      var botonCerrar = lightbox.querySelector('.bh-galeria__cerrar');
+
+      function abrir(fig) {
+        var foto = fig.querySelector('img');
+        if (!foto) return;
+        imgAmpliada.src = foto.src;
+        imgAmpliada.alt = foto.alt;
+        lightbox.classList.add('abierto');
+      }
+      function cerrar() { lightbox.classList.remove('abierto'); }
+
+      figuras.forEach(function (fig) {
+        fig.addEventListener('click', function () { abrir(fig); });
+        fig.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(fig); }
+        });
+      });
+      botonCerrar.addEventListener('click', cerrar);
+      lightbox.addEventListener('click', function (e) { if (e.target === lightbox) cerrar(); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-bauhaus-formas',
+      style_name: 'Bauhaus Geométrico — Galería',
+      descripcion: 'Serie de cuadrados con máscaras rotativas (círculo, cuadro, arco), marcas de acento al pie y lightbox con marco y sombra dura.',
+      tags: ['galeria', 'mosaico', 'bauhaus', 'mascaras', 'lightbox', 'geometrico'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

@@ -1,0 +1,217 @@
+<section
+  class="ci-detalles"
+  data-gemini-id="detalles-regalo"
+>
+  <style>
+    .ci-detalles {
+      --primary-color: #f3ead8;
+      --secondary-color: #b3a488;
+      --accent-color: #e8a13c;
+      --bg-color: #191512;
+      --surface-color: #221d18;
+      --surface-border-color: rgba(243, 234, 216, 0.16);
+      --text-color: #f3ead8;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .ci-detalles *,
+    .ci-detalles *::before,
+    .ci-detalles *::after { box-sizing: border-box; }
+
+    .ci-detalles__cabecera {
+      width: min(100%, 1020px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 1px solid var(--surface-border-color);
+      padding-bottom: 0.9rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .ci-detalles__titulo {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.6rem, 3.6vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ci-detalles__claque {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.3em;
+      color: var(--accent-color);
+    }
+
+    .ci-detalles__set {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.6rem, 4vw, 3rem);
+      align-items: center;
+      width: min(100%, 1020px);
+      margin: 0 auto;
+    }
+
+    .ci-detalles__foto {
+      position: relative;
+      margin: 0;
+      padding: 8px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 26px 56px rgba(0, 0, 0, 0.55);
+      transform: rotate(-2deg);
+    }
+    .ci-detalles__foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      filter: sepia(0.22) contrast(1.05);
+    }
+    .ci-detalles__perforaciones {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: -1px;
+      width: 14px;
+      background:
+        radial-gradient(circle, var(--bg-color) 0 3px, transparent 3.5px) 50% 0 / 100% 20px repeat-y,
+        color-mix(in srgb, var(--accent-color) 25%, var(--surface-color));
+    }
+
+    .ci-detalles__filas { display: grid; gap: 0; border-top: 1px solid var(--surface-border-color); }
+
+    .ci-detalles__fila {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      align-items: start;
+      padding: clamp(0.9rem, 2.3vw, 1.2rem) 0.3rem;
+      border-bottom: 1px solid var(--surface-border-color);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .ci-detalles.ci-js .ci-detalles__fila { opacity: 0; transform: translateX(-14px); }
+    .ci-detalles .ci-detalles__fila.esta-visto { opacity: 1; transform: none; }
+
+    .ci-detalles__slaqueta-num {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.8rem, 1.6vw, 1rem);
+      color: var(--accent-color);
+      letter-spacing: 0.1em;
+    }
+    .ci-detalles__rotulo {
+      margin: 0 0 0.2rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.56rem, 1.05vw, 0.64rem);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .ci-detalles__titulo-card {
+      margin: 0 0 0.25rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.98rem, 1.9vw, 1.16rem);
+      color: var(--primary-color);
+    }
+    .ci-detalles__texto {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.76rem, 1.35vw, 0.86rem);
+      line-height: 1.6;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 880px) {
+      .ci-detalles__set { grid-template-columns: 1fr; }
+      .ci-detalles__foto { max-width: 380px; margin: 0 auto; transform: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ci-detalles * { transition: none !important; }
+      .ci-detalles__fila { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="ci-detalles__cabecera" memory_type="text" memory_usage="custom" memory_key="detalles-intro">
+    <h2 class="ci-detalles__titulo" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Notas de producción</h2>
+    <span class="ci-detalles__claque" memory_type="text" memory_usage="custom" memory_key="detalles-claque">DEPT. VESTUARIO</span>
+  </header>
+
+  <div class="ci-detalles__set">
+    <figure class="ci-detalles__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="detalles-foto">
+      <img src="https://loremflickr.com/500/620/vintage,fashion" alt="Detalle de vestuario" path="placeholder" data-library-category="bodas" data-asset-type="detalle" loading="lazy" />
+      <span class="ci-detalles__perforaciones" aria-hidden="true"></span>
+      <figcaption hidden>Detalle</figcaption>
+    </figure>
+
+    <div class="ci-detalles__filas">
+      <article class="ci-detalles__fila" data-ci-fila>
+        <span class="ci-detalles__slaqueta-num" aria-hidden="true">01</span>
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-1">
+          <p class="ci-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-1">Vestuario</p>
+          <h3 class="ci-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Elegancia con carácter</h3>
+          <p class="ci-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Nada de blanco puro ni negro total; deja que el ámbar te encuentre.</p>
+        </div>
+      </article>
+      <article class="ci-detalles__fila" data-ci-fila>
+        <span class="ci-detalles__slaqueta-num" aria-hidden="true">02</span>
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-2">
+          <p class="ci-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-2">Llamadas</p>
+          <h3 class="ci-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Call time 16:30</h3>
+          <p class="ci-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">Llega con margen: la cámara arranca a las 17:00 en punto.</p>
+        </div>
+      </article>
+      <article class="ci-detalles__fila" data-ci-fila>
+        <span class="ci-detalles__slaqueta-num" aria-hidden="true">03</span>
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-3">
+          <p class="ci-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-3">Utilería</p>
+          <h3 class="ci-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Manta y música</h3>
+          <p class="ci-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">Habrá mantas para el patio y proyección al aire libre.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ci-detalles');
+      if (!root) return;
+      root.classList.add('ci-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var filas = Array.prototype.slice.call(root.querySelectorAll('[data-ci-fila]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        filas.forEach(function (f) { f.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = filas.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.12).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      filas.forEach(function (f) { io.observe(f); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-regalo',
+      style_name: 'Cine Indie — Detalles',
+      descripcion: 'Fotograma con perforaciones laterales y filas de producción numeradas por claqueta; llamadas y utilería en cursiva.',
+      tags: ['detalles', 'cine', 'produccion', 'perforaciones', 'vestuario', 'indie'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>

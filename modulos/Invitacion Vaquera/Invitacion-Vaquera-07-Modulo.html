@@ -1,0 +1,436 @@
+<section
+  class="module-detalles-western"
+  data-gemini-id="detalles-vestimenta"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="detalles-western-title"
+>
+  <style>
+    .module-detalles-western {
+      --primary-color: #2f2f2f;
+      --secondary-color: #666666;
+      --accent-color: #8a8a8a;
+      --surface-color: rgba(255, 255, 255, 0.7);
+      --surface-border-color: rgba(0, 0, 0, 0.12);
+      --background-color: #eeeeee;
+      --text-color: #2f2f2f;
+
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+      color: var(--text-color);
+      background-color: var(--background-color);
+      background-image: url("https://loremflickr.com/1920/1080/parchment,wedding");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      isolation: isolate;
+    }
+
+    .module-detalles-western::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 42%, rgba(255,255,255,0.34), transparent 36%),
+        linear-gradient(
+          90deg,
+          rgba(255,255,255,0.34),
+          rgba(255,255,255,0.1),
+          rgba(255,255,255,0.28)
+        );
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .detalles-western__inner {
+      width: min(1180px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 5rem);
+      box-sizing: border-box;
+      display: grid;
+      align-content: center;
+      gap: clamp(2.5rem, 5vw, 4.5rem);
+    }
+
+    .detalles-western__header {
+      max-width: 760px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .detalles-western__eyebrow {
+      margin: 0 0 clamp(0.8rem, 1.6vw, 1.2rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.68rem, 1vw, 0.82rem);
+      font-weight: 700;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .detalles-western__title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3.5rem, 7vw, 7rem);
+      font-weight: 400;
+      line-height: 0.98;
+      letter-spacing: -0.035em;
+      color: var(--primary-color);
+    }
+
+    .detalles-western__intro {
+      max-width: 620px;
+      margin: clamp(1rem, 2vw, 1.5rem) 0 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .detalles-western__grid {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(260px, 1fr));
+      gap: clamp(1.5rem, 3vw, 2rem);
+      width: min(920px, 100%);
+    }
+
+    .detalles-western__card {
+      position: relative;
+      min-height: clamp(240px, 26vw, 320px);
+      padding: clamp(2rem, 4vw, 3rem);
+      box-sizing: border-box;
+      display: grid;
+      align-content: center;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: clamp(24px, 3vw, 42px);
+      box-shadow:
+        0 24px 70px rgba(0, 0, 0, 0.12),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.34);
+      backdrop-filter: blur(8px);
+      overflow: hidden;
+    }
+
+    .detalles-western__card::before {
+      content: "";
+      position: absolute;
+      inset: clamp(0.7rem, 1.4vw, 1rem);
+      border: 1px solid rgba(0, 0, 0, 0.07);
+      border-radius: clamp(18px, 2.5vw, 34px);
+      pointer-events: none;
+    }
+
+    .detalles-western__card-label {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin: 0 0 clamp(1rem, 2vw, 1.4rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.68rem, 1vw, 0.8rem);
+      font-weight: 700;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .detalles-western__card-label::before {
+      content: "";
+      width: 34px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.64;
+    }
+
+    .detalles-western__card-title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.1rem, 4vw, 3.5rem);
+      font-weight: 400;
+      line-height: 1.08;
+      letter-spacing: 0.02em;
+      color: var(--primary-color);
+    }
+
+    .detalles-western__card-text {
+      max-width: 440px;
+      margin: clamp(1rem, 2vw, 1.35rem) 0 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.9rem, 1.2vw, 1rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .detalles-western__decor {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.48;
+    }
+
+    .detalles-western__decor--top-right {
+      right: clamp(1rem, 4vw, 3rem);
+      top: clamp(1rem, 4vw, 3rem);
+      width: clamp(170px, 24vw, 380px);
+      aspect-ratio: 5 / 3;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 25% 50%, rgba(0,0,0,0.1) 0 14%, transparent 15%),
+        radial-gradient(circle at 52% 45%, rgba(0,0,0,0.09) 0 13%, transparent 14%),
+        radial-gradient(circle at 76% 56%, rgba(0,0,0,0.1) 0 13%, transparent 14%);
+      border: 1px dashed rgba(0,0,0,0.08);
+    }
+
+    .detalles-western__decor--bottom-left {
+      left: clamp(0.5rem, 3vw, 2rem);
+      bottom: clamp(0.5rem, 3vw, 2rem);
+      width: clamp(190px, 28vw, 440px);
+      aspect-ratio: 5 / 2.6;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 24% 48%, rgba(0,0,0,0.1) 0 14%, transparent 15%),
+        radial-gradient(circle at 52% 50%, rgba(0,0,0,0.12) 0 17%, transparent 18%),
+        radial-gradient(circle at 78% 56%, rgba(0,0,0,0.08) 0 13%, transparent 14%);
+      border: 1px dashed rgba(0,0,0,0.08);
+    }
+
+    .detalles-western__motion {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: detallesWesternReveal 0.5s ease-out forwards;
+    }
+
+    .detalles-western__header {
+      animation-delay: 0.04s;
+    }
+
+    .detalles-western__card:nth-child(1) {
+      animation-delay: 0.12s;
+    }
+
+    .detalles-western__card:nth-child(2) {
+      animation-delay: 0.18s;
+    }
+
+    @keyframes detallesWesternReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 860px) {
+      .detalles-western__inner {
+        align-content: center;
+      }
+
+      .detalles-western__header {
+        max-width: 720px;
+        text-align: center;
+        margin: 0 auto;
+      }
+
+      .detalles-western__intro {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .detalles-western__grid {
+        grid-template-columns: 1fr;
+        width: min(640px, 100%);
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .module-detalles-western {
+        min-height: 100svh;
+      }
+
+      .detalles-western__inner {
+        min-height: 100svh;
+        padding: 2rem 1.25rem;
+      }
+
+      .detalles-western__title {
+        font-size: clamp(3.1rem, 15vw, 4.8rem);
+      }
+
+      .detalles-western__card {
+        min-height: auto;
+        padding: 2rem 1.5rem;
+        border-radius: 28px;
+      }
+
+      .detalles-western__decor--top-right,
+      .detalles-western__decor--bottom-left {
+        opacity: 0.28;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .detalles-western__motion {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <div class="detalles-western__inner">
+    <div
+      class="detalles-western__decor detalles-western__decor--top-right"
+      memory_type="background"
+      memory_usage="protected"
+      memory_source="library"
+      path="placeholder"
+      data-library-category="bodas"
+      data-asset-type="decoracion-floral"
+      aria-hidden="true"
+    ></div>
+
+    <div
+      class="detalles-western__decor detalles-western__decor--bottom-left"
+      memory_type="background"
+      memory_usage="protected"
+      memory_source="library"
+      path="placeholder"
+      data-library-category="bodas"
+      data-asset-type="decoracion-floral"
+      aria-hidden="true"
+    ></div>
+
+    <header
+      class="detalles-western__header detalles-western__motion"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="details-header"
+    >
+      <p class="detalles-western__eyebrow">
+        Guest Details
+      </p>
+
+      <h2 id="detalles-western-title" class="detalles-western__title">
+        A few notes before the celebration.
+      </h2>
+
+      <p class="detalles-western__intro">
+        Please review the dress code and gift details so you can enjoy the evening
+        comfortably.
+      </p>
+    </header>
+
+    <div class="detalles-western__grid">
+      <article
+        class="detalles-western__card detalles-western__motion"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="dress-code-details"
+      >
+        <p class="detalles-western__card-label">
+          Dress Code
+        </p>
+
+        <h3 class="detalles-western__card-title">
+          Western Formal
+        </h3>
+
+        <p class="detalles-western__card-text">
+          Elegant western attire is encouraged. Deep reds, ivory, champagne, warm
+          browns, boots, hats, and gold accents are welcome.
+        </p>
+      </article>
+
+      <article
+        class="detalles-western__card detalles-western__motion"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="gift-details"
+      >
+        <p class="detalles-western__card-label">
+          Gifts
+        </p>
+
+        <h3 class="detalles-western__card-title">
+          Your presence is our greatest gift.
+        </h3>
+
+        <p class="detalles-western__card-text">
+          If you wish to honor us with a gift, a registry and wishing well will
+          be available for guests.
+        </p>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "detalles",
+        "dress code",
+        "vestimenta",
+        "regalos",
+        "gift details",
+        "boda",
+        "western",
+        "vaquera",
+        "charra",
+        "tarjetas",
+        "guest details",
+        "responsive"
+      ],
+      descripcion:
+        "Wireframe de detalles para invitados con encabezado editorial y dos tarjetas para código de vestimenta y regalos."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="detalles-vestimenta"]');
+
+      if (!module) return;
+
+      const cards = module.querySelectorAll(".detalles-western__card");
+      const decor = module.querySelectorAll(".detalles-western__decor");
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (prefersReducedMotion) return;
+
+      module.addEventListener("pointermove", function (event) {
+        const rect = module.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        cards.forEach(function (card, index) {
+          const depth = (index + 1) * 4;
+          card.style.transform =
+            "translate(" + x * depth + "px, " + y * depth + "px)";
+        });
+
+        decor.forEach(function (item, index) {
+          const depth = (index + 1) * 5;
+          item.style.transform =
+            "translate(" + x * depth + "px, " + y * depth + "px)";
+        });
+      });
+
+      module.addEventListener("pointerleave", function () {
+        cards.forEach(function (card) {
+          card.style.transform = "translate(0, 0)";
+        });
+
+        decor.forEach(function (item) {
+          item.style.transform = "translate(0, 0)";
+        });
+      });
+    })();
+  </script>
+</section>

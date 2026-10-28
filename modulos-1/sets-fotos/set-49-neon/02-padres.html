@@ -1,0 +1,186 @@
+<section
+  class="dn-pa"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+<i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:url('https://loremflickr.com/1920/1080/neon,city?lock=442') center/cover;"></i><i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:color-mix(in srgb, var(--bg-color,#1d1a24) 88%, transparent);"></i>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Neonderthaw&family=Tilt+Neon&display=swap');
+
+    .dn-pa, .dn-pa *, .dn-pa *::before, .dn-pa *::after { box-sizing: border-box; }
+    .dn-pa {
+      --t-bg: var(--bg-color, #07060c);
+      --t-tx: var(--text-color, #fbf4ff);
+      --t-p: var(--primary-color, #ff2bd6);
+      --t-s: var(--secondary-color, #19f0ff);
+      --t-a: var(--accent-color, #f4ff2b);
+      --t-display: var(--font-script, 'Neonderthaw', cursive);
+      --t-text: var(--font-heading, 'Tilt Neon', system-ui, sans-serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .dn-pa::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(40% 50% at 25% 60%, color-mix(in srgb, var(--t-p) 14%, transparent), transparent 70%),
+        radial-gradient(40% 50% at 75% 60%, color-mix(in srgb, var(--t-s) 12%, transparent), transparent 70%),
+        repeating-linear-gradient(0deg, transparent 0 46px, color-mix(in srgb, var(--t-tx) 3%, transparent) 46px 48px);
+    }
+    .dn-pa__splats { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; opacity: .4; pointer-events: none; }
+    .dn-pa__splats use { fill: currentColor; filter: drop-shadow(0 0 10px currentColor); }
+    .dn-pa__content { width: min(100%, 60rem); }
+    .dn-pa__lead { margin: 0; font-size: clamp(1.05rem, 2.2vw, 1.35rem); color: color-mix(in srgb, var(--t-tx) 80%, transparent); }
+    .dn-pa__title {
+      --g: var(--t-a);
+      margin: 0 0 clamp(2rem, 5vw, 3.5rem);
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3.6rem, 10vw, 6.5rem);
+      line-height: 1;
+      color: color-mix(in srgb, var(--g) 30%, #fff);
+      text-shadow: 0 0 .02em #fff, 0 0 .1em var(--g), 0 0 .3em var(--g);
+    }
+    .dn-pa__grid {
+      position: relative;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(2.5rem, 8vw, 7rem);
+      align-items: start;
+    }
+    .dn-pa__amp {
+      --g: var(--t-a);
+      position: absolute;
+      left: 50%;
+      top: 32%;
+      transform: translate(-50%, -50%);
+      font-family: var(--t-display);
+      font-size: clamp(3rem, 7vw, 5rem);
+      color: color-mix(in srgb, var(--g) 30%, #fff);
+      text-shadow: 0 0 8px var(--g), 0 0 24px var(--g);
+      pointer-events: none;
+    }
+    .dn-pa__item { --g: var(--t-p); display: grid; justify-items: center; gap: .35rem; transform: rotate(-2deg); }
+    .dn-pa__item:nth-child(2) { --g: var(--t-s); transform: rotate(2deg); margin-top: clamp(0rem, 6vw, 4rem); }
+    .dn-pa__ring {
+      margin: 0 0 .6rem;
+      width: clamp(10rem, 22vw, 15rem);
+      padding: .55rem;
+      border-radius: 50%;
+      border: 3px solid color-mix(in srgb, var(--g) 60%, #fff);
+      box-shadow: 0 0 5px var(--g), 0 0 22px var(--g), 0 0 60px color-mix(in srgb, var(--g) 40%, transparent), inset 0 0 18px color-mix(in srgb, var(--g) 55%, transparent);
+    }
+    .dn-pa__ring img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--g) 18%, var(--t-bg));
+    }
+    .dn-pa__role {
+      margin: 0;
+      font-family: var(--t-display);
+      font-size: clamp(2.4rem, 5vw, 3.2rem);
+      line-height: 1;
+      color: color-mix(in srgb, var(--g) 30%, #fff);
+      text-shadow: 0 0 6px var(--g), 0 0 20px var(--g);
+    }
+    .dn-pa__name { margin: 0; font-weight: 400; font-size: clamp(1.25rem, 2.6vw, 1.6rem); }
+
+    .dn-pa--anim .dn-pa__ring, .dn-pa--anim .dn-pa__amp { opacity: 0; }
+    .dn-pa--anim.is-in .dn-pa__ring { animation: dnPaOn .5s linear calc(var(--i, 0) * .35s) both; }
+    .dn-pa--anim.is-in .dn-pa__amp { animation: dnPaOn .4s linear .8s both; }
+    @keyframes dnPaOn { 0% { opacity: 0; } 12% { opacity: 1; } 22% { opacity: .1; } 36% { opacity: .9; } 48% { opacity: .2; } 62%, 100% { opacity: 1; } }
+
+    @media (max-width: 640px) {
+      .dn-pa__grid { grid-template-columns: 1fr; }
+      .dn-pa__item:nth-child(2) { margin-top: 0; }
+      .dn-pa__amp { position: static; order: 1; display: block; transform: none; margin: .2rem 0; line-height: 1; }
+      .dn-pa__item:nth-child(2) { order: 2; }
+      .dn-pa__grid { gap: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .dn-pa *, .dn-pa *::before, .dn-pa *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="dn-pa__splats" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs><path id="dnPaS" d="M48 20C55 8 62 22 66 30C74 18 92 14 84 34C96 38 98 50 86 54C98 66 90 78 78 70C80 86 70 98 62 82C58 92 46 96 46 82C36 92 24 88 30 74C14 78 8 64 22 58C6 50 10 36 26 40C22 26 36 20 40 30C42 22 44 18 48 20ZM60 84C63 92 62 99 60 100C57 99 57 92 60 84ZM90 16a4 4 0 1 1-.1 0ZM12 80a3 3 0 1 1-.1 0ZM24 14a2.5 2.5 0 1 1-.1 0Z"/></defs>
+    <use href="#dnPaS" transform="translate(-40 -30) scale(1.8) rotate(160 50 50)" style="color: var(--t-a)"/>
+    <use href="#dnPaS" transform="translate(860 430) scale(1.9) rotate(30 50 50)" style="color: var(--t-p)"/>
+  </svg>
+
+  <div class="dn-pa__content">
+    <header>
+      <p class="dn-pa__lead" memory_type="text" memory_usage="custom" memory_key="padres-intro">Con la bendición y el amor de</p>
+      <h2 class="dn-pa__title" memory_type="text" memory_usage="custom" memory_key="padres-titulo">mis papás</h2>
+    </header>
+    <ul class="dn-pa__grid">
+      <li class="dn-pa__item" style="--i: 0">
+        <figure class="dn-pa__ring" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/600/600/mother,portrait?lock=3502" alt="Foto de mamá" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+        </figure>
+        <p class="dn-pa__role" memory_type="text" memory_usage="custom" memory_key="padres-rol-1">Mamá</p>
+        <h3 class="dn-pa__name" memory_type="text" memory_usage="custom" memory_key="padres-nombre-1" data-event-field="padres-1">Nombre Apellido</h3>
+      </li>
+      <li class="dn-pa__item" style="--i: 1">
+        <figure class="dn-pa__ring" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/600/600/father,portrait?lock=3503" alt="Foto de papá" path="placeholder" data-library-category="personas" data-asset-type="retrato" loading="lazy" />
+        </figure>
+        <p class="dn-pa__role" memory_type="text" memory_usage="custom" memory_key="padres-rol-2">Papá</p>
+        <h3 class="dn-pa__name" memory_type="text" memory_usage="custom" memory_key="padres-nombre-2" data-event-field="padres-2">Nombre Apellido</h3>
+      </li>
+      <li class="dn-pa__amp" aria-hidden="true">&amp;</li>
+    </ul>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="padres-padre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      root.classList.add('dn-pa--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('dn-pa--anim', 'is-in'); }, 1500);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Dulce Neón Aros',
+      descripcion: 'Padres de la quinceañera en aros de neón rosa y cian que parpadean al encenderse, con nombre, rol en letra de tubo y un ampersand amarillo entre ambos.',
+      tags: ['padres', 'neon', 'glow', 'quinceañera', 'retrato'],
+      tipo: 'padres'
+    };
+  </script>
+</section>

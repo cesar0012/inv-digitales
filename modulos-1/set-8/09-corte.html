@@ -1,0 +1,215 @@
+<section
+  class="tc-corte"
+  data-gemini-id="corte-terracota-toldo"
+>
+  <style>
+    .tc-corte {
+      --primary-color: #3d2b22;
+      --secondary-color: #8a6f5c;
+      --accent-color: #c26a4a;
+      --bg-color: #f6efe6;
+      --surface-color: #fdf8f1;
+      --surface-border-color: rgba(61, 43, 34, 0.18);
+      --text-color: #3d2b22;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .tc-corte *,
+    .tc-corte *::before,
+    .tc-corte *::after { box-sizing: border-box; }
+
+    .tc-corte__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: clamp(1.8rem, 4.5vw, 3.4rem);
+      align-items: center;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .tc-corte__escena {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 26px 56px rgba(61, 43, 34, 0.2);
+    }
+    .tc-corte__escena img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      filter: saturate(0.95);
+      transform: scale(1.07);
+      transition: transform 0.5s ease;
+    }
+    .tc-corte.esta-visto .tc-corte__escena img { transform: scale(1); }
+
+    .tc-corte__toldo {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: none;
+      pointer-events: none;
+    }
+    .tc-corte.tc-js .tc-corte__toldo { display: block; }
+    .tc-corte__tela {
+      position: absolute;
+      left: -2%;
+      right: -2%;
+      height: 52%;
+      background:
+        radial-gradient(circle at 25% 0%, transparent 62%, var(--accent-color) 63% 68%, transparent 69%) 0 0 / 44px 100% repeat-x,
+        linear-gradient(180deg, color-mix(in srgb, var(--secondary-color) 88%, var(--bg-color)), color-mix(in srgb, var(--secondary-color) 60%, var(--bg-color)));
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .tc-corte__tela--arriba { top: 0; border-bottom: 2px solid var(--accent-color); }
+    .tc-corte__tela--abajo { bottom: 0; transform: rotate(180deg); border-bottom: 2px solid var(--accent-color); }
+    .tc-corte.esta-visto .tc-corte__tela--arriba { transform: translateY(-102%); }
+    .tc-corte.esta-visto .tc-corte__tela--abajo { transform: rotate(180deg) translateY(-102%); }
+
+    .tc-corte__campanilla {
+      position: absolute;
+      z-index: 3;
+      top: 50%;
+      left: 50%;
+      width: 58px;
+      transform: translate(-50%, -50%);
+      display: none;
+      color: var(--surface-color);
+      background: var(--primary-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 50%;
+      padding: 9px;
+      box-shadow: 0 12px 26px rgba(61, 43, 34, 0.35);
+      transition: opacity 0.4s ease;
+      animation: tcCorteToca 3s ease-in-out infinite;
+    }
+    .tc-corte.tc-js .tc-corte__campanilla { display: block; }
+    @keyframes tcCorteToca {
+      0%, 100% { transform: translate(-50%, -50%) rotate(-8deg); }
+      50% { transform: translate(-50%, -50%) rotate(8deg); }
+    }
+    .tc-corte.esta-visto .tc-corte__campanilla { opacity: 0; }
+
+    .tc-corte__contenido { text-align: left; }
+    .tc-corte__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .tc-corte__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.85rem, 4.2vw, 2.7rem);
+      line-height: 1.1;
+      color: var(--primary-color);
+    }
+    .tc-corte__texto {
+      margin: 0 0 1.2rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .tc-corte__olivo-firma {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.86rem, 1.6vw, 0.98rem);
+      color: var(--primary-color);
+    }
+    .tc-corte__olivo-firma svg { width: 30px; color: var(--accent-color); }
+
+    @media (max-width: 880px) {
+      .tc-corte__grid { grid-template-columns: 1fr; }
+      .tc-corte__contenido { text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tc-corte * { transition: none !important; animation: none !important; }
+      .tc-corte__toldo, .tc-corte__campanilla { display: none !important; }
+      .tc-corte__escena img { transform: none; }
+    }
+  </style>
+
+  <div class="tc-corte__grid">
+    <figure class="tc-corte__escena" memory_type="image" memory_usage="custom" memory_source="library" memory_key="corte-foto">
+      <img
+        src="https://loremflickr.com/960/600/celebration,terrace"
+        alt="Momento del corte en la terraza"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="corte"
+        loading="lazy"
+      />
+      <span class="tc-corte__toldo" aria-hidden="true">
+        <span class="tc-corte__tela tc-corte__tela--arriba"></span>
+        <span class="tc-corte__tela tc-corte__tela--abajo"></span>
+      </span>
+      <svg class="tc-corte__campanilla" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <path d="M24 6 C15 6, 10 13, 10 22 V32 L6 38 H42 L38 32 V22 C38 13, 33 6, 24 6 Z" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M20 42 A4 4 0 0 0 28 42" stroke="currentColor" stroke-width="1.6"/>
+      </svg>
+      <figcaption hidden>Momento del corte</figcaption>
+    </figure>
+
+    <div class="tc-corte__contenido" memory_type="text" memory_usage="custom" memory_key="corte-texto">
+      <p class="tc-corte__etiqueta" memory_type="text" memory_usage="custom" memory_key="corte-etiqueta">Hora dulce</p>
+      <h2 class="tc-corte__titulo" memory_type="text" memory_usage="custom" memory_key="corte-titulo">El corte del toldo</h2>
+      <p class="tc-corte__texto">
+        Los toldos de lona se recogen hacia arriba y hacia abajo para descubrir la mesa dulce.
+        Ahí cortaremos el primer trozo, el que empieza todo.
+      </p>
+      <span class="tc-corte__olivo-firma">
+        <svg viewBox="0 0 54 40" fill="none" aria-hidden="true">
+          <path d="M4 34 C 16 24, 30 16, 50 8" stroke="currentColor" stroke-width="1.6"/>
+          <circle cx="44" cy="11" r="3.4" fill="currentColor"/>
+        </svg>
+        <span memory_type="text" memory_usage="custom" memory_key="corte-firma">Dulce como el atardecer.</span>
+      </span>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.tc-corte');
+      if (!root) return;
+      root.classList.add('tc-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root.querySelector('.tc-corte__escena') || root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-terracota-toldo',
+      style_name: 'Terracota Mediterránea — Corte',
+      descripcion: 'Toldos de lona festoneados que se recogen arriba y abajo al entrar en pantalla, campanilla oscilante que se apaga.',
+      tags: ['corte', 'toldo', 'terracota', 'revelado', 'campana', 'mediterraneo'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

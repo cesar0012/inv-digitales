@@ -1,0 +1,303 @@
+<section
+  class="ne-de"
+  data-gemini-id="detalles-regalo"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400%3B0,500%3B0,600%3B1,400%3B1,500&family=Great+Vibes&display=swap');
+
+    .ne-de, .ne-de *, .ne-de *::before, .ne-de *::after { box-sizing: border-box; }
+    .ne-de {
+      --t-bg: var(--bg-color, #0a1535);
+      --t-tx: var(--text-color, #f3f6fd);
+      --t-p: var(--primary-color, #c4ccda);
+      --t-s: var(--secondary-color, #1d3170);
+      --t-a: var(--accent-color, #eef3ff);
+      --t-display: var(--font-script, 'Great Vibes', cursive);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      --t-soft: color-mix(in srgb, var(--t-tx) 80%, transparent);
+      --t-line: color-mix(in srgb, var(--t-p) 45%, transparent);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image:
+        radial-gradient(ellipse 50% 60% at 15% 40%, color-mix(in srgb, var(--t-s) 70%, transparent), transparent 70%),
+        linear-gradient(200deg, var(--t-bg), color-mix(in srgb, var(--t-bg) 72%, black));
+      color: var(--t-tx);
+      text-align: left;
+      font-family: var(--t-text);
+    }
+    .ne-de__sky { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    .ne-de__content {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 64rem);
+      display: grid;
+      grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+      gap: clamp(2rem, 6vw, 4.5rem);
+      align-items: center;
+    }
+
+    .ne-de__figure {
+      position: relative;
+      margin: 0;
+      border-radius: 50% 50% 1.4rem 1.4rem / 34% 34% 1.4rem 1.4rem;
+      overflow: hidden;
+      background: linear-gradient(180deg, var(--t-s), var(--t-bg));
+      box-shadow: 0 0 0 1px var(--t-line), 0 30px 60px color-mix(in srgb, black 45%, transparent);
+    }
+    .ne-de__figure img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; }
+    .ne-de__figure::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 55%, color-mix(in srgb, var(--t-bg) 70%, transparent));
+      pointer-events: none;
+    }
+
+    .ne-de__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.6rem, 6vw, 4.2rem); line-height: 1.05; color: var(--t-a); }
+    .ne-de__intro { margin: .3rem 0 1.8rem; font-style: italic; font-size: clamp(1.1rem, 2.2vw, 1.3rem); color: var(--t-soft); }
+
+    .ne-de__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+    .ne-de__card { perspective: 900px; }
+    .ne-de__card:nth-child(2) { margin-left: clamp(0rem, 4vw, 3rem); }
+    .ne-de__card:nth-child(3) { margin-left: clamp(0rem, 1.5vw, 1.2rem); }
+    .ne-de__inner { display: grid; transform-style: preserve-3d; transition: transform .5s cubic-bezier(.3, .7, .2, 1); }
+    .ne-de__face {
+      grid-area: 1 / 1;
+      position: relative;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: .2rem 1.1rem;
+      align-items: start;
+      padding: 1.15rem 1.4rem 1.25rem;
+      border-radius: 1.2rem;
+      border: 1px solid color-mix(in srgb, var(--t-p) 28%, transparent);
+      background: linear-gradient(150deg, color-mix(in srgb, var(--t-s) 55%, transparent), color-mix(in srgb, var(--t-bg) 80%, transparent));
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      overflow: hidden;
+    }
+    .ne-de__face--back {
+      transform: rotateY(180deg);
+      place-items: center;
+      grid-template-columns: 1fr;
+      background:
+        radial-gradient(circle at 30% 40%, color-mix(in srgb, var(--t-a) 14%, transparent), transparent 40%),
+        linear-gradient(150deg, color-mix(in srgb, var(--t-s) 80%, transparent), var(--t-bg));
+    }
+    /* Glint that sweeps across a card on hover */
+    .ne-de__face--front::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, transparent 35%, color-mix(in srgb, var(--t-a) 22%, transparent) 50%, transparent 65%);
+      transform: translateX(-110%);
+      pointer-events: none;
+    }
+    .ne-de__card:hover .ne-de__face--front::after { transform: translateX(110%); transition: transform .5s ease; }
+    .ne-de__card:hover .ne-de__face--front { border-color: color-mix(in srgb, var(--t-a) 55%, transparent); }
+
+    .ne-de__phase { grid-row: span 2; width: 2.2rem; height: 2.2rem; margin-top: .25rem; border-radius: 50%; border: 1px solid var(--t-line); background: color-mix(in srgb, var(--t-bg) 60%, transparent); }
+    .ne-de__card:nth-child(1) .ne-de__phase { box-shadow: inset .55rem 0 0 0 var(--t-p); }
+    .ne-de__card:nth-child(2) .ne-de__phase { background: linear-gradient(90deg, var(--t-p) 50%, transparent 50%); }
+    .ne-de__card:nth-child(3) .ne-de__phase { background: radial-gradient(circle at 35% 35%, var(--t-a), var(--t-p)); box-shadow: 0 0 14px color-mix(in srgb, var(--t-a) 55%, transparent); }
+    .ne-de__face--back .ne-de__phase { grid-row: auto; width: 3rem; height: 3rem; margin: 0; }
+    .ne-de__name { margin: 0; font-size: clamp(1.3rem, 2.4vw, 1.55rem); font-weight: 500; line-height: 1.2; }
+    .ne-de__text { margin: 0; font-size: 1.06rem; line-height: 1.5; color: var(--t-soft); }
+
+    /* Flip: cards begin showing the night side and turn one by one as they enter */
+    .ne-de--anim .ne-de__inner { transform: rotateY(180deg); }
+    .ne-de--anim .ne-de__card[data-on] .ne-de__inner { transform: rotateY(0deg); }
+    .ne-de--anim .ne-de__figure { clip-path: circle(0% at 50% 30%); transition: clip-path .5s cubic-bezier(.5, 0, .2, 1); }
+    .ne-de--anim.is-in .ne-de__figure { clip-path: circle(80% at 50% 30%); }
+    .ne-de--anim .ne-de__head { opacity: 0; transition: opacity .5s ease .1s; }
+    .ne-de--anim.is-in .ne-de__head { opacity: 1; }
+
+    @media (max-width: 760px) {
+      .ne-de__content { grid-template-columns: 1fr; }
+      .ne-de__figure { width: min(100%, 22rem); justify-self: center; }
+      .ne-de__head { text-align: center; }
+      .ne-de__card:nth-child(n) { margin-left: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ne-de *, .ne-de *::before, .ne-de *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <canvas class="ne-de__sky" data-ne-sky aria-hidden="true"></canvas>
+
+  <div class="ne-de__content">
+    <figure class="ne-de__figure" memory_type="image" memory_usage="custom" memory_source="library">
+      <img src="https://loremflickr.com/800/1000/quinceanera,dress,night?lock=3307" alt="Detalle del vestido de la quinceañera" path="placeholder" data-library-category="quinceanera" data-asset-type="vestido" loading="lazy" />
+    </figure>
+
+    <div class="ne-de__body">
+      <header class="ne-de__head">
+        <h2 class="ne-de__title" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Detalles de la noche</h2>
+        <p class="ne-de__intro" memory_type="text" memory_usage="custom" memory_key="detalles-texto">Pequeñas estrellas para que todo brille como soñamos.</p>
+      </header>
+      <ul class="ne-de__list">
+        <li class="ne-de__card" data-ne-card>
+          <div class="ne-de__inner">
+            <div class="ne-de__face ne-de__face--front">
+              <span class="ne-de__phase" aria-hidden="true"></span>
+              <h3 class="ne-de__name" memory_type="text" memory_usage="custom" memory_key="detalles-tarjeta-1-titulo">Lluvia de sobres</h3>
+              <p class="ne-de__text" memory_type="text" memory_usage="custom" memory_key="detalles-tarjeta-1-texto">Si deseas obsequiarme algo, habrá un cofre para sobres a la entrada del salón.</p>
+            </div>
+            <div class="ne-de__face ne-de__face--back" aria-hidden="true"><span class="ne-de__phase"></span></div>
+          </div>
+        </li>
+        <li class="ne-de__card" data-ne-card>
+          <div class="ne-de__inner">
+            <div class="ne-de__face ne-de__face--front">
+              <span class="ne-de__phase" aria-hidden="true"></span>
+              <h3 class="ne-de__name" memory_type="text" memory_usage="custom" memory_key="detalles-tarjeta-2-titulo">Invitación personal</h3>
+              <p class="ne-de__text" memory_type="text" memory_usage="custom" memory_key="detalles-tarjeta-2-texto">Agradecemos respetar el número de lugares asignados en tu invitación.</p>
+            </div>
+            <div class="ne-de__face ne-de__face--back" aria-hidden="true"><span class="ne-de__phase"></span></div>
+          </div>
+        </li>
+        <li class="ne-de__card" data-ne-card>
+          <div class="ne-de__inner">
+            <div class="ne-de__face ne-de__face--front">
+              <span class="ne-de__phase" aria-hidden="true"></span>
+              <h3 class="ne-de__name" memory_type="text" memory_usage="custom" memory_key="detalles-tarjeta-3-titulo">Recuerdos de la noche</h3>
+              <p class="ne-de__text" memory_type="text" memory_usage="custom" memory_key="detalles-tarjeta-3-texto">Comparte tus fotos con la etiqueta #MisXVBajoLasEstrellas.</p>
+            </div>
+            <div class="ne-de__face ne-de__face--back" aria-hidden="true"><span class="ne-de__phase"></span></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="detalles-regalo"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* Shared night-sky layer: twinkling stars, silver glitter sparkles and occasional shooting stars */
+      function neSky(cv, host, o) {
+        o = o || {};
+        var ctx = cv && cv.getContext ? cv.getContext('2d') : null;
+        var api = { start: function () {}, stop: function () {}, draw: function () {} };
+        if (!ctx) return api;
+        var dpr = Math.min(window.devicePixelRatio || 1, 2), W = 1, H = 1, pts = [], shots = [], next = 0, raf = 0, on = false;
+        var cs = getComputedStyle(host);
+        var cA = cs.getPropertyValue('--t-a').trim() || '#eef3ff';
+        var cP = cs.getPropertyValue('--t-p').trim() || '#c4ccda';
+        function seed() {
+          pts = [];
+          var n = Math.min(o.max || 200, Math.round(W * H / (o.area || 6500)));
+          for (var i = 0; i < n; i++) {
+            pts.push({ x: Math.random() * W, y: Math.random() * H, r: .35 + Math.random() * 1.05, ph: Math.random() * 6.283, sp: .5 + Math.random() * 1.6, g: Math.random() < (o.glitter || .1) });
+          }
+        }
+        function size() {
+          var r = cv.getBoundingClientRect();
+          W = Math.max(1, r.width); H = Math.max(1, r.height);
+          cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          seed();
+        }
+        function sparkle(x, y, s, a) {
+          ctx.globalAlpha = Math.max(0, Math.min(1, a)); ctx.fillStyle = cA;
+          ctx.beginPath(); ctx.moveTo(x, y - s);
+          ctx.quadraticCurveTo(x + s * .14, y - s * .14, x + s, y);
+          ctx.quadraticCurveTo(x + s * .14, y + s * .14, x, y + s);
+          ctx.quadraticCurveTo(x - s * .14, y + s * .14, x - s, y);
+          ctx.quadraticCurveTo(x - s * .14, y - s * .14, x, y - s);
+          ctx.fill();
+        }
+        function spawn(now) {
+          var th = (.42 + Math.random() * .2);
+          shots.push({ x: W * (.35 + Math.random() * .7), y: -10 + Math.random() * H * .4, dx: -Math.cos(th), dy: Math.sin(th), dist: (W + H) * (.25 + Math.random() * .15), len: 90 + Math.random() * 110, born: now, life: 950 + Math.random() * 450 });
+        }
+        function draw(now) {
+          ctx.clearRect(0, 0, W, H);
+          var t = now / 1000;
+          for (var i = 0; i < pts.length; i++) {
+            var p = pts[i], tw = .55 + .45 * Math.sin(t * p.sp + p.ph);
+            if (p.g) { sparkle(p.x, p.y, p.r * 3.4 * tw + .6, .3 + .7 * tw); }
+            else { ctx.globalAlpha = .22 + .6 * tw; ctx.fillStyle = cP; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill(); }
+          }
+          if (o.shoot) {
+            if (!next) next = now + 900 + Math.random() * 2200;
+            if (now > next) { spawn(now); next = now + (o.every || 5200) + Math.random() * 4000; }
+            for (var j = shots.length - 1; j >= 0; j--) {
+              var s = shots[j], k = (now - s.born) / s.life;
+              if (k >= 1 || k < 0) { shots.splice(j, 1); continue; }
+              var hx = s.x + s.dx * k * s.dist, hy = s.y + s.dy * k * s.dist, tl = s.len * Math.min(1, k * 3);
+              var g = ctx.createLinearGradient(hx, hy, hx - s.dx * tl, hy - s.dy * tl);
+              g.addColorStop(0, cA); g.addColorStop(1, 'rgba(255,255,255,0)');
+              ctx.globalAlpha = Math.sin(k * Math.PI); ctx.strokeStyle = g; ctx.lineWidth = 1.5; ctx.lineCap = 'round';
+              ctx.beginPath(); ctx.moveTo(hx, hy); ctx.lineTo(hx - s.dx * tl, hy - s.dy * tl); ctx.stroke();
+              sparkle(hx, hy, 4, Math.sin(k * Math.PI));
+            }
+          }
+          ctx.globalAlpha = 1;
+        }
+        function loop(now) { raf = 0; if (!on) return; draw(now); raf = requestAnimationFrame(loop); }
+        api.start = function () { if (on) return; on = true; raf = requestAnimationFrame(loop); };
+        api.stop = function () { on = false; if (raf) cancelAnimationFrame(raf); raf = 0; };
+        api.draw = draw;
+        size();
+        if ('ResizeObserver' in window) new ResizeObserver(function () { size(); if (!on) draw(1000); }).observe(cv);
+        return api;
+      }
+      /* Runs a start/stop controller only while the module is on screen and the tab is visible */
+      function neWhenVisible(el, ctl) {
+        var vis = false;
+        function upd() { if (vis && !document.hidden) ctl.start(); else ctl.stop(); }
+        if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { vis = en[0].isIntersecting; upd(); }).observe(el);
+        else { vis = true; upd(); }
+        document.addEventListener('visibilitychange', upd);
+      }
+
+      var sky = neSky(root.querySelector('[data-ne-sky]'), root, { shoot: !RM, area: 8000, glitter: .14 });
+      if (RM) { sky.draw(1000); return; }
+      neWhenVisible(root, sky);
+
+      if (!('IntersectionObserver' in window)) return;
+      var cards = root.querySelectorAll('[data-ne-card]');
+      root.classList.add('ne-de--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          /* Cards turn from new moon to full information, one after another */
+          for (var i = 0; i < cards.length; i++) {
+            (function (c, d) { setTimeout(function () { c.setAttribute('data-on', ''); }, d); })(cards[i], 350 + i * 260);
+          }
+          setTimeout(function () {
+            root.classList.remove('ne-de--anim', 'is-in');
+            for (var j = 0; j < cards.length; j++) cards[j].removeAttribute('data-on');
+          }, 350 + cards.length * 260 + 800);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-regalo',
+      style_name: 'Noche Estrellada Detalles Fases Lunares',
+      descripcion: 'Detalles de XV años con imagen en arco y tarjetas de fases lunares que giran del lado nocturno a la información al entrar en pantalla; destello plateado al pasar el cursor.',
+      tags: ['detalles', 'regalo', 'quinceañera', 'noche estrellada', 'fases lunares', 'plateado', 'azul marino'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>

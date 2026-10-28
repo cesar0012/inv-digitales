@@ -1,0 +1,396 @@
+<section
+  class="mm-gal"
+  data-gemini-id="galeria-metamorfosis"
+  memory_type="background"
+  memory_usage="protected"
+
+  memory_source="generated"
+  path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Pinyon+Script&display=swap');
+
+    .mm-gal, .mm-gal *, .mm-gal *::before, .mm-gal *::after { box-sizing: border-box; }
+    .mm-gal {
+      --mm-bg: var(--bg-color, #1a0e26);
+      --mm-tx: var(--text-color, #faf2fb);
+      --mm-p: var(--primary-color, #f2a9cf);
+      --mm-s: var(--secondary-color, #8fd0f5);
+      --mm-a: var(--accent-color, #e5c07e);
+      --mm-script: var(--font-script, 'Pinyon Script', 'Great Vibes', cursive);
+      --mm-serif: var(--font-heading, 'Cormorant Garamond', 'Cormorant', Georgia, serif);
+      --panel: color-mix(in srgb, var(--mm-bg) 85%, transparent);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 4vw, 3rem);
+      overflow: hidden;
+      background-color: var(--mm-bg);
+      background-image:
+        radial-gradient(45% 30% at 50% 0%, color-mix(in srgb, var(--mm-p) 15%, transparent), transparent 70%),
+        radial-gradient(50% 40% at 100% 100%, color-mix(in srgb, var(--mm-s) 10%, transparent), transparent 70%);
+      color: var(--mm-tx);
+      text-align: center;
+      font-family: var(--mm-serif);
+    }
+    .mm-gal__content { width: min(100%, 72rem); }
+    .mm-gal__head { margin-bottom: clamp(2rem, 5vw, 3.2rem); }
+    .mm-gal__eyebrow { margin: 0 0 .35rem; font-style: italic; font-size: clamp(1.05rem, 2vw, 1.3rem); color: color-mix(in srgb, var(--mm-p) 70%, var(--mm-tx)); }
+    .mm-gal__title { margin: 0; font-weight: 300; font-size: clamp(2.3rem, 5.4vw, 3.8rem); line-height: 1.05; }
+
+    /* ---------- Mosaico ---------- */
+    .mm-gal__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(clamp(9.5rem, 21vw, 15rem), 1fr));
+      grid-auto-rows: clamp(9.5rem, 17vw, 13.5rem);
+      grid-auto-flow: dense;
+      gap: clamp(.6rem, 1.6vw, 1rem);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      perspective: 1400px;
+    }
+    .mm-gal__tile { position: relative; min-height: 0; transform-style: preserve-3d; }
+    .mm-gal__tile.is-tall { grid-row: span 2; }
+    .mm-gal__tile.is-wide { grid-column: span 2; }
+    .mm-gal__fig {
+      position: relative;
+      height: 100%;
+      margin: 0;
+      border-radius: 1.2rem;
+      overflow: hidden;
+      background: color-mix(in srgb, var(--mm-tx) 7%, var(--mm-bg));
+      box-shadow: 0 24px 50px -28px color-mix(in srgb, #000 85%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--mm-tx) 10%, transparent);
+      transform: rotateX(var(--mm-rx, 0deg)) rotateY(var(--mm-ry, 0deg));
+      transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease;
+    }
+    .mm-gal__tile:nth-child(3n+1) .mm-gal__fig { border-radius: 2.4rem 1.2rem 1.2rem 1.2rem; }
+    .mm-gal__tile:nth-child(3n+2) .mm-gal__fig { border-radius: 1.2rem 2.4rem 1.2rem 1.2rem; }
+    .mm-gal__open {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      border: 0;
+      background: none;
+      cursor: zoom-in;
+    }
+    .mm-gal__open:focus-visible { outline: 2px solid var(--mm-a); outline-offset: -4px; }
+    .mm-gal__open img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.04);
+      transition: transform .5s cubic-bezier(.2, .8, .2, 1), filter .4s ease;
+    }
+    .mm-gal__tile:hover .mm-gal__open img { transform: scale(1.1); }
+    .mm-gal__sheen {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(40% 60% at var(--mm-mx, 50%) var(--mm-my, 50%), color-mix(in srgb, var(--mm-p) 38%, transparent), color-mix(in srgb, var(--mm-s) 18%, transparent) 45%, transparent 75%);
+      mix-blend-mode: screen;
+      opacity: 0;
+      transition: opacity .35s ease;
+      pointer-events: none;
+    }
+    .mm-gal__tile:hover .mm-gal__sheen { opacity: 1; }
+    .mm-gal__tile:hover .mm-gal__fig { box-shadow: 0 34px 60px -28px color-mix(in srgb, #000 90%, transparent), 0 0 0 1px color-mix(in srgb, var(--mm-a) 50%, transparent); }
+    .mm-gal__cap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 2.2rem 1rem .8rem;
+      font-style: italic;
+      font-size: 1.05rem;
+      text-align: left;
+      color: var(--mm-tx);
+      background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--mm-bg) 85%, transparent));
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .3s ease, transform .3s ease;
+      pointer-events: none;
+    }
+    .mm-gal__tile:hover .mm-gal__cap, .mm-gal__tile:focus-within .mm-gal__cap { opacity: 1; transform: none; }
+
+    /* Entrada: cada foto se despliega como un ala (≤ 0.5s) */
+    .mm-gal--anim .mm-gal__tile { opacity: 0; transform: rotateY(-62deg) translateZ(-40px); transform-origin: 0 50%; transition: opacity .45s ease, transform .5s cubic-bezier(.2, .9, .25, 1.05); }
+    .mm-gal--anim .mm-gal__tile:nth-child(even) { transform: rotateY(62deg) translateZ(-40px); transform-origin: 100% 50%; }
+    .mm-gal--anim .mm-gal__tile.is-in { opacity: 1; transform: none; }
+
+    /* ---------- Lightbox (dialog en top-layer) ---------- */
+    .mm-gal__dlg {
+      width: 100vw;
+      max-width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      max-height: 100dvh;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--mm-tx);
+      font-family: var(--mm-serif);
+      overflow: hidden;
+    }
+    .mm-gal__dlg[open] { display: grid; grid-template-rows: auto 1fr auto; }
+    .mm-gal__dlg::backdrop {
+      background: color-mix(in srgb, var(--bg-color, #1a0e26) 90%, transparent);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+    }
+    .mm-gal__bar { display: flex; align-items: center; justify-content: space-between; padding: 1rem clamp(1rem, 3vw, 2rem); }
+    .mm-gal__count { font-size: 1.15rem; letter-spacing: .08em; font-variant-numeric: lining-nums tabular-nums; color: color-mix(in srgb, var(--mm-tx) 75%, transparent); }
+    .mm-gal__btn {
+      display: grid;
+      place-items: center;
+      width: 3rem;
+      height: 3rem;
+      border: 1px solid color-mix(in srgb, var(--mm-tx) 25%, transparent);
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--mm-bg) 50%, transparent);
+      color: var(--mm-tx);
+      cursor: pointer;
+      transition: transform .25s cubic-bezier(.3, 1.5, .5, 1), border-color .3s ease, background .3s ease;
+    }
+    .mm-gal__btn:hover { transform: scale(1.08); border-color: var(--mm-a); background: color-mix(in srgb, var(--mm-a) 18%, transparent); }
+    .mm-gal__btn:focus-visible { outline: 2px solid var(--mm-a); outline-offset: 3px; }
+    .mm-gal__btn svg { width: 1.2rem; height: 1.2rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .mm-gal__view { position: relative; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: clamp(.4rem, 2vw, 1.4rem); min-height: 0; padding: 0 clamp(.6rem, 3vw, 2rem); }
+    .mm-gal__stage { position: relative; display: grid; place-items: center; height: 100%; min-height: 0; touch-action: pan-y; }
+    .mm-gal__big {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 1.2rem;
+      box-shadow: 0 40px 100px -30px color-mix(in srgb, #000 90%, transparent), 0 0 0 1px color-mix(in srgb, var(--mm-a) 30%, transparent);
+      transition: opacity .25s ease, transform .3s ease;
+    }
+    .mm-gal__big.is-swap { opacity: 0; transform: translateX(var(--mm-sw, 20px)); transition: none; }
+    .mm-gal__bigcap { margin: 0; padding: 1rem 1.5rem 1.5rem; font-style: italic; font-size: 1.2rem; text-align: center; min-height: 1.5em; }
+
+    @media (hover: none) {
+      .mm-gal__cap { opacity: 1; transform: none; padding-top: 1.6rem; font-size: .98rem; }
+    }
+    @media (max-width: 560px) {
+      .mm-gal__view { grid-template-columns: 1fr; }
+      .mm-gal__view .mm-gal__btn { position: absolute; bottom: -4rem; z-index: 2; }
+      .mm-gal__view .mm-gal__btn[data-mm-prev] { left: 1rem; }
+      .mm-gal__view .mm-gal__btn[data-mm-next] { right: 1rem; }
+      .mm-gal__bigcap { padding: 1.4rem 4.5rem 1.6rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .mm-gal *, .mm-gal *::before, .mm-gal *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="mm-gal__content">
+    <header class="mm-gal__head">
+      <p class="mm-gal__eyebrow" memory_type="text" memory_usage="custom" memory_key="galeria-subtitulo">Instantes que atesoro</p>
+      <h2 class="mm-gal__title" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Galería</h2>
+    </header>
+
+    <ul class="mm-gal__grid">
+      <li class="mm-gal__tile is-tall" data-mm-tile>
+        <figure class="mm-gal__fig" memory_type="image" memory_usage="custom" memory_source="library">
+          <button class="mm-gal__open" type="button" aria-label="Ver foto 1 en grande">
+            <img src="https://loremflickr.com/900/1100/dress,portrait?lock=2721" alt="Fotografía de la galería" path="placeholder" data-library-category="galeria" data-asset-type="foto-galeria" loading="lazy" />
+            <span class="mm-gal__sheen" aria-hidden="true"></span>
+          </button>
+          <figcaption class="mm-gal__cap" memory_type="text" memory_usage="custom" memory_key="galeria-pie-1">Retrato principal</figcaption>
+        </figure>
+      </li>
+      <li class="mm-gal__tile" data-mm-tile>
+        <figure class="mm-gal__fig" memory_type="image" memory_usage="custom" memory_source="library">
+          <button class="mm-gal__open" type="button" aria-label="Ver foto 2 en grande">
+            <img src="https://loremflickr.com/900/1100/flowers,bouquet?lock=2722" alt="Fotografía de la galería" path="placeholder" data-library-category="galeria" data-asset-type="foto-galeria" loading="lazy" />
+            <span class="mm-gal__sheen" aria-hidden="true"></span>
+          </button>
+          <figcaption class="mm-gal__cap" memory_type="text" memory_usage="custom" memory_key="galeria-pie-2">Detalles florales</figcaption>
+        </figure>
+      </li>
+      <li class="mm-gal__tile" data-mm-tile>
+        <figure class="mm-gal__fig" memory_type="image" memory_usage="custom" memory_source="library">
+          <button class="mm-gal__open" type="button" aria-label="Ver foto 3 en grande">
+            <img src="https://loremflickr.com/900/1100/party,celebration?lock=2723" alt="Fotografía de la galería" path="placeholder" data-library-category="galeria" data-asset-type="foto-galeria" loading="lazy" />
+            <span class="mm-gal__sheen" aria-hidden="true"></span>
+          </button>
+          <figcaption class="mm-gal__cap" memory_type="text" memory_usage="custom" memory_key="galeria-pie-3">Celebración</figcaption>
+        </figure>
+      </li>
+      <li class="mm-gal__tile is-wide" data-mm-tile>
+        <figure class="mm-gal__fig" memory_type="image" memory_usage="custom" memory_source="library">
+          <button class="mm-gal__open" type="button" aria-label="Ver foto 4 en grande">
+            <img src="https://loremflickr.com/900/1100/dance,ballroom?lock=2724" alt="Fotografía de la galería" path="placeholder" data-library-category="galeria" data-asset-type="foto-galeria" loading="lazy" />
+            <span class="mm-gal__sheen" aria-hidden="true"></span>
+          </button>
+          <figcaption class="mm-gal__cap" memory_type="text" memory_usage="custom" memory_key="galeria-pie-4">El vals</figcaption>
+        </figure>
+      </li>
+      <li class="mm-gal__tile" data-mm-tile>
+        <figure class="mm-gal__fig" memory_type="image" memory_usage="custom" memory_source="library">
+          <button class="mm-gal__open" type="button" aria-label="Ver foto 5 en grande">
+            <img src="https://loremflickr.com/900/1100/butterfly,garden?lock=2725" alt="Fotografía de la galería" path="placeholder" data-library-category="galeria" data-asset-type="foto-galeria" loading="lazy" />
+            <span class="mm-gal__sheen" aria-hidden="true"></span>
+          </button>
+          <figcaption class="mm-gal__cap" memory_type="text" memory_usage="custom" memory_key="galeria-pie-5">Jardín</figcaption>
+        </figure>
+      </li>
+      <li class="mm-gal__tile is-tall" data-mm-tile>
+        <figure class="mm-gal__fig" memory_type="image" memory_usage="custom" memory_source="library">
+          <button class="mm-gal__open" type="button" aria-label="Ver foto 6 en grande">
+            <img src="https://loremflickr.com/900/1100/portrait,smile?lock=2726" alt="Fotografía de la galería" path="placeholder" data-library-category="galeria" data-asset-type="foto-galeria" loading="lazy" />
+            <span class="mm-gal__sheen" aria-hidden="true"></span>
+          </button>
+          <figcaption class="mm-gal__cap" memory_type="text" memory_usage="custom" memory_key="galeria-pie-6">Sonrisas</figcaption>
+        </figure>
+      </li>
+      <li class="mm-gal__tile" data-mm-tile>
+        <figure class="mm-gal__fig" memory_type="image" memory_usage="custom" memory_source="library">
+          <button class="mm-gal__open" type="button" aria-label="Ver foto 7 en grande">
+            <img src="https://loremflickr.com/900/1100/cake,dessert?lock=2727" alt="Fotografía de la galería" path="placeholder" data-library-category="galeria" data-asset-type="foto-galeria" loading="lazy" />
+            <span class="mm-gal__sheen" aria-hidden="true"></span>
+          </button>
+          <figcaption class="mm-gal__cap" memory_type="text" memory_usage="custom" memory_key="galeria-pie-7">Mesa de postres</figcaption>
+        </figure>
+      </li>
+      <li class="mm-gal__tile is-wide" data-mm-tile>
+        <figure class="mm-gal__fig" memory_type="image" memory_usage="custom" memory_source="library">
+          <button class="mm-gal__open" type="button" aria-label="Ver foto 8 en grande">
+            <img src="https://loremflickr.com/900/1100/friends,party?lock=2728" alt="Fotografía de la galería" path="placeholder" data-library-category="galeria" data-asset-type="foto-galeria" loading="lazy" />
+            <span class="mm-gal__sheen" aria-hidden="true"></span>
+          </button>
+          <figcaption class="mm-gal__cap" memory_type="text" memory_usage="custom" memory_key="galeria-pie-8">Con mis amigos</figcaption>
+        </figure>
+      </li>
+    </ul>
+  </div>
+
+  <dialog class="mm-gal__dlg" data-mm-dlg aria-label="Galería ampliada">
+    <div class="mm-gal__bar">
+      <span class="mm-gal__count" data-mm-count>01 / 08</span>
+      <button class="mm-gal__btn" type="button" data-mm-close aria-label="Cerrar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="mm-gal__view">
+      <button class="mm-gal__btn" type="button" data-mm-prev aria-label="Foto anterior"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="mm-gal__stage" data-mm-stage><img class="mm-gal__big" data-mm-big alt="" /></div>
+      <button class="mm-gal__btn" type="button" data-mm-next aria-label="Foto siguiente"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <p class="mm-gal__bigcap" data-mm-bigcap aria-live="polite"></p>
+  </dialog>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="galeria-metamorfosis"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__mmInit) return;
+      root.__mmInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var tiles = [].slice.call(root.querySelectorAll('[data-mm-tile]'));
+      var dlg = root.querySelector('[data-mm-dlg]');
+      var big = root.querySelector('[data-mm-big]');
+      var cap = root.querySelector('[data-mm-bigcap]');
+      var count = root.querySelector('[data-mm-count]');
+      var stage = root.querySelector('[data-mm-stage]');
+      var idx = 0;
+      function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+      /* Inclinación 3D + brillo iridiscente que sigue al cursor */
+      tiles.forEach(function (t) {
+        var fig = t.querySelector('.mm-gal__fig');
+        t.addEventListener('pointermove', function (e) {
+          if (e.pointerType !== 'mouse' || RM) return;
+          var r = t.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+          fig.style.setProperty('--mm-ry', ((x - .5) * 12).toFixed(2) + 'deg');
+          fig.style.setProperty('--mm-rx', ((.5 - y) * 10).toFixed(2) + 'deg');
+          fig.style.setProperty('--mm-mx', (x * 100).toFixed(1) + '%');
+          fig.style.setProperty('--mm-my', (y * 100).toFixed(1) + '%');
+        });
+        t.addEventListener('pointerleave', function () { fig.style.removeProperty('--mm-ry'); fig.style.removeProperty('--mm-rx'); });
+      });
+
+      /* Lightbox */
+      function src(i) { var im = tiles[i].querySelector('img'); return im ? (im.currentSrc || im.src) : ''; }
+      function capt(i) { var c = tiles[i].querySelector('figcaption'); return c ? c.textContent.trim() : ''; }
+      function fill(i) {
+        idx = (i + tiles.length) % tiles.length;
+        big.src = src(idx);
+        big.alt = capt(idx) || 'Fotografía';
+        cap.textContent = capt(idx);
+        count.textContent = pad(idx + 1) + ' / ' + pad(tiles.length);
+      }
+      function flip(fromRect, reverse, done) {
+        if (RM || !big.animate || !fromRect) { if (done) done(); return; }
+        var to = big.getBoundingClientRect();
+        if (!to.width) { if (done) done(); return; }
+        var s = fromRect.width / to.width;
+        var dx = (fromRect.left + fromRect.width / 2) - (to.left + to.width / 2);
+        var dy = (fromRect.top + fromRect.height / 2) - (to.top + to.height / 2);
+        var a = { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(' + s + ')', opacity: .4 }, b = { transform: 'none', opacity: 1 };
+        var anim = big.animate(reverse ? [b, a] : [a, b], { duration: reverse ? 320 : 450, easing: 'cubic-bezier(.2,.8,.2,1)' });
+        anim.onfinish = function () { if (done) done(); };
+      }
+      function open(i) {
+        fill(i);
+        var from = tiles[idx].getBoundingClientRect();
+        if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+        var go = function () { flip(from, false); };
+        if (big.complete && big.naturalWidth) requestAnimationFrame(go); else big.onload = function () { big.onload = null; go(); };
+      }
+      function close() {
+        var to = tiles[idx].getBoundingClientRect();
+        flip(to, true, function () { if (dlg.close) dlg.close(); else dlg.removeAttribute('open'); });
+      }
+      function nav(d) {
+        big.style.setProperty('--mm-sw', (d > 0 ? 24 : -24) + 'px');
+        big.classList.add('is-swap');
+        setTimeout(function () { fill(idx + d); requestAnimationFrame(function () { big.classList.remove('is-swap'); }); }, RM ? 0 : 140);
+      }
+      tiles.forEach(function (t, i) { var b = t.querySelector('.mm-gal__open'); if (b) b.addEventListener('click', function () { open(i); }); });
+      root.querySelector('[data-mm-close]').addEventListener('click', close);
+      root.querySelector('[data-mm-prev]').addEventListener('click', function () { nav(-1); });
+      root.querySelector('[data-mm-next]').addEventListener('click', function () { nav(1); });
+      dlg.addEventListener('cancel', function (e) { e.preventDefault(); close(); });
+      dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
+      dlg.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') nav(1); else if (e.key === 'ArrowLeft') nav(-1); });
+      var sx = null;
+      stage.addEventListener('pointerdown', function (e) { sx = e.clientX; });
+      stage.addEventListener('pointerup', function (e) { if (sx === null) return; var d = e.clientX - sx; sx = null; if (Math.abs(d) > 45) nav(d < 0 ? 1 : -1); });
+
+      /* Entrada escalonada */
+      if (RM || !('IntersectionObserver' in window)) return;
+      root.classList.add('mm-gal--anim');
+      var q = [], tm = 0, n = 0;
+      function flush() {
+        tm = 0; var t = q.shift(); if (!t) return;
+        t.classList.add('is-in');
+        if (++n === tiles.length) setTimeout(function () { root.classList.remove('mm-gal--anim'); tiles.forEach(function (k) { k.classList.remove('is-in'); }); }, 800);
+        if (q.length) tm = setTimeout(flush, 85);
+      }
+      var io = new IntersectionObserver(function (en) {
+        en.filter(function (x) { return x.isIntersecting; })
+          .sort(function (a, b) { return tiles.indexOf(a.target) - tiles.indexOf(b.target); })
+          .forEach(function (x) { q.push(x.target); io.unobserve(x.target); });
+        if (q.length && !tm) flush();
+      }, { threshold: .2 });
+      tiles.forEach(function (t) { io.observe(t); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-metamorfosis',
+      style_name: 'Metamorfosis Mosaico Alado',
+      descripcion: 'Galería en mosaico responsive: cada foto se despliega como un ala, se inclina en 3D con brillo iridiscente al pasar el cursor y abre un lightbox propio con zoom, flechas, teclado y deslizamiento.',
+      tags: ['galeria', 'fotos', 'mosaico', 'lightbox', 'quinceañera', 'xv años', 'mariposas', 'metamorfosis', '3d', 'tilt', 'iridiscente', 'premium'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

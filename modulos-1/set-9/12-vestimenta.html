@@ -1,0 +1,231 @@
+<section
+  class="ci-vestimenta"
+  data-gemini-id="vestimenta-cine-vestuario"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .ci-vestimenta {
+      --primary-color: #f3ead8;
+      --secondary-color: #b3a488;
+      --accent-color: #e8a13c;
+      --bg-color: #191512;
+      --surface-color: #221d18;
+      --surface-border-color: rgba(243, 234, 216, 0.16);
+      --text-color: #f3ead8;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      min-height: 64svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/wardrobe,vintage');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ci-vestimenta *,
+    .ci-vestimenta *::before,
+    .ci-vestimenta *::after { box-sizing: border-box; }
+
+    .ci-vestimenta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .ci-vestimenta__panel {
+      width: min(100%, 660px);
+      padding: clamp(2rem, 5vw, 3.2rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 92%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.55);
+    }
+
+    .ci-vestimenta__etiqueta {
+      margin: 0 0 0.8rem;
+      display: inline-block;
+      padding: 0.35rem 1rem;
+      background: repeating-linear-gradient(-45deg, var(--accent-color) 0 9px, var(--bg-color) 9px 18px);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.58rem, 1.1vw, 0.66rem);
+      letter-spacing: 0.34em;
+      color: var(--text-color);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+    }
+    .ci-vestimenta__etiqueta span {
+      background: color-mix(in srgb, var(--bg-color) 82%, transparent);
+      padding: 0.1rem 0.5rem;
+    }
+    .ci-vestimenta__titulo {
+      margin: 0 0 0.8rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .ci-vestimenta__texto {
+      margin: 0 auto 1.8rem;
+      max-width: 46ch;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .ci-vestimenta__perchas {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: clamp(0.9rem, 2.4vw, 1.4rem);
+      margin-bottom: 1.6rem;
+    }
+    .ci-vestimenta__etiqueta-ropa {
+      display: grid;
+      justify-items: center;
+      gap: 0.5rem;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ci-vestimenta.ci-js .ci-vestimenta__etiqueta-ropa { opacity: 0; transform: translateY(16px); }
+    .ci-vestimenta .ci-vestimenta__tag.esta-visto,
+    .ci-vestimenta .ci-vestimenta__etiqueta-ropa.esta-visto { opacity: 1; transform: none; }
+    .ci-vestimenta__tag {
+      position: relative;
+      width: clamp(52px, 9vw, 66px);
+      padding: 0.6rem 0.4rem 0.7rem;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      clip-path: polygon(50% 0, 100% 14%, 100% 100%, 0 100%, 0 14%);
+      transition: background-color 0.5s ease, transform 0.5s ease;
+    }
+    .ci-vestimenta__tag::before {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 50%;
+      width: 8px;
+      height: 8px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: var(--bg-color);
+    }
+    .ci-vestimenta__tag b {
+      display: block;
+      margin-top: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.56rem;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      color: var(--bg-color);
+      text-align: center;
+    }
+    .ci-vestimenta__etiqueta-ropa:hover .ci-vestimenta__tag { transform: translateY(-4px) rotate(-2deg); }
+
+    .ci-vestimenta__leyenda {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 480px) {
+      .ci-vestimenta__tag { width: 44px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ci-vestimenta * { transition: none !important; }
+      .ci-vestimenta__etiqueta-ropa { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="ci-vestimenta__panel">
+    <p class="ci-vestimenta__etiqueta" memory_type="text" memory_usage="custom" memory_key="vestimenta-etiqueta"><span>DEPT. VESTUARIO</span></p>
+    <h2 class="ci-vestimenta__titulo" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Etiquetas del guardarropa</h2>
+    <p class="ci-vestimenta__texto" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">
+      Elige tu tono de vestuario según estas etiquetas colgadas; cada una es un personaje.
+    </p>
+
+    <div class="ci-vestimenta__perchas" data-ci-perchas aria-hidden="true"></div>
+
+    <p class="ci-vestimenta__leyenda" memory_type="text" memory_usage="custom" memory_key="vestimenta-leyenda">FORMAL · TONOS DE ESTUDIO</p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ci-vestimenta');
+      if (!root) return;
+      root.classList.add('ci-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var perchas = root.querySelector('[data-ci-perchas]');
+      if (perchas && !perchas.children.length) {
+        var tonos = [
+          ['#e8a13c', 'AMBAR'],
+          ['#8a5a3b', 'SEPIA'],
+          ['#4a4438', 'UMBR'],
+          ['#f3ead8', 'CREMA'],
+          ['#7d3b2e', 'LADR'],
+          ['#3d4a3e', 'SALV']
+        ];
+        for (var i = 0; i < tonos.length; i++) {
+          var etiqueta = document.createElement('span');
+          etiqueta.className = 'ci-vestimenta__etiqueta-ropa';
+          etiqueta.style.transitionDelay = (i * 0.08).toFixed(2) + 's, ' + (i * 0.08).toFixed(2) + 's';
+          var tag = document.createElement('span');
+          tag.className = 'ci-vestimenta__tag';
+          tag.setAttribute('data-ci-tono', tonos[i][0]);
+          var codigo = document.createElement('b');
+          codigo.textContent = tonos[i][1];
+          tag.appendChild(codigo);
+          etiqueta.appendChild(tag);
+          perchas.appendChild(etiqueta);
+        }
+      }
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function colorear() {
+        root.querySelectorAll('[data-ci-tono]').forEach(function (t) {
+          t.style.backgroundColor = t.getAttribute('data-ci-tono');
+        });
+      }
+      if (reduce || !('IntersectionObserver' in window)) {
+        root.querySelectorAll('.ci-vestimenta__etiqueta-ropa').forEach(function (e) { e.classList.add('esta-visto'); });
+        colorear();
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          root.querySelectorAll('.ci-vestimenta__etiqueta-ropa').forEach(function (e, i) {
+            e.style.transitionDelay = (i * 0.08).toFixed(2) + 's, ' + (i * 0.08).toFixed(2) + 's';
+            e.classList.add('esta-visto');
+          });
+          setTimeout(colorear, 240);
+          io.disconnect();
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-cine-vestuario',
+      style_name: 'Cine Indie — Vestuario',
+      descripcion: 'Etiquetas colgantes de vestuario con ojal superior que aparecen escalonadas y se colorean por JS con códigos de tres letras.',
+      tags: ['vestimenta', 'dress code', 'etiquetas', 'guardarropa', 'cine', 'indie'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

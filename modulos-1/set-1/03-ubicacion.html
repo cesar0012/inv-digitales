@@ -1,0 +1,281 @@
+<section
+  class="hb-ubicacion"
+  data-gemini-id="ubicacion-mapa"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .hb-ubicacion {
+      --primary-color: #23301f;
+      --secondary-color: #5c6657;
+      --accent-color: #7d8f6e;
+      --bg-color: #f6f4ec;
+      --surface-color: #fffdf6;
+      --surface-border-color: rgba(35, 48, 31, 0.22);
+      --text-color: #23301f;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/landscape,soft');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .hb-ubicacion *,
+    .hb-ubicacion *::before,
+    .hb-ubicacion *::after { box-sizing: border-box; }
+
+    .hb-ubicacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 88%, transparent);
+    }
+
+    .hb-ubicacion__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.6rem, 4vw, 3rem);
+      align-items: center;
+      width: min(100%, 1080px);
+      margin: 0 auto;
+    }
+
+    .hb-ubicacion__info { text-align: left; }
+
+    .hb-ubicacion__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.64rem, 1.2vw, 0.72rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+
+    .hb-ubicacion__titulo {
+      margin: 0 0 1rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.5rem);
+      line-height: 1.15;
+      color: var(--primary-color);
+    }
+
+    .hb-ubicacion__direccion {
+      margin: 0 0 1.4rem;
+      padding-left: 1rem;
+      border-left: 2px solid var(--accent-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: normal;
+      font-size: clamp(0.92rem, 1.7vw, 1.02rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .hb-ubicacion__lugar {
+      margin: 0 0 1.4rem;
+      border: 1px solid var(--surface-border-color);
+      padding: 6px;
+      background: var(--surface-color);
+      box-shadow: 0 10px 24px rgba(35, 48, 31, 0.12);
+    }
+    .hb-ubicacion__lugar img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      filter: saturate(0.9);
+    }
+
+    .hb-ubicacion__marcador {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.4rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-color);
+    }
+    .hb-ubicacion__punto {
+      position: relative;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent-color);
+    }
+    .hb-ubicacion__onda {
+      position: absolute;
+      inset: -7px;
+      border: 1.5px solid var(--accent-color);
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    .hb-ubicacion.esta-visto .hb-ubicacion__onda { animation: hbUbicacionPulso 1.8s ease-out infinite; }
+    @keyframes hbUbicacionPulso {
+      0% { opacity: 0.9; transform: scale(0.4); }
+      70% { opacity: 0.15; transform: scale(1.25); }
+      100% { opacity: 0; transform: scale(1.35); }
+    }
+
+    .hb-ubicacion__boton {
+      display: inline-block;
+      padding: 0.75rem 1.7rem;
+      border: 1px solid var(--primary-color);
+      outline: 1px solid var(--surface-border-color);
+      outline-offset: 4px;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.74rem, 1.4vw, 0.84rem);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--primary-color);
+      background: var(--surface-color);
+      transition: background 0.4s ease, color 0.4s ease, transform 0.4s ease;
+    }
+    .hb-ubicacion__boton:hover { background: var(--primary-color); color: var(--bg-color); transform: translateY(-2px); }
+
+    .hb-ubicacion__marco {
+      position: relative;
+      padding: 10px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      outline: 1px solid var(--surface-border-color);
+      outline-offset: 5px;
+      box-shadow: 0 22px 50px rgba(35, 48, 31, 0.16);
+    }
+    .hb-ubicacion__marco-titulo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0 0 10px;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .hb-ubicacion__mapa {
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--surface-border-color);
+    }
+    .hb-ubicacion__mapa iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border: 0;
+      filter: saturate(0.82) contrast(0.98);
+    }
+
+    .hb-ubicacion__rosa {
+      position: absolute;
+      top: -18px;
+      right: -16px;
+      width: 46px;
+      color: var(--accent-color);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 50%;
+      padding: 6px;
+      box-shadow: 0 8px 18px rgba(35, 48, 31, 0.18);
+    }
+
+    @media (max-width: 880px) {
+      .hb-ubicacion__grid { grid-template-columns: 1fr; }
+      .hb-ubicacion__info { text-align: center; }
+      .hb-ubicacion__direccion { border-left: 0; padding-left: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-ubicacion * { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="hb-ubicacion__grid">
+    <div class="hb-ubicacion__info">
+      <p class="hb-ubicacion__etiqueta" memory_type="text" memory_usage="custom" memory_key="ubicacion-etiqueta">Lámina de ruta</p>
+      <h2 class="hb-ubicacion__titulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Cómo llegar</h2>
+      <address class="hb-ubicacion__direccion" memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion">
+        Nombre del lugar<br />
+        Calle Principal 123, Colonia Centro<br />
+        Ciudad, Estado
+      </address>
+      <figure class="hb-ubicacion__lugar" memory_type="image" memory_usage="custom" memory_source="library" memory_key="ubicacion-foto">
+        <img
+          src="https://loremflickr.com/520/360/venue,garden"
+          alt="Vista del lugar del evento"
+          path="placeholder"
+          data-library-category="bodas"
+          data-asset-type="lugar"
+          loading="lazy"
+        />
+        <figcaption hidden>Vista del lugar</figcaption>
+      </figure>
+
+      <span class="hb-ubicacion__marcador" aria-hidden="true">
+        <span class="hb-ubicacion__punto"><span class="hb-ubicacion__onda"></span></span>
+        Punto de reunión
+      </span>
+      <a
+        class="hb-ubicacion__boton"
+        href="https://www.google.com/maps?q=Ubicacion+del+evento"
+        target="_blank"
+        rel="noopener"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="ubicacion-boton"
+      >Cómo llegar</a>
+    </div>
+
+    <figure class="hb-ubicacion__marco">
+      <svg class="hb-ubicacion__rosa" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <path d="M24 4 L28 24 L24 44 L20 24 Z" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M4 24 L24 20 L44 24 L24 28 Z" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="24" cy="24" r="3" fill="currentColor"/>
+      </svg>
+      <figcaption class="hb-ubicacion__marco-titulo">
+        <span>Mapa</span><span>Esc. 1:1</span>
+      </figcaption>
+      <div class="hb-ubicacion__mapa" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url">
+        <iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen></iframe>
+      </div>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.hb-ubicacion');
+      if (!root) return;
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) { root.classList.add('esta-visto'); return; }
+      if (!('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-mapa',
+      style_name: 'Herbario de Línea — Mapa',
+      descripcion: 'Mapa enmarcado con doble filete y rosa de los vientos, dirección en address, marcador con pulso y botón Cómo llegar.',
+      tags: ['ubicacion', 'mapa', 'direccion', 'marcador', 'pulso', 'boton', 'botanico'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>

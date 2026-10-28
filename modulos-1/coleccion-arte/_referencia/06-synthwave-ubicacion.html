@@ -1,0 +1,59 @@
+<section class="sw-ubi" data-gemini-id="ubicacion-ceremonia" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.sw-ubi { --primary-color:#f8e7ff; --secondary-color:#b967ff; --accent-color:#01cdfe; --bg-color:#12002b; --surface-color:#1d0a3d; --surface-border-color:rgba(1,205,254,.4); --text-color:#f8e7ff;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/1000/synthwave,sunset'); background-size:cover; background-position:center; color:var(--text-color); }
+.sw-ubi *, .sw-ubi *::before, .sw-ubi *::after { box-sizing:border-box; }
+.sw-ubi::before { content:''; position:absolute; inset:0; z-index:-1; background:linear-gradient(180deg, color-mix(in srgb, var(--bg-color) 40%, transparent), color-mix(in srgb, var(--bg-color) 92%, transparent)); }
+/* sol synthwave con rayas */
+.sw-ubi__sol { position:absolute; z-index:0; top:6%; left:50%; width:clamp(180px,34vw,380px); aspect-ratio:1/1; transform:translateX(-50%); border-radius:50%; background:linear-gradient(180deg, #ff71ce, #fffb96 55%, #01cdfe); -webkit-mask:linear-gradient(#000 0 0) top/100% 55% no-repeat, repeating-linear-gradient(180deg, #000 0 14px, transparent 14px 26px) bottom/100% 100% no-repeat; mask:linear-gradient(#000 0 0) top/100% 55% no-repeat, repeating-linear-gradient(180deg, #000 0 14px, transparent 14px 26px) bottom/100% 100% no-repeat; opacity:.85; pointer-events:none; }
+/* suelo de rejilla en perspectiva animada */
+.sw-ubi__rejilla { position:absolute; z-index:0; left:-30%; right:-30%; bottom:0; height:34%; background:
+  repeating-linear-gradient(90deg, var(--accent-color) 0 2px, transparent 2px 80px) bottom/100% 100%,
+  repeating-linear-gradient(0deg, var(--accent-color) 0 2px, transparent 2px 60px) bottom/100% 200%;
+  transform:perspective(320px) rotateX(58deg); transform-origin:top; opacity:.5; animation:swRejilla 3.2s linear infinite; pointer-events:none; }
+@keyframes swRejilla { to { background-position: 0 0, 0 60px; } }
+.sw-ubi__titulo { position:relative; z-index:2; margin:0 0 .6rem; text-align:center; font-family:Arial,sans-serif; font-weight:700; font-size:clamp(2rem,6.4vw,4.4rem); line-height:1; text-transform:uppercase; letter-spacing:.04em; color:transparent; background:linear-gradient(180deg, #fff 20%, var(--secondary-color) 55%, var(--accent-color)); -webkit-background-clip:text; background-clip:text; filter:drop-shadow(0 0 22px rgba(185,103,255,.55)) drop-shadow(3px 3px 0 #b967ff33); }
+.sw-ubi__sub { position:relative; z-index:2; margin:0 auto clamp(2rem,5vw,3rem); max-width:46ch; text-align:center; font-family:'Courier New',monospace; font-size:clamp(.78rem,1.5vw,.92rem); letter-spacing:.12em; color:var(--secondary-color); }
+.sw-ubi__grid { position:relative; z-index:2; display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:clamp(1.4rem,4vw,2.8rem); width:min(100%,960px); margin:0 auto; align-items:stretch; }
+.sw-ubi__datos { padding:clamp(1.4rem,3.4vw,2.2rem); background:color-mix(in srgb, var(--surface-color) 80%, transparent); border:1px solid var(--surface-border-color); box-shadow:0 0 30px rgba(1,205,254,.15), inset 0 0 26px rgba(185,103,255,.12); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
+.sw-ubi__fila { display:grid; grid-template-columns:auto 1fr; gap:.8rem; align-items:baseline; padding:.55rem 0; border-bottom:1px dashed var(--surface-border-color); font-family:'Courier New',monospace; }
+.sw-ubi__rotulo { font-size:clamp(.6rem,1.15vw,.7rem); letter-spacing:.3em; text-transform:uppercase; color:var(--accent-color); }
+.sw-ubi__dato { font-size:clamp(.86rem,1.6vw,1rem); color:var(--text-color); }
+.sw-ubi__boton { display:inline-block; margin-top:1.2rem; padding:.75rem 1.8rem; font-family:'Courier New',monospace; font-size:clamp(.68rem,1.3vw,.8rem); letter-spacing:.3em; text-transform:uppercase; text-decoration:none; color:var(--bg-color); background:linear-gradient(90deg, var(--accent-color), var(--secondary-color)); box-shadow:0 0 22px color-mix(in srgb, var(--accent-color) 55%, transparent); transition:box-shadow .4s ease, transform .4s ease; }
+.sw-ubi__boton:hover { transform:translateY(-2px); box-shadow:0 0 40px var(--accent-color); }
+.sw-ubi__marco { position:relative; margin:0; border:1px solid var(--surface-border-color); padding:8px; background:color-mix(in srgb, var(--surface-color) 85%, transparent); box-shadow:0 0 34px rgba(185,103,255,.25); }
+.sw-ubi__mapa { overflow:hidden; }
+.sw-ubi__mapa iframe { display:block; width:100%; aspect-ratio:16/10; border:0; filter:hue-rotate(160deg) saturate(1.4) contrast(1.1) brightness(.9); }
+.sw-ubi__cartel { position:absolute; z-index:3; top:-14px; right:14px; padding:.3rem .8rem; background:var(--accent-color); color:var(--bg-color); font-family:'Courier New',monospace; font-size:clamp(.6rem,1.15vw,.7rem); letter-spacing:.3em; text-transform:uppercase; box-shadow:0 0 18px var(--accent-color); }
+@media (max-width:760px){ .sw-ubi__grid { grid-template-columns:1fr; } }
+@media (prefers-reduced-motion:reduce){ .sw-ubi__rejilla { animation:none; } }
+</style>
+<span class="sw-ubi__sol" aria-hidden="true"></span>
+<span class="sw-ubi__rejilla" aria-hidden="true"></span>
+<h2 class="sw-ubi__titulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Zona del evento</h2>
+<p class="sw-ubi__sub" memory_type="text" memory_usage="custom" memory_key="ubicacion-sub">// transmisión en vivo desde las coordenadas de la celebración_</p>
+<div class="sw-ubi__grid">
+  <div class="sw-ubi__datos">
+    <div class="sw-ubi__fila"><span class="sw-ubi__rotulo">Sede</span><span class="sw-ubi__dato" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar">Nombre del lugar</span></div>
+    <div class="sw-ubi__fila"><span class="sw-ubi__rotulo">Dirección</span><span class="sw-ubi__dato" memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion">Boulevard Neón 777, Ciudad</span></div>
+    <div class="sw-ubi__fila"><span class="sw-ubi__rotulo">Hora local</span><time class="sw-ubi__dato" datetime="20:00" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora">20:00 h</time></div>
+    <div class="sw-ubi__fila" style="border-bottom:0;"><span class="sw-ubi__rotulo">Dress code</span><span class="sw-ubi__dato" memory_type="text" memory_usage="custom" memory_key="ubicacion-dress">Neón Permitido</span></div>
+    <figure class="sw-ubi__holo" memory_type="image" memory_usage="custom" memory_source="library" memory_key="ubicacion-foto" style="margin:1.2rem 0 0; border:1px solid var(--surface-border-color); padding:6px; background:rgba(255,255,255,.05); box-shadow:0 0 26px rgba(1,205,254,.3);">
+      <img src="https://loremflickr.com/800/460/neon,venue" alt="Vista del lugar del evento" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" style="display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;filter:hue-rotate(160deg) saturate(1.3) contrast(1.1);" />
+      <figcaption hidden>Vista del lugar</figcaption>
+    </figure>
+    <a class="sw-ubi__boton" href="https://www.google.com/maps?q=Ubicacion+del+evento" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Trazar ruta ▸</a>
+  </div>
+  <figure class="sw-ubi__marco">
+    <span class="sw-ubi__cartel" aria-hidden="true">● LIVE</span>
+    <div class="sw-ubi__mapa" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url">
+      <iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen></iframe>
+    </div>
+    <figcaption hidden>Mapa de la ubicación</figcaption>
+  </figure>
+</div>
+<script>
+var moduleMetadata = { module_type:'ubicacion', module_name:'ubicacion-ceremonia', style_name:'Synthwave — Zona del Evento', descripcion:'Synthwave: sol de rayas, rejilla en perspectiva infinita, titulares cromo con glow, panel de datos monoespaciado y mapa en tinte magenta.', tags:['ubicacion','synthwave','sol','rejilla','neon','retro-futurista'], tipo:'ubicacion' };
+</script>
+</section>

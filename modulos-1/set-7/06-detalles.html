@@ -1,0 +1,240 @@
+<section
+  class="mu-detalles"
+  data-gemini-id="detalles-regalo"
+>
+  <style>
+    .mu-detalles {
+      --primary-color: #2a2724;
+      --secondary-color: #75705f;
+      --accent-color: #b3925a;
+      --bg-color: #f4f1ea;
+      --surface-color: #fdfbf6;
+      --surface-border-color: rgba(42, 39, 36, 0.16);
+      --text-color: #2a2724;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+      perspective: 900px;
+    }
+    .mu-detalles *,
+    .mu-detalles *::before,
+    .mu-detalles *::after { box-sizing: border-box; }
+
+    .mu-detalles__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .mu-detalles__intro {
+      margin: 0 auto clamp(2.2rem, 5vw, 3.2rem);
+      max-width: 52ch;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+    }
+
+    .mu-detalles__galeria {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.6rem, 4vw, 3rem);
+      align-items: center;
+      width: min(100%, 1040px);
+      margin: 0 auto;
+    }
+
+    .mu-detalles__obra {
+      position: relative;
+      margin: 0;
+      padding: 12px;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--accent-color) 75%, #8a6d3b), color-mix(in srgb, var(--accent-color) 45%, #6d5527));
+      box-shadow: 0 26px 56px rgba(42, 39, 36, 0.28);
+      transform: rotateX(3deg);
+      transform-style: preserve-3d;
+    }
+    .mu-detalles__obra img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border: 8px solid var(--surface-color);
+      filter: saturate(0.9);
+    }
+    .mu-detalles__etiqueta-obra {
+      margin: 10px auto 0;
+      width: min(100%, 220px);
+      padding: 0.4rem 0.6rem;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+      transform: translateZ(14px);
+    }
+
+    .mu-detalles__vitrinas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 2.6vw, 1.6rem); }
+
+    .mu-detalles__vitrina {
+      position: relative;
+      padding: clamp(1.2rem, 2.8vw, 1.7rem) clamp(0.9rem, 2.2vw, 1.3rem) 0;
+      background:
+        radial-gradient(130% 60% at 50% 0%, color-mix(in srgb, var(--accent-color) 22%, transparent), transparent 60%),
+        color-mix(in srgb, var(--surface-color) 96%, transparent);
+      border: 1px solid var(--surface-border-color);
+      border-bottom: none;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+      transform-style: preserve-3d;
+    }
+    .mu-detalles.mu-js .mu-detalles__vitrina { opacity: 0; transform: rotateX(30deg) translateY(18px); transform-origin: bottom center; }
+    .mu-detalles .mu-detalles__vitrina.esta-visto { opacity: 1; transform: none; }
+
+    .mu-detalles__pieza {
+      width: 44px;
+      margin: 0 auto 0.8rem;
+      color: var(--primary-color);
+      transform: translateZ(12px);
+    }
+    .mu-detalles__plinth {
+      height: 10px;
+      margin-top: 1rem;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--secondary-color) 40%, transparent), color-mix(in srgb, var(--secondary-color) 65%, transparent));
+      border-top: 1px solid var(--surface-border-color);
+    }
+
+    .mu-detalles__rotulo {
+      margin: 0 0 0.25rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.56rem, 1.05vw, 0.64rem);
+      letter-spacing: 0.36em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .mu-detalles__titulo-card {
+      margin: 0 0 0.3rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.98rem, 1.9vw, 1.16rem);
+      color: var(--primary-color);
+    }
+    .mu-detalles__texto {
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.76rem, 1.35vw, 0.86rem);
+      line-height: 1.6;
+      font-style: italic;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 880px) {
+      .mu-detalles__galeria { grid-template-columns: 1fr; }
+      .mu-detalles__obra { max-width: 380px; margin: 0 auto; }
+    }
+    @media (max-width: 640px) {
+      .mu-detalles__vitrinas { grid-template-columns: 1fr; max-width: 340px; margin: 0 auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mu-detalles * { transition: none !important; }
+      .mu-detalles__vitrina { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="detalles-intro">
+    <h2 class="mu-detalles__titulo" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Piezas de la colección</h2>
+    <p class="mu-detalles__intro" memory_type="text" memory_usage="custom" memory_key="detalles-texto">Notas curatoriales sobre las piezas que acompañan esta exposición.</p>
+  </header>
+
+  <div class="mu-detalles__galeria">
+    <figure class="mu-detalles__obra" memory_type="image" memory_usage="custom" memory_source="library" memory_key="detalles-foto">
+      <img src="https://loremflickr.com/500/620/classic,elegant" alt="Obra invitada de la colección" path="placeholder" data-library-category="bodas" data-asset-type="detalle" loading="lazy" />
+      <figcaption class="mu-detalles__etiqueta-obra" memory_type="text" memory_usage="custom" memory_key="detalles-foto-pie">Obra invitada · Sala central</figcaption>
+    </figure>
+
+    <div class="mu-detalles__vitrinas">
+      <article class="mu-detalles__vitrina" data-mu-vitrina>
+        <svg class="mu-detalles__pieza" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <path d="M24 4 L30 18 L45 18 L33 27 L38 42 L24 33 L10 42 L15 27 L3 18 L18 18 Z" stroke="currentColor" stroke-width="1.4"/>
+        </svg>
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-1">
+          <p class="mu-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-1">Pieza I</p>
+          <h3 class="mu-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Código de gala</h3>
+          <p class="mu-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Etiqueta formal; el negro y el dorado son bienvenidos.</p>
+        </div>
+        <div class="mu-detalles__plinth" aria-hidden="true"></div>
+      </article>
+
+      <article class="mu-detalles__vitrina" data-mu-vitrina>
+        <svg class="mu-detalles__pieza" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <circle cx="24" cy="24" r="18" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M24 10 V24 L33 29" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-2">
+          <p class="mu-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-2">Pieza II</p>
+          <h3 class="mu-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Horario de visita</h3>
+          <p class="mu-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">Las puertas abren puntual; la ceremonia inicia a la hora exacta.</p>
+        </div>
+        <div class="mu-detalles__plinth" aria-hidden="true"></div>
+      </article>
+
+      <article class="mu-detalles__vitrina" data-mu-vitrina>
+        <svg class="mu-detalles__pieza" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <path d="M8 40 V20 C8 12 15 6 24 6 C33 6 40 12 40 20 V40" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M8 40 H40" stroke="currentColor" stroke-width="1.4"/>
+        </svg>
+        <div memory_type="text" memory_usage="custom" memory_key="detalles-bloque-3">
+          <p class="mu-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-3">Pieza III</p>
+          <h3 class="mu-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Guardarraya</h3>
+          <p class="mu-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">Servicio de valet en la entrada sur durante toda la velada.</p>
+        </div>
+        <div class="mu-detalles__plinth" aria-hidden="true"></div>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.mu-detalles');
+      if (!root) return;
+      root.classList.add('mu-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var vitrinas = Array.prototype.slice.call(root.querySelectorAll('[data-mu-vitrina]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        vitrinas.forEach(function (v) { v.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = vitrinas.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.14).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      vitrinas.forEach(function (v) { io.observe(v); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-regalo',
+      style_name: 'Vitrina de Museo — Detalles',
+      descripcion: 'Obra con marco dorado en rotateX y etiqueta curatorial junto a vitrinas con piezas SVG sobre plinth y foco superior en 3D.',
+      tags: ['detalles', 'museo', 'vitrinas', '3d', 'curatorial', 'plinth'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>

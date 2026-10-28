@@ -1,0 +1,208 @@
+<section
+  class="bjm-de"
+  data-gemini-id="detalles-regalo"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Ephesis&family=Marcellus&display=swap');
+
+    .bjm-de, .bjm-de *, .bjm-de *::before, .bjm-de *::after { box-sizing: border-box; }
+    .bjm-de {
+      --t-bg: var(--bg-color, #04182b);
+      --t-tx: var(--text-color, #f4eee6);
+      --t-p: var(--primary-color, #4fd1c5);
+      --t-s: var(--secondary-color, #1a5f8f);
+      --t-a: var(--accent-color, #ff8a70);
+      --t-pearl: var(--pearl-color, #efe8f3);
+      --t-display: var(--font-script, 'Ephesis', cursive);
+      --t-text: var(--font-heading, 'Marcellus', Georgia, serif);
+      --bjm-glint: 120%;
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(32rem, 60vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      color: var(--t-tx);
+      text-align: left;
+      font-family: var(--t-text);
+    }
+    .bjm-de::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 50% 60% at 15% 50%, color-mix(in srgb, var(--t-s) 50%, transparent), transparent 70%),
+        radial-gradient(ellipse 40% 40% at 95% 0%, color-mix(in srgb, var(--t-p) 16%, transparent), transparent 70%),
+        linear-gradient(180deg, var(--t-bg), color-mix(in srgb, var(--t-s) 22%, var(--t-bg)));
+    }
+    .bjm-de__content {
+      width: min(100%, 64rem);
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+      gap: clamp(2rem, 5vw, 4.5rem);
+      align-items: center;
+    }
+    .bjm-de__media { position: relative; }
+    .bjm-de__figure {
+      position: relative;
+      margin: 0;
+      border-radius: 999px 999px 1.6rem 1.6rem;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px color-mix(in srgb, var(--t-pearl) 40%, transparent), 0 0 0 10px color-mix(in srgb, var(--t-bg) 60%, transparent), 0 0 0 11px color-mix(in srgb, var(--t-p) 35%, transparent), 0 30px 70px color-mix(in srgb, #000 45%, transparent);
+      background: color-mix(in srgb, var(--t-s) 50%, var(--t-bg));
+    }
+    .bjm-de__figure img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; }
+    .bjm-de__foil {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border-radius: inherit;
+      background-image: radial-gradient(circle at 50% 0, transparent 60%, color-mix(in srgb, var(--t-pearl) 80%, transparent) 63%, transparent 71%);
+      background-size: 22px 16px;
+      opacity: .5;
+      mix-blend-mode: soft-light;
+      -webkit-mask-image: linear-gradient(120deg, transparent calc(var(--bjm-glint) - 18%), #000 var(--bjm-glint), transparent calc(var(--bjm-glint) + 18%));
+      mask-image: linear-gradient(120deg, transparent calc(var(--bjm-glint) - 18%), #000 var(--bjm-glint), transparent calc(var(--bjm-glint) + 18%));
+    }
+    .bjm-de__pearls { position: absolute; left: 50%; bottom: -1.1rem; transform: translateX(-50%); display: flex; align-items: center; gap: .4rem; }
+    .bjm-de__pearls span { width: var(--sz, .7rem); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff 0 14%, var(--t-pearl) 45%, color-mix(in srgb, var(--t-pearl) 55%, var(--t-s))); box-shadow: 0 0 10px color-mix(in srgb, var(--t-p) 45%, transparent); }
+
+    .bjm-de__body { display: grid; gap: 1.4rem; }
+    .bjm-de__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(3rem, 7vw, 4.6rem); line-height: 1; text-shadow: 0 0 22px color-mix(in srgb, var(--t-p) 40%, transparent); }
+    .bjm-de__cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; perspective: 900px; }
+    .bjm-de__card {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: .3rem 1.1rem;
+      align-items: start;
+      padding: 1.2rem 1.4rem;
+      border-radius: 1.4rem;
+      background: linear-gradient(135deg, color-mix(in srgb, var(--t-pearl) 10%, transparent), color-mix(in srgb, var(--t-s) 26%, transparent));
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-pearl) 20%, transparent), 0 16px 40px color-mix(in srgb, #000 25%, transparent);
+      overflow: hidden;
+      transform-origin: 50% 0;
+      transition: transform .4s cubic-bezier(.2, .8, .2, 1), box-shadow .4s ease;
+    }
+    .bjm-de__card:nth-child(2) { margin-left: clamp(0rem, 4vw, 2.5rem); border-radius: 1.4rem 1.4rem 1.4rem .4rem; }
+    .bjm-de__card:nth-child(3) { margin-right: clamp(0rem, 4vw, 2.5rem); border-radius: .4rem 1.4rem 1.4rem 1.4rem; }
+    .bjm-de__card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(110deg, transparent 35%, color-mix(in srgb, var(--t-pearl) 22%, transparent) 50%, transparent 65%);
+      background-size: 250% 100%;
+      background-position: 120% 0;
+      transition: background-position .5s ease;
+    }
+    .bjm-de__card:hover { transform: translateY(-3px); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-p) 45%, transparent), 0 22px 50px color-mix(in srgb, #000 30%, transparent), 0 0 30px color-mix(in srgb, var(--t-p) 18%, transparent); }
+    .bjm-de__card:hover::after { background-position: -20% 0; }
+    .bjm-de__icon { grid-row: span 2; width: 2.8rem; height: 2.8rem; display: grid; place-items: center; border-radius: 50%; background: color-mix(in srgb, var(--t-p) 16%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-p) 45%, transparent); }
+    .bjm-de__icon svg { width: 60%; height: 60%; }
+    .bjm-de__card-title { margin: 0; font-weight: 400; font-size: clamp(1.2rem, 2.2vw, 1.4rem); line-height: 1.25; }
+    .bjm-de__card-text { margin: 0; font-size: .98rem; line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 78%, var(--t-p)); }
+
+    .bjm-de--anim [data-bjm-hinge] { opacity: 0; transform: rotateX(-82deg); transition: opacity .4s ease, transform .5s cubic-bezier(.25, 1.3, .5, 1); transition-delay: var(--dl, 0s); }
+    .bjm-de--anim.is-in [data-bjm-hinge] { opacity: 1; transform: none; }
+    .bjm-de--anim .bjm-de__media { opacity: 0; transform: translateY(24px); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .bjm-de--anim.is-in .bjm-de__media { opacity: 1; transform: none; }
+
+    @media (max-width: 760px) {
+      .bjm-de__content { grid-template-columns: 1fr; }
+      .bjm-de__media { width: min(80%, 16rem); justify-self: center; }
+      .bjm-de__title { text-align: center; }
+      .bjm-de__card:nth-child(2), .bjm-de__card:nth-child(3) { margin: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .bjm-de *, .bjm-de *::before, .bjm-de *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="bjm-de__content">
+    <div class="bjm-de__media">
+      <figure class="bjm-de__figure" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/600/800/pearls,shell?lock=3461" alt="Perlas y conchas de decoración" path="placeholder" data-library-category="decoracion" data-asset-type="detalle" loading="lazy" />
+        <span class="bjm-de__foil" aria-hidden="true"></span>
+      </figure>
+      <div class="bjm-de__pearls" aria-hidden="true"><span style="--sz: .5rem"></span><span style="--sz: .7rem"></span><span style="--sz: 1rem"></span><span style="--sz: .7rem"></span><span style="--sz: .5rem"></span></div>
+    </div>
+
+    <div class="bjm-de__body">
+      <h2 class="bjm-de__title" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Detalles de la noche</h2>
+      <ul class="bjm-de__cards">
+        <li class="bjm-de__card" data-bjm-hinge style="--dl: .05s">
+          <span class="bjm-de__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="3.5" y="7" width="17" height="11" rx="2" fill="none" style="stroke: var(--t-p)" stroke-width="1.5" /><path d="M3.5 8l8.5 6 8.5-6" fill="none" style="stroke: var(--t-p)" stroke-width="1.5" /><circle cx="12" cy="14" r="1.6" style="fill: var(--t-pearl)" /></svg>
+          </span>
+          <h3 class="bjm-de__card-title" memory_type="text" memory_usage="custom" memory_key="detalles-card-titulo-1">Lluvia de sobres</h3>
+          <p class="bjm-de__card-text" memory_type="text" memory_usage="custom" memory_key="detalles-card-texto-1">Tu cariño es el mejor regalo; si deseas obsequiarme algo, habrá un cofre de perlas para tus sobres.</p>
+        </li>
+        <li class="bjm-de__card" data-bjm-hinge style="--dl: .18s">
+          <span class="bjm-de__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 9.5c2.5-3.5 13.5-3.5 16 0v6c-2.5 3.5-13.5 3.5-16 0z" fill="none" style="stroke: var(--t-p)" stroke-width="1.5" /><path d="M9 12h6" style="stroke: var(--t-pearl)" stroke-width="1.5" stroke-linecap="round" /></svg>
+          </span>
+          <h3 class="bjm-de__card-title" memory_type="text" memory_usage="custom" memory_key="detalles-card-titulo-2">Pases personales</h3>
+          <p class="bjm-de__card-text" memory_type="text" memory_usage="custom" memory_key="detalles-card-texto-2">Tu invitación es válida para los pases indicados. Agradezco tu comprensión.</p>
+        </li>
+        <li class="bjm-de__card" data-bjm-hinge style="--dl: .31s">
+          <span class="bjm-de__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="9" cy="14" r="4.5" fill="none" style="stroke: var(--t-p)" stroke-width="1.5" /><circle cx="16.5" cy="8" r="2.8" fill="none" style="stroke: var(--t-p)" stroke-width="1.5" /><circle cx="18" cy="15.5" r="1.6" style="fill: var(--t-pearl)" /></svg>
+          </span>
+          <h3 class="bjm-de__card-title" memory_type="text" memory_usage="custom" memory_key="detalles-card-titulo-3">Llega a tiempo</h3>
+          <p class="bjm-de__card-text" memory_type="text" memory_usage="custom" memory_key="detalles-card-texto-3">La entrada de la quinceañera será puntual; no te pierdas el momento en que se abra la concha.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="detalles-regalo"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      root.classList.add('bjm-de--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('bjm-de--anim', 'is-in'); }, 1300);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+
+      /* foil glint across the arch image, paused off-screen */
+      var vis = false, raf = 0;
+      function tick(t) {
+        raf = 0;
+        if (!vis || document.hidden) return;
+        root.style.setProperty('--bjm-glint', (((t * .007) % 220) - 50).toFixed(2) + '%');
+        raf = requestAnimationFrame(tick);
+      }
+      function kick() { if (vis && !document.hidden && !raf) raf = requestAnimationFrame(tick); }
+      new IntersectionObserver(function (en) { vis = en[0].isIntersecting; kick(); }).observe(root);
+      document.addEventListener('visibilitychange', kick);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-regalo',
+      style_name: 'Bajo el Mar Conchas Abiertas',
+      descripcion: 'Detalles del evento en tarjetas que se abren como conchas al entrar en pantalla, junto a una imagen en arco con destello de escamas en foil e hilo de perlas. Incluye lluvia de sobres y avisos.',
+      tags: ['detalles', 'regalo', 'quinceañera', 'bajo el mar', 'conchas'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>

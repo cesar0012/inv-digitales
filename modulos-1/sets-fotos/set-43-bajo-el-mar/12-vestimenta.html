@@ -1,0 +1,264 @@
+<section
+  class="bjm-ve"
+  data-gemini-id="vestimenta-bajo-el-mar"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Ephesis&family=Marcellus&display=swap');
+
+    .bjm-ve, .bjm-ve *, .bjm-ve *::before, .bjm-ve *::after { box-sizing: border-box; }
+    .bjm-ve {
+      --t-bg: var(--bg-color, #04182b);
+      --t-tx: var(--text-color, #f4eee6);
+      --t-p: var(--primary-color, #4fd1c5);
+      --t-s: var(--secondary-color, #1a5f8f);
+      --t-a: var(--accent-color, #ff8a70);
+      --t-pearl: var(--pearl-color, #efe8f3);
+      --t-display: var(--font-script, 'Ephesis', cursive);
+      --t-text: var(--font-heading, 'Marcellus', Georgia, serif);
+      --bjm-base: var(--t-p);
+      --bjm-next: var(--t-p);
+      --bjm-glint: 120%;
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 62vw, 46rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/underwater,silk,fabric?lock=3521');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: left;
+      font-family: var(--t-text);
+    }
+    .bjm-ve::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 40% 60% at 28% 55%, color-mix(in srgb, var(--bjm-base) 26%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-s) 75%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent) 65%);
+      transition: background .5s ease;
+    }
+    .bjm-ve__content {
+      width: min(100%, 64rem);
+      display: grid;
+      grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+      gap: clamp(2rem, 6vw, 5rem);
+      align-items: center;
+    }
+    .bjm-ve__stage {
+      position: relative;
+      justify-self: center;
+      width: min(100%, 19rem);
+      aspect-ratio: 5 / 8;
+      border-radius: 999px 999px 2rem 2rem;
+      background: radial-gradient(ellipse at 50% 30%, color-mix(in srgb, var(--t-pearl) 14%, transparent), color-mix(in srgb, var(--t-s) 22%, transparent) 70%);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-pearl) 22%, transparent), 0 30px 70px color-mix(in srgb, #000 35%, transparent);
+      overflow: hidden;
+    }
+    .bjm-ve__gown { position: absolute; left: 8%; right: 8%; bottom: 3%; width: 84%; height: auto; overflow: visible; }
+    .bjm-ve__base { fill: var(--bjm-base); }
+    .bjm-ve__wash { fill: var(--bjm-next); clip-path: circle(0% at 50% 100%); }
+    .bjm-ve__wash[data-go] { clip-path: circle(140% at 50% 100%); transition: clip-path .5s cubic-bezier(.5, 0, .2, 1); }
+    .bjm-ve__bub { position: absolute; left: var(--x, 50%); bottom: 0; width: var(--z, 8px); aspect-ratio: 1; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--t-pearl) 75%, transparent); transform: translateY(var(--y, 0px)); opacity: var(--o, .6); pointer-events: none; }
+
+    .bjm-ve__body { display: grid; gap: 1.1rem; }
+    .bjm-ve__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(3rem, 7.5vw, 4.8rem); line-height: .95; text-shadow: 0 0 22px color-mix(in srgb, var(--t-p) 40%, transparent); }
+    .bjm-ve__code { margin: 0; font-size: clamp(1.4rem, 2.8vw, 1.9rem); line-height: 1.2; }
+    .bjm-ve__text { margin: 0; max-width: 32rem; font-size: clamp(1rem, 1.8vw, 1.12rem); line-height: 1.65; color: color-mix(in srgb, var(--t-tx) 82%, var(--t-p)); }
+    .bjm-ve__note { margin: 0; display: flex; align-items: center; gap: .6rem; font-size: 1rem; color: var(--t-a); }
+    .bjm-ve__note::before { content: ''; flex: none; width: .8rem; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff 0 15%, var(--t-a) 60%); box-shadow: 0 0 10px color-mix(in srgb, var(--t-a) 60%, transparent); }
+
+    .bjm-ve__swatches { list-style: none; margin: .4rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .85rem; }
+    .bjm-ve__sw {
+      position: relative;
+      width: 3.3rem;
+      height: 3.3rem;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      cursor: pointer;
+      background:
+        radial-gradient(circle at 34% 28%, color-mix(in srgb, #fff 85%, transparent) 0 10%, transparent 34%),
+        radial-gradient(circle at 70% 80%, color-mix(in srgb, #000 28%, transparent), transparent 60%),
+        var(--c);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, #fff 30%, transparent), 0 6px 16px color-mix(in srgb, #000 35%, transparent);
+      transition: transform .35s cubic-bezier(.3, 1.6, .5, 1), box-shadow .35s ease;
+    }
+    .bjm-ve__sw:hover, .bjm-ve__sw:focus-visible { transform: translateY(-4px) scale(1.06); }
+    .bjm-ve__sw:focus-visible { outline: 2px solid var(--t-pearl); outline-offset: 4px; }
+    .bjm-ve__sw[aria-pressed="true"] { transform: scale(1.12); box-shadow: inset 0 0 0 1px color-mix(in srgb, #fff 40%, transparent), 0 0 0 3px var(--t-bg), 0 0 0 5px var(--t-pearl), 0 0 24px var(--c); }
+    .bjm-ve__sw[data-reserved]::after { content: ''; position: absolute; inset: 44% -8%; border-top: 1.5px solid var(--t-tx); transform: rotate(-35deg); opacity: .8; }
+    .bjm-ve__current { margin: 0; min-height: 1.5em; font-size: 1rem; color: color-mix(in srgb, var(--t-tx) 80%, var(--t-p)); }
+
+    .bjm-ve--anim [data-bjm-up] { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); transition-delay: var(--dl, 0s); }
+    .bjm-ve--anim.is-in [data-bjm-up] { opacity: 1; transform: none; }
+    .bjm-ve--anim .bjm-ve__sw { transform: scale(0); }
+    .bjm-ve--anim.is-in .bjm-ve__sw { transform: none; transition-delay: var(--dl, 0s); }
+
+    @media (max-width: 760px) {
+      .bjm-ve__content { grid-template-columns: 1fr; }
+      .bjm-ve__stage { width: min(72%, 15rem); }
+      .bjm-ve__body { text-align: center; justify-items: center; }
+      .bjm-ve__swatches { justify-content: center; gap: .7rem; }
+      .bjm-ve__sw { width: 2.7rem; height: 2.7rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .bjm-ve *, .bjm-ve *::before, .bjm-ve *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="bjm-ve__content">
+    <div class="bjm-ve__stage" aria-hidden="true" data-bjm-stage data-bjm-up>
+      <svg class="bjm-ve__gown" viewBox="0 0 200 360" focusable="false">
+        <defs>
+          <pattern id="bjm-ve-scl" width="12" height="9" patternUnits="userSpaceOnUse">
+            <path d="M0 0 A6 6 0 0 0 12 0 M-6 4.5 A6 6 0 0 0 6 4.5 M6 4.5 A6 6 0 0 0 18 4.5" fill="none" stroke="#fff" stroke-width=".6" stroke-opacity=".45" />
+          </pattern>
+          <linearGradient id="bjm-ve-shade" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#000" stop-opacity=".35" />
+            <stop offset=".45" stop-color="#fff" stop-opacity=".18" />
+            <stop offset="1" stop-color="#000" stop-opacity=".4" />
+          </linearGradient>
+          <path id="bjm-ve-shape" d="M80 40 Q100 54 120 40 L126 62 C128 92 118 110 116 132 C120 172 124 210 120 240 C140 270 170 310 188 352 C150 345 50 345 12 352 C30 310 60 270 80 240 C76 210 80 172 84 132 C82 110 72 92 74 62 Z" />
+        </defs>
+        <use href="#bjm-ve-shape" class="bjm-ve__base" />
+        <use href="#bjm-ve-shape" class="bjm-ve__wash" data-bjm-wash />
+        <use href="#bjm-ve-shape" fill="url(#bjm-ve-scl)" />
+        <use href="#bjm-ve-shape" fill="url(#bjm-ve-shade)" />
+        <path d="M80 240 C100 236 110 236 120 240 M60 290 C90 296 110 296 140 290 M40 322 C80 330 120 330 160 322" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1" />
+        <path d="M84 132 C96 138 104 138 116 132" fill="none" style="stroke: var(--t-pearl)" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="0 5" />
+        <path d="M80 40 Q100 54 120 40" fill="none" style="stroke: var(--t-pearl)" stroke-width="2" stroke-linecap="round" stroke-dasharray="0 4.6" />
+      </svg>
+      <span class="bjm-ve__bub" data-bjm-bub></span><span class="bjm-ve__bub" data-bjm-bub></span><span class="bjm-ve__bub" data-bjm-bub></span>
+      <span class="bjm-ve__bub" data-bjm-bub></span><span class="bjm-ve__bub" data-bjm-bub></span><span class="bjm-ve__bub" data-bjm-bub></span>
+    </div>
+
+    <div class="bjm-ve__body">
+      <h2 class="bjm-ve__title" data-bjm-up memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Código de vestimenta</h2>
+      <p class="bjm-ve__code" data-bjm-up style="--dl: .08s" memory_type="text" memory_usage="custom" memory_key="vestimenta-codigo" data-event-field="vestimenta">Formal · Etiqueta</p>
+      <p class="bjm-ve__text" data-bjm-up style="--dl: .16s" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">Inspírate en los tonos del océano: aguamarinas, azules profundos y destellos de perla. Toca cada perla para ver el tono.</p>
+      <p class="bjm-ve__note" data-bjm-up style="--dl: .24s" memory_type="text" memory_usage="custom" memory_key="vestimenta-nota">El coral está reservado para la quinceañera.</p>
+      <ul class="bjm-ve__swatches" data-bjm-swatches aria-label="Paleta sugerida"></ul>
+      <p class="bjm-ve__current" data-bjm-current aria-live="polite"></p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="vestimenta-bajo-el-mar"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* ---- Palette swatches generated from the theme variables (works in every mode) ---- */
+      var PALETTE = [
+        { c: 'var(--t-p)', n: 'Aguamarina' },
+        { c: 'var(--t-s)', n: 'Azul océano' },
+        { c: 'color-mix(in srgb, var(--t-s) 55%, var(--t-bg))', n: 'Azul abismo' },
+        { c: 'color-mix(in srgb, var(--t-p) 55%, var(--t-s))', n: 'Turquesa profunda' },
+        { c: 'var(--t-pearl)', n: 'Perla' },
+        { c: 'color-mix(in srgb, var(--t-pearl) 70%, #a99bd6)', n: 'Nácar lavanda' },
+        { c: 'var(--t-a)', n: 'Coral (reservado)', r: true }
+      ];
+      var list = root.querySelector('[data-bjm-swatches]');
+      var cur = root.querySelector('[data-bjm-current]');
+      var wash = root.querySelector('[data-bjm-wash]');
+      var btns = [], busy = 0;
+      function pick(i) {
+        var p = PALETTE[i];
+        btns.forEach(function (b, k) { b.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+        if (cur) cur.textContent = 'Tono: ' + p.n;
+        if (RM || !wash) { root.style.setProperty('--bjm-base', p.c); return; }
+        clearTimeout(busy);
+        wash.removeAttribute('data-go');
+        root.style.setProperty('--bjm-next', p.c);
+        void wash.getBoundingClientRect();
+        requestAnimationFrame(function () {
+          wash.setAttribute('data-go', '');
+          busy = setTimeout(function () {
+            root.style.setProperty('--bjm-base', p.c);
+            wash.removeAttribute('data-go');
+          }, 520);
+        });
+      }
+      if (list) {
+        PALETTE.forEach(function (p, i) {
+          var li = document.createElement('li');
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'bjm-ve__sw';
+          b.style.setProperty('--c', p.c);
+          b.style.setProperty('--dl', (.3 + i * .06).toFixed(2) + 's');
+          b.setAttribute('aria-label', p.n);
+          b.setAttribute('aria-pressed', 'false');
+          b.setAttribute('data-bjm-sw', String(i));
+          if (p.r) b.setAttribute('data-reserved', '');
+          b.addEventListener('click', function () { pick(i); });
+          b.addEventListener('mouseenter', function () { if (window.matchMedia && window.matchMedia('(hover: hover)').matches) pick(i); });
+          li.appendChild(b); list.appendChild(li); btns.push(b);
+        });
+        btns[0].setAttribute('aria-pressed', 'true');
+        if (cur) cur.textContent = 'Tono: ' + PALETTE[0].n;
+      }
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      root.classList.add('bjm-ve--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('bjm-ve--anim', 'is-in'); }, 1500);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+
+      /* bubbles rising around the gown; paused off-screen */
+      var bubs = root.querySelectorAll('[data-bjm-bub]'), B = [];
+      for (var j = 0; j < bubs.length; j++) {
+        B.push({ el: bubs[j], x: 8 + Math.random() * 84, z: 4 + Math.random() * 9, sp: .03 + Math.random() * .05, off: Math.random() * 400 });
+        bubs[j].style.setProperty('--x', B[j].x.toFixed(1) + '%');
+        bubs[j].style.setProperty('--z', B[j].z.toFixed(1) + 'px');
+      }
+      var stage = root.querySelector('[data-bjm-stage]');
+      var vis = false, raf = 0;
+      function tick(t) {
+        raf = 0;
+        if (!vis || document.hidden) return;
+        var h = stage ? stage.clientHeight : 400;
+        for (var k = 0; k < B.length; k++) {
+          var y = ((t * B[k].sp + B[k].off) % (h + 20));
+          B[k].el.style.setProperty('--y', (-y).toFixed(1) + 'px');
+          B[k].el.style.setProperty('--o', (Math.min(1, y / 60) * (1 - y / (h + 20)) * .8).toFixed(3));
+          B[k].el.style.marginLeft = (Math.sin(t * .002 + k) * 6).toFixed(1) + 'px';
+        }
+        raf = requestAnimationFrame(tick);
+      }
+      function kick() { if (vis && !document.hidden && !raf) raf = requestAnimationFrame(tick); }
+      new IntersectionObserver(function (en) { vis = en[0].isIntersecting; kick(); }).observe(root);
+      document.addEventListener('visibilitychange', kick);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-bajo-el-mar',
+      style_name: 'Bajo el Mar Vestido Sirena',
+      descripcion: 'Código de vestimenta con paleta de perlas generada desde los colores del tema; al elegir un tono, un vestido corte sirena con escamas se tiñe con una marea circular. Coral reservado para la quinceañera.',
+      tags: ['vestimenta', 'dress code', 'quinceañera', 'bajo el mar', 'sirena', 'paleta'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

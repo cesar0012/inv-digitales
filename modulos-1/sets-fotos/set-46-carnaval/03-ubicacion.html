@@ -1,0 +1,268 @@
+<section
+  class="cv-ub"
+  data-gemini-id="ubicacion-mapa"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Monsieur+La+Doulaise&display=swap');
+
+    .cv-ub, .cv-ub *, .cv-ub *::before, .cv-ub *::after { box-sizing: border-box; }
+    .cv-ub {
+      --t-bg: var(--bg-color, #14060f);
+      --t-tx: var(--text-color, #f3e4c8);
+      --t-p: var(--primary-color, #9b1028);
+      --t-s: var(--secondary-color, #4b1a6e);
+      --t-a: var(--accent-color, #b8862e);
+      --t-display: var(--font-script, 'Monsieur La Doulaise', cursive);
+      --t-text: var(--font-heading, 'IM Fell English', Georgia, serif);
+      --gold: linear-gradient(115deg, color-mix(in srgb, var(--t-a) 60%, #000) 0%, color-mix(in srgb, var(--t-a) 55%, #fff) 42%, var(--t-a) 58%, color-mix(in srgb, var(--t-a) 65%, #000) 100%);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 42rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/venice,canal,night?lock=3521');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .cv-ub::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 50% 60% at 30% 50%, color-mix(in srgb, var(--t-s) 35%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 84%, transparent), color-mix(in srgb, var(--t-bg) 94%, transparent));
+    }
+    .cv-ub__content {
+      width: min(100%, 64rem);
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      align-items: center;
+      gap: clamp(2rem, 5vw, 4rem);
+    }
+    .cv-ub__map {
+      position: relative;
+      margin: 0;
+      border-radius: 50% 50% 14px 14px / 24% 24% 14px 14px;
+      padding: 8px;
+      background: var(--gold);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, .6);
+    }
+    .cv-ub__map svg { display: block; width: 100%; height: auto; border-radius: inherit; }
+    .cv-ub__head { margin: 0 0 1.2rem; }
+    .cv-ub__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3rem, 6.5vw, 4.8rem);
+      line-height: 1.1;
+      background: var(--gold);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      padding-right: .3em;
+    }
+    .cv-ub__intro { margin: .2rem 0 0; font-style: italic; opacity: .85; font-size: 1.08rem; line-height: 1.55; }
+
+    .cv-ub__ticket {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      background:
+        linear-gradient(135deg, color-mix(in srgb, var(--t-p) 88%, #fff 4%), color-mix(in srgb, var(--t-p) 60%, #000));
+      color: var(--t-tx);
+      border-radius: 12px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, .5), inset 0 0 0 1px color-mix(in srgb, var(--t-a) 60%, transparent), inset 0 0 0 6px color-mix(in srgb, var(--t-p) 70%, #000), inset 0 0 0 7px color-mix(in srgb, var(--t-a) 45%, transparent);
+      -webkit-mask: radial-gradient(circle at 0 50%, transparent 14px, #000 15px) left / 51% 100% no-repeat, radial-gradient(circle at 100% 50%, transparent 14px, #000 15px) right / 51% 100% no-repeat;
+      mask: radial-gradient(circle at 0 50%, transparent 14px, #000 15px) left / 51% 100% no-repeat, radial-gradient(circle at 100% 50%, transparent 14px, #000 15px) right / 51% 100% no-repeat;
+    }
+    .cv-ub__main { padding: clamp(1.5rem, 3.5vw, 2.2rem) clamp(1.4rem, 3.5vw, 2.2rem); display: grid; gap: .55rem; }
+    .cv-ub__venue { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.2rem, 4.5vw, 3rem); line-height: 1.1; }
+    .cv-ub__addr { margin: 0; font-style: normal; font-size: 1.08rem; line-height: 1.55; opacity: .92; }
+    .cv-ub__time { margin: 0; font-style: italic; color: color-mix(in srgb, var(--t-tx) 65%, var(--t-a)); }
+    .cv-ub__stub {
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: .4rem;
+      padding: 1.2rem 1.4rem;
+      border-left: 2px dashed color-mix(in srgb, var(--t-a) 60%, transparent);
+      text-align: center;
+      min-width: 7.5rem;
+    }
+    .cv-ub__stub svg { width: 4.2rem; height: auto; }
+    .cv-ub__stubtx { margin: 0; font-style: italic; font-size: .98rem; line-height: 1.3; }
+    .cv-ub__btn {
+      justify-self: start;
+      margin-top: .7rem;
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      min-height: 2.9rem;
+      padding: .6rem 1.5rem;
+      border-radius: 999px;
+      background: var(--gold);
+      color: var(--t-bg);
+      font: inherit;
+      font-size: 1.08rem;
+      text-decoration: none;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, .4);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .cv-ub__btn:hover, .cv-ub__btn:focus-visible { transform: translateY(-2px); box-shadow: 0 10px 24px color-mix(in srgb, var(--t-a) 45%, transparent); }
+    .cv-ub__btn:focus-visible { outline: 2px solid var(--t-tx); outline-offset: 3px; }
+    .cv-ub__btn svg { width: 1.1rem; height: 1.1rem; transition: transform .3s ease; }
+    .cv-ub__btn:hover svg { transform: translateX(3px); }
+
+    .cv-ub--anim .cv-ub__map, .cv-ub--anim .cv-ub__side { opacity: 0; transform: translateY(16px) scale(.98); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .cv-ub--anim .cv-ub__side { transition-delay: .2s; }
+    .cv-ub--anim.is-in .cv-ub__map, .cv-ub--anim.is-in .cv-ub__side { opacity: 1; transform: none; }
+
+    @media (max-width: 760px) {
+      .cv-ub__content { grid-template-columns: 1fr; }
+      .cv-ub__head { text-align: center; }
+    }
+    @media (max-width: 420px) {
+      .cv-ub__ticket { grid-template-columns: 1fr; -webkit-mask: none; mask: none; }
+      .cv-ub__stub { border-left: 0; border-top: 2px dashed color-mix(in srgb, var(--t-a) 60%, transparent); grid-auto-flow: column; justify-content: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cv-ub *, .cv-ub *::before, .cv-ub *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="cv-ub__content">
+    <figure class="cv-ub__map" aria-hidden="true">
+      <svg viewBox="0 0 400 360">
+        <defs>
+          <radialGradient id="cvub-sea" cx=".5" cy=".45" r=".7">
+            <stop offset="0" style="stop-color: color-mix(in srgb, var(--t-s) 70%, var(--t-bg))" />
+            <stop offset="1" style="stop-color: var(--t-bg)" />
+          </radialGradient>
+          <pattern id="cvub-hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="8" style="stroke: color-mix(in srgb, var(--t-a) 22%, transparent)" stroke-width="1" />
+          </pattern>
+        </defs>
+        <rect width="400" height="360" fill="url(#cvub-sea)" />
+        <g style="fill: color-mix(in srgb, var(--t-p) 30%, var(--t-bg)); stroke: color-mix(in srgb, var(--t-a) 55%, transparent)" stroke-width="1.2">
+          <path d="M-10 40C60 20 120 60 150 40C190 14 260 30 300 18C340 8 380 26 410 20V-10H-10Z" />
+          <path d="M-10 70C40 60 80 90 110 120C130 140 120 170 100 190C80 210 30 200 -10 210Z" />
+          <path d="M150 80C190 70 230 90 250 120C262 140 240 160 210 160C180 160 150 140 140 120C134 104 136 86 150 80Z" />
+          <path d="M290 60C330 50 380 70 410 66V200C380 196 340 180 316 160C296 142 274 116 276 92C278 76 282 64 290 60Z" />
+          <path d="M-10 250C40 236 90 250 130 240C170 230 180 270 220 280C260 290 300 250 340 256C370 260 390 280 410 276V370H-10Z" />
+          <path d="M150 196C176 186 210 196 230 214C244 228 230 246 206 246C178 246 150 236 142 222C138 210 140 200 150 196Z" />
+        </g>
+        <g fill="url(#cvub-hatch)">
+          <path d="M150 80C190 70 230 90 250 120C262 140 240 160 210 160C180 160 150 140 140 120C134 104 136 86 150 80Z" />
+          <path d="M150 196C176 186 210 196 230 214C244 228 230 246 206 246C178 246 150 236 142 222C138 210 140 200 150 196Z" />
+        </g>
+        <path d="M-10 226C60 220 90 200 130 178C170 156 230 176 260 190C300 208 340 214 410 230" fill="none" style="stroke: color-mix(in srgb, var(--t-a) 70%, transparent)" stroke-width="2" stroke-dasharray="2 7" stroke-linecap="round" />
+        <g style="stroke: var(--t-a)" stroke-width="3" stroke-linecap="round">
+          <path d="M118 160l14 16M262 168l-6 22M300 120l18 -6" />
+        </g>
+        <g data-cv-rings style="fill: none; stroke: var(--t-a)" stroke-width="2">
+          <circle cx="200" cy="184" r="10" />
+          <circle cx="200" cy="184" r="10" />
+          <circle cx="200" cy="184" r="10" />
+        </g>
+        <g transform="translate(200 184)">
+          <path d="M0 0C-6 -14 -22 -24 -22 -42A22 22 0 0 1 22 -42C22 -24 6 -14 0 0Z" style="fill: var(--t-p); stroke: var(--t-a)" stroke-width="2.5" />
+          <path fill-rule="evenodd" style="fill: var(--t-a)" d="M0 -40C-4 -46 -12 -49 -18 -47C-22 -45 -22 -40 -19 -36C-15 -32 -9 -32 -5 -34C-3 -35 -1 -36 0 -36C1 -36 3 -35 5 -34C9 -32 15 -32 19 -36C22 -40 22 -45 18 -47C12 -49 4 -46 0 -40ZM-16 -41C-13 -44 -8 -44 -6 -40C-9 -38 -14 -38 -16 -41ZM16 -41C13 -44 8 -44 6 -40C9 -38 14 -38 16 -41Z" />
+          <path d="M-16 -48C-22 -60 -20 -70 -12 -78C-12 -66 -10 -58 -12 -48Z" style="fill: color-mix(in srgb, var(--t-s) 60%, #fff)" />
+        </g>
+        <path d="M352 252l-10 26 10 -6 10 6zM352 284v10" style="fill: var(--t-a); stroke: var(--t-a)" stroke-width="1.5" />
+      </svg>
+    </figure>
+
+    <div class="cv-ub__side">
+      <header class="cv-ub__head">
+        <h2 class="cv-ub__title" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">El Palacio</h2>
+<figure class="vmap-embed" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,640px);"><iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen style="display:block;width:100%;height:clamp(210px,38vw,330px);border:1px solid var(--primary-color,#9b9b9b);border-radius:12px;"></iframe></figure>
+<figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,340px);"><img src="https://loremflickr.com/700/420/carnival,venue" alt="Vista del lugar" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" style="display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--primary-color,#9b9b9b);" /><figcaption hidden>Vista del lugar</figcaption></figure>
+        <p class="cv-ub__intro" memory_type="text" memory_usage="custom" memory_key="ubicacion-intro">Sigue las luces doradas: el baile de máscaras te espera aquí.</p>
+      </header>
+      <div class="cv-ub__ticket">
+        <div class="cv-ub__main">
+          <h3 class="cv-ub__venue" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar" data-event-field="lugar">Salón Palazzo</h3>
+          <address class="cv-ub__addr"><span memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion" data-event-field="direccion">Av. Nombre de la Calle 1234, Colonia Centro, Ciudad, Estado</span></address>
+          <p class="cv-ub__time"><time datetime="2027-02-13T19:00" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora" data-event-field="hora">Sábado 13 de febrero · 7:00 p.m.</time></p>
+          <a class="cv-ub__btn" href="#" data-cv-route>
+            <span memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Cómo llegar</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </a>
+        </div>
+        <div class="cv-ub__stub">
+          <svg viewBox="0 0 120 60" aria-hidden="true">
+            <path fill-rule="evenodd" style="fill: var(--t-a)" d="M60 24C52 14 38 10 22 14C12 16 8 24 12 32C16 42 32 46 44 42C52 39 56 36 60 36C64 36 68 39 76 42C88 46 104 42 108 32C112 24 108 16 98 14C82 10 68 14 60 24ZM24 28C30 22 40 22 46 30C40 34 30 35 24 28ZM96 28C90 22 80 22 74 30C80 34 90 35 96 28Z" />
+          </svg>
+          <p class="cv-ub__stubtx" memory_type="text" memory_usage="custom" memory_key="ubicacion-pase">Función única</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="ubicacion-mapa"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var btn = root.querySelector('[data-cv-route]');
+      if (btn) btn.addEventListener('click', function (e) { if (btn.getAttribute('href') === '#') e.preventDefault(); });
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var rings = root.querySelectorAll('[data-cv-rings] circle');
+      if (RM || !('IntersectionObserver' in window)) {   /* reduced motion = static final state */
+        for (var k = 0; k < rings.length; k++) { rings[k].setAttribute('r', 16 + k * 12); rings[k].style.opacity = .5 - k * .15; }
+        return;
+      }
+
+      root.classList.add('cv-ub--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('cv-ub--anim', 'is-in'); }, 1300);
+        }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+
+      /* Marker pulse: three rings expand and fade on a staggered cycle, paused off-screen */
+      var vis = false, raf = 0;
+      function tick(t) {
+        raf = 0;
+        if (!vis || document.hidden) return;
+        for (var i = 0; i < rings.length; i++) {
+          var k = ((t / 1900) + i / rings.length) % 1;
+          rings[i].setAttribute('r', (10 + k * 46).toFixed(1));
+          rings[i].style.opacity = ((1 - k) * .85).toFixed(3);
+        }
+        raf = requestAnimationFrame(tick);
+      }
+      function go() { if (!raf && vis && !document.hidden) raf = requestAnimationFrame(tick); }
+      new IntersectionObserver(function (en) { vis = en[0].isIntersecting; go(); }).observe(root);
+      document.addEventListener('visibilitychange', go);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-mapa',
+      style_name: 'Carnaval Veneciano Boleto del Palacio',
+      descripcion: 'Ubicación estilo carnaval veneciano: mapa de canales con pin-máscara dorado y anillos de pulso animados, dirección en un boleto de teatro perforado de terciopelo rubí y botón Cómo llegar.',
+      tags: ['ubicación', 'quinceañera', 'carnaval', 'veneciano', 'mapa', 'boleto', 'mascara'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>

@@ -1,0 +1,230 @@
+<section
+  class="inv-iti"
+  data-gemini-id="itinerario-agenda"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Jost:wght@300;400;500&display=swap');
+
+    .inv-iti, .inv-iti *, .inv-iti *::before, .inv-iti *::after { box-sizing: border-box; }
+    .inv-iti {
+      --t-bg: var(--bg-color, #eef5fb);
+      --t-tx: var(--text-color, #163450);
+      --t-p: var(--primary-color, #8ecdee);
+      --t-s: var(--secondary-color, #3c7eae);
+      --t-a: var(--accent-color, #b9c4cf);
+      --t-display: var(--font-script, 'Bodoni Moda', 'Didot', serif);
+      --t-text: var(--font-heading, 'Jost', 'Helvetica Neue', sans-serif);
+      --night: color-mix(in srgb, var(--t-tx) 60%, #020812);
+      --snow: color-mix(in srgb, var(--t-bg) 55%, #ffffff);
+      --ice: color-mix(in srgb, var(--t-p) 65%, #ffffff);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(36rem, 80vw, 60rem);
+      display: grid;
+      justify-items: center;
+      align-content: start;
+      gap: clamp(2rem, 5vw, 3.5rem);
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--night);
+      background-image: url('https://loremflickr.com/1600/1000/frozen,lake,night?lock=3441');
+      background-size: cover;
+      background-position: center;
+      color: var(--snow);
+      font-family: var(--t-text);
+    }
+    .inv-iti::before {
+      content: ''; position: absolute; inset: 0; z-index: -1;
+      background:
+        radial-gradient(70% 40% at 50% 0%, color-mix(in srgb, var(--t-s) 35%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--night) 88%, transparent), color-mix(in srgb, var(--night) 94%, transparent));
+    }
+
+    .inv-iti__head { display: grid; justify-items: center; gap: .3rem; text-align: center; }
+    .inv-iti__eyebrow { margin: 0; font-family: var(--t-display); font-style: italic; font-size: clamp(1.05rem, 2vw, 1.3rem); color: var(--ice); }
+    .inv-iti__title {
+      margin: 0; padding: 0 .1em .1em;
+      font-family: var(--t-display); font-weight: 500;
+      font-size: clamp(2.5rem, 6vw, 4.4rem); line-height: 1;
+      background-image: linear-gradient(112deg, #eaf7ff 0 16%, #ffffff 16% 22%, var(--t-a) 22% 34%, var(--ice) 34% 50%, #ffffff 50% 54%, var(--t-p) 54% 68%, #f3fbff 68% 82%, var(--t-a) 82% 100%);
+      background-size: 230% 100%;
+      background-position: 35% 50%;
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      filter: drop-shadow(0 6px 22px color-mix(in srgb, var(--t-p) 45%, transparent));
+    }
+
+    .inv-iti__list {
+      --inv-prog: 0;
+      position: relative;
+      width: min(100%, 56rem);
+    }
+    .inv-iti__steps { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(1.4rem, 3vw, 2.2rem); }
+    /* icicle track + frozen fill */
+    .inv-iti__list::before, .inv-iti__list::after {
+      content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; transform: translateX(-50%);
+    }
+    .inv-iti__list::before { background: color-mix(in srgb, var(--snow) 18%, transparent); }
+    .inv-iti__list::after {
+      width: 4px;
+      background: linear-gradient(180deg, #ffffff, var(--ice) 70%, var(--t-p));
+      box-shadow: 0 0 14px color-mix(in srgb, var(--t-p) 80%, transparent);
+      transform-origin: 50% 0;
+      transform: translateX(-50%) scaleY(var(--inv-prog));
+    }
+    .inv-iti__tip {
+      position: absolute; left: 50%; top: calc(var(--inv-prog) * 100%);
+      width: 14px; height: 22px; transform: translate(-50%, -2px);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      background: linear-gradient(180deg, var(--ice), #ffffff);
+      filter: drop-shadow(0 0 6px var(--t-p));
+      pointer-events: none;
+    }
+
+    .inv-iti__item { position: relative; display: grid; grid-template-columns: 1fr 3.2rem 1fr; align-items: center; }
+    .inv-iti__node {
+      grid-column: 2; justify-self: center;
+      width: 1.6rem; aspect-ratio: 1;
+      clip-path: polygon(50% 0, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+      background: color-mix(in srgb, var(--snow) 22%, var(--night));
+      transition: background-color .4s ease, transform .4s ease;
+    }
+    .inv-iti__item[data-inv-lit] .inv-iti__node { background: linear-gradient(160deg, #ffffff, var(--t-p)); transform: scale(1.25) rotate(30deg); }
+    .inv-iti__card {
+      grid-column: 1; grid-row: 1;
+      justify-self: end;
+      width: min(100%, 22rem);
+      display: grid; gap: .3rem;
+      padding: clamp(1rem, 2.4vw, 1.4rem) clamp(1.1rem, 2.6vw, 1.6rem);
+      text-align: right;
+      clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+      background: linear-gradient(140deg, color-mix(in srgb, #ffffff 13%, transparent), color-mix(in srgb, var(--t-p) 8%, transparent));
+      -webkit-backdrop-filter: blur(5px);
+      backdrop-filter: blur(5px);
+      transition: background-color .4s ease, transform .45s cubic-bezier(.2, .8, .2, 1), opacity .4s ease;
+    }
+    .inv-iti--live .inv-iti__card { opacity: .55; }
+    .inv-iti__item:nth-child(even) .inv-iti__card { grid-column: 3; justify-self: start; text-align: left; }
+    .inv-iti--live .inv-iti__item[data-inv-lit] .inv-iti__card { opacity: 1; background-color: color-mix(in srgb, var(--t-p) 10%, transparent); }
+    .inv-iti__time { font-family: var(--t-display); font-style: italic; font-size: clamp(1.2rem, 2.4vw, 1.5rem); color: var(--ice); }
+    .inv-iti__name { margin: 0; font-weight: 500; font-size: clamp(1.1rem, 2.1vw, 1.3rem); color: #ffffff; }
+    .inv-iti__desc { margin: 0; font-weight: 300; font-size: clamp(.95rem, 1.7vw, 1.05rem); line-height: 1.55; color: color-mix(in srgb, var(--snow) 82%, var(--t-p)); }
+
+    @media (max-width: 680px) {
+      .inv-iti__list::before, .inv-iti__list::after, .inv-iti__tip { left: 1.1rem; }
+      .inv-iti__item { grid-template-columns: 2.2rem 1fr; gap: .6rem; }
+      .inv-iti__node { grid-column: 1; }
+      .inv-iti__card, .inv-iti__item:nth-child(even) .inv-iti__card { grid-column: 2; justify-self: stretch; width: 100%; text-align: left; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .inv-iti *, .inv-iti *::before, .inv-iti *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <header class="inv-iti__head">
+    <p class="inv-iti__eyebrow" memory_type="text" memory_usage="custom" memory_key="itinerario-eyebrow">Una noche bajo la escarcha</p>
+    <h2 class="inv-iti__title" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Itinerario</h2>
+  </header>
+
+  <div class="inv-iti__list" data-inv-list>
+    <span class="inv-iti__tip" aria-hidden="true"></span>
+    <ol class="inv-iti__steps">
+    <li class="inv-iti__item" data-inv-step>
+      <span class="inv-iti__node" aria-hidden="true"></span>
+      <div class="inv-iti__card">
+        <time class="inv-iti__time" datetime="2027-01-16T18:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1" data-event-field="itin-hora-1">6:00 p.m.</time>
+        <h3 class="inv-iti__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-1" data-event-field="itin-evento-1">Misa de acción de gracias</h3>
+        <p class="inv-iti__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-1">Parroquia Nombre del Templo, a unos minutos del salón.</p>
+      </div>
+    </li>
+    <li class="inv-iti__item" data-inv-step>
+      <span class="inv-iti__node" aria-hidden="true"></span>
+      <div class="inv-iti__card">
+        <time class="inv-iti__time" datetime="2027-01-16T19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2" data-event-field="itin-hora-2">7:00 p.m.</time>
+        <h3 class="inv-iti__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-2" data-event-field="itin-evento-2">Recepción de cristal</h3>
+        <p class="inv-iti__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-2">Bienvenida con bebidas heladas bajo el bosque escarchado.</p>
+      </div>
+    </li>
+    <li class="inv-iti__item" data-inv-step>
+      <span class="inv-iti__node" aria-hidden="true"></span>
+      <div class="inv-iti__card">
+        <time class="inv-iti__time" datetime="2027-01-16T20:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3" data-event-field="itin-hora-3">8:00 p.m.</time>
+        <h3 class="inv-iti__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-3" data-event-field="itin-evento-3">Entrada y vals de invierno</h3>
+        <p class="inv-iti__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-3">La quinceañera baila su vals con papá y la corte de honor.</p>
+      </div>
+    </li>
+    <li class="inv-iti__item" data-inv-step>
+      <span class="inv-iti__node" aria-hidden="true"></span>
+      <div class="inv-iti__card">
+        <time class="inv-iti__time" datetime="2027-01-16T21:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4" data-event-field="itin-hora-4">9:00 p.m.</time>
+        <h3 class="inv-iti__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-4" data-event-field="itin-evento-4">Cena de gala</h3>
+        <p class="inv-iti__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-4">Brindis por los quince años y palabras de la familia.</p>
+      </div>
+    </li>
+    <li class="inv-iti__item" data-inv-step>
+      <span class="inv-iti__node" aria-hidden="true"></span>
+      <div class="inv-iti__card">
+        <time class="inv-iti__time" datetime="2027-01-16T22:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-5" data-event-field="itin-hora-5">10:00 p.m.</time>
+        <h3 class="inv-iti__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-5" data-event-field="itin-evento-5">Baile bajo la nieve</h3>
+        <p class="inv-iti__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-5">Pista abierta, pastel y lluvia de copos al final de la noche.</p>
+      </div>
+    </li>
+    </ol>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="itinerario-agenda"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var list = root.querySelector('[data-inv-list]');
+      var steps = root.querySelectorAll('[data-inv-step]');
+      if (!list) return;
+
+      function setProg(p) {
+        list.style.setProperty('--inv-prog', p.toFixed(4));
+        var lr = list.getBoundingClientRect();
+        for (var i = 0; i < steps.length; i++) {
+          var sr = steps[i].getBoundingClientRect();
+          var at = (sr.top + sr.height / 2 - lr.top) / Math.max(1, lr.height);
+          if (p >= at - .01) steps[i].setAttribute('data-inv-lit', ''); else steps[i].removeAttribute('data-inv-lit');
+        }
+      }
+      if (RM) { setProg(1); return; }   /* reduced motion = static final state (all lit) */
+
+      root.classList.add('inv-iti--live');
+      /* Icicle freezes downward with scroll — measured in rAF, only while the section is near the viewport */
+      var near = false, raf = 0;
+      function measure() {
+        raf = 0;
+        var r = list.getBoundingClientRect(), vh = window.innerHeight || 800;
+        var p = (vh * .62 - r.top) / Math.max(1, r.height);
+        setProg(Math.max(0, Math.min(1, p)));
+      }
+      function req() { if (near && !raf) raf = requestAnimationFrame(measure); }
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (en) { near = en[0].isIntersecting; req(); }, { rootMargin: '200px 0px' }).observe(root);
+      } else { near = true; }
+      window.addEventListener('scroll', req, { passive: true });
+      window.addEventListener('resize', req);
+      req();
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Invierno Carámbano Nocturno',
+      descripcion: 'Itinerario nocturno de XV años: un carámbano de hielo se congela hacia abajo al hacer scroll y enciende nodos hexagonales de cristal; tarjetas de vidrio escarchado con hora y descripción.',
+      tags: ['itinerario', 'agenda', 'quinceanera', 'invierno', 'hielo', 'timeline'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>

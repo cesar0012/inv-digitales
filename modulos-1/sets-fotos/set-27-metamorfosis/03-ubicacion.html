@@ -1,0 +1,499 @@
+<section
+  class="mm-ubic"
+  data-gemini-id="ubicacion-mapa"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Pinyon+Script&display=swap');
+
+    .mm-ubic, .mm-ubic *, .mm-ubic *::before, .mm-ubic *::after { box-sizing: border-box; }
+    .mm-ubic {
+      --mm-bg: var(--bg-color, #1a0e26);
+      --mm-tx: var(--text-color, #faf2fb);
+      --mm-p: var(--primary-color, #f2a9cf);
+      --mm-s: var(--secondary-color, #8fd0f5);
+      --mm-a: var(--accent-color, #e5c07e);
+      --mm-script: var(--font-script, 'Pinyon Script', 'Great Vibes', cursive);
+      --mm-serif: var(--font-heading, 'Cormorant Garamond', 'Cormorant', Georgia, serif);
+      --panel: color-mix(in srgb, var(--mm-bg) 85%, transparent);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 8vw, 6.5rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--mm-bg);
+      background-image: url('https://loremflickr.com/1600/900/garden,venue?lock=2703');
+      background-size: cover;
+      background-position: center;
+      color: var(--mm-tx);
+      text-align: center;
+      font-family: var(--mm-serif);
+    }
+    .mm-ubic::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(50% 60% at 30% 50%, color-mix(in srgb, var(--mm-s) 14%, transparent), transparent 70%),
+        radial-gradient(40% 50% at 80% 40%, color-mix(in srgb, var(--mm-p) 12%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--mm-bg) 86%, transparent), color-mix(in srgb, var(--mm-bg) 94%, transparent));
+    }
+    .mm-ubic__content {
+      width: min(100%, 68rem);
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      align-items: center;
+      gap: clamp(1.5rem, 5vw, 4.5rem);
+    }
+
+    /* ---------- Mapa 3D ---------- */
+    .mm-ubic__stage {
+      position: relative;
+      perspective: 1100px;
+      perspective-origin: 50% 20%;
+      padding: 6% 2% 10%;
+    }
+    .mm-ubic__plane {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      border-radius: 1.4rem;
+      transform-style: preserve-3d;
+      transform: rotateX(var(--mm-rx, 50deg)) rotateZ(var(--mm-rz, -8deg));
+      background:
+        radial-gradient(90% 80% at 70% 40%, color-mix(in srgb, var(--mm-p) 14%, transparent), transparent 70%),
+        linear-gradient(160deg, color-mix(in srgb, var(--mm-bg) 55%, var(--mm-s) 12%), color-mix(in srgb, var(--mm-bg) 80%, var(--mm-p) 8%));
+      box-shadow:
+        0 0 0 1px color-mix(in srgb, var(--mm-tx) 16%, transparent),
+        0 40px 80px -20px color-mix(in srgb, #000 75%, transparent),
+        inset 0 0 60px color-mix(in srgb, var(--mm-s) 10%, transparent);
+      will-change: transform;
+    }
+    .mm-ubic__map { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: inherit; overflow: hidden; }
+    .mm-ubic__map line { stroke: color-mix(in srgb, var(--mm-tx) 16%, transparent); stroke-width: 2.4; stroke-linecap: round; }
+    .mm-ubic__map line.is-main { stroke: color-mix(in srgb, var(--mm-tx) 26%, transparent); stroke-width: 5.5; }
+    .mm-ubic__map .mm-ubic__river { fill: none; stroke: color-mix(in srgb, var(--mm-s) 32%, transparent); stroke-width: 15; stroke-linecap: round; }
+    .mm-ubic__map .mm-ubic__park { fill: color-mix(in srgb, var(--mm-p) 16%, transparent); stroke: color-mix(in srgb, var(--mm-p) 30%, transparent); stroke-width: 1; }
+    .mm-ubic__map .mm-ubic__block { fill: color-mix(in srgb, var(--mm-tx) 5%, transparent); }
+    .mm-ubic__map .mm-ubic__route-bg { fill: none; stroke: color-mix(in srgb, var(--mm-a) 22%, transparent); stroke-width: 3; stroke-dasharray: 1 9; stroke-linecap: round; }
+    .mm-ubic__map .mm-ubic__route { fill: none; stroke: var(--mm-a); stroke-width: 3.5; stroke-linecap: round; filter: drop-shadow(0 0 4px var(--mm-a)); }
+
+    .mm-ubic__shadow {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 3.6rem;
+      height: 1.6rem;
+      margin: -.8rem 0 0 -1.8rem;
+      border-radius: 50%;
+      background: radial-gradient(closest-side, color-mix(in srgb, #000 55%, transparent), transparent);
+      pointer-events: none;
+    }
+    .mm-ubic__fly {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 4.6rem;
+      height: 3rem;
+      margin: -1.5rem 0 0 -2.3rem;
+      transform-style: preserve-3d;
+      pointer-events: none;
+    }
+    .mm-ubic__bf { position: absolute; inset: 0; transform-style: preserve-3d; }
+    .mm-ubic__bf i {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 50%;
+      transform-origin: 0 50%;
+      animation: mmUbicFlapR var(--mm-flap, .3s) ease-in-out infinite alternate;
+    }
+    .mm-ubic__bf i + i { animation-name: mmUbicFlapL; }
+    .mm-ubic__bf svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .mm-ubic__bf path { stroke: var(--mm-a); stroke-width: 3; }
+    .mm-ubic__bf path:first-child { fill: var(--mm-p); }
+    .mm-ubic__bf path:last-child { fill: var(--mm-s); }
+    .mm-ubic__bf b {
+      position: absolute;
+      left: 50%;
+      top: 8%;
+      width: 8%;
+      height: 84%;
+      margin-left: -4%;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--mm-bg) 60%, var(--mm-a));
+      transform: translateZ(1px);
+    }
+    @keyframes mmUbicFlapR { from { transform: rotateY(6deg); } to { transform: rotateY(72deg); } }
+    @keyframes mmUbicFlapL { from { transform: rotateY(174deg); } to { transform: rotateY(108deg); } }
+
+    .mm-ubic__pin {
+      position: absolute;
+      left: 70.5%;
+      top: 39.3%;
+      width: 0;
+      height: 0;
+      transform-style: preserve-3d;
+    }
+    .mm-ubic__pulse {
+      position: absolute;
+      left: -2.6rem;
+      top: -2.6rem;
+      width: 5.2rem;
+      height: 5.2rem;
+      border-radius: 50%;
+      border: 2px solid var(--mm-p);
+      box-shadow: 0 0 18px var(--mm-p), inset 0 0 14px color-mix(in srgb, var(--mm-p) 50%, transparent);
+      opacity: 0;
+    }
+    .mm-ubic__drop {
+      position: absolute;
+      left: -1.25rem;
+      bottom: 0;
+      width: 2.5rem;
+      height: 3.4rem;
+      transform-origin: 50% 100%;
+      transform: rotateX(calc(var(--mm-rx, 50deg) * -1));
+    }
+    .mm-ubic__drop::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+      background: linear-gradient(135deg, var(--mm-s), var(--mm-p) 55%, var(--mm-a));
+      box-shadow: 0 0 22px color-mix(in srgb, var(--mm-p) 70%, transparent), inset 0 2px 4px color-mix(in srgb, #fff 50%, transparent);
+    }
+    .mm-ubic__drop::after {
+      content: '';
+      position: absolute;
+      left: .78rem;
+      top: .78rem;
+      width: .94rem;
+      height: .94rem;
+      border-radius: 50%;
+      background: var(--mm-bg);
+      box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--mm-a) 70%, transparent);
+    }
+
+    /* ---------- Información ---------- */
+    .mm-ubic__info { text-align: left; }
+    .mm-ubic__eyebrow {
+      margin: 0 0 .3rem;
+      font-style: italic;
+      font-size: clamp(1.05rem, 2vw, 1.3rem);
+      color: color-mix(in srgb, var(--mm-p) 70%, var(--mm-tx));
+    }
+    .mm-ubic__title {
+      margin: 0 0 1.1rem;
+      font-weight: 300;
+      font-size: clamp(2.2rem, 4.8vw, 3.5rem);
+      line-height: 1.05;
+    }
+    .mm-ubic__address {
+      margin: 0 0 1.3rem;
+      max-width: 30ch;
+      font-style: normal;
+      font-size: clamp(1.1rem, 1.9vw, 1.3rem);
+      line-height: 1.55;
+      color: color-mix(in srgb, var(--mm-tx) 86%, transparent);
+    }
+    .mm-ubic__when {
+      display: flex;
+      align-items: baseline;
+      gap: .7rem;
+      margin: 0 0 1.8rem;
+      padding-top: 1rem;
+      border-top: 1px solid color-mix(in srgb, var(--mm-a) 35%, transparent);
+    }
+    .mm-ubic__label { font-style: italic; color: color-mix(in srgb, var(--mm-a) 85%, var(--mm-tx)); font-size: 1.1rem; }
+    .mm-ubic__time { font-size: clamp(1.6rem, 3vw, 2.1rem); font-weight: 500; font-variant-numeric: lining-nums; }
+    .mm-ubic__actions { display: flex; flex-wrap: wrap; gap: .8rem; }
+    .mm-ubic__btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .55rem;
+      min-height: 3rem;
+      padding: .7rem 1.6rem;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      overflow: hidden;
+      font: 500 1.1rem/1 var(--mm-serif);
+      letter-spacing: .03em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .3s cubic-bezier(.3, 1.4, .5, 1), box-shadow .3s ease;
+    }
+    .mm-ubic__btn--go {
+      color: var(--mm-bg);
+      background: linear-gradient(110deg, var(--mm-a), color-mix(in srgb, var(--mm-a) 40%, #fff) 45%, var(--mm-p));
+      box-shadow: 0 10px 30px -10px color-mix(in srgb, var(--mm-a) 70%, transparent);
+    }
+    .mm-ubic__btn--go::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(100deg, transparent 30%, color-mix(in srgb, #fff 65%, transparent) 50%, transparent 70%);
+      transform: translateX(-120%);
+      transition: transform .5s ease;
+    }
+    .mm-ubic__btn--go:hover::after { transform: translateX(120%); }
+    .mm-ubic__btn--copy {
+      color: var(--mm-tx);
+      background:
+        linear-gradient(color-mix(in srgb, var(--mm-bg) 75%, transparent), color-mix(in srgb, var(--mm-bg) 75%, transparent)) padding-box,
+        linear-gradient(90deg, var(--mm-s), var(--mm-p), var(--mm-a)) border-box;
+    }
+    .mm-ubic__btn:hover { transform: translateY(-2px); }
+    .mm-ubic__btn:active { transform: scale(.97); }
+    .mm-ubic__btn:focus-visible { outline: 2px solid var(--mm-a); outline-offset: 3px; }
+    .mm-ubic__btn svg { width: 1.1rem; height: 1.1rem; flex: none; }
+    .mm-ubic__toast {
+      display: block;
+      min-height: 1.4em;
+      margin-top: .8rem;
+      font-style: italic;
+      color: color-mix(in srgb, var(--mm-s) 80%, var(--mm-tx));
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity .3s ease, transform .3s ease;
+    }
+    .mm-ubic__toast.is-on { opacity: 1; transform: none; }
+
+    /* Entrada */
+    .mm-ubic--anim .mm-ubic__plane { opacity: 0; --mm-rx: 74deg; transition: opacity .5s ease; }
+    .mm-ubic--anim .mm-ubic__info > * { opacity: 0; transform: translateX(16px); transition: opacity .45s ease, transform .45s cubic-bezier(.2, .8, .2, 1); }
+    .mm-ubic--anim.is-in .mm-ubic__plane { opacity: 1; }
+    .mm-ubic--anim.is-in .mm-ubic__info > * { opacity: 1; transform: none; }
+    .mm-ubic--anim.is-in .mm-ubic__info > :nth-child(2) { transition-delay: .08s; }
+    .mm-ubic--anim.is-in .mm-ubic__info > :nth-child(3) { transition-delay: .16s; }
+    .mm-ubic--anim.is-in .mm-ubic__info > :nth-child(4) { transition-delay: .24s; }
+    .mm-ubic--anim.is-in .mm-ubic__info > :nth-child(5) { transition-delay: .32s; }
+
+    @media (max-width: 820px) {
+      .mm-ubic__content { grid-template-columns: 1fr; }
+      .mm-ubic__info { text-align: center; }
+      .mm-ubic__address { margin-left: auto; margin-right: auto; }
+      .mm-ubic__when, .mm-ubic__actions { justify-content: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .mm-ubic *, .mm-ubic *::before, .mm-ubic *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="mm-ubic__content">
+    <div class="mm-ubic__stage" aria-hidden="true">
+      <div class="mm-ubic__plane" data-mm-plane>
+        <svg class="mm-ubic__map" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" data-mm-map>
+          <g data-mm-streets></g>
+          <path class="mm-ubic__route-bg" d="M30 285C70 250 60 215 120 205S190 212 205 170S246 120 282 118" />
+          <path class="mm-ubic__route" data-mm-route d="M30 285C70 250 60 215 120 205S190 212 205 170S246 120 282 118" />
+        </svg>
+        <span class="mm-ubic__pin">
+          <span class="mm-ubic__pulse" data-mm-pulse></span>
+          <span class="mm-ubic__drop"></span>
+        </span>
+        <span class="mm-ubic__shadow" data-mm-shadow></span>
+        <span class="mm-ubic__fly" data-mm-fly>
+          <span class="mm-ubic__bf">
+            <i><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z"/><path d="M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/></svg></i>
+            <i><svg viewBox="0 0 100 120"><path d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z"/><path d="M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/></svg></i>
+            <b></b>
+          </span>
+        </span>
+      </div>
+    </div>
+
+    <div class="mm-ubic__info">
+      <p class="mm-ubic__eyebrow" memory_type="text" memory_usage="custom" memory_key="ubicacion-subtitulo">Te espero en</p>
+      <h2 class="mm-ubic__title" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Nombre del lugar</h2>
+<figure class="vmap-embed" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,640px);"><iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen style="display:block;width:100%;height:clamp(210px,38vw,330px);border:1px solid var(--primary-color,#9b9b9b);border-radius:12px;"></iframe></figure>
+<figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,340px);"><img src="https://loremflickr.com/700/420/city,venue" alt="Vista del lugar" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" style="display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--primary-color,#9b9b9b);" /><figcaption hidden>Vista del lugar</figcaption></figure>
+      <address class="mm-ubic__address" data-mm-address memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion" data-event-field="direccion">Calle Nombre 123, Colonia Centro, Ciudad, Estado, C.P. 00000</address>
+      <p class="mm-ubic__when">
+        <span class="mm-ubic__label" memory_type="text" memory_usage="custom" memory_key="ubicacion-etiqueta-hora">Recepción</span>
+        <time class="mm-ubic__time" datetime="2027-05-15T19:00:00" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora" data-event-field="hora">19:00 h</time>
+      </p>
+      <div class="mm-ubic__actions">
+        <a class="mm-ubic__btn mm-ubic__btn--go" href="#" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="ubicacion-link">Cómo llegar</a>
+        <button class="mm-ubic__btn mm-ubic__btn--copy" type="button" data-mm-copy>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
+          <span memory_type="text" memory_usage="custom" memory_key="ubicacion-copiar">Copiar dirección</span>
+        </button>
+      </div>
+      <span class="mm-ubic__toast" data-mm-toast role="status" aria-live="polite"></span>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="ubicacion-mapa"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__mmInit) return;
+      root.__mmInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* ---- Calles generadas (semilla fija) ---- */
+      var NS = 'http://www.w3.org/2000/svg';
+      var streets = root.querySelector('[data-mm-streets]');
+      var seed = 2703;
+      function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+      if (streets && !streets.childNodes.length) {
+        var g = document.createElementNS(NS, 'g');
+        g.setAttribute('transform', 'rotate(-9 200 150)');
+        var river = document.createElementNS(NS, 'path');
+        river.setAttribute('class', 'mm-ubic__river');
+        river.setAttribute('d', 'M-40 70C60 40 120 120 210 92S340 30 450 74');
+        streets.appendChild(river);
+        var ys = [], xs = [], y, x;
+        for (y = -10; y < 330; y += 24 + rnd() * 26) ys.push(y);
+        for (x = -20; x < 440; x += 30 + rnd() * 34) xs.push(x);
+        for (var i = 0; i < ys.length - 1; i++) for (var j = 0; j < xs.length - 1; j++) {
+          if (rnd() < .55) {
+            var r = document.createElementNS(NS, 'rect');
+            r.setAttribute('class', 'mm-ubic__block');
+            r.setAttribute('x', xs[j] + 5); r.setAttribute('y', ys[i] + 5);
+            r.setAttribute('width', Math.max(4, xs[j + 1] - xs[j] - 10)); r.setAttribute('height', Math.max(4, ys[i + 1] - ys[i] - 10));
+            r.setAttribute('rx', 3); g.appendChild(r);
+          }
+        }
+        ys.forEach(function (yy) { var l = document.createElementNS(NS, 'line'); l.setAttribute('x1', -60); l.setAttribute('x2', 460); l.setAttribute('y1', yy); l.setAttribute('y2', yy + (rnd() - .5) * 12); if (rnd() < .22) l.setAttribute('class', 'is-main'); g.appendChild(l); });
+        xs.forEach(function (xx) { var l = document.createElementNS(NS, 'line'); l.setAttribute('y1', -60); l.setAttribute('y2', 360); l.setAttribute('x1', xx); l.setAttribute('x2', xx + (rnd() - .5) * 18); if (rnd() < .22) l.setAttribute('class', 'is-main'); g.appendChild(l); });
+        var diag = document.createElementNS(NS, 'line');
+        diag.setAttribute('class', 'is-main'); diag.setAttribute('x1', -40); diag.setAttribute('y1', 330); diag.setAttribute('x2', 440); diag.setAttribute('y2', -30);
+        g.appendChild(diag);
+        var park = document.createElementNS(NS, 'path');
+        park.setAttribute('class', 'mm-ubic__park');
+        park.setAttribute('d', 'M296 196c30-20 72-6 78 22s-20 54-54 48-50-46-24-70z');
+        g.appendChild(park);
+        streets.appendChild(g);
+      }
+
+      var plane = root.querySelector('[data-mm-plane]');
+      var route = root.querySelector('[data-mm-route]');
+      var fly = root.querySelector('[data-mm-fly]');
+      var shadow = root.querySelector('[data-mm-shadow]');
+      var pulse = root.querySelector('[data-mm-pulse]');
+      var L = route.getTotalLength();
+      var END = route.getPointAtLength(L);
+
+      /* ---- Copiar dirección ---- */
+      var copyBtn = root.querySelector('[data-mm-copy]');
+      var toast = root.querySelector('[data-mm-toast]');
+      var addr = root.querySelector('[data-mm-address]');
+      if (copyBtn) copyBtn.addEventListener('click', function () {
+        var txt = addr ? addr.textContent.trim() : '';
+        function done(ok) {
+          if (!toast) return;
+          toast.textContent = ok ? 'Dirección copiada' : txt;
+          toast.classList.add('is-on');
+          clearTimeout(toast.__t); toast.__t = setTimeout(function () { toast.classList.remove('is-on'); }, 2200);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(function () { done(true); }, function () { done(false); });
+        else done(false);
+      });
+
+      function place(el, x, y, z, rot, extra) {
+        el.style.transform = 'translate3d(' + (x / 400 * plane.clientWidth).toFixed(1) + 'px,' + (y / 300 * plane.clientHeight).toFixed(1) + 'px,' + z.toFixed(1) + 'px) rotateZ(' + rot.toFixed(3) + 'rad)' + (extra || '');
+      }
+      function setRoute(p) { route.style.strokeDasharray = L + ' ' + L; route.style.strokeDashoffset = (L * (1 - p)).toFixed(1); }
+
+      if (RM) {
+        setRoute(1);
+        place(fly, END.x - 14, END.y + 10, 4, -.6);
+        place(shadow, END.x - 14, END.y + 10, 0, 0);
+        return;
+      }
+
+      var running = false, raf = 0, last = 0, t = 0, start = -1, rot = 0, rz = -8, rx = 50, trz = -8, trx = 50, nextPulse = 0;
+      setRoute(0);
+      fly.style.opacity = '0'; shadow.style.opacity = '0';
+      root.classList.add('mm-ubic--anim');
+
+      function frame(now) {
+        raf = 0; if (!running) return;
+        var dt = last ? Math.min(.05, (now - last) / 1000) : .016; last = now; t += dt;
+        rx += (trx - rx) * .06; rz += (trz - rz) * .06;
+        plane.style.setProperty('--mm-rx', rx.toFixed(2) + 'deg');
+        plane.style.setProperty('--mm-rz', rz.toFixed(2) + 'deg');
+        if (start >= 0) {
+          var k = Math.min(1, (t - start) / 2.6), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+          setRoute(e);
+          var x, y, z, tr;
+          if (k < 1) {
+            var p = route.getPointAtLength(L * e), q = route.getPointAtLength(Math.min(L, L * e + 4));
+            x = p.x; y = p.y; z = 34 + Math.sin(t * 5) * 6;
+            tr = Math.atan2(q.y - p.y, q.x - p.x) + Math.PI / 2;
+            fly.style.setProperty('--mm-flap', '.18s');
+          } else {
+            var h = t - start - 2.6, land = Math.min(1, h / 1.2);
+            var orbit = h > 3 ? (h - 3) * .9 : 0;
+            x = END.x - 14 + Math.cos(orbit) * 18 * Math.min(1, orbit);
+            y = END.y + 12 + Math.sin(orbit) * 12 * Math.min(1, orbit);
+            z = 34 - 28 * land + (orbit ? 18 + Math.sin(t * 3) * 6 : 0);
+            tr = orbit ? orbit + Math.PI : -.6;
+            fly.style.setProperty('--mm-flap', orbit ? '.22s' : (land < 1 ? '.26s' : '.5s'));
+            if (t > nextPulse) nextPulse = t + 1.9;
+            var pp = 1 - (nextPulse - t) / .5;
+            if (pp >= 0 && pp <= 1) { pulse.style.opacity = (1 - pp).toFixed(3); pulse.style.transform = 'scale(' + (.3 + pp * .9).toFixed(3) + ')'; }
+            else pulse.style.opacity = '0';
+            if (h > 9) { start = t; nextPulse = 0; }
+          }
+          var dr = tr - rot; while (dr > Math.PI) dr -= Math.PI * 2; while (dr < -Math.PI) dr += Math.PI * 2;
+          rot += dr * .12;
+          fly.style.opacity = '1'; shadow.style.opacity = (.85 - z / 80).toFixed(2);
+          place(fly, x, y, z, rot);
+          place(shadow, x, y, 0, rot, ' scale(' + (1 - z / 90).toFixed(3) + ')');
+        }
+        raf = requestAnimationFrame(frame);
+      }
+      function play() { if (running) return; running = true; last = 0; raf = requestAnimationFrame(frame); }
+      function pause() { running = false; if (raf) cancelAnimationFrame(raf); raf = 0; }
+
+      root.addEventListener('pointermove', function (e) {
+        var r = root.getBoundingClientRect();
+        trz = -8 + ((e.clientX - r.left) / r.width - .5) * 10;
+        trx = 50 + ((e.clientY - r.top) / r.height - .5) * 10;
+      }, { passive: true });
+      root.addEventListener('pointerleave', function () { trz = -8; trx = 50; }, { passive: true });
+
+      function reveal() {
+        rx = 74; root.classList.add('is-in');
+        setTimeout(function () { root.classList.remove('mm-ubic--anim', 'is-in'); }, 1100);
+        start = t + .5;
+      }
+      if ('IntersectionObserver' in window) {
+        var shown = false;
+        new IntersectionObserver(function (en) {
+          en.forEach(function (x) {
+            if (x.isIntersecting) { play(); if (!shown && x.intersectionRatio > .25) { shown = true; reveal(); } }
+            else pause();
+          });
+        }, { threshold: [0, .25, .5] }).observe(root);
+      } else { play(); reveal(); }
+      document.addEventListener('visibilitychange', function () { if (document.hidden) pause(); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-mapa',
+      style_name: 'Metamorfosis Ruta de Vuelo',
+      descripcion: 'Ubicación con mapa ilustrado en 3D: una mariposa recorre la ruta trazada con su sombra sobre el plano y aterriza en el marcador pulsante. Dirección, hora, botón Cómo llegar y copiar dirección.',
+      tags: ['ubicación', 'mapa', 'quinceañera', 'xv años', 'mariposas', 'metamorfosis', '3d', 'ruta', 'marcador', 'pulso', 'dirección', 'cómo llegar', 'premium'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>

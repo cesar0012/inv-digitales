@@ -1,0 +1,276 @@
+<section
+  class="jmpo"
+  data-gemini-id="portada-nombre"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Parisienne&family=Quicksand:wght@400;500;600;700&display=swap');
+
+    .jmpo, .jmpo *, .jmpo *::before, .jmpo *::after { box-sizing: border-box; }
+
+    .jmpo {
+      --t-bg: var(--bg-color, #FFF4F8);
+      --t-tx: var(--text-color, #4B1D40);
+      --t-p: var(--primary-color, #D6237A);
+      --t-s: var(--secondary-color, #B79BE4);
+      --t-a: var(--accent-color, #F6BCD3);
+      --t-w: var(--surface-color, #FFFFFF);
+      --t-leaf: var(--leaf-color, #A7C3A1);
+      --t-ink: color-mix(in srgb, var(--t-tx) 78%, #12040e);
+      --t-display: var(--font-script, 'Parisienne', cursive);
+      --t-text: var(--font-heading, 'Quicksand', 'Trebuchet MS', sans-serif);
+      position: relative; isolation: isolate;
+      min-height: 100vh; min-height: 100svh;
+      display: grid; place-items: center;
+      padding: clamp(5rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem) clamp(8rem, 15vw, 11rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/pink,roses,garden?lock=3301');
+      background-size: cover; background-position: center;
+      color: var(--t-tx); text-align: center; font-family: var(--t-text);
+    }
+    .jmpo::before { content: ''; position: absolute; inset: 0; z-index: -1;
+      background: radial-gradient(ellipse 70% 60% at 50% 42%, color-mix(in srgb, var(--t-bg) 72%, transparent), color-mix(in srgb, var(--t-bg) 93%, transparent) 75%),
+                  linear-gradient(180deg, color-mix(in srgb, var(--t-a) 30%, transparent), transparent 40%, color-mix(in srgb, var(--t-s) 22%, transparent)); }
+    .jmpo__sky { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    .jmpo__roses { position: absolute; bottom: 22px; width: clamp(10rem, 27vw, 23rem); z-index: 3; }
+    .jmpo__roses--l { left: clamp(-3rem, -2vw, -1rem); }
+    .jmpo__roses--r { right: clamp(-3rem, -2vw, -1rem); transform: scaleX(-1); }
+    .jmpo__content { position: relative; z-index: 3; width: min(100%, 48rem); display: flex; flex-direction: column; align-items: center; gap: .55rem; }
+    .jmpo__crest { position: relative; width: clamp(8.5rem, 19vw, 12.5rem); aspect-ratio: 10 / 7; margin-bottom: 1.1rem; }
+    .jmpo__crest .jmpo-bf { inset: 0; width: 100%; }
+    .jmpo__halo { position: absolute; left: 50%; top: 50%; width: 108%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%;
+      border: 1px dashed color-mix(in srgb, var(--t-p) 45%, transparent);
+      background: radial-gradient(circle, color-mix(in srgb, var(--t-w) 80%, transparent) 30%, color-mix(in srgb, var(--t-a) 30%, transparent) 62%, transparent 71%); }
+    .jmpo__pre { margin: 0; font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 500; }
+    .jmpo__xv { margin: 0; font-weight: 700; font-size: clamp(1.05rem, 2.3vw, 1.45rem); color: var(--t-p); padding: .25em 1.2em; border-radius: 999px;
+      background: color-mix(in srgb, var(--t-w) 78%, transparent);
+      box-shadow: 0 .35rem 1rem color-mix(in srgb, var(--t-p) 22%, transparent), inset 0 -2px 0 color-mix(in srgb, var(--t-p) 22%, transparent); }
+    .jmpo__namewrap { position: relative; max-width: 100%; }
+    .jmpo__name { margin: .05em 0 0; padding: 0 .2em; font-family: var(--t-display); font-weight: 400; font-size: clamp(3.3rem, 11vw, 7.8rem); line-height: 1.12; color: var(--t-p);
+      text-shadow: 0 2px 0 var(--t-w), 0 .08em .2em color-mix(in srgb, var(--t-p) 30%, transparent);
+      clip-path: inset(-30% calc((1 - var(--rv, 1)) * 100%) -30% -10%); }
+    .jmpo__pen { position: absolute; top: 18%; left: calc(var(--rv, 1) * 100%); width: clamp(2.8rem, 5vw, 4.2rem); aspect-ratio: 10 / 7; transform: translate(-40%, -50%); opacity: calc(1 - var(--done, 1)); z-index: 2; }
+    .jmpo__pen .jmpo-bf { inset: 0; width: 100%; }
+    .jmpo__verse { margin: .3rem 0 0; max-width: 31rem; font-size: clamp(1rem, 2vw, 1.15rem); line-height: 1.65; }
+    .jmpo__date { display: inline-block; margin-top: .9rem; font-weight: 600; font-size: clamp(1rem, 2vw, 1.2rem); padding: .75em 1.7em;
+      border-block: 1px solid color-mix(in srgb, var(--t-p) 40%, transparent); background: color-mix(in srgb, var(--t-w) 55%, transparent); border-radius: .4rem; }
+    @media (max-width: 640px) {
+      .jmpo__roses { width: 42vw; bottom: 26px; }
+    }
+    /* Entrance: each element has its own gesture; all transitions <= .5s, chained with delays */
+    .jmpo--anim .jmpo__crest { opacity: 0; transform: translateY(26vh) scale(.5) rotate(-28deg); transition: opacity .4s ease, transform .5s cubic-bezier(.2, .9, .25, 1.15); }
+    .jmpo--anim .jmpo__pre { opacity: 0; transition: opacity .45s ease .45s; }
+    .jmpo--anim .jmpo__xv { transform: scaleX(0); transition: transform .45s cubic-bezier(.3, 1.4, .5, 1); transition-delay: .6s; }
+    .jmpo--anim .jmpo__verse { clip-path: inset(0 50% 0 50%); transition: clip-path .5s ease 2.05s; }
+    .jmpo--anim .jmpo__date { transform: rotateX(90deg); transition: transform .45s cubic-bezier(.3, 1.3, .5, 1); transition-delay: 2.3s; }
+    .jmpo--anim .jmpo__roses--l { transform: translateX(-110%) rotate(-12deg); transition: transform .5s cubic-bezier(.2, .8, .2, 1) .2s; }
+    .jmpo--anim .jmpo__roses--r { transform: scaleX(-1) translateX(-110%) rotate(-12deg); transition: transform .5s cubic-bezier(.2, .8, .2, 1) .3s; }
+    .jmpo--anim.is-in .jmpo__crest, .jmpo--anim.is-in .jmpo__xv, .jmpo--anim.is-in .jmpo__date, .jmpo--anim.is-in .jmpo__roses--l { opacity: 1; transform: none; }
+    .jmpo--anim.is-in .jmpo__roses--r { transform: scaleX(-1); }
+    .jmpo--anim.is-in .jmpo__pre { opacity: 1; }
+    .jmpo--anim.is-in .jmpo__verse { clip-path: inset(0 0 0 0); }
+
+    .jmpo-bf { position: absolute; width: var(--bw, 6rem); aspect-ratio: 10 / 7; perspective: 34em; pointer-events: none; z-index: 2; }
+    .jmpo-bf__in { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateZ(var(--rz, 0deg)) rotateX(var(--rx, 38deg)) rotateY(var(--ry, 0deg)); }
+    .jmpo-bf__w { position: absolute; top: 0; width: 50%; height: 100%; }
+    .jmpo-bf__w--l { left: 0; transform-origin: 100% 50%; transform: rotateY(calc(var(--f, 24) * 1deg)); }
+    .jmpo-bf__w--r { right: 0; transform-origin: 0% 50%; transform: rotateY(calc(var(--f, 24) * -1deg)); }
+    .jmpo-bf__w svg { display: block; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 .3em .35em color-mix(in srgb, var(--t-ink) 28%, transparent)); }
+    .jmpo-bf__body { position: absolute; left: 50%; top: 28%; width: 5%; height: 48%; margin-left: -2.5%; border-radius: 999px; background: linear-gradient(90deg, #26091f, #7a4a6c 48%, #26091f); transform: translateZ(2px); }
+    .jmpo-bf__body::before { content: ''; position: absolute; left: 50%; top: -18%; width: 170%; aspect-ratio: 1; margin-left: -85%; border-radius: 50%; background: #2c0d24; }
+    .jmpo-bf__body::after { content: ''; position: absolute; left: 50%; bottom: 112%; width: 560%; height: 40%; margin-left: -280%; background: linear-gradient(to top right, transparent calc(50% - .8px), #2c0d24 calc(50% - .8px), #2c0d24 calc(50% + .8px), transparent calc(50% + .8px)) left / 50% 100% no-repeat, linear-gradient(to top left, transparent calc(50% - .8px), #2c0d24 calc(50% - .8px), #2c0d24 calc(50% + .8px), transparent calc(50% + .8px)) right / 50% 100% no-repeat; }
+    .jmpo-sh { fill: color-mix(in srgb, var(--t-ink) 38%, transparent); }
+    .jmpo-fm { fill: url(#jmpo-gm); }
+    .jmpo-fb { fill: url(#jmpo-gb); }
+    .jmpo-vein { fill: none; stroke: var(--t-ink); stroke-width: 1.3; stroke-linecap: round; opacity: .85; }
+    .jmpo-vein--b { opacity: .28; stroke-width: 1; }
+    .jmpo-edge { fill: none; stroke: var(--t-ink); stroke-width: 9; stroke-linejoin: round; }
+    .jmpo-edge--b { stroke-width: 6; }
+    .jmpo-dot { fill: var(--t-w); }
+    .jmpo-sheen { fill: url(#jmpo-gsh); opacity: var(--s, .35); }
+    .jmpo-hl { fill: none; stroke: #fff; stroke-width: 1.4; stroke-linecap: round; opacity: .75; }
+    .jmpo-sp { fill: none; stroke-width: 1.3; stroke-linecap: round; }
+    .jmpo-sp-p { stroke: color-mix(in srgb, var(--t-p) 62%, #3a0620); }
+    .jmpo-sp-a { stroke: color-mix(in srgb, var(--t-p) 55%, var(--t-a)); }
+    .jmpo-sp-w { stroke: color-mix(in srgb, var(--t-a) 75%, var(--t-p)); }
+    .jmpo-sp-s { stroke: color-mix(in srgb, var(--t-s) 58%, #2a1660); }
+    .jmpo-hi { fill: none; stroke: #fff; stroke-width: .7; opacity: .6; }
+    .jmpo-leaf { fill: url(#jmpo-lf); }
+    .jmpo-rib { fill: none; stroke: color-mix(in srgb, var(--t-leaf) 55%, #183018); stroke-width: .8; opacity: .6; }
+    .jmpo-rosesvg { display: block; width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 .4rem .6rem color-mix(in srgb, var(--t-ink) 20%, transparent)); }
+    .jmpo-lace { position: absolute; left: 0; width: 100%; height: 48px; pointer-events: none; z-index: 4; filter: drop-shadow(0 2px 2px color-mix(in srgb, var(--t-ink) 16%, transparent)); }
+    .jmpo-lace--top { top: 0; }
+    .jmpo-lace--bot { bottom: 0; transform: scaleY(-1); }
+    .jmpo-lace-b { fill: var(--t-w); }
+    .jmpo-lace-f { fill: color-mix(in srgb, var(--t-p) 50%, var(--t-a)); }
+    .jmpo-lace-t { fill: none; stroke: color-mix(in srgb, var(--t-p) 40%, var(--t-a)); stroke-width: .8; stroke-dasharray: 1.6 2; }
+    @media (prefers-reduced-motion: reduce) {
+      .jmpo *, .jmpo *::before, .jmpo *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="jmpo-defs" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><defs><linearGradient id="jmpo-gm" x1="1" y1=".4" x2="0" y2=".6"><stop offset="0" style="stop-color: color-mix(in srgb, var(--t-p) 78%, #2b0a1f)"/><stop offset="0.35" style="stop-color: var(--t-p)"/><stop offset="0.75" style="stop-color: color-mix(in srgb, var(--t-p) 45%, var(--t-a))"/><stop offset="1" style="stop-color: var(--t-a)"/></linearGradient><radialGradient id="jmpo-gb" cx=".9" cy=".45" r=".95"><stop offset="0" style="stop-color: color-mix(in srgb, var(--t-s) 35%, white)"/><stop offset="0.45" style="stop-color: var(--t-s)"/><stop offset="0.85" style="stop-color: color-mix(in srgb, var(--t-s) 62%, #2a1660)"/><stop offset="1" style="stop-color: color-mix(in srgb, var(--t-s) 40%, #160b33)"/></radialGradient><linearGradient id="jmpo-gsh" x1="0" y1="0" x2=".7" y2="1"><stop offset="0" style="stop-color: #fff; stop-opacity: 0.85"/><stop offset="0.45" style="stop-color: #fff; stop-opacity: 0.08"/><stop offset="1" style="stop-color: #fff; stop-opacity: 0"/></linearGradient><g id="jmpo-wm"><path class="jmpo-sh" d="M100 66 C84 70 58 76 44 92 C34 106 40 126 58 130 C76 132 92 116 100 96 Z" transform="translate(2.5 3.5)"/><path class="jmpo-sh" d="M100 52 C86 30 60 8 18 6 C8 6 2 14 6 24 C14 46 30 62 52 70 C70 74 88 68 100 62 Z" transform="translate(2.5 3.5)"/><path class="jmpo-fm" d="M100 66 C84 70 58 76 44 92 C34 106 40 126 58 130 C76 132 92 116 100 96 Z"/><path class="jmpo-fm" d="M100 52 C86 30 60 8 18 6 C8 6 2 14 6 24 C14 46 30 62 52 70 C70 74 88 68 100 62 Z"/><path class="jmpo-vein" d="M98 56 Q62 28 22 11 M98 57 Q56 36 12 22 M98 58 Q62 46 26 48 M98 60 Q74 66 50 68 M66 34 Q58 46 50 58 M98 70 Q72 78 50 96 M98 72 Q74 96 58 124 M98 74 Q90 100 80 124 M98 71 Q62 88 44 110"/><path class="jmpo-edge" d="M100 66 C84 70 58 76 44 92 C34 106 40 126 58 130 C76 132 92 116 100 96 Z"/><path class="jmpo-edge" d="M100 52 C86 30 60 8 18 6 C8 6 2 14 6 24 C14 46 30 62 52 70 C70 74 88 68 100 62 Z"/><path class="jmpo-dot" d="M59.32 18.16a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM50.04 13.97a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM39.61 10.54a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM28.03 8.13a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM14.63 7.38a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM9.03 9.95a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM5.77 14.66a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM5.40 20.94a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM9.52 31.50a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM13.58 38.68a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM18.29 45.23a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM23.62 51.11a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM29.52 56.32a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM35.95 60.87a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM55.09 18.09a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM45.97 14.14a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM35.46 10.96a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM23.63 8.87a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM13.61 9.62a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM9.23 13.14a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM7.44 18.51a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM8.82 25.15a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM13.90 35.41a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM18.30 41.93a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM23.27 47.75a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM28.73 52.86a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM34.60 57.29a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM40.83 61.14a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM63.09 79.27a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM55.44 83.58a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM48.45 88.68a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM42.01 96.58a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM39.73 105.32a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM40.86 113.99a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM45.23 121.55a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM52.66 126.93a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM62.11 128.53a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM70.98 126.28a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM79.07 121.36a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM60.35 83.29a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM53.74 87.44a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM47.61 92.39a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM42.89 100.82a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM42.21 109.02a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM44.69 116.73a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM50.19 122.89a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM58.47 126.49a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM67.00 125.67a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM74.81 122.13a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM81.75 116.51a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM27.70 17.00a2.3 2.3 0 1 0 4.6 0a2.3 2.3 0 1 0 -4.6 0ZM35.10 15.50a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM23.00 23.00a2 2 0 1 0 4 0a2 2 0 1 0 -4 0ZM32.40 23.00a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0ZM41.70 20.00a1.3 1.3 0 1 0 2.6 0a1.3 1.3 0 1 0 -2.6 0Z"/><path class="jmpo-sheen" d="M100 66 C84 70 58 76 44 92 C34 106 40 126 58 130 C76 132 92 116 100 96 Z"/><path class="jmpo-sheen" d="M100 52 C86 30 60 8 18 6 C8 6 2 14 6 24 C14 46 30 62 52 70 C70 74 88 68 100 62 Z"/><path class="jmpo-hl" d="M98 51 C86 30 60 9 19 7"/></g><g id="jmpo-wb"><path class="jmpo-sh" d="M100 66 C74 68 40 80 30 100 C24 116 40 134 62 132 C82 130 96 110 100 94 Z" transform="translate(2.5 3.5)"/><path class="jmpo-sh" d="M100 50 C80 22 46 4 14 10 C4 12 0 26 8 36 C20 56 52 70 100 64 Z" transform="translate(2.5 3.5)"/><path class="jmpo-fb" d="M100 66 C74 68 40 80 30 100 C24 116 40 134 62 132 C82 130 96 110 100 94 Z"/><path class="jmpo-fb" d="M100 50 C80 22 46 4 14 10 C4 12 0 26 8 36 C20 56 52 70 100 64 Z"/><path class="jmpo-vein jmpo-vein--b" d="M98 55 Q60 26 18 14 M98 57 Q54 38 8 30 M98 59 Q66 54 34 52 M98 70 Q70 80 40 100 M98 72 Q70 100 52 128 M98 74 Q88 104 80 128"/><path class="jmpo-edge jmpo-edge--b" d="M100 66 C74 68 40 80 30 100 C24 116 40 134 62 132 C82 130 96 110 100 94 Z"/><path class="jmpo-edge jmpo-edge--b" d="M100 50 C80 22 46 4 14 10 C4 12 0 26 8 36 C20 56 52 70 100 64 Z"/><path class="jmpo-dot" d="M46.11 12.75a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM34.65 10.30a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM22.93 9.75a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM9.77 12.52a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM4.58 20.40a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM5.36 30.91a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM10.88 39.63a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM17.20 46.26a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM25.27 52.04a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM34.96 56.79a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM44.77 84.94a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM34.06 94.51a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM29.14 105.93a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM31.99 117.21a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM40.71 126.16a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM53.77 130.77a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM68.36 129.25a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM80.31 122.31a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0Z"/><path class="jmpo-sheen" d="M100 66 C74 68 40 80 30 100 C24 116 40 134 62 132 C82 130 96 110 100 94 Z"/><path class="jmpo-sheen" d="M100 50 C80 22 46 4 14 10 C4 12 0 26 8 36 C20 56 52 70 100 64 Z"/><path class="jmpo-hl" d="M98 49 C80 22 46 5 15 11"/></g><radialGradient id="jmpo-rp" cx=".42" cy=".38" r=".7"><stop offset="0" style="stop-color: color-mix(in srgb, var(--t-p) 50%, white)"/><stop offset="0.6" style="stop-color: var(--t-p)"/><stop offset="1" style="stop-color: color-mix(in srgb, var(--t-p) 72%, #3a0620)"/></radialGradient><radialGradient id="jmpo-ra" cx=".42" cy=".38" r=".7"><stop offset="0" style="stop-color: #fff"/><stop offset="0.55" style="stop-color: var(--t-a)"/><stop offset="1" style="stop-color: color-mix(in srgb, var(--t-a) 65%, var(--t-p))"/></radialGradient><radialGradient id="jmpo-rw" cx=".42" cy=".38" r=".7"><stop offset="0" style="stop-color: #fff"/><stop offset="0.7" style="stop-color: color-mix(in srgb, var(--t-w) 90%, var(--t-a))"/><stop offset="1" style="stop-color: color-mix(in srgb, var(--t-a) 60%, white)"/></radialGradient><radialGradient id="jmpo-rs" cx=".42" cy=".38" r=".7"><stop offset="0" style="stop-color: color-mix(in srgb, var(--t-s) 40%, white)"/><stop offset="0.6" style="stop-color: var(--t-s)"/><stop offset="1" style="stop-color: color-mix(in srgb, var(--t-s) 70%, #3a2370)"/></radialGradient><linearGradient id="jmpo-lf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color: color-mix(in srgb, var(--t-leaf) 70%, white)"/><stop offset="1" style="stop-color: color-mix(in srgb, var(--t-leaf) 72%, #1f3a22)"/></linearGradient><pattern id="jmpo-lp" width="48" height="48" patternUnits="userSpaceOnUse"><path class="jmpo-lace-b" fill-rule="evenodd" d="M0 0H48V14A24 24 0 0 1 0 14ZM19.00 22.00a5 5 0 1 0 10 0a5 5 0 1 0 -10 0ZM7.80 19.00a2.2 2.2 0 1 0 4.4 0a2.2 2.2 0 1 0 -4.4 0ZM35.80 19.00a2.2 2.2 0 1 0 4.4 0a2.2 2.2 0 1 0 -4.4 0ZM22.00 32.50a2 2 0 1 0 4 0a2 2 0 1 0 -4 0ZM-1.60 4.00a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0ZM46.40 4.00a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0Z"/><path class="jmpo-lace-b" d="M45.97 19.95a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM42.00 28.46a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM35.14 34.86a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM26.37 38.23a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM17.83 38.23a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM9.06 34.86a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM2.20 28.46a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM-1.77 19.95a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0Z"/><path class="jmpo-lace-f" d="M22.30 4.40a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0ZM24.77 6.20a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0ZM23.83 9.10a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0ZM20.77 9.10a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0ZM19.83 6.20a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0ZM11.10 8.00a0.9 0.9 0 1 0 1.8 0a0.9 0.9 0 1 0 -1.8 0ZM35.10 8.00a0.9 0.9 0 1 0 1.8 0a0.9 0.9 0 1 0 -1.8 0Z"/><path class="jmpo-lace-t" d="M4 14 A20 20 0 0 0 44 14"/><path class="jmpo-lace-t" d="M0 1.5H48"/></pattern></defs></svg>
+  <canvas class="jmpo__sky" data-sky aria-hidden="true"></canvas>
+  <svg class="jmpo-lace jmpo-lace--top " aria-hidden="true" focusable="false"><rect width="100%" height="100%" fill="url(#jmpo-lp)"/></svg>
+  <div class="jmpo__roses jmpo__roses--l"><svg class="jmpo-rosesvg " viewBox="0 40 260 170" aria-hidden="true" focusable="false"><g transform="translate(60 150) rotate(-150) scale(2.067)"><path class="jmpo-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmpo-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(205 150) rotate(-30) scale(1.933)"><path class="jmpo-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmpo-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(130 172) rotate(95) scale(1.733)"><path class="jmpo-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmpo-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(38 112) rotate(-122) scale(1.733)"><path class="jmpo-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmpo-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(222 100) rotate(-40) scale(1.600)"><path class="jmpo-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmpo-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(100 88) rotate(-100) scale(1.533)"><path class="jmpo-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmpo-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(172 84) rotate(-70) scale(1.533)"><path class="jmpo-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmpo-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(150 190) rotate(60) scale(1.333)"><path class="jmpo-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmpo-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(88 188) rotate(120) scale(1.333)"><path class="jmpo-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmpo-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(70 92) rotate(-24) scale(1.5)"><path class="jmpo-leaf" d="M0 6C-5 3 -6 -2 -2 -4L0 2 2 -4C6 -2 5 3 0 6Z"/><path fill="url(#jmpo-rp)" d="M0 3C-6 0 -5 -8 0 -13C5 -8 6 0 0 3Z"/><path class="jmpo-sp jmpo-sp-p" d="M0 2C-2 -3 -1 -8 1 -11"/></g><g transform="translate(228 118) rotate(28) scale(1.4)"><path class="jmpo-leaf" d="M0 6C-5 3 -6 -2 -2 -4L0 2 2 -4C6 -2 5 3 0 6Z"/><path fill="url(#jmpo-ra)" d="M0 3C-6 0 -5 -8 0 -13C5 -8 6 0 0 3Z"/><path class="jmpo-sp jmpo-sp-a" d="M0 2C-2 -3 -1 -8 1 -11"/></g><g transform="translate(140 82) rotate(6) scale(1.2)"><path class="jmpo-leaf" d="M0 6C-5 3 -6 -2 -2 -4L0 2 2 -4C6 -2 5 3 0 6Z"/><path fill="url(#jmpo-rw)" d="M0 3C-6 0 -5 -8 0 -13C5 -8 6 0 0 3Z"/><path class="jmpo-sp jmpo-sp-w" d="M0 2C-2 -3 -1 -8 1 -11"/></g><g transform="translate(90 140) rotate(10) scale(1.700)"><circle cx="11.3" cy="6.5" r="9.5" fill="url(#jmpo-rp)"/><circle cx="-2.7" cy="12.7" r="9.5" fill="url(#jmpo-rp)"/><circle cx="-12.9" cy="1.4" r="9.5" fill="url(#jmpo-rp)"/><circle cx="-5.3" cy="-11.9" r="9.5" fill="url(#jmpo-rp)"/><circle cx="9.7" cy="-8.7" r="9.5" fill="url(#jmpo-rp)"/><circle r="15.5" fill="url(#jmpo-rp)"/><path class="jmpo-sp jmpo-sp-p" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmpo-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmpo-sp jmpo-sp-p" d="M-15 5 Q0 17 15 5"/></g><g transform="translate(152 128) rotate(40) scale(1.900)"><circle cx="6.5" cy="11.3" r="9.5" fill="url(#jmpo-ra)"/><circle cx="-8.7" cy="9.7" r="9.5" fill="url(#jmpo-ra)"/><circle cx="-11.9" cy="-5.3" r="9.5" fill="url(#jmpo-ra)"/><circle cx="1.4" cy="-12.9" r="9.5" fill="url(#jmpo-ra)"/><circle cx="12.7" cy="-2.7" r="9.5" fill="url(#jmpo-ra)"/><circle r="15.5" fill="url(#jmpo-ra)"/><path class="jmpo-sp jmpo-sp-a" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmpo-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmpo-sp jmpo-sp-a" d="M-15 5 Q0 17 15 5"/></g><g transform="translate(207 150) rotate(70) scale(1.400)"><circle cx="0.0" cy="13.0" r="9.5" fill="url(#jmpo-rw)"/><circle cx="-12.4" cy="4.0" r="9.5" fill="url(#jmpo-rw)"/><circle cx="-7.6" cy="-10.5" r="9.5" fill="url(#jmpo-rw)"/><circle cx="7.6" cy="-10.5" r="9.5" fill="url(#jmpo-rw)"/><circle cx="12.4" cy="4.0" r="9.5" fill="url(#jmpo-rw)"/><circle r="15.5" fill="url(#jmpo-rw)"/><path class="jmpo-sp jmpo-sp-w" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmpo-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmpo-sp jmpo-sp-w" d="M-15 5 Q0 17 15 5"/></g><g transform="translate(52 166) rotate(0) scale(1.300)"><circle cx="12.2" cy="4.4" r="9.5" fill="url(#jmpo-rs)"/><circle cx="-0.5" cy="13.0" r="9.5" fill="url(#jmpo-rs)"/><circle cx="-12.5" cy="3.6" r="9.5" fill="url(#jmpo-rs)"/><circle cx="-7.3" cy="-10.8" r="9.5" fill="url(#jmpo-rs)"/><circle cx="8.0" cy="-10.2" r="9.5" fill="url(#jmpo-rs)"/><circle r="15.5" fill="url(#jmpo-rs)"/><path class="jmpo-sp jmpo-sp-s" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmpo-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmpo-sp jmpo-sp-s" d="M-15 5 Q0 17 15 5"/></g><g transform="translate(126 176) rotate(20) scale(1.200)"><circle cx="10.0" cy="8.4" r="9.5" fill="url(#jmpo-rw)"/><circle cx="-4.9" cy="12.1" r="9.5" fill="url(#jmpo-rw)"/><circle cx="-13.0" cy="-0.9" r="9.5" fill="url(#jmpo-rw)"/><circle cx="-3.1" cy="-12.6" r="9.5" fill="url(#jmpo-rw)"/><circle cx="11.0" cy="-6.9" r="9.5" fill="url(#jmpo-rw)"/><circle r="15.5" fill="url(#jmpo-rw)"/><path class="jmpo-sp jmpo-sp-w" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmpo-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmpo-sp jmpo-sp-w" d="M-15 5 Q0 17 15 5"/></g><g transform="translate(178 92) rotate(50) scale(1.100)"><circle cx="4.4" cy="12.2" r="9.5" fill="url(#jmpo-rp)"/><circle cx="-10.2" cy="8.0" r="9.5" fill="url(#jmpo-rp)"/><circle cx="-10.8" cy="-7.3" r="9.5" fill="url(#jmpo-rp)"/><circle cx="3.6" cy="-12.5" r="9.5" fill="url(#jmpo-rp)"/><circle cx="13.0" cy="-0.5" r="9.5" fill="url(#jmpo-rp)"/><circle r="15.5" fill="url(#jmpo-rp)"/><path class="jmpo-sp jmpo-sp-p" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmpo-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmpo-sp jmpo-sp-p" d="M-15 5 Q0 17 15 5"/></g><g transform="translate(110 98) rotate(80) scale(1.000)"><circle cx="-2.3" cy="12.8" r="9.5" fill="url(#jmpo-rs)"/><circle cx="-12.9" cy="1.8" r="9.5" fill="url(#jmpo-rs)"/><circle cx="-5.7" cy="-11.7" r="9.5" fill="url(#jmpo-rs)"/><circle cx="9.4" cy="-9.0" r="9.5" fill="url(#jmpo-rs)"/><circle cx="11.5" cy="6.1" r="9.5" fill="url(#jmpo-rs)"/><circle r="15.5" fill="url(#jmpo-rs)"/><path class="jmpo-sp jmpo-sp-s" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmpo-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmpo-sp jmpo-sp-s" d="M-15 5 Q0 17 15 5"/></g></svg></div>
+  <div class="jmpo__roses jmpo__roses--r"><svg class="jmpo-rosesvg " viewBox="0 40 260 170" aria-hidden="true" focusable="false"><g transform="translate(60 150) rotate(-150) scale(2.067)"><path class="jmpo-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmpo-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(205 150) rotate(-30) scale(1.933)"><path class="jmpo-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmpo-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(130 172) rotate(95) scale(1.733)"><path class="jmpo-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmpo-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(38 112) rotate(-122) scale(1.733)"><path class="jmpo-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmpo-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(222 100) rotate(-40) scale(1.600)"><path class="jmpo-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmpo-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(100 88) rotate(-100) scale(1.533)"><path class="jmpo-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmpo-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(172 84) rotate(-70) scale(1.533)"><path class="jmpo-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmpo-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(150 190) rotate(60) scale(1.333)"><path class="jmpo-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmpo-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(88 188) rotate(120) scale(1.333)"><path class="jmpo-leaf" d="M0 0C8 -7 22 -7 30 0C22 7 8 7 0 0Z"/><path class="jmpo-rib" d="M1 0Q15 -1 28 0"/></g><g transform="translate(70 92) rotate(-24) scale(1.5)"><path class="jmpo-leaf" d="M0 6C-5 3 -6 -2 -2 -4L0 2 2 -4C6 -2 5 3 0 6Z"/><path fill="url(#jmpo-rp)" d="M0 3C-6 0 -5 -8 0 -13C5 -8 6 0 0 3Z"/><path class="jmpo-sp jmpo-sp-p" d="M0 2C-2 -3 -1 -8 1 -11"/></g><g transform="translate(228 118) rotate(28) scale(1.4)"><path class="jmpo-leaf" d="M0 6C-5 3 -6 -2 -2 -4L0 2 2 -4C6 -2 5 3 0 6Z"/><path fill="url(#jmpo-ra)" d="M0 3C-6 0 -5 -8 0 -13C5 -8 6 0 0 3Z"/><path class="jmpo-sp jmpo-sp-a" d="M0 2C-2 -3 -1 -8 1 -11"/></g><g transform="translate(140 82) rotate(6) scale(1.2)"><path class="jmpo-leaf" d="M0 6C-5 3 -6 -2 -2 -4L0 2 2 -4C6 -2 5 3 0 6Z"/><path fill="url(#jmpo-rw)" d="M0 3C-6 0 -5 -8 0 -13C5 -8 6 0 0 3Z"/><path class="jmpo-sp jmpo-sp-w" d="M0 2C-2 -3 -1 -8 1 -11"/></g><g transform="translate(90 140) rotate(10) scale(1.700)"><circle cx="11.3" cy="6.5" r="9.5" fill="url(#jmpo-rp)"/><circle cx="-2.7" cy="12.7" r="9.5" fill="url(#jmpo-rp)"/><circle cx="-12.9" cy="1.4" r="9.5" fill="url(#jmpo-rp)"/><circle cx="-5.3" cy="-11.9" r="9.5" fill="url(#jmpo-rp)"/><circle cx="9.7" cy="-8.7" r="9.5" fill="url(#jmpo-rp)"/><circle r="15.5" fill="url(#jmpo-rp)"/><path class="jmpo-sp jmpo-sp-p" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmpo-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmpo-sp jmpo-sp-p" d="M-15 5 Q0 17 15 5"/></g><g transform="translate(152 128) rotate(40) scale(1.900)"><circle cx="6.5" cy="11.3" r="9.5" fill="url(#jmpo-ra)"/><circle cx="-8.7" cy="9.7" r="9.5" fill="url(#jmpo-ra)"/><circle cx="-11.9" cy="-5.3" r="9.5" fill="url(#jmpo-ra)"/><circle cx="1.4" cy="-12.9" r="9.5" fill="url(#jmpo-ra)"/><circle cx="12.7" cy="-2.7" r="9.5" fill="url(#jmpo-ra)"/><circle r="15.5" fill="url(#jmpo-ra)"/><path class="jmpo-sp jmpo-sp-a" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmpo-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmpo-sp jmpo-sp-a" d="M-15 5 Q0 17 15 5"/></g><g transform="translate(207 150) rotate(70) scale(1.400)"><circle cx="0.0" cy="13.0" r="9.5" fill="url(#jmpo-rw)"/><circle cx="-12.4" cy="4.0" r="9.5" fill="url(#jmpo-rw)"/><circle cx="-7.6" cy="-10.5" r="9.5" fill="url(#jmpo-rw)"/><circle cx="7.6" cy="-10.5" r="9.5" fill="url(#jmpo-rw)"/><circle cx="12.4" cy="4.0" r="9.5" fill="url(#jmpo-rw)"/><circle r="15.5" fill="url(#jmpo-rw)"/><path class="jmpo-sp jmpo-sp-w" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmpo-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmpo-sp jmpo-sp-w" d="M-15 5 Q0 17 15 5"/></g><g transform="translate(52 166) rotate(0) scale(1.300)"><circle cx="12.2" cy="4.4" r="9.5" fill="url(#jmpo-rs)"/><circle cx="-0.5" cy="13.0" r="9.5" fill="url(#jmpo-rs)"/><circle cx="-12.5" cy="3.6" r="9.5" fill="url(#jmpo-rs)"/><circle cx="-7.3" cy="-10.8" r="9.5" fill="url(#jmpo-rs)"/><circle cx="8.0" cy="-10.2" r="9.5" fill="url(#jmpo-rs)"/><circle r="15.5" fill="url(#jmpo-rs)"/><path class="jmpo-sp jmpo-sp-s" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmpo-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmpo-sp jmpo-sp-s" d="M-15 5 Q0 17 15 5"/></g><g transform="translate(126 176) rotate(20) scale(1.200)"><circle cx="10.0" cy="8.4" r="9.5" fill="url(#jmpo-rw)"/><circle cx="-4.9" cy="12.1" r="9.5" fill="url(#jmpo-rw)"/><circle cx="-13.0" cy="-0.9" r="9.5" fill="url(#jmpo-rw)"/><circle cx="-3.1" cy="-12.6" r="9.5" fill="url(#jmpo-rw)"/><circle cx="11.0" cy="-6.9" r="9.5" fill="url(#jmpo-rw)"/><circle r="15.5" fill="url(#jmpo-rw)"/><path class="jmpo-sp jmpo-sp-w" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmpo-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmpo-sp jmpo-sp-w" d="M-15 5 Q0 17 15 5"/></g><g transform="translate(178 92) rotate(50) scale(1.100)"><circle cx="4.4" cy="12.2" r="9.5" fill="url(#jmpo-rp)"/><circle cx="-10.2" cy="8.0" r="9.5" fill="url(#jmpo-rp)"/><circle cx="-10.8" cy="-7.3" r="9.5" fill="url(#jmpo-rp)"/><circle cx="3.6" cy="-12.5" r="9.5" fill="url(#jmpo-rp)"/><circle cx="13.0" cy="-0.5" r="9.5" fill="url(#jmpo-rp)"/><circle r="15.5" fill="url(#jmpo-rp)"/><path class="jmpo-sp jmpo-sp-p" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmpo-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmpo-sp jmpo-sp-p" d="M-15 5 Q0 17 15 5"/></g><g transform="translate(110 98) rotate(80) scale(1.000)"><circle cx="-2.3" cy="12.8" r="9.5" fill="url(#jmpo-rs)"/><circle cx="-12.9" cy="1.8" r="9.5" fill="url(#jmpo-rs)"/><circle cx="-5.7" cy="-11.7" r="9.5" fill="url(#jmpo-rs)"/><circle cx="9.4" cy="-9.0" r="9.5" fill="url(#jmpo-rs)"/><circle cx="11.5" cy="6.1" r="9.5" fill="url(#jmpo-rs)"/><circle r="15.5" fill="url(#jmpo-rs)"/><path class="jmpo-sp jmpo-sp-s" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0"/><path class="jmpo-hi" d="M1.8 0a1.8 1.8 0 1 0 -3.6 0a3.8 3.8 0 1 0 7.6 0a6 6 0 1 0 -12 0a8.6 8.6 0 1 0 17.2 0a11.5 11.5 0 1 0 -23 0" transform="translate(-.6 -.7)"/><path class="jmpo-sp jmpo-sp-s" d="M-15 5 Q0 17 15 5"/></g></svg></div>
+  <header class="jmpo__content">
+    <div class="jmpo__crest" aria-hidden="true"><span class="jmpo__halo"></span><div class="jmpo-bf " data-bf="m" data-sp="1.1" data-base="26" data-amp="34" style="--rx:26deg" aria-hidden="true"><div class="jmpo-bf__in"><div class="jmpo-bf__w jmpo-bf__w--l"><svg viewBox="0 0 100 140" focusable="false"><use href="#jmpo-wm"/></svg></div><div class="jmpo-bf__w jmpo-bf__w--r"><svg viewBox="0 0 100 140" focusable="false"><g transform="matrix(-1 0 0 1 100 0)"><use href="#jmpo-wm"/></g></svg></div><span class="jmpo-bf__body"></span></div></div></div>
+    <p class="jmpo__pre" memory_type="text" memory_usage="custom" memory_key="portada-invitacion">Te invito a celebrar mis</p>
+    <p class="jmpo__xv" memory_type="text" memory_usage="custom" memory_key="portada-xv">XV Años</p>
+    <div class="jmpo__namewrap">
+      <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,3vw,1.6rem);width:clamp(150px,22vw,220px);"><img src="https://loremflickr.com/480/480/moth,night,portrait?lock=313" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:2px solid var(--primary-color,#9b9b9b);box-shadow:0 14px 30px rgba(0,0,0,.18);" /><figcaption hidden>Retrato</figcaption></figure>
+<h1 class="jmpo__name" memory_type="text" memory_usage="custom" memory_key="portada-nombre" data-event-field="nombres">Nombre Apellido</h1>
+      <div class="jmpo__pen" aria-hidden="true"><div class="jmpo-bf " data-bf="b" data-sp="3.2" data-base="20" data-amp="48" style="--rx:12deg;--rz:90deg" aria-hidden="true"><div class="jmpo-bf__in"><div class="jmpo-bf__w jmpo-bf__w--l"><svg viewBox="0 0 100 140" focusable="false"><use href="#jmpo-wb"/></svg></div><div class="jmpo-bf__w jmpo-bf__w--r"><svg viewBox="0 0 100 140" focusable="false"><g transform="matrix(-1 0 0 1 100 0)"><use href="#jmpo-wb"/></g></svg></div><span class="jmpo-bf__body"></span></div></div></div>
+    </div>
+    <p class="jmpo__verse" memory_type="text" memory_usage="custom" memory_key="portada-frase">Entre rosas y mariposas florece un nuevo capítulo de mi vida.</p>
+    <time class="jmpo__date" datetime="2027-04-17T19:00" memory_type="text" memory_usage="custom" memory_key="portada-fecha" data-event-field="fecha">Sábado 17 de abril de 2027</time>
+  </header>
+  <svg class="jmpo-lace jmpo-lace--bot " aria-hidden="true" focusable="false"><rect width="100%" height="100%" fill="url(#jmpo-lp)"/></svg>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="portada-nombre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var IO = 'IntersectionObserver' in window;
+      var bfs = [].slice.call(root.querySelectorAll('[data-bf]'));
+      /* Wing flap: data-* driven, writes only CSS custom properties */
+      function flap(t) {
+        for (var i = 0; i < bfs.length; i++) {
+          var b = bfs[i], sp = +(b.getAttribute('data-sp') || 1), base = +(b.getAttribute('data-base') || 24), amp = +(b.getAttribute('data-amp') || 40);
+          var ph = t * 0.006 * sp + i * 1.9;
+          b.style.setProperty('--f', (base + amp * Math.sin(ph)).toFixed(1));
+          b.style.setProperty('--s', (0.2 + 0.55 * Math.abs(Math.cos(ph))).toFixed(2));
+        }
+      }
+      /* Continuous motion: one rAF loop, paused off-screen and on hidden tabs */
+      function loop(fn) {
+        if (!IO) return;
+        var vis = false, raf = 0;
+        function tick(t) { raf = 0; if (!vis || document.hidden) return; fn(t); raf = requestAnimationFrame(tick); }
+        function go() { if (!raf && vis && !document.hidden) raf = requestAnimationFrame(tick); }
+        new IntersectionObserver(function (en) { vis = en[0].isIntersecting; go(); }).observe(root);
+        document.addEventListener('visibilitychange', go);
+      }
+      var crest = root.querySelector('[data-bf]');
+      var cv = root.querySelector('[data-sky]');
+      var ctx = cv && cv.getContext ? cv.getContext('2d') : null;
+      var FWp = { m: new Path2D('M100 52 C86 30 60 8 18 6 C8 6 2 14 6 24 C14 46 30 62 52 70 C70 74 88 68 100 62 Z'), b: new Path2D('M100 50 C80 22 46 4 14 10 C4 12 0 26 8 36 C20 56 52 70 100 64 Z') };
+      var HWp = { m: new Path2D('M100 66 C84 70 58 76 44 92 C34 106 40 126 58 130 C76 132 92 116 100 96 Z'), b: new Path2D('M100 66 C74 68 40 80 30 100 C24 116 40 134 62 132 C82 130 96 110 100 94 Z') };
+      /* Canvas butterfly: same wing geometry as the SVG ones, foreshortened by the flap angle */
+      function drawBf(ctx, C, k, x, y, s, ang, flp, alpha) {
+        var q = .12 + .88 * Math.abs(Math.cos(flp));
+        ctx.save(); ctx.translate(x, y); ctx.rotate(ang); ctx.scale(s, s);
+        for (var side = -1; side <= 1; side += 2) {
+          ctx.save(); ctx.scale(side < 0 ? q : -q, 1); ctx.translate(-100, -74);
+          ctx.globalAlpha = alpha; ctx.fillStyle = k === 'm' ? C.p : C.s; ctx.fill(HWp[k]); ctx.fill(FWp[k]);
+          ctx.save(); ctx.translate(100, 70); ctx.scale(.6, .6); ctx.translate(-100, -70);
+          ctx.globalAlpha = alpha * (k === 'm' ? .55 : .4); ctx.fillStyle = k === 'm' ? C.a : C.w; ctx.fill(HWp[k]); ctx.fill(FWp[k]); ctx.restore();
+          ctx.globalAlpha = alpha; ctx.lineWidth = k === 'm' ? 8 : 6; ctx.lineJoin = 'round'; ctx.strokeStyle = C.tx; ctx.stroke(HWp[k]); ctx.stroke(FWp[k]);
+          ctx.restore();
+        }
+        ctx.globalAlpha = alpha; ctx.fillStyle = C.tx; ctx.beginPath(); ctx.ellipse(0, 0, 4.5, 27, 0, 0, 6.2832); ctx.fill();
+        ctx.restore();
+      }
+      var W = 1, H = 1, DPR = 1, C = {}, swarm = [], petals = [];
+      function cssv(n, d) { var v = getComputedStyle(root).getPropertyValue(n).trim(); return v || d; }
+      function colors() { C.p = cssv('--t-p', '#D6237A'); C.s = cssv('--t-s', '#B79BE4'); C.a = cssv('--t-a', '#F6BCD3'); C.w = cssv('--t-w', '#FFFFFF'); C.tx = cssv('--t-tx', '#4B1D40'); }
+      function size() {
+        if (!ctx) return;
+        var r = root.getBoundingClientRect(); DPR = Math.min(2, window.devicePixelRatio || 1);
+        W = Math.max(1, r.width); H = Math.max(1, r.height);
+        cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+      }
+      function seed() {
+        swarm = []; petals = [];
+        var n = W < 700 ? 7 : 13, m = W < 700 ? 12 : 22, i;
+        for (i = 0; i < n; i++) swarm.push({ k: i % 3 === 0 ? 'b' : 'm', ax: .00011 + Math.random() * .00012, ay: .00009 + Math.random() * .0001, az: .00006 + Math.random() * .00008, ph: Math.random() * 6.28, fs: .017 + Math.random() * .01, a: 0, px: null, py: null });
+        for (i = 0; i < m; i++) petals.push({ x: Math.random() * 2.4 - 1.2, y: Math.random() * 2.4 - 1.2, z: .9 + Math.random() * 1.6, r: Math.random() * 6.28, vr: (Math.random() - .5) * .003, vy: .00005 + Math.random() * .00007, sw: Math.random() * 6.28, c: i % 3 });
+      }
+      /* Manual perspective projection: screen = center + world * focal / z */
+      function proj(x, y, z) { var f = Math.min(W, H * 1.4) * .5; return [W / 2 + x * f / z, H / 2 + y * f / z, f / z]; }
+      var last = 0;
+      function frame(t) {
+        if (!ctx) return;
+        var dt = Math.min(50, t - (last || t)); last = t;
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0); ctx.clearRect(0, 0, W, H);
+        var items = [], i, b, p, q;
+        for (i = 0; i < swarm.length; i++) {
+          b = swarm[i];
+          var z = 1.55 + .8 * Math.sin(t * b.az + b.ph * .6);
+          q = proj(1.5 * Math.sin(t * b.ax + b.ph), .85 * Math.sin(t * b.ay + b.ph * 1.7) - .05, z);
+          if (b.px !== null) {
+            var dx = q[0] - b.px, dy = q[1] - b.py;
+            if (dx * dx + dy * dy > .01) { var tg = Math.atan2(dy, dx) + Math.PI / 2, d = tg - b.a; d = Math.atan2(Math.sin(d), Math.cos(d)); b.a += d * .06; }
+          }
+          b.px = q[0]; b.py = q[1];
+          items.push({ z: z, bf: b, x: q[0], y: q[1], s: q[2] });
+        }
+        for (i = 0; i < petals.length; i++) {
+          p = petals[i]; p.y += p.vy * dt; p.r += p.vr * dt; if (p.y > 1.3) { p.y = -1.3; p.x = Math.random() * 2.4 - 1.2; }
+          q = proj(p.x + Math.sin(t * .0004 + p.sw) * .25, p.y, p.z);
+          items.push({ z: p.z, pt: p, x: q[0], y: q[1], s: q[2] });
+        }
+        items.sort(function (u, v) { return v.z - u.z; });
+        for (i = 0; i < items.length; i++) {
+          var it = items[i], al = Math.max(.3, Math.min(1, 1.3 - it.z * .38));
+          if (it.bf) {
+            drawBf(ctx, C, it.bf.k, it.x, it.y, it.s * (W < 700 ? .0016 : .00085), it.bf.a, t * it.bf.fs + it.bf.ph, al * .9);
+          } else {
+            var pr = it.s * (W < 700 ? .026 : .014);
+            ctx.save(); ctx.translate(it.x, it.y); ctx.rotate(it.pt.r); ctx.scale(1, .25 + .75 * Math.abs(Math.cos(t * .002 + it.pt.sw)));
+            ctx.globalAlpha = al * .75; ctx.fillStyle = it.pt.c === 0 ? C.a : (it.pt.c === 1 ? C.w : C.p);
+            ctx.beginPath(); ctx.ellipse(0, 0, pr * .62, pr, 0, 0, 6.2832); ctx.fill(); ctx.restore();
+          }
+        }
+      }
+      colors(); size(); seed();
+      if ('ResizeObserver' in window) new ResizeObserver(function () { var w = W; size(); if (Math.abs(w - W) > 80) seed(); if (RM) frame(4000); }).observe(root);
+      if (RM || !IO) { frame(4000); return; }   /* reduced motion = static final state */
+
+      root.classList.add('jmpo--anim');
+      root.style.setProperty('--rv', '0'); root.style.setProperty('--done', '0');
+      var t0 = 0;
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect(); root.classList.add('is-in'); t0 = performance.now();
+          setTimeout(function () { root.classList.remove('jmpo--anim', 'is-in'); }, 3200);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+      loop(function (t) {
+        flap(t);
+        if (crest) crest.style.setProperty('--ry', (Math.sin(t * .0009) * 16).toFixed(1) + 'deg');
+        /* Progressive title reveal: a morpho "writes" the name; JS only drives --rv, never the text */
+        if (t0) {
+          var pr = Math.min(1, Math.max(0, (t - t0 - 700) / 1400));
+          if (root.style.getPropertyValue('--rv') !== '') {
+            var e = 1 - Math.pow(1 - pr, 2.2);
+            root.style.setProperty('--rv', e.toFixed(4));
+            if (pr >= 1) { root.style.removeProperty('--rv'); root.style.setProperty('--done', '1'); setTimeout(function () { root.style.removeProperty('--done'); }, 600); }
+          }
+        }
+        frame(t);
+      });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Jardín de Mariposas',
+      descripcion: 'Portada de XV años Jardín de Mariposas: enjambre 3D de mariposas monarca y morfo en canvas, nombre revelado por una mariposa, arreglos de rosas y borde de encaje floral.',
+      tags: ['portada', 'quinceañera', 'mariposas', 'rosas', 'encaje', '3D', 'primaveral'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

@@ -1,0 +1,1458 @@
+const API_BASE = `${window.location.origin.replace(':3000', ':3001')}/api`;
+
+const getAdminHeaders = () => {
+  const token = localStorage.getItem('admin_token');
+  console.log('Admin token exists:', !!token);
+  return {
+    'Content-Type': 'application/json',
+    ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+  };
+};
+
+export interface AdminConfig {
+  html_provider: string;
+  html_base_url: string;
+  html_api_key: string;
+  html_model: string;
+  html_google_api_key: string;
+  html_google_model: string;
+  image_provider: string;
+  image_model: string;
+  image_api_key: string;
+  login_page_url: string;
+  updated_at: string | null;
+  use_agent_orchestrator?: boolean;
+  default_font_base?: string;
+  default_font_heading?: string;
+}
+
+export interface AdminUserPlan {
+  purchase_id: number;
+  plan_slug: string;
+  plan_name: string;
+  invites_included: number;
+  invites_used: number;
+  generation_credits: number;
+  generation_used: number;
+  iteration_credits: number;
+  iteration_used: number;
+  invites_available: number;
+  generation_available: number;
+  iteration_available: number;
+  deployed_count: number;
+  active_invitation: {
+    filename: string;
+    slug: string;
+    public_url: string;
+    event_type: string;
+    event_domain: string | null;
+    event_date: string | null;
+    event_time: string | null;
+  } | null;
+}
+
+export interface AdminUser {
+  user_id: string;
+  name: string | null;
+  invitations_count: number;
+  created_at: string;
+  plans: AdminUserPlan[];
+}
+
+export interface AdminInvitation {
+  id: string;
+  user_id: string;
+  filename: string;
+  slug: string;
+  publicUrl: string;
+  event_type: string;
+  starred: boolean;
+  created_at: string;
+  size: number;
+}
+
+export const getAdminConfig = async (): Promise<AdminConfig> => {
+  const response = await fetch(`${API_BASE}/admin/config`, {
+    headers: getAdminHeaders()
+  });
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al obtener configuración');
+  }
+  
+  return response.json();
+};
+
+export const saveAdminConfig = async (config: Partial<AdminConfig>): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/config`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(config)
+  });
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al guardar configuración');
+  }
+};
+
+export const getAdminUsers = async (): Promise<{ users: AdminUser[]; total: number }> => {
+  const response = await fetch(`${API_BASE}/admin/users`, {
+    headers: getAdminHeaders()
+  });
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al obtener usuarios');
+  }
+  
+  return response.json();
+};
+
+export const updateAdminUser = async (userId: string, data: Partial<AdminUser>): Promise<AdminUser> => {
+  const response = await fetch(`${API_BASE}/admin/users/${userId}`, {
+    method: 'PUT',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(data)
+  });
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al actualizar usuario');
+  }
+  
+  const result = await response.json();
+  return result.user;
+};
+
+export const getAdminInvitations = async (starred?: boolean): Promise<{ invitations: AdminInvitation[]; total: number }> => {
+  let url = `${API_BASE}/admin/invitations`;
+  if (starred !== undefined) {
+    url += `?starred=${starred}`;
+  }
+  
+  const response = await fetch(url, {
+    headers: getAdminHeaders()
+  });
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al obtener invitaciones');
+  }
+  
+  return response.json();
+};
+
+export const starInvitation = async (userId: string, filename: string): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/invitations/${userId}/${filename}/star`, {
+    method: 'POST',
+    headers: getAdminHeaders()
+  });
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al marcar invitación');
+  }
+};
+
+export const unstarInvitation = async (userId: string, filename: string): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/invitations/${userId}/${filename}/star`, {
+    method: 'DELETE',
+    headers: getAdminHeaders()
+  });
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al desmarcar invitación');
+  }
+};
+
+export const deleteInvitation = async (userId: string, filename: string): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/invitations/${userId}/${filename}`, {
+    method: 'DELETE',
+    headers: getAdminHeaders()
+  });
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al eliminar invitación');
+  }
+};
+
+export const starCatalogo = async (id: number): Promise<void> => {
+  const response = await fetch(`${API_BASE}/catalogo/${id}/star`, {
+    method: 'POST',
+    headers: getAdminHeaders()
+  });
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al marcar invitación del catálogo');
+  }
+};
+
+export const unstarCatalogo = async (id: number): Promise<void> => {
+  const response = await fetch(`${API_BASE}/catalogo/${id}/star`, {
+    method: 'DELETE',
+    headers: getAdminHeaders()
+  });
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al desmarcar invitación del catálogo');
+  }
+};
+
+
+
+export interface CatalogoItem {
+  id: number;
+  filename: string;
+  title: string;
+  event_type: string;
+  theme: string;
+  colors: string;
+  tags: string;
+  primary_color: string;
+  secondary_color: string;
+  event_domain: string | null;
+  event_date: string | null;
+  event_time: string | null;
+  user_data: string | null;
+  starred: boolean;
+  slug: string | null;
+  seo_title?: string | null;
+  meta_description?: string | null;
+  h1?: string | null;
+  seo_content_json?: string | null;
+  structured_data?: string | null;
+  created_at: string;
+}
+
+export const getCatalogo = async (starred?: boolean): Promise<{ invitaciones: CatalogoItem[] }> => {
+  let url = `${API_BASE}/catalogo`;
+  if (starred !== undefined) {
+    url += `?starred=${starred}`;
+  }
+  const response = await fetch(url);
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al obtener catálogo');
+  }
+  return response.json();
+};
+
+export const deleteCatalogoItem = async (id: number): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/catalogo/${id}`, {
+    method: 'DELETE',
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al eliminar invitación del catálogo');
+  }
+};
+
+export const generateSEO = async (id: number): Promise<{ success: boolean; slug: string }> => {
+  const response = await fetch(`${API_BASE}/admin/catalogo/${id}/generate-seo`, {
+    method: 'POST',
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al generar SEO');
+  }
+  return response.json();
+};
+
+// ====== Historial Backup ======
+// Estos endpoints NO disparan syncHistoricoWithDB: son seguros para
+// administradores con catalogos corruptos o muy grandes donde el GET
+// /api/catalogo normal se cuelga.
+
+export interface HistorialStats {
+  count: number;
+  totalBytes: number;
+  dbRows: number;
+}
+
+export const getHistorialStats = async (): Promise<HistorialStats> => {
+  const response = await fetch(`${API_BASE}/admin/catalogo/historial/stats`, {
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al obtener stats del historial');
+  }
+  return response.json();
+};
+
+/**
+ * Descarga el backup ZIP de todos los .html del storage/historico.
+ * Retorna una URL objeto Blob para descargar; el caller debe revocarla.
+ */
+export const downloadHistorialBackup = async (): Promise<{ url: string; filename: string; size: number }> => {
+  const response = await fetch(`${API_BASE}/admin/catalogo/backup-html.zip`, {
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ error: 'Error al generar backup' }));
+    throw new Error(error.error || 'Error al generar backup');
+  }
+  const blob = await response.blob();
+  const cd = response.headers.get('content-disposition') || '';
+  const match = cd.match(/filename="?([^";]+)"?/i);
+  const filename = match ? match[1] : `historico-backup-${new Date().toISOString().slice(0, 10)}.zip`;
+  const url = URL.createObjectURL(blob);
+  return { url, filename, size: blob.size };
+};
+
+export const clearHistorial = async (): Promise<{ success: boolean; deletedFiles: number; dbRowsDeleted: number }> => {
+  const response = await fetch(`${API_BASE}/admin/catalogo/historial`, {
+    method: 'DELETE',
+    headers: { ...getAdminHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify({ confirm: 'DELETE' })
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al limpiar historial');
+  }
+  return response.json();
+};
+
+export const syncUsers = async (): Promise<{ success: boolean; message: string; total: number }> => {
+  const response = await fetch(`${API_BASE}/admin/sync-users`, {
+    method: 'POST',
+    headers: getAdminHeaders()
+  });
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al sincronizar usuarios');
+  }
+  
+  return response.json();
+};
+
+export interface BackupData {
+  version: number;
+  exported_at: string;
+  data: {
+    users?: any[];
+    user_plans?: any[];
+    invitations?: any[];
+    plan_config?: any[];
+    local_users?: any[];
+  };
+}
+
+export const downloadBackup = async (): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/backup`, {
+    headers: getAdminHeaders()
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al descargar backup');
+  }
+
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `backup-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  window.URL.revokeObjectURL(url);
+};
+
+export const uploadBackup = async (data: BackupData): Promise<{ success: boolean; message: string }> => {
+  const response = await fetch(`${API_BASE}/admin/backup`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(data)
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al restaurar backup');
+  }
+
+  return response.json();
+};
+
+export interface PlanConfig {
+  plan_slug: string;
+  plan_name: string;
+  invites_included: number;
+  generation_credits: number;
+  iteration_credits: number;
+  has_rsvp: number;
+  created_at: string;
+}
+
+export const getAdminPlans = async (): Promise<{ plans: PlanConfig[] }> => {
+  const response = await fetch(`${API_BASE}/admin/plans`, {
+    headers: getAdminHeaders()
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al obtener planes');
+  }
+
+  return response.json();
+};
+
+export const createPlan = async (data: Omit<PlanConfig, 'created_at'>): Promise<{ plan: PlanConfig }> => {
+  const response = await fetch(`${API_BASE}/admin/plans`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(data)
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al crear plan');
+  }
+
+  return response.json();
+};
+
+export const updatePlan = async (slug: string, data: Partial<Omit<PlanConfig, 'plan_slug' | 'created_at'>>): Promise<{ plan: PlanConfig }> => {
+  const response = await fetch(`${API_BASE}/admin/plans/${slug}`, {
+    method: 'PUT',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(data)
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al actualizar plan');
+  }
+
+  return response.json();
+};
+
+export const deletePlan = async (slug: string): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/plans/${slug}`, {
+    method: 'DELETE',
+    headers: getAdminHeaders()
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al eliminar plan');
+  }
+};
+
+export interface PlansBackupData {
+  version: number;
+  exported_at: string;
+  data: {
+    plan_config: PlanConfig[];
+  };
+}
+
+export const downloadPlansBackup = async (): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/plans/backup`, {
+    headers: getAdminHeaders()
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al descargar backup de planes');
+  }
+
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `plans-backup-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  window.URL.revokeObjectURL(url);
+};
+
+export const uploadPlansBackup = async (data: PlansBackupData): Promise<{ success: boolean; message: string; plans: PlanConfig[] }> => {
+  const response = await fetch(`${API_BASE}/admin/plans/backup`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(data)
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al importar backup de planes');
+  }
+
+  return response.json();
+};
+
+// ==================== RAG KNOWLEDGE BASE ====================
+
+export interface RAGTemplate {
+  id?: number;
+  style_id: string;
+  style_name: string;
+  description: string;
+  category: string;
+  theme_tags: string[];
+  color_palette: Record<string, string>;
+  typography_scale: Record<string, string>;
+  layout_rules: Record<string, string>;
+  modules_def: Record<string, any>;
+  base_cdns: string[];
+  js_dependencies: string[];
+  animation_rules: Record<string, any>;
+  variation_params: Record<string, any>;
+  is_active: number;
+  html_content?: string | null;
+  has_html_content?: number;
+  html_size?: number;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export const getRAGTemplates = async (): Promise<{ templates: RAGTemplate[] }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-templates`, {
+    method: 'GET',
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al cargar plantillas RAG');
+  }
+  return response.json();
+};
+
+export const getRAGTemplate = async (id: number): Promise<{ template: RAGTemplate }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-templates/${id}`, {
+    method: 'GET',
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al cargar plantilla');
+  }
+  return response.json();
+};
+
+export const createRAGTemplate = async (template: Partial<RAGTemplate>): Promise<{ success: boolean; id: number }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-templates`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(template)
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al crear plantilla');
+  }
+  return response.json();
+};
+
+export const updateRAGTemplate = async (id: number, template: Partial<RAGTemplate>): Promise<{ success: boolean }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-templates/${id}`, {
+    method: 'PUT',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(template)
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al actualizar plantilla');
+  }
+  return response.json();
+};
+
+export const deleteRAGTemplate = async (id: number): Promise<{ success: boolean }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-templates/${id}`, {
+    method: 'DELETE',
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al eliminar plantilla');
+  }
+  return response.json();
+};
+
+export const analyzeRAGHtml = async (html: string, styleName: string): Promise<{ analysis: any }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-templates/analyze`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify({ html, style_name: styleName })
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al analizar HTML');
+  }
+  return response.json();
+};
+
+export interface RAGBackupData {
+  version: number;
+  exported_at: string;
+  data: {
+    knowledge_base: any[];
+  };
+}
+
+export const downloadRAGBackup = async (): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/rag-templates/backup`, {
+    headers: getAdminHeaders()
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al descargar backup de plantillas RAG');
+  }
+
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `rag-backup-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  window.URL.revokeObjectURL(url);
+};
+
+export const uploadRAGBackup = async (data: RAGBackupData): Promise<{ success: boolean; message: string; templates: any[] }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-templates/backup`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(data)
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al importar backup de plantillas RAG');
+  }
+
+  return response.json();
+};
+
+export interface RAGUploadResult {
+  success: boolean;
+  id: number;
+  html_content: string;
+  analysis: {
+    description: string;
+    colors: Record<string, string>;
+    ui_elements: string[];
+    found_tags: string[];
+    isValid: boolean;
+    totalRequired: number;
+    foundCount: number;
+    missing: string[];
+    found: string[];
+    eventType: string;
+  };
+  warning?: string;
+}
+
+export const uploadRAGTemplate = async (file: File, eventType: string = 'boda'): Promise<RAGUploadResult> => {
+  const formData = new FormData();
+  formData.append('htmlFile', file);
+  formData.append('event_type', eventType);
+
+  const token = localStorage.getItem('admin_token');
+  const response = await fetch(`${API_BASE}/admin/rag-templates/upload`, {
+    method: 'POST',
+    headers: {
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+    },
+    body: formData
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al subir template HTML');
+  }
+
+  return response.json();
+};
+
+// ==================== RAG MODULAR (PIEZAS) ====================
+
+export interface RAGModule {
+  id?: number;
+  module_id: string;
+  module_type: string;
+  style_name: string;
+  description: string;
+  tags: string[];
+  descripcion_larga: string;
+  theme_tags: string[];
+  color_palette: Record<string, string>;
+  css_variables: Record<string, string>;
+  has_memory_attributes: number;
+  memory_sources: Record<string, number>;
+  is_active: number;
+  category?: string;
+  filename?: string | null;
+  html_size?: number;
+  html_content?: string | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface RAGModuleUploadResult {
+  success: boolean;
+  id: number;
+  module_id: string;
+  renamed_from?: string | null;
+  module_type: string;
+  html_content: string;
+  analysis: {
+    metadata: any;
+    errors: string[];
+    warnings: string[];
+  };
+}
+
+export interface ModuleAnalysis {
+  module_id: string | null;
+  module_type: string | null;
+  style_name: string;
+  description: string;
+  tags: string[];
+  descripcion_larga: string;
+  theme_tags: string[];
+  color_palette: Record<string, string>;
+  css_variables: Record<string, string>;
+  has_memory_attributes: number;
+  memory_sources: Record<string, number>;
+  html_size: number;
+  is_valid: boolean;
+  errors: string[];
+  warnings: string[];
+  metadata: any;
+  llm_used?: boolean;
+}
+
+export const getRAGModules = async (filters?: { module_type?: string; category?: string; is_active?: number }): Promise<{ modules: RAGModule[] }> => {
+  const params = new URLSearchParams();
+  if (filters?.module_type) params.append('module_type', filters.module_type);
+  if (filters?.category && filters.category !== 'general') params.append('category', filters.category);
+  if (filters?.is_active !== undefined) params.append('is_active', filters.is_active.toString());
+
+  const response = await fetch(`${API_BASE}/admin/rag-modules${params.toString() ? `?${params.toString()}` : ''}`, {
+    method: 'GET',
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al cargar módulos RAG');
+  }
+  return response.json();
+};
+
+export const getRAGModule = async (id: number): Promise<{ module: RAGModule }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-modules/${id}`, {
+    method: 'GET',
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al cargar módulo');
+  }
+  return response.json();
+};
+
+export const createRAGModule = async (module: Partial<RAGModule>): Promise<{ success: boolean; id: number }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-modules`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(module)
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al crear módulo');
+  }
+  return response.json();
+};
+
+export const updateRAGModule = async (id: number, module: Partial<RAGModule>): Promise<{ success: boolean }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-modules/${id}`, {
+    method: 'PUT',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(module)
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al actualizar módulo');
+  }
+  return response.json();
+};
+
+export const deleteRAGModule = async (id: number): Promise<{ success: boolean }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-modules/${id}`, {
+    method: 'DELETE',
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al eliminar módulo');
+  }
+  return response.json();
+};
+
+export const uploadRAGModule = async (file: File, module_type?: string): Promise<RAGModuleUploadResult> => {
+  const formData = new FormData();
+  formData.append('htmlFile', file);
+  if (module_type) formData.append('module_type', module_type);
+
+  const token = localStorage.getItem('admin_token');
+  const response = await fetch(`${API_BASE}/admin/rag-modules/upload`, {
+    method: 'POST',
+    headers: {
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+    },
+    body: formData
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al subir módulo HTML');
+  }
+
+  return response.json();
+};
+
+export const analyzeModuleHtml = async (html: string, module_type?: string): Promise<{ success: boolean; analysis: ModuleAnalysis }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-modules/analyze`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify({ html, module_type })
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al analizar módulo');
+  }
+  return response.json();
+};
+
+// Alias con el nombre canónico solicitado en la nueva interfaz del servicio.
+// Mantiene retrocompatibilidad con analyzeModuleHtml (cualquiera funciona).
+export const analyzeRAGModule = async (html: string, module_type?: string): Promise<ModuleAnalysis> => {
+  const result = await analyzeModuleHtml(html, module_type);
+  return result.analysis;
+};
+
+// Preview de un módulo guardado: retorna HTML + metadatos para renderizar en iframe sandbox.
+export const previewRAGModule = async (id: number): Promise<{ html_content: string; module_type: string; style_name: string }> => {
+  const response = await fetch(`${API_BASE}/admin/rag-modules/${id}/preview`, {
+    method: 'GET',
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error || 'Error al obtener preview del módulo');
+  }
+  const data = await response.json();
+  // El backend responde { success, html_content, module_type, style_name }
+  return {
+    html_content: data.html_content,
+    module_type: data.module_type,
+    style_name: data.style_name
+  };
+};
+
+// ==================== RAG MODULES BACKUP / RESTORE ====================
+
+export interface RAGModulesBackupData {
+  version: string;
+  exported_at: string;
+  data: {
+    modules: Array<{
+      module_id: string;
+      module_type: string;
+      style_name: string;
+      description?: string;
+      tags?: string;            // JSON text (stringify)
+      descripcion_larga?: string;
+      theme_tags?: string;      // JSON text
+      color_palette?: string;   // JSON text
+      css_variables?: string;   // JSON text
+      has_memory_attributes?: number;
+      memory_sources?: string;  // JSON text
+      html_content: string;
+      is_active?: number;
+      category?: string;
+      filename?: string;
+      html_size?: number;
+    }>;
+  };
+}
+
+export interface RAGModulesRestoreResult {
+  success: boolean;
+  message: string;
+  imported: number;
+  skipped: { module_id: string; missing: string[] }[];
+  total: number;
+}
+
+// Descarga un backup completo de TODOS los módulos RAG en un archivo JSON.
+export const downloadRAGModulesBackup = async (): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/rag-modules/backup`, {
+    method: 'GET',
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al descargar backup de módulos');
+  }
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `rag-modules-backup-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  window.URL.revokeObjectURL(url);
+};
+
+// Restaura/reemplaza TODOS los módulos RAG con los del backup enviado.
+export const uploadRAGModulesBackup = async (data: RAGModulesBackupData): Promise<RAGModulesRestoreResult> => {
+  const response = await fetch(`${API_BASE}/admin/rag-modules/backup`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(data)
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al restaurar backup de módulos');
+  }
+  return response.json();
+};
+// ============================================================================
+// GENERADOR DE MÓDULOS (independiente) — LLM rotation OpenRouter/NVIDIA
+// ============================================================================
+export interface RotatorCatalogEntry {
+  modelKey: string;
+  provider: string;
+  model: string;
+  lanes: string[];
+  score: number;
+  available: boolean;
+  cooldown_until: number;
+  successes: number;
+  failures: number;
+  bench: { coding: boolean; reasoning: boolean; latencyMs: number; score: number; at: string } | null;
+}
+
+export interface ModuleGeneratorStatus {
+  keys: { openrouter: string; nvidia: string };
+  moduleTypes: string[];
+  rotator: {
+    current: { modelKey: string; provider: string; model: string } | null;
+    catalogErrors?: Record<string, string>;
+    allowedModels?: string[];
+    providers: Record<string, { name: string; hasKey: boolean }>;
+    catalog: RotatorCatalogEntry[];
+    catalogAgeMs: number | null;
+    benchmarkRunning: boolean;
+  };
+}
+
+export interface GeneratedModule {
+  moduleType: string;
+  html: string;
+  attempts: number;
+  models: string[];
+  validation: { valid: boolean; errors: string[] };
+  brief?: { style_name?: string; concepto?: string; seeds?: Record<string, string> };
+  failed?: boolean;
+}
+
+export const getModuleGeneratorStatus = async (): Promise<ModuleGeneratorStatus> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/status`, { method: 'GET', headers: getAdminHeaders() });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al obtener estado del generador');
+  }
+  return response.json();
+};
+
+export const saveModuleGeneratorKeys = async (keys: { openrouter_api_key?: string; nvidia_api_key?: string }): Promise<{ keys: { openrouter: string; nvidia: string }; rotator?: ModuleGeneratorStatus['rotator'] }> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/keys`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify(keys)
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al guardar las API keys');
+  }
+  return response.json();
+};
+
+export const moduleGeneratorRotatorAction = async (action: 'rotate' | 'reset-cooldowns' | 'refresh-catalog' | 'benchmark'): Promise<ModuleGeneratorStatus> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/rotator`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify({ action })
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error en la acción del rotador');
+  }
+  const json = await response.json();
+  return json.rotator;
+};
+
+export const generateModuleWithRotator = async (moduleType: string, extraInstructions: string): Promise<GeneratedModule> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/generate-module`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify({ moduleType, extraInstructions })
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || `Error generando módulo ${moduleType}`);
+  }
+  return response.json();
+};
+
+export const importGeneratedModulesToRAG = async (
+  modules: Array<{ html: string; styleName?: string; category?: string }>
+): Promise<{ success: boolean; results: Array<{ ok: boolean; module_id?: string; module_type?: string; style_name?: string; error?: string }> }> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/import`, {
+    method: 'POST',
+    headers: getAdminHeaders(),
+    body: JSON.stringify({ modules })
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error importando módulos al RAG');
+  }
+  return response.json();
+};
+
+// —— Allowlist de modelos del rotator (solo los que el admin define) ——
+export const saveAllowedModels = async (allowedModels: string[]): Promise<{ allowedModels: string[]; rotator: ModuleGeneratorStatus['rotator'] }> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/models`, {
+    method: 'POST', headers: getAdminHeaders(), body: JSON.stringify({ allowedModels })
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al guardar los modelos permitidos');
+  }
+  return response.json();
+};
+
+// —— Lotes automáticos ——
+export interface BatchStatus {
+  active: boolean; batchId: string | null; totalSets: number; doneSets: number;
+  currentLabel: string; generated: number; failed: number;
+  startedAt: string | null; finishedAt: string | null; lastError: string | null;
+}
+
+export const startModuleBatch = async (moduleTypes: string[], sets: number, extraInstructions: string): Promise<BatchStatus> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/batch/start`, {
+    method: 'POST', headers: getAdminHeaders(), body: JSON.stringify({ moduleTypes, sets, extraInstructions })
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al iniciar el lote');
+  }
+  const json = await response.json();
+  return json.batch;
+};
+
+export const getModuleBatchStatus = async (): Promise<BatchStatus> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/batch/status`, { headers: getAdminHeaders() });
+  if (!response.ok) throw new Error('Error al consultar el lote');
+  return response.json();
+};
+
+export const stopModuleBatch = async (): Promise<BatchStatus> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/batch/stop`, { method: 'POST', headers: getAdminHeaders() });
+  if (!response.ok) throw new Error('Error al detener el lote');
+  return response.json();
+};
+
+// —— Resultados para revisión ——
+export interface GeneratorResultRow {
+  id: number; batchId: string | null; setIndex: number; moduleType: string;
+  styleName: string; concepto: string; refined: boolean; critiqueScore: number | null;
+  models: string[]; attempts: number; valid: boolean; status: string;
+  importedModuleId: string | null; createdAt: string; html?: string;
+}
+
+export const getGeneratorResults = async (status?: string, limit = 50): Promise<{ results: GeneratorResultRow[] }> => {
+  const params = new URLSearchParams();
+  if (status) params.append('status', status);
+  params.append('limit', String(limit));
+  const response = await fetch(`${API_BASE}/admin/module-generator/results?${params.toString()}`, { headers: getAdminHeaders() });
+  if (!response.ok) throw new Error('Error al cargar resultados');
+  return response.json();
+};
+
+export const getGeneratorResult = async (id: number): Promise<{ result: GeneratorResultRow }> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/results/${id}`, { headers: getAdminHeaders() });
+  if (!response.ok) throw new Error('Error al cargar el resultado');
+  return response.json();
+};
+
+export const reviewGeneratorResult = async (id: number, approve: boolean): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/results/${id}/review`, {
+    method: 'POST', headers: getAdminHeaders(), body: JSON.stringify({ approve })
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al revisar el resultado');
+  }
+};
+
+export const importGeneratorResults = async (ids?: number[]): Promise<{ success: boolean; imported: number }> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/results/import`, {
+    method: 'POST', headers: getAdminHeaders(), body: JSON.stringify({ ids: ids || null })
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al importar resultados');
+  }
+  return response.json();
+};
+
+// —— LLM Premium directo (OpenAI-compatible) ——
+export interface PremiumLLMConfig {
+  enabled: boolean; configured: boolean; baseUrl: string; model: string; active: boolean;
+}
+
+export const savePremiumLLM = async (config: {
+  enabled: boolean; baseUrl?: string; apiKey?: string; model?: string;
+}): Promise<PremiumLLMConfig> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/premium`, {
+    method: 'POST', headers: getAdminHeaders(), body: JSON.stringify(config)
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al guardar el LLM premium');
+  }
+  const json = await response.json();
+  return json.premium;
+};
+
+// —— Preview "Ejemplo real" e iteración de módulos ——
+export const getPreviewImages = async (): Promise<{ images: string[] }> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/preview-images`, { headers: getAdminHeaders() });
+  if (!response.ok) throw new Error('Error al cargar el pool de imágenes');
+  return response.json();
+};
+
+export interface IterationResult {
+  ok: boolean; html: string; moduleType: string; models: string[];
+  validation: { valid: boolean; errors: string[] }; error?: string;
+}
+
+export const iterateGeneratedModule = async (html: string, instructions: string, moduleType: string): Promise<IterationResult> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/iterate`, {
+    method: 'POST', headers: getAdminHeaders(), body: JSON.stringify({ html, instructions, moduleType })
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al iterar el módulo');
+  }
+  return response.json();
+};
+
+export const saveResultHtml = async (id: number, html: string, styleName?: string): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/module-generator/results/${id}/html`, {
+    method: 'POST', headers: getAdminHeaders(), body: JSON.stringify({ html, styleName })
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.error || 'Error al guardar la iteración');
+  }
+};
+
+// ==================== SUBIDA MASIVA (bulk) de módulos RAG ====================
+
+export interface RAGModuleBulkResult {
+  filename: string;
+  ok: boolean;
+  module_id?: string;
+  renamed_from?: string | null;
+  module_type?: string;
+  error?: string;
+  duplicate?: boolean;
+  validation?: { errors: string[]; warnings: string[] } | null;
+}
+
+export interface RAGModuleBulkResponse {
+  total: number;
+  ok: number;
+  failed: number;
+  renamed: number;
+  results: RAGModuleBulkResult[];
+}
+
+/**
+ * Sube N archivos .html a Módulos RAG en un solo lote (drag & drop masivo).
+ * Se envían en tandas de 40 archivos para no exceder límites del request.
+ */
+export const uploadRAGModulesBulk = async (files: File[], module_type?: string): Promise<RAGModuleBulkResponse> => {
+  const BATCH = 40;
+  const aggregated: RAGModuleBulkResponse = { total: 0, ok: 0, failed: 0, renamed: 0, results: [] };
+
+  for (let i = 0; i < files.length; i += BATCH) {
+    const batch = files.slice(i, i + BATCH);
+    const formData = new FormData();
+    batch.forEach((f) => formData.append('htmlFiles', f));
+    if (module_type) formData.append('module_type', module_type);
+
+    const token = localStorage.getItem('admin_token');
+    const response = await fetch(`${API_BASE}/admin/rag-modules/upload-bulk`, {
+      method: 'POST',
+      headers: {
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+      },
+      body: formData
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ error: `Error ${response.status}` }));
+      throw new Error(error.error || 'Error en la subida masiva');
+    }
+
+    const part: RAGModuleBulkResponse = await response.json();
+    aggregated.total += part.total;
+    aggregated.ok += part.ok;
+    aggregated.failed += part.failed;
+    aggregated.renamed += part.renamed;
+    aggregated.results.push(...part.results);
+  }
+
+  return aggregated;
+};
+
+// ============================================================
+// RAG VISUAL (rack de imágenes) — proceso alterno de generación
+// ============================================================
+
+export interface VisualRackConfig {
+  enabled: boolean;
+  provider: 'gemini' | 'openai';
+  geminiModel: string;
+  openaiBaseUrl: string;
+  openaiModel: string;
+  hasOpenaiApiKey: boolean;
+  visionVerified: boolean;
+  visionMatchesConfig: boolean;
+  itemCount: number;
+  suitableCount: number;
+  generationCount: number;
+}
+
+export interface VisualRagItem {
+  id: number;
+  filename: string;
+  url: string;
+  mimeType: string;
+  descripcion: string;
+  styleName: string;
+  tags: string[];
+  palette: string[];
+  eventTypes: string[];
+  suitable: boolean;
+  analysisNotes: string;
+  analysisSource: string;
+  isActive: boolean;
+  createdAt: string;
+}
+
+export interface VisualGeneration {
+  dir: string;
+  createdAt: string;
+  userId: number | null;
+  eventType: string;
+  theme: string;
+  provider: string;
+  model: string;
+  moduleCount: number;
+  modules: Array<{ tipo: string; file: string; valid: boolean; attempts: number }>;
+}
+
+export const getVisualRackConfig = async (): Promise<VisualRackConfig> => {
+  const response = await fetch(`${API_BASE}/admin/visual-rack/config`, { headers: getAdminHeaders() });
+  if (!response.ok) throw new Error('Error al obtener config RAG Visual');
+  return response.json();
+};
+
+// ===== Proveedores de imágenes gratuitos (alternativa a Nano Banana) =====
+export interface FreeImageProviderInfo {
+  id: string;
+  label: string;
+  desc: string;
+  needsKey: boolean;
+  recommended?: boolean;
+}
+
+export interface FreeImagesConfig {
+  provider: string;
+  agentic: boolean;
+  hasPexelsKey: boolean;
+  hasPollinationsToken: boolean;
+  providers: FreeImageProviderInfo[];
+}
+
+export const getFreeImagesConfig = async (): Promise<FreeImagesConfig> => {
+  const response = await fetch(`${API_BASE}/admin/free-images/config`, { headers: getAdminHeaders() });
+  if (!response.ok) throw new Error('Error al obtener config de imágenes gratuitas');
+  return response.json();
+};
+
+export const saveFreeImagesConfig = async (payload: {
+  provider: string;
+  pexels_key?: string;
+  pollinations_token?: string;
+  agentic: boolean;
+}): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/free-images/config`, {
+    method: 'POST',
+    headers: { ...getAdminHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ error: `Error ${response.status}` }));
+    throw new Error(error.error || 'Error al guardar');
+  }
+};
+
+export const testFreeImageProvider = async (payload: {
+  provider: string;
+  keywords?: string;
+  eventType?: string;
+  theme?: string;
+}): Promise<{
+  ok: boolean;
+  provider: string;
+  promptMode: string;
+  prompt: string;
+  cached: boolean;
+  fallback?: boolean;
+  latencyMs: number;
+  bytes: number;
+  dataUri: string;
+  error?: string;
+}> => {
+  const response = await fetch(`${API_BASE}/admin/free-images/test`, {
+    method: 'POST',
+    headers: { ...getAdminHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  return response.json();
+};
+
+export const testVisualRackModel = async (payload: {
+  provider: 'gemini' | 'openai';
+  baseUrl?: string;
+  apiKey?: string;
+  model?: string;
+}): Promise<{ ok: boolean; answer?: string; expected?: string; error?: string }> => {
+  const response = await fetch(`${API_BASE}/admin/visual-rack/test-model`, {
+    method: 'POST',
+    headers: { ...getAdminHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  return response.json();
+};
+
+export const saveVisualRackConfig = async (payload: {
+  provider: 'gemini' | 'openai';
+  geminiModel?: string;
+  openaiBaseUrl?: string;
+  openaiApiKey?: string;
+  openaiModel?: string;
+  enabled: 0 | 1;
+}): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/visual-rack/config`, {
+    method: 'POST',
+    headers: { ...getAdminHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ error: `Error ${response.status}` }));
+    throw new Error(error.error || 'Error al guardar');
+  }
+};
+
+export const getVisualRackItems = async (): Promise<VisualRagItem[]> => {
+  const response = await fetch(`${API_BASE}/admin/visual-rack/items`, { headers: getAdminHeaders() });
+  if (!response.ok) throw new Error('Error al obtener la biblioteca visual');
+  const data = await response.json();
+  return data.items || [];
+};
+
+export const uploadVisualRackItem = async (file: File): Promise<{ item: VisualRagItem; analysisSource: string }> => {
+  const formData = new FormData();
+  formData.append('imageFile', file);
+  const token = localStorage.getItem('admin_token');
+  const response = await fetch(`${API_BASE}/admin/visual-rack/items`, {
+    method: 'POST',
+    headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+    body: formData
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ error: `Error ${response.status}` }));
+    throw new Error(error.error || 'Error al subir la imagen');
+  }
+  return response.json();
+};
+
+export const updateVisualRackItem = async (
+  id: number,
+  patch: Partial<Pick<VisualRagItem, 'descripcion' | 'styleName' | 'tags' | 'palette' | 'eventTypes' | 'suitable' | 'isActive' | 'analysisNotes'>>
+): Promise<VisualRagItem> => {
+  const response = await fetch(`${API_BASE}/admin/visual-rack/items/${id}`, {
+    method: 'PUT',
+    headers: { ...getAdminHeaders(), 'Content-Type': 'application/json' },
+    body: JSON.stringify(patch)
+  });
+  if (!response.ok) throw new Error('Error al actualizar');
+  const data = await response.json();
+  return data.item;
+};
+
+export const deleteVisualRackItem = async (id: number): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/visual-rack/items/${id}`, {
+    method: 'DELETE',
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) throw new Error('Error al eliminar');
+};
+
+export const getVisualGenerations = async (): Promise<VisualGeneration[]> => {
+  const response = await fetch(`${API_BASE}/admin/visual-rack/generations`, { headers: getAdminHeaders() });
+  if (!response.ok) throw new Error('Error al obtener generaciones');
+  const data = await response.json();
+  return data.generations || [];
+};
+
+export const downloadVisualGenerationsZip = async (): Promise<void> => {
+  const response = await fetch(`${API_BASE}/admin/visual-rack/generations/download`, {
+    headers: getAdminHeaders()
+  });
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ error: `Error ${response.status}` }));
+    throw new Error(error.error || 'Error al descargar');
+  }
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `rag-visual-generaciones-${new Date().toISOString().slice(0, 10)}.zip`;
+  document.body.appendChild(a);
+  a.click();
+  window.URL.revokeObjectURL(url);
+  document.body.removeChild(a);
+};

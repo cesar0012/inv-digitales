@@ -1,0 +1,235 @@
+<section
+  class="vc-cd"
+  data-gemini-id="countdown-vinedo"
+  data-countdown-target="2027-05-15T17:00:00"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Italianno&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .vc-cd, .vc-cd *, .vc-cd *::before, .vc-cd *::after { box-sizing: border-box; }
+    .vc-cd {
+      --t-bg: var(--bg-color, #F3E9D2);
+      --t-tx: var(--text-color, #2E1B1C);
+      --t-p: var(--primary-color, #6E1F2F);
+      --t-s: var(--secondary-color, #6B6E3A);
+      --t-a: var(--accent-color, #A8834A);
+      --t-display: var(--font-script, 'Italianno', cursive);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      --cellar: color-mix(in srgb, var(--t-p) 30%, #0e0606);
+      --oak: color-mix(in srgb, var(--t-a) 62%, #4a2c16);
+      --oak-d: color-mix(in srgb, var(--t-a) 40%, #2e1a0c);
+      --oak-l: color-mix(in srgb, var(--t-a) 78%, #6a4424);
+      --iron: color-mix(in srgb, var(--t-tx) 55%, #151312);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 56vw, 42rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--cellar);
+      background-image: url('https://loremflickr.com/1600/1000/oak,barrels,winery?lock=3271');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-bg);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .vc-cd::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--cellar) 86%, transparent), color-mix(in srgb, var(--cellar) 94%, transparent));
+    }
+    .vc-cd__glow { position: absolute; left: 50%; top: 58%; width: min(70rem, 140%); aspect-ratio: 2 / 1; translate: -50% -50%; z-index: -1; pointer-events: none; background: radial-gradient(closest-side, color-mix(in srgb, var(--t-a) 30%, transparent), transparent); }
+    .vc-cd__content { width: min(100%, 62rem); }
+    .vc-cd__kicker { margin: 0; font-style: italic; font-size: clamp(1.05rem, 2.3vw, 1.22rem); color: color-mix(in srgb, var(--t-bg) 78%, transparent); }
+    .vc-cd__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(3.6rem, 9vw, 5.8rem); line-height: .95; color: var(--t-a); }
+
+    .vc-cd__rack { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(1rem, 3vw, 2.2rem); margin: clamp(2rem, 5vw, 3rem) 0 0; padding: 0; list-style: none; perspective: 900px; }
+    .vc-cd__unit { display: grid; justify-items: center; gap: .8rem; }
+    .vc-cd__barrel {
+      position: relative;
+      width: clamp(7.6rem, 17vw, 11.5rem);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle, transparent 60%, rgb(0 0 0 / .28) 61%, transparent 64%),
+        radial-gradient(circle at 35% 30%, rgb(255 240 210 / .14), transparent 55%),
+        repeating-linear-gradient(90deg, var(--oak) 0 10px, var(--oak-d) 10px 11px, var(--oak-l) 11px 22px, var(--oak-d) 22px 23px, color-mix(in srgb, var(--oak) 85%, #000) 23px 33px, var(--oak-d) 33px 34px);
+      box-shadow:
+        inset 0 0 0 clamp(5px, .8vw, 8px) var(--iron),
+        inset 0 0 0 clamp(7px, 1.1vw, 11px) color-mix(in srgb, var(--iron) 60%, var(--t-a)),
+        inset 0 0 0 clamp(13px, 2vw, 19px) var(--oak-d),
+        inset 0 0 40px rgb(0 0 0 / .55),
+        0 26px 40px -22px #000;
+      transform: rotateY(var(--vc-turn, 0deg));
+    }
+    .vc-cd__barrel::before { content: ''; position: absolute; inset: 24%; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--t-bg) 26%, transparent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--oak-d) 50%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--t-bg) 14%, transparent); }
+    .vc-cd__barrel::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 3.4%, color-mix(in srgb, var(--t-a) 70%, #fff) 0 2px, transparent 3px),
+        radial-gradient(circle at 50% 96.6%, color-mix(in srgb, var(--t-a) 70%, #fff) 0 2px, transparent 3px),
+        radial-gradient(circle at 3.4% 50%, color-mix(in srgb, var(--t-a) 70%, #fff) 0 2px, transparent 3px),
+        radial-gradient(circle at 96.6% 50%, color-mix(in srgb, var(--t-a) 70%, #fff) 0 2px, transparent 3px);
+    }
+    .vc-cd__unit:nth-child(1) .vc-cd__barrel { --vc-turn: 16deg; }
+    .vc-cd__unit:nth-child(2) .vc-cd__barrel { --vc-turn: 6deg; }
+    .vc-cd__unit:nth-child(3) .vc-cd__barrel { --vc-turn: -6deg; }
+    .vc-cd__unit:nth-child(4) .vc-cd__barrel { --vc-turn: -16deg; }
+    .vc-cd__num {
+      position: relative;
+      z-index: 1;
+      font-weight: 600;
+      font-size: clamp(2.4rem, 5.6vw, 3.8rem);
+      line-height: 1;
+      font-variant-numeric: lining-nums tabular-nums;
+      color: color-mix(in srgb, var(--t-bg) 92%, var(--t-a));
+      text-shadow: 0 2px 0 rgb(0 0 0 / .55), 0 -1px 0 rgb(255 235 200 / .18);
+    }
+    .vc-cd__num[data-tick] { animation: vc-cd-flip .42s cubic-bezier(.3, .7, .3, 1); }
+    @keyframes vc-cd-flip { 0% { transform: rotateX(0deg); } 45% { transform: rotateX(88deg); opacity: .25; } 100% { transform: rotateX(0deg); opacity: 1; } }
+    .vc-cd__label { margin: 0; font-style: italic; font-size: clamp(1.05rem, 2.2vw, 1.25rem); color: color-mix(in srgb, var(--t-bg) 85%, transparent); }
+    .vc-cd__date { margin: clamp(2rem, 4vw, 2.8rem) 0 0; font-size: clamp(1.1rem, 2.4vw, 1.3rem); color: color-mix(in srgb, var(--t-bg) 80%, transparent); }
+    .vc-cd__date time { font-variant: small-caps; color: var(--t-bg); }
+
+    .vc-cd--anim .vc-cd__unit { opacity: 0; translate: -60px 0; rotate: -120deg; transition: opacity .35s ease, translate .5s cubic-bezier(.2, .8, .25, 1), rotate .5s cubic-bezier(.2, .8, .25, 1); }
+    .vc-cd--anim .vc-cd__unit .vc-cd__label { rotate: 120deg; }
+    .vc-cd--anim .vc-cd__unit[data-in] { opacity: 1; translate: 0 0; rotate: 0deg; }
+    .vc-cd--anim .vc-cd__unit[data-in] .vc-cd__label { rotate: 0deg; }
+    .vc-cd--anim .vc-cd__label { transition: rotate .5s cubic-bezier(.2, .8, .25, 1); }
+
+    @media (max-width: 560px) {
+      .vc-cd__rack { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); justify-items: center; }
+      .vc-cd__unit:nth-child(odd) .vc-cd__barrel { --vc-turn: 10deg; }
+      .vc-cd__unit:nth-child(even) .vc-cd__barrel { --vc-turn: -10deg; }
+      .vc-cd__barrel { width: min(9rem, 38vw); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .vc-cd *, .vc-cd *::before, .vc-cd *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <span class="vc-cd__glow" data-vc-glow aria-hidden="true"></span>
+  <div class="vc-cd__content">
+    <header>
+      <p class="vc-cd__kicker" memory_type="text" memory_usage="custom" memory_key="countdown-intro">Mientras el vino reposa en la barrica, contamos el tiempo</p>
+      <h2 class="vc-cd__title" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Faltan</h2>
+    </header>
+    <ol class="vc-cd__rack">
+      <li class="vc-cd__unit" data-vc-unit>
+        <div class="vc-cd__barrel"><span class="vc-cd__num" data-countdown-unit="days">000</span></div>
+        <p class="vc-cd__label" memory_type="text" memory_usage="custom" memory_key="countdown-dias">Días</p>
+      </li>
+      <li class="vc-cd__unit" data-vc-unit>
+        <div class="vc-cd__barrel"><span class="vc-cd__num" data-countdown-unit="hours">00</span></div>
+        <p class="vc-cd__label" memory_type="text" memory_usage="custom" memory_key="countdown-horas">Horas</p>
+      </li>
+      <li class="vc-cd__unit" data-vc-unit>
+        <div class="vc-cd__barrel"><span class="vc-cd__num" data-countdown-unit="minutes">00</span></div>
+        <p class="vc-cd__label" memory_type="text" memory_usage="custom" memory_key="countdown-minutos">Minutos</p>
+      </li>
+      <li class="vc-cd__unit" data-vc-unit>
+        <div class="vc-cd__barrel"><span class="vc-cd__num" data-countdown-unit="seconds">00</span></div>
+        <p class="vc-cd__label" memory_type="text" memory_usage="custom" memory_key="countdown-segundos">Segundos</p>
+      </li>
+    </ol>
+    <p class="vc-cd__date"><time datetime="2027-05-15T17:00" memory_type="text" memory_usage="custom" memory_key="countdown-fecha" data-event-field="fecha-evento">15 de mayo de 2027 · 5:00 p. m.</time></p>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="countdown-vinedo"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* ---------- Countdown core (1s interval vs Date.now()) ---------- */
+      function pad(n, l) { n = String(n); while (n.length < l) n = '0' + n; return n; }
+      function render(sec) {
+        var target = Date.parse(sec.getAttribute('data-countdown-target'));
+        var diff = isNaN(target) ? 0 : Math.max(0, target - Date.now());
+        var vals = {
+          days: Math.floor(diff / 86400000),
+          hours: Math.floor(diff / 3600000) % 24,
+          minutes: Math.floor(diff / 60000) % 60,
+          seconds: Math.floor(diff / 1000) % 60
+        };
+        Object.keys(vals).forEach(function (u) {
+          var el = sec.querySelector('[data-countdown-unit="' + u + '"]');
+          if (!el) return;
+          var txt = u === 'days' ? pad(vals[u], vals[u] > 99 ? 3 : 2) : pad(vals[u], 2);
+          if (el.textContent !== txt) {
+            el.textContent = txt;
+            if (!sec.__vcRM) { el.removeAttribute('data-tick'); void el.offsetWidth; el.setAttribute('data-tick', ''); }
+          }
+        });
+      }
+      root.__vcRM = RM;
+      window.updateCountdown = function () {
+        var all = document.querySelectorAll('[data-countdown-target]');
+        for (var i = 0; i < all.length; i++) { try { render(all[i]); } catch (e) {} }
+      };
+      window.__countdownIntervals = window.__countdownIntervals || [];
+      window.__countdownIntervals.forEach(function (id) { clearInterval(id); });
+      window.__countdownIntervals = [];
+      root.__vcRM = true; render(root); root.__vcRM = RM;
+      window.__countdownIntervals.push(setInterval(window.updateCountdown, 1000));
+      root.addEventListener('animationend', function (e) { if (e.target.hasAttribute && e.target.hasAttribute('data-tick')) e.target.removeAttribute('data-tick'); });
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      /* Barrels roll in one by one */
+      var units = [].slice.call(root.querySelectorAll('[data-vc-unit]'));
+      root.classList.add('vc-cd--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          units.forEach(function (u, i) { setTimeout(function () { u.setAttribute('data-in', ''); }, 120 + i * 160); });
+          setTimeout(function () {
+            root.classList.remove('vc-cd--anim');
+            units.forEach(function (u) { u.removeAttribute('data-in'); });
+          }, 120 + units.length * 160 + 700);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+
+      /* Candle-light flicker on the cellar glow (rAF, paused off-screen) */
+      var glow = root.querySelector('[data-vc-glow]'), visible = false, raf = 0;
+      function flick(now) {
+        raf = 0;
+        if (!visible || document.hidden) return;
+        var f = .78 + Math.sin(now / 430) * .08 + Math.sin(now / 170 + 1.3) * .05 + Math.sin(now / 77) * .03;
+        glow.style.opacity = f.toFixed(3);
+        raf = requestAnimationFrame(flick);
+      }
+      function kick() { if (!raf && visible && !document.hidden) raf = requestAnimationFrame(flick); }
+      new IntersectionObserver(function (en) { visible = en[0].isIntersecting; kick(); }, { threshold: 0 }).observe(root);
+      document.addEventListener('visibilitychange', kick);
+    })();
+  </script>
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-vinedo',
+      style_name: 'Viñedo Clásico Barricas de Roble',
+      descripcion: 'Cuenta regresiva en tapas de barrica de roble con duelas y aros de hierro; las barricas ruedan al entrar, los dígitos giran en cada cambio y la luz de vela titila en la cava.',
+      tags: ['countdown', 'boda', 'viñedo', 'barricas', 'vino', 'cava'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>

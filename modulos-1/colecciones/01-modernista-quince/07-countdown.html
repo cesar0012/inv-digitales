@@ -1,0 +1,117 @@
+<section class="mq15-cd" data-gemini-id="countdown-mq15-reloj" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder" data-countdown-target="YYYY-MM-DDTHH:MM:SS">
+<style>
+.mq15-cd { --primary-color:#9d4e6c; --secondary-color:#bd8398; --accent-color:#c9a227; --bg-color:#fdf6f1; --surface-color:#fffdfb; --surface-border-color:rgba(157,78,108,.22); --text-color:#3d2b33;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.4rem,9vw,6.5rem) clamp(1rem,5vw,4rem); background:linear-gradient(180deg, color-mix(in srgb, var(--bg-color) 93%, transparent), color-mix(in srgb, var(--bg-color) 89%, transparent)), url('https://loremflickr.com/1600/1000/vintage,clock') center/cover; background-color:var(--bg-color); color:var(--text-color); text-align:center; }
+.mq15-cd *, .mq15-cd *::before, .mq15-cd *::after { box-sizing:border-box; }
+.mq15-cd::before { content:''; position:absolute; inset:0; z-index:-1; background:radial-gradient(ellipse 52% 44% at 50% 34%, color-mix(in srgb, var(--secondary-color) 18%, transparent), transparent 72%); }
+.mq15-cd__rotulo { margin:0 0 .5rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.5em; text-transform:uppercase; color:var(--primary-color); }
+.mq15-cd__titulo { margin:0 0 clamp(1.8rem,4vw,2.6rem); font-family:Georgia,serif; font-style:italic; font-weight:400; font-size:clamp(1.9rem,4.6vw,3rem); }
+.mq15-cd__escena { position:relative; width:min(100%,420px); margin:0 auto; }
+.mq15-cd__reloj { display:block; width:100%; height:auto; }
+.mq15-cd__manecilla { transform-origin:160px 160px; animation:mq15-giro 48s linear infinite; }
+.mq15-cd__manecilla--rapida { animation-duration:9s; animation-direction:reverse; }
+@keyframes mq15-giro { to { transform:rotate(360deg); } }
+.mq15-cd__mariposa { position:absolute; color:var(--primary-color); animation:mq15-flotar 5.5s ease-in-out infinite; }
+.mq15-cd__mariposa svg { display:block; }
+.mq15-cd__mariposa--1 { top:-4%; right:2%; width:44px; }
+.mq15-cd__mariposa--2 { bottom:6%; left:-3%; width:34px; color:var(--secondary-color); animation-delay:1.6s; }
+.mq15-cd__mariposa--3 { top:34%; right:-6%; width:28px; color:var(--accent-color); animation-delay:3s; }
+@keyframes mq15-flotar { 0%,100% { transform:translateY(0) rotate(-4deg); } 50% { transform:translateY(-16px) rotate(5deg); } }
+.mq15-cd__unidades { list-style:none; margin:clamp(1.8rem,4vw,2.4rem) auto 0; padding:0; width:min(100%,560px); display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:clamp(.7rem,2vw,1.2rem); }
+.mq15-cd__unidad { position:relative; padding:clamp(.9rem,2vw,1.3rem) .4rem; background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:999px; box-shadow:0 16px 32px color-mix(in srgb, #9d4e6c 14%, transparent); }
+.mq15-cd__unidad::before { content:''; position:absolute; inset:5px; border-radius:999px; border:1px dashed color-mix(in srgb, var(--accent-color) 70%, transparent); pointer-events:none; }
+.mq15-cd__num { display:block; font-family:Georgia,serif; font-style:italic; font-size:clamp(1.6rem,4.6vw,2.7rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; }
+.mq15-cd__etq { display:block; margin-top:.45rem; font-family:'Courier New',monospace; font-size:clamp(.5rem,1vw,.62rem); letter-spacing:.3em; text-transform:uppercase; color:var(--secondary-color); }
+.mq15-cd__fecha { margin:1.5rem 0 0; font-family:Georgia,serif; font-style:italic; font-size:clamp(.86rem,1.7vw,1rem); color:var(--text-color); }
+@media (max-width:520px){ .mq15-cd__unidades { grid-template-columns:repeat(2,minmax(0,1fr)); } .mq15-cd__unidad { border-radius:26px; } .mq15-cd__unidad::before { border-radius:22px; } }
+@media (prefers-reduced-motion:reduce){ .mq15-cd * { animation:none !important; } }
+</style>
+<p class="mq15-cd__rotulo" memory_type="text" memory_usage="custom" memory_key="countdown-rotulo">Cuenta regresiva</p>
+<h2 class="mq15-cd__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">El reloj del país de las maravillas</h2>
+<div class="mq15-cd__escena">
+  <svg class="mq15-cd__reloj" viewBox="0 0 320 320" role="img" aria-label="Reloj decorativo">
+    <circle cx="160" cy="160" r="150" fill="var(--surface-color)" stroke="var(--accent-color)" stroke-width="2.5"/>
+    <circle cx="160" cy="160" r="138" fill="none" stroke="var(--surface-border-color)" stroke-width="1"/>
+    <circle cx="160" cy="160" r="128" fill="none" stroke="var(--accent-color)" stroke-width="1" stroke-dasharray="2 9"/>
+    <g font-family="Georgia, serif" font-size="21" fill="var(--primary-color)" text-anchor="middle">
+      <text x="160" y="52">XII</text>
+      <text x="272" y="168">III</text>
+      <text x="160" y="290">VI</text>
+      <text x="48" y="168">IX</text>
+    </g>
+    <g stroke="var(--secondary-color)" stroke-width="2">
+      <line x1="160" y1="42" x2="160" y2="52"/><line x1="160" y1="268" x2="160" y2="278"/>
+      <line x1="42" y1="160" x2="52" y2="160"/><line x1="268" y1="160" x2="278" y2="160"/>
+    </g>
+    <g stroke="var(--primary-color)" stroke-linecap="round">
+      <g class="mq15-cd__manecilla"><line x1="160" y1="160" x2="160" y2="78" stroke-width="6"/><circle cx="160" cy="72" r="6" fill="var(--primary-color)" stroke="none"/></g>
+      <g class="mq15-cd__manecilla mq15-cd__manecilla--rapida"><line x1="160" y1="160" x2="216" y2="122" stroke-width="3.5"/><circle cx="221" cy="118" r="4" fill="var(--primary-color)" stroke="none"/></g>
+    </g>
+    <circle cx="160" cy="160" r="7" fill="var(--accent-color)"/>
+    <circle cx="160" cy="160" r="12" fill="none" stroke="var(--accent-color)" stroke-width="1.5"/>
+    <g transform="translate(52 62) scale(0.9)" fill="var(--accent-color)" opacity=".85">
+      <path d="M0 12 C -10 2, -22 4, -26 12 C -22 20, -10 22, 0 12 C 10 22, 22 20, 26 12 C 22 4, 10 2, 0 12 Z"/><line x1="0" y1="12" x2="0" y2="26" stroke="var(--accent-color)" stroke-width="2"/>
+    </g>
+  </svg>
+  <span class="mq15-cd__mariposa mq15-cd__mariposa--1" aria-hidden="true">
+    <svg viewBox="-28 0 56 30" fill="currentColor"><path d="M0 15 C -9 3, -21 5, -26 14 C -21 24, -9 25, 0 15 C 9 25, 21 24, 26 14 C 21 5, 9 3, 0 15 Z"/><line x1="0" y1="14" x2="0" y2="28" stroke="currentColor" stroke-width="2.4"/></svg>
+  </span>
+  <span class="mq15-cd__mariposa mq15-cd__mariposa--2" aria-hidden="true">
+    <svg viewBox="-28 0 56 30" fill="currentColor"><path d="M0 15 C -9 3, -21 5, -26 14 C -21 24, -9 25, 0 15 C 9 25, 21 24, 26 14 C 21 5, 9 3, 0 15 Z"/><line x1="0" y1="14" x2="0" y2="28" stroke="currentColor" stroke-width="2.4"/></svg>
+  </span>
+  <span class="mq15-cd__mariposa mq15-cd__mariposa--3" aria-hidden="true">
+    <svg viewBox="-28 0 56 30" fill="currentColor"><path d="M0 15 C -9 3, -21 5, -26 14 C -21 24, -9 25, 0 15 C 9 25, 21 24, 26 14 C 21 5, 9 3, 0 15 Z"/><line x1="0" y1="14" x2="0" y2="28" stroke="currentColor" stroke-width="2.4"/></svg>
+  </span>
+</div>
+<ul class="mq15-cd__unidades" aria-label="Cuenta regresiva">
+  <li class="mq15-cd__unidad"><span class="mq15-cd__num" data-countdown-unit="days">--</span><span class="mq15-cd__etq">Días</span></li>
+  <li class="mq15-cd__unidad"><span class="mq15-cd__num" data-countdown-unit="hours">--</span><span class="mq15-cd__etq">Horas</span></li>
+  <li class="mq15-cd__unidad"><span class="mq15-cd__num" data-countdown-unit="minutes">--</span><span class="mq15-cd__etq">Min</span></li>
+  <li class="mq15-cd__unidad"><span class="mq15-cd__num" data-countdown-unit="seconds">--</span><span class="mq15-cd__etq">Seg</span></li>
+</ul>
+<time class="mq15-cd__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Sábado 14 de marzo, 2026 — 17:00 h</time>
+<script>
+  (function () {
+    var el = null;
+    try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
+    if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+    if (!el) return;
+    var targetAttr = el.getAttribute('data-countdown-target');
+    var target = NaN;
+    if (targetAttr && targetAttr.indexOf('YYYY') === -1) {
+      var parsed = new Date(targetAttr);
+      if (!isNaN(parsed.getTime())) target = parsed.getTime();
+    }
+    if (isNaN(target)) {
+      if (window.__countdownTarget) { var _p = new Date(window.__countdownTarget); if (!isNaN(_p.getTime())) target = _p.getTime(); }
+      else if (window.countdown_target) { var _p2 = new Date(window.countdown_target); if (!isNaN(_p2.getTime())) target = _p2.getTime(); }
+    }
+    var intervalId = null;
+    (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+    window.__countdownIntervals = [];
+    function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+    function setUnit(unit, value) { var node = el.querySelector('[data-countdown-unit="' + unit + '"]'); if (node) node.textContent = value; }
+    function tick() {
+      var diff = target - Date.now();
+      if (diff < 0) diff = 0;
+      setUnit('days', Math.floor(diff / 86400000));
+      setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
+      setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
+      setUnit('seconds', pad2(Math.floor((diff % 60000) / 1000)));
+      if (diff === 0 && intervalId !== null) { clearInterval(intervalId); intervalId = null; window.__countdownIntervals = []; }
+    }
+    function start(newTarget) {
+      if (newTarget) target = new Date(newTarget).getTime();
+      (window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+      intervalId = null;
+      if (!Number.isFinite(target)) return;
+      tick();
+      if (target > Date.now()) { intervalId = setInterval(tick, 1000); window.__countdownIntervals.push(intervalId); }
+    }
+    start();
+    window.updateCountdown = start;
+  })();
+</script>
+<script>var moduleMetadata = { module_type: 'countdown', module_name: 'countdown-mq15-reloj', style_name: 'Modernista Quince — Reloj de las Maravillas', descripcion: 'Cuenta regresiva con reloj estilo Alicia en el País de las Maravillas, manecillas animadas, mariposas y unidades en cameos ovalados.', tags: ['countdown', 'reloj', 'mariposas', 'cuenta-regresiva'], tipo: 'countdown' };</script>
+</section>

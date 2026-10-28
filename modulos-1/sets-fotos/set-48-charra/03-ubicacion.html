@@ -1,0 +1,194 @@
+<section
+  class="ch35-ub"
+  data-gemini-id="ubicacion-mapa"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
+    .ch35-ub, .ch35-ub *, .ch35-ub *::before, .ch35-ub *::after { box-sizing: border-box; }
+    .ch35-ub {
+      --t-bg: var(--bg-color, #0F2A1D);
+      --t-tx: var(--text-color, #F6F1E7);
+      --t-p: var(--primary-color, #B3122E);
+      --t-s: var(--secondary-color, #C3C8CE);
+      --t-a: var(--accent-color, #C9A44C);
+      --t-display: var(--font-script, 'Cinzel Decorative', serif);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(28rem, 60vw, 42rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/hacienda,chapel,mexico?lock=3531');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .ch35-ub::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(115deg, color-mix(in srgb, var(--t-bg) 94%, transparent) 30%, color-mix(in srgb, var(--t-bg) 78%, transparent));
+    }
+    .ch35-ub__content { width: min(100%, 62rem); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(2rem, 6vw, 4.5rem); align-items: center; }
+
+    .ch35-ub__plate { position: relative; width: min(100%, 22rem); justify-self: center; aspect-ratio: 1; }
+    .ch35-ub__plate svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .ch35-ub__eng { fill: none; stroke: color-mix(in srgb, var(--t-a) 55%, transparent); stroke-width: .5; }
+    .ch35-ub__eng-b { fill: none; stroke: var(--t-a); stroke-width: 1.2; }
+    .ch35-ub__stud { fill: var(--t-s); }
+    .ch35-ub__shoe { fill: none; stroke: var(--t-a); stroke-width: 9; stroke-linecap: round; }
+    .ch35-ub__shoe-in { fill: none; stroke: color-mix(in srgb, var(--t-a) 55%, #fff); stroke-width: 1.4; stroke-linecap: round; }
+    .ch35-ub__nail { fill: var(--t-bg); }
+    .ch35-ub__pulse { fill: none; stroke: var(--t-p); stroke-width: 1.6; opacity: 0; }
+    .ch35-ub__rose { fill: var(--t-p); }
+
+    .ch35-ub__panel { text-align: left; padding: clamp(1.6rem, 4vw, 2.6rem); border-left: 2px solid var(--t-a); background: linear-gradient(90deg, color-mix(in srgb, var(--t-bg) 70%, transparent), transparent); }
+    .ch35-ub__title { margin: 0; font-family: var(--t-display); font-weight: 700; font-size: clamp(2rem, 4.4vw, 3rem); line-height: 1.08; }
+    .ch35-ub__lead { margin: .5rem 0 1.4rem; font-style: italic; font-size: 1.2rem; color: var(--t-a); }
+    .ch35-ub__venue { margin: 0; font-size: clamp(1.4rem, 2.6vw, 1.8rem); font-weight: 600; }
+    .ch35-ub__addr { margin: .4rem 0 0; font-style: normal; font-size: 1.15rem; line-height: 1.5; color: color-mix(in srgb, var(--t-tx) 82%, var(--t-bg)); }
+    .ch35-ub__time { display: inline-block; margin-top: 1rem; font-size: 1.15rem; color: var(--t-tx); padding: .2rem .8rem; border: 1px solid color-mix(in srgb, var(--t-a) 60%, transparent); border-radius: 2rem; }
+    .ch35-ub__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      margin-top: 1.6rem;
+      min-height: 3rem;
+      padding: .7rem 1.6rem;
+      border: 1px solid var(--t-a);
+      border-radius: 3rem;
+      background: var(--t-p);
+      color: var(--t-tx);
+      font: 600 1.15rem var(--t-text);
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--t-p) 25%, transparent);
+      transition: transform .3s ease, box-shadow .3s ease, background-color .3s ease;
+    }
+    .ch35-ub__btn:hover, .ch35-ub__btn:focus-visible { transform: translateY(-2px); box-shadow: 0 0 0 7px color-mix(in srgb, var(--t-a) 30%, transparent); background: color-mix(in srgb, var(--t-p) 85%, #000); }
+    .ch35-ub__btn svg { width: 1.1rem; height: 1.1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+
+    .ch35-ub--anim .ch35-ub__plate { opacity: 0; transform: rotate(-24deg) scale(.9); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .ch35-ub--anim .ch35-ub__panel { opacity: 0; clip-path: inset(0 100% 0 0); transition: opacity .3s ease, clip-path .5s cubic-bezier(.6, 0, .2, 1); transition-delay: .2s; }
+    .ch35-ub--anim.is-in .ch35-ub__plate { opacity: 1; transform: none; }
+    .ch35-ub--anim.is-in .ch35-ub__panel { opacity: 1; clip-path: inset(0 0 0 0); }
+
+    @media (max-width: 720px) {
+      .ch35-ub__content { grid-template-columns: 1fr; }
+      .ch35-ub__plate { width: min(78%, 17rem); }
+      .ch35-ub__panel { text-align: center; border-left: 0; border-top: 2px solid var(--t-a); background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 70%, transparent), transparent); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ch35-ub *, .ch35-ub *::before, .ch35-ub *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="ch35-ub__content">
+    <div class="ch35-ub__plate" aria-hidden="true">
+      <svg viewBox="0 0 200 200" data-ch-plate>
+        <circle class="ch35-ub__eng-b" cx="100" cy="100" r="96"/>
+        <circle class="ch35-ub__eng" cx="100" cy="100" r="88"/>
+        <circle class="ch35-ub__eng" cx="100" cy="100" r="62"/>
+        <path class="ch35-ub__eng" d="M100 12v176M12 100h176M38 38l124 124M162 38L38 162"/>
+        <path class="ch35-ub__eng" d="M100 38c14 20 14 42 0 62-14-20-14-42 0-62zM100 162c14-20 14-42 0-62-14 20-14 42 0 62zM38 100c20-14 42-14 62 0-20 14-42 14-62 0zM162 100c-20-14-42-14-62 0 20 14 42 14 62 0z"/>
+        <g data-ch-studs></g>
+        <circle class="ch35-ub__pulse" cx="100" cy="104" r="20" data-ch-pulse/>
+        <circle class="ch35-ub__pulse" cx="100" cy="104" r="20" data-ch-pulse/>
+        <path class="ch35-ub__shoe" d="M80 74v28a20 20 0 0 0 40 0V74"/>
+        <path class="ch35-ub__shoe-in" d="M80 72v30a20 20 0 0 0 40 0V72"/>
+        <circle class="ch35-ub__nail" cx="80" cy="82" r="1.8"/><circle class="ch35-ub__nail" cx="80" cy="95" r="1.8"/><circle class="ch35-ub__nail" cx="86" cy="113" r="1.8"/>
+        <circle class="ch35-ub__nail" cx="120" cy="82" r="1.8"/><circle class="ch35-ub__nail" cx="120" cy="95" r="1.8"/><circle class="ch35-ub__nail" cx="114" cy="113" r="1.8"/>
+        <circle class="ch35-ub__rose" cx="100" cy="66" r="5"/>
+      </svg>
+    </div>
+
+    <div class="ch35-ub__panel">
+      <h2 class="ch35-ub__title" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">¿Dónde será?</h2>
+<figure class="vmap-embed" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,640px);"><iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen style="display:block;width:100%;height:clamp(210px,38vw,330px);border:1px solid var(--primary-color,#9b9b9b);border-radius:12px;"></iframe></figure>
+<figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,340px);"><img src="https://loremflickr.com/700/420/charro,venue" alt="Vista del lugar" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" style="display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--primary-color,#9b9b9b);" /><figcaption hidden>Vista del lugar</figcaption></figure>
+      <p class="ch35-ub__lead" memory_type="text" memory_usage="custom" memory_key="ubicacion-lead">La fiesta charra te espera aquí</p>
+      <h3 class="ch35-ub__venue" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar" data-event-field="lugar">Hacienda Nombre del Lugar</h3>
+      <address class="ch35-ub__addr" memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion" data-event-field="direccion">Calle Nombre 123, Colonia Centro<br>Ciudad, Estado, C.P. 00000</address>
+      <time class="ch35-ub__time" datetime="2027-04-17T20:00" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora" data-event-field="hora">Recepción a las 8:00 p.m.</time>
+      <div>
+        <a class="ch35-ub__btn" href="#" data-ch-map-link>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg>
+          <span memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Cómo llegar</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="ubicacion-mapa"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var g = root.querySelector('[data-ch-studs]'), NS = 'http://www.w3.org/2000/svg';
+      for (var i = 0; i < 36; i++) {
+        var a = i / 36 * Math.PI * 2, c = document.createElementNS(NS, 'circle');
+        c.setAttribute('cx', (100 + Math.cos(a) * 92).toFixed(2)); c.setAttribute('cy', (100 + Math.sin(a) * 92).toFixed(2));
+        c.setAttribute('r', i % 3 === 0 ? 2.6 : 1.5); c.setAttribute('class', 'ch35-ub__stud');
+        g.appendChild(c);
+      }
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      root.classList.add('ch35-ub--anim');
+      var pulses = root.querySelectorAll('[data-ch-pulse]');
+      var vis = false, raf = 0, t0 = 0;
+      /* Each pulse expands in 0.5s, then rests; two rings offset */
+      function loop(t) {
+        raf = 0;
+        if (!vis || document.hidden) return;
+        if (!t0) t0 = t;
+        var el = (t - t0) / 1000;
+        for (var k = 0; k < pulses.length; k++) {
+          var ph = (el - k * 0.28) % 1.6;
+          if (ph < 0) ph += 1.6;
+          var p = Math.min(1, ph / 0.5);
+          pulses[k].setAttribute('r', (20 + p * 42).toFixed(1));
+          pulses[k].style.opacity = ph < 0.5 ? (0.9 * (1 - p)).toFixed(2) : '0';
+        }
+        raf = requestAnimationFrame(loop);
+      }
+      function kick() { if (!raf && vis && !document.hidden) raf = requestAnimationFrame(loop); }
+      var started = false;
+      var io = new IntersectionObserver(function (en) {
+        vis = en[0].isIntersecting;
+        if (vis && !started && en[0].intersectionRatio > .25) {
+          started = true;
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('ch35-ub--anim', 'is-in'); }, 1400);
+        }
+        kick();
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+      document.addEventListener('visibilitychange', kick);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-mapa',
+      style_name: 'Charra Mexicana Ubicacion Herradura',
+      descripcion: 'Ubicación con medallón grabado tipo concho de plata, herradura estilizada como marcador con pulso rojo, dirección y botón Cómo llegar.',
+      tags: ['ubicación', 'charra', 'quinceañera', 'mexicana', 'herradura', 'mapa'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>

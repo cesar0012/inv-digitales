@@ -1,0 +1,1502 @@
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { ClipboardList, Palette, Heart, Pencil, Save, Home, Image as ImageIcon, Link as LinkIcon, Type, MousePointer2, ChevronDown, ChevronRight, AlignLeft, AlignCenter, AlignRight, AlignJustify, Map, Upload, Eye, EyeOff, Loader2, Calendar, Clock } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { compressImage, SUPPORTED_IMAGE_TYPES, SUPPORTED_FORMATS_LABEL } from '../services/imageCompressionService';
+import { GOOGLE_FONT_OPTIONS, GOOGLE_HEADING_FONT_OPTIONS } from '../constants';
+
+// ============================================================
+// FEATURE FLAG: AI ITERATIONS
+// ============================================================
+// Establecer en false para ocultar las funciones de IA en el editor
+// Estas funciones permiten regenerar diseño y agregar nuevos módulos
+// Mantener false hasta que el sistema de créditos esté implementado
+const AI_ITERATIONS_ENABLED = true;
+// ============================================================
+
+interface EditableElement {
+  geminiId: string;
+  tagName: string;
+  content: string;
+  textContent: string;
+  src: string;
+  href: string;
+  bgImage: string;
+  styles: Record<string, string>;
+  animationClass: string;
+  label: string;
+  moduleName?: string;
+  isHidden: boolean;
+  isBackground: boolean;
+}
+
+const extractBgImageUrl = (bgValue: string): string => {
+  if (!bgValue || bgValue === 'none') return '';
+  const match = bgValue.match(/url\(["']?([^"')]+)["']?\)/);
+  return match ? match[1] : '';
+};
+
+const TEXT_LEAF_SELECTOR = 'h1, h2, h3, h4, h5, h6, p, span, li, time, figcaption, blockquote, strong, em, label, td, th';
+
+// hasUsefulText: revisa el texto que REALMENTE se mostrará en el panel
+// (extractEditableText). El filtro anterior miraba textContent global del
+// elemento, lo que NO coincidía con el contenido del textarea del panel
+// cuando extractEditableText iteraba childNodes o buscaba hojas.
+// Descartos: vacío, solo whitespace/tabs/newlines (incluye U+00A0 &nbsp;),
+// 1 solo char, solo signos/puntuación/símbolos, secuencias de un mismo char.
+const NORMALIZE_WHITESPACE = (s: string): string => {
+  if (!s) return '';
+  // .trim() no cubre U+00A0 (nbsp) ni otros espacios Unicode. Convertimos
+  // a U+0020 y luego trim.
+  return s
+    .replace(/[\u00A0\u2000-\u200A\u202F\u205F\u3000\uFEFF]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+};
+
+const hasUsefulText = (raw: string): boolean => {
+  const trimmed = NORMALIZE_WHITESPACE(raw);
+  if (!trimmed) return false;
+  if (trimmed.length < 2) return false;
+  // Sin letras ni dígitos (solo signos/puntos/rayas/símbolos) → descartar.
+  const hasLetterOrDigit = /[A-Za-zÁÉÍÓÚáéíóúÜüÑñ0-9]/.test(trimmed);
+  if (!hasLetterOrDigit) return false;
+  // Secuencia de un único caracter repetido (---, ..., ···, ===, ___)
+  if (/^(.)\1+$/.test(trimmed)) return false;
+  return true;
+};
+
+// isVisualElement: conserva elementos no textuales aunque no tengan texto.
+// - IMG, IFRAME siempre visuales
+// - A con imagen de fondo o con IMG interno
+// - elementos con background-image (con data-gemini-id) → backgrounds
+// - memory_type="background"
+const isVisualElement = (el: HTMLElement): boolean => {
+  const tag = el.tagName;
+  if (tag === 'IMG' || tag === 'IFRAME') return true;
+  if (tag === 'A') {
+    if (el.querySelector('img')) return true;
+    const bg = extractBgImageUrl(el.style.backgroundImage);
+    if (bg) return true;
+  }
+  if (el.getAttribute('memory_type') === 'background') return true;
+  const bg = extractBgImageUrl(el.style.backgroundImage);
+  if (bg) return true;
+  return false;
+};
+
+const extractEditableText = (el: HTMLElement): string => {
+  if (el.children.length === 0) {
+    return el.textContent || '';
+  }
+  for (let i = 0; i < el.childNodes.length; i++) {
+    const node = el.childNodes[i];
+    if (node.nodeType === Node.TEXT_NODE && node.textContent && node.textContent.trim().length > 0) {
+      return node.textContent;
+    }
+  }
+  const leaf = el.querySelector(TEXT_LEAF_SELECTOR);
+  if (leaf && leaf.children.length === 0) {
+    return leaf.textContent || '';
+  }
+  return el.textContent || '';
+};
+
+const parseEditableElements = (code: string): EditableElement[] => {
+  if (!code) return [];
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(code, 'text/html');
+  const elements = Array.from(doc.querySelectorAll('[data-gemini-id]'))
+    .filter(el => {
+      const htmlEl = el as HTMLElement;
+      // Excluir countdowns
+      if (htmlEl.getAttribute('data-gemini-id')!.startsWith('countdown')) return false;
+      // Excluir elementos con memory_usage="protected" salvo backgrounds editables
+      if (htmlEl.getAttribute('memory_usage') === 'protected'
+          && htmlEl.getAttribute('memory_type') !== 'background') return false;
+      // Filtro de contenido: descartar elementos cuyo texto-editable (lo que
+      // verá el usuario en el textarea del panel) NO tenga contenido útil.
+      // El filtro anterior miraba textContent global (incluía descendientes),
+      // lo que no coincidía con extractEditableText y por eso entraban elementos
+      // con solo whitespace/tabs/saltos de línea. Ahora revisamos justo el
+      // sub-árbol que se mostrará.
+      if (!isVisualElement(htmlEl)) {
+        // Elementos A sin imagen de fondo pero con href: se conservan (son
+        // enlaces útiles aunque su texto sea corto). A con texto utilizable
+        // también pasa por la regla general.
+        const isLinkWithHref = htmlEl.tagName === 'A' && (htmlEl.getAttribute('href') || '').trim().length > 0;
+        if (!isLinkWithHref) {
+          const text = extractEditableText(htmlEl);
+          if (!hasUsefulText(text)) return false;
+        }
+      }
+      return true;
+    });
+  
+  return elements.map(el => {
+    const htmlEl = el as HTMLElement;
+    const geminiId = htmlEl.getAttribute('data-gemini-id')!;
+    
+    let isHidden = false;
+    let current: HTMLElement | null = htmlEl;
+    while (current && current.tagName !== 'BODY') {
+      if (current.getAttribute('data-gemini-hidden') === 'true') {
+        isHidden = true;
+        break;
+      }
+      current = current.parentElement;
+    }
+    
+    // Create a more descriptive label based on the geminiId if it exists and isn't just a random string
+    let label = 'Elemento';
+    let moduleName = '';
+    const isBackground = htmlEl.getAttribute('memory_type') === 'background';
+
+    // Soporta el formato jerárquico nuevo: <moduleId>__<memoryKey>__<tagName>-<idx>
+    // (ej: "portada-nombre__couple-names__h1-1") inyectado por injectEditableIds
+    // en el flujo modular. Y el formato legacy: "module-name-element" (split por '-').
+    if (geminiId && !geminiId.startsWith('edit-') && geminiId.length < 60) {
+      if (geminiId.includes('__')) {
+        // Formato modular jerárquico: moduleId__memoryKey__tag-idx
+        const parts = geminiId.split('__');
+        moduleName = parts[0].replace(/\b\w/g, l => l.toUpperCase());
+        const memoryKey = parts[1] || '';
+        // Tag descriptivo por tagName del elemento
+        const tagLabels = {
+          H1: 'Título', H2: 'Título', H3: 'Subtítulo', H4: 'Subtítulo',
+          H5: 'Subtítulo', H6: 'Subtítulo',
+          P: 'Párrafo', SPAN: 'Texto', A: 'Enlace',
+          IMG: 'Imagen', FIGCAPTION: 'Descripción', LI: 'Ítem', TIME: 'Fecha'
+        };
+        const tagLabel = tagLabels[htmlEl.tagName as keyof typeof tagLabels] || 'Texto';
+        // memoryKey en human-readable: "couple-names" -> "Couple Names"
+        const humanKey = memoryKey.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        label = humanKey ? `${humanKey} · ${tagLabel}` : tagLabel;
+      } else {
+        // Formato legacy: split por '-' (module-element-name)
+        const parts = geminiId.split('-');
+        if (parts.length > 1) {
+          moduleName = parts[0].replace(/\b\w/g, l => l.toUpperCase());
+          label = parts.slice(1).join(' ').replace(/\b\w/g, l => l.toUpperCase());
+        } else {
+          label = geminiId
+            .replace(/[-_]/g, ' ')
+            .replace(/\b\w/g, l => l.toUpperCase());
+        }
+      }
+    } else {
+      if (htmlEl.tagName === 'IMG') label = 'Imagen';
+      else if (htmlEl.tagName === 'IFRAME') label = 'Mapa / Video';
+      else if (htmlEl.tagName === 'A') label = 'Enlace';
+      else if (htmlEl.tagName.match(/^H[1-6]$/)) label = `Título (${htmlEl.tagName})`;
+      else label = 'Texto';
+    }
+
+    if (isBackground) {
+      const assetType = htmlEl.getAttribute('data-asset-type');
+      const memoryKey = htmlEl.getAttribute('memory_key');
+      const source = assetType || memoryKey;
+      if (source) {
+        label = source.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+      } else if (label === 'Texto' || label === 'Elemento') {
+        label = 'Fondo';
+      }
+      if (!moduleName) {
+        const classMatch = htmlEl.className.match(/module-([a-z]+)/);
+        if (classMatch) {
+          moduleName = classMatch[1].replace(/\b\w/g, l => l.toUpperCase());
+        } else if (source) {
+          moduleName = source.split('-')[0].replace(/\b\w/g, l => l.toUpperCase());
+        }
+      }
+    }
+
+    let animationClass = 'none';
+    const animClasses = ['animate-spin', 'animate-ping', 'animate-pulse', 'animate-bounce', 'animate-fade-in', 'animate-slide-up'];
+    for (const cls of animClasses) {
+      if (htmlEl.classList.contains(cls)) {
+        animationClass = cls;
+        break;
+      }
+    }
+
+    const bgImage = extractBgImageUrl(htmlEl.style.backgroundImage);
+
+    // Si el elemento tiene background-image y no se le asignó un label
+    // descriptivo vía geminiId, etiquetarlo como "Imagen de fondo".
+    if (bgImage && label === 'Elemento') {
+      label = 'Imagen de fondo';
+    }
+
+    return {
+      geminiId: htmlEl.getAttribute('data-gemini-id')!,
+      tagName: htmlEl.tagName,
+      // Para texto atómico (no IMG/IFRAME), cargar textContent plano en content
+      // (lo que el usuario ve y edita en el <textarea>). Antes se cargaba innerHTML
+      // que mostraba HTML crudo en la UI y confundía a usuarios no técnicos.
+      // Para enlaces <a> con contenido simple, preserva innerHTML solo si tiene
+      // tags complejos internos (img, svg, icon).
+      content: (htmlEl.tagName !== 'IMG' && htmlEl.tagName !== 'IFRAME')
+        ? extractEditableText(htmlEl)
+        : '',
+      textContent: htmlEl.textContent || '',
+      src: htmlEl.getAttribute('src') || '',
+      href: htmlEl.getAttribute('href') || '',
+      bgImage,
+      styles: {
+        textAlign: htmlEl.style.textAlign || '',
+        fontWeight: htmlEl.style.fontWeight || '',
+        fontSize: htmlEl.style.fontSize || '',
+        padding: htmlEl.style.padding || '',
+        lineHeight: htmlEl.style.lineHeight || '',
+        letterSpacing: htmlEl.style.letterSpacing || '',
+        width: htmlEl.style.width || '',
+        height: htmlEl.style.height || '',
+      },
+      animationClass,
+      label,
+      moduleName,
+      isHidden,
+      isBackground
+    };
+  });
+};
+
+const parsePxValue = (value: string): number | null => {
+  if (!value) return null;
+  const match = value.match(/^(\d+(?:\.\d+)?)\s*px/);
+  return match ? parseFloat(match[1]) : null;
+};
+
+const parsePercentValue = (value: string): number | null => {
+  if (!value) return null;
+  const match = value.match(/^(\d+(?:\.\d+)?)\s*%$/);
+  return match ? parseFloat(match[1]) : null;
+};
+
+interface StyleSliderProps {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  step: number;
+  unit: string;
+  labels: { threshold: number; text: string }[];
+  onChange: (value: number) => void;
+}
+
+const StyleSlider = ({ label, value, min, max, step, unit, labels, onChange }: StyleSliderProps) => {
+  const currentLabel = [...labels].reverse().find(l => value >= l.threshold)?.text || labels[0].text;
+
+  return (
+    <div className="space-y-1.5">
+      <div className="flex items-center justify-between">
+        <label className="text-[10px] text-gray-500 uppercase font-medium">{label}</label>
+        <span className="text-[10px] text-pink-500 font-semibold">{value}{unit}</span>
+      </div>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-pink-500"
+      />
+      <p className="text-[10px] text-gray-400 text-center">{currentLabel}</p>
+    </div>
+  );
+};
+
+const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility }: { element: EditableElement, onUpdate: any, isSelected: boolean, onToggleVisibility?: () => void }) => {
+  const [isExpanded, setIsExpanded] = useState(isSelected);
+  const [content, setContent] = useState(element.content);
+  const [src, setSrc] = useState(element.src);
+  const [href, setHref] = useState(element.href);
+  const [bgImage, setBgImage] = useState(element.bgImage);
+  const [styles, setStyles] = useState(element.styles);
+  const [animationClass, setAnimationClass] = useState(element.animationClass);
+  const [isCompressing, setIsCompressing] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const bgFileInputRef = useRef<HTMLInputElement>(null);
+  const editorRef = useRef<HTMLDivElement>(null);
+
+  // Estado para edición de Google Maps: dirección textual que el usuario
+  // ingresa. El embed se regenera con https://www.google.com/maps?q=<addr>
+  // Solo se activa cuando el iframe es de Google Maps (o está vacío y el
+  // geminiId sugiere ubicación/región, en cuyo caso lo tractamos como Maps).
+  const [mapAddress, setMapAddress] = useState<string>('');
+
+  // isGoogleMapsIframe: detecta si el src del iframe apunta a Google Maps
+  // (incluye embeds legacy, output=embed, maps/embed/v1/place). Si el src
+  // está vacío pero el geminiId sugiere ubicación/mapa, también true para
+  // que el usuario pueda inicializar el embed con una dirección.
+  const isGoogleMapsIframe = (iframeSrc: string, geminiId: string): boolean => {
+    const s = (iframeSrc || '').toLowerCase();
+    if (s.includes('google.com/maps') || s.includes('maps.google.com')) return true;
+    if (s.includes('googleapis.com/maps') || s.includes('google.com/maps/embed')) return true;
+    const gid = (geminiId || '').toLowerCase();
+    if (!s && (gid.includes('ubicacion') || gid.includes('mapa') || gid.includes('location'))) return true;
+    return false;
+  };
+
+  // buildMapsEmbedUrl: genera el src de embed sin API key usando el endpoint
+  // público https://www.google.com/maps?q=<encoded>&output=embed. Soporta
+  // direcciones (textuales), coordenadas "lat,lng" y plus codes.
+  const buildMapsEmbedUrl = (address: string): string => {
+    const q = (address || '').trim();
+    if (!q) return '';
+    return `https://www.google.com/maps?q=${encodeURIComponent(q)}&output=embed`;
+  };
+
+  // extractMapsAddress: intenta extraer una dirección legible del src actual
+  // del iframe (para pre-poblar el input cuando ya hay un embed de Maps).
+  const extractMapsAddress = (iframeSrc: string): string => {
+    const s = iframeSrc || '';
+    const m = s.match(/[?&]q=([^&]+)/);
+    if (m) {
+      try { return decodeURIComponent(m[1]).replace(/\+/g, ' '); } catch { return m[1]; }
+    }
+    const m2 = s.match(/[?&]center=([^&]+)/);
+    if (m2) {
+      try { return decodeURIComponent(m2[1]).replace(/\+/g, ' '); } catch { return m2[1]; }
+    }
+    return '';
+  };
+
+  const [widthSlider, setWidthSlider] = useState(() => parsePercentValue(element.styles.width) || 100);
+  const [heightSlider, setHeightSlider] = useState(() => parsePxValue(element.styles.height) || 300);
+  const [paddingSlider, setPaddingSlider] = useState(() => {
+    const px = parsePxValue(element.styles.padding);
+    return px !== null ? px : 16;
+  });
+
+  // Ref para trackear el último snapshot que el componente envió al parent.
+  // Solo sincronizamos el estado local cuando el `element` entrante difiere
+  // del último enviado — es decir, el cambio viene de una fuente externa
+  // (selección de otro elemento, load inicial, etc.). Evita que el parent
+  // re-renderice tras cada triggerUpdate y sobrescriba lo que el usuario
+  // está escribiendo en el textarea/input activo.
+  const lastSentRef = useRef<{ geminiId: string; content: string; src: string; href: string; bgImage: string; stylesKey: string; animationClass: string } | null>(null);
+
+  // Helper para firmar styles de forma estable.
+  const stylesKey = (s: Record<string, string>) => Object.keys(s).sort().map(k => `${k}:${s[k] || ''}`).join('|');
+
+  useEffect(() => {
+    if (isSelected) {
+      setIsExpanded(true);
+      setTimeout(() => {
+        editorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+  }, [isSelected]);
+
+  useEffect(() => {
+    // Si el elemento entrante coincide con el último snapshot enviado, no
+    // sobrescribimos el estado local: el cambio ya vino del usuario.
+    const incomingSig = {
+      geminiId: element.geminiId,
+      content: element.content,
+      src: element.src,
+      href: element.href,
+      bgImage: element.bgImage,
+      stylesKey: stylesKey(element.styles),
+      animationClass: element.animationClass
+    };
+    const last = lastSentRef.current;
+    const isSameAsSent = last
+      && last.geminiId === incomingSig.geminiId
+      && last.content === incomingSig.content
+      && last.src === incomingSig.src
+      && last.href === incomingSig.href
+      && last.bgImage === incomingSig.bgImage
+      && last.stylesKey === incomingSig.stylesKey
+      && last.animationClass === incomingSig.animationClass;
+
+    if (isSameAsSent) return; // cambio originado por el usuario, no sobrescribir
+
+    // Cambio externo: actualizar estado local.
+    setContent(element.content);
+    setSrc(element.src);
+    setHref(element.href);
+    setBgImage(element.bgImage);
+    setStyles(element.styles);
+    setAnimationClass(element.animationClass);
+    setWidthSlider(parsePercentValue(element.styles.width) || 100);
+    setHeightSlider(parsePxValue(element.styles.height) || 300);
+    const px = parsePxValue(element.styles.padding);
+    setPaddingSlider(px !== null ? px : 16);
+    // Actualizar el snapshot para futuras comparaciones.
+    lastSentRef.current = incomingSig;
+  }, [element]);
+
+  // Pre-poblar mapAddress cuando el elemento es un iframe de Google Maps.
+  // Si el src ya tiene un?q=<addr>, lo decodifica; si no, deja vacío para
+  // que el usuario ingrese una nueva dirección.
+  useEffect(() => {
+    if (element.tagName === 'IFRAME' && isGoogleMapsIframe(element.src, element.geminiId)) {
+      setMapAddress(extractMapsAddress(element.src));
+    } else {
+      setMapAddress('');
+    }
+  }, [element.geminiId, element.src, element.tagName]);
+
+  const triggerUpdate = (newContent = content, newSrc = src, newHref = href, newStyles = styles, newAnimationClass = animationClass, newBgImage = bgImage) => {
+    // Registrar el snapshot enviado para que el useEffect de [element] no
+    // sobrescriba el estado local cuando el parent re-renderice con este
+    // mismo contenido tras aplicar la edición.
+    lastSentRef.current = {
+      geminiId: element.geminiId,
+      content: newContent,
+      src: newSrc,
+      href: newHref,
+      bgImage: newBgImage,
+      stylesKey: stylesKey(newStyles),
+      animationClass: newAnimationClass
+    };
+    onUpdate(element.geminiId, newContent, { src: newSrc, href: newHref, animationClass: newAnimationClass, bgImage: newBgImage }, newStyles);
+  };
+
+  // Debounce timer ref para sliders: evita regenerar el HTML/iframe en cada
+  // px de arrastre. Commit inmediato para selects/buttons (no slider).
+  const debounceRef = useRef<number | null>(null);
+
+  // Cleanup del timer al desmontar para evitar memory leaks.
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current !== null) {
+        clearTimeout(debounceRef.current);
+        debounceRef.current = null;
+      }
+    };
+  }, []);
+
+  const handleStyleChange = (key: string, value: string) => {
+    const newStyles = { ...styles, [key]: value };
+    setStyles(newStyles);
+    const sliderKeys = ['width', 'height', 'padding'];
+    if (sliderKeys.includes(key)) {
+      if (debounceRef.current !== null) {
+        clearTimeout(debounceRef.current);
+      }
+      debounceRef.current = window.setTimeout(() => {
+        debounceRef.current = null;
+        triggerUpdate(content, src, href, newStyles, animationClass);
+      }, 120);
+    } else {
+      triggerUpdate(content, src, href, newStyles, animationClass);
+    }
+  };
+
+  const handleAnimationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newAnimationClass = e.target.value;
+    setAnimationClass(newAnimationClass);
+    triggerUpdate(content, src, href, styles, newAnimationClass);
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    e.target.value = '';
+    
+    setIsCompressing(true);
+    try {
+      const compressedBase64 = await compressImage(file);
+      setSrc(compressedBase64);
+      triggerUpdate(content, compressedBase64, href, styles);
+    } catch (error) {
+      console.error('Error al procesar imagen:', error);
+      alert(`Error al procesar la imagen. Formatos soportados: ${SUPPORTED_FORMATS_LABEL}`);
+    } finally {
+      setIsCompressing(false);
+    }
+  };
+
+  const handleBgFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    e.target.value = '';
+
+    setIsCompressing(true);
+    try {
+      const compressedBase64 = await compressImage(file);
+      setBgImage(compressedBase64);
+      triggerUpdate(content, src, href, styles, animationClass, compressedBase64);
+    } catch (error) {
+      console.error('Error al procesar imagen de fondo:', error);
+      alert(`Error al procesar la imagen. Formatos soportados: ${SUPPORTED_FORMATS_LABEL}`);
+    } finally {
+      setIsCompressing(false);
+    }
+  };
+
+  const renderIcon = () => {
+    if (element.tagName === 'IMG') return <ImageIcon className="w-4 h-4 text-pink-500" />;
+    if (element.tagName === 'IFRAME') return <Map className="w-4 h-4 text-pink-500" />;
+    if (element.tagName === 'A') return <LinkIcon className="w-4 h-4 text-pink-500" />;
+    if (element.bgImage || element.isBackground) return <ImageIcon className="w-4 h-4 text-pink-500" />;
+    return <Type className="w-4 h-4 text-pink-500" />;
+  };
+
+  const isText = !['IMG', 'IFRAME'].includes(element.tagName) && !element.isBackground;
+  const isImage = element.tagName === 'IMG';
+  const isIframe = element.tagName === 'IFRAME';
+  const isLink = element.tagName === 'A';
+  const isBgImage = !!element.bgImage || element.isBackground;
+
+  return (
+    <div ref={editorRef} className={`border rounded-xl mb-2 overflow-hidden transition-all ${isSelected ? 'border-pink-400 shadow-md shadow-pink-100' : 'border-pink-100 hover:border-pink-200'} ${element.isHidden ? 'opacity-50' : ''}`}>
+      <div className="w-full flex items-center justify-between p-3 bg-white hover:bg-pink-50/50 transition-colors">
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className={`flex-1 flex items-center gap-3 overflow-hidden text-left ${isExpanded ? 'bg-pink-50/30' : ''}`}
+        >
+          <div className="p-1.5 bg-pink-100 rounded-lg shrink-0">
+            {renderIcon()}
+          </div>
+          <div className="flex flex-col items-start overflow-hidden">
+            <span className="text-sm font-semibold text-gray-700">{element.label}</span>
+            <span className="text-xs text-gray-400 truncate w-48 text-left">
+              {isText && element.textContent ? element.textContent.substring(0, 30) : isBgImage ? (element.bgImage.substring(0, 30) || (element.isBackground ? 'Imagen de fondo' : 'Sin URL')) : element.src.substring(0, 30) || 'Sin URL'}
+            </span>
+          </div>
+        </button>
+        <div className="flex items-center gap-1 shrink-0">
+          {onToggleVisibility && (
+            <button
+              onClick={(e) => { e.stopPropagation(); onToggleVisibility(); }}
+              className={`p-1.5 rounded-md transition-colors ${element.isHidden ? 'text-gray-400 hover:text-gray-600 bg-gray-100' : 'text-gray-400 hover:text-pink-500 hover:bg-pink-100'}`}
+              title={element.isHidden ? "Mostrar elemento" : "Ocultar elemento"}
+            >
+              {element.isHidden ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+            </button>
+          )}
+          {isExpanded ? <ChevronDown className="w-4 h-4 text-gray-400" /> : <ChevronRight className="w-4 h-4 text-gray-400" />}
+        </div>
+      </div>
+
+      {isExpanded && (
+        <div className="p-4 bg-white border-t border-pink-50 space-y-4">
+          
+          {/* Content / URL Inputs */}
+          {isText && (
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-gray-500">Contenido</label>
+              <textarea
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                onBlur={() => triggerUpdate()}
+                className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 min-h-[80px] resize-y"
+              />
+            </div>
+          )}
+
+          {isLink && (
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-gray-500">URL del Enlace</label>
+              <input
+                type="text"
+                value={href}
+                onChange={(e) => setHref(e.target.value)}
+                onBlur={() => triggerUpdate()}
+                className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
+              />
+            </div>
+          )}
+
+          {isImage && (
+            <div className="space-y-3">
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-gray-500">URL de la Imagen</label>
+                <input
+                  type="text"
+                  value={src}
+                  onChange={(e) => setSrc(e.target.value)}
+                  onBlur={() => triggerUpdate()}
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
+                />
+              </div>
+              <input type="file" ref={fileInputRef} className="hidden" accept={SUPPORTED_IMAGE_TYPES} onChange={handleFileUpload} disabled={isCompressing} />
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isCompressing}
+                className="w-full py-2 bg-pink-50 text-pink-600 hover:bg-pink-100 border border-pink-200 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isCompressing ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Comprimiendo...
+                  </>
+                ) : (
+                  <>
+                    <Upload className="w-4 h-4" />
+                    Subir Imagen
+                  </>
+                )}
+              </button>
+              <p className="text-xs text-gray-400 text-center">{SUPPORTED_FORMATS_LABEL}</p>
+              {src && <img src={src} alt="Preview" className="w-full h-32 object-cover rounded-lg border border-gray-200" />}
+            </div>
+          )}
+
+          {isIframe && (
+            <div className="space-y-3">
+              {isGoogleMapsIframe(src, element.geminiId) && (
+                <div className="space-y-1.5 p-3 bg-pink-50/50 border border-pink-200 rounded-lg">
+                  <label className="text-xs font-medium text-pink-700 flex items-center gap-1.5">
+                    <Map className="w-3.5 h-3.5" />
+                    Dirección del mapa
+                  </label>
+                  <input
+                    type="text"
+                    value={mapAddress}
+                    onChange={(e) => setMapAddress(e.target.value)}
+                    placeholder="Ej: Av. Reforma 123, CDMX"
+                    className="w-full bg-white border border-pink-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!mapAddress.trim()) return;
+                      const newSrc = buildMapsEmbedUrl(mapAddress);
+                      setSrc(newSrc);
+                      triggerUpdate(content, newSrc, href, styles, animationClass, bgImage);
+                    }}
+                    className="w-full py-2 bg-pink-500 text-white hover:bg-pink-600 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
+                  >
+                    <Map className="w-4 h-4" />
+                    Actualizar mapa
+                  </button>
+                  <p className="text-[10px] text-gray-400">
+                    Escribe la dirección y presiona "Actualizar mapa" para regenerar la ubicación.
+                  </p>
+                </div>
+              )}
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-gray-500">URL del Mapa/Video (src)</label>
+                <input
+                  type="text"
+                  value={src}
+                  onChange={(e) => setSrc(e.target.value)}
+                  onBlur={() => triggerUpdate()}
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
+                />
+              </div>
+            </div>
+          )}
+
+          {isBgImage && (
+            <div className="space-y-3">
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-gray-500">URL de la Imagen de Fondo</label>
+                <input
+                  type="text"
+                  value={bgImage}
+                  onChange={(e) => setBgImage(e.target.value)}
+                  onBlur={() => triggerUpdate()}
+                  className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
+                />
+              </div>
+              <input type="file" ref={bgFileInputRef} className="hidden" accept={SUPPORTED_IMAGE_TYPES} onChange={handleBgFileUpload} disabled={isCompressing} />
+              <button
+                onClick={() => bgFileInputRef.current?.click()}
+                disabled={isCompressing}
+                className="w-full py-2 bg-pink-50 text-pink-600 hover:bg-pink-100 border border-pink-200 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isCompressing ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Comprimiendo...
+                  </>
+                ) : (
+                  <>
+                    <Upload className="w-4 h-4" />
+                    Subir Imagen de Fondo
+                  </>
+                )}
+              </button>
+              <p className="text-xs text-gray-400 text-center">{SUPPORTED_FORMATS_LABEL}</p>
+              {bgImage && <img src={bgImage} alt="Preview" className="w-full h-32 object-cover rounded-lg border border-gray-200" />}
+            </div>
+          )}
+
+          {/* Styling Controls */}
+          <div className="pt-3 border-t border-gray-100 space-y-3">
+            <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Estilos</h4>
+            
+            {isText && (
+              <>
+                {/* Alignment */}
+                <div className="flex bg-gray-50 p-1 rounded-lg border border-gray-200 w-fit">
+                  {[
+                    { icon: AlignLeft, value: 'left' },
+                    { icon: AlignCenter, value: 'center' },
+                    { icon: AlignRight, value: 'right' },
+                    { icon: AlignJustify, value: 'justify' }
+                  ].map(({ icon: Icon, value }) => (
+                    <button
+                      key={value}
+                      onClick={() => handleStyleChange('textAlign', value)}
+                      className={`p-1.5 rounded-md transition-colors ${styles.textAlign === value ? 'bg-white shadow-sm text-pink-500' : 'text-gray-500 hover:text-gray-700'}`}
+                    >
+                      <Icon className="w-4 h-4" />
+                    </button>
+                  ))}
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="text-[10px] text-gray-500 uppercase">Grosor (Weight)</label>
+                    <select 
+                      value={styles.fontWeight} 
+                      onChange={(e) => handleStyleChange('fontWeight', e.target.value)}
+                      className="w-full bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
+                    >
+                      <option value="">Por defecto</option>
+                      <option value="normal">Normal</option>
+                      <option value="500">Medio</option>
+                      <option value="600">Semibold</option>
+                      <option value="bold">Bold</option>
+                    </select>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] text-gray-500 uppercase">Tamaño (Size)</label>
+                    <input 
+                      type="text" 
+                      placeholder="ej. 16px, 2rem"
+                      value={styles.fontSize}
+                      onChange={(e) => setStyles({...styles, fontSize: e.target.value})}
+                      onBlur={() => triggerUpdate()}
+                      className="w-full bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] text-gray-500 uppercase">Interlineado</label>
+                    <input 
+                      type="text" 
+                      placeholder="ej. 1.5, 24px"
+                      value={styles.lineHeight}
+                      onChange={(e) => setStyles({...styles, lineHeight: e.target.value})}
+                      onBlur={() => triggerUpdate()}
+                      className="w-full bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] text-gray-500 uppercase">Espaciado (Letter)</label>
+                    <input 
+                      type="text" 
+                      placeholder="ej. 1px, 0.05em"
+                      value={styles.letterSpacing}
+                      onChange={(e) => setStyles({...styles, letterSpacing: e.target.value})}
+                      onBlur={() => triggerUpdate()}
+                      className="w-full bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
+                    />
+                  </div>
+                </div>
+
+                {/* Color del texto */}
+                <div className="flex items-center gap-2">
+                  <input
+                    type="color"
+                    value={/^#[0-9a-fA-F]{6}$/.test(styles.color || '') ? (styles.color as string) : '#333333'}
+                    onChange={(e) => handleStyleChange('color', e.target.value)}
+                    className="w-8 h-8 rounded cursor-pointer border border-gray-200 flex-shrink-0"
+                    title="Color del texto"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <label className="text-[10px] text-gray-500 uppercase">Color del texto</label>
+                    <input
+                      type="text"
+                      placeholder="hex o var(--primary-color)"
+                      value={styles.color || ''}
+                      onChange={(e) => setStyles({ ...styles, color: e.target.value })}
+                      onBlur={() => triggerUpdate()}
+                      className="w-full bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
+                    />
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* Color de fondo (todos los elementos) */}
+            <div className="flex items-center gap-2">
+              <input
+                type="color"
+                value={/^#[0-9a-fA-F]{6}$/.test(styles.backgroundColor || '') ? (styles.backgroundColor as string) : '#ffffff'}
+                onChange={(e) => handleStyleChange('backgroundColor', e.target.value)}
+                className="w-8 h-8 rounded cursor-pointer border border-gray-200 flex-shrink-0"
+                title="Color de fondo"
+              />
+              <div className="flex-1 min-w-0">
+                <label className="text-[10px] text-gray-500 uppercase">Color de fondo</label>
+                <input
+                  type="text"
+                  placeholder="hex, transparent o var(...)"
+                  value={styles.backgroundColor || ''}
+                  onChange={(e) => setStyles({ ...styles, backgroundColor: e.target.value })}
+                  onBlur={() => triggerUpdate()}
+                  className="w-full bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
+                />
+              </div>
+            </div>
+
+            {(isImage || isIframe) && (
+              <div className="space-y-3">
+                <StyleSlider
+                  label="Tamaño"
+                  value={widthSlider}
+                  min={20}
+                  max={100}
+                  step={5}
+                  unit="%"
+                  labels={[
+                    { threshold: 20, text: 'Pequeño' },
+                    { threshold: 36, text: 'Mediano' },
+                    { threshold: 61, text: 'Grande' },
+                    { threshold: 86, text: 'Completo' },
+                  ]}
+                  onChange={(v) => {
+                    setWidthSlider(v);
+                    handleStyleChange('width', `${v}%`);
+                  }}
+                />
+                {isIframe && (
+                  <StyleSlider
+                    label="Alto"
+                    value={heightSlider}
+                    min={100}
+                    max={600}
+                    step={25}
+                    unit="px"
+                    labels={[
+                      { threshold: 100, text: 'Compacto' },
+                      { threshold: 225, text: 'Normal' },
+                      { threshold: 375, text: 'Grande' },
+                      { threshold: 475, text: 'Extra grande' },
+                    ]}
+                    onChange={(v) => {
+                      setHeightSlider(v);
+                      handleStyleChange('height', `${v}px`);
+                    }}
+                  />
+                )}
+              </div>
+            )}
+
+            <StyleSlider
+              label="Espaciado"
+              value={paddingSlider}
+              min={0}
+              max={48}
+              step={4}
+              unit="px"
+              labels={[
+                { threshold: 0, text: 'Ninguno' },
+                { threshold: 4, text: 'Compacto' },
+                { threshold: 16, text: 'Normal' },
+                { threshold: 28, text: 'Espacioso' },
+              ]}
+              onChange={(v) => {
+                setPaddingSlider(v);
+                handleStyleChange('padding', `${v}px`);
+              }}
+            />
+
+            <div className="space-y-1">
+              <label className="text-[10px] text-gray-500 uppercase">Animación</label>
+              <select 
+                value={animationClass} 
+                onChange={handleAnimationChange}
+                className="w-full bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
+              >
+                <option value="none">Ninguna</option>
+                <option value="animate-fade-in">Fade In</option>
+                <option value="animate-slide-up">Slide Up</option>
+                <option value="animate-bounce">Bounce</option>
+                <option value="animate-pulse">Pulse</option>
+                <option value="animate-spin">Spin</option>
+                <option value="animate-ping">Ping</option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const SectionHeader = ({
+  groupName,
+  isHidden,
+  onToggleVisibility
+}: {
+  groupName: string,
+  isHidden: boolean,
+  onToggleVisibility: () => void
+}) => {
+  return (
+    <div className="flex items-center justify-between px-1 py-2 mt-4 first:mt-0">
+      <span className="text-xs font-bold text-pink-600 uppercase tracking-widest">{groupName}</span>
+      <button
+        onClick={onToggleVisibility}
+        className={`p-1 rounded-md transition-colors ${isHidden ? 'text-gray-400 hover:text-gray-600 bg-gray-100' : 'text-pink-500 hover:text-pink-600 bg-pink-100/50'}`}
+        title={isHidden ? "Mostrar sección" : "Ocultar sección"}
+      >
+        {isHidden ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+      </button>
+    </div>
+  );
+};
+
+interface EditorSidebarProps {
+  code: string;
+  selectedElementId: string | null;
+  onUpdateElement: (geminiId: string, newContent?: string, newAttributes?: Record<string, string>, newStyles?: Record<string, string>) => void;
+  onUpdateCountdown?: (targetDate: string) => void;
+  onClearSelection: () => void;
+  isSelectionMode: boolean;
+  onToggleSelectionMode: () => void;
+  onIterateModule: (mode: 'add' | 'modify', description: string, targetModuleName?: string) => void;
+  onToggleModuleVisibility: (moduleName: string) => void;
+  onToggleElementVisibility: (geminiId: string) => void;
+  onSaveInvitation?: () => void;
+  hasCode?: boolean;
+  hasUnsavedChanges?: boolean;
+  onNavigateHome?: () => void;
+  iterationAvailable: number;
+  isModuleSelectionMode: boolean;
+  onToggleModuleSelectionMode: () => void;
+  selectedModuleName: string | null;
+  onClearModuleSelection: () => void;
+  fontBase?: string;
+  fontHeading?: string;
+  onFontChange?: (which: 'base' | 'heading', value: string) => void;
+  colorVars?: Record<string, string>;
+  onUpdateColorVars?: (key: string, value: string) => void;
+  onOpenEventData?: () => void;
+}
+
+// ============================================================
+// TYPOGRAPHY CARD — Selector de Google Fonts (textos y títulos)
+// Aparece SIEMPRE al inicio de la barra lateral del editor.
+// Las fuentes se aplican a toda la invitación vía Post-RAG Theming.
+// ============================================================
+const ensureGoogleFontsLoaded = (families: string[]) => {
+  const valid = families.map(f => (f || '').trim()).filter(Boolean);
+  if (valid.length === 0) return;
+  const href = `https://fonts.googleapis.com/css2?family=${valid.map(f => encodeURIComponent(f).replace(/%20/g, '+')).join('&family=')}&display=swap`;
+  const LINK_ID = 'editor-sidebar-google-fonts';
+  let link = document.getElementById(LINK_ID) as HTMLLinkElement | null;
+  if (!link) {
+    link = document.createElement('link');
+    link.id = LINK_ID;
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+  }
+  // Solo actualizar el <link> si cambió la selección (evita re-fetch)
+  const signature = valid.join('|');
+  if (link.getAttribute('data-families') !== signature) {
+    link.href = href;
+    link.setAttribute('data-families', signature);
+  }
+};
+
+const TypographyCard: React.FC<{
+  fontBase?: string;
+  fontHeading?: string;
+  onFontChange?: (which: 'base' | 'heading', value: string) => void;
+}> = ({ fontBase = '', fontHeading = '', onFontChange }) => {
+  useEffect(() => {
+    ensureGoogleFontsLoaded([fontBase, fontHeading].filter(Boolean) as string[]);
+  }, [fontBase, fontHeading]);
+
+  return (
+    <div className="mb-4 border border-pink-200 rounded-xl overflow-hidden bg-white shadow-sm shrink-0">
+      <div className="flex items-center gap-2 px-3 py-2.5 bg-pink-50/70">
+        <Type className="w-4 h-4 text-pink-500" />
+        <span className="text-xs font-bold text-pink-600 uppercase tracking-widest">Tipografía</span>
+      </div>
+      <div className="p-3 space-y-3">
+        <div className="space-y-1">
+          <label className="text-[10px] text-gray-500 uppercase font-medium">Fuente de textos</label>
+          <select
+            value={fontBase}
+            onChange={(e) => onFontChange?.('base', e.target.value)}
+            disabled={!onFontChange}
+            style={{ fontFamily: `'${fontBase}', sans-serif` }}
+            className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 cursor-pointer disabled:opacity-50"
+          >
+            {GOOGLE_FONT_OPTIONS.map((f) => (
+              <option key={f.value} value={f.value} style={{ fontFamily: `'${f.value}', sans-serif` }}>
+                {f.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="space-y-1">
+          <label className="text-[10px] text-gray-500 uppercase font-medium">Fuente de títulos</label>
+          <select
+            value={fontHeading}
+            onChange={(e) => onFontChange?.('heading', e.target.value)}
+            disabled={!onFontChange}
+            style={{ fontFamily: `'${fontHeading || fontBase}', serif` }}
+            className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 cursor-pointer disabled:opacity-50"
+          >
+            {GOOGLE_HEADING_FONT_OPTIONS.map((f) => (
+              <option key={f.value} value={f.value} style={{ fontFamily: `'${f.value || fontBase}', serif` }}>
+                {f.value ? f.label : 'Igual que la fuente de textos'}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="flex items-center gap-3 pt-1 border-t border-gray-100">
+          <span
+            className="text-xl leading-none text-gray-800 truncate"
+            style={{ fontFamily: `'${fontHeading || fontBase}', serif` }}
+            title="Vista previa de títulos"
+          >
+            Aa
+          </span>
+          <span
+            className="text-sm leading-none text-gray-600 truncate"
+            style={{ fontFamily: `'${fontBase}', sans-serif` }}
+            title="Vista previa de textos"
+          >
+            Texto de ejemplo 123
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const CountdownEditor = ({ code, onUpdateCountdown }: { code: string, onUpdateCountdown?: (targetDate: string) => void }) => {
+  const [countdownDate, setCountdownDate] = useState('');
+  const [countdownTime, setCountdownTime] = useState('');
+  const [detected, setDetected] = useState(false);
+
+  useEffect(() => {
+    if (!code) return;
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(code, 'text/html');
+    const countdownEl = doc.querySelector('[data-gemini-id^="countdown"]');
+    if (countdownEl) {
+      setDetected(true);
+      const targetAttr = countdownEl.getAttribute('data-countdown-target');
+      if (targetAttr) {
+        try {
+          const d = new Date(targetAttr);
+          if (!isNaN(d.getTime())) {
+            setCountdownDate(d.toISOString().split('T')[0]);
+            setCountdownTime(d.toTimeString().substring(0, 5));
+          }
+        } catch {}
+      }
+      let scriptMatch = code.match(/countdown[_-]?target\s*[:=]\s*['"]?(\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2})?)?)/i);
+      if (!scriptMatch) {
+        const newDateMatch = code.match(/new\s+Date\s*\(\s*['"](\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2})?)?)/i);
+        if (newDateMatch) scriptMatch = newDateMatch;
+      }
+      if (!scriptMatch) {
+        const monthMatch = code.match(/new\s+Date\s*\(\s*['"]([A-Z][a-z]{2}\s+\d{1,2},\s+\d{4}\s+\d{2}:\d{2}(?::\d{2})?)/i);
+        if (monthMatch) scriptMatch = monthMatch;
+      }
+      if (scriptMatch && !countdownDate) {
+        try {
+          const d = new Date(scriptMatch[1]);
+          if (!isNaN(d.getTime())) {
+            setCountdownDate(d.toISOString().split('T')[0]);
+            setCountdownTime(scriptMatch[1].includes('T') ? scriptMatch[1].split('T')[1].substring(0, 5) : d.toTimeString().substring(0, 5));
+          }
+        } catch {}
+      }
+    } else {
+      setDetected(false);
+    }
+  }, [code]);
+
+  const handleApply = () => {
+    if (!countdownDate || !onUpdateCountdown) return;
+    const dateTime = countdownTime ? `${countdownDate}T${countdownTime}:00` : `${countdownDate}T00:00:00`;
+    onUpdateCountdown(dateTime);
+  };
+
+  if (!detected) return null;
+
+  return (
+    <div className="border border-purple-200 rounded-xl overflow-hidden bg-white shadow-sm">
+      <div className="flex items-center gap-2 px-3 py-2.5 bg-purple-50/50 cursor-pointer">
+        <Clock className="w-4 h-4 text-purple-500" />
+        <span className="text-xs font-bold text-purple-600 uppercase tracking-widest">Countdown</span>
+      </div>
+      <div className="p-4 bg-white border-t border-purple-50 space-y-3">
+        <div className="space-y-1.5">
+          <label className="text-xs font-medium text-gray-500">Fecha del evento</label>
+          <input
+            type="date"
+            value={countdownDate}
+            onChange={(e) => setCountdownDate(e.target.value)}
+            className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400"
+          />
+        </div>
+        <div className="space-y-1.5">
+          <label className="text-xs font-medium text-gray-500">Hora del evento</label>
+          <input
+            type="time"
+            value={countdownTime}
+            onChange={(e) => setCountdownTime(e.target.value)}
+            className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400"
+          />
+        </div>
+        <button
+          onClick={handleApply}
+          disabled={!countdownDate}
+          className="w-full py-2 bg-purple-500 hover:bg-purple-600 disabled:bg-purple-300 text-white rounded-lg text-sm font-semibold transition-colors"
+        >
+          Actualizar Countdown
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export const EditorSidebar: React.FC<EditorSidebarProps> = ({
+  code,
+  selectedElementId,
+  onUpdateElement,
+  onUpdateCountdown,
+  onClearSelection,
+  isSelectionMode,
+  onToggleSelectionMode,
+  onIterateModule,
+  onToggleModuleVisibility,
+  onToggleElementVisibility,
+  onSaveInvitation,
+  hasCode = false,
+  hasUnsavedChanges = false,
+  onNavigateHome,
+  iterationAvailable,
+  isModuleSelectionMode,
+  onToggleModuleSelectionMode,
+  selectedModuleName,
+  onClearModuleSelection,
+  fontBase,
+  fontHeading,
+  onFontChange,
+  colorVars = {},
+  onUpdateColorVars,
+  onOpenEventData
+}) => {
+  const navigate = useNavigate();
+  const elements = useMemo(() => parseEditableElements(code), [code]);
+  
+  const moduleNames = useMemo(() => {
+    const names = new Set<string>();
+    elements.forEach(el => {
+      if (el.moduleName) names.add(el.moduleName);
+    });
+    return Array.from(names);
+  }, [elements]);
+
+  const [activeTab, setActiveTab] = useState<'add' | 'modify'>('add');
+  const [insertAfter, setInsertAfter] = useState<string>('Al final');
+  const [moduleDescription, setModuleDescription] = useState('');
+  const [designDescription, setDesignDescription] = useState('');
+
+  const handleAddSubmit = () => {
+    if (!moduleDescription.trim()) return;
+    if (iterationAvailable < 1) return;
+    onIterateModule('add', moduleDescription, insertAfter);
+    setModuleDescription('');
+  };
+
+  const handleModifySubmit = () => {
+    if (!designDescription.trim()) return;
+    if (iterationAvailable < 1) return;
+    if (!selectedModuleName) return;
+    onIterateModule('modify', designDescription, selectedModuleName);
+    setDesignDescription('');
+  };
+
+  return (
+    <div className="w-80 md:w-96 flex flex-col h-full bg-white border-r border-pink-200 shadow-xl shadow-pink-100/50 z-20 shrink-0">
+      
+      {/* Header */}
+      <div className="h-14 border-b border-pink-100 flex items-center justify-between px-4 bg-pink-50/50 shrink-0">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => {
+            if (hasUnsavedChanges && onNavigateHome) {
+              onNavigateHome();
+            } else {
+              navigate('/');
+            }
+          }}
+            className="p-1.5 rounded-lg text-gray-400 hover:text-pink-500 hover:bg-pink-100 transition-colors"
+            title="Ir al Dashboard"
+          >
+            <Home className="w-4 h-4" />
+          </button>
+          <Heart className="w-5 h-5 text-pink-500 fill-pink-500/20" />
+          <span className="font-semibold text-gray-800 tracking-tight">Módulos</span>
+        </div>
+        <div className="flex items-center gap-1">
+          {hasCode && onSaveInvitation && (
+            <button
+              onClick={() => onSaveInvitation()}
+              className="p-2 rounded-lg transition-colors bg-green-500 text-white hover:bg-green-600"
+              title="Guardar Invitación"
+            >
+              <Save className="w-4 h-4" />
+            </button>
+          )}
+          <button
+            onClick={onToggleSelectionMode}
+            className={`p-2 rounded-lg transition-colors ${isSelectionMode ? 'bg-pink-500 text-white shadow-md shadow-pink-500/20' : 'text-gray-400 hover:text-pink-500 hover:bg-pink-100'}`}
+            title={isSelectionMode ? "Desactivar modo selección" : "Activar modo selección"}
+          >
+            <Pencil className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+
+      {/* Body */}
+      <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
+        {/* Selector de tipografía: SIEMPRE visible al inicio de la barra lateral */}
+        {onOpenEventData && (
+          <div className="px-3 pt-4">
+            <button
+              onClick={onOpenEventData}
+              className="w-full flex items-center gap-2 px-3 py-2.5 bg-white border border-pink-200 rounded-xl text-sm font-medium text-pink-600 hover:bg-pink-50 transition-colors"
+            >
+              <ClipboardList className="w-4 h-4" />
+              Completar datos del evento
+            </button>
+          </div>
+        )}
+
+        {onUpdateColorVars && (
+          <div className="px-3 pt-4">
+            <div className="bg-white border border-gray-200 rounded-xl p-3 space-y-2">
+              <div className="flex items-center gap-2">
+                <Palette className="w-4 h-4 text-pink-500" />
+                <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Colores globales</h4>
+              </div>
+              <p className="text-[10px] text-gray-400 leading-snug">Recolorean toda la invitación (módulos con variables).</p>
+              {
+                [
+                  { key: 'primary', label: 'Primario' },
+                  { key: 'accent', label: 'Acento' },
+                  { key: 'text', label: 'Texto' },
+                  { key: 'bg', label: 'Fondo' },
+                  { key: 'secondary', label: 'Secundario' },
+                  { key: 'surface', label: 'Superficie' },
+                ].map(({ key, label }) => (
+                  <div key={key} className="flex items-center gap-2">
+                    <input
+                      type="color"
+                      value={/^#[0-9a-fA-F]{6}$/.test(colorVars[key] || '') ? (colorVars[key] as string) : '#888888'}
+                      onChange={(e) => onUpdateColorVars(key, e.target.value)}
+                      className="w-8 h-8 rounded cursor-pointer border border-gray-200 flex-shrink-0"
+                      title={label}
+                    />
+                    <div className="flex-1 min-w-0">
+                      <label className="block text-[10px] text-gray-500 uppercase">{label}</label>
+                      <input
+                        type="text"
+                        value={colorVars[key] || ''}
+                        placeholder="var o hex"
+                        onChange={(e) => onUpdateColorVars(key, e.target.value)}
+                        className="w-full bg-gray-50 border border-gray-200 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
+                      />
+                    </div>
+                  </div>
+                ))
+              }
+              {Object.keys(colorVars).length > 0 && (
+                <button
+                  onClick={() => Object.keys(colorVars).forEach((k) => onUpdateColorVars(k, ''))}
+                  className="w-full py-1.5 text-xs text-gray-500 hover:text-gray-700 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors"
+                >
+                  Restablecer colores originales
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
+        <TypographyCard
+          fontBase={fontBase}
+          fontHeading={fontHeading}
+          onFontChange={onFontChange}
+        />
+
+        {elements.length === 0 ? (
+          <div className="h-full flex flex-col items-center justify-center text-center space-y-4 opacity-70">
+            <div className="w-16 h-16 bg-pink-50 rounded-full flex items-center justify-center border border-pink-100">
+              <MousePointer2 className="w-8 h-8 text-pink-300" />
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-gray-700 font-medium">Sin elementos editables</h3>
+              <p className="text-sm text-gray-500 max-w-[200px]">
+                Genera una invitación para ver los módulos editables aquí.
+              </p>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-1 pb-4">
+            {Object.entries(
+              elements.reduce((acc, el) => {
+                const group = el.moduleName || 'Otros Elementos';
+                if (!acc[group]) acc[group] = [];
+                acc[group].push(el);
+                return acc;
+              }, {} as Record<string, EditableElement[]>)
+            ).map(([groupName, groupElements]) => (
+              <div key={groupName}>
+                <SectionHeader
+                  groupName={groupName}
+                  isHidden={groupElements.every(el => el.isHidden)}
+                  onToggleVisibility={() => onToggleModuleVisibility(groupName)}
+                />
+                {groupElements.map(el => (
+                  <ElementEditor
+                    key={el.geminiId}
+                    element={el}
+                    onUpdate={onUpdateElement}
+                    isSelected={selectedElementId === el.geminiId}
+                    onToggleVisibility={() => onToggleElementVisibility(el.geminiId)}
+                  />
+                ))}
+              </div>
+            ))}
+              
+            <CountdownEditor code={code} onUpdateCountdown={onUpdateCountdown} />
+
+            {/* ============================================================ */}
+            {/* DESIGN MODIFIER SECTION - AI ITERATIONS (per-module) */}
+            {/* ============================================================ */}
+            {AI_ITERATIONS_ENABLED && (
+            <div className="mt-8 border-t border-pink-200 pt-6">
+              <h3 className="text-sm font-bold text-gray-800 mb-2 flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-pink-100 flex items-center justify-center text-pink-500">✨</span>
+                Agregar / Modificar Módulo
+              </h3>
+              <div className="mb-4 text-xs text-gray-500">
+                Iteraciones disponibles: <span className={`font-bold ${iterationAvailable > 0 ? 'text-pink-600' : 'text-red-500'}`}>{iterationAvailable}</span>
+              </div>
+
+              <div className="flex bg-gray-100 p-1 rounded-lg mb-4">
+                <button
+                  onClick={() => setActiveTab('add')}
+                  className={`flex-1 text-xs font-medium py-2 rounded-md transition-colors ${activeTab === 'add' ? 'bg-white shadow-sm text-pink-600' : 'text-gray-500 hover:text-gray-700'}`}
+                >
+                  Agregar Módulo
+                </button>
+                <button
+                  onClick={() => setActiveTab('modify')}
+                  className={`flex-1 text-xs font-medium py-2 rounded-md transition-colors ${activeTab === 'modify' ? 'bg-white shadow-sm text-pink-600' : 'text-gray-500 hover:text-gray-700'}`}
+                >
+                  Modificar Módulo
+                </button>
+              </div>
+
+              {activeTab === 'add' && (
+                <div className="space-y-3 bg-pink-50/30 p-4 rounded-xl border border-pink-100">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-medium text-gray-600">Insertar después de:</label>
+                    <select
+                      value={insertAfter}
+                      onChange={(e) => setInsertAfter(e.target.value)}
+                      disabled={iterationAvailable < 1}
+                      className="w-full bg-white border border-pink-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <option value="Al principio">Al principio</option>
+                      {moduleNames.map(name => (
+                        <option key={name} value={name}>{name}</option>
+                      ))}
+                      <option value="Al final">Al final</option>
+                    </select>
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-medium text-gray-600">Descripción del módulo:</label>
+                    <textarea
+                      value={moduleDescription}
+                      onChange={(e) => setModuleDescription(e.target.value)}
+                      placeholder="Ej. Una sección para mesa de postres con una imagen y texto descriptivo."
+                      disabled={iterationAvailable < 1}
+                      className="w-full bg-white border border-pink-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 min-h-[80px] resize-y disabled:opacity-50 disabled:cursor-not-allowed"
+                    />
+                  </div>
+                  <button
+                    onClick={handleAddSubmit}
+                    disabled={!moduleDescription.trim() || iterationAvailable < 1}
+                    className="w-full py-2.5 bg-pink-500 hover:bg-pink-600 disabled:bg-pink-300 text-white rounded-lg text-sm font-semibold transition-colors shadow-md shadow-pink-500/20"
+                  >
+                    {iterationAvailable < 1 ? 'Sin iteraciones disponibles' : 'Generar Módulo'}
+                  </button>
+                </div>
+              )}
+
+              {activeTab === 'modify' && (
+                <div className="space-y-3 bg-pink-50/30 p-4 rounded-xl border border-pink-100">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-medium text-gray-600">Módulo a modificar:</label>
+                    <button
+                      onClick={onToggleModuleSelectionMode}
+                      disabled={iterationAvailable < 1}
+                      className={`w-full py-2 px-3 rounded-lg text-sm font-medium transition-colors border ${
+                        isModuleSelectionMode
+                          ? 'bg-pink-500 text-white border-pink-500'
+                          : selectedModuleName
+                          ? 'bg-white text-pink-600 border-pink-300 hover:bg-pink-50'
+                          : 'bg-white text-gray-600 border-pink-200 hover:bg-pink-50 disabled:opacity-50 disabled:cursor-not-allowed'
+                      }`}
+                    >
+                      {isModuleSelectionMode
+                        ? 'Haz click en un módulo de la invitación...'
+                        : selectedModuleName
+                        ? `Seleccionado: ${selectedModuleName}`
+                        : 'Seleccionar módulo en la invitación'}
+                    </button>
+                    {selectedModuleName && !isModuleSelectionMode && (
+                      <button
+                        onClick={onClearModuleSelection}
+                        className="text-xs text-gray-400 hover:text-red-500 transition-colors"
+                      >
+                        Cambiar selección
+                      </button>
+                    )}
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-medium text-gray-600">Descripción de los cambios:</label>
+                    <textarea
+                      value={designDescription}
+                      onChange={(e) => setDesignDescription(e.target.value)}
+                      placeholder="Ej. Cambia la paleta de colores a tonos azules y haz que los bordes sean más redondeados."
+                      disabled={iterationAvailable < 1 || !selectedModuleName}
+                      className="w-full bg-white border border-pink-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 min-h-[100px] resize-y disabled:opacity-50 disabled:cursor-not-allowed"
+                    />
+                  </div>
+                  <button
+                    onClick={handleModifySubmit}
+                    disabled={!designDescription.trim() || iterationAvailable < 1 || !selectedModuleName}
+                    className="w-full py-2.5 bg-pink-500 hover:bg-pink-600 disabled:bg-pink-300 text-white rounded-lg text-sm font-semibold transition-colors shadow-md shadow-pink-500/20"
+                  >
+                    {iterationAvailable < 1
+                      ? 'Sin iteraciones disponibles'
+                      : !selectedModuleName
+                      ? 'Selecciona un módulo primero'
+                      : 'Aplicar Cambios'}
+                  </button>
+                </div>
+              )}
+            </div>
+            )}
+            {/* ============================================================ */}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};

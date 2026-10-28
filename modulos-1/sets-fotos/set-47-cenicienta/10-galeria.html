@@ -1,0 +1,194 @@
+<section
+  class="cnc-gal"
+  data-gemini-id="galeria-cenicienta"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&family=Marcellus&display=swap');
+
+    .cnc-gal, .cnc-gal *, .cnc-gal *::before, .cnc-gal *::after { box-sizing: border-box; }
+    .cnc-gal {
+      --t-bg: var(--bg-color, #e6f0fa);
+      --t-tx: var(--text-color, #213a5c);
+      --t-p: var(--primary-color, #8db6dc);
+      --t-s: var(--secondary-color, #fdfcf8);
+      --t-a: var(--accent-color, #c4a052);
+      --t-display: var(--font-script, 'Monsieur La Doulaise', cursive);
+      --t-text: var(--font-heading, 'Marcellus', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 60vw, 48rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1.25rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: linear-gradient(180deg, var(--t-s), var(--t-bg) 40%, color-mix(in srgb, var(--t-p) 28%, var(--t-bg)));
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .cnc-gal__content { width: min(100%, 66rem); display: grid; gap: clamp(1.8rem, 4vw, 2.8rem); }
+    .cnc-gal__head { display: grid; gap: .2rem; justify-items: center; }
+    .cnc-gal__kicker { margin: 0; font-size: 1.05rem; color: color-mix(in srgb, var(--t-tx) 75%, var(--t-a)); }
+    .cnc-gal__title { margin: 0; padding-top: .2em; font-family: var(--t-display); font-weight: 400; font-size: clamp(3rem, 7.5vw, 4.8rem); line-height: 1.2; }
+
+    .cnc-gal__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: clamp(.8rem, 2vw, 1.3rem); }
+    .cnc-gal__tile {
+      position: relative;
+      padding: .45rem;
+      border-radius: 1rem;
+      background: linear-gradient(145deg, color-mix(in srgb, var(--t-a) 40%, var(--t-s)), var(--t-a) 50%, color-mix(in srgb, var(--t-a) 45%, var(--t-s)));
+      box-shadow: 0 18px 34px -24px color-mix(in srgb, var(--t-tx) 70%, transparent);
+      transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease;
+    }
+    .cnc-gal__tile:nth-child(3n + 2) { border-radius: 50% 50% 1rem 1rem / clamp(6rem, 13vw, 10rem) clamp(6rem, 13vw, 10rem) 1rem 1rem; }
+    .cnc-gal__tile:nth-child(3n + 2) img { border-radius: 50% 50% .65rem .65rem / clamp(5.6rem, 12.4vw, 9.6rem) clamp(5.6rem, 12.4vw, 9.6rem) .65rem .65rem; }
+    .cnc-gal__tile:hover { transform: translateY(-4px); box-shadow: 0 24px 40px -24px color-mix(in srgb, var(--t-tx) 75%, transparent); }
+    .cnc-gal__figure { position: relative; margin: 0; }
+    .cnc-gal__figure img { display: block; color: transparent; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; border-radius: .65rem; background: linear-gradient(160deg, var(--t-s), var(--t-p)); }
+    .cnc-gal__figure::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(125deg, transparent 35%, color-mix(in srgb, var(--t-s) 45%, transparent) 50%, transparent 65%); background-size: 260% 100%; background-position: 100% 0; opacity: 0; transition: opacity .3s ease, background-position .5s ease; }
+    .cnc-gal__tile:hover .cnc-gal__figure::after { opacity: 1; background-position: 0 0; }
+    .cnc-gal__open { position: absolute; inset: 0; z-index: 1; width: 100%; padding: 0; border: 0; border-radius: inherit; background: transparent; cursor: zoom-in; }
+    .cnc-gal__open:focus-visible { outline: 3px solid var(--t-tx); outline-offset: 3px; }
+
+    .cnc-gal__dialog { width: min(92vw, 56rem); max-height: 92vh; padding: clamp(.6rem, 1.5vw, 1rem); border: 0; border-radius: 1.2rem; background: linear-gradient(145deg, color-mix(in srgb, var(--t-a) 40%, var(--t-s)), var(--t-a)); color: var(--t-tx); overflow: visible; }
+    .cnc-gal__dialog::backdrop { background: color-mix(in srgb, var(--t-tx) 70%, transparent); backdrop-filter: blur(3px); }
+    .cnc-gal__dialog[open] { animation: cnc-gal-in .35s cubic-bezier(.2, .8, .2, 1); }
+    .cnc-gal__big { display: block; width: 100%; height: auto; max-height: calc(92vh - 2rem); object-fit: contain; border-radius: .7rem; background: var(--t-s); }
+    .cnc-gal__ctl { position: absolute; display: grid; place-items: center; width: 2.9rem; height: 2.9rem; padding: 0; border-radius: 50%; border: 1px solid var(--t-a); background: var(--t-s); color: var(--t-tx); font: inherit; font-size: 1.3rem; line-height: 1; cursor: pointer; transition: transform .25s ease; }
+    .cnc-gal__ctl:hover { transform: scale(1.08); }
+    .cnc-gal__ctl:focus-visible { outline: 2px solid var(--t-tx); outline-offset: 2px; }
+    .cnc-gal__ctl--x { top: -1rem; right: -1rem; }
+    .cnc-gal__ctl--prev { left: -1rem; top: 50%; margin-top: -1.45rem; }
+    .cnc-gal__ctl--next { right: -1rem; top: 50%; margin-top: -1.45rem; }
+    @keyframes cnc-gal-in { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: none; } }
+
+    .cnc-gal--anim .cnc-gal__head { opacity: 0; transition: opacity .5s ease; }
+    .cnc-gal--anim.is-in .cnc-gal__head { opacity: 1; }
+    .cnc-gal--anim .cnc-gal__tile { opacity: 0; transform: scale(.92); transition: opacity .45s ease, transform .5s cubic-bezier(.3, 1.3, .5, 1); }
+    .cnc-gal--anim .cnc-gal__tile[data-cnc-in] { opacity: 1; transform: none; }
+
+    @media (max-width: 520px) {
+      .cnc-gal__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .cnc-gal__ctl--prev { left: .4rem; }
+      .cnc-gal__ctl--next { right: .4rem; }
+      .cnc-gal__ctl--x { right: .4rem; top: .4rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cnc-gal *, .cnc-gal *::before, .cnc-gal *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="cnc-gal__content">
+    <header class="cnc-gal__head">
+      <p class="cnc-gal__kicker" memory_type="text" memory_usage="custom" memory_key="galeria-intro">Instantes guardados en el espejo del palacio</p>
+      <h2 class="cnc-gal__title" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Momentos de Cuento</h2>
+    </header>
+
+    <ul class="cnc-gal__grid">
+      <li class="cnc-gal__tile" data-cnc-tile>
+        <figure class="cnc-gal__figure" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/800/1000/quinceanera,dress?lock=3601" alt="Quinceañera con vestido de gala" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></figure>
+        <button class="cnc-gal__open" type="button" data-cnc-open aria-label="Ampliar foto 1"></button>
+      </li>
+      <li class="cnc-gal__tile" data-cnc-tile>
+        <figure class="cnc-gal__figure" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/800/1000/tiara,crown?lock=3602" alt="Tiara brillante" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></figure>
+        <button class="cnc-gal__open" type="button" data-cnc-open aria-label="Ampliar foto 2"></button>
+      </li>
+      <li class="cnc-gal__tile" data-cnc-tile>
+        <figure class="cnc-gal__figure" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/800/1000/castle,night?lock=3603" alt="Castillo iluminado" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></figure>
+        <button class="cnc-gal__open" type="button" data-cnc-open aria-label="Ampliar foto 3"></button>
+      </li>
+      <li class="cnc-gal__tile" data-cnc-tile>
+        <figure class="cnc-gal__figure" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/800/1000/waltz,dance?lock=3604" alt="Vals de quince años" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></figure>
+        <button class="cnc-gal__open" type="button" data-cnc-open aria-label="Ampliar foto 4"></button>
+      </li>
+      <li class="cnc-gal__tile" data-cnc-tile>
+        <figure class="cnc-gal__figure" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/800/1000/high,heels,glass?lock=3605" alt="Zapatilla de cristal" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></figure>
+        <button class="cnc-gal__open" type="button" data-cnc-open aria-label="Ampliar foto 5"></button>
+      </li>
+      <li class="cnc-gal__tile" data-cnc-tile>
+        <figure class="cnc-gal__figure" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/800/1000/chandelier,ballroom?lock=3606" alt="Salón de baile con candelabros" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></figure>
+        <button class="cnc-gal__open" type="button" data-cnc-open aria-label="Ampliar foto 6"></button>
+      </li>
+    </ul>
+  </div>
+
+  <dialog class="cnc-gal__dialog" data-cnc-dialog aria-label="Foto ampliada">
+    <img class="cnc-gal__big" data-mm-big alt="" />
+    <button class="cnc-gal__ctl cnc-gal__ctl--prev" type="button" data-cnc-prev aria-label="Foto anterior">‹</button>
+    <button class="cnc-gal__ctl cnc-gal__ctl--next" type="button" data-cnc-next aria-label="Foto siguiente">›</button>
+    <button class="cnc-gal__ctl cnc-gal__ctl--x" type="button" data-cnc-close aria-label="Cerrar">×</button>
+  </dialog>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="galeria-cenicienta"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      var tiles = Array.prototype.slice.call(root.querySelectorAll('[data-cnc-tile]'));
+      var dlg = root.querySelector('[data-cnc-dialog]');
+      var big = root.querySelector('[data-mm-big]');
+      var cur = 0;
+      function show(i) {
+        cur = (i + tiles.length) % tiles.length;
+        var img = tiles[cur].querySelector('img');
+        big.src = img.currentSrc || img.src;
+        big.alt = img.alt;
+      }
+      tiles.forEach(function (t, i) {
+        var b = t.querySelector('[data-cnc-open]');
+        if (b) b.addEventListener('click', function () {
+          show(i);
+          if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+        });
+      });
+      root.querySelector('[data-cnc-prev]').addEventListener('click', function () { show(cur - 1); });
+      root.querySelector('[data-cnc-next]').addEventListener('click', function () { show(cur + 1); });
+      root.querySelector('[data-cnc-close]').addEventListener('click', function () { if (dlg.close) dlg.close(); else dlg.removeAttribute('open'); });
+      dlg.addEventListener('click', function (e) { if (e.target === dlg && dlg.close) dlg.close(); });
+      dlg.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowLeft') show(cur - 1);
+        if (e.key === 'ArrowRight') show(cur + 1);
+      });
+
+      if (RM || !('IntersectionObserver' in window)) return;
+      root.classList.add('cnc-gal--anim');
+      var seen = 0;
+      var io = new IntersectionObserver(function (en) {
+        en.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          io.unobserve(e.target);
+          if (e.target === root) { root.classList.add('is-in'); return; }
+          var delay = (tiles.indexOf(e.target) % 3) * 110;
+          setTimeout(function () {
+            e.target.setAttribute('data-cnc-in', '');
+            seen++;
+            if (seen === tiles.length) setTimeout(function () {
+              root.classList.remove('cnc-gal--anim', 'is-in');
+              tiles.forEach(function (t) { t.removeAttribute('data-cnc-in'); });
+            }, 700);
+          }, delay);
+        });
+      }, { threshold: .2 });
+      io.observe(root);
+      tiles.forEach(function (t) { io.observe(t); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-cenicienta',
+      style_name: 'Cenicienta Medianoche Real',
+      descripcion: 'Galería en mosaico responsivo con marcos dorados de espejo y arcos de palacio; brillo de cristal al pasar el cursor y visor ampliado propio con flechas. Cuento de hadas azul y dorado.',
+      tags: ['galeria', 'fotos', 'quinceañera', 'cenicienta', 'espejo', 'lightbox'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

@@ -1,0 +1,268 @@
+<section
+  class="gl-ubicacion"
+  data-gemini-id="ubicacion-mapa"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .gl-ubicacion {
+      --primary-color: #223038;
+      --secondary-color: #5d7078;
+      --accent-color: #8fb6c9;
+      --bg-color: #eef4f7;
+      --surface-color: rgba(255, 255, 255, 0.55);
+      --surface-border-color: rgba(255, 255, 255, 0.75);
+      --text-color: #223038;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/mist,city');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .gl-ubicacion *,
+    .gl-ubicacion *::before,
+    .gl-ubicacion *::after { box-sizing: border-box; }
+
+    .gl-ubicacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(200deg, color-mix(in srgb, var(--bg-color) 68%, transparent), color-mix(in srgb, var(--accent-color) 20%, transparent));
+    }
+
+    .gl-ubicacion__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.6rem, 4vw, 3rem);
+      align-items: center;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .gl-ubicacion__info {
+      padding: clamp(1.6rem, 4vw, 2.4rem);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: clamp(16px, 2.6vw, 24px);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 22px 50px rgba(34, 48, 56, 0.18);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .gl-ubicacion__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .gl-ubicacion__titulo {
+      margin: 0 0 1rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.65rem, 3.7vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .gl-ubicacion__direccion {
+      margin: 0 0 1.2rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-style: normal;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .gl-ubicacion__baliza {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.3rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--text-color);
+    }
+    .gl-ubicacion__punto {
+      position: relative;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      box-shadow: 0 0 12px color-mix(in srgb, var(--accent-color) 80%, transparent);
+    }
+    .gl-ubicacion__punto::after {
+      content: '';
+      position: absolute;
+      inset: -7px;
+      border: 1.4px solid var(--accent-color);
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    .gl-ubicacion.esta-visto .gl-ubicacion__punto::after { animation: glUbicacionSonar 2s ease-out infinite; }
+    @keyframes glUbicacionSonar {
+      0% { opacity: 0.9; transform: scale(0.4); }
+      75% { opacity: 0.1; transform: scale(1.25); }
+      100% { opacity: 0; transform: scale(1.35); }
+    }
+
+    .gl-ubicacion__boton {
+      display: inline-block;
+      padding: 0.78rem 1.9rem;
+      border-radius: 999px;
+      border: 1px solid var(--primary-color);
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.68rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      text-decoration: none;
+      box-shadow: 0 10px 24px rgba(34, 48, 56, 0.28);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .gl-ubicacion__boton:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(34, 48, 56, 0.36); }
+
+    .gl-ubicacion__mapa-zona {
+      position: relative;
+      margin: 0;
+      padding: 9px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: clamp(16px, 2.6vw, 24px);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 26px 56px rgba(34, 48, 56, 0.22);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transform: rotate(-1.2deg);
+    }
+    .gl-ubicacion__brujula {
+      position: absolute;
+      top: -20px;
+      left: -14px;
+      width: 52px;
+      padding: 6px;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 50%;
+      box-shadow: 0 12px 26px rgba(34, 48, 56, 0.2);
+      color: var(--primary-color);
+      animation: glUbicacionGiro 20s linear infinite;
+    }
+    @keyframes glUbicacionGiro { to { transform: rotate(360deg); } }
+    .gl-ubicacion__mapa {
+      overflow: hidden;
+      border-radius: clamp(12px, 2vw, 18px);
+      border: 1px solid var(--surface-border-color);
+    }
+    .gl-ubicacion__mapa iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border: 0;
+      filter: saturate(0.85);
+    }
+    .gl-ubicacion__postal {
+      position: absolute;
+      bottom: -20px;
+      right: clamp(0.6rem, 3vw, 1.6rem);
+      width: clamp(120px, 17vw, 165px);
+      margin: 0;
+      padding: 6px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 12px;
+      box-shadow: 0 16px 34px rgba(34, 48, 56, 0.24);
+      transform: rotate(2.4deg);
+    }
+    .gl-ubicacion__postal img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      border-radius: 8px;
+      filter: saturate(0.9);
+    }
+
+    @media (max-width: 880px) {
+      .gl-ubicacion__grid { grid-template-columns: 1fr; }
+      .gl-ubicacion__mapa-zona { transform: none; max-width: 470px; margin: 0 auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .gl-ubicacion * { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="gl-ubicacion__grid">
+    <div class="gl-ubicacion__info">
+      <p class="gl-ubicacion__etiqueta" memory_type="text" memory_usage="custom" memory_key="ubicacion-etiqueta">Punto de encuentro</p>
+      <h2 class="gl-ubicacion__titulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Cómo llegar</h2>
+      <address class="gl-ubicacion__direccion" memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion">
+        Nombre del lugar<br />
+        Camino del Cristal 321<br />
+        Ciudad, Estado
+      </address>
+      <span class="gl-ubicacion__baliza" aria-hidden="true">
+        <span class="gl-ubicacion__punto"></span>
+        Te esperamos aquí
+      </span>
+      <br />
+      <a class="gl-ubicacion__boton" href="https://www.google.com/maps?q=Ubicacion+del+evento" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Cómo llegar</a>
+    </div>
+
+    <figure class="gl-ubicacion__mapa-zona">
+      <svg class="gl-ubicacion__brujula" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M24 8 L27 24 L24 40 L21 24 Z" fill="currentColor"/>
+        <path d="M8 24 L24 21 L40 24 L24 27 Z" fill="currentColor" opacity="0.5"/>
+      </svg>
+      <div class="gl-ubicacion__mapa" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url">
+        <iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen></iframe>
+      </div>
+      <figure class="gl-ubicacion__postal" memory_type="image" memory_usage="custom" memory_source="library" memory_key="ubicacion-foto">
+        <img src="https://loremflickr.com/440/280/venue,mist" alt="Vista del lugar del evento" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" />
+        <figcaption hidden>El lugar</figcaption>
+      </figure>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.gl-ubicacion');
+      if (!root) return;
+      root.classList.add('gl-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-mapa',
+      style_name: 'Vidrio Esmerilado — Mapa',
+      descripcion: 'Tarjetas de cristal con mapa y postal superpuesta, brújula giratoria, baliza con sonar y botón píldora con elevación al hover.',
+      tags: ['ubicacion', 'mapa', 'cristal', 'brujula', 'baliza', 'glassmorphism'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>

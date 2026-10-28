@@ -1,0 +1,231 @@
+<section
+  class="hb-itinerario2"
+  data-gemini-id="itinerario-agenda"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .hb-itinerario2 {
+      --primary-color: #23301f;
+      --secondary-color: #5c6657;
+      --accent-color: #7d8f6e;
+      --bg-color: #f6f4ec;
+      --surface-color: #fffdf6;
+      --surface-border-color: rgba(35, 48, 31, 0.22);
+      --text-color: #23301f;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: clamp(3rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem) clamp(4rem, 10vw, 7rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/botanical,paper');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .hb-itinerario2 *,
+    .hb-itinerario2 *::before,
+    .hb-itinerario2 *::after { box-sizing: border-box; }
+
+    .hb-itinerario2::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 86%, transparent);
+    }
+
+    .hb-itinerario2__cinta {
+      position: absolute;
+      z-index: 0;
+      top: 52%;
+      left: -12%;
+      width: 130%;
+      padding: clamp(1.6rem, 4vw, 3rem) 0;
+      transform: rotate(-7deg);
+      background:
+        repeating-linear-gradient(90deg, transparent 0 34px, color-mix(in srgb, var(--accent-color) 16%, transparent) 34px 35px),
+        var(--surface-color);
+      border-top: 1px solid var(--accent-color);
+      border-bottom: 1px solid var(--accent-color);
+      box-shadow: 0 24px 54px rgba(35, 48, 31, 0.16);
+    }
+    .hb-itinerario2__cinta::before,
+    .hb-itinerario2__cinta::after {
+      content: '';
+      position: absolute;
+      top: -12px;
+      width: 90px;
+      height: 26px;
+      background: color-mix(in srgb, var(--accent-color) 34%, transparent);
+      transform: rotate(-4deg);
+    }
+    .hb-itinerario2__cinta::before { left: 8%; }
+    .hb-itinerario2__cinta::after { right: 12%; transform: rotate(5deg); }
+
+    .hb-itinerario2__titulo {
+      position: relative;
+      z-index: 2;
+      margin: 0 0 0.4rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(2.4rem, 7vw, 4.6rem);
+      line-height: 0.95;
+      color: var(--primary-color);
+    }
+    .hb-itinerario2__titulo em {
+      display: block;
+      font-style: italic;
+      font-size: 0.42em;
+      color: var(--accent-color);
+      transform: rotate(-2deg) translateX(clamp(0.6rem, 4vw, 3rem));
+    }
+
+    .hb-itinerario2__hito {
+      position: relative;
+      z-index: 2;
+      width: min(78%, 470px);
+      margin: 0 0 clamp(-1rem, -1.5vw, -0.4rem) 0;
+      padding: clamp(1.1rem, 2.6vw, 1.6rem) clamp(1.2rem, 3vw, 1.9rem);
+      background: color-mix(in srgb, var(--surface-color) 92%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 16px 36px rgba(35, 48, 31, 0.16);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+    .hb-itinerario2__hito:nth-child(odd) { transform: rotate(-2.6deg) translateX(clamp(-2rem, -4vw, -1rem)); }
+    .hb-itinerario2__hito:nth-child(even) { transform: rotate(2.2deg) translateX(clamp(4rem, 14vw, 12rem)); }
+    .hb-itinerario2__hito:nth-child(even) .hb-itinerario2__num { color: var(--bg-color); background: var(--accent-color); }
+    .hb-itinerario2__hito:nth-child(3) { transform: rotate(-1.2deg) translateX(clamp(1rem, 6vw, 5rem)); }
+
+    .hb-itinerario2__num {
+      position: absolute;
+      top: -0.85em;
+      left: -0.4em;
+      display: grid;
+      place-items: center;
+      width: clamp(2.6rem, 6vw, 3.6rem);
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      border: 1px solid var(--accent-color);
+      background: var(--surface-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1rem, 2.4vw, 1.5rem);
+      color: var(--accent-color);
+      box-shadow: 0 8px 18px rgba(35, 48, 31, 0.2);
+    }
+
+    .hb-itinerario2__hora {
+      display: inline-block;
+      margin-bottom: 0.3rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.68rem, 1.3vw, 0.8rem);
+      letter-spacing: 0.26em;
+      color: var(--accent-color);
+    }
+    .hb-itinerario2__momento {
+      margin: 0 0 0.25rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(1.05rem, 2.2vw, 1.32rem);
+      color: var(--primary-color);
+    }
+    .hb-itinerario2__detalle {
+      margin: 0;
+      font-style: italic;
+      font-size: clamp(0.78rem, 1.4vw, 0.88rem);
+      line-height: 1.6;
+      color: var(--secondary-color);
+    }
+
+    .hb-itinerario2__especimen {
+      position: absolute;
+      z-index: 1;
+      width: clamp(80px, 14vw, 150px);
+      color: var(--accent-color);
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    .hb-itinerario2__especimen--a { top: 6%; right: 4%; transform: rotate(24deg); }
+    .hb-itinerario2__especimen--b { bottom: 4%; left: 2%; transform: rotate(-30deg); }
+
+    @media (max-width: 640px) {
+      .hb-itinerario2__hito,
+      .hb-itinerario2__hito:nth-child(even),
+      .hb-itinerario2__hito:nth-child(3) { width: 100%; transform: rotate(0); margin-left: 0; }
+      .hb-itinerario2__cinta { transform: rotate(-3deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-itinerario2 * { transition: none !important; }
+    }
+  </style>
+
+  <svg class="hb-itinerario2__especimen hb-itinerario2__especimen--a" viewBox="0 0 120 220" fill="none" aria-hidden="true">
+    <path d="M60 214 C58 150 56 90 62 8" stroke="currentColor" stroke-width="1.4"/>
+    <path d="M60 60 C42 52 32 38 30 20 C48 24 58 38 60 60Z" stroke="currentColor" stroke-width="1.2"/>
+    <path d="M61 100 C80 92 90 78 92 60 C74 64 63 78 61 100Z" stroke="currentColor" stroke-width="1.2"/>
+    <circle cx="88" cy="130" r="9" stroke="currentColor" stroke-width="1.2"/>
+  </svg>
+  <svg class="hb-itinerario2__especimen hb-itinerario2__especimen--b" viewBox="0 0 120 220" fill="none" aria-hidden="true">
+    <path d="M60 214 C58 150 56 90 62 8" stroke="currentColor" stroke-width="1.4"/>
+    <path d="M61 100 C80 92 90 78 92 60 C74 64 63 78 61 100Z" stroke="currentColor" stroke-width="1.2"/>
+    <circle cx="34" cy="120" r="9" stroke="currentColor" stroke-width="1.2"/>
+  </svg>
+
+  <div class="hb-itinerario2__cinta" aria-hidden="true"></div>
+
+  <h2 class="hb-itinerario2__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">
+    Herbario <em>del gran día</em>
+  </h2>
+
+  <article class="hb-itinerario2__hito">
+    <span class="hb-itinerario2__num" aria-hidden="true">I</span>
+    <time class="hb-itinerario2__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00 h</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1">
+      <h3 class="hb-itinerario2__momento">Recolección</h3>
+      <p class="hb-itinerario2__detalle">Recepción de invitados entre aromas de campo.</p>
+    </div>
+  </article>
+
+  <article class="hb-itinerario2__hito">
+    <span class="hb-itinerario2__num" aria-hidden="true">II</span>
+    <time class="hb-itinerario2__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00 h</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2">
+      <h3 class="hb-itinerario2__momento">Ceremonia</h3>
+      <p class="hb-itinerario2__detalle">El voto principal bajo el arco botánico.</p>
+    </div>
+  </article>
+
+  <article class="hb-itinerario2__hito">
+    <span class="hb-itinerario2__num" aria-hidden="true">III</span>
+    <time class="hb-itinerario2__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00 h</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3">
+      <h3 class="hb-itinerario2__momento">Prensa de flores</h3>
+      <p class="hb-itinerario2__detalle">Cena larga con discursos entre láminas.</p>
+    </div>
+  </article>
+
+  <article class="hb-itinerario2__hito">
+    <span class="hb-itinerario2__num" aria-hidden="true">IV</span>
+    <time class="hb-itinerario2__hora" datetime="22:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">22:00 h</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4">
+      <h3 class="hb-itinerario2__momento">Polen y baile</h3>
+      <p class="hb-itinerario2__detalle">Pista abierta hasta que se acaben las especies.</p>
+    </div>
+  </article>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Herbario — Cinta Desenrrollada',
+      descripcion: 'Cinta de herbario cruzando en diagonal con cintas adhesivas, hitos rotados que la superponen, numerales romanos en medallones y especímenes sueltos.',
+      tags: ['itinerario', 'cinta', 'diagonal', 'rotado', 'herbario', 'caos controlado'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>

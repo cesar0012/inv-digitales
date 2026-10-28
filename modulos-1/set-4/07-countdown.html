@@ -1,0 +1,58 @@
+<section class="gl-cd2" data-gemini-id="countdown-vidrio-entrefaces" path="placeholder" memory_source="generated" memory_type="background" memory_usage="protected" data-countdown-target="YYYY-MM-DDTHH:MM:SS">
+<style>
+.gl-cd2 { --primary-color:#223038; --secondary-color:#5d7078; --accent-color:#8fb6c9; --bg-color:#eef4f7; --surface-color:rgba(255,255,255,.55); --surface-border-color:rgba(255,255,255,.75); --text-color:#223038;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:640px; display:grid; place-items:center; padding:clamp(3rem,7vw,5rem) clamp(1rem,5vw,3rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/frosted,glass'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; perspective:1200px; }
+.gl-cd2 *, .gl-cd2 *::before, .gl-cd2 *::after { box-sizing:border-box; }
+.gl-cd2::before { content:''; position:absolute; inset:0; z-index:-1; background:linear-gradient(160deg, color-mix(in srgb, var(--bg-color) 62%, transparent), color-mix(in srgb, var(--accent-color) 24%, transparent)); }
+.gl-cd2__titulo { position:relative; z-index:2; margin:0 0 clamp(1.4rem,3vw,2rem); font-family:Georgia,serif; font-weight:400; font-size:clamp(1.7rem,4vw,2.6rem); color:var(--primary-color); }
+.gl-cd2__fecha { position:relative; z-index:2; display:inline-block; margin-bottom:clamp(1.6rem,4vw,2.4rem); padding:.5rem 1.5rem; border-radius:999px; border:1px solid var(--surface-border-color); background:rgba(255,255,255,.4); font-family:Arial,sans-serif; font-size:clamp(.7rem,1.4vw,.82rem); letter-spacing:.34em; text-transform:uppercase; color:var(--text-color); }
+/* cifras entre dos vidrios: cada número flotando entre caras de cristal */
+.gl-cd2__entrevidrios { position:relative; z-index:2; display:flex; justify-content:center; align-items:center; gap:clamp(.2rem,1vw,.6rem); transform-style:preserve-3d; }
+.gl-cd2__vidrio { position:relative; width:clamp(74px,15vw,120px); aspect-ratio:3/4; display:grid; place-items:center; background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:14px; box-shadow:inset 0 1px 0 rgba(255,255,255,.9), 0 20px 44px rgba(34,48,56,.2); backdrop-filter:blur(9px); -webkit-backdrop-filter:blur(9px); }
+.gl-cd2__vidrio:nth-child(1){ transform:translateZ(30px) rotate(-3deg); }
+.gl-cd2__vidrio:nth-child(2){ transform:translateZ(55px) rotate(2deg) translateY(-8px); }
+.gl-cd2__vidrio:nth-child(3){ transform:translateZ(40px) rotate(-1.4deg) translateY(6px); }
+.gl-cd2__vidrio:nth-child(4){ transform:translateZ(70px) rotate(3deg); }
+.gl-cd2__vidrio::before { content:''; position:absolute; top:8px; right:10px; width:34px; height:9px; border-radius:999px; background:linear-gradient(90deg, transparent, rgba(255,255,255,.9), transparent); transform:rotate(-22deg); }
+.gl-cd2__numero { font-family:Georgia,serif; font-size:clamp(1.8rem,5vw,3.2rem); font-variant-numeric:tabular-nums; color:var(--primary-color); }
+.gl-cd2__rotulo { display:block; font-family:Arial,sans-serif; font-size:clamp(.5rem,1vw,.58rem); letter-spacing:.32em; text-transform:uppercase; color:var(--secondary-color); margin-top:.3rem; }
+/* vidrio suelto girando como lupa decorativa */
+.gl-cd2__lente { position:absolute; z-index:1; top:8%; right:6%; width:clamp(60px,10vw,90px); aspect-ratio:1/1; border-radius:50%; border:1px solid var(--surface-border-color); background:radial-gradient(circle at 32% 28%, rgba(255,255,255,.75), transparent 55%); box-shadow:0 18px 36px rgba(34,48,56,.2); animation:glCd2Deriva 12s ease-in-out infinite; pointer-events:none; }
+@keyframes glCd2Deriva { 0%,100% { transform:translateY(0) rotate(0);} 50% { transform:translateY(-14px) rotate(6deg);} }
+@media (max-width:560px){ .gl-cd2__entrevidrios { flex-wrap:wrap; } .gl-cd2__vidrio { transform:none !important; } }
+@media (prefers-reduced-motion:reduce){ .gl-cd2__lente { animation:none; } }
+</style>
+<span class="gl-cd2__lente" aria-hidden="true"></span>
+<div>
+  <h2 class="gl-cd2__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">El tiempo, entre dos cristales</h2>
+  <time class="gl-cd2__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+  <div class="gl-cd2__entrevidrios" aria-label="Cuenta regresiva">
+    <div class="gl-cd2__vidrio"><span><span class="gl-cd2__numero" data-countdown-unit="days">--</span><span class="gl-cd2__rotulo">Días</span></span></div>
+    <div class="gl-cd2__vidrio"><span><span class="gl-cd2__numero" data-countdown-unit="hours">--</span><span class="gl-cd2__rotulo">Horas</span></span></div>
+    <div class="gl-cd2__vidrio"><span><span class="gl-cd2__numero" data-countdown-unit="minutes">--</span><span class="gl-cd2__rotulo">Min</span></span></div>
+    <div class="gl-cd2__vidrio"><span><span class="gl-cd2__numero" data-countdown-unit="seconds">--</span><span class="gl-cd2__rotulo">Seg</span></span></div>
+  </div>
+</div>
+<script>
+(function(){ var el=null; try{ el=document.currentScript.closest('[data-gemini-id^="countdown"]'); }catch(e){} if(!el) el=document.querySelector('[data-gemini-id^="countdown"]'); if(!el) return;
+  var target=NaN; var attr=el.getAttribute('data-countdown-target');
+  if(attr&&attr.indexOf('YYYY')===-1){ var p=new Date(attr); if(!isNaN(p.getTime())) target=p.getTime(); }
+  if(isNaN(target)&&window.__countdownTarget){ var p1=new Date(window.__countdownTarget); if(!isNaN(p1.getTime())) target=p1.getTime(); }
+  if(isNaN(target)&&window.countdown_target){ var p2=new Date(window.countdown_target); if(!isNaN(p2.getTime())) target=p2.getTime(); }
+  var intervalId=null; (window.__countdownIntervals=window.__countdownIntervals||[]).forEach(clearInterval); window.__countdownIntervals=[];
+  function pad2(n){ return n<10?'0'+n:''+n; }
+  function setUnit(u,v){ var n=el.querySelector('[data-countdown-unit="'+u+'"]'); if(n) n.textContent=v; }
+  function tick(){ if(!Number.isFinite(target)) return; var d=Math.max(target-Date.now(),0);
+    setUnit('days',Math.floor(d/86400000)); setUnit('hours',pad2(Math.floor((d%86400000)/3600000))); setUnit('minutes',pad2(Math.floor((d%3600000)/60000))); setUnit('seconds',pad2(Math.floor((d%60000)/1000)));
+    if(d===0&&intervalId!==null){ clearInterval(intervalId); intervalId=null; window.__countdownIntervals=[]; } }
+  function start(nt){ if(nt){ var p=new Date(nt); if(!isNaN(p.getTime())) target=p.getTime(); }
+    (window.__countdownIntervals||[]).forEach(clearInterval); window.__countdownIntervals=[]; intervalId=null;
+    if(!Number.isFinite(target)) return; tick(); if(target>Date.now()){ intervalId=setInterval(tick,1000); window.__countdownIntervals.push(intervalId); } }
+  start(); window.updateCountdown=start;
+})();
+</script>
+<script>
+var moduleMetadata = { module_type:'countdown', module_name:'countdown-vidrio-entrefaces', style_name:'Entre Dos Cristales', descripcion:'Cifras flotando entre caras de vidrio con translateZ distinto por dígito, destellos superiores y lupa a la deriva.', tags:['countdown','vidrio','entrefaces','translatez','glassmorphism'], tipo:'countdown' };
+</script>
+</section>

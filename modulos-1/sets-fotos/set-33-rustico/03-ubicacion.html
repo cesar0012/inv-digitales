@@ -1,0 +1,219 @@
+<section
+  class="rr-ub"
+  data-gemini-id="ubicacion-mapa"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Allura&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .rr-ub, .rr-ub *, .rr-ub *::before, .rr-ub *::after { box-sizing: border-box; }
+    .rr-ub {
+      --t-bg: var(--bg-color, #F3EDE1);
+      --t-tx: var(--text-color, #3A2B1F);
+      --t-p: var(--primary-color, #8B9E7C);
+      --t-s: var(--secondary-color, #9A7350);
+      --t-a: var(--accent-color, #EDBC68);
+      --t-display: var(--font-script, 'Allura', cursive);
+      --t-text: var(--font-heading, 'EB Garamond', Georgia, serif);
+      --t-wood: color-mix(in srgb, var(--t-s) 82%, #2b1c11);
+      --t-wood-d: color-mix(in srgb, var(--t-s) 34%, #170f09);
+      --t-sage-d: color-mix(in srgb, var(--t-p) 58%, #1d261a);
+      --t-sage-l: color-mix(in srgb, var(--t-p) 55%, var(--t-bg));
+      --t-ivory: color-mix(in srgb, var(--t-bg) 70%, #ffffff);
+      --t-twine: color-mix(in srgb, var(--t-s) 50%, #dcc7a4);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(32rem, 60vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(5rem, 9vw, 7rem) clamp(1.25rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-wood-d);
+      background-image: url('https://loremflickr.com/1600/1000/barn,countryside?lock=3031');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-bg);
+      text-align: left;
+      font-family: var(--t-text);
+    }
+    .rr-ub::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 50% 60% at 30% 50%, color-mix(in srgb, var(--t-a) 12%, transparent), transparent 70%),
+        linear-gradient(105deg, color-mix(in srgb, var(--t-wood-d) 90%, transparent), color-mix(in srgb, var(--t-wood) 72%, transparent) 55%, color-mix(in srgb, var(--t-wood-d) 92%, transparent));
+    }
+    .rr-ub__grain { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mix-blend-mode: multiply; opacity: .55; will-change: transform; }
+    .rr-ub__grain { opacity: .5; }
+    .rr-ub__wrap { width: min(100%, 66rem); display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(2.5rem, 6vw, 5rem); align-items: center; }
+    .rr-ub__map {
+      position: relative;
+      padding: .85rem;
+      background: radial-gradient(ellipse at 30% 10%, rgba(255, 255, 255, .5), transparent 60%), repeating-linear-gradient(0deg, color-mix(in srgb, var(--t-s) 7%, transparent) 0 1px, transparent 1px 4px), repeating-linear-gradient(90deg, color-mix(in srgb, var(--t-s) 6%, transparent) 0 1px, transparent 1px 5px), var(--t-ivory);
+      border-radius: 4px;
+      transform: rotate(-1.6deg);
+      box-shadow: 0 1.8rem 3rem rgba(0, 0, 0, .5);
+    }
+    .rr-ub__map::after { content: ''; position: absolute; inset: .85rem; border: 1px solid color-mix(in srgb, var(--t-s) 30%, transparent); pointer-events: none; }
+    .rr-ub__mapsvg { display: block; width: 100%; height: auto; }
+    .rr-ub__euca { position: absolute; width: clamp(5rem, 11vw, 7.5rem); height: auto; right: -2.4rem; bottom: -3rem; transform: rotate(-140deg); filter: drop-shadow(0 .4rem .5rem rgba(0, 0, 0, .35)); pointer-events: none; }
+    .rr-ub__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(3rem, 6.5vw, 4.5rem); line-height: 1; color: var(--t-sage-l); }
+    .rr-ub__venue { margin: .9rem 0 .5rem; font-size: clamp(1.5rem, 3.4vw, 2rem); font-weight: 500; line-height: 1.2; }
+    .rr-ub__addr { font-style: normal; font-size: 1.12rem; line-height: 1.6; color: color-mix(in srgb, var(--t-bg) 92%, transparent); }
+    .rr-ub__addr p { margin: 0; }
+    .rr-ub__note { margin: 1rem 0 1.9rem; max-width: 26rem; font-style: italic; line-height: 1.55; color: color-mix(in srgb, var(--t-bg) 78%, transparent); }
+    .rr-ub__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .7rem;
+      min-height: 3.2rem;
+      padding: .7rem 1.5rem;
+      border-radius: 3px;
+      text-decoration: none;
+      font-size: 1.12rem;
+      font-weight: 600;
+      color: var(--t-wood-d);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-a) 62%, #fff4dc), color-mix(in srgb, var(--t-a) 88%, var(--t-s)));
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .3), 0 .6rem 1.4rem rgba(0, 0, 0, .35), 0 0 1.6rem color-mix(in srgb, var(--t-a) 35%, transparent);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .rr-ub__btn:hover, .rr-ub__btn:focus-visible { transform: translateY(-2px); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .4), 0 .9rem 1.8rem rgba(0, 0, 0, .4), 0 0 2.8rem color-mix(in srgb, var(--t-a) 60%, transparent); outline: none; }
+    .rr-ub__arrow { width: 1.2rem; height: 1.2rem; transition: transform .3s ease; }
+    .rr-ub__btn:hover .rr-ub__arrow { transform: translateX(4px); }
+
+    @media (max-width: 52rem) {
+      .rr-ub__wrap { grid-template-columns: minmax(0, 1fr); }
+      .rr-ub__map { transform: rotate(-1deg); }
+      .rr-ub__euca { right: -1.4rem; width: 5rem; }
+    }
+
+    .rr-ub--anim .rr-ub__map { transition: opacity .45s ease, transform .5s cubic-bezier(.3, 1.3, .5, 1); }
+    .rr-ub--anim .rr-ub__info { transition: opacity .45s ease .15s, transform .5s ease .15s; }
+    .rr-ub--anim:not(.is-in) .rr-ub__map { opacity: 0; transform: rotate(-7deg) translateY(1.6rem); }
+    .rr-ub--anim:not(.is-in) .rr-ub__info { opacity: 0; transform: translateX(1.2rem); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .rr-ub *, .rr-ub *::before, .rr-ub *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="rr-ub__grain" aria-hidden="true" focusable="false"><filter id="rr-ub-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.0035 0.07" numOctaves="4" seed="21"></feTurbulence><feColorMatrix type="matrix" values="0 0 0 0 0.17  0 0 0 0 0.10  0 0 0 0 0.05  2.6 0 0 0 -1.05"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#rr-ub-grain)"></rect></svg>
+  <div class="rr-ub__wrap">
+    <div class="rr-ub__map">
+      <svg class="rr-ub__mapsvg" viewBox="0 0 480 340" aria-hidden="true" focusable="false">
+        <defs>
+          <radialGradient id="rr-ub-glow"><stop offset="0" style="stop-color: var(--t-a); stop-opacity: .95"></stop><stop offset=".35" style="stop-color: var(--t-a); stop-opacity: .4"></stop><stop offset="1" style="stop-color: var(--t-a); stop-opacity: 0"></stop></radialGradient>
+        </defs>
+        <rect width="480" height="340" style="fill: color-mix(in srgb, var(--t-bg) 88%, var(--t-s))"></rect>
+        <path d="M0 40 L140 20 L170 120 L20 150 Z" style="fill: color-mix(in srgb, var(--t-p) 22%, transparent)"></path>
+        <path d="M360 0 L480 0 L480 120 L390 140 Z" style="fill: color-mix(in srgb, var(--t-p) 18%, transparent)"></path>
+        <path d="M60 230 L200 210 L230 340 L40 340 Z" style="fill: color-mix(in srgb, var(--t-s) 14%, transparent)"></path>
+        <path d="M390 200 L480 190 L480 340 L360 340 Z" style="fill: color-mix(in srgb, var(--t-p) 20%, transparent)"></path>
+        <path d="M0 290 C 90 270, 120 300, 210 280 S 340 300, 480 250" style="fill: none; stroke: color-mix(in srgb, var(--t-p) 35%, #9fb3b4); stroke-width: 9; stroke-linecap: round; opacity: .55"></path>
+        <path d="M-10 190 C 80 200, 140 160, 220 170 S 330 210, 490 160" style="fill: none; stroke: color-mix(in srgb, var(--t-s) 45%, transparent); stroke-width: 11; stroke-linecap: round"></path>
+        <path d="M-10 190 C 80 200, 140 160, 220 170 S 330 210, 490 160" style="fill: none; stroke: var(--t-ivory); stroke-width: 7; stroke-linecap: round"></path>
+        <path d="M250 340 C 255 280, 230 240, 262 186" style="fill: none; stroke: color-mix(in srgb, var(--t-s) 40%, transparent); stroke-width: 8; stroke-linecap: round"></path>
+        <path d="M250 340 C 255 280, 230 240, 262 186" style="fill: none; stroke: var(--t-ivory); stroke-width: 5; stroke-linecap: round"></path>
+        <path d="M262 186 C 280 172, 296 170, 302 160" style="fill: none; stroke: color-mix(in srgb, var(--t-s) 70%, transparent); stroke-width: 2; stroke-dasharray: 3 5; stroke-linecap: round"></path>
+        <ellipse cx="61" cy="87" rx="6.8" ry="2.7" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="61" cy="80" r="7.6" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></circle><circle cx="59" cy="78" r="3.4" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="87" cy="85" rx="6.6" ry="2.6" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="87" cy="79" r="7.3" style="fill: var(--t-p)"></circle><circle cx="85" cy="76" r="3.3" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="55" cy="84" rx="6.0" ry="2.3" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="55" cy="78" r="6.7" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></circle><circle cx="53" cy="76" r="3.0" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="49" cy="95" rx="7.5" ry="2.9" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="49" cy="88" r="8.3" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></circle><circle cx="46" cy="85" r="3.7" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="93" cy="100" rx="6.6" ry="2.6" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="93" cy="94" r="7.3" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></circle><circle cx="91" cy="91" r="3.3" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="74" cy="95" rx="8.0" ry="3.1" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="74" cy="87" r="8.9" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></circle><circle cx="71" cy="84" r="4.0" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="73" cy="86" rx="6.0" ry="2.3" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="73" cy="80" r="6.7" style="fill: var(--t-p)"></circle><circle cx="71" cy="78" r="3.0" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="400" cy="62" rx="7.4" ry="2.9" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="400" cy="55" r="8.3" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></circle><circle cx="398" cy="52" r="3.7" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="399" cy="67" rx="5.2" ry="2.0" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="399" cy="62" r="5.8" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></circle><circle cx="398" cy="60" r="2.6" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="422" cy="52" rx="4.7" ry="1.8" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="422" cy="48" r="5.2" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></circle><circle cx="421" cy="46" r="2.4" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="420" cy="68" rx="7.3" ry="2.8" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="420" cy="61" r="8.1" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></circle><circle cx="417" cy="58" r="3.6" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="424" cy="64" rx="5.6" ry="2.2" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="424" cy="59" r="6.2" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></circle><circle cx="423" cy="57" r="2.8" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="430" cy="59" rx="6.6" ry="2.6" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="430" cy="53" r="7.3" style="fill: var(--t-p)"></circle><circle cx="428" cy="51" r="3.3" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="120" cy="252" rx="6.1" ry="2.4" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="120" cy="246" r="6.8" style="fill: var(--t-p)"></circle><circle cx="118" cy="244" r="3.1" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="145" cy="245" rx="6.0" ry="2.3" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="145" cy="239" r="6.7" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></circle><circle cx="143" cy="237" r="3.0" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="102" cy="254" rx="4.6" ry="1.8" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="102" cy="250" r="5.2" style="fill: var(--t-p)"></circle><circle cx="100" cy="248" r="2.3" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="98" cy="259" rx="7.3" ry="2.9" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="98" cy="252" r="8.2" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></circle><circle cx="96" cy="249" r="3.7" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="112" cy="252" rx="6.3" ry="2.4" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="112" cy="246" r="7.0" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></circle><circle cx="110" cy="244" r="3.1" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="398" cy="254" rx="5.5" ry="2.1" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="398" cy="249" r="6.1" style="fill: var(--t-p)"></circle><circle cx="396" cy="247" r="2.7" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="429" cy="255" rx="7.0" ry="2.7" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="429" cy="248" r="7.8" style="fill: var(--t-p)"></circle><circle cx="426" cy="245" r="3.5" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="424" cy="271" rx="6.1" ry="2.4" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="424" cy="265" r="6.8" style="fill: var(--t-p)"></circle><circle cx="422" cy="263" r="3.1" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="414" cy="269" rx="4.6" ry="1.8" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="414" cy="265" r="5.1" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></circle><circle cx="413" cy="263" r="2.3" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="412" cy="269" rx="6.3" ry="2.4" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="412" cy="263" r="7.0" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></circle><circle cx="410" cy="261" r="3.1" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="434" cy="255" rx="5.4" ry="2.1" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="434" cy="250" r="6.0" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></circle><circle cx="432" cy="248" r="2.7" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="222" cy="115" rx="5.1" ry="2.0" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="222" cy="110" r="5.7" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></circle><circle cx="220" cy="108" r="2.5" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="203" cy="128" rx="7.4" ry="2.9" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="203" cy="121" r="8.3" style="fill: var(--t-p)"></circle><circle cx="200" cy="118" r="3.7" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="188" cy="113" rx="5.8" ry="2.3" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="188" cy="108" r="6.4" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></circle><circle cx="187" cy="106" r="2.9" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="384" cy="115" rx="5.1" ry="2.0" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="384" cy="110" r="5.7" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></circle><circle cx="382" cy="109" r="2.6" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="368" cy="114" rx="7.5" ry="2.9" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="368" cy="106" r="8.3" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></circle><circle cx="366" cy="104" r="3.7" style="fill: rgba(255,255,255,.18)"></circle><ellipse cx="348" cy="112" rx="6.0" ry="2.3" style="fill: rgba(58,43,31,.12)"></ellipse><circle cx="348" cy="106" r="6.7" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></circle><circle cx="346" cy="104" r="3.0" style="fill: rgba(255,255,255,.18)"></circle>
+        <ellipse cx="300" cy="166" rx="12" ry="4.4" data-rr-ring style="fill: none; stroke: var(--t-a); stroke-width: 2"></ellipse>
+        <ellipse cx="300" cy="166" rx="34" ry="12" data-rr-ring style="fill: none; stroke: var(--t-a); stroke-width: 2; opacity: .55"></ellipse>
+        <ellipse cx="300" cy="166" rx="56" ry="20" data-rr-ring style="fill: none; stroke: var(--t-a); stroke-width: 2; opacity: .25"></ellipse>
+        <g>
+          <path d="M284 162 L284 146 L300 134 L316 146 L316 162 Z" style="fill: color-mix(in srgb, var(--t-s) 75%, #6b2f22)"></path>
+          <path d="M280 147 L300 131 L320 147" style="fill: none; stroke: var(--t-wood-d); stroke-width: 2.4; stroke-linejoin: round"></path>
+          <rect x="295" y="151" width="10" height="11" style="fill: var(--t-ivory)"></rect>
+          <path d="M295 151 L305 162 M305 151 L295 162" style="stroke: color-mix(in srgb, var(--t-s) 75%, #6b2f22); stroke-width: 1.2"></path>
+        </g>
+        <g data-rr-pin>
+          <path d="M300 0 L300 70" style="stroke: var(--t-wood-d); stroke-width: 1.6"></path>
+          <circle cx="300" cy="92" r="34" fill="url(#rr-ub-glow)" data-rr-halo></circle>
+          <rect x="295.5" y="68" width="9" height="10" rx="1.5" style="fill: color-mix(in srgb, var(--t-s) 40%, #3b3026)"></rect>
+          <path d="M296 78 L304 78 C304 83 312 87 312 96 A12 12 0 0 1 288 96 C288 87 296 83 296 78 Z" style="fill: color-mix(in srgb, var(--t-a) 55%, #fff6df); stroke: color-mix(in srgb, var(--t-a) 60%, var(--t-s)); stroke-width: 1"></path>
+          <path d="M297.5 84 L298 94 Q300 99 302 94 L302.5 84" style="fill: none; stroke: color-mix(in srgb, var(--t-a) 40%, #b0641f); stroke-width: 1.2"></path>
+        </g>
+        <g transform="translate(440 300)">
+          <circle r="16" style="fill: none; stroke: color-mix(in srgb, var(--t-s) 55%, transparent); stroke-width: 1"></circle>
+          <path d="M0 -13 L4 0 L0 13 L-4 0 Z" style="fill: color-mix(in srgb, var(--t-s) 60%, transparent)"></path>
+          <path d="M0 -13 L4 0 L-4 0 Z" style="fill: var(--t-sage-d)"></path>
+        </g>
+      </svg>
+      <svg class="rr-ub__euca" viewBox="0 0 120 260" aria-hidden="true" focusable="false"><path d="M60.0,256.0 Q94.3,130.0 52.1,12.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 2; fill: none; stroke-linecap: round"></path><path d="M68.1,220.9 L71.7,224.8" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="88.5" cy="224.7" rx="18.7" ry="16.1" transform="rotate(-0 88.5 224.7)" style="fill: var(--t-p)"></ellipse><path d="M74.5,224.8 L101.5,224.7" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M72.7,191.0 L68.8,187.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="52.7" cy="188.7" rx="18.0" ry="15.5" transform="rotate(-186 52.7 188.7)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M66.1,187.2 L40.1,190.0" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M75.0,161.4 L79.1,159.9" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="95.5" cy="162.3" rx="18.4" ry="15.9" transform="rotate(8 95.5 162.3)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M81.8,160.3 L108.3,164.1" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M75.2,132.0 L71.4,133.8" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="57.5" cy="132.6" rx="15.4" ry="13.3" transform="rotate(185 57.5 132.6)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M69.1,133.6 L46.7,131.7" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M73.1,102.8 L76.8,102.2" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="89.4" cy="101.1" rx="14.1" ry="12.1" transform="rotate(-5 89.4 101.1)" style="fill: var(--t-p)"></ellipse><path d="M78.9,102.0 L99.3,100.2" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M68.9,73.9 L64.8,72.8" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="52.7" cy="76.9" rx="14.1" ry="12.1" transform="rotate(161 52.7 76.9)" style="fill: color-mix(in srgb, var(--t-p) 76%, #b9c7c2)"></ellipse><path d="M62.8,73.5 L43.4,80.1" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M62.4,45.2 L66.7,46.5" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="75.8" cy="41.7" rx="11.4" ry="9.8" transform="rotate(-28 75.8 41.7)" style="fill: var(--t-p)"></ellipse><path d="M68.2,45.7 L82.8,37.9" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M53.7,16.7 L49.8,16.6" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="41.2" cy="21.0" rx="10.8" ry="9.3" transform="rotate(153 41.2 21.0)" style="fill: var(--t-p)"></ellipse><path d="M48.4,17.3 L34.5,24.5" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><ellipse cx="52.1" cy="9.0" rx="3.2" ry="5" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse></svg>
+    </div>
+    <div class="rr-ub__info">
+      <h2 class="rr-ub__title" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Dónde celebraremos</h2>
+<figure class="vmap-embed" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,640px);"><iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen style="display:block;width:100%;height:clamp(210px,38vw,330px);border:1px solid var(--primary-color,#9b9b9b);border-radius:12px;"></iframe></figure>
+<figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,340px);"><img src="https://loremflickr.com/700/420/rustic,venue" alt="Vista del lugar" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" style="display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--primary-color,#9b9b9b);" /><figcaption hidden>Vista del lugar</figcaption></figure>
+      <h3 class="rr-ub__venue" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar" data-event-field="lugar">Hacienda Nombre</h3>
+      <address class="rr-ub__addr">
+        <p memory_type="text" memory_usage="custom" memory_key="ubicacion-calle">Camino Viejo a Nombre km 4.5</p>
+        <p memory_type="text" memory_usage="custom" memory_key="ubicacion-ciudad">Ciudad, Estado, C.P. 00000</p>
+      </address>
+      <p class="rr-ub__note" memory_type="text" memory_usage="custom" memory_key="ubicacion-nota">Ceremonia y recepción en el mismo lugar. Habrá estacionamiento junto al granero.</p>
+      <a class="rr-ub__btn" href="#" data-rr-route><span memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Cómo llegar</span><svg class="rr-ub__arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6" style="fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"></path></svg></a>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="ubicacion-mapa"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var HAS_IO = 'IntersectionObserver' in window;
+
+      function rrLoop(el, fn) {
+        var raf = 0, vis = false;
+        function f(t) { fn(t); raf = requestAnimationFrame(f); }
+        function upd() { var on = vis && !document.hidden; if (on && !raf) raf = requestAnimationFrame(f); if (!on && raf) { cancelAnimationFrame(raf); raf = 0; } }
+        new IntersectionObserver(function (e) { vis = e[0].isIntersecting; upd(); }).observe(el);
+        document.addEventListener('visibilitychange', upd);
+      }
+      var rings = [].slice.call(root.querySelectorAll('[data-rr-ring]')), pin = root.querySelector('[data-rr-pin]'), halo = root.querySelector('[data-rr-halo]');
+      var btn = root.querySelector('[data-rr-route]');
+      btn.addEventListener('click', function (e) { if (btn.getAttribute('href') === '#') e.preventDefault(); });
+      if (RM || !HAS_IO) return;   /* reduced motion: static rings and bulb */
+
+      /* Hanging bulb marker: rAF-driven ground pulse rings, gentle sway and filament flicker */
+      rrLoop(root, function (t) {
+        for (var i = 0; i < rings.length; i++) {
+          var k = (t / 2200 + i / rings.length) % 1, rx = 10 + 62 * k;
+          rings[i].setAttribute('rx', rx.toFixed(1));
+          rings[i].setAttribute('ry', (rx * .36).toFixed(1));
+          rings[i].style.opacity = ((1 - k) * .9).toFixed(3);
+        }
+        pin.setAttribute('transform', 'rotate(' + (Math.sin(t * .0013) * 3.2).toFixed(2) + ' 300 0)');
+        var f = Math.sin(t * .006) * .5 + .5;
+        halo.style.opacity = (.7 + .3 * f * f).toFixed(3);
+      });
+
+      root.classList.add('rr-ub--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('rr-ub--anim', 'is-in'); }, 1200);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-mapa',
+      style_name: 'Romance Rústico Ubicación',
+      descripcion: 'Ubicación rústica: mapa ilustrado en papel de lino con un foco Edison colgante que marca el lugar con pulsos de luz, dirección en letrero y botón cálido Cómo llegar.',
+      tags: ['ubicacion', 'boda', 'rustico', 'mapa', 'luces'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>

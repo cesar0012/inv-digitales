@@ -1,0 +1,229 @@
+<section
+  class="dn-rs"
+  data-gemini-id="confirmacion-texto"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Neonderthaw&family=Tilt+Neon&display=swap');
+
+    .dn-rs, .dn-rs *, .dn-rs *::before, .dn-rs *::after { box-sizing: border-box; }
+    .dn-rs {
+      --t-bg: var(--bg-color, #07060c);
+      --t-tx: var(--text-color, #fbf4ff);
+      --t-p: var(--primary-color, #ff2bd6);
+      --t-s: var(--secondary-color, #19f0ff);
+      --t-a: var(--accent-color, #f4ff2b);
+      --t-display: var(--font-script, 'Neonderthaw', cursive);
+      --t-text: var(--font-heading, 'Tilt Neon', system-ui, sans-serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/neon,arcade?lock=3506');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .dn-rs::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 88%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent));
+    }
+    .dn-rs__content { width: min(100%, 62rem); display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(2rem, 6vw, 4.5rem); align-items: center; }
+    .dn-rs__title {
+      --g: var(--t-a);
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3.4rem, 8.5vw, 6rem);
+      line-height: .95;
+      color: color-mix(in srgb, var(--g) 30%, #fff);
+      text-shadow: 0 0 .02em #fff, 0 0 .1em var(--g), 0 0 .3em var(--g);
+      transform: rotate(-4deg);
+    }
+    .dn-rs__lead { margin: 1.2rem 0 0; font-size: clamp(1.05rem, 2.2vw, 1.3rem); line-height: 1.5; color: color-mix(in srgb, var(--t-tx) 82%, transparent); }
+    .dn-rs__form {
+      display: grid;
+      gap: 1.15rem;
+      padding: clamp(1.4rem, 4vw, 2.4rem);
+      border-radius: 1.8rem;
+      border: 3px solid color-mix(in srgb, var(--t-p) 55%, #fff);
+      background: color-mix(in srgb, var(--t-bg) 78%, transparent);
+      box-shadow: 0 0 5px var(--t-p), 0 0 24px var(--t-p), inset 0 0 22px color-mix(in srgb, var(--t-p) 30%, transparent);
+    }
+    .dn-rs__field { display: grid; gap: .35rem; font-size: 1rem; }
+    .dn-rs__field input, .dn-rs__field textarea {
+      width: 100%;
+      min-height: 2.9rem;
+      padding: .6rem .9rem;
+      border: 0;
+      border-radius: .8rem;
+      background: color-mix(in srgb, var(--t-tx) 7%, transparent);
+      box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--t-s) 50%, transparent);
+      color: var(--t-tx);
+      font: inherit;
+      font-size: 1.05rem;
+      transition: box-shadow .3s ease;
+    }
+    .dn-rs__field textarea { min-height: 4.5rem; resize: vertical; }
+    .dn-rs__field input:focus, .dn-rs__field textarea:focus { outline: none; box-shadow: inset 0 -2px 0 var(--t-s), 0 0 0 2px var(--t-s), 0 0 18px color-mix(in srgb, var(--t-s) 60%, transparent); }
+    .dn-rs__choice { margin: 0; padding: 0; border: 0; display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+    .dn-rs__choice legend { padding: 0; margin-bottom: .45rem; font-size: 1rem; }
+    .dn-rs__opt { --g: var(--t-s); position: relative; display: block; cursor: pointer; }
+    .dn-rs__opt:nth-of-type(2) { --g: var(--t-p); }
+    .dn-rs__opt input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .dn-rs__opt span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 3rem;
+      padding: .5rem;
+      border-radius: 999px;
+      border: 2px solid color-mix(in srgb, var(--g) 45%, transparent);
+      color: color-mix(in srgb, var(--t-tx) 70%, transparent);
+      transition: border-color .3s ease, box-shadow .3s ease, color .3s ease;
+    }
+    .dn-rs__opt input:checked + span { border-color: color-mix(in srgb, var(--g) 60%, #fff); color: var(--t-tx); box-shadow: 0 0 8px var(--g), 0 0 22px var(--g), inset 0 0 12px color-mix(in srgb, var(--g) 50%, transparent); animation: dnRsOn .4s linear both; }
+    .dn-rs__opt input:focus-visible + span { outline: 2px solid var(--t-a); outline-offset: 3px; }
+    .dn-rs__btn {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 3.4rem;
+      padding: .6rem 1.6rem;
+      border-radius: 999px;
+      border: 2px solid var(--t-a);
+      background: transparent;
+      color: var(--t-tx);
+      font: inherit;
+      font-size: 1.15rem;
+      cursor: pointer;
+      box-shadow: 0 0 10px color-mix(in srgb, var(--t-a) 70%, transparent), inset 0 0 10px color-mix(in srgb, var(--t-a) 40%, transparent);
+      transition: transform .2s ease, box-shadow .3s ease;
+    }
+    .dn-rs__btn:hover { transform: scale(1.02); box-shadow: 0 0 16px var(--t-a), 0 0 40px color-mix(in srgb, var(--t-a) 60%, transparent); }
+    .dn-rs__btn:active { transform: scale(.98); }
+    .dn-rs__charge { position: absolute; inset: 0; background: linear-gradient(90deg, var(--t-a), var(--t-p)); opacity: .45; transform: scaleX(var(--chg, 0)); transform-origin: left; }
+    .dn-rs__label { position: relative; }
+    .dn-rs__form[data-state="loading"] .dn-rs__btn { cursor: progress; }
+    .dn-rs__form[data-state="done"] .dn-rs__btn { --chg: 1; border-color: var(--t-s); box-shadow: 0 0 14px var(--t-s); }
+    .dn-rs__done { position: relative; display: grid; place-items: center; min-height: 3.4rem; text-align: center; }
+    .dn-rs__done[hidden] { display: none; }
+    .dn-rs__ok { --g: var(--t-s); position: relative; margin: 0; font-size: 1.25rem; color: color-mix(in srgb, var(--g) 25%, #fff); text-shadow: 0 0 10px var(--g), 0 0 24px var(--g); }
+    .dn-rs__burst { position: absolute; width: 10rem; height: 10rem; left: 50%; top: 50%; margin: -5rem 0 0 -5rem; color: var(--t-p); opacity: .5; animation: dnRsBurst .5s cubic-bezier(.2, .9, .3, 1.3) both; }
+    .dn-rs__burst path { fill: currentColor; filter: drop-shadow(0 0 10px currentColor); }
+    @keyframes dnRsOn { 0% { opacity: .4; } 25% { opacity: 1; } 40% { opacity: .5; } 70%, 100% { opacity: 1; } }
+    @keyframes dnRsBurst { from { transform: scale(.1) rotate(-40deg); opacity: 0; } to { transform: scale(1) rotate(0); opacity: .5; } }
+
+    .dn-rs--anim .dn-rs__form { opacity: 0; }
+    .dn-rs--anim.is-in .dn-rs__form { animation: dnRsOn .5s linear both; }
+
+    @media (max-width: 760px) {
+      .dn-rs__content { grid-template-columns: 1fr; text-align: center; }
+      .dn-rs__form { text-align: left; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .dn-rs *, .dn-rs *::before, .dn-rs *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="dn-rs__content">
+    <header>
+      <h2 class="dn-rs__title" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">¿Vienes a brillar conmigo?</h2>
+      <p class="dn-rs__lead" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">Confirma tu asistencia antes del 1 de marzo de 2027 para guardarte tu kit glow.</p>
+    </header>
+    <form class="dn-rs__form" data-dn-form novalidate>
+      <label class="dn-rs__field">
+        <span memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta-nombre">Tu nombre</span>
+        <input type="text" name="nombre" autocomplete="name" placeholder="Nombre Apellido" required />
+      </label>
+      <label class="dn-rs__field">
+        <span memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta-personas">¿Cuántos vienen?</span>
+        <input type="number" name="personas" min="1" max="10" value="1" inputmode="numeric" />
+      </label>
+      <fieldset class="dn-rs__choice">
+        <legend memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta-asistencia">¿Nos acompañas?</legend>
+        <label class="dn-rs__opt"><input type="radio" name="asistencia" value="si" checked /><span memory_type="text" memory_usage="custom" memory_key="confirmacion-opcion-si">¡Ahí estaré!</span></label>
+        <label class="dn-rs__opt"><input type="radio" name="asistencia" value="no" /><span memory_type="text" memory_usage="custom" memory_key="confirmacion-opcion-no">No podré ir</span></label>
+      </fieldset>
+      <label class="dn-rs__field">
+        <span memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta-mensaje">Un mensaje para la quinceañera</span>
+        <textarea name="mensaje" rows="2" placeholder="Opcional"></textarea>
+      </label>
+      <button class="dn-rs__btn" type="submit" data-dn-send>
+        <span class="dn-rs__charge" aria-hidden="true"></span>
+        <span class="dn-rs__label" memory_type="text" memory_usage="custom" memory_key="confirmacion-boton">Enviar confirmación</span>
+      </button>
+      <div class="dn-rs__done" data-dn-done role="status" hidden>
+        <svg class="dn-rs__burst" viewBox="0 0 100 100" aria-hidden="true"><path d="M48 20C55 8 62 22 66 30C74 18 92 14 84 34C96 38 98 50 86 54C98 66 90 78 78 70C80 86 70 98 62 82C58 92 46 96 46 82C36 92 24 88 30 74C14 78 8 64 22 58C6 50 10 36 26 40C22 26 36 20 40 30C42 22 44 18 48 20ZM90 16a4 4 0 1 1-.1 0ZM12 80a3 3 0 1 1-.1 0Z"/></svg>
+        <p class="dn-rs__ok" memory_type="text" memory_usage="custom" memory_key="confirmacion-exito">¡Listo! Nos vemos en la pista.</p>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="confirmacion-texto"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var form = root.querySelector('[data-dn-form]'), btn = root.querySelector('[data-dn-send]'), done = root.querySelector('[data-dn-done]');
+      var nameIn = form.querySelector('input[name="nombre"]');
+
+      function finish() { form.setAttribute('data-state', 'done'); btn.style.removeProperty('--chg'); done.hidden = false; }
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (form.getAttribute('data-state')) return;
+        if (!nameIn.value.trim()) { nameIn.focus(); return; }
+        form.setAttribute('data-state', 'loading');
+        btn.setAttribute('aria-busy', 'true');
+        if (RM) { finish(); return; }
+        /* Simulated send: the tube charges left to right, then the splat lands */
+        var t0 = 0;
+        function charge(t) {
+          if (!t0) t0 = t;
+          var p = Math.min(1, (t - t0) / 1200);
+          btn.style.setProperty('--chg', (1 - Math.pow(1 - p, 3)).toFixed(3));
+          if (p < 1) requestAnimationFrame(charge); else { btn.removeAttribute('aria-busy'); finish(); }
+        }
+        requestAnimationFrame(charge);
+      });
+
+      if (RM || !('IntersectionObserver' in window)) return;
+      root.classList.add('dn-rs--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('dn-rs--anim', 'is-in'); }, 1200);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Dulce Neón Consola',
+      descripcion: 'RSVP estilo consola neón: nombre, número de invitados, asistencia con interruptores de tubo y mensaje; el botón se carga como un tubo y confirma con una salpicadura fluorescente.',
+      tags: ['confirmación', 'rsvp', 'neon', 'formulario', 'quinceañera'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>

@@ -1,0 +1,361 @@
+<section
+  class="vc-po"
+  data-gemini-id="portada-nombre"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Italianno&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .vc-po, .vc-po *, .vc-po *::before, .vc-po *::after { box-sizing: border-box; }
+    .vc-po {
+      --t-bg: var(--bg-color, #F3E9D2);
+      --t-tx: var(--text-color, #2E1B1C);
+      --t-p: var(--primary-color, #6E1F2F);
+      --t-s: var(--secondary-color, #6B6E3A);
+      --t-a: var(--accent-color, #A8834A);
+      --t-display: var(--font-script, 'Italianno', cursive);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      --cellar: color-mix(in srgb, var(--t-p) 32%, #120708);
+      position: relative;
+      isolation: isolate;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(4.5rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--cellar);
+      background-image: url('https://loremflickr.com/1600/1000/vineyard,sunset?lock=3201');
+      background-size: cover;
+      background-position: center 60%;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .vc-po::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(58% 52% at 50% 50%, color-mix(in srgb, var(--t-a) 22%, transparent), transparent 72%),
+        linear-gradient(180deg, color-mix(in srgb, var(--cellar) 72%, transparent) 0%, color-mix(in srgb, var(--cellar) 55%, transparent) 48%, color-mix(in srgb, var(--cellar) 86%, transparent) 100%);
+    }
+    .vc-po__canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+
+    .vc-po__stage { --vc-fill: 100%; --vc-rx: 0deg; --vc-ry: 0deg; width: min(100%, 33rem); perspective: 1100px; }
+    .vc-po__card {
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateX(var(--vc-rx)) rotateY(var(--vc-ry));
+      padding: clamp(3.4rem, 8vw, 4.8rem) clamp(1.3rem, 5vw, 3.2rem) clamp(2.4rem, 5vw, 3.2rem);
+      border-radius: 50% 50% 16px 16px / 10.5rem 10.5rem 16px 16px;
+      background-color: var(--t-bg);
+      background-image:
+        radial-gradient(circle at 18% 12%, color-mix(in srgb, var(--t-a) 16%, transparent), transparent 38%),
+        radial-gradient(circle at 86% 88%, color-mix(in srgb, var(--t-a) 20%, transparent), transparent 42%),
+        radial-gradient(ellipse at center, transparent 58%, color-mix(in srgb, var(--t-a) 24%, transparent));
+      box-shadow: 0 40px 90px -30px rgb(0 0 0 / .7), 0 0 0 1px color-mix(in srgb, var(--t-a) 50%, transparent);
+    }
+    .vc-po__frame {
+      position: absolute;
+      inset: 11px;
+      border: 1px solid color-mix(in srgb, var(--t-a) 75%, transparent);
+      border-radius: 50% 50% 10px 10px / 9.8rem 9.8rem 10px 10px;
+      outline: 1px solid color-mix(in srgb, var(--t-a) 40%, transparent);
+      outline-offset: 4px;
+      transform: translateZ(10px);
+      pointer-events: none;
+    }
+    .vc-po__head { transform: translateZ(42px); }
+    .vc-po__orn { display: block; width: min(13rem, 62%); height: auto; margin: 0 auto .6rem; overflow: visible; }
+    .vc-po__orn [data-ink] { fill: none; stroke-width: .9; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+    .vc-po__orn [data-tone="leaf"] { stroke: var(--t-s); fill: color-mix(in srgb, var(--t-s) 10%, transparent); }
+    .vc-po__orn [data-tone="grape"] { stroke: var(--t-p); fill: color-mix(in srgb, var(--t-p) 16%, transparent); }
+    .vc-po__orn [data-tone="vine"] { stroke: var(--t-a); }
+    .vc-po__pre { margin: 0 auto; max-width: 22rem; text-wrap: balance; font-style: italic; font-size: clamp(1.02rem, 2.4vw, 1.18rem); line-height: 1.4; color: color-mix(in srgb, var(--t-tx) 80%, transparent); }
+    .vc-po__names {
+      margin: .2rem 0 0;
+      padding: .06em .18em .02em;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3.5rem, 14.5vw, 6.6rem);
+      line-height: .95;
+      color: var(--t-p);
+      transform: translateZ(14px);
+    }
+    .vc-po__rule { display: block; width: min(15rem, 76%); height: auto; margin: .9rem auto 1rem; transform: translateZ(28px); }
+    .vc-po__rule path { fill: none; stroke: var(--t-a); stroke-width: .9; vector-effect: non-scaling-stroke; }
+    .vc-po__rule [data-tone="leaf"] { stroke: var(--t-s); fill: color-mix(in srgb, var(--t-s) 14%, transparent); }
+    .vc-po__date { margin: 0; font-size: clamp(1.25rem, 3.2vw, 1.6rem); font-weight: 500; color: var(--t-tx); transform: translateZ(30px); }
+    .vc-po__date time { font-variant: small-caps; letter-spacing: .02em; }
+    .vc-po__place { margin: .35rem 0 0; font-style: italic; font-size: clamp(1rem, 2.4vw, 1.15rem); color: color-mix(in srgb, var(--t-tx) 78%, transparent); transform: translateZ(24px); }
+    .vc-po__vintage {
+      display: inline-block;
+      margin: 1.3rem 0 0;
+      padding: .35rem 1.1rem .4rem;
+      border-block: 1px solid color-mix(in srgb, var(--t-p) 45%, transparent);
+      font-style: italic;
+      font-size: .98rem;
+      color: var(--t-p);
+      transform: translateZ(20px);
+    }
+
+    /* Entrance states only while JS marks the module */
+    .vc-po--anim .vc-po__orn [data-ink] { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset .5s ease-out; transition-delay: var(--d, 0s); }
+    .vc-po--anim.is-in .vc-po__orn [data-ink] { stroke-dashoffset: 0; }
+    .vc-po--anim .vc-po__orn [data-tone] { fill-opacity: 0; }
+    .vc-po--anim .vc-po__names {
+      color: transparent;
+      -webkit-text-stroke: .7px color-mix(in srgb, var(--t-p) 70%, transparent);
+      background-image: linear-gradient(0deg, var(--t-p) 0 var(--vc-fill), color-mix(in srgb, var(--t-p) 40%, transparent) var(--vc-fill), transparent calc(var(--vc-fill) + 7%));
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+    .vc-po--anim .vc-po__pre,
+    .vc-po--anim .vc-po__rule,
+    .vc-po--anim .vc-po__date,
+    .vc-po--anim .vc-po__place,
+    .vc-po--anim .vc-po__vintage { opacity: 0; translate: 0 10px; transition: opacity .45s ease, translate .5s cubic-bezier(.2, .8, .2, 1); }
+    .vc-po--anim.is-in .vc-po__pre { opacity: 1; translate: 0 0; transition-delay: .35s; }
+    .vc-po--anim.is-in .vc-po__rule { opacity: 1; translate: 0 0; transition-delay: 1.7s; }
+    .vc-po--anim.is-in .vc-po__date { opacity: 1; translate: 0 0; transition-delay: 1.9s; }
+    .vc-po--anim.is-in .vc-po__place { opacity: 1; translate: 0 0; transition-delay: 2.05s; }
+    .vc-po--anim.is-in .vc-po__vintage { opacity: 1; translate: 0 0; transition-delay: 2.2s; }
+
+    @media (max-width: 480px) {
+      .vc-po__card { border-radius: 50% 50% 14px 14px / 8rem 8rem 14px 14px; }
+      .vc-po__frame { border-radius: 50% 50% 9px 9px / 7.4rem 7.4rem 9px 9px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .vc-po *, .vc-po *::before, .vc-po *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <canvas class="vc-po__canvas" data-vc-canvas aria-hidden="true"></canvas>
+
+  <div class="vc-po__stage" data-vc-stage>
+    <div class="vc-po__card" data-vc-card>
+      <span class="vc-po__frame" aria-hidden="true"></span>
+      <header class="vc-po__head">
+        <svg class="vc-po__orn" viewBox="0 0 220 84" aria-hidden="true">
+          <path data-ink data-tone="vine" pathLength="1" style="--d:.05s" d="M10 30 C40 18 70 34 110 22 C150 10 180 32 210 26"/>
+          <g transform="translate(18 20) rotate(-28) scale(.4)">
+            <path data-ink data-tone="leaf" pathLength="1" style="--d:.2s" d="M50 95 C48 80 46 72 40 66 C30 70 18 70 10 62 C18 58 22 52 20 44 C12 40 6 32 8 22 C18 24 26 28 30 34 C30 22 34 12 44 6 C46 16 48 24 50 30 C52 24 54 16 56 6 C66 12 70 22 70 34 C74 28 82 24 92 22 C94 32 88 40 80 44 C78 52 82 58 90 62 C82 70 70 70 60 66 C54 72 52 80 50 95 Z"/>
+            <path data-ink data-tone="leaf" pathLength="1" style="--d:.45s" d="M50 92 V32 M50 66 L32 46 M50 66 L68 46 M50 80 L24 64 M50 80 L76 64"/>
+          </g>
+          <g transform="translate(202 18) rotate(32) scale(-.4 .4)">
+            <path data-ink data-tone="leaf" pathLength="1" style="--d:.25s" d="M50 95 C48 80 46 72 40 66 C30 70 18 70 10 62 C18 58 22 52 20 44 C12 40 6 32 8 22 C18 24 26 28 30 34 C30 22 34 12 44 6 C46 16 48 24 50 30 C52 24 54 16 56 6 C66 12 70 22 70 34 C74 28 82 24 92 22 C94 32 88 40 80 44 C78 52 82 58 90 62 C82 70 70 70 60 66 C54 72 52 80 50 95 Z"/>
+            <path data-ink data-tone="leaf" pathLength="1" style="--d:.5s" d="M50 92 V32 M50 66 L32 46 M50 66 L68 46 M50 80 L24 64 M50 80 L76 64"/>
+          </g>
+          <g transform="translate(80 18)">
+            <path data-ink data-tone="vine" pathLength="1" style="--d:.3s" d="M30 14 C30 8 33 4 38 1 M31 9 C24 8 20 3 23 0"/>
+            <circle data-ink data-tone="grape" pathLength="1" style="--d:.35s" cx="12" cy="20" r="6.2"/>
+            <circle data-ink data-tone="grape" pathLength="1" style="--d:.4s" cx="24" cy="20" r="6.2"/>
+            <circle data-ink data-tone="grape" pathLength="1" style="--d:.45s" cx="36" cy="20" r="6.2"/>
+            <circle data-ink data-tone="grape" pathLength="1" style="--d:.5s" cx="48" cy="20" r="6.2"/>
+            <circle data-ink data-tone="grape" pathLength="1" style="--d:.55s" cx="18" cy="31" r="6.2"/>
+            <circle data-ink data-tone="grape" pathLength="1" style="--d:.6s" cx="30" cy="31" r="6.2"/>
+            <circle data-ink data-tone="grape" pathLength="1" style="--d:.65s" cx="42" cy="31" r="6.2"/>
+            <circle data-ink data-tone="grape" pathLength="1" style="--d:.7s" cx="24" cy="42" r="6.2"/>
+            <circle data-ink data-tone="grape" pathLength="1" style="--d:.75s" cx="36" cy="42" r="6.2"/>
+            <circle data-ink data-tone="grape" pathLength="1" style="--d:.8s" cx="30" cy="53" r="6.2"/>
+          </g>
+        </svg>
+        <p class="vc-po__pre" memory_type="text" memory_usage="custom" memory_key="portada-invitacion">Tenemos el honor de invitarle a celebrar nuestra boda</p>
+        <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,3vw,1.6rem);width:clamp(150px,22vw,220px);"><img src="https://loremflickr.com/480/480/vineyard,grapes,portrait?lock=308" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:2px solid var(--primary-color,#9b9b9b);box-shadow:0 14px 30px rgba(0,0,0,.18);" /><figcaption hidden>Retrato</figcaption></figure>
+<h1 class="vc-po__names" memory_type="text" memory_usage="custom" memory_key="portada-nombres" data-event-field="nombres">Nombre &amp; Nombre</h1>
+      </header>
+      <svg class="vc-po__rule" viewBox="0 0 240 24" aria-hidden="true">
+        <path d="M4 12 C40 12 70 6 104 12"/>
+        <path d="M236 12 C200 12 170 6 136 12"/>
+        <path data-tone="leaf" d="M120 21 C119 18 118 16 116 15 C112 16 108 15 106 13 C108 12 109 10 109 8 C112 9 114 10 115 11 C115 8 117 5 120 3 C123 5 125 8 125 11 C126 10 128 9 131 8 C131 10 132 12 134 13 C132 15 128 16 124 15 C122 16 121 18 120 21 Z"/>
+      </svg>
+      <p class="vc-po__date"><time datetime="2027-05-15T17:00" memory_type="text" memory_usage="custom" memory_key="portada-fecha" data-event-field="fecha">Sábado 15 de mayo de 2027</time></p>
+      <p class="vc-po__place" memory_type="text" memory_usage="custom" memory_key="portada-lugar">Hacienda El Viñedo · Valle de Guadalupe</p>
+      <p class="vc-po__vintage" memory_type="text" memory_usage="custom" memory_key="portada-cosecha">Gran Reserva del Amor — Cosecha 2027</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="portada-nombre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var stage = root.querySelector('[data-vc-stage]');
+      var cv = root.querySelector('[data-vc-canvas]');
+      var ctx = cv && cv.getContext ? cv.getContext('2d') : null;
+
+      /* ---------- 3D vine wreath: manual perspective projection on canvas ---------- */
+      var cs = getComputedStyle(root);
+      function col(n, f) { var v = cs.getPropertyValue(n).trim(); return v || f; }
+      var C = { p: col('--t-p', '#6E1F2F'), s: col('--t-s', '#6B6E3A'), a: col('--t-a', '#A8834A'), bg: col('--t-bg', '#F3E9D2') };
+      var LEAF = (typeof Path2D !== 'undefined') ? new Path2D('M50 95 C48 80 46 72 40 66 C30 70 18 70 10 62 C18 58 22 52 20 44 C12 40 6 32 8 22 C18 24 26 28 30 34 C30 22 34 12 44 6 C46 16 48 24 50 30 C52 24 54 16 56 6 C66 12 70 22 70 34 C74 28 82 24 92 22 C94 32 88 40 80 44 C78 52 82 58 90 62 C82 70 70 70 60 66 C54 72 52 80 50 95 Z') : null;
+      var VEIN = (typeof Path2D !== 'undefined') ? new Path2D('M50 92 V32 M50 66 L32 46 M50 66 L68 46 M50 80 L24 64 M50 80 L76 64') : null;
+      var TAU = Math.PI * 2, D = 3.4, N = 260;
+      var W = 0, H = 0, DPR = 1, R = 100, RX = 100, RY = 100, cx = 0, cy = 0;
+      var strands = [{ f: 9, r: .07, ph: 0, w: 1.4 }, { f: 7, r: .05, ph: Math.PI, w: .9 }];
+      var leaves = [], clusters = [], dust = [], k, j;
+      for (k = 0; k < 20; k++) leaves.push({ u: (k + .3) / 20, side: k % 2 ? 1 : -1, sz: .085 + (k % 4) * .014, rot: ((k % 5) - 2) * .28 });
+      var rows = [4, 3, 3, 2, 1];
+      for (k = 0; k < 7; k++) {
+        var g = [];
+        for (var r = 0; r < rows.length; r++) for (j = 0; j < rows[r]; j++) g.push({ u: (j - (rows[r] - 1) / 2) * .036, v: .035 + r * .031, w: ((j + r) % 2 ? .014 : -.014) });
+        clusters.push({ u: (k + .62) / 7, g: g });
+      }
+      var seed = 7; function rnd() { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+      for (k = 0; k < 70; k++) dust.push({ x: rnd() * 2.8 - 1.4, y: rnd() * 2.2 - 1.1, z: rnd() * 1.6 - .8, sp: .02 + rnd() * .05, ph: rnd() * TAU });
+
+      var spin = 0, ry = 0, rx = 0, tx = 0, ty = 0, px = 0, py = 0;
+      var cS, sS, cY, sY, cX, sX;
+      function setRot(useSpin) { cS = Math.cos(useSpin ? spin : 0); sS = Math.sin(useSpin ? spin : 0); cY = Math.cos(ry); sY = Math.sin(ry); cX = Math.cos(rx); sX = Math.sin(rx); }
+      function P(x, y, z) {
+        var x1 = x * cS - y * sS, y1 = x * sS + y * cS;
+        var x2 = x1 * cY + z * sY, z2 = -x1 * sY + z * cY;
+        var y3 = y1 * cX - z2 * sX, z3 = y1 * sX + z2 * cX;
+        var s = D / (z3 + D);
+        return { x: cx + x2 * s * RX, y: cy - y3 * s * RY, s: s, z: z3 };
+      }
+      function strandPt(st, t) { var a = st.f * t + st.ph, m = 1 + st.r * Math.cos(a); return [Math.cos(t) * m, Math.sin(t) * m, st.r * Math.sin(a)]; }
+      function depthA(z) { return Math.max(.18, Math.min(1, .62 - z * .55)); }
+      function size() {
+        if (!ctx) return;
+        var b = root.getBoundingClientRect();
+        DPR = Math.min(2, window.devicePixelRatio || 1);
+        W = b.width; H = b.height;
+        cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+        if (W < H) { RX = W * .5; RY = H * .41; R = Math.min(RX, RY) * 1.15; } else { RX = RY = R = Math.min(W * .46, H * .43); }
+        cx = W / 2; cy = H / 2;
+      }
+      function ease(x) { return x < 0 ? 0 : x > 1 ? 1 : 1 - Math.pow(1 - x, 3); }
+
+      function draw(grow, time) {
+        if (!ctx) return;
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        ctx.clearRect(0, 0, W, H);
+        var items = [], i, t, a, b, st, s;
+        setRot(true);
+        for (s = 0; s < strands.length; s++) {
+          st = strands[s];
+          var lim = Math.floor(N * grow);
+          for (i = 0; i < lim; i++) {
+            t = Math.PI / 2 + i / N * TAU;
+            a = strandPt(st, t); b = strandPt(st, t + TAU / N);
+            var pa = P(a[0], a[1], a[2]), pb = P(b[0], b[1], b[2]);
+            items.push({ z: (pa.z + pb.z) / 2, k: 0, a: pa, b: pb, w: st.w });
+          }
+        }
+        for (i = 0; i < leaves.length; i++) {
+          var L = leaves[i], gl = ease((grow - L.u) / .12);
+          if (gl <= 0) continue;
+          t = Math.PI / 2 + L.u * TAU;
+          a = strandPt(strands[0], t); b = strandPt(strands[0], t + .02);
+          var p0 = P(a[0], a[1], a[2]), p1 = P(b[0], b[1], b[2]);
+          var ang = Math.atan2(p1.y - p0.y, p1.x - p0.x) + L.side * Math.PI / 2 + L.rot;
+          items.push({ z: p0.z, k: 1, p: p0, ang: ang, sc: L.sz * R * p0.s * gl / 100, sq: .5 + .5 * Math.abs(Math.cos(t * 3 + spin * 2)) });
+        }
+        for (i = 0; i < clusters.length; i++) {
+          var Cl = clusters[i], gc = ease((grow - Cl.u) / .1);
+          if (gc <= 0) continue;
+          t = Math.PI / 2 + Cl.u * TAU;
+          var ox = Math.cos(t), oy = Math.sin(t), txx = -oy, tyy = ox;
+          for (j = 0; j < Cl.g.length; j++) {
+            var q = Cl.g[j], m = 1.03 + q.v * gc;
+            var pg = P(ox * m + txx * q.u * gc, oy * m + tyy * q.u * gc, q.w);
+            items.push({ z: pg.z, k: 2, p: pg, rr: .02 * R * pg.s * gc });
+          }
+        }
+        items.sort(function (m1, m2) { return m2.z - m1.z; });
+        ctx.lineCap = 'round';
+        for (i = 0; i < items.length; i++) {
+          var it = items[i], al = depthA(it.z);
+          if (it.k === 0) {
+            ctx.globalAlpha = al * .85; ctx.strokeStyle = C.a; ctx.lineWidth = it.w * it.a.s;
+            ctx.beginPath(); ctx.moveTo(it.a.x, it.a.y); ctx.lineTo(it.b.x, it.b.y); ctx.stroke();
+          } else if (it.k === 1 && LEAF) {
+            ctx.save(); ctx.translate(it.p.x, it.p.y); ctx.rotate(it.ang); ctx.scale(it.sc * it.sq, it.sc); ctx.translate(-50, -95);
+            ctx.globalAlpha = al * .55; ctx.fillStyle = C.s; ctx.fill(LEAF);
+            ctx.globalAlpha = al * .9; ctx.strokeStyle = C.a; ctx.lineWidth = .9 / Math.max(.05, it.sc); ctx.stroke(LEAF); ctx.stroke(VEIN);
+            ctx.restore();
+          } else if (it.k === 2 && it.rr > .3) {
+            ctx.globalAlpha = al; ctx.fillStyle = C.p;
+            ctx.beginPath(); ctx.arc(it.p.x, it.p.y, it.rr, 0, TAU); ctx.fill();
+            ctx.globalAlpha = al * .7; ctx.strokeStyle = C.a; ctx.lineWidth = .8; ctx.stroke();
+            ctx.globalAlpha = al * .55; ctx.strokeStyle = C.bg; ctx.lineWidth = Math.max(.6, it.rr * .18);
+            ctx.beginPath(); ctx.arc(it.p.x, it.p.y, it.rr * .62, Math.PI * 1.05, Math.PI * 1.45); ctx.stroke();
+          }
+        }
+        setRot(false);
+        for (i = 0; i < dust.length; i++) {
+          var d0 = dust[i], pd = P(d0.x, d0.y, d0.z);
+          ctx.globalAlpha = (.25 + .45 * (.5 + .5 * Math.sin(time * .002 + d0.ph))) * depthA(pd.z) * grow;
+          ctx.fillStyle = C.a;
+          ctx.beginPath(); ctx.arc(pd.x, pd.y, 1.3 * pd.s, 0, TAU); ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      size();
+      if (RM || !('IntersectionObserver' in window)) {   /* reduced motion = static final state */
+        ry = -.25; rx = .22; spin = .4; draw(1, 0);
+        if (window.ResizeObserver && ctx) new ResizeObserver(function () { size(); draw(1, 0); }).observe(root);
+        return;
+      }
+
+      /* Entrance: ink-drawn ornament, then the names are "poured" (fill rises) */
+      root.classList.add('vc-po--anim');
+      stage.style.setProperty('--vc-fill', '0%');
+      var start = 0, visible = true, raf = 0, last = 0, pourDone = false;
+      requestAnimationFrame(function () { requestAnimationFrame(function () { root.classList.add('is-in'); }); });
+      setTimeout(function () { root.classList.remove('vc-po--anim', 'is-in'); stage.style.removeProperty('--vc-fill'); pourDone = true; }, 3400);
+
+      root.addEventListener('pointermove', function (e) {
+        var b = root.getBoundingClientRect();
+        tx = (e.clientX - b.left) / b.width * 2 - 1; ty = (e.clientY - b.top) / b.height * 2 - 1;
+      });
+      root.addEventListener('pointerleave', function () { tx = 0; ty = 0; });
+
+      function frame(now) {
+        raf = 0;
+        if (!visible || document.hidden) return;
+        if (!start) start = now;
+        var el = now - start, dt = Math.min(50, now - (last || now)); last = now;
+        var grow = ease(el / 2600);
+        if (!pourDone) {
+          var f = ease((el - 500) / 1500) * 100;
+          stage.style.setProperty('--vc-fill', f.toFixed(1) + '%');
+        }
+        px += (tx - px) * .06; py += (ty - py) * .06;
+        spin += dt * .00008;
+        ry = Math.sin(now * .00025) * .32 + px * .25;
+        rx = .2 + py * .18;
+        for (var i = 0; i < dust.length; i++) { dust[i].y += dust[i].sp * dt * .001; if (dust[i].y > 1.1) dust[i].y = -1.1; }
+        stage.style.setProperty('--vc-ry', (px * 7 + Math.sin(now * .0006) * 2).toFixed(2) + 'deg');
+        stage.style.setProperty('--vc-rx', (-py * 5).toFixed(2) + 'deg');
+        draw(grow, now);
+        raf = requestAnimationFrame(frame);
+      }
+      function kick() { if (!raf && visible && !document.hidden) { last = 0; raf = requestAnimationFrame(frame); } }
+      new IntersectionObserver(function (en) { visible = en[0].isIntersecting; kick(); }, { threshold: 0 }).observe(root);
+      document.addEventListener('visibilitychange', kick);
+      if (window.ResizeObserver) new ResizeObserver(function () { size(); }).observe(root);
+      kick();
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Viñedo Clásico Etiqueta de Reserva',
+      descripcion: 'Portada de boda estilo etiqueta de vino antigua: corona de vid 3D en canvas que gira, nombres que se llenan de vino tinto, ornamento de uvas grabado a tinta y tarjeta en arco con inclinación 3D.',
+      tags: ['portada', 'boda', 'viñedo', 'vino', 'romántico', 'campestre', '3d'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

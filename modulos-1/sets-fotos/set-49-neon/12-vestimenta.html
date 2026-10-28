@@ -1,0 +1,190 @@
+<section
+  class="dn-ve"
+  data-gemini-id="vestimenta-neon"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Neonderthaw&family=Tilt+Neon&display=swap');
+
+    .dn-ve, .dn-ve *, .dn-ve *::before, .dn-ve *::after { box-sizing: border-box; }
+    .dn-ve {
+      --t-bg: var(--bg-color, #07060c);
+      --t-tx: var(--text-color, #fbf4ff);
+      --t-p: var(--primary-color, #ff2bd6);
+      --t-s: var(--secondary-color, #19f0ff);
+      --t-a: var(--accent-color, #f4ff2b);
+      --t-display: var(--font-script, 'Neonderthaw', cursive);
+      --t-text: var(--font-heading, 'Tilt Neon', system-ui, sans-serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/neon,fashion?lock=3524');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .dn-ve::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 89%, transparent), color-mix(in srgb, var(--t-bg) 96%, transparent));
+    }
+    .dn-ve__content { width: min(100%, 62rem); display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+    .dn-ve__stage { position: relative; display: grid; place-items: center; color: var(--t-p); transition: color .4s ease; }
+    .dn-ve__wash {
+      position: absolute;
+      width: 86%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle, currentColor, transparent 68%);
+      opacity: .22;
+    }
+    .dn-ve__stage[data-pulse] .dn-ve__wash { animation: dnVeWash .45s ease-out both; }
+    .dn-ve__dress { position: relative; width: min(100%, 17rem); height: auto; overflow: visible; filter: drop-shadow(0 0 4px currentColor) drop-shadow(0 0 16px currentColor); transition: filter .4s ease; }
+    .dn-ve__dress path { fill: none; stroke: color-mix(in srgb, currentColor 40%, #fff); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+    .dn-ve__title { margin: 0; font-weight: 400; font-size: clamp(1.4rem, 3vw, 1.9rem); color: color-mix(in srgb, var(--t-tx) 90%, transparent); }
+    .dn-ve__code {
+      --g: var(--t-a);
+      margin: .2rem 0 .8rem;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3.6rem, 9vw, 6.2rem);
+      line-height: 1;
+      color: color-mix(in srgb, var(--g) 30%, #fff);
+      text-shadow: 0 0 .02em #fff, 0 0 .1em var(--g), 0 0 .3em var(--g);
+      transform: rotate(-3deg);
+    }
+    .dn-ve__text { margin: 0 0 .8rem; font-size: clamp(1.05rem, 2.2vw, 1.25rem); line-height: 1.55; color: color-mix(in srgb, var(--t-tx) 82%, transparent); }
+    .dn-ve__note { margin: 0 0 1.6rem; font-size: 1rem; color: var(--t-p); text-shadow: 0 0 10px color-mix(in srgb, var(--t-p) 60%, transparent); }
+    .dn-ve__swatches { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 1rem 1.3rem; }
+    .dn-ve__swatch { display: grid; justify-items: center; gap: .45rem; padding: 0; border: 0; background: none; color: var(--t-tx); font: inherit; font-size: .95rem; cursor: pointer; }
+    .dn-ve__chip {
+      width: 3.4rem;
+      height: 3.4rem;
+      border-radius: 50%;
+      border: 3px solid color-mix(in srgb, var(--c) 40%, #fff);
+      background: var(--c);
+      box-shadow: 0 0 6px var(--c);
+      transition: transform .3s cubic-bezier(.2, .9, .3, 1.4), box-shadow .3s ease;
+    }
+    .dn-ve__swatch:hover .dn-ve__chip { transform: scale(1.08); }
+    .dn-ve__swatch[aria-pressed="true"] .dn-ve__chip { transform: scale(1.15); box-shadow: 0 0 0 4px var(--t-bg), 0 0 0 6px var(--c), 0 0 26px var(--c); }
+    .dn-ve__swatch:focus-visible { outline: 2px solid var(--t-a); outline-offset: 4px; border-radius: .6rem; }
+    @keyframes dnVeWash { from { transform: scale(.2); opacity: .6; } to { transform: scale(1); opacity: .22; } }
+
+    .dn-ve--anim .dn-ve__dress { opacity: 0; }
+    .dn-ve--anim.is-in .dn-ve__dress { animation: dnVeOn .5s linear both; }
+    @keyframes dnVeOn { 0% { opacity: 0; } 15% { opacity: 1; } 25% { opacity: .15; } 42% { opacity: 1; } 55% { opacity: .35; } 70%, 100% { opacity: 1; } }
+
+    @media (max-width: 760px) {
+      .dn-ve__content { grid-template-columns: 1fr; text-align: center; }
+      .dn-ve__dress { width: min(70%, 13rem); }
+      .dn-ve__swatches { justify-content: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .dn-ve *, .dn-ve *::before, .dn-ve *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="dn-ve__content">
+    <div class="dn-ve__stage" data-dn-stage aria-hidden="true">
+      <span class="dn-ve__wash"></span>
+      <svg class="dn-ve__dress" viewBox="0 0 200 300">
+        <path d="M86 14l6-9 8 8 8-8 6 9"/>
+        <path d="M84 40l-5-18M116 40l5-18M84 40q16-11 32 0"/>
+        <path d="M84 40q-3 32 4 60q12 7 24 0q7-28 4-60"/>
+        <path d="M88 100Q52 170 28 268q36 18 72 10 36 8 72-10-24-98-60-168"/>
+        <path d="M46 205q54 18 108 0M38 240q62 20 124 0"/>
+      </svg>
+    </div>
+    <div>
+      <h2 class="dn-ve__title" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Código de vestimenta</h2>
+      <p class="dn-ve__code" memory_type="text" memory_usage="custom" memory_key="vestimenta-codigo" data-event-field="vestimenta">Fiesta Neón</p>
+      <p class="dn-ve__text" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">Ven con colores fluorescentes, blanco o negro con detalles que brillen. Bajo la luz negra, todo se enciende.</p>
+      <p class="dn-ve__note" memory_type="text" memory_usage="custom" memory_key="vestimenta-nota">El rosa neón está reservado para la quinceañera.</p>
+      <ul class="dn-ve__swatches" data-dn-swatches></ul>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="vestimenta-neon"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var stage = root.querySelector('[data-dn-stage]'), list = root.querySelector('[data-dn-swatches]');
+      var cs = getComputedStyle(root);
+      var PAL = [['Rosa neón', '--t-p'], ['Cian eléctrico', '--t-s'], ['Amarillo flúor', '--t-a'], ['Blanco brillante', '--t-tx']].map(function (x) {
+        return { name: x[0], color: cs.getPropertyValue(x[1]).trim() || '#fff' };
+      });
+      var btns = [], cur = 0, touched = false;
+
+      /* Swatches are generated from the theme variables, so a recolor updates them too */
+      PAL.forEach(function (c, i) {
+        var li = document.createElement('li');
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'dn-ve__swatch'; b.setAttribute('data-dn-swatch', i);
+        b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+        b.style.setProperty('--c', c.color);
+        var chip = document.createElement('span'); chip.className = 'dn-ve__chip'; chip.setAttribute('aria-hidden', 'true');
+        var lab = document.createElement('span'); lab.textContent = c.name;
+        b.appendChild(chip); b.appendChild(lab); li.appendChild(b); list.appendChild(li); btns.push(b);
+        b.addEventListener('click', function () { touched = true; pick(i); });
+      });
+      function pick(i) {
+        cur = i;
+        btns.forEach(function (b, j) { b.setAttribute('aria-pressed', j === i ? 'true' : 'false'); });
+        stage.style.color = PAL[i].color;
+        if (!RM) { stage.removeAttribute('data-pulse'); void stage.offsetWidth; stage.setAttribute('data-pulse', ''); }
+      }
+      pick(0);
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      root.classList.add('dn-ve--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('dn-ve--anim', 'is-in'); }, 1200);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+
+      /* Idle showcase: cycles the dress through the palette until someone taps a swatch (rAF, paused off-screen) */
+      var vis = false, raf = 0, last = 0, acc = 0;
+      function loop(t) {
+        raf = 0;
+        if (!vis || document.hidden || touched) return;
+        acc += last ? Math.min(.1, (t - last) / 1000) : 0; last = t;
+        if (acc > 2.4) { acc = 0; pick((cur + 1) % PAL.length); }
+        raf = requestAnimationFrame(loop);
+      }
+      function start() { if (!raf && !touched) { last = 0; raf = requestAnimationFrame(loop); } }
+      new IntersectionObserver(function (en) { vis = en[0].isIntersecting; if (vis) start(); }).observe(root);
+      document.addEventListener('visibilitychange', start);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-neon',
+      style_name: 'Dulce Neón Vestido',
+      descripcion: 'Código de vestimenta Fiesta Neón: silueta de vestido en tubo de neón que cambia de color al tocar las muestras generadas desde la paleta del tema, con onda de color y ciclo automático.',
+      tags: ['vestimenta', 'neon', 'dress code', 'paleta', 'quinceañera'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

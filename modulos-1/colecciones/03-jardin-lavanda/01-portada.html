@@ -1,0 +1,101 @@
+<section class="mq3-p" data-gemini-id="portada-nombre" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.mq3-p { --primary-color:#7d4f9e; --secondary-color:#9a6dc2; --accent-color:#c9bede; --bg-color:#faf8fc; --surface-color:#ffffff; --surface-border-color:rgba(148,109,194,.28); --text-color:#4a3d59;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:100svh; display:grid; align-items:center; justify-items:center; padding:clamp(2.6rem,7vw,5rem) clamp(1rem,5vw,3.4rem); background:linear-gradient(180deg, color-mix(in srgb, var(--bg-color) 94%, transparent), color-mix(in srgb, var(--bg-color) 88%, transparent)), url('https://loremflickr.com/1600/1000/lilac,flowers') center/cover; background-color:var(--bg-color); color:var(--text-color); }
+.mq3-p *, .mq3-p *::before, .mq3-p *::after { box-sizing:border-box; }
+.mq3-p__escena { position:relative; z-index:2; width:min(100%,760px); text-align:center; }
+.mq3-p__prisma { position:absolute; inset:clamp(-2.2rem,-4vw,-3.4rem) clamp(-1.4rem,-3vw,-2.4rem); z-index:-1; pointer-events:none; }
+.mq3-p__prisma path { fill:none; stroke:url(#mq3p-plata); stroke-width:2.4; stroke-linejoin:round; filter:drop-shadow(0 2px 10px rgba(154,109,194,.35)); }
+.mq3-p-js .mq3-p__prisma path { stroke-dasharray:2400; stroke-dashoffset:2400; animation:mq3-trazo 2.4s cubic-bezier(.16,1,.3,1) .3s forwards; }
+@keyframes mq3-trazo { to { stroke-dashoffset:0; } }
+.mq3-p__destello { position:absolute; width:9px; height:9px; color:#cfc6e6; animation:mq3-destellar 3.4s ease-in-out infinite; }
+.mq3-p__destello svg { display:block; width:100%; }
+.mq3-p__destello--1 { top:6%; left:12%; }
+.mq3-p__destello--2 { top:18%; right:9%; animation-delay:1.2s; }
+.mq3-p__destello--3 { bottom:22%; left:7%; animation-delay:2.1s; }
+@keyframes mq3-destellar { 0%,100% { opacity:.25; transform:scale(.7) rotate(0); } 50% { opacity:1; transform:scale(1.15) rotate(24deg); } }
+.mq3-p__tiara { display:flex; justify-content:center; margin-bottom:.6rem; }
+.mq3-p__tiara svg { width:clamp(120px,22vw,180px); }
+.mq3-p__rotulo { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.25vw,.74rem); letter-spacing:.6em; text-transform:uppercase; color:var(--secondary-color); }
+.mq3-p__nombre { margin:0; font-family:'Segoe Script','Brush Script MT','Snell Roundhand',cursive; font-weight:400; font-size:clamp(2.6rem,8.6vw,5.6rem); line-height:1.06; color:var(--primary-color); text-shadow:0 2px 26px rgba(154,109,194,.25); }
+.mq3-p__frase { margin:1rem auto 0; max-width:40ch; font-family:Georgia,serif; font-size:clamp(.86rem,1.7vw,1.02rem); letter-spacing:.16em; text-transform:uppercase; line-height:1.9; color:var(--text-color); }
+.mq3-p__datos { display:inline-flex; flex-direction:column; gap:.55rem; margin-top:clamp(1.4rem,3.4vw,2rem); padding:1.1rem 2.4rem; background:color-mix(in srgb, var(--surface-color) 72%, transparent); border:1px solid var(--surface-border-color); border-radius:20px; backdrop-filter:blur(10px); box-shadow:0 20px 46px rgba(125,79,158,.16); }
+.mq3-p__fecha { font-family:Georgia,serif; font-size:clamp(1rem,2.1vw,1.24rem); color:var(--primary-color); }
+.mq3-p__fecha b { font-weight:400; }
+.mq3-p__fecha small { display:block; margin-top:.3rem; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.2vw,.72rem); letter-spacing:.4em; text-transform:uppercase; color:var(--secondary-color); }
+.mq3-p__rosas { position:absolute; inset:0; z-index:1; pointer-events:none; }
+.mq3-p__rosas figure { position:absolute; margin:0; width:clamp(130px,24vw,250px); aspect-ratio:1/1; }
+.mq3-p__rosas img { display:block; width:100%; height:100%; object-fit:cover; -webkit-mask-image:radial-gradient(ellipse 62% 62% at 50% 50%, #000 42%, transparent 72%); mask-image:radial-gradient(ellipse 62% 62% at 50% 50%, #000 42%, transparent 72%); opacity:.95; }
+.mq3-p__rosas .tl { top:-3%; left:-4%; transform:rotate(-8deg); }
+.mq3-p__rosas .tr { top:-3%; right:-4%; transform:rotate(8deg) scaleX(-1); }
+.mq3-p__rosas .bl { bottom:-4%; left:-5%; transform:rotate(6deg); }
+.mq3-p__rosas .br { bottom:-4%; right:-5%; transform:rotate(-6deg) scaleX(-1); }
+.mq3-p__quince { position:absolute; bottom:0; right:clamp(-2%,1vw,4%); z-index:1; width:clamp(150px,26vw,280px); margin:0; pointer-events:none; }
+.mq3-p__quince img { display:block; width:100%; height:auto; -webkit-mask-image:linear-gradient(180deg, transparent 0, #000 16%, #000 88%, transparent 100%), linear-gradient(90deg, transparent 0, #000 18%); -webkit-mask-composite:source-in; mask-image:linear-gradient(180deg, transparent 0, #000 16%, #000 88%, transparent 100%); opacity:.96; }
+.mq3-p__mariposas { position:absolute; inset:0; z-index:3; pointer-events:none; }
+.mq3-p__mariposas svg { position:absolute; width:clamp(26px,4.4vw,44px); animation:mq3-vuelo 7s ease-in-out infinite; }
+.mq3-p__mariposas .m1 { top:20%; left:16%; }
+.mq3-p__mariposas .m2 { top:44%; right:12%; animation-delay:2.2s; width:clamp(22px,3.6vw,36px); }
+.mq3-p__mariposas .m3 { bottom:26%; left:22%; animation-delay:4s; width:clamp(18px,3vw,30px); }
+@keyframes mq3-vuelo { 0%,100% { transform:translateY(0) rotate(-5deg); } 50% { transform:translateY(-20px) rotate(6deg); } }
+@media (max-width:640px){ .mq3-p__rosas figure { width:clamp(110px,32vw,170px); opacity:.85; } }
+@media (prefers-reduced-motion:reduce){ .mq3-p * { animation:none !important; transition:none !important; } .mq3-p-js .mq3-p__prisma path { stroke-dashoffset:0; animation:none; } }
+</style>
+<svg width="0" height="0" style="position:absolute;" aria-hidden="true"><defs>
+  <linearGradient id="mq3p-plata" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#a9a4bd"/><stop offset=".25" stop-color="#e9e5f4"/><stop offset=".5" stop-color="#b9a8d6"/><stop offset=".75" stop-color="#f4f1fa"/><stop offset="1" stop-color="#a9a4bd"/>
+  </linearGradient>
+  <linearGradient id="mq3p-plata2" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#b6b1c8"/><stop offset=".5" stop-color="#eeeaf7"/><stop offset="1" stop-color="#b6b1c8"/>
+  </linearGradient>
+</defs></svg>
+<div class="mq3-p__rosas" aria-hidden="true">
+  <figure class="tl"><img src="https://loremflickr.com/500/500/roses,purple" alt="" path="placeholder" data-library-category="eventos" data-asset-type="flores" loading="eager" /></figure>
+  <figure class="tr"><img src="https://loremflickr.com/500/500/lavender,flowers" alt="" path="placeholder" data-library-category="eventos" data-asset-type="flores" loading="eager" /></figure>
+  <figure class="bl"><img src="https://loremflickr.com/500/500/flowers,violet" alt="" path="placeholder" data-library-category="eventos" data-asset-type="flores" loading="eager" /></figure>
+  <figure class="br"><img src="https://loremflickr.com/500/500/roses,lilac" alt="" path="placeholder" data-library-category="eventos" data-asset-type="flores" loading="eager" /></figure>
+</div>
+<figure class="mq3-p__quince" memory_type="image" memory_usage="custom" memory_source="generated">
+  <img src="https://loremflickr.com/600/900/quinceanera,gown" alt="La quinceañera" path="placeholder" data-asset-type="retrato-quinceanera" loading="eager" />
+</figure>
+<div class="mq3-p__escena">
+  <svg class="mq3-p__prisma" viewBox="0 0 700 860" preserveAspectRatio="none" aria-hidden="true"><path d="M120 96 L350 18 L580 96 L668 300 L580 740 L350 842 L120 740 L32 300 Z"/></svg>
+  <span class="mq3-p__destello mq3-p__destello--1" aria-hidden="true"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M5 0 L6.2 3.8 L10 5 L6.2 6.2 L5 10 L3.8 6.2 L0 5 L3.8 3.8 Z"/></svg></span>
+  <span class="mq3-p__destello mq3-p__destello--2" aria-hidden="true"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M5 0 L6.2 3.8 L10 5 L6.2 6.2 L5 10 L3.8 6.2 L0 5 L3.8 3.8 Z"/></svg></span>
+  <span class="mq3-p__destello mq3-p__destello--3" aria-hidden="true"><svg viewBox="0 0 10 10" fill="currentColor"><path d="M5 0 L6.2 3.8 L10 5 L6.2 6.2 L5 10 L3.8 6.2 L0 5 L3.8 3.8 Z"/></svg></span>
+  <div class="mq3-p__tiara" aria-hidden="true">
+    <svg viewBox="0 0 180 54" fill="none" stroke="url(#mq3p-plata2)" stroke-width="2">
+      <path d="M14 46 C 40 30, 66 24, 90 24 C 114 24, 140 30, 166 46"/>
+      <path d="M90 24 L90 4 M90 8 L78 20 M90 8 L102 20"/>
+      <path d="M56 30 L50 14 M50 18 L42 26 M124 30 L130 14 M130 18 L138 26"/>
+      <circle cx="90" cy="46" r="3.4" fill="#d9cfee" stroke="none"/>
+      <circle cx="50" cy="12" r="2.6" fill="#d9cfee" stroke="none"/>
+      <circle cx="130" cy="12" r="2.6" fill="#d9cfee" stroke="none"/>
+      <circle cx="14" cy="46" r="2.4" fill="#d9cfee" stroke="none"/>
+      <circle cx="166" cy="46" r="2.4" fill="#d9cfee" stroke="none"/>
+    </svg>
+  </div>
+  <p class="mq3-p__rotulo" memory_type="text" memory_usage="custom" memory_key="portada-lema">Mis XV años</p>
+  <div memory_type="text" memory_usage="custom" memory_key="portada-nombre">
+    <h1 class="mq3-p__nombre" memory_type="text" memory_usage="custom" memory_key="portada-titulo">Valentina</h1>
+  </div>
+  <p class="mq3-p__frase" memory_type="text" memory_usage="custom" memory_key="portada-frase">Acompáñanos a celebrar este momento tan especial</p>
+  <div class="mq3-p__datos" memory_type="text" memory_usage="custom" memory_key="portada-fecha">
+    <p class="mq3-p__fecha"><b>Sábado 14 de marzo, 2026</b><small>8:00 de la noche · Jardín Villa Lavanda</small></p>
+  </div>
+</div>
+<div class="mq3-p__mariposas" aria-hidden="true">
+  <svg class="m1" viewBox="-30 0 60 34"><path d="M0 17 C -8 4, -22 6, -27 15 C -22 25, -9 26, 0 17 Z" fill="#b48fd6" stroke="#7d4f9e"/><path d="M0 17 C 8 4, 22 6, 27 15 C 22 25, 9 26, 0 17 Z" fill="#cbb3e4" stroke="#7d4f9e"/><circle cx="-19" cy="14" r="1.6" fill="#fff"/><circle cx="19" cy="14" r="1.6" fill="#fff"/><line x1="0" y1="16" x2="0" y2="30" stroke="#7d4f9e" stroke-width="2"/><path d="M0 16 C -3 10, -6 8, -8 6 M0 16 C 3 10, 6 8, 8 6" fill="none" stroke="#7d4f9e" stroke-width="1.2"/></svg>
+  <svg class="m2" viewBox="-30 0 60 34"><path d="M0 17 C -8 4, -22 6, -27 15 C -22 25, -9 26, 0 17 Z" fill="#d7c6ec" stroke="#9a6dc2"/><path d="M0 17 C 8 4, 22 6, 27 15 C 22 25, 9 26, 0 17 Z" fill="#e6dbf4" stroke="#9a6dc2"/><line x1="0" y1="16" x2="0" y2="30" stroke="#9a6dc2" stroke-width="2"/><path d="M0 16 C -3 10, -6 8, -8 6 M0 16 C 3 10, 6 8, 8 6" fill="none" stroke="#9a6dc2" stroke-width="1.2"/></svg>
+  <svg class="m3" viewBox="-30 0 60 34"><path d="M0 17 C -8 4, -22 6, -27 15 C -22 25, -9 26, 0 17 Z" fill="#c5aae0" stroke="#7d4f9e"/><path d="M0 17 C 8 4, 22 6, 27 15 C 22 25, 9 26, 0 17 Z" fill="#d9c9ee" stroke="#7d4f9e"/><line x1="0" y1="16" x2="0" y2="30" stroke="#7d4f9e" stroke-width="2"/></svg>
+</div>
+<script>
+  (function () {
+    var root = null;
+    try { root = document.currentScript.closest('[data-gemini-id^="portada"]'); } catch (e) {}
+    if (!root) return;
+    root.classList.add('mq3-js');
+  })();
+</script>
+<script>var moduleMetadata = { module_type: 'portada', module_name: 'portada-mq3-prisma', style_name: 'Jardín de Lavanda — Prisma de Plata', descripcion: 'Portada 2026: prisma plateado que se traza solo, tiara, rosas lila en las esquinas, quinceañera de gala, mariposas y placa de cristal.', tags: ['portada', 'lavanda', 'prisma', 'tiara', 'mariposas'], tipo: 'portada' };</script>
+</section>

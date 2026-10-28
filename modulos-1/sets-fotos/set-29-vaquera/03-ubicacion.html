@@ -1,0 +1,220 @@
+<section
+  class="vq-ubi"
+  data-gemini-id="ubicacion-mapa"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Rye&family=IM+Fell+English:ital@0;1&display=swap');
+
+    .vq-ubi, .vq-ubi *, .vq-ubi *::before, .vq-ubi *::after { box-sizing: border-box; }
+    .vq-ubi {
+      --t-bg: var(--bg-color, #24140c);
+      --t-tx: var(--text-color, #f4e7cf);
+      --t-p: var(--primary-color, #c99a3e);
+      --t-s: var(--secondary-color, #7a4a2a);
+      --t-a: var(--accent-color, #a3302a);
+      --t-display: var(--font-script, 'Rye', serif);
+      --t-text: var(--font-heading, 'IM Fell English', Georgia, serif);
+      --rope-a: color-mix(in srgb, var(--t-p) 70%, var(--t-tx));
+      --rope-b: color-mix(in srgb, var(--t-p) 50%, var(--t-bg));
+      --paper: color-mix(in srgb, var(--t-tx) 90%, var(--t-p));
+      --ink: color-mix(in srgb, var(--t-bg) 88%, var(--t-s));
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/hacienda,ranch?lock=2931');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: left;
+      font-family: var(--t-text);
+    }
+    .vq-ubi::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(110deg, color-mix(in srgb, var(--t-bg) 70%, transparent), color-mix(in srgb, var(--t-bg) 94%, transparent) 60%);
+    }
+    .vq-ubi__content { width: min(100%, 66rem); display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+
+    .vq-ubi__map {
+      position: relative;
+      margin: 0;
+      padding: clamp(.7rem, 1.6vw, 1rem);
+      background: var(--paper);
+      background-image: radial-gradient(120% 100% at 30% 20%, transparent 50%, color-mix(in srgb, var(--t-s) 30%, transparent));
+      transform: rotate(-1.6deg);
+      box-shadow: 0 24px 50px -18px color-mix(in srgb, var(--t-bg) 95%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--t-s) 40%, transparent);
+    }
+    .vq-ubi__map::after { content: ''; position: absolute; inset: 8px; border: 1px dashed color-mix(in srgb, var(--t-s) 55%, transparent); pointer-events: none; }
+    .vq-ubi__map svg { display: block; width: 100%; height: auto; }
+    .vq-ubi__pin { transform-box: fill-box; transform-origin: 50% 100%; }
+
+    .vq-ubi__eyebrow { margin: 0; font-style: italic; color: var(--t-p); font-size: clamp(1.1rem, 2.2vw, 1.35rem); }
+    .vq-ubi__title { margin: .2rem 0 1rem; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.05; }
+    .vq-ubi__venue { margin: 0 0 .5rem; font-family: var(--t-display); font-weight: 400; font-size: clamp(1.3rem, 2.6vw, 1.7rem); color: var(--t-p); }
+    .vq-ubi__address { margin: 0; font-style: normal; font-size: clamp(1.05rem, 2vw, 1.2rem); line-height: 1.6; padding-left: 1rem; border-left: 3px solid var(--t-a); }
+    .vq-ubi__address p { margin: 0; }
+    .vq-ubi__time { margin: 1rem 0 1.6rem; font-style: italic; font-size: 1.1rem; color: color-mix(in srgb, var(--t-tx) 80%, var(--t-p)); }
+    .vq-ubi__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .7rem;
+      min-height: 3rem;
+      padding: .7rem 1.4rem;
+      color: var(--t-bg);
+      background: var(--t-p);
+      border: 4px solid var(--t-p);
+      border-image: repeating-linear-gradient(45deg, var(--rope-a) 0 3px, var(--rope-b) 3px 6px) 4;
+      font-family: var(--t-display);
+      font-size: 1.05rem;
+      text-decoration: none;
+      transition: transform .25s ease, background-color .3s ease;
+    }
+    .vq-ubi__btn svg { width: 1.4rem; height: 1.4rem; transition: transform .35s cubic-bezier(.3, 1.5, .5, 1); }
+    .vq-ubi__btn:hover, .vq-ubi__btn:focus-visible { transform: translateY(-2px); background: var(--rope-a); }
+    .vq-ubi__btn:hover svg, .vq-ubi__btn:focus-visible svg { transform: rotate(-25deg); }
+    .vq-ubi__btn:focus-visible { outline: 2px solid var(--t-tx); outline-offset: 4px; }
+
+    .vq-ubi--anim .vq-ubi__map { opacity: 0; transform: rotate(-8deg) translateX(-24px); transition: opacity .4s ease, transform .5s cubic-bezier(.2, .9, .3, 1.1); }
+    .vq-ubi--anim .vq-ubi__pin { transform: translateY(-40px) scale(.5); opacity: 0; transition: transform .45s cubic-bezier(.3, 1.6, .5, 1), opacity .2s ease; transition-delay: .5s; }
+    .vq-ubi--anim .vq-ubi__info > * { opacity: 0; transition: opacity .45s ease; }
+    .vq-ubi--anim .vq-ubi__info > :nth-child(2) { transition-delay: .1s; }
+    .vq-ubi--anim .vq-ubi__info > :nth-child(3) { transition-delay: .2s; }
+    .vq-ubi--anim .vq-ubi__info > :nth-child(4) { transition-delay: .3s; }
+    .vq-ubi--anim .vq-ubi__info > :nth-child(5) { transition-delay: .4s; }
+    .vq-ubi--anim .vq-ubi__info > :nth-child(6) { transition-delay: .5s; }
+    .vq-ubi--anim.is-in .vq-ubi__map { opacity: 1; transform: rotate(-1.6deg); }
+    .vq-ubi--anim.is-in .vq-ubi__pin { opacity: 1; transform: none; }
+    .vq-ubi--anim.is-in .vq-ubi__info > * { opacity: 1; }
+
+    @media (max-width: 760px) {
+      .vq-ubi__content { grid-template-columns: 1fr; }
+      .vq-ubi { text-align: center; }
+      .vq-ubi__address { border-left: 0; padding-left: 0; border-top: 3px solid var(--t-a); padding-top: .6rem; display: inline-block; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .vq-ubi *, .vq-ubi *::before, .vq-ubi *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="vq-ubi__content">
+    <div class="vq-ubi__map" aria-hidden="true">
+      <svg viewBox="0 0 400 300" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M-10 230 C 60 210, 90 250, 150 236 C 210 222, 230 260, 300 250 C 350 243, 380 262, 410 256" style="stroke: color-mix(in srgb, var(--t-s) 55%, transparent)" stroke-width="10" />
+        <path d="M-10 230 C 60 210, 90 250, 150 236 C 210 222, 230 260, 300 250 C 350 243, 380 262, 410 256" style="stroke: color-mix(in srgb, var(--t-tx) 60%, transparent)" stroke-width="1.5" stroke-dasharray="10 14" />
+        <g style="stroke: color-mix(in srgb, var(--t-s) 75%, transparent)" stroke-width="2">
+          <path d="M40 80 l 14 -22 l 14 22 M62 80 l 12 -18 l 12 18" />
+          <path d="M150 50 l 16 -26 l 16 26 M176 50 l 12 -18 l 12 18" />
+          <path d="M330 200 l 12 -18 l 12 18" />
+        </g>
+        <g style="stroke: color-mix(in srgb, var(--t-s) 70%, transparent)" stroke-width="1.6">
+          <path d="M110 140 v -22 M110 128 h -7 v -8 M110 124 h 7 v -10" />
+          <path d="M220 190 v -18 M220 180 h -6 v -6 M220 177 h 6 v -8" />
+          <path d="M60 170 v -16 M60 162 h 5 v -7" />
+        </g>
+        <g style="stroke: var(--ink)" stroke-width="1.6">
+          <path d="M318 150 h 60 M318 160 h 60 M324 145 v 20 M340 145 v 20 M356 145 v 20 M372 145 v 20" />
+        </g>
+        <path data-vq-trail d="M30 286 C 70 250, 40 200, 100 180 C 160 160, 150 110, 210 112 C 250 113, 262 140, 290 128" style="stroke: var(--ink)" stroke-width="2.6" stroke-dasharray="7 7" />
+        <g transform="translate(30 280)" style="stroke: var(--ink)" stroke-width="1.6">
+          <circle r="9" /><circle r="2.5" /><path d="M0 -9 V 9 M-9 0 H 9 M-6.4 -6.4 L 6.4 6.4 M-6.4 6.4 L 6.4 -6.4" />
+        </g>
+        <g transform="translate(350 60)">
+          <path d="M0 -26 L 5 -5 L 26 0 L 5 5 L 0 26 L -5 5 L -26 0 L -5 -5 Z" style="fill: color-mix(in srgb, var(--t-p) 70%, transparent); stroke: var(--ink)" stroke-width="1" />
+          <circle r="30" style="stroke: var(--ink)" stroke-width="1" stroke-dasharray="2 4" />
+          <text y="-34" text-anchor="middle" style="fill: var(--ink); font-family: var(--t-display)" font-size="11">N</text>
+        </g>
+        <g transform="translate(290 128)">
+          <circle data-vq-pulse r="10" style="stroke: var(--t-a)" stroke-width="2.5" opacity="0" />
+          <circle data-vq-pulse r="10" style="stroke: var(--t-a)" stroke-width="2.5" opacity="0" />
+          <g class="vq-ubi__pin">
+            <path d="M0 0 C -6 -10, -16 -16, -16 -30 C -16 -40, -8 -47, 0 -47 C 8 -47, 16 -40, 16 -30 C 16 -16, 6 -10, 0 0 Z" style="fill: var(--t-a); stroke: var(--ink)" stroke-width="1.5" />
+            <path d="M-6 -38 C -10 -30, -8 -22, 0 -21 C 8 -22, 10 -30, 6 -38" style="stroke: var(--paper)" stroke-width="3.4" />
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="vq-ubi__info">
+      <p class="vq-ubi__eyebrow" memory_type="text" memory_usage="custom" memory_key="ubicacion-intro">¿Dónde nos vemos?</p>
+      <h2 class="vq-ubi__title" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">La recepción</h2>
+<figure class="vmap-embed" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,640px);"><iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen style="display:block;width:100%;height:clamp(210px,38vw,330px);border:1px solid var(--primary-color,#9b9b9b);border-radius:12px;"></iframe></figure>
+<figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,340px);"><img src="https://loremflickr.com/700/420/ranch,venue" alt="Vista del lugar" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" style="display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--primary-color,#9b9b9b);" /><figcaption hidden>Vista del lugar</figcaption></figure>
+      <h3 class="vq-ubi__venue" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar" data-event-field="lugar">Hacienda Nombre</h3>
+      <address class="vq-ubi__address">
+        <p memory_type="text" memory_usage="custom" memory_key="ubicacion-calle">Camino Real 123, Rancho Los Álamos</p>
+        <p memory_type="text" memory_usage="custom" memory_key="ubicacion-ciudad">Ciudad, Estado, C.P. 00000</p>
+      </address>
+      <p class="vq-ubi__time">A partir de las <time datetime="2027-04-17T19:30" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora" data-event-field="hora">7:30 p. m.</time></p>
+      <a class="vq-ubi__btn" href="#" data-vq-route>
+        <span memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Cómo llegar</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke-width="3" style="stroke: var(--t-bg)"><path d="M7 3 C 2 9, 3 20, 12 21 C 21 20, 22 9, 17 3" /></svg>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="ubicacion-mapa"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var btn = root.querySelector('[data-vq-route]');
+      if (btn) btn.addEventListener('click', function (e) { if (btn.getAttribute('href') === '#') e.preventDefault(); });
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      root.classList.add('vq-ubi--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('vq-ubi--anim', 'is-in'); }, 1400);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+
+      /* Marker pulse (each pulse .5s) + marching trail, rAF paused off-screen */
+      var pulses = root.querySelectorAll('[data-vq-pulse]');
+      var trail = root.querySelector('[data-vq-trail]');
+      var visible = false, raf = 0;
+      function frame(t) {
+        raf = 0;
+        if (!visible || document.hidden) return;
+        for (var i = 0; i < pulses.length; i++) {
+          var ph = ((t - i * 220) % 1500) / 500;
+          if (ph >= 0 && ph <= 1) {
+            pulses[i].setAttribute('r', (10 + ph * 26).toFixed(1));
+            pulses[i].setAttribute('opacity', (0.85 * (1 - ph)).toFixed(2));
+          } else pulses[i].setAttribute('opacity', '0');
+        }
+        if (trail) trail.style.strokeDashoffset = (-(t / 60) % 14).toFixed(2);
+        raf = requestAnimationFrame(frame);
+      }
+      new IntersectionObserver(function (en) { visible = en[0].isIntersecting; if (visible && !raf) raf = requestAnimationFrame(frame); }).observe(root);
+      document.addEventListener('visibilitychange', function () { if (!document.hidden && visible && !raf) raf = requestAnimationFrame(frame); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-mapa',
+      style_name: 'Vaquera Rancho Romántico',
+      descripcion: 'Ubicación vaquera: mapa antiguo de rancho dibujado a mano con río, nopales, rosa de los vientos y sendero animado hacia un pin con herradura que late; dirección y botón de soga Cómo llegar.',
+      tags: ['ubicación', 'vaquera', 'mapa', 'herradura', 'rancho', 'vintage'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>

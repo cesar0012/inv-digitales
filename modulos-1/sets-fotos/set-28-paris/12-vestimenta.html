@@ -1,0 +1,285 @@
+<section
+  class="np-ve"
+  data-gemini-id="vestimenta-paris"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Parisienne&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .np-ve, .np-ve *, .np-ve *::before, .np-ve *::after { box-sizing: border-box; }
+    .np-ve {
+      --t-bg: var(--bg-color, #0d0b10);
+      --t-tx: var(--text-color, #f8eee8);
+      --t-p: var(--primary-color, #f0c4c0);
+      --t-s: var(--secondary-color, #8a6e78);
+      --t-a: var(--accent-color, #d4af6a);
+      --t-display: var(--font-script, 'Parisienne', 'Snell Roundhand', cursive);
+      --t-text: var(--font-heading, 'Bodoni Moda', 'Didot', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 58vw, 46rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 8vw, 6.5rem) clamp(1.25rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/paris,evening,gown?lock=2812');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .np-ve::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 90%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent));
+    }
+    .np-ve__aura {
+      position: absolute;
+      inset: -10%;
+      z-index: -1;
+      background-color: var(--t-p);
+      -webkit-mask-image: radial-gradient(45% 50% at 72% 50%, #000, transparent 70%);
+      mask-image: radial-gradient(45% 50% at 72% 50%, #000, transparent 70%);
+      opacity: .2;
+      transition: background-color .5s ease, opacity .5s ease;
+      pointer-events: none;
+    }
+    .np-ve__wrap {
+      width: min(100%, 64rem);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: clamp(2rem, 5vw, 4rem);
+      align-items: center;
+    }
+    .np-ve__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(2.6rem, 5.6vw, 4.2rem);
+      line-height: 1.05;
+    }
+    .np-ve__code { margin: .3rem 0 .9rem; font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 500; font-style: italic; color: var(--t-a); }
+    .np-ve__text { margin: 0 0 1.4rem; line-height: 1.65; color: color-mix(in srgb, var(--t-tx) 82%, var(--t-p)); }
+    .np-ve__who { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin: 0; padding: 0; list-style: none; }
+    .np-ve__who li {
+      display: grid;
+      grid-template-columns: 2.4rem 1fr;
+      gap: .7rem;
+      align-items: start;
+      padding: .9rem;
+      border: 1px solid color-mix(in srgb, var(--t-a) 35%, transparent);
+      background: color-mix(in srgb, var(--t-bg) 70%, transparent);
+    }
+    .np-ve__who svg { width: 2.4rem; height: 2.4rem; color: var(--t-a); }
+    .np-ve__who h3 { margin: 0 0 .15rem; font-family: var(--t-display); font-weight: 400; font-size: 1.6rem; line-height: 1.1; }
+    .np-ve__who p { margin: 0; font-size: .95rem; line-height: 1.45; color: color-mix(in srgb, var(--t-tx) 80%, var(--t-p)); }
+
+    .np-ve__palette { display: grid; justify-items: center; }
+    .np-ve__ptitle { margin: 0 0 .4rem; font-style: italic; color: var(--t-p); font-size: 1.05rem; }
+    .np-ve__string { position: relative; width: 100%; padding-top: 1.2rem; }
+    .np-ve__wire { position: absolute; left: 0; top: 0; width: 100%; height: 5.5rem; color: var(--t-a); overflow: visible; }
+    .np-ve__bulbs { position: relative; display: flex; justify-content: space-around; align-items: flex-start; gap: .4rem; min-height: 11rem; margin: 0; padding: 0; list-style: none; }
+    .np-ve__bulb {
+      --np-drop: 1rem;
+      position: relative;
+      display: grid;
+      justify-items: center;
+      width: 3.6rem;
+      padding: var(--np-drop) 0 0;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+      transform-origin: 50% 0;
+    }
+    .np-ve__bulb::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 1px;
+      height: var(--np-drop);
+      background: color-mix(in srgb, var(--t-a) 75%, transparent);
+    }
+    .np-ve__bulb svg { width: 2.6rem; height: auto; overflow: visible; transition: transform .35s cubic-bezier(.34, 1.56, .64, 1), filter .35s ease; }
+    .np-ve__bulb:hover svg, .np-ve__bulb:focus-visible svg { transform: scale(1.08); }
+    .np-ve__bulb[aria-pressed="true"] svg { transform: scale(1.18); filter: drop-shadow(0 0 14px var(--np-c, var(--t-a))); }
+    .np-ve__bulb:focus-visible { outline: 2px solid var(--t-p); outline-offset: 4px; border-radius: 8px; }
+    .np-ve__bulb-name { margin-top: .5rem; font-size: .8rem; font-style: italic; color: color-mix(in srgb, var(--t-tx) 70%, transparent); white-space: nowrap; transition: color .3s ease; }
+    .np-ve__bulb[aria-pressed="true"] .np-ve__bulb-name { color: var(--t-tx); }
+    .np-ve__chip {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      margin-top: 1.2rem;
+      padding: .5rem 1rem;
+      border: 1px solid color-mix(in srgb, var(--t-a) 40%, transparent);
+      border-radius: 999px;
+      font-size: .95rem;
+    }
+    .np-ve__dot { width: 1rem; height: 1rem; border-radius: 50%; background: var(--t-p); box-shadow: 0 0 0 2px color-mix(in srgb, var(--t-tx) 30%, transparent); transition: background-color .5s ease; }
+    .np-ve__note { margin: .9rem 0 0; font-size: .92rem; font-style: italic; text-align: center; color: color-mix(in srgb, var(--t-tx) 72%, transparent); }
+
+    .np-ve--anim .np-ve__info > *, .np-ve--anim .np-ve__palette { opacity: 0; transform: translateY(12px); transition: opacity .45s ease, transform .5s ease; }
+    .np-ve--anim.is-in .np-ve__info > *, .np-ve--anim.is-in .np-ve__palette { opacity: 1; transform: none; }
+    .np-ve--anim.is-in .np-ve__info > :nth-child(2) { transition-delay: .08s; }
+    .np-ve--anim.is-in .np-ve__info > :nth-child(3) { transition-delay: .16s; }
+    .np-ve--anim.is-in .np-ve__info > :nth-child(4) { transition-delay: .24s; }
+    .np-ve--anim.is-in .np-ve__palette { transition-delay: .2s; }
+
+    @media (max-width: 800px) {
+      .np-ve__wrap { grid-template-columns: 1fr; }
+      .np-ve__info { text-align: center; }
+      .np-ve__who li { text-align: left; }
+      .np-ve__aura { -webkit-mask-image: radial-gradient(70% 40% at 50% 75%, #000, transparent 70%); mask-image: radial-gradient(70% 40% at 50% 75%, #000, transparent 70%); }
+    }
+    @media (max-width: 460px) {
+      .np-ve__who { grid-template-columns: 1fr; }
+      .np-ve__bulb { width: 3rem; }
+      .np-ve__bulb svg { width: 2.2rem; }
+      .np-ve__bulb-name { font-size: .72rem; white-space: normal; text-align: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .np-ve *, .np-ve *::before, .np-ve *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <span class="np-ve__aura" data-np-aura aria-hidden="true"></span>
+
+  <div class="np-ve__wrap">
+    <div class="np-ve__info">
+      <h2 class="np-ve__title" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Código de vestimenta</h2>
+      <p class="np-ve__code" memory_type="text" memory_usage="custom" memory_key="vestimenta-codigo" data-event-field="vestimenta">Formal de noche</p>
+      <p class="np-ve__text" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">Inspírate en las luces de París: tonos de noche, destellos dorados y toques de rosa. El vestido largo en rosa palo queda reservado para la quinceañera.</p>
+      <ul class="np-ve__who">
+        <li>
+          <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path d="M15 4 H25 L23 13 L31 37 H9 L17 13 Z M17 13 H23 M15 4 L13 1 M25 4 L27 1" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" /></svg>
+          <div>
+            <h3 memory_type="text" memory_usage="custom" memory_key="vestimenta-damas-titulo">Damas</h3>
+            <p memory_type="text" memory_usage="custom" memory_key="vestimenta-damas-texto">Vestido largo o de cóctel elegante.</p>
+          </div>
+        </li>
+        <li>
+          <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path d="M20 20 L6 12 V28 Z M20 20 L34 12 V28 Z M17 18 H23 V22 H17 Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" /></svg>
+          <div>
+            <h3 memory_type="text" memory_usage="custom" memory_key="vestimenta-caballeros-titulo">Caballeros</h3>
+            <p memory_type="text" memory_usage="custom" memory_key="vestimenta-caballeros-texto">Traje oscuro o smoking.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="np-ve__palette">
+      <p class="np-ve__ptitle" memory_type="text" memory_usage="custom" memory_key="vestimenta-paleta-titulo">Paleta de la noche</p>
+      <div class="np-ve__string">
+        <svg class="np-ve__wire" viewBox="0 0 400 90" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0 2 Q200 70 400 2" fill="none" stroke="currentColor" stroke-opacity=".6" vector-effect="non-scaling-stroke" /></svg>
+        <ul class="np-ve__bulbs" data-np-bulbs data-np-names="Negro noche|Rosa palo|Dorado|Champaña|Malva humo"></ul>
+      </div>
+      <span class="np-ve__chip"><span class="np-ve__dot" data-np-dot aria-hidden="true"></span><span data-np-current aria-live="polite">Rosa palo</span></span>
+      <p class="np-ve__note" memory_type="text" memory_usage="custom" memory_key="vestimenta-nota">Toca un foco para ver cada tono</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="vestimenta-paris"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var NS = 'http://www.w3.org/2000/svg';
+
+      /* Palette swatches generated from the theme variables, so a recolored theme recolors the bulbs */
+      var list = root.querySelector('[data-np-bulbs]');
+      var aura = root.querySelector('[data-np-aura]'), dot = root.querySelector('[data-np-dot]'), cur = root.querySelector('[data-np-current]');
+      var names = ((list && list.getAttribute('data-np-names')) || '').split('|');
+      var vars = ['--t-bg', '--t-p', '--t-a', '--t-tx', '--t-s'];
+      var fall = ['#0d0b10', '#f0c4c0', '#d4af6a', '#f8eee8', '#8a6e78'];
+      var cs = getComputedStyle(root);
+      var colors = vars.map(function (v, i) { return cs.getPropertyValue(v).trim() || fall[i]; });
+      var buttons = [], active = 1;
+      colors.forEach(function (c, i) {
+        var li = document.createElement('li');
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'np-ve__bulb';
+        var u = (i + .5) / colors.length;
+        /* cords start on the wire: wire y follows the SVG curve (viewBox 0 0 400 90 drawn 5.5rem tall) */
+        var wireY = (2 + 136 * u * (1 - u)) / 90 * 5.5;
+        b.style.marginTop = (wireY - 1.2).toFixed(2) + 'rem';
+        b.style.setProperty('--np-drop', (1.3 + (i % 2) * .9).toFixed(2) + 'rem');
+        b.style.setProperty('--np-c', c);
+        b.setAttribute('aria-pressed', 'false');
+        b.setAttribute('aria-label', 'Color ' + (names[i] || (i + 1)));
+        b.setAttribute('data-np-i', i);
+        var svg = document.createElementNS(NS, 'svg'); svg.setAttribute('viewBox', '0 0 40 60'); svg.setAttribute('aria-hidden', 'true');
+        var cap = document.createElementNS(NS, 'rect'); cap.setAttribute('x', 14); cap.setAttribute('y', 0); cap.setAttribute('width', 12); cap.setAttribute('height', 10); cap.setAttribute('rx', 2); cap.style.fill = 'var(--t-a)';
+        var glass = document.createElementNS(NS, 'path');
+        glass.setAttribute('d', 'M15 10 H25 C 25 18, 37 24, 37 38 C 37 50, 29 58, 20 58 C 11 58, 3 50, 3 38 C 3 24, 15 18, 15 10 Z');
+        glass.style.fill = c; glass.setAttribute('stroke', 'currentColor'); glass.setAttribute('stroke-opacity', '.35');
+        var shine = document.createElementNS(NS, 'path'); shine.setAttribute('d', 'M10 34 C 10 26, 14 22, 17 20'); shine.setAttribute('fill', 'none'); shine.setAttribute('stroke', '#fff'); shine.setAttribute('stroke-opacity', '.55'); shine.setAttribute('stroke-width', '2'); shine.setAttribute('stroke-linecap', 'round');
+        svg.appendChild(cap); svg.appendChild(glass); svg.appendChild(shine);
+        var nm = document.createElement('span'); nm.className = 'np-ve__bulb-name'; nm.textContent = names[i] || '';
+        b.appendChild(svg); b.appendChild(nm);
+        b.addEventListener('click', function () { auto = false; select(i); });
+        li.appendChild(b); if (list) list.appendChild(li);
+        buttons.push(b);
+      });
+      function select(i) {
+        active = i;
+        buttons.forEach(function (b, k) { b.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+        var c = colors[i];
+        if (aura) { aura.style.backgroundColor = c; aura.style.opacity = i === 0 ? '.08' : (i === 3 ? '.14' : '.24'); }
+        if (dot) dot.style.backgroundColor = c;
+        if (cur) cur.textContent = names[i] || '';
+      }
+      select(active);
+
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      root.classList.add('np-ve--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('np-ve--anim', 'is-in'); }, 1300);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+
+      /* Bulbs sway; until the guest taps one, the glow walks through the palette. rAF, paused off-screen */
+      var auto = true, lastSwitch = 0, vis = false, raf = 0;
+      function loop(t) {
+        raf = 0;
+        if (!vis || document.hidden) return;
+        buttons.forEach(function (b, i) { b.style.transform = 'rotate(' + (Math.sin(t * .0012 + i * 1.3) * 3).toFixed(2) + 'deg)'; });
+        if (auto) {
+          if (!lastSwitch) lastSwitch = t;
+          if (t - lastSwitch > 2600) { lastSwitch = t; select((active + 1) % buttons.length); }
+        }
+        raf = requestAnimationFrame(loop);
+      }
+      function kick() { if (!raf && vis && !document.hidden) raf = requestAnimationFrame(loop); }
+      new IntersectionObserver(function (en) { vis = en[0].isIntersecting; kick(); }).observe(root);
+      document.addEventListener('visibilitychange', kick);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-paris',
+      style_name: 'Noche en París Vestimenta',
+      descripcion: 'Código de vestimenta formal de noche con la paleta como focos de cristal colgados de un cable dorado; al tocar un foco su color tiñe el brillo de la sección. Damas y caballeros.',
+      tags: ['vestimenta', 'paris', 'paleta', 'luces', 'formal', 'quinceañera'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

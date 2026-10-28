@@ -1,0 +1,656 @@
+<section
+  class="module-portada-slider-evento"
+  data-gemini-id="portada-slider"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="hero-slider-title"
+>
+  <style>
+    .module-portada-slider-evento {
+      --primary-color: #ffffff;
+      --secondary-color: rgba(255, 255, 255, 0.88);
+      --accent-color: #b9c3a4;
+      --accent-strong-color: #aeb994;
+      --surface-dark-color: rgba(0, 0, 0, 0.42);
+      --surface-dark-strong-color: rgba(0, 0, 0, 0.58);
+      --border-light-color: rgba(255, 255, 255, 0.22);
+      --button-dark-color: rgba(0, 0, 0, 0.58);
+      --button-dark-hover-color: rgba(0, 0, 0, 0.72);
+
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      color: var(--primary-color);
+      background: #111111;
+      box-sizing: border-box;
+      isolation: isolate;
+    }
+
+    .hero-slider__viewport {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .hero-slider__slides {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .hero-slider__slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.9s ease, visibility 0.9s ease;
+      overflow: hidden;
+    }
+
+    .hero-slider__slide.is-active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .hero-slider__slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform: scale(1.02);
+      filter: saturate(0.92) contrast(0.95);
+    }
+
+    .hero-slider__overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background:
+        linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.32) 0%,
+          rgba(0, 0, 0, 0.42) 40%,
+          rgba(0, 0, 0, 0.52) 100%
+        );
+      pointer-events: none;
+    }
+
+    .hero-slider__content {
+      position: relative;
+      z-index: 3;
+      width: min(1200px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 4rem);
+      box-sizing: border-box;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .hero-slider__content-inner {
+      width: min(980px, 100%);
+      display: grid;
+      justify-items: center;
+      gap: clamp(1rem, 2vw, 1.4rem);
+    }
+
+    .hero-slider__eyebrow {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.9rem, 1.2vw, 1.15rem);
+      font-weight: 500;
+      line-height: 1.5;
+      letter-spacing: 0.02em;
+      color: var(--secondary-color);
+    }
+
+    .hero-slider__title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3rem, 8vw, 6.4rem);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 0.96;
+      letter-spacing: -0.03em;
+      color: var(--primary-color);
+      text-wrap: balance;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.28);
+    }
+
+    .hero-slider__subtitle {
+      margin: 0;
+      max-width: 760px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1rem, 1.7vw, 1.35rem);
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--secondary-color);
+      text-wrap: balance;
+    }
+
+    .hero-slider__actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .hero-slider__button,
+    .hero-slider__media-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 56px;
+      border: 1px solid var(--border-light-color);
+      text-decoration: none;
+      box-sizing: border-box;
+      transition:
+        transform 0.25s ease,
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+      backdrop-filter: blur(2px);
+    }
+
+    .hero-slider__button {
+      min-width: 168px;
+      padding: 0.95rem 1.5rem;
+      background: rgba(185, 195, 164, 0.55);
+      color: var(--primary-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.96rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.16);
+    }
+
+    .hero-slider__button:hover,
+    .hero-slider__button:focus-visible {
+      background: rgba(185, 195, 164, 0.72);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+      outline: none;
+    }
+
+    .hero-slider__media-button {
+      width: 56px;
+      min-width: 56px;
+      padding: 0;
+      background: var(--button-dark-color);
+      color: var(--accent-color);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.16);
+    }
+
+    .hero-slider__media-button:hover,
+    .hero-slider__media-button:focus-visible {
+      background: var(--button-dark-hover-color);
+      transform: translateY(-2px);
+      outline: none;
+    }
+
+    .hero-slider__media-icon {
+      width: 0;
+      height: 0;
+      margin-left: 3px;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-left: 14px solid currentColor;
+    }
+
+    .hero-slider__arrow {
+      position: absolute;
+      top: 50%;
+      z-index: 4;
+      width: 52px;
+      height: 52px;
+      border: 1px solid var(--border-light-color);
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.3);
+      color: var(--primary-color);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transform: translateY(-50%);
+      cursor: pointer;
+      backdrop-filter: blur(2px);
+      transition:
+        background-color 0.25s ease,
+        transform 0.25s ease,
+        border-color 0.25s ease;
+    }
+
+    .hero-slider__arrow:hover,
+    .hero-slider__arrow:focus-visible {
+      background: rgba(0, 0, 0, 0.48);
+      border-color: rgba(255, 255, 255, 0.28);
+      outline: none;
+    }
+
+    .hero-slider__arrow--prev {
+      left: clamp(0.75rem, 2vw, 1.5rem);
+    }
+
+    .hero-slider__arrow--next {
+      right: clamp(0.75rem, 2vw, 1.5rem);
+    }
+
+    .hero-slider__arrow-icon {
+      font-size: 1.45rem;
+      line-height: 1;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .hero-slider__pagination {
+      position: absolute;
+      left: 50%;
+      bottom: clamp(1.25rem, 3vw, 2rem);
+      z-index: 4;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .hero-slider__dot {
+      width: 12px;
+      height: 12px;
+      padding: 0;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      border-radius: 999px;
+      background: transparent;
+      cursor: pointer;
+      transition:
+        transform 0.25s ease,
+        background-color 0.25s ease,
+        border-color 0.25s ease;
+    }
+
+    .hero-slider__dot.is-active {
+      background: var(--primary-color);
+      border-color: var(--primary-color);
+      transform: scale(1.1);
+    }
+
+    .hero-slider__motion {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: heroSliderReveal 0.6s ease-out forwards;
+    }
+
+    .hero-slider__eyebrow {
+      animation-delay: 0.06s;
+    }
+
+    .hero-slider__title {
+      animation-delay: 0.12s;
+    }
+
+    .hero-slider__subtitle {
+      animation-delay: 0.18s;
+    }
+
+    .hero-slider__actions {
+      animation-delay: 0.24s;
+    }
+
+    @keyframes heroSliderReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .hero-slider__content {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+      }
+
+      .hero-slider__arrow {
+        width: 46px;
+        height: 46px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .module-portada-slider-evento,
+      .hero-slider__viewport,
+      .hero-slider__content {
+        min-height: 100svh;
+      }
+
+      .hero-slider__content {
+        padding: 2rem 1.25rem;
+      }
+
+      .hero-slider__content-inner {
+        gap: 0.9rem;
+      }
+
+      .hero-slider__title {
+        font-size: clamp(2.6rem, 15vw, 4.2rem);
+      }
+
+      .hero-slider__actions {
+        flex-direction: row;
+      }
+
+      .hero-slider__button {
+        min-width: 150px;
+        min-height: 52px;
+      }
+
+      .hero-slider__media-button {
+        width: 52px;
+        min-width: 52px;
+        min-height: 52px;
+      }
+
+      .hero-slider__arrow {
+        top: auto;
+        bottom: 5.2rem;
+        transform: none;
+      }
+
+      .hero-slider__arrow--prev {
+        left: 1rem;
+      }
+
+      .hero-slider__arrow--next {
+        right: 1rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-slider__slide,
+      .hero-slider__motion,
+      .hero-slider__button,
+      .hero-slider__media-button,
+      .hero-slider__arrow,
+      .hero-slider__dot {
+        animation: none;
+        transition: none;
+      }
+
+      .hero-slider__motion {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <div class="hero-slider__viewport">
+    <div class="hero-slider__slides" aria-hidden="true">
+      <figure
+        class="hero-slider__slide is-active"
+        data-slide-index="0"
+        memory_type="image"
+        memory_usage="custom"
+        memory_source="library"
+        memory_key="hero-background-1"
+      >
+        <img
+          src="https://loremflickr.com/1920/1080/event,celebration?lock=401"
+          alt="Hero background image 1"
+          path="placeholder"
+          data-library-category="eventos"
+          data-asset-type="hero-background"
+        />
+      </figure>
+
+      <figure
+        class="hero-slider__slide"
+        data-slide-index="1"
+        memory_type="image"
+        memory_usage="custom"
+        memory_source="library"
+        memory_key="hero-background-2"
+      >
+        <img
+          src="https://loremflickr.com/1920/1080/party,celebration?lock=402"
+          alt="Hero background image 2"
+          path="placeholder"
+          data-library-category="eventos"
+          data-asset-type="hero-background"
+        />
+      </figure>
+
+      <figure
+        class="hero-slider__slide"
+        data-slide-index="2"
+        memory_type="image"
+        memory_usage="custom"
+        memory_source="library"
+        memory_key="hero-background-3"
+      >
+        <img
+          src="https://loremflickr.com/1920/1080/family,event?lock=403"
+          alt="Hero background image 3"
+          path="placeholder"
+          data-library-category="eventos"
+          data-asset-type="hero-background"
+        />
+      </figure>
+    </div>
+
+    <div class="hero-slider__overlay"></div>
+
+    <button
+      class="hero-slider__arrow hero-slider__arrow--prev"
+      type="button"
+      aria-label="Previous slide"
+      data-slider-prev
+    >
+      <span class="hero-slider__arrow-icon" aria-hidden="true">‹</span>
+    </button>
+
+    <button
+      class="hero-slider__arrow hero-slider__arrow--next"
+      type="button"
+      aria-label="Next slide"
+      data-slider-next
+    >
+      <span class="hero-slider__arrow-icon" aria-hidden="true">›</span>
+    </button>
+
+    <div class="hero-slider__content">
+      <div class="hero-slider__content-inner">
+        <p
+          class="hero-slider__eyebrow hero-slider__motion"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="hero-date-line"
+        >
+          Save the date for June 10, 2027
+        </p>
+
+        <h1
+          id="hero-slider-title"
+          class="hero-slider__title hero-slider__motion"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="hero-main-title"
+        >
+          Emma &amp; Noah
+        </h1>
+
+        <p
+          class="hero-slider__subtitle hero-slider__motion"
+          memory_type="text"
+          memory_usage="custom"
+          memory_key="hero-subtitle"
+        >
+          A beautiful celebration shared with family, friends, and unforgettable moments.
+        </p>
+
+        <div class="hero-slider__actions hero-slider__motion">
+          <a
+            href="#event-details"
+            class="hero-slider__button"
+            memory_type="text"
+            memory_usage="custom"
+            memory_key="hero-primary-cta"
+          >
+            Main Event
+          </a>
+
+          <a
+            href="#story"
+            class="hero-slider__media-button"
+            aria-label="Open featured story"
+            memory_type="text"
+            memory_usage="custom"
+            memory_key="hero-secondary-cta"
+          >
+            <span class="hero-slider__media-icon" aria-hidden="true"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-slider__pagination" aria-label="Hero slider pagination">
+      <button class="hero-slider__dot is-active" type="button" aria-label="Go to slide 1" data-slide-to="0"></button>
+      <button class="hero-slider__dot" type="button" aria-label="Go to slide 2" data-slide-to="1"></button>
+      <button class="hero-slider__dot" type="button" aria-label="Go to slide 3" data-slide-to="2"></button>
+    </div>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "hero",
+        "slider",
+        "portada",
+        "background slider",
+        "3 slides",
+        "evento",
+        "modulo universal",
+        "boda",
+        "quinceanera",
+        "cumpleanos",
+        "baby shower",
+        "graduacion",
+        "despedida",
+        "aniversario",
+        "responsive"
+      ],
+      descripcion:
+        "Wireframe universal de hero con tres imágenes de fondo en slider, overlay oscuro, contenido centrado, CTA principal, botón secundario, flechas y dots de navegación."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="portada-slider"]');
+      if (!module) return;
+
+      const slides = Array.from(module.querySelectorAll(".hero-slider__slide"));
+      const dots = Array.from(module.querySelectorAll(".hero-slider__dot"));
+      const prevButton = module.querySelector("[data-slider-prev]");
+      const nextButton = module.querySelector("[data-slider-next]");
+
+      if (!slides.length) return;
+
+      let currentIndex = 0;
+      let autoplayInterval = null;
+      const autoplayDelay = 5000;
+
+      function goToSlide(index) {
+        currentIndex = (index + slides.length) % slides.length;
+
+        slides.forEach(function (slide, slideIndex) {
+          slide.classList.toggle("is-active", slideIndex === currentIndex);
+          slide.setAttribute("aria-hidden", slideIndex === currentIndex ? "false" : "true");
+        });
+
+        dots.forEach(function (dot, dotIndex) {
+          dot.classList.toggle("is-active", dotIndex === currentIndex);
+          dot.setAttribute("aria-current", dotIndex === currentIndex ? "true" : "false");
+        });
+      }
+
+      function nextSlide() {
+        goToSlide(currentIndex + 1);
+      }
+
+      function prevSlide() {
+        goToSlide(currentIndex - 1);
+      }
+
+      function stopAutoplay() {
+        if (autoplayInterval) {
+          window.clearInterval(autoplayInterval);
+          autoplayInterval = null;
+        }
+      }
+
+      function startAutoplay() {
+        stopAutoplay();
+        autoplayInterval = window.setInterval(nextSlide, autoplayDelay);
+      }
+
+      if (prevButton) {
+        prevButton.addEventListener("click", function () {
+          prevSlide();
+          startAutoplay();
+        });
+      }
+
+      if (nextButton) {
+        nextButton.addEventListener("click", function () {
+          nextSlide();
+          startAutoplay();
+        });
+      }
+
+      dots.forEach(function (dot) {
+        dot.addEventListener("click", function () {
+          const index = Number(dot.getAttribute("data-slide-to"));
+          goToSlide(index);
+          startAutoplay();
+        });
+      });
+
+      module.addEventListener("mouseenter", stopAutoplay);
+      module.addEventListener("mouseleave", startAutoplay);
+      module.addEventListener("focusin", stopAutoplay);
+      module.addEventListener("focusout", startAutoplay);
+
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      module.addEventListener("touchstart", function (event) {
+        touchStartX = event.changedTouches[0].clientX;
+      }, { passive: true });
+
+      module.addEventListener("touchend", function (event) {
+        touchEndX = event.changedTouches[0].clientX;
+        const deltaX = touchEndX - touchStartX;
+
+        if (Math.abs(deltaX) > 50) {
+          if (deltaX > 0) {
+            prevSlide();
+          } else {
+            nextSlide();
+          }
+          startAutoplay();
+        }
+      }, { passive: true });
+
+      goToSlide(0);
+
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!prefersReducedMotion) {
+        startAutoplay();
+      }
+    })();
+  </script>
+</section>

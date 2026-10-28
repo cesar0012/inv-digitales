@@ -1,0 +1,177 @@
+<section
+  class="vq-pdr"
+  data-gemini-id="padrinos-vaquera"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+<i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:url('https://loremflickr.com/1920/1080/ranch,desert?lock=403') center/cover;"></i><i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:color-mix(in srgb, var(--bg-color,#1d1a24) 88%, transparent);"></i>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Rye&family=IM+Fell+English:ital@0;1&display=swap');
+
+    .vq-pdr, .vq-pdr *, .vq-pdr *::before, .vq-pdr *::after { box-sizing: border-box; }
+    .vq-pdr {
+      --t-bg: var(--bg-color, #24140c);
+      --t-tx: var(--text-color, #f4e7cf);
+      --t-p: var(--primary-color, #c99a3e);
+      --t-s: var(--secondary-color, #7a4a2a);
+      --t-a: var(--accent-color, #a3302a);
+      --t-display: var(--font-script, 'Rye', serif);
+      --t-text: var(--font-heading, 'IM Fell English', Georgia, serif);
+      --rope-a: color-mix(in srgb, var(--t-p) 70%, var(--t-tx));
+      --rope-b: color-mix(in srgb, var(--t-p) 50%, var(--t-bg));
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: color-mix(in srgb, var(--t-bg) 90%, var(--t-s));
+      background-image:
+        radial-gradient(70% 45% at 50% 0%, color-mix(in srgb, var(--t-p) 16%, transparent), transparent 70%),
+        repeating-linear-gradient(90deg, transparent 0 46px, color-mix(in srgb, var(--t-bg) 30%, transparent) 46px 48px);
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .vq-pdr__content { width: min(100%, 56rem); }
+    .vq-pdr__eyebrow { margin: 0; font-style: italic; color: var(--t-p); font-size: clamp(1.1rem, 2.2vw, 1.35rem); }
+    .vq-pdr__title { margin: .2rem 0 .6rem; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.05; }
+    .vq-pdr__lead { margin: 0 auto; max-width: 32rem; font-size: 1.1rem; line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 82%, var(--t-p)); }
+
+    .vq-pdr__grid { list-style: none; margin: clamp(2.5rem, 6vw, 4rem) 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(1.5rem, 5vw, 4rem); row-gap: clamp(2.2rem, 5vw, 3.2rem); }
+    .vq-pdr__item { display: grid; justify-items: center; gap: .35rem; }
+    .vq-pdr__item:nth-child(even) { transform: translateY(clamp(1.5rem, 4vw, 3rem)); }
+    .vq-pdr__portrait { position: relative; width: clamp(8.5rem, 18vw, 11rem); padding-top: 1.6rem; }
+    .vq-pdr__arch { position: absolute; left: -16%; top: -6%; width: 132%; height: auto; transform: rotate(var(--vq-tilt, -4deg)); pointer-events: none; filter: drop-shadow(0 6px 8px color-mix(in srgb, var(--t-bg) 70%, transparent)); }
+    .vq-pdr__item:nth-child(2) { --vq-tilt: 5deg; }
+    .vq-pdr__item:nth-child(3) { --vq-tilt: 3deg; }
+    .vq-pdr__item:nth-child(4) { --vq-tilt: -6deg; }
+    .vq-pdr__figure { position: relative; margin: 0; border-radius: 50%; overflow: hidden; border: 5px solid var(--t-bg); box-shadow: 0 0 0 2px var(--t-p); background: linear-gradient(140deg, var(--t-s), color-mix(in srgb, var(--t-s) 40%, var(--t-bg))); }
+    .vq-pdr__figure img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; color: transparent; filter: sepia(.3); transition: filter .4s ease, transform .5s ease; }
+    .vq-pdr__item:hover .vq-pdr__figure img { filter: sepia(0); transform: scale(1.05); }
+    .vq-pdr__role { margin: .9rem 0 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(1.1rem, 2.3vw, 1.35rem); color: var(--t-p); line-height: 1.2; }
+    .vq-pdr__names { margin: 0; font-size: clamp(1.05rem, 2vw, 1.18rem); line-height: 1.45; }
+    .vq-pdr__amp { color: var(--t-a); font-style: italic; }
+
+    .vq-pdr--anim .vq-pdr__head { opacity: 0; transition: opacity .45s ease; }
+    .vq-pdr--anim .vq-pdr__arch { opacity: 0; transform: translateY(-36px) rotate(-40deg); transition: opacity .3s ease, transform .5s cubic-bezier(.3, 1.5, .5, 1); }
+    .vq-pdr--anim .vq-pdr__figure { opacity: 0; transform: scale(.7); transition: opacity .35s ease, transform .45s cubic-bezier(.2, .9, .3, 1.2); }
+    .vq-pdr--anim .vq-pdr__role, .vq-pdr--anim .vq-pdr__names { opacity: 0; transition: opacity .4s ease; }
+    .vq-pdr--anim .vq-pdr__item:nth-child(2) * { transition-delay: .15s; }
+    .vq-pdr--anim .vq-pdr__item:nth-child(3) * { transition-delay: .3s; }
+    .vq-pdr--anim .vq-pdr__item:nth-child(4) * { transition-delay: .45s; }
+    .vq-pdr--anim .vq-pdr__item:nth-child(n) .vq-pdr__arch { transition-delay: calc(var(--vq-d, 0s) + .2s); }
+    .vq-pdr--anim.is-in .vq-pdr__head, .vq-pdr--anim.is-in .vq-pdr__arch, .vq-pdr--anim.is-in .vq-pdr__figure, .vq-pdr--anim.is-in .vq-pdr__role, .vq-pdr--anim.is-in .vq-pdr__names { opacity: 1; }
+    .vq-pdr--anim.is-in .vq-pdr__arch { transform: rotate(var(--vq-tilt, -4deg)); }
+    .vq-pdr--anim.is-in .vq-pdr__figure { transform: none; }
+    .vq-pdr__item:nth-child(2) { --vq-d: .15s; }
+    .vq-pdr__item:nth-child(3) { --vq-d: .3s; }
+    .vq-pdr__item:nth-child(4) { --vq-d: .45s; }
+
+    @media (max-width: 640px) {
+      .vq-pdr__grid { grid-template-columns: 1fr; }
+      .vq-pdr__item:nth-child(even) { transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .vq-pdr *, .vq-pdr *::before, .vq-pdr *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="vq-pdr__content">
+    <header class="vq-pdr__head">
+      <p class="vq-pdr__eyebrow" memory_type="text" memory_usage="custom" memory_key="padrinos-intro">Quienes me acompañan en este camino</p>
+      <h2 class="vq-pdr__title" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Mis padrinos</h2>
+      <p class="vq-pdr__lead" memory_type="text" memory_usage="custom" memory_key="padrinos-texto">Gracias por echarme la mano y el lazo en cada paso hacia mis quince.</p>
+    </header>
+
+    <ul class="vq-pdr__grid">
+      <li class="vq-pdr__item">
+        <div class="vq-pdr__portrait">
+          <figure class="vq-pdr__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/500/500/couple,portrait?lock=2981" alt="Padrinos de velación" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+          </figure>
+          <svg class="vq-pdr__arch" viewBox="0 0 140 80" aria-hidden="true">
+            <path d="M14 76 C 8 30, 36 6, 70 6 C 104 6, 132 30, 126 76" fill="none" style="stroke: var(--t-p)" stroke-width="10" />
+            <g style="fill: var(--t-bg)"><circle cx="16" cy="52" r="1.8" /><circle cx="26" cy="28" r="1.8" /><circle cx="48" cy="12" r="1.8" /><circle cx="92" cy="12" r="1.8" /><circle cx="114" cy="28" r="1.8" /><circle cx="124" cy="52" r="1.8" /></g>
+          </svg>
+        </div>
+        <h3 class="vq-pdr__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-1">Padrinos de velación</h3>
+        <p class="vq-pdr__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-1" data-event-field="padrinos-1">Nombre Apellido y Nombre Apellido</p>
+      </li>
+      <li class="vq-pdr__item">
+        <div class="vq-pdr__portrait">
+          <figure class="vq-pdr__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/500/500/couple,smile?lock=2982" alt="Padrinos de anillo" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+          </figure>
+          <svg class="vq-pdr__arch" viewBox="0 0 140 80" aria-hidden="true">
+            <path d="M14 76 C 8 30, 36 6, 70 6 C 104 6, 132 30, 126 76" fill="none" style="stroke: var(--t-p)" stroke-width="10" />
+            <g style="fill: var(--t-bg)"><circle cx="16" cy="52" r="1.8" /><circle cx="26" cy="28" r="1.8" /><circle cx="48" cy="12" r="1.8" /><circle cx="92" cy="12" r="1.8" /><circle cx="114" cy="28" r="1.8" /><circle cx="124" cy="52" r="1.8" /></g>
+          </svg>
+        </div>
+        <h3 class="vq-pdr__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-2">Padrinos de anillo</h3>
+        <p class="vq-pdr__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-2" data-event-field="padrinos-2">Nombre Apellido y Nombre Apellido</p>
+      </li>
+      <li class="vq-pdr__item">
+        <div class="vq-pdr__portrait">
+          <figure class="vq-pdr__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/500/500/family,portrait?lock=2983" alt="Padrinos de botas" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+          </figure>
+          <svg class="vq-pdr__arch" viewBox="0 0 140 80" aria-hidden="true">
+            <path d="M14 76 C 8 30, 36 6, 70 6 C 104 6, 132 30, 126 76" fill="none" style="stroke: var(--t-p)" stroke-width="10" />
+            <g style="fill: var(--t-bg)"><circle cx="16" cy="52" r="1.8" /><circle cx="26" cy="28" r="1.8" /><circle cx="48" cy="12" r="1.8" /><circle cx="92" cy="12" r="1.8" /><circle cx="114" cy="28" r="1.8" /><circle cx="124" cy="52" r="1.8" /></g>
+          </svg>
+        </div>
+        <h3 class="vq-pdr__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-3">Padrinos de botas</h3>
+        <p class="vq-pdr__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-3">Nombre Apellido y Nombre Apellido</p>
+      </li>
+      <li class="vq-pdr__item">
+        <div class="vq-pdr__portrait">
+          <figure class="vq-pdr__figure" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/500/500/friends,portrait?lock=2984" alt="Padrinos de lazo" path="placeholder" data-library-category="familia" data-asset-type="retrato" loading="lazy" />
+          </figure>
+          <svg class="vq-pdr__arch" viewBox="0 0 140 80" aria-hidden="true">
+            <path d="M14 76 C 8 30, 36 6, 70 6 C 104 6, 132 30, 126 76" fill="none" style="stroke: var(--t-p)" stroke-width="10" />
+            <g style="fill: var(--t-bg)"><circle cx="16" cy="52" r="1.8" /><circle cx="26" cy="28" r="1.8" /><circle cx="48" cy="12" r="1.8" /><circle cx="92" cy="12" r="1.8" /><circle cx="114" cy="28" r="1.8" /><circle cx="124" cy="52" r="1.8" /></g>
+          </svg>
+        </div>
+        <h3 class="vq-pdr__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-4">Padrinos de lazo</h3>
+        <p class="vq-pdr__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombres-4">Nombre Apellido y Nombre Apellido</p>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="padrinos-vaquera"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      /* Horseshoe arches drop onto each portrait in a stagger */
+      root.classList.add('vq-pdr--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .15) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('vq-pdr--anim', 'is-in'); }, 1600);
+        }
+      }, { threshold: [0, .15, .4] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'padrinos',
+      module_name: 'padrinos-vaquera',
+      style_name: 'Vaquera Rancho Romántico',
+      descripcion: 'Padrinos vaqueros: retratos circulares bajo arcos de herradura que caen y se asientan en cascada, en dos columnas desfasadas sobre tablones de granero; nombres en tipografía de rodeo.',
+      tags: ['padrinos', 'vaquera', 'herradura', 'retratos', 'granero', 'vintage'],
+      tipo: 'padrinos'
+    };
+  </script>
+</section>

@@ -1,0 +1,251 @@
+<section
+  class="vq-vst"
+  data-gemini-id="vestimenta-vaquera"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Rye&family=IM+Fell+English:ital@0;1&display=swap');
+
+    .vq-vst, .vq-vst *, .vq-vst *::before, .vq-vst *::after { box-sizing: border-box; }
+    .vq-vst {
+      --t-bg: var(--bg-color, #24140c);
+      --t-tx: var(--text-color, #f4e7cf);
+      --t-p: var(--primary-color, #c99a3e);
+      --t-s: var(--secondary-color, #7a4a2a);
+      --t-a: var(--accent-color, #a3302a);
+      --t-display: var(--font-script, 'Rye', serif);
+      --t-text: var(--font-heading, 'IM Fell English', Georgia, serif);
+      --rope-a: color-mix(in srgb, var(--t-p) 70%, var(--t-tx));
+      --rope-b: color-mix(in srgb, var(--t-p) 50%, var(--t-bg));
+      --vq-sel: var(--t-p);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/western,boots,leather?lock=29121');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: left;
+      font-family: var(--t-text);
+    }
+    .vq-vst::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(90deg, color-mix(in srgb, var(--t-bg) 94%, transparent), color-mix(in srgb, var(--t-bg) 78%, transparent));
+    }
+    .vq-vst__content { width: min(100%, 64rem); display: grid; grid-template-columns: auto 1fr; gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+
+    .vq-vst__wheel { position: relative; width: clamp(16rem, 34vw, 22rem); aspect-ratio: 1; }
+    .vq-vst__rim { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .vq-vst__hub {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 40%;
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      overflow: hidden;
+      background: var(--vq-sel);
+      box-shadow: 0 0 0 6px var(--t-s), 0 0 0 9px var(--t-p), 0 14px 30px -8px color-mix(in srgb, var(--t-bg) 90%, transparent);
+    }
+    .vq-vst__wash { position: absolute; inset: 0; background: var(--vq-next, transparent); clip-path: circle(0% at var(--vq-x, 50%) var(--vq-y, 50%)); }
+    .vq-vst__wash[data-go] { animation: vq-vst-wash .45s cubic-bezier(.4, 0, .2, 1) forwards; }
+    @keyframes vq-vst-wash { to { clip-path: circle(150% at var(--vq-x, 50%) var(--vq-y, 50%)); } }
+    .vq-vst__swname {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 38%;
+      padding: .25rem .6rem;
+      border-radius: 1rem;
+      background: color-mix(in srgb, var(--t-bg) 70%, transparent);
+      color: var(--t-tx);
+      font-family: var(--t-display);
+      font-size: clamp(.8rem, 1.6vw, .95rem);
+      text-align: center;
+      line-height: 1.2;
+      pointer-events: none;
+    }
+    .vq-vst__sw {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 20%;
+      aspect-ratio: 1;
+      margin: -10% 0 0 -10%;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 4px solid var(--t-tx);
+      cursor: pointer;
+      transform: rotate(var(--vq-a)) translate(var(--vq-r, 9.4rem)) rotate(calc(var(--vq-a) * -1));
+      box-shadow: 0 8px 16px -6px color-mix(in srgb, var(--t-bg) 90%, transparent);
+      transition: transform .35s cubic-bezier(.3, 1.5, .5, 1), border-color .3s ease;
+    }
+    .vq-vst__sw:hover, .vq-vst__sw:focus-visible { transform: rotate(var(--vq-a)) translate(var(--vq-r, 9.4rem)) rotate(calc(var(--vq-a) * -1)) scale(1.14); }
+    .vq-vst__sw[aria-pressed="true"] { border-color: var(--t-p); transform: rotate(var(--vq-a)) translate(var(--vq-r, 9.4rem)) rotate(calc(var(--vq-a) * -1)) scale(1.2); }
+    .vq-vst__sw:focus-visible { outline: 2px solid var(--t-tx); outline-offset: 3px; }
+
+    .vq-vst__eyebrow { margin: 0; font-style: italic; color: var(--t-p); font-size: clamp(1.1rem, 2.2vw, 1.35rem); }
+    .vq-vst__title { margin: .2rem 0 .8rem; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.4rem); line-height: 1.05; }
+    .vq-vst__code { margin: 0 0 .6rem; font-family: var(--t-display); font-weight: 400; font-size: clamp(1.3rem, 2.8vw, 1.7rem); color: var(--t-p); }
+    .vq-vst__text { margin: 0 0 1rem; font-size: 1.1rem; line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 88%, var(--t-p)); }
+    .vq-vst__reserved { display: flex; align-items: center; gap: .8rem; margin: 0; padding: .7rem 1rem; border-left: 4px solid var(--t-a); background: color-mix(in srgb, var(--t-a) 14%, transparent); font-style: italic; font-size: 1.05rem; }
+    .vq-vst__dot { flex: none; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--t-a); box-shadow: 0 0 0 3px var(--t-tx); }
+
+    .vq-vst--anim .vq-vst__rim { opacity: 0; transform: rotate(-90deg) scale(.8); transition: opacity .4s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .vq-vst--anim .vq-vst__hub { transform: translate(-50%, -50%) scale(0); transition: transform .45s cubic-bezier(.3, 1.5, .5, 1) .25s; }
+    .vq-vst--anim .vq-vst__text-col > * { opacity: 0; transition: opacity .45s ease; }
+    .vq-vst--anim .vq-vst__text-col > :nth-child(2) { transition-delay: .1s; }
+    .vq-vst--anim .vq-vst__text-col > :nth-child(3) { transition-delay: .2s; }
+    .vq-vst--anim .vq-vst__text-col > :nth-child(4) { transition-delay: .3s; }
+    .vq-vst--anim .vq-vst__text-col > :nth-child(5) { transition-delay: .4s; }
+    .vq-vst--anim.is-in .vq-vst__rim { opacity: 1; transform: none; }
+    .vq-vst--anim.is-in .vq-vst__hub { transform: translate(-50%, -50%); }
+    .vq-vst--anim.is-in .vq-vst__text-col > * { opacity: 1; }
+
+    @media (max-width: 760px) {
+      .vq-vst__content { grid-template-columns: 1fr; justify-items: center; }
+      .vq-vst { text-align: center; }
+      .vq-vst__wheel { width: min(82vw, 18rem); }
+      .vq-vst__reserved { text-align: left; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .vq-vst *, .vq-vst *::before, .vq-vst *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="vq-vst__content">
+    <div class="vq-vst__wheel" data-vq-wheel data-vq-palette='[{"c":"var(--t-bg)","n":"Chocolate"},{"c":"var(--t-s)","n":"Cuero"},{"c":"color-mix(in srgb, var(--t-s) 50%, var(--t-p))","n":"Coñac"},{"c":"var(--t-p)","n":"Oro viejo"},{"c":"color-mix(in srgb, var(--t-p) 35%, var(--t-tx))","n":"Arena"}]'>
+      <svg class="vq-vst__rim" viewBox="0 0 200 200" aria-hidden="true">
+        <circle cx="100" cy="100" r="80" fill="none" style="stroke: var(--t-s)" stroke-width="12" />
+        <circle cx="100" cy="100" r="87" fill="none" style="stroke: color-mix(in srgb, var(--t-p) 60%, var(--t-bg))" stroke-width="4" />
+        <g style="stroke: var(--t-s)" stroke-width="6" stroke-linecap="round">
+          <path d="M100 58 V 22 M100 142 V 178 M58 100 H 22 M142 100 H 178" />
+          <path d="M129.7 70.3 L 155 45 M70.3 129.7 L 45 155 M129.7 129.7 L 155 155 M70.3 70.3 L 45 45" />
+        </g>
+      </svg>
+      <div class="vq-vst__hub" data-vq-hub>
+        <span class="vq-vst__wash" data-vq-wash></span>
+      </div>
+      <span class="vq-vst__swname" data-vq-name aria-live="polite">Oro viejo</span>
+    </div>
+
+    <div class="vq-vst__text-col">
+      <p class="vq-vst__eyebrow" memory_type="text" memory_usage="custom" memory_key="vestimenta-intro">Saca las botas del ropero</p>
+      <h2 class="vq-vst__title" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Código de vestimenta</h2>
+      <h3 class="vq-vst__code" memory_type="text" memory_usage="custom" memory_key="vestimenta-codigo" data-event-field="vestimenta">Vaquero formal</h3>
+      <p class="vq-vst__text" memory_type="text" memory_usage="custom" memory_key="vestimenta-texto">Damas: vestido largo o midi en tonos tierra. Caballeros: camisa de manga larga, cinto piteado y sombrero. Las botas son bienvenidas.</p>
+      <p class="vq-vst__reserved"><span class="vq-vst__dot" aria-hidden="true"></span><span memory_type="text" memory_usage="custom" memory_key="vestimenta-reservado">El rojo está reservado para la quinceañera.</span></p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="vestimenta-vaquera"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* Palette swatches generated from data-vq-palette; colors reference the theme variables so the RAG recolors them */
+      var wheel = root.querySelector('[data-vq-wheel]');
+      var hub = root.querySelector('[data-vq-hub]');
+      var wash = root.querySelector('[data-vq-wash]');
+      var nameEl = root.querySelector('[data-vq-name]');
+      var pal = [];
+      try { pal = JSON.parse(wheel.getAttribute('data-vq-palette') || '[]'); } catch (e) { pal = []; }
+      var btns = [], cur = -1, busy = false;
+      function radius() { return (wheel.getBoundingClientRect().width * .44).toFixed(1) + 'px'; }
+      pal.forEach(function (p, i) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'vq-vst__sw';
+        b.setAttribute('aria-label', 'Color ' + p.n);
+        b.setAttribute('aria-pressed', 'false');
+        var a = -90 + i * (360 / pal.length);
+        b.style.setProperty('--vq-a', a + 'deg');
+        b.style.background = p.c;
+        b.setAttribute('data-vq-angle', String(a));
+        b.addEventListener('click', function () { stopAuto(); pick(i); });
+        wheel.appendChild(b);
+        btns.push(b);
+      });
+      function sizeR() { var r = radius(); btns.forEach(function (b) { b.style.setProperty('--vq-r', r); }); }
+      sizeR();
+      window.addEventListener('resize', sizeR);
+
+      function pick(i) {
+        if (i === cur || !pal[i]) return;
+        var prev = cur; cur = i;
+        btns.forEach(function (b, k) { b.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+        if (nameEl) nameEl.textContent = pal[i].n;
+        if (RM || prev < 0 || !wash) { root.style.setProperty('--vq-sel', pal[i].c); return; }
+        /* creative color wash from the swatch's direction into the hub (.45s) */
+        var ang = parseFloat(btns[i].getAttribute('data-vq-angle')) * Math.PI / 180;
+        wash.style.setProperty('--vq-x', (50 + Math.cos(ang) * 50).toFixed(1) + '%');
+        wash.style.setProperty('--vq-y', (50 + Math.sin(ang) * 50).toFixed(1) + '%');
+        wash.style.setProperty('--vq-next', pal[i].c);
+        wash.removeAttribute('data-go'); void wash.offsetWidth; wash.setAttribute('data-go', '');
+        busy = true;
+        setTimeout(function () {
+          root.style.setProperty('--vq-sel', pal[i].c);
+          wash.removeAttribute('data-go');
+          busy = false;
+        }, 460);
+      }
+      pick(3);
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      /* Gentle auto-tour of the palette (rAF-timed, paused off-screen) until the guest picks one */
+      var auto = true, visible = false, raf = 0, last = 0;
+      function stopAuto() { auto = false; }
+      function tick(t) {
+        raf = 0;
+        if (!auto || !visible || document.hidden) return;
+        if (!last) last = t;
+        if (t - last > 2400 && !busy) { last = t; pick((cur + 1) % pal.length); }
+        raf = requestAnimationFrame(tick);
+      }
+      new IntersectionObserver(function (en) { visible = en[0].isIntersecting; if (visible && !raf) { last = 0; raf = requestAnimationFrame(tick); } }).observe(root);
+      document.addEventListener('visibilitychange', function () { if (!document.hidden && visible && !raf) raf = requestAnimationFrame(tick); });
+
+      root.classList.add('vq-vst--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('vq-vst--anim', 'is-in'); }, 1300);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-vaquera',
+      style_name: 'Vaquera Rancho Romántico',
+      descripcion: 'Vestimenta vaquera: paleta generada en JS alrededor de una rueda de carreta; al elegir un color, un barrido circular llena el centro. Código vaquero formal y nota de rojo reservado.',
+      tags: ['vestimenta', 'vaquera', 'paleta', 'rueda de carreta', 'dress code', 'vintage'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

@@ -1,0 +1,46 @@
+<section class="gl-itin2" data-gemini-id="itinerario-agenda" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.gl-itin2 { --primary-color:#223038; --secondary-color:#5d7078; --accent-color:#8fb6c9; --bg-color:#eef4f7; --surface-color:rgba(255,255,255,.55); --surface-border-color:rgba(255,255,255,.75); --text-color:#223038;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/glass,prism'); background-size:cover; background-position:center; color:var(--text-color); }
+.gl-itin2 *, .gl-itin2 *::before, .gl-itin2 *::after { box-sizing:border-box; }
+.gl-itin2::before { content:''; position:absolute; inset:0; z-index:-1; background:linear-gradient(200deg, color-mix(in srgb, var(--bg-color) 62%, transparent), color-mix(in srgb, var(--accent-color) 20%, transparent)); }
+.gl-itin2__titulo { position:relative; z-index:2; margin:0 0 2.6rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.9rem,4.4vw,3rem); color:var(--primary-color); transform:rotate(-1.2deg); }
+.gl-itin2__titulo em { font-style:italic; color:var(--accent-color); }
+/* paneles de vidrio cayendo en cascada diagonal, cada uno más profundo */
+.gl-itin2__cascada { position:relative; z-index:2; width:min(100%,860px); margin:0 auto; perspective:1000px; }
+.gl-itin2__panel { position:relative; width:min(72%,450px); padding:clamp(1.1rem,2.6vw,1.6rem) clamp(1.2rem,3vw,1.9rem); background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:16px; box-shadow:inset 0 1px 0 rgba(255,255,255,.9), 0 20px 44px rgba(34,48,56,.18); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); margin-bottom:clamp(-.7rem,-1.2vw,-.3rem); }
+.gl-itin2__panel:nth-child(1) { transform:translateX(-2%) rotate(-2deg); }
+.gl-itin2__panel:nth-child(2) { transform:translateX(34%) rotate(1.6deg) translateZ(30px); }
+.gl-itin2__panel:nth-child(3) { transform:translateX(8%) rotate(-1deg) translateZ(55px); }
+.gl-itin2__panel:nth-child(4) { transform:translateX(-10%) rotate(2.2deg) translateZ(80px); }
+.gl-itin2__panel::after { content:''; position:absolute; top:10px; right:14px; width:44px; height:10px; border-radius:999px; background:linear-gradient(90deg, transparent, rgba(255,255,255,.85), transparent); transform:rotate(-18deg); }
+.gl-itin2__panel:hover { z-index:6; }
+.gl-itin2__hora { display:inline-block; margin-bottom:.3rem; padding:.14rem .7rem; border-radius:999px; background:rgba(255,255,255,.5); border:1px solid var(--surface-border-color); font-family:Arial,sans-serif; font-size:clamp(.66rem,1.3vw,.76rem); letter-spacing:.2em; color:var(--primary-color); }
+.gl-itin2__momento { margin:0 0 .25rem; font-family:Georgia,serif; font-size:clamp(1.04rem,2.1vw,1.28rem); color:var(--primary-color); }
+.gl-itin2__detalle { margin:0; font-family:Arial,sans-serif; font-size:clamp(.78rem,1.4vw,.88rem); line-height:1.6; color:var(--secondary-color); }
+@media (max-width:640px){ .gl-itin2__panel, .gl-itin2__panel:nth-child(n) { width:100%; transform:none; margin-left:0; } }
+</style>
+<h2 class="gl-itin2__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Cascada <em>de cristal</em></h2>
+<div class="gl-itin2__cascada">
+  <article class="gl-itin2__panel">
+    <time class="gl-itin2__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00 h</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1"><h3 class="gl-itin2__momento">Primer destello</h3><p class="gl-itin2__detalle">Recepción con luz baja y música tenue.</p></div>
+  </article>
+  <article class="gl-itin2__panel">
+    <time class="gl-itin2__hora" datetime="17:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:30 h</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2"><h3 class="gl-itin2__momento">Refracción mayor</h3><p class="gl-itin2__detalle">Ceremonia frente al espejo de agua.</p></div>
+  </article>
+  <article class="gl-itin2__panel">
+    <time class="gl-itin2__hora" datetime="19:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:30 h</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3"><h3 class="gl-itin2__momento">Espectro</h3><p class="gl-itin2__detalle">Cena con copas que cantan.</p></div>
+  </article>
+  <article class="gl-itin2__panel">
+    <time class="gl-itin2__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:30 h</time>
+    <div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4"><h3 class="gl-itin2__momento">Destello final</h3><p class="gl-itin2__detalle">Pista abierta bajo luces rotas.</p></div>
+  </article>
+</div>
+<script>
+var moduleMetadata = { module_type:'itinerario', module_name:'itinerario-agenda', style_name:'Cascada de Cristal', descripcion:'Paneles de vidrio en cascada diagonal con profundidad translateZ creciente, rotaciones opuestas y destello superior; hover trae al frente.', tags:['itinerario','cascada','vidrio','translatez','glassmorphism'], tipo:'itinerario' };
+</script>
+</section>

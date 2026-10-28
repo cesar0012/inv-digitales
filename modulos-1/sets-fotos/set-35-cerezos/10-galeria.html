@@ -1,0 +1,350 @@
+<section
+  class="ck-gal"
+  data-gemini-id="galeria-cerezos"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap');
+
+    .ck-gal, .ck-gal *, .ck-gal *::before, .ck-gal *::after { box-sizing: border-box; }
+    .ck-gal {
+      --t-bg: var(--bg-color, #FAF5F0);
+      --t-tx: var(--text-color, #5A4640);
+      --t-p: var(--primary-color, #E7B3BD);
+      --t-s: var(--secondary-color, #8E6E60);
+      --t-a: var(--accent-color, #AEB3BC);
+      --t-display: var(--font-script, 'Shippori Mincho', 'Times New Roman', serif);
+      --t-text: var(--font-heading, 'Zen Kaku Gothic New', 'Helvetica Neue', sans-serif);
+      --ck-ink: color-mix(in srgb, var(--t-tx) 88%, var(--t-p));
+      --ck-blush-ink: color-mix(in srgb, var(--t-p) 58%, var(--t-s));
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      padding: clamp(4.5rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background:
+        radial-gradient(50% 40% at 100% 100%, color-mix(in srgb, var(--t-p) 16%, transparent), transparent 70%),
+        var(--t-bg);
+      color: var(--t-tx);
+      font-family: var(--t-text);
+      font-weight: 300;
+    }
+    .ck-gal__paper { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: .5; mix-blend-mode: multiply; }
+    .ck-gal__boughs { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; display: block; }
+    .ck-gal__inner { position: relative; z-index: 1; width: min(100%, 66rem); margin: 0 auto; }
+    .ck-gal__head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1rem 3rem; margin-bottom: clamp(2rem, 4vw, 3rem); }
+    .ck-gal__title { margin: 0; font-family: var(--t-display); font-weight: 500; font-size: clamp(2rem, 4.6vw, 3.1rem); color: var(--ck-ink); }
+    .ck-gal__lead { margin: 0; max-width: 24rem; line-height: 1.8; color: color-mix(in srgb, var(--t-tx) 80%, transparent); }
+
+    .ck-gal__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); grid-auto-flow: dense; gap: .8rem; }
+    .ck-gal__tile { position: relative; overflow: hidden; background: color-mix(in srgb, var(--t-p) 25%, var(--t-bg)); }
+    .ck-gal__fig { margin: 0; height: 100%; }
+    .ck-gal__open { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; font: inherit; color: color-mix(in srgb, var(--t-tx) 70%, transparent); }
+    .ck-gal__open:focus-visible { outline: 2px solid var(--t-s); outline-offset: -4px; }
+    .ck-gal__fig img { display: block; width: 100%; height: auto; min-height: 100%; aspect-ratio: 4 / 5; object-fit: cover; transition: transform .5s cubic-bezier(.2, .8, .2, 1), filter .4s ease; }
+    .ck-gal__tile:hover img { transform: scale(1.05); filter: saturate(1.08); }
+    .ck-gal__tile::after { content: ''; position: absolute; inset: .45rem; border: 1px solid color-mix(in srgb, #ffffff 65%, transparent); pointer-events: none; opacity: 0; transition: opacity .35s ease; }
+    .ck-gal__tile:hover::after { opacity: 1; }
+    @media (min-width: 720px) {
+      .ck-gal__tile--wide { grid-column: span 2; }
+      .ck-gal__tile--wide img { aspect-ratio: 8 / 5; }
+      .ck-gal__tile--tall { grid-row: span 2; }
+      .ck-gal__tile--tall img { aspect-ratio: 2 / 5; }
+    }
+
+    /* Lightbox */
+    .ck-gal__dlg { width: min(92vw, 60rem); max-height: 92vh; padding: 0; border: 0; background: transparent; overflow: visible; color: var(--t-tx); }
+    .ck-gal__dlg::backdrop { background: color-mix(in srgb, var(--t-bg) 70%, transparent); backdrop-filter: blur(6px); }
+    .ck-gal__dlg[open] { animation: ck-gal-in .4s cubic-bezier(.2, .8, .2, 1); }
+    .ck-gal__sheet { position: relative; margin: 0; padding: .7rem .7rem 1rem; background: color-mix(in srgb, var(--t-bg) 80%, #ffffff); box-shadow: 0 40px 80px -40px color-mix(in srgb, var(--t-s) 80%, transparent); }
+    .ck-gal__big { display: block; width: 100%; height: auto; max-height: 76vh; object-fit: contain; background: color-mix(in srgb, var(--t-p) 20%, var(--t-bg)); }
+    .ck-gal__cap { margin: .8rem .3rem 0; font-family: var(--t-display); color: var(--ck-ink); text-align: center; }
+    .ck-gal__ctl { position: absolute; display: grid; place-items: center; width: 2.8rem; height: 2.8rem; padding: 0; border: 1px solid color-mix(in srgb, var(--t-a) 80%, transparent); border-radius: 50%; background: color-mix(in srgb, var(--t-bg) 90%, #ffffff); color: var(--t-tx); cursor: pointer; transition: background-color .3s ease, transform .3s ease; }
+    .ck-gal__ctl:hover { background: color-mix(in srgb, var(--t-p) 40%, var(--t-bg)); transform: scale(1.06); }
+    .ck-gal__ctl:focus-visible { outline: 2px solid var(--t-s); outline-offset: 2px; }
+    .ck-gal__ctl svg { width: 1.1rem; height: 1.1rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .ck-gal__ctl--x { top: -1.1rem; right: -1.1rem; }
+    .ck-gal__ctl--prev { left: -1.4rem; top: 45%; }
+    .ck-gal__ctl--next { right: -1.4rem; top: 45%; }
+    @keyframes ck-gal-in { from { opacity: 0; transform: translateY(10px) scale(.97); } to { opacity: 1; transform: none; } }
+
+    /* Entrance: each tile unveils with a circular petal wipe from its corner (clip on the image, not the frame) */
+    .ck-gal--anim .ck-gal__fig img { clip-path: circle(0% at 0% 100%); }
+    .ck-gal--anim .ck-gal__tile[data-ck-in] img { clip-path: circle(150% at 0% 100%); transition: clip-path .5s cubic-bezier(.45, .05, .25, 1), transform .5s ease; }
+
+    @media (max-width: 560px) {
+      .ck-gal__ctl--prev { left: .4rem; top: auto; bottom: -1.4rem; }
+      .ck-gal__ctl--next { right: .4rem; top: auto; bottom: -1.4rem; }
+      .ck-gal__ctl--x { right: .2rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ck-gal *, .ck-gal *::before, .ck-gal *::after { animation: none !important; transition: none !important; }
+      .ck-gal__dlg[open] { animation: none !important; }
+    }
+  </style>
+
+  <svg class="ck-gal__paper" aria-hidden="true" focusable="false" preserveAspectRatio="none"><filter id="ck-gal-fib" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.011 0.02" numOctaves="4" seed="7" /><feColorMatrix values="0 0 0 0 0.55  0 0 0 0 0.44  0 0 0 0 0.4  0.7 0 0 0 -0.3" /></filter><filter id="ck-gal-grain" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="3" /><feColorMatrix values="0 0 0 0 0.5  0 0 0 0 0.42  0 0 0 0 0.38  2 0 0 0 -0.92" /></filter><rect width="100%" height="100%" filter="url(#ck-gal-fib)" /><rect width="100%" height="100%" filter="url(#ck-gal-grain)" opacity=".55" /></svg>
+  <canvas class="ck-gal__boughs" data-ck-boughs aria-hidden="true"></canvas>
+  <div class="ck-gal__inner">
+    <header class="ck-gal__head">
+      <h2 class="ck-gal__title" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Nuestros momentos</h2>
+      <p class="ck-gal__lead" memory_type="text" memory_usage="custom" memory_key="galeria-texto">Pequeñas estaciones de nuestra historia, guardadas como pétalos entre las páginas.</p>
+    </header>
+
+    <ul class="ck-gal__grid" data-ck-grid>
+      <li class="ck-gal__tile ck-gal__tile--tall" data-ck-tile><figure class="ck-gal__fig" memory_type="image" memory_usage="custom" memory_source="library"><button class="ck-gal__open" type="button" data-ck-open aria-label="Ampliar foto 1"><img src="https://loremflickr.com/600/1200/wedding,couple?lock=3301" alt="Pareja bajo los cerezos" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure></li>
+      <li class="ck-gal__tile" data-ck-tile><figure class="ck-gal__fig" memory_type="image" memory_usage="custom" memory_source="library"><button class="ck-gal__open" type="button" data-ck-open aria-label="Ampliar foto 2"><img src="https://loremflickr.com/700/875/cherry,blossom?lock=3302" alt="Flores de cerezo" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure></li>
+      <li class="ck-gal__tile" data-ck-tile><figure class="ck-gal__fig" memory_type="image" memory_usage="custom" memory_source="library"><button class="ck-gal__open" type="button" data-ck-open aria-label="Ampliar foto 3"><img src="https://loremflickr.com/700/875/bride,flowers?lock=3303" alt="La novia con flores" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure></li>
+      <li class="ck-gal__tile ck-gal__tile--wide" data-ck-tile><figure class="ck-gal__fig" memory_type="image" memory_usage="custom" memory_source="library"><button class="ck-gal__open" type="button" data-ck-open aria-label="Ampliar foto 4"><img src="https://loremflickr.com/1200/750/japanese,garden?lock=3304" alt="Jardín en primavera" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure></li>
+      <li class="ck-gal__tile" data-ck-tile><figure class="ck-gal__fig" memory_type="image" memory_usage="custom" memory_source="library"><button class="ck-gal__open" type="button" data-ck-open aria-label="Ampliar foto 5"><img src="https://loremflickr.com/700/875/wedding,rings?lock=3305" alt="Anillos de boda" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure></li>
+      <li class="ck-gal__tile" data-ck-tile><figure class="ck-gal__fig" memory_type="image" memory_usage="custom" memory_source="library"><button class="ck-gal__open" type="button" data-ck-open aria-label="Ampliar foto 6"><img src="https://loremflickr.com/700/875/couple,spring?lock=3306" alt="Paseo de primavera" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure></li>
+      <li class="ck-gal__tile" data-ck-tile><figure class="ck-gal__fig" memory_type="image" memory_usage="custom" memory_source="library"><button class="ck-gal__open" type="button" data-ck-open aria-label="Ampliar foto 7"><img src="https://loremflickr.com/700/875/bouquet,pink?lock=3307" alt="Ramo en tonos rosa" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure></li>
+      <li class="ck-gal__tile ck-gal__tile--wide" data-ck-tile><figure class="ck-gal__fig" memory_type="image" memory_usage="custom" memory_source="library"><button class="ck-gal__open" type="button" data-ck-open aria-label="Ampliar foto 8"><img src="https://loremflickr.com/1200/750/sakura,tree?lock=3308" alt="Cerezo en flor" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure></li>
+    </ul>
+  </div>
+
+  <dialog class="ck-gal__dlg" data-ck-dlg aria-label="Foto ampliada">
+    <div class="ck-gal__sheet">
+      <img class="ck-gal__big" data-mm-big alt="" />
+      <p class="ck-gal__cap" data-ck-cap></p>
+      <button class="ck-gal__ctl ck-gal__ctl--x" type="button" data-ck-close aria-label="Cerrar"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" /></svg></button>
+      <button class="ck-gal__ctl ck-gal__ctl--prev" type="button" data-ck-prev aria-label="Foto anterior"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7" /></svg></button>
+      <button class="ck-gal__ctl ck-gal__ctl--next" type="button" data-ck-next aria-label="Foto siguiente"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7" /></svg></button>
+    </div>
+  </dialog>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="galeria-cerezos"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* ── Cerezos kit: seeded rng, theme colors, blossom sprites, weeping-branch scene ── */
+      function ckRng(seed) { return function () { seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+      function ckRGB(el, v, fb) {
+        var s = document.createElement('span'); s.setAttribute('aria-hidden', 'true'); s.style.display = 'none'; s.style.color = 'var(' + v + ')';
+        el.appendChild(s); var c = getComputedStyle(s).color; el.removeChild(s);
+        var m = c && c.match(/[\d.]+/g); return m && m.length >= 3 ? [+m[0], +m[1], +m[2]] : fb;
+      }
+      function ckMix(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
+      function ckCss(c, a) { return 'rgba(' + (c[0] | 0) + ',' + (c[1] | 0) + ',' + (c[2] | 0) + ',' + (a == null ? 1 : a) + ')'; }
+      function ckPal(el) { return { p: ckRGB(el, '--t-p', [231, 179, 189]), s: ckRGB(el, '--t-s', [142, 110, 96]), a: ckRGB(el, '--t-a', [174, 179, 188]), bg: ckRGB(el, '--t-bg', [250, 245, 240]) }; }
+      function ckPetalPath(g, L) {
+        g.beginPath(); g.moveTo(0, 0);
+        g.bezierCurveTo(-.56 * L, -.2 * L, -.52 * L, -.84 * L, -.15 * L, -L);
+        g.lineTo(0, -.86 * L); g.lineTo(.15 * L, -L);
+        g.bezierCurveTo(.52 * L, -.84 * L, .56 * L, -.2 * L, 0, 0); g.closePath();
+      }
+      function ckSprite(kind, R, pal, sil) {
+        var F = 2, S = Math.ceil(R * 2.5 * F), c = document.createElement('canvas'); c.width = c.height = S;
+        var g = c.getContext('2d'); g.translate(S / 2, S / 2); g.scale(F, F);
+        var white = [255, 255, 255], light = ckMix(pal.p, white, .62), deep = ckMix(pal.p, pal.s, .2), edge = ckMix(pal.p, pal.s, .45);
+        var silC = ckCss(pal.s, 1);
+        function petal(L, rot, sy) {
+          g.save(); g.rotate(rot); if (sy) g.scale(1, sy); ckPetalPath(g, L);
+          if (sil) { g.fillStyle = silC; g.fill(); g.restore(); return; }
+          var gr = g.createLinearGradient(0, 0, 0, -L);
+          gr.addColorStop(0, ckCss(deep, 1)); gr.addColorStop(.4, ckCss(pal.p, 1)); gr.addColorStop(1, ckCss(light, 1));
+          g.fillStyle = gr; g.fill(); g.strokeStyle = ckCss(edge, .3); g.lineWidth = Math.max(.35, L * .035); g.stroke();
+          g.beginPath(); g.moveTo(0, -L * .12); g.lineTo(0, -L * .62); g.strokeStyle = ckCss(deep, .22); g.lineWidth = Math.max(.3, L * .025); g.stroke();
+          g.restore();
+        }
+        function stamens(r) {
+          if (sil) return;
+          for (var i = 0; i < 12; i++) {
+            var a = i / 12 * Math.PI * 2 + .2, l = r * (.32 + (i % 3) * .06);
+            g.beginPath(); g.moveTo(0, 0); g.lineTo(Math.cos(a) * l, Math.sin(a) * l); g.strokeStyle = ckCss(deep, .75); g.lineWidth = Math.max(.3, r * .03); g.stroke();
+            g.beginPath(); g.arc(Math.cos(a) * l, Math.sin(a) * l, Math.max(.45, r * .045), 0, 7); g.fillStyle = ckCss(ckMix(pal.a, pal.s, .35), .95); g.fill();
+          }
+          g.beginPath(); g.arc(0, 0, r * .1, 0, 7); g.fillStyle = ckCss(ckMix(pal.p, pal.s, .55), 1); g.fill();
+        }
+        if (kind === 'open') { for (var i = 0; i < 5; i++) petal(R, i * 1.2566 + .3); stamens(R); }
+        else if (kind === 'half') { g.translate(0, R * .35); petal(R * .9, -.75, .9); petal(R * .9, .75, .9); petal(R, 0); g.beginPath(); g.ellipse(0, R * .05, R * .18, R * .26, 0, 0, 7); g.fillStyle = sil ? silC : ckCss(ckMix(pal.s, pal.p, .2), .9); g.fill(); }
+        else if (kind === 'bud') { g.beginPath(); g.ellipse(0, -R * .2, R * .55, R * .85, 0, 0, 7); g.fillStyle = sil ? silC : ckCss(ckMix(pal.p, pal.s, .25), 1); g.fill(); g.beginPath(); g.ellipse(0, R * .5, R * .32, R * .3, 0, 0, 7); g.fillStyle = sil ? silC : ckCss(ckMix(pal.s, [120, 140, 100], .2), .9); g.fill(); }
+        else { g.translate(0, R * .5); petal(R, 0); }
+        c.__w = S / F; return c;
+      }
+      function ckDraw(g, D, img, x, y, r, s, sx) {
+        var c = Math.cos(r), n = Math.sin(r), k = sx == null ? 1 : sx, w = img.__w * s;
+        g.setTransform(D * c * k, D * n * k, -D * n, D * c, D * x, D * y); g.drawImage(img, -w / 2, -w / 2, w, w);
+      }
+      function ckWind(t) { return Math.sin(t * .23) * .6 + Math.sin(t * .71 + 1) * .4; }
+      /* Weeping-branch scene. o: {anchors:['tl','tr'], reach, y, hang, maxHang, petals, seed, scale, sil, density, strandAlpha} */
+      function ckScene(root, cv, o) {
+        o = o || {};
+        var g = cv.getContext && cv.getContext('2d'); if (!g) return null;
+        var RMs = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+        var W = 0, H = 0, D = Math.min(window.devicePixelRatio || 1, 2), pal, spr, layer, strands = [], petals = [], raf = 0, vis = false, T = 0, last = 0, dead = false;
+        function setup() {
+          pal = ckPal(root); var k = o.scale || 1;
+          spr = { open: ckSprite('open', 12 * k, pal, o.sil), half: ckSprite('half', 10 * k, pal, o.sil), bud: ckSprite('bud', 5 * k, pal, o.sil), pet: ckSprite('petal', 7 * k, pal, o.sil) };
+        }
+        function build() {
+          var rng = ckRng(o.seed || 11), limbs = [], tips = [], narrow = W < 640;
+          var LIM = narrow ? (o.mLim || 70) : (o.yLim || Math.min(H * .42, 260));
+          strands = [];
+          function grow(x, y, a, len, w, depth) {
+            var n = Math.max(5, Math.round(len / 16)), st = len / n, pts = [[x, y, w, a]];
+            for (var i = 1; i <= n; i++) {
+              x += Math.cos(a) * st; y += Math.sin(a) * st;
+              if (y > LIM && i > 2) { n = i - 1; break; }
+              a += (rng() - .5) * .34 + (Math.PI / 2 - a) * (o.droop || .03);
+              pts.push([x, y, Math.max(.8, w * (1 - i / n * .86)), a]);
+            }
+            limbs.push(pts);
+            tips.push([x, y, depth]);
+            if (depth < 2) {
+              var kids = depth ? 2 : 4;
+              for (var j = 0; j < kids; j++) {
+                var p = pts[Math.floor((.18 + rng() * .7) * n)], side = rng() < .5 ? -1 : 1;
+                grow(p[0], p[1], p[3] + side * (.35 + rng() * .55), len * (.25 + rng() * .3), p[2] * .55, depth + 1);
+              }
+            }
+          }
+          var anchors = o.anchors || ['tl'];
+          for (var i = 0; i < anchors.length; i++) {
+            var an = anchors[i], left = an === 'tl', reach = W * (o.reach || .6) + 60, y0 = H * (o.y == null ? .02 : o.y) + (o.yPx || 0);
+            grow(left ? -30 : W + 30, y0, left ? .16 : Math.PI - .16, reach, Math.max(7, Math.min(16, W * .012)) * (o.thick || 1), 0);
+          }
+          var maxH = Math.min(H * (o.hang || .5), o.maxHang || 380), dens = o.density || .7;
+          if (narrow) { maxH = Math.min(maxH, o.mHang || 80); dens *= .7; }
+          for (var l = 0; l < limbs.length; l++) {
+            var pts = limbs[l];
+            for (var q = 1; q < pts.length; q += 2) {
+              var P = pts[q];
+              if (P[0] < -10 || P[0] > W + 10 || rng() > .62 * dens) continue;
+              var len = maxH * (.25 + rng() * .75), bl = [], nb = Math.round(len / 21);
+              for (var b = 0; b < nb; b++) {
+                var t = Math.pow((b + rng() * .8) / nb, .85), r = rng();
+                bl.push({ t: t, k: t > .93 ? 'bud' : r < .55 ? 'open' : r < .85 ? 'half' : 'bud', dx: (b % 2 ? 1 : -1) * (2 + rng() * 4), r: (rng() - .5) * 1.6, s: .6 + rng() * .5 * (1 - t * .4) });
+              }
+              strands.push({ x: P[0], y: P[1], len: len, b: bl, amp: 4 + rng() * 9, w: .5 + rng() * .6, ph: rng() * 6.28, cv: (rng() - .5) * 10 });
+            }
+          }
+          /* static layer: boughs + clustered blossoms on the wood */
+          layer = document.createElement('canvas'); layer.width = Math.max(1, W * D); layer.height = Math.max(1, H * D);
+          var lg = layer.getContext('2d'); lg.lineCap = 'round'; lg.lineJoin = 'round';
+          var bark = o.sil ? ckCss(pal.s, 1) : ckCss(pal.s, .92), hi = ckCss(ckMix(pal.s, [255, 255, 255], .35), .5);
+          for (var m = 0; m < limbs.length; m++) {
+            var L = limbs[m];
+            for (var z = 0; z < L.length - 1; z++) {
+              lg.setTransform(D, 0, 0, D, 0, 0);
+              lg.beginPath(); lg.moveTo(L[z][0], L[z][1]); lg.lineTo(L[z + 1][0], L[z + 1][1]); lg.strokeStyle = bark; lg.lineWidth = L[z][2]; lg.stroke();
+              if (!o.sil && L[z][2] > 3) { lg.beginPath(); lg.moveTo(L[z][0], L[z][1] - L[z][2] * .25); lg.lineTo(L[z + 1][0], L[z + 1][1] - L[z][2] * .25); lg.strokeStyle = hi; lg.lineWidth = L[z][2] * .18; lg.stroke(); }
+            }
+            for (var z2 = 2; z2 < L.length; z2 += 3) if (rng() < .7 * dens) ckDraw(lg, D, spr[rng() < .6 ? 'open' : 'half'], L[z2][0] + (rng() - .5) * 8, L[z2][1] + (rng() - .5) * 8, rng() * 6, .7 + rng() * .5);
+          }
+          for (var tp = 0; tp < tips.length; tp++) for (var c2 = 0; c2 < 4; c2++) ckDraw(lg, D, spr[c2 ? 'open' : 'bud'], tips[tp][0] + (rng() - .5) * 18, tips[tp][1] + (rng() - .5) * 14, rng() * 6, .7 + rng() * .45);
+          lg.setTransform(1, 0, 0, 1, 0, 0);
+          var n = o.petals == null ? 18 : o.petals; petals = [];
+          for (var pi = 0; pi < n; pi++) petals.push(spawn(rng() * W, rng() * H, rng));
+        }
+        function spawn(x, y, rng) {
+          rng = rng || Math.random;
+          return { x: x, y: y, vy: 0, bx: 0, by: 0, r: rng() * 6.28, vr: (rng() - .5) * 2, f: rng() * 6.28, vf: 1.5 + rng() * 2.5, s: .55 + rng() * .65, al: .55 + rng() * .45, ph: rng() * 6.28, w: .6 + rng(), once: false };
+        }
+        function frame(now) {
+          var dt = last ? Math.min(.05, (now - last) / 1000) : .016; last = now; T += dt;
+          g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, cv.width, cv.height);
+          if (layer) g.drawImage(layer, 0, 0);
+          var wind = ckWind(T), sa = o.strandAlpha || .55;
+          for (var i = 0; i < strands.length; i++) {
+            var s = strands[i]; g.setTransform(D, 0, 0, D, 0, 0); g.beginPath();
+            for (var k = 0; k <= 10; k++) { var tt = k / 10, ox = (s.amp * Math.sin(T * s.w + s.ph - tt * 1.6) + wind * 7 + s.cv) * tt * tt; if (k) g.lineTo(s.x + ox, s.y + tt * s.len); else g.moveTo(s.x, s.y); }
+            g.strokeStyle = ckCss(pal.s, sa); g.lineWidth = .9; g.stroke();
+            for (var b = 0; b < s.b.length; b++) {
+              var B = s.b[b], t2 = B.t, ox2 = (s.amp * Math.sin(T * s.w + s.ph - t2 * 1.6) + wind * 7 + s.cv) * t2 * t2;
+              ckDraw(g, D, spr[B.k], s.x + ox2 + B.dx, s.y + t2 * s.len, B.r + Math.sin(T * s.w + s.ph) * .08, B.s);
+            }
+          }
+          for (var p = petals.length - 1; p >= 0; p--) {
+            var P = petals[p];
+            P.vy += ((22 + 18 * P.s) - P.vy) * Math.min(1, dt * 1.5);
+            P.bx *= Math.exp(-2.6 * dt); P.by *= Math.exp(-2.6 * dt);
+            P.x += (wind * 26 + Math.sin(T * P.w + P.ph) * 14 + P.bx) * dt; P.y += (P.vy + P.by) * dt;
+            P.r += P.vr * dt; P.f += P.vf * dt;
+            if (P.y > H + 24 || P.x > W + 40 || P.x < -40) { if (P.once) { petals.splice(p, 1); continue; } var q = spawn(Math.random() * W * 1.1 - W * .05, -20 - Math.random() * 60); petals[p] = q; P = q; }
+            var sx = Math.cos(P.f); g.globalAlpha = P.al * (.5 + .5 * Math.abs(sx));
+            ckDraw(g, D, spr.pet, P.x, P.y, P.r, P.s, sx);
+          }
+          g.globalAlpha = 1; g.setTransform(1, 0, 0, 1, 0, 0);
+        }
+        function loop(now) { raf = 0; frame(now); if (vis && !dead && !document.hidden && !RMs) raf = requestAnimationFrame(loop); }
+        function kick() { if (!raf && vis && !dead && !document.hidden && !RMs) { last = 0; raf = requestAnimationFrame(loop); } }
+        function resize() {
+          var r = cv.getBoundingClientRect(), nw = Math.round(r.width), nh = Math.round(r.height);
+          if (!nw || !nh || (nw === W && nh === H)) return;
+          W = nw; H = nh; cv.width = W * D; cv.height = H * D; build(); frame(performance.now());
+        }
+        setup(); resize();
+        if ('ResizeObserver' in window) new ResizeObserver(resize).observe(cv); else window.addEventListener('resize', resize);
+        if (!RMs && 'IntersectionObserver' in window) {
+          new IntersectionObserver(function (en) { vis = en[0].isIntersecting; kick(); }).observe(root);
+          document.addEventListener('visibilitychange', kick);
+        }
+        return {
+          stop: function () { dead = true; },
+          burst: function (x, y, n) {
+            if (RMs) return;
+            for (var i = 0; i < n; i++) { var a = Math.random() * 6.28, v = 90 + Math.random() * 160, q = spawn(x, y); q.bx = Math.cos(a) * v; q.by = Math.sin(a) * v - 60; q.once = true; q.s *= 1.1; petals.push(q); }
+            kick();
+          }
+        };
+      }
+
+      ckScene(root, root.querySelector('[data-ck-boughs]'), { anchors: ['tl'], reach: .3, hang: .1, maxHang: 140, petals: 12, seed: 1010, density: .5 });
+
+      /* Lightbox: <dialog> + showModal() (escapes stacking contexts); reads the current src of each library image */
+      var dlg = root.querySelector('[data-ck-dlg]'), big = dlg.querySelector('[data-mm-big]'), cap = dlg.querySelector('[data-ck-cap]');
+      var opens = [].slice.call(root.querySelectorAll('[data-ck-open]')), cur = 0;
+      function show(i) {
+        cur = (i + opens.length) % opens.length;
+        var img = opens[cur].querySelector('img');
+        big.src = img.currentSrc || img.src; big.alt = img.alt; cap.textContent = img.alt;
+      }
+      opens.forEach(function (b, i) {
+        b.addEventListener('click', function () {
+          show(i);
+          if (dlg.showModal) { if (!dlg.open) dlg.showModal(); } else dlg.setAttribute('open', '');
+        });
+      });
+      dlg.querySelector('[data-ck-close]').addEventListener('click', function () { dlg.close ? dlg.close() : dlg.removeAttribute('open'); });
+      dlg.querySelector('[data-ck-prev]').addEventListener('click', function () { show(cur - 1); });
+      dlg.querySelector('[data-ck-next]').addEventListener('click', function () { show(cur + 1); });
+      dlg.addEventListener('click', function (e) { if (e.target === dlg && dlg.close) dlg.close(); });
+      dlg.addEventListener('keydown', function (e) { if (e.key === 'ArrowLeft') show(cur - 1); if (e.key === 'ArrowRight') show(cur + 1); });
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+      var tiles = [].slice.call(root.querySelectorAll('[data-ck-tile]')), done = 0;
+      root.classList.add('ck-gal--anim');
+      var io = new IntersectionObserver(function (en) {
+        var batch = 0;
+        en.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          io.unobserve(e.target);
+          var t = e.target;
+          setTimeout(function () {
+            t.setAttribute('data-ck-in', '');
+            if (++done === tiles.length) setTimeout(function () { root.classList.remove('ck-gal--anim'); tiles.forEach(function (x) { x.removeAttribute('data-ck-in'); }); }, 900);
+          }, batch++ * 110);
+        });
+      }, { threshold: .2 });
+      tiles.forEach(function (t) { io.observe(t); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-cerezos',
+      style_name: 'Cerezos en Flor Washi Sakura',
+      descripcion: 'Galería en mosaico responsivo con fotos de biblioteca que se descubren con un barrido circular de pétalo, ramas de cerezo y lightbox propio en dialog con navegación.',
+      tags: ['galeria', 'boda', 'cerezos', 'sakura', 'mosaico', 'lightbox'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

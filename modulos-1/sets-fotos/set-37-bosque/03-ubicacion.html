@@ -1,0 +1,272 @@
+<section
+  class="be-ubi"
+  data-gemini-id="ubicacion-mapa"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Ballet&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .be-ubi, .be-ubi *, .be-ubi *::before, .be-ubi *::after { box-sizing: border-box; }
+    .be-ubi {
+      --t-bg: var(--bg-color, #F3F5EA);
+      --t-tx: var(--text-color, #24483B);
+      --t-p: var(--primary-color, #2F7A5A);
+      --t-s: var(--secondary-color, #7D9A58);
+      --t-a: var(--accent-color, #C9A447);
+      --t-l: var(--lilac-color, #B8A2DA);
+      --t-display: var(--font-script, 'Ballet', cursive);
+      --t-text: var(--font-heading, 'EB Garamond', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/forest,path,sunlight?lock=3331');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .be-ubi::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 25% 40%, color-mix(in srgb, var(--t-a) 14%, transparent), transparent 45%),
+        linear-gradient(160deg, color-mix(in srgb, var(--t-bg) 88%, transparent), color-mix(in srgb, color-mix(in srgb, var(--t-bg) 86%, var(--t-s)) 95%, transparent));
+    }
+    .be-ubi__wrap {
+      display: grid;
+      grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+      gap: clamp(2rem, 6vw, 5rem);
+      align-items: center;
+      width: min(100%, 62rem);
+    }
+
+    .be-ubi__plate {
+      position: relative;
+      width: min(100%, 25rem);
+      justify-self: center;
+      border-radius: 999px 999px 1.6rem 1.6rem;
+      box-shadow: 0 0 0 7px color-mix(in srgb, var(--t-bg) 60%, transparent), 0 0 0 8px color-mix(in srgb, var(--t-a) 45%, transparent), 0 40px 70px -40px color-mix(in srgb, var(--t-p) 75%, transparent);
+    }
+    .be-ubi__map { position: relative; border-radius: inherit; overflow: hidden; }
+    .be-ubi__map svg { display: block; width: 100%; height: auto; }
+    .be-ubi-ground { fill: color-mix(in srgb, var(--t-bg) 78%, var(--t-s)); }
+    .be-ubi-glade { fill: color-mix(in srgb, var(--t-bg) 92%, var(--t-a)); }
+    .be-ubi-pond { fill: color-mix(in srgb, var(--t-l) 45%, var(--t-bg)); }
+    .be-ubi-trail { fill: none; stroke: var(--t-a); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1 10; }
+    .be-ubi-tree { fill: var(--t-s); color: color-mix(in srgb, var(--t-p) 80%, var(--t-tx)); }
+    .be-ubi-tree2 { fill: var(--t-p); color: color-mix(in srgb, var(--t-p) 80%, var(--t-tx)); }
+    .be-ubi-label { font-family: var(--t-text); font-style: italic; font-size: 13px; fill: var(--t-p); }
+
+    .be-ubi__marker { position: absolute; left: 55%; top: 43.5%; width: 0; height: 0; pointer-events: none; }
+    .be-ubi__orb {
+      position: absolute;
+      left: -15px;
+      top: -15px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 38% 34%, #fffdf2 0 18%, color-mix(in srgb, var(--t-a) 70%, #fff6d8) 48%, var(--t-a) 100%);
+      box-shadow: 0 0 18px 6px color-mix(in srgb, var(--t-a) 55%, transparent), 0 0 46px 14px color-mix(in srgb, var(--t-a) 25%, transparent);
+    }
+    .be-ubi__halo {
+      position: absolute;
+      left: -15px;
+      top: -15px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1.5px solid color-mix(in srgb, var(--t-a) 85%, transparent);
+      opacity: 0;
+    }
+    .be-ubi__fly {
+      position: absolute;
+      left: -3px;
+      top: -3px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #fffbe6;
+      box-shadow: 0 0 8px 3px color-mix(in srgb, var(--t-a) 70%, transparent);
+    }
+    .be-ubi__fly:nth-of-type(odd) { box-shadow: 0 0 8px 3px color-mix(in srgb, var(--t-l) 80%, transparent); }
+
+    .be-ubi__info { min-width: 0; }
+    .be-ubi__kicker { margin: 0 0 .35rem; font-style: italic; font-size: 1.15rem; color: var(--t-p); }
+    .be-ubi__title { margin: 0 0 .3em; font-family: var(--t-display); font-weight: 400; font-size: clamp(3rem, 7vw, 4.6rem); line-height: 1.3; color: var(--t-p); }
+    .be-ubi__venue { margin: 0 0 .5rem; font-size: clamp(1.45rem, 3vw, 1.9rem); font-weight: 500; line-height: 1.2; }
+    .be-ubi__address { font-style: normal; font-size: 1.12rem; line-height: 1.6; margin: 0 0 1.4rem; }
+    .be-ubi__address span { display: block; }
+    .be-ubi__meta {
+      margin: 0 0 1.8rem;
+      padding: 0 0 0 1.1rem;
+      border-left: 2px solid color-mix(in srgb, var(--t-a) 60%, transparent);
+    }
+    .be-ubi__time { display: block; font-size: 1.15rem; font-weight: 600; color: var(--t-p); }
+    .be-ubi__note { margin: .25rem 0 0; font-style: italic; line-height: 1.5; }
+    .be-ubi__btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: .65rem;
+      min-height: 3.1rem;
+      padding: .7rem 1.6rem .7rem 1.2rem;
+      border-radius: 999px;
+      background: var(--t-p);
+      color: var(--t-bg);
+      font: 500 1.1rem var(--t-text);
+      text-decoration: none;
+      box-shadow: 0 10px 26px -12px color-mix(in srgb, var(--t-p) 80%, transparent), inset 0 0 0 1px color-mix(in srgb, var(--t-a) 50%, transparent);
+      transition: transform .3s cubic-bezier(.2, .8, .2, 1), box-shadow .3s ease, background-color .3s ease;
+    }
+    .be-ubi__btn svg { width: 1.35rem; height: 1.35rem; transition: transform .45s cubic-bezier(.3, 1.4, .5, 1); }
+    .be-ubi__btn svg path { fill: var(--t-a); }
+    .be-ubi__btn:hover, .be-ubi__btn:focus-visible { transform: translateY(-2px); box-shadow: 0 14px 30px -12px color-mix(in srgb, var(--t-p) 80%, transparent), 0 0 24px color-mix(in srgb, var(--t-a) 45%, transparent), inset 0 0 0 1px var(--t-a); outline: none; }
+    .be-ubi__btn:hover svg, .be-ubi__btn:focus-visible svg { transform: rotate(180deg); }
+
+    .be-ubi--anim .be-ubi__map { clip-path: circle(0% at 55% 43.5%); transition: clip-path .5s cubic-bezier(.5, 0, .3, 1); }
+    .be-ubi--anim.is-in .be-ubi__map { clip-path: circle(150% at 55% 43.5%); }
+    .be-ubi--anim .be-ubi__info > * { opacity: 0; transition: opacity .45s ease; }
+    .be-ubi--anim.is-in .be-ubi__info > * { opacity: 1; }
+    .be-ubi--anim.is-in .be-ubi__info > :nth-child(2) { transition-delay: .1s; }
+    .be-ubi--anim.is-in .be-ubi__info > :nth-child(3) { transition-delay: .2s; }
+    .be-ubi--anim.is-in .be-ubi__info > :nth-child(4) { transition-delay: .3s; }
+    .be-ubi--anim.is-in .be-ubi__info > :nth-child(5) { transition-delay: .4s; }
+    .be-ubi--anim.is-in .be-ubi__info > :nth-child(6) { transition-delay: .5s; }
+
+    @media (max-width: 760px) {
+      .be-ubi__wrap { grid-template-columns: minmax(0, 1fr); text-align: center; }
+      .be-ubi__plate { width: min(100%, 20rem); }
+      .be-ubi__meta { border-left: 0; padding: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .be-ubi *, .be-ubi *::before, .be-ubi *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="be-ubi__wrap">
+    <div class="be-ubi__plate">
+      <div class="be-ubi__map" aria-hidden="true">
+        <svg viewBox="0 0 400 480" focusable="false">
+          <defs>
+            <g id="be-ubi-t"><path d="M0 2 L0 16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="0" cy="-6" r="12"/><circle cx="-7" cy="0" r="7"/><circle cx="7" cy="-1" r="7.5"/></g>
+          </defs>
+          <rect class="be-ubi-ground" width="400" height="480"/>
+          <ellipse class="be-ubi-glade" cx="220" cy="215" rx="120" ry="92"/>
+          <ellipse class="be-ubi-pond" cx="312" cy="372" rx="54" ry="22"/>
+          <path class="be-ubi-trail" d="M30 478 C 110 430, 60 370, 150 330 S 270 270, 220 215"/>
+          <use href="#be-ubi-t" class="be-ubi-tree" transform="translate(48 60) scale(1.3)"/>
+          <use href="#be-ubi-t" class="be-ubi-tree2" transform="translate(98 112) scale(1.1)"/>
+          <use href="#be-ubi-t" class="be-ubi-tree" transform="translate(40 190) scale(1.2)"/>
+          <use href="#be-ubi-t" class="be-ubi-tree2" transform="translate(88 258) scale(.95)"/>
+          <use href="#be-ubi-t" class="be-ubi-tree" transform="translate(330 70) scale(1.25)"/>
+          <use href="#be-ubi-t" class="be-ubi-tree2" transform="translate(360 150) scale(1)"/>
+          <use href="#be-ubi-t" class="be-ubi-tree" transform="translate(352 262) scale(1.15)"/>
+          <use href="#be-ubi-t" class="be-ubi-tree2" transform="translate(268 312) scale(.9)"/>
+          <use href="#be-ubi-t" class="be-ubi-tree" transform="translate(170 72) scale(1.05)"/>
+          <use href="#be-ubi-t" class="be-ubi-tree2" transform="translate(240 92) scale(.85)"/>
+          <use href="#be-ubi-t" class="be-ubi-tree" transform="translate(212 418) scale(1.1)"/>
+          <use href="#be-ubi-t" class="be-ubi-tree2" transform="translate(372 430) scale(.95)"/>
+          <text class="be-ubi-label" x="220" y="288" text-anchor="middle">el claro</text>
+        </svg>
+      </div>
+      <div class="be-ubi__marker" data-be-marker aria-hidden="true">
+        <span class="be-ubi__halo" data-be-halo></span>
+        <span class="be-ubi__halo" data-be-halo></span>
+        <span class="be-ubi__halo" data-be-halo></span>
+        <span class="be-ubi__orb"></span>
+        <span class="be-ubi__fly" data-be-fly></span>
+        <span class="be-ubi__fly" data-be-fly></span>
+        <span class="be-ubi__fly" data-be-fly></span>
+        <span class="be-ubi__fly" data-be-fly></span>
+      </div>
+    </div>
+
+    <div class="be-ubi__info">
+      <p class="be-ubi__kicker" memory_type="text" memory_usage="custom" memory_key="ubicacion-intro">Sigue las luces hasta</p>
+      <h2 class="be-ubi__title" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">El claro del bosque</h2>
+<figure class="vmap-embed" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,640px);"><iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen style="display:block;width:100%;height:clamp(210px,38vw,330px);border:1px solid var(--primary-color,#9b9b9b);border-radius:12px;"></iframe></figure>
+<figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,340px);"><img src="https://loremflickr.com/700/420/forest,venue" alt="Vista del lugar" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" style="display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--primary-color,#9b9b9b);" /><figcaption hidden>Vista del lugar</figcaption></figure>
+      <h3 class="be-ubi__venue" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar" data-event-field="lugar">Jardín Nombre del Lugar</h3>
+      <address class="be-ubi__address">
+        <span memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion" data-event-field="direccion">Calle Nombre 123, Colonia Centro</span>
+        <span memory_type="text" memory_usage="custom" memory_key="ubicacion-ciudad">Ciudad, Estado, C.P. 00000</span>
+      </address>
+      <div class="be-ubi__meta">
+        <time class="be-ubi__time" datetime="2027-06-19T19:00" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora" data-event-field="hora">Recepción · 7:00 p. m.</time>
+        <p class="be-ubi__note" memory_type="text" memory_usage="custom" memory_key="ubicacion-nota">Celebración al aire libre, entre árboles iluminados.</p>
+      </div>
+      <a class="be-ubi__btn" href="#" data-be-maps>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5 L14.2 9.8 L22.5 12 L14.2 14.2 L12 22.5 L9.8 14.2 L1.5 12 L9.8 9.8 Z"/></svg>
+        <span memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Cómo llegar</span>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="ubicacion-mapa"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var btn = root.querySelector('[data-be-maps]');
+      if (btn) btn.addEventListener('click', function (e) { if (btn.getAttribute('href') === '#') e.preventDefault(); });
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      root.classList.add('be-ubi--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('be-ubi--anim', 'is-in'); }, 1400);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+
+      /* lantern marker: halos breathe out, fireflies orbit — rAF, paused off-screen */
+      var halos = [].slice.call(root.querySelectorAll('[data-be-halo]'));
+      var flies = [].slice.call(root.querySelectorAll('[data-be-fly]'));
+      var vis = false, running = false;
+      new IntersectionObserver(function (en) { vis = en[0].isIntersecting; go(); }).observe(root);
+      document.addEventListener('visibilitychange', go);
+      function go() { if (!running && vis && !document.hidden) { running = true; requestAnimationFrame(loop); } }
+      function loop(t) {
+        if (!vis || document.hidden) { running = false; return; }
+        for (var i = 0; i < halos.length; i++) {
+          var k = ((t / 2400) + i / halos.length) % 1;
+          halos[i].style.transform = 'scale(' + (1 + k * 3.4).toFixed(3) + ')';
+          halos[i].style.opacity = (Math.sin(k * Math.PI) * (1 - k) * 1.6).toFixed(3);
+        }
+        for (var j = 0; j < flies.length; j++) {
+          var a = t * (.0011 + j * .00023) + j * 1.6, rx = 34 + j * 13, ry = 16 + j * 7;
+          var tw = .45 + .55 * Math.abs(Math.sin(t * .003 + j * 2));
+          flies[j].style.transform = 'translate(' + (Math.cos(a) * rx).toFixed(1) + 'px,' + (Math.sin(a) * ry - 6).toFixed(1) + 'px)';
+          flies[j].style.opacity = tw.toFixed(2);
+        }
+        requestAnimationFrame(loop);
+      }
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-mapa',
+      style_name: 'Bosque Encantado Claro Iluminado',
+      descripcion: 'Ubicación en un mapa ilustrado del bosque con un farol dorado que pulsa y luciérnagas en órbita, dirección del jardín y botón Cómo llegar.',
+      tags: ['ubicación', 'bosque encantado', 'quinceañera', 'mapa', 'luciérnagas'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>

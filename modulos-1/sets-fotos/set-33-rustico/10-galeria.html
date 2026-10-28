@@ -1,0 +1,229 @@
+<section
+  class="rr-ga"
+  data-gemini-id="galeria-rustico"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Allura&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .rr-ga, .rr-ga *, .rr-ga *::before, .rr-ga *::after { box-sizing: border-box; }
+    .rr-ga {
+      --t-bg: var(--bg-color, #F3EDE1);
+      --t-tx: var(--text-color, #3A2B1F);
+      --t-p: var(--primary-color, #8B9E7C);
+      --t-s: var(--secondary-color, #9A7350);
+      --t-a: var(--accent-color, #EDBC68);
+      --t-display: var(--font-script, 'Allura', cursive);
+      --t-text: var(--font-heading, 'EB Garamond', Georgia, serif);
+      --t-wood: color-mix(in srgb, var(--t-s) 82%, #2b1c11);
+      --t-wood-d: color-mix(in srgb, var(--t-s) 34%, #170f09);
+      --t-sage-d: color-mix(in srgb, var(--t-p) 58%, #1d261a);
+      --t-sage-l: color-mix(in srgb, var(--t-p) 55%, var(--t-bg));
+      --t-ivory: color-mix(in srgb, var(--t-bg) 70%, #ffffff);
+      --t-twine: color-mix(in srgb, var(--t-s) 50%, #dcc7a4);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      padding: clamp(5rem, 9vw, 7rem) clamp(1.25rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-wood-d);
+      background-image:
+        radial-gradient(ellipse 60% 40% at 50% 0%, color-mix(in srgb, var(--t-a) 14%, transparent), transparent 70%),
+        repeating-linear-gradient(180deg, transparent 0 calc(6rem - 3px), rgba(0,0,0,.42) calc(6rem - 3px) calc(6rem - 1px), rgba(255,236,210,.08) calc(6rem - 1px) 6rem), repeating-linear-gradient(180deg, rgba(0,0,0,0) 0 6rem, rgba(0,0,0,.12) 6rem calc(6rem * 2), rgba(255,240,220,.05) calc(6rem * 2) calc(6rem * 3)), linear-gradient(180deg, var(--t-wood), var(--t-wood-d));
+      color: var(--t-bg);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .rr-ga__grain { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mix-blend-mode: multiply; opacity: .55; will-change: transform; }
+    .rr-ga__grain { opacity: .65; }
+    .rr-ga__head { max-width: 38rem; margin: 0 auto; }
+    .rr-ga__title { margin: 0 0 .5rem; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.9rem, 7vw, 4.6rem); line-height: 1.05; color: var(--t-sage-l); }
+    .rr-ga__intro { margin: 0; font-style: italic; font-size: clamp(1.05rem, 2.3vw, 1.2rem); line-height: 1.6; color: color-mix(in srgb, var(--t-bg) 80%, transparent); }
+
+    .rr-ga__grid {
+      list-style: none;
+      max-width: 68rem;
+      margin: clamp(2.6rem, 5vw, 3.6rem) auto 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 13.5rem), 1fr));
+      grid-auto-flow: dense;
+      gap: clamp(1.4rem, 3vw, 2.2rem);
+      align-items: start;
+    }
+    .rr-ga__tile { position: relative; cursor: zoom-in; transform: rotate(var(--r, 0deg)); transition: transform .35s ease; outline: none; }
+    .rr-ga__tile::before {
+      content: '';
+      position: absolute;
+      top: -.45rem;
+      left: 50%;
+      z-index: 2;
+      width: .95rem;
+      height: .95rem;
+      margin-left: -.475rem;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #fff6d8, color-mix(in srgb, var(--t-a) 70%, #7a5a2a) 55%, #3b2a14);
+      box-shadow: 0 2px 3px rgba(0, 0, 0, .5);
+    }
+    .rr-ga__tile:hover, .rr-ga__tile:focus-visible { transform: rotate(0deg) translateY(-4px) scale(1.02); }
+    .rr-ga__tile:focus-visible .rr-ga__photo { box-shadow: 0 0 0 3px var(--t-a), 0 1rem 1.6rem rgba(0, 0, 0, .45); }
+    .rr-ga__photo { margin: 0; padding: .55rem .55rem 1.6rem; background: var(--t-ivory); box-shadow: 0 1rem 1.6rem rgba(0, 0, 0, .45); }
+    .rr-ga__photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; background: color-mix(in srgb, var(--t-p) 30%, var(--t-bg)); }
+    @media (max-width: 34rem) {
+      .rr-ga__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.4rem 1rem; }
+      .rr-ga__photo { padding: .4rem .4rem 1.1rem; }
+    }
+    @media (min-width: 48rem) {
+      .rr-ga__tile--wide { grid-column: span 2; }
+      .rr-ga__tile--wide .rr-ga__photo img { aspect-ratio: 16 / 10; }
+    }
+
+    .rr-ga__lb { width: min(92vw, 52rem); max-width: none; max-height: none; padding: 0; border: 0; background: transparent; color: var(--t-bg); overflow: visible; }
+    .rr-ga__lb::backdrop { background: rgba(22, 14, 8, .84); }
+    .rr-ga__lb[open] { animation: rr-ga-lbin .35s cubic-bezier(.3, 1.3, .5, 1); }
+    .rr-ga__lbfig { margin: 0; padding: clamp(.6rem, 2vw, 1rem) clamp(.6rem, 2vw, 1rem) clamp(2.2rem, 5vw, 2.8rem); background: var(--t-ivory); box-shadow: 0 2rem 4rem rgba(0, 0, 0, .6); }
+    .rr-ga__lbfig img { display: block; width: 100%; height: auto; max-height: 74vh; aspect-ratio: 4 / 3; object-fit: contain; background: #1c140d; }
+    .rr-ga__count { position: absolute; left: 0; right: 0; bottom: .7rem; margin: 0; text-align: center; font-style: italic; color: var(--t-tx); }
+    .rr-ga__lbbtn {
+      position: absolute;
+      top: 50%;
+      width: 3rem;
+      height: 3rem;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      border-radius: 50%;
+      font: inherit;
+      font-size: 1.7rem;
+      line-height: 1;
+      color: var(--t-bg);
+      background: color-mix(in srgb, var(--t-wood-d) 88%, transparent);
+      box-shadow: 0 .4rem .8rem rgba(0, 0, 0, .4);
+      cursor: pointer;
+      transform: translateY(-50%);
+      transition: background-color .3s ease, transform .3s ease;
+    }
+    .rr-ga__lbbtn:hover, .rr-ga__lbbtn:focus-visible { background: var(--t-sage-d); transform: translateY(-50%) scale(1.08); outline: none; }
+    .rr-ga__lbbtn--prev { left: -1.5rem; }
+    .rr-ga__lbbtn--next { right: -1.5rem; }
+    .rr-ga__lbbtn--close { top: -1.2rem; right: -1.2rem; transform: none; }
+    .rr-ga__lbbtn--close:hover, .rr-ga__lbbtn--close:focus-visible { transform: scale(1.08); }
+    @media (max-width: 40rem) {
+      .rr-ga__lbbtn--prev { left: .4rem; }
+      .rr-ga__lbbtn--next { right: .4rem; }
+      .rr-ga__lbbtn--close { right: .4rem; top: .4rem; }
+    }
+    @keyframes rr-ga-lbin { from { opacity: 0; transform: scale(.92) rotate(-1.5deg); } to { opacity: 1; transform: none; } }
+
+    /* Tiles get pinned to the board one after another */
+    .rr-ga--anim .rr-ga__tile { transition: opacity .4s ease, transform .5s cubic-bezier(.3, 1.4, .5, 1); }
+    .rr-ga--anim .rr-ga__tile:not([data-in]) { opacity: 0; transform: translateY(-1.4rem) rotate(calc(var(--r, 0deg) + 8deg)) scale(.95); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .rr-ga *, .rr-ga *::before, .rr-ga *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="rr-ga__grain" aria-hidden="true" focusable="false"><filter id="rr-ga-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.0035 0.075" numOctaves="4" seed="29"></feTurbulence><feColorMatrix type="matrix" values="0 0 0 0 0.17  0 0 0 0 0.10  0 0 0 0 0.05  2.6 0 0 0 -1.05"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#rr-ga-grain)"></rect></svg>
+  <header class="rr-ga__head">
+    <h2 class="rr-ga__title" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Nuestros momentos</h2>
+    <p class="rr-ga__intro" memory_type="text" memory_usage="custom" memory_key="galeria-intro">Pequeños recuerdos clavados en madera, de los días que nos trajeron hasta aquí.</p>
+  </header>
+  <ul class="rr-ga__grid">
+    <li class="rr-ga__tile rr-ga__tile--wide" data-rr-tile tabindex="0" role="button" aria-label="Ver foto 1" style="--r: -1.6deg">
+      <figure class="rr-ga__photo" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/900/560/wedding,couple?lock=3101" alt="Los novios entre árboles" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" /></figure>
+    </li>
+    <li class="rr-ga__tile" data-rr-tile tabindex="0" role="button" aria-label="Ver foto 2" style="--r: 1.8deg">
+      <figure class="rr-ga__photo" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/600/750/rustic,wedding?lock=3102" alt="Mesa rústica decorada" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" /></figure>
+    </li>
+    <li class="rr-ga__tile" data-rr-tile tabindex="0" role="button" aria-label="Ver foto 3" style="--r: -1deg">
+      <figure class="rr-ga__photo" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/600/750/eucalyptus?lock=3103" alt="Ramas de eucalipto" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" /></figure>
+    </li>
+    <li class="rr-ga__tile" data-rr-tile tabindex="0" role="button" aria-label="Ver foto 4" style="--r: 2.2deg">
+      <figure class="rr-ga__photo" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/600/750/string,lights?lock=3104" alt="Luces de cadena al anochecer" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" /></figure>
+    </li>
+    <li class="rr-ga__tile" data-rr-tile tabindex="0" role="button" aria-label="Ver foto 5" style="--r: -2deg">
+      <figure class="rr-ga__photo" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/600/750/wedding,rings?lock=3105" alt="Anillos sobre madera" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" /></figure>
+    </li>
+    <li class="rr-ga__tile rr-ga__tile--wide" data-rr-tile tabindex="0" role="button" aria-label="Ver foto 6" style="--r: 1.2deg">
+      <figure class="rr-ga__photo" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/900/560/barn,wedding?lock=3106" alt="Granero iluminado" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" /></figure>
+    </li>
+    <li class="rr-ga__tile" data-rr-tile tabindex="0" role="button" aria-label="Ver foto 7" style="--r: -1.4deg">
+      <figure class="rr-ga__photo" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/600/750/bouquet?lock=3107" alt="Ramo de novia" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" /></figure>
+    </li>
+    <li class="rr-ga__tile" data-rr-tile tabindex="0" role="button" aria-label="Ver foto 8" style="--r: 1.6deg">
+      <figure class="rr-ga__photo" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/600/750/wedding,dance?lock=3108" alt="Primer baile" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" /></figure>
+    </li>
+  </ul>
+  <dialog class="rr-ga__lb" data-rr-lb aria-label="Foto ampliada">
+    <figure class="rr-ga__lbfig"><img data-mm-big alt="" /></figure>
+    <p class="rr-ga__count" data-rr-count></p>
+    <button class="rr-ga__lbbtn rr-ga__lbbtn--prev" type="button" data-rr-prev aria-label="Foto anterior">‹</button>
+    <button class="rr-ga__lbbtn rr-ga__lbbtn--next" type="button" data-rr-next aria-label="Foto siguiente">›</button>
+    <button class="rr-ga__lbbtn rr-ga__lbbtn--close" type="button" data-rr-close aria-label="Cerrar">×</button>
+  </dialog>
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="galeria-rustico"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var HAS_IO = 'IntersectionObserver' in window;
+
+      var tiles = [].slice.call(root.querySelectorAll('[data-rr-tile]'));
+      var lb = root.querySelector('[data-rr-lb]'), big = lb.querySelector('[data-mm-big]'), count = root.querySelector('[data-rr-count]'), cur = 0;
+      function show(i) {
+        cur = (i + tiles.length) % tiles.length;
+        var im = tiles[cur].querySelector('img');
+        big.src = im.currentSrc || im.src; big.alt = im.alt;
+        count.textContent = (cur + 1) + ' / ' + tiles.length;
+      }
+      function open(i) { show(i); if (lb.showModal) { if (!lb.open) lb.showModal(); } else lb.setAttribute('open', ''); }
+      function close() { if (lb.close) lb.close(); else lb.removeAttribute('open'); }
+      tiles.forEach(function (t, i) {
+        t.addEventListener('click', function () { open(i); });
+        t.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); } });
+      });
+      root.querySelector('[data-rr-prev]').addEventListener('click', function () { show(cur - 1); });
+      root.querySelector('[data-rr-next]').addEventListener('click', function () { show(cur + 1); });
+      root.querySelector('[data-rr-close]').addEventListener('click', close);
+      lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+      lb.addEventListener('keydown', function (e) { if (e.key === 'ArrowLeft') show(cur - 1); if (e.key === 'ArrowRight') show(cur + 1); });
+
+      if (RM || !HAS_IO) return;   /* reduced motion: tiles already pinned */
+      root.classList.add('rr-ga--anim');
+      var left = tiles.length;
+      tiles.forEach(function (t, i) {
+        var io = new IntersectionObserver(function (en) {
+          if (!en[0].isIntersecting) return;
+          io.disconnect();
+          setTimeout(function () {
+            t.setAttribute('data-in', '');
+            if (--left === 0) setTimeout(function () {
+              root.classList.remove('rr-ga--anim');
+              tiles.forEach(function (x) { x.removeAttribute('data-in'); });
+            }, 700);
+          }, (i % 3) * 110);
+        }, { threshold: .2 });
+        io.observe(t);
+      });
+
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-rustico',
+      style_name: 'Romance Rústico Galería',
+      descripcion: 'Galería rústica tipo mosaico: fotos con marco de papel clavadas con tachuelas sobre tablones de madera, entrada escalonada y visor propio con navegación y teclado.',
+      tags: ['galeria', 'boda', 'rustico', 'madera', 'fotos'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

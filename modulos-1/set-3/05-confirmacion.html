@@ -1,0 +1,193 @@
+<section
+  class="pl-confirmacion"
+  data-gemini-id="confirmacion-texto"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .pl-confirmacion {
+      --primary-color: #1c2340;
+      --secondary-color: #6b7395;
+      --accent-color: #9aa7d0;
+      --bg-color: #eef0f8;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(28, 35, 64, 0.2);
+      --text-color: #1c2340;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 72svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/night,sky');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .pl-confirmacion *,
+    .pl-confirmacion *::before,
+    .pl-confirmacion *::after { box-sizing: border-box; }
+
+    .pl-confirmacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 85%, transparent);
+    }
+
+    .pl-confirmacion__carta {
+      position: relative;
+      width: min(100%, 640px);
+      padding: clamp(2.2rem, 5.5vw, 3.5rem) clamp(1.4rem, 4.5vw, 3rem);
+      background: color-mix(in srgb, var(--surface-color) 96%, transparent);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 26px 56px rgba(28, 35, 64, 0.18);
+      clip-path: polygon(0 0, calc(100% - 46px) 0, 100% 46px, 100% 100%, 0 100%);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .pl-confirmacion.pl-js .pl-confirmacion__carta { opacity: 0; transform: translateY(20px); }
+    .pl-confirmacion.esta-visto .pl-confirmacion__carta { opacity: 1; transform: none; }
+    .pl-confirmacion__carta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 46px;
+      height: 46px;
+      background: linear-gradient(225deg, var(--bg-color) 0 49%, color-mix(in srgb, var(--accent-color) 52%, var(--bg-color)) 49% 100%);
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+    }
+    .pl-confirmacion__carta::after {
+      content: '';
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      width: 40px;
+      height: 40px;
+      border-left: 1px dashed var(--accent-color);
+      border-bottom: 1px dashed var(--accent-color);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .pl-confirmacion__estrella-sello {
+      width: clamp(56px, 9vw, 72px);
+      margin: 0 auto clamp(1rem, 2.4vw, 1.4rem);
+      color: var(--accent-color);
+      animation: plConfirmacionFlota 6s ease-in-out infinite;
+    }
+    @keyframes plConfirmacionFlota {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(8deg); }
+    }
+
+    .pl-confirmacion__etiqueta {
+      margin: 0 0 0.7rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .pl-confirmacion__titulo {
+      margin: 0 0 1rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.65rem, 3.7vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .pl-confirmacion__texto {
+      margin: 0 auto 1.4rem;
+      max-width: 46ch;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+
+    .pl-confirmacion__limite {
+      display: inline-grid;
+      gap: 0.3rem;
+      padding: 0.7rem 1.7rem;
+      background: var(--bg-color);
+      border: 1px dashed var(--accent-color);
+    }
+    .pl-confirmacion__limite-rotulo {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.56rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .pl-confirmacion__limite-fecha {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.88rem, 1.65vw, 1rem);
+      letter-spacing: 0.1em;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 560px) {
+      .pl-confirmacion { min-height: 62svh; }
+      .pl-confirmacion__carta { padding: 2.2rem 1.2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pl-confirmacion * { animation: none !important; transition: none !important; }
+      .pl-confirmacion__carta { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <div class="pl-confirmacion__carta">
+    <svg class="pl-confirmacion__estrella-sello" viewBox="0 0 80 80" fill="none" aria-hidden="true">
+      <path d="M40 6 L46 30 L70 24 L52 40 L70 56 L46 50 L40 74 L34 50 L10 56 L28 40 L10 24 L34 30 Z" stroke="currentColor" stroke-width="1.4"/>
+      <circle cx="40" cy="40" r="7" stroke="currentColor" stroke-width="1.2"/>
+    </svg>
+
+    <p class="pl-confirmacion__etiqueta" memory_type="text" memory_usage="custom" memory_key="confirmacion-etiqueta">Confirma tu lugar</p>
+    <h2 class="pl-confirmacion__titulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">El cielo te espera</h2>
+    <p class="pl-confirmacion__texto" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">
+      Queremos tenerte cerca esa noche. Confirma tu asistencia con el enlace de tu invitación
+      digital antes de la fecha señalada; tu lugar estará reservado entre las estrellas.
+    </p>
+    <p class="pl-confirmacion__limite">
+      <span class="pl-confirmacion__limite-rotulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-rotulo">Fecha límite</span>
+      <time class="pl-confirmacion__limite-fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha">DD de mes</time>
+    </p>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.pl-confirmacion');
+      if (!root) return;
+      root.classList.add('pl-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.25 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Plegado Celeste — Confirmación',
+      descripcion: 'Carta plegada con sello estrella flotante, texto de RSVP informativo y fecha límite enmarcada en guiones celestes.',
+      tags: ['confirmacion', 'rsvp', 'origami', 'estrella', 'fecha limite', 'celestial'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>

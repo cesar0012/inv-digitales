@@ -1,0 +1,24 @@
+{
+  "colors": {
+    "primary": "#8A4F3D",
+    "text": "#2E2A26",
+    "accent": "#B98A5E",
+    "background": "#FAF6F0",
+    "surface": "#FFFFFF",
+    "border": "#E5DCCF"
+  },
+  "font": {
+    "base": "Playfair Display",
+    "heading": "Cormorant Garamond"
+  },
+  "fontOptions": {
+    "overrideProtectedFonts": true
+  },
+  "modules": [
+    "../Countdown/countdown-01.html",
+    "../Countdown/countdown-05.html",
+    "./test-fixtures/module-with-literals.html"
+  ],
+  "container": "./test-fixtures/container.html",
+  "output": "./test-output"
+}

@@ -1,0 +1,231 @@
+<section
+  class="bh-ve"
+  data-gemini-id="vestimenta-boho"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&display=swap');
+
+    .bh-ve, .bh-ve *, .bh-ve *::before, .bh-ve *::after { box-sizing: border-box; }
+    .bh-ve {
+      --t-bg: var(--bg-color, #F3E7D7);
+      --t-tx: var(--text-color, #4A2B1F);
+      --t-p: var(--primary-color, #C2653F);
+      --t-s: var(--secondary-color, #D7A49A);
+      --t-a: var(--accent-color, #D29E32);
+      --t-display: var(--font-script, 'Caveat', 'Segoe Print', cursive);
+      --t-text: var(--font-heading, 'Fraunces', Georgia, serif);
+      --t-sand: color-mix(in srgb, var(--t-bg) 60%, var(--t-a));
+      --t-cream: color-mix(in srgb, var(--t-bg) 72%, white);
+      --t-clay: color-mix(in srgb, var(--t-p) 74%, var(--t-tx));
+      --t-wood: color-mix(in srgb, var(--t-p) 40%, var(--t-tx));
+      --t-rosewood: color-mix(in srgb, var(--t-s) 68%, var(--t-p));
+      --t-taupe: color-mix(in srgb, var(--t-tx) 34%, var(--t-bg));
+      --t-soft: color-mix(in srgb, var(--t-tx) 76%, var(--t-bg));
+      --t-cord: color-mix(in srgb, var(--t-sand) 72%, var(--t-wood));
+      --panel: color-mix(in srgb, var(--t-bg) 86%, transparent);
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/boho,fabric?lock=3212');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+      font-optical-sizing: auto;
+      
+    }
+    .bh-ve::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(170deg, color-mix(in srgb, var(--t-bg) 84%, transparent), color-mix(in srgb, var(--t-bg) 93%, transparent));
+    }
+    .bh-ve .bhx-grain { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mix-blend-mode: multiply; opacity: .28; }
+    .bh-ve svg { overflow: visible; }
+    .bh-ve :where(p), .bh-ve :where(h1), .bh-ve :where(h2), .bh-ve :where(h3), .bh-ve :where(h4), .bh-ve :where(figure), .bh-ve :where(ul), .bh-ve :where(ol) { margin: 0; }
+    .bh-ve :where(h2[class$='__title']) { margin-bottom: .22em; }
+    .bh-ve :where(img) { background: var(--t-sand); color: transparent; }
+
+    .bh-ve {
+      padding: clamp(3.5rem, 8vw, 6.5rem) clamp(1rem, 5vw, 5rem);
+      display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(2rem, 5vw, 5rem); align-items: center;
+    }
+    .bh-ve__base, .bh-ve__wash { position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .24; }
+    .bh-ve__wash { clip-path: circle(0% at var(--x, 50%) var(--y, 50%)); }
+    .bh-ve__wash[data-go] { clip-path: circle(150% at var(--x, 50%) var(--y, 50%)); transition: clip-path .5s cubic-bezier(.6, 0, .3, 1); }
+    .bh-ve__text { max-width: 32rem; justify-self: end; }
+    .bh-ve__title { font-family: var(--t-text); font-style: italic; font-weight: 400; font-size: clamp(1.1rem, 1.8vw, 1.3rem); color: var(--t-soft); }
+    .bh-ve__code { margin-top: 1rem; font-family: var(--t-display); font-weight: 600; font-size: clamp(3rem, 6.6vw, 5.2rem); line-height: .86; color: var(--t-clay); transform: rotate(-3deg); transform-origin: left; }
+    .bh-ve__intro { margin-top: 1.2rem; line-height: 1.55; }
+    .bh-ve__who { margin-top: 1.6rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem 2rem; }
+    .bh-ve__who > div:nth-child(2) { margin-top: 1.4rem; }
+    .bh-ve__wt { font-family: var(--t-display); font-size: 1.8rem; line-height: 1; color: var(--t-p); }
+    .bh-ve__wx { margin-top: .4rem; line-height: 1.5; font-size: .98rem; color: var(--t-soft); }
+    .bh-ve__avoid { margin-top: 1.6rem; display: flex; gap: .7rem; align-items: center; font-style: italic; }
+    .bh-ve__avoid svg { width: 1.6rem; height: 1.6rem; flex: none; }
+    .bh-ve__loom { position: relative; justify-self: start; width: min(100%, 26rem); }
+    .bh-ve__mac { display: block; width: 72%; height: auto; margin: 0 auto -2.4rem; }
+    .bh-ve__swatches { position: relative; display: flex; flex-wrap: wrap; justify-content: center; gap: .9rem; padding: 0 .5rem; min-height: 8rem; }
+    .bh-ve__sw {
+      --c: var(--t-p);
+      position: relative; width: var(--s, 5rem); height: calc(var(--s, 5rem) * .86); padding: 0; border: 0; cursor: pointer;
+      background: var(--c);
+      border-radius: 52% 48% 46% 54% / 58% 52% 48% 42%;
+      transform: rotate(var(--r, 0deg)) translateY(var(--y, 0));
+      box-shadow: inset 0 -5px 0 color-mix(in srgb, var(--t-tx) 16%, transparent), inset 0 4px 0 color-mix(in srgb, white 22%, transparent), 0 12px 18px -12px var(--t-wood);
+      transition: transform .35s cubic-bezier(.3, 1.7, .5, 1);
+    }
+    .bh-ve__sw::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: repeating-linear-gradient(90deg, color-mix(in srgb, white 10%, transparent) 0 2px, transparent 2px 5px); }
+    .bh-ve__sw:hover, .bh-ve__sw:focus-visible, .bh-ve__sw[aria-pressed="true"] { transform: rotate(0deg) translateY(calc(var(--y, 0) - 6px)) scale(1.1); }
+    .bh-ve__sw:focus-visible { outline: 2px dashed var(--t-tx); outline-offset: 4px; }
+    .bh-ve__name { margin-top: 1.4rem; text-align: center; font-family: var(--t-display); font-size: 1.8rem; color: var(--t-clay); min-height: 2rem; }
+
+    .bh-ve--anim .bh-ve__sw { opacity: 0; transform: translateY(-40px) rotate(30deg) scale(.4); }
+    .bh-ve--anim.is-in .bh-ve__sw { opacity: 1; transform: rotate(var(--r, 0deg)) translateY(var(--y, 0)); transition: opacity .3s ease, transform .5s cubic-bezier(.3, 1.6, .5, 1); transition-delay: calc(var(--i) * 80ms + 200ms); }
+    .bh-ve--anim .bh-ve__text { clip-path: inset(0 100% 0 0); }
+    .bh-ve--anim.is-in .bh-ve__text { clip-path: inset(0 0 0 0); transition: clip-path .5s cubic-bezier(.6, 0, .2, 1); }
+
+    @media (max-width: 820px) {
+      .bh-ve { grid-template-columns: 1fr; }
+      .bh-ve__text { justify-self: start; }
+      .bh-ve__loom { justify-self: center; }
+    }
+    @media (max-width: 440px) { .bh-ve__who { grid-template-columns: 1fr; } .bh-ve__who > div:nth-child(2) { margin-top: 0; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bh-ve *, .bh-ve *::before, .bh-ve *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+  <svg class="bhx-grain" aria-hidden="true" focusable="false"><filter id="bh32-gr-ve"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .32 0 0 0 0 .2 0 0 0 0 .12 0 0 0 .55 0"/></filter><rect width="100%" height="100%" filter="url(#bh32-gr-ve)"/></svg>
+  <div class="bh-ve__base" data-ve-base></div>
+  <div class="bh-ve__wash" data-ve-wash></div>
+  <div class="bh-ve__text">
+    <h2 class="bh-ve__title" memory_type="text" memory_usage="custom" memory_key="vestimenta-titulo">Código de vestimenta</h2>
+    <p class="bh-ve__code" memory_type="text" memory_usage="custom" memory_key="vestimenta-codigo" data-event-field="vestimenta">Boho chic en tonos tierra</p>
+    <p class="bh-ve__intro" memory_type="text" memory_usage="custom" memory_key="vestimenta-intro">Telas ligeras, texturas naturales y colores de atardecer. Ven cómodo y libre: habrá pasto, sol y mucho baile.</p>
+    <div class="bh-ve__who">
+      <div>
+        <h3 class="bh-ve__wt" memory_type="text" memory_usage="custom" memory_key="vestimenta-ellas-titulo">Ellas</h3>
+        <p class="bh-ve__wx" memory_type="text" memory_usage="custom" memory_key="vestimenta-ellas-texto">Vestidos fluidos, lino, encaje o crochet; trenzas y flores en el cabello.</p>
+      </div>
+      <div>
+        <h3 class="bh-ve__wt" memory_type="text" memory_usage="custom" memory_key="vestimenta-ellos-titulo">Ellos</h3>
+        <p class="bh-ve__wx" memory_type="text" memory_usage="custom" memory_key="vestimenta-ellos-texto">Lino o algodón, guayabera o camisa clara, tirantes opcionales y sin corbata.</p>
+      </div>
+    </div>
+    <p class="bh-ve__avoid"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" style="fill:none;stroke:var(--t-p);stroke-width:1.8;stroke-linecap:round"><circle cx="12" cy="12" r="9"/><path d="M6 18L18 6"/></svg><span memory_type="text" memory_usage="custom" memory_key="vestimenta-evitar">Te pedimos evitar el blanco y los tonos plateados.</span></p>
+  </div>
+  <div class="bh-ve__loom">
+    <svg class="bh-ve__mac" viewBox="0 0 260 150" aria-hidden="true" focusable="false"><path d="M36.4 24Q36.4 32 36.4 40Q36.4 47.4 36.4 54.8Q36.4 62.1 36.4 69.5Q36.4 76.9 36.4 84.2Q36.4 92.6 35.6 101M35.6 101Q34.1 106 33.1 111M35.6 101Q35.6 106 35.6 111M35.6 101Q37.1 106 40.4 111M57.2 24Q57.2 32 57.2 40Q57.2 47.4 57.2 54.8Q57.2 62.1 57.2 69.5Q57.2 76.9 57.2 84.2Q57.2 92.6 56.6 101M56.6 101Q55.1 105 54.2 108.9M56.6 101Q56.6 105 56.6 108.9M56.6 101Q58.1 105 59.6 108.9M78 24Q78 32 78 40Q78 47.4 78 54.8Q78 62.1 82.7 69.5Q82.7 76.9 78 84.2Q78 92.6 76.3 101M76.3 101Q74.8 112 73.9 123.1M76.3 101Q76.3 112 76.3 123.1M76.3 101Q77.8 112 78.6 123.1M98.8 24Q98.8 32 98.8 40Q98.8 47.4 103.5 54.8Q103.5 62.1 94.1 69.5Q94.1 76.9 103.5 84.2Q103.5 92.6 99.8 101M99.8 101Q98.3 117.6 95.5 134.3M99.8 101Q99.8 117.6 99.8 134.3M99.8 101Q101.3 117.6 104.7 134.3M119.6 24Q119.6 32 124.3 40Q124.3 47.4 114.9 54.8Q114.9 62.1 124.3 69.5Q124.3 76.9 114.9 84.2Q114.9 92.6 119.2 101M119.2 101Q117.7 119.5 114.8 138.1M119.2 101Q119.2 119.5 119.2 138.1M119.2 101Q120.7 119.5 123.7 138.1M140.4 24Q140.4 32 135.7 40Q135.7 47.4 145.1 54.8Q145.1 62.1 135.7 69.5Q135.7 76.9 145.1 84.2Q145.1 92.6 139 101M139 101Q137.5 119.3 134.1 137.5M139 101Q139 119.3 139 137.5M139 101Q140.5 119.3 143.9 137.5M161.2 24Q161.2 32 161.2 40Q161.2 47.4 156.5 54.8Q156.5 62.1 165.9 69.5Q165.9 76.9 156.5 84.2Q156.5 92.6 159.3 101M159.3 101Q157.8 113.7 154.9 126.4M159.3 101Q159.3 113.7 159.3 126.4M159.3 101Q160.8 113.7 161.9 126.4M182 24Q182 32 182 40Q182 47.4 182 54.8Q182 62.1 177.3 69.5Q177.3 76.9 182 84.2Q182 92.6 181.9 101M181.9 101Q180.4 111.3 179.7 121.6M181.9 101Q181.9 111.3 181.9 121.6M181.9 101Q183.4 111.3 185.8 121.6M202.8 24Q202.8 32 202.8 40Q202.8 47.4 202.8 54.8Q202.8 62.1 202.8 69.5Q202.8 76.9 202.8 84.2Q202.8 92.6 202.4 101M202.4 101Q200.9 109.8 198.6 118.5M202.4 101Q202.4 109.8 202.4 118.5M202.4 101Q203.9 109.8 206.5 118.5M223.6 24Q223.6 32 223.6 40Q223.6 47.4 223.6 54.8Q223.6 62.1 223.6 69.5Q223.6 76.9 223.6 84.2Q223.6 92.6 222.9 101M222.9 101Q221.4 103.6 220.8 106.2M222.9 101Q222.9 103.6 222.9 106.2M222.9 101Q224.4 103.6 227.5 106.2" style="fill:none;stroke:var(--t-cord);stroke-width:2.4;stroke-linecap:round"/><path d="M32.4 26a4 5 0 1 1 8 0M53.2 26a4 5 0 1 1 8 0M74 26a4 5 0 1 1 8 0M94.8 26a4 5 0 1 1 8 0M115.6 26a4 5 0 1 1 8 0M136.4 26a4 5 0 1 1 8 0M157.2 26a4 5 0 1 1 8 0M178 26a4 5 0 1 1 8 0M198.8 26a4 5 0 1 1 8 0M219.6 26a4 5 0 1 1 8 0" style="fill:none;stroke:var(--t-cream);stroke-width:2.2"/><g style="fill:var(--t-cream);stroke:var(--t-wood);stroke-width:.8;stroke-opacity:.45"><rect x="123.6" y="35" width="12.9" height="10" rx="5"/><rect x="102.8" y="49.8" width="12.9" height="10" rx="5"/><rect x="144.4" y="49.8" width="12.9" height="10" rx="5"/><rect x="82" y="64.5" width="12.9" height="10" rx="5"/><rect x="123.6" y="64.5" width="12.9" height="10" rx="5"/><rect x="165.2" y="64.5" width="12.9" height="10" rx="5"/><rect x="102.8" y="79.2" width="12.9" height="10" rx="5"/><rect x="144.4" y="79.2" width="12.9" height="10" rx="5"/></g><rect x="10.4" y="12" width="239.2" height="11" rx="5.5" style="fill:var(--t-wood)"/><circle cx="10.4" cy="17.5" r="7" style="fill:var(--t-wood)"/><circle cx="249.6" cy="17.5" r="7" style="fill:var(--t-wood)"/><path d="M52 12L130 0L208 12" style="fill:none;stroke:var(--t-wood);stroke-width:1.6"/></svg>
+    <div class="bh-ve__swatches" data-ve-swatches role="group" aria-label="Paleta de colores sugerida"></div>
+    <p class="bh-ve__name" data-ve-name aria-live="polite"></p>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="vestimenta-boho"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var HAS_IO = 'IntersectionObserver' in window;
+      /* rAF loop that runs only while the module is on screen and the tab is visible */
+      function loop(el, draw) {
+        var on = false, vis = !HAS_IO, id = 0;
+        function tick(t) { if (!on) return; draw(t); id = requestAnimationFrame(tick); }
+        function sync() {
+          var want = vis && !document.hidden;
+          if (want && !on) { on = true; id = requestAnimationFrame(tick); }
+          else if (!want && on) { on = false; cancelAnimationFrame(id); }
+        }
+        if (HAS_IO) new IntersectionObserver(function (e) { vis = e[e.length - 1].isIntersecting; sync(); }).observe(el);
+        document.addEventListener('visibilitychange', sync);
+        sync();
+      }
+      /* Entrance: states exist only while the --anim class is on; removed afterwards */
+      function entrance(cls, o) {
+        o = o || {};
+        if (RM || !HAS_IO) { if (o.done) o.done(); return; }
+        root.classList.add(cls + '--anim');
+        var io = new IntersectionObserver(function (en) {
+          var e = en[en.length - 1];
+          if (e.isIntersecting && e.intersectionRatio >= (o.r || .18)) {
+            io.disconnect();
+            requestAnimationFrame(function () { root.classList.add('is-in'); if (o.on) o.on(); });
+            setTimeout(function () { root.classList.remove(cls + '--anim', 'is-in'); if (o.done) o.done(); }, o.ms || 1800);
+          }
+        }, { threshold: [0, .08, .12, .18, .25, .35, .5] });
+        io.observe(root);
+      }
+      function themeColor(expr) {
+        var s = document.createElement('span');
+        s.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden;color:' + expr;
+        root.appendChild(s);
+        var c = getComputedStyle(s).color; root.removeChild(s); return c;
+      }
+
+      var holder = root.querySelector('[data-ve-swatches]');
+      var nameEl = root.querySelector('[data-ve-name]');
+      var wash = root.querySelector('[data-ve-wash]');
+      var base = root.querySelector('[data-ve-base]');
+      var PAL = [
+        ['Terracota', 'var(--t-p)'], ['Mostaza', 'var(--t-a)'], ['Rosa polvoriento', 'var(--t-s)'],
+        ['Arena', 'var(--t-sand)'], ['Arcilla', 'var(--t-clay)'], ['Canela', 'color-mix(in srgb, var(--t-p) 50%, var(--t-a))'],
+        ['Palo de rosa', 'var(--t-rosewood)'], ['Madera', 'var(--t-wood)']
+      ];
+      var SZ = ['5.6rem', '4.6rem', '5rem', '4.2rem', '5.4rem', '4.4rem', '4.9rem', '4.3rem'];
+      var ROT = [-8, 6, -3, 10, -6, 4, -10, 7], OFF = ['0rem', '.8rem', '-.4rem', '1rem', '.2rem', '-.6rem', '.6rem', '0rem'];
+      var btns = [];
+      PAL.forEach(function (p, i) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'bh-ve__sw';
+        b.setAttribute('data-ve-sw', ''); b.setAttribute('aria-pressed', 'false'); b.setAttribute('aria-label', p[0]);
+        b.style.setProperty('--c', p[1]); b.style.setProperty('--s', SZ[i]); b.style.setProperty('--r', ROT[i] + 'deg');
+        b.style.setProperty('--y', OFF[i]); b.style.setProperty('--i', i);
+        holder.appendChild(b); btns.push(b);
+      });
+      var active = -1;
+      function pick(i, ev) {
+        if (i === active) return;
+        var prev = active; active = i;
+        btns.forEach(function (b, k) { b.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+        if (nameEl) nameEl.textContent = PAL[i][0];
+        var r = root.getBoundingClientRect(), br = btns[i].getBoundingClientRect();
+        var x = ((br.left + br.width / 2 - r.left) / r.width * 100).toFixed(1) + '%', y = ((br.top + br.height / 2 - r.top) / r.height * 100).toFixed(1) + '%';
+        if (prev >= 0) base.style.background = PAL[prev][1];
+        wash.removeAttribute('data-go');
+        wash.style.background = PAL[i][1];
+        wash.style.setProperty('--x', x); wash.style.setProperty('--y', y);
+        if (RM) { wash.setAttribute('data-go', ''); return; }
+        void wash.offsetWidth;
+        wash.setAttribute('data-go', '');
+      }
+      btns.forEach(function (b, i) {
+        b.addEventListener('mouseenter', function () { pick(i); });
+        b.addEventListener('focus', function () { pick(i); });
+        b.addEventListener('click', function () { pick(i); });
+      });
+      pick(0);
+      entrance('bh-ve', { r: .2, ms: 1500 });
+
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'vestimenta',
+      module_name: 'vestimenta-boho',
+      style_name: 'Boho Chic Vestimenta Paleta de Barro',
+      descripcion: 'Código de vestimenta boho chic con paleta generada en piedras de barro sobre un macramé; al elegir un tono, el color se derrama sobre la sección. Sugerencias para ellas y ellos.',
+      tags: ['vestimenta', 'dress code', 'boda', 'boho', 'paleta'],
+      tipo: 'vestimenta'
+    };
+  </script>
+</section>

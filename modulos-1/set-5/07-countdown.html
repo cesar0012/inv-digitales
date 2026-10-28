@@ -1,0 +1,66 @@
+<section class="ne-cd2" data-gemini-id="countdown-flip-neon" path="placeholder" memory_source="generated" memory_type="background" memory_usage="protected" data-countdown-target="YYYY-MM-DDTHH:MM:SS">
+<style>
+.ne-cd2 { --primary-color:#f2f4fa; --secondary-color:#9aa3b8; --accent-color:#ff4d7d; --bg-color:#14161d; --surface-color:#1b1e27; --surface-border-color:rgba(255,255,255,.14); --text-color:#f2f4fa;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:660px; display:grid; place-items:center; padding:clamp(3rem,7vw,5rem) clamp(1rem,5vw,3rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/neon,night'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.ne-cd2 *, .ne-cd2 *::before, .ne-cd2 *::after { box-sizing:border-box; }
+.ne-cd2::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 90%, transparent); }
+.ne-cd2__titulo { margin:0 0 .4rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.8rem); color:var(--primary-color); }
+.ne-cd2__fecha { display:block; margin-bottom:clamp(1.6rem,4vw,2.4rem); font-family:'Courier New',monospace; font-size:clamp(.74rem,1.5vw,.88rem); letter-spacing:.32em; text-transform:uppercase; color:var(--secondary-color); }
+/* flip clock: cada cifra partida en dos tapas que giran al cambiar */
+.ne-cd2__flips { display:flex; justify-content:center; align-items:flex-end; gap:clamp(.7rem,2vw,1.3rem); }
+.ne-cd2__flip { position:relative; width:clamp(76px,17vw,128px); perspective:600px; }
+.ne-cd2__tapas { position:relative; border:1px solid var(--surface-border-color); border-radius:10px; overflow:hidden; box-shadow:0 18px 40px rgba(0,0,0,.5); background:color-mix(in srgb, var(--surface-color) 92%, transparent); }
+.ne-cd2__tapas::before, .ne-cd2__tapas::after { content:''; position:absolute; left:0; right:0; height:50%; }
+.ne-cd2__tapas::before { top:0; border-bottom:2px solid var(--accent-color); }
+.ne-cd2__tapas::after { bottom:0; }
+.ne-cd2__tapa-sup, .ne-cd2__tapa-inf { display:grid; place-items:center; height:clamp(46px,9vw,72px); font-family:'Courier New',monospace; font-size:clamp(1.9rem,5.4vw,3.2rem); font-variant-numeric:tabular-nums; color:var(--primary-color); text-shadow:0 0 18px color-mix(in srgb, var(--accent-color) 45%, transparent); }
+.ne-cd2__tapa-sup { align-items:end; }
+.ne-cd2__tapa-inf { align-items:start; }
+.ne-cd2__tapa-sup span { transform:translateY(28%); }
+.ne-cd2__tapa-inf span { transform:translateY(-28%); }
+.ne-cd2__cambio .ne-cd2__tapa-sup { animation:neCd2Voltea .4s cubic-bezier(.22,.8,.3,1); }
+@keyframes neCd2Voltea { 0% { transform:rotateX(0);} 100% { transform:rotateX(-70deg); } }
+.ne-cd2__rotulo { margin-top:.55rem; display:block; font-family:'Courier New',monospace; font-size:clamp(.54rem,1.05vw,.62rem); letter-spacing:.38em; text-transform:uppercase; color:var(--secondary-color); }
+.ne-cd2__scan { position:absolute; inset:0; z-index:0; background:repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0 1px, transparent 1px 4px); pointer-events:none; }
+@media (max-width:560px){ .ne-cd2__flips { flex-wrap:wrap; } }
+@media (prefers-reduced-motion:reduce){ .ne-cd2__cambio .ne-cd2__tapa-sup { animation:none; } }
+</style>
+<div style="position:relative; z-index:2;">
+  <h2 class="ne-cd2__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Cambio de escena en</h2>
+  <time class="ne-cd2__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento</time>
+  <div class="ne-cd2__flips" aria-label="Cuenta regresiva">
+    <div class="ne-cd2__flip" data-ne-flip="days"><div class="ne-cd2__tapas"><div class="ne-cd2__tapa-sup"><span data-countdown-unit="days">--</span></div><div class="ne-cd2__tapa-inf"><span aria-hidden="true">--</span></div></div><span class="ne-cd2__rotulo">Días</span></div>
+    <div class="ne-cd2__flip" data-ne-flip="hours"><div class="ne-cd2__tapas"><div class="ne-cd2__tapa-sup"><span data-countdown-unit="hours">--</span></div><div class="ne-cd2__tapa-inf"><span aria-hidden="true">--</span></div></div><span class="ne-cd2__rotulo">Horas</span></div>
+    <div class="ne-cd2__flip" data-ne-flip="minutes"><div class="ne-cd2__tapas"><div class="ne-cd2__tapa-sup"><span data-countdown-unit="minutes">--</span></div><div class="ne-cd2__tapa-inf"><span aria-hidden="true">--</span></div></div><span class="ne-cd2__rotulo">Min</span></div>
+    <div class="ne-cd2__flip" data-ne-flip="seconds"><div class="ne-cd2__tapas"><div class="ne-cd2__tapa-sup"><span data-countdown-unit="seconds">--</span></div><div class="ne-cd2__tapa-inf"><span aria-hidden="true">--</span></div></div><span class="ne-cd2__rotulo">Seg</span></div>
+  </div>
+</div>
+<span class="ne-cd2__scan" aria-hidden="true"></span>
+<script>
+(function(){ var el=null; try{ el=document.currentScript.closest('[data-gemini-id^="countdown"]'); }catch(e){} if(!el) el=document.querySelector('[data-gemini-id^="countdown"]'); if(!el) return;
+  var previos={};
+  var target=NaN; var attr=el.getAttribute('data-countdown-target');
+  if(attr&&attr.indexOf('YYYY')===-1){ var p=new Date(attr); if(!isNaN(p.getTime())) target=p.getTime(); }
+  if(isNaN(target)&&window.__countdownTarget){ var p1=new Date(window.__countdownTarget); if(!isNaN(p1.getTime())) target=p1.getTime(); }
+  if(isNaN(target)&&window.countdown_target){ var p2=new Date(window.countdown_target); if(!isNaN(p2.getTime())) target=p2.getTime(); }
+  var intervalId=null; (window.__countdownIntervals=window.__countdownIntervals||[]).forEach(clearInterval); window.__countdownIntervals=[];
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function pad2(n){ return n<10?'0'+n:''+n; }
+  function setUnit(u,v){ var n=el.querySelector('[data-countdown-unit="'+u+'"]'); if(!n) return; n.textContent=v;
+    var inf=n.closest('.ne-cd2__flip'); if(inf){ var infSpan=inf.querySelector('.ne-cd2__tapa-inf span'); if(infSpan) infSpan.textContent=v; }
+    if(previos[u]!==undefined && previos[u]!==String(v) && !reduce){ var flip=n.closest('.ne-cd2__flip'); if(flip){ flip.classList.remove('ne-cd2__cambio'); void flip.offsetWidth; flip.classList.add('ne-cd2__cambio'); } }
+    previos[u]=String(v); }
+  function tick(){ if(!Number.isFinite(target)) return; var d=Math.max(target-Date.now(),0);
+    setUnit('days',Math.floor(d/86400000)); setUnit('hours',pad2(Math.floor((d%86400000)/3600000))); setUnit('minutes',pad2(Math.floor((d%3600000)/60000))); setUnit('seconds',pad2(Math.floor((d%60000)/1000)));
+    if(d===0&&intervalId!==null){ clearInterval(intervalId); intervalId=null; window.__countdownIntervals=[]; } }
+  function start(nt){ if(nt){ var p=new Date(nt); if(!isNaN(p.getTime())) target=p.getTime(); }
+    (window.__countdownIntervals||[]).forEach(clearInterval); window.__countdownIntervals=[]; intervalId=null;
+    if(!Number.isFinite(target)) return; tick(); if(target>Date.now()){ intervalId=setInterval(tick,1000); window.__countdownIntervals.push(intervalId); } }
+  start(); window.updateCountdown=start;
+})();
+</script>
+<script>
+var moduleMetadata = { module_type:'countdown', module_name:'countdown-flip-neon', style_name:'Flip Clock de Neón', descripcion:'Flip clock casero: cifras partidas en dos tapas con regla de neón que voltea al cambiar de valor, sobre scanlines nocturnas.', tags:['countdown','flip clock','neon','volteo','split flap'], tipo:'countdown' };
+</script>
+</section>

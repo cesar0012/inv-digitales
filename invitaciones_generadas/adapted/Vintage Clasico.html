@@ -1,0 +1,1856 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Invitación digital vintage clásico con monograma real">
+  <meta name="theme-color" content="#211712">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <title>Invitación Real | Alejandro & Isabella</title>
+
+  <style>
+    /* =========================================================
+       METÁFORA VISUAL:
+       "Un acta nobiliaria que se ensambla como un sello real".
+       La invitación no aparece como página tradicional: se revela
+       por medallones, pliegues, grabados y un lacre final.
+    ========================================================= */
+
+    /* --- Reset y Variables Globales --- */
+    :root {
+      --ink: #211712;
+      --wine: #4a1218;
+      --wine-dark: #26080c;
+      --gold: #b98d45;
+      --gold-soft: #dfbf76;
+      --paper: #f6ecd4;
+      --paper-dark: #d8bf8d;
+      --line: rgba(185, 141, 69, 0.52);
+      --shadow: rgba(33, 23, 18, 0.28);
+      --ease: cubic-bezier(.19, 1, .22, 1);
+      --safe: clamp(18px, 3.5vw, 54px);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--ink);
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: var(--ink);
+      font-family: "Cormorant Garamond", serif;
+      background:
+        radial-gradient(circle at 50% -10%, rgba(255,255,255,.42), transparent 36rem),
+        radial-gradient(circle at 15% 85%, rgba(185,141,69,.18), transparent 34rem),
+        linear-gradient(135deg, #f8f0dc, #d9c28f 52%, #efe1bd);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .28;
+      background-image:
+        linear-gradient(90deg, rgba(33,23,18,.045) 1px, transparent 1px),
+        linear-gradient(rgba(33,23,18,.045) 1px, transparent 1px),
+        radial-gradient(circle at 50% 50%, transparent, rgba(33,23,18,.16));
+      background-size: 42px 42px, 42px 42px, 100% 100%;
+      mix-blend-mode: multiply;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(33,23,18,.18), transparent 13%, transparent 87%, rgba(33,23,18,.18)),
+        linear-gradient(0deg, rgba(33,23,18,.16), transparent 18%, transparent 82%, rgba(33,23,18,.16));
+    }
+
+    a,
+    button {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    ::selection {
+      background: var(--wine);
+      color: var(--paper);
+    }
+
+    /* --- Marco Heráldico Fijo --- */
+    .page-shell {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      isolation: isolate;
+    }
+
+    .royal-frame {
+      position: fixed;
+      inset: var(--safe);
+      z-index: 10;
+      pointer-events: none;
+      border: 1px solid rgba(185,141,69,.55);
+    }
+
+    .royal-frame::before,
+    .royal-frame::after {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(74,18,24,.24);
+    }
+
+    .corner {
+      position: absolute;
+      width: clamp(70px, 10vw, 132px);
+      aspect-ratio: 1;
+      color: var(--gold);
+      opacity: .78;
+    }
+
+    .corner svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .corner.tl {
+      top: -12px;
+      left: -12px;
+    }
+
+    .corner.tr {
+      top: -12px;
+      right: -12px;
+      transform: rotate(90deg);
+    }
+
+    .corner.br {
+      right: -12px;
+      bottom: -12px;
+      transform: rotate(180deg);
+    }
+
+    .corner.bl {
+      bottom: -12px;
+      left: -12px;
+      transform: rotate(270deg);
+    }
+
+    /* --- Navegación SPA --- */
+    .crest-nav {
+      position: fixed;
+      top: 50%;
+      right: clamp(14px, 2vw, 34px);
+      z-index: 30;
+      transform: translateY(-50%);
+      display: grid;
+      gap: 12px;
+    }
+
+    .nav-glyph {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      color: var(--gold-soft);
+      text-decoration: none;
+      font-family: "Cinzel", serif;
+      font-size: 12px;
+      letter-spacing: .08em;
+      border-radius: 50%;
+      border: 1px solid rgba(223,191,118,.65);
+      background: radial-gradient(circle, rgba(74,18,24,.95), rgba(33,23,18,.96));
+      box-shadow: 0 16px 34px rgba(33,23,18,.26);
+      transition: transform .35s var(--ease), background .35s var(--ease);
+    }
+
+    .nav-glyph:hover,
+    .nav-glyph.is-active {
+      transform: scale(1.18) rotate(-8deg);
+      background: radial-gradient(circle, rgba(185,141,69,.92), rgba(74,18,24,.96));
+    }
+
+    /* --- Hero / Monograma Real --- */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      padding: clamp(80px, 8vw, 128px) var(--safe);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: min(82vw, 760px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background:
+        repeating-conic-gradient(from -18deg, rgba(185,141,69,.15) 0deg 8deg, transparent 8deg 19deg),
+        radial-gradient(circle, transparent 0 49%, rgba(74,18,24,.12) 49.5%, transparent 51%),
+        radial-gradient(circle, rgba(255,255,255,.22), transparent 66%);
+      animation: heraldicDial 38s linear infinite;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: min(72vw, 620px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 1px solid rgba(185,141,69,.38);
+      box-shadow:
+        inset 0 0 0 14px rgba(246,236,212,.27),
+        inset 0 0 0 15px rgba(74,18,24,.13),
+        0 0 90px rgba(74,18,24,.17);
+      animation: medallionPulse 5.6s ease-in-out infinite alternate;
+    }
+
+    .hero-card {
+      position: relative;
+      z-index: 2;
+      width: min(880px, 100%);
+      min-height: min(780px, 86svh);
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .heraldic-ribbon {
+      position: absolute;
+      top: 5%;
+      left: 50%;
+      width: min(560px, 82vw);
+      transform: translateX(-50%);
+      color: var(--wine);
+      font-family: "Cinzel", serif;
+      font-size: clamp(.72rem, 1.8vw, .92rem);
+      font-weight: 700;
+      letter-spacing: .34em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: ribbonArrives 1.2s .32s var(--ease) forwards;
+    }
+
+    .heraldic-ribbon::before,
+    .heraldic-ribbon::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: clamp(54px, 12vw, 148px);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--line), transparent);
+    }
+
+    .heraldic-ribbon::before {
+      right: calc(100% + 18px);
+    }
+
+    .heraldic-ribbon::after {
+      left: calc(100% + 18px);
+    }
+
+    .monogram-stage {
+      position: relative;
+      width: min(520px, 84vw);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      transform-style: preserve-3d;
+      transition: transform .22s ease-out;
+    }
+
+    .monogram-stage svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .crest-ring {
+      fill: none;
+      stroke: rgba(74,18,24,.58);
+      stroke-width: 1.1;
+      stroke-dasharray: 7 12;
+      transform-origin: center;
+      animation: ringTurn 30s linear infinite;
+    }
+
+    .crest-ring.secondary {
+      stroke: rgba(185,141,69,.42);
+      stroke-dasharray: 2 10;
+      animation-duration: 48s;
+      animation-direction: reverse;
+    }
+
+    .filigree-path {
+      fill: none;
+      stroke: rgba(185,141,69,.82);
+      stroke-width: 1.2;
+      stroke-linecap: round;
+      stroke-dasharray: 920;
+      stroke-dashoffset: 920;
+      filter: drop-shadow(0 2px 4px rgba(33,23,18,.16));
+      animation: engrave 3.2s .45s var(--ease) forwards;
+    }
+
+    .monogram {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr .28fr 1fr;
+      align-items: center;
+      justify-items: center;
+      filter: drop-shadow(0 24px 30px rgba(33,23,18,.22));
+    }
+
+    .initial {
+      font-family: "Great Vibes", cursive;
+      font-size: clamp(8.5rem, 28vw, 18rem);
+      line-height: .78;
+      color: var(--wine);
+      text-shadow:
+        0 1px 0 rgba(255,255,255,.55),
+        0 12px 35px rgba(33,23,18,.3);
+      opacity: 0;
+      transform: translateY(28px) rotate(var(--rotation));
+      animation: initialSettle 1.7s var(--delay) var(--ease) forwards;
+    }
+
+    .initial.left {
+      --rotation: -10deg;
+      --delay: .95s;
+      margin-right: -38px;
+      z-index: 2;
+    }
+
+    .initial.right {
+      --rotation: 9deg;
+      --delay: 1.15s;
+      margin-left: -38px;
+      z-index: 1;
+    }
+
+    .ampersand {
+      z-index: 3;
+      width: clamp(44px, 8vw, 72px);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      color: var(--gold);
+      font-family: "Cinzel", serif;
+      font-size: clamp(1.2rem, 3vw, 2rem);
+      border-radius: 50%;
+      border: 1px solid rgba(185,141,69,.58);
+      background: radial-gradient(circle, rgba(246,236,212,.95), rgba(223,191,118,.32));
+      box-shadow: inset 0 0 0 6px rgba(246,236,212,.55);
+      opacity: 0;
+      transform: scale(.68);
+      animation: coinAppear 1.05s 1.55s var(--ease) forwards;
+    }
+
+    .couple-title {
+      position: absolute;
+      bottom: 9%;
+      width: 100%;
+      text-align: center;
+    }
+
+    .couple-title h1 {
+      color: var(--ink);
+      font-family: "Cinzel", serif;
+      font-size: clamp(1.8rem, 5vw, 4.8rem);
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: titleReveal 1.2s 1.85s var(--ease) forwards;
+    }
+
+    .couple-title p {
+      margin-top: 12px;
+      color: var(--wine);
+      font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+      letter-spacing: .14em;
+      opacity: 0;
+      transform: translateY(14px);
+      animation: titleReveal 1.2s 2.05s var(--ease) forwards;
+    }
+
+    .open-ledger {
+      position: absolute;
+      left: 50%;
+      bottom: clamp(24px, 5vw, 56px);
+      z-index: 6;
+      transform: translateX(-50%);
+      padding: 13px 24px 12px;
+      color: var(--paper);
+      text-decoration: none;
+      font-family: "Cinzel", serif;
+      font-size: .72rem;
+      letter-spacing: .26em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, var(--wine), var(--wine-dark));
+      border: 1px solid rgba(223,191,118,.8);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.11),
+        0 20px 42px rgba(33,23,18,.28);
+      clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 12px 100%, 0 50%);
+      transition: transform .4s var(--ease), letter-spacing .4s var(--ease);
+    }
+
+    .open-ledger:hover {
+      transform: translateX(-50%) translateY(-4px);
+      letter-spacing: .32em;
+    }
+
+    /* --- Main General --- */
+    main {
+      position: relative;
+      z-index: 4;
+    }
+
+    .observe {
+      opacity: 0;
+      transform: translateY(42px);
+      transition: opacity 1s var(--ease), transform 1s var(--ease);
+    }
+
+    .observe.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --- Sección Historia / Pergamino No Lineal --- */
+    .reveal-zone {
+      position: relative;
+      min-height: 100svh;
+      padding: clamp(78px, 10vw, 128px) var(--safe);
+      display: grid;
+      place-items: center;
+    }
+
+    .ledger {
+      position: relative;
+      width: min(1080px, 100%);
+      min-height: clamp(680px, 78svh, 860px);
+      display: grid;
+      place-items: center;
+      perspective: 1600px;
+    }
+
+    .ledger::before {
+      content: "";
+      position: absolute;
+      inset: 2%;
+      border-radius: 50%;
+      opacity: .56;
+      filter: blur(18px);
+      background: radial-gradient(circle at 50% 42%, rgba(246,236,212,.84), rgba(216,191,141,.5) 54%, transparent 72%);
+    }
+
+    .chapter {
+      position: absolute;
+      width: min(420px, 86vw);
+      min-height: 240px;
+      padding: clamp(24px, 4vw, 40px);
+      opacity: 0;
+      background:
+        linear-gradient(135deg, rgba(255,250,235,.88), rgba(234,218,181,.84)),
+        repeating-linear-gradient(90deg, rgba(33,23,18,.018) 0 1px, transparent 1px 8px);
+      border: 1px solid rgba(185,141,69,.56);
+      box-shadow:
+        0 28px 70px rgba(33,23,18,.22),
+        inset 0 0 0 8px rgba(246,236,212,.55),
+        inset 0 0 0 9px rgba(74,18,24,.12);
+      clip-path: polygon(7% 0, 93% 0, 100% 10%, 100% 90%, 93% 100%, 7% 100%, 0 90%, 0 10%);
+      transform: translate3d(0,0,0) rotate(var(--idle-rotate));
+      filter: sepia(.18) saturate(.92);
+      transition:
+        opacity .95s var(--ease),
+        transform 1.1s var(--ease),
+        filter .8s var(--ease);
+    }
+
+    .chapter::before {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      pointer-events: none;
+      border: 1px solid rgba(185,141,69,.36);
+      clip-path: polygon(7% 0, 93% 0, 100% 10%, 100% 90%, 93% 100%, 7% 100%, 0 90%, 0 10%);
+    }
+
+    .chapter::after {
+      content: "";
+      position: absolute;
+      right: 20px;
+      bottom: 16px;
+      width: 80px;
+      height: 80px;
+      opacity: .22;
+      pointer-events: none;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, transparent 0 32%, var(--wine) 33% 35%, transparent 36%),
+        conic-gradient(from 35deg, transparent 0 12%, var(--wine) 12% 14%, transparent 14% 25%, var(--wine) 25% 27%, transparent 27%);
+    }
+
+    .chapter.is-visible {
+      opacity: 1;
+      transform: translate3d(var(--x), var(--y), 0) rotate(var(--r)) scale(1);
+    }
+
+    .chapter:hover {
+      filter: sepia(.1) saturate(1.08);
+      transform: translate3d(var(--x), calc(var(--y) - 8px), 0) rotate(var(--r)) scale(1.018);
+    }
+
+    .chapter[data-chapter="prologue"] {
+      --x: -315px;
+      --y: -122px;
+      --r: -6deg;
+      --idle-rotate: -18deg;
+    }
+
+    .chapter[data-chapter="date"] {
+      --x: 310px;
+      --y: -100px;
+      --r: 5deg;
+      --idle-rotate: 16deg;
+    }
+
+    .chapter[data-chapter="place"] {
+      --x: -250px;
+      --y: 210px;
+      --r: 7deg;
+      --idle-rotate: 20deg;
+    }
+
+    .chapter[data-chapter="dress"] {
+      --x: 278px;
+      --y: 220px;
+      --r: -5deg;
+      --idle-rotate: -16deg;
+    }
+
+    .chapter-kicker {
+      margin-bottom: 16px;
+      color: var(--gold);
+      font-family: "Cinzel", serif;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+    }
+
+    .chapter h2 {
+      margin-bottom: 18px;
+      color: var(--wine);
+      font-family: "Cinzel", serif;
+      font-size: clamp(1.45rem, 3vw, 2.25rem);
+      font-weight: 500;
+      line-height: 1.05;
+      letter-spacing: .06em;
+    }
+
+    .chapter p,
+    .chapter address {
+      color: rgba(33,23,18,.86);
+      font-size: clamp(1.08rem, 2.1vw, 1.32rem);
+      line-height: 1.5;
+      font-style: normal;
+    }
+
+    .chapter strong {
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .center-seal {
+      position: relative;
+      z-index: 3;
+      width: clamp(174px, 24vw, 270px);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      color: var(--gold-soft);
+      border-radius: 50%;
+      border: 1px solid rgba(223,191,118,.72);
+      background:
+        radial-gradient(circle at 36% 30%, #8c2930 0 9%, transparent 10%),
+        radial-gradient(circle at 50% 54%, #7b1e25 0 36%, #4a1218 62%, #26080c 100%);
+      box-shadow:
+        inset -16px -20px 30px rgba(33,23,18,.42),
+        inset 12px 12px 22px rgba(255,255,255,.12),
+        0 32px 72px rgba(33,23,18,.38);
+      transform: scale(.8);
+      opacity: 0;
+      transition: transform 1s var(--ease), opacity 1s var(--ease);
+    }
+
+    .center-seal.is-visible {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .center-seal::before {
+      content: "";
+      position: absolute;
+      inset: 15px;
+      border: 1px dashed rgba(223,191,118,.54);
+      border-radius: 50%;
+      animation: sealSlowTurn 42s linear infinite;
+    }
+
+    .center-seal::after {
+      content: "A · I";
+      font-family: "Cinzel", serif;
+      font-size: clamp(1.35rem, 3vw, 2.05rem);
+      letter-spacing: .18em;
+      transform: translateX(.08em);
+    }
+
+    .seal-caption {
+      position: absolute;
+      bottom: -52px;
+      left: 50%;
+      width: max-content;
+      transform: translateX(-50%);
+      color: var(--wine);
+      font-family: "Cinzel", serif;
+      font-size: .68rem;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+    }
+
+    /* --- Sección Ceremonia --- */
+    .ceremony {
+      min-height: 100svh;
+      padding: clamp(78px, 10vw, 138px) var(--safe);
+      display: grid;
+      align-items: center;
+    }
+
+    .ceremony-grid {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: .82fr 1.18fr;
+      gap: clamp(34px, 6vw, 86px);
+      align-items: center;
+    }
+
+    .date-medallion {
+      position: relative;
+      min-height: 540px;
+      display: grid;
+      place-items: center;
+    }
+
+    .date-medallion::before {
+      content: "";
+      position: absolute;
+      width: min(86vw, 430px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background:
+        conic-gradient(from 0deg, transparent 0 9deg, rgba(74,18,24,.24) 9deg 10deg, transparent 10deg 18deg),
+        radial-gradient(circle, rgba(246,236,212,.7) 0 54%, transparent 55%);
+      animation: ringTurn 38s linear infinite reverse;
+    }
+
+    .date-core {
+      position: relative;
+      width: min(360px, 74vw);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      border-radius: 50%;
+      border: 1px solid rgba(185,141,69,.6);
+      background: radial-gradient(circle, rgba(246,236,212,.88), rgba(216,191,141,.72));
+      box-shadow:
+        inset 0 0 0 12px rgba(255,255,255,.18),
+        inset 0 0 0 13px rgba(74,18,24,.12),
+        0 30px 70px rgba(33,23,18,.22);
+    }
+
+    .date-core span {
+      display: block;
+    }
+
+    .date-core .month {
+      color: var(--wine);
+      font-family: "Cinzel", serif;
+      font-size: clamp(.9rem, 2vw, 1.1rem);
+      letter-spacing: .32em;
+      text-transform: uppercase;
+    }
+
+    .date-core .day {
+      color: var(--ink);
+      font-family: "Cinzel", serif;
+      font-size: clamp(5.8rem, 15vw, 9.5rem);
+      font-weight: 500;
+      line-height: .9;
+      letter-spacing: -.05em;
+    }
+
+    .date-core .year {
+      color: var(--gold);
+      font-family: "Cinzel", serif;
+      font-size: clamp(1.2rem, 4vw, 2rem);
+      letter-spacing: .36em;
+      transform: translateX(.18em);
+    }
+
+    .date-core .time {
+      margin-top: 14px;
+      color: var(--wine);
+      font-size: clamp(1.2rem, 3vw, 1.55rem);
+      letter-spacing: .06em;
+    }
+
+    .timeline-panel {
+      position: relative;
+      padding: clamp(28px, 5vw, 54px);
+      border: 1px solid rgba(185,141,69,.44);
+      background: linear-gradient(135deg, rgba(255,250,235,.78), rgba(216,191,141,.58));
+      box-shadow:
+        0 24px 70px rgba(33,23,18,.18),
+        inset 0 0 0 9px rgba(246,236,212,.36);
+    }
+
+    .timeline-panel::before {
+      content: "";
+      position: absolute;
+      inset: 16px;
+      border: 1px solid rgba(74,18,24,.18);
+      pointer-events: none;
+    }
+
+    .section-label {
+      margin-bottom: 12px;
+      color: var(--gold);
+      font-family: "Cinzel", serif;
+      font-size: .74rem;
+      font-weight: 700;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+    }
+
+    .timeline-panel h2 {
+      margin-bottom: 28px;
+      color: var(--wine);
+      font-family: "Cinzel", serif;
+      font-size: clamp(2rem, 5vw, 4.2rem);
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .royal-list {
+      display: grid;
+      gap: 18px;
+      list-style: none;
+    }
+
+    .royal-list li {
+      position: relative;
+      padding: 18px 18px 18px 64px;
+      color: rgba(33,23,18,.86);
+      font-size: clamp(1.08rem, 2vw, 1.3rem);
+      line-height: 1.34;
+      border-top: 1px solid rgba(185,141,69,.34);
+      opacity: 0;
+      transform: translateX(24px);
+      transition: opacity .72s var(--ease), transform .72s var(--ease);
+    }
+
+    .timeline-panel.is-visible .royal-list li {
+      opacity: 1;
+      transform: translateX(0);
+      transition-delay: calc(var(--i) * 110ms);
+    }
+
+    .royal-list li::before {
+      content: attr(data-time);
+      position: absolute;
+      left: 0;
+      top: 18px;
+      color: var(--wine);
+      font-family: "Cinzel", serif;
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+    }
+
+    .royal-list strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--ink);
+      font-family: "Cinzel", serif;
+      font-size: .95em;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    /* --- Sección Lugar --- */
+    .location {
+      position: relative;
+      min-height: 100svh;
+      padding: clamp(76px, 10vw, 128px) var(--safe);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .location::before {
+      content: "";
+      position: absolute;
+      width: min(1020px, 124vw);
+      height: min(1020px, 124vw);
+      border-radius: 50%;
+      border: 1px solid rgba(74,18,24,.14);
+      background:
+        linear-gradient(45deg, transparent 49.85%, rgba(185,141,69,.18) 50%, transparent 50.15%),
+        linear-gradient(-45deg, transparent 49.85%, rgba(185,141,69,.13) 50%, transparent 50.15%);
+      transform: rotate(12deg);
+    }
+
+    .map-card {
+      position: relative;
+      width: min(980px, 100%);
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      overflow: hidden;
+      border: 1px solid rgba(185,141,69,.55);
+      background: rgba(246,236,212,.78);
+      box-shadow:
+        0 34px 88px rgba(33,23,18,.24),
+        inset 0 0 0 10px rgba(255,255,255,.2);
+    }
+
+    .engraved-map {
+      position: relative;
+      min-height: 520px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 70% 34%, rgba(74,18,24,.22), transparent 12rem),
+        linear-gradient(135deg, rgba(216,191,141,.9), rgba(246,236,212,.75));
+    }
+
+    .engraved-map svg {
+      position: absolute;
+      inset: -7%;
+      width: 114%;
+      height: 114%;
+    }
+
+    .map-street {
+      fill: none;
+      stroke: rgba(33,23,18,.16);
+      stroke-width: 1;
+    }
+
+    .route-line {
+      fill: none;
+      stroke: rgba(74,18,24,.55);
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-dasharray: 12 11;
+      animation: routeInk 8s linear infinite;
+    }
+
+    .map-marker {
+      position: absolute;
+      left: 58%;
+      top: 42%;
+      width: 72px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      transform: translate(-50%, -50%) rotate(-14deg);
+      color: var(--paper);
+      font-family: "Cinzel", serif;
+      border-radius: 50% 50% 50% 8%;
+      background:
+        radial-gradient(circle at 35% 28%, #dfbf76 0 9%, transparent 10%),
+        radial-gradient(circle, var(--wine), var(--wine-dark));
+      box-shadow: 0 18px 34px rgba(33,23,18,.3);
+    }
+
+    .map-marker span {
+      transform: rotate(14deg);
+      letter-spacing: .08em;
+    }
+
+    .location-copy {
+      padding: clamp(30px, 5vw, 58px);
+      align-self: center;
+    }
+
+    .location-copy h2 {
+      margin-bottom: 24px;
+      color: var(--wine);
+      font-family: "Cinzel", serif;
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .location-copy p,
+    .location-copy address {
+      margin-bottom: 18px;
+      color: rgba(33,23,18,.84);
+      font-size: clamp(1.12rem, 2.2vw, 1.38rem);
+      line-height: 1.48;
+      font-style: normal;
+    }
+
+    .map-link {
+      display: inline-grid;
+      place-items: center;
+      min-height: 48px;
+      margin-top: 12px;
+      padding: 13px 22px;
+      color: var(--paper);
+      text-decoration: none;
+      font-family: "Cinzel", serif;
+      font-size: .72rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      background: var(--wine);
+      clip-path: polygon(9px 0, calc(100% - 9px) 0, 100% 50%, calc(100% - 9px) 100%, 9px 100%, 0 50%);
+      transition: transform .35s var(--ease), background .35s var(--ease);
+    }
+
+    .map-link:hover {
+      transform: translateY(-4px);
+      background: var(--ink);
+    }
+
+    /* --- RSVP como Resolución de la Experiencia --- */
+    .rsvp {
+      position: relative;
+      min-height: 100svh;
+      padding: clamp(76px, 10vw, 134px) var(--safe);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .rsvp::before {
+      content: "";
+      position: absolute;
+      width: min(880px, 112vw);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, rgba(246,236,212,.82) 0 32%, transparent 33%),
+        conic-gradient(from -30deg, transparent 0 16deg, rgba(185,141,69,.18) 16deg 17deg, transparent 17deg 32deg);
+      animation: ringTurn 58s linear infinite;
+    }
+
+    .rsvp-panel {
+      position: relative;
+      width: min(860px, 100%);
+      padding: clamp(34px, 7vw, 76px);
+      text-align: center;
+      border: 1px solid rgba(185,141,69,.55);
+      background: linear-gradient(135deg, rgba(255,250,235,.78), rgba(216,191,141,.68));
+      box-shadow:
+        0 36px 92px rgba(33,23,18,.24),
+        inset 0 0 0 10px rgba(255,255,255,.24);
+    }
+
+    .rsvp-panel::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(74,18,24,.18);
+      pointer-events: none;
+    }
+
+    .rsvp-panel h2 {
+      margin-bottom: 18px;
+      color: var(--wine);
+      font-family: "Cinzel", serif;
+      font-size: clamp(2.15rem, 6vw, 5rem);
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .rsvp-panel > p {
+      max-width: 620px;
+      margin: 0 auto 36px;
+      color: rgba(33,23,18,.84);
+      font-size: clamp(1.15rem, 2.4vw, 1.48rem);
+      line-height: 1.45;
+    }
+
+    .seal-action-wrap {
+      position: relative;
+      width: min(360px, 78vw);
+      aspect-ratio: 1;
+      margin: 0 auto;
+      display: grid;
+      place-items: center;
+    }
+
+    .seal-progress {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(var(--gold-soft) calc(var(--progress, 0) * 1%), rgba(74,18,24,.12) 0);
+      -webkit-mask: radial-gradient(circle, transparent 0 66%, #000 67%);
+      mask: radial-gradient(circle, transparent 0 66%, #000 67%);
+      transition: background .08s linear;
+    }
+
+    .wax-button {
+      position: relative;
+      width: min(250px, 58vw);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      user-select: none;
+      touch-action: manipulation;
+      color: var(--gold-soft);
+      border-radius: 50%;
+      border: 1px solid rgba(223,191,118,.72);
+      background:
+        radial-gradient(circle at 34% 26%, rgba(255,255,255,.22), transparent 12%),
+        radial-gradient(circle at 65% 72%, rgba(33,23,18,.28), transparent 18%),
+        radial-gradient(circle, #7a1d25 0 36%, #4a1218 63%, #26080c 100%);
+      box-shadow:
+        inset -18px -24px 36px rgba(33,23,18,.44),
+        inset 14px 12px 22px rgba(255,255,255,.1),
+        0 34px 72px rgba(33,23,18,.34);
+      transition: transform .3s var(--ease), box-shadow .3s var(--ease), filter .3s var(--ease);
+    }
+
+    .wax-button:active,
+    .wax-button.is-pressing {
+      transform: scale(.94);
+      box-shadow:
+        inset -8px -10px 22px rgba(33,23,18,.5),
+        inset 18px 16px 28px rgba(255,255,255,.08),
+        0 18px 42px rgba(33,23,18,.3);
+    }
+
+    .wax-button.is-confirmed {
+      cursor: default;
+      filter: saturate(1.12);
+    }
+
+    .wax-button::before {
+      content: "";
+      position: absolute;
+      inset: 21px;
+      border: 1px dashed rgba(223,191,118,.58);
+      border-radius: 50%;
+    }
+
+    .wax-button::after {
+      content: "";
+      position: absolute;
+      inset: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(223,191,118,.32);
+      box-shadow: inset 0 0 0 6px rgba(33,23,18,.09);
+    }
+
+    .wax-content {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 4px;
+      place-items: center;
+      transform: translateY(2px);
+    }
+
+    .wax-monogram {
+      font-family: "Great Vibes", cursive;
+      font-size: clamp(4rem, 15vw, 7rem);
+      line-height: .74;
+      letter-spacing: -.08em;
+      transform: translateX(-.03em);
+    }
+
+    .wax-text {
+      font-family: "Cinzel", serif;
+      font-size: .62rem;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      transform: translateX(.12em);
+    }
+
+    .resolution-message {
+      min-height: 42px;
+      margin-top: 32px;
+      color: var(--wine);
+      font-family: "Cinzel", serif;
+      font-size: clamp(.88rem, 2vw, 1.08rem);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .resolution-message span {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    .resolution-message.is-visible span {
+      animation: letterRise .72s var(--ease) forwards;
+      animation-delay: calc(var(--i) * 35ms);
+    }
+
+    .confirmed-state .rsvp-panel {
+      background:
+        linear-gradient(135deg, rgba(255,250,235,.86), rgba(223,191,118,.32)),
+        radial-gradient(circle at 50% 72%, rgba(74,18,24,.12), transparent 28rem);
+    }
+
+    .confirmed-state .seal-progress {
+      background: conic-gradient(var(--gold-soft) 100%, var(--gold-soft) 0);
+    }
+
+    .confirmed-state .wax-button {
+      transform: scale(.98) rotate(-5deg);
+    }
+
+    /* --- Footer --- */
+    footer {
+      position: relative;
+      z-index: 6;
+      padding: 36px var(--safe) 56px;
+      text-align: center;
+      color: rgba(33,23,18,.76);
+      font-size: 1.05rem;
+    }
+
+    .footer-mark {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--wine);
+      font-family: "Great Vibes", cursive;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+    }
+
+    /* --- Animaciones --- */
+    @keyframes heraldicDial {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes medallionPulse {
+      from {
+        transform: scale(.98);
+        opacity: .62;
+      }
+
+      to {
+        transform: scale(1.025);
+        opacity: .9;
+      }
+    }
+
+    @keyframes ribbonArrives {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    @keyframes engrave {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes ringTurn {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes initialSettle {
+      0% {
+        opacity: 0;
+        transform: translateY(28px) rotate(calc(var(--rotation) * 2)) scale(.86);
+      }
+
+      70% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0) rotate(var(--rotation)) scale(1);
+      }
+    }
+
+    @keyframes coinAppear {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes titleReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes sealSlowTurn {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes routeInk {
+      to {
+        stroke-dashoffset: -184;
+      }
+    }
+
+    @keyframes letterRise {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* --- Responsive Tablet --- */
+    @media (max-width: 980px) {
+      .crest-nav {
+        top: auto;
+        right: auto;
+        bottom: 16px;
+        left: 50%;
+        display: flex;
+        padding: 8px;
+        transform: translateX(-50%);
+        border: 1px solid rgba(223,191,118,.28);
+        border-radius: 999px;
+        background: rgba(33,23,18,.48);
+      }
+
+      .nav-glyph {
+        width: 38px;
+        height: 38px;
+      }
+
+      .ledger {
+        min-height: auto;
+        padding: 36px 0;
+        display: grid;
+        gap: 22px;
+      }
+
+      .center-seal {
+        position: relative;
+        order: -1;
+        margin-bottom: 32px;
+      }
+
+      .chapter,
+      .chapter.is-visible,
+      .chapter:hover {
+        position: relative;
+        width: min(620px, 100%);
+        min-height: auto;
+        opacity: 1;
+        transform: none !important;
+      }
+
+      .seal-caption {
+        bottom: -42px;
+      }
+
+      .ceremony-grid,
+      .map-card {
+        grid-template-columns: 1fr;
+      }
+
+      .date-medallion {
+        min-height: 420px;
+      }
+
+      .engraved-map {
+        min-height: 390px;
+      }
+    }
+
+    /* --- Responsive Móvil --- */
+    @media (max-width: 640px) {
+      :root {
+        --safe: 18px;
+      }
+
+      .royal-frame {
+        inset: 12px;
+      }
+
+      .corner {
+        width: 64px;
+      }
+
+      .hero {
+        padding-bottom: 118px;
+      }
+
+      .hero-card {
+        min-height: 74svh;
+      }
+
+      .heraldic-ribbon {
+        letter-spacing: .18em;
+      }
+
+      .monogram-stage {
+        width: min(420px, 94vw);
+      }
+
+      .initial.left {
+        margin-right: -24px;
+      }
+
+      .initial.right {
+        margin-left: -24px;
+      }
+
+      .couple-title {
+        bottom: 4%;
+      }
+
+      .couple-title h1 {
+        letter-spacing: .08em;
+      }
+
+      .chapter {
+        clip-path: polygon(5% 0, 95% 0, 100% 7%, 100% 93%, 95% 100%, 5% 100%, 0 93%, 0 7%);
+      }
+
+      .timeline-panel,
+      .location-copy,
+      .rsvp-panel {
+        padding: 30px 22px;
+      }
+
+      .royal-list li {
+        padding-left: 0;
+        padding-top: 44px;
+      }
+
+      .royal-list li::before {
+        top: 18px;
+      }
+
+      .date-medallion {
+        min-height: 340px;
+      }
+
+      .engraved-map {
+        min-height: 320px;
+      }
+
+      footer {
+        padding-bottom: 98px;
+      }
+    }
+
+    /* --- Accesibilidad: Movimiento Reducido --- */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .001ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-shell">
+    <div class="royal-frame" aria-hidden="true">
+      <div class="corner tl">
+        <svg viewBox="0 0 120 120">
+          <path d="M8 112C19 73 48 76 45 47C42 23 18 30 19 51C20 70 44 67 59 52C78 33 63 12 43 20C24 28 27 55 51 59C77 63 90 40 73 22" fill="none" stroke="currentColor" stroke-width="2" />
+          <path d="M14 14H88M14 14V88M26 26H74M26 26V74" fill="none" stroke="currentColor" stroke-width="1.2" />
+        </svg>
+      </div>
+
+      <div class="corner tr">
+        <svg viewBox="0 0 120 120">
+          <path d="M8 112C19 73 48 76 45 47C42 23 18 30 19 51C20 70 44 67 59 52C78 33 63 12 43 20C24 28 27 55 51 59C77 63 90 40 73 22" fill="none" stroke="currentColor" stroke-width="2" />
+          <path d="M14 14H88M14 14V88M26 26H74M26 26V74" fill="none" stroke="currentColor" stroke-width="1.2" />
+        </svg>
+      </div>
+
+      <div class="corner br">
+        <svg viewBox="0 0 120 120">
+          <path d="M8 112C19 73 48 76 45 47C42 23 18 30 19 51C20 70 44 67 59 52C78 33 63 12 43 20C24 28 27 55 51 59C77 63 90 40 73 22" fill="none" stroke="currentColor" stroke-width="2" />
+          <path d="M14 14H88M14 14V88M26 26H74M26 26V74" fill="none" stroke="currentColor" stroke-width="1.2" />
+        </svg>
+      </div>
+
+      <div class="corner bl">
+        <svg viewBox="0 0 120 120">
+          <path d="M8 112C19 73 48 76 45 47C42 23 18 30 19 51C20 70 44 67 59 52C78 33 63 12 43 20C24 28 27 55 51 59C77 63 90 40 73 22" fill="none" stroke="currentColor" stroke-width="2" />
+          <path d="M14 14H88M14 14V88M26 26H74M26 26V74" fill="none" stroke="currentColor" stroke-width="1.2" />
+        </svg>
+      </div>
+    </div>
+
+    <nav class="crest-nav" aria-label="Navegación de la invitación">
+      <a class="nav-glyph is-active" href="#inicio" aria-label="Inicio">I</a>
+      <a class="nav-glyph" href="#historia" aria-label="Historia">II</a>
+      <a class="nav-glyph" href="#ceremonia" aria-label="Ceremonia">III</a>
+      <a class="nav-glyph" href="#lugar" aria-label="Lugar">IV</a>
+      <a class="nav-glyph" href="#rsvp" aria-label="Confirmar asistencia">V</a>
+    </nav>
+
+    <header id="inicio" class="hero">
+      <div class="hero-card">
+        <p data-gemini-id="portada-texto-1" class="heraldic-ribbon">Invitación de Boda</p>
+
+        <div class="monogram-stage" aria-label="Monograma real de Alejandro e Isabella">
+          <svg viewBox="0 0 520 520" aria-hidden="true">
+            <circle class="crest-ring" cx="260" cy="260" r="226" />
+            <circle class="crest-ring secondary" cx="260" cy="260" r="198" />
+
+            <path class="filigree-path" d="M260 44C226 95 176 89 158 132C145 164 164 195 197 188C234 180 235 132 201 128C164 124 134 167 158 214C185 268 246 225 220 188C190 145 126 201 145 265C165 335 238 325 260 275C282 325 355 335 375 265C394 201 330 145 300 188C274 225 335 268 362 214C386 167 356 124 319 128C285 132 286 180 323 188C356 195 375 164 362 132C344 89 294 95 260 44Z" />
+
+            <path class="filigree-path" d="M80 260C129 228 131 181 173 173M440 260C391 228 389 181 347 173M80 260C129 292 131 339 173 347M440 260C391 292 389 339 347 347" />
+
+            <path class="filigree-path" d="M260 476C226 425 176 431 158 388C145 356 164 325 197 332C234 340 235 388 201 392C164 396 134 353 158 306" />
+          </svg>
+
+          <div class="monogram">
+            <span data-gemini-id="portada-texto-3" class="initial left">A</span>
+            <span data-gemini-id="portada-texto-4" class="ampersand">&amp;</span>
+            <span data-gemini-id="portada-texto-5" class="initial right">I</span>
+          </div>
+        </div>
+
+        <div class="couple-title">
+          <h1 data-gemini-id="portada-titulo-1">Alejandro e Isabella</h1>
+          <p data-gemini-id="portada-texto-2">Unimos nuestras familias bajo un mismo escudo</p>
+        </div>
+      </div>
+
+      <a data-gemini-id="portada-enlace-1" class="open-ledger" href="#historia">Abrir el pergamino</a>
+    </header>
+
+    <main>
+      <section id="historia" class="reveal-zone" aria-labelledby="historia-title">
+        <div class="ledger">
+          <article id="inferred-confirmacion-2" class="chapter observe" data-chapter="prologue">
+            <p data-gemini-id="confirmacion-texto-1" class="chapter-kicker">Capítulo I</p>
+            <h2 data-gemini-id="confirmacion-titulo-1" id="historia-title">El decreto del amor</h2>
+            <p data-gemini-id="confirmacion-texto-2">
+              Con la bendición de nuestras familias, extendemos este anuncio como un antiguo sello de casa:
+              <strong>dos linajes, una promesa y una celebración para recordar.</strong>
+            </p>
+          </article>
+
+          <article id="inferred-detalles-3" class="chapter observe" data-chapter="date">
+            <p data-gemini-id="detalles-texto-1" class="chapter-kicker">Capítulo II</p>
+            <h2 data-gemini-id="detalles-titulo-1">Fecha solemne</h2>
+            <p data-gemini-id="detalles-texto-2">
+              Sábado <strong>18 de octubre de 2026</strong><br>
+              Recepción desde las <strong>5:30 PM</strong>
+            </p>
+          </article>
+
+          <div class="center-seal observe" aria-hidden="true">
+            <span data-gemini-id="padres-texto-1" class="seal-caption">El pergamino se ensambla al avanzar</span>
+          </div>
+
+          <article id="inferred-ubicacion-4" class="chapter observe" data-chapter="place">
+            <p data-gemini-id="ubicacion-texto-1" class="chapter-kicker">Capítulo III</p>
+            <h2 data-gemini-id="ubicacion-titulo-1">Sede del encuentro</h2>
+            <address>
+              Hacienda San Aurelio<br>
+              Jardín de los Naranjos<br>
+              Tuxtla Gutiérrez, Chiapas
+            </address>
+          </article>
+
+          <article id="inferred-vestimenta-5" class="chapter observe" data-chapter="dress">
+            <p data-gemini-id="vestimenta-texto-1" class="chapter-kicker">Capítulo IV</p>
+            <h2 data-gemini-id="vestimenta-titulo-1">Etiqueta</h2>
+            <p data-gemini-id="vestimenta-texto-2">
+              Formal clásico.<br>
+              Tonos sugeridos: vino, marfil, negro y dorado antiguo.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="ceremonia" class="ceremony" aria-labelledby="ceremonia-title">
+        <div class="ceremony-grid">
+          <div class="date-medallion observe">
+            <div class="date-core" aria-label="Fecha de boda 18 de octubre de 2026">
+              <span data-gemini-id="ubicacion-texto-5" class="month">Octubre</span>
+              <span data-gemini-id="ubicacion-texto-6" class="day">18</span>
+              <span data-gemini-id="ubicacion-texto-7" class="year">2026</span>
+              <span data-gemini-id="ubicacion-texto-8" class="time">5:30 PM</span>
+            </div>
+          </div>
+
+          <article class="timeline-panel observe">
+            <p data-gemini-id="ubicacion-texto-2" class="section-label">Orden de la celebración</p>
+            <h2 data-gemini-id="ubicacion-titulo-2" id="ceremonia-title">El protocolo</h2>
+
+            <ul class="royal-list">
+              <li data-gemini-id="ubicacion-item-1" style="--i: 1" data-time="5:30">
+                <strong>Recepción</strong>
+                Apertura de puertas, bienvenida y primer brindis.
+              </li>
+
+              <li data-gemini-id="ubicacion-item-2" style="--i: 2" data-time="6:15">
+                <strong>Ceremonia</strong>
+                Intercambio de votos bajo el arco principal del jardín.
+              </li>
+
+              <li data-gemini-id="ubicacion-item-3" style="--i: 3" data-time="7:10">
+                <strong>Cena</strong>
+                Banquete familiar servido por tiempos.
+              </li>
+
+              <li data-gemini-id="ubicacion-item-4" style="--i: 4" data-time="8:30">
+                <strong>Vals y celebración</strong>
+                La noche se abre con música, baile y memorias.
+              </li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="lugar" class="location" aria-labelledby="lugar-title">
+        <div class="map-card observe">
+          <div class="engraved-map" aria-hidden="true">
+            <svg viewBox="0 0 620 520">
+              <path class="map-street" d="M-20 120C90 90 140 170 238 140C332 112 390 38 650 88" />
+              <path class="map-street" d="M-20 250C110 220 174 300 280 260C390 220 456 230 650 196" />
+              <path class="map-street" d="M-10 380C72 330 160 354 238 410C316 466 438 410 650 436" />
+              <path class="map-street" d="M120 -40C95 76 160 128 142 236C128 320 70 368 94 560" />
+              <path class="map-street" d="M320 -40C290 62 344 126 330 216C314 318 350 404 300 560" />
+              <path class="map-street" d="M500 -40C460 56 530 148 496 232C458 328 526 418 480 560" />
+              <path class="route-line" d="M62 430C138 352 218 368 278 292C344 210 422 248 462 178" />
+            </svg>
+
+            <div class="map-marker">
+              <span data-gemini-id="ubicacion-texto-9">A·I</span>
+            </div>
+          </div>
+
+          <article id="inferred-ubicacion-9" class="location-copy">
+            <p data-gemini-id="ubicacion-texto-3" class="section-label">Lugar</p>
+            <h2 data-gemini-id="ubicacion-titulo-3" id="lugar-title">Hacienda San Aurelio</h2>
+
+            <p data-gemini-id="ubicacion-texto-4">
+              Un jardín clásico, rodeado de arquitectura colonial y luz cálida,
+              será el escenario donde sellaremos nuestra historia.
+            </p>
+
+            <address>
+              Jardín de los Naranjos, Tuxtla Gutiérrez, Chiapas.
+            </address>
+
+            <a data-gemini-id="ubicacion-enlace-1" class="map-link" href="#rsvp">Continuar al sello</a>
+          </article>
+        </div>
+      </section>
+
+      <section id="rsvp" class="rsvp" aria-labelledby="rsvp-title">
+        <article id="inferred-confirmacion-11" class="rsvp-panel observe">
+          <p data-gemini-id="confirmacion-texto-3" class="section-label">Confirmación real</p>
+
+          <h2 data-gemini-id="confirmacion-titulo-2" id="rsvp-title">Sella tu asistencia</h2>
+
+          <p data-gemini-id="confirmacion-texto-4">
+            No hay formulario. Para confirmar, mantén presionado el lacre hasta que el escudo quede marcado.
+            La invitación recordará tu sello en este navegador.
+          </p>
+
+          <div class="seal-action-wrap">
+            <div class="seal-progress" aria-hidden="true"></div>
+
+            <button data-gemini-id="confirmacion-boton-1" class="wax-button" type="button" aria-label="Mantén presionado para confirmar asistencia">
+              <span data-gemini-id="confirmacion-texto-6" class="wax-content">
+                <span data-gemini-id="confirmacion-texto-7" class="wax-monogram">A I</span>
+                <span data-gemini-id="confirmacion-texto-8" class="wax-text">Presiona</span>
+              </span>
+            </button>
+          </div>
+
+          <p data-gemini-id="confirmacion-texto-5" class="resolution-message" aria-live="polite"></p>
+        </article>
+      </section>
+    </main>
+
+    <footer id="inferred-padres-12">
+      <span data-gemini-id="padres-texto-2" class="footer-mark">Alejandro &amp; Isabella</span>
+      Gracias por formar parte de nuestro escudo familiar.
+    </footer>
+  </div>
+
+  <script>
+    // --- Configuración General ---
+    const STORAGE_KEY = "royal_monogram_rsvp_confirmed";
+
+    const navLinks = document.querySelectorAll(".nav-glyph");
+    const sections = [...document.querySelectorAll("header[id], section[id]")];
+    const observedElements = document.querySelectorAll(".observe");
+
+    const hero = document.querySelector(".hero");
+    const monogramStage = document.querySelector(".monogram-stage");
+
+    const waxButton = document.querySelector(".wax-button");
+    const sealProgress = document.querySelector(".seal-progress");
+    const resolutionMessage = document.querySelector(".resolution-message");
+    const rsvpSection = document.querySelector(".rsvp");
+
+    // --- Revelado No Lineal por Scroll ---
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        entry.target.classList.add("is-visible");
+
+        if (entry.target.classList.contains("timeline-panel")) {
+          entry.target.classList.add("is-visible");
+        }
+
+        revealObserver.unobserve(entry.target);
+      });
+    }, {
+      threshold: 0.22,
+      rootMargin: "0px 0px -8% 0px"
+    });
+
+    observedElements.forEach((element) => {
+      revealObserver.observe(element);
+    });
+
+    // --- Navegación Activa ---
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        navLinks.forEach((link) => {
+          link.classList.toggle("is-active", link.getAttribute("href") === `#${entry.target.id}`);
+        });
+      });
+    }, {
+      threshold: 0.45
+    });
+
+    sections.forEach((section) => {
+      navObserver.observe(section);
+    });
+
+    // --- Scroll Suave Controlado ---
+    navLinks.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        const target = document.querySelector(link.getAttribute("href"));
+        if (!target) return;
+
+        event.preventDefault();
+
+        target.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      });
+    });
+
+    // --- Texto Animado del Sello ---
+    function writeResolutionMessage(text) {
+      resolutionMessage.innerHTML = "";
+
+      [...text].forEach((letter, index) => {
+        const span = document.createElement("span");
+
+        span.textContent = letter === " " ? "\u00A0" : letter;
+        span.style.setProperty("--i", index);
+
+        resolutionMessage.appendChild(span);
+      });
+
+      resolutionMessage.classList.remove("is-visible");
+
+      requestAnimationFrame(() => {
+        resolutionMessage.classList.add("is-visible");
+      });
+    }
+
+    // --- Estado Permanente de Confirmación ---
+    function setConfirmedState() {
+      document.body.classList.add("confirmed-state");
+
+      waxButton.classList.add("is-confirmed");
+      waxButton.setAttribute("aria-label", "Asistencia confirmada");
+      waxButton.querySelector(".wax-text").textContent = "Sellado";
+
+      sealProgress.style.setProperty("--progress", 100);
+
+      writeResolutionMessage("Asistencia sellada con honor");
+    }
+
+    if (localStorage.getItem(STORAGE_KEY) === "true") {
+      setConfirmedState();
+    } else {
+      writeResolutionMessage("Mantén presionado para sellar");
+    }
+
+    // --- RSVP como Acción Física Digital ---
+    let pressStart = 0;
+    let rafId = null;
+
+    const requiredHold = 1650;
+
+    function updateSealProgress() {
+      const elapsed = performance.now() - pressStart;
+      const progress = Math.min((elapsed / requiredHold) * 100, 100);
+
+      sealProgress.style.setProperty("--progress", progress.toFixed(2));
+
+      if (progress >= 100) {
+        confirmAttendance();
+        return;
+      }
+
+      rafId = requestAnimationFrame(updateSealProgress);
+    }
+
+    function startPress(event) {
+      if (waxButton.classList.contains("is-confirmed")) return;
+
+      event.preventDefault();
+
+      pressStart = performance.now();
+
+      waxButton.classList.add("is-pressing");
+      writeResolutionMessage("El lacre está tomando forma");
+
+      cancelAnimationFrame(rafId);
+
+      rafId = requestAnimationFrame(updateSealProgress);
+    }
+
+    function cancelPress() {
+      if (waxButton.classList.contains("is-confirmed")) return;
+
+      waxButton.classList.remove("is-pressing");
+
+      cancelAnimationFrame(rafId);
+
+      sealProgress.style.setProperty("--progress", 0);
+
+      writeResolutionMessage("Mantén presionado para sellar");
+    }
+
+    function confirmAttendance() {
+      cancelAnimationFrame(rafId);
+
+      localStorage.setItem(STORAGE_KEY, "true");
+
+      waxButton.classList.remove("is-pressing");
+
+      rsvpSection.animate([
+        {
+          filter: "brightness(1)",
+          transform: "scale(1)"
+        },
+        {
+          filter: "brightness(1.08)",
+          transform: "scale(1.008)"
+        },
+        {
+          filter: "brightness(1)",
+          transform: "scale(1)"
+        }
+      ], {
+        duration: 760,
+        easing: "cubic-bezier(.19, 1, .22, 1)"
+      });
+
+      setConfirmedState();
+    }
+
+    waxButton.addEventListener("pointerdown", startPress);
+    waxButton.addEventListener("pointerup", cancelPress);
+    waxButton.addEventListener("pointerleave", cancelPress);
+    waxButton.addEventListener("pointercancel", cancelPress);
+
+    waxButton.addEventListener("keydown", (event) => {
+      if (event.code !== "Space" && event.code !== "Enter") return;
+
+      startPress(event);
+    });
+
+    waxButton.addEventListener("keyup", (event) => {
+      if (event.code !== "Space" && event.code !== "Enter") return;
+
+      cancelPress();
+    });
+
+    // --- Movimiento Sutil del Grabado del Monograma ---
+    hero.addEventListener("pointermove", (event) => {
+      const rect = hero.getBoundingClientRect();
+
+      const x = ((event.clientX - rect.left) / rect.width - 0.5) * 10;
+      const y = ((event.clientY - rect.top) / rect.height - 0.5) * 10;
+
+      monogramStage.style.transform = `rotateX(${-y}deg) rotateY(${x}deg)`;
+    });
+
+    hero.addEventListener("pointerleave", () => {
+      monogramStage.style.transform = "rotateX(0deg) rotateY(0deg)";
+    });
+  </script>
+</body>
+</html>

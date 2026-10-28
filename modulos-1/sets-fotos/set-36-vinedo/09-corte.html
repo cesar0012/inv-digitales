@@ -1,0 +1,173 @@
+<section
+  class="vc-co"
+  data-gemini-id="corte-vinedo"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Italianno&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .vc-co, .vc-co *, .vc-co *::before, .vc-co *::after { box-sizing: border-box; }
+    .vc-co {
+      --t-bg: var(--bg-color, #F3E9D2);
+      --t-tx: var(--text-color, #2E1B1C);
+      --t-p: var(--primary-color, #6E1F2F);
+      --t-s: var(--secondary-color, #6B6E3A);
+      --t-a: var(--accent-color, #A8834A);
+      --t-display: var(--font-script, 'Italianno', cursive);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      --oak: color-mix(in srgb, var(--t-a) 58%, #3e2412);
+      --oak-d: color-mix(in srgb, var(--t-a) 36%, #24140a);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 60vw, 46rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image:
+        linear-gradient(90deg, color-mix(in srgb, var(--t-p) 10%, transparent) 0 42%, transparent 42%),
+        radial-gradient(50% 60% at 100% 0%, color-mix(in srgb, var(--t-a) 14%, transparent), transparent 70%);
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .vc-co__grain { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mix-blend-mode: multiply; }
+    .vc-co__content { width: min(100%, 64rem); display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+
+    .vc-co__stage { position: relative; padding: 12px; border-radius: 50% 50% 8px 8px / 26% 26% 8px 8px; background: var(--t-bg); box-shadow: 0 0 0 1px color-mix(in srgb, var(--t-a) 75%, transparent), 0 0 0 7px var(--t-bg), 0 0 0 8px color-mix(in srgb, var(--t-a) 35%, transparent), 0 34px 60px -34px color-mix(in srgb, var(--t-p) 80%, transparent); }
+    .vc-co__window { position: relative; overflow: hidden; border-radius: 50% 50% 4px 4px / 24% 24% 4px 4px; }
+    .vc-co__figure { margin: 0; }
+    .vc-co__figure img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; filter: sepia(.12); transition: scale .5s cubic-bezier(.2, .8, .2, 1); }
+    .vc-co__doors { display: none; position: absolute; inset: 0; pointer-events: none; }
+    .vc-co__door {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 50.5%;
+      background:
+        linear-gradient(180deg, transparent 18%, var(--oak-d) 18% 21%, transparent 21% 78%, var(--oak-d) 78% 81%, transparent 81%),
+        repeating-linear-gradient(90deg, var(--oak) 0 22px, var(--oak-d) 22px 23px, color-mix(in srgb, var(--oak) 85%, #000) 23px 45px, var(--oak-d) 45px 46px);
+      box-shadow: inset 0 0 30px rgb(0 0 0 / .5);
+      transition: transform .5s cubic-bezier(.6, .05, .3, 1);
+    }
+    .vc-co__door[data-side="l"] { left: 0; transform-origin: 0 50%; }
+    .vc-co__door[data-side="r"] { right: 0; transform-origin: 100% 50%; }
+    .vc-co__door::after { content: ''; position: absolute; top: 46%; width: 10px; height: 34px; border-radius: 5px; background: color-mix(in srgb, var(--t-a) 80%, #fff); box-shadow: 0 2px 4px rgb(0 0 0 / .6); }
+    .vc-co__door[data-side="l"]::after { right: 10px; }
+    .vc-co__door[data-side="r"]::after { left: 10px; }
+
+    .vc-co__kicker { margin: 0; font-style: italic; font-size: clamp(1.05rem, 2.3vw, 1.2rem); color: var(--t-s); }
+    .vc-co__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(3.4rem, 8vw, 5.2rem); line-height: .95; color: var(--t-p); }
+    .vc-co__lead { margin: .9rem 0 0; max-width: 32rem; font-size: clamp(1.08rem, 2.2vw, 1.2rem); line-height: 1.55; color: color-mix(in srgb, var(--t-tx) 82%, transparent); }
+    .vc-co__groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6rem; margin-top: 1.8rem; }
+    .vc-co__group-t { margin: 0 0 .5rem; padding-bottom: .35rem; border-bottom: 1px solid color-mix(in srgb, var(--t-a) 60%, transparent); font-style: italic; font-weight: 600; font-size: 1.2rem; color: var(--t-p); }
+    .vc-co__names { list-style: none; margin: 0; padding: 0; display: grid; gap: .3rem; }
+    .vc-co__names li { font-size: clamp(1.05rem, 2.1vw, 1.15rem); line-height: 1.35; }
+    .vc-co__names li::before { content: ''; display: inline-block; width: .42rem; height: .42rem; margin-right: .55rem; border-radius: 50%; background: var(--t-p); box-shadow: .3rem -.25rem 0 -.05rem color-mix(in srgb, var(--t-p) 70%, transparent); vertical-align: .12em; }
+
+    .vc-co--anim .vc-co__doors { display: block; }
+    .vc-co--anim .vc-co__figure img { scale: 1.12; }
+    .vc-co--anim.is-in .vc-co__figure img { scale: 1; transition-delay: .15s; }
+    .vc-co--anim.is-in .vc-co__door { transform: perspective(900px) rotateY(var(--vc-swing)); }
+    .vc-co__door[data-side="l"] { --vc-swing: 92deg; }
+    .vc-co__door[data-side="r"] { --vc-swing: -92deg; }
+    .vc-co--anim .vc-co__text > * { opacity: 0; translate: 0 12px; transition: opacity .45s ease, translate .5s cubic-bezier(.2, .8, .2, 1); }
+    .vc-co--anim.is-in .vc-co__text > * { opacity: 1; translate: 0 0; }
+    .vc-co--anim.is-in .vc-co__text > :nth-child(2) { transition-delay: .3s; }
+    .vc-co--anim.is-in .vc-co__text > :nth-child(3) { transition-delay: .4s; }
+    .vc-co--anim.is-in .vc-co__text > :nth-child(4) { transition-delay: .5s; }
+    .vc-co--anim.is-in .vc-co__text > :first-child { transition-delay: .2s; }
+
+    @media (max-width: 760px) {
+      .vc-co { background-image: radial-gradient(50% 60% at 100% 0%, color-mix(in srgb, var(--t-a) 14%, transparent), transparent 70%); }
+      .vc-co__content { grid-template-columns: 1fr; }
+      .vc-co__stage { width: min(100%, 22rem); justify-self: center; }
+      .vc-co__text { text-align: center; }
+      .vc-co__lead { margin-inline: auto; }
+      .vc-co__groups { text-align: left; }
+    }
+    @media (max-width: 420px) {
+      .vc-co__groups { grid-template-columns: 1fr; text-align: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .vc-co *, .vc-co *::before, .vc-co *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="vc-co__grain" aria-hidden="true">
+    <filter id="vc-co-noise"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .42  0 0 0 0 .3  0 0 0 0 .18  0 0 0 .15 0"/></filter>
+    <rect width="100%" height="100%" filter="url(#vc-co-noise)"/>
+  </svg>
+
+  <div class="vc-co__content">
+    <div class="vc-co__stage">
+      <div class="vc-co__window">
+        <figure class="vc-co__figure" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/800/1000/bridesmaids,vineyard?lock=3291" alt="Corte de honor entre viñedos" path="placeholder" data-library-category="corte" data-asset-type="grupo" loading="lazy" />
+        </figure>
+        <div class="vc-co__doors" aria-hidden="true"><span class="vc-co__door" data-side="l"></span><span class="vc-co__door" data-side="r"></span></div>
+      </div>
+    </div>
+
+    <div class="vc-co__text">
+      <p class="vc-co__kicker" memory_type="text" memory_usage="custom" memory_key="corte-intro">Las puertas de la cava se abren para</p>
+      <h2 class="vc-co__title" memory_type="text" memory_usage="custom" memory_key="corte-titulo">Nuestra Corte de Honor</h2>
+      <p class="vc-co__lead" memory_type="text" memory_usage="custom" memory_key="corte-texto">Amigos de toda la vida que han madurado a nuestro lado, como las mejores reservas.</p>
+      <div class="vc-co__groups">
+        <div>
+          <h3 class="vc-co__group-t" memory_type="text" memory_usage="custom" memory_key="corte-grupo-damas">Damas</h3>
+          <ul class="vc-co__names">
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-1" data-event-field="corte-nombre-1">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-2" data-event-field="corte-nombre-2">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-3" data-event-field="corte-nombre-3">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-4" data-event-field="corte-nombre-4">Nombre Apellido</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="vc-co__group-t" memory_type="text" memory_usage="custom" memory_key="corte-grupo-caballeros">Caballeros</h3>
+          <ul class="vc-co__names">
+            <li memory_type="text" memory_usage="custom" memory_key="corte-caballero-1">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-caballero-2">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-caballero-3">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-caballero-4">Nombre Apellido</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="corte-vinedo"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      /* Curtain reveal: two oak cellar doors swing open over the portrait */
+      root.classList.add('vc-co--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .3) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('vc-co--anim', 'is-in'); }, 1500);
+        }
+      }, { threshold: [0, .3, .6] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-vinedo',
+      style_name: 'Viñedo Clásico Puertas de la Cava',
+      descripcion: 'Corte de honor con imagen destacada en marco de arco: dos puertas de roble de la cava se abren al entrar en pantalla y revelan la foto; al lado, texto y listas de damas y caballeros.',
+      tags: ['corte', 'boda', 'viñedo', 'damas', 'caballeros', 'cava'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

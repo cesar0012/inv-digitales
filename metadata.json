@@ -1,0 +1,8 @@
+{
+  "name": "Invitaciones Digitales 1",
+  "description": "Un potente generador web impulsado por IA que utiliza Gemini 3 Pro y Flash para la generación e iteración de código multimodal de invitaciones digitales.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}

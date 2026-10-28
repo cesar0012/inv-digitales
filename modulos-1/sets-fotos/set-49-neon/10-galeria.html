@@ -1,0 +1,167 @@
+<section
+  class="dn-ga"
+  data-gemini-id="galeria-neon"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Neonderthaw&family=Tilt+Neon&display=swap');
+
+    .dn-ga, .dn-ga *, .dn-ga *::before, .dn-ga *::after { box-sizing: border-box; }
+    .dn-ga {
+      --t-bg: var(--bg-color, #07060c);
+      --t-tx: var(--text-color, #fbf4ff);
+      --t-p: var(--primary-color, #ff2bd6);
+      --t-s: var(--secondary-color, #19f0ff);
+      --t-a: var(--accent-color, #f4ff2b);
+      --t-display: var(--font-script, 'Neonderthaw', cursive);
+      --t-text: var(--font-heading, 'Tilt Neon', system-ui, sans-serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .dn-ga::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(60% 40% at 50% 0%, color-mix(in srgb, var(--t-s) 12%, transparent), transparent 70%), radial-gradient(50% 40% at 50% 100%, color-mix(in srgb, var(--t-p) 12%, transparent), transparent 70%);
+    }
+    .dn-ga__content { width: min(100%, 66rem); }
+    .dn-ga__title {
+      --g: var(--t-s);
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3.4rem, 9vw, 6rem);
+      line-height: 1;
+      color: color-mix(in srgb, var(--g) 28%, #fff);
+      text-shadow: 0 0 .02em #fff, 0 0 .1em var(--g), 0 0 .3em var(--g);
+    }
+    .dn-ga__lead { margin: .5rem 0 clamp(2rem, 5vw, 3rem); font-size: clamp(1.05rem, 2.2vw, 1.3rem); color: color-mix(in srgb, var(--t-tx) 80%, transparent); }
+    .dn-ga__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(46%, 13rem), 1fr)); grid-auto-flow: dense; gap: clamp(.6rem, 1.5vw, 1rem); }
+    .dn-ga__tile {
+      --g: var(--t-p);
+      margin: 0;
+      border-radius: 1rem;
+      border: 2px solid color-mix(in srgb, var(--g) 55%, transparent);
+      box-shadow: 0 0 12px color-mix(in srgb, var(--g) 45%, transparent);
+      overflow: hidden;
+      transition: box-shadow .3s ease, border-color .3s ease;
+    }
+    .dn-ga__tile:nth-child(3n+2) { --g: var(--t-s); }
+    .dn-ga__tile:nth-child(3n) { --g: var(--t-a); }
+    .dn-ga__tile:first-child { grid-column: span 2; grid-row: span 2; }
+    .dn-ga__tile:hover { border-color: var(--g); box-shadow: 0 0 10px var(--g), 0 0 32px var(--g); }
+    .dn-ga__open { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; overflow: hidden; }
+    .dn-ga__open:focus-visible { outline: 3px solid var(--t-a); outline-offset: -3px; }
+    .dn-ga__open img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; background: color-mix(in srgb, var(--g) 16%, var(--t-bg)); transition: transform .4s ease; }
+    .dn-ga__open:hover img { transform: scale(1.06); }
+
+    .dn-ga--anim .dn-ga__open img { clip-path: inset(50% 0 50% 0); }
+    .dn-ga--anim.is-in .dn-ga__open img { clip-path: inset(0); transition: clip-path .45s cubic-bezier(.7, 0, .2, 1), transform .4s ease; transition-delay: calc(var(--i, 0) * .07s); }
+    .dn-ga--anim.is-in .dn-ga__tile { animation: dnGaFlash .5s ease-out calc(var(--i, 0) * .07s) both; }
+    @keyframes dnGaFlash { 0% { box-shadow: 0 0 2px var(--g); } 40% { box-shadow: 0 0 16px var(--g), 0 0 50px var(--g); } 100% { box-shadow: 0 0 12px color-mix(in srgb, var(--g) 45%, transparent); } }
+
+    .dn-ga__lb { width: min(92vw, 60rem); max-height: 92vh; padding: 0; border: 3px solid var(--t-s); border-radius: 1.4rem; background: var(--t-bg); color: var(--t-tx); box-shadow: 0 0 10px var(--t-s), 0 0 40px var(--t-s); overflow: hidden; }
+    .dn-ga__lb[open] { animation: dnGaPop .3s cubic-bezier(.2, .9, .3, 1.2) both; }
+    .dn-ga__lb::backdrop { background: color-mix(in srgb, #000 82%, transparent); }
+    .dn-ga__lb img { display: block; width: 100%; max-height: 80vh; height: auto; object-fit: contain; }
+    .dn-ga__ctrl { position: absolute; top: 50%; width: 2.8rem; height: 2.8rem; margin-top: -1.4rem; padding: 0; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 2px solid var(--t-a); background: color-mix(in srgb, var(--t-bg) 70%, transparent); color: var(--t-tx); font: inherit; font-size: 1.3rem; cursor: pointer; box-shadow: 0 0 10px var(--t-a); }
+    .dn-ga__ctrl[data-dn-dir="-1"] { left: .8rem; }
+    .dn-ga__ctrl[data-dn-dir="1"] { right: .8rem; }
+    .dn-ga__close { top: 1.6rem; right: .8rem; border-color: var(--t-p); box-shadow: 0 0 10px var(--t-p); }
+    @keyframes dnGaPop { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dn-ga *, .dn-ga *::before, .dn-ga *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="dn-ga__content">
+    <header>
+      <h2 class="dn-ga__title" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Momentos que brillan</h2>
+      <p class="dn-ga__lead" memory_type="text" memory_usage="custom" memory_key="galeria-texto">Toca una foto para verla en grande</p>
+    </header>
+    <div class="dn-ga__grid">
+      <figure class="dn-ga__tile" style="--i: 0" memory_type="image" memory_usage="custom" memory_source="library"><button class="dn-ga__open" type="button" data-dn-open aria-label="Ver foto 1"><img src="https://loremflickr.com/900/900/neon,party,girl?lock=3514" alt="Quinceañera bajo luces de neón" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure>
+      <figure class="dn-ga__tile" style="--i: 1" memory_type="image" memory_usage="custom" memory_source="library"><button class="dn-ga__open" type="button" data-dn-open aria-label="Ver foto 2"><img src="https://loremflickr.com/600/600/glowstick?lock=3515" alt="Pulseras luminosas" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure>
+      <figure class="dn-ga__tile" style="--i: 2" memory_type="image" memory_usage="custom" memory_source="library"><button class="dn-ga__open" type="button" data-dn-open aria-label="Ver foto 3"><img src="https://loremflickr.com/600/600/dancefloor,lights?lock=3516" alt="Pista de baile iluminada" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure>
+      <figure class="dn-ga__tile" style="--i: 3" memory_type="image" memory_usage="custom" memory_source="library"><button class="dn-ga__open" type="button" data-dn-open aria-label="Ver foto 4"><img src="https://loremflickr.com/600/600/blacklight,paint?lock=3517" alt="Pintura fluorescente" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure>
+      <figure class="dn-ga__tile" style="--i: 4" memory_type="image" memory_usage="custom" memory_source="library"><button class="dn-ga__open" type="button" data-dn-open aria-label="Ver foto 5"><img src="https://loremflickr.com/600/600/neon,sign?lock=3518" alt="Letrero de neón" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure>
+      <figure class="dn-ga__tile" style="--i: 5" memory_type="image" memory_usage="custom" memory_source="library"><button class="dn-ga__open" type="button" data-dn-open aria-label="Ver foto 6"><img src="https://loremflickr.com/600/600/friends,party?lock=3519" alt="Amigos en la fiesta" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure>
+      <figure class="dn-ga__tile" style="--i: 6" memory_type="image" memory_usage="custom" memory_source="library"><button class="dn-ga__open" type="button" data-dn-open aria-label="Ver foto 7"><img src="https://loremflickr.com/600/600/disco,ball?lock=3520" alt="Bola disco" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure>
+      <figure class="dn-ga__tile" style="--i: 7" memory_type="image" memory_usage="custom" memory_source="library"><button class="dn-ga__open" type="button" data-dn-open aria-label="Ver foto 8"><img src="https://loremflickr.com/600/600/cake,party?lock=3521" alt="Pastel de la fiesta" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure>
+      <figure class="dn-ga__tile" style="--i: 8" memory_type="image" memory_usage="custom" memory_source="library"><button class="dn-ga__open" type="button" data-dn-open aria-label="Ver foto 9"><img src="https://loremflickr.com/600/600/confetti,lights?lock=3522" alt="Confeti y luces" path="placeholder" data-library-category="galeria" data-asset-type="foto" loading="lazy" /></button></figure>
+    </div>
+  </div>
+
+  <dialog class="dn-ga__lb" data-dn-lb aria-label="Foto ampliada">
+    <img data-mm-big alt="" />
+    <button class="dn-ga__ctrl dn-ga__close" type="button" data-dn-close aria-label="Cerrar">&times;</button>
+    <button class="dn-ga__ctrl" type="button" data-dn-dir="-1" aria-label="Anterior">&lsaquo;</button>
+    <button class="dn-ga__ctrl" type="button" data-dn-dir="1" aria-label="Siguiente">&rsaquo;</button>
+  </dialog>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="galeria-neon"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* Lightbox (dialog + showModal escapes stacking contexts) */
+      var lb = root.querySelector('[data-dn-lb]'), big = lb.querySelector('[data-mm-big]');
+      var btns = [].slice.call(root.querySelectorAll('[data-dn-open]')), cur = 0;
+      function show(i) {
+        cur = (i + btns.length) % btns.length;
+        var im = btns[cur].querySelector('img');
+        big.src = im.currentSrc || im.src; big.alt = im.alt;
+      }
+      btns.forEach(function (b, i) {
+        b.addEventListener('click', function () { show(i); if (lb.showModal) lb.showModal(); else lb.setAttribute('open', ''); });
+      });
+      [].forEach.call(lb.querySelectorAll('[data-dn-dir]'), function (b) {
+        b.addEventListener('click', function () { show(cur + Number(b.getAttribute('data-dn-dir'))); });
+      });
+      lb.querySelector('[data-dn-close]').addEventListener('click', function () { lb.close ? lb.close() : lb.removeAttribute('open'); });
+      lb.addEventListener('click', function (e) { if (e.target === lb) lb.close(); });
+      lb.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight') show(cur + 1);
+        if (e.key === 'ArrowLeft') show(cur - 1);
+      });
+
+      if (RM || !('IntersectionObserver' in window)) return;
+      root.classList.add('dn-ga--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .15) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('dn-ga--anim', 'is-in'); }, 1400);
+        }
+      }, { threshold: [0, .15, .3] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-neon',
+      style_name: 'Dulce Neón Mosaico',
+      descripcion: 'Galería en mosaico con marcos de neón rosa, cian y amarillo; cada foto se abre desde una rendija central con destello de luz y se amplía en un visor propio con navegación.',
+      tags: ['galeria', 'neon', 'fotos', 'lightbox', 'quinceañera'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

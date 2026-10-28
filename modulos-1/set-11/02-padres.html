@@ -1,0 +1,196 @@
+<section
+  class="su-padres"
+  data-gemini-id="padres-padre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .su-padres {
+      --primary-color: #17171a;
+      --secondary-color: #75757c;
+      --accent-color: #d43d2a;
+      --bg-color: #f2f2ef;
+      --surface-color: #fbfbf9;
+      --surface-border-color: rgba(23, 23, 26, 0.16);
+      --text-color: #17171a;
+
+      background-image: url('https://loremflickr.com/1600/900/paper,architecture');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .su-padres *,
+    .su-padres *::before,
+    .su-padres *::after { box-sizing: border-box; }
+
+    .su-padres__cabecera {
+      width: min(100%, 900px);
+      margin: 0 auto clamp(1.8rem, 4vw, 2.6rem);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 0.8rem;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .su-padres__titulo {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      color: var(--primary-color);
+    }
+    .su-padres__folio {
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.1vw, 0.7rem);
+      letter-spacing: 0.28em;
+      color: var(--secondary-color);
+    }
+
+    .su-padres__tabla {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      width: min(100%, 900px);
+      margin: 0 auto;
+      border: 1px solid var(--surface-border-color);
+    }
+
+    .su-padres__celda {
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 1rem;
+      padding: clamp(1.4rem, 3.4vw, 2.2rem);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .su-padres.su-js .su-padres__celda { opacity: 0; transform: translateY(18px); }
+    .su-padres .su-padres__celda.esta-visto { opacity: 1; transform: none; }
+    .su-padres__celda:first-child { border-right: 1px solid var(--surface-border-color); }
+
+    .su-padres__foto {
+      position: relative;
+      margin: 0;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      outline: 1px solid var(--surface-border-color);
+    }
+    .su-padres__foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.06);
+    }
+    .su-padres__num {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 0.25rem 0.6rem;
+      background: var(--primary-color);
+      color: var(--bg-color);
+      font-family: 'Courier New', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+    }
+
+    .su-padres__rol {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.58rem, 1.05vw, 0.66rem);
+      letter-spacing: 0.36em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .su-padres__nombres {
+      margin: 0;
+      align-self: end;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1rem, 2vw, 1.28rem);
+      line-height: 1.35;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 700px) {
+      .su-padres__tabla { grid-template-columns: 1fr; }
+      .su-padres__celda:first-child { border-right: 0; border-bottom: 1px solid var(--surface-border-color); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .su-padres * { transition: none !important; }
+      .su-padres__celda { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header class="su-padres__cabecera" memory_type="text" memory_usage="custom" memory_key="padres-intro">
+    <h2 class="su-padres__titulo" memory_type="text" memory_usage="custom" memory_key="padres-titulo">Fig. 01 — Familias</h2>
+    <span class="su-padres__folio" memory_type="text" memory_usage="custom" memory_key="padres-folio">CAT. A/B</span>
+  </header>
+
+  <div class="su-padres__tabla">
+    <article class="su-padres__celda" data-su-celda>
+      <figure class="su-padres__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-uno">
+        <span class="su-padres__num" aria-hidden="true">A</span>
+        <img src="https://loremflickr.com/480/360/family,mono" alt="Retrato de la familia de la novia" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" />
+        <figcaption hidden>Familia A</figcaption>
+      </figure>
+      <p class="su-padres__rol" memory_type="text" memory_usage="custom" memory_key="padres-rol-uno">Familia de la novia</p>
+      <h3 class="su-padres__nombres" memory_type="text" memory_usage="custom" memory_key="padres-bloque-uno">Nombre Papá y Nombre Mamá</h3>
+    </article>
+
+    <article class="su-padres__celda" data-su-celda>
+      <figure class="su-padres__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="padres-retrato-dos">
+        <span class="su-padres__num" aria-hidden="true">B</span>
+        <img src="https://loremflickr.com/480/360/parents,portrait" alt="Retrato de la familia del novio" path="placeholder" data-library-category="bodas" data-asset-type="retrato-familia" loading="lazy" />
+        <figcaption hidden>Familia B</figcaption>
+      </figure>
+      <p class="su-padres__rol" memory_type="text" memory_usage="custom" memory_key="padres-rol-dos">Familia del novio</p>
+      <h3 class="su-padres__nombres" memory_type="text" memory_usage="custom" memory_key="padres-bloque-dos">Nombre Papá y Nombre Mamá</h3>
+    </article>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.su-padres');
+      if (!root) return;
+      root.classList.add('su-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var celdas = Array.prototype.slice.call(root.querySelectorAll('[data-su-celda]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        celdas.forEach(function (c) { c.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = celdas.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.15).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      celdas.forEach(function (c) { io.observe(c); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'padres',
+      module_name: 'padres-padre',
+      style_name: 'Suizo Tipográfico — Padres',
+      descripcion: 'Tabla de dos celdas con fotos en blanco y negro rotuladas A/B, reglas divisorias y nombres en bold al pie de cada figura.',
+      tags: ['padres', 'familias', 'suizo', 'tabla', 'blanco y negro', 'fig'],
+      tipo: 'padres'
+    };
+  </script>
+</section>

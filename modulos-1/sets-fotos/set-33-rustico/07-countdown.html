@@ -1,0 +1,271 @@
+<section
+  class="rr-cd"
+  data-gemini-id="countdown-rustico"
+  data-countdown-target="2027-05-15T17:00:00"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Allura&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .rr-cd, .rr-cd *, .rr-cd *::before, .rr-cd *::after { box-sizing: border-box; }
+    .rr-cd {
+      --t-bg: var(--bg-color, #F3EDE1);
+      --t-tx: var(--text-color, #3A2B1F);
+      --t-p: var(--primary-color, #8B9E7C);
+      --t-s: var(--secondary-color, #9A7350);
+      --t-a: var(--accent-color, #EDBC68);
+      --t-display: var(--font-script, 'Allura', cursive);
+      --t-text: var(--font-heading, 'EB Garamond', Georgia, serif);
+      --t-wood: color-mix(in srgb, var(--t-s) 82%, #2b1c11);
+      --t-wood-d: color-mix(in srgb, var(--t-s) 34%, #170f09);
+      --t-sage-d: color-mix(in srgb, var(--t-p) 58%, #1d261a);
+      --t-sage-l: color-mix(in srgb, var(--t-p) 55%, var(--t-bg));
+      --t-ivory: color-mix(in srgb, var(--t-bg) 70%, #ffffff);
+      --t-twine: color-mix(in srgb, var(--t-s) 50%, #dcc7a4);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 42rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(7.5rem, 11vw, 9rem) clamp(1.25rem, 5vw, 4rem) clamp(4.5rem, 8vw, 6rem);
+      overflow: hidden;
+      background-color: var(--t-wood-d);
+      background-image: url('https://loremflickr.com/1600/1000/string,lights,night?lock=3071');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-bg);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .rr-cd::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 55% 45% at 50% 62%, color-mix(in srgb, var(--t-a) 14%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-wood-d) 86%, transparent), color-mix(in srgb, var(--t-wood-d) 95%, transparent));
+    }
+    .rr-cd__lights { position: absolute; left: 0; top: 0; width: 100%; height: var(--lights-h, 8rem); z-index: 0; pointer-events: none; overflow: visible; }
+    .rr-cd__wire { fill: none; stroke: color-mix(in srgb, var(--t-wood-d) 75%, #000000); stroke-width: 1.3; opacity: .9; }
+    .rr-cd__halo { mix-blend-mode: screen; }
+    .rr-cd__cap { fill: color-mix(in srgb, var(--t-s) 35%, #2f261e); }
+    .rr-cd__bulb { fill: color-mix(in srgb, var(--t-a) 35%, #fffaf0); }
+    .rr-cd__grain { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mix-blend-mode: multiply; opacity: .55; will-change: transform; }
+    .rr-cd__grain { opacity: .45; }
+    .rr-cd__lights { --lights-h: 9rem; }
+    .rr-cd__wrap { position: relative; width: min(100%, 62rem); }
+    .rr-cd__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(3rem, 7.5vw, 4.8rem); line-height: 1.05; color: var(--t-sage-l); }
+    .rr-cd__intro { margin: .4rem 0 .3rem; font-style: italic; font-size: clamp(1.08rem, 2.4vw, 1.25rem); color: color-mix(in srgb, var(--t-bg) 82%, transparent); }
+    .rr-cd__date { display: inline-block; font-size: 1.15rem; font-weight: 500; color: var(--t-a); }
+
+    .rr-cd__rounds { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: clamp(1.4rem, 4vw, 3.2rem); margin-top: clamp(2.6rem, 6vw, 4rem); }
+    .rr-cd__round { --sz: clamp(7.4rem, 15vw, 9.8rem); position: relative; width: var(--sz); aspect-ratio: 1; display: grid; place-items: center; }
+    .rr-cd__round--big { --sz: clamp(9rem, 20vw, 13rem); }
+    .rr-cd__round:nth-child(2) { transform: translateY(1.3rem); }
+    .rr-cd__round:nth-child(3) { transform: translateY(-.7rem); }
+    .rr-cd__round:nth-child(4) { transform: translateY(1.7rem); }
+    .rr-cd__ring { position: absolute; inset: -16%; width: 132%; height: 132%; overflow: visible; pointer-events: none; }
+    .rr-cd__halo { transition: opacity .3s ease; }
+    .rr-cd__ring [data-off] .rr-cd__halo { opacity: 0; }
+    .rr-cd__ring [data-off] .rr-cd__bulb { fill: color-mix(in srgb, var(--t-bg) 30%, transparent); }
+    .rr-cd__slice {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-content: center;
+      gap: .1rem;
+      border-radius: 50% 48% 51% 49%;
+      color: var(--t-wood-d);
+      background:
+        radial-gradient(circle at 46% 52%, color-mix(in srgb, var(--t-s) 45%, #caa57a) 0 4%, transparent 5%),
+        radial-gradient(ellipse at 35% 30%, rgba(255, 245, 225, .35), transparent 55%),
+        repeating-radial-gradient(circle at 46% 52%, color-mix(in srgb, var(--t-s) 26%, #f2e1c4) 0 5px, color-mix(in srgb, var(--t-s) 48%, #d9bb92) 5px 6.5px, color-mix(in srgb, var(--t-s) 32%, #ebd5b2) 6.5px 11px, color-mix(in srgb, var(--t-s) 58%, #c9a479) 11px 12.2px);
+      box-shadow:
+        inset 0 0 0 .45rem color-mix(in srgb, var(--t-s) 55%, #2a1a0f),
+        inset 0 0 0 .7rem color-mix(in srgb, var(--t-s) 75%, #6b4a30),
+        inset 0 0 1.4rem .9rem rgba(80, 50, 25, .3),
+        0 1.4rem 2.4rem rgba(0, 0, 0, .55);
+    }
+    .rr-cd__slice::after { content: ''; position: absolute; left: 50%; top: 54%; width: 38%; height: 2px; background: rgba(70, 40, 18, .3); transform-origin: 0 50%; transform: rotate(28deg); border-radius: 2px; }
+    .rr-cd__num { position: relative; z-index: 1; font-size: calc(var(--sz) * .33); font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; text-shadow: 0 1px 0 rgba(255, 255, 255, .45); }
+    .rr-cd__unit { position: relative; z-index: 1; font-style: italic; font-size: calc(var(--sz) * .1 + .3rem); }
+    .rr-cd__num[data-tick] { animation: rr-cd-tick .35s cubic-bezier(.3, 1.5, .5, 1); }
+    @keyframes rr-cd-tick { from { transform: translateY(-.35em); opacity: .2; } to { transform: none; opacity: 1; } }
+
+    @media (max-width: 34rem) {
+      .rr-cd__rounds { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); justify-items: center; gap: 2.4rem 1rem; }
+      .rr-cd__round, .rr-cd__round--big { --sz: clamp(7rem, 36vw, 8.6rem); }
+      .rr-cd__round:nth-child(n) { transform: none; }
+      .rr-cd__round:nth-child(even) { transform: translateY(1.2rem); }
+    }
+
+    /* Entrance: tree-ring slices roll in like coins */
+    .rr-cd--anim .rr-cd__slice { transition: opacity .4s ease, transform .5s cubic-bezier(.3, 1.3, .5, 1); }
+    .rr-cd--anim .rr-cd__round:not([data-in]) .rr-cd__slice { opacity: 0; transform: rotate(-140deg) scale(.6); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .rr-cd *, .rr-cd *::before, .rr-cd *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="rr-cd__grain" aria-hidden="true" focusable="false"><filter id="rr-cd-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.0035 0.075" numOctaves="4" seed="33"></feTurbulence><feColorMatrix type="matrix" values="0 0 0 0 0.17  0 0 0 0 0.10  0 0 0 0 0.05  2.6 0 0 0 -1.05"></feColorMatrix></filter><rect width="100%" height="100%" filter="url(#rr-cd-grain)"></rect></svg>
+  <svg class="rr-cd__lights" aria-hidden="true" focusable="false" data-rr-lights><defs><radialGradient id="rr-cd-sglow"><stop offset="0" style="stop-color: var(--t-a); stop-opacity: 1"></stop><stop offset=".28" style="stop-color: var(--t-a); stop-opacity: .55"></stop><stop offset="1" style="stop-color: var(--t-a); stop-opacity: 0"></stop></radialGradient></defs><g data-rr-g></g></svg>
+  <div class="rr-cd__wrap">
+    <h2 class="rr-cd__title" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Contando los días</h2>
+    <p class="rr-cd__intro" memory_type="text" memory_usage="custom" memory_key="countdown-texto">para decir «sí, acepto» bajo un cielo de luces</p>
+    <time class="rr-cd__date" datetime="2027-05-15T17:00" memory_type="text" memory_usage="custom" memory_key="countdown-fecha" data-event-field="fecha-evento">15 de mayo de 2027</time>
+    <div class="rr-cd__rounds">
+      
+      <div class="rr-cd__round rr-cd__round--big" data-rr-round="days">
+        <svg class="rr-cd__ring" viewBox="-66 -66 132 132" aria-hidden="true" focusable="false"><defs><radialGradient id="rr-cd-glow"><stop offset="0" style="stop-color: var(--t-a); stop-opacity: 1"></stop><stop offset=".3" style="stop-color: var(--t-a); stop-opacity: .5"></stop><stop offset="1" style="stop-color: var(--t-a); stop-opacity: 0"></stop></radialGradient></defs><circle cx="0" cy="0" r="56" style="fill: none; stroke: rgba(20,13,8,.65); stroke-width: .8"></circle><g data-rr-b><circle cx="0.00" cy="-56.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="0.00" cy="-56.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="28.00" cy="-48.50" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="28.00" cy="-48.50" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="48.50" cy="-28.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="48.50" cy="-28.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="56.00" cy="0.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="56.00" cy="0.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="48.50" cy="28.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="48.50" cy="28.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="28.00" cy="48.50" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="28.00" cy="48.50" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="0.00" cy="56.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="0.00" cy="56.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="-28.00" cy="48.50" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="-28.00" cy="48.50" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="-48.50" cy="28.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="-48.50" cy="28.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="-56.00" cy="0.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="-56.00" cy="0.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="-48.50" cy="-28.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="-48.50" cy="-28.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="-28.00" cy="-48.50" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="-28.00" cy="-48.50" r="2" class="rr-cd__bulb"></circle></g></svg>
+        <div class="rr-cd__slice">
+          <span class="rr-cd__num" data-countdown-unit="days">206</span>
+          <span class="rr-cd__unit" memory_type="text" memory_usage="custom" memory_key="countdown-dias">días</span>
+        </div>
+      </div>
+      
+      <div class="rr-cd__round" data-rr-round="hours">
+        <svg class="rr-cd__ring" viewBox="-66 -66 132 132" aria-hidden="true" focusable="false"><circle cx="0" cy="0" r="56" style="fill: none; stroke: rgba(20,13,8,.65); stroke-width: .8"></circle><g data-rr-b><circle cx="0.00" cy="-56.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="0.00" cy="-56.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="28.00" cy="-48.50" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="28.00" cy="-48.50" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="48.50" cy="-28.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="48.50" cy="-28.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="56.00" cy="0.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="56.00" cy="0.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="48.50" cy="28.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="48.50" cy="28.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="28.00" cy="48.50" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="28.00" cy="48.50" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="0.00" cy="56.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="0.00" cy="56.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="-28.00" cy="48.50" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="-28.00" cy="48.50" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="-48.50" cy="28.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="-48.50" cy="28.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="-56.00" cy="0.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="-56.00" cy="0.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="-48.50" cy="-28.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="-48.50" cy="-28.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="-28.00" cy="-48.50" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="-28.00" cy="-48.50" r="2" class="rr-cd__bulb"></circle></g></svg>
+        <div class="rr-cd__slice">
+          <span class="rr-cd__num" data-countdown-unit="hours">21</span>
+          <span class="rr-cd__unit" memory_type="text" memory_usage="custom" memory_key="countdown-horas">horas</span>
+        </div>
+      </div>
+      
+      <div class="rr-cd__round" data-rr-round="minutes">
+        <svg class="rr-cd__ring" viewBox="-66 -66 132 132" aria-hidden="true" focusable="false"><circle cx="0" cy="0" r="56" style="fill: none; stroke: rgba(20,13,8,.65); stroke-width: .8"></circle><g data-rr-b><circle cx="0.00" cy="-56.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="0.00" cy="-56.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="28.00" cy="-48.50" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="28.00" cy="-48.50" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="48.50" cy="-28.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="48.50" cy="-28.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="56.00" cy="0.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="56.00" cy="0.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="48.50" cy="28.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="48.50" cy="28.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="28.00" cy="48.50" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="28.00" cy="48.50" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="0.00" cy="56.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="0.00" cy="56.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="-28.00" cy="48.50" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="-28.00" cy="48.50" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="-48.50" cy="28.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="-48.50" cy="28.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="-56.00" cy="0.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="-56.00" cy="0.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="-48.50" cy="-28.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="-48.50" cy="-28.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="-28.00" cy="-48.50" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="-28.00" cy="-48.50" r="2" class="rr-cd__bulb"></circle></g></svg>
+        <div class="rr-cd__slice">
+          <span class="rr-cd__num" data-countdown-unit="minutes">24</span>
+          <span class="rr-cd__unit" memory_type="text" memory_usage="custom" memory_key="countdown-minutos">minutos</span>
+        </div>
+      </div>
+      
+      <div class="rr-cd__round" data-rr-round="seconds">
+        <svg class="rr-cd__ring" viewBox="-66 -66 132 132" aria-hidden="true" focusable="false"><circle cx="0" cy="0" r="56" style="fill: none; stroke: rgba(20,13,8,.65); stroke-width: .8"></circle><g data-rr-b><circle cx="0.00" cy="-56.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="0.00" cy="-56.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="28.00" cy="-48.50" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="28.00" cy="-48.50" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="48.50" cy="-28.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="48.50" cy="-28.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="56.00" cy="0.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="56.00" cy="0.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="48.50" cy="28.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="48.50" cy="28.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="28.00" cy="48.50" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="28.00" cy="48.50" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="0.00" cy="56.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="0.00" cy="56.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="-28.00" cy="48.50" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="-28.00" cy="48.50" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="-48.50" cy="28.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="-48.50" cy="28.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="-56.00" cy="0.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="-56.00" cy="0.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="-48.50" cy="-28.00" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="-48.50" cy="-28.00" r="2" class="rr-cd__bulb"></circle></g><g data-rr-b><circle cx="-28.00" cy="-48.50" r="8" fill="url(#rr-cd-glow)" class="rr-cd__halo" data-rr-h></circle><circle cx="-28.00" cy="-48.50" r="2" class="rr-cd__bulb"></circle></g></svg>
+        <div class="rr-cd__slice">
+          <span class="rr-cd__num" data-countdown-unit="seconds">30</span>
+          <span class="rr-cd__unit" memory_type="text" memory_usage="custom" memory_key="countdown-segundos">segundos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="countdown-rustico"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var HAS_IO = 'IntersectionObserver' in window;
+
+      function rrLights(svg, o) {
+        var NS = 'http://www.w3.org/2000/svg', g = svg.querySelector('[data-rr-g]'), bulbs = [], lastW = 0;
+        function mk(tag, at) { var e = document.createElementNS(NS, tag); for (var k in at) e.setAttribute(k, at[k]); g.appendChild(e); return e; }
+        function build() {
+          var r = svg.getBoundingClientRect(), w = Math.round(r.width), h = Math.round(r.height);
+          if (!w || !h || w === lastW) return;
+          lastW = w;
+          svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+          while (g.firstChild) g.removeChild(g.firstChild);
+          bulbs = [];
+          o.strands.forEach(function (s) {
+            var spans = Math.max(1, Math.round(w / (s.span || 460))), sw = w / spans, off = (s.off || 0) * sw;
+            for (var k = -1; k <= spans; k++) {
+              var x0 = k * sw + off, x1 = x0 + sw, y0 = s.y * h;
+              if (x1 < -10 || x0 > w + 10) continue;
+              var p = mk('path', { d: 'M' + x0 + ',' + y0 + ' Q' + (x0 + x1) / 2 + ',' + (y0 + 2 * s.sag * h) + ' ' + x1 + ',' + y0, 'class': o.cls + '__wire' });
+              var len = p.getTotalLength(), n = Math.max(2, Math.round(len / (s.gap || 46)));
+              for (var i = 1; i < n; i++) {
+                var pt = p.getPointAtLength(len * i / n);
+                if (pt.x < -20 || pt.x > w + 20) continue;
+                var hl = mk('circle', { cx: pt.x, cy: pt.y + 6, r: s.halo || 14, fill: 'url(#' + o.glow + ')', 'class': o.cls + '__halo' });
+                mk('rect', { x: pt.x - 1.7, y: pt.y - 1, width: 3.4, height: 4.2, rx: .8, 'class': o.cls + '__cap' });
+                mk('circle', { cx: pt.x, cy: pt.y + 6, r: s.bulb || 2.8, 'class': o.cls + '__bulb' });
+                bulbs.push({ el: hl, ph: Math.random() * 6.283, sp: .5 + Math.random() * 1.6 });
+              }
+            }
+          });
+        }
+        build();
+        if ('ResizeObserver' in window) new ResizeObserver(function () { build(); }).observe(svg);
+        return { tick: function (t) {
+          for (var i = 0; i < bulbs.length; i++) { var b = bulbs[i], v = Math.sin(t * .001 * b.sp + b.ph) * .5 + .5; b.el.style.opacity = (.42 + .58 * v * v).toFixed(3); }
+        } };
+      }
+      function rrLoop(el, fn) {
+        var raf = 0, vis = false;
+        function f(t) { fn(t); raf = requestAnimationFrame(f); }
+        function upd() { var on = vis && !document.hidden; if (on && !raf) raf = requestAnimationFrame(f); if (!on && raf) { cancelAnimationFrame(raf); raf = 0; } }
+        new IntersectionObserver(function (e) { vis = e[0].isIntersecting; upd(); }).observe(el);
+        document.addEventListener('visibilitychange', upd);
+      }
+      var target = new Date(root.getAttribute('data-countdown-target')).getTime();
+      var U = {};
+      ['days', 'hours', 'minutes', 'seconds'].forEach(function (u) { U[u] = root.querySelector('[data-countdown-unit="' + u + '"]'); });
+      var secBulbs = [].slice.call(root.querySelectorAll('[data-rr-round="seconds"] [data-rr-b]'));
+
+      function pad(n, l) { n = String(n); while (n.length < l) n = '0' + n; return n; }
+      function set(u, v) {
+        var el = U[u]; if (!el || el.textContent === v) return;
+        el.textContent = v;
+        if (!RM) { el.removeAttribute('data-tick'); void el.offsetWidth; el.setAttribute('data-tick', ''); }
+      }
+      function update() {
+        var diff = Math.max(0, target - Date.now());
+        var d = Math.floor(diff / 86400000), h = Math.floor(diff / 3600000) % 24, m = Math.floor(diff / 60000) % 60, s = Math.floor(diff / 1000) % 60;
+        set('days', pad(d, 2)); set('hours', pad(h, 2)); set('minutes', pad(m, 2)); set('seconds', pad(s, 2));
+        /* seconds ring: one bulb per 5 seconds */
+        var on = diff ? Math.floor(s / 5) + 1 : 12;
+        secBulbs.forEach(function (b, i) { if (i < on) b.removeAttribute('data-off'); else b.setAttribute('data-off', ''); });
+      }
+      window.updateCountdown = update;
+      if (Array.isArray(window.__countdownIntervals)) window.__countdownIntervals.forEach(function (id) { clearInterval(id); });
+      window.__countdownIntervals = [];
+      update();
+      window.__countdownIntervals.push(setInterval(update, 1000));
+
+      var L = rrLights(root.querySelector('[data-rr-lights]'), { cls: 'rr-cd', glow: 'rr-cd-sglow', strands: [{ y: .05, sag: .2, span: 400, gap: 42 }, { y: .14, sag: .14, span: 560, gap: 50, off: .45, halo: 11, bulb: 2.3 }] });
+      if (RM || !HAS_IO) return;   /* reduced motion: static numbers update, no twinkle */
+
+      var halos = [].slice.call(root.querySelectorAll('[data-rr-h]')).map(function (h) { return { el: h, ph: Math.random() * 6.28, sp: .6 + Math.random() * 1.4, sec: !!h.closest('[data-rr-round="seconds"]') }; });
+      rrLoop(root, function (t) {
+        L.tick(t);
+        for (var i = 0; i < halos.length; i++) {
+          var o = halos[i];
+          if (o.sec && o.el.parentNode.hasAttribute('data-off')) { o.el.style.opacity = ''; continue; }
+          var v = Math.sin(t * .001 * o.sp + o.ph) * .5 + .5;
+          o.el.style.opacity = (.5 + .5 * v).toFixed(3);
+        }
+      });
+
+      var rounds = [].slice.call(root.querySelectorAll('[data-rr-round]'));
+      root.classList.add('rr-cd--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          rounds.forEach(function (r, i) { setTimeout(function () { r.setAttribute('data-in', ''); }, 150 + i * 140); });
+          setTimeout(function () { root.classList.remove('rr-cd--anim'); rounds.forEach(function (r) { r.removeAttribute('data-in'); }); }, 150 + rounds.length * 140 + 700);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+
+    })();
+  </script>
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-rustico',
+      style_name: 'Romance Rústico Countdown',
+      descripcion: 'Cuenta regresiva rústica: días, horas, minutos y segundos tallados en rodajas de tronco, cada una rodeada por un anillo de focos; el de segundos se enciende paso a paso.',
+      tags: ['countdown', 'boda', 'rustico', 'madera', 'luces'],
+      tipo: 'countdown'
+    };
+  </script>
+</section>

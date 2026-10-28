@@ -1,0 +1,261 @@
+<section
+  class="au-re"
+  data-gemini-id="regalos-aurum"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Jost:wght@300;400;500&display=swap');
+
+    .au-re, .au-re *, .au-re *::before, .au-re *::after { box-sizing: border-box; }
+    .au-re {
+      --t-bg: var(--bg-color, #0b0a0d);
+      --t-tx: var(--text-color, #f3eee4);
+      --t-p: var(--primary-color, #d2aa58);
+      --t-s: var(--secondary-color, #7a5c2a);
+      --t-a: var(--accent-color, #f2e3b4);
+      --t-display: var(--font-script, 'Cormorant Garamond', 'Times New Roman', serif);
+      --t-text: var(--font-heading, 'Jost', 'Helvetica Neue', Arial, sans-serif);
+      --au-line: color-mix(in srgb, var(--t-p) 45%, transparent);
+      --au-sheen: 0%;
+      --au-rot: 0deg;
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 75vw, 48rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1.25rem, 6vw, 5rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/gift,gold,ribbon?lock=3522');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .au-re::before {
+      content: '';
+      position: absolute; inset: 0; z-index: -1;
+      background:
+        radial-gradient(ellipse 50% 60% at 80% 40%, color-mix(in srgb, var(--t-s) 22%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 88%, transparent), color-mix(in srgb, var(--t-bg) 94%, transparent));
+    }
+    .au-re__wrap { width: min(100%, 66rem); display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+
+    .au-re__intro { display: grid; gap: .9rem; justify-items: start; }
+    .au-re__kicker { margin: 0; font-family: var(--t-display); font-style: italic; font-size: clamp(1.1rem, 2.4vw, 1.45rem); color: var(--t-a); }
+    .au-re__title { margin: 0; font-family: var(--t-display); font-weight: 500; font-style: italic; font-size: clamp(2.8rem, 7vw, 4.8rem); line-height: .95; letter-spacing: -.01em; }
+    .au-re__text { margin: .3rem 0 0; max-width: 30rem; font-weight: 300; font-size: clamp(1rem, 2vw, 1.1rem); line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 72%, transparent); }
+    .au-re__btn {
+      position: relative; margin-top: .8rem; cursor: pointer; overflow: hidden;
+      display: inline-flex; align-items: center; justify-content: center; gap: .7rem;
+      min-height: 3.3rem; padding: 1rem 2.2rem;
+      font-family: var(--t-text); font-weight: 500; font-size: .98rem; letter-spacing: .06em;
+      color: var(--t-bg);
+      background: linear-gradient(100deg, var(--t-s), var(--t-p) 35%, var(--t-a) 50%, var(--t-p) 65%, var(--t-s));
+      background-size: 220% 100%; background-position: var(--au-sheen) 50%;
+      border: 0; border-radius: 999px;
+      box-shadow: 0 16px 36px -14px color-mix(in srgb, var(--t-p) 70%, transparent);
+      transition: transform .3s cubic-bezier(.2, .8, .2, 1), box-shadow .3s ease;
+    }
+    .au-re__btn:hover { transform: translateY(-2px); box-shadow: 0 20px 40px -12px color-mix(in srgb, var(--t-p) 85%, transparent); }
+    .au-re__btn:active { transform: scale(.97); }
+    .au-re__btn > span { transition: transform .3s cubic-bezier(.2, .8, .2, 1); }
+    .au-re__ico { width: 1.1rem; height: 1.1rem; flex: none; transition: transform .3s cubic-bezier(.2, .8, .2, 1); }
+    .au-re__spin { display: block; position: absolute; left: 50%; top: 50%; width: 1.35rem; height: 1.35rem; margin: -.675rem 0 0 -.675rem; transform: scale(0); transition: transform .3s cubic-bezier(.2, .8, .2, 1); }
+    .au-re__spin::before { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 2px solid color-mix(in srgb, var(--t-bg) 30%, transparent); border-top-color: var(--t-bg); transform: rotate(var(--au-rot)); }
+    .au-re__check { position: absolute; left: 50%; top: 50%; width: 1.5rem; height: 1.5rem; margin: -.75rem 0 0 -.75rem; }
+    .au-re__check path { fill: none; stroke: var(--t-bg); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 30; stroke-dashoffset: 30; transition: stroke-dashoffset .45s cubic-bezier(.2, .8, .2, 1) .2s; }
+    .au-re[data-au-state] .au-re__btn { pointer-events: none; }
+    .au-re[data-au-state] .au-re__btn > span, .au-re[data-au-state] .au-re__ico { transform: translateY(2.8rem); }
+    .au-re[data-au-state="loading"] .au-re__spin { transform: scale(1); transition-delay: .1s; }
+    .au-re[data-au-state="done"] .au-re__check path { stroke-dashoffset: 0; }
+    .au-re__thanks { display: none; margin: .4rem 0 0; padding-left: 1rem; border-left: 1px solid var(--au-line); font-family: var(--t-display); font-style: italic; font-size: 1.2rem; color: var(--t-a); }
+    .au-re[data-au-state="done"] .au-re__thanks { display: block; }
+
+    .au-re__opts { list-style: none; margin: 0; padding: 0; display: grid; gap: .9rem; }
+    .au-re__opt { position: relative; }
+    .au-re__opt input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+    .au-re__hit { position: absolute; inset: 0; cursor: pointer; z-index: 1; }
+    .au-re__ticket {
+      position: relative; display: grid; grid-template-columns: 3.6rem 1fr;
+      background: linear-gradient(160deg, color-mix(in srgb, var(--t-bg) 55%, transparent), color-mix(in srgb, var(--t-bg) 80%, transparent));
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-a) 14%, transparent), 0 30px 60px -36px #000;
+      transition: transform .45s cubic-bezier(.2, .8, .2, 1), box-shadow .45s ease;
+    }
+    .au-re__ticket:hover { transform: translateX(6px); }
+    .au-re__opt:has(input:checked) .au-re__ticket { box-shadow: inset 0 0 0 1px var(--t-p), 0 34px 60px -30px color-mix(in srgb, var(--t-p) 45%, transparent); transform: translateX(10px); }
+    .au-re__opt:has(input:focus-visible) .au-re__ticket { outline: 1px solid var(--t-a); outline-offset: 3px; }
+    .au-re__stub {
+      position: relative; display: grid; place-items: center;
+      background: linear-gradient(180deg, var(--t-s), var(--t-p) 50%, var(--t-s));
+      color: var(--t-bg);
+      -webkit-mask: radial-gradient(circle at 100% 50%, transparent .55rem, #000 .6rem);
+      mask: radial-gradient(circle at 100% 50%, transparent .55rem, #000 .6rem);
+    }
+    .au-re__stub::after { content: ''; position: absolute; right: 0; top: .6rem; bottom: .6rem; border-right: 1px dashed color-mix(in srgb, var(--t-bg) 45%, transparent); }
+    .au-re__stub svg { width: 1.4rem; height: 1.4rem; }
+    .au-re__body { padding: 1rem 1.2rem 1rem 1.3rem; display: grid; gap: .25rem; }
+    .au-re__name { margin: 0; font-family: var(--t-display); font-style: italic; font-weight: 600; font-size: 1.4rem; line-height: 1.1; color: var(--t-tx); }
+    .au-re__desc { margin: 0; font-weight: 300; font-size: .93rem; line-height: 1.5; color: color-mix(in srgb, var(--t-tx) 70%, transparent); }
+    .au-re__more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .45s cubic-bezier(.2, .8, .2, 1); }
+    .au-re__more > div { overflow: hidden; }
+    .au-re__opt:has(input:checked) .au-re__more { grid-template-rows: 1fr; }
+    .au-re__code { margin: .5rem 0 0; padding: .55rem .8rem; display: inline-block; font-family: var(--t-text); font-weight: 400; font-size: .9rem; letter-spacing: .06em; color: var(--t-a); background: color-mix(in srgb, var(--t-bg) 70%, transparent); border: 1px solid var(--au-line); }
+    .au-re__dot { position: absolute; right: 1rem; top: 1rem; width: .55rem; height: .55rem; transform: rotate(45deg) scale(0); background: var(--t-p); box-shadow: 0 0 10px var(--t-p); transition: transform .35s cubic-bezier(.2, .9, .3, 1.3); }
+    .au-re__opt:has(input:checked) .au-re__dot { transform: rotate(45deg) scale(1); }
+    .au-re__stamp {
+      position: absolute; right: 1.1rem; bottom: .9rem; z-index: 2; margin: 0; padding: .3rem .7rem;
+      font-family: var(--t-display); font-style: italic; font-weight: 600; font-size: 1.1rem; letter-spacing: .08em; color: var(--t-a);
+      border: 1.5px solid var(--t-a); border-radius: .2rem;
+      visibility: hidden; transform: rotate(-10deg) scale(2.2);
+      transition: transform .4s cubic-bezier(.2, .9, .3, 1.2), visibility 0s linear .4s;
+      box-shadow: 0 0 16px color-mix(in srgb, var(--t-p) 50%, transparent);
+      pointer-events: none;
+    }
+    .au-re[data-au-state="done"] .au-re__opt:has(input:checked) .au-re__stamp { visibility: visible; transform: rotate(-10deg) scale(1); transition: transform .4s cubic-bezier(.2, .9, .3, 1.2), visibility 0s; }
+
+    /* Entrance (only while JS adds .au-re--anim); each transition <= .5s */
+    .au-re--anim .au-re__intro > * { opacity: 0; transform: translateX(-26px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .au-re--anim .au-re__intro > :nth-child(2) { transition-delay: .08s; }
+    .au-re--anim .au-re__intro > :nth-child(3) { transition-delay: .16s; }
+    .au-re--anim .au-re__intro > :nth-child(4) { transition-delay: .24s; }
+    .au-re--anim .au-re__opt { opacity: 0; transform: translateX(40px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .au-re--anim .au-re__opt:nth-child(2) { transition-delay: .14s; }
+    .au-re--anim .au-re__opt:nth-child(3) { transition-delay: .28s; }
+    .au-re--anim.is-in .au-re__intro > *, .au-re--anim.is-in .au-re__opt { opacity: 1; transform: none; }
+
+    @media (max-width: 760px) {
+      .au-re__wrap { grid-template-columns: 1fr; }
+      .au-re__opts { order: -1; }
+      .au-re__btn { align-self: stretch; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .au-re *, .au-re *::before, .au-re *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="au-re__wrap">
+    <div class="au-re__intro">
+      <p class="au-re__kicker" memory_type="text" memory_usage="custom" memory_key="regalos-kicker">Un detalle con cariño</p>
+      <h2 class="au-re__title" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Mesa de regalos</h2>
+      <p class="au-re__text" memory_type="text" memory_usage="custom" memory_key="regalos-texto">Tu compañía es lo más importante. Si deseas tener un detalle, estas son las opciones que hemos preparado.</p>
+      <button type="button" class="au-re__btn" data-au-cta>
+        <svg class="au-re__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="1.5"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>
+        <span memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span>
+        <i class="au-re__spin" aria-hidden="true"></i>
+        <svg class="au-re__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"></path></svg>
+      </button>
+      <p class="au-re__thanks" role="status" memory_type="text" memory_usage="custom" memory_key="regalos-gracias">Tu regalo quedó agendado. ¡Mil gracias por tu cariño!</p>
+    </div>
+
+    <ul class="au-re__opts">
+      <li class="au-re__opt">
+        <input type="radio" id="au-re-o1" name="au-re-opcion" value="1" aria-labelledby="au-re-n1" checked />
+        <div class="au-re__ticket">
+          <span class="au-re__stub" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="1"></rect><path d="M3 12h18M12 8v13M12 8c-2-3-6-3-6-1s4 1 6 1zm0 0c2-3 6-3 6-1s-4 1-6 1z"></path></svg></span>
+          <div class="au-re__body">
+            <h3 class="au-re__name" id="au-re-n1" memory_type="text" memory_usage="custom" memory_key="regalos-1-titulo">Mesa de regalos</h3>
+            <p class="au-re__desc" memory_type="text" memory_usage="custom" memory_key="regalos-1-texto">Liverpool, en tienda o en línea.</p>
+            <div class="au-re__more"><div><p class="au-re__code" memory_type="text" memory_usage="custom" memory_key="regalos-1-codigo">Evento 51234567</p></div></div>
+          </div>
+          <i class="au-re__dot" aria-hidden="true"></i>
+          <span class="au-re__stamp" memory_type="text" memory_usage="custom" memory_key="regalos-1-sello">Agendado</span>
+          <label class="au-re__hit" for="au-re-o1"></label>
+        </div>
+      </li>
+      <li class="au-re__opt">
+        <input type="radio" id="au-re-o2" name="au-re-opcion" value="2" aria-labelledby="au-re-n2" />
+        <div class="au-re__ticket">
+          <span class="au-re__stub" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-6 9 6M5 10v9M19 10v9M9 10v9M15 10v9M3 19h18"></path></svg></span>
+          <div class="au-re__body">
+            <h3 class="au-re__name" id="au-re-n2" memory_type="text" memory_usage="custom" memory_key="regalos-2-titulo">Transferencia bancaria</h3>
+            <p class="au-re__desc" memory_type="text" memory_usage="custom" memory_key="regalos-2-texto">A nombre de Nombre Apellido.</p>
+            <div class="au-re__more"><div><p class="au-re__code" memory_type="text" memory_usage="custom" memory_key="regalos-2-codigo">CLABE 0123 4567 8901 2345 67</p></div></div>
+          </div>
+          <i class="au-re__dot" aria-hidden="true"></i>
+          <span class="au-re__stamp" memory_type="text" memory_usage="custom" memory_key="regalos-2-sello">Agendado</span>
+          <label class="au-re__hit" for="au-re-o2"></label>
+        </div>
+      </li>
+      <li class="au-re__opt">
+        <input type="radio" id="au-re-o3" name="au-re-opcion" value="3" aria-labelledby="au-re-n3" />
+        <div class="au-re__ticket">
+          <span class="au-re__stub" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="1.5"></rect><path d="M3 8l9 6 9-6"></path></svg></span>
+          <div class="au-re__body">
+            <h3 class="au-re__name" id="au-re-n3" memory_type="text" memory_usage="custom" memory_key="regalos-3-titulo">Sobre el día del evento</h3>
+            <p class="au-re__desc" memory_type="text" memory_usage="custom" memory_key="regalos-3-texto">Habrá un cofre dorado en la recepción.</p>
+            <div class="au-re__more"><div><p class="au-re__code" memory_type="text" memory_usage="custom" memory_key="regalos-3-codigo">Lluvia de sobres · 19:00 h</p></div></div>
+          </div>
+          <i class="au-re__dot" aria-hidden="true"></i>
+          <span class="au-re__stamp" memory_type="text" memory_usage="custom" memory_key="regalos-3-sello">Agendado</span>
+          <label class="au-re__hit" for="au-re-o3"></label>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="regalos-aurum"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      var btn = root.querySelector('[data-au-cta]');
+      if (btn) {
+        btn.addEventListener('click', function () {
+          if (root.getAttribute('data-au-state')) return;
+          root.setAttribute('data-au-state', 'loading');
+          setTimeout(function () { root.setAttribute('data-au-state', 'done'); }, RM ? 0 : 1300);
+        });
+      }
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+      root.classList.add('au-re--anim');
+
+      /* rAF: sheen on the gold button + spinner rotation; paused off-screen */
+      var sheen = 0, rot = 0, last = 0, running = false, visible = false;
+      function frame(now) {
+        if (!running) return;
+        var dt = Math.min(.05, (now - last) / 1000 || .016); last = now;
+        sheen = (sheen + dt * 22) % 100;
+        root.style.setProperty('--au-sheen', sheen.toFixed(1) + '%');
+        if (root.getAttribute('data-au-state') === 'loading') { rot = (rot + dt * 420) % 360; root.style.setProperty('--au-rot', rot.toFixed(0) + 'deg'); }
+        requestAnimationFrame(frame);
+      }
+      function run() { if (running || !visible || document.hidden) return; running = true; last = performance.now(); requestAnimationFrame(frame); }
+      function stop() { running = false; }
+
+      var entered = false;
+      var io = new IntersectionObserver(function (en) {
+        var e = en[0]; visible = e.isIntersecting;
+        if (visible) {
+          if (!entered && e.intersectionRatio > .2) {
+            entered = true; root.classList.add('is-in');
+            setTimeout(function () { root.classList.remove('au-re--anim', 'is-in'); }, 1500);
+          }
+          run();
+        } else { stop(); }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+      document.addEventListener('visibilitychange', function () { if (document.hidden) stop(); else run(); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-aurum',
+      style_name: 'Aurum Obsidiana Lujo',
+      descripcion: 'Regalos como boletos troquelados con talón de oro: al elegir una opción se despliega su código, y el botón Agendar regalo pasa por carga, dibuja una palomita y estampa un sello dorado sobre el boleto elegido.',
+      tags: ['regalos', 'mesa de regalos', 'lujo', 'oro', 'boleto', 'premium', 'quinceañera', 'boda'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>

@@ -1,0 +1,380 @@
+<section
+  class="ck-iti"
+  data-gemini-id="itinerario-agenda"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap');
+
+    .ck-iti, .ck-iti *, .ck-iti *::before, .ck-iti *::after { box-sizing: border-box; }
+    .ck-iti {
+      --t-bg: var(--bg-color, #FAF5F0);
+      --t-tx: var(--text-color, #5A4640);
+      --t-p: var(--primary-color, #E7B3BD);
+      --t-s: var(--secondary-color, #8E6E60);
+      --t-a: var(--accent-color, #AEB3BC);
+      --t-display: var(--font-script, 'Shippori Mincho', 'Times New Roman', serif);
+      --t-text: var(--font-heading, 'Zen Kaku Gothic New', 'Helvetica Neue', sans-serif);
+      --ck-ink: color-mix(in srgb, var(--t-tx) 88%, var(--t-p));
+      --ck-blush-ink: color-mix(in srgb, var(--t-p) 58%, var(--t-s));
+      --ck-axis: 50%;
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      padding: clamp(4.5rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/spring,blossom?lock=3204');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+      font-weight: 300;
+    }
+    .ck-iti::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 86%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent));
+    }
+    .ck-iti__paper { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: .5; mix-blend-mode: multiply; }
+    .ck-iti__boughs { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; display: block; }
+    .ck-iti__inner { position: relative; z-index: 1; width: min(100%, 56rem); margin: 0 auto; }
+    .ck-iti__head { text-align: center; margin: 0 auto clamp(3rem, 6vw, 4.5rem); max-width: 32rem; }
+    .ck-iti__title { margin: 0; font-family: var(--t-display); font-weight: 500; font-size: clamp(2rem, 4.6vw, 3.1rem); color: var(--ck-ink); }
+    .ck-iti__lead { margin: .9rem 0 0; line-height: 1.8; color: color-mix(in srgb, var(--t-tx) 80%, transparent); }
+
+    .ck-iti__track { position: relative; }
+    .ck-iti__branch { position: absolute; top: 0; bottom: 0; left: var(--ck-axis); width: 40px; height: 100%; transform: translateX(-50%); overflow: visible; }
+    .ck-iti__branch path { fill: none; vector-effect: non-scaling-stroke; stroke-linecap: round; }
+    .ck-iti__base { stroke: color-mix(in srgb, var(--t-a) 70%, transparent); stroke-width: 1; stroke-dasharray: 2 5; }
+    .ck-iti__grow { stroke: var(--t-s); stroke-width: 2.6; }
+
+    .ck-iti__list { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(2.6rem, 6vw, 4rem); }
+    .ck-iti__item { position: relative; display: grid; grid-template-columns: 1fr 4.5rem 1fr; align-items: center; }
+    .ck-iti__node { grid-column: 2; grid-row: 1; justify-self: center; position: relative; width: 3.2rem; height: 3.2rem; display: grid; place-items: center; border-radius: 50%; background: color-mix(in srgb, var(--t-bg) 85%, #ffffff); box-shadow: 0 0 0 1px color-mix(in srgb, var(--t-a) 70%, transparent), 0 8px 16px -10px color-mix(in srgb, var(--t-s) 70%, transparent); }
+    .ck-iti__bl { width: 2.2rem; height: 2.2rem; transition: transform .5s cubic-bezier(.3, 1.4, .5, 1); }
+    .ck-iti__body { grid-row: 1; max-width: 21rem; transition: opacity .45s ease, transform .45s ease; }
+    .ck-iti__item:nth-child(odd) .ck-iti__body { grid-column: 1; justify-self: end; text-align: right; }
+    .ck-iti__item:nth-child(even) .ck-iti__body { grid-column: 3; justify-self: start; }
+    .ck-iti__time { display: block; font-family: var(--t-display); font-size: clamp(1.5rem, 3vw, 1.9rem); font-weight: 500; color: var(--ck-blush-ink); line-height: 1; }
+    .ck-iti__name { margin: .5rem 0 .4rem; font-family: var(--t-display); font-weight: 500; font-size: clamp(1.2rem, 2.4vw, 1.4rem); color: var(--ck-ink); }
+    .ck-iti__desc { margin: 0; line-height: 1.75; font-size: .97rem; color: color-mix(in srgb, var(--t-tx) 78%, transparent); }
+
+    /* Entrance: blossoms stay closed until the growing branch reaches them */
+    .ck-iti--anim .ck-iti__bl { transform: scale(.32) rotate(-50deg); }
+    .ck-iti--anim .ck-iti__body { opacity: 0; }
+    .ck-iti--anim .ck-iti__item:nth-child(odd) .ck-iti__body { transform: translateX(-18px); }
+    .ck-iti--anim .ck-iti__item:nth-child(even) .ck-iti__body { transform: translateX(18px); }
+    .ck-iti--anim .ck-iti__item[data-ck-on] .ck-iti__bl { transform: none; }
+    .ck-iti--anim .ck-iti__item[data-ck-on]:nth-child(n) .ck-iti__body { opacity: 1; transform: none; }
+
+    @media (max-width: 700px) {
+      .ck-iti { --ck-axis: 1.6rem; }
+      .ck-iti__item { grid-template-columns: 3.2rem 1fr; column-gap: 1rem; }
+      .ck-iti__node { grid-column: 1; }
+      .ck-iti__item:nth-child(odd) .ck-iti__body, .ck-iti__item:nth-child(even) .ck-iti__body { grid-column: 2; justify-self: start; text-align: left; }
+      .ck-iti--anim .ck-iti__item:nth-child(odd) .ck-iti__body { transform: translateX(18px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ck-iti *, .ck-iti *::before, .ck-iti *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="ck-iti__paper" aria-hidden="true" focusable="false" preserveAspectRatio="none"><filter id="ck-iti-fib" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.011 0.02" numOctaves="4" seed="7" /><feColorMatrix values="0 0 0 0 0.55  0 0 0 0 0.44  0 0 0 0 0.4  0.7 0 0 0 -0.3" /></filter><filter id="ck-iti-grain" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="3" /><feColorMatrix values="0 0 0 0 0.5  0 0 0 0 0.42  0 0 0 0 0.38  2 0 0 0 -0.92" /></filter><rect width="100%" height="100%" filter="url(#ck-iti-fib)" /><rect width="100%" height="100%" filter="url(#ck-iti-grain)" opacity=".55" /></svg>
+  <canvas class="ck-iti__boughs" data-ck-boughs aria-hidden="true"></canvas>
+  <div class="ck-iti__inner">
+    <header class="ck-iti__head">
+      <h2 class="ck-iti__title" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Itinerario</h2>
+      <p class="ck-iti__lead" memory_type="text" memory_usage="custom" memory_key="itinerario-texto">Un día que florece despacio, momento a momento, junto a quienes más queremos.</p>
+    </header>
+
+    <div class="ck-iti__track" data-ck-track>
+      <svg class="ck-iti__branch" viewBox="0 0 40 1000" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <path class="ck-iti__base" d="M20 0 C 30 90, 10 160, 20 250 S 30 410, 20 500 S 10 660, 20 750 S 30 910, 20 1000" />
+        <path class="ck-iti__grow" data-ck-grow pathLength="1" d="M20 0 C 30 90, 10 160, 20 250 S 30 410, 20 500 S 10 660, 20 750 S 30 910, 20 1000" />
+      </svg>
+      <ol class="ck-iti__list">
+        <li class="ck-iti__item" data-ck-step>
+          <span class="ck-iti__node" aria-hidden="true"><svg class="ck-iti__bl" viewBox="-12 -12 24 24" aria-hidden="true" focusable="false"><g style="fill: var(--t-p)"><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(0)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(72)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(144)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(216)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(288)" /></g><circle r="1.8" style="fill: var(--t-a)" /></svg></span>
+          <div class="ck-iti__body">
+            <time class="ck-iti__time" datetime="2027-04-17T16:30"><span memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1" data-event-field="itin-hora-1">16:30</span></time>
+            <h3 class="ck-iti__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-1" data-event-field="itin-evento-1">Llegada de invitados</h3>
+            <p class="ck-iti__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-1">Te recibimos entre pétalos con té de flor de cerezo.</p>
+          </div>
+        </li>
+        <li class="ck-iti__item" data-ck-step>
+          <span class="ck-iti__node" aria-hidden="true"><svg class="ck-iti__bl" viewBox="-12 -12 24 24" aria-hidden="true" focusable="false"><g style="fill: var(--t-p)"><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(0)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(72)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(144)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(216)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(288)" /></g><circle r="1.8" style="fill: var(--t-a)" /></svg></span>
+          <div class="ck-iti__body">
+            <time class="ck-iti__time" datetime="2027-04-17T17:00"><span memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2" data-event-field="itin-hora-2">17:00</span></time>
+            <h3 class="ck-iti__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-2" data-event-field="itin-evento-2">Ceremonia</h3>
+            <p class="ck-iti__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-2">Unimos nuestras vidas bajo el cerezo más antiguo del jardín.</p>
+          </div>
+        </li>
+        <li class="ck-iti__item" data-ck-step>
+          <span class="ck-iti__node" aria-hidden="true"><svg class="ck-iti__bl" viewBox="-12 -12 24 24" aria-hidden="true" focusable="false"><g style="fill: var(--t-p)"><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(0)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(72)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(144)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(216)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(288)" /></g><circle r="1.8" style="fill: var(--t-a)" /></svg></span>
+          <div class="ck-iti__body">
+            <time class="ck-iti__time" datetime="2027-04-17T18:15"><span memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3" data-event-field="itin-hora-3">18:15</span></time>
+            <h3 class="ck-iti__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-3" data-event-field="itin-evento-3">Brindis y fotografías</h3>
+            <p class="ck-iti__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-3">Guardamos recuerdos mientras cae la tarde entre las ramas.</p>
+          </div>
+        </li>
+        <li class="ck-iti__item" data-ck-step>
+          <span class="ck-iti__node" aria-hidden="true"><svg class="ck-iti__bl" viewBox="-12 -12 24 24" aria-hidden="true" focusable="false"><g style="fill: var(--t-p)"><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(0)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(72)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(144)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(216)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(288)" /></g><circle r="1.8" style="fill: var(--t-a)" /></svg></span>
+          <div class="ck-iti__body">
+            <time class="ck-iti__time" datetime="2027-04-17T19:30"><span memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4" data-event-field="itin-hora-4">19:30</span></time>
+            <h3 class="ck-iti__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-4" data-event-field="itin-evento-4">Cena de primavera</h3>
+            <p class="ck-iti__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-4">Una cena servida bajo faroles de papel.</p>
+          </div>
+        </li>
+        <li class="ck-iti__item" data-ck-step>
+          <span class="ck-iti__node" aria-hidden="true"><svg class="ck-iti__bl" viewBox="-12 -12 24 24" aria-hidden="true" focusable="false"><g style="fill: var(--t-p)"><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(0)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(72)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(144)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(216)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(288)" /></g><circle r="1.8" style="fill: var(--t-a)" /></svg></span>
+          <div class="ck-iti__body">
+            <time class="ck-iti__time" datetime="2027-04-17T21:00"><span memory_type="text" memory_usage="custom" memory_key="itinerario-hora-5" data-event-field="itin-hora-5">21:00</span></time>
+            <h3 class="ck-iti__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-5" data-event-field="itin-evento-5">Primer baile</h3>
+            <p class="ck-iti__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-5">Nuestro primer baile como esposos, con pétalos al viento.</p>
+          </div>
+        </li>
+        <li class="ck-iti__item" data-ck-step>
+          <span class="ck-iti__node" aria-hidden="true"><svg class="ck-iti__bl" viewBox="-12 -12 24 24" aria-hidden="true" focusable="false"><g style="fill: var(--t-p)"><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(0)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(72)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(144)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(216)" /><path d="M0 0C-5.6-2-5.2-8.4-1.5-10L0-8.6 1.5-10C5.2-8.4 5.6-2 0 0Z" transform="rotate(288)" /></g><circle r="1.8" style="fill: var(--t-a)" /></svg></span>
+          <div class="ck-iti__body">
+            <time class="ck-iti__time" datetime="2027-04-17T21:30"><span memory_type="text" memory_usage="custom" memory_key="itinerario-hora-6" data-event-field="itin-hora-6">21:30</span></time>
+            <h3 class="ck-iti__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-6" data-event-field="itin-evento-6">Fiesta</h3>
+            <p class="ck-iti__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-6">Que la noche florezca con música y alegría.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="itinerario-agenda"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* ── Cerezos kit: seeded rng, theme colors, blossom sprites, weeping-branch scene ── */
+      function ckRng(seed) { return function () { seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+      function ckRGB(el, v, fb) {
+        var s = document.createElement('span'); s.setAttribute('aria-hidden', 'true'); s.style.display = 'none'; s.style.color = 'var(' + v + ')';
+        el.appendChild(s); var c = getComputedStyle(s).color; el.removeChild(s);
+        var m = c && c.match(/[\d.]+/g); return m && m.length >= 3 ? [+m[0], +m[1], +m[2]] : fb;
+      }
+      function ckMix(a, b, t) { return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; }
+      function ckCss(c, a) { return 'rgba(' + (c[0] | 0) + ',' + (c[1] | 0) + ',' + (c[2] | 0) + ',' + (a == null ? 1 : a) + ')'; }
+      function ckPal(el) { return { p: ckRGB(el, '--t-p', [231, 179, 189]), s: ckRGB(el, '--t-s', [142, 110, 96]), a: ckRGB(el, '--t-a', [174, 179, 188]), bg: ckRGB(el, '--t-bg', [250, 245, 240]) }; }
+      function ckPetalPath(g, L) {
+        g.beginPath(); g.moveTo(0, 0);
+        g.bezierCurveTo(-.56 * L, -.2 * L, -.52 * L, -.84 * L, -.15 * L, -L);
+        g.lineTo(0, -.86 * L); g.lineTo(.15 * L, -L);
+        g.bezierCurveTo(.52 * L, -.84 * L, .56 * L, -.2 * L, 0, 0); g.closePath();
+      }
+      function ckSprite(kind, R, pal, sil) {
+        var F = 2, S = Math.ceil(R * 2.5 * F), c = document.createElement('canvas'); c.width = c.height = S;
+        var g = c.getContext('2d'); g.translate(S / 2, S / 2); g.scale(F, F);
+        var white = [255, 255, 255], light = ckMix(pal.p, white, .62), deep = ckMix(pal.p, pal.s, .2), edge = ckMix(pal.p, pal.s, .45);
+        var silC = ckCss(pal.s, 1);
+        function petal(L, rot, sy) {
+          g.save(); g.rotate(rot); if (sy) g.scale(1, sy); ckPetalPath(g, L);
+          if (sil) { g.fillStyle = silC; g.fill(); g.restore(); return; }
+          var gr = g.createLinearGradient(0, 0, 0, -L);
+          gr.addColorStop(0, ckCss(deep, 1)); gr.addColorStop(.4, ckCss(pal.p, 1)); gr.addColorStop(1, ckCss(light, 1));
+          g.fillStyle = gr; g.fill(); g.strokeStyle = ckCss(edge, .3); g.lineWidth = Math.max(.35, L * .035); g.stroke();
+          g.beginPath(); g.moveTo(0, -L * .12); g.lineTo(0, -L * .62); g.strokeStyle = ckCss(deep, .22); g.lineWidth = Math.max(.3, L * .025); g.stroke();
+          g.restore();
+        }
+        function stamens(r) {
+          if (sil) return;
+          for (var i = 0; i < 12; i++) {
+            var a = i / 12 * Math.PI * 2 + .2, l = r * (.32 + (i % 3) * .06);
+            g.beginPath(); g.moveTo(0, 0); g.lineTo(Math.cos(a) * l, Math.sin(a) * l); g.strokeStyle = ckCss(deep, .75); g.lineWidth = Math.max(.3, r * .03); g.stroke();
+            g.beginPath(); g.arc(Math.cos(a) * l, Math.sin(a) * l, Math.max(.45, r * .045), 0, 7); g.fillStyle = ckCss(ckMix(pal.a, pal.s, .35), .95); g.fill();
+          }
+          g.beginPath(); g.arc(0, 0, r * .1, 0, 7); g.fillStyle = ckCss(ckMix(pal.p, pal.s, .55), 1); g.fill();
+        }
+        if (kind === 'open') { for (var i = 0; i < 5; i++) petal(R, i * 1.2566 + .3); stamens(R); }
+        else if (kind === 'half') { g.translate(0, R * .35); petal(R * .9, -.75, .9); petal(R * .9, .75, .9); petal(R, 0); g.beginPath(); g.ellipse(0, R * .05, R * .18, R * .26, 0, 0, 7); g.fillStyle = sil ? silC : ckCss(ckMix(pal.s, pal.p, .2), .9); g.fill(); }
+        else if (kind === 'bud') { g.beginPath(); g.ellipse(0, -R * .2, R * .55, R * .85, 0, 0, 7); g.fillStyle = sil ? silC : ckCss(ckMix(pal.p, pal.s, .25), 1); g.fill(); g.beginPath(); g.ellipse(0, R * .5, R * .32, R * .3, 0, 0, 7); g.fillStyle = sil ? silC : ckCss(ckMix(pal.s, [120, 140, 100], .2), .9); g.fill(); }
+        else { g.translate(0, R * .5); petal(R, 0); }
+        c.__w = S / F; return c;
+      }
+      function ckDraw(g, D, img, x, y, r, s, sx) {
+        var c = Math.cos(r), n = Math.sin(r), k = sx == null ? 1 : sx, w = img.__w * s;
+        g.setTransform(D * c * k, D * n * k, -D * n, D * c, D * x, D * y); g.drawImage(img, -w / 2, -w / 2, w, w);
+      }
+      function ckWind(t) { return Math.sin(t * .23) * .6 + Math.sin(t * .71 + 1) * .4; }
+      /* Weeping-branch scene. o: {anchors:['tl','tr'], reach, y, hang, maxHang, petals, seed, scale, sil, density, strandAlpha} */
+      function ckScene(root, cv, o) {
+        o = o || {};
+        var g = cv.getContext && cv.getContext('2d'); if (!g) return null;
+        var RMs = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+        var W = 0, H = 0, D = Math.min(window.devicePixelRatio || 1, 2), pal, spr, layer, strands = [], petals = [], raf = 0, vis = false, T = 0, last = 0, dead = false;
+        function setup() {
+          pal = ckPal(root); var k = o.scale || 1;
+          spr = { open: ckSprite('open', 12 * k, pal, o.sil), half: ckSprite('half', 10 * k, pal, o.sil), bud: ckSprite('bud', 5 * k, pal, o.sil), pet: ckSprite('petal', 7 * k, pal, o.sil) };
+        }
+        function build() {
+          var rng = ckRng(o.seed || 11), limbs = [], tips = [], narrow = W < 640;
+          var LIM = narrow ? (o.mLim || 70) : (o.yLim || Math.min(H * .42, 260));
+          strands = [];
+          function grow(x, y, a, len, w, depth) {
+            var n = Math.max(5, Math.round(len / 16)), st = len / n, pts = [[x, y, w, a]];
+            for (var i = 1; i <= n; i++) {
+              x += Math.cos(a) * st; y += Math.sin(a) * st;
+              if (y > LIM && i > 2) { n = i - 1; break; }
+              a += (rng() - .5) * .34 + (Math.PI / 2 - a) * (o.droop || .03);
+              pts.push([x, y, Math.max(.8, w * (1 - i / n * .86)), a]);
+            }
+            limbs.push(pts);
+            tips.push([x, y, depth]);
+            if (depth < 2) {
+              var kids = depth ? 2 : 4;
+              for (var j = 0; j < kids; j++) {
+                var p = pts[Math.floor((.18 + rng() * .7) * n)], side = rng() < .5 ? -1 : 1;
+                grow(p[0], p[1], p[3] + side * (.35 + rng() * .55), len * (.25 + rng() * .3), p[2] * .55, depth + 1);
+              }
+            }
+          }
+          var anchors = o.anchors || ['tl'];
+          for (var i = 0; i < anchors.length; i++) {
+            var an = anchors[i], left = an === 'tl', reach = W * (o.reach || .6) + 60, y0 = H * (o.y == null ? .02 : o.y) + (o.yPx || 0);
+            grow(left ? -30 : W + 30, y0, left ? .16 : Math.PI - .16, reach, Math.max(7, Math.min(16, W * .012)) * (o.thick || 1), 0);
+          }
+          var maxH = Math.min(H * (o.hang || .5), o.maxHang || 380), dens = o.density || .7;
+          if (narrow) { maxH = Math.min(maxH, o.mHang || 80); dens *= .7; }
+          for (var l = 0; l < limbs.length; l++) {
+            var pts = limbs[l];
+            for (var q = 1; q < pts.length; q += 2) {
+              var P = pts[q];
+              if (P[0] < -10 || P[0] > W + 10 || rng() > .62 * dens) continue;
+              var len = maxH * (.25 + rng() * .75), bl = [], nb = Math.round(len / 21);
+              for (var b = 0; b < nb; b++) {
+                var t = Math.pow((b + rng() * .8) / nb, .85), r = rng();
+                bl.push({ t: t, k: t > .93 ? 'bud' : r < .55 ? 'open' : r < .85 ? 'half' : 'bud', dx: (b % 2 ? 1 : -1) * (2 + rng() * 4), r: (rng() - .5) * 1.6, s: .6 + rng() * .5 * (1 - t * .4) });
+              }
+              strands.push({ x: P[0], y: P[1], len: len, b: bl, amp: 4 + rng() * 9, w: .5 + rng() * .6, ph: rng() * 6.28, cv: (rng() - .5) * 10 });
+            }
+          }
+          /* static layer: boughs + clustered blossoms on the wood */
+          layer = document.createElement('canvas'); layer.width = Math.max(1, W * D); layer.height = Math.max(1, H * D);
+          var lg = layer.getContext('2d'); lg.lineCap = 'round'; lg.lineJoin = 'round';
+          var bark = o.sil ? ckCss(pal.s, 1) : ckCss(pal.s, .92), hi = ckCss(ckMix(pal.s, [255, 255, 255], .35), .5);
+          for (var m = 0; m < limbs.length; m++) {
+            var L = limbs[m];
+            for (var z = 0; z < L.length - 1; z++) {
+              lg.setTransform(D, 0, 0, D, 0, 0);
+              lg.beginPath(); lg.moveTo(L[z][0], L[z][1]); lg.lineTo(L[z + 1][0], L[z + 1][1]); lg.strokeStyle = bark; lg.lineWidth = L[z][2]; lg.stroke();
+              if (!o.sil && L[z][2] > 3) { lg.beginPath(); lg.moveTo(L[z][0], L[z][1] - L[z][2] * .25); lg.lineTo(L[z + 1][0], L[z + 1][1] - L[z][2] * .25); lg.strokeStyle = hi; lg.lineWidth = L[z][2] * .18; lg.stroke(); }
+            }
+            for (var z2 = 2; z2 < L.length; z2 += 3) if (rng() < .7 * dens) ckDraw(lg, D, spr[rng() < .6 ? 'open' : 'half'], L[z2][0] + (rng() - .5) * 8, L[z2][1] + (rng() - .5) * 8, rng() * 6, .7 + rng() * .5);
+          }
+          for (var tp = 0; tp < tips.length; tp++) for (var c2 = 0; c2 < 4; c2++) ckDraw(lg, D, spr[c2 ? 'open' : 'bud'], tips[tp][0] + (rng() - .5) * 18, tips[tp][1] + (rng() - .5) * 14, rng() * 6, .7 + rng() * .45);
+          lg.setTransform(1, 0, 0, 1, 0, 0);
+          var n = o.petals == null ? 18 : o.petals; petals = [];
+          for (var pi = 0; pi < n; pi++) petals.push(spawn(rng() * W, rng() * H, rng));
+        }
+        function spawn(x, y, rng) {
+          rng = rng || Math.random;
+          return { x: x, y: y, vy: 0, bx: 0, by: 0, r: rng() * 6.28, vr: (rng() - .5) * 2, f: rng() * 6.28, vf: 1.5 + rng() * 2.5, s: .55 + rng() * .65, al: .55 + rng() * .45, ph: rng() * 6.28, w: .6 + rng(), once: false };
+        }
+        function frame(now) {
+          var dt = last ? Math.min(.05, (now - last) / 1000) : .016; last = now; T += dt;
+          g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, cv.width, cv.height);
+          if (layer) g.drawImage(layer, 0, 0);
+          var wind = ckWind(T), sa = o.strandAlpha || .55;
+          for (var i = 0; i < strands.length; i++) {
+            var s = strands[i]; g.setTransform(D, 0, 0, D, 0, 0); g.beginPath();
+            for (var k = 0; k <= 10; k++) { var tt = k / 10, ox = (s.amp * Math.sin(T * s.w + s.ph - tt * 1.6) + wind * 7 + s.cv) * tt * tt; if (k) g.lineTo(s.x + ox, s.y + tt * s.len); else g.moveTo(s.x, s.y); }
+            g.strokeStyle = ckCss(pal.s, sa); g.lineWidth = .9; g.stroke();
+            for (var b = 0; b < s.b.length; b++) {
+              var B = s.b[b], t2 = B.t, ox2 = (s.amp * Math.sin(T * s.w + s.ph - t2 * 1.6) + wind * 7 + s.cv) * t2 * t2;
+              ckDraw(g, D, spr[B.k], s.x + ox2 + B.dx, s.y + t2 * s.len, B.r + Math.sin(T * s.w + s.ph) * .08, B.s);
+            }
+          }
+          for (var p = petals.length - 1; p >= 0; p--) {
+            var P = petals[p];
+            P.vy += ((22 + 18 * P.s) - P.vy) * Math.min(1, dt * 1.5);
+            P.bx *= Math.exp(-2.6 * dt); P.by *= Math.exp(-2.6 * dt);
+            P.x += (wind * 26 + Math.sin(T * P.w + P.ph) * 14 + P.bx) * dt; P.y += (P.vy + P.by) * dt;
+            P.r += P.vr * dt; P.f += P.vf * dt;
+            if (P.y > H + 24 || P.x > W + 40 || P.x < -40) { if (P.once) { petals.splice(p, 1); continue; } var q = spawn(Math.random() * W * 1.1 - W * .05, -20 - Math.random() * 60); petals[p] = q; P = q; }
+            var sx = Math.cos(P.f); g.globalAlpha = P.al * (.5 + .5 * Math.abs(sx));
+            ckDraw(g, D, spr.pet, P.x, P.y, P.r, P.s, sx);
+          }
+          g.globalAlpha = 1; g.setTransform(1, 0, 0, 1, 0, 0);
+        }
+        function loop(now) { raf = 0; frame(now); if (vis && !dead && !document.hidden && !RMs) raf = requestAnimationFrame(loop); }
+        function kick() { if (!raf && vis && !dead && !document.hidden && !RMs) { last = 0; raf = requestAnimationFrame(loop); } }
+        function resize() {
+          var r = cv.getBoundingClientRect(), nw = Math.round(r.width), nh = Math.round(r.height);
+          if (!nw || !nh || (nw === W && nh === H)) return;
+          W = nw; H = nh; cv.width = W * D; cv.height = H * D; build(); frame(performance.now());
+        }
+        setup(); resize();
+        if ('ResizeObserver' in window) new ResizeObserver(resize).observe(cv); else window.addEventListener('resize', resize);
+        if (!RMs && 'IntersectionObserver' in window) {
+          new IntersectionObserver(function (en) { vis = en[0].isIntersecting; kick(); }).observe(root);
+          document.addEventListener('visibilitychange', kick);
+        }
+        return {
+          stop: function () { dead = true; },
+          burst: function (x, y, n) {
+            if (RMs) return;
+            for (var i = 0; i < n; i++) { var a = Math.random() * 6.28, v = 90 + Math.random() * 160, q = spawn(x, y); q.bx = Math.cos(a) * v; q.by = Math.sin(a) * v - 60; q.once = true; q.s *= 1.1; petals.push(q); }
+            kick();
+          }
+        };
+      }
+
+      ckScene(root, root.querySelector('[data-ck-boughs]'), { anchors: ['tr'], reach: .34, hang: .14, maxHang: 220, petals: 14, seed: 404, density: .5 });
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      /* Progress branch grows with scroll (JS writes the dash offset; no CSS transition involved) */
+      var track = root.querySelector('[data-ck-track]'), grow = root.querySelector('[data-ck-grow]');
+      var steps = [].slice.call(root.querySelectorAll('[data-ck-step]')), pending = false, vis = false, finished = false;
+      grow.style.strokeDasharray = '1 1';
+      grow.style.strokeDashoffset = '1';
+      root.classList.add('ck-iti--anim');
+      function update() {
+        pending = false;
+        var vh = window.innerHeight || 800, r = track.getBoundingClientRect(), line = vh * .62;
+        var p = Math.max(0, Math.min(1, (line - r.top) / Math.max(1, r.height)));
+        grow.style.strokeDashoffset = (1 - p).toFixed(4);
+        var on = 0;
+        steps.forEach(function (s) {
+          var nr = s.getBoundingClientRect();
+          if (nr.top + nr.height / 2 < line) s.setAttribute('data-ck-on', '');
+          if (s.hasAttribute('data-ck-on')) on++;
+        });
+        if (on === steps.length && !finished) {
+          finished = true;
+          setTimeout(function () { root.classList.remove('ck-iti--anim'); }, 1200);
+        }
+        if (finished && p >= 1) { grow.style.removeProperty('stroke-dasharray'); grow.style.removeProperty('stroke-dashoffset'); }
+      }
+      function req() { if (!pending && vis && !(finished && grow.style.strokeDashoffset === '')) { pending = true; requestAnimationFrame(update); } }
+      new IntersectionObserver(function (en) { vis = en[0].isIntersecting; req(); }).observe(root);
+      window.addEventListener('scroll', req, { passive: true });
+      window.addEventListener('resize', req);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Cerezos en Flor Washi Sakura',
+      descripcion: 'Itinerario en línea de tiempo vertical: una rama de cerezo crece con el scroll y cada flor se abre al llegar a su momento; horarios en time sobre papel de arroz.',
+      tags: ['itinerario', 'boda', 'cerezos', 'sakura', 'timeline', 'washi'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>

@@ -1,0 +1,62 @@
+<section class="pp-portada" data-gemini-id="portada-novia" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder" aria-labelledby="pp-titulo">
+<style>
+.pp-portada { --primary-color:#2f4739; --secondary-color:#d98e5f; --accent-color:#f4ede0; --bg-color:#87a896; --surface-color:#f4ede0; --text-color:#2f4739;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:100svh; display:grid; place-items:end center; padding:clamp(4rem,10vw,7rem) 0 0;
+  background-color:#cfe0d4; background-image:url('https://loremflickr.com/1600/1000/forest,paper'); background-size:cover; background-position:center; box-shadow:inset 0 0 0 100vmax rgba(207,224,212,.72); color:var(--text-color); text-align:center; }
+.pp-portada *, .pp-portada *::before, .pp-portada *::after { box-sizing:border-box; }
+/* sol papel */
+.pp-portada__sol { position:absolute; z-index:0; top:clamp(2rem,7vw,4.5rem); left:50%; width:clamp(120px,22vw,240px); aspect-ratio:1/1; transform:translateX(-50%); border-radius:50%; background:var(--secondary-color); box-shadow:0 0 0 14px color-mix(in srgb, var(--surface-color) 65%, transparent), 0 0 0 28px color-mix(in srgb, var(--surface-color) 35%, transparent); }
+/* capas de papel que se apilan con sombra entre ellas (5 profundidades) */
+.pp-portada__capas { position:absolute; left:-4%; right:-4%; bottom:0; }
+.pp-portada__capa { position:absolute; left:0; right:0; bottom:0; }
+.pp-portada__capa svg { display:block; width:100%; }
+.pp-portada__capa--1 { bottom:0; z-index:1; filter:drop-shadow(0 -6px 12px rgba(47,71,57,.28)); }
+.pp-portada__capa--2 { bottom:34px; z-index:2; filter:drop-shadow(0 -6px 12px rgba(47,71,57,.22)); }
+.pp-portada__capa--3 { bottom:78px; z-index:3; filter:drop-shadow(0 -6px 12px rgba(47,71,57,.2)); }
+.pp-portada__capa--4 { bottom:132px; z-index:4; filter:drop-shadow(0 -6px 14px rgba(47,71,57,.2)); }
+.pp-portada__capa--5 { bottom:196px; z-index:5; filter:drop-shadow(0 -8px 16px rgba(47,71,57,.22)); }
+.pp-portada__capa path { fill:var(--fc, var(--surface-color)); }
+.pp-portada__carta {
+  position:relative; z-index:10; width:min(100%,620px); margin-bottom:clamp(9rem,20vw,13rem); padding:clamp(1.8rem,4.5vw,3rem) clamp(1.4rem,4vw,2.8rem);
+  background:var(--surface-color); border-radius:6px;
+  box-shadow:0 1px 0 rgba(255,255,255,.6) inset, 0 26px 50px rgba(23,42,33,.4);
+  animation:ppFlota 8s ease-in-out infinite;
+}
+@keyframes ppFlota { 0%,100% { transform:translateY(0) rotate(-.5deg);} 50% { transform:translateY(-8px) rotate(.5deg);} }
+.pp-portada__dos { display:flex; align-items:center; justify-content:center; gap:.9rem; margin-bottom:.7rem; }
+.pp-portada__dos i { width:26px; height:2px; background:var(--secondary-color); }
+.pp-portada__dos b { width:9px; height:9px; transform:rotate(45deg); background:var(--secondary-color); }
+.pp-portada__etiqueta { font-family:Arial,sans-serif; font-size:clamp(.6rem,1.2vw,.7rem); letter-spacing:.44em; text-transform:uppercase; color:var(--secondary-color); }
+.pp-portada__titulo { margin:.5rem 0 .4rem; font-family:Georgia,'Times New Roman',serif; font-weight:400; font-size:clamp(2.3rem,6.6vw,4.4rem); line-height:1; color:var(--primary-color); }
+.pp-portada__titulo em { display:block; font-size:.42em; font-style:italic; color:var(--secondary-color); margin-top:.5em; letter-spacing:.28em; text-transform:uppercase; }
+.pp-portada__foto { margin:1.2rem auto 1.4rem; width:min(100%,340px); aspect-ratio:16/10; overflow:hidden; border-radius:4px; transform:rotate(1.6deg); box-shadow:0 14px 30px rgba(23,42,33,.3); }
+.pp-portada__foto img { display:block; width:100%; height:100%; object-fit:cover; }
+@media (prefers-reduced-motion:reduce){ .pp-portada__carta { animation:none; } }
+</style>
+<span class="pp-portada__sol" aria-hidden="true"></span>
+
+<div class="pp-portada__carta">
+  <div class="pp-portada__dos" aria-hidden="true"><i></i><b></b><i></i></div>
+  <p class="pp-portada__etiqueta" memory_type="text" memory_usage="custom" memory_key="portada-etiqueta">Cortada a mano · capa por capa</p>
+  <h1 id="pp-titulo" class="pp-portada__titulo" memory_type="text" memory_usage="custom" memory_key="portada-nombres">
+    Nombre de la Novia
+    <em>&amp; Nombre del Novio</em>
+  </h1>
+  <figure class="pp-portada__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="portada-foto">
+    <img src="https://loremflickr.com/720/450/paper,craft,forest" alt="Paisaje de papel en capas" path="placeholder" data-library-category="bodas" data-asset-type="foto-pareja" loading="lazy" />
+    <figcaption hidden>Paisaje de papel</figcaption>
+  </figure>
+  <time datetime="YYYY-MM-DD" style="font-family:'Courier New',monospace; font-size:clamp(.72rem,1.4vw,.86rem); letter-spacing:.3em; text-transform:uppercase; color:var(--secondary-color);" memory_type="text" memory_usage="custom" memory_key="portada-fecha">Fecha del evento</time>
+</div>
+
+<div class="pp-portada__capas" aria-hidden="true">
+  <div class="pp-portada__capa pp-portada__capa--5"><svg viewBox="0 0 1440 180" preserveAspectRatio="none"><path style="--fc:#dfe9df" d="M0 120 C 240 40, 480 170, 720 100 S 1200 20, 1440 110 V180 H0 Z"/></svg></div>
+  <div class="pp-portada__capa pp-portada__capa--4"><svg viewBox="0 0 1440 200" preserveAspectRatio="none"><path style="--fc:#c2d6c4" d="M0 130 C 260 60, 520 180, 780 110 S 1240 40, 1440 130 V200 H0 Z"/></svg></div>
+  <div class="pp-portada__capa pp-portada__capa--3"><svg viewBox="0 0 1440 220" preserveAspectRatio="none"><path style="--fc:#a5c0a8" d="M0 140 C 240 70, 520 200, 760 130 S 1220 60, 1440 140 V220 H0 Z"/></svg></div>
+  <div class="pp-portada__capa pp-portada__capa--2"><svg viewBox="0 0 1440 240" preserveAspectRatio="none"><path style="--fc:#87a896" d="M0 150 C 280 80, 540 210, 800 140 S 1240 70, 1440 150 V240 H0 Z"/></svg></div>
+  <div class="pp-portada__capa pp-portada__capa--1"><svg viewBox="0 0 1440 260" preserveAspectRatio="none"><path style="--fc:#6e8f7d" d="M0 160 C 300 90, 560 220, 820 150 S 1260 80, 1440 160 V260 H0 Z"/></svg></div>
+</div>
+<script>
+var moduleMetadata = { module_type:'portada', module_name:'portada-novia', style_name:'Papercraft — Cinco Capas', descripcion:'Portada papercraft: sol de papel, carta flotante y cinco capas de sierras recortadas con sombra entre capas para profundidad real.', tags:['portada','papercraft','capas','recorte','sombras','papel'], tipo:'portada' };
+</script>
+</section>

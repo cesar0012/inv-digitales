@@ -1,0 +1,143 @@
+<section class="cd3" data-gemini-id="countdown-splitflap-laser" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder" data-countdown-target="YYYY-MM-DDTHH:MM:SS">
+<style>
+.cd3 { ;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3.4rem,8vw,6.4rem) clamp(1rem,5vw,4rem); background:repeating-linear-gradient(115deg, color-mix(in srgb, var(--primary-color) 8%, transparent) 0 3px, transparent 3px 9px), url('https://loremflickr.com/1600/1000/glitter,purple') center/cover; background-color:var(--bg-color); color:var(--text-color); }
+.cd3 *, .cd3 *::before, .cd3 *::after { box-sizing:border-box; }
+.cd3::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 78%, transparent); }
+.cd3 > * { position:relative; z-index:1; }
+.sf-orn-wrap { display:flex; justify-content:center; margin:0 auto clamp(1.6rem,4vw,2.4rem); color:var(--primary-color); }
+.sf-orn-wrap svg { width:min(240px,60%); height:auto; }
+
+.cd3 { text-align:center; }
+.cd3__rot { margin:0 0 .4rem; font-family:'Courier New',monospace; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.5em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 42%, var(--text-color)); }
+.cd3__tit { margin:0 0 clamp(1.4rem,3vw,2rem); font-family:Georgia,serif; font-weight:400; font-size:clamp(1.8rem,4.2vw,2.7rem); color:var(--primary-color); }
+.cd3__tablero { width:min(100%,760px); margin:0 auto; padding:clamp(1rem,3vw,1.8rem) clamp(.6rem,2vw,1.4rem); background:var(--surface-color); border:1px solid var(--primary-color); border-radius:14px; box-shadow:0 24px 48px color-mix(in srgb, var(--text-color) 28%, transparent); position:relative; }
+.cd3__tablero::before { content:''; position:absolute; inset:6px; border:1px dashed color-mix(in srgb, var(--accent-color) 45%, transparent); border-radius:9px; pointer-events:none; }
+.cd3__fila { display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(.7rem,2.4vw,1.5rem); }
+.cd3__celda { width:clamp(88px,18vw,128px); }
+.cd3__casete { position:relative; height:clamp(86px,17vw,120px); perspective:420px; background:color-mix(in srgb, var(--bg-color) 72%, var(--surface-color)); border-radius:8px; overflow:hidden; box-shadow:inset 0 0 0 1.5px var(--primary-color), inset 0 -10px 18px color-mix(in srgb, var(--text-color) 35%, transparent); }
+.cd3__casete::after { content:''; position:absolute; left:6px; right:6px; top:50%; height:1.5px; background:color-mix(in srgb, var(--bg-color) 90%, var(--text-color)); z-index:3; }
+.cd3__rem { position:absolute; top:8px; bottom:8px; width:5px; border-radius:3px; background:var(--primary-color); opacity:.8; z-index:4; }
+.cd3__rem--i { left:4px; } .cd3__rem--d { right:4px; }
+.cd3__hoja { position:absolute; inset:0; display:grid; place-items:center; }
+.cd3__hoja--sup { top:0; height:50%; transform-origin:bottom center; background:color-mix(in srgb, var(--surface-color) 88%, var(--bg-color) 6%); }
+.cd3__casete.vuelta .cd3__hoja--sup { animation:cd3-golpe .5s cubic-bezier(.55,0,.3,1); }
+@keyframes cd3-golpe { 0% { transform:rotateX(0); } 100% { transform:rotateX(-92deg); } }
+.cd3__num { font-family:'Courier New',monospace; font-weight:700; font-size:clamp(2rem,5.4vw,3.2rem); line-height:1; color:var(--primary-color); font-variant-numeric:tabular-nums; text-shadow:0 2px 0 color-mix(in srgb, var(--text-color) 40%, transparent); }
+.cd3__hoja--sup .cd3__num { transform:translateY(38%); }
+.cd3__etq { display:block; margin:.55rem 0 0; text-align:center; font-family:'Courier New',monospace; font-size:clamp(.6rem,1.1vw,.72rem); letter-spacing:.4em; text-transform:uppercase; color:var(--text-color); }
+.cd3__pies { display:flex; justify-content:space-between; width:min(100%,760px); margin:.8rem auto 0; }
+.cd3__pie { width:26%; height:8px; background:var(--surface-border-color); border-radius:0 0 6px 6px; }
+.cd3__fecha { display:block; margin:clamp(1.3rem,3vw,1.9rem) 0 0; font-family:'Segoe UI',Arial,sans-serif; font-style:italic; font-size:clamp(.85rem,1.6vw,.98rem); color:var(--text-color); }
+@media (max-width:560px){ .cd3__celda { width:clamp(74px,42vw,110px); } .cd3__fila { gap:.7rem; } }
+
+@media (prefers-reduced-motion:reduce){ .cd3 * { animation:none !important; transition:none !important; } }
+</style>
+<header memory_type="text" memory_usage="custom" memory_key="countdown-intro">
+  <p class="cd3__rot" memory_type="text" memory_usage="custom" memory_key="countdown-rotulo">Salida próxima</p>
+  <h2 class="cd3__tit" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Tablero de abordaje</h2>
+</header>
+<div class="cd3__tablero">
+  <ul class="cd3__fila" aria-label="Cuenta regresiva" style="list-style:none;margin:0;padding:0;">
+<li class="cd3__celda" style="list-style:none;">
+  <div class="cd3__casete"><i class="cd3__rem cd3__rem--i"></i><i class="cd3__rem cd3__rem--d"></i>
+    <span class="cd3__hoja cd3__hoja--inf"><b class="cd3__num" data-countdown-unit="days">--</b></span>
+    <span class="cd3__hoja cd3__hoja--sup" aria-hidden="true"><b class="cd3__num cd3__eco">00</b></span>
+  </div>
+  <span class="cd3__etq">Días</span>
+</li>
+<li class="cd3__celda" style="list-style:none;">
+  <div class="cd3__casete"><i class="cd3__rem cd3__rem--i"></i><i class="cd3__rem cd3__rem--d"></i>
+    <span class="cd3__hoja cd3__hoja--inf"><b class="cd3__num" data-countdown-unit="hours">--</b></span>
+    <span class="cd3__hoja cd3__hoja--sup" aria-hidden="true"><b class="cd3__num cd3__eco">00</b></span>
+  </div>
+  <span class="cd3__etq">Horas</span>
+</li>
+<li class="cd3__celda" style="list-style:none;">
+  <div class="cd3__casete"><i class="cd3__rem cd3__rem--i"></i><i class="cd3__rem cd3__rem--d"></i>
+    <span class="cd3__hoja cd3__hoja--inf"><b class="cd3__num" data-countdown-unit="minutes">--</b></span>
+    <span class="cd3__hoja cd3__hoja--sup" aria-hidden="true"><b class="cd3__num cd3__eco">00</b></span>
+  </div>
+  <span class="cd3__etq">Min</span>
+</li>
+<li class="cd3__celda" style="list-style:none;">
+  <div class="cd3__casete"><i class="cd3__rem cd3__rem--i"></i><i class="cd3__rem cd3__rem--d"></i>
+    <span class="cd3__hoja cd3__hoja--inf"><b class="cd3__num" data-countdown-unit="seconds">--</b></span>
+    <span class="cd3__hoja cd3__hoja--sup" aria-hidden="true"><b class="cd3__num cd3__eco">00</b></span>
+  </div>
+  <span class="cd3__etq">Seg</span>
+</li>
+  </ul>
+</div>
+<div class="cd3__pies" aria-hidden="true"><i class="cd3__pie"></i><i class="cd3__pie"></i></div>
+<script>
+(function () {
+  var root = null;
+  try { root = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
+  if (!root) return;
+  root.querySelectorAll('[data-countdown-unit]').forEach(function (num) {
+    var casete = num.closest('.cd3__casete');
+    var eco = casete && casete.querySelector('.cd3__eco');
+    if (!casete || !eco) return;
+    eco.textContent = num.textContent;
+    var ultimo = num.textContent;
+    new MutationObserver(function () {
+      if (num.textContent === ultimo) return;
+      var previo = ultimo;
+      ultimo = num.textContent;
+      eco.textContent = previo;
+      casete.classList.remove('vuelta');
+      void casete.offsetWidth;
+      casete.classList.add('vuelta');
+      setTimeout(function () { eco.textContent = ultimo; }, 470);
+    }).observe(num, { childList: true, characterData: true, subtree: true });
+  });
+})();
+</script>
+<time class="cd3__fecha" datetime="YYYY-MM-DDTHH:MM:SS" memory_type="text" memory_usage="custom" memory_key="countdown-fecha">Fecha del evento · hora por confirmar</time>
+
+<script>
+  (function () {
+    var el = null;
+    try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch (e) {}
+    if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+    if (!el) return;
+    var targetAttr = el.getAttribute('data-countdown-target');
+    var target = NaN;
+    if (targetAttr && targetAttr.indexOf('YYYY') === -1) {
+      var parsed = new Date(targetAttr);
+      if (!isNaN(parsed.getTime())) target = parsed.getTime();
+    }
+    if (isNaN(target)) {
+      if (window.__countdownTarget) { var _p = new Date(window.__countdownTarget); if (!isNaN(_p.getTime())) target = _p.getTime(); }
+      else if (window.countdown_target) { var _p2 = new Date(window.countdown_target); if (!isNaN(_p2.getTime())) target = _p2.getTime(); }
+    }
+    var intervalId = null;
+    (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+    window.__countdownIntervals = [];
+    function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+    function setUnit(unit, value) { var node = el.querySelector('[data-countdown-unit="' + unit + '"]'); if (node) node.textContent = value; }
+    function tick() {
+      var diff = target - Date.now();
+      if (diff < 0) diff = 0;
+      setUnit('days', Math.floor(diff / 86400000));
+      setUnit('hours', pad2(Math.floor((diff % 86400000) / 3600000)));
+      setUnit('minutes', pad2(Math.floor((diff % 3600000) / 60000)));
+      setUnit('seconds', pad2(Math.floor((diff % 60000) / 1000)));
+      if (diff === 0 && intervalId !== null) { clearInterval(intervalId); intervalId = null; window.__countdownIntervals = []; }
+    }
+    function start(newTarget) {
+      if (newTarget) target = new Date(newTarget).getTime();
+      (window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+      intervalId = null;
+      if (!Number.isFinite(target)) return;
+      tick();
+      if (target > Date.now()) { intervalId = setInterval(tick, 1000); window.__countdownIntervals.push(intervalId); }
+    }
+    start();
+    window.updateCountdown = start;
+  })();
+</script>
+<script>var moduleMetadata = { module_type: "countdown", module_name: "countdown-splitflap-laser", style_name: "Glitter Laser Púrpura", descripcion: "Tablero split-flap estilo aeropuerto: casetes mecánicos con hoja superior que gira sobre su bisagra al ritmo del conteo.", tags: ["countdown","laser","laser","split-flap","aeropuerto","mecanico"], tipo: "countdown" };</script>
+</section>

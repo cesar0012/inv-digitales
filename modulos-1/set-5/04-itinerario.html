@@ -1,0 +1,42 @@
+<section class="ne-itin2" data-gemini-id="itinerario-agenda" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.ne-itin2 { --primary-color:#f2f4fa; --secondary-color:#9aa3b8; --accent-color:#ff4d7d; --bg-color:#14161d; --surface-color:#1b1e27; --surface-border-color:rgba(255,255,255,.14); --text-color:#f2f4fa;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) 0;
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/900/neon,city'); background-size:cover; background-position:center; color:var(--text-color); }
+.ne-itin2 *, .ne-itin2 *::before, .ne-itin2 *::after { box-sizing:border-box; }
+.ne-itin2::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 90%, transparent); }
+.ne-itin2__titulo { margin:0 0 1.6rem; padding:0 clamp(1rem,5vw,4rem); font-family:Georgia,serif; font-weight:400; font-size:clamp(1.7rem,4vw,2.6rem); color:var(--primary-color); }
+.ne-itin2__titulo em { font-style:italic; color:var(--accent-color); text-shadow:0 0 18px color-mix(in srgb, var(--accent-color) 70%, transparent); }
+/* marquesina horizontal: la tira entera se desplaza sola y al hover se pausa */
+.ne-itin2__marco { overflow:hidden; border-top:1px solid var(--surface-border-color); border-bottom:1px solid var(--surface-border-color); padding:clamp(1.2rem,3vw,2rem) 0; }
+.ne-itin2__tira { display:flex; gap:clamp(1rem,3vw,2rem); width:max-content; animation:neItin2Marquesina 26s linear infinite; }
+.ne-itin2__marco:hover .ne-itin2__tira { animation-play-state:paused; }
+@keyframes neItin2Marquesina { to { transform:translateX(-50%); } }
+.ne-itin2__parada { position:relative; width:clamp(240px,30vw,330px); padding:clamp(1.1rem,2.6vw,1.5rem); background:color-mix(in srgb, var(--surface-color) 92%, transparent); border:1px solid var(--surface-border-color); box-shadow:0 18px 40px rgba(0,0,0,.5); flex-shrink:0; }
+.ne-itin2__parada:nth-child(odd) { transform:rotate(-1.4deg) translateY(8px); }
+.ne-itin2__parada:nth-child(even) { transform:rotate(1.2deg) translateY(-6px); }
+.ne-itin2__parada::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:var(--accent-color); box-shadow:0 0 12px var(--accent-color); }
+.ne-itin2__num { position:absolute; top:-0.55em; right:10px; font-family:Georgia,serif; font-style:italic; font-size:clamp(1.6rem,3.6vw,2.4rem); color:var(--accent-color); text-shadow:0 0 16px color-mix(in srgb, var(--accent-color) 70%, transparent); }
+.ne-itin2__hora { display:block; margin-bottom:.3rem; font-family:'Courier New',monospace; font-size:clamp(.66rem,1.3vw,.76rem); letter-spacing:.26em; color:var(--accent-color); }
+.ne-itin2__momento { margin:0 0 .25rem; font-family:Georgia,serif; font-size:clamp(1rem,2vw,1.24rem); color:var(--primary-color); }
+.ne-itin2__detalle { margin:0; font-family:Arial,sans-serif; font-size:clamp(.76rem,1.35vw,.86rem); line-height:1.6; color:var(--secondary-color); }
+@media (prefers-reduced-motion:reduce){ .ne-itin2__tira { animation:none; overflow-x:auto; padding:0 clamp(1rem,5vw,4rem); } }
+</style>
+<h2 class="ne-itin2__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">La noche en <em>movimiento</em></h2>
+<div class="ne-itin2__marco">
+  <div class="ne-itin2__tira">
+    <article class="ne-itin2__parada"><span class="ne-itin2__num" aria-hidden="true">01</span><time class="ne-itin2__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">16:00</time><div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-1"><h3 class="ne-itin2__momento">Encendido</h3><p class="ne-itin2__detalle">Recepción y primera ronda de brindis.</p></div></article>
+    <article class="ne-itin2__parada"><span class="ne-itin2__num" aria-hidden="true">02</span><time class="ne-itin2__hora" datetime="17:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:30</time><div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-2"><h3 class="ne-itin2__momento">Editorial central</h3><p class="ne-itin2__detalle">Ceremonia frente a la cubierta iluminada.</p></div></article>
+    <article class="ne-itin2__parada"><span class="ne-itin2__num" aria-hidden="true">03</span><time class="ne-itin2__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00</time><div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-3"><h3 class="ne-itin2__momento">Cena de portada</h3><p class="ne-itin2__detalle">Banquete con sombras cálidas y discursos breves.</p></div></article>
+    <article class="ne-itin2__parada"><span class="ne-itin2__num" aria-hidden="true">04</span><time class="ne-itin2__hora" datetime="21:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:00</time><div memory_type="text" memory_usage="custom" memory_key="itinerario-hito-4"><h3 class="ne-itin2__momento">Contraportada</h3><p class="ne-itin2__detalle">Pista abierta y cierre con luces bajas.</p></div></article>
+    <!-- duplicado para bucle continuo -->
+    <article class="ne-itin2__parada" aria-hidden="true"><span class="ne-itin2__num">01</span><time class="ne-itin2__hora">16:00</time><div><h3 class="ne-itin2__momento">Encendido</h3><p class="ne-itin2__detalle">Recepción y primera ronda de brindis.</p></div></article>
+    <article class="ne-itin2__parada" aria-hidden="true"><span class="ne-itin2__num">02</span><time class="ne-itin2__hora">17:30</time><div><h3 class="ne-itin2__momento">Editorial central</h3><p class="ne-itin2__detalle">Ceremonia frente a la cubierta iluminada.</p></div></article>
+    <article class="ne-itin2__parada" aria-hidden="true"><span class="ne-itin2__num">03</span><time class="ne-itin2__hora">19:00</time><div><h3 class="ne-itin2__momento">Cena de portada</h3><p class="ne-itin2__detalle">Banquete con sombras cálidas y discursos breves.</p></div></article>
+    <article class="ne-itin2__parada" aria-hidden="true"><span class="ne-itin2__num">04</span><time class="ne-itin2__hora">21:00</time><div><h3 class="ne-itin2__momento">Contraportada</h3><p class="ne-itin2__detalle">Pista abierta y cierre con luces bajas.</p></div></article>
+  </div>
+</div>
+<script>
+var moduleMetadata = { module_type:'itinerario', module_name:'itinerario-agenda', style_name:'Marquesina de Neón', descripcion:'Tira de paradas desfilando en marquesina continua (se pausa al hover), tarjetas rotadas con numerales que flotan y regla de neón al pie.', tags:['itinerario','marquesina','desplazamiento','neon','rotado'], tipo:'itinerario' };
+</script>
+</section>

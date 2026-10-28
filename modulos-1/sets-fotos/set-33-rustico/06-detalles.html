@@ -1,0 +1,222 @@
+<section
+  class="rr-dt"
+  data-gemini-id="detalles-vestimenta"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Allura&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .rr-dt, .rr-dt *, .rr-dt *::before, .rr-dt *::after { box-sizing: border-box; }
+    .rr-dt {
+      --t-bg: var(--bg-color, #F3EDE1);
+      --t-tx: var(--text-color, #3A2B1F);
+      --t-p: var(--primary-color, #8B9E7C);
+      --t-s: var(--secondary-color, #9A7350);
+      --t-a: var(--accent-color, #EDBC68);
+      --t-display: var(--font-script, 'Allura', cursive);
+      --t-text: var(--font-heading, 'EB Garamond', Georgia, serif);
+      --t-wood: color-mix(in srgb, var(--t-s) 82%, #2b1c11);
+      --t-wood-d: color-mix(in srgb, var(--t-s) 34%, #170f09);
+      --t-sage-d: color-mix(in srgb, var(--t-p) 58%, #1d261a);
+      --t-sage-l: color-mix(in srgb, var(--t-p) 55%, var(--t-bg));
+      --t-ivory: color-mix(in srgb, var(--t-bg) 70%, #ffffff);
+      --t-twine: color-mix(in srgb, var(--t-s) 50%, #dcc7a4);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      padding: clamp(5rem, 9vw, 7rem) clamp(1.25rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image:
+        radial-gradient(ellipse 60% 50% at 85% 10%, color-mix(in srgb, var(--t-p) 16%, transparent), transparent 70%),
+        radial-gradient(ellipse 60% 50% at 10% 95%, color-mix(in srgb, var(--t-a) 14%, transparent), transparent 70%),
+        repeating-linear-gradient(0deg, color-mix(in srgb, var(--t-s) 7%, transparent) 0 1px, transparent 1px 4px), repeating-linear-gradient(90deg, color-mix(in srgb, var(--t-s) 6%, transparent) 0 1px, transparent 1px 5px);
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .rr-dt__deco { position: absolute; width: clamp(6rem, 14vw, 10rem); height: auto; pointer-events: none; opacity: .95; }
+    .rr-dt__deco--a { left: clamp(-2.6rem, -2vw, -1rem); top: -1.6rem; transform: rotate(-125deg); }
+    .rr-dt__deco--b { right: clamp(-2.6rem, -2vw, -1rem); top: -1.2rem; transform: rotate(130deg) scaleX(-1); }
+    .rr-dt__head { max-width: 38rem; margin: 0 auto clamp(2.4rem, 5vw, 3.4rem); }
+    .rr-dt__title { margin: 0 0 .5rem; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.8rem, 7vw, 4.4rem); line-height: 1.05; color: var(--t-sage-d); }
+    .rr-dt__intro { margin: 0; font-style: italic; font-size: clamp(1.05rem, 2.3vw, 1.2rem); line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 80%, transparent); }
+
+    .rr-dt__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr) minmax(0, .95fr);
+      grid-template-areas: "fig a b" "fig c b" "d d d";
+      gap: clamp(1rem, 2.4vw, 1.6rem);
+      max-width: 64rem;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .rr-dt__card[data-k="a"] { grid-area: a; }
+    .rr-dt__card[data-k="b"] { grid-area: b; }
+    .rr-dt__card[data-k="c"] { grid-area: c; }
+    .rr-dt__card[data-k="d"] { grid-area: d; }
+    .rr-dt__fig {
+      grid-area: fig;
+      align-self: center;
+      margin: 0;
+      padding: .75rem;
+      border-radius: 3px;
+      background:
+        repeating-linear-gradient(90deg, rgba(0, 0, 0, .07) 0 1px, transparent 1px 7px),
+        linear-gradient(135deg, color-mix(in srgb, var(--t-s) 70%, #f1dcbc), var(--t-wood) 45%, var(--t-wood-d));
+      box-shadow: 0 1.4rem 2.4rem rgba(58, 43, 31, .3);
+      transform: rotate(-1deg);
+    }
+    .rr-dt__fig img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 2px; background: color-mix(in srgb, var(--t-p) 30%, var(--t-bg)); }
+
+    .rr-dt__card { perspective: 900px; transform: rotate(var(--tilt, 0deg)); }
+    .rr-dt__inner { position: relative; display: grid; height: 100%; transform-style: preserve-3d; transition: transform .5s cubic-bezier(.3, 1.25, .5, 1); }
+    .rr-dt__face { grid-area: 1 / 1; min-height: 100%; border-radius: 4px; padding: clamp(1.3rem, 2.6vw, 1.7rem); -webkit-backface-visibility: hidden; backface-visibility: hidden; box-shadow: 0 1rem 1.8rem rgba(58, 43, 31, .18); }
+    .rr-dt__face--main {
+      position: relative;
+      background: radial-gradient(ellipse at 20% 0%, rgba(255, 255, 255, .6), transparent 60%), repeating-linear-gradient(0deg, color-mix(in srgb, var(--t-s) 7%, transparent) 0 1px, transparent 1px 4px), repeating-linear-gradient(90deg, color-mix(in srgb, var(--t-s) 6%, transparent) 0 1px, transparent 1px 5px), var(--t-ivory);
+      border: 1px solid color-mix(in srgb, var(--t-s) 18%, transparent);
+    }
+    .rr-dt__card--sage .rr-dt__face--main { background: radial-gradient(ellipse at 20% 0%, rgba(255, 255, 255, .45), transparent 60%), repeating-linear-gradient(0deg, color-mix(in srgb, var(--t-s) 7%, transparent) 0 1px, transparent 1px 4px), repeating-linear-gradient(90deg, color-mix(in srgb, var(--t-s) 6%, transparent) 0 1px, transparent 1px 5px), color-mix(in srgb, var(--t-p) 22%, var(--t-ivory)); }
+    .rr-dt__face--wood {
+      transform: rotateY(180deg);
+      display: grid;
+      place-items: center;
+      color: var(--t-ivory);
+      background: repeating-linear-gradient(180deg, transparent 0 calc(1.6rem - 3px), rgba(0,0,0,.42) calc(1.6rem - 3px) calc(1.6rem - 1px), rgba(255,236,210,.08) calc(1.6rem - 1px) 1.6rem), repeating-linear-gradient(180deg, rgba(0,0,0,0) 0 1.6rem, rgba(0,0,0,.12) 1.6rem calc(1.6rem * 2), rgba(255,240,220,.05) calc(1.6rem * 2) calc(1.6rem * 3)), linear-gradient(180deg, var(--t-wood), var(--t-wood-d));
+    }
+    .rr-dt__face--wood .rr-dt__icon { width: 3.4rem; height: 3.4rem; opacity: .9; }
+    .rr-dt__face--main .rr-dt__icon { width: 2.4rem; height: 2.4rem; color: var(--t-sage-d); }
+    .rr-dt__name { margin: .7rem 0 .4rem; font-size: clamp(1.3rem, 2.4vw, 1.5rem); font-weight: 600; line-height: 1.2; color: var(--t-sage-d); }
+    .rr-dt__text { margin: 0; font-size: 1.06rem; line-height: 1.55; }
+    .rr-dt__card:hover .rr-dt__inner { transform: rotateY(-7deg) translateY(-3px); }
+    .rr-dt__card--tall .rr-dt__face--main { display: flex; flex-direction: column; justify-content: center; }
+    .rr-dt__card--tall .rr-dt__face--main .rr-dt__icon { width: 3rem; height: 3rem; }
+    .rr-dt__card--tall .rr-dt__name { font-family: var(--t-display); font-weight: 400; font-size: clamp(2.2rem, 4vw, 2.8rem); }
+    .rr-dt__card--wide .rr-dt__face--main { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1.4rem; }
+    .rr-dt__card--wide .rr-dt__name { margin: 0; }
+    .rr-dt__card--wide .rr-dt__text { flex: 1 1 18rem; }
+    .rr-dt__face--main::after {
+      content: '';
+      position: absolute;
+      top: -.55rem;
+      right: 1.4rem;
+      width: 1.1rem;
+      height: 1.6rem;
+      border-radius: 50% 0 50% 0;
+      background: var(--t-p);
+      transform: rotate(35deg);
+      box-shadow: inset -2px -2px 0 rgba(0, 0, 0, .12);
+    }
+    .rr-dt__card--sage .rr-dt__face--main::after { background: var(--t-a); border-radius: 50%; width: .8rem; height: .8rem; top: .7rem; right: .7rem; }
+
+    @media (max-width: 50rem) {
+      .rr-dt__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-areas: "fig fig" "a b" "c b" "d d"; }
+      .rr-dt__fig img { aspect-ratio: 16 / 10; }
+    }
+    @media (max-width: 34rem) {
+      .rr-dt__grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "fig" "a" "b" "c" "d"; }
+      .rr-dt__deco { width: 5rem; }
+    }
+
+    /* Viewport entry: each wooden crate panel turns around to reveal its linen side */
+    .rr-dt--anim .rr-dt__card:not([data-in]) .rr-dt__inner { transform: rotateY(180deg); }
+    .rr-dt--anim .rr-dt__fig { transition: opacity .45s ease, transform .5s ease; }
+    .rr-dt--anim:not(.is-in) .rr-dt__fig { opacity: 0; transform: rotate(-4deg) scale(.96); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .rr-dt *, .rr-dt *::before, .rr-dt *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="rr-dt__deco rr-dt__deco--a" viewBox="0 0 120 260" aria-hidden="true" focusable="false"><path d="M60.0,256.0 Q94.3,130.0 52.1,12.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 2; fill: none; stroke-linecap: round"></path><path d="M68.1,220.9 L72.2,221.1" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="90.8" cy="225.2" rx="21.1" ry="18.2" transform="rotate(12 90.8 225.2)" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></ellipse><path d="M75.3,221.8 L105.2,228.3" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M71.8,197.6 L67.4,199.6" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="50.9" cy="194.9" rx="19.0" ry="16.4" transform="rotate(-164 50.9 194.9)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M64.7,198.8 L38.1,191.2" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M74.3,174.5 L78.1,176.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="95.1" cy="176.1" rx="18.9" ry="16.2" transform="rotate(0 95.1 176.1)" style="fill: var(--t-p)"></ellipse><path d="M81.0,176.0 L108.3,176.2" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M75.3,151.6 L71.0,155.1" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="55.6" cy="151.2" rx="17.7" ry="15.2" transform="rotate(-166 55.6 151.2)" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></ellipse><path d="M68.4,154.5 L43.6,148.2" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M75.1,128.7 L79.1,125.6" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="94.4" cy="128.0" rx="17.2" ry="14.8" transform="rotate(9 94.4 128.0)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M81.6,126.0 L106.4,129.8" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M73.5,106.1 L69.5,105.3" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="55.2" cy="107.9" rx="16.1" ry="13.9" transform="rotate(170 55.2 107.9)" style="fill: var(--t-p)"></ellipse><path d="M67.1,105.7 L44.2,109.9" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M70.5,83.5 L74.9,85.4" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="88.1" cy="80.7" rx="15.6" ry="13.4" transform="rotate(-20 88.1 80.7)" style="fill: var(--t-p)"></ellipse><path d="M77.1,84.6 L98.4,77.1" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M66.3,61.1 L62.4,60.8" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="51.5" cy="64.4" rx="12.7" ry="11.0" transform="rotate(162 51.5 64.4)" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></ellipse><path d="M60.6,61.4 L43.1,67.2" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M60.7,38.8 L64.4,38.8" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="74.6" cy="34.9" rx="12.1" ry="10.4" transform="rotate(-21 74.6 34.9)" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></ellipse><path d="M66.1,38.1 L82.6,31.9" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M53.7,16.7 L50.5,18.5" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="40.2" cy="21.4" rx="11.9" ry="10.2" transform="rotate(165 40.2 21.4)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M48.8,19.0 L32.2,23.6" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><ellipse cx="52.1" cy="9.0" rx="3.2" ry="5" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse></svg>
+  <svg class="rr-dt__deco rr-dt__deco--b" viewBox="0 0 120 260" aria-hidden="true" focusable="false"><path d="M60.0,256.0 Q28.8,130.0 67.2,12.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 2; fill: none; stroke-linecap: round"></path><path d="M52.6,220.9 L56.3,218.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="73.4" cy="217.3" rx="19.0" ry="16.3" transform="rotate(-2 73.4 217.3)" style="fill: var(--t-p)"></ellipse><path d="M59.1,217.9 L86.6,216.8" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M48.9,194.7 L45.0,199.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="27.5" cy="197.2" rx="19.5" ry="16.8" transform="rotate(186 27.5 197.2)" style="fill: var(--t-p)"></ellipse><path d="M42.1,198.7 L13.9,195.8" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M46.7,168.8 L50.8,170.4" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="67.3" cy="167.6" rx="18.6" ry="16.0" transform="rotate(-9 67.3 167.6)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M53.6,169.9 L80.2,165.5" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M46.0,143.0 L42.1,144.3" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="25.9" cy="142.9" rx="18.0" ry="15.5" transform="rotate(-175 25.9 142.9)" style="fill: color-mix(in srgb, var(--t-p) 84%, #26321f)"></ellipse><path d="M39.4,144.1 L13.4,141.9" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M46.9,117.4 L50.6,118.0" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="63.5" cy="118.5" rx="14.4" ry="12.3" transform="rotate(2 63.5 118.5)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M52.7,118.1 L73.5,118.8" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M49.3,92.0 L45.5,91.4" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="31.6" cy="89.8" rx="15.6" ry="13.4" transform="rotate(-173 31.6 89.8)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M43.2,91.1 L20.8,88.4" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M53.2,66.7 L57.4,65.2" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="68.6" cy="69.6" rx="13.3" ry="11.5" transform="rotate(21 68.6 69.6)" style="fill: color-mix(in srgb, var(--t-p) 86%, #ffffff)"></ellipse><path d="M59.3,66.0 L77.3,73.0" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M58.7,41.6 L55.2,40.9" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="44.6" cy="38.1" rx="12.1" ry="10.4" transform="rotate(-165 44.6 38.1)" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse><path d="M53.4,40.4 L36.4,35.9" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><path d="M65.7,16.7 L70.2,15.4" style="stroke: color-mix(in srgb, var(--t-p) 40%, #4a3a2b); stroke-width: 1.2; fill: none"></path><ellipse cx="79.8" cy="21.2" rx="12.4" ry="10.7" transform="rotate(31 79.8 21.2)" style="fill: color-mix(in srgb, var(--t-p) 76%, #b9c7c2)"></ellipse><path d="M71.8,16.4 L87.3,25.6" style="stroke: rgba(255,255,255,.32); stroke-width: .8; fill: none"></path><ellipse cx="67.2" cy="9.0" rx="3.2" ry="5" style="fill: color-mix(in srgb, var(--t-p) 70%, #eef1e8)"></ellipse></svg>
+  <header class="rr-dt__head">
+    <h2 class="rr-dt__title" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Detalles para disfrutar</h2>
+    <p class="rr-dt__intro" memory_type="text" memory_usage="custom" memory_key="detalles-intro">Pequeñas notas para que vivas la celebración al aire libre con toda comodidad.</p>
+  </header>
+  <div class="rr-dt__grid">
+    <figure class="rr-dt__fig" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/600/800/rustic,wedding,table?lock=3061" alt="Mesa rústica con eucalipto y velas" path="placeholder" data-library-category="bodas" data-asset-type="decoracion" loading="lazy" /></figure>
+    
+    <article class="rr-dt__card" data-rr-card data-k="a" style="--tilt: -1.2deg">
+      <div class="rr-dt__inner">
+        <div class="rr-dt__face rr-dt__face--main">
+          <svg class="rr-dt__icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M4 27 C6 21 6 16 4 11" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M10 27 C10 20 12 15 15 11" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M17 27 C16 21 17 15 21 9" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M24 27 C25 22 26 17 25 12" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M2 27 H30" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path></svg>
+          <h3 class="rr-dt__name" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-a">Jardín y pasto</h3>
+          <p class="rr-dt__text" memory_type="text" memory_usage="custom" memory_key="detalles-texto-a">La ceremonia será sobre pasto; te recomendamos tacón ancho o calzado plano.</p>
+        </div>
+        <div class="rr-dt__face rr-dt__face--wood" aria-hidden="true"><svg class="rr-dt__icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M4 27 C6 21 6 16 4 11" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M10 27 C10 20 12 15 15 11" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M17 27 C16 21 17 15 21 9" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M24 27 C25 22 26 17 25 12" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M2 27 H30" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path></svg></div>
+      </div>
+    </article>
+    <article class="rr-dt__card rr-dt__card--sage rr-dt__card--tall" data-rr-card data-k="b" style="--tilt: 1deg">
+      <div class="rr-dt__inner">
+        <div class="rr-dt__face rr-dt__face--main">
+          <svg class="rr-dt__icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M24 19.5 A10 10 0 1 1 12.5 6 A8 8 0 0 0 24 19.5 Z" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M23 6 V9 M21.5 7.5 H24.5" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M27 12 V14 M26 13 H28" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path></svg>
+          <h3 class="rr-dt__name" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-b">Noche fresca</h3>
+          <p class="rr-dt__text" memory_type="text" memory_usage="custom" memory_key="detalles-texto-b">Al caer el sol refresca. Un chal o un saco ligero será tu mejor aliado para disfrutar la noche bajo las luces.</p>
+        </div>
+        <div class="rr-dt__face rr-dt__face--wood" aria-hidden="true"><svg class="rr-dt__icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M24 19.5 A10 10 0 1 1 12.5 6 A8 8 0 0 0 24 19.5 Z" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M23 6 V9 M21.5 7.5 H24.5" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M27 12 V14 M26 13 H28" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path></svg></div>
+      </div>
+    </article>
+    <article class="rr-dt__card" data-rr-card data-k="c" style="--tilt: .8deg">
+      <div class="rr-dt__inner">
+        <div class="rr-dt__face rr-dt__face--main">
+          <svg class="rr-dt__icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M12 20 A6 6 0 1 1 12 8 A6 6 0 1 1 12 20 Z" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M20 24 A6 6 0 1 1 20 12 A6 6 0 1 1 20 24 Z" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M10 5 L12 2.5 L14 5" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path></svg>
+          <h3 class="rr-dt__name" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-c">Celebración para adultos</h3>
+          <p class="rr-dt__text" memory_type="text" memory_usage="custom" memory_key="detalles-texto-c">Con todo cariño, pensamos esta noche solo para adultos. Gracias por comprender.</p>
+        </div>
+        <div class="rr-dt__face rr-dt__face--wood" aria-hidden="true"><svg class="rr-dt__icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M12 20 A6 6 0 1 1 12 8 A6 6 0 1 1 12 20 Z" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M20 24 A6 6 0 1 1 20 12 A6 6 0 1 1 20 24 Z" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M10 5 L12 2.5 L14 5" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path></svg></div>
+      </div>
+    </article>
+    <article class="rr-dt__card rr-dt__card--sage rr-dt__card--wide" data-rr-card data-k="d" style="--tilt: -.5deg">
+      <div class="rr-dt__inner">
+        <div class="rr-dt__face rr-dt__face--main">
+          <svg class="rr-dt__icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M5 21 V16 L8 10 H24 L27 16 V21 Z" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M5 16 H27" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M9 21 V24" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M23 21 V24" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M9 18.5 H11 M21 18.5 H23" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path></svg>
+          <h3 class="rr-dt__name" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-d">Estacionamiento</h3>
+          <p class="rr-dt__text" memory_type="text" memory_usage="custom" memory_key="detalles-texto-d">Habrá estacionamiento y servicio de valet a la entrada de la hacienda.</p>
+        </div>
+        <div class="rr-dt__face rr-dt__face--wood" aria-hidden="true"><svg class="rr-dt__icon" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><path d="M5 21 V16 L8 10 H24 L27 16 V21 Z" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M5 16 H27" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M9 21 V24" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M23 21 V24" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path><path d="M9 18.5 H11 M21 18.5 H23" style="fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round"></path></svg></div>
+      </div>
+    </article>
+  </div>
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="detalles-vestimenta"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var HAS_IO = 'IntersectionObserver' in window;
+
+      if (RM || !HAS_IO) return;   /* reduced motion: linen side shown, no flip */
+      var cards = [].slice.call(root.querySelectorAll('[data-rr-card]'));
+      root.classList.add('rr-dt--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .15) {
+          io.disconnect();
+          root.classList.add('is-in');
+          cards.forEach(function (c, i) { setTimeout(function () { c.setAttribute('data-in', ''); }, 350 + i * 170); });
+          setTimeout(function () {
+            root.classList.remove('rr-dt--anim', 'is-in');
+            cards.forEach(function (c) { c.removeAttribute('data-in'); });
+          }, 350 + cards.length * 170 + 900);
+        }
+      }, { threshold: [0, .15, .4] });
+      io.observe(root);
+
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-vestimenta',
+      style_name: 'Romance Rústico Detalles',
+      descripcion: 'Detalles prácticos de boda rústica: tarjetas de lino que giran desde paneles de madera al entrar en pantalla, con iconos de línea y una foto enmarcada en madera.',
+      tags: ['detalles', 'boda', 'rustico', 'madera', 'informacion'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>

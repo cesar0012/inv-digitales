@@ -1,0 +1,321 @@
+<section
+  class="cnc-por"
+  data-gemini-id="portada-nombre"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&family=Marcellus&display=swap');
+
+    .cnc-por, .cnc-por *, .cnc-por *::before, .cnc-por *::after { box-sizing: border-box; }
+    .cnc-por {
+      --t-bg: var(--bg-color, #e6f0fa);
+      --t-tx: var(--text-color, #213a5c);
+      --t-p: var(--primary-color, #8db6dc);
+      --t-s: var(--secondary-color, #fdfcf8);
+      --t-a: var(--accent-color, #c4a052);
+      --t-display: var(--font-script, 'Monsieur La Doulaise', cursive);
+      --t-text: var(--font-heading, 'Marcellus', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: 100vh;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(4.5rem, 8vw, 6rem) clamp(1.25rem, 5vw, 4rem) clamp(10rem, 19vw, 14rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/castle,fairytale?lock=3501');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .cnc-por::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 70% 55% at 50% 40%, color-mix(in srgb, var(--t-s) 70%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 82%, transparent), color-mix(in srgb, var(--t-bg) 94%, transparent) 70%, color-mix(in srgb, var(--t-p) 55%, var(--t-bg)));
+    }
+    .cnc-por::after {
+      content: '';
+      position: absolute;
+      inset: clamp(.75rem, 2vw, 1.5rem);
+      z-index: 0;
+      pointer-events: none;
+      border: 1px solid color-mix(in srgb, var(--t-a) 75%, transparent);
+      outline: 1px solid color-mix(in srgb, var(--t-a) 40%, transparent);
+      outline-offset: -7px;
+      border-radius: 50% 50% 1.25rem 1.25rem / clamp(5rem, 16vw, 13rem) clamp(5rem, 16vw, 13rem) 1.25rem 1.25rem;
+    }
+    .cnc-por__dust { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    .cnc-por__castle {
+      position: absolute;
+      left: 50%;
+      bottom: clamp(.75rem, 2vw, 1.5rem);
+      z-index: 0;
+      width: min(86%, 32rem);
+      height: auto;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+    .cnc-por__content { position: relative; z-index: 1; width: min(100%, 52rem); display: grid; justify-items: center; gap: clamp(.6rem, 1.6vw, 1rem); }
+
+    .cnc-por__stage { perspective: 700px; width: clamp(7rem, 15vw, 10rem); margin-bottom: .25rem; }
+    .cnc-por__tiara { position: relative; transform-style: preserve-3d; transform: rotateX(10deg); }
+    .cnc-por__tiara svg { display: block; width: 100%; height: auto; }
+    .cnc-por__layer { position: absolute; inset: 0; }
+    .cnc-por__layer--back { transform: translateZ(-6px); filter: brightness(.78); }
+    .cnc-por__layer--front { position: relative; transform: translateZ(4px); }
+    .cnc-por__layer--gems { transform: translateZ(11px); }
+
+    .cnc-por__kicker { margin: 0; font-size: clamp(1rem, 2.2vw, 1.3rem); letter-spacing: .03em; color: color-mix(in srgb, var(--t-tx) 80%, var(--t-a)); }
+    .cnc-por__namewrap { position: relative; max-width: 100%; }
+    .cnc-por__reveal { position: relative; padding: .15em .45em .05em; --cnc-rv: 130; -webkit-mask-image: linear-gradient(90deg, #000 calc(var(--cnc-rv) * 1% - 14%), transparent calc(var(--cnc-rv) * 1%)); mask-image: linear-gradient(90deg, #000 calc(var(--cnc-rv) * 1% - 14%), transparent calc(var(--cnc-rv) * 1%)); }
+    .cnc-por__name {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3.6rem, 10vw, 6.8rem);
+      line-height: 1.15;
+      color: var(--t-tx);
+      text-shadow: 0 1px 0 color-mix(in srgb, var(--t-s) 80%, transparent);
+    }
+    .cnc-por__wand {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 1.6rem;
+      height: 1.6rem;
+      margin: -.8rem 0 0 -.8rem;
+      opacity: 0;
+      pointer-events: none;
+      background: radial-gradient(circle, var(--t-s) 0 18%, color-mix(in srgb, var(--t-a) 70%, transparent) 30%, transparent 68%);
+    }
+    .cnc-por__line { display: flex; align-items: center; justify-content: center; gap: .8rem; width: 100%; }
+    .cnc-por__scroll { flex: 0 1 7rem; height: auto; color: var(--t-a); }
+    .cnc-por__scroll--r { transform: scaleX(-1); }
+    .cnc-por__invite { margin: 0; text-wrap: balance; max-width: 34rem; font-size: clamp(1.05rem, 2.3vw, 1.35rem); line-height: 1.5; }
+    .cnc-por__date { margin: 0; font-size: clamp(1.1rem, 2.5vw, 1.5rem); color: var(--t-tx); white-space: nowrap; }
+    .cnc-por__date time { color: inherit; }
+
+    .cnc-por--anim .cnc-por__kicker,
+    .cnc-por--anim .cnc-por__invite,
+    .cnc-por--anim .cnc-por__line,
+    .cnc-por--anim .cnc-por__stage { opacity: 0; transform: translateY(10px); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .cnc-por--anim.is-in .cnc-por__stage { opacity: 1; transform: none; transition-delay: .1s; }
+    .cnc-por--anim.is-in .cnc-por__kicker { opacity: 1; transform: none; transition-delay: .35s; }
+    .cnc-por--anim.is-in .cnc-por__invite { opacity: 1; transform: none; transition-delay: 1.9s; }
+    .cnc-por--anim.is-in .cnc-por__line { opacity: 1; transform: none; transition-delay: 2.15s; }
+
+    @media (max-width: 560px) {
+      .cnc-por__scroll { flex-basis: 3rem; }
+      .cnc-por__date { white-space: normal; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cnc-por *, .cnc-por *::before, .cnc-por *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <canvas class="cnc-por__dust" data-cnc-dust aria-hidden="true"></canvas>
+
+  <svg class="cnc-por__castle" viewBox="0 0 600 230" aria-hidden="true">
+    <defs>
+      <linearGradient id="cnc-por-stone" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" style="stop-color: var(--t-s)" />
+        <stop offset="1" style="stop-color: color-mix(in srgb, var(--t-p) 65%, var(--t-s))" />
+      </linearGradient>
+      <linearGradient id="cnc-por-roof" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" style="stop-color: color-mix(in srgb, var(--t-p) 70%, var(--t-tx))" />
+        <stop offset="1" style="stop-color: var(--t-p)" />
+      </linearGradient>
+    </defs>
+    <g opacity=".82">
+      <path d="M0 230 Q300 176 600 230 Z" style="fill: color-mix(in srgb, var(--t-p) 60%, var(--t-bg))" />
+      <g fill="url(#cnc-por-stone)">
+        <rect x="150" y="150" width="300" height="62" />
+        <rect x="160" y="118" width="26" height="94" /><rect x="414" y="118" width="26" height="94" />
+        <rect x="210" y="86" width="30" height="126" /><rect x="360" y="86" width="30" height="126" />
+        <rect x="248" y="96" width="104" height="116" />
+        <rect x="284" y="44" width="32" height="70" />
+        <path d="M248 96 h10 v-8 h10 v8 h10 v-8 h10 v8 h12 v-8 h10 v8 h12 v-8 h10 v8 h10 v-8 h10 v8 h0 v6 h-104 z" />
+      </g>
+      <g fill="url(#cnc-por-roof)">
+        <path d="M156 120 L173 78 L190 120 Z" /><path d="M410 120 L427 78 L444 120 Z" />
+        <path d="M205 88 L225 36 L245 88 Z" /><path d="M355 88 L375 36 L395 88 Z" />
+        <path d="M279 46 L300 2 L321 46 Z" />
+      </g>
+      <g style="fill: var(--t-a)">
+        <path d="M300 2 v-1 l16 5 l-16 5 z" />
+        <rect x="294" y="62" width="12" height="18" rx="6" />
+        <rect x="219" y="110" width="12" height="16" rx="6" /><rect x="369" y="110" width="12" height="16" rx="6" />
+        <rect x="270" y="128" width="10" height="14" rx="5" /><rect x="320" y="128" width="10" height="14" rx="5" />
+        <path d="M286 212 v-26 a14 14 0 0 1 28 0 v26 z" opacity=".75" />
+      </g>
+    </g>
+  </svg>
+
+  <header class="cnc-por__content">
+    <div class="cnc-por__stage" aria-hidden="true">
+      <div class="cnc-por__tiara" data-cnc-tiara>
+        <svg class="cnc-por__layer cnc-por__layer--back" viewBox="0 0 200 92"><path d="M10 84 Q100 64 190 84 L184 72 Q162 42 150 68 Q140 30 125 62 Q112 8 100 52 Q88 8 75 62 Q60 30 50 68 Q38 42 16 72 Z" style="fill: var(--t-a)" /></svg>
+        <svg class="cnc-por__layer--front" viewBox="0 0 200 92">
+          <defs>
+            <linearGradient id="cnc-por-gold" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" style="stop-color: color-mix(in srgb, var(--t-a) 55%, var(--t-s))" />
+              <stop offset=".55" style="stop-color: var(--t-a)" />
+              <stop offset="1" style="stop-color: color-mix(in srgb, var(--t-a) 70%, var(--t-tx))" />
+            </linearGradient>
+          </defs>
+          <path d="M10 84 Q100 64 190 84 L184 72 Q162 42 150 68 Q140 30 125 62 Q112 8 100 52 Q88 8 75 62 Q60 30 50 68 Q38 42 16 72 Z" fill="url(#cnc-por-gold)" />
+          <path d="M18 78 Q100 60 182 78" fill="none" style="stroke: var(--t-s)" stroke-width="1.4" opacity=".7" />
+        </svg>
+        <svg class="cnc-por__layer cnc-por__layer--gems" viewBox="0 0 200 92">
+          <g style="fill: var(--t-p); stroke: var(--t-s)" stroke-width="1.2">
+            <path d="M100 26 l7 9 -7 9 -7 -9 z" />
+            <circle cx="75" cy="50" r="4.5" /><circle cx="125" cy="50" r="4.5" />
+            <circle cx="50" cy="62" r="3.2" /><circle cx="150" cy="62" r="3.2" />
+          </g>
+          <path data-cnc-glint d="M100 14 l2 8 8 2 -8 2 -2 8 -2 -8 -8 -2 8 -2 z" style="fill: var(--t-s); transform-origin: 100px 24px" />
+        </svg>
+      </div>
+    </div>
+    <p class="cnc-por__kicker" memory_type="text" memory_usage="custom" memory_key="portada-intro">Había una vez… mis XV años</p>
+    <div class="cnc-por__namewrap">
+      <div class="cnc-por__reveal" data-cnc-reveal>
+        <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,3vw,1.6rem);width:clamp(150px,22vw,220px);"><img src="https://loremflickr.com/480/480/fairytale,castle,portrait?lock=319" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:2px solid var(--primary-color,#9b9b9b);box-shadow:0 14px 30px rgba(0,0,0,.18);" /><figcaption hidden>Retrato</figcaption></figure>
+<h1 class="cnc-por__name" memory_type="text" memory_usage="custom" memory_key="portada-nombre" data-event-field="nombres">Nombre Apellido</h1>
+      </div>
+      <span class="cnc-por__wand" data-cnc-wand aria-hidden="true"></span>
+    </div>
+    <p class="cnc-por__invite" memory_type="text" memory_usage="custom" memory_key="portada-invitacion">Te invito a vivir el baile real de mi cuento de hadas</p>
+    <div class="cnc-por__line">
+      <svg class="cnc-por__scroll" viewBox="0 0 120 20" aria-hidden="true"><path d="M2 10 H84 M84 10 c8 -10 20 -8 20 0 s-10 6 -14 0 M108 10 l5 -5 5 5 -5 5 z" fill="none" stroke="currentColor" stroke-width="1.3" /></svg>
+      <p class="cnc-por__date"><time datetime="2027-04-17T19:00" memory_type="text" memory_usage="custom" memory_key="portada-fecha" data-event-field="fecha">Sábado 17 de abril de 2027</time></p>
+      <svg class="cnc-por__scroll cnc-por__scroll--r" viewBox="0 0 120 20" aria-hidden="true"><path d="M2 10 H84 M84 10 c8 -10 20 -8 20 0 s-10 6 -14 0 M108 10 l5 -5 5 5 -5 5 z" fill="none" stroke="currentColor" stroke-width="1.3" /></svg>
+    </div>
+  </header>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="portada-nombre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      var cv = root.querySelector('[data-cnc-dust]');
+      var ctx = cv.getContext && cv.getContext('2d');
+      var tiara = root.querySelector('[data-cnc-tiara]');
+      var glint = root.querySelector('[data-cnc-glint]');
+      var rev = root.querySelector('[data-cnc-reveal]');
+      var wand = root.querySelector('[data-cnc-wand]');
+      var W = 0, H = 0, P = [], gold = '#c4a052', white = '#fdfcf8';
+
+      function readColors() {
+        var cs = getComputedStyle(root);
+        gold = (cs.getPropertyValue('--t-a') || gold).trim() || gold;
+        white = (cs.getPropertyValue('--t-s') || white).trim() || white;
+      }
+      function size() {
+        var r = root.getBoundingClientRect();
+        var dpr = Math.min(2, window.devicePixelRatio || 1);
+        W = r.width; H = r.height;
+        cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+        if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      function make(anyY) {
+        return { a: Math.random() * 6.283, r: 70 + Math.random() * Math.min(W * .5, 430), y: anyY ? Math.random() * 2.2 - 1.1 : 1.1,
+          vy: .0012 + Math.random() * .0026, va: .0025 + Math.random() * .004, s: .7 + Math.random() * 1.7, g: Math.random() < .62 };
+      }
+      function seed() { P = []; var n = W < 700 ? 90 : 170; for (var i = 0; i < n; i++) P.push(make(true)); }
+      function draw() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, W, H);
+        var D = 760, cy = H * .5;
+        for (var i = 0; i < P.length; i++) {
+          var p = P[i];
+          var funnel = .35 + .65 * Math.min(1, Math.max(0, (p.y + 1.1) / 2.2));
+          var x = Math.cos(p.a) * p.r * funnel, z = Math.sin(p.a) * p.r * funnel;
+          var k = D / (D + z);
+          var sx = W / 2 + x * k, sy = cy + p.y * H * .46 * k;
+          var edge = Math.min(1, (1.1 - Math.abs(p.y)) * 3);
+          var al = Math.max(0, Math.min(1, (k - .62) * 1.6)) * edge;
+          ctx.globalAlpha = al;
+          ctx.fillStyle = p.g ? gold : white;
+          var rad = p.s * k;
+          if (k > 1.12 && p.s > 1.6) {
+            ctx.strokeStyle = ctx.fillStyle; ctx.lineWidth = .9;
+            ctx.beginPath(); ctx.moveTo(sx - rad * 3, sy); ctx.lineTo(sx + rad * 3, sy); ctx.moveTo(sx, sy - rad * 3); ctx.lineTo(sx, sy + rad * 3); ctx.stroke();
+          }
+          ctx.beginPath(); ctx.arc(sx, sy, rad, 0, 6.283); ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+      }
+      function step() {
+        for (var i = 0; i < P.length; i++) {
+          var p = P[i]; p.y -= p.vy; p.a += p.va;
+          if (p.y < -1.1) P[i] = make(false);
+        }
+      }
+
+      readColors(); size(); seed(); draw();
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      root.classList.add('cnc-por--anim');
+      rev.style.setProperty('--cnc-rv', '0');
+      var onScreen = false, raf = 0, t0 = 0, revStart = 0, revDone = false;
+      function ease(x) { return x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; }
+      function frame(t) {
+        raf = 0;
+        if (!t0) t0 = t;
+        step(); draw();
+        var el = t - t0;
+        if (tiara) tiara.style.transform = 'rotateX(10deg) rotateY(' + (Math.sin(el / 1500) * 28).toFixed(2) + 'deg) translateY(' + (Math.sin(el / 950) * 4).toFixed(2) + 'px)';
+        if (glint) { var g = .4 + Math.max(0, Math.sin(el / 420)) * .9; glint.style.transform = 'scale(' + g.toFixed(3) + ') rotate(' + (el / 30 % 360).toFixed(1) + 'deg)'; }
+        if (!revDone) {
+          if (!revStart) revStart = t + 450;
+          var pr = Math.max(0, Math.min(1, (t - revStart) / 1700));
+          var v = ease(pr) * 118;
+          rev.style.setProperty('--cnc-rv', v.toFixed(2));
+          wand.style.opacity = pr > 0 && pr < 1 ? '1' : '0';
+          wand.style.left = Math.min(100, v - 6) + '%';
+          if (pr >= 1) { revDone = true; rev.style.removeProperty('--cnc-rv'); wand.style.removeProperty('left'); wand.style.removeProperty('opacity'); }
+        }
+        if (onScreen && !document.hidden) raf = requestAnimationFrame(frame);
+      }
+      function go() { if (!raf && onScreen && !document.hidden) raf = requestAnimationFrame(frame); }
+
+      var io = new IntersectionObserver(function (en) {
+        onScreen = en[0].isIntersecting;
+        if (onScreen && !root.classList.contains('is-in')) {
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('cnc-por--anim', 'is-in'); }, 3200);
+        }
+        go();
+      }, { threshold: [0, .15] });
+      io.observe(root);
+      document.addEventListener('visibilitychange', go);
+      var rt = 0;
+      window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { size(); seed(); draw(); }, 150); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Cenicienta Medianoche Real',
+      descripcion: 'Portada de XV años de cuento de hadas: vórtice 3D de polvo mágico, castillo a lo lejos, tiara dorada en 3D y nombre revelado por una varita de luz. Azul claro, blanco y dorado.',
+      tags: ['portada', 'quinceañera', 'cenicienta', 'cuento de hadas', 'castillo', 'tiara', 'azul', 'dorado'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

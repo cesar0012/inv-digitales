@@ -1,0 +1,394 @@
+﻿<section
+  class="countdown-hourglass"
+  data-gemini-id="countdown-hourglass"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+  data-countdown-start=""
+>
+  <style>
+    .countdown-hourglass {
+      position: relative;
+      isolation: isolate;
+      min-height: 680px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: clamp(3rem, 7vw, 5rem) 1rem;
+      background-color: var(--bg-color, #f4efe8);
+      background-image: url('https://loremflickr.com/1600/1000/celebration,elegant');
+      background-position: center;
+      background-size: cover;
+      color: var(--text-color, #202020);
+      text-align: center;
+    }
+
+    .countdown-hourglass::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color, #f4efe8) 88%, transparent);
+    }
+
+    .countdown-hourglass,
+    .countdown-hourglass * { box-sizing: border-box; }
+
+    .countdown-hourglass__content {
+      width: min(100%, 780px);
+      margin: 0 auto;
+    }
+
+    .countdown-hourglass__heading {
+      margin: 0 0 .45rem;
+      color: var(--primary-color, currentColor);
+      font-size: clamp(1.6rem, 3.6vw, 2.45rem);
+      line-height: 1.1;
+    }
+
+    .countdown-hourglass__date {
+      display: block;
+      margin: 0 0 clamp(1.4rem, 3.5vw, 2.1rem);
+      color: var(--text-color, currentColor);
+      font-size: clamp(.82rem, 1.8vw, 1rem);
+    }
+
+    .countdown-hourglass__visual {
+      position: relative;
+      width: clamp(205px, 34vw, 280px);
+      aspect-ratio: 5 / 6;
+      margin: 0 auto clamp(1.6rem, 4vw, 2.4rem);
+      filter: drop-shadow(0 12px 18px color-mix(in srgb, var(--text-color, #202020) 12%, transparent));
+    }
+
+    .countdown-hourglass__svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .countdown-hourglass__frame,
+    .countdown-hourglass__glass {
+      fill: none;
+      stroke: var(--primary-color, #55463d);
+      vector-effect: non-scaling-stroke;
+    }
+
+    .countdown-hourglass__frame {
+      stroke-width: 7;
+      stroke-linecap: round;
+    }
+
+    .countdown-hourglass__glass {
+      stroke-width: 3;
+      opacity: .72;
+    }
+
+    .countdown-hourglass__sand {
+      fill: var(--accent-color, #b88a4b);
+      transition: y 1s linear, height 1s linear;
+    }
+
+    .countdown-hourglass__shine {
+      fill: none;
+      stroke: var(--bg-color, #f4efe8);
+      stroke-width: 3;
+      stroke-linecap: round;
+      opacity: .55;
+    }
+
+    .countdown-hourglass__stream {
+      position: absolute;
+      left: 50%;
+      top: 48%;
+      width: 28px;
+      height: 28%;
+      transform: translateX(-50%);
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .countdown-hourglass__grain {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--accent-color, #b88a4b);
+      opacity: 0;
+      animation: countdown-hourglass-fall 1.15s linear infinite;
+    }
+
+    .countdown-hourglass__grain:nth-child(2) { margin-left: -5px; animation-delay: -.18s; animation-duration: 1.28s; }
+    .countdown-hourglass__grain:nth-child(3) { margin-left: 4px; animation-delay: -.38s; animation-duration: 1.06s; }
+    .countdown-hourglass__grain:nth-child(4) { margin-left: -2px; animation-delay: -.56s; animation-duration: 1.22s; }
+    .countdown-hourglass__grain:nth-child(5) { margin-left: 2px; animation-delay: -.75s; animation-duration: 1.11s; }
+    .countdown-hourglass__grain:nth-child(6) { margin-left: -4px; animation-delay: -.94s; animation-duration: 1.3s; }
+    .countdown-hourglass__grain:nth-child(7) { margin-left: 5px; animation-delay: -1.08s; animation-duration: 1.18s; }
+
+    @keyframes countdown-hourglass-fall {
+      0% { transform: translateY(0) scale(.75); opacity: 0; }
+      10% { opacity: 1; }
+      88% { opacity: 1; }
+      100% { transform: translateY(94px) scale(1); opacity: 0; }
+    }
+
+    .countdown-hourglass.is-complete .countdown-hourglass__grain {
+      animation-play-state: paused;
+      opacity: 0;
+    }
+
+    .countdown-hourglass__timer {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      width: min(100%, 650px);
+      margin: 0 auto;
+    }
+
+    .countdown-hourglass__unit {
+      position: relative;
+      min-width: 0;
+      padding: 0 clamp(.35rem, 1.6vw, 1.15rem);
+    }
+
+    .countdown-hourglass__unit + .countdown-hourglass__unit {
+      border-left: 1px solid color-mix(in srgb, var(--text-color, #202020) 22%, transparent);
+    }
+
+    .countdown-hourglass__number {
+      display: block;
+      min-width: 0;
+      overflow: hidden;
+      color: var(--primary-color, currentColor);
+      font-size: clamp(2rem, 5.8vw, 3.65rem);
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .countdown-hourglass__label {
+      display: block;
+      margin-top: .55rem;
+      color: var(--text-color, currentColor);
+      font-size: clamp(.62rem, 1.4vw, .78rem);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .countdown-hourglass__caption {
+      margin: clamp(1.4rem, 3vw, 1.9rem) 0 0;
+      color: var(--text-color, currentColor);
+      font-size: clamp(.7rem, 1.5vw, .86rem);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 440px) {
+      .countdown-hourglass {
+        min-height: 600px;
+        padding-inline: .75rem;
+      }
+
+      .countdown-hourglass__visual {
+        width: min(61vw, 235px);
+      }
+
+      .countdown-hourglass__unit {
+        padding-inline: .24rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .countdown-hourglass__grain { animation: none; }
+      .countdown-hourglass__sand { transition: none; }
+    }
+  </style>
+
+  <div class="countdown-hourglass__content">
+    <h2 class="countdown-hourglass__heading" memory_type="text" memory_usage="custom" memory_key="countdown-hourglass-heading">Cada granito nos acerca</h2>
+    <time
+      class="countdown-hourglass__date"
+      datetime="YYYY-MM-DDTHH:MM:SS"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="countdown-event-date"
+    >Fecha del evento</time>
+
+    <div class="countdown-hourglass__visual" aria-hidden="true">
+      <svg class="countdown-hourglass__svg" viewBox="0 0 300 360" role="presentation">
+        <defs>
+          <clipPath id="countdown-hourglass-top-clip">
+            <path d="M70 64 H230 L169 158 Q160 173 150 178 Q140 173 131 158 Z"></path>
+          </clipPath>
+          <clipPath id="countdown-hourglass-bottom-clip">
+            <path d="M150 182 Q160 187 169 202 L230 296 H70 L131 202 Q140 187 150 182 Z"></path>
+          </clipPath>
+        </defs>
+
+        <rect class="countdown-hourglass__sand" data-hourglass-top-sand x="66" y="95" width="168" height="83" clip-path="url(#countdown-hourglass-top-clip)"></rect>
+        <rect class="countdown-hourglass__sand" data-hourglass-bottom-sand x="66" y="258" width="168" height="38" clip-path="url(#countdown-hourglass-bottom-clip)"></rect>
+
+        <path class="countdown-hourglass__glass" d="M70 64 H230 L169 158 Q160 173 150 178 Q140 173 131 158 Z"></path>
+        <path class="countdown-hourglass__glass" d="M150 182 Q160 187 169 202 L230 296 H70 L131 202 Q140 187 150 182 Z"></path>
+        <path class="countdown-hourglass__shine" d="M94 81 L140 151"></path>
+        <path class="countdown-hourglass__shine" d="M160 207 L205 278"></path>
+
+        <path class="countdown-hourglass__frame" d="M54 48 H246"></path>
+        <path class="countdown-hourglass__frame" d="M54 312 H246"></path>
+        <path class="countdown-hourglass__frame" d="M68 48 V65"></path>
+        <path class="countdown-hourglass__frame" d="M232 48 V65"></path>
+        <path class="countdown-hourglass__frame" d="M68 295 V312"></path>
+        <path class="countdown-hourglass__frame" d="M232 295 V312"></path>
+        <path class="countdown-hourglass__frame" d="M58 52 L73 296"></path>
+        <path class="countdown-hourglass__frame" d="M242 52 L227 296"></path>
+      </svg>
+
+      <div class="countdown-hourglass__stream" data-hourglass-stream>
+        <span class="countdown-hourglass__grain"></span>
+        <span class="countdown-hourglass__grain"></span>
+        <span class="countdown-hourglass__grain"></span>
+        <span class="countdown-hourglass__grain"></span>
+        <span class="countdown-hourglass__grain"></span>
+        <span class="countdown-hourglass__grain"></span>
+        <span class="countdown-hourglass__grain"></span>
+      </div>
+    </div>
+
+    <div class="countdown-hourglass__timer" aria-label="Cuenta regresiva">
+      <div class="countdown-hourglass__unit"><span class="countdown-hourglass__number" data-countdown-unit="days">--</span><span class="countdown-hourglass__label">Días</span></div>
+      <div class="countdown-hourglass__unit"><span class="countdown-hourglass__number" data-countdown-unit="hours">--</span><span class="countdown-hourglass__label">Horas</span></div>
+      <div class="countdown-hourglass__unit"><span class="countdown-hourglass__number" data-countdown-unit="minutes">--</span><span class="countdown-hourglass__label">Min</span></div>
+      <div class="countdown-hourglass__unit"><span class="countdown-hourglass__number" data-countdown-unit="seconds">--</span><span class="countdown-hourglass__label">Seg</span></div>
+    </div>
+
+    <p class="countdown-hourglass__caption">El tiempo sigue corriendo hacia el gran día</p>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var el = null;
+    try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch(e) {}
+    if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+    if (!el) return;
+    console.log('[COUNTDOWN-MODULE] el encontrado=', !!el);
+
+    var targetAttr = el.getAttribute('data-countdown-target');
+    var target = NaN;
+    if (targetAttr && targetAttr.indexOf('YYYY') === -1) { var _parsed = new Date(targetAttr); if (!isNaN(_parsed.getTime())) target = _parsed.getTime(); }
+    if (isNaN(target)) { if (window.__countdownTarget) { var _p1 = new Date(window.__countdownTarget); if (!isNaN(_p1.getTime())) target = _p1.getTime(); } else if (window.countdown_target) { var _p2 = new Date(window.countdown_target); if (!isNaN(_p2.getTime())) target = _p2.getTime(); } }
+    console.log('[COUNTDOWN-MODULE] el encontrado=', !!el, 'target=', targetAttr, 'targetMs=', isNaN(target) ? 'NaN' : target);
+    var startAttr = el.getAttribute('data-countdown-start');
+    var start = startAttr ? new Date(startAttr).getTime() : NaN;
+    var intervalId = null;
+
+    (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+    window.__countdownIntervals = [];
+
+    function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function setUnit(unit, value) {
+      var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
+      if (node) node.textContent = value;
+    }
+
+    function setSandProgress(now) {
+      if (!Number.isFinite(target)) return;
+
+      var effectiveStart = Number.isFinite(start) && start < target
+        ? start
+        : target - (365 * 86400000);
+      var duration = target - effectiveStart;
+      var elapsed = now - effectiveStart;
+      var progress = duration > 0 ? elapsed / duration : 1;
+      progress = Math.max(0, Math.min(1, progress));
+
+      var topSand = el.querySelector('[data-hourglass-top-sand]');
+      var bottomSand = el.querySelector('[data-hourglass-bottom-sand]');
+
+      /* Top chamber drains toward the neck as progress increases. */
+      var topMinY = 72;
+      var topMaxY = 176;
+      var topY = topMinY + ((topMaxY - topMinY) * progress);
+      if (topSand) {
+        topSand.setAttribute('y', topY.toFixed(2));
+        topSand.setAttribute('height', Math.max(0, topMaxY - topY).toFixed(2));
+      }
+
+      /* Bottom chamber fills upward by the same proportion. */
+      var bottomMinY = 184;
+      var bottomMaxY = 294;
+      var bottomY = bottomMaxY - ((bottomMaxY - bottomMinY) * progress);
+      if (bottomSand) {
+        bottomSand.setAttribute('y', bottomY.toFixed(2));
+        bottomSand.setAttribute('height', Math.max(0, bottomMaxY - bottomY).toFixed(2));
+      }
+    }
+
+    function tick() {
+      if (!Number.isFinite(target)) return;
+
+      var now = Date.now();
+      var diff = target - now;
+      if (diff < 0) diff = 0;
+
+      var d = Math.floor(diff / 86400000);
+      var h = Math.floor((diff % 86400000) / 3600000);
+      var m = Math.floor((diff % 3600000) / 60000);
+      var s = Math.floor((diff % 60000) / 1000);
+
+      setUnit('days', d);
+      setUnit('hours', pad2(h));
+      setUnit('minutes', pad2(m));
+      setUnit('seconds', pad2(s));
+      setSandProgress(now);
+
+      if (diff === 0) {
+        el.classList.add('is-complete');
+        if (intervalId) {
+          clearInterval(intervalId);
+          window.__countdownIntervals = window.__countdownIntervals.filter(function (id) {
+            return id !== intervalId;
+          });
+        }
+      } else {
+        el.classList.remove('is-complete');
+      }
+    }
+
+    function startTimer() {
+      tick();
+      if (!Number.isFinite(target) || target <= Date.now()) return;
+      intervalId = setInterval(tick, 1000);
+      window.__countdownIntervals.push(intervalId);
+    }
+
+    window.updateCountdown = function (newTarget) {
+      target = new Date(newTarget).getTime();
+      (window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+      intervalId = null;
+      el.classList.remove('is-complete');
+      startTimer();
+    };
+
+    startTimer();
+  })();
+</script>
+
+<script>
+  var moduleMetadata = {
+    module_type: 'countdown',
+    module_name: 'countdown-hourglass',
+    style_name: 'Hourglass Sand',
+    descripcion: 'Cuenta regresiva con reloj de arena animado, granitos cayendo y niveles de arena que reflejan el avance hacia el evento. Incluye días, horas, minutos y segundos.',
+    tags: ['countdown', 'cuenta regresiva', 'timer', 'boda', 'quinceañera', 'celebración'],
+    tipo: 'countdown'
+  };
+</script>

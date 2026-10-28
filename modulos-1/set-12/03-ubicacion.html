@@ -1,0 +1,255 @@
+<section
+  class="fe-ubicacion"
+  data-gemini-id="ubicacion-mapa"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+>
+  <style>
+    .fe-ubicacion {
+      --primary-color: #f5e9d7;
+      --secondary-color: #b39a7d;
+      --accent-color: #ffb347;
+      --bg-color: #1a1410;
+      --surface-color: #241c15;
+      --surface-border-color: rgba(245, 233, 215, 0.16);
+      --text-color: #f5e9d7;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/fairground,lights');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+    }
+    .fe-ubicacion *,
+    .fe-ubicacion *::before,
+    .fe-ubicacion *::after { box-sizing: border-box; }
+
+    .fe-ubicacion::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color) 90%, transparent);
+    }
+
+    .fe-ubicacion__banderines {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      width: min(100%, 920px);
+      margin: 0 auto clamp(1.6rem, 4vw, 2.4rem);
+      border-top: 2px solid var(--secondary-color);
+      padding-top: 0;
+      pointer-events: none;
+    }
+    .fe-ubicacion__banderin {
+      width: 22px;
+      height: 30px;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      background: var(--accent-color);
+      opacity: 0.85;
+    }
+    .fe-ubicacion__banderin:nth-child(even) { background: var(--secondary-color); }
+
+    .fe-ubicacion__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.4rem, 3.6vw, 2.6rem);
+      align-items: center;
+      width: min(100%, 920px);
+      margin: 0 auto;
+    }
+
+    .fe-ubicacion__info { text-align: left; }
+    .fe-ubicacion__etiqueta {
+      margin: 0 0 0.55rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .fe-ubicacion__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.65rem, 3.7vw, 2.3rem);
+      color: var(--primary-color);
+    }
+    .fe-ubicacion__direccion {
+      margin: 0 0 1.2rem;
+      font-style: normal;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.55vw, 0.96rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+    .fe-ubicacion__foco {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1.3rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.6rem, 1.2vw, 0.68rem);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .fe-ubicacion__lucecita {
+      position: relative;
+      width: 11px;
+      height: 15px;
+      border-radius: 50% 50% 60% 60%;
+      background: radial-gradient(circle at 40% 30%, #fff6dd, var(--accent-color) 65%);
+      box-shadow: 0 0 12px var(--accent-color);
+    }
+    .fe-ubicacion__lucecita::after {
+      content: '';
+      position: absolute;
+      inset: -7px;
+      border: 1.4px solid var(--accent-color);
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    .fe-ubicacion.esta-visto .fe-ubicacion__lucecita::after { animation: feUbicacionDestello 1.9s ease-out infinite; }
+    @keyframes feUbicacionDestello {
+      0% { opacity: 0.9; transform: scale(0.4); }
+      75% { opacity: 0.1; transform: scale(1.3); }
+      100% { opacity: 0; transform: scale(1.4); }
+    }
+    .fe-ubicacion__boton {
+      display: inline-block;
+      padding: 0.78rem 1.9rem;
+      background: var(--accent-color);
+      color: var(--bg-color);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.66rem, 1.25vw, 0.76rem);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 6px;
+      box-shadow: 0 0 22px color-mix(in srgb, var(--accent-color) 45%, transparent);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .fe-ubicacion__boton:hover { transform: translateY(-2px); box-shadow: 0 0 34px color-mix(in srgb, var(--accent-color) 65%, transparent); }
+
+    .fe-ubicacion__marco {
+      position: relative;
+      margin: 0;
+      padding: 9px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 14px;
+      box-shadow: 0 26px 56px rgba(0, 0, 0, 0.5);
+    }
+    .fe-ubicacion__mapa { overflow: hidden; border-radius: 8px; border: 1px solid var(--surface-border-color); }
+    .fe-ubicacion__mapa iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border: 0;
+      filter: sepia(0.35) saturate(0.9) brightness(0.95);
+    }
+    .fe-ubicacion__foto {
+      position: absolute;
+      z-index: 3;
+      bottom: -18px;
+      left: -12px;
+      width: clamp(115px, 16vw, 158px);
+      margin: 0;
+      padding: 5px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 8px;
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.5);
+      transform: rotate(-3deg);
+    }
+    .fe-ubicacion__foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: 5px;
+      filter: saturate(1.05);
+    }
+
+    @media (max-width: 820px) {
+      .fe-ubicacion__grid { grid-template-columns: 1fr; }
+      .fe-ubicacion__info { text-align: center; }
+      .fe-ubicacion__foto { position: static; margin: 1rem auto 0; transform: rotate(-1deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fe-ubicacion * { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="fe-ubicacion__banderines" aria-hidden="true">
+    <span class="fe-ubicacion__banderin"></span><span class="fe-ubicacion__banderin"></span><span class="fe-ubicacion__banderin"></span><span class="fe-ubicacion__banderin"></span><span class="fe-ubicacion__banderin"></span><span class="fe-ubicacion__banderin"></span><span class="fe-ubicacion__banderin"></span><span class="fe-ubicacion__banderin"></span><span class="fe-ubicacion__banderin"></span><span class="fe-ubicacion__banderin"></span><span class="fe-ubicacion__banderin"></span><span class="fe-ubicacion__banderin"></span><span class="fe-ubicacion__banderin"></span><span class="fe-ubicacion__banderin"></span><span class="fe-ubicacion__banderin"></span><span class="fe-ubicacion__banderin"></span><span class="fe-ubicacion__banderin"></span><span class="fe-ubicacion__banderin"></span><span class="fe-ubicacion__banderin"></span><span class="fe-ubicacion__banderin"></span>
+  </div>
+
+  <div class="fe-ubicacion__grid">
+    <div class="fe-ubicacion__info">
+      <p class="fe-ubicacion__etiqueta" memory_type="text" memory_usage="custom" memory_key="ubicacion-etiqueta">Parcela de la feria</p>
+      <h2 class="fe-ubicacion__titulo" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Cómo llegar</h2>
+      <address class="fe-ubicacion__direccion" memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion">
+        Recinto Ferial, Puerta 3<br />
+        Alameda de los Globos<br />
+        Ciudad, Estado
+      </address>
+      <span class="fe-ubicacion__foco" aria-hidden="true">
+        <span class="fe-ubicacion__lucecita"></span>
+        Bombilla encendida
+      </span>
+      <br />
+      <a class="fe-ubicacion__boton" href="https://www.google.com/maps?q=Ubicacion+del+evento" target="_blank" rel="noopener" memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Cómo llegar</a>
+    </div>
+
+    <figure class="fe-ubicacion__marco">
+      <div class="fe-ubicacion__mapa" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url">
+        <iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen></iframe>
+      </div>
+      <figure class="fe-ubicacion__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="ubicacion-foto">
+        <img src="https://loremflickr.com/440/330/fair,lights" alt="Vista nocturna de la feria" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" />
+        <figcaption hidden>La feria</figcaption>
+      </figure>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.fe-ubicacion');
+      if (!root) return;
+      root.classList.add('fe-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.3 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-mapa',
+      style_name: 'Feria Nocturna — Mapa',
+      descripcion: 'Cuerda de banderines, mapa enmarcado en cabina de feria, bombilla de destello y postal nocturna; botón con glow ámbar.',
+      tags: ['ubicacion', 'mapa', 'feria', 'banderines', 'bombilla', 'nocturno'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>

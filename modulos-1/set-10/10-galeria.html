@@ -1,0 +1,262 @@
+<section
+  class="ma-galeria"
+  data-gemini-id="galeria-arrecife-recuerdos"
+>
+  <style>
+    .ma-galeria {
+      --primary-color: #e8f2f4;
+      --secondary-color: #9dbcc4;
+      --accent-color: #5fc4cf;
+      --bg-color: #0e1b22;
+      --surface-color: #14232b;
+      --surface-border-color: rgba(232, 242, 244, 0.16);
+      --text-color: #e8f2f4;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+    }
+    .ma-galeria *,
+    .ma-galeria *::before,
+    .ma-galeria *::after { box-sizing: border-box; }
+
+    .ma-galeria__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .ma-galeria__nota {
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .ma-galeria__pecera {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: clamp(1.2rem, 3vw, 1.9rem);
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .ma-galeria__pez {
+      margin: 0;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .ma-galeria.ma-js .ma-galeria__pez { opacity: 0; transform: translateY(20px) scale(0.94); }
+    .ma-galeria .ma-galeria__pez.esta-visto { opacity: 1; transform: none; }
+
+    .ma-galeria__foto {
+      position: relative;
+      margin: 0;
+      padding: 8px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      overflow: hidden;
+      cursor: pointer;
+      transition: box-shadow 0.5s ease;
+    }
+    .ma-galeria__pez:nth-child(1) .ma-galeria__foto { border-radius: 48% 52% 44% 56% / 10% 12% 10% 12%; }
+    .ma-galeria__pez:nth-child(2) .ma-galeria__foto { border-radius: 14px; }
+    .ma-galeria__pez:nth-child(3) .ma-galeria__foto { border-radius: 42% 58% 40% 60% / 14% 10% 14% 10%; }
+    .ma-galeria__pez:nth-child(4) .ma-galeria__foto { border-radius: 10px 10px 34px 34px; }
+    .ma-galeria__pez:nth-child(5) .ma-galeria__foto { border-radius: 58% 42% 60% 40% / 12% 16% 10% 12%; }
+    .ma-galeria__pez:nth-child(6) .ma-galeria__foto { border-radius: 24px 6px 24px 6px; }
+    .ma-galeria__pez:hover .ma-galeria__foto { box-shadow: 0 0 26px color-mix(in srgb, var(--accent-color) 30%, transparent), 0 18px 40px rgba(0, 0, 0, 0.5); }
+    .ma-galeria__foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 5 / 4;
+      object-fit: cover;
+      filter: saturate(0.95);
+    }
+    .ma-galeria__burbuja-num {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 1px solid var(--accent-color);
+      background: color-mix(in srgb, var(--bg-color) 70%, transparent);
+      font-family: 'Courier New', monospace;
+      font-size: 0.6rem;
+      color: var(--accent-color);
+    }
+
+    .ma-galeria__lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      place-items: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      background: color-mix(in srgb, var(--bg-color) 94%, black);
+    }
+    .ma-galeria__lightbox.abierto { display: grid; }
+    .ma-galeria__lightbox img {
+      max-width: min(920px, 92vw);
+      max-height: 82svh;
+      width: auto;
+      height: auto;
+      border-radius: 16px;
+      border: 1px solid var(--accent-color);
+      box-shadow: 0 0 40px color-mix(in srgb, var(--accent-color) 30%, transparent), 0 30px 80px rgba(0, 0, 0, 0.6);
+    }
+    .ma-galeria__cerrar {
+      position: absolute;
+      top: clamp(0.8rem, 2.5vw, 1.6rem);
+      right: clamp(0.8rem, 2.5vw, 1.6rem);
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--accent-color);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--accent-color);
+      font-size: 1.2rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.4s ease, background 0.4s ease;
+    }
+    .ma-galeria__cerrar:hover { transform: rotate(90deg); background: color-mix(in srgb, var(--accent-color) 20%, transparent); }
+
+    @media (max-width: 560px) {
+      .ma-galeria__pecera { grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 1rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ma-galeria * { transition: none !important; }
+      .ma-galeria__pez { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="galeria-cabecera">
+    <h2 class="ma-galeria__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Cardumen de instantes</h2>
+    <p class="ma-galeria__nota" memory_type="text" memory_usage="custom" memory_key="galeria-nota">Galería abisal</p>
+  </header>
+
+  <div class="ma-galeria__pecera">
+    <figure class="ma-galeria__pez" data-ma-pez memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-1" tabindex="0" role="button" aria-label="Ampliar instante uno">
+      <span class="ma-galeria__foto">
+        <img src="https://loremflickr.com/520/420/ocean,couple" alt="Instante uno" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+        <span class="ma-galeria__burbuja-num" aria-hidden="true">01</span>
+      </span>
+      <figcaption hidden>Instante uno</figcaption>
+    </figure>
+    <figure class="ma-galeria__pez" data-ma-pez memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-2" tabindex="0" role="button" aria-label="Ampliar instante dos">
+      <span class="ma-galeria__foto">
+        <img src="https://loremflickr.com/520/420/coral,party" alt="Instante dos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+        <span class="ma-galeria__burbuja-num" aria-hidden="true">02</span>
+      </span>
+      <figcaption hidden>Instante dos</figcaption>
+    </figure>
+    <figure class="ma-galeria__pez" data-ma-pez memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-3" tabindex="0" role="button" aria-label="Ampliar instante tres">
+      <span class="ma-galeria__foto">
+        <img src="https://loremflickr.com/520/420/lagoon,dinner" alt="Instante tres" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+        <span class="ma-galeria__burbuja-num" aria-hidden="true">03</span>
+      </span>
+      <figcaption hidden>Instante tres</figcaption>
+    </figure>
+    <figure class="ma-galeria__pez" data-ma-pez memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-4" tabindex="0" role="button" aria-label="Ampliar instante cuatro">
+      <span class="ma-galeria__foto">
+        <img src="https://loremflickr.com/520/420/wave,celebration" alt="Instante cuatro" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+        <span class="ma-galeria__burbuja-num" aria-hidden="true">04</span>
+      </span>
+      <figcaption hidden>Instante cuatro</figcaption>
+    </figure>
+    <figure class="ma-galeria__pez" data-ma-pez memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-5" tabindex="0" role="button" aria-label="Ampliar instante cinco">
+      <span class="ma-galeria__foto">
+        <img src="https://loremflickr.com/520/420/sea,dance" alt="Instante cinco" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+        <span class="ma-galeria__burbuja-num" aria-hidden="true">05</span>
+      </span>
+      <figcaption hidden>Instante cinco</figcaption>
+    </figure>
+    <figure class="ma-galeria__pez" data-ma-pez memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-6" tabindex="0" role="button" aria-label="Ampliar instante seis">
+      <span class="ma-galeria__foto">
+        <img src="https://loremflickr.com/520/420/tide,night" alt="Instante seis" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+        <span class="ma-galeria__burbuja-num" aria-hidden="true">06</span>
+      </span>
+      <figcaption hidden>Instante seis</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.ma-galeria');
+      if (!root) return;
+      root.classList.add('ma-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var peces = Array.prototype.slice.call(root.querySelectorAll('[data-ma-pez]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var i = peces.indexOf(entry.target);
+            entry.target.style.transitionDelay = (Math.min(i, 5) * 0.09).toFixed(2) + 's';
+            entry.target.classList.add('esta-visto');
+            io.unobserve(entry.target);
+          });
+        }, { threshold: 0.18 });
+        peces.forEach(function (p) { io.observe(p); });
+      } else {
+        peces.forEach(function (p) { p.classList.add('esta-visto'); });
+      }
+
+      var lightbox = document.createElement('div');
+      lightbox.className = 'ma-galeria__lightbox';
+      lightbox.setAttribute('role', 'dialog');
+      lightbox.setAttribute('aria-modal', 'true');
+      lightbox.setAttribute('aria-label', 'Vista ampliada');
+      lightbox.innerHTML =
+        '<img alt="" />' +
+        '<button type="button" class="ma-galeria__cerrar" aria-label="Cerrar">×</button>';
+      root.appendChild(lightbox);
+      var imgAmpliada = lightbox.querySelector('img');
+      var botonCerrar = lightbox.querySelector('.ma-galeria__cerrar');
+
+      function abrir(fig) {
+        var foto = fig.querySelector('img');
+        if (!foto) return;
+        imgAmpliada.src = foto.src;
+        imgAmpliada.alt = foto.alt;
+        lightbox.classList.add('abierto');
+      }
+      function cerrar() { lightbox.classList.remove('abierto'); }
+
+      peces.forEach(function (fig) {
+        fig.querySelector('.ma-galeria__foto').addEventListener('click', function () { abrir(fig); });
+        fig.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(fig); }
+        });
+      });
+      botonCerrar.addEventListener('click', cerrar);
+      lightbox.addEventListener('click', function (e) { if (e.target === lightbox) cerrar(); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-arrecife-recuerdos',
+      style_name: 'Marino de Profundidad — Galería',
+      descripcion: 'Cardumen de fotos con máscaras orgánicas rotativas, burbujas numeradas cian y lightbox abisal con glow.',
+      tags: ['galeria', 'cardumen', 'marino', 'mascaras', 'burbujas', 'lightbox'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

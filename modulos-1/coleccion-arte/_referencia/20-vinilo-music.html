@@ -1,0 +1,50 @@
+<section class="vin-music" data-gemini-id="music-vinilo" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.vin-music { --primary-color:#f7f3e9; --secondary-color:#e0533d; --accent-color:#2b9348; --bg-color:#14100d; --surface-color:#211a14; --surface-border-color:rgba(247,243,233,.2); --text-color:#f7f3e9;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/1000/vinyl,retro'); background-size:cover; background-position:center; color:var(--text-color); }
+.vin-music *, .vin-music *::before, .vin-music *::after { box-sizing:border-box; }
+.vin-music::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 84%, transparent); }
+.vin-music__escena { display:grid; grid-template-columns:minmax(0,5fr) minmax(0,6fr); gap:clamp(1.6rem,4.6vw,3.6rem); align-items:center; width:min(100%,980px); margin:0 auto; }
+/* vinilo girando con surcos y etiqueta */
+.vin-music__vinilo { position:relative; width:min(100%,340px); aspect-ratio:1/1; margin:0 auto; border-radius:50%;
+  background:repeating-radial-gradient(circle at 50% 50%, #0c0a08 0 3px, #1c1712 3px 6px);
+  box-shadow:0 24px 50px rgba(0,0,0,.6), inset 0 0 40px rgba(0,0,0,.7);
+  animation:vinGiro 8s linear infinite; display:grid; place-items:center; }
+@keyframes vinGiro { to { transform:rotate(360deg); } }
+.vin-music__etiqueta { width:38%; aspect-ratio:1/1; border-radius:50%; background:radial-gradient(circle at 34% 30%, var(--accent-color), var(--secondary-color) 70%); display:grid; place-items:center; box-shadow:0 0 0 4px rgba(247,243,233,.15); }
+.vin-music__etiqueta span { font-family:'Courier New',monospace; font-size:clamp(.56rem,1.1vw,.68rem); letter-spacing:.18em; text-transform:uppercase; color:var(--bg-color); text-align:center; padding:.2rem; }
+.vin-music__centro { position:absolute; width:9%; aspect-ratio:1/1; border-radius:50%; background:var(--bg-color); }
+.vin-music__titulo { margin:0 0 .4rem; font-family:Georgia,serif; font-size:clamp(1.8rem,4.4vw,2.9rem); color:var(--primary-color); }
+.vin-music__titulo em { font-style:italic; color:var(--secondary-color); }
+.vin-music__lista { display:grid; gap:0; margin:1rem 0 1.2rem; border-top:1px solid var(--surface-border-color); }
+.vin-music__track { display:grid; grid-template-columns:auto 1fr auto; gap:.9rem; align-items:baseline; padding:.65rem .2rem; border-bottom:1px solid var(--surface-border-color); font-family:'Courier New',monospace; }
+.vin-music__track-n { color:var(--secondary-color); font-size:clamp(.72rem,1.4vw,.84rem); }
+.vin-music__track-nombre { font-family:Arial,sans-serif; font-size:clamp(.86rem,1.6vw,.98rem); color:var(--text-color); }
+.vin-music__track-dur { color:var(--secondary-color); font-size:clamp(.68rem,1.3vw,.78rem); }
+.vin-music__nota { font-size:clamp(.78rem,1.45vw,.88rem); line-height:1.65; color:var(--secondary-color); font-style:italic; }
+@media (max-width:760px){ .vin-music__escena { grid-template-columns:1fr; } .vin-music__vinilo { width:min(100%,260px); } }
+@media (prefers-reduced-motion:reduce){ .vin-music__vinilo { animation:none; } }
+</style>
+<div class="vin-music__escena">
+  <div class="vin-music__vinilo" aria-hidden="true">
+    <div class="vin-music__etiqueta"><span> Side A · Nuestra Lista</span></div>
+    <span class="vin-music__centro"></span>
+  </div>
+  <div>
+    <figure class="vin-music__funda" memory_type="image" memory_usage="custom" memory_source="library" memory_key="music-foto" style="margin:0 0 1.4rem; border:1px solid var(--surface-border-color); padding:8px; background:var(--surface-color); box-shadow:0 20px 44px rgba(0,0,0,.5); transform:rotate(-1.4deg);">
+      <img src="https://loremflickr.com/700/500/vinyl,records" alt="Fundas de vinilo de la banda sonora" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" style="display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;filter:saturate(1.05);" />
+      <figcaption hidden>Fundas de vinilo</figcaption>
+    </figure>
+    <h2 class="vin-music__titulo" memory_type="text" memory_usage="custom" memory_key="music-titulo">La banda <em>sonora</em> de nuestra vida</h2>
+    <div class="vin-music__lista" memory_type="text" memory_usage="custom" memory_key="music-lista">
+      <div class="vin-music__track"><span class="vin-music__track-n">A1</span><span class="vin-music__track-nombre" memory_type="text" memory_usage="custom" memory_key="music-track-1">Primera canción que bailamos</span><span class="vin-music__track-dur">3:45</span></div>
+      <div class="vin-music__track"><span class="vin-music__track-n">A2</span><span class="vin-music__track-nombre" memory_type="text" memory_usage="custom" memory_key="music-track-2">La del carrete de fotos</span><span class="vin-music__track-dur">4:12</span></div>
+      <div class="vin-music__track"><span class="vin-music__track-n">B1</span><span class="vin-music__track-nombre" memory_type="text" memory_usage="custom" memory_key="music-track-3">Grito de la pista</span><span class="vin-music__track-dur">2:58</span></div>
+      <div class="vin-music__track"><span class="vin-music__track-n">B2</span><span class="vin-music__track-nombre" memory_type="text" memory_usage="custom" memory_key="music-track-4">Epílogo lento</span><span class="vin-music__track-dur">5:20</span></div>
+    </div>
+    <p class="vin-music__nota" memory_type="text" memory_usage="custom" memory_key="music-nota">Dedícanos una canción: la mesa de peticiones abre al caer el sol.</p>
+  </div>
+</div>
+<script>var moduleMetadata={module_type:'music',module_name:'music-vinilo',style_name:'Vinilo Retro — Lado A',descripcion:'Vinilo 33rpm girando con surcos reales y etiqueta de color; lista de pistas B/A con duraciones y nota dedicatoria.',tags:[music,vinilo,retro,toca discos,lista],tipo:'music'};</script>
+</section>

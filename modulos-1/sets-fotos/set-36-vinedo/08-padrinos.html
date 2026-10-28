@@ -1,0 +1,215 @@
+<section
+  class="vc-pd"
+  data-gemini-id="padrinos-vinedo"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+<i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:url('https://loremflickr.com/1920/1080/vineyard,grapes?lock=417') center/cover;"></i><i aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:color-mix(in srgb, var(--bg-color,#1d1a24) 88%, transparent);"></i>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Italianno&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .vc-pd, .vc-pd *, .vc-pd *::before, .vc-pd *::after { box-sizing: border-box; }
+    .vc-pd {
+      --t-bg: var(--bg-color, #F3E9D2);
+      --t-tx: var(--text-color, #2E1B1C);
+      --t-p: var(--primary-color, #6E1F2F);
+      --t-s: var(--secondary-color, #6B6E3A);
+      --t-a: var(--accent-color, #A8834A);
+      --t-display: var(--font-script, 'Italianno', cursive);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 64vw, 50rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: color-mix(in srgb, var(--t-bg) 94%, var(--t-s));
+      background-image:
+        radial-gradient(60% 45% at 50% 0%, color-mix(in srgb, var(--t-a) 14%, transparent), transparent 70%),
+        radial-gradient(40% 40% at 0% 60%, color-mix(in srgb, var(--t-s) 12%, transparent), transparent 70%),
+        radial-gradient(40% 40% at 100% 90%, color-mix(in srgb, var(--t-p) 7%, transparent), transparent 70%);
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .vc-pd__grain { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mix-blend-mode: multiply; }
+    .vc-pd__defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .vc-pd__content { width: min(100%, 60rem); }
+    .vc-pd__kicker { margin: 0; font-style: italic; font-size: clamp(1.05rem, 2.3vw, 1.2rem); color: var(--t-s); }
+    .vc-pd__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(3.4rem, 8vw, 5.2rem); line-height: .95; color: var(--t-p); }
+
+    .vc-pd__list { list-style: none; margin: clamp(2.2rem, 5vw, 3.4rem) 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.8rem, 4vw, 2.8rem) clamp(1.5rem, 5vw, 4rem); }
+    .vc-pd__item { display: grid; grid-template-columns: clamp(8rem, 15vw, 10.5rem) minmax(0, 1fr); align-items: center; gap: clamp(1rem, 2.4vw, 1.6rem); text-align: left; }
+    .vc-pd__item:nth-child(even) { grid-template-columns: minmax(0, 1fr) clamp(8rem, 15vw, 10.5rem); text-align: right; }
+    .vc-pd__item:nth-child(even) .vc-pd__medal { order: 2; }
+    .vc-pd__medal { position: relative; width: 100%; aspect-ratio: 1; }
+    .vc-pd__garland { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; transition: rotate .5s cubic-bezier(.2, .8, .2, 1); }
+    .vc-pd__defs ellipse { fill: color-mix(in srgb, var(--t-s) 55%, var(--t-bg)); stroke: var(--t-s); stroke-width: .7; }
+    .vc-pd__defs path { fill: none; stroke: color-mix(in srgb, var(--t-s) 80%, var(--t-tx)); stroke-width: 1.1; }
+    .vc-pd__defs circle { fill: var(--t-p); stroke: color-mix(in srgb, var(--t-a) 70%, transparent); stroke-width: .7; }
+    .vc-pd__item:hover .vc-pd__garland { rotate: 8deg; }
+    .vc-pd__photo { position: absolute; inset: 15%; margin: 0; border-radius: 50%; box-shadow: 0 0 0 1px color-mix(in srgb, var(--t-a) 80%, transparent), 0 0 0 4px var(--t-bg), 0 12px 22px -12px color-mix(in srgb, var(--t-p) 70%, transparent); }
+    .vc-pd__photo img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; filter: sepia(.15); }
+    .vc-pd__role { margin: 0; font-style: italic; font-weight: 500; font-size: clamp(1.02rem, 2vw, 1.15rem); color: var(--t-s); }
+    .vc-pd__names { margin: .15rem 0 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(2rem, 4vw, 2.6rem); line-height: 1.02; color: var(--t-tx); }
+
+    .vc-pd--anim .vc-pd__head { opacity: 0; transition: opacity .5s ease; }
+    .vc-pd--anim.is-in .vc-pd__head { opacity: 1; }
+    .vc-pd--anim .vc-pd__item { opacity: 0; translate: 0 16px; transition: opacity .45s ease, translate .5s cubic-bezier(.2, .8, .2, 1); }
+    .vc-pd--anim .vc-pd__garland { rotate: -40deg; scale: .85; transition: rotate .5s cubic-bezier(.2, .8, .2, 1), scale .5s cubic-bezier(.2, .8, .2, 1); }
+    .vc-pd--anim .vc-pd__item[data-in] { opacity: 1; translate: 0 0; }
+    .vc-pd--anim .vc-pd__item[data-in] .vc-pd__garland { rotate: 0deg; scale: 1; }
+
+    @media (max-width: 680px) {
+      .vc-pd__list { grid-template-columns: 1fr; }
+      .vc-pd__item:nth-child(even) { grid-template-columns: clamp(8rem, 15vw, 10.5rem) minmax(0, 1fr); text-align: left; }
+      .vc-pd__item:nth-child(even) .vc-pd__medal { order: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .vc-pd *, .vc-pd *::before, .vc-pd *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="vc-pd__grain" aria-hidden="true">
+    <filter id="vc-pd-noise"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .42  0 0 0 0 .3  0 0 0 0 .18  0 0 0 .14 0"/></filter>
+    <rect width="100%" height="100%" filter="url(#vc-pd-noise)"/>
+  </svg>
+  <svg class="vc-pd__defs" aria-hidden="true">
+    <symbol id="vc-pd-olive" viewBox="0 0 200 200">
+      <path d="M92 189 A88 88 0 0 1 72 16"/><path d="M108 189 A88 88 0 0 0 128 16"/>
+      <ellipse cx="81.7" cy="186.1" rx="8.5" ry="3.2" transform="rotate(154 81.7 186.1)"/><ellipse cx="64.2" cy="180.4" rx="8.5" ry="3.2" transform="rotate(242 64.2 180.4)"/><ellipse cx="48.3" cy="171.2" rx="8.5" ry="3.2" transform="rotate(178 48.3 171.2)"/><ellipse cx="34.6" cy="158.9" rx="8.5" ry="3.2" transform="rotate(266 34.6 158.9)"/><ellipse cx="23.8" cy="144.0" rx="8.5" ry="3.2" transform="rotate(202 23.8 144.0)"/><ellipse cx="16.3" cy="127.2" rx="8.5" ry="3.2" transform="rotate(290 16.3 127.2)"/><ellipse cx="12.5" cy="109.2" rx="8.5" ry="3.2" transform="rotate(226 12.5 109.2)"/><ellipse cx="12.5" cy="90.8" rx="8.5" ry="3.2" transform="rotate(314 12.5 90.8)"/><ellipse cx="16.3" cy="72.8" rx="8.5" ry="3.2" transform="rotate(250 16.3 72.8)"/><ellipse cx="23.8" cy="56.0" rx="8.5" ry="3.2" transform="rotate(338 23.8 56.0)"/><ellipse cx="34.6" cy="41.1" rx="8.5" ry="3.2" transform="rotate(274 34.6 41.1)"/><ellipse cx="48.3" cy="28.8" rx="8.5" ry="3.2" transform="rotate(362 48.3 28.8)"/><ellipse cx="64.2" cy="19.6" rx="8.5" ry="3.2" transform="rotate(298 64.2 19.6)"/>
+      <ellipse cx="118.3" cy="186.1" rx="8.5" ry="3.2" transform="rotate(130 118.3 186.1)"/><ellipse cx="135.8" cy="180.4" rx="8.5" ry="3.2" transform="rotate(194 135.8 180.4)"/><ellipse cx="151.7" cy="171.2" rx="8.5" ry="3.2" transform="rotate(106 151.7 171.2)"/><ellipse cx="165.4" cy="158.9" rx="8.5" ry="3.2" transform="rotate(170 165.4 158.9)"/><ellipse cx="176.2" cy="144.0" rx="8.5" ry="3.2" transform="rotate(82 176.2 144.0)"/><ellipse cx="183.7" cy="127.2" rx="8.5" ry="3.2" transform="rotate(146 183.7 127.2)"/><ellipse cx="187.5" cy="109.2" rx="8.5" ry="3.2" transform="rotate(58 187.5 109.2)"/><ellipse cx="187.5" cy="90.8" rx="8.5" ry="3.2" transform="rotate(122 187.5 90.8)"/><ellipse cx="183.7" cy="72.8" rx="8.5" ry="3.2" transform="rotate(34 183.7 72.8)"/><ellipse cx="176.2" cy="56.0" rx="8.5" ry="3.2" transform="rotate(98 176.2 56.0)"/><ellipse cx="165.4" cy="41.1" rx="8.5" ry="3.2" transform="rotate(10 165.4 41.1)"/><ellipse cx="151.7" cy="28.8" rx="8.5" ry="3.2" transform="rotate(74 151.7 28.8)"/><ellipse cx="135.8" cy="19.6" rx="8.5" ry="3.2" transform="rotate(-14 135.8 19.6)"/>
+      <circle cx="94" cy="192" r="4"/><circle cx="102" cy="192" r="4"/><circle cx="98" cy="198" r="4"/>
+    </symbol>
+  </svg>
+
+  <div class="vc-pd__content">
+    <header class="vc-pd__head">
+      <p class="vc-pd__kicker" memory_type="text" memory_usage="custom" memory_key="padrinos-intro">Quienes nos acompañan en esta cosecha de amor</p>
+      <h2 class="vc-pd__title" memory_type="text" memory_usage="custom" memory_key="padrinos-titulo">Nuestros Padrinos</h2>
+    </header>
+
+    <ul class="vc-pd__list">
+      <li class="vc-pd__item" data-vc-item>
+        <div class="vc-pd__medal">
+          <svg class="vc-pd__garland" viewBox="0 0 200 200" aria-hidden="true"><use href="#vc-pd-olive"/></svg>
+          <figure class="vc-pd__photo" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/400/400/couple,portrait,elegant?lock=3281" alt="Padrinos de velación" path="placeholder" data-library-category="padrinos" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <div>
+          <h3 class="vc-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-1">Padrinos de velación</h3>
+          <p class="vc-pd__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-1" data-event-field="padrinos-1">Nombre Apellido y Nombre Apellido</p>
+        </div>
+      </li>
+      <li class="vc-pd__item" data-vc-item>
+        <div class="vc-pd__medal">
+          <svg class="vc-pd__garland" viewBox="0 0 200 200" aria-hidden="true"><use href="#vc-pd-olive"/></svg>
+          <figure class="vc-pd__photo" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/400/400/couple,smiling,portrait?lock=3282" alt="Padrinos de anillos" path="placeholder" data-library-category="padrinos" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <div>
+          <h3 class="vc-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-2">Padrinos de anillos</h3>
+          <p class="vc-pd__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-2" data-event-field="padrinos-2">Nombre Apellido y Nombre Apellido</p>
+        </div>
+      </li>
+      <li class="vc-pd__item" data-vc-item>
+        <div class="vc-pd__medal">
+          <svg class="vc-pd__garland" viewBox="0 0 200 200" aria-hidden="true"><use href="#vc-pd-olive"/></svg>
+          <figure class="vc-pd__photo" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/400/400/man,woman,portrait?lock=3283" alt="Padrinos de lazo" path="placeholder" data-library-category="padrinos" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <div>
+          <h3 class="vc-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-3">Padrinos de lazo</h3>
+          <p class="vc-pd__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-3">Nombre Apellido y Nombre Apellido</p>
+        </div>
+      </li>
+      <li class="vc-pd__item" data-vc-item>
+        <div class="vc-pd__medal">
+          <svg class="vc-pd__garland" viewBox="0 0 200 200" aria-hidden="true"><use href="#vc-pd-olive"/></svg>
+          <figure class="vc-pd__photo" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/400/400/couple,outdoor,portrait?lock=3284" alt="Padrinos de arras" path="placeholder" data-library-category="padrinos" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <div>
+          <h3 class="vc-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-4">Padrinos de arras</h3>
+          <p class="vc-pd__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-4">Nombre Apellido y Nombre Apellido</p>
+        </div>
+      </li>
+      <li class="vc-pd__item" data-vc-item>
+        <div class="vc-pd__medal">
+          <svg class="vc-pd__garland" viewBox="0 0 200 200" aria-hidden="true"><use href="#vc-pd-olive"/></svg>
+          <figure class="vc-pd__photo" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/400/400/woman,portrait,elegant?lock=3285" alt="Madrina de ramo" path="placeholder" data-library-category="padrinos" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <div>
+          <h3 class="vc-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-5">Madrina de ramo</h3>
+          <p class="vc-pd__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-5">Nombre Apellido</p>
+        </div>
+      </li>
+      <li class="vc-pd__item" data-vc-item>
+        <div class="vc-pd__medal">
+          <svg class="vc-pd__garland" viewBox="0 0 200 200" aria-hidden="true"><use href="#vc-pd-olive"/></svg>
+          <figure class="vc-pd__photo" memory_type="image" memory_usage="custom" memory_source="library">
+            <img src="https://loremflickr.com/400/400/couple,wine,toast?lock=3286" alt="Padrinos de copas para el brindis" path="placeholder" data-library-category="padrinos" data-asset-type="retrato" loading="lazy" />
+          </figure>
+        </div>
+        <div>
+          <h3 class="vc-pd__role" memory_type="text" memory_usage="custom" memory_key="padrinos-rol-6">Padrinos de copas</h3>
+          <p class="vc-pd__names" memory_type="text" memory_usage="custom" memory_key="padrinos-nombre-6">Nombre Apellido y Nombre Apellido</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="padrinos-vinedo"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      /* Each medallion's olive garland turns into place, staggered as the item enters */
+      var items = [].slice.call(root.querySelectorAll('[data-vc-item]'));
+      root.classList.add('vc-pd--anim');
+      var left = items.length;
+      var head = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting) { head.disconnect(); root.classList.add('is-in'); }
+      }, { threshold: .1 });
+      head.observe(root);
+      var io = new IntersectionObserver(function (en) {
+        en.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          io.unobserve(e.target);
+          var i = items.indexOf(e.target);
+          setTimeout(function () {
+            e.target.setAttribute('data-in', '');
+            if (--left === 0) setTimeout(function () {
+              root.classList.remove('vc-pd--anim', 'is-in');
+              items.forEach(function (it) { it.removeAttribute('data-in'); });
+            }, 800);
+          }, (i % 2) * 160);
+        });
+      }, { threshold: .3 });
+      items.forEach(function (it) { io.observe(it); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'padrinos',
+      module_name: 'padrinos-vinedo',
+      style_name: 'Viñedo Clásico Coronas de Olivo',
+      descripcion: 'Padrinos en medallones circulares rodeados de coronas de olivo grabadas con un racimo de uvas; las coronas giran a su lugar en secuencia. Dos columnas alternadas que pasan a una en móvil.',
+      tags: ['padrinos', 'boda', 'viñedo', 'olivo', 'vino', 'romántico'],
+      tipo: 'padrinos'
+    };
+  </script>
+</section>

@@ -1,0 +1,270 @@
+<section
+  class="inv-con"
+  data-gemini-id="confirmacion-texto"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Jost:wght@300;400;500&display=swap');
+
+    .inv-con, .inv-con *, .inv-con *::before, .inv-con *::after { box-sizing: border-box; }
+    .inv-con {
+      --t-bg: var(--bg-color, #eef5fb);
+      --t-tx: var(--text-color, #163450);
+      --t-p: var(--primary-color, #8ecdee);
+      --t-s: var(--secondary-color, #3c7eae);
+      --t-a: var(--accent-color, #b9c4cf);
+      --t-display: var(--font-script, 'Bodoni Moda', 'Didot', serif);
+      --t-text: var(--font-heading, 'Jost', 'Helvetica Neue', sans-serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 64vw, 48rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/snowy,window,frost?lock=3451');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .inv-con::before {
+      content: ''; position: absolute; inset: 0; z-index: -1;
+      background:
+        radial-gradient(45% 60% at 0% 50%, color-mix(in srgb, var(--t-p) 35%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 86%, transparent), color-mix(in srgb, var(--t-bg) 92%, transparent));
+    }
+
+    .inv-con__pane {
+      position: relative;
+      width: min(100%, 62rem);
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+      gap: clamp(1.5rem, 4vw, 3.5rem);
+      align-items: center;
+      padding: clamp(1.6rem, 4.5vw, 3.4rem);
+      background: linear-gradient(150deg, color-mix(in srgb, #ffffff 74%, transparent), color-mix(in srgb, #ffffff 42%, transparent));
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 30px 60px color-mix(in srgb, var(--t-s) 18%, transparent), inset 0 0 0 1px color-mix(in srgb, #ffffff 85%, transparent);
+    }
+    /* frost crystals growing from two corners of the pane */
+    .inv-con__frost { position: absolute; width: clamp(5rem, 12vw, 8rem); height: auto; color: color-mix(in srgb, var(--t-p) 70%, #ffffff); pointer-events: none; }
+    .inv-con__frost--tl { top: -1px; left: -1px; }
+    .inv-con__frost--br { bottom: -1px; right: -1px; transform: rotate(180deg); }
+
+    .inv-con__intro { display: grid; gap: .8rem; }
+    .inv-con__eyebrow { margin: 0; font-family: var(--t-display); font-style: italic; font-size: clamp(1.05rem, 2vw, 1.25rem); color: var(--t-s); }
+    .inv-con__title {
+      margin: 0; padding-bottom: .08em;
+      font-family: var(--t-display); font-weight: 500;
+      font-size: clamp(2.3rem, 5vw, 3.7rem); line-height: 1.02;
+      background-image: linear-gradient(112deg, var(--t-tx) 0 20%, var(--t-s) 20% 38%, var(--t-p) 38% 40%, var(--t-s) 40% 58%, var(--t-tx) 58% 100%);
+      background-size: 240% 100%;
+      background-position: 30% 50%;
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      filter: drop-shadow(0 2px 0 #ffffff);
+    }
+    .inv-con__text { margin: 0; font-weight: 300; font-size: clamp(1rem, 1.8vw, 1.1rem); line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 85%, var(--t-s)); }
+    .inv-con__deadline { margin: 0; font-family: var(--t-display); font-style: italic; font-size: clamp(1rem, 1.9vw, 1.15rem); color: var(--t-s); }
+
+    .inv-con__form { display: grid; gap: 1rem; }
+    .inv-con__field { display: grid; gap: .35rem; }
+    .inv-con__label { font-size: .92rem; font-weight: 500; color: var(--t-tx); }
+    .inv-con__input {
+      width: 100%;
+      min-height: 2.9rem;
+      padding: .7rem .9rem;
+      border: 1px solid color-mix(in srgb, var(--t-s) 30%, transparent);
+      border-radius: 0;
+      background: color-mix(in srgb, #ffffff 78%, transparent);
+      color: var(--t-tx);
+      font: 400 1rem/1.4 var(--t-text);
+      transition: border-color .3s ease, box-shadow .3s ease, background-color .3s ease;
+    }
+    textarea.inv-con__input { min-height: 5.2rem; resize: vertical; }
+    .inv-con__input::placeholder { color: color-mix(in srgb, var(--t-tx) 45%, transparent); }
+    .inv-con__input:focus { outline: none; border-color: var(--t-s); background-color: #ffffff; box-shadow: 0 0 0 4px color-mix(in srgb, var(--t-p) 35%, transparent); }
+    .inv-con__input[data-inv-invalid] { border-color: color-mix(in srgb, var(--t-s) 40%, #6a4fa0); box-shadow: 0 0 0 4px color-mix(in srgb, #8d7ad6 22%, transparent); }
+
+    .inv-con__choice { margin: 0; padding: 0; border: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
+    .inv-con__choice legend { padding: 0; margin-bottom: .35rem; }
+    .inv-con__opt { position: relative; display: flex; align-items: center; gap: .6rem; min-height: 3rem; padding: .6rem .8rem; cursor: pointer;
+      border: 1px solid color-mix(in srgb, var(--t-s) 28%, transparent); background: color-mix(in srgb, #ffffff 60%, transparent);
+      transition: border-color .3s ease, background-color .3s ease, transform .3s ease; }
+    .inv-con__opt:hover { transform: translateY(-1px); }
+    .inv-con__opt input { position: absolute; opacity: 0; pointer-events: none; }
+    .inv-con__gem { flex: none; width: 1.5rem; height: 1.5rem; color: var(--t-s); transition: transform .45s cubic-bezier(.3, 1.4, .5, 1), color .3s ease; }
+    .inv-con__gem polygon { fill: transparent; transition: fill .3s ease; }
+    .inv-con__opt:has(input:checked) { border-color: var(--t-s); background: color-mix(in srgb, var(--t-p) 22%, #ffffff); }
+    .inv-con__opt:has(input:checked) .inv-con__gem { transform: rotate(60deg) scale(1.15); }
+    .inv-con__opt:has(input:checked) .inv-con__gem polygon { fill: var(--t-p); }
+    .inv-con__opt:has(input:focus-visible) { outline: 2px solid var(--t-s); outline-offset: 2px; }
+    .inv-con__optlabel { font-size: .98rem; color: var(--t-tx); }
+
+    .inv-con__btn {
+      position: relative;
+      display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
+      min-height: 3.2rem;
+      padding: .8rem 1.6rem;
+      overflow: hidden;
+      border: 0;
+      clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 12px 100%, 0 50%);
+      background: linear-gradient(135deg, var(--t-s), color-mix(in srgb, var(--t-s) 65%, var(--t-tx)));
+      color: #ffffff;
+      font: 500 1.02rem/1 var(--t-text);
+      cursor: pointer;
+      transition: transform .3s ease, filter .3s ease;
+    }
+    .inv-con__btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .inv-con__btn:focus-visible { outline: 2px solid var(--t-tx); outline-offset: 3px; }
+    .inv-con__spin, .inv-con__check { display: none; width: 1.25rem; height: 1.25rem; }
+    .inv-con__busy, .inv-con__sent { display: none; }
+    .inv-con__btn[data-inv-state="loading"] { pointer-events: none; filter: saturate(.7); }
+    .inv-con__btn[data-inv-state="loading"] .inv-con__spin { display: block; animation: inv-con-turn .5s linear infinite; }
+    .inv-con__btn[data-inv-state="loading"] .inv-con__idle { display: none; }
+    .inv-con__btn[data-inv-state="loading"] .inv-con__busy { display: inline; }
+    .inv-con__btn[data-inv-state="done"] { background: linear-gradient(135deg, var(--t-p), var(--t-s)); animation: inv-con-seal .45s cubic-bezier(.3, 1.4, .5, 1); }
+    .inv-con__btn[data-inv-state="done"] .inv-con__check { display: block; }
+    .inv-con__btn[data-inv-state="done"] .inv-con__idle { display: none; }
+    .inv-con__btn[data-inv-state="done"] .inv-con__sent { display: inline; }
+    @keyframes inv-con-turn { from { transform: rotate(0deg); } to { transform: rotate(60deg); } }
+    @keyframes inv-con-seal { 0% { transform: scale(.92); } 60% { transform: scale(1.05); } 100% { transform: none; } }
+    .inv-con__thanks { margin: 0; font-family: var(--t-display); font-style: italic; font-size: 1.1rem; color: var(--t-s); }
+    .inv-con__thanks[hidden] { display: none; }
+
+    .inv-con--anim [data-inv-in] { opacity: 0; transform: translateY(14px); filter: blur(4px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1), filter .45s ease; }
+    .inv-con--anim.is-in [data-inv-in] { opacity: 1; transform: none; filter: none; }
+    .inv-con--anim.is-in [data-inv-in="2"] { transition-delay: .15s; }
+
+    @media (max-width: 760px) {
+      .inv-con__pane { grid-template-columns: 1fr; text-align: center; }
+      .inv-con__form { text-align: left; }
+    }
+    @media (max-width: 420px) {
+      .inv-con__choice { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .inv-con *, .inv-con *::before, .inv-con *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="inv-con__pane">
+    <svg class="inv-con__frost inv-con__frost--tl" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+      <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.4">
+        <path d="M0 0 L70 70 M18 18 l14 -4 M18 18 l-4 14 M36 36 l18 -6 M36 36 l-6 18 M54 54 l12 -3 M54 54 l-3 12" />
+        <path d="M0 0 L110 22 M30 6 l8 -8 M30 6 l6 8 M62 12 l9 -7 M62 12 l6 9 M90 18 l6 -5" opacity=".7" />
+        <path d="M0 0 L22 110 M6 30 l-8 8 M6 30 l8 6 M12 62 l-7 9 M12 62 l9 6 M18 90 l-5 6" opacity=".7" />
+      </g>
+    </svg>
+    <svg class="inv-con__frost inv-con__frost--br" viewBox="0 0 120 120" aria-hidden="true" focusable="false">
+      <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.4">
+        <path d="M0 0 L70 70 M18 18 l14 -4 M18 18 l-4 14 M36 36 l18 -6 M36 36 l-6 18 M54 54 l12 -3 M54 54 l-3 12" />
+        <path d="M0 0 L110 22 M30 6 l8 -8 M30 6 l6 8 M62 12 l9 -7 M62 12 l6 9 M90 18 l6 -5" opacity=".7" />
+        <path d="M0 0 L22 110 M6 30 l-8 8 M6 30 l8 6 M12 62 l-7 9 M12 62 l9 6 M18 90 l-5 6" opacity=".7" />
+      </g>
+    </svg>
+
+    <header class="inv-con__intro" data-inv-in="1">
+      <p class="inv-con__eyebrow" memory_type="text" memory_usage="custom" memory_key="confirmacion-eyebrow">Tu lugar en el baile</p>
+      <h2 class="inv-con__title" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">¿Nos acompañas?</h2>
+      <p class="inv-con__text" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">Tu presencia hará brillar esta noche de cristal. Por favor confirma tu asistencia y la de tus acompañantes.</p>
+      <p class="inv-con__deadline" memory_type="text" memory_usage="custom" memory_key="confirmacion-limite">Confirma antes del 20 de diciembre de 2026</p>
+    </header>
+
+    <form class="inv-con__form" data-inv-in="2" data-inv-form novalidate>
+      <div class="inv-con__field">
+        <label class="inv-con__label" for="inv-con-nombre" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-nombre">Nombre completo</label>
+        <input class="inv-con__input" id="inv-con-nombre" name="nombre" type="text" autocomplete="name" placeholder="Nombre Apellido" required data-inv-required />
+      </div>
+      <div class="inv-con__field">
+        <label class="inv-con__label" for="inv-con-invitados" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-invitados">Número de invitados</label>
+        <input class="inv-con__input" id="inv-con-invitados" name="invitados" type="number" min="1" max="10" value="1" inputmode="numeric" />
+      </div>
+      <fieldset class="inv-con__choice">
+        <legend class="inv-con__label" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-asistencia">¿Asistirás?</legend>
+        <label class="inv-con__opt">
+          <input type="radio" name="asistencia" value="si" checked />
+          <svg class="inv-con__gem" viewBox="-12 -12 24 24" aria-hidden="true" focusable="false"><polygon points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" stroke="currentColor" stroke-width="1.6" /><path d="M0 -6 V6 M-5 -3 L5 3 M-5 3 L5 -3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" /></svg>
+          <span class="inv-con__optlabel" memory_type="text" memory_usage="custom" memory_key="confirmacion-opcion-si">Sí, asistiré</span>
+        </label>
+        <label class="inv-con__opt">
+          <input type="radio" name="asistencia" value="no" />
+          <svg class="inv-con__gem" viewBox="-12 -12 24 24" aria-hidden="true" focusable="false"><polygon points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" stroke="currentColor" stroke-width="1.6" /><path d="M0 -6 V6 M-5 -3 L5 3 M-5 3 L5 -3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" /></svg>
+          <span class="inv-con__optlabel" memory_type="text" memory_usage="custom" memory_key="confirmacion-opcion-no">No podré asistir</span>
+        </label>
+      </fieldset>
+      <div class="inv-con__field">
+        <label class="inv-con__label" for="inv-con-mensaje" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-mensaje">Mensaje para la quinceañera</label>
+        <textarea class="inv-con__input" id="inv-con-mensaje" name="mensaje" rows="3" placeholder="Unas palabras de cariño…"></textarea>
+      </div>
+      <button class="inv-con__btn" type="submit" data-inv-submit data-inv-state="idle">
+        <svg class="inv-con__spin" viewBox="-12 -12 24 24" aria-hidden="true" focusable="false"><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M0 -10 V10 M-8.7 -5 L8.7 5 M-8.7 5 L8.7 -5" /></g></svg>
+        <svg class="inv-con__check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        <span class="inv-con__idle" memory_type="text" memory_usage="custom" memory_key="confirmacion-boton">Confirmar asistencia</span>
+        <span class="inv-con__busy" memory_type="text" memory_usage="custom" memory_key="confirmacion-boton-enviando">Enviando…</span>
+        <span class="inv-con__sent" memory_type="text" memory_usage="custom" memory_key="confirmacion-boton-listo">¡Confirmado!</span>
+      </button>
+      <p class="inv-con__thanks" role="status" data-inv-thanks hidden memory_type="text" memory_usage="custom" memory_key="confirmacion-gracias">Gracias, tu lugar en el baile de invierno está reservado.</p>
+    </form>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="confirmacion-texto"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* Simulated RSVP (no network): idle -> loading -> done. Only data-* attributes and [hidden] change. */
+      var form = root.querySelector('[data-inv-form]');
+      var btn = root.querySelector('[data-inv-submit]');
+      var thanks = root.querySelector('[data-inv-thanks]');
+      if (form && btn) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          if (btn.getAttribute('data-inv-state') !== 'idle') return;
+          var ok = true;
+          form.querySelectorAll('[data-inv-required]').forEach(function (f) {
+            if (!f.value.trim()) { f.setAttribute('data-inv-invalid', ''); ok = false; } else { f.removeAttribute('data-inv-invalid'); }
+          });
+          if (!ok) { var first = form.querySelector('[data-inv-invalid]'); if (first) first.focus(); return; }
+          btn.setAttribute('data-inv-state', 'loading');
+          setTimeout(function () {
+            btn.setAttribute('data-inv-state', 'done');
+            if (thanks) thanks.hidden = false;
+          }, RM ? 200 : 1400);
+        });
+        form.addEventListener('input', function (e) { if (e.target && e.target.value && e.target.value.trim()) e.target.removeAttribute('data-inv-invalid'); });
+      }
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+      root.classList.add('inv-con--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('inv-con--anim', 'is-in'); }, 1200);
+        }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Invierno Ventana Escarchada',
+      descripcion: 'RSVP sobre un cristal escarchado con cristales de hielo en las esquinas: nombre, invitados, opciones sí/no con gemas hexagonales, mensaje y botón con copo girando y sello de confirmación.',
+      tags: ['confirmacion', 'rsvp', 'formulario', 'quinceanera', 'invierno', 'hielo'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>

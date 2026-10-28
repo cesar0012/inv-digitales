@@ -1,0 +1,141 @@
+<section
+  class="cnc-cor"
+  data-gemini-id="corte-cenicienta"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&family=Marcellus&display=swap');
+
+    .cnc-cor, .cnc-cor *, .cnc-cor *::before, .cnc-cor *::after { box-sizing: border-box; }
+    .cnc-cor {
+      --t-bg: var(--bg-color, #e6f0fa);
+      --t-tx: var(--text-color, #213a5c);
+      --t-p: var(--primary-color, #8db6dc);
+      --t-s: var(--secondary-color, #fdfcf8);
+      --t-a: var(--accent-color, #c4a052);
+      --t-display: var(--font-script, 'Monsieur La Doulaise', cursive);
+      --t-text: var(--font-heading, 'Marcellus', Georgia, serif);
+      --cnc-velvet: color-mix(in srgb, var(--t-p) 70%, var(--t-tx));
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 62vw, 48rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1.25rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: radial-gradient(ellipse at 30% 50%, var(--t-s), var(--t-bg) 60%, color-mix(in srgb, var(--t-p) 30%, var(--t-bg)));
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .cnc-cor__content { width: min(100%, 64rem); display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+
+    .cnc-cor__stage { position: relative; padding: .8rem; border-radius: 1.2rem; background: linear-gradient(180deg, color-mix(in srgb, var(--t-a) 45%, var(--t-s)), var(--t-a)); box-shadow: 0 30px 60px -34px color-mix(in srgb, var(--t-tx) 75%, transparent); }
+    .cnc-cor__window { position: relative; overflow: hidden; border-radius: .6rem; }
+    .cnc-cor__figure { margin: 0; }
+    .cnc-cor__figure img { display: block; color: transparent; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; background: linear-gradient(160deg, var(--t-s), var(--t-p)); }
+    .cnc-cor__curtain {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 51%;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, color-mix(in srgb, var(--t-tx) 25%, transparent), transparent 40%, color-mix(in srgb, var(--t-s) 18%, transparent) 60%, transparent),
+        repeating-linear-gradient(90deg, var(--cnc-velvet) 0 14px, color-mix(in srgb, var(--cnc-velvet) 70%, var(--t-s)) 22px, var(--cnc-velvet) 34px);
+      box-shadow: inset 0 -30px 40px -20px color-mix(in srgb, var(--t-tx) 50%, transparent);
+      transition: transform .5s cubic-bezier(.6, .05, .25, 1);
+    }
+    .cnc-cor__curtain--l { left: 0; transform: translateX(-86%); border-right: 2px solid var(--t-a); }
+    .cnc-cor__curtain--r { right: 0; transform: translateX(86%); border-left: 2px solid var(--t-a); }
+    .cnc-cor__valance { position: absolute; left: 0; right: 0; top: 0; z-index: 2; width: 100%; height: auto; pointer-events: none; }
+
+    .cnc-cor__text { display: grid; gap: .9rem; }
+    .cnc-cor__kicker { margin: 0; font-size: 1.05rem; color: color-mix(in srgb, var(--t-tx) 75%, var(--t-a)); }
+    .cnc-cor__title { margin: 0; padding-top: .2em; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.9rem, 7vw, 4.6rem); line-height: 1.2; }
+    .cnc-cor__para { margin: 0; font-size: 1.05rem; line-height: 1.65; }
+    .cnc-cor__names { list-style: none; margin: .3rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem 1.2rem; }
+    .cnc-cor__names li { display: flex; align-items: baseline; gap: .55rem; font-size: 1rem; }
+    .cnc-cor__names li::before { content: ''; flex: none; width: .45rem; height: .45rem; transform: rotate(45deg) translateY(-1px); background: var(--t-a); }
+
+    .cnc-cor--anim .cnc-cor__curtain--l, .cnc-cor--anim .cnc-cor__curtain--r { transform: none; }
+    .cnc-cor--anim.is-in .cnc-cor__curtain--l { transform: translateX(-86%); transition-delay: .25s; }
+    .cnc-cor--anim.is-in .cnc-cor__curtain--r { transform: translateX(86%); transition-delay: .25s; }
+    .cnc-cor--anim .cnc-cor__text { opacity: 0; transform: translateY(12px); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); transition-delay: .55s; }
+    .cnc-cor--anim.is-in .cnc-cor__text { opacity: 1; transform: none; }
+
+    @media (max-width: 780px) {
+      .cnc-cor__content { grid-template-columns: 1fr; max-width: 32rem; }
+      .cnc-cor__text { text-align: center; justify-items: center; }
+    }
+    @media (max-width: 420px) {
+      .cnc-cor__names { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cnc-cor *, .cnc-cor *::before, .cnc-cor *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="cnc-cor__content">
+    <div class="cnc-cor__stage">
+      <div class="cnc-cor__window">
+        <figure class="cnc-cor__figure" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/1200/900/quinceanera,court?lock=3591" alt="Corte de honor de la quinceañera" path="placeholder" data-library-category="eventos" data-asset-type="grupo" loading="lazy" />
+        </figure>
+        <span class="cnc-cor__curtain cnc-cor__curtain--l" aria-hidden="true"></span>
+        <span class="cnc-cor__curtain cnc-cor__curtain--r" aria-hidden="true"></span>
+        <svg class="cnc-cor__valance" viewBox="0 0 400 34" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 0 H400 V14 Q380 34 360 14 Q340 34 320 14 Q300 34 280 14 Q260 34 240 14 Q220 34 200 14 Q180 34 160 14 Q140 34 120 14 Q100 34 80 14 Q60 34 40 14 Q20 34 0 14 Z" style="fill: var(--cnc-velvet)" />
+          <path d="M0 14 Q20 34 40 14 Q60 34 80 14 Q100 34 120 14 Q140 34 160 14 Q180 34 200 14 Q220 34 240 14 Q260 34 280 14 Q300 34 320 14 Q340 34 360 14 Q380 34 400 14" fill="none" style="stroke: var(--t-a)" stroke-width="2" />
+        </svg>
+      </div>
+    </div>
+
+    <div class="cnc-cor__text">
+      <p class="cnc-cor__kicker" memory_type="text" memory_usage="custom" memory_key="corte-intro">Damas y chambelanes del reino</p>
+      <h2 class="cnc-cor__title" memory_type="text" memory_usage="custom" memory_key="corte-titulo">Mi Corte de Honor</h2>
+      <p class="cnc-cor__para" memory_type="text" memory_usage="custom" memory_key="corte-texto">Ellos abrirán el baile real a mi lado y harán de esta noche un recuerdo digno de cuento.</p>
+      <ul class="cnc-cor__names">
+        <li><span memory_type="text" memory_usage="custom" memory_key="corte-nombre-1" data-event-field="corte-nombre-1">Nombre Apellido</span></li>
+        <li><span memory_type="text" memory_usage="custom" memory_key="corte-nombre-2" data-event-field="corte-nombre-2">Nombre Apellido</span></li>
+        <li><span memory_type="text" memory_usage="custom" memory_key="corte-nombre-3" data-event-field="corte-nombre-3">Nombre Apellido</span></li>
+        <li><span memory_type="text" memory_usage="custom" memory_key="corte-nombre-4" data-event-field="corte-nombre-4">Nombre Apellido</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="corte-cenicienta"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      root.classList.add('cnc-cor--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .3) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('cnc-cor--anim', 'is-in'); }, 1500);
+        }
+      }, { threshold: [0, .3, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-cenicienta',
+      style_name: 'Cenicienta Medianoche Real',
+      descripcion: 'Corte de honor: cortinas de terciopelo azul con cenefa dorada se abren al hacer scroll y revelan la foto destacada, con texto y nombres de damas y chambelanes al lado.',
+      tags: ['corte', 'damas', 'chambelanes', 'quinceañera', 'cenicienta', 'cortinas', 'palacio'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

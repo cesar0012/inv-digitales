@@ -1,0 +1,62 @@
+<section class="cx-cd" data-gemini-id="countdown-cosmico-barroco" path="placeholder" memory_source="generated" memory_type="background" memory_usage="protected" data-countdown-target="YYYY-MM-DDTHH:MM:SS">
+<style>
+.cx-cd { --primary-color:#f0e6d2; --secondary-color:#c9a227; --accent-color:#8ecae6; --bg-color:#070b1a; --surface-color:#0d1330; --surface-border-color:rgba(201,162,39,.5); --text-color:#f0e6d2;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; min-height:100svh; display:grid; place-items:center; padding:clamp(3rem,7vw,5rem) clamp(1rem,5vw,3rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/1000/cosmic,stars'); background-size:cover; background-position:center; color:var(--text-color); text-align:center; }
+.cx-cd *, .cx-cd *::before, .cx-cd *::after { box-sizing:border-box; }
+.cx-cd::before { content:''; position:absolute; inset:0; z-index:-1; background:radial-gradient(ellipse 60% 45% at 50% 45%, color-mix(in srgb, var(--secondary-color) 18%, transparent), transparent 70%), color-mix(in srgb, var(--bg-color) 80%, transparent); }
+.cx-cd__marco { position:absolute; z-index:0; inset:clamp(10px,3vw,26px); border:2px solid var(--surface-border-color); border-radius:50%; pointer-events:none; }
+.cx-cd__marco::before { content:''; position:absolute; inset:14px; border:1px solid color-mix(in srgb, var(--accent-color) 40%, transparent); border-radius:50%; }
+/* planetas orbitando */
+.cx-cd__orbita { position:absolute; z-index:1; top:50%; left:50%; border:1px dashed color-mix(in srgb, var(--accent-color) 35%, transparent); border-radius:50%; transform:translate(-50%,-50%); animation:cxOrbita linear infinite; }
+.cx-cd__orbita--a { width:clamp(300px,70vw,640px); aspect-ratio:1/1; animation-duration:40s; }
+.cx-cd__orbita--b { width:clamp(200px,46vw,420px); aspect-ratio:1/1; animation-duration:26s; animation-direction:reverse; }
+.cx-cd__orbita--a::before, .cx-cd2__orbita--a::before { content:''; }
+.cx-cd__orbita--a::before { content:''; position:absolute; top:-9px; left:50%; width:18px; height:18px; border-radius:50%; background:radial-gradient(circle at 34% 30%, #fff, var(--accent-color) 55%, #6d5527); box-shadow:0 0 16px var(--accent-color); }
+.cx-cd2__orbita--b::before {}
+.cx-cd__orbita--b::before { content:''; position:absolute; bottom:-7px; left:50%; width:14px; height:14px; border-radius:50%; background:radial-gradient(circle at 34% 30%, #fff, var(--accent-color) 60%, #35507a); box-shadow:0 0 12px var(--accent-color); }
+@keyframes cxOrbita { to { transform:translate(-50%,-50%) rotate(360deg); } }
+.cx-cd__titulo { position:relative; z-index:2; margin:0 0 .4rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1rem,2.4vw,1.4rem); letter-spacing:.5em; text-transform:uppercase; color:var(--secondary-color); text-indent:.5em; }
+.cx-cd__cifra { position:relative; z-index:2; font-family:Georgia,serif; font-size:clamp(4.6rem,16vw,11rem); line-height:1; font-variant-numeric:tabular-nums; color:var(--primary-color); text-shadow:0 0 50px color-mix(in srgb, var(--accent-color) 50%, transparent); }
+.cx-cd__cifra small { display:block; font-size:.16em; letter-spacing:.6em; text-transform:uppercase; color:var(--accent-color); margin-top:1rem; text-indent:.6em; }
+.cx-cd__fila { position:relative; z-index:2; display:flex; justify-content:center; flex-wrap:wrap; gap:clamp(.5rem,1.8vw,1rem); margin-top:clamp(1.6rem,4vw,2.4rem); }
+.cx-cd__unidad { min-width:clamp(66px,13vw,100px); padding:clamp(.5rem,1.4vw,.85rem) .3rem; background:color-mix(in srgb, var(--surface-color) 85%, transparent); border:1px solid var(--surface-border-color); border-radius:4px; }
+.cx-cd__numero { display:block; font-family:Georgia,serif; font-size:clamp(1.3rem,3.4vw,2rem); font-variant-numeric:tabular-nums; color:var(--primary-color); }
+.cx-cd__rotulo { display:block; font-size:clamp(.5rem,1vw,.58rem); letter-spacing:.3em; text-transform:uppercase; color:var(--secondary-color); margin-top:.25rem; }
+@media (prefers-reduced-motion:reduce){ .cx-cd__orbita { animation:none; } }
+</style>
+<span class="cx-cd__marco" aria-hidden="true"></span>
+<span class="cx-cd__orbita cx-cd__orbita--a" aria-hidden="true"></span>
+<span class="cx-cd__orbita cx-cd__orbita--b" aria-hidden="true"></span>
+<div>
+  <h2 class="cx-cd__titulo" memory_type="text" memory_usage="custom" memory_key="countdown-titulo">Alineación de los astros</h2>
+  <div class="cx-cd__cifra" aria-hidden="true"><span data-ci-cifra>00</span><small>segundos para el eclipse</small></div>
+  <div class="cx-cd__fila" aria-label="Cuenta regresiva">
+    <div class="cx-cd__unidad"><span class="cx-cd__numero" data-countdown-unit="days">--</span><span class="cx-cd__rotulo">Días</span></div>
+    <div class="cx-cd__unidad"><span class="cx-cd__numero" data-countdown-unit="hours">--</span><span class="cx-cd__rotulo">Horas</span></div>
+    <div class="cx-cd__unidad"><span class="cx-cd__numero" data-countdown-unit="minutes">--</span><span class="cx-cd__rotulo">Min</span></div>
+    <div class="cx-cd__unidad"><span class="cx-cd__numero" data-countdown-unit="seconds">--</span><span class="cx-cd__rotulo">Seg</span></div>
+  </div>
+</div>
+<script>
+(function(){ var el=null; try{ el=document.currentScript.closest('[data-gemini-id^="countdown"]'); }catch(e){} if(!el) el=document.querySelector('[data-gemini-id^="countdown"]'); if(!el) return;
+  var cifra=el.querySelector('[data-ci-cifra]');
+  var target=NaN; var attr=el.getAttribute('data-countdown-target');
+  if(attr&&attr.indexOf('YYYY')===-1){ var p=new Date(attr); if(!isNaN(p.getTime())) target=p.getTime(); }
+  if(isNaN(target)&&window.__countdownTarget){ var p1=new Date(window.__countdownTarget); if(!isNaN(p1.getTime())) target=p1.getTime(); }
+  if(isNaN(target)&&window.countdown_target){ var p2=new Date(window.countdown_target); if(!isNaN(p2.getTime())) target=p2.getTime(); }
+  var intervalId=null; (window.__countdownIntervals=window.__countdownIntervals||[]).forEach(clearInterval); window.__countdownIntervals=[];
+  function pad2(n){ return n<10?'0'+n:''+n; }
+  function setUnit(u,v){ var n=el.querySelector('[data-countdown-unit="'+u+'"]'); if(n) n.textContent=v; }
+  function tick(){ if(!Number.isFinite(target)) return; var d=Math.max(target-Date.now(),0);
+    setUnit('days',Math.floor(d/86400000)); setUnit('hours',pad2(Math.floor((d%86400000)/3600000))); setUnit('minutes',pad2(Math.floor((d%3600000)/60000)));
+    var s=Math.floor((d%60000)/1000); setUnit('seconds',pad2(s)); if(cifra) cifra.textContent=pad2(s);
+    if(d===0&&intervalId!==null){ clearInterval(intervalId); intervalId=null; window.__countdownIntervals=[]; } }
+  function start(nt){ if(nt){ var p=new Date(nt); if(!isNaN(p.getTime())) target=p.getTime(); }
+    (window.__countdownIntervals||[]).forEach(clearInterval); window.__countdownIntervals=[]; intervalId=null;
+    if(!Number.isFinite(target)) return; tick(); if(target>Date.now()){ intervalId=setInterval(tick,1000); window.__countdownIntervals.push(intervalId); } }
+  start(); window.updateCountdown=start;
+})();
+</script>
+<script>var moduleMetadata={module_type:'countdown',module_name:'countdown-cosmico-barroco',style_name:'Barroco Cósmico — Eclipse',descripcion:'Eclipse barroco: marco circular dorado, dos orbitas con planetas girando en sentidos opuestos y cifra gigante con halo.',tags:[countdown,cosmico,barroco,orbitas,eclipse],tipo:'countdown'};</script>
+</section>

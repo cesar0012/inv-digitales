@@ -1,0 +1,289 @@
+<section
+  class="mm-corte"
+  data-gemini-id="corte-metamorfosis"
+  memory_type="background"
+  memory_usage="protected"
+
+  memory_source="generated"
+  path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Pinyon+Script&display=swap');
+
+    .mm-corte, .mm-corte *, .mm-corte *::before, .mm-corte *::after { box-sizing: border-box; }
+    .mm-corte {
+      --mm-bg: var(--bg-color, #1a0e26);
+      --mm-tx: var(--text-color, #faf2fb);
+      --mm-p: var(--primary-color, #f2a9cf);
+      --mm-s: var(--secondary-color, #8fd0f5);
+      --mm-a: var(--accent-color, #e5c07e);
+      --mm-script: var(--font-script, 'Pinyon Script', 'Great Vibes', cursive);
+      --mm-serif: var(--font-heading, 'Cormorant Garamond', 'Cormorant', Georgia, serif);
+      --panel: color-mix(in srgb, var(--mm-bg) 85%, transparent);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(24rem, 60vw, 40rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--mm-bg);
+      background-image:
+        radial-gradient(35% 55% at 50% 55%, color-mix(in srgb, var(--mm-p) 18%, transparent), transparent 70%),
+        radial-gradient(30% 40% at 10% 20%, color-mix(in srgb, var(--mm-s) 10%, transparent), transparent 70%),
+        radial-gradient(30% 40% at 90% 85%, color-mix(in srgb, var(--mm-a) 10%, transparent), transparent 70%);
+      color: var(--mm-tx);
+      text-align: center;
+      font-family: var(--mm-serif);
+    }
+    .mm-corte__content { width: min(100%, 70rem); }
+    .mm-corte__head { margin-bottom: clamp(2rem, 5vw, 3.4rem); }
+    .mm-corte__eyebrow { margin: 0 0 .35rem; font-style: italic; font-size: clamp(1.05rem, 2vw, 1.3rem); color: color-mix(in srgb, var(--mm-p) 70%, var(--mm-tx)); }
+    .mm-corte__title { margin: 0; font-weight: 300; font-size: clamp(2.3rem, 5.4vw, 3.8rem); line-height: 1.05; }
+
+    .mm-corte__stage {
+      display: grid;
+      grid-template-columns: 1fr minmax(15rem, 25rem) 1fr;
+      align-items: center;
+      gap: clamp(1.5rem, 4vw, 3.5rem);
+    }
+
+    /* ---------- Fotografía con alas que se pliegan ---------- */
+    .mm-corte__frame { position: relative; }
+    .mm-corte__frame::before {
+      content: '';
+      position: absolute;
+      inset: -14px;
+      border-radius: 999px 999px 2.2rem 2.2rem;
+      border: 1px solid color-mix(in srgb, var(--mm-a) 45%, transparent);
+      pointer-events: none;
+    }
+    .mm-corte__figure {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      border-radius: 999px 999px 1.6rem 1.6rem;
+      aspect-ratio: 4 / 5;
+      background: color-mix(in srgb, var(--mm-tx) 8%, var(--mm-bg));
+      box-shadow: 0 50px 90px -40px color-mix(in srgb, #000 85%, transparent), 0 0 60px -10px color-mix(in srgb, var(--mm-p) 30%, transparent);
+    }
+    .mm-corte__figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      transition: filter .5s ease, transform .5s ease;
+    }
+    .mm-corte__shine {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, transparent 35%, color-mix(in srgb, #fff 45%, transparent) 50%, transparent 65%);
+      transform: translateX(-120%);
+      pointer-events: none;
+      mix-blend-mode: soft-light;
+    }
+    .mm-corte__wings {
+      position: absolute;
+      inset: -6% -10%;
+      z-index: 2;
+      perspective: 900px;
+      transform-style: preserve-3d;
+      pointer-events: none;
+      transition: transform .45s cubic-bezier(.5, 0, .7, .4), opacity .45s ease;
+    }
+    .mm-corte__wing {
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      transition: transform .5s cubic-bezier(.6, 0, .25, 1);
+    }
+    .mm-corte__wing--l { left: 0; transform-origin: 100% 50%; }
+    .mm-corte__wing--r { left: 50%; transform-origin: 0 50%; }
+    .mm-corte__wing svg { display: block; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 10px 30px color-mix(in srgb, #000 60%, transparent)); }
+    .mm-corte__wing .f { fill: url(#mm-corte-gf); stroke: var(--mm-a); stroke-width: .8; }
+    .mm-corte__wing .h { fill: url(#mm-corte-gh); stroke: var(--mm-a); stroke-width: .8; }
+    .mm-corte__wing .v { fill: none; stroke: color-mix(in srgb, var(--mm-tx) 40%, transparent); stroke-width: .45; }
+    .mm-corte__wing .b { fill: color-mix(in srgb, var(--mm-tx) 90%, transparent); }
+    .mm-corte__body {
+      position: absolute;
+      left: 50%;
+      top: 30%;
+      width: 2.5%;
+      height: 42%;
+      margin-left: -1.25%;
+      border-radius: 999px;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--mm-a) 70%, var(--mm-bg)), color-mix(in srgb, var(--mm-bg) 70%, var(--mm-a)));
+    }
+
+    /* Estado cerrado (solo con JS) y apertura ≤ 0.5s por fase */
+    .mm-corte--anim .mm-corte__figure img { filter: brightness(.55) blur(3px); transform: scale(1.06); }
+    .mm-corte--anim:not(.is-fold) .mm-corte__wing--l { animation: mmCorteRestL .5s ease-in-out infinite alternate; }
+    .mm-corte--anim:not(.is-fold) .mm-corte__wing--r { animation: mmCorteRestR .5s ease-in-out infinite alternate; }
+    @keyframes mmCorteRestL { to { transform: rotateY(16deg); } }
+    @keyframes mmCorteRestR { to { transform: rotateY(-16deg); } }
+    .mm-corte--anim.is-fold .mm-corte__wing--l { transform: rotateY(84deg); }
+    .mm-corte--anim.is-fold .mm-corte__wing--r { transform: rotateY(-84deg); }
+    .mm-corte--anim.is-fold .mm-corte__figure img { filter: none; transform: none; }
+    .mm-corte--anim.is-away .mm-corte__wings { transform: translateY(-46%) scale(.55); opacity: 0; }
+    .mm-corte--anim.is-away .mm-corte__shine { transform: translateX(120%); transition: transform .5s ease; }
+    .mm-corte:not(.mm-corte--anim) .mm-corte__wings { display: none; }
+
+    /* ---------- Listas: damas (ala izquierda) y chambelanes (ala derecha) ---------- */
+    .mm-corte__group { margin: 0; }
+    .mm-corte__group--l { text-align: right; }
+    .mm-corte__group--r { text-align: left; }
+    .mm-corte__gtitle {
+      margin: 0 0 1rem;
+      font-family: var(--mm-script);
+      font-weight: 400;
+      font-size: clamp(2.2rem, 4vw, 3rem);
+      line-height: 1;
+      color: var(--mm-a);
+    }
+    .mm-corte__list { display: grid; gap: .55rem; margin: 0; padding: 0; list-style: none; }
+    .mm-corte__list li {
+      position: relative;
+      font-size: clamp(1.1rem, 2vw, 1.3rem);
+      line-height: 1.3;
+      color: color-mix(in srgb, var(--mm-tx) 90%, transparent);
+    }
+    .mm-corte__group--l .mm-corte__list li { padding-right: 1.4rem; }
+    .mm-corte__group--r .mm-corte__list li { padding-left: 1.4rem; }
+    .mm-corte__list li::after {
+      content: '';
+      position: absolute;
+      top: .55em;
+      width: .42rem;
+      height: .42rem;
+      border-radius: 50% 0;
+      background: linear-gradient(135deg, var(--mm-s), var(--mm-p));
+    }
+    .mm-corte__group--l .mm-corte__list li::after { right: 0; transform: rotate(90deg); }
+    .mm-corte__group--r .mm-corte__list li::after { left: 0; }
+    .mm-corte__note {
+      max-width: 40ch;
+      margin: clamp(2.2rem, 5vw, 3.2rem) auto 0;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1.05rem, 1.9vw, 1.25rem);
+      line-height: 1.5;
+      color: color-mix(in srgb, var(--mm-tx) 78%, transparent);
+    }
+    .mm-corte--anim .mm-corte__list li,
+    .mm-corte--anim .mm-corte__gtitle { opacity: 0; transform: translateX(var(--mm-dx, 14px)); transition: opacity .4s ease, transform .4s cubic-bezier(.2, .8, .2, 1); }
+    .mm-corte--anim .mm-corte__group--l { --mm-dx: -14px; }
+    .mm-corte--anim.is-away .mm-corte__list li,
+    .mm-corte--anim.is-away .mm-corte__gtitle { opacity: 1; transform: none; }
+
+    @media (max-width: 820px) {
+      .mm-corte__stage { grid-template-columns: 1fr 1fr; }
+      .mm-corte__frame { grid-column: 1 / -1; grid-row: 1; width: min(78%, 20rem); margin: 0 auto 1rem; }
+      .mm-corte__group--l { grid-row: 2; }
+      .mm-corte__group--r { grid-row: 2; }
+      .mm-corte__gtitle { font-size: 1.9rem; }
+      .mm-corte__list li { font-size: 1.05rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .mm-corte *, .mm-corte *::before, .mm-corte *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="mm-corte__content">
+    <header class="mm-corte__head">
+      <p class="mm-corte__eyebrow" memory_type="text" memory_usage="custom" memory_key="corte-subtitulo">Me acompañan en mi vals</p>
+      <h2 class="mm-corte__title" memory_type="text" memory_usage="custom" memory_key="corte-titulo">Mi corte de honor</h2>
+    </header>
+
+    <div class="mm-corte__stage">
+      <section class="mm-corte__group mm-corte__group--l" aria-labelledby="mm-corte-damas">
+        <h3 class="mm-corte__gtitle" id="mm-corte-damas" memory_type="text" memory_usage="custom" memory_key="corte-grupo-1">Damas</h3>
+        <ul class="mm-corte__list">
+          <li memory_type="text" memory_usage="custom" memory_key="corte-dama-1" data-event-field="corte-nombre-1">Nombre Apellido</li>
+          <li memory_type="text" memory_usage="custom" memory_key="corte-dama-2" data-event-field="corte-nombre-2">Nombre Apellido</li>
+          <li memory_type="text" memory_usage="custom" memory_key="corte-dama-3" data-event-field="corte-nombre-3">Nombre Apellido</li>
+          <li memory_type="text" memory_usage="custom" memory_key="corte-dama-4" data-event-field="corte-nombre-4">Nombre Apellido</li>
+          <li memory_type="text" memory_usage="custom" memory_key="corte-dama-5" data-event-field="corte-nombre-5">Nombre Apellido</li>
+        </ul>
+      </section>
+
+      <div class="mm-corte__frame">
+        <figure class="mm-corte__figure" memory_type="image" memory_usage="custom" memory_source="library">
+          <img src="https://loremflickr.com/800/1000/party,dance?lock=2709" alt="Corte de honor" path="placeholder" data-library-category="eventos" data-asset-type="foto-corte" loading="lazy" />
+          <span class="mm-corte__shine" aria-hidden="true"></span>
+        </figure>
+        <div class="mm-corte__wings" aria-hidden="true">
+          <svg width="0" height="0" style="position:absolute">
+            <defs>
+              <linearGradient id="mm-corte-gf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color: var(--mm-a)" /><stop offset=".45" style="stop-color: var(--mm-p)" /><stop offset="1" style="stop-color: var(--mm-s)" /></linearGradient>
+              <linearGradient id="mm-corte-gh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color: var(--mm-p)" /><stop offset="1" style="stop-color: var(--mm-s)" /></linearGradient>
+            </defs>
+          </svg>
+          <span class="mm-corte__wing mm-corte__wing--l"><svg viewBox="0 0 100 120" preserveAspectRatio="xMaxYMid meet"><g transform="translate(100 0) scale(-1 1)"><path class="f" d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z"/><path class="h" d="M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/><path class="v" d="M1 50Q40 26 80 8M1 51Q46 38 92 28M1 52Q44 50 86 44M1 58Q34 72 58 102M1 59Q26 80 40 110"/><circle class="b" cx="84" cy="14" r="2"/><circle class="b" cx="90" cy="25" r="1.6"/><circle class="b" cx="91" cy="35" r="1.3"/><circle class="b" cx="60" cy="104" r="1.7"/><circle class="b" cx="48" cy="109" r="1.3"/></g></svg></span>
+          <span class="mm-corte__wing mm-corte__wing--r"><svg viewBox="0 0 100 120" preserveAspectRatio="xMinYMid meet"><path class="f" d="M0 46C8 18 38-2 72 2C94 5 99 26 88 42C77 56 40 58 0 54Z"/><path class="h" d="M0 56C28 56 58 64 64 86C69 104 54 116 38 110C20 104 6 84 0 60Z"/><path class="v" d="M1 50Q40 26 80 8M1 51Q46 38 92 28M1 52Q44 50 86 44M1 58Q34 72 58 102M1 59Q26 80 40 110"/><circle class="b" cx="84" cy="14" r="2"/><circle class="b" cx="90" cy="25" r="1.6"/><circle class="b" cx="91" cy="35" r="1.3"/><circle class="b" cx="60" cy="104" r="1.7"/><circle class="b" cx="48" cy="109" r="1.3"/></svg></span>
+          <span class="mm-corte__body"></span>
+        </div>
+      </div>
+
+      <section class="mm-corte__group mm-corte__group--r" aria-labelledby="mm-corte-chambelanes">
+        <h3 class="mm-corte__gtitle" id="mm-corte-chambelanes" memory_type="text" memory_usage="custom" memory_key="corte-grupo-2">Chambelanes</h3>
+        <ul class="mm-corte__list">
+          <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-1" data-event-field="corte-nombre-1">Nombre Apellido</li>
+          <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-2" data-event-field="corte-nombre-2">Nombre Apellido</li>
+          <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-3" data-event-field="corte-nombre-3">Nombre Apellido</li>
+          <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-4" data-event-field="corte-nombre-4">Nombre Apellido</li>
+          <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-5" data-event-field="corte-nombre-5">Nombre Apellido</li>
+        </ul>
+      </section>
+    </div>
+
+    <p class="mm-corte__note" memory_type="text" memory_usage="custom" memory_key="corte-texto">Gracias por ensayar cada paso conmigo; esta noche bailamos juntos.</p>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="corte-metamorfosis"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__mmInit) return;
+      root.__mmInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      var items = [].slice.call(root.querySelectorAll('.mm-corte__list li, .mm-corte__gtitle'));
+      root.classList.add('mm-corte--anim');
+      function open() {
+        root.classList.add('is-fold');
+        setTimeout(function () {
+          root.classList.add('is-away');
+          var l = [].slice.call(root.querySelectorAll('.mm-corte__group--l .mm-corte__gtitle, .mm-corte__group--l li'));
+          var r = [].slice.call(root.querySelectorAll('.mm-corte__group--r .mm-corte__gtitle, .mm-corte__group--r li'));
+          l.forEach(function (el, i) { el.style.transitionDelay = (i * .06).toFixed(2) + 's'; });
+          r.forEach(function (el, i) { el.style.transitionDelay = (i * .06).toFixed(2) + 's'; });
+        }, 470);
+        setTimeout(function () {
+          root.classList.remove('mm-corte--anim', 'is-fold', 'is-away');
+          items.forEach(function (el) { el.style.transitionDelay = ''; if (!el.getAttribute('style')) el.removeAttribute('style'); });
+        }, 1900);
+      }
+      var shown = false;
+      var io = new IntersectionObserver(function (en) {
+        en.forEach(function (x) {
+          if (x.isIntersecting && !shown && x.intersectionRatio > .35) { shown = true; setTimeout(open, 250); io.disconnect(); }
+        });
+      }, { threshold: [0, .35, .6] });
+      io.observe(root.querySelector('.mm-corte__frame') || root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-metamorfosis',
+      style_name: 'Metamorfosis Alas que Despegan',
+      descripcion: 'Corte de honor: una gran mariposa posada sobre la foto destacada pliega sus alas en 3D y alza el vuelo para revelarla; damas y chambelanes a cada lado como alas simétricas.',
+      tags: ['corte', 'corte de honor', 'damas', 'chambelanes', 'quinceañera', 'xv años', 'mariposas', 'metamorfosis', 'revelado', 'cortina', '3d', 'foto destacada', 'premium'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

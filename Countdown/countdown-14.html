@@ -1,0 +1,622 @@
+<section
+  class="countdown-concentric-rings"
+  data-gemini-id="countdown-concentric-rings"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+>
+  <style>
+    .countdown-concentric-rings {
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(640px, 72vw, 790px);
+      display: flex;
+      align-items: flex-start;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: clamp(4rem, 8vw, 7rem) clamp(1.15rem, 6vw, 6.5rem);
+      background-color: var(--bg-color, #111827);
+      background-image: url('https://loremflickr.com/1600/1000/elegant,celebration,night');
+      background-position: center;
+      background-size: cover;
+      color: var(--text-color, #f8fafc);
+    }
+
+    .countdown-concentric-rings,
+    .countdown-concentric-rings * {
+      box-sizing: border-box;
+    }
+
+    .countdown-concentric-rings::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      background:
+        linear-gradient(
+          90deg,
+          color-mix(in srgb, var(--bg-color, #111827) 92%, transparent) 0%,
+          color-mix(in srgb, var(--bg-color, #111827) 75%, transparent) 37%,
+          color-mix(in srgb, var(--bg-color, #111827) 38%, transparent) 69%,
+          color-mix(in srgb, var(--bg-color, #111827) 48%, transparent) 100%
+        );
+      pointer-events: none;
+    }
+
+    .countdown-concentric-rings::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      background:
+        linear-gradient(180deg, color-mix(in srgb, var(--bg-color, #111827) 22%, transparent), transparent 18% 78%, color-mix(in srgb, var(--bg-color, #111827) 38%, transparent)),
+        linear-gradient(100deg, transparent 70%, color-mix(in srgb, var(--accent-color, #a7c7ff) 7%, transparent));
+      pointer-events: none;
+    }
+
+    /*
+      The circles are intentionally NOT drawn. These elements only provide
+      invisible circular paths on which the number sequences are positioned.
+    */
+    .countdown-concentric-rings__orbit-field {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .countdown-concentric-rings__anchor {
+      position: absolute;
+      left: 108%;
+      top: 39%;
+      width: 0;
+      height: 0;
+    }
+
+    .countdown-concentric-rings__orbit {
+      --ring-size: 1000px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: var(--ring-size);
+      height: var(--ring-size);
+      transform: translate(-50%, -50%);
+      transform-origin: 50% 50%;
+    }
+
+    .countdown-concentric-rings__orbit--days {
+      --ring-size: clamp(1350px, 150vw, 1780px);
+    }
+
+    .countdown-concentric-rings__orbit--hours {
+      --ring-size: clamp(1120px, 126vw, 1500px);
+    }
+
+    .countdown-concentric-rings__orbit--minutes {
+      --ring-size: clamp(900px, 102vw, 1220px);
+    }
+
+    .countdown-concentric-rings__orbit--seconds {
+      --ring-size: clamp(690px, 78vw, 940px);
+    }
+
+    .countdown-concentric-rings__orbit-wheel {
+      --ring-step: 8deg;
+      position: absolute;
+      inset: 0;
+      transform: rotate(0deg);
+      transform-origin: 50% 50%;
+      will-change: transform;
+    }
+
+    .countdown-concentric-rings__orbit-wheel.is-stepping {
+      transform: rotate(var(--ring-step));
+      transition: transform 620ms cubic-bezier(.18, .74, .2, 1);
+    }
+
+    .countdown-concentric-rings__orbit-number {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 4.6rem;
+      color: var(--text-color, #f8fafc);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: clamp(.9rem, 1.25vw, 1.15rem);
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .06em;
+      line-height: 1;
+      text-align: center;
+      text-shadow: 0 2px 14px color-mix(in srgb, var(--bg-color, #111827) 92%, transparent);
+      transform:
+        translate(-50%, -50%)
+        rotate(var(--orbit-angle))
+        translateY(calc(var(--orbit-radius) * -1))
+        rotate(90deg);
+      transform-origin: center;
+      opacity: var(--orbit-opacity, .28);
+      white-space: nowrap;
+    }
+
+    .countdown-concentric-rings__orbit-number.is-major {
+      font-size: 1.12em;
+      opacity: .62;
+    }
+
+    .countdown-concentric-rings__orbit--days .countdown-concentric-rings__orbit-number {
+      font-size: clamp(1.2rem, 1.75vw, 1.55rem);
+    }
+
+    .countdown-concentric-rings__orbit--hours .countdown-concentric-rings__orbit-number {
+      font-size: clamp(1.05rem, 1.5vw, 1.34rem);
+    }
+
+    .countdown-concentric-rings__orbit--minutes .countdown-concentric-rings__orbit-number {
+      font-size: clamp(.94rem, 1.3vw, 1.18rem);
+    }
+
+    .countdown-concentric-rings__orbit--seconds .countdown-concentric-rings__orbit-number {
+      font-size: clamp(.84rem, 1.12vw, 1.02rem);
+    }
+
+    .countdown-concentric-rings__orbit-current {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 2;
+      display: inline-flex;
+      align-items: baseline;
+      gap: .42em;
+      width: max-content;
+      color: var(--primary-color, var(--text-color, #f8fafc));
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-variant-numeric: tabular-nums;
+      line-height: .82;
+      text-shadow:
+        0 0 24px color-mix(in srgb, var(--accent-color, #a7c7ff) 22%, transparent),
+        0 4px 24px color-mix(in srgb, var(--bg-color, #111827) 88%, transparent);
+      transform:
+        translate(-50%, -50%)
+        rotate(258deg)
+        translateY(calc(var(--ring-size) * -.5))
+        rotate(90deg);
+      transform-origin: center;
+      white-space: nowrap;
+    }
+
+    .countdown-concentric-rings__orbit-current-value {
+      font-weight: 300;
+      letter-spacing: -.075em;
+    }
+
+    .countdown-concentric-rings__orbit-current-unit {
+      color: var(--accent-color, #a7c7ff);
+      font-size: clamp(.55rem, .75vw, .7rem);
+      font-weight: 750;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .countdown-concentric-rings__orbit--days .countdown-concentric-rings__orbit-current-value {
+      font-size: clamp(3.5rem, 6.5vw, 6.4rem);
+    }
+
+    .countdown-concentric-rings__orbit--hours .countdown-concentric-rings__orbit-current-value {
+      font-size: clamp(3rem, 5.4vw, 5.25rem);
+    }
+
+    .countdown-concentric-rings__orbit--minutes .countdown-concentric-rings__orbit-current-value {
+      font-size: clamp(2.65rem, 4.6vw, 4.4rem);
+    }
+
+    .countdown-concentric-rings__orbit--seconds .countdown-concentric-rings__orbit-current-value {
+      font-size: clamp(2.3rem, 3.9vw, 3.75rem);
+    }
+
+    .countdown-concentric-rings__content {
+      position: relative;
+      z-index: 2;
+      width: min(100%, 460px);
+    }
+
+    .countdown-concentric-rings__eyebrow {
+      margin: 0 0 1rem;
+      color: var(--accent-color, #a7c7ff);
+      font-size: clamp(.62rem, 1vw, .76rem);
+      font-weight: 700;
+      letter-spacing: .28em;
+      line-height: 1.3;
+      text-transform: uppercase;
+    }
+
+    .countdown-concentric-rings__heading {
+      max-width: 11ch;
+      margin: 0 0 1rem;
+      color: var(--primary-color, var(--text-color, #f8fafc));
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(2.15rem, 4.2vw, 4rem);
+      font-weight: 400;
+      letter-spacing: -.035em;
+      line-height: .94;
+      text-wrap: balance;
+      text-shadow: 0 4px 30px color-mix(in srgb, var(--bg-color, #111827) 76%, transparent);
+    }
+
+    .countdown-concentric-rings__date {
+      display: block;
+      margin: 0;
+      color: var(--text-color, #f8fafc);
+      font-size: clamp(.74rem, 1.2vw, .9rem);
+      font-weight: 500;
+      letter-spacing: .08em;
+      opacity: .72;
+    }
+
+    @media (max-width: 760px) {
+      .countdown-concentric-rings {
+        min-height: 720px;
+        align-items: flex-end;
+        padding: 3.5rem clamp(1.15rem, 6vw, 2.1rem) 4.2rem;
+      }
+
+      .countdown-concentric-rings::before {
+        background:
+          linear-gradient(
+            180deg,
+            color-mix(in srgb, var(--bg-color, #111827) 34%, transparent) 0%,
+            color-mix(in srgb, var(--bg-color, #111827) 50%, transparent) 45%,
+            color-mix(in srgb, var(--bg-color, #111827) 92%, transparent) 100%
+          );
+      }
+
+      .countdown-concentric-rings__anchor {
+        left: 128%;
+        top: 34%;
+      }
+
+      .countdown-concentric-rings__orbit--days { --ring-size: 235vw; }
+      .countdown-concentric-rings__orbit--hours { --ring-size: 185vw; }
+      .countdown-concentric-rings__orbit--minutes { --ring-size: 135vw; }
+      .countdown-concentric-rings__orbit--seconds { --ring-size: 85vw; }
+
+      .countdown-concentric-rings__orbit--days .countdown-concentric-rings__orbit-number {
+        font-size: clamp(1rem, 3.7vw, 1.5rem);
+      }
+
+      .countdown-concentric-rings__orbit--hours .countdown-concentric-rings__orbit-number {
+        font-size: clamp(.9rem, 3.2vw, 1.3rem);
+      }
+
+      .countdown-concentric-rings__orbit--minutes .countdown-concentric-rings__orbit-number {
+        font-size: clamp(.8rem, 2.8vw, 1.12rem);
+      }
+
+      .countdown-concentric-rings__orbit--seconds .countdown-concentric-rings__orbit-number {
+        font-size: clamp(.72rem, 2.45vw, .98rem);
+      }
+
+      .countdown-concentric-rings__orbit--days .countdown-concentric-rings__orbit-current-value {
+        font-size: clamp(3.25rem, 14vw, 5.6rem);
+      }
+
+      .countdown-concentric-rings__orbit--hours .countdown-concentric-rings__orbit-current-value {
+        font-size: clamp(2.8rem, 11.5vw, 4.65rem);
+      }
+
+      .countdown-concentric-rings__orbit--minutes .countdown-concentric-rings__orbit-current-value {
+        font-size: clamp(2.35rem, 9.5vw, 3.85rem);
+      }
+
+      .countdown-concentric-rings__orbit--seconds .countdown-concentric-rings__orbit-current-value {
+        font-size: clamp(2rem, 8vw, 3.25rem);
+      }
+
+      .countdown-concentric-rings__orbit-current-unit {
+        font-size: clamp(.5rem, 1.8vw, .65rem);
+      }
+
+      .countdown-concentric-rings__content {
+        width: 100%;
+      }
+
+      .countdown-concentric-rings__heading {
+        max-width: 10ch;
+        font-size: clamp(2rem, 8.6vw, 3rem);
+      }
+
+      .countdown-concentric-rings__date {
+        font-size: clamp(.7rem, 2.8vw, .86rem);
+      }
+    }
+
+    @media (max-width: 430px) {
+      .countdown-concentric-rings {
+        min-height: 680px;
+        padding-bottom: 3.6rem;
+      }
+
+      .countdown-concentric-rings__anchor {
+        top: 32%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .countdown-concentric-rings__orbit-wheel.is-stepping {
+        transition: none !important;
+      }
+    }
+  </style>
+
+  <div class="countdown-concentric-rings__orbit-field">
+    <div class="countdown-concentric-rings__anchor">
+      <div class="countdown-concentric-rings__orbit countdown-concentric-rings__orbit--days" data-orbit-unit="days">
+        <div class="countdown-concentric-rings__orbit-wheel" data-orbit-wheel aria-hidden="true"></div>
+        <div class="countdown-concentric-rings__orbit-current">
+          <span class="countdown-concentric-rings__orbit-current-value" data-countdown-unit="days">--</span>
+          <span class="countdown-concentric-rings__orbit-current-unit">Días</span>
+        </div>
+      </div>
+      <div class="countdown-concentric-rings__orbit countdown-concentric-rings__orbit--hours" data-orbit-unit="hours">
+        <div class="countdown-concentric-rings__orbit-wheel" data-orbit-wheel aria-hidden="true"></div>
+        <div class="countdown-concentric-rings__orbit-current">
+          <span class="countdown-concentric-rings__orbit-current-value" data-countdown-unit="hours">--</span>
+          <span class="countdown-concentric-rings__orbit-current-unit">Horas</span>
+        </div>
+      </div>
+      <div class="countdown-concentric-rings__orbit countdown-concentric-rings__orbit--minutes" data-orbit-unit="minutes">
+        <div class="countdown-concentric-rings__orbit-wheel" data-orbit-wheel aria-hidden="true"></div>
+        <div class="countdown-concentric-rings__orbit-current">
+          <span class="countdown-concentric-rings__orbit-current-value" data-countdown-unit="minutes">--</span>
+          <span class="countdown-concentric-rings__orbit-current-unit">Minutos</span>
+        </div>
+      </div>
+      <div class="countdown-concentric-rings__orbit countdown-concentric-rings__orbit--seconds" data-orbit-unit="seconds">
+        <div class="countdown-concentric-rings__orbit-wheel" data-orbit-wheel aria-hidden="true"></div>
+        <div class="countdown-concentric-rings__orbit-current">
+          <span class="countdown-concentric-rings__orbit-current-value" data-countdown-unit="seconds">--</span>
+          <span class="countdown-concentric-rings__orbit-current-unit">Segundos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="countdown-concentric-rings__content">
+    <p class="countdown-concentric-rings__eyebrow">La cuenta regresiva</p>
+    <h2
+      class="countdown-concentric-rings__heading"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="countdown-header"
+    >Nos vemos muy pronto</h2>
+    <time
+      class="countdown-concentric-rings__date"
+      datetime="YYYY-MM-DDTHH:MM:SS"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="countdown-event-date"
+    >Fecha del evento</time>
+  </div>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'countdown',
+      module_name: 'countdown-concentric-rings',
+      style_name: 'Anillos concéntricos monumentales',
+      descripcion: 'Countdown responsive con cuatro anillos concéntricos monumentales, numeración grande y valor activo etiquetado para días, horas, minutos y segundos, sin circunferencias visibles.',
+      tags: ['countdown', 'cuenta regresiva', 'timer', 'boda', 'quinceañera', 'elegante', 'editorial'],
+      tipo: 'countdown'
+    };
+  </script>
+
+  <script>
+    (function () {
+      var el = document.querySelector('[data-gemini-id="countdown-concentric-rings"]');
+      if (!el) return;
+
+      var targetAttr = el.getAttribute('data-countdown-target');
+      var target = NaN;
+      if (targetAttr && targetAttr.indexOf('YYYY') === -1) {
+        var parsed = new Date(targetAttr);
+        if (!isNaN(parsed.getTime())) target = parsed.getTime();
+      }
+      if (isNaN(target)) {
+        if (window.__countdownTarget) { var _p = new Date(window.__countdownTarget); if (!isNaN(_p.getTime())) target = _p.getTime(); }
+        else if (window.countdown_target) { var _p2 = new Date(window.countdown_target); if (!isNaN(_p2.getTime())) target = _p2.getTime(); }
+      }
+      console.log('[COUNTDOWN-MODULE] el encontrado=', !!el, 'target=', targetAttr, 'targetMs=', isNaN(target) ? 'NaN' : target);
+      var intervalId = null;
+      var focusAngle = 258;
+      var previous = { days: null, hours: null, minutes: null, seconds: null };
+      var transitionTimers = {};
+      var observers = [];
+
+      var orbitConfig = {
+        days:    { count: 34, step: 10.5, cycle: 0 },
+        hours:   { count: 38, step: 9, cycle: 24 },
+        minutes: { count: 46, step: 7, cycle: 60 },
+        seconds: { count: 54, step: 5.5, cycle: 60 }
+      };
+
+      (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+
+      function pad2(n) {
+        return n < 10 ? '0' + n : '' + n;
+      }
+
+      function normalize(unit, value) {
+        var config = orbitConfig[unit];
+        if (!config || !config.cycle) return Math.max(0, value);
+        return ((value % config.cycle) + config.cycle) % config.cycle;
+      }
+
+      function displayValue(unit, value) {
+        var normalized = normalize(unit, value);
+        return unit === 'days' ? String(normalized) : pad2(normalized);
+      }
+
+      function paintOrbit(unit, centerValue) {
+        var orbit = el.querySelector('[data-orbit-unit="' + unit + '"]');
+        var config = orbitConfig[unit];
+        if (!orbit || !config) return;
+
+        var wheel = orbit.querySelector('[data-orbit-wheel]');
+        if (!wheel) return;
+
+        wheel.innerHTML = '';
+        var radius = orbit.clientWidth / 2;
+        var centerIndex = Math.floor(config.count / 2);
+
+        for (var i = 0; i < config.count; i++) {
+          var offset = i - centerIndex;
+          if (offset === 0) continue;
+
+          var angle = focusAngle + (offset * config.step);
+          var distance = Math.abs(offset);
+          var number = document.createElement('span');
+          var isMajor = distance % 5 === 0;
+
+          number.className = 'countdown-concentric-rings__orbit-number' +
+            (isMajor ? ' is-major' : '');
+          number.textContent = displayValue(unit, centerValue + offset);
+          number.style.setProperty('--orbit-angle', angle + 'deg');
+          number.style.setProperty('--orbit-radius', radius + 'px');
+          number.style.setProperty('--orbit-opacity', String(Math.max(.1, .43 - (distance * .017))));
+          wheel.appendChild(number);
+        }
+      }
+
+      function animateOrbit(unit, value, immediate) {
+        var orbit = el.querySelector('[data-orbit-unit="' + unit + '"]');
+        var config = orbitConfig[unit];
+        if (!orbit || !config) return;
+
+        var wheel = orbit.querySelector('[data-orbit-wheel]');
+        if (!wheel) return;
+
+        clearTimeout(transitionTimers[unit]);
+
+        if (!immediate && previous[unit] !== null && previous[unit] !== value) {
+          wheel.style.setProperty('--ring-step', config.step + 'deg');
+          wheel.classList.add('is-stepping');
+
+          transitionTimers[unit] = setTimeout(function () {
+            wheel.classList.remove('is-stepping');
+            wheel.style.transition = 'none';
+            wheel.style.transform = 'rotate(0deg)';
+            paintOrbit(unit, value);
+            void wheel.offsetWidth;
+            wheel.style.transition = '';
+            wheel.style.transform = '';
+          }, 630);
+        } else {
+          wheel.classList.remove('is-stepping');
+          paintOrbit(unit, value);
+        }
+
+        previous[unit] = value;
+      }
+
+      function syncOrbitFromControl(unit, immediate) {
+        var control = el.querySelector('[data-countdown-unit="' + unit + '"]');
+        if (!control) return;
+        var value = parseInt(control.textContent, 10);
+        if (!Number.isFinite(value)) return;
+        animateOrbit(unit, value, immediate);
+      }
+
+      function observeControls() {
+        ['days', 'hours', 'minutes', 'seconds'].forEach(function (unit) {
+          var control = el.querySelector('[data-countdown-unit="' + unit + '"]');
+          if (!control) return;
+
+          var observer = new MutationObserver(function () {
+            syncOrbitFromControl(unit, false);
+          });
+          observer.observe(control, { childList: true, characterData: true, subtree: true });
+          observers.push(observer);
+        });
+      }
+
+      function setUnit(unit, value) {
+        var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
+        if (node && node.textContent !== String(value)) node.textContent = value;
+      }
+
+      function showPreviewOrbits() {
+        paintOrbit('days', 0);
+        paintOrbit('hours', 0);
+        paintOrbit('minutes', 0);
+        paintOrbit('seconds', 0);
+      }
+
+      function tick() {
+        if (!Number.isFinite(target)) {
+          setUnit('days', '--');
+          setUnit('hours', '--');
+          setUnit('minutes', '--');
+          setUnit('seconds', '--');
+          return;
+        }
+
+        var diff = target - Date.now();
+        if (diff < 0) diff = 0;
+
+        var d = Math.floor(diff / 86400000);
+        var h = Math.floor((diff % 86400000) / 3600000);
+        var m = Math.floor((diff % 3600000) / 60000);
+        var s = Math.floor((diff % 60000) / 1000);
+
+        setUnit('days', d);
+        setUnit('hours', pad2(h));
+        setUnit('minutes', pad2(m));
+        setUnit('seconds', pad2(s));
+
+        if (diff === 0 && intervalId) {
+          clearInterval(intervalId);
+          intervalId = null;
+        }
+      }
+
+      function startTimer() {
+        tick();
+        ['days', 'hours', 'minutes', 'seconds'].forEach(function (unit) {
+          syncOrbitFromControl(unit, true);
+        });
+
+        if (Number.isFinite(target) && target > Date.now()) {
+          intervalId = setInterval(tick, 1000);
+          window.__countdownIntervals.push(intervalId);
+        }
+      }
+
+      observeControls();
+      showPreviewOrbits();
+      startTimer();
+
+      window.updateCountdown = function (newTarget) {
+        target = new Date(newTarget).getTime();
+        (window.__countdownIntervals || []).forEach(clearInterval);
+        window.__countdownIntervals = [];
+        Object.keys(transitionTimers).forEach(function (key) {
+          clearTimeout(transitionTimers[key]);
+        });
+        intervalId = null;
+        startTimer();
+      };
+
+      window.addEventListener('resize', function () {
+        ['days', 'hours', 'minutes', 'seconds'].forEach(function (unit) {
+          if (previous[unit] === null) {
+            paintOrbit(unit, 0);
+          } else {
+            paintOrbit(unit, previous[unit]);
+          }
+        });
+      });
+    })();
+  </script>
+</section>

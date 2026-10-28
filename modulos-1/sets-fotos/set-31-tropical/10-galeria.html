@@ -1,0 +1,330 @@
+<section
+  class="ptr-gal"
+  data-gemini-id="galeria-tropical"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Figtree:wght@400;500;600;700&display=swap');
+
+    .ptr-gal, .ptr-gal *, .ptr-gal *::before, .ptr-gal *::after { box-sizing: border-box; }
+    .ptr-gal {
+      --t-bg: var(--bg-color, #FBF4E8);
+      --t-tx: var(--text-color, #1D5A5E);
+      --t-p: var(--primary-color, #1BB3AE);
+      --t-s: var(--secondary-color, #138A6B);
+      --t-a: var(--accent-color, #FF7A63);
+      --t-sand: color-mix(in srgb, var(--t-bg) 55%, #E3C08C);
+      --t-orchid: color-mix(in srgb, var(--t-a) 34%, #F7D4EC);
+      --t-display: var(--font-script, 'Fraunces', Georgia, serif);
+      --t-text: var(--font-heading, 'Figtree', 'Helvetica Neue', Arial, sans-serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 48rem);
+      padding: clamp(4.5rem, 9vw, 7rem) clamp(1.25rem, 5vw, 4rem);
+      overflow: hidden;
+      overflow: clip;
+      background-color: var(--t-bg);
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .ptr-gal__deco { position: absolute; z-index: -1; pointer-events: none; }
+    .ptr-gal__deco svg { display: block; width: 100%; height: auto; }
+    .ptr-gal__deco--w1 { left: -10%; top: 4%; width: clamp(16rem, 34vw, 30rem); color: var(--t-p); opacity: .14; }
+    .ptr-gal__deco--w2 { right: -8%; bottom: -6%; width: clamp(16rem, 32vw, 28rem); color: var(--t-a); opacity: .12; }
+    .ptr-gal__deco--palm { right: -5rem; top: -1.5rem; width: clamp(14rem, 28vw, 24rem); color: var(--t-s); opacity: .75; transform: scaleX(-1) rotate(10deg); }
+
+    .ptr-gal__head { text-align: center; width: min(100%, 40rem); margin: 0 auto clamp(2.5rem, 5vw, 3.5rem); }
+    .ptr-gal__kicker { margin: 0; font-family: var(--t-display); font-style: italic; font-size: clamp(1.1rem, 2vw, 1.35rem); color: var(--t-a); }
+    .ptr-gal__title { margin: .2rem 0 0; font-family: var(--t-display); font-weight: 400; font-variation-settings: 'opsz' 144; font-size: clamp(2.4rem, 5.5vw, 4rem); line-height: 1.02; }
+
+    .ptr-gal__grid {
+      list-style: none;
+      margin: 0 auto;
+      padding: 0;
+      width: min(100%, 68rem);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+      grid-auto-rows: clamp(9.5rem, 17vw, 13.5rem);
+      grid-auto-flow: dense;
+      gap: clamp(.6rem, 1.4vw, 1rem);
+    }
+    .ptr-gal__item--tall { grid-row: span 2; }
+    .ptr-gal__item--wide { grid-column: span 2; }
+    .ptr-gal__fig {
+      position: relative;
+      margin: 0;
+      height: 100%;
+      border-radius: 1.1rem;
+      overflow: hidden;
+      cursor: zoom-in;
+      background: linear-gradient(140deg, color-mix(in srgb, var(--t-p) 30%, var(--t-bg)), var(--t-sand));
+    }
+    .ptr-gal__item:nth-child(3n+2) .ptr-gal__fig { background: linear-gradient(140deg, color-mix(in srgb, var(--t-a) 28%, var(--t-bg)), var(--t-sand)); }
+    .ptr-gal__item:nth-child(4n) .ptr-gal__fig { border-radius: 999px 999px 1.1rem 1.1rem; }
+    .ptr-gal__fig img { display: block; width: 100%; height: auto; min-height: 100%; aspect-ratio: 4 / 3; object-fit: cover; color: transparent; transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
+    .ptr-gal__fig::after {
+      content: '';
+      position: absolute;
+      right: .8rem;
+      bottom: .8rem;
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      background: linear-gradient(var(--t-tx), var(--t-tx)) center / .95rem 2px no-repeat, linear-gradient(var(--t-tx), var(--t-tx)) center / 2px .95rem no-repeat, color-mix(in srgb, var(--t-bg) 88%, transparent);
+      box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--t-p) 60%, transparent);
+      opacity: 0;
+      transform: scale(.6) rotate(-45deg);
+      transition: opacity .3s ease, transform .35s cubic-bezier(.3, 1.5, .4, 1);
+    }
+    .ptr-gal__fig:hover img, .ptr-gal__fig:focus-visible img { transform: scale(1.06); }
+    .ptr-gal__fig:hover::after, .ptr-gal__fig:focus-visible::after { opacity: 1; transform: none; }
+    .ptr-gal__fig:focus-visible { outline: 3px solid var(--t-a); outline-offset: 3px; }
+
+    .ptr-gal--anim .ptr-gal__fig { clip-path: circle(0% at var(--ox, 50%) var(--oy, 50%)); transition: clip-path .5s cubic-bezier(.3, .7, .2, 1); transition-delay: calc(var(--i) * .07s); }
+    .ptr-gal--anim .ptr-gal__fig img { transform: scale(1.18); transition: transform .5s cubic-bezier(.2, .8, .2, 1); transition-delay: calc(var(--i) * .07s + .05s); }
+    .ptr-gal--anim [data-in] .ptr-gal__fig { clip-path: circle(80% at var(--ox, 50%) var(--oy, 50%)); }
+    .ptr-gal--anim [data-in] .ptr-gal__fig img { transform: none; }
+
+    .ptr-gal__dlg {
+      width: min(94vw, 64rem);
+      max-width: none;
+      max-height: 92vh;
+      padding: 0;
+      border: 0;
+      border-radius: 1.4rem;
+      background: var(--t-bg);
+      color: var(--t-tx);
+      overflow: visible;
+      box-shadow: 0 40px 80px -30px rgba(10, 50, 52, .55);
+    }
+    .ptr-gal__dlg::backdrop { background: rgba(18, 74, 78, .55); backdrop-filter: blur(6px); }
+    .ptr-gal__dlg[open] .ptr-gal__dlg-inner { animation: ptr-gal-in .4s cubic-bezier(.2, .9, .3, 1.1); }
+    .ptr-gal__dlg-inner { position: relative; padding: .7rem; }
+    .ptr-gal__big { display: block; width: 100%; height: auto; max-height: calc(92vh - 5rem); object-fit: contain; border-radius: 1rem; background: var(--t-sand); }
+    .ptr-gal__cap { margin: .6rem .4rem .2rem; font-family: var(--t-display); font-style: italic; font-size: 1.1rem; text-align: center; color: var(--t-tx); }
+    .ptr-gal__btn {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      width: 3rem;
+      height: 3rem;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: var(--t-bg);
+      color: var(--t-tx);
+      cursor: pointer;
+      box-shadow: 0 10px 24px -12px rgba(10, 50, 52, .6);
+      transition: background-color .3s ease, color .3s ease, transform .3s cubic-bezier(.3, 1.5, .4, 1);
+    }
+    .ptr-gal__btn:hover { background: var(--t-p); color: var(--t-bg); transform: scale(1.08); }
+    .ptr-gal__btn:focus-visible { outline: 3px solid var(--t-a); outline-offset: 2px; }
+    .ptr-gal__btn svg { width: 1.3rem; height: 1.3rem; }
+    .ptr-gal__btn--prev { left: -1.2rem; top: 50%; translate: 0 -50%; }
+    .ptr-gal__btn--next { right: -1.2rem; top: 50%; translate: 0 -50%; }
+    .ptr-gal__btn--close { right: -1rem; top: -1rem; background: var(--t-a); color: var(--t-bg); }
+
+    @keyframes ptr-gal-in { from { opacity: 0; transform: scale(.92) translateY(14px); } to { opacity: 1; transform: none; } }
+
+    @media (max-width: 560px) {
+      .ptr-gal__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 9rem; }
+      .ptr-gal__item--wide { grid-column: span 2; }
+      .ptr-gal__btn--prev { left: .4rem; }
+      .ptr-gal__btn--next { right: .4rem; }
+      .ptr-gal__btn--close { right: .4rem; top: .4rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ptr-gal *, .ptr-gal *::before, .ptr-gal *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false"><defs>
+  <filter id="pt10-wc" x="-12%" y="-12%" width="124%" height="124%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="3" seed="4" result="w"/>
+    <feDisplacementMap in="SourceGraphic" in2="w" scale="7" xChannelSelector="R" yChannelSelector="G" result="d"/>
+    <feTurbulence type="fractalNoise" baseFrequency=".6" numOctaves="2" seed="9" result="g"/>
+    <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.1 1.32" result="ga"/>
+    <feComposite in="d" in2="ga" operator="in" result="gran"/>
+    <feMorphology in="d" operator="erode" radius="1.6" result="er"/>
+    <feComposite in="d" in2="er" operator="out" result="rim"/>
+    <feMerge><feMergeNode in="gran"/><feMergeNode in="rim"/></feMerge>
+  </filter>
+  <filter id="pt10-wash" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency=".018" numOctaves="4" seed="11" result="w"/>
+    <feDisplacementMap in="SourceGraphic" in2="w" scale="24" xChannelSelector="R" yChannelSelector="G" result="d"/>
+    <feGaussianBlur in="d" stdDeviation="1.6" result="b"/>
+    <feTurbulence type="fractalNoise" baseFrequency=".5" numOctaves="2" seed="3" result="g"/>
+    <feColorMatrix in="g" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.3 1.38" result="ga"/>
+    <feComposite in="b" in2="ga" operator="in" result="gran"/>
+    <feMorphology in="b" operator="erode" radius="2.5" result="er"/>
+    <feComposite in="b" in2="er" operator="out" result="rim"/>
+    <feMerge><feMergeNode in="gran"/><feMergeNode in="rim"/><feMergeNode in="rim"/></feMerge>
+  </filter>
+  <linearGradient id="pt10-lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:#fff;stop-opacity:.34"/><stop offset=".6" style="stop-color:#fff;stop-opacity:0"/></linearGradient>
+  <mask id="pt10-mm" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="210">
+    <path fill="#fff" d="M100 176C90 194 62 200 40 186C12 166 2 122 12 84C24 40 62 10 104 10C150 10 188 44 193 92C198 138 176 176 146 190C126 198 108 192 100 176Z"/>
+    <g stroke="#000" stroke-width="7" stroke-linecap="round"><path d="M2 64L66 90M0 104L70 116M8 146L72 136M30 184L80 156M40 22L82 70M198 62L136 90M200 104L132 116M194 146L130 136M170 188L124 156M162 22L122 68"/></g>
+    <g fill="#000"><ellipse cx="84" cy="104" rx="4" ry="7"/><ellipse cx="118" cy="102" rx="4" ry="7"/><ellipse cx="88" cy="142" rx="3.5" ry="6"/><ellipse cx="114" cy="142" rx="3.5" ry="6"/></g>
+  </mask>
+  <symbol id="pt10-monstera" viewBox="0 0 200 210"><g filter="url(#pt10-wc)">
+    <path mask="url(#pt10-mm)" fill="currentColor" d="M100 176C90 194 62 200 40 186C12 166 2 122 12 84C24 40 62 10 104 10C150 10 188 44 193 92C198 138 176 176 146 190C126 198 108 192 100 176Z"/>
+    <path mask="url(#pt10-mm)" fill="url(#pt10-lg)" d="M100 176C90 194 62 200 40 186C12 166 2 122 12 84C24 40 62 10 104 10C150 10 188 44 193 92C198 138 176 176 146 190C126 198 108 192 100 176Z"/>
+    <path d="M100 178C101 130 102 70 104 12M101 120L44 98M101 86L58 52M103 60L146 40M102 96L160 82M101 150L52 160M101 156L150 164" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="2" stroke-linecap="round"/>
+    <path d="M100 208C100 198 100 188 100 178" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/>
+  </g></symbol>
+  <symbol id="pt10-palm" viewBox="36 14 389 173"><g filter="url(#pt10-wc)">
+    <path fill="currentColor" d="M42.3 154.6Q55.4 113.5 42.4 87.3Q35.2 113.5 42.3 154.6ZM42.3 154.6Q89.2 173.6 143.4 181.5Q94.8 152.4 42.3 154.6ZM51.3 145.9Q64 103.2 49.7 76.5Q43.1 103.7 51.3 145.9ZM51.3 145.9Q89.2 167.6 136.1 180.7Q96.2 150.4 51.3 145.9ZM60.5 137.7Q72.3 101.1 60.7 77.8Q54.2 101 60.5 137.7ZM60.5 137.7Q98.7 156.4 144.4 166.3Q104.5 139.1 60.5 137.7ZM70 129.8Q79.9 89.3 64.8 65.2Q60.5 90.9 70 129.8ZM70 129.8Q106.9 151 152.7 163.9Q113.8 134.3 70 129.8ZM79.6 122.4Q90.2 80.9 74.9 55.9Q70.2 82.3 79.6 122.4ZM79.6 122.4Q118.6 148.8 169 166.8Q127.4 131 79.6 122.4ZM89.4 115.4Q112.6 77.2 109.5 47Q92.2 71.2 89.4 115.4ZM89.4 115.4Q129.9 143.3 182.5 162.7Q139.3 124.9 89.4 115.4ZM99.5 108.7Q118.7 78.6 117.1 54.2Q102.5 73.3 99.5 108.7ZM99.5 108.7Q130.8 138.4 175.4 162.4Q141.1 123.9 99.5 108.7ZM109.7 102.5Q126.1 71.1 121.3 47.6Q109.7 67.6 109.7 102.5ZM109.7 102.5Q144.5 131.4 192.1 153.5Q154.4 115.4 109.7 102.5ZM120.2 96.7Q143.5 67.1 145.8 41.1Q127.2 59.6 120.2 96.7ZM120.2 96.7Q149.6 121 189.9 139.6Q158 107.5 120.2 96.7ZM130.8 91.3Q152.6 60.2 152.6 34.1Q135.7 53.7 130.8 91.3ZM130.8 91.3Q158.7 120.6 199.8 145.3Q168.9 107.5 130.8 91.3ZM141.6 86.3Q163.9 59.2 166.9 35Q148.9 51.8 141.6 86.3ZM141.6 86.3Q170.4 120.3 214.6 150.2Q182.4 106.7 141.6 86.3ZM152.7 81.6Q172.5 55.9 174 33.5Q158.3 49.7 152.7 81.6ZM152.7 81.6Q176.9 115 216.3 145.5Q188.7 103.3 152.7 81.6ZM163.9 77.4Q188.8 52.1 195.2 27.7Q174.5 43.1 163.9 77.4ZM163.9 77.4Q194.2 109.1 238.7 135.8Q205.2 95 163.9 77.4ZM175.4 73.6Q195.9 48.9 198.6 26.6Q182.1 42.1 175.4 73.6ZM175.4 73.6Q196.8 102 231.1 127.7Q206.8 91.8 175.4 73.6ZM187.1 70.3Q206.5 49.6 210.9 30.1Q194.8 42.7 187.1 70.3ZM187.1 70.3Q209.7 103.7 247.5 134.8Q221.5 92.7 187.1 70.3ZM198.9 67.3Q225.2 46 235.5 23.4Q212.8 35.7 198.9 67.3ZM198.9 67.3Q219.4 100.2 255 131.4Q231.1 90 198.9 67.3ZM211 64.7Q234.9 45.4 244.3 24.9Q223.6 36 211 64.7ZM211 64.7Q228.1 100.2 261.5 135.6Q240.7 91.2 211 64.7ZM223.2 62.5Q245.5 43.9 253.9 24.3Q234.7 35.2 223.2 62.5ZM223.2 62.5Q237.5 90.7 264.8 118.4Q247.6 83.2 223.2 62.5ZM235.7 60.7Q257.2 40.8 264 20.8Q245.8 32.7 235.7 60.7ZM235.7 60.7Q254.2 92.3 287.2 122.6Q265.4 83 235.7 60.7ZM248.4 59.4Q270.1 43.8 279.9 26.3Q260.8 35 248.4 59.4ZM248.4 59.4Q261.5 85.7 286.7 111.7Q270.8 78.8 248.4 59.4ZM261.2 58.4Q283.5 47.9 297.2 33.5Q276.9 38.3 261.2 58.4ZM261.2 58.4Q271.6 85.5 294.5 113.3Q281.3 79.6 261.2 58.4ZM274.3 57.9Q295.6 47.8 308.7 34Q289.3 38.6 274.3 57.9ZM274.3 57.9Q283.8 87 306.9 117.6Q294.3 81.3 274.3 57.9ZM287.6 57.7Q307.7 47.7 319.7 34.4Q301.4 39.1 287.6 57.7ZM287.6 57.7Q296.3 87.3 318.8 118.7Q307 81.8 287.6 57.7ZM301.1 58Q323.2 44.7 335 28.5Q315.2 35.4 301.1 58ZM301.1 58Q310.8 83.8 332.6 110.4Q320.1 78.2 301.1 58ZM314.8 58.6Q334.2 47.7 345 33.9Q327.5 39.4 314.8 58.6ZM314.8 58.6Q326.7 87.3 351.8 116.5Q336.9 80.8 314.8 58.6ZM328.6 59.7Q348.4 53.3 362.5 42.8Q344 44.6 328.6 59.7ZM328.6 59.7Q336.1 84 354.8 109.7Q344.8 79.4 328.6 59.7ZM342.7 61.2Q363.9 54.8 379.3 43.9Q359.4 45.4 342.7 61.2ZM342.7 61.2Q349.2 83.2 366 106.6Q357.2 79.2 342.7 61.2ZM357 63Q375.8 56.3 388.8 45.8Q371.3 48 357 63ZM357 63Q362.7 90.4 381.1 120.2Q372.6 86.2 357 63ZM371.5 65.3Q390.2 58.9 403.4 48.6Q385.9 50.6 371.5 65.3ZM371.5 65.3Q379.3 88.9 398.1 113.6Q387.8 84.2 371.5 65.3ZM386.2 68Q405.6 61 419 50.1Q400.9 52.5 386.2 68ZM386.2 68Q389.7 92.9 404.8 120.8Q398.8 89.7 386.2 68Z"/>
+    <path d="M14 186Q150 18 396 70" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+  </g></symbol>
+  <symbol id="pt10-orchid" viewBox="-50 -50 100 100"><g filter="url(#pt10-wc)">
+    <g style="fill: var(--t-orchid)"><ellipse cx="0" cy="-25" rx="10" ry="21"/><ellipse cx="0" cy="-25" rx="10" ry="21" transform="rotate(128)"/><ellipse cx="0" cy="-25" rx="10" ry="21" transform="rotate(-128)"/><ellipse cx="-19" cy="-4" rx="17" ry="14" transform="rotate(-18 -19 -4)"/><ellipse cx="19" cy="-4" rx="17" ry="14" transform="rotate(18 19 -4)"/></g>
+    <g style="fill: var(--t-a)" fill-opacity=".4"><circle cx="-13" cy="-6" r="1.5"/><circle cx="-18" cy="-1" r="1.2"/><circle cx="13" cy="-6" r="1.5"/><circle cx="18" cy="-1" r="1.2"/><circle cx="0" cy="-16" r="1.3"/></g>
+    <path style="fill: var(--t-a)" d="M-8 5C-13 13 -8 24 0 27C8 24 13 13 8 5C4 1 -4 1 -8 5Z"/>
+    <ellipse cx="0" cy="1" rx="4" ry="5.5" fill="#fff" fill-opacity=".9"/>
+  </g></symbol>
+  <symbol id="pt10-star" viewBox="-50 -50 100 100"><g filter="url(#pt10-wc)">
+    <path fill="currentColor" stroke="currentColor" stroke-width="6" stroke-linejoin="round" d="M0 -46C4.1 -14.4 12.4 -8.4 43.7 -14.2C15 -0.5 11.8 9.2 27 37.2C5.1 14.1 -5.1 14.1 -27 37.2C-11.8 9.2 -15 -0.5 -43.7 -14.2C-12.4 -8.4 -4.1 -14.4 -0 -46Z"/>
+    <g fill="#fff" fill-opacity=".55"><circle cx="0" cy="-12" r="2.4"/><circle cx="0" cy="-22" r="2"/><circle cx="0" cy="-31" r="1.6"/><circle cx="11.4" cy="-3.7" r="2.4"/><circle cx="20.9" cy="-6.8" r="2"/><circle cx="29.5" cy="-9.6" r="1.6"/><circle cx="7.1" cy="9.7" r="2.4"/><circle cx="12.9" cy="17.8" r="2"/><circle cx="18.2" cy="25.1" r="1.6"/><circle cx="-7.1" cy="9.7" r="2.4"/><circle cx="-12.9" cy="17.8" r="2"/><circle cx="-18.2" cy="25.1" r="1.6"/><circle cx="-11.4" cy="-3.7" r="2.4"/><circle cx="-20.9" cy="-6.8" r="2"/><circle cx="-29.5" cy="-9.6" r="1.6"/><circle r="3"/></g>
+  </g></symbol>
+  <symbol id="pt10-wash1" viewBox="0 0 200 200"><path filter="url(#pt10-wash)" fill="currentColor" d="M179.2 92.5C178 110 176.9 138 165 149.6C153.1 161.1 124 156 108 161.8C92.1 167.7 80.9 190.2 69.2 184.7C57.5 179.2 43.9 149.5 38 128.9C32 108.3 28.2 77.9 33.5 61.3C38.8 44.6 56.3 33.2 69.8 29C83.3 24.8 97.4 33.6 114.6 36.2C131.7 38.9 161.9 35.4 172.7 44.8C183.4 54.2 180.5 75 179.2 92.5Z"/></symbol>
+  <symbol id="pt10-wash2" viewBox="0 0 200 200"><path filter="url(#pt10-wash)" fill="currentColor" d="M193.9 90.7C194 106.7 184.1 128.4 173.1 139.3C162.1 150.3 145.1 153.8 128.1 156.3C111.1 158.7 85.8 156.7 71 153.9C56.2 151.1 47 148.2 39.5 139.4C32 130.6 29 115.1 26.2 101.2C23.5 87.4 15.4 65.7 23.1 56.2C30.7 46.7 57.9 47.4 72.2 44.2C86.6 41 92.3 37 109 36.9C125.7 36.8 158.2 34.7 172.3 43.7C186.5 52.6 193.8 74.8 193.9 90.7Z"/></symbol>
+  <symbol id="pt10-wash3" viewBox="0 0 200 200"><path filter="url(#pt10-wash)" fill="currentColor" d="M183.9 89.8C184.2 109.4 162.2 148.4 146.5 164.5C130.7 180.6 109.8 192.7 89.4 186.4C69 180.1 33.5 146.4 24.2 126.6C15 106.9 26.1 84.1 33.7 67.9C41.3 51.7 51.3 32.8 69.8 29.3C88.4 25.8 126.1 36.8 145.1 46.9C164.1 57 183.7 70.2 183.9 89.8Z"/></symbol>
+</defs></svg>
+
+  <div class="ptr-gal__deco ptr-gal__deco--w1" aria-hidden="true"><svg viewBox="0 0 200 200"><use href="#pt10-wash2"/></svg></div>
+  <div class="ptr-gal__deco ptr-gal__deco--w2" aria-hidden="true"><svg viewBox="0 0 200 200"><use href="#pt10-wash1"/></svg></div>
+  <div class="ptr-gal__deco ptr-gal__deco--palm" aria-hidden="true"><svg viewBox="0 0 400 260"><use href="#pt10-palm"/></svg></div>
+
+  <header class="ptr-gal__head">
+    <p class="ptr-gal__kicker" memory_type="text" memory_usage="custom" memory_key="galeria-rotulo">Pequeños momentos de nuestra historia</p>
+    <h2 class="ptr-gal__title" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Galería</h2>
+  </header>
+
+  <ul class="ptr-gal__grid" data-ptr-grid>
+    <li class="ptr-gal__item ptr-gal__item--tall" data-ptr-tile style="--i:0; --ox:30%; --oy:20%">
+      <figure class="ptr-gal__fig" memory_type="image" memory_usage="custom" memory_source="library" tabindex="0" role="button" data-ptr-open>
+        <img src="https://loremflickr.com/700/1000/couple,beach?lock=3101" alt="Caminando por la orilla" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      </figure>
+    </li>
+    <li class="ptr-gal__item" data-ptr-tile style="--i:1; --ox:80%; --oy:30%">
+      <figure class="ptr-gal__fig" memory_type="image" memory_usage="custom" memory_source="library" tabindex="0" role="button" data-ptr-open>
+        <img src="https://loremflickr.com/800/600/wedding,rings,sand?lock=3102" alt="Anillos sobre la arena" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      </figure>
+    </li>
+    <li class="ptr-gal__item ptr-gal__item--wide" data-ptr-tile style="--i:2; --ox:50%; --oy:80%">
+      <figure class="ptr-gal__fig" memory_type="image" memory_usage="custom" memory_source="library" tabindex="0" role="button" data-ptr-open>
+        <img src="https://loremflickr.com/1200/600/couple,sunset,ocean?lock=3103" alt="Atardecer juntos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      </figure>
+    </li>
+    <li class="ptr-gal__item" data-ptr-tile style="--i:3; --ox:20%; --oy:70%">
+      <figure class="ptr-gal__fig" memory_type="image" memory_usage="custom" memory_source="library" tabindex="0" role="button" data-ptr-open>
+        <img src="https://loremflickr.com/800/800/tropical,flowers?lock=3104" alt="Flores tropicales" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      </figure>
+    </li>
+    <li class="ptr-gal__item" data-ptr-tile style="--i:4; --ox:60%; --oy:20%">
+      <figure class="ptr-gal__fig" memory_type="image" memory_usage="custom" memory_source="library" tabindex="0" role="button" data-ptr-open>
+        <img src="https://loremflickr.com/800/800/couple,laughing,beach?lock=3105" alt="Risas en la playa" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      </figure>
+    </li>
+    <li class="ptr-gal__item ptr-gal__item--tall" data-ptr-tile style="--i:5; --ox:70%; --oy:60%">
+      <figure class="ptr-gal__fig" memory_type="image" memory_usage="custom" memory_source="library" tabindex="0" role="button" data-ptr-open>
+        <img src="https://loremflickr.com/700/1000/palm,beach?lock=3106" alt="Palmeras frente al mar" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      </figure>
+    </li>
+    <li class="ptr-gal__item ptr-gal__item--wide" data-ptr-tile style="--i:6; --ox:40%; --oy:40%">
+      <figure class="ptr-gal__fig" memory_type="image" memory_usage="custom" memory_source="library" tabindex="0" role="button" data-ptr-open>
+        <img src="https://loremflickr.com/1200/600/couple,kiss,ocean?lock=3107" alt="Un beso frente al mar" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      </figure>
+    </li>
+    <li class="ptr-gal__item" data-ptr-tile style="--i:7; --ox:50%; --oy:50%">
+      <figure class="ptr-gal__fig" memory_type="image" memory_usage="custom" memory_source="library" tabindex="0" role="button" data-ptr-open>
+        <img src="https://loremflickr.com/800/800/beach,sunset?lock=3108" alt="El sol sobre el agua" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      </figure>
+    </li>
+  </ul>
+
+  <dialog class="ptr-gal__dlg" data-ptr-dialog aria-label="Foto ampliada">
+    <div class="ptr-gal__dlg-inner">
+      <img class="ptr-gal__big" data-mm-big data-ptr-big alt="" />
+      <p class="ptr-gal__cap" data-ptr-cap></p>
+      <button type="button" class="ptr-gal__btn ptr-gal__btn--prev" data-ptr-prev aria-label="Foto anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button type="button" class="ptr-gal__btn ptr-gal__btn--next" data-ptr-next aria-label="Foto siguiente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button type="button" class="ptr-gal__btn ptr-gal__btn--close" data-ptr-close aria-label="Cerrar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+    </div>
+  </dialog>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="galeria-tropical"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* Lightbox (works with or without motion) */
+      var figs = [].slice.call(root.querySelectorAll('[data-ptr-open]'));
+      var dlg = root.querySelector('[data-ptr-dialog]');
+      var big = root.querySelector('[data-ptr-big]');
+      var cap = root.querySelector('[data-ptr-cap]');
+      var idx = 0, lastFocus = null;
+      function show(i) {
+        idx = (i + figs.length) % figs.length;
+        var im = figs[idx].querySelector('img');
+        big.src = im.currentSrc || im.src;
+        big.alt = im.alt || '';
+        cap.textContent = im.alt || '';
+      }
+      function open(i) {
+        lastFocus = document.activeElement;
+        show(i);
+        if (dlg.showModal) { if (!dlg.open) dlg.showModal(); } else dlg.setAttribute('open', '');
+      }
+      function close() { if (dlg.close) dlg.close(); else dlg.removeAttribute('open'); }
+      figs.forEach(function (f, i) {
+        f.setAttribute('aria-label', 'Ampliar foto ' + (i + 1));
+        f.addEventListener('click', function () { open(i); });
+        f.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); } });
+      });
+      root.querySelector('[data-ptr-prev]').addEventListener('click', function () { show(idx - 1); });
+      root.querySelector('[data-ptr-next]').addEventListener('click', function () { show(idx + 1); });
+      root.querySelector('[data-ptr-close]').addEventListener('click', close);
+      dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
+      dlg.addEventListener('keydown', function (e) { if (e.key === 'ArrowLeft') show(idx - 1); if (e.key === 'ArrowRight') show(idx + 1); });
+      dlg.addEventListener('close', function () { if (lastFocus && lastFocus.focus) lastFocus.focus(); });
+      var sx = null;
+      dlg.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
+      dlg.addEventListener('touchend', function (e) { if (sx === null) return; var dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) show(idx + (dx < 0 ? 1 : -1)); sx = null; });
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+      root.classList.add('ptr-gal--anim');
+      var tiles = [].slice.call(root.querySelectorAll('[data-ptr-tile]'));
+      var left = tiles.length;
+      var io = new IntersectionObserver(function (en) {
+        en.forEach(function (e) {
+          if (e.isIntersecting && e.intersectionRatio > .2) {
+            io.unobserve(e.target);
+            e.target.setAttribute('data-in', '');
+            if (--left === 0) setTimeout(function () {
+              root.classList.remove('ptr-gal--anim');
+              tiles.forEach(function (t) { t.removeAttribute('data-in'); });
+            }, 1300);
+          }
+        });
+      }, { threshold: [0, .2, .5] });
+      tiles.forEach(function (t) { io.observe(t); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-tropical',
+      style_name: 'Playa Tropical Acuarela',
+      descripcion: 'Galería de boda en playa: mosaico responsivo con fotos que florecen en círculo al aparecer, marcos en arco y visor propio con navegación, teclado y deslizamiento en móvil.',
+      tags: ['galeria', 'fotos', 'boda', 'playa', 'tropical'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

@@ -1,0 +1,360 @@
+<section
+  class="ne-po"
+  data-gemini-id="portada-nombre"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400%3B0,500%3B0,600%3B1,400%3B1,500&family=Great+Vibes&display=swap');
+
+    .ne-po, .ne-po *, .ne-po *::before, .ne-po *::after { box-sizing: border-box; }
+    .ne-po {
+      --t-bg: var(--bg-color, #0a1535);
+      --t-tx: var(--text-color, #f3f6fd);
+      --t-p: var(--primary-color, #c4ccda);
+      --t-s: var(--secondary-color, #1d3170);
+      --t-a: var(--accent-color, #eef3ff);
+      --t-display: var(--font-script, 'Great Vibes', cursive);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      --t-soft: color-mix(in srgb, var(--t-tx) 80%, transparent);
+      --t-line: color-mix(in srgb, var(--t-p) 45%, transparent);
+      position: relative;
+      isolation: isolate;
+      min-height: max(38rem, 100vh);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/night,sky,stars?lock=3301');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .ne-po::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 70% 55% at 62% 30%, color-mix(in srgb, var(--t-s) 70%, transparent), transparent 70%),
+        radial-gradient(ellipse 90% 60% at 50% 110%, color-mix(in srgb, var(--t-s) 45%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 80%, transparent), color-mix(in srgb, var(--t-bg) 96%, transparent));
+    }
+    .ne-po__sky { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+    .ne-po__content { position: relative; z-index: 1; width: min(100%, 60rem); display: grid; justify-items: center; }
+
+    /* 3D crescent: separate layers stacked in one preserve-3d stage */
+    .ne-po__moonwrap {
+      width: clamp(8.5rem, 23vw, 15rem);
+      aspect-ratio: 1;
+      perspective: 820px;
+      margin-bottom: clamp(-3.2rem, -4vw, -1.6rem);
+      translate: clamp(2.4rem, 11vw, 9rem) 0;
+    }
+    .ne-po__moon { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transform: rotateX(-6deg) rotateY(14deg); }
+    .ne-po__layer { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .ne-po__halo {
+      inset: -28%;
+      width: auto; height: auto;
+      border-radius: 50%;
+      background: radial-gradient(circle, color-mix(in srgb, var(--t-a) 30%, transparent) 0%, color-mix(in srgb, var(--t-p) 12%, transparent) 38%, transparent 66%);
+      transform: translateZ(-70px);
+    }
+    .ne-po__crescent { transform: translateZ(0); filter: drop-shadow(0 0 22px color-mix(in srgb, var(--t-a) 45%, transparent)); }
+    .ne-po__rim { transform: translateZ(22px) scale(.97); opacity: .55; }
+    .ne-po__glint {
+      position: absolute;
+      width: .9rem; height: .9rem;
+      background: var(--t-a);
+      clip-path: polygon(50% 0, 58% 42%, 100% 50%, 58% 58%, 50% 100%, 42% 58%, 0 50%, 42% 42%);
+    }
+    .ne-po__glint:nth-of-type(1) { left: 8%; top: 52%; transform: translateZ(46px); }
+    .ne-po__glint:nth-of-type(2) { left: 30%; top: 86%; transform: translateZ(70px) scale(.7); }
+    .ne-po__glint:nth-of-type(3) { left: 66%; top: 90%; transform: translateZ(38px) scale(.55); }
+    .ne-po__glint:nth-of-type(4) { left: 86%; top: 12%; transform: translateZ(90px) scale(.8); }
+    .ne-po__glint:nth-of-type(5) { left: 4%; top: 22%; transform: translateZ(60px) scale(.45); }
+    .ne-po__charm { position: absolute; left: 70%; top: 74%; width: 1.4rem; transform: translateZ(84px); display: grid; justify-items: center; }
+    .ne-po__charm::before { content: ''; width: 1px; height: clamp(1.6rem, 4vw, 2.6rem); background: linear-gradient(var(--t-line), var(--t-p)); }
+    .ne-po__charm svg { width: 100%; height: auto; filter: drop-shadow(0 0 6px var(--t-a)); }
+
+    .ne-po__eyebrow { margin: 0 0 -.4rem; position: relative; z-index: 1; font-style: italic; font-size: clamp(1.05rem, 2.2vw, 1.4rem); color: var(--t-soft); }
+    .ne-po__title {
+      margin: 0;
+      padding: .1em .25em .2em;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3.2rem, 12vw, 8.4rem);
+      line-height: 1.02;
+      background: linear-gradient(105deg, var(--t-p) 0%, var(--t-p) 36%, var(--t-a) 45%, color-mix(in srgb, var(--t-a), white 60%) 50%, var(--t-a) 55%, var(--t-p) 64%, var(--t-p) 100%);
+      background-size: 300% 100%;
+      background-position: var(--sheen, 50%) 50%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 0 18px color-mix(in srgb, var(--t-a) 35%, transparent));
+    }
+    .ne-po__rule { width: min(18rem, 60%); height: 1px; margin: .6rem 0 1.1rem; background: linear-gradient(90deg, transparent, var(--t-p), transparent); }
+    .ne-po__verse { margin: 0 0 1.2rem; max-width: 34rem; font-size: clamp(1.1rem, 2.3vw, 1.4rem); line-height: 1.5; color: var(--t-soft); }
+    .ne-po__date {
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: .8rem;
+      font-size: clamp(1.15rem, 2.4vw, 1.55rem);
+      font-weight: 500;
+      color: var(--t-tx);
+    }
+    .ne-po__date::before, .ne-po__date::after {
+      content: '';
+      width: .7rem; height: .7rem;
+      background: var(--t-p);
+      clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+    }
+
+    /* Entrance (only while JS adds --anim). Title is revealed by a moving mask driven from JS */
+    .ne-po--anim .ne-po__moonwrap { opacity: 0; scale: .82; rotate: -10deg; transition: opacity .5s ease, scale .5s cubic-bezier(.2, .9, .3, 1.2), rotate .5s ease; }
+    .ne-po--anim .ne-po__eyebrow,
+    .ne-po--anim .ne-po__verse,
+    .ne-po--anim .ne-po__date,
+    .ne-po--anim .ne-po__rule { opacity: 0; filter: blur(6px); transition: opacity .5s ease, filter .5s ease; }
+    .ne-po--anim .ne-po__rule { scale: 0 1; transition: scale .5s ease, opacity .4s ease; }
+    .ne-po--anim .ne-po__title {
+      -webkit-mask-image: linear-gradient(90deg, #000 var(--rv, -20%), transparent calc(var(--rv, -20%) + 14%));
+      mask-image: linear-gradient(90deg, #000 var(--rv, -20%), transparent calc(var(--rv, -20%) + 14%));
+    }
+    .ne-po--anim.is-in .ne-po__moonwrap { opacity: 1; scale: 1; rotate: 0deg; }
+    .ne-po--anim.is-in .ne-po__eyebrow { opacity: 1; filter: none; transition-delay: .25s; }
+    .ne-po--anim.is-in .ne-po__rule { opacity: 1; scale: 1 1; transition-delay: 1.3s; }
+    .ne-po--anim.is-in .ne-po__verse { opacity: 1; filter: none; transition-delay: 1.55s; }
+    .ne-po--anim.is-in .ne-po__date { opacity: 1; filter: none; transition-delay: 1.8s; }
+
+    @media (max-width: 640px) {
+      .ne-po__moonwrap { translate: 1.6rem 0; margin-bottom: -1.4rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ne-po *, .ne-po *::before, .ne-po *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <canvas class="ne-po__sky" data-ne-sky aria-hidden="true"></canvas>
+
+  <header class="ne-po__content" data-ne-stage>
+    <p class="ne-po__eyebrow" memory_type="text" memory_usage="custom" memory_key="portada-subtitulo">Mis XV años</p>
+    <div class="ne-po__moonwrap" aria-hidden="true">
+      <div class="ne-po__moon" data-ne-moon>
+        <span class="ne-po__layer ne-po__halo"></span>
+        <svg class="ne-po__layer ne-po__crescent" viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="ne33-po-silver" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" style="stop-color: var(--t-a)" />
+              <stop offset=".5" style="stop-color: var(--t-p)" />
+              <stop offset="1" style="stop-color: color-mix(in srgb, var(--t-p) 55%, var(--t-s))" />
+            </linearGradient>
+            <mask id="ne33-po-cut">
+              <rect width="200" height="200" fill="#fff" />
+              <circle cx="134" cy="76" r="76" fill="#000" />
+            </mask>
+          </defs>
+          <circle cx="100" cy="100" r="88" fill="url(#ne33-po-silver)" mask="url(#ne33-po-cut)" />
+          <g mask="url(#ne33-po-cut)" style="fill: var(--t-a)">
+            <circle cx="28" cy="98" r="1.6" /><circle cx="36" cy="128" r="1.1" /><circle cx="50" cy="150" r="1.8" />
+            <circle cx="70" cy="167" r="1.2" /><circle cx="96" cy="178" r="1.7" /><circle cx="122" cy="176" r="1" />
+            <circle cx="146" cy="165" r="1.4" /><circle cx="26" cy="76" r="1" /><circle cx="36" cy="56" r="1.5" />
+            <circle cx="46" cy="138" r="1" /><circle cx="60" cy="122" r="1.3" /><circle cx="78" cy="150" r="1" />
+            <circle cx="52" cy="40" r="1.1" /><circle cx="160" cy="150" r="1" /><circle cx="40" cy="104" r="1" />
+          </g>
+        </svg>
+        <svg class="ne-po__layer ne-po__rim" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="88" fill="none" stroke-width="1.2" mask="url(#ne33-po-cut)" style="stroke: var(--t-a)" />
+        </svg>
+        <span class="ne-po__glint" data-ne-glint></span>
+        <span class="ne-po__glint" data-ne-glint></span>
+        <span class="ne-po__glint" data-ne-glint></span>
+        <span class="ne-po__glint" data-ne-glint></span>
+        <span class="ne-po__glint" data-ne-glint></span>
+        <span class="ne-po__charm">
+          <svg viewBox="0 0 24 24"><path d="M12 0 L14.4 9.6 L24 12 L14.4 14.4 L12 24 L9.6 14.4 L0 12 L9.6 9.6 Z" style="fill: var(--t-a)" /></svg>
+        </span>
+      </div>
+    </div>
+
+    <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,3vw,1.6rem);width:clamp(150px,22vw,220px);"><img src="https://loremflickr.com/480/480/starry,sky,portrait?lock=310" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:2px solid var(--primary-color,#9b9b9b);box-shadow:0 14px 30px rgba(0,0,0,.18);" /><figcaption hidden>Retrato</figcaption></figure>
+<h1 class="ne-po__title" data-ne-reveal memory_type="text" memory_usage="custom" memory_key="portada-nombre" data-event-field="nombres">Nombre Apellido</h1>
+    <div class="ne-po__rule" aria-hidden="true"></div>
+    <p class="ne-po__verse" memory_type="text" memory_usage="custom" memory_key="portada-frase">Bajo la luz de la luna y un cielo lleno de estrellas, te invito a celebrar la noche más especial de mi vida.</p>
+    <p class="ne-po__date"><time datetime="2027-05-15T19:00" memory_type="text" memory_usage="custom" memory_key="portada-fecha" data-event-field="fecha">Sábado 15 de mayo de 2027</time></p>
+  </header>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="portada-nombre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      var cv = root.querySelector('[data-ne-sky]');
+      var stage = root.querySelector('[data-ne-stage]');
+      var moon = root.querySelector('[data-ne-moon]');
+      var title = root.querySelector('[data-ne-reveal]');
+      var glints = root.querySelectorAll('[data-ne-glint]');
+      var ctx = cv && cv.getContext ? cv.getContext('2d') : null;
+      var cs = getComputedStyle(root);
+      var cA = cs.getPropertyValue('--t-a').trim() || '#eef3ff';
+      var cP = cs.getPropertyValue('--t-p').trim() || '#c4ccda';
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var W = 1, H = 1, F = 1, AY = 1.15, stars = [], dust = [], shots = [];
+      var nextShot = 0, nextDust = 0, rot = 0, mx = .5, my = .5, px = .5, py = .5;
+      var last = 0, raf = 0, on = false, revealAt = 0, revealing = false;
+
+      function star(fresh) {
+        return { x: (Math.random() * 2 - 1) * 1.6, y: (Math.random() * 2 - 1) * AY, z: fresh ? 1.1 : .06 + Math.random() * 1.04, ph: Math.random() * 6.283, sp: .6 + Math.random() * 1.8, g: Math.random() < .16 };
+      }
+      function size() {
+        if (!ctx) return;
+        var r = root.getBoundingClientRect();
+        W = Math.max(1, r.width); H = Math.max(1, r.height);
+        cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        F = W * .42; AY = 1.2 * Math.max(1, H / W * 1.1);
+        var n = Math.min(520, Math.round(W * H / 2600));
+        stars = [];
+        for (var i = 0; i < n; i++) stars.push(star(false));
+      }
+      function sparkle(x, y, s, a, col) {
+        ctx.globalAlpha = Math.max(0, Math.min(1, a)); ctx.fillStyle = col;
+        ctx.beginPath(); ctx.moveTo(x, y - s);
+        ctx.quadraticCurveTo(x + s * .14, y - s * .14, x + s, y);
+        ctx.quadraticCurveTo(x + s * .14, y + s * .14, x, y + s);
+        ctx.quadraticCurveTo(x - s * .14, y + s * .14, x - s, y);
+        ctx.quadraticCurveTo(x - s * .14, y - s * .14, x, y - s);
+        ctx.fill();
+      }
+      function titleBox() {
+        var tr = title.getBoundingClientRect(), rr = root.getBoundingClientRect();
+        return { x: tr.left - rr.left, y: tr.top - rr.top, w: tr.width, h: tr.height };
+      }
+      function addDust(x, y, now, spread) {
+        dust.push({ x: x, y: y, vx: (Math.random() - .35) * .035 * spread, vy: (-.012 - Math.random() * .03) * spread, born: now, life: 700 + Math.random() * 900, s: 1.2 + Math.random() * 2.6 });
+      }
+
+      /* Manual perspective projection: stars live in 3D (x, y, z) and drift toward the viewer */
+      function draw(now, dt) {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, W, H);
+        var t = now / 1000;
+        rot += dt * .000028;
+        var cr = Math.cos(rot), sr = Math.sin(rot), ox = (px - .5) * .22, oy = (py - .5) * .14;
+        for (var i = 0; i < stars.length; i++) {
+          var s = stars[i];
+          if (dt) { s.z -= dt * .000034; if (s.z < .06) { stars[i] = s = star(true); } }
+          var x = s.x * cr - s.y * sr - ox, y = s.x * sr + s.y * cr - oy;
+          var sx = W / 2 + x / s.z * F, sy = H * .45 + y / s.z * F;
+          if (sx < -12 || sx > W + 12 || sy < -12 || sy > H + 12) continue;
+          var near = 1.1 - s.z, tw = .6 + .4 * Math.sin(t * s.sp + s.ph), a = Math.min(1, near * 1.35) * tw;
+          if (s.g && s.z < .6) sparkle(sx, sy, 1.2 + near * 4.6 * tw, a, cA);
+          else { ctx.globalAlpha = a; ctx.fillStyle = s.g ? cA : cP; ctx.beginPath(); ctx.arc(sx, sy, .3 + near * 1.4, 0, 6.283); ctx.fill(); }
+        }
+        if (dt) {
+          if (!nextShot) nextShot = now + 1600;
+          if (now > nextShot) {
+            var th = .45 + Math.random() * .18;
+            shots.push({ x: W * (.45 + Math.random() * .6), y: H * Math.random() * .3, dx: -Math.cos(th), dy: Math.sin(th), dist: (W + H) * .32, len: 120 + Math.random() * 120, born: now, life: 1100 });
+            nextShot = now + 3800 + Math.random() * 4200;
+          }
+          for (var j = shots.length - 1; j >= 0; j--) {
+            var sh = shots[j], k = (now - sh.born) / sh.life;
+            if (k >= 1) { shots.splice(j, 1); continue; }
+            var hx = sh.x + sh.dx * k * sh.dist, hy = sh.y + sh.dy * k * sh.dist, tl = sh.len * Math.min(1, k * 3);
+            var g = ctx.createLinearGradient(hx, hy, hx - sh.dx * tl, hy - sh.dy * tl);
+            g.addColorStop(0, cA); g.addColorStop(1, 'rgba(255,255,255,0)');
+            ctx.globalAlpha = Math.sin(k * Math.PI); ctx.strokeStyle = g; ctx.lineWidth = 1.8; ctx.lineCap = 'round';
+            ctx.beginPath(); ctx.moveTo(hx, hy); ctx.lineTo(hx - sh.dx * tl, hy - sh.dy * tl); ctx.stroke();
+            sparkle(hx, hy, 5, Math.sin(k * Math.PI), cA);
+          }
+          /* Silver glitter over the name: a dense trail while revealing, then a soft shimmer */
+          var b = titleBox();
+          if (revealing) {
+            var k2 = Math.min(1, (now - revealAt) / 1700), e = 1 - Math.pow(1 - k2, 3), rv = -20 + 135 * e;
+            stage.style.setProperty('--rv', rv.toFixed(2) + '%');
+            for (var d = 0; d < 3; d++) addDust(b.x + b.w * Math.min(1, Math.max(0, rv / 100 + .04)), b.y + b.h * (.2 + Math.random() * .65), now, 1.4);
+            if (k2 >= 1) revealing = false;
+          } else if (now > nextDust) {
+            addDust(b.x + b.w * (.08 + Math.random() * .84), b.y + b.h * (.25 + Math.random() * .55), now, .4);
+            nextDust = now + 110 + Math.random() * 160;
+          }
+          for (var q = dust.length - 1; q >= 0; q--) {
+            var p = dust[q], kk = (now - p.born) / p.life;
+            if (kk >= 1) { dust.splice(q, 1); continue; }
+            p.x += p.vx * dt; p.y += p.vy * dt;
+            sparkle(p.x, p.y, p.s * (1 - kk * .5), Math.sin(kk * Math.PI), cA);
+          }
+          /* Metallic sheen sweeping across the cursive name */
+          var cyc = (t % 6.5) / 4;
+          stage.style.setProperty('--sheen', (cyc > 1 ? 100 : cyc * 100).toFixed(2) + '%');
+          /* 3D moon tilt follows the pointer with a slow dreamy sway */
+          if (moon) {
+            moon.style.transform = 'rotateX(' + ((py - .5) * -18 + Math.sin(t * .5) * 3).toFixed(2) + 'deg) rotateY(' + ((px - .5) * 26 + 10 + Math.sin(t * .37) * 6).toFixed(2) + 'deg)';
+          }
+          for (var gI = 0; gI < glints.length; gI++) glints[gI].style.opacity = (.35 + .65 * Math.abs(Math.sin(t * (1.1 + gI * .37) + gI))).toFixed(2);
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      size();
+      if ('ResizeObserver' in window) new ResizeObserver(function () { size(); if (!on) draw(1000, 0); }).observe(root);
+
+      if (RM) { draw(1000, 0); return; }  /* reduced motion: one static starfield, everything visible */
+
+      function loop(now) {
+        raf = 0; if (!on) return;
+        var dt = last ? Math.min(50, now - last) : 16; last = now;
+        px += (mx - px) * .06; py += (my - py) * .06;
+        draw(now, dt);
+        raf = requestAnimationFrame(loop);
+      }
+      function start() { if (on) return; on = true; last = 0; raf = requestAnimationFrame(loop); }
+      function stop() { on = false; if (raf) cancelAnimationFrame(raf); raf = 0; }
+      var vis = false;
+      function upd() { if (vis && !document.hidden) start(); else stop(); }
+      document.addEventListener('visibilitychange', upd);
+
+      root.addEventListener('pointermove', function (e) {
+        var r = root.getBoundingClientRect();
+        mx = (e.clientX - r.left) / r.width; my = (e.clientY - r.top) / r.height;
+      });
+      root.addEventListener('pointerleave', function () { mx = .5; my = .5; });
+
+      if (!('IntersectionObserver' in window)) { vis = true; upd(); return; }
+      root.classList.add('ne-po--anim');
+      var entered = false;
+      new IntersectionObserver(function (en) {
+        vis = en[0].isIntersecting; upd();
+        if (!entered && en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          entered = true;
+          root.classList.add('is-in');
+          setTimeout(function () { revealAt = performance.now(); revealing = true; }, 380);
+          setTimeout(function () { root.classList.remove('ne-po--anim', 'is-in'); stage.style.removeProperty('--rv'); }, 2900);
+        }
+      }, { threshold: [0, .2, .5] }).observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Noche Estrellada Portada Luna Plateada',
+      descripcion: 'Portada de XV años bajo un cielo nocturno: campo estelar 3D en canvas con perspectiva, media luna plateada en 3D que sigue el cursor, estrellas fugaces y nombre en cursiva revelado con brillo plateado.',
+      tags: ['portada', 'quinceañera', 'noche estrellada', 'luna', 'estrellas fugaces', 'plateado', 'azul marino', 'glitter', '3d'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

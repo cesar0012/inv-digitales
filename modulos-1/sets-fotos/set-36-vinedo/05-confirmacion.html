@@ -1,0 +1,284 @@
+<section
+  class="vc-rs"
+  data-gemini-id="confirmacion-texto"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Italianno&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .vc-rs, .vc-rs *, .vc-rs *::before, .vc-rs *::after { box-sizing: border-box; }
+    .vc-rs {
+      --t-bg: var(--bg-color, #F3E9D2);
+      --t-tx: var(--text-color, #2E1B1C);
+      --t-p: var(--primary-color, #6E1F2F);
+      --t-s: var(--secondary-color, #6B6E3A);
+      --t-a: var(--accent-color, #A8834A);
+      --t-display: var(--font-script, 'Italianno', cursive);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(36rem, 70vw, 52rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/wine,glasses,toast?lock=3251');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .vc-rs::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-p) 60%, rgb(16 6 8 / .7)), color-mix(in srgb, var(--t-p) 45%, rgb(16 6 8 / .8)));
+    }
+    .vc-rs__card {
+      position: relative;
+      width: min(100%, 40rem);
+      padding: clamp(2.4rem, 6vw, 3.6rem) clamp(1.3rem, 5vw, 3.2rem) clamp(2.2rem, 5vw, 3rem);
+      border-radius: 6px;
+      background-color: var(--t-bg);
+      background-image:
+        radial-gradient(circle at 0% 0%, color-mix(in srgb, var(--t-a) 20%, transparent), transparent 35%),
+        radial-gradient(circle at 100% 100%, color-mix(in srgb, var(--t-a) 22%, transparent), transparent 40%);
+      box-shadow: 0 40px 80px -36px rgb(0 0 0 / .8), inset 0 0 0 10px var(--t-bg), inset 0 0 0 11px color-mix(in srgb, var(--t-a) 70%, transparent), inset 0 0 0 15px var(--t-bg), inset 0 0 0 16px color-mix(in srgb, var(--t-a) 35%, transparent);
+    }
+    .vc-rs__toast { display: block; width: 5.5rem; height: auto; margin: 0 auto .4rem; overflow: visible; }
+    .vc-rs__toast [data-l="glass"] { fill: color-mix(in srgb, var(--t-a) 8%, transparent); stroke: var(--t-tx); stroke-width: .8; vector-effect: non-scaling-stroke; }
+    .vc-rs__toast [data-l="wine"] { fill: var(--t-p); }
+    .vc-rs__toast [data-l="spark"] { fill: none; stroke: var(--t-a); stroke-width: .9; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+    .vc-rs__kicker { margin: 0; font-style: italic; font-size: clamp(1.02rem, 2.3vw, 1.18rem); color: var(--t-s); }
+    .vc-rs__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(3.2rem, 8vw, 5rem); line-height: .95; color: var(--t-p); }
+    .vc-rs__lead { margin: .6rem auto 0; max-width: 28rem; font-size: clamp(1.05rem, 2.2vw, 1.18rem); line-height: 1.5; color: color-mix(in srgb, var(--t-tx) 82%, transparent); text-wrap: balance; }
+
+    .vc-rs__form { display: grid; gap: 1.2rem; margin-top: 1.8rem; text-align: left; }
+    .vc-rs__field { display: grid; gap: .3rem; }
+    .vc-rs__label { font-style: italic; font-size: 1.02rem; color: color-mix(in srgb, var(--t-tx) 75%, transparent); }
+    .vc-rs__input {
+      width: 100%;
+      min-height: 2.8rem;
+      padding: .4rem .2rem;
+      border: 0;
+      border-bottom: 1px solid color-mix(in srgb, var(--t-a) 80%, transparent);
+      border-radius: 0;
+      background: transparent;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+      font-size: 1.18rem;
+      transition: border-color .3s ease, background-color .3s ease;
+    }
+    textarea.vc-rs__input { min-height: 4.6rem; resize: vertical; line-height: 1.4; }
+    .vc-rs__input:focus { outline: none; border-bottom-color: var(--t-p); background: color-mix(in srgb, var(--t-a) 8%, transparent); }
+    .vc-rs__row { display: grid; grid-template-columns: minmax(0, 1fr) 7rem; gap: 1.2rem; }
+
+    .vc-rs__choice { border: 0; margin: .2rem 0 0; padding: 0; min-width: 0; }
+    .vc-rs__legend { padding: 0; margin-bottom: .6rem; font-style: italic; font-size: 1.02rem; color: color-mix(in srgb, var(--t-tx) 75%, transparent); }
+    .vc-rs__opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem; }
+    .vc-rs__opt { position: relative; display: flex; align-items: center; gap: .8rem; min-height: 4.6rem; padding: .6rem .9rem; border-radius: 4px; cursor: pointer; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-a) 45%, transparent); transition: box-shadow .3s ease, background-color .3s ease; }
+    .vc-rs__opt:hover { background: color-mix(in srgb, var(--t-a) 8%, transparent); }
+    .vc-rs__radio { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .vc-rs__opt:has(.vc-rs__radio:checked) { box-shadow: inset 0 0 0 1.5px var(--t-p); background: color-mix(in srgb, var(--t-p) 6%, transparent); }
+    .vc-rs__opt:has(.vc-rs__radio:focus-visible) { outline: 2px solid var(--t-a); outline-offset: 2px; }
+    .vc-rs__glass { flex: none; width: 1.6rem; height: auto; overflow: visible; transition: rotate .4s cubic-bezier(.3, 1.4, .5, 1); }
+    .vc-rs__glass [data-l="glass"] { fill: color-mix(in srgb, var(--t-a) 6%, transparent); stroke: var(--t-tx); stroke-width: .9; vector-effect: non-scaling-stroke; }
+    .vc-rs__glass [data-l="wine"] { fill: var(--t-p); transform-box: fill-box; transform-origin: 50% 100%; scale: 1 0; transition: scale .5s cubic-bezier(.2, .8, .2, 1); }
+    .vc-rs__opt[data-v="no"] .vc-rs__glass [data-l="wine"] { fill: color-mix(in srgb, var(--t-s) 35%, transparent); }
+    .vc-rs__opt:has(.vc-rs__radio:checked) .vc-rs__glass [data-l="wine"] { scale: 1 1; }
+    .vc-rs__opt[data-v="si"]:has(.vc-rs__radio:checked) .vc-rs__glass { rotate: -10deg; }
+    .vc-rs__optxt { font-size: 1.1rem; line-height: 1.25; }
+
+    .vc-rs__btn {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
+      justify-self: center;
+      min-width: min(100%, 17rem);
+      min-height: 3.2rem;
+      margin-top: .6rem;
+      padding: .6rem 1.8rem;
+      border: 0;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--t-p) 82%, #000);
+      color: var(--t-bg);
+      font-family: var(--t-text);
+      font-size: 1.15rem;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-a) 60%, transparent), 0 16px 28px -18px var(--t-p);
+      transition: transform .3s cubic-bezier(.2, .8, .2, 1), box-shadow .3s ease;
+    }
+    .vc-rs__btn::before { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--t-p); }
+    .vc-rs__btn::after { content: ''; position: absolute; left: 0; top: 0; bottom: 0; z-index: -1; width: var(--vc-load, 0%); background: linear-gradient(90deg, color-mix(in srgb, var(--t-a) 55%, var(--t-p)), color-mix(in srgb, var(--t-a) 35%, var(--t-p))); }
+    .vc-rs__btn:hover { transform: translateY(-2px); }
+    .vc-rs__btn:active { transform: translateY(0) scale(.98); }
+    .vc-rs__btn:focus-visible { outline: 2px solid var(--t-a); outline-offset: 3px; }
+    .vc-rs__btn svg { width: 1.2rem; height: 1.2rem; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
+    .vc-rs__btn[data-state="loading"] { cursor: progress; }
+    .vc-rs__btn[data-state="loading"] svg { animation: vc-rs-tilt .45s ease-in-out infinite alternate; }
+    .vc-rs__btn[data-state="done"] { background: var(--t-s); }
+    .vc-rs__btn[data-state="done"]::before { background: var(--t-s); }
+    .vc-rs__btn[data-state="done"]::after { width: 0; }
+    @keyframes vc-rs-tilt { from { rotate: -14deg; } to { rotate: 14deg; } }
+    @keyframes vc-rs-shake { 0%, 100% { translate: 0 0; } 25% { translate: -6px 0; } 75% { translate: 6px 0; } }
+    .vc-rs__input[data-err] { border-bottom-color: var(--t-p); animation: vc-rs-shake .35s ease; }
+
+    .vc-rs__done { display: grid; justify-items: center; gap: .5rem; margin-top: 1.4rem; }
+    .vc-rs__done[hidden] { display: none; }
+    .vc-rs__seal { width: 4.4rem; height: auto; animation: vc-rs-stamp .4s cubic-bezier(.3, 1.4, .5, 1) both; }
+    .vc-rs__seal [data-l="wax"] { fill: var(--t-p); }
+    .vc-rs__seal [data-l="mark"] { fill: none; stroke: color-mix(in srgb, var(--t-bg) 80%, transparent); stroke-width: 1.2; stroke-linecap: round; }
+    @keyframes vc-rs-stamp { from { scale: 1.6; opacity: 0; rotate: -20deg; } to { scale: 1; opacity: 1; rotate: 0deg; } }
+    .vc-rs__thanks { margin: 0; font-style: italic; font-size: 1.15rem; color: var(--t-p); }
+
+    .vc-rs--anim .vc-rs__card { opacity: 0; translate: 0 24px; rotate: -1deg; transition: opacity .45s ease, translate .5s cubic-bezier(.2, .8, .2, 1), rotate .5s cubic-bezier(.2, .8, .2, 1); }
+    .vc-rs--anim.is-in .vc-rs__card { opacity: 1; translate: 0 0; rotate: 0deg; }
+
+    @media (max-width: 520px) {
+      .vc-rs__row { grid-template-columns: 1fr; }
+      .vc-rs__opts { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .vc-rs *, .vc-rs *::before, .vc-rs *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="vc-rs__card">
+    <svg class="vc-rs__toast" viewBox="0 0 110 80" aria-hidden="true">
+      <g transform="translate(26 10) rotate(-14)"><path data-l="glass" d="M2 4 C1 22 5 34 14 36 C23 34 27 22 26 4 Z M14 36 V64 M5 67 C8 64 20 64 23 67 Z"/><path data-l="wine" d="M2.6 18 C3.4 28 7 34.6 14 35.2 C21 34.6 24.6 28 25.4 18 Z"/></g>
+      <g transform="translate(58 6) rotate(14)"><path data-l="glass" d="M2 4 C1 22 5 34 14 36 C23 34 27 22 26 4 Z M14 36 V64 M5 67 C8 64 20 64 23 67 Z"/><path data-l="wine" d="M2.6 18 C3.4 28 7 34.6 14 35.2 C21 34.6 24.6 28 25.4 18 Z"/></g>
+      <path data-l="spark" d="M55 4 V-4 M47 6 L43 0 M63 6 L67 0"/>
+    </svg>
+    <p class="vc-rs__kicker" memory_type="text" memory_usage="custom" memory_key="confirmacion-intro">Reserve su copa para el brindis</p>
+    <h2 class="vc-rs__title" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">Confirmación</h2>
+    <p class="vc-rs__lead" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">Les agradeceremos confirmar su asistencia antes del 15 de abril de 2027.</p>
+
+    <form class="vc-rs__form" data-vc-form novalidate>
+      <div class="vc-rs__row">
+        <label class="vc-rs__field">
+          <span class="vc-rs__label" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-nombre">Nombre completo</span>
+          <input class="vc-rs__input" type="text" name="nombre" autocomplete="name" placeholder="Nombre Apellido" data-vc-name />
+        </label>
+        <label class="vc-rs__field">
+          <span class="vc-rs__label" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-personas">Personas</span>
+          <input class="vc-rs__input" type="number" name="personas" min="1" max="10" value="1" inputmode="numeric" />
+        </label>
+      </div>
+
+      <fieldset class="vc-rs__choice">
+        <legend class="vc-rs__legend" memory_type="text" memory_usage="custom" memory_key="confirmacion-pregunta">¿Nos acompañará?</legend>
+        <div class="vc-rs__opts">
+          <label class="vc-rs__opt" data-v="si">
+            <input class="vc-rs__radio" type="radio" name="asistencia" value="si" checked />
+            <svg class="vc-rs__glass" viewBox="0 0 28 70" aria-hidden="true"><path data-l="glass" d="M2 4 C1 22 5 34 14 36 C23 34 27 22 26 4 Z M14 36 V64 M5 67 C8 64 20 64 23 67 Z"/><path data-l="wine" d="M2.6 18 C3.4 28 7 34.6 14 35.2 C21 34.6 24.6 28 25.4 18 Z"/></svg>
+            <span class="vc-rs__optxt" memory_type="text" memory_usage="custom" memory_key="confirmacion-si">Sí, brindaré con ustedes</span>
+          </label>
+          <label class="vc-rs__opt" data-v="no">
+            <input class="vc-rs__radio" type="radio" name="asistencia" value="no" />
+            <svg class="vc-rs__glass" viewBox="0 0 28 70" aria-hidden="true"><path data-l="glass" d="M2 4 C1 22 5 34 14 36 C23 34 27 22 26 4 Z M14 36 V64 M5 67 C8 64 20 64 23 67 Z"/><path data-l="wine" d="M2.6 18 C3.4 28 7 34.6 14 35.2 C21 34.6 24.6 28 25.4 18 Z"/></svg>
+            <span class="vc-rs__optxt" memory_type="text" memory_usage="custom" memory_key="confirmacion-no">No podré asistir</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <label class="vc-rs__field">
+        <span class="vc-rs__label" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-mensaje">Un mensaje para los novios</span>
+        <textarea class="vc-rs__input" name="mensaje" rows="2" placeholder="Escriba sus buenos deseos"></textarea>
+      </label>
+
+      <button class="vc-rs__btn" type="submit" data-vc-btn>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3 C6.5 9 8 13 12 13.5 C16 13 17.5 9 17 3 Z M12 13.5 V20 M8.5 21 H15.5"/></svg>
+        <span memory_type="text" memory_usage="custom" memory_key="confirmacion-boton">Confirmar asistencia</span>
+      </button>
+
+      <div class="vc-rs__done" data-vc-done hidden aria-live="polite">
+        <svg class="vc-rs__seal" viewBox="0 0 60 60" aria-hidden="true">
+          <path data-l="wax" d="M30 2 C36 4 40 1 44 6 C50 7 52 12 54 17 C59 22 57 27 58 31 C59 38 55 41 53 46 C50 52 45 52 40 56 C34 59 30 57 25 58 C19 58 15 54 11 51 C6 47 5 42 3 37 C1 31 3 27 3 22 C5 16 8 12 13 8 C18 4 23 3 30 2 Z"/>
+          <path data-l="mark" d="M18 31 L26 39 L43 21"/>
+          <circle data-l="mark" cx="30" cy="30" r="20"/>
+        </svg>
+        <p class="vc-rs__thanks" memory_type="text" memory_usage="custom" memory_key="confirmacion-gracias">¡Gracias! Su copa está reservada.</p>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="confirmacion-texto"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* Simulated RSVP: the button fills like a glass while "sending", then a wax seal stamps */
+      var form = root.querySelector('[data-vc-form]');
+      var btn = root.querySelector('[data-vc-btn]');
+      var nameIn = root.querySelector('[data-vc-name]');
+      var done = root.querySelector('[data-vc-done]');
+      var busy = false;
+      if (form) form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (busy || btn.getAttribute('data-state') === 'done') return;
+        if (nameIn && !nameIn.value.trim()) {
+          nameIn.removeAttribute('data-err'); void nameIn.offsetWidth; nameIn.setAttribute('data-err', '');
+          nameIn.focus();
+          setTimeout(function () { nameIn.removeAttribute('data-err'); }, 900);
+          return;
+        }
+        busy = true;
+        btn.setAttribute('data-state', 'loading');
+        btn.setAttribute('aria-busy', 'true');
+        function finish() {
+          btn.style.removeProperty('--vc-load');
+          btn.setAttribute('data-state', 'done');
+          btn.removeAttribute('aria-busy');
+          if (done) done.hidden = false;
+          busy = false;
+        }
+        if (RM) { setTimeout(finish, 600); return; }
+        var t0 = 0, DUR = 1500;
+        function step(now) {
+          if (!t0) t0 = now;
+          var k = Math.min(1, (now - t0) / DUR), eased = 1 - Math.pow(1 - k, 2);
+          btn.style.setProperty('--vc-load', (eased * 100).toFixed(1) + '%');
+          if (k < 1) requestAnimationFrame(step); else finish();
+        }
+        requestAnimationFrame(step);
+      });
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+      root.classList.add('vc-rs--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('vc-rs--anim', 'is-in'); }, 1200);
+        }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Viñedo Clásico Tarjeta de Brindis',
+      descripcion: 'RSVP de boda en tarjeta de pergamino: nombre, personas, asistencia con copas de cristal que se llenan de vino, mensaje y botón que se llena mientras envía y cierra con sello de lacre.',
+      tags: ['confirmación', 'rsvp', 'boda', 'viñedo', 'vino', 'copas'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>

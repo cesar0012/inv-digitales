@@ -1,0 +1,227 @@
+<section
+  class="fe-detalles"
+  data-gemini-id="detalles-regalo"
+>
+  <style>
+    .fe-detalles {
+      --primary-color: #f5e9d7;
+      --secondary-color: #b39a7d;
+      --accent-color: #ffb347;
+      --bg-color: #1a1410;
+      --surface-color: #241c15;
+      --surface-border-color: rgba(245, 233, 215, 0.16);
+      --text-color: #f5e9d7;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+    }
+    .fe-detalles *,
+    .fe-detalles *::before,
+    .fe-detalles *::after { box-sizing: border-box; }
+
+    .fe-detalles__escena {
+      display: grid;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: clamp(1.6rem, 4vw, 3rem);
+      align-items: center;
+      width: min(100%, 1040px);
+      margin: 0 auto;
+    }
+
+    .fe-detalles__foto {
+      position: relative;
+      margin: 0;
+      padding: 8px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 26px 56px rgba(0, 0, 0, 0.55);
+      transform: rotate(-2deg);
+    }
+    .fe-detalles__foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      filter: saturate(1.06);
+    }
+    .fe-detalles__bombilla-foto {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      width: 16px;
+      height: 20px;
+      transform: translateX(-50%);
+      border-radius: 50% 50% 60% 60%;
+      background: radial-gradient(circle at 40% 30%, #fff6dd, var(--accent-color) 65%);
+      box-shadow: 0 0 16px var(--accent-color);
+    }
+
+    .fe-detalles__titulo {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.65rem, 3.7vw, 2.3rem);
+      color: var(--primary-color);
+      text-align: left;
+    }
+    .fe-detalles__intro {
+      margin: 0 0 1.4rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.86rem, 1.5vw, 0.94rem);
+      line-height: 1.7;
+      color: var(--secondary-color);
+      text-align: left;
+    }
+
+    .fe-detalles__puestos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 2.6vw, 1.6rem); }
+
+    .fe-detalles__puesto {
+      position: relative;
+      padding: 0 0 clamp(1.2rem, 2.8vw, 1.6rem);
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), box-shadow 0.5s ease;
+    }
+    .fe-detalles.fe-js .fe-detalles__puesto { opacity: 0; transform: translateY(18px); }
+    .fe-detalles .fe-detalles__puesto.esta-visto { opacity: 1; transform: none; }
+    .fe-detalles__puesto:hover { box-shadow: 0 20px 42px rgba(0, 0, 0, 0.45); }
+    .fe-detalles__puesto::before {
+      content: '';
+      display: block;
+      height: 16px;
+      background:
+        radial-gradient(circle at 20px 22px, transparent 25px, var(--accent-color) 25px 31px, transparent 32px) 0 0 / 40px 16px repeat-x,
+        var(--surface-color);
+    }
+
+    .fe-detalles__icono {
+      width: 40px;
+      margin: 1.1rem auto 0.7rem;
+      color: var(--accent-color);
+    }
+    .fe-detalles__rotulo {
+      margin: 0 0 0.3rem;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.54rem, 1vw, 0.62rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .fe-detalles__titulo-card {
+      margin: 0 0 0.4rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.98rem, 1.9vw, 1.16rem);
+      color: var(--primary-color);
+    }
+    .fe-detalles__texto {
+      margin: 0 clamp(0.8rem, 2vw, 1.2rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.76rem, 1.35vw, 0.86rem);
+      line-height: 1.6;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 880px) {
+      .fe-detalles__escena { grid-template-columns: 1fr; }
+      .fe-detalles__foto { max-width: 380px; margin: 0 auto; transform: none; }
+    }
+    @media (max-width: 640px) {
+      .fe-detalles__puestos { grid-template-columns: 1fr; max-width: 340px; margin: 0 auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fe-detalles * { transition: none !important; }
+      .fe-detalles__puesto { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <div class="fe-detalles__escena">
+    <figure class="fe-detalles__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="detalles-foto">
+      <span class="fe-detalles__bombilla-foto" aria-hidden="true"></span>
+      <img src="https://loremflickr.com/500/620/carnival,couple" alt="Recuerdo de la feria" path="placeholder" data-library-category="bodas" data-asset-type="detalle" loading="lazy" />
+      <figcaption hidden>Detalle de feria</figcaption>
+    </figure>
+
+    <div>
+      <header memory_type="text" memory_usage="custom" memory_key="detalles-intro">
+        <h2 class="fe-detalles__titulo" memory_type="text" memory_usage="custom" memory_key="detalles-titulo">Reglamento de la feria</h2>
+        <p class="fe-detalles__intro" memory_type="text" memory_usage="custom" memory_key="detalles-texto">Tres reglas del recinto para jugar sin preocupaciones.</p>
+      </header>
+
+      <div class="fe-detalles__puestos">
+        <article class="fe-detalles__puesto" data-fe-puesto>
+          <svg class="fe-detalles__icono" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <path d="M16 6 L24 16 L32 6 M24 16 V42" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M14 42 H34" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+          <p class="fe-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-1">Regla 01</p>
+          <h3 class="fe-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-1">Vestuario de juego</h3>
+          <p class="fe-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-1">Cómodo y con bolsillos: habrá juegos de feria.</p>
+        </article>
+        <article class="fe-detalles__puesto" data-fe-puesto>
+          <svg class="fe-detalles__icono" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <circle cx="24" cy="24" r="17" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M24 12 V24 L32 28" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <p class="fe-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-2">Regla 02</p>
+          <h3 class="fe-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-2">Horario sin cita</h3>
+          <p class="fe-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-2">Entra cuando quieras; la ceremonia es a las 17:00.</p>
+        </article>
+        <article class="fe-detalles__puesto" data-fe-puesto>
+          <svg class="fe-detalles__icono" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <path d="M8 38 L18 20 L28 30 L38 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="38" cy="12" r="3" fill="currentColor"/>
+          </svg>
+          <p class="fe-detalles__rotulo" memory_type="text" memory_usage="custom" memory_key="detalles-rotulo-3">Regla 03</p>
+          <h3 class="fe-detalles__titulo-card" memory_type="text" memory_usage="custom" memory_key="detalles-titulo-3">Premios garantizados</h3>
+          <p class="fe-detalles__texto" memory_type="text" memory_usage="custom" memory_key="detalles-texto-3">Todos los juegos otorgan premio. Todos.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.fe-detalles');
+      if (!root) return;
+      root.classList.add('fe-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var puestos = Array.prototype.slice.call(root.querySelectorAll('[data-fe-puesto]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        puestos.forEach(function (p) { p.classList.add('esta-visto'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var i = puestos.indexOf(entry.target);
+          entry.target.style.transitionDelay = (Math.max(i, 0) * 0.13).toFixed(2) + 's';
+          entry.target.classList.add('esta-visto');
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      puestos.forEach(function (p) { io.observe(p); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'detalles',
+      module_name: 'detalles-regalo',
+      style_name: 'Feria Nocturna — Detalles',
+      descripcion: 'Foto con bombilla superior y puestos con toldo festoneado; reglamento numerado de la feria con iconografía de línea.',
+      tags: ['detalles', 'feria', 'puestos', 'toldo', 'reglamento', 'nocturno'],
+      tipo: 'detalles'
+    };
+  </script>
+</section>

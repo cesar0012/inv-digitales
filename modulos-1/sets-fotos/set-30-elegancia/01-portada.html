@@ -1,0 +1,276 @@
+<section
+  class="em-por"
+  data-gemini-id="portada-nombre"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,200;0,300;0,400;1,200;1,300&family=Manrope:wght@200;300;400;500&display=swap');
+
+    .em-por, .em-por *, .em-por *::before, .em-por *::after { box-sizing: border-box; }
+    .em-por {
+      --t-bg: var(--bg-color, #ffffff);
+      --t-tx: var(--text-color, #2b2b2b);
+      --t-p: var(--primary-color, #b76e79);
+      --t-s: var(--secondary-color, #8a837f);
+      --t-a: var(--accent-color, #e4c6ba);
+      --t-display: var(--font-script, 'Jost', 'Helvetica Neue', Arial, sans-serif);
+      --t-text: var(--font-heading, 'Manrope', 'Helvetica Neue', Arial, sans-serif);
+      position: relative;
+      isolation: isolate;
+      min-height: max(36rem, 100svh);
+      display: grid;
+      place-items: center;
+      padding: clamp(5rem, 10vw, 8rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/wedding,minimal,white?lock=3011');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .em-por::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 90%, transparent), color-mix(in srgb, var(--t-bg) 96%, transparent));
+    }
+    .em-por__paper { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mix-blend-mode: multiply; opacity: .36; }
+    .em-por__canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    .em-por__content {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 62rem);
+      display: grid;
+      justify-items: center;
+      gap: clamp(1.4rem, 3vw, 2.4rem);
+    }
+    .em-por__intro {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1rem, 1.6vw, 1.25rem);
+      color: var(--t-s);
+    }
+    .em-por__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 200;
+      font-size: clamp(3.1rem, 9.5vw, 7.8rem);
+      line-height: .98;
+      letter-spacing: -.025em;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: baseline;
+      column-gap: .28em;
+    }
+    .em-por__name { display: inline-block; padding: .06em 0; }
+    .em-por__amp {
+      display: inline-block;
+      font-weight: 200;
+      font-size: .58em;
+      color: var(--t-p);
+      transform-origin: center;
+    }
+    .em-por__rule { width: clamp(3rem, 7vw, 5rem); height: 1px; background: var(--t-p); transform-origin: center; }
+    .em-por__meta { display: grid; gap: .45rem; }
+    .em-por__date {
+      font-family: var(--t-text);
+      font-weight: 300;
+      font-size: clamp(1rem, 1.7vw, 1.2rem);
+      letter-spacing: .02em;
+    }
+    .em-por__place { margin: 0; font-weight: 300; font-size: .95rem; color: var(--t-s); }
+
+    @media (max-width: 640px) {
+      .em-por__title { flex-direction: column; align-items: center; row-gap: .1em; }
+    }
+
+    /* Entrance (only while JS holds .em-por--anim) — each transition <= .5s */
+    .em-por--anim .em-por__intro,
+    .em-por--anim .em-por__meta { opacity: 0; }
+    .em-por--anim .em-por__name { clip-path: inset(-.3em calc(var(--rv, 100) * 1%) -.3em 0); }
+    .em-por--anim .em-por__amp { opacity: 0; transform: scale(.6); }
+    .em-por--anim .em-por__rule { transform: scaleX(0); }
+    .em-por--anim.is-in .em-por__intro { opacity: 1; transition: opacity .5s ease .1s; }
+    .em-por--anim.is-in .em-por__amp { opacity: 1; transform: none; transition: opacity .4s ease, transform .5s cubic-bezier(.2, .8, .2, 1); transition-delay: 1.05s; }
+    .em-por--anim.is-in .em-por__rule { transform: none; transition: transform .5s cubic-bezier(.6, 0, .2, 1); transition-delay: 1.9s; }
+    .em-por--anim.is-in .em-por__meta { opacity: 1; transition: opacity .5s ease 2.1s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .em-por *, .em-por *::before, .em-por *::after { animation: none !important; transition: none !important; }
+      .em-por__name { clip-path: none !important; }
+    }
+  </style>
+
+  <svg class="em-por__paper" aria-hidden="true" focusable="false">
+    <filter id="em30-paper-por" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="4" seed="11" result="n" />
+      <feDiffuseLighting in="n" lighting-color="#ffffff" surfaceScale="1.3"><feDistantLight azimuth="45" elevation="58" /></feDiffuseLighting>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#em30-paper-por)" />
+  </svg>
+  <canvas class="em-por__canvas" data-em-canvas aria-hidden="true"></canvas>
+
+  <header class="em-por__content">
+    <p class="em-por__intro" memory_type="text" memory_usage="custom" memory_key="portada-intro">Con la bendición de nuestras familias, nos casamos</p>
+    <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,3vw,1.6rem);width:clamp(150px,22vw,220px);"><img src="https://loremflickr.com/480/480/elegant,ring,portrait?lock=302" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:2px solid var(--primary-color,#9b9b9b);box-shadow:0 14px 30px rgba(0,0,0,.18);" /><figcaption hidden>Retrato</figcaption></figure>
+<h1 class="em-por__title">
+      <span class="em-por__name" data-em-name memory_type="text" memory_usage="custom" memory_key="portada-nombre-uno" data-event-field="nombres-1">Nombre</span>
+      <span class="em-por__amp" aria-hidden="true">&amp;</span>
+      <span class="em-por__name" data-em-name memory_type="text" memory_usage="custom" memory_key="portada-nombre-dos" data-event-field="nombres-2">Nombre</span>
+    </h1>
+    <div class="em-por__rule" aria-hidden="true"></div>
+    <div class="em-por__meta">
+      <time class="em-por__date" datetime="2027-05-15T17:00" memory_type="text" memory_usage="custom" memory_key="portada-fecha" data-event-field="fecha">Sábado 15 de mayo de 2027</time>
+      <p class="em-por__place" memory_type="text" memory_usage="custom" memory_key="portada-lugar">San Miguel de Allende, Guanajuato</p>
+    </div>
+  </header>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="portada-nombre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* ---------- 3D rose-gold ring: canvas, manual perspective projection ---------- */
+      var cv = root.querySelector('[data-em-canvas]');
+      var ctx = cv && cv.getContext && cv.getContext('2d');
+      var W = 0, H = 0, DPR = 1, R = 0, pts = [], color = '#b76e79';
+      var mx = 0, my = 0, tx = 0, ty = 0, t0 = 0, visible = true, raf = 0;
+      function g() { return (Math.random() + Math.random() + Math.random() - 1.5) / 1.5; }
+      function build() {
+        var n = W < 640 ? 560 : 950;
+        pts = [];
+        for (var i = 0; i < n; i++) {
+          var u = Math.random() * 2 - 1, a = Math.random() * Math.PI * 2, s = Math.sqrt(1 - u * u);
+          pts.push({ th: Math.random() * Math.PI * 2, r: 1 + g() * 0.022, y: g() * 0.016,
+            sx: s * Math.cos(a) * 2.4, sy: u * 2.4, sz: s * Math.sin(a) * 2.4, w: .5 + Math.random() });
+        }
+      }
+      function size() {
+        if (!ctx) return;
+        DPR = Math.min(window.devicePixelRatio || 1, 2);
+        W = root.clientWidth; H = root.clientHeight;
+        cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+        R = W < 640 ? Math.min(W * 0.47, H * 0.34) : Math.min(W * 0.4, H * 0.42);
+        var c = getComputedStyle(root).getPropertyValue('--t-p').trim();
+        if (c) color = c;
+        if (!pts.length || (W < 640) !== (pts.length < 700)) build();
+      }
+      function ease(x) { return x < 0 ? 0 : x > 1 ? 1 : 1 - Math.pow(1 - x, 3); }
+      function draw(t) {
+        if (!ctx) return;
+        var p = RM ? 1 : ease((t - t0) / 1900);
+        mx += (tx - mx) * 0.05; my += (ty - my) * 0.05;
+        var spin = t * 0.00007;
+        var tilt = 1.02 + Math.sin(t * 0.00031) * 0.06 + my * 0.12;
+        var yaw = -0.34 + Math.sin(t * 0.00021) * 0.07 + mx * 0.2;
+        var ct = Math.cos(tilt), st = Math.sin(tilt), cy = Math.cos(yaw), sy = Math.sin(yaw);
+        var d = 3.4, cx0 = W / 2, cy0 = H / 2;
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = color; ctx.strokeStyle = color;
+        function proj(x, y, z) {
+          var y1 = y * ct - z * st, z1 = y * st + z * ct;
+          var x2 = x * cy + z1 * sy, z2 = -x * sy + z1 * cy;
+          var s = d / (d + z2);
+          return [cx0 + x2 * R * s, cy0 + y1 * R * s, z2, s];
+        }
+        /* fine continuous ring line — the set's single geometric detail */
+        if (p > 0.55) {
+          ctx.globalAlpha = (p - 0.55) / 0.45 * 0.55;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          for (var k = 0; k <= 180; k++) {
+            var a = k / 180 * Math.PI * 2, q = proj(Math.cos(a), 0, Math.sin(a));
+            if (k) ctx.lineTo(q[0], q[1]); else ctx.moveTo(q[0], q[1]);
+          }
+          ctx.stroke();
+        }
+        for (var i = 0; i < pts.length; i++) {
+          var o = pts[i], th = o.th + spin;
+          var x = Math.cos(th) * o.r, y = o.y, z = Math.sin(th) * o.r;
+          x = o.sx + (x - o.sx) * p; y = o.sy + (y - o.sy) * p; z = o.sz + (z - o.sz) * p;
+          var q2 = proj(x, y, z);
+          ctx.globalAlpha = Math.max(0.08, Math.min(0.9, 0.62 - q2[2] * 0.32)) * (0.35 + 0.65 * p);
+          var r = (0.45 + q2[3] * 0.7) * o.w;
+          ctx.fillRect(q2[0] - r / 2, q2[1] - r / 2, r, r);
+        }
+        ctx.globalAlpha = 1;
+      }
+      function loop(t) {
+        raf = 0;
+        if (!visible || document.hidden) return;
+        draw(t);
+        raf = requestAnimationFrame(loop);
+      }
+      function start() { if (!raf && !RM) raf = requestAnimationFrame(loop); }
+
+      size();
+      if (RM) { draw(0); }
+      window.addEventListener('resize', function () { size(); if (RM) draw(0); });
+      if (!RM) {
+        root.addEventListener('pointermove', function (e) {
+          var b = root.getBoundingClientRect();
+          tx = (e.clientX - b.left) / b.width * 2 - 1; ty = (e.clientY - b.top) / b.height * 2 - 1;
+        });
+        document.addEventListener('visibilitychange', function () { if (!document.hidden) start(); });
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(function (en) { visible = en[0].isIntersecting; if (visible) start(); }).observe(root);
+        }
+      }
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      /* ---------- Progressive title reveal (clip only; text never rewritten) ---------- */
+      var names = root.querySelectorAll('[data-em-name]');
+      root.classList.add('em-por--anim');
+      void root.offsetWidth;
+      var io = new IntersectionObserver(function (en) {
+        if (!(en[0].isIntersecting && en[0].intersectionRatio > .2)) return;
+        io.disconnect();
+        t0 = performance.now();
+        start();
+        requestAnimationFrame(function () { requestAnimationFrame(function () { root.classList.add('is-in'); }); });
+        var plan = [[250, 900], [1150, 900]];
+        function rv(now) {
+          var done = true;
+          for (var i = 0; i < names.length; i++) {
+            var pr = ease((now - t0 - plan[i][0]) / plan[i][1]);
+            names[i].style.setProperty('--rv', (100 - pr * 100).toFixed(2));
+            if (pr < 1) done = false;
+          }
+          if (!done) requestAnimationFrame(rv);
+        }
+        requestAnimationFrame(rv);
+        setTimeout(function () {
+          root.classList.remove('em-por--anim', 'is-in');
+          for (var i = 0; i < names.length; i++) names[i].style.removeProperty('--rv');
+        }, 2900);
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Elegancia Minimalista Anillo',
+      descripcion: 'Portada de boda minimalista: papel acuarela blanco, nombres en sans-serif fina revelados progresivamente y un anillo 3D de polvo de oro rosado en perspectiva que se forma y gira.',
+      tags: ['portada', 'boda', 'minimalista', 'oro rosado', '3d', 'elegante'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

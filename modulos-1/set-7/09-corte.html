@@ -1,0 +1,203 @@
+<section
+  class="mu-corte"
+  data-gemini-id="corte-museo-telones"
+>
+  <style>
+    .mu-corte {
+      --primary-color: #2a2724;
+      --secondary-color: #75705f;
+      --accent-color: #b3925a;
+      --bg-color: #f4f1ea;
+      --surface-color: #fdfbf6;
+      --surface-border-color: rgba(42, 39, 36, 0.16);
+      --text-color: #2a2724;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .mu-corte *,
+    .mu-corte *::before,
+    .mu-corte *::after { box-sizing: border-box; }
+
+    .mu-corte__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: clamp(1.8rem, 4.5vw, 3.4rem);
+      align-items: center;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .mu-corte__escenario {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 28px 60px rgba(42, 39, 36, 0.24);
+    }
+    .mu-corte__escenario img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      filter: saturate(0.9);
+      transform: scale(1.07);
+      transition: transform 0.5s ease;
+    }
+    .mu-corte.esta-visto .mu-corte__escenario img { transform: scale(1); }
+
+    .mu-corte__telones {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: none;
+      pointer-events: none;
+    }
+    .mu-corte.mu-js .mu-corte__telones { display: flex; }
+    .mu-corte__telon {
+      flex: 1;
+      background:
+        radial-gradient(60% 20% at 50% 0%, color-mix(in srgb, var(--accent-color) 55%, transparent), transparent 70%),
+        repeating-linear-gradient(90deg, color-mix(in srgb, var(--primary-color) 85%, var(--accent-color)) 0 16px, color-mix(in srgb, var(--primary-color) 60%, var(--bg-color)) 16px 22px);
+      box-shadow: inset 0 0 44px rgba(0, 0, 0, 0.4);
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .mu-corte__telon--izq { border-right: 2px solid var(--accent-color); }
+    .mu-corte__telon--der { border-left: 2px solid var(--accent-color); }
+    .mu-corte.esta-visto .mu-corte__telon--izq { transform: translateY(-102%); }
+    .mu-corte.esta-visto .mu-corte__telon--der { transform: translateY(102%); }
+
+    .mu-corte__insignia {
+      position: absolute;
+      z-index: 3;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: grid;
+      place-items: center;
+      width: 76px;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--accent-color) 72%, #8a6d3b), color-mix(in srgb, var(--accent-color) 48%, #6d5527));
+      color: #fdfbf6;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-align: center;
+      box-shadow: 0 14px 30px rgba(42, 39, 36, 0.4);
+      transition: opacity 0.4s ease, transform 0.5s ease;
+      display: none;
+    }
+    .mu-corte.mu-js .mu-corte__insignia { display: grid; }
+    .mu-corte.esta-visto .mu-corte__insignia { opacity: 0; transform: translate(-50%, -50%) scale(1.35); }
+
+    .mu-corte__contenido { text-align: left; }
+    .mu-corte__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .mu-corte__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.85rem, 4.2vw, 2.7rem);
+      line-height: 1.1;
+      color: var(--primary-color);
+    }
+    .mu-corte__texto {
+      margin: 0 0 1.2rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .mu-corte__firma {
+      display: inline-block;
+      padding-top: 0.7rem;
+      border-top: 1px solid var(--accent-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.86rem, 1.6vw, 0.98rem);
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 880px) {
+      .mu-corte__grid { grid-template-columns: 1fr; }
+      .mu-corte__contenido { text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mu-corte * { transition: none !important; }
+      .mu-corte__telones, .mu-corte__insignia { display: none !important; }
+      .mu-corte__escenario img { transform: none; }
+    }
+  </style>
+
+  <div class="mu-corte__grid">
+    <figure class="mu-corte__escenario" memory_type="image" memory_usage="custom" memory_source="library" memory_key="corte-foto">
+      <img
+        src="https://loremflickr.com/960/600/gala,toast"
+        alt="Escenario del brindis de gala"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="corte"
+        loading="lazy"
+      />
+      <span class="mu-corte__telones" aria-hidden="true">
+        <span class="mu-corte__telon mu-corte__telon--izq"></span>
+        <span class="mu-corte__telon mu-corte__telon--der"></span>
+      </span>
+      <span class="mu-corte__insignia" aria-hidden="true">Gran<br />reveal</span>
+      <figcaption hidden>Escenario del brindis</figcaption>
+    </figure>
+
+    <div class="mu-corte__contenido" memory_type="text" memory_usage="custom" memory_key="corte-texto">
+      <p class="mu-corte__etiqueta" memory_type="text" memory_usage="custom" memory_key="corte-etiqueta">Acto de gala</p>
+      <h2 class="mu-corte__titulo" memory_type="text" memory_usage="custom" memory_key="corte-titulo">El gran telón</h2>
+      <p class="mu-corte__texto">
+        Los pesados telones de gala se retiran hacia el techo y el piso para develar la escena
+        del primer brindis. Un instante de museo, digno de marco.
+      </p>
+      <span class="mu-corte__firma" memory_type="text" memory_usage="custom" memory_key="corte-firma">Colección permanente de recuerdos.</span>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.mu-corte');
+      if (!root) return;
+      root.classList.add('mu-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root.querySelector('.mu-corte__escenario') || root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-museo-telones',
+      style_name: 'Vitrina de Museo — Corte',
+      descripcion: 'Telones de terciopelo a rayas que se retiran verticalmente en direcciones opuestas con insignia dorada que se disipa.',
+      tags: ['corte', 'telones', 'museo', 'gala', 'revelado', 'insignia'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

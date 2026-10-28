@@ -1,0 +1,425 @@
+<section
+  class="module-portada-editorial-photo"
+  data-gemini-id="portada-nombre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="portada-editorial-title"
+>
+  <style>
+    .module-portada-editorial-photo {
+      --primary-color: #1f1f1f;
+      --secondary-color: #6f7478;
+      --accent-color: #b59b72;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(0, 0, 0, 0.12);
+      --overlay-color: rgba(0, 0, 0, 0.58);
+      --text-color: #1f1f1f;
+
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+      color: var(--text-color);
+      background-color: #eeeeee;
+      background-image: url("https://loremflickr.com/1920/1080/couple,love");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      isolation: isolate;
+    }
+
+    .module-portada-editorial-photo::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--overlay-color);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .portada-editorial__inner {
+      position: relative;
+      width: min(1440px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 5rem);
+      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: minmax(320px, 480px) 1fr;
+      align-items: center;
+      gap: clamp(2rem, 5vw, 5rem);
+    }
+
+    .portada-editorial__card {
+      position: relative;
+      z-index: 2;
+      width: min(460px, 100%);
+      min-height: clamp(520px, 68vh, 680px);
+      padding: clamp(2rem, 4vw, 3.5rem);
+      box-sizing: border-box;
+      display: grid;
+      align-content: center;
+      text-align: center;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: clamp(8px, 1.2vw, 14px);
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.28);
+      overflow: hidden;
+    }
+
+    .portada-editorial__corner {
+      position: absolute;
+      width: 62px;
+      height: 62px;
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    .portada-editorial__corner::before,
+    .portada-editorial__corner::after {
+      content: "";
+      position: absolute;
+      background: var(--accent-color);
+      opacity: 0.55;
+    }
+
+    .portada-editorial__corner::before {
+      width: 42px;
+      height: 1px;
+    }
+
+    .portada-editorial__corner::after {
+      width: 1px;
+      height: 42px;
+    }
+
+    .portada-editorial__corner--top-left {
+      top: 1rem;
+      left: 1rem;
+    }
+
+    .portada-editorial__corner--top-right {
+      top: 1rem;
+      right: 1rem;
+      transform: rotate(90deg);
+    }
+
+    .portada-editorial__corner--bottom-left {
+      bottom: 1rem;
+      left: 1rem;
+      transform: rotate(-90deg);
+    }
+
+    .portada-editorial__corner--bottom-right {
+      bottom: 1rem;
+      right: 1rem;
+      transform: rotate(180deg);
+    }
+
+    .portada-editorial__eyebrow {
+      margin: 0 0 clamp(1rem, 2vw, 1.5rem);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1rem, 1.4vw, 1.25rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--primary-color);
+    }
+
+    .portada-editorial__ornament {
+      width: min(130px, 40%);
+      height: 28px;
+      margin: 0 auto clamp(1.5rem, 3vw, 2rem);
+      border-top: 2px solid var(--accent-color);
+      position: relative;
+    }
+
+    .portada-editorial__ornament::before,
+    .portada-editorial__ornament::after {
+      content: "";
+      position: absolute;
+      top: -7px;
+      width: 12px;
+      height: 12px;
+      border: 2px solid var(--accent-color);
+      border-radius: 50%;
+      background: var(--surface-color);
+    }
+
+    .portada-editorial__ornament::before {
+      left: 38%;
+    }
+
+    .portada-editorial__ornament::after {
+      right: 38%;
+    }
+
+    .portada-editorial__photo-wrap {
+      width: min(300px, 78%);
+      margin: 0 auto clamp(2rem, 4vw, 3rem);
+      position: relative;
+    }
+
+    .portada-editorial__photo-frame {
+      position: relative;
+      margin: 0;
+      aspect-ratio: 1.25 / 1;
+      transform: rotate(-8deg);
+      border: 6px solid var(--accent-color);
+      background: #f5f5f5;
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.18);
+      overflow: hidden;
+      clip-path: polygon(14% 0, 100% 0, 86% 100%, 0 100%);
+    }
+
+    .portada-editorial__photo-frame img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform: rotate(8deg) scale(1.12);
+      filter: contrast(0.98) saturate(0.96);
+    }
+
+    .portada-editorial__brush {
+      position: absolute;
+      inset: -1.6rem -2.2rem;
+      z-index: -1;
+      background:
+        linear-gradient(90deg, transparent, rgba(0,0,0,0.06), transparent),
+        rgba(181, 155, 114, 0.16);
+      border-radius: 44% 56% 46% 54%;
+      transform: rotate(-3deg);
+    }
+
+    .portada-editorial__names {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--primary-color);
+    }
+
+    .portada-editorial__ampersand {
+      display: inline-block;
+      margin: 0 0.5rem;
+      color: var(--accent-color);
+      font-weight: 400;
+    }
+
+    .portada-editorial__message {
+      max-width: 360px;
+      margin: clamp(1.5rem, 3vw, 2rem) auto 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(1rem, 1.35vw, 1.12rem);
+      line-height: 1.75;
+      color: var(--secondary-color);
+    }
+
+    .portada-editorial__bottom-ornament {
+      width: min(120px, 40%);
+      height: 24px;
+      margin: clamp(1.5rem, 3vw, 2rem) auto 0;
+      border-top: 2px solid var(--accent-color);
+      opacity: 0.75;
+    }
+
+    .portada-editorial__visual-note {
+      position: relative;
+      z-index: 1;
+      min-height: 60vh;
+    }
+
+    .portada-editorial__motion {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: portadaEditorialReveal 0.5s ease-out forwards;
+    }
+
+    .portada-editorial__card {
+      animation-delay: 0.08s;
+    }
+
+    @keyframes portadaEditorialReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .portada-editorial__inner {
+        grid-template-columns: 1fr;
+        place-items: center;
+      }
+
+      .portada-editorial__card {
+        width: min(500px, 94vw);
+      }
+
+      .portada-editorial__visual-note {
+        display: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .module-portada-editorial-photo {
+        min-height: 100svh;
+      }
+
+      .portada-editorial__inner {
+        min-height: 100svh;
+        padding: 1.25rem;
+      }
+
+      .portada-editorial__card {
+        width: 100%;
+        min-height: auto;
+        padding: 2.5rem 1.5rem;
+      }
+
+      .portada-editorial__photo-wrap {
+        width: min(280px, 82%);
+      }
+
+      .portada-editorial__names {
+        font-size: clamp(2rem, 10vw, 2.8rem);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .portada-editorial__motion {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <div class="portada-editorial__inner">
+    <article class="portada-editorial__card portada-editorial__motion">
+      <span class="portada-editorial__corner portada-editorial__corner--top-left" aria-hidden="true"></span>
+      <span class="portada-editorial__corner portada-editorial__corner--top-right" aria-hidden="true"></span>
+      <span class="portada-editorial__corner portada-editorial__corner--bottom-left" aria-hidden="true"></span>
+      <span class="portada-editorial__corner portada-editorial__corner--bottom-right" aria-hidden="true"></span>
+
+      <header
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="hero-heading"
+      >
+        <p class="portada-editorial__eyebrow">
+          Together with Their Families
+        </p>
+
+        <div class="portada-editorial__ornament" aria-hidden="true"></div>
+      </header>
+
+      <figure
+        class="portada-editorial__photo-wrap"
+        memory_type="image"
+        memory_usage="custom"
+        memory_source="library"
+        memory_key="couple-photo"
+      >
+        <div class="portada-editorial__brush" aria-hidden="true"></div>
+
+        <div class="portada-editorial__photo-frame">
+          <img
+            src="https://loremflickr.com/800/600/couple,love"
+            alt="Photo of the couple"
+            path="placeholder"
+            data-library-category="bodas"
+            data-asset-type="foto-pareja"
+          />
+        </div>
+
+        <figcaption hidden>
+          Couple portrait
+        </figcaption>
+      </figure>
+
+      <div
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="couple-names"
+      >
+        <h1 id="portada-editorial-title" class="portada-editorial__names">
+          Millea <span class="portada-editorial__ampersand">&amp;</span> Dillan
+        </h1>
+
+        <p class="portada-editorial__message">
+          Request the honor of your presence at their wedding ceremony and reception.
+        </p>
+      </div>
+
+      <div class="portada-editorial__bottom-ornament" aria-hidden="true"></div>
+    </article>
+
+    <div class="portada-editorial__visual-note" aria-hidden="true"></div>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "portada",
+        "hero",
+        "boda",
+        "foto de pareja",
+        "tarjeta editorial",
+        "overlay oscuro",
+        "moderno",
+        "minimalista",
+        "familias",
+        "responsive"
+      ],
+      descripcion:
+        "Wireframe de portada editorial con foto de fondo, overlay oscuro, tarjeta blanca flotante, retrato de pareja, nombres y mensaje formal."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="portada-nombre"]');
+
+      if (!module) return;
+
+      const card = module.querySelector(".portada-editorial__card");
+      const photo = module.querySelector(".portada-editorial__photo-frame");
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (prefersReducedMotion) return;
+
+      module.addEventListener("pointermove", function (event) {
+        const rect = module.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        if (card) {
+          card.style.transform =
+            "translate(" + x * 6 + "px, " + y * 5 + "px)";
+        }
+
+        if (photo) {
+          photo.style.transform =
+            "rotate(" + (-8 + x * 2) + "deg) translate(" + x * 4 + "px, " + y * 4 + "px)";
+        }
+      });
+
+      module.addEventListener("pointerleave", function () {
+        if (card) {
+          card.style.transform = "translate(0, 0)";
+        }
+
+        if (photo) {
+          photo.style.transform = "rotate(-8deg)";
+        }
+      });
+    })();
+  </script>
+</section>

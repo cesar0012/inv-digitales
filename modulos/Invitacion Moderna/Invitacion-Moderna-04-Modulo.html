@@ -1,0 +1,642 @@
+<section
+  class="module-evento-editorial-mapas"
+  data-gemini-id="ubicacion-ceremonia"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="evento-editorial-title"
+>
+  <style>
+    .module-evento-editorial-mapas {
+      --primary-color: #202326;
+      --secondary-color: #62686d;
+      --accent-color: #b59b72;
+      --surface-color: #ffffff;
+      --surface-border-color: rgba(0, 0, 0, 0.12);
+      --overlay-color: rgba(0, 0, 0, 0.58);
+      --text-color: #202326;
+
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      overflow: hidden;
+      box-sizing: border-box;
+      color: var(--text-color);
+      background-color: #eeeeee;
+      background-image: url("https://loremflickr.com/1920/1080/couple,wedding");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      isolation: isolate;
+    }
+
+    .module-evento-editorial-mapas::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.66),
+          rgba(0, 0, 0, 0.34),
+          rgba(0, 0, 0, 0.62)
+        ),
+        var(--overlay-color);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .evento-editorial__inner {
+      width: min(1240px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 5rem);
+      box-sizing: border-box;
+      display: grid;
+      align-content: center;
+      gap: clamp(2.25rem, 5vw, 4rem);
+    }
+
+    .evento-editorial__header {
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
+      color: #ffffff;
+    }
+
+    .evento-editorial__title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .evento-editorial__subtitle {
+      margin: clamp(0.75rem, 1.5vw, 1rem) 0 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+      font-style: italic;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    .evento-editorial__date {
+      display: block;
+      margin: clamp(0.75rem, 1.5vw, 1rem) auto 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.78rem, 1.15vw, 0.95rem);
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .evento-editorial__ornament {
+      width: min(140px, 42%);
+      height: 30px;
+      margin: clamp(1rem, 2vw, 1.4rem) auto 0;
+      position: relative;
+      color: var(--accent-color);
+    }
+
+    .evento-editorial__ornament::before,
+    .evento-editorial__ornament::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      width: 46%;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.7;
+    }
+
+    .evento-editorial__ornament::before {
+      left: 0;
+    }
+
+    .evento-editorial__ornament::after {
+      right: 0;
+    }
+
+    .evento-editorial__ornament span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 14px;
+      height: 14px;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .evento-editorial__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(280px, 1fr));
+      gap: clamp(1.5rem, 3vw, 2.5rem);
+      width: min(980px, 100%);
+      margin: 0 auto;
+    }
+
+    .evento-editorial__card {
+      display: grid;
+      grid-template-rows: auto auto;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: clamp(8px, 1vw, 14px);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+    }
+
+    .evento-editorial__card-body {
+      padding: clamp(1.75rem, 3vw, 2.75rem);
+      box-sizing: border-box;
+    }
+
+    .evento-editorial__card-title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+
+    .evento-editorial__divider {
+      width: 38px;
+      height: 4px;
+      margin: clamp(1rem, 2vw, 1.25rem) 0;
+      background: var(--accent-color);
+    }
+
+    .evento-editorial__description {
+      margin: 0 0 clamp(1.4rem, 2.5vw, 1.75rem);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.95rem, 1.22vw, 1.05rem);
+      line-height: 1.65;
+      color: var(--primary-color);
+    }
+
+    .evento-editorial__details {
+      display: grid;
+      gap: 1rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .evento-editorial__detail {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 1rem;
+      align-items: start;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.9rem, 1.18vw, 1rem);
+      line-height: 1.55;
+      color: var(--primary-color);
+    }
+
+    .evento-editorial__icon {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--secondary-color);
+      display: grid;
+      place-items: center;
+      color: var(--secondary-color);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    .evento-editorial__detail strong {
+      display: block;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+
+    .evento-editorial__detail span,
+    .evento-editorial__detail address {
+      display: block;
+      font-style: normal;
+      color: var(--secondary-color);
+    }
+
+    .evento-editorial__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin-top: clamp(1.5rem, 3vw, 2rem);
+    }
+
+    .evento-editorial__button,
+    .evento-editorial__link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0.75rem 1.35rem;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--primary-color);
+    }
+
+    .evento-editorial__button {
+      border: 1px solid var(--primary-color);
+      background: transparent;
+    }
+
+    .evento-editorial__link {
+      border-bottom: 1px solid var(--primary-color);
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .evento-editorial__map {
+      position: relative;
+      min-height: clamp(180px, 18vw, 240px);
+      background:
+        linear-gradient(135deg, rgba(0,0,0,0.04), rgba(0,0,0,0.12)),
+        url("https://loremflickr.com/800/420/map,city");
+      background-size: cover;
+      background-position: center;
+      border-top: 1px solid var(--surface-border-color);
+      overflow: hidden;
+    }
+
+    .evento-editorial__map::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(45deg, rgba(255,255,255,0.2), transparent),
+        rgba(255,255,255,0.18);
+      pointer-events: none;
+    }
+
+    .evento-editorial__map-label {
+      position: absolute;
+      left: 1rem;
+      bottom: 1rem;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.6rem 0.9rem;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--primary-color);
+      border: 1px solid var(--surface-border-color);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .evento-editorial__map-pin {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      box-shadow: 0 0 0 5px rgba(181, 155, 114, 0.18);
+    }
+
+    .evento-editorial__motion {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: eventoEditorialReveal 0.5s ease-out forwards;
+    }
+
+    .evento-editorial__header {
+      animation-delay: 0.04s;
+    }
+
+    .evento-editorial__card:nth-child(1) {
+      animation-delay: 0.12s;
+    }
+
+    .evento-editorial__card:nth-child(2) {
+      animation-delay: 0.18s;
+    }
+
+    @keyframes eventoEditorialReveal {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 920px) {
+      .evento-editorial__grid {
+        grid-template-columns: 1fr;
+        width: min(620px, 100%);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .module-evento-editorial-mapas {
+        min-height: 100svh;
+      }
+
+      .evento-editorial__inner {
+        min-height: 100svh;
+        padding: 2rem 1.25rem;
+      }
+
+      .evento-editorial__card-body {
+        padding: 1.5rem;
+      }
+
+      .evento-editorial__detail {
+        grid-template-columns: 38px 1fr;
+      }
+
+      .evento-editorial__actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .evento-editorial__button,
+      .evento-editorial__link {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .evento-editorial__motion {
+        animation: none;
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+
+  <div class="evento-editorial__inner">
+    <header
+      class="evento-editorial__header evento-editorial__motion"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="event-location-header"
+    >
+      <h2 id="evento-editorial-title" class="evento-editorial__title">
+        The Wedding Event
+      </h2>
+
+      <p class="evento-editorial__subtitle">
+        If you have only one smile in you give it to the people you love.
+      </p>
+
+      <time class="evento-editorial__date" datetime="2027-10-18">
+        Sunday · September 13th · 2027
+      </time>
+
+      <div class="evento-editorial__ornament" aria-hidden="true">
+        <span></span>
+      </div>
+    </header>
+
+    <div class="evento-editorial__grid">
+      <article
+        class="evento-editorial__card evento-editorial__motion"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="ceremony-card"
+      >
+        <div class="evento-editorial__card-body">
+          <h3 class="evento-editorial__card-title">
+            The Ceremony
+          </h3>
+
+          <div class="evento-editorial__divider" aria-hidden="true"></div>
+
+          <p class="evento-editorial__description">
+            Join us as we exchange vows surrounded by family, friends, and the
+            people who mean the most to us.
+          </p>
+
+          <ul class="evento-editorial__details">
+            <li class="evento-editorial__detail">
+              <span class="evento-editorial__icon" aria-hidden="true">
+                D
+              </span>
+
+              <div>
+                <strong>Date & Time</strong>
+                <span>
+                  <time datetime="2027-09-13T09:00">09:00am</time>
+                  -
+                  <time datetime="2027-09-13T10:00">10:00am</time>
+                </span>
+              </div>
+            </li>
+
+            <li class="evento-editorial__detail">
+              <span class="evento-editorial__icon" aria-hidden="true">
+                L
+              </span>
+
+              <div>
+                <strong>Location</strong>
+                <address>
+                  St. Patrick's Catholic Church<br />
+                  619 10th Street NW, Washington, DC
+                </address>
+              </div>
+            </li>
+          </ul>
+
+          <nav class="evento-editorial__actions" aria-label="Ceremony location actions">
+            <a
+              class="evento-editorial__button"
+              href="#ceremony-directions"
+              memory_type="text"
+              memory_usage="custom"
+              memory_key="ceremony-directions-button"
+            >
+              How to Get There
+            </a>
+
+            <a
+              class="evento-editorial__link"
+              href="#ceremony-map"
+              memory_type="text"
+              memory_usage="custom"
+              memory_key="ceremony-map-link"
+            >
+              View Map
+            </a>
+          </nav>
+        </div>
+
+        <div
+          id="ceremony-map"
+          class="evento-editorial__map"
+          memory_type="background"
+          memory_usage="custom"
+          memory_source="library"
+          path="placeholder"
+          data-library-category="bodas"
+          data-asset-type="mapa-ceremonia"
+          aria-label="Integrated ceremony map placeholder"
+        >
+          <span class="evento-editorial__map-label">
+            <span class="evento-editorial__map-pin" aria-hidden="true"></span>
+            Ceremony Map
+          </span>
+        </div>
+      </article>
+
+      <article
+        class="evento-editorial__card evento-editorial__motion"
+        memory_type="text"
+        memory_usage="custom"
+        memory_key="reception-card"
+      >
+        <div class="evento-editorial__card-body">
+          <h3 class="evento-editorial__card-title">
+            The Reception
+          </h3>
+
+          <div class="evento-editorial__divider" aria-hidden="true"></div>
+
+          <p class="evento-editorial__description">
+            After the ceremony, celebrate with us over dinner, music, heartfelt
+            moments, and dancing.
+          </p>
+
+          <ul class="evento-editorial__details">
+            <li class="evento-editorial__detail">
+              <span class="evento-editorial__icon" aria-hidden="true">
+                D
+              </span>
+
+              <div>
+                <strong>Date & Time</strong>
+                <span>
+                  <time datetime="2027-09-13T18:00">06:00pm</time>
+                  -
+                  <time datetime="2027-09-13T22:00">10:00pm</time>
+                </span>
+              </div>
+            </li>
+
+            <li class="evento-editorial__detail">
+              <span class="evento-editorial__icon" aria-hidden="true">
+                L
+              </span>
+
+              <div>
+                <strong>Location</strong>
+                <address>
+                  The Mayflower Hotel<br />
+                  620 11th Street NW, Washington, DC
+                </address>
+              </div>
+            </li>
+          </ul>
+
+          <nav class="evento-editorial__actions" aria-label="Reception location actions">
+            <a
+              class="evento-editorial__button"
+              href="#reception-directions"
+              memory_type="text"
+              memory_usage="custom"
+              memory_key="reception-directions-button"
+            >
+              How to Get There
+            </a>
+
+            <a
+              class="evento-editorial__link"
+              href="#reception-map"
+              memory_type="text"
+              memory_usage="custom"
+              memory_key="reception-map-link"
+            >
+              View Map
+            </a>
+          </nav>
+        </div>
+
+        <div
+          id="reception-map"
+          class="evento-editorial__map"
+          memory_type="background"
+          memory_usage="custom"
+          memory_source="library"
+          path="placeholder"
+          data-library-category="bodas"
+          data-asset-type="mapa-recepcion"
+          aria-label="Integrated reception map placeholder"
+        >
+          <span class="evento-editorial__map-label">
+            <span class="evento-editorial__map-pin" aria-hidden="true"></span>
+            Reception Map
+          </span>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <script>
+    const moduleMetadata = {
+      tags: [
+        "ubicacion",
+        "ceremonia",
+        "recepcion",
+        "mapa integrado",
+        "evento",
+        "boda",
+        "foto de fondo",
+        "overlay oscuro",
+        "tarjetas",
+        "moderno",
+        "editorial",
+        "responsive"
+      ],
+      descripcion:
+        "Wireframe de ubicaciones para boda con foto de fondo, fecha bajo el subtítulo, dos tarjetas de evento y mapas integrados para ceremonia y recepción."
+    };
+
+    (function () {
+      const module = document.querySelector('[data-gemini-id="ubicacion-ceremonia"]');
+
+      if (!module) return;
+
+      const cards = module.querySelectorAll(".evento-editorial__card");
+
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (prefersReducedMotion) return;
+
+      module.addEventListener("pointermove", function (event) {
+        const rect = module.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+        cards.forEach(function (card, index) {
+          const depth = (index + 1) * 4;
+          card.style.transform =
+            "translate(" + x * depth + "px, " + y * depth + "px)";
+        });
+      });
+
+      module.addEventListener("pointerleave", function () {
+        cards.forEach(function (card) {
+          card.style.transform = "translate(0, 0)";
+        });
+      });
+    })();
+  </script>
+</section>

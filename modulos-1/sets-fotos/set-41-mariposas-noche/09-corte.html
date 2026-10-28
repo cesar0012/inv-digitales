@@ -1,0 +1,179 @@
+<section
+  class="jmco"
+  data-gemini-id="corte-mariposas"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Parisienne&family=Quicksand:wght@400;500;600;700&display=swap');
+
+    .jmco, .jmco *, .jmco *::before, .jmco *::after { box-sizing: border-box; }
+
+    .jmco {
+      --t-bg: var(--bg-color, #FFF4F8);
+      --t-tx: var(--text-color, #4B1D40);
+      --t-p: var(--primary-color, #D6237A);
+      --t-s: var(--secondary-color, #B79BE4);
+      --t-a: var(--accent-color, #F6BCD3);
+      --t-w: var(--surface-color, #FFFFFF);
+      --t-leaf: var(--leaf-color, #A7C3A1);
+      --t-ink: color-mix(in srgb, var(--t-tx) 78%, #12040e);
+      --t-display: var(--font-script, 'Parisienne', cursive);
+      --t-text: var(--font-heading, 'Quicksand', 'Trebuchet MS', sans-serif);
+      position: relative; isolation: isolate; min-height: clamp(30rem, 64vw, 46rem);
+      display: grid; place-items: center; padding: clamp(4.5rem, 8vw, 6.5rem) clamp(1rem, 5vw, 4rem); overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: linear-gradient(120deg, color-mix(in srgb, var(--t-s) 26%, transparent), transparent 40%, color-mix(in srgb, var(--t-a) 40%, transparent));
+      color: var(--t-tx); font-family: var(--t-text);
+    }
+    .jmco__wrap { width: min(100%, 64rem); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(1.8rem, 5vw, 4rem); align-items: center; }
+    .jmco__stage { position: relative; width: 100%; max-width: 28rem; justify-self: center; border-radius: 1.6rem; padding: 10px; background: var(--t-w);
+      box-shadow: 0 1.4rem 2.8rem color-mix(in srgb, var(--t-ink) 18%, transparent); }
+    .jmco__clip { position: relative; border-radius: 1.1rem; overflow: hidden; }
+    .jmco__fig { margin: 0; background: linear-gradient(160deg, var(--t-a), var(--t-s)); }
+    .jmco__fig img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; color: transparent; }
+    .jmco__curtain { position: absolute; top: 0; bottom: 0; width: 50%; pointer-events: none; transition: transform .5s cubic-bezier(.6, 0, .25, 1); }
+    .jmco__curtain--l { left: 0; transform: translateX(-86%); }
+    .jmco__curtain--r { right: 0; transform: scaleX(-1) translateX(-86%); }
+    .jmco__net { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .94; }
+    .jmco__edge { position: absolute; top: 0; left: 100%; width: 48px; height: 100%; }
+    .jmco__tie { position: absolute; left: 0; top: 58%; width: 100%; height: .7rem; background: linear-gradient(90deg, color-mix(in srgb, var(--t-p) 80%, #3a0620), var(--t-p)); box-shadow: 0 .2rem .4rem color-mix(in srgb, var(--t-ink) 25%, transparent); }
+    .jmco__curtain .jmco-bf { --bw: 3.8rem; right: -1.5rem; top: calc(58% - 2.3rem); z-index: 3; }
+    .jmco[data-js] .jmco__stage:not([data-open]) .jmco__curtain--l { transform: none; }
+    .jmco[data-js] .jmco__stage:not([data-open]) .jmco__curtain--r { transform: scaleX(-1); }
+    .jmco__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.3rem, 5.5vw, 3.5rem); color: var(--t-p); line-height: 1.15; }
+    .jmco__intro { margin: .5rem 0 0; line-height: 1.65; max-width: 32rem; }
+    .jmco__lists { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); gap: 1.2rem; margin-top: 1.4rem; }
+    .jmco__group { padding: 1rem 1.2rem; border-radius: 1.2rem; background: color-mix(in srgb, var(--t-w) 82%, transparent); box-shadow: 0 .5rem 1.2rem color-mix(in srgb, var(--t-ink) 8%, transparent); }
+    .jmco__gh { margin: 0 0 .5rem; font-size: 1.1rem; font-weight: 700; color: var(--t-p); }
+    .jmco__ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .35rem; }
+    .jmco__ul li { position: relative; padding-left: 1.4rem; }
+    .jmco__ul li::before { content: ''; position: absolute; left: 0; top: .45em; width: .75rem; height: .55rem; background: radial-gradient(circle at 25% 50%, var(--t-p) 0 38%, transparent 40%), radial-gradient(circle at 75% 50%, var(--t-s) 0 38%, transparent 40%); }
+    .jmco__honor { margin: 1.2rem 0 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .7rem; }
+    .jmco__honor span { font-weight: 600; }
+    .jmco__honor strong { font-family: var(--t-display); font-weight: 400; font-size: 1.8rem; color: var(--t-p); }
+    @media (max-width: 760px) { .jmco__wrap { grid-template-columns: 1fr; } }
+    .jmco--anim .jmco__group { transition: transform .45s cubic-bezier(.2, .8, .2, 1) calc(var(--i) * .15s + .5s); }
+    .jmco--anim:not(.is-in) .jmco__group { transform: translateX(2rem) rotate(2deg); }
+
+    .jmco-bf { position: absolute; width: var(--bw, 6rem); aspect-ratio: 10 / 7; perspective: 34em; pointer-events: none; z-index: 2; }
+    .jmco-bf__in { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateZ(var(--rz, 0deg)) rotateX(var(--rx, 38deg)) rotateY(var(--ry, 0deg)); }
+    .jmco-bf__w { position: absolute; top: 0; width: 50%; height: 100%; }
+    .jmco-bf__w--l { left: 0; transform-origin: 100% 50%; transform: rotateY(calc(var(--f, 24) * 1deg)); }
+    .jmco-bf__w--r { right: 0; transform-origin: 0% 50%; transform: rotateY(calc(var(--f, 24) * -1deg)); }
+    .jmco-bf__w svg { display: block; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 .3em .35em color-mix(in srgb, var(--t-ink) 28%, transparent)); }
+    .jmco-bf__body { position: absolute; left: 50%; top: 28%; width: 5%; height: 48%; margin-left: -2.5%; border-radius: 999px; background: linear-gradient(90deg, #26091f, #7a4a6c 48%, #26091f); transform: translateZ(2px); }
+    .jmco-bf__body::before { content: ''; position: absolute; left: 50%; top: -18%; width: 170%; aspect-ratio: 1; margin-left: -85%; border-radius: 50%; background: #2c0d24; }
+    .jmco-bf__body::after { content: ''; position: absolute; left: 50%; bottom: 112%; width: 560%; height: 40%; margin-left: -280%; background: linear-gradient(to top right, transparent calc(50% - .8px), #2c0d24 calc(50% - .8px), #2c0d24 calc(50% + .8px), transparent calc(50% + .8px)) left / 50% 100% no-repeat, linear-gradient(to top left, transparent calc(50% - .8px), #2c0d24 calc(50% - .8px), #2c0d24 calc(50% + .8px), transparent calc(50% + .8px)) right / 50% 100% no-repeat; }
+    .jmco-sh { fill: color-mix(in srgb, var(--t-ink) 38%, transparent); }
+    .jmco-fm { fill: url(#jmco-gm); }
+    .jmco-fb { fill: url(#jmco-gb); }
+    .jmco-vein { fill: none; stroke: var(--t-ink); stroke-width: 1.3; stroke-linecap: round; opacity: .85; }
+    .jmco-vein--b { opacity: .28; stroke-width: 1; }
+    .jmco-edge { fill: none; stroke: var(--t-ink); stroke-width: 9; stroke-linejoin: round; }
+    .jmco-edge--b { stroke-width: 6; }
+    .jmco-dot { fill: var(--t-w); }
+    .jmco-sheen { fill: url(#jmco-gsh); opacity: var(--s, .35); }
+    .jmco-hl { fill: none; stroke: #fff; stroke-width: 1.4; stroke-linecap: round; opacity: .75; }
+    .jmco-lace { position: absolute; left: 0; width: 100%; height: 48px; pointer-events: none; z-index: 4; filter: drop-shadow(0 2px 2px color-mix(in srgb, var(--t-ink) 16%, transparent)); }
+    .jmco-lace--top { top: 0; }
+    .jmco-lace--bot { bottom: 0; transform: scaleY(-1); }
+    .jmco-lace-b { fill: var(--t-w); }
+    .jmco-lace-f { fill: color-mix(in srgb, var(--t-p) 50%, var(--t-a)); }
+    .jmco-lace-t { fill: none; stroke: color-mix(in srgb, var(--t-p) 40%, var(--t-a)); stroke-width: .8; stroke-dasharray: 1.6 2; }
+    @media (prefers-reduced-motion: reduce) {
+      .jmco *, .jmco *::before, .jmco *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <svg class="jmco-defs" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><defs><linearGradient id="jmco-gm" x1="1" y1=".4" x2="0" y2=".6"><stop offset="0" style="stop-color: color-mix(in srgb, var(--t-p) 78%, #2b0a1f)"/><stop offset="0.35" style="stop-color: var(--t-p)"/><stop offset="0.75" style="stop-color: color-mix(in srgb, var(--t-p) 45%, var(--t-a))"/><stop offset="1" style="stop-color: var(--t-a)"/></linearGradient><radialGradient id="jmco-gb" cx=".9" cy=".45" r=".95"><stop offset="0" style="stop-color: color-mix(in srgb, var(--t-s) 35%, white)"/><stop offset="0.45" style="stop-color: var(--t-s)"/><stop offset="0.85" style="stop-color: color-mix(in srgb, var(--t-s) 62%, #2a1660)"/><stop offset="1" style="stop-color: color-mix(in srgb, var(--t-s) 40%, #160b33)"/></radialGradient><linearGradient id="jmco-gsh" x1="0" y1="0" x2=".7" y2="1"><stop offset="0" style="stop-color: #fff; stop-opacity: 0.85"/><stop offset="0.45" style="stop-color: #fff; stop-opacity: 0.08"/><stop offset="1" style="stop-color: #fff; stop-opacity: 0"/></linearGradient><g id="jmco-wm"><path class="jmco-sh" d="M100 66 C84 70 58 76 44 92 C34 106 40 126 58 130 C76 132 92 116 100 96 Z" transform="translate(2.5 3.5)"/><path class="jmco-sh" d="M100 52 C86 30 60 8 18 6 C8 6 2 14 6 24 C14 46 30 62 52 70 C70 74 88 68 100 62 Z" transform="translate(2.5 3.5)"/><path class="jmco-fm" d="M100 66 C84 70 58 76 44 92 C34 106 40 126 58 130 C76 132 92 116 100 96 Z"/><path class="jmco-fm" d="M100 52 C86 30 60 8 18 6 C8 6 2 14 6 24 C14 46 30 62 52 70 C70 74 88 68 100 62 Z"/><path class="jmco-vein" d="M98 56 Q62 28 22 11 M98 57 Q56 36 12 22 M98 58 Q62 46 26 48 M98 60 Q74 66 50 68 M66 34 Q58 46 50 58 M98 70 Q72 78 50 96 M98 72 Q74 96 58 124 M98 74 Q90 100 80 124 M98 71 Q62 88 44 110"/><path class="jmco-edge" d="M100 66 C84 70 58 76 44 92 C34 106 40 126 58 130 C76 132 92 116 100 96 Z"/><path class="jmco-edge" d="M100 52 C86 30 60 8 18 6 C8 6 2 14 6 24 C14 46 30 62 52 70 C70 74 88 68 100 62 Z"/><path class="jmco-dot" d="M59.32 18.16a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM50.04 13.97a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM39.61 10.54a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM28.03 8.13a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM14.63 7.38a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM9.03 9.95a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM5.77 14.66a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM5.40 20.94a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM9.52 31.50a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM13.58 38.68a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM18.29 45.23a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM23.62 51.11a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM29.52 56.32a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM35.95 60.87a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM55.09 18.09a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM45.97 14.14a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM35.46 10.96a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM23.63 8.87a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM13.61 9.62a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM9.23 13.14a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM7.44 18.51a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM8.82 25.15a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM13.90 35.41a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM18.30 41.93a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM23.27 47.75a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM28.73 52.86a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM34.60 57.29a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM40.83 61.14a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM63.09 79.27a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM55.44 83.58a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM48.45 88.68a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM42.01 96.58a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM39.73 105.32a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM40.86 113.99a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM45.23 121.55a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM52.66 126.93a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM62.11 128.53a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM70.98 126.28a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM79.07 121.36a1.05 1.05 0 1 0 2.1 0a1.05 1.05 0 1 0 -2.1 0ZM60.35 83.29a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM53.74 87.44a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM47.61 92.39a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM42.89 100.82a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM42.21 109.02a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM44.69 116.73a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM50.19 122.89a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM58.47 126.49a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM67.00 125.67a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM74.81 122.13a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM81.75 116.51a0.7 0.7 0 1 0 1.4 0a0.7 0.7 0 1 0 -1.4 0ZM27.70 17.00a2.3 2.3 0 1 0 4.6 0a2.3 2.3 0 1 0 -4.6 0ZM35.10 15.50a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM23.00 23.00a2 2 0 1 0 4 0a2 2 0 1 0 -4 0ZM32.40 23.00a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0ZM41.70 20.00a1.3 1.3 0 1 0 2.6 0a1.3 1.3 0 1 0 -2.6 0Z"/><path class="jmco-sheen" d="M100 66 C84 70 58 76 44 92 C34 106 40 126 58 130 C76 132 92 116 100 96 Z"/><path class="jmco-sheen" d="M100 52 C86 30 60 8 18 6 C8 6 2 14 6 24 C14 46 30 62 52 70 C70 74 88 68 100 62 Z"/><path class="jmco-hl" d="M98 51 C86 30 60 9 19 7"/></g><g id="jmco-wb"><path class="jmco-sh" d="M100 66 C74 68 40 80 30 100 C24 116 40 134 62 132 C82 130 96 110 100 94 Z" transform="translate(2.5 3.5)"/><path class="jmco-sh" d="M100 50 C80 22 46 4 14 10 C4 12 0 26 8 36 C20 56 52 70 100 64 Z" transform="translate(2.5 3.5)"/><path class="jmco-fb" d="M100 66 C74 68 40 80 30 100 C24 116 40 134 62 132 C82 130 96 110 100 94 Z"/><path class="jmco-fb" d="M100 50 C80 22 46 4 14 10 C4 12 0 26 8 36 C20 56 52 70 100 64 Z"/><path class="jmco-vein jmco-vein--b" d="M98 55 Q60 26 18 14 M98 57 Q54 38 8 30 M98 59 Q66 54 34 52 M98 70 Q70 80 40 100 M98 72 Q70 100 52 128 M98 74 Q88 104 80 128"/><path class="jmco-edge jmco-edge--b" d="M100 66 C74 68 40 80 30 100 C24 116 40 134 62 132 C82 130 96 110 100 94 Z"/><path class="jmco-edge jmco-edge--b" d="M100 50 C80 22 46 4 14 10 C4 12 0 26 8 36 C20 56 52 70 100 64 Z"/><path class="jmco-dot" d="M46.11 12.75a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM34.65 10.30a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM22.93 9.75a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM9.77 12.52a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM4.58 20.40a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM5.36 30.91a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM10.88 39.63a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM17.20 46.26a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM25.27 52.04a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM34.96 56.79a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM44.77 84.94a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM34.06 94.51a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM29.14 105.93a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM31.99 117.21a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM40.71 126.16a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM53.77 130.77a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM68.36 129.25a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0ZM80.31 122.31a0.8 0.8 0 1 0 1.6 0a0.8 0.8 0 1 0 -1.6 0Z"/><path class="jmco-sheen" d="M100 66 C74 68 40 80 30 100 C24 116 40 134 62 132 C82 130 96 110 100 94 Z"/><path class="jmco-sheen" d="M100 50 C80 22 46 4 14 10 C4 12 0 26 8 36 C20 56 52 70 100 64 Z"/><path class="jmco-hl" d="M98 49 C80 22 46 5 15 11"/></g><pattern id="jmco-lp" width="48" height="48" patternUnits="userSpaceOnUse"><path class="jmco-lace-b" fill-rule="evenodd" d="M0 0H48V14A24 24 0 0 1 0 14ZM19.00 22.00a5 5 0 1 0 10 0a5 5 0 1 0 -10 0ZM7.80 19.00a2.2 2.2 0 1 0 4.4 0a2.2 2.2 0 1 0 -4.4 0ZM35.80 19.00a2.2 2.2 0 1 0 4.4 0a2.2 2.2 0 1 0 -4.4 0ZM22.00 32.50a2 2 0 1 0 4 0a2 2 0 1 0 -4 0ZM-1.60 4.00a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0ZM46.40 4.00a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0 -3.2 0Z"/><path class="jmco-lace-b" d="M45.97 19.95a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM42.00 28.46a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM35.14 34.86a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM26.37 38.23a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM17.83 38.23a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM9.06 34.86a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM2.20 28.46a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0ZM-1.77 19.95a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0Z"/><path class="jmco-lace-f" d="M22.30 4.40a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0ZM24.77 6.20a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0ZM23.83 9.10a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0ZM20.77 9.10a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0ZM19.83 6.20a1.7 1.7 0 1 0 3.4 0a1.7 1.7 0 1 0 -3.4 0ZM11.10 8.00a0.9 0.9 0 1 0 1.8 0a0.9 0.9 0 1 0 -1.8 0ZM35.10 8.00a0.9 0.9 0 1 0 1.8 0a0.9 0.9 0 1 0 -1.8 0Z"/><path class="jmco-lace-t" d="M4 14 A20 20 0 0 0 44 14"/><path class="jmco-lace-t" d="M0 1.5H48"/></pattern><pattern id="jmco-cp" width="28" height="28" patternUnits="userSpaceOnUse"><path class="jmco-lace-b" fill-rule="evenodd" d="M0 0H28V28H0ZM9.80 14.00a4.2 4.2 0 1 0 8.4 0a4.2 4.2 0 1 0 -8.4 0ZM-3.00 0.00a3 3 0 1 0 6 0a3 3 0 1 0 -6 0ZM25.00 0.00a3 3 0 1 0 6 0a3 3 0 1 0 -6 0ZM-3.00 28.00a3 3 0 1 0 6 0a3 3 0 1 0 -6 0ZM25.00 28.00a3 3 0 1 0 6 0a3 3 0 1 0 -6 0ZM12.60 0.00a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0 -2.8 0ZM-1.40 14.00a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0 -2.8 0ZM26.60 14.00a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0 -2.8 0ZM12.60 28.00a1.4 1.4 0 1 0 2.8 0a1.4 1.4 0 1 0 -2.8 0Z"/><path class="jmco-lace-f" d="M20.10 14.00a1.5 1.5 0 1 0 3.0 0a1.5 1.5 0 1 0 -3.0 0ZM16.30 20.58a1.5 1.5 0 1 0 3.0 0a1.5 1.5 0 1 0 -3.0 0ZM8.70 20.58a1.5 1.5 0 1 0 3.0 0a1.5 1.5 0 1 0 -3.0 0ZM4.90 14.00a1.5 1.5 0 1 0 3.0 0a1.5 1.5 0 1 0 -3.0 0ZM8.70 7.42a1.5 1.5 0 1 0 3.0 0a1.5 1.5 0 1 0 -3.0 0ZM16.30 7.42a1.5 1.5 0 1 0 3.0 0a1.5 1.5 0 1 0 -3.0 0Z"/></pattern><pattern id="jmco-lpv" href="#jmco-lp" patternTransform="rotate(-90)"/></defs></svg>
+  <div class="jmco__wrap">
+    <div class="jmco__stage" data-stage>
+      <div class="jmco__clip">
+        <figure class="jmco__fig" memory_type="image" memory_usage="custom" memory_source="library"><img src="https://loremflickr.com/900/1100/quinceanera,dress?lock=3309" alt="Corte de honor de la quinceañera" path="placeholder" data-library-category="corte" data-asset-type="grupo" loading="lazy" /></figure>
+        <div class="jmco__curtain jmco__curtain--l" aria-hidden="true"><svg class="jmco__net" focusable="false"><rect width="100%" height="100%" fill="url(#jmco-cp)"/></svg><svg class="jmco__edge" focusable="false"><rect width="100%" height="100%" fill="url(#jmco-lpv)"/></svg><span class="jmco__tie"></span><div class="jmco-bf " data-bf="m" data-sp="0.5" data-base="32" data-amp="30" style="--rx:30deg;--rz:-10deg" aria-hidden="true"><div class="jmco-bf__in"><div class="jmco-bf__w jmco-bf__w--l"><svg viewBox="0 0 100 140" focusable="false"><use href="#jmco-wm"/></svg></div><div class="jmco-bf__w jmco-bf__w--r"><svg viewBox="0 0 100 140" focusable="false"><g transform="matrix(-1 0 0 1 100 0)"><use href="#jmco-wm"/></g></svg></div><span class="jmco-bf__body"></span></div></div></div>
+        <div class="jmco__curtain jmco__curtain--r" aria-hidden="true"><svg class="jmco__net" focusable="false"><rect width="100%" height="100%" fill="url(#jmco-cp)"/></svg><svg class="jmco__edge" focusable="false"><rect width="100%" height="100%" fill="url(#jmco-lpv)"/></svg><span class="jmco__tie"></span><div class="jmco-bf " data-bf="b" data-sp="0.5" data-base="32" data-amp="30" style="--rx:30deg;--rz:-10deg" aria-hidden="true"><div class="jmco-bf__in"><div class="jmco-bf__w jmco-bf__w--l"><svg viewBox="0 0 100 140" focusable="false"><use href="#jmco-wb"/></svg></div><div class="jmco-bf__w jmco-bf__w--r"><svg viewBox="0 0 100 140" focusable="false"><g transform="matrix(-1 0 0 1 100 0)"><use href="#jmco-wb"/></g></svg></div><span class="jmco-bf__body"></span></div></div></div>
+      </div>
+    </div>
+    <div>
+      <h2 class="jmco__title" memory_type="text" memory_usage="custom" memory_key="corte-titulo">Mi corte de honor</h2>
+      <p class="jmco__intro" memory_type="text" memory_usage="custom" memory_key="corte-texto">Mis amigas y amigos más queridos me acompañarán en el vals, como mariposas que vuelan juntas en primavera.</p>
+      <div class="jmco__lists">
+        <div class="jmco__group" style="--i:0">
+          <h3 class="jmco__gh" memory_type="text" memory_usage="custom" memory_key="corte-damas">Damas</h3>
+          <ul class="jmco__ul">
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-1" data-event-field="corte-nombre-1">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-2" data-event-field="corte-nombre-2">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-3" data-event-field="corte-nombre-3">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-4" data-event-field="corte-nombre-4">Nombre Apellido</li>
+          </ul>
+        </div>
+        <div class="jmco__group" style="--i:1">
+          <h3 class="jmco__gh" memory_type="text" memory_usage="custom" memory_key="corte-chambelanes">Chambelanes</h3>
+          <ul class="jmco__ul">
+            <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-1" data-event-field="corte-nombre-1">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-2" data-event-field="corte-nombre-2">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-3" data-event-field="corte-nombre-3">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-4" data-event-field="corte-nombre-4">Nombre Apellido</li>
+          </ul>
+        </div>
+      </div>
+      <p class="jmco__honor"><span memory_type="text" memory_usage="custom" memory_key="corte-honor-rol">Chambelán de honor</span><strong memory_type="text" memory_usage="custom" memory_key="corte-honor-nombre">Nombre Apellido</strong></p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="corte-mariposas"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var IO = 'IntersectionObserver' in window;
+      var bfs = [].slice.call(root.querySelectorAll('[data-bf]'));
+      /* Wing flap: data-* driven, writes only CSS custom properties */
+      function flap(t) {
+        for (var i = 0; i < bfs.length; i++) {
+          var b = bfs[i], sp = +(b.getAttribute('data-sp') || 1), base = +(b.getAttribute('data-base') || 24), amp = +(b.getAttribute('data-amp') || 40);
+          var ph = t * 0.006 * sp + i * 1.9;
+          b.style.setProperty('--f', (base + amp * Math.sin(ph)).toFixed(1));
+          b.style.setProperty('--s', (0.2 + 0.55 * Math.abs(Math.cos(ph))).toFixed(2));
+        }
+      }
+      /* Continuous motion: one rAF loop, paused off-screen and on hidden tabs */
+      function loop(fn) {
+        if (!IO) return;
+        var vis = false, raf = 0;
+        function tick(t) { raf = 0; if (!vis || document.hidden) return; fn(t); raf = requestAnimationFrame(tick); }
+        function go() { if (!raf && vis && !document.hidden) raf = requestAnimationFrame(tick); }
+        new IntersectionObserver(function (en) { vis = en[0].isIntersecting; go(); }).observe(root);
+        document.addEventListener('visibilitychange', go);
+      }
+      var stage = root.querySelector('[data-stage]');
+      if (RM || !IO || !stage) return;   /* reduced motion = static final state (curtains parted) */
+      root.setAttribute('data-js', '');
+      root.classList.add('jmco--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .35) {
+          io.disconnect(); root.classList.add('is-in');
+          setTimeout(function () { stage.setAttribute('data-open', ''); }, 250);
+          setTimeout(function () { root.classList.remove('jmco--anim', 'is-in'); }, 1400);
+        }
+      }, { threshold: [0, .35, .6] });
+      io.observe(stage);
+      loop(flap);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-mariposas',
+      style_name: 'Jardín de Mariposas',
+      descripcion: 'Corte de honor: foto destacada tras cortinas de encaje floral que se abren al entrar en pantalla, con mariposas en los lazos y listas de damas y chambelanes.',
+      tags: ['corte', 'damas', 'chambelanes', 'quinceañera', 'encaje', 'mariposas'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

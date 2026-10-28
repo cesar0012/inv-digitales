@@ -1,0 +1,208 @@
+<section
+  class="ch35-it"
+  data-gemini-id="itinerario-agenda"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
+    .ch35-it, .ch35-it *, .ch35-it *::before, .ch35-it *::after { box-sizing: border-box; }
+    .ch35-it {
+      --t-bg: var(--bg-color, #0F2A1D);
+      --t-tx: var(--text-color, #F6F1E7);
+      --t-p: var(--primary-color, #B3122E);
+      --t-s: var(--secondary-color, #C3C8CE);
+      --t-a: var(--accent-color, #C9A44C);
+      --t-display: var(--font-script, 'Cinzel Decorative', serif);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 44rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/red,roses,mexico?lock=3541');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .ch35-it::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 90%, transparent), color-mix(in srgb, var(--t-bg) 96%, transparent));
+    }
+    .ch35-it__content { width: min(100%, 58rem); }
+    .ch35-it__title { margin: 0; font-family: var(--t-display); font-weight: 700; font-size: clamp(2rem, 4.6vw, 3.2rem); line-height: 1.08; }
+    .ch35-it__sub { margin: .6rem auto clamp(2.4rem, 6vw, 3.6rem); max-width: 30rem; font-style: italic; font-size: 1.2rem; color: var(--t-a); }
+
+    .ch35-it__list { position: relative; list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(1.6rem, 4vw, 2.6rem); }
+    /* Galón: silver stitched track with a gold braid that fills on scroll */
+    .ch35-it__track { position: absolute; top: 0; bottom: 0; left: 50%; width: 8px; margin-left: -4px; background: radial-gradient(circle, color-mix(in srgb, var(--t-s) 70%, transparent) 0 1.4px, transparent 2px) center / 8px 9px repeat-y; }
+    .ch35-it__fill {
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(135deg, var(--t-a) 0 3px, color-mix(in srgb, var(--t-a) 55%, #000) 3px 5px),
+        var(--t-a);
+      border-radius: 4px;
+      transform-origin: top;
+      transform: scaleY(var(--it-p, 1));
+      box-shadow: 0 0 10px color-mix(in srgb, var(--t-a) 50%, transparent);
+    }
+    .ch35-it__item { position: relative; display: grid; grid-template-columns: 1fr 3.4rem 1fr; align-items: center; }
+    .ch35-it__concho {
+      grid-column: 2;
+      justify-self: center;
+      width: 2.6rem;
+      height: 2.6rem;
+      border-radius: 50%;
+      border: 2px solid var(--t-a);
+      background: radial-gradient(circle at 38% 32%, #fff 0 8%, var(--t-s) 22% 55%, color-mix(in srgb, var(--t-s) 40%, #000) 78%);
+      box-shadow: 0 0 0 4px var(--t-bg);
+      filter: saturate(.3) brightness(.65);
+      transition: filter .4s ease, box-shadow .4s ease, transform .4s ease;
+    }
+    .ch35-it__item[data-on] .ch35-it__concho { filter: none; transform: scale(1.12); box-shadow: 0 0 0 4px var(--t-bg), 0 0 0 7px color-mix(in srgb, var(--t-p) 70%, transparent), 0 0 22px color-mix(in srgb, var(--t-a) 60%, transparent); }
+    .ch35-it__card { grid-row: 1; padding: 1rem 1.4rem; text-align: right; }
+    .ch35-it__item:nth-child(odd) .ch35-it__card { grid-column: 1; }
+    .ch35-it__item:nth-child(even) .ch35-it__card { grid-column: 3; text-align: left; }
+    .ch35-it__time { display: block; font-family: var(--t-display); font-size: clamp(1.25rem, 2.4vw, 1.6rem); color: var(--t-a); }
+    .ch35-it__name { margin: .15rem 0 .2rem; font-size: clamp(1.35rem, 2.6vw, 1.7rem); font-weight: 600; line-height: 1.2; }
+    .ch35-it__desc { margin: 0; font-size: 1.08rem; line-height: 1.45; color: color-mix(in srgb, var(--t-tx) 76%, var(--t-bg)); }
+
+    .ch35-it--anim .ch35-it__card { opacity: .25; transition: opacity .45s ease, transform .45s ease; }
+    .ch35-it--anim .ch35-it__item:nth-child(odd) .ch35-it__card { transform: translateX(-12px); }
+    .ch35-it--anim .ch35-it__item:nth-child(even) .ch35-it__card { transform: translateX(12px); }
+    .ch35-it--anim .ch35-it__item[data-on] .ch35-it__card { opacity: 1; transform: none; }
+
+    @media (max-width: 680px) {
+      .ch35-it__track { left: 1.3rem; }
+      .ch35-it__item { grid-template-columns: 2.6rem 1fr; gap: .8rem; }
+      .ch35-it__concho { grid-column: 1; }
+      .ch35-it__item:nth-child(odd) .ch35-it__card, .ch35-it__item:nth-child(even) .ch35-it__card { grid-column: 2; text-align: left; padding: .6rem .2rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ch35-it *, .ch35-it *::before, .ch35-it *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="ch35-it__content">
+    <h2 class="ch35-it__title" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Programa de la Noche</h2>
+    <p class="ch35-it__sub" memory_type="text" memory_usage="custom" memory_key="itinerario-sub">Cada momento, bordado con tradición</p>
+
+    <ol class="ch35-it__list" data-ch-list>
+      <li class="ch35-it__track" aria-hidden="true"><span class="ch35-it__fill" data-ch-fill></span></li>
+      <li class="ch35-it__item" data-ch-step>
+        <span class="ch35-it__concho" aria-hidden="true"></span>
+        <div class="ch35-it__card">
+          <time class="ch35-it__time" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1" data-event-field="itin-hora-1">5:00 p.m.</time>
+          <h3 class="ch35-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-1" data-event-field="itin-evento-1">Misa de Acción de Gracias</h3>
+          <p class="ch35-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-1">Parroquia Nombre del Templo, con mariachi en la entrada.</p>
+        </div>
+      </li>
+      <li class="ch35-it__item" data-ch-step>
+        <span class="ch35-it__concho" aria-hidden="true"></span>
+        <div class="ch35-it__card">
+          <time class="ch35-it__time" datetime="19:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2" data-event-field="itin-hora-2">7:30 p.m.</time>
+          <h3 class="ch35-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-2" data-event-field="itin-evento-2">Recepción y Coctel</h3>
+          <p class="ch35-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-2">Bienvenida en el patio de la hacienda.</p>
+        </div>
+      </li>
+      <li class="ch35-it__item" data-ch-step>
+        <span class="ch35-it__concho" aria-hidden="true"></span>
+        <div class="ch35-it__card">
+          <time class="ch35-it__time" datetime="20:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3" data-event-field="itin-hora-3">8:30 p.m.</time>
+          <h3 class="ch35-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-3" data-event-field="itin-evento-3">Entrada y Vals</h3>
+          <p class="ch35-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-3">El vals con mi papá y mi corte de honor.</p>
+        </div>
+      </li>
+      <li class="ch35-it__item" data-ch-step>
+        <span class="ch35-it__concho" aria-hidden="true"></span>
+        <div class="ch35-it__card">
+          <time class="ch35-it__time" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4" data-event-field="itin-hora-4">9:30 p.m.</time>
+          <h3 class="ch35-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-4" data-event-field="itin-evento-4">Cena Mexicana</h3>
+          <p class="ch35-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-4">Sabores de nuestra tierra para compartir en familia.</p>
+        </div>
+      </li>
+      <li class="ch35-it__item" data-ch-step>
+        <span class="ch35-it__concho" aria-hidden="true"></span>
+        <div class="ch35-it__card">
+          <time class="ch35-it__time" datetime="22:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-5" data-event-field="itin-hora-5">10:30 p.m.</time>
+          <h3 class="ch35-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-5" data-event-field="itin-evento-5">Mariachi y Baile</h3>
+          <p class="ch35-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-5">¡Que suene el mariachi y que empiece la fiesta!</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="itinerario-agenda"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var list = root.querySelector('[data-ch-list]'), fill = root.querySelector('[data-ch-fill]');
+      var steps = root.querySelectorAll('[data-ch-step]');
+      function allOn() { for (var i = 0; i < steps.length; i++) steps[i].setAttribute('data-on', ''); }
+      if (RM || !('IntersectionObserver' in window)) { allOn(); return; }
+
+      root.classList.add('ch35-it--anim');
+      var vis = false, raf = 0, cur = 0, done = false;
+      function target() {
+        var r = list.getBoundingClientRect(), vh = window.innerHeight || 800;
+        return Math.max(0, Math.min(1, (vh * 0.62 - r.top) / Math.max(1, r.height)));
+      }
+      function loop() {
+        raf = 0;
+        if (!vis || document.hidden || done) return;
+        var t = target();
+        cur += (t - cur) * 0.14;
+        list.style.setProperty('--it-p', cur.toFixed(4));
+        var lr = list.getBoundingClientRect();
+        for (var i = 0; i < steps.length; i++) {
+          var sr = steps[i].getBoundingClientRect();
+          var pos = (sr.top + sr.height / 2 - lr.top) / lr.height;
+          if (cur >= pos - 0.01) steps[i].setAttribute('data-on', ''); else steps[i].removeAttribute('data-on');
+        }
+        if (cur > 0.995) { finish(); return; }
+        raf = requestAnimationFrame(loop);
+      }
+      /* Completed (or scrolled past): leave a clean, fully visible DOM */
+      function finish() {
+        if (done) return;
+        done = true;
+        allOn();
+        list.style.removeProperty('--it-p');
+        root.classList.remove('ch35-it--anim');
+      }
+      list.style.setProperty('--it-p', '0');
+      function kick() { if (!raf && vis && !document.hidden) raf = requestAnimationFrame(loop); }
+      var io = new IntersectionObserver(function (en) { vis = en[0].isIntersecting; if (!vis && target() >= 1) finish(); kick(); }, { threshold: [0, .1] });
+      io.observe(root);
+      window.addEventListener('scroll', kick, { passive: true });
+      document.addEventListener('visibilitychange', kick);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Charra Mexicana Itinerario Galon',
+      descripcion: 'Itinerario vertical con galón de oro que se llena al hacer scroll y conchos de plata que se encienden en cada momento de la noche charra.',
+      tags: ['itinerario', 'charra', 'quinceañera', 'mexicana', 'timeline', 'galón'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>

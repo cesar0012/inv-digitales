@@ -1,0 +1,240 @@
+<section
+  class="inv-ubi"
+  data-gemini-id="ubicacion-mapa"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Jost:wght@300;400;500&display=swap');
+
+    .inv-ubi, .inv-ubi *, .inv-ubi *::before, .inv-ubi *::after { box-sizing: border-box; }
+    .inv-ubi {
+      --t-bg: var(--bg-color, #eef5fb);
+      --t-tx: var(--text-color, #163450);
+      --t-p: var(--primary-color, #8ecdee);
+      --t-s: var(--secondary-color, #3c7eae);
+      --t-a: var(--accent-color, #b9c4cf);
+      --t-display: var(--font-script, 'Bodoni Moda', 'Didot', serif);
+      --t-text: var(--font-heading, 'Jost', 'Helvetica Neue', sans-serif);
+      --glass: color-mix(in srgb, #ffffff 62%, transparent);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 56vw, 42rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/snow,forest,winter?lock=3431');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .inv-ubi::before {
+      content: ''; position: absolute; inset: 0; z-index: -1;
+      background: linear-gradient(160deg, color-mix(in srgb, var(--t-bg) 92%, transparent), color-mix(in srgb, var(--t-bg) 78%, transparent) 55%, color-mix(in srgb, var(--t-p) 40%, var(--t-bg)));
+    }
+    .inv-ubi__wrap {
+      width: min(100%, 64rem);
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+      align-items: center;
+      gap: clamp(1.5rem, 5vw, 4rem);
+    }
+
+    /* Frozen-map slab */
+    .inv-ubi__map {
+      position: relative;
+      margin: 0;
+      aspect-ratio: 5 / 4;
+      clip-path: polygon(0 6%, 6% 0, 100% 0, 100% 94%, 94% 100%, 0 100%);
+      background:
+        linear-gradient(135deg, color-mix(in srgb, #ffffff 80%, transparent), color-mix(in srgb, var(--t-p) 30%, transparent)),
+        var(--t-bg);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, #ffffff 70%, transparent);
+    }
+    .inv-ubi__map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .inv-ubi__ring { transform-box: fill-box; transform-origin: center; }
+
+    .inv-ubi__info { display: grid; gap: clamp(.7rem, 1.6vw, 1rem); justify-items: start; text-align: left; }
+    .inv-ubi__eyebrow { margin: 0; font-family: var(--t-display); font-style: italic; font-size: clamp(1.05rem, 2vw, 1.3rem); color: var(--t-s); }
+    .inv-ubi__title {
+      margin: 0;
+      padding-bottom: .08em;
+      font-family: var(--t-display);
+      font-weight: 500;
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      line-height: 1.02;
+      background-image: linear-gradient(112deg, var(--t-tx) 0 22%, var(--t-s) 22% 40%, var(--t-p) 40% 42%, var(--t-s) 42% 60%, var(--t-tx) 60% 78%, var(--t-p) 78% 81%, var(--t-tx) 81% 100%);
+      background-size: 240% 100%;
+      background-position: 30% 50%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 2px 0 #ffffff);
+    }
+    .inv-ubi__venue { margin: 0; font-size: clamp(1.15rem, 2.2vw, 1.35rem); font-weight: 500; color: var(--t-tx); }
+    .inv-ubi__address { margin: 0; font-style: normal; font-weight: 300; font-size: clamp(1rem, 1.8vw, 1.1rem); line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 85%, var(--t-s)); }
+    .inv-ubi__time {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .4rem .9rem;
+      border-left: 2px solid var(--t-p);
+      background: var(--glass);
+      font-family: var(--t-display); font-style: italic; font-size: clamp(1.05rem, 2vw, 1.2rem); color: var(--t-s);
+    }
+    .inv-ubi__btn {
+      position: relative;
+      display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
+      min-height: 3rem;
+      margin-top: .4rem;
+      padding: .75rem 1.6rem;
+      overflow: hidden;
+      border: 1px solid color-mix(in srgb, var(--t-s) 50%, transparent);
+      clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+      background: linear-gradient(135deg, var(--t-s), color-mix(in srgb, var(--t-s) 70%, var(--t-tx)));
+      color: #ffffff;
+      font: 500 1rem/1 var(--t-text);
+      text-decoration: none;
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .inv-ubi__btn::after {
+      content: ''; position: absolute; top: 0; bottom: 0; left: -40%; width: 30%;
+      background: linear-gradient(100deg, transparent, color-mix(in srgb, #ffffff 65%, transparent), transparent);
+      transform: skewX(-18deg) translateX(0);
+      transition: transform .5s ease;
+    }
+    .inv-ubi__btn:hover, .inv-ubi__btn:focus-visible { transform: translateY(-2px); box-shadow: 0 10px 22px color-mix(in srgb, var(--t-s) 35%, transparent); }
+    .inv-ubi__btn:hover::after, .inv-ubi__btn:focus-visible::after { transform: skewX(-18deg) translateX(560%); }
+    .inv-ubi__btn:focus-visible { outline: 2px solid var(--t-p); outline-offset: 3px; }
+    .inv-ubi__btn svg { width: 1.1rem; height: 1.1rem; }
+
+    .inv-ubi--anim [data-inv-in] { opacity: 0; transform: translateX(-16px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .inv-ubi--anim [data-inv-in="map"] { transform: scale(.96); filter: blur(5px); transition: opacity .45s ease, transform .5s cubic-bezier(.2, .8, .2, 1), filter .45s ease; }
+    .inv-ubi--anim.is-in [data-inv-in] { opacity: 1; transform: none; filter: none; }
+    .inv-ubi--anim.is-in [data-inv-in="2"] { transition-delay: .12s; }
+    .inv-ubi--anim.is-in [data-inv-in="3"] { transition-delay: .24s; }
+
+    @media (max-width: 760px) {
+      .inv-ubi__wrap { grid-template-columns: 1fr; }
+      .inv-ubi__info { justify-items: center; text-align: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .inv-ubi *, .inv-ubi *::before, .inv-ubi *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="inv-ubi__wrap">
+    <figure class="inv-ubi__map" data-inv-in="map" aria-hidden="true">
+      <svg viewBox="0 0 500 400" preserveAspectRatio="xMidYMid slice" focusable="false">
+        <defs>
+          <radialGradient id="inv-ubi-lake" cx=".5" cy=".5" r=".5">
+            <stop offset="0" style="stop-color: #ffffff; stop-opacity: .9" />
+            <stop offset="1" style="stop-color: var(--t-p); stop-opacity: .55" />
+          </radialGradient>
+        </defs>
+        <!-- frozen lake + avenues etched like frost -->
+        <path d="M330 40 C410 30 470 90 455 150 C440 210 360 205 330 170 C300 135 265 60 330 40 Z" fill="url(#inv-ubi-lake)" />
+        <g fill="none" style="stroke: var(--t-s)" stroke-linecap="round">
+          <path d="M-10 250 C120 230 200 280 300 240 S460 200 520 230" stroke-width="7" opacity=".22" />
+          <path d="M150 -10 C170 120 140 260 190 410" stroke-width="5" opacity=".2" />
+          <path d="M-10 120 L240 160 L520 110" stroke-width="2" opacity=".25" />
+          <path d="M60 410 L120 260 L230 200 L300 -10" stroke-width="2" opacity=".2" />
+          <path d="M360 410 L330 290 L400 230" stroke-width="2" opacity=".2" />
+          <path d="M-10 330 L520 345" stroke-width="1.2" opacity=".2" stroke-dasharray="2 6" />
+        </g>
+        <!-- frosted pines (symbols on map) -->
+        <g style="fill: var(--t-s)" opacity=".28">
+          <path d="M60 80 l10 -26 l10 26 Z M82 96 l8 -20 l8 20 Z M420 300 l11 -28 l11 28 Z M440 320 l8 -20 l8 20 Z M40 190 l9 -22 l9 22 Z" />
+        </g>
+        <!-- pulse rings driven by rAF -->
+        <g transform="translate(240 205)">
+          <circle class="inv-ubi__ring" data-inv-ring r="22" fill="none" style="stroke: var(--t-s)" stroke-width="1.5" opacity="0" />
+          <circle class="inv-ubi__ring" data-inv-ring r="22" fill="none" style="stroke: var(--t-s)" stroke-width="1.5" opacity="0" />
+          <circle class="inv-ubi__ring" data-inv-ring r="22" fill="none" style="stroke: var(--t-p)" stroke-width="1.5" opacity="0" />
+          <!-- snowflake compass pin -->
+          <path d="M0 34 C-14 10 -26 0 -26 -20 A26 26 0 0 1 26 -20 C26 0 14 10 0 34 Z" style="fill: var(--t-s)" />
+          <g transform="translate(0 -20)" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" data-inv-pinflake>
+            <path id="inv-ubi-arm" d="M0 0 V-15 M0 -7 l-4 -4 M0 -7 l4 -4" />
+            <use href="#inv-ubi-arm" transform="rotate(60)" /><use href="#inv-ubi-arm" transform="rotate(120)" />
+            <use href="#inv-ubi-arm" transform="rotate(180)" /><use href="#inv-ubi-arm" transform="rotate(240)" />
+            <use href="#inv-ubi-arm" transform="rotate(300)" />
+          </g>
+        </g>
+      </svg>
+    </figure>
+
+    <div class="inv-ubi__info">
+      <p class="inv-ubi__eyebrow" data-inv-in="1" memory_type="text" memory_usage="custom" memory_key="ubicacion-eyebrow">El lugar del baile</p>
+      <h2 class="inv-ubi__title" data-inv-in="1" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Salón de Cristal</h2>
+<figure class="vmap-embed" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,640px);"><iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen style="display:block;width:100%;height:clamp(210px,38vw,330px);border:1px solid var(--primary-color,#9b9b9b);border-radius:12px;"></iframe></figure>
+<figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,340px);"><img src="https://loremflickr.com/700/420/winter,venue" alt="Vista del lugar" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" style="display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--primary-color,#9b9b9b);" /><figcaption hidden>Vista del lugar</figcaption></figure>
+      <p class="inv-ubi__venue" data-inv-in="2" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar" data-event-field="lugar">Nombre del Salón de Eventos</p>
+      <address class="inv-ubi__address" data-inv-in="2" memory_type="text" memory_usage="custom" memory_key="ubicacion-direccion" data-event-field="direccion">Avenida Nombre 1234, Colonia Centro<br />Ciudad, Estado, C.P. 00000</address>
+      <time class="inv-ubi__time" data-inv-in="3" datetime="2027-01-16T19:00" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora" data-event-field="hora">Recepción a las 7:00 p.m.</time>
+      <a class="inv-ubi__btn" data-inv-in="3" href="#" data-inv-map-link>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z" /><circle cx="12" cy="9.5" r="2.4" /></svg>
+        <span memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Cómo llegar</span>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="ubicacion-mapa"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var rings = root.querySelectorAll('[data-inv-ring]');
+      var flake = root.querySelector('[data-inv-pinflake]');
+      if (RM || !('IntersectionObserver' in window)) {
+        if (rings[0]) { rings[0].setAttribute('opacity', '.35'); rings[0].setAttribute('r', '40'); }
+        return;   /* reduced motion = static final state */
+      }
+
+      root.classList.add('inv-ubi--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('inv-ubi--anim', 'is-in'); }, 1200);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+
+      /* Frost-ring pulse: rAF loop, paused off-screen / hidden tab */
+      var visible = false, raf = 0, t0 = 0;
+      function loop(now) {
+        raf = 0;
+        if (!visible || document.hidden) return;
+        if (!t0) t0 = now;
+        var t = (now - t0) / 1000;
+        for (var i = 0; i < rings.length; i++) {
+          var p = ((t / 2.4) + i / rings.length) % 1;
+          rings[i].setAttribute('r', (22 + p * 90).toFixed(1));
+          rings[i].setAttribute('opacity', (Math.pow(1 - p, 1.6) * .75).toFixed(3));
+        }
+        if (flake) flake.setAttribute('transform', 'translate(0 -20) rotate(' + (t * 20 % 360).toFixed(1) + ')');
+        raf = requestAnimationFrame(loop);
+      }
+      function kick() { if (!raf && visible && !document.hidden) raf = requestAnimationFrame(loop); }
+      new IntersectionObserver(function (en) { visible = en[0].isIntersecting; kick(); }, { threshold: 0 }).observe(root);
+      document.addEventListener('visibilitychange', kick);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-mapa',
+      style_name: 'Invierno Lago Congelado',
+      descripcion: 'Ubicación con mapa de lago congelado grabado como escarcha, pin con copo de nieve giratorio y anillos de hielo que pulsan; dirección, hora y botón Cómo llegar con destello de cristal.',
+      tags: ['ubicacion', 'mapa', 'quinceanera', 'invierno', 'hielo', 'direccion'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>

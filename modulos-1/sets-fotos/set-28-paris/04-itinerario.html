@@ -1,0 +1,267 @@
+<section
+  class="np-it"
+  data-gemini-id="itinerario-agenda"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Parisienne&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .np-it, .np-it *, .np-it *::before, .np-it *::after { box-sizing: border-box; }
+    .np-it {
+      --t-bg: var(--bg-color, #0d0b10);
+      --t-tx: var(--text-color, #f8eee8);
+      --t-p: var(--primary-color, #f0c4c0);
+      --t-s: var(--secondary-color, #8a6e78);
+      --t-a: var(--accent-color, #d4af6a);
+      --t-display: var(--font-script, 'Parisienne', 'Snell Roundhand', cursive);
+      --t-text: var(--font-heading, 'Bodoni Moda', 'Didot', Georgia, serif);
+      --np-prog: 1;
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(36rem, 80vw, 56rem);
+      display: grid;
+      justify-items: center;
+      align-content: start;
+      padding: clamp(4rem, 8vw, 6.5rem) clamp(1.25rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/paris,seine,night?lock=2804');
+      background-size: cover;
+      background-position: center;
+      background-attachment: scroll;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .np-it::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 90%, transparent), color-mix(in srgb, var(--t-bg) 84%, transparent) 50%, color-mix(in srgb, var(--t-bg) 95%, transparent));
+    }
+    .np-it__head { text-align: center; margin-bottom: clamp(2.5rem, 6vw, 4rem); }
+    .np-it__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(2.8rem, 6vw, 4.4rem);
+      line-height: 1.05;
+    }
+    .np-it__sub { margin: .4rem 0 0; font-style: italic; color: var(--t-p); font-size: clamp(1rem, 1.6vw, 1.15rem); }
+
+    .np-it__list {
+      position: relative;
+      width: min(100%, 56rem);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: clamp(1.6rem, 3.5vw, 2.6rem);
+    }
+    .np-it__wire, .np-it__glow {
+      position: absolute;
+      left: 50%;
+      top: .9rem;
+      bottom: .9rem;
+      width: 1px;
+      margin-left: -.5px;
+      pointer-events: none;
+    }
+    .np-it__wire { background: color-mix(in srgb, var(--t-a) 30%, transparent); }
+    .np-it__glow {
+      width: 2px;
+      margin-left: -1px;
+      background: linear-gradient(180deg, var(--t-a), var(--t-p));
+      box-shadow: 0 0 12px color-mix(in srgb, var(--t-a) 70%, transparent);
+      transform-origin: top;
+      transform: scaleY(var(--np-prog));
+    }
+    .np-it__item {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 4.5rem minmax(0, 1fr);
+      align-items: center;
+    }
+    .np-it__bulb {
+      grid-column: 2;
+      grid-row: 1;
+      justify-self: center;
+      position: relative;
+      width: 1.15rem;
+      height: 1.15rem;
+      border-radius: 50%;
+      border: 1px solid var(--t-a);
+      background: radial-gradient(circle at 40% 35%, var(--t-tx), var(--t-a) 70%);
+      box-shadow: 0 0 0 5px color-mix(in srgb, var(--t-bg) 80%, transparent), 0 0 22px 4px color-mix(in srgb, var(--t-a) 60%, transparent);
+      transition: background-color .4s ease, box-shadow .4s ease, transform .4s cubic-bezier(.34, 1.56, .64, 1);
+    }
+    .np-it__bulb::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: -.42rem;
+      width: .42rem;
+      height: .42rem;
+      margin-left: -.21rem;
+      border-radius: 1px;
+      background: var(--t-a);
+    }
+    .np-it__time {
+      grid-row: 1;
+      margin: 0;
+      font-style: italic;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 400;
+      color: var(--t-a);
+      line-height: 1;
+      transition: opacity .4s ease, color .4s ease;
+    }
+    .np-it__body { grid-row: 1; transition: opacity .4s ease, transform .45s ease; }
+    .np-it__name {
+      margin: 0 0 .25rem;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(1.9rem, 3.2vw, 2.5rem);
+      line-height: 1.1;
+    }
+    .np-it__desc { margin: 0; line-height: 1.55; color: color-mix(in srgb, var(--t-tx) 80%, var(--t-p)); font-size: 1rem; }
+    .np-it__item:nth-child(odd) .np-it__body { grid-column: 1; text-align: right; padding-right: .4rem; }
+    .np-it__item:nth-child(odd) .np-it__time { grid-column: 3; text-align: left; padding-left: .4rem; }
+    .np-it__item:nth-child(even) .np-it__body { grid-column: 3; text-align: left; padding-left: .4rem; }
+    .np-it__item:nth-child(even) .np-it__time { grid-column: 1; text-align: right; padding-right: .4rem; }
+
+    /* Unlit state exists only while JS drives the scroll progress */
+    .np-it--anim .np-it__item:not([data-np-lit]) .np-it__bulb { background: var(--t-bg); box-shadow: 0 0 0 5px color-mix(in srgb, var(--t-bg) 80%, transparent); transform: scale(.82); }
+    .np-it--anim .np-it__item:not([data-np-lit]) .np-it__body { opacity: .35; transform: translateY(6px); }
+    .np-it--anim .np-it__item:not([data-np-lit]) .np-it__time { opacity: .35; color: var(--t-s); }
+
+    @media (max-width: 720px) {
+      .np-it__wire, .np-it__glow { left: 1.1rem; }
+      .np-it__item { grid-template-columns: 2.2rem minmax(0, 1fr); column-gap: 1rem; align-items: start; }
+      .np-it__bulb { grid-column: 1; grid-row: 1 / span 2; margin-top: .35rem; }
+      .np-it__item:nth-child(n) .np-it__time { grid-column: 2; grid-row: 1; text-align: left; padding: 0; font-size: 1.25rem; }
+      .np-it__item:nth-child(n) .np-it__body { grid-column: 2; grid-row: 2; text-align: left; padding: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .np-it *, .np-it *::before, .np-it *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <header class="np-it__head">
+    <h2 class="np-it__title" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">La noche</h2>
+    <p class="np-it__sub" memory_type="text" memory_usage="custom" memory_key="itinerario-subtitulo">Programa de la celebración</p>
+  </header>
+
+  <ol class="np-it__list" data-np-list>
+    <li class="np-it__wire" aria-hidden="true" role="presentation"></li>
+    <li class="np-it__glow" aria-hidden="true" role="presentation"></li>
+    <li class="np-it__item" data-np-step>
+      <span class="np-it__bulb" aria-hidden="true"></span>
+      <p class="np-it__time"><time datetime="2027-06-12T18:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1" data-event-field="itin-hora-1">6:00 p. m.</time></p>
+      <div class="np-it__body">
+        <h3 class="np-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-1" data-event-field="itin-evento-1">Misa de acción de gracias</h3>
+        <p class="np-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-1">Parroquia de Nuestra Señora, centro de la ciudad.</p>
+      </div>
+    </li>
+    <li class="np-it__item" data-np-step>
+      <span class="np-it__bulb" aria-hidden="true"></span>
+      <p class="np-it__time"><time datetime="2027-06-12T19:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2" data-event-field="itin-hora-2">7:30 p. m.</time></p>
+      <div class="np-it__body">
+        <h3 class="np-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-2" data-event-field="itin-evento-2">Cóctel de bienvenida</h3>
+        <p class="np-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-2">Champaña rosada y música en vivo bajo las luces.</p>
+      </div>
+    </li>
+    <li class="np-it__item" data-np-step>
+      <span class="np-it__bulb" aria-hidden="true"></span>
+      <p class="np-it__time"><time datetime="2027-06-12T20:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3" data-event-field="itin-hora-3">8:30 p. m.</time></p>
+      <div class="np-it__body">
+        <h3 class="np-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-3" data-event-field="itin-evento-3">Entrada y vals</h3>
+        <p class="np-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-3">El primer baile de la noche, como un sueño parisino.</p>
+      </div>
+    </li>
+    <li class="np-it__item" data-np-step>
+      <span class="np-it__bulb" aria-hidden="true"></span>
+      <p class="np-it__time"><time datetime="2027-06-12T21:15" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4" data-event-field="itin-hora-4">9:15 p. m.</time></p>
+      <div class="np-it__body">
+        <h3 class="np-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-4" data-event-field="itin-evento-4">Cena</h3>
+        <p class="np-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-4">Menú de inspiración francesa en tres tiempos.</p>
+      </div>
+    </li>
+    <li class="np-it__item" data-np-step>
+      <span class="np-it__bulb" aria-hidden="true"></span>
+      <p class="np-it__time"><time datetime="2027-06-12T22:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-5" data-event-field="itin-hora-5">10:30 p. m.</time></p>
+      <div class="np-it__body">
+        <h3 class="np-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-5" data-event-field="itin-evento-5">Brindis y pastel</h3>
+        <p class="np-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-5">Un momento dulce para celebrar juntos.</p>
+      </div>
+    </li>
+    <li class="np-it__item" data-np-step>
+      <span class="np-it__bulb" aria-hidden="true"></span>
+      <p class="np-it__time"><time datetime="2027-06-12T23:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-6" data-event-field="itin-hora-6">11:00 p. m.</time></p>
+      <div class="np-it__body">
+        <h3 class="np-it__name" memory_type="text" memory_usage="custom" memory_key="itinerario-evento-6" data-event-field="itin-evento-6">¡A bailar!</h3>
+        <p class="np-it__desc" memory_type="text" memory_usage="custom" memory_key="itinerario-desc-6">La pista se enciende hasta la medianoche.</p>
+      </div>
+    </li>
+  </ol>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="itinerario-agenda"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* static final state: every bulb lit */
+
+      var list = root.querySelector('[data-np-list]');
+      var steps = [].slice.call(root.querySelectorAll('[data-np-step]'));
+      if (!list || !steps.length) return;
+      root.classList.add('np-it--anim');
+      root.style.setProperty('--np-prog', '0');
+
+      /* Scroll-linked progress: the wire lights up and each bulb switches on as it passes 62% of the viewport */
+      var ticking = false, done = false, near = false;
+      function update() {
+        ticking = false;
+        if (done) return;
+        var r = list.getBoundingClientRect(), anchor = window.innerHeight * .62;
+        var prog = Math.max(0, Math.min(1, (anchor - r.top) / (r.height || 1)));
+        root.style.setProperty('--np-prog', prog.toFixed(4));
+        var lit = 0;
+        steps.forEach(function (s) {
+          var b = s.getBoundingClientRect();
+          if (b.top + 12 < anchor) { s.setAttribute('data-np-lit', ''); lit++; }
+          else s.removeAttribute('data-np-lit');
+        });
+        if (lit === steps.length && prog >= .98) {
+          done = true;
+          root.style.removeProperty('--np-prog');
+          root.classList.remove('np-it--anim');
+          steps.forEach(function (s) { s.removeAttribute('data-np-lit'); });
+          window.removeEventListener('scroll', onScroll);
+          window.removeEventListener('resize', onScroll);
+        }
+      }
+      function onScroll() { if (near && !ticking) { ticking = true; requestAnimationFrame(update); } }
+      new IntersectionObserver(function (en) { near = en[0].isIntersecting; if (near) onScroll(); }).observe(root);
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'itinerario',
+      module_name: 'itinerario-agenda',
+      style_name: 'Noche en París Itinerario',
+      descripcion: 'Itinerario como una guirnalda vertical: el cable dorado se ilumina con el scroll y cada foco se enciende al llegar a su momento. Horas y eventos alternados a cada lado.',
+      tags: ['itinerario', 'paris', 'luces', 'timeline', 'quinceañera', 'elegante'],
+      tipo: 'itinerario'
+    };
+  </script>
+</section>

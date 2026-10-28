@@ -1,0 +1,324 @@
+<section
+  class="hb-portada"
+  data-gemini-id="portada-nombre"
+  memory_type="background"
+  memory_usage="protected"
+  memory_source="generated"
+  path="placeholder"
+  aria-labelledby="hb-portada-titulo"
+>
+  <style>
+    .hb-portada {
+      --primary-color: #23301f;
+      --secondary-color: #5c6657;
+      --accent-color: #7d8f6e;
+      --bg-color: #f6f4ec;
+      --surface-color: #fffdf6;
+      --surface-border-color: rgba(35, 48, 31, 0.22);
+      --text-color: #23301f;
+
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      box-sizing: border-box;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      background-image: url('https://loremflickr.com/1600/900/botanical,leaves');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .hb-portada *,
+    .hb-portada *::before,
+    .hb-portada *::after { box-sizing: border-box; }
+
+    .hb-portada::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--bg-color) 88%, transparent), color-mix(in srgb, var(--bg-color) 78%, transparent));
+    }
+
+    .hb-portada__plancha {
+      position: relative;
+      width: min(100%, 880px);
+      min-height: min(78svh, 640px);
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 4vw, 3.5rem);
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      background: color-mix(in srgb, var(--surface-color) 92%, transparent);
+      border: 1px solid var(--surface-border-color);
+      outline: 1px solid var(--surface-border-color);
+      outline-offset: 6px;
+      box-shadow: 0 24px 60px rgba(35, 48, 31, 0.16), 0 4px 14px rgba(35, 48, 31, 0.08);
+    }
+
+    .hb-portada__lamina-num {
+      position: absolute;
+      top: clamp(0.9rem, 2vw, 1.4rem);
+      left: clamp(0.9rem, 2vw, 1.4rem);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.62rem, 1.1vw, 0.75rem);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .hb-portada__rama {
+      position: absolute;
+      z-index: 0;
+      width: clamp(140px, 24vw, 260px);
+      color: var(--accent-color);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    .hb-portada__rama--izq { left: clamp(-1.5rem, -1vw, 0rem); top: 8%; transform: rotate(12deg); }
+    .hb-portada__rama--der { right: clamp(-1.5rem, -1vw, 0rem); bottom: 10%; transform: rotate(194deg); }
+
+    .hb-portada__sello {
+      width: clamp(64px, 9vw, 88px);
+      margin-bottom: clamp(1rem, 2.5vw, 1.6rem);
+      color: var(--accent-color);
+      animation: hbPortadaSello 38s linear infinite;
+    }
+    @keyframes hbPortadaSello { to { transform: rotate(360deg); } }
+
+    .hb-portada__eyebrow {
+      margin: 0 0 clamp(0.9rem, 2vw, 1.4rem);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.72rem, 1.3vw, 0.85rem);
+      font-weight: 700;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .hb-portada__filete {
+      width: min(180px, 42%);
+      height: 10px;
+      margin: 0 auto clamp(1.2rem, 2.6vw, 1.8rem);
+      border-top: 1px solid var(--accent-color);
+      border-bottom: 1px solid var(--accent-color);
+      padding-top: 3px;
+      background: linear-gradient(var(--accent-color), var(--accent-color)) center / 100% 1px no-repeat;
+    }
+
+    .hb-portada__nombres {
+      position: relative;
+      margin: 0;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(2.1rem, 6vw, 4.2rem);
+      line-height: 1.08;
+      letter-spacing: 0.02em;
+      color: var(--primary-color);
+    }
+
+    .hb-portada.hb-js .hb-portada__linea-revel {
+      display: block;
+      clip-path: inset(0 0 105% 0);
+      transition: clip-path 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .hb-portada__linea-revel:nth-child(2) { transition-delay: 0.12s; }
+    .hb-portada.esta-visto .hb-portada__linea-revel { clip-path: inset(0 0 -10% 0); }
+
+    .hb-portada__ampersand {
+      display: inline-block;
+      margin: 0 0.35em;
+      font-style: italic;
+      color: var(--accent-color);
+    }
+
+    .hb-portada__espora {
+      position: absolute;
+      z-index: 1;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: color-mix(in srgb, var(--accent-color) 70%, transparent);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .hb-portada.esta-visto .hb-portada__espora { animation: hbPortadaFlota 9s ease-in-out infinite; }
+    @keyframes hbPortadaFlota {
+      0% { opacity: 0; transform: translateY(0); }
+      18% { opacity: 0.7; }
+      70% { opacity: 0.35; }
+      100% { opacity: 0; transform: translateY(-70px); }
+    }
+
+    .hb-portada__fecha {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      margin-top: clamp(1.4rem, 3vw, 2rem);
+      padding: 0.55rem 1.4rem;
+      border: 1px solid var(--surface-border-color);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(0.8rem, 1.6vw, 0.95rem);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-color);
+      transition: opacity 0.5s ease 0.28s, transform 0.5s ease 0.28s;
+    }
+    .hb-portada.hb-js .hb-portada__fecha { opacity: 0; transform: translateY(12px); }
+    .hb-portada.esta-visto .hb-portada__fecha { opacity: 1; transform: none; }
+
+    .hb-portada__foto {
+      justify-self: end;
+      margin-top: 1.5rem;
+      width: clamp(96px, 14vw, 150px);
+      padding: 6px 6px 14px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      box-shadow: 0 12px 26px rgba(35, 48, 31, 0.18);
+      transform: rotate(4deg);
+      transition: transform 0.5s ease;
+    }
+    .hb-portada__foto:hover { transform: rotate(0deg) translateY(-4px); }
+    .hb-portada__foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      filter: saturate(0.92);
+    }
+    .hb-portada__foto figcaption {
+      margin-top: 6px;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    @media (max-width: 900px) {
+      .hb-portada__foto { justify-self: center; margin: 1.6rem auto 0; transform: rotate(-3deg); }
+      .hb-portada__plancha { min-height: 0; }
+    }
+
+    @media (max-width: 560px) {
+      .hb-portada { padding: 1.5rem 0.9rem; }
+      .hb-portada__rama { opacity: 0.32; }
+      .hb-portada__nombres { font-size: clamp(1.9rem, 9.4vw, 2.6rem); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hb-portada * { animation: none !important; transition: none !important; }
+      .hb-portada__linea-revel { clip-path: none; }
+      .hb-portada__fecha { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <div class="hb-portada__plancha">
+    <span class="hb-portada__lamina-num" aria-hidden="true">Lámina I</span>
+
+    <svg class="hb-portada__rama hb-portada__rama--izq" viewBox="0 0 120 220" fill="none" aria-hidden="true">
+      <path d="M60 214 C58 150 56 90 62 8" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M60 60 C42 52 32 38 30 20 C48 24 58 38 60 60Z" stroke="currentColor" stroke-width="1.2"/>
+      <path d="M61 100 C80 92 90 78 92 60 C74 64 63 78 61 100Z" stroke="currentColor" stroke-width="1.2"/>
+      <path d="M59 146 C42 138 33 124 32 108 C49 112 58 126 59 146Z" stroke="currentColor" stroke-width="1.2"/>
+    </svg>
+    <svg class="hb-portada__rama hb-portada__rama--der" viewBox="0 0 120 220" fill="none" aria-hidden="true">
+      <path d="M60 214 C58 150 56 90 62 8" stroke="currentColor" stroke-width="1.4"/>
+      <path d="M60 60 C42 52 32 38 30 20 C48 24 58 38 60 60Z" stroke="currentColor" stroke-width="1.2"/>
+      <path d="M61 100 C80 92 90 78 92 60 C74 64 63 78 61 100Z" stroke="currentColor" stroke-width="1.2"/>
+      <path d="M59 146 C42 138 33 124 32 108 C49 112 58 126 59 146Z" stroke="currentColor" stroke-width="1.2"/>
+    </svg>
+
+    <svg class="hb-portada__sello" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+      <circle cx="50" cy="50" r="47" stroke="currentColor" stroke-width="1.6" stroke-dasharray="3 5"/>
+      <circle cx="50" cy="50" r="36" stroke="currentColor" stroke-width="1"/>
+      <path d="M50 26 L56 42 L73 42 L59 52 L64 68 L50 58 L36 68 L41 52 L27 42 L44 42 Z" stroke="currentColor" stroke-width="1.2" fill="none"/>
+    </svg>
+
+    <header memory_type="text" memory_usage="custom" memory_key="portada-encabezado">
+      <p class="hb-portada__eyebrow">Con la bendición de sus familias</p>
+      <div class="hb-portada__filete" aria-hidden="true"></div>
+    </header>
+
+    <div memory_type="text" memory_usage="custom" memory_key="portada-nombres">
+      <h1 id="hb-portada-titulo" class="hb-portada__nombres">
+        <span class="hb-portada__linea-revel">Nombre de la Novia</span>
+        <span class="hb-portada__linea-revel"><span class="hb-portada__ampersand">&amp;</span> Nombre del Novio</span>
+      </h1>
+    </div>
+
+    <time class="hb-portada__fecha" datetime="YYYY-MM-DD" memory_type="text" memory_usage="custom" memory_key="portada-fecha">
+      Fecha del evento
+    </time>
+
+    <figure class="hb-portada__foto" memory_type="image" memory_usage="custom" memory_source="library" memory_key="portada-foto">
+      <img
+        src="https://loremflickr.com/480/600/couple,elegant"
+        alt="Retrato de los anfitriones"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="foto-pareja"
+        loading="lazy"
+      />
+      <figcaption hidden>Retrato principal</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.hb-portada');
+      if (!root) return;
+      root.classList.add('hb-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var title = root.querySelector('.hb-portada__nombres');
+      if (title && !title.textContent.trim()) {
+        title.closest('[memory_key="portada-nombres"]').style.display = 'none';
+      }
+
+      var area = root.querySelector('.hb-portada__plancha');
+      if (area) {
+        for (var i = 0; i < 9; i++) {
+          var dot = document.createElement('span');
+          dot.className = 'hb-portada__espora';
+          dot.style.left = (8 + Math.random() * 84) + '%';
+          dot.style.top = (55 + Math.random() * 38) + '%';
+          dot.style.animationDelay = (Math.random() * 8).toFixed(2) + 's';
+          area.appendChild(dot);
+        }
+      }
+
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) {
+        root.classList.add('esta-visto');
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            root.classList.add('esta-visto');
+            io.disconnect();
+          }
+        });
+      }, { threshold: 0.25 });
+      io.observe(root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Herbario de Línea',
+      descripcion: 'Portada editorial tipo lámina botánica: plancha con filete doble, rama line-art, sello giratorio y revelado de nombres por máscara.',
+      tags: ['portada', 'hero', 'botanico', 'editorial', 'line-art', 'sello', 'revelado', 'wireframe'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

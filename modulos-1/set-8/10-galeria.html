@@ -1,0 +1,271 @@
+<section
+  class="tc-galeria"
+  data-gemini-id="galeria-terraza-macetas"
+>
+  <style>
+    .tc-galeria {
+      --primary-color: #3d2b22;
+      --secondary-color: #8a6f5c;
+      --accent-color: #c26a4a;
+      --bg-color: #f6efe6;
+      --surface-color: #fdf8f1;
+      --surface-border-color: rgba(61, 43, 34, 0.18);
+      --text-color: #3d2b22;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+    }
+    .tc-galeria *,
+    .tc-galeria *::before,
+    .tc-galeria *::after { box-sizing: border-box; }
+
+    .tc-galeria__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .tc-galeria__nota {
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-style: italic;
+      font-size: clamp(0.66rem, 1.25vw, 0.76rem);
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .tc-galeria__repisas {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
+      gap: clamp(1.6rem, 3.4vw, 2.4rem) clamp(1rem, 2.6vw, 1.6rem);
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .tc-galeria__maceta {
+      margin: 0;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .tc-galeria.tc-js .tc-galeria__maceta { opacity: 0; transform: translateY(20px); }
+    .tc-galeria .tc-galeria__maceta.esta-visto { opacity: 1; transform: none; }
+
+    .tc-galeria__foto {
+      display: block;
+      position: relative;
+      margin: 0;
+      padding: 8px 8px 24px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 4px;
+      box-shadow: 0 18px 40px rgba(61, 43, 34, 0.16);
+      cursor: pointer;
+    }
+    .tc-galeria__maceta:nth-child(odd) .tc-galeria__foto { transform: rotate(-1.4deg); }
+    .tc-galeria__maceta:nth-child(even) .tc-galeria__foto { transform: rotate(1.2deg); }
+    .tc-galeria__foto img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 5 / 4;
+      object-fit: cover;
+      border-radius: 3px;
+      filter: saturate(0.95);
+    }
+    .tc-galeria__base {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      width: 44%;
+      height: 14px;
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, var(--accent-color), color-mix(in srgb, var(--accent-color) 65%, var(--primary-color)));
+      clip-path: polygon(6% 0, 94% 0, 100% 100%, 0 100%);
+      border-radius: 3px;
+      box-shadow: 0 8px 14px rgba(61, 43, 34, 0.25);
+    }
+    .tc-galeria__pie {
+      display: block;
+      margin-top: 20px;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+
+    .tc-galeria__lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      place-items: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      background: color-mix(in srgb, var(--primary-color) 85%, black);
+    }
+    .tc-galeria__lightbox.abierto { display: grid; }
+    .tc-galeria__lightbox img {
+      max-width: min(920px, 92vw);
+      max-height: 82svh;
+      width: auto;
+      height: auto;
+      border: 8px solid var(--surface-color);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    }
+    .tc-galeria__cerrar {
+      position: absolute;
+      top: clamp(0.8rem, 2.5vw, 1.6rem);
+      right: clamp(0.8rem, 2.5vw, 1.6rem);
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--surface-color);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--surface-color);
+      font-size: 1.2rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.4s ease, background 0.4s ease;
+    }
+    .tc-galeria__cerrar:hover { transform: rotate(90deg); background: color-mix(in srgb, var(--accent-color) 40%, transparent); }
+
+    @media (max-width: 560px) {
+      .tc-galeria__repisas { grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 1.4rem 0.8rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tc-galeria * { transition: none !important; }
+      .tc-galeria__maceta { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="galeria-cabecera">
+    <h2 class="tc-galeria__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Macetas de recuerdos</h2>
+    <p class="tc-galeria__nota" memory_type="text" memory_usage="custom" memory_key="galeria-nota">Cultivados el gran día</p>
+  </header>
+
+  <div class="tc-galeria__repisas">
+    <figure class="tc-galeria__maceta" data-tc-maceta memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-1" tabindex="0" role="button" aria-label="Ampliar recuerdo uno">
+      <span class="tc-galeria__foto">
+        <img src="https://loremflickr.com/520/420/terrace,couple" alt="Recuerdo uno" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+        <span class="tc-galeria__base" aria-hidden="true"></span>
+      </span>
+      <span class="tc-galeria__pie" memory_type="text" memory_usage="custom" memory_key="galeria-pie-1">N.º 01 — El encuentro</span>
+      <figcaption hidden>Recuerdo uno</figcaption>
+    </figure>
+    <figure class="tc-galeria__maceta" data-tc-maceta memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-2" tabindex="0" role="button" aria-label="Ampliar recuerdo dos">
+      <span class="tc-galeria__foto">
+        <img src="https://loremflickr.com/520/420/olive,table" alt="Recuerdo dos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+        <span class="tc-galeria__base" aria-hidden="true"></span>
+      </span>
+      <span class="tc-galeria__pie" memory_type="text" memory_usage="custom" memory_key="galeria-pie-2">N.º 02 — La mesa</span>
+      <figcaption hidden>Recuerdo dos</figcaption>
+    </figure>
+    <figure class="tc-galeria__maceta" data-tc-maceta memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-3" tabindex="0" role="button" aria-label="Ampliar recuerdo tres">
+      <span class="tc-galeria__foto">
+        <img src="https://loremflickr.com/520/420/sunset,toast" alt="Recuerdo tres" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+        <span class="tc-galeria__base" aria-hidden="true"></span>
+      </span>
+      <span class="tc-galeria__pie" memory_type="text" memory_usage="custom" memory_key="galeria-pie-3">N.º 03 — El brindis</span>
+      <figcaption hidden>Recuerdo tres</figcaption>
+    </figure>
+    <figure class="tc-galeria__maceta" data-tc-maceta memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-4" tabindex="0" role="button" aria-label="Ampliar recuerdo cuatro">
+      <span class="tc-galeria__foto">
+        <img src="https://loremflickr.com/520/420/garden,party" alt="Recuerdo cuatro" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+        <span class="tc-galeria__base" aria-hidden="true"></span>
+      </span>
+      <span class="tc-galeria__pie" memory_type="text" memory_usage="custom" memory_key="galeria-pie-4">N.º 04 — El jardín</span>
+      <figcaption hidden>Recuerdo cuatro</figcaption>
+    </figure>
+    <figure class="tc-galeria__maceta" data-tc-maceta memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-5" tabindex="0" role="button" aria-label="Ampliar recuerdo cinco">
+      <span class="tc-galeria__foto">
+        <img src="https://loremflickr.com/520/420/warm,dance" alt="Recuerdo cinco" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+        <span class="tc-galeria__base" aria-hidden="true"></span>
+      </span>
+      <span class="tc-galeria__pie" memory_type="text" memory_usage="custom" memory_key="galeria-pie-5">N.º 05 — El baile</span>
+      <figcaption hidden>Recuerdo cinco</figcaption>
+    </figure>
+    <figure class="tc-galeria__maceta" data-tc-maceta memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-6" tabindex="0" role="button" aria-label="Ampliar recuerdo seis">
+      <span class="tc-galeria__foto">
+        <img src="https://loremflickr.com/520/420/night,terrace" alt="Recuerdo seis" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+        <span class="tc-galeria__base" aria-hidden="true"></span>
+      </span>
+      <span class="tc-galeria__pie" memory_type="text" memory_usage="custom" memory_key="galeria-pie-6">N.º 06 — La despedida</span>
+      <figcaption hidden>Recuerdo seis</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.tc-galeria');
+      if (!root) return;
+      root.classList.add('tc-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var macetas = Array.prototype.slice.call(root.querySelectorAll('[data-tc-maceta]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var i = macetas.indexOf(entry.target);
+            entry.target.style.transitionDelay = (Math.min(i, 5) * 0.09).toFixed(2) + 's';
+            entry.target.classList.add('esta-visto');
+            io.unobserve(entry.target);
+          });
+        }, { threshold: 0.18 });
+        macetas.forEach(function (m) { io.observe(m); });
+      } else {
+        macetas.forEach(function (m) { m.classList.add('esta-visto'); });
+      }
+
+      var lightbox = document.createElement('div');
+      lightbox.className = 'tc-galeria__lightbox';
+      lightbox.setAttribute('role', 'dialog');
+      lightbox.setAttribute('aria-modal', 'true');
+      lightbox.setAttribute('aria-label', 'Vista ampliada');
+      lightbox.innerHTML =
+        '<img alt="" />' +
+        '<button type="button" class="tc-galeria__cerrar" aria-label="Cerrar">×</button>';
+      root.appendChild(lightbox);
+      var imgAmpliada = lightbox.querySelector('img');
+      var botonCerrar = lightbox.querySelector('.tc-galeria__cerrar');
+
+      function abrir(fig) {
+        var foto = fig.querySelector('img');
+        if (!foto) return;
+        imgAmpliada.src = foto.src;
+        imgAmpliada.alt = foto.alt;
+        lightbox.classList.add('abierto');
+      }
+      function cerrar() { lightbox.classList.remove('abierto'); }
+
+      macetas.forEach(function (fig) {
+        fig.querySelector('.tc-galeria__foto').addEventListener('click', function () { abrir(fig); });
+        fig.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(fig); }
+        });
+      });
+      botonCerrar.addEventListener('click', cerrar);
+      lightbox.addEventListener('click', function (e) { if (e.target === lightbox) cerrar(); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-terraza-macetas',
+      style_name: 'Terracota Mediterránea — Galería',
+      descripcion: 'Fotografías en macetas de barro con base trapezoidal y pies numerados; rotación artesanal y lightbox propio.',
+      tags: ['galeria', 'macetas', 'terracota', 'artesanal', 'lightbox', 'mediterraneo'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

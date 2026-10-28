@@ -1,0 +1,48 @@
+<section class="da-itin" data-gemini-id="itinerario-agenda" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder">
+<style>
+.da-itin { --primary-color:#1a1611; --secondary-color:#8a7340; --accent-color:#b3261e; --bg-color:#241f17; --surface-color:#2e2820; --surface-border-color:rgba(179,38,30,.4); --text-color:#e8dcc0;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,4rem);
+  background-color:var(--bg-color); background-image:url('https://loremflickr.com/1600/1000/dark,academia,library'); background-size:cover; background-position:center; color:var(--text-color); }
+.da-itin *, .da-itin *::before, .da-itin *::after { box-sizing:border-box; }
+.da-itin::before { content:''; position:absolute; inset:0; z-index:-1; background:color-mix(in srgb, var(--bg-color) 82%, transparent); }
+.da-itin__titulo { margin:0 0 .4rem; text-align:center; font-family:Georgia,'Times New Roman',serif; font-size:clamp(2rem,5.4vw,3.6rem); color:var(--text-color); }
+.da-itin__sub { margin:0 auto 2.4rem; max-width:44ch; text-align:center; font-family:Georgia,serif; font-style:italic; font-size:clamp(.88rem,1.7vw,1.02rem); line-height:1.8; color:var(--secondary-color); }
+/* capítulos de libro: arcos góticos con lacre */
+.da-itin__capitulos { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(250px,100%),1fr)); gap:clamp(1.4rem,3.6vw,2.4rem); width:min(100%,1020px); margin:0 auto; }
+.da-itin__capitulo { position:relative; padding:clamp(1.5rem,3.4vw,2.1rem) clamp(1.2rem,2.8vw,1.7rem) clamp(1.4rem,3vw,1.8rem); background:var(--surface-color); border:1px solid var(--surface-border-color); border-radius:130px 130px 4px 4px; box-shadow:0 26px 50px rgba(0,0,0,.5), inset 0 0 40px rgba(0,0,0,.35); text-align:center; }
+.da-itin__capitulo::before { content:''; position:absolute; top:14px; left:50%; width:20px; height:20px; transform:translateX(-50%) rotate(45deg); background:var(--accent-color); box-shadow:inset 0 0 0 2px var(--surface-color), 0 0 12px rgba(179,38,30,.7); }
+.da-itin__cap { font-family:'Courier New',monospace; font-size:clamp(.58rem,1.1vw,.66rem); letter-spacing:.4em; text-transform:uppercase; color:var(--secondary-color); display:block; margin:1.4rem 0 .3rem; }
+.da-itin__hora { display:block; font-family:Georgia,serif; font-size:clamp(1.5rem,3.4vw,2.1rem); color:var(--text-color); margin-bottom:.35rem; }
+.da-itin__momento { margin:0 0 .35rem; font-family:Georgia,serif; font-style:italic; font-size:clamp(1rem,2vw,1.2rem); color:var(--secondary-color); }
+.da-itin__detalle { margin:0; font-size:clamp(.78rem,1.45vw,.88rem); line-height:1.7; color:var(--text-color); opacity:.85; }
+</style>
+<h2 class="da-itin__titulo" memory_type="text" memory_usage="custom" memory_key="itinerario-titulo">Capítulos de la velada</h2>
+<p class="da-itin__sub" memory_type="text" memory_usage="custom" memory_key="itinerario-sub">Leídos a la luz de las velas, en el ala antigua de la biblioteca.</p>
+<div class="da-itin__capitulos">
+  <article class="da-itin__capitulo">
+    <span class="da-itin__cap" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1">Capítulo I</span>
+    <time class="da-itin__hora" datetime="16:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-1b">16:00</time>
+    <h3 class="da-itin__momento" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-1">La llegada</h3>
+    <p class="da-itin__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-1" memory_type="text" memory_usage="custom" memory_key="itinerario-det-1">Té de las cinco y nombres en el libro de visitas.</p>
+  </article>
+  <article class="da-itin__capitulo">
+    <span class="da-itin__cap" aria-hidden="true">Capítulo II</span>
+    <time class="da-itin__hora" datetime="17:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-2">17:00</time>
+    <h3 class="da-itin__momento" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-2">El juramento</h3>
+    <p class="da-itin__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-2">Ceremonia bajo el arco de la capilla.</p>
+  </article>
+  <article class="da-itin__capitulo">
+    <span class="da-itin__cap" aria-hidden="true">Capítulo III</span>
+    <time class="da-itin__hora" datetime="19:00" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-3">19:00</time>
+    <h3 class="da-itin__momento" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-3">El banquete</h3>
+    <p class="da-itin__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-3">Vino añejo entre estantes milenarios.</p>
+  </article>
+  <article class="da-itin__capitulo">
+    <span class="da-itin__cap" aria-hidden="true">Capítulo IV</span>
+    <time class="da-itin__hora" datetime="21:30" memory_type="text" memory_usage="custom" memory_key="itinerario-hora-4">21:30</time>
+    <h3 class="da-itin__momento" memory_type="text" memory_usage="custom" memory_key="itinerario-momento-4">El epílogo</h3>
+    <p class="da-itin__detalle" memory_type="text" memory_usage="custom" memory_key="itinerario-det-4">Valse de cierre a la luz de las velas.</p>
+  </article>
+</div>
+<script>var moduleMetadata={module_type:'itinerario',module_name:'itinerario-agenda',style_name:'Dark Academia — Capítulos',descripcion:'Dark academia: capitulos de libro en arcos goticos con sello de lacre, serif clasica y paleta vela/biblioteca.',tags:[itinerario,dark academia,capitulos,arco,lacre],tipo:'itinerario'};</script>
+</section>

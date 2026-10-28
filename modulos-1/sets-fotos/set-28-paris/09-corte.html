@@ -1,0 +1,217 @@
+<section
+  class="np-co"
+  data-gemini-id="corte-paris"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Parisienne&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+    .np-co, .np-co *, .np-co *::before, .np-co *::after { box-sizing: border-box; }
+    .np-co {
+      --t-bg: var(--bg-color, #0d0b10);
+      --t-tx: var(--text-color, #f8eee8);
+      --t-p: var(--primary-color, #f0c4c0);
+      --t-s: var(--secondary-color, #8a6e78);
+      --t-a: var(--accent-color, #d4af6a);
+      --t-display: var(--font-script, 'Parisienne', 'Snell Roundhand', cursive);
+      --t-text: var(--font-heading, 'Bodoni Moda', 'Didot', Georgia, serif);
+      --np-velvet: color-mix(in srgb, var(--t-s) 42%, var(--t-bg));
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(36rem, 64vw, 50rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 8vw, 6.5rem) clamp(1.25rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: radial-gradient(55% 70% at 28% 50%, color-mix(in srgb, var(--t-p) 13%, transparent), transparent 70%);
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .np-co__wrap {
+      width: min(100%, 66rem);
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+      gap: clamp(2rem, 6vw, 5rem);
+      align-items: center;
+    }
+    .np-co__stage {
+      position: relative;
+      padding: 1.6rem .9rem 0;
+      border: 1px solid color-mix(in srgb, var(--t-a) 55%, transparent);
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 80%, var(--t-s)), var(--t-bg));
+      box-shadow: 0 40px 80px -40px #000;
+      overflow: hidden;
+    }
+    .np-co__figure { position: relative; margin: 0; }
+    .np-co__figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      overflow: hidden;
+      background: color-mix(in srgb, var(--t-s) 45%, var(--t-bg));
+    }
+    .np-co__spot {
+      position: absolute;
+      inset: 1.6rem .9rem 0;
+      background: radial-gradient(55% 45% at 50% 30%, color-mix(in srgb, var(--t-tx) 16%, transparent), transparent 70%);
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+    .np-co__valance {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      z-index: 3;
+      height: 2.4rem;
+      background:
+        radial-gradient(circle at 50% 0, var(--np-velvet) 1.05rem, color-mix(in srgb, var(--t-a) 85%, transparent) 1.1rem, color-mix(in srgb, var(--t-a) 85%, transparent) 1.2rem, transparent 1.25rem) 0 100% / 2.4rem 1.25rem repeat-x,
+        linear-gradient(180deg, var(--np-velvet), var(--np-velvet)) top / 100% 1.2rem no-repeat;
+      pointer-events: none;
+    }
+    .np-co__curtain {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      z-index: 2;
+      width: 52%;
+      background:
+        repeating-linear-gradient(90deg, color-mix(in srgb, var(--t-bg) 70%, transparent) 0, transparent .9rem, color-mix(in srgb, var(--t-p) 26%, transparent) 1.3rem, transparent 1.7rem, color-mix(in srgb, var(--t-bg) 70%, transparent) 2.4rem),
+        linear-gradient(180deg, var(--np-velvet), color-mix(in srgb, var(--np-velvet) 70%, var(--t-bg)));
+      box-shadow: inset 0 -.35rem 0 color-mix(in srgb, var(--t-a) 75%, transparent);
+      transition: transform .5s cubic-bezier(.65, 0, .35, 1);
+      pointer-events: none;
+    }
+    .np-co__curtain::after {
+      content: '';
+      position: absolute;
+      left: -2%;
+      right: -2%;
+      top: 58%;
+      height: .7rem;
+      border-radius: 3px;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-tx) 50%, var(--t-a)), var(--t-a) 50%, color-mix(in srgb, var(--t-a) 60%, var(--t-bg)));
+      box-shadow: 0 2px 6px #0009;
+    }
+    .np-co__curtain--l { left: 0; transform-origin: left center; transform: scaleX(.22); border-right: 1px solid color-mix(in srgb, var(--t-a) 40%, transparent); }
+    .np-co__curtain--r { right: 0; transform-origin: right center; transform: scaleX(.22); border-left: 1px solid color-mix(in srgb, var(--t-a) 40%, transparent); }
+
+    .np-co__text { display: grid; gap: .9rem; }
+    .np-co__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(2.8rem, 6vw, 4.4rem);
+      line-height: 1.05;
+    }
+    .np-co__lead { margin: 0; line-height: 1.65; color: color-mix(in srgb, var(--t-tx) 82%, var(--t-p)); }
+    .np-co__groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.4rem; margin-top: .6rem; }
+    .np-co__group h3 {
+      margin: 0 0 .6rem;
+      padding-bottom: .4rem;
+      border-bottom: 1px solid color-mix(in srgb, var(--t-a) 45%, transparent);
+      font-weight: 500;
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--t-a);
+    }
+    .np-co__group ul { margin: 0; padding: 0; list-style: none; display: grid; gap: .45rem; }
+    .np-co__group li { font-size: 1rem; line-height: 1.3; }
+
+    /* Curtain reveal: closed only while JS animates; final state (default) is drawn open */
+    .np-co--anim .np-co__curtain { transform: none; }
+    .np-co--anim .np-co__spot { opacity: 0; transition: opacity .5s ease; }
+    .np-co--anim .np-co__text > * { opacity: 0; transform: translateY(12px); transition: opacity .4s ease, transform .45s ease; }
+    .np-co--anim.is-in .np-co__curtain--l, .np-co--anim.is-in .np-co__curtain--r { transform: scaleX(.22); }
+    .np-co--anim .np-co__curtain::after { opacity: 0; transition: opacity .3s ease; }
+    .np-co--anim.is-in .np-co__curtain::after { opacity: 1; transition-delay: .45s; }
+    .np-co--anim.is-in .np-co__spot { opacity: 1; transition-delay: .4s; }
+    .np-co--anim.is-in .np-co__text > * { opacity: 1; transform: none; }
+    .np-co--anim.is-in .np-co__text > :nth-child(1) { transition-delay: .3s; }
+    .np-co--anim.is-in .np-co__text > :nth-child(2) { transition-delay: .42s; }
+    .np-co--anim.is-in .np-co__text > :nth-child(3) { transition-delay: .54s; }
+
+    @media (max-width: 780px) {
+      .np-co__wrap { grid-template-columns: 1fr; }
+      .np-co__stage { width: min(100%, 24rem); justify-self: center; }
+      .np-co__text { text-align: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .np-co *, .np-co *::before, .np-co *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="np-co__wrap">
+    <div class="np-co__stage">
+      <figure class="np-co__figure" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/1000/1250/ballgown,dress?lock=2809" alt="Fotografía de la corte de honor" path="placeholder" data-library-category="personas" data-asset-type="grupo" loading="lazy" />
+      </figure>
+      <span class="np-co__spot" aria-hidden="true"></span>
+      <span class="np-co__curtain np-co__curtain--l" aria-hidden="true"></span>
+      <span class="np-co__curtain np-co__curtain--r" aria-hidden="true"></span>
+      <span class="np-co__valance" aria-hidden="true"></span>
+    </div>
+
+    <div class="np-co__text">
+      <h2 class="np-co__title" memory_type="text" memory_usage="custom" memory_key="corte-titulo">Mi corte de honor</h2>
+      <p class="np-co__lead" memory_type="text" memory_usage="custom" memory_key="corte-texto">Se abre el telón y aparecen quienes bailarán conmigo el vals de esta noche parisina.</p>
+      <div class="np-co__groups">
+        <section class="np-co__group">
+          <h3 memory_type="text" memory_usage="custom" memory_key="corte-grupo-1">Damas</h3>
+          <ul>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-1" data-event-field="corte-nombre-1">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-2" data-event-field="corte-nombre-2">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-3" data-event-field="corte-nombre-3">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-dama-4" data-event-field="corte-nombre-4">Nombre Apellido</li>
+          </ul>
+        </section>
+        <section class="np-co__group">
+          <h3 memory_type="text" memory_usage="custom" memory_key="corte-grupo-2">Chambelanes</h3>
+          <ul>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-1" data-event-field="corte-nombre-1">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-2" data-event-field="corte-nombre-2">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-3" data-event-field="corte-nombre-3">Nombre Apellido</li>
+            <li memory_type="text" memory_usage="custom" memory_key="corte-chambelan-4" data-event-field="corte-nombre-4">Nombre Apellido</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="corte-paris"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;   /* static final state: curtains drawn open */
+
+      root.classList.add('np-co--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .35) {
+          io.disconnect();
+          setTimeout(function () { root.classList.add('is-in'); }, 250);
+          setTimeout(function () { root.classList.remove('np-co--anim', 'is-in'); }, 1700);
+        }
+      }, { threshold: [0, .35, .6] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-paris',
+      style_name: 'Noche en París Corte',
+      descripcion: 'Corte de honor en un pequeño teatro parisino: telones de terciopelo con fleco dorado se abren al entrar en pantalla y revelan la foto destacada; damas y chambelanes al lado.',
+      tags: ['corte', 'paris', 'telón', 'damas', 'chambelanes', 'quinceañera'],
+      tipo: 'corte'
+    };
+  </script>
+</section>

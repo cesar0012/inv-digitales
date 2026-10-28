@@ -1,0 +1,87 @@
+<section class="sf5 sf-ordA rv-slide" data-gemini-id="confirmacion-texto" memory_type="background" memory_usage="protected" memory_source="generated" path="placeholder"><i class="sf-dress sf-dress--corners" aria-hidden="true"></i>
+<style>
+.sf5 { ;
+  position:relative; isolation:isolate; overflow:hidden; box-sizing:border-box; padding:clamp(4rem,10vw,7rem) clamp(1rem,5vw,4rem); background:radial-gradient(ellipse 66% 50% at 12% 90%, color-mix(in srgb, var(--secondary-color) 50%, transparent), transparent 70%), url('https://loremflickr.com/1600/1000/pink,beige,floral') center/cover; background-color:var(--bg-color); color:var(--text-color); }
+.sf5 *, .sf5 *::before, .sf5 *::after { box-sizing:border-box; }
+.sf5::after { content:''; position:absolute; inset:0; z-index:0; background:color-mix(in srgb, var(--bg-color) 88%, transparent); }
+.sf5 > * { position:relative; z-index:1; }
+.sf-orn-wrap { display:flex; justify-content:center; margin:0 auto clamp(1.6rem,4vw,2.4rem); color:var(--primary-color); }
+.sf-orn-wrap svg { width:min(240px,60%); height:auto; }
+.sf5__titulo { margin:0 0 .5rem; font-family:Georgia,serif; font-weight:400; font-size:clamp(1.7rem,4vw,2.4rem); color:var(--primary-color); }
+.sf5__texto { margin:0 auto 1.6rem; max-width:42ch; font-family:'Segoe UI',Arial,sans-serif; font-size:clamp(.86rem,1.6vw,.98rem); line-height:1.8; color:var(--text-color); }
+.sf5__acciones { display:flex; flex-wrap:wrap; gap:.9rem; justify-content:center; margin-top:1.4rem; }
+.sf5__btn { display:inline-flex; align-items:center; justify-content:center; min-height:48px; padding:.95rem 2.1rem; font-family:'Courier New',monospace; font-size:clamp(.7rem,1.35vw,.84rem); letter-spacing:.3em; text-transform:uppercase; text-decoration:none; transition:transform .35s ease; }
+.sf5__btn--si { color:var(--bg-color); background:var(--primary-color); border:1px solid var(--primary-color); }
+.sf5__btn--si:hover { transform:translateY(-3px); }
+.sf5__btn--no { color:var(--text-color); border:1px solid var(--surface-border-color); }
+.sf5__btn--no:hover { transform:translateY(-3px); }
+.sf5__limite { margin:1.4rem 0 0; font-family:'Courier New',monospace; font-size:clamp(.66rem,1.25vw,.78rem); letter-spacing:.26em; text-transform:uppercase; color:color-mix(in srgb, var(--secondary-color) 42%, var(--text-color)); }
+.sf5__panel { width:min(100%,760px); margin:0 auto; display:grid; grid-template-columns:1fr; background:var(--surface-color); border:1px solid var(--surface-border-color); overflow:hidden; }
+@media (min-width:720px){ .sf5__panel { grid-template-columns:1fr 1fr; } }
+.sf5__mitad { padding:clamp(2rem,4.6vw,3rem) clamp(1.3rem,3.4vw,2.2rem); text-align:center; }
+.sf5__mitad:last-child { background:color-mix(in srgb, var(--accent-color) 22%, var(--surface-color)); }
+@media (max-width:640px){ .sf5__cinta { transform:none !important; text-align:center !important; } .sf5__panel::before, .sf5__panel::after { display:none; } .sf5__panel { padding-left:clamp(1.4rem,4vw,2.6rem); padding-right:clamp(1.4rem,4vw,2.6rem); } }
+
+.sf-ordA > header { display:grid; justify-items:center; }
+.sf-ordA > header > p { display:flex; align-items:center; gap:.9rem; }
+.sf-ordA > header > p::before, .sf-ordA > header > p::after { content:''; width:38px; height:1px; background:color-mix(in srgb, var(--primary-color) 55%, transparent); }
+[data-gemini-id] .rv-fade > *:not(style):not(script), [data-gemini-id] .rv-slide > *:not(style):not(script),
+[data-gemini-id] .rv-zoom > *:not(style):not(script), [data-gemini-id] .rv-blur > *:not(style):not(script) {
+  opacity:0; transition:opacity .7s ease, transform .7s cubic-bezier(.16,1,.3,1), filter .7s ease;
+}
+[data-gemini-id] .rv-fade > .sf-orn-wrap { opacity:1; transform:none; filter:none; }
+.rv-fade.enVista > *:not(style):not(script) { opacity:1; transform:none; }
+.rv-slide.enVista > *:not(style):not(script) { opacity:1; transform:none; }
+.rv-zoom.enVista > *:not(style):not(script) { opacity:1; transform:none; }
+.rv-blur.enVista > *:not(style):not(script) { opacity:1; filter:none; transform:none; }
+.rv-slide > *:not(style):not(script) { transform:translateX(-34px); }
+.rv-zoom  > *:not(style):not(script) { transform:scale(.86); }
+.rv-blur  > *:not(style):not(script) { filter:blur(10px); transform:translateY(16px); }
+.enVista > *:not(style):not(script):nth-child(2) { transition-delay:.12s; }
+.enVista > *:not(style):not(script):nth-child(3) { transition-delay:.24s; }
+.enVista > *:not(style):not(script):nth-child(4) { transition-delay:.36s; }
+.enVista > *:not(style):not(script):nth-child(5) { transition-delay:.48s; }
+@media (prefers-reduced-motion:reduce){
+  [data-gemini-id] .rv-fade > *, [data-gemini-id] .rv-slide > *, [data-gemini-id] .rv-zoom > *, [data-gemini-id] .rv-blur > * { opacity:1 !important; transform:none !important; filter:none !important; transition:none !important; }
+}
+.rv-slide .sf-orn-wrap svg { animation:sfOrnGira 9s linear infinite; }
+@keyframes sfOrnFlota { to { transform:translateY(-5px); } }
+@keyframes sfOrnGira { to { transform:rotate(4deg) translateY(-4px); } }
+.sf-dress--corners { position:absolute; inset:clamp(10px,2vw,18px); pointer-events:none; z-index:1;
+  background:
+    linear-gradient(var(--primary-color), var(--primary-color)) top left / 34px 3px,
+    linear-gradient(var(--primary-color), var(--primary-color)) top left / 3px 34px,
+    linear-gradient(var(--primary-color), var(--primary-color)) top right / 34px 3px,
+    linear-gradient(var(--primary-color), var(--primary-color)) top right / 3px 34px,
+    linear-gradient(var(--primary-color), var(--primary-color)) bottom left / 34px 3px,
+    linear-gradient(var(--primary-color), var(--primary-color)) bottom left / 3px 34px,
+    linear-gradient(var(--primary-color), var(--primary-color)) bottom right / 34px 3px,
+    linear-gradient(var(--primary-color), var(--primary-color)) bottom right / 3px 34px;
+  background-repeat:no-repeat; opacity:.85; }</style>
+<div class="sf5__panel">
+  <div class="sf5__mitad"><h2 class="sf5__titulo" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">¿Nos acompañas?</h2>
+    <p class="sf5__texto" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">Tu presencia es lo más importante. Confirma tu asistencia antes de la fecha límite.</p></div>
+  <div class="sf5__mitad">
+    <div class="sf5__acciones" memory_type="text" memory_usage="custom" memory_key="confirmacion-acciones" style="margin-top:0;">
+      <a class="sf5__btn sf5__btn--si" href="https://wa.me/5210000000000?text=%C2%A1Confirmo!" target="_blank" rel="noopener">Ahí estaré</a>
+      <a class="sf5__btn sf5__btn--no" href="https://wa.me/5210000000000?text=No%20podr%C3%A9" target="_blank" rel="noopener">No podré ir</a>
+    </div>
+    <p class="sf5__limite" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha-limite">Antes del 1 de junio</p>
+  </div>
+</div>
+<script>var moduleMetadata = { module_type: "confirmacion", module_name: "confirmacion-sf7", style_name: "Rosa Floral Beige", descripcion: "Confirmación romantico variante 2 con botones WhatsApp y ornamento hojas.", tags: ["confirmacion","hojas","romantico","variante2"], tipo: "confirmacion" };</script>
+
+<script>
+(function () {
+  var el = null;
+  try { el = document.currentScript.closest('[data-gemini-id]'); } catch (e) {}
+  if (!el) return;
+  var mostra = function () { el.classList.add('enVista'); };
+  if (!('IntersectionObserver' in window)) { mostra(); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) { if (en.isIntersecting) { mostra(); io.disconnect(); } });
+  }, { threshold: 0.18 });
+  io.observe(el);
+  setTimeout(mostra, 2600);
+})();
+</script></section>

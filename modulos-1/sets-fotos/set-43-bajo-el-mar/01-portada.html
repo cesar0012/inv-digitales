@@ -1,0 +1,388 @@
+<section
+  class="bjm-po"
+  data-gemini-id="portada-nombre"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Ephesis&family=Marcellus&display=swap');
+
+    .bjm-po, .bjm-po *, .bjm-po *::before, .bjm-po *::after { box-sizing: border-box; }
+    .bjm-po {
+      --t-bg: var(--bg-color, #04182b);
+      --t-tx: var(--text-color, #f4eee6);
+      --t-p: var(--primary-color, #4fd1c5);
+      --t-s: var(--secondary-color, #1a5f8f);
+      --t-a: var(--accent-color, #ff8a70);
+      --t-pearl: var(--pearl-color, #efe8f3);
+      --t-display: var(--font-script, 'Ephesis', cursive);
+      --t-text: var(--font-heading, 'Marcellus', Georgia, serif);
+      --bjm-open: 1;
+      --bjm-rv: 1;
+      --bjm-glint: 120%;
+      --bjm-rx: 14deg;
+      --bjm-ry: 0deg;
+      position: relative;
+      isolation: isolate;
+      min-height: max(38rem, 100vh);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/underwater,ocean,light?lock=3401');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .bjm-po::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      background:
+        radial-gradient(ellipse 70% 45% at 50% -5%, color-mix(in srgb, var(--t-p) 32%, transparent), transparent 70%),
+        radial-gradient(ellipse 60% 50% at 85% 110%, color-mix(in srgb, var(--t-a) 16%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-s) 70%, var(--t-bg)) 0%, color-mix(in srgb, var(--t-bg) 88%, transparent) 45%, var(--t-bg) 100%);
+      opacity: .94;
+    }
+    /* Foil scales: full-bleed texture revealed only along a moving glint */
+    .bjm-po__scales {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background-image:
+        radial-gradient(circle at 50% 0, transparent 60%, color-mix(in srgb, var(--t-p) 75%, transparent) 63%, transparent 71%),
+        radial-gradient(circle at 50% 0, transparent 60%, color-mix(in srgb, var(--t-pearl) 70%, transparent) 63%, transparent 71%);
+      background-size: 28px 20px, 28px 20px;
+      background-position: 0 0, 14px 10px;
+      opacity: .22;
+      -webkit-mask-image: linear-gradient(115deg, transparent calc(var(--bjm-glint) - 22%), #000 var(--bjm-glint), transparent calc(var(--bjm-glint) + 22%)), radial-gradient(ellipse at 50% 100%, #000 0%, transparent 60%);
+      mask-image: linear-gradient(115deg, transparent calc(var(--bjm-glint) - 22%), #000 var(--bjm-glint), transparent calc(var(--bjm-glint) + 22%)), radial-gradient(ellipse at 50% 100%, #000 0%, transparent 60%);
+    }
+    .bjm-po__canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+    .bjm-po__tail {
+      position: absolute;
+      right: clamp(-5rem, -3vw, -1rem);
+      bottom: -2rem;
+      width: clamp(9rem, 22vw, 17rem);
+      height: auto;
+      z-index: -1;
+      opacity: .26;
+      transform-origin: 50% 0;
+      transform: rotate(var(--bjm-sway, -8deg));
+      pointer-events: none;
+    }
+    .bjm-po__tail--l { right: auto; left: clamp(-6rem, -4vw, -2rem); bottom: auto; top: 8%; width: clamp(7rem, 14vw, 11rem); opacity: .13; transform: scaleX(-1) rotate(var(--bjm-sway2, 6deg)); }
+
+    .bjm-po__content { position: relative; width: min(100%, 60rem); display: grid; justify-items: center; gap: clamp(.6rem, 1.6vw, 1rem); }
+
+    /* 3D scallop fan */
+    .bjm-po__stage { perspective: 760px; width: clamp(12rem, 26vw, 16rem); aspect-ratio: 16 / 10; margin-bottom: clamp(.2rem, 1vw, .8rem); }
+    .bjm-po__fan {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transform: rotateX(var(--bjm-rx)) rotateY(var(--bjm-ry));
+    }
+    .bjm-po__rib {
+      position: absolute;
+      left: 50%;
+      bottom: 6%;
+      width: 18%;
+      height: 92%;
+      margin-left: -9%;
+      transform-origin: 50% 100%;
+      transform: rotate(calc(var(--i) * 17deg * var(--bjm-open))) translateZ(calc(var(--d) * -1px)) rotateY(calc(var(--i) * 5deg * var(--bjm-open)));
+      border-radius: 50% 50% 12% 12% / 34% 34% 8% 8%;
+      background:
+        radial-gradient(circle at 50% 0, transparent 60%, color-mix(in srgb, var(--t-s) 40%, transparent) 63%, transparent 70%) 0 0 / 12px 9px,
+        linear-gradient(90deg, color-mix(in srgb, var(--t-s) 35%, transparent) 0 6%, transparent 18% 82%, color-mix(in srgb, var(--t-s) 35%, transparent) 94%),
+        linear-gradient(0deg, color-mix(in srgb, var(--t-pearl) 92%, var(--t-a)) 0%, color-mix(in srgb, var(--t-pearl) 80%, var(--t-p)) 55%, color-mix(in srgb, var(--t-p) 70%, var(--t-pearl)) 100%);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-pearl) 60%, transparent), 0 6px 18px color-mix(in srgb, var(--t-bg) 55%, transparent);
+    }
+    .bjm-po__hinge {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 30%;
+      height: 14%;
+      transform: translateX(-50%) translateZ(4px);
+      border-radius: 40% 40% 30% 30%;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-pearl) 85%, var(--t-p)), color-mix(in srgb, var(--t-pearl) 60%, var(--t-s)));
+    }
+    .bjm-po__pearl {
+      position: absolute;
+      left: 50%;
+      bottom: 14%;
+      width: 22%;
+      aspect-ratio: 1;
+      transform: translateX(-50%) translateZ(46px) scale(var(--bjm-open));
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 34% 30%, #fff 0 8%, transparent 26%),
+        conic-gradient(from 210deg, color-mix(in srgb, var(--t-pearl) 90%, var(--t-p)), color-mix(in srgb, var(--t-pearl) 90%, var(--t-a)), color-mix(in srgb, var(--t-pearl) 85%, #b6a9d9), color-mix(in srgb, var(--t-pearl) 90%, var(--t-p))),
+        var(--t-pearl);
+      box-shadow: 0 0 calc(30px * var(--bjm-open)) color-mix(in srgb, var(--t-p) 70%, transparent), 0 0 70px color-mix(in srgb, var(--t-pearl) 35%, transparent), inset -6px -8px 14px color-mix(in srgb, var(--t-s) 45%, transparent);
+    }
+
+    .bjm-po__kicker { margin: 0; font-size: clamp(1.05rem, 2.2vw, 1.35rem); color: color-mix(in srgb, var(--t-p) 70%, var(--t-tx)); }
+    .bjm-po__name {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(3.8rem, 13vw, 9rem);
+      line-height: .95;
+      padding: .1em .25em .15em;
+      color: var(--t-tx);
+      text-shadow: 0 0 22px color-mix(in srgb, var(--t-p) 55%, transparent), 0 0 60px color-mix(in srgb, var(--t-s) 70%, transparent);
+    }
+    .bjm-po--anim .bjm-po__name {
+      -webkit-mask-image: linear-gradient(100deg, #000 calc(var(--bjm-rv) * 150% - 50%), transparent calc(var(--bjm-rv) * 150% - 18%));
+      mask-image: linear-gradient(100deg, #000 calc(var(--bjm-rv) * 150% - 50%), transparent calc(var(--bjm-rv) * 150% - 18%));
+    }
+    .bjm-po__strand { display: flex; align-items: center; gap: .45rem; }
+    .bjm-po__strand span {
+      width: var(--sz, .55rem);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #fff 0 12%, color-mix(in srgb, var(--t-pearl) 88%, var(--t-p)) 40%, color-mix(in srgb, var(--t-pearl) 55%, var(--t-s)) 100%);
+      box-shadow: 0 0 8px color-mix(in srgb, var(--t-p) 45%, transparent);
+    }
+    .bjm-po__strand::before, .bjm-po__strand::after { content: ''; width: clamp(2.5rem, 8vw, 5rem); height: 1px; background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--t-pearl) 70%, transparent)); }
+    .bjm-po__strand::after { transform: scaleX(-1); }
+    .bjm-po__date { margin: 0; font-size: clamp(1.15rem, 2.6vw, 1.6rem); letter-spacing: .02em; }
+    .bjm-po__date time { color: var(--t-tx); }
+    .bjm-po__tag { margin: 0; max-width: 34rem; font-size: clamp(.98rem, 1.8vw, 1.12rem); line-height: 1.6; color: color-mix(in srgb, var(--t-tx) 82%, var(--t-p)); }
+
+    .bjm-po--anim [data-bjm-rise] { opacity: 0; transform: translateY(16px); filter: blur(4px); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1), filter .5s ease; transition-delay: var(--dl, 0s); }
+    .bjm-po--anim.is-in [data-bjm-rise] { opacity: 1; transform: none; filter: none; }
+
+    @media (max-width: 640px) {
+      .bjm-po__tail { opacity: .18; }
+      .bjm-po__tail--l { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .bjm-po *, .bjm-po *::before, .bjm-po *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="bjm-po__scales" aria-hidden="true"></div>
+  <canvas class="bjm-po__canvas" data-bjm-canvas aria-hidden="true"></canvas>
+
+  <svg class="bjm-po__tail" data-bjm-tail viewBox="0 0 200 400" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="bjm-po-tailg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" style="stop-color: var(--t-p); stop-opacity: .0" />
+        <stop offset=".45" style="stop-color: var(--t-p); stop-opacity: .75" />
+        <stop offset="1" style="stop-color: var(--t-pearl); stop-opacity: .9" />
+      </linearGradient>
+      <pattern id="bjm-po-scl" width="14" height="10" patternUnits="userSpaceOnUse">
+        <path d="M0 0 A7 7 0 0 0 14 0 M-7 5 A7 7 0 0 0 7 5 M7 5 A7 7 0 0 0 21 5" fill="none" style="stroke: var(--t-pearl)" stroke-width=".8" stroke-opacity=".55" />
+      </pattern>
+    </defs>
+    <path d="M62 0 C56 90 80 190 92 284 C70 306 32 340 6 396 C42 372 78 360 100 326 C122 360 158 372 194 396 C168 340 130 306 108 284 C120 190 144 90 138 0 Z" fill="url(#bjm-po-tailg)" />
+    <path d="M62 0 C56 90 80 190 92 284 L108 284 C120 190 144 90 138 0 Z" fill="url(#bjm-po-scl)" />
+    <path d="M100 326 C96 350 70 372 30 388 M100 326 C104 350 130 372 170 388" fill="none" style="stroke: var(--t-pearl)" stroke-opacity=".5" stroke-width="1" />
+  </svg>
+  <svg class="bjm-po__tail bjm-po__tail--l" viewBox="0 0 200 400" aria-hidden="true" focusable="false">
+    <path d="M62 0 C56 90 80 190 92 284 C70 306 32 340 6 396 C42 372 78 360 100 326 C122 360 158 372 194 396 C168 340 130 306 108 284 C120 190 144 90 138 0 Z" fill="url(#bjm-po-tailg)" />
+  </svg>
+
+  <header class="bjm-po__content">
+    <div class="bjm-po__stage" aria-hidden="true" data-bjm-rise style="--dl: 0s">
+      <div class="bjm-po__fan" data-bjm-fan>
+        <span class="bjm-po__rib" style="--i: -4; --d: 8"></span>
+        <span class="bjm-po__rib" style="--i: 4; --d: 8"></span>
+        <span class="bjm-po__rib" style="--i: -3; --d: 6"></span>
+        <span class="bjm-po__rib" style="--i: 3; --d: 6"></span>
+        <span class="bjm-po__rib" style="--i: -2; --d: 4"></span>
+        <span class="bjm-po__rib" style="--i: 2; --d: 4"></span>
+        <span class="bjm-po__rib" style="--i: -1; --d: 2"></span>
+        <span class="bjm-po__rib" style="--i: 1; --d: 2"></span>
+        <span class="bjm-po__rib" style="--i: 0; --d: 0"></span>
+        <span class="bjm-po__hinge"></span>
+        <span class="bjm-po__pearl"></span>
+      </div>
+    </div>
+    <p class="bjm-po__kicker" data-bjm-rise style="--dl: .15s" memory_type="text" memory_usage="custom" memory_key="portada-kicker">Mis XV años</p>
+    <figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,3vw,1.6rem);width:clamp(150px,22vw,220px);"><img src="https://loremflickr.com/480/480/underwater,coral,portrait?lock=315" alt="Retrato" path="placeholder" data-library-category="bodas" data-asset-type="retrato-principal" loading="eager" style="display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:50%;border:2px solid var(--primary-color,#9b9b9b);box-shadow:0 14px 30px rgba(0,0,0,.18);" /><figcaption hidden>Retrato</figcaption></figure>
+<h1 class="bjm-po__name" memory_type="text" memory_usage="custom" memory_key="portada-nombre" data-event-field="nombres">Nombre Apellido</h1>
+    <div class="bjm-po__strand" aria-hidden="true" data-bjm-rise style="--dl: .9s">
+      <span style="--sz: .4rem"></span><span style="--sz: .55rem"></span><span style="--sz: .8rem"></span><span style="--sz: .55rem"></span><span style="--sz: .4rem"></span>
+    </div>
+    <p class="bjm-po__date" data-bjm-rise style="--dl: 1.05s"><time datetime="2027-03-13T19:00" memory_type="text" memory_usage="custom" memory_key="portada-fecha" data-event-field="fecha">Sábado 13 de marzo de 2027</time></p>
+    <p class="bjm-po__tag" data-bjm-rise style="--dl: 1.2s" memory_type="text" memory_usage="custom" memory_key="portada-frase">Acompáñame a descender entre perlas y luz para celebrar una noche bajo el mar.</p>
+  </header>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="portada-nombre"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      var cv = root.querySelector('[data-bjm-canvas]');
+      var ctx = cv && cv.getContext ? cv.getContext('2d') : null;
+      var fan = root.querySelector('[data-bjm-fan]');
+      var W = 0, H = 0, P = [], col = {};
+
+      function rgb(v, fb) {
+        if (!ctx) return fb;
+        ctx.fillStyle = fb; ctx.fillStyle = (v || '').trim() || fb;
+        var s = ctx.fillStyle, m;
+        if (s.charAt(0) === '#') return [parseInt(s.substr(1, 2), 16), parseInt(s.substr(3, 2), 16), parseInt(s.substr(5, 2), 16)];
+        m = s.match(/[\d.]+/g); return m ? [+m[0], +m[1], +m[2]] : fb;
+      }
+      function readColors() {
+        var cs = getComputedStyle(root);
+        col.p = rgb(cs.getPropertyValue('--t-p'), '#4fd1c5');
+        col.pe = rgb(cs.getPropertyValue('--t-pearl'), '#efe8f3');
+        col.a = rgb(cs.getPropertyValue('--t-a'), '#ff8a70');
+        ['p', 'pe', 'a'].forEach(function (k) { if (typeof col[k] === 'string') col[k] = [200, 230, 230]; });
+      }
+      function rgba(c, a) { return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a.toFixed(3) + ')'; }
+      function spawn(p, fresh) {
+        p.x = (Math.random() * 2 - 1) * 1.7;
+        p.z = .35 + Math.random() * 2.8;
+        p.y = fresh ? (Math.random() * 2.6 - 1.3) : 1.35 + Math.random() * .4;
+        p.r = .005 + Math.random() * .018;
+        p.sp = .0009 + Math.random() * .0028;
+        p.ph = Math.random() * 6.283;
+        p.pearl = Math.random() < .1;
+        return p;
+      }
+      function size() {
+        if (!ctx) return;
+        var r = root.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+        W = r.width; H = r.height;
+        cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        var n = W < 640 ? 48 : 96;
+        while (P.length < n) P.push(spawn({}, true));
+        P.length = n;
+      }
+      function draw(t, step) {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, W, H);
+        var f = Math.min(W, H) * .85, cx = W / 2, cy = H * .5, k, i, p;
+        /* light rays from the surface */
+        for (k = 0; k < 5; k++) {
+          var bx = cx + (k - 2) * W * .2 + Math.sin(t * .00025 + k * 1.7) * 30;
+          var bw = W * (.06 + .03 * ((k * 7) % 3));
+          ctx.save();
+          ctx.translate(bx, -10);
+          ctx.rotate((k - 2) * .09 + Math.sin(t * .0002 + k) * .03);
+          var g = ctx.createLinearGradient(0, 0, 0, H * .9);
+          g.addColorStop(0, rgba(col.pe, .10 + .04 * Math.sin(t * .0009 + k)));
+          g.addColorStop(1, rgba(col.p, 0));
+          ctx.fillStyle = g;
+          ctx.beginPath(); ctx.moveTo(-bw * .3, 0); ctx.lineTo(bw * .3, 0); ctx.lineTo(bw, H * .9); ctx.lineTo(-bw, H * .9); ctx.closePath(); ctx.fill();
+          ctx.restore();
+        }
+        P.sort(function (a, b) { return b.z - a.z; });
+        for (i = 0; i < P.length; i++) {
+          p = P[i];
+          if (step) { p.y -= p.sp * step; if (p.y < -1.4) spawn(p, false); }
+          var x = p.x + Math.sin(t * .0011 + p.ph) * .035;
+          var sx = cx + x * f / p.z, sy = cy + p.y * f / p.z, rad = Math.max(.6, p.r * f / p.z);
+          if (sx < -40 || sx > W + 40 || sy < -40 || sy > H + 40) continue;
+          var al = Math.max(.08, Math.min(.85, 1.15 - p.z / 3));
+          if (p.pearl) {
+            var pg = ctx.createRadialGradient(sx - rad * .35, sy - rad * .35, rad * .1, sx, sy, rad);
+            pg.addColorStop(0, rgba([255, 255, 255], al));
+            pg.addColorStop(.5, rgba(col.pe, al * .9));
+            pg.addColorStop(1, rgba(col.a, al * .35));
+            ctx.fillStyle = pg;
+            ctx.beginPath(); ctx.arc(sx, sy, rad * 1.1, 0, 6.283); ctx.fill();
+          } else {
+            ctx.strokeStyle = rgba(col.p, al * .75);
+            ctx.lineWidth = Math.max(.6, rad * .14);
+            ctx.beginPath(); ctx.arc(sx, sy, rad, 0, 6.283); ctx.stroke();
+            ctx.fillStyle = rgba(col.p, al * .08);
+            ctx.fill();
+            ctx.strokeStyle = rgba(col.pe, al);
+            ctx.beginPath(); ctx.arc(sx, sy, rad * .62, 3.6, 4.5); ctx.stroke();
+          }
+        }
+      }
+
+      readColors(); size(); draw(0, 0);
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      root.classList.add('bjm-po--anim');
+      root.style.setProperty('--bjm-open', '0');
+      root.style.setProperty('--bjm-rv', '0');
+
+      var vis = false, raf = 0, last = 0, t0 = 0, introT = -1, done = false;
+      var tail = root.querySelectorAll('.bjm-po__tail');
+      var tx = 0, ty = 0, cxr = 0, cyr = 0;
+      /* Clean up so a serialized DOM is left in its normal visible state, even if the loop paused off-screen */
+      function finish() {
+        if (done) return;
+        done = true; introT = -1;
+        root.classList.remove('bjm-po--anim', 'is-in');
+        root.style.removeProperty('--bjm-open');
+        root.style.removeProperty('--bjm-rv');
+      }
+      function ease(x) { return x < 0 ? 0 : x > 1 ? 1 : 1 - Math.pow(1 - x, 3); }
+      function tick(t) {
+        raf = 0;
+        if (!vis || document.hidden) return;
+        var step = last ? Math.min(48, t - last) : 16; last = t;
+        draw(t, step);
+        if (introT >= 0) {
+          var e = t - introT;
+          root.style.setProperty('--bjm-open', ease((e - 150) / 1300).toFixed(4));
+          root.style.setProperty('--bjm-rv', ease((e - 450) / 1500).toFixed(4));
+          if (e > 2300) finish();
+        }
+        root.style.setProperty('--bjm-glint', (((t * .006) % 190) - 35).toFixed(2) + '%');
+        root.style.setProperty('--bjm-sway', (-8 + Math.sin(t * .0007) * 4).toFixed(2) + 'deg');
+        root.style.setProperty('--bjm-sway2', (6 + Math.sin(t * .0006 + 2) * 3).toFixed(2) + 'deg');
+        cxr += (tx - cxr) * .06; cyr += (ty - cyr) * .06;
+        root.style.setProperty('--bjm-rx', (14 + Math.sin(t * .0008) * 4 + cyr * -10).toFixed(2) + 'deg');
+        root.style.setProperty('--bjm-ry', (Math.sin(t * .0006) * 10 + cxr * 18).toFixed(2) + 'deg');
+        raf = requestAnimationFrame(tick);
+      }
+      function kick() { if (vis && !document.hidden && !raf) { last = 0; raf = requestAnimationFrame(tick); } }
+      var io = new IntersectionObserver(function (en) {
+        vis = en[0].isIntersecting;
+        if (vis && introT < 0 && !done && en[0].intersectionRatio > .2) {
+          root.classList.add('is-in');
+          introT = performance.now();
+          setTimeout(finish, 2600);
+        }
+        kick();
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+      document.addEventListener('visibilitychange', kick);
+      root.addEventListener('pointermove', function (ev) {
+        var r = root.getBoundingClientRect();
+        tx = (ev.clientX - r.left) / r.width - .5; ty = (ev.clientY - r.top) / r.height - .5;
+      });
+      root.addEventListener('pointerleave', function () { tx = 0; ty = 0; });
+      var rz = 0;
+      window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { size(); if (!vis) draw(0, 0); }, 150); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'portada',
+      module_name: 'portada-nombre',
+      style_name: 'Bajo el Mar Concha y Perla',
+      descripcion: 'Portada de XV años bajo el mar: concha 3D que se abre sobre una perla luminosa, burbujas en perspectiva, rayos de luz, escamas en foil y silueta de cola de sirena; nombre revelado por un barrido de luz.',
+      tags: ['portada', 'quinceañera', 'bajo el mar', 'sirena', 'perlas', 'acuático', '3d'],
+      tipo: 'portada'
+    };
+  </script>
+</section>

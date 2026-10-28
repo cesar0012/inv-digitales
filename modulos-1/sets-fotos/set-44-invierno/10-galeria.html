@@ -1,0 +1,228 @@
+<section
+  class="inv-gal"
+  data-gemini-id="galeria-invierno"
+  memory_type="background"
+  memory_usage="protected"
+ memory_source="generated" path="placeholder">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Jost:wght@300;400;500&display=swap');
+
+    .inv-gal, .inv-gal *, .inv-gal *::before, .inv-gal *::after { box-sizing: border-box; }
+    .inv-gal {
+      --t-bg: var(--bg-color, #eef5fb);
+      --t-tx: var(--text-color, #163450);
+      --t-p: var(--primary-color, #8ecdee);
+      --t-s: var(--secondary-color, #3c7eae);
+      --t-a: var(--accent-color, #b9c4cf);
+      --t-display: var(--font-script, 'Bodoni Moda', 'Didot', serif);
+      --t-text: var(--font-heading, 'Jost', 'Helvetica Neue', sans-serif);
+      --night: color-mix(in srgb, var(--t-tx) 58%, #020812);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 70vw, 56rem);
+      display: grid;
+      justify-items: center;
+      align-content: center;
+      gap: clamp(2rem, 4.5vw, 3rem);
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: radial-gradient(80% 50% at 50% 0%, color-mix(in srgb, var(--t-p) 22%, transparent), transparent 70%);
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .inv-gal__head { display: grid; gap: .3rem; justify-items: center; }
+    .inv-gal__eyebrow { margin: 0; font-family: var(--t-display); font-style: italic; font-size: clamp(1.05rem, 2vw, 1.25rem); color: var(--t-s); }
+    .inv-gal__title {
+      margin: 0; padding: 0 .1em .08em;
+      font-family: var(--t-display); font-weight: 500;
+      font-size: clamp(2.5rem, 6vw, 4.2rem); line-height: 1;
+      background-image: linear-gradient(112deg, var(--t-s) 0 20%, var(--t-tx) 20% 40%, var(--t-p) 40% 42%, var(--t-s) 42% 62%, var(--t-tx) 62% 100%);
+      background-size: 240% 100%; background-position: 30% 50%;
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      filter: drop-shadow(0 2px 0 #ffffff);
+    }
+
+    .inv-gal__grid {
+      list-style: none; margin: 0; padding: 0;
+      width: min(100%, 58rem);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+      grid-auto-flow: dense;
+      gap: clamp(.6rem, 1.4vw, .9rem);
+    }
+    .inv-gal__tile { position: relative; overflow: hidden; background: linear-gradient(160deg, color-mix(in srgb, var(--t-p) 40%, #ffffff), var(--t-a)); }
+    .inv-gal__figure { margin: 0; }
+    .inv-gal__figure img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; transition: transform .5s cubic-bezier(.2, .8, .2, 1), filter .4s ease; }
+    .inv-gal__tile:hover .inv-gal__figure img { transform: scale(1.05); filter: saturate(1.1) brightness(1.04); }
+    .inv-gal__open {
+      position: absolute; inset: 0; z-index: 2;
+      display: grid; place-items: end end;
+      padding: .7rem;
+      border: 0; background: transparent; cursor: zoom-in; color: #ffffff;
+    }
+    .inv-gal__open svg { width: 2.2rem; height: 2.2rem; padding: .5rem; opacity: 0; transform: scale(.8); transition: opacity .3s ease, transform .3s ease;
+      clip-path: polygon(50% 0, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); background: color-mix(in srgb, var(--t-s) 80%, transparent); }
+    .inv-gal__tile:hover .inv-gal__open svg, .inv-gal__open:focus-visible svg { opacity: 1; transform: none; }
+    .inv-gal__open:focus-visible { outline: 2px solid var(--t-s); outline-offset: -4px; }
+    /* frost layer that clears on entry */
+    .inv-gal__tile::after {
+      content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0;
+      background:
+        radial-gradient(circle at 30% 30%, #ffffff 0 1.6px, transparent 2.6px) 0 0 / 12px 12px,
+        linear-gradient(150deg, color-mix(in srgb, #ffffff 90%, var(--t-p)), color-mix(in srgb, var(--t-p) 45%, #ffffff));
+    }
+    .inv-gal--anim .inv-gal__tile::after { opacity: 1; transition: opacity .5s ease; }
+    .inv-gal--anim .inv-gal__figure img { transform: scale(1.1); }
+    .inv-gal--anim.is-in .inv-gal__tile::after { opacity: 0; transition-delay: calc(var(--i, 0) * .09s + .1s); }
+    .inv-gal--anim.is-in .inv-gal__figure img { transform: none; transition-delay: calc(var(--i, 0) * .09s); }
+
+    @media (min-width: 900px) {
+      .inv-gal__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .inv-gal__tile--big { grid-column: span 2; grid-row: span 2; }
+      .inv-gal__figure img { aspect-ratio: 1 / 1; }
+    }
+
+    /* Lightbox (<dialog> escapes stacking contexts) */
+    .inv-gal__dialog {
+      width: min(92vw, 60rem); max-height: 92vh;
+      padding: 0; border: 0;
+      background: transparent; color: #ffffff;
+      overflow: visible;
+    }
+    .inv-gal__dialog[open] { animation: inv-gal-in .4s cubic-bezier(.2, .8, .2, 1); }
+    .inv-gal__dialog::backdrop { background: color-mix(in srgb, var(--night, #0b1a2c) 88%, transparent); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+    @keyframes inv-gal-in { from { opacity: 0; transform: scale(.94); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+    .inv-gal__big { display: block; width: 100%; height: auto; max-height: 84vh; object-fit: contain; background: color-mix(in srgb, var(--t-p) 20%, #0b1a2c); box-shadow: 0 0 0 1px color-mix(in srgb, #ffffff 40%, transparent), 0 30px 80px rgba(0, 0, 0, .5); }
+    .inv-gal__bar { display: flex; justify-content: center; gap: .6rem; margin-top: .8rem; }
+    .inv-gal__ctl {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 2.8rem; height: 2.8rem; padding: 0;
+      border: 1px solid color-mix(in srgb, #ffffff 45%, transparent);
+      background: color-mix(in srgb, #ffffff 12%, transparent);
+      color: #ffffff; cursor: pointer;
+      clip-path: polygon(50% 0, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+      transition: background-color .3s ease, transform .3s ease;
+    }
+    .inv-gal__ctl:hover, .inv-gal__ctl:focus-visible { background: color-mix(in srgb, var(--t-p) 55%, transparent); transform: scale(1.06); }
+    .inv-gal__ctl svg { width: 1.2rem; height: 1.2rem; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .inv-gal *, .inv-gal *::before, .inv-gal *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <header class="inv-gal__head">
+    <p class="inv-gal__eyebrow" memory_type="text" memory_usage="custom" memory_key="galeria-eyebrow">Recuerdos congelados en el tiempo</p>
+    <h2 class="inv-gal__title" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Galería</h2>
+  </header>
+
+  <ul class="inv-gal__grid" data-inv-grid>
+    <li class="inv-gal__tile inv-gal__tile--big" style="--i: 0">
+      <figure class="inv-gal__figure" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/900/1125/quinceanera,dress?lock=3501" alt="Quinceañera con vestido de gala" path="placeholder" data-library-category="sesion" data-asset-type="retrato" loading="lazy" />
+      </figure>
+      <button class="inv-gal__open" type="button" data-inv-open aria-label="Ampliar foto 1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M12 7v10M7 12h10" /></svg></button>
+    </li>
+    <li class="inv-gal__tile" style="--i: 1">
+      <figure class="inv-gal__figure" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/600/750/snow,forest?lock=3502" alt="Bosque nevado" path="placeholder" data-library-category="sesion" data-asset-type="paisaje" loading="lazy" />
+      </figure>
+      <button class="inv-gal__open" type="button" data-inv-open aria-label="Ampliar foto 2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M12 7v10M7 12h10" /></svg></button>
+    </li>
+    <li class="inv-gal__tile" style="--i: 2">
+      <figure class="inv-gal__figure" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/600/750/tiara,crown?lock=3503" alt="Tiara de cristal" path="placeholder" data-library-category="sesion" data-asset-type="detalle" loading="lazy" />
+      </figure>
+      <button class="inv-gal__open" type="button" data-inv-open aria-label="Ampliar foto 3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M12 7v10M7 12h10" /></svg></button>
+    </li>
+    <li class="inv-gal__tile" style="--i: 3">
+      <figure class="inv-gal__figure" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/600/750/girl,portrait,winter?lock=3504" alt="Retrato de invierno" path="placeholder" data-library-category="sesion" data-asset-type="retrato" loading="lazy" />
+      </figure>
+      <button class="inv-gal__open" type="button" data-inv-open aria-label="Ampliar foto 4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M12 7v10M7 12h10" /></svg></button>
+    </li>
+    <li class="inv-gal__tile" style="--i: 4">
+      <figure class="inv-gal__figure" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/600/750/ballroom,chandelier?lock=3505" alt="Salón con candelabro de cristal" path="placeholder" data-library-category="sesion" data-asset-type="lugar" loading="lazy" />
+      </figure>
+      <button class="inv-gal__open" type="button" data-inv-open aria-label="Ampliar foto 5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M12 7v10M7 12h10" /></svg></button>
+    </li>
+    <li class="inv-gal__tile" style="--i: 5">
+      <figure class="inv-gal__figure" memory_type="image" memory_usage="custom" memory_source="library">
+        <img src="https://loremflickr.com/600/750/frost,ice?lock=3506" alt="Escarcha sobre cristal" path="placeholder" data-library-category="sesion" data-asset-type="detalle" loading="lazy" />
+      </figure>
+      <button class="inv-gal__open" type="button" data-inv-open aria-label="Ampliar foto 6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M12 7v10M7 12h10" /></svg></button>
+    </li>
+  </ul>
+
+  <dialog class="inv-gal__dialog" data-inv-dialog aria-label="Foto ampliada">
+    <img class="inv-gal__big" data-mm-big src="" alt="" />
+    <div class="inv-gal__bar">
+      <button class="inv-gal__ctl" type="button" data-inv-prev aria-label="Foto anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M14.5 6l-6 6 6 6" /></svg></button>
+      <button class="inv-gal__ctl" type="button" data-inv-close aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M7 7l10 10M17 7L7 17" /></svg></button>
+      <button class="inv-gal__ctl" type="button" data-inv-next aria-label="Foto siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M9.5 6l6 6-6 6" /></svg></button>
+    </div>
+  </dialog>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="galeria-invierno"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* Own lightbox: reads the current tile image each time, so library swaps are respected */
+      var dlg = root.querySelector('[data-inv-dialog]');
+      var big = dlg && dlg.querySelector('[data-mm-big]');
+      var openers = Array.prototype.slice.call(root.querySelectorAll('[data-inv-open]'));
+      var cur = 0;
+      function show(i) {
+        if (!dlg || !big) return;
+        cur = (i + openers.length) % openers.length;
+        var img = openers[cur].parentNode.querySelector('img');
+        if (!img) return;
+        big.src = img.currentSrc || img.src;
+        big.alt = img.alt || '';
+        if (!dlg.open) { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); }
+      }
+      openers.forEach(function (b, i) { b.addEventListener('click', function () { show(i); }); });
+      if (dlg) {
+        dlg.querySelector('[data-inv-close]').addEventListener('click', function () { dlg.close ? dlg.close() : dlg.removeAttribute('open'); });
+        dlg.querySelector('[data-inv-prev]').addEventListener('click', function () { show(cur - 1); });
+        dlg.querySelector('[data-inv-next]').addEventListener('click', function () { show(cur + 1); });
+        dlg.addEventListener('click', function (e) { if (e.target === dlg && dlg.close) dlg.close(); });
+        dlg.addEventListener('keydown', function (e) {
+          if (e.key === 'ArrowLeft') show(cur - 1);
+          if (e.key === 'ArrowRight') show(cur + 1);
+        });
+        dlg.addEventListener('close', function () { if (openers[cur]) openers[cur].focus(); });
+      }
+
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+      root.classList.add('inv-gal--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .15) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('inv-gal--anim', 'is-in'); }, 1500);
+        }
+      }, { threshold: [0, .15, .4] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-invierno',
+      style_name: 'Invierno Mosaico Escarchado',
+      descripcion: 'Galería en mosaico con foto destacada; cada foto empieza cubierta de escarcha que se despeja al entrar en pantalla. Lightbox propio en dialog con controles hexagonales y teclado.',
+      tags: ['galeria', 'fotos', 'quinceanera', 'invierno', 'hielo', 'lightbox'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

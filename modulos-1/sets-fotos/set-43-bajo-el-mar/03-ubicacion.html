@@ -1,0 +1,246 @@
+<section
+  class="bjm-ub"
+  data-gemini-id="ubicacion-mapa"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Ephesis&family=Marcellus&display=swap');
+
+    .bjm-ub, .bjm-ub *, .bjm-ub *::before, .bjm-ub *::after { box-sizing: border-box; }
+    .bjm-ub {
+      --t-bg: var(--bg-color, #04182b);
+      --t-tx: var(--text-color, #f4eee6);
+      --t-p: var(--primary-color, #4fd1c5);
+      --t-s: var(--secondary-color, #1a5f8f);
+      --t-a: var(--accent-color, #ff8a70);
+      --t-pearl: var(--pearl-color, #efe8f3);
+      --t-display: var(--font-script, 'Ephesis', cursive);
+      --t-text: var(--font-heading, 'Marcellus', Georgia, serif);
+      --bjm-drift: 0px;
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(30rem, 60vw, 42rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/underwater,reef?lock=3431');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: left;
+      font-family: var(--t-text);
+    }
+    .bjm-ub::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 60% 50% at 30% 40%, color-mix(in srgb, var(--t-p) 14%, transparent), transparent 70%),
+        linear-gradient(160deg, color-mix(in srgb, var(--t-s) 78%, transparent), color-mix(in srgb, var(--t-bg) 94%, transparent) 60%);
+    }
+    .bjm-ub__content {
+      width: min(100%, 64rem);
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: clamp(2rem, 5vw, 4rem);
+      align-items: center;
+    }
+    .bjm-ub__chart {
+      position: relative;
+      margin: 0;
+      aspect-ratio: 4 / 3;
+      border-radius: 50% 50% 46% 54% / 48% 44% 56% 52%;
+      background: radial-gradient(circle at 62% 50%, color-mix(in srgb, var(--t-s) 55%, var(--t-bg)), color-mix(in srgb, var(--t-bg) 92%, var(--t-s)) 75%);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-pearl) 22%, transparent), inset 0 0 60px color-mix(in srgb, var(--t-bg) 70%, transparent), 0 30px 80px color-mix(in srgb, #000 40%, transparent);
+      overflow: hidden;
+    }
+    .bjm-ub__map { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .bjm-ub__contours { transform: translate(var(--bjm-drift), calc(var(--bjm-drift) * -.4)); }
+    .bjm-ub__marker {
+      position: absolute;
+      left: 62%;
+      top: 50%;
+      width: clamp(2.2rem, 5vw, 3rem);
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%);
+    }
+    .bjm-ub__ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1.5px solid color-mix(in srgb, var(--t-p) 85%, transparent);
+      transform: scale(var(--s, 1));
+      opacity: var(--o, 0);
+    }
+    .bjm-ub__pin {
+      position: absolute;
+      inset: 14%;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 34% 30%, #fff 0 10%, transparent 30%),
+        conic-gradient(from 200deg, color-mix(in srgb, var(--t-pearl) 92%, var(--t-p)), color-mix(in srgb, var(--t-pearl) 92%, var(--t-a)), color-mix(in srgb, var(--t-pearl) 88%, #b6a9d9), color-mix(in srgb, var(--t-pearl) 92%, var(--t-p)));
+      box-shadow: 0 0 18px color-mix(in srgb, var(--t-p) 80%, transparent), 0 0 40px color-mix(in srgb, var(--t-pearl) 40%, transparent);
+      transform: scale(var(--bjm-beat, 1));
+      transition: transform .45s cubic-bezier(.3, 1.6, .5, 1);
+    }
+    .bjm-ub__info { display: grid; gap: 1rem; justify-items: start; }
+    .bjm-ub__kicker { margin: 0; font-family: var(--t-display); font-size: clamp(2.6rem, 6vw, 4rem); line-height: 1; color: var(--t-p); text-shadow: 0 0 22px color-mix(in srgb, var(--t-p) 40%, transparent); }
+    .bjm-ub__title { margin: 0; font-weight: 400; font-size: clamp(1.6rem, 3.4vw, 2.3rem); line-height: 1.15; }
+    .bjm-ub__address { margin: 0; font-style: normal; font-size: clamp(1rem, 1.8vw, 1.12rem); line-height: 1.65; color: color-mix(in srgb, var(--t-tx) 85%, var(--t-p)); padding-left: 1rem; border-left: 1px solid color-mix(in srgb, var(--t-p) 55%, transparent); }
+    .bjm-ub__address span { display: block; }
+    .bjm-ub__when { margin: 0; font-size: 1.02rem; color: var(--t-pearl); }
+    .bjm-ub__btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: .7rem;
+      min-height: 3.1rem;
+      margin-top: .4rem;
+      padding: .8rem 1.6rem .8rem 1.1rem;
+      border-radius: 999px;
+      font: inherit;
+      font-size: 1.05rem;
+      color: var(--t-bg);
+      text-decoration: none;
+      background: linear-gradient(120deg, color-mix(in srgb, var(--t-pearl) 92%, var(--t-p)), var(--t-p));
+      box-shadow: 0 10px 30px color-mix(in srgb, var(--t-p) 30%, transparent), inset 0 1px 0 color-mix(in srgb, #fff 70%, transparent);
+      overflow: hidden;
+      transition: transform .3s cubic-bezier(.2, .8, .2, 1), box-shadow .3s ease;
+    }
+    .bjm-ub__btn:hover, .bjm-ub__btn:focus-visible { transform: translateY(-2px); box-shadow: 0 14px 38px color-mix(in srgb, var(--t-p) 45%, transparent), inset 0 1px 0 color-mix(in srgb, #fff 70%, transparent); }
+    .bjm-ub__btn:focus-visible { outline: 2px solid var(--t-pearl); outline-offset: 3px; }
+    .bjm-ub__btn svg { width: 1.3rem; height: 1.3rem; flex: none; transition: transform .35s cubic-bezier(.3, 1.6, .5, 1); }
+    .bjm-ub__btn:hover svg { transform: translateY(-3px) rotate(-8deg); }
+
+    .bjm-ub--anim [data-bjm-up] { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); transition-delay: var(--dl, 0s); }
+    .bjm-ub--anim.is-in [data-bjm-up] { opacity: 1; transform: none; }
+    .bjm-ub--anim .bjm-ub__chart { opacity: 0; transform: scale(.94); filter: blur(6px); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1), filter .5s ease; }
+    .bjm-ub--anim.is-in .bjm-ub__chart { opacity: 1; transform: none; filter: none; }
+
+    @media (max-width: 760px) {
+      .bjm-ub__content { grid-template-columns: 1fr; }
+      .bjm-ub__info { justify-items: center; text-align: center; }
+      .bjm-ub__address { border-left: 0; padding-left: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .bjm-ub *, .bjm-ub *::before, .bjm-ub *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="bjm-ub__content">
+    <figure class="bjm-ub__chart" aria-hidden="true">
+      <svg class="bjm-ub__map" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" focusable="false">
+        <g style="stroke: var(--t-pearl)" stroke-opacity=".08" stroke-width=".6">
+          <path d="M0 60 H400 M0 120 H400 M0 180 H400 M0 240 H400 M80 0 V300 M160 0 V300 M240 0 V300 M320 0 V300" />
+        </g>
+        <g class="bjm-ub__contours" fill="none" style="stroke: var(--t-p)" stroke-width=".9">
+          <path stroke-opacity=".55" d="M248 128 C268 124 280 138 276 152 C272 168 252 176 238 168 C222 160 226 132 248 128 Z" />
+          <path stroke-opacity=".42" d="M246 106 C282 98 304 128 298 158 C292 190 254 200 228 190 C200 178 200 116 246 106 Z" />
+          <path stroke-opacity=".32" d="M240 82 C296 70 330 116 322 162 C314 210 262 226 222 214 C176 200 170 98 240 82 Z" />
+          <path stroke-opacity=".24" d="M232 56 C310 40 360 104 350 168 C340 236 268 258 214 242 C150 222 140 76 232 56 Z" />
+          <path stroke-opacity=".16" d="M222 28 C330 10 392 92 380 174 C368 262 276 294 204 272 C120 246 104 52 222 28 Z" />
+          <path stroke-opacity=".2" d="M30 250 C60 230 90 250 120 236 C150 222 150 270 110 280 C70 290 10 274 30 250 Z" />
+          <path stroke-opacity=".14" d="M14 232 C56 202 104 232 140 214 C176 196 182 286 118 298" />
+        </g>
+        <path d="M40 270 C90 250 120 210 160 200 C200 190 220 170 248 150" fill="none" style="stroke: var(--t-a)" stroke-width="2" stroke-linecap="round" stroke-dasharray="0 8" />
+        <g transform="translate(60 60)" style="stroke: var(--t-pearl)" stroke-opacity=".5" fill="none" stroke-width=".8">
+          <circle r="18" />
+          <path d="M0 -26 L4 0 L0 26 L-4 0 Z M-26 0 L0 4 L26 0 L0 -4 Z" style="fill: var(--t-pearl)" fill-opacity=".18" />
+        </g>
+        <text x="60" y="26" text-anchor="middle" font-size="10" style="fill: var(--t-pearl)" fill-opacity=".55">N</text>
+      </svg>
+      <div class="bjm-ub__marker">
+        <span class="bjm-ub__ring" data-bjm-ring></span>
+        <span class="bjm-ub__ring" data-bjm-ring></span>
+        <span class="bjm-ub__ring" data-bjm-ring></span>
+        <span class="bjm-ub__pin" data-bjm-pin></span>
+      </div>
+    </figure>
+
+    <div class="bjm-ub__info">
+      <p class="bjm-ub__kicker" data-bjm-up memory_type="text" memory_usage="custom" memory_key="ubicacion-kicker">Encuéntrame</p>
+      <h2 class="bjm-ub__title" data-bjm-up style="--dl: .1s" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar" data-event-field="lugar">Salón de Eventos Nombre</h2>
+<figure class="vmap-embed" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,640px);"><iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen style="display:block;width:100%;height:clamp(210px,38vw,330px);border:1px solid var(--primary-color,#9b9b9b);border-radius:12px;"></iframe></figure>
+<figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,340px);"><img src="https://loremflickr.com/700/420/underwater,venue" alt="Vista del lugar" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" style="display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--primary-color,#9b9b9b);" /><figcaption hidden>Vista del lugar</figcaption></figure>
+      <address class="bjm-ub__address" data-bjm-up style="--dl: .2s">
+        <span memory_type="text" memory_usage="custom" memory_key="ubicacion-calle">Avenida Ejemplo 123, Colonia Centro</span>
+        <span memory_type="text" memory_usage="custom" memory_key="ubicacion-ciudad">Ciudad, Estado, C.P. 00000</span>
+      </address>
+      <p class="bjm-ub__when" data-bjm-up style="--dl: .3s"><time datetime="2027-03-13T19:00" memory_type="text" memory_usage="custom" memory_key="ubicacion-hora" data-event-field="hora">Recepción a partir de las 7:00 p. m.</time></p>
+      <a class="bjm-ub__btn" href="#" data-bjm-route data-bjm-up style="--dl: .4s">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z" fill="none" stroke="currentColor" stroke-width="1.6" /><circle cx="12" cy="10" r="2.6" fill="currentColor" /></svg>
+        <span memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Cómo llegar</span>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="ubicacion-mapa"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      var rings = root.querySelectorAll('[data-bjm-ring]');
+      var pin = root.querySelector('[data-bjm-pin]');
+      /* static state: one soft halo */
+      if (rings[0]) { rings[0].style.setProperty('--s', '1.8'); rings[0].style.setProperty('--o', '.35'); }
+      if (RM || !('IntersectionObserver' in window)) return;   /* reduced motion = static final state */
+
+      root.classList.add('bjm-ub--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('bjm-ub--anim', 'is-in'); }, 1400);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+
+      /* Sonar pulse: rings expand continuously (rAF); the pearl beats with a .45s transition */
+      var vis = false, raf = 0, lastBeat = -1;
+      function tick(t) {
+        raf = 0;
+        if (!vis || document.hidden) return;
+        var cyc = 1800;
+        for (var i = 0; i < rings.length; i++) {
+          var ph = ((t / cyc) + i / rings.length) % 1;
+          rings[i].style.setProperty('--s', (.7 + ph * 2.6).toFixed(3));
+          rings[i].style.setProperty('--o', (Math.pow(1 - ph, 1.6) * .9).toFixed(3));
+        }
+        var beat = Math.floor(t / cyc);
+        if (beat !== lastBeat && pin) {
+          lastBeat = beat;
+          pin.style.setProperty('--bjm-beat', '1.22');
+          setTimeout(function () { pin.style.setProperty('--bjm-beat', '1'); }, 220);
+        }
+        root.style.setProperty('--bjm-drift', (Math.sin(t * .0004) * 6).toFixed(2) + 'px');
+        raf = requestAnimationFrame(tick);
+      }
+      function kick() { if (vis && !document.hidden && !raf) raf = requestAnimationFrame(tick); }
+      new IntersectionObserver(function (en) { vis = en[0].isIntersecting; kick(); }).observe(root);
+      document.addEventListener('visibilitychange', kick);
+
+      var btn = root.querySelector('[data-bjm-route]');
+      if (btn) btn.addEventListener('click', function (e) { if (btn.getAttribute('href') === '#') e.preventDefault(); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-mapa',
+      style_name: 'Bajo el Mar Carta Náutica',
+      descripcion: 'Ubicación como carta náutica con curvas de profundidad, ruta punteada en coral y una perla marcador con pulso de sonar animado; dirección en address y botón Cómo llegar.',
+      tags: ['ubicación', 'quinceañera', 'bajo el mar', 'mapa', 'perla'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>

@@ -1,0 +1,228 @@
+<section
+  class="cnc-reg"
+  data-gemini-id="regalos-cenicienta"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&family=Marcellus&display=swap');
+
+    .cnc-reg, .cnc-reg *, .cnc-reg *::before, .cnc-reg *::after { box-sizing: border-box; }
+    .cnc-reg {
+      --t-bg: var(--bg-color, #e6f0fa);
+      --t-tx: var(--text-color, #213a5c);
+      --t-p: var(--primary-color, #8db6dc);
+      --t-s: var(--secondary-color, #fdfcf8);
+      --t-a: var(--accent-color, #c4a052);
+      --t-display: var(--font-script, 'Monsieur La Doulaise', cursive);
+      --t-text: var(--font-heading, 'Marcellus', Georgia, serif);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(34rem, 60vw, 46rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1.25rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/chandelier,crystal?lock=3611');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      font-family: var(--t-text);
+    }
+    .cnc-reg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: linear-gradient(90deg, color-mix(in srgb, var(--t-bg) 86%, transparent), color-mix(in srgb, var(--t-s) 93%, transparent) 60%);
+    }
+    .cnc-reg__content { width: min(100%, 62rem); display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+
+    .cnc-reg__show { position: relative; display: grid; justify-items: center; padding-top: 1rem; }
+    .cnc-reg__halo { position: absolute; top: 0; left: 50%; width: min(100%, 22rem); aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--t-s) 95%, transparent), color-mix(in srgb, var(--t-p) 25%, transparent) 55%, transparent 70%); z-index: -1; }
+    .cnc-reg__shoe { width: min(100%, 19rem); height: auto; overflow: visible; filter: drop-shadow(0 14px 14px color-mix(in srgb, var(--t-tx) 22%, transparent)); }
+    .cnc-reg__cushion { width: min(90%, 17rem); height: auto; margin-top: -1.4rem; }
+    .cnc-reg__spark { opacity: 0; transform-origin: center; transform-box: fill-box; transition: opacity .3s ease, transform .4s cubic-bezier(.3, 1.6, .5, 1); transform: scale(.3); }
+    .cnc-reg[data-cnc-state="done"] .cnc-reg__spark { opacity: 1; transform: none; }
+
+    .cnc-reg__text { display: grid; gap: 1rem; }
+    .cnc-reg__kicker { margin: 0; font-size: 1.05rem; color: color-mix(in srgb, var(--t-tx) 75%, var(--t-a)); }
+    .cnc-reg__title { margin: 0; padding-top: .2em; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.9rem, 7vw, 4.6rem); line-height: 1.2; }
+    .cnc-reg__lead { margin: 0; font-size: 1.05rem; line-height: 1.6; }
+    .cnc-reg__list { list-style: none; margin: 0; padding: 0; display: grid; }
+    .cnc-reg__opt { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr); gap: .1rem .9rem; align-items: start; padding: .9rem 0; border-top: 1px solid color-mix(in srgb, var(--t-a) 45%, transparent); }
+    .cnc-reg__opt:last-child { border-bottom: 1px solid color-mix(in srgb, var(--t-a) 45%, transparent); }
+    .cnc-reg__ico { grid-row: span 2; width: 2.4rem; height: 2.4rem; color: color-mix(in srgb, var(--t-a) 75%, var(--t-tx)); }
+    .cnc-reg__name { margin: 0; font-size: 1.18rem; line-height: 1.3; }
+    .cnc-reg__desc { margin: 0; font-size: .98rem; line-height: 1.5; color: color-mix(in srgb, var(--t-tx) 82%, var(--t-bg)); }
+
+    .cnc-reg__btn {
+      justify-self: start;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
+      min-height: 3.2rem;
+      padding: .7rem 1.6rem;
+      border: 1px solid var(--t-a);
+      border-radius: 999px;
+      background: linear-gradient(180deg, color-mix(in srgb, var(--t-a) 50%, var(--t-s)), var(--t-a));
+      color: var(--t-tx);
+      font: inherit;
+      font-size: 1.08rem;
+      cursor: pointer;
+      box-shadow: 0 12px 26px -16px color-mix(in srgb, var(--t-a) 95%, transparent), inset 0 1px 0 color-mix(in srgb, var(--t-s) 80%, transparent);
+      transition: transform .3s cubic-bezier(.2, .8, .2, 1), filter .3s ease;
+    }
+    .cnc-reg__btn:hover { transform: translateY(-2px); filter: brightness(1.05); }
+    .cnc-reg__btn:focus-visible { outline: 2px solid var(--t-tx); outline-offset: 3px; }
+    .cnc-reg__btn[disabled] { cursor: progress; filter: saturate(.7); }
+    .cnc-reg__check { width: 1.2rem; height: 1.2rem; display: none; }
+    .cnc-reg[data-cnc-state="done"] .cnc-reg__check { display: block; animation: cnc-reg-pop .4s cubic-bezier(.3, 1.6, .5, 1); }
+    .cnc-reg__ok { margin: 0; font-size: 1.02rem; color: color-mix(in srgb, var(--t-a) 55%, var(--t-tx)); animation: cnc-reg-pop .4s cubic-bezier(.3, 1.6, .5, 1); }
+    @keyframes cnc-reg-pop { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
+
+    .cnc-reg--anim .cnc-reg__show { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+    .cnc-reg--anim .cnc-reg__text { opacity: 0; transition: opacity .5s ease .25s; }
+    .cnc-reg--anim.is-in .cnc-reg__show, .cnc-reg--anim.is-in .cnc-reg__text { opacity: 1; transform: none; }
+
+    @media (max-width: 780px) {
+      .cnc-reg__content { grid-template-columns: 1fr; max-width: 30rem; }
+      .cnc-reg__head { text-align: center; }
+      .cnc-reg__btn { justify-self: center; }
+      .cnc-reg__ok { text-align: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cnc-reg *, .cnc-reg *::before, .cnc-reg *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <div class="cnc-reg__content">
+    <div class="cnc-reg__show" aria-hidden="true">
+      <span class="cnc-reg__halo"></span>
+      <svg class="cnc-reg__shoe" viewBox="0 0 200 124">
+        <defs>
+          <clipPath id="cnc-reg-shoeclip"><path d="M12 96 Q10 80 34 76 Q66 70 92 78 Q118 60 140 40 Q156 28 172 36 Q182 44 178 58 L176 64 L170 112 L162 112 L160 72 Q132 96 96 102 Q50 108 22 104 Q12 102 12 96 Z" /></clipPath>
+          <linearGradient id="cnc-reg-glass" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" style="stop-color: var(--t-s); stop-opacity: .9" />
+            <stop offset=".6" style="stop-color: var(--t-p); stop-opacity: .45" />
+            <stop offset="1" style="stop-color: var(--t-p); stop-opacity: .8" />
+          </linearGradient>
+          <linearGradient id="cnc-reg-light" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0" style="stop-color: var(--t-a)" />
+            <stop offset="1" style="stop-color: color-mix(in srgb, var(--t-a) 30%, var(--t-s))" />
+          </linearGradient>
+        </defs>
+        <g clip-path="url(#cnc-reg-shoeclip)">
+          <rect x="0" y="0" width="200" height="124" fill="url(#cnc-reg-glass)" />
+          <rect data-cnc-light x="0" y="124" width="200" height="124" fill="url(#cnc-reg-light)" opacity=".85" />
+          <path d="M30 86 Q70 76 100 88 M120 66 Q140 46 160 42" fill="none" style="stroke: var(--t-s)" stroke-width="3" stroke-linecap="round" opacity=".85" />
+        </g>
+        <path d="M12 96 Q10 80 34 76 Q66 70 92 78 Q118 60 140 40 Q156 28 172 36 Q182 44 178 58 L176 64 L170 112 L162 112 L160 72 Q132 96 96 102 Q50 108 22 104 Q12 102 12 96 Z" fill="none" style="stroke: color-mix(in srgb, var(--t-p) 60%, var(--t-tx))" stroke-width="1.8" />
+        <path d="M34 76 Q62 64 92 78" fill="none" style="stroke: color-mix(in srgb, var(--t-p) 60%, var(--t-tx))" stroke-width="1.4" />
+        <g style="fill: var(--t-a)">
+          <path class="cnc-reg__spark" d="M60 40 l2 7 7 2 -7 2 -2 7 -2 -7 -7 -2 7 -2 z" />
+          <path class="cnc-reg__spark" d="M186 18 l1.5 5 5 1.5 -5 1.5 -1.5 5 -1.5 -5 -5 -1.5 5 -1.5 z" />
+          <path class="cnc-reg__spark" d="M110 30 l1.2 4 4 1.2 -4 1.2 -1.2 4 -1.2 -4 -4 -1.2 4 -1.2 z" />
+        </g>
+      </svg>
+      <svg class="cnc-reg__cushion" viewBox="0 0 220 60">
+        <path d="M14 26 Q10 8 40 10 Q110 2 180 10 Q210 8 206 26 Q214 46 184 50 Q110 58 36 50 Q6 46 14 26 Z" style="fill: color-mix(in srgb, var(--t-p) 75%, var(--t-tx)); stroke: var(--t-a)" stroke-width="1.6" />
+        <path d="M30 22 Q110 12 190 22" fill="none" style="stroke: var(--t-a)" stroke-width="1" stroke-dasharray="3 4" />
+        <g style="fill: var(--t-a)"><circle cx="14" cy="28" r="4" /><circle cx="206" cy="28" r="4" /><path d="M12 32 l-4 14 h8 z M204 32 l-4 14 h8 z" /></g>
+      </svg>
+    </div>
+
+    <div class="cnc-reg__text">
+      <header class="cnc-reg__head">
+        <p class="cnc-reg__kicker" memory_type="text" memory_usage="custom" memory_key="regalos-intro">Tu presencia es mi mayor regalo</p>
+        <h2 class="cnc-reg__title" memory_type="text" memory_usage="custom" memory_key="regalos-titulo">Mesa de Regalos</h2>
+      </header>
+      <p class="cnc-reg__lead" memory_type="text" memory_usage="custom" memory_key="regalos-texto">Si deseas obsequiarme algo, aquí tienes algunas opciones para completar mi cuento.</p>
+      <ul class="cnc-reg__list">
+        <li class="cnc-reg__opt">
+          <svg class="cnc-reg__ico" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 10 h22 v16 h-22 z M5 10 l11 9 11 -9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" /></svg>
+          <h3 class="cnc-reg__name" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-1">Lluvia de sobres</h3>
+          <p class="cnc-reg__desc" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-1-desc">Habrá un cofre real a la entrada del salón.</p>
+        </li>
+        <li class="cnc-reg__opt">
+          <svg class="cnc-reg__ico" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 13 h22 v14 h-22 z M3 9 h26 v4 h-26 z M16 9 v18 M16 9 c-3 -6 -9 -5 -7 0 M16 9 c3 -6 9 -5 7 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" /></svg>
+          <h3 class="cnc-reg__name" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-2">Mesa en tienda departamental</h3>
+          <p class="cnc-reg__desc" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-2-desc">Evento número 12345678.</p>
+        </li>
+        <li class="cnc-reg__opt">
+          <svg class="cnc-reg__ico" viewBox="0 0 32 32" aria-hidden="true"><path d="M4 8 h24 v16 h-24 z M4 13 h24 M8 20 h6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" /></svg>
+          <h3 class="cnc-reg__name" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-3">Transferencia</h3>
+          <p class="cnc-reg__desc" memory_type="text" memory_usage="custom" memory_key="regalos-opcion-3-desc">Datos disponibles con los papás de la quinceañera.</p>
+        </li>
+      </ul>
+      <button class="cnc-reg__btn" type="button" data-cnc-gift>
+        <svg class="cnc-reg__check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 l4.5 4.5 L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        <span memory_type="text" memory_usage="custom" memory_key="regalos-boton">Agendar regalo</span>
+      </button>
+      <p class="cnc-reg__ok" data-cnc-ok role="status" hidden memory_type="text" memory_usage="custom" memory_key="regalos-confirmacion">¡Gracias! Tu regalo quedó agendado en el libro real.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="regalos-cenicienta"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      var btn = root.querySelector('[data-cnc-gift]');
+      var light = root.querySelector('[data-cnc-light]');
+      var ok = root.querySelector('[data-cnc-ok]');
+      function finish() {
+        root.setAttribute('data-cnc-state', 'done');
+        light.setAttribute('y', '0');
+        btn.disabled = false;
+        ok.hidden = false;
+      }
+      btn.addEventListener('click', function () {
+        var st = root.getAttribute('data-cnc-state');
+        if (st === 'loading' || st === 'done') return;
+        root.setAttribute('data-cnc-state', 'loading');
+        btn.disabled = true;
+        if (RM) { finish(); return; }
+        var t0 = 0;
+        function fill(t) {
+          if (!t0) t0 = t;
+          var p = Math.min(1, (t - t0) / 1300);
+          var e = 1 - Math.pow(1 - p, 3);
+          light.setAttribute('y', (124 - e * 124).toFixed(2));
+          if (p < 1) requestAnimationFrame(fill); else finish();
+        }
+        requestAnimationFrame(fill);
+      });
+
+      if (RM || !('IntersectionObserver' in window)) return;
+      root.classList.add('cnc-reg--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .25) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('cnc-reg--anim', 'is-in'); }, 1300);
+        }
+      }, { threshold: [0, .25, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'regalos',
+      module_name: 'regalos-cenicienta',
+      style_name: 'Cenicienta Medianoche Real',
+      descripcion: 'Mesa de regalos con zapatilla de cristal sobre cojín de terciopelo que se llena de luz dorada al pulsar Agendar regalo. Opciones de sobres, tienda y transferencia en azul, blanco y dorado.',
+      tags: ['regalos', 'mesa de regalos', 'quinceañera', 'cenicienta', 'zapatilla de cristal', 'dorado'],
+      tipo: 'regalos'
+    };
+  </script>
+</section>

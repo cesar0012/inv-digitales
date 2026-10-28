@@ -1,0 +1,306 @@
+﻿<section
+  class="countdown-split-flap"
+  data-gemini-id="countdown-split-flap"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+  data-countdown-target="YYYY-MM-DDTHH:MM:SS"
+>
+  <style>
+    .countdown-split-flap {
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(470px, 56vw, 650px);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: clamp(3rem, 7vw, 5.5rem) clamp(1rem, 4vw, 3rem);
+      background-color: var(--bg-color, #dedbd4);
+      background-image: url('https://loremflickr.com/1600/1000/celebration,minimal');
+      background-position: center;
+      background-size: cover;
+      color: var(--text-color, #292826);
+      text-align: center;
+    }
+
+    .countdown-split-flap,
+    .countdown-split-flap * { box-sizing: border-box; }
+
+    .countdown-split-flap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: color-mix(in srgb, var(--bg-color, #dedbd4) 88%, transparent);
+    }
+
+    .countdown-split-flap__content {
+      width: min(100%, 1040px);
+      margin: 0 auto;
+    }
+
+    .countdown-split-flap__eyebrow {
+      margin: 0 0 .65rem;
+      color: var(--accent-color, var(--text-color, #292826));
+      font-size: clamp(.62rem, 1.2vw, .78rem);
+      font-weight: 700;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+    }
+
+    .countdown-split-flap__heading {
+      margin: 0;
+      color: var(--primary-color, var(--text-color, #292826));
+      font-size: clamp(1.7rem, 4vw, 3rem);
+      font-weight: 500;
+      line-height: 1.08;
+    }
+
+    .countdown-split-flap__date {
+      display: block;
+      margin: .75rem 0 clamp(2.2rem, 6vw, 4rem);
+      color: var(--text-color, #292826);
+      font-size: clamp(.75rem, 1.5vw, .92rem);
+      letter-spacing: .06em;
+      opacity: .76;
+    }
+
+    .countdown-split-flap__timer {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: clamp(.8rem, 3vw, 2.2rem);
+      align-items: start;
+      width: 100%;
+      perspective: 1000px;
+    }
+
+    .countdown-split-flap__unit {
+      position: relative;
+      min-width: 0;
+    }
+
+    .countdown-split-flap__unit:not(:last-child)::after {
+      content: ':';
+      position: absolute;
+      top: clamp(2rem, 6.2vw, 4.3rem);
+      right: calc(clamp(.8rem, 3vw, 2.2rem) * -.72);
+      transform: translate(50%, -50%);
+      color: var(--text-color, #292826);
+      font-size: clamp(1.7rem, 4.2vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1;
+      opacity: .72;
+    }
+
+    .countdown-split-flap__value {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 100%;
+      min-height: clamp(104px, 16vw, 175px);
+      padding: .08em .15em .04em;
+      overflow: hidden;
+      border-radius: clamp(.65rem, 1.7vw, 1.25rem);
+      background:
+        linear-gradient(to bottom,
+          color-mix(in srgb, var(--text-color, #292826) 91%, var(--bg-color, #dedbd4)) 0 49.2%,
+          color-mix(in srgb, var(--text-color, #292826) 64%, transparent) 49.2% 50.8%,
+          color-mix(in srgb, var(--text-color, #292826) 86%, var(--bg-color, #dedbd4)) 50.8% 100%);
+      box-shadow:
+        inset 0 1px 0 color-mix(in srgb, var(--bg-color, #dedbd4) 18%, transparent),
+        0 9px 22px color-mix(in srgb, var(--text-color, #292826) 15%, transparent);
+      color: var(--bg-color, #dedbd4);
+      font-size: clamp(3.6rem, 10vw, 7.8rem);
+      font-weight: 650;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -.075em;
+      line-height: .8;
+      transform: rotateX(0deg);
+      transform-origin: center;
+      backface-visibility: hidden;
+    }
+
+    .countdown-split-flap__value::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 1px;
+      background: color-mix(in srgb, var(--bg-color, #dedbd4) 28%, transparent);
+      box-shadow: 0 1px 0 color-mix(in srgb, var(--text-color, #292826) 55%, transparent);
+      pointer-events: none;
+    }
+
+    .countdown-split-flap__value.is-flipping {
+      animation: countdown-split-flap-turn 480ms cubic-bezier(.35,.05,.2,1);
+    }
+
+    @keyframes countdown-split-flap-turn {
+      0%   { transform: rotateX(0deg); filter: brightness(1); }
+      44%  { transform: rotateX(-78deg); filter: brightness(.8); }
+      52%  { transform: rotateX(68deg); filter: brightness(.88); }
+      100% { transform: rotateX(0deg); filter: brightness(1); }
+    }
+
+    .countdown-split-flap__label {
+      display: block;
+      margin-top: clamp(.85rem, 2vw, 1.25rem);
+      color: var(--text-color, #292826);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(.68rem, 1.4vw, .98rem);
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 720px) {
+      .countdown-split-flap {
+        min-height: 620px;
+        padding-inline: 1rem;
+      }
+
+      .countdown-split-flap__timer {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2rem 1.2rem;
+        width: min(100%, 440px);
+        margin: 0 auto;
+      }
+
+      .countdown-split-flap__unit:not(:last-child)::after { display: none; }
+
+      .countdown-split-flap__value {
+        min-height: 118px;
+        font-size: clamp(4rem, 21vw, 6.2rem);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .countdown-split-flap__value.is-flipping { animation: none; }
+    }
+  </style>
+
+  <div class="countdown-split-flap__content">
+    <p class="countdown-split-flap__eyebrow">El tiempo corre</p>
+    <h2 class="countdown-split-flap__heading">Cada segundo nos acerca</h2>
+    <time
+      class="countdown-split-flap__date"
+      datetime="YYYY-MM-DDTHH:MM:SS"
+      memory_type="text"
+      memory_usage="custom"
+      memory_key="countdown-event-date"
+    >Fecha del evento</time>
+
+    <div class="countdown-split-flap__timer" aria-label="Cuenta regresiva">
+      <div class="countdown-split-flap__unit">
+        <span class="countdown-split-flap__value" data-countdown-unit="days">--</span>
+        <span class="countdown-split-flap__label">Días</span>
+      </div>
+      <div class="countdown-split-flap__unit">
+        <span class="countdown-split-flap__value" data-countdown-unit="hours">--</span>
+        <span class="countdown-split-flap__label">Horas</span>
+      </div>
+      <div class="countdown-split-flap__unit">
+        <span class="countdown-split-flap__value" data-countdown-unit="minutes">--</span>
+        <span class="countdown-split-flap__label">Minutos</span>
+      </div>
+      <div class="countdown-split-flap__unit">
+        <span class="countdown-split-flap__value" data-countdown-unit="seconds">--</span>
+        <span class="countdown-split-flap__label">Segundos</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var el = null;
+    try { el = document.currentScript.closest('[data-gemini-id^="countdown"]'); } catch(e) {}
+    if (!el) el = document.querySelector('[data-gemini-id^="countdown"]');
+    if (!el) return;
+    console.log('[COUNTDOWN-MODULE] el encontrado=', !!el);
+
+    var targetAttr = el.getAttribute('data-countdown-target');
+
+    var target = NaN;
+    if (targetAttr && targetAttr.indexOf('YYYY') === -1) { var _parsed = new Date(targetAttr); if (!isNaN(_parsed.getTime())) target = _parsed.getTime(); }
+    if (isNaN(target)) { if (window.__countdownTarget) { var _p1 = new Date(window.__countdownTarget); if (!isNaN(_p1.getTime())) target = _p1.getTime(); } else if (window.countdown_target) { var _p2 = new Date(window.countdown_target); if (!isNaN(_p2.getTime())) target = _p2.getTime(); } }
+    console.log('[COUNTDOWN-MODULE] el encontrado=', !!el, 'target=', targetAttr, 'targetMs=', isNaN(target) ? 'NaN' : target);
+
+    (window.__countdownIntervals = window.__countdownIntervals || []).forEach(clearInterval);
+    window.__countdownIntervals = [];
+
+    function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function setUnit(unit, value) {
+      var node = el.querySelector('[data-countdown-unit="' + unit + '"]');
+      if (!node || node.textContent === String(value)) return;
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (!reduced && node.textContent !== '--') {
+        node.classList.remove('is-flipping');
+        void node.offsetWidth;
+        node.classList.add('is-flipping');
+        window.setTimeout(function () { node.textContent = value; }, 215);
+        window.setTimeout(function () { node.classList.remove('is-flipping'); }, 500);
+      } else {
+        node.textContent = value;
+      }
+    }
+
+    function tick() {
+      if (!Number.isFinite(target)) {
+        setUnit('days', '--');
+        setUnit('hours', '--');
+        setUnit('minutes', '--');
+        setUnit('seconds', '--');
+        return;
+      }
+
+      var diff = target - Date.now();
+      if (diff < 0) diff = 0;
+      var d = Math.floor(diff / 86400000);
+      var h = Math.floor((diff % 86400000) / 3600000);
+      var m = Math.floor((diff % 3600000) / 60000);
+      var s = Math.floor((diff % 60000) / 1000);
+
+      setUnit('days', d);
+      setUnit('hours', pad2(h));
+      setUnit('minutes', pad2(m));
+      setUnit('seconds', pad2(s));
+
+      if (diff === 0 && activeInterval) clearInterval(activeInterval);
+    }
+
+    var activeInterval = null;
+    tick();
+    if (Number.isFinite(target) && target > Date.now()) {
+      activeInterval = setInterval(tick, 1000);
+      window.__countdownIntervals.push(activeInterval);
+    }
+
+    window.updateCountdown = function (newTarget) {
+      target = new Date(newTarget).getTime();
+      (window.__countdownIntervals || []).forEach(clearInterval);
+      window.__countdownIntervals = [];
+      tick();
+      if (Number.isFinite(target) && target > Date.now()) {
+        activeInterval = setInterval(tick, 1000);
+        window.__countdownIntervals.push(activeInterval);
+      }
+    };
+  })();
+</script>
+
+<script>
+  var moduleMetadata = {
+    module_type: 'countdown',
+    module_name: 'countdown-split-flap',
+    style_name: 'Split Flap',
+    descripcion: 'Cuenta regresiva tipo tablero mecánico con tarjetas divididas y giro 3D al cambiar días, horas, minutos y segundos. Mantiene fecha editable y timer autónomo.',
+    tags: ['countdown', 'cuenta regresiva', 'timer', 'celebración', 'evento'],
+    tipo: 'countdown'
+  };
+</script>

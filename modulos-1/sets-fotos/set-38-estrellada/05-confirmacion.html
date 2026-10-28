@@ -1,0 +1,400 @@
+<section
+  class="ne-rs"
+  data-gemini-id="confirmacion-texto"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400%3B0,500%3B0,600%3B1,400%3B1,500&family=Great+Vibes&display=swap');
+
+    .ne-rs, .ne-rs *, .ne-rs *::before, .ne-rs *::after { box-sizing: border-box; }
+    .ne-rs {
+      --t-bg: var(--bg-color, #0a1535);
+      --t-tx: var(--text-color, #f3f6fd);
+      --t-p: var(--primary-color, #c4ccda);
+      --t-s: var(--secondary-color, #1d3170);
+      --t-a: var(--accent-color, #eef3ff);
+      --t-display: var(--font-script, 'Great Vibes', cursive);
+      --t-text: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+      --t-soft: color-mix(in srgb, var(--t-tx) 80%, transparent);
+      --t-line: color-mix(in srgb, var(--t-p) 45%, transparent);
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(32rem, 60vw, 46rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/night,stars,sky?lock=3306');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .ne-rs::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 55%, color-mix(in srgb, var(--t-s) 55%, transparent), transparent 70%),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 88%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent));
+    }
+    .ne-rs__sky { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+    .ne-rs__panel {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 40rem);
+      padding: clamp(2.2rem, 5vw, 3.4rem) clamp(1.3rem, 5vw, 3.2rem) clamp(2rem, 4vw, 2.8rem);
+      border-radius: 2rem;
+      border: 1px solid color-mix(in srgb, var(--t-p) 35%, transparent);
+      background:
+        radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--t-a) 10%, transparent), transparent 40%),
+        linear-gradient(170deg, color-mix(in srgb, var(--t-s) 50%, transparent), color-mix(in srgb, var(--t-bg) 78%, transparent));
+      box-shadow: 0 30px 80px color-mix(in srgb, black 45%, transparent), inset 0 1px 0 color-mix(in srgb, var(--t-a) 25%, transparent);
+      backdrop-filter: blur(6px);
+    }
+    .ne-rs__moon { position: absolute; top: -2.2rem; left: clamp(1rem, 6vw, 2.6rem); width: 4.4rem; height: 4.4rem; filter: drop-shadow(0 0 14px color-mix(in srgb, var(--t-a) 60%, transparent)); }
+    .ne-rs__burst { position: absolute; inset: -2rem; width: calc(100% + 4rem); height: calc(100% + 4rem); pointer-events: none; z-index: 2; }
+
+    .ne-rs__title { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(2.5rem, 6vw, 3.9rem); line-height: 1.1; color: var(--t-a); }
+    .ne-rs__intro { margin: .3rem auto 1.8rem; max-width: 28rem; font-size: 1.12rem; line-height: 1.5; color: var(--t-soft); }
+
+    .ne-rs__form { display: grid; gap: 1.2rem; text-align: left; }
+    .ne-rs__row { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 1.2rem; }
+    .ne-rs__field { display: grid; gap: .3rem; }
+    .ne-rs__label { font-style: italic; font-size: 1.05rem; color: var(--t-p); }
+    .ne-rs__input {
+      width: 100%;
+      min-height: 2.9rem;
+      padding: .55rem .2rem;
+      border: 0;
+      border-bottom: 1px solid var(--t-line);
+      border-radius: 0;
+      background: transparent;
+      color: var(--t-tx);
+      font: inherit;
+      font-size: 1.15rem;
+      transition: border-color .3s ease, box-shadow .3s ease;
+    }
+    .ne-rs__input::placeholder { color: color-mix(in srgb, var(--t-tx) 40%, transparent); }
+    .ne-rs__input:focus { outline: none; border-bottom-color: var(--t-a); box-shadow: 0 6px 14px -10px var(--t-a); }
+    .ne-rs__input option { background: var(--t-bg); color: var(--t-tx); }
+    .ne-rs__area { min-height: 5rem; resize: vertical; line-height: 1.4; }
+
+    .ne-rs__fs { margin: 0; padding: 0; border: 0; display: grid; gap: .5rem; }
+    .ne-rs__fs legend { padding: 0; margin-bottom: .45rem; }
+    .ne-rs__opts { display: flex; flex-wrap: wrap; gap: .7rem; }
+    .ne-rs__opt { position: relative; flex: 1 1 12rem; cursor: pointer; }
+    .ne-rs__opt input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .ne-rs__pill {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .55rem;
+      min-height: 3rem;
+      padding: .5rem 1rem;
+      border: 1px solid var(--t-line);
+      border-radius: 999px;
+      font-size: 1.1rem;
+      transition: background-color .3s ease, color .3s ease, border-color .3s ease, box-shadow .3s ease;
+    }
+    .ne-rs__pill::before { content: ''; width: .8rem; height: .8rem; border-radius: 50%; box-shadow: inset 3px -2px 0 0 var(--t-p); transition: box-shadow .3s ease, rotate .4s ease; }
+    .ne-rs__opt:hover .ne-rs__pill { border-color: var(--t-p); }
+    .ne-rs__opt input:focus-visible + .ne-rs__pill { outline: 2px solid var(--t-a); outline-offset: 3px; }
+    .ne-rs__opt input:checked + .ne-rs__pill { background: color-mix(in srgb, var(--t-p) 22%, transparent); border-color: var(--t-a); box-shadow: 0 0 18px color-mix(in srgb, var(--t-a) 25%, transparent); }
+    .ne-rs__opt input:checked + .ne-rs__pill::before { box-shadow: inset 0 0 0 1rem var(--t-a); rotate: 180deg; }
+
+    .ne-rs__btn {
+      position: relative;
+      justify-self: center;
+      display: inline-grid;
+      place-items: center;
+      min-width: min(100%, 17rem);
+      min-height: 3.4rem;
+      margin-top: .6rem;
+      padding: .6rem 2rem;
+      border: 0;
+      border-radius: 999px;
+      background: linear-gradient(100deg, var(--t-p), var(--t-a) 55%, var(--t-p));
+      background-size: 200% 100%;
+      color: var(--t-bg);
+      font: inherit;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      overflow: hidden;
+      transition: background-position .5s ease, box-shadow .35s ease, scale .2s ease;
+    }
+    .ne-rs__btn:hover { background-position: 100% 0; box-shadow: 0 0 30px color-mix(in srgb, var(--t-a) 50%, transparent); }
+    .ne-rs__btn:active { scale: .97; }
+    .ne-rs__btn:focus-visible { outline: 2px solid var(--t-a); outline-offset: 4px; }
+    .ne-rs__state { grid-area: 1 / 1; display: inline-flex; align-items: center; gap: .55rem; transition: opacity .3s ease, translate .3s ease; }
+    .ne-rs__state--load, .ne-rs__state--done { opacity: 0; translate: 0 .8rem; }
+    .ne-rs__btn[data-state="loading"] .ne-rs__state--idle,
+    .ne-rs__btn[data-state="done"] .ne-rs__state--idle { opacity: 0; translate: 0 -.8rem; }
+    .ne-rs__btn[data-state="loading"] .ne-rs__state--load { opacity: 1; translate: 0 0; }
+    .ne-rs__btn[data-state="done"] .ne-rs__state--done { opacity: 1; translate: 0 0; }
+    .ne-rs__btn[data-state="loading"] { cursor: progress; }
+    .ne-rs__spin { width: 1.3rem; height: 1.3rem; }
+    .ne-rs__check { width: 1.2rem; height: 1.2rem; }
+    .ne-rs__check path { stroke-dasharray: 24; stroke-dashoffset: 24; transition: stroke-dashoffset .45s ease .1s; }
+    .ne-rs__btn[data-state="done"] .ne-rs__check path { stroke-dashoffset: 0; }
+
+    .ne-rs__note { margin: 1.2rem 0 0; font-style: italic; font-size: 1rem; color: var(--t-soft); text-align: center; }
+    .ne-rs__thanks { margin: 0; padding: .9rem 1rem; border-radius: 1rem; border: 1px dashed color-mix(in srgb, var(--t-a) 45%, transparent); text-align: center; font-size: 1.15rem; color: var(--t-a); }
+
+    /* Entrance: panel rises out of a soft glow, moon swings into its corner */
+    .ne-rs--anim .ne-rs__panel { opacity: 0; scale: .94; filter: blur(6px); transition: opacity .5s ease, scale .5s cubic-bezier(.2, .8, .2, 1), filter .5s ease; }
+    .ne-rs--anim .ne-rs__moon { rotate: -70deg; opacity: 0; transition: rotate .5s cubic-bezier(.3, 1.4, .5, 1) .3s, opacity .4s ease .3s; }
+    .ne-rs--anim.is-in .ne-rs__panel { opacity: 1; scale: 1; filter: none; }
+    .ne-rs--anim.is-in .ne-rs__moon { rotate: 0deg; opacity: 1; }
+
+    @media (max-width: 560px) {
+      .ne-rs__row { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ne-rs *, .ne-rs *::before, .ne-rs *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <canvas class="ne-rs__sky" data-ne-sky aria-hidden="true"></canvas>
+
+  <div class="ne-rs__panel">
+    <svg class="ne-rs__moon" viewBox="0 0 40 40" aria-hidden="true">
+      <defs>
+        <linearGradient id="ne33-rs-silver" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" style="stop-color: var(--t-a)" />
+          <stop offset="1" style="stop-color: var(--t-p)" />
+        </linearGradient>
+        <mask id="ne33-rs-cut"><rect width="40" height="40" fill="#fff" /><circle cx="27" cy="14" r="14.5" fill="#000" /></mask>
+      </defs>
+      <circle cx="20" cy="20" r="17" fill="url(#ne33-rs-silver)" mask="url(#ne33-rs-cut)" />
+    </svg>
+    <canvas class="ne-rs__burst" data-ne-burst aria-hidden="true"></canvas>
+
+    <h2 class="ne-rs__title" memory_type="text" memory_usage="custom" memory_key="confirmacion-titulo">¿Brillarás conmigo?</h2>
+    <p class="ne-rs__intro" memory_type="text" memory_usage="custom" memory_key="confirmacion-texto">Tu presencia hará esta noche aún más especial. Confirma tu asistencia, por favor.</p>
+
+    <form class="ne-rs__form" data-ne-form novalidate>
+      <div class="ne-rs__row">
+        <label class="ne-rs__field">
+          <span class="ne-rs__label" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-nombre">Nombre completo</span>
+          <input class="ne-rs__input" type="text" name="nombre" autocomplete="name" placeholder="Nombre Apellido" required />
+        </label>
+        <label class="ne-rs__field">
+          <span class="ne-rs__label" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-invitados">Número de invitados</span>
+          <select class="ne-rs__input" name="invitados">
+            <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+          </select>
+        </label>
+      </div>
+
+      <fieldset class="ne-rs__fs">
+        <legend class="ne-rs__label" memory_type="text" memory_usage="custom" memory_key="confirmacion-pregunta">¿Nos acompañarás?</legend>
+        <div class="ne-rs__opts">
+          <label class="ne-rs__opt">
+            <input type="radio" name="asistencia" value="si" required />
+            <span class="ne-rs__pill" memory_type="text" memory_usage="custom" memory_key="confirmacion-opcion-si">Sí, ahí estaré</span>
+          </label>
+          <label class="ne-rs__opt">
+            <input type="radio" name="asistencia" value="no" />
+            <span class="ne-rs__pill" memory_type="text" memory_usage="custom" memory_key="confirmacion-opcion-no">No podré asistir</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <label class="ne-rs__field">
+        <span class="ne-rs__label" memory_type="text" memory_usage="custom" memory_key="confirmacion-label-mensaje">Un deseo para la quinceañera</span>
+        <textarea class="ne-rs__input ne-rs__area" name="mensaje" rows="3" placeholder="Escribe tu mensaje…"></textarea>
+      </label>
+
+      <button class="ne-rs__btn" type="submit" data-ne-submit data-state="idle">
+        <span class="ne-rs__state ne-rs__state--idle"><span memory_type="text" memory_usage="custom" memory_key="confirmacion-boton">Confirmar asistencia</span></span>
+        <span class="ne-rs__state ne-rs__state--load" aria-hidden="true">
+          <svg class="ne-rs__spin" viewBox="0 0 24 24" data-ne-spin>
+            <defs><mask id="ne33-rs-spin"><rect width="24" height="24" fill="#fff" /><circle cx="16" cy="8" r="8.5" fill="#000" /></mask></defs>
+            <circle cx="12" cy="12" r="10" mask="url(#ne33-rs-spin)" style="fill: currentColor" />
+          </svg>
+          Enviando…
+        </span>
+        <span class="ne-rs__state ne-rs__state--done" aria-hidden="true">
+          <svg class="ne-rs__check" viewBox="0 0 24 24"><path d="M4 12.5 L9.5 18 L20 6" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="stroke: currentColor" /></svg>
+          ¡Confirmado!
+        </span>
+      </button>
+
+      <p class="ne-rs__thanks" data-ne-thanks hidden memory_type="text" memory_usage="custom" memory_key="confirmacion-gracias">¡Gracias! Tu estrella ya brilla en nuestro cielo.</p>
+    </form>
+
+    <p class="ne-rs__note" memory_type="text" memory_usage="custom" memory_key="confirmacion-fecha-limite" data-event-field="fecha-limite">Por favor confirma antes del 15 de abril de 2027.</p>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="confirmacion-texto"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      /* Shared night-sky layer: twinkling stars, silver glitter sparkles and occasional shooting stars */
+      function neSky(cv, host, o) {
+        o = o || {};
+        var ctx = cv && cv.getContext ? cv.getContext('2d') : null;
+        var api = { start: function () {}, stop: function () {}, draw: function () {} };
+        if (!ctx) return api;
+        var dpr = Math.min(window.devicePixelRatio || 1, 2), W = 1, H = 1, pts = [], shots = [], next = 0, raf = 0, on = false;
+        var cs = getComputedStyle(host);
+        var cA = cs.getPropertyValue('--t-a').trim() || '#eef3ff';
+        var cP = cs.getPropertyValue('--t-p').trim() || '#c4ccda';
+        function seed() {
+          pts = [];
+          var n = Math.min(o.max || 200, Math.round(W * H / (o.area || 6500)));
+          for (var i = 0; i < n; i++) {
+            pts.push({ x: Math.random() * W, y: Math.random() * H, r: .35 + Math.random() * 1.05, ph: Math.random() * 6.283, sp: .5 + Math.random() * 1.6, g: Math.random() < (o.glitter || .1) });
+          }
+        }
+        function size() {
+          var r = cv.getBoundingClientRect();
+          W = Math.max(1, r.width); H = Math.max(1, r.height);
+          cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          seed();
+        }
+        function sparkle(x, y, s, a) {
+          ctx.globalAlpha = Math.max(0, Math.min(1, a)); ctx.fillStyle = cA;
+          ctx.beginPath(); ctx.moveTo(x, y - s);
+          ctx.quadraticCurveTo(x + s * .14, y - s * .14, x + s, y);
+          ctx.quadraticCurveTo(x + s * .14, y + s * .14, x, y + s);
+          ctx.quadraticCurveTo(x - s * .14, y + s * .14, x - s, y);
+          ctx.quadraticCurveTo(x - s * .14, y - s * .14, x, y - s);
+          ctx.fill();
+        }
+        function spawn(now) {
+          var th = (.42 + Math.random() * .2);
+          shots.push({ x: W * (.35 + Math.random() * .7), y: -10 + Math.random() * H * .4, dx: -Math.cos(th), dy: Math.sin(th), dist: (W + H) * (.25 + Math.random() * .15), len: 90 + Math.random() * 110, born: now, life: 950 + Math.random() * 450 });
+        }
+        function draw(now) {
+          ctx.clearRect(0, 0, W, H);
+          var t = now / 1000;
+          for (var i = 0; i < pts.length; i++) {
+            var p = pts[i], tw = .55 + .45 * Math.sin(t * p.sp + p.ph);
+            if (p.g) { sparkle(p.x, p.y, p.r * 3.4 * tw + .6, .3 + .7 * tw); }
+            else { ctx.globalAlpha = .22 + .6 * tw; ctx.fillStyle = cP; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill(); }
+          }
+          if (o.shoot) {
+            if (!next) next = now + 900 + Math.random() * 2200;
+            if (now > next) { spawn(now); next = now + (o.every || 5200) + Math.random() * 4000; }
+            for (var j = shots.length - 1; j >= 0; j--) {
+              var s = shots[j], k = (now - s.born) / s.life;
+              if (k >= 1 || k < 0) { shots.splice(j, 1); continue; }
+              var hx = s.x + s.dx * k * s.dist, hy = s.y + s.dy * k * s.dist, tl = s.len * Math.min(1, k * 3);
+              var g = ctx.createLinearGradient(hx, hy, hx - s.dx * tl, hy - s.dy * tl);
+              g.addColorStop(0, cA); g.addColorStop(1, 'rgba(255,255,255,0)');
+              ctx.globalAlpha = Math.sin(k * Math.PI); ctx.strokeStyle = g; ctx.lineWidth = 1.5; ctx.lineCap = 'round';
+              ctx.beginPath(); ctx.moveTo(hx, hy); ctx.lineTo(hx - s.dx * tl, hy - s.dy * tl); ctx.stroke();
+              sparkle(hx, hy, 4, Math.sin(k * Math.PI));
+            }
+          }
+          ctx.globalAlpha = 1;
+        }
+        function loop(now) { raf = 0; if (!on) return; draw(now); raf = requestAnimationFrame(loop); }
+        api.start = function () { if (on) return; on = true; raf = requestAnimationFrame(loop); };
+        api.stop = function () { on = false; if (raf) cancelAnimationFrame(raf); raf = 0; };
+        api.draw = draw;
+        size();
+        if ('ResizeObserver' in window) new ResizeObserver(function () { size(); if (!on) draw(1000); }).observe(cv);
+        return api;
+      }
+      /* Runs a start/stop controller only while the module is on screen and the tab is visible */
+      function neWhenVisible(el, ctl) {
+        var vis = false;
+        function upd() { if (vis && !document.hidden) ctl.start(); else ctl.stop(); }
+        if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { vis = en[0].isIntersecting; upd(); }).observe(el);
+        else { vis = true; upd(); }
+        document.addEventListener('visibilitychange', upd);
+      }
+
+      var form = root.querySelector('[data-ne-form]');
+      var btn = root.querySelector('[data-ne-submit]');
+      var spin = root.querySelector('[data-ne-spin]');
+      var thanks = root.querySelector('[data-ne-thanks]');
+      var cv = root.querySelector('[data-ne-burst]');
+      var ctx = cv && cv.getContext ? cv.getContext('2d') : null;
+      var cA = getComputedStyle(root).getPropertyValue('--t-a').trim() || '#eef3ff';
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      /* Simulated sending: crescent spinner (rAF) -> check mark + silver glitter burst */
+      var spinRaf = 0;
+      function spinLoop(now) { if (spin) spin.style.transform = 'rotate(' + ((now * .5) % 360).toFixed(1) + 'deg)'; spinRaf = requestAnimationFrame(spinLoop); }
+      function burst() {
+        if (!ctx || RM) return;
+        var r = cv.getBoundingClientRect(), b = btn.getBoundingClientRect();
+        cv.width = Math.round(r.width * dpr); cv.height = Math.round(r.height * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        var ox = b.left - r.left + b.width / 2, oy = b.top - r.top + b.height / 2, ps = [], t0 = 0;
+        for (var i = 0; i < 70; i++) { var a = Math.random() * 6.283, v = .08 + Math.random() * .32; ps.push({ x: ox, y: oy, vx: Math.cos(a) * v, vy: Math.sin(a) * v - .12, s: 1.5 + Math.random() * 3.5, l: 700 + Math.random() * 700 }); }
+        function frame(now) {
+          if (!t0) t0 = now;
+          var el = now - t0, alive = false;
+          ctx.clearRect(0, 0, r.width, r.height);
+          for (var j = 0; j < ps.length; j++) {
+            var p = ps[j], k = el / p.l; if (k >= 1) continue; alive = true;
+            var x = p.x + p.vx * el, y = p.y + p.vy * el + .00012 * el * el, s = p.s * (1 - k * .6);
+            ctx.globalAlpha = 1 - k; ctx.fillStyle = cA; ctx.beginPath();
+            ctx.moveTo(x, y - s); ctx.lineTo(x + s * .25, y - s * .25); ctx.lineTo(x + s, y); ctx.lineTo(x + s * .25, y + s * .25);
+            ctx.lineTo(x, y + s); ctx.lineTo(x - s * .25, y + s * .25); ctx.lineTo(x - s, y); ctx.lineTo(x - s * .25, y - s * .25); ctx.closePath(); ctx.fill();
+          }
+          if (alive) requestAnimationFrame(frame); else ctx.clearRect(0, 0, r.width, r.height);
+        }
+        requestAnimationFrame(frame);
+      }
+      if (form) form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (btn.getAttribute('data-state') !== 'idle') return;
+        if (form.checkValidity && !form.checkValidity()) { form.reportValidity(); return; }
+        btn.setAttribute('data-state', 'loading');
+        if (!RM) spinRaf = requestAnimationFrame(spinLoop);
+        setTimeout(function () {
+          if (spinRaf) cancelAnimationFrame(spinRaf); spinRaf = 0;
+          btn.setAttribute('data-state', 'done');
+          if (thanks) thanks.hidden = false;
+          burst();
+          setTimeout(function () { btn.setAttribute('data-state', 'idle'); }, 4200);
+        }, RM ? 300 : 1500);
+      });
+
+      var sky = neSky(root.querySelector('[data-ne-sky]'), root, { shoot: !RM, area: 7000 });
+      if (RM) { sky.draw(1000); return; }
+      neWhenVisible(root, sky);
+
+      if (!('IntersectionObserver' in window)) return;
+      root.classList.add('ne-rs--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('ne-rs--anim', 'is-in'); }, 1300);
+        }
+      }, { threshold: [0, .2, .5] });
+      io.observe(root);
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'confirmacion',
+      module_name: 'confirmacion-texto',
+      style_name: 'Noche Estrellada Confirmación Luna',
+      descripcion: 'Formulario RSVP de XV años en panel nocturno: nombre, invitados, asistencia sí/no con píldoras de luna, mensaje y botón con media luna giratoria de carga, confirmación y lluvia de destellos plateados.',
+      tags: ['confirmación', 'rsvp', 'quinceañera', 'noche estrellada', 'luna', 'plateado', 'azul marino', 'formulario'],
+      tipo: 'confirmacion'
+    };
+  </script>
+</section>

@@ -1,0 +1,265 @@
+<section
+  class="gzub"
+  data-gemini-id="ubicacion-mapa"
+  path="placeholder"
+  memory_source="generated"
+  memory_type="background"
+  memory_usage="protected"
+>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poiret+One&family=Josefin+Sans:wght@300;400;600&display=swap');
+
+    .gzub, .gzub *, .gzub *::before, .gzub *::after { box-sizing: border-box; }
+    .gzub {
+      --t-bg: var(--bg-color, #07080a);
+      --t-tx: var(--text-color, #f4ecd8);
+      --t-p: var(--primary-color, #d4af37);
+      --t-s: var(--secondary-color, #f1d98a);
+      --t-a: var(--accent-color, #0e7a57);
+      --t-display: var(--font-script, 'Poiret One', 'Didot', serif);
+      --t-text: var(--font-heading, 'Josefin Sans', 'Futura', sans-serif);
+      --gzub-foil: linear-gradient(100deg, color-mix(in srgb, var(--t-p) 55%, #000), var(--t-p) 25%, var(--t-s) 45%, var(--t-p) 65%, color-mix(in srgb, var(--t-p) 55%, #000));
+      position: relative;
+      isolation: isolate;
+      min-height: clamp(32rem, 60vw, 46rem);
+      display: grid;
+      place-items: center;
+      padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 5vw, 4rem);
+      overflow: hidden;
+      background-color: var(--t-bg);
+      background-image: url('https://loremflickr.com/1600/1000/hotel,facade,night?lock=3131');
+      background-size: cover;
+      background-position: center;
+      color: var(--t-tx);
+      text-align: center;
+      font-family: var(--t-text);
+    }
+    .gzub::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        repeating-linear-gradient(135deg, transparent 0 22px, color-mix(in srgb, var(--t-p) 6%, transparent) 22px 23px),
+        repeating-linear-gradient(45deg, transparent 0 22px, color-mix(in srgb, var(--t-p) 6%, transparent) 22px 23px),
+        linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 86%, transparent), color-mix(in srgb, var(--t-bg) 95%, transparent));
+    }
+    .gzub__content { width: min(100%, 66rem); display: grid; gap: clamp(2rem, 5vw, 3rem); }
+    .gzub__head { display: grid; gap: .7rem; justify-items: center; }
+    .gzub__title {
+      margin: 0;
+      font-family: var(--t-display);
+      font-weight: 400;
+      font-size: clamp(2.3rem, 5.4vw, 3.8rem);
+      line-height: 1.05;
+      color: var(--t-p);
+      background: var(--gzub-foil);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .gzub__venue { margin: 0; font-size: clamp(1.15rem, 2.4vw, 1.45rem); font-weight: 600; color: var(--t-s); }
+
+    .gzub__row { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: clamp(1.5rem, 4vw, 3.5rem); }
+    .gzub__side { display: grid; gap: .45rem; padding: 1.2rem 1rem; border-top: 1px solid color-mix(in srgb, var(--t-p) 60%, transparent); border-bottom: 1px solid color-mix(in srgb, var(--t-p) 60%, transparent); }
+    .gzub__side h3 { margin: 0; font-family: var(--t-display); font-weight: 400; font-size: clamp(1.5rem, 2.8vw, 2rem); color: var(--t-p); }
+    .gzub__side time { font-size: 1.15rem; color: var(--t-s); }
+    .gzub__side p { margin: 0; font-weight: 300; line-height: 1.5; }
+
+    /* The map plaque */
+    .gzub__stage { perspective: 900px; }
+    .gzub__plaque {
+      position: relative;
+      width: clamp(14rem, 28vw, 19rem);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      background:
+        repeating-linear-gradient(0deg, transparent 0 27px, color-mix(in srgb, var(--t-a) 45%, transparent) 27px 28px),
+        repeating-linear-gradient(90deg, transparent 0 27px, color-mix(in srgb, var(--t-a) 45%, transparent) 27px 28px),
+        linear-gradient(32deg, transparent 47%, color-mix(in srgb, var(--t-p) 40%, transparent) 47% 49%, transparent 49%),
+        radial-gradient(circle, color-mix(in srgb, var(--t-a) 35%, var(--t-bg)), var(--t-bg) 72%);
+      border: 1px solid var(--t-p);
+      box-shadow:
+        inset 0 0 0 8px var(--t-bg), inset 0 0 0 9px color-mix(in srgb, var(--t-p) 70%, transparent),
+        inset 0 0 0 16px var(--t-bg), inset 0 0 0 17px color-mix(in srgb, var(--t-p) 40%, transparent),
+        0 24px 60px rgba(0, 0, 0, .6);
+      transform-origin: 50% 0;
+    }
+    .gzub__plaque::before {
+      content: '';
+      position: absolute;
+      inset: 18%;
+      border-radius: 50%;
+      background: repeating-conic-gradient(from 0deg, color-mix(in srgb, var(--t-p) 45%, transparent) 0deg 1deg, transparent 1deg 11.25deg);
+      -webkit-mask-image: radial-gradient(circle, transparent 0 28%, #000 30% 100%);
+      mask-image: radial-gradient(circle, transparent 0 28%, #000 30% 100%);
+    }
+    .gzub__pulse {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 34%;
+      aspect-ratio: 1;
+      margin: -17% 0 0 -17%;
+      border: 2px solid var(--t-p);
+      transform: rotate(45deg) scale(.4);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .gzub__marker { position: relative; width: 26%; height: auto; filter: drop-shadow(0 0 14px color-mix(in srgb, var(--t-a) 90%, transparent)); }
+
+    .gzub__address { font-style: normal; display: grid; gap: .25rem; line-height: 1.55; font-size: clamp(1rem, 2vw, 1.12rem); }
+    .gzub__btn {
+      justify-self: center;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .7rem;
+      min-height: 3.1rem;
+      padding: .8rem 2.2rem .65rem;
+      color: var(--t-s);
+      text-decoration: none;
+      font-family: var(--t-text);
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: .06em;
+      border: 1px solid var(--t-p);
+      outline: 1px solid color-mix(in srgb, var(--t-p) 45%, transparent);
+      outline-offset: 4px;
+      background: linear-gradient(90deg, var(--t-p), var(--t-s)) no-repeat 50% 100% / 0% 100%;
+      transition: background-size .4s cubic-bezier(.2, .8, .2, 1), color .3s ease, outline-offset .3s ease;
+    }
+    .gzub__btn:hover, .gzub__btn:focus-visible { background-size: 100% 100%; color: var(--t-bg); outline-offset: 7px; }
+    .gzub__btn svg { width: 1rem; height: 1rem; }
+
+    /* Entrance */
+    .gzub--anim .gzub__plaque { opacity: 0; transform: rotateX(72deg); transition: opacity .35s ease, transform .5s cubic-bezier(.25, 1.3, .45, 1); }
+    .gzub--anim .gzub__side { clip-path: inset(50% 0 50% 0); transition: clip-path .5s cubic-bezier(.65, 0, .25, 1); }
+    .gzub--anim .gzub__address, .gzub--anim .gzub__btn { opacity: 0; transition: opacity .45s ease; }
+    .gzub--anim.is-in .gzub__plaque { opacity: 1; transform: none; }
+    .gzub--anim.is-in .gzub__side { clip-path: inset(0 0 0 0); transition-delay: .3s; }
+    .gzub--anim.is-in .gzub__address { opacity: 1; transition-delay: .5s; }
+    .gzub--anim.is-in .gzub__btn { opacity: 1; transition-delay: .65s; }
+
+    @media (max-width: 760px) {
+      .gzub__row { grid-template-columns: 1fr; }
+      .gzub__stage { order: -1; justify-self: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .gzub *, .gzub *::before, .gzub *::after { animation: none !important; transition: none !important; }
+      .gzub__pulse { opacity: 0 !important; }
+    }
+  </style>
+
+  <div class="gzub__content">
+    <header class="gzub__head">
+      <h2 class="gzub__title" memory_type="text" memory_usage="custom" memory_key="ubicacion-titulo">Dónde brillará la noche</h2>
+<figure class="vmap-embed" memory_type="text" memory_usage="custom" memory_key="ubicacion-mapa-url" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,640px);"><iframe src="https://www.google.com/maps?q=Ubicaci%C3%B3n+del+evento&output=embed" title="Mapa de la ubicación" loading="lazy" allowfullscreen style="display:block;width:100%;height:clamp(210px,38vw,330px);border:1px solid var(--primary-color,#9b9b9b);border-radius:12px;"></iframe></figure>
+<figure memory_type="image" memory_usage="custom" memory_source="library" style="margin:0 auto clamp(1rem,2.6vw,1.6rem);width:min(100%,340px);"><img src="https://loremflickr.com/700/420/gatsby,venue" alt="Vista del lugar" path="placeholder" data-library-category="bodas" data-asset-type="lugar" loading="lazy" style="display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--primary-color,#9b9b9b);" /><figcaption hidden>Vista del lugar</figcaption></figure>
+      <p class="gzub__venue" memory_type="text" memory_usage="custom" memory_key="ubicacion-lugar" data-event-field="lugar">Gran Salón Imperial</p>
+    </header>
+
+    <div class="gzub__row">
+      <div class="gzub__side">
+        <h3 memory_type="text" memory_usage="custom" memory_key="ubicacion-ceremonia-titulo">Ceremonia</h3>
+        <time datetime="2027-05-15T19:00" memory_type="text" memory_usage="custom" memory_key="ubicacion-ceremonia-hora">7:00 p. m.</time>
+        <p memory_type="text" memory_usage="custom" memory_key="ubicacion-ceremonia-texto">Terraza de los Espejos</p>
+      </div>
+
+      <div class="gzub__stage">
+        <div class="gzub__plaque" aria-hidden="true">
+          <span class="gzub__pulse" data-gzub-pulse></span>
+          <span class="gzub__pulse" data-gzub-pulse></span>
+          <span class="gzub__pulse" data-gzub-pulse></span>
+          <svg class="gzub__marker" viewBox="0 0 60 90">
+            <defs>
+              <linearGradient id="gzub-gold" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" style="stop-color: var(--t-s)"/>
+                <stop offset=".5" style="stop-color: var(--t-p)"/>
+                <stop offset="1" style="stop-color: color-mix(in srgb, var(--t-p) 50%, #000)"/>
+              </linearGradient>
+            </defs>
+            <path d="M30 2 52 24 44 24 44 34 30 88 16 34 16 24 8 24Z" fill="url(#gzub-gold)" style="stroke: var(--t-bg)" stroke-width="1.5"/>
+            <path d="M30 14 40 24 30 34 20 24Z" style="fill: var(--t-a); stroke: var(--t-s)" stroke-width="1"/>
+            <path d="M30 40 36 46 30 70 24 46Z" style="fill: var(--t-bg)" opacity=".35"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="gzub__side">
+        <h3 memory_type="text" memory_usage="custom" memory_key="ubicacion-recepcion-titulo">Recepción</h3>
+        <time datetime="2027-05-15T20:30" memory_type="text" memory_usage="custom" memory_key="ubicacion-recepcion-hora">8:30 p. m.</time>
+        <p memory_type="text" memory_usage="custom" memory_key="ubicacion-recepcion-texto">Salón de Baile Esmeralda</p>
+      </div>
+    </div>
+
+    <address class="gzub__address">
+      <span memory_type="text" memory_usage="custom" memory_key="ubicacion-calle">Av. Paseo de la Reforma 1925</span>
+      <span memory_type="text" memory_usage="custom" memory_key="ubicacion-ciudad">Col. Centro, Ciudad de México</span>
+    </address>
+
+    <a class="gzub__btn" href="#" data-gzub-map role="button">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1 13 6 8 15 3 6Z" fill="currentColor"/></svg>
+      <span memory_type="text" memory_usage="custom" memory_key="ubicacion-boton">Cómo llegar</span>
+    </a>
+  </div>
+
+  <script>
+    (function () {
+      var SEL = '[data-gemini-id="ubicacion-mapa"]';
+      var root = null;
+      try { root = document.currentScript && document.currentScript.closest(SEL); } catch (e) {}
+      if (!root) root = document.querySelector(SEL);
+      if (!root || root.__tInit) return;
+      root.__tInit = true;
+      var btn = root.querySelector('[data-gzub-map]');
+      if (btn) btn.addEventListener('click', function (e) { if (btn.getAttribute('href') === '#') e.preventDefault(); });
+      var RM = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (RM || !('IntersectionObserver' in window)) return;
+
+      root.classList.add('gzub--anim');
+      var io = new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && en[0].intersectionRatio > .2) {
+          io.disconnect();
+          root.classList.add('is-in');
+          setTimeout(function () { root.classList.remove('gzub--anim', 'is-in'); }, 1500);
+        }
+      }, { threshold: [0, .2, .4] });
+      io.observe(root);
+
+      /* Marker pulse: each ring expands for 0.5s, staggered, then rests */
+      var rings = [].slice.call(root.querySelectorAll('[data-gzub-pulse]'));
+      var visible = false, raf = 0, CYCLE = 1700, DUR = 500;
+      function loop(t) {
+        raf = 0;
+        if (!visible || document.hidden) return;
+        rings.forEach(function (r, i) {
+          var ph = (t - i * 170) % CYCLE;
+          if (ph < 0) ph += CYCLE;
+          if (ph < DUR) {
+            var k = ph / DUR, e = 1 - Math.pow(1 - k, 2);
+            r.style.transform = 'rotate(45deg) scale(' + (.4 + e * 1.9).toFixed(3) + ')';
+            r.style.opacity = (.9 * (1 - k)).toFixed(3);
+          } else if (r.style.opacity !== '0') {
+            r.style.opacity = '0';
+          }
+        });
+        raf = requestAnimationFrame(loop);
+      }
+      new IntersectionObserver(function (en) { visible = en[0].isIntersecting; if (visible && !raf) raf = requestAnimationFrame(loop); }).observe(root);
+      document.addEventListener('visibilitychange', function () { if (!raf) raf = requestAnimationFrame(loop); });
+    })();
+  </script>
+  <script>
+    const moduleMetadata = {
+      module_type: 'ubicacion',
+      module_name: 'ubicacion-mapa',
+      style_name: 'Gatsby Art Deco Ubicación',
+      descripcion: 'Ubicación Art Deco: placa-mapa con marcos escalonados dorados, retícula esmeralda y marcador joya con pulsos. Ceremonia y recepción en simetría, dirección en address y botón Cómo llegar con relleno dorado.',
+      tags: ['ubicación', 'boda', 'art deco', 'gatsby', 'mapa', 'dorado', 'esmeralda'],
+      tipo: 'ubicacion'
+    };
+  </script>
+</section>

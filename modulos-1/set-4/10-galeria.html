@@ -1,0 +1,270 @@
+<section
+  class="gl-galeria"
+  data-gemini-id="galeria-cristal-destellos"
+>
+  <style>
+    .gl-galeria {
+      --primary-color: #223038;
+      --secondary-color: #5d7078;
+      --accent-color: #8fb6c9;
+      --bg-color: #eef4f7;
+      --surface-color: rgba(255, 255, 255, 0.55);
+      --surface-border-color: rgba(255, 255, 255, 0.75);
+      --text-color: #223038;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+    }
+    .gl-galeria *,
+    .gl-galeria *::before,
+    .gl-galeria *::after { box-sizing: border-box; }
+
+    .gl-galeria__titulo {
+      margin: 0 0 0.5rem;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 400;
+      font-size: clamp(1.7rem, 3.8vw, 2.4rem);
+      color: var(--primary-color);
+    }
+    .gl-galeria__nota {
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.9rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.62rem, 1.2vw, 0.7rem);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .gl-galeria__nota::before,
+    .gl-galeria__nota::after {
+      content: '';
+      width: 46px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-color));
+    }
+    .gl-galeria__nota::after { background: linear-gradient(90deg, var(--accent-color), transparent); }
+
+    .gl-galeria__mosaico {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
+      gap: clamp(1rem, 2.6vw, 1.6rem);
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .gl-galeria__destello {
+      position: relative;
+      margin: 0;
+      padding: 8px;
+      background: var(--surface-color);
+      border: 1px solid var(--surface-border-color);
+      border-radius: 18px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 18px 40px rgba(34, 48, 56, 0.14);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      cursor: pointer;
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1), box-shadow 0.5s ease;
+    }
+    .gl-galeria.gl-js .gl-galeria__destello { opacity: 0; transform: translateY(20px) scale(0.96); }
+    .gl-galeria .gl-galeria__destello.esta-visto { opacity: 1; transform: none; }
+    .gl-galeria__destello:hover { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 26px 52px rgba(34, 48, 56, 0.22); }
+    .gl-galeria__destello::after {
+      content: '';
+      position: absolute;
+      top: 10px;
+      right: 14px;
+      width: 40px;
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
+      transform: rotate(-20deg);
+      pointer-events: none;
+    }
+
+    .gl-galeria__destello img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border-radius: 12px;
+      filter: saturate(0.9);
+    }
+    .gl-galeria__pie {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 4px 2px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--secondary-color);
+    }
+    .gl-galeria__pie i {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      box-shadow: 0 0 8px color-mix(in srgb, var(--accent-color) 80%, transparent);
+    }
+
+    .gl-galeria__lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      place-items: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      background: color-mix(in srgb, var(--primary-color) 80%, black);
+    }
+    .gl-galeria__lightbox.abierto { display: grid; }
+    .gl-galeria__lightbox img {
+      max-width: min(920px, 92vw);
+      max-height: 82svh;
+      width: auto;
+      height: auto;
+      border-radius: 16px;
+      border: 4px solid rgba(255, 255, 255, 0.7);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    }
+    .gl-galeria__cerrar {
+      position: absolute;
+      top: clamp(0.8rem, 2.5vw, 1.6rem);
+      right: clamp(0.8rem, 2.5vw, 1.6rem);
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--surface-color);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--surface-color);
+      font-size: 1.2rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: transform 0.4s ease, background 0.4s ease;
+    }
+    .gl-galeria__cerrar:hover { transform: rotate(90deg); background: rgba(255, 255, 255, 0.15); }
+
+    @media (max-width: 560px) {
+      .gl-galeria__mosaico { grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 0.8rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .gl-galeria * { transition: none !important; }
+      .gl-galeria__destello { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <header memory_type="text" memory_usage="custom" memory_key="galeria-cabecera">
+    <h2 class="gl-galeria__titulo" memory_type="text" memory_usage="custom" memory_key="galeria-titulo">Destellos guardados</h2>
+    <p class="gl-galeria__nota" memory_type="text" memory_usage="custom" memory_key="galeria-nota">Colección de cristal</p>
+  </header>
+
+  <div class="gl-galeria__mosaico">
+    <figure class="gl-galeria__destello" data-gl-destello memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-1" tabindex="0" role="button" aria-label="Ampliar destello uno">
+      <img src="https://loremflickr.com/520/390/frost,couple" alt="Destello uno" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="gl-galeria__pie"><span>N.º 01</span><i aria-hidden="true"></i></span>
+      <figcaption hidden>Destello uno</figcaption>
+    </figure>
+    <figure class="gl-galeria__destello" data-gl-destello memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-2" tabindex="0" role="button" aria-label="Ampliar destello dos">
+      <img src="https://loremflickr.com/520/390/glass,celebration" alt="Destello dos" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="gl-galeria__pie"><span>N.º 02</span><i aria-hidden="true"></i></span>
+      <figcaption hidden>Destello dos</figcaption>
+    </figure>
+    <figure class="gl-galeria__destello" data-gl-destello memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-3" tabindex="0" role="button" aria-label="Ampliar destello tres">
+      <img src="https://loremflickr.com/520/390/light,dinner" alt="Destello tres" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="gl-galeria__pie"><span>N.º 03</span><i aria-hidden="true"></i></span>
+      <figcaption hidden>Destello tres</figcaption>
+    </figure>
+    <figure class="gl-galeria__destello" data-gl-destello memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-4" tabindex="0" role="button" aria-label="Ampliar destello cuatro">
+      <img src="https://loremflickr.com/520/390/crystal,party" alt="Destello cuatro" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="gl-galeria__pie"><span>N.º 04</span><i aria-hidden="true"></i></span>
+      <figcaption hidden>Destello cuatro</figcaption>
+    </figure>
+    <figure class="gl-galeria__destello" data-gl-destello memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-5" tabindex="0" role="button" aria-label="Ampliar destello cinco">
+      <img src="https://loremflickr.com/520/390/ice,flowers" alt="Destello cinco" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="gl-galeria__pie"><span>N.º 05</span><i aria-hidden="true"></i></span>
+      <figcaption hidden>Destello cinco</figcaption>
+    </figure>
+    <figure class="gl-galeria__destello" data-gl-destello memory_type="image" memory_usage="custom" memory_source="library" memory_key="galeria-foto-6" tabindex="0" role="button" aria-label="Ampliar destello seis">
+      <img src="https://loremflickr.com/520/390/mist,dance" alt="Destello seis" path="placeholder" data-library-category="bodas" data-asset-type="galeria" loading="lazy" />
+      <span class="gl-galeria__pie"><span>N.º 06</span><i aria-hidden="true"></i></span>
+      <figcaption hidden>Destello seis</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.gl-galeria');
+      if (!root) return;
+      root.classList.add('gl-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+
+      var piezas = Array.prototype.slice.call(root.querySelectorAll('[data-gl-destello]'));
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (('IntersectionObserver' in window) && !reduce) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var i = piezas.indexOf(entry.target);
+            entry.target.style.transitionDelay = (Math.min(i, 5) * 0.08).toFixed(2) + 's';
+            entry.target.classList.add('esta-visto');
+            io.unobserve(entry.target);
+          });
+        }, { threshold: 0.18 });
+        piezas.forEach(function (p) { io.observe(p); });
+      } else {
+        piezas.forEach(function (p) { p.classList.add('esta-visto'); });
+      }
+
+      var lightbox = document.createElement('div');
+      lightbox.className = 'gl-galeria__lightbox';
+      lightbox.setAttribute('role', 'dialog');
+      lightbox.setAttribute('aria-modal', 'true');
+      lightbox.setAttribute('aria-label', 'Vista ampliada');
+      lightbox.innerHTML =
+        '<img alt="" />' +
+        '<button type="button" class="gl-galeria__cerrar" aria-label="Cerrar">×</button>';
+      root.appendChild(lightbox);
+      var imgAmpliada = lightbox.querySelector('img');
+      var botonCerrar = lightbox.querySelector('.gl-galeria__cerrar');
+
+      function abrir(fig) {
+        var foto = fig.querySelector('img');
+        if (!foto) return;
+        imgAmpliada.src = foto.src;
+        imgAmpliada.alt = foto.alt;
+        lightbox.classList.add('abierto');
+      }
+      function cerrar() { lightbox.classList.remove('abierto'); }
+
+      piezas.forEach(function (fig) {
+        fig.addEventListener('click', function () { abrir(fig); });
+        fig.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(fig); }
+        });
+      });
+      botonCerrar.addEventListener('click', cerrar);
+      lightbox.addEventListener('click', function (e) { if (e.target === lightbox) cerrar(); });
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'galeria',
+      module_name: 'galeria-cristal-destellos',
+      style_name: 'Vidrio Esmerilado — Galería',
+      descripcion: 'Mosaico de placas de cristal con destello superior, pastillas numeradas luminosas y lightbox propio accesible por teclado.',
+      tags: ['galeria', 'mosaico', 'cristal', 'destello', 'lightbox', 'glassmorphism'],
+      tipo: 'galeria'
+    };
+  </script>
+</section>

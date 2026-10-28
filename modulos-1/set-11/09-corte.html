@@ -1,0 +1,185 @@
+<section
+  class="su-corte"
+  data-gemini-id="corte-suizo-barrido"
+>
+  <style>
+    .su-corte {
+      --primary-color: #17171a;
+      --secondary-color: #75757c;
+      --accent-color: #d43d2a;
+      --bg-color: #f2f2ef;
+      --surface-color: #fbfbf9;
+      --surface-border-color: rgba(23, 23, 26, 0.16);
+      --text-color: #17171a;
+
+      position: relative;
+      isolation: isolate;
+      box-sizing: border-box;
+      padding: clamp(3rem, 8vw, 6rem) clamp(1rem, 5vw, 4rem);
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+    .su-corte *,
+    .su-corte *::before,
+    .su-corte *::after { box-sizing: border-box; }
+
+    .su-corte__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: clamp(1.8rem, 4.5vw, 3.4rem);
+      align-items: center;
+      width: min(100%, 1060px);
+      margin: 0 auto;
+    }
+
+    .su-corte__plancha {
+      position: relative;
+      margin: 0;
+      overflow: hidden;
+      outline: 1px solid var(--surface-border-color);
+    }
+    .su-corte__plancha img {
+      color: transparent;
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.08);
+      transform: scale(1.06);
+      transition: transform 0.5s ease;
+    }
+    .su-corte.esta-visto .su-corte__plancha img { transform: scale(1); }
+
+    .su-corte__tapa {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: none;
+      pointer-events: none;
+    }
+    .su-corte.su-js .su-corte__tapa { display: block; }
+    .su-corte__puerta {
+      position: absolute;
+      inset: 0;
+      background: var(--surface-color);
+      border-right: 6px solid var(--accent-color);
+      transition: transform 0.5s cubic-bezier(0.22, 0.8, 0.3, 1);
+    }
+    .su-corte.esta-visto .su-corte__puerta { transform: translateX(-103%); }
+
+    .su-corte__rotulo {
+      position: absolute;
+      z-index: 3;
+      bottom: 10px;
+      right: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.26em;
+      color: var(--secondary-color);
+    }
+
+    .su-corte__contenido { text-align: left; }
+    .su-corte__etiqueta {
+      margin: 0 0 0.6rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.6rem, 1.15vw, 0.68rem);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--accent-color);
+    }
+    .su-corte__titulo {
+      margin: 0 0 0.9rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.8rem, 4.2vw, 2.7rem);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+    }
+    .su-corte__texto {
+      margin: 0 0 1.2rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(0.88rem, 1.6vw, 0.98rem);
+      line-height: 1.8;
+      color: var(--secondary-color);
+    }
+    .su-corte__leyenda {
+      display: inline-block;
+      padding-top: 0.7rem;
+      border-top: 2px solid var(--primary-color);
+      font-family: 'Courier New', monospace;
+      font-size: clamp(0.66rem, 1.3vw, 0.78rem);
+      letter-spacing: 0.22em;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 880px) {
+      .su-corte__grid { grid-template-columns: 1fr; }
+      .su-corte__contenido { text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .su-corte * { transition: none !important; }
+      .su-corte__tapa { display: none !important; }
+      .su-corte__plancha img { transform: none; }
+    }
+  </style>
+
+  <div class="su-corte__grid">
+    <figure class="su-corte__plancha" memory_type="image" memory_usage="custom" memory_source="library" memory_key="corte-foto">
+      <img
+        src="https://loremflickr.com/960/600/cake,minimal"
+        alt="Momento del corte"
+        path="placeholder"
+        data-library-category="bodas"
+        data-asset-type="corte"
+        loading="lazy"
+      />
+      <span class="su-corte__tapa" aria-hidden="true">
+        <span class="su-corte__puerta"></span>
+      </span>
+      <span class="su-corte__rotulo" aria-hidden="true">FIG. 07</span>
+      <figcaption hidden>Momento del corte</figcaption>
+    </figure>
+
+    <div class="su-corte__contenido" memory_type="text" memory_usage="custom" memory_key="corte-texto">
+      <p class="su-corte__etiqueta" memory_type="text" memory_usage="custom" memory_key="corte-etiqueta">Momento clave</p>
+      <h2 class="su-corte__titulo" memory_type="text" memory_usage="custom" memory_key="corte-titulo">El corte, sin adorno</h2>
+      <p class="su-corte__texto">
+        Una puerta se desliza y deja ver lo esencial: el corte del pastel.
+        Menos ornamento, más momento. Ese es el lema de la noche.
+      </p>
+      <span class="su-corte__leyenda" memory_type="text" memory_usage="custom" memory_key="corte-leyenda">REGISTRO FOTOGRÁFICO OFICIAL</span>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.currentScript ? document.currentScript.closest('section') : document.querySelector('.su-corte');
+      if (!root) return;
+      root.classList.add('su-js');
+      window.setTimeout(function () { root.classList.add('esta-visto'); }, 2500); // red de seguridad: nunca dejar contenido oculto
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || !('IntersectionObserver' in window)) { root.classList.add('esta-visto'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) { root.classList.add('esta-visto'); io.disconnect(); }
+        });
+      }, { threshold: 0.35 });
+      io.observe(root.querySelector('.su-corte__plancha') || root);
+    })();
+  </script>
+
+  <script>
+    var moduleMetadata = {
+      module_type: 'corte',
+      module_name: 'corte-suizo-barrido',
+      style_name: 'Suizo Tipográfico — Corte',
+      descripcion: 'Puerta blanca con filo rojo que se desliza a la izquierda revelando la foto en blanco y negro; rótulo de figura al pie.',
+      tags: ['corte', 'puerta', 'suizo', 'barrido', 'blanco y negro', 'minimal'],
+      tipo: 'corte'
+    };
+  </script>
+</section>
