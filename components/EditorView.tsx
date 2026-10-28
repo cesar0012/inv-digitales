@@ -882,7 +882,8 @@ export const EditorView: React.FC = () => {
 
   const handleSaveInvitation = async () => {
     if (code.length === 0) return;
-    if (!purchaseId) {
+    // Same plan the wizard charged (effectivePurchaseId), so a paid creation can always be saved.
+    if (!effectivePurchaseId) {
       alert('Error: No se encontró el plan seleccionado. Vuelve al dashboard e intenta de nuevo.');
       return;
     }
@@ -899,7 +900,7 @@ export const EditorView: React.FC = () => {
         setSuccessMessage('Invitación actualizada correctamente');
         setTimeout(() => setSuccessMessage(null), 5000);
       } else {
-        await saveInvitation(htmlWithMetadata, editorConfig.eventType, purchaseId, token);
+        await saveInvitation(htmlWithMetadata, editorConfig.eventType, effectivePurchaseId, token);
         navigate('/');
       }
       setHasUnsavedChanges(false);

@@ -35,7 +35,7 @@ export const isSafeFolderName = (name) =>
   typeof name === 'string' &&
   name.length > 0 &&
   name.length <= 100 &&
-  /^[\p{L}\p{N} _-]+$/u.test(name);
+  /^[\p{L}\p{M}\p{N} _-]+$/u.test(name.normalize('NFC'));
 
 /**
  * Join path parts onto a base directory and refuse anything that escapes it.
@@ -113,16 +113,18 @@ export const safeEqual = (a, b) => {
 // ---------------------------------------------------------------------------
 
 /**
- * Express middleware: at most `max` requests per `windowMs` per client IP and
- * route key. Good enough for a single server process; use a shared store
- * (Redis) if the generator is ever scaled to several instances.
+ * Express middleware: at most `max` requests per `windowMs` per client (IP, or
+ * keyFn(req) such as the user id) and route key. Needs app 'trust proxy' set
+ * behind a reverse proxy, otherwise every client shares the proxy's IP. Good
+ * enough for one server process; use a shared store (Redis) when scaling out.
  */
-export const rateLimit = ({ windowMs = 15 * 60 * 1000, max = 10, key = 'default' } = {}) => {
+export const rateLimit = ({ windowMs = 15 * 60 * 1000, max = 10, key = 'default', keyFn = null } = {}) => {
   const hits = new Map();
   return (req, res, next) => {
     const now = Date.now();
-    const ip = req.ip || req.socket?.remoteAddress || 'unknown';
-    const id = `${key}:${ip}`;
+    // keyFn lets authenticated routes count per user instead of per IP.
+    const who = (keyFn && keyFn(req)) || req.ip || req.socket?.remoteAddress || 'unknown';
+    const id = `${key}:${who}`;
     const entry = hits.get(id);
     if (!entry || entry.reset <= now) {
       hits.set(id, { count: 1, reset: now + windowMs });

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { History, Star, Eye, Trash2, ExternalLink, Loader2, Sparkles, X, CheckCircle, AlertTriangle, Download, Trash } from 'lucide-react';
-import { getCatalogo, starCatalogo, unstarCatalogo, deleteCatalogoItem, generateSEO, CatalogoItem, getHistorialStats, downloadHistorialBackup, clearHistorial, HistorialStats } from '../../services/adminService';
+import { getCatalogo, openCatalogoFile, starCatalogo, unstarCatalogo, deleteCatalogoItem, generateSEO, CatalogoItem, getHistorialStats, downloadHistorialBackup, clearHistorial, HistorialStats } from '../../services/adminService';
 
 export const AdminHistory: React.FC = () => {
   const [activeSubTab, setActiveSubTab] = useState<'all' | 'starred' | 'backup'>('all');
@@ -428,27 +428,25 @@ export const AdminHistory: React.FC = () => {
                   </td>
                   <td className="py-3 px-4 text-sm text-gray-500">{formatDate(item.created_at)}</td>
                   <td className="py-3 px-4">
-                    <a
-                      href={`${baseUrl}/api/catalogo/${item.filename}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      type="button"
+                      onClick={() => openCatalogoFile(item.filename).catch((e) => alert(e.message))}
                       className="text-sm text-pink-600 hover:text-pink-700 flex items-center gap-1"
                     >
                       <ExternalLink className="w-3 h-3" />
                       Ver
-                    </a>
+                    </button>
                   </td>
                   <td className="py-3 px-4">
                     <div className="flex gap-2">
-                      <a
-                        href={`${baseUrl}/api/catalogo/${item.filename}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <button
+                        type="button"
+                        onClick={() => openCatalogoFile(item.filename).catch((e) => alert(e.message))}
                         className="p-2 bg-pink-100 text-pink-600 rounded-lg hover:bg-pink-200 transition-colors"
                         title="Ver invitación"
                       >
                         <Eye className="w-4 h-4" />
-                      </a>
+                      </button>
                       {item.starred && item.slug && (
                         <a
                           href={`${baseUrl}/catalogo/${item.event_type || 'general'}/${item.slug.split('/').pop()}`}

@@ -43,6 +43,7 @@ interface Props {
 type Step = 'event' | 'design' | 'details';
 
 interface Saved {
+  savedAt?: number;
   step: Step;
   eventType: string;
   designId: string;
@@ -51,17 +52,25 @@ interface Saved {
 }
 
 const storageKey = (purchaseId: string) => `im_wizard_${purchaseId || 'nuevo'}`;
+// Progress holds names and addresses (often of minors): keep it on this device for 14 days at most.
+const MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000;
 const load = (key: string): Saved | null => {
   try {
     const raw = localStorage.getItem(key);
-    return raw ? (JSON.parse(raw) as Saved) : null;
+    if (!raw) return null;
+    const value = JSON.parse(raw) as Saved;
+    if (!value.savedAt || Date.now() - value.savedAt > MAX_AGE_MS) {
+      localStorage.removeItem(key);
+      return null;
+    }
+    return value;
   } catch {
     return null;
   }
 };
 const save = (key: string, value: Saved | null) => {
   try {
-    if (value) localStorage.setItem(key, JSON.stringify(value));
+    if (value) localStorage.setItem(key, JSON.stringify({ ...value, savedAt: Date.now() }));
     else localStorage.removeItem(key);
   } catch {
     /* storage unavailable: progress just isn't kept */
@@ -95,8 +104,18 @@ const DesignCard: React.FC<{ design: DesignSummary; selected: boolean; token: st
   const [shot, setShot] = useState<string | null>(null);
   useEffect(() => {
     let url: string | null = null;
-    if (design.screenshot) getDesignScreenshot(design.screenshot, token).then((u) => { url = u; setShot(u); }).catch(() => {});
-    return () => { if (url) URL.revokeObjectURL(url); };
+    let alive = true;
+    if (design.screenshot) {
+      getDesignScreenshot(design.screenshot, token)
+        .then((u) => {
+          if (!u) return;
+          if (!alive) { URL.revokeObjectURL(u); return; } // card left before the image arrived
+          url = u;
+          setShot(u);
+        })
+        .catch(() => {});
+    }
+    return () => { alive = false; if (url) URL.revokeObjectURL(url); };
   }, [design.screenshot, token]);
   return (
     <div className={`rounded-2xl border-2 bg-white overflow-hidden flex flex-col transition-all ${selected ? 'border-pink-500 ring-2 ring-pink-200' : 'border-pink-100 hover:border-pink-300'}`}>
@@ -145,6 +164,18 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
   const [creating, setCreating] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
 
+  // Escape closes the open dialog (sample or mobile preview).
+  useEffect(() => {
+    if (!sample && !showPreviewMobile) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      setSample(null);
+      setShowPreviewMobile(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [sample, showPreviewMobile]);
+
   // Keep progress so the customer can come back later.
   useEffect(() => {
     save(key, { step, eventType, designId, data, colors });
@@ -157,15 +188,18 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
   // Step 2 needs the event's pack (form) and its designs.
   useEffect(() => {
     if (!eventType) return;
+    let current = true; // ignore answers for an event the customer already left
     setLoading(true);
     Promise.all([getEventPack(eventType, token), getDesigns(eventType, token)])
       .then(([p, d]) => {
+        if (!current) return;
         setPack(p);
         setDesigns(d);
         setData((prev) => (Object.keys(prev).length ? prev : initialFormData(p)));
       })
-      .catch((e) => setError(e.message))
-      .finally(() => setLoading(false));
+      .catch((e) => { if (current) setError(e.message); })
+      .finally(() => { if (current) setLoading(false); });
+    return () => { current = false; };
   }, [eventType, token]);
 
   // Live preview: no AI, no credit; debounced while typing.
@@ -180,7 +214,7 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
       previewInvitation({ eventType, designId, data, preferences, purchaseId }, token, ctrl.signal)
         .then((r) => setPreview({ html: r.html, missing: r.missing, report: r.report }))
         .catch((e) => { if (e.name !== 'AbortError') setError(e.message); })
-        .finally(() => setPreviewLoading(false));
+        .finally(() => { if (abortRef.current === ctrl) setPreviewLoading(false); });
     }, 700);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -192,6 +226,8 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
   const chooseEvent = (id: string) => {
     if (id !== eventType) {
       setEventType(id);
+      setPack(null);
+      setDesigns([]);
       setDesignId('');
       setData({});
       setPreview(null);
@@ -199,11 +235,16 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
     setStep('design');
   };
 
+  const sampleReq = useRef(0);
   const openSample = async (d: DesignSummary) => {
+    const req = ++sampleReq.current;
     try {
       setSample({ label: d.label, html: '' });
-      setSample({ label: d.label, html: await getDesignSample(d.id, eventType, token) });
+      const html = await getDesignSample(d.id, eventType, token);
+      // Closed or replaced while loading: don't reopen it.
+      setSample((cur) => (req === sampleReq.current && cur && cur.label === d.label ? { label: d.label, html } : cur));
     } catch (e) {
+      if (req !== sampleReq.current) return;
       setSample(null);
       setError((e as Error).message);
     }
@@ -353,7 +394,7 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
 
       {showPreviewMobile && (
         <div className="fixed inset-0 z-50 bg-black/40 p-3 flex flex-col lg:hidden" role="dialog" aria-modal="true" aria-label="Vista previa">
-          <button type="button" onClick={() => setShowPreviewMobile(false)} className="self-end mb-2 bg-white rounded-full p-2" aria-label="Cerrar vista previa"><X className="w-5 h-5" /></button>
+          <button type="button" autoFocus onClick={() => setShowPreviewMobile(false)} className="self-end mb-2 bg-white rounded-full p-2" aria-label="Cerrar vista previa"><X className="w-5 h-5" /></button>
           <div className="flex-1 min-h-0">{previewPanel}</div>
         </div>
       )}
@@ -362,7 +403,7 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
         <div className="fixed inset-0 z-50 bg-black/50 p-4 flex flex-col items-center" role="dialog" aria-modal="true" aria-label={`Ejemplo del diseño ${sample.label}`}>
           <div className="w-full max-w-md flex items-center justify-between mb-2 text-white">
             <span className="font-semibold">{sample.label} · ejemplo</span>
-            <button type="button" onClick={() => setSample(null)} className="bg-white text-gray-700 rounded-full p-2" aria-label="Cerrar ejemplo"><X className="w-5 h-5" /></button>
+            <button type="button" autoFocus onClick={() => setSample(null)} className="bg-white text-gray-700 rounded-full p-2" aria-label="Cerrar ejemplo"><X className="w-5 h-5" /></button>
           </div>
           <div className="w-full max-w-md flex-1 bg-white rounded-2xl overflow-hidden">
             {sample.html ? <iframe title={`Ejemplo ${sample.label}`} srcDoc={sample.html} sandbox="allow-scripts" className="w-full h-full" /> : <div className="h-full flex items-center justify-center"><Loader2 className="w-6 h-6 animate-spin text-pink-500" /></div>}

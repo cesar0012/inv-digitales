@@ -139,16 +139,97 @@ const renumberKey = (key, n) => {
   return key.slice(0, m.index) + `-${n}${m[2]}` + key.slice(m.index + m[0].length);
 };
 
+// Attributes that point at an element id (SVG <use>, gradients, labels…).
+const ID_LIST_ATTRS = new Set(['for', 'aria-labelledby', 'aria-describedby', 'aria-controls', 'aria-owns', 'aria-activedescendant']);
+const swapUrlRefs = (value, map) =>
+  value.replace(/url\(\s*(['"]?)#([^)'"\s]+)\1\s*\)/g, (m, q, id) => (map.has(id) ? `url(${q}#${map.get(id)}${q})` : m));
+
+/** After ids were renamed (old → new in `map`), point references inside `scope` at the new ids. */
+function rewriteIdRefs(scope, map) {
+  if (!map.size) return;
+  for (const el of [scope, ...Array.from(scope.querySelectorAll('*'))]) {
+    for (const attr of Array.from(el.attributes || [])) {
+      const v = attr.value || '';
+      let nv = v;
+      if ((attr.name === 'href' || attr.name === 'xlink:href') && v.startsWith('#') && map.has(v.slice(1))) nv = `#${map.get(v.slice(1))}`;
+      else if (ID_LIST_ATTRS.has(attr.name)) nv = v.split(/\s+/).map((t) => map.get(t) || t).join(' ');
+      else if (v.includes('url(')) nv = swapUrlRefs(v, map);
+      if (nv !== v) el.setAttribute(attr.name, nv);
+    }
+    if (el.tagName === 'STYLE' && (el.textContent || '').includes('url(')) {
+      const t = el.textContent;
+      const nt = swapUrlRefs(t, map);
+      if (nt !== t) el.textContent = nt;
+    }
+  }
+}
+
 /** Deep-clone a unit and give its editable keys and ids a new number. */
 function cloneUnit(unit, n) {
   const copy = unit.cloneNode(true);
   const all = [copy, ...Array.from(copy.querySelectorAll('*'))];
+  const ids = new Map();
   for (const el of all) {
     if (el.hasAttribute && el.hasAttribute('memory_key')) el.setAttribute('memory_key', renumberKey(el.getAttribute('memory_key'), n));
     if (el.hasAttribute && el.hasAttribute('data-event-field')) el.removeAttribute('data-event-field');
-    if (el.hasAttribute && el.hasAttribute('id')) el.setAttribute('id', `${el.getAttribute('id')}-${n}`);
+    if (el.hasAttribute && el.hasAttribute('id')) {
+      const nid = `${el.getAttribute('id')}-${n}`;
+      ids.set(el.getAttribute('id'), nid);
+      el.setAttribute('id', nid);
+    }
   }
+  rewriteIdRefs(copy, ids);
   return copy;
+}
+
+/** Every memory_key in the module must be unique: later repeats get a suffix. */
+function dedupeKeys(root) {
+  const els = [root, ...Array.from(root.querySelectorAll('[memory_key]'))].filter((el) => el.hasAttribute && el.hasAttribute('memory_key'));
+  const used = new Set();
+  const all = new Set(els.map(keyOf));
+  for (const el of els) {
+    const k = keyOf(el);
+    if (!used.has(k)) { used.add(k); continue; }
+    let j = 2;
+    while (used.has(`${k}-${j}`) || all.has(`${k}-${j}`)) j += 1;
+    el.setAttribute('memory_key', `${k}-${j}`);
+    used.add(`${k}-${j}`);
+  }
+}
+
+/**
+ * Units removed by the repeater can take a shared SVG definition with them
+ * (e.g. a <g id> drawn once and reused by <use href> in every card). Copy any
+ * definition that is now missing from the original module into hidden defs.
+ */
+function repairIdRefs(root, originalRoot) {
+  const present = new Set(Array.from(root.querySelectorAll('[id]')).map((el) => el.getAttribute('id')));
+  const wanted = new Set();
+  for (const el of [root, ...Array.from(root.querySelectorAll('*'))]) {
+    for (const attr of Array.from(el.attributes || [])) {
+      const v = attr.value || '';
+      if ((attr.name === 'href' || attr.name === 'xlink:href') && /^#[^\s]+$/.test(v)) wanted.add(v.slice(1));
+      for (const m of v.matchAll(/url\(\s*['"]?#([^)'"\s]+)/g)) wanted.add(m[1]);
+    }
+  }
+  const missing = [...wanted].filter((id) => !present.has(id));
+  if (!missing.length || !originalRoot) return;
+  let defs = null;
+  for (const id of missing) {
+    const src = Array.from(originalRoot.querySelectorAll('[id]')).find((el) => el.getAttribute('id') === id);
+    if (!src || !src.closest('svg')) continue;
+    if (!defs) {
+      const doc = root.ownerDocument;
+      const svg = doc.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('aria-hidden', 'true');
+      svg.setAttribute('focusable', 'false');
+      svg.setAttribute('style', 'position:absolute;width:0;height:0;overflow:hidden');
+      defs = doc.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      svg.appendChild(defs);
+      root.insertBefore(svg, root.firstChild);
+    }
+    defs.appendChild(src.cloneNode(true));
+  }
 }
 
 /**
@@ -569,14 +650,44 @@ function writeUbicacion(root, ctx, item) {
   const tituloEl = firstByKey(root, /^ubicacion-titulo$/, { leaf: true });
   if (!nameEl && tituloEl && /nombre|lugar|sal[oó]n/i.test(tituloEl.textContent)) nameEl = tituloEl;
   if (nameEl) setText(nameEl, norm(item.lugar));
-  const dirEl = firstByKey(root, /^ubicacion-direccion$/, { leaf: true });
+  const dirEl = firstByKey(root, /^ubicacion-(direccion|calle)$/, { leaf: true });
   if (dirEl) item.direccion ? setText(dirEl, norm(item.direccion)) : remove(dirEl);
-  [/^ubicacion-ciudad$/, /^ubicacion-nota$/].forEach((re) => { const el = firstByKey(root, re, { leaf: true }); if (el) remove(el); });
+  // Sample city line, coordinates and notes describe the sample venue.
+  byKey(root, /^ubicacion-(ciudad|nota|coordenadas)$/, { leaf: true }).forEach(remove);
+  if (dirEl && /calle/.test(keyOf(dirEl))) byKey(root, /^ubicacion-direccion$/, { leaf: true }).forEach(remove);
+
+  // Modules that list sub-events (ceremonia/recepción, evento-1/evento-2):
+  // each place is its own module instance, so the first block gets this place.
+  const subRe = /^ubicacion-(?:evento|momento)-\d+$/;
+  if (byKey(root, subRe, { leaf: true }).length) {
+    fillRepeat(root, subRe, [item], (unit, it, i, slot) => {
+      setText(slot, [norm(it.tipo), norm(it.lugar)].filter(Boolean).join(' · '));
+      const h = firstByKey(unit, /^ubicacion-hora-\d+$/, { leaf: true });
+      if (h) it.hora ? setTime(h, it.hora, ctx.data.fecha) : remove(h);
+    });
+  }
+  const ceremonia = firstByKey(root, /^ubicacion-ceremonia-titulo$/, { leaf: true });
+  if (ceremonia) {
+    setText(ceremonia, norm(item.tipo) || 'Celebración');
+    const h = firstByKey(root, /^ubicacion-ceremonia-hora$/, { leaf: true });
+    if (h) item.hora ? setTime(h, item.hora, ctx.data.fecha) : remove(h);
+    const t = firstByKey(root, /^ubicacion-ceremonia-texto$/, { leaf: true });
+    if (t) setText(t, norm(item.lugar));
+    const rec = byKey(root, /^ubicacion-recepcion-/);
+    if (rec.length) {
+      let block = rec[0];
+      while (block.parentElement && block.parentElement !== root && rec.every((el) => block.parentElement.contains(el)) && !block.parentElement.contains(ceremonia)) block = block.parentElement;
+      rec.every((el) => block.contains(el)) ? remove(block) : rec.forEach(remove);
+    }
+  }
+
   const horaEl = firstByKey(root, /^ubicacion-hora$/, { leaf: true });
   const etiquetaHora = firstByKey(root, /^ubicacion-etiqueta-hora$/, { leaf: true });
   if (horaEl) item.hora ? setTime(horaEl, item.hora, ctx.data.fecha) : remove(horaEl);
   if (item.tipo) {
-    const label = etiquetaHora || firstByKey(root, /^ubicacion-rotulo$/, { leaf: true })
+    const label = etiquetaHora
+      || firstByKey(root, /^ubicacion-(tipo|evento|etiqueta|antetitulo)$/, { leaf: true })
+      || firstByKey(root, /^ubicacion-rotulo$/, { leaf: true })
       || firstByKey(root, /^ubicacion-subtitulo$/, { leaf: true })
       || (tituloEl && tituloEl !== nameEl ? tituloEl : null);
     if (label) setText(label, norm(item.tipo));
@@ -590,9 +701,11 @@ function writeUbicacion(root, ctx, item) {
       f.setAttribute('title', `Mapa: ${norm(item.lugar)}`);
     }
   });
-  root.querySelectorAll('a[href]').forEach((a) => {
-    const href = a.getAttribute('href') || '';
-    if (/google\.[^/]+\/maps|maps\.google|goo\.gl\/maps|maps\.app\.goo\.gl|waze\.com|Lugar(\+|%20)del(\+|%20)evento/i.test(href)) {
+  // "Cómo llegar" buttons: links to a maps site, or placeholders (href="#")
+  // that the module's script leaves inert until a real link is set.
+  root.querySelectorAll('a').forEach((a) => {
+    const href = (a.getAttribute('href') || '').trim();
+    if (!href || href === '#' || /google\.[^/]+\/maps|maps\.google|goo\.gl\/maps|maps\.app\.goo\.gl|waze\.com|Lugar(\+|%20)del(\+|%20)evento/i.test(href)) {
       a.setAttribute('href', item.mapa || mapsSearch(item));
       a.setAttribute('target', '_blank');
       a.setAttribute('rel', 'noopener');
@@ -631,8 +744,34 @@ function writeVestimenta(root, ctx) {
 }
 const normLower = (s) => norm(s).toLowerCase();
 
-const REGALO_NAME = /^regalos-(?:(?:nombre|opcion|item)-?\d+(?:-titulo)?|\d+-(?:nombre|titulo))$/;
-const REGALO_DESC = /^regalos-(?:(?:desc|detalle|dato|apunte|nota)-\d+|opcion-?\d+-texto|\d+-(?:texto|desc))$/;
+const REGALO_NAME = /^regalos-(?:(?:nombre|opcion|op|item)-?\d+(?:-titulo)?|\d+-(?:nombre|titulo))$/;
+// Status words shown after a guest schedules a gift ("Agendado"): design UI, not data.
+const REGALO_KEEP = /-(sello|estado|check|ok|hecho)$/;
+
+/** Turn an element into a link (or put a link inside it) to the customer's URL. */
+function setLink(el, url, text) {
+  if (el.tagName === 'A') {
+    el.setAttribute('href', url);
+    el.setAttribute('target', '_blank');
+    el.setAttribute('rel', 'noopener');
+    setText(el, text);
+    return;
+  }
+  const a = el.ownerDocument.createElement('a');
+  a.setAttribute('href', url);
+  a.setAttribute('target', '_blank');
+  a.setAttribute('rel', 'noopener');
+  a.setAttribute('style', 'color:inherit;text-decoration:underline;text-underline-offset:3px');
+  a.textContent = text;
+  el.textContent = '';
+  el.appendChild(a);
+}
+
+const linkLabel = (x) => {
+  let host = '';
+  try { host = new URL(x.enlace).hostname.replace(/^www\./, ''); } catch { /* ignore */ }
+  return host ? `Ver lista en ${host}` : 'Ver lista de regalos';
+};
 const REGALO_TYPED = { mesa: /mesa|tienda|regalo/i, sobres: /sobre/i, transferencia: /transfer|banc|dep[oó]sito/i };
 
 function writeRegalos(root, ctx) {
@@ -653,9 +792,13 @@ function writeRegalos(root, ctx) {
         remove(block);
         continue;
       }
-      const texts = mine.flatMap((x) => [norm(x.detalle), x.enlace].filter(Boolean));
-      if (!texts.length) continue; // keep the design's generic wording
-      lines.forEach((el, i) => (texts[i] ? setText(el, texts[i]) : remove(el)));
+      const entries = mine.flatMap((x) => [norm(x.detalle) ? { text: norm(x.detalle) } : null, x.enlace ? { url: x.enlace, text: linkLabel(x) } : null].filter(Boolean));
+      if (!entries.length) continue; // keep the design's generic wording
+      lines.forEach((el, i) => {
+        const e = entries[i];
+        if (!e) return remove(el);
+        e.url ? setLink(el, e.url, e.text) : setText(el, e.text);
+      });
     }
     byKey(root, /^regalos-(boton|boton-ok|confirmacion)$/).forEach(remove);
     return true;
@@ -664,10 +807,32 @@ function writeRegalos(root, ctx) {
   if (byKey(root, REGALO_NAME, { leaf: true }).length) {
     return fillRepeat(root, REGALO_NAME, items, (unit, x, i, slot) => {
       setText(slot, norm(x.tipo) || norm(x.detalle));
-      const desc = firstByKey(unit, REGALO_DESC, { leaf: true });
-      if (desc) x.detalle && norm(x.tipo) ? setText(desc, norm(x.detalle)) : remove(desc);
-      byKey(unit, /-codigo$/).forEach(remove);
-      unit.querySelectorAll('a[href]').forEach((a) => (x.enlace ? a.setAttribute('href', x.enlace) : remove(a)));
+      // Every other text in the card is sample copy for a sample gift: the
+      // customer's detail and link replace it, whatever is left is removed.
+      const extras = [unit, ...Array.from(unit.querySelectorAll('[memory_key]'))]
+        .filter((el) => el !== slot && el.hasAttribute && el.hasAttribute('memory_key') && isLeaf(el) && !REGALO_KEEP.test(keyOf(el)) && !el.contains(slot));
+      const anchors = Array.from(unit.querySelectorAll('a[href]')).filter((a) => a !== slot && !a.contains(slot));
+      const lines = [];
+      if (norm(x.tipo) && norm(x.detalle)) lines.push({ text: norm(x.detalle) });
+      if (x.enlace && !anchors.length) lines.push({ url: x.enlace, text: linkLabel(x) });
+      extras.forEach((el, j) => {
+        const line = lines[j];
+        if (!line) return remove(el);
+        line.url ? setLink(el, line.url, line.text) : setText(el, line.text);
+      });
+      if (lines.length > extras.length) {
+        // Not enough text slots: add the link right after the gift's name.
+        const left = lines.slice(extras.length);
+        let ref = slot;
+        for (const line of left) {
+          const p = unit.ownerDocument.createElement('span');
+          p.setAttribute('style', 'display:block;margin-top:.35em');
+          line.url ? setLink(p, line.url, line.text) : (p.textContent = line.text);
+          insertAfter(ref, p);
+          ref = p;
+        }
+      }
+      anchors.forEach((a) => (x.enlace ? (a.setAttribute('href', x.enlace), a.setAttribute('target', '_blank'), a.setAttribute('rel', 'noopener')) : remove(a)));
     }) && (byKey(root, /^regalos-(boton|boton-ok|confirmacion)$/).forEach(remove), true);
   }
 
@@ -692,16 +857,9 @@ function writeRegalos(root, ctx) {
     els.slice(list.length).forEach(remove);
     return [];
   };
-  let leftover = place(links, withLink, (a, x) => {
-    a.setAttribute('href', x.enlace);
-    a.setAttribute('target', '_blank');
-    a.setAttribute('rel', 'noopener');
-    let host = '';
-    try { host = new URL(x.enlace).hostname.replace(/^www\./, ''); } catch { /* ignore */ }
-    setText(a, lineText(x) || host);
-  });
+  let leftover = place(links, withLink, (a, x) => setLink(a, x.enlace, lineText(x) || linkLabel(x)));
   leftover = [...leftover, ...withoutLink];
-  const rest = place(lines, leftover, (el, x) => setText(el, lineText(x)));
+  const rest = place(lines, leftover, (el, x) => (x.enlace ? setLink(el, x.enlace, lineText(x) || linkLabel(x)) : setText(el, lineText(x))));
   if (rest.length) {
     const texto = firstByKey(root, /^regalos-texto$/, { leaf: true });
     if (texto) setText(texto, rest.map(lineText).join(' · '));
@@ -754,9 +912,28 @@ function applyCopy(root, copy) {
 
 /** Suffix every editable key in a repeated module instance (second location…). */
 function suffixInstance(root, n) {
-  root.setAttribute('data-gemini-id', `${root.getAttribute('data-gemini-id')}-${n}`);
+  const oldId = root.getAttribute('data-gemini-id') || '';
+  const newId = `${oldId}-${n}`;
+  root.setAttribute('data-gemini-id', newId);
   root.querySelectorAll('[memory_key]').forEach((el) => el.setAttribute('memory_key', `${keyOf(el)}-i${n}`));
-  root.querySelectorAll('[id]').forEach((el) => el.setAttribute('id', `${el.getAttribute('id')}-i${n}`));
+  const ids = new Map();
+  root.querySelectorAll('[id]').forEach((el) => {
+    const nid = `${el.getAttribute('id')}-i${n}`;
+    ids.set(el.getAttribute('id'), nid);
+    el.setAttribute('id', nid);
+  });
+  rewriteIdRefs(root, ids);
+  // Module scripts find their own section by its data-gemini-id
+  // ('[data-gemini-id="ubicacion-mapa"]'); point this copy's scripts at the new name.
+  if (oldId) {
+    const esc = oldId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp(`(data-gemini-id\\s*=\\s*\\\\?["'])${esc}(\\\\?["'])`, 'g');
+    root.querySelectorAll('script').forEach((sc) => {
+      const t = sc.textContent || '';
+      const nt = t.replace(re, `$1${newId}$2`);
+      if (nt !== t) sc.textContent = nt;
+    });
+  }
 }
 
 const PLACEHOLDER_PATTERNS = [
@@ -768,14 +945,28 @@ const PLACEHOLDER_PATTERNS = [
   [/Calle Principal/i, 'dirección de ejemplo'],
   [/CLABE\s*:?\s*0000/i, 'cuenta de ejemplo'],
   [/\bDD de mes\b/i, 'fecha de ejemplo'],
-  [/Lugar del evento/i, 'lugar de ejemplo']
+  [/Lugar del evento/i, 'lugar de ejemplo'],
+  [/\b(Calle|Av\.?|Avenida)\s+Ejemplo\b|\bEjemplo\s+\d+/i, 'dirección de ejemplo'],
+  [/Ciudad,\s*Estado|C\.\s?P\.\s*0{5}\b/i, 'dirección de ejemplo'],
+  [/Tienda\s+Nombre/i, 'mesa de regalos de ejemplo'],
+  [/\b0{6,}\b/, 'número de ejemplo'],
+  [/Lorem ipsum/i, 'texto de ejemplo']
 ];
 const PLACEHOLDER_URLS = /wa\.me\/52?10{6,}|mesaderegalos\.com\/ejemplo|example\.(com|org)/i;
 
 /** Sample text or links that would be published as-is. */
 export function scanPlaceholders(root) {
   const found = [];
-  const text = norm(root.textContent);
+  // Visible text only: CSS colours (#000000) and script code are not content.
+  const parts = [];
+  const walk = (node) => {
+    for (const child of Array.from(node.childNodes || [])) {
+      if (child.nodeType === 3) parts.push(child.textContent);
+      else if (child.nodeType === 1 && !/^(STYLE|SCRIPT|TEMPLATE|NOSCRIPT)$/i.test(child.tagName)) walk(child);
+    }
+  };
+  walk(root);
+  const text = norm(parts.join(' '));
   for (const [re, label] of PLACEHOLDER_PATTERNS) {
     const m = text.match(re);
     if (m) found.push({ kind: label, sample: m[0] });
@@ -802,6 +993,8 @@ export function fillModule(module, ctx, extra = {}) {
     ok = false;
   }
   if (ctx.adapting && ctx.pack.copy && ctx.pack.copy[module.type]) applyCopy(root, ctx.pack.copy[module.type]);
+  dedupeKeys(root);
+  repairIdRefs(root, parseSection(module.section).root);
   // Template hooks for the old free-form pipeline are not needed anymore.
   root.querySelectorAll('[data-event-field]').forEach((el) => el.removeAttribute('data-event-field'));
   // Sample links left in a module never go out.

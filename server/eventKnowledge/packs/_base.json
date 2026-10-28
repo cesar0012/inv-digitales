@@ -57,6 +57,8 @@
           "addLabel": "Agregar otro lugar",
           "suggested": 1,
           "min": 1,
+          "max": 4,
+          "maxNotice": "Puedes agregar hasta 4 lugares.",
           "itemFields": [
             { "key": "tipo", "label": "¿Qué ocurre ahí?", "type": "select", "allowCustom": true, "options": ["Ceremonia religiosa", "Misa", "Ceremonia civil", "Recepción", "Fiesta"] },
             { "key": "lugar", "label": "Nombre del lugar", "type": "text", "required": true, "placeholder": "Parroquia, salón, jardín…" },

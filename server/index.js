@@ -63,6 +63,13 @@ const log = (msg) => {
 };
 
 const app = express();
+// Behind Coolify/Traefik every request arrives from the proxy. Trust one hop in
+// production so req.ip (rate limits, logs) is the real client. TRUST_PROXY
+// overrides it (number of hops, "loopback", or "false" when exposed directly).
+const trustProxy = process.env.TRUST_PROXY;
+app.set('trust proxy', trustProxy === undefined
+  ? (process.env.NODE_ENV === 'production' ? 1 : false)
+  : (trustProxy === 'false' ? false : (Number.isNaN(Number(trustProxy)) ? trustProxy : Number(trustProxy))));
 const PORT = process.env.PORT || 3001;
 const PUBLIC_URL = process.env.VITE_PUBLIC_URL || `http://localhost:${PORT}`;
 const API_BASE_URL = process.env.VITE_API_BASE_URL || 'https://api.invitacionesmodernas.com/api';
@@ -232,7 +239,7 @@ const imgPath = join(__dirname, '..', 'img');
 app.use('/img', express.static(imgPath));
 
 app.get('/api/images/:folder/list', (req, res) => {
-  const folder = req.params.folder;
+  const folder = String(req.params.folder || '').normalize('NFC');
   const folderPath = isSafeFolderName(folder) ? resolveInside(imgPath, folder) : null;
 
   if (!folderPath || !existsSync(folderPath)) {
@@ -250,6 +257,10 @@ app.get('/api/images/:folder/list', (req, res) => {
 
 const storagePath = join(__dirname, 'storage', 'users');
 const historicoPath = join(__dirname, 'storage', 'historico');
+// Invitation HTML is never served as a static file: drafts in storage/users and
+// copies in storage/historico contain families' names and addresses. Public
+// sharing goes through /i/:slug (active invitations only) and the catalog routes.
+app.use('/storage', (req, res, next) => (/\.html?$/i.test(req.path) ? res.status(404).end() : next()));
 app.use('/storage', express.static(storagePath));
 app.use('/storage/historico', express.static(historicoPath));
 // RAG Visual: biblioteca de imágenes de referencia (público para el rack del cliente).
@@ -257,6 +268,14 @@ app.use('/storage/visual-rag', express.static(join(__dirname, 'storage', 'visual
 
 // Demo de sets: generación demo SIN IA, proceso aparte que no toca el flujo agéntico.
 app.use('/api/demo-set', demoSetRoutes);
+
+const INVITATION_CSP = "sandbox allow-scripts allow-popups allow-popups-to-escape-sandbox allow-forms";
+const sendInvitationHtml = (res, html, { noindex = true } = {}) => {
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.setHeader('Content-Security-Policy', INVITATION_CSP);
+  if (noindex) res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
+  res.send(html);
+};
 
 const ensureUserFolder = (userId) => {
   const userFolder = join(storagePath, userId);
@@ -306,7 +325,7 @@ const validateToken = async (token) => {
     }
 
     const user = await response.json();
-    console.log(`✅ TOKEN VÁLIDO: ${user.id} - ${user.name}`);
+    console.log(`✅ TOKEN VÁLIDO: usuario ${user.id}`);
 
     ensureUserInDB({
       id: user.id.toString(),
@@ -555,7 +574,7 @@ const ensureUserInDB = (user) => {
   const existing = stmt.get(user.id.toString());
   
   if (!existing) {
-    console.log(`✅ Creando NUEVO usuario: ${user.id} (${user.name})`);
+    console.log(`✅ Creando NUEVO usuario: ${user.id}`);
     
     const insertStmt = db.prepare(
       'INSERT INTO users (user_id, name, invitations_count, iteration_credits, max_invitations, max_iteration_credits, generation_credits, max_generation_credits) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
@@ -571,7 +590,7 @@ const ensureUserInDB = (user) => {
     // Actualizar nombre si es null
     if (!existing.name && user.name) {
       db.prepare('UPDATE users SET name = ? WHERE user_id = ?').run(user.name, user.id.toString());
-      console.log(`✅ Nombre de usuario ${user.id} actualizado: ${user.name}`);
+      console.log(`✅ Nombre de usuario ${user.id} actualizado`);
     }
   }
   
@@ -668,7 +687,6 @@ app.post('/api/auth/issue', rateLimit({ key: 'auth-issue', windowMs: 60 * 1000, 
           const user = await userResponse.json();
           console.log('✅ USUARIO OBTENIDO DE LARAVEL');
           console.log(`   ID: ${user.id}`);
-          console.log(`   Nombre: ${user.name}`);
           console.log(`   Email: ${maskEmail(user.email)}`);
           
           // Generar código igual al de Laravel
@@ -939,7 +957,6 @@ async function handleLocalConsumeToken(req, res, code) {
         const laravelUser = await userResponse.json();
         console.log('✅ USUARIO OBTENIDO DE LARAVEL');
         console.log(`   ID: ${laravelUser.id}`);
-        console.log(`   Nombre: ${laravelUser.name}`);
         console.log(`   Email: ${maskEmail(laravelUser.email)}`);
         
         userId = laravelUser.id.toString();
@@ -1554,11 +1571,9 @@ app.get('/i/:slug', (req, res) => {
     if (!existsSync(filePath)) {
       return res.status(404).send('Archivo no encontrado');
     }
-    const content = readFileSync(filePath, 'utf-8');
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    // Invitaciones personales: nunca indexar (nombres, fechas y direcciones de familias).
-    res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
-    res.send(content);
+    // Invitaciones personales: nunca indexar (nombres, fechas y direcciones de
+    // familias) y siempre en sandbox (sus scripts no alcanzan el origen de la app).
+    sendInvitationHtml(res, readFileSync(filePath, 'utf-8'));
   } catch (error) {
     console.error('Error sirviendo invitación pública:', error);
     res.status(500).send('Error interno del servidor');
@@ -1566,10 +1581,20 @@ app.get('/i/:slug', (req, res) => {
 });
 
 // GET /api/catalogo - Obtener todas las invitaciones del catálogo (público)
+// Whether the request carries a valid admin session (non-blocking check).
+const isAdminRequest = (req) => {
+  const token = (req.headers.authorization || '').replace('Bearer ', '');
+  if (!token) return false;
+  return !!db.prepare('SELECT admin_id FROM admin_sessions WHERE token = ? AND expires_at > ?').get(token, new Date().toISOString());
+};
+
 app.get('/api/catalogo', (req, res) => {
   try {
     syncHistoricoWithDB();
-    const { starred } = req.query;
+    // The full list includes every generation with the families' data; only an
+    // admin gets it. The public catalog shows starred designs without user_data.
+    const admin = isAdminRequest(req);
+    const starred = admin ? req.query.starred : 'true';
     let query = 'SELECT * FROM catalogo';
     if (starred === 'true') {
       query += ' WHERE starred = 1';
@@ -1584,7 +1609,7 @@ app.get('/api/catalogo', (req, res) => {
       event_domain: inv.event_domain || null,
       event_date: inv.event_date || null,
       event_time: inv.event_time || null,
-      user_data: inv.user_data || null,
+      user_data: admin ? (inv.user_data || null) : null,
       slug: inv.slug || null
     }));
     res.json({ invitaciones });
@@ -1594,11 +1619,19 @@ app.get('/api/catalogo', (req, res) => {
   }
 });
 
-// GET /api/catalogo/:filename - Obtener una invitación del catálogo (público)
+// Historico holds every customer generation (names, addresses, minors). Only
+// starred showcase items are public; anything else needs an admin session.
+const canViewHistorico = (req, filename) =>
+  isAdminRequest(req) || !!db.prepare('SELECT 1 FROM catalogo WHERE filename = ? AND starred = 1').get(filename);
+
+// GET /api/catalogo/:filename - Obtener una invitación del catálogo (público solo si está destacada)
 app.get('/api/catalogo/:filename', (req, res) => {
   const { filename } = req.params;
   if (!isSafeFilename(filename) || !filename.endsWith('.html')) {
     return res.status(400).send('Archivo inválido');
+  }
+  if (!canViewHistorico(req, filename)) {
+    return res.status(404).json({ error: 'Archivo no encontrado' });
   }
   const filePath = join(__dirname, 'storage', 'historico', filename);
   
@@ -1606,8 +1639,7 @@ app.get('/api/catalogo/:filename', (req, res) => {
     return res.status(404).json({ error: 'Archivo no encontrado' });
   }
   
-  const content = readFileSync(filePath, 'utf-8');
-  res.send(content);
+  sendInvitationHtml(res, readFileSync(filePath, 'utf-8'));
 });
 
 // GET /preview/:filename - Vista completa de invitación del catálogo (página web)
@@ -1616,14 +1648,16 @@ app.get('/preview/:filename', (req, res) => {
   if (!isSafeFilename(filename) || !filename.endsWith('.html')) {
     return res.status(400).send('Archivo inválido');
   }
+  if (!canViewHistorico(req, filename)) {
+    return res.status(404).send('Archivo no encontrado');
+  }
   const filePath = join(__dirname, 'storage', 'historico', filename);
   
   if (!existsSync(filePath)) {
     return res.status(404).send('Archivo no encontrado');
   }
   
-  const content = readFileSync(filePath, 'utf-8');
-  res.send(content);
+  sendInvitationHtml(res, readFileSync(filePath, 'utf-8'));
 });
 
 // GET /api/catalogo/slug/:eventType/:slug - Obtener datos SEO de invitación por slug (público)

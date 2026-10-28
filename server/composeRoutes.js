@@ -21,17 +21,20 @@ import { designsForEvent, designSummary, getDesign, SCREENSHOTS_DIR } from './co
 import { composeInvitation } from './composer/compose.js';
 import { rateLimit } from './security.js';
 
-// Event names the image resolver already understands (folders under /img).
+// Event names the image resolver maps to photo folders under /img.
 const LEGACY_EVENT_NAMES = {
   quinceanera: 'XV Años',
   boda: 'Boda Tradicional',
   bautizo: 'Bautizo',
   comunion: 'Primera Comunión',
-  confirmacion: 'Confirmación',
+  confirmacion: 'Primera Comunión', // same religious imagery; there is no confirmación folder
   cumpleanos: 'Cumpleaños',
   baby_shower: 'Baby Shower',
   otro: 'Otro'
 };
+// Library photos show people. For weddings (any couple) and generic events we
+// don't know who should appear, so those slots get decorative AI images instead.
+const DECORATIVE_ONLY = new Set(['boda', 'otro']);
 
 const SAMPLE_DATA = {
   quinceanera: {
@@ -100,17 +103,18 @@ export function createComposeRouter({ authMiddleware, ensureUserInDB }) {
     res.sendFile(file);
   });
 
-  router.get('/api/designs/:id/sample', authMiddleware, rateLimit({ key: 'design-sample', windowMs: 60 * 1000, max: 120 }), (req, res) => {
+  router.get('/api/designs/:id/sample', authMiddleware, rateLimit({ key: 'design-sample', windowMs: 60 * 1000, max: 120, keyFn: (req) => req.user && `u${req.user.id}` }), (req, res) => {
     const pack = resolvePack(req.query.eventType);
     const design = getDesign(req.params.id);
     if (!design) return res.status(404).json({ error: 'Diseño no encontrado' });
     const result = composeInvitation({ eventType: pack.id, designId: design.id, data: sampleFor(pack.id), hasRsvp: true });
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+    res.setHeader('Content-Security-Policy', 'sandbox allow-scripts allow-popups');
     res.send(result.html);
   });
 
-  router.post('/api/compose/preview', authMiddleware, rateLimit({ key: 'compose-preview', windowMs: 60 * 1000, max: 240 }), (req, res) => {
+  router.post('/api/compose/preview', authMiddleware, rateLimit({ key: 'compose-preview', windowMs: 60 * 1000, max: 300, keyFn: (req) => req.user && `u${req.user.id}` }), (req, res) => {
     try {
       const body = sanitizeBody(req.body);
       const userId = ensureUserInDB(req.user);
@@ -123,7 +127,7 @@ export function createComposeRouter({ authMiddleware, ensureUserInDB }) {
     }
   });
 
-  router.post('/api/compose/create', authMiddleware, rateLimit({ key: 'compose-create', windowMs: 60 * 1000, max: 10 }), async (req, res) => {
+  router.post('/api/compose/create', authMiddleware, rateLimit({ key: 'compose-create', windowMs: 60 * 1000, max: 10, keyFn: (req) => req.user && `u${req.user.id}` }), async (req, res) => {
     const body = sanitizeBody(req.body);
     let userId = null;
     let charged = false;
@@ -137,10 +141,11 @@ export function createComposeRouter({ authMiddleware, ensureUserInDB }) {
       if (result.missing.length) {
         return res.status(422).json({ error: 'Faltan datos obligatorios.', missing: result.missing });
       }
-      if (plan.generation_credits - plan.generation_used < 1) {
+      // Atomic: two parallel requests cannot both spend the last credit.
+      const charge = db.prepare('UPDATE user_plans SET generation_used = generation_used + 1 WHERE user_id = ? AND purchase_id = ? AND generation_used < generation_credits').run(String(userId), body.purchaseId);
+      if (charge.changes !== 1) {
         return res.status(400).json({ error: 'No tienes créditos de generación disponibles en este plan.' });
       }
-      db.prepare('UPDATE user_plans SET generation_used = generation_used + 1 WHERE user_id = ? AND purchase_id = ?').run(String(userId), body.purchaseId);
       charged = true;
 
       // Step 5 — graphics: placeholders marked memory_source="generated" go to
@@ -150,8 +155,11 @@ export function createComposeRouter({ authMiddleware, ensureUserInDB }) {
       const freeImages = config.free_image_provider && config.free_image_provider !== 'none';
       const provider = freeImages ? 'loremflickr' : (config.image_provider || 'gemini');
       const { resolvePlaceholders } = await import('./agentOrchestrator.js');
+      const source = DECORATIVE_ONLY.has(result.pack)
+        ? result.html.replace(/memory_source="library"/g, 'memory_source="generated"')
+        : result.html;
       let html = await resolvePlaceholders(
-        result.html,
+        source,
         LEGACY_EVENT_NAMES[result.pack] || 'Otro',
         getDesign(result.design)?.label || '',
         config.image_api_key || '',

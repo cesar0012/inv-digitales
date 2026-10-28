@@ -44,10 +44,26 @@ const boda = {
   regalos: [{ tipo: 'Mesa de regalos', detalle: 'Amazon', enlace: 'https://www.amazon.com.mx/wedding/abc' }], incluir_galeria: true
 };
 
+// Boda where some parents have a side ("lado") and others don't: cloned cards
+// must still get unique memory_key values.
+const bodaMixta = {
+  ...boda,
+  padres: [
+    { nombre: 'Rosa Martínez', rol: 'Mamá', lado: 'p1' }, { nombre: 'Héctor López', rol: 'Papá', lado: 'p1' },
+    { nombre: 'Elsa Pérez', rol: 'Mamá', lado: 'p2' }, { nombre: 'Tía Carmen', rol: 'Tía' }, { nombre: 'Tutor Raúl', rol: 'Tutor' }
+  ],
+  ubicaciones: [1, 2, 3, 4, 5].map((n) => ({ tipo: 'Recepción', lugar: `Lugar ${n}`, hora: '19:00' }))
+};
+
 let failures = 0;
 const check = (cond, msg) => { if (!cond) { failures++; console.log('   ✗', msg); } };
 
-for (const [eventType, data, people] of [['quinceanera', quince, ['Valeria', 'Bruno', 'Pedro Salas', 'Raúl y Pilar Méndez']], ['boda', boda, ['Julia Ramos', 'Pablo Soto', 'Irma y José Paz', 'Marina', 'Iván']]]) {
+const cases = [
+  ['quinceanera', quince, ['Valeria', 'Bruno', 'Pedro Salas', 'Raúl y Pilar Méndez'], ['Liverpool #51234567', 'Lluvia de sobres']],
+  ['boda', boda, ['Julia Ramos', 'Pablo Soto', 'Irma y José Paz', 'Marina', 'Iván'], ['amazon.com.mx/wedding/abc']],
+  ['boda', bodaMixta, ['Tía Carmen', 'Tutor Raúl', 'Elsa Pérez'], []]
+];
+for (const [eventType, data, people, gifts] of cases) {
   const designs = designsForEvent(eventType);
   console.log(`\n== ${eventType}: ${designs.length} diseños`);
   for (const d of designs) {
@@ -59,7 +75,12 @@ for (const [eventType, data, people] of [['quinceanera', quince, ['Valeria', 'Br
     const line = `${d.id.padEnd(24)} módulos=${String(r.report.modules.length).padStart(2)} omitidos=${r.report.skipped.map((s) => s.type).join(',') || '-'} avisos=${r.report.warnings.length}`;
     console.log(line + (missingPeople.length ? `  faltan: ${missingPeople.join(', ')}` : ''));
     for (const w of r.report.warnings.slice(0, 3)) console.log(`     · ${w.type}: ${w.kind} «${w.sample}»`);
-    check(ubic === data.ubicaciones.length || !d.modules.has('ubicacion'), `${d.id}: ubicaciones ${ubic}`);
+    check(ubic === Math.min(4, data.ubicaciones.length) || !d.modules.has('ubicacion'), `${d.id}: ubicaciones ${ubic}`);
+    check(r.report.warnings.length === 0, `${d.id}: texto de ejemplo publicado ${JSON.stringify(r.report.warnings.slice(0, 2))}`);
+    const regalos = (r.html.match(/<section[^>]*data-im-module="[^"]*regalos[^"]*"[\s\S]*?<\/section>/) || [''])[0];
+    if (regalos) for (const g of gifts) check(regalos.includes(g), `${d.id}: regalo perdido «${g}»`);
+    const ubicHtml = r.html.match(/<section[^>]*data-im-module="[^"]*ubicacion[^"]*"[\s\S]*?<\/section>/g) || [];
+    check(!ubicHtml.some((u) => /<a\b(?![^>]*\bhref="(?!#)[^"]+")[^>]*>/.test(u)), `${d.id}: botón "Cómo llegar" sin enlace`);
     check(!/Nombre\s*(&|y)\s*Nombre/i.test(text), `${d.id}: quedó "Nombre & Nombre"`);
     const keys = [...r.html.matchAll(/memory_key="([^"]+)"/g)].map((m) => m[1]);
     const dupes = keys.filter((k, i) => keys.indexOf(k) !== i);

@@ -28,7 +28,7 @@ Known duplication to remove over time: this app still keeps its own users, admin
 6. **Content** — `server/composer/fill.js` writes data into module slots. It clones repeated units when there are more people than slots and renumbers `memory_key`.
 7. **Composition** — `server/composer/compose.js` assembles one noindex HTML with editor metadata.
 
-Routes are in `server/composeRoutes.js`. `/api/compose/preview` is free (no AI, no credit); `/api/compose/create` costs one generation credit, refunded on error.
+Routes are in `server/composeRoutes.js`. `/api/compose/preview` is free (no AI, no credit); `/api/compose/create` costs one generation credit (charged atomically, refunded on error). Places (`ubicaciones`) are capped at 4 because each one adds an AI background. Weddings and "otro" use AI images only (library photos show specific people).
 
 The old free-text generator (`/api/generate-html`, `agentOrchestrator.js`) is still reachable with `?modo=clasico`. Do not extend it; new work goes into the composition flow.
 
@@ -39,6 +39,7 @@ The old free-text generator (`/api/generate-html`, `agentOrchestrator.js`) is st
 - **No placeholders in published invitations.** "Nombre Apellido", "Fecha del evento", sample CLABE or `wa.me/521000…` links must never ship. `fill.js#scanPlaceholders` reports them; keep it green.
 - **No licensed characters** (Disney, Marvel, Pokémon…). `set-47-cenicienta` is blocked; the theme map in `services/nanoBananaService.ts` still needs cleaning.
 - **Personal data.** Guest lists include minors. Never log names, phones, emails, tokens or codes. Never put personal data in URLs.
+- **Customer HTML is untrusted.** Serve invitation HTML only through `sendInvitationHtml` (CSP `sandbox`, noindex). Never serve it from `/storage`, never render it same-origin in the admin (use `openCatalogoFile`). Only starred catalog items are public; other historico files need an admin session.
 - **Security helpers.** Use `server/security.js`: `isSafeFilename`/`resolveInside` for every path built from a request, `hashPassword`/`verifyPassword` for passwords, `safeEqual` for secrets, `rateLimit` for login-style routes.
 
 ## Commands
@@ -49,9 +50,12 @@ npm run dev                 # Vite client + Express server
 node test/compose.test.mjs  # composes every design for quinceañera and boda; must pass
 npx vite build              # client build
 npx tsc --noEmit            # 23 errors pre-exist (AdminModels, EditorSidebar…); do not add new ones
+node scripts/check-unsafe-filenames.mjs server/storage   # before deploys: stored names the server now rejects
 ```
 
-Environment variables are documented in `.env.example`. Required in production: `EDITOR_HMAC_SECRET`, `API_SERVICE_TOKEN`, `ADMIN_EMAIL`/`ADMIN_PASSWORD` (first admin only).
+The composition test fails on any sample text left in a published module (`scanPlaceholders`), lost gift data, dead "Cómo llegar" buttons or duplicate `memory_key`. When a new set is added to the library, run it and extend the matchers in `fill.js` instead of loosening the test.
+
+Environment variables are documented in `.env.example`. Required in production: `EDITOR_HMAC_SECRET`, `API_SERVICE_TOKEN`, `ADMIN_EMAIL`/`ADMIN_PASSWORD` (first admin only). `TRUST_PROXY` defaults to 1 hop in production (Coolify/Traefik) so rate limits see real client IPs.
 
 ## Decisions pending with the owner (do not decide them in code)
 

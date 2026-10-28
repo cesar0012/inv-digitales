@@ -2,7 +2,6 @@ const API_BASE = `${window.location.origin.replace(':3000', ':3001')}/api`;
 
 const getAdminHeaders = () => {
   const token = localStorage.getItem('admin_token');
-  console.log('Admin token exists:', !!token);
   return {
     'Content-Type': 'application/json',
     ...(token ? { 'Authorization': `Bearer ${token}` } : {})
@@ -230,12 +229,39 @@ export interface CatalogoItem {
   created_at: string;
 }
 
+/**
+ * Open a stored generation for an admin. The file is fetched with the admin
+ * session and shown inside a sandboxed iframe in a new tab, so its scripts
+ * can never read this origin's storage (where the admin token lives).
+ */
+export const openCatalogoFile = async (filename: string): Promise<void> => {
+  const win = window.open('', '_blank');
+  if (!win) throw new Error('El navegador bloqueó la ventana. Permite ventanas emergentes para este sitio.');
+  try {
+    const response = await fetch(`${API_BASE}/catalogo/${encodeURIComponent(filename)}`, { headers: getAdminHeaders() });
+    if (!response.ok) throw new Error('No se pudo abrir la invitación');
+    const html = await response.text();
+    const doc = win.document;
+    doc.title = filename;
+    doc.body.style.margin = '0';
+    const frame = doc.createElement('iframe');
+    frame.setAttribute('sandbox', 'allow-scripts allow-popups');
+    frame.setAttribute('title', filename);
+    frame.style.cssText = 'border:0;width:100vw;height:100vh;display:block';
+    frame.srcdoc = html;
+    doc.body.appendChild(frame);
+  } catch (e) {
+    win.close();
+    throw e;
+  }
+};
+
 export const getCatalogo = async (starred?: boolean): Promise<{ invitaciones: CatalogoItem[] }> => {
   let url = `${API_BASE}/catalogo`;
   if (starred !== undefined) {
     url += `?starred=${starred}`;
   }
-  const response = await fetch(url);
+  const response = await fetch(url, { headers: getAdminHeaders() });
   if (!response.ok) {
     const error = await response.json();
     throw new Error(error.error || 'Error al obtener catálogo');

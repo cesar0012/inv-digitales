@@ -23,6 +23,8 @@ export interface FieldDef {
   addLabel?: string;
   suggested?: number;
   min?: number;
+  max?: number;
+  maxNotice?: string;
   itemFields?: FieldDef[];
   notice?: string;
 }

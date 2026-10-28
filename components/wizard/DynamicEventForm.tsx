@@ -118,7 +118,8 @@ const RepeatGroup: React.FC<RepeatProps> = ({ field, items, onChange, missingKey
     onChange(next);
   };
   const removeAt = (index: number) => onChange(items.filter((_, i) => i !== index));
-  const add = () => onChange([...items, emptyItem(field)]);
+  const atMax = !!field.max && items.length >= field.max;
+  const add = () => { if (!atMax) onChange([...items, emptyItem(field)]); };
   const groupMissing = missingKeys.has(field.key);
 
   return (
@@ -152,9 +153,13 @@ const RepeatGroup: React.FC<RepeatProps> = ({ field, items, onChange, missingKey
           </div>
         </div>
       ))}
-      <button type="button" onClick={add} className={`self-start flex items-center gap-2 px-4 py-2 rounded-xl border-2 border-dashed ${groupMissing ? 'border-red-300 text-red-500' : 'border-pink-300 text-pink-600'} hover:bg-pink-50 text-sm font-semibold transition-colors`}>
-        <Plus className="w-4 h-4" /> {items.length === 0 ? `Agregar ${String(field.itemLabel || '').toLowerCase()}` : field.addLabel || 'Agregar otro'}
-      </button>
+      {atMax ? (
+        <p className="text-xs text-gray-500">{field.maxNotice || `Máximo ${field.max}.`}</p>
+      ) : (
+        <button type="button" onClick={add} className={`self-start flex items-center gap-2 px-4 py-2 rounded-xl border-2 border-dashed ${groupMissing ? 'border-red-300 text-red-500' : 'border-pink-300 text-pink-600'} hover:bg-pink-50 text-sm font-semibold transition-colors`}>
+          <Plus className="w-4 h-4" /> {items.length === 0 ? `Agregar ${String(field.itemLabel || '').toLowerCase()}` : field.addLabel || 'Agregar otro'}
+        </button>
+      )}
     </div>
   );
 };

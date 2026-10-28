@@ -149,6 +149,7 @@ export function validateEventData(pack, input = {}) {
   for (const section of pack.sections) {
     for (const field of section.fields) {
       if (field.type === 'repeat') {
+        const cap = Math.min(LIMITS.repeatItems, field.max || LIMITS.repeatItems);
         const rows = Array.isArray(input[field.key]) ? input[field.key].slice(0, LIMITS.repeatItems) : [];
         const items = [];
         rows.forEach((row) => {
@@ -162,7 +163,9 @@ export function validateEventData(pack, input = {}) {
           }
         });
         if ((field.min || 0) > items.length) missing.push({ key: field.key, label: `${section.title}: agrega al menos ${field.min}` });
-        data[field.key] = items;
+        // Each place becomes its own module with an AI background, so a hard cap
+        // keeps one credit from turning into dozens of image calls.
+        data[field.key] = items.slice(0, cap);
       } else {
         data[field.key] = cleanValue(field, input[field.key]);
         if (field.required && !data[field.key]) missing.push({ key: field.key, label: field.label });
