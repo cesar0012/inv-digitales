@@ -774,6 +774,22 @@ const linkLabel = (x) => {
 };
 const REGALO_TYPED = { mesa: /mesa|tienda|regalo/i, sobres: /sobre/i, transferencia: /transfer|banc|dep[oó]sito/i };
 
+/**
+ * "Agendar regalo" buttons only toggle a local message; there is no backend
+ * behind them, so the whole button is hidden (not just its label). Hidden, not
+ * removed: some module scripts expect the element and would stop with an error.
+ */
+function removeGiftButtons(root) {
+  byKey(root, /^regalos-(boton|boton-ok|confirmacion)$/).forEach((el) => {
+    const btn = el.closest('button, a, [role="button"]');
+    const target = btn && btn !== root && root.contains(btn) ? btn : el;
+    target.setAttribute('hidden', '');
+    target.setAttribute('aria-hidden', 'true');
+    target.setAttribute('style', `${target.getAttribute('style') ? `${target.getAttribute('style')};` : ''}display:none !important`);
+    if (target.tagName === 'A') target.removeAttribute('href');
+  });
+}
+
 function writeRegalos(root, ctx) {
   const items = (ctx.data.regalos || []).filter((x) => norm(x.tipo) || norm(x.detalle) || norm(x.enlace));
   if (!items.length) return false;
@@ -800,7 +816,7 @@ function writeRegalos(root, ctx) {
         e.url ? setLink(el, e.url, e.text) : setText(el, e.text);
       });
     }
-    byKey(root, /^regalos-(boton|boton-ok|confirmacion)$/).forEach(remove);
+    removeGiftButtons(root);
     return true;
   }
 
@@ -821,9 +837,9 @@ function writeRegalos(root, ctx) {
         line.url ? setLink(el, line.url, line.text) : setText(el, line.text);
       });
       if (lines.length > extras.length) {
-        // Not enough text slots: add the link right after the gift's name.
+        // Not enough text slots: add the rest after the last one (or the gift's name).
         const left = lines.slice(extras.length);
-        let ref = slot;
+        let ref = extras[extras.length - 1] || slot;
         for (const line of left) {
           const p = unit.ownerDocument.createElement('span');
           p.setAttribute('style', 'display:block;margin-top:.35em');
@@ -833,7 +849,7 @@ function writeRegalos(root, ctx) {
         }
       }
       anchors.forEach((a) => (x.enlace ? (a.setAttribute('href', x.enlace), a.setAttribute('target', '_blank'), a.setAttribute('rel', 'noopener')) : remove(a)));
-    }) && (byKey(root, /^regalos-(boton|boton-ok|confirmacion)$/).forEach(remove), true);
+    }) && (removeGiftButtons(root), true);
   }
 
   const rotulo = firstByKey(root, /^regalos-rotulo$/, { leaf: true });
@@ -864,7 +880,7 @@ function writeRegalos(root, ctx) {
     const texto = firstByKey(root, /^regalos-texto$/, { leaf: true });
     if (texto) setText(texto, rest.map(lineText).join(' · '));
   }
-  byKey(root, /^regalos-boton$/).forEach(remove);
+  removeGiftButtons(root);
   return true;
 }
 
