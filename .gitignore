@@ -56,6 +56,7 @@ PHP/
 
 # Documentation (except README)
 *.md
+!CLAUDE.md
 !README.md
 !Plantillas-Prompt/
 !Plantillas-Prompt/**
