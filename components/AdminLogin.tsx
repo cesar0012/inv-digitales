@@ -7,7 +7,7 @@ import { AdminView } from './AdminView';
 export const AdminLogin: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useAdminAuth();
-  const [email, setEmail] = useState('admin@linksocially.com');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');

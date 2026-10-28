@@ -1,5 +1,5 @@
 import Database from 'better-sqlite3';
-import { createHash } from 'crypto';
+import { hashPassword, KNOWN_WEAK_PASSWORD_HASHES } from './security.js';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
@@ -378,48 +378,54 @@ try {
   console.log('✅ Columna is_active agregada a plan_config');
 } catch (e) {}
 
-// Crear usuario de prueba si no existe
-const testUserEmail = 'arj1931126@gmail.com';
-const testUserPasswordHash = createHash('sha256').update('Jar123456').digest('hex');
-const testUserId = '135';
+// ---------------------------------------------------------------------------
+// Cuentas iniciales: seguras por defecto
+// ---------------------------------------------------------------------------
+// Antes, cada arranque recreaba un admin con contraseña "admin123" y dos
+// usuarios de prueba con contraseñas escritas en el código. Ahora:
+//  - El admin inicial se crea solo si ADMIN_EMAIL y ADMIN_PASSWORD están
+//    definidos y todavía no existe ningún admin (contraseña con scrypt).
+//  - Los usuarios de prueba se crean solo fuera de producción, con
+//    SEED_TEST_USERS=true y TEST_USER_PASSWORD definido.
+//  - Cualquier cuenta que aún use una contraseña por defecto queda
+//    deshabilitada; si es admin y ADMIN_PASSWORD existe, se reemplaza por ella.
+const isProduction = process.env.NODE_ENV === 'production';
 
-const checkTestUser = db.prepare('SELECT id FROM local_users WHERE email = ?');
-const existingTestUser = checkTestUser.get(testUserEmail);
-
-if (!existingTestUser) {
-  const insertTestUser = db.prepare(
-    'INSERT INTO local_users (user_id, email, password_hash, name, role_name) VALUES (?, ?, ?, ?, ?)'
-  );
-  insertTestUser.run(testUserId, testUserEmail, testUserPasswordHash, 'Josué Alvarez Rodriguez', 'user');
-  console.log('✅ Usuario de prueba creado: arj1931126@gmail.com / Jar123456');
+const adminCount = db.prepare('SELECT COUNT(*) AS n FROM admins').get().n;
+if (adminCount === 0 && process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWORD) {
+  db.prepare('INSERT INTO admins (email, password_hash, name) VALUES (?, ?, ?)')
+    .run(process.env.ADMIN_EMAIL, hashPassword(process.env.ADMIN_PASSWORD), process.env.ADMIN_NAME || 'Administrador');
+  console.log(`✅ Admin inicial creado para ${process.env.ADMIN_EMAIL}`);
+} else if (adminCount === 0) {
+  console.log('ℹ️  No hay administradores. Define ADMIN_EMAIL y ADMIN_PASSWORD para crear el primero.');
 }
 
-// Usuario de prueba fijo
-const fixedTestEmail = 'test@invitacionesmodernas.com';
-const fixedTestPasswordHash = createHash('sha256').update('invD2026!').digest('hex');
-const fixedTestUserId = 'test_user';
-
-const checkFixedTestUser = db.prepare('SELECT id FROM local_users WHERE email = ?');
-const existingFixedTestUser = checkFixedTestUser.get(fixedTestEmail);
-
-if (!existingFixedTestUser) {
-  const insertFixedTestUser = db.prepare(
-    'INSERT INTO local_users (user_id, email, password_hash, name, role_name) VALUES (?, ?, ?, ?, ?)'
-  );
-  insertFixedTestUser.run(fixedTestUserId, fixedTestEmail, fixedTestPasswordHash, 'Usuario Prueba', 'user');
-  console.log('✅ Usuario de prueba fijo creado: test@invitacionesmodernas.com / invD2026!');
+for (const admin of db.prepare('SELECT id, email, password_hash FROM admins').all()) {
+  if (!KNOWN_WEAK_PASSWORD_HASHES.has(String(admin.password_hash).toLowerCase())) continue;
+  if (process.env.ADMIN_PASSWORD) {
+    db.prepare('UPDATE admins SET password_hash = ? WHERE id = ?').run(hashPassword(process.env.ADMIN_PASSWORD), admin.id);
+    console.warn(`⚠️  La contraseña por defecto del admin ${admin.email} se reemplazó por ADMIN_PASSWORD.`);
+  } else {
+    db.prepare("UPDATE admins SET password_hash = '!disabled-default-password' WHERE id = ?").run(admin.id);
+    console.warn(`⚠️  El admin ${admin.email} usaba la contraseña por defecto y quedó deshabilitado. Define ADMIN_PASSWORD y reinicia.`);
+  }
+  db.prepare('DELETE FROM admin_sessions WHERE admin_id = ?').run(admin.id);
 }
 
-const adminEmail = 'admin@linksocially.com';
-const adminPasswordHash = createHash('sha256').update('admin123').digest('hex');
+for (const user of db.prepare('SELECT id, email, password_hash FROM local_users').all()) {
+  if (KNOWN_WEAK_PASSWORD_HASHES.has(String(user.password_hash).toLowerCase())) {
+    db.prepare("UPDATE local_users SET password_hash = '!disabled-default-password' WHERE id = ?").run(user.id);
+    console.warn(`⚠️  Usuario local ${user.email} con contraseña por defecto: deshabilitado.`);
+  }
+}
 
-const checkAdmin = db.prepare('SELECT id FROM admins WHERE email = ?');
-const existingAdmin = checkAdmin.get(adminEmail);
-
-if (!existingAdmin) {
-  const insertAdmin = db.prepare('INSERT INTO admins (email, password_hash, name) VALUES (?, ?, ?)');
-  insertAdmin.run(adminEmail, adminPasswordHash, 'Administrador');
-  console.log('✅ Admin por defecto creado: admin@linksocially.com / admin123');
+if (!isProduction && process.env.SEED_TEST_USERS === 'true' && process.env.TEST_USER_PASSWORD) {
+  const testEmail = process.env.TEST_USER_EMAIL || 'test@invitacionesmodernas.com';
+  if (!db.prepare('SELECT id FROM local_users WHERE email = ?').get(testEmail)) {
+    db.prepare('INSERT INTO local_users (user_id, email, password_hash, name, role_name) VALUES (?, ?, ?, ?, ?)')
+      .run('test_user', testEmail, hashPassword(process.env.TEST_USER_PASSWORD), 'Usuario Prueba', 'user');
+    console.log(`✅ Usuario de prueba creado: ${testEmail}`);
+  }
 }
 
 db.exec(`

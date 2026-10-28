@@ -36,6 +36,18 @@ import { parseHTML } from 'linkedom';
 import { processModuleUploadFile } from './ragUploadService.js';
 import { resolveSchema } from './eventDataSchema.js';
 import { deflateRawSync } from 'zlib';
+import {
+  isSafeFilename,
+  isSafeId,
+  isSafeFolderName,
+  resolveInside,
+  hashPassword,
+  verifyPassword,
+  randomToken,
+  safeEqual,
+  rateLimit,
+  maskEmail
+} from './security.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -53,7 +65,14 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const PUBLIC_URL = process.env.VITE_PUBLIC_URL || `http://localhost:${PORT}`;
 const API_BASE_URL = process.env.VITE_API_BASE_URL || 'https://api.invitacionesmodernas.com/api';
-const HMAC_SECRET = process.env.EDITOR_HMAC_SECRET || 'invitaciones-digitales-hmac-secret-2026';
+// The HMAC secret signs editor session tokens. It must come from the
+// environment: a default written in the source code would let anyone who has
+// seen the code forge a session for any user. Without the variable, a random
+// secret is generated per process (sessions end when the server restarts).
+const HMAC_SECRET = process.env.EDITOR_HMAC_SECRET || (() => {
+  console.error('⚠️  EDITOR_HMAC_SECRET no está configurado: se usa un secreto aleatorio por proceso. Configúralo en producción.');
+  return randomToken(32);
+})();
 const TOKEN_TTL_DAYS = parseInt(process.env.TOKEN_TTL_DAYS || '7', 10);
 
 const ragUpload = multer({
@@ -166,7 +185,7 @@ const validateInternalToken = (token) => {
   if (!userId || !issuedAt || !signature) return null;
 
   const expected = createHmac('sha256', HMAC_SECRET).update(`${userId}|${issuedAt}`).digest('hex');
-  if (signature !== expected) return null;
+  if (!safeEqual(signature, expected)) return null;
 
   const issuedAtNum = parseInt(issuedAt, 10);
   const expiresAt = issuedAtNum + TOKEN_TTL_DAYS * 24 * 60 * 60;
@@ -195,15 +214,27 @@ app.use(cors({
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(cookieParser());
+app.disable('x-powered-by');
+// Basic security headers for every response.
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  next();
+});
+// Keep one bad request from taking the whole process down: log unhandled
+// promise rejections instead of letting Node exit.
+process.on('unhandledRejection', (reason) => {
+  console.error('❌ Unhandled promise rejection:', reason instanceof Error ? reason.message : reason);
+});
 
 const imgPath = join(__dirname, '..', 'img');
 app.use('/img', express.static(imgPath));
 
 app.get('/api/images/:folder/list', (req, res) => {
   const folder = req.params.folder;
-  const folderPath = join(imgPath, folder);
+  const folderPath = isSafeFolderName(folder) ? resolveInside(imgPath, folder) : null;
 
-  if (!existsSync(folderPath)) {
+  if (!folderPath || !existsSync(folderPath)) {
     return res.json({ images: [] });
   }
 
@@ -250,7 +281,6 @@ const generateSlug = (eventType, timestamp) => {
 const validateToken = async (token) => {
   console.log('\n========================================');
   console.log('🔍 VALIDANDO TOKEN DE LARAVEL');
-  console.log(`Token: ${token.substring(0, 40)}...`);
   console.log('========================================');
   
   if (token.includes('|')) {
@@ -550,7 +580,7 @@ const ensureUserInDB = (user) => {
 // ==================== PROXY ENDPOINTS (evitan CORS) ====================
 
 // POST /api/auth/login - SOLO LARAVEL
-app.post('/api/auth/login', async (req, res) => {
+app.post('/api/auth/login', rateLimit({ key: 'auth-login', windowMs: 15 * 60 * 1000, max: 20 }), async (req, res) => {
   const { email, password } = req.body;
   
   try {
@@ -582,19 +612,19 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
-// Función para fetch sin verificación SSL (para Laravel HTTPS)
+// Fetch hacia Laravel. Antes intentaba desactivar la verificación TLS
+// (rejectUnauthorized: false); ahora la verificación de certificados queda
+// activa y se añade un timeout para que una API caída no cuelgue la petición.
+// Se conserva el nombre para no tocar las llamadas existentes.
+const LARAVEL_FETCH_TIMEOUT_MS = parseInt(process.env.LARAVEL_FETCH_TIMEOUT_MS || '15000', 10);
 const fetchNoSSL = async (url, options = {}) => {
-  return new Promise((resolve, reject) => {
-    const agent = new https.Agent({ rejectUnauthorized: false });
-    resolve(fetch(url, { ...options, agent }));
-  });
+  return fetch(url, { ...options, signal: options.signal || AbortSignal.timeout(LARAVEL_FETCH_TIMEOUT_MS) });
 };
 
 // POST /api/auth/issue - SOLO LARAVEL
-app.post('/api/auth/issue', async (req, res) => {
+app.post('/api/auth/issue', rateLimit({ key: 'auth-issue', windowMs: 60 * 1000, max: 30 }), async (req, res) => {
   console.log('\n\n==================================================');
   console.log('📨 PETICIÓN RECIBIDA A /api/auth/issue');
-  console.log(`   Authorization: ${req.headers.authorization?.substring(0, 40)}...`);
   console.log('==================================================');
 
   const token = req.headers.authorization?.replace('Bearer ', '');
@@ -622,7 +652,7 @@ app.post('/api/auth/issue', async (req, res) => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log('✅ Laravel respondió OK con código:', data.code?.substring(0, 20), '...');
+      console.log('✅ Laravel respondió OK con código SSO');
       
       try {
         console.log('\n🔍 Consultando datos del usuario a Laravel...');
@@ -638,7 +668,7 @@ app.post('/api/auth/issue', async (req, res) => {
           console.log('✅ USUARIO OBTENIDO DE LARAVEL');
           console.log(`   ID: ${user.id}`);
           console.log(`   Nombre: ${user.name}`);
-          console.log(`   Email: ${user.email}`);
+          console.log(`   Email: ${maskEmail(user.email)}`);
           
           // Generar código igual al de Laravel
           const codeHash = createHash('sha256').update(data.code).digest('hex');
@@ -685,12 +715,15 @@ app.post('/api/auth/issue', async (req, res) => {
       return res.status(response.status).json(data);
     }
     
-    console.log('⚠️ Laravel respondió con error, usando fallback local');
-    return handleLocalIssue(req, res, token);
+    console.log(`⚠️ Laravel respondió con error ${response.status} en /issue`);
+    let errorBody = { error: 'No se pudo emitir el código de acceso' };
+    try { errorBody = await response.json(); } catch (e) {}
+    return res.status(response.status >= 400 && response.status < 600 ? response.status : 502).json(errorBody);
     
   } catch (error) {
     console.log(`❌ ERROR conectando a Laravel: ${error.message}`);
-    return handleLocalIssue(req, res, token);
+    // Antes se llamaba a una función inexistente (handleLocalIssue) y la excepción tumbaba el proceso.
+    return res.status(502).json({ error: 'Servicio de autenticación no disponible. Intenta de nuevo en unos minutos.' });
   }
 });
 
@@ -848,14 +881,14 @@ app.post('/api/auth/logout', (req, res) => {
 async function handleLocalConsumeToken(req, res, code) {
   console.log('\n\n========================================');
   console.log('🔐 INICIO FLUJO CONSUME-TOKEN');
-  console.log(`📨 Código recibido: ${code.substring(0, 25)}...`);
+  console.log('📨 Código SSO recibido');
   console.log('========================================');
 
   const codeHash = createHash('sha256').update(code).digest('hex');
   const now = new Date().toISOString();
   
   console.log('🔍 Buscando código SSO en DB...');
-  console.log(`   Hash: ${codeHash.substring(0, 25)}...`);
+  
   console.log(`   Fecha actual: ${now}`);
 
   // Buscar código válido
@@ -874,7 +907,7 @@ async function handleLocalConsumeToken(req, res, code) {
   console.log(`   ID: ${codeRecord.id}`);
   console.log(`   User ID: ${codeRecord.user_id}`);
   console.log(`   User Name: ${codeRecord.user_name}`);
-  console.log(`   Access Token: ${codeRecord.access_token ? '✅ EXISTE (' + codeRecord.access_token.substring(0, 30) + '...)' : '❌ NO EXISTE'}`);
+  console.log(`   Access Token: ${codeRecord.access_token ? '✅ EXISTE' : '❌ NO EXISTE'}`);
   console.log(`   Expira: ${codeRecord.expires_at}`);
 
   // Marcar como usado (de manera atómica)
@@ -890,7 +923,7 @@ async function handleLocalConsumeToken(req, res, code) {
     console.log('\n🔍 CONSULTANDO A LARAVEL PARA OBTENER DATOS DEL USUARIO...');
     try {
       console.log(`   Consultando: ${API_BASE_URL}/user`);
-      console.log(`   Token: ${codeRecord.access_token.substring(0, 40)}...`);
+      
       
       const userResponse = await fetchNoSSL(`${API_BASE_URL}/user`, {
         headers: {
@@ -906,7 +939,7 @@ async function handleLocalConsumeToken(req, res, code) {
         console.log('✅ USUARIO OBTENIDO DE LARAVEL');
         console.log(`   ID: ${laravelUser.id}`);
         console.log(`   Nombre: ${laravelUser.name}`);
-        console.log(`   Email: ${laravelUser.email}`);
+        console.log(`   Email: ${maskEmail(laravelUser.email)}`);
         
         userId = laravelUser.id.toString();
         userName = laravelUser.name;
@@ -959,6 +992,9 @@ async function handleLocalConsumeToken(req, res, code) {
 // POST /api/invitations - Guarda una nueva invitación (protegido)
 app.put('/api/invitations/:userId/:filename', authMiddleware, (req, res) => {
   const { userId, filename } = req.params;
+  if (!isSafeId(userId) || !isSafeFilename(filename)) {
+    return res.status(400).json({ error: 'Parámetros inválidos' });
+  }
   const { eventType, eventDomain, eventDate, eventTime, htmlContent } = req.body;
   
   if (req.user.id.toString() !== userId) {
@@ -1164,6 +1200,9 @@ app.post('/api/user/:id/consume-generation-credit', authMiddleware, (req, res) =
 // GET /api/invitations/:userId - Lista archivos del usuario (protegido)
 app.get('/api/invitations/:userId', authMiddleware, (req, res) => {
   const { userId } = req.params;
+  if (!isSafeId(userId)) {
+    return res.status(400).json({ error: 'Parámetros inválidos' });
+  }
   
   if (req.user.id.toString() !== userId) {
     return res.status(403).json({ error: 'No autorizado para ver estas invitaciones' });
@@ -1177,6 +1216,9 @@ app.get('/api/invitations/:userId', authMiddleware, (req, res) => {
 // GET /api/invitations/:userId/:filename - Devuelve contenido del archivo (protegido)
 app.get('/api/invitations/:userId/:filename', authMiddleware, (req, res) => {
   const { userId, filename } = req.params;
+  if (!isSafeId(userId) || !isSafeFilename(filename)) {
+    return res.status(400).json({ error: 'Parámetros inválidos' });
+  }
   
   if (req.user.id.toString() !== userId) {
     return res.status(403).json({ error: 'No autorizado para ver esta invitación' });
@@ -1199,6 +1241,9 @@ app.get('/api/invitations/:userId/:filename', authMiddleware, (req, res) => {
 // el acceso público para compartir sigue siendo /i/:slug (que valida is_active=1).
 app.get('/api/preview/:userId/:filename', authMiddleware, (req, res) => {
   const { userId, filename } = req.params;
+  if (!isSafeId(userId) || !isSafeFilename(filename)) {
+    return res.status(400).json({ error: 'Parámetros inválidos' });
+  }
   if (req.user.id.toString() !== userId) {
     return res.status(403).json({ error: 'No autorizado' });
   }
@@ -1212,6 +1257,7 @@ app.get('/api/preview/:userId/:filename', authMiddleware, (req, res) => {
   }
   const content = readFileSync(filePath, 'utf-8');
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
   res.send(content);
 });
 
@@ -1219,6 +1265,9 @@ app.get('/api/preview/:userId/:filename', authMiddleware, (req, res) => {
 // GET /api/get-user/:userId - Datos completos del usuario con créditos e invitaciones (protegido)
 app.get('/api/get-user/:userId', authMiddleware, (req, res) => {
   const { userId } = req.params;
+  if (!isSafeId(userId)) {
+    return res.status(400).json({ error: 'Parámetros inválidos' });
+  }
 
   if (req.user.id.toString() !== userId) {
     return res.status(403).json({ error: 'No autorizado' });
@@ -1506,6 +1555,8 @@ app.get('/i/:slug', (req, res) => {
     }
     const content = readFileSync(filePath, 'utf-8');
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    // Invitaciones personales: nunca indexar (nombres, fechas y direcciones de familias).
+    res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
     res.send(content);
   } catch (error) {
     console.error('Error sirviendo invitación pública:', error);
@@ -1545,6 +1596,9 @@ app.get('/api/catalogo', (req, res) => {
 // GET /api/catalogo/:filename - Obtener una invitación del catálogo (público)
 app.get('/api/catalogo/:filename', (req, res) => {
   const { filename } = req.params;
+  if (!isSafeFilename(filename) || !filename.endsWith('.html')) {
+    return res.status(400).send('Archivo inválido');
+  }
   const filePath = join(__dirname, 'storage', 'historico', filename);
   
   if (!existsSync(filePath)) {
@@ -1558,6 +1612,9 @@ app.get('/api/catalogo/:filename', (req, res) => {
 // GET /preview/:filename - Vista completa de invitación del catálogo (página web)
 app.get('/preview/:filename', (req, res) => {
   const { filename } = req.params;
+  if (!isSafeFilename(filename) || !filename.endsWith('.html')) {
+    return res.status(400).send('Archivo inválido');
+  }
   const filePath = join(__dirname, 'storage', 'historico', filename);
   
   if (!existsSync(filePath)) {
@@ -1658,8 +1715,9 @@ const serviceMiddleware = (req, res, next) => {
   }
 
   const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : authHeader;
-  if (token !== configuredToken) {
-    console.log(`❌ SERVICE API: Token no coincide. Recibido: "${token.substring(0, 20)}..." Esperado: "${configuredToken.substring(0, 20)}..."`);
+  // Comparación en tiempo constante; nunca se escriben partes del token en los logs.
+  if (!safeEqual(token, configuredToken)) {
+    console.log('❌ SERVICE API: Token de servicio no coincide');
     return res.status(401).json({ error: 'Token de servicio invalido' });
   }
 
@@ -1727,6 +1785,9 @@ app.get('/api/service/users', serviceMiddleware, (req, res) => {
 app.get('/api/service/users/:userId', serviceMiddleware, (req, res) => {
   try {
     const { userId } = req.params;
+    if (!isSafeId(userId)) {
+      return res.status(400).json({ error: 'Parámetros inválidos' });
+    }
     const user = db.prepare('SELECT * FROM users WHERE user_id = ?').get(userId);
 
     if (!user) {
@@ -3366,6 +3427,9 @@ app.get('/api/admin/invitations', adminMiddleware, (req, res) => {
 // POST /api/admin/invitations/:userId/:filename/star - Marcar invitación
 app.post('/api/admin/invitations/:userId/:filename/star', adminMiddleware, (req, res) => {
   const { userId, filename } = req.params;
+  if (!isSafeId(userId) || !isSafeFilename(filename)) {
+    return res.status(400).json({ error: 'Parámetros inválidos' });
+  }
   
   const stmt = db.prepare(`
     INSERT OR REPLACE INTO invitations (user_id, filename, slug, event_type, starred, created_at)
@@ -3382,6 +3446,9 @@ app.post('/api/admin/invitations/:userId/:filename/star', adminMiddleware, (req,
 // DELETE /api/admin/invitations/:userId/:filename/star - Quitar marca
 app.delete('/api/admin/invitations/:userId/:filename/star', adminMiddleware, (req, res) => {
   const { userId, filename } = req.params;
+  if (!isSafeId(userId) || !isSafeFilename(filename)) {
+    return res.status(400).json({ error: 'Parámetros inválidos' });
+  }
   
   const stmt = db.prepare(`
     UPDATE invitations SET starred = 0 WHERE user_id = ? AND filename = ?
@@ -3395,6 +3462,9 @@ app.delete('/api/admin/invitations/:userId/:filename/star', adminMiddleware, (re
 // DELETE /api/admin/invitations/:userId/:filename - Eliminar invitación
 app.delete('/api/admin/invitations/:userId/:filename', adminMiddleware, (req, res) => {
   const { userId, filename } = req.params;
+  if (!isSafeId(userId) || !isSafeFilename(filename)) {
+    return res.status(400).json({ error: 'Parámetros inválidos' });
+  }
   
   // Eliminar archivo
   const filePath = join(storagePath, userId, filename);
@@ -3414,24 +3484,27 @@ app.delete('/api/admin/invitations/:userId/:filename', adminMiddleware, (req, re
 // ==================== ADMIN AUTH ENDPOINTS ====================
 
 // POST /api/admin/login - Login de administrador
-app.post('/api/admin/login', (req, res) => {
+app.post('/api/admin/login', rateLimit({ key: 'admin-login', windowMs: 15 * 60 * 1000, max: 10 }), (req, res) => {
   const { email, password } = req.body;
   
   if (!email || !password) {
     return res.status(400).json({ error: 'Email y contraseña requeridos' });
   }
   
-  const passwordHash = createHash('sha256').update(password).digest('hex');
+  // Contraseñas con scrypt + sal. Los hashes SHA-256 antiguos se aceptan una vez
+  // y se actualizan al formato nuevo en el mismo inicio de sesión.
+  const admin = db.prepare('SELECT * FROM admins WHERE email = ?').get(String(email));
+  const check = admin ? verifyPassword(password, admin.password_hash) : { ok: false };
   
-  const stmt = db.prepare('SELECT * FROM admins WHERE email = ? AND password_hash = ?');
-  const admin = stmt.get(email, passwordHash);
-  
-  if (!admin) {
+  if (!admin || !check.ok) {
     return res.status(401).json({ error: 'Credenciales inválidas' });
   }
+  if (check.needsUpgrade) {
+    db.prepare('UPDATE admins SET password_hash = ? WHERE id = ?').run(hashPassword(password), admin.id);
+  }
   
-  // Generar token para admin
-  const token = createHash('sha256').update(`${admin.id}-${Date.now()}-admin`).digest('hex');
+  // Token de sesión aleatorio (256 bits); antes era sha256(id + hora), adivinable.
+  const token = randomToken(32);
   
   // Guardar sesión en la tabla (calcular fecha de expiración en JavaScript)
   const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
@@ -3547,9 +3620,15 @@ app.post('/api/admin/sync-users', adminMiddleware, async (req, res) => {
   }
 });
 
-// DEBUG: Ver códigos SSO generados - REMOVER EN PRODUCCIÓN
-app.get('/api/debug/sso-codes', (req, res) => {
-  const codes = db.prepare('SELECT * FROM local_sso_codes ORDER BY created_at DESC LIMIT 20').all();
+// Rutas de depuración: apagadas salvo ENABLE_DEBUG_ROUTES=true, y aun así solo para admins.
+const debugGate = (req, res, next) => {
+  if (process.env.ENABLE_DEBUG_ROUTES !== 'true') return res.status(404).json({ error: 'No encontrado' });
+  return adminMiddleware(req, res, next);
+};
+
+// DEBUG: Ver códigos SSO generados (sin tokens de acceso)
+app.get('/api/debug/sso-codes', debugGate, (req, res) => {
+  const codes = db.prepare('SELECT id, user_id, purpose, expires_at, created_at FROM local_sso_codes ORDER BY created_at DESC LIMIT 20').all();
   res.json({ codes, total: codes.length });
 });
 
@@ -3559,7 +3638,7 @@ app.get('/api/debug/sso-codes', (req, res) => {
 app.get('/sso/consume', async (req, res) => {
   console.log('\n\n==================================================');
   console.log('📨 USUARIO LLEGA DESDE LARAVEL A /sso/consume');
-  console.log(`   Código recibido: ${req.query.code?.substring(0, 30)}...`);
+  console.log('   Código SSO recibido');
   console.log('==================================================');
 
   const code = req.query.code;
@@ -3587,7 +3666,7 @@ app.get('/sso/consume', async (req, res) => {
     if (response.ok) {
       const data = await response.json();
       console.log('✅ Paso 1 completado: Código válido, token obtenido');
-      console.log(`   Token: ${data.token?.substring(0, 40)}...`);
+      
 
       // ✅ PASO 2: OBTENER DATOS DEL USUARIO DE LARAVEL
       console.log('🔍 Paso 2: Obteniendo datos del usuario...');
@@ -3603,7 +3682,7 @@ app.get('/sso/consume', async (req, res) => {
         console.log('✅ Paso 2 completado: Usuario obtenido');
         console.log(`   ID: ${user.id}`);
         console.log(`   Nombre: ${user.name}`);
-        console.log(`   Email: ${user.email}`);
+        console.log(`   Email: ${maskEmail(user.email)}`);
 
         // ✅ PASO 3: CREAR USUARIO EN NUESTRA BASE DE DATOS
         console.log('🔍 Paso 3: Creando/actualizando usuario en DB local...');
@@ -3671,12 +3750,12 @@ console.log = (...args) => {
 };
 
 // Endpoint para ver logs en JSON
-app.get('/api/debug/logs', (req, res) => {
+app.get('/api/debug/logs', debugGate, (req, res) => {
   res.json({ logs: serverLogs, total: serverLogs.length });
 });
 
 // Endpoint para ver logs en HTML legible
-app.get('/api/debug/logs/html', (req, res) => {
+app.get('/api/debug/logs/html', debugGate, (req, res) => {
   let html = `
     <!DOCTYPE html>
     <html>
@@ -4159,7 +4238,7 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
 
     // DEBUG: Ver qué API key se usa realmente
     console.log('===== DEBUG API KEY =====');
-    console.log('Config from DB:', config.html_google_api_key ? `Preset: ${config.html_google_api_key.substring(0, 10)}...` : 'NO HAY');
+    console.log('Config from DB:', config.html_google_api_key ? 'API key configurada' : 'NO HAY');
     console.log('======================');
 
     // ===== PROVEEDORES DE IMÁGENES GRATUITOS (proceso independiente) =====

@@ -9,11 +9,12 @@
  */
 
 $baseUrl = $argv[1] ?? 'http://localhost:3001';
-$serviceToken = 'inv_service_token_2026_secure';
+$serviceToken = getenv('API_SERVICE_TOKEN') ?: die("Define API_SERVICE_TOKEN en el entorno
+");
 
 echo "=== Service API Test ===\n";
 echo "Base URL: {$baseUrl}\n";
-echo "Token: {$serviceToken}\n\n";
+echo "Token: (definido)\n\n";
 
 function makeRequest($url, $token) {
     $ch = curl_init();

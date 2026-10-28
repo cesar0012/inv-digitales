@@ -9,7 +9,7 @@ export const TestLogin: React.FC = () => {
   const { login, isAuthenticated, user, token, generateSSOCode, logout } = useAuth();
 
   const [email, setEmail] = useState('test@invitacionesmodernas.com');
-  const [password, setPassword] = useState('invD2026!');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

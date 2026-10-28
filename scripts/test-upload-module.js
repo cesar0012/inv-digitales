@@ -26,8 +26,8 @@ try {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      email: 'admin@linksocially.com',
-      password: 'admin123'
+      email: process.env.ADMIN_EMAIL,
+      password: process.env.ADMIN_PASSWORD
     })
   });
   
