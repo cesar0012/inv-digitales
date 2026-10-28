@@ -2,22 +2,58 @@
   "id": "quinceanera",
   "label": "XV Años / Quinceañera",
   "description": "Invitación para los quince años: la quinceañera, su familia, padrinos y corte de honor.",
-  "aliases": ["quinceanera", "quinceañera", "xv", "xv años", "xv anos", "quince", "quince años", "mis xv"],
+  "aliases": [
+    "quinceanera",
+    "quinceañera",
+    "xv",
+    "xv años",
+    "xv anos",
+    "quince",
+    "quince años",
+    "mis xv"
+  ],
   "honorees": 1,
   "sections": [
     {
       "id": "festejada",
       "title": "La quinceañera",
       "fields": [
-        { "key": "nombre", "label": "Nombre de la quinceañera", "type": "text", "required": true, "placeholder": "Nombre y apellidos" }
+        {
+          "key": "nombre",
+          "label": "Nombre de la quinceañera",
+          "type": "text",
+          "required": true,
+          "placeholder": "Nombre y apellidos"
+        }
       ]
     },
-    { "ref": "fecha" },
-    { "ref": "padres", "title": "Mis papás y familia" },
+    {
+      "ref": "fecha"
+    },
+    {
+      "ref": "padres",
+      "title": "Mis papás y familia"
+    },
     {
       "ref": "padrinos",
       "overrideOptions": {
-        "padrinos.rol": ["Velación", "Misa", "Corona", "Anillo", "Medalla", "Biblia y rosario", "Cojín", "Última muñeca", "Zapatillas", "Vestido", "Ramo", "Brindis", "Pastel", "Recuerdos", "Música"]
+        "padrinos.rol": [
+          "Velación",
+          "Misa",
+          "Corona",
+          "Anillo",
+          "Medalla",
+          "Biblia y rosario",
+          "Cojín",
+          "Última muñeca",
+          "Zapatillas",
+          "Vestido",
+          "Ramo",
+          "Brindis",
+          "Pastel",
+          "Recuerdos",
+          "Música"
+        ]
       }
     },
     {
@@ -31,9 +67,19 @@
           "itemLabel": "Dama",
           "addLabel": "Agregar otra dama",
           "itemFields": [
-            { "key": "nombre", "label": "Nombre", "type": "text", "required": true },
-            { "key": "de_honor", "label": "Dama de honor", "type": "checkbox" }
-          ]
+            {
+              "key": "nombre",
+              "label": "Nombre",
+              "type": "text",
+              "required": true
+            },
+            {
+              "key": "de_honor",
+              "label": "Dama de honor",
+              "type": "checkbox"
+            }
+          ],
+          "title": "Damas"
         },
         {
           "key": "chambelanes",
@@ -41,34 +87,95 @@
           "itemLabel": "Chambelán",
           "addLabel": "Agregar otro chambelán",
           "itemFields": [
-            { "key": "nombre", "label": "Nombre", "type": "text", "required": true },
-            { "key": "de_honor", "label": "Chambelán de honor", "type": "checkbox" }
-          ]
+            {
+              "key": "nombre",
+              "label": "Nombre",
+              "type": "text",
+              "required": true
+            },
+            {
+              "key": "de_honor",
+              "label": "Chambelán de honor",
+              "type": "checkbox"
+            }
+          ],
+          "title": "Chambelanes"
         }
       ]
     },
     {
       "ref": "ubicaciones",
-      "overrideOptions": { "ubicaciones.tipo": ["Misa de acción de gracias", "Ceremonia religiosa", "Recepción", "Fiesta"] }
+      "overrideOptions": {
+        "ubicaciones.tipo": [
+          "Misa de acción de gracias",
+          "Ceremonia religiosa",
+          "Recepción",
+          "Fiesta"
+        ]
+      }
     },
-    { "ref": "itinerario" },
-    { "ref": "vestimenta" },
-    { "ref": "regalos" },
-    { "ref": "confirmacion" },
-    { "ref": "mensaje" }
+    {
+      "ref": "itinerario"
+    },
+    {
+      "ref": "vestimenta"
+    },
+    {
+      "ref": "regalos"
+    },
+    {
+      "ref": "confirmacion"
+    },
+    {
+      "ref": "mensaje"
+    }
   ],
   "modules": [
-    { "type": "portada", "when": "always" },
-    { "type": "countdown", "when": "data:fecha" },
-    { "type": "padres", "when": "data:padres" },
-    { "type": "padrinos", "when": "data:padrinos" },
-    { "type": "corte", "when": "data:damas|chambelanes" },
-    { "type": "ubicacion", "when": "data:ubicaciones", "repeatPer": "ubicaciones" },
-    { "type": "itinerario", "when": "data:itinerario" },
-    { "type": "vestimenta", "when": "data:codigo_vestimenta" },
-    { "type": "regalos", "when": "data:regalos" },
-    { "type": "galeria", "when": "flag:incluir_galeria" },
-    { "type": "confirmacion", "when": "rsvp" }
+    {
+      "type": "portada",
+      "when": "always"
+    },
+    {
+      "type": "countdown",
+      "when": "data:fecha"
+    },
+    {
+      "type": "padres",
+      "when": "data:padres"
+    },
+    {
+      "type": "padrinos",
+      "when": "data:padrinos"
+    },
+    {
+      "type": "corte",
+      "when": "data:damas|chambelanes"
+    },
+    {
+      "type": "ubicacion",
+      "when": "data:ubicaciones",
+      "repeatPer": "ubicaciones"
+    },
+    {
+      "type": "itinerario",
+      "when": "data:itinerario"
+    },
+    {
+      "type": "vestimenta",
+      "when": "data:codigo_vestimenta"
+    },
+    {
+      "type": "regalos",
+      "when": "data:regalos"
+    },
+    {
+      "type": "galeria",
+      "when": "flag:incluir_galeria"
+    },
+    {
+      "type": "confirmacion",
+      "when": "rsvp"
+    }
   ],
   "labels": {
     "portadaFrase": "Mis XV años",
@@ -83,10 +190,27 @@
     "rsvpDeadline": "Confirma antes del {fecha}"
   },
   "copy": {
-    "padres": { "padres-titulo": "Mis papás", "padres-rotulo": "Con amor", "padres-texto": "Gracias por guiarme con amor hasta este día tan especial." },
-    "padrinos": { "padrinos-titulo": "Mis padrinos", "padrinos-rotulo": "Con cariño", "padrinos-texto": "Gracias por acompañarme en este día tan importante." },
-    "corte": { "corte-titulo": "Mi corte de honor", "corte-encabezado": "Mi corte de honor", "corte-rotulo": "Me acompañan", "corte-lead": "Quienes bailarán conmigo esta noche" },
-    "countdown": { "countdown-titulo": "Falta muy poco para mis XV" },
-    "galeria": { "galeria-titulo": "Mis recuerdos" }
+    "padres": {
+      "padres-titulo": "Mis papás",
+      "padres-rotulo": "Con amor",
+      "padres-texto": "Gracias por guiarme con amor hasta este día tan especial."
+    },
+    "padrinos": {
+      "padrinos-titulo": "Mis padrinos",
+      "padrinos-rotulo": "Con cariño",
+      "padrinos-texto": "Gracias por acompañarme en este día tan importante."
+    },
+    "corte": {
+      "corte-titulo": "Mi corte de honor",
+      "corte-encabezado": "Mi corte de honor",
+      "corte-rotulo": "Me acompañan",
+      "corte-lead": "Quienes bailarán conmigo esta noche"
+    },
+    "countdown": {
+      "countdown-titulo": "Falta muy poco para mis XV"
+    },
+    "galeria": {
+      "galeria-titulo": "Mis recuerdos"
+    }
   }
 }

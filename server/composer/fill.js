@@ -414,6 +414,8 @@ function writePadres(root, ctx) {
     const roleEl = findRoleEl(unit, slot);
     const label = groupLabel(ctx, group);
     if (roleEl) label ? setText(roleEl, label) : remove(roleEl);
+    const img = unit.querySelector('img');
+    if (img) img.setAttribute('alt', label || joinNames(group.map((p) => norm(p.nombre))));
   });
 }
 
@@ -805,6 +807,15 @@ export function fillModule(module, ctx, extra = {}) {
   // Sample links left in a module never go out.
   root.querySelectorAll('a[href]').forEach((a) => {
     if (PLACEHOLDER_URLS.test(a.getAttribute('href') || '')) remove(a);
+  });
+  // Each module declares `const moduleMetadata` for the library. Several
+  // modules on one page would redeclare it and throw, so the block is kept
+  // as inert data instead of running.
+  root.querySelectorAll('script').forEach((sc) => {
+    if (/moduleMetadata\s*=/.test(sc.textContent || '') && !sc.getAttribute('type')) {
+      sc.setAttribute('type', 'text/plain');
+      sc.setAttribute('data-module-metadata', '');
+    }
   });
   if (extra.instance && extra.instance > 1) suffixInstance(root, extra.instance);
   root.setAttribute('data-im-module', module.id);

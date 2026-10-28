@@ -4,6 +4,7 @@ import { CheckCircle2, Loader2, ClipboardList, Palette, X, Send, SkipForward } f
 import { EditorSidebar } from './EditorSidebar';
 import { PreviewPane, PreviewPaneHandle } from './PreviewPane';
 import { InitialView } from './InitialView';
+import { EventWizard, WizardResult } from './wizard/EventWizard';
 import { SelectedElement, Attachment, ProjectPage, InvitationMetadata, EditorConfig, LocalImageFile } from '../types';
 import { IMAGE_SOURCES } from '../constants';
 import { generateWebProject, addModuleToProject, modifyProjectDesign, iterateModule, aiFillEventData } from '../services/aiService';
@@ -76,6 +77,8 @@ export const EditorView: React.FC = () => {
   const effectivePurchaseId = activePlan?.purchase_id || purchaseId;
   
   const [hasStarted, setHasStarted] = useState(false);
+  // New event-first flow by default; ?modo=clasico keeps the previous free-text generator.
+  const [classicMode, setClassicMode] = useState(searchParams.get('modo') === 'clasico');
   const [pages, setPages] = useState<ProjectPage[]>([]);
   const [activePageId, setActivePageId] = useState<string>('');
   
@@ -916,6 +919,31 @@ export const EditorView: React.FC = () => {
           <p className="text-pink-600 font-medium text-lg animate-pulse">Cargando invitación...</p>
         </div>
       </div>
+    );
+  }
+
+  const handleWizardCreated = (result: WizardResult) => {
+    setEditorConfig(prev => ({
+      ...prev,
+      eventType: result.eventLabel,
+      theme: result.designLabel,
+      primaryColor: result.primaryColor,
+      secondaryColor: result.secondaryColor,
+      eventDetails: ''
+    }));
+    loadRawIntoEditor(result.html);
+    setHasStarted(true);
+  };
+
+  if (!hasStarted && !filename && !classicMode) {
+    return (
+      <EventWizard
+        token={token || ''}
+        purchaseId={effectivePurchaseId}
+        generationAvailable={activePlan ? Math.max(0, activePlan.generation_credits - activePlan.generation_used) : null}
+        onCreated={handleWizardCreated}
+        onUseClassic={() => setClassicMode(true)}
+      />
     );
   }
 

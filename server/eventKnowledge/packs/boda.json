@@ -2,32 +2,83 @@
   "id": "boda",
   "label": "Boda",
   "description": "Invitación de boda para cualquier pareja: familias, padrinos, cortejo, ceremonia y recepción.",
-  "aliases": ["boda", "bodas", "casamiento", "matrimonio", "wedding", "boda civil", "boda religiosa", "boda gay", "boda lgbt"],
+  "aliases": [
+    "boda",
+    "bodas",
+    "casamiento",
+    "matrimonio",
+    "wedding",
+    "boda civil",
+    "boda religiosa",
+    "boda gay",
+    "boda lgbt"
+  ],
   "honorees": 2,
   "sections": [
     {
       "id": "pareja",
       "title": "La pareja",
       "fields": [
-        { "key": "persona1", "label": "Nombre de la primera persona", "type": "text", "required": true, "placeholder": "Ej.: Ana López" },
-        { "key": "persona2", "label": "Nombre de la segunda persona", "type": "text", "required": true, "placeholder": "Ej.: Luis Pérez" }
+        {
+          "key": "persona1",
+          "label": "Nombre de la primera persona",
+          "type": "text",
+          "required": true,
+          "placeholder": "Ej.: Ana López"
+        },
+        {
+          "key": "persona2",
+          "label": "Nombre de la segunda persona",
+          "type": "text",
+          "required": true,
+          "placeholder": "Ej.: Luis Pérez"
+        }
       ]
     },
-    { "ref": "fecha" },
+    {
+      "ref": "fecha"
+    },
     {
       "ref": "padres",
       "title": "Familias",
       "description": "Agrega a los papás y familiares de cada uno. Indica de quién es familia cada persona.",
       "extraItemFields": {
         "padres": [
-          { "key": "lado", "label": "Familia de", "type": "select", "optionsFrom": [ { "value": "p1", "labelFrom": "persona1", "fallback": "Primera persona" }, { "value": "p2", "labelFrom": "persona2", "fallback": "Segunda persona" } ] }
+          {
+            "key": "lado",
+            "label": "Familia de",
+            "type": "select",
+            "optionsFrom": [
+              {
+                "value": "p1",
+                "labelFrom": "persona1",
+                "fallback": "Primera persona"
+              },
+              {
+                "value": "p2",
+                "labelFrom": "persona2",
+                "fallback": "Segunda persona"
+              }
+            ]
+          }
         ]
       }
     },
     {
       "ref": "padrinos",
       "overrideOptions": {
-        "padrinos.rol": ["Velación", "Anillos", "Arras", "Lazo", "Biblia y rosario", "Cojines", "Ramo", "Brindis", "Pastel", "Testigos civiles"]
+        "padrinos.rol": [
+          "Velación",
+          "Anillos",
+          "Arras",
+          "Lazo",
+          "Biblia y rosario",
+          "Cojines",
+          "Ramo",
+          "Brindis",
+          "Pastel",
+          "Testigos civiles"
+        ]
       }
     },
     {
@@ -40,41 +91,105 @@
           "type": "repeat",
           "itemLabel": "Dama de honor",
           "addLabel": "Agregar otra dama",
-          "itemFields": [ { "key": "nombre", "label": "Nombre", "type": "text", "required": true } ]
+          "itemFields": [
+            {
+              "key": "nombre",
+              "label": "Nombre",
+              "type": "text",
+              "required": true
+            }
+          ],
+          "title": "Damas de honor"
         },
         {
           "key": "chambelanes",
           "type": "repeat",
           "itemLabel": "Caballero de honor",
           "addLabel": "Agregar otro caballero",
-          "itemFields": [ { "key": "nombre", "label": "Nombre", "type": "text", "required": true } ]
+          "itemFields": [
+            {
+              "key": "nombre",
+              "label": "Nombre",
+              "type": "text",
+              "required": true
+            }
+          ],
+          "title": "Caballeros de honor"
         }
       ]
     },
-    { "ref": "ubicaciones" },
-    { "ref": "itinerario" },
-    { "ref": "vestimenta" },
-    { "ref": "regalos" },
+    {
+      "ref": "ubicaciones"
+    },
+    {
+      "ref": "itinerario"
+    },
+    {
+      "ref": "vestimenta"
+    },
+    {
+      "ref": "regalos"
+    },
     {
       "ref": "confirmacion",
       "extraFields": [
-        { "key": "solo_adultos", "label": "Evento solo para adultos", "type": "checkbox" }
+        {
+          "key": "solo_adultos",
+          "label": "Evento solo para adultos",
+          "type": "checkbox"
+        }
       ]
     },
-    { "ref": "mensaje" }
+    {
+      "ref": "mensaje"
+    }
   ],
   "modules": [
-    { "type": "portada", "when": "always" },
-    { "type": "countdown", "when": "data:fecha" },
-    { "type": "padres", "when": "data:padres" },
-    { "type": "padrinos", "when": "data:padrinos" },
-    { "type": "corte", "when": "data:damas|chambelanes" },
-    { "type": "ubicacion", "when": "data:ubicaciones", "repeatPer": "ubicaciones" },
-    { "type": "itinerario", "when": "data:itinerario" },
-    { "type": "vestimenta", "when": "data:codigo_vestimenta" },
-    { "type": "regalos", "when": "data:regalos" },
-    { "type": "galeria", "when": "flag:incluir_galeria" },
-    { "type": "confirmacion", "when": "rsvp" }
+    {
+      "type": "portada",
+      "when": "always"
+    },
+    {
+      "type": "countdown",
+      "when": "data:fecha"
+    },
+    {
+      "type": "padres",
+      "when": "data:padres"
+    },
+    {
+      "type": "padrinos",
+      "when": "data:padrinos"
+    },
+    {
+      "type": "corte",
+      "when": "data:damas|chambelanes"
+    },
+    {
+      "type": "ubicacion",
+      "when": "data:ubicaciones",
+      "repeatPer": "ubicaciones"
+    },
+    {
+      "type": "itinerario",
+      "when": "data:itinerario"
+    },
+    {
+      "type": "vestimenta",
+      "when": "data:codigo_vestimenta"
+    },
+    {
+      "type": "regalos",
+      "when": "data:regalos"
+    },
+    {
+      "type": "galeria",
+      "when": "flag:incluir_galeria"
+    },
+    {
+      "type": "confirmacion",
+      "when": "rsvp"
+    }
   ],
   "labels": {
     "portadaFrase": "Nos casamos",
@@ -90,9 +205,22 @@
     "adultsOnly": "Evento solo para adultos"
   },
   "copy": {
-    "padres": { "padres-titulo": "Nuestros padres", "padres-rotulo": "Familias" },
-    "padrinos": { "padrinos-titulo": "Nuestros padrinos", "padrinos-rotulo": "Con cariño" },
-    "corte": { "corte-titulo": "Nuestro cortejo", "corte-encabezado": "Nuestro cortejo", "corte-rotulo": "Nos acompañan", "corte-lead": "Quienes estarán a nuestro lado" },
-    "countdown": { "countdown-titulo": "Falta muy poco para el gran día" }
+    "padres": {
+      "padres-titulo": "Nuestros padres",
+      "padres-rotulo": "Familias"
+    },
+    "padrinos": {
+      "padrinos-titulo": "Nuestros padrinos",
+      "padrinos-rotulo": "Con cariño"
+    },
+    "corte": {
+      "corte-titulo": "Nuestro cortejo",
+      "corte-encabezado": "Nuestro cortejo",
+      "corte-rotulo": "Nos acompañan",
+      "corte-lead": "Quienes estarán a nuestro lado"
+    },
+    "countdown": {
+      "countdown-titulo": "Falta muy poco para el gran día"
+    }
   }
 }
