@@ -1,0 +1,114 @@
+{
+  "id": "cumpleanos",
+  "label": "Cumpleaños",
+  "description": "Invitación de cumpleaños para cualquier edad.",
+  "aliases": [
+    "cumpleanos",
+    "cumpleaños",
+    "cumple",
+    "birthday",
+    "cumpleaños niño",
+    "cumpleaños niña"
+  ],
+  "honorees": 1,
+  "sections": [
+    {
+      "id": "festejado",
+      "title": "Festejado(a)",
+      "fields": [
+        {
+          "key": "nombre",
+          "label": "Nombre del festejado(a)",
+          "type": "text",
+          "required": true,
+          "placeholder": "Nombre y apellidos"
+        },
+        {
+          "key": "edad",
+          "label": "¿Cuántos años cumple?",
+          "type": "text",
+          "placeholder": "Ej.: 5"
+        }
+      ]
+    },
+    {
+      "ref": "fecha"
+    },
+    {
+      "ref": "padres",
+      "title": "Papás y familia"
+    },
+    {
+      "ref": "ubicaciones"
+    },
+    {
+      "ref": "itinerario"
+    },
+    {
+      "ref": "vestimenta"
+    },
+    {
+      "ref": "regalos"
+    },
+    {
+      "ref": "confirmacion"
+    },
+    {
+      "ref": "mensaje"
+    }
+  ],
+  "modules": [
+    {
+      "type": "portada",
+      "when": "always"
+    },
+    {
+      "type": "countdown",
+      "when": "data:fecha"
+    },
+    {
+      "type": "padres",
+      "when": "data:padres"
+    },
+    {
+      "type": "ubicacion",
+      "when": "data:ubicaciones",
+      "repeatPer": "ubicaciones"
+    },
+    {
+      "type": "itinerario",
+      "when": "data:itinerario"
+    },
+    {
+      "type": "vestimenta",
+      "when": "data:codigo_vestimenta"
+    },
+    {
+      "type": "regalos",
+      "when": "data:regalos"
+    },
+    {
+      "type": "galeria",
+      "when": "flag:incluir_galeria"
+    },
+    {
+      "type": "confirmacion",
+      "when": "rsvp"
+    }
+  ],
+  "labels": {
+    "parentRole": "{Rol}",
+    "parentRoleMemoriam": "En memoria de {rol}",
+    "parentGroupBoth": "Papás",
+    "padrinoRole": "Padrinos de {rol}",
+    "honorSuffix": "",
+    "rsvpInfo": "Si estás invitado, recibirás por WhatsApp, SMS o correo un enlace personal para confirmar tu asistencia.",
+    "rsvpDeadline": "Confirma antes del {fecha}",
+    "portadaFrase": "¡Vamos a celebrar!"
+  },
+  "copy": {
+    "padres": {
+      "padres-titulo": "Te invitan"
+    }
+  }
+}

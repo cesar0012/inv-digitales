@@ -1,0 +1,27 @@
+{
+  "$comment": "Configuración de la biblioteca de diseños certificados (sets de módulos). blockedSets: sets excluidos del catálogo del cliente. eventAffinity: tipos de evento para sets sin etiquetas de evento en sus metadatos; un set sin etiquetas ni entrada aquí se ofrece para todos los eventos.",
+  "blockedSets": {
+    "set-47-cenicienta": "Basado en un personaje con licencia (Cenicienta). Rediseñar con motivos genéricos antes de venderlo."
+  },
+  "eventAffinity": {
+    "set-16-navyfloral": ["bautizo", "comunion", "confirmacion"],
+    "set-19-caliz": ["comunion", "confirmacion", "bautizo"],
+    "set-22-rosa18": ["cumpleanos", "quinceanera", "otro"],
+    "set-23-negooro60": ["cumpleanos", "otro"],
+    "set-24-confeti25": ["cumpleanos", "otro"]
+  },
+  "tagToEvent": {
+    "quinceañera": "quinceanera",
+    "quinceanera": "quinceanera",
+    "xv": "quinceanera",
+    "xv años": "quinceanera",
+    "boda": "boda",
+    "bodas": "boda",
+    "bautizo": "bautizo",
+    "comunion": "comunion",
+    "comunión": "comunion",
+    "primera comunión": "comunion",
+    "cumpleaños": "cumpleanos",
+    "baby shower": "baby_shower"
+  }
+}

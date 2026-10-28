@@ -1,0 +1,131 @@
+{
+  "$comment": "Secciones reutilizables. Los paquetes de evento las referencian por id (\"ref\") y pueden sobrescribir título, ayuda u opciones. Este archivo no es un tipo de evento.",
+  "sections": {
+    "fecha": {
+      "id": "fecha",
+      "title": "Fecha y hora",
+      "fields": [
+        { "key": "fecha", "label": "Fecha del evento", "type": "date", "required": true },
+        { "key": "hora", "label": "Hora del evento", "type": "time", "required": true }
+      ]
+    },
+    "padres": {
+      "id": "padres",
+      "title": "Papás y familia",
+      "description": "Agrega a todas las personas que quieras mencionar: papás, padrastros, tutores, abuelos o a quien ya no está.",
+      "fields": [
+        {
+          "key": "padres",
+          "type": "repeat",
+          "itemLabel": "Persona",
+          "addLabel": "Agregar otra persona",
+          "suggested": 2,
+          "itemFields": [
+            { "key": "nombre", "label": "Nombre completo", "type": "text", "required": true, "placeholder": "Nombre y apellidos" },
+            { "key": "rol", "label": "Parentesco", "type": "select", "allowCustom": true, "options": ["Mamá", "Papá", "Madrastra", "Padrastro", "Tutora", "Tutor", "Abuela", "Abuelo"] },
+            { "key": "en_memoria", "label": "En memoria", "type": "checkbox" }
+          ]
+        }
+      ]
+    },
+    "padrinos": {
+      "id": "padrinos",
+      "title": "Padrinos",
+      "description": "Agrega cada pareja o persona con el tipo de padrinazgo. Puedes agregar tantos como necesites.",
+      "fields": [
+        {
+          "key": "padrinos",
+          "type": "repeat",
+          "itemLabel": "Padrinos",
+          "addLabel": "Agregar otros padrinos",
+          "itemFields": [
+            { "key": "rol", "label": "Padrinos de", "type": "select", "allowCustom": true, "options": ["Velación", "Bautizo", "Primera comunión", "Confirmación", "Anillo", "Medalla", "Biblia y rosario", "Brindis", "Pastel", "Recuerdos"] },
+            { "key": "nombres", "label": "Nombres", "type": "text", "required": true, "placeholder": "Nombre y Nombre Apellido" }
+          ]
+        }
+      ]
+    },
+    "ubicaciones": {
+      "id": "ubicaciones",
+      "title": "¿Dónde será?",
+      "description": "Agrega cada lugar: la ceremonia, la recepción o la fiesta. Cada lugar aparece con su mapa.",
+      "fields": [
+        {
+          "key": "ubicaciones",
+          "type": "repeat",
+          "itemLabel": "Lugar",
+          "addLabel": "Agregar otro lugar",
+          "suggested": 1,
+          "min": 1,
+          "itemFields": [
+            { "key": "tipo", "label": "¿Qué ocurre ahí?", "type": "select", "allowCustom": true, "options": ["Ceremonia religiosa", "Misa", "Ceremonia civil", "Recepción", "Fiesta"] },
+            { "key": "lugar", "label": "Nombre del lugar", "type": "text", "required": true, "placeholder": "Parroquia, salón, jardín…" },
+            { "key": "direccion", "label": "Dirección", "type": "text", "placeholder": "Calle, número, colonia, ciudad" },
+            { "key": "hora", "label": "Hora", "type": "time" },
+            { "key": "mapa", "label": "Enlace de Google Maps (opcional)", "type": "url", "placeholder": "https://maps.app.goo.gl/…" }
+          ]
+        }
+      ]
+    },
+    "itinerario": {
+      "id": "itinerario",
+      "title": "Programa del evento",
+      "description": "Opcional. Agrega los momentos del día en orden.",
+      "fields": [
+        {
+          "key": "itinerario",
+          "type": "repeat",
+          "itemLabel": "Momento",
+          "addLabel": "Agregar otro momento",
+          "itemFields": [
+            { "key": "hora", "label": "Hora", "type": "time" },
+            { "key": "actividad", "label": "Actividad", "type": "text", "required": true, "placeholder": "Recepción, cena, vals…" },
+            { "key": "descripcion", "label": "Detalle (opcional)", "type": "text" }
+          ]
+        }
+      ]
+    },
+    "vestimenta": {
+      "id": "vestimenta",
+      "title": "Código de vestimenta",
+      "fields": [
+        { "key": "codigo_vestimenta", "label": "Código de vestimenta", "type": "select", "allowCustom": true, "options": ["Formal", "Etiqueta / Black tie", "Cóctel", "Casual elegante", "Vaquero", "Temático"] },
+        { "key": "vestimenta_nota", "label": "Nota para los invitados (opcional)", "type": "text", "placeholder": "Ej.: el color blanco está reservado" }
+      ]
+    },
+    "regalos": {
+      "id": "regalos",
+      "title": "Regalos",
+      "description": "Opcional. Agrega mesas de regalos, lluvia de sobres o tu preferencia.",
+      "fields": [
+        {
+          "key": "regalos",
+          "type": "repeat",
+          "itemLabel": "Opción de regalo",
+          "addLabel": "Agregar otra opción",
+          "itemFields": [
+            { "key": "tipo", "label": "Tipo", "type": "select", "allowCustom": true, "options": ["Mesa de regalos", "Lluvia de sobres", "Transferencia"] },
+            { "key": "detalle", "label": "Detalle", "type": "text", "placeholder": "Tienda y número de evento, o una nota" },
+            { "key": "enlace", "label": "Enlace (opcional)", "type": "url", "placeholder": "https://…" }
+          ],
+          "notice": "Lo que escribas aquí será visible para cualquiera que tenga el enlace de la invitación. Evita publicar números de cuenta completos."
+        }
+      ]
+    },
+    "confirmacion": {
+      "id": "confirmacion",
+      "title": "Confirmación de asistencia",
+      "fields": [
+        { "key": "fecha_limite", "label": "Fecha límite para confirmar", "type": "date" }
+      ]
+    },
+    "mensaje": {
+      "id": "mensaje",
+      "title": "Mensaje y extras",
+      "fields": [
+        { "key": "frase_portada", "label": "Frase de portada (opcional)", "type": "text", "placeholder": "Ej.: Mis XV años" },
+        { "key": "incluir_galeria", "label": "Incluir galería de fotos (podrás subir tus fotos en el editor)", "type": "checkbox" }
+      ]
+    }
+  }
+}

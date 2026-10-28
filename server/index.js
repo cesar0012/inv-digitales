@@ -35,6 +35,7 @@ import { normalizeCategory } from './geminiService.js';
 import { parseHTML } from 'linkedom';
 import { processModuleUploadFile } from './ragUploadService.js';
 import { resolveSchema } from './eventDataSchema.js';
+import { createComposeRouter } from './composeRoutes.js';
 import { deflateRawSync } from 'zlib';
 import {
   isSafeFilename,
@@ -1697,6 +1698,11 @@ app.get('/api/catalogo/slug/:eventType/:slug', (req, res) => {
     res.status(500).json({ error: 'Error al obtener invitación' });
   }
 });
+
+// ==================== CREACIÓN POR EVENTO (flujo de 7 pasos) ====================
+// Evento → paquete de conocimiento del evento → formulario dinámico → módulos
+// certificados → imágenes (Nano Banana) → datos → composición. Ver server/composeRoutes.js.
+app.use(createComposeRouter({ authMiddleware, ensureUserInDB }));
 
 // ==================== SERVICE API (consumido por Laravel) ====================
 

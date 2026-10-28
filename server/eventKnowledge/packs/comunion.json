@@ -1,0 +1,126 @@
+{
+  "id": "comunion",
+  "label": "Primera Comunión",
+  "description": "Invitación de primera comunión con papás y padrinos.",
+  "aliases": [
+    "comunion",
+    "comunión",
+    "primera comunion",
+    "primera comunión"
+  ],
+  "honorees": 1,
+  "sections": [
+    {
+      "id": "festejado",
+      "title": "Festejado(a)",
+      "fields": [
+        {
+          "key": "nombre",
+          "label": "Nombre del niño o la niña",
+          "type": "text",
+          "required": true,
+          "placeholder": "Nombre y apellidos"
+        }
+      ]
+    },
+    {
+      "ref": "fecha"
+    },
+    {
+      "ref": "padres",
+      "title": "Papás y familia"
+    },
+    {
+      "ref": "padrinos",
+      "overrideOptions": {
+        "padrinos.rol": [
+          "Primera comunión",
+          "Vela",
+          "Biblia y rosario",
+          "Recuerdos",
+          "Pastel"
+        ]
+      }
+    },
+    {
+      "ref": "ubicaciones"
+    },
+    {
+      "ref": "itinerario"
+    },
+    {
+      "ref": "vestimenta"
+    },
+    {
+      "ref": "regalos"
+    },
+    {
+      "ref": "confirmacion"
+    },
+    {
+      "ref": "mensaje"
+    }
+  ],
+  "modules": [
+    {
+      "type": "portada",
+      "when": "always"
+    },
+    {
+      "type": "countdown",
+      "when": "data:fecha"
+    },
+    {
+      "type": "padres",
+      "when": "data:padres"
+    },
+    {
+      "type": "padrinos",
+      "when": "data:padrinos"
+    },
+    {
+      "type": "ubicacion",
+      "when": "data:ubicaciones",
+      "repeatPer": "ubicaciones"
+    },
+    {
+      "type": "itinerario",
+      "when": "data:itinerario"
+    },
+    {
+      "type": "vestimenta",
+      "when": "data:codigo_vestimenta"
+    },
+    {
+      "type": "regalos",
+      "when": "data:regalos"
+    },
+    {
+      "type": "galeria",
+      "when": "flag:incluir_galeria"
+    },
+    {
+      "type": "confirmacion",
+      "when": "rsvp"
+    }
+  ],
+  "labels": {
+    "parentRole": "{Rol}",
+    "parentRoleMemoriam": "En memoria de {rol}",
+    "parentGroupBoth": "Papás",
+    "padrinoRole": "Padrinos de {rol}",
+    "honorSuffix": "",
+    "rsvpInfo": "Si estás invitado, recibirás por WhatsApp, SMS o correo un enlace personal para confirmar tu asistencia.",
+    "rsvpDeadline": "Confirma antes del {fecha}",
+    "portadaFrase": "Mi primera comunión"
+  },
+  "copy": {
+    "padres": {
+      "padres-titulo": "Mis papás"
+    },
+    "padrinos": {
+      "padrinos-titulo": "Mis padrinos",
+      "padrinos-rotulo": "Con cariño"
+    }
+  }
+}

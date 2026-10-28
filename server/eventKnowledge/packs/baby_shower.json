@@ -1,0 +1,105 @@
+{
+  "id": "baby_shower",
+  "label": "Baby Shower",
+  "description": "Invitación de baby shower.",
+  "aliases": [
+    "baby shower",
+    "baby_shower",
+    "babyshower"
+  ],
+  "honorees": 1,
+  "sections": [
+    {
+      "id": "festejado",
+      "title": "Festejado(a)",
+      "fields": [
+        {
+          "key": "nombre",
+          "label": "Nombre de la mamá o de los papás",
+          "type": "text",
+          "required": true,
+          "placeholder": "Nombre y apellidos"
+        }
+      ]
+    },
+    {
+      "ref": "fecha"
+    },
+    {
+      "ref": "padres",
+      "title": "Anfitriones"
+    },
+    {
+      "ref": "ubicaciones"
+    },
+    {
+      "ref": "itinerario"
+    },
+    {
+      "ref": "vestimenta"
+    },
+    {
+      "ref": "regalos"
+    },
+    {
+      "ref": "confirmacion"
+    },
+    {
+      "ref": "mensaje"
+    }
+  ],
+  "modules": [
+    {
+      "type": "portada",
+      "when": "always"
+    },
+    {
+      "type": "countdown",
+      "when": "data:fecha"
+    },
+    {
+      "type": "padres",
+      "when": "data:padres"
+    },
+    {
+      "type": "ubicacion",
+      "when": "data:ubicaciones",
+      "repeatPer": "ubicaciones"
+    },
+    {
+      "type": "itinerario",
+      "when": "data:itinerario"
+    },
+    {
+      "type": "vestimenta",
+      "when": "data:codigo_vestimenta"
+    },
+    {
+      "type": "regalos",
+      "when": "data:regalos"
+    },
+    {
+      "type": "galeria",
+      "when": "flag:incluir_galeria"
+    },
+    {
+      "type": "confirmacion",
+      "when": "rsvp"
+    }
+  ],
+  "labels": {
+    "parentRole": "{Rol}",
+    "parentRoleMemoriam": "En memoria de {rol}",
+    "parentGroupBoth": "Papás",
+    "padrinoRole": "Padrinos de {rol}",
+    "honorSuffix": "",
+    "rsvpInfo": "Si estás invitado, recibirás por WhatsApp, SMS o correo un enlace personal para confirmar tu asistencia.",
+    "rsvpDeadline": "Confirma antes del {fecha}",
+    "portadaFrase": "Baby Shower"
+  },
+  "copy": {
+    "padres": {
+      "padres-titulo": "Te invitan"
+    }
+  }
+}
