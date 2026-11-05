@@ -126,6 +126,18 @@ export const previewInvitation = async (payload: ComposePayload, token: string, 
     await fetch(`${API}/compose/preview`, { method: 'POST', credentials: 'include', headers: headers(token, true), body: JSON.stringify(payload), signal })
   );
 
+/** Flujo combinado: rellena una base ya generada por el proceso agéntico con
+ *  los datos del pack (vista previa en vivo / cierre del wizard). Gratis. */
+export type FillProvidedPayload = Omit<ComposePayload, 'designId'> & { html: string };
+export const fillProvidedInvitation = async (
+  payload: FillProvidedPayload,
+  token: string,
+  signal?: AbortSignal
+) =>
+  handle<{ html: string; missing: { key: string; label: string }[]; report: ComposeReport; eventType: string }>(
+    await fetch(`${API}/compose/fill`, { method: 'POST', credentials: 'include', headers: headers(token, true), body: JSON.stringify(payload), signal })
+  );
+
 export const createInvitation = async (payload: ComposePayload, token: string) =>
   handle<{ html: string; report: ComposeReport; design: string; eventType: string; eventLabel: string }>(
     await fetch(`${API}/compose/create`, { method: 'POST', credentials: 'include', headers: headers(token, true), body: JSON.stringify(payload) })

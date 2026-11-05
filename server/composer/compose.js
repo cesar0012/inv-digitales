@@ -18,7 +18,8 @@
 
 import { resolvePack, validateEventData, moduleConditionMet } from '../eventKnowledge/index.js';
 import { getDesign, designsForEvent } from './library.js';
-import { fillModule, joinNames, norm } from './fill.js';
+import { fillModule, joinNames, norm, parseSection } from './fill.js';
+import { parseHTML } from 'linkedom';
 
 const HEX = /^#[0-9a-fA-F]{6}$/;
 const escapeHtml = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -140,4 +141,129 @@ export function composeInvitation({ eventType, designId, data: rawData = {}, pre
   if (isoDateTime) html = html.replace(/window\.__countdownTarget\s*=\s*[^;]+;/g, `window.__countdownTarget='${isoDateTime}';`);
   const placeholderImages = (html.match(/loremflickr\.com/g) || []).length;
   return { html, pack: pack.id, design: design.id, data, missing, report: { ...report, placeholderImages } };
+}
+
+// ---------------------------------------------------------------------------
+// FILL SOBRE HTML YA GENERADO (flujo combinado: base agéntica + datos del
+// wizard). Recibe la invitación producida por el proceso agéntico (que ya
+// eligió los módulos del rack, los adaptó y resolvió imágenes/tema) y escribe
+// los datos del pack del evento con los mismos WRITERS certificados de
+// fill.js. No llama IA, no cuesta crédito: es el motor de la vista previa
+// en vivo y del cierre del wizard.
+// ---------------------------------------------------------------------------
+const KNOWN_TYPES = new Set(['portada', 'padres', 'ubicacion', 'itinerario', 'confirmacion', 'detalles', 'countdown', 'padrinos', 'corte', 'galeria', 'regalos', 'vestimenta']);
+
+/** Tipo de una <section>: prefijo del data-gemini-id; fallback al tipo del
+ *  moduleMetadata (el agéntico lo deja como script inerte o activo). */
+function typeOfSection(sec) {
+  const gid = sec.getAttribute('data-gemini-id') || '';
+  const prefix = gid.split('-')[0];
+  if (KNOWN_TYPES.has(prefix)) return prefix;
+  for (const sc of sec.querySelectorAll('script')) {
+    const m = (sc.textContent || '').match(/(?:module_type|tipo)\s*:\s*['"]([a-z]+)['"]/i);
+    if (m && KNOWN_TYPES.has(m[1].toLowerCase())) return m[1].toLowerCase();
+  }
+  return null;
+}
+
+export function fillProvidedHtml({ html, eventType, data: rawData = {}, preferences = {}, hasRsvp = false }) {
+  const pack = resolvePack(eventType);
+  const { data, missing } = validateEventData(pack, rawData);
+  const full = /^<!DOCTYPE/i.test(html) || /<html[\s>]/i.test(html) ? html : `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"></head><body>${html}</body></html>`;
+  const { document } = parseHTML(full);
+  const body = document.body || document.documentElement;
+
+  const isoDateTime = data.fecha ? `${data.fecha}T${data.hora || '12:00'}:00` : null;
+  const ctx = { pack, data, isoDateTime, adapting: false };
+  const report = { modules: [], skipped: [], warnings: [] };
+  const planByType = new Map(pack.modules.map((s) => [s.type, s]));
+  const instancias = new Map();   // nº de secciones vistas por tipo
+  const ultimoHtml = new Map();   // última sección llenada por tipo (plantilla para clonar)
+  const ultimoNodo = new Map();   // último nodo insertado por tipo (ancla para clonar)
+
+  // Llena una sección y devuelve { html, warnings } | null (sin insertar nada).
+  const llenar = (sectionHtml, type, id, extra = {}) => {
+    const r = fillModule({ section: sectionHtml, id, type }, ctx, extra);
+    return r.ok ? { html: r.html, warnings: r.warnings } : null;
+  };
+  // Inserta los nodos de htmlStr ANTES de ref (o al final si ref es null) y
+  // devuelve el último nodo insertado.
+  const insertarEn = (htmlStr, ref) => {
+    const wrap = document.createElement('div');
+    wrap.innerHTML = htmlStr;
+    const nodes = Array.from(wrap.childNodes).filter((n) => n.nodeType === 1 || (n.nodeType === 3 && (n.textContent || '').trim()));
+    if (!nodes.length) return null;
+    if (ref && ref.parentNode === body) { for (const nd of nodes) body.insertBefore(nd, ref); }
+    else { body.append(...nodes); }
+    return nodes[nodes.length - 1];
+  };
+
+  // Solo secciones hijas directas del body (los módulos van como hermanos).
+  for (const sec of Array.from(body.children)) {
+    if (String(sec.tagName).toUpperCase() !== 'SECTION') continue;
+    const type = typeOfSection(sec);
+    if (!type) continue; // sección sin tipo conocido: intacta
+    const step = planByType.get(type);
+    if (step && !moduleConditionMet(step.when, data, { hasRsvp })) {
+      report.skipped.push({ type, reason: skipReason(step.when) });
+      sec.remove();
+      continue;
+    }
+    const n = (instancias.get(type) || 0) + 1;
+    instancias.set(type, n);
+    let extra = {};
+    if (step && step.repeatPer) {
+      const item = (data[step.repeatPer] || [])[n - 1];
+      if (!item) { report.skipped.push({ type, reason: SKIP_REASONS.data }); sec.remove(); continue; }
+      extra = { item, instance: n };
+    }
+    const id = sec.getAttribute('data-gemini-id') || type;
+    const siguiente = sec.nextSibling; // hueco exacto de la sección
+    const plantilla = sec.outerHTML;
+    sec.remove();
+    const done = llenar(plantilla, type, id, extra);
+    if (!done) { report.skipped.push({ type, reason: SKIP_REASONS.noSlots }); continue; }
+    const last = insertarEn(done.html, siguiente && siguiente.parentNode === body ? siguiente : null);
+    ultimoHtml.set(type, done.html);
+    if (last) ultimoNodo.set(type, last);
+    report.modules.push({ type, id, borrowedFrom: null, instance: n });
+    for (const w of done.warnings) report.warnings.push({ type, ...w });
+  }
+
+  // Ítems repetidos sin sección propia (2ª ubicación, 3er par de padrinos…):
+  // se clona la última sección llenada del tipo y se rellena tras ella.
+  for (const step of pack.modules) {
+    if (!step.repeatPer) continue;
+    const items = data[step.repeatPer] || [];
+    const base = instancias.get(step.type) || 0;
+    const extraItems = items.slice(base);
+    if (!extraItems.length || !ultimoHtml.has(step.type)) continue;
+    let ancla = ultimoNodo.get(step.type);
+    for (let i = 0; i < extraItems.length; i++) {
+      const done = llenar(ultimoHtml.get(step.type), step.type, step.type, { item: extraItems[i], instance: base + i + 1 });
+      if (!done) continue;
+      const last = insertarEn(done.html, ancla && ancla.parentNode === body ? ancla.nextSibling : null);
+      if (last) { ancla = last; ultimoNodo.set(step.type, last); }
+      report.modules.push({ type: step.type, id: step.type, borrowedFrom: null, instance: base + i + 1 });
+      for (const w of done.warnings) report.warnings.push({ type: step.type, ...w });
+    }
+  }
+
+  let finalHtml = '<!DOCTYPE html>\n' + (document.documentElement ? document.documentElement.outerHTML : body.innerHTML);
+  // Paleta del cliente: el mismo bloque que el editor lee y escribe.
+  const overrides = [];
+  if (HEX.test(preferences.primaryColor || '')) overrides.push(`  --primary-color: ${preferences.primaryColor} !important;`);
+  if (HEX.test(preferences.secondaryColor || '')) overrides.push(`  --secondary-color: ${preferences.secondaryColor} !important;`);
+  if (overrides.length) {
+    const block = `<style data-editor-color-vars="true">/* Paleta del editor */\n:root, [data-gemini-id] {\n${overrides.join('\n')}\n}</style>`;
+    finalHtml = /<style data-editor-color-vars/.test(finalHtml)
+      ? finalHtml.replace(/<style data-editor-color-vars[^]*?<\/style>/, block)
+      : (/<\/head>/i.test(finalHtml) ? finalHtml.replace(/<\/head>/i, `${block}\n</head>`) : finalHtml.replace(/(<body[^>]*>)/i, `$1${block}`));
+  }
+  if (isoDateTime) {
+    finalHtml = finalHtml.replace(/window\.__countdownTarget\s*=\s*[^;]+;/g, `window.__countdownTarget='${isoDateTime}';`);
+    finalHtml = finalHtml.replace(/data-countdown-target="[^"]*"/g, `data-countdown-target="${isoDateTime}"`);
+  }
+  const placeholderImages = (finalHtml.match(/loremflickr\.com/g) || []).length;
+  return { html: finalHtml, pack: pack.id, data, missing, report: { ...report, placeholderImages } };
 }

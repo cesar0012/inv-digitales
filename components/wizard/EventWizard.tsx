@@ -1,27 +1,30 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowLeft, Check, Eye, Home, Loader2, Palette, Sparkles, X, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Check, Eye, Home, Loader2, Palette, Sparkles, X, AlertCircle, Wand2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import {
   ComposeReport,
-  createInvitation,
-  DesignSummary,
+  createInvitation as _unusedCreate,
   EventFormData,
   EventPack,
   EventTypeSummary,
-  getDesigns,
-  getDesignSample,
-  getDesignScreenshot,
+  fillProvidedInvitation,
   getEventPack,
-  getEventTypes,
-  previewInvitation
+  getEventTypes
 } from '../../services/composeService';
+import { generateWebProject } from '../../services/aiService';
+import { IMAGE_SOURCES } from '../../constants';
 import { DynamicEventForm, initialFormData } from './DynamicEventForm';
+void _unusedCreate; // el cierre ya no usa /compose/create: la base ya gastó el crédito
 
 /**
- * Event-first creation:
- *   1. pick the event → 2. pick a certified design → 3. fill the event's own
- *   form (unlimited people) with a live preview → create. The server composes
- *   the invitation from certified modules and generates the graphics.
+ * Creación combinada (evento → estilo → datos):
+ *   1. Elige el evento (paquete de conocimiento).
+ *   2. "Tu estilo": el cliente DESCRIBE lo que quiere y (opcional) sus
+ *      colores; el PROCESO AGÉNTICO original elige los módulos del rack
+ *      curado, los adapta y resuelve imágenes y tema (1 crédito).
+ *   3. "Datos y vista previa": el formulario dinámico del pack con vista
+ *      previa EN VIVO (los writers certificados rellenan la base; gratis),
+ *      y al terminar se entra directo al editor.
  */
 
 export interface WizardResult {
@@ -40,13 +43,13 @@ interface Props {
   onUseClassic: () => void;
 }
 
-type Step = 'event' | 'design' | 'details';
+type Step = 'event' | 'brief' | 'details';
 
 interface Saved {
   savedAt?: number;
   step: Step;
   eventType: string;
-  designId: string;
+  brief: string;
   data: EventFormData;
   colors: { custom: boolean; primary: string; secondary: string };
 }
@@ -77,13 +80,19 @@ const save = (key: string, value: Saved | null) => {
   }
 };
 
+/** id del pack → nombre legacy que entienden el esquema y las carpetas de imágenes. */
+const LEGACY_EVENT: Record<string, string> = {
+  quinceanera: 'XV Años', boda: 'Boda', bautizo: 'Bautizo', comunion: 'Primera Comunión',
+  confirmacion: 'Confirmación', cumpleanos: 'Cumpleaños', baby_shower: 'Baby Shower', otro: 'Otro'
+};
+
 const MODULE_NAMES: Record<string, string> = {
   portada: 'Portada', countdown: 'Cuenta regresiva', padres: 'Papás y familia', padrinos: 'Padrinos', corte: 'Corte / cortejo',
   ubicacion: 'Ubicación', itinerario: 'Programa', vestimenta: 'Vestimenta', regalos: 'Regalos', galeria: 'Galería', confirmacion: 'Confirmación'
 };
 
 const Steps: React.FC<{ step: Step }> = ({ step }) => {
-  const items: [Step, string][] = [['event', 'Evento'], ['design', 'Diseño'], ['details', 'Datos y vista previa']];
+  const items: [Step, string][] = [['event', 'Evento'], ['brief', 'Tu estilo'], ['details', 'Datos y vista previa']];
   const idx = items.findIndex(([s]) => s === step);
   return (
     <ol className="flex items-center gap-2 text-sm" aria-label="Pasos">
@@ -100,101 +109,61 @@ const Steps: React.FC<{ step: Step }> = ({ step }) => {
   );
 };
 
-const DesignCard: React.FC<{ design: DesignSummary; selected: boolean; token: string; onSelect: () => void; onPreview: () => void }> = ({ design, selected, token, onSelect, onPreview }) => {
-  const [shot, setShot] = useState<string | null>(null);
-  useEffect(() => {
-    let url: string | null = null;
-    let alive = true;
-    if (design.screenshot) {
-      getDesignScreenshot(design.screenshot, token)
-        .then((u) => {
-          if (!u) return;
-          if (!alive) { URL.revokeObjectURL(u); return; } // card left before the image arrived
-          url = u;
-          setShot(u);
-        })
-        .catch(() => {});
-    }
-    return () => { alive = false; if (url) URL.revokeObjectURL(url); };
-  }, [design.screenshot, token]);
-  return (
-    <div className={`rounded-2xl border-2 bg-white overflow-hidden flex flex-col transition-all ${selected ? 'border-pink-500 ring-2 ring-pink-200' : 'border-pink-100 hover:border-pink-300'}`}>
-      <button type="button" onClick={onSelect} className="text-left flex-1" aria-pressed={selected}>
-        {shot ? (
-          <img src={shot} alt={`Diseño ${design.label}`} className="w-full h-36 object-cover object-top" />
-        ) : (
-          <div className="h-36 flex" aria-hidden="true">
-            {(design.swatch.length ? design.swatch : ['#f9a8d4', '#fbcfe8', '#fff1f2', '#831843']).map((c, i) => (
-              <span key={i} className="flex-1" style={{ background: c }} />
-            ))}
-          </div>
-        )}
-        <div className="p-3">
-          <p className="font-semibold text-gray-800 truncate">{design.label}</p>
-          <p className="text-xs text-gray-500">{design.madeFor ? 'Hecho para este evento' : 'Diseño versátil'} · {design.modules.length} secciones</p>
-        </div>
-      </button>
-      <div className="flex border-t border-pink-50">
-        <button type="button" onClick={onPreview} className="flex-1 flex items-center justify-center gap-1.5 py-2 text-sm text-gray-600 hover:bg-pink-50"><Eye className="w-4 h-4" /> Ver ejemplo</button>
-        <button type="button" onClick={onSelect} className={`flex-1 py-2 text-sm font-semibold ${selected ? 'bg-pink-500 text-white' : 'text-pink-600 hover:bg-pink-50'}`}>{selected ? 'Elegido' : 'Elegir'}</button>
-      </div>
-    </div>
-  );
-};
+const SUGERENCIAS = [
+  'Elegante y romántico, con flores doradas y tonos pastel',
+  'Moderno y minimalista, mucho espacio en blanco y tipografía fina',
+  'Boho con terracota, hojas de palma y madera',
+  'Clásico con azul marino, dorado y detalles de lazo'
+];
 
 export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvailable, onCreated, onUseClassic }) => {
   const navigate = useNavigate();
   const key = storageKey(purchaseId);
   const saved = useMemo(() => load(key), [key]);
 
-  const [step, setStep] = useState<Step>(saved?.step || 'event');
+  const [step, setStep] = useState<Step>(saved?.step === 'details' ? 'brief' : (saved?.step || 'event')); // sin baseHtml guardada no se puede volver directo a 'details'
   const [eventTypes, setEventTypes] = useState<EventTypeSummary[]>([]);
   const [eventType, setEventType] = useState(saved?.eventType || '');
   const [pack, setPack] = useState<EventPack | null>(null);
-  const [designs, setDesigns] = useState<DesignSummary[]>([]);
-  const [designId, setDesignId] = useState(saved?.designId || '');
+  const [brief, setBrief] = useState(saved?.brief || '');
   const [data, setData] = useState<EventFormData>(saved?.data || {});
   const [colors, setColors] = useState(saved?.colors || { custom: false, primary: '#d16a8a', secondary: '#eda7bc' });
+  const [baseHtml, setBaseHtml] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [sample, setSample] = useState<{ label: string; html: string } | null>(null);
+  const [generating, setGenerating] = useState(false);
   const [preview, setPreview] = useState<{ html: string; missing: { key: string; label: string }[]; report: ComposeReport } | null>(null);
   const [previewLoading, setPreviewLoading] = useState(false);
   const [showPreviewMobile, setShowPreviewMobile] = useState(false);
-  const [creating, setCreating] = useState(false);
+  const [finishing, setFinishing] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
 
-  // Escape closes the open dialog (sample or mobile preview).
+  // Escape closes the mobile preview.
   useEffect(() => {
-    if (!sample && !showPreviewMobile) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key !== 'Escape') return;
-      setSample(null);
-      setShowPreviewMobile(false);
-    };
+    if (!showPreviewMobile) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setShowPreviewMobile(false); };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [sample, showPreviewMobile]);
+  }, [showPreviewMobile]);
 
-  // Keep progress so the customer can come back later.
+  // Keep progress so the customer can come back later (sin la base: es pesada).
   useEffect(() => {
-    save(key, { step, eventType, designId, data, colors });
-  }, [key, step, eventType, designId, data, colors]);
+    save(key, { step: step === 'details' ? 'brief' : step, eventType, brief, data, colors });
+  }, [key, step, eventType, brief, data, colors]);
 
   useEffect(() => {
     getEventTypes(token).then(setEventTypes).catch((e) => setError(e.message));
   }, [token]);
 
-  // Step 2 needs the event's pack (form) and its designs.
+  // El pack del evento arma el formulario dinámico.
   useEffect(() => {
     if (!eventType) return;
-    let current = true; // ignore answers for an event the customer already left
+    let current = true;
     setLoading(true);
-    Promise.all([getEventPack(eventType, token), getDesigns(eventType, token)])
-      .then(([p, d]) => {
+    getEventPack(eventType, token)
+      .then((p) => {
         if (!current) return;
         setPack(p);
-        setDesigns(d);
         setData((prev) => (Object.keys(prev).length ? prev : initialFormData(p)));
       })
       .catch((e) => { if (current) setError(e.message); })
@@ -202,89 +171,108 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
     return () => { current = false; };
   }, [eventType, token]);
 
-  // Live preview: no AI, no credit; debounced while typing.
   const preferences = colors.custom ? { primaryColor: colors.primary, secondaryColor: colors.secondary } : {};
+
+  // Vista previa en vivo sobre la base agéntica: gratis, sin IA, con debounce.
   useEffect(() => {
-    if (step !== 'details' || !designId || !eventType) return;
+    if (step !== 'details' || !baseHtml || !eventType) return;
     const t = setTimeout(() => {
       abortRef.current?.abort();
       const ctrl = new AbortController();
       abortRef.current = ctrl;
       setPreviewLoading(true);
-      previewInvitation({ eventType, designId, data, preferences, purchaseId }, token, ctrl.signal)
+      fillProvidedInvitation({ html: baseHtml, eventType, data, preferences, purchaseId }, token, ctrl.signal)
         .then((r) => setPreview({ html: r.html, missing: r.missing, report: r.report }))
         .catch((e) => { if (e.name !== 'AbortError') setError(e.message); })
         .finally(() => { if (abortRef.current === ctrl) setPreviewLoading(false); });
     }, 700);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [step, designId, eventType, data, colors, purchaseId, token]);
+  }, [step, baseHtml, eventType, data, colors, purchaseId, token]);
 
   const missingKeys = useMemo(() => new Set((preview?.missing || []).map((m) => m.key)), [preview]);
-  const selectedDesign = designs.find((d) => d.id === designId);
 
   const chooseEvent = (id: string) => {
     if (id !== eventType) {
       setEventType(id);
       setPack(null);
-      setDesigns([]);
-      setDesignId('');
       setData({});
+      setBaseHtml(null);
       setPreview(null);
     }
-    setStep('design');
-  };
-
-  const sampleReq = useRef(0);
-  const openSample = async (d: DesignSummary) => {
-    const req = ++sampleReq.current;
-    try {
-      setSample({ label: d.label, html: '' });
-      const html = await getDesignSample(d.id, eventType, token);
-      // Closed or replaced while loading: don't reopen it.
-      setSample((cur) => (req === sampleReq.current && cur && cur.label === d.label ? { label: d.label, html } : cur));
-    } catch (e) {
-      if (req !== sampleReq.current) return;
-      setSample(null);
-      setError((e as Error).message);
-    }
+    setStep('brief');
   };
 
   const startOver = () => {
     save(key, null);
     setStep('event');
     setEventType('');
-    setDesignId('');
+    setBrief('');
+    setBaseHtml(null);
     setData({});
     setPreview(null);
   };
 
-  const create = async () => {
-    if (!preview || preview.missing.length) return;
-    setCreating(true);
+  /** Paso 2 → 3: la generación agéntica construye la base (1 crédito). */
+  const generateBase = async () => {
+    if (!brief.trim() || !eventType || !pack) return;
+    if (generationAvailable !== null && generationAvailable < 1) {
+      setError('No tienes créditos de generación disponibles en este plan.');
+      return;
+    }
+    setGenerating(true);
+    setError(null);
+    setBaseHtml(null);
+    setPreview(null);
+    try {
+      const imageSource = IMAGE_SOURCES.find((s) => s.id === 'loremflickr') || IMAGE_SOURCES[0];
+      const prompt = `Invitación de ${pack.label}. Estilo y deseos del cliente: ${brief.trim()}`;
+      const editorConfig = {
+        eventType: LEGACY_EVENT[eventType] || pack.label,
+        theme: '',
+        primaryColor: colors.custom ? colors.primary : '',
+        secondaryColor: colors.custom ? colors.secondary : '',
+        visualStyle: '',
+        mood: ''
+      };
+      const html = await generateWebProject(prompt, imageSource, [], editorConfig, undefined, purchaseId || undefined);
+      if (!html || html.length < 200) throw new Error('La generación devolvió una invitación vacía. Intenta de nuevo.');
+      setBaseHtml(html);
+      setStep('details');
+    } catch (e) {
+      setError((e as Error).message || 'No se pudo generar el diseño base.');
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  /** Cierre: relleno final sobre la base y entrada al editor. */
+  const finish = async () => {
+    if (!baseHtml || !eventType || !pack) return;
+    setFinishing(true);
     setError(null);
     try {
-      const r = await createInvitation({ eventType, designId, data, preferences, purchaseId }, token);
+      const r = await fillProvidedInvitation({ html: baseHtml, eventType, data, preferences, purchaseId }, token);
       save(key, null);
       onCreated({
         html: r.html,
-        eventLabel: r.eventLabel,
-        designLabel: selectedDesign?.label || '',
-        primaryColor: colors.custom ? colors.primary : selectedDesign?.swatch[0] || '#f472b6',
-        secondaryColor: colors.custom ? colors.secondary : selectedDesign?.swatch[1] || '#fb7185'
+        eventLabel: pack.label,
+        designLabel: 'Diseño personalizado',
+        primaryColor: colors.custom ? colors.primary : '#f472b6',
+        secondaryColor: colors.custom ? colors.secondary : '#fb7185'
       });
     } catch (e) {
       const err = e as Error & { missing?: { key: string; label: string }[] };
       setError(err.missing?.length ? `Faltan datos: ${err.missing.map((m) => m.label).join(', ')}` : err.message);
     } finally {
-      setCreating(false);
+      setFinishing(false);
     }
   };
 
   const previewPanel = (
     <div className="flex flex-col h-full bg-white rounded-3xl border border-pink-200 shadow-sm overflow-hidden">
       <div className="flex items-center justify-between px-4 py-2 border-b border-pink-100 text-sm">
-        <span className="font-semibold text-gray-700">Vista previa {selectedDesign ? `· ${selectedDesign.label}` : ''}</span>
+        <span className="font-semibold text-gray-700">Vista previa · tu diseño</span>
         {previewLoading && <Loader2 className="w-4 h-4 animate-spin text-pink-500" aria-label="Actualizando" />}
       </div>
       {preview ? (
@@ -302,6 +290,20 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
         </div>
       )}
     </div>
+  );
+
+  const colorPicker = (
+    <section className="bg-white/80 rounded-3xl border border-pink-200 shadow-sm p-5 flex flex-col gap-3" aria-labelledby="t-colors">
+      <h3 id="t-colors" className="text-lg font-bold text-gray-800 flex items-center gap-2"><Palette className="w-5 h-5 text-pink-500" /> Colores</h3>
+      <label className="flex items-center gap-2 text-sm"><input type="radio" name="colors" checked={!colors.custom} onChange={() => setColors({ ...colors, custom: false })} className="accent-pink-500" /> Que el diseño los elija según tu descripción</label>
+      <label className="flex items-center gap-2 text-sm"><input type="radio" name="colors" checked={colors.custom} onChange={() => setColors({ ...colors, custom: true })} className="accent-pink-500" /> Personalizar</label>
+      {colors.custom && (
+        <div className="flex gap-4">
+          <label className="flex items-center gap-2 text-sm">Principal <input type="color" value={colors.primary} onChange={(e) => setColors({ ...colors, primary: e.target.value })} /></label>
+          <label className="flex items-center gap-2 text-sm">Acento <input type="color" value={colors.secondary} onChange={(e) => setColors({ ...colors, secondary: e.target.value })} /></label>
+        </div>
+      )}
+    </section>
   );
 
   return (
@@ -325,7 +327,7 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
         {step === 'event' && (
           <section aria-labelledby="t-event">
             <h1 id="t-event" className="text-3xl font-bold text-gray-800 mb-1">¿Qué vas a celebrar?</h1>
-            <p className="text-gray-500 mb-6">Elige el tipo de evento. Te pediremos solo los datos que ese evento necesita.</p>
+            <p className="text-gray-500 mb-6">Elige el tipo de evento. Después nos cuentas el estilo que quieres y armamos la invitación.</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {eventTypes.map((t) => (
                 <button key={t.id} type="button" onClick={() => chooseEvent(t.id)} className={`text-left rounded-2xl border-2 bg-white p-5 hover:border-pink-400 hover:shadow-md transition-all ${eventType === t.id ? 'border-pink-500' : 'border-pink-100'}`}>
@@ -334,58 +336,60 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
                 </button>
               ))}
             </div>
-            <button type="button" onClick={onUseClassic} className="mt-8 text-sm text-gray-500 underline hover:text-pink-600">Prefiero describir mi invitación con texto (modo anterior)</button>
+            <button type="button" onClick={onUseClassic} className="mt-8 text-sm text-gray-500 underline hover:text-pink-600">Prefiero el modo clásico completo (descripción libre con formulario en la carga)</button>
           </section>
         )}
 
-        {step === 'design' && (
-          <section aria-labelledby="t-design">
+        {step === 'brief' && pack && (
+          <section aria-labelledby="t-brief" className="max-w-3xl">
             <button type="button" onClick={() => setStep('event')} className="flex items-center gap-1 text-sm text-gray-500 hover:text-pink-600 mb-3"><ArrowLeft className="w-4 h-4" /> Cambiar evento</button>
-            <h1 id="t-design" className="text-3xl font-bold text-gray-800 mb-1">Elige tu diseño</h1>
-            <p className="text-gray-500 mb-6">Cada diseño es un conjunto de secciones ya probadas. Podrás cambiar colores y textos después.</p>
-            {loading ? (
-              <div className="flex items-center gap-2 text-pink-600"><Loader2 className="w-5 h-5 animate-spin" /> Cargando diseños…</div>
-            ) : (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {designs.map((d) => (
-                  <DesignCard key={d.id} design={d} token={token} selected={designId === d.id} onSelect={() => setDesignId(d.id)} onPreview={() => openSample(d)} />
+            <h1 id="t-brief" className="text-3xl font-bold text-gray-800 mb-1">Cuéntanos cómo la quieres</h1>
+            <p className="text-gray-500 mb-6">Describe el estilo, el ambiente, los detalles que amas. Nuestro proceso creativo elige las secciones y construye tu invitación con eso.</p>
+            <div className="bg-white rounded-3xl border border-pink-200 shadow-sm p-5 flex flex-col gap-4">
+              <label htmlFor="brief" className="text-sm font-semibold text-gray-700">Tu invitación de {pack.label}</label>
+              <textarea
+                id="brief"
+                value={brief}
+                onChange={(e) => setBrief(e.target.value)}
+                rows={5}
+                maxLength={1200}
+                placeholder="Ej. Elegante y romántico con toques dorados, flores suaves, tipografía fina…"
+                className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-200 resize-y"
+              />
+              <div className="flex flex-wrap gap-2">
+                {SUGERENCIAS.map((s) => (
+                  <button key={s} type="button" onClick={() => setBrief(s)} className="px-3 py-1.5 text-xs bg-pink-50 border border-pink-200 rounded-full text-pink-700 hover:bg-pink-100 transition-colors">{s}</button>
                 ))}
               </div>
-            )}
+              {generationAvailable !== null && <p className="text-xs text-gray-500">Créditos de generación disponibles: {generationAvailable} · esta paso usa uno</p>}
+            </div>
+            <div className="mt-4">{colorPicker}</div>
             <div className="sticky bottom-0 mt-6 py-4 bg-pink-50/95 flex justify-end">
-              <button type="button" disabled={!designId} onClick={() => setStep('details')} className="px-8 py-3 bg-gradient-to-r from-pink-500 to-rose-500 disabled:opacity-40 text-white rounded-xl font-semibold shadow-lg">Continuar con mis datos</button>
+              <button type="button" disabled={!brief.trim() || generating} onClick={generateBase} className="px-8 py-3 bg-gradient-to-r from-pink-500 to-rose-500 disabled:opacity-40 text-white rounded-xl font-semibold shadow-lg flex items-center gap-2">
+                {generating ? <Loader2 className="w-5 h-5 animate-spin" /> : <Wand2 className="w-5 h-5" />}
+                {generating ? 'Diseñando…' : 'Generar mi diseño base'}
+              </button>
             </div>
           </section>
         )}
 
-        {step === 'details' && pack && (
+        {step === 'details' && pack && baseHtml && (
           <section aria-labelledby="t-details">
-            <button type="button" onClick={() => setStep('design')} className="flex items-center gap-1 text-sm text-gray-500 hover:text-pink-600 mb-3"><ArrowLeft className="w-4 h-4" /> Cambiar diseño</button>
+            <button type="button" onClick={() => { setStep('brief'); setPreview(null); }} className="flex items-center gap-1 text-sm text-gray-500 hover:text-pink-600 mb-3"><ArrowLeft className="w-4 h-4" /> Volver a describir el estilo (regenera)</button>
             <h1 id="t-details" className="text-3xl font-bold text-gray-800 mb-1">Datos de tu {pack.label.split(' /')[0]}</h1>
             <p className="text-gray-500 mb-6">Llena lo que aplique. La vista previa se actualiza mientras escribes; las secciones sin datos no aparecen.</p>
             <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_420px] gap-6 items-start">
               <div className="flex flex-col gap-4">
                 <DynamicEventForm pack={pack} data={data} onChange={setData} missingKeys={missingKeys} />
-                <section className="bg-white/80 rounded-3xl border border-pink-200 shadow-sm p-5 flex flex-col gap-3" aria-labelledby="t-colors">
-                  <h3 id="t-colors" className="text-lg font-bold text-gray-800 flex items-center gap-2"><Palette className="w-5 h-5 text-pink-500" /> Colores</h3>
-                  <label className="flex items-center gap-2 text-sm"><input type="radio" name="colors" checked={!colors.custom} onChange={() => setColors({ ...colors, custom: false })} className="accent-pink-500" /> Usar los colores del diseño (recomendado)</label>
-                  <label className="flex items-center gap-2 text-sm"><input type="radio" name="colors" checked={colors.custom} onChange={() => setColors({ ...colors, custom: true })} className="accent-pink-500" /> Personalizar</label>
-                  {colors.custom && (
-                    <div className="flex gap-4">
-                      <label className="flex items-center gap-2 text-sm">Principal <input type="color" value={colors.primary} onChange={(e) => setColors({ ...colors, primary: e.target.value })} /></label>
-                      <label className="flex items-center gap-2 text-sm">Acento <input type="color" value={colors.secondary} onChange={(e) => setColors({ ...colors, secondary: e.target.value })} /></label>
-                    </div>
-                  )}
-                </section>
+                {colorPicker}
               </div>
               <div className="hidden lg:block sticky top-20 h-[calc(100vh-7rem)]">{previewPanel}</div>
             </div>
 
             <div className="sticky bottom-0 mt-6 py-4 bg-pink-50/95 flex flex-col sm:flex-row items-center justify-end gap-3">
               <button type="button" onClick={() => setShowPreviewMobile(true)} className="lg:hidden w-full sm:w-auto px-5 py-3 border border-pink-300 rounded-xl text-pink-600 font-semibold flex items-center justify-center gap-2"><Eye className="w-4 h-4" /> Ver vista previa</button>
-              {generationAvailable !== null && <span className="text-xs text-gray-500">Créditos de creación disponibles: {generationAvailable}</span>}
-              <button type="button" onClick={create} disabled={creating || !preview || preview.missing.length > 0} className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-pink-500 to-rose-500 disabled:opacity-40 text-white rounded-xl font-semibold shadow-lg flex items-center justify-center gap-2">
-                {creating ? <Loader2 className="w-5 h-5 animate-spin" /> : <Sparkles className="w-5 h-5" />} Crear mi invitación
+              <button type="button" onClick={finish} disabled={finishing || !preview} className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-pink-500 to-rose-500 disabled:opacity-40 text-white rounded-xl font-semibold shadow-lg flex items-center justify-center gap-2">
+                {finishing ? <Loader2 className="w-5 h-5 animate-spin" /> : <Sparkles className="w-5 h-5" />} Abrir en el editor
               </button>
             </div>
           </section>
@@ -399,23 +403,11 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
         </div>
       )}
 
-      {sample && (
-        <div className="fixed inset-0 z-50 bg-black/50 p-4 flex flex-col items-center" role="dialog" aria-modal="true" aria-label={`Ejemplo del diseño ${sample.label}`}>
-          <div className="w-full max-w-md flex items-center justify-between mb-2 text-white">
-            <span className="font-semibold">{sample.label} · ejemplo</span>
-            <button type="button" autoFocus onClick={() => setSample(null)} className="bg-white text-gray-700 rounded-full p-2" aria-label="Cerrar ejemplo"><X className="w-5 h-5" /></button>
-          </div>
-          <div className="w-full max-w-md flex-1 bg-white rounded-2xl overflow-hidden">
-            {sample.html ? <iframe title={`Ejemplo ${sample.label}`} srcDoc={sample.html} sandbox="allow-scripts" className="w-full h-full" /> : <div className="h-full flex items-center justify-center"><Loader2 className="w-6 h-6 animate-spin text-pink-500" /></div>}
-          </div>
-        </div>
-      )}
-
-      {creating && (
-        <div className="fixed inset-0 z-50 bg-white/90 backdrop-blur-sm flex flex-col items-center justify-center gap-3" role="status">
+      {generating && (
+        <div className="fixed inset-0 z-50 bg-white/90 backdrop-blur-sm flex flex-col items-center justify-center gap-3 px-6" role="status">
           <div className="w-16 h-16 border-4 border-pink-200 border-t-pink-500 rounded-full animate-spin" />
-          <p className="text-pink-600 font-medium text-lg">Creando tu invitación…</p>
-          <p className="text-sm text-gray-500 max-w-sm text-center">Estamos armando las secciones con tus datos y generando las imágenes del diseño. Puede tardar un par de minutos.</p>
+          <p className="text-pink-600 font-medium text-lg">Diseñando tu invitación…</p>
+          <p className="text-sm text-gray-500 max-w-sm text-center">Nuestro proceso creativo elige las secciones, las adapta a tu estilo y genera las imágenes. Puede tardar un par de minutos.</p>
         </div>
       )}
     </div>

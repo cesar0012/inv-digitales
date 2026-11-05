@@ -18,7 +18,7 @@ import { join } from 'path';
 import db from './database.js';
 import { listEventTypes, packForClient, resolvePack } from './eventKnowledge/index.js';
 import { designsForEvent, designSummary, getDesign, SCREENSHOTS_DIR } from './composer/library.js';
-import { composeInvitation } from './composer/compose.js';
+import { composeInvitation, fillProvidedHtml } from './composer/compose.js';
 import { rateLimit } from './security.js';
 
 // Event names the image resolver maps to photo folders under /img.
@@ -124,6 +124,32 @@ export function createComposeRouter({ authMiddleware, ensureUserInDB }) {
     } catch (e) {
       console.error('[COMPOSE] preview:', e.message);
       res.status(500).json({ error: 'No se pudo armar la vista previa.' });
+    }
+  });
+
+  // Vista previa en vivo del flujo combinado: la base viene del proceso
+  // agéntico (el cliente ya gastó su crédito de generación) y aquí SOLO se
+  // escriben los datos del pack con los writers certificados. Gratis.
+  router.post('/api/compose/fill', authMiddleware, rateLimit({ key: 'compose-fill', windowMs: 60 * 1000, max: 300, keyFn: (req) => req.user && `u${req.user.id}` }), (req, res) => {
+    try {
+      const body = req.body || {};
+      const html = typeof body.html === 'string' ? body.html : '';
+      if (!html || html.length < 60) return res.status(400).json({ error: 'Falta el HTML base de la invitación.' });
+      if (html.length > 40 * 1024 * 1024) return res.status(413).json({ error: 'HTML base demasiado grande.' });
+      const userId = ensureUserInDB(req.user);
+      const plan = planFor(userId, body.purchaseId);
+      const clean = sanitizeBody(body);
+      const result = fillProvidedHtml({
+        html,
+        eventType: clean.eventType,
+        data: clean.data,
+        preferences: clean.preferences,
+        hasRsvp: plan ? plan.hasRsvp : false
+      });
+      res.json({ html: result.html, missing: result.missing, report: result.report, eventType: result.pack });
+    } catch (e) {
+      console.error('[COMPOSE] fill:', e.message);
+      res.status(500).json({ error: 'No se pudo rellenar la invitación.' });
     }
   });
 

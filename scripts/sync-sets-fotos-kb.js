@@ -76,7 +76,17 @@ const stmt = db.prepare(`
 const tx = db.transaction(() => { for (const fila of filas) stmt.run(fila); });
 tx();
 
+
+// --- Curación del rack: solo los sets de calidad alimentan el proceso ---
+// agéntico (queryRAGModules filtra is_active = 1). Los sets 1-24 quedan
+// inactivos; prisma→neon (25-49) y premium permanecen activos.
+const SETS_VIEJOS = ['imperial','mariposas','glitter','monolavanda','arcoacuarela','azulfloral','rosabeige','telablanca','hortensia','navylaser','orobotanico','glicina','apiladas','peonias','otono','navyfloral','griega','encaje','caliz','espejadas','fabuloso','rosa18','negooro60','confeti25'];
+let curados = 0;
+for (const key of SETS_VIEJOS) {
+  curados += db.prepare('UPDATE knowledge_base_modules SET is_active = 0 WHERE module_id LIKE ?').run('sf-' + key + '-%').changes;
+}
+
 const total = db.prepare('SELECT COUNT(*) c FROM knowledge_base_modules').get().c;
 const conColor = db.prepare("SELECT COUNT(*) c FROM knowledge_base_modules WHERE module_id LIKE 'sf-%' AND (html_content LIKE '%rgba(%' OR html_content GLOB '*#[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]*')").get().c;
-console.log(`✅ Sincronizados ${filas.length} módulos de sets-fotos (borradas ${borradas} filas previas).`);
+console.log(`✅ Sincronizados ${filas.length} módulos (curación: ${curados} viejos inactivos) de sets-fotos (borradas ${borradas} filas previas).`);
 console.log(`   KB total: ${total} módulos | filas sf-* con posibles literales de color: ${conColor}`);
