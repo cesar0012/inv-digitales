@@ -146,7 +146,18 @@ export function createComposeRouter({ authMiddleware, ensureUserInDB }) {
         preferences: clean.preferences,
         hasRsvp: plan ? plan.hasRsvp : false
       });
-      res.json({ html: result.html, missing: result.missing, report: result.report, eventType: result.pack });
+      // Los arrays SIEMPRE presentes en la respuesta (el cliente hace .length)
+      res.json({
+        html: result.html,
+        missing: Array.isArray(result.missing) ? result.missing : [],
+        report: {
+          modules: result.report?.modules || [],
+          skipped: result.report?.skipped || [],
+          warnings: result.report?.warnings || [],
+          placeholderImages: result.report?.placeholderImages || 0
+        },
+        eventType: result.pack
+      });
     } catch (e) {
       console.error('[COMPOSE] fill:', e.message);
       res.status(500).json({ error: 'No se pudo rellenar la invitación.' });

@@ -155,7 +155,9 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
     getEventTypes(token).then(setEventTypes).catch((e) => setError(e.message));
   }, [token]);
 
-  // El pack del evento arma el formulario dinámico.
+  // El pack del evento arma el formulario dinámico. La estructura SIEMPRE
+  // se inicializa del pack (los repeat groups necesitan sus arrays aunque
+  // haya datos guardados de una sesión previa con otro evento).
   useEffect(() => {
     if (!eventType) return;
     let current = true;
@@ -164,7 +166,22 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
       .then((p) => {
         if (!current) return;
         setPack(p);
-        setData((prev) => (Object.keys(prev).length ? prev : initialFormData(p)));
+        const inicial = initialFormData(p);
+        setData((prev) => {
+          // preservar lo que el usuario ya llenó, pero garantizar que los
+          // repeat groups sean arrays (un valor que no sea array rompería
+          // el formulario)
+          const fusion: EventFormData = { ...inicial };
+          for (const k of Object.keys(prev)) {
+            const v = prev[k];
+            if (Array.isArray(inicial[k])) {
+              fusion[k] = Array.isArray(v) ? v : inicial[k];
+            } else if (typeof v === typeof inicial[k]) {
+              fusion[k] = v;
+            }
+          }
+          return fusion;
+        });
       })
       .catch((e) => { if (current) setError(e.message); })
       .finally(() => { if (current) setLoading(false); });
@@ -282,11 +299,11 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
       )}
       {preview && (
         <div className="px-4 py-3 border-t border-pink-100 text-xs text-gray-600 space-y-1 max-h-40 overflow-y-auto">
-          {preview.missing.length > 0 && <p className="text-red-600"><b>Falta:</b> {preview.missing.map((m) => m.label).join(' · ')}</p>}
-          {preview.report.skipped.length > 0 && (
-            <p><b>No aparecerán:</b> {preview.report.skipped.map((s) => `${MODULE_NAMES[s.type] || s.type} (${s.reason.replace(/\.$/, '').toLowerCase()})`).join(' · ')}</p>
+          {(preview.missing || []).length > 0 && <p className="text-red-600"><b>Falta:</b> {(preview.missing || []).map((m) => m.label).join(' · ')}</p>}
+          {(preview.report?.skipped || []).length > 0 && (
+            <p><b>No aparecerán:</b> {(preview.report?.skipped || []).map((s) => `${MODULE_NAMES[s.type] || s.type} (${(s.reason || '').replace(/\.$/, '').toLowerCase()})`).join(' · ')}</p>
           )}
-          {preview.report.warnings.length > 0 && <p className="text-amber-700"><b>Revisa:</b> {preview.report.warnings.map((w) => `${MODULE_NAMES[w.type] || w.type}: ${w.kind}`).join(' · ')}</p>}
+          {(preview.report?.warnings || []).length > 0 && <p className="text-amber-700"><b>Revisa:</b> {(preview.report?.warnings || []).map((w) => `${MODULE_NAMES[w.type] || w.type}: ${w.kind}`).join(' · ')}</p>}
         </div>
       )}
     </div>
