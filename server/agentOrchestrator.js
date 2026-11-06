@@ -1021,27 +1021,55 @@ const GEMINI_TIMEOUT_MS = Math.max(5000, parseInt(process.env.GEMINI_TIMEOUT_MS 
 /**
  * Helper para llamar a Gemini API (patrón existente en selectTemplateWithGemini)
  */
-const callGeminiAPI = async (prompt, apiKey, model, contentsOverride = null) => {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
-  const contents = contentsOverride || [{ parts: [{ text: prompt }] }];
+// Modelos que se sabe que NO existen (se configuraron en algún momento o
+// vienen como default viejo): se reemplazan por el alias estable.
+const MODELOS_INVALIDOS = new Set(['gemini-3.1-flash-preview', 'gemini-3.1-pro-preview']);
+const FALLBACK_MODEL = 'gemini-flash-latest';
 
-  const response = await fetchNoSSL(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-goog-api-key': apiKey
-    },
-    body: JSON.stringify({
-      contents: contents,
-      generationConfig: {
-        temperature: 0.7,
-        topP: 0.95,
-        topK: 40,
-        maxOutputTokens: 4096
-      }
-    }),
-    signal: AbortSignal.timeout(GEMINI_TIMEOUT_MS)
-  });
+// Caché del modelo validado para esta key (evita re-probar en cada llamada).
+let modeloValidado = null;
+
+const resolverModelo = (model) => {
+  if (!model || MODELOS_INVALIDOS.has(model)) return FALLBACK_MODEL;
+  return model;
+};
+
+const callGeminiAPI = async (prompt, apiKey, model, contentsOverride = null) => {
+  let modelo = resolverModelo(modeloValidado || model);
+
+  const intentar = async (m) => {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`;
+    const contents = contentsOverride || [{ parts: [{ text: prompt }] }];
+    return fetchNoSSL(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-goog-api-key': apiKey
+      },
+      body: JSON.stringify({
+        contents: contents,
+        generationConfig: {
+          temperature: 0.7,
+          topP: 0.95,
+          topK: 40,
+          maxOutputTokens: 4096
+        }
+      }),
+      signal: AbortSignal.timeout(GEMINI_TIMEOUT_MS)
+    });
+  };
+
+  let response = await intentar(modelo);
+
+  // 404 = el modelo no existe para esta key → un reintento con el alias
+  // estable ANTES de rendirse (la generación no puede fallar por esto).
+  if (response.status === 404 && modelo !== FALLBACK_MODEL) {
+    console.warn(`[GEMINI] Modelo "${modelo}" no existe → fallback a ${FALLBACK_MODEL}`);
+    modeloValidado = FALLBACK_MODEL;
+    response = await intentar(FALLBACK_MODEL);
+  } else if (response.ok && !modeloValidado) {
+    modeloValidado = modelo; // el modelo del admin FUNCIONA: fijarlo
+  }
 
   if (!response.ok) {
     const error = await response.json().catch(() => ({}));

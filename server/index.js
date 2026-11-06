@@ -2629,7 +2629,7 @@ app.get('/api/admin/config', adminMiddleware, (req, res) => {
       html_model: 'gpt-4o',
       html_google_api_key: '',
       has_google_api_key: false,
-      html_google_model: 'gemini-3.1-flash-preview',
+      html_google_model: 'gemini-flash-latest',
       image_provider: 'gemini',
       image_model: 'gemini-3.1-flash-image-preview',
       image_api_key: '',
@@ -2650,7 +2650,7 @@ use_rag_templates: true,
     html_model: config.html_model || 'gpt-4o',
     html_google_api_key: '', // No exponer
     has_google_api_key: !!config.html_google_api_key,
-    html_google_model: config.html_google_model || 'gemini-3.1-flash-preview',
+    html_google_model: config.html_google_model || 'gemini-flash-latest',
     image_provider: config.image_provider || 'gemini',
     image_model: config.image_model || 'gemini-3.1-flash-image-preview',
     image_api_key: '', // No exponer
@@ -4059,9 +4059,7 @@ app.post('/api/iterate-module', authMiddleware, async (req, res) => {
     }
 
     const apiKey = config.html_google_api_key;
-    const rawModel = config.html_google_model && config.html_google_model.trim() !== '' && config.html_google_model !== 'gemini-3.1-flash-preview'
-      ? config.html_google_model
-      : 'gemini-3.1-pro-preview';
+    const rawModel = config.html_google_model && config.html_google_model.trim() !== '' && config.html_google_model !== 'gemini-3.1-flash-preview' ? config.html_google_model : 'gemini-flash-latest';
     const model = rawModel;
     const evt = editorConfig?.eventType || '';
     const theme = editorConfig?.theme || '';
@@ -4337,7 +4335,7 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
           htmlResult = await runModularOrchestration(
             prompt,
             config.html_google_api_key,
-            config.html_google_model || 'gemini-3.1-pro-preview',
+            config.html_google_model || 'gemini-flash-latest',
             geminiOptions,
             attachmentsForGemini
           );
@@ -4350,7 +4348,7 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
               htmlResult = await runOrchestration(
                 prompt,
                 config.html_google_api_key,
-                config.html_google_model || 'gemini-3.1-pro-preview',
+                config.html_google_model || 'gemini-flash-latest',
                 geminiOptions,
                 attachmentsForGemini
               );
@@ -4360,7 +4358,7 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
               htmlResult = await generateWithGemini(
                 prompt,
                 config.html_google_api_key,
-                config.html_google_model || 'gemini-3.1-pro-preview',
+                config.html_google_model || 'gemini-flash-latest',
                 geminiOptions,
                 attachmentsForGemini
               );
@@ -4371,7 +4369,7 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
             htmlResult = await generateWithGemini(
               prompt,
               config.html_google_api_key,
-              config.html_google_model || 'gemini-3.1-pro-preview',
+              config.html_google_model || 'gemini-flash-latest',
               geminiOptions,
               attachmentsForGemini
             );
@@ -4383,7 +4381,7 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
           htmlResult = await runOrchestration(
             prompt,
             config.html_google_api_key,
-            config.html_google_model || 'gemini-3.1-pro-preview',
+            config.html_google_model || 'gemini-flash-latest',
             geminiOptions,
             attachmentsForGemini
           );
@@ -4393,7 +4391,7 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
           htmlResult = await generateWithGemini(
             prompt,
             config.html_google_api_key,
-            config.html_google_model || 'gemini-3.1-pro-preview',
+            config.html_google_model || 'gemini-flash-latest',
             geminiOptions,
             attachmentsForGemini
           );
@@ -4403,7 +4401,7 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
         htmlResult = await generateWithGemini(
           prompt,
           config.html_google_api_key,
-          config.html_google_model || 'gemini-3.1-pro-preview',
+          config.html_google_model || 'gemini-flash-latest',
           geminiOptions,
           attachmentsForGemini
         );
@@ -4428,7 +4426,7 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
           eventType: editorConfig?.eventType,
           theme: editorConfig?.theme,
           geminiKey: config.html_google_api_key,
-          geminiModel: config.html_google_model || 'gemini-3.1-pro-preview',
+          geminiModel: config.html_google_model || 'gemini-flash-latest',
           pexelsKey: freeImageCfg.pexelsKey,
           pollinationsToken: freeImageCfg.pollinationsToken,
           agentic: freeImageCfg.agentic
