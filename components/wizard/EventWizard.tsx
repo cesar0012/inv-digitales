@@ -3,7 +3,6 @@ import { ArrowLeft, Check, Eye, Home, Loader2, Palette, Sparkles, X, AlertCircle
 import { useNavigate } from 'react-router-dom';
 import {
   ComposeReport,
-  createInvitation as _unusedCreate,
   EventFormData,
   EventPack,
   EventTypeSummary,
@@ -14,17 +13,16 @@ import {
 import { generateWebProject } from '../../services/aiService';
 import { IMAGE_SOURCES } from '../../constants';
 import { DynamicEventForm, initialFormData } from './DynamicEventForm';
-void _unusedCreate; // el cierre ya no usa /compose/create: la base ya gastó el crédito
 
 /**
- * Creación combinada (evento → estilo → datos):
+ * Creación combinada, generación en paralelo:
  *   1. Elige el evento (paquete de conocimiento).
- *   2. "Tu estilo": el cliente DESCRIBE lo que quiere y (opcional) sus
- *      colores; el PROCESO AGÉNTICO original elige los módulos del rack
- *      curado, los adapta y resuelve imágenes y tema (1 crédito).
- *   3. "Datos y vista previa": el formulario dinámico del pack con vista
- *      previa EN VIVO (los writers certificados rellenan la base; gratis),
- *      y al terminar se entra directo al editor.
+ *   2. "Tu estilo": describe lo que quiere + colores → CONTINUAR (sin loading).
+ *   3. "Datos y vista previa": el usuario llena el formulario MIENTRAS la
+ *      generación agéntica corre en background. El preview muestra el
+ *      progreso y en cuanto la base está lista se rellena con los datos ya
+ *      escritos. Si el usuario termina antes, "Abrir en el editor" espera
+ *      a que la generación concluya y entra directo.
  */
 
 export interface WizardResult {
@@ -55,7 +53,6 @@ interface Saved {
 }
 
 const storageKey = (purchaseId: string) => `im_wizard_${purchaseId || 'nuevo'}`;
-// Progress holds names and addresses (often of minors): keep it on this device for 14 days at most.
 const MAX_AGE_MS = 14 * 24 * 60 * 60 * 1000;
 const load = (key: string): Saved | null => {
   try {
@@ -75,12 +72,9 @@ const save = (key: string, value: Saved | null) => {
   try {
     if (value) localStorage.setItem(key, JSON.stringify({ ...value, savedAt: Date.now() }));
     else localStorage.removeItem(key);
-  } catch {
-    /* storage unavailable: progress just isn't kept */
-  }
+  } catch { /* noop */ }
 };
 
-/** id del pack → nombre legacy que entienden el esquema y las carpetas de imágenes. */
 const LEGACY_EVENT: Record<string, string> = {
   quinceanera: 'XV Años', boda: 'Boda', bautizo: 'Bautizo', comunion: 'Primera Comunión',
   confirmacion: 'Confirmación', cumpleanos: 'Cumpleaños', baby_shower: 'Baby Shower', otro: 'Otro'
@@ -121,7 +115,7 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
   const key = storageKey(purchaseId);
   const saved = useMemo(() => load(key), [key]);
 
-  const [step, setStep] = useState<Step>(saved?.step === 'details' ? 'brief' : (saved?.step || 'event')); // sin baseHtml guardada no se puede volver directo a 'details'
+  const [step, setStep] = useState<Step>(saved?.step === 'details' ? 'brief' : (saved?.step || 'event'));
   const [eventTypes, setEventTypes] = useState<EventTypeSummary[]>([]);
   const [eventType, setEventType] = useState(saved?.eventType || '');
   const [pack, setPack] = useState<EventPack | null>(null);
@@ -132,13 +126,17 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [generating, setGenerating] = useState(false);
+  const [genError, setGenError] = useState<string | null>(null);
   const [preview, setPreview] = useState<{ html: string; missing: { key: string; label: string }[]; report: ComposeReport } | null>(null);
   const [previewLoading, setPreviewLoading] = useState(false);
   const [showPreviewMobile, setShowPreviewMobile] = useState(false);
   const [finishing, setFinishing] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
+  // La generación corre en background: el promise y el resultado viven en
+  // refs para que finish() pueda esperarlos sin depender del estado React.
+  const genPromiseRef = useRef<Promise<string | null> | null>(null);
+  const genResultRef = useRef<string | null>(null);
 
-  // Escape closes the mobile preview.
   useEffect(() => {
     if (!showPreviewMobile) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setShowPreviewMobile(false); };
@@ -146,7 +144,6 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
     return () => window.removeEventListener('keydown', onKey);
   }, [showPreviewMobile]);
 
-  // Keep progress so the customer can come back later (sin la base: es pesada).
   useEffect(() => {
     save(key, { step: step === 'details' ? 'brief' : step, eventType, brief, data, colors });
   }, [key, step, eventType, brief, data, colors]);
@@ -155,9 +152,6 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
     getEventTypes(token).then(setEventTypes).catch((e) => setError(e.message));
   }, [token]);
 
-  // El pack del evento arma el formulario dinámico. La estructura SIEMPRE
-  // se inicializa del pack (los repeat groups necesitan sus arrays aunque
-  // haya datos guardados de una sesión previa con otro evento).
   useEffect(() => {
     if (!eventType) return;
     let current = true;
@@ -168,17 +162,11 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
         setPack(p);
         const inicial = initialFormData(p);
         setData((prev) => {
-          // preservar lo que el usuario ya llenó, pero garantizar que los
-          // repeat groups sean arrays (un valor que no sea array rompería
-          // el formulario)
           const fusion: EventFormData = { ...inicial };
           for (const k of Object.keys(prev)) {
             const v = prev[k];
-            if (Array.isArray(inicial[k])) {
-              fusion[k] = Array.isArray(v) ? v : inicial[k];
-            } else if (typeof v === typeof inicial[k]) {
-              fusion[k] = v;
-            }
+            if (Array.isArray(inicial[k])) fusion[k] = Array.isArray(v) ? v : inicial[k];
+            else if (typeof v === typeof inicial[k]) fusion[k] = v;
           }
           return fusion;
         });
@@ -190,7 +178,8 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
 
   const preferences = colors.custom ? { primaryColor: colors.primary, secondaryColor: colors.secondary } : {};
 
-  // Vista previa en vivo sobre la base agéntica: gratis, sin IA, con debounce.
+  // Vista previa en vivo: SOLO cuando la base ya existe (la generación
+  // corre en paralelo y el preview se dispara en cuanto baseHtml llega).
   useEffect(() => {
     if (step !== 'details' || !baseHtml || !eventType) return;
     const t = setTimeout(() => {
@@ -216,6 +205,9 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
       setData({});
       setBaseHtml(null);
       setPreview(null);
+      setGenError(null);
+      genPromiseRef.current = null;
+      genResultRef.current = null;
     }
     setStep('brief');
   };
@@ -228,48 +220,75 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
     setBaseHtml(null);
     setData({});
     setPreview(null);
+    setGenError(null);
+    genPromiseRef.current = null;
+    genResultRef.current = null;
   };
 
-  /** Paso 2 → 3: la generación agéntica construye la base (1 crédito). */
-  const generateBase = async () => {
+  /**
+   * "Continuar" del paso 2: arranca la generación agéntica EN BACKGROUND y
+   * pasa inmediatamente al paso 3. El usuario llena datos mientras tanto;
+   * el preview aparece en cuanto la base esté lista.
+   */
+  const startGeneration = () => {
     if (!brief.trim() || !eventType || !pack) return;
     if (generationAvailable !== null && generationAvailable < 1) {
       setError('No tienes créditos de generación disponibles en este plan.');
       return;
     }
     setGenerating(true);
+    setGenError(null);
     setError(null);
     setBaseHtml(null);
     setPreview(null);
-    try {
-      const imageSource = IMAGE_SOURCES.find((s) => s.id === 'loremflickr') || IMAGE_SOURCES[0];
-      const prompt = `Invitación de ${pack.label}. Estilo y deseos del cliente: ${brief.trim()}`;
-      const editorConfig = {
-        eventType: LEGACY_EVENT[eventType] || pack.label,
-        theme: '',
-        primaryColor: colors.custom ? colors.primary : '',
-        secondaryColor: colors.custom ? colors.secondary : '',
-        visualStyle: '',
-        mood: ''
-      };
-      const html = await generateWebProject(prompt, imageSource, [], editorConfig, undefined, purchaseId || undefined);
-      if (!html || html.length < 200) throw new Error('La generación devolvió una invitación vacía. Intenta de nuevo.');
-      setBaseHtml(html);
-      setStep('details');
-    } catch (e) {
-      setError((e as Error).message || 'No se pudo generar el diseño base.');
-    } finally {
-      setGenerating(false);
-    }
+    genResultRef.current = null;
+
+    // Cambiar de paso INMEDIATAMENTE — sin pantalla de carga.
+    setStep('details');
+
+    const imageSource = IMAGE_SOURCES.find((s) => s.id === 'loremflickr') || IMAGE_SOURCES[0];
+    const prompt = `Invitación de ${pack.label}. Estilo y deseos del cliente: ${brief.trim()}`;
+    const editorConfig = {
+      eventType: LEGACY_EVENT[eventType] || pack.label,
+      theme: '',
+      primaryColor: colors.custom ? colors.primary : '',
+      secondaryColor: colors.custom ? colors.secondary : '',
+      visualStyle: '',
+      mood: ''
+    };
+
+    genPromiseRef.current = (async () => {
+      try {
+        const html = await generateWebProject(prompt, imageSource, [], editorConfig, undefined, purchaseId || undefined);
+        if (!html || html.length < 200) throw new Error('La generación devolvió una invitación vacía.');
+        genResultRef.current = html;
+        setBaseHtml(html); // dispara el preview automáticamente
+        return html;
+      } catch (e) {
+        const msg = (e as Error).message || 'No se pudo generar el diseño base.';
+        setGenError(msg);
+        return null;
+      } finally {
+        setGenerating(false);
+      }
+    })();
   };
 
-  /** Cierre: relleno final sobre la base y entrada al editor. */
+  /** Cierre: espera la generación si sigue corriendo, luego llena y abre editor. */
   const finish = async () => {
-    if (!baseHtml || !eventType || !pack) return;
+    if (!eventType || !pack) return;
     setFinishing(true);
     setError(null);
     try {
-      const r = await fillProvidedInvitation({ html: baseHtml, eventType, data, preferences, purchaseId }, token);
+      let html = baseHtml ?? genResultRef.current;
+      // El usuario fue más rápido que la generación: esperarla.
+      if (!html && genPromiseRef.current) {
+        html = await genPromiseRef.current;
+      }
+      if (!html) {
+        throw new Error(genError || 'El diseño no pudo generarse. Vuelve a "Tu estilo" e intenta de nuevo.');
+      }
+      const r = await fillProvidedInvitation({ html, eventType, data, preferences, purchaseId }, token);
       save(key, null);
       onCreated({
         html: r.html,
@@ -286,18 +305,56 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
     }
   };
 
+  const colorPicker = (
+    <section className="bg-white/80 rounded-3xl border border-pink-200 shadow-sm p-5 flex flex-col gap-3" aria-labelledby="t-colors">
+      <h3 id="t-colors" className="text-lg font-bold text-gray-800 flex items-center gap-2"><Palette className="w-5 h-5 text-pink-500" /> Colores</h3>
+      <label className="flex items-center gap-2 text-sm"><input type="radio" name="colors" checked={!colors.custom} onChange={() => setColors({ ...colors, custom: false })} className="accent-pink-500" /> Que el diseño los elija</label>
+      <label className="flex items-center gap-2 text-sm"><input type="radio" name="colors" checked={colors.custom} onChange={() => setColors({ ...colors, custom: true })} className="accent-pink-500" /> Personalizar</label>
+      {colors.custom && (
+        <div className="flex gap-4">
+          <label className="flex items-center gap-2 text-sm">Principal <input type="color" value={colors.primary} onChange={(e) => setColors({ ...colors, primary: e.target.value })} /></label>
+          <label className="flex items-center gap-2 text-sm">Acento <input type="color" value={colors.secondary} onChange={(e) => setColors({ ...colors, secondary: e.target.value })} /></label>
+        </div>
+      )}
+    </section>
+  );
+
+  // El preview tiene 3 estados: generando la base → preview vivo → error de generación
   const previewPanel = (
     <div className="flex flex-col h-full bg-white rounded-3xl border border-pink-200 shadow-sm overflow-hidden">
       <div className="flex items-center justify-between px-4 py-2 border-b border-pink-100 text-sm">
-        <span className="font-semibold text-gray-700">Vista previa · tu diseño</span>
-        {previewLoading && <Loader2 className="w-4 h-4 animate-spin text-pink-500" aria-label="Actualizando" />}
+        <span className="font-semibold text-gray-700">
+          {generating ? 'Diseñando…' : 'Vista previa · tu diseño'}
+        </span>
+        {(generating || previewLoading) && <Loader2 className="w-4 h-4 animate-spin text-pink-500" aria-label="Trabajando" />}
       </div>
-      {preview ? (
+
+      {generating ? (
+        <div className="flex-1 flex flex-col items-center justify-center gap-3 p-8 min-h-[380px]">
+          <div className="w-14 h-14 border-4 border-pink-200 border-t-pink-500 rounded-full animate-spin" />
+          <p className="text-pink-600 font-medium">Tu invitación se está diseñando</p>
+          <p className="text-xs text-gray-500 max-w-[220px] text-center leading-relaxed">
+            Ve llenando tus datos — en cuanto el diseño esté listo aparecerá aquí con todo lo que ya escribiste.
+          </p>
+          <div className="mt-2 w-32 h-1.5 bg-pink-100 rounded-full overflow-hidden">
+            <div className="h-full bg-gradient-to-r from-pink-400 to-pink-600 rounded-full animate-pulse" style={{ width: '60%' }} />
+          </div>
+        </div>
+      ) : genError ? (
+        <div className="flex-1 flex flex-col items-center justify-center gap-3 p-8 min-h-[380px]">
+          <AlertCircle className="w-10 h-10 text-red-400" />
+          <p className="text-red-600 text-sm font-medium text-center">{genError}</p>
+          <button type="button" onClick={() => { setStep('brief'); setGenError(null); }} className="px-4 py-2 bg-pink-50 border border-pink-200 rounded-xl text-sm text-pink-600 hover:bg-pink-100">
+            Volver a intentarlo
+          </button>
+        </div>
+      ) : preview ? (
         <iframe title="Vista previa de la invitación" srcDoc={preview.html} sandbox="allow-scripts" className="flex-1 w-full min-h-[480px] bg-white" />
       ) : (
         <div className="flex-1 flex items-center justify-center text-gray-400 text-sm p-6">Preparando la vista previa…</div>
       )}
-      {preview && (
+
+      {!generating && !genError && preview && (
         <div className="px-4 py-3 border-t border-pink-100 text-xs text-gray-600 space-y-1 max-h-40 overflow-y-auto">
           {(preview.missing || []).length > 0 && <p className="text-red-600"><b>Falta:</b> {(preview.missing || []).map((m) => m.label).join(' · ')}</p>}
           {(preview.report?.skipped || []).length > 0 && (
@@ -307,20 +364,6 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
         </div>
       )}
     </div>
-  );
-
-  const colorPicker = (
-    <section className="bg-white/80 rounded-3xl border border-pink-200 shadow-sm p-5 flex flex-col gap-3" aria-labelledby="t-colors">
-      <h3 id="t-colors" className="text-lg font-bold text-gray-800 flex items-center gap-2"><Palette className="w-5 h-5 text-pink-500" /> Colores</h3>
-      <label className="flex items-center gap-2 text-sm"><input type="radio" name="colors" checked={!colors.custom} onChange={() => setColors({ ...colors, custom: false })} className="accent-pink-500" /> Que el diseño los elija según tu descripción</label>
-      <label className="flex items-center gap-2 text-sm"><input type="radio" name="colors" checked={colors.custom} onChange={() => setColors({ ...colors, custom: true })} className="accent-pink-500" /> Personalizar</label>
-      {colors.custom && (
-        <div className="flex gap-4">
-          <label className="flex items-center gap-2 text-sm">Principal <input type="color" value={colors.primary} onChange={(e) => setColors({ ...colors, primary: e.target.value })} /></label>
-          <label className="flex items-center gap-2 text-sm">Acento <input type="color" value={colors.secondary} onChange={(e) => setColors({ ...colors, secondary: e.target.value })} /></label>
-        </div>
-      )}
-    </section>
   );
 
   return (
@@ -344,7 +387,7 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
         {step === 'event' && (
           <section aria-labelledby="t-event">
             <h1 id="t-event" className="text-3xl font-bold text-gray-800 mb-1">¿Qué vas a celebrar?</h1>
-            <p className="text-gray-500 mb-6">Elige el tipo de evento. Después nos cuentas el estilo que quieres y armamos la invitación.</p>
+            <p className="text-gray-500 mb-6">Elige el tipo de evento. Después nos cuentas el estilo y armamos tu invitación.</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {eventTypes.map((t) => (
                 <button key={t.id} type="button" onClick={() => chooseEvent(t.id)} className={`text-left rounded-2xl border-2 bg-white p-5 hover:border-pink-400 hover:shadow-md transition-all ${eventType === t.id ? 'border-pink-500' : 'border-pink-100'}`}>
@@ -353,7 +396,7 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
                 </button>
               ))}
             </div>
-            <button type="button" onClick={onUseClassic} className="mt-8 text-sm text-gray-500 underline hover:text-pink-600">Prefiero el modo clásico completo (descripción libre con formulario en la carga)</button>
+            <button type="button" onClick={onUseClassic} className="mt-8 text-sm text-gray-500 underline hover:text-pink-600">Prefiero el modo clásico completo</button>
           </section>
         )}
 
@@ -361,7 +404,7 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
           <section aria-labelledby="t-brief" className="max-w-3xl">
             <button type="button" onClick={() => setStep('event')} className="flex items-center gap-1 text-sm text-gray-500 hover:text-pink-600 mb-3"><ArrowLeft className="w-4 h-4" /> Cambiar evento</button>
             <h1 id="t-brief" className="text-3xl font-bold text-gray-800 mb-1">Cuéntanos cómo la quieres</h1>
-            <p className="text-gray-500 mb-6">Describe el estilo, el ambiente, los detalles que amas. Nuestro proceso creativo elige las secciones y construye tu invitación con eso.</p>
+            <p className="text-gray-500 mb-6">Describe el estilo y continúa — el diseño se genera mientras llenas tus datos.</p>
             <div className="bg-white rounded-3xl border border-pink-200 shadow-sm p-5 flex flex-col gap-4">
               <label htmlFor="brief" className="text-sm font-semibold text-gray-700">Tu invitación de {pack.label}</label>
               <textarea
@@ -378,23 +421,27 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
                   <button key={s} type="button" onClick={() => setBrief(s)} className="px-3 py-1.5 text-xs bg-pink-50 border border-pink-200 rounded-full text-pink-700 hover:bg-pink-100 transition-colors">{s}</button>
                 ))}
               </div>
-              {generationAvailable !== null && <p className="text-xs text-gray-500">Créditos de generación disponibles: {generationAvailable} · esta paso usa uno</p>}
+              {generationAvailable !== null && <p className="text-xs text-gray-500">Créditos disponibles: {generationAvailable}</p>}
             </div>
             <div className="mt-4">{colorPicker}</div>
             <div className="sticky bottom-0 mt-6 py-4 bg-pink-50/95 flex justify-end">
-              <button type="button" disabled={!brief.trim() || generating} onClick={generateBase} className="px-8 py-3 bg-gradient-to-r from-pink-500 to-rose-500 disabled:opacity-40 text-white rounded-xl font-semibold shadow-lg flex items-center gap-2">
-                {generating ? <Loader2 className="w-5 h-5 animate-spin" /> : <Wand2 className="w-5 h-5" />}
-                {generating ? 'Diseñando…' : 'Generar mi diseño base'}
+              <button type="button" disabled={!brief.trim()} onClick={startGeneration} className="px-8 py-3 bg-gradient-to-r from-pink-500 to-rose-500 disabled:opacity-40 text-white rounded-xl font-semibold shadow-lg flex items-center gap-2">
+                <Wand2 className="w-5 h-5" /> Continuar con mis datos
               </button>
             </div>
           </section>
         )}
 
-        {step === 'details' && pack && baseHtml && (
+        {step === 'details' && pack && (
           <section aria-labelledby="t-details">
-            <button type="button" onClick={() => { setStep('brief'); setPreview(null); }} className="flex items-center gap-1 text-sm text-gray-500 hover:text-pink-600 mb-3"><ArrowLeft className="w-4 h-4" /> Volver a describir el estilo (regenera)</button>
-            <h1 id="t-details" className="text-3xl font-bold text-gray-800 mb-1">Datos de tu {pack.label.split(' /')[0]}</h1>
-            <p className="text-gray-500 mb-6">Llena lo que aplique. La vista previa se actualiza mientras escribes; las secciones sin datos no aparecen.</p>
+            <button type="button" onClick={() => { setStep('brief'); setGenError(null); if (genPromiseRef.current) { genPromiseRef.current = null; genResultRef.current = null; setGenerating(false); setBaseHtml(null); setPreview(null); } }} className="flex items-center gap-1 text-sm text-gray-500 hover:text-pink-600 mb-3">
+              <ArrowLeft className="w-4 h-4" /> Volver a describir el estilo
+            </button>
+            <h1 id="t-details" className="text-3xl font-bold text-gray-800 mb-1">
+              Datos de tu {pack.label.split(' /')[0]}
+              {generating && <span className="ml-3 text-sm font-normal text-pink-500 inline-flex items-center gap-1.5"><Loader2 className="w-3.5 h-3.5 animate-spin" /> diseño en curso</span>}
+            </h1>
+            <p className="text-gray-500 mb-6">Llena lo que aplique{generating ? ' — el diseño se está generando en paralelo' : ' — la vista previa se actualiza mientras escribes'}.</p>
             <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_420px] gap-6 items-start">
               <div className="flex flex-col gap-4">
                 <DynamicEventForm pack={pack} data={data} onChange={setData} missingKeys={missingKeys} />
@@ -404,9 +451,15 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
             </div>
 
             <div className="sticky bottom-0 mt-6 py-4 bg-pink-50/95 flex flex-col sm:flex-row items-center justify-end gap-3">
-              <button type="button" onClick={() => setShowPreviewMobile(true)} className="lg:hidden w-full sm:w-auto px-5 py-3 border border-pink-300 rounded-xl text-pink-600 font-semibold flex items-center justify-center gap-2"><Eye className="w-4 h-4" /> Ver vista previa</button>
-              <button type="button" onClick={finish} disabled={finishing || !preview} className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-pink-500 to-rose-500 disabled:opacity-40 text-white rounded-xl font-semibold shadow-lg flex items-center justify-center gap-2">
-                {finishing ? <Loader2 className="w-5 h-5 animate-spin" /> : <Sparkles className="w-5 h-5" />} Abrir en el editor
+              <button type="button" onClick={() => setShowPreviewMobile(true)} className="lg:hidden w-full sm:w-auto px-5 py-3 border border-pink-300 rounded-xl text-pink-600 font-semibold flex items-center justify-center gap-2"><Eye className="w-4 h-4" /> {generating ? 'Ver progreso' : 'Ver vista previa'}</button>
+              <button
+                type="button"
+                onClick={finish}
+                disabled={finishing || (!generating && !preview) || (!!genError)}
+                className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-pink-500 to-rose-500 disabled:opacity-40 text-white rounded-xl font-semibold shadow-lg flex items-center justify-center gap-2"
+              >
+                {finishing ? <Loader2 className="w-5 h-5 animate-spin" /> : generating ? <Loader2 className="w-5 h-5 animate-spin" /> : <Sparkles className="w-5 h-5" />}
+                {finishing ? 'Abriendo…' : generating ? 'Esperando el diseño…' : 'Abrir en el editor'}
               </button>
             </div>
           </section>
@@ -417,14 +470,6 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
         <div className="fixed inset-0 z-50 bg-black/40 p-3 flex flex-col lg:hidden" role="dialog" aria-modal="true" aria-label="Vista previa">
           <button type="button" autoFocus onClick={() => setShowPreviewMobile(false)} className="self-end mb-2 bg-white rounded-full p-2" aria-label="Cerrar vista previa"><X className="w-5 h-5" /></button>
           <div className="flex-1 min-h-0">{previewPanel}</div>
-        </div>
-      )}
-
-      {generating && (
-        <div className="fixed inset-0 z-50 bg-white/90 backdrop-blur-sm flex flex-col items-center justify-center gap-3 px-6" role="status">
-          <div className="w-16 h-16 border-4 border-pink-200 border-t-pink-500 rounded-full animate-spin" />
-          <p className="text-pink-600 font-medium text-lg">Diseñando tu invitación…</p>
-          <p className="text-sm text-gray-500 max-w-sm text-center">Nuestro proceso creativo elige las secciones, las adapta a tu estilo y genera las imágenes. Puede tardar un par de minutos.</p>
         </div>
       )}
     </div>
