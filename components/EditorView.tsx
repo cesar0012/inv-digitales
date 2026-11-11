@@ -442,24 +442,32 @@ export const EditorView: React.FC = () => {
   };
 
   /** Paleta global: inyecta/reemplaza el bloque de overrides de variables. */
+  // El selector de colores dispara onChange en cada píxel arrastrado: si
+  // aplicáramos el cambio (DOMParser + re-render del preview) por cada
+  // evento, el navegador se trabaría. El estado del color se actualiza
+  // instantáneo (solo React), pero el HTML pesado se re-escribe con debounce.
+  const colorDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const handleUpdateColorVars = (key: string, value: string) => {
     if (!activePage) return;
     const next = { ...colorVars, [key]: value };
-    setColorVars(next);
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(activePage.code, 'text/html');
-    let styleEl = doc.querySelector('style[data-editor-color-vars]') as HTMLStyleElement | null;
-    if (!styleEl) {
-      styleEl = doc.createElement('style');
-      styleEl.setAttribute('data-editor-color-vars', 'true');
-      doc.head.appendChild(styleEl);
-    }
-    const entries = Object.entries(next).filter(([, v]) => v);
-    const cssVars = entries.map(([k, v]) => `  --${k}-color: ${v} !important;`).join('\n');
-    styleEl.textContent = `/* Paleta del editor */\n:root, [data-gemini-id] {\n${cssVars}\n}`;
-    const updatedCode = '<!DOCTYPE html>' + doc.documentElement.outerHTML;
-    setPages(prev => prev.map(pg => pg.id === activePage.id ? { ...pg, code: updatedCode } : pg));
+    setColorVars(next); // UI inmediata (el swatch se mueve sin lag)
     setHasUnsavedChanges(true);
+    if (colorDebounceRef.current) clearTimeout(colorDebounceRef.current);
+    colorDebounceRef.current = setTimeout(() => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(activePage.code, 'text/html');
+      let styleEl = doc.querySelector('style[data-editor-color-vars]') as HTMLStyleElement | null;
+      if (!styleEl) {
+        styleEl = doc.createElement('style');
+        styleEl.setAttribute('data-editor-color-vars', 'true');
+        doc.head.appendChild(styleEl);
+      }
+      const entries = Object.entries(next).filter(([, v]) => v);
+      const cssVars = entries.map(([k, v]) => `  --${k}-color: ${v} !important;`).join('\n');
+      styleEl.textContent = `/* Paleta del editor */\n:root, [data-gemini-id] {\n${cssVars}\n}`;
+      const updatedCode = '<!DOCTYPE html>' + doc.documentElement.outerHTML;
+      setPages(prev => prev.map(pg => pg.id === activePage.id ? { ...pg, code: updatedCode } : pg));
+    }, 180);
   };
 
   /** Botón del formulario de datos (visible durante Y después de generar). */

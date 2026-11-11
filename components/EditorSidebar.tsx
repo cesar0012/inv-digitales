@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { ClipboardList, Palette, Heart, Pencil, Save, Home, Image as ImageIcon, Link as LinkIcon, Type, MousePointer2, ChevronDown, ChevronRight, AlignLeft, AlignCenter, AlignRight, AlignJustify, Map, Upload, Eye, EyeOff, Loader2, Calendar, Clock } from 'lucide-react';
+import { ClipboardList, Palette, Heart, Pencil, Save, Home, Image as ImageIcon, Link as LinkIcon, Type, MousePointer2, ChevronDown, ChevronRight, AlignLeft, AlignCenter, AlignRight, AlignJustify, Map, Upload, Eye, EyeOff, Loader2, Calendar, Clock, Wand2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { compressImage, SUPPORTED_IMAGE_TYPES, SUPPORTED_FORMATS_LABEL } from '../services/imageCompressionService';
 import { GOOGLE_FONT_OPTIONS, GOOGLE_HEADING_FONT_OPTIONS } from '../constants';
@@ -1252,10 +1252,15 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
           )}
           <button
             onClick={onToggleSelectionMode}
-            className={`p-2 rounded-lg transition-colors ${isSelectionMode ? 'bg-pink-500 text-white shadow-md shadow-pink-500/20' : 'text-gray-400 hover:text-pink-500 hover:bg-pink-100'}`}
-            title={isSelectionMode ? "Desactivar modo selección" : "Activar modo selección"}
+            className={`relative p-2 rounded-lg transition-all ${isSelectionMode ? 'bg-pink-500 text-white shadow-md shadow-pink-500/20 ring-2 ring-pink-300' : 'text-gray-400 hover:text-pink-500 hover:bg-pink-100'}`}
+            title={isSelectionMode ? 'Modo selección ACTIVO: haz clic en un texto de la invitación para editarlo' : 'Seleccionar elementos: activa el lápiz y haz clic en cualquier texto de la invitación para editarlo'}
+            aria-label={isSelectionMode ? 'Desactivar modo selección' : 'Activar modo selección de elementos'}
+            aria-pressed={isSelectionMode}
           >
-            <Pencil className="w-4 h-4" />
+            <Pencil className={`w-4 h-4 ${!isSelectionMode ? 'animate-pulse' : ''}`} />
+            {!isSelectionMode && (
+              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-pink-400 rounded-full animate-ping" aria-hidden="true" />
+            )}
           </button>
         </div>
       </div>
@@ -1379,7 +1384,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
             {AI_ITERATIONS_ENABLED && (
             <div className="mt-8 border-t border-pink-200 pt-6">
               <h3 className="text-sm font-bold text-gray-800 mb-2 flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-pink-100 flex items-center justify-center text-pink-500">✨</span>
+                <span className="w-6 h-6 rounded-full bg-pink-100 flex items-center justify-center text-pink-500"><Wand2 className="w-3.5 h-3.5" /></span>
                 Agregar / Modificar Módulo
               </h3>
               <div className="mb-4 text-xs text-gray-500">

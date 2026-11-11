@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowLeft, Check, Eye, Home, Loader2, Palette, Sparkles, X, AlertCircle, Wand2 } from 'lucide-react';
+import { ArrowLeft, Check, Eye, Home, Loader2, Palette, Sparkles, X, AlertCircle, Wand2, ImagePlus, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import {
   ComposeReport,
@@ -13,6 +13,22 @@ import {
 import { generateWebProject } from '../../services/aiService';
 import { IMAGE_SOURCES } from '../../constants';
 import { DynamicEventForm, initialFormData } from './DynamicEventForm';
+
+/** Comprime una imagen del cliente (máx 800px de ancho, JPEG q=0.82) y
+ *  devuelve un data URI listo para incrustar en la invitación. */
+const optimizarImagen = async (file: File): Promise<string> => {
+  const bitmap = await createImageBitmap(file);
+  const maxW = 800;
+  const scale = Math.min(1, maxW / bitmap.width);
+  const w = Math.round(bitmap.width * scale);
+  const h = Math.round(bitmap.height * scale);
+  const canvas = document.createElement('canvas');
+  canvas.width = w; canvas.height = h;
+  const ctx = canvas.getContext('2d')!;
+  ctx.drawImage(bitmap, 0, 0, w, h);
+  bitmap.close();
+  return canvas.toDataURL('image/jpeg', 0.82);
+};
 
 /**
  * Creación combinada, generación en paralelo:
@@ -131,7 +147,10 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
   const [previewLoading, setPreviewLoading] = useState(false);
   const [showPreviewMobile, setShowPreviewMobile] = useState(false);
   const [finishing, setFinishing] = useState(false);
+  const [fotos, setFotos] = useState<{ dataUri: string; nombre: string }[]>([]);
+  const [fotoLoading, setFotoLoading] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
+  const fotosInputRef = useRef<HTMLInputElement | null>(null);
   // La generación corre en background: el promise y el resultado viven en
   // refs para que finish() pueda esperarlos sin depender del estado React.
   const genPromiseRef = useRef<Promise<string | null> | null>(null);
@@ -274,6 +293,36 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
     })();
   };
 
+  /** Sube y optimiza las fotos del cliente para reemplazar los placeholders
+   *  de loremflickr por fotos reales (retratos, familia, etc.). */
+  const agregarFotos = async (files: FileList | File[]) => {
+    const nuevas: { dataUri: string; nombre: string }[] = [];
+    setFotoLoading(true);
+    try {
+      for (const f of Array.from(files).slice(0, 8)) {
+        if (!/^image\//.test(f.type)) continue;
+        try {
+          const dataUri = await optimizarImagen(f);
+          nuevas.push({ dataUri, nombre: f.name });
+        } catch { /* imagen ilegible: saltar */ }
+      }
+      setFotos(prev => [...prev, ...nuevas].slice(0, 12));
+    } finally {
+      setFotoLoading(false);
+    }
+  };
+
+  /** Reemplaza las imágenes placeholder (loremflickr) del HTML por las fotos
+   *  subidas por el cliente, en orden. Las que sobran se quedan como están. */
+  const aplicarFotos = (html: string): string => {
+    if (!fotos.length) return html;
+    let i = 0;
+    return html.replace(/https:\/\/loremflickr\.com\/[^"')\s]+/g, (url) => {
+      if (i < fotos.length) { i++; return fotos[i - 1].dataUri; }
+      return url;
+    });
+  };
+
   /** Cierre: espera la generación si sigue corriendo, luego llena y abre editor. */
   const finish = async () => {
     if (!eventType || !pack) return;
@@ -288,7 +337,8 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
       if (!html) {
         throw new Error(genError || 'El diseño no pudo generarse. Vuelve a "Tu estilo" e intenta de nuevo.');
       }
-      const r = await fillProvidedInvitation({ html, eventType, data, preferences, purchaseId }, token);
+      const conFotos = aplicarFotos(html);
+      const r = await fillProvidedInvitation({ html: conFotos, eventType, data, preferences, purchaseId }, token);
       save(key, null);
       onCreated({
         html: r.html,
@@ -446,6 +496,32 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
               <div className="flex flex-col gap-4">
                 <DynamicEventForm pack={pack} data={data} onChange={setData} missingKeys={missingKeys} />
                 {colorPicker}
+                {/* Fotos personales: reemplazan los placeholders de loremflickr */}
+                <section className="bg-white/80 rounded-3xl border border-pink-200 shadow-sm p-5 flex flex-col gap-3" aria-labelledby="t-fotos">
+                  <h3 id="t-fotos" className="text-lg font-bold text-gray-800 flex items-center gap-2"><ImagePlus className="w-5 h-5 text-pink-500" /> Tus fotos</h3>
+                  <p className="text-xs text-gray-500">Sube fotos para que aparezcan en tu invitación en lugar de las imágenes de muestra. Se optimizan automáticamente (máx 800px, JPEG comprimido).</p>
+                  <div className="flex flex-wrap gap-2">
+                    {fotos.map((f, i) => (
+                      <div key={i} className="relative w-16 h-16 rounded-xl overflow-hidden border border-pink-200 group">
+                        <img src={f.dataUri} alt={f.nombre} className="w-full h-full object-cover" />
+                        <button type="button" onClick={() => setFotos(prev => prev.filter((_, j) => j !== i))}
+                          className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity" aria-label={`Quitar ${f.nombre}`}>
+                          <Trash2 className="w-4 h-4 text-white" />
+                        </button>
+                      </div>
+                    ))}
+                    {fotos.length < 12 && (
+                      <button type="button" onClick={() => fotosInputRef.current?.click()}
+                        disabled={fotoLoading}
+                        className="w-16 h-16 rounded-xl border-2 border-dashed border-pink-300 flex items-center justify-center text-pink-400 hover:bg-pink-50 transition-colors disabled:opacity-40"
+                        aria-label="Agregar foto">
+                        {fotoLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <ImagePlus className="w-5 h-5" />}
+                      </button>
+                    )}
+                  </div>
+                  <input ref={fotosInputRef} type="file" accept="image/*" multiple className="hidden" onChange={(e) => { if (e.target.files) agregarFotos(e.target.files); e.target.value = ''; }} />
+                  {fotos.length > 0 && <p className="text-[11px] text-emerald-600 font-medium">{fotos.length} foto{fotos.length !== 1 ? 's' : ''} lista{fotos.length !== 1 ? 's' : ''} — se colocarán en orden en los espacios de la invitación.</p>}
+                </section>
               </div>
               <div className="hidden lg:block sticky top-20 h-[calc(100vh-7rem)]">{previewPanel}</div>
             </div>
