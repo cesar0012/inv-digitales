@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowLeft, Check, Eye, Home, Loader2, Palette, Sparkles, X, AlertCircle, Wand2, ImagePlus, Trash2 } from 'lucide-react';
+import { ArrowLeft, Check, Eye, Home, Loader2, Palette, Sparkles, X, AlertCircle, Wand2, Image as ImagePlus, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import {
   ComposeReport,
@@ -28,6 +28,64 @@ const optimizarImagen = async (file: File): Promise<string> => {
   ctx.drawImage(bitmap, 0, 0, w, h);
   bitmap.close();
   return canvas.toDataURL('image/jpeg', 0.82);
+};
+
+/** Etiqueta legible de cada módulo para mostrar al usuario. */
+const ETIQUETAS_MODULO: Record<string, string> = {
+  portada: 'Portada', padres: 'Papás y familia', padrinos: 'Padrinos', corte: 'Corte de honor',
+  ubicacion: 'Ubicación', itinerario: 'Programa', vestimenta: 'Vestimenta', regalos: 'Regalos',
+  galeria: 'Galería', confirmacion: 'Confirmación', countdown: 'Cuenta regresiva', detalles: 'Detalles'
+};
+
+/** Detecta los espacios de imagen de la invitación: recorre el HTML base,
+ *  encuentra cada placeholder loremflickr y lo asocia a su módulo (por el
+ *  data-gemini-id de la sección contenedora). Devuelve la lista en orden. */
+interface FotoSlot {
+  idx: number;
+  etiqueta: string;
+  url: string;
+}
+const detectarSlots = (html: string): FotoSlot[] => {
+  try {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const slots: FotoSlot[] = [];
+    const secciones = Array.from(doc.querySelectorAll('section[data-gemini-id]'));
+    let idx = 0;
+    for (const sec of secciones) {
+      const gid = sec.getAttribute('data-gemini-id') || '';
+      const tipo = gid.split('-')[0];
+      const etiqueta = ETIQUETAS_MODULO[tipo] || tipo;
+      // <img src="loremflickr...">
+      sec.querySelectorAll('img[src*="loremflickr"]').forEach((img) => {
+        slots.push({ idx: idx++, etiqueta, url: img.getAttribute('src') || '' });
+      });
+      // background-image: url('loremflickr...')
+      sec.querySelectorAll<HTMLElement>('[style*="loremflickr"]').forEach((el) => {
+        const style = el.getAttribute('style') || '';
+        if (/loremflickr/.test(style)) slots.push({ idx: idx++, etiqueta: etiqueta + ' (fondo)', url: '' });
+      });
+    }
+    // también en <style> (background-image en CSS)
+    const styleTags = doc.querySelectorAll('style');
+    styleTags.forEach((st) => {
+      const css = st.textContent || '';
+      const matches = css.match(/loremflickr\.com[^'"')]+/g) || [];
+      matches.forEach(() => slots.push({ idx: idx++, etiqueta: 'Fondo de sección', url: '' }));
+    });
+    return slots;
+  } catch {
+    return [];
+  }
+};
+
+/** Reemplaza las URLs loremflickr por fotos del cliente EN ORDEN de slot. */
+const reemplazarSlots = (html: string, fotos: { dataUri: string }[]): string => {
+  if (!fotos.length) return html;
+  let i = 0;
+  return html.replace(/https:\/\/loremflickr\.com\/[^"')\s]+/g, (url) => {
+    if (i < fotos.length) { i++; return fotos[i - 1].dataUri; }
+    return url;
+  });
 };
 
 /**
@@ -147,10 +205,12 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
   const [previewLoading, setPreviewLoading] = useState(false);
   const [showPreviewMobile, setShowPreviewMobile] = useState(false);
   const [finishing, setFinishing] = useState(false);
-  const [fotos, setFotos] = useState<{ dataUri: string; nombre: string }[]>([]);
-  const [fotoLoading, setFotoLoading] = useState(false);
+  const [fotos, setFotos] = useState<(string | null)[]>([]);
+  const [fotoLoading, setFotoLoading] = useState<number | null>(null);
   const abortRef = useRef<AbortController | null>(null);
   const fotosInputRef = useRef<HTMLInputElement | null>(null);
+  const fotosTargetSlot = useRef<number | null>(null);
+  const [slots, setSlots] = useState<FotoSlot[]>([]);
   // La generación corre en background: el promise y el resultado viven en
   // refs para que finish() pueda esperarlos sin depender del estado React.
   const genPromiseRef = useRef<Promise<string | null> | null>(null);
@@ -197,23 +257,31 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
 
   const preferences = colors.custom ? { primaryColor: colors.primary, secondaryColor: colors.secondary } : {};
 
-  // Vista previa en vivo: SOLO cuando la base ya existe (la generación
-  // corre en paralelo y el preview se dispara en cuanto baseHtml llega).
+  /** HTML con las fotos del cliente aplicadas — se usa en el preview Y al finalizar. */
+  const htmlConFotos = useMemo(() => {
+    if (!baseHtml) return null;
+    const activas = fotos.map(f => f ? { dataUri: f } : null).filter(Boolean) as { dataUri: string }[];
+    if (!activas.length) return baseHtml;
+    return reemplazarSlots(baseHtml, activas);
+  }, [baseHtml, fotos]);
+
+  // Vista previa en vivo: usa el HTML CON las fotos del cliente aplicadas
+  // para que se vean en tiempo real, no solo al finalizar.
   useEffect(() => {
-    if (step !== 'details' || !baseHtml || !eventType) return;
+    if (step !== 'details' || !htmlConFotos || !eventType) return;
     const t = setTimeout(() => {
       abortRef.current?.abort();
       const ctrl = new AbortController();
       abortRef.current = ctrl;
       setPreviewLoading(true);
-      fillProvidedInvitation({ html: baseHtml, eventType, data, preferences, purchaseId }, token, ctrl.signal)
+      fillProvidedInvitation({ html: htmlConFotos, eventType, data, preferences, purchaseId }, token, ctrl.signal)
         .then((r) => setPreview({ html: r.html, missing: r.missing, report: r.report }))
         .catch((e) => { if (e.name !== 'AbortError') setError(e.message); })
         .finally(() => { if (abortRef.current === ctrl) setPreviewLoading(false); });
     }, 700);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [step, baseHtml, eventType, data, colors, purchaseId, token]);
+  }, [step, htmlConFotos, eventType, data, colors, purchaseId, token]);
 
   const missingKeys = useMemo(() => new Set((preview?.missing || []).map((m) => m.key)), [preview]);
 
@@ -293,34 +361,38 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
     })();
   };
 
-  /** Sube y optimiza las fotos del cliente para reemplazar los placeholders
-   *  de loremflickr por fotos reales (retratos, familia, etc.). */
-  const agregarFotos = async (files: FileList | File[]) => {
-    const nuevas: { dataUri: string; nombre: string }[] = [];
-    setFotoLoading(true);
+  /** Detecta los slots cuando la base llega. */
+  useEffect(() => {
+    if (!baseHtml) { setSlots([]); setFotos([]); return; }
+    const detectados = detectarSlots(baseHtml);
+    setSlots(detectados);
+    setFotos(new Array(detectados.length).fill(null));
+  }, [baseHtml]);
+
+  /** Sube una foto para un slot específico (o el primero vacío si no se indica). */
+  const subirFoto = async (file: File, slotIdx?: number) => {
+    if (!/^image\//.test(file.type)) return;
+    const target = slotIdx ?? fotos.findIndex((f) => f === null);
+    if (target === -1 || target >= slots.length) return;
+    setFotoLoading(target);
     try {
-      for (const f of Array.from(files).slice(0, 8)) {
-        if (!/^image\//.test(f.type)) continue;
-        try {
-          const dataUri = await optimizarImagen(f);
-          nuevas.push({ dataUri, nombre: f.name });
-        } catch { /* imagen ilegible: saltar */ }
-      }
-      setFotos(prev => [...prev, ...nuevas].slice(0, 12));
-    } finally {
-      setFotoLoading(false);
+      const dataUri = await optimizarImagen(file);
+      setFotos(prev => { const next = [...prev]; next[target] = dataUri; return next; });
+    } catch { /* noop */ } finally { setFotoLoading(null); }
+  };
+
+  /** Sube varias fotos: se asignan a los slots vacíos en orden. */
+  const subirVarias = async (files: FileList | File[]) => {
+    const imgs = Array.from(files).filter((f) => /^image\//.test(f.type));
+    for (let i = 0; i < imgs.length; i++) {
+      const vacio = fotos.findIndex((f) => f === null);
+      if (vacio === -1) break;
+      await subirFoto(imgs[i], vacio);
     }
   };
 
-  /** Reemplaza las imágenes placeholder (loremflickr) del HTML por las fotos
-   *  subidas por el cliente, en orden. Las que sobran se quedan como están. */
-  const aplicarFotos = (html: string): string => {
-    if (!fotos.length) return html;
-    let i = 0;
-    return html.replace(/https:\/\/loremflickr\.com\/[^"')\s]+/g, (url) => {
-      if (i < fotos.length) { i++; return fotos[i - 1].dataUri; }
-      return url;
-    });
+  const quitarFoto = (slotIdx: number) => {
+    setFotos(prev => { const next = [...prev]; next[slotIdx] = null; return next; });
   };
 
   /** Cierre: espera la generación si sigue corriendo, luego llena y abre editor. */
@@ -329,16 +401,19 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
     setFinishing(true);
     setError(null);
     try {
-      let html = baseHtml ?? genResultRef.current;
+      let html = htmlConFotos ?? genResultRef.current;
       // El usuario fue más rápido que la generación: esperarla.
       if (!html && genPromiseRef.current) {
         html = await genPromiseRef.current;
+        if (html) {
+          const activas = fotos.map(f => f ? { dataUri: f } : null).filter(Boolean) as { dataUri: string }[];
+          if (activas.length) html = reemplazarSlots(html, activas);
+        }
       }
       if (!html) {
         throw new Error(genError || 'El diseño no pudo generarse. Vuelve a "Tu estilo" e intenta de nuevo.');
       }
-      const conFotos = aplicarFotos(html);
-      const r = await fillProvidedInvitation({ html: conFotos, eventType, data, preferences, purchaseId }, token);
+      const r = await fillProvidedInvitation({ html, eventType, data, preferences, purchaseId }, token);
       save(key, null);
       onCreated({
         html: r.html,
@@ -496,31 +571,64 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
               <div className="flex flex-col gap-4">
                 <DynamicEventForm pack={pack} data={data} onChange={setData} missingKeys={missingKeys} />
                 {colorPicker}
-                {/* Fotos personales: reemplazan los placeholders de loremflickr */}
+                {/* Fotos personales: slots etiquetados por sección de la invitación */}
                 <section className="bg-white/80 rounded-3xl border border-pink-200 shadow-sm p-5 flex flex-col gap-3" aria-labelledby="t-fotos">
-                  <h3 id="t-fotos" className="text-lg font-bold text-gray-800 flex items-center gap-2"><ImagePlus className="w-5 h-5 text-pink-500" /> Tus fotos</h3>
-                  <p className="text-xs text-gray-500">Sube fotos para que aparezcan en tu invitación en lugar de las imágenes de muestra. Se optimizan automáticamente (máx 800px, JPEG comprimido).</p>
-                  <div className="flex flex-wrap gap-2">
-                    {fotos.map((f, i) => (
-                      <div key={i} className="relative w-16 h-16 rounded-xl overflow-hidden border border-pink-200 group">
-                        <img src={f.dataUri} alt={f.nombre} className="w-full h-full object-cover" />
-                        <button type="button" onClick={() => setFotos(prev => prev.filter((_, j) => j !== i))}
-                          className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity" aria-label={`Quitar ${f.nombre}`}>
-                          <Trash2 className="w-4 h-4 text-white" />
-                        </button>
+                  <h3 id="t-fotos" className="text-lg font-bold text-gray-800 flex items-center gap-2"><ImagePlus className="w-5 h-5 text-pink-500" /> Fotos de tu invitación</h3>
+                  {generating ? (
+                    <p className="text-xs text-gray-400 italic">Los espacios aparecerán en cuanto el diseño esté listo.</p>
+                  ) : slots.length === 0 ? (
+                    <p className="text-xs text-gray-400 italic">Este diseño no tiene espacios de foto reemplazables.</p>
+                  ) : (
+                    <>
+                      <p className="text-xs text-gray-500">Cada espacio muestra en qué parte de la invitación irá la foto. Sube una para un espacio específico o varias a la vez (se asignan en orden).</p>
+                      <div className="flex flex-col gap-2">
+                        {slots.map((slot) => {
+                          const foto = fotos[slot.idx];
+                          const cargando = fotoLoading === slot.idx;
+                          return (
+                            <div key={slot.idx} className={`flex items-center gap-3 rounded-xl border p-2.5 transition-colors ${foto ? 'border-emerald-200 bg-emerald-50/40' : 'border-dashed border-pink-200 bg-pink-50/20'}`}>
+                              <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center shrink-0 border border-gray-200">
+                                {cargando ? <Loader2 className="w-5 h-5 animate-spin text-pink-500" /> :
+                                 foto ? <img src={foto} alt={`Foto ${slot.etiqueta}`} className="w-full h-full object-cover" /> :
+                                 <ImagePlus className="w-4 h-4 text-gray-300" />}
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-xs font-semibold text-gray-700 truncate">{slot.etiqueta}</p>
+                                <p className="text-[10px] text-gray-400">{foto ? 'Foto lista — se ve en el preview' : 'Espacio de muestra (se reemplaza)'}</p>
+                              </div>
+                              {foto ? (
+                                <button type="button" onClick={() => quitarFoto(slot.idx)} className="p-2 rounded-lg text-red-400 hover:bg-red-50 transition-colors" aria-label={`Quitar foto de ${slot.etiqueta}`} title="Quitar foto">
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              ) : (
+                                <button type="button" onClick={() => { fotosTargetSlot.current = slot.idx; fotosInputRef.current?.click(); }}
+                                  disabled={cargando} className="px-3 py-1.5 rounded-lg bg-pink-50 border border-pink-200 text-pink-600 text-xs font-medium hover:bg-pink-100 transition-colors disabled:opacity-40">
+                                  {cargando ? '...' : 'Subir'}
+                                </button>
+                              )}
+                            </div>
+                          );
+                        })}
                       </div>
-                    ))}
-                    {fotos.length < 12 && (
-                      <button type="button" onClick={() => fotosInputRef.current?.click()}
-                        disabled={fotoLoading}
-                        className="w-16 h-16 rounded-xl border-2 border-dashed border-pink-300 flex items-center justify-center text-pink-400 hover:bg-pink-50 transition-colors disabled:opacity-40"
-                        aria-label="Agregar foto">
-                        {fotoLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <ImagePlus className="w-5 h-5" />}
+                      <button type="button" onClick={() => { fotosTargetSlot.current = null; fotosInputRef.current?.click(); }}
+                        className="self-start flex items-center gap-2 px-4 py-2 rounded-xl border-2 border-dashed border-pink-300 text-pink-500 hover:bg-pink-50 text-sm font-medium transition-colors">
+                        <ImagePlus className="w-4 h-4" /> Subir varias a la vez
                       </button>
-                    )}
-                  </div>
-                  <input ref={fotosInputRef} type="file" accept="image/*" multiple className="hidden" onChange={(e) => { if (e.target.files) agregarFotos(e.target.files); e.target.value = ''; }} />
-                  {fotos.length > 0 && <p className="text-[11px] text-emerald-600 font-medium">{fotos.length} foto{fotos.length !== 1 ? 's' : ''} lista{fotos.length !== 1 ? 's' : ''} — se colocarán en orden en los espacios de la invitación.</p>}
+                      <input ref={fotosInputRef} type="file" accept="image/*" multiple className="hidden"
+                        onChange={(e) => {
+                          const files = e.target.files;
+                          if (!files || !files.length) return;
+                          const target = fotosTargetSlot.current;
+                          if (target !== null && files.length === 1) { subirFoto(files[0], target); }
+                          else { subirVarias(files); }
+                          fotosTargetSlot.current = null;
+                          e.target.value = '';
+                        }} />
+                      {fotos.filter(Boolean).length > 0 && (
+                        <p className="text-[11px] text-emerald-600 font-medium">{fotos.filter(Boolean).length} de {slots.length} fotos asignadas — mira el preview.</p>
+                      )}
+                    </>
+                  )}
                 </section>
               </div>
               <div className="hidden lg:block sticky top-20 h-[calc(100vh-7rem)]">{previewPanel}</div>
