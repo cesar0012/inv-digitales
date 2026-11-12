@@ -1,12 +1,24 @@
 import Database from 'better-sqlite3';
 import { hashPassword, KNOWN_WEAK_PASSWORD_HASHES } from './security.js';
 import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import { dirname, join, resolve } from 'path';
+import { mkdirSync } from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const dbPath = join(__dirname, 'database.sqlite');
+// ─── PERSISTENCIA ─────────────────────────────────────────────────────────
+// DATA_DIR concentra TODO lo que debe sobrevivir a los deploys: la base de
+// datos (API keys, modelos, RAG, planes, usuarios) y el storage (invitaciones,
+// historico, OG, caché). En Coolify monta un volumen en /app/data y listo.
+const DATA_DIR = process.env.DATA_DIR
+  ? resolve(process.env.DATA_DIR)
+  : join(__dirname); // dev: junto al código (sin cambio de comportamiento)
+
+export { DATA_DIR };
+
+mkdirSync(DATA_DIR, { recursive: true });
+const dbPath = join(DATA_DIR, 'database.sqlite');
 const db = new Database(dbPath);
 
 db.exec(`

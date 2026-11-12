@@ -390,7 +390,7 @@ export async function buildDemoSetBatch({ groups, paletteId, provider }) {
 // ---------------------------------------------------------------------------
 // Persistencia de lotes (server/storage/demo-sets) + limpieza de antiguos
 // ---------------------------------------------------------------------------
-export const BATCH_DIR = join(__dirname, 'storage', 'demo-sets');
+export const BATCH_DIR = join(process.env.DATA_DIR || __dirname, 'storage', 'demo-sets');
 
 export function saveBatch(results) {
   const batchId = `lote-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;

@@ -33,7 +33,7 @@ import { fileURLToPath } from 'url';
 import { createHash } from 'crypto';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const CACHE_DIR = join(__dirname, 'storage', 'free-image-cache');
+const CACHE_DIR = join(process.env.DATA_DIR || __dirname, 'storage', 'free-image-cache');
 const IMG_ROOT = join(__dirname, '..', 'img');
 
 // ---------------------------------------------------------------------------

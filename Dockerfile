@@ -38,7 +38,15 @@ RUN apt-get update \
 
 WORKDIR /app
 COPY --from=builder /app ./
-RUN mkdir -p server/storage/og server/storage/historico server/storage/users server/data
+
+# ─── PERSISTENCIA ──────────────────────────────────────────────────────────
+# /app/data concentra TODO lo que sobrevive a los deploys:
+#   database.sqlite (API keys, modelos, RAG, planes, usuarios)
+#   storage/ (invitaciones, historico, OG screenshots, caché de imágenes)
+# En Coolify: monta un volumen persistente en /app/data — un solo mount.
+ENV DATA_DIR=/app/data
+RUN mkdir -p /app/data/storage/og /app/data/storage/historico /app/data/storage/users /app/data/storage/free-image-cache /app/data/storage/demo-sets /app/data/storage/visual-rag
+VOLUME /app/data
 
 EXPOSE 3001
 CMD ["node", "server/index.js"]

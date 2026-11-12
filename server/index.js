@@ -8,7 +8,10 @@ import { existsSync, mkdirSync, writeFileSync, readdirSync, statSync, readFileSy
 import { createHash, createHmac } from 'crypto';
 import https from 'https';
 import multer from 'multer';
-import db from './database.js';
+// Migración de datos viejos → DATA_DIR (solo si hay que mover algo; el
+// import de database.js abre la DB así que debe correr ANTES)
+import './migrate-data.js';
+import db, { DATA_DIR } from './database.js';
 import { analyzeTemplate, validateTemplate, REQUIRED_TAGS } from './ragValidator.js';
 import { DEFAULT_PUBLIC_URL } from './ssr/catalogo-ssr.js';
 import { startBatch, getBatchStatus, requestStop } from './moduleGeneratorBatch.js';
@@ -255,8 +258,8 @@ app.get('/api/images/:folder/list', (req, res) => {
   }
 });
 
-const storagePath = join(__dirname, 'storage', 'users');
-const historicoPath = join(__dirname, 'storage', 'historico');
+const storagePath = join(DATA_DIR, 'storage', 'users');
+const historicoPath = join(DATA_DIR, 'storage', 'historico');
 // Invitation HTML is never served as a static file: drafts in storage/users and
 // copies in storage/historico contain families' names and addresses. Public
 // sharing goes through /i/:slug (active invitations only) and the catalog routes.
@@ -264,7 +267,7 @@ app.use('/storage', (req, res, next) => (/\.html?$/i.test(req.path) ? res.status
 app.use('/storage', express.static(storagePath));
 app.use('/storage/historico', express.static(historicoPath));
 // RAG Visual: biblioteca de imágenes de referencia (público para el rack del cliente).
-app.use('/storage/visual-rag', express.static(join(__dirname, 'storage', 'visual-rag')));
+app.use('/storage/visual-rag', express.static(join(DATA_DIR, 'storage', 'visual-rag')));
 
 // Demo de sets: generación demo SIN IA, proceso aparte que no toca el flujo agéntico.
 app.use('/api/demo-set', demoSetRoutes);
@@ -276,6 +279,8 @@ const sendInvitationHtml = (res, html, { noindex = true } = {}) => {
   if (noindex) res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
   res.send(html);
 };
+
+mkdirSync(join(DATA_DIR, 'storage', 'users'), { recursive: true });
 
 const ensureUserFolder = (userId) => {
   const userFolder = join(storagePath, userId);
@@ -1030,7 +1035,7 @@ app.put('/api/invitations/:userId/:filename', authMiddleware, (req, res) => {
     // el catálogo sirve una COPIA en storage/historico con el mismo filename;
     // si esta invitación está publicada, mantener la copia sincronizada.
     try {
-      const historicoCopy = join(__dirname, 'storage', 'historico', filename);
+      const historicoCopy = join(DATA_DIR, 'storage', 'historico', filename);
       if (existsSync(historicoCopy)) {
         writeFileSync(historicoCopy, htmlContent, 'utf-8');
         console.log(`🔄 Copia pública (historico) sincronizada: ${filename}`);
@@ -1633,7 +1638,7 @@ app.get('/api/catalogo/:filename', (req, res) => {
   if (!canViewHistorico(req, filename)) {
     return res.status(404).json({ error: 'Archivo no encontrado' });
   }
-  const filePath = join(__dirname, 'storage', 'historico', filename);
+  const filePath = join(DATA_DIR, 'storage', 'historico', filename);
   
   if (!existsSync(filePath)) {
     return res.status(404).json({ error: 'Archivo no encontrado' });
@@ -1651,7 +1656,7 @@ app.get('/preview/:filename', (req, res) => {
   if (!canViewHistorico(req, filename)) {
     return res.status(404).send('Archivo no encontrado');
   }
-  const filePath = join(__dirname, 'storage', 'historico', filename);
+  const filePath = join(DATA_DIR, 'storage', 'historico', filename);
   
   if (!existsSync(filePath)) {
     return res.status(404).send('Archivo no encontrado');
@@ -2103,7 +2108,7 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
     // si puppeteer/Chromium no está disponible, la página queda con el default).
     try {
       const { captureInvitationHeroOG } = await import('./screenshotService.js');
-      const historicoDir = join(__dirname, 'storage', 'historico');
+      const historicoDir = join(DATA_DIR, 'storage', 'historico');
       const shotPath = await captureInvitationHeroOG(join(historicoDir, catalogoItem.filename), finalSlug);
       if (shotPath) console.log(`📸 og:image listo para ${finalSlug}`);
     } catch (shotError) {
@@ -2127,7 +2132,7 @@ app.post('/api/admin/catalogo/:id/screenshot', adminMiddleware, async (req, res)
       return res.status(404).json({ error: 'Plantilla no encontrada o sin slug/filename' });
     }
     const { captureInvitationHeroOG, ogScreenshotFile } = await import('./screenshotService.js');
-    const historicoDir = join(__dirname, 'storage', 'historico');
+    const historicoDir = join(DATA_DIR, 'storage', 'historico');
     const shotPath = await captureInvitationHeroOG(join(historicoDir, item.filename), item.slug);
     if (!shotPath) {
       return res.status(500).json({ error: 'No se pudo capturar el screenshot (¿puppeteer/Chromium instalado?)' });
@@ -3840,7 +3845,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '..', 'dist')));
   // Imagen og:image por defecto para páginas de producto (si existe el asset).
   // NUNCA se usa el .html del histórico como imagen (bug anterior).
-  app.use('/storage/og', express.static(path.join(__dirname, 'storage', 'og')));
+  app.use('/storage/og', express.static(path.join(DATA_DIR, 'storage', 'og')));
 
   // GET /sitemap.xml — sitemap dinámico con las páginas de producto públicas
   app.get('/sitemap.xml', (req, res) => {
@@ -4450,7 +4455,7 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
     // barre los restos según el modo loremflickr existente.
     htmlResult = await compileAllImagesToBase64(htmlResult, config.image_api_key, config.image_model, freeImageCfg ? 'loremflickr' : (config.image_provider || 'gemini'));
     
-    const historicoPath = join(__dirname, 'storage', 'historico');
+    const historicoPath = join(DATA_DIR, 'storage', 'historico');
     if (!existsSync(historicoPath)) {
       mkdirSync(historicoPath, { recursive: true });
     }
