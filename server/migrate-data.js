@@ -54,6 +54,14 @@ if (existsSync(viejoStorage)) {
   if (cambios > 0) console.log(`[MIGRATE] Storage copiado → ${nuevoStorage}`);
 }
 
+// 3. data/ (rotator_state.json del llmRotator)
+const viejoData = join(__dirname, 'data');
+const nuevoData = join(DATA_DIR, 'data');
+if (existsSync(viejoData)) {
+  copiarDir(viejoData, nuevoData);
+  if (cambios > 0) console.log(`[MIGRATE] data/ copiado → ${nuevoData}`);
+}
+
 if (cambios === 0) {
   console.log('[MIGRATE] Todo ya estaba en su lugar — sin cambios.');
 } else {

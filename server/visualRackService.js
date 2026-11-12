@@ -26,8 +26,8 @@ import { createHash } from 'crypto';
 import { deflateSync } from 'zlib';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-export const VISUAL_RAG_DIR = join(__dirname, 'storage', 'visual-rag');
-export const VISUAL_GENERATIONS_DIR = join(__dirname, 'storage', 'visual-rack-generations');
+export const VISUAL_RAG_DIR = join(process.env.DATA_DIR || __dirname, 'storage', 'visual-rag');
+export const VISUAL_GENERATIONS_DIR = join(process.env.DATA_DIR || __dirname, 'storage', 'visual-rack-generations');
 for (const d of [VISUAL_RAG_DIR, VISUAL_GENERATIONS_DIR]) {
   if (!existsSync(d)) mkdirSync(d, { recursive: true });
 }

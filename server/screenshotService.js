@@ -27,7 +27,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const OG_DIR = join(__dirname, 'storage', 'og');
+const OG_DIR = join(process.env.DATA_DIR || __dirname, 'storage', 'og');
 const OG_WIDTH = 1200;
 const OG_HEIGHT = 630;
 

@@ -26,7 +26,7 @@ import { fileURLToPath } from 'url';
 import db from './database.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const STATE_PATH = join(__dirname, 'data', 'rotator_state.json');
+const STATE_PATH = join(process.env.DATA_DIR || __dirname, 'data', 'rotator_state.json');
 
 const PROVIDERS = {
   openrouter: {

@@ -45,7 +45,7 @@ COPY --from=builder /app ./
 #   storage/ (invitaciones, historico, OG screenshots, caché de imágenes)
 # En Coolify: monta un volumen persistente en /app/data — un solo mount.
 ENV DATA_DIR=/app/data
-RUN mkdir -p /app/data/storage/og /app/data/storage/historico /app/data/storage/users /app/data/storage/free-image-cache /app/data/storage/demo-sets /app/data/storage/visual-rag
+RUN mkdir -p /app/data/storage/og /app/data/storage/historico /app/data/storage/users /app/data/storage/free-image-cache /app/data/storage/demo-sets /app/data/storage/visual-rag /app/data/storage/visual-rack-generations /app/data/data
 VOLUME /app/data
 
 EXPOSE 3001
