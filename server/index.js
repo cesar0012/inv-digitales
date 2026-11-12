@@ -3883,41 +3883,54 @@ if (process.env.NODE_ENV === 'production') {
   // desde seo_content_json. Los crawlers sin JavaScript ven la página completa;
   // la SPA (createRoot) reemplaza el contenido al montar para el usuario.
   // Si el slug no existe pero fue migrado (old_slug), responde 301 al nativo.
+  // ─── Catálogo: listing + producto (páginas completas SSR del reference) ──
+  app.get('/catalogo', (req, res) => res.redirect(301, '/catalogo/'));
+  app.get('/catalogo/', async (req, res) => {
+    try {
+      const items = db.prepare('SELECT slug, seo_title, meta_description, title, event_type, theme, colors FROM catalogo WHERE starred = 1 ORDER BY created_at DESC').all();
+      const { renderCatalogListing } = await import('./ssr/catalog-listing.js');
+      const html = renderCatalogListing(items, { publicUrl: getPublicUrl() });
+      console.log(`[CATALOGO] Listing SSR: ${items.length} productos destacados`);
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.send(html);
+    } catch (error) {
+      console.error('[CATALOGO] Error listing:', error.message);
+      res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
+    }
+  });
+
   app.get('/catalogo/:eventType/:slug', async (req, res) => {
     try {
       const fullSlug = `${req.params.eventType}/${req.params.slug}`;
-      const item = db.prepare('SELECT slug, seo_title, meta_description, structured_data, seo_content_json, filename, event_type, title FROM catalogo WHERE slug = ? AND starred = 1').get(fullSlug);
+      const item = db.prepare('SELECT * FROM catalogo WHERE slug = ? AND starred = 1').get(fullSlug);
 
       if (!item) {
-        // Redirect permanente desde slugs migrados (p.ej. "general/..." → nativo)
         const moved = db.prepare('SELECT slug FROM catalogo WHERE old_slug = ? AND starred = 1').get(fullSlug);
         if (moved && moved.slug && moved.slug !== fullSlug) {
-          console.log(`↪️ 301 ${fullSlug} → ${moved.slug}`);
           return res.redirect(301, `/catalogo/${moved.slug}`);
         }
+        return res.status(404).setHeader('X-Robots-Tag', 'noindex').sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
       }
 
-      const distIndexPath = path.join(__dirname, '..', 'dist', 'index.html');
-      if (!existsSync(distIndexPath)) {
-        return res.sendFile(distIndexPath);
-      }
+      // Cargar el HTML de la invitación para detectar módulos incluidos
+      let invitationHtml = '';
+      try {
+        const historicoPath = join(DATA_DIR, 'storage', 'historico', item.filename);
+        if (existsSync(historicoPath)) {
+          invitationHtml = readFileSync(historicoPath, 'utf8');
+        }
+      } catch { /* sin invitación: sin detección de módulos */ }
 
-      const distHtml = readFileSync(distIndexPath, 'utf-8');
-      const { renderCatalogoSsr } = await import('./ssr/catalogo-ssr.js');
-
-      if (item && (item.seo_title || item.seo_content_json)) {
-        const html = renderCatalogoSsr(distHtml, item, {
-          publicUrl: getPublicUrl(),
-          requestPath: `/catalogo/${fullSlug}`
-        });
-        console.log(`🔍 SSR completo (head + contenido rastreable) para: ${fullSlug}`);
-        res.setHeader('Content-Type', 'text/html; charset=utf-8');
-        return res.send(html);
-      }
-
-      // Sin datos SEO: servir la SPA sin inyecciones (igual que antes).
+      const { renderProductPage } = await import('./ssr/product-page.js');
+      const html = renderProductPage(item, {
+        db,
+        publicUrl: getPublicUrl(),
+        requestPath: `/catalogo/${fullSlug}`,
+        invitationHtml
+      });
+      console.log(`[CATALOGO] Producto SSR: ${fullSlug}`);
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
-      res.send(distHtml);
+      res.send(html);
     } catch (error) {
       console.error('Error en SSR de catálogo:', error);
       res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
