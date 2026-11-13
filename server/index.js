@@ -3846,18 +3846,24 @@ if (process.env.NODE_ENV === 'production') {
   // Imagen og:image por defecto para páginas de producto (si existe el asset).
   // NUNCA se usa el .html del histórico como imagen (bug anterior).
   app.use('/storage/og', express.static(path.join(DATA_DIR, 'storage', 'og')));
+  // Fuentes self-hosted de las páginas SSR (Marcellus/Jost — guía §11)
+  app.use('/fonts', express.static(join(__dirname, 'ssr', 'fonts'), { maxAge: '30d', immutable: true }));
 
   // GET /sitemap.xml — sitemap dinámico con las páginas de producto públicas
   app.get('/sitemap.xml', (req, res) => {
     try {
       const publicUrl = getPublicUrl();
-      const rows = db.prepare('SELECT slug, created_at FROM catalogo WHERE starred = 1 AND slug IS NOT NULL AND slug != ?').all('');
+      const rows = db.prepare('SELECT slug, event_type, created_at FROM catalogo WHERE starred = 1 AND slug IS NOT NULL AND slug != ?').all('');
+      // lastmod válido W3C: solo fecha (guía §11 — "2026-11-11 23:20:41" es inválido)
+      const lastmodOf = (s) => (String(s || '').match(/\d{4}-\d{2}-\d{2}/) || [])[0] || undefined;
+      const eventKeys = new Set(rows.map((r) => String(r.slug).split('/')[0]).filter(Boolean));
       const urls = [
         { loc: `${publicUrl}/`, changefreq: 'weekly', priority: '1.0' },
-        { loc: `${publicUrl}/catalogo`, changefreq: 'daily', priority: '0.9' },
+        { loc: `${publicUrl}/catalogo/`, changefreq: 'daily', priority: '0.9' },
+        ...[...eventKeys].map((k) => ({ loc: `${publicUrl}/catalogo/${k}/`, changefreq: 'weekly', priority: '0.8' })),
         ...rows.map((r) => ({
           loc: `${publicUrl}/catalogo/${r.slug}`,
-          lastmod: r.created_at || undefined,
+          lastmod: lastmodOf(r.created_at),
           changefreq: 'weekly',
           priority: '0.8'
         }))
@@ -3878,28 +3884,58 @@ if (process.env.NODE_ENV === 'production') {
     res.send(`User-agent: *\nAllow: /\n\nSitemap: ${publicUrl}/sitemap.xml\n`);
   });
 
-  // GET /catalogo/:eventType/:slug — SSR COMPLETO: meta tags + capa de contenido
-  // estática rastreable (H1, secciones, FAQ en <details>, JSON-LD) construida
-  // desde seo_content_json. Los crawlers sin JavaScript ven la página completa;
-  // la SPA (createRoot) reemplaza el contenido al montar para el usuario.
-  // Si el slug no existe pero fue migrado (old_slug), responde 301 al nativo.
-  // ─── Catálogo: listing + producto (páginas completas SSR del reference) ──
-  app.get('/catalogo', (req, res) => res.redirect(301, '/catalogo/'));
-  app.get('/catalogo/', async (req, res) => {
+  // 404 real del catálogo: página propia con noindex (guía §3), no el shell SPA
+  const notFoundCatalogo = async (res) => {
+    const { renderCatalogNotFound } = await import('./ssr/product-page.js');
+    res.status(404).setHeader('X-Robots-Tag', 'noindex').setHeader('Content-Type', 'text/html; charset=utf-8').send(renderCatalogNotFound({ publicUrl: getPublicUrl() }));
+  };
+
+  // ─── Catálogo SSR — páginas completas del reference, sin SPA encima ──────
+  // Guía §2: el servidor manda TODO el HTML en la primera respuesta. Nada de
+  // JS: demo y FAQ abren con <details>. Un usuario sin login las ve igual
+  // (antes estas rutas caían al shell de React → pantalla vacía/login).
+  // Guía §3: 404 real para cualquier ruta de catálogo desconocida y una sola
+  // forma de trailing slash (301 a la canónica).
+
+  // /catalogo y /catalogo/ — listing completo (canonical CON slash)
+  app.get(['/catalogo', '/catalogo/'], async (req, res) => {
+    if (!req.path.endsWith('/')) return res.redirect(301, '/catalogo/');
     try {
-      const items = db.prepare('SELECT slug, seo_title, meta_description, title, event_type, theme, colors FROM catalogo WHERE starred = 1 ORDER BY created_at DESC').all();
+      const items = db.prepare('SELECT slug, seo_title, title, event_type, theme, colors, primary_color, secondary_color FROM catalogo WHERE starred = 1 ORDER BY created_at DESC').all();
       const { renderCatalogListing } = await import('./ssr/catalog-listing.js');
-      const html = renderCatalogListing(items, { publicUrl: getPublicUrl() });
+      const html = renderCatalogListing(items, { publicUrl: getPublicUrl(), db });
       console.log(`[CATALOGO] Listing SSR: ${items.length} productos destacados`);
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       res.send(html);
     } catch (error) {
-      console.error('[CATALOGO] Error listing:', error.message);
-      res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
+      console.error('[CATALOGO] Error listing:', error);
+      res.status(500).setHeader('X-Robots-Tag', 'noindex').send('Error interno del catálogo');
     }
   });
 
+  // /catalogo/:evento y /catalogo/:evento/ — página de categoría (canonical CON slash)
+  app.get(['/catalogo/:eventType', '/catalogo/:eventType/'], async (req, res) => {
+    const eventType = String(req.params.eventType || '').toLowerCase();
+    if (!req.path.endsWith('/')) return res.redirect(301, `/catalogo/${eventType}/`);
+    if (!/^[a-z0-9-]+$/.test(eventType)) return notFoundCatalogo(res);
+    try {
+      const items = db.prepare("SELECT slug, seo_title, title, event_type, theme, colors, primary_color, secondary_color FROM catalogo WHERE starred = 1 AND slug LIKE ? ORDER BY created_at DESC").all(`${eventType}/%`);
+      if (!items.length) return notFoundCatalogo(res);
+      const eventLabel = items[0].event_type || eventType.replace(/-/g, ' ');
+      const { renderCatalogListing } = await import('./ssr/catalog-listing.js');
+      const html = renderCatalogListing(items, { publicUrl: getPublicUrl(), db, eventKey: eventType, eventLabel });
+      console.log(`[CATALOGO] Categoría SSR /${eventType}/: ${items.length} productos`);
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.send(html);
+    } catch (error) {
+      console.error('[CATALOGO] Error categoría:', error);
+      res.status(500).setHeader('X-Robots-Tag', 'noindex').send('Error interno del catálogo');
+    }
+  });
+
+  // /catalogo/:eventType/:slug — página de producto (canonical SIN slash)
   app.get('/catalogo/:eventType/:slug', async (req, res) => {
+    if (req.path.endsWith('/')) return res.redirect(301, req.path.replace(/\/+$/, ''));
     try {
       const fullSlug = `${req.params.eventType}/${req.params.slug}`;
       const item = db.prepare('SELECT * FROM catalogo WHERE slug = ? AND starred = 1').get(fullSlug);
@@ -3909,7 +3945,7 @@ if (process.env.NODE_ENV === 'production') {
         if (moved && moved.slug && moved.slug !== fullSlug) {
           return res.redirect(301, `/catalogo/${moved.slug}`);
         }
-        return res.status(404).setHeader('X-Robots-Tag', 'noindex').sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
+        return notFoundCatalogo(res);
       }
 
       // Cargar el HTML de la invitación para detectar módulos incluidos
@@ -3933,7 +3969,7 @@ if (process.env.NODE_ENV === 'production') {
       res.send(html);
     } catch (error) {
       console.error('Error en SSR de catálogo:', error);
-      res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
+      res.status(500).setHeader('X-Robots-Tag', 'noindex').send('Error interno del catálogo');
     }
   });
 

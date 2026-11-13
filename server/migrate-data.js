@@ -14,9 +14,10 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = process.env.DATA_DIR ? resolve(process.env.DATA_DIR) : null;
 
 if (!DATA_DIR) {
+  // Sin DATA_DIR no hay volumen persistente: no se migra nada y el
+  // servidor arranca normal con las rutas por defecto (modo dev).
   console.log('[MIGRATE] DATA_DIR no configurado — nada que migrar (modo dev).');
-  process.exit(0);
-}
+} else {
 
 const nuevoDb = join(DATA_DIR, 'database.sqlite');
 const viejoDb = join(__dirname, 'database.sqlite');
@@ -66,4 +67,5 @@ if (cambios === 0) {
   console.log('[MIGRATE] Todo ya estaba en su lugar — sin cambios.');
 } else {
   console.log(`[MIGRATE] ${cambios} archivos migrados a ${DATA_DIR}`);
+}
 }
