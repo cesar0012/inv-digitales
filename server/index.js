@@ -37,7 +37,7 @@ import {
 import { normalizeCategory } from './geminiService.js';
 import { parseHTML } from 'linkedom';
 import { processModuleUploadFile } from './ragUploadService.js';
-import { resolveSchema } from './eventDataSchema.js';
+import { resolveSchema, adaptarVocabularioEvento } from './eventDataSchema.js';
 import { createComposeRouter } from './composeRoutes.js';
 import { deflateRawSync } from 'zlib';
 import {
@@ -4217,6 +4217,23 @@ ${moduleHtml}`;
     }
 
     console.log('✅ Módulo iterado generado, length:', cleaned.length);
+
+    // Vocabulario por evento: la iteración parte de módulos del rack que
+    // nacieron como diseños de XV ("Mis XV años", "la quinceañera"…). Si el
+    // evento de la invitación es otro, se reescribe antes de devolverlo.
+    try {
+      if (evt && /quincea[nñ]er|chambel|vals\b|mis\s+(xv|quince|15)\s+a[nñ]os/i.test(cleaned)) {
+        const { document: docIter } = parseHTML(`<!DOCTYPE html><html><body>${cleaned}</body></html>`);
+        const ajustesIter = adaptarVocabularioEvento(docIter, evt);
+        if (ajustesIter.length) {
+          cleaned = docIter.body ? docIter.body.innerHTML : cleaned;
+          console.log(`🎯 Vocabulario adaptado a "${evt}" (iteración): ${ajustesIter.length} textos`);
+        }
+      }
+    } catch (vocabErr) {
+      console.warn('[VOCAB] adaptación en iteración omitida:', vocabErr?.message);
+    }
+
     res.json({ html: cleaned });
   } catch (error) {
     console.error('Error en /api/iterate-module:', error);
@@ -4569,6 +4586,28 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
       console.error('Error guardando metadata:', metaError);
     }
     
+    // Vocabulario por evento: los módulos del rack (sets 27+) nacieron como
+    // diseños de XV y dicen "Mis XV años" / "la quinceañera" / "Chambelanes".
+    // Se adapta TODO el HTML generado al evento elegido ANTES de devolverlo,
+    // para que la primera vista ya sea coherente con la selección del usuario.
+    try {
+      const evtGen = editorConfig?.eventType || '';
+      if (evtGen && /quincea[nñ]er|chambel|vals\b|mis\s+(xv|quince|15)\s+a[nñ]os/i.test(htmlResult)) {
+        const { document: docGen } = parseHTML(/^<!DOCTYPE/i.test(htmlResult) || /<html[\s>]/i.test(htmlResult)
+          ? htmlResult
+          : `<!DOCTYPE html><html><body>${htmlResult}</body></html>`);
+        const ajustesGen = adaptarVocabularioEvento(docGen, evtGen);
+        if (ajustesGen.length) {
+          htmlResult = docGen.documentElement
+            ? '<!DOCTYPE html>\n' + docGen.documentElement.outerHTML
+            : (docGen.body ? docGen.body.innerHTML : htmlResult);
+          console.log(`🎯 Vocabulario adaptado a "${evtGen}" (generación): ${ajustesGen.length} textos`);
+        }
+      }
+    } catch (vocabErr) {
+      console.warn('[VOCAB] adaptación en generación omitida:', vocabErr?.message);
+    }
+
     res.json({ html: htmlResult });
   } catch (error) {
     console.error('Error generando HTML:', error);

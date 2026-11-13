@@ -204,6 +204,43 @@ export function resolveSchema(eventType) {
 }
 
 // ---------------------------------------------------------------------------
+// 1b. Clave canónica del evento (para vocabulario y perfiles por evento).
+// ---------------------------------------------------------------------------
+export function eventoKeyDe(eventType) {
+  const t = String(eventType || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  if (t.includes('gay') && t.includes('mujer')) return 'boda_gay_m';
+  if (t.includes('gay')) return 'boda_gay_h';
+  if (t.includes('boda') || t.includes('casamiento') || t.includes('matrimonio')) return 'boda';
+  if (t.includes('xv') || t.includes('quince')) return 'xv';
+  if (t.includes('bautizo') || t.includes('bautismo')) return 'bautizo';
+  if (t.includes('comunion')) return 'comunion';
+  if (t.includes('confirmacion')) return 'confirmacion';
+  if (t.includes('baby')) return 'baby_shower';
+  if (t.includes('cumple')) return 'cumpleanos';
+  return 'otro';
+}
+
+// ---------------------------------------------------------------------------
+// 1c. Vocabulario por evento. Los módulos del rack nacieron como diseños de
+// XV años y su texto visible dice "Mis XV años", "la quinceañera",
+// "Chambelanes" o "vals". Cuando el evento elegido es OTRO, ese vocabulario
+// se reescribe aquí (determinista, sin IA) para que el usuario nunca vea un
+// texto que contradiga el tipo de evento que seleccionó.
+// ---------------------------------------------------------------------------
+export const VOCAB_EVENTO = {
+  boda:         { titulo: 'Nuestra boda',       sustantivo: 'novia',       articulo: 'la', vals: null,    chambelanes: 'Caballeros', chambelan: 'Caballero' },
+  boda_gay_h:   { titulo: 'Nuestra boda',       sustantivo: 'novio',       articulo: 'el', vals: null,    chambelanes: 'Caballeros', chambelan: 'Caballero' },
+  boda_gay_m:   { titulo: 'Nuestra boda',       sustantivo: 'novia',       articulo: 'la', vals: null,    chambelanes: 'Amigas',     chambelan: 'Amiga' },
+  xv:           null, // origen de los plantillas: el vocabulario ya es correcto
+  bautizo:      { titulo: 'Mi bautizo',         sustantivo: 'bebé',        articulo: 'el', vals: 'baile', chambelanes: 'Amiguitos',  chambelan: 'Amiguito' },
+  comunion:     { titulo: 'Mi primera comunión', sustantivo: 'celebrante', articulo: 'la', vals: 'baile', chambelanes: 'Amigos',     chambelan: 'Amigo' },
+  confirmacion: { titulo: 'Mi confirmación',    sustantivo: 'celebrante',  articulo: 'la', vals: 'baile', chambelanes: 'Amigos',     chambelan: 'Amigo' },
+  baby_shower:  { titulo: 'Mi baby shower',     sustantivo: 'mamá',        articulo: 'la', vals: 'baile', chambelanes: 'Amigas',     chambelan: 'Amiga' },
+  cumpleanos:   { titulo: 'Mi cumpleaños',      sustantivo: 'cumpleañero', articulo: 'el', vals: 'baile', chambelanes: 'Amigos',     chambelan: 'Amigo' },
+  otro:         { titulo: 'Mi celebración',     sustantivo: 'festejado',   articulo: 'el', vals: 'baile', chambelanes: 'Amigos',     chambelan: 'Amigo' }
+};
+
+// ---------------------------------------------------------------------------
 // 2. Patrones deterministas: placeholder canónico -> campo de datos
 // ---------------------------------------------------------------------------
 // Los módulos se generan con los placeholders del 00-PROMPT-BASE ("Nombre de
@@ -582,6 +619,99 @@ export function adaptContextoEvento(doc, schema, data = {}) {
       cambios.push('padrinos: par ' + n + ' sin dato oculto');
     });
   }
+  return cambios;
+}
+
+// ---------------------------------------------------------------------------
+// 2d. Adaptación de VOCABULARIO por tipo de evento (determinista, sin IA).
+// Los módulos del rack (sets 27+) nacieron como diseños de XV: dicen
+// "Mis XV años", "la quinceañera", "Chambelanes", "vals". Cuando el evento
+// elegido es boda/bautizo/baby shower/etc., ese vocabulario se reescribe al
+// equivalente del evento para que el usuario nunca vea un texto que
+// contradiga su selección. Idempotente: si ya está adaptado, no cambia nada.
+// ---------------------------------------------------------------------------
+const _mismoCase = (ejemplo, texto) => {
+  if (ejemplo === ejemplo.toUpperCase() && /[A-ZÁÉÍÓÚÑ]/.test(ejemplo)) return texto.toUpperCase();
+  if (/^[a-záéíóúñ]/.test(ejemplo)) return texto.charAt(0).toLowerCase() + texto.slice(1);
+  return texto;
+};
+
+const _HUELLA_XV = /quincea[nñ]er|chambel|\bvals\b|\bmis\s+(?:xv|quince|15)\b|\bquince\s+a[nñ]os/i;
+
+export function adaptarVocabularioEvento(doc, eventType) {
+  const cambios = [];
+  const perfil = VOCAB_EVENTO[eventoKeyDe(eventType)];
+  if (!perfil) return cambios; // XV (o sin perfil): el vocabulario ya es correcto
+
+  const reglas = [
+    // "Mis XV años" / "mis quince años" / "mis 15 años" → título del evento
+    [/mis\s+(?:xv|quince|15)\s+a[nñ]os/gi, (m) => _mismoCase(m, perfil.titulo)],
+    // "celebrar mis quince." / "hacia mis quince" / "Faltan para mis XV"
+    // (sin la palabra "años")
+    [/\bmis\s+(?:xv|quince|15)\b(?!\s*a[nñ]os)/gi, (m) => _mismoCase(m, perfil.titulo)],
+    // "tardan quince años en desplegar" → el número sobra en otros eventos
+    [/quince\s+(a[nñ]os)/gi, (m, anios) => anios],
+    // "la quinceañera" / "La Quinceañera" → artículo + sustantivo del evento
+    [/(la)\s+(quincea[nñ]era)/gi, (m, art, sust) => `${_mismoCase(art, perfil.articulo)} ${_mismoCase(sust, perfil.sustantivo)}`],
+    // "de quinceañera", "Quinceañera" suelto (alt, frases) → sustantivo
+    [/quincea[nñ]era/gi, (m) => _mismoCase(m, perfil.sustantivo)],
+    // "Chambelanes"/"chambelán" → etiqueta de corte del evento
+    [/chambelanes/gi, (m) => _mismoCase(m, perfil.chambelanes)],
+    [/chambel[aá]n/gi, (m) => _mismoCase(m, perfil.chambelan)],
+    // "vals" → "baile" solo en eventos sin vals (boda y XV lo conservan)
+    ...(perfil.vals ? [[/\bvals\b/gi, (m) => _mismoCase(m, perfil.vals)]] : [])
+  ];
+
+  const reescribir = (texto) => {
+    let out = texto;
+    let n = 0;
+    for (const [re, fn] of reglas) {
+      out = out.replace(re, (...args) => { n++; return fn(...args); });
+    }
+    return n ? { texto: out, n } : null;
+  };
+
+  // 1) Nodos de texto (nunca dentro de <script>/<style>: ahí vive la
+  //    metada del módulo, invisible para el usuario)
+  const SKIP = new Set(['SCRIPT', 'STYLE']);
+  const caminar = (nodo) => {
+    for (const hijo of Array.from(nodo.childNodes || [])) {
+      if (hijo.nodeType === 3) {
+        const t = hijo.textContent || '';
+        if (!t.trim() || !_HUELLA_XV.test(t)) continue;
+        const r = reescribir(t);
+        if (r) { hijo.textContent = r.texto; cambios.push(t.trim().slice(0, 40) + ' → ' + r.texto.trim().slice(0, 40)); }
+      } else if (hijo.nodeType === 1 && !SKIP.has(String(hijo.nodeName || '').toUpperCase())) {
+        caminar(hijo);
+      }
+    }
+  };
+  caminar(doc.body || doc.documentElement || doc);
+
+  // 2) Atributos con texto VISIBLE para el usuario: alt ("Foto de la
+  //    quinceañera 1"), aria-label, title, placeholder y los data-* que
+  //    llevan JSON/copy que el módulo renderiza por JS (p. ej. la paleta de
+  //    vestimenta con "reservado para la quinceañera"). Los atributos que son
+  //    IDENTIFICADORES (memory_key, data-gemini-id, data-event-field,
+  //    data-library-category, src, href…) nunca se tocan: no se ven y
+  //    romperían la detección de slots y el sistema de anclas.
+  const ATTR_IGNORADOS = new Set(['id', 'class', 'for', 'src', 'href', 'style', 'memory_key', 'memory_type', 'memory_usage', 'data-gemini-id', 'data-event-field', 'data-library-category', 'data-asset-type', 'aria-labelledby', 'aria-describedby', 'data-countdown-target']);
+  try {
+    doc.querySelectorAll('*').forEach((el) => {
+      const attrs = el.attributes || [];
+      for (let i = 0; i < attrs.length; i++) {
+        const attr = attrs[i];
+        const nombre = String(attr.name || '');
+        const esVisible = nombre === 'alt' || nombre === 'title' || nombre === 'placeholder' || nombre === 'aria-label' || /^data-/.test(nombre);
+        if (!esVisible || ATTR_IGNORADOS.has(nombre)) continue;
+        const v = attr.value || '';
+        if (!_HUELLA_XV.test(v)) continue;
+        const r = reescribir(v);
+        if (r) { el.setAttribute(nombre, r.texto); cambios.push(`@${nombre}: ` + v.slice(0, 40)); }
+      }
+    });
+  } catch { /* DOM sin attributes enumerable */ }
+
   return cambios;
 }
 

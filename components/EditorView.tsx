@@ -8,7 +8,7 @@ import { EventWizard, WizardResult } from './wizard/EventWizard';
 import { SelectedElement, Attachment, ProjectPage, InvitationMetadata, EditorConfig, LocalImageFile } from '../types';
 import { IMAGE_SOURCES } from '../constants';
 import { generateWebProject, addModuleToProject, modifyProjectDesign, iterateModule, aiFillEventData } from '../services/aiService';
-import { resolveSchema, missingRequired, applyDeterministicData, adaptContextoEvento, collectTextTargets, applyTextByIndex } from '../server/eventDataSchema.js';
+import { resolveSchema, missingRequired, applyDeterministicData, adaptContextoEvento, adaptarVocabularioEvento, collectTextTargets, applyTextByIndex } from '../server/eventDataSchema.js';
 import { consumeCredit, saveInvitation, updateInvitationContent, getInvitationContent, getDefaultFonts, applyInvitationFonts } from '../services/apiService';
 import { injectMetadata, extractMetadata, buildMetadataFromHTML } from '../services/metadataService';
 import { useAuth } from '../contexts/AuthContext';
@@ -334,6 +334,15 @@ export const EditorView: React.FC = () => {
 
       const schema = resolveSchema(editorConfig.eventType);
       const doc = new DOMParser().parseFromString(rawCode, 'text/html');
+      // Vocabulario por evento: los módulos del rack nacieron como diseños de
+      // XV ("Mis XV años", "la quinceañera", "Chambelanes"…). Se adapta al
+      // evento elegido ANTES de escribir los datos. Determinista, sin IA.
+      try {
+        const vocabCambios = adaptarVocabularioEvento(doc, editorConfig.eventType);
+        if (vocabCambios.length) console.log('[VOCAB]', vocabCambios.length, 'textos adaptados al evento');
+      } catch (err: any) {
+        console.warn('[VOCAB] adaptación de vocabulario omitida:', err?.message);
+      }
       // force=true: al terminar la generación los datos del formulario son la
       // verdad del usuario y GANAN sobre el texto (placeholder o inventado por
       // el adaptador IA). En el modal del editor se respeta lo ya escrito.

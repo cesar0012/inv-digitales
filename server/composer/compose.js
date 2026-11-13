@@ -17,6 +17,7 @@
  */
 
 import { resolvePack, validateEventData, moduleConditionMet } from '../eventKnowledge/index.js';
+import { adaptarVocabularioEvento } from '../eventDataSchema.js';
 import { getDesign, designsForEvent } from './library.js';
 import { fillModule, joinNames, norm, parseSection } from './fill.js';
 import { parseHTML } from 'linkedom';
@@ -171,6 +172,15 @@ export function fillProvidedHtml({ html, eventType, data: rawData = {}, preferen
   const { data, missing } = validateEventData(pack, rawData);
   const full = /^<!DOCTYPE/i.test(html) || /<html[\s>]/i.test(html) ? html : `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"></head><body>${html}</body></html>`;
   const { document } = parseHTML(full);
+  // Los módulos del rack nacieron como diseños de XV: antes de llenar nada,
+  // su vocabulario ("Mis XV años", "la quinceañera", "Chambelanes"…) se
+  // adapta al evento elegido para que el usuario nunca vea una contradicción.
+  try {
+    const vocabCambios = adaptarVocabularioEvento(document, eventType);
+    if (vocabCambios.length) console.log(`🎯 Vocabulario adaptado a "${eventType}": ${vocabCambios.length} textos (fill)`);
+  } catch (err) {
+    console.warn('[VOCAB] adaptación de vocabulario omitida:', err?.message);
+  }
   const body = document.body || document.documentElement;
 
   const isoDateTime = data.fecha ? `${data.fecha}T${data.hora || '12:00'}:00` : null;
