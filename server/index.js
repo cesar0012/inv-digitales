@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import { existsSync, mkdirSync, writeFileSync, readdirSync, statSync, readFileSync, unlinkSync, appendFileSync } from 'fs';
+import { existsSync, mkdirSync, writeFileSync, readdirSync, statSync, readFileSync, unlinkSync, appendFileSync, openSync, readSync, closeSync } from 'fs';
 import { createHash, createHmac } from 'crypto';
 import https from 'https';
 import multer from 'multer';
@@ -1331,7 +1331,10 @@ function extractMetadataFromHTML(htmlContent) {
   let primaryColor = '';
   let secondaryColor = '';
 
-  const invitationDataMatch = htmlContent.match(/<!-- INVITATION_DATA:({.*?})-->/);
+  // El comentario lo escriben los agentes DESPUÉS de </html> y puede venir
+  // en una línea o multilínea (plantilla de agents-prompt.js), con o sin
+  // espacios alrededor. Este patrón cubre todas las variantes.
+  const invitationDataMatch = htmlContent.match(/<!--\s*INVITATION_DATA:\s*(\{[\s\S]*?\})\s*-->/);
   if (invitationDataMatch) {
     try {
       const metadata = JSON.parse(invitationDataMatch[1]);
@@ -1533,6 +1536,31 @@ function colorNameFromHex(hex) {
 }
 
 let _lastHistoricoSync = 0;
+// Lee CABEZA + COLA del HTML sin cargar el archivo completo: los metadatos
+// (invitation-editor-metadata, <title>) viven en el <head> y el comentario
+// INVITATION_DATA se escribe DESPUÉS de </html> (agents-prompt.js lo pide al
+// final). El medio del archivo son MB de imágenes base64 que no aportan nada.
+// Leer cada huérfano completo bloqueaba el event loop durante minutos.
+function readHtmlHeadTail(filePath, maxBytes = 512 * 1024) {
+  const fd = openSync(filePath, 'r');
+  try {
+    const { size } = statSync(filePath);
+    const len = Math.min(size, maxBytes);
+    const buf = Buffer.alloc(len);
+    const { bytesRead: headRead } = readSync(fd, buf, 0, len, 0);
+    let out = buf.toString('utf-8', 0, headRead);
+    if (size > maxBytes) {
+      const tailLen = Math.min(size, maxBytes);
+      const tailBuf = Buffer.alloc(tailLen);
+      const { bytesRead: tailRead } = readSync(fd, tailBuf, 0, tailLen, size - tailLen);
+      out += '\n' + tailBuf.toString('utf-8', 0, tailRead);
+    }
+    return out;
+  } finally {
+    closeSync(fd);
+  }
+}
+
 function syncHistoricoWithDB(force = false) {
   // Throttle: el listado del admin llama esta función en cada carga; con
   // cientos de archivos de varios MB el readdirSync + comparación se nota.
@@ -1554,9 +1582,9 @@ function syncHistoricoWithDB(force = false) {
     if (existingFiles.has(file)) continue;
     try {
       const filePath = join(historicoPath, file);
-      const content = readFileSync(filePath, 'utf-8');
-      const meta = extractMetadataFromHTML(content);
-      const ud = extractUserDataFromHTML(content);
+      const muestra = readHtmlHeadTail(filePath);
+      const meta = extractMetadataFromHTML(muestra);
+      const ud = extractUserDataFromHTML(muestra);
       insertStmt.run(
         file,
         meta.title || file.replace('.html', ''),
