@@ -147,6 +147,37 @@ async function fetchWithTimeout(url, opts, timeoutMs) {
 const LOREM_URL_RE = /https?:\/\/loremflickr\.com\/(\d+)\/(\d+)\/([a-zA-Z0-9,%\-+.]+)/g;
 const GEMGEN_RE = /GEMINI_GENERATE:([^"')\n]{3,200})/g;
 
+// ---------------------------------------------------------------------------
+// Contexto de módulo por slot: la foto correcta depende de DÓNDE vive el slot
+// en la invitación. Se localiza el data-gemini-id más cercano ANTES del slot y
+// su prefijo (padres, padrinos, corte, portada…) define el ROL de la foto que
+// necesita. Así el módulo de padrinos jamás recibe la foto de la quinceañera
+// o de los novios: el pool se filtra por rol antes de la elección.
+// ---------------------------------------------------------------------------
+const MODULE_ROLE = {
+  padres: 'parents',
+  padrinos: 'padrinos',
+  corte: 'corte',
+  portada: 'hero',
+  galeria: 'details',
+  detalles: 'details',
+  vestimenta: 'details',
+  regalos: 'details',
+  ubicacion: 'generic',
+  itinerario: 'generic',
+  countdown: 'generic',
+  confirmacion: 'generic',
+  musica: 'generic'
+};
+
+function moduleRoleAt(html, index) {
+  const at = html.slice(0, index).lastIndexOf('data-gemini-id="');
+  if (at === -1) return 'generic';
+  const id = html.slice(at + 16, at + 60).split('"')[0] || '';
+  const tipo = id.split('-')[0].toLowerCase();
+  return MODULE_ROLE[tipo] || 'generic';
+}
+
 export function extractImageSlots(html) {
   const slots = [];
   const seen = new Set();
@@ -160,7 +191,8 @@ export function extractImageSlots(html) {
       url,
       w: Math.min(parseInt(m[1], 10) || 1024, 1600),
       h: Math.min(parseInt(m[2], 10) || 768, 1200),
-      keywords: (m[3] || '').split(',').map((k) => decodeURIComponent(k).trim()).filter(Boolean)
+      keywords: (m[3] || '').split(',').map((k) => decodeURIComponent(k).trim()).filter(Boolean),
+      role: moduleRoleAt(html, m.index)
     });
   }
   GEMGEN_RE.lastIndex = 0;
@@ -168,7 +200,7 @@ export function extractImageSlots(html) {
     const token = m[0];
     if (seen.has(token)) continue;
     seen.add(token);
-    slots.push({ url: token, w: 1024, h: 768, keywords: [], explicitPrompt: m[1].trim() });
+    slots.push({ url: token, w: 1024, h: 768, keywords: [], explicitPrompt: m[1].trim(), role: moduleRoleAt(html, m.index) });
   }
   return slots;
 }
@@ -178,9 +210,21 @@ export function extractImageSlots(html) {
 // ---------------------------------------------------------------------------
 const STYLE_TAIL = ', professional editorial photography, complete scene with full background, soft elegant lighting, no text, no words, no watermark, no borders';
 
+// Sujeto por rol: describe QUÉ debe aparecer según el módulo donde vive el
+// slot (para pexels/pollinations y el paso agéntico).
+export const ROLE_PROMPT = {
+  parents: 'parents of the celebrants, warm family portrait',
+  padrinos: 'godparents couple, elegant formal portrait',
+  corte: 'court of honor, group of young friends in formal attire',
+  hero: 'portrait of the celebration honoree',
+  details: 'elegant decorative detail',
+  generic: ''
+};
+
 export function heuristicPrompt(slot) {
   const kw = (slot.keywords || []).slice(0, 4).join(', ');
-  const base = slot.explicitPrompt || kw || 'elegant celebration decoration';
+  const rol = ROLE_PROMPT[slot.role] || '';
+  const base = [slot.explicitPrompt || kw || 'elegant celebration', rol].filter(Boolean).join(', ');
   return `${base}${STYLE_TAIL}`;
 }
 
@@ -204,8 +248,12 @@ export async function craftPromptsWithGemini(slots, { eventType, theme, geminiKe
               'escribe UN prompt en inglés para un generador de imágenes fotográficas. Reglas: fotografía editorial ' +
               'elegante, escena completa con fondo (nunca objetos flotantes ni stickers), coherente con el tipo de evento ' +
               'y el tema, sin personas reconocibles ni rostros cerrados salvo que el slot lo pida, sin texto ni marcas de agua. ' +
+              'CRÍTICO — el campo "role" de cada slot indica el módulo donde vive la imagen y manda sobre las keywords: ' +
+              "role 'parents' = los PADRES/anfitriones (jamás el festejado ni la pareja), 'padrinos' = una PAREJA de padrinos mayor, " +
+              "'corte' = el corte de honor/amigos jóvenes, 'hero' = el/la festejado(a) o la pareja protagonista. " +
+              'Nunca mezcles: una sección de padrinos no lleva la foto de la novia ni de la quinceañera. ' +
               `Contexto: tipo de evento "${eventType || 'celebración elegante'}", tema/estilo "${theme || 'clásico elegante'}".\n` +
-              `Slots: ${JSON.stringify(slots.map((s, i) => ({ i, keywords: s.keywords, size: `${s.w}x${s.h}` })))}\n` +
+              `Slots: ${JSON.stringify(slots.map((s, i) => ({ i, role: s.role, keywords: s.keywords, size: `${s.w}x${s.h}` })))}\n` +
               `Responde EXACTAMENTE un array JSON de ${slots.length} strings (los prompts), sin markdown ni explicaciones.`
           }
         ]
@@ -376,7 +424,7 @@ function listLocalStockImages(eventType) {
       const nameNorm = dir.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
       for (const f of readdirSync(join(IMG_ROOT, dir.name))) {
         if (!/\.(jpe?g|png|webp)$/i.test(f)) continue;
-        out.push({ path: join(IMG_ROOT, dir.name, f), folderNorm: nameNorm });
+        out.push({ path: join(IMG_ROOT, dir.name, f), folderNorm: nameNorm, nameNorm: f.toLowerCase() });
       }
     }
   } catch (e) {
@@ -386,12 +434,37 @@ function listLocalStockImages(eventType) {
   return out;
 }
 
-function fetchLocalStock(eventType, { seed }) {
+// Rol de una foto por keywords en su nombre de archivo (biblioteca curada:
+// padres, padrinos, corte de honor y fotos del festejado/protagonista).
+const ROLE_FILE_RE = {
+  padrinos: /padrino|godparent|godmother|godfather|madrina/,
+  corte: /bridesmaid|chambelan|court|flower.?girl|damas?|friends|selfie/,
+  parents: /parent|mother|father|family|newlywed|madre|padres/,
+  details: /closeup|bouquet|corsage|dress|flower|cake|ring|hands|crown|detail/
+};
+const fileRole = (nameNorm) => {
+  if (ROLE_FILE_RE.padrinos.test(nameNorm)) return 'padrinos';
+  if (ROLE_FILE_RE.corte.test(nameNorm)) return 'corte';
+  if (ROLE_FILE_RE.parents.test(nameNorm)) return 'parents';
+  if (ROLE_FILE_RE.details.test(nameNorm)) return 'details';
+  return 'hero'; // retratos del festejado/protagonista (sin keyword de rol)
+};
+
+function fetchLocalStock(eventType, { seed, role }) {
   const all = listLocalStockImages(eventType);
   if (!all.length) throw new Error('No hay imágenes en la biblioteca local img/');
   const root = normalizeEventRoot(eventType);
   const matching = all.filter((f) => f.folderNorm.includes(root));
-  const pool = matching.length ? matching : all;
+  const eventPool = matching.length ? matching : all;
+
+  // Selección por ROL: la foto debe corresponder al módulo donde vive el
+  // slot (padrinos → padrinos, corte → corte…). Sin fotos del rol en el
+  // evento se cae al pool completo — nunca se deja el slot sin imagen.
+  let pool = eventPool;
+  if (role && role !== 'generic') {
+    const byRole = eventPool.filter((f) => fileRole(f.nameNorm) === role);
+    if (byRole.length) pool = byRole;
+  }
   const pick = pool[seed % pool.length];
   const ext = pick.path.split('.').pop().toLowerCase();
   const mime = ext === 'png' ? 'image/png' : ext === 'webp' ? 'image/webp' : 'image/jpeg';
@@ -459,7 +532,7 @@ async function generateWithProvider(slot, prompt, { provider, eventType, pexelsK
   } else if (provider === 'pexels') {
     result = await fetchPexels(prompt, slot.keywords, { seed, pexelsKey });
   } else if (provider === 'local-stock') {
-    result = fetchLocalStock(eventType, { seed });
+    result = fetchLocalStock(eventType, { seed, role: slot.role });
   } else {
     throw new Error(`Proveedor desconocido: ${provider}`);
   }

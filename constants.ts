@@ -149,12 +149,23 @@ export const EVENT_IMAGE_FOLDERS: Record<string, string> = {
   'Baby Shower': 'baby-shower',
 };
 
+// El ORDEN importa: detectSection devuelve la PRIMERA sección cuyas keywords
+// aparezcan en el nombre del archivo. Reglas de precedencia:
+//   1. Roles específicos (padrinos, corte, padres): "bride-parents-formal…"
+//      es foto de PADRES aunque contenga "bride".
+//   2. Ceremony/reception (contexto claro de escena).
+//   3. Hero (protagonista): "quinceanera-full-dress-portrait" es HERO
+//      aunque contenga "dress".
+//   4. Details al final: sus keywords (closeup, bouquet, dress, hands…) son
+//      débiles y aparecen dentro de nombres de retratos.
 export const IMAGE_KEYWORD_MAPPING: Record<string, string[]> = {
-  'hero': ['portrait', 'girl', 'boy', 'bride', 'groom', 'baby', 'quinceañera', 'smiling', 'sitting', 'standing', 'closeup', 'hugging', 'holding'],
-  'parents': ['mother', 'father', 'parents', 'family', 'couple', 'holding', 'cradled', 'arms'],
-  'ceremony': ['priest', 'church', 'altar', 'ceremony', 'vows', 'ring', 'blessing', 'anointing', 'host', 'chalice', 'cross', 'candle'],
-  'reception': ['party', 'celebration', 'dancing', 'toast', 'champagne', 'cheering', 'laughing', 'fun', 'balloons', 'pinata'],
-  'details': ['detail', 'closeup', 'ring', 'bouquet', 'dress', 'cake', 'gift', 'candles', 'shoes', 'feet', 'hands', 'flowers', 'crown', 'necklace']
+  'padrinos': ['padrino', 'padrinos', 'godparent', 'godparents', 'godmother', 'godfather', 'madrina'],
+  'corte': ['chambelan', 'chambelanes', 'bridesmaid', 'bridesmaids', 'court', 'flower-girl', 'flower-girls', 'damas', 'damita'],
+  'parents': ['parents', 'parent', 'mother', 'father', 'family', 'newlyweds', 'madre', 'padres', 'mamá', 'papá', 'cradled'],
+  'ceremony': ['priest', 'church', 'altar', 'ceremony', 'vows', 'blessing', 'anointing', 'chalice', 'cross'],
+  'reception': ['party', 'celebration', 'dancing', 'toast', 'champagne', 'cheering', 'balloons', 'pinata', 'selfie'],
+  'hero': ['portrait', 'quinceañera', 'quinceanera', 'bride', 'brides', 'groom', 'couple', 'baby', 'girl', 'boy', 'smiling', 'sitting', 'standing', 'hugging', 'holding'],
+  'details': ['detail', 'closeup', 'corsage', 'bouquet', 'dress', 'cake', 'gift', 'candles', 'shoes', 'feet', 'hands', 'flowers', 'crown', 'necklace', 'ring']
 };
 
 export const EVENT_STYLE_SUGGESTIONS: Record<string, { styles: string[]; moods: string[] }> = {
@@ -277,11 +288,14 @@ ${imageList}
 
 - CRITICAL: Match image content to section purpose:
   * HERO/COVER sections → Use images with: portrait, girl, boy, bride, groom, baby, smiling, standing
-  * PARENTS/FAMILY sections → Use images with: mother, father, parents, family, couple, holding
+  * PARENTS/MIS PADRES sections → Use images with: parents, mother, father, family, newlyweds. NEVER the honoree portrait.
+  * GODPARENTS/PADRINOS sections → Use images with: padrinos, godparents. NEVER the honoree or couple portrait.
+  * COURT/CORTE DE HONOR sections → Use images with: chambelanes, bridesmaids, court, flower-girls. NEVER the honoree portrait.
   * CEREMONY/CHURCH sections → Use images with: priest, church, altar, ceremony, blessing, cross
   * RECEPTION/PARTY sections → Use images with: party, celebration, dancing, toast, champagne
   * DETAILS/DECORATION sections → Use images with: detail, closeup, ring, bouquet, cake, flowers
 
+- CRITICAL: a photo of the bride/quinceañera NEVER goes in the parents, godparents or court sections. Match the people in the photo to the people the section honors.
 - ALWAYS use local images from /img/${folder}/ for this event type.
 - DO NOT use external image sources like loremflickr or unsplash.
   `;
