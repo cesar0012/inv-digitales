@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -217,11 +218,15 @@ return {
   };
 };
 
-app.use(cors({ 
+app.use(cors({
   origin: ['https://generador.invitacionesmodernas.com', 'http://localhost:3002', 'http://localhost:3001'],
   credentials: true,
   exposedHeaders: ['Set-Cookie']
 }));
+// Gzip para TODO (JSON del admin, HTML de invitaciones de varios MB, SSR del
+// catálogo): sin esto, respuestas de MB viajan sin comprimir y la carga se
+// siente eterna en conexiones normales.
+app.use(compression({ level: 6, threshold: 1024 }));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(cookieParser());
@@ -1527,7 +1532,14 @@ function colorNameFromHex(hex) {
   return name;
 }
 
-function syncHistoricoWithDB() {
+let _lastHistoricoSync = 0;
+function syncHistoricoWithDB(force = false) {
+  // Throttle: el listado del admin llama esta función en cada carga; con
+  // cientos de archivos de varios MB el readdirSync + comparación se nota.
+  // Sincronizar como máximo una vez cada 30s por proceso es suficiente (los
+  // archivos nuevos llegan con su fila insertada por /api/generate-html).
+  if (!force && Date.now() - _lastHistoricoSync < 30000) return;
+  _lastHistoricoSync = Date.now();
   if (!existsSync(historicoPath)) return;
   const files = readdirSync(historicoPath).filter(f => f.endsWith('.html'));
   const existingRows = db.prepare('SELECT filename FROM catalogo').all();
@@ -1600,7 +1612,13 @@ app.get('/api/catalogo', (req, res) => {
     // admin gets it. The public catalog shows starred designs without user_data.
     const admin = isAdminRequest(req);
     const starred = admin ? req.query.starred : 'true';
-    let query = 'SELECT * FROM catalogo';
+    // SOLO columnas ligeras: el listado es una tabla. Las columnas pesadas
+    // (seo_content_json ~35KB, structured_data ~20KB, seo_card) las sirven
+    // los endpoints de detalle; mandarlas aquí hacía respuestas de varios MB
+    // y la pestaña de historial tardaba una eternidad en cargar.
+    const cols = 'id, filename, title, event_type, theme, colors, tags, primary_color, secondary_color, event_date, event_time, starred, slug, created_at, event_domain'
+      + (admin ? ', user_data' : '');
+    let query = `SELECT ${cols} FROM catalogo`;
     if (starred === 'true') {
       query += ' WHERE starred = 1';
     }
