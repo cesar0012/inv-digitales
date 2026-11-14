@@ -1727,13 +1727,24 @@ const resolvePlaceholders = async (html, eventType, theme, imageApiKey, imageMod
         // Si no existe la carpeta o no hay imágenes, mantiene el placeholder original.
         const libraryIndex = libraryAssetCounter++;
         const categoryFolder = mapCategoryToFolder(eventType);
-        libraryJobs.push({ placeholder, libraryIndex, categoryFolder });
+        // Rol por módulo: subir a la <section data-gemini-id="tipo-…"> que
+        // contiene el placeholder para que la foto corresponda a la sección
+        // (portada → héroe, padres → padres, corte → corte…).
+        let sectionEl = placeholder;
+        let moduleType = '';
+        let pasosRol = 0;
+        while (sectionEl && sectionEl.parentElement && pasosRol++ < 15) {
+          const gid = sectionEl.getAttribute && sectionEl.getAttribute('data-gemini-id');
+          if (gid) { moduleType = String(gid).split('-')[0].toLowerCase(); break; }
+          sectionEl = sectionEl.parentElement;
+        }
+        libraryJobs.push({ placeholder, libraryIndex, categoryFolder, role: MODULE_IMG_ROLE[moduleType] || 'generic', moduleType });
       }
     }
 
     // Library: lecturas de disco, rápidas y en paralelo.
     const libraryUrls = await Promise.all(
-      libraryJobs.map((j) => resolveLibraryAsset(j.categoryFolder, j.libraryIndex))
+      libraryJobs.map((j) => resolveLibraryAsset(j.categoryFolder, j.libraryIndex, j.role))
     );
 
     // --- Fase 2: generación de imágenes en pool de concurrencia limitada ---
@@ -2698,11 +2709,46 @@ const mapCategoryToFolder = (categoryOrEventType) => {
 };
 
 /**
- * Resuelve un placeholder library reemplazando URL loremflickr por una imagen
- * existente en /img/<folder>/. Rotación simple basada en index.
- * Devuelve la URL /img/... si encuentra un archivo, o null si no hay disponible.
+ * Rol de una foto de la biblioteca por keywords en su nombre (misma lógica
+ * que freeImageService): padrinos/corte/parents/details, resto = hero.
  */
-const resolveLibraryAsset = async (folder, indexHint = 0) => {
+const LIBRARY_ROLE_RE = {
+  padrinos: /padrino|godparent|godmother|godfather|madrina/,
+  corte: /bridesmaid|chambelan|court|flower.?girl|damas?|friends|selfie/,
+  parents: /parent|mother|father|family|newlywed|madre|padres/,
+  details: /closeup|bouquet|corsage|dress|flower|cake|ring|hands|crown|detail/
+};
+const libraryFileRole = (name) => {
+  const n = String(name || '').toLowerCase();
+  if (LIBRARY_ROLE_RE.padrinos.test(n)) return 'padrinos';
+  if (LIBRARY_ROLE_RE.corte.test(n)) return 'corte';
+  if (LIBRARY_ROLE_RE.parents.test(n)) return 'parents';
+  if (LIBRARY_ROLE_RE.details.test(n)) return 'details';
+  return 'hero';
+};
+
+// Tipo de módulo → rol de foto que necesita su placeholder
+const MODULE_IMG_ROLE = {
+  padres: 'parents',
+  padrinos: 'padrinos',
+  corte: 'corte',
+  portada: 'hero',
+  galeria: 'details',
+  detalles: 'details',
+  vestimenta: 'details',
+  regalos: 'details'
+};
+
+/**
+ * Resuelve un placeholder library reemplazando URL loremflickr por una imagen
+ * existente en /img/<folder>/.
+ * Selección por ROL: la foto debe corresponder al módulo donde vive el
+ * placeholder (portada → retrato del festejado, padres → padres, corte →
+ * corte…). Antes era rotación por índice y la portada recibía la primera
+ * foto alfabética — que era una de chambelanes. Rotación DENTRO del pool
+ * del rol; si el rol no tiene fotos, cae al pool completo.
+ */
+const resolveLibraryAsset = async (folder, indexHint = 0, role = null) => {
   try {
     const { readdirSync, existsSync } = await import('fs');
     const { join } = await import('path');
@@ -2716,7 +2762,12 @@ const resolveLibraryAsset = async (folder, indexHint = 0) => {
       console.log(`[RESOLVER] ⚠️ Library: no hay imágenes en /img/${folder}/`);
       return null;
     }
-    const chosen = files[indexHint % files.length];
+    let pool = files;
+    if (role && role !== 'generic') {
+      const porRol = files.filter((f) => libraryFileRole(f) === role);
+      if (porRol.length) pool = porRol;
+    }
+    const chosen = pool[indexHint % pool.length];
     return `/img/${folder}/${chosen}`;
   } catch (err) {
     console.log(`[RESOLVER] ⚠️ Library error leyendo /img/${folder}/:`, err.message);

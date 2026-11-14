@@ -45,6 +45,13 @@ interface FotoSlot {
   etiqueta: string;
   url: string;
 }
+// Una foto de STOCK o ya reemplazada se reconoce por su src: los módulos del
+// rack resuelven sus placeholders con imágenes de /img/<evento>/… (URL local)
+// o con data:base64. Antes solo se detectaba loremflickr y, al no quedar
+// ninguna, el panel decía "Este diseño no tiene espacios de foto
+// reemplazables" aunque la invitación estuviera llena de fotos.
+const SRC_REEMPLAZABLE = /^(?:\/img\/|data:image\/|https?:\/\/loremflickr\.com\/)/i;
+
 const detectarSlots = (html: string): FotoSlot[] => {
   try {
     const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -55,21 +62,22 @@ const detectarSlots = (html: string): FotoSlot[] => {
       const gid = sec.getAttribute('data-gemini-id') || '';
       const tipo = gid.split('-')[0];
       const etiqueta = ETIQUETAS_MODULO[tipo] || tipo;
-      // <img src="loremflickr...">
-      sec.querySelectorAll('img[src*="loremflickr"]').forEach((img) => {
-        slots.push({ idx: idx++, etiqueta, url: img.getAttribute('src') || '' });
+      // <img> con src reemplazable (stock /img/…, base64 o loremflickr)
+      sec.querySelectorAll('img').forEach((img) => {
+        const src = img.getAttribute('src') || '';
+        if (SRC_REEMPLAZABLE.test(src)) slots.push({ idx: idx++, etiqueta, url: src.slice(0, 60) });
       });
-      // background-image: url('loremflickr...')
-      sec.querySelectorAll<HTMLElement>('[style*="loremflickr"]').forEach((el) => {
+      // background-image en style inline (loremflickr o data:)
+      sec.querySelectorAll<HTMLElement>('[style]').forEach((el) => {
         const style = el.getAttribute('style') || '';
-        if (/loremflickr/.test(style)) slots.push({ idx: idx++, etiqueta: etiqueta + ' (fondo)', url: '' });
+        if (/loremflickr|url\(['"]?data:image/i.test(style)) slots.push({ idx: idx++, etiqueta: etiqueta + ' (fondo)', url: '' });
       });
     }
     // también en <style> (background-image en CSS)
     const styleTags = doc.querySelectorAll('style');
     styleTags.forEach((st) => {
       const css = st.textContent || '';
-      const matches = css.match(/loremflickr\.com[^'"')]+/g) || [];
+      const matches = css.match(/loremflickr\.com[^'"')]+|url\(['"]?data:image\/[^'"')]+/g) || [];
       matches.forEach(() => slots.push({ idx: idx++, etiqueta: 'Fondo de sección', url: '' }));
     });
     return slots;
@@ -78,14 +86,40 @@ const detectarSlots = (html: string): FotoSlot[] => {
   }
 };
 
-/** Reemplaza las URLs loremflickr por fotos del cliente EN ORDEN de slot. */
+/** Reemplaza los src reemplazables (stock/base64/loremflickr) por las fotos
+ *  del cliente EN ORDEN de slot. Mismo orden que detectarSlots: por sección. */
 const reemplazarSlots = (html: string, fotos: { dataUri: string }[]): string => {
   if (!fotos.length) return html;
-  let i = 0;
-  return html.replace(/https:\/\/loremflickr\.com\/[^"')\s]+/g, (url) => {
-    if (i < fotos.length) { i++; return fotos[i - 1].dataUri; }
-    return url;
-  });
+  try {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    let i = 0;
+    const secciones = Array.from(doc.querySelectorAll('section[data-gemini-id]'));
+    for (const sec of secciones) {
+      sec.querySelectorAll('img').forEach((img) => {
+        const src = img.getAttribute('src') || '';
+        if (SRC_REEMPLAZABLE.test(src) && i < fotos.length) img.setAttribute('src', fotos[i++].dataUri);
+      });
+      sec.querySelectorAll<HTMLElement>('[style]').forEach((el) => {
+        if (i >= fotos.length) return;
+        const style = el.getAttribute('style') || '';
+        if (/loremflickr|url\(['"]?data:image/i.test(style)) {
+          el.setAttribute('style', style.replace(/url\(['"]?(?:https?:\/\/loremflickr\.com\/[^'"')]+|data:image\/[^'"')]+)['"]?\)/g, (m) => {
+            if (i < fotos.length) return `url('${fotos[i++].dataUri}')`;
+            return m;
+          }));
+        }
+      });
+    }
+    if (i === 0) return html; // nada que reemplazar: no re-serializar
+    return '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
+  } catch {
+    // fallback: solo loremflickr por string
+    let i = 0;
+    return html.replace(/https:\/\/loremflickr\.com\/[^"')\s]+/g, (url) => {
+      if (i < fotos.length) { i++; return fotos[i - 1].dataUri; }
+      return url;
+    });
+  }
 };
 
 /**
