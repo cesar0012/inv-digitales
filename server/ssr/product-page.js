@@ -121,14 +121,19 @@ const PLAN_DEFAULTS = [
 ];
 
 function getPlanes(db) {
+  // TODOS los planes configurados en el admin (1..N): la página refleja la
+  // tabla plan_config tal cual en cada request — si el admin crea, borra o
+  // edita planes, el catálogo lo muestra sin tocar código. La cuadrícula se
+  // adapta al número de planes (CSS auto-fit). Fallback a los 3 defaults
+  // solo si la tabla está vacía (instalación fresca).
   try {
-    const rows = db.prepare("SELECT * FROM plan_config WHERE plan_slug IN ('catalogo','creativa','premium') ORDER BY CASE plan_slug WHEN 'catalogo' THEN 1 WHEN 'creativa' THEN 2 ELSE 3 END").all();
-    if (rows.length >= 2) {
+    const rows = db.prepare("SELECT * FROM plan_config ORDER BY CASE plan_slug WHEN 'catalogo' THEN 1 WHEN 'creativa' THEN 2 WHEN 'premium' THEN 3 ELSE 4 END, created_at, rowid").all();
+    if (rows.length) {
       return rows.map((r) => ({
         key: r.plan_slug, name: r.plan_name || r.plan_slug,
         featured: r.plan_slug === 'creativa',
         designs: r.generation_credits || 5, changes: r.iteration_credits || 10,
-        price: r.price || null, url: 'https://app.invitacionesmodernas.com/app/planes'
+        price: r.price ?? null, url: 'https://app.invitacionesmodernas.com/app/planes'
       }));
     }
   } catch { /* usar defaults */ }

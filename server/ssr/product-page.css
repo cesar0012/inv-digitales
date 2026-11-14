@@ -126,7 +126,7 @@ section{padding:clamp(48px,7vw,84px) 0}
 .plans>*{min-width:0}
 .price{overflow-wrap:anywhere}
 button{font:inherit;cursor:pointer}
-@media(min-width:880px){.plans{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:880px){.plans{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}}
 .plan{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px 24px;display:flex;flex-direction:column}
 .plan.is-featured{border:2px solid var(--accent);box-shadow:0 18px 40px rgba(184,50,79,.12)}
 .badge{position:absolute;top:-12px;left:24px;background:var(--accent);color:#fff;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:999px}
