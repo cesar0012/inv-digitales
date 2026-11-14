@@ -57,19 +57,42 @@ export function renderCatalogListing(items, ctx = {}) {
     ? `Invitaciones digitales de ${eventLabel.toLowerCase()}`
     : 'Invitaciones digitales para tu celebración';
 
+  // Nombre limpio para la tarjeta: el seo_title puede traer el sufijo de
+  // marca ("| Invitaciones Modernas") que en una tarjeta sobra.
+  const nombreLimpio = (item) => String(item.seo_title || item.title || 'Invitación digital')
+    .replace(/\s*\|\s*Invitaciones Modernas\s*$/i, '')
+    .trim() || 'Invitación digital';
+
+  // Descripción: theme/colors vienen como texto o como JSON ("[]", '["a","b"]')
+  // — nunca se imprime crudo: un "[]" suelto se ve como símbolos raros.
+  const parseLista = (raw) => {
+    if (!raw) return '';
+    const s = String(raw).trim();
+    if (!s || s === '[]' || s === '{}') return '';
+    if (/^[[{]/.test(s)) {
+      try { const v = JSON.parse(s); return Array.isArray(v) ? v.filter(Boolean).join(', ') : String(v || ''); } catch { return s; }
+    }
+    return s;
+  };
+  const descripcionDe = (item) => {
+    const colores = parseLista(item.colors);
+    if (item.theme && colores && item.theme !== colores) return `${item.theme} · ${colores}`;
+    return item.theme || colores || 'Diseño personalizable';
+  };
+
   const cards = items.map((item) => {
     const og = hasOgScreenshot(item.slug)
       ? `${publicUrl}/storage/og/${ogScreenshotFile(item.slug)}`
       : gradientPlaceholder(item.primary_color, item.secondary_color);
     const href = `/catalogo/${item.slug}`;
-    const nombre = item.seo_title || item.title || 'Invitación digital';
+    const nombre = nombreLimpio(item);
     return `
       <article class="card">
         <img src="${esc(og)}" alt="${esc(nombre)}" loading="lazy" width="400" height="500">
         <div class="card-body">
           ${item.event_type ? `<p class="rel">${esc(item.event_type)}</p>` : ''}
           <h3><a href="${esc(href)}">${esc(nombre)}</a></h3>
-          <p>${esc(item.theme || item.colors || 'Diseño personalizable')}</p>
+          <p>${esc(descripcionDe(item))}</p>
         </div>
       </article>`;
   }).join('\n          ');

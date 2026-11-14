@@ -350,14 +350,14 @@ export function renderProductPage(item, ctx = {}) {
     const img = hasOgScreenshot(r.slug)
       ? `${publicUrl}/storage/og/${ogScreenshotFile(r.slug)}`
       : gradientPlaceholder(r.primary_color, r.secondary_color);
-    const alt = stripDates(r.seo_title || r.title || 'Invitación digital');
+    const alt = stripDates(String(r.seo_title || r.title || 'Invitación digital').replace(/\s*\|\s*Invitaciones Modernas\s*$/i, ''));
     return `
           <article class="card">
             <img src="${esc(img)}" alt="${esc(alt)}" width="400" height="500" loading="lazy">
             <div class="card-body">
               <p class="rel">${esc(c.label)}</p>
               <h3><a href="/catalogo/${esc(r.slug)}">${esc(alt)}</a></h3>
-              <p>${esc(r.theme || r.colors || 'Diseño personalizable')}</p>
+              <p>${esc((() => { const c = String(r.colors || '').trim(); const colores = (c && c !== '[]' && c.startsWith('[')) ? (() => { try { return JSON.parse(c).filter(Boolean).join(', '); } catch { return c; } })() : (c === '[]' ? '' : c); return r.theme || colores || 'Diseño personalizable'; })())}</p>
             </div>
           </article>`;
   }).join('\n');

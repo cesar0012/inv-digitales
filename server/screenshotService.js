@@ -21,9 +21,9 @@
  */
 import { mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
-import { join, dirname } from 'path';
-import { pathToFileURL } from 'url';
-import { fileURLToPath } from 'url';
+import { join, dirname, basename } from 'path';
+import { pathToFileURL, fileURLToPath } from 'url';
+import { randomUUID } from 'crypto';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -50,19 +50,30 @@ async function loadPuppeteer() {
   return _puppeteerPromise;
 }
 
+// Último error de captura: el endpoint del admin lo devuelve para que la
+// causa real (launch, timeout, disco) no quede solo en logs del contenedor.
+let _lastCaptureError = '';
+export const lastCaptureError = () => _lastCaptureError;
+
+// Tokens de un solo uso para la ruta interna /__og (sirve la invitación por
+// HTTP al puppeteer local sin exponer el histórico públicamente).
+export const _ogTokens = new Set();
+
 /**
  * Captura el hero (viewport superior) de una invitación HTML como og:image.
  * @param {string} invitationHtmlPath ruta absoluta al .html de la invitación
  * @param {string} slug slug del catálogo ("boda/mi-plantilla")
- * @returns {Promise<string|null>} ruta del JPEG generado, o null si falló
+ * @returns {Promise<string|null>} ruta del JPEG generado, o null si falla
  */
 export async function captureInvitationHeroOG(invitationHtmlPath, slug, { timeoutMs = 45000 } = {}) {
+  _lastCaptureError = '';
   if (!invitationHtmlPath || !existsSync(invitationHtmlPath)) {
-    console.warn('[SCREENSHOT] invitación no encontrada en disco:', invitationHtmlPath);
+    _lastCaptureError = `invitación no encontrada en disco: ${invitationHtmlPath}`;
+    console.warn('[SCREENSHOT]', _lastCaptureError);
     return null;
   }
   const puppeteer = await loadPuppeteer();
-  if (!puppeteer) return null;
+  if (!puppeteer) { _lastCaptureError = 'puppeteer no disponible (import falló)'; return null; }
 
   const outPath = ogScreenshotPath(slug);
   let browser = null;
@@ -74,13 +85,26 @@ export async function captureInvitationHeroOG(invitationHtmlPath, slug, { timeou
     });
     const page = await browser.newPage();
     await page.setViewport({ width: OG_WIDTH, height: OG_HEIGHT, deviceScaleFactor: 1 });
-    await page.goto(pathToFileURL(invitationHtmlPath).href, { waitUntil: 'networkidle2', timeout: timeoutMs });
+    // La invitación referencia /img/… (paths absolutos) y fuentes remotas:
+    // con file:// esos recursos NO resuelven y el screenshot sale vacío. Se
+    // sirve la invitación por HTTP desde el propio proceso (ruta interna
+    // /__og con token de un solo uso) para que todo cargue como en producción.
+    const token = randomUUID();
+    _ogTokens.add(token);
+    try {
+      const puerto = process.env.PORT || 3001;
+      const nombre = encodeURIComponent(basename(invitationHtmlPath));
+      await page.goto(`http://127.0.0.1:${puerto}/__og/${nombre}?t=${token}`, { waitUntil: 'networkidle2', timeout: timeoutMs });
+    } finally {
+      _ogTokens.delete(token);
+    }
     // Margen para fuentes/animsaciones de entrada (máx 0.5s según contrato de módulos)
     await new Promise((r) => setTimeout(r, 1200));
     await page.screenshot({ path: outPath, type: 'jpeg', quality: 82, clip: { x: 0, y: 0, width: OG_WIDTH, height: OG_HEIGHT } });
     console.log(`[SCREENSHOT] ✅ og:image capturado: ${outPath}`);
     return outPath;
   } catch (error) {
+    _lastCaptureError = error.message;
     console.warn('[SCREENSHOT] fallo capturando', slug, '-', error.message);
     return null;
   } finally {

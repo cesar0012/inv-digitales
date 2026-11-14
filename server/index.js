@@ -39,6 +39,7 @@ import { normalizeCategory } from './geminiService.js';
 import { parseHTML } from 'linkedom';
 import { processModuleUploadFile } from './ragUploadService.js';
 import { resolveSchema, adaptarVocabularioEvento } from './eventDataSchema.js';
+import { _ogTokens as screenshotOgTokens } from './screenshotService.js';
 import { createComposeRouter } from './composeRoutes.js';
 import { deflateRawSync } from 'zlib';
 import {
@@ -1752,6 +1753,28 @@ app.get('/api/catalogo/:filename', (req, res) => {
 });
 
 // GET /preview/:filename - Vista completa de invitación del catálogo (página web)
+// GET /__og/:filename?t=<token> — ruta interna para el screenshot service:
+// sirve una invitación del histórico por HTTP (no file://) para que sus
+// recursos absolutos (/img/…, fuentes) resuelvan en el puppeteer local.
+// Solo accesible con token de un solo uso generado por captureInvitationHeroOG.
+app.get('/__og/:filename', (req, res) => {
+  const { filename } = req.params;
+  const t = String(req.query.t || '');
+  const esLocal = req.ip === '127.0.0.1' || req.ip === '::1' || req.ip === '::ffff:127.0.0.1' || req.socket.remoteAddress === '127.0.0.1';
+  if (!esLocal || !t || !screenshotOgTokens.has(t)) {
+    return res.status(404).end();
+  }
+  screenshotOgTokens.delete(t); // un solo uso
+  if (!isSafeFilename(filename) || !filename.endsWith('.html')) {
+    return res.status(400).send('Archivo inválido');
+  }
+  const filePath = join(DATA_DIR, 'storage', 'historico', filename);
+  if (!existsSync(filePath)) {
+    return res.status(404).send('Archivo no encontrado');
+  }
+  sendInvitationHtml(res, readFileSync(filePath, 'utf-8'));
+});
+
 app.get('/preview/:filename', (req, res) => {
   const { filename } = req.params;
   if (!isSafeFilename(filename) || !filename.endsWith('.html')) {
@@ -2007,6 +2030,25 @@ app.post('/api/catalogo/:id/star', adminMiddleware, (req, res) => {
   const { id } = req.params;
   const stmt = db.prepare('UPDATE catalogo SET starred = 1 WHERE id = ?');
   stmt.run(id);
+  // Auto-generar el og:image (vista previa del catálogo): sin él la tarjeta
+  // del listado sale sin foto. Solo cuando el ítem ya tiene slug; si no, el
+  // botón "Generar SEO" del admin crea slug + captura. Fire-and-forget.
+  const item = db.prepare('SELECT filename, slug FROM catalogo WHERE id = ?').get(id);
+  if (item && item.filename && item.slug) {
+    import('./screenshotService.js').then(async ({ captureInvitationHeroOG, hasOgScreenshot }) => {
+      try {
+        if (!hasOgScreenshot(item.slug)) {
+          const historicoFile = join(DATA_DIR, 'storage', 'historico', item.filename);
+          if (existsSync(historicoFile)) {
+            await captureInvitationHeroOG(historicoFile, item.slug);
+            console.log('📸 OG auto-generado al destacar:', item.slug);
+          }
+        }
+      } catch (e) {
+        console.warn('[STAR] og:image auto falló (se puede regenerar desde el admin):', e.message);
+      }
+    }).catch(() => {});
+  }
   res.json({ success: true });
 });
 
@@ -2235,11 +2277,11 @@ app.post('/api/admin/catalogo/:id/screenshot', adminMiddleware, async (req, res)
     if (!item || !item.slug || !item.filename) {
       return res.status(404).json({ error: 'Plantilla no encontrada o sin slug/filename' });
     }
-    const { captureInvitationHeroOG, ogScreenshotFile } = await import('./screenshotService.js');
+    const { captureInvitationHeroOG, ogScreenshotFile, lastCaptureError } = await import('./screenshotService.js');
     const historicoDir = join(DATA_DIR, 'storage', 'historico');
     const shotPath = await captureInvitationHeroOG(join(historicoDir, item.filename), item.slug);
     if (!shotPath) {
-      return res.status(500).json({ error: 'No se pudo capturar el screenshot (¿puppeteer/Chromium instalado?)' });
+      return res.status(500).json({ error: 'No se pudo capturar el screenshot', details: lastCaptureError() || 'causa desconocida' });
     }
     res.json({ success: true, slug: item.slug, image: `/storage/og/${ogScreenshotFile(item.slug)}` });
   } catch (error) {
