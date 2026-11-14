@@ -121,18 +121,20 @@ section{padding:clamp(48px,7vw,84px) 0}
 @media(min-width:760px){.requests{grid-template-columns:1fr 1fr}}
 .requests li{background:#fff;border:1px dashed var(--gold);border-radius:12px;padding:12px 16px;font-style:italic;color:var(--ink-soft)}
 
-/* Plans */
+/* Plans — SIEMPRE 3 por línea (aunque haya 1, 2 o 5 configurados) */
 .plans{display:grid;gap:20px}
 .plans>*{min-width:0}
 .price{overflow-wrap:anywhere}
 button{font:inherit;cursor:pointer}
-@media(min-width:880px){.plans{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}}
+@media(min-width:880px){.plans{grid-template-columns:repeat(3,1fr)}}
 .plan{position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px 24px;display:flex;flex-direction:column}
 .plan.is-featured{border:2px solid var(--accent);box-shadow:0 18px 40px rgba(184,50,79,.12)}
 .badge{position:absolute;top:-12px;left:24px;background:var(--accent);color:#fff;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:999px}
 .price{font-family:var(--display);font-size:2rem;margin:4px 0 12px}
 .price small{font-family:var(--text);font-size:.9rem;color:var(--ink-soft)}
 .plan .ticks{flex:1}
+/* Botón del plan: ancho completo, texto SIEMPRE en una línea y centrado */
+.plan .btn{width:100%;justify-content:center;white-space:nowrap;padding:12px 12px;font-size:.95rem}
 .slot-missing{outline:2px dashed #d97706;outline-offset:2px;background:#fff7ed}
 
 /* Generate with AI */
