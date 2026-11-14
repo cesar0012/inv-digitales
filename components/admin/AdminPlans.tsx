@@ -43,6 +43,7 @@ export const AdminPlans: React.FC = () => {
       generation_credits: 5,
       iteration_credits: 10,
       has_rsvp: 0,
+      price: null,
     });
   };
 
@@ -72,6 +73,7 @@ export const AdminPlans: React.FC = () => {
           generation_credits: editing.generation_credits ?? 5,
           iteration_credits: editing.iteration_credits ?? 10,
           has_rsvp: editing.has_rsvp ?? 0,
+          price: editing.price === '' || editing.price === undefined ? null : Number(editing.price),
         });
         setMessage({ type: 'success', text: 'Plan creado correctamente' });
       } else {
@@ -81,6 +83,7 @@ export const AdminPlans: React.FC = () => {
           generation_credits: editing.generation_credits,
           iteration_credits: editing.iteration_credits,
           has_rsvp: editing.has_rsvp,
+          price: editing.price === '' || editing.price === undefined || editing.price === null ? null : Number(editing.price),
         });
         setMessage({ type: 'success', text: 'Plan actualizado correctamente' });
       }
@@ -365,6 +368,7 @@ export const AdminPlans: React.FC = () => {
               <th className="text-center py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Créditos Generación</th>
               <th className="text-center py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Créditos Iteración</th>
               <th className="text-center py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">RSVP</th>
+              <th className="text-center py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Precio (MXN)</th>
               <th className="text-right py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Acciones</th>
             </tr>
           </thead>
@@ -422,6 +426,17 @@ export const AdminPlans: React.FC = () => {
                     checked={editing.has_rsvp === 1}
                     onChange={(e) => setEditing({ ...editing, has_rsvp: e.target.checked ? 1 : 0 })}
                     className="w-4 h-4 text-pink-500 border-gray-300 rounded focus:ring-pink-500"
+                  />
+                </td>
+                <td className="py-3 px-4 text-center">
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={editing.price ?? ''}
+                    placeholder="—"
+                    onChange={(e) => setEditing({ ...editing, price: e.target.value === '' ? null : Number(e.target.value) })}
+                    className="w-24 text-center px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                   />
                 </td>
                 <td className="py-3 px-4">
@@ -485,6 +500,17 @@ export const AdminPlans: React.FC = () => {
                       className="w-4 h-4 text-pink-500 border-gray-300 rounded focus:ring-pink-500"
                     />
                   </td>
+                  <td className="py-3 px-4 text-center">
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={editing.price ?? plan.price ?? ''}
+                      placeholder="—"
+                      onChange={(e) => setEditing({ ...editing, price: e.target.value === '' ? null : Number(e.target.value) })}
+                      className="w-24 text-center px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                    />
+                  </td>
                   <td className="py-3 px-4">
                     <div className="flex items-center justify-end gap-1">
                       <button onClick={handleSave} disabled={saving} className="p-1.5 text-green-600 hover:bg-green-100 rounded-lg transition-colors disabled:opacity-50">
@@ -519,6 +545,11 @@ export const AdminPlans: React.FC = () => {
                     ) : (
                       <X className="w-4 h-4 text-gray-300 inline-block" />
                     )}
+                  </td>
+                  <td className="py-3 px-4 text-center">
+                    <span className="text-sm font-semibold text-emerald-700">
+                      {plan.price != null ? `$${Number(plan.price).toLocaleString('es-MX')}` : <span className="text-gray-400 font-normal">—</span>}
+                    </span>
                   </td>
                   <td className="py-3 px-4">
                     <div className="flex items-center justify-end gap-1">

@@ -3381,7 +3381,7 @@ app.get('/api/admin/plans', adminMiddleware, (req, res) => {
 // POST /api/admin/plans - Crear nuevo plan
 app.post('/api/admin/plans', adminMiddleware, (req, res) => {
   try {
-    const { plan_slug, plan_name, invites_included, generation_credits, iteration_credits, has_rsvp } = req.body;
+    const { plan_slug, plan_name, invites_included, generation_credits, iteration_credits, has_rsvp, price } = req.body;
 
     if (!plan_slug || !plan_name) {
       return res.status(400).json({ error: 'plan_slug y plan_name son requeridos' });
@@ -3393,15 +3393,16 @@ app.post('/api/admin/plans', adminMiddleware, (req, res) => {
     }
 
     db.prepare(`
-      INSERT INTO plan_config (plan_slug, plan_name, invites_included, generation_credits, iteration_credits, has_rsvp)
-      VALUES (?, ?, ?, ?, ?, ?)
+      INSERT INTO plan_config (plan_slug, plan_name, invites_included, generation_credits, iteration_credits, has_rsvp, price)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
     `).run(
       plan_slug,
       plan_name,
       invites_included ?? 1,
       generation_credits ?? 5,
       iteration_credits ?? 10,
-      has_rsvp ?? 0
+      has_rsvp ?? 0,
+      price === '' || price === null || price === undefined ? null : Number(price)
     );
 
     const plan = db.prepare('SELECT * FROM plan_config WHERE plan_slug = ?').get(plan_slug);
@@ -3416,7 +3417,7 @@ app.post('/api/admin/plans', adminMiddleware, (req, res) => {
 app.put('/api/admin/plans/:slug', adminMiddleware, (req, res) => {
   try {
     const { slug } = req.params;
-    const { plan_name, invites_included, generation_credits, iteration_credits, has_rsvp } = req.body;
+    const { plan_name, invites_included, generation_credits, iteration_credits, has_rsvp, price } = req.body;
 
     const existing = db.prepare('SELECT plan_slug FROM plan_config WHERE plan_slug = ?').get(slug);
     if (!existing) {
@@ -3431,6 +3432,7 @@ app.put('/api/admin/plans/:slug', adminMiddleware, (req, res) => {
     if (generation_credits !== undefined) { updates.push('generation_credits = ?'); values.push(generation_credits); }
     if (iteration_credits !== undefined) { updates.push('iteration_credits = ?'); values.push(iteration_credits); }
     if (has_rsvp !== undefined) { updates.push('has_rsvp = ?'); values.push(has_rsvp ? 1 : 0); }
+    if (price !== undefined) { updates.push('price = ?'); values.push(price === '' || price === null ? null : Number(price)); }
 
     if (updates.length === 0) {
       return res.status(400).json({ error: 'No hay campos para actualizar' });

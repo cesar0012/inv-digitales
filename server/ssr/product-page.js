@@ -255,21 +255,47 @@ export function renderProductPage(item, ctx = {}) {
   // Detectar módulos desde la invitación
   const modulos = detectarSecciones(ctx.invitationHtml || '');
 
-  // Meta
-  const title = stripDates(item.seo_title || item.title || 'Invitación digital');
-  const metaDesc = stripDates(item.meta_description || `Invitación digital de ${(item.event_type || 'celebración').toLowerCase()}. Personalízala en minutos y compártela por WhatsApp.`);
-  const h1Text = seo?.h1 || item.h1 || item.seo_title || item.title || 'Invitación digital';
+  // Meta — se limpia cualquier "[]" que el copy guardado arrastre (colors
+  // vacío serializado) para no mostrar símbolos sueltos al usuario.
+  const limpiarVacios = (s) => stripDates(s)
+    .replace(/invitaci[oó]n digital de invitaci[oó]n digital/gi, 'invitación digital')
+    .replace(/\s*\[\]\s*/g, ' ')
+    .replace(/\s+en\s+,/gi, ',')
+    .replace(/\bcombina\s*,/gi, 'combina')
+    .replace(/,\s*,/g, ',')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+  const title = limpiarVacios(item.seo_title || item.title || 'Invitación digital');
+  const metaDesc = limpiarVacios(item.meta_description || `Invitación digital de ${(item.event_type || 'celebración').toLowerCase()}. Personalízala en minutos y compártela por WhatsApp.`);
+  const h1Text = limpiarVacios(seo?.h1 || item.h1 || item.seo_title || item.title || 'Invitación digital');
   const h1 = esc(h1Text);
 
-  const eventoLabel = item.event_type || 'Invitación digital';
+  // Evento: si el event_type guardado es genérico ("Invitación digital",
+  // "General"…) se deriva del slug ("xv-anos/…" → "XV años") — evita el
+  // "invitación digital de invitación digital" por toda la página.
+  const EVENTO_DE_SLUG = { boda: 'Boda', 'xv-anos': 'XV años', bautizo: 'Bautizo', comunion: 'Primera comunión', confirmacion: 'Confirmación', 'baby-shower': 'Baby shower', cumpleanos: 'Cumpleaños', graduacion: 'Graduación' };
+  const esEventoGenerico = !item.event_type || /^(invitaci[oó]n digital|general|invitaci[oó]n|evento)$/i.test(item.event_type.trim());
   const eventoKey = eventKeyOf(item);
+  const eventoLabel = esEventoGenerico ? (EVENTO_DE_SLUG[eventoKey] || 'Invitación digital') : item.event_type;
   const eventoLow = eventoLabel.toLowerCase();
-  const colorsLabel = item.colors || '';
-  const styleTags = (parseJson(item.tags, []) || []).filter(Boolean);
-  const styleLabel = styleTags.length ? styleTags.map((t) => String(t).toLowerCase()).join(', ') : 'Elegante';
+  // colors viene como texto plano o como JSON ('[]' vacío, '["rosa","coral"]'):
+  // nunca se usa crudo — el "[]" se ve como símbolos raros en la página.
+  const parseListaColores = (raw) => {
+    if (!raw) return '';
+    const s = String(raw).trim();
+    if (!s || s === '[]' || s === '{}') return '';
+    if (/^[[{]/.test(s)) {
+      try { const v = JSON.parse(s); return Array.isArray(v) ? v.filter(Boolean).join(', ') : String(v || ''); } catch { return s; }
+    }
+    return s;
+  };
+  const colorsLabel = parseListaColores(item.colors);
+  const styleTags = (parseJson(item.tags, []) || []).filter(Boolean).map((t) => String(t).replace(/^\[+|\]+$/g, '').trim()).filter(Boolean);
+  const styleLabel = styleTags.length ? styleTags.map((t) => t.toLowerCase()).join(', ') : 'Elegante';
 
   // hero_summary: dos frases (qué es + qué encuentran los invitados)
   const heroSummary = stripTags(secHtml(1)) || `Esta invitación digital de ${eventoLow}${colorsLabel ? ` combina ${colorsLabel}` : ''}${item.theme ? ` con tema de ${item.theme.toLowerCase()}` : ''}. Tus invitados la abren desde un enlace de WhatsApp${modulos.keyLabel ? ` y encuentran ${modulos.keyLabel.toLowerCase()}` : ' y ven todos los datos de tu celebración'}.`;
+  const heroSummaryLimpia = limpiarVacios(heroSummary);
 
   // Planes, FAQ, related, explore
   const planes = getPlanes(db);
@@ -326,11 +352,14 @@ export function renderProductPage(item, ctx = {}) {
   const faqHtml = faqs.map((f) => `
         <details><summary><h3>${esc(f.q)}</h3></summary><p>${esc(f.a)}</p></details>`).join('\n');
 
+  const precioPlan = (p) => (p.price != null && p.price !== '' && !Number.isNaN(Number(p.price))
+    ? `$${Number(p.price).toLocaleString('es-MX', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`
+    : 'Consultar precio');
   const planesHtml = planes.map((p) => `
           <article class="plan${p.featured ? ' is-featured' : ''}">
             ${p.featured ? '<span class="badge">Recomendado</span>' : ''}
             <h3>${esc(p.name)}</h3>
-            <p class="price">${p.price ? esc(p.price) : 'Consultar precio'} <small>MXN</small></p>
+            <p class="price">${esc(precioPlan(p))} <small>MXN</small></p>
             <ul class="ticks">
               <li>1 invitación con este diseño</li>
               <li>${p.designs} diseños nuevos con IA</li>
@@ -426,7 +455,7 @@ ${exploreEvents.map((e) => `          <li><a href="${esc(e.url)}">${esc(e.label)
         <div>
           <span class="eyebrow">Invitación digital · ${esc(eventoLabel)}</span>
           <h1 id="h1" data-slot="copy.h1">${h1}</h1>
-          <p class="lead" data-slot="copy.hero_summary">${esc(heroSummary)}</p>
+          <p class="lead" data-slot="copy.hero_summary">${esc(heroSummaryLimpia)}</p>
 
           <ul class="chips" aria-label="Resumen del diseño">
             <li><b>Evento:</b> <span data-slot="taxonomy.event.label">${esc(eventoLabel)}</span></li>
@@ -748,15 +777,18 @@ function buildProductSchema(item, { h1, title, metaDesc, canonical, ogImage, faq
       brand: { '@type': 'Brand', name: BRAND_NAME },
       category: `Invitaciones digitales de ${(eventoLabel || 'celebración').toLowerCase()}`,
       ...(colorsLabel ? { color: colorsLabel } : {}),
-      // Una Offer por plan visible, SOLO con precio real (guía §8)
-      offers: planes.filter((p) => p.price).map((p) => ({
-        '@type': 'Offer',
-        name: p.name,
-        price: String(p.price),
-        priceCurrency: 'MXN',
-        availability: 'https://schema.org/InStock',
-        url: `${canonical}#planes`
-      }))
+      // Una Offer por plan visible, SOLO con precio real (guía §8); sin
+      // precios no se publica "offers":[] vacío
+      ...(planes.some((p) => p.price) ? {
+        offers: planes.filter((p) => p.price).map((p) => ({
+          '@type': 'Offer',
+          name: p.name,
+          price: String(p.price),
+          priceCurrency: 'MXN',
+          availability: 'https://schema.org/InStock',
+          url: `${canonical}#planes`
+        }))
+      } : {})
     }
   ];
   if (faqs.length) {

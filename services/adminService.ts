@@ -416,6 +416,7 @@ export interface PlanConfig {
   generation_credits: number;
   iteration_credits: number;
   has_rsvp: number;
+  price?: number | null;
   created_at: string;
 }
 
