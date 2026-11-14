@@ -5477,16 +5477,23 @@ app.get('/api/admin/rag-modules', adminMiddleware, (req, res) => {
     query += ' ORDER BY created_at DESC';
     
     const modules = db.prepare(query).all(...params);
-    
-    // Parsear JSON fields
+
+    // Parsear JSON fields — NUNCA crudos: una sola fila con texto no-JSON en
+    // alguna columna (imports manuales, uploads antiguos) tiraba el listado
+    // entero con "Unexpected token ..." y el admin quedaba en 0 módulos.
+    const safeParse = (raw, fb) => {
+      if (raw == null || raw === '') return fb;
+      if (typeof raw === 'object') return raw;
+      try { return JSON.parse(raw); } catch { return fb; }
+    };
     const parsed = modules.map(m => ({
       ...m,
-      tags: JSON.parse(m.tags || '[]'),
-      descripcion_larga: JSON.parse(m.descripcion_larga || ''),
-      theme_tags: JSON.parse(m.theme_tags || []),
-      color_palette: JSON.parse(m.color_palette || {}),
-      css_variables: JSON.parse(m.css_variables || {}),
-      memory_sources: JSON.parse(m.memory_sources || {})
+      tags: safeParse(m.tags, []),
+      descripcion_larga: safeParse(m.descripcion_larga, ''),
+      theme_tags: safeParse(m.theme_tags, []),
+      color_palette: safeParse(m.color_palette, {}),
+      css_variables: safeParse(m.css_variables, {}),
+      memory_sources: safeParse(m.memory_sources, {})
     }));
     
     res.json({ modules: parsed });

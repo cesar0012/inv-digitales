@@ -360,18 +360,24 @@ const queryRAGTemplate = async (eventType, theme) => {
 
     console.log('[RAG] Plantilla encontrada:', template.style_name);
 
-    // Parsear JSON fields
+    // Parsear JSON fields — seguro: texto no-JSON en una columna no puede
+    // tirar la generación ("Unexpected token ..." con imports corruptos)
+    const sp = (raw, fb) => {
+      if (raw == null || raw === '') return fb;
+      if (typeof raw === 'object') return raw;
+      try { return JSON.parse(raw); } catch { return fb; }
+    };
     return {
       ...template,
-      theme_tags: JSON.parse(template.theme_tags || '[]'),
-      color_palette: JSON.parse(template.color_palette || '{}'),
-      typography_scale: JSON.parse(template.typography_scale || '{}'),
-      layout_rules: JSON.parse(template.layout_rules || '{}'),
-      modules_def: JSON.parse(template.modules_def || '{}'),
-      base_cdns: JSON.parse(template.base_cdns || '[]'),
-      js_dependencies: JSON.parse(template.js_dependencies || '[]'),
-      animation_rules: JSON.parse(template.animation_rules || '{}'),
-      variation_params: JSON.parse(template.variation_params || '{}')
+      theme_tags: sp(template.theme_tags, []),
+      color_palette: sp(template.color_palette, {}),
+      typography_scale: sp(template.typography_scale, {}),
+      layout_rules: sp(template.layout_rules, {}),
+      modules_def: sp(template.modules_def, {}),
+      base_cdns: sp(template.base_cdns, []),
+      js_dependencies: sp(template.js_dependencies, []),
+      animation_rules: sp(template.animation_rules, {}),
+      variation_params: sp(template.variation_params, {})
     };
   } catch (error) {
     console.error('[RAG] Error query:', error);
@@ -1168,14 +1174,20 @@ const queryRAGModules = async (moduleType, tags = null, category = null, limit =
       console.log(`  - id=${m.id} "${m.style_name}" html=${m.html_content ? m.html_content.length : 0} chars`);
     });
 
-    // Parsear JSON fields
+    // Parsear JSON fields — seguro (este es el query que alimenta la
+    // generación: una fila corrupta dejaba el RAG sin módulos)
+    const sp = (raw, fb) => {
+      if (raw == null || raw === '') return fb;
+      if (typeof raw === 'object') return raw;
+      try { return JSON.parse(raw); } catch { return fb; }
+    };
     return modules.map(m => ({
       ...m,
-      tags: JSON.parse(m.tags || '[]'),
-      theme_tags: JSON.parse(m.theme_tags || []),
-      color_palette: JSON.parse(m.color_palette || {}),
-      css_variables: JSON.parse(m.css_variables || {}),
-      memory_sources: JSON.parse(m.memory_sources || {})
+      tags: sp(m.tags, []),
+      theme_tags: sp(m.theme_tags, []),
+      color_palette: sp(m.color_palette, {}),
+      css_variables: sp(m.css_variables, {}),
+      memory_sources: sp(m.memory_sources, {})
     }));
   } catch (error) {
     console.error('[RAG-MODULE] Error query:', error);

@@ -406,13 +406,20 @@ const queryRAGTemplateGemini = async (eventType, theme) => {
 
     if (!template) return null;
 
+    // Parseo seguro: una columna con texto no-JSON (imports manuales)
+    // tiraba la generación entera con "Unexpected token ..."
+    const sp = (raw, fb) => {
+      if (raw == null || raw === '') return fb;
+      if (typeof raw === 'object') return raw;
+      try { return JSON.parse(raw); } catch { return fb; }
+    };
     return {
       ...template,
-      theme_tags: JSON.parse(template.theme_tags || '[]'),
-      color_palette: JSON.parse(template.color_palette || '{}'),
-      typography_scale: JSON.parse(template.typography_scale || '{}'),
-      animation_rules: JSON.parse(template.animation_rules || '{}'),
-      variation_params: JSON.parse(template.variation_params || '{}')
+      theme_tags: sp(template.theme_tags, []),
+      color_palette: sp(template.color_palette, {}),
+      typography_scale: sp(template.typography_scale, {}),
+      animation_rules: sp(template.animation_rules, {}),
+      variation_params: sp(template.variation_params, {})
     };
   } catch (error) {
     console.error('[RAG] Error:', error);
