@@ -1128,50 +1128,149 @@ const generateImageWithNanoBanana = async (prompt, apiKey, model = 'gemini-3.1-f
 };
 
 /**
+ * Familia temática del rack: los sets se llaman metamorfosis, paris, bosque…
+ * pero el usuario pide "mariposas" o "torre Eiffel" en el brief. Este mapa
+ * traduce el lenguaje del usuario al nombre de la familia del rack para que
+ * la SELECCIÓN respete el tema pedido (antes: tags=null → siempre aleatorio
+ * y el usuario veía siempre el mismo set).
+ */
+const FAMILIA_ALIASES = {
+  metamorfosis: ['mariposa', 'mariposas', 'metamorfosis', 'alas de mariposa', 'polinizacion'],
+  paris: ['paris', 'parís', 'eiffel', 'francia', 'frances'],
+  bosque: ['bosque', 'forestal', 'hada', 'hadas', 'encantado', 'luciernaga', 'luciérnagas'],
+  vaquera: ['vaquera', 'vaquero', 'rancho', 'caballo', 'caballos', 'oeste', 'tejano'],
+  charra: ['charra', 'charro', 'charras', 'charros', 'mexicana', 'mexicano', 'mariachi'],
+  elegancia: ['elegante', 'elegancia', 'clasico', 'clásico', 'formal', 'sofisticado'],
+  estrellada: ['estrella', 'estrellas', 'noche estrellada', 'constelacion', 'constelación', 'estelar'],
+  invierno: ['invierno', 'nieve', 'hielo', 'copos', 'nevado'],
+  carnaval: ['carnaval', 'mascara', 'máscaras', 'venecia', 'veneciano'],
+  tropical: ['tropical', 'palmera', 'palmeras', 'jungla', 'isla', 'exotico', 'exótico'],
+  vinedo: ['viñedo', 'vinedo', 'uva', 'uvas', 'vendimia', 'vino', 'cepas'],
+  prisma: ['prisma', 'prismatico', 'prismático', 'cristal', 'cristalino'],
+  rustico: ['rustico', 'rústico', 'rústica', 'madera', 'campo', 'hacienda'],
+  acuarela: ['acuarela', 'acuarelas', 'pintado a mano', 'artistico', 'artístico'],
+  boho: ['boho', 'bohemio', 'bohemios', 'hippie'],
+  galaxia: ['galaxia', 'cosmos', 'espacial', 'planeta', 'nebulosa'],
+  gatsby: ['gatsby', 'años 20', 'anos 20', 'art deco', 'jazz', 'vintage fiesta'],
+  gotico: ['gotico', 'gótico', 'gótica', 'victoriano', 'oscuridad'],
+  cenicienta: ['cenicienta', 'cuento de hadas', 'princesa', 'castillo'],
+  cerezos: ['cerezo', 'cerezos', 'sakura', 'flor de cerezo', 'floracion'],
+  'bajo-el-mar': ['mar', 'submarino', 'sirena', 'sirenas', 'oceano', 'océano', 'acuatico', 'acuático', 'bajo el mar'],
+  aurum: ['aurum', 'dorado', 'oro', 'lujo dorado'],
+  neon: ['neon', 'neón', 'cyberpunk', 'futurista', 'led'],
+  orbita: ['orbita', 'órbita', 'astronauta', 'cohete'],
+  premium: ['premium', 'vanguardia', 'exclusivo']
+};
+
+export function detectarFamiliaTematica(...textos) {
+  const texto = textos.filter(Boolean).join(' ').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  if (!texto.trim()) return null;
+  let mejor = null;
+  let mejorPuntaje = 0;
+  for (const [familia, aliases] of Object.entries(FAMILIA_ALIASES)) {
+    let puntaje = 0;
+    for (const alias of aliases) {
+      const a = alias.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      // coincidencia por palabra completa (evita falso positivo "mar" en "mariposa")
+      const re = new RegExp(`(?:^|[^a-z0-9])${a.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:s)?(?:[^a-z0-9]|$)`, 'i');
+      if (re.test(texto)) puntaje += a.length; // alias más largo = señal más fuerte
+    }
+    if (puntaje > mejorPuntaje) { mejorPuntaje = puntaje; mejor = familia; }
+  }
+  return mejor;
+}
+
+/**
+ * Afinidad de evento por módulo (boda / xv / general), calculada con
+ * marcadores del propio HTML. Se calcula una vez por proceso y tras cada
+ * import (las filas nuevas llegan con NULL). La SELECCIÓN prefiere módulos
+ * de la afinidad del evento: un XV ya no recibe el módulo "Padre del Novio".
+ */
+let _affinityLista = false;
+export function asegurarEventAffinity() {
+  if (_affinityLista) return;
+  _affinityLista = true;
+  try {
+    db.exec(`ALTER TABLE knowledge_base_modules ADD COLUMN event_affinity TEXT`);
+  } catch { /* ya existe */ }
+  try {
+    db.prepare(`UPDATE knowledge_base_modules SET event_affinity = 'boda' WHERE event_affinity IS NULL AND (
+      html_content LIKE '%Padre del Novio%' OR html_content LIKE '%Madre del Novio%' OR
+      html_content LIKE '%Padres del novio%' OR html_content LIKE '%nuestra boda%' OR
+      html_content LIKE '%Nuestra Boda%' OR html_content LIKE '%nuestro matrimonio%' OR
+      html_content LIKE '%los novios%' OR html_content LIKE '%Los Novios%')`).run();
+    db.prepare(`UPDATE knowledge_base_modules SET event_affinity = 'xv' WHERE event_affinity IS NULL AND (
+      html_content LIKE '%quinceañera%' OR html_content LIKE '%Quinceañera%' OR
+      html_content LIKE '%Mis XV años%' OR html_content LIKE '%mis quince años%' OR
+      html_content LIKE '%Chambelanes%' OR html_content LIKE '%chambelanes%')`).run();
+    db.prepare(`UPDATE knowledge_base_modules SET event_affinity = 'general' WHERE event_affinity IS NULL`).run();
+    const conteo = db.prepare(`SELECT event_affinity a, COUNT(*) n FROM knowledge_base_modules GROUP BY event_affinity`).all();
+    console.log('[RAG-MODULE] Afinidad de evento por módulo:', JSON.stringify(conteo));
+  } catch (e) {
+    _affinityLista = false;
+    console.error('[RAG-MODULE] Error calculando afinidad:', e.message);
+  }
+}
+
+/**
  * Query módulos por tipo desde knowledge_base_modules
  */
-const queryRAGModules = async (moduleType, tags = null, category = null, limit = 5) => {
+const queryRAGModules = async (moduleType, tags = null, category = null, limit = 5, familia = null, affinity = null) => {
   try {
-    let query = `
+    asegurarEventAffinity();
+
+    const BASE = `
       SELECT id, module_id, module_type, style_name, description, tags,
              theme_tags, color_palette, css_variables, memory_sources,
-             category, html_content, html_size
-      FROM knowledge_base_modules 
+             category, filename, event_affinity, html_content, html_size
+      FROM knowledge_base_modules
       WHERE is_active = 1 AND module_type = ?
     `;
-    const params = [moduleType];
 
-    if (category && category !== 'general') {
-      query += ' AND category = ?';
-      params.push(category);
-    }
+    const correr = (conFamilia, conAffinity) => {
+      let query = BASE;
+      const params = [moduleType];
+      if (category && category !== 'general') { query += ' AND category = ?'; params.push(category); }
+      if (tags) {
+        const tagList = tags.split(',').map(t => t.trim()).filter(Boolean);
+        if (tagList.length) {
+          query += ` AND (${tagList.map(() => "tags LIKE ? OR style_name LIKE ? OR filename LIKE ?").join(' OR ')})`;
+          tagList.forEach(tag => { params.push(`%"${tag}"%`, `%${tag}%`, `%${tag}%`); });
+        }
+      }
+      // Tema pedido por el usuario (p.ej. "mariposas" → familia metamorfosis):
+      // los módulos del set elegido tienen style_name "familia · tipo" y
+      // filename "sets-fotos/…-familia/…".
+      if (conFamilia && familia) {
+        query += ' AND (style_name LIKE ? OR filename LIKE ?)';
+        params.push(`${familia} ·%`, `%${familia}%`);
+      }
+      // Afinidad de evento: un XV prefiere módulos de XV; una boda, de boda.
+      // 'general' siempre es elegible (el vocabulario se adapta en runtime).
+      if (conAffinity && affinity) {
+        query += " AND (event_affinity IS NULL OR event_affinity IN ('general', ?))";
+        params.push(affinity);
+      }
+      query += ' ORDER BY RANDOM() LIMIT ?';
+      params.push(limit);
+      return db.prepare(query).all(...params);
+    };
 
-    if (tags) {
-      const tagList = tags.split(',').map(t => t.trim());
-      const tagConditions = tagList.map(() => 'tags LIKE ?').join(' OR ');
-      query += ` AND (${tagConditions})`;
-      tagList.forEach(tag => {
-        params.push(`%"${tag}"%`);
-      });
-    }
+    // Cadena de fallback: tema+afinidad → afinidad → tema → todo. Nunca se
+    // queda sin candidatos por ser demasiado estricto.
+    let modules = familia && affinity ? correr(true, true) : [];
+    if ((!modules || !modules.length) && affinity) modules = correr(false, true);
+    if ((!modules || !modules.length) && familia) modules = correr(true, false);
+    if (!modules || !modules.length) modules = correr(false, false);
 
-    query += ' ORDER BY RANDOM() LIMIT ?';
-    params.push(limit);
-
-    console.log('[RAG-MODULE] SQL:', query.replace(/\s+/g, ' ').trim());
-    console.log('[RAG-MODULE] Params:', JSON.stringify(params));
-
-    const modules = db.prepare(query).all(...params);
-    console.log(`[RAG-MODULE] Rows: ${modules ? modules.length : 0} for module_type="${moduleType}"`);
-
+    console.log(`[RAG-MODULE] type="${moduleType}" familia=${familia || '-'} afinidad=${affinity || '-'} → ${modules ? modules.length : 0} candidato(s)`);
     if (!modules || modules.length === 0) {
       console.log(`[RAG-MODULE] No se encontraron módulos para module_type="${moduleType}"`);
       return [];
     }
 
-    console.log(`[RAG-MODULE] ${modules.length} módulo(s) encontrado(s) para "${moduleType}":`);
     modules.forEach(m => {
-      console.log(`  - id=${m.id} "${m.style_name}" html=${m.html_content ? m.html_content.length : 0} chars`);
+      console.log(`  - id=${m.id} "${m.style_name}" (${m.event_affinity || '?'}) html=${m.html_content ? m.html_content.length : 0} chars`);
     });
 
     // Parsear JSON fields — seguro (este es el query que alimenta la
@@ -2762,9 +2861,17 @@ export const runModularOrchestration = async (prompt, apiKey, model = 'gemini-3.
   console.log(`\n[Módular] Seleccionando y adaptando ${requiredModules.length} módulo(s) en paralelo (concurrencia ${MODULAR_CONCURRENCY})...`);
   const perfSelStart = Date.now();
 
+  // Tema del usuario → familia del rack (una sola vez para TODOS los
+  // módulos: coherencia de set) + afinidad de evento (xv/boda).
+  const familiaTematica = detectarFamiliaTematica(prompt, theme, visualStyle, mood, promptInstruction);
+  const { eventoKeyDe } = await import('./eventDataSchema.js');
+  const keyEvento = eventoKeyDe(eventType);
+  const afinidadEvento = keyEvento === 'xv' ? 'xv' : keyEvento.startsWith('boda') ? 'boda' : null;
+  console.log(`[Módular] Familia temática: ${familiaTematica || '(sin detección — aleatorio)'} | Afinidad: ${afinidadEvento || 'cualquiera'}`);
+
   const moduleChains = requiredModules.map((moduleType) => async () => {
     console.log(`[Módular][${moduleType}] Buscando módulo...`);
-    const candidates = await queryRAGModules(moduleType, null, null, 5);
+    const candidates = await queryRAGModules(moduleType, null, null, 5, familiaTematica, afinidadEvento);
 
     let selected = null;
     if (candidates.length === 0) {

@@ -4322,11 +4322,12 @@ ${moduleHtml}`;
 
     console.log('✅ Módulo iterado generado, length:', cleaned.length);
 
-    // Vocabulario por evento: la iteración parte de módulos del rack que
-    // nacieron como diseños de XV ("Mis XV años", "la quinceañera"…). Si el
-    // evento de la invitación es otro, se reescribe antes de devolverlo.
+    // Vocabulario por evento (bidireccional): la iteración parte de módulos
+    // del rack que pueden ser XV ("Mis XV años") o boda ("Padre del Novio").
+    // Si el evento de la invitación no coincide, se reescribe antes de
+    // devolver el módulo.
     try {
-      if (evt && /quincea[nñ]er|chambel|vals\b|mis\s+(xv|quince|15)\s+a[nñ]os/i.test(cleaned)) {
+      if (evt && (/quincea[nñ]er|chambel|\bvals\b|mis\s+(?:xv|quince|15)\b|\bquince\s+a[nñ]os|\bnovias?\b|\bnovios?\b|\besposos\b|nuestra\s+boda|nuestro\s+matrimonio/i.test(cleaned))) {
         const { document: docIter } = parseHTML(`<!DOCTYPE html><html><body>${cleaned}</body></html>`);
         const ajustesIter = adaptarVocabularioEvento(docIter, evt);
         if (ajustesIter.length) {
@@ -4690,13 +4691,14 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
       console.error('Error guardando metadata:', metaError);
     }
     
-    // Vocabulario por evento: los módulos del rack (sets 27+) nacieron como
-    // diseños de XV y dicen "Mis XV años" / "la quinceañera" / "Chambelanes".
-    // Se adapta TODO el HTML generado al evento elegido ANTES de devolverlo,
-    // para que la primera vista ya sea coherente con la selección del usuario.
+    // Vocabulario por evento (BIDIRECCIONAL): los módulos del rack mezclan
+    // diseños XV ("Mis XV años", "la quinceañera") y de boda ("Padre del
+    // Novio", "Nuestra boda"). Se adapta TODO el HTML generado al evento
+    // elegido ANTES de devolverlo — así el historial ya se ve coherente.
     try {
       const evtGen = editorConfig?.eventType || '';
-      if (evtGen && /quincea[nñ]er|chambel|vals\b|mis\s+(xv|quince|15)\s+a[nñ]os/i.test(htmlResult)) {
+      const HUELLA_MIXTA = /quincea[nñ]er|chambel|\bvals\b|mis\s+(?:xv|quince|15)\b|\bquince\s+a[nñ]os|\bnovias?\b|\bnovios?\b|\besposos\b|nuestra\s+boda|nuestro\s+matrimonio/i;
+      if (evtGen && HUELLA_MIXTA.test(htmlResult)) {
         const { document: docGen } = parseHTML(/^<!DOCTYPE/i.test(htmlResult) || /<html[\s>]/i.test(htmlResult)
           ? htmlResult
           : `<!DOCTYPE html><html><body>${htmlResult}</body></html>`);

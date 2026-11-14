@@ -624,12 +624,27 @@ export function adaptContextoEvento(doc, schema, data = {}) {
 
 // ---------------------------------------------------------------------------
 // 2d. Adaptación de VOCABULARIO por tipo de evento (determinista, sin IA).
-// Los módulos del rack (sets 27+) nacieron como diseños de XV: dicen
-// "Mis XV años", "la quinceañera", "Chambelanes", "vals". Cuando el evento
-// elegido es boda/bautizo/baby shower/etc., ese vocabulario se reescribe al
-// equivalente del evento para que el usuario nunca vea un texto que
-// contradiga su selección. Idempotente: si ya está adaptado, no cambia nada.
+// BIDIRECCIONAL — el rack mezcla dos orígenes:
+//   · Diseños XV (sets 27+): dicen "Mis XV años", "la quinceañera"…
+//   · Diseños boda (universal, elegancia…): dicen "Padre del Novio",
+//     "Nuestra boda", "los novios"…
+// Sea cual sea el módulo elegido, el texto visible se reescribe al
+// vocabulario del evento seleccionado. Idempotente.
 // ---------------------------------------------------------------------------
+// Perfil INVERSO (vocabulario de boda → evento de UN festejado). xv también:
+// una generación de XV que recibe el módulo "Padre del Novio" debe leer
+// "Papá de la quinceañera" y ocultar la familia del lado del novio.
+const VOCAB_BODA_A_EVENTO = {
+  xv:           { titulo: 'Mis XV años',         protagonista: 'la quinceañera',  rol: (r) => (r === 'madre' ? 'Mamá de la quinceañera' : 'Papá de la quinceañera') },
+  bautizo:      { titulo: 'Mi bautizo',          protagonista: 'el bebé',         rol: (r) => (r === 'madre' ? 'Mamá' : 'Papá') },
+  comunion:     { titulo: 'Mi primera comunión', protagonista: 'la celebrante',   rol: (r) => (r === 'madre' ? 'Mamá' : 'Papá') },
+  confirmacion: { titulo: 'Mi confirmación',     protagonista: 'la celebrante',   rol: (r) => (r === 'madre' ? 'Mamá' : 'Papá') },
+  baby_shower:  { titulo: 'Mi baby shower',      protagonista: 'la mamá',         rol: (r) => (r === 'madre' ? 'Mamá' : 'Papá') },
+  cumpleanos:   { titulo: 'Mi cumpleaños',       protagonista: 'el cumpleañero',  rol: (r) => (r === 'madre' ? 'Mamá' : 'Papá') },
+  otro:         { titulo: 'Mi celebración',      protagonista: 'el festejado',    rol: (r) => (r === 'madre' ? 'Mamá' : 'Papá') }
+};
+const _esEventoDeUnFestejado = (key) => !!VOCAB_BODA_A_EVENTO[key]; // todo menos boda*
+
 const _mismoCase = (ejemplo, texto) => {
   if (ejemplo === ejemplo.toUpperCase() && /[A-ZÁÉÍÓÚÑ]/.test(ejemplo)) return texto.toUpperCase();
   if (/^[a-záéíóúñ]/.test(ejemplo)) return texto.charAt(0).toLowerCase() + texto.slice(1);
@@ -637,30 +652,47 @@ const _mismoCase = (ejemplo, texto) => {
 };
 
 const _HUELLA_XV = /quincea[nñ]er|chambel|\bvals\b|\bmis\s+(?:xv|quince|15)\b|\bquince\s+a[nñ]os/i;
+// Huella de vocabulario de BODA en texto (para el pase inverso)
+const _HUELLA_BODA = /\bnovias?\b|\bnovios?\b|\besposos\b|nuestra\s+boda|nuestro\s+matrimonio|\bla\s+boda\b/i;
 
 export function adaptarVocabularioEvento(doc, eventType) {
   const cambios = [];
-  const perfil = VOCAB_EVENTO[eventoKeyDe(eventType)];
-  if (!perfil) return cambios; // XV (o sin perfil): el vocabulario ya es correcto
+  const key = eventoKeyDe(eventType);
+  const perfil = VOCAB_EVENTO[key];              // pase directo: módulos XV → evento
+  const reverso = VOCAB_BODA_A_EVENTO[key];      // pase inverso: módulos boda → evento
+  if (!perfil && !reverso) return cambios;       // boda: ambas direcciones no aplican
 
-  const reglas = [
-    // "Mis XV años" / "mis quince años" / "mis 15 años" → título del evento
-    [/mis\s+(?:xv|quince|15)\s+a[nñ]os/gi, (m) => _mismoCase(m, perfil.titulo)],
-    // "celebrar mis quince." / "hacia mis quince" / "Faltan para mis XV"
-    // (sin la palabra "años")
-    [/\bmis\s+(?:xv|quince|15)\b(?!\s*a[nñ]os)/gi, (m) => _mismoCase(m, perfil.titulo)],
-    // "tardan quince años en desplegar" → el número sobra en otros eventos
-    [/quince\s+(a[nñ]os)/gi, (m, anios) => anios],
-    // "la quinceañera" / "La Quinceañera" → artículo + sustantivo del evento
-    [/(la)\s+(quincea[nñ]era)/gi, (m, art, sust) => `${_mismoCase(art, perfil.articulo)} ${_mismoCase(sust, perfil.sustantivo)}`],
-    // "de quinceañera", "Quinceañera" suelto (alt, frases) → sustantivo
-    [/quincea[nñ]era/gi, (m) => _mismoCase(m, perfil.sustantivo)],
-    // "Chambelanes"/"chambelán" → etiqueta de corte del evento
-    [/chambelanes/gi, (m) => _mismoCase(m, perfil.chambelanes)],
-    [/chambel[aá]n/gi, (m) => _mismoCase(m, perfil.chambelan)],
-    // "vals" → "baile" solo en eventos sin vals (boda y XV lo conservan)
-    ...(perfil.vals ? [[/\bvals\b/gi, (m) => _mismoCase(m, perfil.vals)]] : [])
-  ];
+  const reglas = [];
+  if (perfil) {
+    reglas.push(
+      // "Mis XV años" / "mis quince años" / "mis 15 años" → título del evento
+      [/mis\s+(?:xv|quince|15)\s+a[nñ]os/gi, (m) => _mismoCase(m, perfil.titulo)],
+      // "celebrar mis quince." / "hacia mis quince" / "Faltan para mis XV"
+      [/\bmis\s+(?:xv|quince|15)\b(?!\s*a[nñ]os)/gi, (m) => _mismoCase(m, perfil.titulo)],
+      // "tardan quince años en desplegar" → el número sobra en otros eventos
+      [/quince\s+(a[nñ]os)/gi, (m, anios) => anios],
+      // "la quinceañera" → artículo + sustantivo del evento
+      [/(la)\s+(quincea[nñ]era)/gi, (m, art, sust) => `${_mismoCase(art, perfil.articulo)} ${_mismoCase(sust, perfil.sustantivo)}`],
+      // "de quinceañera", "Quinceañera" suelto (alt, frases) → sustantivo
+      [/quincea[nñ]era/gi, (m) => _mismoCase(m, perfil.sustantivo)],
+      // "Chambelanes"/"chambelán" → etiqueta de corte del evento
+      [/chambelanes/gi, (m) => _mismoCase(m, perfil.chambelanes)],
+      [/chambel[aá]n/gi, (m) => _mismoCase(m, perfil.chambelan)],
+      // "vals" → "baile" solo en eventos sin vals (boda y XV lo conservan)
+      ...(perfil.vals ? [[/\bvals\b/gi, (m) => _mismoCase(m, perfil.vals)]] : [])
+    );
+  }
+  if (reverso) {
+    reglas.push(
+      // "Nuestra boda" / "nuestro matrimonio" / "la boda" → título del evento
+      [/\b(?:nuestra\s+boda|nuestro\s+matrimonio|la\s+boda)\b/gi, (m) => _mismoCase(m, reverso.titulo)],
+      // "los novios" / "los esposos" → protagonista del evento
+      [/\blos\s+(?:novios|esposos)\b/gi, (m) => _mismoCase(m, reverso.protagonista)],
+      // "la novia" / "el novio" → protagonista del evento
+      [/\bla\s+novia\b/gi, (m) => _mismoCase(m, reverso.protagonista)],
+      [/\bel\s+novio\b/gi, (m) => _mismoCase(m, reverso.protagonista)]
+    );
+  }
 
   const reescribir = (texto) => {
     let out = texto;
@@ -671,14 +703,69 @@ export function adaptarVocabularioEvento(doc, eventType) {
     return n ? { texto: out, n } : null;
   };
 
+  // 0) Pase ESTRUCTURAL primero (solo eventos de UN festejado): los módulos
+  //    de boda traen dos familias ("Padre del Novio" / "Madre de la Novia"…).
+  //    El bloque del lado del novio se OCULTA y los rótulos del lado que se
+  //    queda se reescriben al rol del evento ("Papá de la quinceañera").
+  //    Corre ANTES que el walker de texto para que los rótulos queden bien
+  //    formados (si no, "Padre de la Novia" → "Padre de el bebé").
+  if (reverso) {
+    const RE_ROL = /^(?:el\s+|la\s+|los\s+|las\s+)?(?:padres?|papá|papa|papás|papas|madre|mamá|mamás)\s+(?:del\s+|de\s+la\s+)(novio|novia)$/i;
+    const esRol = (t) => RE_ROL.test(String(t || '').trim());
+    const ladoDe = (t) => (/novio\b/i.test(t) ? 'novio' : 'novia');
+    const SEL_ROL = 'p,span,h3,h4,h5,li,b,em,strong,small,div';
+    try {
+      doc.querySelectorAll(SEL_ROL).forEach((el) => {
+        if (el.children && el.children.length) return;
+        const t = (el.textContent || '').trim();
+        // subtítulo combinado "Padres del novio y de la novia" → título único
+        if (/^(?:nuestros\s+|los\s+)?(?:padres|papás)\s+del\s+novio\s+y\s+(?:de\s+la\s+)?novia$/i.test(t)) {
+          el.textContent = 'Mis papás';
+          cambios.push('padres: subtítulo combinado → Mis papás');
+          return;
+        }
+        if (!esRol(t)) return;
+        if (ladoDe(t) === 'novio') {
+          // Subir hasta la TARJETA repetidora: el ancestro cuyo PADRE contiene
+          // dos o más rótulos de rol (la otra tarjeta hermana). Al ocultar la
+          // tarjeta se van también su foto y su campo de nombre; si no hay
+          // frontera clara, se oculta el propio rótulo.
+          const cuentaRoles = (x) => Array.from(x.querySelectorAll(SEL_ROL)).filter((h) => h !== el && !h.contains(el) && !el.contains(h) && !h.children.length && esRol((h.textContent || '').trim())).length;
+          let n = el, pasos = 0, ocultado = false;
+          while (n.parentElement && pasos++ < 10) {
+            if (cuentaRoles(n.parentElement) >= 1) { n.style.display = 'none'; ocultado = true; break; }
+            n = n.parentElement;
+          }
+          if (!ocultado) el.style.display = 'none';
+          cambios.push('padres: bloque del lado del novio oculto');
+        } else {
+          const nuevo = reverso.rol(/madre|mamá/i.test(t) ? 'madre' : 'padre');
+          if (t !== nuevo) { el.textContent = nuevo; cambios.push('padres: rótulo → ' + nuevo); }
+        }
+      });
+      // títulos plurales de dos familias → un solo festejado
+      doc.querySelectorAll('h2,h3').forEach((el) => {
+        if (el.children && el.children.length) return;
+        const t = (el.textContent || '').trim();
+        if (/^(?:nuestros|los)\s+padres/i.test(t) && el.style.display !== 'none') {
+          el.textContent = 'Mis papás';
+          cambios.push('padres: título → Mis papás');
+        }
+      });
+    } catch { /* DOM limitado */ }
+  }
+
   // 1) Nodos de texto (nunca dentro de <script>/<style>: ahí vive la
   //    metada del módulo, invisible para el usuario)
   const SKIP = new Set(['SCRIPT', 'STYLE']);
+  const huella = perfil && reverso
+    ? (t) => _HUELLA_XV.test(t) || _HUELLA_BODA.test(t)
+    : perfil ? (t) => _HUELLA_XV.test(t) : (t) => _HUELLA_BODA.test(t);
   const caminar = (nodo) => {
     for (const hijo of Array.from(nodo.childNodes || [])) {
       if (hijo.nodeType === 3) {
         const t = hijo.textContent || '';
-        if (!t.trim() || !_HUELLA_XV.test(t)) continue;
+        if (!t.trim() || !huella(t)) continue;
         const r = reescribir(t);
         if (r) { hijo.textContent = r.texto; cambios.push(t.trim().slice(0, 40) + ' → ' + r.texto.trim().slice(0, 40)); }
       } else if (hijo.nodeType === 1 && !SKIP.has(String(hijo.nodeName || '').toUpperCase())) {
@@ -705,7 +792,7 @@ export function adaptarVocabularioEvento(doc, eventType) {
         const esVisible = nombre === 'alt' || nombre === 'title' || nombre === 'placeholder' || nombre === 'aria-label' || /^data-/.test(nombre);
         if (!esVisible || ATTR_IGNORADOS.has(nombre)) continue;
         const v = attr.value || '';
-        if (!_HUELLA_XV.test(v)) continue;
+        if (!(perfil && _HUELLA_XV.test(v)) && !(reverso && _HUELLA_BODA.test(v))) continue;
         const r = reescribir(v);
         if (r) { el.setAttribute(nombre, r.texto); cambios.push(`@${nombre}: ` + v.slice(0, 40)); }
       }
