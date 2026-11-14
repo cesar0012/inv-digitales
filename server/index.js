@@ -5481,15 +5481,25 @@ app.get('/api/admin/rag-modules', adminMiddleware, (req, res) => {
     // Parsear JSON fields — NUNCA crudos: una sola fila con texto no-JSON en
     // alguna columna (imports manuales, uploads antiguos) tiraba el listado
     // entero con "Unexpected token ..." y el admin quedaba en 0 módulos.
+    // OJO: descripcion_larga es un campo de TEXTO legítimo (los sets traen la
+    // descripción en plano, p.ej. "Portada amanecer en las montañas…"), NO se
+    // parsea: si viene entrecomillada como JSON se desenvuelve, si no se
+    // entrega tal cual.
     const safeParse = (raw, fb) => {
       if (raw == null || raw === '') return fb;
       if (typeof raw === 'object') return raw;
       try { return JSON.parse(raw); } catch { return fb; }
     };
+    const textoDescripcion = (raw) => {
+      if (raw == null || raw === '') return '';
+      const t = String(raw);
+      if (t.startsWith('"')) { try { return JSON.parse(t); } catch { /* plano */ } }
+      return t;
+    };
     const parsed = modules.map(m => ({
       ...m,
       tags: safeParse(m.tags, []),
-      descripcion_larga: safeParse(m.descripcion_larga, ''),
+      descripcion_larga: textoDescripcion(m.descripcion_larga),
       theme_tags: safeParse(m.theme_tags, []),
       color_palette: safeParse(m.color_palette, {}),
       css_variables: safeParse(m.css_variables, {}),
