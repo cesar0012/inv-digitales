@@ -357,14 +357,12 @@ export function renderProductPage(item, ctx = {}) {
   const faqHtml = faqs.map((f) => `
         <details><summary><h3>${esc(f.q)}</h3></summary><p>${esc(f.a)}</p></details>`).join('\n');
 
-  const precioPlan = (p) => (p.price != null && p.price !== '' && !Number.isNaN(Number(p.price))
-    ? `$${Number(p.price).toLocaleString('es-MX', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`
-    : 'Consultar precio');
+  // Sin precio en las cards: el precio se consulta en la página de planes
+  // (https://app.invitacionesmodernas.com/app/planes), a donde lleva el botón.
   const planesHtml = planes.map((p) => `
           <article class="plan${p.featured ? ' is-featured' : ''}">
             ${p.featured ? '<span class="badge">Recomendado</span>' : ''}
             <h3>${esc(p.name)}</h3>
-            <p class="price">${esc(precioPlan(p))} <small>MXN</small></p>
             <ul class="ticks">
               <li>1 invitación con este diseño</li>
               <li>${p.designs} diseños nuevos con IA</li>
@@ -781,19 +779,10 @@ function buildProductSchema(item, { h1, title, metaDesc, canonical, ogImage, faq
       ...(ogImage ? { image: { '@id': `${canonical}#primaryimage` } } : {}),
       brand: { '@type': 'Brand', name: BRAND_NAME },
       category: `Invitaciones digitales de ${(eventoLabel || 'celebración').toLowerCase()}`,
-      ...(colorsLabel ? { color: colorsLabel } : {}),
-      // Una Offer por plan visible, SOLO con precio real (guía §8); sin
-      // precios no se publica "offers":[] vacío
-      ...(planes.some((p) => p.price) ? {
-        offers: planes.filter((p) => p.price).map((p) => ({
-          '@type': 'Offer',
-          name: p.name,
-          price: String(p.price),
-          priceCurrency: 'MXN',
-          availability: 'https://schema.org/InStock',
-          url: `${canonical}#planes`
-        }))
-      } : {})
+      ...(colorsLabel ? { color: colorsLabel } : {})
+      // Sin offers: las cards no muestran precio (se consulta en la página
+      // de planes) y la guía §8 exige que sin precio en la página no haya
+      // Offer en el schema.
     }
   ];
   if (faqs.length) {
