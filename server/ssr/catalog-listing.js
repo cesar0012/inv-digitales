@@ -189,7 +189,7 @@ ${crumbs}
         <h2 id="grid-h" style="text-align:center">${isCategory ? `Diseños de ${esc(eventLabel.toLowerCase())}` : 'Diseños disponibles'}</h2>
         <div class="rule" style="margin:0 auto 20px"></div>
         <p style="text-align:center;color:var(--ink-soft);max-width:520px;margin:0 auto 40px">Elige un diseño y personalízalo con tus datos, o crea uno nuevo con IA desde cero.</p>
-        <div class="cards">
+        <div class="cards cards--catalog">
           ${cards || `<p style="text-align:center;color:var(--ink-soft);grid-column:1/-1">Aún no hay invitaciones destacadas en el catálogo.</p>`}
         </div>
       </div>

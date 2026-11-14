@@ -146,6 +146,9 @@ button{font:inherit;cursor:pointer}
 
 /* Similar cards */
 .cards{display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+/* Grid del listado del catálogo ("Diseños disponibles"): 3 por línea —
+   cards más anchas y menos estiradas verticalmente */
+@media(min-width:880px){.cards--catalog{grid-template-columns:repeat(3,1fr)}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
 .card img{aspect-ratio:4/5;object-fit:cover;width:100%;background:var(--bg-alt)}
 .card-body{padding:16px 18px 20px}
