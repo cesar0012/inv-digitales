@@ -1372,6 +1372,21 @@ function extractMetadataFromHTML(htmlContent) {
   return { title, eventType, theme, colors, tags, primaryColor, secondaryColor };
 }
 
+// Texto seguro de un nodo: los selectores por PREFIJO (data-gemini-id^=)
+// pueden caer en contenedores cuyo textContent arrastra <style> completos y
+// MB de HTML. Aquí se baja al primer descendiente con texto corto y limpio
+// (un dato real de usuario nunca pasa de ~300 caracteres ni contiene CSS).
+function safeText(el, max = 300) {
+  if (!el) return '';
+  const candidatos = [el, ...el.querySelectorAll('h1,h2,h3,h4,h5,h6,span,p,b,strong,em,i,a,div')];
+  for (const n of candidatos) {
+    if (/^(STYLE|SCRIPT)$/i.test(n.nodeName || '')) continue;
+    const t = (n.textContent || '').replace(/\s+/g, ' ').trim();
+    if (t && t.length <= max && !/[{};]/.test(t.slice(0, 80))) return t;
+  }
+  return '';
+}
+
 function extractUserDataFromHTML(htmlContent) {
   const userData = {
     names: '',
@@ -1398,8 +1413,9 @@ function extractUserDataFromHTML(htmlContent) {
     ];
     for (const sel of nameSelectors) {
       const el = document.querySelector(sel);
-      if (el && el.textContent && el.textContent.trim()) {
-        userData.names = el.textContent.trim();
+      const t = safeText(el);
+      if (t) {
+        userData.names = t;
         break;
       }
     }
@@ -1442,25 +1458,25 @@ function extractUserDataFromHTML(htmlContent) {
 
     // Ubicacion: ubicacion-ceremonia, ubicacion-recepcion
     const ceremonyEl = document.querySelector('[data-gemini-id^="ubicacion-ceremonia"]');
-    if (ceremonyEl) userData.ceremonyLocation = (ceremonyEl.textContent || '').trim();
+    userData.ceremonyLocation = safeText(ceremonyEl);
     const receptionEl = document.querySelector('[data-gemini-id^="ubicacion-recepcion"]');
-    if (receptionEl) userData.receptionLocation = (receptionEl.textContent || '').trim();
+    userData.receptionLocation = safeText(receptionEl);
 
     // Padres: padres-padre, padres-novia, padres-novio
     const padreEl = document.querySelector('[data-gemini-id^="padres-padre"], [data-gemini-id^="padres-novia"], [data-gemini-id^="padres-novio"]');
-    if (padreEl) userData.parents = (padreEl.textContent || '').trim();
+    userData.parents = safeText(padreEl);
 
     // Padrinos: padrinos-*
     const padrinoEl = document.querySelector('[data-gemini-id^="padrinos"]');
-    if (padrinoEl) userData.godparents = (padrinoEl.textContent || '').trim();
+    userData.godparents = safeText(padrinoEl);
 
     // Vestimenta: detalles-vestimenta
     const vestimentaEl = document.querySelector('[data-gemini-id^="detalles-vestimenta"]');
-    if (vestimentaEl) userData.dressCode = (vestimentaEl.textContent || '').trim();
+    userData.dressCode = safeText(vestimentaEl);
 
     // Regalo: detalles-regalo
     const regaloEl = document.querySelector('[data-gemini-id^="detalles-regalo"]');
-    if (regaloEl) userData.giftRegistry = (regaloEl.textContent || '').trim();
+    userData.giftRegistry = safeText(regaloEl);
   } catch (e) {
     console.error('Error extrayendo userData del HTML:', e);
   }
@@ -1633,6 +1649,48 @@ const isAdminRequest = (req) => {
   return !!db.prepare('SELECT admin_id FROM admin_sessions WHERE token = ? AND expires_at > ?').get(token, new Date().toISOString());
 };
 
+// Reparación de user_data envenenado: el extractor antiguo (textContent de
+// contenedores con <style>) guardó CSS/HTML completos en los campos de datos
+// — filas con 4-8MB en user_data hacían que el listado del historial tardara
+// MINUTOS (respuesta de decenas de MB). Se conserva solo lo que parece un
+// dato real (texto corto sin CSS). Idempotente y barato tras la primera vez.
+function repararUserDataCatalogo() {
+  try {
+    const rows = db.prepare('SELECT id, user_data FROM catalogo WHERE LENGTH(user_data) > 2000').all();
+    for (const r of rows) {
+      try {
+        const ud = JSON.parse(r.user_data || '{}');
+        let cambiado = false;
+        for (const k of Object.keys(ud)) {
+          if (typeof ud[k] === 'string' && ud[k].length > 500) { ud[k] = ''; cambiado = true; }
+        }
+        if (cambiado) {
+          db.prepare('UPDATE catalogo SET user_data = ? WHERE id = ?').run(JSON.stringify(ud), r.id);
+          console.log(`🧹 user_data reparado en catalogo id=${r.id}`);
+        }
+      } catch { /* JSON inválido: se deja tal cual */ }
+    }
+  } catch (e) {
+    console.error('Error reparando user_data:', e);
+  }
+}
+repararUserDataCatalogo();
+
+// Nunca enviar campos de user_data gigantes en el listado (segunda barrera:
+// aunque vuelva a colarse basura, la respuesta no puede volver a inflarse).
+const sanitizarUserDataLista = (raw) => {
+  if (!raw) return null;
+  try {
+    const ud = JSON.parse(raw);
+    const out = {};
+    for (const k of Object.keys(ud)) {
+      const v = ud[k];
+      out[k] = typeof v === 'string' && v.length > 500 ? '' : v;
+    }
+    return JSON.stringify(out);
+  } catch { return null; }
+};
+
 app.get('/api/catalogo', (req, res) => {
   try {
     syncHistoricoWithDB();
@@ -1660,7 +1718,7 @@ app.get('/api/catalogo', (req, res) => {
       event_domain: inv.event_domain || null,
       event_date: inv.event_date || null,
       event_time: inv.event_time || null,
-      user_data: admin ? (inv.user_data || null) : null,
+      user_data: admin ? sanitizarUserDataLista(inv.user_data) : null,
       slug: inv.slug || null
     }));
     res.json({ invitaciones });
