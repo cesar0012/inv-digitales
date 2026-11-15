@@ -4136,7 +4136,10 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '..', 'dist')));
   // Imagen og:image por defecto para páginas de producto (si existe el asset).
   // NUNCA se usa el .html del histórico como imagen (bug anterior).
+  // 404 real si el archivo no existe: sin esto el catch-all servía index.html
+  // con status 200 (soft-404) y WhatsApp/validadores veían "og:image roto".
   app.use('/storage/og', express.static(path.join(DATA_DIR, 'storage', 'og')));
+  app.get('/storage/og/*', (req, res) => res.status(404).end());
   // Fuentes self-hosted de las páginas SSR (Marcellus/Jost — guía §11)
   app.use('/fonts', express.static(join(__dirname, 'ssr', 'fonts'), { maxAge: '30d', immutable: true }));
 
