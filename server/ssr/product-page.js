@@ -20,6 +20,8 @@ import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { hasOgScreenshot, ogScreenshotFile } from '../screenshotService.js';
+import { extraerPerfilDiseno, construirSeoDesdePerfil, construirZonaDeDiseno, notaDeSeccion } from './designProfile.js';
+import { PLANES_PUBLICOS } from './sitePlans.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const BRAND_NAME = 'Invitaciones Modernas';
@@ -141,36 +143,39 @@ function getPlanes(db) {
 }
 
 // ---------------------------------------------------------------------------
-// FAQ — las 13 preguntas del reference (guía §5: "Same 13 questions from the
-// doc, answers specific to this design"), adaptadas a los módulos detectados.
-// Si el producto tiene faqs propias en seo_content_json (>=6), se usan.
+// FAQ — 13 preguntas con respuestas ALINEADAS A LOS PLANES REALES (F6):
+// ninguna promesa aplica a "todos los planes" cuando es de un plan concreto.
+// Al menos 2 respuestas mencionan el tema o los colores del diseño (F1).
 // ---------------------------------------------------------------------------
-function buildFaqs(modulos, eventoLabel) {
+function buildFaqs(modulos, eventoLabel, zona = null) {
   const tiene = (t) => modulos.tipos.has(t);
+  const tema = zona?.tema || '';
+  const temaLow = tema ? tema.toLowerCase() : '';
+  const colores = zona?.colores || '';
   const rsvp = tiene('confirmacion')
-    ? 'Sí. Tus invitados confirman su asistencia con un toque desde la propia invitación y tú ves las respuestas.'
-    : 'Este diseño todavía no trae confirmación de asistencia, pero puedes agregarla con el mismo estilo de colores y letras.';
+    ? 'Sí, con el Plan Creativo o el Plan Premium tus invitados confirman su asistencia desde la propia invitación y tú ves la lista de respuestas.'
+    : 'La confirmación de asistencia se incluye en los planes Creativo y Premium; este diseño se puede complementar con ella manteniendo el mismo estilo.';
   const mapa = tiene('ubicacion')
-    ? 'Sí. La sección de ubicación muestra el lugar de la fiesta con un mapa que tus invitados abren con un toque.'
+    ? `Sí. La sección de ubicación muestra el lugar de la fiesta con un mapa que tus invitados abren con un toque${temaLow ? `, integrado al estilo ${temaLow} del diseño` : ''}.`
     : 'Puedes agregar una sección de ubicación con mapa que tus invitados abren con un toque.';
   const countdown = tiene('countdown')
-    ? 'Sí, incluye una cuenta regresiva que se actualiza sola cada vez que tus invitados abren el enlace.'
+    ? `Sí, incluye una cuenta regresiva que se actualiza sola cada vez que tus invitados abren el enlace${colores ? `, con los tonos ${colores} del diseño` : ''}.`
     : 'Puedes agregar una cuenta regresiva que se actualiza sola hasta la fecha de tu evento.';
 
   return [
     { q: '¿Puedo personalizar esta invitación digital?', a: `Sí. Cambias los nombres, la fecha, los horarios, los lugares, los nombres de los padres y padrinos, tus fotos y cada texto, y ves el resultado antes de compartirla.` },
-    { q: '¿Puedo cambiar los colores?', a: 'Sí. Puedes ajustar los colores principales para que combinen con la decoración o el vestido, o pedir un cambio con IA para una sección en otro tono.' },
-    { q: '¿Puedo agregar o quitar secciones?', a: 'Sí. Puedes ocultar las secciones que no uses y agregar otras, como confirmación de asistencia o galería de fotos. Algunas secciones dependen del plan que elijas.' },
-    { q: '¿Puedo cambiar solo una sección?', a: 'Sí. Pides un cambio con IA para una sola sección, por ejemplo una cuenta regresiva más lujosa, y el resto de la invitación se queda igual.' },
-    { q: '¿Puedo crear una invitación completamente nueva con IA?', a: 'Sí. Describes tu fiesta, colores, estilo y las secciones que quieres, y la IA crea un diseño nuevo desde cero.' },
+    { q: '¿Hay límite de invitados?', a: 'Sí: Creativo hasta 100 y Premium hasta 200 (+2 USD por cada 25 extra).' },
+    { q: '¿Puedo cambiar los colores?', a: `En los planes Creativo y Premium${colores ? `; este diseño combina ${colores}` : ''}.` },
+    { q: '¿Puedo agregar o quitar secciones?', a: 'Sí. Confirmación de asistencia y galería: planes Creativo y Premium.' },
+    { q: '¿Puedo cambiar solo una sección?', a: 'Sí: 10 cambios con Creativo y 20 con Premium, dejando el resto del diseño igual.' },
+    { q: '¿Puedo crear una invitación completamente nueva con IA?', a: 'Sí: Creativo incluye 2 rediseños y Premium 10 — describes tu fiesta y la IA crea el diseño.' },
     { q: '¿Mis invitados pueden confirmar asistencia desde la invitación?', a: rsvp },
     { q: '¿La invitación incluye un mapa?', a: mapa },
-    { q: '¿Puedo agregar fotos?', a: 'Sí. Puedes subir tus fotos favoritas y agregar una galería si quieres mostrar más.' },
+    { q: '¿Puedo agregar fotos?', a: 'Sí. Puedes subir tus fotos favoritas; con los planes Creativo y Premium también puedes agregar una galería completa.' },
     { q: '¿Puedo hacer la invitación bilingüe?', a: 'Sí. Puedes escribir los textos en español y en inglés para que todos tus invitados entiendan cada detalle.' },
-    { q: '¿Puedo compartirla por mensaje de texto o WhatsApp?', a: 'Sí. Compartes un solo enlace por WhatsApp, mensaje de texto, correo o redes sociales, sin límite de invitados.' },
-    { q: '¿Se ve bien en el celular?', a: 'Sí. Está diseñada primero para el celular y también se ve bien en tabletas y computadoras.' },
-    { q: '¿Mis invitados necesitan descargar una app?', a: 'No. La invitación se abre en el navegador del teléfono al tocar el enlace, sin descargas ni registros.' },
-    { q: '¿Qué pasa después de personalizar la invitación?', a: 'Eliges tu plan, recibes tu enlace y lo compartes. Si después cambias un horario o un dato, el cambio se ve en el mismo enlace que ya enviaste.' }
+    { q: '¿Puedo compartirla por mensaje de texto o WhatsApp?', a: 'Tu enlace se comparte con cualquier plan; el envío automático (SMS, y WhatsApp en Premium) va con Creativo y Premium.' },
+    { q: '¿Se ve bien en el celular?', a: `Sí. Está diseñada primero para el celular${temaLow ? ` y el tema de ${temaLow} se ve igual de bien en pantallas grandes` : ''}.` },
+    { q: '¿Mis invitados necesitan descargar una app?', a: 'No. La invitación se abre en el navegador del teléfono al tocar el enlace, sin descargas ni registros.' }
   ];
 }
 
@@ -260,6 +265,14 @@ export function renderProductPage(item, ctx = {}) {
   // Detectar módulos desde la invitación
   const modulos = detectarSecciones(ctx.invitationHtml || '');
 
+  // PERFIL DE DISEÑO (F1): guardado en catalogo.design_profile o extraído
+  // al vuelo del HTML real de la invitación. Todo el copy de la zona de
+  // diseño sale de aquí — dos diseños distintos producen textos distintos.
+  const perfil = parseJson(item.design_profile, null)
+    || (ctx.invitationHtml ? extraerPerfilDiseno(ctx.invitationHtml, item) : null);
+  const zona = perfil ? construirZonaDeDiseno(perfil) : null;
+  const seoPerfil = perfil ? construirSeoDesdePerfil(perfil) : null;
+
   // Meta — se limpia cualquier "[]" que el copy guardado arrastre (colors
   // vacío serializado) para no mostrar símbolos sueltos al usuario.
   const limpiarVacios = (s) => stripDates(s)
@@ -270,21 +283,24 @@ export function renderProductPage(item, ctx = {}) {
     .replace(/,\s*,/g, ',')
     .replace(/\s{2,}/g, ' ')
     .trim();
-  const title = limpiarVacios(item.seo_title || item.title || 'Invitación digital');
-  const metaDesc = limpiarVacios(item.meta_description || `Invitación digital de ${(item.event_type || 'celebración').toLowerCase()}. Personalízala en minutos y compártela por WhatsApp.`);
-  const h1Text = limpiarVacios(seo?.h1 || item.h1 || item.seo_title || item.title || 'Invitación digital');
+  // Con perfil, el SEO viene DEL PERFIL (query primaria única por página,
+  // sin truncados "..." ni fugas de placeholders del demo). El copy guardado
+  // solo se usa como fallback cuando no hay perfil.
+  const title = limpiarVacios(seoPerfil?.title || item.seo_title || item.title || 'Invitación digital');
+  const metaDesc = limpiarVacios(seoPerfil?.meta || item.meta_description || `Invitación digital de ${(item.event_type || 'celebración').toLowerCase()}. Personalízala en minutos y compártela por WhatsApp.`);
+  const h1Text = limpiarVacios(seoPerfil?.h1 || seo?.h1 || item.h1 || item.seo_title || item.title || 'Invitación digital');
   const h1 = esc(h1Text);
 
-  // Evento: si el event_type guardado es genérico ("Invitación digital",
-  // "General"…) se deriva del slug ("xv-anos/…" → "XV años") — evita el
-  // "invitación digital de invitación digital" por toda la página.
+  // Evento: el perfil manda (se leyó del contenido real de la invitación —
+  // F4); si no hay perfil, del event_type o del slug.
   const EVENTO_DE_SLUG = { boda: 'Boda', 'xv-anos': 'XV años', bautizo: 'Bautizo', comunion: 'Primera comunión', confirmacion: 'Confirmación', 'baby-shower': 'Baby shower', cumpleanos: 'Cumpleaños', graduacion: 'Graduación' };
   const esEventoGenerico = !item.event_type || /^(invitaci[oó]n digital|general|invitaci[oó]n|evento)$/i.test(item.event_type.trim());
-  const eventoKey = eventKeyOf(item);
-  const eventoLabel = esEventoGenerico ? (EVENTO_DE_SLUG[eventoKey] || 'Invitación digital') : item.event_type;
+  const eventoKey = perfil?.event?.key || eventKeyOf(item);
+  const eventoLabel = perfil?.event?.label || (esEventoGenerico ? (EVENTO_DE_SLUG[eventoKey] || 'Invitación digital') : item.event_type);
   const eventoLow = eventoLabel.toLowerCase();
   // colors viene como texto plano o como JSON ('[]' vacío, '["rosa","coral"]'):
   // nunca se usa crudo — el "[]" se ve como símbolos raros en la página.
+  // Con perfil, los colores son los REALES del CSS de la invitación (F7).
   const parseListaColores = (raw) => {
     if (!raw) return '';
     const s = String(raw).trim();
@@ -294,38 +310,43 @@ export function renderProductPage(item, ctx = {}) {
     }
     return s;
   };
-  const colorsLabel = parseListaColores(item.colors);
+  const colorsLabel = zona?.colores || parseListaColores(item.colors);
+  const themeLabel = zona?.tema || (item.theme && !/^\[/.test(item.theme) ? item.theme : '');
   const styleTags = (parseJson(item.tags, []) || []).filter(Boolean).map((t) => String(t).replace(/^\[+|\]+$/g, '').trim()).filter(Boolean);
-  const styleLabel = styleTags.length ? styleTags.map((t) => t.toLowerCase()).join(', ') : 'Elegante';
+  const styleLabel = styleTags.length ? styleTags.map((t) => t.toLowerCase()).join(', ') : 'elegante';
 
-  // hero_summary: dos frases (qué es + qué encuentran los invitados)
-  const heroSummary = stripTags(secHtml(1)) || `Esta invitación digital de ${eventoLow}${colorsLabel ? ` combina ${colorsLabel}` : ''}${item.theme ? ` con tema de ${item.theme.toLowerCase()}` : ''}. Tus invitados la abren desde un enlace de WhatsApp${modulos.keyLabel ? ` y encuentran ${modulos.keyLabel.toLowerCase()}` : ' y ven todos los datos de tu celebración'}.`;
+  // hero_summary: DOS frases construidas desde el perfil (qué es este
+  // diseño + qué viven los invitados), o fallback genérico sin perfil.
+  const heroSummary = zona?.hero || stripTags(secHtml(1)) || `Esta invitación digital de ${eventoLow}${colorsLabel ? ` combina ${colorsLabel}` : ''}${themeLabel ? ` con tema de ${themeLabel.toLowerCase()}` : ''}. Tus invitados la abren desde un enlace de WhatsApp${modulos.keyLabel ? ` y encuentran ${modulos.keyLabel.toLowerCase()}` : ' y ven todos los datos de tu celebración'}.`;
   const heroSummaryLimpia = limpiarVacios(heroSummary);
 
-  // Planes, FAQ, related, explore
-  const planes = getPlanes(db);
+  // Planes: los 3 REALES del sitio de precios (F5) — única fuente pública.
+  const planes = PLANES_PUBLICOS;
   const customFaqs = Array.isArray(sections.section_11?.faqs) ? sections.section_11.faqs : [];
   const faqs = customFaqs.length >= 6
     ? customFaqs.map((f) => ({ q: f.question || f.q, a: f.answer || f.a }))
-    : buildFaqs(modulos, eventoLabel);
+    : buildFaqs(modulos, eventoLabel, zona);
   const related = getRelated(db, item);
   const exploreEvents = getExploreEvents(db);
 
-  // Iteration examples (guía §6 #7: 6 ejemplos)
-  const prompts = Array.isArray(sections.section_7?.example_prompts) && sections.section_7.example_prompts.length
-    ? sections.section_7.example_prompts
-    : [
-        'Agrega una sección de música que combine con este diseño.',
-        'Haz la confirmación de asistencia más elegante.',
-        'Crea una cuenta regresiva de lujo con detalles dorados.',
-        'Agrega una galería de fotos más grande.',
-        'Cambia el código de vestimenta a otros tonos.',
-        'Agrega la mesa de regalos con la misma paleta.'
-      ];
+  // Iteration examples (guía §6 #7): desde el perfil (mencionan el tema y
+  // los colores REALES del diseño) o fallback genérico.
+  const prompts = zona?.ejemplos
+    || (Array.isArray(sections.section_7?.example_prompts) && sections.section_7.example_prompts.length
+      ? sections.section_7.example_prompts
+      : [
+          'Agrega una sección de música que combine con este diseño.',
+          'Haz la confirmación de asistencia más elegante.',
+          'Crea una cuenta regresiva de lujo con el mismo estilo.',
+          'Agrega una galería de fotos más grande.',
+          'Cambia el código de vestimenta a otros tonos.',
+          'Agrega la mesa de regalos con la misma paleta.'
+        ]);
 
-  // Colores del diseño → variables CSS + theme-color (reference: --accent del diseño)
-  const c1 = /^#[0-9a-f]{6}$/i.test(item.primary_color || '') ? item.primary_color : '';
-  const c2 = /^#[0-9a-f]{6}$/i.test(item.secondary_color || '') ? item.secondary_color : '';
+  // Colores del diseño → variables CSS + theme-color. Con perfil son los
+  // extraídos del CSS real de la invitación (F7).
+  const c1 = perfil?.colors?.main?.[0]?.hex || (/^#[0-9a-f]{6}$/i.test(item.primary_color || '') ? item.primary_color : '');
+  const c2 = perfil?.colors?.main?.[1]?.hex || (/^#[0-9a-f]{6}$/i.test(item.secondary_color || '') ? item.secondary_color : '');
   const accentOverride = (c1 || c2)
     ? `<style>:root{${c1 ? `--accent:${c1};` : ''}${c2 ? `--accent-2:${c2};` : ''}}</style>\n`
     : '';
@@ -335,7 +356,7 @@ export function renderProductPage(item, ctx = {}) {
     ? `${publicUrl}/storage/og/${ogScreenshotFile(item.slug)}`
     : '';
   const heroImg = ogImage || gradientPlaceholder(c1 || '#fbeff0', c2 || '#b8324f');
-  const heroAlt = `Invitación digital de ${eventoLow}${item.theme ? ` con tema de ${item.theme.toLowerCase()}` : ''}${colorsLabel ? ` en tonos ${colorsLabel}` : ''} vista en un celular`;
+  const heroAlt = zona?.alt || `Invitación digital de ${eventoLow}${themeLabel ? ` con tema de ${themeLabel.toLowerCase()}` : ''}${colorsLabel ? ` en tonos ${colorsLabel}` : ''} vista en un celular`;
 
   // URL helpers
   const demoUrl = `${publicUrl}/preview/${item.filename}`;
@@ -357,22 +378,25 @@ export function renderProductPage(item, ctx = {}) {
   const faqHtml = faqs.map((f) => `
         <details><summary><h3>${esc(f.q)}</h3></summary><p>${esc(f.a)}</p></details>`).join('\n');
 
-  // Sin precio en las cards: el precio se consulta en la página de planes
-  // (https://app.invitacionesmodernas.com/app/planes), a donde lleva el botón.
+  // Cards de planes con el copy exacto del sitio de precios (F5/F6): precio
+  // USD + límite de invitados + características reales por plan.
   const planesHtml = planes.map((p) => `
           <article class="plan${p.featured ? ' is-featured' : ''}">
-            ${p.featured ? '<span class="badge">Recomendado</span>' : ''}
+            ${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ''}
             <h3>${esc(p.name)}</h3>
+            <p class="price">$${p.price} <small>USD · ${esc(p.notaPrecio)}</small></p>
             <ul class="ticks">
-              <li>1 invitación con este diseño</li>
-              <li>${p.designs} diseños nuevos con IA</li>
-              <li>${p.changes} cambios de sección con IA</li>
+${p.bullets.map((b) => `              <li>${esc(b)}</li>`).join('\n')}
             </ul>
             <a class="btn ${p.featured ? 'btn-primary' : 'btn-ghost'}" href="${esc(p.url)}" data-slot="plans.${p.key}.url"
                data-hva="cta_click" data-hva-cta="plan_${p.key}" data-hva-location="plans">Elegir ${esc(p.name)}</a>
           </article>`).join('\n');
 
-  const incluidasHtml = modulos.incluidas.map((s) => `<li><span class="ico" aria-hidden="true">✓</span><span>${esc(s.label)}<small>${esc(s.note)}</small></span></li>`).join('\n              ');
+  // Secciones incluidas: con perfil se listan los TÍTULOS REALES del diseño
+  // y notas por evento (F11) — cada diseño describe sus propias secciones.
+  const incluidasHtml = (perfil?.sections_actual || []).length
+    ? perfil.sections_actual.map((s) => `<li><span class="ico" aria-hidden="true">✓</span><span>${esc(s.own_title)}<small>${esc(notaDeSeccion(s.key, perfil.event.key, perfil))}</small></span></li>`).join('\n              ')
+    : modulos.incluidas.map((s) => `<li><span class="ico" aria-hidden="true">✓</span><span>${esc(s.label)}<small>${esc(s.note)}</small></span></li>`).join('\n              ');
   const agregablesHtml = modulos.agregables.map((s) => `<li><span class="ico" aria-hidden="true">＋</span><span>${esc(s.label)}<small>${esc(s.note)}</small></span></li>`).join('\n              ');
 
   const promptsHtml = prompts.slice(0, 6).map((p) => `<li>“${esc(String(p).replace(/^“|”$/g, ''))}”</li>`).join('\n          ');
@@ -453,12 +477,12 @@ ${exploreEvents.map((e) => `          <li><a href="${esc(e.url)}">${esc(e.label)
   <main id="contenido">
 
     <!-- ========== Doc §1 HERO ========== -->
-    <section class="hero" aria-labelledby="h1">
+    <section class="hero" aria-labelledby="h1" data-design-zone="hero">
       <div class="wrap hero-grid">
         <div>
           <span class="eyebrow">Invitación digital · ${esc(eventoLabel)}</span>
           <h1 id="h1" data-slot="copy.h1">${h1}</h1>
-          <p class="lead" data-slot="copy.hero_summary">${esc(heroSummaryLimpia)}</p>
+          <p class="lead" data-slot="copy.hero_summary"><!--dz-->${esc(heroSummaryLimpia)}<!--/dz--></p>
 
           <ul class="chips" aria-label="Resumen del diseño">
             <li><b>Evento:</b> <span data-slot="taxonomy.event.label">${esc(eventoLabel)}</span></li>
@@ -490,11 +514,13 @@ ${exploreEvents.map((e) => `          <li><a href="${esc(e.url)}">${esc(e.label)
         <div class="rule"></div>
         <dl class="facts">
           <div><dt>Evento</dt><dd data-slot="taxonomy.event.label">${esc(eventoLabel)}</dd></div>
-          ${item.theme ? `<div><dt>Tema</dt><dd>${esc(item.theme)}</dd></div>` : ''}
+          ${themeLabel ? `<div><dt>Tema</dt><dd>${esc(themeLabel)}</dd></div>` : ''}
           <div><dt>Estilo</dt><dd>${esc(styleLabel)}</dd></div>
           ${colorsLabel ? `<div><dt>Colores principales</dt><dd>${esc(colorsLabel)}</dd></div>` : ''}
-          ${modulos.includedLabel ? `<div><dt>Secciones incluidas</dt><dd>${esc(modulos.includedLabel)}</dd></div>` : ''}
-          ${modulos.agregables.length ? `<div><dt>Puedes agregar</dt><dd>${esc(modulos.agregables.map((s) => s.label).join(', '))}</dd></div>` : ''}
+          ${perfil?.sections_actual?.length ? `<div><dt>Secciones de este diseño</dt><dd>${esc(perfil.sections_actual.map((s) => s.own_title).join(', '))}</dd></div>` : (modulos.includedLabel ? `<div><dt>Secciones incluidas</dt><dd>${esc(modulos.includedLabel)}</dd></div>` : '')}
+          ${perfil?.signature_lines?.filter(Boolean).length ? `<div><dt>Frases del diseño</dt><dd>${esc(perfil.signature_lines.filter(Boolean).slice(0, 3).map((l) => `“${l}”`).join(' '))}</dd></div>` : ''}
+          ${perfil?.itinerary_sample?.length ? `<div><dt>Programa de ejemplo</dt><dd>${esc(perfil.itinerary_sample.join(' · '))}</dd></div>` : ''}
+          ${modulos.agregables.length ? `<div><dt>Puedes agregar</dt><dd>${esc(modulos.agregables.map((s) => s.label).join(', '))} (según plan)</dd></div>` : ''}
           <div><dt>Idioma</dt><dd>Español (puedes agregar textos en inglés)</dd></div>
           <div><dt>Formato</dt><dd>Invitación digital interactiva, hecha para celular</dd></div>
           <div><dt>Cómo se entrega</dt><dd>Un enlace para compartir por WhatsApp, mensaje o redes sociales</dd></div>
@@ -503,23 +529,25 @@ ${exploreEvents.map((e) => `          <li><a href="${esc(e.url)}">${esc(e.label)
       </div>
     </section>
 
-    <!-- ========== Doc §3 WHAT THIS INVITATION IS ABOUT ========== -->
-    <section aria-labelledby="sobre">
+    <!-- ========== Doc §3 WHAT THIS INVITATION IS ABOUT (desde el perfil) ========== -->
+    <section aria-labelledby="sobre" data-design-zone="about">
       <div class="wrap split">
         <div>
-          <h2 id="sobre">Cómo es esta invitación digital de ${esc(eventoLow)}${item.theme ? ` con tema de ${esc(item.theme.toLowerCase())}` : ''}</h2>
+          <h2 id="sobre">Cómo es esta invitación digital de ${esc(eventoLow)}${themeLabel ? ` con tema de ${esc(themeLabel.toLowerCase())}` : ''}</h2>
           <div class="rule"></div>
-          <div data-slot="copy.about_html">${secHtml(4) || `<p>Esta invitación fue creada para ${eventoLow === 'xv años' ? 'unos XV años' : `una ${eventoLow}`}${colorsLabel ? ` en ${colorsLabel}` : ''}${item.theme ? `, con tema de ${item.theme.toLowerCase()}` : ''}, pensada para que la primera pantalla se sienta como la entrada a la fiesta.</p><p>Tus invitados ven la presentación con tus nombres, siguen la cuenta regresiva y revisan cada momento de la celebración. Con un toque abren el mapa del lugar y saben qué código de vestimenta llevar.</p>`}</div>
+          <div data-slot="copy.about_html"><!--dz-->${zona ? `<p>${esc(zona.about1)}</p><p>${esc(zona.about2)}</p>${(perfil?.signature_lines || []).filter(Boolean).length > 1 ? `<blockquote style="margin:14px 0 0;padding:10px 16px;border-left:3px solid var(--accent);font-style:italic;color:var(--ink-soft)">${perfil.signature_lines.filter(Boolean).slice(0, 3).map((l) => `“${esc(l)}”`).join(' · ')}</blockquote>` : ''}` : (secHtml(4) || `<p>Esta invitación fue creada para ${eventoLow === 'xv años' ? 'unos XV años' : `una ${eventoLow}`}${colorsLabel ? ` en ${colorsLabel}` : ''}, pensada para que la primera pantalla se sienta como la entrada a la fiesta.</p><p>Tus invitados ven la presentación con tus nombres, siguen la cuenta regresiva y revisan cada momento de la celebración. Con un toque abren el mapa del lugar y saben qué código de vestimenta llevar.</p>`)}<!--/dz--></div>
         </div>
         <div>
           <h3>Por qué funciona para ${eventoLow === 'xv años' ? 'unos XV años' : `una ${eventoLow}`} ${styleLabel.split(',')[0]}</h3>
-          <ul class="ticks" data-slot="copy.fit_points">
-            <li>Todo lo importante de la fiesta en un solo enlace, fácil de reenviar.</li>
-            ${modulos.tipos.has('itinerario') ? '<li>El itinerario ayuda a que nadie se pierda ningún momento de la celebración.</li>' : ''}
-            ${modulos.tipos.has('vestimenta') ? '<li>El código de vestimenta evita dudas y llamadas de última hora.</li>' : ''}
-            ${modulos.tipos.has('ubicacion') ? '<li>El mapa lleva a tus invitados al lugar sin confusiones.</li>' : ''}
-            ${colorsLabel ? `<li>Los tonos ${colorsLabel} combinan con la decoración de tu celebración.</li>` : ''}
-          </ul>
+          <ul class="ticks" data-slot="copy.fit_points"><!--dz-->
+${(zona?.porQue || [
+              'Todo lo importante de la fiesta en un solo enlace, fácil de reenviar.',
+              modulos.tipos.has('itinerario') ? 'El itinerario ayuda a que nadie se pierda ningún momento de la celebración.' : '',
+              modulos.tipos.has('vestimenta') ? 'El código de vestimenta evita dudas y llamadas de última hora.' : '',
+              modulos.tipos.has('ubicacion') ? 'El mapa lleva a tus invitados al lugar sin confusiones.' : '',
+              colorsLabel ? `Los tonos ${colorsLabel} combinan con la decoración de tu celebración.` : ''
+            ].filter(Boolean)).map((t) => `            <li>${esc(t)}</li>`).join('\n')}
+          <!--/dz--></ul>
         </div>
       </div>
     </section>
@@ -779,10 +807,17 @@ function buildProductSchema(item, { h1, title, metaDesc, canonical, ogImage, faq
       ...(ogImage ? { image: { '@id': `${canonical}#primaryimage` } } : {}),
       brand: { '@type': 'Brand', name: BRAND_NAME },
       category: `Invitaciones digitales de ${(eventoLabel || 'celebración').toLowerCase()}`,
-      ...(colorsLabel ? { color: colorsLabel } : {})
-      // Sin offers: las cards no muestran precio (se consulta en la página
-      // de planes) y la guía §8 exige que sin precio en la página no haya
-      // Offer en el schema.
+      ...(colorsLabel ? { color: colorsLabel } : {}),
+      // Una Offer por plan visible con el MISMO precio USD que la página
+      // muestra (F5/§8: schema = página).
+      offers: planes.map((p) => ({
+        '@type': 'Offer',
+        name: p.name,
+        price: String(Number(p.price).toFixed(2)),
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/InStock',
+        url: `${canonical}#planes`
+      }))
     }
   ];
   if (faqs.length) {

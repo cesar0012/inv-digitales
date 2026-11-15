@@ -2261,6 +2261,30 @@ app.post('/api/admin/catalogo/:id/generate-seo', adminMiddleware, async (req, re
       console.warn('[SCREENSHOT] omitido en generate-seo:', shotError.message);
     }
 
+    // PERFIL DE DISEÑO (F1): las páginas NUEVAS nacen con su perfil extraído
+    // del HTML real — evento correcto (F4), colores reales (F7), copy único
+    // (F1/F2) y compuerta de unicidad (F3). No sobreescribe un perfil ya
+    // construido (build-profile manda).
+    try {
+      const fila = db.prepare('SELECT design_profile, slug FROM catalogo WHERE id = ?').get(id);
+      if (fila && !fila.design_profile) {
+        const { extraerPerfilDiseno, construirSeoDesdePerfil } = await import('./ssr/designProfile.js');
+        const historicoDir = join(DATA_DIR, 'storage', 'historico');
+        const f = join(historicoDir, catalogoItem.filename);
+        if (existsSync(f)) {
+          const perfilNuevo = extraerPerfilDiseno(readFileSync(f, 'utf-8'), { ...catalogoItem, slug: fila.slug || finalSlug });
+          const seoNuevo = construirSeoDesdePerfil(perfilNuevo);
+          db.prepare('UPDATE catalogo SET design_profile = ?, seo_title = ?, meta_description = ?, h1 = ?, event_type = ?, theme = ? WHERE id = ?').run(
+            JSON.stringify(perfilNuevo), seoNuevo.title, seoNuevo.meta, seoNuevo.h1,
+            perfilNuevo.event.label, perfilNuevo.theme.label || '', id
+          );
+          console.log(`[PERFIL] generado para id=${id} (evento:${perfilNuevo.event.key}, tema:${perfilNuevo.theme.key || '-'})`);
+        }
+      }
+    } catch (perfilError) {
+      console.warn('[PERFIL] omitido en generate-seo:', perfilError.message);
+    }
+
     res.json({ success: true, slug: finalSlug });
   } catch (error) {
     console.error('❌ Error generando SEO:', error);
@@ -2314,6 +2338,125 @@ app.get('/api/admin/module-generator/status', adminMiddleware, async (req, res) 
   } catch (error) {
     console.error('[MODULE-GEN status] Error:', error);
     res.status(500).json({ error: error.message });
+  }
+});
+
+// POST /api/admin/catalogo/:id/build-profile — F1/F4/F7/F8 del fix-list:
+// extrae el PERFIL de diseño del HTML real de la invitación (evento real,
+// tema, colores del CSS, secciones propias, taglines, itinerario), guarda
+// SEO derivado del perfil, genera slug limpio (con old_slug para 301) y
+// dispara la compuerta de unicidad. Las páginas nuevas siguen este mismo
+// camino desde generate-seo.
+app.post('/api/admin/catalogo/:id/build-profile', adminMiddleware, async (req, res) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+    const item = db.prepare('SELECT * FROM catalogo WHERE id = ?').get(id);
+    if (!item || !item.filename) return res.status(404).json({ error: 'Ítem no encontrado' });
+
+    const historicoFile = join(DATA_DIR, 'storage', 'historico', item.filename);
+    if (!existsSync(historicoFile)) return res.status(404).json({ error: 'Invitación no encontrada en el histórico' });
+    const { extraerPerfilDiseno, construirSeoDesdePerfil, slugDesdePerfil } = await import('./ssr/designProfile.js');
+    const html = readFileSync(historicoFile, 'utf-8');
+    const perfil = extraerPerfilDiseno(html, item);
+    const seo = construirSeoDesdePerfil(perfil);
+
+    // Slug limpio desde el perfil; 301 del anterior vía old_slug (se conserva
+    // el old_slug histórico si ya existía)
+    let nuevoSlug = slugDesdePerfil(perfil);
+    if (nuevoSlug === item.slug) nuevoSlug = item.slug;
+    const oldSlugs = [item.slug, item.old_slug].filter((s) => s && s !== nuevoSlug);
+    const slugFinal = (nuevoSlug !== item.slug && db.prepare('SELECT 1 FROM catalogo WHERE slug = ? AND id != ?').get(nuevoSlug, id))
+      ? `${nuevoSlug}-${String(id)}` // colisión: atributo distintivo estable, nunca random
+      : nuevoSlug;
+
+    db.prepare(`UPDATE catalogo SET
+        design_profile = ?, seo_title = ?, meta_description = ?, h1 = ?,
+        event_type = ?, theme = ?, colors = ?, primary_color = ?, secondary_color = ?,
+        slug = ?, old_slug = ?
+      WHERE id = ?`).run(
+      JSON.stringify(perfil), seo.title, seo.meta, seo.h1,
+      perfil.event.label, perfil.theme.label || '',
+      JSON.stringify((perfil.colors.main || []).map((c) => c.name).filter(Boolean)),
+      perfil.colors.main?.[0]?.hex || item.primary_color || '',
+      perfil.colors.main?.[1]?.hex || item.secondary_color || '',
+      slugFinal, oldSlugs[0] || null,
+      id
+    );
+    console.log(`[PERFIL] id=${id} → evento:${perfil.event.key} tema:${perfil.theme.key || '-'} colores:${(perfil.colors.main || []).map((c) => c.name).join(',')} slug:${slugFinal}`);
+
+    // og:image para el slug nuevo
+    try {
+      const { captureInvitationHeroOG, hasOgScreenshot } = await import('./screenshotService.js');
+      if (!hasOgScreenshot(slugFinal)) await captureInvitationHeroOG(historicoFile, slugFinal);
+    } catch (e) { console.warn('[PERFIL] og:image pendiente (regenerar desde admin):', e.message); }
+
+    // Compuerta de unicidad contra las demás publicadas
+    const { uniquenessGate } = await import('./ssr/uniqueness.js');
+    const { renderProductPage } = await import('./ssr/product-page.js');
+    const actualizado = db.prepare('SELECT * FROM catalogo WHERE id = ?').get(id);
+    const otras = db.prepare('SELECT * FROM catalogo WHERE starred = 1 AND slug IS NOT NULL AND id != ?').all(id);
+    const publicUrl = getPublicUrl();
+    const candidata = {
+      url: `/catalogo/${slugFinal}`,
+      html: renderProductPage(actualizado, { db, publicUrl, requestPath: `/catalogo/${slugFinal}`, invitationHtml: html }),
+      title: seo.title, metaDescription: seo.meta, h1: seo.h1, imageAlt: '', primaryQuery: perfil.primary_query
+    };
+    const publicadas = otras.map((o) => {
+      let p = null;
+      try { p = JSON.parse(o.design_profile || 'null'); } catch { /* sin perfil */ }
+      let oHtml = '';
+      try {
+        const f = join(DATA_DIR, 'storage', 'historico', o.filename);
+        if (existsSync(f)) oHtml = readFileSync(f, 'utf-8').slice(0, 200000);
+      } catch { /* sin archivo */ }
+      return {
+        url: `/catalogo/${o.slug}`,
+        html: renderProductPage(o, { db, publicUrl, requestPath: `/catalogo/${o.slug}`, invitationHtml: oHtml }),
+        title: o.seo_title || '', metaDescription: o.meta_description || '', h1: o.h1 || o.seo_title || '',
+        imageAlt: '', primaryQuery: p?.primary_query || ''
+      };
+    });
+    const fallos = uniquenessGate(candidata, publicadas);
+
+    res.json({ success: true, perfil, slug: slugFinal, oldSlugs, uniqueness: { fallos, pasa: fallos.length === 0 } });
+  } catch (error) {
+    console.error('[PERFIL] Error:', error);
+    res.status(500).json({ error: 'Error construyendo el perfil', details: error.message });
+  }
+});
+
+// GET /api/admin/catalogo/uniqueness-report — similitud entre TODAS las
+// páginas de producto publicadas (F3): vigilancia de duplicados.
+app.get('/api/admin/catalogo/uniqueness-report', adminMiddleware, async (req, res) => {
+  try {
+    const { shingles, jaccard, textosDePagina } = await import('./ssr/uniqueness.js');
+    const { renderProductPage } = await import('./ssr/product-page.js');
+    const publicUrl = getPublicUrl();
+    const items = db.prepare('SELECT * FROM catalogo WHERE starred = 1 AND slug IS NOT NULL').all();
+    const paginas = items.map((it) => {
+      let h = '';
+      try {
+        const f = join(DATA_DIR, 'storage', 'historico', it.filename);
+        if (existsSync(f)) h = readFileSync(f, 'utf-8').slice(0, 200000);
+      } catch { /* sin archivo */ }
+      const t = textosDePagina(renderProductPage(it, { db, publicUrl, requestPath: `/catalogo/${it.slug}`, invitationHtml: h }));
+      return { url: `/catalogo/${it.slug}`, main: shingles(t.mainText), zone: shingles(t.zoneText) };
+    });
+    const pares = [];
+    for (let i = 0; i < paginas.length; i++) {
+      for (let j = i + 1; j < paginas.length; j++) {
+        pares.push({
+          a: paginas[i].url, b: paginas[j].url,
+          full: Number(jaccard(paginas[i].main, paginas[j].main).toFixed(2)),
+          zone: Number(jaccard(paginas[i].zone, paginas[j].zone).toFixed(2)),
+          ok: jaccard(paginas[i].main, paginas[j].main) <= 0.60 && jaccard(paginas[i].zone, paginas[j].zone) <= 0.25
+        });
+      }
+    }
+    res.json({ pares, todasOk: pares.every((p) => p.ok) });
+  } catch (error) {
+    console.error('[UNIQUENESS] Error:', error);
+    res.status(500).json({ error: 'Error generando el reporte', details: error.message });
   }
 });
 
