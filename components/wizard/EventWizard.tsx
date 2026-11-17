@@ -13,6 +13,7 @@ import {
 import { generateWebProject } from '../../services/aiService';
 import { IMAGE_SOURCES } from '../../constants';
 import { DynamicEventForm, initialFormData } from './DynamicEventForm';
+import { useLanguage, eventLabel, EVENT_DESC_EN } from '../../i18n';
 
 /** Comprime una imagen del cliente (máx 800px de ancho, JPEG q=0.82) y
  *  devuelve un data URI listo para incrustar en la invitación. */
@@ -192,9 +193,14 @@ const MODULE_NAMES: Record<string, string> = {
   portada: 'Portada', countdown: 'Cuenta regresiva', padres: 'Papás y familia', padrinos: 'Padrinos', corte: 'Corte / cortejo',
   ubicacion: 'Ubicación', itinerario: 'Programa', vestimenta: 'Vestimenta', regalos: 'Regalos', galeria: 'Galería', confirmacion: 'Confirmación'
 };
+const MODULE_NAMES_EN: Record<string, string> = {
+  portada: 'Cover', countdown: 'Countdown', padres: 'Parents & family', padrinos: 'Godparents', corte: 'Court of honor',
+  ubicacion: 'Location', itinerario: 'Program', vestimenta: 'Dress code', regalos: 'Gifts', galeria: 'Gallery', confirmacion: 'RSVP'
+};
 
 const Steps: React.FC<{ step: Step }> = ({ step }) => {
-  const items: [Step, string][] = [['event', 'Evento'], ['brief', 'Tu estilo'], ['details', 'Datos y vista previa']];
+  const { t } = useLanguage();
+  const items: [Step, string][] = [['event', t('wiz.step1')], ['brief', t('wiz.step2')], ['details', t('wiz.step3')]];
   const idx = items.findIndex(([s]) => s === step);
   return (
     <ol className="flex items-center gap-2 text-sm" aria-label="Pasos">
@@ -219,6 +225,7 @@ const SUGERENCIAS = [
 ];
 
 export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvailable, onCreated, onUseClassic }) => {
+  const { lang, t } = useLanguage();
   const navigate = useNavigate();
   const key = storageKey(purchaseId);
   const saved = useMemo(() => load(key), [key]);
@@ -308,7 +315,7 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
       const ctrl = new AbortController();
       abortRef.current = ctrl;
       setPreviewLoading(true);
-      fillProvidedInvitation({ html: htmlConFotos, eventType, data, preferences, purchaseId }, token, ctrl.signal)
+      fillProvidedInvitation({ html: htmlConFotos, eventType, data, preferences, purchaseId, language: lang }, token, ctrl.signal)
         .then((r) => setPreview({ html: r.html, missing: r.missing, report: r.report }))
         .catch((e) => { if (e.name !== 'AbortError') setError(e.message); })
         .finally(() => { if (abortRef.current === ctrl) setPreviewLoading(false); });
@@ -447,7 +454,7 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
       if (!html) {
         throw new Error(genError || 'El diseño no pudo generarse. Vuelve a "Tu estilo" e intenta de nuevo.');
       }
-      const r = await fillProvidedInvitation({ html, eventType, data, preferences, purchaseId }, token);
+      const r = await fillProvidedInvitation({ html, eventType, data, preferences, purchaseId, language: lang }, token);
       save(key, null);
       onCreated({
         html: r.html,
@@ -545,27 +552,27 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
 
         {step === 'event' && (
           <section aria-labelledby="t-event">
-            <h1 id="t-event" className="text-3xl font-bold text-gray-800 mb-1">¿Qué vas a celebrar?</h1>
-            <p className="text-gray-500 mb-6">Elige el tipo de evento. Después nos cuentas el estilo y armamos tu invitación.</p>
+            <h1 id="t-event" className="text-3xl font-bold text-gray-800 mb-1">{lang === 'en' ? 'What are you celebrating?' : '¿Qué vas a celebrar?'}</h1>
+            <p className="text-gray-500 mb-6">{lang === 'en' ? 'Choose the event type. Then tell us the style and we build your invitation.' : 'Elige el tipo de evento. Después nos cuentas el estilo y armamos tu invitación.'}</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {eventTypes.map((t) => (
-                <button key={t.id} type="button" onClick={() => chooseEvent(t.id)} className={`text-left rounded-2xl border-2 bg-white p-5 hover:border-pink-400 hover:shadow-md transition-all ${eventType === t.id ? 'border-pink-500' : 'border-pink-100'}`}>
-                  <p className="text-lg font-bold text-gray-800">{t.label}</p>
-                  <p className="text-sm text-gray-500 mt-1">{t.description}</p>
+              {eventTypes.map((ev) => (
+                <button key={ev.id} type="button" onClick={() => chooseEvent(ev.id)} className={`text-left rounded-2xl border-2 bg-white p-5 hover:border-pink-400 hover:shadow-md transition-all ${eventType === ev.id ? 'border-pink-500' : 'border-pink-100'}`}>
+                  <p className="text-lg font-bold text-gray-800">{eventLabel(ev.label, lang)}</p>
+                  <p className="text-sm text-gray-500 mt-1">{lang === 'en' ? (EVENT_DESC_EN[ev.id] || ev.description) : ev.description}</p>
                 </button>
               ))}
             </div>
-            <button type="button" onClick={onUseClassic} className="mt-8 text-sm text-gray-500 underline hover:text-pink-600">Prefiero el modo clásico completo</button>
+            <button type="button" onClick={onUseClassic} className="mt-8 text-sm text-gray-500 underline hover:text-pink-600">{lang === 'en' ? 'I prefer the full classic mode' : 'Prefiero el modo clásico completo'}</button>
           </section>
         )}
 
         {step === 'brief' && pack && (
           <section aria-labelledby="t-brief" className="max-w-3xl">
-            <button type="button" onClick={() => setStep('event')} className="flex items-center gap-1 text-sm text-gray-500 hover:text-pink-600 mb-3"><ArrowLeft className="w-4 h-4" /> Cambiar evento</button>
-            <h1 id="t-brief" className="text-3xl font-bold text-gray-800 mb-1">Cuéntanos cómo la quieres</h1>
-            <p className="text-gray-500 mb-6">Describe el estilo y continúa — el diseño se genera mientras llenas tus datos.</p>
+            <button type="button" onClick={() => setStep('event')} className="flex items-center gap-1 text-sm text-gray-500 hover:text-pink-600 mb-3"><ArrowLeft className="w-4 h-4" /> {lang === 'en' ? 'Change event' : 'Cambiar evento'}</button>
+            <h1 id="t-brief" className="text-3xl font-bold text-gray-800 mb-1">{lang === 'en' ? 'Tell us how you want it' : 'Cuéntanos cómo la quieres'}</h1>
+            <p className="text-gray-500 mb-6">{lang === 'en' ? 'Describe the style and continue — the design generates while you fill in your data.' : 'Describe el estilo y continúa — el diseño se genera mientras llenas tus datos.'}</p>
             <div className="bg-white rounded-3xl border border-pink-200 shadow-sm p-5 flex flex-col gap-4">
-              <label htmlFor="brief" className="text-sm font-semibold text-gray-700">Tu invitación de {pack.label}</label>
+              <label htmlFor="brief" className="text-sm font-semibold text-gray-700">{lang === 'en' ? `Your ${eventLabel(pack.label, lang)} invitation` : `Tu invitación de ${pack.label}`}</label>
               <textarea
                 id="brief"
                 value={brief}
@@ -580,12 +587,12 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
                   <button key={s} type="button" onClick={() => setBrief(s)} className="px-3 py-1.5 text-xs bg-pink-50 border border-pink-200 rounded-full text-pink-700 hover:bg-pink-100 transition-colors">{s}</button>
                 ))}
               </div>
-              {generationAvailable !== null && <p className="text-xs text-gray-500">Créditos disponibles: {generationAvailable}</p>}
+              {generationAvailable !== null && <p className="text-xs text-gray-500">{lang === 'en' ? 'Available credits:' : 'Créditos disponibles:'} {generationAvailable}</p>}
             </div>
             <div className="mt-4">{colorPicker}</div>
             <div className="sticky bottom-0 mt-6 py-4 bg-pink-50/95 flex justify-end">
               <button type="button" disabled={!brief.trim()} onClick={startGeneration} className="px-8 py-3 bg-gradient-to-r from-pink-500 to-rose-500 disabled:opacity-40 text-white rounded-xl font-semibold shadow-lg flex items-center gap-2">
-                <Wand2 className="w-5 h-5" /> Continuar con mis datos
+                <Wand2 className="w-5 h-5" /> {lang === 'en' ? 'Continue with my details' : 'Continuar con mis datos'}
               </button>
             </div>
           </section>
@@ -594,27 +601,27 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
         {step === 'details' && pack && (
           <section aria-labelledby="t-details">
             <button type="button" onClick={() => { setStep('brief'); setGenError(null); if (genPromiseRef.current) { genPromiseRef.current = null; genResultRef.current = null; setGenerating(false); setBaseHtml(null); setPreview(null); } }} className="flex items-center gap-1 text-sm text-gray-500 hover:text-pink-600 mb-3">
-              <ArrowLeft className="w-4 h-4" /> Volver a describir el estilo
+              <ArrowLeft className="w-4 h-4" /> {lang === 'en' ? 'Back to style description' : 'Volver a describir el estilo'}
             </button>
             <h1 id="t-details" className="text-3xl font-bold text-gray-800 mb-1">
-              Datos de tu {pack.label.split(' /')[0]}
-              {generating && <span className="ml-3 text-sm font-normal text-pink-500 inline-flex items-center gap-1.5"><Loader2 className="w-3.5 h-3.5 animate-spin" /> diseño en curso</span>}
+              {lang === 'en' ? `Details of your ${eventLabel(pack.label.split(' /')[0], lang)}` : `Datos de tu ${pack.label.split(' /')[0]}`}
+              {generating && <span className="ml-3 text-sm font-normal text-pink-500 inline-flex items-center gap-1.5"><Loader2 className="w-3.5 h-3.5 animate-spin" /> {lang === 'en' ? 'design in progress' : 'diseño en curso'}</span>}
             </h1>
-            <p className="text-gray-500 mb-6">Llena lo que aplique{generating ? ' — el diseño se está generando en paralelo' : ' — la vista previa se actualiza mientras escribes'}.</p>
+            <p className="text-gray-500 mb-6">{lang === 'en' ? `Fill in what applies${generating ? ' — the design is generating in parallel' : ' — the preview updates as you type'}.` : `Llena lo que aplique${generating ? ' — el diseño se está generando en paralelo' : ' — la vista previa se actualiza mientras escribes'}.`}</p>
             <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_420px] gap-6 items-start">
               <div className="flex flex-col gap-4">
-                <DynamicEventForm pack={pack} data={data} onChange={setData} missingKeys={missingKeys} />
+                <DynamicEventForm pack={pack} data={data} onChange={setData} missingKeys={missingKeys} lang={lang} />
                 {colorPicker}
                 {/* Fotos personales: slots etiquetados por sección de la invitación */}
                 <section className="bg-white/80 rounded-3xl border border-pink-200 shadow-sm p-5 flex flex-col gap-3" aria-labelledby="t-fotos">
-                  <h3 id="t-fotos" className="text-lg font-bold text-gray-800 flex items-center gap-2"><ImagePlus className="w-5 h-5 text-pink-500" /> Fotos de tu invitación</h3>
+                  <h3 id="t-fotos" className="text-lg font-bold text-gray-800 flex items-center gap-2"><ImagePlus className="w-5 h-5 text-pink-500" /> {lang === 'en' ? 'Photos for your invitation' : 'Fotos de tu invitación'}</h3>
                   {generating ? (
-                    <p className="text-xs text-gray-400 italic">Los espacios aparecerán en cuanto el diseño esté listo.</p>
+                    <p className="text-xs text-gray-400 italic">{lang === 'en' ? 'Photo slots appear as soon as the design is ready.' : 'Los espacios aparecerán en cuanto el diseño esté listo.'}</p>
                   ) : slots.length === 0 ? (
-                    <p className="text-xs text-gray-400 italic">Este diseño no tiene espacios de foto reemplazables.</p>
+                    <p className="text-xs text-gray-400 italic">{lang === 'en' ? 'This design has no replaceable photo slots.' : 'Este diseño no tiene espacios de foto reemplazables.'}</p>
                   ) : (
                     <>
-                      <p className="text-xs text-gray-500">Cada espacio muestra en qué parte de la invitación irá la foto. Sube una para un espacio específico o varias a la vez (se asignan en orden).</p>
+                      <p className="text-xs text-gray-500">{lang === 'en' ? 'Each slot shows where in the invitation the photo goes. Upload one for a specific slot or several at once (assigned in order).' : 'Cada espacio muestra en qué parte de la invitación irá la foto. Sube una para un espacio específico o varias a la vez (se asignan en orden).'}</p>
                       <div className="flex flex-col gap-2">
                         {slots.map((slot) => {
                           const foto = fotos[slot.idx];
@@ -646,7 +653,7 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
                       </div>
                       <button type="button" onClick={() => { fotosTargetSlot.current = null; fotosInputRef.current?.click(); }}
                         className="self-start flex items-center gap-2 px-4 py-2 rounded-xl border-2 border-dashed border-pink-300 text-pink-500 hover:bg-pink-50 text-sm font-medium transition-colors">
-                        <ImagePlus className="w-4 h-4" /> Subir varias a la vez
+                        <ImagePlus className="w-4 h-4" /> {lang === 'en' ? 'Upload several at once' : 'Subir varias a la vez'}
                       </button>
                       <input ref={fotosInputRef} type="file" accept="image/*" multiple className="hidden"
                         onChange={(e) => {
@@ -677,7 +684,7 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
                 className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-pink-500 to-rose-500 disabled:opacity-40 text-white rounded-xl font-semibold shadow-lg flex items-center justify-center gap-2"
               >
                 {finishing ? <Loader2 className="w-5 h-5 animate-spin" /> : generating ? <Loader2 className="w-5 h-5 animate-spin" /> : <Sparkles className="w-5 h-5" />}
-                {finishing ? 'Abriendo…' : generating ? 'Esperando el diseño…' : 'Abrir en el editor'}
+                {finishing ? (lang === 'en' ? 'Opening…' : 'Abriendo…') : generating ? (lang === 'en' ? 'Waiting for the design…' : 'Esperando el diseño…') : (lang === 'en' ? 'Open in the editor' : 'Abrir en el editor')}
               </button>
             </div>
           </section>

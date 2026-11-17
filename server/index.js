@@ -4904,6 +4904,21 @@ app.post('/api/generate-html', authMiddleware, async (req, res) => {
       console.warn('[VOCAB] adaptación en generación omitida:', vocabErr?.message);
     }
 
+    // BILINGÜE: si el usuario trabaja en inglés, el HISTÓRICO queda en
+    // español (SEO/historial) pero la RESPUESTA — la invitación que el
+    // usuario edita, guarda y comparte — se traduce al inglés.
+    try {
+      if (editorConfig?.language === 'en' && htmlResult) {
+        const { traducirInvitacionAIngles } = await import('./invitationTranslator.js');
+        const t0 = Date.now();
+        const r = await traducirInvitacionAIngles(htmlResult, { geminiKey: config.html_google_api_key, geminiModel: config.html_google_model });
+        htmlResult = r.html;
+        console.log(`🌐 Invitación traducida al inglés (generate-html): ${r.traducidos} textos, ${((Date.now() - t0) / 1000).toFixed(1)}s`);
+      }
+    } catch (trErr) {
+      console.warn('[TRANSLATE] falló traducción al inglés (se entrega en español):', trErr.message);
+    }
+
     res.json({ html: htmlResult });
   } catch (error) {
     console.error('Error generando HTML:', error);

@@ -3,13 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import {
   Heart, FileText, Plus, Eye, Loader2, AlertCircle, ArrowRight, Share2,
   LogOut, Package, Pencil, Star, Trash2, Check,
-  Zap, RefreshCw, Clock3
+  Zap, RefreshCw, Clock3, Languages
 } from 'lucide-react';
 import { getUser, activateInvitation, deleteInvitation } from '../services/apiService';
 import { useAuth } from '../contexts/AuthContext';
 import { InvitationPreviewModal } from './InvitationPreviewModal';
 import { ShareModal } from './ShareModal';
 import { UserWithInvitations, InvitationFile } from '../types';
+import { useLanguage, Lang } from '../i18n';
 
 // Etiquetas de plan (la marca visual la lleva el rosa/rose del sitio;
 // el chip mantiene un tono suave por plan solo como identificador).
@@ -25,6 +26,7 @@ const planStyle = (slug: string) => PLAN_STYLE[slug] || PLAN_STYLE.basic;
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const { user: authUser, logout, token } = useAuth();
+  const { lang, setLang, t } = useLanguage();
   const [userData, setUserData] = useState<UserWithInvitations | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -85,7 +87,7 @@ export const Dashboard: React.FC = () => {
       <div className="min-h-screen w-full bg-gradient-to-br from-pink-50 via-rose-50 to-fuchsia-50 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-[3px] border-pink-200 rounded-full border-t-pink-500 animate-spin" />
-          <p className="text-gray-500 text-sm font-medium">Cargando tu panel...</p>
+          <p className="text-gray-500 text-sm font-medium">{t('dash.loading')}</p>
         </div>
       </div>
     );
@@ -95,9 +97,9 @@ export const Dashboard: React.FC = () => {
       <div className="min-h-screen w-full bg-gradient-to-br from-pink-50 via-rose-50 to-fuchsia-50 flex items-center justify-center p-6">
         <div className="bg-white rounded-2xl border border-pink-100 p-8 max-w-sm text-center shadow-xl shadow-pink-500/10">
           <AlertCircle className="w-10 h-10 text-pink-400 mx-auto mb-4" />
-          <h2 className="text-lg font-semibold text-gray-800 mb-1">Error de conexión</h2>
+          <h2 className="text-lg font-semibold text-gray-800 mb-1">{t('dash.connError')}</h2>
           <p className="text-gray-500 text-sm mb-5">{error}</p>
-          <button onClick={() => window.location.reload()} className="px-6 py-2.5 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl text-sm font-medium hover:from-pink-600 hover:to-rose-600 shadow-lg shadow-pink-500/25">Reintentar</button>
+          <button onClick={() => window.location.reload()} className="px-6 py-2.5 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl text-sm font-medium hover:from-pink-600 hover:to-rose-600 shadow-lg shadow-pink-500/25">{t('dash.retry')}</button>
         </div>
       </div>
     );
@@ -109,9 +111,9 @@ export const Dashboard: React.FC = () => {
           <div className="w-14 h-14 mx-auto mb-4 bg-gradient-to-br from-pink-400 to-rose-400 rounded-2xl flex items-center justify-center shadow-lg shadow-pink-500/20">
             <Package className="w-7 h-7 text-white" />
           </div>
-          <h2 className="text-lg font-semibold text-gray-800 mb-1">Sin planes activos</h2>
-          <p className="text-gray-500 text-sm mb-5">Adquiere un plan para comenzar a crear invitaciones.</p>
-          <button onClick={handleLogout} className="px-5 py-2 bg-pink-50 text-pink-600 rounded-xl text-sm font-medium hover:bg-pink-100">Cerrar sesión</button>
+          <h2 className="text-lg font-semibold text-gray-800 mb-1">{t('dash.noPlans')}</h2>
+          <p className="text-gray-500 text-sm mb-5">{t('dash.noPlansHint')}</p>
+          <button onClick={handleLogout} className="px-5 py-2 bg-pink-50 text-pink-600 rounded-xl text-sm font-medium hover:bg-pink-100">{t('dash.logout')}</button>
         </div>
       </div>
     );
@@ -140,28 +142,40 @@ export const Dashboard: React.FC = () => {
       <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 15% 10%, rgba(236,72,153,0.08) 0%, transparent 45%), radial-gradient(circle at 85% 90%, rgba(244,114,182,0.08) 0%, transparent 45%)' }} />
 
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 py-8">
-        {/* Header — mismo logo que el inicio */}
+        {/* Header — mismo logo que el inicio + selector de idioma */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3.5">
             <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-rose-400 rounded-2xl flex items-center justify-center shadow-xl shadow-pink-500/20 rotate-3 border border-pink-300/50">
               <Heart className="w-5 h-5 text-white" strokeWidth={2.2} />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-800 tracking-tight">Mis Invitaciones</h1>
-              <p className="text-xs text-gray-400 mt-0.5">Hola, {authUser?.name}</p>
+              <h1 className="text-xl font-bold text-gray-800 tracking-tight">{t('dash.title')}</h1>
+              <p className="text-xs text-gray-400 mt-0.5">{t('dash.welcome')}, {authUser?.name}</p>
             </div>
           </div>
-          <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 bg-white/90 border border-pink-200 text-gray-500 rounded-xl text-sm hover:bg-white hover:text-pink-600 transition-all shadow-lg hover:shadow-xl backdrop-blur-sm">
-            <LogOut className="w-4 h-4" /> Salir
-          </button>
+          <div className="flex items-center gap-2">
+            {/* Selector de idioma ES/EN — preferencia de la app del usuario */}
+            <div className="flex items-center bg-white/90 border border-pink-200 rounded-xl overflow-hidden shadow-lg backdrop-blur-sm" title={t('dash.language')}>
+              <Languages className="w-4 h-4 text-pink-500 mx-2" />
+              {(['es', 'en'] as Lang[]).map((l) => (
+                <button key={l} onClick={() => setLang(l)}
+                  className={`px-2.5 py-2 text-xs font-bold uppercase transition-colors ${lang === l ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white' : 'text-gray-400 hover:text-pink-600'}`}>
+                  {l}
+                </button>
+              ))}
+            </div>
+            <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 bg-white/90 border border-pink-200 text-gray-500 rounded-xl text-sm hover:bg-white hover:text-pink-600 transition-all shadow-lg hover:shadow-xl backdrop-blur-sm">
+              <LogOut className="w-4 h-4" /> {t('dash.logout')}
+            </button>
+          </div>
         </div>
 
         {/* Planes siempre visibles */}
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-3">
             <Package className="w-4 h-4 text-pink-500" />
-            <h2 className="text-sm font-semibold text-gray-700">{plans.length > 1 ? 'Mis planes' : 'Mi plan'}</h2>
-            {plans.length > 1 && <span className="text-[10px] text-gray-400">— toca para cambiar</span>}
+            <h2 className="text-sm font-semibold text-gray-700">{plans.length > 1 ? t('dash.myPlans') : t('dash.myPlan')}</h2>
+            {plans.length > 1 && <span className="text-[10px] text-gray-400">{t('dash.tapToSwitch')}</span>}
           </div>
           <div className={`grid gap-3 ${plans.length > 1 ? 'sm:grid-cols-2' : ''}`}>
             {plans.map((plan) => {
@@ -175,12 +189,12 @@ export const Dashboard: React.FC = () => {
                       <span className={`w-8 h-1.5 rounded-full bg-gradient-to-r ${st.tag}`} />
                       <span className="font-bold text-sm text-gray-800">{st.label}</span>
                     </div>
-                    {active && <span className="text-[10px] font-semibold text-white bg-gradient-to-r from-pink-500 to-rose-500 px-2.5 py-0.5 rounded-full shadow-sm">Activo</span>}
+                    {active && <span className="text-[10px] font-semibold text-white bg-gradient-to-r from-pink-500 to-rose-500 px-2.5 py-0.5 rounded-full shadow-sm">{t('dash.active')}</span>}
                   </div>
                   <div className="flex gap-2.5">
-                    <StatBlock icon={<Zap className="w-3.5 h-3.5" />} label="Generación" available={plan.generation_available} total={plan.generation_credits} />
-                    <StatBlock icon={<RefreshCw className="w-3.5 h-3.5" />} label="Cambios IA" available={plan.iteration_available} total={plan.iteration_credits} />
-                    <StatBlock icon={<FileText className="w-3.5 h-3.5" />} label="Invitaciones" available={plan.invites_available} total={plan.invites_included} />
+                    <StatBlock icon={<Zap className="w-3.5 h-3.5" />} label={t('dash.generation')} available={plan.generation_available} total={plan.generation_credits} />
+                    <StatBlock icon={<RefreshCw className="w-3.5 h-3.5" />} label={t('dash.aiChanges')} available={plan.iteration_available} total={plan.iteration_credits} />
+                    <StatBlock icon={<FileText className="w-3.5 h-3.5" />} label={t('dash.invitations')} available={plan.invites_available} total={plan.invites_included} />
                   </div>
                 </button>
               );
@@ -195,7 +209,7 @@ export const Dashboard: React.FC = () => {
               disabled={selectedPlan.generation_available < 1 || selectedPlan.invites_available < 1}
               className={`w-full mb-8 py-4 rounded-2xl font-semibold text-base flex items-center justify-center gap-3 transition-all ${selectedPlan.generation_available >= 1 && selectedPlan.invites_available >= 1 ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:from-pink-600 hover:to-rose-600 shadow-xl shadow-pink-500/25 hover:shadow-2xl hover:shadow-pink-500/30 hover:scale-[1.01] active:scale-[0.99]' : 'bg-white/70 text-gray-400 cursor-not-allowed border border-pink-100'}`}>
               <Plus className="w-5 h-5" />
-              {selectedPlan.generation_available < 1 ? 'Sin créditos de generación' : selectedPlan.invites_available < 1 ? 'Sin invitaciones disponibles' : 'Crear nueva invitación'}
+              {selectedPlan.generation_available < 1 ? t('dash.noGeneration') : selectedPlan.invites_available < 1 ? t('dash.noInvites') : t('dash.create')}
               {selectedPlan.generation_available >= 1 && selectedPlan.invites_available >= 1 && <ArrowRight className="w-4 h-4 opacity-70" />}
             </button>
 
@@ -213,8 +227,8 @@ export const Dashboard: React.FC = () => {
                 <div className="mb-8">
                   <div className="flex items-center gap-2 mb-3">
                     <Star className="w-4 h-4 text-pink-500" fill="currentColor" />
-                    <h2 className="text-sm font-semibold text-gray-700">Invitación destacada</h2>
-                    <span className="text-[10px] bg-pink-100 text-pink-600 px-2 py-0.5 rounded-full font-medium border border-pink-200">Pública</span>
+                    <h2 className="text-sm font-semibold text-gray-700">{t('dash.featured')}</h2>
+                    <span className="text-[10px] bg-pink-100 text-pink-600 px-2 py-0.5 rounded-full font-medium border border-pink-200">{t('dash.public')}</span>
                   </div>
                   <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-pink-100 overflow-hidden shadow-xl shadow-pink-500/10 hover:shadow-2xl hover:shadow-pink-500/15 transition-all max-w-sm">
                     <div className="aspect-[16/10] bg-pink-50/60 relative overflow-hidden cursor-pointer group" onClick={() => setPreviewInvitation(invFile)}>
@@ -229,8 +243,8 @@ export const Dashboard: React.FC = () => {
                         <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium border ${planStyle(selectedPlan.plan_slug).chip}`}>{planStyle(selectedPlan.plan_slug).label}</span>
                       </div>
                       <div className="flex gap-2">
-                        <button onClick={() => setPreviewInvitation(invFile)} className="flex-1 py-2 bg-pink-50 text-pink-600 hover:bg-pink-100 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-colors"><Eye className="w-3.5 h-3.5" /> Ver</button>
-                        <button onClick={() => { setPreviewInvitation(null); setShareInvitation(invFile); }} className="flex-1 py-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:from-pink-600 hover:to-rose-600 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-all shadow-md shadow-pink-500/20"><Share2 className="w-3.5 h-3.5" /> Compartir</button>
+                        <button onClick={() => setPreviewInvitation(invFile)} className="flex-1 py-2 bg-pink-50 text-pink-600 hover:bg-pink-100 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-colors"><Eye className="w-3.5 h-3.5" /> {t('dash.view')}</button>
+                        <button onClick={() => { setPreviewInvitation(null); setShareInvitation(invFile); }} className="flex-1 py-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:from-pink-600 hover:to-rose-600 rounded-xl text-xs font-medium flex items-center justify-center gap-1.5 transition-all shadow-md shadow-pink-500/20"><Share2 className="w-3.5 h-3.5" /> {t('dash.share')}</button>
                         <button onClick={() => handleOpenEditor(invFile)} className="py-2 px-3 bg-pink-50 text-pink-500 hover:bg-pink-100 rounded-xl transition-colors" title="Editar"><Pencil className="w-3.5 h-3.5" /></button>
                       </div>
                     </div>
@@ -242,8 +256,8 @@ export const Dashboard: React.FC = () => {
                 <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl flex items-center justify-center">
                   <FileText className="w-6 h-6 text-pink-400" />
                 </div>
-                <h3 className="text-sm font-medium text-gray-600 mb-1">Sin invitación destacada</h3>
-                <p className="text-xs text-gray-400">Genera tu primera invitación y destácala aquí para compartir el enlace público.</p>
+                <h3 className="text-sm font-medium text-gray-600 mb-1">{t('dash.noFeatured')}</h3>
+                <p className="text-xs text-gray-400">{t('dash.noFeaturedHint')}</p>
               </div>
             )}
 
@@ -252,7 +266,7 @@ export const Dashboard: React.FC = () => {
               <div>
                 <div className="flex items-center gap-2 mb-4">
                   <Clock3 className="w-4 h-4 text-pink-500" />
-                  <h2 className="text-sm font-semibold text-gray-700">Historial ({selectedPlan.plan_invitations.length})</h2>
+                  <h2 className="text-sm font-semibold text-gray-700">{t('dash.history')} ({selectedPlan.plan_invitations.length})</h2>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {selectedPlan.plan_invitations.map((inv) => {
@@ -264,7 +278,7 @@ export const Dashboard: React.FC = () => {
                         <div className="aspect-[16/10] bg-pink-50/60 relative overflow-hidden cursor-pointer" onClick={() => setPreviewInvitation(inv)}>
                           <iframe src={getPreviewUrlForFilename(authUser?.id?.toString() || '', inv.filename)} className="w-[200%] h-[200%] origin-top-left scale-[0.5] pointer-events-none" title={`Preview ${inv.filename}`} />
                           {isActive && (
-                            <div className="absolute top-2 right-2 px-2 py-0.5 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-md text-[10px] font-semibold flex items-center gap-1 shadow-sm"><Star className="w-2.5 h-2.5" fill="currentColor" /> Pública</div>
+                            <div className="absolute top-2 right-2 px-2 py-0.5 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-md text-[10px] font-semibold flex items-center gap-1 shadow-sm"><Star className="w-2.5 h-2.5" fill="currentColor" /> {t('dash.public')}</div>
                           )}
                         </div>
                         <div className="p-3">
@@ -274,21 +288,21 @@ export const Dashboard: React.FC = () => {
                           </div>
                           {isConfirming ? (
                             <div className="flex gap-1.5 items-center">
-                              <span className="text-[11px] text-gray-500 flex-1">¿Eliminar?</span>
-                              <button onClick={() => handleDelete(inv)} disabled={isLoading} className="px-2 py-1 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-md text-[11px] font-medium hover:from-pink-600 hover:to-rose-600 flex items-center gap-1">{isLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Check className="w-3 h-3" />} Sí</button>
-                              <button onClick={() => setConfirmDeleteId(null)} className="px-2 py-1 bg-pink-50 text-gray-500 rounded-md text-[11px] font-medium hover:bg-pink-100">No</button>
+                              <span className="text-[11px] text-gray-500 flex-1">{t('dash.deleteConfirm')}</span>
+                              <button onClick={() => handleDelete(inv)} disabled={isLoading} className="px-2 py-1 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-md text-[11px] font-medium hover:from-pink-600 hover:to-rose-600 flex items-center gap-1">{isLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Check className="w-3 h-3" />} {t('dash.yes')}</button>
+                              <button onClick={() => setConfirmDeleteId(null)} className="px-2 py-1 bg-pink-50 text-gray-500 rounded-md text-[11px] font-medium hover:bg-pink-100">{t('dash.no')}</button>
                             </div>
                           ) : (
                             <div className="flex items-center gap-1">
-                              <button onClick={() => setPreviewInvitation(inv)} className="flex-1 py-1.5 bg-pink-50 text-pink-600 hover:bg-pink-100 rounded-lg text-[11px] font-medium flex items-center justify-center gap-1 transition-colors"><Eye className="w-3 h-3" /> Ver</button>
-                              <button onClick={() => handleOpenEditor(inv)} className="py-1.5 px-2 bg-pink-50 text-pink-500 hover:bg-pink-100 rounded-lg transition-colors" title="Editar"><Pencil className="w-3 h-3" /></button>
+                              <button onClick={() => setPreviewInvitation(inv)} className="flex-1 py-1.5 bg-pink-50 text-pink-600 hover:bg-pink-100 rounded-lg text-[11px] font-medium flex items-center justify-center gap-1 transition-colors"><Eye className="w-3 h-3" /> {t('dash.view')}</button>
+                              <button onClick={() => handleOpenEditor(inv)} className="py-1.5 px-2 bg-pink-50 text-pink-500 hover:bg-pink-100 rounded-lg transition-colors" title={t('dash.edit')}><Pencil className="w-3 h-3" /></button>
                               {!isActive ? (
                                 <>
-                                  <button onClick={() => handleActivate(inv)} disabled={isLoading} className="py-1.5 px-2 bg-pink-50 text-pink-600 hover:bg-pink-100 rounded-lg transition-colors" title="Destacar">{isLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Star className="w-3 h-3" />}</button>
-                                  <button onClick={() => setConfirmDeleteId(inv.id || inv.filename)} disabled={isLoading} className="py-1.5 px-2 bg-pink-50 text-pink-400 hover:bg-pink-100 rounded-lg transition-colors" title="Eliminar"><Trash2 className="w-3 h-3" /></button>
+                                  <button onClick={() => handleActivate(inv)} disabled={isLoading} className="py-1.5 px-2 bg-pink-50 text-pink-600 hover:bg-pink-100 rounded-lg transition-colors" title={t('dash.featuredStar')}>{isLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Star className="w-3 h-3" />}</button>
+                                  <button onClick={() => setConfirmDeleteId(inv.id || inv.filename)} disabled={isLoading} className="py-1.5 px-2 bg-pink-50 text-pink-400 hover:bg-pink-100 rounded-lg transition-colors" title={t('dash.deleteConfirm').replace('¿', '').replace('?', '')}><Trash2 className="w-3 h-3" /></button>
                                 </>
                               ) : (
-                                <span className="py-1.5 px-2 bg-pink-100 text-pink-500 rounded-lg flex items-center" title="Invitación pública actual"><Star className="w-3 h-3" fill="currentColor" /></span>
+                                <span className="py-1.5 px-2 bg-pink-100 text-pink-500 rounded-lg flex items-center" title={t('dash.isPublicStar')}><Star className="w-3 h-3" fill="currentColor" /></span>
                               )}
                             </div>
                           )}

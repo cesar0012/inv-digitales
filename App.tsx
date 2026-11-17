@@ -11,6 +11,7 @@ import { AdminLogin } from './components/AdminLogin';
 import { AdminView } from './components/AdminView';
 import { CatalogoView } from './components/CatalogoView';
 import { ProductLandingView } from './components/ProductLandingView';
+import { LanguageProvider } from './i18n';
 
 const AdminRoute: React.FC = () => {
   const { admin, loading } = useAdminAuth();
@@ -35,6 +36,7 @@ const App: React.FC = () => {
     <BrowserRouter>
       <AuthProvider>
         <AdminAuthProvider>
+          <LanguageProvider>
           <Routes>
             <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminRoute />} />
@@ -61,6 +63,7 @@ const App: React.FC = () => {
               </PrivateRoute>
             } />
           </Routes>
+          </LanguageProvider>
         </AdminAuthProvider>
       </AuthProvider>
     </BrowserRouter>

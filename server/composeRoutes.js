@@ -130,7 +130,7 @@ export function createComposeRouter({ authMiddleware, ensureUserInDB }) {
   // Vista previa en vivo del flujo combinado: la base viene del proceso
   // agéntico (el cliente ya gastó su crédito de generación) y aquí SOLO se
   // escriben los datos del pack con los writers certificados. Gratis.
-  router.post('/api/compose/fill', authMiddleware, rateLimit({ key: 'compose-fill', windowMs: 60 * 1000, max: 300, keyFn: (req) => req.user && `u${req.user.id}` }), (req, res) => {
+  router.post('/api/compose/fill', authMiddleware, rateLimit({ key: 'compose-fill', windowMs: 60 * 1000, max: 300, keyFn: (req) => req.user && `u${req.user.id}` }), async (req, res) => {
     try {
       const body = req.body || {};
       const html = typeof body.html === 'string' ? body.html : '';
@@ -146,9 +146,27 @@ export function createComposeRouter({ authMiddleware, ensureUserInDB }) {
         preferences: clean.preferences,
         hasRsvp: plan ? plan.hasRsvp : false
       });
+      let htmlFinal = result.html;
+      // BILINGÜE: lenguaje 'en' ⇒ la invitación final del usuario va en inglés
+      // (la base del histórico/catalogo permanece en español; esto solo
+      // traduce la RESPUESTA que el usuario edita, guarda y comparte).
+      let traduccionMs = 0;
+      if (body.language === 'en' && htmlFinal) {
+        try {
+          const config = db.prepare('SELECT html_google_api_key, html_google_model FROM admin_config WHERE id = 1').get() || {};
+          const { traducirInvitacionAIngles } = await import('./invitationTranslator.js');
+          const t0 = Date.now();
+          const tr = await traducirInvitacionAIngles(htmlFinal, { geminiKey: config.html_google_api_key, geminiModel: config.html_google_model });
+          htmlFinal = tr.html;
+          traduccionMs = Date.now() - t0;
+          console.log(`🌐 fill es→en: ${tr.traducidos} textos, ${(traduccionMs / 1000).toFixed(1)}s`);
+        } catch (e) {
+          console.warn('[COMPOSE] traducción fill omitida:', e.message);
+        }
+      }
       // Los arrays SIEMPRE presentes en la respuesta (el cliente hace .length)
       res.json({
-        html: result.html,
+        html: htmlFinal,
         missing: Array.isArray(result.missing) ? result.missing : [],
         report: {
           modules: result.report?.modules || [],

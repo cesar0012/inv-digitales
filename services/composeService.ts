@@ -78,6 +78,8 @@ export interface ComposePayload {
   data: EventFormData;
   preferences?: { primaryColor?: string; secondaryColor?: string };
   purchaseId?: string;
+  /** 'en' ⇒ la invitación final se entrega en inglés (traducción server-side) */
+  language?: string;
 }
 
 const API = `${window.location.origin}/api`;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Plus, Trash2, ChevronUp, ChevronDown, Info } from 'lucide-react';
 import { EventPack, EventFormData, FieldDef, RepeatItem, SectionDef } from '../../services/composeService';
+import { useLanguage, SECTION_TITLE_EN } from '../../i18n';
 
 /**
  * Form generated from the event's knowledge pack. Repeatable groups (parents,
@@ -13,7 +14,72 @@ interface Props {
   data: EventFormData;
   onChange: (next: EventFormData) => void;
   missingKeys: Set<string>;
+  lang?: string;
 }
+
+// ---------------------------------------------------------------------------
+// BILINGÜE: conceptos del formulario en inglés (por label español exacto;
+// los packs del servidor quedan intactos — solo la VISTA se traduce).
+// ---------------------------------------------------------------------------
+const LABEL_EN: Record<string, string> = {
+  'Nombre de la quinceañera': 'Quinceañera’s full name',
+  'Nombre de la mamá': 'Mom’s name',
+  'Nombre de la mamá o de los papás': 'Mom’s or parents’ name',
+  'Nombre del bebé': 'Baby’s name',
+  'Nombre del niño o la niña': 'Child’s name',
+  'Nombre del festejado(a)': 'Honoree’s name',
+  'Nombre de quien se confirma': 'Confirmand’s name',
+  'Nombre del anfitrión o del evento': 'Host or event name',
+  'Nombre completo': 'Full name',
+  'Nombre': 'Name',
+  'Nombres': 'Names',
+  'Fecha del evento': 'Event date',
+  'Hora del evento': 'Event time',
+  'Hora': 'Time',
+  'Nombre del lugar': 'Venue name',
+  'Dirección': 'Address',
+  'Papás (anfitriones)': 'Parents (hosts)',
+  'Papás': 'Parents',
+  'Padrinos': 'Godparents',
+  'Temática': 'Theme',
+  'Motivo del evento': 'Occasion',
+  'Fecha límite para confirmar': 'RSVP deadline',
+  'Itinerario (hora + actividad, una por línea)': 'Itinerary (time + activity, one per line)',
+  'Código de vestimenta': 'Dress code',
+  'Mesa de regalos / sugerencia': 'Gift registry / suggestion',
+  'Actividad': 'Activity',
+  'Detalle': 'Detail',
+  'Detalle (opcional)': 'Detail (optional)',
+  'Edad': 'Age',
+  '¿Cuántos años cumple?': 'How old are they turning?',
+  'En memoria': 'In memoriam',
+  'Enlace (opcional)': 'Link (optional)',
+  'Frase de portada (opcional)': 'Cover phrase (optional)',
+  'Incluir galería de fotos (podrás subir tus fotos en el editor)': 'Include photo gallery (you can upload photos in the editor)',
+  'Enlace de Google Maps (opcional)': 'Google Maps link (optional)',
+  'Familia de': 'Family of',
+  'Padrinos de': 'Godparents of',
+  'Parentesco': 'Relationship',
+  'Evento solo para adultos': 'Adults-only event',
+  'Tipo': 'Type',
+  '¿Qué ocurre ahí?': 'What happens there?',
+  'Nota para los invitados (opcional)': 'Note for guests (optional)',
+  'Dama de honor': 'Maid of honor',
+  'Chambelán de honor': 'Lead chambelán',
+  'Nombre de la primera persona': 'First person’s name',
+  'Nombre de la segunda persona': 'Second person’s name',
+  'Lugar de la recepción': 'Reception venue',
+  'Lugar del evento': 'Event venue',
+  'Lugar de la fiesta': 'Party venue',
+  'Lugar de la ceremonia': 'Ceremony venue',
+  'Nombre de la iglesia': 'Church name',
+  'Itinerario': 'Itinerary',
+  'Vestimenta': 'Dress code'
+};
+const LABEL_ITEM_EN: Record<string, string> = { Elemento: 'Item' };
+const labelEn = (label: string): string => LABEL_EN[label.trim()] || label;
+
+const SectionTitle: React.FC<{ label: string }> = ({ label }) => <>{label}</>;
 
 const inputClass = (invalid: boolean) =>
   `w-full bg-white border ${invalid ? 'border-red-300 ring-1 ring-red-200' : 'border-pink-200 hover:border-pink-400'} px-3 py-2.5 rounded-xl text-gray-800 focus:outline-none focus:ring-2 focus:ring-pink-300 transition-all text-[15px] placeholder:text-gray-400`;
@@ -46,11 +112,13 @@ interface FieldInputProps {
 }
 
 const FieldInput: React.FC<FieldInputProps> = ({ field, value, onChange, invalid, id, data }) => {
+  const { lang } = useLanguage();
+  const label = lang === 'en' ? labelEn(field.label) : field.label;
   if (field.type === 'checkbox') {
     return (
       <label htmlFor={id} className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer select-none py-2">
         <input id={id} type="checkbox" checked={value === true} onChange={(e) => onChange(e.target.checked)} className="w-4 h-4 accent-pink-500" />
-        {field.label}
+        {label}
       </label>
     );
   }
@@ -90,12 +158,14 @@ const FieldInput: React.FC<FieldInputProps> = ({ field, value, onChange, invalid
   return <input id={id} type={type} value={String(value || '')} onChange={(e) => onChange(e.target.value)} placeholder={field.placeholder} className={inputClass(invalid)} />;
 };
 
-const Label: React.FC<{ field: FieldDef; htmlFor: string }> = ({ field, htmlFor }) =>
-  field.type === 'checkbox' ? null : (
+const Label: React.FC<{ field: FieldDef; htmlFor: string }> = ({ field, htmlFor }) => {
+  const { lang } = useLanguage();
+  return field.type === 'checkbox' ? null : (
     <label htmlFor={htmlFor} className="text-xs font-semibold text-gray-600 uppercase tracking-wide">
-      {field.label} {field.required && <span className="text-red-400">*</span>}
+      {lang === 'en' ? labelEn(field.label) : field.label} {field.required && <span className="text-red-400">*</span>}
     </label>
   );
+};
 
 interface RepeatProps {
   field: FieldDef;
@@ -106,6 +176,11 @@ interface RepeatProps {
 }
 
 const RepeatGroup: React.FC<RepeatProps> = ({ field, items, onChange, missingKeys, data }) => {
+  const { lang } = useLanguage();
+  const itemLabelText = () => {
+    const base = field.itemLabel || (lang === 'en' ? 'Item' : 'Elemento');
+    return lang === 'en' ? LABEL_ITEM_EN[base.trim()] || base : base;
+  };
   const update = (index: number, key: string, value: string | boolean) => {
     const next = items.map((it, i) => (i === index ? { ...it, [key]: value } : it));
     onChange(next);
@@ -132,7 +207,7 @@ const RepeatGroup: React.FC<RepeatProps> = ({ field, items, onChange, missingKey
       {items.map((item, index) => (
         <div key={index} className="rounded-2xl border border-pink-100 bg-pink-50/40 p-3">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-semibold text-pink-700">{field.itemLabel || 'Elemento'} {index + 1}</span>
+            <span className="text-sm font-semibold text-pink-700">{itemLabelText()} {index + 1}</span>
             <div className="flex items-center gap-1">
               <button type="button" onClick={() => move(index, -1)} disabled={index === 0} aria-label="Subir" className="p-1.5 rounded-lg text-gray-500 hover:bg-white disabled:opacity-30"><ChevronUp className="w-4 h-4" /></button>
               <button type="button" onClick={() => move(index, 1)} disabled={index === items.length - 1} aria-label="Bajar" className="p-1.5 rounded-lg text-gray-500 hover:bg-white disabled:opacity-30"><ChevronDown className="w-4 h-4" /></button>
@@ -164,11 +239,13 @@ const RepeatGroup: React.FC<RepeatProps> = ({ field, items, onChange, missingKey
   );
 };
 
-const Section: React.FC<{ section: SectionDef; data: EventFormData; set: (k: string, v: EventFormData[string]) => void; missingKeys: Set<string> }> = ({ section, data, set, missingKeys }) => (
+const Section: React.FC<{ section: SectionDef; data: EventFormData; set: (k: string, v: EventFormData[string]) => void; missingKeys: Set<string> }> = ({ section, data, set, missingKeys }) => {
+  const { lang } = useLanguage();
+  return (
   <section className="bg-white/80 rounded-3xl border border-pink-200 shadow-sm p-5 flex flex-col gap-4" aria-labelledby={`sec-${section.id}`}>
     <div>
-      <h3 id={`sec-${section.id}`} className="text-lg font-bold text-gray-800">{section.title}</h3>
-      {section.description && <p className="text-sm text-gray-500 mt-0.5">{section.description}</p>}
+      <h3 id={`sec-${section.id}`} className="text-lg font-bold text-gray-800">{lang === 'en' ? (SECTION_TITLE_EN[section.title.trim()] || section.title) : section.title}</h3>
+      {section.description && lang !== 'en' && <p className="text-sm text-gray-500 mt-0.5">{section.description}</p>}
     </div>
     {section.fields.map((field) => {
       if (field.type === 'repeat') {
@@ -188,7 +265,8 @@ const Section: React.FC<{ section: SectionDef; data: EventFormData; set: (k: str
       );
     })}
   </section>
-);
+  );
+};
 
 export const DynamicEventForm: React.FC<Props> = ({ pack, data, onChange, missingKeys }) => {
   const set = (key: string, value: EventFormData[string]) => onChange({ ...data, [key]: value });
