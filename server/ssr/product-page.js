@@ -443,6 +443,11 @@ ${exploreEvents.map((e) => `          <li><a href="${esc(e.url)}">${esc(e.label)
   <title data-slot="seo.title">${esc(title)}</title>
   <meta name="description" data-slot="seo.meta_description" content="${esc(metaDesc)}">
   <link rel="canonical" data-slot="page.canonical_url" href="${esc(canonical)}">
+  <!-- Bilingüe: versión EN espejo en /en/catalogo/… — Google envía a cada
+       visitante al idioma de su navegador (hreflang + x-default=es base) -->
+  <link rel="alternate" hreflang="es" href="${esc(publicUrl)}/catalogo/${esc(item.slug)}">
+  <link rel="alternate" hreflang="en" href="${esc(publicUrl)}/en/catalogo/${esc(item.slug)}">
+  <link rel="alternate" hreflang="x-default" href="${esc(publicUrl)}/catalogo/${esc(item.slug)}">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="${esc(c1 || '#b8324f')}">
 

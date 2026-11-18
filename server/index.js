@@ -2390,6 +2390,24 @@ app.post('/api/admin/catalogo/:id/build-profile', adminMiddleware, async (req, r
       if (!hasOgScreenshot(slugFinal)) await captureInvitationHeroOG(historicoFile, slugFinal);
     } catch (e) { console.warn('[PERFIL] og:image pendiente (regenerar desde admin):', e.message); }
 
+    // Página de producto EN (/en/catalogo/…): se pre-genera aquí con el slug
+    // final para servirse estática. El ES es la fuente; el EN su espejo
+    // hreflang (regla del cliente: generada en español, presentada en inglés).
+    try {
+      const config2 = db.prepare('SELECT html_google_api_key, html_google_model FROM admin_config WHERE id = 1').get() || {};
+      const { renderProductPage } = await import('./ssr/product-page.js');
+      const itemParaRender = db.prepare('SELECT * FROM catalogo WHERE id = ?').get(id);
+      const htmlEs = renderProductPage(itemParaRender, { db, publicUrl: getPublicUrl(), requestPath: `/catalogo/${slugFinal}`, invitationHtml: html });
+      const { generarPaginaEn } = await import('./ssr/productPageEn.js');
+      const en = await generarPaginaEn(htmlEs, { publicUrl: getPublicUrl(), slug: slugFinal }, { geminiKey: config2.html_google_api_key, geminiModel: config2.html_google_model });
+      if (en.html && en.traducidos > 0) {
+        db.prepare('UPDATE catalogo SET product_page_en = ? WHERE id = ?').run(en.html, id);
+        console.log(`[PERFIL] página EN generada (${en.traducidos} textos) → /en/catalogo/${slugFinal}`);
+      }
+    } catch (enError) {
+      console.warn('[PERFIL] página EN pendiente (se generará a la primera visita):', enError.message);
+    }
+
     // Compuerta de unicidad contra las demás publicadas
     const { uniquenessGate } = await import('./ssr/uniqueness.js');
     const { renderProductPage } = await import('./ssr/product-page.js');
@@ -4155,14 +4173,31 @@ if (process.env.NODE_ENV === 'production') {
         { loc: `${publicUrl}/`, changefreq: 'weekly', priority: '1.0' },
         { loc: `${publicUrl}/catalogo/`, changefreq: 'daily', priority: '0.9' },
         ...[...eventKeys].map((k) => ({ loc: `${publicUrl}/catalogo/${k}/`, changefreq: 'weekly', priority: '0.8' })),
-        ...rows.map((r) => ({
-          loc: `${publicUrl}/catalogo/${r.slug}`,
-          lastmod: lastmodOf(r.created_at),
-          changefreq: 'weekly',
-          priority: '0.8'
-        }))
+        // Productos bilingües: cada idioma entra como URL propia con sus
+        // alternates hreflang (es base + en espejo) — formato multilingüe de
+        // sitemaps para que Google asocie ambas versiones.
+        ...rows.flatMap((r) => ([
+          {
+            loc: `${publicUrl}/catalogo/${r.slug}`,
+            lastmod: lastmodOf(r.created_at), changefreq: 'weekly', priority: '0.8',
+            alternates: [
+              { hreflang: 'es', href: `${publicUrl}/catalogo/${r.slug}` },
+              { hreflang: 'en', href: `${publicUrl}/en/catalogo/${r.slug}` },
+              { hreflang: 'x-default', href: `${publicUrl}/catalogo/${r.slug}` }
+            ]
+          },
+          {
+            loc: `${publicUrl}/en/catalogo/${r.slug}`,
+            lastmod: lastmodOf(r.created_at), changefreq: 'weekly', priority: '0.7',
+            alternates: [
+              { hreflang: 'es', href: `${publicUrl}/catalogo/${r.slug}` },
+              { hreflang: 'en', href: `${publicUrl}/en/catalogo/${r.slug}` },
+              { hreflang: 'x-default', href: `${publicUrl}/catalogo/${r.slug}` }
+            ]
+          }
+        ]))
       ];
-      const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url>\n    <loc>${u.loc}</loc>${u.lastmod ? `\n    <lastmod>${u.lastmod}</lastmod>` : ''}\n    <changefreq>${u.changefreq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`).join('\n')}\n</urlset>`;
+      const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls.map((u) => `  <url>\n    <loc>${u.loc}</loc>${u.lastmod ? `\n    <lastmod>${u.lastmod}</lastmod>` : ''}${(u.alternates || []).map((a) => `\n    <xhtml:link rel="alternate" hreflang="${a.hreflang}" href="${a.href}"/>`).join('')}\n    <changefreq>${u.changefreq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`).join('\n')}\n</urlset>`;
       res.setHeader('Content-Type', 'application/xml; charset=utf-8');
       res.send(xml);
     } catch (error) {
@@ -4263,6 +4298,49 @@ if (process.env.NODE_ENV === 'production') {
       res.send(html);
     } catch (error) {
       console.error('Error en SSR de catálogo:', error);
+      res.status(500).setHeader('X-Robots-Tag', 'noindex').send('Error interno del catálogo');
+    }
+  });
+
+  // ─── /en/catalogo/:eventType/:slug — página de producto EN INGLÉS ───────
+  // Espejo bilingüe: misma fuente (render ES + traducción Gemini), servida
+  // desde catalogo.product_page_en (pre-generada en build-profile). Si aún
+  // no existe (ítems viejos), se genera al vuelo y se cachea en la fila.
+  // hreflang es/en/x-default conecta ambas; el ES es la base (x-default).
+  app.get('/en/catalogo/:eventType/:slug', async (req, res) => {
+    if (req.path.endsWith('/')) return res.redirect(301, req.path.replace(/\/+$/, ''));
+    try {
+      const fullSlug = `${req.params.eventType}/${req.params.slug}`;
+      const item = db.prepare('SELECT * FROM catalogo WHERE (slug = ? OR old_slug = ?) AND starred = 1').get(fullSlug, fullSlug);
+      if (!item) return notFoundCatalogo(res);
+      const slugFinal = item.slug;
+      const publicUrl = getPublicUrl();
+
+      if (item.product_page_en) {
+        console.log(`[CATALOGO-EN] Producto EN (cacheado): ${slugFinal}`);
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        return res.send(item.product_page_en);
+      }
+
+      // Generación al vuelo (primera visita de un ítem sin build-profile)
+      let invitationHtml = '';
+      try {
+        const historicoPath = join(DATA_DIR, 'storage', 'historico', item.filename);
+        if (existsSync(historicoPath)) invitationHtml = readFileSync(historicoPath, 'utf8');
+      } catch { /* sin invitación */ }
+      const { renderProductPage } = await import('./ssr/product-page.js');
+      const htmlEs = renderProductPage(item, { db, publicUrl, requestPath: `/catalogo/${slugFinal}`, invitationHtml });
+      const config = db.prepare('SELECT html_google_api_key, html_google_model FROM admin_config WHERE id = 1').get() || {};
+      const { generarPaginaEn } = await import('./ssr/productPageEn.js');
+      const { html, traducidos } = await generarPaginaEn(htmlEs, { publicUrl, slug: slugFinal }, { geminiKey: config.html_google_api_key, geminiModel: config.html_google_model });
+      if (html && traducidos > 0) {
+        db.prepare('UPDATE catalogo SET product_page_en = ? WHERE id = ?').run(html, item.id);
+      }
+      console.log(`[CATALOGO-EN] Producto EN generado al vuelo: ${slugFinal} (${traducidos} textos)`);
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.send(html || htmlEs);
+    } catch (error) {
+      console.error('Error en SSR de catálogo EN:', error);
       res.status(500).setHeader('X-Robots-Tag', 'noindex').send('Error interno del catálogo');
     }
   });

@@ -128,6 +128,7 @@ safeAlter('ALTER TABLE catalogo ADD COLUMN seo_card TEXT', 'catalogo.seo_card');
 // romper enlaces ya indexados.
 safeAlter('ALTER TABLE catalogo ADD COLUMN old_slug TEXT', 'catalogo.old_slug');
 safeAlter('ALTER TABLE catalogo ADD COLUMN design_profile TEXT', 'catalogo.design_profile');
+safeAlter('ALTER TABLE catalogo ADD COLUMN product_page_en TEXT', 'catalogo.product_page_en');
 safeExec('CREATE INDEX IF NOT EXISTS idx_catalogo_slug ON catalogo(slug)', 'idx_catalogo_slug');
 safeExec('CREATE INDEX IF NOT EXISTS idx_catalogo_old_slug ON catalogo(old_slug)', 'idx_catalogo_old_slug');
 // Generador de módulos (independiente): API keys de OpenRouter/NVIDIA para el LLM rotator
