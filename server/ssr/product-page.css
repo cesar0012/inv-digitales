@@ -69,6 +69,12 @@ section{padding:clamp(48px,7vw,84px) 0}
 .hero-grid{display:grid;gap:36px;align-items:center}
 @media(min-width:880px){.hero-grid{grid-template-columns:1.05fr .95fr}}
 .hero-media{border-radius:var(--radius);overflow:hidden;box-shadow:0 24px 60px rgba(42,26,34,.14);background:var(--bg-alt)}
+/* Hero con vista VIVA: la invitación real en un marco de teléfono (el demo
+   carga dentro del hero; la imagen estática queda solo como og:image) */
+.hero-media--live{display:grid;place-items:center;padding:clamp(20px,4vw,40px) 0;aspect-ratio:auto;background:linear-gradient(160deg,var(--bg-alt),var(--card))}
+.hero-phone{width:min(290px,72%);aspect-ratio:390/760;border:9px solid #1f1418;border-radius:38px;overflow:hidden;background:#fff;box-shadow:0 22px 48px rgba(42,26,34,.28);position:relative}
+.hero-phone::after{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:64px;height:14px;border-radius:8px;background:#1f1418;opacity:.85}
+.hero-phone iframe{width:100%;height:100%;border:0;display:block}
 .chips{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:20px 0 0}
 .chips li{font-size:.85rem;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px}
 .chips b{font-weight:500;color:var(--ink-soft)}

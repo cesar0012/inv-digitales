@@ -2355,9 +2355,16 @@ app.post('/api/admin/catalogo/:id/build-profile', adminMiddleware, async (req, r
 
     const historicoFile = join(DATA_DIR, 'storage', 'historico', item.filename);
     if (!existsSync(historicoFile)) return res.status(404).json({ error: 'Invitación no encontrada en el histórico' });
-    const { extraerPerfilDiseno, construirSeoDesdePerfil, slugDesdePerfil } = await import('./ssr/designProfile.js');
+    const { extraerPerfilDiseno, construirSeoDesdePerfil, slugDesdePerfil, EVENTO_LABELS } = await import('./ssr/designProfile.js');
     const html = readFileSync(historicoFile, 'utf-8');
     const perfil = extraerPerfilDiseno(html, item);
+    // Override manual de evento (corrección de clasificación): la elección del
+    // usuario en la generación manda; si la fila quedó mal, se corrige aquí.
+    const evOverride = req.body && req.body.event;
+    if (evOverride && EVENTO_LABELS[evOverride]) {
+      perfil.event = { key: evOverride, label: EVENTO_LABELS[evOverride], confirmed: true };
+      item.event_type = EVENTO_LABELS[evOverride];
+    }
     const seo = construirSeoDesdePerfil(perfil);
 
     // Slug limpio desde el perfil; 301 del anterior vía old_slug (se conserva

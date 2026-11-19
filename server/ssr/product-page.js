@@ -505,9 +505,13 @@ ${exploreEvents.map((e) => `          <li><a href="${esc(e.url)}">${esc(e.label)
             <a href="#crear-con-ia" data-hva="cta_click" data-hva-cta="generate_ai" data-hva-location="hero">¿Buscas otro estilo? Créala con IA</a></p>
         </div>
 
-        <figure class="hero-media" style="margin:0">
-          <img data-slot="images.preview.src" src="${esc(heroImg)}" alt="${esc(heroAlt)}"
-               width="1200" height="630" fetchpriority="high" decoding="async">
+        <figure class="hero-media hero-media--live" style="margin:0">
+          <!-- Vista VIVA de la invitación (mismo iframe del demo) en marco de
+               teléfono; la imagen estática solo queda como og:image para
+               redes sociales -->
+          <div class="hero-phone" role="img" aria-label="${esc(heroAlt)}">
+            <iframe src="${esc(demoUrl)}" title="${esc(heroAlt)}" loading="lazy"></iframe>
+          </div>
         </figure>
       </div>
     </section>
@@ -747,6 +751,22 @@ ${related.length >= 2 ? `
       <span>Última actualización: <time datetime="${esc(dateModified)}" data-slot="page.date_modified">${esc(updatedHuman)}</time> · <a href="/catalogo/">Ver todo el catálogo</a></span>
     </div>
   </footer>
+
+  <!-- Login condicional: si el visitante NO tiene sesión de la app, los CTAs
+       "Personalizar esta invitación" llevan a los planes de
+       app.invitacionesmodernas.com en vez del editor (que pediría login).
+       El HTML servidor conserva el href del editor para crawlers. -->
+  <script>
+  (function () {
+    try {
+      var token = localStorage.getItem('auth_token');
+      if (!token) {
+        var planes = 'https://app.invitacionesmodernas.com/app/planes';
+        document.querySelectorAll('a[data-hva-cta="customize"]').forEach(function (a) { a.href = planes; });
+      }
+    } catch (e) { /* localStorage bloqueado: se queda el editor */ }
+  })();
+  </script>
 </body>
 </html>`;
 }

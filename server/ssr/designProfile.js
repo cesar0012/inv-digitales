@@ -11,6 +11,8 @@
  * ============================================================================
  */
 import { detectarFamiliaTematica } from '../agentOrchestrator.js';
+import { adaptarVocabularioEvento, eventoKeyDe } from '../eventDataSchema.js';
+import { parseHTML } from 'linkedom';
 
 const norm = (s) => String(s || '').replace(/\s+/g, ' ').trim();
 const sinTags = (h) => String(h || '')
@@ -46,16 +48,14 @@ export const nombreDeColor = (hex) => {
   return b > 150 ? 'azul' : 'púrpura';
 };
 
-const EVENTO_LABELS = { boda: 'Boda', 'xv-anos': 'XV años', bautizo: 'Bautizo', comunion: 'Primera comunión', confirmacion: 'Confirmación', 'baby-shower': 'Baby shower', cumpleanos: 'Cumpleaños', graduacion: 'Graduación' };
+export const EVENTO_LABELS = { boda: 'Boda', 'xv-anos': 'XV años', bautizo: 'Bautizo', comunion: 'Primera comunión', confirmacion: 'Confirmación', 'baby-shower': 'Baby shower', cumpleanos: 'Cumpleaños', graduacion: 'Graduación' };
 const SLUG_EVENTO = { boda: 'boda', 'xv-anos': 'xv-anos', bautizo: 'bautizo', comunion: 'comunion', confirmacion: 'confirmacion', 'baby-shower': 'baby-shower', cumpleanos: 'cumpleanos', graduacion: 'graduacion' };
 
 const slugify = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 
 /**
- * Detecta el evento REAL desde el contenido de la invitación (no desde lo
- * que diga la fila del catálogo): "Mis XV años"/quinceañera → xv; señales
- * de boda → boda. F4: el diseño de París dice "Mis XV años" aunque la fila
- * diga cumpleaños.
+ * Detecta el evento desde el contenido de la invitación (señales de texto).
+ * Se usa SOLO como respaldo cuando el usuario nunca eligió evento.
  */
 export function eventoRealDesdeHtml(html) {
   const texto = sinTags(html).toLowerCase();
@@ -65,6 +65,12 @@ export function eventoRealDesdeHtml(html) {
   if (señalesBoda > 0) return 'boda';
   return null;
 }
+
+// Etiquetas de evento que SÍ son una elección real del usuario (no genéricas)
+const esEventoEspecifico = (t) => {
+  const n = norm(t).toLowerCase();
+  return !!n && !/^(invitaci[oó]n digital|general|invitaci[oó]n|evento)?$/.test(n);
+};
 
 /**
  * EXTRAER el perfil de diseño desde el HTML de la invitación.
@@ -85,10 +91,30 @@ export function extraerPerfilDiseno(html, item = {}) {
     primary_query: ''
   };
 
-  // 1) Evento real desde el contenido
+  // 1) Evento: la ELECCIÓN DEL USUARIO manda (la guardada en event_type al
+  // generar). El contenido del módulo ("Mis XV años" en un set XV usado para
+  // una fiesta) es solo respaldo cuando nunca hubo elección. Los títulos de
+  // secciones y taglines se extraen ADAPTADOS al evento para que la página
+  // de SEO diga "Mi cumpleaños" y no "Mis XV años" en una invitación de
+  // fiesta (regla: las etiquetas siguen al tipo de evento).
+  const evElegido = esEventoEspecifico(item.event_type)
+    ? (eventoKeyDe(item.event_type) === 'xv' ? 'xv-anos' : eventoKeyDe(item.event_type))
+    : null;
   const evHtml = eventoRealDesdeHtml(html);
-  perfil.event.key = evHtml || SLUG_EVENTO[norm(item.slug || '').split('/')[0]] || 'xv-anos';
-  perfil.event.label = EVENTO_LABELS[perfil.event.key] || 'Invitación digital';
+  perfil.event.key = evElegido || evHtml || SLUG_EVENTO[norm(item.slug || '').split('/')[0]] || 'otro';
+  perfil.event.label = EVENTO_LABELS[perfil.event.key] || norm(item.event_type) || 'Invitación digital';
+  perfil.event.confirmed = !!evElegido;
+
+  // Adaptar el vocabulario del módulo al evento ANTES de extraer títulos:
+  // "Mis XV años" → "Mi cumpleaños", "Padre del Novio" → "Papá de la
+  // quinceañera", etc. (bidireccional, mismo sistema de la generación).
+  let htmlAdaptado = html;
+  try {
+    const { document } = parseHTML(/^<!DOCTYPE/i.test(html) || /<html[\s>]/i.test(html) ? html : `<!DOCTYPE html><html><body>${html}</body></html>`);
+    const cambios = adaptarVocabularioEvento(document, perfil.event.label);
+    if (cambios.length) htmlAdaptado = (document.body ? document.body.innerHTML : html);
+  } catch { /* sin adaptación: se extrae tal cual */ }
+  html = htmlAdaptado;
 
   // 2) Tema: PRIMERO por los ids de módulo del rack embebidos en el HTML
   // (sf-<familia>-…: determinista), luego por lenguaje del usuario.
@@ -125,8 +151,19 @@ export function extraerPerfilDiseno(html, item = {}) {
     vistos.add(tipo);
     const h = cuerpo.match(/<h[12][^>]*>([^<]{2,60})<\/h[12]>/i);
     let titulo = h ? norm(h[1]) : '';
-    if (titulo && !/nombre|falta muy poco|falta poco/i.test(titulo)) perfil.sections_actual.push({ key: tipo, own_title: titulo });
-    else perfil.sections_actual.push({ key: tipo, own_title: TITULOS_FALLBACK[tipo] || tipo });
+    const esTituloValido = (t) => t && !/nombre|falta muy poco|falta poco/i.test(t);
+    // portada: el h1 suele ser el NOMBRE del festejado (se descarta); el
+    // título real vive en un kicker/subtítulo (p con memory_key portada-* o
+    // con etiqueta de evento como "Mis XV años"/"Mi cumpleaños")
+    if (!esTituloValido(titulo) && tipo === 'portada') {
+      const k = cuerpo.match(/<(?:p|span)[^>]*memory_key="portada-[^"]*"[^>]*>([^<]{2,60})</i);
+      if (k) titulo = norm(k[1]);
+      if (!esTituloValido(titulo)) {
+        const e = cuerpo.match(/<(?:p|span)[^>]*>([^<]{0,40}(?:mis xv años|mi cumpleaños|nuestra boda|mi bautizo|mi baby shower|mi celebraci[oó]n|mis quince)[^<]{0,20})</i);
+        if (e) titulo = norm(e[1]).trim();
+      }
+    }
+    perfil.sections_actual.push({ key: tipo, own_title: esTituloValido(titulo) ? titulo : (TITULOS_FALLBACK[tipo] || tipo) });
   }
   if (!perfil.sections_actual.length) perfil.sections_actual = TIPOS.slice(0, 7).map((k) => ({ key: k, own_title: TITULOS_FALLBACK[k] || k }));
 
