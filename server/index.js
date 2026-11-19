@@ -2350,20 +2350,23 @@ app.get('/api/admin/module-generator/status', adminMiddleware, async (req, res) 
 app.post('/api/admin/catalogo/:id/build-profile', adminMiddleware, async (req, res) => {
   try {
     const id = parseInt(req.params.id, 10);
-    const item = db.prepare('SELECT * FROM catalogo WHERE id = ?').get(id);
+    let item = db.prepare('SELECT * FROM catalogo WHERE id = ?').get(id);
     if (!item || !item.filename) return res.status(404).json({ error: 'Ítem no encontrado' });
 
     const historicoFile = join(DATA_DIR, 'storage', 'historico', item.filename);
     if (!existsSync(historicoFile)) return res.status(404).json({ error: 'Invitación no encontrada en el histórico' });
     const { extraerPerfilDiseno, construirSeoDesdePerfil, slugDesdePerfil, EVENTO_LABELS } = await import('./ssr/designProfile.js');
     const html = readFileSync(historicoFile, 'utf-8');
-    const perfil = extraerPerfilDiseno(html, item);
-    // Override manual de evento (corrección de clasificación): la elección del
-    // usuario en la generación manda; si la fila quedó mal, se corrige aquí.
+    // Override manual de evento (corrección de clasificación): se aplica ANTES
+    // de extraer el perfil para que la adaptación de vocabulario ("Mis XV
+    // años" → "Mi cumpleaños") use el evento correcto desde el principio.
     const evOverride = req.body && req.body.event;
     if (evOverride && EVENTO_LABELS[evOverride]) {
+      item = { ...item, event_type: EVENTO_LABELS[evOverride] };
+    }
+    const perfil = extraerPerfilDiseno(html, item);
+    if (evOverride && EVENTO_LABELS[evOverride]) {
       perfil.event = { key: evOverride, label: EVENTO_LABELS[evOverride], confirmed: true };
-      item.event_type = EVENTO_LABELS[evOverride];
     }
     const seo = construirSeoDesdePerfil(perfil);
 
