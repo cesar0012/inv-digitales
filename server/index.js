@@ -1243,24 +1243,39 @@ app.get('/api/invitations/:userId', authMiddleware, (req, res) => {
 });
 
 // GET /api/invitations/:userId/:filename - Devuelve contenido del archivo (protegido)
+// Si el archivo no está en la carpeta del usuario, busca en el HISTÓRICO del
+// catálogo (plantillas destacadas): así el editor puede cargar una plantilla
+// del catálogo desde "Personalizar esta invitación".
 app.get('/api/invitations/:userId/:filename', authMiddleware, (req, res) => {
   const { userId, filename } = req.params;
   if (!isSafeId(userId) || !isSafeFilename(filename)) {
     return res.status(400).json({ error: 'Parámetros inválidos' });
   }
-  
+
   if (req.user.id.toString() !== userId) {
     return res.status(403).json({ error: 'No autorizado para ver esta invitación' });
   }
-  
+
   const filePath = join(storagePath, userId, filename);
-  
+
   if (!existsSync(filePath)) {
+    // Fallback: plantilla del catálogo (histórico). Solo si existe en la
+    // tabla catalogo — el usuario está autenticado y el editor la abrirá
+    // como base para personalizar.
+    const historicoFile = join(historicoPath, filename);
+    if (existsSync(historicoFile)) {
+      const esPlantilla = db.prepare('SELECT 1 FROM catalogo WHERE filename = ?').get(filename);
+      if (esPlantilla) {
+        const content = readFileSync(historicoFile, 'utf-8');
+        res.setHeader('Content-Type', 'text/html');
+        return res.send(content);
+      }
+    }
     return res.status(404).json({ error: 'Archivo no encontrado' });
   }
-  
+
   const content = readFileSync(filePath, 'utf-8');
-  
+
   res.setHeader('Content-Type', 'text/html');
   res.send(content);
 });
