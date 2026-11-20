@@ -538,6 +538,10 @@ const syncUserPlansFromBilling = async (userId, token) => {
       };
 
       // 5. Verificar si el plan ya existe para este purchase
+      // ⚠️ SEGURIDAD: el sync de Laravel NUNCA crea planes nuevos. Solo
+      // actualiza el timestamp de planes que ya existen en la BD local
+      // (creados por el admin o por el checkout real). Esto evita que
+      // datos incorrectos de Laravel den planes premium gratis.
       const existingPlan = db.prepare(
         'SELECT * FROM user_plans WHERE user_id = ? AND purchase_id = ?'
       ).get(userId, purchase.id);
@@ -549,26 +553,9 @@ const syncUserPlansFromBilling = async (userId, token) => {
         ).run(userId, purchase.id);
         console.log(`ℹ️ Plan ${planSlug} (purchase ${purchase.id}) ya existe, sync timestamp actualizado`);
       } else {
-        // Plan nuevo: contar invitaciones ya usadas de este purchase
-        const usedCount = db.prepare(
-          'SELECT COUNT(*) as count FROM invitations WHERE user_id = ? AND purchase_id = ?'
-        ).get(userId, purchase.id)?.count || 0;
-
-        db.prepare(`
-          INSERT INTO user_plans 
-          (user_id, purchase_id, plan_slug, plan_name, invites_included, invites_used, generation_credits, iteration_credits, last_synced_at)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
-        `).run(
-          userId,
-          purchase.id,
-          planSlug,
-          item.item_name || planConfig.plan_name,
-          planConfig.invites_included,
-          usedCount,
-          planConfig.generation_credits,
-          planConfig.iteration_credits
-        );
-        console.log(`✅ NUEVO plan ${planSlug} (purchase ${purchase.id}) creado para usuario ${userId}`);
+        // El plan NO existe localmente → NO se crea desde el sync. Se
+        // registra el hallazgo para auditoría pero se ignora.
+        console.log(`🚫 Plan ${planSlug} (purchase ${purchase.id}) NO existe localmente para usuario ${userId} — sync NO crea planes (solo el admin o checkout real)`);
       }
     }
 
@@ -3718,6 +3705,76 @@ app.post('/api/admin/plans/backup', adminMiddleware, (req, res) => {
   } catch (error) {
     console.error('Error restoring plans backup:', error);
     res.status(500).json({ error: 'Error al importar backup de planes: ' + error.message });
+  }
+});
+
+// ==================== ADMIN: GESTIÓN DE PLANES POR USUARIO ====================
+
+// POST /api/admin/users/:id/plans — Crear/asignar un plan a un usuario
+app.post('/api/admin/users/:id/plans', adminMiddleware, (req, res) => {
+  try {
+    const userId = String(req.params.id);
+    const { purchase_id, plan_slug, generation_credits, iteration_credits, invites_included } = req.body || {};
+    if (!plan_slug) return res.status(400).json({ error: 'plan_slug es requerido' });
+    const user = db.prepare('SELECT user_id FROM users WHERE user_id = ?').get(userId);
+    if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+    const pid = purchase_id || Date.now(); // ID único si no viene de checkout
+    const existing = db.prepare('SELECT id FROM user_plans WHERE user_id = ? AND purchase_id = ?').get(userId, pid);
+    if (existing) return res.status(409).json({ error: 'Ya existe un plan con ese purchase_id para este usuario' });
+    const pc = db.prepare('SELECT * FROM plan_config WHERE plan_slug = ?').get(plan_slug) || {};
+    db.prepare(`INSERT INTO user_plans (user_id, purchase_id, plan_slug, plan_name, invites_included, invites_used, generation_credits, generation_used, iteration_credits, iteration_used, last_synced_at)
+      VALUES (?, ?, ?, ?, ?, 0, ?, 0, ?, 0, datetime('now'))`).run(
+      userId, pid, plan_slug, pc.plan_name || plan_slug,
+      invites_included ?? pc.invites_included ?? 1,
+      generation_credits ?? pc.generation_credits ?? 0,
+      iteration_credits ?? pc.iteration_credits ?? 0
+    );
+    const plan = db.prepare('SELECT * FROM user_plans WHERE user_id = ? AND purchase_id = ?').get(userId, pid);
+    res.status(201).json({ success: true, plan });
+  } catch (error) {
+    console.error('Error creando plan para usuario:', error);
+    res.status(500).json({ error: 'Error al crear plan' });
+  }
+});
+
+// PUT /api/admin/users/:id/plans/:purchaseId — Editar créditos de un plan
+app.put('/api/admin/users/:id/plans/:purchaseId', adminMiddleware, (req, res) => {
+  try {
+    const userId = String(req.params.id);
+    const purchaseId = parseInt(req.params.purchaseId, 10);
+    const { generation_credits, generation_used, iteration_credits, iteration_used, invites_included, invites_used, plan_slug, plan_name } = req.body || {};
+    const updates = []; const values = [];
+    if (generation_credits !== undefined) { updates.push('generation_credits = ?'); values.push(generation_credits); }
+    if (generation_used !== undefined) { updates.push('generation_used = ?'); values.push(generation_used); }
+    if (iteration_credits !== undefined) { updates.push('iteration_credits = ?'); values.push(iteration_credits); }
+    if (iteration_used !== undefined) { updates.push('iteration_used = ?'); values.push(iteration_used); }
+    if (invites_included !== undefined) { updates.push('invites_included = ?'); values.push(invites_included); }
+    if (invites_used !== undefined) { updates.push('invites_used = ?'); values.push(invites_used); }
+    if (plan_slug !== undefined) { updates.push('plan_slug = ?'); values.push(plan_slug); }
+    if (plan_name !== undefined) { updates.push('plan_name = ?'); values.push(plan_name); }
+    if (!updates.length) return res.status(400).json({ error: 'Sin campos para actualizar' });
+    values.push(userId, purchaseId);
+    const r = db.prepare(`UPDATE user_plans SET ${updates.join(', ')} WHERE user_id = ? AND purchase_id = ?`).run(...values);
+    if (r.changes === 0) return res.status(404).json({ error: 'Plan no encontrado' });
+    const plan = db.prepare('SELECT * FROM user_plans WHERE user_id = ? AND purchase_id = ?').get(userId, purchaseId);
+    res.json({ success: true, plan });
+  } catch (error) {
+    console.error('Error actualizando plan:', error);
+    res.status(500).json({ error: 'Error al actualizar plan' });
+  }
+});
+
+// DELETE /api/admin/users/:id/plans/:purchaseId — Eliminar un plan de un usuario
+app.delete('/api/admin/users/:id/plans/:purchaseId', adminMiddleware, (req, res) => {
+  try {
+    const userId = String(req.params.id);
+    const purchaseId = parseInt(req.params.purchaseId, 10);
+    const r = db.prepare('DELETE FROM user_plans WHERE user_id = ? AND purchase_id = ?').run(userId, purchaseId);
+    if (r.changes === 0) return res.status(404).json({ error: 'Plan no encontrado' });
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error eliminando plan:', error);
+    res.status(500).json({ error: 'Error al eliminar plan' });
   }
 });
 
