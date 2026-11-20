@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { CheckCircle2, Loader2, ClipboardList, Palette, X, Send, SkipForward } from 'lucide-react';
 import { EditorSidebar } from './EditorSidebar';
+import { EditorOnboarding } from './EditorOnboarding';
 import { PreviewPane, PreviewPaneHandle } from './PreviewPane';
 import { InitialView } from './InitialView';
 import { EventWizard, WizardResult } from './wizard/EventWizard';
@@ -112,6 +113,7 @@ export const EditorView: React.FC = () => {
   
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isSelectionMode, setIsSelectionMode] = useState(false);
+  const pencilBtnRef = useRef<HTMLElement>(null);
   const [isModuleSelectionMode, setIsModuleSelectionMode] = useState(false);
   const [selectedModuleName, setSelectedModuleName] = useState<string | null>(null);
   const [isLoadingFile, setIsLoadingFile] = useState(false);
@@ -1107,6 +1109,12 @@ export const EditorView: React.FC = () => {
         </div>
       )}
 
+      {/* Onboarding primera visita: destaca el botón Editar textos */}
+      <EditorOnboarding
+        onActivate={() => setIsSelectionMode(true)}
+        targetRef={pencilBtnRef}
+      />
+
       {!isFullscreen && (
         <EditorSidebar
           code={code}
@@ -1115,6 +1123,7 @@ export const EditorView: React.FC = () => {
           onClearSelection={() => setSelectedElement(null)}
           isSelectionMode={isSelectionMode}
           onToggleSelectionMode={() => setIsSelectionMode(!isSelectionMode)}
+          pencilBtnRef={pencilBtnRef}
           onIterateModule={handleIterateModule}
           onToggleModuleVisibility={handleToggleModuleVisibility}
           onToggleElementVisibility={handleToggleElementVisibility}

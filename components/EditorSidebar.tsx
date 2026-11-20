@@ -974,6 +974,7 @@ interface EditorSidebarProps {
   colorVars?: Record<string, string>;
   onUpdateColorVars?: (key: string, value: string) => void;
   onOpenEventData?: () => void;
+  pencilBtnRef?: React.RefObject<HTMLElement>;
 }
 
 // ============================================================
@@ -1168,6 +1169,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
   onClearSelection,
   isSelectionMode,
   onToggleSelectionMode,
+  pencilBtnRef,
   onIterateModule,
   onToggleModuleVisibility,
   onToggleElementVisibility,
@@ -1251,13 +1253,19 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
             </button>
           )}
           <button
+            ref={pencilBtnRef as React.RefObject<HTMLButtonElement>}
             onClick={onToggleSelectionMode}
-            className={`relative p-2 rounded-lg transition-all ${isSelectionMode ? 'bg-pink-500 text-white shadow-md shadow-pink-500/20 ring-2 ring-pink-300' : 'text-gray-400 hover:text-pink-500 hover:bg-pink-100'}`}
-            title={isSelectionMode ? 'Modo selección ACTIVO: haz clic en un texto de la invitación para editarlo' : 'Seleccionar elementos: activa el lápiz y haz clic en cualquier texto de la invitación para editarlo'}
-            aria-label={isSelectionMode ? 'Desactivar modo selección' : 'Activar modo selección de elementos'}
+            className={`relative flex items-center gap-1.5 rounded-xl transition-all font-medium text-xs ${
+              isSelectionMode
+                ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/25 px-3 py-2 ring-2 ring-pink-300'
+                : 'bg-gradient-to-r from-pink-50 to-rose-50 text-pink-600 hover:from-pink-100 hover:to-rose-100 px-3 py-2 border border-pink-200'
+            }`}
+            title={isSelectionMode ? 'Modo edición ACTIVO: haz clic en cualquier texto para cambiarlo' : 'Haz clic aquí y después en cualquier texto de la invitación para editarlo'}
+            aria-label={isSelectionMode ? 'Desactivar modo edición de textos' : 'Activar modo edición de textos'}
             aria-pressed={isSelectionMode}
           >
             <Pencil className={`w-4 h-4 ${!isSelectionMode ? 'animate-pulse' : ''}`} />
+            <span>{isSelectionMode ? 'Editando ✓' : 'Editar textos'}</span>
             {!isSelectionMode && (
               <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-pink-400 rounded-full animate-ping" aria-hidden="true" />
             )}
