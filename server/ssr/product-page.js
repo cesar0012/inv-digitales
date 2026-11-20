@@ -365,7 +365,10 @@ export function renderProductPage(item, ctx = {}) {
 
   // URL helpers
   const demoUrl = `${publicUrl}/preview/${item.filename}`;
-  const customizeUrl = `/editor?filename=${encodeURIComponent(item.filename)}`;
+  // El editor lee el filename del PATH PARAM (/editor/:filename), no de query
+  // params — si se manda como ?filename=… el editor abre el generador de
+  // invitaciones nuevas en vez de editar esta.
+  const customizeUrl = `/editor/${encodeURIComponent(item.filename)}`;
   const editorHref = item.filename ? customizeUrl : '/editor';
   const aiUrl = '/editor';
 
@@ -653,7 +656,7 @@ ${(zona?.porQue || [
           ${promptsHtml}
         </ul>
         <div class="cta-row">
-          <a class="btn btn-ghost" href="${esc(editorHref)}&mode=iterar" data-slot="urls.request_section_change"
+          <a class="btn btn-ghost" href="${esc(editorHref)}?mode=iterar" data-slot="urls.request_section_change"
              data-hva="cta_click" data-hva-cta="request_section_change" data-hva-location="iteration">Pedir un cambio de sección</a>
         </div>
       </div>
