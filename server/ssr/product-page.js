@@ -763,19 +763,24 @@ ${related.length >= 2 ? `
     </div>
   </footer>
 
-  <!-- Login condicional: si el visitante NO tiene sesión de la app, los CTAs
-       "Personalizar esta invitación" llevan a los planes de
-       app.invitacionesmodernas.com en vez del editor (que pediría login).
+  <!-- Login condicional: DOS escenarios.
+       Con sesión (cookie de la app, verificada contra /api/auth/me) los CTAs
+       "Personalizar esta invitación" llevan AL EDITOR. Sin sesión llevan a
+       los planes de app.invitacionesmodernas.com. La sesión del usuario vive
+       en cookie httpOnly (no en localStorage), por eso se verifica por API.
        El HTML servidor conserva el href del editor para crawlers. -->
   <script>
   (function () {
-    try {
-      var token = localStorage.getItem('auth_token');
-      if (!token) {
-        var planes = 'https://app.invitacionesmodernas.com/app/planes';
-        document.querySelectorAll('a[data-hva-cta="customize"]').forEach(function (a) { a.href = planes; });
-      }
-    } catch (e) { /* localStorage bloqueado: se queda el editor */ }
+    fetch('/api/auth/me', { credentials: 'include' })
+      .then(function (r) { return r.ok ? r.json() : { authenticated: false }; })
+      .then(function (d) {
+        if (!d || !d.authenticated) {
+          var planes = 'https://app.invitacionesmodernas.com/app/planes';
+          document.querySelectorAll('a[data-hva-cta="customize"]').forEach(function (a) { a.href = planes; });
+        }
+      })
+      .catch(function () { /* fallo de red: se conserva el editor (la app
+                              redirige a su login si no hay sesión) */ });
   })();
   </script>
 
