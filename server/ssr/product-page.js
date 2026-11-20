@@ -510,19 +510,22 @@ ${exploreEvents.map((e) => `          <li><a href="${esc(e.url)}">${esc(e.label)
           <div class="cta-row">
             <a class="btn btn-primary" href="${esc(editorHref)}" data-slot="urls.customize"
                data-hva="cta_click" data-hva-cta="customize" data-hva-location="hero">Personalizar esta invitación</a>
-            <a class="btn btn-ghost" href="#demo" data-hva="cta_click" data-hva-cta="view_demo" data-hva-location="hero">Ver la invitación en vivo</a>
+            <a class="btn btn-ghost" href="${esc(demoUrl)}" target="_blank" rel="noopener"
+               data-hva="cta_click" data-hva-cta="view_demo" data-hva-location="hero">Ver la invitación en vivo</a>
           </div>
           <p class="reassure">Sin descargas · Se comparte por WhatsApp · Cambias tus datos cuando quieras ·
             <a href="#crear-con-ia" data-hva="cta_click" data-hva-cta="generate_ai" data-hva-location="hero">¿Buscas otro estilo? Créala con IA</a></p>
         </div>
 
         <figure class="hero-media hero-media--live" style="margin:0">
-          <!-- Vista VIVA de la invitación (mismo iframe del demo) en marco de
-               teléfono; la imagen estática solo queda como og:image para
-               redes sociales -->
-          <div class="hero-phone" role="img" aria-label="${esc(heroAlt)}">
+          <!-- Vista VIVA de la invitación en marco de teléfono — TAP para
+               abrirla en pantalla completa. La imagen estática solo queda
+               como og:image para redes sociales. -->
+          <a class="hero-phone" href="${esc(demoUrl)}" target="_blank" rel="noopener"
+             aria-label="${esc(heroAlt)} — abrir en pantalla completa"
+             data-hva="cta_click" data-hva-cta="open_demo" data-hva-location="hero_phone">
             <iframe src="${esc(demoUrl)}" title="${esc(heroAlt)}" loading="lazy"></iframe>
-          </div>
+          </a>
         </figure>
       </div>
     </section>
@@ -572,26 +575,9 @@ ${(zona?.porQue || [
       </div>
     </section>
 
-    <!-- ========== Doc §4 INVITATION DEMO (iframe carga solo al abrirse) ========== -->
-    <section class="alt" id="demo" aria-labelledby="demo-h">
-      <div class="wrap">
-        <h2 id="demo-h">Ve la invitación en vivo como la verán tus invitados</h2>
-        <div class="rule"></div>
-        <p>Abre la demostración para recorrer el diseño, las secciones y la experiencia completa antes de personalizarla para tu fiesta.</p>
-        <details class="demo">
-          <summary data-hva="cta_click" data-hva-cta="open_demo" data-hva-location="demo">Ver la invitación en vivo</summary>
-          <div class="demo-body">
-            <div class="phone">
-              <iframe data-slot="urls.demo" src="${esc(demoUrl)}"
-                      title="Demostración de la invitación de ${esc(eventoLow)}"
-                      loading="lazy"></iframe>
-            </div>
-            <a class="btn-link" href="${esc(demoUrl)}" target="_blank" rel="noopener"
-               data-hva="cta_click" data-hva-cta="demo_fullscreen" data-hva-location="demo">Abrir la demostración en pantalla completa</a>
-          </div>
-        </details>
-      </div>
-    </section>
+    <!-- ========== Doc §4 DEMO: ahora VIVE en el hero (hero-phone) — el botón
+         "Ver la invitación en vivo" y el propio teléfono la abren en pantalla
+         completa. Esta sección de panel desplegable se eliminó. ========== -->
 
     <!-- ========== Doc §5 INCLUDED SECTIONS (3 estados) ========== -->
     ${modulos.incluidas.length || modulos.agregables.length ? `
@@ -790,9 +776,10 @@ ${related.length >= 2 ? `
     function track(name, params) { if (typeof gtag === 'function') gtag('event', name, params || {}); }
     var itemId = ${JSON.stringify(String(item.slug || ''))};
     track('view_item', { item_id: itemId, item_category: ${JSON.stringify(String(eventoLabel || ''))} });
-    // demo_open: el <details> del demo
-    var demo = document.querySelector('details.demo');
-    if (demo) demo.addEventListener('toggle', function () { if (demo.open) track('demo_open', { item_id: itemId }); });
+    // demo_open: el teléfono del hero y el botón "Ver la invitación en vivo"
+    document.querySelectorAll('a[data-hva-cta="open_demo"], a[data-hva-cta="view_demo"]').forEach(function (a) {
+      a.addEventListener('click', function () { track('demo_open', { item_id: itemId }); });
+    });
     // plan_select / begin_checkout / cta_click por delegación
     document.addEventListener('click', function (e) {
       var a = e.target.closest ? e.target.closest('a[data-hva-cta]') : null;

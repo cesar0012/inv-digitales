@@ -45,13 +45,14 @@ export async function generarPaginaEn(htmlEs, ctx, creds) {
     `<link rel="alternate" hreflang="es" href="${esUrl}">\n  <link rel="alternate" hreflang="en" href="${enUrl}">\n  <link rel="alternate" hreflang="x-default" href="${esUrl}">`);
 
   // Aviso del idioma del demo — regla del cliente: "generada en español,
-  // te la presentamos aquí". Se inyecta antes del panel del demo.
+  // te la presentamos aquí". Se inyecta bajo el teléfono del hero (el demo
+  // ahora vive en el hero, no en panel desplegable).
   const aviso = `
-      <p style="margin:0 0 14px;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:var(--bg-alt);color:var(--ink-soft);font-size:.92rem">
-        <strong>This invitation was designed in Spanish</strong> — we're showing it to you in English here.
-        When you create yours, you can write it in English or Spanish.
-      </p>`;
-  html = html.replace(/(<details class="demo">)/, `${aviso}\n        $1`);
+          <figcaption style="margin-top:12px;text-align:center;font-size:.85rem;color:var(--ink-soft);font-style:italic">
+            This invitation was designed in Spanish — we're showing it to you in English here.
+            When you create yours, you can write it in English or Spanish.
+          </figcaption>`;
+  html = html.replace(/(<\/a>\s*<\/figure>)/, `$1${aviso}`);
 
   return { html, traducidos: tr.traducidos };
 }
