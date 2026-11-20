@@ -21,7 +21,9 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { hasOgScreenshot, ogScreenshotFile } from '../screenshotService.js';
 import { extraerPerfilDiseno, construirSeoDesdePerfil, construirZonaDeDiseno, notaDeSeccion } from './designProfile.js';
-import { PLANES_PUBLICOS } from './sitePlans.js';
+// import { PLANES_PUBLICOS } from './sitePlans.js'; — NO: los planes salen del
+// ADMIN (plan_config, dinámicos) como el usuario pidió. sitePlans.js queda
+// solo como referencia del sitio de precios.
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const BRAND_NAME = 'Invitaciones Modernas';
@@ -320,8 +322,11 @@ export function renderProductPage(item, ctx = {}) {
   const heroSummary = zona?.hero || stripTags(secHtml(1)) || `Esta invitación digital de ${eventoLow}${colorsLabel ? ` combina ${colorsLabel}` : ''}${themeLabel ? ` con tema de ${themeLabel.toLowerCase()}` : ''}. Tus invitados la abren desde un enlace de WhatsApp${modulos.keyLabel ? ` y encuentran ${modulos.keyLabel.toLowerCase()}` : ' y ven todos los datos de tu celebración'}.`;
   const heroSummaryLimpia = limpiarVacios(heroSummary);
 
-  // Planes: los 3 REALES del sitio de precios (F5) — única fuente pública.
-  const planes = PLANES_PUBLICOS;
+  // Planes: TODOS los configurados en el ADMIN (plan_config, dinámicos, 1..N).
+  // SIN precios visibles en las cards — el precio se consulta en la página de
+  // planes (app.invitacionesmodernas.com/app/planes), a donde llevan los
+  // botones.
+  const planes = getPlanes(db);
   const customFaqs = Array.isArray(sections.section_11?.faqs) ? sections.section_11.faqs : [];
   const faqs = customFaqs.length >= 6
     ? customFaqs.map((f) => ({ q: f.question || f.q, a: f.answer || f.a }))
@@ -378,15 +383,17 @@ export function renderProductPage(item, ctx = {}) {
   const faqHtml = faqs.map((f) => `
         <details><summary><h3>${esc(f.q)}</h3></summary><p>${esc(f.a)}</p></details>`).join('\n');
 
-  // Cards de planes con el copy exacto del sitio de precios (F5/F6): precio
-  // USD + límite de invitados + características reales por plan.
+  // Cards de planes SIN precio: del admin (plan_config) con nombre y
+  // beneficios (créditos). El precio se consulta en la página de planes,
+  // a donde lleva el botón de cada card.
   const planesHtml = planes.map((p) => `
           <article class="plan${p.featured ? ' is-featured' : ''}">
-            ${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ''}
+            ${p.featured ? '<span class="badge">Recomendado</span>' : ''}
             <h3>${esc(p.name)}</h3>
-            <p class="price">$${p.price} <small>USD · ${esc(p.notaPrecio)}</small></p>
             <ul class="ticks">
-${p.bullets.map((b) => `              <li>${esc(b)}</li>`).join('\n')}
+              <li>1 invitación con este diseño</li>
+              <li>${p.designs} diseños nuevos con IA</li>
+              <li>${p.changes} cambios de sección con IA</li>
             </ul>
             <a class="btn ${p.featured ? 'btn-primary' : 'btn-ghost'}" href="${esc(p.url)}" data-slot="plans.${p.key}.url"
                data-hva="cta_click" data-hva-cta="plan_${p.key}" data-hva-location="plans">Elegir ${esc(p.name)}</a>
@@ -857,17 +864,9 @@ function buildProductSchema(item, { h1, title, metaDesc, canonical, ogImage, faq
       ...(ogImage ? { image: { '@id': `${canonical}#primaryimage` } } : {}),
       brand: { '@type': 'Brand', name: BRAND_NAME },
       category: `Invitaciones digitales de ${(eventoLabel || 'celebración').toLowerCase()}`,
-      ...(colorsLabel ? { color: colorsLabel } : {}),
-      // Una Offer por plan visible con el MISMO precio USD que la página
-      // muestra (F5/§8: schema = página).
-      offers: planes.map((p) => ({
-        '@type': 'Offer',
-        name: p.name,
-        price: String(Number(p.price).toFixed(2)),
-        priceCurrency: 'USD',
-        availability: 'https://schema.org/InStock',
-        url: `${canonical}#planes`
-      }))
+      ...(colorsLabel ? { color: colorsLabel } : {})
+      // Sin offers: las cards no muestran precio (se consulta en la página de
+      // planes) y la guía §8 exige que sin precio visible no haya Offer.
     }
   ];
   if (faqs.length) {
