@@ -465,6 +465,17 @@ ${exploreEvents.map((e) => `          <li><a href="${esc(e.url)}">${esc(e.label)
 
   <script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, '\\u003c')}</script>
   ${accentOverride}<style>${css()}</style>
+  <!-- C2: GA4 (misma propiedad que el sitio digital) + Clarity -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RWPQEFQ878"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RWPQEFQ878', { send_page_view: false });
+  </script>
+  <script>
+    (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","z5inbiskc8");
+  </script>
 </head>
 
 <body>
@@ -472,7 +483,7 @@ ${exploreEvents.map((e) => `          <li><a href="${esc(e.url)}">${esc(e.label)
 
   <nav class="crumbs wrap" aria-label="Migas de pan">
     <ol>
-      <li><a href="/">Inicio</a></li>
+      <li><a href="https://digital.invitacionesmodernas.com/es-us/">Inicio</a></li>
       <li><a href="/catalogo/">Catálogo</a></li>
       <li><a href="/catalogo/${esc(eventoKey)}/" data-slot="taxonomy.event.url">Invitaciones de ${esc(eventoLow)}</a></li>
       <li aria-current="page" data-slot="copy.h1">${h1}</li>
@@ -765,6 +776,28 @@ ${related.length >= 2 ? `
         document.querySelectorAll('a[data-hva-cta="customize"]').forEach(function (a) { a.href = planes; });
       }
     } catch (e) { /* localStorage bloqueado: se queda el editor */ }
+  })();
+  </script>
+
+  <!-- C2: eventos del embudo en la página de producto (GA4) -->
+  <script>
+  (function () {
+    function track(name, params) { if (typeof gtag === 'function') gtag('event', name, params || {}); }
+    var itemId = ${JSON.stringify(String(item.slug || ''))};
+    track('view_item', { item_id: itemId, item_category: ${JSON.stringify(String(eventoLabel || ''))} });
+    // demo_open: el <details> del demo
+    var demo = document.querySelector('details.demo');
+    if (demo) demo.addEventListener('toggle', function () { if (demo.open) track('demo_open', { item_id: itemId }); });
+    // plan_select / begin_checkout / cta_click por delegación
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest ? e.target.closest('a[data-hva-cta]') : null;
+      if (!a) return;
+      var cta = a.getAttribute('data-hva-cta') || '';
+      if (/^plan_/.test(cta)) track('plan_select', { item_id: itemId, plan: cta.replace('plan_', '') });
+      if (cta === 'customize') track('begin_checkout', { item_id: itemId });
+      track('cta_click', { cta: cta, location: a.getAttribute('data-hva-location') || '' });
+    });
+    gtag('event', 'page_view', { page_title: document.title, page_location: location.href });
   })();
   </script>
 </body>

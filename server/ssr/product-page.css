@@ -157,6 +157,7 @@ button{font:inherit;cursor:pointer}
 @media(min-width:880px){.cards--catalog{grid-template-columns:repeat(3,1fr)}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
 .card img{aspect-ratio:4/5;object-fit:cover;width:100%;background:var(--bg-alt)}
+.card-link{display:block;color:inherit}
 .card-body{padding:16px 18px 20px}
 .card .rel{font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin:0 0 6px}
 .card h3{font-size:1.05rem;margin:0 0 6px}
@@ -164,7 +165,26 @@ button{font:inherit;cursor:pointer}
 .card h3 a::after{content:"";position:absolute;inset:0}
 .card{position:relative}
 .card p{font-size:.92rem;color:var(--ink-soft);margin:0}
+.card-price{font-weight:500;color:var(--ink);margin-top:8px}
+.card-price small{color:var(--ink-soft);font-weight:400}
+.card-cta{margin-top:12px;font-size:.9rem;min-height:44px;position:relative;z-index:1}
 .card:hover{box-shadow:0 14px 32px rgba(42,26,34,.1)}
+
+/* Header del catálogo (C3) — marco del sitio digital con retorno */
+.cat-header{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.cat-header__row{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:56px}
+.cat-header__logo{display:flex;align-items:center;gap:8px;font-family:var(--display);font-size:1.02rem;color:var(--ink);text-decoration:none;white-space:nowrap}
+.cat-header__nav{display:none;gap:22px}
+.cat-header__nav a{color:var(--ink-soft);text-decoration:none;font-size:.95rem}
+.cat-header__nav a:hover,.cat-header__nav a[aria-current="page"]{color:var(--accent)}
+.cat-header__wa{display:flex;align-items:center;gap:7px;color:#1faa53;text-decoration:none;font-size:.9rem;white-space:nowrap}
+.cat-header__wa-num{display:none}
+@media(min-width:760px){.cat-header__nav{display:flex}.cat-header__wa-num{display:inline}}
+
+/* C10: pasos cómo-funciona compactos */
+.steps--3{grid-template-columns:1fr}
+@media(min-width:760px){.steps--3{grid-template-columns:repeat(3,1fr)}}
+.steps--3 li small{display:block;color:var(--ink-soft);font-weight:400;font-size:.85rem;margin-top:2px}
 
 /* Explore links */
 .pills{list-style:none;display:flex;flex-wrap:wrap;gap:10px;padding:0;margin:0}
