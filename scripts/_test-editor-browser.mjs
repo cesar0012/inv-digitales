@@ -412,6 +412,18 @@ async function ejecutar() {
     r = await llamar('POST', '/api/invitations', { htmlContent: '<html></html>', eventType: 'XV años', purchaseId: 424242 });
     check(r.status === 404 && /Plan no encontrado/.test((await r.json()).error), 'crear una invitación con un plan que el usuario NO tiene → rechazado (las reglas de planes siguen intactas)');
   }
+
+  console.log('\nPantalla de inicio del editor (crear una invitación):');
+  {
+    await page.setCookie({ name: 'auth_token', value: servidor.token, domain: 'localhost', path: '/', httpOnly: true, sameSite: 'Lax' });
+    await page.goto(`${BASE}/editor?modo=clasico`, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    await dormir(2500);
+    const texto = await page.evaluate(() => document.body.innerText);
+    const tecnicos = texto.match(/#[0-9a-fA-F]{3,8}\b|\b\d+(?:\.\d+)?\s?(?:px|rem)\b/gi) || [];
+    check(/paleta de colores/i.test(texto), 'se muestra la paleta de colores');
+    check(/Toca el cuadro para elegir el color/.test(texto), 'los colores se explican con palabras');
+    check(tecnicos.length === 0, `sin códigos de color ni medidas visibles${tecnicos.length ? ' → encontró: ' + tecnicos.join(', ') : ''}`);
+  }
 }
 
 let codigo = 1;

@@ -496,7 +496,7 @@ export const InitialView: React.FC<InitialViewProps> = ({
                     onChange={(e) => setPrimaryColor(e.target.value)}
                     className="w-8 h-8 rounded cursor-pointer border-0 p-0 bg-transparent"
                   />
-                  <span className="text-sm text-gray-700 font-mono uppercase">{primaryColor}</span>
+                  <span className="text-sm text-gray-500">Toca el cuadro para elegir el color</span>
                 </div>
               </div>
               <div className="flex flex-col gap-1">
@@ -508,7 +508,7 @@ export const InitialView: React.FC<InitialViewProps> = ({
                     onChange={(e) => setSecondaryColor(e.target.value)}
                     className="w-8 h-8 rounded cursor-pointer border-0 p-0 bg-transparent"
                   />
-                  <span className="text-sm text-gray-700 font-mono uppercase">{secondaryColor}</span>
+                  <span className="text-sm text-gray-500">Toca el cuadro para elegir el color</span>
                 </div>
               </div>
             </div>
