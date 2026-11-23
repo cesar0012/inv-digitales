@@ -1,16 +1,12 @@
 import { Attachment, ImageSource } from '../types';
 import { stabilizeImages } from './imageService';
+import { MENSAJE_SIN_SESION, redirectToNoSession } from './noSessionRedirect';
 
 const API_BASE = `${import.meta.env.VITE_PUBLIC_URL || window.location.origin}/api`;
 
-const fetchConfig = async (): Promise<string> => {
-  const url = `${import.meta.env.VITE_PUBLIC_URL || window.location.origin}/api/config/public`;
-  console.log('Fetching config from:', url);
-  const res = await fetch(url);
-  const config = await res.json();
-  console.log('Config fetched:', config);
-  return config.login_page_url || '/admin-login';
-};
+// Sin sesión (o sesión vencida): se manda al destino único, que nunca es una
+// página de administración.
+const irASinSesion = async () => { await redirectToNoSession(); return new Error(MENSAJE_SIN_SESION); };
 
 const cleanCode = (text: string): string => {
   if (!text) return "";
@@ -67,19 +63,10 @@ export const generateWebProject = async (
     });
 
     // ============================================================
-    // MANEJO DE 401 - REDIRECCIONAR A LOGIN CONFIGURABLE
+    // MANEJO DE 401 - Llevar al destino sin sesión (nunca /admin)
     // ============================================================
     if (!response.ok && response.status === 401) {
-      console.log('=== 401 RECIBIDO - BUSCANDO LOGIN URL ===');
-      try {
-        const loginUrl = await fetchConfig();
-        console.log('Redirecting to:', loginUrl);
-        window.location.href = loginUrl;
-      } catch (e) {
-        console.error('Error getting config:', e);
-        window.location.href = '/admin-login';
-      }
-      throw new Error('No autenticado');
+      throw await irASinSesion();
     }
 
     if (!response.ok) {
@@ -148,17 +135,9 @@ Return the complete, updated HTML code. Raw HTML only, no markdown formatting.
       })
     });
 
-    // 401 = Redirect to login configurable
+    // 401 = sin sesión: llevar al destino único (nunca /admin)
     if (!response.ok && response.status === 401) {
-      console.log('=== 401 EN addModuleToProject ===');
-      try {
-        const loginUrl = await fetchConfig();
-        console.log('Redirecting to:', loginUrl);
-        window.location.href = loginUrl;
-      } catch {
-        window.location.href = '/admin-login';
-      }
-      throw new Error('No autenticado');
+      throw await irASinSesion();
     }
 
     if (!response.ok) {
@@ -214,13 +193,7 @@ export const iterateModule = async (
     });
 
     if (!response.ok && response.status === 401) {
-      try {
-        const loginUrl = await fetchConfig();
-        window.location.href = loginUrl;
-      } catch {
-        window.location.href = '/admin-login';
-      }
-      throw new Error('No autenticado');
+      throw await irASinSesion();
     }
 
     if (!response.ok) {
@@ -278,16 +251,9 @@ Return the complete, updated HTML code. Raw HTML only, no markdown formatting.
     });
 
     if (!response.ok) {
-      // Si es 401 (No autenticado), obtener URL de login y redireccionar
+      // 401 (sin sesión): llevar al destino único, que nunca es /admin
       if (response.status === 401) {
-        try {
-          const configRes = await fetch(`${API_BASE}/config/public`);
-          const config = await configRes.json();
-          const loginUrl = config.login_page_url || '/admin-login';
-          window.location.href = loginUrl;
-        } catch {
-          window.location.href = '/admin-login';
-        }
+        throw await irASinSesion();
       }
       const errorData = await response.json();
       throw new Error(errorData.error || `Error ${response.status}`);

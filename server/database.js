@@ -3,6 +3,7 @@ import { hashPassword, KNOWN_WEAK_PASSWORD_HASHES } from './security.js';
 import { fileURLToPath } from 'url';
 import { dirname, join, resolve } from 'path';
 import { mkdirSync } from 'fs';
+import { NO_SESSION_URL, esDestinoSinSesionProhibido } from './noSessionRedirect.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -60,7 +61,7 @@ db.exec(`
     image_provider TEXT DEFAULT 'gemini',
     image_model TEXT DEFAULT 'gemini-3.1-flash-image-preview',
     image_api_key TEXT DEFAULT '',
-    login_page_url TEXT DEFAULT '/admin-login',
+    login_page_url TEXT DEFAULT '${NO_SESSION_URL}',
     updated_at TEXT DEFAULT (datetime('now'))
   )
 `);
@@ -143,6 +144,18 @@ safeAlter('ALTER TABLE admin_config ADD COLUMN premium_llm_enabled INTEGER DEFAU
 safeAlter('ALTER TABLE admin_config ADD COLUMN premium_llm_base_url TEXT', 'admin_config.premium_llm_base_url');
 safeAlter('ALTER TABLE admin_config ADD COLUMN premium_llm_api_key TEXT', 'admin_config.premium_llm_api_key');
 safeAlter('ALTER TABLE admin_config ADD COLUMN premium_llm_model TEXT', 'admin_config.premium_llm_model');
+
+// El destino sin sesión jamás puede ser una página de administración. Corrige
+// instalaciones existentes cuyo valor guardado era el viejo '/admin-login'.
+try {
+  const cfg = db.prepare('SELECT login_page_url FROM admin_config WHERE id = 1').get();
+  if (cfg && esDestinoSinSesionProhibido(cfg.login_page_url, process.env.PUBLIC_URL)) {
+    db.prepare('UPDATE admin_config SET login_page_url = ? WHERE id = 1').run(NO_SESSION_URL);
+    console.log('🔒 Destino sin sesión corregido: nunca más /admin (ahora la página de planes)');
+  }
+} catch (e) {
+  console.error('No se pudo corregir login_page_url:', e.message);
+}
 
 // Resultados del generador de módulos (lotes automáticos + revisión posterior)
 db.exec(`

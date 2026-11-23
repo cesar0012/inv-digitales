@@ -1,55 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { getNoSessionUrl } from '../services/noSessionRedirect';
 import { Loader2 } from 'lucide-react';
 
 interface PrivateRouteProps {
   children: React.ReactNode;
 }
 
+const Espera: React.FC<{ texto: string }> = ({ texto }) => (
+  <div className="min-h-screen w-full bg-gradient-to-br from-pink-50 via-white to-rose-50 flex items-center justify-center">
+    <div className="flex flex-col items-center gap-4">
+      <Loader2 className="w-10 h-10 text-pink-500 animate-spin" />
+      <p className="text-gray-600">{texto}</p>
+    </div>
+  </div>
+);
+
 export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
-  const [loginUrl, setLoginUrl] = useState<string>('/admin-login');
+  // Destino para quien no tiene sesión (null = todavía no se sabe)
+  const [destino, setDestino] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchLoginUrl = async () => {
-      try {
-        const baseUrl = import.meta.env.VITE_PUBLIC_URL || 'http://localhost:3001';
-        const res = await fetch(`${baseUrl}/api/config/public`);
-        const config = await res.json();
-        setLoginUrl(config.login_page_url || '/admin-login');
-      } catch {
-        setLoginUrl('/admin-login');
-      }
-    };
-    fetchLoginUrl();
+    let vivo = true;
+    // Nunca falla: ante cualquier error devuelve la página de planes de la app.
+    getNoSessionUrl().then((url) => { if (vivo) setDestino(url); });
+    return () => { vivo = false; };
   }, []);
 
+  // Sin sesión se sale del generador hacia el destino único. Ese destino
+  // nunca es /admin ni una página privada, así que no puede haber bucle.
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      if (loginUrl.startsWith('http://') || loginUrl.startsWith('https://')) {
-        window.location.href = loginUrl;
-      }
+    if (!loading && !isAuthenticated && destino && destino !== window.location.href) {
+      window.location.assign(destino);
     }
-  }, [loading, isAuthenticated, loginUrl]);
+  }, [loading, isAuthenticated, destino]);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen w-full bg-gradient-to-br from-pink-50 via-white to-rose-50 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <Loader2 className="w-10 h-10 text-pink-500 animate-spin" />
-          <p className="text-gray-600">Verificando autenticación...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!isAuthenticated) {
-    if (loginUrl.startsWith('http://') || loginUrl.startsWith('https://')) {
-      return null;
-    }
-    window.location.href = loginUrl;
-    return null;
-  }
-
+  if (loading) return <Espera texto="Verificando autenticación..." />;
+  if (!isAuthenticated) return <Espera texto="Un momento..." />;
   return <>{children}</>;
 };

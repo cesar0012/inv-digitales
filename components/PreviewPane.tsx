@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
+import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle, useCallback } from 'react';
 import { Monitor, Smartphone, Tablet, Eye, Maximize2, Minimize2 } from 'lucide-react';
 import { SelectedElement } from '../types';
+import type { MetricasElemento } from './editor/friendlyStyles';
 
 interface PreviewPaneProps {
   code: string;
@@ -15,6 +16,8 @@ interface PreviewPaneProps {
 
 export interface PreviewPaneHandle {
   sendCountdownUpdate: (targetDate: string) => void;
+  /** Mide un elemento tal como se ve ahora en la vista previa (en píxeles). */
+  measureElement: (geminiId: string) => MetricasElemento | null;
 }
 
 export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({ 
@@ -30,13 +33,54 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
   const [viewport, setViewport] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
+  // Mide cómo se ve un elemento en la invitación. Lo usan los controles en
+  // palabras del editor para calcular sus opciones a partir del diseño real
+  // (p. ej. "Suelto" = un poco más espacio del que el texto ya tiene).
+  const measureElement = useCallback((geminiId: string): MetricasElemento | null => {
+    try {
+      const doc = iframeRef.current?.contentDocument;
+      if (!doc || !geminiId) return null;
+      const el = doc.querySelector(`[data-gemini-id="${geminiId.replace(/(["\\])/g, '\\$1')}"]`) as HTMLElement | null;
+      const vista = doc.defaultView;
+      if (!el || !vista) return null;
+      const cs = vista.getComputedStyle(el);
+      // parseFloat de "normal" o "" da NaN: el llamador lo trata como "sin medida".
+      const px = (v: string) => { const n = parseFloat(v); return Number.isFinite(n) ? n : NaN; };
+
+      let lineHeight = px(cs.lineHeight);
+      // El espaciado "normal" es el más común en los diseños y el navegador no
+      // da un número para él. Se mide con una sonda: una línea invisible dentro
+      // del elemento, retirada de inmediato (no llega a pintarse). Sin esto el
+      // punto de partida sería un supuesto y "Junto" podría quedar más suelto
+      // que el diseño.
+      if (!Number.isFinite(lineHeight) && !/^(IMG|IFRAME|VIDEO|AUDIO|BR|HR|INPUT|SVG|CANVAS|PICTURE)$/.test(el.tagName)) {
+        const sonda = doc.createElement('span');
+        sonda.setAttribute('style', 'position:absolute;visibility:hidden;display:block;width:1px;padding:0;border:0;margin:0');
+        sonda.textContent = '\u200B';
+        el.appendChild(sonda);
+        lineHeight = sonda.getBoundingClientRect().height;
+        el.removeChild(sonda);
+        if (lineHeight <= 0) lineHeight = NaN;
+      }
+      return {
+        fontSize: px(cs.fontSize),
+        lineHeight,
+        letterSpacing: px(cs.letterSpacing),
+        padding: [px(cs.paddingTop), px(cs.paddingRight), px(cs.paddingBottom), px(cs.paddingLeft)],
+      };
+    } catch {
+      return null;
+    }
+  }, []);
+
   useImperativeHandle(ref, () => ({
     sendCountdownUpdate: (targetDate: string) => {
       iframeRef.current?.contentWindow?.postMessage({
         type: 'UPDATE_COUNTDOWN',
         payload: targetDate
       }, '*');
-    }
+    },
+    measureElement
   }));
 
   // Inject script for Click-to-Edit functionality with mode support
@@ -371,21 +415,21 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
             <button
               onClick={() => setViewport('desktop')}
               className={`p-1.5 rounded-md transition-colors ${viewport === 'desktop' ? 'bg-white text-pink-600 shadow-sm' : 'text-gray-500 hover:text-pink-500 hover:bg-pink-100/50'}`}
-              title="Desktop View"
+              title="Ver como en computadora"
             >
               <Monitor className="w-4 h-4" />
             </button>
             <button
               onClick={() => setViewport('tablet')}
               className={`p-1.5 rounded-md transition-colors ${viewport === 'tablet' ? 'bg-white text-pink-600 shadow-sm' : 'text-gray-500 hover:text-pink-500 hover:bg-pink-100/50'}`}
-              title="Tablet View"
+              title="Ver como en tableta"
             >
               <Tablet className="w-4 h-4" />
             </button>
             <button
               onClick={() => setViewport('mobile')}
               className={`p-1.5 rounded-md transition-colors ${viewport === 'mobile' ? 'bg-white text-pink-600 shadow-sm' : 'text-gray-500 hover:text-pink-500 hover:bg-pink-100/50'}`}
-              title="Mobile View"
+              title="Ver como en celular"
             >
               <Smartphone className="w-4 h-4" />
             </button>
@@ -421,7 +465,7 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
             ref={iframeRef}
             srcDoc={enhancedCode}
             className="w-full flex-1 border-none bg-white"
-            title="Preview"
+            title="Vista previa de la invitación"
             sandbox="allow-scripts allow-same-origin allow-forms"
           />
         </div>

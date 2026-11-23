@@ -1,4 +1,5 @@
 import { UserWithInvitations, InvitationFile, SaveInvitationResponse, UserPlan } from '../types';
+import { MENSAJE_SIN_SESION, redirectToNoSession } from './noSessionRedirect';
 
 const getApiBase = () => {
   return window.location.origin;
@@ -138,8 +139,8 @@ export const getInvitationContent = async (filename: string, userId: string, tok
   });
   
   if (response.status === 401) {
-    redirectToLogin();
-    throw new Error('No autenticado');
+    await redirectToNoSession();
+    throw new Error(MENSAJE_SIN_SESION);
   }
   
   if (!response.ok) {
@@ -182,29 +183,27 @@ export const applyInvitationFonts = async (
   return handleResponse(response);
 };
 
-const redirectToLogin = async () => {
-  try {
-    const baseUrl = import.meta.env.VITE_PUBLIC_URL || window.location.origin;
-    const res = await fetch(`${baseUrl}/api/config/public`);
-    const config = await res.json();
-    window.location.href = config.login_page_url || '/admin-login';
-  } catch {
-    window.location.href = '/admin-login';
-  }
-};
+// Una invitación abierta desde el catálogo ("Personalizar esta invitación")
+// todavía no es del usuario: no se actualiza, se guarda como nueva.
+export const CODIGO_PLANTILLA_CATALOGO = 'PLANTILLA_CATALOGO';
 
 const handleResponse = async (response: Response) => {
   if (response.status === 401) {
     const error = await response.json();
     if (error.code === 'NO_TOKEN' || error.code === 'INVALID_TOKEN') {
-      await redirectToLogin();
+      // Sin sesión (o vencida): destino único, nunca una página de administración.
+      await redirectToNoSession();
     }
-    throw new Error('No autenticado');
+    throw new Error(MENSAJE_SIN_SESION);
   }
   
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.error || 'Error en la solicitud');
+    const fallo = new Error(error.error || 'Error en la solicitud');
+    // El servidor explica algunos casos con un código (por ejemplo, que se trate
+    // de una plantilla del catálogo) para que la pantalla sepa qué hacer.
+    if (error.code) (fallo as Error & { code?: string }).code = error.code;
+    throw fallo;
   }
   
   return response.json();

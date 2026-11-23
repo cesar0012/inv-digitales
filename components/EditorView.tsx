@@ -10,7 +10,8 @@ import { SelectedElement, Attachment, ProjectPage, InvitationMetadata, EditorCon
 import { IMAGE_SOURCES } from '../constants';
 import { generateWebProject, addModuleToProject, modifyProjectDesign, iterateModule, aiFillEventData } from '../services/aiService';
 import { resolveSchema, missingRequired, applyDeterministicData, adaptContextoEvento, adaptarVocabularioEvento, collectTextTargets, applyTextByIndex } from '../server/eventDataSchema.js';
-import { consumeCredit, saveInvitation, updateInvitationContent, getInvitationContent, getDefaultFonts, applyInvitationFonts } from '../services/apiService';
+import type { MetricasElemento } from './editor/friendlyStyles';
+import { consumeCredit, saveInvitation, updateInvitationContent, getInvitationContent, getDefaultFonts, applyInvitationFonts, CODIGO_PLANTILLA_CATALOGO } from '../services/apiService';
 import { injectMetadata, extractMetadata, buildMetadataFromHTML } from '../services/metadataService';
 import { useAuth } from '../contexts/AuthContext';
 import { getLocalImages, hasLocalImages, buildLocalImageContext, getEventFolder } from '../services/localImageService';
@@ -707,6 +708,10 @@ export const EditorView: React.FC = () => {
     }
   };
 
+  // Mide un elemento tal como se ve en la vista previa: los controles en
+  // palabras del editor calculan sus opciones a partir del diseño real.
+  const measureElement = useCallback((geminiId: string): MetricasElemento | null => previewRef.current?.measureElement(geminiId) ?? null, []);
+
   const handleUpdateElement = (geminiId: string, newContent?: string, newAttributes?: Record<string, string>, newStyles?: Record<string, string>) => {
     if (!activePage) return;
     
@@ -903,7 +908,7 @@ export const EditorView: React.FC = () => {
     if (code.length === 0) return;
     // Same plan the wizard charged (effectivePurchaseId), so a paid creation can always be saved.
     if (!effectivePurchaseId) {
-      alert('Error: No se encontró el plan seleccionado. Vuelve al dashboard e intenta de nuevo.');
+      alert('Para guardar esta invitación necesitas un plan activo.');
       return;
     }
 
@@ -914,8 +919,23 @@ export const EditorView: React.FC = () => {
       const metadata = buildMetadataFromHTML(code, existingMetadata, editorConfig);
       const htmlWithMetadata = injectMetadata(code, metadata);
       
-      if (filename) {
-        await updateInvitationContent(userId, filename, htmlWithMetadata, token);
+      // Una plantilla abierta desde el catálogo ("Personalizar esta invitación")
+      // todavía no es del usuario: no se actualiza, se guarda como nueva.
+      const esPlantillaDelCatalogo = async (): Promise<boolean> => {
+        if (!filename) return false;
+        try {
+          await updateInvitationContent(userId, filename, htmlWithMetadata, token);
+          return false;
+        } catch (error: any) {
+          if (error?.code !== CODIGO_PLANTILLA_CATALOGO) throw error;
+          return true;
+        }
+      };
+
+      if (await esPlantillaDelCatalogo()) {
+        await saveInvitation(htmlWithMetadata, editorConfig.eventType, effectivePurchaseId, token);
+        navigate('/');
+      } else if (filename) {
         setSuccessMessage('Invitación actualizada correctamente');
         setTimeout(() => setSuccessMessage(null), 5000);
       } else {
@@ -1124,6 +1144,7 @@ export const EditorView: React.FC = () => {
           isSelectionMode={isSelectionMode}
           onToggleSelectionMode={() => setIsSelectionMode(!isSelectionMode)}
           pencilBtnRef={pencilBtnRef}
+          measureElement={measureElement}
           onIterateModule={handleIterateModule}
           onToggleModuleVisibility={handleToggleModuleVisibility}
           onToggleElementVisibility={handleToggleElementVisibility}

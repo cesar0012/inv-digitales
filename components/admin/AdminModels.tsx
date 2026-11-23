@@ -3,6 +3,7 @@ import { Save, Key, Cpu, MessageSquare, Image, Loader2, Bot, Settings, Type, Spa
 import { AI_MODELS, GOOGLE_FONT_OPTIONS, GOOGLE_HEADING_FONT_OPTIONS } from '../../constants';
 import { AIModel } from '../../types';
 import { getAdminConfig, saveAdminConfig, getFreeImagesConfig, saveFreeImagesConfig, testFreeImageProvider as testFreeImageProviderApi } from '../../services/adminService';
+import { NO_SESSION_URL, esDestinoSinSesionProhibido, destinoSinSesionSeguro } from '../../services/noSessionRedirect';
 
 type Section = 'html' | 'images' | 'general';
 
@@ -30,7 +31,7 @@ export const AdminModels: React.FC = () => {
   const [imageProvider, setImageProvider] = useState<string>('gemini');
   
 // General Config
-  const [loginPageUrl, setLoginPageUrl] = useState('/admin-login');
+  const [loginPageUrl, setLoginPageUrl] = useState(NO_SESSION_URL);
   const [useAgentOrchestrator, setUseAgentOrchestrator] = useState(false);
   const [useRagTemplates, setUseRagTemplates] = useState(true);
   const [hasGoogleApiKey, setHasGoogleApiKey] = useState(false);
@@ -53,6 +54,9 @@ export const AdminModels: React.FC = () => {
         default_font_base: defaultFontBase,
         default_font_heading: defaultFontHeading
       });
+      // El campo muestra el valor que quedó guardado de verdad (si se escribió
+      // un destino prohibido, el servidor guardó la página de planes).
+      setLoginPageUrl(destinoSinSesionSeguro(loginPageUrl));
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
     } catch (error) {
@@ -71,7 +75,7 @@ const loadConfig = async () => {
       setImageModel(config.image_model);
       setImageApiKey(config.image_api_key);
       setImageProvider(config.image_provider || 'gemini');
-      setLoginPageUrl(config.login_page_url || '/admin-login');
+      setLoginPageUrl(destinoSinSesionSeguro(config.login_page_url));
       setUseAgentOrchestrator(config.use_agent_orchestrator || false);
       setUseRagTemplates(config.use_rag_templates !== false);
       setDefaultFontBase(config.default_font_base || 'Playfair Display');
@@ -853,17 +857,21 @@ const GeneralConfig: React.FC<GeneralConfigProps> = ({
         
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Página de Login
+            Destino sin sesión
           </label>
           <input
             type="text"
             value={loginPageUrl}
             onChange={(e) => onLoginPageUrlChange(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
-            placeholder="/admin-login"
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 ${
+              esDestinoSinSesionProhibido(loginPageUrl) ? 'border-red-300' : 'border-gray-300'
+            }`}
+            placeholder={NO_SESSION_URL}
           />
-          <p className="text-xs text-gray-500 mt-1">
-            URL a la que se redireccionará cuando el usuario no esté autenticado
+          <p className={`text-xs mt-1 ${esDestinoSinSesionProhibido(loginPageUrl) ? 'text-red-600 font-medium' : 'text-gray-500'}`}>
+            {esDestinoSinSesionProhibido(loginPageUrl)
+              ? 'Este destino no está permitido: nadie puede ser enviado a las páginas de administración. Al guardar se usará la página de planes.'
+              : 'A dónde se envía a quien entra sin sesión o con la sesión vencida. Nunca puede ser una página de administración.'}
           </p>
         </div>
       </div>

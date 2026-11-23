@@ -3,6 +3,12 @@ import { ClipboardList, Palette, Heart, Pencil, Save, Home, Image as ImageIcon, 
 import { useNavigate } from 'react-router-dom';
 import { compressImage, SUPPORTED_IMAGE_TYPES, SUPPORTED_FORMATS_LABEL } from '../services/imageCompressionService';
 import { GOOGLE_FONT_OPTIONS, GOOGLE_HEADING_FONT_OPTIONS } from '../constants';
+import { SelectorPalabras, ControlColor, ColorDeInvitacion } from './editor/FriendlyControls';
+import {
+  elegirNivel, nivelActual, nivelDisponible, etiquetasDe, esDelDiseno, fijarEstilo, restaurarDiseno,
+  serializarRegistro, parsearRegistro, ATTR_REGISTRO, REGISTRO_VACIO,
+  type PropiedadEstilo, type RegistroEditor, type MetricasElemento,
+} from './editor/friendlyStyles';
 
 // ============================================================
 // FEATURE FLAG: AI ITERATIONS
@@ -27,6 +33,7 @@ interface EditableElement {
   moduleName?: string;
   isHidden: boolean;
   isBackground: boolean;
+  editorStyles: RegistroEditor;
 }
 
 const extractBgImageUrl = (bgValue: string): string => {
@@ -251,7 +258,13 @@ const parseEditableElements = (code: string): EditableElement[] => {
         letterSpacing: htmlEl.style.letterSpacing || '',
         width: htmlEl.style.width || '',
         height: htmlEl.style.height || '',
+        color: htmlEl.style.color || '',
+        backgroundColor: htmlEl.style.backgroundColor || '',
+        zoom: (htmlEl.style as CSSStyleDeclaration & { zoom?: string }).zoom || '',
       },
+      // Cambios hechos con los controles en palabras (para que "Normal"
+      // siempre vuelva al diseño y las opciones sigan siendo relativas a él).
+      editorStyles: parsearRegistro(htmlEl.getAttribute(ATTR_REGISTRO)),
       animationClass,
       label,
       moduleName,
@@ -261,59 +274,14 @@ const parseEditableElements = (code: string): EditableElement[] => {
   });
 };
 
-const parsePxValue = (value: string): number | null => {
-  if (!value) return null;
-  const match = value.match(/^(\d+(?:\.\d+)?)\s*px/);
-  return match ? parseFloat(match[1]) : null;
-};
-
-const parsePercentValue = (value: string): number | null => {
-  if (!value) return null;
-  const match = value.match(/^(\d+(?:\.\d+)?)\s*%$/);
-  return match ? parseFloat(match[1]) : null;
-};
-
-interface StyleSliderProps {
-  label: string;
-  value: number;
-  min: number;
-  max: number;
-  step: number;
-  unit: string;
-  labels: { threshold: number; text: string }[];
-  onChange: (value: number) => void;
-}
-
-const StyleSlider = ({ label, value, min, max, step, unit, labels, onChange }: StyleSliderProps) => {
-  const currentLabel = [...labels].reverse().find(l => value >= l.threshold)?.text || labels[0].text;
-
-  return (
-    <div className="space-y-1.5">
-      <div className="flex items-center justify-between">
-        <label className="text-[10px] text-gray-500 uppercase font-medium">{label}</label>
-        <span className="text-[10px] text-pink-500 font-semibold">{value}{unit}</span>
-      </div>
-      <input
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-pink-500"
-      />
-      <p className="text-[10px] text-gray-400 text-center">{currentLabel}</p>
-    </div>
-  );
-};
-
-const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility }: { element: EditableElement, onUpdate: any, isSelected: boolean, onToggleVisibility?: () => void }) => {
+const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility, measureElement }: { element: EditableElement, onUpdate: any, isSelected: boolean, onToggleVisibility?: () => void, measureElement?: (geminiId: string) => MetricasElemento | null }) => {
   const [isExpanded, setIsExpanded] = useState(isSelected);
   const [content, setContent] = useState(element.content);
   const [src, setSrc] = useState(element.src);
   const [href, setHref] = useState(element.href);
   const [bgImage, setBgImage] = useState(element.bgImage);
   const [styles, setStyles] = useState(element.styles);
+  const [reg, setReg] = useState<RegistroEditor>(element.editorStyles || REGISTRO_VACIO);
   const [animationClass, setAnimationClass] = useState(element.animationClass);
   const [isCompressing, setIsCompressing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -363,12 +331,11 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility }: { 
     return '';
   };
 
-  const [widthSlider, setWidthSlider] = useState(() => parsePercentValue(element.styles.width) || 100);
-  const [heightSlider, setHeightSlider] = useState(() => parsePxValue(element.styles.height) || 300);
-  const [paddingSlider, setPaddingSlider] = useState(() => {
-    const px = parsePxValue(element.styles.padding);
-    return px !== null ? px : 16;
-  });
+  // Medidas del elemento tal como está en el DISEÑO, tomadas de la vista
+  // previa al desplegar el panel. Los controles en palabras calculan sus
+  // opciones a partir de aquí: "Grande" siempre es respecto a lo que el
+  // texto ya era, no a lo último que el usuario eligió.
+  const metricasRef = useRef<MetricasElemento | null>(null);
 
   // Ref para trackear el último snapshot que el componente envió al parent.
   // Solo sincronizamos el estado local cuando el `element` entrante difiere
@@ -420,14 +387,20 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility }: { 
     setHref(element.href);
     setBgImage(element.bgImage);
     setStyles(element.styles);
+    setReg(element.editorStyles || REGISTRO_VACIO);
     setAnimationClass(element.animationClass);
-    setWidthSlider(parsePercentValue(element.styles.width) || 100);
-    setHeightSlider(parsePxValue(element.styles.height) || 300);
-    const px = parsePxValue(element.styles.padding);
-    setPaddingSlider(px !== null ? px : 16);
+    // Es otro elemento (o se recargó la invitación): se vuelve a medir al desplegar.
+    metricasRef.current = null;
     // Actualizar el snapshot para futuras comparaciones.
     lastSentRef.current = incomingSig;
   }, [element]);
+
+  // Al desplegar el panel se mide el elemento en la vista previa. Sirve como
+  // punto de partida del diseño para las opciones que todavía no se han tocado.
+  useEffect(() => {
+    if (!isExpanded) return;
+    metricasRef.current = measureElement?.(element.geminiId) ?? null;
+  }, [isExpanded, element.geminiId, measureElement]);
 
   // Pre-poblar mapAddress cuando el elemento es un iframe de Google Maps.
   // Si el src ya tiene un?q=<addr>, lo decodifica; si no, deja vacío para
@@ -440,7 +413,7 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility }: { 
     }
   }, [element.geminiId, element.src, element.tagName]);
 
-  const triggerUpdate = (newContent = content, newSrc = src, newHref = href, newStyles = styles, newAnimationClass = animationClass, newBgImage = bgImage) => {
+  const triggerUpdate = (newContent = content, newSrc = src, newHref = href, newStyles = styles, newAnimationClass = animationClass, newBgImage = bgImage, newReg = reg) => {
     // Registrar el snapshot enviado para que el useEffect de [element] no
     // sobrescriba el estado local cuando el parent re-renderice con este
     // mismo contenido tras aplicar la edición.
@@ -453,38 +426,57 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility }: { 
       stylesKey: stylesKey(newStyles),
       animationClass: newAnimationClass
     };
-    onUpdate(element.geminiId, newContent, { src: newSrc, href: newHref, animationClass: newAnimationClass, bgImage: newBgImage }, newStyles);
+    const registro = serializarRegistro(newReg);
+    onUpdate(element.geminiId, newContent, {
+      src: newSrc, href: newHref, animationClass: newAnimationClass, bgImage: newBgImage,
+      [ATTR_REGISTRO]: registro, // vacío = se quita el atributo
+    }, newStyles);
   };
 
-  // Debounce timer ref para sliders: evita regenerar el HTML/iframe en cada
-  // px de arrastre. Commit inmediato para selects/buttons (no slider).
-  const debounceRef = useRef<number | null>(null);
-
-  // Cleanup del timer al desmontar para evitar memory leaks.
-  useEffect(() => {
-    return () => {
-      if (debounceRef.current !== null) {
-        clearTimeout(debounceRef.current);
-        debounceRef.current = null;
-      }
-    };
-  }, []);
-
+  // Alineación: un toque la cambia (no guarda "cómo estaba": siempre se
+  // vuelve a alinear eligiendo otra).
   const handleStyleChange = (key: string, value: string) => {
     const newStyles = { ...styles, [key]: value };
     setStyles(newStyles);
-    const sliderKeys = ['width', 'height', 'padding'];
-    if (sliderKeys.includes(key)) {
-      if (debounceRef.current !== null) {
-        clearTimeout(debounceRef.current);
-      }
-      debounceRef.current = window.setTimeout(() => {
-        debounceRef.current = null;
-        triggerUpdate(content, src, href, newStyles, animationClass);
-      }, 120);
-    } else {
-      triggerUpdate(content, src, href, newStyles, animationClass);
-    }
+    triggerUpdate(content, src, href, newStyles, animationClass);
+  };
+
+  // ---- Controles en palabras (sin medidas) --------------------------------
+  // "Tamaño de la letra" se guarda como proporción del propio texto ("zoom"),
+  // así se adapta a la pantalla igual que el diseño. Las demás usan su mismo
+  // nombre. La interfaz nunca muestra estos valores.
+  const estiloDe = (prop: PropiedadEstilo) => (prop === 'fontSize' ? 'zoom' : prop);
+
+  const aplicar = (prop: PropiedadEstilo, resultado: { css: string; reg: RegistroEditor }) => {
+    const newStyles = { ...styles, [estiloDe(prop)]: resultado.css };
+    setReg(resultado.reg);
+    setStyles(newStyles);
+    triggerUpdate(content, src, href, newStyles, animationClass, bgImage, resultado.reg);
+  };
+
+  const contextoDe = (prop: PropiedadEstilo) => ({ inline: styles[estiloDe(prop)] ?? '', reg });
+
+  const elegir = (prop: PropiedadEstilo, nivel: number) => {
+    // Si al desplegar la vista aún no estaba lista, se mide en este momento
+    // (la propiedad todavía no se ha tocado, así que lo medido es el diseño).
+    if (!metricasRef.current) metricasRef.current = measureElement?.(element.geminiId) ?? null;
+    aplicar(prop, elegirNivel(prop, nivel, { ...contextoDe(prop), metricas: metricasRef.current }));
+  };
+  const poner = (prop: PropiedadEstilo, css: string) => aplicar(prop, fijarEstilo(prop, css, contextoDe(prop)));
+  const restaurar = (prop: PropiedadEstilo) => aplicar(prop, restaurarDiseno(prop, contextoDe(prop)));
+
+  // Estado de un selector de palabras para la interfaz.
+  const selector = (prop: PropiedadEstilo) => {
+    const ctx = contextoDe(prop);
+    const etiquetas = etiquetasDe(prop);
+    const desactivadas: number[] = [];
+    etiquetas.forEach((_, i) => { if (!nivelDisponible(prop, i, ctx.reg)) desactivadas.push(i); });
+    return {
+      opciones: etiquetas,
+      activo: nivelActual(prop, ctx),
+      desactivadas,
+      alElegir: (i: number) => elegir(prop, i),
+    };
   };
 
   const handleAnimationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -580,7 +572,7 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility }: { 
           {/* Content / URL Inputs */}
           {isText && (
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-gray-500">Contenido</label>
+              <label className="text-xs font-medium text-gray-500">Texto</label>
               <textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
@@ -592,7 +584,7 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility }: { 
 
           {isLink && (
             <div className="space-y-1.5">
-              <label className="text-xs font-medium text-gray-500">URL del Enlace</label>
+              <label className="text-xs font-medium text-gray-500">Enlace (a dónde lleva al tocarlo)</label>
               <input
                 type="text"
                 value={href}
@@ -606,7 +598,7 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility }: { 
           {isImage && (
             <div className="space-y-3">
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-gray-500">URL de la Imagen</label>
+                <label className="text-xs font-medium text-gray-500">Enlace de la imagen (opcional)</label>
                 <input
                   type="text"
                   value={src}
@@ -672,7 +664,7 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility }: { 
                 </div>
               )}
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-gray-500">URL del Mapa/Video (src)</label>
+                <label className="text-xs font-medium text-gray-500">Enlace del mapa o video</label>
                 <input
                   type="text"
                   value={src}
@@ -687,7 +679,7 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility }: { 
           {isBgImage && (
             <div className="space-y-3">
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-gray-500">URL de la Imagen de Fondo</label>
+                <label className="text-xs font-medium text-gray-500">Enlace de la imagen de fondo (opcional)</label>
                 <input
                   type="text"
                   value={bgImage}
@@ -719,202 +711,123 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility }: { 
             </div>
           )}
 
-          {/* Styling Controls */}
-          <div className="pt-3 border-t border-gray-100 space-y-3">
-            <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Estilos</h4>
-            
+          {/* Apariencia: solo palabras, sin medidas ni códigos */}
+          <div className="pt-3 border-t border-gray-100 space-y-4">
+            <h4 className="text-xs font-semibold text-gray-500">Apariencia</h4>
+
             {isText && (
               <>
-                {/* Alignment */}
-                <div className="flex bg-gray-50 p-1 rounded-lg border border-gray-200 w-fit">
-                  {[
-                    { icon: AlignLeft, value: 'left' },
-                    { icon: AlignCenter, value: 'center' },
-                    { icon: AlignRight, value: 'right' },
-                    { icon: AlignJustify, value: 'justify' }
-                  ].map(({ icon: Icon, value }) => (
-                    <button
-                      key={value}
-                      onClick={() => handleStyleChange('textAlign', value)}
-                      className={`p-1.5 rounded-md transition-colors ${styles.textAlign === value ? 'bg-white shadow-sm text-pink-500' : 'text-gray-500 hover:text-gray-700'}`}
-                    >
-                      <Icon className="w-4 h-4" />
-                    </button>
-                  ))}
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-1">
-                    <label className="text-[10px] text-gray-500 uppercase">Grosor (Weight)</label>
-                    <select 
-                      value={styles.fontWeight} 
-                      onChange={(e) => handleStyleChange('fontWeight', e.target.value)}
-                      className="w-full bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
-                    >
-                      <option value="">Por defecto</option>
-                      <option value="normal">Normal</option>
-                      <option value="500">Medio</option>
-                      <option value="600">Semibold</option>
-                      <option value="bold">Bold</option>
-                    </select>
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-[10px] text-gray-500 uppercase">Tamaño (Size)</label>
-                    <input 
-                      type="text" 
-                      placeholder="ej. 16px, 2rem"
-                      value={styles.fontSize}
-                      onChange={(e) => setStyles({...styles, fontSize: e.target.value})}
-                      onBlur={() => triggerUpdate()}
-                      className="w-full bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-[10px] text-gray-500 uppercase">Interlineado</label>
-                    <input 
-                      type="text" 
-                      placeholder="ej. 1.5, 24px"
-                      value={styles.lineHeight}
-                      onChange={(e) => setStyles({...styles, lineHeight: e.target.value})}
-                      onBlur={() => triggerUpdate()}
-                      className="w-full bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-[10px] text-gray-500 uppercase">Espaciado (Letter)</label>
-                    <input 
-                      type="text" 
-                      placeholder="ej. 1px, 0.05em"
-                      value={styles.letterSpacing}
-                      onChange={(e) => setStyles({...styles, letterSpacing: e.target.value})}
-                      onBlur={() => triggerUpdate()}
-                      className="w-full bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
-                    />
+                {/* Alineación */}
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-[11px] font-medium text-gray-600">Posición del texto</span>
+                  <div className="flex bg-gray-50 p-1 rounded-lg border border-gray-200">
+                    {[
+                      { icon: AlignLeft, value: 'left', titulo: 'A la izquierda' },
+                      { icon: AlignCenter, value: 'center', titulo: 'Centrado' },
+                      { icon: AlignRight, value: 'right', titulo: 'A la derecha' },
+                      { icon: AlignJustify, value: 'justify', titulo: 'Justificado' },
+                    ].map(({ icon: Icon, value, titulo }) => (
+                      <button
+                        key={value}
+                        type="button"
+                        title={titulo}
+                        aria-label={titulo}
+                        aria-pressed={styles.textAlign === value}
+                        onClick={() => handleStyleChange('textAlign', value)}
+                        className={`p-1.5 rounded-md transition-colors ${styles.textAlign === value ? 'bg-white shadow-sm text-pink-500' : 'text-gray-500 hover:text-gray-700'}`}
+                      >
+                        <Icon className="w-4 h-4" />
+                      </button>
+                    ))}
                   </div>
                 </div>
 
-                {/* Color del texto */}
-                <div className="flex items-center gap-2">
-                  <input
-                    type="color"
-                    value={/^#[0-9a-fA-F]{6}$/.test(styles.color || '') ? (styles.color as string) : '#333333'}
-                    onChange={(e) => handleStyleChange('color', e.target.value)}
-                    className="w-8 h-8 rounded cursor-pointer border border-gray-200 flex-shrink-0"
-                    title="Color del texto"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <label className="text-[10px] text-gray-500 uppercase">Color del texto</label>
-                    <input
-                      type="text"
-                      placeholder="hex o var(--primary-color)"
-                      value={styles.color || ''}
-                      onChange={(e) => setStyles({ ...styles, color: e.target.value })}
-                      onBlur={() => triggerUpdate()}
-                      className="w-full bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
-                    />
-                  </div>
+                <SelectorPalabras etiqueta="Tamaño de la letra" {...selector('fontSize')} />
+                <SelectorPalabras
+                  etiqueta="Espacio entre renglones"
+                  ayuda="Qué tan separadas quedan las líneas del texto."
+                  {...selector('lineHeight')}
+                />
+                <SelectorPalabras
+                  etiqueta="Espacio entre letras"
+                  ayuda="Qué tan juntas o separadas se ven las letras."
+                  {...selector('letterSpacing')}
+                />
+
+                {/* Grosor */}
+                <div className="space-y-1.5">
+                  <span className="block text-[11px] font-medium text-gray-600">Grosor de la letra</span>
+                  <select
+                    value={esDelDiseno('fontWeight', reg) ? '' : (styles.fontWeight || '')}
+                    onChange={(e) => (e.target.value === '' ? restaurar('fontWeight') : poner('fontWeight', e.target.value))}
+                    className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2 py-2 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
+                  >
+                    <option value="">Como en el diseño</option>
+                    <option value="normal">Normal</option>
+                    <option value="500">Un poco gruesa</option>
+                    <option value="600">Gruesa</option>
+                    <option value="bold">Muy gruesa</option>
+                  </select>
                 </div>
               </>
             )}
 
-            {/* Color de fondo (todos los elementos) */}
-            <div className="flex items-center gap-2">
-              <input
-                type="color"
-                value={/^#[0-9a-fA-F]{6}$/.test(styles.backgroundColor || '') ? (styles.backgroundColor as string) : '#ffffff'}
-                onChange={(e) => handleStyleChange('backgroundColor', e.target.value)}
-                className="w-8 h-8 rounded cursor-pointer border border-gray-200 flex-shrink-0"
-                title="Color de fondo"
-              />
-              <div className="flex-1 min-w-0">
-                <label className="text-[10px] text-gray-500 uppercase">Color de fondo</label>
-                <input
-                  type="text"
-                  placeholder="hex, transparent o var(...)"
-                  value={styles.backgroundColor || ''}
-                  onChange={(e) => setStyles({ ...styles, backgroundColor: e.target.value })}
-                  onBlur={() => triggerUpdate()}
-                  className="w-full bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
-                />
-              </div>
-            </div>
-
             {(isImage || isIframe) && (
-              <div className="space-y-3">
-                <StyleSlider
-                  label="Tamaño"
-                  value={widthSlider}
-                  min={20}
-                  max={100}
-                  step={5}
-                  unit="%"
-                  labels={[
-                    { threshold: 20, text: 'Pequeño' },
-                    { threshold: 36, text: 'Mediano' },
-                    { threshold: 61, text: 'Grande' },
-                    { threshold: 86, text: 'Completo' },
-                  ]}
-                  onChange={(v) => {
-                    setWidthSlider(v);
-                    handleStyleChange('width', `${v}%`);
-                  }}
-                />
-                {isIframe && (
-                  <StyleSlider
-                    label="Alto"
-                    value={heightSlider}
-                    min={100}
-                    max={600}
-                    step={25}
-                    unit="px"
-                    labels={[
-                      { threshold: 100, text: 'Compacto' },
-                      { threshold: 225, text: 'Normal' },
-                      { threshold: 375, text: 'Grande' },
-                      { threshold: 475, text: 'Extra grande' },
-                    ]}
-                    onChange={(v) => {
-                      setHeightSlider(v);
-                      handleStyleChange('height', `${v}px`);
-                    }}
-                  />
-                )}
-              </div>
+              <SelectorPalabras etiqueta="Tamaño" {...selector('width')} />
+            )}
+            {isIframe && (
+              <SelectorPalabras etiqueta="Alto del mapa o video" {...selector('height')} />
             )}
 
-            <StyleSlider
-              label="Espaciado"
-              value={paddingSlider}
-              min={0}
-              max={48}
-              step={4}
-              unit="px"
-              labels={[
-                { threshold: 0, text: 'Ninguno' },
-                { threshold: 4, text: 'Compacto' },
-                { threshold: 16, text: 'Normal' },
-                { threshold: 28, text: 'Espacioso' },
-              ]}
-              onChange={(v) => {
-                setPaddingSlider(v);
-                handleStyleChange('padding', `${v}px`);
-              }}
+            <SelectorPalabras
+              etiqueta="Espacio alrededor"
+              ayuda="Qué tan lejos queda el contenido de sus bordes."
+              {...selector('padding')}
             />
 
-            <div className="space-y-1">
-              <label className="text-[10px] text-gray-500 uppercase">Animación</label>
-              <select 
-                value={animationClass} 
+            {isText && (
+              <ControlColor
+                etiqueta="Color del texto"
+                valor={styles.color || ''}
+                cambiado={!esDelDiseno('color', reg)}
+                alCambiar={(v) => poner('color', v)}
+                alRestaurar={() => restaurar('color')}
+              />
+            )}
+            <ControlColor
+              etiqueta="Color de fondo"
+              valor={styles.backgroundColor || ''}
+              cambiado={!esDelDiseno('backgroundColor', reg)}
+              alCambiar={(v) => poner('backgroundColor', v)}
+              alRestaurar={() => restaurar('backgroundColor')}
+              extra={
+                /^(transparent|rgba\(\s*0\s*,\s*0\s*,\s*0\s*,\s*0\s*\))$/i.test(styles.backgroundColor || '') ? undefined : (
+                  <button
+                    type="button"
+                    onClick={() => poner('backgroundColor', 'transparent')}
+                    className="text-[11px] text-pink-600 hover:text-pink-700 hover:underline transition-colors"
+                  >
+                    Quitar el color de fondo
+                  </button>
+                )
+              }
+            />
+
+            {/* Animación */}
+            <div className="space-y-1.5">
+              <span className="block text-[11px] font-medium text-gray-600">Animación</span>
+              <select
+                value={animationClass}
                 onChange={handleAnimationChange}
-                className="w-full bg-gray-50 border border-gray-200 rounded-md px-2 py-1.5 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
+                className="w-full bg-gray-50 border border-gray-200 rounded-lg px-2 py-2 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
               >
-                <option value="none">Ninguna</option>
-                <option value="animate-fade-in">Fade In</option>
-                <option value="animate-slide-up">Slide Up</option>
-                <option value="animate-bounce">Bounce</option>
-                <option value="animate-pulse">Pulse</option>
-                <option value="animate-spin">Spin</option>
-                <option value="animate-ping">Ping</option>
+                <option value="none">Sin animación</option>
+                <option value="animate-fade-in">Aparece suavemente</option>
+                <option value="animate-slide-up">Sube al aparecer</option>
+                <option value="animate-bounce">Rebota</option>
+                <option value="animate-pulse">Late suavemente</option>
+                <option value="animate-spin">Gira sin parar</option>
+                <option value="animate-ping">Destella</option>
               </select>
             </div>
 
@@ -975,6 +888,8 @@ interface EditorSidebarProps {
   onUpdateColorVars?: (key: string, value: string) => void;
   onOpenEventData?: () => void;
   pencilBtnRef?: React.RefObject<HTMLElement>;
+  /** Mide un elemento tal como se ve en la vista previa (para las opciones relativas al diseño). */
+  measureElement?: (geminiId: string) => MetricasElemento | null;
 }
 
 // ============================================================
@@ -1170,6 +1085,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
   isSelectionMode,
   onToggleSelectionMode,
   pencilBtnRef,
+  measureElement,
   onIterateModule,
   onToggleModuleVisibility,
   onToggleElementVisibility,
@@ -1290,42 +1206,30 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
 
         {onUpdateColorVars && (
           <div className="px-3 pt-4">
-            <div className="bg-white border border-gray-200 rounded-xl p-3 space-y-2">
+            <div className="bg-white border border-gray-200 rounded-xl p-3 space-y-2.5">
               <div className="flex items-center gap-2">
                 <Palette className="w-4 h-4 text-pink-500" />
-                <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Colores globales</h4>
+                <h4 className="text-xs font-semibold text-gray-600">Colores de la invitación</h4>
               </div>
-              <p className="text-[10px] text-gray-400 leading-snug">Recolorean toda la invitación (módulos con variables).</p>
-              {
-                [
-                  { key: 'primary', label: 'Primario' },
-                  { key: 'accent', label: 'Acento' },
+              <p className="text-[10px] text-gray-400 leading-snug">Cambian los colores de toda la invitación.</p>
+              {/* Solo se elige el color con el selector visual; nada de códigos. */}
+              <div className="grid grid-cols-2 gap-x-3 gap-y-2">
+                {[
+                  { key: 'primary', label: 'Principal' },
+                  { key: 'accent', label: 'Realce' },
                   { key: 'text', label: 'Texto' },
                   { key: 'bg', label: 'Fondo' },
-                  { key: 'secondary', label: 'Secundario' },
-                  { key: 'surface', label: 'Superficie' },
+                  { key: 'secondary', label: 'Segundo' },
+                  { key: 'surface', label: 'Tarjetas' },
                 ].map(({ key, label }) => (
-                  <div key={key} className="flex items-center gap-2">
-                    <input
-                      type="color"
-                      value={/^#[0-9a-fA-F]{6}$/.test(colorVars[key] || '') ? (colorVars[key] as string) : '#888888'}
-                      onChange={(e) => onUpdateColorVars(key, e.target.value)}
-                      className="w-8 h-8 rounded cursor-pointer border border-gray-200 flex-shrink-0"
-                      title={label}
-                    />
-                    <div className="flex-1 min-w-0">
-                      <label className="block text-[10px] text-gray-500 uppercase">{label}</label>
-                      <input
-                        type="text"
-                        value={colorVars[key] || ''}
-                        placeholder="var o hex"
-                        onChange={(e) => onUpdateColorVars(key, e.target.value)}
-                        className="w-full bg-gray-50 border border-gray-200 rounded px-2 py-1 text-xs text-gray-700 focus:outline-none focus:border-pink-400"
-                      />
-                    </div>
-                  </div>
-                ))
-              }
+                  <ColorDeInvitacion
+                    key={key}
+                    etiqueta={label}
+                    valor={colorVars[key]}
+                    alCambiar={(hex) => onUpdateColorVars(key, hex)}
+                  />
+                ))}
+              </div>
               {Object.keys(colorVars).length > 0 && (
                 <button
                   onClick={() => Object.keys(colorVars).forEach((k) => onUpdateColorVars(k, ''))}
@@ -1379,6 +1283,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
                     onUpdate={onUpdateElement}
                     isSelected={selectedElementId === el.geminiId}
                     onToggleVisibility={() => onToggleElementVisibility(el.geminiId)}
+                    measureElement={measureElement}
                   />
                 ))}
               </div>

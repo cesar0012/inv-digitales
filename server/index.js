@@ -39,6 +39,7 @@ import { normalizeCategory } from './geminiService.js';
 import { parseHTML } from 'linkedom';
 import { processModuleUploadFile } from './ragUploadService.js';
 import { resolveSchema, adaptarVocabularioEvento } from './eventDataSchema.js';
+import { NO_SESSION_URL, destinoSinSesionSeguro } from './noSessionRedirect.js';
 import { _ogTokens as screenshotOgTokens } from './screenshotService.js';
 import { createComposeRouter } from './composeRoutes.js';
 import { deflateRawSync } from 'zlib';
@@ -1019,6 +1020,15 @@ app.put('/api/invitations/:userId/:filename', authMiddleware, (req, res) => {
   
   const filePath = join(storagePath, userId, filename);
   if (!existsSync(filePath)) {
+    // "Personalizar esta invitación" (catálogo) abre una plantilla que todavía
+    // no es del usuario: no hay nada que actualizar. Se responde con un código
+    // para que el editor la guarde como nueva (POST /api/invitations), que sí
+    // exige plan.
+    const esPlantilla = existsSync(join(historicoPath, filename))
+      && db.prepare('SELECT 1 FROM catalogo WHERE filename = ?').get(filename);
+    if (esPlantilla) {
+      return res.status(409).json({ error: 'Esta invitación todavía no es tuya: se guarda como nueva.', code: 'PLANTILLA_CATALOGO' });
+    }
     return res.status(404).json({ error: 'Archivo no encontrado' });
   }
   
@@ -2957,7 +2967,7 @@ app.get('/api/admin/config', adminMiddleware, (req, res) => {
       image_provider: 'gemini',
       image_model: 'gemini-3.1-flash-image-preview',
       image_api_key: '',
-      login_page_url: '/admin-login',
+      login_page_url: NO_SESSION_URL,
 use_agent_orchestrator: true,
 use_rag_templates: true,
       default_font_base: 'Playfair Display',
@@ -2978,7 +2988,8 @@ use_rag_templates: true,
     image_provider: config.image_provider || 'gemini',
     image_model: config.image_model || 'gemini-3.1-flash-image-preview',
     image_api_key: '', // No exponer
-    login_page_url: config.login_page_url || '/admin-login',
+    // Nunca una página de administración: ver noSessionRedirect.js
+    login_page_url: destinoSinSesionSeguro(config.login_page_url, getPublicUrl()),
     use_agent_orchestrator: config.use_agent_orchestrator === 1,
     use_rag_templates: config.use_rag_templates === 1,
     default_font_base: config.default_font_base || 'Playfair Display',
@@ -3217,12 +3228,15 @@ app.get('/api/visual-rack/public', (req, res) => {
 });
 
 // GET /api/config/public - Obtener configuración pública (sin API keys)
+// login_page_url es a dónde se manda a quien no tiene sesión. Se sanea aquí
+// SIEMPRE: aunque la base de datos tuviera un valor viejo o restaurado de un
+// backup que apunte a /admin, el cliente nunca lo recibe.
 app.get('/api/config/public', (req, res) => {
   const stmt = db.prepare('SELECT login_page_url FROM admin_config WHERE id = 1');
   const config = stmt.get();
   
   res.json({
-    login_page_url: config?.login_page_url || '/admin-login'
+    login_page_url: destinoSinSesionSeguro(config?.login_page_url, getPublicUrl())
   });
 });
 
@@ -3331,7 +3345,11 @@ const updatedConfig = {
     image_provider: body.image_provider && body.image_provider.trim() !== '' ? body.image_provider : (currentConfig.image_provider || 'gemini'),
     image_model: body.image_model && body.image_model.trim() !== '' ? body.image_model : currentConfig.image_model,
     image_api_key: body.image_api_key && body.image_api_key.trim() !== '' ? body.image_api_key : currentConfig.image_api_key,
-    login_page_url: body.login_page_url !== undefined ? body.login_page_url : currentConfig.login_page_url,
+    // Nunca se guarda un destino que lleve a la administración (ver noSessionRedirect.js)
+    login_page_url: destinoSinSesionSeguro(
+      body.login_page_url !== undefined ? body.login_page_url : currentConfig.login_page_url,
+      getPublicUrl()
+    ),
     use_agent_orchestrator: body.use_agent_orchestrator !== undefined ? (body.use_agent_orchestrator ? 1 : 0) : (currentConfig.use_agent_orchestrator || 0),
     use_rag_templates: body.use_rag_templates !== undefined ? (body.use_rag_templates ? 1 : 0) : (currentConfig.use_rag_templates !== null ? currentConfig.use_rag_templates : 1),
     // Tipografía global: base no puede quedar vacía; heading SÍ puede ser ''
