@@ -45,6 +45,9 @@ export interface SelectedElement {
   fullHtml: string;
   src?: string;
   href?: string;
+  /** Lugar del elemento en la página (índices entre hermanos, desde el cuerpo) y su texto: sirven para encontrarlo en el código cuando aún no tiene identificador. */
+  camino?: number[];
+  texto?: string;
 }
 
 export interface ProjectPage {

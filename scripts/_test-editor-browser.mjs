@@ -310,11 +310,13 @@ async function ejecutar() {
       await esperarCarga();
       await dormir(500);
     };
-    // Deja un cambio sin guardar en el editor.
-    const dejarCambio = async () => {
+    // Deja un cambio sin guardar en el editor. Tiene que ser un cambio real:
+    // elegir una opción que ya estaba puesta no altera nada y no cuenta.
+    // ("Grande" queda guardado en el paso b), así que después se usa otra.)
+    const dejarCambio = async (opcion = 'Grande') => {
       await page.evaluate(() => { [...document.querySelectorAll('button')].find((b) => b.innerText.includes('Mis XV años')).click(); });
       await dormir(500);
-      await tocar('Tamaño de la letra', 'Grande');
+      await tocar('Tamaño de la letra', opcion);
     };
 
     // a) Sin cambios sin guardar: la salida no depende de que la persona cierre nada.
@@ -356,7 +358,7 @@ async function ejecutar() {
     // c) Con cambios sin guardar y la persona elige "Salir": llega a los planes, una sola vez.
     await conSesion();
     await abrirEditor();
-    await dejarCambio();
+    await dejarCambio('Pequeña');
     await vencerSesion();
     const preguntaC = await guardarYEsperar('beforeunload');
     check(!!preguntaC, 'el navegador vuelve a preguntar antes de salir');
@@ -380,7 +382,7 @@ async function ejecutar() {
     for (let i = 0; i < 80 && !enElPanel; i++) { await dormir(250); enElPanel = page.url() === BASE + '/'; }
     await dormir(1500);
     const archivos = await listarInvitaciones();
-    const nueva = archivos.find((f) => f !== 'editor_test.html');
+    const nueva = archivos.find((f) => f !== 'editor_test.html' && f !== (servidor.archivoPesado || ''));
     check(enElPanel && !!nueva, `guardar la plantilla → se convierte en tu invitación y se llega al panel (${archivos.join(', ') || 'ninguna'})`);
     const inesperadosD = avisos.slice(antesD).map((d) => d.message()).join(' / ');
     check(!inesperadosD, `sin avisos de error${inesperadosD ? ' → ' + inesperadosD : ''}`);

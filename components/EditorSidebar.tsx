@@ -9,6 +9,7 @@ import {
   serializarRegistro, parsearRegistro, ATTR_REGISTRO, REGISTRO_VACIO,
   type PropiedadEstilo, type RegistroEditor, type MetricasElemento,
 } from './editor/friendlyStyles';
+import { textoEditable } from './editor/elementEdit';
 
 // ============================================================
 // FEATURE FLAG: AI ITERATIONS
@@ -19,7 +20,8 @@ import {
 const AI_ITERATIONS_ENABLED = true;
 // ============================================================
 
-interface EditableElement {
+/** Un elemento de la invitación tal como se muestra y se edita en el panel. */
+export interface EditableElement {
   geminiId: string;
   tagName: string;
   content: string;
@@ -108,170 +110,173 @@ const extractEditableText = (el: HTMLElement): string => {
   return el.textContent || '';
 };
 
+/** Si el elemento debe aparecer en la lista del panel. */
+const esElementoEditable = (htmlEl: HTMLElement): boolean => {
+  // Excluir countdowns
+  if (htmlEl.getAttribute('data-gemini-id')!.startsWith('countdown')) return false;
+  // Excluir elementos con memory_usage="protected" salvo backgrounds editables
+  if (htmlEl.getAttribute('memory_usage') === 'protected'
+      && htmlEl.getAttribute('memory_type') !== 'background') return false;
+  // Filtro de contenido: descartar elementos cuyo texto-editable (lo que
+  // verá el usuario en el textarea del panel) NO tenga contenido útil.
+  // Se revisa justo el sub-árbol que se mostrará.
+  if (!isVisualElement(htmlEl)) {
+    // Elementos A sin imagen de fondo pero con href: se conservan (son
+    // enlaces útiles aunque su texto sea corto). A con texto utilizable
+    // también pasa por la regla general.
+    const isLinkWithHref = htmlEl.tagName === 'A' && (htmlEl.getAttribute('href') || '').trim().length > 0;
+    if (!isLinkWithHref) {
+      const text = extractEditableText(htmlEl);
+      if (!hasUsefulText(text)) return false;
+    }
+  }
+  return true;
+};
+
+/**
+ * Cómo se muestra y se edita el elemento en el panel.
+ *
+ * "rutaTexto" es la posición del texto que se está editando (ver elementEdit):
+ * mientras se escribe, el campo muestra ese texto aunque quede vacío.
+ */
+export const describirElemento = (htmlEl: HTMLElement, rutaTexto?: number[] | null): EditableElement => {
+  const geminiId = htmlEl.getAttribute('data-gemini-id')!;
+
+  let isHidden = false;
+  let current: HTMLElement | null = htmlEl;
+  while (current && current.tagName !== 'BODY') {
+    if (current.getAttribute('data-gemini-hidden') === 'true') {
+      isHidden = true;
+      break;
+    }
+    current = current.parentElement;
+  }
+
+  // Create a more descriptive label based on the geminiId if it exists and isn't just a random string
+  let label = 'Elemento';
+  let moduleName = '';
+  const isBackground = htmlEl.getAttribute('memory_type') === 'background';
+
+  // Soporta el formato jerárquico nuevo: <moduleId>__<memoryKey>__<tagName>-<idx>
+  // (ej: "portada-nombre__couple-names__h1-1") inyectado por injectEditableIds
+  // en el flujo modular. Y el formato legacy: "module-name-element" (split por '-').
+  if (geminiId && !geminiId.startsWith('edit-') && geminiId.length < 60) {
+    if (geminiId.includes('__')) {
+      // Formato modular jerárquico: moduleId__memoryKey__tag-idx
+      const parts = geminiId.split('__');
+      moduleName = parts[0].replace(/\b\w/g, l => l.toUpperCase());
+      const memoryKey = parts[1] || '';
+      // Tag descriptivo por tagName del elemento
+      const tagLabels = {
+        H1: 'Título', H2: 'Título', H3: 'Subtítulo', H4: 'Subtítulo',
+        H5: 'Subtítulo', H6: 'Subtítulo',
+        P: 'Párrafo', SPAN: 'Texto', A: 'Enlace',
+        IMG: 'Imagen', FIGCAPTION: 'Descripción', LI: 'Ítem', TIME: 'Fecha'
+      };
+      const tagLabel = tagLabels[htmlEl.tagName as keyof typeof tagLabels] || 'Texto';
+      // memoryKey en human-readable: "couple-names" -> "Couple Names"
+      const humanKey = memoryKey.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+      label = humanKey ? `${humanKey} · ${tagLabel}` : tagLabel;
+    } else {
+      // Formato legacy: split por '-' (module-element-name)
+      const parts = geminiId.split('-');
+      if (parts.length > 1) {
+        moduleName = parts[0].replace(/\b\w/g, l => l.toUpperCase());
+        label = parts.slice(1).join(' ').replace(/\b\w/g, l => l.toUpperCase());
+      } else {
+        label = geminiId
+          .replace(/[-_]/g, ' ')
+          .replace(/\b\w/g, l => l.toUpperCase());
+      }
+    }
+  } else {
+    if (htmlEl.tagName === 'IMG') label = 'Imagen';
+    else if (htmlEl.tagName === 'IFRAME') label = 'Mapa / Video';
+    else if (htmlEl.tagName === 'A') label = 'Enlace';
+    else if (htmlEl.tagName.match(/^H[1-6]$/)) label = `Título (${htmlEl.tagName})`;
+    else label = 'Texto';
+  }
+
+  if (isBackground) {
+    const assetType = htmlEl.getAttribute('data-asset-type');
+    const memoryKey = htmlEl.getAttribute('memory_key');
+    const source = assetType || memoryKey;
+    if (source) {
+      label = source.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    } else if (label === 'Texto' || label === 'Elemento') {
+      label = 'Fondo';
+    }
+    if (!moduleName) {
+      const classMatch = htmlEl.className.match(/module-([a-z]+)/);
+      if (classMatch) {
+        moduleName = classMatch[1].replace(/\b\w/g, l => l.toUpperCase());
+      } else if (source) {
+        moduleName = source.split('-')[0].replace(/\b\w/g, l => l.toUpperCase());
+      }
+    }
+  }
+
+  let animationClass = 'none';
+  const animClasses = ['animate-spin', 'animate-ping', 'animate-pulse', 'animate-bounce', 'animate-fade-in', 'animate-slide-up'];
+  for (const cls of animClasses) {
+    if (htmlEl.classList.contains(cls)) {
+      animationClass = cls;
+      break;
+    }
+  }
+
+  const bgImage = extractBgImageUrl(htmlEl.style.backgroundImage);
+
+  // Si el elemento tiene background-image y no se le asignó un label
+  // descriptivo vía geminiId, etiquetarlo como "Imagen de fondo".
+  if (bgImage && label === 'Elemento') {
+    label = 'Imagen de fondo';
+  }
+
+  return {
+    geminiId,
+    tagName: htmlEl.tagName,
+    // Para texto atómico (no IMG/IFRAME), cargar textContent plano en content
+    // (lo que el usuario ve y edita en el <textarea>).
+    content: (htmlEl.tagName !== 'IMG' && htmlEl.tagName !== 'IFRAME')
+      ? (rutaTexto ? textoEditable(htmlEl, rutaTexto) : extractEditableText(htmlEl))
+      : '',
+    textContent: htmlEl.textContent || '',
+    src: htmlEl.getAttribute('src') || '',
+    href: htmlEl.getAttribute('href') || '',
+    bgImage,
+    styles: {
+      textAlign: htmlEl.style.textAlign || '',
+      fontWeight: htmlEl.style.fontWeight || '',
+      fontSize: htmlEl.style.fontSize || '',
+      padding: htmlEl.style.padding || '',
+      lineHeight: htmlEl.style.lineHeight || '',
+      letterSpacing: htmlEl.style.letterSpacing || '',
+      width: htmlEl.style.width || '',
+      height: htmlEl.style.height || '',
+      color: htmlEl.style.color || '',
+      backgroundColor: htmlEl.style.backgroundColor || '',
+      zoom: (htmlEl.style as CSSStyleDeclaration & { zoom?: string }).zoom || ''
+    },
+    // Cambios hechos con los controles en palabras (para que "Normal"
+    // siempre vuelva al diseño y las opciones sigan siendo relativas a él).
+    editorStyles: parsearRegistro(htmlEl.getAttribute(ATTR_REGISTRO)),
+    animationClass,
+    label,
+    moduleName,
+    isHidden,
+    isBackground
+  };
+};
+
+/** Todos los elementos editables de una invitación (la interpreta completa: solo al cambiar por completo). */
 const parseEditableElements = (code: string): EditableElement[] => {
   if (!code) return [];
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(code, 'text/html');
-  const elements = Array.from(doc.querySelectorAll('[data-gemini-id]'))
-    .filter(el => {
-      const htmlEl = el as HTMLElement;
-      // Excluir countdowns
-      if (htmlEl.getAttribute('data-gemini-id')!.startsWith('countdown')) return false;
-      // Excluir elementos con memory_usage="protected" salvo backgrounds editables
-      if (htmlEl.getAttribute('memory_usage') === 'protected'
-          && htmlEl.getAttribute('memory_type') !== 'background') return false;
-      // Filtro de contenido: descartar elementos cuyo texto-editable (lo que
-      // verá el usuario en el textarea del panel) NO tenga contenido útil.
-      // El filtro anterior miraba textContent global (incluía descendientes),
-      // lo que no coincidía con extractEditableText y por eso entraban elementos
-      // con solo whitespace/tabs/saltos de línea. Ahora revisamos justo el
-      // sub-árbol que se mostrará.
-      if (!isVisualElement(htmlEl)) {
-        // Elementos A sin imagen de fondo pero con href: se conservan (son
-        // enlaces útiles aunque su texto sea corto). A con texto utilizable
-        // también pasa por la regla general.
-        const isLinkWithHref = htmlEl.tagName === 'A' && (htmlEl.getAttribute('href') || '').trim().length > 0;
-        if (!isLinkWithHref) {
-          const text = extractEditableText(htmlEl);
-          if (!hasUsefulText(text)) return false;
-        }
-      }
-      return true;
-    });
-  
-  return elements.map(el => {
-    const htmlEl = el as HTMLElement;
-    const geminiId = htmlEl.getAttribute('data-gemini-id')!;
-    
-    let isHidden = false;
-    let current: HTMLElement | null = htmlEl;
-    while (current && current.tagName !== 'BODY') {
-      if (current.getAttribute('data-gemini-hidden') === 'true') {
-        isHidden = true;
-        break;
-      }
-      current = current.parentElement;
-    }
-    
-    // Create a more descriptive label based on the geminiId if it exists and isn't just a random string
-    let label = 'Elemento';
-    let moduleName = '';
-    const isBackground = htmlEl.getAttribute('memory_type') === 'background';
-
-    // Soporta el formato jerárquico nuevo: <moduleId>__<memoryKey>__<tagName>-<idx>
-    // (ej: "portada-nombre__couple-names__h1-1") inyectado por injectEditableIds
-    // en el flujo modular. Y el formato legacy: "module-name-element" (split por '-').
-    if (geminiId && !geminiId.startsWith('edit-') && geminiId.length < 60) {
-      if (geminiId.includes('__')) {
-        // Formato modular jerárquico: moduleId__memoryKey__tag-idx
-        const parts = geminiId.split('__');
-        moduleName = parts[0].replace(/\b\w/g, l => l.toUpperCase());
-        const memoryKey = parts[1] || '';
-        // Tag descriptivo por tagName del elemento
-        const tagLabels = {
-          H1: 'Título', H2: 'Título', H3: 'Subtítulo', H4: 'Subtítulo',
-          H5: 'Subtítulo', H6: 'Subtítulo',
-          P: 'Párrafo', SPAN: 'Texto', A: 'Enlace',
-          IMG: 'Imagen', FIGCAPTION: 'Descripción', LI: 'Ítem', TIME: 'Fecha'
-        };
-        const tagLabel = tagLabels[htmlEl.tagName as keyof typeof tagLabels] || 'Texto';
-        // memoryKey en human-readable: "couple-names" -> "Couple Names"
-        const humanKey = memoryKey.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-        label = humanKey ? `${humanKey} · ${tagLabel}` : tagLabel;
-      } else {
-        // Formato legacy: split por '-' (module-element-name)
-        const parts = geminiId.split('-');
-        if (parts.length > 1) {
-          moduleName = parts[0].replace(/\b\w/g, l => l.toUpperCase());
-          label = parts.slice(1).join(' ').replace(/\b\w/g, l => l.toUpperCase());
-        } else {
-          label = geminiId
-            .replace(/[-_]/g, ' ')
-            .replace(/\b\w/g, l => l.toUpperCase());
-        }
-      }
-    } else {
-      if (htmlEl.tagName === 'IMG') label = 'Imagen';
-      else if (htmlEl.tagName === 'IFRAME') label = 'Mapa / Video';
-      else if (htmlEl.tagName === 'A') label = 'Enlace';
-      else if (htmlEl.tagName.match(/^H[1-6]$/)) label = `Título (${htmlEl.tagName})`;
-      else label = 'Texto';
-    }
-
-    if (isBackground) {
-      const assetType = htmlEl.getAttribute('data-asset-type');
-      const memoryKey = htmlEl.getAttribute('memory_key');
-      const source = assetType || memoryKey;
-      if (source) {
-        label = source.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-      } else if (label === 'Texto' || label === 'Elemento') {
-        label = 'Fondo';
-      }
-      if (!moduleName) {
-        const classMatch = htmlEl.className.match(/module-([a-z]+)/);
-        if (classMatch) {
-          moduleName = classMatch[1].replace(/\b\w/g, l => l.toUpperCase());
-        } else if (source) {
-          moduleName = source.split('-')[0].replace(/\b\w/g, l => l.toUpperCase());
-        }
-      }
-    }
-
-    let animationClass = 'none';
-    const animClasses = ['animate-spin', 'animate-ping', 'animate-pulse', 'animate-bounce', 'animate-fade-in', 'animate-slide-up'];
-    for (const cls of animClasses) {
-      if (htmlEl.classList.contains(cls)) {
-        animationClass = cls;
-        break;
-      }
-    }
-
-    const bgImage = extractBgImageUrl(htmlEl.style.backgroundImage);
-
-    // Si el elemento tiene background-image y no se le asignó un label
-    // descriptivo vía geminiId, etiquetarlo como "Imagen de fondo".
-    if (bgImage && label === 'Elemento') {
-      label = 'Imagen de fondo';
-    }
-
-    return {
-      geminiId: htmlEl.getAttribute('data-gemini-id')!,
-      tagName: htmlEl.tagName,
-      // Para texto atómico (no IMG/IFRAME), cargar textContent plano en content
-      // (lo que el usuario ve y edita en el <textarea>). Antes se cargaba innerHTML
-      // que mostraba HTML crudo en la UI y confundía a usuarios no técnicos.
-      // Para enlaces <a> con contenido simple, preserva innerHTML solo si tiene
-      // tags complejos internos (img, svg, icon).
-      content: (htmlEl.tagName !== 'IMG' && htmlEl.tagName !== 'IFRAME')
-        ? extractEditableText(htmlEl)
-        : '',
-      textContent: htmlEl.textContent || '',
-      src: htmlEl.getAttribute('src') || '',
-      href: htmlEl.getAttribute('href') || '',
-      bgImage,
-      styles: {
-        textAlign: htmlEl.style.textAlign || '',
-        fontWeight: htmlEl.style.fontWeight || '',
-        fontSize: htmlEl.style.fontSize || '',
-        padding: htmlEl.style.padding || '',
-        lineHeight: htmlEl.style.lineHeight || '',
-        letterSpacing: htmlEl.style.letterSpacing || '',
-        width: htmlEl.style.width || '',
-        height: htmlEl.style.height || '',
-        color: htmlEl.style.color || '',
-        backgroundColor: htmlEl.style.backgroundColor || '',
-        zoom: (htmlEl.style as CSSStyleDeclaration & { zoom?: string }).zoom || '',
-      },
-      // Cambios hechos con los controles en palabras (para que "Normal"
-      // siempre vuelva al diseño y las opciones sigan siendo relativas a él).
-      editorStyles: parsearRegistro(htmlEl.getAttribute(ATTR_REGISTRO)),
-      animationClass,
-      label,
-      moduleName,
-      isHidden,
-      isBackground
-    };
-  });
+  const doc = new DOMParser().parseFromString(code, 'text/html');
+  return Array.from(doc.querySelectorAll('[data-gemini-id]'))
+    .map((el) => el as HTMLElement)
+    .filter(esElementoEditable)
+    .map((el) => describirElemento(el));
 };
 
 const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility, measureElement }: { element: EditableElement, onUpdate: any, isSelected: boolean, onToggleVisibility?: () => void, measureElement?: (geminiId: string) => MetricasElemento | null }) => {
@@ -413,24 +418,45 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility, meas
     }
   }, [element.geminiId, element.src, element.tagName]);
 
-  const triggerUpdate = (newContent = content, newSrc = src, newHref = href, newStyles = styles, newAnimationClass = animationClass, newBgImage = bgImage, newReg = reg) => {
+  // Últimos valores de los campos. El texto se aplica con cada letra; los
+  // enlaces y las imágenes, cuando la persona deja de escribir o sale del campo
+  // (aplicarlos letra por letra cargaría direcciones a medias).
+  const valoresRef = useRef({ content, src, href, bgImage, styles, animationClass, reg });
+  valoresRef.current = { content, src, href, bgImage, styles, animationClass, reg };
+  const pausaRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (pausaRef.current) clearTimeout(pausaRef.current); }, []);
+
+  const enviar = (v: typeof valoresRef.current) => {
     // Registrar el snapshot enviado para que el useEffect de [element] no
     // sobrescriba el estado local cuando el parent re-renderice con este
     // mismo contenido tras aplicar la edición.
     lastSentRef.current = {
       geminiId: element.geminiId,
-      content: newContent,
-      src: newSrc,
-      href: newHref,
-      bgImage: newBgImage,
-      stylesKey: stylesKey(newStyles),
-      animationClass: newAnimationClass
+      content: v.content,
+      src: v.src,
+      href: v.href,
+      bgImage: v.bgImage,
+      stylesKey: stylesKey(v.styles),
+      animationClass: v.animationClass
     };
-    const registro = serializarRegistro(newReg);
-    onUpdate(element.geminiId, newContent, {
-      src: newSrc, href: newHref, animationClass: newAnimationClass, bgImage: newBgImage,
-      [ATTR_REGISTRO]: registro, // vacío = se quita el atributo
-    }, newStyles);
+    onUpdate(element.geminiId, v.content, {
+      src: v.src, href: v.href, animationClass: v.animationClass, bgImage: v.bgImage,
+      [ATTR_REGISTRO]: serializarRegistro(v.reg), // vacío = se quita el atributo
+    }, v.styles);
+  };
+
+  const triggerUpdate = (newContent = content, newSrc = src, newHref = href, newStyles = styles, newAnimationClass = animationClass, newBgImage = bgImage, newReg = reg) => {
+    enviar({ content: newContent, src: newSrc, href: newHref, bgImage: newBgImage, styles: newStyles, animationClass: newAnimationClass, reg: newReg });
+  };
+
+  // Enlaces e imágenes: aplicar tras una pausa de escritura, o al salir del campo.
+  const aplicarAlPausar = () => {
+    if (pausaRef.current) clearTimeout(pausaRef.current);
+    pausaRef.current = setTimeout(() => { pausaRef.current = null; enviar(valoresRef.current); }, 400);
+  };
+  const aplicarAhora = () => {
+    if (pausaRef.current) { clearTimeout(pausaRef.current); pausaRef.current = null; }
+    enviar(valoresRef.current);
   };
 
   // Alineación: un toque la cambia (no guarda "cómo estaba": siempre se
@@ -575,8 +601,8 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility, meas
               <label className="text-xs font-medium text-gray-500">Texto</label>
               <textarea
                 value={content}
-                onChange={(e) => setContent(e.target.value)}
-                onBlur={() => triggerUpdate()}
+                // Cada letra se ve en la invitación al momento, sin salir del campo.
+                onChange={(e) => { setContent(e.target.value); triggerUpdate(e.target.value); }}
                 className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 min-h-[80px] resize-y"
               />
             </div>
@@ -588,8 +614,8 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility, meas
               <input
                 type="text"
                 value={href}
-                onChange={(e) => setHref(e.target.value)}
-                onBlur={() => triggerUpdate()}
+                onChange={(e) => { setHref(e.target.value); aplicarAlPausar(); }}
+                onBlur={aplicarAhora}
                 className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
               />
             </div>
@@ -602,8 +628,8 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility, meas
                 <input
                   type="text"
                   value={src}
-                  onChange={(e) => setSrc(e.target.value)}
-                  onBlur={() => triggerUpdate()}
+                  onChange={(e) => { setSrc(e.target.value); aplicarAlPausar(); }}
+                  onBlur={aplicarAhora}
                   className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
                 />
               </div>
@@ -668,8 +694,8 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility, meas
                 <input
                   type="text"
                   value={src}
-                  onChange={(e) => setSrc(e.target.value)}
-                  onBlur={() => triggerUpdate()}
+                  onChange={(e) => { setSrc(e.target.value); aplicarAlPausar(); }}
+                  onBlur={aplicarAhora}
                   className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
                 />
               </div>
@@ -682,9 +708,9 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility, meas
                 <label className="text-xs font-medium text-gray-500">Enlace de la imagen de fondo (opcional)</label>
                 <input
                   type="text"
-                  value={bgImage}
-                  onChange={(e) => setBgImage(e.target.value)}
-                  onBlur={() => triggerUpdate()}
+                value={bgImage}
+                onChange={(e) => { setBgImage(e.target.value); aplicarAlPausar(); }}
+                onBlur={aplicarAhora}
                   className="w-full bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
                 />
               </div>
@@ -863,6 +889,13 @@ const SectionHeader = ({
 
 interface EditorSidebarProps {
   code: string;
+  /**
+   * Elementos que acaba de cambiar el panel. Con esto la lista actualiza solo
+   * esos; si no coincide con "code", la invitación cambió por completo y la
+   * lista se reconstruye (interpretar una invitación de varios MB tarda).
+   */
+  listaEditada?: { codigo: string; elementos: EditableElement[] } | null;
+  onResetColorVars?: () => void;
   selectedElementId: string | null;
   onUpdateElement: (geminiId: string, newContent?: string, newAttributes?: Record<string, string>, newStyles?: Record<string, string>) => void;
   onUpdateCountdown?: (targetDate: string) => void;
@@ -1078,6 +1111,8 @@ const CountdownEditor = ({ code, onUpdateCountdown }: { code: string, onUpdateCo
 
 export const EditorSidebar: React.FC<EditorSidebarProps> = ({
   code,
+  listaEditada = null,
+  onResetColorVars,
   selectedElementId,
   onUpdateElement,
   onUpdateCountdown,
@@ -1106,7 +1141,30 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
   onOpenEventData
 }) => {
   const navigate = useNavigate();
-  const elements = useMemo(() => parseEditableElements(code), [code]);
+
+  // La lista de elementos. Se reconstruye solo cuando la invitación cambia por
+  // completo (interpretarla tarda con archivos de varios MB); cuando el panel
+  // edita un elemento, solo se vuelve a leer ese.
+  const [lista, setLista] = useState(() => ({ codigo: code, completo: code, elementos: parseEditableElements(code) }));
+  if (lista.codigo !== code) {
+    const esEdicion = !!listaEditada && listaEditada.codigo === code;
+    if (esEdicion && listaEditada) {
+      // (Ojo: en este archivo "Map" es un ícono; por eso se usa un objeto.)
+      const cambiados: Record<string, EditableElement> = {};
+      for (const cambiado of listaEditada.elementos) cambiados[cambiado.geminiId] = cambiado;
+      // Los que ya estaban se actualizan (así el que se está editando no
+      // desaparece aunque su texto quede vacío un momento). Solo entra uno
+      // nuevo si es el que la persona acaba de elegir en la vista previa.
+      const elementos = lista.elementos.map((el) => cambiados[el.geminiId] || el);
+      for (const id in cambiados) {
+        if (id === selectedElementId && !lista.elementos.some((el) => el.geminiId === id)) elementos.push(cambiados[id]);
+      }
+      setLista({ codigo: code, completo: lista.completo, elementos });
+    } else {
+      setLista({ codigo: code, completo: code, elementos: parseEditableElements(code) });
+    }
+  }
+  const elements = lista.elementos;
   
   const moduleNames = useMemo(() => {
     const names = new Set<string>();
@@ -1230,9 +1288,9 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
                   />
                 ))}
               </div>
-              {Object.keys(colorVars).length > 0 && (
+              {Object.keys(colorVars).length > 0 && onResetColorVars && (
                 <button
-                  onClick={() => Object.keys(colorVars).forEach((k) => onUpdateColorVars(k, ''))}
+                  onClick={onResetColorVars}
                   className="w-full py-1.5 text-xs text-gray-500 hover:text-gray-700 border border-gray-200 rounded-md hover:bg-gray-50 transition-colors"
                 >
                   Restablecer colores originales
@@ -1289,7 +1347,8 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
               </div>
             ))}
               
-            <CountdownEditor code={code} onUpdateCountdown={onUpdateCountdown} />
+            {/* La cuenta regresiva solo cambia cuando la invitación cambia por completo. */}
+            <CountdownEditor code={lista.completo} onUpdateCountdown={onUpdateCountdown} />
 
             {/* ============================================================ */}
             {/* DESIGN MODIFIER SECTION - AI ITERATIONS (per-module) */}

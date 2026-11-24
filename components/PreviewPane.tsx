@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle, us
 import { Monitor, Smartphone, Tablet, Eye, Maximize2, Minimize2 } from 'lucide-react';
 import { SelectedElement } from '../types';
 import type { MetricasElemento } from './editor/friendlyStyles';
+import { aplicarEdicionEnElemento, buscarElemento, type EdicionElemento } from './editor/elementEdit';
 
 interface PreviewPaneProps {
   code: string;
@@ -18,73 +19,34 @@ export interface PreviewPaneHandle {
   sendCountdownUpdate: (targetDate: string) => void;
   /** Mide un elemento tal como se ve ahora en la vista previa (en píxeles). */
   measureElement: (geminiId: string) => MetricasElemento | null;
+  /**
+   * Cambia un elemento directo en el documento que la persona está viendo, sin
+   * recargar la vista previa. Solo se aplica si lo que se ve es "codigoBase";
+   * después, lo que se ve es "codigoNuevo".
+   */
+  aplicarEdicion: (geminiId: string, edicion: EdicionElemento, codigoBase: string, codigoNuevo: string) => void;
+  /**
+   * Aplica al documento que la persona ve el mismo cambio que se hizo en el
+   * código: "cambio" recibe el documento y lo modifica igual en ambos.
+   */
+  aplicarCambio: (cambio: (doc: Document) => void, codigoBase: string, codigoNuevo: string) => void;
+  /** Cambia en vivo el bloque de colores de toda la invitación (lo crea si no existe). */
+  aplicarEstilosDePaleta: (css: string, codigoBase: string, codigoNuevo: string | null) => void;
+  /** Avisa que el documento que se ve ya refleja "codigoNuevo" (no hay que recargar). */
+  marcarCodigoVivo: (codigoBase: string, codigoNuevo: string) => void;
 }
 
-export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({ 
-  code, 
-  onElementClick,
-  isFullscreen,
-  onToggleFullscreen,
-  isSelectionMode,
-  selectedElementId,
-  isModuleSelectionMode,
-  onModuleClick
-}, ref) => {
-  const [viewport, setViewport] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+// Dónde estaba la persona antes de una recarga. Se guarda también el primer
+// elemento que asomaba por el borde superior: sirve de referencia para volver
+// al mismo lugar aunque lo de arriba cambie de tamaño.
+interface PosicionVista { x: number; y: number; id: string | null; margen: number }
 
-  // Mide cómo se ve un elemento en la invitación. Lo usan los controles en
-  // palabras del editor para calcular sus opciones a partir del diseño real
-  // (p. ej. "Suelto" = un poco más espacio del que el texto ya tiene).
-  const measureElement = useCallback((geminiId: string): MetricasElemento | null => {
-    try {
-      const doc = iframeRef.current?.contentDocument;
-      if (!doc || !geminiId) return null;
-      const el = doc.querySelector(`[data-gemini-id="${geminiId.replace(/(["\\])/g, '\\$1')}"]`) as HTMLElement | null;
-      const vista = doc.defaultView;
-      if (!el || !vista) return null;
-      const cs = vista.getComputedStyle(el);
-      // parseFloat de "normal" o "" da NaN: el llamador lo trata como "sin medida".
-      const px = (v: string) => { const n = parseFloat(v); return Number.isFinite(n) ? n : NaN; };
-
-      let lineHeight = px(cs.lineHeight);
-      // El espaciado "normal" es el más común en los diseños y el navegador no
-      // da un número para él. Se mide con una sonda: una línea invisible dentro
-      // del elemento, retirada de inmediato (no llega a pintarse). Sin esto el
-      // punto de partida sería un supuesto y "Junto" podría quedar más suelto
-      // que el diseño.
-      if (!Number.isFinite(lineHeight) && !/^(IMG|IFRAME|VIDEO|AUDIO|BR|HR|INPUT|SVG|CANVAS|PICTURE)$/.test(el.tagName)) {
-        const sonda = doc.createElement('span');
-        sonda.setAttribute('style', 'position:absolute;visibility:hidden;display:block;width:1px;padding:0;border:0;margin:0');
-        sonda.textContent = '\u200B';
-        el.appendChild(sonda);
-        lineHeight = sonda.getBoundingClientRect().height;
-        el.removeChild(sonda);
-        if (lineHeight <= 0) lineHeight = NaN;
-      }
-      return {
-        fontSize: px(cs.fontSize),
-        lineHeight,
-        letterSpacing: px(cs.letterSpacing),
-        padding: [px(cs.paddingTop), px(cs.paddingRight), px(cs.paddingBottom), px(cs.paddingLeft)],
-      };
-    } catch {
-      return null;
-    }
-  }, []);
-
-  useImperativeHandle(ref, () => ({
-    sendCountdownUpdate: (targetDate: string) => {
-      iframeRef.current?.contentWindow?.postMessage({
-        type: 'UPDATE_COUNTDOWN',
-        payload: targetDate
-      }, '*');
-    },
-    measureElement
-  }));
-
-  // Inject script for Click-to-Edit functionality with mode support
-  const enhancedCode = code ? `
+/**
+ * La invitación con los scripts del editor (selección de elementos, cuenta
+ * regresiva). "carga" distingue cada vez que se carga el documento: la vista
+ * previa avisa al terminar y así se ignoran los avisos de una carga reemplazada.
+ */
+const conScriptsDeEdicion = (codigo: string, carga: number): string => codigo ? `
     <script>
       window.__countdownIntervals = [];
       var _origSetInterval = window.setInterval;
@@ -96,7 +58,7 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
         return id;
       };
     </script>
-    ${code}
+    ${codigo}
     <script>
       window.setInterval = _origSetInterval;
       window.__GEMINI_SELECTION_MODE = false;
@@ -288,6 +250,15 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
           // persistirlo en el code si es efímero.
           __geminiSetSelected(element);
 
+          // Lugar del elemento en la página (índices entre hermanos, desde el
+          // cuerpo): el editor lo usa para encontrarlo en el código de la
+          // invitación cuando todavía no tiene identificador.
+          var __camino = [];
+          for (var __n = element; __n && __n.parentElement; __n = __n.parentElement) {
+            __camino.unshift(Array.prototype.indexOf.call(__n.parentElement.children, __n));
+            if (__n.parentElement === document.body) break;
+          }
+
           window.parent.postMessage({
             type: 'GEMINI_ELEMENT_CLICK',
             payload: {
@@ -297,7 +268,9 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
               geminiId: element.getAttribute('data-gemini-id'),
               outerHTML: element.outerHTML,
               src: element.getAttribute('src'),
-              href: element.getAttribute('href')
+              href: element.getAttribute('href'),
+              camino: __camino,
+              texto: element.textContent || ''
             }
           }, '*');
           return;
@@ -313,9 +286,198 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
       __startAllCountdowns();
 
       // Request initial state
-      window.parent.postMessage({ type: 'GEMINI_PREVIEW_LOADED' }, '*');
+      window.parent.postMessage({ type: 'GEMINI_PREVIEW_LOADED', carga: ${carga} }, '*');
     </script>
   ` : '';
+
+export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({ 
+  code, 
+  onElementClick,
+  isFullscreen,
+  onToggleFullscreen,
+  isSelectionMode,
+  selectedElementId,
+  isModuleSelectionMode,
+  onModuleClick
+}, ref) => {
+  const [viewport, setViewport] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  // La vista previa solo se vuelve a cargar cuando la invitación cambia por
+  // completo. Las ediciones del panel se aplican directo en el documento que
+  // la persona está viendo (aplicarEdicion): el cambio se ve al instante, no se
+  // pierde la posición del scroll y las animaciones no se reinician. Recargar
+  // una invitación de varios MB tarda alrededor de un segundo.
+  const [srcDoc, setSrcDoc] = useState(() => conScriptsDeEdicion(code, 1));
+  const cargaRef = useRef(1);                    // número de la carga en curso: identifica sus avisos
+  const vivoRef = useRef<string | null>(null);   // código que refleja el documento ya cargado
+  const pendienteRef = useRef(code);             // código del documento que carga (o del último cargado)
+  const cargandoRef = useRef(true);
+  const posicionRef = useRef<PosicionVista | null>(null);
+  const restauracionesRef = useRef<number[]>([]);
+
+  // El documento que la persona está viendo, si ya terminó de cargar.
+  const documentoVivo = () => {
+    const doc = iframeRef.current?.contentDocument;
+    const vista = iframeRef.current?.contentWindow;
+    return doc && vista && !cargandoRef.current ? { doc, vista } : null;
+  };
+
+  const marcarPosicion = (): PosicionVista | null => {
+    try {
+      const doc = iframeRef.current?.contentDocument;
+      const vista = iframeRef.current?.contentWindow;
+      if (!doc || !vista) return null;
+      let id: string | null = null;
+      let margen = 0;
+      let mejor = Infinity;
+      doc.querySelectorAll('[data-gemini-id]').forEach((el) => {
+        const top = (el as HTMLElement).getBoundingClientRect().top;
+        if (top >= -1 && top < mejor) { mejor = top; id = el.getAttribute('data-gemini-id'); margen = top; }
+      });
+      return { x: vista.scrollX, y: vista.scrollY, id, margen };
+    } catch {
+      return null;
+    }
+  };
+
+  const restaurarPosicion = () => {
+    const pos = posicionRef.current;
+    if (!pos) return;
+    try {
+      const doc = iframeRef.current?.contentDocument;
+      const vista = iframeRef.current?.contentWindow;
+      if (!doc || !vista) return;
+      let y = pos.y;
+      // El elemento de referencia manda si sigue en la página y es visible.
+      const referencia = pos.id ? buscarElemento(doc, pos.id) : null;
+      if (referencia && referencia.getBoundingClientRect().height > 0) {
+        y = referencia.getBoundingClientRect().top + vista.scrollY - pos.margen;
+      }
+      vista.scrollTo(pos.x, Math.max(0, y));
+    } catch { /* el documento todavía no admite desplazamiento */ }
+  };
+
+  // Al recargar se vuelve a la posición varias veces mientras la invitación
+  // termina de acomodarse (fuentes, imágenes), hasta que la persona se mueva.
+  const dejarDeRestaurar = () => {
+    restauracionesRef.current.forEach(clearTimeout);
+    restauracionesRef.current = [];
+    posicionRef.current = null;
+  };
+  const volverAlMismoLugar = () => {
+    restaurarPosicion();
+    restauracionesRef.current.forEach(clearTimeout);
+    restauracionesRef.current = [150, 600, 1500].map((ms) => window.setTimeout(restaurarPosicion, ms));
+  };
+  useEffect(() => () => restauracionesRef.current.forEach(clearTimeout), []);
+
+  // Mide cómo se ve un elemento en la invitación. Lo usan los controles en
+  // palabras del editor para calcular sus opciones a partir del diseño real
+  // (p. ej. "Suelto" = un poco más espacio del que el texto ya tiene).
+  const measureElement = useCallback((geminiId: string): MetricasElemento | null => {
+    try {
+      const doc = iframeRef.current?.contentDocument;
+      if (!doc || !geminiId) return null;
+      const el = buscarElemento(doc, geminiId);
+      const vista = doc.defaultView;
+      if (!el || !vista) return null;
+      const cs = vista.getComputedStyle(el);
+      // parseFloat de "normal" o "" da NaN: el llamador lo trata como "sin medida".
+      const px = (v: string) => { const n = parseFloat(v); return Number.isFinite(n) ? n : NaN; };
+
+      let lineHeight = px(cs.lineHeight);
+      // El espaciado "normal" es el más común en los diseños y el navegador no
+      // da un número para él. Se mide con una sonda: una línea invisible dentro
+      // del elemento, retirada de inmediato (no llega a pintarse). Sin esto el
+      // punto de partida sería un supuesto y "Junto" podría quedar más suelto
+      // que el diseño.
+      if (!Number.isFinite(lineHeight) && !/^(IMG|IFRAME|VIDEO|AUDIO|BR|HR|INPUT|SVG|CANVAS|PICTURE)$/.test(el.tagName)) {
+        const sonda = doc.createElement('span');
+        sonda.setAttribute('style', 'position:absolute;visibility:hidden;display:block;width:1px;padding:0;border:0;margin:0');
+        sonda.textContent = '\u200B';
+        el.appendChild(sonda);
+        lineHeight = sonda.getBoundingClientRect().height;
+        el.removeChild(sonda);
+        if (lineHeight <= 0) lineHeight = NaN;
+      }
+      return {
+        fontSize: px(cs.fontSize),
+        lineHeight,
+        letterSpacing: px(cs.letterSpacing),
+        padding: [px(cs.paddingTop), px(cs.paddingRight), px(cs.paddingBottom), px(cs.paddingLeft)],
+      };
+    } catch {
+      return null;
+    }
+  }, []);
+
+  useImperativeHandle(ref, () => ({
+    sendCountdownUpdate: (targetDate: string) => {
+      iframeRef.current?.contentWindow?.postMessage({
+        type: 'UPDATE_COUNTDOWN',
+        payload: targetDate
+      }, '*');
+    },
+    measureElement,
+    aplicarCambio: (cambio: (doc: Document) => void, codigoBase: string, codigoNuevo: string) => {
+      // Solo si lo que se ve es el documento que se está editando y ya terminó
+      // de cargar. En cualquier otro caso el código nuevo lo cargará el efecto.
+      const vivo = documentoVivo();
+      if (!vivo || vivoRef.current !== codigoBase) return;
+      try {
+        cambio(vivo.doc);
+      } catch {
+        return;
+      }
+      vivoRef.current = codigoNuevo;
+    },
+    aplicarEdicion: (geminiId: string, edicion: EdicionElemento, codigoBase: string, codigoNuevo: string) => {
+      // Solo si lo que se ve es el documento que se está editando, ya terminó de
+      // cargar y trae el elemento. En cualquier otro caso el código nuevo lo
+      // cargará el efecto.
+      const vivo = documentoVivo();
+      if (!vivo || vivoRef.current !== codigoBase) return;
+      const el = buscarElemento(vivo.doc, geminiId);
+      if (!el) return;
+      try {
+        aplicarEdicionEnElemento(el, edicion);
+      } catch {
+        return;
+      }
+      vivoRef.current = codigoNuevo;
+    },
+    aplicarEstilosDePaleta: (css: string, codigoBase: string, codigoNuevo: string | null) => {
+      const vivo = documentoVivo();
+      if (!vivo || vivoRef.current !== codigoBase) return;
+      let estilo = vivo.doc.querySelector('style[data-editor-color-vars]');
+      if (!estilo) {
+        estilo = vivo.doc.createElement('style');
+        estilo.setAttribute('data-editor-color-vars', 'true');
+        vivo.doc.head.appendChild(estilo);
+      }
+      estilo.textContent = css;
+      if (codigoNuevo !== null) vivoRef.current = codigoNuevo;
+    },
+    marcarCodigoVivo: (codigoBase: string, codigoNuevo: string) => {
+      if (documentoVivo() && vivoRef.current === codigoBase) vivoRef.current = codigoNuevo;
+    }
+  }));
+
+  // El código cambia por dos motivos: una edición del panel (ya aplicada en el
+  // documento que se ve, ver aplicarEdicion) o un cambio de toda la invitación
+  // (colores, tipografía, módulos…), que sí exige volver a cargarla.
+  useEffect(() => {
+    if (!cargandoRef.current && code === vivoRef.current) return;
+    if (cargandoRef.current && code === pendienteRef.current) return;
+    pendienteRef.current = code;
+    cargandoRef.current = true;
+    // Antes de recargar se recuerda dónde estaba la persona.
+    posicionRef.current = marcarPosicion();
+    restauracionesRef.current.forEach(clearTimeout);
+    setSrcDoc(conScriptsDeEdicion(code, ++cargaRef.current));
+  }, [code]);
+
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
@@ -327,13 +489,19 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
           geminiId: event.data.payload.geminiId,
           fullHtml: event.data.payload.outerHTML,
           src: event.data.payload.src,
-          href: event.data.payload.href
+          href: event.data.payload.href,
+          camino: event.data.payload.camino,
+          texto: event.data.payload.texto
         });
       }
       if (event.data?.type === 'GEMINI_MODULE_CLICK') {
         onModuleClick?.(event.data.payload as string);
       }
       if (event.data?.type === 'GEMINI_PREVIEW_LOADED') {
+        // Aviso de una carga anterior: el documento que lo mandó ya fue reemplazado.
+        if (event.data.carga !== cargaRef.current) return;
+        vivoRef.current = pendienteRef.current;
+        cargandoRef.current = false;
          // Sync state when iframe loads
          iframeRef.current?.contentWindow?.postMessage({
           type: 'TOGGLE_SELECTION_MODE',
@@ -350,6 +518,11 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
              payload: selectedElementId
            }, '*');
          }
+         // Si hubo una recarga, se vuelve a donde estaba la persona. En cuanto
+         // ella se mueva, se deja de corregir la posición.
+         volverAlMismoLugar();
+         const doc = iframeRef.current?.contentDocument;
+         ['wheel', 'touchstart', 'keydown'].forEach((tipo) => doc?.addEventListener(tipo, dejarDeRestaurar, { passive: true, once: true }));
        }
      };
 
@@ -374,10 +547,9 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
   }, [isModuleSelectionMode]);
 
   // Sync selected element highlight whenever the selected id or code changes
-  // (necesario porque el iframe se re-renderiza con el srcDoc y pierde el
-  // outline aplicado). También re-envía tras un UPDATE_COUNTDOWN.
+  // (al recargar la vista previa el documento nuevo llega sin la marca).
+  // También se re-envía tras un UPDATE_COUNTDOWN.
   useEffect(() => {
-    console.log('[PREVIEW] iframe re-render por cambio de code, selectedElementId=', selectedElementId);
     if (!selectedElementId) {
       iframeRef.current?.contentWindow?.postMessage({ type: 'DESELECT_ELEMENT' }, '*');
     } else {
@@ -463,7 +635,9 @@ export const PreviewPane = forwardRef<PreviewPaneHandle, PreviewPaneProps>(({
           
           <iframe
             ref={iframeRef}
-            srcDoc={enhancedCode}
+            srcDoc={srcDoc}
+            // Al terminar de cargar (imágenes incluidas) se ajusta la posición una última vez.
+            onLoad={restaurarPosicion}
             className="w-full flex-1 border-none bg-white"
             title="Vista previa de la invitación"
             sandbox="allow-scripts allow-same-origin allow-forms"

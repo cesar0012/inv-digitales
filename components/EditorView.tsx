@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { CheckCircle2, Loader2, ClipboardList, Palette, X, Send, SkipForward } from 'lucide-react';
-import { EditorSidebar } from './EditorSidebar';
+import { EditorSidebar, describirElemento, type EditableElement } from './EditorSidebar';
 import { EditorOnboarding } from './EditorOnboarding';
 import { PreviewPane, PreviewPaneHandle } from './PreviewPane';
 import { InitialView } from './InitialView';
@@ -11,6 +11,11 @@ import { IMAGE_SOURCES } from '../constants';
 import { generateWebProject, addModuleToProject, modifyProjectDesign, iterateModule, aiFillEventData } from '../services/aiService';
 import { resolveSchema, missingRequired, applyDeterministicData, adaptContextoEvento, adaptarVocabularioEvento, collectTextTargets, applyTextByIndex } from '../server/eventDataSchema.js';
 import type { MetricasElemento } from './editor/friendlyStyles';
+import {
+  aplicarEdicionEnElemento, alternarOculto, buscarElemento, cambiarElementoEnCodigo,
+  nodoEnRuta, nodosAAlternar, rutaDelTexto,
+  type EdicionElemento, type Visibilidad
+} from './editor/elementEdit';
 import { consumeCredit, saveInvitation, updateInvitationContent, getInvitationContent, getDefaultFonts, applyInvitationFonts, CODIGO_PLANTILLA_CATALOGO } from '../services/apiService';
 import { injectMetadata, extractMetadata, buildMetadataFromHTML } from '../services/metadataService';
 import { useAuth } from '../contexts/AuthContext';
@@ -177,6 +182,58 @@ export const EditorView: React.FC = () => {
   const activePage = pages.find(p => p.id === activePageId);
   const code = activePage?.code || '';
 
+  // Código de la página activa y su documento ya interpretado. Se conservan
+  // entre ediciones: las invitaciones pesan varios MB y reinterpretarlas en
+  // cada cambio (o en cada letra) trabaría el navegador.
+  const codigoRef = useRef(code);
+  const docCacheRef = useRef<{ fuente: string; doc: Document } | null>(null);
+  // Texto que se está editando y su posición dentro del elemento. La posición
+  // se fija al primer cambio y se conserva aunque el texto quede vacío: así
+  // cada letra va siempre al mismo lugar.
+  const textoEditadoRef = useRef<{ geminiId: string; ruta: number[] } | null>(null);
+  // Elementos que acaba de cambiar el panel: la barra lateral actualiza solo
+  // esos en vez de volver a interpretar la invitación completa.
+  const [listaEditada, setListaEditada] = useState<{ codigo: string; elementos: EditableElement[] } | null>(null);
+
+  // Si el código cambió por fuera de fijarCodigo, el documento guardado ya no sirve.
+  useEffect(() => {
+    if (activePage && activePage.code !== codigoRef.current) {
+      codigoRef.current = activePage.code;
+      docCacheRef.current = null;
+    }
+  }, [activePage]);
+
+  /** El documento de la página activa, interpretado una sola vez. */
+  const documentoActual = (): Document | null => {
+    const fuente = codigoRef.current;
+    if (!fuente) return null;
+    if (docCacheRef.current?.fuente === fuente) return docCacheRef.current.doc;
+    const doc = new DOMParser().parseFromString(fuente, 'text/html');
+    docCacheRef.current = { fuente, doc };
+    return doc;
+  };
+
+  /** Deja al día el código de la página activa. "doc" es ese código ya interpretado, si se tiene. */
+  const fijarCodigo = (nuevo: string, doc?: Document) => {
+    codigoRef.current = nuevo;
+    docCacheRef.current = doc ? { fuente: nuevo, doc } : null;
+    setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: nuevo } : p));
+  };
+
+  /** Cuando la invitación cambia por completo se carga otra en el editor. */
+  const cargarPagina = (newPage: ProjectPage) => {
+    codigoRef.current = newPage.code;
+    docCacheRef.current = null;
+    textoEditadoRef.current = null;
+    setPages([newPage]);
+    setActivePageId(newPage.id);
+    // Se interpreta el documento en cuanto el navegador esté desocupado: así el
+    // primer cambio (y la primera letra) no esperan.
+    const interpretar = () => documentoActual();
+    if (typeof window.requestIdleCallback === 'function') window.requestIdleCallback(interpretar, { timeout: 4000 });
+    else window.setTimeout(interpretar, 300);
+  };
+
   useEffect(() => {
     if (filename) {
       loadExistingInvitation(filename);
@@ -251,8 +308,7 @@ export const EditorView: React.FC = () => {
       code: normalizeEditableIds(htmlContent),
       isCreated: true
     };
-    setPages([newPage]);
-    setActivePageId(newPage.id);
+    cargarPagina(newPage);
     setHasStarted(true);
   };
 
@@ -299,8 +355,7 @@ export const EditorView: React.FC = () => {
         code: normalizeEditableIds(htmlContent),
         isCreated: true
       };
-      setPages([newPage]);
-      setActivePageId(newPage.id);
+      cargarPagina(newPage);
       setHasStarted(true);
     } catch (error: any) {
       console.error('Error loading invitation:', error);
@@ -391,8 +446,7 @@ export const EditorView: React.FC = () => {
       code: normalizeEditableIds(rawCode),
       isCreated: true
     };
-    setPages([newPage]);
-    setActivePageId(newPage.id);
+    cargarPagina(newPage);
     setExistingMetadata(null);
     setHasUnsavedChanges(true);
     setEditorConfig(prev => ({
@@ -445,7 +499,7 @@ export const EditorView: React.FC = () => {
     setApplyingModalData(true);
     try {
       const injected = await applyEventDataPipeline(activePage.code);
-      setPages(prev => prev.map(pg => pg.id === activePage.id ? { ...pg, code: normalizeEditableIds(injected) } : pg));
+      fijarCodigo(normalizeEditableIds(injected));
       setHasUnsavedChanges(true);
       setShowEventDataModal(false);
     } finally {
@@ -454,32 +508,54 @@ export const EditorView: React.FC = () => {
   };
 
   /** Paleta global: inyecta/reemplaza el bloque de overrides de variables. */
-  // El selector de colores dispara onChange en cada píxel arrastrado: si
-  // aplicáramos el cambio (DOMParser + re-render del preview) por cada
-  // evento, el navegador se trabaría. El estado del color se actualiza
-  // instantáneo (solo React), pero el HTML pesado se re-escribe con debounce.
+  // El color se ve al instante: se aplica directo en el documento de la vista
+  // previa. El código de la invitación se actualiza un momento después, porque
+  // el selector dispara un cambio por cada movimiento y no hace falta
+  // reescribirlo en cada uno.
+  const colorVarsRef = useRef(colorVars);
   const colorDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cssDePaleta = (vars: Record<string, string>): string => {
+    const entradas = Object.entries(vars).filter(([, v]) => v);
+    return `/* Paleta del editor */\n:root, [data-gemini-id] {\n${entradas.map(([k, v]) => `  --${k}-color: ${v} !important;`).join('\n')}\n}`;
+  };
+  const aplicarPaletaAlCodigo = () => {
+    colorDebounceRef.current = null;
+    const base = codigoRef.current;
+    const doc = documentoActual();
+    if (!doc) return;
+    let styleEl = doc.querySelector('style[data-editor-color-vars]') as HTMLStyleElement | null;
+    const yaEstaba = !!styleEl;
+    if (!styleEl) {
+      styleEl = doc.createElement('style');
+      styleEl.setAttribute('data-editor-color-vars', 'true');
+      doc.head.appendChild(styleEl);
+    }
+    const antes = yaEstaba ? styleEl.outerHTML : null;
+    const css = cssDePaleta(colorVarsRef.current);
+    styleEl.textContent = css;
+    const nuevo = (antes ? cambiarElementoEnCodigo(base, antes, styleEl.outerHTML) : null)
+      ?? '<!DOCTYPE html>' + doc.documentElement.outerHTML;
+    fijarCodigo(nuevo, doc);
+    previewRef.current?.aplicarEstilosDePaleta(css, base, nuevo);
+  };
   const handleUpdateColorVars = (key: string, value: string) => {
     if (!activePage) return;
     const next = { ...colorVars, [key]: value };
-    setColorVars(next); // UI inmediata (el swatch se mueve sin lag)
+    colorVarsRef.current = next;
+    setColorVars(next);
     setHasUnsavedChanges(true);
+    previewRef.current?.aplicarEstilosDePaleta(cssDePaleta(next), codigoRef.current, null);
     if (colorDebounceRef.current) clearTimeout(colorDebounceRef.current);
-    colorDebounceRef.current = setTimeout(() => {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(activePage.code, 'text/html');
-      let styleEl = doc.querySelector('style[data-editor-color-vars]') as HTMLStyleElement | null;
-      if (!styleEl) {
-        styleEl = doc.createElement('style');
-        styleEl.setAttribute('data-editor-color-vars', 'true');
-        doc.head.appendChild(styleEl);
-      }
-      const entries = Object.entries(next).filter(([, v]) => v);
-      const cssVars = entries.map(([k, v]) => `  --${k}-color: ${v} !important;`).join('\n');
-      styleEl.textContent = `/* Paleta del editor */\n:root, [data-gemini-id] {\n${cssVars}\n}`;
-      const updatedCode = '<!DOCTYPE html>' + doc.documentElement.outerHTML;
-      setPages(prev => prev.map(pg => pg.id === activePage.id ? { ...pg, code: updatedCode } : pg));
-    }, 180);
+    colorDebounceRef.current = setTimeout(aplicarPaletaAlCodigo, 180);
+  };
+  const handleResetColorVars = () => {
+    if (!activePage) return;
+    colorVarsRef.current = {};
+    setColorVars({});
+    setHasUnsavedChanges(true);
+    previewRef.current?.aplicarEstilosDePaleta(cssDePaleta({}), codigoRef.current, null);
+    if (colorDebounceRef.current) clearTimeout(colorDebounceRef.current);
+    colorDebounceRef.current = setTimeout(aplicarPaletaAlCodigo, 180);
   };
 
   /** Botón del formulario de datos (visible durante Y después de generar). */
@@ -618,12 +694,12 @@ export const EditorView: React.FC = () => {
 
     try {
       const result = await applyInvitationFonts(activePage.code, nextBase, nextHeading, token);
-      setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: result.html } : p));
+      fijarCodigo(result.html);
     } catch (error: any) {
       console.warn('[FONTS] Re-theming server falló, aplicando fallback local:', error?.message);
       try {
         const updatedCode = applyFontsFallbackLocal(activePage.code, nextBase, nextHeading);
-        setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
+        fijarCodigo(updatedCode);
       } catch (fallbackError) {
         console.error('[FONTS] Fallback local también falló:', fallbackError);
         alert('No se pudo cambiar la tipografía. Intenta de nuevo.');
@@ -696,7 +772,7 @@ export const EditorView: React.FC = () => {
       }
 
       updatedCode = normalizeEditableIds(updatedCode);
-      setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
+      fijarCodigo(updatedCode);
       setHasUnsavedChanges(true);
       setSelectedModuleName(null);
       setIsModuleSelectionMode(false);
@@ -712,169 +788,116 @@ export const EditorView: React.FC = () => {
   // palabras del editor calculan sus opciones a partir del diseño real.
   const measureElement = useCallback((geminiId: string): MetricasElemento | null => previewRef.current?.measureElement(geminiId) ?? null, []);
 
+  // Un cambio hecho en el panel. Se aplica en dos documentos: el que se guarda
+  // (el código de la invitación) y el que la persona está viendo. En los dos se
+  // cambia solo ese elemento: reinterpretar la invitación completa en cada
+  // cambio, o en cada letra, trabaría el navegador con archivos de varios MB.
   const handleUpdateElement = (geminiId: string, newContent?: string, newAttributes?: Record<string, string>, newStyles?: Record<string, string>) => {
-    if (!activePage) return;
-    
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(activePage.code, 'text/html');
-    const el = doc.querySelector(`[data-gemini-id="${geminiId}"]`) as HTMLElement;
-    
-    if (el) {
-      if (newContent !== undefined && el.tagName !== 'IMG' && el.tagName !== 'IFRAME') {
-        const TEXT_LEAF_SELECTOR = 'h1, h2, h3, h4, h5, h6, p, span, li, time, figcaption, blockquote, strong, em, label, td, th';
-        if (el.children.length === 0) {
-          el.textContent = newContent;
-        } else {
-          let textNode: Node | null = null;
-          for (let i = 0; i < el.childNodes.length; i++) {
-            const node = el.childNodes[i];
-            if (node.nodeType === Node.TEXT_NODE && node.textContent && node.textContent.trim().length > 0) {
-              textNode = node;
-              break;
-            }
-          }
-          if (textNode) {
-            textNode.textContent = newContent;
-          } else {
-            const leaf = el.querySelector(TEXT_LEAF_SELECTOR);
-            if (leaf && leaf.children.length === 0) {
-              leaf.textContent = newContent;
-            }
-          }
-        }
+    if (!activePage || !geminiId) return;
+
+    const base = codigoRef.current;
+    const doc = documentoActual();
+    const el = doc ? buscarElemento(doc, geminiId) : null;
+    if (!doc || !el) return;
+
+    // La posición del texto se fija la primera vez que se edita este elemento.
+    if (newContent !== undefined) {
+      const fijado = textoEditadoRef.current;
+      if (!fijado || fijado.geminiId !== geminiId || !nodoEnRuta(el, fijado.ruta)) {
+        const ruta = rutaDelTexto(el);
+        textoEditadoRef.current = ruta ? { geminiId, ruta } : null;
       }
-      if (newAttributes) {
-        Object.entries(newAttributes).forEach(([k, v]) => {
-          if (k === 'animationClass') {
-            el.classList.remove('animate-none', 'animate-spin', 'animate-ping', 'animate-pulse', 'animate-bounce', 'animate-fade-in', 'animate-slide-up');
-            if (v && v !== 'none') {
-              el.classList.add(v);
-            }
-          } else if (k === 'bgImage') {
-            if (v) {
-              el.style.setProperty('background-image', `url("${v}")`, 'important');
-            } else {
-              el.style.removeProperty('background-image');
-            }
-          } else if (v) {
-            el.setAttribute(k, v);
-          } else {
-            el.removeAttribute(k);
-          }
-        });
-      }
-      if (newStyles) {
-        const camelToKebab = (k: string) => k.replace(/([A-Z])/g, "-$1").toLowerCase();
-        Object.entries(newStyles).forEach(([k, v]) => {
-          if (v) el.style[k as any] = v;
-          else el.style.removeProperty(camelToKebab(k));
-        });
-      }
-      
-      const updatedCode = doc.documentElement.outerHTML;
-      setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
-      
-      setSelectedElement(prev => prev ? {
-        ...prev,
-        content: newContent !== undefined ? newContent : prev.content,
-        src: newAttributes?.src !== undefined ? newAttributes.src : prev.src,
-        href: newAttributes?.href !== undefined ? newAttributes.href : prev.href,
-      } : null);
+    }
+    const edicion: EdicionElemento = {
+      content: newContent,
+      attributes: newAttributes,
+      styles: newStyles,
+      rutaTexto: textoEditadoRef.current?.geminiId === geminiId ? textoEditadoRef.current.ruta : undefined
+    };
+
+    const antes = el.outerHTML;
+    aplicarEdicionEnElemento(el, edicion);
+    const despues = el.outerHTML;
+
+    if (antes !== despues) {
+      // En el código se sustituye el elemento; si no se localiza con seguridad
+      // (p. ej. la invitación acaba de llegar del servidor), se reescribe completo.
+      const nuevo = cambiarElementoEnCodigo(base, antes, despues) ?? doc.documentElement.outerHTML;
+      fijarCodigo(nuevo, doc);
+      // La vista previa cambia al instante, sin recargar: no se pierde el scroll.
+      previewRef.current?.aplicarEdicion(geminiId, edicion, base, nuevo);
+      // La barra lateral vuelve a leer solo este elemento. Si en el mismo
+      // instante cambió más de uno, se juntan (y manda el último de cada uno).
+      setListaEditada((prev) => {
+        const registro = describirElemento(el, edicion.rutaTexto);
+        const anteriores = prev && prev.codigo === base
+          ? prev.elementos.filter((otro) => otro.geminiId !== registro.geminiId)
+          : [];
+        return { codigo: nuevo, elementos: [...anteriores, registro] };
+      });
       setHasUnsavedChanges(true);
     }
+
+    setSelectedElement(prev => prev ? {
+      ...prev,
+      content: newContent !== undefined ? newContent : prev.content,
+      src: newAttributes?.src !== undefined ? newAttributes.src : prev.src,
+      href: newAttributes?.href !== undefined ? newAttributes.href : prev.href,
+    } : null);
   };
 
-  const handleToggleModuleVisibility = (moduleName: string) => {
+  // Ocultar o volver a mostrar. El cambio se hace en los dos documentos (el que
+  // se guarda y el que la persona ve) con la misma regla, así la vista previa no
+  // se recarga y no se pierde la posición.
+  const alternarVisibilidad = (objetivo: Visibilidad) => {
     if (!activePage) return;
-    
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(activePage.code, 'text/html');
-    
-    const elements = Array.from(doc.querySelectorAll('[data-gemini-id]')).filter(el => {
-      const geminiId = el.getAttribute('data-gemini-id');
-      if (!geminiId) return false;
-      let elModuleName = '';
-      if (geminiId && !geminiId.startsWith('edit-') && geminiId.length < 30) {
-        const parts = geminiId.split('-');
-        if (parts.length > 1) {
-          elModuleName = parts[0].replace(/\b\w/g, l => l.toUpperCase());
-        }
-      }
-      const group = elModuleName || 'Otros Elementos';
-      return group === moduleName;
+    const base = codigoRef.current;
+    const doc = documentoActual();
+    if (!doc) return;
+
+    const nodos = nodosAAlternar(doc, objetivo);
+    if (nodos.length === 0) return;
+    const antes = nodos.map((nodo) => nodo.outerHTML);
+    nodos.forEach(alternarOculto);
+
+    let nuevo: string | null = base;
+    for (let i = 0; i < nodos.length && nuevo !== null; i++) {
+      nuevo = cambiarElementoEnCodigo(nuevo, antes[i], nodos[i].outerHTML);
+    }
+    // Si algún cambio no se pudo hacer punto por punto, se reescribe completo.
+    if (nuevo === null) nuevo = doc.documentElement.outerHTML;
+    fijarCodigo(nuevo, doc);
+
+    previewRef.current?.aplicarCambio(
+      (vivo) => nodosAAlternar(vivo, objetivo).forEach(alternarOculto),
+      base,
+      nuevo
+    );
+
+    // En la lista se vuelven a leer los elementos afectados: los del módulo y
+    // todos los que estén dentro de lo que se ocultó o mostró.
+    const afectados = new Set<Element>();
+    doc.querySelectorAll('[data-gemini-id]').forEach((el) => {
+      if (nodos.some((nodo) => nodo === el || nodo.contains(el))) afectados.add(el);
     });
-
-    if (elements.length === 0) return;
-
-    let lca = elements[0] as HTMLElement;
-    for (let i = 1; i < elements.length; i++) {
-      let node = elements[i] as HTMLElement;
-      while (lca && !lca.contains(node)) {
-        lca = lca.parentElement as HTMLElement;
-      }
-    }
-
-    if (lca && lca.tagName !== 'BODY' && lca.tagName !== 'HTML') {
-      const isHidden = lca.getAttribute('data-gemini-hidden') === 'true';
-      if (isHidden) {
-        lca.removeAttribute('data-gemini-hidden');
-        lca.style.removeProperty('display');
-      } else {
-        lca.setAttribute('data-gemini-hidden', 'true');
-        lca.style.setProperty('display', 'none', 'important');
-      }
-    } else {
-      elements.forEach(el => {
-        const htmlEl = el as HTMLElement;
-        const isHidden = htmlEl.getAttribute('data-gemini-hidden') === 'true';
-        if (isHidden) {
-          htmlEl.removeAttribute('data-gemini-hidden');
-          htmlEl.style.removeProperty('display');
-        } else {
-          htmlEl.setAttribute('data-gemini-hidden', 'true');
-          htmlEl.style.setProperty('display', 'none', 'important');
-        }
-      });
-    }
-    
-    const updatedCode = doc.documentElement.outerHTML;
-    setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
+    setListaEditada({ codigo: nuevo, elementos: Array.from(afectados).map((el) => describirElemento(el as HTMLElement)) });
     setHasUnsavedChanges(true);
   };
 
-  const handleToggleElementVisibility = (geminiId: string) => {
-    if (!activePage) return;
+  const handleToggleModuleVisibility = (moduleName: string) => alternarVisibilidad({ modulo: moduleName });
 
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(activePage.code, 'text/html');
-    const el = doc.querySelector(`[data-gemini-id="${geminiId}"]`) as HTMLElement | null;
-
-    if (el) {
-      const isHidden = el.getAttribute('data-gemini-hidden') === 'true';
-      if (isHidden) {
-        el.removeAttribute('data-gemini-hidden');
-        el.style.removeProperty('display');
-      } else {
-        el.setAttribute('data-gemini-hidden', 'true');
-        el.style.setProperty('display', 'none', 'important');
-      }
-      const updatedCode = doc.documentElement.outerHTML;
-      setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
-      setHasUnsavedChanges(true);
-    }
-  };
+  const handleToggleElementVisibility = (geminiId: string) => alternarVisibilidad({ geminiId });
 
   const handleUpdateCountdown = (targetDate: string) => {
     if (!activePage) return;
-    console.log('[EDITOR-COUNTDOWN] aplicando targetDate=', targetDate);
+    const base = codigoRef.current;
+    const doc = documentoActual();
+    if (!doc) return;
 
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(activePage.code, 'text/html');
-
-    const countdownElements = doc.querySelectorAll('[data-gemini-id^="countdown"]');
-    countdownElements.forEach(el => {
-      (el as HTMLElement).setAttribute('data-countdown-target', targetDate);
-    });
+    const ponerFecha = (en: Document) => {
+      en.querySelectorAll('[data-gemini-id^="countdown"]').forEach((el) => el.setAttribute('data-countdown-target', targetDate));
+    };
+    ponerFecha(doc);
 
     let updatedCode = doc.documentElement.outerHTML;
 
@@ -892,14 +915,14 @@ export const EditorView: React.FC = () => {
       return `${prefix}${formatted}${suffix}`;
     });
 
-    setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
+    // Los reemplazos de arriba cambian también los scripts, así que el documento
+    // guardado ya no corresponde al código: se volverá a interpretar cuando haga falta.
+    fijarCodigo(updatedCode);
 
-    // Esperar a que React re-renderice el iframe con el nuevo srcDoc antes
-    // de enviar el postMessage, para que UPDATE_COUNTDOWN llegue al documento
-    // nuevo (no al viejo que se destruye al cambiar srcDoc).
-    setTimeout(() => {
-      previewRef.current?.sendCountdownUpdate(targetDate);
-    }, 0);
+    // La vista previa no se recarga: la cuenta se actualiza en el documento que
+    // la persona está viendo.
+    previewRef.current?.aplicarCambio(ponerFecha, base, updatedCode);
+    previewRef.current?.sendCountdownUpdate(targetDate);
 
     setHasUnsavedChanges(true);
   };
@@ -1138,6 +1161,8 @@ export const EditorView: React.FC = () => {
       {!isFullscreen && (
         <EditorSidebar
           code={code}
+          listaEditada={listaEditada}
+          onResetColorVars={handleResetColorVars}
           selectedElementId={selectedElement?.geminiId || null}
           onUpdateElement={handleUpdateElement}
           onClearSelection={() => setSelectedElement(null)}
@@ -1217,44 +1242,53 @@ export const EditorView: React.FC = () => {
         ref={previewRef}
         code={code} 
         onElementClick={(el) => {
-          // Persistir el data-gemini-id efímero en el code si fue asignado
-          // dinámicamente por el iframe (elemento sin ID previo). Esto asegura
-          // que parseEditableElements lo encuentre y que handleUpdateElement
-          // pueda localizarlo después.
-          if (el.geminiId && el.geminiId.startsWith('edit-') && el.fullHtml && activePage) {
+          // Un texto sin identificador (por ejemplo, una parte de un párrafo)
+          // recibe uno al elegirlo en la vista previa. Aquí se anota también en el
+          // código de la invitación: si no, lo que se escriba no se podría guardar.
+          if (el.geminiId && el.geminiId.startsWith('edit-') && activePage) {
             try {
-              const parser = new DOMParser();
-              const doc = parser.parseFromString(activePage.code, 'text/html');
-              // Buscar el elemento por su outerHTML actual (sin el ID efímero
-              // aún) y asignárselo. El fullHtml que llega del iframe ya trae
-              // el data-gemini-id="edit-xxx" inyectado, así que localizamos por
-              // coincidencia estructural: tagName + sin data-gemini-id previo
-              // + mismo contenido.
-              const tempDoc = parser.parseFromString(el.fullHtml, 'text/html');
-              const tempEl = tempDoc.body.firstElementChild as HTMLElement | null;
-              if (tempEl) {
-                const tag = tempEl.tagName;
-                const newId = el.geminiId;
-                // Remover el atributo data-gemini-id temporal del tempEl para
-                // poder comparar outerHTML contra candidatos del doc.
-                tempEl.removeAttribute('data-gemini-id');
-                const strippedHtml = tempEl.outerHTML;
-                const candidates = Array.from(doc.querySelectorAll(tag.toLowerCase()));
-                const match = candidates.find((c: Element) => {
-                  const ce = c as HTMLElement;
-                  // Noalready tiene un data-gemini-id? (si lo tiene, ya está
-                  // registrado en el sidebar, no debería tocarse)
-                  if (ce.getAttribute('data-gemini-id')) return false;
-                  return ce.outerHTML === strippedHtml;
-                }) as HTMLElement | undefined;
-                if (match) {
-                  match.setAttribute('data-gemini-id', newId);
-                  const updatedCode = doc.documentElement.outerHTML;
-                  setPages(prev => prev.map(p => p.id === activePageId ? { ...p, code: updatedCode } : p));
+              const base = codigoRef.current;
+              const doc = documentoActual();
+              const nuevoId = el.geminiId;
+              let elegido: HTMLElement | null = null;
+              if (doc && !buscarElemento(doc, nuevoId)) {
+                // Se localiza por su lugar en la página (la vista previa manda la
+                // posición del elemento) y se confirma que es el mismo: misma
+                // etiqueta, mismo texto y todavía sin identificador.
+                if (el.camino) {
+                  let nodo: Element | null = doc.body;
+                  for (const paso of el.camino) nodo = nodo ? nodo.children[paso] : null;
+                  if (nodo && !nodo.getAttribute('data-gemini-id')
+                    && nodo.tagName === el.tagName
+                    && (nodo.textContent || '').trim() === (el.texto || '').trim()) {
+                    elegido = nodo as HTMLElement;
+                  }
+                }
+                // Si no hay posición o no coincide, se busca por contenido y solo se
+                // toma si hay uno exactamente igual.
+                if (!elegido && el.fullHtml) {
+                  const tempEl = new DOMParser().parseFromString(el.fullHtml, 'text/html').body.firstElementChild as HTMLElement | null;
+                  if (tempEl) {
+                    tempEl.removeAttribute('data-gemini-id');
+                    const sinId = tempEl.outerHTML;
+                    const iguales = Array.from(doc.querySelectorAll(tempEl.tagName.toLowerCase()))
+                      .filter((c) => !c.getAttribute('data-gemini-id') && c.outerHTML === sinId) as HTMLElement[];
+                    if (iguales.length === 1) elegido = iguales[0];
+                  }
                 }
               }
+              if (doc && elegido) {
+                const antes = elegido.outerHTML;
+                elegido.setAttribute('data-gemini-id', nuevoId);
+                const nuevo = cambiarElementoEnCodigo(base, antes, elegido.outerHTML) ?? doc.documentElement.outerHTML;
+                fijarCodigo(nuevo, doc);
+                // La vista previa ya tenía el identificador: no hace falta recargarla.
+                previewRef.current?.marcarCodigoVivo(base, nuevo);
+                // El elemento entra a la lista del panel para poder editarlo.
+                setListaEditada({ codigo: nuevo, elementos: [describirElemento(elegido)] });
+              }
             } catch (err) {
-              console.error('Error persistiendo data-gemini-id efímero:', err);
+              console.error('Error anotando el identificador del elemento:', err);
             }
           }
           setSelectedElement(el);
