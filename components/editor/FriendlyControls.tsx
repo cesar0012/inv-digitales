@@ -128,7 +128,8 @@ interface ColorDeInvitacionProps {
  *  rayas neutras en lugar de fingir un color que la invitación no tiene. */
 export const ColorDeInvitacion: React.FC<ColorDeInvitacionProps> = ({ etiqueta, valor, alCambiar }) => {
   const entrada = useRef<HTMLInputElement>(null);
-  const elegido = esHex(valor);
+  // El color elegido, o vacío si todavía no hay uno bien formado.
+  const elegido = esHex(valor) ? valor : '';
   return (
     <div className="flex items-center gap-2">
       <button
