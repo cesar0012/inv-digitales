@@ -249,6 +249,24 @@ export const AdminUsers: React.FC = () => {
     }
   };
 
+  // Borrar un usuario: desaparece con sus planes e invitaciones. (Si vuelve a
+  // entrar desde Laravel se crea de nuevo, con los planes que tenga comprados.)
+  const [borrandoId, setBorrandoId] = useState<string | null>(null);
+  const deleteUser = async (e: React.MouseEvent, user: AdminUser) => {
+    e.stopPropagation();
+    if (!confirm(`¿Eliminar al usuario ${user.name || user.user_id}?\n\nSe borran también sus ${user.plans.length} plan(es) y sus ${user.invitations_count} invitación(es). Esta acción no se puede deshacer.`)) return;
+    setBorrandoId(user.user_id);
+    try {
+      const r = await fetch(`${API}/admin/users/${user.user_id}`, { method: 'DELETE', headers: adminHeaders() });
+      if (!r.ok) throw new Error('Error al eliminar');
+      await loadUsers();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Error al eliminar');
+    } finally {
+      setBorrandoId(null);
+    }
+  };
+
   const handleSync = async () => {
     setSyncing(true);
     try {
@@ -338,6 +356,7 @@ export const AdminUsers: React.FC = () => {
                 <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">Planes</th>
                 <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">Inv. Desplegadas</th>
                 <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">Registro</th>
+                <th className="w-12 py-3 px-2"></th>
               </tr>
             </thead>
             <tbody>
@@ -376,10 +395,20 @@ export const AdminUsers: React.FC = () => {
                         <span className="text-gray-400 text-xs ml-1">inv.</span>
                       </td>
                       <td className="py-3 px-4 text-sm text-gray-500">{user.created_at ? new Date(user.created_at).toLocaleDateString('es-MX') : '—'}</td>
+                      <td className="py-3 px-2 text-center">
+                        <button
+                          onClick={(e) => deleteUser(e, user)}
+                          disabled={borrandoId === user.user_id}
+                          className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
+                          title="Eliminar usuario"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </td>
                     </tr>
                     {isExpanded && (
                       <tr>
-                        <td colSpan={6} className="px-6 py-3 bg-gray-50/30">
+                        <td colSpan={7} className="px-6 py-3 bg-gray-50/30">
                           <UserPlansEditor
                             userId={user.user_id}
                             plans={user.plans}

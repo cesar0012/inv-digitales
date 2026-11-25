@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import { existsSync, mkdirSync, writeFileSync, readdirSync, statSync, readFileSync, unlinkSync, appendFileSync, openSync, readSync, closeSync } from 'fs';
+import { existsSync, mkdirSync, writeFileSync, readdirSync, statSync, readFileSync, unlinkSync, appendFileSync, openSync, readSync, closeSync, rmSync } from 'fs';
 import { createHash, createHmac } from 'crypto';
 import https from 'https';
 import multer from 'multer';
@@ -208,7 +208,9 @@ const validateInternalToken = (token) => {
   const user = db.prepare('SELECT * FROM users WHERE user_id = ?').get(userId);
   if (!user) return null;
 
-  const rawPlans = db.prepare('SELECT * FROM user_plans WHERE user_id = ?').all(userId);
+  // El plan más reciente (compra con número mayor) va primero: es el que el
+  // panel y el editor toman por defecto.
+  const rawPlans = db.prepare('SELECT * FROM user_plans WHERE user_id = ? ORDER BY CAST(purchase_id AS INTEGER) DESC, id DESC').all(userId);
   const plans = rawPlans.map(p => getPlanWithInvitation(p, userId));
 
 return {
@@ -533,6 +535,7 @@ const syncUserPlansFromBilling = async (userId, token) => {
       
       // 4. Buscar configuración del plan en nuestra tabla local
       const planConfig = db.prepare('SELECT * FROM plan_config WHERE plan_slug = ?').get(planSlug) || {
+        plan_name: planSlug,
         invites_included: 1,
         generation_credits: 5,
         iteration_credits: 10
@@ -554,9 +557,17 @@ const syncUserPlansFromBilling = async (userId, token) => {
         ).run(userId, purchase.id);
         console.log(`ℹ️ Plan ${planSlug} (purchase ${purchase.id}) ya existe, sync timestamp actualizado`);
       } else {
-        // El plan NO existe localmente → NO se crea desde el sync. Se
-        // registra el hallazgo para auditoría pero se ignora.
-        console.log(`🚫 Plan ${planSlug} (purchase ${purchase.id}) NO existe localmente para usuario ${userId} — sync NO crea planes (solo el admin o checkout real)`);
+        // La persona compró este plan en Laravel y el generador aún no lo
+        // tiene: se le asigna. Solo llega aquí lo que está pagado y sin
+        // reembolso (revisado arriba).
+        db.prepare(
+          `INSERT INTO user_plans (user_id, purchase_id, plan_slug, plan_name, invites_included, invites_used, generation_credits, generation_used, iteration_credits, iteration_used)
+           VALUES (?, ?, ?, ?, ?, 0, ?, 0, ?, 0)`
+        ).run(
+          userId, String(purchase.id), planSlug, planConfig.plan_name || planSlug,
+          planConfig.invites_included ?? 1, planConfig.generation_credits ?? 5, planConfig.iteration_credits ?? 10
+        );
+        console.log(`✅ Plan ${planSlug} (purchase ${purchase.id}) asignado al usuario ${userId} (comprado en Laravel)`);
       }
     }
 
@@ -1295,7 +1306,9 @@ app.get('/api/get-user/:userId', authMiddleware, (req, res) => {
 
   syncUserInvitationsCount(userId);
 
-  const rawPlans = db.prepare('SELECT * FROM user_plans WHERE user_id = ?').all(userId);
+  // El plan más reciente (compra con número mayor) va primero: es el que el
+  // panel y el editor toman por defecto.
+  const rawPlans = db.prepare('SELECT * FROM user_plans WHERE user_id = ? ORDER BY CAST(purchase_id AS INTEGER) DESC, id DESC').all(userId);
   const plans = rawPlans.map(p => getPlanWithInvitation(p, userId));
 
   const invitations = getUserInvitations(userId);
@@ -1954,7 +1967,9 @@ app.get('/api/service/users/:userId', serviceMiddleware, (req, res) => {
 
     syncUserInvitationsCount(userId);
 
-    const rawPlans = db.prepare('SELECT * FROM user_plans WHERE user_id = ?').all(userId);
+    // El plan más reciente (compra con número mayor) va primero: es el que el
+  // panel y el editor toman por defecto.
+  const rawPlans = db.prepare('SELECT * FROM user_plans WHERE user_id = ? ORDER BY CAST(purchase_id AS INTEGER) DESC, id DESC').all(userId);
     const plans = rawPlans.map(p => getPlanWithInvitation(p, userId));
 
     const invitations = getUserInvitations(userId);
@@ -3771,6 +3786,32 @@ app.delete('/api/admin/users/:id/plans/:purchaseId', adminMiddleware, (req, res)
 });
 
 // PUT /api/admin/users/:id - Actualizar usuario
+// DELETE /api/admin/users/:id — Borra un usuario, sus planes, sus invitaciones
+// y su carpeta de archivos. (Los usuarios se crean solos cuando entran desde
+// Laravel, así que si vuelve a entrar se crea de nuevo, ya sin planes.)
+app.delete('/api/admin/users/:id', adminMiddleware, (req, res) => {
+  const { id } = req.params;
+  if (!/^\d+$/.test(id)) {
+    return res.status(400).json({ error: 'Identificador de usuario inválido' });
+  }
+  try {
+    // Primero lo que depende del usuario, y al final el usuario.
+    const borrado = {
+      invitaciones: db.prepare('DELETE FROM invitations WHERE user_id = ?').run(id).changes,
+      planes: db.prepare('DELETE FROM user_plans WHERE user_id = ?').run(id).changes,
+      usuario: db.prepare('DELETE FROM users WHERE user_id = ?').run(id).changes
+    };
+    try { db.prepare('DELETE FROM local_sso_codes WHERE user_id = ?').run(id); } catch { /* la tabla puede no existir */ }
+    const carpeta = join(storagePath, id);
+    if (existsSync(carpeta)) rmSync(carpeta, { recursive: true, force: true });
+    console.log(`🗑️ Usuario ${id} eliminado desde el admin:`, JSON.stringify(borrado));
+    res.json({ success: true, ...borrado });
+  } catch (error) {
+    console.error('Error al eliminar usuario:', error.message);
+    res.status(500).json({ error: 'No se pudo eliminar el usuario' });
+  }
+});
+
 app.put('/api/admin/users/:id', adminMiddleware, (req, res) => {
   const { id } = req.params;
   const { iteration_credits, max_invitations, generation_credits, max_generation_credits } = req.body;
