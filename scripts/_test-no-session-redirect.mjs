@@ -34,6 +34,11 @@ for (const [valor, nombre] of [
   ['/x/../admin-login', "'/x/../admin-login' (se normaliza a /admin-login)"],
   ['/ADMIN-LOGIN', "'/ADMIN-LOGIN' (mayúsculas)"],
   ['/Editor/x.html', "'/Editor/x.html' (privado, mayúsculas)"],
+  // La antigua página de acceso de prueba está retirada
+  ['/test', "'/test' (antigua página de acceso, retirada)"],
+  ['/test/', "'/test/'"],
+  ['/%74est', "codificada '/%74est' (es /test)"],
+  [`${ORIGEN}/test`, 'URL absoluta a /test'],
 ]) {
   check(destinoSinSesionSeguro(valor, ORIGEN) === NO_SESSION_URL, `${nombre} → planes`);
 }
@@ -44,7 +49,7 @@ for (const [valor, nombre] of [
   ['https://app.invitacionesmodernas.com/app/planes', 'planes de la app (con https://)'],
   ['https://digital.invitacionesmodernas.com/es-us/', 'inicio del sitio digital'],
   ['/planes', 'ruta pública propia'],
-  ['/test', 'ruta /test (pública)'],
+  ['/testing', "ruta '/testing' (pública: solo empieza parecido a /test)"],
   ['/administracion', "ruta que empieza parecido pero no es admin"],
   ['https://otro-sitio.com/admin', '/admin de OTRO sitio (no es el generador)'],
   ['https://app.invitacionesmodernas.com/admin', '/admin de la app Laravel (no es el generador)'],

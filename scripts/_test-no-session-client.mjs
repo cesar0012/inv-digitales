@@ -92,9 +92,9 @@ console.log('Redirección en el navegador:');
   check(navegado[0] === PLANES && ms < 6000, `servidor no responde → a los ${ms} ms va a planes`);
 }
 {
-  const { modulo, navegado } = await escenario(() => json({ login_page_url: '/test' }));
+  const { modulo, navegado } = await escenario(() => json({ login_page_url: '/planes' }));
   await modulo.redirectToNoSession();
-  check(navegado[0] === '/test', 'destino configurado válido ("/test") → se respeta');
+  check(navegado[0] === '/planes', 'destino configurado válido ("/planes") → se respeta');
 }
 {
   // Ya estamos en el destino: no se recarga la página (evita bucle infinito).

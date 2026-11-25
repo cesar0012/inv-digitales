@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { getNoSessionUrl } from '../services/noSessionRedirect';
+import { getNoSessionUrl, redirectToNoSession } from '../services/noSessionRedirect';
 import { Loader2 } from 'lucide-react';
 
 interface PrivateRouteProps {
@@ -30,9 +30,11 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
 
   // Sin sesión se sale del generador hacia el destino único. Ese destino
   // nunca es /admin ni una página privada, así que no puede haber bucle.
+  // (Si ya se está saliendo del generador por otro motivo —por ejemplo, la
+  // persona acaba de cerrar sesión—, ese otro destino es el que manda.)
   useEffect(() => {
     if (!loading && !isAuthenticated && destino && destino !== window.location.href) {
-      window.location.assign(destino);
+      redirectToNoSession();
     }
   }, [loading, isAuthenticated, destino]);
 

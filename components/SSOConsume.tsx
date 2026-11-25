@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Loader2, AlertCircle, CheckCircle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { SITIO_LARAVEL } from '../services/noSessionRedirect';
 
 export const SSOConsume: React.FC = () => {
   const navigate = useNavigate();
@@ -70,12 +71,13 @@ export const SSOConsume: React.FC = () => {
             </div>
             <h2 className="text-xl font-semibold text-gray-800 mb-2">Error de autenticación</h2>
             <p className="text-gray-500 mb-4">{error}</p>
-            <button
-              onClick={() => navigate('/test')}
-              className="px-6 py-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl font-medium"
+            {/* Nadie inicia sesión desde el generador: se le manda al sitio de Laravel. */}
+            <a
+              href={SITIO_LARAVEL + '/'}
+              className="inline-block px-6 py-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl font-medium"
             >
-              Ir a página de prueba
-            </button>
+              Volver a invitacionesmodernas.com
+            </a>
           </>
         )}
       </div>

@@ -870,8 +870,8 @@ const GeneralConfig: React.FC<GeneralConfigProps> = ({
           />
           <p className={`text-xs mt-1 ${esDestinoSinSesionProhibido(loginPageUrl) ? 'text-red-600 font-medium' : 'text-gray-500'}`}>
             {esDestinoSinSesionProhibido(loginPageUrl)
-              ? 'Este destino no está permitido: nadie puede ser enviado a las páginas de administración. Al guardar se usará la página de planes.'
-              : 'A dónde se envía a quien entra sin sesión o con la sesión vencida. Nunca puede ser una página de administración.'}
+              ? 'Este destino no está permitido: nadie puede ser enviado a las páginas de administración ni a la antigua página de acceso /test. Al guardar se usará la página de planes.'
+              : 'A dónde se envía a quien entra sin sesión o con la sesión vencida. Nunca puede ser una página de administración ni /test.'}
           </p>
         </div>
       </div>

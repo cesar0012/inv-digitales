@@ -11,6 +11,7 @@ import { InvitationPreviewModal } from './InvitationPreviewModal';
 import { ShareModal } from './ShareModal';
 import { UserWithInvitations, InvitationFile } from '../types';
 import { useLanguage, Lang } from '../i18n';
+import { LOGOUT_URL, NO_SESSION_URL, salirDelGenerador } from '../services/noSessionRedirect';
 
 // Etiquetas de plan (la marca visual la lleva el rosa/rose del sitio;
 // el chip mantiene un tono suave por plan solo como identificador).
@@ -61,6 +62,15 @@ export const Dashboard: React.FC = () => {
     fetchData();
   }, [authUser]);
 
+  // Con sesión pero sin ningún plan no hay nada que hacer en el generador:
+  // se lleva a la persona a los planes de Laravel (donde se contratan).
+  // Solo cuando los datos ya cargaron bien: si falló la carga, se muestra el error.
+  useEffect(() => {
+    if (!loading && !error && userData && (userData.plans || []).length === 0) {
+      window.location.replace(NO_SESSION_URL);
+    }
+  }, [loading, error, userData]);
+
   const handleCreateNew = () => { if (selectedPlan) navigate(`/editor?purchaseId=${selectedPlan.purchase_id}`); };
   const handleOpenEditor = (inv: InvitationFile) => {
     navigate(`/editor/${encodeURIComponent(inv.filename)}?purchaseId=${inv.purchase_id || selectedPlan?.purchase_id || ''}`);
@@ -79,7 +89,8 @@ export const Dashboard: React.FC = () => {
     catch (err: any) { alert(err.message); }
     finally { setActionLoadingId(null); }
   };
-  const handleLogout = async () => { await logout(); navigate('/test'); };
+  // Nadie inicia sesión desde el generador: al salir se vuelve al sitio de Laravel.
+  const handleLogout = async () => { await logout(); salirDelGenerador(LOGOUT_URL); };
   const formatDate = (iso: string) => new Date(iso).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' });
 
   if (loading) {
@@ -113,7 +124,8 @@ export const Dashboard: React.FC = () => {
           </div>
           <h2 className="text-lg font-semibold text-gray-800 mb-1">{t('dash.noPlans')}</h2>
           <p className="text-gray-500 text-sm mb-5">{t('dash.noPlansHint')}</p>
-          <button onClick={handleLogout} className="px-5 py-2 bg-pink-50 text-pink-600 rounded-xl text-sm font-medium hover:bg-pink-100">{t('dash.logout')}</button>
+          {/* Se está llevando a los planes de Laravel; el enlace es por si el navegador lo bloquea. */}
+          <a href={NO_SESSION_URL} className="inline-block px-5 py-2 bg-pink-500 text-white rounded-xl text-sm font-medium hover:bg-pink-600">Ver planes</a>
         </div>
       </div>
     );

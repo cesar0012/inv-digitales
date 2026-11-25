@@ -1,13 +1,14 @@
 /**
- * A dónde se manda a quien no tiene sesión (o su sesión expiró).
+ * A dónde se manda a quien no tiene sesión (o su sesión expiró), a quien la
+ * cierra y a quien tiene sesión pero ningún plan: siempre al sitio de Laravel.
  *
  * La regla vive en server/noSessionRedirect.js, compartida con el servidor:
- * nunca una página de administración del generador; por defecto, los planes
- * de la app. TODAS las redirecciones por falta de sesión pasan por aquí.
+ * nunca una página de administración del generador ni su antigua página de
+ * prueba (/test). TODAS esas redirecciones pasan por aquí.
  */
 import { NO_SESSION_URL, destinoSinSesionSeguro } from '../server/noSessionRedirect.js';
 
-export { NO_SESSION_URL, esDestinoSinSesionProhibido, destinoSinSesionSeguro } from '../server/noSessionRedirect.js';
+export { NO_SESSION_URL, LOGOUT_URL, SITIO_LARAVEL, esDestinoSinSesionProhibido, destinoSinSesionSeguro } from '../server/noSessionRedirect.js';
 
 // Lo que se explica a la persona cuando una petición falla porque ya no tiene
 // sesión: las pantallas muestran el mensaje del error en un aviso. El servidor
@@ -44,6 +45,17 @@ export const getNoSessionUrl = (): Promise<string> => {
 // Varios servicios pueden detectar la falta de sesión a la vez: el salto se
 // pide una sola vez.
 let saltoIniciado = false;
+
+/**
+ * Sale del generador hacia una dirección de Laravel (por ejemplo, al cerrar
+ * sesión). Manda sobre cualquier otra salida: al cerrar la sesión, la
+ * protección de las páginas privadas también intenta llevar a la persona a
+ * los planes, y pisaría este destino.
+ */
+export const salirDelGenerador = (url: string): void => {
+  saltoIniciado = true;
+  window.location.assign(url);
+};
 
 /** Lleva a quien no tiene sesión a su destino. Sin bucles: si ya está ahí, no recarga. */
 export const redirectToNoSession = async (): Promise<void> => {

@@ -26,6 +26,7 @@ const PUERTO = 3001;
 const SECRETO = 'secreto-de-prueba';
 const TOKEN_ADMIN = 'token-de-prueba-admin';
 const USUARIO_PRUEBA = '999999';
+const USUARIO_SIN_PLAN = '999998';
 const PLAN_PRUEBA = 9001;
 
 // Bloque de estructura conocida que llevan todas las invitaciones de prueba:
@@ -82,6 +83,8 @@ export async function iniciarServidorDePrueba() {
     db.prepare("UPDATE admin_config SET login_page_url = '/admin-login' WHERE id = 1").run();
     db.prepare("INSERT OR REPLACE INTO admin_sessions (admin_id, token, expires_at) VALUES (1, ?, datetime('now', '+1 day'))").run(TOKEN_ADMIN);
     db.prepare("INSERT OR REPLACE INTO users (user_id, name, invitations_count, iteration_credits, max_invitations, max_iteration_credits, generation_credits, max_generation_credits) VALUES (?, 'Usuario de prueba', 0, 0, 0, 0, 0, 0)").run(USUARIO_PRUEBA);
+    // Otro usuario con sesión pero SIN ningún plan (así llega quien aún no contrata).
+    db.prepare("INSERT OR REPLACE INTO users (user_id, name, invitations_count, iteration_credits, max_invitations, max_iteration_credits, generation_credits, max_generation_credits) VALUES (?, 'Usuario sin plan', 0, 0, 0, 0, 0, 0)").run(USUARIO_SIN_PLAN);
     // Su plan: guardar una invitación nueva (como las que se personalizan desde
     // el catálogo) exige tener uno.
     db.prepare("INSERT OR REPLACE INTO user_plans (user_id, purchase_id, plan_slug, plan_name, invites_included, invites_used, generation_credits, generation_used, iteration_credits, iteration_used) VALUES (?, ?, 'prueba', 'Plan de prueba', 1, 0, 0, 0, 0, 0)").run(USUARIO_PRUEBA, PLAN_PRUEBA);
@@ -139,12 +142,14 @@ export async function iniciarServidorDePrueba() {
     }
 
     const emitido = Math.floor(Date.now() / 1000);
-    const firma = createHmac('sha256', SECRETO).update(`${USUARIO_PRUEBA}|${emitido}`).digest('hex');
+    const sesionDe = (usuario) => `${usuario}|${emitido}|${createHmac('sha256', SECRETO).update(`${usuario}|${emitido}`).digest('hex')}`;
 
     return {
       baseUrl,
       /** Sesión válida del usuario de prueba (para la cookie auth_token). */
-      token: `${USUARIO_PRUEBA}|${emitido}|${firma}`,
+      token: sesionDe(USUARIO_PRUEBA),
+      /** Sesión válida de un usuario SIN ningún plan (para la cookie auth_token). */
+      tokenSinPlan: sesionDe(USUARIO_SIN_PLAN),
       /** Sesión válida del administrador de prueba (header Authorization: Bearer). */
       tokenAdmin: TOKEN_ADMIN,
       usuarioId: USUARIO_PRUEBA,

@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { 
   User, 
-  login as authServiceLogin, 
   consumeToken, 
   setAuthToken, 
   clearAuthToken, 
@@ -11,12 +10,14 @@ import {
   getDashboardUrl
 } from '../services/authService';
 
+// Nadie inicia sesión desde el generador: la sesión la crea Laravel y llega
+// por /sso/consume. Por eso aquí ya no hay "login".
 interface AuthContextType {
   user: User | null;
   token: string | null;
   isAuthenticated: boolean;
   loading: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  /** Cierra la sesión en el servidor. La salida del generador la hace quien llama (ver Dashboard). */
   logout: () => Promise<void>;
   consumeSSOCode: (code: string) => Promise<void>;
   redirectToDashboard: () => void;
@@ -45,13 +46,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     } finally {
       setLoading(false);
     }
-  };
-
-  const login = async (email: string, password: string) => {
-    const response = await authServiceLogin(email, password);
-    await setAuthToken(response.token);
-    setUser(response.user);
-    setToken(response.token);
   };
 
   const logout = async () => {
@@ -98,7 +92,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         token,
         isAuthenticated: !!user,
         loading,
-        login,
         logout,
         consumeSSOCode,
         redirectToDashboard,

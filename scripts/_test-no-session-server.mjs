@@ -33,16 +33,16 @@ try {
   check(guardado() === NO_SESSION_URL, 'el valor viejo "/admin-login" se corrigió solo en la base de datos');
 
   console.log('\nEl administrador intenta guardar un destino prohibido:');
-  for (const valor of ['/admin-login', '/admin', 'https://generador.invitacionesmodernas.com/admin-login', '/', '/editor', '']) {
+  for (const valor of ['/admin-login', '/admin', 'https://generador.invitacionesmodernas.com/admin-login', '/', '/editor', '/test', '']) {
     const r = await guardarDestino(valor);
     check(r.ok && guardado() === NO_SESSION_URL, `"${valor}" → se guarda la página de planes`);
   }
 
   console.log('\nEl administrador guarda un destino válido:');
-  check((await guardarDestino('/test')).ok && guardado() === '/test', '"/test" se guarda tal cual');
-  check((await publico()) === '/test', 'y el público lo recibe tal cual');
+  check((await guardarDestino('/planes')).ok && guardado() === '/planes', '"/planes" se guarda tal cual');
+  check((await publico()) === '/planes', 'y el público lo recibe tal cual');
   check((await guardarDestino('https://digital.invitacionesmodernas.com/es-us/')).ok, 'también una dirección de otro sitio');
-  await guardarDestino('/test');
+  await guardarDestino('/planes');
 
   console.log('\nUn respaldo viejo vuelve a meter "/admin-login" directo en la base de datos:');
   const bdVieja = new Database(servidor.dbFile);

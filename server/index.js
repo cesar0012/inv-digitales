@@ -39,7 +39,7 @@ import { normalizeCategory } from './geminiService.js';
 import { parseHTML } from 'linkedom';
 import { processModuleUploadFile } from './ragUploadService.js';
 import { resolveSchema, adaptarVocabularioEvento } from './eventDataSchema.js';
-import { NO_SESSION_URL, destinoSinSesionSeguro } from './noSessionRedirect.js';
+import { NO_SESSION_URL, LOGOUT_URL, destinoSinSesionSeguro } from './noSessionRedirect.js';
 import { _ogTokens as screenshotOgTokens } from './screenshotService.js';
 import { createComposeRouter } from './composeRoutes.js';
 import { deflateRawSync } from 'zlib';
@@ -598,37 +598,11 @@ const ensureUserInDB = (user) => {
 
 // ==================== PROXY ENDPOINTS (evitan CORS) ====================
 
-// POST /api/auth/login - SOLO LARAVEL
-app.post('/api/auth/login', rateLimit({ key: 'auth-login', windowMs: 15 * 60 * 1000, max: 20 }), async (req, res) => {
-  const { email, password } = req.body;
-  
-  try {
-    const response = await fetchNoSSL(`${API_BASE_URL}/login`, {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(req.body)
-    });
-    
-    if (response.ok) {
-      const data = await response.json();
-      res.cookie('auth_token', data.token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: 7 * 24 * 60 * 60 * 1000
-      });
-      return res.json(data);
-    }
-    
-    // NO MAS FALLBACK LOCAL. SI LARAVEL FALLA, FALLA.
-    return res.status(response.status).json(await response.json());
-    
-  } catch (error) {
-    return res.status(500).json({ error: 'Error de conexión' });
-  }
+// POST /api/auth/login — RETIRADO. Nadie inicia sesión desde el generador:
+// la sesión la crea Laravel y llega por /sso/consume. (Antes aquí se aceptaba
+// correo y contraseña para la página de prueba "/test", que ya no existe.)
+app.post('/api/auth/login', (req, res) => {
+  res.status(410).json({ error: 'Para entrar, inicia sesión en invitacionesmodernas.com', url: LOGOUT_URL });
 });
 
 // Fetch hacia Laravel. Antes intentaba desactivar la verificación TLS
@@ -4248,6 +4222,12 @@ app.get('/api/debug/logs/html', debugGate, (req, res) => {
   
   res.setHeader('Content-Type', 'text/html');
   res.send(html);
+});
+
+// La antigua página de acceso de prueba ("/test") ya no existe: quien la tenga
+// guardada va al sitio de Laravel, donde está el acceso de usuarios.
+app.get(['/test', '/test/*'], (req, res) => {
+  res.redirect(302, LOGOUT_URL);
 });
 
 if (process.env.NODE_ENV === 'production') {

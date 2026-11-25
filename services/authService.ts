@@ -44,11 +44,6 @@ export interface User {
   plans?: UserPlan[];
 }
 
-export interface LoginResponse {
-  token: string;
-  user: User;
-}
-
 export interface ConsumeTokenResponse {
   token: string;
   user: User;
@@ -62,20 +57,8 @@ export interface IssueResponse {
 export const getDashboardUrl = (): string => DASHBOARD_URL;
 export const isDevMode = (): boolean => DEV_MODE;
 
-export const login = async (email: string, password: string): Promise<LoginResponse> => {
-  const response = await fetch(`${LOCAL_API}/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({ email, password })
-  });
-  
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || error.email || 'Error al iniciar sesión');
-  }
-  
-  return response.json();
-};
+// Ya no hay acceso con correo y contraseña desde el generador: la sesión la
+// crea Laravel y llega por /sso/consume.
 
 export const issueCode = async (token: string): Promise<IssueResponse> => {
   const response = await fetch(`${LOCAL_API}/issue`, {

@@ -6,7 +6,6 @@ import { PrivateRoute } from './components/PrivateRoute';
 import { Dashboard } from './components/Dashboard';
 import { EditorView } from './components/EditorView';
 import { SSOConsume } from './components/SSOConsume';
-import { TestLogin } from './components/TestLogin';
 import { AdminLogin } from './components/AdminLogin';
 import { AdminView } from './components/AdminView';
 import { CatalogoView } from './components/CatalogoView';
@@ -38,10 +37,12 @@ const App: React.FC = () => {
         <AdminAuthProvider>
           <LanguageProvider>
           <Routes>
+            {/* El único acceso dentro del generador es el del administrador. Los
+                usuarios entran desde Laravel (/sso/consume); la antigua página
+                de acceso de prueba "/test" está retirada. */}
             <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminRoute />} />
             <Route path="/sso/consume" element={<SSOConsume />} />
-            <Route path="/test" element={<TestLogin />} />
             <Route path="/catalogo" element={<CatalogoView />} />
             <Route path="/catalogo/:eventType/:slug" element={<ProductLandingView />} />
             
