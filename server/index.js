@@ -480,6 +480,30 @@ const syncUserInvitationsCount = (userId) => {
   return actualCount;
 };
 
+// Laravel y el generador no escriben igual el código del plan (Laravel:
+// "catalog", "creative"…; generador: "catalogo", "creativa"…). Si no se
+// igualan, el plan se guarda con otro código y el panel lo muestra como
+// "Básico". Se traduce siempre al código del generador.
+const EQUIVALENCIAS_DE_PLAN = {
+  catalog: 'catalogo', catalogs: 'catalogo', catalogue: 'catalogo',
+  creative: 'creativa', creativo: 'creativa',
+  basico: 'basic', básico: 'basic', basica: 'basic',
+  estandar: 'standard', estándar: 'standard',
+  premium: 'premium', catalogo: 'catalogo', creativa: 'creativa', basic: 'basic', standard: 'standard'
+};
+const normalizarPlanSlug = (item) => {
+  const dicho = String(item?.metadata?.plan_slug || '').trim().toLowerCase().replace(/\s+/g, '_');
+  if (EQUIVALENCIAS_DE_PLAN[dicho]) return EQUIVALENCIAS_DE_PLAN[dicho];
+  // Sin código (o con uno desconocido): se deduce por el nombre del artículo.
+  const nombre = String(item?.item_name || item?.description || '').toLowerCase();
+  if (/cat[aá]log/.test(nombre)) return 'catalogo';
+  if (/creativ/.test(nombre)) return 'creativa';
+  if (/premium/.test(nombre)) return 'premium';
+  if (/est[aá]ndar/.test(nombre)) return 'standard';
+  if (/b[aá]sic/.test(nombre)) return 'basic';
+  return dicho || 'basic';
+};
+
 /**
  * ✅ Sincroniza planes del usuario desde Laravel billing/history
  * Se ejecuta AUTOMATICAMENTE despues de CUALQUIER login
@@ -512,6 +536,7 @@ const syncUserPlansFromBilling = async (userId, token) => {
     }
 
     console.log(`📋 Recibidas ${billingData.data.length} compras para usuario ${userId}`);
+    const comprasValidas = new Set();
 
     // 2. Procesar cada compra válida segun reglas del README
     for (const purchase of billingData.data) {
@@ -530,9 +555,7 @@ const syncUserPlansFromBilling = async (userId, token) => {
       const item = purchase.items?.[0];
       if (!item) continue;
 
-      const planSlug = item.metadata?.plan_slug || 'basic';
-      const totalInvites = item.metadata?.total_invites || item.metadata?.base_invites_included || 10;
-      
+      const planSlug = normalizarPlanSlug(item);
       // 4. Buscar configuración del plan en nuestra tabla local
       const planConfig = db.prepare('SELECT * FROM plan_config WHERE plan_slug = ?').get(planSlug) || {
         plan_name: planSlug,
@@ -540,22 +563,23 @@ const syncUserPlansFromBilling = async (userId, token) => {
         generation_credits: 5,
         iteration_credits: 10
       };
+      comprasValidas.add(String(purchase.id));
 
-      // 5. Verificar si el plan ya existe para este purchase
-      // ⚠️ SEGURIDAD: el sync de Laravel NUNCA crea planes nuevos. Solo
-      // actualiza el timestamp de planes que ya existen en la BD local
-      // (creados por el admin o por el checkout real). Esto evita que
-      // datos incorrectos de Laravel den planes premium gratis.
+      // 5. Un plan por compra. La base no permite dos planes con la misma
+      // compra para un usuario, así que dos entradas seguidas (o al mismo
+      // tiempo) nunca duplican.
       const existingPlan = db.prepare(
         'SELECT * FROM user_plans WHERE user_id = ? AND purchase_id = ?'
-      ).get(userId, purchase.id);
+      ).get(userId, String(purchase.id));
 
       if (existingPlan) {
-        // Plan ya existe: SOLO actualizar last_synced_at, NO tocar *_used
+        // Ya existe: no se tocan los créditos usados. Solo se corrige el plan
+        // si Laravel lo tiene con otro código o nombre (p. ej. "catalog" → "catalogo").
         db.prepare(
-          'UPDATE user_plans SET last_synced_at = datetime(\'now\') WHERE user_id = ? AND purchase_id = ?'
-        ).run(userId, purchase.id);
-        console.log(`ℹ️ Plan ${planSlug} (purchase ${purchase.id}) ya existe, sync timestamp actualizado`);
+          `UPDATE user_plans SET last_synced_at = datetime('now'), plan_slug = ?, plan_name = ?
+           WHERE user_id = ? AND purchase_id = ? AND (plan_slug != ? OR plan_name != ?)`
+        ).run(planSlug, planConfig.plan_name || planSlug, userId, String(purchase.id), planSlug, planConfig.plan_name || planSlug);
+        console.log(`ℹ️ Plan ${planSlug} (purchase ${purchase.id}) ya existe`);
       } else {
         // La persona compró este plan en Laravel y el generador aún no lo
         // tiene: se le asigna. Solo llega aquí lo que está pagado y sin
@@ -569,6 +593,24 @@ const syncUserPlansFromBilling = async (userId, token) => {
         );
         console.log(`✅ Plan ${planSlug} (purchase ${purchase.id}) asignado al usuario ${userId} (comprado en Laravel)`);
       }
+    }
+
+    // 6. Lo que ya NO está contratado en Laravel no se conserva: si una compra
+    // fue reembolsada (o Laravel ya no la reporta) y el plan no se ha usado,
+    // se retira. (Los planes creados a mano por el admin no tienen número de
+    // compra y nunca se tocan aquí.)
+    const locales = db.prepare('SELECT * FROM user_plans WHERE user_id = ?').all(userId);
+    for (const plan of locales) {
+      const esDeLaravel = /^\d+$/.test(String(plan.purchase_id));
+      if (!esDeLaravel || comprasValidas.has(String(plan.purchase_id))) continue;
+      const usado = (plan.generation_used || 0) > 0 || (plan.iteration_used || 0) > 0 || (plan.invites_used || 0) > 0
+        || db.prepare('SELECT 1 FROM invitations WHERE user_id = ? AND purchase_id = ? LIMIT 1').get(userId, plan.purchase_id);
+      if (usado) {
+        console.log(`⚠️ Compra ${plan.purchase_id} ya no está en Laravel pero el plan se usó: se conserva`);
+        continue;
+      }
+      db.prepare('DELETE FROM user_plans WHERE user_id = ? AND purchase_id = ?').run(userId, plan.purchase_id);
+      console.log(`🗑️ Plan de la compra ${plan.purchase_id} retirado: ya no está contratado en Laravel`);
     }
 
     console.log(`✅ Sincronización completada para usuario ${userId}`);

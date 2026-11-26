@@ -15,10 +15,12 @@ const check = (ok, nombre) => { if (!ok) fallos++; console.log(`  ${ok ? '✓' :
 // Laravel falso: el usuario 7777 tiene tres compras (una no pagada y una con
 // reembolso, que NO deben asignarse).
 const compras = [
-  { id: 11, payment_status: 'paid', refund_request_status: null, items: [{ metadata: { plan_slug: 'catalogo' } }] },
+  { id: 11, payment_status: 'paid', refund_request_status: null, items: [{ item_name: 'Invitacion Catalogo', metadata: { plan_slug: 'catalog' } }] },
   { id: 12, payment_status: 'pending', refund_request_status: null, items: [{ metadata: { plan_slug: 'premium' } }] },
   { id: 13, payment_status: 'paid', refund_request_status: 'processed', items: [{ metadata: { plan_slug: 'basic' } }] },
-  { id: 14, payment_status: 'paid', refund_request_status: null, items: [{ metadata: { plan_slug: 'premium' } }] },
+  { id: 14, payment_status: 'paid', refund_request_status: null, items: [{ metadata: { plan_slug: 'creative' } }] },
+  { id: 15, payment_status: 'paid', refund_request_status: null, items: [{ metadata: {} }] },
+  { id: 16, payment_status: 'paid', refund_request_status: null, items: [{ item_name: 'Invitacion Premium', metadata: { plan_slug: 'desconocido' } }] },
 ];
 let peticiones = 0;
 const laravel = createServer((req, res) => {
@@ -45,13 +47,16 @@ try {
   check((await planes()).length === 0, 'antes de entrar: no tiene planes');
 
   // El flujo real de entrada: /sso/consume?code=… (sin seguir la redirección final).
-  const r = await fetch(`${servidor.baseUrl}/sso/consume?code=abc`, { redirect: 'manual' });
+  const rr = await Promise.all([1,2,3].map(() => fetch(`${servidor.baseUrl}/sso/consume?code=abc`, { redirect: 'manual' })));
+  const r = rr[0];
   check(r.status === 302 && peticiones >= 3, 'el generador pregunta a Laravel y deja entrar');
 
   let p = await planes();
-  check(p.length === 2 && p.some((x) => x.plan_slug === 'catalogo') && p.some((x) => x.plan_slug === 'premium'), `se le asignan sus compras pagadas y sin reembolso (${p.map((x) => x.plan_slug).join(', ') || 'ninguna'})`);
+  check(p.length === 4 && new Set(p.map((x) => String(x.purchase_id))).size === 4, `una sola vez por compra aunque entre varias veces a la vez (${p.map((x) => x.purchase_id + ':' + x.plan_slug).join(', ')})`);
+  check(p.some((x) => x.plan_slug === 'catalogo') && p.some((x) => x.plan_slug === 'creativa'), 'los códigos de Laravel ("catalog", "creative") se guardan con los del generador (catálogo, creativa)');
+  check(p.filter((x) => x.plan_slug === 'premium').length === 1 && p.some((x) => x.plan_slug === 'basic'), 'con código desconocido se deduce por el nombre del artículo; sin ningún dato queda como básico');
   check(!p.some((x) => String(x.purchase_id) === '12' || String(x.purchase_id) === '13'), 'la no pagada y la reembolsada NO se asignan');
-  const premium = p.find((x) => x.plan_slug === 'premium');
+  const premium = p.find((x) => x.plan_slug === 'premium' && String(x.purchase_id) !== '12');
   check(premium && premium.generation_credits === 10 && premium.iteration_credits === 20, 'con los créditos configurados en el admin');
 
   // El que el panel toma por defecto es el plan más reciente.
@@ -63,7 +68,14 @@ try {
   ejecutar("UPDATE user_plans SET generation_used = 3 WHERE user_id = '7777' AND plan_slug = 'premium'");
   await fetch(`${servidor.baseUrl}/sso/consume?code=abc`, { redirect: 'manual' });
   p = await planes();
-  check(p.length === 2, `sigue teniendo 2 planes (${p.length})`);
+  check(p.length === 4, `sigue teniendo 4 planes (${p.length})`);
+
+  console.log('Una compra deja de estar contratada en Laravel (reembolso):');
+  compras[0].payment_status = 'refunded';
+  await fetch(`${servidor.baseUrl}/sso/consume?code=abc`, { redirect: 'manual' });
+  p = await planes();
+  check(p.length === 3 && !p.some((x) => String(x.purchase_id) === '11'), 'el plan de esa compra se retira al entrar');
+  compras[0].payment_status = 'paid';
 
   console.log('El administrador borra un usuario:');
   const H = { Authorization: `Bearer ${servidor.tokenAdmin}` };

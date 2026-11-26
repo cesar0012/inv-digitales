@@ -290,16 +290,24 @@ const PLAN_DEFAULTS = [
   { slug: 'standard', name: 'Plan Estándar', invites: 1, gen: 5, iter: 10, rsvp: 0 },
 ];
 
+// Los planes base solo se crean la primera vez (tabla vacía). En un deploy NO
+// se vuelven a generar: lo que el administrador haya borrado o renombrado se
+// conserva tal cual.
 try {
-  const insertPlan = db.prepare(`
-    INSERT OR IGNORE INTO plan_config (plan_slug, plan_name, invites_included, generation_credits, iteration_credits, has_rsvp)
-    VALUES (?, ?, ?, ?, ?, ?)
-  `);
-  for (const p of PLAN_DEFAULTS) {
-    insertPlan.run(p.slug, p.name, p.invites, p.gen, p.iter, p.rsvp);
+  const hayPlanes = db.prepare('SELECT COUNT(*) AS total FROM plan_config').get().total;
+  if (hayPlanes === 0) {
+    const insertPlan = db.prepare(`
+      INSERT OR IGNORE INTO plan_config (plan_slug, plan_name, invites_included, generation_credits, iteration_credits, has_rsvp)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `);
+    for (const p of PLAN_DEFAULTS) {
+      insertPlan.run(p.slug, p.name, p.invites, p.gen, p.iter, p.rsvp);
+    }
+    console.log('✅ Configuración de planes creada (primera vez)');
+  } else {
+    console.log(`✅ Configuración de planes conservada (${hayPlanes} planes): no se regenera en cada arranque`);
   }
-  console.log('✅ Configuración de planes inicializada');
-} catch (e) { console.log('⚠️ Error inicializando planes:', e.message); }
+} catch (e) { console.log('⚠️ Error con la configuración de planes:', e.message); }
 
 
 
