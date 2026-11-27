@@ -114,6 +114,8 @@ const extractEditableText = (el: HTMLElement): string => {
 const esElementoEditable = (htmlEl: HTMLElement): boolean => {
   // Excluir countdowns
   if (htmlEl.getAttribute('data-gemini-id')!.startsWith('countdown')) return false;
+  // Los números de la cuenta regresiva los pone el reloj: no se editan.
+  if (htmlEl.closest('[data-gemini-id^="countdown"]') && /^\s*\d+\s*$/.test(htmlEl.textContent || '')) return false;
   // Excluir elementos con memory_usage="protected" salvo backgrounds editables
   if (htmlEl.getAttribute('memory_usage') === 'protected'
       && htmlEl.getAttribute('memory_type') !== 'background') return false;
@@ -356,8 +358,17 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility, meas
   useEffect(() => {
     if (isSelected) {
       setIsExpanded(true);
+      // Se despliega dentro del panel y se trae a la vista. Solo se mueve el
+      // panel: antes se movía también la página entera y el encabezado del
+      // editor quedaba cortado arriba.
       setTimeout(() => {
-        editorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const tarjeta = editorRef.current;
+        const panel = tarjeta && tarjeta.closest('.overflow-y-auto');
+        if (!tarjeta || !panel) return;
+        panel.scrollTo({
+          top: panel.scrollTop + tarjeta.getBoundingClientRect().top - panel.getBoundingClientRect().top - panel.clientHeight / 2 + tarjeta.offsetHeight / 2,
+          behavior: 'smooth'
+        });
       }, 100);
     }
   }, [isSelected]);
@@ -588,7 +599,16 @@ const ElementEditor = ({ element, onUpdate, isSelected, onToggleVisibility, meas
               {element.isHidden ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
             </button>
           )}
-          {isExpanded ? <ChevronDown className="w-4 h-4 text-gray-400" /> : <ChevronRight className="w-4 h-4 text-gray-400" />}
+          {/* La flecha despliega o contrae (antes era solo un dibujo). */}
+          <button
+            onClick={(e) => { e.stopPropagation(); setIsExpanded(!isExpanded); }}
+            className="p-1 rounded-md text-gray-400 hover:text-pink-500 hover:bg-pink-100 transition-colors"
+            title={isExpanded ? "Contraer" : "Desplegar"}
+            aria-label={isExpanded ? `Contraer ${element.label}` : `Desplegar ${element.label}`}
+            aria-expanded={isExpanded}
+          >
+            {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+          </button>
         </div>
       </div>
 

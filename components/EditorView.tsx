@@ -754,21 +754,51 @@ export const EditorView: React.FC = () => {
         imageMap = replaced.imageMap;
       }
 
+      // Cómo es AHORA la invitación: una muestra de un módulo real, la paleta
+      // vigente y los identificadores que ya existen. Así el módulo nuevo sigue
+      // el estilo de la invitación y no repite identificadores (si repetía el
+      // de la portada, al cambiar "su" imagen cambiaba la de la portada).
+      let contextoDeEstilo: { muestra: string; ids: string[]; paleta: Record<string, string> };
+      try {
+        const docInv = new DOMParser().parseFromString(activePage.code, 'text/html');
+        const seccionMuestra = docInv.querySelector('section[data-gemini-id]');
+        contextoDeEstilo = {
+          muestra: seccionMuestra ? replaceBase64WithPlaceholders(seccionMuestra.outerHTML).html.slice(0, 6000) : '',
+          ids: Array.from(docInv.querySelectorAll('[data-gemini-id]')).map((n) => n.getAttribute('data-gemini-id') || '').filter(Boolean),
+          paleta: { primary: editorConfig.primaryColor, secondary: editorConfig.secondaryColor, ...colorVars }
+        };
+      } catch {
+        contextoDeEstilo = { muestra: '', ids: [], paleta: {} };
+      }
+
       const generatedModuleHtml = await iterateModule(
         mode,
         moduleHtml,
         description,
         editorConfigForApi,
         effectivePurchaseId,
-        imageMap
+        imageMap,
+        contextoDeEstilo
       );
+
+      // Ningún elemento del módulo nuevo puede repetir un identificador que ya
+      // está en la invitación: el editor tomaría siempre el primero que encuentre.
+      const idsEnUso = new Set(contextoDeEstilo.ids);
+      const moduloSinChoques = generatedModuleHtml.replace(/data-gemini-id="([^"]+)"/g, (entero, id: string) => {
+        if (!idsEnUso.has(id)) { idsEnUso.add(id); return entero; }
+        let n = 2;
+        while (idsEnUso.has(`${id}-${n}`)) n++;
+        const unico = `${id}-${n}`;
+        idsEnUso.add(unico);
+        return `data-gemini-id="${unico}"`;
+      });
 
       let updatedCode: string;
       if (mode === 'modify' && targetModuleName) {
-        updatedCode = reinsertModuleHtml(activePage.code, targetModuleName, generatedModuleHtml);
+        updatedCode = reinsertModuleHtml(activePage.code, targetModuleName, moduloSinChoques);
       } else {
         const insertAfter = targetModuleName || 'Al final';
-        updatedCode = insertModuleAtPosition(activePage.code, insertAfter, generatedModuleHtml);
+        updatedCode = insertModuleAtPosition(activePage.code, insertAfter, moduloSinChoques);
       }
 
       updatedCode = normalizeEditableIds(updatedCode);
@@ -926,6 +956,23 @@ export const EditorView: React.FC = () => {
 
     setHasUnsavedChanges(true);
   };
+
+  // El editor ocupa exactamente la pantalla: la página no se desplaza. Sin
+  // esto, algo podía mover la página entera hacia abajo y el encabezado
+  // (plumita, guardar) quedaba cortado arriba, sin forma de volver.
+  useEffect(() => {
+    const html = document.documentElement;
+    const cuerpo = document.body;
+    const prevHtml = html.style.overflow;
+    const prevCuerpo = cuerpo.style.overflow;
+    html.style.overflow = 'hidden';
+    cuerpo.style.overflow = 'hidden';
+    window.scrollTo(0, 0);
+    return () => {
+      html.style.overflow = prevHtml;
+      cuerpo.style.overflow = prevCuerpo;
+    };
+  }, []);
 
   const handleSaveInvitation = async () => {
     if (code.length === 0) return;

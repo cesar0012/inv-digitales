@@ -43,9 +43,30 @@ const ETIQUETAS_MODULO: Record<string, string> = {
  *  data-gemini-id de la sección contenedora). Devuelve la lista en orden. */
 interface FotoSlot {
   idx: number;
+  /** Sección a la que pertenece (portada, padrinos, corte…). */
+  tipo: string;
   etiqueta: string;
   url: string;
 }
+
+/**
+ * Cuántos espacios de foto muestra una sección. Los de personas (padrinos,
+ * corte…) se ajustan a lo que la persona fue llenando: si puso un padrino,
+ * aparece UNA foto de padrino. Las demás secciones no se limitan.
+ */
+const limiteDeFotos = (tipo: string, data: Record<string, unknown>): number => {
+  const raiz = tipo.toLowerCase();
+  if (raiz === 'portada') return 1;
+  if (!/padrino|madrina|chambelan|dama|corte|familia|papa|mama|festejad|novi/.test(raiz)) return Infinity;
+  for (const [clave, valor] of Object.entries(data || {})) {
+    const c = clave.toLowerCase();
+    if (!Array.isArray(valor) || !/padrino|madrina|chambelan|dama|corte/.test(c)) continue;
+    // Solo cuentan las filas con algún dato; si el grupo está vacío, ninguna.
+    return valor.filter((fila) => fila && typeof fila === 'object'
+      && Object.values(fila as Record<string, unknown>).some((v) => String(v ?? '').trim() !== '')).length;
+  }
+  return Infinity; // el evento no tiene ese grupo de personas
+};
 // Una foto de STOCK o ya reemplazada se reconoce por su src: los módulos del
 // rack resuelven sus placeholders con imágenes de /img/<evento>/… (URL local)
 // o con data:base64. Antes solo se detectaba loremflickr y, al no quedar
@@ -66,12 +87,12 @@ const detectarSlots = (html: string): FotoSlot[] => {
       // <img> con src reemplazable (stock /img/…, base64 o loremflickr)
       sec.querySelectorAll('img').forEach((img) => {
         const src = img.getAttribute('src') || '';
-        if (SRC_REEMPLAZABLE.test(src)) slots.push({ idx: idx++, etiqueta, url: src.slice(0, 60) });
+        if (SRC_REEMPLAZABLE.test(src)) slots.push({ idx: idx++, tipo, etiqueta, url: src.slice(0, 60) });
       });
       // background-image en style inline (loremflickr o data:)
       sec.querySelectorAll<HTMLElement>('[style]').forEach((el) => {
         const style = el.getAttribute('style') || '';
-        if (/loremflickr|url\(['"]?data:image/i.test(style)) slots.push({ idx: idx++, etiqueta: etiqueta + ' (fondo)', url: '' });
+        if (/loremflickr|url\(['"]?data:image/i.test(style)) slots.push({ idx: idx++, tipo, etiqueta: etiqueta + ' (fondo)', url: '' });
       });
     }
     // también en <style> (background-image en CSS)
@@ -79,7 +100,7 @@ const detectarSlots = (html: string): FotoSlot[] => {
     styleTags.forEach((st) => {
       const css = st.textContent || '';
       const matches = css.match(/loremflickr\.com[^'"')]+|url\(['"]?data:image\/[^'"')]+/g) || [];
-      matches.forEach(() => slots.push({ idx: idx++, etiqueta: 'Fondo de sección', url: '' }));
+      matches.forEach(() => slots.push({ idx: idx++, tipo: 'css', etiqueta: 'Fondo de sección', url: '' }));
     });
     return slots;
   } catch {
@@ -87,10 +108,10 @@ const detectarSlots = (html: string): FotoSlot[] => {
   }
 };
 
-/** Reemplaza los src reemplazables (stock/base64/loremflickr) por las fotos
- *  del cliente EN ORDEN de slot. Mismo orden que detectarSlots: por sección. */
-const reemplazarSlots = (html: string, fotos: { dataUri: string }[]): string => {
-  if (!fotos.length) return html;
+/** Reemplaza los src reemplazables (stock/base64/loremflickr) por la foto que
+ *  la persona puso en CADA espacio (misma posición que detectarSlots). */
+const reemplazarSlots = (html: string, fotos: (string | null)[]): string => {
+  if (!fotos.some(Boolean)) return html;
   try {
     const doc = new DOMParser().parseFromString(html, 'text/html');
     let i = 0;
@@ -98,27 +119,25 @@ const reemplazarSlots = (html: string, fotos: { dataUri: string }[]): string => 
     for (const sec of secciones) {
       sec.querySelectorAll('img').forEach((img) => {
         const src = img.getAttribute('src') || '';
-        if (SRC_REEMPLAZABLE.test(src) && i < fotos.length) img.setAttribute('src', fotos[i++].dataUri);
+        if (SRC_REEMPLAZABLE.test(src)) { const foto = fotos[i++]; if (foto) img.setAttribute('src', foto); }
       });
       sec.querySelectorAll<HTMLElement>('[style]').forEach((el) => {
-        if (i >= fotos.length) return;
         const style = el.getAttribute('style') || '';
         if (/loremflickr|url\(['"]?data:image/i.test(style)) {
           el.setAttribute('style', style.replace(/url\(['"]?(?:https?:\/\/loremflickr\.com\/[^'"')]+|data:image\/[^'"')]+)['"]?\)/g, (m) => {
-            if (i < fotos.length) return `url('${fotos[i++].dataUri}')`;
-            return m;
+            const foto = fotos[i++];
+            return foto ? `url('${foto}')` : m;
           }));
         }
       });
     }
-    if (i === 0) return html; // nada que reemplazar: no re-serializar
     return '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
   } catch {
     // fallback: solo loremflickr por string
     let i = 0;
     return html.replace(/https:\/\/loremflickr\.com\/[^"')\s]+/g, (url) => {
-      if (i < fotos.length) { i++; return fotos[i - 1].dataUri; }
-      return url;
+      const foto = fotos[i]; i++;
+      return foto || url;
     });
   }
 };
@@ -251,7 +270,17 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
   const abortRef = useRef<AbortController | null>(null);
   const fotosInputRef = useRef<HTMLInputElement | null>(null);
   const fotosTargetSlot = useRef<number | null>(null);
-  const [slots, setSlots] = useState<FotoSlot[]>([]);
+  /** Todos los espacios que trae el diseño. Las fotos se guardan por su posición aquí. */
+  const [todosLosSlots, setTodosLosSlots] = useState<FotoSlot[]>([]);
+  /** Los que se muestran: según lo que la persona ha llenado (ver limiteDeFotos). */
+  const slots = useMemo(() => {
+    const usados: Record<string, number> = {};
+    return todosLosSlots.filter((slot) => {
+      const limite = limiteDeFotos(slot.tipo, data);
+      usados[slot.tipo] = (usados[slot.tipo] || 0) + 1;
+      return usados[slot.tipo] <= limite;
+    });
+  }, [todosLosSlots, data]);
   // La generación corre en background: el promise y el resultado viven en
   // refs para que finish() pueda esperarlos sin depender del estado React.
   const genPromiseRef = useRef<Promise<string | null> | null>(null);
@@ -301,9 +330,8 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
   /** HTML con las fotos del cliente aplicadas — se usa en el preview Y al finalizar. */
   const htmlConFotos = useMemo(() => {
     if (!baseHtml) return null;
-    const activas = fotos.map(f => f ? { dataUri: f } : null).filter(Boolean) as { dataUri: string }[];
-    if (!activas.length) return baseHtml;
-    return reemplazarSlots(baseHtml, activas);
+    if (!fotos.some(Boolean)) return baseHtml;
+    return reemplazarSlots(baseHtml, fotos);
   }, [baseHtml, fotos]);
 
   // Vista previa en vivo: usa el HTML CON las fotos del cliente aplicadas
@@ -404,9 +432,9 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
 
   /** Detecta los slots cuando la base llega. */
   useEffect(() => {
-    if (!baseHtml) { setSlots([]); setFotos([]); return; }
+    if (!baseHtml) { setTodosLosSlots([]); setFotos([]); return; }
     const detectados = detectarSlots(baseHtml);
-    setSlots(detectados);
+    setTodosLosSlots(detectados);
     setFotos(new Array(detectados.length).fill(null));
   }, [baseHtml]);
 
@@ -446,10 +474,7 @@ export const EventWizard: React.FC<Props> = ({ token, purchaseId, generationAvai
       // El usuario fue más rápido que la generación: esperarla.
       if (!html && genPromiseRef.current) {
         html = await genPromiseRef.current;
-        if (html) {
-          const activas = fotos.map(f => f ? { dataUri: f } : null).filter(Boolean) as { dataUri: string }[];
-          if (activas.length) html = reemplazarSlots(html, activas);
-        }
+        if (html && fotos.some(Boolean)) html = reemplazarSlots(html, fotos);
       }
       if (!html) {
         throw new Error(genError || 'El diseño no pudo generarse. Vuelve a "Tu estilo" e intenta de nuevo.');

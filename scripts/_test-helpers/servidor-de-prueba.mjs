@@ -36,6 +36,8 @@ const BLOQUE_PRUEBA = '<section id="bloque-prueba" style="padding:24px;font-fami
   + '<p data-gemini-id="prueba-dedicatoria" style="font-size:18px">Con todo nuestro amor, <span id="parte-sin-id" style="font-weight:600">José Luis</span> y María</p>'
   + '<img data-gemini-id="prueba-foto" alt="Foto de prueba" style="width:120px;height:80px;object-fit:cover" src="data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2280%22><rect width=%22120%22 height=%2280%22 fill=%22%23d16a8a%22/></svg>">'
   + '<a data-gemini-id="prueba-enlace" href="https://ejemplo.com/uno" style="display:block;margin-top:12px">Nuestro enlace</a>'
+  // Una cuenta regresiva: el número lo cambia el reloj; el rótulo sí es texto.
+  + '<div data-gemini-id="countdown-prueba" data-countdown-target="2027-01-01T00:00:00" style="margin-top:12px;font-size:22px"><span class="num" data-countdown-number style="color:var(--primary-color)">112</span> <span>Días</span></div>'
   + '</section>';
 
 /** Identificadores del bloque de prueba (ver BLOQUE_PRUEBA). */

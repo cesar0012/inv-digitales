@@ -298,7 +298,7 @@ async function ejecutar() {
   }
 
   // ------------------------------------------------------------------ PEQUEÑA
-  console.log('\nUna parte de un texto sin identificador (un nombre dentro de una frase):');
+  console.log('\nTocar un fragmento dentro de un párrafo editable: se edita el párrafo (y el panel lo resalta):');
   await abrirEditor('editor_test.html');
   await irA(0);
   await marcarVista();
@@ -309,19 +309,79 @@ async function ejecutar() {
   await dormir(200);
   await marco.click('#parte-sin-id');
   await dormir(800);
-  check((await valorDelCampo()) === 'José Luis', 'al elegirla en la vista previa, aparece en el panel con su texto');
+  check((await valorDelCampo()) === 'Con todo nuestro amor, ', 'el panel despliega el párrafo que contiene ese texto');
   await prepararCampo();
-  await page.keyboard.type('Juan');
-  const parte = await page.evaluate(() => {
-    const d = document.querySelector('iframe[title="Vista previa de la invitación"]').contentDocument;
-    const p = d.getElementById('bloque-prueba').querySelector('p');
-    return { parte: d.getElementById('parte-sin-id').textContent, frase: p.textContent };
-  });
-  check(parte.parte === 'Juan', `lo escrito se ve al momento en esa parte ("${parte.parte}")`);
-  check(parte.frase === 'Con todo nuestro amor, Juan y María', 'el resto de la frase no cambia');
+  await page.keyboard.type('Un abrazo, ');
+  const frase = await page.evaluate(() => document.querySelector('iframe[title="Vista previa de la invitación"]').contentDocument.getElementById('bloque-prueba').querySelector('p').textContent);
+  check(frase === 'Un abrazo, José Luis y María', `lo escrito se ve al momento ("${frase}")`);
   check((await vista()).viva, '…sin recargar la vista previa');
   const guardadoP = await guardar('editor_test.html');
-  check(/<span id="parte-sin-id"[^>]*data-gemini-id="edit-[^"]+"[^>]*>Juan<\/span>/.test(guardadoP) && !guardadoP.includes('José Luis'), 'al guardar, el archivo tiene esa parte con su identificador y el nombre nuevo');
+  check(/Un abrazo, <[^>]*>José Luis<\/span> y María/.test(guardadoP), 'al guardar, el archivo tiene el texto nuevo');
+
+  console.log('\nLa flecha del elemento despliega y contrae:');
+  {
+    // La flecha de la tarjeta que está desplegada: dice si quedó abierta o cerrada.
+    const flecha = () => page.evaluate(() => {
+      // Siempre la MISMA flecha (se marca en el primer toque).
+      const b = document.querySelector('.w-80 button[data-prueba-flecha]') || document.querySelector('.w-80 button[aria-expanded="true"]');
+      if (b) b.setAttribute('data-prueba-flecha', '1');
+      if (!b) return 'sin flecha';
+      b.click();
+      return b.getAttribute('aria-expanded') === 'true' ? 'se cerró' : 'se abrió';
+    });
+    const primera = await flecha();
+    await dormir(300);
+    const segunda = await flecha();
+    await dormir(300);
+    const abiertas = await page.evaluate(() => document.querySelectorAll('.w-80 button[aria-expanded="true"]').length);
+    check(primera === 'se cerró' && segunda === 'se abrió' && abiertas === 1, `la flecha contrae y vuelve a desplegar el elemento (${primera}, ${segunda})`);
+  }
+
+  console.log('\nEl color de UN texto manda sobre el tema de la invitación:');
+  {
+    // El tema pinta los títulos de azul; el título elegido se pide rojo.
+    await page.evaluate(() => {
+      const inp = document.querySelector('button[aria-label="Color principal"]').nextElementSibling;
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(inp, '#0000ff');
+      inp.dispatchEvent(new Event('input', { bubbles: true }));
+      inp.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+    await dormir(300);
+    const rojo = await page.evaluate(() => {
+      const d = document.querySelector('.w-80 button[aria-label="Elegir color: color del texto"]');
+      const inp = d && d.nextElementSibling;
+      if (!inp) return null;
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(inp, '#ff0000');
+      inp.dispatchEvent(new Event('input', { bubbles: true }));
+      inp.dispatchEvent(new Event('change', { bubbles: true }));
+      return true;
+    });
+    await dormir(300);
+    const colorTitulo = await page.evaluate((sel) => {
+      const f = document.querySelector(sel);
+      const d = f.contentDocument;
+      const el = d.querySelector('[data-gemini-id="prueba-dedicatoria"]');
+      return el ? f.contentWindow.getComputedStyle(el).color : 'sin elemento';
+    }, VISTA);
+    check(rojo && /rgb\(255, 0, 0\)/.test(colorTitulo), `el texto se ve del color elegido, no del tema (${colorTitulo})`);
+  }
+
+  console.log('\nLos números de la cuenta regresiva no se editan:');
+  {
+    // Se elige un texto cualquiera primero, para ver que la elección NO cambia.
+    const yaElegido = await page.evaluate(() => !!document.querySelector('.w-80 textarea'));
+    await page.evaluate(() => { const b = document.querySelector('button[aria-label="Activar modo edición de textos"]'); if (b) b.click(); });
+    await dormir(200);
+    const marco2 = page.frames().find((f) => f !== page.mainFrame());
+    await marco2.evaluate(() => document.querySelector('[data-gemini-id^="countdown-prueba"] [data-countdown-number]').scrollIntoView({ block: 'center' }));
+    await dormir(200);
+    await marco2.click('[data-gemini-id^="countdown-prueba"] [data-countdown-number]');
+    await dormir(700);
+    const campo = await page.evaluate(() => { const t = document.querySelector('.w-80 textarea'); return t ? t.value : null; });
+    const enLista = await page.evaluate(() => /(^|\n)112(\n|$)/.test([...document.querySelectorAll('.w-80 span')].map((s) => s.textContent.trim()).join('\n')));
+    check(yaElegido && !/^112$/.test(campo || ''), 'tocar el número no lo pone a editar');
+    check(!enLista, 'y el número no aparece en la lista de elementos (los rótulos sí)');
+  }
 
   console.log('\nEl enlace se aplica al dejar de escribir (no con cada letra):');
   check(await tocarCarta('Nuestro enlace'), 'se despliega el enlace');
@@ -352,7 +412,9 @@ async function ejecutar() {
     };
   }, VISTA);
   check(!seccion.visible && seccion.viva, 'la sección desaparece de la invitación sin recargar la vista previa');
-  check(seccion.dentro >= 3 && seccion.ojos === seccion.dentro, `el panel marca como ocultos los ${seccion.dentro} elementos de la sección`);
+  // De lo que hay dentro, la cuenta regresiva y su número no están en la lista.
+  const listables = seccion.dentro - 2;
+  check(listables >= 3 && seccion.ojos === listables, `el panel marca como ocultos los ${listables} elementos de la sección`);
   await page.evaluate(() => {
     const titulo = [...document.querySelectorAll('.w-80 span')].find((x) => x.textContent.trim().toLowerCase() === 'prueba' && x.className.includes('tracking-widest'));
     titulo.parentElement.querySelector('button[title$="sección"]').click();

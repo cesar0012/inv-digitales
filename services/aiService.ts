@@ -171,7 +171,9 @@ export const iterateModule = async (
   iterationDescription: string,
   editorConfig?: { eventType: string; theme: string; primaryColor: string; secondaryColor: string; visualStyle?: string; mood?: string },
   purchaseId?: string,
-  imageMap?: Record<string, string>
+  imageMap?: Record<string, string>,
+  /** Cómo es la invitación ahora: para que el módulo siga su estilo y no repita identificadores. */
+  contextoDeEstilo?: { muestra: string; ids: string[]; paleta: Record<string, string> }
 ): Promise<string> => {
   try {
     const token = localStorage.getItem('auth_token');
@@ -188,7 +190,8 @@ export const iterateModule = async (
         iterationDescription,
         editorConfig,
         purchaseId: purchaseId || '',
-        imageMap: imageMap || {}
+        imageMap: imageMap || {},
+        styleContext: contextoDeEstilo || null
       })
     });
 

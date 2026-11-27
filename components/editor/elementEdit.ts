@@ -136,6 +136,26 @@ export const aplicarEdicionEnElemento = (el: HTMLElement, edicion: EdicionElemen
 
   if (styles) {
     for (const [propiedad, valor] of Object.entries(styles)) {
+      if (propiedad === 'color') {
+        // El color elegido para UN elemento manda sobre el tema de toda la
+        // invitación (el tema vuelve a definir sus colores en cada elemento).
+        // Se aplica al elemento y sus textos heredan, aunque por su cuenta
+        // usaran un color del tema.
+        if (valor) {
+          el.style.setProperty('color', valor, 'important');
+          for (const hijo of Array.from(el.querySelectorAll('*'))) {
+            const h = hijo as HTMLElement;
+            if (!h.style.color) h.style.color = 'inherit';
+          }
+        } else {
+          el.style.removeProperty('color');
+          for (const hijo of Array.from(el.querySelectorAll('*'))) {
+            const h = hijo as HTMLElement;
+            if (h.style.color === 'inherit') h.style.removeProperty('color');
+          }
+        }
+        continue;
+      }
       if (valor) {
         if ((el.style as CSSStyleDeclaration & Record<string, string>)[propiedad] !== valor) {
           (el.style as CSSStyleDeclaration & Record<string, string>)[propiedad] = valor;

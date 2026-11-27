@@ -220,7 +220,14 @@ const conScriptsDeEdicion = (codigo: string, carga: number): string => codigo ? 
           e.preventDefault();
           e.stopPropagation();
           
-          const element = e.target.closest('[data-gemini-id], a, img, h1, h2, h3, h4, p, span') || e.target;
+          // Lo que se toca dentro de un elemento YA editable se edita como ese
+          // elemento (así el panel lo despliega y resalta). Solo se baja al
+          // texto suelto cuando está dentro de un contenedor genérico
+          // (sección o fondo), que no es lo que la persona quiere editar.
+          var __conId = e.target.closest('[data-gemini-id]');
+          var __esContenedor = !__conId || /^(SECTION|DIV|BODY|MAIN|FOOTER|HEADER|NAV|ASIDE)$/.test(__conId.tagName);
+          var __texto = e.target.closest('a, img, h1, h2, h3, h4, h5, h6, p, span, li, time, figcaption, blockquote, strong, em, label, td, th');
+          const element = __esContenedor ? (__texto || __conId || e.target) : __conId;
           
           // No permitir edición de elementos con memory_usage="protected"
           // salvo backgrounds editables
@@ -234,6 +241,20 @@ const conScriptsDeEdicion = (codigo: string, carga: number): string => codigo ? 
             element.style.outlineOffset = '2px';
             setTimeout(() => { 
               element.style.outline = prevOutline; 
+              element.style.outlineOffset = prevOutlineOffset;
+            }, 1500);
+            return;
+          }
+
+          // En la cuenta regresiva los NÚMEROS los pone el reloj y cambian
+          // solos: no se editan (confundiría). Los rótulos ("Días") sí.
+          if (element.closest('[data-gemini-id^="countdown"]') && /^\\s*\\d+\\s*$/.test(element.textContent || '')) {
+            const prevOutline = element.style.outline;
+            const prevOutlineOffset = element.style.outlineOffset;
+            element.style.outline = '2px solid #ef4444'; // red-500
+            element.style.outlineOffset = '2px';
+            setTimeout(() => {
+              element.style.outline = prevOutline;
               element.style.outlineOffset = prevOutlineOffset;
             }, 1500);
             return;

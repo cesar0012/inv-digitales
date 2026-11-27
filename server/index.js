@@ -4606,7 +4606,7 @@ app.post('/api/iterate-module', authMiddleware, async (req, res) => {
   let userId = null;
   let purchaseIdFromReq = null;
   try {
-    const { mode, moduleHtml, iterationDescription, editorConfig, purchaseId, imageMap } = req.body;
+    const { mode, moduleHtml, iterationDescription, editorConfig, purchaseId, imageMap, styleContext } = req.body;
     userId = req.user.id ? req.user.id.toString() : ensureUserInDB(req.user);
     purchaseIdFromReq = purchaseId;
 
@@ -4688,6 +4688,28 @@ Changes requested: ${iterationDescription}
 
 Module HTML:
 ${moduleHtml}`;
+    }
+
+    // Cómo es la invitación AHORA (un módulo real, su paleta y los
+    // identificadores que ya usa): el módulo nuevo debe verse como parte de
+    // ella, no traer un estilo propio.
+    if (mode === 'add' && styleContext) {
+      const muestra = String(styleContext.muestra || '').replace(/<script[\s\S]*?<\/script>/gi, '').slice(0, 6000);
+      const paleta = styleContext.paleta && Object.keys(styleContext.paleta).length ? JSON.stringify(styleContext.paleta) : `${primaryColor} / ${secondaryColor}`;
+      const idsUsados = Array.isArray(styleContext.ids) ? styleContext.ids.join(', ') : '';
+      if (muestra) {
+        promptText += `
+
+===== CURRENT INVITATION (MANDATORY: FOLLOW ITS STYLE) =====
+This is a real module of the invitation the new module will join:
+---8<---
+${muestra}
+--->8---
+The new module MUST look like it belongs to this invitation: same fonts, same colors (palette in use: ${paleta}), same border radii, spacing, textures, decorative resources and level of ornament. Do NOT invent a different style.
+These data-gemini-id values are ALREADY used elsewhere in the invitation; do NOT reuse them (invent a new module name for yours): ${idsUsados}
+Prefer the same CSS variables / color tokens the sample uses (for example var(--primary-color)) over hard-coded colors.
+===== END CURRENT INVITATION =====`;
+      }
     }
 
     // Directiva de tipografía unificada para el módulo generado/editado.
